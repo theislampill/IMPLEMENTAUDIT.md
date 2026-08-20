@@ -10,6 +10,10 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cases="$repo_root/fixtures/canonical-state-rotation/cases.json"
 f2_cases="$repo_root/fixtures/canonical-state-rotation/f2-draft-archive.json"
+f3_cases="$repo_root/fixtures/canonical-state-rotation/f3-reader-matrix.json"
+event_byte_cases="$repo_root/fixtures/canonical-state-rotation/event-byte-cases.json"
+query_cursor_cases="$repo_root/fixtures/canonical-state-rotation/query-cursor-cases.json"
+sequence_cas_cases="$repo_root/fixtures/canonical-state-rotation/sequence-cas-cases.json"
 
 if [ -n "${PYTHON:-}" ]; then
   python_bin="$PYTHON"
@@ -22,12 +26,13 @@ else
   exit 2
 fi
 
-exec "$python_bin" - "$cases" "$f2_cases" "$@" <<'PY'
+exec "$python_bin" - "$cases" "$f2_cases" "$f3_cases" "$event_byte_cases" "$query_cursor_cases" "$sequence_cas_cases" "$@" <<'PY'
 from __future__ import annotations
 
 import copy
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -225,6 +230,43 @@ def f2_residual_red(rows: list[dict[str, object]]) -> list[str]:
     return errors
 
 
+def f3_residual_red(rows: list[dict[str, object]]) -> list[str]:
+    candidate = observations(rows, "root_only")
+    for row in rows:
+        row_id = str(row["id"])
+        if row_id.startswith("A") or row_id in {
+            "D15-reader-legacy-row",
+            "D16-reader-invalid-legacy-row",
+            "D17-reader-first-migration-row",
+            "D18-reader-pointer-bad-receipt-row",
+            "D19-reader-current-row",
+            "D20-reader-marker-bad-receipt-row",
+            "D21-reader-marker-no-pointer-row",
+            "D22-reader-mismatch-row",
+        }:
+            candidate[row_id]["value"] = copy.deepcopy(row["valid"])
+    errors = validate(rows, candidate)
+    if len(errors) != 37:
+        fail(f"F3 residual RED count drifted: {len(errors)}")
+    if any(
+        error.startswith("P")
+        or error.startswith("A")
+        or error.startswith(tuple(f"D{number:02d}" for number in range(15, 23)))
+        for error in errors
+    ):
+        fail("F3 residual lost payload/archive or retained a completed reader RED")
+    required_anchors = {
+        "M01-generation-successor:semantic-mutation",
+        "M11-dependency-order:semantic-mutation",
+        "D05-pointer-ref:semantic-mutation",
+        "D14-acyclic-bindings:semantic-mutation",
+        "D23-rehydrate-identity:semantic-mutation",
+    }
+    if not required_anchors.issubset(errors):
+        fail("F3 residual RED lacks a later-cell semantic anchor")
+    return errors
+
+
 def load_f2_fixture(path: Path) -> dict[str, object]:
     try:
         fixture = json.loads(path.read_text(encoding="utf-8"))
@@ -268,6 +310,182 @@ def load_f2_fixture(path: Path) -> dict[str, object]:
     }:
         fail("F2 expected results drifted")
     return fixture
+
+
+def load_f3_fixture(path: Path) -> dict[str, object]:
+    try:
+        fixture = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load F3 fixture {path}: {exc}")
+    if not isinstance(fixture, dict) or set(fixture) != {
+        "schema", "controller", "pointer_ref", "marker_ref", "cases",
+    }:
+        fail("F3 fixture fields drifted")
+    if fixture.get("schema") != "implementaudit.canonical-state-rotation-f3-reader-matrix.v1":
+        fail("wrong F3 fixture schema")
+    controller = fixture.get("controller")
+    if controller != "reader-controller":
+        fail("F3 fixture controller drifted")
+    if fixture.get("pointer_ref") != f"refs/implementaudit/current-generations/{controller}":
+        fail("F3 pointer ref drifted")
+    if fixture.get("marker_ref") != f"refs/implementaudit/current-generation-migrations/{controller}":
+        fail("F3 marker ref drifted")
+    cases = fixture.get("cases")
+    if not isinstance(cases, list) or len(cases) != 24:
+        fail("F3 reader matrix denominator drifted")
+    ids: list[str] = []
+    results: dict[str, int] = {}
+    mutations: set[str] = set()
+    for row in cases:
+        if not isinstance(row, dict) or set(row) != {
+            "id", "marker", "pointer", "receipt", "owner_mutation", "expected",
+        }:
+            fail("F3 reader matrix row fields drifted")
+        row_id = row.get("id")
+        if not isinstance(row_id, str) or not re.fullmatch(r"[LPCM][0-9]{2}", row_id):
+            fail("F3 reader matrix row identity is malformed")
+        ids.append(row_id)
+        if row.get("marker") not in {"absent", "valid", "malformed"}:
+            fail(f"F3 marker state drifted: {row_id}")
+        if row.get("pointer") not in {"absent", "valid", "malformed"}:
+            fail(f"F3 pointer state drifted: {row_id}")
+        if row.get("receipt") not in {
+            "absent", "exact-v1", "exact-v2", "invalidated-v2", "mismatched-v2",
+            "exact-v3", "stale-v3", "mismatched-v3",
+        }:
+            fail(f"F3 receipt state drifted: {row_id}")
+        mutation = row.get("owner_mutation")
+        if mutation not in {
+            "none", "controller", "claim", "run", "pointer-schema",
+            "marker-schema", "receipt-schema",
+        }:
+            fail(f"F3 owner/schema mutation drifted: {row_id}")
+        mutations.add(str(mutation))
+        expected = str(row.get("expected"))
+        if expected not in {
+            "LEGACY_COMPATIBILITY", "FIRST_MIGRATION_INCOMPLETE",
+            "POINTER_CURRENT", "STOP", "STOP_NO_ROOT_FALLBACK",
+        }:
+            fail(f"F3 expected result drifted: {row_id}")
+        results[expected] = results.get(expected, 0) + 1
+    if len(set(ids)) != 24 or ids != [
+        *(f"L{i:02d}" for i in range(1, 6)),
+        *(f"P{i:02d}" for i in range(1, 6)),
+        *(f"C{i:02d}" for i in range(1, 6)),
+        *(f"M{i:02d}" for i in range(1, 10)),
+    ]:
+        fail("F3 reader matrix identities or ordering drifted")
+    if results != {
+        "LEGACY_COMPATIBILITY": 1,
+        "FIRST_MIGRATION_INCOMPLETE": 1,
+        "POINTER_CURRENT": 1,
+        "STOP": 19,
+        "STOP_NO_ROOT_FALLBACK": 2,
+    }:
+        fail("F3 reader matrix result population drifted")
+    if mutations != {
+        "none", "controller", "claim", "run", "pointer-schema",
+        "marker-schema", "receipt-schema",
+    }:
+        fail("F3 owner/schema mutation coverage drifted")
+    return fixture
+
+
+def load_clarification_fixture(
+    path: Path,
+    schema: str,
+    expected_cases: list[tuple[str, str]],
+) -> dict[str, object]:
+    try:
+        fixture = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load clarification fixture {path}: {exc}")
+    if not isinstance(fixture, dict) or set(fixture) != {"schema", "cases"}:
+        fail(f"clarification fixture fields drifted: {path.name}")
+    if fixture.get("schema") != schema:
+        fail(f"clarification fixture schema drifted: {path.name}")
+    cases = fixture.get("cases")
+    if not isinstance(cases, list):
+        fail(f"clarification fixture cases are not a list: {path.name}")
+    observed_cases: list[tuple[str, str]] = []
+    for row in cases:
+        if not isinstance(row, dict) or set(row) != {"id", "expect"}:
+            fail(f"clarification fixture row fields drifted: {path.name}")
+        row_id, expectation = row.get("id"), row.get("expect")
+        if not isinstance(row_id, str) or not isinstance(expectation, str):
+            fail(f"clarification fixture row types drifted: {path.name}")
+        observed_cases.append((row_id, expectation))
+    if observed_cases != expected_cases:
+        fail(f"clarification fixture population drifted: {path.name}")
+    return fixture
+
+
+def clarification_fixture_self_check(
+    event_byte_path: Path,
+    query_cursor_path: Path,
+    sequence_cas_path: Path,
+) -> None:
+    event_bytes = load_clarification_fixture(
+        event_byte_path,
+        "implementaudit.canonical-state-rotation-event-byte-cases.v1",
+        [
+            ("EB01-key-order", "ACCEPT"),
+            ("EB02-no-terminal-lf", "ACCEPT"),
+            ("EB03-utf8-no-bom", "ACCEPT"),
+            ("EB04-unicode-preserved", "ACCEPT"),
+            ("EB05-float-rejected", "REJECT"),
+            ("EB06-int64-boundary", "ACCEPT"),
+            ("EB07-windows-posix-path-converges", "ACCEPT"),
+            ("EB08-case-remains-semantic", "ACCEPT"),
+            ("EB09-host-bound-requires-host-identity", "REJECT"),
+            ("EB10-posix-literal-backslash-distinct", "ACCEPT"),
+            ("EB11-caller-source-fields-rejected", "REJECT"),
+            ("EB12-posix-trailing-backslash-is-data", "ACCEPT"),
+            ("EB13-owner-manifest-context-mismatch", "REJECT"),
+            ("EB14-event-extra-key-rejected", "REJECT"),
+            ("EB15-event-missing-key-rejected", "REJECT"),
+            ("EB16-self-hashed-source-absent-owner-manifest", "REJECT"),
+            ("EB17-wrong-owner-manifest-ref", "REJECT"),
+            ("EB18-wrong-owner-run-controller", "REJECT"),
+            ("EB19-unknown-source-evidence-id", "REJECT"),
+            ("EB20-stored-source-evidence-revalidated", "ACCEPT"),
+        ],
+    )
+    cursor = load_clarification_fixture(
+        query_cursor_path,
+        "implementaudit.canonical-state-rotation-query-cursor-cases.v1",
+        [
+            ("QC01-valid", "ACCEPT"),
+            ("QC02-wrong-version", "REJECT"),
+            ("QC03-wrong-generation", "REJECT"),
+            ("QC04-wrong-manifest", "REJECT"),
+            ("QC05-wrong-filters", "REJECT"),
+            ("QC06-stale-position", "REJECT"),
+            ("QC07-malformed-digest", "REJECT"),
+            ("QC08-recomputed-skip-is-nondecision", "NONDECISION"),
+        ],
+    )
+    sequence_cas = load_clarification_fixture(
+        sequence_cas_path,
+        "implementaudit.canonical-state-rotation-sequence-cas-cases.v1",
+        [
+            ("SC01-single-winner", "WINNER"),
+            ("SC02-loser-not-queryable", "NOT_QUERYABLE"),
+            ("SC03-loser-not-current", "NOT_CURRENT"),
+            ("SC04-retry-reallocates", "RETRY_REALLOCATED"),
+            ("SC05-winner-data-preserved", "PRESERVED"),
+            ("SC06-reused-predecessor-sequence", "REJECT"),
+            ("SC07-noncontiguous-gap", "REJECT"),
+            ("SC08-wrong-predecessor-high-water", "REJECT"),
+            ("SC09-other-predecessor-manifest", "REJECT"),
+            ("SC10-pointer-manifest-type-confusion", "REJECT"),
+        ],
+    )
+    print(
+        "CANONICAL_STATE_ROTATION_CLARIFICATIONS_FIXTURE_SELF_CHECK=PASS "
+        f"event-bytes={len(event_bytes['cases'])} cursor={len(cursor['cases'])} "
+        f"sequence-cas={len(sequence_cas['cases'])}"
+    )
 
 
 def canonical_sha256(value: object) -> str:
@@ -612,7 +830,11 @@ def candidate_from_file(path: Path) -> object:
 
 fixture_path = Path(sys.argv[1])
 f2_fixture_path = Path(sys.argv[2])
-args = sys.argv[3:]
+f3_fixture_path = Path(sys.argv[3])
+event_byte_fixture_path = Path(sys.argv[4])
+query_cursor_fixture_path = Path(sys.argv[5])
+sequence_cas_fixture_path = Path(sys.argv[6])
+args = sys.argv[7:]
 payload, rows = load_fixture(fixture_path)
 calibration = payload.get("trigger_calibration")
 
@@ -663,6 +885,35 @@ if args == ["--assert-f2-residual-red"]:
     print("CANONICAL_STATE_ROTATION_RED_IDS=" + ",".join(errors), file=sys.stderr)
     raise SystemExit(1)
 
+if args == ["--f3-fixture-self-check"]:
+    f3_fixture = load_f3_fixture(f3_fixture_path)
+    print(
+        "CANONICAL_STATE_ROTATION_F3_FIXTURE_SELF_CHECK=PASS "
+        f"cases={len(f3_fixture['cases'])} legacy=1 first-migration=1 "
+        "pointer-current=1 stop=19 stop-no-root-fallback=2 "
+        "owner-schema-mutations=6"
+    )
+    raise SystemExit(0)
+
+if args == ["--clarification-fixtures-self-check"]:
+    clarification_fixture_self_check(
+        event_byte_fixture_path,
+        query_cursor_fixture_path,
+        sequence_cas_fixture_path,
+    )
+    raise SystemExit(0)
+
+if args == ["--assert-f3-residual-red"]:
+    errors = f3_residual_red(rows)
+    print(
+        "CANONICAL_STATE_ROTATION_RED=F3_READERS_ONLY_NOT_EQUIVALENT "
+        f"semantic-failures={len(errors)} preserved-payload=49/49 "
+        "missing-equivalence=transition,pointer+marker+v3-publication,rehydration",
+        file=sys.stderr,
+    )
+    print("CANONICAL_STATE_ROTATION_RED_IDS=" + ",".join(errors), file=sys.stderr)
+    raise SystemExit(1)
+
 if len(args) == 2 and args[0] == "--candidate":
     errors = validate(rows, candidate_from_file(Path(args[1])))
     if errors:
@@ -672,7 +923,7 @@ if len(args) == 2 and args[0] == "--candidate":
     raise SystemExit(0)
 
 if args:
-    fail("usage: check-canonical-state-rotation.sh [--fixture-self-check|--trigger-self-check|--assert-root-red|--f2-fixture-self-check|--assert-f2-residual-red|--candidate PATH]")
+    fail("usage: check-canonical-state-rotation.sh [--fixture-self-check|--trigger-self-check|--assert-root-red|--f2-fixture-self-check|--assert-f2-residual-red|--f3-fixture-self-check|--assert-f3-residual-red|--clarification-fixtures-self-check|--candidate PATH]")
 
 errors = root_red(rows)
 print(

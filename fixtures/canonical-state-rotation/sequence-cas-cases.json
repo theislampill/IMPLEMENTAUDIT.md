@@ -1,0 +1,15 @@
+{
+  "schema": "implementaudit.canonical-state-rotation-sequence-cas-cases.v1",
+  "cases": [
+    {"id": "SC01-single-winner", "expect": "WINNER"},
+    {"id": "SC02-loser-not-queryable", "expect": "NOT_QUERYABLE"},
+    {"id": "SC03-loser-not-current", "expect": "NOT_CURRENT"},
+    {"id": "SC04-retry-reallocates", "expect": "RETRY_REALLOCATED"},
+    {"id": "SC05-winner-data-preserved", "expect": "PRESERVED"},
+    {"id": "SC06-reused-predecessor-sequence", "expect": "REJECT"},
+    {"id": "SC07-noncontiguous-gap", "expect": "REJECT"},
+    {"id": "SC08-wrong-predecessor-high-water", "expect": "REJECT"},
+    {"id": "SC09-other-predecessor-manifest", "expect": "REJECT"},
+    {"id": "SC10-pointer-manifest-type-confusion", "expect": "REJECT"}
+  ]
+}

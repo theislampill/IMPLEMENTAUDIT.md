@@ -5,20 +5,32 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 checker="$repo_root/scripts/check-canonical-state-rotation.sh"
 helper="$repo_root/skills/implementaudit/scripts/rotate-canonical-state.py"
+claim_helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
 f2_fixture="$repo_root/fixtures/canonical-state-rotation/f2-draft-archive.json"
+f3_fixture="$repo_root/fixtures/canonical-state-rotation/f3-reader-matrix.json"
 tmp="$(mktemp -d)"
 trap 'rm -rf -- "$tmp"' EXIT
 
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 
 case "${1:-}" in
-  '') f2_only=false ;;
-  --f2-only) f2_only=true ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--f2-only]" ;;
+  '') f2_only=false; f3_only=false; clarifications_only=false ;;
+  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true ;;
+  --f2-only) f2_only=true; f3_only=false; clarifications_only=false ;;
+  --f3-only) f2_only=false; f3_only=true; clarifications_only=false ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
+if $clarifications_only; then
+  # Catches production that omits event-byte canonicalization, bound cursors,
+  # or sequence-CAS isolation despite an apparently valid reader migration.
+  bash "$checker" --clarification-fixtures-self-check >/dev/null
+  printf '%s\n' \
+    'CANONICAL_STATE_ROTATION_CLARIFICATIONS_RED=EVENT_BYTES_CURSOR_SEQUENCE_CAS_NOT_IMPLEMENTED' >&2
+  exit 1
+fi
 fixture_output="$(bash "$checker" --fixture-self-check)"
 printf '%s\n' "$fixture_output"
 grep -Fq 'denominator=110 omission=110 mutation=110 owner-mutation=110 root-semantic-red=56' <<<"$fixture_output" \
@@ -332,26 +344,206 @@ if $f2_only; then
   exit 0
 fi
 
-set +e
-bash "$checker" --assert-f2-residual-red >"$tmp/f2-red.out" 2>&1
-f2_red_rc=$?
-set -e
-[ "$f2_red_rc" -eq 1 ] \
-  || fail "F2 residual oracle exited $f2_red_rc instead of semantic RED 1"
+[ -f "$f3_fixture" ] || fail "missing F3 fixture: $f3_fixture"
+[ -f "$claim_helper" ] || fail "missing claim reader owner: $claim_helper"
+bash "$checker" --f3-fixture-self-check
 
-grep -Fq 'CANONICAL_STATE_ROTATION_RED=F2_DRAFT_ARCHIVE_ONLY_NOT_EQUIVALENT semantic-failures=44 preserved-payload=49/49 missing-equivalence=transition,pointer+marker+v3,rehydration' "$tmp/f2-red.out" \
-  || fail 'F2 residual did not preserve the exact later-cell semantic RED'
+matrix_repo="$tmp/matrix-repo"
+mkdir -p "$matrix_repo"
+git -C "$matrix_repo" init -q
+git -C "$matrix_repo" config user.name 'reader matrix fixture'
+git -C "$matrix_repo" config user.email 'reader-matrix@example.invalid'
+printf 'reader matrix\n' >"$matrix_repo/product.txt"
+git -C "$matrix_repo" add product.txt
+GIT_AUTHOR_DATE='2000-01-01T00:00:00Z' \
+  GIT_COMMITTER_DATE='2000-01-01T00:00:00Z' \
+  git -C "$matrix_repo" -c commit.gpgsign=false commit -qm preimage
+matrix_rel="$(cd "$matrix_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
+  bash "$claim_helper" --controller reader-controller 'reader migration matrix')" \
+  || fail 'F3 matrix controller claim failed'
+matrix_root="$matrix_repo/$matrix_rel"
+matrix_claim="$(sed -n 's/^claim_id=//p' "$matrix_root/.claimed")"
+for file in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+  cp "$repo_root/skills/implementaudit/templates/$file" "$matrix_root/$file"
+done
+matrix_head="$(git -C "$matrix_repo" rev-parse HEAD)"
+matrix_tree="$(git -C "$matrix_repo" rev-parse 'HEAD^{tree}')"
+python - "$matrix_root/STATE.md" "$matrix_rel" "$matrix_head" "$matrix_tree" <<'PY'
+import sys
+from pathlib import Path
+path=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
+text=path.read_text(encoding='utf-8')
+text=text.replace('| Run root |  |',f'| Run root | `{run}` |')
+text=text.replace('| Next action |  |','| Next action | exercise the complete reader migration matrix |')
+anchor='| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
+row=f'| G0001 | new-session | 2000-01-01T00:00:00Z | repo at `{head}` / `{tree}` | yes | exact legacy reader fixture |'
+path.write_text(text.replace(anchor,anchor+'\n'+row),encoding='utf-8')
+PY
+legacy_token="$(cd "$matrix_repo" && bash "$claim_helper" --resume-controller \
+  reader-controller --boundary new-session --epoch G0001)" \
+  || fail 'F3 matrix could not mint its isolated exact-v2 control'
+legacy_ref="${legacy_token%@*}"
+legacy_oid="${legacy_token##*@}"
+controller_oid="$(git -C "$matrix_repo" rev-parse refs/implementaudit/controllers/reader-controller)"
+legacy_v1_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+  implementaudit.continuity-receipt.v1 reader-controller "$controller_oid" "$matrix_claim" \
+  "$matrix_head" "$matrix_tree" \
+  "$(sha256sum "$matrix_root/STATE.md" | cut -d' ' -f1)" \
+  "$(sha256sum "$matrix_root/ROADMAP.md" | cut -d' ' -f1)" \
+  | git -C "$matrix_repo" hash-object -w --stdin)"
+run_identity="$matrix_rel"
+pointer_ref='refs/implementaudit/current-generations/reader-controller'
+marker_ref='refs/implementaudit/current-generation-migrations/reader-controller'
+v3_ref='refs/implementaudit/continuity-receipts/reader-controller/G0002'
+invalidation_oid='1111111111111111111111111111111111111111'
+state_sha='2222222222222222222222222222222222222222222222222222222222222222'
+roadmap_sha='3333333333333333333333333333333333333333333333333333333333333333'
+protected_sha='4444444444444444444444444444444444444444444444444444444444444444'
+archive_sha='5555555555555555555555555555555555555555555555555555555555555555'
+next_action='exercise the complete reader migration matrix'
+
+make_matrix_objects() {
+  local mutation="$1" object_controller=reader-controller object_claim="$matrix_claim"
+  local object_run="$run_identity" pointer_schema=implementaudit.current-generation.v1
+  local marker_schema=implementaudit.current-generation-migration.v1
+  local receipt_schema=implementaudit.continuity-receipt.v3
+  case "$mutation" in
+    none) ;;
+    controller) object_controller=other-controller ;;
+    claim) object_claim=other-claim ;;
+    run) object_run=.IMPLEMENTAUDIT/runs/other-run ;;
+    pointer-schema) pointer_schema=implementaudit.current-generation.v0 ;;
+    marker-schema) marker_schema=implementaudit.current-generation-migration.v0 ;;
+    receipt-schema) receipt_schema=implementaudit.continuity-receipt.v2 ;;
+    *) fail "unknown F3 owner mutation: $mutation" ;;
+  esac
+  pointer_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$pointer_schema" "$object_controller" "$object_claim" "$object_run" g0008 G0002 \
+    "$invalidation_oid" "$legacy_token" "$v3_ref" implementaudit.canonical-state-projection.v1 \
+    "$state_sha" "$roadmap_sha" "$protected_sha" "$archive_sha" "$next_action" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  v3_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$receipt_schema" "$object_controller" "$object_claim" "$object_run" G0002 \
+    "$invalidation_oid" "$pointer_ref" "$pointer_oid" "$state_sha" "$roadmap_sha" \
+    "$protected_sha" "$archive_sha" "$next_action" "$legacy_token" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  marker_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$marker_schema" "$object_controller" "$object_claim" "$object_run" G0002 \
+    "$pointer_ref" implementaudit.current-generation.v1 "$v3_ref" "$v3_oid" true \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  malformed_oid="$(printf 'malformed\n' | git -C "$matrix_repo" hash-object -w --stdin)"
+  stale_v3_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    implementaudit.continuity-receipt.v3 reader-controller "$matrix_claim" "$run_identity" G0002 \
+    "$invalidation_oid" "$pointer_ref" 9999999999999999999999999999999999999999 \
+    "$state_sha" "$roadmap_sha" "$protected_sha" "$archive_sha" "$next_action" "$legacy_token" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  mismatch_v3_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    implementaudit.continuity-receipt.v3 reader-controller other-claim "$run_identity" G0002 \
+    "$invalidation_oid" "$pointer_ref" "$pointer_oid" "$state_sha" "$roadmap_sha" \
+    "$protected_sha" "$archive_sha" "$next_action" "$legacy_token" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  invalidated_v2_oid="$(git -C "$matrix_repo" cat-file blob "$legacy_oid" \
+    | sed $'s/\tnone\tnew-session\t/\t8888888888888888888888888888888888888888\tnew-session\t/' \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  mismatched_v2_oid="$(git -C "$matrix_repo" cat-file blob "$legacy_oid" \
+    | sed $'s/\t'$matrix_claim$'\t/\tother-claim\t/' \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+}
+
+matrix_cases="$(python - "$f3_fixture" <<'PY'
+import json,sys
+for row in json.load(open(sys.argv[1],encoding='utf-8'))['cases']:
+    print('\t'.join(str(row[key]) for key in ('id','marker','pointer','receipt','owner_mutation','expected')))
+PY
+)"
+matrix_pass=0
+while IFS=$'\t' read -r case_id marker_state pointer_state receipt_state mutation expected; do
+  [ -n "$case_id" ] || continue
+  expected="${expected%$'\r'}"
+  make_matrix_objects "$mutation"
+  git -C "$matrix_repo" update-ref -d "$pointer_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$marker_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$legacy_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$v3_ref" >/dev/null 2>&1 || true
+  case "$pointer_state" in
+    absent) ;;
+    valid) git -C "$matrix_repo" update-ref "$pointer_ref" "$pointer_oid" ;;
+    malformed) git -C "$matrix_repo" update-ref "$pointer_ref" "$malformed_oid" ;;
+  esac
+  case "$receipt_state" in
+    absent) current_token='' ;;
+    exact-v1) git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_v1_oid"; current_token="$legacy_ref@$legacy_v1_oid" ;;
+    exact-v2) git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"; current_token="$legacy_token" ;;
+    invalidated-v2) git -C "$matrix_repo" update-ref "$legacy_ref" "$invalidated_v2_oid"; current_token="$legacy_ref@$invalidated_v2_oid" ;;
+    mismatched-v2) git -C "$matrix_repo" update-ref "$legacy_ref" "$mismatched_v2_oid"; current_token="$legacy_ref@$mismatched_v2_oid" ;;
+    exact-v3) git -C "$matrix_repo" update-ref "$v3_ref" "$v3_oid"; current_token="$v3_ref@$v3_oid" ;;
+    stale-v3) git -C "$matrix_repo" update-ref "$v3_ref" "$stale_v3_oid"; current_token="$v3_ref@$stale_v3_oid" ;;
+    mismatched-v3) git -C "$matrix_repo" update-ref "$v3_ref" "$mismatch_v3_oid"; current_token="$v3_ref@$mismatch_v3_oid" ;;
+  esac
+  case "$marker_state" in
+    absent) ;;
+    valid) git -C "$matrix_repo" update-ref "$marker_ref" "$marker_oid" ;;
+    malformed) git -C "$matrix_repo" update-ref "$marker_ref" "$malformed_oid" ;;
+  esac
+  set +e
+  matrix_output="$(cd "$matrix_repo" && bash "$claim_helper" \
+    --require-current-continuity reader-controller 2>&1)"
+  matrix_rc=$?
+  set -e
+  matrix_actual=STOP
+  if [ "$matrix_rc" -eq 0 ] && [ "$matrix_output" = "$legacy_token" ]; then
+    matrix_actual=LEGACY_COMPATIBILITY
+  elif [ "$matrix_rc" -eq 0 ] && [ "$matrix_output" = "$current_token" ]; then
+    matrix_actual=POINTER_CURRENT
+  elif grep -Fq 'FIRST_MIGRATION_INCOMPLETE' <<<"$matrix_output"; then
+    matrix_actual=FIRST_MIGRATION_INCOMPLETE
+  elif grep -Fq 'STOP_NO_ROOT_FALLBACK' <<<"$matrix_output"; then
+    matrix_actual=STOP_NO_ROOT_FALLBACK
+  fi
+  if [ "$matrix_actual" != "$expected" ]; then
+    printf '%s\n' "CANONICAL_STATE_ROTATION_F3_RED=READER_MATRIX_NOT_ENFORCED case=$case_id expected=$expected actual=$matrix_actual" >&2
+    exit 1
+  fi
+  matrix_pass=$((matrix_pass + 1))
+done <<<"$matrix_cases"
+[ "$matrix_pass" -eq 24 ] || fail "F3 matrix executed $matrix_pass cases instead of 24"
+
+printf '%s\n' \
+  'CANONICAL_STATE_ROTATION_F3_GREEN=PASS matrix=24/24 legacy=EXACT_V2_ONLY first-migration=STOP pointer-current=MARKER_POINTER_V3_JOIN marker-fallback=FORBIDDEN owner-schema-mismatch=REJECTED refs=READ_ONLY'
+
+after_f3_shared_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
+  refs/implementaudit/current-generations/ \
+  refs/implementaudit/current-generation-migrations/ \
+  refs/implementaudit/continuity-invalidations/ \
+  refs/implementaudit/continuity-receipts/ \
+  refs/implementaudit/state-archives/)"
+[ "$before_shared_refs" = "$after_f3_shared_refs" ] \
+  || fail 'F3 reader matrix mutated a shared protected Git-ref namespace'
+
+if $f3_only; then
+  exit 0
+fi
+
+set +e
+bash "$checker" --assert-f3-residual-red >"$tmp/f3-red.out" 2>&1
+f3_red_rc=$?
+set -e
+[ "$f3_red_rc" -eq 1 ] \
+  || fail "F3 residual oracle exited $f3_red_rc instead of semantic RED 1"
+
+grep -Fq 'CANONICAL_STATE_ROTATION_RED=F3_READERS_ONLY_NOT_EQUIVALENT semantic-failures=37 preserved-payload=49/49 missing-equivalence=transition,pointer+marker+v3-publication,rehydration' "$tmp/f3-red.out" \
+  || fail 'F3 residual did not preserve the exact later-cell semantic RED'
 for anchor in \
   'M01-generation-successor:semantic-mutation' \
   'D05-pointer-ref:semantic-mutation' \
   'D23-rehydrate-identity:semantic-mutation'; do
-  grep -Fq "$anchor" "$tmp/f2-red.out" || fail "F2 residual RED omitted anchor $anchor"
+  grep -Fq "$anchor" "$tmp/f3-red.out" || fail "F3 residual RED omitted anchor $anchor"
 done
-if grep -Fq 'A01-state-preimage:semantic-mutation' "$tmp/f2-red.out"; then
-  fail 'F2 residual still reports the completed draft/archive slice RED'
+if grep -Eq '(^|,)(A|D1[5-9]|D2[0-2])[0-9-]' "$tmp/f3-red.out"; then
+  fail 'F3 residual still reports a completed archive or reader-matrix slice RED'
 fi
 
-cat "$tmp/f2-red.out" >&2
+cat "$tmp/f3-red.out" >&2
 printf '%s\n' \
-  'canonical-state-rotation.test: INTENDED_RED later F3-F7 currentness transaction remains absent' >&2
+  'canonical-state-rotation.test: INTENDED_RED later F4-F7 currentness transaction remains absent' >&2
 exit 1
