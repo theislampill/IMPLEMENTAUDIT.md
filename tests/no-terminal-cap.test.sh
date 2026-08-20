@@ -69,6 +69,31 @@ After three strikes, stop and hand off.
 Strike 3 stops the run.
 EOF
 
+# 3c. Counted/capped retry semantics must fail without banning ordinary retry prose.
+retry_case=0
+while IFS= read -r wording; do
+  retry_case=$((retry_case + 1))
+  dir="$tmp/bad-counted-retry-$retry_case"
+  mkdir -p "$dir/skills/implementaudit/templates"
+  printf '%s\n' "$wording" >"$dir/skills/implementaudit/templates/PROTOCOL.md"
+  if bash scripts/check-no-terminal-cap.sh --scan-root "$dir" >/dev/null 2>&1; then
+    printf 'no-terminal-cap.test: expected counted retry wording to fail: %s\n' "$wording" >&2
+    exit 1
+  fi
+done <<'EOF'
+After 3 retries, stop the run.
+After three retries, hand off the run.
+EOF
+
+# Ordinary retry guidance remains valid when it does not impose a finite
+# terminal stop or handoff policy.
+mkdir -p "$tmp/good-retry/skills/implementaudit/templates"
+cat >"$tmp/good-retry/skills/implementaudit/templates/PROTOCOL.md" <<'EOF'
+Retry after a transient evidence mismatch and continue until the evidence resolves.
+Repeated retries remain available while the currentness check is inconclusive.
+EOF
+bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-retry"
+
 # 4. Run-stopping wording and legacy marker spellings must fail.
 mkdir -p "$tmp/bad-legacy/skills/implementaudit/references"
 cat >"$tmp/bad-legacy/skills/implementaudit/references/transcript-contract.md" <<'EOF'
