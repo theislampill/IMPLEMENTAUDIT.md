@@ -50,6 +50,18 @@ Run claim command:
 bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/claim-run.sh "<task summary>"
 ```
 
+Canonical projection generation: root-v2
+
+Current-generation pointer: none
+
+Migration marker: absent
+
+Current continuity receipt: none
+
+These four values are a derivative reader projection. For a migrated run they
+must agree with the exact permanent-marker + pointer + v3-receipt join; partial
+or mixed state is STOP and cannot fall back to root-v2.
+
 ## Planning evidence
 
 Thinking file: `<run-root>/THINKING.md`

@@ -310,7 +310,9 @@ second `/goal` inside an existing `/goal` run.
    `--current-controller`; separate `--invalidate-continuity`; pre-boundary wait/contain only.
    Read STATE.md then ROADMAP.md, each in its own completed host action; evidence reads must not use ';', '&&', pipelines, multi-stage shell composition, or batching.
    Live state wins; record the epoch row; refuse: "Target already satisfied at <evidence>; no duplicate action taken."
-   `--resume-controller`; `--verify-resume-receipt`; `--require-current-continuity`; first message: receipt/frontier/discrepancies.
+   `--resume-controller`; `--verify-resume-receipt`; `--require-current-continuity`.
+   The currentness reader permits root-v2 only while marker and pointer are both absent; pointer-only is `FIRST_MIGRATION_INCOMPLETE`; any marker forbids root fallback; marker + pointer + v3 must join exactly.
+   First message: receipt/frontier/discrepancies.
    `POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT`; `PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY`;
    `STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE`; `POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT`.
 1. Safety read: `AGENTS.md`, README/CONTRIBUTING/docs/workflows, existing audit

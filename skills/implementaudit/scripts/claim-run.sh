@@ -134,6 +134,74 @@ controller_io() {
       h="$(git rev-parse HEAD)"; t="$(git rev-parse 'HEAD^{tree}')"
       sh="$(sha256sum "$state" | cut -d' ' -f1)"; rh="$(sha256sum "$road" | cut -d' ' -f1)"
       load_invalidation || return
+      if [ "$a" = require ]; then
+        local pref="refs/implementaudit/current-generations/$c" mref="refs/implementaudit/current-generation-migrations/$c"
+        local poid moid precord mrecord vrecord run_identity
+        local ps pc pclaim prun pgen pep pinv ppred pvref pproj psh prh pph pah pnext pextra
+        local vs vc vclaim vrun vep vinv vpref vpoid vsh vrh vph vah vnext vpred vextra void
+        local ms mc mclaim mrun mep mpref mpschema mvref mvoid mterminal mextra
+        poid="$(git rev-parse --verify "$pref" 2>/dev/null || true)"
+        moid="$(git rev-parse --verify "$mref" 2>/dev/null || true)"
+        if [ -n "$poid" ] || [ -n "$moid" ]; then
+          if [ -z "$poid" ]; then
+            printf 'claim-run.sh: STOP_NO_ROOT_FALLBACK: migration marker exists without a readable current-generation pointer\n' >&2
+            return 1
+          fi
+          [ "$(git cat-file -t "$poid" 2>/dev/null)" = blob ] || {
+            [ -z "$moid" ] || printf 'claim-run.sh: STOP_NO_ROOT_FALLBACK: migration marker exists with a malformed current-generation pointer\n' >&2
+            return 1
+          }
+          precord="$(git cat-file blob "$poid")" || return
+          case "$precord" in *$'\n'*|*$'\r'*)
+            [ -z "$moid" ] || printf 'claim-run.sh: STOP_NO_ROOT_FALLBACK: migration marker exists with a malformed current-generation pointer\n' >&2
+            return 1;;
+          esac
+          IFS=$'\t' read -r ps pc pclaim prun pgen pep pinv ppred pvref pproj psh prh pph pah pnext pextra <<< "$precord"
+          if [ -n "$ps" ] && [ -n "$pc" ] && [ -n "$pclaim" ] && [ -n "$prun" ] &&
+             [ -n "$pgen" ] && [ -n "$pep" ] && [ -n "$pinv" ] && [ -n "$ppred" ] &&
+             [ -n "$pvref" ] && [ -n "$pproj" ] && [ -n "$psh" ] && [ -n "$prh" ] &&
+             [ -n "$pph" ] && [ -n "$pah" ] && [ -n "$pnext" ] && [ -z "$pextra" ]; then
+            true
+          else
+            [ -z "$moid" ] || printf 'claim-run.sh: STOP_NO_ROOT_FALLBACK: migration marker exists with a malformed current-generation pointer\n' >&2
+            return 1
+          fi
+          run_identity="${root#"$repo"/}"
+          [ "$run_identity" != "$root" ] || return 1
+          [ "$ps:$pc:$pclaim:$prun" = "implementaudit.current-generation.v1:$c:$rg:$run_identity" ] || return 1
+          [[ "$pgen" =~ ^g[0-9a-f]{4}$ ]] || return 1
+          [[ "$pep" =~ ^G[0-9A-F]{4}$ ]] || return 1
+          [[ "$pinv" =~ ^[0-9a-f]{40}$ ]] || return 1
+          [ "$pvref" = "refs/implementaudit/continuity-receipts/$c/$pep" ] || return 1
+          [ "$pproj" = implementaudit.canonical-state-projection.v1 ] || return 1
+          [[ "$psh:$prh:$pph:$pah" =~ ^[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}$ ]] || return 1
+          case "$ppred:$pnext" in *$'\t'*|*$'\r'*|*$'\n'*|@*|*'@') return 1;; esac
+          [[ "$ppred" =~ ^refs/implementaudit/continuity-receipts/$c/[A-Za-z0-9-]+@[0-9a-f]{40}$ ]] || return 1
+
+          void="$(git rev-parse --verify "$pvref" 2>/dev/null)" || return
+          [ "$(git cat-file -t "$void" 2>/dev/null)" = blob ] || return 1
+          vrecord="$(git cat-file blob "$void")" || return
+          case "$vrecord" in *$'\n'*|*$'\r'*) return 1;; esac
+          IFS=$'\t' read -r vs vc vclaim vrun vep vinv vpref vpoid vsh vrh vph vah vnext vpred vextra <<< "$vrecord"
+          [ -z "$vextra" ] &&
+            [ "$vs:$vc:$vclaim:$vrun:$vep:$vinv:$vpref:$vpoid" = "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity:$pep:$pinv:$pref:$poid" ] &&
+            [ "$vsh:$vrh:$vph:$vah:$vnext:$vpred" = "$psh:$prh:$pph:$pah:$pnext:$ppred" ] || return 1
+
+          if [ -z "$moid" ]; then
+            printf 'claim-run.sh: FIRST_MIGRATION_INCOMPLETE: current-generation pointer and v3 receipt exist without a migration marker\n' >&2
+            return 1
+          fi
+          [ "$(git cat-file -t "$moid" 2>/dev/null)" = blob ] || return 1
+          mrecord="$(git cat-file blob "$moid")" || return
+          case "$mrecord" in *$'\n'*|*$'\r'*) return 1;; esac
+          IFS=$'\t' read -r ms mc mclaim mrun mep mpref mpschema mvref mvoid mterminal mextra <<< "$mrecord"
+          [ -z "$mextra" ] &&
+            [ "$ms:$mc:$mclaim:$mrun:$mep" = "implementaudit.current-generation-migration.v1:$c:$rg:$run_identity:$pep" ] &&
+            [ "$mpref:$mpschema:$mvref:$mvoid:$mterminal" = "$pref:implementaudit.current-generation.v1:$pvref:$void:true" ] || return 1
+          printf '%s@%s\n' "$pvref" "$void"
+          return
+        fi
+      fi
       if [ "$a" = resume ]; then
         local b="$1" e="$2" next newr zero=0000000000000000000000000000000000000000
         case "$b" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap):;; *) return 1;; esac
@@ -156,6 +224,7 @@ controller_io() {
         case "$s" in
           implementaudit.continuity-receipt.v1)
             IFS=$'\t' read -r s rc owner rg2 h2 t2 sh2 rh2 b2 e2 _ <<< "$record"
+            [ "$a" != require ] || return 1
             [ "$ioid" = none ] && [ "$s:$rc:$owner:$rg2:$h2:$t2:$sh2:$rh2" = "implementaudit.continuity-receipt.v1:$c:$oid:$rg:$h:$t:$sh:$rh" ] || return ;;
           implementaudit.continuity-receipt.v2)
             IFS=$'\t' read -r s rc owner rg2 h2 t2 sh2 rh2 io2 b2 e2 next2 <<< "$record"

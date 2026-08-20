@@ -66,6 +66,31 @@ verified receipt, controller/epoch, exact ACTIVE/READY/BLOCKED frontier and any
 discrepancy. Only then may ordinary task narration or new execution resume.
 Legacy v1 receipts work only without invalidation.
 
+### Canonical-state reader migration
+
+`--require-current-continuity` reads the permanent migration marker at
+`refs/implementaudit/current-generation-migrations/<controller>`, the pointer at
+`refs/implementaudit/current-generations/<controller>`, and the receipt selected
+by that pointer before it considers the root receipt path. The reader matrix is
+fail closed:
+
+- with marker and pointer both absent, only the exact current root receipt with
+  schema `implementaudit.continuity-receipt.v2` is current; v1 remains
+  historical verification evidence, not a current route;
+- a valid pointer and its exact joined v3 receipt without a marker stops as
+  `FIRST_MIGRATION_INCOMPLETE`;
+- once any marker ref exists, an absent or structurally malformed pointer stops
+  as `STOP_NO_ROOT_FALLBACK`, and no root receipt may restore currentness; and
+- marker, pointer, and `implementaudit.continuity-receipt.v3` are current only
+  when their schemas, controller, claim, run identity, epoch, refs/OIDs,
+  invalidation, protected hashes, archive hash, predecessor receipt, and exact
+  next action form one exact join.
+
+Unknown records, mixed v2/v3 state, wrong object types, owner/run/schema drift,
+or a stale pointer/receipt join are STOP. These are reader rules only: reading
+does not publish, repair, delete, or otherwise update a pointer, receipt, or
+migration marker.
+
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs
 model judgement. It cannot mint the invalidation/receipt or authorise an effect.

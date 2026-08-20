@@ -169,6 +169,18 @@ under the requested identity before marking them bound.
 
 Current epoch: G0001
 
+Canonical projection generation: root-v2
+
+Current-generation pointer: none
+
+Migration marker: absent
+
+Current continuity receipt: none
+
+For a migrated run, replace the four identity values together from the exact
+marker + pointer + v3-receipt join. A partial or mixed identity is STOP and
+never authorizes root fallback.
+
 One row per continuity boundary (see `references/continuity.md` and
 PROTOCOL.md §Continuity boundaries). Provenance is exactly one of:
 `host-reported-compaction` / `new-session` / `handoff-resume` /
