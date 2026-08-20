@@ -1,0 +1,45 @@
+{
+  "schema": "implementaudit.distributed-runtime.fencing-cases.v1",
+  "cell": "D48-C02",
+  "cases": [
+    {
+      "id": "D48-C02-01-current-generation-commits",
+      "controller_generation": "G0002",
+      "authority_generation": "G0002",
+      "protected_generation": "G0002",
+      "source_path": "target",
+      "preimage_hex": "4f524947494e414c0a",
+      "candidate_hex": "43555252454e540a",
+      "protected_target_sha256": "9660b3303631e95817f72c7536939f0eca9e20c0d7b86382a39e4a98a1b26151",
+      "expected_status": "COMMITTED",
+      "expected_reason": "NONE",
+      "expected_target_hex": "43555252454e540a"
+    },
+    {
+      "id": "D48-C02-02-stale-generation-rejected",
+      "controller_generation": "G0002",
+      "authority_generation": "G0001",
+      "protected_generation": "G0002",
+      "source_path": "target",
+      "preimage_hex": "4f524947494e414c0a",
+      "candidate_hex": "5354414c450a",
+      "protected_target_sha256": "9660b3303631e95817f72c7536939f0eca9e20c0d7b86382a39e4a98a1b26151",
+      "expected_status": "REJECTED_NO_MUTATION",
+      "expected_reason": "STALE_AUTHORITY_GENERATION",
+      "expected_target_hex": "4f524947494e414c0a"
+    },
+    {
+      "id": "D48-C02-03-wrong-target-fingerprint-rejected",
+      "controller_generation": "G0002",
+      "authority_generation": "G0002",
+      "protected_generation": "G0002",
+      "source_path": "target",
+      "preimage_hex": "4f524947494e414c0a",
+      "candidate_hex": "57524f4e472d5441524745540a",
+      "protected_target_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "expected_status": "REJECTED_NO_MUTATION",
+      "expected_reason": "PROTECTED_TARGET_IDENTITY_MISMATCH",
+      "expected_target_hex": "4f524947494e414c0a"
+    }
+  ]
+}
