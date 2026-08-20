@@ -1,0 +1,6 @@
+{
+  "schema": "implementaudit.host-session-binding-state.v0-mixed",
+  "host_id": "codex",
+  "host_session_id": "session-a",
+  "records": []
+}
