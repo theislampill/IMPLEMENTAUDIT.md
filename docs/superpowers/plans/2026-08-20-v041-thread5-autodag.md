@@ -43,7 +43,7 @@ owners GREEN and merge into the campaign branch. Public main remains unchanged.
 - `HC-H7B` R0037 Stop adapter: thin host translator into H7A with supported/disabled/untrusted fallbacks and no agent prison. This cell proves source/package behavior, not an actually fired host event.
 - `HC-H8` terminal-cap repair: reject finite retry-count stop/handoff wording while preserving ordinary retry prose, strike/strikes/CrowdStrike and explicit no-cap denials.
 
-`HC-H5` PreToolUse is deferred unless every supported-host, binding, route, graph/node, writer/resource/effect and executor predicate is exact. It is not in the 37 implementation count.
+`HC-H5` PreToolUse is deferred unless every supported-host, binding, route, graph/node, writer/resource/effect and executor predicate is exact. It is not in the 38 implementation count.
 
 ### R0038 operational evidence (10)
 
