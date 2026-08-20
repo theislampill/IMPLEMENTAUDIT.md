@@ -205,25 +205,18 @@ def read_request(path: str) -> dict[str, Any]:
 def mechanical_action_class(argv: list[str]) -> str | None:
     executable = argv[0].lower()
     claim = Path(__file__).resolve().with_name("claim-run.sh")
-    if (
-        Path(argv[0]).name.lower() in {"claim-run.sh", "claim-run"}
-        and Path(argv[0]).resolve() == claim
-        and len(argv) in {2, 3}
-        and argv[1] in {
-            "--current-controller", "--verify-resume-receipt", "--require-current-continuity", "--require-current-route"
-        }
-    ):
-        return "MECHANICAL_CURRENTNESS_ACTION"
-    if (
-        executable == "git"
-        and len(argv) >= 12
-        and argv[1:11]
-        == [
-            "--no-optional-locks", "-c", "core.fsmonitor=false", "-c", "diff.external=",
-            "diff", "--no-ext-diff", "--no-textconv", "--ignore-submodules=all", "--",
-        ]
-        and all(not value.startswith("-") and ".." not in Path(value).parts for value in argv[11:])
-    ):
+    if Path(argv[0]).name.lower() in {"claim-run.sh", "claim-run"} and Path(argv[0]).resolve() == claim:
+        if argv[1:] == ["--current-controller"] or (
+            len(argv) == 3 and argv[1] == "--current-controller" and CONTROLLER_RE.fullmatch(argv[2])
+        ):
+            return "MECHANICAL_CURRENTNESS_ACTION"
+        if len(argv) == 3 and argv[1] == "--require-current-continuity" and CONTROLLER_RE.fullmatch(argv[2]):
+            return "MECHANICAL_CURRENTNESS_ACTION"
+        if len(argv) == 3 and argv[1] == "--verify-resume-receipt" and re.fullmatch(
+            r"refs/implementaudit/continuity-receipts/[a-z0-9][a-z0-9-]*/G[0-9A-F]{4}@[0-9a-f]{40}", argv[2]
+        ):
+            return "MECHANICAL_CURRENTNESS_ACTION"
+    if argv == ["route-read-snapshot"]:
         return "PURE_BOUNDED_READ_OR_VALIDATION"
     package_script = Path(argv[2]).resolve() if executable == "bash" and len(argv) == 3 and argv[1] == "-n" else None
     if (
@@ -232,10 +225,7 @@ def mechanical_action_class(argv: list[str]) -> str | None:
         and re.fullmatch(r"check-[a-z0-9-]+\.sh", package_script.name)
     ):
         return "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION"
-    if argv == [
-        "git", "--no-optional-locks", "-c", "core.fsmonitor=false", "status", "--short",
-        "--untracked-files=no", "--ignore-submodules=all", "--no-renames",
-    ]:
+    if argv == ["route-safe-status"]:
         return "SAFE_STATUS_OR_CONTAINMENT"
     if executable in {"sha256sum", "shasum"} and len(argv) == 2:
         return "EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION"
@@ -277,7 +267,13 @@ def ref_name(controller: str) -> str:
 
 def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any] | None]:
     ref = ref_name(controller)
-    completed = subprocess.run(["git", "rev-parse", "--verify", ref], cwd=repo, text=True, capture_output=True)
+    completed = subprocess.run(
+        [str(trusted_host_executable(repo, "git")), "rev-parse", "--verify", ref],
+        cwd=repo,
+        env=sanitized_action_environment(),
+        text=True,
+        capture_output=True,
+    )
     if completed.returncode:
         return None, None
     oid = completed.stdout.strip()
@@ -401,6 +397,8 @@ def trusted_host_executable(repo: Path, name: str) -> Path:
 def executable_evidence(repo: Path, argv: list[str]) -> dict[str, str]:
     if mechanical_required_reason(argv) is not None:
         return {"requested": "route-trigger", "resolved": "R0033:built-in", "digest": digest_json(argv)}
+    if argv in (["route-read-snapshot"], ["route-safe-status"]):
+        return {"requested": argv[0], "resolved": "R0033:built-in", "digest": digest_json(argv)}
     if mechanical_action_class(argv) is None:
         return {"requested": argv[0], "resolved": "R0033:unadmitted", "digest": digest_json(argv)}
     if Path(argv[0]).name.lower() in {"claim-run.sh", "claim-run"}:
@@ -431,7 +429,12 @@ def executable_evidence(repo: Path, argv: list[str]) -> dict[str, str]:
 
 
 def sanitized_action_environment() -> dict[str, str]:
-    environment = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    environment = {
+        key: value
+        for key, value in os.environ.items()
+        if not key.startswith(("GIT_", "LD_", "DYLD_"))
+        and key not in {"BASH_ENV", "BASHOPTS", "CDPATH", "ENV", "SHELLOPTS"}
+    }
     environment.update(
         {
             "GIT_ATTR_NOSYSTEM": "1",
@@ -580,10 +583,6 @@ def request_observations(
     executable = argv[0].lower()
     if executable == "git" and git_environment_requires_judgement(repo):
         invalidators.append("action-environment:JUDGEMENT_REQUIRED")
-    if mechanical_action_class(argv) == "PURE_BOUNDED_READ_OR_VALIDATION":
-        for action_path in argv[11:]:
-            if action_path not in current_paths:
-                invalidators.append(f"action-input:{action_path}:MISSING")
     if executable in {"sha256sum", "shasum"} and len(argv) == 2 and argv[1] not in current_paths:
         invalidators.append("action-input:MISSING")
     return sorted(invalidators), observed_inputs
@@ -1072,6 +1071,15 @@ def execute_exact_action(
     repo: Path, request: dict[str, Any], executable: dict[str, str]
 ) -> dict[str, Any]:
     argv = list(request["action"]["argv"])
+    if executable["resolved"] == "R0033:built-in":
+        payload = json.dumps(worktree_read_set(repo), sort_keys=True, separators=(",", ":")).encode("utf-8") + b"\n"
+        return {
+            "exit_code": 0,
+            "stdout_bytes": len(payload),
+            "stdout_digest": f"sha256:{hashlib.sha256(payload).hexdigest()}",
+            "stderr_bytes": 0,
+            "stderr_digest": f"sha256:{hashlib.sha256(b'').hexdigest()}",
+        }
     resolved = Path(executable["resolved"])
     if file_digest(resolved) != executable["digest"]:
         fail("exact admitted action executable changed before execution")

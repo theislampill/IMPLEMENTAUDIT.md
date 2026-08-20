@@ -27,9 +27,11 @@ the current controller record and continuity receipt, validates the exact H0
 event, and hashes the live HEAD/tree, executing route sources and exact child
 source. Required triggers and judgement are derived from the admitted action,
 not caller booleans. System executables must resolve through root/host-owned
-custody and are digest-bound; Git actions use exact no-optional-lock,
-no-fsmonitor, no-external-diff/no-textconv, ignored-submodule arguments and a
-sanitised Git environment. Risky configured filter helpers require judgement.
+custody and are digest-bound. Currentness argv must be a complete feasible
+helper form. Pure read and safe-status classes use internal digest snapshots;
+Git diff/status are not cheap-path executables, so repository filter helpers
+cannot enter between the decision and action. Action environments strip shell
+startup, dynamic-loader and Git execution controls.
 Missing, mismatched, aliased or fabricated evidence stays `PENDING` or maps to
 `REQUIRED`; caller-selected class labels cannot mint the cheap path.
 

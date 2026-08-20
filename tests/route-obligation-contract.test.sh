@@ -207,9 +207,9 @@ def h(value): return "sha256:"+hashlib.sha256(json.dumps(value,sort_keys=True,se
 def file_hash(path): return "sha256:"+hashlib.sha256(open(path,"rb").read()).hexdigest()
 argv={
  "MECHANICAL_CURRENTNESS_ACTION":[sys.argv[5],"--require-current-continuity","controller-cheap"],
- "PURE_BOUNDED_READ_OR_VALIDATION":["git","--no-optional-locks","-c","core.fsmonitor=false","-c","diff.external=","diff","--no-ext-diff","--no-textconv","--ignore-submodules=all","--","baseline.txt"],
+ "PURE_BOUNDED_READ_OR_VALIDATION":["route-read-snapshot"],
  "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION":["bash","-n",sys.argv[6]],
- "SAFE_STATUS_OR_CONTAINMENT":["git","--no-optional-locks","-c","core.fsmonitor=false","status","--short","--untracked-files=no","--ignore-submodules=all","--no-renames"],
+ "SAFE_STATUS_OR_CONTAINMENT":["route-safe-status"],
  "EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION":["sha256sum","baseline.txt"],
 }.get(sys.argv[2],["unknown-action"])
 if sys.argv[3]: argv=["route-trigger",sys.argv[3]]
@@ -248,16 +248,55 @@ write_request "$cheap_request" PURE_BOUNDED_READ_OR_VALIDATION
 write_request "$pending_request" PURE_BOUNDED_READ_OR_VALIDATION
 
 mkdir -p "$tmp/evil-bin"
-printf '#!/usr/bin/env bash\nexit 0\n' > "$tmp/evil-bin/git"
+printf '#!/usr/bin/env bash\nprintf attacker-git-executed > "%s"\nexit 1\n' "$tmp/path-git-fired" > "$tmp/evil-bin/git"
 chmod +x "$tmp/evil-bin/git"
+printf '#!/usr/bin/env bash\nexit 0\n' > "$tmp/evil-bin/sha256sum"
+chmod +x "$tmp/evil-bin/sha256sum"
 "${py[@]}" - "$core" "$tmp/repo" "$tmp/evil-bin" >/dev/null <<'PY'
 import importlib.util, os, pathlib, sys
 spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
 os.environ["PATH"]=sys.argv[3]+os.pathsep+os.environ["PATH"]
-try: module.executable_evidence(pathlib.Path(sys.argv[2]),["git","--no-optional-locks","-c","core.fsmonitor=false","status","--short","--untracked-files=no","--ignore-submodules=all","--no-renames"])
+try: module.executable_evidence(pathlib.Path(sys.argv[2]),["sha256sum","baseline.txt"])
 except SystemExit: pass
 else: raise SystemExit("caller-controlled PATH executable was accepted as trusted")
 PY
+PATH="$tmp/evil-bin:$PATH" "${py[@]}" - "$core" "$tmp/repo" >/dev/null <<'PY'
+import importlib.util,pathlib,sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+try: module.current_ref(pathlib.Path(sys.argv[2]),"controller-cheap")
+except SystemExit: pass
+PY
+[ ! -e "$tmp/path-git-fired" ] || fail "current_ref executed caller-controlled PATH git"
+
+"${py[@]}" - "$core" "$claim" <<'PY'
+import importlib.util,sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+invalid=(
+ [sys.argv[2],"--verify-resume-receipt"],
+ [sys.argv[2],"--require-current-route","controller-cheap"],
+)
+if any(module.mechanical_action_class(argv)=="MECHANICAL_CURRENTNESS_ACTION" for argv in invalid):
+ raise SystemExit("incomplete or impossible currentness argv was admitted")
+PY
+
+"${py[@]}" - "$core" <<'PY'
+import importlib.util,sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+git_diff=["git","--no-optional-locks","-c","core.fsmonitor=false","-c","diff.external=","diff","--no-ext-diff","--no-textconv","--ignore-submodules=all","--","baseline.txt"]
+if module.mechanical_action_class(git_diff) is not None:
+ raise SystemExit("Git diff remained an executable cheap-path action")
+PY
+
+printf 'printf inherited-env-executed > "%s"\n' "$tmp/bash-env-fired" > "$tmp/hostile-bash-env"
+BASH_ENV="$tmp/hostile-bash-env" "${py[@]}" - "$core" "$tmp/repo" \
+  "$claim" <<'PY'
+import importlib.util,json,pathlib,sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+repo=pathlib.Path(sys.argv[2]); argv=[sys.argv[3],"--require-current-continuity","controller-cheap"]
+request={"action":{"argv":argv}}
+module.execute_exact_action(repo,request,module.executable_evidence(repo,argv))
+PY
+[ ! -e "$tmp/bash-env-fired" ] || fail "BASH_ENV executed inside the exact admitted action environment"
 
 # 1-5: omission, prose and projection are not authority; malformed authority blocks.
 printf 'route obligation REQUIRED\n' > "$run_root/route-prose.txt"
@@ -443,4 +482,4 @@ expect_blocked "STATE pending cannot override required" route controller-route r
 assert_json "$required_blob" 'value["expires_on"] and "scope-expansion" in value["expires_on"] and "continuity-receipt-change" in value["expires_on"]'
 assert_json "$judgement_decide" 'value["record_oid"] and value["decision"] == "REQUIRED"'
 
-printf 'route-obligation-contract.test: ok (57/57 live H2A cases; first RED preserved)\n'
+printf 'route-obligation-contract.test: ok (61/61 live H2A cases; first RED preserved)\n'
