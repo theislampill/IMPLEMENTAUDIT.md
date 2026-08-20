@@ -86,11 +86,12 @@ record a cold-reconstructible conditional record before choosing exactly one of
 
 Treat the complete conditional record and its resolved evidence locators as one
 authority surface. Normalize their typed gap, runtime-consumer, owner/RXX,
-overlap, dependency, supersession, distinct-four-part, census, currentness, and
-authority facts before route selection. Reject a missing currentness or
-authority field, a missing or stale required locator, or any contradiction
-between the complete record and the resolved evidence. A synthetic label is not
-authority: a state label cannot substitute for current durable evidence.
+overlap, dependency, supersession, distinct-four-part, census, RXX-genealogy
+identity/currentness, record currentness, and authority facts before route
+selection. Reject a missing or stale genealogy, missing currentness or authority
+field, missing or stale required locator, or any contradiction between the
+complete record and the resolved evidence. A synthetic label is not authority:
+a state label cannot substitute for current durable evidence.
 
 For a fixture-backed admission check, address the complete conditional record
 by its stable record ID and a repository-relative target plus JSON pointer, and
@@ -105,6 +106,12 @@ escaping path, identity/currentness/digest mismatch, missing required state or
 authority field, or selected-outcome disagreement. Never derive the route from
 a case state label.
 
+Before deriving any terminal route, require the complete current open-and-closed
+RXX census and the resolved current genealogy. An incomplete census or
+genealogy defers the decision when no number exists and rejects any attempted
+allocation. An unresolved dependency likewise selects `DEFER`; it cannot be a
+presence-only field and cannot reach `NEW_RXX`.
+
 - `NO_ACTION` when current evidence establishes no distinct gap;
 - `SUPPORTING_ARTIFACT` when a bounded cross-cutting note has no runtime
   consumer and adds no owner;
@@ -112,12 +119,15 @@ a case state label.
   an existing non-RXX owner;
 - `AMEND_EXISTING_RXX` when a current or closed RXX already owns the failure
   mechanism, consumer, authority boundary, and acceptance surface;
-- `DEFER` when current evidence or authority is insufficient; or
+- `DEFER` when current evidence, census, genealogy, dependency state, or
+  authority is insufficient; or
 - `NEW_RXX` when a current, authorised, distinct unowned invariant needs its
   own work-order owner.
 
-Apply the non-trigger/cheap path to ordinary non-RXX filing. Allocate an RXX
-number only after the complete current open-and-closed census selects `NEW_RXX`.
+Apply the non-trigger/cheap path to ordinary non-RXX filing. Every conditional
+outcome passes the complete current open-and-closed census and genealogy gates
+before route selection. Allocate an RXX number only after the complete current open-and-closed census
+and resolved genealogy select `NEW_RXX`.
 `NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,
 `AMEND_EXISTING_RXX`, and `DEFER` allocate no RXX number. Supporting or
 amending an existing owner never creates a duplicate owner or authority; keep

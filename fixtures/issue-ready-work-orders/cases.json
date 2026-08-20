@@ -1738,6 +1738,70 @@
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
       "allocated_rxx": "R0042"
+    },
+    {
+      "conditional_record_id": "R31-CR24",
+      "state": "held-out",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "id": "R31-AC29-missing-genealogy",
+      "expected": "REJECT",
+      "expected_stage": "GENEALOGY_GATE",
+      "expected_reason": "MISSING_GENEALOGY",
+      "allocated_rxx": "R0042"
+    },
+    {
+      "conditional_record_id": "R31-CR25",
+      "state": "held-out",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "id": "R31-AC30-unresolved-dependency",
+      "expected": "DEFER",
+      "expected_stage": "DEPENDENCY_GATE",
+      "expected_reason": "DEPENDENCY_UNRESOLVED"
+    },
+    {
+      "conditional_record_id": "R31-CR26",
+      "state": "held-out",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "id": "R31-AC31-incomplete-census-amend-owner",
+      "expected": "DEFER",
+      "expected_stage": "CENSUS_GATE",
+      "expected_reason": "INCOMPLETE_OPEN_CLOSED_CENSUS",
+      "existing_owner": "R001F"
+    },
+    {
+      "conditional_record_id": "R31-CR27",
+      "state": "held-out",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "id": "R31-AC32-stale-genealogy",
+      "expected": "REJECT",
+      "expected_stage": "GENEALOGY_GATE",
+      "expected_reason": "GENEALOGY_NOT_CURRENT",
+      "allocated_rxx": "R0042"
+    },
+    {
+      "id": "R31-AC33-stale-census-amend-owner",
+      "expected": "DEFER",
+      "expected_stage": "CENSUS_GATE",
+      "expected_reason": "STALE_OPEN_CLOSED_CENSUS",
+      "conditional_record_id": "R31-CR28",
+      "state": "held-out",
+      "existing_owner": "R001F",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true
     }
   ],
   "conditional_records": {
@@ -1794,7 +1858,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR1",
           "record_id": "R31-CR1",
-          "sha256": "312e0998ffa2602a1105c1091e5818be89683c4651f9389c6b79e1c1ae034648",
+          "sha256": "b0ea64a98540e88ac40ffe38acf970384d199b8ad56713ac9f0750a7d12b40af",
           "current": true
         }
       },
@@ -1803,7 +1867,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR1-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR2": {
@@ -1859,7 +1930,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR2",
           "record_id": "R31-CR2",
-          "sha256": "433123eb0adff26747404a7f6c9b4ef9c5d5615ab15f97a4f8c0f78535be5a7b",
+          "sha256": "fda2c137fb4ec2a50e2ec41a7df1092db540bc52657be5b37a339912d21c46cd",
           "current": true
         }
       },
@@ -1868,7 +1939,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR2-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR3": {
@@ -1924,7 +2002,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR3",
           "record_id": "R31-CR3",
-          "sha256": "ea61a20244513a8d174f9da406e6d99bbebf39d9fde42e94552cdf01ea3e2495",
+          "sha256": "1ee40833029a076d5b818e8de7bb7a34f8165190f90b1def879152cb775a2e28",
           "current": true
         }
       },
@@ -1933,7 +2011,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR3-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR4": {
@@ -1989,7 +2074,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR4",
           "record_id": "R31-CR4",
-          "sha256": "1146cd5297528c3ae9dbd802688b800004a114ab919d8cee867af037d1768dad",
+          "sha256": "da68599350605438d4958595fe2ab98ef72953be5b365365b751eee155b090d7",
           "current": true
         }
       },
@@ -1998,7 +2083,14 @@
       "authority_confirmed": false,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR4-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR5": {
@@ -2054,7 +2146,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR5",
           "record_id": "R31-CR5",
-          "sha256": "7660d9b5f646e35f581d269b8a3f11b204a033e5499d3feae6634b470754dd54",
+          "sha256": "ea9a2ace79d4a2e617276573b609b9bdd7a7082cb53b04fa7e4b6e1d23a3519f",
           "current": true
         }
       },
@@ -2063,7 +2155,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR5-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR6": {
@@ -2119,7 +2218,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR6",
           "record_id": "R31-CR6",
-          "sha256": "3109ce2300a9acd5b43c04a8f385dd8503678631136df5b5f886353d56a1a05d",
+          "sha256": "4d98e206eecdc5631210b1e8eb634c153cfe271c92babecd0f900b7234beaff9",
           "current": true
         }
       },
@@ -2128,7 +2227,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR6-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR7": {
@@ -2184,7 +2290,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR7",
           "record_id": "R31-CR7",
-          "sha256": "f3881cf4dce0890ae24a326ebb342880f04fc5f31b1b5f0ad6c826eddeea0275",
+          "sha256": "2833358546f963d792b37b4bd9068274a13f5502a16287ae840d605d9c89990e",
           "current": true
         }
       },
@@ -2193,7 +2299,14 @@
       "authority_confirmed": false,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR7-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR8": {
@@ -2278,7 +2391,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR10",
           "record_id": "R31-CR10",
-          "sha256": "303b75387b2a27a39cbe2b1363d92385bbc62f4549113ef6e08f37c76abadbe3",
+          "sha256": "005f2bf4c893ae0d8e5b96a4d315789fa052e6fad53e7de9861f7fe32bb2c338",
           "current": true
         }
       },
@@ -2287,7 +2400,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR10-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR16": {
@@ -2343,7 +2463,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR16",
           "record_id": "R31-CR16",
-          "sha256": "90d3bb4a2f70d64c31bf43071d5381077adb896d8c60143c08120f656b20b67d",
+          "sha256": "24dc6b803b942254e284498075e1f8d937d25e50c4507c4e2193854237003c52",
           "current": true
         }
       },
@@ -2352,7 +2472,14 @@
       "authority_confirmed": false,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR16-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR17": {
@@ -2408,7 +2535,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR17",
           "record_id": "R31-CR17",
-          "sha256": "95b43c00c58f2afea782eb92a8d147d21e01ee771bf7031e1f6975a743d6f80e",
+          "sha256": "219872d49a8d93439e487bc59470cfb1b8de7fe656199c8a3e13b987aacd9421",
           "current": true
         }
       },
@@ -2417,7 +2544,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR17-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR18": {
@@ -2473,7 +2607,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR18-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR19": {
@@ -2529,7 +2670,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR19",
           "record_id": "R31-CR19",
-          "sha256": "ad5e6f1379cf54d6aa7de311411015f46103fdec651504362bacac1d9d9217fd",
+          "sha256": "ed4f955df59ede57192ed385226a40d448292a91f9714f92755a89e76cefd9d6",
           "current": true
         }
       },
@@ -2538,7 +2679,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR19-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR14": {
@@ -2594,7 +2742,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR14",
           "record_id": "R31-CR14",
-          "sha256": "4f28828d3d505ff4ef46521e3f8d2a8ff3efce0bc55f2d3ab3a7dd64c58b6d00",
+          "sha256": "883ed203d5d73e901f8ac4f8401fb0337cb097e94d938958577a5757358a54c5",
           "current": true
         }
       },
@@ -2603,7 +2751,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": false
+        "open_closed": false,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR14-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR15": {
@@ -2659,7 +2814,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR15",
           "record_id": "R31-CR15",
-          "sha256": "816b47fd07bffb9ab9ac563502301494cf0f993915133116e58c03255edaddb6",
+          "sha256": "51ef8329a61718a591508e5c80ac19631d16344714785e9f6ed9cd22c9220715",
           "current": true
         }
       },
@@ -2668,7 +2823,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR15-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR20": {
@@ -2724,7 +2886,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR20",
           "record_id": "R31-CR20",
-          "sha256": "4ad70978277e979ca33cdf0636e383cb0756cebd7c3d4bc5cded36ca82ce5777",
+          "sha256": "d24af2fd560f178a8c10010e933f0e5c6a9481a3427925c1dc0f487738fc3af5",
           "current": true
         }
       },
@@ -2732,7 +2894,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR20-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR21": {
@@ -2788,7 +2957,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR21",
           "record_id": "R31-CR21",
-          "sha256": "3008382985d04414e972f213d370cf23219fcc706867850a144e3d9e29929f01",
+          "sha256": "9a20dc3d39db2da3e52dc8f0a4d7f96cc8cb79bb7e1152b056814b9ed6fdf7fd",
           "current": true
         }
       },
@@ -2796,7 +2965,14 @@
       "current": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR21-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR22": {
@@ -2852,7 +3028,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR22",
           "record_id": "R31-CR22",
-          "sha256": "b5e174c4a142b71ce5496105ad23d2cec2f9cd30db46eeaecbbd1e27c4f2ebbd",
+          "sha256": "15bee7f8e9aef137f74cdb8ce997ecf5e9e0f65d76589122f5c3030d687a8096",
           "current": false
         }
       },
@@ -2861,7 +3037,14 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR22-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR23": {
@@ -2926,7 +3109,368 @@
       "authority_confirmed": true,
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR23-genealogy",
+        "lineage_status": "resolved",
+        "current": true
+      }
+    },
+    "R31-CR24": {
+      "semantic_centre": "distinct invariant",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR24",
+          "record_id": "R31-CR24",
+          "sha256": "a5a7be95ca6149917cf6d9c90b4c7bd10b4ccafb6afff4eccd53198930fad524",
+          "current": true
+        }
+      },
+      "id": "R31-CR24",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": true
+      }
+    },
+    "R31-CR25": {
+      "semantic_centre": "distinct invariant",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "blocking dependency unresolved",
+        "status": "unresolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "DEFER",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR25",
+          "record_id": "R31-CR25",
+          "sha256": "9447c62b5a67b93bc0ff055479d105492550e3d0d96099971b5ca61992951a48",
+          "current": true
+        }
+      },
+      "id": "R31-CR25",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR25-genealogy",
+        "lineage_status": "resolved",
+        "current": true
+      }
+    },
+    "R31-CR26": {
+      "semantic_centre": "existing owner amendment",
+      "live_gap": {
+        "summary": "bounded existing-owner gap",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "maintainer",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "R001F owns the carrier",
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "same owner boundary",
+        "status": "owned"
+      },
+      "dependency_analysis": {
+        "summary": "existing owner dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "amend"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "existing-owner check",
+      "distinct_failure": {
+        "summary": "bounded gap",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "maintainer",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "R001F",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "owner acceptance",
+        "distinct": true
+      },
+      "selected_outcome": "DEFER",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR26",
+          "record_id": "R31-CR26",
+          "sha256": "d19c370aeadfb499a0869ab3818864868f231805a8d9c283e4fadae7c7e3b1da",
+          "current": true
+        }
+      },
+      "id": "R31-CR26",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": false,
+        "open_closed": false,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR26-genealogy",
+        "lineage_status": "resolved",
+        "current": true
+      }
+    },
+    "R31-CR27": {
+      "semantic_centre": "distinct invariant",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR27",
+          "record_id": "R31-CR27",
+          "sha256": "098412a9744443f250e46fc2998cb9bfddc36d81d5b4bc1c68d9dbcec43ec730",
+          "current": true
+        }
+      },
+      "id": "R31-CR27",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR27-genealogy",
+        "lineage_status": "resolved",
+        "current": false
+      }
+    },
+    "R31-CR28": {
+      "semantic_centre": "existing owner amendment",
+      "live_gap": {
+        "summary": "bounded existing-owner gap",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "maintainer",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "R001F owns the carrier",
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "same owner boundary",
+        "status": "owned"
+      },
+      "dependency_analysis": {
+        "summary": "existing owner dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "amend"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "existing-owner check",
+      "distinct_failure": {
+        "summary": "bounded gap",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "maintainer",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "R001F",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "owner acceptance",
+        "distinct": true
+      },
+      "selected_outcome": "DEFER",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR28",
+          "record_id": "R31-CR28",
+          "sha256": "9c7fcbd9e5386eef7c72506adff3547645450c847b5935adebcd7816059e044e",
+          "current": true
+        }
+      },
+      "id": "R31-CR28",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": false
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR28-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     }
   },
@@ -2951,7 +3495,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR1-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR2": {
@@ -2974,7 +3525,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR2-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR3": {
@@ -2997,7 +3555,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR3-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR4": {
@@ -3020,7 +3585,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR4-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR5": {
@@ -3043,7 +3615,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR5-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR6": {
@@ -3066,7 +3645,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR6-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR7": {
@@ -3089,7 +3675,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR7-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR10": {
@@ -3112,7 +3705,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR10-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR14": {
@@ -3135,7 +3735,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": false
+        "open_closed": false,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR14-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR15": {
@@ -3158,7 +3765,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR15-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR16": {
@@ -3181,7 +3795,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR16-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR17": {
@@ -3204,7 +3825,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR17-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR18": {
@@ -3227,7 +3855,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR18-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR19": {
@@ -3250,7 +3885,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR19-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR20": {
@@ -3273,7 +3915,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR20-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR21": {
@@ -3296,7 +3945,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR21-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR22": {
@@ -3319,7 +3975,14 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR22-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     },
     "R31-CR23": {
@@ -3342,7 +4005,158 @@
       },
       "census": {
         "complete": true,
-        "open_closed": true
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR23-genealogy",
+        "lineage_status": "resolved",
+        "current": true
+      }
+    },
+    "R31-CR24": {
+      "record_id": "R31-CR24",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": true
+      }
+    },
+    "R31-CR25": {
+      "record_id": "R31-CR25",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "unresolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR25-genealogy",
+        "lineage_status": "resolved",
+        "current": true
+      }
+    },
+    "R31-CR26": {
+      "record_id": "R31-CR26",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap": "owned",
+      "dependency": "resolved",
+      "supersession": "amend",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": false,
+        "acceptance": true
+      },
+      "census": {
+        "complete": false,
+        "open_closed": false,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR26-genealogy",
+        "lineage_status": "resolved",
+        "current": true
+      }
+    },
+    "R31-CR27": {
+      "record_id": "R31-CR27",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": true
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR27-genealogy",
+        "lineage_status": "resolved",
+        "current": false
+      }
+    },
+    "R31-CR28": {
+      "record_id": "R31-CR28",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap": "owned",
+      "dependency": "resolved",
+      "supersession": "amend",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": false,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true,
+        "current": false
+      },
+      "genealogy": {
+        "population": "complete-open-and-closed-rxx",
+        "identity": "R31-CR28-genealogy",
+        "lineage_status": "resolved",
+        "current": true
       }
     }
   },
@@ -3364,7 +4178,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3386,7 +4201,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3408,7 +4224,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3430,7 +4247,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": false
@@ -3452,7 +4270,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3474,7 +4293,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3496,7 +4316,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": false
@@ -3518,7 +4339,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3540,7 +4362,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": false
+          "open_closed": false,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3562,7 +4385,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3585,7 +4409,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       }
     },
@@ -3606,7 +4431,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3628,7 +4454,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3650,7 +4477,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3672,7 +4500,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3694,7 +4523,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3716,7 +4546,8 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
         }
       },
       "authority_confirmed": true
@@ -3738,7 +4569,123 @@
         },
         "census": {
           "complete": true,
-          "open_closed": true
+          "open_closed": true,
+          "current": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR24": {
+      "id": "R31-CR24",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true,
+          "current": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR25": {
+      "id": "R31-CR25",
+      "current": true,
+      "selected_outcome": "DEFER",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true,
+          "current": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR26": {
+      "id": "R31-CR26",
+      "current": true,
+      "selected_outcome": "DEFER",
+      "decision": {
+        "route": "existing-owner",
+        "runtime_consumer": true,
+        "owner": "R001F",
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": false,
+          "acceptance": true
+        },
+        "census": {
+          "complete": false,
+          "open_closed": false,
+          "current": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR27": {
+      "id": "R31-CR27",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true,
+          "current": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR28": {
+      "id": "R31-CR28",
+      "current": true,
+      "selected_outcome": "DEFER",
+      "decision": {
+        "route": "existing-owner",
+        "runtime_consumer": true,
+        "owner": "R001F",
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": false,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true,
+          "current": false
         }
       },
       "authority_confirmed": true
@@ -3749,49 +4696,49 @@
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR1",
       "record_id": "R31-CR1",
-      "sha256": "865f66b30fc7a0adfb496ea55fd0ea8688112785ee574f24d0e03dd961264a83",
+      "sha256": "96b144a693c4ec6098456f757f308793c5cbff9aa56892fa3c2d4b2a25cd491c",
       "current": true
     },
     "R31-CR2": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR2",
       "record_id": "R31-CR2",
-      "sha256": "a4f7b1f5fb58c37b7fc4eb5d327a916112d3ef20292df780ed3dad0d40a011d8",
+      "sha256": "789a13a7d89a9086894a7272b17383d812d085745a0cbf0c7a057be8a565cdf7",
       "current": true
     },
     "R31-CR3": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR3",
       "record_id": "R31-CR3",
-      "sha256": "0ed79a94007fcc3b2545cea32558871fb3288e09d7dabcbfff34003f6123ef51",
+      "sha256": "b65f372fa55c859e7ea73964461896ebf1e044b6526d097f7e416ed4a5c3a6b1",
       "current": true
     },
     "R31-CR4": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR4",
       "record_id": "R31-CR4",
-      "sha256": "60c97959fd0bd624f99227e72ff8730b7317301cf1b447d9f5305c1e2ef8c9c9",
+      "sha256": "f468e9ed59783a47f8906de9ba6e834b40855d454d41c9cea5caeffac8630cce",
       "current": true
     },
     "R31-CR5": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR5",
       "record_id": "R31-CR5",
-      "sha256": "bf24bff78b0951a4da7d2b11c78a1ee3fb7328ac2a4e32b302b845f47357c17f",
+      "sha256": "d8ce6f1c4f798813200abbe332d209e8376288c4791967b3d66e2fe7adb5ab6a",
       "current": true
     },
     "R31-CR6": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR6",
       "record_id": "R31-CR6",
-      "sha256": "0b922208c51ccc7a4f2752915f9d615428762537b9f305627ff5496a4bfd2d4e",
+      "sha256": "9129d7eba9d86ffa1923a90cf21ab26f459b6d8044fdc20b4eed4f4e738fa5c6",
       "current": true
     },
     "R31-CR7": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR7",
       "record_id": "R31-CR7",
-      "sha256": "a240df424c42d3e5ac0dfe8b6f0fa0ab7a4e385121ce6c4e73007d89ad6ba013",
+      "sha256": "5f580b2385de4bcfa18312cf0594ffc61f4b252640397b4f2ba3e9a2c5c7e683",
       "current": false
     },
     "R31-CR9": {
@@ -3805,7 +4752,7 @@
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR10",
       "record_id": "R31-CR10",
-      "sha256": "401b77f89cd104458ed038e8fb0f498c28675ff697284617e3d55993e9849945",
+      "sha256": "3567d067fc1f5f83a352025f58b65ef176ef45d90de6650f818bb4b85a65900d",
       "current": true
     },
     "R31-CR11": {
@@ -3819,70 +4766,105 @@
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR14",
       "record_id": "R31-CR14",
-      "sha256": "74c44a174357aee2c21389dec04edd398d332bc5ed4385cfc0581995bffcb0a9",
+      "sha256": "0aa92718f65166b4306f8eba70f29736290c576da068c079578afbe77ab4b516",
       "current": true
     },
     "R31-CR15": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR15",
       "record_id": "R31-CR15",
-      "sha256": "2c05ea92c3166fe0656eeed05e10cdeeaefc2cc69a3946b37e6e25c6e42686f9",
+      "sha256": "c7c2a8ecdaba17a44a15f9e1b8d83f4496880d4d68a4523e83936292444dc9d1",
       "current": true
     },
     "R31-CR16": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR16",
       "record_id": "R31-CR16",
-      "sha256": "d8915b1cb00d48a1f1677fda4026e9560e5e60c7d5a1be2c4101ec0452ff9021",
+      "sha256": "dbfc8cc0fc3cd54a2628f58268668f97076e62996ba6650d1f877d10e5c452e8",
       "current": true
     },
     "R31-CR17": {
       "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-bp3\\fixtures\\issue-ready-work-orders\\cases.json",
       "pointer": "/conditional_records/R31-CR17",
       "record_id": "R31-CR17",
-      "sha256": "ad80a8fac351a75b38933cf7621affcd115a233ec7ba6e8be0e2f0d93d189433",
+      "sha256": "3e1592448fcef55886d7d5d4e928b9b6134a4e918670ddfaa13871f2223fddae",
       "current": true
     },
     "R31-CR18": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR18",
       "record_id": "R31-CR18",
-      "sha256": "5305a5234d8a39374cc45e42ef3ef33ae82db24b8a1f3f5baaaeb2105330730d",
+      "sha256": "e81946c45f83a1733049132c49ad857ed836a98cef92c14297a70b5dd9cabcd6",
       "current": true
     },
     "R31-CR19": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR19",
       "record_id": "R31-CR19",
-      "sha256": "03d246607a5b69f93c4f9e26791a9c5f17f430fe967019aca6cc9d85d806cef2",
+      "sha256": "824ba4e11685ea339ffae5cc11c6f4d1fddae31c008bcf844825344e99df2fdf",
       "current": true
     },
     "R31-CR20": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR20",
       "record_id": "R31-CR20",
-      "sha256": "18fb54c643c80e642842824fb24844294b58d4f42b06e1fdf70cbbc117842205",
+      "sha256": "826335912199880e7e6e3524c0ad9bfdb092bde8fdfc8505a581d87a76a470d6",
       "current": true
     },
     "R31-CR21": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR21",
       "record_id": "R31-CR21",
-      "sha256": "94c2f18f2538749767efc84afc14665aac8bb4a62cab03effb215d0e0d997241",
+      "sha256": "ae6bd38992182df17b25d2183caa777c71205ef57ae9ed8720d499f0c6998335",
       "current": true
     },
     "R31-CR22": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR22",
       "record_id": "R31-CR22",
-      "sha256": "f5462ee4717370816214c83b2f429555f0ae6c0acd60aa04e4885c59081386d0",
+      "sha256": "c80321b1c97b1d8d4f03b85dc37f86938bcb187f2ab3be6947599949a88f0d66",
       "current": true
     },
     "R31-CR23": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR23",
       "record_id": "R31-CR23",
-      "sha256": "a76eae177f1a3d9b942f3616527f9bc42519931eca4562d2edc669aa66a4df91",
+      "sha256": "48c0c755e3c31b7036641f843b19ab932ca2216273dbb93493c062c3e6eabefe",
+      "current": true
+    },
+    "R31-CR24": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR24",
+      "record_id": "R31-CR24",
+      "sha256": "569383f31848a2f788bfb080b6437eaa337c0138789960e14dea99cd9307fba4",
+      "current": true
+    },
+    "R31-CR25": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR25",
+      "record_id": "R31-CR25",
+      "sha256": "33c4bb8dc8eaab6f615b7b48c8ed8f1b8f3b26d69883fdccddc0288f4305ec1b",
+      "current": true
+    },
+    "R31-CR26": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR26",
+      "record_id": "R31-CR26",
+      "sha256": "6e293d162c633e1a8bc596bbaee3d8aca2dc8bf91f58fed454e16163a52fce9f",
+      "current": true
+    },
+    "R31-CR27": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR27",
+      "record_id": "R31-CR27",
+      "sha256": "aff23511276a4f580d04937eea0ca38f8713aa576a1fcef422a943ecc39d23bf",
+      "current": true
+    },
+    "R31-CR28": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR28",
+      "record_id": "R31-CR28",
+      "sha256": "b1b88109dc86bf7b969751a77f5525f959c5739368d0240056e491ccd0d6051f",
       "current": true
     }
   }

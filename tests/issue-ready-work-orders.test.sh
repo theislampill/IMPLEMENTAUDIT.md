@@ -411,7 +411,7 @@ def resolve_locator(locator, record_id):
     return resolved, None
 
 def normalize_facts(value):
-    required = {"gap", "runtime_consumer", "owner", "overlap", "dependency", "supersession", "distinct", "census"}
+    required = {"gap", "runtime_consumer", "owner", "overlap", "dependency", "supersession", "distinct", "census", "genealogy"}
     if not isinstance(value, dict) or set(value) != required:
         return None
     if value.get("gap") not in {"absent", "supporting-only", "present", "unresolved"}:
@@ -437,7 +437,12 @@ def normalize_facts(value):
     if not isinstance(distinct, dict) or set(distinct) != {"failure", "consumer", "owner", "acceptance"} or not all(isinstance(distinct[key], bool) for key in distinct):
         return None
     census = value.get("census")
-    if not isinstance(census, dict) or set(census) != {"complete", "open_closed"} or not all(isinstance(census[key], bool) for key in census):
+    if not isinstance(census, dict) or set(census) != {"complete", "open_closed", "current"} or not all(isinstance(census[key], bool) for key in census):
+        return None
+    genealogy = value.get("genealogy")
+    if not isinstance(genealogy, dict) or set(genealogy) != {"population", "identity", "lineage_status", "current"}:
+        return None
+    if genealogy.get("population") != "complete-open-and-closed-rxx" or not isinstance(genealogy.get("identity"), str) or not genealogy["identity"].strip() or genealogy.get("lineage_status") != "resolved" or not isinstance(genealogy.get("current"), bool):
         return None
     return value
 
@@ -475,6 +480,7 @@ def normalize_complete_record(record):
         "supersession": supersession.get("status"),
         "distinct": distinct,
         "census": record.get("census"),
+        "genealogy": record.get("genealogy"),
     })
 
 def projection_route(facts):
@@ -527,6 +533,13 @@ def resolve_conditional_record(case):
         return None, "COMPLETE_RECORD", "MISSING_CURRENT_OR_AUTHORITY"
     if record.get("selected_outcome") not in allowed_admission_actions:
         return None, "COMPLETE_RECORD", "INVALID_SELECTED_OUTCOME"
+    if "genealogy" not in record:
+        return None, "GENEALOGY_GATE", "MISSING_GENEALOGY"
+    genealogy = record.get("genealogy")
+    if not isinstance(genealogy, dict) or set(genealogy) != {"population", "identity", "lineage_status", "current"}:
+        return None, "GENEALOGY_GATE", "INVALID_GENEALOGY"
+    if genealogy.get("current") is not True:
+        return None, "GENEALOGY_GATE", "GENEALOGY_NOT_CURRENT"
     facts = normalize_complete_record(record)
     locators = record.get("locators")
     if facts is None or not isinstance(locators, dict) or set(locators) != {"admission_evidence"}:
@@ -543,10 +556,6 @@ def resolve_conditional_record(case):
 
 def decision_action(normalized):
     record, facts = normalized["record"], normalized["facts"]
-    if record["current"] is not True:
-        return outcome("DEFER", "CURRENTNESS_AUTHORITY", "EVIDENCE_NOT_CURRENT")
-    if record["authority_confirmed"] is not True:
-        return outcome("DEFER", "CURRENTNESS_AUTHORITY", "AUTHORITY_NOT_CONFIRMED")
     owner = facts["owner"]
     distinct = facts["distinct"]
     if facts["gap"] == "absent" and facts["runtime_consumer"] is False and owner == {"status": "none", "owner": None, "rxx": None} and facts["overlap"] == "none" and facts["supersession"] == "none":
@@ -568,15 +577,26 @@ def admission_action(case):
     normalized, stage, reason = resolve_conditional_record(case)
     if normalized is None:
         return outcome("REJECT", stage, reason)
-    result = decision_action(normalized)
-    action = result["action"]
     record, facts = normalized["record"], normalized["facts"]
+    allocated_rxx = case.get("allocated_rxx")
+    has_number = isinstance(allocated_rxx, str) and bool(allocated_rxx.strip())
+    if record["current"] is not True:
+        result = outcome("DEFER", "CURRENTNESS_AUTHORITY", "EVIDENCE_NOT_CURRENT")
+    elif record["authority_confirmed"] is not True:
+        result = outcome("DEFER", "CURRENTNESS_AUTHORITY", "AUTHORITY_NOT_CONFIRMED")
+    elif facts["census"]["current"] is not True:
+        result = outcome("REJECT" if has_number else "DEFER", "CENSUS_GATE", "STALE_OPEN_CLOSED_CENSUS")
+    elif facts["census"]["complete"] is not True or facts["census"]["open_closed"] is not True:
+        result = outcome("REJECT" if has_number else "DEFER", "CENSUS_GATE", "INCOMPLETE_OPEN_CLOSED_CENSUS")
+    elif facts["dependency"] == "unresolved":
+        result = outcome("DEFER", "DEPENDENCY_GATE", "DEPENDENCY_UNRESOLVED")
+    else:
+        result = decision_action(normalized)
+    action = result["action"]
     if action == "REJECT":
         return result
     if record["selected_outcome"] != action:
         return outcome("REJECT", "DERIVATIVE_CHECK", "SELECTED_OUTCOME_MISMATCH")
-    allocated_rxx = case.get("allocated_rxx")
-    has_number = isinstance(allocated_rxx, str) and bool(allocated_rxx.strip())
     if action in {"AMEND_EXISTING_OWNER", "AMEND_EXISTING_RXX"}:
         existing_owner = case.get("existing_owner")
         if existing_owner != facts["owner"]["owner"] or case.get("new_owner"):
@@ -586,9 +606,6 @@ def admission_action(case):
         if existing_rxx != facts["owner"]["rxx"]:
             return outcome("REJECT", "OWNER_BINDING", "RXX_IDENTITY_MISMATCH")
     if action == "NEW_RXX":
-        census = facts["census"]
-        if census["complete"] is not True or census["open_closed"] is not True:
-            return outcome("REJECT", "CENSUS_GATE", "INCOMPLETE_OPEN_CLOSED_CENSUS")
         if not has_number:
             return outcome("REJECT", "NUMBER_GATE", "NEW_RXX_NUMBER_MISSING")
         return result
@@ -596,24 +613,33 @@ def admission_action(case):
         return outcome("REJECT", "NUMBER_GATE", "NON_NEW_RXX_NUMBER_FORBIDDEN")
     return result
 
-def assert_admission_result(case, result):
+def admission_mismatch(case, result):
     if result["action"] != case.get("expected"):
-        raise SystemExit(f"{case.get('id')}: expected {case.get('expected')}, observed {result['action']} at {result['stage']} ({result['reason']})")
+        return f"{case.get('id')}: expected {case.get('expected')}, observed {result['action']} at {result['stage']} ({result['reason']})"
     if "expected_stage" in case and result["stage"] != case["expected_stage"]:
-        raise SystemExit(f"{case.get('id')}: expected stage {case['expected_stage']}, observed {result['stage']} ({result['reason']})")
+        return f"{case.get('id')}: expected stage {case['expected_stage']}, observed {result['stage']} ({result['reason']})"
     if "expected_reason" in case and result["reason"] != case["expected_reason"]:
-        raise SystemExit(f"{case.get('id')}: expected reason {case['expected_reason']}, observed {result['reason']} at {result['stage']}")
+        return f"{case.get('id')}: expected reason {case['expected_reason']}, observed {result['reason']} at {result['stage']}"
+    return None
 
+admission_failures = []
 for case in admission_cases:
     observed = admission_action(case)
     if observed["action"] not in allowed_admission_actions:
-        raise SystemExit(f"{case['id']}: admission did not produce an allowed action: {observed['action']}")
-    assert_admission_result(case, observed)
+        admission_failures.append(f"{case['id']}: admission did not produce an allowed action: {observed['action']}")
+    mismatch = admission_mismatch(case, observed)
+    if mismatch:
+        admission_failures.append(mismatch)
 
 for control in admission_controls:
-    assert_admission_result(control, admission_action(control))
+    mismatch = admission_mismatch(control, admission_action(control))
+    if mismatch:
+        admission_failures.append(mismatch)
 
-print("admission-census: ok (six exclusive actions; normalized resolved evidence before route and allocation)")
+if admission_failures:
+    raise SystemExit("\n".join(admission_failures))
+
+print("admission-census: ok (six actions; genealogy, census, and dependency gated before route and allocation)")
 PY
 
 "${py_cmd[@]}" - "$model_input" "$model_expectations" <<'PY'
