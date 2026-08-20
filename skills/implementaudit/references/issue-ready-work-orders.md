@@ -128,6 +128,14 @@ Apply the non-trigger/cheap path to ordinary non-RXX filing. Every conditional
 outcome passes the complete current open-and-closed census and genealogy gates
 before route selection. Allocate an RXX number only after the complete current open-and-closed census
 and resolved genealogy select `NEW_RXX`.
+Represent that proposed allocation as a typed object whose
+`next_unreserved_candidate` equals the live
+`identity-namespaces.json` Rockstar registry value and whose `status` is
+`next-unreserved-candidate`. Reject a bare string, a different or already
+allocated identity, a stale registry successor, or any other status. This is a
+candidate reservation proposal, not a current Rockstar: it does not become
+current until authorised publication and exact readback establish that
+transition.
 `NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,
 `AMEND_EXISTING_RXX`, and `DEFER` allocate no RXX number. Supporting or
 amending an existing owner never creates a duplicate owner or authority; keep

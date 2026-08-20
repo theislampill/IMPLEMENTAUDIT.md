@@ -1411,13 +1411,18 @@
     {
       "id": "R31-A5",
       "expected": "NEW_RXX",
+      "expected_stage": "ALLOCATION_IDENTITY",
+      "expected_reason": "NEXT_UNRESERVED_CANDIDATE_VALIDATED",
       "conditional_record_id": "R31-CR5",
       "state": "distinct-unowned-invariant",
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-A6",
@@ -1425,7 +1430,7 @@
       "conditional_record_id": "R31-CR6",
       "state": "existing-rxx-needs-amendment",
       "existing_owner": "R001F",
-      "existing_rxx": "R0041",
+      "existing_rxx": "R001F",
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false
@@ -1443,7 +1448,10 @@
       "authority_confirmed": true,
       "complete_admission_census": false,
       "current_open_and_closed_census": false,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC2-new-rxx-without-number",
@@ -1470,7 +1478,7 @@
       "conditional_record_id": "R31-CR3",
       "state": "existing-owner-needs-amendment",
       "existing_owner": "R001F",
-      "new_owner": "R0042",
+      "new_owner": "R003A",
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false
@@ -1481,11 +1489,14 @@
       "conditional_record_id": "R31-CR6",
       "state": "existing-rxx-needs-amendment",
       "existing_owner": "R001F",
-      "existing_rxx": "R0041",
+      "existing_rxx": "R001F",
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC6-amend-rxx-with-new-owner",
@@ -1493,8 +1504,8 @@
       "conditional_record_id": "R31-CR6",
       "state": "existing-rxx-needs-amendment",
       "existing_owner": "R001F",
-      "existing_rxx": "R0041",
-      "new_owner": "R0042",
+      "existing_rxx": "R001F",
+      "new_owner": "R003A",
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false
@@ -1507,7 +1518,10 @@
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC8-supporting-artifact-with-number",
@@ -1518,7 +1532,10 @@
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC9-defer-with-number",
@@ -1528,7 +1545,10 @@
       "evidence_current": false,
       "authority_confirmed": true,
       "complete_admission_census": false,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC10-amend-owner-with-number",
@@ -1539,7 +1559,10 @@
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC11-missing-conditional-record",
@@ -1569,7 +1592,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": false,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC14-supporting-artifact-runtime-consumer",
@@ -1610,7 +1636,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC18-missing-target",
@@ -1637,7 +1666,7 @@
       "conditional_record_id": "R31-CR6",
       "state": "existing-rxx-needs-amendment",
       "existing_owner": "R001F",
-      "existing_rxx": "R0999",
+      "existing_rxx": "R0039",
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false
@@ -1670,7 +1699,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042",
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      },
       "expected_stage": "EVIDENCE_RESOLUTION",
       "expected_reason": "MISSING_TYPED_FACTS_OR_EVIDENCE_LOCATOR"
     },
@@ -1683,7 +1715,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042",
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      },
       "expected_stage": "DERIVATIVE_CHECK",
       "expected_reason": "COMPACT_PROJECTION_MISMATCH"
     },
@@ -1698,7 +1733,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC26-missing-authority",
@@ -1711,7 +1749,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC27-stale-evidence-locator",
@@ -1724,7 +1765,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC28-stale-evidence-digest",
@@ -1737,7 +1781,10 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true,
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "conditional_record_id": "R31-CR24",
@@ -1750,7 +1797,10 @@
       "expected": "REJECT",
       "expected_stage": "GENEALOGY_GATE",
       "expected_reason": "MISSING_GENEALOGY",
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "conditional_record_id": "R31-CR25",
@@ -1788,7 +1838,10 @@
       "expected": "REJECT",
       "expected_stage": "GENEALOGY_GATE",
       "expected_reason": "GENEALOGY_NOT_CURRENT",
-      "allocated_rxx": "R0042"
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "next-unreserved-candidate"
+      }
     },
     {
       "id": "R31-AC33-stale-census-amend-owner",
@@ -1802,6 +1855,51 @@
       "authority_confirmed": true,
       "complete_admission_census": true,
       "current_open_and_closed_census": true
+    },
+    {
+      "expected": "REJECT",
+      "expected_stage": "ALLOCATION_IDENTITY",
+      "conditional_record_id": "R31-CR5",
+      "state": "held-out",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "id": "R31-AC34-bare-allocation-identity",
+      "expected_reason": "UNTYPED_ALLOCATION_IDENTITY",
+      "allocated_rxx": "R003A"
+    },
+    {
+      "expected": "REJECT",
+      "expected_stage": "ALLOCATION_IDENTITY",
+      "conditional_record_id": "R31-CR5",
+      "state": "held-out",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "id": "R31-AC35-current-token-as-candidate",
+      "expected_reason": "REGISTRY_CANDIDATE_MISMATCH",
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003A",
+        "status": "next-unreserved-candidate"
+      }
+    },
+    {
+      "expected": "REJECT",
+      "expected_stage": "ALLOCATION_IDENTITY",
+      "conditional_record_id": "R31-CR5",
+      "state": "held-out",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "id": "R31-AC36-wrong-allocation-status",
+      "expected_reason": "ALLOCATION_STATUS_MISMATCH",
+      "allocated_rxx": {
+        "next_unreserved_candidate": "R003B",
+        "status": "current-allocated"
+      }
     }
   ],
   "conditional_records": {
@@ -2176,10 +2274,10 @@
         "runtime": true
       },
       "owner_analysis": {
-        "summary": "R0041 owns the boundary",
+        "summary": "R001F owns the boundary",
         "status": "existing-rxx",
         "owner": "R001F",
-        "rxx": "R0041"
+        "rxx": "R001F"
       },
       "overlap_analysis": {
         "summary": "same RXX overlap",
@@ -2205,11 +2303,11 @@
         "distinct": true
       },
       "distinct_owner": {
-        "summary": "R0041",
+        "summary": "R001F",
         "distinct": false
       },
       "distinct_acceptance": {
-        "summary": "R0041 acceptance",
+        "summary": "R001F acceptance",
         "distinct": true
       },
       "selected_outcome": "AMEND_EXISTING_RXX",
@@ -2218,7 +2316,7 @@
           "path": "fixtures/issue-ready-work-orders/cases.json",
           "pointer": "/conditional_evidence_records/R31-CR6",
           "record_id": "R31-CR6",
-          "sha256": "4d98e206eecdc5631210b1e8eb634c153cfe271c92babecd0f900b7234beaff9",
+          "sha256": "2acc619e1035bf71cc600fe64adcc601e2c85a97b0c1a7ae7dfe218fd473728b",
           "current": true
         }
       },
@@ -3632,7 +3730,7 @@
       "owner": {
         "status": "existing-rxx",
         "owner": "R001F",
-        "rxx": "R0041"
+        "rxx": "R001F"
       },
       "overlap": "owned",
       "dependency": "resolved",
@@ -4284,7 +4382,7 @@
         "route": "existing-rxx",
         "runtime_consumer": true,
         "owner": "R001F",
-        "rxx": "R0041",
+        "rxx": "R001F",
         "distinct": {
           "failure": true,
           "consumer": true,
@@ -4731,7 +4829,7 @@
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_records/R31-CR6",
       "record_id": "R31-CR6",
-      "sha256": "9129d7eba9d86ffa1923a90cf21ab26f459b6d8044fdc20b4eed4f4e738fa5c6",
+      "sha256": "5f1d2f6a8df428db1812265a336c9f47dce5318e3d4d95a398abbb9b12dd8cf8",
       "current": true
     },
     "R31-CR7": {
@@ -4745,7 +4843,7 @@
       "path": "fixtures/issue-ready-work-orders/cases.json",
       "pointer": "/conditional_decision_records/missing",
       "record_id": "R31-CR9",
-      "sha256": "0",
+      "sha256": "3c7dfc2c3878ca45b3b4b32c112bfb56f14e86a312a5b34959824734c61ace4a",
       "current": true
     },
     "R31-CR10": {

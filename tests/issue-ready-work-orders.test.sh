@@ -45,6 +45,23 @@ payload = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 if payload.get("schema_version") != 2:
     raise SystemExit("fixture schema_version must be 2")
 
+registry_path = Path("skills/implementaudit/references/identity-namespaces.json")
+try:
+    identity_registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    r_namespace = identity_registry["namespaces"]["R"]
+    allocated_ordinal_max = r_namespace["allocated_ordinal_max"]
+    next_unreserved_candidate = r_namespace["next_unreserved_candidate"]
+except (OSError, UnicodeError, json.JSONDecodeError, KeyError, TypeError) as exc:
+    raise SystemExit(f"invalid durable identity registry for admission fixture: {exc}") from exc
+if identity_registry.get("schema") != "implementaudit.durable-identity-namespaces.v1":
+    raise SystemExit("admission fixture requires durable identity registry v1")
+if not isinstance(allocated_ordinal_max, int) or allocated_ordinal_max < 1:
+    raise SystemExit("admission fixture requires a positive allocated Rockstar maximum")
+if not isinstance(next_unreserved_candidate, str) or re.fullmatch(r"R[0-9A-F]{4}", next_unreserved_candidate) is None:
+    raise SystemExit("admission fixture requires a canonical next unreserved Rockstar")
+if int(next_unreserved_candidate[1:], 16) != allocated_ordinal_max + 1:
+    raise SystemExit("admission fixture registry next candidate is not the successor of the allocated maximum")
+
 cases = payload.get("cases")
 if not isinstance(cases, list):
     raise SystemExit("cases must be a list")
@@ -579,15 +596,15 @@ def admission_action(case):
         return outcome("REJECT", stage, reason)
     record, facts = normalized["record"], normalized["facts"]
     allocated_rxx = case.get("allocated_rxx")
-    has_number = isinstance(allocated_rxx, str) and bool(allocated_rxx.strip())
+    has_allocation = allocated_rxx is not None
     if record["current"] is not True:
         result = outcome("DEFER", "CURRENTNESS_AUTHORITY", "EVIDENCE_NOT_CURRENT")
     elif record["authority_confirmed"] is not True:
         result = outcome("DEFER", "CURRENTNESS_AUTHORITY", "AUTHORITY_NOT_CONFIRMED")
     elif facts["census"]["current"] is not True:
-        result = outcome("REJECT" if has_number else "DEFER", "CENSUS_GATE", "STALE_OPEN_CLOSED_CENSUS")
+        result = outcome("REJECT" if has_allocation else "DEFER", "CENSUS_GATE", "STALE_OPEN_CLOSED_CENSUS")
     elif facts["census"]["complete"] is not True or facts["census"]["open_closed"] is not True:
-        result = outcome("REJECT" if has_number else "DEFER", "CENSUS_GATE", "INCOMPLETE_OPEN_CLOSED_CENSUS")
+        result = outcome("REJECT" if has_allocation else "DEFER", "CENSUS_GATE", "INCOMPLETE_OPEN_CLOSED_CENSUS")
     elif facts["dependency"] == "unresolved":
         result = outcome("DEFER", "DEPENDENCY_GATE", "DEPENDENCY_UNRESOLVED")
     else:
@@ -606,10 +623,18 @@ def admission_action(case):
         if existing_rxx != facts["owner"]["rxx"]:
             return outcome("REJECT", "OWNER_BINDING", "RXX_IDENTITY_MISMATCH")
     if action == "NEW_RXX":
-        if not has_number:
+        if allocated_rxx is None:
             return outcome("REJECT", "NUMBER_GATE", "NEW_RXX_NUMBER_MISSING")
-        return result
-    if has_number:
+        if not isinstance(allocated_rxx, dict):
+            return outcome("REJECT", "ALLOCATION_IDENTITY", "UNTYPED_ALLOCATION_IDENTITY")
+        if set(allocated_rxx) != {"next_unreserved_candidate", "status"}:
+            return outcome("REJECT", "ALLOCATION_IDENTITY", "INVALID_ALLOCATION_IDENTITY_SCHEMA")
+        if allocated_rxx.get("next_unreserved_candidate") != next_unreserved_candidate:
+            return outcome("REJECT", "ALLOCATION_IDENTITY", "REGISTRY_CANDIDATE_MISMATCH")
+        if allocated_rxx.get("status") != "next-unreserved-candidate":
+            return outcome("REJECT", "ALLOCATION_IDENTITY", "ALLOCATION_STATUS_MISMATCH")
+        return outcome("NEW_RXX", "ALLOCATION_IDENTITY", "NEXT_UNRESERVED_CANDIDATE_VALIDATED")
+    if has_allocation:
         return outcome("REJECT", "NUMBER_GATE", "NON_NEW_RXX_NUMBER_FORBIDDEN")
     return result
 
