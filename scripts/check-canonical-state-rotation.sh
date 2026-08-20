@@ -9,6 +9,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cases="$repo_root/fixtures/canonical-state-rotation/cases.json"
+f2_cases="$repo_root/fixtures/canonical-state-rotation/f2-draft-archive.json"
 
 if [ -n "${PYTHON:-}" ]; then
   python_bin="$PYTHON"
@@ -21,7 +22,7 @@ else
   exit 2
 fi
 
-exec "$python_bin" - "$cases" "$@" <<'PY'
+exec "$python_bin" - "$cases" "$f2_cases" "$@" <<'PY'
 from __future__ import annotations
 
 import copy
@@ -200,6 +201,73 @@ def root_red(rows: list[dict[str, object]]) -> list[str]:
     if not any(error.startswith("A") for error in errors):
         fail("root-only profile unexpectedly satisfies archive semantics")
     return errors
+
+
+def f2_residual_red(rows: list[dict[str, object]]) -> list[str]:
+    candidate = observations(rows, "root_only")
+    for row in rows:
+        if str(row["id"]).startswith("A"):
+            candidate[str(row["id"])]["value"] = copy.deepcopy(row["valid"])
+    errors = validate(rows, candidate)
+    if len(errors) != 44:
+        fail(f"F2 residual RED count drifted: {len(errors)}")
+    if any(error.startswith("P") or error.startswith("A") for error in errors):
+        fail("F2 residual lost payload or retained a completed archive RED")
+    required_anchors = {
+        "M01-generation-successor:semantic-mutation",
+        "M11-dependency-order:semantic-mutation",
+        "D05-pointer-ref:semantic-mutation",
+        "D14-acyclic-bindings:semantic-mutation",
+        "D23-rehydrate-identity:semantic-mutation",
+    }
+    if not required_anchors.issubset(errors):
+        fail("F2 residual RED lacks a later-cell semantic anchor")
+    return errors
+
+
+def load_f2_fixture(path: Path) -> dict[str, object]:
+    try:
+        fixture = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot load F2 fixture {path}: {exc}")
+    if not isinstance(fixture, dict) or set(fixture) != {
+        "schema", "controller", "generation", "archive_ref", "protected_files",
+        "forbidden_source_components", "forbidden_transition_fields", "expected",
+    }:
+        fail("F2 fixture fields drifted")
+    if fixture.get("schema") != "implementaudit.canonical-state-rotation-f2-fixture.v1":
+        fail("wrong F2 fixture schema")
+    if fixture.get("controller") != "v0333-release" or fixture.get("generation") != "g0008":
+        fail("F2 controller or generation identity drifted")
+    if fixture.get("archive_ref") != "refs/implementaudit/state-archives/v0333-release/g0008":
+        fail("F2 archive ref identity drifted")
+    if fixture.get("protected_files") != [
+        {"role": "STATE", "path": "STATE.md"},
+        {"role": "ROADMAP", "path": "ROADMAP.md"},
+        {"role": "WORK_GRAPH", "path": "WORK_GRAPH.json"},
+    ]:
+        fail("F2 protected-file population drifted")
+    if fixture.get("forbidden_source_components") != [
+        "state-generations", "state-archives", "quarantine"
+    ]:
+        fail("F2 recursive-population exclusions drifted")
+    forbidden = fixture.get("forbidden_transition_fields")
+    if forbidden != [
+        "current_generation", "epoch", "invalidation_oid", "migration_marker",
+        "pointer_oid", "predecessor_receipt", "receipt_oid",
+    ]:
+        fail("F2 transition-envelope exclusions drifted")
+    if fixture.get("expected") != {
+        "draft_schema": "implementaudit.canonical-state-projection-draft.v1",
+        "archive_schema": "implementaudit.canonical-state-archive.v1",
+        "archive_ref_update": "EXPECTED_ZERO_CAS",
+        "discovery": "EXCLUDED",
+        "recursive_population": "EXCLUDED",
+        "retrieval": "GIT_BLOB_OID_AND_SHA256",
+        "permissions": "SOURCE_MODE_EXACT_READBACK",
+    }:
+        fail("F2 expected results drifted")
+    return fixture
 
 
 def canonical_sha256(value: object) -> str:
@@ -543,7 +611,8 @@ def candidate_from_file(path: Path) -> object:
 
 
 fixture_path = Path(sys.argv[1])
-args = sys.argv[2:]
+f2_fixture_path = Path(sys.argv[2])
+args = sys.argv[3:]
 payload, rows = load_fixture(fixture_path)
 calibration = payload.get("trigger_calibration")
 
@@ -573,6 +642,27 @@ if args == ["--assert-root-red"]:
     )
     raise SystemExit(0)
 
+if args == ["--f2-fixture-self-check"]:
+    f2_fixture = load_f2_fixture(f2_fixture_path)
+    print(
+        "CANONICAL_STATE_ROTATION_F2_FIXTURE_SELF_CHECK=PASS "
+        f"files={len(f2_fixture['protected_files'])} "
+        f"transition-fields={len(f2_fixture['forbidden_transition_fields'])} "
+        "traversal=REJECTED recursive=EXCLUDED"
+    )
+    raise SystemExit(0)
+
+if args == ["--assert-f2-residual-red"]:
+    errors = f2_residual_red(rows)
+    print(
+        "CANONICAL_STATE_ROTATION_RED=F2_DRAFT_ARCHIVE_ONLY_NOT_EQUIVALENT "
+        f"semantic-failures={len(errors)} preserved-payload=49/49 "
+        "missing-equivalence=transition,pointer+marker+v3,rehydration",
+        file=sys.stderr,
+    )
+    print("CANONICAL_STATE_ROTATION_RED_IDS=" + ",".join(errors), file=sys.stderr)
+    raise SystemExit(1)
+
 if len(args) == 2 and args[0] == "--candidate":
     errors = validate(rows, candidate_from_file(Path(args[1])))
     if errors:
@@ -582,7 +672,7 @@ if len(args) == 2 and args[0] == "--candidate":
     raise SystemExit(0)
 
 if args:
-    fail("usage: check-canonical-state-rotation.sh [--fixture-self-check|--trigger-self-check|--assert-root-red|--candidate PATH]")
+    fail("usage: check-canonical-state-rotation.sh [--fixture-self-check|--trigger-self-check|--assert-root-red|--f2-fixture-self-check|--assert-f2-residual-red|--candidate PATH]")
 
 errors = root_red(rows)
 print(

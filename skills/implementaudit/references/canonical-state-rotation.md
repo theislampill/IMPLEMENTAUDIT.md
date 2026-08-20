@@ -1,0 +1,119 @@
+# Canonical-state rotation: F2 draft and archive contract (#215)
+
+Canonical-state rotation replaces an oversized live STATE/ROADMAP projection
+without changing its protected meaning. This reference currently realizes only
+the F2 draft/archive stage. Pointer readers and migration (F3), CAS/crash
+recovery (F4), invalidation and epoch allocation (F5), finalization and pointer
+publication (F6), and receipt-v3/currentness joining (F7) remain required later
+stages. F2 output is never current.
+
+## Authority and phase boundary
+
+`skills/implementaudit/scripts/rotate-canonical-state.py` is the deterministic
+projection-draft and archive-object writer. In F2 it may:
+
+1. load a manifest-enumerated protected preimage from one run root;
+2. classify each unique typed role and source path;
+3. write and reread an undiscoverable draft under
+   `state-generations/<generation>/draft/`;
+4. write each captured preimage as a Git blob;
+5. write a canonical archive manifest blob; and
+6. create and reread only
+   `refs/implementaudit/state-archives/<controller>/<generation>` with an
+   expected-zero compare-and-swap.
+
+The bounded code owners are `load_preimage`, `classify_protected_state`,
+`build_projection_draft`, `archive_preimage`, and `verify_archive`. Finalization
+and equivalence/publication functions are deliberately absent in F2.
+
+It has no function or command that writes a current-generation, migration,
+invalidation, epoch, receipt, or marker ref. F2 does not update root STATE or
+ROADMAP, does not publish a pointer, and does not create a transition envelope.
+An archive is retention evidence, never currentness authority.
+
+## Preimage and path custody
+
+The manifest schema is
+`implementaudit.canonical-state-rotation-f2-fixture.v1`. It binds controller,
+projection generation, exact archive ref, the ordered `protected_files`
+population, recursive-population exclusions, transition-field exclusions, and
+expected behavior. Every protected-file row has exactly one `role` and one
+run-root-relative POSIX `path`.
+
+The helper rejects absolute paths, drive-qualified paths, backslashes, empty or
+dot components, traversal, duplicate roles/paths, and any excluded archive,
+generation, or quarantine component. Repository, run-root, manifest, source,
+draft, and payload custody is checked without following symbolic links or
+Windows reparse points. Protected files must be single-link regular files with
+owner read/write permission. Open-file identity and the post-read device,
+inode, size, and modification time must remain stable.
+
+Draft payload files preserve the source mode and reread it exactly. On Windows,
+where Python exposes only writable/read-only mode classes, exactness means the
+corresponding `0666` or `0444` class. The canonical manifest itself remains an
+owner-writable regular file.
+
+## Projection-draft schema
+
+`build_projection_draft` writes canonical UTF-8, sorted-key, no-insignificant-
+whitespace JSON with schema
+`implementaudit.canonical-state-projection-draft.v1`. Its fields are exactly:
+
+- `schema`, `controller`, `generation`, and the future `archive_ref`;
+- ordered `entries`, each binding `role`, `source_path`, undiscoverable
+  `draft_path`, SHA-256, byte length, source permission mode, and predicted Git
+  blob OID;
+- `discovery: EXCLUDED`; and
+- `recursive_population: EXCLUDED`.
+
+The predicted OID uses `git hash-object --stdin` without `-w`; draft creation
+does not write an object or ref. The manifest may not contain
+`current_generation`, `epoch`, `invalidation_oid`, `migration_marker`,
+`pointer_oid`, `predecessor_receipt`, or `receipt_oid`. Absolute roots,
+timestamps, process IDs, and random values are also absent, so identical clean
+roots produce byte-identical drafts.
+
+Draft writes are create-only. Existing draft custody is a STOP, never an
+overwrite. If a write or exact readback fails after draft creation, only that
+task-created undiscoverable draft moves to the fixed sibling
+`quarantine-draft`; no preimage or archive is deleted.
+
+## Archive schema and retrieval
+
+`archive_preimage` rereads the complete canonical draft before writing Git
+objects. Every payload's recomputed SHA-256, byte length, permission mode, and
+predicted blob OID must match. It then writes each blob and a canonical manifest
+with schema `implementaudit.canonical-state-archive.v1`. The archive manifest
+binds the exact draft-manifest SHA-256, the unchanged ordered entries, and the
+discovery/recursive-population exclusions.
+
+The archive ref update is exactly:
+
+```text
+git update-ref <archive-ref> <manifest-blob-oid> 0000000000000000000000000000000000000000
+```
+
+An existing ref is an expected-zero CAS failure. After a successful update,
+`verify_archive` rereads the exact ref and requires the manifest and every
+entry to be Git blobs. It recomputes canonical manifest bytes, entry SHA-256,
+byte length, and Git OID. Attempt success is not archive success; all typed
+readbacks must agree.
+
+Archive objects and their anchored manifest are never inputs to a later draft
+or recursive archive population. They are outside live discovery and cannot
+resolve as a current projection. Storage-budget excess remains an owner
+decision; F2 provides no archive deletion path.
+
+## Failure and later-cell boundary
+
+Unsafe path, symlink/reparse custody, permission drift, source race, malformed
+schema, incomplete population, object mismatch, archive CAS collision, or
+readback mismatch is STOP. Before pointer publication the old root/v2 route
+remains current. Task-created drafts may be quarantined, but protected
+preimages and anchored archives are retained.
+
+F2 is GREEN only when two clean roots yield byte-identical draft and archive
+identities; typed OID/SHA retrieval, discovery and recursion exclusions,
+expected-zero anchoring, and path/link/permission controls all pass. The full
+rotation stays RED until F3--F7 supply the ordered reader, transition,
+finalization, pointer, receipt-v3, and permanent-marker joins.
