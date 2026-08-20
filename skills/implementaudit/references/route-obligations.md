@@ -21,9 +21,12 @@ edit cannot mint or satisfy the decision.
 
 The request is an action proposal, never its own evidence. It cannot supply
 `CURRENT` assertions. The helper rehashes each repository-relative input,
-derives the action class from a closed exact-argv recognizer, reads the current
-controller record and continuity receipt, validates the exact H0 event, and
-hashes the live HEAD/tree, executing route sources and exact child source.
+derives the action class from a closed exact-argv/executable recognizer, binds
+boundary and scope to the live continuity invalidation and Next action, reads
+the current controller record and continuity receipt, validates the exact H0
+event, and hashes the live HEAD/tree, executing route sources and exact child
+source. Required triggers and judgement are derived from the admitted action,
+not caller booleans.
 Missing, mismatched, aliased or fabricated evidence stays `PENDING` or maps to
 `REQUIRED`; caller-selected class labels cannot mint the cheap path.
 
@@ -47,16 +50,17 @@ package and child-source identities, predecessor, classification, outcome,
 expiry fingerprint and current record identity.
 
 `NOT_REQUIRED` is a scoped one-shot receipt, not a global exemption. `decide`
-and `check` never authorize execution directly: immediately before the exact
-action, `consume --expected-record <oid>` performs a second CAS to a canonical
-`PENDING` successor and returns the sole `ADMITTED_ONCE` authorization. The
-consumed fingerprint cannot be re-minted, so omission or replay cannot retain
-authority. This conservative action-admission consumption is not H2B child
-completion. The receipt also
+and `check` never authorize execution directly. `consume --expected-record
+<oid>` rechecks every owner, executes only the exact mechanically vetted action
+under the transaction, rechecks currentness again, then records a canonical
+`PENDING/action-completion` successor. It returns `ACTION_COMPLETE`, never an
+ephemeral allow that contradicts canonical PENDING. The completed fingerprint
+cannot be re-minted, so omission or replay cannot retain authority. This cheap
+action execution/completion is not H2B child completion. The receipt also
 expires on any next-action, scope, read-set, binding, continuity,
 package, child-source, owner, authority, dependency, effect, contradiction,
-invalidation or scope-expansion change. Re-run `check` immediately before the
-bound action. Independent work outside the bound controller/scope is not
+invalidation or scope-expansion change. Re-run `check` immediately before
+`consume`. Independent work outside the bound controller/scope is not
 blocked by another controller's obligation.
 
 `REQUIRED` creates a controller-scoped obligation with route state

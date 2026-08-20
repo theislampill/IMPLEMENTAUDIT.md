@@ -15,6 +15,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import stat
 import subprocess
 import sys
@@ -163,8 +164,6 @@ def read_request(path: str) -> dict[str, Any]:
         "scope",
         "action",
         "inputs",
-        "required_reasons",
-        "judgement_required",
     }
     exact_keys(request, keys, "request")
     if request["schema"] != REQUEST_SCHEMA or request["predicate_version"] != PREDICATE_VERSION:
@@ -198,19 +197,14 @@ def read_request(path: str) -> dict[str, Any]:
             fail(f"inputs[{index}].digest is not canonical")
     if identities != sorted(identities) or len(identities) != len(set(identities)):
         fail("inputs are not uniquely ordered by identity")
-    reasons = request["required_reasons"]
-    if not isinstance(reasons, list) or reasons != sorted(set(reasons)) or any(x not in REQUIRED_REASONS for x in reasons):
-        fail("required_reasons are unknown, duplicate, or non-canonical")
-    if not isinstance(request["judgement_required"], bool):
-        fail("judgement_required is not boolean")
     return request
 
 
 def mechanical_action_class(argv: list[str]) -> str | None:
-    executable = Path(argv[0]).name.lower()
+    executable = argv[0].lower()
     claim = Path(__file__).resolve().with_name("claim-run.sh")
     if (
-        executable in {"claim-run.sh", "claim-run"}
+        Path(argv[0]).name.lower() in {"claim-run.sh", "claim-run"}
         and Path(argv[0]).resolve() == claim
         and len(argv) in {2, 3}
         and argv[1] in {
@@ -225,7 +219,7 @@ def mechanical_action_class(argv: list[str]) -> str | None:
         and all(not value.startswith("-") and ".." not in Path(value).parts for value in argv[3:])
     ):
         return "PURE_BOUNDED_READ_OR_VALIDATION"
-    package_script = Path(argv[1]).resolve() if executable == "bash" and len(argv) == 2 else None
+    package_script = Path(argv[2]).resolve() if executable == "bash" and len(argv) == 3 and argv[1] == "-n" else None
     if (
         package_script is not None
         and package_script.parent == Path(__file__).resolve().parent
@@ -239,18 +233,20 @@ def mechanical_action_class(argv: list[str]) -> str | None:
     return None
 
 
+def mechanical_required_reason(argv: list[str]) -> str | None:
+    if len(argv) == 2 and argv[0] == "route-trigger" and argv[1] in REQUIRED_REASONS:
+        return argv[1]
+    return None
+
+
 def classify(request: dict[str, Any], noncurrent: list[str]) -> tuple[str, str, list[str]]:
     if noncurrent:
         return "PENDING", "JUDGEMENT_REQUIRED", noncurrent
-    if request["required_reasons"]:
-        return "REQUIRED", "MECHANICALLY_REQUIRED", list(request["required_reasons"])
+    required_reason = mechanical_required_reason(request["action"]["argv"])
+    if required_reason is not None:
+        return "REQUIRED", "MECHANICALLY_REQUIRED", [required_reason]
     derived = mechanical_action_class(request["action"]["argv"])
-    if (
-        request["judgement_required"]
-        or derived is None
-        or request["action"]["class"] != derived
-        or derived not in CLOSED_ACTION_CLASSES
-    ):
+    if derived is None or request["action"]["class"] != derived or derived not in CLOSED_ACTION_CLASSES:
         return "REQUIRED", "JUDGEMENT_REQUIRED", ["route judgement cannot mint NOT_REQUIRED"]
     return "NOT_REQUIRED", "MECHANICALLY_NOT_REQUIRED", []
 
@@ -316,6 +312,21 @@ def current_controller(repo: Path, controller: str) -> dict[str, str]:
     generation = receipt[len(prefix) :].split("@", 1)[0]
     if not CONTINUITY_RE.fullmatch(generation):
         fail("continuity generation is malformed")
+    receipt_oid = receipt.split("@", 1)[1]
+    receipt_fields = git(repo, "cat-file", "blob", receipt_oid).split("\t")
+    if len(receipt_fields) != 12 or receipt_fields[0] != "implementaudit.continuity-receipt.v2":
+        fail("R0033 route authority requires a current v2 continuity receipt")
+    invalidation_oid = receipt_fields[8]
+    if invalidation_oid == "none":
+        fail("route authority requires an exact current boundary invalidation")
+    invalidation_fields = git(repo, "cat-file", "blob", invalidation_oid).split("\t")
+    if (
+        len(invalidation_fields) != 6
+        or invalidation_fields[0] != "implementaudit.continuity-invalidation.v1"
+        or invalidation_fields[1] != controller
+        or invalidation_fields[4] != receipt_fields[9]
+    ):
+        fail("continuity boundary invalidation is malformed or foreign")
     return {
         "controller_id": parts[0],
         "repository_identity": parts[1],
@@ -324,6 +335,9 @@ def current_controller(repo: Path, controller: str) -> dict[str, str]:
         "continuity_receipt": receipt,
         "continuity_generation": generation,
         "controller_record_oid": git(repo, "rev-parse", "--verify", f"refs/implementaudit/controllers/{controller}"),
+        "boundary_kind": receipt_fields[9],
+        "boundary_event_id": invalidation_fields[5],
+        "next_action": receipt_fields[11],
     }
 
 
@@ -338,14 +352,108 @@ def file_digest(path: Path) -> str:
     return f"sha256:{digest.hexdigest()}"
 
 
-def request_observations(repo: Path, request: dict[str, Any]) -> tuple[list[str], list[dict[str, str]]]:
+def executable_evidence(repo: Path, argv: list[str]) -> dict[str, str]:
+    if mechanical_required_reason(argv) is not None:
+        return {"requested": "route-trigger", "resolved": "R0033:built-in", "digest": digest_json(argv)}
+    if mechanical_action_class(argv) is None:
+        return {"requested": argv[0], "resolved": "R0033:unadmitted", "digest": digest_json(argv)}
+    if Path(argv[0]).name.lower() in {"claim-run.sh", "claim-run"}:
+        resolved = Path(argv[0]).resolve()
+    else:
+        if argv[0] not in {"git", "bash", "sha256sum", "shasum"}:
+            fail("action executable is not a closed trusted identity")
+        selected = shutil.which(argv[0])
+        if selected is None:
+            fail("action executable is unavailable")
+        resolved = Path(selected).resolve()
+        try:
+            resolved.relative_to(repo)
+        except ValueError:
+            pass
+        else:
+            fail("system action executable resolves inside target-repository custody")
+    try:
+        info = os.lstat(resolved)
+    except OSError as exc:
+        fail(f"action executable cannot be inspected: {exc}")
+    if not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode):
+        fail("action executable is not a safe regular file")
+    evidence = {"requested": argv[0], "resolved": str(resolved), "digest": file_digest(resolved)}
+    if resolved.suffix.lower() == ".sh":
+        interpreter = shutil.which("bash")
+        if interpreter is None:
+            fail("shell action interpreter is unavailable")
+        interpreter_path = Path(interpreter).resolve()
+        try:
+            interpreter_path.relative_to(repo)
+        except ValueError:
+            pass
+        else:
+            fail("shell action interpreter resolves inside target-repository custody")
+        interpreter_info = os.lstat(interpreter_path)
+        if not stat.S_ISREG(interpreter_info.st_mode) or stat.S_ISLNK(interpreter_info.st_mode):
+            fail("shell action interpreter is not a safe regular file")
+        evidence.update(
+            {
+                "interpreter_resolved": str(interpreter_path),
+                "interpreter_digest": file_digest(interpreter_path),
+            }
+        )
+    return evidence
+
+
+def worktree_read_set(repo: Path) -> dict[str, Any]:
+    raw_paths = subprocess.run(
+        ["git", "ls-files", "-c", "-o", "--exclude-standard", "-z"],
+        cwd=repo,
+        capture_output=True,
+        check=False,
+    )
+    if raw_paths.returncode:
+        fail("whole-worktree read-set enumeration failed")
+    paths = sorted({item.decode("utf-8", "surrogateescape") for item in raw_paths.stdout.split(b"\0") if item})
+    if len(paths) > 100_000:
+        fail("whole-worktree read set exceeds the bounded population")
+    digest = hashlib.sha256()
+    for relative in paths:
+        encoded = relative.encode("utf-8", "surrogateescape")
+        digest.update(len(encoded).to_bytes(8, "big"))
+        digest.update(encoded)
+        target = repo / relative
+        try:
+            info = os.lstat(target)
+        except OSError:
+            digest.update(b"MISSING")
+            continue
+        if stat.S_ISLNK(info.st_mode):
+            payload = os.readlink(target).encode("utf-8", "surrogateescape")
+            digest.update(b"SYMLINK")
+            digest.update(payload)
+        elif stat.S_ISREG(info.st_mode):
+            digest.update(file_digest(target).encode("ascii"))
+        else:
+            digest.update(b"NONREGULAR")
+    index = run(["git", "ls-files", "-s", "-z"], cwd=repo, label="index read-set")
+    return {"population": len(paths), "digest": f"sha256:{digest.hexdigest()}", "index_digest": digest_json(index)}
+
+
+def request_observations(
+    repo: Path, current: dict[str, str], request: dict[str, Any]
+) -> tuple[list[str], list[dict[str, str]]]:
     invalidators: list[str] = []
     boundary_expected = digest_json({"kind": request["boundary"]["kind"], "event_id": request["boundary"]["event_id"]})
     if request["boundary"]["digest"] != boundary_expected:
         invalidators.append("boundary:CONTRADICTORY")
+    if (
+        request["boundary"]["kind"] != current["boundary_kind"]
+        or request["boundary"]["event_id"] != current["boundary_event_id"]
+    ):
+        invalidators.append("boundary:STALE")
     scope_expected = digest_json({"identity": request["scope"]["identity"]})
     if request["scope"]["digest"] != scope_expected:
         invalidators.append("scope:CONTRADICTORY")
+    if request["scope"]["identity"] != current["next_action"]:
+        invalidators.append("scope:STALE")
     action_expected = digest_json(
         {
             "identity": request["action"]["identity"],
@@ -379,7 +487,7 @@ def request_observations(repo: Path, request: dict[str, Any]) -> tuple[list[str]
         observed_inputs.append({"identity": item["identity"], "path": relative.as_posix(), "digest": actual, "status": status})
     current_paths = {item["path"] for item in observed_inputs if item["status"] == "CURRENT"}
     argv = request["action"]["argv"]
-    executable = Path(argv[0]).name.lower()
+    executable = argv[0].lower()
     if executable == "git" and len(argv) >= 4 and argv[1:3] == ["diff", "--"]:
         for action_path in argv[3:]:
             if action_path not in current_paths:
@@ -398,12 +506,17 @@ def executing_package_evidence(repo: Path, request: dict[str, Any]) -> tuple[dic
         Path(__file__).resolve().with_name("claim-run.sh"),
     ]
     if mechanical_action_class(request["action"]["argv"]) == "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION":
-        source_paths.append(Path(request["action"]["argv"][1]).resolve())
+        source_paths.append(Path(request["action"]["argv"][2]).resolve())
     package = {
         "head": git(repo, "rev-parse", "HEAD"),
         "tree": git(repo, "rev-parse", "HEAD^{tree}"),
         "source_digests": {path.name: file_digest(path) for path in source_paths},
+        "action_executable": executable_evidence(repo, request["action"]["argv"]),
     }
+    if mechanical_action_class(request["action"]["argv"]) in {
+        "PURE_BOUNDED_READ_OR_VALIDATION", "SAFE_STATUS_OR_CONTAINMENT"
+    }:
+        package["worktree_read_set"] = worktree_read_set(repo)
     candidates = [
         skill_root.parent / "audit-state" / "SKILL.md",
         skill_root / "internal-procedures" / "audit-state.md",
@@ -422,7 +535,7 @@ def evaluate(
     current: dict[str, str],
     request: dict[str, Any],
 ) -> tuple[str, str, list[str], dict[str, Any], str, str, str | None]:
-    noncurrent, observed_inputs = request_observations(repo, request)
+    noncurrent, observed_inputs = request_observations(repo, current, request)
     decision, classification, invalidators = classify(request, noncurrent)
     package, child_source = executing_package_evidence(repo, request)
     identity_seed = {
@@ -859,6 +972,45 @@ def command_decide(args: argparse.Namespace) -> None:
     )
 
 
+def execute_exact_action(
+    repo: Path, request: dict[str, Any], executable: dict[str, str]
+) -> dict[str, Any]:
+    argv = list(request["action"]["argv"])
+    resolved = Path(executable["resolved"])
+    if file_digest(resolved) != executable["digest"]:
+        fail("exact admitted action executable changed before execution")
+    command = [str(resolved), *argv[1:]]
+    if "interpreter_resolved" in executable:
+        interpreter = Path(executable["interpreter_resolved"])
+        if file_digest(interpreter) != executable["interpreter_digest"]:
+            fail("exact admitted action interpreter changed before execution")
+        command = [str(interpreter), str(resolved), *argv[1:]]
+    environment = dict(os.environ)
+    environment.update({"GIT_PAGER": "cat", "PAGER": "cat", "GIT_EXTERNAL_DIFF": ""})
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=repo,
+            env=environment,
+            capture_output=True,
+            timeout=120,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        fail(f"exact admitted action could not complete: {type(exc).__name__}")
+    if len(completed.stdout) > 1_000_000 or len(completed.stderr) > 1_000_000:
+        fail("exact admitted action output exceeded the bounded capture")
+    if completed.returncode:
+        fail(f"exact admitted action failed with exit {completed.returncode}")
+    return {
+        "exit_code": completed.returncode,
+        "stdout_bytes": len(completed.stdout),
+        "stdout_digest": f"sha256:{hashlib.sha256(completed.stdout).hexdigest()}",
+        "stderr_bytes": len(completed.stderr),
+        "stderr_digest": f"sha256:{hashlib.sha256(completed.stderr).hexdigest()}",
+    }
+
+
 def command_consume(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
     request = read_request(args.request)
@@ -882,6 +1034,12 @@ def command_consume(args: argparse.Namespace) -> None:
             or old.get("host_binding_generation") != args.binding_generation
         ):
             fail("action receipt is stale and cannot be consumed", decision=old["decision"])
+        action_result = execute_exact_action(repo, request, evidence["package"]["action_executable"])
+        post_action_current = current_controller(repo, args.controller)
+        post_action_eval = evaluate(repo, common, args, post_action_current, request)
+        post_action_oid, _ = current_ref(repo, args.controller)
+        if post_action_current != current or post_action_eval[4] != fingerprint or post_action_oid != old_oid:
+            fail("route authority changed while the exact action executed", decision="PENDING")
         successor_base = {
             **{key: value for key, value in old.items() if key != "record_identity"},
             "decision": "PENDING",
@@ -916,14 +1074,18 @@ def command_consume(args: argparse.Namespace) -> None:
         if completed.returncode:
             fail("action-consumption CAS lost the current-record race")
         final_oid, _ = current_ref(repo, args.controller)
-        if final_oid != new_oid:
-            fail("consumed action record is not current")
+        final_current = current_controller(repo, args.controller)
+        final_eval = evaluate(repo, common, args, final_current, request)
+        if final_oid != new_oid or final_current != current or final_eval[4] != fingerprint:
+            fail("completed action record lost currentness", decision="PENDING")
     emit(
         {
             "schema": RESULT_SCHEMA,
-            "status": "ADMITTED_ONCE",
+            "status": "ACTION_COMPLETE",
             "decision": "PENDING",
-            "advance_allowed": True,
+            "advance_allowed": False,
+            "action_executed": True,
+            "action_result": action_result,
             "enforcement_available": True,
             "record_oid": new_oid,
             "record_identity": successor["record_identity"],
