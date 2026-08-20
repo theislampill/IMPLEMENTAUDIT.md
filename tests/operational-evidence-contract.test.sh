@@ -27,16 +27,22 @@ trap 'rm -rf "$tmp"' EXIT
 expect_typed_failure() {
   local fixture="$1"
   local code="$2"
-  if "${py_cmd[@]}" "$loader" validate "$fixtures/$fixture" \
-      >"$tmp/stdout" 2>"$tmp/stderr"; then
-    fail "$fixture was accepted"
-  fi
+  local status
+  set +e
+  "${py_cmd[@]}" "$loader" validate "$fixtures/$fixture" \
+    >"$tmp/stdout" 2>"$tmp/stderr"
+  status=$?
+  set -e
+  [ "$status" -eq 2 ] \
+    || fail "$fixture expected typed exit 2, got $status"
   "${py_cmd[@]}" - "$tmp/stderr" "$code" <<'PY'
 import json
 import sys
 
 with open(sys.argv[1], encoding="utf-8") as stream:
     error = json.load(stream)
+if error.get("schema") != "implementaudit-operational-evidence-error-v1":
+    raise SystemExit("stable typed error schema missing")
 if error.get("code") != sys.argv[2]:
     raise SystemExit(
         f"expected typed failure {sys.argv[2]}, got {error.get('code')!r}")
@@ -60,12 +66,42 @@ if result.get("families") != [
     raise SystemExit("six frozen families were not preserved in order")
 PY
 
+"${py_cmd[@]}" "$loader" validate "$fixtures/valid-unknown.json" \
+  >"$tmp/unknown-receipt.json"
+"${py_cmd[@]}" "$loader" canonicalize "$fixtures/valid-unknown.json" \
+  >"$tmp/unknown-canonical.json"
+"${py_cmd[@]}" - "$tmp/unknown-receipt.json" \
+  "$tmp/unknown-canonical.json" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    receipt = json.load(stream)
+with open(sys.argv[2], encoding="utf-8") as stream:
+    canonical = json.load(stream)
+if receipt.get("aggregate") != "DEGRADED":
+    raise SystemExit("UNKNOWN receipt must preserve DEGRADED aggregate")
+if receipt.get("fact_state_census") != {"UNKNOWN": 1}:
+    raise SystemExit("UNKNOWN receipt state census drift")
+if canonical["aggregate"] != "DEGRADED":
+    raise SystemExit("UNKNOWN canonical aggregate drift")
+if canonical["affected_families"] != ["CODE"]:
+    raise SystemExit("UNKNOWN affected family drift")
+if canonical["entities"][0]["currentness"] != {
+        "state": "UNKNOWN", "invalidators": []}:
+    raise SystemExit("UNKNOWN canonical state drift")
+PY
+
 expect_typed_failure duplicate-key.json OE_JSON_DUPLICATE_KEY
 expect_typed_failure nonfinite.json OE_JSON_NONFINITE
 expect_typed_failure malformed-record.json OE_SCHEMA_INVALID
+expect_typed_failure record-type-array.json OE_SCHEMA_INVALID
+expect_typed_failure integer-digit-limit.json OE_JSON_NUMBER_LIMIT
 expect_typed_failure cross-layer.json OE_CROSS_LAYER
 expect_typed_failure stale-current.json OE_STALE_RECORD
 expect_typed_failure unsupported-schema.json OE_SCHEMA_UNSUPPORTED
+expect_typed_failure duplicate-id.json OE_SCHEMA_INVALID
+expect_typed_failure payload-digest-mismatch.json OE_PAYLOAD_DIGEST
 
 "${py_cmd[@]}" "$loader" canonicalize "$fixtures/payload-lf.json" \
   >"$tmp/payload-lf.json"

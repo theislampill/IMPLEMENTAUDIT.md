@@ -92,6 +92,14 @@ def _nonfinite(token):
     _error("OE_JSON_NONFINITE", "$", f"non-finite JSON number: {token}")
 
 
+def _strict_int(token):
+    try:
+        return int(token)
+    except ValueError:
+        _error("OE_JSON_NUMBER_LIMIT", "$",
+               "JSON integer exceeds the runtime conversion limit")
+
+
 def _lossless_float(token):
     try:
         source = decimal.Decimal(token)
@@ -118,7 +126,8 @@ def decode_strict_json_bytes(data: bytes, owner: str):
     try:
         return json.loads(
             text, object_pairs_hook=_unique_object,
-            parse_constant=_nonfinite, parse_float=_lossless_float)
+            parse_constant=_nonfinite, parse_float=_lossless_float,
+            parse_int=_strict_int)
     except OperationalEvidenceError:
         raise
     except (json.JSONDecodeError, RecursionError):
@@ -312,7 +321,11 @@ def _validate_record(value):
                 _text(row["predicate"], f"{path}.predicate")
                 _digest(row["input_sha256"], f"{path}.input_sha256")
             elif name == "entities":
-                expected_family = ENTITY_FAMILIES.get(row["record_type"])
+                record_type = row["record_type"]
+                if type(record_type) is not str:
+                    _error("OE_SCHEMA_INVALID", f"{path}.record_type",
+                           "must be a string")
+                expected_family = ENTITY_FAMILIES.get(record_type)
                 if expected_family is None:
                     _error("OE_SCHEMA_INVALID", f"{path}.record_type",
                            "unsupported entity type")
