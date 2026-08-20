@@ -354,7 +354,8 @@ print(f"fixture-census: ok ({len(cases)}/{len(cases)} + {len(controls)}/{len(con
 admission_cases = payload.get("admission_cases")
 admission_controls = payload.get("admission_controls")
 conditional_record_locators = payload.get("conditional_record_locators")
-if not isinstance(admission_cases, list) or not isinstance(admission_controls, list) or not isinstance(conditional_record_locators, dict):
+conditional_records = payload.get("conditional_records")
+if not isinstance(admission_cases, list) or not isinstance(admission_controls, list) or not isinstance(conditional_record_locators, dict) or not isinstance(conditional_records, dict):
     raise SystemExit("admission fixtures must contain cases, controls, and resolved record locators")
 
 expected_admission_ids = [f"R31-A{i}" for i in range(1, 7)]
@@ -382,29 +383,40 @@ def resolve_conditional_record(case):
     required = {"path", "pointer", "record_id", "sha256", "current"}
     if not isinstance(locator, dict) or set(locator) != required or locator["record_id"] != record_id or locator["current"] is not True:
         return None
-    target = (Path.cwd() / locator["path"]).resolve()
+    path = Path(locator["path"])
+    root = Path.cwd().resolve()
+    if path.is_absolute():
+        return None
+    target = (root / path).resolve()
+    if root not in target.parents:
+        return None
     if target != Path(sys.argv[1]).resolve() or not target.is_file():
         return None
     resolved = resolve_pointer(json.loads(target.read_text(encoding="utf-8")), locator["pointer"])
-    if not isinstance(resolved, dict) or resolved.get("id") != record_id:
+    evidence = conditional_records.get(record_id)
+    evidence_fields = {"semantic_centre", "live_gap", "named_consumer", "owner_analysis", "overlap_analysis", "dependency_analysis", "supersession_analysis", "trigger", "non_trigger_cheap_path", "cheapest_discriminator", "distinct_failure", "distinct_consumer", "distinct_owner", "distinct_acceptance"}
+    if not isinstance(resolved, dict) or resolved.get("id") != record_id or not isinstance(evidence, dict) or not all(isinstance(evidence.get(key), str) and evidence[key].strip() for key in evidence_fields):
         return None
-    digest = hashlib.sha256(json.dumps(resolved, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+    record = {**evidence, **resolved}
+    if evidence.get("selected_outcome") != record.get("selected_outcome"):
+        return None
+    digest = hashlib.sha256(json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
     if digest != locator["sha256"] or digest != case.get("expected_digest", locator["sha256"]):
         return None
-    return resolved
+    return record
 
 def decision_action(record):
     decision = record.get("decision")
     if not isinstance(decision, dict) or not isinstance(decision.get("census"), dict):
         return "REJECT"
-    if record.get("current") is False:
+    if record.get("current") is not True or record.get("authority_confirmed") is not True:
         return "DEFER"
     route = decision.get("route")
+    distinct = decision.get("distinct", {})
     if route == "no-gap": return "NO_ACTION"
     if route == "supporting-artifact" and decision.get("runtime_consumer") is False: return "SUPPORTING_ARTIFACT"
-    if route == "existing-owner" and isinstance(decision.get("owner"), str) and decision["owner"]: return "AMEND_EXISTING_OWNER"
-    if route == "existing-rxx" and isinstance(decision.get("owner"), str) and isinstance(decision.get("rxx"), str): return "AMEND_EXISTING_RXX"
-    distinct = decision.get("distinct", {})
+    if route == "existing-owner" and decision.get("runtime_consumer") is True and isinstance(decision.get("owner"), str) and decision["owner"].strip() and decision.get("rxx") is None and distinct.get("owner") is False: return "AMEND_EXISTING_OWNER"
+    if route == "existing-rxx" and decision.get("runtime_consumer") is True and isinstance(decision.get("owner"), str) and decision["owner"].strip() and isinstance(decision.get("rxx"), str) and decision["rxx"].strip() and distinct.get("owner") is False: return "AMEND_EXISTING_RXX"
     if route == "unowned" and all(distinct.get(key) is True for key in ("failure", "consumer", "owner", "acceptance")): return "NEW_RXX"
     return "REJECT"
 
