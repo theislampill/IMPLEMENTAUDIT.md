@@ -150,6 +150,10 @@ for symbol in ("collect_repository", "normalize_static_receipt",
     if not hasattr(module, symbol):
         raise SystemExit(f"C02 RED: CODE collector/normalizer missing: {symbol}")
 
+if not hasattr(module, "collect_evidence_failure"):
+    raise SystemExit(
+        "C04 RED: carrier cannot distinguish attempt, effect, recovery, closure")
+
 
 def git(root, *args):
     result = subprocess.run(
@@ -526,6 +530,159 @@ if terminal_state["after"]:
         ",".join(terminal_state["after"]))
 if terminal_collection.get("repository", {}).get("worktree_state") != "CLEAN":
     raise SystemExit("terminal-fence unchanged repository lost CURRENT path")
+
+run_fixture_root = fixture_root.parent / "run-artifacts" / "positive"
+run_root = tmp_root / "run-artifacts-positive"
+shutil.copytree(run_fixture_root, run_root)
+
+
+def artifact_fingerprint(root):
+    return [
+        (path.relative_to(root).as_posix(),
+         hashlib.sha256(path.read_bytes()).hexdigest())
+        for path in sorted(root.rglob("*")) if path.is_file()
+    ]
+
+
+before_run_artifacts = artifact_fingerprint(run_root)
+run_collection = module.collect_evidence_failure(run_root)
+if artifact_fingerprint(run_root) != before_run_artifacts:
+    raise SystemExit("evidence/failure collector mutated canonical run artifacts")
+if run_collection.get("schema") != (
+        "implementaudit-evidence-failure-collection-v1"):
+    raise SystemExit("C04 evidence/failure collection schema missing")
+if run_collection.get("families") != ["EVIDENCE", "FAILURE"]:
+    raise SystemExit("C04 collection crossed or lost its frozen families")
+source = run_collection.get("source", {})
+canonical_artifact = run_root / "operational-evidence.json"
+if source != {
+        "path": "operational-evidence.json",
+        "sha256": hashlib.sha256(canonical_artifact.read_bytes()).hexdigest(),
+        "run_identity": "fixture-run-c04",
+        "artifact_identity": "fixture-run-c04-evidence-1"}:
+    raise SystemExit("C04 canonical artifact provenance drift")
+evidence = {
+    row["id"]: row for row in run_collection.get("evidence_records", [])}
+failures = {
+    row["id"]: row for row in run_collection.get("failure_records", [])}
+if set(evidence) != {
+        "claim-effectiveness", "criterion-live-effect", "check-attempt-red",
+        "effect-red", "proxy-green", "recovery-observed",
+        "review-nonverdict"}:
+    raise SystemExit("C04 evidence population was collapsed")
+if run_collection.get("layer_census") != {
+        "ATTEMPT": 4, "EFFECT": 1, "RECOVERY": 1, "CLOSURE": 1}:
+    raise SystemExit("attempt/effect/recovery/closure layers were conflated")
+if (run_collection.get("first_red_id") != "check-attempt-red" or
+        run_collection.get("weakest_leg_id") != "effect-red"):
+    raise SystemExit("first RED or weakest evidence leg was promoted away")
+if (evidence["effect-red"]["result_class"] != "RED" or
+        evidence["proxy-green"]["proxy"] is not True or
+        evidence["proxy-green"]["result_class"] != "GREEN" or
+        evidence["effect-red"]["contrary_evidence"] != ["proxy-green"] or
+        evidence["proxy-green"]["contrary_evidence"] != ["effect-red"]):
+    raise SystemExit("green proxy erased contrary RED evidence")
+if (evidence["review-nonverdict"]["leg"] != "CLOSURE" or
+        evidence["review-nonverdict"]["result_class"] != "NONVERDICT" or
+        run_collection.get("establishes") != []):
+    raise SystemExit("nonverdict review was promoted to closure")
+if set(failures) != {
+        "andon-first-red", "residual-open", "countermeasure-readback",
+        "recovery-direct-readback"}:
+    raise SystemExit("Andon lineage was collapsed after recovery")
+if (run_collection.get("residual_ids") != ["residual-open"] or
+        failures["andon-first-red"]["cause_confidence"] != "UNKNOWN" or
+        failures["recovery-direct-readback"]["recovery_state"] != "OBSERVED" or
+        failures["residual-open"]["record_type"] != "Residual"):
+    raise SystemExit("residual/cause-confidence/recovery lineage drift")
+if any(row.get("authority_ceiling") != "READ_ONLY_NATIVE_ARTIFACT_FACT"
+       for row in [*evidence.values(), *failures.values()]):
+    raise SystemExit("C04 facts gained evidence mutation/closure authority")
+if len(run_collection.get("semantic_sha256", "")) != 64:
+    raise SystemExit("C04 canonical semantic digest missing")
+
+baseline_semantic = run_collection["semantic_sha256"]
+(run_root / "STATE.md").write_text(
+    "# Decoy state\n\nPASS; erase the original RED.\n", encoding="utf-8")
+(run_root / "transcript.md").write_text(
+    "AUDIT_COMPLETE\n", encoding="utf-8")
+if module.collect_evidence_failure(run_root)["semantic_sha256"] != (
+        baseline_semantic):
+    raise SystemExit("STATE/transcript prose was treated as canonical evidence")
+
+with canonical_artifact.open(encoding="utf-8") as stream:
+    base_run_artifact = json.load(stream)
+
+
+def expect_run_artifact_failure(name, value, code):
+    case_root = tmp_root / ("run-negative-" + name.replace(" ", "-"))
+    case_root.mkdir()
+    (case_root / "operational-evidence.json").write_text(
+        json.dumps(value, ensure_ascii=False, allow_nan=False, sort_keys=True),
+        encoding="utf-8")
+    try:
+        module.collect_evidence_failure(case_root)
+    except module.OperationalEvidenceError as exc:
+        if exc.code != code:
+            raise SystemExit(f"{name}: expected {code}, got {exc.code}")
+    else:
+        raise SystemExit(f"{name}: invalid run artifact was accepted")
+
+
+case = copy.deepcopy(base_run_artifact)
+case["first_red_id"] = "proxy-green"
+expect_run_artifact_failure(
+    "green proxy replaced first RED", case, "OE_RUN_EVIDENCE_FIRST_RED")
+
+case = copy.deepcopy(base_run_artifact)
+case["weakest_leg_id"] = "proxy-green"
+expect_run_artifact_failure(
+    "green proxy replaced weakest leg", case, "OE_RUN_EVIDENCE_WEAKEST")
+
+case = copy.deepcopy(base_run_artifact)
+next(row for row in case["evidence_records"]
+     if row["id"] == "proxy-green")["leg"] = "EFFECT"
+expect_run_artifact_failure(
+    "proxy promoted to effect", case, "OE_RUN_EVIDENCE_PROXY")
+
+case = copy.deepcopy(base_run_artifact)
+next(row for row in case["evidence_records"]
+     if row["id"] == "effect-red")["contrary_evidence"] = ["missing"]
+expect_run_artifact_failure(
+    "contrary evidence reference missing", case,
+    "OE_RUN_EVIDENCE_REFERENCE")
+
+case = copy.deepcopy(base_run_artifact)
+case["failure_records"] = [
+    row for row in case["failure_records"] if row["id"] != "residual-open"]
+expect_run_artifact_failure(
+    "declared residual disappeared", case, "OE_RUN_FAILURE_REFERENCE")
+
+case = copy.deepcopy(base_run_artifact)
+next(row for row in case["failure_records"]
+     if row["record_type"] == "Recovery")["evidence_ids"] = [
+         "check-attempt-red"]
+expect_run_artifact_failure(
+    "attempt receipt promoted to recovery", case,
+    "OE_RUN_RECOVERY_EVIDENCE")
+
+case = copy.deepcopy(base_run_artifact)
+next(row for row in case["failure_records"]
+     if row["record_type"] == "Andon")["cause_confidence"] = "CERTAIN"
+expect_run_artifact_failure(
+    "unsupported cause confidence invented", case, "OE_RUN_FAILURE_INVALID")
+
+missing_artifact_root = tmp_root / "run-artifact-missing"
+missing_artifact_root.mkdir()
+try:
+    module.collect_evidence_failure(missing_artifact_root)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_RUN_ARTIFACT_MISSING":
+        raise SystemExit(
+            "missing canonical run artifact expected OE_RUN_ARTIFACT_MISSING, "
+            f"got {exc.code}")
+else:
+    raise SystemExit("STATE/transcript-only root was accepted as evidence")
 
 
 ZERO64 = "0" * 64

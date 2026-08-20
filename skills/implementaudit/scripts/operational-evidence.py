@@ -20,6 +20,8 @@ RECORD_SCHEMA = "implementaudit-operational-evidence-v1"
 VALIDATION_SCHEMA = "implementaudit-operational-evidence-validation-v1"
 SCHEMA_DEFINITION = "implementaudit-operational-evidence-schema-v1"
 REPOSITORY_COLLECTION_SCHEMA = "implementaudit-repository-collection-v1"
+EVIDENCE_FAILURE_COLLECTION_SCHEMA = (
+    "implementaudit-evidence-failure-collection-v1")
 STATIC_RECEIPT_SCHEMA = "implementaudit-static-receipt-v1"
 STATIC_NORMALIZED_SCHEMA = "implementaudit-static-normalized-v1"
 STATIC_NORMALIZED_SET_SCHEMA = "implementaudit-static-normalized-set-v1"
@@ -709,6 +711,250 @@ def collect_repository(root: pathlib.Path):
         canonical_json_v1(result), "repository collection result")
     _require_repository_snapshot_stable(
         root, paths, commit, tree, raw_paths, status, physical_file_rows)
+    return immutable_result
+
+
+def collect_evidence_failure(root: pathlib.Path):
+    """Collect canonical EVIDENCE/FAILURE run artifacts without promotion."""
+    root = pathlib.Path(root).resolve()
+    if not root.is_dir():
+        _error("OE_RUN_ARTIFACT_MISSING", "$run_artifact",
+               "run-artifact root must be a readable directory")
+    artifact_path = root / "operational-evidence.json"
+    if artifact_path.is_symlink() or not artifact_path.is_file():
+        _error("OE_RUN_ARTIFACT_MISSING", "$run_artifact",
+               "canonical operational-evidence.json is required")
+    try:
+        artifact_bytes = artifact_path.read_bytes()
+    except OSError:
+        _error("OE_RUN_ARTIFACT_MISSING", "$run_artifact",
+               "canonical operational-evidence.json is unreadable")
+    if len(artifact_bytes) > 1024 * 1024:
+        _error("OE_RUN_ARTIFACT_INVALID", "$run_artifact",
+               "canonical run artifact exceeds the C04 byte bound")
+    artifact = decode_strict_json_bytes(artifact_bytes, "canonical run artifact")
+    top_keys = {
+        "schema", "run_identity", "artifact_identity", "first_red_id",
+        "weakest_leg_id", "residual_ids", "evidence_records",
+        "failure_records"}
+    _object(artifact, "$run_artifact", exact_keys=top_keys, required=top_keys)
+    if artifact["schema"] != "implementaudit-run-evidence-v1":
+        _error("OE_RUN_ARTIFACT_INVALID", "$run_artifact.schema",
+               "unsupported canonical run-artifact schema")
+    run_identity = _text(
+        artifact["run_identity"], "$run_artifact.run_identity")
+    artifact_identity = _text(
+        artifact["artifact_identity"], "$run_artifact.artifact_identity")
+    artifact_sha256 = hashlib.sha256(artifact_bytes).hexdigest()
+
+    if type(artifact["evidence_records"]) is not list:
+        _error("OE_RUN_ARTIFACT_INVALID", "$run_artifact.evidence_records",
+               "must be an array")
+    evidence_keys = {
+        "id", "sequence", "record_type", "claim_id", "criterion_id", "leg",
+        "result_class", "proxy", "source_identity", "native_owner_identity",
+        "currentness", "controls", "contrary_evidence"}
+    evidence_records = []
+    evidence_by_id = {}
+    evidence_sequences = []
+    for index, source_record in enumerate(artifact["evidence_records"]):
+        path = f"$run_artifact.evidence_records[{index}]"
+        record = _object(
+            source_record, path, exact_keys=evidence_keys,
+            required=evidence_keys)
+        record_id = _text(record["id"], f"{path}.id")
+        if record_id in evidence_by_id:
+            _error("OE_RUN_ARTIFACT_INVALID", f"{path}.id",
+                   "evidence record id must be unique")
+        sequence = record["sequence"]
+        if type(sequence) is not int or sequence < 0:
+            _error("OE_RUN_ARTIFACT_INVALID", f"{path}.sequence",
+                   "sequence must be a non-negative integer")
+        if record["record_type"] not in (
+                "Claim", "Criterion", "Evidence", "Check", "Review"):
+            _error("OE_RUN_ARTIFACT_INVALID", f"{path}.record_type",
+                   "unsupported EVIDENCE record type")
+        for key in (
+                "claim_id", "criterion_id", "source_identity",
+                "native_owner_identity"):
+            _text(record[key], f"{path}.{key}")
+        if record["leg"] not in (
+                "ATTEMPT", "EFFECT", "RECOVERY", "CLOSURE"):
+            _error("OE_RUN_ARTIFACT_INVALID", f"{path}.leg",
+                   "unsupported evidence leg")
+        if record["result_class"] not in (
+                "RED", "GREEN", "NONVERDICT", "UNKNOWN"):
+            _error("OE_RUN_ARTIFACT_INVALID", f"{path}.result_class",
+                   "unsupported evidence result class")
+        proxy = _boolean(record["proxy"], f"{path}.proxy")
+        if proxy and record["leg"] != "ATTEMPT":
+            _error("OE_RUN_EVIDENCE_PROXY", path,
+                   "proxy evidence cannot become effect, recovery or closure")
+        _currentness(record["currentness"], f"{path}.currentness")
+        _string_list(record["controls"], f"{path}.controls")
+        _string_list(
+            record["contrary_evidence"], f"{path}.contrary_evidence")
+        normalized = {
+            **record,
+            "family": "EVIDENCE",
+            "authority_ceiling": "READ_ONLY_NATIVE_ARTIFACT_FACT",
+            "artifact_sha256": artifact_sha256,
+        }
+        evidence_records.append(normalized)
+        evidence_by_id[record_id] = normalized
+        evidence_sequences.append(sequence)
+    if evidence_sequences != sorted(evidence_sequences) or len(set(
+            evidence_sequences)) != len(evidence_sequences):
+        _error("OE_RUN_ARTIFACT_INVALID", "$run_artifact.evidence_records",
+               "evidence sequence must be unique and increasing")
+    for record in evidence_records:
+        if any(reference not in evidence_by_id
+               for reference in record["contrary_evidence"]):
+            _error("OE_RUN_EVIDENCE_REFERENCE",
+                   f"$run_artifact.evidence_records[{record['id']}].contrary_evidence",
+                   "contrary evidence must reference a retained evidence record")
+
+    first_red_id = _text(
+        artifact["first_red_id"], "$run_artifact.first_red_id")
+    red_records = [
+        record for record in evidence_records
+        if record["result_class"] == "RED" and not record["proxy"]]
+    if (not red_records or first_red_id not in evidence_by_id or
+            first_red_id != min(
+                red_records, key=lambda row: row["sequence"])["id"]):
+        _error("OE_RUN_EVIDENCE_FIRST_RED", "$run_artifact.first_red_id",
+               "first RED must retain the earliest non-proxy RED record")
+    weakest_leg_id = _text(
+        artifact["weakest_leg_id"], "$run_artifact.weakest_leg_id")
+    weakest = evidence_by_id.get(weakest_leg_id)
+    if (weakest is None or weakest["proxy"] or
+            weakest["result_class"] in ("GREEN", "NONVERDICT") or
+            (red_records and weakest["result_class"] != "RED")):
+        _error("OE_RUN_EVIDENCE_WEAKEST", "$run_artifact.weakest_leg_id",
+               "weakest leg cannot be replaced by green/proxy/nonverdict")
+
+    if type(artifact["failure_records"]) is not list:
+        _error("OE_RUN_ARTIFACT_INVALID", "$run_artifact.failure_records",
+               "must be an array")
+    failure_keys = {
+        "id", "sequence", "record_type", "andon_id", "abnormality_class",
+        "statement", "cause_confidence", "evidence_ids", "recovery_state",
+        "source_identity", "native_owner_identity", "currentness"}
+    failure_records = []
+    failure_by_id = {}
+    failure_sequences = []
+    for index, source_record in enumerate(artifact["failure_records"]):
+        path = f"$run_artifact.failure_records[{index}]"
+        record = _object(
+            source_record, path, exact_keys=failure_keys, required=failure_keys)
+        record_id = _text(record["id"], f"{path}.id")
+        if record_id in failure_by_id or record_id in evidence_by_id:
+            _error("OE_RUN_FAILURE_INVALID", f"{path}.id",
+                   "failure record id must be globally unique")
+        sequence = record["sequence"]
+        if type(sequence) is not int or sequence < 0:
+            _error("OE_RUN_FAILURE_INVALID", f"{path}.sequence",
+                   "sequence must be a non-negative integer")
+        if record["record_type"] not in (
+                "Andon", "Residual", "Countermeasure", "Recovery"):
+            _error("OE_RUN_FAILURE_INVALID", f"{path}.record_type",
+                   "unsupported FAILURE record type")
+        for key in (
+                "andon_id", "abnormality_class", "statement",
+                "source_identity", "native_owner_identity"):
+            _text(record[key], f"{path}.{key}")
+        if record["cause_confidence"] not in (
+                "UNKNOWN", "LOW", "MEDIUM", "HIGH"):
+            _error("OE_RUN_FAILURE_INVALID", f"{path}.cause_confidence",
+                   "unsupported cause confidence")
+        if record["recovery_state"] not in (
+                "NOT_CLAIMED", "ATTEMPTED", "OBSERVED", "UNVERIFIED"):
+            _error("OE_RUN_FAILURE_INVALID", f"{path}.recovery_state",
+                   "unsupported recovery state")
+        _string_list(record["evidence_ids"], f"{path}.evidence_ids")
+        _currentness(record["currentness"], f"{path}.currentness")
+        normalized = {
+            **record,
+            "family": "FAILURE",
+            "authority_ceiling": "READ_ONLY_NATIVE_ARTIFACT_FACT",
+            "artifact_sha256": artifact_sha256,
+        }
+        failure_records.append(normalized)
+        failure_by_id[record_id] = normalized
+        failure_sequences.append(sequence)
+    if failure_sequences != sorted(failure_sequences) or len(set(
+            failure_sequences)) != len(failure_sequences):
+        _error("OE_RUN_FAILURE_INVALID", "$run_artifact.failure_records",
+               "failure sequence must be unique and increasing")
+    andon_ids = {
+        record["id"] for record in failure_records
+        if record["record_type"] == "Andon"}
+    for record in failure_records:
+        if record["andon_id"] not in andon_ids:
+            _error("OE_RUN_FAILURE_REFERENCE",
+                   f"$run_artifact.failure_records[{record['id']}].andon_id",
+                   "failure lineage must reference a retained Andon")
+        if any(reference not in evidence_by_id
+               for reference in record["evidence_ids"]):
+            _error("OE_RUN_FAILURE_REFERENCE",
+                   f"$run_artifact.failure_records[{record['id']}].evidence_ids",
+                   "failure lineage must reference retained evidence")
+        if record["record_type"] == "Recovery" and (
+                record["recovery_state"] == "OBSERVED"):
+            recovery_evidence = [
+                evidence_by_id[reference]
+                for reference in record["evidence_ids"]]
+            if (not recovery_evidence or any(
+                    evidence["leg"] != "RECOVERY" or
+                    evidence["result_class"] != "GREEN" or
+                    evidence["proxy"] or
+                    evidence["currentness"]["state"] != "CURRENT"
+                    for evidence in recovery_evidence)):
+                _error("OE_RUN_RECOVERY_EVIDENCE",
+                       f"$run_artifact.failure_records[{record['id']}]",
+                       "observed recovery requires current direct recovery evidence")
+    residual_ids = _string_list(
+        artifact["residual_ids"], "$run_artifact.residual_ids")
+    if any(residual_id not in failure_by_id or
+           failure_by_id[residual_id]["record_type"] != "Residual"
+           for residual_id in residual_ids):
+        _error("OE_RUN_FAILURE_REFERENCE", "$run_artifact.residual_ids",
+               "declared residual must reference a retained Residual record")
+
+    layer_census = Counter(
+        record["leg"] for record in evidence_records)
+    result = {
+        "schema": EVIDENCE_FAILURE_COLLECTION_SCHEMA,
+        "families": ["EVIDENCE", "FAILURE"],
+        "source": {
+            "path": "operational-evidence.json",
+            "sha256": artifact_sha256,
+            "run_identity": run_identity,
+            "artifact_identity": artifact_identity,
+        },
+        "first_red_id": first_red_id,
+        "weakest_leg_id": weakest_leg_id,
+        "residual_ids": list(residual_ids),
+        "layer_census": {
+            leg: layer_census.get(leg, 0)
+            for leg in ("ATTEMPT", "EFFECT", "RECOVERY", "CLOSURE")
+        },
+        "evidence_records": evidence_records,
+        "failure_records": failure_records,
+        "establishes": [],
+    }
+    result["semantic_sha256"] = hashlib.sha256(
+        canonical_json_v1(result)).hexdigest()
+    immutable_result = decode_strict_json_bytes(
+        canonical_json_v1(result), "evidence/failure collection")
+    try:
+        final_artifact_bytes = artifact_path.read_bytes()
+    except OSError:
+        _error("OE_RUN_ARTIFACT_CHANGED", "$run_artifact",
+               "canonical run artifact changed during collection")
+    if artifact_path.is_symlink() or final_artifact_bytes != artifact_bytes:
+        _error("OE_RUN_ARTIFACT_CHANGED", "$run_artifact",
+               "canonical run artifact changed during collection")
     return immutable_result
 
 

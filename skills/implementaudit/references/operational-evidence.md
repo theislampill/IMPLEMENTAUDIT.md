@@ -118,3 +118,32 @@ owner; no current C02 output may be consumed directly by R0035. The normalizer
 never invokes R0035. The APIs are C02 substrate, not CLI commands, default
 preflight, helper registration, package admission, or a public route; those
 remain in their assigned downstream cells.
+
+## Canonical evidence and failure collection
+
+`collect_evidence_failure` is the C04 read-only boundary. It accepts one fixed,
+regular, bounded canonical run artifact named `operational-evidence.json`; it
+does not scan or interpret STATE, ROADMAP, transcripts, reports, logs or nearby
+prose. The strict `implementaudit-run-evidence-v1` input binds the run/artifact
+identity and exact artifact SHA-256, then retains separate Claim, Criterion,
+Evidence, Check and Review records across `ATTEMPT`, `EFFECT`, `RECOVERY` and
+`CLOSURE` legs. Producer/check success, a green proxy and a nonverdict review
+remain observations in their declared legs; none establishes effect, recovery,
+PASS or closure.
+
+The same canonical artifact retains Andon, Residual, Countermeasure and Recovery
+records as immutable FAILURE lineage. The collector validates and preserves the
+earliest non-proxy RED, declared weakest non-green/non-proxy leg, contrary
+evidence, open residual identities, cause confidence and direct recovery
+evidence. An observed recovery requires a current, non-proxy GREEN `RECOVERY`
+leg but does not erase the Andon, first RED, contrary evidence or residual. An
+unknown cause remains `UNKNOWN`; C04 does not guess it or create finite retry,
+strike-count or stopping semantics.
+
+Every collected row has the `READ_ONLY_NATIVE_ARTIFACT_FACT` authority ceiling,
+and the collection's `establishes` population is always empty. The collector
+never edits evidence, infers closure, invokes a model, executes target content,
+uses network or reads a noncanonical fallback. It builds canonical output before
+a final byte-for-byte source reread; a changed artifact is refused rather than
+returned as mixed evidence. Later snapshot compilation/query/publication and
+native closure decisions remain in their assigned downstream owners.
