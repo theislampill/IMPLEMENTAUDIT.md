@@ -227,6 +227,12 @@ Use deterministic tooling, not model estimates; ungrounded terms require
 reacquisition or serial execution.
 Completion reconciles; never infer other ACTIVE=0.
 
+Ready-cell host capacity schedules already-authorised executor cells; it does not
+establish semantic retry eligibility or substitute for deadline/queue-age
+policy, downstream capacity, or recovery headroom. Host/free slots and queue
+depth alone cannot authorise retry, recovery, or redispatch. The definitive
+untriggered local cheap path stays serial and creates no ready or retry queue.
+
 Use the serial cheap path for fewer than three material units, one ready cell,
 a strict dependency chain, unavailable concurrency, or when
 coordination would cost more than the work. Do not create a

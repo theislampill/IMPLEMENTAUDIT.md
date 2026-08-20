@@ -856,4 +856,75 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "nominal override accepted as safe-stop cheap path"
 
+# 58. Executor capacity is not downstream or recovery capacity and cannot
+# authorize a material retry by itself.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C147-host-slots-not-downstream-capacity")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "host slots alone authorized retry"
+
+# 59. A short queue is an observation, not semantic retry authority or
+# downstream/recovery headroom.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C148-queue-depth-not-retry-authority")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "queue depth alone authorized retry"
+
+# 60. Definitive, untriggered local work remains on the serial cheap path and
+# never gains retry admission merely because executor capacity is free.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C149-local-retry-cheap-path-stays-serial")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "local cheap path gained a retry queue"
+
+# 61. Planning depth owns the conjunctive admission rule.
+reset_sandbox
+grep -v "Material retry, recovery, or redispatch admission is conjunctive" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "planning-depth retry admission owner removed"
+
+# 62. Lean discipline owns the same admission factors through the control
+# lifecycle rather than allowing capacity proxies to self-authorise.
+reset_sandbox
+grep -v "For retry, recovery, or redispatch, admit only when semantic eligibility" \
+  "$tmp_root/skills/implementaudit/references/lean-operating-discipline.md" \
+  >"$tmp_root/lean.tmp"
+mv "$tmp_root/lean.tmp" \
+  "$tmp_root/skills/implementaudit/references/lean-operating-discipline.md"
+expect_fail "lean retry admission owner removed"
+
+# 63. Child-agent scheduling must not reinterpret free executor capacity as
+# retry authority.
+reset_sandbox
+grep -v "establish semantic retry eligibility" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "child-agent retry admission boundary removed"
+
 printf 'action-selection-contract.test: ok\n'

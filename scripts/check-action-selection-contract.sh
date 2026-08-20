@@ -8,6 +8,7 @@ set -euo pipefail
 # and never gate depth on an activation keyword.
 #
 # Usage: check-action-selection-contract.sh [--repo-root <dir>]
+#        [--distributed-runtime-fixture <path>]
 
 fail() {
   printf 'check-action-selection-contract: %s\n' "$*" >&2
@@ -15,10 +16,24 @@ fail() {
 }
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-if [ "${1:-}" = "--repo-root" ]; then
-  [ "$#" -ge 2 ] || fail "--repo-root requires a directory argument"
-  repo_root="$2"
-fi
+distributed_runtime_fixture=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --repo-root)
+      [ "$#" -ge 2 ] || fail "--repo-root requires a directory argument"
+      repo_root="$2"
+      shift 2
+      ;;
+    --distributed-runtime-fixture)
+      [ "$#" -ge 2 ] || fail "--distributed-runtime-fixture requires a path argument"
+      distributed_runtime_fixture="$2"
+      shift 2
+      ;;
+    *)
+      fail "unknown argument: $1"
+      ;;
+  esac
+done
 cd "$repo_root"
 
 require() {
@@ -108,6 +123,9 @@ for text in \
   "Temporary option value is retained" \
   "No universal rule makes shorter feedback" \
   "higher utilisation, more slack, or less slack correct" \
+  "Material retry, recovery, or redispatch admission is conjunctive" \
+  "Host/free executor slots and queue depth are" \
+  "untriggered local work remains the serial cheap path" \
   "conditional planner/executor separation" \
   "least-cost" \
   "sufficiently capable route" \
@@ -159,6 +177,16 @@ for text in \
 do
   require "$lean_ref" "$text"
 done
+for text in \
+  "semantic eligibility" \
+  "deadline and queue-age policy" \
+  "downstream capacity" \
+  "recovery headroom" \
+  "Free host slots or queue depth alone never" \
+  "serial cheap path"
+do
+  require "$lean_ref" "$text"
+done
 
 child_ref="skills/implementaudit/references/child-agents.md"
 for text in \
@@ -180,6 +208,16 @@ for text in \
 do
   require "$child_ref" "$text"
 done
+for text in \
+  "establish semantic retry eligibility" \
+  "deadline/queue-age" \
+  "downstream capacity" \
+  "recovery headroom" \
+  "cannot authorise retry, recovery, or redispatch" \
+  "local cheap path stays serial"
+do
+  require "$child_ref" "$text"
+done
 
 skill_ref="skills/implementaudit/SKILL.md"
 for text in \
@@ -192,12 +230,15 @@ do
   require "$skill_ref" "$text"
 done
 
-"${py_cmd[@]}" - "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+"${py_cmd[@]}" - \
+  "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" \
+  "$distributed_runtime_fixture" <<'PY'
 import json
 import sys
 from pathlib import Path
 
 path = Path(sys.argv[1])
+distributed_path = Path(sys.argv[2]) if sys.argv[2] else None
 try:
     payload = json.loads(path.read_text(encoding="utf-8"))
 except (OSError, UnicodeError, json.JSONDecodeError) as exc:
@@ -338,6 +379,9 @@ required_ids.update({
     "R44-C144-bounded-degraded-operation",
     "R44-C145-risk-matrix-insufficient",
     "R34-C146-safe-stop-control-cheap-path",
+    "R48-C147-host-slots-not-downstream-capacity",
+    "R48-C148-queue-depth-not-retry-authority",
+    "R48-C149-local-retry-cheap-path-stays-serial",
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -379,9 +423,41 @@ def booleans(observations, names):
     if any(type(observations[name]) is not bool for name in names.split()):
         raise ValueError("boolean observation type")
 
+def decide_distributed_retry(observations):
+    required = set("distributed_trigger cheap_local_operation semantic_retry_eligible effect_state deadline_remaining_ms queue_age_ms max_queue_age_ms requested_units downstream_available_units recovery_available_units".split())
+    optional = {"host_free_slots", "queue_depth"}
+    if not required.issubset(observations) or not set(observations).issubset(required | optional):
+        raise ValueError("distributed retry observation members")
+    booleans(observations, "distributed_trigger cheap_local_operation semantic_retry_eligible")
+    if type(observations["effect_state"]) is not str:
+        raise ValueError("distributed retry effect state type")
+    numeric = required - {"distributed_trigger", "cheap_local_operation", "semantic_retry_eligible", "effect_state"}
+    if any(type(observations[name]) is not int for name in numeric):
+        raise ValueError("distributed retry numeric observation type")
+    if any(type(observations[name]) is not int or observations[name] < 0 for name in optional & set(observations)):
+        raise ValueError("distributed retry proxy observation type")
+    if not observations["distributed_trigger"] and observations["cheap_local_operation"]:
+        return "CHEAP_PATH"
+    admitted = all((
+        observations["distributed_trigger"],
+        not observations["cheap_local_operation"],
+        observations["semantic_retry_eligible"],
+        observations["effect_state"] == "FAILED_NO_EFFECT",
+        observations["deadline_remaining_ms"] > 0,
+        observations["queue_age_ms"] >= 0,
+        observations["max_queue_age_ms"] >= 0,
+        observations["queue_age_ms"] <= observations["max_queue_age_ms"],
+        observations["requested_units"] > 0,
+        observations["downstream_available_units"] >= observations["requested_units"],
+        observations["recovery_available_units"] >= observations["requested_units"],
+    ))
+    return "ADMIT" if admitted else "REFUSE"
+
 def decide(case):
     kind = case["kind"]
     o = case["observations"]
+    if kind == "distributed_retry_admission":
+        return decide_distributed_retry(o)
     if kind == "depth":
         exact(o, "activation process_heavy_or_disputed")
         booleans(o, "activation process_heavy_or_disputed")
@@ -712,6 +788,36 @@ for case in cases:
 if failures:
     raise SystemExit("\n".join(failures))
 sys.stdout.write(f"engineering-value controls: {len(cases)}/{len(cases)}\n")
+
+if distributed_path is not None:
+    try:
+        distributed = json.loads(distributed_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"distributed-runtime admission fixture unreadable: {exc}")
+    if (set(distributed) != {"schema", "cell", "cases"}
+            or distributed["schema"] != "implementaudit.distributed-runtime.admission-cases.v1"
+            or distributed["cell"] != "D48-C04"
+            or not isinstance(distributed["cases"], list)):
+        raise SystemExit("D48-C04 distributed-runtime admission fixture schema mismatch")
+    distributed_failures = []
+    distributed_ids = []
+    for case in distributed["cases"]:
+        try:
+            if set(case) != {"id", "observations", "expected"}:
+                raise ValueError("case members")
+            if type(case["id"]) is not str or type(case["expected"]) is not str or not isinstance(case["observations"], dict):
+                raise ValueError("case types")
+            distributed_ids.append(case["id"])
+            actual = decide_distributed_retry(case["observations"])
+            if actual != case["expected"]:
+                distributed_failures.append(f"{case['id']}: expected {case['expected']}, observed {actual}")
+        except (KeyError, TypeError, ValueError) as exc:
+            distributed_failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
+    if len(distributed_ids) != 6 or len(distributed_ids) != len(set(distributed_ids)):
+        distributed_failures.append("D48-C04 admission fixture population is incomplete or duplicated")
+    if distributed_failures:
+        raise SystemExit("\n".join(distributed_failures))
+    sys.stdout.write(f"D48-C04=PASS cases={len(distributed_ids)}/{len(distributed_ids)}\n")
 PY
 
 # --- bootloader: Stage 1 derives and records the action set ---
