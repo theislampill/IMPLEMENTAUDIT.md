@@ -349,6 +349,62 @@ for case in all_cases:
         raise SystemExit(f"{case['id']}: expected {case.get('expected')}, observed {observed}")
 
 print(f"fixture-census: ok ({len(cases)}/{len(cases)} + {len(controls)}/{len(controls)} convergence controls)")
+
+admission_cases = payload.get("admission_cases")
+admission_controls = payload.get("admission_controls")
+if not isinstance(admission_cases, list) or not isinstance(admission_controls, list):
+    raise SystemExit("admission fixtures must contain cases and controls")
+
+expected_admission_ids = [f"R31-A{i}" for i in range(1, 6)]
+if [case.get("id") for case in admission_cases] != expected_admission_ids:
+    raise SystemExit("admission case population/order mismatch")
+
+allowed_admission_actions = {"NO_ACTION", "SUPPORTING", "AMEND", "DEFER", "NEW_RXX"}
+
+def admission_action(case):
+    state = case.get("state")
+    allocated_rxx = case.get("allocated_rxx")
+    has_number = isinstance(allocated_rxx, str) and bool(allocated_rxx.strip())
+    if state == "no-gap":
+        action = "NO_ACTION"
+    elif state == "existing-owner-sufficient":
+        action = "SUPPORTING"
+    elif state == "existing-owner-needs-amendment":
+        action = "AMEND"
+    elif not case.get("evidence_current") or not case.get("authority_confirmed"):
+        action = "DEFER"
+    elif state == "distinct-unowned-invariant":
+        action = "NEW_RXX"
+    else:
+        return "REJECT"
+    if action in {"SUPPORTING", "AMEND"}:
+        existing_owner = case.get("existing_owner")
+        if not isinstance(existing_owner, str) or not existing_owner.strip() or case.get("new_owner"):
+            return "REJECT"
+    if action == "NEW_RXX":
+        return action if has_number else "REJECT"
+    return action if not has_number else "REJECT"
+
+for case in admission_cases:
+    observed = admission_action(case)
+    if observed not in allowed_admission_actions:
+        raise SystemExit(f"{case['id']}: admission did not produce an allowed action: {observed}")
+    if observed != case.get("expected"):
+        raise SystemExit(f"{case['id']}: expected {case.get('expected')}, observed {observed}")
+
+if not any(
+    case.get("expected") == "NEW_RXX"
+    and case.get("complete_admission_census") is False
+    and case.get("allocated_rxx")
+    for case in admission_cases
+):
+    raise SystemExit("admission fixtures do not preserve pre-census RXX allocation")
+
+for control in admission_controls:
+    if admission_action(control) != "REJECT":
+        raise SystemExit(f"{control.get('id')}: invalid admission was not rejected")
+
+print("admission-census: ok (five exclusive actions; pre-census NEW_RXX only)")
 PY
 
 "${py_cmd[@]}" - "$model_input" "$model_expectations" <<'PY'
@@ -409,7 +465,11 @@ for text in \
   'one audit object' \
   'Decision-state synthesis (conditional)' \
   'required outcome or function' \
-  'The ordinary direct path remains unchanged'
+  'The ordinary direct path remains unchanged' \
+  'Conditional work-order admission' \
+  '`NO_ACTION`, `SUPPORTING`, `AMEND`, `DEFER`, or `NEW_RXX`' \
+  'Allocate an RXX number only after selecting `NEW_RXX`.' \
+  'before the complete admission census'
 do
   grep -F "$text" "$ref" >/dev/null || fail "reference missing contract anchor: $text"
 done
