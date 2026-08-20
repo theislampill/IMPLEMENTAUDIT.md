@@ -1,0 +1,17 @@
+{
+  "schema": "implementaudit-operational-evidence-v1",
+  "aggregate": "DEGRADED",
+  "families": ["CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE"],
+  "affected_families": ["CODE"],
+  "capability_declarations": [],
+  "currentness_predicates": [],
+  "entities": [
+    {
+      "id": "entity:malformed",
+      "family": "CODE",
+      "record_type": "Repository"
+    }
+  ],
+  "relations": [],
+  "payload_records": []
+}
