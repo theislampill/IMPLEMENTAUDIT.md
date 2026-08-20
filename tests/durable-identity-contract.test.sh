@@ -57,10 +57,19 @@ for invalid in R1 r28 R000a R00001 G040 e0 X0001; do
   fi
 done
 
-"${py_cmd[@]}" "$resolver" --require-allocated R0037 >/dev/null
-if "${py_cmd[@]}" "$resolver" --require-allocated R0038 >/dev/null 2>&1; then
-  fail "formatting the next Rockstar silently allocated it"
+assert_eq R0037 --require-allocated R0037
+assert_eq R0038 --require-allocated R0038
+assert_eq R0039 --require-allocated R0039
+assert_eq R003A --require-allocated R003A
+if "${py_cmd[@]}" "$resolver" --require-allocated R003B >/dev/null 2>&1; then
+  fail "the next unreserved Rockstar was silently allocated"
 fi
+
+for canonical_born in R0038 R0039 R003A; do
+  if "${py_cmd[@]}" "$resolver" --legacy "$canonical_born" >/dev/null 2>&1; then
+    fail "canonical-born Rockstar gained a fabricated legacy alias: $canonical_born"
+  fi
+done
 
 "${py_cmd[@]}" - "$resolver" <<'PY'
 import subprocess
