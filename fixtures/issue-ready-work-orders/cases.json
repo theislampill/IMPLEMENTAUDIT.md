@@ -78,15 +78,22 @@
   ],
   "admission_cases": [
     {"id":"R31-A1","expected":"NO_ACTION","state":"no-gap","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-A2","expected":"SUPPORTING","state":"existing-owner-sufficient","existing_owner":"R001F","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-A3","expected":"AMEND","state":"existing-owner-needs-amendment","existing_owner":"R001F","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
+    {"id":"R31-A2","expected":"SUPPORTING_ARTIFACT","state":"cross-cutting-note-no-runtime-consumer","runtime_consumer":false,"evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
+    {"id":"R31-A3","expected":"AMEND_EXISTING_OWNER","state":"existing-owner-needs-amendment","existing_owner":"R001F","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
     {"id":"R31-A4","expected":"DEFER","state":"evidence-pending","evidence_current":false,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-A5","expected":"NEW_RXX","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":true,"allocated_rxx":"R0042"}
+    {"id":"R31-A5","expected":"NEW_RXX","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":true,"current_open_and_closed_census":true,"allocated_rxx":"R0042"},
+    {"id":"R31-A6","expected":"AMEND_EXISTING_RXX","state":"existing-rxx-needs-amendment","existing_owner":"R001F","existing_rxx":"R0041","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false}
   ],
   "admission_controls": [
-    {"id":"R31-AC1-pre-census-allocation","expected":"REJECT","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"},
-    {"id":"R31-AC2-new-rxx-without-number","expected":"REJECT","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":true},
+    {"id":"R31-AC1-pre-census-allocation","expected":"REJECT","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false,"current_open_and_closed_census":false,"allocated_rxx":"R0042"},
+    {"id":"R31-AC2-new-rxx-without-number","expected":"REJECT","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":true,"current_open_and_closed_census":true},
     {"id":"R31-AC3-unknown-state","expected":"REJECT","state":"unclassified","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-AC4-amend-with-new-owner","expected":"REJECT","state":"existing-owner-needs-amendment","existing_owner":"R001F","new_owner":"R0042","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false}
+    {"id":"R31-AC4-amend-owner-with-new-owner","expected":"REJECT","state":"existing-owner-needs-amendment","existing_owner":"R001F","new_owner":"R0042","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
+    {"id":"R31-AC5-amend-rxx-with-number","expected":"REJECT","state":"existing-rxx-needs-amendment","existing_owner":"R001F","existing_rxx":"R0041","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"},
+    {"id":"R31-AC6-amend-rxx-with-new-owner","expected":"REJECT","state":"existing-rxx-needs-amendment","existing_owner":"R001F","existing_rxx":"R0041","new_owner":"R0042","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
+    {"id":"R31-AC7-no-action-with-number","expected":"REJECT","state":"no-gap","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"},
+    {"id":"R31-AC8-supporting-artifact-with-number","expected":"REJECT","state":"cross-cutting-note-no-runtime-consumer","runtime_consumer":false,"evidence_current":true,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"},
+    {"id":"R31-AC9-defer-with-number","expected":"REJECT","state":"evidence-pending","evidence_current":false,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"},
+    {"id":"R31-AC10-amend-owner-with-number","expected":"REJECT","state":"existing-owner-needs-amendment","existing_owner":"R001F","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"}
   ]
 }

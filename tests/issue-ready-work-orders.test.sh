@@ -355,34 +355,47 @@ admission_controls = payload.get("admission_controls")
 if not isinstance(admission_cases, list) or not isinstance(admission_controls, list):
     raise SystemExit("admission fixtures must contain cases and controls")
 
-expected_admission_ids = [f"R31-A{i}" for i in range(1, 6)]
+expected_admission_ids = [f"R31-A{i}" for i in range(1, 7)]
 if [case.get("id") for case in admission_cases] != expected_admission_ids:
     raise SystemExit("admission case population/order mismatch")
 
-allowed_admission_actions = {"NO_ACTION", "SUPPORTING", "AMEND", "DEFER", "NEW_RXX"}
+allowed_admission_actions = {
+    "NO_ACTION", "SUPPORTING_ARTIFACT", "AMEND_EXISTING_OWNER",
+    "AMEND_EXISTING_RXX", "DEFER", "NEW_RXX",
+}
 
 def admission_action(case):
     state = case.get("state")
     allocated_rxx = case.get("allocated_rxx")
     has_number = isinstance(allocated_rxx, str) and bool(allocated_rxx.strip())
-    if state == "no-gap":
-        action = "NO_ACTION"
-    elif state == "existing-owner-sufficient":
-        action = "SUPPORTING"
-    elif state == "existing-owner-needs-amendment":
-        action = "AMEND"
-    elif not case.get("evidence_current") or not case.get("authority_confirmed"):
+    if not case.get("evidence_current") or not case.get("authority_confirmed"):
         action = "DEFER"
+    elif state == "no-gap":
+        action = "NO_ACTION"
+    elif state == "cross-cutting-note-no-runtime-consumer" and case.get("runtime_consumer") is False:
+        action = "SUPPORTING_ARTIFACT"
+    elif state == "existing-owner-needs-amendment":
+        action = "AMEND_EXISTING_OWNER"
+    elif state == "existing-rxx-needs-amendment":
+        action = "AMEND_EXISTING_RXX"
     elif state == "distinct-unowned-invariant":
         action = "NEW_RXX"
     else:
         return "REJECT"
-    if action in {"SUPPORTING", "AMEND"}:
+    if action in {"AMEND_EXISTING_OWNER", "AMEND_EXISTING_RXX"}:
         existing_owner = case.get("existing_owner")
         if not isinstance(existing_owner, str) or not existing_owner.strip() or case.get("new_owner"):
             return "REJECT"
+    if action == "AMEND_EXISTING_RXX":
+        existing_rxx = case.get("existing_rxx")
+        if not isinstance(existing_rxx, str) or not existing_rxx.strip():
+            return "REJECT"
     if action == "NEW_RXX":
-        return action if has_number and case.get("complete_admission_census") is True else "REJECT"
+        return action if (
+            has_number
+            and case.get("complete_admission_census") is True
+            and case.get("current_open_and_closed_census") is True
+        ) else "REJECT"
     return action if not has_number else "REJECT"
 
 for case in admission_cases:
@@ -397,7 +410,7 @@ for control in admission_controls:
     if observed != control.get("expected"):
         raise SystemExit(f"{control.get('id')}: expected {control.get('expected')}, observed {observed}")
 
-print("admission-census: ok (five exclusive actions; census before NEW_RXX allocation)")
+print("admission-census: ok (six exclusive actions; census before NEW_RXX allocation)")
 PY
 
 "${py_cmd[@]}" - "$model_input" "$model_expectations" <<'PY'
@@ -460,9 +473,10 @@ for text in \
   'required outcome or function' \
   'The ordinary direct path remains unchanged' \
   'Conditional work-order admission' \
-  'conditional pre-allocation census' \
-  '`NO_ACTION`, `SUPPORTING`, `AMEND`, `DEFER`, or `NEW_RXX`' \
-  'Allocate an RXX number only after the complete admission census selects' \
+  'current open-and-closed RXX census and genealogy' \
+  '`NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,' \
+  '`AMEND_EXISTING_RXX`, `DEFER`, or `NEW_RXX`' \
+  'number only after the complete current open-and-closed census' \
   '`NEW_RXX`'
 do
   grep -F "$text" "$ref" >/dev/null || fail "reference missing contract anchor: $text"

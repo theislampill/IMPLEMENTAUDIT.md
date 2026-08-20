@@ -69,21 +69,30 @@ settles a small reversible single-owner change without a state bundle.
 
 ## Conditional work-order admission
 
-Complete the conditional pre-allocation census before choosing exactly one of
-`NO_ACTION`, `SUPPORTING`, `AMEND`, `DEFER`, or `NEW_RXX`:
+For a proposed durable RXX allocation or material multi-RXX reconciliation,
+record the semantic centre, current failure/gap and named consumer; complete
+the current open-and-closed RXX census and genealogy; and resolve existing-owner
+overlap, dependency, and supersession before choosing exactly one of
+`NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,
+`AMEND_EXISTING_RXX`, `DEFER`, or `NEW_RXX`:
 
 - `NO_ACTION` when current evidence establishes no distinct gap;
-- `SUPPORTING` when the existing owner already covers the distinct invariant;
-- `AMEND` when current evidence warrants a bounded addition to that existing
-  owner;
+- `SUPPORTING_ARTIFACT` when a bounded cross-cutting note has no runtime
+  consumer and adds no owner;
+- `AMEND_EXISTING_OWNER` when current evidence warrants a bounded addition to
+  an existing non-RXX owner;
+- `AMEND_EXISTING_RXX` when a current or closed RXX already owns the failure
+  mechanism, consumer, authority boundary, and acceptance surface;
 - `DEFER` when current evidence or authority is insufficient; or
 - `NEW_RXX` when a current, authorised, distinct unowned invariant needs its
   own work-order owner.
 
-Allocate an RXX number only after the complete admission census selects
-`NEW_RXX`. `NO_ACTION`, `SUPPORTING`, `AMEND`, and `DEFER` allocate no RXX
-number. Supporting or amending an existing owner never creates a duplicate
-owner or authority; keep its distinct invariant and bounded allowance explicit.
+Apply the non-trigger/cheap path to ordinary non-RXX filing. Allocate an RXX
+number only after the complete current open-and-closed census selects `NEW_RXX`.
+`NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,
+`AMEND_EXISTING_RXX`, and `DEFER` allocate no RXX number. Supporting or
+amending an existing owner never creates a duplicate owner or authority; keep
+its distinct invariant and bounded allowance explicit.
 
 ## Multi-issue reconciliation
 
