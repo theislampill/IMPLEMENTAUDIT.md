@@ -191,8 +191,8 @@ Load references only when the current gate needs them:
 - `references/goal-format.md`: `/goal`, response, and marker shape.
 - `references/transcript-contract.md`: marker order, handoff exclusivity, and
   the state-derived RC self-dogfood evidence contract when triggered.
-- `references/continuity.md`: controller currentness, epochs, replay refusal,
-  receiver receipts, and post-boundary reconciliation before mutation.
+- `references/continuity.md` and `references/host-session-binding.md`:
+  controller currentness, boundary recovery, and exact host attribution.
 - `references/repo-state-comparison.md`: baseline/final and helper dispatch.
 - `references/sidecars.md`: optional Graphify/ActiveGraph and tooling bounds.
 - `references/lean-operating-discipline.md`: PDCA, Andon, Hansei, 5 Whys,
