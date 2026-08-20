@@ -75,16 +75,6 @@ EXPECTED_IDS = [
         "not-live-discoverable", "no-recursive-archive", "retention",
         "preimage-never-deleted", "superseded-generation", "superseded-receipt",
     ), 1)),
-    *(f"T{i:02d}-{name}" for i, name in enumerate((
-        "admission-formula", "byte-threshold", "token-threshold",
-        "context-health-threshold", "tokenizer-identity", "host-version",
-        "calibration-population", "minimum-payoff", "maximum-runtime",
-        "maximum-memory", "large-root-input", "large-root-decision",
-        "below-threshold-input", "below-threshold-decision", "cheap-path-archive",
-        "cheap-path-model", "cheap-path-ceremony", "storage-measurement",
-        "storage-budget-excess", "two-clean-roots", "large-root-manifest",
-        "large-root-payoff", "large-root-runtime", "large-root-memory",
-    ), 1)),
 ]
 
 CLASS_FOR_PREFIX = {
@@ -92,7 +82,6 @@ CLASS_FOR_PREFIX = {
     "M": "MONOTONIC_TRANSITION",
     "D": "DERIVED_BINDINGS",
     "A": "ARCHIVED_ONLY_HISTORY",
-    "T": "TRIGGER_CALIBRATION",
 }
 
 
@@ -213,31 +202,91 @@ def root_red(rows: list[dict[str, object]]) -> list[str]:
     return errors
 
 
-def trigger_controls(rows: list[dict[str, object]]) -> dict[str, object]:
-    values = {str(row["id"]): row["valid"] for row in rows}
+def canonical_sha256(value: object) -> str:
+    preimage = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(preimage).hexdigest()
 
-    def require_mapping(row_id: str) -> dict[str, object]:
-        value = values.get(row_id)
-        if not isinstance(value, dict):
-            fail(f"{row_id} must be an object")
-        return value
 
-    byte = require_mapping("T02-byte-threshold")
-    token = require_mapping("T03-token-threshold")
-    context = require_mapping("T04-context-health-threshold")
-    tokenizer = require_mapping("T05-tokenizer-identity")
-    host = require_mapping("T06-host-version")
-    population = require_mapping("T07-calibration-population")
-    payoff = require_mapping("T08-minimum-payoff")
-    runtime = require_mapping("T09-maximum-runtime")
-    memory = require_mapping("T10-maximum-memory")
-    large = require_mapping("T11-large-root-input")
-    below = require_mapping("T13-below-threshold-input")
-    observed_payoff = require_mapping("T22-large-root-payoff")
-    observed_runtime = require_mapping("T23-large-root-runtime")
-    observed_memory = require_mapping("T24-large-root-memory")
+def leaf_paths(value: object, prefix: tuple[object, ...] = ()) -> list[tuple[object, ...]]:
+    if isinstance(value, dict):
+        return [
+            path
+            for key in sorted(value)
+            for path in leaf_paths(value[key], prefix + (key,))
+        ]
+    if isinstance(value, list):
+        return [
+            path
+            for index, item in enumerate(value)
+            for path in leaf_paths(item, prefix + (index,))
+        ]
+    return [prefix]
 
-    if values.get("T01-admission-formula") != (
+
+def mutate_leaf(value: object, path: tuple[object, ...]) -> None:
+    parent = value
+    for part in path[:-1]:
+        parent = parent[part]  # type: ignore[index]
+    leaf = parent[path[-1]]  # type: ignore[index]
+    if isinstance(leaf, bool):
+        replacement: object = not leaf
+    elif isinstance(leaf, int):
+        replacement = leaf + 1
+    elif isinstance(leaf, str):
+        replacement = leaf + "-held-out-mutation"
+    elif leaf is None:
+        replacement = "held-out-mutation"
+    else:
+        fail(f"unsupported calibration leaf type at {path}: {type(leaf).__name__}")
+    parent[path[-1]] = replacement  # type: ignore[index]
+
+
+def trigger_controls(calibration: object) -> dict[str, object]:
+    if not isinstance(calibration, dict):
+        fail("trigger_calibration must be an object")
+    if set(calibration) != {
+        "schema", "population_id", "canonicalization", "population_sha256", "bound"
+    }:
+        fail("trigger_calibration fields drifted")
+    if calibration.get("schema") != "implementaudit.canonical-state-rotation-calibration.v1":
+        fail("wrong trigger calibration schema")
+    if calibration.get("population_id") != "R0039-F1-CAL-v2":
+        fail("calibration population identity drifted")
+    if calibration.get("canonicalization") != "utf8-json-sort-keys-no-whitespace-v1":
+        fail("calibration canonicalization identity drifted")
+    bound = calibration.get("bound")
+    if not isinstance(bound, dict):
+        fail("calibration bound population must be an object")
+    if set(bound) != {
+        "admission_formula", "thresholds", "tokenizer", "host",
+        "minimum_payoff", "maximum_runtime", "maximum_memory", "storage", "cases",
+    }:
+        fail("calibration bound population fields drifted")
+    population_sha256 = calibration.get("population_sha256")
+    if not isinstance(population_sha256, str) or len(population_sha256) != 64:
+        fail("calibration population SHA-256 is malformed")
+    if canonical_sha256(bound) != population_sha256:
+        fail("calibration population digest does not bind its canonical content")
+
+    thresholds = bound.get("thresholds")
+    if not isinstance(thresholds, dict) or set(thresholds) != {
+        "bytes", "tokens", "context_health"
+    }:
+        fail("calibration thresholds are incomplete")
+    byte = thresholds["bytes"]
+    token = thresholds["tokens"]
+    context = thresholds["context_health"]
+    tokenizer = bound.get("tokenizer")
+    host = bound.get("host")
+    payoff = bound.get("minimum_payoff")
+    runtime = bound.get("maximum_runtime")
+    memory = bound.get("maximum_memory")
+    storage = bound.get("storage")
+    cases = bound.get("cases")
+
+    if bound.get("admission_formula") != (
         "bytes>=threshold OR tokens>=threshold OR context-health<=threshold"
     ):
         fail("trigger admission formula is not the exact any-boundary contract")
@@ -259,27 +308,56 @@ def trigger_controls(rows: list[dict[str, object]]) -> dict[str, object]:
         fail("tokenizer name implementation or version is unbound")
     if host != {"host": "codex-desktop", "version": "2026-08-20"}:
         fail("host or version is unbound")
-    if population != {
-        "id": "R0039-F1-CAL-v1",
-        "cases": 2,
-        "sha256": "21bc4b1dbb7cc9e50e6a8e80911179404743041bccb33db9f591e2d07509a482",
-    }:
-        fail("calibration population identity drifted")
-    population_preimage = (
-        f"{population['id']}|{large['id']}|{below['id']}".encode("utf-8")
-    )
-    if hashlib.sha256(population_preimage).hexdigest() != population["sha256"]:
-        fail("calibration population digest does not bind both pinned cases")
     if payoff != {"live_bytes_reduction": 32768, "reentry_token_reduction": 8192}:
         fail("minimum payoff identity drifted")
     if runtime != {"value": 5000, "unit": "milliseconds"}:
         fail("maximum runtime identity drifted")
     if memory != {"value": 67108864, "unit": "bytes"}:
         fail("maximum memory identity drifted")
+    if storage != {
+        "content_addressed": True,
+        "deduplicated": True,
+        "cumulative_measured": True,
+        "budget_excess": "OWNER_DECISION_NO_DELETE",
+    }:
+        fail("storage measurement or owner-decision contract drifted")
+    if not isinstance(cases, list) or len(cases) != 2:
+        fail("calibration population must contain exactly two cases")
+    if [case.get("id") if isinstance(case, dict) else None for case in cases] != [
+        "large-root-positive", "below-threshold"
+    ]:
+        fail("calibration case identities or order drifted")
 
-    byte_limit = int(byte["value"])
-    token_limit = int(token["value"])
-    context_limit = int(context["value"])
+    case_by_id: dict[str, dict[str, object]] = {}
+    expected_case_fields = {"id", "input", "result"}
+    expected_input_fields = {"bytes", "tokens", "context_health_bp"}
+    expected_result_fields = {
+        "trigger", "payoff", "runtime", "memory", "archive_writes", "model_calls",
+        "extra_ceremony", "manifest", "two_clean_roots",
+    }
+    for case in cases:
+        if not isinstance(case, dict) or set(case) != expected_case_fields:
+            fail("calibration case fields drifted")
+        sample = case.get("input")
+        result = case.get("result")
+        if not isinstance(sample, dict) or set(sample) != expected_input_fields:
+            fail(f"{case.get('id')} input fields drifted")
+        if not isinstance(result, dict) or set(result) != expected_result_fields:
+            fail(f"{case.get('id')} result fields drifted")
+        case_by_id[str(case["id"])] = case
+
+    large = case_by_id["large-root-positive"]
+    below = case_by_id["below-threshold"]
+    large_input = large["input"]
+    below_input = below["input"]
+    large_result = large["result"]
+    below_result = below["result"]
+    assert isinstance(large_input, dict) and isinstance(below_input, dict)
+    assert isinstance(large_result, dict) and isinstance(below_result, dict)
+
+    byte_limit = int(byte["value"])  # type: ignore[index]
+    token_limit = int(token["value"])  # type: ignore[index]
+    context_limit = int(context["value"])  # type: ignore[index]
 
     def admitted(sample: dict[str, object]) -> bool:
         return (
@@ -288,9 +366,13 @@ def trigger_controls(rows: list[dict[str, object]]) -> dict[str, object]:
             or int(sample["context_health_bp"]) <= context_limit
         )
 
-    if not admitted(large) or values.get("T12-large-root-decision") != "TRIGGER":
+    if large_input != {"bytes": 131073, "tokens": 32769, "context_health_bp": 2499}:
+        fail("pinned large-root input drifted")
+    if not admitted(large_input) or large_result.get("trigger") != "TRIGGER":
         fail("pinned large-root positive did not trigger")
-    if admitted(below) or values.get("T14-below-threshold-decision") != "NO_TRIGGER":
+    if below_input != {"bytes": 131071, "tokens": 32767, "context_health_bp": 2501}:
+        fail("pinned below-threshold input drifted")
+    if admitted(below_input) or below_result.get("trigger") != "NO_TRIGGER":
         fail("pinned below-threshold case did not retain the cheap path")
 
     # Held-out boundary controls independently discriminate every admission leg.
@@ -309,51 +391,77 @@ def trigger_controls(rows: list[dict[str, object]]) -> dict[str, object]:
         fail("all-below-boundary held-out negative unexpectedly triggered")
 
     cheap = {
-        "archive": values.get("T15-cheap-path-archive"),
-        "model": values.get("T16-cheap-path-model"),
-        "extra_ceremony": values.get("T17-cheap-path-ceremony"),
+        "archive": below_result.get("archive_writes"),
+        "model": below_result.get("model_calls"),
+        "extra_ceremony": below_result.get("extra_ceremony"),
     }
     if cheap != {"archive": 0, "model": 0, "extra_ceremony": 0}:
         fail("below-threshold cheap path acquired archive model or ceremony effects")
-    if values.get("T18-storage-measurement") != {
-        "content_addressed": True,
-        "deduplicated": True,
-        "cumulative_measured": True,
+    if below_result.get("payoff") != {
+        "live_bytes_reduction": 0, "reentry_token_reduction": 0
     }:
-        fail("storage measurement contract drifted")
-    if values.get("T19-storage-budget-excess") != "OWNER_DECISION_NO_DELETE":
-        fail("storage-budget excess did not remain an owner decision")
-    if values.get("T20-two-clean-roots") != "BYTE_IDENTICAL_TRIGGER_DECISION":
+        fail("below-threshold cheap path acquired measured payoff")
+    if below_result.get("runtime") != {"value": 0, "unit": "milliseconds"}:
+        fail("below-threshold cheap path acquired runtime overhead")
+    if below_result.get("memory") != {"value": 0, "unit": "bytes"}:
+        fail("below-threshold cheap path acquired memory overhead")
+    if below_result.get("manifest") != "NOT_TRIGGERED":
+        fail("below-threshold cheap path acquired a rotation manifest")
+    if below_result.get("two_clean_roots") != "BYTE_IDENTICAL_NO_TRIGGER_DECISION":
+        fail("two-clean-root cheap-path equivalence is absent")
+    if large_result.get("archive_writes") != 1 or large_result.get("model_calls") != 0:
+        fail("large-root positive archive or zero-model result drifted")
+    if large_result.get("extra_ceremony") != 1:
+        fail("large-root positive rotation ceremony result drifted")
+    if large_result.get("two_clean_roots") != "BYTE_IDENTICAL_TRIGGER_DECISION":
         fail("two-clean-root trigger equivalence is absent")
-    if values.get("T21-large-root-manifest") != "COMPLETE_ORACLE_DENOMINATOR":
+    if large_result.get("manifest") != "COMPLETE_ORACLE_DENOMINATOR":
         fail("large-root positive does not bind the complete denominator")
-    if (
+
+    observed_payoff = large_result.get("payoff")
+    observed_runtime = large_result.get("runtime")
+    observed_memory = large_result.get("memory")
+    if not isinstance(observed_payoff, dict) or (
         int(observed_payoff["live_bytes_reduction"])
-        < int(payoff["live_bytes_reduction"])
+        < int(payoff["live_bytes_reduction"])  # type: ignore[index]
         or int(observed_payoff["reentry_token_reduction"])
-        < int(payoff["reentry_token_reduction"])
+        < int(payoff["reentry_token_reduction"])  # type: ignore[index]
     ):
         fail("large-root positive did not meet the minimum measured payoff")
-    if (
-        observed_runtime.get("unit") != runtime["unit"]
-        or int(observed_runtime["value"]) > int(runtime["value"])
+    if not isinstance(observed_runtime, dict) or (
+        observed_runtime.get("unit") != runtime["unit"]  # type: ignore[index]
+        or int(observed_runtime["value"]) > int(runtime["value"])  # type: ignore[index]
     ):
         fail("large-root positive exceeded the maximum runtime")
-    if (
-        observed_memory.get("unit") != memory["unit"]
-        or int(observed_memory["value"]) > int(memory["value"])
+    if not isinstance(observed_memory, dict) or (
+        observed_memory.get("unit") != memory["unit"]  # type: ignore[index]
+        or int(observed_memory["value"]) > int(memory["value"])  # type: ignore[index]
     ):
         fail("large-root positive exceeded the maximum memory")
+
+    paths = leaf_paths(bound)
+    changed = 0
+    for path in paths:
+        mutant = copy.deepcopy(bound)
+        mutate_leaf(mutant, path)
+        if canonical_sha256(mutant) == population_sha256:
+            fail(f"bound-field digest mutation was not discriminating at {path}")
+        changed += 1
 
     return {
         "byte": byte_limit,
         "token": token_limit,
         "context": context_limit,
+        "population_sha256": population_sha256,
+        "digest_mutations": changed,
+        "digest_fields": len(paths),
         **cheap,
     }
 
 
-def fixture_self_check(rows: list[dict[str, object]]) -> None:
+def fixture_self_check(
+    rows: list[dict[str, object]], calibration: object
+) -> None:
     complete = observations(rows, "valid")
     complete_errors = validate(rows, complete)
     if complete_errors:
@@ -408,7 +516,9 @@ def fixture_self_check(rows: list[dict[str, object]]) -> None:
     if validate(rows, unknown_observation) != ["unknown-observations:['X01-unknown']"]:
         fail("N+1 unknown observation negative unexpectedly passed")
 
-    trigger_controls(rows)
+    # Calibration is independently bounded and must not enlarge or burden the
+    # four protected-state partitions consumed by projection and rehydration.
+    trigger_controls(calibration)
     errors = root_red(rows)
     class_counts = {
         cls: sum(1 for row in rows if row["class"] == cls)
@@ -434,21 +544,24 @@ def candidate_from_file(path: Path) -> object:
 
 fixture_path = Path(sys.argv[1])
 args = sys.argv[2:]
-_, rows = load_fixture(fixture_path)
+payload, rows = load_fixture(fixture_path)
+calibration = payload.get("trigger_calibration")
 
 if args == ["--fixture-self-check"]:
-    fixture_self_check(rows)
+    fixture_self_check(rows, calibration)
     raise SystemExit(0)
 
 if args == ["--trigger-self-check"]:
-    trigger = trigger_controls(rows)
+    trigger = trigger_controls(calibration)
     print(
         "CANONICAL_STATE_ROTATION_TRIGGER_SELF_CHECK=PASS "
         "large-root=TRIGGER below-threshold=NO_TRIGGER "
         f"archive={trigger['archive']} model={trigger['model']} "
         f"extra-ceremony={trigger['extra_ceremony']} "
         f"thresholds=bytes:{trigger['byte']},tokens:{trigger['token']},"
-        f"context-health-bp:{trigger['context']}"
+        f"context-health-bp:{trigger['context']} "
+        f"population-sha256={trigger['population_sha256']} "
+        f"digest-mutations={trigger['digest_mutations']}/{trigger['digest_fields']}"
     )
     raise SystemExit(0)
 
