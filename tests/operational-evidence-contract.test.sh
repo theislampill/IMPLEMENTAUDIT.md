@@ -571,9 +571,11 @@ if set(evidence) != {
         "review-nonverdict"}:
     raise SystemExit("C04 evidence population was collapsed")
 if run_collection.get("layer_census") != {
-        "ATTEMPT": 4, "EFFECT": 1, "RECOVERY": 1, "CLOSURE": 1}:
+        "ATTEMPT": 4, "RECEIPT": 0, "EFFECT": 1, "RECOVERY": 1,
+        "CLOSURE": 1}:
     raise SystemExit("attempt/effect/recovery/closure layers were conflated")
 if (run_collection.get("first_red_id") != "check-attempt-red" or
+        run_collection.get("first_red_state") != "PRESENT" or
         run_collection.get("weakest_leg_id") != "effect-red"):
     raise SystemExit("first RED or weakest evidence leg was promoted away")
 if (evidence["effect-red"]["result_class"] != "RED" or
@@ -610,6 +612,40 @@ if module.collect_evidence_failure(run_root)["semantic_sha256"] != (
         baseline_semantic):
     raise SystemExit("STATE/transcript prose was treated as canonical evidence")
 
+final_observation_root = tmp_root / "run-artifact-final-observation"
+shutil.copytree(run_fixture_root, final_observation_root)
+final_observation_path = (
+    final_observation_root / "operational-evidence.json").resolve()
+original_is_symlink = pathlib.Path.is_symlink
+final_observation_state = {"calls": 0, "mutated": False}
+
+
+def mutate_during_last_is_symlink(path):
+    result = original_is_symlink(path)
+    if path.resolve() == final_observation_path:
+        final_observation_state["calls"] += 1
+        if final_observation_state["calls"] == 2:
+            path.write_bytes(path.read_bytes() + b"\n")
+            final_observation_state["mutated"] = True
+    return result
+
+
+pathlib.Path.is_symlink = mutate_during_last_is_symlink
+try:
+    module.collect_evidence_failure(final_observation_root)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_RUN_ARTIFACT_CHANGED":
+        raise SystemExit(
+            "C04 H3 RED: final observation mutation returned wrong refusal "
+            f"{exc.code}")
+else:
+    raise SystemExit("C04 H3 RED: final observation mutation escaped")
+finally:
+    pathlib.Path.is_symlink = original_is_symlink
+if (not final_observation_state["mutated"] or
+        final_observation_state["calls"] != 2):
+    raise SystemExit("C04 H3 control did not reach the final observation window")
+
 with canonical_artifact.open(encoding="utf-8") as stream:
     base_run_artifact = json.load(stream)
 
@@ -627,6 +663,89 @@ def expect_run_artifact_failure(name, value, code):
             raise SystemExit(f"{name}: expected {code}, got {exc.code}")
     else:
         raise SystemExit(f"{name}: invalid run artifact was accepted")
+
+
+def collect_run_artifact_case(name, value):
+    case_root = tmp_root / ("run-positive-" + name.replace(" ", "-"))
+    case_root.mkdir()
+    (case_root / "operational-evidence.json").write_text(
+        json.dumps(value, ensure_ascii=False, allow_nan=False, sort_keys=True),
+        encoding="utf-8")
+    return module.collect_evidence_failure(case_root)
+
+
+case = copy.deepcopy(base_run_artifact)
+next(row for row in case["evidence_records"]
+     if row["id"] == "proxy-green")["leg"] = "RECEIPT"
+try:
+    receipt_collection = collect_run_artifact_case("receipt-leg", case)
+except module.OperationalEvidenceError:
+    raise SystemExit("C04 H1 RED: typed RECEIPT evidence leg rejected")
+if (next(row for row in receipt_collection["evidence_records"]
+         if row["id"] == "proxy-green")["leg"] != "RECEIPT" or
+        receipt_collection["layer_census"].get("RECEIPT") != 1):
+    raise SystemExit("C04 H1 RED: typed RECEIPT evidence leg lost")
+
+case = copy.deepcopy(base_run_artifact)
+next(row for row in case["failure_records"]
+     if row["id"] == "countermeasure-readback")["record_type"] = "Containment"
+try:
+    containment_collection = collect_run_artifact_case(
+        "containment-record", case)
+except module.OperationalEvidenceError:
+    raise SystemExit("C04 H1 RED: typed Containment failure record rejected")
+if next(row for row in containment_collection["failure_records"]
+        if row["id"] == "countermeasure-readback")["record_type"] != (
+            "Containment"):
+    raise SystemExit("C04 H1 RED: typed Containment failure record lost")
+
+case = copy.deepcopy(base_run_artifact)
+next(row for row in case["failure_records"]
+     if row["id"] == "countermeasure-readback")["record_type"] = "Rerun"
+try:
+    rerun_collection = collect_run_artifact_case("rerun-record", case)
+except module.OperationalEvidenceError:
+    raise SystemExit("C04 H1 RED: typed Rerun failure record rejected")
+if next(row for row in rerun_collection["failure_records"]
+        if row["id"] == "countermeasure-readback")["record_type"] != "Rerun":
+    raise SystemExit("C04 H1 RED: typed Rerun failure record lost")
+
+case = copy.deepcopy(base_run_artifact)
+countermeasure = next(
+    row for row in case["failure_records"]
+    if row["id"] == "countermeasure-readback")
+countermeasure["recovery_state"] = "OBSERVED"
+countermeasure["evidence_ids"] = ["check-attempt-red"]
+try:
+    collect_run_artifact_case("non-recovery-observed", case)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_RUN_RECOVERY_EVIDENCE":
+        raise SystemExit(
+            "C04 H2 RED: non-Recovery OBSERVED returned wrong refusal "
+            f"{exc.code}")
+else:
+    raise SystemExit(
+        "C04 H2 RED: non-Recovery OBSERVED accepted ATTEMPT evidence")
+
+case = copy.deepcopy(base_run_artifact)
+for row in case["evidence_records"]:
+    if row["result_class"] == "RED":
+        row["result_class"] = "GREEN"
+case["first_red_id"] = None
+case["residual_ids"] = []
+case["failure_records"] = []
+try:
+    green_only_collection = collect_run_artifact_case("green-only", case)
+except module.OperationalEvidenceError:
+    raise SystemExit(
+        "C04 M1 RED: green-only population lacks typed no-first-RED state")
+if (green_only_collection.get("first_red_id", "missing") is not None or
+        green_only_collection.get("first_red_state") != "NOT_APPLICABLE" or
+        green_only_collection.get("failure_records") != [] or
+        any(row["result_class"] == "RED"
+            for row in green_only_collection["evidence_records"])):
+    raise SystemExit(
+        "C04 M1 RED: green-only population fabricated or lost RED absence")
 
 
 case = copy.deepcopy(base_run_artifact)

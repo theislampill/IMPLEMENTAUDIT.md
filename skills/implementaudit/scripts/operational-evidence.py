@@ -779,7 +779,7 @@ def collect_evidence_failure(root: pathlib.Path):
                 "native_owner_identity"):
             _text(record[key], f"{path}.{key}")
         if record["leg"] not in (
-                "ATTEMPT", "EFFECT", "RECOVERY", "CLOSURE"):
+                "ATTEMPT", "RECEIPT", "EFFECT", "RECOVERY", "CLOSURE"):
             _error("OE_RUN_ARTIFACT_INVALID", f"{path}.leg",
                    "unsupported evidence leg")
         if record["result_class"] not in (
@@ -787,7 +787,7 @@ def collect_evidence_failure(root: pathlib.Path):
             _error("OE_RUN_ARTIFACT_INVALID", f"{path}.result_class",
                    "unsupported evidence result class")
         proxy = _boolean(record["proxy"], f"{path}.proxy")
-        if proxy and record["leg"] != "ATTEMPT":
+        if proxy and record["leg"] not in ("ATTEMPT", "RECEIPT"):
             _error("OE_RUN_EVIDENCE_PROXY", path,
                    "proxy evidence cannot become effect, recovery or closure")
         _currentness(record["currentness"], f"{path}.currentness")
@@ -814,24 +814,31 @@ def collect_evidence_failure(root: pathlib.Path):
                    f"$run_artifact.evidence_records[{record['id']}].contrary_evidence",
                    "contrary evidence must reference a retained evidence record")
 
-    first_red_id = _text(
-        artifact["first_red_id"], "$run_artifact.first_red_id")
     red_records = [
         record for record in evidence_records
         if record["result_class"] == "RED" and not record["proxy"]]
-    if (not red_records or first_red_id not in evidence_by_id or
-            first_red_id != min(
-                red_records, key=lambda row: row["sequence"])["id"]):
-        _error("OE_RUN_EVIDENCE_FIRST_RED", "$run_artifact.first_red_id",
-               "first RED must retain the earliest non-proxy RED record")
+    if red_records:
+        first_red_id = _text(
+            artifact["first_red_id"], "$run_artifact.first_red_id")
+        if (first_red_id not in evidence_by_id or
+                first_red_id != min(
+                    red_records, key=lambda row: row["sequence"])["id"]):
+            _error("OE_RUN_EVIDENCE_FIRST_RED", "$run_artifact.first_red_id",
+                   "first RED must retain the earliest non-proxy RED record")
+        first_red_state = "PRESENT"
+    else:
+        if artifact["first_red_id"] is not None:
+            _error("OE_RUN_EVIDENCE_FIRST_RED", "$run_artifact.first_red_id",
+                   "no-first-RED population must use JSON null")
+        first_red_id = None
+        first_red_state = "NOT_APPLICABLE"
     weakest_leg_id = _text(
         artifact["weakest_leg_id"], "$run_artifact.weakest_leg_id")
     weakest = evidence_by_id.get(weakest_leg_id)
     if (weakest is None or weakest["proxy"] or
-            weakest["result_class"] in ("GREEN", "NONVERDICT") or
             (red_records and weakest["result_class"] != "RED")):
         _error("OE_RUN_EVIDENCE_WEAKEST", "$run_artifact.weakest_leg_id",
-               "weakest leg cannot be replaced by green/proxy/nonverdict")
+               "weakest leg must be non-proxy and RED when a RED exists")
 
     if type(artifact["failure_records"]) is not list:
         _error("OE_RUN_ARTIFACT_INVALID", "$run_artifact.failure_records",
@@ -856,7 +863,8 @@ def collect_evidence_failure(root: pathlib.Path):
             _error("OE_RUN_FAILURE_INVALID", f"{path}.sequence",
                    "sequence must be a non-negative integer")
         if record["record_type"] not in (
-                "Andon", "Residual", "Countermeasure", "Recovery"):
+                "Andon", "Residual", "Containment", "Countermeasure",
+                "Rerun", "Recovery"):
             _error("OE_RUN_FAILURE_INVALID", f"{path}.record_type",
                    "unsupported FAILURE record type")
         for key in (
@@ -899,8 +907,7 @@ def collect_evidence_failure(root: pathlib.Path):
             _error("OE_RUN_FAILURE_REFERENCE",
                    f"$run_artifact.failure_records[{record['id']}].evidence_ids",
                    "failure lineage must reference retained evidence")
-        if record["record_type"] == "Recovery" and (
-                record["recovery_state"] == "OBSERVED"):
+        if record["recovery_state"] == "OBSERVED":
             recovery_evidence = [
                 evidence_by_id[reference]
                 for reference in record["evidence_ids"]]
@@ -923,6 +930,11 @@ def collect_evidence_failure(root: pathlib.Path):
 
     layer_census = Counter(
         record["leg"] for record in evidence_records)
+    layer_census_result = {
+        leg: layer_census.get(leg, 0)
+        for leg in (
+            "ATTEMPT", "RECEIPT", "EFFECT", "RECOVERY", "CLOSURE")
+    }
     result = {
         "schema": EVIDENCE_FAILURE_COLLECTION_SCHEMA,
         "families": ["EVIDENCE", "FAILURE"],
@@ -933,12 +945,10 @@ def collect_evidence_failure(root: pathlib.Path):
             "artifact_identity": artifact_identity,
         },
         "first_red_id": first_red_id,
+        "first_red_state": first_red_state,
         "weakest_leg_id": weakest_leg_id,
         "residual_ids": list(residual_ids),
-        "layer_census": {
-            leg: layer_census.get(leg, 0)
-            for leg in ("ATTEMPT", "EFFECT", "RECOVERY", "CLOSURE")
-        },
+        "layer_census": layer_census_result,
         "evidence_records": evidence_records,
         "failure_records": failure_records,
         "establishes": [],
@@ -947,12 +957,15 @@ def collect_evidence_failure(root: pathlib.Path):
         canonical_json_v1(result)).hexdigest()
     immutable_result = decode_strict_json_bytes(
         canonical_json_v1(result), "evidence/failure collection")
+    if artifact_path.is_symlink():
+        _error("OE_RUN_ARTIFACT_CHANGED", "$run_artifact",
+               "canonical run artifact changed during collection")
     try:
         final_artifact_bytes = artifact_path.read_bytes()
     except OSError:
         _error("OE_RUN_ARTIFACT_CHANGED", "$run_artifact",
                "canonical run artifact changed during collection")
-    if artifact_path.is_symlink() or final_artifact_bytes != artifact_bytes:
+    if final_artifact_bytes != artifact_bytes:
         _error("OE_RUN_ARTIFACT_CHANGED", "$run_artifact",
                "canonical run artifact changed during collection")
     return immutable_result
