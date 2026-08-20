@@ -693,7 +693,7 @@ def collect_repository(root: pathlib.Path):
     static_invocations.sort(key=lambda row: canonical_json_v1(row))
     for values in diagnostics.values():
         values.sort()
-    return {
+    result = {
         "schema": REPOSITORY_COLLECTION_SCHEMA,
         "repository": {
             "commit": commit, "tree": tree,
@@ -705,6 +705,11 @@ def collect_repository(root: pathlib.Path):
         "facts": facts,
         "static_collector_invocations": static_invocations,
     }
+    immutable_result = decode_strict_json_bytes(
+        canonical_json_v1(result), "repository collection result")
+    _require_repository_snapshot_stable(
+        root, paths, commit, tree, raw_paths, status, physical_file_rows)
+    return immutable_result
 
 
 def _validate_static_qualification(value, outcome):

@@ -64,9 +64,15 @@ tree, tracked-path population, status bytes, file type/length and every file or
 symlink-target hash; any mid-scan change is a typed refusal and no mixed
 `CURRENT` snapshot is returned. The same exact fence runs again after bounded
 AST/package processing, immediately before facts can be returned, so a change
-after the second file read is also refused. Every readable tracked file stays
-an exact file fact; an unreadable or missing tracked path produces a non-empty
-`STALE` observation and degrades the file capability to `PARTIAL`.
+after the second file read is also refused. The complete result is sorted,
+canonicalized and decoded into its return object before a third and truly final
+physical fence. After that bound observation the prebuilt object is returned
+directly: no later sorting, digest, parsing, filesystem, Git or callback-capable
+work occurs. `CURRENT` is stable at that observation boundary; a later physical
+change is an explicit invalidator, not a continuous-state guarantee. Every
+readable tracked file stays an exact file fact; an unreadable or missing tracked
+path produces a non-empty `STALE` observation and degrades the file capability
+to `PARTIAL`.
 Known package JSON contributes only present, positively declared shared roots.
 The shell validation registry remains an exact file/hash fact; C02 does not
 parse shell or infer registry entries.

@@ -432,6 +432,101 @@ finally:
 if late_mutator.is_alive() or not late_mutation_finished.is_set():
     raise SystemExit("synchronized during-AST mutation control did not complete")
 
+post_fence_repo = tmp_root / "post-fence-repository"
+shutil.copytree(fixture_root, post_fence_repo)
+initialize_repo(post_fence_repo)
+post_fence_path = (post_fence_repo / "src" / "main.py").resolve()
+original_stability_fence = module._require_repository_snapshot_stable
+original_canonical_json = module.canonical_json_v1
+post_fence_state = {"fences": 0, "armed": False, "mutated": False}
+
+
+def observing_stability_fence(*args, **kwargs):
+    result = original_stability_fence(*args, **kwargs)
+    post_fence_state["fences"] += 1
+    if post_fence_state["fences"] == 2:
+        post_fence_state["armed"] = True
+    return result
+
+
+def mutate_from_post_fence_canonicalization(value):
+    if post_fence_state["armed"] and not post_fence_state["mutated"]:
+        post_fence_path.write_bytes(
+            post_fence_path.read_bytes() + b"\n# post-fence callback change\n")
+        post_fence_state["mutated"] = True
+    return original_canonical_json(value)
+
+
+module._require_repository_snapshot_stable = observing_stability_fence
+module.canonical_json_v1 = mutate_from_post_fence_canonicalization
+try:
+    module.collect_repository(post_fence_repo)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_REPOSITORY_CHANGED_DURING_SCAN":
+        raise SystemExit(
+            "post-fence callback mutation expected "
+            f"OE_REPOSITORY_CHANGED_DURING_SCAN, got {exc.code}")
+else:
+    raise SystemExit("post-final-fence canonicalization mutation escaped")
+finally:
+    module._require_repository_snapshot_stable = original_stability_fence
+    module.canonical_json_v1 = original_canonical_json
+if not post_fence_state["mutated"] or post_fence_state["fences"] != 2:
+    raise SystemExit("post-final-fence mutation control did not reach its window")
+
+terminal_repo = tmp_root / "terminal-fence-repository"
+shutil.copytree(fixture_root, terminal_repo)
+initialize_repo(terminal_repo)
+original_read_repository_path = module._read_repository_path
+original_run_git = module._run_git
+original_decode_strict_json = module.decode_strict_json_bytes
+terminal_original_ast_parse = module.ast.parse
+terminal_state = {"fences": 0, "complete": False, "after": []}
+
+
+def terminal_stability_fence(*args, **kwargs):
+    result = original_stability_fence(*args, **kwargs)
+    terminal_state["fences"] += 1
+    if terminal_state["fences"] == 3:
+        terminal_state["complete"] = True
+    return result
+
+
+def record_after_final(name, function):
+    def wrapper(*args, **kwargs):
+        if terminal_state["complete"]:
+            terminal_state["after"].append(name)
+        return function(*args, **kwargs)
+    return wrapper
+
+
+module._require_repository_snapshot_stable = terminal_stability_fence
+module.canonical_json_v1 = record_after_final(
+    "canonical_json_v1", original_canonical_json)
+module._read_repository_path = record_after_final(
+    "read_repository_path", original_read_repository_path)
+module._run_git = record_after_final("run_git", original_run_git)
+module.decode_strict_json_bytes = record_after_final(
+    "decode_strict_json_bytes", original_decode_strict_json)
+module.ast.parse = record_after_final("ast.parse", terminal_original_ast_parse)
+try:
+    terminal_collection = module.collect_repository(terminal_repo)
+finally:
+    module._require_repository_snapshot_stable = original_stability_fence
+    module.canonical_json_v1 = original_canonical_json
+    module._read_repository_path = original_read_repository_path
+    module._run_git = original_run_git
+    module.decode_strict_json_bytes = original_decode_strict_json
+    module.ast.parse = terminal_original_ast_parse
+if terminal_state["fences"] != 3:
+    raise SystemExit("true final stability fence was not observed exactly once")
+if terminal_state["after"]:
+    raise SystemExit(
+        "target-sensitive/callback work followed final fence: " +
+        ",".join(terminal_state["after"]))
+if terminal_collection.get("repository", {}).get("worktree_state") != "CLEAN":
+    raise SystemExit("terminal-fence unchanged repository lost CURRENT path")
+
 
 ZERO64 = "0" * 64
 ONE64 = "1" * 64
