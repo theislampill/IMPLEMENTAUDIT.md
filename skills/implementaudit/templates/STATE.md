@@ -11,6 +11,8 @@ Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`
 | Status | open |
 | Audit object state | open |
 | Route |  |
+| Route decision projection | PENDING |
+| Route decision record | none |
 | Owner/source |  |
 | Baseline ref |  |
 | Last check |  |

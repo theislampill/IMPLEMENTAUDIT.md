@@ -183,6 +183,15 @@ case "${1:-}" in
     receipt_arg="${2:-}"; controller="${receipt_arg%@*}"; controller="${controller#refs/implementaudit/continuity-receipts/}"; controller="${controller%/*}"
     controller_io verify "$controller" "$receipt_arg"; exit $? ;;
   --require-current-continuity) controller_io require "${2:-}"; exit $? ;;
+  --require-current-route)
+    controller="${2:-}"; shift 2
+    if command -v python >/dev/null 2>&1; then route_py=(python)
+    elif command -v python3 >/dev/null 2>&1; then route_py=(python3)
+    elif command -v py >/dev/null 2>&1; then route_py=(py -3)
+    else printf 'claim-run.sh: Python 3 is required for route currentness\n' >&2; exit 1; fi
+    "${route_py[@]}" "$(dirname "$0")/route-transaction.py" check --controller "$controller" "$@"
+    exit $?
+    ;;
   --invalidate-continuity)
     controller="${2:-}"; shift 2; deferred=invalidate
     while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --event) event="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown invalidation argument: %s\n' "$1" >&2; exit 1;; esac; done ;;

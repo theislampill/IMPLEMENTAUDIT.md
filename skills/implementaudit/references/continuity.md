@@ -66,6 +66,15 @@ verified receipt, controller/epoch, exact ACTIVE/READY/BLOCKED frontier and any
 discrepancy. Only then may ordinary task narration or new execution resume.
 Legacy v1 receipts work only without invalidation.
 
+Continuity currentness does not itself authorize the next route. After the
+receipt is current, load `route-obligations.md` and classify the exact boundary,
+scope and action through `scripts/route-transaction.py`. The canonical result
+is only `PENDING`, `NOT_REQUIRED`, or `REQUIRED`. Missing/malformed authority or
+`PENDING` blocks. A scoped `NOT_REQUIRED` receipt must be rechecked immediately
+before its exact action; a `REQUIRED/UNSATISFIED` record blocks until the H2B
+child lifecycle returns and completes it. STATE is a projection, never the
+decision authority.
+
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs
 model judgement. It cannot mint the invalidation/receipt or authorise an effect.

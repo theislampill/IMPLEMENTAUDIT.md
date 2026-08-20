@@ -305,14 +305,15 @@ second `/goal` inside an existing `/goal` run.
 ---
 
 ## Runtime Loop
-0. Continuity boundary (when resuming): STOP narration/effects at
-   host-reported-compaction/new-session/handoff-resume/manual-resume/inferred-context-gap.
-   `--current-controller`; separate `--invalidate-continuity`; pre-boundary wait/contain only.
+0. Continuity boundary (when resuming): STOP at host-reported-compaction/new-session/
+   handoff-resume/manual-resume/inferred-context-gap. Order: `--current-controller`;
+   `--invalidate-continuity` separately; pre-boundary wait/contain.
    Read STATE.md then ROADMAP.md, each in its own completed host action; evidence reads must not use ';', '&&', pipelines, multi-stage shell composition, or batching.
-   Live state wins; record the epoch row; refuse: "Target already satisfied at <evidence>; no duplicate action taken."
-   `--resume-controller`; `--verify-resume-receipt`; `--require-current-continuity`; first message: receipt/frontier/discrepancies.
-   `POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT`; `PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY`;
-   `STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE`; `POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT`.
+   Live state wins; record epoch row; refuse: "Target already satisfied at <evidence>; no duplicate action taken."
+   Then `--resume-controller`, `--verify-resume-receipt`, `--require-current-continuity`.
+   POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT; PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY;
+   STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE; POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT.
+   Apply references/route-obligations.md; only current NOT_REQUIRED advances.
 1. Safety read: `AGENTS.md`, README/CONTRIBUTING/docs/workflows, existing audit
    docs, generator/source ownership, and authorization chain.
 2. Input gate: stop on empty, malformed, unsafe, unsupported, or non-audit
