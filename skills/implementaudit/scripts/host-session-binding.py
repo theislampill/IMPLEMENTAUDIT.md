@@ -184,6 +184,14 @@ def session_index_path(store: Path, host_session_id: str) -> Path:
     return store / "sessions" / key[:2] / f"{key}.json"
 
 
+def binding_pair_exists(store: Path, host_id: str, host_session_id: str) -> bool:
+    state_present = os.path.lexists(state_path(store, host_id, host_session_id))
+    index_present = os.path.lexists(session_index_path(store, host_session_id))
+    if state_present != index_present:
+        fail("binding state and session host index are a partial pair")
+    return state_present
+
+
 def atomic_json(path: Path, payload: dict[str, Any]) -> None:
     parent = ensure_safe_directory(path.parent, f"{path.name} parent")
     target = parent / path.name
@@ -332,6 +340,12 @@ def validate_record(record: Any, host_id: str, host_session_id: str) -> dict[str
 
 def load_state(store: Path, host_id: str, host_session_id: str) -> tuple[Path, dict[str, Any]]:
     target = state_path(store, host_id, host_session_id)
+    if not binding_pair_exists(store, host_id, host_session_id):
+        fail("host session binding is absent")
+    expected_index = {"host_id": host_id, "host_session_id": host_session_id}
+    index = read_json(session_index_path(store, host_session_id), "session host index")
+    if set(index) != set(expected_index) or index != expected_index:
+        fail("session host index is malformed, foreign, or mismatched")
     state = read_json(target, "binding state")
     if set(state) != {"schema", "host_id", "host_session_id", "records"}:
         fail("binding state has the wrong shape")
@@ -434,14 +448,9 @@ def command_bind(args: argparse.Namespace) -> None:
     target = state_path(store, binding["host_id"], binding["host_session_id"])
     index = session_index_path(store, binding["host_session_id"])
     with writer_lock(store):
-        if target.exists():
+        if binding_pair_exists(store, binding["host_id"], binding["host_session_id"]):
             fail("binding already exists; expected-generation rebinding is required")
-        if index.exists():
-            existing = read_json(index, "session host index")
-            if existing != {"host_id": binding["host_id"], "host_session_id": binding["host_session_id"]}:
-                fail("same session identity is already bound under an incompatible host")
-        else:
-            atomic_json(index, {"host_id": binding["host_id"], "host_session_id": binding["host_session_id"]})
+        atomic_json(index, {"host_id": binding["host_id"], "host_session_id": binding["host_session_id"]})
         atomic_json(
             target,
             {
@@ -487,8 +496,7 @@ def command_lookup(args: argparse.Namespace) -> None:
     host_id = exact_text(args.host_id, "host_id")
     session_id = exact_text(args.host_session_id, "host_session_id")
     store = Path(args.store).absolute()
-    target = state_path(store, host_id, session_id)
-    if not target.exists():
+    if not binding_pair_exists(store, host_id, session_id):
         emit({"schema": RESULT_SCHEMA, "status": "UNBOUND", "enforcement_available": False})
         return
     load_owner(store)
@@ -505,9 +513,6 @@ def command_validate_event(args: argparse.Namespace) -> None:
     host_id = exact_text(args.host_id, "host_id")
     session_id = exact_text(args.host_session_id, "host_session_id")
     store = Path(args.store).absolute()
-    target = state_path(store, host_id, session_id)
-    if not target.exists():
-        fail("host session is unbound")
     load_owner(store)
     _, state = load_state(store, host_id, session_id)
     current = current_record(state, require_active=True)

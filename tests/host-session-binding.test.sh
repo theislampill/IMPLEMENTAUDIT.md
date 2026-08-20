@@ -314,6 +314,72 @@ set -e
 }
 assert_json "$malformed_output" 'value["status"] == "UNAVAILABLE" and value["enforcement_available"] is False'
 
+# A binding state is unavailable unless its required direct session index is
+# safe, well-formed, and exactly corresponds to the requested host/session.
+for operation in lookup validate-event; do
+  for index_case in missing corrupt foreign-host mismatched-session; do
+    index_store="$tmp/index-$operation-$index_case-store"
+    cp -R "$store" "$index_store"
+    index_file="$(grep -rl '"host_session_id": "session-a"' "$index_store/sessions" | head -1)"
+    case "$index_case" in
+      missing)
+        rm "$index_file"
+        ;;
+      corrupt)
+        printf '{\n' > "$index_file"
+        ;;
+      foreign-host)
+        printf '{"host_id":"claude","host_session_id":"session-a"}\n' > "$index_file"
+        ;;
+      mismatched-session)
+        printf '{"host_id":"codex","host_session_id":"session-b"}\n' > "$index_file"
+        ;;
+    esac
+    index_snapshot_before="$(find "$index_store" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)"
+    if [ "$operation" = lookup ]; then
+      expect_unavailable_at_store "$index_case index lookup" "$index_store" lookup \
+        --host-id codex --host-session-id session-a
+    else
+      expect_unavailable_at_store "$index_case index event" "$index_store" validate-event \
+        --host-id codex --host-session-id session-a --binding-generation G0002 \
+        --controller-id controller-b --claim-id claim-a2 --explicit-run-root "$run_a2" \
+        --repository-identity "$repository" --git-common-directory-identity "$common" \
+        --worktree-identity "$worktree" --continuity-generation G0002 \
+        --continuity-receipt continuity-receipt-session-a2 --event-id "index-$index_case"
+    fi
+    index_snapshot_after="$(find "$index_store" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)"
+    [ "$index_snapshot_before" = "$index_snapshot_after" ] || {
+      printf 'host-session-binding.test: %s index %s mutated partial store\n' \
+        "$index_case" "$operation" >&2
+      exit 1
+    }
+  done
+done
+
+# An index whose binding state is absent is crash residue, not authority to
+# recreate the binding. Bind must fail closed and preserve that residue.
+orphan_store="$tmp/orphan-index-store"
+cp -R "$store" "$orphan_store"
+orphan_binding="$(grep -rl '"host_session_id": "session-a"' "$orphan_store/bindings" | head -1)"
+orphan_index="$(grep -rl '"host_session_id": "session-a"' "$orphan_store/sessions" | head -1)"
+rm "$orphan_binding"
+orphan_index_before="$(sha256sum "$orphan_index")"
+expect_unavailable_at_store "orphan index without binding state" "$orphan_store" bind \
+  --owner-id host-owner --host-id codex --host-session-id session-a \
+  --controller-id controller-b --claim-id claim-a2 --explicit-run-root "$run_a2" \
+  --repository-identity "$repository" --git-common-directory-identity "$common" \
+  --worktree-identity "$worktree" --activation-event-id orphan-rebind \
+  --activation-receipt orphan-rebind-receipt --continuity-generation G0002 \
+  --continuity-receipt orphan-continuity-receipt
+[ ! -e "$orphan_binding" ] || {
+  printf 'host-session-binding.test: bind recreated state behind an orphan index\n' >&2
+  exit 1
+}
+[ "$orphan_index_before" = "$(sha256sum "$orphan_index")" ] || {
+  printf 'host-session-binding.test: bind mutated orphan index crash residue\n' >&2
+  exit 1
+}
+
 chain_store="$tmp/broken-chain-store"
 cp -R "$store" "$chain_store"
 chain_binding="$(grep -rl '"host_session_id": "session-a"' "$chain_store/bindings" | head -1)"
