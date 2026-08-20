@@ -856,12 +856,83 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "nominal override accepted as safe-stop cheap path"
 
-# 58. A candidate that omits the authoritative semantic owner cannot retain a
-# serial cheap verifier plan. This must fail before the selector is implemented.
+# 58. An omitted semantic owner cannot be relabelled as a serial cheap plan.
 reset_sandbox
-if bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
-  >/dev/null 2>&1; then
-  fail "under-scoped verifier plan accepted with omitted semantic owner"
-fi
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R0022-V01-owner-omitted-under-scoped")
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "under-scoped verifier plan accepted with omitted semantic owner"
+
+# 59. Consumer and effect omissions are equally unable to retain a cheap plan.
+for case_id in R0022-V02-consumer-omitted-under-scoped R0022-V03-effect-omitted-under-scoped; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" \
+    "$case_id" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "under-scoped verifier plan accepted for $case_id"
+done
+
+# 60. Wider transitive, package, public, and external impacts have their own
+# affected verifier and cannot collapse to the cheap local path.
+for case_id in R0022-V07-transitive-consumer-verifier-plan R0022-V08-package-consumer-verifier-plan R0022-V09-public-consumer-verifier-plan R0022-V10-external-consumer-verifier-plan; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" \
+    "$case_id" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "under-scoped verifier plan accepted for $case_id"
+done
+
+# 61. Relation, registry, ambiguity, and projection uncertainty each has one
+# live predicate; no second true predicate may mask its omission.
+for case_id in R0022-V11-unknown-relation-only-escalates R0022-V12-registry-change-only-escalates R0022-V13-package-or-release-ambiguity-only-escalates R0022-V14-stale-projection-only-escalates; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" \
+    "$case_id" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "conservative verifier plan relabelled as cheap for $case_id"
+done
+
+# 62. Multiple independent affected consumers retain the composed outcome.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R0022-V15-generated-package-composed-verifier-plan")
+case["expected"] = "VERIFY_PACKAGE_CONSUMER"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "multi-impact verifier plan lost composed outcome"
 
 printf 'action-selection-contract.test: ok\n'

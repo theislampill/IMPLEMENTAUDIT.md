@@ -129,6 +129,29 @@ risk deepens the action set automatically; request size alone never does.
 An absent or hand-wavy action-selection record is a plan-quality defect, not a
 style preference.
 
+### Verifier-plan selection
+
+For a proposed change, derive the verifier plan in this order: exact change
+identity -> authoritative changed semantic owners and effects -> affected
+evidence obligations and consumers -> cheapest sufficient verifier plan ->
+escalation or omission rationale. Record the affected generated, runtime,
+package, registry, release, public, and external consumers; the evidence layer;
+residual risk; rollback; the cheapest sufficient decision-changing verifier;
+and the equivalent-protection evidence and current owner authority for every
+omitted verifier.
+
+A trivial local reversible change with a current owner, effect, consumer,
+evidence layer, residual, rollback, and equivalent protection stays on the
+serial cheap path. A generated, transitive runtime, package, or public/external
+consumer selects the verifier for that affected consumer. Do not select full
+verification from diff size, a fixed command count, or a generic review mandate;
+select it only for the named owner, consumer, or risk that needs it.
+
+Unknown owner or relation, a changed registry, package or release ambiguity,
+or a stale projection invalidates a narrow plan: stop, reclassify, and escalate
+conservatively. Do not create a permanent graph, worksheet, model call, or
+second action-selection owner for ordinary cheap work.
+
 ## Engineering-value admission and control lifecycle
 
 Preserve the gate or engineering obligation where warranted, while omitting
