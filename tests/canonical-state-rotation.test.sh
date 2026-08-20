@@ -12,6 +12,12 @@ fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
 bash "$checker" --fixture-self-check
+trigger_output="$(bash "$checker" --trigger-self-check)"
+printf '%s\n' "$trigger_output"
+grep -Fq 'CANONICAL_STATE_ROTATION_TRIGGER_SELF_CHECK=PASS' <<<"$trigger_output" \
+  || fail 'trigger/calibration self-check did not pass'
+grep -Fq 'large-root=TRIGGER below-threshold=NO_TRIGGER archive=0 model=0 extra-ceremony=0' <<<"$trigger_output" \
+  || fail 'trigger self-check did not preserve the positive and cheap-path outcomes'
 bash "$checker" --assert-root-red
 
 before_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
