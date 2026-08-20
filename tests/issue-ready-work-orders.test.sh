@@ -355,7 +355,9 @@ admission_cases = payload.get("admission_cases")
 admission_controls = payload.get("admission_controls")
 conditional_record_locators = payload.get("conditional_record_locators")
 conditional_records = payload.get("conditional_records")
-if not isinstance(admission_cases, list) or not isinstance(admission_controls, list) or not isinstance(conditional_record_locators, dict) or not isinstance(conditional_records, dict):
+conditional_evidence_records = payload.get("conditional_evidence_records")
+conditional_decision_records = payload.get("conditional_decision_records")
+if not isinstance(admission_cases, list) or not isinstance(admission_controls, list) or not isinstance(conditional_record_locators, dict) or not isinstance(conditional_records, dict) or not isinstance(conditional_evidence_records, dict) or not isinstance(conditional_decision_records, dict):
     raise SystemExit("admission fixtures must contain cases, controls, and resolved record locators")
 
 expected_admission_ids = [f"R31-A{i}" for i in range(1, 7)]
@@ -375,90 +377,243 @@ def resolve_pointer(value, pointer):
         value = value[segment]
     return value
 
+def canonical_digest(value):
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+    ).hexdigest()
+
+def outcome(action, stage, reason):
+    return {"action": action, "stage": stage, "reason": reason}
+
+def resolve_locator(locator, record_id):
+    required = {"path", "pointer", "record_id", "sha256", "current"}
+    if not isinstance(locator, dict) or set(locator) != required or locator.get("record_id") != record_id:
+        return None, "INVALID_LOCATOR_SCHEMA"
+    if locator.get("current") is not True:
+        return None, "STALE_LOCATOR"
+    path_value = locator.get("path")
+    if not isinstance(path_value, str) or not path_value.strip():
+        return None, "INVALID_LOCATOR_PATH"
+    path = Path(path_value)
+    root = Path.cwd().resolve()
+    if path.is_absolute():
+        return None, "ABSOLUTE_LOCATOR_PATH"
+    target = (root / path).resolve()
+    if root not in target.parents:
+        return None, "LOCATOR_ESCAPES_REPOSITORY"
+    if target != Path(sys.argv[1]).resolve() or not target.is_file():
+        return None, "MISSING_LOCATOR_TARGET"
+    resolved = resolve_pointer(json.loads(target.read_text(encoding="utf-8")), locator.get("pointer"))
+    if not isinstance(resolved, dict):
+        return None, "UNRESOLVED_LOCATOR_POINTER"
+    if canonical_digest(resolved) != locator.get("sha256"):
+        return None, "STALE_LOCATOR_DIGEST"
+    return resolved, None
+
+def normalize_facts(value):
+    required = {"gap", "runtime_consumer", "owner", "overlap", "dependency", "supersession", "distinct", "census"}
+    if not isinstance(value, dict) or set(value) != required:
+        return None
+    if value.get("gap") not in {"absent", "supporting-only", "present", "unresolved"}:
+        return None
+    if not isinstance(value.get("runtime_consumer"), bool):
+        return None
+    owner = value.get("owner")
+    if not isinstance(owner, dict) or set(owner) != {"status", "owner", "rxx"}:
+        return None
+    if owner.get("status") not in {"none", "existing-owner", "existing-rxx", "unresolved"}:
+        return None
+    if owner.get("owner") is not None and (not isinstance(owner["owner"], str) or not owner["owner"].strip()):
+        return None
+    if owner.get("rxx") is not None and (not isinstance(owner["rxx"], str) or not owner["rxx"].strip()):
+        return None
+    if value.get("overlap") not in {"none", "owned", "unresolved"}:
+        return None
+    if value.get("dependency") not in {"resolved", "unresolved"}:
+        return None
+    if value.get("supersession") not in {"none", "amend", "reopen", "unresolved"}:
+        return None
+    distinct = value.get("distinct")
+    if not isinstance(distinct, dict) or set(distinct) != {"failure", "consumer", "owner", "acceptance"} or not all(isinstance(distinct[key], bool) for key in distinct):
+        return None
+    census = value.get("census")
+    if not isinstance(census, dict) or set(census) != {"complete", "open_closed"} or not all(isinstance(census[key], bool) for key in census):
+        return None
+    return value
+
+def normalize_complete_record(record):
+    scalar_fields = {"semantic_centre", "trigger", "non_trigger_cheap_path", "cheapest_discriminator"}
+    if not all(isinstance(record.get(key), str) and record[key].strip() for key in scalar_fields):
+        return None
+    live_gap = record.get("live_gap")
+    consumer = record.get("named_consumer")
+    owner = record.get("owner_analysis")
+    overlap = record.get("overlap_analysis")
+    dependency = record.get("dependency_analysis")
+    supersession = record.get("supersession_analysis")
+    if not isinstance(live_gap, dict) or set(live_gap) != {"summary", "status"} or not isinstance(live_gap.get("summary"), str) or not live_gap["summary"].strip():
+        return None
+    if not isinstance(consumer, dict) or set(consumer) != {"name", "runtime"} or not isinstance(consumer.get("name"), str) or not consumer["name"].strip():
+        return None
+    if not isinstance(owner, dict) or set(owner) != {"summary", "status", "owner", "rxx"} or not isinstance(owner.get("summary"), str) or not owner["summary"].strip():
+        return None
+    for analysis in (overlap, dependency, supersession):
+        if not isinstance(analysis, dict) or set(analysis) != {"summary", "status"} or not isinstance(analysis.get("summary"), str) or not analysis["summary"].strip():
+            return None
+    distinct = {}
+    for name in ("failure", "consumer", "owner", "acceptance"):
+        field = record.get(f"distinct_{name}")
+        if not isinstance(field, dict) or set(field) != {"summary", "distinct"} or not isinstance(field.get("summary"), str) or not field["summary"].strip() or not isinstance(field.get("distinct"), bool):
+            return None
+        distinct[name] = field["distinct"]
+    return normalize_facts({
+        "gap": live_gap.get("status"),
+        "runtime_consumer": consumer.get("runtime"),
+        "owner": {"status": owner.get("status"), "owner": owner.get("owner"), "rxx": owner.get("rxx")},
+        "overlap": overlap.get("status"),
+        "dependency": dependency.get("status"),
+        "supersession": supersession.get("status"),
+        "distinct": distinct,
+        "census": record.get("census"),
+    })
+
+def projection_route(facts):
+    owner_status = facts["owner"]["status"]
+    if facts["gap"] == "absent" and owner_status == "none":
+        return "no-gap"
+    if facts["gap"] == "supporting-only" and owner_status == "none":
+        return "supporting-artifact"
+    if facts["gap"] == "present" and owner_status == "existing-owner":
+        return "existing-owner"
+    if facts["gap"] == "present" and owner_status == "existing-rxx":
+        return "existing-rxx"
+    if facts["gap"] == "present" and owner_status == "none":
+        return "unowned"
+    return "unresolved"
+
+def checked_projection(record_id, record, facts):
+    owner = facts["owner"]
+    expected = {
+        "id": record_id,
+        "current": record["current"],
+        "selected_outcome": record["selected_outcome"],
+        "decision": {
+            "route": projection_route(facts),
+            "runtime_consumer": facts["runtime_consumer"],
+            "owner": owner["owner"],
+            "rxx": owner["rxx"],
+            "distinct": facts["distinct"],
+            "census": facts["census"],
+        },
+        "authority_confirmed": record["authority_confirmed"],
+    }
+    return conditional_decision_records.get(record_id) == expected
+
 def resolve_conditional_record(case):
     record_id = case.get("conditional_record_id")
     if not isinstance(record_id, str) or not record_id.strip():
-        return None
+        return None, "RECORD_RESOLUTION", "MISSING_RECORD_ID"
     locator = conditional_record_locators.get(record_id)
-    required = {"path", "pointer", "record_id", "sha256", "current"}
-    if not isinstance(locator, dict) or set(locator) != required or locator["record_id"] != record_id or locator["current"] is not True:
-        return None
-    path = Path(locator["path"])
-    root = Path.cwd().resolve()
-    if path.is_absolute():
-        return None
-    target = (root / path).resolve()
-    if root not in target.parents:
-        return None
-    if target != Path(sys.argv[1]).resolve() or not target.is_file():
-        return None
-    resolved = resolve_pointer(json.loads(target.read_text(encoding="utf-8")), locator["pointer"])
-    evidence = conditional_records.get(record_id)
-    evidence_fields = {"semantic_centre", "live_gap", "named_consumer", "owner_analysis", "overlap_analysis", "dependency_analysis", "supersession_analysis", "trigger", "non_trigger_cheap_path", "cheapest_discriminator", "distinct_failure", "distinct_consumer", "distinct_owner", "distinct_acceptance"}
-    if not isinstance(resolved, dict) or resolved.get("id") != record_id or not isinstance(evidence, dict) or not all(isinstance(evidence.get(key), str) and evidence[key].strip() for key in evidence_fields):
-        return None
-    record = {**evidence, **resolved}
-    if evidence.get("selected_outcome") != record.get("selected_outcome"):
-        return None
-    digest = hashlib.sha256(json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
-    if digest != locator["sha256"] or digest != case.get("expected_digest", locator["sha256"]):
-        return None
-    return record
+    record, reason = resolve_locator(locator, record_id)
+    if record is None:
+        return None, "RECORD_RESOLUTION", reason
+    if record is not conditional_records.get(record_id) and record != conditional_records.get(record_id):
+        return None, "RECORD_RESOLUTION", "RECORD_IDENTITY_MISMATCH"
+    if canonical_digest(record) != case.get("expected_digest", locator["sha256"]):
+        return None, "RECORD_RESOLUTION", "STALE_EXPECTED_DIGEST"
+    if record.get("id") != record_id:
+        return None, "COMPLETE_RECORD", "INCOMPLETE_COMPLETE_RECORD"
+    if not isinstance(record.get("current"), bool) or not isinstance(record.get("authority_confirmed"), bool):
+        return None, "COMPLETE_RECORD", "MISSING_CURRENT_OR_AUTHORITY"
+    if record.get("selected_outcome") not in allowed_admission_actions:
+        return None, "COMPLETE_RECORD", "INVALID_SELECTED_OUTCOME"
+    facts = normalize_complete_record(record)
+    locators = record.get("locators")
+    if facts is None or not isinstance(locators, dict) or set(locators) != {"admission_evidence"}:
+        return None, "EVIDENCE_RESOLUTION", "MISSING_TYPED_FACTS_OR_EVIDENCE_LOCATOR"
+    resolved_evidence, reason = resolve_locator(locators["admission_evidence"], record_id)
+    if resolved_evidence is None:
+        return None, "EVIDENCE_RESOLUTION", reason
+    expected_evidence = {"record_id": record_id, **facts}
+    if resolved_evidence != expected_evidence or conditional_evidence_records.get(record_id) != expected_evidence:
+        return None, "EVIDENCE_RECONCILIATION", "CONTRADICTORY_COMPLETE_EVIDENCE"
+    if not checked_projection(record_id, record, facts):
+        return None, "DERIVATIVE_CHECK", "COMPACT_PROJECTION_MISMATCH"
+    return {"record": record, "facts": facts}, None, None
 
-def decision_action(record):
-    decision = record.get("decision")
-    if not isinstance(decision, dict) or not isinstance(decision.get("census"), dict):
-        return "REJECT"
-    if record.get("current") is not True or record.get("authority_confirmed") is not True:
-        return "DEFER"
-    route = decision.get("route")
-    distinct = decision.get("distinct", {})
-    if route == "no-gap": return "NO_ACTION"
-    if route == "supporting-artifact" and decision.get("runtime_consumer") is False: return "SUPPORTING_ARTIFACT"
-    if route == "existing-owner" and decision.get("runtime_consumer") is True and isinstance(decision.get("owner"), str) and decision["owner"].strip() and decision.get("rxx") is None and distinct.get("owner") is False: return "AMEND_EXISTING_OWNER"
-    if route == "existing-rxx" and decision.get("runtime_consumer") is True and isinstance(decision.get("owner"), str) and decision["owner"].strip() and isinstance(decision.get("rxx"), str) and decision["rxx"].strip() and distinct.get("owner") is False: return "AMEND_EXISTING_RXX"
-    if route == "unowned" and all(distinct.get(key) is True for key in ("failure", "consumer", "owner", "acceptance")): return "NEW_RXX"
-    return "REJECT"
+def decision_action(normalized):
+    record, facts = normalized["record"], normalized["facts"]
+    if record["current"] is not True:
+        return outcome("DEFER", "CURRENTNESS_AUTHORITY", "EVIDENCE_NOT_CURRENT")
+    if record["authority_confirmed"] is not True:
+        return outcome("DEFER", "CURRENTNESS_AUTHORITY", "AUTHORITY_NOT_CONFIRMED")
+    owner = facts["owner"]
+    distinct = facts["distinct"]
+    if facts["gap"] == "absent" and facts["runtime_consumer"] is False and owner == {"status": "none", "owner": None, "rxx": None} and facts["overlap"] == "none" and facts["supersession"] == "none":
+        return outcome("NO_ACTION", "ROUTE_SELECTED", "NO_DISTINCT_GAP")
+    if facts["gap"] == "supporting-only":
+        if facts["runtime_consumer"] is not False:
+            return outcome("REJECT", "ROUTE_PREDICATE", "SUPPORTING_ARTIFACT_HAS_RUNTIME_CONSUMER")
+        if owner == {"status": "none", "owner": None, "rxx": None} and facts["overlap"] == "none" and facts["supersession"] == "none":
+            return outcome("SUPPORTING_ARTIFACT", "ROUTE_SELECTED", "SUPPORTING_ONLY_NO_RUNTIME_CONSUMER")
+    if facts["gap"] == "present" and facts["runtime_consumer"] is True and owner["status"] == "existing-owner" and isinstance(owner["owner"], str) and owner["rxx"] is None and facts["overlap"] == "owned" and facts["supersession"] == "amend" and distinct["owner"] is False:
+        return outcome("AMEND_EXISTING_OWNER", "ROUTE_SELECTED", "EXISTING_OWNER_OWNS_INVARIANT")
+    if facts["gap"] == "present" and facts["runtime_consumer"] is True and owner["status"] == "existing-rxx" and isinstance(owner["owner"], str) and isinstance(owner["rxx"], str) and facts["overlap"] == "owned" and facts["supersession"] == "reopen" and distinct["owner"] is False:
+        return outcome("AMEND_EXISTING_RXX", "ROUTE_SELECTED", "EXISTING_RXX_OWNS_INVARIANT")
+    if facts["gap"] == "present" and facts["runtime_consumer"] is True and owner == {"status": "none", "owner": None, "rxx": None} and facts["overlap"] == "none" and facts["supersession"] == "none" and all(distinct[key] is True for key in ("failure", "consumer", "owner", "acceptance")):
+        return outcome("NEW_RXX", "ROUTE_SELECTED", "DISTINCT_UNOWNED_INVARIANT")
+    return outcome("REJECT", "ROUTE_PREDICATE", "CONTRADICTORY_ADMISSION_SEMANTICS")
 
 def admission_action(case):
-    record = resolve_conditional_record(case)
-    if record is None:
-        return "REJECT"
-    action = decision_action(record)
-    if action == "REJECT" or record.get("selected_outcome") != action:
-        return "REJECT"
+    normalized, stage, reason = resolve_conditional_record(case)
+    if normalized is None:
+        return outcome("REJECT", stage, reason)
+    result = decision_action(normalized)
+    action = result["action"]
+    record, facts = normalized["record"], normalized["facts"]
+    if action == "REJECT":
+        return result
+    if record["selected_outcome"] != action:
+        return outcome("REJECT", "DERIVATIVE_CHECK", "SELECTED_OUTCOME_MISMATCH")
     allocated_rxx = case.get("allocated_rxx")
     has_number = isinstance(allocated_rxx, str) and bool(allocated_rxx.strip())
     if action in {"AMEND_EXISTING_OWNER", "AMEND_EXISTING_RXX"}:
         existing_owner = case.get("existing_owner")
-        if existing_owner != record["decision"].get("owner") or case.get("new_owner"):
-            return "REJECT"
+        if existing_owner != facts["owner"]["owner"] or case.get("new_owner"):
+            return outcome("REJECT", "OWNER_BINDING", "OWNER_IDENTITY_MISMATCH")
     if action == "AMEND_EXISTING_RXX":
         existing_rxx = case.get("existing_rxx")
-        if existing_rxx != record["decision"].get("rxx"):
-            return "REJECT"
+        if existing_rxx != facts["owner"]["rxx"]:
+            return outcome("REJECT", "OWNER_BINDING", "RXX_IDENTITY_MISMATCH")
     if action == "NEW_RXX":
-        census = record["decision"]["census"]
-        return action if (
-            has_number
-            and census.get("complete") is True
-            and census.get("open_closed") is True
-        ) else "REJECT"
-    return action if not has_number else "REJECT"
+        census = facts["census"]
+        if census["complete"] is not True or census["open_closed"] is not True:
+            return outcome("REJECT", "CENSUS_GATE", "INCOMPLETE_OPEN_CLOSED_CENSUS")
+        if not has_number:
+            return outcome("REJECT", "NUMBER_GATE", "NEW_RXX_NUMBER_MISSING")
+        return result
+    if has_number:
+        return outcome("REJECT", "NUMBER_GATE", "NON_NEW_RXX_NUMBER_FORBIDDEN")
+    return result
+
+def assert_admission_result(case, result):
+    if result["action"] != case.get("expected"):
+        raise SystemExit(f"{case.get('id')}: expected {case.get('expected')}, observed {result['action']} at {result['stage']} ({result['reason']})")
+    if "expected_stage" in case and result["stage"] != case["expected_stage"]:
+        raise SystemExit(f"{case.get('id')}: expected stage {case['expected_stage']}, observed {result['stage']} ({result['reason']})")
+    if "expected_reason" in case and result["reason"] != case["expected_reason"]:
+        raise SystemExit(f"{case.get('id')}: expected reason {case['expected_reason']}, observed {result['reason']} at {result['stage']}")
 
 for case in admission_cases:
     observed = admission_action(case)
-    if observed not in allowed_admission_actions:
-        raise SystemExit(f"{case['id']}: admission did not produce an allowed action: {observed}")
-    if observed != case.get("expected"):
-        raise SystemExit(f"{case['id']}: expected {case.get('expected')}, observed {observed}")
+    if observed["action"] not in allowed_admission_actions:
+        raise SystemExit(f"{case['id']}: admission did not produce an allowed action: {observed['action']}")
+    assert_admission_result(case, observed)
 
 for control in admission_controls:
-    observed = admission_action(control)
-    if observed != control.get("expected"):
-        raise SystemExit(f"{control.get('id')}: expected {control.get('expected')}, observed {observed}")
+    assert_admission_result(control, admission_action(control))
 
-print("admission-census: ok (six exclusive actions; current record and census before NEW_RXX allocation)")
+print("admission-census: ok (six exclusive actions; normalized resolved evidence before route and allocation)")
 PY
 
 "${py_cmd[@]}" - "$model_input" "$model_expectations" <<'PY'

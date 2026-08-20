@@ -84,15 +84,26 @@ record a cold-reconstructible conditional record before choosing exactly one of
 - selected outcome and durable locators sufficient for a cold executor to
   reconstruct the current decision without the originating conversation.
 
-Reject a record with a missing or stale required field or locator; a synthetic
-state label cannot substitute for current durable evidence.
+Treat the complete conditional record and its resolved evidence locators as one
+authority surface. Normalize their typed gap, runtime-consumer, owner/RXX,
+overlap, dependency, supersession, distinct-four-part, census, currentness, and
+authority facts before route selection. Reject a missing currentness or
+authority field, a missing or stale required locator, or any contradiction
+between the complete record and the resolved evidence. A synthetic label is not
+authority: a state label cannot substitute for current durable evidence.
 
-For a fixture-backed admission check, the conditional record must be addressed
+For a fixture-backed admission check, address the complete conditional record
 by its stable record ID and a repository-relative target plus JSON pointer, and
-bound to its canonical JSON SHA-256. Resolve that target at evaluation time;
-reject a missing target or pointer, identity/currentness/digest mismatch, or a
-selected-outcome label that does not agree with the resolved decision semantics.
-Derive the route from those resolved semantics, never from a case state label.
+bind it to its canonical JSON SHA-256. Its decision-changing evidence locator
+uses the same repository-relative, current, identity- and digest-bound shape.
+Resolve both targets at evaluation time and build one normalized admission-
+evidence object from the complete record plus the resolved evidence. Derive the
+route from that object. A compact decision projection is permitted only as a
+checked derivative: it must equal the normalized facts and cannot override
+contradictory complete evidence. Reject a missing target or pointer, absolute or
+escaping path, identity/currentness/digest mismatch, missing required state or
+authority field, or selected-outcome disagreement. Never derive the route from
+a case state label.
 
 - `NO_ACTION` when current evidence establishes no distinct gap;
 - `SUPPORTING_ARTIFACT` when a bounded cross-cutting note has no runtime

@@ -1435,6 +1435,8 @@
     {
       "id": "R31-AC1-pre-census-allocation",
       "expected": "REJECT",
+      "expected_stage": "CENSUS_GATE",
+      "expected_reason": "INCOMPLETE_OPEN_CLOSED_CENSUS",
       "conditional_record_id": "R31-CR14",
       "state": "distinct-unowned-invariant",
       "evidence_current": true,
@@ -1559,6 +1561,8 @@
     {
       "id": "R31-AC13-open-closed-census-only",
       "expected": "REJECT",
+      "expected_stage": "CENSUS_GATE",
+      "expected_reason": "INCOMPLETE_OPEN_CLOSED_CENSUS",
       "conditional_record_id": "R31-CR14",
       "state": "distinct-unowned-invariant",
       "evidence_current": true,
@@ -1570,6 +1574,8 @@
     {
       "id": "R31-AC14-supporting-artifact-runtime-consumer",
       "expected": "REJECT",
+      "expected_stage": "ROUTE_PREDICATE",
+      "expected_reason": "SUPPORTING_ARTIFACT_HAS_RUNTIME_CONSUMER",
       "conditional_record_id": "R31-CR15",
       "state": "cross-cutting-note-no-runtime-consumer",
       "runtime_consumer": true,
@@ -1654,197 +1660,541 @@
       "evidence_current": true,
       "authority_confirmed": true,
       "complete_admission_census": false
+    },
+    {
+      "id": "R31-AC23-missing-evidence-locators",
+      "expected": "REJECT",
+      "conditional_record_id": "R31-CR18",
+      "state": "distinct-unowned-invariant",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "allocated_rxx": "R0042",
+      "expected_stage": "EVIDENCE_RESOLUTION",
+      "expected_reason": "MISSING_TYPED_FACTS_OR_EVIDENCE_LOCATOR"
+    },
+    {
+      "id": "R31-AC24-contradictory-complete-owner-evidence",
+      "expected": "REJECT",
+      "conditional_record_id": "R31-CR19",
+      "state": "distinct-unowned-invariant",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "allocated_rxx": "R0042",
+      "expected_stage": "DERIVATIVE_CHECK",
+      "expected_reason": "COMPACT_PROJECTION_MISMATCH"
+    },
+    {
+      "id": "R31-AC25-missing-current",
+      "expected": "REJECT",
+      "expected_stage": "COMPLETE_RECORD",
+      "expected_reason": "MISSING_CURRENT_OR_AUTHORITY",
+      "conditional_record_id": "R31-CR20",
+      "state": "distinct-unowned-invariant",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "allocated_rxx": "R0042"
+    },
+    {
+      "id": "R31-AC26-missing-authority",
+      "expected": "REJECT",
+      "expected_stage": "COMPLETE_RECORD",
+      "expected_reason": "MISSING_CURRENT_OR_AUTHORITY",
+      "conditional_record_id": "R31-CR21",
+      "state": "distinct-unowned-invariant",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "allocated_rxx": "R0042"
+    },
+    {
+      "id": "R31-AC27-stale-evidence-locator",
+      "expected": "REJECT",
+      "expected_stage": "EVIDENCE_RESOLUTION",
+      "expected_reason": "STALE_LOCATOR",
+      "conditional_record_id": "R31-CR22",
+      "state": "distinct-unowned-invariant",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "allocated_rxx": "R0042"
+    },
+    {
+      "id": "R31-AC28-stale-evidence-digest",
+      "expected": "REJECT",
+      "expected_stage": "EVIDENCE_RESOLUTION",
+      "expected_reason": "STALE_LOCATOR_DIGEST",
+      "conditional_record_id": "R31-CR23",
+      "state": "distinct-unowned-invariant",
+      "evidence_current": true,
+      "authority_confirmed": true,
+      "complete_admission_census": true,
+      "current_open_and_closed_census": true,
+      "allocated_rxx": "R0042"
     }
   ],
   "conditional_records": {
     "R31-CR1": {
       "semantic_centre": "admission no-gap",
-      "live_gap": "no distinct current gap",
-      "named_consumer": "maintainer",
-      "owner_analysis": "no owner change",
-      "overlap_analysis": "no overlapping invariant",
-      "dependency_analysis": "no dependency",
-      "supersession_analysis": "no supersession",
+      "live_gap": {
+        "summary": "no distinct current gap",
+        "status": "absent"
+      },
+      "named_consumer": {
+        "name": "maintainer",
+        "runtime": false
+      },
+      "owner_analysis": {
+        "summary": "no owner change",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no overlapping invariant",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "current owner census",
-      "distinct_failure": "no distinct failure",
-      "distinct_consumer": "maintainer unchanged",
-      "distinct_owner": "no new owner",
-      "distinct_acceptance": "existing acceptance unchanged",
+      "distinct_failure": {
+        "summary": "no distinct failure",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "maintainer unchanged",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "no new owner",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "existing acceptance unchanged",
+        "distinct": false
+      },
       "selected_outcome": "NO_ACTION",
       "locators": {
-        "open_closed_census": "record://census/no-gap",
-        "genealogy": "record://genealogy/no-gap",
-        "owner": "record://owner/no-gap",
-        "overlap": "record://overlap/no-gap",
-        "dependency": "record://dependency/no-gap",
-        "supersession": "record://supersession/no-gap",
-        "outcome": "record://outcome/no-action"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR1",
+          "record_id": "R31-CR1",
+          "sha256": "312e0998ffa2602a1105c1091e5818be89683c4651f9389c6b79e1c1ae034648",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR1",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR2": {
       "semantic_centre": "supporting artifact",
-      "live_gap": "cross-cutting note only",
-      "named_consumer": "none",
-      "owner_analysis": "no runtime owner",
-      "overlap_analysis": "no runtime overlap",
-      "dependency_analysis": "no dependency",
-      "supersession_analysis": "no supersession",
+      "live_gap": {
+        "summary": "cross-cutting note only",
+        "status": "supporting-only"
+      },
+      "named_consumer": {
+        "name": "none",
+        "runtime": false
+      },
+      "owner_analysis": {
+        "summary": "no runtime owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no runtime overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "runtime-consumer check",
-      "distinct_failure": "no runtime failure",
-      "distinct_consumer": "no runtime consumer",
-      "distinct_owner": "no owner",
-      "distinct_acceptance": "no runtime acceptance",
+      "distinct_failure": {
+        "summary": "no runtime failure",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "no runtime consumer",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "no owner",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "no runtime acceptance",
+        "distinct": false
+      },
       "selected_outcome": "SUPPORTING_ARTIFACT",
       "locators": {
-        "open_closed_census": "record://census/support",
-        "genealogy": "record://genealogy/support",
-        "owner": "record://owner/support",
-        "overlap": "record://overlap/support",
-        "dependency": "record://dependency/support",
-        "supersession": "record://supersession/support",
-        "outcome": "record://outcome/support"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR2",
+          "record_id": "R31-CR2",
+          "sha256": "433123eb0adff26747404a7f6c9b4ef9c5d5615ab15f97a4f8c0f78535be5a7b",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR2",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR3": {
       "semantic_centre": "existing owner amendment",
-      "live_gap": "bounded existing-owner gap",
-      "named_consumer": "maintainer",
-      "owner_analysis": "R001F owns the carrier",
-      "overlap_analysis": "same owner boundary",
-      "dependency_analysis": "existing owner dependency",
-      "supersession_analysis": "no supersession",
+      "live_gap": {
+        "summary": "bounded existing-owner gap",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "maintainer",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "R001F owns the carrier",
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "same owner boundary",
+        "status": "owned"
+      },
+      "dependency_analysis": {
+        "summary": "existing owner dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "amend"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "existing-owner check",
-      "distinct_failure": "bounded gap",
-      "distinct_consumer": "maintainer",
-      "distinct_owner": "R001F",
-      "distinct_acceptance": "owner acceptance",
+      "distinct_failure": {
+        "summary": "bounded gap",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "maintainer",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "R001F",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "owner acceptance",
+        "distinct": true
+      },
       "selected_outcome": "AMEND_EXISTING_OWNER",
       "locators": {
-        "open_closed_census": "record://census/owner",
-        "genealogy": "record://genealogy/owner",
-        "owner": "record://owner/owner",
-        "overlap": "record://overlap/owner",
-        "dependency": "record://dependency/owner",
-        "supersession": "record://supersession/owner",
-        "outcome": "record://outcome/amend-owner"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR3",
+          "record_id": "R31-CR3",
+          "sha256": "ea61a20244513a8d174f9da406e6d99bbebf39d9fde42e94552cdf01ea3e2495",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR3",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR4": {
       "semantic_centre": "deferred admission",
-      "live_gap": "currentness unresolved",
-      "named_consumer": "maintainer",
-      "owner_analysis": "owner cannot be confirmed",
-      "overlap_analysis": "overlap unresolved",
-      "dependency_analysis": "dependency unresolved",
-      "supersession_analysis": "supersession unresolved",
+      "live_gap": {
+        "summary": "currentness unresolved",
+        "status": "unresolved"
+      },
+      "named_consumer": {
+        "name": "maintainer",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "owner cannot be confirmed",
+        "status": "unresolved",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "overlap unresolved",
+        "status": "unresolved"
+      },
+      "dependency_analysis": {
+        "summary": "dependency unresolved",
+        "status": "unresolved"
+      },
+      "supersession_analysis": {
+        "summary": "supersession unresolved",
+        "status": "unresolved"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "currentness readback",
-      "distinct_failure": "unresolved",
-      "distinct_consumer": "unresolved",
-      "distinct_owner": "unresolved",
-      "distinct_acceptance": "unresolved",
+      "distinct_failure": {
+        "summary": "unresolved",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "unresolved",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "unresolved",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "unresolved",
+        "distinct": false
+      },
       "selected_outcome": "DEFER",
       "locators": {
-        "open_closed_census": "record://census/defer",
-        "genealogy": "record://genealogy/defer",
-        "owner": "record://owner/defer",
-        "overlap": "record://overlap/defer",
-        "dependency": "record://dependency/defer",
-        "supersession": "record://supersession/defer",
-        "outcome": "record://outcome/defer"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR4",
+          "record_id": "R31-CR4",
+          "sha256": "1146cd5297528c3ae9dbd802688b800004a114ab919d8cee867af037d1768dad",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR4",
+      "current": false,
+      "authority_confirmed": false,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR5": {
       "semantic_centre": "distinct invariant",
-      "live_gap": "unowned failure",
-      "named_consumer": "executor",
-      "owner_analysis": "no current owner",
-      "overlap_analysis": "no equivalent overlap",
-      "dependency_analysis": "no blocking dependency",
-      "supersession_analysis": "no supersession",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "open-and-closed census",
-      "distinct_failure": "unowned failure",
-      "distinct_consumer": "executor",
-      "distinct_owner": "new owner required",
-      "distinct_acceptance": "new acceptance surface",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
       "selected_outcome": "NEW_RXX",
       "locators": {
-        "open_closed_census": "record://census/new",
-        "genealogy": "record://genealogy/new",
-        "owner": "record://owner/new",
-        "overlap": "record://overlap/new",
-        "dependency": "record://dependency/new",
-        "supersession": "record://supersession/new",
-        "outcome": "record://outcome/new"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR5",
+          "record_id": "R31-CR5",
+          "sha256": "7660d9b5f646e35f581d269b8a3f11b204a033e5499d3feae6634b470754dd54",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR5",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR6": {
       "semantic_centre": "existing RXX amendment",
-      "live_gap": "owned RXX gap",
-      "named_consumer": "executor",
-      "owner_analysis": "R0041 owns the boundary",
-      "overlap_analysis": "same RXX overlap",
-      "dependency_analysis": "existing RXX dependency",
-      "supersession_analysis": "reopen existing RXX",
+      "live_gap": {
+        "summary": "owned RXX gap",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "R0041 owns the boundary",
+        "status": "existing-rxx",
+        "owner": "R001F",
+        "rxx": "R0041"
+      },
+      "overlap_analysis": {
+        "summary": "same RXX overlap",
+        "status": "owned"
+      },
+      "dependency_analysis": {
+        "summary": "existing RXX dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "reopen existing RXX",
+        "status": "reopen"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "closed-owner census",
-      "distinct_failure": "owned failure",
-      "distinct_consumer": "executor",
-      "distinct_owner": "R0041",
-      "distinct_acceptance": "R0041 acceptance",
+      "distinct_failure": {
+        "summary": "owned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "R0041",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "R0041 acceptance",
+        "distinct": true
+      },
       "selected_outcome": "AMEND_EXISTING_RXX",
       "locators": {
-        "open_closed_census": "record://census/rxx",
-        "genealogy": "record://genealogy/rxx",
-        "owner": "record://owner/rxx",
-        "overlap": "record://overlap/rxx",
-        "dependency": "record://dependency/rxx",
-        "supersession": "record://supersession/rxx",
-        "outcome": "record://outcome/amend-rxx"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR6",
+          "record_id": "R31-CR6",
+          "sha256": "3109ce2300a9acd5b43c04a8f385dd8503678631136df5b5f886353d56a1a05d",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR6",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR7": {
       "semantic_centre": "stale no-gap",
-      "live_gap": "stale observation",
-      "named_consumer": "maintainer",
-      "owner_analysis": "stale owner view",
-      "overlap_analysis": "stale overlap view",
-      "dependency_analysis": "stale dependency view",
-      "supersession_analysis": "stale supersession view",
+      "live_gap": {
+        "summary": "stale observation",
+        "status": "absent"
+      },
+      "named_consumer": {
+        "name": "maintainer",
+        "runtime": false
+      },
+      "owner_analysis": {
+        "summary": "stale owner view",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "stale overlap view",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "stale dependency view",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "stale supersession view",
+        "status": "none"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "currentness readback",
-      "distinct_failure": "stale",
-      "distinct_consumer": "stale",
-      "distinct_owner": "stale",
-      "distinct_acceptance": "stale",
+      "distinct_failure": {
+        "summary": "stale",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "stale",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "stale",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "stale",
+        "distinct": false
+      },
       "selected_outcome": "NO_ACTION",
       "locators": {
-        "open_closed_census": "record://census/stale",
-        "genealogy": "record://genealogy/stale",
-        "owner": "record://owner/stale",
-        "overlap": "record://overlap/stale",
-        "dependency": "record://dependency/stale",
-        "supersession": "record://supersession/stale",
-        "outcome": "record://outcome/stale"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR7",
+          "record_id": "R31-CR7",
+          "sha256": "f3881cf4dce0890ae24a326ebb342880f04fc5f31b1b5f0ad6c826eddeea0275",
+          "current": true
+        }
       },
-      "locators_current": false
+      "id": "R31-CR7",
+      "current": false,
+      "authority_confirmed": false,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR8": {
       "selected_outcome": "NO_ACTION"
@@ -1877,97 +2227,1123 @@
     },
     "R31-CR10": {
       "semantic_centre": "contradictory invariant",
-      "live_gap": "owned failure",
-      "named_consumer": "executor",
-      "owner_analysis": "R001F owns the carrier",
-      "overlap_analysis": "same owner boundary",
-      "dependency_analysis": "existing owner dependency",
-      "supersession_analysis": "no supersession",
+      "live_gap": {
+        "summary": "owned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "R001F owns the carrier",
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "same owner boundary",
+        "status": "owned"
+      },
+      "dependency_analysis": {
+        "summary": "existing owner dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "amend"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "existing-owner check",
-      "distinct_failure": "owned failure",
-      "distinct_consumer": "executor",
-      "distinct_owner": "R001F",
-      "distinct_acceptance": "existing owner acceptance",
+      "distinct_failure": {
+        "summary": "owned failure",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "R001F",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "existing owner acceptance",
+        "distinct": false
+      },
       "selected_outcome": "NEW_RXX",
       "locators": {
-        "open_closed_census": "record://census/contradictory",
-        "genealogy": "record://genealogy/contradictory",
-        "owner": "record://owner/contradictory",
-        "overlap": "record://overlap/contradictory",
-        "dependency": "record://dependency/contradictory",
-        "supersession": "record://supersession/contradictory",
-        "outcome": "record://outcome/contradictory"
-      },
-      "locators_current": true,
-      "decision": {
-        "current": true,
-        "route": "existing-owner",
-        "runtime_consumer": true,
-        "owner": "R001F",
-        "rxx": null,
-        "distinct": {
-          "failure": false,
-          "consumer": false,
-          "owner": false,
-          "acceptance": false
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR10",
+          "record_id": "R31-CR10",
+          "sha256": "303b75387b2a27a39cbe2b1363d92385bbc62f4549113ef6e08f37c76abadbe3",
+          "current": true
         }
+      },
+      "id": "R31-CR10",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
       }
     },
     "R31-CR16": {
       "semantic_centre": "authority-deferred invariant",
-      "live_gap": "authority unavailable",
-      "named_consumer": "executor",
-      "owner_analysis": "no current owner",
-      "overlap_analysis": "no equivalent overlap",
-      "dependency_analysis": "no blocking dependency",
-      "supersession_analysis": "no supersession",
+      "live_gap": {
+        "summary": "authority unavailable",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "open-and-closed census",
-      "distinct_failure": "unowned failure",
-      "distinct_consumer": "executor",
-      "distinct_owner": "new owner required",
-      "distinct_acceptance": "new acceptance surface",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
       "selected_outcome": "DEFER",
       "locators": {
-        "open_closed_census": "record://census/new",
-        "genealogy": "record://genealogy/new",
-        "owner": "record://owner/new",
-        "overlap": "record://overlap/new",
-        "dependency": "record://dependency/new",
-        "supersession": "record://supersession/new",
-        "outcome": "record://outcome/new"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR16",
+          "record_id": "R31-CR16",
+          "sha256": "90d3bb4a2f70d64c31bf43071d5381077adb896d8c60143c08120f656b20b67d",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR16",
+      "current": true,
+      "authority_confirmed": false,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     },
     "R31-CR17": {
       "semantic_centre": "admission no-gap",
-      "live_gap": "no distinct current gap",
-      "named_consumer": "maintainer",
-      "owner_analysis": "no owner change",
-      "overlap_analysis": "no overlapping invariant",
-      "dependency_analysis": "no dependency",
-      "supersession_analysis": "no supersession",
+      "live_gap": {
+        "summary": "no distinct current gap",
+        "status": "absent"
+      },
+      "named_consumer": {
+        "name": "maintainer",
+        "runtime": false
+      },
+      "owner_analysis": {
+        "summary": "no owner change",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no overlapping invariant",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
       "trigger": "durable RXX proposal",
       "non_trigger_cheap_path": "ordinary non-RXX filing",
       "cheapest_discriminator": "current owner census",
-      "distinct_failure": "no distinct failure",
-      "distinct_consumer": "maintainer unchanged",
-      "distinct_owner": "no new owner",
-      "distinct_acceptance": "existing acceptance unchanged",
+      "distinct_failure": {
+        "summary": "no distinct failure",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "maintainer unchanged",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "no new owner",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "existing acceptance unchanged",
+        "distinct": false
+      },
       "selected_outcome": "NO_ACTION",
       "locators": {
-        "open_closed_census": "record://census/no-gap",
-        "genealogy": "record://genealogy/no-gap",
-        "owner": "record://owner/no-gap",
-        "overlap": "record://overlap/no-gap",
-        "dependency": "record://dependency/no-gap",
-        "supersession": "record://supersession/no-gap",
-        "outcome": "record://outcome/no-action"
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR17",
+          "record_id": "R31-CR17",
+          "sha256": "95b43c00c58f2afea782eb92a8d147d21e01ee771bf7031e1f6975a743d6f80e",
+          "current": true
+        }
       },
-      "locators_current": true
+      "id": "R31-CR17",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR18": {
+      "semantic_centre": "distinct invariant without evidence locators",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "id": "R31-CR18",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR19": {
+      "semantic_centre": "contradictory complete owner evidence",
+      "live_gap": {
+        "summary": "failure already owned by R001F",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "R001F owns the exact failure and acceptance surface",
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "complete overlap with R001F",
+        "status": "owned"
+      },
+      "dependency_analysis": {
+        "summary": "existing R001F dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "amend R001F rather than allocate",
+        "status": "amend"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "existing-owner check",
+      "distinct_failure": {
+        "summary": "owned failure",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "R001F",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "R001F acceptance",
+        "distinct": false
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR19",
+          "record_id": "R31-CR19",
+          "sha256": "ad5e6f1379cf54d6aa7de311411015f46103fdec651504362bacac1d9d9217fd",
+          "current": true
+        }
+      },
+      "id": "R31-CR19",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR14": {
+      "semantic_centre": "distinct invariant with incomplete open-and-closed census",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "complete current open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR14",
+          "record_id": "R31-CR14",
+          "sha256": "4f28828d3d505ff4ef46521e3f8d2a8ff3efce0bc55f2d3ab3a7dd64c58b6d00",
+          "current": true
+        }
+      },
+      "id": "R31-CR14",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": false
+      }
+    },
+    "R31-CR15": {
+      "semantic_centre": "supporting-artifact claim with a runtime consumer",
+      "live_gap": {
+        "summary": "runtime-consumed gap cannot be a supporting artifact",
+        "status": "supporting-only"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no runtime owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no runtime overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "runtime-consumer check",
+      "distinct_failure": {
+        "summary": "no runtime failure",
+        "distinct": false
+      },
+      "distinct_consumer": {
+        "summary": "no runtime consumer",
+        "distinct": false
+      },
+      "distinct_owner": {
+        "summary": "no owner",
+        "distinct": false
+      },
+      "distinct_acceptance": {
+        "summary": "no runtime acceptance",
+        "distinct": false
+      },
+      "selected_outcome": "SUPPORTING_ARTIFACT",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR15",
+          "record_id": "R31-CR15",
+          "sha256": "816b47fd07bffb9ab9ac563502301494cf0f993915133116e58c03255edaddb6",
+          "current": true
+        }
+      },
+      "id": "R31-CR15",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR20": {
+      "semantic_centre": "distinct invariant",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR20",
+          "record_id": "R31-CR20",
+          "sha256": "4ad70978277e979ca33cdf0636e383cb0756cebd7c3d4bc5cded36ca82ce5777",
+          "current": true
+        }
+      },
+      "id": "R31-CR20",
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR21": {
+      "semantic_centre": "distinct invariant",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR21",
+          "record_id": "R31-CR21",
+          "sha256": "3008382985d04414e972f213d370cf23219fcc706867850a144e3d9e29929f01",
+          "current": true
+        }
+      },
+      "id": "R31-CR21",
+      "current": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR22": {
+      "semantic_centre": "distinct invariant",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR22",
+          "record_id": "R31-CR22",
+          "sha256": "b5e174c4a142b71ce5496105ad23d2cec2f9cd30db46eeaecbbd1e27c4f2ebbd",
+          "current": false
+        }
+      },
+      "id": "R31-CR22",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR23": {
+      "semantic_centre": "distinct invariant",
+      "live_gap": {
+        "summary": "unowned failure",
+        "status": "present"
+      },
+      "named_consumer": {
+        "name": "executor",
+        "runtime": true
+      },
+      "owner_analysis": {
+        "summary": "no current owner",
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap_analysis": {
+        "summary": "no equivalent overlap",
+        "status": "none"
+      },
+      "dependency_analysis": {
+        "summary": "no blocking dependency",
+        "status": "resolved"
+      },
+      "supersession_analysis": {
+        "summary": "no supersession",
+        "status": "none"
+      },
+      "trigger": "durable RXX proposal",
+      "non_trigger_cheap_path": "ordinary non-RXX filing",
+      "cheapest_discriminator": "open-and-closed census",
+      "distinct_failure": {
+        "summary": "unowned failure",
+        "distinct": true
+      },
+      "distinct_consumer": {
+        "summary": "executor",
+        "distinct": true
+      },
+      "distinct_owner": {
+        "summary": "new owner required",
+        "distinct": true
+      },
+      "distinct_acceptance": {
+        "summary": "new acceptance surface",
+        "distinct": true
+      },
+      "selected_outcome": "NEW_RXX",
+      "locators": {
+        "admission_evidence": {
+          "path": "fixtures/issue-ready-work-orders/cases.json",
+          "pointer": "/conditional_evidence_records/R31-CR23",
+          "record_id": "R31-CR23",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "current": true
+        }
+      },
+      "id": "R31-CR23",
+      "current": true,
+      "authority_confirmed": true,
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    }
+  },
+  "conditional_evidence_records": {
+    "R31-CR1": {
+      "record_id": "R31-CR1",
+      "gap": "absent",
+      "runtime_consumer": false,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR2": {
+      "record_id": "R31-CR2",
+      "gap": "supporting-only",
+      "runtime_consumer": false,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR3": {
+      "record_id": "R31-CR3",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap": "owned",
+      "dependency": "resolved",
+      "supersession": "amend",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": false,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR4": {
+      "record_id": "R31-CR4",
+      "gap": "unresolved",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "unresolved",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "unresolved",
+      "dependency": "unresolved",
+      "supersession": "unresolved",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR5": {
+      "record_id": "R31-CR5",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR6": {
+      "record_id": "R31-CR6",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "existing-rxx",
+        "owner": "R001F",
+        "rxx": "R0041"
+      },
+      "overlap": "owned",
+      "dependency": "resolved",
+      "supersession": "reopen",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": false,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR7": {
+      "record_id": "R31-CR7",
+      "gap": "absent",
+      "runtime_consumer": false,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR10": {
+      "record_id": "R31-CR10",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap": "owned",
+      "dependency": "resolved",
+      "supersession": "amend",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR14": {
+      "record_id": "R31-CR14",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": false
+      }
+    },
+    "R31-CR15": {
+      "record_id": "R31-CR15",
+      "gap": "supporting-only",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR16": {
+      "record_id": "R31-CR16",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR17": {
+      "record_id": "R31-CR17",
+      "gap": "absent",
+      "runtime_consumer": false,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR18": {
+      "record_id": "R31-CR18",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR19": {
+      "record_id": "R31-CR19",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "existing-owner",
+        "owner": "R001F",
+        "rxx": null
+      },
+      "overlap": "owned",
+      "dependency": "resolved",
+      "supersession": "amend",
+      "distinct": {
+        "failure": false,
+        "consumer": false,
+        "owner": false,
+        "acceptance": false
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR20": {
+      "record_id": "R31-CR20",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR21": {
+      "record_id": "R31-CR21",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR22": {
+      "record_id": "R31-CR22",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
+    },
+    "R31-CR23": {
+      "record_id": "R31-CR23",
+      "gap": "present",
+      "runtime_consumer": true,
+      "owner": {
+        "status": "none",
+        "owner": null,
+        "rxx": null
+      },
+      "overlap": "none",
+      "dependency": "resolved",
+      "supersession": "none",
+      "distinct": {
+        "failure": true,
+        "consumer": true,
+        "owner": true,
+        "acceptance": true
+      },
+      "census": {
+        "complete": true,
+        "open_closed": true
+      }
     }
   },
   "conditional_decision_records": {
@@ -2234,56 +3610,188 @@
         }
       },
       "authority_confirmed": true
+    },
+    "R31-CR18": {
+      "id": "R31-CR18",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR19": {
+      "id": "R31-CR19",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR20": {
+      "id": "R31-CR20",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR21": {
+      "id": "R31-CR21",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR22": {
+      "id": "R31-CR22",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true
+        }
+      },
+      "authority_confirmed": true
+    },
+    "R31-CR23": {
+      "id": "R31-CR23",
+      "current": true,
+      "selected_outcome": "NEW_RXX",
+      "decision": {
+        "route": "unowned",
+        "runtime_consumer": true,
+        "owner": null,
+        "rxx": null,
+        "distinct": {
+          "failure": true,
+          "consumer": true,
+          "owner": true,
+          "acceptance": true
+        },
+        "census": {
+          "complete": true,
+          "open_closed": true
+        }
+      },
+      "authority_confirmed": true
     }
   },
   "conditional_record_locators": {
     "R31-CR1": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR1",
+      "pointer": "/conditional_records/R31-CR1",
       "record_id": "R31-CR1",
-      "sha256": "a7548a0337db6213c7358a1c7290bf9d25022832349b69465660fc9045f48b20",
+      "sha256": "865f66b30fc7a0adfb496ea55fd0ea8688112785ee574f24d0e03dd961264a83",
       "current": true
     },
     "R31-CR2": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR2",
+      "pointer": "/conditional_records/R31-CR2",
       "record_id": "R31-CR2",
-      "sha256": "d52169e17c6f2c730ca7add617e6468cf3bcaa706b7c6c687498d69ea27f5d13",
+      "sha256": "a4f7b1f5fb58c37b7fc4eb5d327a916112d3ef20292df780ed3dad0d40a011d8",
       "current": true
     },
     "R31-CR3": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR3",
+      "pointer": "/conditional_records/R31-CR3",
       "record_id": "R31-CR3",
-      "sha256": "0b4ed7f1715daf13c26aa211f9af5816bcb7aa7e51c7cc2ced039fea3ee9476f",
+      "sha256": "0ed79a94007fcc3b2545cea32558871fb3288e09d7dabcbfff34003f6123ef51",
       "current": true
     },
     "R31-CR4": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR4",
+      "pointer": "/conditional_records/R31-CR4",
       "record_id": "R31-CR4",
-      "sha256": "9be1a29fae382ba74d2068707d048a746b47ff73fe98dcf5f11225e0e6ab4f27",
+      "sha256": "60c97959fd0bd624f99227e72ff8730b7317301cf1b447d9f5305c1e2ef8c9c9",
       "current": true
     },
     "R31-CR5": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR5",
+      "pointer": "/conditional_records/R31-CR5",
       "record_id": "R31-CR5",
-      "sha256": "af00f23061f95c8be5bd910c63ce2dc73f2a9887a024dc83472856c578aa921c",
+      "sha256": "bf24bff78b0951a4da7d2b11c78a1ee3fb7328ac2a4e32b302b845f47357c17f",
       "current": true
     },
     "R31-CR6": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR6",
+      "pointer": "/conditional_records/R31-CR6",
       "record_id": "R31-CR6",
-      "sha256": "c06ef94014142b42cf526de41008b3d13cc522b67ce0d8f4b9ed2183690913fe",
+      "sha256": "0b922208c51ccc7a4f2752915f9d615428762537b9f305627ff5496a4bfd2d4e",
       "current": true
     },
     "R31-CR7": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR7",
+      "pointer": "/conditional_records/R31-CR7",
       "record_id": "R31-CR7",
-      "sha256": "898e887b81fcb3d31a4a684f31d8c437f95d5a139401960e033e0ff2241f1e96",
+      "sha256": "a240df424c42d3e5ac0dfe8b6f0fa0ab7a4e385121ce6c4e73007d89ad6ba013",
       "current": false
     },
     "R31-CR9": {
@@ -2295,9 +3803,9 @@
     },
     "R31-CR10": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR10",
+      "pointer": "/conditional_records/R31-CR10",
       "record_id": "R31-CR10",
-      "sha256": "147e7dd20b142a8a8724ce08a2a327ec82d7747a323095bac917877a704203e9",
+      "sha256": "401b77f89cd104458ed038e8fb0f498c28675ff697284617e3d55993e9849945",
       "current": true
     },
     "R31-CR11": {
@@ -2309,30 +3817,72 @@
     },
     "R31-CR14": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR14",
+      "pointer": "/conditional_records/R31-CR14",
       "record_id": "R31-CR14",
-      "sha256": "a7e52e26d6346b54fd829c43029f7a9e8b42cc954b91a702627f4a0447511ae9",
+      "sha256": "74c44a174357aee2c21389dec04edd398d332bc5ed4385cfc0581995bffcb0a9",
       "current": true
     },
     "R31-CR15": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR15",
+      "pointer": "/conditional_records/R31-CR15",
       "record_id": "R31-CR15",
-      "sha256": "a3dd689049964b3216ff19bfe964572cad85999d87e9035a2ae7cf0c4c71d82e",
+      "sha256": "2c05ea92c3166fe0656eeed05e10cdeeaefc2cc69a3946b37e6e25c6e42686f9",
       "current": true
     },
     "R31-CR16": {
       "path": "fixtures/issue-ready-work-orders/cases.json",
-      "pointer": "/conditional_decision_records/R31-CR16",
+      "pointer": "/conditional_records/R31-CR16",
       "record_id": "R31-CR16",
-      "sha256": "5d08df340547c5c015ed0fdb3fbad822c6628f795d60d835dd67069eec9ca100",
+      "sha256": "d8915b1cb00d48a1f1677fda4026e9560e5e60c7d5a1be2c4101ec0452ff9021",
       "current": true
     },
     "R31-CR17": {
       "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-bp3\\fixtures\\issue-ready-work-orders\\cases.json",
-      "pointer": "/conditional_decision_records/R31-CR17",
+      "pointer": "/conditional_records/R31-CR17",
       "record_id": "R31-CR17",
-      "sha256": "27a96dabf85f8a40a5a5d3855ab6a7b3169dda3093ca51989df352306239882b",
+      "sha256": "ad80a8fac351a75b38933cf7621affcd115a233ec7ba6e8be0e2f0d93d189433",
+      "current": true
+    },
+    "R31-CR18": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR18",
+      "record_id": "R31-CR18",
+      "sha256": "5305a5234d8a39374cc45e42ef3ef33ae82db24b8a1f3f5baaaeb2105330730d",
+      "current": true
+    },
+    "R31-CR19": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR19",
+      "record_id": "R31-CR19",
+      "sha256": "03d246607a5b69f93c4f9e26791a9c5f17f430fe967019aca6cc9d85d806cef2",
+      "current": true
+    },
+    "R31-CR20": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR20",
+      "record_id": "R31-CR20",
+      "sha256": "18fb54c643c80e642842824fb24844294b58d4f42b06e1fdf70cbbc117842205",
+      "current": true
+    },
+    "R31-CR21": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR21",
+      "record_id": "R31-CR21",
+      "sha256": "94c2f18f2538749767efc84afc14665aac8bb4a62cab03effb215d0e0d997241",
+      "current": true
+    },
+    "R31-CR22": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR22",
+      "record_id": "R31-CR22",
+      "sha256": "f5462ee4717370816214c83b2f429555f0ae6c0acd60aa04e4885c59081386d0",
+      "current": true
+    },
+    "R31-CR23": {
+      "path": "fixtures/issue-ready-work-orders/cases.json",
+      "pointer": "/conditional_records/R31-CR23",
+      "record_id": "R31-CR23",
+      "sha256": "a76eae177f1a3d9b942f3616527f9bc42519931eca4562d2edc669aa66a4df91",
       "current": true
     }
   }
