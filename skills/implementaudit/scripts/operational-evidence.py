@@ -412,6 +412,32 @@ def _physical_file_row(relative, data=None, file_type=None):
     }
 
 
+def _require_repository_snapshot_stable(
+        root, paths, commit, tree, raw_paths, status, physical_file_rows):
+    observed_file_rows = []
+    for index, relative in enumerate(paths):
+        pure = _safe_relative_path(relative, f"$repository.files[{index}]")
+        path = root.joinpath(*pure.parts)
+        try:
+            data, file_type = _read_repository_path(path)
+            observed_file_rows.append(
+                _physical_file_row(relative, data, file_type))
+        except (OSError, UnicodeError):
+            observed_file_rows.append(_physical_file_row(relative))
+    observed_commit = _run_git(
+        root, "rev-parse", "--verify", "HEAD").stdout.strip()
+    observed_tree = _run_git(
+        root, "rev-parse", "--verify", "HEAD^{tree}").stdout.strip()
+    observed_raw_paths = _run_git(root, "ls-files", "-z", text=False).stdout
+    observed_status = _run_git(
+        root, "status", "--porcelain=v1", "--untracked-files=all").stdout
+    if (observed_commit != commit or observed_tree != tree or
+            observed_raw_paths != raw_paths or observed_status != status or
+            observed_file_rows != physical_file_rows):
+        _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
+               "repository physical snapshot changed during collection")
+
+
 def collect_repository(root: pathlib.Path):
     """Collect exact read-only Git/file/package facts and bounded Python AST edges."""
     root = pathlib.Path(root).resolve()
@@ -477,28 +503,8 @@ def collect_repository(root: pathlib.Path):
             },
         })
 
-    post_physical_file_rows = []
-    for index, relative in enumerate(paths):
-        pure = _safe_relative_path(relative, f"$repository.files[{index}]")
-        path = root.joinpath(*pure.parts)
-        try:
-            data, file_type = _read_repository_path(path)
-            post_physical_file_rows.append(
-                _physical_file_row(relative, data, file_type))
-        except (OSError, UnicodeError):
-            post_physical_file_rows.append(_physical_file_row(relative))
-    post_commit = _run_git(
-        root, "rev-parse", "--verify", "HEAD").stdout.strip()
-    post_tree = _run_git(
-        root, "rev-parse", "--verify", "HEAD^{tree}").stdout.strip()
-    post_raw_paths = _run_git(root, "ls-files", "-z", text=False).stdout
-    post_status = _run_git(
-        root, "status", "--porcelain=v1", "--untracked-files=all").stdout
-    if (post_commit != commit or post_tree != tree or
-            post_raw_paths != raw_paths or post_status != status or
-            post_physical_file_rows != physical_file_rows):
-        _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
-               "repository physical snapshot changed during collection")
+    _require_repository_snapshot_stable(
+        root, paths, commit, tree, raw_paths, status, physical_file_rows)
     input_file_set_sha256 = hashlib.sha256(
         canonical_json_v1(file_rows)).hexdigest()
 
@@ -681,6 +687,8 @@ def collect_repository(root: pathlib.Path):
         {"capability": "validation_registry_entries", "state": registry_state,
          "reason_code": registry_reason},
     ]
+    _require_repository_snapshot_stable(
+        root, paths, commit, tree, raw_paths, status, physical_file_rows)
     facts.sort(key=lambda row: canonical_json_v1(row))
     static_invocations.sort(key=lambda row: canonical_json_v1(row))
     for values in diagnostics.values():
@@ -699,79 +707,14 @@ def collect_repository(root: pathlib.Path):
     }
 
 
-def _validate_static_qualification(value, outcome, collector, scope):
-    if value is None:
-        if outcome == "CURRENT":
-            _error("OE_STATIC_QUALIFICATION_REQUIRED", "$static.qualification",
-                   "CURRENT external receipt requires a self-probe qualification")
-        return None
-    keys = {
-        "qualification_identity", "self_probe_identity", "wrapper_identity",
-        "collector_identity", "collector_version",
-        "collector_package_sha256", "configuration_sha256",
-        "invocation_identity", "output_schema_identity", "parser_mode",
-        "trust_mode", "scope_sha256", "probe_results", "currentness",
-        "invalidators", "receipt_sha256"}
-    qualification = _object(
-        value, "$static.qualification", exact_keys=keys, required=keys)
-    for key in (
-            "qualification_identity", "self_probe_identity", "wrapper_identity",
-            "collector_identity", "collector_version", "invocation_identity",
-            "output_schema_identity", "parser_mode", "trust_mode"):
-        _text(qualification[key], f"$static.qualification.{key}")
-    for key in (
-            "collector_package_sha256", "configuration_sha256", "scope_sha256",
-            "receipt_sha256"):
-        _digest(qualification[key], f"$static.qualification.{key}")
-    results = _object(
-        qualification["probe_results"],
-        "$static.qualification.probe_results", exact_keys={
-            "positive", "negative", "unsupported", "parser_error",
-            "repeatability"}, required={
-            "positive", "negative", "unsupported", "parser_error",
-            "repeatability"})
-    for key, result in results.items():
-        if result != "PASS":
-            _error("OE_STATIC_QUALIFICATION_FAILED",
-                   f"$static.qualification.probe_results.{key}",
-                   "CURRENT qualification requires every bounded probe to pass")
-    invalidators = _string_list(
-        qualification["invalidators"],
-        "$static.qualification.invalidators", unique=False)
-    if qualification["currentness"] not in ("CURRENT", "STALE", "EXPIRED"):
-        _error("OE_STATIC_RECEIPT_INVALID",
-               "$static.qualification.currentness",
-               "unsupported qualification currentness")
-    digest_payload = dict(qualification)
-    supplied_digest = digest_payload.pop("receipt_sha256")
-    expected_digest = hashlib.sha256(
-        canonical_json_v1(digest_payload)).hexdigest()
-    if supplied_digest != expected_digest:
-        _error("OE_STATIC_QUALIFICATION_MISMATCH",
-               "$static.qualification.receipt_sha256",
-               "qualification receipt digest does not match its payload")
-    if outcome != "CURRENT":
-        return dict(qualification)
-    if qualification["currentness"] != "CURRENT" or invalidators:
-        _error("OE_STATIC_QUALIFICATION_STALE", "$static.qualification",
-               "stale or expired qualification cannot authorize CURRENT output")
-    expected_bindings = {
-        "wrapper_identity": collector["invocation_identity"],
-        "collector_identity": collector["identity"],
-        "collector_version": collector["version"],
-        "collector_package_sha256": collector["package_sha256"],
-        "configuration_sha256": collector["configuration_sha256"],
-        "invocation_identity": collector["invocation_identity"],
-        "output_schema_identity": collector["output_schema_identity"],
-        "parser_mode": collector["parser_mode"],
-        "trust_mode": collector["trust_mode"],
-        "scope_sha256": hashlib.sha256(canonical_json_v1(scope)).hexdigest(),
-    }
-    if any(qualification[key] != expected
-           for key, expected in expected_bindings.items()):
-        _error("OE_STATIC_QUALIFICATION_MISMATCH", "$static.qualification",
-               "qualification does not bind the exact collector and scope")
-    return dict(qualification)
+def _validate_static_qualification(value, outcome):
+    if outcome == "CURRENT":
+        _error("OE_STATIC_QUALIFICATION_REQUIRED", "$static.qualification",
+               "C02 has no native qualification owner for external CURRENT")
+    if value is not None:
+        _error("OE_STATIC_QUALIFICATION_UNTRUSTED", "$static.qualification",
+               "caller-issued qualification has no authority in C02")
+    return None
 
 
 def _validate_static_receipt(value):
@@ -945,6 +888,8 @@ def _validate_static_receipt(value):
         }
         facts.append({
             **fact,
+            "state": (outcome if outcome != "CURRENT" and
+                      fact["state"] == "CURRENT" else fact["state"]),
             "native_owner_identity": target["repository_identity"],
             "authority_ceiling": "READ_ONLY_STRUCTURAL_FACT",
             "provenance": provenance,
@@ -986,7 +931,7 @@ def _validate_static_receipt(value):
         _error("OE_STATIC_EMPTY", "$static.facts",
                "static receipt must retain a fact or typed degradation")
     qualification = _validate_static_qualification(
-        value.get("qualification"), outcome, collector, scope)
+        value.get("qualification"), outcome)
     normalized = {
         "schema": STATIC_NORMALIZED_SCHEMA,
         "normalization_identity": "canonical_json_v1",

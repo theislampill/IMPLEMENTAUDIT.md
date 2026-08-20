@@ -389,6 +389,49 @@ finally:
 if mutator.is_alive() or not mutation_finished.is_set():
     raise SystemExit("synchronized mid-scan mutation control did not complete")
 
+late_changing_repo = tmp_root / "late-changing-repository"
+shutil.copytree(fixture_root, late_changing_repo)
+initialize_repo(late_changing_repo)
+late_changing_path = (late_changing_repo / "src" / "main.py").resolve()
+original_ast_parse = module.ast.parse
+ast_scan_started = threading.Event()
+late_mutation_finished = threading.Event()
+
+
+def synchronized_ast_parse(source, filename="<unknown>", mode="exec", **kwargs):
+    if filename == "src/main.py":
+        ast_scan_started.set()
+        if not late_mutation_finished.wait(timeout=5):
+            raise RuntimeError("timed out waiting for late synchronized mutation")
+    return original_ast_parse(source, filename=filename, mode=mode, **kwargs)
+
+
+def mutate_during_ast_scan():
+    if not ast_scan_started.wait(timeout=5):
+        return
+    late_changing_path.write_bytes(
+        late_changing_path.read_bytes() + b"\n# late synchronized change\n")
+    late_mutation_finished.set()
+
+
+late_mutator = threading.Thread(target=mutate_during_ast_scan)
+late_mutator.start()
+module.ast.parse = synchronized_ast_parse
+try:
+    module.collect_repository(late_changing_repo)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_REPOSITORY_CHANGED_DURING_SCAN":
+        raise SystemExit(
+            "during-AST mutation expected OE_REPOSITORY_CHANGED_DURING_SCAN, "
+            f"got {exc.code}")
+else:
+    raise SystemExit("during-AST mutation returned a mixed CURRENT snapshot")
+finally:
+    module.ast.parse = original_ast_parse
+    late_mutator.join(timeout=5)
+if late_mutator.is_alive() or not late_mutation_finished.is_set():
+    raise SystemExit("synchronized during-AST mutation control did not complete")
+
 
 ZERO64 = "0" * 64
 ONE64 = "1" * 64
@@ -430,6 +473,14 @@ def qualification_for(receipt, currentness="CURRENT", invalidators=None):
 def refresh_qualification(receipt, currentness="CURRENT", invalidators=None):
     receipt["qualification"] = qualification_for(
         receipt, currentness=currentness, invalidators=invalidators)
+
+
+def reseal_qualification(qualification):
+    payload = dict(qualification)
+    payload.pop("receipt_sha256", None)
+    qualification["receipt_sha256"] = hashlib.sha256(json.dumps(
+        payload, ensure_ascii=False, allow_nan=False, sort_keys=True,
+        separators=(",", ":")).encode("utf-8")).hexdigest()
 
 
 def base_receipt():
@@ -501,6 +552,15 @@ def base_receipt():
     return receipt
 
 
+def noncurrent_positive_receipt():
+    receipt = base_receipt()
+    receipt["outcome"] = "PARTIAL"
+    del receipt["qualification"]
+    for fact in receipt["facts"]:
+        fact["state"] = "PARTIAL"
+    return receipt
+
+
 def expect_failure(name, value, code):
     try:
         module.normalize_static_receipt(value)
@@ -510,6 +570,18 @@ def expect_failure(name, value, code):
     else:
         raise SystemExit(f"{name}: unsafe static receipt was accepted")
 
+
+case = base_receipt()
+expect_failure(
+    "caller self-issued an all-PASS qualification", case,
+    "OE_STATIC_QUALIFICATION_REQUIRED")
+
+case = base_receipt()
+case["qualification"]["wrapper_identity"] = "caller-changed-wrapper"
+reseal_qualification(case["qualification"])
+expect_failure(
+    "same invocation caller changed and resealed wrapper identity", case,
+    "OE_STATIC_QUALIFICATION_REQUIRED")
 
 case = base_receipt()
 case["facts"][1]["mapping"] = {
@@ -531,23 +603,25 @@ case = base_receipt()
 case["collector"]["package_sha256"] = TWO64
 expect_failure(
     "CURRENT qualification bound changed collector bytes", case,
-    "OE_STATIC_QUALIFICATION_MISMATCH")
+    "OE_STATIC_QUALIFICATION_REQUIRED")
 
 case = base_receipt()
 refresh_qualification(
     case, currentness="EXPIRED", invalidators=["qualification expired"])
 expect_failure(
     "CURRENT receipt reused expired qualification", case,
-    "OE_STATIC_QUALIFICATION_STALE")
+    "OE_STATIC_QUALIFICATION_REQUIRED")
 
 
-normalized = module.normalize_static_receipt(base_receipt())
+normalized = module.normalize_static_receipt(noncurrent_positive_receipt())
 if normalized.get("schema") != "implementaudit-static-normalized-v1":
     raise SystemExit("normalized static receipt schema missing")
-if normalized.get("outcome") != "CURRENT":
-    raise SystemExit("supported static receipt lost CURRENT outcome")
+if normalized.get("outcome") != "PARTIAL":
+    raise SystemExit("unqualified external positive receipt escaped non-current")
 if normalized.get("normalization_identity") != "canonical_json_v1":
     raise SystemExit("static output normalization identity missing")
+if normalized.get("qualification", {}).get("self_probe") is not None:
+    raise SystemExit("C02 retained caller-issued qualification authority")
 if len(normalized.get("facts", [])) != 2:
     raise SystemExit("supported edge/reverse facts missing")
 for fact in normalized["facts"]:
@@ -575,7 +649,7 @@ if any(fact.get("work_consequence") != "NONE" for fact in normalized["facts"]):
 if len(normalized.get("semantic_sha256", "")) != 64:
     raise SystemExit("normalized static receipt semantic digest missing")
 if module.canonical_json_v1(normalized) != module.canonical_json_v1(
-        module.normalize_static_receipt(base_receipt())):
+        module.normalize_static_receipt(noncurrent_positive_receipt())):
     raise SystemExit("static normalization is not semantically repeatable")
 
 case = base_receipt()
@@ -614,6 +688,7 @@ expect_failure(
 
 case = base_receipt()
 case["outcome"] = "PARSER_ERROR"
+del case["qualification"]
 case["scope"]["parser_complete"] = False
 case["diagnostics"]["errors"] = ["src/broken.py: invalid syntax"]
 case["facts"] = []
@@ -623,13 +698,12 @@ if parser_error["outcome"] != "PARSER_ERROR" or not parser_error["facts"]:
 if parser_error["facts"][0].get("kind") != "PARSER_ERROR_OBSERVATION":
     raise SystemExit("parser-error non-empty control drift")
 
-left = base_receipt()
+left = noncurrent_positive_receipt()
 left["facts"] = [left["facts"][0]]
-right = base_receipt()
+right = noncurrent_positive_receipt()
 right["collector"]["identity"] = "fixture-second-collector"
 right["scope"]["unsupported"] = []
 right["scope"]["dynamic_entrypoints_complete"] = True
-refresh_qualification(right)
 right["facts"] = [{
     "id": "no-edge-main-helper", "kind": "NO_EDGE", "polarity": "NEGATIVE",
     "source": "src/main.py", "target": "src/helper.py",
@@ -670,6 +744,7 @@ expect_failure(
 
 case = base_receipt()
 case["outcome"] = "UNSUPPORTED"
+del case["qualification"]
 case["scope"]["applicable"] = False
 case["scope"]["supported"] = []
 case["facts"] = []
@@ -681,6 +756,7 @@ if unsupported["facts"][0].get("kind") != "UNSUPPORTED_OBSERVATION":
 
 case = base_receipt()
 case["outcome"] = "NOT_INSTALLED"
+del case["qualification"]
 case["facts"] = []
 not_installed = module.normalize_static_receipt(case)
 if (not_installed["outcome"] != "NOT_INSTALLED" or
@@ -695,6 +771,8 @@ partial = module.normalize_static_receipt(case)
 if partial["outcome"] != "PARTIAL" or partial["diagnostics"]["skipped"] != [
         "src/generated.py"]:
     raise SystemExit("partial degradation was not preserved")
+if any(fact.get("state") == "CURRENT" for fact in partial["facts"]):
+    raise SystemExit("non-current external receipt retained CURRENT facts")
 PY
 
 printf 'operational-evidence-contract.test: ok\n'

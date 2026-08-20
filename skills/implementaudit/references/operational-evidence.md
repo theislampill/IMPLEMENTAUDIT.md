@@ -62,9 +62,11 @@ never executes target-configured Git helpers. It hashes working-tree bytes
 without following tracked symlinks. An exact pre/post fence compares commit,
 tree, tracked-path population, status bytes, file type/length and every file or
 symlink-target hash; any mid-scan change is a typed refusal and no mixed
-`CURRENT` snapshot is returned. Every readable tracked file stays an exact file
-fact; an unreadable or missing tracked path produces a non-empty `STALE`
-observation and degrades the file capability to `PARTIAL`.
+`CURRENT` snapshot is returned. The same exact fence runs again after bounded
+AST/package processing, immediately before facts can be returned, so a change
+after the second file read is also refused. Every readable tracked file stays
+an exact file fact; an unreadable or missing tracked path produces a non-empty
+`STALE` observation and degrades the file capability to `PARTIAL`.
 Known package JSON contributes only present, positively declared shared roots.
 The shell validation registry remains an exact file/hash fact; C02 does not
 parse shell or infer registry entries.
@@ -91,13 +93,15 @@ auto-install and network modes are refused. Absence facts require a complete
 supported scope; physical changes or named invalidators invalidate `CURRENT`,
 and `STALE` must name its invalidator. Unsupported, missing-tool, crash/timeout
 and parser-error outcomes synthesize typed non-empty observations.
-An external `CURRENT` receipt additionally requires a canonical-digest-bound
-self-probe qualification: named qualification and probe identities, exact
-wrapper/collector/package/configuration/parser/output/trust/scope bindings,
-positive/negative/unsupported/parser-error/repeatability PASS results, current
-state, and no invalidators. Missing, changed, failed, stale or expired
-qualification cannot authorize `CURRENT`; non-current receipts may retain an
-absent or non-current qualification without being promoted.
+C02 has no independent/native qualification owner or trust anchor. Therefore an
+external receipt can never obtain `CURRENT` from a caller-issued qualification,
+even when its caller-generated digest and positive/negative/unsupported/
+parser-error/repeatability results are internally consistent. Every requested
+external `CURRENT` is refused as `OE_STATIC_QUALIFICATION_REQUIRED` until a
+separately governed later owner exists. Non-current external receipts require
+qualification absence; a caller-supplied qualification is untrusted data, not
+authority, and cannot be promoted by C02. A non-current envelope also demotes
+any caller-declared `CURRENT` fact to the envelope's non-current state.
 `normalize_static_receipts` requires one exact target snapshot, retains
 overlapping provenance separately and marks opposing edge/absence claims
 `CONTRADICTORY` instead of merging them.
