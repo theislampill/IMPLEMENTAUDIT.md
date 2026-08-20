@@ -55,10 +55,16 @@ owner boundary.
 ## Bounded repository and static collection
 
 `collect_repository` uses fixed, read-only local Git commands to bind the exact
-commit, tree, worktree state and tracked input-file-set digest. It hashes
-working-tree bytes without following tracked symlinks. Every readable tracked
-file stays an exact file fact; an unreadable or missing tracked path produces a
-non-empty `STALE` observation and degrades the file capability to `PARTIAL`.
+commit, tree, worktree state and tracked input-file-set digest. Every call
+disables system/global configuration, environment-supplied helpers, repository
+fsmonitor, hooks, credential/SSH helpers, external diff and ext transports; it
+never executes target-configured Git helpers. It hashes working-tree bytes
+without following tracked symlinks. An exact pre/post fence compares commit,
+tree, tracked-path population, status bytes, file type/length and every file or
+symlink-target hash; any mid-scan change is a typed refusal and no mixed
+`CURRENT` snapshot is returned. Every readable tracked file stays an exact file
+fact; an unreadable or missing tracked path produces a non-empty `STALE`
+observation and degrades the file capability to `PARTIAL`.
 Known package JSON contributes only present, positively declared shared roots.
 The shell validation registry remains an exact file/hash fact; C02 does not
 parse shell or infer registry entries.
@@ -85,13 +91,20 @@ auto-install and network modes are refused. Absence facts require a complete
 supported scope; physical changes or named invalidators invalidate `CURRENT`,
 and `STALE` must name its invalidator. Unsupported, missing-tool, crash/timeout
 and parser-error outcomes synthesize typed non-empty observations.
+An external `CURRENT` receipt additionally requires a canonical-digest-bound
+self-probe qualification: named qualification and probe identities, exact
+wrapper/collector/package/configuration/parser/output/trust/scope bindings,
+positive/negative/unsupported/parser-error/repeatability PASS results, current
+state, and no invalidators. Missing, changed, failed, stale or expired
+qualification cannot authorize `CURRENT`; non-current receipts may retain an
+absent or non-current qualification without being promoted.
 `normalize_static_receipts` requires one exact target snapshot, retains
 overlapping provenance separately and marks opposing edge/absence claims
 `CONTRADICTORY` instead of merging them.
 
-An explicit governed work-node mapping may be retained only as a declared
-resource/read/target/evidence relation with no effect or selective evidence
-invalidation. The normalizer never creates or changes that mapping and never
-invokes R0035. The APIs are C02 substrate, not CLI commands, default preflight,
-helper registration, package admission, or a public route; those remain in
-their assigned downstream cells.
+C02 refuses every caller-supplied work-node mapping and never creates one.
+Governed mapping envelopes and their native-owner joins belong to their later
+owner; no current C02 output may be consumed directly by R0035. The normalizer
+never invokes R0035. The APIs are C02 substrate, not CLI commands, default
+preflight, helper registration, package admission, or a public route; those
+remain in their assigned downstream cells.

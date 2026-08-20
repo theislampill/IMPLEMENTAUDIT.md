@@ -304,10 +304,33 @@ def _safe_relative_path(value, path):
 
 def _run_git(root: pathlib.Path, *args: str, text: bool = True):
     environment = dict(os.environ)
-    environment["GIT_OPTIONAL_LOCKS"] = "0"
+    for name in tuple(environment):
+        if name == "GIT_CONFIG_PARAMETERS" or name.startswith("GIT_CONFIG_KEY_"):
+            environment.pop(name)
+    environment.update({
+        "GIT_CONFIG_COUNT": "0",
+        "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_CONFIG_SYSTEM": os.devnull,
+        "GIT_OPTIONAL_LOCKS": "0",
+    })
+    for name in (
+            "GIT_ASKPASS", "SSH_ASKPASS", "GIT_SSH", "GIT_SSH_COMMAND",
+            "GIT_PROXY_COMMAND", "GIT_EXTERNAL_DIFF", "GIT_PAGER", "PAGER",
+            "GIT_EDITOR", "GIT_SEQUENCE_EDITOR", "VISUAL", "EDITOR"):
+        environment.pop(name, None)
+    isolated_configuration = [
+        "-c", "core.fsmonitor=false",
+        "-c", f"core.hooksPath={os.devnull}",
+        "-c", "credential.helper=",
+        "-c", "core.sshCommand=",
+        "-c", "diff.external=",
+        "-c", "protocol.ext.allow=never",
+    ]
     try:
         return subprocess.run(
-            ["git", "-C", os.fspath(root), *args], check=True,
+            ["git", *isolated_configuration, "-C", os.fspath(root), *args],
+            check=True,
             stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
             stderr=subprocess.PIPE, text=text, env=environment)
     except (FileNotFoundError, OSError, subprocess.CalledProcessError):
@@ -369,6 +392,26 @@ def _file_language(path):
     }.get(suffix, "unsupported")
 
 
+def _read_repository_path(path):
+    if path.is_symlink():
+        return os.readlink(path).encode("utf-8"), "symlink"
+    if path.is_file():
+        return path.read_bytes(), "file"
+    raise OSError("tracked path is not a readable file or symlink")
+
+
+def _physical_file_row(relative, data=None, file_type=None):
+    if data is None:
+        return {"path": relative, "readable": False}
+    return {
+        "path": relative,
+        "readable": True,
+        "file_type": file_type,
+        "bytes": len(data),
+        "sha256": hashlib.sha256(data).hexdigest(),
+    }
+
+
 def collect_repository(root: pathlib.Path):
     """Collect exact read-only Git/file/package facts and bounded Python AST edges."""
     root = pathlib.Path(root).resolve()
@@ -399,31 +442,17 @@ def collect_repository(root: pathlib.Path):
     facts = []
     diagnostics = {"warnings": [], "errors": [], "skipped": [], "unknown": []}
     file_rows = []
+    physical_file_rows = []
     file_bytes = {}
     file_error = False
     for index, relative in enumerate(paths):
         pure = _safe_relative_path(relative, f"$repository.files[{index}]")
         path = root.joinpath(*pure.parts)
         try:
-            if path.is_symlink():
-                data = os.readlink(path).encode("utf-8")
-                file_type = "symlink"
-            elif path.is_file():
-                data = path.read_bytes()
-                file_type = "file"
-            else:
-                file_error = True
-                diagnostics["errors"].append(f"tracked-path-unreadable:{relative}")
-                facts.append({
-                    "kind": "FILE_UNREADABLE_OBSERVATION", "path": relative,
-                    "state": "STALE", "provenance": {
-                        "method": "git-ls-files+working-tree-read",
-                        "commit": commit, "tree": tree,
-                    },
-                })
-                continue
+            data, file_type = _read_repository_path(path)
         except (OSError, UnicodeError):
             file_error = True
+            physical_file_rows.append(_physical_file_row(relative))
             diagnostics["errors"].append(f"tracked-path-unreadable:{relative}")
             facts.append({
                 "kind": "FILE_UNREADABLE_OBSERVATION", "path": relative,
@@ -434,6 +463,8 @@ def collect_repository(root: pathlib.Path):
             })
             continue
         digest = hashlib.sha256(data).hexdigest()
+        physical_file_rows.append(
+            _physical_file_row(relative, data, file_type))
         file_bytes[relative] = data
         file_rows.append({"path": relative, "bytes": len(data), "sha256": digest})
         facts.append({
@@ -445,6 +476,29 @@ def collect_repository(root: pathlib.Path):
                 "commit": commit, "tree": tree,
             },
         })
+
+    post_physical_file_rows = []
+    for index, relative in enumerate(paths):
+        pure = _safe_relative_path(relative, f"$repository.files[{index}]")
+        path = root.joinpath(*pure.parts)
+        try:
+            data, file_type = _read_repository_path(path)
+            post_physical_file_rows.append(
+                _physical_file_row(relative, data, file_type))
+        except (OSError, UnicodeError):
+            post_physical_file_rows.append(_physical_file_row(relative))
+    post_commit = _run_git(
+        root, "rev-parse", "--verify", "HEAD").stdout.strip()
+    post_tree = _run_git(
+        root, "rev-parse", "--verify", "HEAD^{tree}").stdout.strip()
+    post_raw_paths = _run_git(root, "ls-files", "-z", text=False).stdout
+    post_status = _run_git(
+        root, "status", "--porcelain=v1", "--untracked-files=all").stdout
+    if (post_commit != commit or post_tree != tree or
+            post_raw_paths != raw_paths or post_status != status or
+            post_physical_file_rows != physical_file_rows):
+        _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
+               "repository physical snapshot changed during collection")
     input_file_set_sha256 = hashlib.sha256(
         canonical_json_v1(file_rows)).hexdigest()
 
@@ -645,11 +699,86 @@ def collect_repository(root: pathlib.Path):
     }
 
 
+def _validate_static_qualification(value, outcome, collector, scope):
+    if value is None:
+        if outcome == "CURRENT":
+            _error("OE_STATIC_QUALIFICATION_REQUIRED", "$static.qualification",
+                   "CURRENT external receipt requires a self-probe qualification")
+        return None
+    keys = {
+        "qualification_identity", "self_probe_identity", "wrapper_identity",
+        "collector_identity", "collector_version",
+        "collector_package_sha256", "configuration_sha256",
+        "invocation_identity", "output_schema_identity", "parser_mode",
+        "trust_mode", "scope_sha256", "probe_results", "currentness",
+        "invalidators", "receipt_sha256"}
+    qualification = _object(
+        value, "$static.qualification", exact_keys=keys, required=keys)
+    for key in (
+            "qualification_identity", "self_probe_identity", "wrapper_identity",
+            "collector_identity", "collector_version", "invocation_identity",
+            "output_schema_identity", "parser_mode", "trust_mode"):
+        _text(qualification[key], f"$static.qualification.{key}")
+    for key in (
+            "collector_package_sha256", "configuration_sha256", "scope_sha256",
+            "receipt_sha256"):
+        _digest(qualification[key], f"$static.qualification.{key}")
+    results = _object(
+        qualification["probe_results"],
+        "$static.qualification.probe_results", exact_keys={
+            "positive", "negative", "unsupported", "parser_error",
+            "repeatability"}, required={
+            "positive", "negative", "unsupported", "parser_error",
+            "repeatability"})
+    for key, result in results.items():
+        if result != "PASS":
+            _error("OE_STATIC_QUALIFICATION_FAILED",
+                   f"$static.qualification.probe_results.{key}",
+                   "CURRENT qualification requires every bounded probe to pass")
+    invalidators = _string_list(
+        qualification["invalidators"],
+        "$static.qualification.invalidators", unique=False)
+    if qualification["currentness"] not in ("CURRENT", "STALE", "EXPIRED"):
+        _error("OE_STATIC_RECEIPT_INVALID",
+               "$static.qualification.currentness",
+               "unsupported qualification currentness")
+    digest_payload = dict(qualification)
+    supplied_digest = digest_payload.pop("receipt_sha256")
+    expected_digest = hashlib.sha256(
+        canonical_json_v1(digest_payload)).hexdigest()
+    if supplied_digest != expected_digest:
+        _error("OE_STATIC_QUALIFICATION_MISMATCH",
+               "$static.qualification.receipt_sha256",
+               "qualification receipt digest does not match its payload")
+    if outcome != "CURRENT":
+        return dict(qualification)
+    if qualification["currentness"] != "CURRENT" or invalidators:
+        _error("OE_STATIC_QUALIFICATION_STALE", "$static.qualification",
+               "stale or expired qualification cannot authorize CURRENT output")
+    expected_bindings = {
+        "wrapper_identity": collector["invocation_identity"],
+        "collector_identity": collector["identity"],
+        "collector_version": collector["version"],
+        "collector_package_sha256": collector["package_sha256"],
+        "configuration_sha256": collector["configuration_sha256"],
+        "invocation_identity": collector["invocation_identity"],
+        "output_schema_identity": collector["output_schema_identity"],
+        "parser_mode": collector["parser_mode"],
+        "trust_mode": collector["trust_mode"],
+        "scope_sha256": hashlib.sha256(canonical_json_v1(scope)).hexdigest(),
+    }
+    if any(qualification[key] != expected
+           for key, expected in expected_bindings.items()):
+        _error("OE_STATIC_QUALIFICATION_MISMATCH", "$static.qualification",
+               "qualification does not bind the exact collector and scope")
+    return dict(qualification)
+
+
 def _validate_static_receipt(value):
     _object(
         value, "$static", exact_keys={
             "schema", "outcome", "invalidators", "collector", "target", "scope",
-            "diagnostics", "facts"},
+            "diagnostics", "facts", "qualification"},
         required={
             "schema", "outcome", "invalidators", "collector", "target", "scope",
             "diagnostics", "facts"})
@@ -791,18 +920,8 @@ def _validate_static_receipt(value):
                    "source topology cannot create a work-DAG or lifecycle effect")
         mapping = fact["mapping"]
         if mapping is not None:
-            _object(
-                mapping, f"{path}.mapping", exact_keys={
-                    "work_node_id", "relation_type", "effect"}, required={
-                    "work_node_id", "relation_type", "effect"})
-            _text(mapping["work_node_id"], f"{path}.mapping.work_node_id")
-            if mapping["relation_type"] not in (
-                    "RESOURCE", "READ", "TARGET", "EVIDENCE"):
-                _error("OE_STATIC_AUTHORITY", f"{path}.mapping.relation_type",
-                       "mapping must be an explicit governed relation")
-            if mapping["effect"] not in ("NONE", "INVALIDATE_EVIDENCE"):
-                _error("OE_STATIC_AUTHORITY", f"{path}.mapping.effect",
-                       "mapping effect exceeds selective invalidation")
+            _error("OE_STATIC_MAPPING_FORBIDDEN", f"{path}.mapping",
+                   "C02 static facts cannot supply governed work-node mappings")
         if fact["kind"] in STATIC_NEGATIVE_KINDS:
             if (fact["polarity"] != "NEGATIVE" or unsupported or
                     not all(completeness.values())):
@@ -866,6 +985,8 @@ def _validate_static_receipt(value):
     if not facts:
         _error("OE_STATIC_EMPTY", "$static.facts",
                "static receipt must retain a fact or typed degradation")
+    qualification = _validate_static_qualification(
+        value.get("qualification"), outcome, collector, scope)
     normalized = {
         "schema": STATIC_NORMALIZED_SCHEMA,
         "normalization_identity": "canonical_json_v1",
@@ -875,6 +996,7 @@ def _validate_static_receipt(value):
             "collector": dict(collector), "target": dict(target),
             "scope": {**scope, "supported": list(supported),
                       "unsupported": list(unsupported)},
+            "self_probe": qualification,
         },
         "diagnostics": {
             key: sorted(diagnostics[key])

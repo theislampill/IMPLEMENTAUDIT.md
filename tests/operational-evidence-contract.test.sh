@@ -135,6 +135,7 @@ import platform
 import shutil
 import subprocess
 import sys
+import threading
 
 
 loader_path = pathlib.Path(sys.argv[1])
@@ -321,6 +322,73 @@ if cheap_caps["python_ast"]["state"] != "NOT_APPLICABLE":
 if not [row for row in cheap["facts"] if row.get("kind") == "FILE"]:
     raise SystemExit("non-applicable repository lost exact file fallback")
 
+fsmonitor_repo = tmp_root / "fsmonitor-repository"
+shutil.copytree(fixture_root, fsmonitor_repo)
+initialize_repo(fsmonitor_repo)
+fsmonitor_marker = fsmonitor_repo / "FSMONITOR_EXECUTED"
+fsmonitor_hook = tmp_root / "fsmonitor-sentinel.sh"
+fsmonitor_hook.write_text(
+    '#!/bin/sh\nprintf invoked > FSMONITOR_EXECUTED\n',
+    encoding="utf-8")
+fsmonitor_hook.chmod(0o755)
+git(fsmonitor_repo, "config", "core.fsmonitor", fsmonitor_hook.as_posix())
+git(fsmonitor_repo, "update-index", "--fsmonitor")
+if fsmonitor_marker.exists():
+    fsmonitor_marker.unlink()
+git(fsmonitor_repo, "status", "--porcelain=v1", "--untracked-files=all")
+if not fsmonitor_marker.exists():
+    raise SystemExit("fsmonitor sentinel control did not execute under ordinary Git")
+fsmonitor_marker.unlink()
+module.collect_repository(fsmonitor_repo)
+if fsmonitor_marker.exists():
+    raise SystemExit("repository collector executed target core.fsmonitor helper")
+
+changing_repo = tmp_root / "changing-repository"
+shutil.copytree(fixture_root, changing_repo)
+initialize_repo(changing_repo)
+changing_path = (changing_repo / "src" / "main.py").resolve()
+original_read_bytes = pathlib.Path.read_bytes
+first_hash_read = threading.Event()
+mutation_finished = threading.Event()
+read_state = {"intercepted": False}
+
+
+def synchronized_read_bytes(path):
+    data = original_read_bytes(path)
+    if path.resolve() == changing_path and not read_state["intercepted"]:
+        read_state["intercepted"] = True
+        first_hash_read.set()
+        if not mutation_finished.wait(timeout=5):
+            raise RuntimeError("timed out waiting for synchronized mutation")
+    return data
+
+
+def mutate_after_first_hash():
+    if not first_hash_read.wait(timeout=5):
+        return
+    changing_path.write_bytes(
+        original_read_bytes(changing_path) + b"\n# synchronized change\n")
+    mutation_finished.set()
+
+
+mutator = threading.Thread(target=mutate_after_first_hash)
+mutator.start()
+pathlib.Path.read_bytes = synchronized_read_bytes
+try:
+    module.collect_repository(changing_repo)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_REPOSITORY_CHANGED_DURING_SCAN":
+        raise SystemExit(
+            "mid-scan mutation expected OE_REPOSITORY_CHANGED_DURING_SCAN, "
+            f"got {exc.code}")
+else:
+    raise SystemExit("mid-scan mutation returned a mixed CURRENT snapshot")
+finally:
+    pathlib.Path.read_bytes = original_read_bytes
+    mutator.join(timeout=5)
+if mutator.is_alive() or not mutation_finished.is_set():
+    raise SystemExit("synchronized mid-scan mutation control did not complete")
+
 
 ZERO64 = "0" * 64
 ONE64 = "1" * 64
@@ -329,8 +397,43 @@ ZERO40 = "0" * 40
 ONE40 = "1" * 40
 
 
+def qualification_for(receipt, currentness="CURRENT", invalidators=None):
+    qualification = {
+        "qualification_identity": "fixture-static-qualification-v1",
+        "self_probe_identity": "fixture-bounded-self-probe-v1",
+        "wrapper_identity": receipt["collector"]["invocation_identity"],
+        "collector_identity": receipt["collector"]["identity"],
+        "collector_version": receipt["collector"]["version"],
+        "collector_package_sha256": receipt["collector"]["package_sha256"],
+        "configuration_sha256": receipt["collector"]["configuration_sha256"],
+        "invocation_identity": receipt["collector"]["invocation_identity"],
+        "output_schema_identity": receipt["collector"][
+            "output_schema_identity"],
+        "parser_mode": receipt["collector"]["parser_mode"],
+        "trust_mode": receipt["collector"]["trust_mode"],
+        "scope_sha256": hashlib.sha256(json.dumps(
+            receipt["scope"], ensure_ascii=False, allow_nan=False,
+            sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest(),
+        "probe_results": {
+            "positive": "PASS", "negative": "PASS", "unsupported": "PASS",
+            "parser_error": "PASS", "repeatability": "PASS",
+        },
+        "currentness": currentness,
+        "invalidators": [] if invalidators is None else invalidators,
+    }
+    qualification["receipt_sha256"] = hashlib.sha256(json.dumps(
+        qualification, ensure_ascii=False, allow_nan=False, sort_keys=True,
+        separators=(",", ":")).encode("utf-8")).hexdigest()
+    return qualification
+
+
+def refresh_qualification(receipt, currentness="CURRENT", invalidators=None):
+    receipt["qualification"] = qualification_for(
+        receipt, currentness=currentness, invalidators=invalidators)
+
+
 def base_receipt():
-    return {
+    receipt = {
         "schema": "implementaudit-static-receipt-v1",
         "outcome": "CURRENT",
         "invalidators": [],
@@ -391,13 +494,11 @@ def base_receipt():
             "resolution": "RESOLVED",
             "state": "CURRENT",
             "work_consequence": "NONE",
-            "mapping": {
-                "work_node_id": "R38-C12",
-                "relation_type": "EVIDENCE",
-                "effect": "INVALIDATE_EVIDENCE",
-            },
+            "mapping": None,
         }],
     }
+    refresh_qualification(receipt)
+    return receipt
 
 
 def expect_failure(name, value, code):
@@ -408,6 +509,36 @@ def expect_failure(name, value, code):
             raise SystemExit(f"{name}: expected {code}, got {exc.code}")
     else:
         raise SystemExit(f"{name}: unsafe static receipt was accepted")
+
+
+case = base_receipt()
+case["facts"][1]["mapping"] = {
+    "work_node_id": "FABRICATED-NODE",
+    "relation_type": "EVIDENCE",
+    "effect": "INVALIDATE_EVIDENCE",
+}
+expect_failure(
+    "caller supplied a fabricated governed mapping", case,
+    "OE_STATIC_MAPPING_FORBIDDEN")
+
+case = base_receipt()
+del case["qualification"]
+expect_failure(
+    "CURRENT external receipt omitted qualification", case,
+    "OE_STATIC_QUALIFICATION_REQUIRED")
+
+case = base_receipt()
+case["collector"]["package_sha256"] = TWO64
+expect_failure(
+    "CURRENT qualification bound changed collector bytes", case,
+    "OE_STATIC_QUALIFICATION_MISMATCH")
+
+case = base_receipt()
+refresh_qualification(
+    case, currentness="EXPIRED", invalidators=["qualification expired"])
+expect_failure(
+    "CURRENT receipt reused expired qualification", case,
+    "OE_STATIC_QUALIFICATION_STALE")
 
 
 normalized = module.normalize_static_receipt(base_receipt())
@@ -437,10 +568,8 @@ for fact in normalized["facts"]:
     }
     if provenance != expected:
         raise SystemExit("static fact provenance drift")
-if normalized["facts"][1].get("mapping") != {
-        "effect": "INVALIDATE_EVIDENCE", "relation_type": "EVIDENCE",
-        "work_node_id": "R38-C12"}:
-    raise SystemExit("explicit selective-invalidation mapping lost")
+if any(fact.get("mapping") is not None for fact in normalized["facts"]):
+    raise SystemExit("C02 static normalization invented a governed mapping")
 if any(fact.get("work_consequence") != "NONE" for fact in normalized["facts"]):
     raise SystemExit("supported facts invented a work consequence")
 if len(normalized.get("semantic_sha256", "")) != 64:
@@ -500,6 +629,7 @@ right = base_receipt()
 right["collector"]["identity"] = "fixture-second-collector"
 right["scope"]["unsupported"] = []
 right["scope"]["dynamic_entrypoints_complete"] = True
+refresh_qualification(right)
 right["facts"] = [{
     "id": "no-edge-main-helper", "kind": "NO_EDGE", "polarity": "NEGATIVE",
     "source": "src/main.py", "target": "src/helper.py",
@@ -560,6 +690,7 @@ if (not_installed["outcome"] != "NOT_INSTALLED" or
 case = base_receipt()
 case["outcome"] = "PARTIAL"
 case["diagnostics"]["skipped"] = ["src/generated.py"]
+del case["qualification"]
 partial = module.normalize_static_receipt(case)
 if partial["outcome"] != "PARTIAL" or partial["diagnostics"]["skipped"] != [
         "src/generated.py"]:
