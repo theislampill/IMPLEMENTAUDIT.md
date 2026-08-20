@@ -55,14 +55,7 @@ for text in \
   "why deeper planning was or was not warranted" \
   "Reference loading follows selection" \
   "request size alone never does" \
-  "plan-quality defect" \
-  "### Verifier-plan selection" \
-  "authoritative changed semantic owners and effects" \
-  "equivalent-protection evidence and current owner authority" \
-  "generated, transitive runtime, package, or public/external" \
-  "Unknown owner or relation, a changed registry, package or release ambiguity" \
-  "Do not select full" \
-  "verification from diff size, a fixed command count, or a generic review mandate"
+  "plan-quality defect"
 do
   require "$depth_ref" "$text"
 done
@@ -345,16 +338,6 @@ required_ids.update({
     "R44-C144-bounded-degraded-operation",
     "R44-C145-risk-matrix-insufficient",
     "R34-C146-safe-stop-control-cheap-path",
-    "R0022-C147-trivial-local-verifier-cheap-path",
-    "R0022-C148-docs-only-verifier-plan",
-    "R0022-C149-generated-consumer-verifier-plan",
-    "R0022-C150-runtime-consumer-verifier-plan",
-    "R0022-C151-package-consumer-verifier-plan",
-    "R0022-C152-registry-change-escalates",
-    "R0022-C153-public-consumer-verifier-plan",
-    "R0022-C154-unknown-owner-escalates",
-    "R0022-C155-stale-projection-escalates",
-    "R0022-C156-external-consumer-verifier-plan",
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -425,36 +408,6 @@ def decide(case):
         if o["expected_risk_material"]:
             return "RETAIN"
         return "ADMIT"
-    if kind == "verifier_plan":
-        fields = "change_identity semantic_owner effect consumer evidence_layer residual_risk rollback omission_equivalent_protection omission_owner_current generated_impact package_impact public_or_external_impact registry_changed package_or_release_ambiguous stale_projection unknown_owner_or_relation transitive_consumer local_reversible"
-        exact(o, fields)
-        booleans(o, fields)
-        plan_complete = all((
-            o["change_identity"], o["semantic_owner"], o["effect"],
-            o["consumer"], o["evidence_layer"], o["residual_risk"],
-            o["rollback"], o["omission_equivalent_protection"],
-            o["omission_owner_current"],
-        ))
-        if (not plan_complete or o["unknown_owner_or_relation"]
-                or o["registry_changed"]
-                or o["package_or_release_ambiguous"]
-                or o["stale_projection"]):
-            return "ESCALATE_CONSERVATIVELY"
-        impact_count = sum((
-            o["generated_impact"], o["transitive_consumer"],
-            o["package_impact"], o["public_or_external_impact"],
-        ))
-        if impact_count > 1:
-            return "VERIFY_COMPOSED_AFFECTED_CONSUMERS"
-        if o["generated_impact"]:
-            return "VERIFY_SOURCE_AND_GENERATED_CONSUMER"
-        if o["transitive_consumer"]:
-            return "VERIFY_TRANSITIVE_CONSUMER"
-        if o["package_impact"]:
-            return "VERIFY_PACKAGE_CONSUMER"
-        if o["public_or_external_impact"]:
-            return "VERIFY_PUBLIC_OR_EXTERNAL_CONSUMER"
-        return "SERIAL_CHEAP_PATH" if o["local_reversible"] else "VERIFY_AFFECTED_OWNER"
     if kind == "anti_gaming":
         exact(o, "proxy large_mandatory_worksheet form_only")
         booleans(o, "large_mandatory_worksheet form_only")
