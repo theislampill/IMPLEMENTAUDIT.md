@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "r0022-verifier-plan-selection",
+  "cases": [
+    {
+      "id": "R0022-V01-owner-omitted-under-scoped",
+      "observations": {
+        "change_identity": true,
+        "semantic_owner": false,
+        "effect": true,
+        "consumer": true,
+        "evidence_layer": true,
+        "residual_risk": true,
+        "rollback": true,
+        "omission_equivalent_protection": true,
+        "omission_owner_current": true,
+        "generated_impact": false,
+        "package_impact": false,
+        "public_or_external_impact": false,
+        "registry_changed": false,
+        "package_or_release_ambiguous": false,
+        "stale_projection": false,
+        "unknown_owner_or_relation": false,
+        "transitive_consumer": false,
+        "local_reversible": true
+      },
+      "expected": "ESCALATE_CONSERVATIVELY"
+    }
+  ]
+}

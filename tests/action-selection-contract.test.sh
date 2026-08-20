@@ -856,4 +856,12 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "nominal override accepted as safe-stop cheap path"
 
+# 58. A candidate that omits the authoritative semantic owner cannot retain a
+# serial cheap verifier plan. This must fail before the selector is implemented.
+reset_sandbox
+if bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+  >/dev/null 2>&1; then
+  fail "under-scoped verifier plan accepted with omitted semantic owner"
+fi
+
 printf 'action-selection-contract.test: ok\n'
