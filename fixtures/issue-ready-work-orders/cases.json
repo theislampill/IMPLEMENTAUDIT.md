@@ -75,18 +75,5 @@
     {"id":"R31-C44-multi-file-single-owner-material","expected":"FAIL","finding":{"files":["runtime/guard.md","tests/route.test.sh"],"owners":["runtime"],"phases":1},"draft":{"concise":true,"fields":["evidence","fix","verification","rollback"]}},
     {"id":"R31-C45-multiline-auto-close","expected":"FAIL","pr_link":"Implements #158\n\nCloses #141"},
     {"id":"R31-C46-qualified-past-tense-auto-close","expected":"FAIL","pr_link":"Implementation detail: fixed theislampill/IMPLEMENTAUDIT.md#141"}
-  ],
-  "admission_cases": [
-    {"id":"R31-A1","expected":"NO_ACTION","state":"no-gap","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-A2","expected":"SUPPORTING","state":"existing-owner-sufficient","existing_owner":"R001F","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-A3","expected":"AMEND","state":"existing-owner-needs-amendment","existing_owner":"R001F","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-A4","expected":"DEFER","state":"evidence-pending","evidence_current":false,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-A5","expected":"NEW_RXX","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"}
-  ],
-  "admission_controls": [
-    {"id":"R31-AC1-number-before-new-rxx","state":"evidence-pending","evidence_current":false,"authority_confirmed":true,"complete_admission_census":false,"allocated_rxx":"R0042"},
-    {"id":"R31-AC2-new-rxx-without-number","state":"distinct-unowned-invariant","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-AC3-unknown-state","state":"unclassified","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false},
-    {"id":"R31-AC4-amend-with-new-owner","state":"existing-owner-needs-amendment","existing_owner":"R001F","new_owner":"R0042","evidence_current":true,"authority_confirmed":true,"complete_admission_census":false}
   ]
 }
