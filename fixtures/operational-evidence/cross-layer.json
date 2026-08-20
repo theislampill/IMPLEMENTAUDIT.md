@@ -1,0 +1,28 @@
+{
+  "schema": "implementaudit-operational-evidence-v1",
+  "aggregate": "DEGRADED",
+  "families": ["CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE"],
+  "affected_families": ["CODE"],
+  "capability_declarations": [],
+  "currentness_predicates": [],
+  "entities": [
+    {
+      "id": "entity:cross-layer",
+      "family": "CODE",
+      "record_type": "Repository",
+      "native_owner_identity": "git:repository",
+      "source_identity": {
+        "id": "tree:4e5f6ce2467c7c0535408a5c3745a0365b94f5c3",
+        "layer": "repository"
+      },
+      "evidence_layer": "release",
+      "currentness": {
+        "state": "CURRENT",
+        "invalidators": []
+      },
+      "required": true
+    }
+  ],
+  "relations": [],
+  "payload_records": []
+}
