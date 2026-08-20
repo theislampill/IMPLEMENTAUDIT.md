@@ -154,6 +154,12 @@ if not hasattr(module, "collect_evidence_failure"):
     raise SystemExit(
         "C04 RED: carrier cannot distinguish attempt, effect, recovery, closure")
 
+for symbol in ("collect_release", "run_external_readonly"):
+    if not hasattr(module, symbol):
+        raise SystemExit(
+            "C05 RED: RELEASE projection/explicit read-only refresh missing: "
+            f"{symbol}")
+
 
 def git(root, *args):
     result = subprocess.run(
@@ -802,6 +808,259 @@ except module.OperationalEvidenceError as exc:
             f"got {exc.code}")
 else:
     raise SystemExit("STATE/transcript-only root was accepted as evidence")
+
+release_fixture_root = fixture_root.parent / "release" / "positive"
+release_root = tmp_root / "release-positive"
+shutil.copytree(release_fixture_root, release_root)
+initialize_repo(release_root)
+before_release = fingerprint(release_root)
+
+
+def forbidden_frozen_refresh(*args, **kwargs):
+    raise SystemExit("frozen RELEASE collection invoked external refresh")
+
+
+original_external_runner = module.run_external_readonly
+module.run_external_readonly = forbidden_frozen_refresh
+try:
+    release_collection = module.collect_release(release_root)
+finally:
+    module.run_external_readonly = original_external_runner
+if fingerprint(release_root) != before_release:
+    raise SystemExit("RELEASE collector mutated local/frozen owner artifacts")
+if release_collection.get("schema") != "implementaudit-release-collection-v1":
+    raise SystemExit("C05 RELEASE collection schema missing")
+if (release_collection.get("families") != ["RELEASE"] or
+        release_collection.get("establishes") != []):
+    raise SystemExit("C05 RELEASE collection gained non-RELEASE authority")
+release_repository = release_collection.get("repository", {})
+if release_repository != {
+        "commit": git(release_root, "rev-parse", "HEAD"),
+        "tree": git(release_root, "rev-parse", "HEAD^{tree}"),
+        "worktree_state": "CLEAN"}:
+    raise SystemExit("local commit/tree/worktree RELEASE identities drift")
+release_nodes = {
+    row["id"]: row for row in release_collection.get("nodes", [])}
+expected_release_types = {
+    "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+    "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+    "Release", "Asset", "PublicSurface"}
+if {row["record_type"] for row in release_nodes.values()} != (
+        expected_release_types):
+    raise SystemExit("C05 local/external RELEASE layers were collapsed")
+if len(release_nodes) != 14:
+    raise SystemExit("C05 RELEASE node population drift")
+if any(row.get("family") != "RELEASE" or
+       row.get("authority_ceiling") != "READ_ONLY_NATIVE_OBSERVATION"
+       for row in release_nodes.values()):
+    raise SystemExit("C05 RELEASE fact authority ceiling drift")
+if release_collection.get("external_boundary") != {
+        "capture_identity": "fixture-external-capture-1",
+        "source_identity": "github:theislampill/IMPLEMENTAUDIT.md",
+        "auth_state": "PRESENT",
+        "rate_state": "AVAILABLE",
+        "rate_remaining": 4999,
+        "pagination_state": "COMPLETE",
+        "pagination_pages": 1,
+        "object_drift": False,
+        "captured_at": "2026-08-20T02:30:00Z",
+        "expires_at": "2026-08-20T03:30:00Z",
+        "evaluated_at": "2026-08-20T02:31:00Z"}:
+    raise SystemExit("C05 external boundary state was hidden or collapsed")
+candidate = release_collection.get("candidate", {})
+if (candidate.get("state") != "UNVERIFIED" or
+        candidate.get("invalidators") != [
+            "PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT"] or
+        candidate.get("local_commit") != release_repository["commit"] or
+        candidate.get("public_commit") != "0" * 40):
+    raise SystemExit("public predecessor was promoted to a local candidate")
+if len(release_collection.get("semantic_sha256", "")) != 64:
+    raise SystemExit("C05 RELEASE semantic digest missing")
+if module.canonical_json_v1(release_collection) != module.canonical_json_v1(
+        module.collect_release(release_root)):
+    raise SystemExit("unchanged frozen RELEASE collection is not deterministic")
+
+
+def release_case_root(name, mutate_capture=None):
+    root = tmp_root / ("release-case-" + name.replace(" ", "-"))
+    shutil.copytree(release_fixture_root, root)
+    capture_path = root / "external-capture.json"
+    with capture_path.open(encoding="utf-8") as stream:
+        capture = json.load(stream)
+    if mutate_capture is not None:
+        mutate_capture(capture)
+    capture_path.write_text(
+        json.dumps(capture, ensure_ascii=False, allow_nan=False, sort_keys=True),
+        encoding="utf-8")
+    initialize_repo(root)
+    return root
+
+
+def assert_external_state(name, mutate_capture, state, invalidator):
+    collection = module.collect_release(
+        release_case_root(name, mutate_capture))
+    external = [
+        row for row in collection["nodes"] if row["layer"] == "EXTERNAL"]
+    if not external or any(
+            row["currentness"] != {
+                "state": state, "invalidators": [invalidator]}
+            for row in external):
+        raise SystemExit(
+            f"{name}: external state did not preserve {invalidator}")
+
+
+assert_external_state(
+    "auth absent", lambda value: value.update(auth_state="ABSENT"),
+    "UNVERIFIED", "AUTH_ABSENT")
+assert_external_state(
+    "auth unknown", lambda value: value.update(auth_state="UNKNOWN"),
+    "UNVERIFIED", "AUTH_UNKNOWN")
+assert_external_state(
+    "rate exhausted", lambda value: value["rate"].update(
+        state="EXHAUSTED", remaining=0),
+    "UNKNOWN", "RATE_LIMITED")
+assert_external_state(
+    "rate unknown", lambda value: value["rate"].update(state="UNKNOWN"),
+    "UNKNOWN", "RATE_UNKNOWN")
+assert_external_state(
+    "pagination incomplete", lambda value: value["pagination"].update(
+        state="INCOMPLETE"),
+    "UNKNOWN", "PAGINATION_INCOMPLETE")
+assert_external_state(
+    "pagination unknown", lambda value: value["pagination"].update(
+        state="UNKNOWN"),
+    "UNKNOWN", "PAGINATION_UNKNOWN")
+assert_external_state(
+    "object drift", lambda value: value.update(object_drift=True),
+    "STALE", "OBJECT_DRIFT")
+assert_external_state(
+    "capture expired", lambda value: value.update(
+        evaluated_at="2026-08-20T04:00:00Z"),
+    "STALE", "CAPTURE_EXPIRED")
+
+digest_mismatch_root = release_case_root("local digest mismatch")
+(digest_mismatch_root / "artifacts" / "generated.txt").write_text(
+    "changed generated bytes\n", encoding="utf-8")
+try:
+    module.collect_release(digest_mismatch_root)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_RELEASE_LOCAL_DIGEST":
+        raise SystemExit(
+            "local digest mismatch expected OE_RELEASE_LOCAL_DIGEST, "
+            f"got {exc.code}")
+else:
+    raise SystemExit("changed local generated artifact retained CURRENT")
+
+transport_calls = []
+
+
+def external_transport(url, headers):
+    transport_calls.append((url, headers))
+    return {
+        "status": 200,
+        "headers": {
+            "etag": "fixture-pr-etag",
+            "x-ratelimit-remaining": "4999",
+            "link": ""},
+        "body": b'{"id":1,"node_id":"PR_fixture"}',
+    }
+
+
+external_request = {
+    "schema": "implementaudit-external-read-request-v1",
+    "source": "GITHUB_API",
+    "operation": "PULL_REQUEST",
+    "path": "/repos/fixture/project/pulls/1",
+    "auth_state": "PRESENT",
+    "page": 1,
+    "per_page": 100,
+    "expected_etag": "fixture-pr-etag",
+    "captured_at": "2026-08-20T02:30:00Z",
+    "expires_at": "2026-08-20T03:30:00Z",
+    "evaluated_at": "2026-08-20T02:31:00Z",
+}
+external_receipt = module.run_external_readonly(
+    external_request, external_transport)
+if external_receipt.get("schema") != "implementaudit-external-read-capture-v1":
+    raise SystemExit("C05 external read capture schema missing")
+if external_receipt.get("boundary") != {
+        "method": "GET", "network_used": True,
+        "write_verb_exposed": False}:
+    raise SystemExit("C05 external runner exposed a write verb")
+if (external_receipt.get("authority_ceiling") !=
+        "READ_ONLY_EXTERNAL_CAPTURE" or
+        external_receipt.get("establishes") != []):
+    raise SystemExit("C05 external capture gained qualification authority")
+if external_receipt.get("currentness") != {
+        "state": "CURRENT", "invalidators": []}:
+    raise SystemExit("allowlisted external GET did not retain CURRENT")
+if len(transport_calls) != 1:
+    raise SystemExit("external read boundary did not make exactly one GET")
+url, headers = transport_calls[0]
+if (url != "https://api.github.com/repos/fixture/project/pulls/1?page=1&per_page=100" or
+        set(headers) != {"Accept", "X-GitHub-Api-Version"}):
+    raise SystemExit("external runner request escaped its fixed allowlist")
+
+
+def expect_external_failure(name, request, code):
+    try:
+        module.run_external_readonly(request, external_transport)
+    except module.OperationalEvidenceError as exc:
+        if exc.code != code:
+            raise SystemExit(f"{name}: expected {code}, got {exc.code}")
+    else:
+        raise SystemExit(f"{name}: unsafe external request was accepted")
+
+
+case = copy.deepcopy(external_request)
+case["method"] = "POST"
+expect_external_failure("caller supplied write verb", case, "OE_EXTERNAL_REQUEST")
+
+case = copy.deepcopy(external_request)
+case["path"] = "/repos/fixture/project/issues/1"
+expect_external_failure("non-allowlisted external path", case,
+                        "OE_EXTERNAL_REQUEST")
+
+
+def assert_external_capture_state(name, request_changes, response, expected):
+    request = copy.deepcopy(external_request)
+    request.update(request_changes)
+    receipt = module.run_external_readonly(request, lambda _url, _headers: response)
+    if receipt.get("currentness") != expected:
+        raise SystemExit(
+            f"{name}: external capture state drift: "
+            f"{receipt.get('currentness')!r}")
+
+
+base_response = {
+    "status": 200,
+    "headers": {
+        "etag": "fixture-pr-etag", "x-ratelimit-remaining": "4999",
+        "link": ""},
+    "body": b'{"id":1}',
+}
+assert_external_capture_state(
+    "external auth absent", {"auth_state": "ABSENT"},
+    {**base_response, "status": 401},
+    {"state": "UNVERIFIED", "invalidators": ["AUTH_ABSENT"]})
+assert_external_capture_state(
+    "external rate exhausted", {},
+    {**base_response, "status": 429,
+     "headers": {**base_response["headers"], "x-ratelimit-remaining": "0"}},
+    {"state": "UNKNOWN", "invalidators": ["RATE_LIMITED"]})
+assert_external_capture_state(
+    "external pagination incomplete", {},
+    {**base_response,
+     "headers": {**base_response["headers"],
+                 "link": '<https://api.github.com/next>; rel="next"'}},
+    {"state": "UNKNOWN", "invalidators": ["PAGINATION_INCOMPLETE"]})
+assert_external_capture_state(
+    "external object drift", {"expected_etag": "prior-etag"}, base_response,
+    {"state": "STALE", "invalidators": ["OBJECT_DRIFT"]})
+assert_external_capture_state(
+    "external capture expired", {"evaluated_at": "2026-08-20T04:00:00Z"},
+    base_response,
+    {"state": "STALE", "invalidators": ["CAPTURE_EXPIRED"]})
 
 
 ZERO64 = "0" * 64

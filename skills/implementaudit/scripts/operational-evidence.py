@@ -11,6 +11,7 @@ import math
 import os
 import pathlib
 import platform
+import re
 import subprocess
 import sys
 from collections import Counter
@@ -22,6 +23,8 @@ SCHEMA_DEFINITION = "implementaudit-operational-evidence-schema-v1"
 REPOSITORY_COLLECTION_SCHEMA = "implementaudit-repository-collection-v1"
 EVIDENCE_FAILURE_COLLECTION_SCHEMA = (
     "implementaudit-evidence-failure-collection-v1")
+RELEASE_COLLECTION_SCHEMA = "implementaudit-release-collection-v1"
+EXTERNAL_READ_CAPTURE_SCHEMA = "implementaudit-external-read-capture-v1"
 STATIC_RECEIPT_SCHEMA = "implementaudit-static-receipt-v1"
 STATIC_NORMALIZED_SCHEMA = "implementaudit-static-normalized-v1"
 STATIC_NORMALIZED_SET_SCHEMA = "implementaudit-static-normalized-set-v1"
@@ -969,6 +972,439 @@ def collect_evidence_failure(root: pathlib.Path):
         _error("OE_RUN_ARTIFACT_CHANGED", "$run_artifact",
                "canonical run artifact changed during collection")
     return immutable_result
+
+
+def _utc_timestamp(value, path):
+    _text(value, path)
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value) is None:
+        _error("OE_EXTERNAL_CAPTURE_INVALID", path,
+               "must be an exact UTC second timestamp")
+    return value
+
+
+def _external_boundary_currentness(
+        auth_state, rate_state, pagination_state, object_drift,
+        expires_at, evaluated_at):
+    invalidators = []
+    if auth_state == "ABSENT":
+        invalidators.append("AUTH_ABSENT")
+    elif auth_state == "UNKNOWN":
+        invalidators.append("AUTH_UNKNOWN")
+    if rate_state == "EXHAUSTED":
+        invalidators.append("RATE_LIMITED")
+    elif rate_state == "UNKNOWN":
+        invalidators.append("RATE_UNKNOWN")
+    if pagination_state == "INCOMPLETE":
+        invalidators.append("PAGINATION_INCOMPLETE")
+    elif pagination_state == "UNKNOWN":
+        invalidators.append("PAGINATION_UNKNOWN")
+    if object_drift:
+        invalidators.append("OBJECT_DRIFT")
+    if evaluated_at > expires_at:
+        invalidators.append("CAPTURE_EXPIRED")
+    if any(item in invalidators for item in ("OBJECT_DRIFT", "CAPTURE_EXPIRED")):
+        state = "STALE"
+    elif any(item in invalidators for item in ("AUTH_ABSENT", "AUTH_UNKNOWN")):
+        state = "UNVERIFIED"
+    elif invalidators:
+        state = "UNKNOWN"
+    else:
+        state = "CURRENT"
+    return {"state": state, "invalidators": invalidators}
+
+
+def collect_release(root: pathlib.Path):
+    """Collect local and frozen external RELEASE facts without promotion."""
+    root = pathlib.Path(root).resolve()
+    repository_before = collect_repository(root)
+    repository = repository_before["repository"]
+    file_facts = {
+        row["path"]: row for row in repository_before["facts"]
+        if row.get("kind") == "FILE"}
+
+    def read_fixed_json(relative, owner):
+        path = root / relative
+        if path.is_symlink() or not path.is_file():
+            _error("OE_RELEASE_ARTIFACT_MISSING", f"$release.{relative}",
+                   f"canonical {relative} is required")
+        try:
+            data = path.read_bytes()
+        except OSError:
+            _error("OE_RELEASE_ARTIFACT_MISSING", f"$release.{relative}",
+                   f"canonical {relative} is unreadable")
+        tracked = file_facts.get(relative)
+        digest = hashlib.sha256(data).hexdigest()
+        if tracked is None or tracked.get("sha256") != digest:
+            _error("OE_RELEASE_CHANGED_DURING_SCAN", f"$release.{relative}",
+                   "release owner artifact changed after repository scan")
+        return decode_strict_json_bytes(data, owner), digest
+
+    local, local_manifest_sha256 = read_fixed_json(
+        "release-local.json", "local release manifest")
+    local_top = {"schema", "records"}
+    _object(local, "$release.local", exact_keys=local_top, required=local_top)
+    if local["schema"] != "implementaudit-local-release-v1":
+        _error("OE_RELEASE_LOCAL_INVALID", "$release.local.schema",
+               "unsupported local release schema")
+    if type(local["records"]) is not list:
+        _error("OE_RELEASE_LOCAL_INVALID", "$release.local.records",
+               "must be an array")
+
+    nodes = [
+        {
+            "id": "git-commit", "record_type": "Commit", "layer": "LOCAL",
+            "family": "RELEASE", "object_identity": repository["commit"],
+            "source_identity": "git:HEAD",
+            "native_owner_identity": "git:repository",
+            "currentness": {"state": "CURRENT", "invalidators": []},
+            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
+        },
+        {
+            "id": "git-tree", "record_type": "Tree", "layer": "LOCAL",
+            "family": "RELEASE", "object_identity": repository["tree"],
+            "source_identity": "git:HEAD^{tree}",
+            "native_owner_identity": "git:repository",
+            "currentness": {"state": "CURRENT", "invalidators": []},
+            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
+        },
+        {
+            "id": "git-worktree", "record_type": "Worktree",
+            "layer": "LOCAL", "family": "RELEASE",
+            "object_identity": repository["worktree_state"],
+            "source_identity": "git:status--porcelain-v1",
+            "native_owner_identity": "git:repository",
+            "currentness": {"state": "CURRENT", "invalidators": []},
+            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
+        },
+    ]
+    seen_ids = {row["id"] for row in nodes}
+    local_keys = {
+        "id", "record_type", "path", "sha256", "source_identity",
+        "native_owner_identity", "currentness"}
+    for index, source_record in enumerate(local["records"]):
+        path = f"$release.local.records[{index}]"
+        record = _object(
+            source_record, path, exact_keys=local_keys, required=local_keys)
+        record_id = _text(record["id"], f"{path}.id")
+        if record_id in seen_ids:
+            _error("OE_RELEASE_LOCAL_INVALID", f"{path}.id",
+                   "release node id must be unique")
+        if record["record_type"] not in (
+                "GeneratedArtifact", "Package", "Install", "Host"):
+            _error("OE_RELEASE_LOCAL_INVALID", f"{path}.record_type",
+                   "unsupported local RELEASE record type")
+        relative = _safe_relative_path(record["path"], f"{path}.path").as_posix()
+        _digest(record["sha256"], f"{path}.sha256")
+        _text(record["source_identity"], f"{path}.source_identity")
+        _text(
+            record["native_owner_identity"],
+            f"{path}.native_owner_identity")
+        _currentness(record["currentness"], f"{path}.currentness")
+        observed = file_facts.get(relative)
+        if observed is None or observed.get("sha256") != record["sha256"]:
+            _error("OE_RELEASE_LOCAL_DIGEST", f"{path}.sha256",
+                   "local release fact does not match working-tree bytes")
+        nodes.append({
+            **record, "layer": "LOCAL", "family": "RELEASE",
+            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
+            "manifest_sha256": local_manifest_sha256,
+        })
+        seen_ids.add(record_id)
+
+    capture, capture_sha256 = read_fixed_json(
+        "external-capture.json", "external release capture")
+    capture_keys = {
+        "schema", "capture_identity", "source_identity", "auth_state",
+        "rate", "pagination", "object_drift", "captured_at", "expires_at",
+        "evaluated_at", "records"}
+    _object(
+        capture, "$release.external", exact_keys=capture_keys,
+        required=capture_keys)
+    if capture["schema"] != "implementaudit-external-release-capture-v1":
+        _error("OE_EXTERNAL_CAPTURE_INVALID", "$release.external.schema",
+               "unsupported external capture schema")
+    capture_identity = _text(
+        capture["capture_identity"], "$release.external.capture_identity")
+    external_source = _text(
+        capture["source_identity"], "$release.external.source_identity")
+    auth_state = capture["auth_state"]
+    if auth_state not in ("PRESENT", "ABSENT", "UNKNOWN"):
+        _error("OE_EXTERNAL_CAPTURE_INVALID", "$release.external.auth_state",
+               "unsupported external auth state")
+    rate = _object(
+        capture["rate"], "$release.external.rate",
+        exact_keys={"state", "remaining", "reset_at"},
+        required={"state", "remaining", "reset_at"})
+    if rate["state"] not in ("AVAILABLE", "EXHAUSTED", "UNKNOWN"):
+        _error("OE_EXTERNAL_CAPTURE_INVALID", "$release.external.rate.state",
+               "unsupported external rate state")
+    if type(rate["remaining"]) is not int or rate["remaining"] < 0:
+        _error("OE_EXTERNAL_CAPTURE_INVALID",
+               "$release.external.rate.remaining",
+               "rate remaining must be a non-negative integer")
+    _utc_timestamp(rate["reset_at"], "$release.external.rate.reset_at")
+    pagination = _object(
+        capture["pagination"], "$release.external.pagination",
+        exact_keys={"state", "pages"}, required={"state", "pages"})
+    if pagination["state"] not in ("COMPLETE", "INCOMPLETE", "UNKNOWN"):
+        _error("OE_EXTERNAL_CAPTURE_INVALID",
+               "$release.external.pagination.state",
+               "unsupported pagination state")
+    if type(pagination["pages"]) is not int or pagination["pages"] < 1:
+        _error("OE_EXTERNAL_CAPTURE_INVALID",
+               "$release.external.pagination.pages",
+               "pagination pages must be a positive integer")
+    object_drift = _boolean(
+        capture["object_drift"], "$release.external.object_drift")
+    captured_at = _utc_timestamp(
+        capture["captured_at"], "$release.external.captured_at")
+    expires_at = _utc_timestamp(
+        capture["expires_at"], "$release.external.expires_at")
+    evaluated_at = _utc_timestamp(
+        capture["evaluated_at"], "$release.external.evaluated_at")
+    boundary_currentness = _external_boundary_currentness(
+        auth_state, rate["state"], pagination["state"], object_drift,
+        expires_at, evaluated_at)
+    if type(capture["records"]) is not list:
+        _error("OE_EXTERNAL_CAPTURE_INVALID", "$release.external.records",
+               "must be an array")
+    external_keys = {
+        "id", "record_type", "stable_id", "commit_identity",
+        "source_identity", "native_owner_identity", "updated_at", "etag",
+        "payload_sha256", "currentness"}
+    external_types = {
+        "PullRequest", "Check", "Merge", "Tag", "Release", "Asset",
+        "PublicSurface"}
+    for index, source_record in enumerate(capture["records"]):
+        path = f"$release.external.records[{index}]"
+        record = _object(
+            source_record, path, exact_keys=external_keys,
+            required=external_keys)
+        record_id = _text(record["id"], f"{path}.id")
+        if record_id in seen_ids:
+            _error("OE_EXTERNAL_CAPTURE_INVALID", f"{path}.id",
+                   "release node id must be unique")
+        if record["record_type"] not in external_types:
+            _error("OE_EXTERNAL_CAPTURE_INVALID", f"{path}.record_type",
+                   "unsupported external RELEASE record type")
+        _text(record["stable_id"], f"{path}.stable_id")
+        _git_object(record["commit_identity"], f"{path}.commit_identity")
+        for key in ("source_identity", "native_owner_identity", "etag"):
+            _text(record[key], f"{path}.{key}")
+        _utc_timestamp(record["updated_at"], f"{path}.updated_at")
+        _digest(record["payload_sha256"], f"{path}.payload_sha256")
+        _currentness(record["currentness"], f"{path}.currentness")
+        currentness = record["currentness"]
+        if boundary_currentness["state"] != "CURRENT":
+            currentness = boundary_currentness
+        nodes.append({
+            **record, "currentness": currentness, "layer": "EXTERNAL",
+            "family": "RELEASE",
+            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
+            "capture_identity": capture_identity,
+            "capture_sha256": capture_sha256,
+        })
+        seen_ids.add(record_id)
+
+    public_nodes = [
+        row for row in nodes if row["record_type"] == "PublicSurface"]
+    candidate_invalidators = list(boundary_currentness["invalidators"])
+    public_commit = None
+    if len(public_nodes) != 1:
+        candidate_invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
+    else:
+        public_commit = public_nodes[0]["commit_identity"]
+        if public_commit != repository["commit"]:
+            candidate_invalidators.append(
+                "PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT")
+    if repository["worktree_state"] != "CLEAN":
+        candidate_invalidators.append("LOCAL_WORKTREE_DIRTY")
+    if not candidate_invalidators:
+        candidate_invalidators.append("NATIVE_CANDIDATE_QUALIFICATION_REQUIRED")
+
+    type_census = Counter(row["record_type"] for row in nodes)
+    nodes.sort(key=lambda row: (row["layer"], row["record_type"], row["id"]))
+    result = {
+        "schema": RELEASE_COLLECTION_SCHEMA,
+        "families": ["RELEASE"],
+        "repository": {
+            "commit": repository["commit"], "tree": repository["tree"],
+            "worktree_state": repository["worktree_state"],
+        },
+        "local_manifest_sha256": local_manifest_sha256,
+        "external_capture_sha256": capture_sha256,
+        "external_boundary": {
+            "capture_identity": capture_identity,
+            "source_identity": external_source,
+            "auth_state": auth_state,
+            "rate_state": rate["state"],
+            "rate_remaining": rate["remaining"],
+            "pagination_state": pagination["state"],
+            "pagination_pages": pagination["pages"],
+            "object_drift": object_drift,
+            "captured_at": captured_at, "expires_at": expires_at,
+            "evaluated_at": evaluated_at,
+        },
+        "node_type_census": {
+            key: type_census[key] for key in sorted(type_census)},
+        "nodes": nodes,
+        "candidate": {
+            "state": "UNVERIFIED",
+            "invalidators": candidate_invalidators,
+            "local_commit": repository["commit"],
+            "public_commit": public_commit,
+        },
+        "establishes": [],
+    }
+    result["semantic_sha256"] = hashlib.sha256(
+        canonical_json_v1(result)).hexdigest()
+    immutable_result = decode_strict_json_bytes(
+        canonical_json_v1(result), "release collection")
+    repository_after = collect_repository(root)
+    if repository_after != repository_before:
+        _error("OE_RELEASE_CHANGED_DURING_SCAN", "$release",
+               "repository changed during RELEASE collection")
+    return immutable_result
+
+
+def run_external_readonly(request, transport):
+    """Run one fixed allowlisted external GET and return a frozen capture."""
+    request_keys = {
+        "schema", "source", "operation", "path", "auth_state", "page",
+        "per_page", "expected_etag", "captured_at", "expires_at",
+        "evaluated_at"}
+    if type(request) is not dict or set(request) != request_keys:
+        _error("OE_EXTERNAL_REQUEST", "$external.request",
+               "external request must use the exact read-only request keys")
+    if request["schema"] != "implementaudit-external-read-request-v1":
+        _error("OE_EXTERNAL_REQUEST", "$external.request.schema",
+               "unsupported external request schema")
+    if request["source"] != "GITHUB_API":
+        _error("OE_EXTERNAL_REQUEST", "$external.request.source",
+               "only the fixed GitHub API read source is supported")
+    repository_path = r"/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+"
+    allowlist = {
+        "PULL_REQUEST": repository_path + r"/pulls/[1-9]\d*",
+        "CHECK_RUNS": (
+            repository_path + r"/commits/[0-9a-f]{40}/check-runs"),
+        "TAG": repository_path + r"/git/ref/tags/[A-Za-z0-9._-]+",
+        "RELEASE": repository_path + r"/releases/tags/[A-Za-z0-9._-]+",
+        "ASSET": repository_path + r"/releases/assets/[1-9]\d*",
+        "PUBLIC_READBACK": repository_path + r"/contents/[A-Za-z0-9._/-]+",
+    }
+    pattern = allowlist.get(request["operation"])
+    if (pattern is None or re.fullmatch(pattern, request["path"]) is None or
+            ".." in pathlib.PurePosixPath(request["path"]).parts):
+        _error("OE_EXTERNAL_REQUEST", "$external.request",
+               "external request is outside the fixed read-only allowlist")
+    auth_state = request["auth_state"]
+    if auth_state not in ("PRESENT", "ABSENT", "UNKNOWN"):
+        _error("OE_EXTERNAL_REQUEST", "$external.request.auth_state",
+               "unsupported external auth state")
+    page = request["page"]
+    per_page = request["per_page"]
+    if (type(page) is not int or page < 1 or type(per_page) is not int or
+            per_page < 1 or per_page > 100):
+        _error("OE_EXTERNAL_REQUEST", "$external.request",
+               "page must be positive and per_page must be 1..100")
+    expected_etag = request["expected_etag"]
+    if expected_etag is not None:
+        _text(expected_etag, "$external.request.expected_etag")
+    captured_at = _utc_timestamp(
+        request["captured_at"], "$external.request.captured_at")
+    expires_at = _utc_timestamp(
+        request["expires_at"], "$external.request.expires_at")
+    evaluated_at = _utc_timestamp(
+        request["evaluated_at"], "$external.request.evaluated_at")
+    if not callable(transport):
+        _error("OE_EXTERNAL_REQUEST", "$external.transport",
+               "an explicit read-only transport is required")
+    url = (
+        f"https://api.github.com{request['path']}?page={page}&per_page={per_page}")
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    try:
+        response = transport(url, headers)
+    except (OSError, TimeoutError):
+        _error("OE_EXTERNAL_TRANSPORT", "$external.response",
+               "external read transport failed")
+    response = _object(
+        response, "$external.response",
+        exact_keys={"status", "headers", "body"},
+        required={"status", "headers", "body"})
+    status = response["status"]
+    if type(status) is not int or status < 100 or status > 599:
+        _error("OE_EXTERNAL_RESPONSE", "$external.response.status",
+               "HTTP status must be an integer from 100 through 599")
+    raw_headers = _object(response["headers"], "$external.response.headers")
+    normalized_headers = {}
+    for key, value in raw_headers.items():
+        if type(key) is not str or type(value) is not str:
+            _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
+                   "response headers must be strings")
+        normalized_headers[key.lower()] = value
+    body = response["body"]
+    if type(body) is not bytes:
+        _error("OE_EXTERNAL_RESPONSE", "$external.response.body",
+               "response body must be bytes")
+    payload = decode_strict_json_bytes(body, "external response")
+    remaining_text = normalized_headers.get("x-ratelimit-remaining")
+    try:
+        rate_remaining = (
+            int(remaining_text) if remaining_text is not None else None)
+    except ValueError:
+        _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
+               "rate remaining header must be an integer")
+    rate_state = (
+        "EXHAUSTED" if status == 429 or rate_remaining == 0 else
+        "AVAILABLE" if rate_remaining is not None else "UNKNOWN")
+    link = normalized_headers.get("link", "")
+    pagination_state = (
+        "INCOMPLETE" if 'rel="next"' in link else "COMPLETE")
+    actual_etag = normalized_headers.get("etag")
+    object_drift = (
+        expected_etag is not None and actual_etag != expected_etag)
+    currentness = _external_boundary_currentness(
+        auth_state, rate_state, pagination_state, object_drift,
+        expires_at, evaluated_at)
+    if status < 200 or status >= 300:
+        known = set(currentness["invalidators"])
+        if status not in (401, 403, 429) or not known:
+            currentness = {
+                "state": "UNKNOWN",
+                "invalidators": [*currentness["invalidators"],
+                                 f"HTTP_STATUS_{status}"],
+            }
+    result = {
+        "schema": EXTERNAL_READ_CAPTURE_SCHEMA,
+        "authority_ceiling": "READ_ONLY_EXTERNAL_CAPTURE",
+        "establishes": [],
+        "boundary": {
+            "method": "GET", "network_used": True,
+            "write_verb_exposed": False,
+        },
+        "request": {
+            "source": request["source"], "operation": request["operation"],
+            "path": request["path"], "auth_state": auth_state,
+            "page": page, "per_page": per_page,
+            "expected_etag": expected_etag,
+        },
+        "response": {
+            "status": status, "etag": actual_etag,
+            "rate_remaining": rate_remaining, "pagination": pagination_state,
+            "body_sha256": hashlib.sha256(body).hexdigest(),
+            "body_bytes": len(body),
+        },
+        "captured_at": captured_at, "expires_at": expires_at,
+        "evaluated_at": evaluated_at, "currentness": currentness,
+        "payload": payload,
+    }
+    result["semantic_sha256"] = hashlib.sha256(
+        canonical_json_v1(result)).hexdigest()
+    return decode_strict_json_bytes(
+        canonical_json_v1(result), "external read capture")
 
 
 def _validate_static_qualification(value, outcome):

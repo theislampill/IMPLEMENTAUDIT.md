@@ -154,3 +154,38 @@ last target-sensitive operation. It directly returns the prebuilt object when
 the bytes remain exact; a changed artifact is refused rather than returned as
 mixed evidence. Later snapshot compilation/query/publication and native closure
 decisions remain in their assigned downstream owners.
+
+## Local and frozen external RELEASE collection
+
+`collect_release` is the C05 read-only RELEASE boundary. It reuses the hardened
+local repository collector for exact commit, tree and worktree observations,
+then reads only two fixed tracked owner artifacts: `release-local.json` and
+`external-capture.json`. The local manifest binds generated artifact, package,
+install and host records to exact working-tree paths and SHA-256 bytes. The
+frozen capture retains separate PullRequest, Check, Merge, Tag, Release, Asset
+and PublicSurface records with stable IDs, commit identity, update time, ETag,
+payload digest, native owner and currentness. Every emitted node remains a
+`READ_ONLY_NATIVE_OBSERVATION`; the collection's `establishes` population is
+empty.
+
+Authentication absence, rate exhaustion, incomplete pagination, object drift
+and capture expiry remain explicit invalidators. They conservatively demote the
+external population to `UNVERIFIED`, `UNKNOWN` or `STALE`; they never become an
+empty or successful external layer. A public predecessor whose commit differs
+from local HEAD keeps the candidate `UNVERIFIED`. Even an exact match requires
+later native candidate qualification and cannot establish merge, release,
+publication, PASS or closure in C05. Local/frozen artifacts are fingerprinted
+through the repository collector before and after compilation; changed local
+bytes or a mixed scan are refused rather than normalized away.
+
+`run_external_readonly` is the explicit refresh boundary, not a frozen query.
+It accepts one exact data-only request with no method field, maps a small fixed
+operation/path allowlist to one GitHub API `GET`, supplies fixed accept/version
+headers and calls an explicit transport once. It exposes no POST, PUT, PATCH,
+DELETE, GraphQL, shell, credential, pagination loop, retry or file-write verb.
+The returned in-memory capture records status, ETag, response digest, rate,
+pagination, auth declaration, drift, expiry and semantic digest under the
+`READ_ONLY_EXTERNAL_CAPTURE` ceiling and an empty `establishes` population.
+The frozen collector never invokes this runner, a model or network. Refresh
+scheduling, cache publication, query, package admission, registry/helper
+routing and public release actions remain with C06-C14 owners.
