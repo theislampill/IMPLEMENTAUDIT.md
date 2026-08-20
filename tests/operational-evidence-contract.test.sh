@@ -881,9 +881,17 @@ if module.canonical_json_v1(release_collection) != module.canonical_json_v1(
     raise SystemExit("unchanged frozen RELEASE collection is not deterministic")
 
 
-def release_case_root(name, mutate_capture=None):
+def release_case_root(name, mutate_capture=None, mutate_local=None):
     root = tmp_root / ("release-case-" + name.replace(" ", "-"))
     shutil.copytree(release_fixture_root, root)
+    local_path = root / "release-local.json"
+    with local_path.open(encoding="utf-8") as stream:
+        local = json.load(stream)
+    if mutate_local is not None:
+        mutate_local(local)
+    local_path.write_text(
+        json.dumps(local, ensure_ascii=False, allow_nan=False, sort_keys=True),
+        encoding="utf-8")
     capture_path = root / "external-capture.json"
     with capture_path.open(encoding="utf-8") as stream:
         capture = json.load(stream)
@@ -894,6 +902,33 @@ def release_case_root(name, mutate_capture=None):
         encoding="utf-8")
     initialize_repo(root)
     return root
+
+
+def remove_release_type(value, record_type):
+    value["records"] = [
+        row for row in value["records"]
+        if row["record_type"] != record_type]
+
+
+missing_asset = module.collect_release(release_case_root(
+    "missing asset", lambda value: remove_release_type(value, "Asset")))
+missing_install = module.collect_release(release_case_root(
+    "missing install", mutate_local=lambda value: remove_release_type(
+        value, "Install")))
+if ("MISSING_RELEASE_LAYER:Asset" not in
+        missing_asset["candidate"]["invalidators"] or
+        "MISSING_RELEASE_LAYER:Install" not in
+        missing_install["candidate"]["invalidators"] or
+        missing_asset.get("omissions") != [{
+            "record_type": "Asset", "state": "UNKNOWN",
+            "invalidator": "MISSING_RELEASE_LAYER:Asset"}] or
+        missing_install.get("omissions") != [{
+            "record_type": "Install", "state": "UNKNOWN",
+            "invalidator": "MISSING_RELEASE_LAYER:Install"}] or
+        missing_asset["node_type_census"].get("Asset") != 0 or
+        missing_install["node_type_census"].get("Install") != 0):
+    raise SystemExit(
+        "C05 H2 RED: missing Asset/Install layer was silently omitted")
 
 
 def assert_external_state(name, mutate_capture, state, invalidator):
@@ -937,6 +972,65 @@ assert_external_state(
     "capture expired", lambda value: value.update(
         evaluated_at="2026-08-20T04:00:00Z"),
     "STALE", "CAPTURE_EXPIRED")
+
+
+def stale_native_with_absent_auth(value):
+    value["auth_state"] = "ABSENT"
+    pull_request = next(
+        row for row in value["records"]
+        if row["record_type"] == "PullRequest")
+    pull_request["currentness"] = {
+        "state": "STALE", "invalidators": ["PAYLOAD_CHANGED"]}
+
+
+composed_collection = module.collect_release(release_case_root(
+    "stale native absent auth", stale_native_with_absent_auth))
+composed_pull_request = next(
+    row for row in composed_collection["nodes"]
+    if row["record_type"] == "PullRequest")
+if (composed_pull_request.get("native_currentness") != {
+        "state": "STALE", "invalidators": ["PAYLOAD_CHANGED"]} or
+        composed_pull_request.get("capture_currentness") != {
+        "state": "UNVERIFIED", "invalidators": ["AUTH_ABSENT"]} or
+        composed_pull_request.get("currentness") != {
+        "state": "STALE",
+        "invalidators": ["PAYLOAD_CHANGED", "AUTH_ABSENT"]}):
+    raise SystemExit(
+        "C05 H3 RED: capture degradation weakened native currentness")
+
+try:
+    module.collect_release(release_case_root(
+        "impossible timestamp",
+        lambda value: value.update(expires_at="2026-99-99T99:99:99Z")))
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_EXTERNAL_CAPTURE_INVALID":
+        raise SystemExit(
+            f"impossible timestamp returned wrong refusal {exc.code}")
+else:
+    raise SystemExit("C05 M1 RED: impossible calendar timestamp was fresh")
+
+try:
+    module.collect_release(release_case_root(
+        "impossible chronology",
+        lambda value: value.update(
+            captured_at="2026-08-20T04:00:00Z",
+            expires_at="2026-08-20T03:30:00Z",
+            evaluated_at="2026-08-20T02:31:00Z")))
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_EXTERNAL_CAPTURE_INVALID":
+        raise SystemExit(
+            f"impossible chronology returned wrong refusal {exc.code}")
+else:
+    raise SystemExit("C05 M1 RED: impossible capture chronology was fresh")
+
+expiry_equality = module.collect_release(release_case_root(
+    "expiry equality",
+    lambda value: value.update(evaluated_at=value["expires_at"])))
+if any(
+        row["currentness"] != {
+            "state": "STALE", "invalidators": ["CAPTURE_EXPIRED"]}
+        for row in expiry_equality["nodes"] if row["layer"] == "EXTERNAL"):
+    raise SystemExit("C05 M1 RED: expiry equality remained fresh")
 
 digest_mismatch_root = release_case_root("local digest mismatch")
 (digest_mismatch_root / "artifacts" / "generated.txt").write_text(
@@ -984,22 +1078,42 @@ external_receipt = module.run_external_readonly(
 if external_receipt.get("schema") != "implementaudit-external-read-capture-v1":
     raise SystemExit("C05 external read capture schema missing")
 if external_receipt.get("boundary") != {
-        "method": "GET", "network_used": True,
-        "write_verb_exposed": False}:
-    raise SystemExit("C05 external runner exposed a write verb")
+        "method": "UNVERIFIED", "network_used": True,
+        "write_verb_exposed": "UNKNOWN",
+        "transport_trust": "UNTRUSTED_INJECTED"}:
+    raise SystemExit("C05 injected transport gained a GET/no-write claim")
 if (external_receipt.get("authority_ceiling") !=
         "READ_ONLY_EXTERNAL_CAPTURE" or
         external_receipt.get("establishes") != []):
     raise SystemExit("C05 external capture gained qualification authority")
 if external_receipt.get("currentness") != {
-        "state": "CURRENT", "invalidators": []}:
-    raise SystemExit("allowlisted external GET did not retain CURRENT")
+        "state": "UNVERIFIED",
+        "invalidators": ["UNTRUSTED_INJECTED_TRANSPORT"]}:
+    raise SystemExit("untrusted injected transport retained CURRENT")
 if len(transport_calls) != 1:
     raise SystemExit("external read boundary did not make exactly one GET")
 url, headers = transport_calls[0]
 if (url != "https://api.github.com/repos/fixture/project/pulls/1?page=1&per_page=100" or
         set(headers) != {"Accept", "X-GitHub-Api-Version"}):
     raise SystemExit("external runner request escaped its fixed allowlist")
+
+injected_effects = []
+
+
+def effectful_injected_transport(url, headers):
+    injected_effects.append("WRITE_EFFECT")
+    return external_transport(url, headers)
+
+
+injected_receipt = module.run_external_readonly(
+    external_request, effectful_injected_transport)
+injected_boundary = injected_receipt.get("boundary", {})
+if (injected_effects != ["WRITE_EFFECT"] or
+        injected_receipt.get("currentness", {}).get("state") == "CURRENT" or
+        injected_boundary.get("method") == "GET" or
+        injected_boundary.get("write_verb_exposed") is False):
+    raise SystemExit(
+        "C05 H1 RED: injected transport substantiated GET/no-write CURRENT")
 
 
 def expect_external_failure(name, request, code):
@@ -1026,6 +1140,8 @@ def assert_external_capture_state(name, request_changes, response, expected):
     request = copy.deepcopy(external_request)
     request.update(request_changes)
     receipt = module.run_external_readonly(request, lambda _url, _headers: response)
+    expected = copy.deepcopy(expected)
+    expected["invalidators"].append("UNTRUSTED_INJECTED_TRANSPORT")
     if receipt.get("currentness") != expected:
         raise SystemExit(
             f"{name}: external capture state drift: "
@@ -1039,6 +1155,41 @@ base_response = {
         "link": ""},
     "body": b'{"id":1}',
 }
+case_colliding_response = {
+    **base_response,
+    "headers": {
+        "ETag": "wrong-etag",
+        "etag": "fixture-pr-etag",
+        "x-ratelimit-remaining": "4999",
+        "link": ""},
+}
+try:
+    module.run_external_readonly(
+        external_request,
+        lambda _url, _headers: case_colliding_response)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_EXTERNAL_RESPONSE":
+        raise SystemExit(
+            f"case-colliding ETag returned wrong refusal {exc.code}")
+else:
+    raise SystemExit("C05 M2 RED: case-colliding ETag was accepted")
+
+negative_rate_response = {
+    **base_response,
+    "headers": {
+        **base_response["headers"], "x-ratelimit-remaining": "-1"},
+}
+try:
+    module.run_external_readonly(
+        external_request,
+        lambda _url, _headers: negative_rate_response)
+except module.OperationalEvidenceError as exc:
+    if exc.code != "OE_EXTERNAL_RESPONSE":
+        raise SystemExit(
+            f"negative rate remaining returned wrong refusal {exc.code}")
+else:
+    raise SystemExit("C05 M2 RED: negative rate remaining was accepted")
+
 assert_external_capture_state(
     "external auth absent", {"auth_state": "ABSENT"},
     {**base_response, "status": 401},

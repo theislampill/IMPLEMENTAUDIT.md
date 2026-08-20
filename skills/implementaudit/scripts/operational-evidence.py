@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import datetime
 import decimal
 import hashlib
 import json
@@ -14,6 +15,8 @@ import platform
 import re
 import subprocess
 import sys
+import urllib.error
+import urllib.request
 from collections import Counter
 
 
@@ -979,7 +982,19 @@ def _utc_timestamp(value, path):
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value) is None:
         _error("OE_EXTERNAL_CAPTURE_INVALID", path,
                "must be an exact UTC second timestamp")
+    try:
+        datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        _error("OE_EXTERNAL_CAPTURE_INVALID", path,
+               "must be a valid UTC calendar timestamp")
     return value
+
+
+def _validate_capture_chronology(captured_at, expires_at, evaluated_at, path):
+    if captured_at >= expires_at or evaluated_at < captured_at:
+        _error("OE_EXTERNAL_CAPTURE_INVALID", path,
+               "capture chronology must satisfy captured < expires and "
+               "evaluated >= captured")
 
 
 def _external_boundary_currentness(
@@ -1000,7 +1015,7 @@ def _external_boundary_currentness(
         invalidators.append("PAGINATION_UNKNOWN")
     if object_drift:
         invalidators.append("OBJECT_DRIFT")
-    if evaluated_at > expires_at:
+    if evaluated_at >= expires_at:
         invalidators.append("CAPTURE_EXPIRED")
     if any(item in invalidators for item in ("OBJECT_DRIFT", "CAPTURE_EXPIRED")):
         state = "STALE"
@@ -1010,6 +1025,23 @@ def _external_boundary_currentness(
         state = "UNKNOWN"
     else:
         state = "CURRENT"
+    return {"state": state, "invalidators": invalidators}
+
+
+def _compose_currentness(native, capture):
+    """Retain both native and capture invalidators without promotion."""
+    state_rank = {
+        "CURRENT": 0, "UNSUPPORTED": 1, "UNKNOWN": 2, "UNVERIFIED": 3,
+        "STALE": 4, "CONTRADICTORY": 5, "PARSER_ERROR": 6,
+        "INVALID": 7,
+    }
+    state = max(
+        (native["state"], capture["state"]), key=state_rank.__getitem__)
+    invalidators = []
+    for invalidator in [
+            *native["invalidators"], *capture["invalidators"]]:
+        if invalidator not in invalidators:
+            invalidators.append(invalidator)
     return {"state": state, "invalidators": invalidators}
 
 
@@ -1162,6 +1194,8 @@ def collect_release(root: pathlib.Path):
         capture["expires_at"], "$release.external.expires_at")
     evaluated_at = _utc_timestamp(
         capture["evaluated_at"], "$release.external.evaluated_at")
+    _validate_capture_chronology(
+        captured_at, expires_at, evaluated_at, "$release.external")
     boundary_currentness = _external_boundary_currentness(
         auth_state, rate["state"], pagination["state"], object_drift,
         expires_at, evaluated_at)
@@ -1194,11 +1228,21 @@ def collect_release(root: pathlib.Path):
         _utc_timestamp(record["updated_at"], f"{path}.updated_at")
         _digest(record["payload_sha256"], f"{path}.payload_sha256")
         _currentness(record["currentness"], f"{path}.currentness")
-        currentness = record["currentness"]
-        if boundary_currentness["state"] != "CURRENT":
-            currentness = boundary_currentness
+        native_currentness = {
+            "state": record["currentness"]["state"],
+            "invalidators": list(record["currentness"]["invalidators"]),
+        }
+        capture_currentness = {
+            "state": boundary_currentness["state"],
+            "invalidators": list(boundary_currentness["invalidators"]),
+        }
+        currentness = _compose_currentness(
+            native_currentness, capture_currentness)
         nodes.append({
-            **record, "currentness": currentness, "layer": "EXTERNAL",
+            **record,
+            "native_currentness": native_currentness,
+            "capture_currentness": capture_currentness,
+            "currentness": currentness, "layer": "EXTERNAL",
             "family": "RELEASE",
             "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
             "capture_identity": capture_identity,
@@ -1209,6 +1253,20 @@ def collect_release(root: pathlib.Path):
     public_nodes = [
         row for row in nodes if row["record_type"] == "PublicSurface"]
     candidate_invalidators = list(boundary_currentness["invalidators"])
+    for external_node in (
+            row for row in nodes if row["layer"] == "EXTERNAL"):
+        for invalidator in external_node["currentness"]["invalidators"]:
+            if invalidator not in candidate_invalidators:
+                candidate_invalidators.append(invalidator)
+    required_types = {
+        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+        "Release", "Asset", "PublicSurface"}
+    observed_types = {row["record_type"] for row in nodes}
+    missing_types = sorted(required_types - observed_types)
+    candidate_invalidators.extend(
+        f"MISSING_RELEASE_LAYER:{record_type}"
+        for record_type in missing_types)
     public_commit = None
     if len(public_nodes) != 1:
         candidate_invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
@@ -1245,8 +1303,16 @@ def collect_release(root: pathlib.Path):
             "captured_at": captured_at, "expires_at": expires_at,
             "evaluated_at": evaluated_at,
         },
+        "omissions": [
+            {
+                "record_type": record_type,
+                "state": "UNKNOWN",
+                "invalidator": f"MISSING_RELEASE_LAYER:{record_type}",
+            }
+            for record_type in missing_types
+        ],
         "node_type_census": {
-            key: type_census[key] for key in sorted(type_census)},
+            key: type_census[key] for key in sorted(required_types)},
         "nodes": nodes,
         "candidate": {
             "state": "UNVERIFIED",
@@ -1267,7 +1333,33 @@ def collect_release(root: pathlib.Path):
     return immutable_result
 
 
-def run_external_readonly(request, transport):
+def _native_external_get(url, headers):
+    """Perform the runner's concrete GET-only network operation."""
+    request = urllib.request.Request(url, headers=headers, method="GET")
+    try:
+        response = urllib.request.urlopen(request, timeout=30)
+    except urllib.error.HTTPError as exc:
+        response = exc
+    try:
+        raw_headers = {}
+        seen_headers = set()
+        for key, value in response.headers.raw_items():
+            normalized = key.lower()
+            if normalized in seen_headers:
+                _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
+                       "response headers must not collide case-insensitively")
+            seen_headers.add(normalized)
+            raw_headers[key] = value
+        return {
+            "status": response.status,
+            "headers": raw_headers,
+            "body": response.read(),
+        }
+    finally:
+        response.close()
+
+
+def run_external_readonly(request, transport=None):
     """Run one fixed allowlisted external GET and return a frozen capture."""
     request_keys = {
         "schema", "source", "operation", "path", "auth_state", "page",
@@ -1316,9 +1408,11 @@ def run_external_readonly(request, transport):
         request["expires_at"], "$external.request.expires_at")
     evaluated_at = _utc_timestamp(
         request["evaluated_at"], "$external.request.evaluated_at")
-    if not callable(transport):
+    _validate_capture_chronology(
+        captured_at, expires_at, evaluated_at, "$external.request")
+    if transport is not None and not callable(transport):
         _error("OE_EXTERNAL_REQUEST", "$external.transport",
-               "an explicit read-only transport is required")
+               "transport must be callable when supplied")
     url = (
         f"https://api.github.com{request['path']}?page={page}&per_page={per_page}")
     headers = {
@@ -1326,7 +1420,9 @@ def run_external_readonly(request, transport):
         "X-GitHub-Api-Version": "2022-11-28",
     }
     try:
-        response = transport(url, headers)
+        response = (
+            _native_external_get(url, headers) if transport is None else
+            transport(url, headers))
     except (OSError, TimeoutError):
         _error("OE_EXTERNAL_TRANSPORT", "$external.response",
                "external read transport failed")
@@ -1344,7 +1440,11 @@ def run_external_readonly(request, transport):
         if type(key) is not str or type(value) is not str:
             _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
                    "response headers must be strings")
-        normalized_headers[key.lower()] = value
+        normalized = key.lower()
+        if normalized in normalized_headers:
+            _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
+                   "response headers must not collide case-insensitively")
+        normalized_headers[normalized] = value
     body = response["body"]
     if type(body) is not bytes:
         _error("OE_EXTERNAL_RESPONSE", "$external.response.body",
@@ -1357,6 +1457,9 @@ def run_external_readonly(request, transport):
     except ValueError:
         _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
                "rate remaining header must be an integer")
+    if rate_remaining is not None and rate_remaining < 0:
+        _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
+               "rate remaining header must be non-negative")
     rate_state = (
         "EXHAUSTED" if status == 429 or rate_remaining == 0 else
         "AVAILABLE" if rate_remaining is not None else "UNKNOWN")
@@ -1377,13 +1480,26 @@ def run_external_readonly(request, transport):
                 "invalidators": [*currentness["invalidators"],
                                  f"HTTP_STATUS_{status}"],
             }
+    injected_transport = transport is not None
+    if injected_transport:
+        currentness = {
+            "state": ("UNVERIFIED" if currentness["state"] == "CURRENT" else
+                      currentness["state"]),
+            "invalidators": [*currentness["invalidators"],
+                             "UNTRUSTED_INJECTED_TRANSPORT"],
+        }
     result = {
         "schema": EXTERNAL_READ_CAPTURE_SCHEMA,
         "authority_ceiling": "READ_ONLY_EXTERNAL_CAPTURE",
         "establishes": [],
         "boundary": {
-            "method": "GET", "network_used": True,
-            "write_verb_exposed": False,
+            "method": "UNVERIFIED" if injected_transport else "GET",
+            "network_used": True,
+            "write_verb_exposed": (
+                "UNKNOWN" if injected_transport else False),
+            "transport_trust": (
+                "UNTRUSTED_INJECTED" if injected_transport else
+                "NATIVE_FIXED_GET"),
         },
         "request": {
             "source": request["source"], "operation": request["operation"],

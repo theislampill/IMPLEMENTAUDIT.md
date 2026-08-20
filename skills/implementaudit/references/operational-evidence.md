@@ -171,21 +171,31 @@ empty.
 Authentication absence, rate exhaustion, incomplete pagination, object drift
 and capture expiry remain explicit invalidators. They conservatively demote the
 external population to `UNVERIFIED`, `UNKNOWN` or `STALE`; they never become an
-empty or successful external layer. A public predecessor whose commit differs
-from local HEAD keeps the candidate `UNVERIFIED`. Even an exact match requires
-later native candidate qualification and cannot establish merge, release,
-publication, PASS or closure in C05. Local/frozen artifacts are fingerprinted
-through the repository collector before and after compilation; changed local
-bytes or a mixed scan are refused rather than normalized away.
+empty or successful external layer. Calendar-valid timestamps must satisfy
+`captured_at < expires_at` and `evaluated_at >= captured_at`; equality at the
+expiry boundary is stale. Native object currentness and capture-boundary
+currentness are retained separately and composed without deleting either set
+of invalidators. Missing required RELEASE types are represented as typed
+`UNKNOWN` omissions and `MISSING_RELEASE_LAYER:<type>` candidate invalidators,
+including missing Asset or Install facts. A public predecessor whose commit
+differs from local HEAD keeps the candidate `UNVERIFIED`. Even an exact match
+requires later native candidate qualification and cannot establish merge,
+release, publication, PASS or closure in C05. Local/frozen artifacts are
+fingerprinted through the repository collector before and after compilation;
+changed local bytes or a mixed scan are refused rather than normalized away.
 
 `run_external_readonly` is the explicit refresh boundary, not a frozen query.
 It accepts one exact data-only request with no method field, maps a small fixed
 operation/path allowlist to one GitHub API `GET`, supplies fixed accept/version
-headers and calls an explicit transport once. It exposes no POST, PUT, PATCH,
-DELETE, GraphQL, shell, credential, pagination loop, retry or file-write verb.
-The returned in-memory capture records status, ETag, response digest, rate,
-pagination, auth declaration, drift, expiry and semantic digest under the
-`READ_ONLY_EXTERNAL_CAPTURE` ceiling and an empty `establishes` population.
+headers and uses its internal concrete GET-only client. It exposes no POST,
+PUT, PATCH, DELETE, GraphQL, shell, credential, pagination loop, retry or
+file-write verb. A caller-injected transport is explicitly untrusted: it can
+exercise response parsing but cannot substantiate GET/no-write or `CURRENT`.
+Case-insensitive response-header collisions and negative rate-remaining values
+are refused. The returned in-memory capture records status, ETag, response
+digest, rate, pagination, auth declaration, drift, expiry and semantic digest
+under the `READ_ONLY_EXTERNAL_CAPTURE` ceiling and an empty `establishes`
+population.
 The frozen collector never invokes this runner, a model or network. Refresh
 scheduling, cache publication, query, package admission, registry/helper
 routing and public release actions remain with C06-C14 owners.
