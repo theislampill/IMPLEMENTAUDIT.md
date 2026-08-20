@@ -70,11 +70,22 @@ settles a small reversible single-owner change without a state bundle.
 ## Conditional work-order admission
 
 For a proposed durable RXX allocation or material multi-RXX reconciliation,
-record the semantic centre, current failure/gap and named consumer; complete
-the current open-and-closed RXX census and genealogy; and resolve existing-owner
-overlap, dependency, and supersession before choosing exactly one of
+record a cold-reconstructible conditional record before choosing exactly one of
 `NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,
 `AMEND_EXISTING_RXX`, `DEFER`, or `NEW_RXX`:
+
+- semantic centre, live failure/gap, and named consumer;
+- complete current open-and-closed RXX census and genealogy with durable current
+  locators;
+- existing-owner, overlap, dependency, and supersession analysis;
+- trigger, non-trigger/cheap path, and the cheapest decision-changing
+  discriminator;
+- distinct failure, consumer, owner, and acceptance test;
+- selected outcome and durable locators sufficient for a cold executor to
+  reconstruct the current decision without the originating conversation.
+
+Reject a record with a missing or stale required field or locator; a synthetic
+state label cannot substitute for current durable evidence.
 
 - `NO_ACTION` when current evidence establishes no distinct gap;
 - `SUPPORTING_ARTIFACT` when a bounded cross-cutting note has no runtime

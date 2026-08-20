@@ -352,8 +352,9 @@ print(f"fixture-census: ok ({len(cases)}/{len(cases)} + {len(controls)}/{len(con
 
 admission_cases = payload.get("admission_cases")
 admission_controls = payload.get("admission_controls")
-if not isinstance(admission_cases, list) or not isinstance(admission_controls, list):
-    raise SystemExit("admission fixtures must contain cases and controls")
+conditional_records = payload.get("conditional_records")
+if not isinstance(admission_cases, list) or not isinstance(admission_controls, list) or not isinstance(conditional_records, dict):
+    raise SystemExit("admission fixtures must contain cases, controls, and conditional records")
 
 expected_admission_ids = [f"R31-A{i}" for i in range(1, 7)]
 if [case.get("id") for case in admission_cases] != expected_admission_ids:
@@ -363,6 +364,34 @@ allowed_admission_actions = {
     "NO_ACTION", "SUPPORTING_ARTIFACT", "AMEND_EXISTING_OWNER",
     "AMEND_EXISTING_RXX", "DEFER", "NEW_RXX",
 }
+record_string_fields = {
+    "semantic_centre", "live_gap", "named_consumer", "owner_analysis",
+    "overlap_analysis", "dependency_analysis", "supersession_analysis",
+    "trigger", "non_trigger_cheap_path", "cheapest_discriminator",
+    "distinct_failure", "distinct_consumer", "distinct_owner",
+    "distinct_acceptance",
+}
+record_locator_fields = {
+    "open_closed_census", "genealogy", "owner", "overlap", "dependency",
+    "supersession", "outcome",
+}
+
+def has_current_conditional_record(case, action):
+    record_id = case.get("conditional_record_id")
+    if not isinstance(record_id, str) or not record_id.strip():
+        return False
+    record = conditional_records.get(record_id)
+    if not isinstance(record, dict) or record.get("selected_outcome") != action:
+        return False
+    if not all(isinstance(record.get(key), str) and record[key].strip() for key in record_string_fields):
+        return False
+    locators = record.get("locators")
+    return (
+        record.get("locators_current") is True
+        and isinstance(locators, dict)
+        and set(locators) == record_locator_fields
+        and all(isinstance(locator, str) and locator.startswith("record://") for locator in locators.values())
+    )
 
 def admission_action(case):
     state = case.get("state")
@@ -381,6 +410,8 @@ def admission_action(case):
     elif state == "distinct-unowned-invariant":
         action = "NEW_RXX"
     else:
+        return "REJECT"
+    if not has_current_conditional_record(case, action):
         return "REJECT"
     if action in {"AMEND_EXISTING_OWNER", "AMEND_EXISTING_RXX"}:
         existing_owner = case.get("existing_owner")
@@ -410,7 +441,7 @@ for control in admission_controls:
     if observed != control.get("expected"):
         raise SystemExit(f"{control.get('id')}: expected {control.get('expected')}, observed {observed}")
 
-print("admission-census: ok (six exclusive actions; census before NEW_RXX allocation)")
+print("admission-census: ok (six exclusive actions; current record and census before NEW_RXX allocation)")
 PY
 
 "${py_cmd[@]}" - "$model_input" "$model_expectations" <<'PY'
@@ -474,6 +505,11 @@ for text in \
   'The ordinary direct path remains unchanged' \
   'Conditional work-order admission' \
   'current open-and-closed RXX census and genealogy' \
+  'cold-reconstructible conditional record' \
+  'cheapest decision-changing' \
+  'distinct failure, consumer, owner, and acceptance test' \
+  'durable locators sufficient for a cold executor' \
+  'state label cannot substitute for current durable evidence' \
   '`NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,' \
   '`AMEND_EXISTING_RXX`, `DEFER`, or `NEW_RXX`' \
   'number only after the complete current open-and-closed census' \
