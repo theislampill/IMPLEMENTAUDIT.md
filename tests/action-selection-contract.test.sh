@@ -37,6 +37,7 @@ reset_sandbox() {
     "$tmp_root/skills/implementaudit/references" \
     "$tmp_root/skills/implementaudit/templates" \
     "$tmp_root/fixtures/audit-action-selection" \
+    "$tmp_root/fixtures/distributed-runtime" \
     "$tmp_root/fixtures/native-integration" \
     "$tmp_root/fixtures/audit-object-routing"
   cp skills/implementaudit/SKILL.md "$tmp_root/skills/implementaudit/"
@@ -55,6 +56,8 @@ reset_sandbox() {
     "$tmp_root/fixtures/audit-action-selection/"
   cp fixtures/audit-action-selection/*.json \
     "$tmp_root/fixtures/audit-action-selection/"
+  cp fixtures/distributed-runtime/r48-admission-cases.json \
+    "$tmp_root/fixtures/distributed-runtime/"
   cp fixtures/native-integration/single-plan-native-route.md \
     "$tmp_root/fixtures/native-integration/"
   cp fixtures/audit-object-routing/deep-pressure-disclosure.md \
@@ -926,5 +929,90 @@ grep -v "establish semantic retry eligibility" \
 mv "$tmp_root/child-agents.tmp" \
   "$tmp_root/skills/implementaudit/references/child-agents.md"
 expect_fail "child-agent retry admission boundary removed"
+
+# 64. A contradictory record cannot bypass retry/effect predicates merely by
+# selecting the cheap-local flags.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C150-contradictory-cheap-retry-refused")
+case["expected"] = "CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "contradictory retry record bypassed through cheap-local flags"
+
+# 65. Effect-state vocabulary is validated before any disposition; the former
+# noncanonical token cannot enter the cheap path.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C149-local-retry-cheap-path-stays-serial")
+case["observations"]["effect_state"] = "NOT_ATTEMPTED"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "noncanonical effect state entered cheap path"
+
+# 66. The planning owner must retain the exact coherent cheap-path predicates.
+reset_sandbox
+grep -v 'CHEAP_PATH.*requires canonical.*NOT_STARTED' \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "planning cheap-path coherence predicates removed"
+
+# 67. Reproduce the independent held-out H13 shape against the fixture-aware
+# checker while retaining the coherent local positive in the same six-case set.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = payload["cases"][1]
+case["id"] = "H13-contradictory-cheap-with-retry-state"
+case["observations"] = {
+    "distributed_trigger": False,
+    "cheap_local_operation": True,
+    "semantic_retry_eligible": True,
+    "effect_state": "FAILED_NO_EFFECT",
+    "deadline_remaining_ms": 0,
+    "queue_age_ms": 0,
+    "max_queue_age_ms": 0,
+    "requested_units": 1,
+    "downstream_available_units": 0,
+    "recovery_available_units": 0,
+}
+case["expected"] = "REFUSE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh \
+  --repo-root "$tmp_root" \
+  --distributed-runtime-fixture \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" \
+  >/dev/null 2>&1 || fail "held-out contradictory cheap-local record was not refused"
+
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "H13-contradictory-cheap-with-retry-state")
+case["expected"] = "CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+if bash scripts/check-action-selection-contract.sh \
+  --repo-root "$tmp_root" \
+  --distributed-runtime-fixture \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" \
+  >/dev/null 2>&1; then
+  fail "held-out contradictory cheap-local false green was not detected"
+fi
 
 printf 'action-selection-contract.test: ok\n'

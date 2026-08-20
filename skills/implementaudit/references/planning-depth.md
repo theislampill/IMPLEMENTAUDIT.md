@@ -161,6 +161,8 @@ and recovery headroom for the requested work. Unknown effect state or any
 missing input refuses admission. Host/free executor slots and queue depth are
 observations, not downstream/recovery capacity or retry authority. Definitive,
 untriggered local work remains the serial cheap path and creates no retry queue.
+`CHEAP_PATH` requires canonical `NOT_STARTED`, no semantic retry eligibility,
+and zero requested work, deadline, queue-age, downstream, and recovery fields.
 
 No universal rule makes shorter feedback, lower work in progress, smaller
 batches, higher utilisation, more slack, or less slack correct. Stronger

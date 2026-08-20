@@ -126,6 +126,7 @@ for text in \
   "Material retry, recovery, or redispatch admission is conjunctive" \
   "Host/free executor slots and queue depth are" \
   "untriggered local work remains the serial cheap path" \
+  'CHEAP_PATH` requires canonical `NOT_STARTED' \
   "conditional planner/executor separation" \
   "least-cost" \
   "sufficiently capable route" \
@@ -183,7 +184,9 @@ for text in \
   "downstream capacity" \
   "recovery headroom" \
   "Free host slots or queue depth alone never" \
-  "serial cheap path"
+  "serial cheap path" \
+  'cheap path requires canonical `NOT_STARTED' \
+  "contradictory records refuse"
 do
   require "$lean_ref" "$text"
 done
@@ -214,7 +217,9 @@ for text in \
   "downstream capacity" \
   "recovery headroom" \
   "cannot authorise retry, recovery, or redispatch" \
-  "local cheap path stays serial"
+  "local cheap path stays serial" \
+  'requires canonical `NOT_STARTED' \
+  "requested work, deadline, queue-age, downstream, and recovery fields"
 do
   require "$child_ref" "$text"
 done
@@ -382,6 +387,7 @@ required_ids.update({
     "R48-C147-host-slots-not-downstream-capacity",
     "R48-C148-queue-depth-not-retry-authority",
     "R48-C149-local-retry-cheap-path-stays-serial",
+    "R48-C150-contradictory-cheap-retry-refused",
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -429,14 +435,31 @@ def decide_distributed_retry(observations):
     if not required.issubset(observations) or not set(observations).issubset(required | optional):
         raise ValueError("distributed retry observation members")
     booleans(observations, "distributed_trigger cheap_local_operation semantic_retry_eligible")
-    if type(observations["effect_state"]) is not str:
-        raise ValueError("distributed retry effect state type")
+    effect_states = {
+        "NOT_STARTED", "IN_FLIGHT", "UNKNOWN", "COMMITTED_VERIFIED",
+        "FAILED_NO_EFFECT", "COMPENSATION_PENDING", "COMPENSATED_VERIFIED",
+        "MANUAL_RECONCILIATION",
+    }
+    if observations["effect_state"] not in effect_states:
+        raise ValueError("distributed retry effect state")
     numeric = required - {"distributed_trigger", "cheap_local_operation", "semantic_retry_eligible", "effect_state"}
-    if any(type(observations[name]) is not int for name in numeric):
+    if any(type(observations[name]) is not int or observations[name] < 0 for name in numeric):
         raise ValueError("distributed retry numeric observation type")
     if any(type(observations[name]) is not int or observations[name] < 0 for name in optional & set(observations)):
         raise ValueError("distributed retry proxy observation type")
-    if not observations["distributed_trigger"] and observations["cheap_local_operation"]:
+    cheap_path = all((
+        not observations["distributed_trigger"],
+        observations["cheap_local_operation"],
+        not observations["semantic_retry_eligible"],
+        observations["effect_state"] == "NOT_STARTED",
+        observations["deadline_remaining_ms"] == 0,
+        observations["queue_age_ms"] == 0,
+        observations["max_queue_age_ms"] == 0,
+        observations["requested_units"] == 0,
+        observations["downstream_available_units"] == 0,
+        observations["recovery_available_units"] == 0,
+    ))
+    if cheap_path:
         return "CHEAP_PATH"
     admitted = all((
         observations["distributed_trigger"],

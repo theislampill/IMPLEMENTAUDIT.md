@@ -232,6 +232,8 @@ establish semantic retry eligibility or substitute for deadline/queue-age
 policy, downstream capacity, or recovery headroom. Host/free slots and queue
 depth alone cannot authorise retry, recovery, or redispatch. The definitive
 untriggered local cheap path stays serial and creates no ready or retry queue.
+It requires canonical `NOT_STARTED`, no semantic retry eligibility, and zero
+requested work, deadline, queue-age, downstream, and recovery fields.
 
 Use the serial cheap path for fewer than three material units, one ready cell,
 a strict dependency chain, unavailable concurrency, or when
