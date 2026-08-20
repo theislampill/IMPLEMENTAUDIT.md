@@ -212,10 +212,12 @@ def mechanical_action_class(argv: list[str]) -> str | None:
             return "MECHANICAL_CURRENTNESS_ACTION"
         if len(argv) == 3 and argv[1] == "--require-current-continuity" and CONTROLLER_RE.fullmatch(argv[2]):
             return "MECHANICAL_CURRENTNESS_ACTION"
-        if len(argv) == 3 and argv[1] == "--verify-resume-receipt" and re.fullmatch(
-            r"refs/implementaudit/continuity-receipts/[a-z0-9][a-z0-9-]*/G[0-9A-F]{4}@[0-9a-f]{40}", argv[2]
-        ):
-            return "MECHANICAL_CURRENTNESS_ACTION"
+        if len(argv) == 3 and argv[1] == "--verify-resume-receipt":
+            receipt = re.fullmatch(
+                r"refs/implementaudit/continuity-receipts/([^/]+)/G[0-9A-F]{4}@[0-9a-f]{40}", argv[2]
+            )
+            if receipt and CONTROLLER_RE.fullmatch(receipt.group(1)):
+                return "MECHANICAL_CURRENTNESS_ACTION"
     if argv == ["route-read-snapshot"]:
         return "PURE_BOUNDED_READ_OR_VALIDATION"
     package_script = Path(argv[2]).resolve() if executable == "bash" and len(argv) == 3 and argv[1] == "-n" else None
@@ -433,8 +435,19 @@ def sanitized_action_environment() -> dict[str, str]:
         key: value
         for key, value in os.environ.items()
         if not key.startswith(("GIT_", "LD_", "DYLD_"))
+        and not key.startswith("BASH_FUNC_")
         and key not in {"BASH_ENV", "BASHOPTS", "CDPATH", "ENV", "SHELLOPTS"}
     }
+    if os.name == "nt":
+        candidates: list[Path] = []
+        if program_files := os.environ.get("ProgramFiles"):
+            git_root = Path(program_files) / "Git"
+            candidates.extend((git_root / "cmd", git_root / "bin", git_root / "usr" / "bin"))
+        if system_root := os.environ.get("SystemRoot"):
+            candidates.append(Path(system_root) / "System32")
+        environment["PATH"] = os.pathsep.join(str(path.resolve()) for path in candidates if path.is_dir())
+    else:
+        environment["PATH"] = "/usr/bin:/bin"
     environment.update(
         {
             "GIT_ATTR_NOSYSTEM": "1",
@@ -452,8 +465,9 @@ def sanitized_action_environment() -> dict[str, str]:
 
 def worktree_read_set(repo: Path) -> dict[str, Any]:
     git_executable = trusted_host_executable(repo, "git")
+    git_read = [str(git_executable), "-c", "core.fsmonitor=false", "-c", "core.hooksPath="]
     raw_paths = subprocess.run(
-        [str(git_executable), "ls-files", "-c", "-o", "--exclude-standard", "-z"],
+        [*git_read, "ls-files", "-c", "-o", "--exclude-standard", "-z"],
         cwd=repo,
         env=sanitized_action_environment(),
         capture_output=True,
@@ -484,7 +498,7 @@ def worktree_read_set(repo: Path) -> dict[str, Any]:
         else:
             digest.update(b"NONREGULAR")
     environment = sanitized_action_environment()
-    logical_index = run([str(git_executable), "ls-files", "-s", "-z"], cwd=repo, label="index read-set", environment=environment)
+    logical_index = run([*git_read, "ls-files", "-s", "-z"], cwd=repo, label="index read-set", environment=environment)
     metadata: dict[str, str] = {}
     for identity, git_path in (
         ("raw_index", "index"),
@@ -492,7 +506,7 @@ def worktree_read_set(repo: Path) -> dict[str, Any]:
         ("worktree_config", "config.worktree"),
         ("sparse_checkout", "info/sparse-checkout"),
     ):
-        raw = run([str(git_executable), "rev-parse", "--git-path", git_path], cwd=repo, label=f"{identity} path", environment=environment)
+        raw = run([*git_read, "rev-parse", "--git-path", git_path], cwd=repo, label=f"{identity} path", environment=environment)
         candidate = Path(raw)
         if not candidate.is_absolute():
             candidate = repo / candidate
@@ -515,7 +529,7 @@ def worktree_read_set(repo: Path) -> dict[str, Any]:
 def git_environment_requires_judgement(repo: Path) -> bool:
     git_executable = trusted_host_executable(repo, "git")
     completed = subprocess.run(
-        [str(git_executable), "config", "--local", "--null", "--list"],
+        [str(git_executable), "-c", "core.fsmonitor=false", "-c", "core.hooksPath=", "config", "--local", "--null", "--list"],
         cwd=repo,
         env=sanitized_action_environment(),
         capture_output=True,

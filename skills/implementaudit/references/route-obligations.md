@@ -31,7 +31,9 @@ custody and are digest-bound. Currentness argv must be a complete feasible
 helper form. Pure read and safe-status classes use internal digest snapshots;
 Git diff/status are not cheap-path executables, so repository filter helpers
 cannot enter between the decision and action. Action environments strip shell
-startup, dynamic-loader and Git execution controls.
+startup, exported-function, dynamic-loader and Git execution controls, and use
+a trusted minimal `PATH`. Every trusted Git read-set command disables fsmonitor
+and hooks before evidence is gathered.
 Missing, mismatched, aliased or fabricated evidence stays `PENDING` or maps to
 `REQUIRED`; caller-selected class labels cannot mint the cheap path.
 

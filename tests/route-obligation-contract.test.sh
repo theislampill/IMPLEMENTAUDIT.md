@@ -267,6 +267,31 @@ try: module.current_ref(pathlib.Path(sys.argv[2]),"controller-cheap")
 except SystemExit: pass
 PY
 [ ! -e "$tmp/path-git-fired" ] || fail "current_ref executed caller-controlled PATH git"
+PATH="$tmp/evil-bin:$PATH" "${py[@]}" - "$core" "$tmp/repo" >/dev/null <<'PY'
+import importlib.util,pathlib,sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+try: module.current_controller(pathlib.Path(sys.argv[2]),"controller-cheap")
+except SystemExit: pass
+PY
+[ ! -e "$tmp/path-git-fired" ] || fail "current_controller claim-run executed caller-controlled PATH git"
+"${py[@]}" - "$core" <<'PY'
+import importlib.util,os,sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+os.environ["BASH_FUNC_git%%"]="() { :; }"
+if any(key.startswith("BASH_FUNC_") for key in module.sanitized_action_environment()):
+ raise SystemExit("exported Bash function survived action environment sanitization")
+PY
+
+printf '#!/usr/bin/env bash\nprintf fsmonitor-executed > "%s"\nexit 0\n' "$tmp/fsmonitor-fired" > "$tmp/hostile-fsmonitor"
+chmod +x "$tmp/hostile-fsmonitor"
+git -C "$tmp/repo" config core.fsmonitor "$tmp/hostile-fsmonitor"
+"${py[@]}" - "$core" "$tmp/repo" <<'PY'
+import importlib.util,pathlib,sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+module.worktree_read_set(pathlib.Path(sys.argv[2]))
+PY
+git -C "$tmp/repo" config --unset core.fsmonitor
+[ ! -e "$tmp/fsmonitor-fired" ] || fail "built-in read-set executed configured fsmonitor"
 
 "${py[@]}" - "$core" "$claim" <<'PY'
 import importlib.util,sys
@@ -274,6 +299,7 @@ spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); mo
 invalid=(
  [sys.argv[2],"--verify-resume-receipt"],
  [sys.argv[2],"--require-current-route","controller-cheap"],
+ [sys.argv[2],"--verify-resume-receipt","refs/implementaudit/continuity-receipts/"+"a"*49+"/G0001@"+"0"*40],
 )
 if any(module.mechanical_action_class(argv)=="MECHANICAL_CURRENTNESS_ACTION" for argv in invalid):
  raise SystemExit("incomplete or impossible currentness argv was admitted")
