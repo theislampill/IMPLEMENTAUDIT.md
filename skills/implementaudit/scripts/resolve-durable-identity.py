@@ -49,8 +49,8 @@ def load_registry() -> dict:
         or r.get("meaning") != "durable governed-work identity"
         or r.get("allocation_owner") != "R0004"
         or r.get("allocated_ordinal_min") != 1
-        or r.get("allocated_ordinal_max") != 55
-        or r.get("next_unreserved_candidate") != "R0038"
+        or r.get("allocated_ordinal_max") != 58
+        or r.get("next_unreserved_candidate") != "R003B"
         or r.get("legacy")
         != {
             "prefix": "R",

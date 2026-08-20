@@ -6,7 +6,7 @@ Baseline: commit `62507de00e16cc2ada0e7546273988c387a20390`, tree `6b24f9500ac00
 
 Live census at derivation: 93 issues, 270 issue-only comments, 58 canonical RXX through R003A, 14 open RXX (`#157,#158,#161,#163,#196,#197,#198,#200,#207,#209,#211,#214,#215,#216`), zero open PRs.
 
-Derived population: 67 total cells, comprising 10 control/planning cells and 57 execution cells. Exactly 37 execution cells are admitted implementation/action cells. The frozen Thread-4 population is not reused; two explicit cells were added by the first cold review for pre-freeze version source ownership and post-package host activation evidence.
+Derived population: 68 total cells, comprising 10 control/planning cells and 58 execution cells. Exactly 38 execution cells are admitted implementation/action cells. The frozen Thread-4 population is not reused; two explicit cells were added by the first cold review for pre-freeze version source ownership and post-package host activation evidence, and the post-dispatch `CAM-ID1` countermeasure was added to synchronize the R0004-owned durable-identity carriers with the already-allocated live R0038-R003A population before any other cell merge.
 
 ## Acceptance boundary
 
@@ -19,7 +19,7 @@ Two missed automatic compactions after generation G007D are distinct dogfood wit
 1. Cold-review this plan and the machine graph from a fresh context with distinct base/head commits and `authoring_context_reuse=no`.
 2. Re-anchor live GitHub, controller/continuity, baseline worktree and process state.
 3. Run focused baselines plus one patient terminal Git-for-Windows `scripts/verify-package.sh`. The earlier contained run is partial evidence only.
-4. Create `thread5/v041-integration` from the exact cold-review-PASS planning head. Execute each implementation cell TDD-first in a task-owned worktree/branch, independently review it, push a draft PR whose base is the exact campaign branch or dependency stack, and merge only when dependencies/shared writers are current. Reject any cell PR based on `main`; `CAM-M1` is the sole main writer.
+4. Create `thread5/v041-integration` from the exact cold-review-PASS planning head. Execute each implementation cell TDD-first in a task-owned worktree/branch, independently review it, push a draft PR whose base is the exact campaign branch or dependency stack, and merge only when dependencies/shared writers are current. `CAM-ID1` is the merge-first campaign-base repair; no other cell merge is admitted until it is reviewed, hosted-green and merged. Reject any cell PR based on `main`; `CAM-M1` is the sole main writer.
 5. Compose one exact source/package join, run installed behavioral cells, exact-tree review, main integration, release/public readback and tracker closure.
 
 `R39-F1` and `R30-B0` are RED-bootstrap checkpoints, not mergeable GREEN
@@ -28,7 +28,7 @@ but `NON_GREEN_BY_DESIGN` is not CI PASS. Only the composed `R39-F7` and
 `R30-J0` aggregate PRs register their new tests exactly once, turn the intended
 owners GREEN and merge into the campaign branch. Public main remains unchanged.
 
-## Admitted implementation/action cells (37)
+## Admitted implementation/action cells (38)
 
 ### Host/currentness/route/DAG/control (10)
 
@@ -43,7 +43,7 @@ owners GREEN and merge into the campaign branch. Public main remains unchanged.
 - `HC-H7B` R0037 Stop adapter: thin host translator into H7A with supported/disabled/untrusted fallbacks and no agent prison. This cell proves source/package behavior, not an actually fired host event.
 - `HC-H8` terminal-cap repair: reject finite retry-count stop/handoff wording while preserving ordinary retry prose, strike/strikes/CrowdStrike and explicit no-cap denials.
 
-`HC-H5` PreToolUse is deferred unless every supported-host, binding, route, graph/node, writer/resource/effect and executor predicate is exact. It is not in the 37 implementation count.
+`HC-H5` PreToolUse is deferred unless every supported-host, binding, route, graph/node, writer/resource/effect and executor predicate is exact. It is not in the 38 implementation count.
 
 ### R0038 operational evidence (10)
 
@@ -75,8 +75,9 @@ Primary files: `operational-evidence.md`, `operational-evidence-schema.json`, `o
 
 R0039 F0 is re-anchor evidence, F9 is exact-tree review and R30-J0 is the focused join. P53 remains owner-decision deferred with no implementation/release burden.
 
-### Base/package-budget/security/version cells (7)
+### Base/package-budget/security/version cells (8)
 
+- `CAM-ID1` R0004 live durable-identity allocation sync: update the package-owned Rockstar high-water through R003A while preserving the historical decimal-alias ceiling through ordinal 55, repair maintained canonical spellings and merge first before every other cell.
 - `B-P3` R001F pre-allocation admission and complete current Rockstar collision/genealogy test.
 - `B-P4A` R0022 affected-evidence verifier selection from semantic owners and consumers, not filenames/diff size.
 - `B-P2` conditional MKH-001 retirement of only `scripts/check-workflow-structure.py`, after immediate exact-current no-caller/no-owner/no-consumer/replacement proof; otherwise no deletion.
@@ -103,6 +104,7 @@ R30-B0 -> P34
 R30-B0 + R39-F7 -> P37
 P34 + P37 -> R30-J0
 
+CAM-ID1 -> all other cell merges
 B-P3 + all executable-adding cells -> B-P1
 B-P1 + R38-C08 -> R38-C11
 B-P1 + R30-J0 + R39-F7 + R38-C11 + all version-bearing feature owners -> PKG-VERSION -> B-P4B
@@ -127,8 +129,8 @@ contradiction with this chain.
 
 ## Shared writers
 
-- Governor/child/route: host H0-H7, R39 reader/currentness work and B-P4B serialize.
-- Continuity/ref namespaces: H0/H1/H2A/H7, R39 F3-F7 and P37 serialize.
+- Governor/child/route: host H0-H7, R0039 reader/currentness work and B-P4B serialize.
+- Continuity/ref namespaces: H0/H1/H2A/H7, R0039 F3-F7 and P37 serialize.
 - Planning/action-selection: B-P4A, B-P5, R30-P34 and H4 serialize by exact hunk.
 - Helper reachability: B-P1 is final population owner; R38-C11 consumes it.
 - Validation registry and package/release surfaces: RED checkpoints are unmergeable; R39-F7/R30-J0 own exact-once GREEN registration; PKG-VERSION is the one version source writer; J-PKG freezes the candidate.
@@ -155,6 +157,6 @@ Every branch is reversible before external publication. R0039's permanent migrat
 
 ## Cold-review challenges
 
-1. Determine whether every one of the 37 action cells is independently schedulable by owner, test and rollback rather than a ceremony-only split.
+1. Determine whether every one of the 38 action cells is independently schedulable by owner, test and rollback rather than a ceremony-only split.
 2. Verify that folding HC-J, R39-F8 and B-J1 into one `J-PKG` does not erase separate issue-owner acceptance verdicts.
 3. Verify that `R38-C08 -> B-P1 -> R38-C11 -> PKG-VERSION -> B-P4B -> R38-C12` removes the helper/package-budget/version cycle while leaving B-P1 as final executable-set owner and B-P4B as final governor-byte writer.
