@@ -200,21 +200,29 @@ bind_host session-pending controller-pending "$pending_claim" "$pending_root" "$
 
 write_request() {
   local target="$1" action_class="$2" required_reason="${3:-}"
-  "${py[@]}" - "$target" "$action_class" "$required_reason" <<'PY'
+  "${py[@]}" - "$target" "$action_class" "$required_reason" "$tmp/repo/baseline.txt" \
+    "$claim" "$repo_root/skills/implementaudit/scripts/check-closure-surface.sh" <<'PY'
 import hashlib, json, sys
-def d(value): return "sha256:"+hashlib.sha256(value.encode()).hexdigest()
-def item(name): return {"identity": name, "digest": d(name), "status": "CURRENT"}
+def h(value): return "sha256:"+hashlib.sha256(json.dumps(value,sort_keys=True,separators=(",", ":")).encode()).hexdigest()
+def file_hash(path): return "sha256:"+hashlib.sha256(open(path,"rb").read()).hexdigest()
+argv={
+ "MECHANICAL_CURRENTNESS_ACTION":[sys.argv[5],"--require-current-continuity","controller-cheap"],
+ "PURE_BOUNDED_READ_OR_VALIDATION":["git","diff","--","baseline.txt"],
+ "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION":["bash",sys.argv[6]],
+ "SAFE_STATUS_OR_CONTAINMENT":["git","status","--short"],
+ "EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION":["sha256sum","baseline.txt"],
+}.get(sys.argv[2],["unknown-action"])
 reason=[sys.argv[3]] if sys.argv[3] else []
+action_identity="action:"+sys.argv[2].lower()
+inputs=[{"identity":"input:repository","path":"baseline.txt","digest":file_hash(sys.argv[4])}]
+inputs=sorted(inputs,key=lambda item:item["identity"])
 value={
  "schema":"implementaudit.route-decision-request.v1",
  "predicate_version":"R0033.route-predicate.v1",
- "boundary":{"kind":"new-session","event_id":"exact-boundary-event","digest":d("boundary"),"status":"CURRENT"},
- "scope":item("scope:cell-h2a"),
- "action":{"identity":"action:exact","digest":d("action"),"status":"CURRENT","class":sys.argv[2]},
- "evidence":{"owner":item("owner:R0033"),"authority":item("authority:comment-5349224694"),"effect":item("effect:bounded"),"dependency":item("dependency:H0")},
- "inputs":[item("input:controller"),item("input:repository")],
- "package":item("package:source-tree"),
- "child_source":item("child-source:audit-state"),
+ "boundary":{"kind":"new-session","event_id":"exact-boundary-event","digest":h({"kind":"new-session","event_id":"exact-boundary-event"})},
+ "scope":{"identity":"scope:cell-h2a","digest":h({"identity":"scope:cell-h2a"})},
+ "action":{"identity":action_identity,"digest":h({"identity":action_identity,"class":sys.argv[2],"argv":argv}),"class":sys.argv[2],"argv":argv},
+ "inputs":inputs,
  "required_reasons":reason,
  "judgement_required":False,
 }
@@ -270,7 +278,7 @@ assert_json "$required_blob" 'value["predecessor_record_oid"] is None and value[
 judgement_request="$tmp/judgement.json"
 mutate_request "$pending_request" "$judgement_request" 'value["judgement_required"]=True'
 incomplete_request="$tmp/incomplete.json"
-mutate_request "$pending_request" "$incomplete_request" 'value["inputs"][0]["status"]="MISSING"'
+mutate_request "$pending_request" "$incomplete_request" 'value["inputs"][0]["digest"]="sha256:"+"0"*64'
 pending_decide="$(route controller-pending session-pending G0001 decide --request "$incomplete_request" --expected-record none)"
 assert_json "$pending_decide" 'value["decision"] == "PENDING" and value["advance_allowed"] is False and value["invalidators"]'
 pending_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$pending_decide")"
@@ -280,22 +288,26 @@ judgement_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["r
 
 # 10-15: every closed non-trigger class receives only a scoped current receipt.
 cheap_decide="$(route controller-cheap session-cheap G0001 decide --request "$cheap_request" --expected-record none)"
-assert_json "$cheap_decide" 'value["decision"] == "NOT_REQUIRED" and value["classification"] == "MECHANICALLY_NOT_REQUIRED" and value["advance_allowed"] is True'
+assert_json "$cheap_decide" 'value["decision"] == "NOT_REQUIRED" and value["classification"] == "MECHANICALLY_NOT_REQUIRED" and value["advance_allowed"] is False and value["admission_required"] is True'
 cheap_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$cheap_decide")"
 cheap_check="$(route controller-cheap session-cheap G0001 check --request "$cheap_request")"
-assert_json "$cheap_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is True'
+assert_json "$cheap_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False and value["admission_required"] is True'
 wrapper_check="$(
   cd "$tmp/repo"
   bash "$claim" --require-current-route controller-cheap --store "$tmp/host-store" \
     --host-id codex --host-session-id session-cheap --binding-generation G0001 \
     --request "$cheap_request"
 )"
-assert_json "$wrapper_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is True'
+assert_json "$wrapper_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False and value["admission_required"] is True'
 for class in MECHANICAL_CURRENTNESS_ACTION EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION SAFE_STATUS_OR_CONTAINMENT EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION; do
   candidate="$tmp/class-$class.json"
-  mutate_request "$cheap_request" "$candidate" "value[\"action\"][\"class\"]=\"$class\"; value[\"action\"][\"identity\"]=\"action:$class\""
-  expect_blocked "prior receipt expires for $class" route controller-cheap session-cheap G0001 check --request "$candidate" >/dev/null
+  write_request "$candidate" "$class"
+  class_decide="$(route controller-cheap session-cheap G0001 decide --request "$candidate" --expected-record "$cheap_oid")"
+  assert_json "$class_decide" "value[\"decision\"] == \"NOT_REQUIRED\" and value[\"classification\"] == \"MECHANICALLY_NOT_REQUIRED\""
+  cheap_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$class_decide")"
 done
+cheap_decide="$(route controller-cheap session-cheap G0001 decide --request "$cheap_request" --expected-record "$cheap_oid")"
+cheap_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$cheap_decide")"
 
 # 16-29: every scope/currentness input is an expiry invalidator. These are
 # check-time controls against one genuine cheap-path receipt.
@@ -303,15 +315,10 @@ declare -a mutations=(
   'value["scope"]["identity"]="scope:expanded"'
   'value["action"]["identity"]="action:next"'
   'value["inputs"][0]["digest"]="sha256:"+"1"*64'
-  'value["package"]["identity"]="package:successor"'
-  'value["child_source"]["identity"]="child-source:successor"'
-  'value["evidence"]["owner"]["identity"]="owner:successor"'
-  'value["evidence"]["authority"]["identity"]="authority:successor"'
-  'value["evidence"]["dependency"]["identity"]="dependency:successor"'
-  'value["evidence"]["effect"]["identity"]="effect:successor"'
-  'value["inputs"][0]["status"]="CONTRADICTORY"'
-  'value["inputs"][0]["status"]="MISSING"'
-  'value["inputs"][0]["status"]="STALE"'
+  'value["boundary"]["event_id"]="successor-boundary"'
+  'value["action"]["argv"]=["unknown-action"]'
+  'value["judgement_required"]=True'
+  'value["evidence"]={"owner":{"status":"CURRENT"}}'
 )
 index=0
 for mutation in "${mutations[@]}"; do
@@ -319,8 +326,6 @@ for mutation in "${mutations[@]}"; do
   mutate_request "$cheap_request" "$candidate" "$mutation"
   expect_blocked "expiry invalidator $index" route controller-cheap session-cheap G0001 check --request "$candidate" >/dev/null
 done
-expect_blocked "action completion expires receipt" route controller-cheap session-cheap G0001 check --request "$cheap_request" --action-completed >/dev/null
-
 # 30-33: active obligations cannot be downgraded, and every write is expected-old CAS.
 expect_blocked "active obligation downgrade" route controller-route route-red G0001 decide --request "$cheap_request" --expected-record "$required_oid" >/dev/null
 expect_blocked "stale CAS expected absence" route controller-cheap session-cheap G0001 decide --request "$cheap_request" --expected-record none >/dev/null
@@ -331,7 +336,21 @@ assert_json "$same_again" 'value["idempotent"] is True and value["record_oid"]'
 expect_blocked "foreign controller" route controller-route session-cheap G0001 check --request "$required_request" >/dev/null
 expect_blocked "foreign session claim" route controller-cheap route-red G0001 check --request "$cheap_request" >/dev/null
 independent="$(route controller-cheap session-cheap G0001 check --request "$cheap_request")"
-assert_json "$independent" 'value["advance_allowed"] is True'
+assert_json "$independent" 'value["decision"] == "NOT_REQUIRED" and value["admission_required"] is True and value["advance_allowed"] is False'
+# A non-cooperating ref replacement during the deliberately multi-owner check
+# must be caught by the final current-ref fence, never return the old allow.
+race_junk="$(printf 'race-replacement\n' | git -C "$tmp/repo" hash-object -w --stdin)"
+set +e
+route controller-cheap session-cheap G0001 check --request "$cheap_request" >"$tmp/race-check.out" 2>&1 &
+race_pid=$!
+sleep 0.1
+git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-cheap "$race_junk" "$cheap_oid"
+wait "$race_pid"
+race_status=$?
+set -e
+[ "$race_status" -ne 0 ] || fail "concurrent route-ref replacement returned stale NOT_REQUIRED authority"
+git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-cheap "$cheap_oid" "$race_junk"
+old_transaction="$(git -C "$tmp/repo" cat-file blob "$cheap_oid" | "${py[@]}" -c 'import json,sys;print(json.load(sys.stdin)["route_transaction_id"])')"
 host rebind --owner-id host-owner --host-id codex --host-session-id session-cheap \
   --expected-generation G0001 --reason binding-generation-control \
   --controller-id controller-cheap --claim-id "$cheap_claim" --explicit-run-root "$cheap_root" \
@@ -340,6 +359,17 @@ host rebind --owner-id host-owner --host-id codex --host-session-id session-chea
   --activation-receipt activation-cheap-g2 --continuity-generation G0001 \
   --continuity-receipt "$cheap_receipt" >/dev/null
 expect_blocked "current binding generation expires prior receipt" route controller-cheap session-cheap G0002 check --request "$cheap_request" >/dev/null
+rebound_decide="$(route controller-cheap session-cheap G0002 decide --request "$cheap_request" --expected-record "$cheap_oid")"
+rebound_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$rebound_decide")"
+assert_json "$rebound_decide" "value[\"decision\"] == \"NOT_REQUIRED\" and value[\"record_oid\"] != \"$cheap_oid\" and not value.get(\"idempotent\", False)"
+rebound_transaction="$(git -C "$tmp/repo" cat-file blob "$rebound_oid" | "${py[@]}" -c 'import json,sys;print(json.load(sys.stdin)["route_transaction_id"])')"
+[ "$old_transaction" != "$rebound_transaction" ] || fail "binding generation reused the route transaction identity"
+route controller-cheap session-cheap G0002 check --request "$cheap_request" >/dev/null
+consumed="$(route controller-cheap session-cheap G0002 consume --request "$cheap_request" --expected-record "$rebound_oid")"
+consumed_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$consumed")"
+assert_json "$consumed" "value[\"status\"] == \"ADMITTED_ONCE\" and value[\"decision\"] == \"PENDING\" and value[\"advance_allowed\"] is True and value[\"consumed_record_oid\"] == \"$rebound_oid\""
+expect_blocked "consumed action cannot replay" route controller-cheap session-cheap G0002 check --request "$cheap_request" >/dev/null
+expect_blocked "consumed action cannot be re-minted" route controller-cheap session-cheap G0002 decide --request "$cheap_request" --expected-record "$consumed_oid" >/dev/null
 assert_json "$required_check" 'value["advance_allowed"] is False'
 expect_blocked "STATE pending cannot override required" route controller-route route-red G0001 check --request "$required_request" >/dev/null
 assert_json "$required_blob" 'value["expires_on"] and "scope-expansion" in value["expires_on"] and "continuity-receipt-change" in value["expires_on"]'

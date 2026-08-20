@@ -46,7 +46,6 @@ REQUIRED_REASONS = {
     "MAINTAINER_QUALIFICATION",
     "NONTRIVIAL_ANDON_DIAGNOSIS",
 }
-STATUS_VALUES = {"CURRENT", "MISSING", "STALE", "CONTRADICTORY"}
 CONTINUITY_RE = re.compile(r"G[0-9A-F]{4}")
 CONTROLLER_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,47}")
 OID_RE = re.compile(r"[0-9a-f]{40}(?:[0-9a-f]{24})?")
@@ -75,7 +74,7 @@ RECORD_KEYS = {
     "evidence", "inputs", "package", "child_source", "decision", "classification",
     "invalidators", "expiry_fingerprint", "expires_on", "predecessor_record_oid",
     "route_transaction_id", "obligation_id", "route_state", "child_lifecycle_owned",
-    "record_identity",
+    "consumed_record_oid", "record_identity",
 }
 
 
@@ -138,14 +137,11 @@ def exact_keys(value: Any, keys: set[str], label: str) -> dict[str, Any]:
     return value
 
 
-def identity_record(value: Any, label: str, *, status: bool = True) -> dict[str, str]:
-    keys = {"identity", "digest", "status"} if status else {"identity", "digest"}
-    record = exact_keys(value, keys, label)
+def identity_record(value: Any, label: str) -> dict[str, str]:
+    record = exact_keys(value, {"identity", "digest"}, label)
     exact_text(record["identity"], f"{label}.identity")
     if not isinstance(record["digest"], str) or not HEX_RE.fullmatch(record["digest"]):
         fail(f"{label}.digest is not a canonical sha256 identity")
-    if status and record["status"] not in STATUS_VALUES:
-        fail(f"{label}.status is invalid")
     return record
 
 
@@ -166,37 +162,40 @@ def read_request(path: str) -> dict[str, Any]:
         "boundary",
         "scope",
         "action",
-        "evidence",
         "inputs",
-        "package",
-        "child_source",
         "required_reasons",
         "judgement_required",
     }
     exact_keys(request, keys, "request")
     if request["schema"] != REQUEST_SCHEMA or request["predicate_version"] != PREDICATE_VERSION:
         fail("request schema or predicate version is stale")
-    boundary = exact_keys(request["boundary"], {"kind", "event_id", "digest", "status"}, "boundary")
+    boundary = exact_keys(request["boundary"], {"kind", "event_id", "digest"}, "boundary")
     exact_text(boundary["kind"], "boundary.kind")
     exact_text(boundary["event_id"], "boundary.event_id")
-    if not HEX_RE.fullmatch(boundary.get("digest", "")) or boundary.get("status") not in STATUS_VALUES:
+    if not HEX_RE.fullmatch(boundary.get("digest", "")):
         fail("boundary identity is malformed")
     identity_record(request["scope"], "scope")
-    action = exact_keys(request["action"], {"identity", "digest", "status", "class"}, "action")
+    action = exact_keys(request["action"], {"identity", "digest", "class", "argv"}, "action")
     exact_text(action["identity"], "action.identity")
     exact_text(action["class"], "action.class")
-    if not HEX_RE.fullmatch(action.get("digest", "")) or action.get("status") not in STATUS_VALUES:
+    if not HEX_RE.fullmatch(action.get("digest", "")):
         fail("action identity is malformed")
-    evidence = exact_keys(request["evidence"], {"owner", "authority", "effect", "dependency"}, "evidence")
-    for name in sorted(evidence):
-        identity_record(evidence[name], f"evidence.{name}")
-    identity_record(request["package"], "package")
-    identity_record(request["child_source"], "child_source")
+    if (
+        not isinstance(action["argv"], list)
+        or not action["argv"]
+        or len(action["argv"]) > 64
+        or any(not isinstance(item, str) or not item or len(item) > 4096 for item in action["argv"])
+    ):
+        fail("action argv is empty, oversized, or malformed")
     if not isinstance(request["inputs"], list) or not request["inputs"]:
         fail("inputs must be a non-empty complete identity set")
     identities: list[str] = []
     for index, item in enumerate(request["inputs"]):
-        identities.append(identity_record(item, f"inputs[{index}]")["identity"])
+        record = exact_keys(item, {"identity", "path", "digest"}, f"inputs[{index}]")
+        identities.append(exact_text(record["identity"], f"inputs[{index}].identity"))
+        exact_text(record["path"], f"inputs[{index}].path")
+        if not isinstance(record["digest"], str) or not HEX_RE.fullmatch(record["digest"]):
+            fail(f"inputs[{index}].digest is not canonical")
     if identities != sorted(identities) or len(identities) != len(set(identities)):
         fail("inputs are not uniquely ordered by identity")
     reasons = request["required_reasons"]
@@ -207,18 +206,51 @@ def read_request(path: str) -> dict[str, Any]:
     return request
 
 
-def classify(request: dict[str, Any]) -> tuple[str, str, list[str]]:
-    observed = [request["boundary"], request["scope"], request["action"], request["package"], request["child_source"]]
-    observed.extend(request["evidence"].values())
-    observed.extend(request["inputs"])
-    noncurrent = sorted(
-        f"{item['identity']}:{item['status']}" for item in observed if item["status"] != "CURRENT"
-    )
+def mechanical_action_class(argv: list[str]) -> str | None:
+    executable = Path(argv[0]).name.lower()
+    claim = Path(__file__).resolve().with_name("claim-run.sh")
+    if (
+        executable in {"claim-run.sh", "claim-run"}
+        and Path(argv[0]).resolve() == claim
+        and len(argv) in {2, 3}
+        and argv[1] in {
+            "--current-controller", "--verify-resume-receipt", "--require-current-continuity", "--require-current-route"
+        }
+    ):
+        return "MECHANICAL_CURRENTNESS_ACTION"
+    if (
+        executable == "git"
+        and len(argv) >= 4
+        and argv[1:3] == ["diff", "--"]
+        and all(not value.startswith("-") and ".." not in Path(value).parts for value in argv[3:])
+    ):
+        return "PURE_BOUNDED_READ_OR_VALIDATION"
+    package_script = Path(argv[1]).resolve() if executable == "bash" and len(argv) == 2 else None
+    if (
+        package_script is not None
+        and package_script.parent == Path(__file__).resolve().parent
+        and re.fullmatch(r"check-[a-z0-9-]+\.sh", package_script.name)
+    ):
+        return "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION"
+    if executable == "git" and argv[1:] in (["status", "--short"], ["status", "--porcelain=v1"]):
+        return "SAFE_STATUS_OR_CONTAINMENT"
+    if executable in {"sha256sum", "shasum"} and len(argv) == 2:
+        return "EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION"
+    return None
+
+
+def classify(request: dict[str, Any], noncurrent: list[str]) -> tuple[str, str, list[str]]:
     if noncurrent:
         return "PENDING", "JUDGEMENT_REQUIRED", noncurrent
     if request["required_reasons"]:
         return "REQUIRED", "MECHANICALLY_REQUIRED", list(request["required_reasons"])
-    if request["judgement_required"] or request["action"]["class"] not in CLOSED_ACTION_CLASSES:
+    derived = mechanical_action_class(request["action"]["argv"])
+    if (
+        request["judgement_required"]
+        or derived is None
+        or request["action"]["class"] != derived
+        or derived not in CLOSED_ACTION_CLASSES
+    ):
         return "REQUIRED", "JUDGEMENT_REQUIRED", ["route judgement cannot mint NOT_REQUIRED"]
     return "NOT_REQUIRED", "MECHANICALLY_NOT_REQUIRED", []
 
@@ -291,7 +323,153 @@ def current_controller(repo: Path, controller: str) -> dict[str, str]:
         "claim_id": parts[3],
         "continuity_receipt": receipt,
         "continuity_generation": generation,
+        "controller_record_oid": git(repo, "rev-parse", "--verify", f"refs/implementaudit/controllers/{controller}"),
     }
+
+
+def file_digest(path: Path) -> str:
+    digest = hashlib.sha256()
+    try:
+        with path.open("rb") as handle:
+            for block in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(block)
+    except OSError as exc:
+        fail(f"cannot hash mechanical evidence {path}: {exc}")
+    return f"sha256:{digest.hexdigest()}"
+
+
+def request_observations(repo: Path, request: dict[str, Any]) -> tuple[list[str], list[dict[str, str]]]:
+    invalidators: list[str] = []
+    boundary_expected = digest_json({"kind": request["boundary"]["kind"], "event_id": request["boundary"]["event_id"]})
+    if request["boundary"]["digest"] != boundary_expected:
+        invalidators.append("boundary:CONTRADICTORY")
+    scope_expected = digest_json({"identity": request["scope"]["identity"]})
+    if request["scope"]["digest"] != scope_expected:
+        invalidators.append("scope:CONTRADICTORY")
+    action_expected = digest_json(
+        {
+            "identity": request["action"]["identity"],
+            "class": request["action"]["class"],
+            "argv": request["action"]["argv"],
+        }
+    )
+    if request["action"]["digest"] != action_expected:
+        invalidators.append("action:CONTRADICTORY")
+    observed_inputs: list[dict[str, str]] = []
+    for item in request["inputs"]:
+        relative = Path(item["path"])
+        if relative.is_absolute() or ".." in relative.parts or "." in relative.parts:
+            invalidators.append(f"{item['identity']}:MISSING")
+            continue
+        target = repo / relative
+        try:
+            resolved = target.resolve(strict=True)
+            info = os.lstat(target)
+            resolved.relative_to(repo)
+        except (OSError, RuntimeError, ValueError):
+            invalidators.append(f"{item['identity']}:MISSING")
+            continue
+        if target.absolute() != resolved or not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode):
+            invalidators.append(f"{item['identity']}:MISSING")
+            continue
+        actual = file_digest(resolved)
+        status = "CURRENT" if actual == item["digest"] else "STALE"
+        if status != "CURRENT":
+            invalidators.append(f"{item['identity']}:{status}")
+        observed_inputs.append({"identity": item["identity"], "path": relative.as_posix(), "digest": actual, "status": status})
+    current_paths = {item["path"] for item in observed_inputs if item["status"] == "CURRENT"}
+    argv = request["action"]["argv"]
+    executable = Path(argv[0]).name.lower()
+    if executable == "git" and len(argv) >= 4 and argv[1:3] == ["diff", "--"]:
+        for action_path in argv[3:]:
+            if action_path not in current_paths:
+                invalidators.append(f"action-input:{action_path}:MISSING")
+    if executable in {"sha256sum", "shasum"} and len(argv) == 2 and argv[1] not in current_paths:
+        invalidators.append("action-input:MISSING")
+    return sorted(invalidators), observed_inputs
+
+
+def executing_package_evidence(repo: Path, request: dict[str, Any]) -> tuple[dict[str, Any], dict[str, str]]:
+    skill_root = Path(__file__).resolve().parent.parent
+    source_paths = [
+        skill_root / "SKILL.md",
+        skill_root / "references" / "route-obligations.md",
+        Path(__file__).resolve(),
+        Path(__file__).resolve().with_name("claim-run.sh"),
+    ]
+    if mechanical_action_class(request["action"]["argv"]) == "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION":
+        source_paths.append(Path(request["action"]["argv"][1]).resolve())
+    package = {
+        "head": git(repo, "rev-parse", "HEAD"),
+        "tree": git(repo, "rev-parse", "HEAD^{tree}"),
+        "source_digests": {path.name: file_digest(path) for path in source_paths},
+    }
+    candidates = [
+        skill_root.parent / "audit-state" / "SKILL.md",
+        skill_root / "internal-procedures" / "audit-state.md",
+    ]
+    child = next((path for path in candidates if path.is_file()), None)
+    if child is None:
+        fail("exact audit-state child source is absent from the executing package")
+    child_source = {"identity": str(child.resolve()), "digest": file_digest(child.resolve())}
+    return package, child_source
+
+
+def evaluate(
+    repo: Path,
+    common: str,
+    args: argparse.Namespace,
+    current: dict[str, str],
+    request: dict[str, Any],
+) -> tuple[str, str, list[str], dict[str, Any], str, str, str | None]:
+    noncurrent, observed_inputs = request_observations(repo, request)
+    decision, classification, invalidators = classify(request, noncurrent)
+    package, child_source = executing_package_evidence(repo, request)
+    identity_seed = {
+        "request": request,
+        "controller_record_oid": current["controller_record_oid"],
+        "claim_id": current["claim_id"],
+        "continuity_receipt": current["continuity_receipt"],
+        "host_binding_generation": args.binding_generation,
+        "package": package,
+        "child_source": child_source,
+    }
+    transaction_id = digest_json({"kind": "transaction", "seed": identity_seed})
+    obligation_id = digest_json({"kind": "obligation", "seed": identity_seed}) if decision == "REQUIRED" else None
+    attributed = validate_binding(
+        repo,
+        common,
+        args,
+        current,
+        request,
+        obligation_id,
+        transaction_id if obligation_id else None,
+    )
+    evidence = {
+        "owner": {
+            "controller_record_oid": current["controller_record_oid"],
+            "claim_id": current["claim_id"],
+            "run_root": current["explicit_run_root"],
+        },
+        "authority": {
+            "continuity_generation": current["continuity_generation"],
+            "continuity_receipt": current["continuity_receipt"],
+        },
+        "effect": {
+            "action_identity": request["action"]["identity"],
+            "action_digest": request["action"]["digest"],
+            "derived_class": mechanical_action_class(request["action"]["argv"]),
+        },
+        "dependency": {
+            "host_binding_generation": args.binding_generation,
+            "host_correlation_id": attributed["correlation_id"],
+        },
+        "inputs": observed_inputs,
+        "package": package,
+        "child_source": child_source,
+    }
+    fingerprint = digest_json({"request": request, "mechanical_evidence": evidence})
+    return decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id
 
 
 def validate_binding(
@@ -384,9 +562,10 @@ def validate_binding(
 
 
 @contextlib.contextmanager
-def namespace_gate(repo: Path) -> Iterator[None]:
-    directory = repo / ".IMPLEMENTAUDIT" / ".r36-locks"
-    for candidate in (directory.parent, directory):
+def namespace_gate(common: str) -> Iterator[None]:
+    common_root = Path(common).resolve()
+    directory = common_root / "implementaudit-locks"
+    for candidate in (common_root, directory):
         if os.path.lexists(candidate):
             info = os.lstat(candidate)
             if (
@@ -396,7 +575,7 @@ def namespace_gate(repo: Path) -> Iterator[None]:
             ):
                 fail("governed-writer namespace custody is aliased or unsafe")
     directory.mkdir(parents=True, exist_ok=True)
-    gate = directory / "namespace.gate"
+    gate = directory / "route-obligations.gate"
     if not gate.exists():
         try:
             descriptor = os.open(gate, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
@@ -476,47 +655,52 @@ def common_args(parser: argparse.ArgumentParser) -> None:
 
 def command_check(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
-    oid, record = current_ref(repo, args.controller)
-    if oid is None or record is None:
-        fail("canonical route decision is absent")
-    if args.action_completed:
-        fail("route decision expired on action completion")
     request = read_request(args.request)
-    current = current_controller(repo, args.controller)
-    bound_context = {
-        "controller_id": args.controller,
-        "claim_id": current["claim_id"],
-        "explicit_run_root": current["explicit_run_root"],
-        "continuity_generation": current["continuity_generation"],
-        "continuity_receipt": current["continuity_receipt"],
-        "host_id": args.host_id,
-        "host_session_id": args.host_session_id,
-        "host_binding_generation": args.binding_generation,
-    }
-    for key, value in bound_context.items():
-        if record.get(key) != value:
-            fail(f"route decision expired because bound {key} changed", decision=record["decision"])
-    decision, classification, invalidators = classify(request)
-    fingerprint = digest_json(request)
-    if record.get("expiry_fingerprint") != fingerprint:
-        fail("route decision expired because its bound scope or evidence changed", decision=record["decision"])
-    if (decision, classification, invalidators) != (
-        record.get("decision"),
-        record.get("classification"),
-        record.get("invalidators"),
-    ):
-        fail("route decision no longer agrees with the current predicate", decision=record["decision"])
-    obligation_id = record.get("obligation_id")
-    transaction_id = record.get("route_transaction_id")
-    validate_binding(repo, common, args, current, request, obligation_id, transaction_id)
-    advance = record["decision"] == "NOT_REQUIRED"
+    with namespace_gate(common):
+        oid, record = current_ref(repo, args.controller)
+        if oid is None or record is None:
+            fail("canonical route decision is absent")
+        current = current_controller(repo, args.controller)
+        bound_context = {
+            "controller_id": args.controller,
+            "claim_id": current["claim_id"],
+            "explicit_run_root": current["explicit_run_root"],
+            "continuity_generation": current["continuity_generation"],
+            "continuity_receipt": current["continuity_receipt"],
+            "host_id": args.host_id,
+            "host_session_id": args.host_session_id,
+            "host_binding_generation": args.binding_generation,
+        }
+        for key, value in bound_context.items():
+            if record.get(key) != value:
+                fail(f"route decision expired because bound {key} changed", decision=record["decision"])
+        decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
+            repo, common, args, current, request
+        )
+        if record.get("expiry_fingerprint") != fingerprint:
+            fail("route decision expired because its bound scope or evidence changed", decision=record["decision"])
+        if (decision, classification, invalidators, transaction_id, obligation_id) != (
+            record.get("decision"),
+            record.get("classification"),
+            record.get("invalidators"),
+            record.get("route_transaction_id"),
+            record.get("obligation_id"),
+        ):
+            fail("route decision no longer agrees with the current predicate", decision=record["decision"])
+        final_oid, _ = current_ref(repo, args.controller)
+        final_current = current_controller(repo, args.controller)
+        final_eval = evaluate(repo, common, args, final_current, request)
+        if final_oid != oid or final_current != current or final_eval[4] != fingerprint:
+            fail("route decision changed during the currentness check", decision=record["decision"])
+        current_not_required = record["decision"] == "NOT_REQUIRED"
     emit(
         {
             "schema": RESULT_SCHEMA,
             "status": "CURRENT",
             "decision": record["decision"],
             "classification": record["classification"],
-            "advance_allowed": advance,
+            "advance_allowed": False,
+            "admission_required": current_not_required,
             "enforcement_available": True,
             "record_oid": oid,
             "record_identity": record["record_identity"],
@@ -532,27 +716,18 @@ def command_check(args: argparse.Namespace) -> None:
             "host_activation_proven": False,
         }
     )
-    if not advance:
+    if not current_not_required:
         raise SystemExit(3)
 
 
 def command_decide(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
     request = read_request(args.request)
-    decision, classification, invalidators = classify(request)
-    fingerprint = digest_json(request)
-    transaction_id = digest_json({"controller": args.controller, "fingerprint": fingerprint, "kind": "transaction"})
-    obligation_id = (
-        digest_json({"controller": args.controller, "fingerprint": fingerprint, "kind": "obligation"})
-        if decision == "REQUIRED"
-        else None
-    )
-    current = current_controller(repo, args.controller)
-    attributed = validate_binding(repo, common, args, current, request, obligation_id, transaction_id if obligation_id else None)
-    with namespace_gate(repo):
-        # Recheck both owners while holding the cooperating target-writer gate.
+    with namespace_gate(common):
         current = current_controller(repo, args.controller)
-        validate_binding(repo, common, args, current, request, obligation_id, transaction_id if obligation_id else None)
+        decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
+            repo, common, args, current, request
+        )
         old_oid, old = current_ref(repo, args.controller)
         expected = args.expected_record
         if expected == "none":
@@ -563,14 +738,22 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("route decision CAS expected record is stale", decision=old["decision"] if old else "PENDING")
         else:
             expected_oid = expected
-        if old and old.get("expiry_fingerprint") == fingerprint and old["decision"] == decision:
+        current_context_matches = bool(
+            old
+            and old.get("claim_id") == current["claim_id"]
+            and old.get("explicit_run_root") == current["explicit_run_root"]
+            and old.get("continuity_receipt") == current["continuity_receipt"]
+            and old.get("host_binding_generation") == args.binding_generation
+        )
+        if old and current_context_matches and old.get("expiry_fingerprint") == fingerprint and old["decision"] == decision:
             emit(
                 {
                     "schema": RESULT_SCHEMA,
                     "status": "DECIDED",
                     "decision": decision,
                     "classification": classification,
-                    "advance_allowed": decision == "NOT_REQUIRED",
+                    "advance_allowed": False,
+                    "admission_required": decision == "NOT_REQUIRED",
                     "enforcement_available": True,
                     "record_oid": old_oid,
                     "record_identity": old["record_identity"],
@@ -580,6 +763,14 @@ def command_decide(args: argparse.Namespace) -> None:
                 }
             )
             return
+        if (
+            old
+            and current_context_matches
+            and old.get("decision") == "PENDING"
+            and old.get("invalidators") == ["action-completion"]
+            and old.get("expiry_fingerprint") == fingerprint
+        ):
+            fail("the exact action receipt was consumed; change the action or scope before reclassification")
         if old and old["decision"] == "REQUIRED" and old.get("route_state") == "UNSATISFIED":
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
         record_base: dict[str, Any] = {
@@ -593,14 +784,14 @@ def command_decide(args: argparse.Namespace) -> None:
             "host_id": args.host_id,
             "host_session_id": args.host_session_id,
             "host_binding_generation": args.binding_generation,
-            "host_correlation_id": attributed["correlation_id"],
+            "host_correlation_id": evidence["dependency"]["host_correlation_id"],
             "boundary": request["boundary"],
             "scope": request["scope"],
             "action": request["action"],
-            "evidence": request["evidence"],
-            "inputs": request["inputs"],
-            "package": request["package"],
-            "child_source": request["child_source"],
+            "evidence": {key: evidence[key] for key in ("owner", "authority", "effect", "dependency")},
+            "inputs": evidence["inputs"],
+            "package": evidence["package"],
+            "child_source": evidence["child_source"],
             "decision": decision,
             "classification": classification,
             "invalidators": invalidators,
@@ -611,6 +802,7 @@ def command_decide(args: argparse.Namespace) -> None:
             "obligation_id": obligation_id,
             "route_state": "UNSATISFIED" if decision == "REQUIRED" else None,
             "child_lifecycle_owned": False,
+            "consumed_record_oid": None,
         }
         record = {**record_base, "record_identity": digest_json(record_base)}
         raw = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
@@ -622,15 +814,10 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("route decision CAS lost the current-record race", decision=decision)
         try:
             post_current = current_controller(repo, args.controller)
-            validate_binding(
-                repo,
-                common,
-                args,
-                post_current,
-                request,
-                obligation_id,
-                transaction_id if obligation_id else None,
-            )
+            post_eval = evaluate(repo, common, args, post_current, request)
+            post_oid, _ = current_ref(repo, args.controller)
+            if post_current != current or post_eval[4] != fingerprint or post_oid != new_oid:
+                fail("route decision currentness changed during CAS", decision=decision)
         except SystemExit:
             # Compensate a currentness race only if this exact write is still
             # current. A lost compensation race leaves a stale record that all
@@ -649,7 +836,8 @@ def command_decide(args: argparse.Namespace) -> None:
             "status": "DECIDED",
             "decision": decision,
             "classification": classification,
-            "advance_allowed": decision == "NOT_REQUIRED",
+            "advance_allowed": False,
+            "admission_required": decision == "NOT_REQUIRED",
             "enforcement_available": True,
             "record_oid": new_oid,
             "record_identity": record["record_identity"],
@@ -671,6 +859,79 @@ def command_decide(args: argparse.Namespace) -> None:
     )
 
 
+def command_consume(args: argparse.Namespace) -> None:
+    repo, _, common = repo_context()
+    request = read_request(args.request)
+    with namespace_gate(common):
+        old_oid, old = current_ref(repo, args.controller)
+        if old_oid is None or old is None or args.expected_record != old_oid:
+            fail("action-consumption CAS expected record is stale")
+        if old["decision"] != "NOT_REQUIRED":
+            fail("only a current NOT_REQUIRED action receipt can be consumed", decision=old["decision"])
+        current = current_controller(repo, args.controller)
+        decision, classification, invalidators, evidence, fingerprint, _, _ = evaluate(
+            repo, common, args, current, request
+        )
+        if (
+            decision != "NOT_REQUIRED"
+            or classification != "MECHANICALLY_NOT_REQUIRED"
+            or invalidators
+            or old.get("expiry_fingerprint") != fingerprint
+            or old.get("claim_id") != current["claim_id"]
+            or old.get("continuity_receipt") != current["continuity_receipt"]
+            or old.get("host_binding_generation") != args.binding_generation
+        ):
+            fail("action receipt is stale and cannot be consumed", decision=old["decision"])
+        successor_base = {
+            **{key: value for key, value in old.items() if key != "record_identity"},
+            "decision": "PENDING",
+            "classification": "JUDGEMENT_REQUIRED",
+            "invalidators": ["action-completion"],
+            "predecessor_record_oid": old_oid,
+            "route_transaction_id": digest_json(
+                {
+                    "kind": "action-consumption",
+                    "record_oid": old_oid,
+                    "fingerprint": fingerprint,
+                    "controller_record_oid": current["controller_record_oid"],
+                    "continuity_receipt": current["continuity_receipt"],
+                    "host_binding_generation": args.binding_generation,
+                }
+            ),
+            "obligation_id": None,
+            "route_state": None,
+            "consumed_record_oid": old_oid,
+            "host_correlation_id": evidence["dependency"]["host_correlation_id"],
+        }
+        successor = {**successor_base, "record_identity": digest_json(successor_base)}
+        raw = json.dumps(successor, sort_keys=True, separators=(",", ":")) + "\n"
+        new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
+        completed = subprocess.run(
+            ["git", "update-ref", ref_name(args.controller), new_oid, old_oid],
+            cwd=repo,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if completed.returncode:
+            fail("action-consumption CAS lost the current-record race")
+        final_oid, _ = current_ref(repo, args.controller)
+        if final_oid != new_oid:
+            fail("consumed action record is not current")
+    emit(
+        {
+            "schema": RESULT_SCHEMA,
+            "status": "ADMITTED_ONCE",
+            "decision": "PENDING",
+            "advance_allowed": True,
+            "enforcement_available": True,
+            "record_oid": new_oid,
+            "record_identity": successor["record_identity"],
+            "consumed_record_oid": old_oid,
+        }
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -680,8 +941,11 @@ def parse_args() -> argparse.Namespace:
     decide.set_defaults(run=command_decide)
     check = subparsers.add_parser("check")
     common_args(check)
-    check.add_argument("--action-completed", action="store_true")
     check.set_defaults(run=command_check)
+    consume = subparsers.add_parser("consume")
+    common_args(consume)
+    consume.add_argument("--expected-record", required=True)
+    consume.set_defaults(run=command_consume)
     return parser.parse_args()
 
 

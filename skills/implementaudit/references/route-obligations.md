@@ -19,6 +19,14 @@ edit cannot mint or satisfy the decision.
   `EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION`, `SAFE_STATUS_OR_CONTAINMENT`, or
   `EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION`.
 
+The request is an action proposal, never its own evidence. It cannot supply
+`CURRENT` assertions. The helper rehashes each repository-relative input,
+derives the action class from a closed exact-argv recognizer, reads the current
+controller record and continuity receipt, validates the exact H0 event, and
+hashes the live HEAD/tree, executing route sources and exact child source.
+Missing, mismatched, aliased or fabricated evidence stays `PENDING` or maps to
+`REQUIRED`; caller-selected class labels cannot mint the cheap path.
+
 The mechanically-not-required predicate also requires the exact current H0
 host/session binding; current controller, claim, run, continuity generation and
 receipt; exact boundary, scope, action and action class; current owner,
@@ -30,15 +38,22 @@ stale or contradictory input; and no active same-controller obligation.
 
 The canonical record is an immutable Git blob selected by
 `refs/implementaudit/route-decisions/<controller>`. Every decision write is an
-expected-old `git update-ref` CAS under the shared governed-writer namespace
-gate. The record binds the predicate version, H0 binding generation,
+expected-old `git update-ref` CAS under a lock in the shared Git-common
+namespace, followed by current ref/controller/binding rechecks. The record binds
+the predicate version, H0 binding generation,
 controller/claim/run/continuity, boundary, scope, exact action/class,
 owner/authority/effect/dependency evidence, canonical inputs and digests,
 package and child-source identities, predecessor, classification, outcome,
 expiry fingerprint and current record identity.
 
-`NOT_REQUIRED` is a scoped receipt, not a global exemption. It expires on
-action completion or any next-action, scope, read-set, binding, continuity,
+`NOT_REQUIRED` is a scoped one-shot receipt, not a global exemption. `decide`
+and `check` never authorize execution directly: immediately before the exact
+action, `consume --expected-record <oid>` performs a second CAS to a canonical
+`PENDING` successor and returns the sole `ADMITTED_ONCE` authorization. The
+consumed fingerprint cannot be re-minted, so omission or replay cannot retain
+authority. This conservative action-admission consumption is not H2B child
+completion. The receipt also
+expires on any next-action, scope, read-set, binding, continuity,
 package, child-source, owner, authority, dependency, effect, contradiction,
 invalidation or scope-expansion change. Re-run `check` immediately before the
 bound action. Independent work outside the bound controller/scope is not
