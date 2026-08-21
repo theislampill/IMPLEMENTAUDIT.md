@@ -768,6 +768,7 @@ bash tests/e2e-mini-audit-loop.test.sh
 bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
 bash tests/action-selection-contract.test.sh
+bash tests/work-graph-compiler.test.sh
 bash tests/fanout-coverage-contract.test.sh
 bash tests/cold-review-contract.test.sh
 bash tests/claim-boundary-proof-levels.test.sh

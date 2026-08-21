@@ -102,6 +102,23 @@ reset_sandbox
 rm "$tmp_root/skills/implementaudit/scripts/compile-work-graph.py"
 expect_fail "canonical WORK_GRAPH compiler helper removed"
 
+# Declared-hold validation is bounded transcription, not a completeness oracle.
+reset_sandbox
+grep -v "cannot attest undeclared relationships" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "declared-hold authority boundary removed from dispatch owner"
+
+reset_sandbox
+grep -v "does not attest undeclared relationships" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "declared-hold authority boundary removed from planning owner"
+
 # 3. Keyword-freedom clause removed from the contract -> must fail.
 reset_sandbox
 grep -v "Depth never requires an activation keyword" \

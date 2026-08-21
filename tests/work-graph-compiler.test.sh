@@ -84,21 +84,6 @@ if projection != expected:
         + json.dumps(projection, indent=2, sort_keys=True)
     )
 
-# The duplicate narrative is deliberately not compiler input. It contradicts
-# canonical WORK_GRAPH, but cannot overwrite or merge into graph authority.
-with tempfile.TemporaryDirectory() as temp_dir:
-    state_path = pathlib.Path(temp_dir, "STATE.md")
-    state_path.write_text("| A | DONE | duplicate narrative only |\n", encoding="utf-8")
-    if "| A | DONE |" not in state_path.read_text(encoding="utf-8"):
-        raise SystemExit("narrative contradiction fixture is missing")
-    if projection["active"] != ["A"] or projection["counts"]["ACTIVE"] != 1:
-        raise SystemExit("narrative STATE overrode canonical WORK_GRAPH")
-    print(
-        "work-graph-compiler.test: contradiction retained: "
-        "STATE A=DONE; WORK_GRAPH A=ACTIVE"
-    )
-
-
 def expect_reject(raw, label, message_fragment):
     try:
         module.compile_frontier_projection(raw)
@@ -143,13 +128,44 @@ missing_holds = copy.deepcopy(base)
 del missing_holds["serialization_groups"]
 expect_reject(canonical(missing_holds), "missing holds", "serialization_groups")
 
+no_holds = copy.deepcopy(base)
+no_holds["serialization_groups"] = {}
+no_hold_projection = module.compile_frontier_projection(canonical(no_holds))
+if no_hold_projection["writer_holds"] != {} or no_hold_projection["resource_holds"] != {}:
+    raise SystemExit("honest no-hold graph did not project empty hold maps")
+
+empty_group = copy.deepcopy(base)
+empty_group["serialization_groups"]["W_EMPTY"] = []
+expect_reject(canonical(empty_group), "empty declared hold", "non-empty array")
+
+duplicate_holder = copy.deepcopy(base)
+duplicate_holder["serialization_groups"]["W_ROUTE"].append("A")
+expect_reject(canonical(duplicate_holder), "duplicate declared hold", "duplicate cell")
+
 unknown_holder = copy.deepcopy(base)
 unknown_holder["serialization_groups"]["W_ROUTE"].append("MISSING")
 expect_reject(canonical(unknown_holder), "unknown hold", "unknown cell")
 
+unknown_hold_kind = copy.deepcopy(base)
+unknown_hold_kind["serialization_groups"]["X_OTHER"] = ["A"]
+expect_reject(canonical(unknown_hold_kind), "unknown hold kind", "unknown hold kind")
+
 stale = copy.deepcopy(graph)
 stale["digest"] = "0" * 64
 expect_reject(canonical(stale), "stale digest", "stale digest")
+
+stale_signed_omission = copy.deepcopy(graph)
+del stale_signed_omission["serialization_groups"]["R_BROWSER"]
+expect_reject(
+    canonical(stale_signed_omission),
+    "stale signed hold omission",
+    "stale digest",
+)
+
+if projection["writer_holds"] != {"W_ROUTE": ["A", "R"]}:
+    raise SystemExit("declared writer holds were not projected losslessly")
+if projection["resource_holds"] != {"R_BROWSER": ["A", "B"]}:
+    raise SystemExit("declared resource holds were not projected losslessly")
 
 shuffled = copy.deepcopy(base)
 shuffled["cells"] = list(reversed(shuffled["cells"]))
@@ -163,18 +179,68 @@ if module.compile_frontier_projection(canonical(signed_graph(shuffled))) != proj
 with tempfile.TemporaryDirectory() as temp_dir:
     graph_path = pathlib.Path(temp_dir, "WORK_GRAPH.json")
     graph_path.write_bytes(canonical(graph))
-    completed = subprocess.run(
-        [sys.executable, str(module_path), str(graph_path)],
-        check=False,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+    state_path = pathlib.Path(temp_dir, "STATE.md")
+    state_path.write_text("| A | DONE | duplicate narrative only |\n", encoding="utf-8")
+    mutant_path = pathlib.Path(temp_dir, "adjacent-state-mutant.py")
+    mutant_path.write_text(
+        """import json
+import pathlib
+import subprocess
+import sys
+
+compiler, graph = sys.argv[1:]
+completed = subprocess.run(
+    [sys.executable, compiler, graph],
+    check=True,
+    stdout=subprocess.PIPE,
+)
+projection = json.loads(completed.stdout)
+state = pathlib.Path(graph).with_name("STATE.md").read_text(encoding="utf-8")
+if "| A | DONE |" in state:
+    projection["active"] = []
+    projection["counts"]["ACTIVE"] = 0
+    projection["counts"]["DONE"] += 1
+sys.stdout.write(json.dumps(projection, sort_keys=True, separators=(",", ":")))
+""",
+        encoding="utf-8",
     )
-    if completed.returncode != 0:
-        raise SystemExit("CLI rejected valid graph: " + completed.stderr.decode())
-    if completed.stdout != canonical(expected):
-        raise SystemExit("CLI output is not exact canonical projection bytes")
-    if completed.stderr:
-        raise SystemExit("CLI emitted stderr on success")
+
+    def assert_cli_projection(command, label):
+        completed = subprocess.run(
+            command,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        if completed.returncode != 0:
+            raise AssertionError(f"{label}: CLI rejected graph: " + completed.stderr.decode())
+        if completed.stdout != canonical(expected):
+            raise AssertionError(f"{label}: CLI output is not exact canonical projection bytes")
+        if completed.stderr:
+            raise AssertionError(f"{label}: CLI emitted stderr on success")
+
+    assert_cli_projection(
+        [sys.executable, str(module_path), str(graph_path)],
+        "canonical compiler with adjacent narrative",
+    )
+    try:
+        assert_cli_projection(
+            [
+                sys.executable,
+                str(mutant_path),
+                str(module_path),
+                str(graph_path),
+            ],
+            "adjacent-state mutant",
+        )
+    except AssertionError:
+        pass
+    else:
+        raise SystemExit("adjacent-state mutant was not rejected")
+    print(
+        "work-graph-compiler.test: contradiction retained: "
+        "STATE A=DONE; WORK_GRAPH A=ACTIVE; adjacent-state mutant rejected"
+    )
 
 print("work-graph-compiler.test: ok")
 PY

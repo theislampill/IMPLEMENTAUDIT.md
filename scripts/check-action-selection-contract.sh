@@ -98,6 +98,10 @@ for text in \
   "Use deterministic tooling, not model estimates" \
   "Compile the bounded frontier projection" \
   'canonical `WORK_GRAPH.json` bytes' \
+  "declared writer/resource hold index" \
+  "honest no-hold graph declares" \
+  "cannot attest undeclared relationships" \
+  "upstream graph construction, review, and currentness" \
   "Narrative STATE/ROADMAP prose" \
   "never compiler input" \
   "An unchanged reminder or status" \
@@ -110,7 +114,10 @@ for text in \
   "derive the bounded ready-cell projection" \
   "compile-work-graph.py" \
   "stale counts/digests" \
-  "missing writer/resource holds" \
+  "absent or malformed declared" \
+  "writer/resource hold index" \
+  'Empty `{}` truthfully means' \
+  "does not attest undeclared relationships" \
   "instead of reconstructing authority from narrative STATE"
 do
   require "$depth_ref" "$text"
