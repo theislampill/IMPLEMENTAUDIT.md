@@ -166,6 +166,57 @@ or recursive archive population. They are outside live discovery and cannot
 resolve as a current projection. Storage-budget excess remains an owner
 decision; F2 provides no archive deletion path.
 
+## History population and bounded hot projection
+
+Task 5 adds a non-destructive migration classifier over the exact legacy
+`STATE.md` and `ROADMAP.md` preimages. Its fixture declares every ordered
+top-level section and every literal row/record partition in a mixed section.
+The classifier does not guess from a heading allowlist, status vocabulary, or
+paragraph heuristic. It parses the declared Markdown table boundary, requires
+the complete row population in fixture order, and emits contiguous byte ranges
+from byte zero through end of file. An unknown/missing/reordered section,
+unmatched row, duplicate literal rule, overlap, gap, empty range, changed source
+slice, or invalid derivation pointer is STOP.
+
+Every classified byte range has exactly one class:
+
+- `HOT_CURRENT`: still-open state or currently applicable instruction;
+- `HOT_POINTER`: current source, graph, generation, archive, or query custody;
+- `COLD_HISTORY`: a closed/resolved/prior/satisfied/completed record;
+- `ON_DEMAND_EVIDENCE`: completed detail that is needed only for a bounded
+  history inspection; or
+- `DUPLICATE_DERIVABLE`: a deterministic projection with an exact canonical
+  source/derivation pointer. This class cannot conceal a history row.
+
+`enumerate_legacy_history_v1` returns every `COLD_HISTORY` and
+`ON_DEMAND_EVIDENCE` range in source and byte order. `LegacyRecord` identity
+binds source name, heading, kind, ordinal, exact byte range, and SHA-256 of the
+unchanged source bytes. `verify_migration_equivalence_v1` rejects duplicate
+source or destination identity and requires exact set equality between every
+removed `(legacy_record_id, legacy_source_digest)` pair and every queryable
+immutable event payload. It also rechecks each event ID and segment digest.
+Missing, extra, duplicated, malformed, or unqueryable destination events fail;
+attempt success or aggregate counts alone are not equivalence. The population
+digest is SHA-256 over canonical JSON for the lexicographically sorted complete
+pair population.
+
+`derive_hot_state_v1` and `derive_hot_roadmap_v1` accept only typed native
+current fields, the exact `WORK_GRAPH.json` digest/projection, and typed
+generation/archive/query custody. Their deterministic UTF-8 renderings are
+bounded to 4096 bytes each and retain only current/open abnormalities,
+applicable instructions, active graph nodes, and exact custody pointers. Closed
+history is absent from hot Markdown but remains reachable through the immutable
+event population and exact archive. The canonical templates carry the same hot
+shape; they are not a second history ledger.
+
+Task 5 reads existing preimages, archive custody, event identities, and the
+current WORK_GRAPH digest. It does not delete or rewrite a preimage/archive,
+publish a current-generation pointer, create a migration marker or receipt,
+mutate continuity refs, change WORK_GRAPH lifecycle, invoke ActiveGraph, or
+perform Task-6 currentness behavior. R0011 retains receipt/currentness authority,
+R0033 retains route authority, R0035 retains WORK_GRAPH lifecycle authority, and
+the generic migration core has no ActiveGraph import or dependency.
+
 ## Failure and later-cell boundary
 
 Unsafe path, symlink/reparse custody, permission drift, source race, malformed

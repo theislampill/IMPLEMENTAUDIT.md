@@ -2,6 +2,10 @@
 
 Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`
 
+This is the bounded hot projection. Keep only current/open records and custody
+pointers here. Closed history and detailed evidence remain queryable through the
+current immutable generation and its exact archive.
+
 ## Current phase
 
 | Field | Value |
@@ -19,151 +23,59 @@ Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`
 | Authorization state | no commit / no push / no tag / no release / no provenance unless separately authorized |
 
 Status values: `open` / `READY_TO_DISPATCH` / `IN_PHASE` / `PAUSED` /
-`BLOCKED` / `INTERRUPTED` / `DONE`. Use these exact tokens; do not invent
-run-state vocabulary.
+`BLOCKED` / `INTERRUPTED` / `DONE`.
 
 ## Audit object state
 
 Audit object / record / surface:
 
-Mnemonic: tdqyq-audit-object
-
-Audit object produced/updated by:
-
 Latest auditing operation:
-
-Mnemonic: ydqyq-audit-action
-
-Implementation action against object:
-
-Final auditing operation:
 
 Terminal closure condition:
 
 Handoff state, if any:
 
-Graphify status:
-
-ActiveGraph status:
-
-Markdown fallback:
-
-Capability Ledger:
-
 ## Runtime artifacts
+
+Record only current artifact pointers and status.
 
 | Artifact | Status | Notes |
 |---|---|---|
 | `<run-root>/ROADMAP.md` | open |  |
 | `<run-root>/STATE.md` | open |  |
-| `<run-root>/THINKING.md` | open |  |
 | `<run-root>/PROTOCOL.md` | open |  |
-| `<run-root>/context.md` | open |  |
-| `<run-root>/tools.md` | open |  |
-| `<run-root>/sidecars.md` | open |  |
-| `<run-root>/applied-context.md` or `<run-root>/applied-memories.md` | open |  |
-| `<run-root>/repo-map.md` for brownfield | open |  |
-| `<run-root>/phases/phase-N.md` | open |  |
+| `<run-root>/WORK_GRAPH.json` | open | authoritative DAG; record exact digest |
+| `<run-root>/state-generations/<generation>/` | open | immutable history/query custody |
 
 ## Ledger
+
+Open findings only. Closed rows migrate to immutable events and are queried on
+demand rather than retained here.
 
 | # | Finding | Priority | Action | Status | Evidence | Depends on | Follow-up |
 |---|---|---:|---|---|---|---|---|
 
-Evidence cells for newly recorded rows include the anchor
-`@<full-40-hex-sha>` of the commit the evidence was captured at (legacy
-rows without anchors remain valid). An artifact anchored to a different
-state is never substituted for current-state evidence.
-
-New external-state rows use the canonical prefixes `external-kind`,
-`external-mutation-record`, `artifact-identity`, `collision-receipt`, and
-`external-evidence`; legacy rows that do not opt in remain valid. Keep content
-identity in the same ledger row as its human-readable name:
-
-```text
-artifact-identity: <case-sensitive-trimmed-name> | sha256: <64-lowercase-hex>
-collision-receipt: <same-name> | hashes: <complete-comma-separated-hash-set> | reason: <nonempty>
-external-evidence: <id> | bytes: <nonnegative-integer> | mtime: <RFC3339-UTC-whole-second> | liveness: snapshot|terminal | still-producing: true|false | use: orientation|terminal | closure-bytes: <integer|none> | closure-mtime: <timestamp|none>
-```
-
-Same-name distinct-hash artifacts require one exact collision receipt.
-Terminal external evidence requires a matching closure re-stat; a
-still-producing snapshot supports orientation only.
-
 ## Andon log
 
-One row per ANDON_PROBE, ANDON_ESCALATE, or ANDON_HANDOFF event. `Class` is
-exactly one official abnormality class from
-`references/transcript-contract.md` §Andon escalation markers. One class
-per row; one or more linked rows per occurrence: a single occurrence that
-carries several independent defects records one row per class, sharing the
-same `Occ` id (short occurrence id, e.g. `o1`), so co-occurring defects
-keep their linkage and each remedy is tracked to closure.
-ANDON_ESCALATE cites prior same-class rows by `#` before claiming
-recurrence (per-class citation semantics unchanged by linkage).
-There is no row-count limit: escalation is driven by same-class recurrence and
-blocked closure, never by how many rows exist.
+Open reruns, escalations, and handoff conditions only. One abnormality class per
+row; linked defects share an `Occ` id.
 
 | # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |
 |---|---|---|---|---|---|---|---|
-
-Outcome values: `resolved` / `escalated (cites #N)` / `blocked (handoff condition)` /
-`open (rerun pending)`.
 
 ## Occurrence resolution and residuals
 
 Occurrence resolution: not-applicable
 
-(Values: `not-applicable` / `unresolved` / `partially-resolved` /
-`resolved`. Route-sufficient rule: established hazard + admissible safe
-route => contain first, record `partially-resolved` with named residual
-rows — not a failure, not closure.)
-
-One row per residual. Disposition values: `unresolved` / `deferred` /
-`transferred` (name the receiving owner) / `owner-assigned` /
-`risk-accepted` (cite the policy) / `validated-resolved` /
-`SUPERSEDED_BY_CONCURRENT_MUTATION` (closure re-anchor proves the finding's
-target changed). AUDIT_COMPLETE
-requires every consequential residual to carry a non-`unresolved`
-disposition, and completion language claims audit-completion only.
-
-Decision-time deferrals are appended immediately to sibling
-`deferrals.jsonl` using the canonical PROTOCOL order. Print that file verbatim
-at phase end. Its rows point into this table, which remains the single closure
-surface; a `pending` or `unresolved` row blocks closure, and only owner or
-policy authority assigns a terminal disposition.
-
-Cross-run routing: a stable repo-defect residual identity first seen here adds
-no ceremony. On its second independent run/PR occurrence, Owner/policy ref
-must name a durable tracker or `owner-refusal:<source>`.
-
-Final closure checker inputs:
-
-- Superseded plans: none
-- Cycle-accounted plans: none
-- Steer directory: `<run-root>`
-
-Replace `none` with every applicable path and pass the same paths through the
-canonical PROTOCOL final-audit invocation. This table is an inventory, not a
-substitute for executing the checker with those arguments.
+Keep unresolved or otherwise consequential current residuals only. A terminal
+row is represented by its immutable event and exact history-query pointer.
 
 | Residual | Consequential | Disposition | Owner / policy ref | Evidence |
 |---|---|---|---|---|
 
 ## Execution identity
 
-Legacy roots may omit this row. New phases record the canonical sibling-harness
-names; `executing_model_resolved` and reviewer requested/resolved prose map to
-these names and are not additional fields:
-
-```text
-schema: model-identity: requested_model: <model> | actual_model: <model> | evidence: self-report|host-event:<id> | claims: bound|IDENTITY_UNBOUND
-```
-
-A mismatch requires `claims: IDENTITY_UNBOUND` and an Andon row whose class is
-`transport-infrastructure`; that row's evidence cell equals the identity row's
-`self-report` or `host-event:<id>` value. Re-produce or re-verify those claims
-under the requested identity before marking them bound.
+Current execution identity pointer:
 
 ## Context epochs and instruction applicability
 
@@ -177,39 +89,18 @@ Migration marker: absent
 
 Current continuity receipt: none
 
-For a migrated run, replace the four identity values together from the exact
-marker + pointer + v3-receipt join. A partial or mixed identity is STOP and
-never authorizes root fallback.
-
-One row per continuity boundary (see `references/continuity.md` and
-PROTOCOL.md §Continuity boundaries). Provenance is exactly one of:
-`host-reported-compaction` / `new-session` / `handoff-resume` /
-`manual-resume` / `inferred-context-gap` — never a fabricated compaction.
-At most one writer claims a new epoch. Legacy run roots without this
-section remain valid; new epochs after the feature version require it.
+The four identity values above move together. Partial or mixed migrated state is
+STOP and cannot fall back to root-v2.
 
 | Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |
 |---|---|---|---|---|---|
 
-One row per continuity-critical instruction. Kind: `one-shot-action` /
-`standing-constraint` / `standing-authorization` / `persistent-objective` /
-`query-or-information-request`. Status: `active` / `satisfied` /
-`superseded` / `revoked` / `expired` / `ambiguous`. Only a one-shot action
-normally becomes `satisfied`; standing constraints/authorizations survive
-until revoked/superseded/expired or their declared scope ends. Reference
-is a source event id / content hash — never raw conversation text.
-
-At intake, preserve each owner grant verbatim in `authorization-record.md`
-with `source`, `issued_at`, `grant_quote`, `scope`, `lifecycle`, `action`,
-`binds`, and any bound parameter values. Add its active
-`standing-authorization` row below:
-Reference names the source and Status evidence names the record path. Derive
-Local git trace `yes` values only from these active source-bound rows. Before a
-handoff asks for permission, reread the rows and record; a packet grant plus
-empty/default-deny rows is an intake defect and must be reconciled locally.
+Only the current epoch stays hot; prior epochs remain immutable query records.
 
 | Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |
 |---|---|---|---|---|---|---|---|---|---|
+
+Only active, ambiguous, or otherwise still-applicable instructions stay hot.
 
 ## AGENTS_UPDATE_DECISION
 
@@ -221,8 +112,6 @@ Scope:
 
 Evidence location:
 
-Final audit rule: this must be `updated`, `not warranted`, or `OWNER DECISION` before `IMPLEMENTAUDIT_RUN_COMPLETE`.
-
 ## CONTINUITY_DECISION
 
 Status: pending
@@ -232,8 +121,6 @@ Reason:
 Destination: none / AGENTS.md / memory note / OWNER DECISION
 
 Evidence boundary:
-
-Final audit rule: this must be `none`, `updated`, `deferred`, or `OWNER DECISION` before `IMPLEMENTAUDIT_RUN_COMPLETE`.
 
 ## Local git trace
 
@@ -245,4 +132,5 @@ Tag/release/publication/provenance authorized: no
 
 ## Run terminal disposition
 
-Append the emitted terminal marker as the final nonblank line of this file.
+Append the emitted terminal marker as the final nonblank line when the current
+run becomes terminal. Closed detail remains in immutable event/archive custody.

@@ -1,0 +1,134 @@
+{
+  "schema": "implementaudit.history-population-cases.v1",
+  "legacy_preimage_commit": "0d91ecca8f5bc86a8c4e32c57137fcfb1e0a17d5",
+  "legacy_preimage_sha256": {
+    "STATE.md": "848e3de85aa3df714d65f034cb42337bc0e935505239aea3fdf9479cff9acef4",
+    "ROADMAP.md": "f99168751c000e44e6336fd68b5acce063215dcd4826042327562255d4fb3fea"
+  },
+  "expected_source_record_counts": {
+    "STATE.md": 28,
+    "ROADMAP.md": 21
+  },
+  "expected_class_counts": {
+    "HOT_CURRENT": 27,
+    "HOT_POINTER": 10,
+    "COLD_HISTORY": 7,
+    "ON_DEMAND_EVIDENCE": 2,
+    "DUPLICATE_DERIVABLE": 3
+  },
+  "expected_removed_class_counts": {
+    "COLD_HISTORY": 7,
+    "ON_DEMAND_EVIDENCE": 2
+  },
+  "expected_removed_rows": [
+    {
+      "source_name": "STATE.md",
+      "heading": "## Ledger",
+      "record_kind": "finding.closed",
+      "source_line": "| 2 | Closed historical finding | P2 | fixed | validated-resolved | immutable-event | - | none |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Andon log",
+      "record_kind": "andon.closed",
+      "source_line": "| 2 | o2 | archive | evidence-mismatch | prior archive mismatch | corrected manifest | exact readback | resolved |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Occurrence resolution and residuals",
+      "record_kind": "residual.terminal",
+      "source_line": "| closed migration residual | yes | validated-resolved | R0039 | immutable-event |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Context epochs and instruction applicability",
+      "record_kind": "epoch.closed",
+      "source_line": "| G0001 | new-session | 2000-01-01T00:00:00Z | archived-preimage | yes | prior epoch |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Context epochs and instruction applicability",
+      "record_kind": "instruction.satisfied",
+      "source_line": "| i2 | event:satisfied | one-shot-action | owner | capture baseline | G0001 | satisfied | immutable-event | - | completed |"
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Action selection",
+      "record_kind": "transition.closed",
+      "source_line": "Completed action-selection evidence: historical deep-route choice."
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Planning evidence",
+      "record_kind": "artifact.historical",
+      "source_line": "Completed planning evidence: historical cold-review packet."
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Phases",
+      "record_kind": "phase.completed",
+      "source_line": "| 0 | archive preimages | R0039 | - | pass | pass | PASS | DONE |"
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Scope-creep register",
+      "record_kind": "finding.closed",
+      "source_line": "| 2 | resolved scope creep | archive | excluded | resolved |"
+    }
+  ],
+  "negative_cases": [
+    "unknown-section",
+    "unmatched-row",
+    "overlapping-rule",
+    "removed-without-event",
+    "duplicate-source-record",
+    "duplicate-destination-event",
+    "unqueryable-event"
+  ],
+  "native_current": {
+    "controller_id": "migration-controller",
+    "run_id": "hot-state-migration-fixture",
+    "phase": "R39-F6",
+    "status": "open",
+    "audit_object_state": "open",
+    "next_action": "verify immutable migration population",
+    "current_epoch": "G0002",
+    "open_abnormalities": [
+      "open population gap"
+    ],
+    "active_instructions": [
+      "preserve exact preimages",
+      "do not publish migration pointers"
+    ]
+  },
+  "graph_projection": {
+    "work_graph_path": "WORK_GRAPH.json",
+    "work_graph_digest": "a37bf1b0fdc26f7f945a49e9447ab74015aac576bd0a22e45c41fda83b9ee9cc",
+    "active_nodes": [
+      "R39-F6"
+    ]
+  },
+  "custody_pointer": {
+    "current_generation_ref": "refs/implementaudit/current-generations/migration-controller",
+    "pointer_oid": "1111111111111111111111111111111111111111",
+    "manifest_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+    "archive_ref": "refs/implementaudit/state-archives/migration-controller/g0001",
+    "archive_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+    "history_query": "implementaudit history query --generation G0002"
+  },
+  "hot_projection_limits": {
+    "STATE.md": 4096,
+    "ROADMAP.md": 4096
+  },
+  "forbidden_closed_history": [
+    "Closed historical finding",
+    "prior archive mismatch",
+    "closed migration residual",
+    "prior epoch",
+    "capture baseline",
+    "historical deep-route choice",
+    "historical cold-review packet",
+    "archive preimages",
+    "resolved scope creep"
+  ]
+}

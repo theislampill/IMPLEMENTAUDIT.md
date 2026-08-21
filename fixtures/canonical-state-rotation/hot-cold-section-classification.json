@@ -1,0 +1,281 @@
+{
+  "schema": "implementaudit.hot-cold-section-classification.v1",
+  "classes": [
+    "HOT_CURRENT",
+    "HOT_POINTER",
+    "COLD_HISTORY",
+    "ON_DEMAND_EVIDENCE",
+    "DUPLICATE_DERIVABLE"
+  ],
+  "sources": {
+    "STATE.md": {
+      "sections": [
+        {
+          "heading": "# IMPLEMENTAUDIT State",
+          "classification": "DUPLICATE_DERIVABLE",
+          "record_kind": "template.identity",
+          "derivation_pointer": "template:skills/implementaudit/templates/STATE.md#runtime-copy-target"
+        },
+        {
+          "heading": "## Current phase",
+          "classification": "HOT_CURRENT",
+          "record_kind": "state.current"
+        },
+        {
+          "heading": "## Audit object state",
+          "classification": "HOT_CURRENT",
+          "record_kind": "audit-object.current"
+        },
+        {
+          "heading": "## Runtime artifacts",
+          "classification": "HOT_POINTER",
+          "record_kind": "artifact.pointer"
+        },
+        {
+          "heading": "## Ledger",
+          "classification": "HOT_CURRENT",
+          "record_kind": "finding.current",
+          "tables": [
+            {
+              "header": "| # | Finding | Priority | Action | Status | Evidence | Depends on | Follow-up |",
+              "delimiter": "|---|---|---:|---|---|---|---|---|",
+              "rows": [
+                {
+                  "source_line": "| 1 | Active discrepancy | P1 | investigate | open | current-state | - | rerun |",
+                  "classification": "HOT_CURRENT",
+                  "record_kind": "finding.current"
+                },
+                {
+                  "source_line": "| 2 | Closed historical finding | P2 | fixed | validated-resolved | immutable-event | - | none |",
+                  "classification": "COLD_HISTORY",
+                  "record_kind": "finding.closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "## Andon log",
+          "classification": "HOT_CURRENT",
+          "record_kind": "andon.current",
+          "tables": [
+            {
+              "header": "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
+              "delimiter": "|---|---|---|---|---|---|---|---|",
+              "rows": [
+                {
+                  "source_line": "| 1 | o1 | migration | failed-criterion | open population gap | enumerate exact rows | pending | open (rerun pending) |",
+                  "classification": "HOT_CURRENT",
+                  "record_kind": "andon.current"
+                },
+                {
+                  "source_line": "| 2 | o2 | archive | evidence-mismatch | prior archive mismatch | corrected manifest | exact readback | resolved |",
+                  "classification": "COLD_HISTORY",
+                  "record_kind": "andon.closed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "## Occurrence resolution and residuals",
+          "classification": "HOT_CURRENT",
+          "record_kind": "residual.current",
+          "tables": [
+            {
+              "header": "| Residual | Consequential | Disposition | Owner / policy ref | Evidence |",
+              "delimiter": "|---|---|---|---|---|",
+              "rows": [
+                {
+                  "source_line": "| open migration residual | yes | unresolved | R0039 | pending |",
+                  "classification": "HOT_CURRENT",
+                  "record_kind": "residual.current"
+                },
+                {
+                  "source_line": "| closed migration residual | yes | validated-resolved | R0039 | immutable-event |",
+                  "classification": "COLD_HISTORY",
+                  "record_kind": "residual.terminal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "## Execution identity",
+          "classification": "HOT_POINTER",
+          "record_kind": "execution.pointer"
+        },
+        {
+          "heading": "## Context epochs and instruction applicability",
+          "classification": "HOT_POINTER",
+          "record_kind": "continuity.pointer",
+          "tables": [
+            {
+              "header": "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |",
+              "delimiter": "|---|---|---|---|---|---|",
+              "rows": [
+                {
+                  "source_line": "| G0001 | new-session | 2000-01-01T00:00:00Z | archived-preimage | yes | prior epoch |",
+                  "classification": "COLD_HISTORY",
+                  "record_kind": "epoch.closed"
+                },
+                {
+                  "source_line": "| G0002 | handoff-resume | 2000-01-01T00:01:00Z | current-work-graph | yes | current epoch |",
+                  "classification": "HOT_POINTER",
+                  "record_kind": "epoch.current"
+                }
+              ]
+            },
+            {
+              "header": "| Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |",
+              "delimiter": "|---|---|---|---|---|---|---|---|---|---|",
+              "rows": [
+                {
+                  "source_line": "| i1 | event:active | standing-constraint | owner | preserve archives | G0002 | active | current-state | - | task end |",
+                  "classification": "HOT_CURRENT",
+                  "record_kind": "instruction.current"
+                },
+                {
+                  "source_line": "| i2 | event:satisfied | one-shot-action | owner | capture baseline | G0001 | satisfied | immutable-event | - | completed |",
+                  "classification": "COLD_HISTORY",
+                  "record_kind": "instruction.satisfied"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "## AGENTS_UPDATE_DECISION",
+          "classification": "HOT_CURRENT",
+          "record_kind": "instruction.current"
+        },
+        {
+          "heading": "## CONTINUITY_DECISION",
+          "classification": "HOT_CURRENT",
+          "record_kind": "instruction.current"
+        },
+        {
+          "heading": "## Local git trace",
+          "classification": "HOT_CURRENT",
+          "record_kind": "authorization.current"
+        },
+        {
+          "heading": "## Run terminal disposition",
+          "classification": "HOT_CURRENT",
+          "record_kind": "instruction.current"
+        }
+      ]
+    },
+    "ROADMAP.md": {
+      "sections": [
+        {
+          "heading": "# IMPLEMENTAUDIT Roadmap",
+          "classification": "DUPLICATE_DERIVABLE",
+          "record_kind": "template.identity",
+          "derivation_pointer": "template:skills/implementaudit/templates/ROADMAP.md#runtime-copy-target"
+        },
+        {
+          "heading": "## Goal",
+          "classification": "HOT_CURRENT",
+          "record_kind": "goal.current"
+        },
+        {
+          "heading": "## Audit object",
+          "classification": "HOT_CURRENT",
+          "record_kind": "audit-object.current"
+        },
+        {
+          "heading": "## Action selection",
+          "classification": "HOT_CURRENT",
+          "record_kind": "action.current",
+          "records": [
+            {
+              "source_line": "Completed action-selection evidence: historical deep-route choice.",
+              "classification": "ON_DEMAND_EVIDENCE",
+              "record_kind": "transition.closed"
+            }
+          ]
+        },
+        {
+          "heading": "## Baseline ref",
+          "classification": "HOT_POINTER",
+          "record_kind": "source.pointer"
+        },
+        {
+          "heading": "## Run root",
+          "classification": "HOT_POINTER",
+          "record_kind": "custody.pointer"
+        },
+        {
+          "heading": "## Planning evidence",
+          "classification": "HOT_POINTER",
+          "record_kind": "artifact.pointer",
+          "records": [
+            {
+              "source_line": "Completed planning evidence: historical cold-review packet.",
+              "classification": "ON_DEMAND_EVIDENCE",
+              "record_kind": "artifact.historical"
+            }
+          ]
+        },
+        {
+          "heading": "## Phases",
+          "classification": "HOT_CURRENT",
+          "record_kind": "phase.current",
+          "tables": [
+            {
+              "header": "| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |",
+              "delimiter": "|---|---|---|---|---|---|---|---|",
+              "rows": [
+                {
+                  "source_line": "| 1 | migrate exact history | R0039 | - | red | pending | PASS | open |",
+                  "classification": "HOT_CURRENT",
+                  "record_kind": "phase.current"
+                },
+                {
+                  "source_line": "| 0 | archive preimages | R0039 | - | pass | pass | PASS | DONE |",
+                  "classification": "COLD_HISTORY",
+                  "record_kind": "phase.completed"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "## Execution index (projection)",
+          "classification": "DUPLICATE_DERIVABLE",
+          "record_kind": "graph.derived",
+          "derivation_pointer": "WORK_GRAPH.json#sha256"
+        },
+        {
+          "heading": "## Scope boundaries",
+          "classification": "HOT_CURRENT",
+          "record_kind": "instruction.current"
+        },
+        {
+          "heading": "## Scope-creep register",
+          "classification": "HOT_CURRENT",
+          "record_kind": "scope.current",
+          "tables": [
+            {
+              "header": "| # | Issue | Location | Recommendation | Status |",
+              "delimiter": "|---|---|---|---|---|",
+              "rows": [
+                {
+                  "source_line": "| 1 | open adjacent request | runtime | defer | open |",
+                  "classification": "HOT_CURRENT",
+                  "record_kind": "scope.current"
+                },
+                {
+                  "source_line": "| 2 | resolved scope creep | archive | excluded | resolved |",
+                  "classification": "COLD_HISTORY",
+                  "record_kind": "finding.closed"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

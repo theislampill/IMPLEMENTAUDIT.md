@@ -11,6 +11,8 @@ f3_fixture="$repo_root/fixtures/canonical-state-rotation/f3-reader-matrix.json"
 sequence_cas_fixture="$repo_root/fixtures/canonical-state-rotation/sequence-cas-cases.json"
 event_byte_fixture="$repo_root/fixtures/canonical-state-rotation/event-byte-cases.json"
 event_schema_fixture="$repo_root/fixtures/canonical-state-rotation/event-schema-cases.json"
+migration_classification_fixture="$repo_root/fixtures/canonical-state-rotation/hot-cold-section-classification.json"
+migration_population_fixture="$repo_root/fixtures/canonical-state-rotation/history-population-cases.json"
 evidence_helper="$repo_root/skills/implementaudit/scripts/operational-evidence.py"
 tmp="$(mktemp -d)"
 trap 'rm -rf -- "$tmp"' EXIT
@@ -18,22 +20,309 @@ trap 'rm -rf -- "$tmp"' EXIT
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 
 case "${1:-}" in
-  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
-  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
-  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
-  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
-  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true; sequence_cas_only=false; r15_target='' ;;
-  --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='' ;;
-  --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='null-sinks' ;;
-  --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='observation-order' ;;
-  --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='nonzero-readback' ;;
-  --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='receipt-pivot' ;;
-  --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='owner-env' ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
+  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='' ;;
+  --migration-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=true; r15_target='' ;;
+  --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='null-sinks' ;;
+  --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='observation-order' ;;
+  --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='nonzero-readback' ;;
+  --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='receipt-pivot' ;;
+  --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='owner-env' ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
+if $migration_only; then
+  [ -f "$migration_classification_fixture" ] || fail "missing migration classification fixture"
+  [ -f "$migration_population_fixture" ] || fail "missing migration population fixture"
+  [ -f "$helper" ] || fail "missing rotation helper"
+  python - "$helper" "$migration_classification_fixture" \
+    "$migration_population_fixture" "$repo_root" <<'PY'
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False, allow_nan=False).encode("utf-8")
+
+
+def expect_rotation_error(rotation, action, label):
+    try:
+        action()
+    except rotation.RotationError:
+        return
+    raise SystemExit(label + " was accepted")
+
+
+def inject_exact_legacy_records(template_text, source_spec):
+    text = template_text.replace("\r\n", "\n")
+    sections = source_spec["sections"]
+    for index in range(len(sections) - 1, -1, -1):
+        section = sections[index]
+        heading = section["heading"]
+        start = text.index(heading + "\n")
+        end = (len(text) if index + 1 == len(sections)
+               else text.index(sections[index + 1]["heading"] + "\n", start))
+        block = text[start:end]
+        for table in section.get("tables", []):
+            prefix = table["header"] + "\n" + table["delimiter"] + "\n"
+            table_start = block.index(prefix) + len(prefix)
+            population_end = table_start
+            while block[population_end:].startswith("|"):
+                population_end = block.index("\n", population_end) + 1
+            rows = "\n".join(row["source_line"] for row in table["rows"])
+            block = (block[:table_start] + rows + "\n\n"
+                     + block[population_end:].lstrip("\n"))
+        literal_rows = [row["source_line"] for row in section.get("records", [])]
+        if literal_rows:
+            block = block.rstrip("\n") + "\n\n" + "\n".join(literal_rows) + "\n\n"
+        text = text[:start] + block + text[end:]
+    return text.encode("utf-8")
+
+
+helper_path, classification_path, population_path, repo_text = sys.argv[1:]
+repo = Path(repo_text).resolve()
+classification_doc = json.loads(Path(classification_path).read_text(encoding="utf-8"))
+population = json.loads(Path(population_path).read_text(encoding="utf-8"))
+classes = ["HOT_CURRENT", "HOT_POINTER", "COLD_HISTORY",
+           "ON_DEMAND_EVIDENCE", "DUPLICATE_DERIVABLE"]
+if (classification_doc.get("schema")
+        != "implementaudit.hot-cold-section-classification.v1"
+        or classification_doc.get("classes") != classes
+        or list(classification_doc.get("sources", {})) != ["STATE.md", "ROADMAP.md"]
+        or population.get("schema") != "implementaudit.history-population-cases.v1"):
+    raise SystemExit("migration fixture schema/order drift")
+for source_name, source_spec in classification_doc["sources"].items():
+    headings = [row.get("heading") for row in source_spec.get("sections", [])]
+    if not headings or len(headings) != len(set(headings)):
+        raise SystemExit(source_name + " fixture headings are not exact and unique")
+    explicit = []
+    for section in source_spec["sections"]:
+        if section.get("classification") not in classes:
+            raise SystemExit("unknown fixture classification")
+        if section.get("classification") == "DUPLICATE_DERIVABLE" and not section.get("derivation_pointer"):
+            raise SystemExit("duplicate-derivable section lacks exact pointer")
+        explicit.extend(section.get("records", []))
+        for table in section.get("tables", []):
+            explicit.extend(table.get("rows", []))
+    source_lines = [row.get("source_line") for row in explicit]
+    if len(source_lines) != len(set(source_lines)):
+        raise SystemExit(source_name + " explicit fixture records overlap")
+
+spec = importlib.util.spec_from_file_location("rotation_migration", helper_path)
+rotation = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(rotation)
+required = (
+    "ClassificationFixture", "ClassifiedRecord", "LegacyRecord", "EventSegment",
+    "MigrationReceipt", "NativeCurrent", "GraphProjection", "CustodyPointer",
+    "classify_all_source_records_v1", "verify_classification_coverage_v1",
+    "enumerate_legacy_history_v1", "verify_migration_equivalence_v1",
+    "hash_population_v1", "render_state_template_v1", "render_roadmap_template_v1",
+    "derive_hot_state_v1", "derive_hot_roadmap_v1",
+)
+missing = [name for name in required if not hasattr(rotation, name)]
+if missing:
+    print("CANONICAL_STATE_ROTATION_MIGRATION_RED="
+          "POPULATION_CLASSIFICATION_NOT_IMPLEMENTED missing=" + ",".join(missing),
+          file=sys.stderr)
+    raise SystemExit(1)
+
+classification = rotation.ClassificationFixture.from_mapping(classification_doc)
+legacy_commit = population.get("legacy_preimage_commit")
+legacy_digests = population.get("legacy_preimage_sha256")
+if (not isinstance(legacy_commit, str) or len(legacy_commit) != 40
+        or not isinstance(legacy_digests, dict)
+        or set(legacy_digests) != {"STATE.md", "ROADMAP.md"}):
+    raise SystemExit("legacy preimage identity fixture is invalid")
+sources = {}
+for name, source_spec in classification_doc["sources"].items():
+    path = "skills/implementaudit/templates/" + name
+    exact_preimage = subprocess.check_output(
+        ["git", "-C", str(repo), "show", legacy_commit + ":" + path])
+    if hashlib.sha256(exact_preimage).hexdigest() != legacy_digests[name]:
+        raise SystemExit(name + " exact legacy preimage digest drift")
+    sources[name] = inject_exact_legacy_records(
+        exact_preimage.decode("utf-8", "strict"), source_spec)
+source_preimages = dict(sources)
+coverage = rotation.classify_all_source_records_v1(sources, classification)
+rotation.verify_classification_coverage_v1(sources, coverage)
+observed_source_counts = {name: len(rows) for name, rows in coverage.items()}
+observed_class_counts = {name: 0 for name in classes}
+for rows in coverage.values():
+    for row in rows:
+        observed_class_counts[row.classification] += 1
+        if (row.classification == "DUPLICATE_DERIVABLE"
+                and not row.derivation_pointer):
+            raise SystemExit("duplicate-derivable range lost its exact pointer")
+if observed_source_counts != population["expected_source_record_counts"]:
+    raise SystemExit("classification source denominator drift: %r" % observed_source_counts)
+if observed_class_counts != population["expected_class_counts"]:
+    raise SystemExit("classification class denominator drift: %r" % observed_class_counts)
+
+records = rotation.enumerate_legacy_history_v1(
+    sources["STATE.md"], sources["ROADMAP.md"], classification)
+expected_removed = population["expected_removed_rows"]
+observed_removed = [{
+    "source_name": row.source_name,
+    "heading": row.heading,
+    "record_kind": row.record_kind,
+    "source_line": row.source_bytes.rstrip(b"\n").decode("utf-8"),
+} for row in records]
+if observed_removed != expected_removed:
+    raise SystemExit("removed history population drift: %r" % observed_removed)
+removed_counts = {"COLD_HISTORY": 0, "ON_DEMAND_EVIDENCE": 0}
+for classified_rows in coverage.values():
+    for row in classified_rows:
+        if row.classification in removed_counts:
+            removed_counts[row.classification] += 1
+if removed_counts != population["expected_removed_class_counts"]:
+    raise SystemExit("removed class denominator drift")
+
+expected_pairs = []
+events = []
+for row in records:
+    digest = hashlib.sha256(row.source_bytes).hexdigest()
+    identity_body = {
+        "schema": "implementaudit.legacy-record-id.v1",
+        "source_name": row.source_name,
+        "heading": row.heading,
+        "record_kind": row.record_kind,
+        "ordinal": row.ordinal,
+        "byte_start": row.byte_start,
+        "byte_end": row.byte_end,
+        "source_digest": digest,
+    }
+    expected_id = "ialegacy-v1-" + hashlib.sha256(canonical(identity_body)).hexdigest()
+    if row.source_digest != digest or row.stable_id != expected_id:
+        raise SystemExit("legacy record identity is not independently reproducible")
+    expected_pairs.append((expected_id, digest))
+    payload = {"legacy_record_id": expected_id, "legacy_source_digest": digest}
+    event_id = "iaevt-v1-" + hashlib.sha256(canonical(payload)).hexdigest()
+    segment_digest = "sha256:" + hashlib.sha256(canonical({
+        "event_id": event_id, "payload": payload,
+    })).hexdigest()
+    events.append(rotation.EventSegment(
+        event_id=event_id, segment_digest=segment_digest,
+        payload=payload, queryable=True))
+
+receipt = rotation.verify_migration_equivalence_v1(records, events)
+expected_population_digest = hashlib.sha256(canonical([
+    [stable_id, digest] for stable_id, digest in sorted(expected_pairs)
+])).hexdigest()
+if (receipt.source_count != len(expected_removed)
+        or receipt.event_count != len(expected_removed)
+        or receipt.population_digest != expected_population_digest
+        or rotation.hash_population_v1(sorted(expected_pairs)) != expected_population_digest):
+    raise SystemExit("migration receipt population identity drift")
+mutated_pairs = list(sorted(expected_pairs))
+mutated_pairs[0] = (mutated_pairs[0][0], "0" * 64)
+if rotation.hash_population_v1(mutated_pairs) == expected_population_digest:
+    raise SystemExit("population digest did not detect a source mutation")
+
+unknown_sources = dict(sources)
+unknown_sources["STATE.md"] += b"\n## Unknown migration section\nunknown\n"
+expect_rotation_error(rotation, lambda: rotation.classify_all_source_records_v1(
+    unknown_sources, classification), "unknown section")
+unmatched_sources = dict(sources)
+delimiter = b"|---|---|---:|---|---|---|---|---|\n"
+unmatched_sources["STATE.md"] = unmatched_sources["STATE.md"].replace(
+    delimiter, delimiter + b"| 99 | unmatched | P1 | none | open | none | - | none |\n", 1)
+expect_rotation_error(rotation, lambda: rotation.classify_all_source_records_v1(
+    unmatched_sources, classification), "unmatched row")
+overlap_doc = copy.deepcopy(classification_doc)
+overlap_section = overlap_doc["sources"]["ROADMAP.md"]["sections"][3]
+overlap_section["records"].append(dict(overlap_section["records"][0]))
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    overlap_doc), "overlapping rule")
+expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+    records, events[:-1]), "removed record without event")
+expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+    records + [records[0]], events), "duplicate source record")
+expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+    records, events + [events[0]]), "duplicate destination event")
+unqueryable = list(events)
+unqueryable[0] = rotation.EventSegment(
+    event_id=events[0].event_id, segment_digest=events[0].segment_digest,
+    payload=events[0].payload, queryable=False)
+expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+    records, unqueryable), "unqueryable removed record")
+
+native_data = dict(population["native_current"])
+native_data["open_abnormalities"] = tuple(native_data["open_abnormalities"])
+native_data["active_instructions"] = tuple(native_data["active_instructions"])
+graph_data = dict(population["graph_projection"])
+graph_data["active_nodes"] = tuple(graph_data["active_nodes"])
+native = rotation.NativeCurrent(**native_data)
+graph = rotation.GraphProjection(**graph_data)
+custody = rotation.CustodyPointer(**population["custody_pointer"])
+state_hot = rotation.derive_hot_state_v1(native, graph, custody)
+roadmap_hot = rotation.derive_hot_roadmap_v1(native, graph, custody)
+if (state_hot != rotation.render_state_template_v1(native.hot_state_fields(), graph, custody)
+        or roadmap_hot != rotation.render_roadmap_template_v1(
+            native.hot_roadmap_fields(), graph, custody)):
+    raise SystemExit("hot projection facade and renderer diverged")
+for name, rendered in (("STATE.md", state_hot), ("ROADMAP.md", roadmap_hot)):
+    if len(rendered) > population["hot_projection_limits"][name]:
+        raise SystemExit(name + " exceeded the bounded hot projection limit")
+    if b"ActiveGraph" in rendered:
+        raise SystemExit(name + " acquired an ActiveGraph dependency")
+    for forbidden in population["forbidden_closed_history"]:
+        if forbidden.encode("utf-8") in rendered:
+            raise SystemExit(name + " retained closed history: " + forbidden)
+for current in (native.next_action, *native.open_abnormalities,
+                *native.active_instructions, graph.work_graph_digest,
+                custody.current_generation_ref, custody.archive_ref,
+                custody.history_query):
+    if current.encode("utf-8") not in state_hot + roadmap_hot:
+        raise SystemExit("hot projection omitted current/pointer field: " + current)
+if sources != source_preimages:
+    raise SystemExit("migration mutated exact legacy preimage bytes")
+
+fixture_root = repo / ".IMPLEMENTAUDIT" / "runs" / "hot-state-migration-fixture"
+fixture_root.mkdir(parents=True, exist_ok=True)
+(fixture_root / "STATE.md").write_bytes(state_hot)
+(fixture_root / "ROADMAP.md").write_bytes(roadmap_hot)
+for name in ("PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
+    (fixture_root / name).write_bytes(
+        (repo / "skills" / "implementaudit" / "templates" / name).read_bytes())
+(fixture_root / "WORK_GRAPH.json").write_bytes(b'{"active":["R39-F6"]}\n')
+common = subprocess.check_output([
+    "git", "-C", str(repo), "rev-parse", "--path-format=absolute", "--git-common-dir",
+], text=True).strip()
+claim = "\n".join((
+    "schema=implementaudit.run-claim.v2",
+    "claim_id=" + "f" * 32,
+    "claimed_at_utc=2000-01-01T00:00:00Z",
+    "mode=full",
+    "templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md",
+    "repo_root=" + repo.as_posix(),
+    "git_common_dir=" + Path(common).as_posix(),
+    "run_base=.IMPLEMENTAUDIT/runs",
+    "run_root=.IMPLEMENTAUDIT/runs/hot-state-migration-fixture",
+    "run_name=hot-state-migration-fixture",
+)) + "\n"
+(fixture_root / ".claimed").write_text(claim, encoding="utf-8")
+print("CANONICAL_STATE_ROTATION_MIGRATION_GREEN=PASS "
+      "classification=%d class-counts=%s removed=%d/%d queryable=%d "
+      "population-sha256=%s hot-state-bytes=%d hot-roadmap-bytes=%d"
+      % (sum(observed_source_counts.values()),
+         ",".join("%s:%d" % (name, observed_class_counts[name]) for name in classes),
+         receipt.source_count, len(expected_removed), receipt.event_count,
+         receipt.population_digest, len(state_hot), len(roadmap_hot)))
+PY
+  exit 0
+fi
 if $clarifications_only; then
   # Catches production that omits event-byte canonicalization, bound cursors,
   # or sequence-CAS isolation despite an apparently valid reader migration.

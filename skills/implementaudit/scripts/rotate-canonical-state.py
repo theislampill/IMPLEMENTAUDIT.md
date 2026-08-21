@@ -22,7 +22,7 @@ import subprocess
 import sys
 import unicodedata
 from pathlib import Path
-from typing import Any, NamedTuple
+from typing import Any, Mapping, NamedTuple, Sequence
 
 
 ZERO_OID = "0" * 40
@@ -50,6 +50,582 @@ EXPECTED_RESULTS = {
 
 class RotationError(RuntimeError):
     """A fail-closed draft/archive contract violation."""
+
+
+CLASSIFICATIONS_V1 = (
+    "HOT_CURRENT",
+    "HOT_POINTER",
+    "COLD_HISTORY",
+    "ON_DEMAND_EVIDENCE",
+    "DUPLICATE_DERIVABLE",
+)
+REMOVED_CLASSIFICATIONS_V1 = frozenset({"COLD_HISTORY", "ON_DEMAND_EVIDENCE"})
+LEGACY_RECORD_ID = re.compile(r"^ialegacy-v1-[0-9a-f]{64}$")
+
+
+class ClassificationFixture(NamedTuple):
+    sources: dict[str, tuple[dict[str, object], ...]]
+    classes: tuple[str, ...] = CLASSIFICATIONS_V1
+
+    @classmethod
+    def from_mapping(cls, value: object) -> "ClassificationFixture":
+        if (type(value) is not dict
+                or set(value) != {"schema", "classes", "sources"}
+                or value.get("schema")
+                != "implementaudit.hot-cold-section-classification.v1"
+                or value.get("classes") != list(CLASSIFICATIONS_V1)):
+            raise RotationError("classification fixture schema is invalid")
+        raw_sources = value.get("sources")
+        if type(raw_sources) is not dict or set(raw_sources) != {"STATE.md", "ROADMAP.md"}:
+            raise RotationError("classification fixture source population is invalid")
+        normalized: dict[str, tuple[dict[str, object], ...]] = {}
+        for source_name in ("STATE.md", "ROADMAP.md"):
+            source = raw_sources[source_name]
+            if type(source) is not dict or set(source) != {"sections"}:
+                raise RotationError("classification fixture source schema is invalid")
+            sections = source["sections"]
+            if type(sections) is not list or not sections:
+                raise RotationError("classification fixture section population is empty")
+            headings: set[str] = set()
+            literal_rows: set[str] = set()
+            stored: list[dict[str, object]] = []
+            for section in sections:
+                if type(section) is not dict:
+                    raise RotationError("classification section is malformed")
+                allowed = {"heading", "classification", "record_kind",
+                           "derivation_pointer", "tables", "records"}
+                if not set(section).issubset(allowed) or not {
+                        "heading", "classification", "record_kind"}.issubset(section):
+                    raise RotationError("classification section keys are invalid")
+                heading = section["heading"]
+                classification = section["classification"]
+                record_kind = section["record_kind"]
+                pointer = section.get("derivation_pointer")
+                if (type(heading) is not str or not heading.startswith("#")
+                        or heading in headings or type(record_kind) is not str
+                        or not record_kind or classification not in CLASSIFICATIONS_V1):
+                    raise RotationError("classification section identity is invalid")
+                _verify_derivation_pointer_v1(classification, pointer)
+                headings.add(heading)
+                records = section.get("records", [])
+                tables = section.get("tables", [])
+                if type(records) is not list or type(tables) is not list:
+                    raise RotationError("classification section partitions are invalid")
+                for record in records:
+                    _validate_explicit_classification_row_v1(record)
+                    line = record["source_line"]
+                    if line in literal_rows:
+                        raise RotationError("classification rules overlap")
+                    literal_rows.add(line)
+                table_headers: set[str] = set()
+                for table in tables:
+                    if (type(table) is not dict
+                            or set(table) != {"header", "delimiter", "rows"}
+                            or type(table["header"]) is not str
+                            or type(table["delimiter"]) is not str
+                            or type(table["rows"]) is not list
+                            or not table["rows"]
+                            or table["header"] in table_headers):
+                        raise RotationError("classification table schema is invalid")
+                    table_headers.add(table["header"])
+                    for row in table["rows"]:
+                        _validate_explicit_classification_row_v1(row)
+                        line = row["source_line"]
+                        if line in literal_rows:
+                            raise RotationError("classification rules overlap")
+                        literal_rows.add(line)
+                stored.append(json.loads(json.dumps(section, ensure_ascii=False)))
+            normalized[source_name] = tuple(stored)
+        return cls(sources=normalized)
+
+
+def _verify_derivation_pointer_v1(classification: object, pointer: object) -> None:
+    if classification == "DUPLICATE_DERIVABLE":
+        if type(pointer) is not str or not pointer or "\n" in pointer or "\r" in pointer:
+            raise RotationError("duplicate-derivable record lacks exact derivation pointer")
+    elif pointer is not None:
+        raise RotationError("derivation pointer is only valid for duplicate-derivable records")
+
+
+def _validate_explicit_classification_row_v1(row: object) -> None:
+    if (type(row) is not dict
+            or not set(row).issubset({"source_line", "classification", "record_kind",
+                                      "derivation_pointer"})
+            or set(row) - {"derivation_pointer"}
+            != {"source_line", "classification", "record_kind"}
+            or type(row["source_line"]) is not str or not row["source_line"]
+            or "\n" in row["source_line"] or "\r" in row["source_line"]
+            or row["classification"] not in CLASSIFICATIONS_V1
+            or type(row["record_kind"]) is not str or not row["record_kind"]):
+        raise RotationError("explicit classification row is invalid")
+    _verify_derivation_pointer_v1(row["classification"], row.get("derivation_pointer"))
+
+
+class ClassifiedRecord(NamedTuple):
+    source_name: str
+    heading: str
+    record_kind: str
+    ordinal: int
+    byte_start: int
+    byte_end: int
+    source_bytes: bytes
+    classification: str
+    derivation_pointer: str | None = None
+
+
+class LegacyRecord(NamedTuple):
+    source_name: str
+    heading: str
+    record_kind: str
+    ordinal: int
+    byte_start: int
+    byte_end: int
+    source_bytes: bytes
+    source_digest: str
+    stable_id: str
+
+    @classmethod
+    def from_source(cls, *, source_name: str, heading: str, record_kind: str,
+                    ordinal: int, byte_start: int, byte_end: int,
+                    source_bytes: bytes) -> "LegacyRecord":
+        digest = hashlib.sha256(source_bytes).hexdigest()
+        body = {
+            "schema": "implementaudit.legacy-record-id.v1",
+            "source_name": source_name,
+            "heading": heading,
+            "record_kind": record_kind,
+            "ordinal": ordinal,
+            "byte_start": byte_start,
+            "byte_end": byte_end,
+            "source_digest": digest,
+        }
+        stable_id = "ialegacy-v1-" + hashlib.sha256(canonical_json_v1(body)).hexdigest()
+        return cls(source_name, heading, record_kind, ordinal, byte_start, byte_end,
+                   source_bytes, digest, stable_id)
+
+
+class EventSegment(NamedTuple):
+    event_id: str
+    segment_digest: str
+    payload: dict[str, object]
+    queryable: bool
+
+
+class MigrationReceipt(NamedTuple):
+    source_count: int
+    event_count: int
+    population_digest: str
+
+
+class NativeCurrent(NamedTuple):
+    controller_id: str
+    run_id: str
+    phase: str
+    status: str
+    audit_object_state: str
+    next_action: str
+    current_epoch: str
+    open_abnormalities: tuple[str, ...]
+    active_instructions: tuple[str, ...]
+
+    def _as_hot_fields(self) -> dict[str, object]:
+        fields = {
+            "controller_id": self.controller_id,
+            "run_id": self.run_id,
+            "phase": self.phase,
+            "status": self.status,
+            "audit_object_state": self.audit_object_state,
+            "next_action": self.next_action,
+            "current_epoch": self.current_epoch,
+            "open_abnormalities": self.open_abnormalities,
+            "active_instructions": self.active_instructions,
+        }
+        _validate_native_current_fields_v1(fields)
+        return fields
+
+    def hot_state_fields(self) -> dict[str, object]:
+        return self._as_hot_fields()
+
+    def hot_roadmap_fields(self) -> dict[str, object]:
+        return self._as_hot_fields()
+
+
+class GraphProjection(NamedTuple):
+    work_graph_path: str
+    work_graph_digest: str
+    active_nodes: tuple[str, ...]
+
+class CustodyPointer(NamedTuple):
+    current_generation_ref: str
+    pointer_oid: str
+    manifest_digest: str
+    archive_ref: str
+    archive_digest: str
+    history_query: str
+
+def _line_records_v1(source_bytes: bytes) -> list[tuple[int, int, str]]:
+    try:
+        source_bytes.decode("utf-8", "strict")
+    except UnicodeDecodeError as exc:
+        raise RotationError("classification source is not UTF-8") from exc
+    records: list[tuple[int, int, str]] = []
+    cursor = 0
+    for raw in source_bytes.splitlines(keepends=True):
+        end = cursor + len(raw)
+        content = raw.rstrip(b"\r\n").decode("utf-8", "strict")
+        records.append((cursor, end, content))
+        cursor = end
+    if cursor < len(source_bytes):
+        records.append((cursor, len(source_bytes),
+                        source_bytes[cursor:].decode("utf-8", "strict")))
+    return records
+
+
+def _classified_v1(*, source_name: str, heading: str, record_kind: str,
+                   ordinal: int, start: int, end: int, source_bytes: bytes,
+                   classification: str,
+                   derivation_pointer: str | None) -> ClassifiedRecord:
+    if end <= start:
+        raise RotationError("classification contains an empty byte range")
+    _verify_derivation_pointer_v1(classification, derivation_pointer)
+    return ClassifiedRecord(source_name, heading, record_kind, ordinal, start, end,
+                            source_bytes[start:end], classification,
+                            derivation_pointer)
+
+
+def _classify_one_source_v1(source_name: str, source_bytes: bytes,
+                            sections: Sequence[Mapping[str, object]]) -> list[ClassifiedRecord]:
+    lines = _line_records_v1(source_bytes)
+    observed_headings = [(start, text) for start, _, text in lines
+                         if text.startswith("# ") or text.startswith("## ")]
+    expected_headings = [str(section["heading"]) for section in sections]
+    if [heading for _, heading in observed_headings] != expected_headings:
+        raise RotationError("classification source headings are unknown, missing, or reordered")
+    results: list[ClassifiedRecord] = []
+    ordinal = 0
+    for index, section in enumerate(sections):
+        section_start = observed_headings[index][0]
+        section_end = (len(source_bytes) if index + 1 == len(sections)
+                       else observed_headings[index + 1][0])
+        heading = str(section["heading"])
+        line_subset = [row for row in lines
+                       if section_start <= row[0] < section_end]
+        explicit: list[tuple[int, int, Mapping[str, object]]] = []
+        for record in section.get("records", []):
+            matches = [(start, end) for start, end, text in line_subset
+                       if text == record["source_line"]]
+            if len(matches) != 1:
+                raise RotationError("explicit classification record is unmatched")
+            explicit.append((matches[0][0], matches[0][1], record))
+        for table in section.get("tables", []):
+            headers = [line_index for line_index, (_, _, text) in enumerate(line_subset)
+                       if text == table["header"]]
+            if len(headers) != 1:
+                raise RotationError("classification table header is unmatched")
+            header_index = headers[0]
+            if (header_index + 1 >= len(line_subset)
+                    or line_subset[header_index + 1][2] != table["delimiter"]):
+                raise RotationError("classification table delimiter is unmatched")
+            row_index = header_index + 2
+            actual_rows: list[tuple[int, int, str]] = []
+            while row_index < len(line_subset) and line_subset[row_index][2].startswith("|"):
+                actual_rows.append(line_subset[row_index])
+                row_index += 1
+            expected_rows = [row["source_line"] for row in table["rows"]]
+            if [row[2] for row in actual_rows] != expected_rows:
+                raise RotationError("classification table row population is unmatched")
+            explicit.extend((actual[0], actual[1], rule)
+                            for actual, rule in zip(actual_rows, table["rows"], strict=True))
+        explicit.sort(key=lambda row: (row[0], row[1]))
+        if any(left[1] > right[0] for left, right in zip(explicit, explicit[1:])):
+            raise RotationError("classification rules overlap")
+        cursor = section_start
+        for start, end, rule in explicit:
+            if start < cursor:
+                raise RotationError("classification rules overlap")
+            if start > cursor:
+                results.append(_classified_v1(
+                    source_name=source_name, heading=heading,
+                    record_kind=str(section["record_kind"]), ordinal=ordinal,
+                    start=cursor, end=start, source_bytes=source_bytes,
+                    classification=str(section["classification"]),
+                    derivation_pointer=section.get("derivation_pointer")))
+                ordinal += 1
+            results.append(_classified_v1(
+                source_name=source_name, heading=heading,
+                record_kind=str(rule["record_kind"]), ordinal=ordinal,
+                start=start, end=end, source_bytes=source_bytes,
+                classification=str(rule["classification"]),
+                derivation_pointer=rule.get("derivation_pointer")))
+            ordinal += 1
+            cursor = end
+        if cursor < section_end:
+            results.append(_classified_v1(
+                source_name=source_name, heading=heading,
+                record_kind=str(section["record_kind"]), ordinal=ordinal,
+                start=cursor, end=section_end, source_bytes=source_bytes,
+                classification=str(section["classification"]),
+                derivation_pointer=section.get("derivation_pointer")))
+            ordinal += 1
+    return results
+
+
+def classify_all_source_records_v1(
+        sources: Mapping[str, bytes],
+        classification: ClassificationFixture) -> dict[str, list[ClassifiedRecord]]:
+    if (type(classification) is not ClassificationFixture
+            or type(sources) is not dict
+            or set(sources) != {"STATE.md", "ROADMAP.md"}
+            or any(type(value) is not bytes or not value for value in sources.values())):
+        raise RotationError("classification source population is invalid")
+    coverage = {
+        source_name: _classify_one_source_v1(
+            source_name, sources[source_name], classification.sources[source_name])
+        for source_name in ("STATE.md", "ROADMAP.md")
+    }
+    verify_classification_coverage_v1(sources, coverage)
+    return coverage
+
+
+def verify_classification_coverage_v1(
+        sources: Mapping[str, bytes],
+        coverage: Mapping[str, Sequence[ClassifiedRecord]]) -> None:
+    if set(sources) != {"STATE.md", "ROADMAP.md"} or set(coverage) != set(sources):
+        raise RotationError("classification coverage population is incomplete")
+    for source_name in ("STATE.md", "ROADMAP.md"):
+        source = sources[source_name]
+        rows = coverage[source_name]
+        if not rows:
+            raise RotationError("classification coverage is empty")
+        cursor = 0
+        for ordinal, row in enumerate(rows):
+            if (type(row) is not ClassifiedRecord or row.source_name != source_name
+                    or row.ordinal != ordinal or row.byte_start != cursor
+                    or row.byte_end <= row.byte_start or row.byte_end > len(source)
+                    or row.source_bytes != source[row.byte_start:row.byte_end]
+                    or row.classification not in CLASSIFICATIONS_V1):
+                raise RotationError("classification coverage has a gap, overlap, or mismatch")
+            _verify_derivation_pointer_v1(row.classification, row.derivation_pointer)
+            cursor = row.byte_end
+        if cursor != len(source):
+            raise RotationError("classification coverage does not reach end of source")
+
+
+def enumerate_legacy_history_v1(state_bytes: bytes, roadmap_bytes: bytes,
+                                classification: ClassificationFixture) -> list[LegacyRecord]:
+    sources = {"STATE.md": state_bytes, "ROADMAP.md": roadmap_bytes}
+    coverage = classify_all_source_records_v1(sources, classification)
+    verify_classification_coverage_v1(sources, coverage)
+    records: list[LegacyRecord] = []
+    for source_name in ("STATE.md", "ROADMAP.md"):
+        for classified in coverage[source_name]:
+            if classified.classification in REMOVED_CLASSIFICATIONS_V1:
+                records.append(LegacyRecord.from_source(
+                    source_name=source_name, heading=classified.heading,
+                    record_kind=classified.record_kind, ordinal=classified.ordinal,
+                    byte_start=classified.byte_start, byte_end=classified.byte_end,
+                    source_bytes=classified.source_bytes))
+    return records
+
+
+def hash_population_v1(rows: Sequence[tuple[str, str]]) -> str:
+    normalized: list[list[str]] = []
+    seen: set[tuple[str, str]] = set()
+    for row in rows:
+        if (type(row) is not tuple or len(row) != 2
+                or type(row[0]) is not str or not LEGACY_RECORD_ID.fullmatch(row[0])
+                or type(row[1]) is not str or not HEX_SHA256.fullmatch(row[1])
+                or row in seen):
+            raise RotationError("legacy history population identity is invalid")
+        seen.add(row)
+        normalized.append([row[0], row[1]])
+    if not normalized:
+        raise RotationError("legacy history population is empty")
+    normalized.sort()
+    return hashlib.sha256(canonical_json_v1(normalized)).hexdigest()
+
+
+def verify_migration_equivalence_v1(records: list[LegacyRecord],
+                                    events: list[EventSegment]) -> MigrationReceipt:
+    if (type(records) is not list or type(events) is not list
+            or any(type(row) is not LegacyRecord for row in records)
+            or any(type(row) is not EventSegment for row in events)):
+        raise RotationError("legacy history population is not equivalent")
+    source = {(row.stable_id, row.source_digest) for row in records}
+    destination: set[tuple[str, str]] = set()
+    for event in events:
+        if (not event.queryable or type(event.payload) is not dict
+                or set(event.payload) != {"legacy_record_id", "legacy_source_digest"}
+                or type(event.payload["legacy_record_id"]) is not str
+                or not LEGACY_RECORD_ID.fullmatch(event.payload["legacy_record_id"])
+                or type(event.payload["legacy_source_digest"]) is not str
+                or not HEX_SHA256.fullmatch(event.payload["legacy_source_digest"])
+                or type(event.event_id) is not str or not EVENT_ID.fullmatch(event.event_id)
+                or type(event.segment_digest) is not str
+                or not SHA_ID.fullmatch(event.segment_digest)):
+            raise RotationError("legacy history population is not equivalent")
+        expected_event_id = "iaevt-v1-" + hashlib.sha256(
+            canonical_json_v1(event.payload)).hexdigest()
+        expected_segment_digest = "sha256:" + hashlib.sha256(canonical_json_v1({
+            "event_id": event.event_id, "payload": event.payload,
+        })).hexdigest()
+        if event.event_id != expected_event_id or event.segment_digest != expected_segment_digest:
+            raise RotationError("legacy history population is not equivalent")
+        destination.add((str(event.payload["legacy_record_id"]),
+                         str(event.payload["legacy_source_digest"])))
+    if (source != destination or len(source) != len(records)
+            or len(destination) != len(events)):
+        raise RotationError("legacy history population is not equivalent")
+    return MigrationReceipt(source_count=len(records), event_count=len(events),
+                            population_digest=hash_population_v1(sorted(source)))
+
+
+def _hot_value_v1(value: object) -> str:
+    if (type(value) is not str or not value or any(char in value for char in "\r\n|")):
+        raise RotationError("hot projection field is invalid")
+    return value
+
+
+def _validate_native_current_fields_v1(fields: Mapping[str, object]) -> None:
+    expected = {"controller_id", "run_id", "phase", "status", "audit_object_state",
+                "next_action", "current_epoch", "open_abnormalities",
+                "active_instructions"}
+    if set(fields) != expected:
+        raise RotationError("native current fields are not exact")
+    for name in expected - {"open_abnormalities", "active_instructions"}:
+        _hot_value_v1(fields[name])
+    if (not CONTROLLER_ID.fullmatch(str(fields["controller_id"]))
+            or not TOKEN_ID.fullmatch(str(fields["run_id"]))
+            or fields["status"] not in {"open", "READY_TO_DISPATCH", "IN_PHASE",
+                                        "PAUSED", "BLOCKED", "INTERRUPTED", "DONE"}
+            or not GENERATION_ID.fullmatch(str(fields["current_epoch"]))):
+        raise RotationError("native current identity is invalid")
+    for name in ("open_abnormalities", "active_instructions"):
+        rows = fields[name]
+        if type(rows) is not tuple or len(set(rows)) != len(rows):
+            raise RotationError("native current rows are invalid")
+        for row in rows:
+            _hot_value_v1(row)
+
+
+def _validate_hot_dependencies_v1(graph: GraphProjection,
+                                  custody: CustodyPointer) -> None:
+    if (type(graph) is not GraphProjection
+            or graph.work_graph_path != "WORK_GRAPH.json"
+            or not HEX_SHA256.fullmatch(graph.work_graph_digest)
+            or not graph.active_nodes
+            or any(type(row) is not str or not row for row in graph.active_nodes)
+            or len(set(graph.active_nodes)) != len(graph.active_nodes)):
+        raise RotationError("hot WORK_GRAPH projection is invalid")
+    if (type(custody) is not CustodyPointer
+            or not custody.current_generation_ref.startswith(
+                "refs/implementaudit/current-generations/")
+            or not GIT_OID.fullmatch(custody.pointer_oid)
+            or not HEX_SHA256.fullmatch(custody.manifest_digest)
+            or not custody.archive_ref.startswith("refs/implementaudit/state-archives/")
+            or not HEX_SHA256.fullmatch(custody.archive_digest)
+            or not custody.history_query):
+        raise RotationError("hot custody pointer is invalid")
+
+
+def _render_lines_v1(lines: Sequence[str]) -> bytes:
+    raw = ("\n".join(lines).rstrip() + "\n").encode("utf-8")
+    if len(raw) > 4096:
+        raise RotationError("hot projection exceeds v1 byte bound")
+    return raw
+
+
+def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjection,
+                             custody: CustodyPointer) -> bytes:
+    _validate_native_current_fields_v1(fields)
+    _validate_hot_dependencies_v1(graph, custody)
+    lines = [
+        "# IMPLEMENTAUDIT State", "",
+        "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`", "",
+        "## Current phase", "", "| Field | Value |", "|---|---|",
+        f"| Run root | `{_hot_value_v1(fields['run_id'])}` |",
+        f"| Phase | {_hot_value_v1(fields['phase'])} |",
+        f"| Status | {_hot_value_v1(fields['status'])} |",
+        f"| Audit object state | {_hot_value_v1(fields['audit_object_state'])} |",
+        f"| Next action | {_hot_value_v1(fields['next_action'])} |", "",
+        "## Andon log", "",
+        "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
+    for index, abnormality in enumerate(fields["open_abnormalities"], 1):
+        lines.append(f"| {index} | o{index} | {_hot_value_v1(fields['phase'])} | failed-criterion | {_hot_value_v1(abnormality)} | follow current next action | pending | open (rerun pending) |")
+    lines.extend([
+        "", "## Context epochs and instruction applicability", "",
+        f"Current epoch: {_hot_value_v1(fields['current_epoch'])}", "",
+        f"Canonical projection generation: {_hot_value_v1(fields['current_epoch'])}", "",
+        f"Current-generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`", "",
+        "Migration marker: not published by migration-only projection", "",
+        "Current continuity receipt: query on demand", "",
+        "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |",
+        "|---|---|---|---|---|---|",
+        f"| {_hot_value_v1(fields['current_epoch'])} | handoff-resume | current | `{graph.work_graph_path}` at `{graph.work_graph_digest}` | yes | current hot projection |",
+        "", "| Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+    ])
+    for index, instruction in enumerate(fields["active_instructions"], 1):
+        lines.append(f"| i{index} | current-native | standing-constraint | {_hot_value_v1(fields['controller_id'])} | {_hot_value_v1(instruction)} | {_hot_value_v1(fields['current_epoch'])} | active | native-current | - | run end |")
+    lines.extend([
+        "", "## Custody pointers", "",
+        f"- Generation manifest digest: `{custody.manifest_digest}`",
+        f"- Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`",
+        f"- History query: `{custody.history_query}`",
+        "", "## Local git trace", "", "Commit authorized: no", "",
+        "Push authorized: no", "", "Tag/release/publication/provenance authorized: no",
+        "", "## Run terminal disposition", "",
+        "Current open state only; closed history remains in immutable events and exact archives.",
+    ])
+    return _render_lines_v1(lines)
+
+
+def render_roadmap_template_v1(fields: Mapping[str, object], graph: GraphProjection,
+                               custody: CustodyPointer) -> bytes:
+    _validate_native_current_fields_v1(fields)
+    _validate_hot_dependencies_v1(graph, custody)
+    lines = [
+        "# IMPLEMENTAUDIT Roadmap", "",
+        "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md`", "",
+        "## Goal", "", _hot_value_v1(fields["next_action"]), "",
+        "## Audit object", "",
+        f"Current state: {_hot_value_v1(fields['audit_object_state'])}", "",
+        "## Phases", "",
+        "| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
+    for index, node in enumerate(graph.active_nodes, 1):
+        lines.append(f"| {index} | {_hot_value_v1(node)} | {_hot_value_v1(fields['controller_id'])} | - | captured | pending | not applicable | {_hot_value_v1(fields['status'])} |")
+    lines.extend([
+        "", "## Execution index (projection)", "",
+        f"- Current graph: `{graph.work_graph_path}` at `{graph.work_graph_digest}`",
+        f"- Generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`",
+        f"- Generation manifest digest: `{custody.manifest_digest}`",
+        "", "## Scope boundaries", "",
+    ])
+    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["active_instructions"])
+    lines.extend([
+        "", "## Custody pointers", "",
+        f"- Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`",
+        f"- History query: `{custody.history_query}`",
+    ])
+    return _render_lines_v1(lines)
+
+
+def derive_hot_state_v1(native: NativeCurrent, graph: GraphProjection,
+                        custody: CustodyPointer) -> bytes:
+    if type(native) is not NativeCurrent:
+        raise RotationError("native current state is invalid")
+    return render_state_template_v1(native.hot_state_fields(), graph, custody)
+
+
+def derive_hot_roadmap_v1(native: NativeCurrent, graph: GraphProjection,
+                          custody: CustodyPointer) -> bytes:
+    if type(native) is not NativeCurrent:
+        raise RotationError("native current roadmap is invalid")
+    return render_roadmap_template_v1(native.hot_roadmap_fields(), graph, custody)
 
 
 class ExpectedOldCasLost(RotationError):
