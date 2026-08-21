@@ -560,6 +560,20 @@ def verify_generation_successor_tuple_v1(*, pointer: dict[str, object], manifest
         raise RotationError("successor pointer predecessor disagrees")
 
 
+def verify_pointer_manifest_tuple_v1(*, pointer: dict[str, object], manifest: dict[str, object],
+                                     manifest_oid: str) -> None:
+    """Require every candidate pointer/manifest identity field to agree exactly."""
+    verify_generation_pointer_v1(pointer)
+    manifest_digest = verify_generation_manifest_v1(manifest)
+    if (type(manifest_oid) is not str or not GIT_OID.fullmatch(manifest_oid)
+            or pointer["generation_manifest_oid"] != manifest_oid
+            or pointer["generation_manifest_digest"] != manifest_digest
+            or tuple(pointer[key] for key in ("controller_id", "claim_id", "run_id", "generation_id", "source_epoch"))
+            != tuple(manifest[key] for key in ("controller_id", "claim_id", "run_id", "generation_id", "source_epoch"))
+            or pointer["cold_high_water"] != manifest["high_water"]):
+        raise RotationError("pointer and manifest tuple disagrees")
+
+
 def read_exact_git_blob_oid_v1(repo: Path, oid: str) -> bytes:
     if type(oid) is not str or not GIT_OID.fullmatch(oid):
         raise RotationError("Git object identity is invalid")
@@ -613,8 +627,6 @@ def verify_manifest_segments_core_v1(repo: Path, manifest: dict[str, object]) ->
         raw = load_exact_segment_bytes_v1(repo, str(manifest["run_id"]),
                                           str(manifest["generation_id"]),
                                           str(row["sequence"]), str(row["event_id"]))
-        if "sha256:" + hashlib.sha256(raw).hexdigest() != row["segment_digest"]:
-            raise RotationError("manifest segment digest disagrees")
         try:
             segment = json.loads(raw.decode("utf-8", "strict"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -635,6 +647,8 @@ def verify_manifest_segments_core_v1(repo: Path, manifest: dict[str, object]) ->
                 or segment["record_kind"] != row["record_kind"]
                 or segment["source_evidence_id"] != row["source_evidence_id"]):
             raise RotationError("manifest row and segment semantics disagree")
+        if "sha256:" + hashlib.sha256(raw).hexdigest() != row["segment_digest"]:
+            raise RotationError("manifest segment digest disagrees")
 
 
 def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
@@ -920,9 +934,8 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
         manifest = load_canonical_generation_manifest_oid_v1(repo, str(pointer["generation_manifest_oid"]))
         if tuple(manifest[key] for key in ("controller_id", "claim_id", "run_id", "generation_id", "source_epoch")) != expected:
             raise RotationError("generation manifest authority disagrees with live custody")
-        if (pointer["generation_manifest_digest"] != manifest["manifest_digest"]
-                or pointer["cold_high_water"] != manifest["high_water"]):
-            raise RotationError("pointer and manifest disagree")
+        verify_pointer_manifest_tuple_v1(
+            pointer=pointer, manifest=manifest, manifest_oid=str(pointer["generation_manifest_oid"]))
         predecessor_oid = context["expected_old_pointer_oid"]
         previous = (None if predecessor_oid is None else
                     load_canonical_generation_pointer_oid_v1(repo, str(predecessor_oid)))

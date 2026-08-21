@@ -64,12 +64,19 @@ if (fixture.get("schema")
         != "implementaudit.canonical-state-rotation-sequence-cas-cases.v1"
         or [row.get("id") for row in fixture.get("cases", [])] != expected):
     raise SystemExit("sequence-CAS fixture population drift")
+sc10_subcases = ["manifest-as-pointer", "noncanonical-pointer-bytes", "noncanonical-manifest-bytes",
+                 "manifest-oid", "manifest-digest", "controller-id", "claim-id", "run-id",
+                 "generation-id", "source-epoch", "cold-high-water"]
+if fixture["cases"][-1].get("subcases") != sc10_subcases:
+    raise SystemExit("SC10 fixture subcase population drift")
 
 
-def error(action):
+def error(action, expected=None):
     try:
         action()
-    except rotation.RotationError:
+    except rotation.RotationError as exc:
+        if expected is not None and str(exc) != expected:
+            raise SystemExit("expected %r, got %r" % (expected, exc))
         return
     raise SystemExit("expected a fail-closed sequence-CAS refusal")
 
@@ -181,12 +188,25 @@ segment_ref = (rotation.EVENT_SEGMENT_PREFIX + "/run-1/G0001/0000000000000000000
                segment["event_id"])
 git(repo, "update-ref", segment_ref, segment_oid)
 rotation.verify_manifest_segments_core_v1(repo, segment_manifest)
-bad_segment = dict(segment, controller_id="controller-2")
+def reidentify(value):
+    result = dict(value)
+    result.pop("event_id")
+    result["event_id"] = "iaevt-v1-" + hashlib.sha256(rotation.canonical_json_v1(result)).hexdigest()
+    return result
+
+bad_segment = reidentify(dict(segment, controller_id="controller-2"))
 bad_segment_raw = rotation.canonical_json_v1(bad_segment)
 bad_oid = blob(repo, bad_segment_raw)
 git(repo, "update-ref", segment_ref, bad_oid, segment_oid)
-error(lambda: rotation.verify_manifest_segments_core_v1(repo, segment_manifest))
+error(lambda: rotation.verify_manifest_segments_core_v1(repo, segment_manifest),
+      "manifest row and segment semantics disagree")
 git(repo, "update-ref", segment_ref, segment_oid, bad_oid)
+bad_epoch = reidentify(dict(segment, source_epoch="G0002"))
+bad_epoch_oid = blob(repo, rotation.canonical_json_v1(bad_epoch))
+git(repo, "update-ref", segment_ref, bad_epoch_oid, segment_oid)
+error(lambda: rotation.verify_manifest_segments_core_v1(repo, segment_manifest),
+      "manifest row and segment semantics disagree")
+git(repo, "update-ref", segment_ref, segment_oid, bad_epoch_oid)
 segment_manifest_oid = blob(repo, rotation.canonical_json_v1(segment_manifest))
 segment_pointer, segment_pointer_bytes = rotation.build_generation_pointer_v1(
     controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
@@ -196,6 +216,39 @@ segment_pointer, segment_pointer_bytes = rotation.build_generation_pointer_v1(
     hot_roadmap_digest="c" * 64, work_graph_path="WORK_GRAPH.json", work_graph_digest="d" * 64,
     degraded_state="NONE")
 segment_pointer_oid = blob(repo, segment_pointer_bytes)
+
+def rehashed_pointer(pointer):
+    result = dict(pointer)
+    result["pointer_digest"] = hashlib.sha256(rotation.canonical_json_v1(
+        {key: value for key, value in result.items() if key != "pointer_digest"})).hexdigest()
+    return result
+
+# Every SC10 subcase is executed against the strict tuple boundary, rather than
+# being treated as a fixture label.  The actual manifest OID is separately
+# supplied so a pointer's self-reported OID cannot make the comparison tautological.
+error(lambda: rotation.load_canonical_generation_manifest_oid_v1(repo, segment_pointer_oid),
+      "manifest keys are not exact")
+noncanonical_pointer_oid = blob(repo, json.dumps(segment_pointer, sort_keys=True).encode())
+error(lambda: rotation.load_canonical_generation_pointer_oid_v1(repo, noncanonical_pointer_oid),
+      "generation pointer bytes are not canonical")
+noncanonical_manifest_oid = blob(repo, json.dumps(segment_manifest, sort_keys=True).encode())
+error(lambda: rotation.load_canonical_generation_manifest_oid_v1(repo, noncanonical_manifest_oid),
+      "generation manifest bytes are not canonical")
+tuple_mutations = {
+    "manifest-oid": ("generation_manifest_oid", pointer_oid),
+    "manifest-digest": ("generation_manifest_digest", "0" * 64),
+    "controller-id": ("controller_id", "controller-2"),
+    "claim-id": ("claim_id", "b" * 32),
+    "run-id": ("run_id", "run-2"),
+    "generation-id": ("generation_id", "G0002"),
+    "source-epoch": ("source_epoch", "G0002"),
+    "cold-high-water": ("cold_high_water", "00000000000000000002"),
+}
+for label, (field, value) in tuple_mutations.items():
+    changed = rehashed_pointer(dict(segment_pointer, **{field: value}))
+    error(lambda changed=changed: rotation.verify_pointer_manifest_tuple_v1(
+        pointer=changed, manifest=segment_manifest, manifest_oid=segment_manifest_oid),
+        "pointer and manifest tuple disagrees")
 
 # The remaining denominator is deliberately isolated: no controller or protected
 # ref is used.  It proves guards, fencing, freeze/re-read, lease exclusion, and
@@ -312,7 +365,8 @@ finally:
     os.chdir(original_cwd)
     rotation.load_governed_publication_context_v1 = original_context
 print("CANONICAL_STATE_ROTATION_SEQUENCE_CAS_GREEN=SC01-SC10 fixture=10/10 isolated-cas=PASS "
-      "executed=20/20[guard-races:5,fence-mutations:9,digest-fence:1,freeze:1,lease:1,hook-env:1,segment-core:2]")
+      "executed=42/42[fixture-cases:10,SC10-subcases:11,guard-races:5,fence-mutations:9,"
+      "digest-fence:1,freeze:1,lease:1,hook-env:1,segment-core:3]")
 PY
   exit 0
 fi

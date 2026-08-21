@@ -10,6 +10,22 @@
     {"id": "SC07-noncontiguous-gap", "expect": "REJECT"},
     {"id": "SC08-wrong-predecessor-high-water", "expect": "REJECT"},
     {"id": "SC09-other-predecessor-manifest", "expect": "REJECT"},
-    {"id": "SC10-pointer-manifest-type-confusion", "expect": "REJECT"}
+    {
+      "id": "SC10-pointer-manifest-type-confusion",
+      "expect": "REJECT",
+      "subcases": [
+        "manifest-as-pointer",
+        "noncanonical-pointer-bytes",
+        "noncanonical-manifest-bytes",
+        "manifest-oid",
+        "manifest-digest",
+        "controller-id",
+        "claim-id",
+        "run-id",
+        "generation-id",
+        "source-epoch",
+        "cold-high-water"
+      ]
+    }
   ]
 }
