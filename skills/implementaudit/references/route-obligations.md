@@ -1,4 +1,4 @@
-# Route-decision and obligation authority (R0033 H2A)
+# Route-decision and obligation authority (R0033 H2A/H2B)
 
 After a live boundary and current continuity receipt, substantive advancement
 still requires one canonical route decision. The durable values are exactly
@@ -73,18 +73,61 @@ invalidation or scope-expansion change. Re-run `check` immediately before
 blocked by another controller's obligation.
 
 `REQUIRED` creates a controller-scoped obligation with route state
-`UNSATISFIED`. H2A does not open a child, admit child bytes or packet identity,
-accept a child return, reread post-return currentness, or complete the
-obligation. Those transitions belong to H2B. An H2A active obligation therefore
-cannot be downgraded or replaced.
+`UNSATISFIED`. H2A `decide` does not open a child, admit child bytes or packet
+identity, accept a child return, reread post-return currentness, or complete the
+obligation. Those transitions belong to the H2B commands below. An active
+obligation cannot be downgraded or replaced.
+
+## Bounded history routing
+
+Routine route recovery consumes only verified current hot authority and reports
+`history_read_performed: false`; it does not enumerate or hydrate immutable
+event segments. When the exact action is `route-trigger
+QUERY_HISTORY_THEN_RESUME iaevt-v1-<64-lowercase-hex>`, `decide` emits and records one
+`implementaudit.history-query-request.v1` object with route
+`QUERY_HISTORY_THEN_RESUME`, requirement `REQUIRED`, and a one-element ordered
+`evidence_ids` list. The route remains `REQUIRED/JUDGEMENT_REQUIRED`. This is a
+request for the later R0038 owner, not execution or satisfaction of that query.
+
+An optional `--mirror-claim` is observation only. `check` reports
+`IGNORED_CORROBORATION`, `IGNORED_CONTRADICTION`, or `IGNORED_ABSENT` against
+the canonical decision/route state. A mirror or ActiveGraph claim never writes
+the route ref, changes its result, or grants advancement.
+
+## H2B child lifecycle and replay
+
+`open --expected-record <oid> --packet <path>` accepts only the exact current
+`REQUIRED/UNSATISFIED` record. It validates the immutable packet and stores the
+full audit-state child and packet bytes, byte counts, digests, and identities in
+the canonical `OPEN` successor. `return --expected-record <oid> --return
+<path>` accepts only a return bound to that obligation, route transaction, and
+packet digest, then stores its exact bytes as the canonical `RETURNED`
+successor. Neither state advances.
+
+`complete --expected-record <oid> --packet <path> --return <path> --decision
+<path>` rereads controller, continuity, host binding, predicate, child, packet,
+and the same live return before recording a canonical `SATISFIED` successor. A
+decision must bind the exact return digest. The lifecycle admits exactly one
+governor decision; replaying that identical completion is idempotent and emits
+no second record. Only a current `REQUIRED/SATISFIED` check grants advancement.
+
+`replay --expected-record <oid> --event <path>` compares immutable source-event
+identity, not message text. Reconstructed `E1` for a satisfied one-shot is a
+zero-effect `REPLAY_NO_OP`. A distinct `E2` remains distinct even if its body is
+identical, while an already-terminal target is a zero-effect `TERMINAL_NO_OP`
+unless its event explicitly carries reopen, target-change, or invalidating
+evidence. Missing, ambiguous, or identity-conflicting provenance returns
+`ambiguous` and STOP. An outstanding standing constraint with the same source
+identity remains `STANDING_APPLIES`; it is not converted into a new instruction
+row.
 
 ## Projection and proof boundary
 
 STATE carries only `Route decision projection` and `Route decision record`.
 Those rows may report the canonical record, but are never authority; a direct
-edit has no effect and disagreement is an invalid projection. The H2A source
-core does not prove package inclusion, installation, native host activation,
-child loading, route completion, lifecycle closure, READY, JOIN, or
+edit has no effect and disagreement is an invalid projection. The source core
+does not prove package inclusion, installation, native host activation, READY,
+JOIN, lifecycle closure beyond its exact route obligation, or
 `AUDIT_COMPLETE`.
 
 Rollback removes the helper, reference, wrapper route and template projection.

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Canonical R0033 route-decision and obligation authority.
 
-This H2A core owns only PENDING/NOT_REQUIRED/REQUIRED classification and the
-current immutable Git-ref record. Child opening, result return, and obligation
-completion are deliberately outside this module.
+The H2A core owns PENDING/NOT_REQUIRED/REQUIRED classification and the current
+immutable Git-ref record. H2B extends that same authority with bounded child
+open, return, completion, and source-identity replay checks.
 """
 
 from __future__ import annotations
 
 import argparse
+import base64
 import contextlib
 import errno
 import hashlib
@@ -28,6 +29,10 @@ RESULT_SCHEMA = "implementaudit.route-transaction-result.v1"
 REQUEST_SCHEMA = "implementaudit.route-decision-request.v1"
 RECORD_SCHEMA = "implementaudit.route-decision.v1"
 PREDICATE_VERSION = "R0033.route-predicate.v1"
+PACKET_SCHEMA = "implementaudit.route-packet.v1"
+SOURCE_EVENT_SCHEMA = "implementaudit.source-event.v1"
+CHILD_RETURN_SCHEMA = "implementaudit.child-return.v1"
+GOVERNOR_DECISION_SCHEMA = "implementaudit.governor-route-decision.v1"
 DECISIONS = {"PENDING", "NOT_REQUIRED", "REQUIRED"}
 CLASSIFICATIONS = {
     "MECHANICALLY_REQUIRED",
@@ -51,6 +56,7 @@ CONTINUITY_RE = re.compile(r"G[0-9A-F]{4}")
 CONTROLLER_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,47}")
 OID_RE = re.compile(r"[0-9a-f]{40}(?:[0-9a-f]{24})?")
 HEX_RE = re.compile(r"sha256:[0-9a-f]{64}")
+EVENT_ID_RE = re.compile(r"iaevt-v1-[0-9a-f]{64}")
 ZERO_OID = "0" * 40
 EXPIRES_ON = [
     "action-completion",
@@ -77,6 +83,9 @@ RECORD_KEYS = {
     "route_transaction_id", "obligation_id", "route_state", "child_lifecycle_owned",
     "consumed_record_oid", "record_identity",
 }
+HISTORY_RECORD_KEYS = RECORD_KEYS | {"history_query"}
+LIFECYCLE_RECORD_KEYS = RECORD_KEYS | {"lifecycle"}
+HISTORY_LIFECYCLE_RECORD_KEYS = HISTORY_RECORD_KEYS | {"lifecycle"}
 
 
 def emit(payload: dict[str, Any]) -> None:
@@ -202,6 +211,134 @@ def read_request(path: str) -> dict[str, Any]:
     return request
 
 
+def read_exact_artifact(path: str, label: str) -> tuple[bytes, dict[str, Any]]:
+    target = Path(path)
+    try:
+        if target.absolute() != target.resolve(strict=True):
+            fail(f"{label} traverses an alias")
+        info = os.lstat(target)
+        if not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode) or info.st_size > 1_000_000:
+            fail(f"{label} is not a safe bounded regular file")
+        raw = target.read_bytes()
+        value = json.loads(raw.decode("utf-8", "strict"), object_pairs_hook=unique_object)
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+        fail(f"{label} is unreadable or malformed: {exc}")
+    if not isinstance(value, dict):
+        fail(f"{label} is not a JSON object")
+    return raw, value
+
+
+def bytes_identity(raw: bytes) -> dict[str, Any]:
+    return {
+        "bytes": len(raw),
+        "digest": f"sha256:{hashlib.sha256(raw).hexdigest()}",
+        "bytes_b64": base64.b64encode(raw).decode("ascii"),
+    }
+
+
+def validate_bytes_identity(value: Any, label: str, *, with_identity: bool = False) -> bytes:
+    keys = {"bytes", "digest", "bytes_b64"} | ({"identity"} if with_identity else set())
+    record = exact_keys(value, keys, label)
+    if with_identity:
+        exact_text(record["identity"], f"{label}.identity")
+    if type(record["bytes"]) is not int or record["bytes"] < 0 or record["bytes"] > 1_000_000:
+        fail(f"{label}.bytes is not a bounded byte count")
+    if not isinstance(record["digest"], str) or not HEX_RE.fullmatch(record["digest"]):
+        fail(f"{label}.digest is not a canonical sha256 identity")
+    try:
+        raw = base64.b64decode(record["bytes_b64"], validate=True)
+    except (TypeError, ValueError):
+        fail(f"{label}.bytes_b64 is malformed")
+    if bytes_identity(raw) != {key: item for key, item in record.items() if key != "identity"}:
+        fail(f"{label} bytes do not match their count and digest")
+    return raw
+
+
+def source_event_record(value: Any, label: str = "source_event") -> dict[str, Any]:
+    event = exact_keys(
+        value,
+        {"schema", "source_identity", "provenance", "body", "kind", "reactivation"},
+        label,
+    )
+    if event["schema"] != SOURCE_EVENT_SCHEMA:
+        fail(f"{label} schema is stale")
+    identity = exact_text(event["source_identity"], f"{label}.source_identity")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,255}", identity):
+        fail(f"{label} source identity is not canonical")
+    if event["provenance"] != "host-event":
+        fail(f"{label} provenance is ambiguous")
+    body = event["body"]
+    if not isinstance(body, str) or not body or len(body.encode("utf-8")) > 100_000 or "\x00" in body:
+        fail(f"{label} body is empty, oversized, or malformed")
+    if event["kind"] not in {"one-shot-action", "standing-constraint"}:
+        fail(f"{label} kind is unsupported")
+    reactivation = exact_keys(
+        event["reactivation"], {"reopen", "target_changed", "invalidating_evidence"}, f"{label}.reactivation"
+    )
+    if any(type(reactivation[key]) is not bool for key in reactivation):
+        fail(f"{label} reactivation flags are malformed")
+    return event
+
+
+def read_route_packet(path: str, obligation_id: str, transaction_id: str) -> tuple[bytes, dict[str, Any]]:
+    raw, packet = read_exact_artifact(path, "route packet")
+    exact_keys(
+        packet,
+        {"schema", "obligation_id", "route_transaction_id", "source_event", "target_identity"},
+        "route packet",
+    )
+    if packet["schema"] != PACKET_SCHEMA:
+        fail("route packet schema is stale")
+    if packet["obligation_id"] != obligation_id or packet["route_transaction_id"] != transaction_id:
+        fail("route packet names a foreign obligation or transaction")
+    source_event_record(packet["source_event"])
+    exact_text(packet["target_identity"], "route packet target_identity")
+    return raw, packet
+
+
+def read_child_return(
+    path: str, obligation_id: str, transaction_id: str, packet_digest: str
+) -> tuple[bytes, dict[str, Any]]:
+    raw, returned = read_exact_artifact(path, "child return")
+    exact_keys(
+        returned,
+        {"schema", "obligation_id", "route_transaction_id", "packet_digest", "status", "payload"},
+        "child return",
+    )
+    if returned["schema"] != CHILD_RETURN_SCHEMA or returned["status"] != "RETURNED":
+        fail("child return schema or status is stale")
+    if (
+        returned["obligation_id"] != obligation_id
+        or returned["route_transaction_id"] != transaction_id
+        or returned["packet_digest"] != packet_digest
+    ):
+        fail("child return names a foreign delivery")
+    if not isinstance(returned["payload"], dict):
+        fail("child return payload is malformed")
+    return raw, returned
+
+
+def read_governor_decision(
+    path: str, obligation_id: str, transaction_id: str, return_digest: str
+) -> tuple[bytes, dict[str, Any]]:
+    raw, decision = read_exact_artifact(path, "governor decision")
+    exact_keys(
+        decision,
+        {"schema", "obligation_id", "route_transaction_id", "return_digest", "outcome", "reason"},
+        "governor decision",
+    )
+    if decision["schema"] != GOVERNOR_DECISION_SCHEMA or decision["outcome"] != "SATISFIED":
+        fail("governor decision schema or outcome is not admissible")
+    if (
+        decision["obligation_id"] != obligation_id
+        or decision["route_transaction_id"] != transaction_id
+        or decision["return_digest"] != return_digest
+    ):
+        fail("governor decision names a foreign return")
+    exact_text(decision["reason"], "governor decision reason")
+    return raw, decision
+
+
 def mechanical_action_class(argv: list[str]) -> str | None:
     executable = argv[0].lower()
     claim = Path(__file__).resolve().with_name("claim-run.sh")
@@ -240,6 +377,20 @@ def mechanical_required_reason(argv: list[str]) -> str | None:
     return None
 
 
+def normalized_history_query(request: dict[str, Any]) -> dict[str, Any] | None:
+    argv = request["action"]["argv"]
+    if len(argv) < 2 or argv[:2] != ["route-trigger", "QUERY_HISTORY_THEN_RESUME"]:
+        return None
+    if len(argv) != 3 or not EVENT_ID_RE.fullmatch(argv[2]):
+        fail("history query requires one exact immutable evidence identity")
+    return {
+        "schema": "implementaudit.history-query-request.v1",
+        "route": "QUERY_HISTORY_THEN_RESUME",
+        "requirement": "REQUIRED",
+        "evidence_ids": [argv[2]],
+    }
+
+
 def classify(request: dict[str, Any], noncurrent: list[str]) -> tuple[str, str, list[str]]:
     judgement = [item for item in noncurrent if item.endswith(":JUDGEMENT_REQUIRED")]
     if judgement:
@@ -249,6 +400,9 @@ def classify(request: dict[str, Any], noncurrent: list[str]) -> tuple[str, str, 
     required_reason = mechanical_required_reason(request["action"]["argv"])
     if required_reason is not None:
         return "REQUIRED", "MECHANICALLY_REQUIRED", [required_reason]
+    history_query = normalized_history_query(request)
+    if history_query is not None:
+        return "REQUIRED", "JUDGEMENT_REQUIRED", [f"history-evidence:{history_query['evidence_ids'][0]}"]
     derived = mechanical_action_class(request["action"]["argv"])
     if derived is None or request["action"]["class"] != derived or derived not in CLOSED_ACTION_CLASSES:
         return "REQUIRED", "JUDGEMENT_REQUIRED", ["route judgement cannot mint NOT_REQUIRED"]
@@ -283,18 +437,31 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
         record = json.loads(git(repo, "cat-file", "blob", oid), object_pairs_hook=unique_object)
     except (json.JSONDecodeError, ValueError):
         fail("current route record is malformed")
-    if not isinstance(record, dict) or set(record) != RECORD_KEYS or record.get("schema") != RECORD_SCHEMA:
+    if (
+        not isinstance(record, dict)
+        or frozenset(record) not in {
+            frozenset(RECORD_KEYS),
+            frozenset(HISTORY_RECORD_KEYS),
+            frozenset(LIFECYCLE_RECORD_KEYS),
+            frozenset(HISTORY_LIFECYCLE_RECORD_KEYS),
+        }
+        or record.get("schema") != RECORD_SCHEMA
+    ):
         fail("current route record is malformed or mixed-version")
+    if "history_query" in record and record["history_query"] != normalized_history_query(record):
+        fail("current route record has a malformed history-query request")
+    lifecycle = record.get("lifecycle")
     if (
         record.get("predicate_version") != PREDICATE_VERSION
         or record.get("controller_id") != controller
         or record.get("decision") not in DECISIONS
         or record.get("expires_on") != EXPIRES_ON
-        or record.get("child_lifecycle_owned") is not False
+        or record.get("child_lifecycle_owned") is not (lifecycle is not None)
     ):
         fail("current route record has foreign identity or invalid decision")
     if record["decision"] == "REQUIRED":
-        if record.get("route_state") != "UNSATISFIED" or not isinstance(record.get("obligation_id"), str):
+        allowed_states = {"UNSATISFIED"} if lifecycle is None else {"OPEN", "RETURNED", "SATISFIED"}
+        if record.get("route_state") not in allowed_states or not isinstance(record.get("obligation_id"), str):
             fail("current required route record has no unsatisfied obligation")
     elif record.get("route_state") is not None or record.get("obligation_id") is not None:
         fail("non-required route record improperly owns an obligation")
@@ -302,19 +469,87 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
         {key: value for key, value in record.items() if key != "record_identity"}
     ):
         fail("current route record identity is invalid")
+    if lifecycle is not None:
+        exact_keys(
+            lifecycle,
+            {
+                "state", "required_record_oid", "delivery", "child_return", "governor_decision",
+                "governor_decision_count", "source_event_status",
+            },
+            "route lifecycle",
+        )
+        delivery = exact_keys(lifecycle["delivery"], {"child", "packet"}, "route lifecycle delivery")
+        validate_bytes_identity(delivery["child"], "route lifecycle child", with_identity=True)
+        validate_bytes_identity(delivery["packet"], "route lifecycle packet")
+        if lifecycle["child_return"] is not None:
+            validate_bytes_identity(lifecycle["child_return"], "route lifecycle child return")
+        if lifecycle["governor_decision"] is not None:
+            validate_bytes_identity(lifecycle["governor_decision"], "route lifecycle governor decision")
+        if lifecycle["source_event_status"] not in {"active", "satisfied"}:
+            fail("route lifecycle source-event status is malformed")
+        if lifecycle["state"] != record["route_state"] or not OID_RE.fullmatch(lifecycle["required_record_oid"]):
+            fail("route lifecycle state or required-record identity is malformed")
+        if lifecycle["state"] != "SATISFIED" and lifecycle["source_event_status"] != "active":
+            fail("incomplete route lifecycle cannot contain a satisfied source event")
+        if lifecycle["state"] == "OPEN" and (
+            lifecycle["child_return"] is not None
+            or lifecycle["governor_decision"] is not None
+            or lifecycle["governor_decision_count"] != 0
+        ):
+            fail("open route lifecycle contains return or decision evidence")
+        if lifecycle["state"] == "RETURNED" and (
+            not isinstance(lifecycle["child_return"], dict)
+            or lifecycle["governor_decision"] is not None
+            or lifecycle["governor_decision_count"] != 0
+        ):
+            fail("returned route lifecycle has malformed return or decision evidence")
+        if lifecycle["state"] == "SATISFIED" and (
+            not isinstance(lifecycle["child_return"], dict)
+            or not isinstance(lifecycle["governor_decision"], dict)
+            or lifecycle["governor_decision_count"] != 1
+        ):
+            fail("satisfied route lifecycle does not contain exactly one governor decision")
     return oid, record
+
+
+def git_blob_bytes(repo: Path, oid: str, label: str) -> bytes:
+    completed = subprocess.run(
+        [str(trusted_host_executable(repo, "git")), "cat-file", "blob", oid],
+        cwd=repo,
+        env=sanitized_action_environment(),
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode:
+        fail(f"{label} blob is unreadable")
+    return completed.stdout
+
+
+def bash_script_path(path: Path) -> str:
+    resolved = str(path.resolve())
+    if os.name != "nt":
+        return resolved
+    drive, tail = os.path.splitdrive(resolved)
+    if len(drive) != 2 or drive[1] != ":":
+        fail("shell action path is not on an exact local drive")
+    return f"/{drive[0].lower()}{tail.replace(os.sep, '/')}"
 
 
 def current_controller(repo: Path, controller: str) -> dict[str, str]:
     claim = Path(__file__).with_name("claim-run.sh")
     bash = trusted_host_executable(repo, "bash")
     environment = sanitized_action_environment()
-    current = run([str(bash), str(claim), "--current-controller", controller], cwd=repo, label="controller currentness", environment=environment)
+    claim_arg = bash_script_path(claim)
+    current = run([str(bash), claim_arg, "--current-controller", controller], cwd=repo, label="controller currentness", environment=environment)
     parts = current.split("\t")
     if len(parts) != 4 or parts[0] != controller:
         fail("controller currentness returned a foreign or malformed record")
+    try:
+        explicit_run_root = str(Path(parts[2]).resolve(strict=True))
+    except OSError as exc:
+        fail(f"controller currentness returned an unreadable run root: {exc}")
     receipt = run(
-        [str(bash), str(claim), "--require-current-continuity", controller],
+        [str(bash), claim_arg, "--require-current-continuity", controller],
         cwd=repo,
         label="continuity currentness",
         environment=environment,
@@ -326,31 +561,71 @@ def current_controller(repo: Path, controller: str) -> dict[str, str]:
     if not CONTINUITY_RE.fullmatch(generation):
         fail("continuity generation is malformed")
     receipt_oid = receipt.split("@", 1)[1]
-    receipt_fields = git(repo, "cat-file", "blob", receipt_oid).split("\t")
-    if len(receipt_fields) != 12 or receipt_fields[0] != "implementaudit.continuity-receipt.v2":
-        fail("R0033 route authority requires a current v2 continuity receipt")
-    invalidation_oid = receipt_fields[8]
+    receipt_raw = git_blob_bytes(repo, receipt_oid, "continuity receipt")
+    try:
+        receipt_text = receipt_raw.decode("utf-8", "strict")
+    except UnicodeError:
+        fail("continuity receipt is not UTF-8")
+    if "\r" in receipt_text or "\x00" in receipt_text:
+        fail("continuity receipt has forbidden bytes")
+    receipt_fields = receipt_text.rstrip("\n").split("\t")
+    schema = receipt_fields[0] if receipt_fields else ""
+    if schema == "implementaudit.continuity-receipt.v2":
+        if (
+            len(receipt_fields) != 12
+            or receipt_fields[1] != controller
+            or receipt_fields[3] != parts[3]
+            or receipt_fields[10] != generation
+        ):
+            fail("current v2 continuity receipt is malformed or foreign")
+        invalidation_oid = receipt_fields[8]
+        boundary_kind = receipt_fields[9]
+        next_action = receipt_fields[11]
+    elif schema == "implementaudit.continuity-receipt.v3":
+        if (
+            len(receipt_fields) != 18
+            or not receipt_raw.endswith(b"\n")
+            or receipt_raw.endswith(b"\n\n")
+            or b"\n" in receipt_raw[:-1]
+            or receipt_fields[1] != controller
+            or receipt_fields[2] != parts[3]
+            or receipt_fields[3] != Path(parts[2]).name
+            or receipt_fields[4] != generation
+            or receipt_fields[6] != f"refs/implementaudit/current-generations/{controller}"
+        ):
+            fail("current v3 continuity receipt is malformed or foreign")
+        invalidation_oid = receipt_fields[5]
+        boundary_kind = ""
+        next_action = receipt_fields[16]
+    else:
+        fail("R0033 route authority requires a current v2 or v3 continuity receipt")
     if invalidation_oid == "none":
         fail("route authority requires an exact current boundary invalidation")
-    invalidation_fields = git(repo, "cat-file", "blob", invalidation_oid).split("\t")
+    try:
+        invalidation_fields = git_blob_bytes(repo, invalidation_oid, "continuity invalidation").decode(
+            "utf-8", "strict"
+        ).rstrip("\n").split("\t")
+    except UnicodeError:
+        fail("continuity boundary invalidation is not UTF-8")
     if (
         len(invalidation_fields) != 6
         or invalidation_fields[0] != "implementaudit.continuity-invalidation.v1"
         or invalidation_fields[1] != controller
-        or invalidation_fields[4] != receipt_fields[9]
+        or (boundary_kind and invalidation_fields[4] != boundary_kind)
     ):
         fail("continuity boundary invalidation is malformed or foreign")
+    boundary_kind = invalidation_fields[4]
     return {
         "controller_id": parts[0],
         "repository_identity": parts[1],
-        "explicit_run_root": parts[2],
+        "explicit_run_root": explicit_run_root,
         "claim_id": parts[3],
         "continuity_receipt": receipt,
         "continuity_generation": generation,
         "controller_record_oid": git(repo, "rev-parse", "--verify", f"refs/implementaudit/controllers/{controller}"),
-        "boundary_kind": receipt_fields[9],
+        "boundary_kind": boundary_kind,
         "boundary_event_id": invalidation_fields[5],
-        "next_action": receipt_fields[11],
+        "next_action": next_action,
     }
 
 
@@ -366,7 +641,16 @@ def file_digest(path: Path) -> str:
 
 
 def trusted_host_executable(repo: Path, name: str) -> Path:
-    selected = shutil.which(name)
+    selected: str | None = None
+    if os.name == "nt" and name == "bash":
+        for key in ("ProgramFiles", "ProgramFiles(x86)"):
+            if root := os.environ.get(key):
+                candidate = Path(root) / "Git" / "bin" / "bash.exe"
+                if candidate.is_file():
+                    selected = str(candidate)
+                    break
+    if selected is None:
+        selected = shutil.which(name)
     if selected is None:
         fail(f"trusted host executable is unavailable: {name}")
     resolved = Path(selected).resolve()
@@ -444,7 +728,7 @@ def sanitized_action_environment() -> dict[str, str]:
             git_root = Path(program_files) / "Git"
             candidates.extend((git_root / "cmd", git_root / "bin", git_root / "usr" / "bin"))
         if system_root := os.environ.get("SystemRoot"):
-            candidates.append(Path(system_root) / "System32")
+            candidates.extend((Path(system_root) / "System32", Path(system_root)))
         environment["PATH"] = os.pathsep.join(str(path.resolve()) for path in candidates if path.is_dir())
     else:
         environment["PATH"] = "/usr/bin:/bin"
@@ -862,6 +1146,13 @@ def projection_status(run_root: str, decision: str, oid: str) -> str:
     return "CURRENT" if (projected_decision, projected_record) == (decision, oid) else "INVALID"
 
 
+def mirror_observation(decision: str, route_state: str | None, claim: str) -> str:
+    if claim == "ABSENT":
+        return "IGNORED_ABSENT"
+    canonical = route_state if route_state is not None else decision
+    return "IGNORED_CORROBORATION" if claim == canonical else "IGNORED_CONTRADICTION"
+
+
 def common_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--controller", required=True)
     parser.add_argument("--store", required=True)
@@ -869,11 +1160,432 @@ def common_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--host-session-id", required=True)
     parser.add_argument("--binding-generation", required=True)
     parser.add_argument("--request", required=True)
+    parser.add_argument("--mirror-claim", choices=("ABSENT", "PENDING", "SATISFIED"), default="ABSENT")
+
+
+def validate_route_currentness(
+    repo: Path,
+    common: str,
+    args: argparse.Namespace,
+    request: dict[str, Any],
+    record: dict[str, Any],
+) -> tuple[dict[str, str], dict[str, Any], str]:
+    current = current_controller(repo, args.controller)
+    bound_context = {
+        "controller_id": args.controller,
+        "claim_id": current["claim_id"],
+        "explicit_run_root": current["explicit_run_root"],
+        "continuity_generation": current["continuity_generation"],
+        "continuity_receipt": current["continuity_receipt"],
+        "host_id": args.host_id,
+        "host_session_id": args.host_session_id,
+        "host_binding_generation": args.binding_generation,
+    }
+    for key, value in bound_context.items():
+        if record.get(key) != value:
+            fail(f"route decision expired because bound {key} changed", decision=record["decision"])
+    decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
+        repo, common, args, current, request
+    )
+    if (
+        record.get("expiry_fingerprint") != fingerprint
+        or record.get("decision") != decision
+        or record.get("classification") != classification
+        or record.get("invalidators") != invalidators
+        or record.get("route_transaction_id") != transaction_id
+        or record.get("obligation_id") != obligation_id
+        or record.get("history_query") != normalized_history_query(request)
+    ):
+        fail("route decision no longer agrees with its exact live predicate", decision=record["decision"])
+    return current, evidence, fingerprint
+
+
+def post_route_currentness(
+    repo: Path,
+    common: str,
+    args: argparse.Namespace,
+    request: dict[str, Any],
+    expected_current: dict[str, str],
+    expected_fingerprint: str,
+    expected_oid: str,
+) -> None:
+    post_current = current_controller(repo, args.controller)
+    post_eval = evaluate(repo, common, args, post_current, request)
+    post_oid, _ = current_ref(repo, args.controller)
+    if post_current != expected_current or post_eval[4] != expected_fingerprint or post_oid != expected_oid:
+        fail("route lifecycle lost currentness during its canonical transition", decision="REQUIRED")
+
+
+def cas_route_record(
+    repo: Path, controller: str, expected_oid: str, record_base: dict[str, Any], label: str
+) -> tuple[str, dict[str, Any]]:
+    record = {**record_base, "record_identity": digest_json(record_base)}
+    raw = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
+    new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
+    completed = subprocess.run(
+        [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(controller), new_oid, expected_oid],
+        cwd=repo,
+        env=sanitized_action_environment(),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if completed.returncode:
+        fail(f"{label} CAS lost the current-record race", decision="REQUIRED")
+    reread_oid, reread = current_ref(repo, controller)
+    if reread_oid != new_oid or reread != record:
+        fail(f"{label} canonical record reread failed", decision="REQUIRED")
+    return new_oid, record
+
+
+def child_delivery_bytes() -> tuple[bytes, Path]:
+    skill_root = Path(__file__).resolve().parent.parent
+    candidates = [
+        skill_root.parent / "audit-state" / "SKILL.md",
+        skill_root / "internal-procedures" / "audit-state.md",
+    ]
+    child = next((path.resolve() for path in candidates if path.is_file()), None)
+    if child is None:
+        fail("exact audit-state child source is absent from the executing package")
+    try:
+        return child.read_bytes(), child
+    except OSError as exc:
+        fail(f"exact audit-state child bytes are unreadable: {exc}")
+
+
+def command_open(args: argparse.Namespace) -> None:
+    repo, _, common = repo_context()
+    request = read_request(args.request)
+    with namespace_gate(common):
+        old_oid, old = current_ref(repo, args.controller)
+        if old_oid is None or old is None or args.expected_record != old_oid:
+            fail("child-open CAS expected record is stale", decision="REQUIRED")
+        if old["decision"] != "REQUIRED" or old.get("route_state") != "UNSATISFIED" or "lifecycle" in old:
+            fail("only an exact unsatisfied REQUIRED obligation can open a child", decision=old["decision"])
+        current, _, fingerprint = validate_route_currentness(repo, common, args, request, old)
+        packet_raw, packet = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+        child_raw, child_path = child_delivery_bytes()
+        delivery = {
+            "child": {"identity": str(child_path), **bytes_identity(child_raw)},
+            "packet": bytes_identity(packet_raw),
+        }
+        lifecycle = {
+            "state": "OPEN",
+            "required_record_oid": old_oid,
+            "delivery": delivery,
+            "child_return": None,
+            "governor_decision": None,
+            "governor_decision_count": 0,
+            "source_event_status": "active",
+        }
+        record_base = {
+            **{key: value for key, value in old.items() if key != "record_identity"},
+            "predecessor_record_oid": old_oid,
+            "route_state": "OPEN",
+            "child_lifecycle_owned": True,
+            "lifecycle": lifecycle,
+        }
+        new_oid, record = cas_route_record(repo, args.controller, old_oid, record_base, "child-open")
+        post_route_currentness(repo, common, args, request, current, fingerprint, new_oid)
+        packet_after, _ = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+        child_after, _ = child_delivery_bytes()
+        if bytes_identity(packet_after) != delivery["packet"] or bytes_identity(child_after) != {
+            key: value for key, value in delivery["child"].items() if key != "identity"
+        }:
+            fail("child or packet bytes changed during delivery", decision="REQUIRED")
+    emit(
+        {
+            "schema": RESULT_SCHEMA,
+            "status": "CHILD_OPEN",
+            "decision": "REQUIRED",
+            "route_state": "OPEN",
+            "advance_allowed": False,
+            "enforcement_available": True,
+            "record_oid": new_oid,
+            "record_identity": record["record_identity"],
+            "obligation_id": old["obligation_id"],
+            "route_transaction_id": old["route_transaction_id"],
+            "delivery": delivery,
+            "history_read_performed": False,
+        }
+    )
+
+
+def command_return(args: argparse.Namespace) -> None:
+    repo, _, common = repo_context()
+    request = read_request(args.request)
+    with namespace_gate(common):
+        old_oid, old = current_ref(repo, args.controller)
+        if old_oid is None or old is None or args.expected_record != old_oid:
+            fail("child-return CAS expected record is stale", decision="REQUIRED")
+        lifecycle = old.get("lifecycle")
+        if old["decision"] != "REQUIRED" or not isinstance(lifecycle, dict) or lifecycle.get("state") != "OPEN":
+            fail("only an exact OPEN route can accept a child return", decision=old["decision"])
+        current, _, fingerprint = validate_route_currentness(repo, common, args, request, old)
+        return_raw, _ = read_child_return(
+            args.return_path,
+            old["obligation_id"],
+            old["route_transaction_id"],
+            lifecycle["delivery"]["packet"]["digest"],
+        )
+        returned_identity = bytes_identity(return_raw)
+        next_lifecycle = {
+            **lifecycle,
+            "state": "RETURNED",
+            "child_return": returned_identity,
+        }
+        record_base = {
+            **{key: value for key, value in old.items() if key != "record_identity"},
+            "predecessor_record_oid": old_oid,
+            "route_state": "RETURNED",
+            "lifecycle": next_lifecycle,
+        }
+        new_oid, record = cas_route_record(repo, args.controller, old_oid, record_base, "child-return")
+        post_route_currentness(repo, common, args, request, current, fingerprint, new_oid)
+        return_after, _ = read_child_return(
+            args.return_path,
+            old["obligation_id"],
+            old["route_transaction_id"],
+            lifecycle["delivery"]["packet"]["digest"],
+        )
+        if bytes_identity(return_after) != returned_identity:
+            fail("child return bytes changed during canonical return", decision="REQUIRED")
+    emit(
+        {
+            "schema": RESULT_SCHEMA,
+            "status": "CHILD_RETURNED",
+            "decision": "REQUIRED",
+            "route_state": "RETURNED",
+            "advance_allowed": False,
+            "enforcement_available": True,
+            "record_oid": new_oid,
+            "record_identity": record["record_identity"],
+            "child_return": returned_identity,
+            "history_read_performed": False,
+        }
+    )
+
+
+def completion_payload(oid: str, record: dict[str, Any], *, idempotent: bool) -> dict[str, Any]:
+    return {
+        "schema": RESULT_SCHEMA,
+        "status": "ROUTE_COMPLETE",
+        "decision": "REQUIRED",
+        "route_state": "SATISFIED",
+        "advance_allowed": True,
+        "enforcement_available": True,
+        "record_oid": oid,
+        "record_identity": record["record_identity"],
+        "governor_decision_count": 1,
+        "post_return_currentness": "VERIFIED",
+        "history_read_performed": False,
+        "idempotent": idempotent,
+    }
+
+
+def command_complete(args: argparse.Namespace) -> None:
+    repo, _, common = repo_context()
+    request = read_request(args.request)
+    with namespace_gate(common):
+        old_oid, old = current_ref(repo, args.controller)
+        if old_oid is None or old is None or args.expected_record != old_oid:
+            fail("route-completion CAS expected record is stale", decision="REQUIRED")
+        lifecycle = old.get("lifecycle")
+        if old["decision"] != "REQUIRED" or not isinstance(lifecycle, dict):
+            fail("only an exact REQUIRED lifecycle can complete", decision=old["decision"])
+        current, _, fingerprint = validate_route_currentness(repo, common, args, request, old)
+        packet_raw, packet = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+        return_raw, _ = read_child_return(
+            args.return_path,
+            old["obligation_id"],
+            old["route_transaction_id"],
+            lifecycle["delivery"]["packet"]["digest"],
+        )
+        decision_raw, _ = read_governor_decision(
+            args.decision,
+            old["obligation_id"],
+            old["route_transaction_id"],
+            bytes_identity(return_raw)["digest"],
+        )
+        child_raw, child_path = child_delivery_bytes()
+        live_delivery = {
+            "child": {"identity": str(child_path), **bytes_identity(child_raw)},
+            "packet": bytes_identity(packet_raw),
+        }
+        live_return = bytes_identity(return_raw)
+        live_decision = bytes_identity(decision_raw)
+        if lifecycle.get("state") == "SATISFIED":
+            if (
+                lifecycle.get("delivery") != live_delivery
+                or lifecycle.get("child_return") != live_return
+                or lifecycle.get("governor_decision") != live_decision
+                or lifecycle.get("governor_decision_count") != 1
+            ):
+                fail("terminal route completion does not match the exact prior governor decision", decision="REQUIRED")
+            post_route_currentness(repo, common, args, request, current, fingerprint, old_oid)
+            emit(completion_payload(old_oid, old, idempotent=True))
+            return
+        if lifecycle.get("state") != "RETURNED" or lifecycle.get("child_return") != live_return:
+            fail("governor completion did not receive the same canonical live return", decision="REQUIRED")
+        if lifecycle.get("delivery") != live_delivery:
+            fail("governor completion did not receive the original full child and packet bytes", decision="REQUIRED")
+        source_event = source_event_record(packet["source_event"])
+        source_status = "satisfied" if source_event["kind"] == "one-shot-action" else "active"
+        next_lifecycle = {
+            **lifecycle,
+            "state": "SATISFIED",
+            "governor_decision": live_decision,
+            "governor_decision_count": 1,
+            "source_event_status": source_status,
+        }
+        record_base = {
+            **{key: value for key, value in old.items() if key != "record_identity"},
+            "predecessor_record_oid": old_oid,
+            "route_state": "SATISFIED",
+            "lifecycle": next_lifecycle,
+        }
+        new_oid, record = cas_route_record(repo, args.controller, old_oid, record_base, "route-completion")
+        try:
+            post_route_currentness(repo, common, args, request, current, fingerprint, new_oid)
+            packet_after, _ = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+            return_after, _ = read_child_return(
+                args.return_path,
+                old["obligation_id"],
+                old["route_transaction_id"],
+                lifecycle["delivery"]["packet"]["digest"],
+            )
+            decision_after, _ = read_governor_decision(
+                args.decision,
+                old["obligation_id"],
+                old["route_transaction_id"],
+                bytes_identity(return_after)["digest"],
+            )
+            if (
+                bytes_identity(packet_after) != lifecycle["delivery"]["packet"]
+                or bytes_identity(return_after) != live_return
+                or bytes_identity(decision_after) != live_decision
+            ):
+                fail("route completion bytes changed during post-return currentness reread", decision="REQUIRED")
+        except SystemExit:
+            compensated = subprocess.run(
+                [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), old_oid, new_oid],
+                cwd=repo,
+                env=sanitized_action_environment(),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if compensated.returncode or current_ref(repo, args.controller)[0] != old_oid:
+                fail("route completion post-reread failed and exact compensation is unavailable", decision="REQUIRED")
+            raise
+    emit(completion_payload(new_oid, record, idempotent=False))
+
+
+def zero_replay_effects() -> dict[str, int]:
+    return {
+        "instruction_rows": 0,
+        "route_transactions": 0,
+        "lifecycle_transitions": 0,
+        "mutation_authorizations": 0,
+        "task_dispatches": 0,
+        "external_effects": 0,
+    }
+
+
+def instruction_replay_status(
+    stored: dict[str, Any], incoming: dict[str, Any], *, target_terminal: bool
+) -> dict[str, Any]:
+    same_source = stored.get("source_identity") == incoming.get("source_identity")
+    same_body = stored.get("body") == incoming.get("body")
+    if same_source and not same_body:
+        return {"status": "ambiguous", "source_event_relation": "SOURCE_IDENTITY_BODY_CONFLICT", "new_instruction_rows": 0}
+    if stored.get("kind") == "standing-constraint" and stored.get("status") == "active" and same_source:
+        return {"status": "STANDING_APPLIES", "source_event_relation": "SAME_SOURCE", "new_instruction_rows": 0}
+    if same_source:
+        return {"status": "REPLAY_NO_OP", "source_event_relation": "SAME_SOURCE", "new_instruction_rows": 0}
+    relation = "DISTINCT_SOURCE_SAME_BODY" if same_body else "DISTINCT_SOURCE_DISTINCT_BODY"
+    reactivation = incoming.get("reactivation")
+    expressly_reactivated = isinstance(reactivation, dict) and any(
+        reactivation.get(key) is True for key in ("reopen", "target_changed", "invalidating_evidence")
+    )
+    if target_terminal and not expressly_reactivated:
+        return {"status": "TERMINAL_NO_OP", "source_event_relation": relation, "new_instruction_rows": 0}
+    return {"status": "NEW_SOURCE_REVIEW_REQUIRED", "source_event_relation": relation, "new_instruction_rows": 0}
+
+
+def ambiguous_replay_stop(message: str) -> NoReturn:
+    emit(
+        {
+            "schema": RESULT_SCHEMA,
+            "status": "ambiguous",
+            "stop": True,
+            "decision": "REQUIRED",
+            "advance_allowed": False,
+            "effects": zero_replay_effects(),
+            "error": message,
+        }
+    )
+    raise SystemExit(2)
+
+
+def command_replay(args: argparse.Namespace) -> None:
+    repo, _, common = repo_context()
+    request = read_request(args.request)
+    with namespace_gate(common):
+        oid, record = current_ref(repo, args.controller)
+        if oid is None or record is None or args.expected_record != oid:
+            ambiguous_replay_stop("replay target identity is missing or stale")
+        lifecycle = record.get("lifecycle")
+        if record.get("decision") != "REQUIRED" or not isinstance(lifecycle, dict) or lifecycle.get("state") != "SATISFIED":
+            ambiguous_replay_stop("replay target is not an exact terminal route")
+        current, _, fingerprint = validate_route_currentness(repo, common, args, request, record)
+        try:
+            packet_raw = base64.b64decode(lifecycle["delivery"]["packet"]["bytes_b64"], validate=True)
+            packet = json.loads(packet_raw.decode("utf-8", "strict"), object_pairs_hook=unique_object)
+            stored_event = source_event_record(packet["source_event"], "stored source_event")
+        except (KeyError, TypeError, ValueError, UnicodeError, json.JSONDecodeError):
+            ambiguous_replay_stop("stored source provenance is ambiguous")
+        try:
+            _, incoming_value = read_exact_artifact(args.event, "reconstructed source event")
+        except SystemExit:
+            raise
+        required_keys = {"schema", "source_identity", "provenance", "body", "kind", "reactivation"}
+        if set(incoming_value) != required_keys or incoming_value.get("provenance") != "host-event":
+            ambiguous_replay_stop("reconstructed source provenance is missing or ambiguous")
+        try:
+            incoming_event = source_event_record(incoming_value, "reconstructed source event")
+        except SystemExit:
+            ambiguous_replay_stop("reconstructed source provenance is missing or ambiguous")
+        stored = {**stored_event, "status": lifecycle["source_event_status"]}
+        replay = instruction_replay_status(stored, incoming_event, target_terminal=True)
+        if replay["status"] == "ambiguous":
+            ambiguous_replay_stop("one source identity was reconstructed with conflicting body bytes")
+        post_route_currentness(repo, common, args, request, current, fingerprint, oid)
+        review_required = replay["status"] == "NEW_SOURCE_REVIEW_REQUIRED"
+    emit(
+        {
+            "schema": RESULT_SCHEMA,
+            "status": replay["status"],
+            "decision": "REQUIRED",
+            "route_state": "SATISFIED",
+            "target_state": "SATISFIED",
+            "advance_allowed": not review_required,
+            "record_oid": oid,
+            "record_identity": record["record_identity"],
+            "source_identity": incoming_event["source_identity"],
+            "source_event_relation": replay["source_event_relation"],
+            "effects": zero_replay_effects(),
+            "history_read_performed": False,
+        }
+    )
+    if review_required:
+        raise SystemExit(3)
 
 
 def command_check(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
     request = read_request(args.request)
+    history_query = normalized_history_query(request)
     with namespace_gate(common):
         oid, record = current_ref(repo, args.controller)
         if oid is None or record is None:
@@ -897,6 +1609,8 @@ def command_check(args: argparse.Namespace) -> None:
         )
         if record.get("expiry_fingerprint") != fingerprint:
             fail("route decision expired because its bound scope or evidence changed", decision=record["decision"])
+        if record.get("history_query") != history_query:
+            fail("route decision history-query request changed", decision=record["decision"])
         if (decision, classification, invalidators, transaction_id, obligation_id) != (
             record.get("decision"),
             record.get("classification"),
@@ -911,19 +1625,25 @@ def command_check(args: argparse.Namespace) -> None:
         if final_oid != oid or final_current != current or final_eval[4] != fingerprint:
             fail("route decision changed during the currentness check", decision=record["decision"])
         current_not_required = record["decision"] == "NOT_REQUIRED"
+        current_satisfied = record["decision"] == "REQUIRED" and record.get("route_state") == "SATISFIED"
     emit(
         {
             "schema": RESULT_SCHEMA,
             "status": "CURRENT",
             "decision": record["decision"],
             "classification": record["classification"],
-            "advance_allowed": False,
+            "advance_allowed": current_satisfied,
             "admission_required": current_not_required,
             "enforcement_available": True,
             "record_oid": oid,
             "record_identity": record["record_identity"],
             "obligation_id": obligation_id,
             "route_state": record.get("route_state"),
+            "governor_decision_count": record.get("lifecycle", {}).get("governor_decision_count", 0),
+            "history_query": history_query,
+            "history_read_performed": False,
+            "mirror_claim": args.mirror_claim,
+            "mirror_status": mirror_observation(record["decision"], record.get("route_state"), args.mirror_claim),
             "projection_status": projection_status(current["explicit_run_root"], record["decision"], oid),
             "proof_layers": {
                 "source_core": "PRESENT",
@@ -934,13 +1654,14 @@ def command_check(args: argparse.Namespace) -> None:
             "host_activation_proven": False,
         }
     )
-    if not current_not_required:
+    if not (current_not_required or current_satisfied):
         raise SystemExit(3)
 
 
 def command_decide(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
     request = read_request(args.request)
+    history_query = normalized_history_query(request)
     with namespace_gate(common):
         current = current_controller(repo, args.controller)
         decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
@@ -964,19 +1685,23 @@ def command_decide(args: argparse.Namespace) -> None:
             and old.get("host_binding_generation") == args.binding_generation
         )
         if old and current_context_matches and old.get("expiry_fingerprint") == fingerprint and old["decision"] == decision:
+            satisfied = old.get("route_state") == "SATISFIED"
             emit(
                 {
                     "schema": RESULT_SCHEMA,
                     "status": "DECIDED",
                     "decision": decision,
                     "classification": classification,
-                    "advance_allowed": False,
+                    "advance_allowed": satisfied,
                     "admission_required": decision == "NOT_REQUIRED",
                     "enforcement_available": True,
                     "record_oid": old_oid,
                     "record_identity": old["record_identity"],
                     "obligation_id": old.get("obligation_id"),
                     "route_state": old.get("route_state"),
+                    "history_query": history_query,
+                    "history_read_performed": False,
+                    "governor_decision_count": old.get("lifecycle", {}).get("governor_decision_count", 0),
                     "idempotent": True,
                 }
             )
@@ -993,6 +1718,8 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("an action-in-progress record has unknown completion and cannot be replaced in H2A")
         if old and old["decision"] == "REQUIRED" and old.get("route_state") == "UNSATISFIED":
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
+        if old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED", "SATISFIED"}:
+            fail("an H2B route lifecycle cannot be replaced without explicit reopen, target change, or invalidating evidence", decision="REQUIRED")
         record_base: dict[str, Any] = {
             "schema": RECORD_SCHEMA,
             "predicate_version": PREDICATE_VERSION,
@@ -1024,6 +1751,8 @@ def command_decide(args: argparse.Namespace) -> None:
             "child_lifecycle_owned": False,
             "consumed_record_oid": None,
         }
+        if history_query is not None:
+            record_base["history_query"] = history_query
         record = {**record_base, "record_identity": digest_json(record_base)}
         raw = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
         new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
@@ -1069,6 +1798,8 @@ def command_decide(args: argparse.Namespace) -> None:
             "route_state": record["route_state"],
             "invalidators": invalidators,
             "expires_on": EXPIRES_ON,
+            "history_query": history_query,
+            "history_read_performed": False,
             "projection_status": projection_status(current["explicit_run_root"], decision, new_oid),
             "proof_layers": {
                 "source_core": "PRESENT",
@@ -1102,7 +1833,7 @@ def execute_exact_action(
         interpreter = Path(executable["interpreter_resolved"])
         if file_digest(interpreter) != executable["interpreter_digest"]:
             fail("exact admitted action interpreter changed before execution")
-        command = [str(interpreter), str(resolved), *argv[1:]]
+        command = [str(interpreter), bash_script_path(resolved), *argv[1:]]
     environment = sanitized_action_environment()
     try:
         completed = subprocess.run(
@@ -1266,6 +1997,28 @@ def parse_args() -> argparse.Namespace:
     common_args(consume)
     consume.add_argument("--expected-record", required=True)
     consume.set_defaults(run=command_consume)
+    open_child = subparsers.add_parser("open")
+    common_args(open_child)
+    open_child.add_argument("--expected-record", required=True)
+    open_child.add_argument("--packet", required=True)
+    open_child.set_defaults(run=command_open)
+    return_child = subparsers.add_parser("return")
+    common_args(return_child)
+    return_child.add_argument("--expected-record", required=True)
+    return_child.add_argument("--return", dest="return_path", required=True)
+    return_child.set_defaults(run=command_return)
+    complete = subparsers.add_parser("complete")
+    common_args(complete)
+    complete.add_argument("--expected-record", required=True)
+    complete.add_argument("--packet", required=True)
+    complete.add_argument("--return", dest="return_path", required=True)
+    complete.add_argument("--decision", required=True)
+    complete.set_defaults(run=command_complete)
+    replay = subparsers.add_parser("replay")
+    common_args(replay)
+    replay.add_argument("--expected-record", required=True)
+    replay.add_argument("--event", required=True)
+    replay.set_defaults(run=command_replay)
     return parser.parse_args()
 
 

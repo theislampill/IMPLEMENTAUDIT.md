@@ -134,6 +134,28 @@ before its exact action; a `REQUIRED/UNSATISFIED` record blocks until the H2B
 child lifecycle returns and completes it. STATE is a projection, never the
 decision authority.
 
+Routine route recovery proves its bounded read with
+`history_read_performed: false`; unrelated immutable event segments are not
+enumerated or hydrated. If hot state names one exact unresolved
+`iaevt-v1-<sha256>` identity, the exact `QUERY_HISTORY_THEN_RESUME` action emits
+one normalized `implementaudit.history-query-request.v1` with requirement
+`REQUIRED` and that identity as its sole `evidence_ids` member. R0033 records
+the request but does not run or satisfy it; the later R0038 query owner performs
+the selective read. A mirror/ActiveGraph satisfaction claim is reported as an
+ignored observation and cannot override canonical `PENDING` or another route
+state.
+
+The H2B lifecycle is a CAS chain from `REQUIRED/UNSATISFIED` through `OPEN` and
+`RETURNED` to `SATISFIED`. It delivers the complete audit-state child bytes and
+immutable route packet, accepts only the return bound to that packet, rereads
+post-return currentness and those same live bytes, and records exactly one
+governor decision. Identical completion is idempotent. Compaction replay uses
+source-event identity rather than text equality: reconstructed satisfied
+one-shot `E1` has zero effects; a distinct `E2` remains distinct but cannot
+reopen a terminal target without explicit reopen/change/invalidating evidence;
+missing or ambiguous provenance returns `ambiguous` and STOP. A still-active
+standing instruction continues to apply without gaining a duplicate row.
+
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs
 model judgement. It cannot mint the invalidation/receipt or authorise an effect.
