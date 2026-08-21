@@ -9,6 +9,7 @@ writes R0011/receipts/markers, or advances any lifecycle state.
 from __future__ import annotations
 
 import argparse
+import base64
 import contextlib
 import ctypes
 import hashlib
@@ -21,6 +22,7 @@ import stat
 import subprocess
 import sys
 import unicodedata
+import zlib
 from pathlib import Path
 from typing import Any, Mapping, NamedTuple, Sequence
 
@@ -61,20 +63,47 @@ CLASSIFICATIONS_V1 = (
 )
 REMOVED_CLASSIFICATIONS_V1 = frozenset({"COLD_HISTORY", "ON_DEMAND_EVIDENCE"})
 LEGACY_RECORD_ID = re.compile(r"^ialegacy-v1-[0-9a-f]{64}$")
+DERIVATION_SOURCE_ID = re.compile(
+    r"^git:[0-9a-f]{40}:skills/implementaudit/templates/(?:STATE|ROADMAP)\.md$")
+
+
+class DerivationSource(NamedTuple):
+    owner: str
+    source_id: str
+    source_bytes: bytes
+
+
+class DerivationPointer(NamedTuple):
+    schema: str
+    owner: str
+    source_id: str
+    source_digest: str
+    operation: str
+    selector: str
+    derived_digest: str
+
+
+class MaterializedMigrationInputs(NamedTuple):
+    sources: dict[str, bytes]
+    population_digest: str
+    derivation_operation: str
 
 
 class ClassificationFixture(NamedTuple):
     sources: dict[str, tuple[dict[str, object], ...]]
+    derivation_sources: dict[str, DerivationSource]
     classes: tuple[str, ...] = CLASSIFICATIONS_V1
 
     @classmethod
-    def from_mapping(cls, value: object) -> "ClassificationFixture":
+    def from_mapping(cls, value: object,
+                     derivation_sources: Mapping[str, DerivationSource]) -> "ClassificationFixture":
         if (type(value) is not dict
                 or set(value) != {"schema", "classes", "sources"}
                 or value.get("schema")
                 != "implementaudit.hot-cold-section-classification.v1"
                 or value.get("classes") != list(CLASSIFICATIONS_V1)):
             raise RotationError("classification fixture schema is invalid")
+        normalized_derivations = _validate_derivation_sources_v1(derivation_sources)
         raw_sources = value.get("sources")
         if type(raw_sources) is not dict or set(raw_sources) != {"STATE.md", "ROADMAP.md"}:
             raise RotationError("classification fixture source population is invalid")
@@ -105,7 +134,8 @@ class ClassificationFixture(NamedTuple):
                         or heading in headings or type(record_kind) is not str
                         or not record_kind or classification not in CLASSIFICATIONS_V1):
                     raise RotationError("classification section identity is invalid")
-                _verify_derivation_pointer_v1(classification, pointer)
+                _verify_derivation_pointer_v1(
+                    classification, pointer, record_kind, normalized_derivations)
                 headings.add(heading)
                 records = section.get("records", [])
                 tables = section.get("tables", [])
@@ -113,6 +143,9 @@ class ClassificationFixture(NamedTuple):
                     raise RotationError("classification section partitions are invalid")
                 for record in records:
                     _validate_explicit_classification_row_v1(record)
+                    _verify_derivation_pointer_v1(
+                        record["classification"], record.get("derivation_pointer"),
+                        record["record_kind"], normalized_derivations)
                     line = record["source_line"]
                     if line in literal_rows:
                         raise RotationError("classification rules overlap")
@@ -130,21 +163,89 @@ class ClassificationFixture(NamedTuple):
                     table_headers.add(table["header"])
                     for row in table["rows"]:
                         _validate_explicit_classification_row_v1(row)
+                        _verify_derivation_pointer_v1(
+                            row["classification"], row.get("derivation_pointer"),
+                            row["record_kind"], normalized_derivations)
                         line = row["source_line"]
                         if line in literal_rows:
                             raise RotationError("classification rules overlap")
                         literal_rows.add(line)
                 stored.append(json.loads(json.dumps(section, ensure_ascii=False)))
             normalized[source_name] = tuple(stored)
-        return cls(sources=normalized)
+        return cls(sources=normalized, derivation_sources=normalized_derivations)
 
 
-def _verify_derivation_pointer_v1(classification: object, pointer: object) -> None:
+def _validate_derivation_sources_v1(
+        sources: Mapping[str, DerivationSource]) -> dict[str, DerivationSource]:
+    if type(sources) is not dict or not sources:
+        raise RotationError("derivation source population is invalid")
+    normalized: dict[str, DerivationSource] = {}
+    for source_id, source in sources.items():
+        if (type(source_id) is not str or not DERIVATION_SOURCE_ID.fullmatch(source_id)
+                or type(source) is not DerivationSource or source.source_id != source_id
+                or source.owner != "R0039" or type(source.source_bytes) is not bytes
+                or not source.source_bytes):
+            raise RotationError("derivation source identity is invalid")
+        try:
+            source.source_bytes.decode("utf-8", "strict")
+        except UnicodeDecodeError as exc:
+            raise RotationError("derivation source is not UTF-8") from exc
+        normalized[source_id] = source
+    return normalized
+
+
+def _extract_markdown_section_v1(source_bytes: bytes, selector: str) -> bytes:
+    if type(selector) is not str or not selector.startswith("# "):
+        raise RotationError("derivation selector is invalid")
+    lines = source_bytes.splitlines(keepends=True)
+    matches = [index for index, line in enumerate(lines)
+               if line.rstrip(b"\r\n").decode("utf-8", "strict") == selector]
+    if len(matches) != 1:
+        raise RotationError("derivation selector is unresolved")
+    start_index = matches[0]
+    end_index = start_index + 1
+    while end_index < len(lines):
+        line = lines[end_index].rstrip(b"\r\n")
+        if line.startswith(b"# ") or line.startswith(b"## "):
+            break
+        end_index += 1
+    return b"".join(lines[start_index:end_index])
+
+
+def _verify_derivation_pointer_v1(
+        classification: object, pointer: object, record_kind: object,
+        sources: Mapping[str, DerivationSource]) -> DerivationPointer | None:
     if classification == "DUPLICATE_DERIVABLE":
-        if type(pointer) is not str or not pointer or "\n" in pointer or "\r" in pointer:
+        raw = pointer._asdict() if type(pointer) is DerivationPointer else pointer
+        keys = {"schema", "owner", "source_id", "source_digest", "operation",
+                "selector", "derived_digest"}
+        if (type(raw) is not dict or set(raw) != keys
+                or record_kind != "template.identity"
+                or raw["schema"] != "implementaudit.derivation-pointer.v1"
+                or raw["owner"] != "R0039"
+                or type(raw["source_id"]) is not str
+                or not DERIVATION_SOURCE_ID.fullmatch(raw["source_id"])
+                or type(raw["source_digest"]) is not str
+                or not SHA_ID.fullmatch(raw["source_digest"])
+                or raw["operation"] != "markdown-section-v1"
+                or type(raw["selector"]) is not str
+                or type(raw["derived_digest"]) is not str
+                or not SHA_ID.fullmatch(raw["derived_digest"])):
             raise RotationError("duplicate-derivable record lacks exact derivation pointer")
+        source = sources.get(raw["source_id"])
+        if source is None or source.owner != raw["owner"]:
+            raise RotationError("duplicate-derivable source is unresolved or wrong-owner")
+        observed_source_digest = "sha256:" + hashlib.sha256(source.source_bytes).hexdigest()
+        if not hmac.compare_digest(str(raw["source_digest"]), observed_source_digest):
+            raise RotationError("duplicate-derivable source digest disagrees")
+        derived = _extract_markdown_section_v1(source.source_bytes, str(raw["selector"]))
+        observed_derived_digest = "sha256:" + hashlib.sha256(derived).hexdigest()
+        if not hmac.compare_digest(str(raw["derived_digest"]), observed_derived_digest):
+            raise RotationError("duplicate-derivable bytes disagree")
+        return DerivationPointer(**raw)
     elif pointer is not None:
         raise RotationError("derivation pointer is only valid for duplicate-derivable records")
+    return None
 
 
 def _validate_explicit_classification_row_v1(row: object) -> None:
@@ -158,7 +259,115 @@ def _validate_explicit_classification_row_v1(row: object) -> None:
             or row["classification"] not in CLASSIFICATIONS_V1
             or type(row["record_kind"]) is not str or not row["record_kind"]):
         raise RotationError("explicit classification row is invalid")
-    _verify_derivation_pointer_v1(row["classification"], row.get("derivation_pointer"))
+
+
+def load_materialized_migration_preimages_v1(
+        population: object) -> MaterializedMigrationInputs:
+    if type(population) is not dict:
+        raise RotationError("materialized migration preimage fixture is invalid")
+    fixture = population.get("materialized_migration_preimages")
+    if (type(fixture) is not dict
+            or set(fixture) != {"derivation_operation", "population_digest", "sources"}
+            or fixture["derivation_operation"]
+            != "inject-explicit-classification-records-v1"
+            or type(fixture["population_digest"]) is not str
+            or not HEX_SHA256.fullmatch(fixture["population_digest"])
+            or type(fixture["sources"]) is not dict
+            or set(fixture["sources"]) != {"STATE.md", "ROADMAP.md"}):
+        raise RotationError("materialized migration preimage fixture is invalid")
+    sources: dict[str, bytes] = {}
+    population_rows: list[list[object]] = []
+    for name in ("STATE.md", "ROADMAP.md"):
+        encoded = fixture["sources"][name]
+        if (type(encoded) is not dict
+                or set(encoded) != {"encoding", "byte_count", "sha256", "bytes"}
+                or encoded["encoding"] != "zlib+base64"
+                or type(encoded["byte_count"]) is not int
+                or encoded["byte_count"] < 1
+                or type(encoded["sha256"]) is not str
+                or not HEX_SHA256.fullmatch(encoded["sha256"])
+                or type(encoded["bytes"]) is not str or not encoded["bytes"]):
+            raise RotationError("materialized migration preimage source is invalid")
+        try:
+            compressed = base64.b64decode(encoded["bytes"], validate=True)
+            if base64.b64encode(compressed).decode("ascii") != encoded["bytes"]:
+                raise ValueError("non-canonical base64")
+            decompressor = zlib.decompressobj()
+            raw = decompressor.decompress(compressed) + decompressor.flush()
+            if not decompressor.eof or decompressor.unused_data:
+                raise ValueError("non-canonical zlib stream")
+            raw.decode("utf-8", "strict")
+        except (ValueError, UnicodeDecodeError, zlib.error) as exc:
+            raise RotationError("materialized migration preimage bytes are invalid") from exc
+        digest = hashlib.sha256(raw).hexdigest()
+        if (len(raw) != encoded["byte_count"]
+                or not hmac.compare_digest(digest, str(encoded["sha256"]))):
+            raise RotationError("materialized migration preimage identity disagrees")
+        sources[name] = raw
+        population_rows.append([name, len(raw), digest])
+    observed_population = hashlib.sha256(canonical_json_v1(population_rows)).hexdigest()
+    if not hmac.compare_digest(observed_population, str(fixture["population_digest"])):
+        raise RotationError("materialized migration preimage population disagrees")
+    return MaterializedMigrationInputs(
+        sources=sources, population_digest=observed_population,
+        derivation_operation=str(fixture["derivation_operation"]))
+
+
+def _materialize_migration_source_v1(
+        frozen: bytes, sections: Sequence[Mapping[str, object]]) -> bytes:
+    try:
+        text = frozen.decode("utf-8", "strict").replace("\r\n", "\n")
+    except UnicodeDecodeError as exc:
+        raise RotationError("frozen template source is not UTF-8") from exc
+    for index in range(len(sections) - 1, -1, -1):
+        section = sections[index]
+        heading = section["heading"]
+        if type(heading) is not str:
+            raise RotationError("materialized preimage derivation is invalid")
+        try:
+            start = text.index(heading + "\n")
+            end = (len(text) if index + 1 == len(sections)
+                   else text.index(str(sections[index + 1]["heading"]) + "\n", start))
+        except ValueError as exc:
+            raise RotationError("materialized preimage derivation is unresolved") from exc
+        block = text[start:end]
+        for table in section.get("tables", []):
+            prefix = str(table["header"]) + "\n" + str(table["delimiter"]) + "\n"
+            try:
+                table_start = block.index(prefix) + len(prefix)
+                population_end = table_start
+                while block[population_end:].startswith("|"):
+                    population_end = block.index("\n", population_end) + 1
+            except ValueError as exc:
+                raise RotationError("materialized preimage table derivation is unresolved") from exc
+            rows = "\n".join(str(row["source_line"]) for row in table["rows"])
+            block = (block[:table_start] + rows + "\n\n"
+                     + block[population_end:].lstrip("\n"))
+        literal_rows = [str(row["source_line"]) for row in section.get("records", [])]
+        if literal_rows:
+            block = block.rstrip("\n") + "\n\n" + "\n".join(literal_rows) + "\n\n"
+        text = text[:start] + block + text[end:]
+    return text.encode("utf-8")
+
+
+def prove_materialized_preimage_derivation_v1(
+        frozen_templates: Mapping[str, bytes],
+        classification_sources: Mapping[str, Mapping[str, object]],
+        materialized: MaterializedMigrationInputs) -> None:
+    if (type(frozen_templates) is not dict
+            or set(frozen_templates) != {"STATE.md", "ROADMAP.md"}
+            or type(classification_sources) is not dict
+            or set(classification_sources) != set(frozen_templates)
+            or type(materialized) is not MaterializedMigrationInputs):
+        raise RotationError("materialized preimage derivation population is invalid")
+    for name in ("STATE.md", "ROADMAP.md"):
+        source = classification_sources[name]
+        if type(source) is not dict or set(source) != {"sections"}:
+            raise RotationError("materialized preimage derivation source is invalid")
+        observed = _materialize_migration_source_v1(
+            frozen_templates[name], source["sections"])
+        if observed != materialized.sources[name]:
+            raise RotationError("materialized preimage derivation bytes disagree")
 
 
 class ClassifiedRecord(NamedTuple):
@@ -170,7 +379,7 @@ class ClassifiedRecord(NamedTuple):
     byte_end: int
     source_bytes: bytes
     classification: str
-    derivation_pointer: str | None = None
+    derivation_pointer: DerivationPointer | None = None
 
 
 class LegacyRecord(NamedTuple):
@@ -204,17 +413,50 @@ class LegacyRecord(NamedTuple):
                    source_bytes, digest, stable_id)
 
 
-class EventSegment(NamedTuple):
-    event_id: str
-    segment_digest: str
-    payload: dict[str, object]
-    queryable: bool
-
-
 class MigrationReceipt(NamedTuple):
     source_count: int
     event_count: int
     population_digest: str
+
+
+class RuntimeArtifact(NamedTuple):
+    path: str
+    status: str
+    notes: str
+
+
+class LedgerFinding(NamedTuple):
+    number: str
+    finding: str
+    priority: str
+    action: str
+    status: str
+    evidence: str
+    depends_on: str
+    follow_up: str
+
+
+class ResidualRecord(NamedTuple):
+    residual: str
+    consequential: str
+    disposition: str
+    owner: str
+    evidence: str
+
+
+class DecisionRecord(NamedTuple):
+    status: str
+    reason: str
+    target: str
+    evidence: str
+
+
+class ScopeCreepRecord(NamedTuple):
+    number: str
+    issue: str
+    location: str
+    recommendation: str
+    status: str
 
 
 class NativeCurrent(NamedTuple):
@@ -225,6 +467,27 @@ class NativeCurrent(NamedTuple):
     audit_object_state: str
     next_action: str
     current_epoch: str
+    route: str
+    owner_source: str
+    baseline_ref: str
+    last_check: str
+    audit_object_source: str
+    latest_auditing_operation: str
+    terminal_closure_condition: str
+    handoff_state: str
+    runtime_artifacts: tuple[RuntimeArtifact, ...]
+    open_ledger: tuple[LedgerFinding, ...]
+    occurrence_resolution: str
+    open_residuals: tuple[ResidualRecord, ...]
+    execution_identity: str
+    agents_update_decision: DecisionRecord
+    continuity_decision_record: DecisionRecord
+    action_selected: tuple[str, ...]
+    action_omitted: tuple[str, ...]
+    action_depth_rationale: str
+    implementaudit_base: str
+    planning_evidence: tuple[str, ...]
+    open_scope_creep: tuple[ScopeCreepRecord, ...]
     open_abnormalities: tuple[str, ...]
     active_instructions: tuple[str, ...]
 
@@ -237,6 +500,27 @@ class NativeCurrent(NamedTuple):
             "audit_object_state": self.audit_object_state,
             "next_action": self.next_action,
             "current_epoch": self.current_epoch,
+            "route": self.route,
+            "owner_source": self.owner_source,
+            "baseline_ref": self.baseline_ref,
+            "last_check": self.last_check,
+            "audit_object_source": self.audit_object_source,
+            "latest_auditing_operation": self.latest_auditing_operation,
+            "terminal_closure_condition": self.terminal_closure_condition,
+            "handoff_state": self.handoff_state,
+            "runtime_artifacts": self.runtime_artifacts,
+            "open_ledger": self.open_ledger,
+            "occurrence_resolution": self.occurrence_resolution,
+            "open_residuals": self.open_residuals,
+            "execution_identity": self.execution_identity,
+            "agents_update_decision": self.agents_update_decision,
+            "continuity_decision_record": self.continuity_decision_record,
+            "action_selected": self.action_selected,
+            "action_omitted": self.action_omitted,
+            "action_depth_rationale": self.action_depth_rationale,
+            "implementaudit_base": self.implementaudit_base,
+            "planning_evidence": self.planning_evidence,
+            "open_scope_creep": self.open_scope_creep,
             "open_abnormalities": self.open_abnormalities,
             "active_instructions": self.active_instructions,
         }
@@ -284,17 +568,26 @@ def _line_records_v1(source_bytes: bytes) -> list[tuple[int, int, str]]:
 def _classified_v1(*, source_name: str, heading: str, record_kind: str,
                    ordinal: int, start: int, end: int, source_bytes: bytes,
                    classification: str,
-                   derivation_pointer: str | None) -> ClassifiedRecord:
+                   derivation_pointer: object,
+                   derivation_sources: Mapping[str, DerivationSource]) -> ClassifiedRecord:
     if end <= start:
         raise RotationError("classification contains an empty byte range")
-    _verify_derivation_pointer_v1(classification, derivation_pointer)
+    resolved = _verify_derivation_pointer_v1(
+        classification, derivation_pointer, record_kind, derivation_sources)
+    if resolved is not None:
+        derived = _extract_markdown_section_v1(
+            derivation_sources[resolved.source_id].source_bytes, resolved.selector)
+        if derived != source_bytes[start:end]:
+            raise RotationError("duplicate-derivable classified bytes disagree")
     return ClassifiedRecord(source_name, heading, record_kind, ordinal, start, end,
                             source_bytes[start:end], classification,
-                            derivation_pointer)
+                            resolved)
 
 
 def _classify_one_source_v1(source_name: str, source_bytes: bytes,
-                            sections: Sequence[Mapping[str, object]]) -> list[ClassifiedRecord]:
+                            sections: Sequence[Mapping[str, object]],
+                            derivation_sources: Mapping[str, DerivationSource]
+                            ) -> list[ClassifiedRecord]:
     lines = _line_records_v1(source_bytes)
     observed_headings = [(start, text) for start, _, text in lines
                          if text.startswith("# ") or text.startswith("## ")]
@@ -349,14 +642,16 @@ def _classify_one_source_v1(source_name: str, source_bytes: bytes,
                     record_kind=str(section["record_kind"]), ordinal=ordinal,
                     start=cursor, end=start, source_bytes=source_bytes,
                     classification=str(section["classification"]),
-                    derivation_pointer=section.get("derivation_pointer")))
+                    derivation_pointer=section.get("derivation_pointer"),
+                    derivation_sources=derivation_sources))
                 ordinal += 1
             results.append(_classified_v1(
                 source_name=source_name, heading=heading,
                 record_kind=str(rule["record_kind"]), ordinal=ordinal,
                 start=start, end=end, source_bytes=source_bytes,
                 classification=str(rule["classification"]),
-                derivation_pointer=rule.get("derivation_pointer")))
+                derivation_pointer=rule.get("derivation_pointer"),
+                derivation_sources=derivation_sources))
             ordinal += 1
             cursor = end
         if cursor < section_end:
@@ -365,7 +660,8 @@ def _classify_one_source_v1(source_name: str, source_bytes: bytes,
                 record_kind=str(section["record_kind"]), ordinal=ordinal,
                 start=cursor, end=section_end, source_bytes=source_bytes,
                 classification=str(section["classification"]),
-                derivation_pointer=section.get("derivation_pointer")))
+                derivation_pointer=section.get("derivation_pointer"),
+                derivation_sources=derivation_sources))
             ordinal += 1
     return results
 
@@ -380,7 +676,8 @@ def classify_all_source_records_v1(
         raise RotationError("classification source population is invalid")
     coverage = {
         source_name: _classify_one_source_v1(
-            source_name, sources[source_name], classification.sources[source_name])
+            source_name, sources[source_name], classification.sources[source_name],
+            classification.derivation_sources)
         for source_name in ("STATE.md", "ROADMAP.md")
     }
     verify_classification_coverage_v1(sources, coverage)
@@ -405,7 +702,11 @@ def verify_classification_coverage_v1(
                     or row.source_bytes != source[row.byte_start:row.byte_end]
                     or row.classification not in CLASSIFICATIONS_V1):
                 raise RotationError("classification coverage has a gap, overlap, or mismatch")
-            _verify_derivation_pointer_v1(row.classification, row.derivation_pointer)
+            if ((row.classification == "DUPLICATE_DERIVABLE"
+                 and type(row.derivation_pointer) is not DerivationPointer)
+                    or (row.classification != "DUPLICATE_DERIVABLE"
+                        and row.derivation_pointer is not None)):
+                raise RotationError("classification derivation coverage is invalid")
             cursor = row.byte_end
         if cursor != len(source):
             raise RotationError("classification coverage does not reach end of source")
@@ -445,38 +746,73 @@ def hash_population_v1(rows: Sequence[tuple[str, str]]) -> str:
     return hashlib.sha256(canonical_json_v1(normalized)).hexdigest()
 
 
-def verify_migration_equivalence_v1(records: list[LegacyRecord],
-                                    events: list[EventSegment]) -> MigrationReceipt:
-    if (type(records) is not list or type(events) is not list
+def verify_migration_equivalence_v1(
+        records: list[LegacyRecord], segment_bytes: list[bytes],
+        manifest: dict[str, object], repo: Path) -> MigrationReceipt:
+    if (type(records) is not list or type(segment_bytes) is not list
+            or not records or not segment_bytes or not isinstance(repo, Path)
             or any(type(row) is not LegacyRecord for row in records)
-            or any(type(row) is not EventSegment for row in events)):
+            or any(type(raw) is not bytes or not raw for raw in segment_bytes)):
         raise RotationError("legacy history population is not equivalent")
     source = {(row.stable_id, row.source_digest) for row in records}
-    destination: set[tuple[str, str]] = set()
-    for event in events:
-        if (not event.queryable or type(event.payload) is not dict
-                or set(event.payload) != {"legacy_record_id", "legacy_source_digest"}
-                or type(event.payload["legacy_record_id"]) is not str
-                or not LEGACY_RECORD_ID.fullmatch(event.payload["legacy_record_id"])
-                or type(event.payload["legacy_source_digest"]) is not str
-                or not HEX_SHA256.fullmatch(event.payload["legacy_source_digest"])
-                or type(event.event_id) is not str or not EVENT_ID.fullmatch(event.event_id)
-                or type(event.segment_digest) is not str
-                or not SHA_ID.fullmatch(event.segment_digest)):
-            raise RotationError("legacy history population is not equivalent")
-        expected_event_id = "iaevt-v1-" + hashlib.sha256(
-            canonical_json_v1(event.payload)).hexdigest()
-        expected_segment_digest = "sha256:" + hashlib.sha256(canonical_json_v1({
-            "event_id": event.event_id, "payload": event.payload,
-        })).hexdigest()
-        if event.event_id != expected_event_id or event.segment_digest != expected_segment_digest:
-            raise RotationError("legacy history population is not equivalent")
-        destination.add((str(event.payload["legacy_record_id"]),
-                         str(event.payload["legacy_source_digest"])))
-    if (source != destination or len(source) != len(records)
-            or len(destination) != len(events)):
+    if len(source) != len(records):
         raise RotationError("legacy history population is not equivalent")
-    return MigrationReceipt(source_count=len(records), event_count=len(events),
+    source_records = {(row.stable_id, row.source_digest): row for row in records}
+    verify_generation_manifest_v1(manifest)
+    verify_manifest_segments_core_v1(repo, manifest)
+    manifest_rows = {str(row["event_id"]): row for row in manifest["events"]}
+    destination: set[tuple[str, str]] = set()
+    observed_event_ids: set[str] = set()
+    for raw in segment_bytes:
+        try:
+            event = json.loads(raw.decode("utf-8", "strict"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise RotationError("legacy history population is not equivalent") from exc
+        if type(event) is not dict or canonical_json_v1(event) != raw:
+            raise RotationError("legacy history population is not equivalent")
+        validate_event_output_v1(event)
+        without_id = dict(event)
+        event_id = str(without_id.pop("event_id"))
+        expected_event_id = "iaevt-v1-" + hashlib.sha256(
+            canonical_json_v1(without_id)).hexdigest()
+        payload = event["payload"]
+        if (event_id != expected_event_id or event_id in observed_event_ids
+                or type(payload) is not dict
+                or set(payload) != {"legacy_record_id", "legacy_source_digest"}
+                or type(payload["legacy_record_id"]) is not str
+                or not LEGACY_RECORD_ID.fullmatch(payload["legacy_record_id"])
+                or type(payload["legacy_source_digest"]) is not str
+                or not HEX_SHA256.fullmatch(payload["legacy_source_digest"])
+                or event["payload_digest"]
+                != hashlib.sha256(canonical_json_v1(payload)).hexdigest()):
+            raise RotationError("legacy history population is not equivalent")
+        row = manifest_rows.get(event_id)
+        if (row is None or row["sequence"] != event["sequence"]
+                or row["record_kind"] != event["record_kind"]
+                or row["source_evidence_id"] != event["source_evidence_id"]
+                or row["segment_digest"]
+                != "sha256:" + hashlib.sha256(raw).hexdigest()):
+            raise RotationError("legacy history population is not equivalent")
+        stored = load_exact_segment_bytes_v1(
+            repo, str(manifest["run_id"]), str(manifest["generation_id"]),
+            str(event["sequence"]), event_id)
+        if not hmac.compare_digest(raw, stored):
+            raise RotationError("legacy history population is not equivalent")
+        observed_event_ids.add(event_id)
+        pair = (str(payload["legacy_record_id"]),
+                str(payload["legacy_source_digest"]))
+        legacy = source_records.get(pair)
+        if (legacy is None or event["record_kind"] != legacy.record_kind
+                or event["subject_id"] != legacy.stable_id
+                or event["transition"] != "MIGRATED"):
+            raise RotationError("legacy history population is not equivalent")
+        destination.add(pair)
+    if (source != destination or len(source) != len(records)
+            or len(destination) != len(segment_bytes)
+            or observed_event_ids != set(manifest_rows)
+            or len(segment_bytes) != len(manifest["events"])):
+        raise RotationError("legacy history population is not equivalent")
+    return MigrationReceipt(source_count=len(records), event_count=len(segment_bytes),
                             population_digest=hash_population_v1(sorted(source)))
 
 
@@ -487,12 +823,16 @@ def _hot_value_v1(value: object) -> str:
 
 
 def _validate_native_current_fields_v1(fields: Mapping[str, object]) -> None:
-    expected = {"controller_id", "run_id", "phase", "status", "audit_object_state",
-                "next_action", "current_epoch", "open_abnormalities",
-                "active_instructions"}
+    expected = set(NativeCurrent._fields)
     if set(fields) != expected:
         raise RotationError("native current fields are not exact")
-    for name in expected - {"open_abnormalities", "active_instructions"}:
+    tuple_fields = {
+        "runtime_artifacts", "open_ledger", "open_residuals", "action_selected",
+        "action_omitted", "planning_evidence", "open_scope_creep",
+        "open_abnormalities", "active_instructions",
+    }
+    decision_fields = {"agents_update_decision", "continuity_decision_record"}
+    for name in expected - tuple_fields - decision_fields:
         _hot_value_v1(fields[name])
     if (not CONTROLLER_ID.fullmatch(str(fields["controller_id"]))
             or not TOKEN_ID.fullmatch(str(fields["run_id"]))
@@ -500,12 +840,33 @@ def _validate_native_current_fields_v1(fields: Mapping[str, object]) -> None:
                                         "PAUSED", "BLOCKED", "INTERRUPTED", "DONE"}
             or not GENERATION_ID.fullmatch(str(fields["current_epoch"]))):
         raise RotationError("native current identity is invalid")
-    for name in ("open_abnormalities", "active_instructions"):
+    for name in ("open_abnormalities", "active_instructions", "action_selected",
+                 "action_omitted", "planning_evidence"):
         rows = fields[name]
         if type(rows) is not tuple or len(set(rows)) != len(rows):
             raise RotationError("native current rows are invalid")
         for row in rows:
             _hot_value_v1(row)
+    typed_rows = {
+        "runtime_artifacts": RuntimeArtifact,
+        "open_ledger": LedgerFinding,
+        "open_residuals": ResidualRecord,
+        "open_scope_creep": ScopeCreepRecord,
+    }
+    for name, row_type in typed_rows.items():
+        rows = fields[name]
+        if (type(rows) is not tuple or any(type(row) is not row_type for row in rows)
+                or len(set(rows)) != len(rows)):
+            raise RotationError("native typed current rows are invalid")
+        for row in rows:
+            for value in row:
+                _hot_value_v1(value)
+    for name in decision_fields:
+        decision = fields[name]
+        if type(decision) is not DecisionRecord:
+            raise RotationError("native decision record is invalid")
+        for value in decision:
+            _hot_value_v1(value)
 
 
 def _validate_hot_dependencies_v1(graph: GraphProjection,
@@ -535,6 +896,44 @@ def _render_lines_v1(lines: Sequence[str]) -> bytes:
     return raw
 
 
+STATE_HOT_SECTIONS_V1 = (
+    "# IMPLEMENTAUDIT State", "## Current phase", "## Audit object state",
+    "## Runtime artifacts", "## Ledger", "## Andon log",
+    "## Occurrence resolution and residuals", "## Execution identity",
+    "## Context epochs and instruction applicability", "## AGENTS_UPDATE_DECISION",
+    "## CONTINUITY_DECISION", "## Local git trace", "## Run terminal disposition",
+)
+ROADMAP_HOT_SECTIONS_V1 = (
+    "# IMPLEMENTAUDIT Roadmap", "## Goal", "## Audit object",
+    "## Action selection", "## Baseline ref", "## Run root",
+    "## Planning evidence", "## Phases", "## Execution index (projection)",
+    "## Scope boundaries", "## Scope-creep register",
+)
+
+
+def _markdown_headings_v1(raw: bytes) -> tuple[str, ...]:
+    try:
+        lines = raw.decode("utf-8", "strict").splitlines()
+    except UnicodeDecodeError as exc:
+        raise RotationError("hot template is not UTF-8") from exc
+    return tuple(line for line in lines
+                 if line.startswith("# ") or line.startswith("## "))
+
+
+def verify_hot_renderer_template_parity_v1(
+        state_template: bytes, roadmap_template: bytes,
+        state_rendered: bytes, roadmap_rendered: bytes) -> None:
+    populations = (
+        (state_template, state_rendered, STATE_HOT_SECTIONS_V1),
+        (roadmap_template, roadmap_rendered, ROADMAP_HOT_SECTIONS_V1),
+    )
+    for template, rendered, expected in populations:
+        if (type(template) is not bytes or type(rendered) is not bytes
+                or _markdown_headings_v1(template) != expected
+                or _markdown_headings_v1(rendered) != expected):
+            raise RotationError("hot renderer and canonical template sections disagree")
+
+
 def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjection,
                              custody: CustodyPointer) -> bytes:
     _validate_native_current_fields_v1(fields)
@@ -542,19 +941,51 @@ def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjectio
     lines = [
         "# IMPLEMENTAUDIT State", "",
         "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`", "",
+        "Bounded current/open projection; closed detail is immutable query history.", "",
         "## Current phase", "", "| Field | Value |", "|---|---|",
-        f"| Run root | `{_hot_value_v1(fields['run_id'])}` |",
+        f"| Run root | `{_hot_value_v1(fields['implementaudit_base'])}/{_hot_value_v1(fields['run_id'])}` |",
         f"| Phase | {_hot_value_v1(fields['phase'])} |",
         f"| Status | {_hot_value_v1(fields['status'])} |",
         f"| Audit object state | {_hot_value_v1(fields['audit_object_state'])} |",
+        f"| Route | {_hot_value_v1(fields['route'])} |",
+        f"| Owner/source | {_hot_value_v1(fields['owner_source'])} |",
+        f"| Baseline ref | `{_hot_value_v1(fields['baseline_ref'])}` |",
+        f"| Last check | {_hot_value_v1(fields['last_check'])} |",
         f"| Next action | {_hot_value_v1(fields['next_action'])} |", "",
-        "## Andon log", "",
+        "## Audit object state", "",
+        f"Audit object source: {_hot_value_v1(fields['audit_object_source'])}", "",
+        f"Latest auditing operation: {_hot_value_v1(fields['latest_auditing_operation'])}", "",
+        f"Terminal closure condition: {_hot_value_v1(fields['terminal_closure_condition'])}", "",
+        f"Handoff state: {_hot_value_v1(fields['handoff_state'])}", "",
+        "## Runtime artifacts", "", "| Artifact | Status | Notes |", "|---|---|---|",
+    ]
+    for artifact in fields["runtime_artifacts"]:
+        lines.append(f"| `{artifact.path}` | {artifact.status} | {artifact.notes} |")
+    lines.extend([
+        "", "## Ledger", "",
+        "| # | Finding | Priority | Action | Status | Evidence | Depends on | Follow-up |",
+        "|---|---|---:|---|---|---|---|---|",
+    ])
+    for finding in fields["open_ledger"]:
+        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % finding)
+    lines.extend([
+        "", "## Andon log", "",
         "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
         "|---|---|---|---|---|---|---|---|",
-    ]
+    ])
     for index, abnormality in enumerate(fields["open_abnormalities"], 1):
         lines.append(f"| {index} | o{index} | {_hot_value_v1(fields['phase'])} | failed-criterion | {_hot_value_v1(abnormality)} | follow current next action | pending | open (rerun pending) |")
     lines.extend([
+        "", "## Occurrence resolution and residuals", "",
+        f"Occurrence resolution: {_hot_value_v1(fields['occurrence_resolution'])}", "",
+        "| Residual | Consequential | Disposition | Owner / policy ref | Evidence |",
+        "|---|---|---|---|---|",
+    ])
+    for residual in fields["open_residuals"]:
+        lines.append("| %s | %s | %s | %s | %s |" % residual)
+    lines.extend([
+        "", "## Execution identity", "",
+        f"Current execution identity: {_hot_value_v1(fields['execution_identity'])}", "",
         "", "## Context epochs and instruction applicability", "",
         f"Current epoch: {_hot_value_v1(fields['current_epoch'])}", "",
         f"Canonical projection generation: {_hot_value_v1(fields['current_epoch'])}", "",
@@ -569,11 +1000,17 @@ def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjectio
     ])
     for index, instruction in enumerate(fields["active_instructions"], 1):
         lines.append(f"| i{index} | current-native | standing-constraint | {_hot_value_v1(fields['controller_id'])} | {_hot_value_v1(instruction)} | {_hot_value_v1(fields['current_epoch'])} | active | native-current | - | run end |")
+    agents = fields["agents_update_decision"]
+    continuity = fields["continuity_decision_record"]
     lines.extend([
-        "", "## Custody pointers", "",
-        f"- Generation manifest digest: `{custody.manifest_digest}`",
-        f"- Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`",
-        f"- History query: `{custody.history_query}`",
+        "", f"Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`", "",
+        f"History query: `{custody.history_query}`", "",
+        "## AGENTS_UPDATE_DECISION", "",
+        f"Status: {agents.status}", "", f"Reason: {agents.reason}", "",
+        f"Scope: {agents.target}", "", f"Evidence location: {agents.evidence}", "",
+        "## CONTINUITY_DECISION", "",
+        f"Status: {continuity.status}", "", f"Reason: {continuity.reason}", "",
+        f"Destination: {continuity.target}", "", f"Evidence boundary: {continuity.evidence}", "",
         "", "## Local git trace", "", "Commit authorized: no", "",
         "Push authorized: no", "", "Tag/release/publication/provenance authorized: no",
         "", "## Run terminal disposition", "",
@@ -591,11 +1028,35 @@ def render_roadmap_template_v1(fields: Mapping[str, object], graph: GraphProject
         "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md`", "",
         "## Goal", "", _hot_value_v1(fields["next_action"]), "",
         "## Audit object", "",
-        f"Current state: {_hot_value_v1(fields['audit_object_state'])}", "",
-        "## Phases", "",
+        f"Audit object source: {_hot_value_v1(fields['audit_object_source'])}", "",
+        f"Terminal closure condition: {_hot_value_v1(fields['terminal_closure_condition'])}", "",
+        f"Current auditing operation: {_hot_value_v1(fields['latest_auditing_operation'])}", "",
+        "## Action selection", "", "Selected current actions:",
+    ]
+    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["action_selected"])
+    lines.extend(["", "Omitted current actions:"])
+    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["action_omitted"])
+    lines.extend([
+        "", f"Depth rationale: {_hot_value_v1(fields['action_depth_rationale'])}", "",
+        "## Baseline ref", "", f"`{_hot_value_v1(fields['baseline_ref'])}`", "",
+        "## Run root", "",
+        f"IMPLEMENTAUDIT_BASE: {_hot_value_v1(fields['implementaudit_base'])}", "",
+        f"IMPLEMENTAUDIT_RUN_ROOT: {_hot_value_v1(fields['implementaudit_base'])}/{_hot_value_v1(fields['run_id'])}", "",
+        f"IMPLEMENTAUDIT_BASELINE_REF: {_hot_value_v1(fields['baseline_ref'])}", "",
+        f"Canonical projection generation: {_hot_value_v1(fields['current_epoch'])}", "",
+        f"Current-generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`", "",
+        "Migration marker: not published by migration-only projection", "",
+        "Current continuity receipt: query on demand", "",
+        "## Planning evidence", "", "Current pointers only:",
+    ])
+    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["planning_evidence"])
+    lines.extend([
+        f"- Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`",
+        f"- History query: `{custody.history_query}`",
+        "", "## Phases", "",
         "| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |",
         "|---|---|---|---|---|---|---|---|",
-    ]
+    ])
     for index, node in enumerate(graph.active_nodes, 1):
         lines.append(f"| {index} | {_hot_value_v1(node)} | {_hot_value_v1(fields['controller_id'])} | - | captured | pending | not applicable | {_hot_value_v1(fields['status'])} |")
     lines.extend([
@@ -606,11 +1067,11 @@ def render_roadmap_template_v1(fields: Mapping[str, object], graph: GraphProject
         "", "## Scope boundaries", "",
     ])
     lines.extend(f"- {_hot_value_v1(row)}" for row in fields["active_instructions"])
-    lines.extend([
-        "", "## Custody pointers", "",
-        f"- Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`",
-        f"- History query: `{custody.history_query}`",
-    ])
+    lines.extend(["", "## Scope-creep register", "",
+                  "| # | Issue | Location | Recommendation | Status |",
+                  "|---|---|---|---|---|"])
+    for row in fields["open_scope_creep"]:
+        lines.append("| %s | %s | %s | %s | %s |" % row)
     return _render_lines_v1(lines)
 
 

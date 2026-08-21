@@ -168,8 +168,14 @@ decision; F2 provides no archive deletion path.
 
 ## History population and bounded hot projection
 
-Task 5 adds a non-destructive migration classifier over the exact legacy
-`STATE.md` and `ROADMAP.md` preimages. Its fixture declares every ordered
+Task 5 adds a non-destructive migration classifier over explicit immutable,
+fully materialized `STATE.md` and `ROADMAP.md` migration preimages. Each input
+binds its exact compressed fixture bytes, decoded byte count, SHA-256, and a
+deterministic two-source population digest. The older frozen template blobs are
+derivation inputs, not the claimed complete legacy population: the migration
+gate reads them from the exact immutable base commit, verifies their digests,
+reproduces the declared materialization operation byte for byte, and only then
+directly classifies the materialized fixture bytes. Its classification fixture declares every ordered
 top-level section and every literal row/record partition in a mixed section.
 The classifier does not guess from a heading allowlist, status vocabulary, or
 paragraph heuristic. It parses the declared Markdown table boundary, requires
@@ -185,29 +191,43 @@ Every classified byte range has exactly one class:
 - `COLD_HISTORY`: a closed/resolved/prior/satisfied/completed record;
 - `ON_DEMAND_EVIDENCE`: completed detail that is needed only for a bounded
   history inspection; or
-- `DUPLICATE_DERIVABLE`: a deterministic projection with an exact canonical
-  source/derivation pointer. This class cannot conceal a history row.
+- `DUPLICATE_DERIVABLE`: a deterministic projection with a closed typed
+  pointer that binds the R0039 owner, exact Git source identity and digest,
+  closed derivation operation/selector, and derived-byte digest. Resolution
+  reproduces those bytes and requires equality with the classified range.
+  Only `template.identity` ranges are admitted, so this class cannot conceal a
+  history row. Arbitrary, unresolved, wrong-owner, wrong-digest,
+  byte-divergent, and hidden-history pointers fail.
 
 `enumerate_legacy_history_v1` returns every `COLD_HISTORY` and
 `ON_DEMAND_EVIDENCE` range in source and byte order. `LegacyRecord` identity
 binds source name, heading, kind, ordinal, exact byte range, and SHA-256 of the
 unchanged source bytes. `verify_migration_equivalence_v1` rejects duplicate
 source or destination identity and requires exact set equality between every
-removed `(legacy_record_id, legacy_source_digest)` pair and every queryable
-immutable event payload. It also rechecks each event ID and segment digest.
-Missing, extra, duplicated, malformed, or unqueryable destination events fail;
-attempt success or aggregate counts alone are not equivalence. The population
+removed `(legacy_record_id, legacy_source_digest)` pair and canonical event
+envelopes admitted by `EVENT_OUTPUT_KEYS`. It validates canonical raw segment
+bytes, event and payload identities, exact manifest population, and Task-4
+manifest/segment semantics, then performs exact stored lookup through each
+`refs/implementaudit/state-event-segments/...` identity. There is no parallel
+event type and no caller-supplied queryable flag. Missing, extra, duplicated,
+malformed, unstored, or unmanifested destination events fail; attempt success
+or aggregate counts alone are not equivalence. The population
 digest is SHA-256 over canonical JSON for the lexicographically sorted complete
 pair population.
 
 `derive_hot_state_v1` and `derive_hot_roadmap_v1` accept only typed native
 current fields, the exact `WORK_GRAPH.json` digest/projection, and typed
-generation/archive/query custody. Their deterministic UTF-8 renderings are
-bounded to 4096 bytes each and retain only current/open abnormalities,
-applicable instructions, active graph nodes, and exact custody pointers. Closed
-history is absent from hot Markdown but remains reachable through the immutable
-event population and exact archive. The canonical templates carry the same hot
-shape; they are not a second history ledger.
+generation/archive/query custody. The single `NativeCurrent` schema includes
+current audit-object identity, runtime artifacts, open Ledger findings and
+Andons, consequential residuals, execution identity, decisions, continuity and
+instruction rows, action selection, baseline/run-root identity, planning
+pointers, active phases, and open scope-creep rows. Their deterministic UTF-8
+renderings are bounded to 4096 bytes each. A mechanical section-parity check
+requires the renderer and canonical template heading sequences to equal the
+closed STATE/ROADMAP section contracts; held-out omission controls cover every
+required section. Closed history is absent from hot Markdown but remains
+reachable through the immutable event population and exact archive. The
+canonical templates are the same hot shape, not a second history ledger.
 
 Task 5 reads existing preimages, archive custody, event identities, and the
 current WORK_GRAPH digest. It does not delete or rewrite a preimage/archive,

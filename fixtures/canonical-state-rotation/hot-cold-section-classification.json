@@ -14,7 +14,15 @@
           "heading": "# IMPLEMENTAUDIT State",
           "classification": "DUPLICATE_DERIVABLE",
           "record_kind": "template.identity",
-          "derivation_pointer": "template:skills/implementaudit/templates/STATE.md#runtime-copy-target"
+          "derivation_pointer": {
+            "schema": "implementaudit.derivation-pointer.v1",
+            "owner": "R0039",
+            "source_id": "git:0d91ecca8f5bc86a8c4e32c57137fcfb1e0a17d5:skills/implementaudit/templates/STATE.md",
+            "source_digest": "sha256:848e3de85aa3df714d65f034cb42337bc0e935505239aea3fdf9479cff9acef4",
+            "operation": "markdown-section-v1",
+            "selector": "# IMPLEMENTAUDIT State",
+            "derived_digest": "sha256:69d04b94daeac4a54e86767be064aecc7ee0c1e6277ecbbf99cd7cb221863d1b"
+          }
         },
         {
           "heading": "## Current phase",
@@ -172,7 +180,15 @@
           "heading": "# IMPLEMENTAUDIT Roadmap",
           "classification": "DUPLICATE_DERIVABLE",
           "record_kind": "template.identity",
-          "derivation_pointer": "template:skills/implementaudit/templates/ROADMAP.md#runtime-copy-target"
+          "derivation_pointer": {
+            "schema": "implementaudit.derivation-pointer.v1",
+            "owner": "R0039",
+            "source_id": "git:0d91ecca8f5bc86a8c4e32c57137fcfb1e0a17d5:skills/implementaudit/templates/ROADMAP.md",
+            "source_digest": "sha256:f99168751c000e44e6336fd68b5acce063215dcd4826042327562255d4fb3fea",
+            "operation": "markdown-section-v1",
+            "selector": "# IMPLEMENTAUDIT Roadmap",
+            "derived_digest": "sha256:3e804fd4bb97689e7aa3f2646aa9dde09b2f9f07f80b1477f9097d66f9544091"
+          }
         },
         {
           "heading": "## Goal",
@@ -243,9 +259,8 @@
         },
         {
           "heading": "## Execution index (projection)",
-          "classification": "DUPLICATE_DERIVABLE",
-          "record_kind": "graph.derived",
-          "derivation_pointer": "WORK_GRAPH.json#sha256"
+          "classification": "HOT_POINTER",
+          "record_kind": "graph.pointer"
         },
         {
           "heading": "## Scope boundaries",

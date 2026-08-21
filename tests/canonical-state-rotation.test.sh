@@ -50,6 +50,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 
 
 def canonical(value):
@@ -65,7 +66,7 @@ def expect_rotation_error(rotation, action, label):
     raise SystemExit(label + " was accepted")
 
 
-def inject_exact_legacy_records(template_text, source_spec):
+def independently_materialize_preimage(template_text, source_spec):
     text = template_text.replace("\r\n", "\n")
     sections = source_spec["sections"]
     for index in range(len(sections) - 1, -1, -1):
@@ -124,7 +125,7 @@ spec = importlib.util.spec_from_file_location("rotation_migration", helper_path)
 rotation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rotation)
 required = (
-    "ClassificationFixture", "ClassifiedRecord", "LegacyRecord", "EventSegment",
+    "ClassificationFixture", "ClassifiedRecord", "LegacyRecord",
     "MigrationReceipt", "NativeCurrent", "GraphProjection", "CustodyPointer",
     "classify_all_source_records_v1", "verify_classification_coverage_v1",
     "enumerate_legacy_history_v1", "verify_migration_equivalence_v1",
@@ -138,23 +139,62 @@ if missing:
           file=sys.stderr)
     raise SystemExit(1)
 
-classification = rotation.ClassificationFixture.from_mapping(classification_doc)
-legacy_commit = population.get("legacy_preimage_commit")
-legacy_digests = population.get("legacy_preimage_sha256")
-if (not isinstance(legacy_commit, str) or len(legacy_commit) != 40
-        or not isinstance(legacy_digests, dict)
-        or set(legacy_digests) != {"STATE.md", "ROADMAP.md"}):
-    raise SystemExit("legacy preimage identity fixture is invalid")
-sources = {}
+correction_reds = []
+if not all(hasattr(rotation, name) for name in (
+        "MaterializedMigrationInputs", "load_materialized_migration_preimages_v1",
+        "prove_materialized_preimage_derivation_v1")):
+    correction_reds.append(
+        "C1_MATERIALIZED_PREIMAGE_DIRECT_CLASSIFICATION_NOT_IMPLEMENTED")
+if hasattr(rotation, "EventSegment"):
+    correction_reds.append(
+        "C2_CANONICAL_STORED_MANIFEST_EVENT_EQUIVALENCE_NOT_IMPLEMENTED")
+if not all(hasattr(rotation, name) for name in (
+        "RuntimeArtifact", "LedgerFinding", "ResidualRecord", "DecisionRecord",
+        "ScopeCreepRecord", "verify_hot_renderer_template_parity_v1")):
+    correction_reds.append(
+        "I1_TYPED_HOT_SCHEMA_TEMPLATE_PARITY_NOT_IMPLEMENTED")
+if not all(hasattr(rotation, name) for name in (
+        "DerivationPointer", "DerivationSource")):
+    correction_reds.append(
+        "I2_RESOLVED_TYPED_DERIVATION_POINTER_NOT_IMPLEMENTED")
+if correction_reds:
+    for red in correction_reds:
+        print("CANONICAL_STATE_ROTATION_CORRECTION_RED=" + red, file=sys.stderr)
+    raise SystemExit(1)
+
+frozen_commit = population.get("frozen_template_commit")
+frozen_digests = population.get("frozen_template_sha256")
+if (not isinstance(frozen_commit, str) or len(frozen_commit) != 40
+        or not isinstance(frozen_digests, dict)
+        or set(frozen_digests) != {"STATE.md", "ROADMAP.md"}):
+    raise SystemExit("frozen template identity fixture is invalid")
+materialized = rotation.load_materialized_migration_preimages_v1(population)
+frozen_templates = {}
 for name, source_spec in classification_doc["sources"].items():
     path = "skills/implementaudit/templates/" + name
-    exact_preimage = subprocess.check_output(
-        ["git", "-C", str(repo), "show", legacy_commit + ":" + path])
-    if hashlib.sha256(exact_preimage).hexdigest() != legacy_digests[name]:
-        raise SystemExit(name + " exact legacy preimage digest drift")
-    sources[name] = inject_exact_legacy_records(
-        exact_preimage.decode("utf-8", "strict"), source_spec)
-source_preimages = dict(sources)
+    frozen_template = subprocess.check_output(
+        ["git", "-C", str(repo), "show", frozen_commit + ":" + path])
+    if hashlib.sha256(frozen_template).hexdigest() != frozen_digests[name]:
+        raise SystemExit(name + " frozen template digest drift")
+    frozen_templates[name] = frozen_template
+    independently_derived = independently_materialize_preimage(
+        frozen_template.decode("utf-8", "strict"), source_spec)
+    if independently_derived != materialized.sources[name]:
+        raise SystemExit(name + " materialized preimage derivation is not byte-exact")
+rotation.prove_materialized_preimage_derivation_v1(
+    frozen_templates, classification_doc["sources"], materialized)
+derivation_sources = {}
+for name, raw in frozen_templates.items():
+    source_id = ("git:" + frozen_commit
+                 + ":skills/implementaudit/templates/" + name)
+    derivation_sources[source_id] = rotation.DerivationSource(
+        owner="R0039", source_id=source_id, source_bytes=raw)
+classification = rotation.ClassificationFixture.from_mapping(
+    classification_doc, derivation_sources)
+sources = dict(materialized.sources)
+materialized_preimages_before = dict(sources)
+# Direct positive control: classify the immutable materialized fixture bytes,
+# not an in-test injection result.
 coverage = rotation.classify_all_source_records_v1(sources, classification)
 rotation.verify_classification_coverage_v1(sources, coverage)
 observed_source_counts = {name: len(rows) for name, rows in coverage.items()}
@@ -163,12 +203,57 @@ for rows in coverage.values():
     for row in rows:
         observed_class_counts[row.classification] += 1
         if (row.classification == "DUPLICATE_DERIVABLE"
-                and not row.derivation_pointer):
-            raise SystemExit("duplicate-derivable range lost its exact pointer")
+                and type(row.derivation_pointer) is not rotation.DerivationPointer):
+            raise SystemExit("duplicate-derivable range lost its resolved typed pointer")
 if observed_source_counts != population["expected_source_record_counts"]:
     raise SystemExit("classification source denominator drift: %r" % observed_source_counts)
 if observed_class_counts != population["expected_class_counts"]:
     raise SystemExit("classification class denominator drift: %r" % observed_class_counts)
+
+bad_materialized = copy.deepcopy(population)
+bad_materialized["materialized_migration_preimages"]["sources"]["STATE.md"][
+    "sha256"] = "0" * 64
+expect_rotation_error(
+    rotation,
+    lambda: rotation.load_materialized_migration_preimages_v1(bad_materialized),
+    "materialized preimage wrong digest")
+
+def derivation_variant(mutator):
+    changed = copy.deepcopy(classification_doc)
+    pointer = changed["sources"]["STATE.md"]["sections"][0]["derivation_pointer"]
+    mutator(changed, pointer)
+    return changed
+
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: _doc["sources"]["STATE.md"][
+        "sections"][0].__setitem__("derivation_pointer", "arbitrary")),
+    derivation_sources), "arbitrary derivation pointer")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: pointer.__setitem__(
+        "source_id", "git:unresolved")), derivation_sources),
+    "unresolved derivation pointer")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: pointer.__setitem__("owner", "R0038")),
+    derivation_sources), "wrong-owner derivation pointer")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: pointer.__setitem__(
+        "source_digest", "sha256:" + "0" * 64)), derivation_sources),
+    "wrong-digest derivation pointer")
+divergent_sources = dict(derivation_sources)
+state_source_id = next(key for key in divergent_sources if key.endswith("STATE.md"))
+state_source = divergent_sources[state_source_id]
+divergent_sources[state_source_id] = rotation.DerivationSource(
+    owner=state_source.owner, source_id=state_source.source_id,
+    source_bytes=state_source.source_bytes + b"divergence\n")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    classification_doc, divergent_sources), "byte-divergent derivation source")
+hidden_history = copy.deepcopy(classification_doc)
+hidden_row = hidden_history["sources"]["STATE.md"]["sections"][4]["tables"][0]["rows"][1]
+hidden_row["classification"] = "DUPLICATE_DERIVABLE"
+hidden_row["derivation_pointer"] = copy.deepcopy(
+    classification_doc["sources"]["STATE.md"]["sections"][0]["derivation_pointer"])
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    hidden_history, derivation_sources), "hidden-history derivation pointer")
 
 records = rotation.enumerate_legacy_history_v1(
     sources["STATE.md"], sources["ROADMAP.md"], classification)
@@ -190,7 +275,6 @@ if removed_counts != population["expected_removed_class_counts"]:
     raise SystemExit("removed class denominator drift")
 
 expected_pairs = []
-events = []
 for row in records:
     digest = hashlib.sha256(row.source_bytes).hexdigest()
     identity_body = {
@@ -207,16 +291,135 @@ for row in records:
     if row.source_digest != digest or row.stable_id != expected_id:
         raise SystemExit("legacy record identity is not independently reproducible")
     expected_pairs.append((expected_id, digest))
-    payload = {"legacy_record_id": expected_id, "legacy_source_digest": digest}
-    event_id = "iaevt-v1-" + hashlib.sha256(canonical(payload)).hexdigest()
-    segment_digest = "sha256:" + hashlib.sha256(canonical({
-        "event_id": event_id, "payload": payload,
-    })).hexdigest()
-    events.append(rotation.EventSegment(
-        event_id=event_id, segment_digest=segment_digest,
-        payload=payload, queryable=True))
 
-receipt = rotation.verify_migration_equivalence_v1(records, events)
+source_evidence_id = "iasrc-v1-r0039-archive-task5-migration"
+root_identity = "sha256:" + materialized.population_digest
+source_locator = {
+    "kind": "evidence-uri",
+    "root_identity": root_identity,
+    "path": "implementaudit-evidence:v1/task5/materialized-preimages",
+    "host_identity": None,
+}
+source_context = {
+    "run_id": "hot-state-migration-fixture",
+    "controller_id": "migration-controller",
+    "generation_id": "G0001",
+    "source_epoch": "G0001",
+    "owner_manifest": {"entries": [{
+        "source_evidence_id": source_evidence_id,
+        "sha256": materialized.population_digest,
+        "kind": "evidence-uri",
+        "root_identity": root_identity,
+        "host_identity": None,
+        "input_path_flavor": None,
+        "source_locator": source_locator,
+    }]},
+}
+publication_context = {
+    "controller_id": "migration-controller",
+    "claim_id": "f" * 32,
+    "run_id": "hot-state-migration-fixture",
+    "generation_id": "G0001",
+    "source_epoch": "G0001",
+}
+original_source_loader = rotation.load_governed_source_context_v1
+original_publication_loader = rotation.load_governed_publication_context_v1
+rotation.load_governed_source_context_v1 = lambda _source_id: source_context
+rotation.load_governed_publication_context_v1 = lambda: publication_context
+try:
+    event_envelopes = []
+    event_bytes = []
+    for index, row in enumerate(records, 1):
+        request = {
+            "schema_version": "implementaudit.history-event.v1",
+            "run_id": publication_context["run_id"],
+            "controller_id": publication_context["controller_id"],
+            "generation_id": publication_context["generation_id"],
+            "sequence": "%020d" % index,
+            "record_kind": row.record_kind,
+            "subject_id": row.stable_id,
+            "source_epoch": publication_context["source_epoch"],
+            "transition": "MIGRATED",
+            "status": "SATISFIED" if row.record_kind == "instruction.satisfied" else "CLOSED",
+            "supersedes_event_id": None,
+            "payload": {
+                "legacy_record_id": row.stable_id,
+                "legacy_source_digest": row.source_digest,
+            },
+        }
+        envelope, raw = rotation.build_event_segment_v1(
+            request, source_evidence_id=source_evidence_id)
+        event_envelopes.append(envelope)
+        event_bytes.append(raw)
+    manifest, _manifest_bytes = rotation.build_generation_manifest_v1(
+        None, event_envelopes)
+finally:
+    rotation.load_governed_source_context_v1 = original_source_loader
+    rotation.load_governed_publication_context_v1 = original_publication_loader
+
+with tempfile.TemporaryDirectory(prefix="task5-segments-") as segment_dir:
+    segment_repo = Path(segment_dir)
+    subprocess.run(["git", "init", "-q", str(segment_repo)], check=True)
+    stored = []
+    for envelope, raw in zip(event_envelopes, event_bytes, strict=True):
+        oid = subprocess.check_output(
+            ["git", "-C", str(segment_repo), "hash-object", "-w", "--stdin"],
+            input=raw).decode("ascii").strip()
+        ref = (rotation.EVENT_SEGMENT_PREFIX + "/" + envelope["run_id"] + "/"
+               + envelope["generation_id"] + "/" + envelope["sequence"] + "/"
+               + envelope["event_id"])
+        subprocess.run(["git", "-C", str(segment_repo), "update-ref", ref, oid],
+                       check=True)
+        stored.append((ref, oid))
+    receipt = rotation.verify_migration_equivalence_v1(
+        records, event_bytes, manifest, segment_repo)
+
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes[:-1], manifest, segment_repo),
+        "removed record without manifest event")
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records + [records[0]], event_bytes, manifest, segment_repo),
+        "duplicate source record")
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes + [event_bytes[0]], manifest, segment_repo),
+        "duplicate destination event")
+
+    extra_request = {
+        "schema_version": "implementaudit.history-event.v1",
+        "run_id": publication_context["run_id"],
+        "controller_id": publication_context["controller_id"],
+        "generation_id": publication_context["generation_id"],
+        "sequence": "%020d" % (len(records) + 1),
+        "record_kind": records[0].record_kind,
+        "subject_id": records[0].stable_id,
+        "source_epoch": publication_context["source_epoch"],
+        "transition": "MIGRATED",
+        "status": "CLOSED",
+        "supersedes_event_id": None,
+        "payload": {
+            "legacy_record_id": records[0].stable_id,
+            "legacy_source_digest": records[0].source_digest,
+        },
+    }
+    rotation.load_governed_source_context_v1 = lambda _source_id: source_context
+    try:
+        _extra_envelope, extra_raw = rotation.build_event_segment_v1(
+            extra_request, source_evidence_id=source_evidence_id)
+    finally:
+        rotation.load_governed_source_context_v1 = original_source_loader
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes + [extra_raw], manifest, segment_repo),
+        "well-formed unmanifested event")
+
+    missing_ref, missing_oid = stored[-1]
+    subprocess.run(["git", "-C", str(segment_repo), "update-ref", "-d", missing_ref],
+                   check=True)
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes, manifest, segment_repo),
+        "well-formed unstored event")
+    subprocess.run(["git", "-C", str(segment_repo), "update-ref",
+                    missing_ref, missing_oid], check=True)
+
 expected_population_digest = hashlib.sha256(canonical([
     [stable_id, digest] for stable_id, digest in sorted(expected_pairs)
 ])).hexdigest()
@@ -244,23 +447,26 @@ overlap_doc = copy.deepcopy(classification_doc)
 overlap_section = overlap_doc["sources"]["ROADMAP.md"]["sections"][3]
 overlap_section["records"].append(dict(overlap_section["records"][0]))
 expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
-    overlap_doc), "overlapping rule")
-expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
-    records, events[:-1]), "removed record without event")
-expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
-    records + [records[0]], events), "duplicate source record")
-expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
-    records, events + [events[0]]), "duplicate destination event")
-unqueryable = list(events)
-unqueryable[0] = rotation.EventSegment(
-    event_id=events[0].event_id, segment_digest=events[0].segment_digest,
-    payload=events[0].payload, queryable=False)
-expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
-    records, unqueryable), "unqueryable removed record")
+    overlap_doc, derivation_sources), "overlapping rule")
 
 native_data = dict(population["native_current"])
 native_data["open_abnormalities"] = tuple(native_data["open_abnormalities"])
 native_data["active_instructions"] = tuple(native_data["active_instructions"])
+native_data["runtime_artifacts"] = tuple(
+    rotation.RuntimeArtifact(**row) for row in native_data["runtime_artifacts"])
+native_data["open_ledger"] = tuple(
+    rotation.LedgerFinding(**row) for row in native_data["open_ledger"])
+native_data["open_residuals"] = tuple(
+    rotation.ResidualRecord(**row) for row in native_data["open_residuals"])
+native_data["agents_update_decision"] = rotation.DecisionRecord(
+    **native_data["agents_update_decision"])
+native_data["continuity_decision_record"] = rotation.DecisionRecord(
+    **native_data["continuity_decision_record"])
+native_data["action_selected"] = tuple(native_data["action_selected"])
+native_data["action_omitted"] = tuple(native_data["action_omitted"])
+native_data["planning_evidence"] = tuple(native_data["planning_evidence"])
+native_data["open_scope_creep"] = tuple(
+    rotation.ScopeCreepRecord(**row) for row in native_data["open_scope_creep"])
 graph_data = dict(population["graph_projection"])
 graph_data["active_nodes"] = tuple(graph_data["active_nodes"])
 native = rotation.NativeCurrent(**native_data)
@@ -272,6 +478,26 @@ if (state_hot != rotation.render_state_template_v1(native.hot_state_fields(), gr
         or roadmap_hot != rotation.render_roadmap_template_v1(
             native.hot_roadmap_fields(), graph, custody)):
     raise SystemExit("hot projection facade and renderer diverged")
+state_template = (repo / "skills/implementaudit/templates/STATE.md").read_bytes()
+roadmap_template = (repo / "skills/implementaudit/templates/ROADMAP.md").read_bytes()
+rotation.verify_hot_renderer_template_parity_v1(
+    state_template, roadmap_template, state_hot, roadmap_hot)
+for heading in rotation.STATE_HOT_SECTIONS_V1[1:]:
+    omitted = state_hot.replace((heading + "\n").encode("utf-8"), b"", 1)
+    expect_rotation_error(rotation, lambda omitted=omitted:
+        rotation.verify_hot_renderer_template_parity_v1(
+            state_template, roadmap_template, omitted, roadmap_hot),
+        "STATE hot-section omission " + heading)
+for heading in rotation.ROADMAP_HOT_SECTIONS_V1[1:]:
+    omitted = roadmap_hot.replace((heading + "\n").encode("utf-8"), b"", 1)
+    expect_rotation_error(rotation, lambda omitted=omitted:
+        rotation.verify_hot_renderer_template_parity_v1(
+            state_template, roadmap_template, state_hot, omitted),
+        "ROADMAP hot-section omission " + heading)
+template_omission = state_template.replace(b"## Ledger\n", b"", 1)
+expect_rotation_error(rotation, lambda: rotation.verify_hot_renderer_template_parity_v1(
+    template_omission, roadmap_template, state_hot, roadmap_hot),
+    "canonical template section omission")
 for name, rendered in (("STATE.md", state_hot), ("ROADMAP.md", roadmap_hot)):
     if len(rendered) > population["hot_projection_limits"][name]:
         raise SystemExit(name + " exceeded the bounded hot projection limit")
@@ -280,14 +506,21 @@ for name, rendered in (("STATE.md", state_hot), ("ROADMAP.md", roadmap_hot)):
     for forbidden in population["forbidden_closed_history"]:
         if forbidden.encode("utf-8") in rendered:
             raise SystemExit(name + " retained closed history: " + forbidden)
-for current in (native.next_action, *native.open_abnormalities,
-                *native.active_instructions, graph.work_graph_digest,
-                custody.current_generation_ref, custody.archive_ref,
-                custody.history_query):
+required_current = (
+    native.next_action, *native.open_abnormalities, *native.active_instructions,
+    native.runtime_artifacts[0].path, native.open_ledger[0].finding,
+    native.open_residuals[0].residual, native.execution_identity,
+    native.agents_update_decision.reason, native.continuity_decision_record.reason,
+    native.baseline_ref, native.implementaudit_base, *native.action_selected,
+    *native.action_omitted, *native.planning_evidence,
+    native.open_scope_creep[0].issue, graph.work_graph_digest,
+    custody.current_generation_ref, custody.archive_ref, custody.history_query,
+)
+for current in required_current:
     if current.encode("utf-8") not in state_hot + roadmap_hot:
         raise SystemExit("hot projection omitted current/pointer field: " + current)
-if sources != source_preimages:
-    raise SystemExit("migration mutated exact legacy preimage bytes")
+if sources != materialized_preimages_before:
+    raise SystemExit("migration mutated materialized preimage bytes")
 
 fixture_root = repo / ".IMPLEMENTAUDIT" / "runs" / "hot-state-migration-fixture"
 fixture_root.mkdir(parents=True, exist_ok=True)
@@ -314,7 +547,7 @@ claim = "\n".join((
 )) + "\n"
 (fixture_root / ".claimed").write_text(claim, encoding="utf-8")
 print("CANONICAL_STATE_ROTATION_MIGRATION_GREEN=PASS "
-      "classification=%d class-counts=%s removed=%d/%d queryable=%d "
+      "classification=%d class-counts=%s removed=%d/%d stored-queryable=%d "
       "population-sha256=%s hot-state-bytes=%d hot-roadmap-bytes=%d"
       % (sum(observed_source_counts.values()),
          ",".join("%s:%d" % (name, observed_class_counts[name]) for name in classes),
