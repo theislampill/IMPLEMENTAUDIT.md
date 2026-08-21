@@ -43,6 +43,7 @@ if $event_bytes_only; then
 import importlib.util
 import json
 import sys
+import copy
 
 
 def load(name, path):
@@ -62,11 +63,6 @@ if byte_cases.get("schema") != "implementaudit.canonical-state-rotation-event-by
     raise SystemExit("event-byte fixture schema drift")
 if schema_cases.get("schema") != "implementaudit.history-event-schema-cases.v1":
     raise SystemExit("event-schema fixture schema drift")
-payload = {"z": [0, "\u00e9"], "a": {"n": None}}
-r39_bytes = rotation.canonical_json_v1(payload)
-r38_bytes = evidence.canonical_json_v1(payload)
-assert r39_bytes == r38_bytes
-assert not r39_bytes.endswith(b"\n")
 root = "sha256:" + "a" * 64
 win_entry = {"kind": "repo-relative", "root_identity": root,
              "host_identity": None, "input_path_flavor": "windows"}
@@ -78,25 +74,9 @@ posix_locator = {"kind": "repo-relative", "root_identity": root,
                  "path": "dir/cafe\u0301.txt", "host_identity": None}
 posix_trailing_backslash = {"kind": "repo-relative", "root_identity": root,
                             "path": "dir/file\\", "host_identity": None}
-assert rotation.normalize_source_locator_v1(win_locator, owner_entry=win_entry) == \
-       rotation.normalize_source_locator_v1(posix_locator, owner_entry=posix_entry)
-assert rotation.normalize_source_locator_v1(
-    posix_trailing_backslash, owner_entry=posix_entry)["path"].endswith("%5C")
 expected_enums = {
     name: frozenset(values) for name, values in schema_cases["enums"].items()
 }
-if rotation.EVENT_ENUMS_V1 != expected_enums:
-    raise SystemExit("event vocabulary drift")
-for rejection in schema_cases["rejections"]:
-    event = dict(schema_cases["valid_event"])
-    event.update(rejection["patch"])
-    try:
-        rotation.validate_event_request_v1(event)
-    except rotation.RotationError as exc:
-        if str(exc) != rejection["code"]:
-            raise SystemExit(f"{rejection['id']} expected {rejection['code']}, got {exc}")
-    else:
-        raise SystemExit(f"{rejection['id']} was accepted")
 entry = {
     "source_evidence_id": "iasrc-v1-r0039-archive-entry-1",
     "sha256": "b" * 64,
@@ -105,28 +85,197 @@ entry = {
     "source_locator": {"kind": "repo-relative", "root_identity": root,
                        "path": "owner/evidence.json", "host_identity": None},
 }
-locator, digest = rotation.resolve_owner_source_evidence_in_context_v1(
-    {"owner_manifest": {"entries": [entry]}}, entry["source_evidence_id"])
-if locator["path"] != "owner/evidence.json" or digest != "sha256:" + "b" * 64:
-    raise SystemExit("owner entry resolver changed its typed identity")
-try:
-    rotation.resolve_owner_source_evidence_in_context_v1(
-        {"owner_manifest": {"entries": []}}, entry["source_evidence_id"])
-except rotation.RotationError as exc:
-    if str(exc) != "OE_SOURCE_EVIDENCE_NOT_ADMITTED":
-        raise SystemExit(f"unmanifested self-hash returned {exc}")
-else:
-    raise SystemExit("self-hashed source absent from owner manifest was accepted")
-bad_entry = dict(entry)
-bad_entry["source_locator"] = dict(entry["source_locator"], root_identity="sha256:" + "c" * 64)
-try:
-    rotation.resolve_owner_source_evidence_in_context_v1(
-        {"owner_manifest": {"entries": [bad_entry]}}, entry["source_evidence_id"])
-except rotation.RotationError as exc:
-    if str(exc) != "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH":
-        raise SystemExit(f"wrong owner entry returned {exc}")
-else:
-    raise SystemExit("wrong owner entry context was accepted")
+manifest = {"entries": [entry]}
+base_event = schema_cases["valid_event"]
+
+
+def expect_error(action, code):
+    try:
+        action()
+    except rotation.RotationError as exc:
+        if str(exc) != code:
+            raise SystemExit(f"expected {code}, got {exc}")
+    else:
+        raise SystemExit(f"expected {code}, action was accepted")
+
+
+if rotation.EVENT_ENUMS_V1 != expected_enums:
+    raise SystemExit("event vocabulary drift")
+for rejection in schema_cases["rejections"]:
+    event = dict(base_event)
+    event.update(rejection["patch"])
+    expect_error(lambda event=event: rotation.validate_event_request_v1(event),
+                 rejection["code"])
+
+
+def synthetic_context(source_evidence_id):
+    if source_evidence_id != entry["source_evidence_id"]:
+        raise SystemExit("builder asked for an unexpected source identity")
+    return {
+        "run_id": base_event["run_id"],
+        "controller_id": base_event["controller_id"],
+        "generation_id": base_event["generation_id"],
+        "source_epoch": base_event["source_epoch"],
+        "owner_manifest": manifest,
+    }
+
+
+def case_eb01():
+    payload = {"z": [0, "\u00e9"], "a": {"n": None}}
+    if rotation.canonical_json_v1(payload) != evidence.canonical_json_v1(payload):
+        raise SystemExit("R0038/R0039 key-order bytes diverged")
+
+
+def case_eb02():
+    if rotation.canonical_json_v1({"value": 1}).endswith(b"\n"):
+        raise SystemExit("event bytes retained terminal LF")
+
+
+def case_eb03():
+    if rotation.canonical_json_v1({"value": "\u00e9"}).startswith(b"\xef\xbb\xbf"):
+        raise SystemExit("event bytes retained UTF-8 BOM")
+
+
+def case_eb04():
+    raw = "cafe\u0301"
+    if raw.encode("utf-8") not in rotation.canonical_json_v1({"value": raw}):
+        raise SystemExit("ordinary event string was normalized")
+
+
+def case_eb05():
+    expect_error(lambda: rotation.canonical_json_v1({"bad": 1.5}), "OE_EVENT_PAYLOAD_INVALID")
+
+
+def case_eb06():
+    rotation.canonical_json_v1({"low": -(2**63), "high": 2**63 - 1})
+
+
+def case_eb07():
+    if rotation.normalize_source_locator_v1(win_locator, owner_entry=win_entry) != \
+            rotation.normalize_source_locator_v1(posix_locator, owner_entry=posix_entry):
+        raise SystemExit("Windows/POSIX typed paths diverged")
+
+
+def case_eb08():
+    upper = dict(posix_locator, path="Dir/file")
+    lower = dict(posix_locator, path="dir/file")
+    if rotation.normalize_source_locator_v1(upper, owner_entry=posix_entry) == \
+            rotation.normalize_source_locator_v1(lower, owner_entry=posix_entry):
+        raise SystemExit("case was erased from locator identity")
+
+
+def case_eb09():
+    host = dict(posix_locator, kind="host-bound")
+    host_entry = dict(posix_entry, kind="host-bound")
+    expect_error(lambda: rotation.normalize_source_locator_v1(host, owner_entry=host_entry),
+                 "OE_SOURCE_LOCATOR_INVALID")
+
+
+def case_eb10():
+    literal = dict(posix_locator, path="dir/file\\name")
+    if not rotation.normalize_source_locator_v1(literal, owner_entry=posix_entry)["path"].endswith("%5Cname"):
+        raise SystemExit("POSIX literal backslash was not data")
+
+
+def case_eb11():
+    expect_error(lambda: rotation.validate_event_request_v1(
+        dict(base_event, source_locator={})), "OE_EVENT_REQUEST_KEYS_NOT_EXACT")
+
+
+def case_eb12():
+    if not rotation.normalize_source_locator_v1(
+            posix_trailing_backslash, owner_entry=posix_entry)["path"].endswith("%5C"):
+        raise SystemExit("POSIX trailing backslash was not data")
+
+
+def case_eb13():
+    bad_entry = dict(entry)
+    bad_entry["source_locator"] = dict(entry["source_locator"], root_identity="sha256:" + "c" * 64)
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [bad_entry]}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+
+
+def case_eb14():
+    expect_error(lambda: rotation.validate_event_request_v1(dict(base_event, extra=True)),
+                 "OE_EVENT_REQUEST_KEYS_NOT_EXACT")
+
+
+def case_eb15():
+    incomplete = dict(base_event)
+    del incomplete["payload"]
+    expect_error(lambda: rotation.validate_event_request_v1(incomplete),
+                 "OE_EVENT_REQUEST_KEYS_NOT_EXACT")
+
+
+def case_eb16():
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": []}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+
+
+def case_eb17():
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [dict(entry, unexpected=True)]}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [entry], "unexpected": True}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+
+
+def case_eb18():
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [entry]}, "unexpected": True}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+
+
+def case_eb19():
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": manifest}, "malformed source id"), "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+
+
+def case_eb20():
+    original = rotation.load_governed_source_context_v1
+    rotation.load_governed_source_context_v1 = synthetic_context
+    try:
+        built, raw = rotation.build_event_segment_v1(
+            copy.deepcopy(base_event), source_evidence_id=entry["source_evidence_id"])
+    finally:
+        rotation.load_governed_source_context_v1 = original
+    rotation.validate_event_output_v1(built)
+    if raw != rotation.canonical_json_v1(built) or raw.endswith(b"\n"):
+        raise SystemExit("successful event did not retain canonical bytes")
+
+
+case_tests = {
+    "EB01-key-order": case_eb01, "EB02-no-terminal-lf": case_eb02,
+    "EB03-utf8-no-bom": case_eb03, "EB04-unicode-preserved": case_eb04,
+    "EB05-float-rejected": case_eb05, "EB06-int64-boundary": case_eb06,
+    "EB07-windows-posix-path-converges": case_eb07,
+    "EB08-case-remains-semantic": case_eb08,
+    "EB09-host-bound-requires-host-identity": case_eb09,
+    "EB10-posix-literal-backslash-distinct": case_eb10,
+    "EB11-caller-source-fields-rejected": case_eb11,
+    "EB12-posix-trailing-backslash-is-data": case_eb12,
+    "EB13-owner-manifest-context-mismatch": case_eb13,
+    "EB14-event-extra-key-rejected": case_eb14,
+    "EB15-event-missing-key-rejected": case_eb15,
+    "EB16-self-hashed-source-absent-owner-manifest": case_eb16,
+    "EB17-wrong-owner-manifest-ref": case_eb17,
+    "EB18-wrong-owner-run-controller": case_eb18,
+    "EB19-unknown-source-evidence-id": case_eb19,
+    "EB20-stored-source-evidence-revalidated": case_eb20,
+}
+for case in byte_cases["cases"]:
+    try:
+        case_tests[case["id"]]()
+    except KeyError as exc:
+        raise SystemExit(f"fixture case is not executed: {case['id']}") from exc
+malformed_output = dict(base_event, source_evidence_id=entry["source_evidence_id"],
+                        source_locator=[], source_digest="sha256:" + "b" * 64,
+                        payload_digest="b" * 64, event_id="iaevt-v1-" + "b" * 64)
+expect_error(lambda: rotation.validate_event_output_v1(malformed_output),
+             "OE_SOURCE_LOCATOR_INVALID")
 valid_ids = (
     "iasrc-v1-r0039-archive-entry-1",
     "iasrc-v1-r0038-snapshot-entry-1",
@@ -149,7 +298,7 @@ for source_evidence_id in valid_ids:
         else:
             raise SystemExit("public source facade escaped its unavailable boundary")
 print("CANONICAL_STATE_ROTATION_EVENT_BYTES_GREEN=PASS cases=" +
-      str(len(byte_cases["cases"])))
+      str(len(case_tests)))
 PY
   exit 0
 fi

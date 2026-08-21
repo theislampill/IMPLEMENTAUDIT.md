@@ -81,6 +81,12 @@ EVENT_OUTPUT_KEYS = EVENT_REQUEST_KEYS | {
     "source_evidence_id", "source_locator", "source_digest",
     "payload_digest", "event_id",
 }
+OWNER_MANIFEST_KEYS = frozenset({"entries"})
+OWNER_ENTRY_KEYS = frozenset({
+    "source_evidence_id", "sha256", "kind", "root_identity", "host_identity",
+    "input_path_flavor", "source_locator",
+})
+HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def validate_identity_json_v1(value: object, path: str = "$") -> None:
@@ -234,6 +240,8 @@ def normalize_source_locator_v1(locator: dict[str, object], *,
 
 
 def validate_canonical_source_locator_v1(locator: dict[str, object]) -> None:
+    if type(locator) is not dict:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
     normalized = normalize_source_locator_v1(
         locator, owner_entry={
             "kind": locator.get("kind"), "root_identity": locator.get("root_identity"),
@@ -272,13 +280,23 @@ def validate_event_request_v1(event: dict[str, object]) -> None:
 
 def require_exact_owner_manifest_entry_v1(manifest: dict[str, object],
                                           source_evidence_id: str) -> dict[str, object]:
-    if type(manifest) is not dict:
+    if (type(source_evidence_id) is not str
+            or not SOURCE_EVIDENCE_ID.fullmatch(source_evidence_id)):
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    if type(manifest) is not dict or set(manifest) != OWNER_MANIFEST_KEYS:
         raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
-    entries = manifest.get("entries")
-    if not isinstance(entries, list):
+    entries = manifest["entries"]
+    if type(entries) is not list:
         raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
-    matched = [entry for entry in entries if isinstance(entry, dict)
-               and entry.get("source_evidence_id") == source_evidence_id]
+    matched = []
+    for entry in entries:
+        if type(entry) is not dict or set(entry) != OWNER_ENTRY_KEYS:
+            raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+        if (type(entry["source_evidence_id"]) is not str
+                or not SOURCE_EVIDENCE_ID.fullmatch(entry["source_evidence_id"])):
+            raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+        if entry["source_evidence_id"] == source_evidence_id:
+            matched.append(entry)
     if len(matched) != 1:
         raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
     return matched[0]
@@ -289,11 +307,10 @@ def resolve_owner_source_evidence_in_context_v1(
     if type(context) is not dict or set(context) != {"owner_manifest"}:
         raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
     entry = require_exact_owner_manifest_entry_v1(context["owner_manifest"], source_evidence_id)
-    if (type(entry.get("sha256")) is not str
-            or not re.fullmatch(r"[0-9a-f]{64}", entry["sha256"])):
+    if type(entry["sha256"]) is not str or not HEX_SHA256.fullmatch(entry["sha256"]):
         raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
-    locator = entry.get("source_locator")
-    if not isinstance(locator, dict):
+    locator = entry["source_locator"]
+    if type(locator) is not dict:
         raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
     return normalize_source_locator_v1(locator, owner_entry=entry), "sha256:" + entry["sha256"]
 
@@ -319,9 +336,11 @@ def validate_event_output_v1(event: dict[str, object]) -> None:
             or not SOURCE_EVIDENCE_ID.fullmatch(event["source_evidence_id"])):
         raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
     validate_canonical_source_locator_v1(event["source_locator"])
-    for name in ("source_digest", "payload_digest"):
-        if type(event[name]) is not str or not SHA_ID.fullmatch(event[name]):
-            raise RotationError("OE_EVENT_DIGEST_INVALID")
+    if type(event["source_digest"]) is not str or not SHA_ID.fullmatch(event["source_digest"]):
+        raise RotationError("OE_EVENT_DIGEST_INVALID")
+    if (type(event["payload_digest"]) is not str
+            or not HEX_SHA256.fullmatch(event["payload_digest"])):
+        raise RotationError("OE_EVENT_DIGEST_INVALID")
     if type(event["event_id"]) is not str or not EVENT_ID.fullmatch(event["event_id"]):
         raise RotationError("OE_EVENT_ID_INVALID")
 
@@ -336,7 +355,7 @@ def build_event_segment_v1(event: dict[str, object], *,
             event["source_epoch"]) != expected:
         raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
     source_locator, source_digest = resolve_owner_source_evidence_in_context_v1(
-        context, source_evidence_id)
+        {"owner_manifest": context.get("owner_manifest")}, source_evidence_id)
     envelope = dict(event)
     envelope.update({
         "source_evidence_id": source_evidence_id,
