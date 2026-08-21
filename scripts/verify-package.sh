@@ -306,6 +306,15 @@ require_file fixtures/sidecar-contract/footprint-default.md
 require_file fixtures/sidecar-contract/external-validity.md
 require_file tests/andon-class-contract.test.sh
 require_file tests/continuity-contract.test.sh
+require_file tests/host-session-binding.test.sh
+require_file fixtures/host-session-binding/disabled-owner.json
+require_file fixtures/host-session-binding/untrusted-owner.json
+require_file fixtures/host-session-binding/malformed-binding.json
+require_file skills/implementaudit/references/host-session-binding.md
+require_file skills/implementaudit/scripts/host-session-binding.py
+require_file tests/route-obligation-contract.test.sh
+require_file skills/implementaudit/references/route-obligations.md
+require_file skills/implementaudit/scripts/route-transaction.py
 require_file tests/interruption-durability.test.sh
 require_file tests/lesson-lift-contract.test.sh
 require_file tests/handoff-packet-contract.test.sh
@@ -697,6 +706,8 @@ bash scripts/check-added-lines-clean.sh HEAD
 bash tests/lean-discipline.test.sh
 bash tests/andon-class-contract.test.sh
 bash tests/continuity-contract.test.sh
+bash tests/host-session-binding.test.sh
+bash tests/route-obligation-contract.test.sh
 bash tests/interruption-durability.test.sh
 bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh

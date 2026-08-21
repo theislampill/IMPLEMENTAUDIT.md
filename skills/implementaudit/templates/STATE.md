@@ -15,6 +15,8 @@ current immutable generation and its exact archive.
 | Status | open |
 | Audit object state | open |
 | Route |  |
+| Route decision projection | PENDING |
+| Route decision record | none |
 | Owner/source |  |
 | Baseline ref |  |
 | Last check |  |

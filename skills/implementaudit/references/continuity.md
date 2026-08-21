@@ -125,6 +125,15 @@ invalidation/epoch and either completes the same verified pointer transaction
 or publishes a proved compensating successor. It never hydrates wholesale
 history or restores root-v2 after a marker exists.
 
+Continuity currentness does not itself authorize the next route. After the
+receipt is current, load `route-obligations.md` and classify the exact boundary,
+scope and action through `scripts/route-transaction.py`. The canonical result
+is only `PENDING`, `NOT_REQUIRED`, or `REQUIRED`. Missing/malformed authority or
+`PENDING` blocks. A scoped `NOT_REQUIRED` receipt must be rechecked immediately
+before its exact action; a `REQUIRED/UNSATISFIED` record blocks until the H2B
+child lifecycle returns and completes it. STATE is a projection, never the
+decision authority.
+
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs
 model judgement. It cannot mint the invalidation/receipt or authorise an effect.
@@ -149,6 +158,24 @@ Non-cooperating same-principal writers remain outside the guarantee.
 
 `.IMPLEMENTAUDIT/host-notes.md` is local context, not portable authority;
 portable rules use `AGENTS_UPDATE_DECISION`.
+
+## Host-session attribution
+
+Controller and continuity currentness remain the owners above host-event
+attribution. When governed activation associates a host session with the
+current object, or an admitted host event needs that attribution, load
+`host-session-binding.md` and use `scripts/host-session-binding.py` against an
+explicit plugin-owned or host-owned store. Bind the exact host session,
+controller, claim, run, repository, Git-common directory, worktree, continuity
+generation and receipts. Rebinding is expected-generation CAS.
+
+No binding is the zero-scan cheap path: do not inspect cwd, enumerate run roots,
+select a controller singleton, read target prose or child output, or execute a
+validator. A stale, foreign, superseded, tombstoned, ambiguous, disabled,
+untrusted or malformed binding is unavailable. R003A attribution cannot mint a
+continuity receipt, satisfy a route obligation, close an object, authorise an
+effect or prove native host activation. SessionEnd may tombstone attribution;
+it cannot close the governed object.
 
 ## Identity and instruction lifecycle
 
