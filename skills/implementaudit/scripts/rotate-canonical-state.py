@@ -459,6 +459,30 @@ class ScopeCreepRecord(NamedTuple):
     status: str
 
 
+class AndonRecord(NamedTuple):
+    number: str
+    occurrence: str
+    phase: str
+    abnormality_class: str
+    abnormality: str
+    countermeasure: str
+    rerun_evidence: str
+    outcome: str
+
+
+class InstructionRecord(NamedTuple):
+    instruction_id: str
+    reference: str
+    kind: str
+    authority: str
+    subject: str
+    issued_epoch: str
+    status: str
+    status_evidence: str
+    supersedes_by: str
+    scope_end: str
+
+
 class NativeCurrent(NamedTuple):
     controller_id: str
     run_id: str
@@ -488,8 +512,8 @@ class NativeCurrent(NamedTuple):
     implementaudit_base: str
     planning_evidence: tuple[str, ...]
     open_scope_creep: tuple[ScopeCreepRecord, ...]
-    open_abnormalities: tuple[str, ...]
-    active_instructions: tuple[str, ...]
+    open_andons: tuple[AndonRecord, ...]
+    active_instructions: tuple[InstructionRecord, ...]
 
     def _as_hot_fields(self) -> dict[str, object]:
         fields = {
@@ -521,7 +545,7 @@ class NativeCurrent(NamedTuple):
             "implementaudit_base": self.implementaudit_base,
             "planning_evidence": self.planning_evidence,
             "open_scope_creep": self.open_scope_creep,
-            "open_abnormalities": self.open_abnormalities,
+            "open_andons": self.open_andons,
             "active_instructions": self.active_instructions,
         }
         _validate_native_current_fields_v1(fields)
@@ -829,7 +853,7 @@ def _validate_native_current_fields_v1(fields: Mapping[str, object]) -> None:
     tuple_fields = {
         "runtime_artifacts", "open_ledger", "open_residuals", "action_selected",
         "action_omitted", "planning_evidence", "open_scope_creep",
-        "open_abnormalities", "active_instructions",
+        "open_andons", "active_instructions",
     }
     decision_fields = {"agents_update_decision", "continuity_decision_record"}
     for name in expected - tuple_fields - decision_fields:
@@ -840,8 +864,7 @@ def _validate_native_current_fields_v1(fields: Mapping[str, object]) -> None:
                                         "PAUSED", "BLOCKED", "INTERRUPTED", "DONE"}
             or not GENERATION_ID.fullmatch(str(fields["current_epoch"]))):
         raise RotationError("native current identity is invalid")
-    for name in ("open_abnormalities", "active_instructions", "action_selected",
-                 "action_omitted", "planning_evidence"):
+    for name in ("action_selected", "action_omitted", "planning_evidence"):
         rows = fields[name]
         if type(rows) is not tuple or len(set(rows)) != len(rows):
             raise RotationError("native current rows are invalid")
@@ -852,6 +875,8 @@ def _validate_native_current_fields_v1(fields: Mapping[str, object]) -> None:
         "open_ledger": LedgerFinding,
         "open_residuals": ResidualRecord,
         "open_scope_creep": ScopeCreepRecord,
+        "open_andons": AndonRecord,
+        "active_instructions": InstructionRecord,
     }
     for name, row_type in typed_rows.items():
         rows = fields[name]
@@ -973,8 +998,8 @@ def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjectio
         "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
         "|---|---|---|---|---|---|---|---|",
     ])
-    for index, abnormality in enumerate(fields["open_abnormalities"], 1):
-        lines.append(f"| {index} | o{index} | {_hot_value_v1(fields['phase'])} | failed-criterion | {_hot_value_v1(abnormality)} | follow current next action | pending | open (rerun pending) |")
+    for andon in fields["open_andons"]:
+        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % andon)
     lines.extend([
         "", "## Occurrence resolution and residuals", "",
         f"Occurrence resolution: {_hot_value_v1(fields['occurrence_resolution'])}", "",
@@ -998,8 +1023,8 @@ def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjectio
         "", "| Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |",
         "|---|---|---|---|---|---|---|---|---|---|",
     ])
-    for index, instruction in enumerate(fields["active_instructions"], 1):
-        lines.append(f"| i{index} | current-native | standing-constraint | {_hot_value_v1(fields['controller_id'])} | {_hot_value_v1(instruction)} | {_hot_value_v1(fields['current_epoch'])} | active | native-current | - | run end |")
+    for instruction in fields["active_instructions"]:
+        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % instruction)
     agents = fields["agents_update_decision"]
     continuity = fields["continuity_decision_record"]
     lines.extend([
@@ -1066,7 +1091,8 @@ def render_roadmap_template_v1(fields: Mapping[str, object], graph: GraphProject
         f"- Generation manifest digest: `{custody.manifest_digest}`",
         "", "## Scope boundaries", "",
     ])
-    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["active_instructions"])
+    lines.extend(f"- {_hot_value_v1(row.subject)}"
+                 for row in fields["active_instructions"])
     lines.extend(["", "## Scope-creep register", "",
                   "| # | Issue | Location | Recommendation | Status |",
                   "|---|---|---|---|---|"])

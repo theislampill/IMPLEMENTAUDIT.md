@@ -219,13 +219,17 @@ pair population.
 current fields, the exact `WORK_GRAPH.json` digest/projection, and typed
 generation/archive/query custody. The single `NativeCurrent` schema includes
 current audit-object identity, runtime artifacts, open Ledger findings and
-Andons, consequential residuals, execution identity, decisions, continuity and
-instruction rows, action selection, baseline/run-root identity, planning
+typed `AndonRecord` rows, consequential residuals, execution identity,
+decisions, continuity and typed `InstructionRecord` rows, action selection,
+baseline/run-root identity, planning
 pointers, active phases, and open scope-creep rows. Their deterministic UTF-8
 renderings are bounded to 4096 bytes each. A mechanical section-parity check
 requires the renderer and canonical template heading sequences to equal the
 closed STATE/ROADMAP section contracts; held-out omission controls cover every
-required section. Closed history is absent from hot Markdown but remains
+required section. Each admitted Andon and active-instruction column is rendered
+from its typed native row without synthesized defaults; held-out field mutation
+and omission controls require byte-for-byte survival of the materialized current
+rows. Closed history is absent from hot Markdown but remains
 reachable through the immutable event population and exact archive. The
 canonical templates are the same hot shape, not a second history ledger.
 

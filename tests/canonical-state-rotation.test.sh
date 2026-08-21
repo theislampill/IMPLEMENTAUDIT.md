@@ -153,6 +153,12 @@ if not all(hasattr(rotation, name) for name in (
         "ScopeCreepRecord", "verify_hot_renderer_template_parity_v1")):
     correction_reds.append(
         "I1_TYPED_HOT_SCHEMA_TEMPLATE_PARITY_NOT_IMPLEMENTED")
+if not hasattr(rotation, "AndonRecord"):
+    correction_reds.append(
+        "I1_TYPED_ANDON_FULL_COLUMN_SURVIVAL_NOT_IMPLEMENTED")
+if not hasattr(rotation, "InstructionRecord"):
+    correction_reds.append(
+        "I1_TYPED_INSTRUCTION_FULL_COLUMN_SURVIVAL_NOT_IMPLEMENTED")
 if not all(hasattr(rotation, name) for name in (
         "DerivationPointer", "DerivationSource")):
     correction_reds.append(
@@ -450,8 +456,10 @@ expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapp
     overlap_doc, derivation_sources), "overlapping rule")
 
 native_data = dict(population["native_current"])
-native_data["open_abnormalities"] = tuple(native_data["open_abnormalities"])
-native_data["active_instructions"] = tuple(native_data["active_instructions"])
+native_data["open_andons"] = tuple(
+    rotation.AndonRecord(**row) for row in native_data["open_andons"])
+native_data["active_instructions"] = tuple(
+    rotation.InstructionRecord(**row) for row in native_data["active_instructions"])
 native_data["runtime_artifacts"] = tuple(
     rotation.RuntimeArtifact(**row) for row in native_data["runtime_artifacts"])
 native_data["open_ledger"] = tuple(
@@ -478,6 +486,52 @@ if (state_hot != rotation.render_state_template_v1(native.hot_state_fields(), gr
         or roadmap_hot != rotation.render_roadmap_template_v1(
             native.hot_roadmap_fields(), graph, custody)):
     raise SystemExit("hot projection facade and renderer diverged")
+
+expected_andon_row = (
+    "| 1 | o1 | migration | failed-criterion | open population gap | "
+    "enumerate exact rows | pending | open (rerun pending) |")
+expected_instruction_row = (
+    "| i1 | event:active | standing-constraint | owner | preserve archives | "
+    "G0002 | active | current-state | - | task end |")
+for exact_row in (expected_andon_row, expected_instruction_row):
+    if sources["STATE.md"].count((exact_row + "\n").encode("utf-8")) != 1:
+        raise SystemExit("materialized current-row positive control drift: " + exact_row)
+
+def verify_exact_current_rows(rendered):
+    for exact_row in (expected_andon_row, expected_instruction_row):
+        if rendered.count((exact_row + "\n").encode("utf-8")) != 1:
+            raise rotation.RotationError(
+                "current typed row was not preserved byte-for-byte")
+
+verify_exact_current_rows(state_hot)
+for field in rotation.AndonRecord._fields:
+    changed = native.open_andons[0]._replace(**{field: "changed-" + field})
+    changed_native = native._replace(open_andons=(changed,))
+    expect_rotation_error(
+        rotation,
+        lambda changed_native=changed_native: verify_exact_current_rows(
+            rotation.derive_hot_state_v1(changed_native, graph, custody)),
+        "changed Andon column " + field)
+expect_rotation_error(
+    rotation,
+    lambda: verify_exact_current_rows(rotation.derive_hot_state_v1(
+        native._replace(open_andons=()), graph, custody)),
+    "missing Andon row")
+for field in rotation.InstructionRecord._fields:
+    changed = native.active_instructions[0]._replace(
+        **{field: "changed-" + field})
+    changed_native = native._replace(active_instructions=(changed,))
+    expect_rotation_error(
+        rotation,
+        lambda changed_native=changed_native: verify_exact_current_rows(
+            rotation.derive_hot_state_v1(changed_native, graph, custody)),
+        "changed instruction column " + field)
+expect_rotation_error(
+    rotation,
+    lambda: verify_exact_current_rows(rotation.derive_hot_state_v1(
+        native._replace(active_instructions=()), graph, custody)),
+    "missing instruction row")
+
 state_template = (repo / "skills/implementaudit/templates/STATE.md").read_bytes()
 roadmap_template = (repo / "skills/implementaudit/templates/ROADMAP.md").read_bytes()
 rotation.verify_hot_renderer_template_parity_v1(
@@ -507,7 +561,7 @@ for name, rendered in (("STATE.md", state_hot), ("ROADMAP.md", roadmap_hot)):
         if forbidden.encode("utf-8") in rendered:
             raise SystemExit(name + " retained closed history: " + forbidden)
 required_current = (
-    native.next_action, *native.open_abnormalities, *native.active_instructions,
+    native.next_action, *native.open_andons[0], *native.active_instructions[0],
     native.runtime_artifacts[0].path, native.open_ledger[0].finding,
     native.open_residuals[0].residual, native.execution_identity,
     native.agents_update_decision.reason, native.continuity_decision_record.reason,

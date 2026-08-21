@@ -191,12 +191,31 @@
         "status": "open"
       }
     ],
-    "open_abnormalities": [
-      "open population gap"
+    "open_andons": [
+      {
+        "number": "1",
+        "occurrence": "o1",
+        "phase": "migration",
+        "abnormality_class": "failed-criterion",
+        "abnormality": "open population gap",
+        "countermeasure": "enumerate exact rows",
+        "rerun_evidence": "pending",
+        "outcome": "open (rerun pending)"
+      }
     ],
     "active_instructions": [
-      "preserve exact preimages",
-      "do not publish migration pointers"
+      {
+        "instruction_id": "i1",
+        "reference": "event:active",
+        "kind": "standing-constraint",
+        "authority": "owner",
+        "subject": "preserve archives",
+        "issued_epoch": "G0002",
+        "status": "active",
+        "status_evidence": "current-state",
+        "supersedes_by": "-",
+        "scope_end": "task end"
+      }
     ]
   },
   "graph_projection": {
