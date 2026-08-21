@@ -71,25 +71,46 @@ Legacy v1 receipts work only without invalidation.
 `--require-current-continuity` reads the permanent migration marker at
 `refs/implementaudit/current-generation-migrations/<controller>`, the pointer at
 `refs/implementaudit/current-generations/<controller>`, and the receipt selected
-by that pointer before it considers the root receipt path. The reader matrix is
-fail closed:
+by that pointer before it considers the root receipt path. The first publication
+order is exactly `pointer -> receipt v3 -> permanent marker`: R0039 publishes and
+rereads the canonical pointer by expected-old-zero CAS, R0011 mints and verifies
+the receipt from that already-current pointer, and R0039 may publish the marker
+only after the verified receipt exists. There is no alternative order or second
+currentness writer.
+
+The final `implementaudit.continuity-receipt.v3` is an exact 18-field record. It
+binds controller, claim, bound run name, source epoch, invalidation OID, pointer
+ref, pointer OID/digest, hot STATE/ROADMAP digests, WORK_GRAPH path/digest,
+generation manifest OID/digest, cold high-water, exact next action, and the
+immediately preceding receipt token. R0011 rereads and verifies the complete
+record after expected-zero publication. The reader matrix is fail closed:
 
 - with marker and pointer both absent, only the exact current root receipt with
   schema `implementaudit.continuity-receipt.v2` is current; v1 remains
   historical verification evidence, not a current route;
+- a pointer without its exact v3 receipt is incomplete and never current;
 - a valid pointer and its exact joined v3 receipt without a marker stops as
   `FIRST_MIGRATION_INCOMPLETE`;
 - once any marker ref exists, an absent or structurally malformed pointer stops
   as `STOP_NO_ROOT_FALLBACK`, and no root receipt may restore currentness; and
 - marker, pointer, and `implementaudit.continuity-receipt.v3` are current only
-  when their schemas, controller, claim, run identity, epoch, refs/OIDs,
-  invalidation, protected hashes, archive hash, predecessor receipt, and exact
-  next action form one exact join.
+  when their schemas and every authority, pointer, hot, graph, manifest,
+  high-water, predecessor, and next-action field form one exact join.
 
 Unknown records, mixed v2/v3 state, wrong object types, owner/run/schema drift,
 or a stale pointer/receipt join are STOP. These are reader rules only: reading
 does not publish, repair, delete, or otherwise update a pointer, receipt, or
 migration marker.
+
+Routine v3 recovery is bounded: it reads the current pointer, hot STATE and
+ROADMAP pair, `WORK_GRAPH` path/digest, selected receipt, invalidation and
+marker. Historical event segments are not read. A corrupt referenced segment
+therefore does not invalidate an otherwise exact routine currentness check; it
+fails only when the explicit immutable-history query reads and validates that
+segment. Recovery after an interrupted first publication uses a fresh R0011
+invalidation/epoch and either completes the same verified pointer transaction
+or publishes a proved compensating successor. It never hydrates wholesale
+history or restores root-v2 after a marker exists.
 
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs

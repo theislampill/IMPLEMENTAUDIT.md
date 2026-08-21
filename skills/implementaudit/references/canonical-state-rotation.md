@@ -241,6 +241,53 @@ perform Task-6 currentness behavior. R0011 retains receipt/currentness authority
 R0033 retains route authority, R0035 retains WORK_GRAPH lifecycle authority, and
 the generic migration core has no ActiveGraph import or dependency.
 
+## Governed source custody and first publication
+
+Task 6 replaces the earlier fail-closed adapter with a fixed, no-override live
+consumer. Its public input remains only `source_evidence_id`. Repository,
+controller, claim, run root and bound run name are derived from the installed
+owner executable and exact controller/run-claim custody; no caller may supply a
+path, branch, ref, pointer, marker, snapshot root or authority tuple.
+
+When both current-generation pointer and permanent marker are absent, new
+construction admits only an `iasrc-v1-r0039-archive-*` identity and resolves the
+exact F2 archive manifest/ref for the bound controller, claim, run and source
+epoch. Once either transition ref exists, archive construction is no longer a
+fallback. A complete successor route requires canonical generation-pointer
+JSON, the exact joined R0011 receipt v3 and the permanent marker. It admits only
+an `iasrc-v1-r0038-snapshot-*` identity and derives the single live location
+`<bound-run-root>/operational-evidence/snapshots/CURRENT`.
+
+`CURRENT` is canonical no-LF JSON with only `schema_version`, `snapshot_id`,
+`manifest_sha256`, and `source_pointer_oid`. It must name exactly
+`snapshots/<snapshot_id>/manifest.json`; that immutable canonical manifest must
+match its digest and bind the same controller, claim, run, source epoch and
+pointer OID before its exact owner entries are admitted. Missing publication
+before R38-C06 returns only `OE_R0038_SNAPSHOT_NOT_PUBLISHED`. Alternate roots,
+traversal, links/reparse points, noncanonical bytes, changed `CURRENT`, wrong
+digest/tuple, and duplicate or unknown evidence identities fail closed.
+
+Stored events do not follow the live construction branch. An archive evidence
+identity re-resolves its exact immutable F2 archive manifest, and a snapshot
+identity re-resolves the immutable snapshot named by that stored identity.
+`verify_manifest_segments_v1` first verifies canonical segment storage, then
+uses this stored owner route to compare every segment locator and digest.
+
+The first cross-owner transaction is exactly `pointer -> receipt v3 ->
+permanent marker`. R0039 finalizes and rereads the pointer by expected-old-zero
+CAS; R0011 alone mints, rereads and verifies the exact v3 record from that
+already-current pointer; R0039 publishes and rereads the marker only after that
+receipt exists; R0011 then verifies all three as one current route. Receipt v3
+binds pointer OID/digest, hot STATE/ROADMAP digests, `WORK_GRAPH` path/digest,
+generation manifest OID/digest, cold high-water, exact next action and immediate
+predecessor receipt. Pointer-only, marker-before-receipt and receipt-without-
+marker are incomplete crash boundaries, never current recovery routes.
+
+Routine v3 currentness reads only the current pointer, hot pair, graph,
+invalidation, selected receipt and marker. It does not hydrate historical event
+segments. Corrupt cold history is isolated to the explicit history query that
+requests it; stored legacy verification remains bound to the archive route.
+
 ## Failure and later-cell boundary
 
 Unsafe path, symlink/reparse custody, permission drift, source race, malformed
@@ -252,5 +299,8 @@ preimages and anchored archives are retained.
 F2 is GREEN only when two clean roots yield byte-identical draft and archive
 identities; typed OID/SHA retrieval, discovery and recursion exclusions,
 expected-zero anchoring, and path/link/permission controls all pass. The full
-rotation stays RED until F3--F7 supply the ordered reader, transition,
-finalization, pointer, receipt-v3, and permanent-marker joins.
+Task-6 transaction is GREEN only when the preserved F3 reader matrix, exact
+genesis/successor source routes, pointer/v3/marker crash controls, bounded
+routine recovery, stored re-resolution, and the complete 110-case candidate
+checker all pass. This does not activate ActiveGraph, publish R38-C06, or claim
+later lifecycle or release closure.

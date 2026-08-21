@@ -1242,6 +1242,18 @@ OWNER_ENTRY_KEYS = frozenset({
     "input_path_flavor", "source_locator",
 })
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+SNAPSHOT_ID = re.compile(r"^iasnap-v1-[0-9a-f]{64}$")
+SNAPSHOT_EVIDENCE_ID = re.compile(
+    r"^iasrc-v1-r0038-snapshot-([0-9a-f]{64})"
+    r"(?:-([A-Za-z0-9][A-Za-z0-9._-]{0,30}))?$"
+)
+SNAPSHOT_CURRENT_KEYS = frozenset({
+    "schema_version", "snapshot_id", "manifest_sha256", "source_pointer_oid",
+})
+SNAPSHOT_MANIFEST_KEYS = frozenset({
+    "schema_version", "controller_id", "claim_id", "run_id", "source_epoch",
+    "source_pointer_oid", "source_evidence_entries",
+})
 
 
 def validate_identity_json_v1(value: object, path: str = "$") -> None:
@@ -1494,7 +1506,37 @@ def load_governed_source_context_v1(source_evidence_id: str) -> dict[str, object
     """No caller-selected source branch, path, ref, or manifest is accepted."""
     if type(source_evidence_id) is not str or not SOURCE_EVIDENCE_ID.fullmatch(source_evidence_id):
         raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
-    raise RotationError("OE_SOURCE_CONTEXT_NOT_AVAILABLE")
+    custody = load_governed_source_custody_v1()
+    pointer_oid = custody["pointer_oid"]
+    marker_oid = custody["marker_oid"]
+    if pointer_oid is None and marker_oid is None:
+        if not source_evidence_id.startswith("iasrc-v1-r0039-archive-"):
+            raise RotationError("OE_SOURCE_EVIDENCE_WRONG_BRANCH")
+        owner_manifest = load_exact_r0039_f2_archive_manifest_v1(
+            repo=Path(custody["repo_path"]),
+            run_root=Path(custody["run_root_path"]),
+            controller_id=str(custody["controller_id"]),
+            claim_id=str(custody["claim_id"]),
+            run_id=str(custody["run_id"]),
+            source_epoch=str(custody["source_epoch"]),
+        )
+    else:
+        if pointer_oid is None or marker_oid is None:
+            raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+        pointer = load_canonical_generation_pointer_oid_v1(
+            Path(custody["repo_path"]), str(pointer_oid))
+        require_complete_pointer_receipt_marker_route_v1(
+            live=custody, receipt=custody["receipt"], pointer=pointer,
+            pointer_oid=str(pointer_oid), marker_oid=str(marker_oid))
+        if not source_evidence_id.startswith("iasrc-v1-r0038-snapshot-"):
+            raise RotationError("OE_SOURCE_EVIDENCE_WRONG_BRANCH")
+        owner_manifest = load_exact_r0038_current_snapshot_manifest_v1(
+            run_root=Path(custody["run_root_path"]), pointer_oid=str(pointer_oid),
+            controller_id=str(custody["controller_id"]),
+            claim_id=str(custody["claim_id"]), run_id=str(custody["run_id"]),
+            source_epoch=str(custody["source_epoch"]),
+        )
+    return {**custody, "owner_manifest": owner_manifest}
 
 
 def resolve_owner_source_evidence_v1(source_evidence_id: str) -> tuple[dict[str, object], str]:
@@ -1819,6 +1861,55 @@ def verify_manifest_segments_core_v1(repo: Path, manifest: dict[str, object]) ->
             raise RotationError("manifest segment digest disagrees")
 
 
+def resolve_stored_owner_source_evidence_v1(
+        *, manifest: dict[str, object], source_evidence_id: str
+        ) -> tuple[dict[str, object], str]:
+    """Re-resolve an immutable event through its original exact owner branch."""
+    custody = load_governed_source_custody_v1()
+    if tuple(manifest.get(name) for name in (
+            "controller_id", "claim_id", "run_id")) != tuple(
+            custody.get(name) for name in ("controller_id", "claim_id", "run_id")):
+        raise RotationError("stored manifest authority disagrees with live custody")
+    if source_evidence_id.startswith("iasrc-v1-r0039-archive-"):
+        owner_manifest = load_exact_r0039_f2_archive_manifest_v1(
+            repo=Path(custody["repo_path"]),
+            run_root=Path(custody["run_root_path"]),
+            controller_id=str(manifest["controller_id"]),
+            claim_id=str(manifest["claim_id"]), run_id=str(manifest["run_id"]),
+            source_epoch=str(manifest["source_epoch"]),
+        )
+    elif source_evidence_id.startswith("iasrc-v1-r0038-snapshot-"):
+        owner_manifest = load_immutable_r0038_snapshot_for_evidence_id_v1(
+            run_root=Path(custody["run_root_path"]),
+            controller_id=str(manifest["controller_id"]),
+            claim_id=str(manifest["claim_id"]), run_id=str(manifest["run_id"]),
+            source_epoch=str(manifest["source_epoch"]),
+            source_evidence_id=source_evidence_id,
+        )
+    else:
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    return resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": owner_manifest}, source_evidence_id)
+
+
+def verify_manifest_segments_v1(repo: Path, manifest: dict[str, object]) -> None:
+    """Verify immutable bytes and re-resolve each stored owner identity."""
+    verify_manifest_segments_core_v1(repo, manifest)
+    for row in manifest["events"]:
+        raw = load_exact_segment_bytes_v1(
+            repo, str(manifest["run_id"]), str(manifest["generation_id"]),
+            str(row["sequence"]), str(row["event_id"]))
+        segment = _decode_exact_canonical_json_v1(
+            raw, "immutable event segment JSON is invalid")
+        expected_locator, expected_digest = resolve_stored_owner_source_evidence_v1(
+            manifest=manifest,
+            source_evidence_id=str(segment["source_evidence_id"]))
+        if (segment["source_locator"] != expected_locator
+                or segment["source_digest"] != expected_digest):
+            raise RotationError(
+                "segment source evidence disagrees with exact owner manifest")
+
+
 def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
     rc, output = git_optional(repo, "rev-parse", "--verify", ref)
     if rc == 0:
@@ -1827,6 +1918,221 @@ def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
             raise RotationError("governed ref identity is invalid")
         return oid
     return None
+
+
+def _is_reparse_or_link_v1(path: Path) -> bool:
+    try:
+        metadata = os.lstat(path)
+    except OSError:
+        return False
+    return stat.S_ISLNK(metadata.st_mode) or bool(
+        getattr(metadata, "st_file_attributes", 0)
+        & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
+
+
+def _read_bounded_regular_bytes_v1(path: Path, root: Path, error: str) -> bytes:
+    """Read one exact regular file without accepting a link/reparse escape."""
+    try:
+        root_absolute = Path(os.path.abspath(root))
+        path_absolute = Path(os.path.abspath(path))
+        path_absolute.relative_to(root_absolute)
+        cursor = root_absolute
+        if _is_reparse_or_link_v1(cursor) or not cursor.is_dir():
+            raise RotationError(error)
+        for component in path_absolute.relative_to(root_absolute).parts:
+            if component in {"", ".", ".."}:
+                raise RotationError(error)
+            cursor = cursor / component
+            if _is_reparse_or_link_v1(cursor):
+                raise RotationError(error)
+        metadata = os.lstat(path_absolute)
+        if (not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1
+                or bool(getattr(metadata, "st_file_attributes", 0)
+                        & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
+            raise RotationError(error)
+        return path_absolute.read_bytes()
+    except RotationError:
+        raise
+    except (OSError, ValueError) as exc:
+        raise RotationError(error) from exc
+
+
+def _decode_exact_canonical_json_v1(raw: bytes, error: str) -> dict[str, object]:
+    try:
+        value = json.loads(raw.decode("utf-8", "strict"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RotationError(error) from exc
+    if type(value) is not dict or canonical_json_v1(value) != raw:
+        raise RotationError(error)
+    return value
+
+
+def _validate_snapshot_owner_manifest_v1(
+        manifest: dict[str, object], *, controller_id: str, claim_id: str,
+        run_id: str, source_epoch: str, pointer_oid: str, snapshot_id: str
+        ) -> dict[str, object]:
+    if (set(manifest) != SNAPSHOT_MANIFEST_KEYS
+            or manifest.get("schema_version") != "IA-OPERATIONAL-SNAPSHOT-v1"
+            or manifest.get("controller_id") != controller_id
+            or manifest.get("claim_id") != claim_id
+            or manifest.get("run_id") != run_id
+            or manifest.get("source_epoch") != source_epoch
+            or manifest.get("source_pointer_oid") != pointer_oid):
+        raise RotationError("OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    entries = manifest.get("source_evidence_entries")
+    if type(entries) is not list or not entries:
+        raise RotationError("OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    identities: set[str] = set()
+    snapshot_digest = snapshot_id.removeprefix("iasnap-v1-")
+    for entry in entries:
+        try:
+            validate_owner_manifest_entry_v1(entry)
+        except RotationError as exc:
+            raise RotationError("OE_R0038_SNAPSHOT_MANIFEST_INVALID") from exc
+        identity = str(entry["source_evidence_id"])
+        identity_match = SNAPSHOT_EVIDENCE_ID.fullmatch(identity)
+        if (identity_match is None or identity_match.group(1) != snapshot_digest
+                or identity in identities):
+            raise RotationError("OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+        identities.add(identity)
+    return {"entries": entries}
+
+
+def load_exact_r0038_current_snapshot_manifest_v1(
+        *, run_root: Path, pointer_oid: str, controller_id: str, claim_id: str,
+        run_id: str, source_epoch: str) -> dict[str, object]:
+    """Load only the canonical CURRENT-selected immutable R0038 snapshot."""
+    if (not isinstance(run_root, Path) or not GIT_OID.fullmatch(pointer_oid)
+            or not CONTROLLER_ID.fullmatch(controller_id)
+            or not CLAIM_ID.fullmatch(claim_id) or not TOKEN_ID.fullmatch(run_id)
+            or not GENERATION_ID.fullmatch(source_epoch)):
+        raise RotationError("OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    snapshots = run_root / "operational-evidence" / "snapshots"
+    current_path = snapshots / "CURRENT"
+    if not current_path.exists() and not current_path.is_symlink():
+        raise RotationError("OE_R0038_SNAPSHOT_NOT_PUBLISHED")
+    current_raw = _read_bounded_regular_bytes_v1(
+        current_path, run_root, "OE_R0038_SNAPSHOT_CURRENT_INVALID")
+    current = _decode_exact_canonical_json_v1(
+        current_raw, "OE_R0038_SNAPSHOT_CURRENT_INVALID")
+    if (set(current) != SNAPSHOT_CURRENT_KEYS
+            or current.get("schema_version")
+            != "implementaudit.operational-snapshot-current.v1"
+            or type(current.get("snapshot_id")) is not str
+            or not SNAPSHOT_ID.fullmatch(str(current["snapshot_id"]))
+            or type(current.get("manifest_sha256")) is not str
+            or not HEX_SHA256.fullmatch(str(current["manifest_sha256"]))
+            or current.get("source_pointer_oid") != pointer_oid):
+        raise RotationError("OE_R0038_SNAPSHOT_CURRENT_INVALID")
+    snapshot_id = str(current["snapshot_id"])
+    manifest_path = snapshots / snapshot_id / "manifest.json"
+    manifest_raw = _read_bounded_regular_bytes_v1(
+        manifest_path, run_root, "OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    if not hmac.compare_digest(
+            hashlib.sha256(manifest_raw).hexdigest(),
+            str(current["manifest_sha256"])):
+        raise RotationError("OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    manifest = _decode_exact_canonical_json_v1(
+        manifest_raw, "OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    owner_manifest = _validate_snapshot_owner_manifest_v1(
+        manifest, controller_id=controller_id, claim_id=claim_id,
+        run_id=run_id, source_epoch=source_epoch, pointer_oid=pointer_oid,
+        snapshot_id=snapshot_id)
+    if _read_bounded_regular_bytes_v1(
+            current_path, run_root,
+            "OE_R0038_SNAPSHOT_CURRENT_INVALID") != current_raw:
+        raise RotationError("OE_R0038_SNAPSHOT_CURRENT_CHANGED")
+    return owner_manifest
+
+
+def load_immutable_r0038_snapshot_for_evidence_id_v1(
+        *, run_root: Path, controller_id: str, claim_id: str, run_id: str,
+        source_epoch: str, source_evidence_id: str) -> dict[str, object]:
+    """Reopen the immutable snapshot encoded by a stored evidence identity."""
+    match = (SNAPSHOT_EVIDENCE_ID.fullmatch(source_evidence_id)
+             if type(source_evidence_id) is str else None)
+    if match is None:
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    snapshot_id = "iasnap-v1-" + match.group(1)
+    manifest_path = (run_root / "operational-evidence" / "snapshots"
+                     / snapshot_id / "manifest.json")
+    manifest_raw = _read_bounded_regular_bytes_v1(
+        manifest_path, run_root, "OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    manifest = _decode_exact_canonical_json_v1(
+        manifest_raw, "OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    pointer_oid = manifest.get("source_pointer_oid")
+    if type(pointer_oid) is not str or not GIT_OID.fullmatch(pointer_oid):
+        raise RotationError("OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+    owner_manifest = _validate_snapshot_owner_manifest_v1(
+        manifest, controller_id=controller_id, claim_id=claim_id,
+        run_id=run_id, source_epoch=source_epoch, pointer_oid=pointer_oid,
+        snapshot_id=snapshot_id)
+    require_exact_owner_manifest_entry_v1(owner_manifest, source_evidence_id)
+    return owner_manifest
+
+
+def load_exact_r0039_f2_archive_manifest_v1(
+        *, repo: Path, run_root: Path, controller_id: str, claim_id: str,
+        run_id: str, source_epoch: str) -> dict[str, object]:
+    """Resolve the one exact F2 archive branch into the Task-3 owner shape."""
+    if (not isinstance(repo, Path) or not isinstance(run_root, Path)
+            or not CONTROLLER_ID.fullmatch(controller_id)
+            or not CLAIM_ID.fullmatch(claim_id) or not TOKEN_ID.fullmatch(run_id)
+            or not GENERATION_ID.fullmatch(source_epoch)):
+        raise RotationError("OE_R0039_ARCHIVE_INVALID")
+    try:
+        repo = require_repo(str(repo))
+        run_root = require_run_root(str(run_root), repo)
+    except RotationError as exc:
+        raise RotationError("OE_R0039_ARCHIVE_INVALID") from exc
+    expected_run_root = repo / ".IMPLEMENTAUDIT" / "runs" / run_id
+    if not same_path(run_root, expected_run_root):
+        raise RotationError("OE_R0039_ARCHIVE_INVALID")
+    prefix = f"{ARCHIVE_PREFIX}/{controller_id}/"
+    refs = [line for line in git(
+        repo, "for-each-ref", "--format=%(refname)", prefix
+    ).decode("utf-8", "strict").splitlines() if line]
+    if len(refs) != 1:
+        raise RotationError("OE_R0039_ARCHIVE_INVALID")
+    archive_ref = refs[0]
+    generation = archive_ref.removeprefix(prefix)
+    if not re.fullmatch(r"g[0-9a-f]{4}", generation):
+        raise RotationError("OE_R0039_ARCHIVE_INVALID")
+    verify_archive(repo, controller_id, generation)
+    archive_oid = read_optional_exact_ref_oid_v1(repo, archive_ref)
+    if archive_oid is None:
+        raise RotationError("OE_R0039_ARCHIVE_INVALID")
+    archive_raw = read_exact_git_blob_oid_v1(repo, archive_oid)
+    try:
+        archive = json.loads(archive_raw.decode("utf-8", "strict"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RotationError("OE_R0039_ARCHIVE_INVALID") from exc
+    if type(archive) is not dict or canonical_bytes(archive) != archive_raw:
+        raise RotationError("OE_R0039_ARCHIVE_INVALID")
+    by_role = {str(entry["role"]): entry for entry in archive["entries"]}
+    if set(by_role) != {"STATE", "ROADMAP", "WORK_GRAPH"}:
+        raise RotationError("OE_R0039_ARCHIVE_INVALID")
+    population_rows = [[
+        name, int(by_role[name]["byte_length"]), str(by_role[name]["sha256"])
+    ] for name in ("STATE", "ROADMAP")]
+    population_digest = hashlib.sha256(canonical_json_v1(population_rows)).hexdigest()
+    root_identity = "sha256:" + population_digest
+    entry = {
+        "source_evidence_id": "iasrc-v1-r0039-archive-task5-migration",
+        "sha256": population_digest,
+        "kind": "evidence-uri",
+        "root_identity": root_identity,
+        "host_identity": None,
+        "input_path_flavor": None,
+        "source_locator": {
+            "kind": "evidence-uri", "root_identity": root_identity,
+            "path": ("implementaudit-evidence:v1/r0039/f2/"
+                     + encode_path_component_v1(generation)),
+            "host_identity": None,
+        },
+    }
+    validate_owner_manifest_entry_v1(entry)
+    return {"entries": [entry]}
 
 
 def _windows_apis_v1() -> object:
@@ -1947,11 +2253,12 @@ def _read_posix_descriptor_bytes_v1(descriptor: int) -> bytes:
 def publication_owner_repo_v1() -> Path:
     """Consume the claim-run physical-owner locator without a caller path."""
     claim_helper = Path(__file__).with_name("claim-run.sh")
+    executable_repo = claim_helper.parents[3]
     runner = ([r"C:\Program Files\Git\bin\bash.exe"]
               if os.name == "nt" else ["/bin/bash"])
     completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                               env=git_environment(), check=False)
+                               cwd=str(executable_repo), env=git_environment(), check=False)
     if completed.returncode != 0:
         raise RotationError("publication custody owner contract is unavailable")
     fields = completed.stdout.decode("utf-8", "strict").rstrip("\n").split("\t")
@@ -1964,11 +2271,12 @@ def _open_governed_publication_context_v1(
         ) -> tuple[dict[str, object], "PublicationObservationSessionV1"]:
     """Open receipt-bound custody and retain its mutable-file handles."""
     claim_helper = Path(__file__).with_name("claim-run.sh")
+    executable_repo = claim_helper.parents[3]
     runner = ([r"C:\Program Files\Git\bin\bash.exe"]
               if os.name == "nt" else ["/bin/bash"])
     completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                               env=git_environment(), check=False)
+                               cwd=str(executable_repo), env=git_environment(), check=False)
     if completed.returncode != 0:
         raise RotationError("publication custody owner contract is unavailable")
     try:
@@ -2000,32 +2308,94 @@ def _open_governed_publication_context_v1(
         marker_ref = f"refs/implementaudit/current-generation-migrations/{controller_id}"
         receipt_ref = f"refs/implementaudit/continuity-receipts/{controller_id}/{generation_id}"
         invalidation_ref = f"refs/implementaudit/continuity-invalidations/{controller_id}"
+        current_oid = read_optional_exact_ref_oid_v1(controller_repo, current_ref)
+        marker_oid = read_optional_exact_ref_oid_v1(controller_repo, marker_ref)
+        if current_oid is None and marker_oid is not None:
+            raise RotationError("migration marker exists without generation pointer")
         receipt_oid = read_optional_exact_ref_oid_v1(controller_repo, receipt_ref)
-        if receipt_oid is None:
-            raise RotationError("publication continuity receipt is unavailable")
         invalidation_oid = read_optional_exact_ref_oid_v1(controller_repo, invalidation_ref)
+        invalidation_fields: list[str] | None = None
+        if invalidation_oid is not None:
+            invalidation_fields = read_exact_git_blob_oid_v1(
+                controller_repo, invalidation_oid
+            ).decode("utf-8", "strict").rstrip("\n").split("\t")
+            if (len(invalidation_fields) != 6
+                    or invalidation_fields[:4] != [
+                        "implementaudit.continuity-invalidation.v1", controller_id,
+                        controller_oid, claim_id]
+                    or invalidation_fields[4] not in {
+                        "host-reported-compaction", "new-session", "handoff-resume",
+                        "manual-resume", "inferred-context-gap"}
+                    or not invalidation_fields[5]):
+                raise RotationError("publication invalidation does not bind current custody")
+        predecessor_receipt_token: str | None = None
+        transition = receipt_oid is None
+        if transition:
+            if (current_oid is not None or marker_oid is not None
+                    or invalidation_oid is None or invalidation_fields is None):
+                raise RotationError("publication continuity receipt is unavailable")
+            ordinal = int(generation_id[1:], 16)
+            if ordinal <= 1:
+                raise RotationError("publication continuity receipt is unavailable")
+            predecessor_epoch = f"G{ordinal - 1:04X}"
+            receipt_ref = (
+                f"refs/implementaudit/continuity-receipts/{controller_id}/"
+                f"{predecessor_epoch}")
+            receipt_oid = read_optional_exact_ref_oid_v1(controller_repo, receipt_ref)
+            if receipt_oid is None:
+                raise RotationError("publication continuity receipt is unavailable")
+            predecessor_receipt_token = receipt_ref + "@" + receipt_oid
         receipt = read_exact_git_blob_oid_v1(controller_repo, receipt_oid)
         receipt_fields = receipt.decode("utf-8", "strict").rstrip("\n").split("\t")
         head = git(controller_repo, "rev-parse", "HEAD").decode("ascii", "strict").strip()
         tree = git(controller_repo, "rev-parse", "HEAD^{tree}").decode("ascii", "strict").strip()
         state_digest = hashlib.sha256(state_bytes).hexdigest()
         roadmap_digest = hashlib.sha256(roadmap_bytes).hexdigest()
-        expected_receipt = ["implementaudit.continuity-receipt.v2", controller_id, controller_oid,
-                            claim_id, head, tree, state_digest, roadmap_digest,
-                            invalidation_oid or "none"]
-        if (len(receipt_fields) != 12 or receipt_fields[:9] != expected_receipt
-                or receipt_fields[9] not in {"host-reported-compaction", "new-session", "handoff-resume", "manual-resume", "inferred-context-gap"}
-                or receipt_fields[10] != generation_id or not receipt_fields[11]):
+        receipt_authority = ["implementaudit.continuity-receipt.v2", controller_id,
+                             controller_oid, claim_id, head, tree]
+        allowed_boundaries = {"host-reported-compaction", "new-session",
+                              "handoff-resume", "manual-resume",
+                              "inferred-context-gap"}
+        if (len(receipt_fields) != 12 or receipt_fields[:6] != receipt_authority
+                or not all(HEX_SHA256.fullmatch(value)
+                           for value in receipt_fields[6:8])
+                or (not transition
+                    and receipt_fields[8] != (invalidation_oid or "none"))
+                or (receipt_fields[8] != "none"
+                    and not GIT_OID.fullmatch(receipt_fields[8]))
+                or receipt_fields[9] not in allowed_boundaries
+                or receipt_fields[10] != (
+                    f"G{int(generation_id[1:], 16) - 1:04X}"
+                    if transition else generation_id)
+                or not receipt_fields[11]):
             raise RotationError("publication continuity receipt does not bind current custody")
-        current_oid = read_optional_exact_ref_oid_v1(controller_repo, current_ref)
-        marker_oid = read_optional_exact_ref_oid_v1(controller_repo, marker_ref)
-        if current_oid is None and marker_oid is not None:
-            raise RotationError("migration marker exists without generation pointer")
+        if not transition and receipt_fields[6:8] != [state_digest, roadmap_digest]:
+            raise RotationError("publication continuity receipt does not bind current custody")
+        if transition:
+            state_lines = state_bytes.decode("utf-8", "strict").splitlines()
+            next_actions = []
+            epoch_rows = []
+            for line in state_lines:
+                cells = [cell.strip(" \t`") for cell in line.split("|")]
+                if len(cells) > 3 and cells[1] == "Next action":
+                    next_actions.append(cells[2])
+                if len(cells) > 6 and cells[1] == generation_id:
+                    epoch_rows.append(cells)
+            expected_repo = f"repo at {head} / {tree}"
+            if (len(next_actions) != 1 or not next_actions[0]
+                    or next_actions[0].lower() in {"-", "none", "pending"}
+                    or len(epoch_rows) != 1
+                    or epoch_rows[0][2] != invalidation_fields[4]
+                    or epoch_rows[0][4].replace("`", "") != expected_repo
+                    or epoch_rows[0][5] != "yes"):
+                raise RotationError("publication transition state is not reconciled")
         context = {
             "repo_path": controller_repo, "run_root_path": run_root,
             "controller_id": controller_id, "claim_id": claim_id,
             "run_id": run_id, "generation_id": generation_id,
-            "source_epoch": generation_id, "receipt_oid": receipt_oid,
+            "source_epoch": generation_id, "receipt_ref": receipt_ref,
+            "receipt_oid": receipt_oid,
+            "predecessor_receipt_token": predecessor_receipt_token,
             "receipt_state_digest": state_digest,
             "receipt_roadmap_digest": roadmap_digest,
             "expected_old_pointer_oid": current_oid,
@@ -2049,6 +2419,136 @@ def load_governed_publication_context_v1() -> dict[str, object]:
     context, session = _open_governed_publication_context_v1()
     session.__exit__()
     return context
+
+
+def _publication_custody_fields_v1() -> tuple[Path, str, str, str, Path, str]:
+    claim_helper = Path(__file__).with_name("claim-run.sh")
+    executable_repo = claim_helper.parents[3]
+    runner = ([r"C:\Program Files\Git\bin\bash.exe"]
+              if os.name == "nt" else ["/bin/bash"])
+    completed = subprocess.run(
+        [*runner, str(claim_helper), "--publication-custody"],
+        cwd=str(executable_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        env=git_environment(), check=False)
+    if completed.returncode != 0:
+        raise RotationError("publication custody owner contract is unavailable")
+    try:
+        fields = completed.stdout.decode("utf-8", "strict").rstrip("\n").split("\t")
+    except UnicodeDecodeError as exc:
+        raise RotationError("publication custody owner contract is invalid") from exc
+    if len(fields) != 8 or fields[0] != "implementaudit.publication-custody.v1":
+        raise RotationError("publication custody owner contract is invalid")
+    _, controller_id, controller_oid, claim_id, repo_text, _, run_root_text, run_id = fields
+    repo = require_repo(repo_text)
+    run_root = require_run_root(run_root_text, repo)
+    if (not CONTROLLER_ID.fullmatch(controller_id) or not GIT_OID.fullmatch(controller_oid)
+            or not CLAIM_ID.fullmatch(claim_id) or not TOKEN_ID.fullmatch(run_id)):
+        raise RotationError("publication custody owner contract is invalid")
+    return repo, controller_id, controller_oid, claim_id, run_root, run_id
+
+
+def _receipt_record_v1(repo: Path, token: str) -> dict[str, object]:
+    if type(token) is not str or "@" not in token:
+        raise RotationError("continuity receipt token is invalid")
+    receipt_ref, receipt_oid = token.rsplit("@", 1)
+    if (not receipt_ref.startswith("refs/implementaudit/continuity-receipts/")
+            or not GIT_OID.fullmatch(receipt_oid)
+            or read_optional_exact_ref_oid_v1(repo, receipt_ref) != receipt_oid):
+        raise RotationError("continuity receipt token is invalid")
+    raw = read_exact_git_blob_oid_v1(repo, receipt_oid)
+    fields = raw.decode("utf-8", "strict").rstrip("\n").split("\t")
+    return {"ref": receipt_ref, "oid": receipt_oid, "raw": raw, "fields": fields}
+
+
+def load_governed_source_custody_v1() -> dict[str, object]:
+    """Derive live source custody mechanically and accept no caller override."""
+    repo, controller_id, controller_oid, claim_id, run_root, run_id = (
+        _publication_custody_fields_v1())
+    pointer_ref = f"refs/implementaudit/current-generations/{controller_id}"
+    marker_ref = f"refs/implementaudit/current-generation-migrations/{controller_id}"
+    pointer_oid = read_optional_exact_ref_oid_v1(repo, pointer_ref)
+    marker_oid = read_optional_exact_ref_oid_v1(repo, marker_ref)
+    if pointer_oid is None and marker_oid is None:
+        live = load_governed_publication_context_v1()
+        receipt_ref = str(live["receipt_ref"])
+        receipt = _receipt_record_v1(
+            repo, receipt_ref + "@" + str(live["receipt_oid"]))
+        return {
+            **live, "repo_path": repo, "run_root_path": run_root,
+            "controller_oid": controller_oid, "pointer_ref": pointer_ref,
+            "marker_ref": marker_ref, "pointer_oid": None, "marker_oid": None,
+            "receipt": receipt,
+        }
+    pointer = (None if pointer_oid is None else
+               load_canonical_generation_pointer_oid_v1(repo, pointer_oid))
+    if pointer is None:
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    source_epoch = str(pointer["source_epoch"])
+    receipt_ref = f"refs/implementaudit/continuity-receipts/{controller_id}/{source_epoch}"
+    receipt_oid = read_optional_exact_ref_oid_v1(repo, receipt_ref)
+    receipt = (None if receipt_oid is None else
+               _receipt_record_v1(repo, receipt_ref + "@" + receipt_oid))
+    live = {
+        "repo_path": repo, "run_root_path": run_root,
+        "controller_id": controller_id, "controller_oid": controller_oid,
+        "claim_id": claim_id, "run_id": run_id,
+        "generation_id": pointer["generation_id"],
+        "source_epoch": source_epoch,
+        "pointer_ref": pointer_ref, "marker_ref": marker_ref,
+        "pointer_oid": pointer_oid, "marker_oid": marker_oid,
+        "receipt": receipt,
+    }
+    if marker_oid is not None:
+        claim_helper = Path(__file__).with_name("claim-run.sh")
+        runner = ([r"C:\Program Files\Git\bin\bash.exe"]
+                  if os.name == "nt" else ["/bin/bash"])
+        current = subprocess.run(
+            [*runner, str(claim_helper), "--require-current-continuity", controller_id],
+            cwd=str(repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            env=git_environment(), check=False)
+        if (current.returncode != 0 or receipt is None
+                or current.stdout.decode("utf-8", "strict").strip()
+                != receipt_ref + "@" + receipt_oid):
+            raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    return live
+
+
+def require_complete_pointer_receipt_marker_route_v1(
+        *, live: dict[str, object], receipt: object,
+        pointer: dict[str, object], pointer_oid: str, marker_oid: str) -> None:
+    """Require the exact pointer -> receipt-v3 -> permanent-marker join."""
+    verify_generation_pointer_v1(pointer)
+    if (type(receipt) is not dict or set(receipt) != {"ref", "oid", "raw", "fields"}
+            or not GIT_OID.fullmatch(pointer_oid) or not GIT_OID.fullmatch(marker_oid)):
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    fields = receipt["fields"]
+    if type(fields) is not list or len(fields) != 18:
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    controller_id = str(live["controller_id"])
+    claim_id = str(live["claim_id"])
+    run_id = str(live["run_id"])
+    source_epoch = str(live["source_epoch"])
+    pointer_ref = str(live["pointer_ref"])
+    if (fields[0:5] != ["implementaudit.continuity-receipt.v3", controller_id,
+                         claim_id, run_id, source_epoch]
+            or fields[6:8] != [pointer_ref, pointer_oid]
+            or fields[8:16] != [
+                pointer["pointer_digest"], pointer["hot_state_digest"],
+                pointer["hot_roadmap_digest"], pointer["work_graph_path"],
+                pointer["work_graph_digest"], pointer["generation_manifest_oid"],
+                pointer["generation_manifest_digest"], pointer["cold_high_water"]]
+            or receipt["ref"] != (
+                f"refs/implementaudit/continuity-receipts/{controller_id}/{source_epoch}")):
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    marker_raw = read_exact_git_blob_oid_v1(Path(live["repo_path"]), marker_oid)
+    marker_fields = marker_raw.decode("utf-8", "strict").rstrip("\n").split("\t")
+    if marker_fields != [
+        "implementaudit.current-generation-migration.v1", controller_id,
+        claim_id, run_id, source_epoch, pointer_ref,
+        "implementaudit.state-generation-pointer.v1", str(receipt["ref"]),
+        str(receipt["oid"]), "true",
+    ]:
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
 
 
 @contextlib.contextmanager
@@ -2080,7 +2580,8 @@ def acquire_r0039_publication_writer_lease_v1():
 def prepare_trusted_update_ref_transaction_v1(*, repo: Path, ref: str, new_oid: str,
                                               old_oid: str,
                                               verify_refs: tuple[tuple[str, str], ...]) -> dict[str, object]:
-    if (not ref.startswith("refs/implementaudit/current-generations/")
+    if (not ref.startswith(("refs/implementaudit/current-generations/",
+                            "refs/implementaudit/current-generation-migrations/"))
             or not GIT_OID.fullmatch(new_oid) or not GIT_OID.fullmatch(old_oid)):
         raise RotationError("publication CAS identity is invalid")
     if tuple(sorted(verify_refs)) != verify_refs:
@@ -2416,6 +2917,96 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
         if observed != candidate_pointer_oid:
             raise RotationError("current-generation pointer readback mismatch")
         return observed
+
+
+def publish_first_migration_marker_v1() -> str:
+    """Publish the permanent marker only after the exact v3 receipt exists."""
+    repo, controller_id, controller_oid, claim_id, run_root, run_id = (
+        _publication_custody_fields_v1())
+    gate = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-path",
+                    "implementaudit-r0039-publication.lock").decode().strip())
+    gate.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        descriptor = os.open(gate, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+    except FileExistsError as exc:
+        raise RotationError("R0039 publication writer lease is held") from exc
+    try:
+        pointer_ref = f"refs/implementaudit/current-generations/{controller_id}"
+        marker_ref = (
+            f"refs/implementaudit/current-generation-migrations/{controller_id}")
+        pointer_oid = read_optional_exact_ref_oid_v1(repo, pointer_ref)
+        if pointer_oid is None or read_optional_exact_ref_oid_v1(repo, marker_ref) is not None:
+            raise RotationError("first migration marker precondition is invalid")
+        pointer = load_canonical_generation_pointer_oid_v1(repo, pointer_oid)
+        if tuple(pointer[name] for name in ("controller_id", "claim_id", "run_id")) != (
+                controller_id, claim_id, run_id):
+            raise RotationError("first migration marker pointer authority disagrees")
+        source_epoch = str(pointer["source_epoch"])
+        receipt_ref = (
+            f"refs/implementaudit/continuity-receipts/{controller_id}/{source_epoch}")
+        receipt_oid = read_optional_exact_ref_oid_v1(repo, receipt_ref)
+        if receipt_oid is None:
+            raise RotationError("first migration marker requires receipt v3")
+        receipt = _receipt_record_v1(repo, receipt_ref + "@" + receipt_oid)
+        fields = receipt["fields"]
+        if (type(fields) is not list or len(fields) != 18
+                or fields[0:5] != [
+                    "implementaudit.continuity-receipt.v3", controller_id,
+                    claim_id, run_id, source_epoch]
+                or fields[6:8] != [pointer_ref, pointer_oid]
+                or fields[8:16] != [
+                    pointer["pointer_digest"], pointer["hot_state_digest"],
+                    pointer["hot_roadmap_digest"], pointer["work_graph_path"],
+                    pointer["work_graph_digest"], pointer["generation_manifest_oid"],
+                    pointer["generation_manifest_digest"],
+                    pointer["cold_high_water"]]):
+            raise RotationError("first migration marker requires receipt v3")
+        marker_raw = "\t".join((
+            "implementaudit.current-generation-migration.v1", controller_id,
+            claim_id, run_id, source_epoch, pointer_ref,
+            "implementaudit.state-generation-pointer.v1", receipt_ref,
+            receipt_oid, "true",
+        )).encode("utf-8")
+        marker_oid = git(
+            repo, "hash-object", "-w", "--stdin", input_bytes=marker_raw
+        ).decode("ascii", "strict").strip()
+        invalidation_ref = f"refs/implementaudit/continuity-invalidations/{controller_id}"
+        invalidation_oid = read_optional_exact_ref_oid_v1(repo, invalidation_ref)
+        if fields[5] != (invalidation_oid or "none"):
+            raise RotationError("first migration marker invalidation disagrees")
+        guards = tuple(sorted((
+            (f"refs/implementaudit/controllers/{controller_id}", controller_oid),
+            (pointer_ref, pointer_oid), (receipt_ref, receipt_oid),
+            (invalidation_ref, invalidation_oid or ZERO_OID),
+        )))
+        cas = prepare_trusted_update_ref_transaction_v1(
+            repo=repo, ref=marker_ref, new_oid=marker_oid,
+            old_oid=ZERO_OID, verify_refs=guards)
+        verify_trusted_update_ref_transaction_v1(cas)
+        completed = subprocess.run(
+            cas["argv"], cwd=cas["cwd"], env=cas["env"],
+            input=cas["stdin_bytes"], stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, check=False)
+        if completed.returncode != 0:
+            raise RotationError("first migration marker effect is unknown")
+        if read_back_published_ref_v1(cas) != marker_oid:
+            raise RotationError("first migration marker readback mismatch")
+        live = {
+            "repo_path": repo, "run_root_path": run_root,
+            "controller_id": controller_id, "claim_id": claim_id,
+            "run_id": run_id, "source_epoch": source_epoch,
+            "pointer_ref": pointer_ref,
+        }
+        require_complete_pointer_receipt_marker_route_v1(
+            live=live, receipt=receipt, pointer=pointer,
+            pointer_oid=pointer_oid, marker_oid=marker_oid)
+        return marker_oid
+    finally:
+        os.close(descriptor)
+        try:
+            os.unlink(gate)
+        except OSError:
+            pass
 
 
 def canonical_bytes(value: object) -> bytes:

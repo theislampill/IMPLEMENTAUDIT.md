@@ -181,13 +181,87 @@ controller_io() {
   }
   load_current_generation() {
     pointer_state="$(generation_ref_state "$pref")" || return 1
-    poid=''; precord=''
+    poid=''; precord=''; pointer_format=''
     [ "$pointer_state" = RESOLVED ] || return 0
     poid="$(git rev-parse --verify "$pref" 2>/dev/null)" || { pointer_state=BROKEN; return 0; }
     [ "$(git cat-file -t "$poid" 2>/dev/null)" = blob ] || { pointer_state=MALFORMED; return 0; }
-    precord="$(git cat-file blob "$poid")" || { pointer_state=MALFORMED; return 0; }
-    case "$precord" in *$'\n'*|*$'\r'*) pointer_state=MALFORMED;; esac
-    case "$precord" in *$'\t'*) ;; *) pointer_state=MALFORMED;; esac
+    precord="$(git cat-file blob "$poid" && printf '\036')" || { pointer_state=MALFORMED; return 0; }
+    case "$precord" in *$'\036') precord="${precord%$'\036'}";; *) pointer_state=MALFORMED; return 0;; esac
+    case "$precord" in
+      \{*)
+        case "$precord" in *$'\n'*|*$'\r'*) pointer_state=MALFORMED;; *) pointer_format=JSON;; esac ;;
+      *)
+        case "$precord" in *$'\r'*) pointer_state=MALFORMED; return 0;; esac
+        case "$precord" in *$'\n') precord="${precord%$'\n'}";; esac
+        case "$precord" in *$'\n'*) pointer_state=MALFORMED;; *$'\t'*) pointer_format=TSV;; *) pointer_state=MALFORMED;; esac ;;
+    esac
+  }
+  load_json_generation_pointer() {
+    local raw="$1" py=()
+    if command -v python >/dev/null 2>&1; then py=(python)
+    elif command -v python3 >/dev/null 2>&1; then py=(python3)
+    elif command -v py >/dev/null 2>&1; then py=(py -3)
+    else return 1; fi
+    "${py[@]}" - "$raw" <<'PY'
+import hashlib,json,re,sys
+raw=sys.argv[1]
+def pairs(rows):
+    out={}
+    for key,value in rows:
+        if key in out: raise ValueError("duplicate")
+        out[key]=value
+    return out
+try:
+    value=json.loads(raw,object_pairs_hook=pairs)
+except (TypeError,ValueError,json.JSONDecodeError):
+    raise SystemExit(1)
+keys={"schema_version","controller_id","claim_id","run_id","generation_id",
+      "predecessor_pointer_oid","predecessor_pointer_digest",
+      "generation_manifest_oid","generation_manifest_digest","cold_high_water",
+      "hot_state_digest","hot_roadmap_digest","work_graph_path",
+      "work_graph_digest","query_contract_version","source_epoch",
+      "degraded_state","pointer_digest"}
+if type(value) is not dict or set(value) != keys:
+    raise SystemExit(1)
+canonical=lambda item: json.dumps(item,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+if canonical(value) != raw:
+    raise SystemExit(1)
+patterns={
+ "controller_id":r"[A-Za-z0-9][A-Za-z0-9._-]{0,47}",
+ "claim_id":r"[0-9a-f]{32}", "run_id":r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}",
+ "generation_id":r"G[0-9A-F]{4}", "source_epoch":r"G[0-9A-F]{4}",
+ "generation_manifest_oid":r"(?:[0-9a-f]{40}|[0-9a-f]{64})",
+ "generation_manifest_digest":r"[0-9a-f]{64}",
+ "cold_high_water":r"[0-9]{20}", "hot_state_digest":r"[0-9a-f]{64}",
+ "hot_roadmap_digest":r"[0-9a-f]{64}", "work_graph_digest":r"[0-9a-f]{64}",
+ "pointer_digest":r"[0-9a-f]{64}",
+}
+if any(type(value[name]) is not str or re.fullmatch(pattern,value[name]) is None
+       for name,pattern in patterns.items()):
+    raise SystemExit(1)
+previous=(value["predecessor_pointer_oid"],value["predecessor_pointer_digest"])
+if (previous[0] is None) != (previous[1] is None):
+    raise SystemExit(1)
+if previous[0] is not None and (
+        type(previous[0]) is not str or re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})",previous[0]) is None
+        or type(previous[1]) is not str or re.fullmatch(r"[0-9a-f]{64}",previous[1]) is None):
+    raise SystemExit(1)
+if (value["schema_version"] != "implementaudit.state-generation-pointer.v1"
+        or value["query_contract_version"] != "implementaudit.history-query.v1"
+        or value["work_graph_path"] != "WORK_GRAPH.json"
+        or value["degraded_state"] not in {"NONE","ACTIVEGRAPH_DOGFOOD_DEGRADED"}):
+    raise SystemExit(1)
+body=dict(value); supplied=body.pop("pointer_digest")
+observed=hashlib.sha256(canonical(body).encode("utf-8")).hexdigest()
+if supplied != observed:
+    raise SystemExit(1)
+ordered=("schema_version","controller_id","claim_id","run_id","generation_id",
+         "source_epoch","generation_manifest_oid","generation_manifest_digest",
+         "cold_high_water","hot_state_digest","hot_roadmap_digest",
+         "work_graph_path","work_graph_digest","query_contract_version",
+         "degraded_state","pointer_digest")
+print("\t".join(value[name] for name in ordered))
+PY
   }
   load_generation_migration() {
     marker_state="$(generation_ref_state "$mref")" || return 1
@@ -195,8 +269,11 @@ controller_io() {
     [ "$marker_state" = RESOLVED ] || return 0
     moid="$(git rev-parse --verify "$mref" 2>/dev/null)" || { marker_state=BROKEN; return 0; }
     [ "$(git cat-file -t "$moid" 2>/dev/null)" = blob ] || { marker_state=MALFORMED; return 0; }
-    mrecord="$(git cat-file blob "$moid")" || { marker_state=MALFORMED; return 0; }
-    case "$mrecord" in *$'\n'*|*$'\r'*) marker_state=MALFORMED;; esac
+    mrecord="$(git cat-file blob "$moid" && printf '\036')" || { marker_state=MALFORMED; return 0; }
+    case "$mrecord" in *$'\036') mrecord="${mrecord%$'\036'}";; *) marker_state=MALFORMED; return 0;; esac
+    case "$mrecord" in *$'\r'*) marker_state=MALFORMED; return 0;; esac
+    case "$mrecord" in *$'\n') mrecord="${mrecord%$'\n'}";; esac
+    case "$mrecord" in *$'\n'*) marker_state=MALFORMED;; esac
   }
   load_live_generation_state() {
     live_epoch="$(sed -n 's/^Current epoch: //p' "$state")"
@@ -222,6 +299,57 @@ controller_io() {
         [ "$predecessor_schema:$prc:$pclaim:$prun" = "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity" ] || return 1;;
       *) return 1;;
     esac
+  }
+  load_json_pointer_live_bundle() {
+    local parsed graph_file observed_graph
+    parsed="$(load_json_generation_pointer "$precord")" || return 1
+    IFS=$'\t' read -r jps jpc jpclaim jprun jpgen jpepoch jpmanifest_oid \
+      jpmanifest_digest jphigh jpstate jproad jpgraph_path jpgraph_digest \
+      jpquery jpdegraded jpdigest jpextra <<< "$parsed"
+    [ -z "$jpextra" ] || return 1
+    run_identity="$(basename "$root")"
+    [ "$jps:$jpc:$jpclaim:$jprun" = \
+      "implementaudit.state-generation-pointer.v1:$c:$rg:$run_identity" ] || return 1
+    [ "$jpgen:$jpepoch" = "$live_epoch:$live_epoch" ] || return 1
+    [ "$jpstate:$jproad" = "$sh:$rh" ] || return 1
+    graph_file="$root/$jpgraph_path"
+    [ -f "$graph_file" ] && [ ! -L "$graph_file" ] || return 1
+    observed_graph="$(sha256sum "$graph_file" | cut -d' ' -f1)" || return 1
+    [ "$observed_graph" = "$jpgraph_digest" ] || return 1
+  }
+  previous_receipt_token() {
+    local epoch="$1" ordinal previous_epoch previous_ref previous_oid
+    [[ "$epoch" =~ ^G([0-9A-F]{4})$ ]] || return 1
+    ordinal=$((16#${BASH_REMATCH[1]}))
+    [ "$ordinal" -gt 1 ] || return 1
+    printf -v previous_epoch 'G%04X' "$((ordinal - 1))"
+    previous_ref="refs/implementaudit/continuity-receipts/$c/$previous_epoch"
+    previous_oid="$(git rev-parse --verify "$previous_ref" 2>/dev/null)" || return 1
+    printf '%s@%s\n' "$previous_ref" "$previous_oid"
+  }
+  load_final_v3_receipt() {
+    local candidate="$1" receipt_ref receipt_oid receipt_record
+    case "$candidate" in *@*) receipt_ref="${candidate%@*}"; receipt_oid="${candidate##*@}";; *) return 1;; esac
+    [ "$receipt_ref" = "refs/implementaudit/continuity-receipts/$c/$jpepoch" ] || return 1
+    [[ "$receipt_oid" =~ ^[0-9a-f]{40}$|^[0-9a-f]{64}$ ]] || return 1
+    [ "$(git rev-parse --verify "$receipt_ref" 2>/dev/null)" = "$receipt_oid" ] || return 1
+    [ "$(git cat-file -t "$receipt_oid" 2>/dev/null)" = blob ] || return 1
+    receipt_record="$(git cat-file blob "$receipt_oid")" || return 1
+    case "$receipt_record" in *$'\n'*|*$'\r'*) return 1;; esac
+    IFS=$'\t' read -r vs vc vclaim vrun vep vinv vpref vpoid vpdigest vsh vrh \
+      vgpath vg vmanifest_oid vmanifest_digest vhigh vnext vpred vextra \
+      <<< "$receipt_record"
+    [ -z "$vextra" ] || return 1
+    [ "$vs:$vc:$vclaim:$vrun:$vep:$vinv" = \
+      "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity:$jpepoch:$ioid" ] || return 1
+    [ "$vpref:$vpoid:$vpdigest" = "$pref:$poid:$jpdigest" ] || return 1
+    [ "$vsh:$vrh:$vgpath:$vg" = "$jpstate:$jproad:$jpgraph_path:$jpgraph_digest" ] || return 1
+    [ "$vmanifest_oid:$vmanifest_digest:$vhigh" = \
+      "$jpmanifest_oid:$jpmanifest_digest:$jphigh" ] || return 1
+    [ "$vnext" = "$live_next" ] || return 1
+    [ "$vpred" != "$receipt_ref@$receipt_oid" ] || return 1
+    load_generation_predecessor "$vpred" || return 1
+    v3_token="$receipt_ref@$receipt_oid"
   }
   case "$a" in
     bind)
@@ -263,6 +391,10 @@ controller_io() {
         local ps pc pclaim prun pgen pep pinv ppred pvref pproj psh prh pph pah pnext pextra
         local vs vc vclaim vrun vep vinv vpref vpoid vsh vrh vph vah vnext vpred vextra void
         local ms mc mclaim mrun mep mpref mpschema mvref mvoid mterminal mextra
+        local jps jpc jpclaim jprun jpgen jpepoch jpmanifest_oid jpmanifest_digest
+        local jphigh jpstate jproad jpgraph_path jpgraph_digest jpquery jpdegraded
+        local jpdigest jpextra vpdigest vgpath vg vmanifest_oid vmanifest_digest
+        local vhigh v3_token
         load_current_generation || return
         load_generation_migration || return
         if [ "$pointer_state" != ABSENT ] || [ "$marker_state" != ABSENT ]; then
@@ -281,6 +413,32 @@ controller_io() {
           if [ "$marker_state" = MALFORMED ]; then
             return 1
           fi
+          if [ "$pointer_format" = JSON ]; then
+            load_live_generation_state || return 1
+            load_json_pointer_live_bundle || return 1
+            local final_vref="refs/implementaudit/continuity-receipts/$c/$jpepoch" final_void
+            final_void="$(git rev-parse --verify "$final_vref" 2>/dev/null)" || {
+              [ "$marker_state" = ABSENT ] || printf 'claim-run.sh: STOP_NO_ROOT_FALLBACK: migration marker exists without the exact receipt v3\n' >&2
+              return 1
+            }
+            load_final_v3_receipt "$final_vref@$final_void" || {
+              [ "$marker_state" = ABSENT ] || printf 'claim-run.sh: STOP_NO_ROOT_FALLBACK: migration marker receipt route is invalid\n' >&2
+              return 1
+            }
+            if [ "$marker_state" = ABSENT ]; then
+              printf 'claim-run.sh: FIRST_MIGRATION_INCOMPLETE: current-generation pointer and v3 receipt exist without a migration marker\n' >&2
+              return 1
+            fi
+            IFS=$'\t' read -r ms mc mclaim mrun mep mpref mpschema mvref mvoid mterminal mextra <<< "$mrecord"
+            [ -z "$mextra" ] &&
+              [ "$ms:$mc:$mclaim:$mrun:$mep" = \
+                "implementaudit.current-generation-migration.v1:$c:$rg:$run_identity:$jpepoch" ] &&
+              [ "$mpref:$mpschema:$mvref:$mvoid:$mterminal" = \
+                "$pref:implementaudit.state-generation-pointer.v1:$final_vref:$final_void:true" ] || return 1
+            printf '%s\n' "$v3_token"
+            return
+          fi
+          [ "$pointer_format" = TSV ] || return 1
           IFS=$'\t' read -r ps pc pclaim prun pgen pep pinv ppred pvref pproj psh prh pph pah pnext pextra <<< "$precord"
           if ! { [ -n "$ps" ] && [ -n "$pc" ] && [ -n "$pclaim" ] && [ -n "$prun" ] &&
              [ -n "$pgen" ] && [ -n "$pep" ] && [ -n "$pinv" ] && [ -n "$ppred" ] &&
@@ -329,6 +487,36 @@ controller_io() {
         e="$(canonical_generation "$e")" || return
         [ "$ioid" = none ] || [ "$ib" = "$b" ] || return 1
         next="$(awk -F'|' -v e="$e" -v b="$b" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} /^Current epoch:/{ce=$0} q($2)=="Next action"{n=q($3)} q($2)==e&&q($3)==b&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ce=="Current epoch: "e&&ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return
+        local pref="refs/implementaudit/current-generations/$c" mref="refs/implementaudit/current-generation-migrations/$c"
+        local poid moid precord mrecord pointer_state marker_state pointer_format
+        local live_epoch live_next run_identity jps jpc jpclaim jprun jpgen jpepoch
+        local jpmanifest_oid jpmanifest_digest jphigh jpstate jproad jpgraph_path
+        local jpgraph_digest jpquery jpdegraded jpdigest jpextra predecessor
+        local vs vc vclaim vrun vep vinv vpref vpoid vpdigest vsh vrh vgpath vg
+        local vmanifest_oid vmanifest_digest vhigh vnext vpred vextra v3_token
+        load_current_generation || return 1
+        load_generation_migration || return 1
+        if [ "$pointer_state" != ABSENT ] || [ "$marker_state" != ABSENT ]; then
+          [ "$pointer_state:$pointer_format:$marker_state" = RESOLVED:JSON:ABSENT ] || return 1
+          [ "$ioid" != none ] || return 1
+          load_live_generation_state || return 1
+          [ "$live_epoch:$live_next" = "$e:$next" ] || return 1
+          load_json_pointer_live_bundle || return 1
+          [ "$jpepoch" = "$e" ] || return 1
+          predecessor="$(previous_receipt_token "$e")" || return 1
+          load_generation_predecessor "$predecessor" || return 1
+          rref="refs/implementaudit/continuity-receipts/$c/$e"
+          newr="$(printf 'implementaudit.continuity-receipt.v3\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+            "$c" "$rg" "$run_identity" "$e" "$ioid" "$pref" "$poid" "$jpdigest" \
+            "$jpstate" "$jproad" "$jpgraph_path" "$jpgraph_digest" \
+            "$jpmanifest_oid" "$jpmanifest_digest" "$jphigh" "$next" "$predecessor" \
+            | git hash-object -w --stdin)" || return 1
+          git update-ref "$rref" "$newr" "$zero" || return 1
+          load_final_v3_receipt "$rref@$newr" || return 1
+          token="$v3_token"
+          printf '%s\n' "$token"
+          return
+        fi
         rref="refs/implementaudit/continuity-receipts/$c/$e"
         newr="$(printf 'implementaudit.continuity-receipt.v2\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$c" "$oid" "$rg" "$h" "$t" "$sh" "$rh" "$ioid" "$b" "$e" "$next" | git hash-object -w --stdin)" &&
           git update-ref "$rref" "$newr" "$zero" || return
@@ -353,6 +541,20 @@ controller_io() {
             [ "$io2" = none ] || [ "$ib" = "$b2" ] || return
             state_next="$(awk -F'|' -v e="$e2" -v b="$b2" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} /^Current epoch:/{ce=$0} q($2)=="Next action"{n=q($3)} q($2)==e&&q($3)==b&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ce=="Current epoch: "e&&ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return
             [ "$state_next" = "$next2" ] || return ;;
+          implementaudit.continuity-receipt.v3)
+            local pref="refs/implementaudit/current-generations/$c" poid precord pointer_state pointer_format
+            local live_epoch live_next run_identity jps jpc jpclaim jprun jpgen jpepoch
+            local jpmanifest_oid jpmanifest_digest jphigh jpstate jproad jpgraph_path
+            local jpgraph_digest jpquery jpdegraded jpdigest jpextra
+            local vs vc vclaim vrun vep vinv vpref vpoid vpdigest vsh vrh vgpath vg
+            local vmanifest_oid vmanifest_digest vhigh vnext vpred vextra v3_token
+            load_current_generation || return 1
+            [ "$pointer_state:$pointer_format" = RESOLVED:JSON ] || return 1
+            load_live_generation_state || return 1
+            load_json_pointer_live_bundle || return 1
+            load_final_v3_receipt "$token" || return 1
+            [ "$v3_token" = "$token" ] || return 1
+            e2="$jpepoch" ;;
           *) return 1;;
         esac
         [ "$rref" = "refs/implementaudit/continuity-receipts/$c/$e2" ] || return
