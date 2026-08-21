@@ -148,13 +148,17 @@ state.
 The H2B lifecycle is a CAS chain from `REQUIRED/UNSATISFIED` through `OPEN` and
 `RETURNED` to `SATISFIED`. It delivers the complete audit-state child bytes and
 immutable route packet, accepts only the return bound to that packet, rereads
-post-return currentness and those same live bytes, and records exactly one
-governor decision. Identical completion is idempotent. Compaction replay uses
-source-event identity rather than text equality: reconstructed satisfied
-one-shot `E1` has zero effects; a distinct `E2` remains distinct but cannot
-reopen a terminal target without explicit reopen/change/invalidating evidence;
-missing or ambiguous provenance returns `ambiguous` and STOP. A still-active
-standing instruction continues to apply without gaining a duplicate row.
+post-return currentness and those same live bytes, semantically revalidates the
+embedded artifacts against the exact original authority and current audit-state
+child, and records exactly one governor decision. Identical completion is
+idempotent. Compaction replay uses host-bound source-event identity plus body,
+kind, reactivation, and provenance rather than text equality: reconstructed
+satisfied one-shot `E1` has zero effects; a host-bound distinct `E2` remains
+distinct but cannot reopen a terminal target without explicit
+reopen/change/invalidating evidence; missing, unreadable, malformed, unbound,
+or conflicting provenance returns a typed zero-effect `ambiguous` STOP. A
+still-active standing instruction continues to apply without gaining a
+duplicate row.
 
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs

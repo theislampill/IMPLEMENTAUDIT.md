@@ -31,6 +31,7 @@ RECORD_SCHEMA = "implementaudit.route-decision.v1"
 PREDICATE_VERSION = "R0033.route-predicate.v1"
 PACKET_SCHEMA = "implementaudit.route-packet.v1"
 SOURCE_EVENT_SCHEMA = "implementaudit.source-event.v1"
+SOURCE_EVENT_PROVENANCE_SCHEMA = "implementaudit.source-event-provenance.v1"
 CHILD_RETURN_SCHEMA = "implementaudit.child-return.v1"
 GOVERNOR_DECISION_SCHEMA = "implementaudit.governor-route-decision.v1"
 DECISIONS = {"PENDING", "NOT_REQUIRED", "REQUIRED"}
@@ -254,89 +255,154 @@ def validate_bytes_identity(value: Any, label: str, *, with_identity: bool = Fal
     return raw
 
 
+def source_event_problem(value: Any, label: str = "source_event") -> str | None:
+    keys = {"schema", "source_identity", "provenance", "body", "kind", "reactivation"}
+    if not isinstance(value, dict) or set(value) != keys:
+        return f"{label} has the wrong shape"
+    if value["schema"] != SOURCE_EVENT_SCHEMA:
+        return f"{label} schema is stale"
+    identity = value["source_identity"]
+    if not isinstance(identity, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,255}", identity):
+        return f"{label} source identity is not canonical"
+    provenance = value["provenance"]
+    provenance_keys = {"schema", "event_id", "host_correlation_id"}
+    if not isinstance(provenance, dict) or set(provenance) != provenance_keys:
+        return f"{label} provenance is missing or ambiguous"
+    if provenance["schema"] != SOURCE_EVENT_PROVENANCE_SCHEMA:
+        return f"{label} provenance schema is stale"
+    if provenance["event_id"] != identity:
+        return f"{label} provenance names a different source identity"
+    if not isinstance(provenance["host_correlation_id"], str) or not HEX_RE.fullmatch(
+        provenance["host_correlation_id"]
+    ):
+        return f"{label} provenance correlation is not canonical"
+    body = value["body"]
+    if not isinstance(body, str) or not body or len(body.encode("utf-8")) > 100_000 or "\x00" in body:
+        return f"{label} body is empty, oversized, or malformed"
+    if value["kind"] not in {"one-shot-action", "standing-constraint"}:
+        return f"{label} kind is unsupported"
+    reactivation = value["reactivation"]
+    reactivation_keys = {"reopen", "target_changed", "invalidating_evidence"}
+    if not isinstance(reactivation, dict) or set(reactivation) != reactivation_keys:
+        return f"{label} reactivation has the wrong shape"
+    if any(type(reactivation[key]) is not bool for key in reactivation):
+        return f"{label} reactivation flags are malformed"
+    return None
+
+
 def source_event_record(value: Any, label: str = "source_event") -> dict[str, Any]:
-    event = exact_keys(
-        value,
-        {"schema", "source_identity", "provenance", "body", "kind", "reactivation"},
+    problem = source_event_problem(value, label)
+    if problem is not None:
+        fail(problem)
+    return value
+
+
+def read_replay_source_event(path: str) -> dict[str, Any]:
+    target = Path(path)
+    try:
+        if target.absolute() != target.resolve(strict=True):
+            ambiguous_replay_stop("reconstructed source event traverses an alias")
+        info = os.lstat(target)
+        if not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode) or info.st_size > 1_000_000:
+            ambiguous_replay_stop("reconstructed source event is not a safe bounded regular file")
+        raw = target.read_bytes()
+        value = json.loads(raw.decode("utf-8", "strict"), object_pairs_hook=unique_object)
+    except SystemExit:
+        raise
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+        ambiguous_replay_stop(f"reconstructed source event is unreadable or malformed: {exc}")
+    problem = source_event_problem(value, "reconstructed source event")
+    if problem is not None:
+        ambiguous_replay_stop(problem)
+    return value
+
+
+def decoded_artifact(raw: bytes, label: str) -> dict[str, Any]:
+    try:
+        value = json.loads(raw.decode("utf-8", "strict"), object_pairs_hook=unique_object)
+    except (UnicodeError, json.JSONDecodeError, ValueError) as exc:
+        fail(f"{label} bytes are malformed: {exc}")
+    if not isinstance(value, dict):
+        fail(f"{label} bytes are not a JSON object")
+    return value
+
+
+def route_packet_record(
+    packet: Any, obligation_id: str, transaction_id: str, label: str = "route packet"
+) -> dict[str, Any]:
+    packet = exact_keys(
+        packet,
+        {"schema", "obligation_id", "route_transaction_id", "source_event", "target_identity"},
         label,
     )
-    if event["schema"] != SOURCE_EVENT_SCHEMA:
+    if packet["schema"] != PACKET_SCHEMA:
         fail(f"{label} schema is stale")
-    identity = exact_text(event["source_identity"], f"{label}.source_identity")
-    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,255}", identity):
-        fail(f"{label} source identity is not canonical")
-    if event["provenance"] != "host-event":
-        fail(f"{label} provenance is ambiguous")
-    body = event["body"]
-    if not isinstance(body, str) or not body or len(body.encode("utf-8")) > 100_000 or "\x00" in body:
-        fail(f"{label} body is empty, oversized, or malformed")
-    if event["kind"] not in {"one-shot-action", "standing-constraint"}:
-        fail(f"{label} kind is unsupported")
-    reactivation = exact_keys(
-        event["reactivation"], {"reopen", "target_changed", "invalidating_evidence"}, f"{label}.reactivation"
+    if packet["obligation_id"] != obligation_id or packet["route_transaction_id"] != transaction_id:
+        fail(f"{label} names a foreign obligation or transaction")
+    source_event_record(packet["source_event"], f"{label} source_event")
+    exact_text(packet["target_identity"], f"{label} target_identity")
+    return packet
+
+
+def child_return_record(
+    returned: Any, obligation_id: str, transaction_id: str, packet_digest: str, label: str = "child return"
+) -> dict[str, Any]:
+    returned = exact_keys(
+        returned,
+        {"schema", "obligation_id", "route_transaction_id", "packet_digest", "status", "payload"},
+        label,
     )
-    if any(type(reactivation[key]) is not bool for key in reactivation):
-        fail(f"{label} reactivation flags are malformed")
-    return event
+    if returned["schema"] != CHILD_RETURN_SCHEMA or returned["status"] != "RETURNED":
+        fail(f"{label} schema or status is stale")
+    if (
+        returned["obligation_id"] != obligation_id
+        or returned["route_transaction_id"] != transaction_id
+        or returned["packet_digest"] != packet_digest
+    ):
+        fail(f"{label} names a foreign delivery")
+    if not isinstance(returned["payload"], dict):
+        fail(f"{label} payload is malformed")
+    return returned
+
+
+def governor_decision_record(
+    decision: Any, obligation_id: str, transaction_id: str, return_digest: str,
+    label: str = "governor decision",
+) -> dict[str, Any]:
+    decision = exact_keys(
+        decision,
+        {"schema", "obligation_id", "route_transaction_id", "return_digest", "outcome", "reason"},
+        label,
+    )
+    if decision["schema"] != GOVERNOR_DECISION_SCHEMA or decision["outcome"] != "SATISFIED":
+        fail(f"{label} schema or outcome is not admissible")
+    if (
+        decision["obligation_id"] != obligation_id
+        or decision["route_transaction_id"] != transaction_id
+        or decision["return_digest"] != return_digest
+    ):
+        fail(f"{label} names a foreign return")
+    exact_text(decision["reason"], f"{label} reason")
+    return decision
 
 
 def read_route_packet(path: str, obligation_id: str, transaction_id: str) -> tuple[bytes, dict[str, Any]]:
     raw, packet = read_exact_artifact(path, "route packet")
-    exact_keys(
-        packet,
-        {"schema", "obligation_id", "route_transaction_id", "source_event", "target_identity"},
-        "route packet",
-    )
-    if packet["schema"] != PACKET_SCHEMA:
-        fail("route packet schema is stale")
-    if packet["obligation_id"] != obligation_id or packet["route_transaction_id"] != transaction_id:
-        fail("route packet names a foreign obligation or transaction")
-    source_event_record(packet["source_event"])
-    exact_text(packet["target_identity"], "route packet target_identity")
-    return raw, packet
+    return raw, route_packet_record(packet, obligation_id, transaction_id)
 
 
 def read_child_return(
     path: str, obligation_id: str, transaction_id: str, packet_digest: str
 ) -> tuple[bytes, dict[str, Any]]:
     raw, returned = read_exact_artifact(path, "child return")
-    exact_keys(
-        returned,
-        {"schema", "obligation_id", "route_transaction_id", "packet_digest", "status", "payload"},
-        "child return",
-    )
-    if returned["schema"] != CHILD_RETURN_SCHEMA or returned["status"] != "RETURNED":
-        fail("child return schema or status is stale")
-    if (
-        returned["obligation_id"] != obligation_id
-        or returned["route_transaction_id"] != transaction_id
-        or returned["packet_digest"] != packet_digest
-    ):
-        fail("child return names a foreign delivery")
-    if not isinstance(returned["payload"], dict):
-        fail("child return payload is malformed")
-    return raw, returned
+    return raw, child_return_record(returned, obligation_id, transaction_id, packet_digest)
 
 
 def read_governor_decision(
     path: str, obligation_id: str, transaction_id: str, return_digest: str
 ) -> tuple[bytes, dict[str, Any]]:
     raw, decision = read_exact_artifact(path, "governor decision")
-    exact_keys(
-        decision,
-        {"schema", "obligation_id", "route_transaction_id", "return_digest", "outcome", "reason"},
-        "governor decision",
-    )
-    if decision["schema"] != GOVERNOR_DECISION_SCHEMA or decision["outcome"] != "SATISFIED":
-        fail("governor decision schema or outcome is not admissible")
-    if (
-        decision["obligation_id"] != obligation_id
-        or decision["route_transaction_id"] != transaction_id
-        or decision["return_digest"] != return_digest
-    ):
-        fail("governor decision names a foreign return")
-    exact_text(decision["reason"], "governor decision reason")
-    return raw, decision
+    return raw, governor_decision_record(decision, obligation_id, transaction_id, return_digest)
 
 
 def mechanical_action_class(argv: list[str]) -> str | None:
@@ -479,18 +545,56 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
             "route lifecycle",
         )
         delivery = exact_keys(lifecycle["delivery"], {"child", "packet"}, "route lifecycle delivery")
-        validate_bytes_identity(delivery["child"], "route lifecycle child", with_identity=True)
-        validate_bytes_identity(delivery["packet"], "route lifecycle packet")
+        child_raw = validate_bytes_identity(delivery["child"], "route lifecycle child", with_identity=True)
+        packet_raw = validate_bytes_identity(delivery["packet"], "route lifecycle packet")
+        exact_child_raw, exact_child_path = child_delivery_bytes()
+        exact_child = {"identity": str(exact_child_path), **bytes_identity(exact_child_raw)}
+        if delivery["child"] != exact_child or child_raw != exact_child_raw:
+            fail("route lifecycle child is not the exact current audit-state source")
+        if record.get("child_source") != {
+            "identity": exact_child["identity"], "digest": exact_child["digest"]
+        }:
+            fail("route lifecycle child is foreign to the bound route decision")
+        packet = route_packet_record(
+            decoded_artifact(packet_raw, "route lifecycle packet"),
+            record["obligation_id"],
+            record["route_transaction_id"],
+            "route lifecycle packet",
+        )
+        returned_raw = None
         if lifecycle["child_return"] is not None:
-            validate_bytes_identity(lifecycle["child_return"], "route lifecycle child return")
+            returned_raw = validate_bytes_identity(lifecycle["child_return"], "route lifecycle child return")
+            child_return_record(
+                decoded_artifact(returned_raw, "route lifecycle child return"),
+                record["obligation_id"],
+                record["route_transaction_id"],
+                delivery["packet"]["digest"],
+                "route lifecycle child return",
+            )
         if lifecycle["governor_decision"] is not None:
-            validate_bytes_identity(lifecycle["governor_decision"], "route lifecycle governor decision")
+            decision_raw = validate_bytes_identity(
+                lifecycle["governor_decision"], "route lifecycle governor decision"
+            )
+            if returned_raw is None:
+                fail("route lifecycle governor decision has no exact child return")
+            governor_decision_record(
+                decoded_artifact(decision_raw, "route lifecycle governor decision"),
+                record["obligation_id"],
+                record["route_transaction_id"],
+                bytes_identity(returned_raw)["digest"],
+                "route lifecycle governor decision",
+            )
         if lifecycle["source_event_status"] not in {"active", "satisfied"}:
             fail("route lifecycle source-event status is malformed")
         if lifecycle["state"] != record["route_state"] or not OID_RE.fullmatch(lifecycle["required_record_oid"]):
             fail("route lifecycle state or required-record identity is malformed")
-        if lifecycle["state"] != "SATISFIED" and lifecycle["source_event_status"] != "active":
-            fail("incomplete route lifecycle cannot contain a satisfied source event")
+        expected_source_status = (
+            "satisfied"
+            if lifecycle["state"] == "SATISFIED" and packet["source_event"]["kind"] == "one-shot-action"
+            else "active"
+        )
+        if lifecycle["source_event_status"] != expected_source_status:
+            fail("route lifecycle source-event status contradicts its exact packet and state")
         if lifecycle["state"] == "OPEN" and (
             lifecycle["child_return"] is not None
             or lifecycle["governor_decision"] is not None
@@ -509,6 +613,8 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
             or lifecycle["governor_decision_count"] != 1
         ):
             fail("satisfied route lifecycle does not contain exactly one governor decision")
+        validate_required_route_record(repo, controller, lifecycle["required_record_oid"], record)
+        validate_lifecycle_predecessor_chain(repo, record)
     return oid, record
 
 
@@ -523,6 +629,73 @@ def git_blob_bytes(repo: Path, oid: str, label: str) -> bytes:
     if completed.returncode:
         fail(f"{label} blob is unreadable")
     return completed.stdout
+
+
+def validate_required_route_record(
+    repo: Path, controller: str, required_oid: str, lifecycle_record: dict[str, Any]
+) -> None:
+    required = decoded_artifact(git_blob_bytes(repo, required_oid, "required route record"), "required route record")
+    if frozenset(required) not in {frozenset(RECORD_KEYS), frozenset(HISTORY_RECORD_KEYS)}:
+        fail("required route record is malformed or owns a lifecycle")
+    if (
+        required.get("schema") != RECORD_SCHEMA
+        or required.get("predicate_version") != PREDICATE_VERSION
+        or required.get("controller_id") != controller
+        or required.get("decision") != "REQUIRED"
+        or required.get("route_state") != "UNSATISFIED"
+        or required.get("child_lifecycle_owned") is not False
+        or required.get("record_identity")
+        != digest_json({key: value for key, value in required.items() if key != "record_identity"})
+    ):
+        fail("required route record is not an exact unsatisfied authority record")
+    inherited = set(RECORD_KEYS) - {
+        "record_identity", "predecessor_record_oid", "route_state", "child_lifecycle_owned"
+    }
+    if any(required.get(key) != lifecycle_record.get(key) for key in inherited):
+        fail("route lifecycle is foreign to its required authority record")
+    if required.get("history_query") != lifecycle_record.get("history_query"):
+        fail("route lifecycle changed its required history-query authority")
+
+
+def validate_lifecycle_predecessor_chain(repo: Path, record: dict[str, Any]) -> None:
+    lifecycle = record["lifecycle"]
+    state = lifecycle["state"]
+    if state == "OPEN":
+        if record.get("predecessor_record_oid") != lifecycle["required_record_oid"]:
+            fail("open route lifecycle does not directly succeed its required authority")
+        return
+    predecessor_oid = record.get("predecessor_record_oid")
+    if not isinstance(predecessor_oid, str) or not OID_RE.fullmatch(predecessor_oid):
+        fail("route lifecycle predecessor identity is malformed")
+    predecessor = decoded_artifact(
+        git_blob_bytes(repo, predecessor_oid, "route lifecycle predecessor"),
+        "route lifecycle predecessor",
+    )
+    if set(predecessor) != set(record) or predecessor.get("record_identity") != digest_json(
+        {key: value for key, value in predecessor.items() if key != "record_identity"}
+    ):
+        fail("route lifecycle predecessor is not an exact canonical record")
+    invariant_keys = set(record) - {"record_identity", "predecessor_record_oid", "route_state", "lifecycle"}
+    if any(predecessor.get(key) != record.get(key) for key in invariant_keys):
+        fail("route lifecycle predecessor changed immutable route authority")
+    predecessor_lifecycle = predecessor.get("lifecycle")
+    if not isinstance(predecessor_lifecycle, dict):
+        fail("route lifecycle predecessor has no lifecycle authority")
+    expected_state = "OPEN" if state == "RETURNED" else "RETURNED" if state == "SATISFIED" else None
+    if expected_state is None or predecessor.get("route_state") != expected_state:
+        fail("route lifecycle predecessor skips a canonical state transition")
+    expected_lifecycle = {
+        **lifecycle,
+        "state": expected_state,
+        "governor_decision": None,
+        "governor_decision_count": 0,
+        "source_event_status": "active",
+    }
+    if expected_state == "OPEN":
+        expected_lifecycle["child_return"] = None
+    if predecessor_lifecycle != expected_lifecycle:
+        fail("route lifecycle predecessor evidence does not match its successor")
+    validate_lifecycle_predecessor_chain(repo, predecessor)
 
 
 def bash_script_path(path: Path) -> str:
@@ -982,9 +1155,24 @@ def validate_binding(
     request: dict[str, Any],
     obligation_id: str | None,
     transaction_id: str | None,
+    *,
+    event_id: str | None = None,
+    replay: bool = False,
 ) -> dict[str, Any]:
+    def binding_failure(message: str) -> NoReturn:
+        if replay:
+            ambiguous_replay_stop(message)
+        fail(message)
+
+    def binding_run(command: list[str], label: str) -> str:
+        completed = subprocess.run(command, cwd=repo, text=True, capture_output=True, check=False)
+        if completed.returncode:
+            detail = completed.stderr.strip() or completed.stdout.strip() or f"exit {completed.returncode}"
+            binding_failure(f"{label} failed: {detail}")
+        return completed.stdout.strip()
+
     binding_core = Path(__file__).with_name("host-session-binding.py")
-    lookup_raw = run(
+    lookup_raw = binding_run(
         [
             sys.executable,
             str(binding_core),
@@ -996,16 +1184,15 @@ def validate_binding(
             "--host-session-id",
             args.host_session_id,
         ],
-        cwd=repo,
-        label="host binding lookup",
+        "host binding lookup",
     )
     try:
         lookup = json.loads(lookup_raw)
     except json.JSONDecodeError:
-        fail("host binding lookup returned malformed output")
+        binding_failure("host binding lookup returned malformed output")
     binding = lookup.get("binding") if lookup.get("status") == "BOUND" else None
     if not isinstance(binding, dict):
-        fail("host session has no active exact binding")
+        binding_failure("host session has no active exact binding")
     expected = {
         "binding_generation": args.binding_generation,
         "controller_id": args.controller,
@@ -1019,7 +1206,7 @@ def validate_binding(
     }
     for key, value in expected.items():
         if binding.get(key) != value:
-            fail(f"host session binding has stale or foreign {key}")
+            binding_failure(f"host session binding has stale or foreign {key}")
     command = [
         sys.executable,
         str(binding_core),
@@ -1049,18 +1236,50 @@ def validate_binding(
         "--continuity-receipt",
         current["continuity_receipt"],
         "--event-id",
-        request["boundary"]["event_id"],
+        event_id or request["boundary"]["event_id"],
     ]
     if obligation_id is not None and transaction_id is not None:
         command.extend(["--obligation-id", obligation_id, "--route-transaction-id", transaction_id])
-    attributed_raw = run(command, cwd=repo, label="host event attribution")
+    attributed_raw = binding_run(command, "host event attribution")
     try:
         attributed = json.loads(attributed_raw)
     except json.JSONDecodeError:
-        fail("host event attribution returned malformed output")
+        binding_failure("host event attribution returned malformed output")
     if attributed.get("status") != "ATTRIBUTED":
-        fail("host event attribution is unavailable")
+        binding_failure("host event attribution is unavailable")
     return attributed
+
+
+def validate_source_event_binding(
+    repo: Path,
+    common: str,
+    args: argparse.Namespace,
+    current: dict[str, str],
+    request: dict[str, Any],
+    event: dict[str, Any],
+    obligation_id: str,
+    transaction_id: str,
+    *,
+    replay: bool = False,
+) -> None:
+    attributed = validate_binding(
+        repo,
+        common,
+        args,
+        current,
+        request,
+        obligation_id,
+        transaction_id,
+        event_id=event["source_identity"],
+        replay=replay,
+    )
+    provenance = event["provenance"]
+    if provenance["event_id"] != event["source_identity"] or provenance["host_correlation_id"] != attributed.get(
+        "correlation_id"
+    ):
+        if replay:
+            ambiguous_replay_stop("reconstructed source provenance is unbound or conflicting")
+        fail("source event provenance is unbound or conflicting", decision="REQUIRED")
 
 
 @contextlib.contextmanager
@@ -1264,6 +1483,16 @@ def command_open(args: argparse.Namespace) -> None:
             fail("only an exact unsatisfied REQUIRED obligation can open a child", decision=old["decision"])
         current, _, fingerprint = validate_route_currentness(repo, common, args, request, old)
         packet_raw, packet = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+        validate_source_event_binding(
+            repo,
+            common,
+            args,
+            current,
+            request,
+            packet["source_event"],
+            old["obligation_id"],
+            old["route_transaction_id"],
+        )
         child_raw, child_path = child_delivery_bytes()
         delivery = {
             "child": {"identity": str(child_path), **bytes_identity(child_raw)},
@@ -1395,6 +1624,16 @@ def command_complete(args: argparse.Namespace) -> None:
             fail("only an exact REQUIRED lifecycle can complete", decision=old["decision"])
         current, _, fingerprint = validate_route_currentness(repo, common, args, request, old)
         packet_raw, packet = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+        validate_source_event_binding(
+            repo,
+            common,
+            args,
+            current,
+            request,
+            packet["source_event"],
+            old["obligation_id"],
+            old["route_transaction_id"],
+        )
         return_raw, _ = read_child_return(
             args.return_path,
             old["obligation_id"],
@@ -1497,8 +1736,15 @@ def instruction_replay_status(
 ) -> dict[str, Any]:
     same_source = stored.get("source_identity") == incoming.get("source_identity")
     same_body = stored.get("body") == incoming.get("body")
-    if same_source and not same_body:
-        return {"status": "ambiguous", "source_event_relation": "SOURCE_IDENTITY_BODY_CONFLICT", "new_instruction_rows": 0}
+    same_semantics = all(
+        stored.get(key) == incoming.get(key) for key in ("body", "kind", "reactivation", "provenance")
+    )
+    if same_source and not same_semantics:
+        return {
+            "status": "ambiguous",
+            "source_event_relation": "SOURCE_IDENTITY_SEMANTICS_CONFLICT",
+            "new_instruction_rows": 0,
+        }
     if stored.get("kind") == "standing-constraint" and stored.get("status") == "active" and same_source:
         return {"status": "STANDING_APPLIES", "source_event_relation": "SAME_SOURCE", "new_instruction_rows": 0}
     if same_source:
@@ -1541,25 +1787,42 @@ def command_replay(args: argparse.Namespace) -> None:
         current, _, fingerprint = validate_route_currentness(repo, common, args, request, record)
         try:
             packet_raw = base64.b64decode(lifecycle["delivery"]["packet"]["bytes_b64"], validate=True)
-            packet = json.loads(packet_raw.decode("utf-8", "strict"), object_pairs_hook=unique_object)
+            packet = route_packet_record(
+                decoded_artifact(packet_raw, "stored route packet"),
+                record["obligation_id"],
+                record["route_transaction_id"],
+                "stored route packet",
+            )
             stored_event = source_event_record(packet["source_event"], "stored source_event")
-        except (KeyError, TypeError, ValueError, UnicodeError, json.JSONDecodeError):
+        except (KeyError, TypeError, ValueError, UnicodeError, json.JSONDecodeError, SystemExit):
             ambiguous_replay_stop("stored source provenance is ambiguous")
-        try:
-            _, incoming_value = read_exact_artifact(args.event, "reconstructed source event")
-        except SystemExit:
-            raise
-        required_keys = {"schema", "source_identity", "provenance", "body", "kind", "reactivation"}
-        if set(incoming_value) != required_keys or incoming_value.get("provenance") != "host-event":
-            ambiguous_replay_stop("reconstructed source provenance is missing or ambiguous")
-        try:
-            incoming_event = source_event_record(incoming_value, "reconstructed source event")
-        except SystemExit:
-            ambiguous_replay_stop("reconstructed source provenance is missing or ambiguous")
+        validate_source_event_binding(
+            repo,
+            common,
+            args,
+            current,
+            request,
+            stored_event,
+            record["obligation_id"],
+            record["route_transaction_id"],
+            replay=True,
+        )
+        incoming_event = read_replay_source_event(args.event)
+        validate_source_event_binding(
+            repo,
+            common,
+            args,
+            current,
+            request,
+            incoming_event,
+            record["obligation_id"],
+            record["route_transaction_id"],
+            replay=True,
+        )
         stored = {**stored_event, "status": lifecycle["source_event_status"]}
         replay = instruction_replay_status(stored, incoming_event, target_terminal=True)
         if replay["status"] == "ambiguous":
-            ambiguous_replay_stop("one source identity was reconstructed with conflicting body bytes")
+            ambiguous_replay_stop("one source identity was reconstructed with conflicting semantic bytes")
         post_route_currentness(repo, common, args, request, current, fingerprint, oid)
         review_required = replay["status"] == "NEW_SOURCE_REVIEW_REQUIRED"
     emit(
@@ -1619,6 +1882,25 @@ def command_check(args: argparse.Namespace) -> None:
             record.get("obligation_id"),
         ):
             fail("route decision no longer agrees with the current predicate", decision=record["decision"])
+        lifecycle = record.get("lifecycle")
+        if record["decision"] == "REQUIRED" and isinstance(lifecycle, dict):
+            packet_raw = validate_bytes_identity(lifecycle["delivery"]["packet"], "lifecycle.delivery.packet")
+            packet = route_packet_record(
+                decoded_artifact(packet_raw, "lifecycle route packet"),
+                record["obligation_id"],
+                record["route_transaction_id"],
+                "lifecycle route packet",
+            )
+            validate_source_event_binding(
+                repo,
+                common,
+                args,
+                current,
+                request,
+                packet["source_event"],
+                record["obligation_id"],
+                record["route_transaction_id"],
+            )
         final_oid, _ = current_ref(repo, args.controller)
         final_current = current_controller(repo, args.controller)
         final_eval = evaluate(repo, common, args, final_current, request)

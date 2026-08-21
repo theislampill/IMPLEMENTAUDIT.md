@@ -99,7 +99,9 @@ the route ref, changes its result, or grants advancement.
 `open --expected-record <oid> --packet <path>` accepts only the exact current
 `REQUIRED/UNSATISFIED` record. It validates the immutable packet and stores the
 full audit-state child and packet bytes, byte counts, digests, and identities in
-the canonical `OPEN` successor. `return --expected-record <oid> --return
+the canonical `OPEN` successor. The packet's source-event identity is bound to
+the exact current host/session attribution and route obligation/transaction;
+a caller-supplied label is not provenance. `return --expected-record <oid> --return
 <path>` accepts only a return bound to that obligation, route transaction, and
 packet digest, then stores its exact bytes as the canonical `RETURNED`
 successor. Neither state advances.
@@ -107,19 +109,31 @@ successor. Neither state advances.
 `complete --expected-record <oid> --packet <path> --return <path> --decision
 <path>` rereads controller, continuity, host binding, predicate, child, packet,
 and the same live return before recording a canonical `SATISFIED` successor. A
-decision must bind the exact return digest. The lifecycle admits exactly one
-governor decision; replaying that identical completion is idempotent and emits
-no second record. Only a current `REQUIRED/SATISFIED` check grants advancement.
+decision must bind the exact return digest. Every lifecycle read revalidates the
+embedded child, packet, return, and decision bytes against the exact current
+audit-state child and the original `REQUIRED/UNSATISFIED` authority. The
+lifecycle admits exactly one governor decision; replaying that identical
+completion is idempotent and emits no second record. Only a current
+`REQUIRED/SATISFIED` check grants advancement.
 
 `replay --expected-record <oid> --event <path>` compares immutable source-event
-identity, not message text. Reconstructed `E1` for a satisfied one-shot is a
-zero-effect `REPLAY_NO_OP`. A distinct `E2` remains distinct even if its body is
-identical, while an already-terminal target is a zero-effect `TERMINAL_NO_OP`
-unless its event explicitly carries reopen, target-change, or invalidating
-evidence. Missing, ambiguous, or identity-conflicting provenance returns
-`ambiguous` and STOP. An outstanding standing constraint with the same source
-identity remains `STANDING_APPLIES`; it is not converted into a new instruction
-row.
+identity plus canonical body, kind, reactivation flags, and host-correlation
+provenance, not message text alone. Reconstructed `E1` for a satisfied one-shot
+is a zero-effect `REPLAY_NO_OP`. A host-bound distinct `E2` remains distinct
+even if its body is identical, while an already-terminal target is a zero-effect
+`TERMINAL_NO_OP` unless its event explicitly carries reopen, target-change, or
+invalidating evidence. Missing, unreadable, malformed, unbound, ambiguous, or
+identity-conflicting provenance returns one typed `ambiguous` STOP with no
+issuance, transition, authorization, dispatch, or effect. An outstanding
+standing constraint with the same source identity remains `STANDING_APPLIES`;
+it is not converted into a new instruction row.
+
+Integration ownership note: the composed bootloader Runtime Loop still says
+"only current NOT_REQUIRED advances," which predates and literally contradicts
+the H2B `REQUIRED/SATISFIED` rule above. This reference cannot repair the
+bootloader owner. Before integration, its shared writer must align that line so
+current `NOT_REQUIRED` admission and current `REQUIRED/SATISFIED` route
+advancement are both represented without conflating the two mechanisms.
 
 ## Projection and proof boundary
 

@@ -429,6 +429,22 @@ assert_json "$required_decide" 'value["decision"] == "REQUIRED" and value["class
 assert_json "$required_decide" 'value["obligation_id"].startswith("sha256:") and value["route_transaction_id"].startswith("sha256:")'
 assert_json "$required_decide" 'value["host_activation_proven"] is False and value["proof_layers"]["source_core"] == "PRESENT" and value["proof_layers"]["package"] == "UNVERIFIED"'
 required_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$required_decide")"
+required_obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$required_decide")"
+required_transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$required_decide")"
+source_event_correlation() {
+  local event_id="$1" attributed
+  attributed="$(host validate-event --host-id codex --host-session-id route-red \
+    --binding-generation G0001 --controller-id controller-route --claim-id "$claim_id" \
+    --explicit-run-root "$run_root" --repository-identity "$repo_custody" \
+    --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
+    --continuity-generation G0001 --continuity-receipt "$continuity_receipt" \
+    --event-id "$event_id" --obligation-id "$required_obligation" \
+    --route-transaction-id "$required_transaction")"
+  "${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$attributed"
+}
+source_e1_correlation="$(source_event_correlation host:E1)"
+source_e2_correlation="$(source_event_correlation host:E2)"
+source_e3_correlation="$(source_event_correlation host:E3)"
 required_check="$(expect_blocked "required route remains unsatisfied" route controller-route route-red G0001 check --request "$required_request")"
 assert_json "$required_check" 'value["decision"] == "REQUIRED" and value["advance_allowed"] is False and value["route_state"] == "UNSATISFIED"'
 required_blob="$(git -C "$tmp/repo" cat-file blob "$required_oid")"
@@ -441,13 +457,17 @@ assert_json "$required_blob" 'value["predecessor_record_oid"] is None and value[
 route_packet="$tmp/route-packet.json"
 child_return="$tmp/child-return.json"
 governor_decision="$tmp/governor-decision.json"
-"${py[@]}" - "$required_decide" "$route_packet" "$child_return" "$governor_decision" <<'PY'
+"${py[@]}" - "$required_decide" "$route_packet" "$child_return" "$governor_decision" "$source_e1_correlation" <<'PY'
 import hashlib,json,sys
 decided=json.loads(sys.argv[1])
 event={
  "schema":"implementaudit.source-event.v1",
  "source_identity":"host:E1",
- "provenance":"host-event",
+ "provenance":{
+  "schema":"implementaudit.source-event-provenance.v1",
+  "event_id":"host:E1",
+  "host_correlation_id":sys.argv[5],
+ },
  "body":"perform the exact bounded route once",
  "kind":"one-shot-action",
  "reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False},
@@ -521,19 +541,56 @@ assert_json "$complete_blob" 'value["predecessor_record_oid"] == "'"$return_oid"
 
 completion_check="$(route controller-route route-red G0001 check --request "$required_request")"
 assert_json "$completion_check" 'value["decision"] == "REQUIRED" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
-proxy_oid="$(printf '%s' "$complete_blob" | "${py[@]}" -c '
-import base64,hashlib,json,sys
-value=json.load(sys.stdin)
-value["lifecycle"]["delivery"]["packet"]["bytes_b64"]=base64.b64encode(b"{}\n").decode()
-base={key:item for key,item in value.items() if key!="record_identity"}
-raw=json.dumps(base,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
-value["record_identity"]="sha256:"+hashlib.sha256(raw).hexdigest()
-print(json.dumps(value,sort_keys=True,separators=(",",":")))
-' | git -C "$tmp/repo" hash-object -w --stdin)"
-git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-route "$proxy_oid" "$complete_oid"
-expect_blocked "packet hash proxy cannot satisfy full-byte route delivery" \
-  route controller-route route-red G0001 check --request "$required_request" >/dev/null
-git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-route "$complete_oid" "$proxy_oid"
+"${py[@]}" - "$complete_blob" "$tmp" <<'PY'
+import base64,copy,hashlib,json,sys
+source=json.loads(sys.argv[1]); root=sys.argv[2]
+def canonical(value): return json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+def artifact(raw): return {"bytes":len(raw),"digest":"sha256:"+hashlib.sha256(raw).hexdigest(),"bytes_b64":base64.b64encode(raw).decode()}
+def artifact_value(value): return artifact(canonical(value)+b"\n")
+def finish(name,value):
+ base={key:item for key,item in value.items() if key!="record_identity"}
+ value["record_identity"]="sha256:"+hashlib.sha256(canonical(base)).hexdigest()
+ with open(f"{root}/proxy-{name}.json","wb") as handle: handle.write(canonical(value)+b"\n")
+
+wrong_child=copy.deepcopy(source)
+wrong_child["lifecycle"]["delivery"]["child"]={
+ "identity":wrong_child["lifecycle"]["delivery"]["child"]["identity"],
+ **artifact(b"not audit-state\n"),
+}
+finish("wrong-child",wrong_child)
+
+invalid=copy.deepcopy(source)
+invalid["lifecycle"]["delivery"]["child"]={"identity":"fake:audit-state",**artifact(b"not audit-state\n")}
+invalid["lifecycle"]["delivery"]["packet"]=artifact(b"{}\n")
+invalid["lifecycle"]["child_return"]=artifact(b"{}\n")
+invalid["lifecycle"]["governor_decision"]=artifact(b"{}\n")
+finish("invalid-bundle",invalid)
+
+foreign=copy.deepcopy(source)
+packet=json.loads(base64.b64decode(foreign["lifecycle"]["delivery"]["packet"]["bytes_b64"]))
+returned=json.loads(base64.b64decode(foreign["lifecycle"]["child_return"]["bytes_b64"]))
+decision=json.loads(base64.b64decode(foreign["lifecycle"]["governor_decision"]["bytes_b64"]))
+foreign_obligation="sha256:"+"0"*64; foreign_transaction="sha256:"+"1"*64
+packet["obligation_id"]=returned["obligation_id"]=decision["obligation_id"]=foreign_obligation
+packet["route_transaction_id"]=returned["route_transaction_id"]=decision["route_transaction_id"]=foreign_transaction
+foreign["lifecycle"]["delivery"]["packet"]=artifact_value(packet)
+returned["packet_digest"]=foreign["lifecycle"]["delivery"]["packet"]["digest"]
+foreign["lifecycle"]["child_return"]=artifact_value(returned)
+decision["return_digest"]=foreign["lifecycle"]["child_return"]["digest"]
+foreign["lifecycle"]["governor_decision"]=artifact_value(decision)
+finish("foreign-bundle",foreign)
+
+shortcut=copy.deepcopy(source)
+shortcut["predecessor_record_oid"]=shortcut["lifecycle"]["required_record_oid"]
+finish("shortcut-chain",shortcut)
+PY
+for proxy_case in wrong-child invalid-bundle foreign-bundle shortcut-chain; do
+  proxy_oid="$(git -C "$tmp/repo" hash-object -w "$tmp/proxy-$proxy_case.json")"
+  git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-route "$proxy_oid" "$complete_oid"
+  expect_blocked "$proxy_case cannot satisfy full-byte route delivery" \
+    route controller-route route-red G0001 check --request "$required_request" >/dev/null
+  git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-route "$complete_oid" "$proxy_oid"
+done
 duplicate_completion="$(route controller-route route-red G0001 complete --request "$required_request" \
   --expected-record "$complete_oid" --packet "$route_packet" --return "$child_return" \
   --decision "$governor_decision")"
@@ -548,19 +605,31 @@ event_e1="$tmp/event-e1.json"
 event_e2="$tmp/event-e2.json"
 event_e3="$tmp/event-e3-reactivate.json"
 event_ambiguous="$tmp/event-ambiguous.json"
-"${py[@]}" - "$route_packet" "$event_e1" "$event_e2" "$event_e3" "$event_ambiguous" <<'PY'
+event_kind_conflict="$tmp/event-kind-conflict.json"
+event_reactivation_conflict="$tmp/event-reactivation-conflict.json"
+event_body_conflict="$tmp/event-body-conflict.json"
+event_unbound="$tmp/event-unbound.json"
+event_malformed="$tmp/event-malformed.json"
+"${py[@]}" - "$route_packet" "$event_e1" "$event_e2" "$event_e3" "$event_ambiguous" \
+  "$event_kind_conflict" "$event_reactivation_conflict" "$event_body_conflict" "$event_unbound" \
+  "$source_e2_correlation" "$source_e3_correlation" <<'PY'
 import json,sys
 packet=json.load(open(sys.argv[1],encoding="utf-8"))
 event=packet["source_event"]
 for path,value in (
  (sys.argv[2],event),
- (sys.argv[3],{**event,"source_identity":"host:E2"}),
- (sys.argv[4],{**event,"source_identity":"host:E3","reactivation":{**event["reactivation"],"reopen":True}}),
+ (sys.argv[3],{**event,"source_identity":"host:E2","provenance":{**event["provenance"],"event_id":"host:E2","host_correlation_id":sys.argv[10]}}),
+ (sys.argv[4],{**event,"source_identity":"host:E3","provenance":{**event["provenance"],"event_id":"host:E3","host_correlation_id":sys.argv[11]},"reactivation":{**event["reactivation"],"reopen":True}}),
  (sys.argv[5],{key:value for key,value in event.items() if key!="provenance"}),
+ (sys.argv[6],{**event,"kind":"standing-constraint"}),
+ (sys.argv[7],{**event,"reactivation":{**event["reactivation"],"reopen":True}}),
+ (sys.argv[8],{**event,"body":"conflicting reconstruction"}),
+ (sys.argv[9],{**event,"source_identity":"host:UNBOUND","provenance":{**event["provenance"],"event_id":"host:UNBOUND","host_correlation_id":"sha256:"+"0"*64}}),
 ):
  with open(path,"w",encoding="utf-8",newline="\n") as handle:
   json.dump(value,handle,sort_keys=True,separators=(",",":"),ensure_ascii=False); handle.write("\n")
 PY
+printf '{malformed-json\n' > "$event_malformed"
 
 replayed="$(route controller-route route-red G0001 replay --request "$required_request" \
   --expected-record "$complete_oid" --event "$event_e1")"
@@ -571,6 +640,25 @@ distinct="$(route controller-route route-red G0001 replay --request "$required_r
 assert_json "$distinct" 'value["status"] == "TERMINAL_NO_OP" and value["source_event_relation"] == "DISTINCT_SOURCE_SAME_BODY" and value["source_identity"] == "host:E2"'
 assert_json "$distinct" 'value["target_state"] == "SATISFIED" and value["effects"]["instruction_rows"] == 0 and value["effects"]["external_effects"] == 0'
 [ "$(git -C "$tmp/repo" rev-parse refs/implementaudit/route-decisions/controller-route)" = "$complete_oid" ] || fail "compaction replay mutated the canonical terminal route"
+
+expect_ambiguous_replay() {
+  local label="$1" event_path="$2" output status
+  set +e
+  output="$(route controller-route route-red G0001 replay --request "$required_request" \
+    --expected-record "$complete_oid" --event "$event_path" 2>&1)"
+  status=$?
+  set -e
+  [ "$status" -ne 0 ] || fail "$label did not STOP"
+  assert_json "$output" 'value["status"] == "ambiguous" and value["stop"] is True and value["advance_allowed"] is False'
+  assert_json "$output" 'value["effects"] == {"instruction_rows":0,"route_transactions":0,"lifecycle_transitions":0,"mutation_authorizations":0,"task_dispatches":0,"external_effects":0}'
+}
+expect_ambiguous_replay "same source with changed kind" "$event_kind_conflict"
+expect_ambiguous_replay "same source with changed reactivation" "$event_reactivation_conflict"
+expect_ambiguous_replay "same source with changed body" "$event_body_conflict"
+expect_ambiguous_replay "unbound source identity" "$event_unbound"
+expect_ambiguous_replay "missing reconstructed source artifact" "$tmp/event-missing.json"
+expect_ambiguous_replay "malformed reconstructed source artifact" "$event_malformed"
+
 set +e
 reactivate="$(route controller-route route-red G0001 replay --request "$required_request" \
   --expected-record "$complete_oid" --event "$event_e3" 2>&1)"
@@ -589,8 +677,9 @@ assert_json "$ambiguous" 'value["status"] == "ambiguous" and value["stop"] is Tr
 "${py[@]}" - "$core" <<'PY'
 import importlib.util,sys
 spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
-stored={"source_identity":"host:S1","body":"keep applying","kind":"standing-constraint","status":"active","reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}}
-incoming={"source_identity":"host:S1","body":"keep applying","kind":"standing-constraint","reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}}
+provenance={"schema":"implementaudit.source-event-provenance.v1","event_id":"host:S1","host_correlation_id":"sha256:"+"1"*64}
+stored={"source_identity":"host:S1","provenance":provenance,"body":"keep applying","kind":"standing-constraint","status":"active","reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}}
+incoming={"source_identity":"host:S1","provenance":provenance,"body":"keep applying","kind":"standing-constraint","reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}}
 value=module.instruction_replay_status(stored,incoming,target_terminal=False)
 assert value["status"]=="STANDING_APPLIES" and value["new_instruction_rows"]==0
 PY
