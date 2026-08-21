@@ -315,7 +315,7 @@ second `/goal` inside an existing `/goal` run.
    First message: receipt/frontier/discrepancies.
    `POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT`; `PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY`;
    `STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE`; `POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT`.
-   Apply references/route-obligations.md; only current NOT_REQUIRED advances.
+   Apply references/route-obligations.md: current NOT_REQUIRED admits without child work; exact current REQUIRED/SATISFIED advances; all other, stale, or ambiguous states refuse.
 1. Safety read: `AGENTS.md`, README/CONTRIBUTING/docs/workflows, existing audit
    docs, generator/source ownership, and authorization chain.
 2. Input gate: stop on empty, malformed, unsafe, unsupported, or non-audit
