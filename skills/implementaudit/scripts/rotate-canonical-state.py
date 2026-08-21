@@ -2490,7 +2490,9 @@ def _decode_exact_receipt_fields_v1(raw: bytes) -> list[str]:
     """Preserve raw receipts and enforce the one canonical v3 byte form."""
     if raw.startswith(b"implementaudit.continuity-receipt.v3\t"):
         if (not raw.endswith(b"\n") or raw.endswith(b"\n\n")
-                or b"\n" in raw[:-1] or b"\r" in raw):
+                or b"\n" in raw[:-1] or b"\r" in raw
+                or any(value < 0x20 and value not in (0x09, 0x0A)
+                       or value == 0x7F for value in raw)):
             raise RotationError("continuity receipt bytes are not canonical")
         body = raw[:-1]
         expected_fields = 18
@@ -2562,16 +2564,37 @@ def _validate_predecessor_receipt_v1(
                 or fields[10] != expected_epoch or not fields[11]):
             raise RotationError("continuity receipt predecessor is invalid")
         return
+    pointer_ref = f"refs/implementaudit/current-generations/{controller_id}"
     if (fields[:5] != [fields[0], controller_id, claim_id, run_id, expected_epoch]
             or not GIT_OID.fullmatch(fields[5])
+            or fields[6] != pointer_ref
             or not GIT_OID.fullmatch(fields[7])
             or not all(HEX_SHA256.fullmatch(fields[index])
                        for index in (8, 9, 10, 12, 14))
             or fields[11] != "WORK_GRAPH.json"
             or not GIT_OID.fullmatch(fields[13])
             or re.fullmatch(r"[0-9]{20}", fields[15]) is None
-            or not fields[16] or not fields[17]):
+            or not fields[16]):
         raise RotationError("continuity receipt predecessor is invalid")
+    _require_structural_predecessor_token_v1(
+        fields[17], controller_id=controller_id, receipt_epoch=expected_epoch)
+
+
+def _require_structural_predecessor_token_v1(
+        token: str, *, controller_id: str, receipt_epoch: str) -> None:
+    """Validate one predecessor token shape without hydrating earlier history."""
+    if (type(token) is not str or not CONTROLLER_ID.fullmatch(controller_id)
+            or not GENERATION_ID.fullmatch(receipt_epoch) or "@" not in token):
+        raise RotationError("continuity receipt predecessor lineage is invalid")
+    ordinal = int(receipt_epoch[1:], 16)
+    if ordinal <= 1:
+        raise RotationError("continuity receipt predecessor lineage is invalid")
+    own_ref, own_oid = token.rsplit("@", 1)
+    own_epoch = f"G{ordinal - 1:04X}"
+    expected_ref = (
+        f"refs/implementaudit/continuity-receipts/{controller_id}/{own_epoch}")
+    if own_ref != expected_ref or not GIT_OID.fullmatch(own_oid):
+        raise RotationError("continuity receipt predecessor lineage is invalid")
 
 
 def _require_immediate_predecessor_v1(

@@ -287,12 +287,32 @@ PY
     raw_receipt_record="$wrapped"
   }
   load_exact_lf_receipt_record() {
-    local target_oid="$1" wrapped
-    load_raw_receipt_record "$target_oid" || return 1
-    wrapped="$raw_receipt_record"
-    case "$wrapped" in *$'\r'*) return 1;; esac
-    case "$wrapped" in *$'\n') exact_receipt_record="${wrapped%$'\n'}";; *) return 1;; esac
-    case "$exact_receipt_record" in *$'\n'*) return 1;; esac
+    local target_oid="$1" wrapped py=()
+    if command -v python >/dev/null 2>&1; then py=(python)
+    elif command -v python3 >/dev/null 2>&1; then py=(python3)
+    elif command -v py >/dev/null 2>&1; then py=(py -3)
+    else return 1; fi
+    # Raw v3 bytes never enter a shell variable until the shared canonical
+    # byte grammar has rejected NUL/C0/DEL, non-UTF-8, nonterminal LF, CR,
+    # or empty fields.  Command substitution therefore cannot normalize an
+    # invalid record into a valid one.  Frozen v1/v2 loading stays unchanged.
+    wrapped="$(git cat-file blob "$target_oid" | "${py[@]}" -c '
+import sys
+raw = sys.stdin.buffer.read()
+prefix = b"implementaudit.continuity-receipt.v3\t"
+if (not raw.startswith(prefix) or not raw.endswith(b"\n")
+        or b"\n" in raw[:-1] or b"\r" in raw
+        or any(value < 0x20 and value not in (0x09, 0x0A) or value == 0x7F
+               for value in raw)
+        or any(field == b"" for field in raw[:-1].split(b"\t"))):
+    raise SystemExit(1)
+try:
+    raw[:-1].decode("utf-8", "strict")
+except UnicodeDecodeError:
+    raise SystemExit(1)
+sys.stdout.buffer.write(raw[:-1])
+')" || return 1
+    exact_receipt_record="$wrapped"
   }
   require_exact_tab_count() {
     local rest="$1" expected="$2" observed=0
@@ -310,11 +330,12 @@ PY
     [[ "$predecessor_oid" =~ ^[0-9a-f]{40}$ ]] || return 1
     [ "$(git rev-parse --verify "$predecessor_ref" 2>/dev/null)" = "$predecessor_oid" ] || return 1
     [ "$(git cat-file -t "$predecessor_oid" 2>/dev/null)" = blob ] || return 1
-    load_raw_receipt_record "$predecessor_oid" || return 1
-    predecessor_record="$raw_receipt_record"
-    predecessor_schema="${predecessor_record%%$'\t'*}"
+    IFS= read -r -d $'\t' predecessor_schema \
+      < <(git cat-file blob "$predecessor_oid") || return 1
     case "$predecessor_schema" in
       implementaudit.continuity-receipt.v2)
+        load_raw_receipt_record "$predecessor_oid" || return 1
+        predecessor_record="$raw_receipt_record"
         while [[ "$predecessor_record" == *$'\n' ]]; do
           predecessor_record="${predecessor_record%$'\n'}"
         done
@@ -343,10 +364,23 @@ PY
         [ -z "$predecessor_extra" ] || return 1
         [ "$predecessor_schema:$prc:$pclaim:$prun" = \
           "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity" ] || return 1
+        [ "$ppointer_ref" = "refs/implementaudit/current-generations/$c" ] || return 1
         [[ "$pinvalidation:$ppointer_oid:$pmanifest_oid" =~ ^[0-9a-f]{40}:[0-9a-f]{40}:[0-9a-f]{40}$ ]] || return 1
         [[ "$ppointer_digest:$pstate:$proad:$pgraph_digest:$pmanifest_digest" =~ ^[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}$ ]] || return 1
         [ "$pgraph_path" = WORK_GRAPH.json ] && [[ "$phigh" =~ ^[0-9]{20}$ ]] &&
-          [ -n "$pnext" ] && [ -n "$ppred" ] || return 1;;
+          [ -n "$pnext" ] && [ -n "$ppred" ] || return 1
+        local predecessor_ordinal predecessor_own_epoch predecessor_own_ref predecessor_own_oid
+        [[ "$predecessor_epoch" =~ ^G([0-9A-F]{4})$ ]] || return 1
+        predecessor_ordinal=$((16#${BASH_REMATCH[1]}))
+        [ "$predecessor_ordinal" -gt 1 ] || return 1
+        printf -v predecessor_own_epoch 'G%04X' "$((predecessor_ordinal - 1))"
+        case "$ppred" in
+          *@*) predecessor_own_ref="${ppred%@*}"; predecessor_own_oid="${ppred##*@}";;
+          *) return 1;;
+        esac
+        [ "$predecessor_own_ref" = \
+          "refs/implementaudit/continuity-receipts/$c/$predecessor_own_epoch" ] || return 1
+        [[ "$predecessor_own_oid" =~ ^[0-9a-f]{40}$ ]] || return 1;;
       *) return 1;;
     esac
     [ "$predecessor_ref" = \

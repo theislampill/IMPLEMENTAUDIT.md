@@ -80,15 +80,22 @@ currentness writer.
 
 The final `implementaudit.continuity-receipt.v3` has one byte form: 18 nonempty
 UTF-8 fields separated by exactly 17 tabs and terminated by exactly one LF,
-with no CR or interior LF. Missing/extra LF, CRLF, trailing tabs, or an extra
-empty field are not receipts. It binds controller, claim, bound run name,
+with no CR, interior LF, NUL, other C0 control, or DEL. Missing/extra LF, CRLF,
+trailing tabs, an extra empty field, or any forbidden byte are not receipts.
+The Bash and Python owners apply this byte grammar before field semantics; raw
+v3 bytes are never normalized through shell command substitution. It binds
+controller, claim, bound run name,
 source epoch, invalidation OID, pointer ref, pointer OID/digest, hot
 STATE/ROADMAP digests, WORK_GRAPH path/digest, generation manifest OID/digest,
 cold high-water, exact next action, and the immediately preceding receipt token.
 Every v3 verifier derives the exact `G(n-1)` receipt ref, requires token equality,
 then validates that predecessor record; a valid record aliased under any other
-generation ref is not a predecessor. R0011 preserves and verifies the raw bytes
-after expected-zero publication. The reader matrix is fail closed:
+generation ref is not a predecessor. For a v3 predecessor, that bounded record
+check also requires the exact canonical current-generation pointer ref, every
+typed authority/state field, and an own-predecessor token whose ref is
+structurally `G(n-2)` with a typed OID. It does not resolve `G(n-2)` or recurse
+through older receipts. R0011 preserves and verifies the raw bytes after
+expected-zero publication. The reader matrix is fail closed:
 
 - with marker and pointer both physically proved absent from loose and packed
   ref custody, only the exact current root receipt with schema

@@ -283,9 +283,14 @@ receipt exists; R0011 then verifies all three as one current route. Receipt v3
 binds pointer OID/digest, hot STATE/ROADMAP digests, `WORK_GRAPH` path/digest,
 generation manifest OID/digest, cold high-water, exact next action and immediate
 predecessor receipt. The receipt is exactly 18 nonempty tab-separated UTF-8
-fields plus one terminal LF. R0011 and the marker precondition independently
-derive `G(n-1)`, require the exact stored token, and validate its record; an
-alias, normalized byte form, CRLF, missing/extra LF, or extra empty field stops.
+fields plus one terminal LF, with NUL, other C0 controls and DEL forbidden.
+R0011 and the marker precondition independently apply that byte grammar, derive
+`G(n-1)`, require the exact stored token, and validate its record. For a v3
+predecessor, the bounded non-recursive invariant requires the canonical pointer
+ref, the full typed owner/state fields, and a structurally and epoch-correct
+`G(n-2)@OID` own-predecessor token without loading `G(n-2)`. An alias,
+normalized byte form, forbidden byte, CRLF, missing/extra LF, extra empty field,
+wrong pointer ref, or malformed predecessor token stops.
 Pointer-only, marker-before-receipt and receipt-without-marker are incomplete
 crash boundaries, never current recovery routes.
 
