@@ -221,12 +221,24 @@ def case_eb17():
     expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
         {"owner_manifest": {"entries": [entry], "unexpected": True}}, entry["source_evidence_id"]),
         "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    malformed_non_target = dict(
+        entry, source_evidence_id="iasrc-v1-r0038-snapshot-non-target", sha256="bad")
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [entry, malformed_non_target]}},
+        entry["source_evidence_id"]), "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
 
 
 def case_eb18():
-    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
-        {"owner_manifest": {"entries": [entry]}, "unexpected": True}, entry["source_evidence_id"]),
+    original = rotation.load_governed_source_context_v1
+    wrong_context = synthetic_context(entry["source_evidence_id"])
+    wrong_context["controller_id"] = "controller-2"
+    rotation.load_governed_source_context_v1 = lambda source_evidence_id: wrong_context
+    try:
+        expect_error(lambda: rotation.build_event_segment_v1(
+            copy.deepcopy(base_event), source_evidence_id=entry["source_evidence_id"]),
         "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    finally:
+        rotation.load_governed_source_context_v1 = original
 
 
 def case_eb19():
@@ -266,11 +278,19 @@ case_tests = {
     "EB19-unknown-source-evidence-id": case_eb19,
     "EB20-stored-source-evidence-revalidated": case_eb20,
 }
+fixture_ids = [case.get("id") for case in byte_cases["cases"]]
+if (len(fixture_ids) != len(set(fixture_ids))
+        or set(fixture_ids) != set(case_tests)
+        or any(case.get("expect") not in {"ACCEPT", "REJECT"}
+               for case in byte_cases["cases"])):
+    raise SystemExit("event-byte fixture rows are not exact and uniquely mapped")
+executed_case_rows = 0
 for case in byte_cases["cases"]:
     try:
         case_tests[case["id"]]()
     except KeyError as exc:
         raise SystemExit(f"fixture case is not executed: {case['id']}") from exc
+    executed_case_rows += 1
 malformed_output = dict(base_event, source_evidence_id=entry["source_evidence_id"],
                         source_locator=[], source_digest="sha256:" + "b" * 64,
                         payload_digest="b" * 64, event_id="iaevt-v1-" + "b" * 64)
@@ -298,7 +318,7 @@ for source_evidence_id in valid_ids:
         else:
             raise SystemExit("public source facade escaped its unavailable boundary")
 print("CANONICAL_STATE_ROTATION_EVENT_BYTES_GREEN=PASS cases=" +
-      str(len(case_tests)))
+      str(executed_case_rows))
 PY
   exit 0
 fi

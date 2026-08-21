@@ -290,16 +290,31 @@ def require_exact_owner_manifest_entry_v1(manifest: dict[str, object],
         raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
     matched = []
     for entry in entries:
-        if type(entry) is not dict or set(entry) != OWNER_ENTRY_KEYS:
-            raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
-        if (type(entry["source_evidence_id"]) is not str
-                or not SOURCE_EVIDENCE_ID.fullmatch(entry["source_evidence_id"])):
-            raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+        validate_owner_manifest_entry_v1(entry)
         if entry["source_evidence_id"] == source_evidence_id:
             matched.append(entry)
     if len(matched) != 1:
         raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
     return matched[0]
+
+
+def validate_owner_manifest_entry_v1(entry: object) -> None:
+    """Validate every owner entry before selecting the requested identity."""
+    if type(entry) is not dict or set(entry) != OWNER_ENTRY_KEYS:
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    if (type(entry["source_evidence_id"]) is not str
+            or not SOURCE_EVIDENCE_ID.fullmatch(entry["source_evidence_id"])):
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    if type(entry["sha256"]) is not str or not HEX_SHA256.fullmatch(entry["sha256"]):
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    if type(entry["source_locator"]) is not dict:
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    try:
+        normalize_source_locator_v1(entry["source_locator"], owner_entry=entry)
+    except RotationError as exc:
+        if str(exc) == "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH":
+            raise
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED") from exc
 
 
 def resolve_owner_source_evidence_in_context_v1(
