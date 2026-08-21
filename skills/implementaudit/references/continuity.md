@@ -127,15 +127,18 @@ from the authorized repository path and the supplied preimage's SHA-256 and
 byte length. Operation, attempt, effect-plan, controller, generation and target
 identities remain separate fields in the authority, journal and result records.
 
-Immediately before the first transaction effect, `require_generation_fence`
-runs currentness again and requires the controller, pointer/receipt generation,
-declared authority/protected generations, verified receipt token, authorized
-path and target preimage to match. Stale or wrong generation, wrong controller,
-pointer/receipt drift, wrong target or preimage rejects before transaction
-creation and reports an empty actual-effect set. A declared sink that cannot
-reject and report the fence returns `UNKNOWN` / `MANUAL_RECONCILIATION`, with
-retry prohibited and no terminal closure claim. This is a guarantee only for
-the cooperating helper/sink; it does not fence non-cooperating writers.
+The helper checks the fence before transaction setup, then rechecks the exact
+controller and pointer/receipt generation after transaction setup and all
+pre-effect hooks, immediately before the first protected target effect. The
+final check also requires the declared authority/protected generations,
+verified receipt token, authorized path and target preimage to match. Stale or
+wrong generation, wrong controller, pointer/receipt drift, wrong target or
+preimage leaves the protected target unchanged; rejections before setup report
+an empty actual-effect set, while a final-boundary rejection durably records
+only its transaction/control effects. A declared sink that cannot reject and
+report the fence returns `UNKNOWN` / `MANUAL_RECONCILIATION`, with retry
+prohibited and no terminal closure claim. This is a guarantee only for the
+cooperating helper/sink; it does not fence non-cooperating writers.
 
 Routine v3 recovery is bounded: it reads the current pointer, hot STATE and
 ROADMAP pair, `WORK_GRAPH` path/digest, selected receipt, invalidation and

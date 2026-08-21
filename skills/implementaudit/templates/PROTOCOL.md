@@ -418,13 +418,15 @@ its exact pointer/receipt join; the caller cannot supply a replacement
 generation authority. It fingerprints the authorized target path plus preimage
 identity, then records distinct operation, attempt, effect-plan, controller,
 generation and target identities in authority, journal and result records.
-`require_generation_fence` rechecks those bindings immediately before the first
-transaction effect. Stale/wrong generation, wrong controller,
-pointer/receipt drift, wrong target or preimage rejects with authoritative
-no-effect readback. If the sink cannot reject and report the fence, record
-`UNKNOWN` / `MANUAL_RECONCILIATION`, prohibit retry and make no terminal closure
-claim. This contract fences only cooperating helper-routed effects; it makes no
-claim about non-cooperating writers.
+`require_generation_fence` checks those bindings before transaction setup and
+rechecks the exact controller and pointer/receipt generation after setup and
+all pre-effect hooks, immediately before the first protected target effect.
+Stale/wrong generation, wrong controller, pointer/receipt drift, wrong target
+or preimage leaves the protected target unchanged; a final-boundary rejection
+records only transaction/control effects. If the sink cannot reject and report
+the fence, record `UNKNOWN` / `MANUAL_RECONCILIATION`, prohibit retry and make
+no terminal closure claim. This contract fences only cooperating helper-routed
+effects; it makes no claim about non-cooperating writers.
 
 At phase start and after each continuity boundary, record one canonical
 execution-identity row in STATE.md:

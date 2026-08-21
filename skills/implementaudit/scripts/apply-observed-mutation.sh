@@ -1656,6 +1656,12 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     raise SystemExit(EXITS[status])
 
 
+def require_first_protected_effect_generation_fence():
+    fence_failure = require_generation_fence()
+    if fence_failure is not None:
+        final_result(*fence_failure)
+
+
 phase_hook("init")
 if fault == "pre-displacement":
     wait("paused")
@@ -1712,6 +1718,7 @@ try:
         if not source_observation_unchanged() or path_identity(DESTINATION).get("kind") != "absent":
             final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
         persist_journal("PLANNED")
+        require_first_protected_effect_generation_fence()
         try:
             link(SOURCE, DESTINATION, mark_move_destination_published)
         except FileExistsError:
@@ -1729,6 +1736,7 @@ try:
         final_result("COMMITTED")
 
     persist_journal("PLANNED")
+    require_first_protected_effect_generation_fence()
     replace(SOURCE, BACKUP, mark_displaced)
     persist_journal("DISPLACEMENT_DURABLE", [BACKUP])
     if fault == "after-displacement":

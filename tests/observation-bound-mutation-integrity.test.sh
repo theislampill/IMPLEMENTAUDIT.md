@@ -1810,6 +1810,115 @@ controller_transfer_race_heldout() {
   [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
+linked_worktree_generation_transfer_heldout() {
+  local controller=d48-linked-transfer old_claim pre cand receipt generation fingerprint
+  local derived barrier peer helper_pid helper_rc transfer_rc ticks stdout
+  setup "$controller"
+  old_claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  pre="$(artifact linked-transfer-pre 4142434445)"
+  cand="$(artifact linked-transfer-candidate 4e4557)"
+  prepare_authority replace target -
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
+    || fail 'D48-C02 linked-worktree fixture could not establish current continuity'
+  generation="${receipt%@*}"; generation="${generation##*/}"
+  fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
+  write_generation_fence "$generation" "$receipt" "$generation" "$generation" \
+    REJECT_AND_REPORT "$controller" target "$fingerprint"
+  peer="$tmp/linked-controller-peer"
+  git -C "$fixture_repo" worktree add -q --detach "$peer" HEAD \
+    || fail 'D48-C02 linked-worktree fixture could not create peer worktree'
+  derived="$(instrumented_helper)"; barrier="$tmp/linked-controller-transfer"; mkdir "$barrier"
+  stdout="$barrier/helper.out"
+  (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-aba \
+    bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+      --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
+      >"$stdout" 2>"$barrier/helper.err") & helper_pid=$!
+  owned_background_pids=("$helper_pid"); owned_release_path="$barrier/release"
+  ticks=0
+  while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ -f "$barrier/paused" ] \
+    || fail "D48-C02 linked helper did not reach the post-fence/pre-effect boundary: $(<"$barrier/helper.err")"
+  set +e
+  (cd "$peer" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
+    bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" \
+      --supersede-claim "$old_claim" 'D48-C02 linked successor') \
+      >"$barrier/transfer.out" 2>"$barrier/transfer.err"
+  transfer_rc=$?
+  set -e
+  [ "$transfer_rc" -eq 0 ] \
+    || fail "D48-C02 linked controller transfer failed: $transfer_rc $(<"$barrier/transfer.err")"
+  : >"$barrier/release"
+  set +e; wait "$helper_pid"; helper_rc=$?; set -e
+  owned_background_pids=(); owned_release_path=
+  if [ "$helper_rc" -eq 0 ]; then
+    fail 'D48-C02 RED: linked-worktree controller transfer reached protected mutation'
+  fi
+  [ "$helper_rc" -eq 77 ] \
+    || fail "D48-C02 linked transfer refusal exit=$helper_rc expected=77 stderr=$(<"$barrier/helper.err")"
+  assert_hex D48-C02-linked-transfer-target "$fixture_repo/target" 4142434445
+  "$python_bin" - "$stdout" <<'PY' \
+    || fail 'D48-C02 linked transfer lacked authoritative protected-no-effect readback'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+if r.get("status")!="UNSUPPORTED_OWNER_DECISION" or r.get("reason_code")!="STALE_CONTROLLER_CUSTODY": raise SystemExit(r)
+if any(row.get("path")=="target" and row.get("outcome")=="applied" for row in r.get("actual_effect_set",[])): raise SystemExit(r)
+PY
+}
+
+linked_worktree_pointer_publication_heldout() {
+  local controller=d48-linked-pointer pre cand receipt generation fingerprint pointer_ref pointer_oid
+  local derived barrier peer helper_pid helper_rc ticks stdout
+  setup "$controller"
+  pre="$(artifact linked-pointer-pre 4142434445)"
+  cand="$(artifact linked-pointer-candidate 4e4557)"
+  prepare_authority replace target -
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
+    || fail 'D48-C02 linked-pointer fixture could not establish current continuity'
+  generation="${receipt%@*}"; generation="${generation##*/}"
+  fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
+  write_generation_fence "$generation" "$receipt" "$generation" "$generation" \
+    REJECT_AND_REPORT "$controller" target "$fingerprint"
+  peer="$tmp/linked-pointer-peer"
+  git -C "$fixture_repo" worktree add -q --detach "$peer" HEAD \
+    || fail 'D48-C02 linked-pointer fixture could not create peer worktree'
+  derived="$(instrumented_helper)"; barrier="$tmp/linked-pointer-publication"; mkdir "$barrier"
+  stdout="$barrier/helper.out"
+  (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-aba \
+    bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+      --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
+      >"$stdout" 2>"$barrier/helper.err") & helper_pid=$!
+  owned_background_pids=("$helper_pid"); owned_release_path="$barrier/release"
+  ticks=0
+  while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ -f "$barrier/paused" ] \
+    || fail "D48-C02 linked helper did not reach the pointer-publication boundary: $(<"$barrier/helper.err")"
+  pointer_ref="refs/implementaudit/current-generations/$controller"
+  pointer_oid="$(printf '%s' '{"schema_version":"implementaudit.state-generation-pointer.v1"}' \
+    | git -C "$peer" hash-object -w --stdin)" \
+    || fail 'D48-C02 linked peer could not write pointer object'
+  git -C "$peer" update-ref "$pointer_ref" "$pointer_oid" \
+    0000000000000000000000000000000000000000 \
+    || fail 'D48-C02 linked peer could not publish current-generation pointer'
+  : >"$barrier/release"
+  set +e; wait "$helper_pid"; helper_rc=$?; set -e
+  owned_background_pids=(); owned_release_path=
+  if [ "$helper_rc" -eq 0 ]; then
+    fail 'D48-C02 RED: linked-worktree pointer publication reached protected mutation'
+  fi
+  [ "$helper_rc" -eq 64 ] \
+    || fail "D48-C02 linked pointer refusal exit=$helper_rc expected=64 stderr=$(<"$barrier/helper.err")"
+  assert_hex D48-C02-linked-pointer-target "$fixture_repo/target" 4142434445
+  "$python_bin" - "$stdout" <<'PY' \
+    || fail 'D48-C02 linked pointer drift lacked authoritative protected-no-effect readback'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+if r.get("status")!="REJECTED_NO_MUTATION" or r.get("reason_code")!="POINTER_RECEIPT_DRIFT": raise SystemExit(r)
+if any(row.get("path")=="target" and row.get("outcome")=="applied" for row in r.get("actual_effect_set",[])): raise SystemExit(r)
+PY
+}
+
 write_generation_fence() {
   local controller="$1" receipt="$2" authority_generation="$3"
   local protected_generation="$4" capability="$5" declared_controller="$6"
@@ -1929,6 +2038,8 @@ PY
   generation_fence_case D48-C02-H02-pointer-receipt REJECTED_NO_MUTATION POINTER_RECEIPT_DRIFT REJECT_AND_REPORT current current stale
   generation_fence_case D48-C02-H03-controller REJECTED_NO_MUTATION WRONG_CONTROLLER REJECT_AND_REPORT wrong current current
   controller_stale_heldout
+  linked_worktree_generation_transfer_heldout
+  linked_worktree_pointer_publication_heldout
   generation_fence_case D48-C02-H05-incapable UNKNOWN MANUAL_RECONCILIATION INCAPABLE current current current
 }
 
@@ -1990,6 +2101,8 @@ case "${1:-}" in
   --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
   --controller-transfer-race-heldout) controller_transfer_race_heldout; printf 'S3E_W02_CONTROLLER_TRANSFER_RACE_HELDOUT=PASS\n'; exit 0;;
+  --linked-worktree-controller-transfer-heldout) linked_worktree_generation_transfer_heldout; printf 'D48_C02_LINKED_CONTROLLER_TRANSFER=PASS\n'; exit 0;;
+  --linked-worktree-pointer-publication-heldout) linked_worktree_pointer_publication_heldout; printf 'D48_C02_LINKED_POINTER_PUBLICATION=PASS\n'; exit 0;;
   --generation-fence-heldouts) generation_fence_heldouts; printf 'D48_C02_GENERATION_FENCE_HELDOUTS=PASS\n'; exit 0;;
   --window-interlock-heldouts) fixture_self_check; window_interlock_heldouts; printf 'R36_WINDOW_INTERLOCK_HELDOUTS=PASS\n'; exit 0;;
   --concurrent-destination-heldout) fixture_self_check; concurrent_destination; printf 'R36_CONCURRENT_DESTINATION_HELDOUT=PASS\n'; exit 0;;
