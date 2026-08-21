@@ -55,7 +55,14 @@ for text in \
   "why deeper planning was or was not warranted" \
   "Reference loading follows selection" \
   "request size alone never does" \
-  "plan-quality defect"
+  "plan-quality defect" \
+  "### Verifier-plan selection" \
+  "authoritative changed semantic owners and effects" \
+  "equivalent-protection evidence and current owner authority" \
+  "generated, transitive runtime, package, or public/external" \
+  "Unknown owner or relation, a changed registry, package or release ambiguity" \
+  "Do not select full" \
+  "verification from diff size, a fixed command count, or a generic review mandate"
 do
   require "$depth_ref" "$text"
 done
@@ -190,6 +197,50 @@ for text in \
   "references/child-agents.md"
 do
   require "$skill_ref" "$text"
+done
+
+# --- conditional native security profile (R002E) ---
+security_ref="skills/implementaudit/references/audit-playbook.md"
+for text in \
+  "### Conditional systems-security profile" \
+  "protected consequence and unacceptable state" \
+  "bounded adversary and explicit exclusions" \
+  "trust/identity boundary and authority/privilege boundary" \
+  "configuration, dependency, build, artifact, and deployment" \
+  "provenance; stale or missing identity" \
+  "assurance evidence and its limits" \
+  "detection, containment, revocation, recovery, and trust re-establishment" \
+  "Authentication is not authorization" \
+  "restored availability is not restored trust" \
+  "scanner" \
+  "penetration-test result" \
+  "SBOM" \
+  "signature" \
+  "CVSS score" \
+  "certificate" \
+  "encryption label" \
+  "zero-trust slogan" \
+  "whole-system security proof" \
+  "domain and effectiveness claims remain" \
+  "unverified until their required representative context exists"
+do
+  require "$security_ref" "$text"
+done
+
+for text in \
+  "### Conditional systems-security selection" \
+  "material protected consequence" \
+  "or untrusted capability" \
+  "changed trust, privilege, or delegation boundary" \
+  "consequential security authority" \
+  "provenance-dependent claim" \
+  "adaptive-adversary or common-mode risk" \
+  "weak detection or recovery" \
+  "consequential security, privacy, safety, availability, or usability decision" \
+  "Low-exposure reversible work inside a current proven envelope" \
+  "separate security mode, workflow, or planning artifact"
+do
+  require "$depth_ref" "$text"
 done
 
 "${py_cmd[@]}" - "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
@@ -712,6 +763,183 @@ for case in cases:
 if failures:
     raise SystemExit("\n".join(failures))
 sys.stdout.write(f"engineering-value controls: {len(cases)}/{len(cases)}\n")
+
+verifier_path = Path("fixtures/audit-action-selection/verifier-plan-cases.json")
+try:
+    verifier_payload = json.loads(verifier_path.read_text(encoding="utf-8"))
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"verifier-plan fixture unreadable: {exc}")
+if set(verifier_payload) != {"schema_version", "kind", "cases"}:
+    raise SystemExit("verifier-plan fixture schema")
+if verifier_payload["schema_version"] != 1 or verifier_payload["kind"] != "r0022-verifier-plan-selection":
+    raise SystemExit("verifier-plan fixture identity")
+verifier_cases = verifier_payload["cases"]
+required_verifier_ids = {
+    "R0022-V01-owner-omitted-under-scoped",
+    "R0022-V02-consumer-omitted-under-scoped",
+    "R0022-V03-effect-omitted-under-scoped",
+    "R0022-V04-trivial-local-cheap-path",
+    "R0022-V05-docs-only-verifier-plan",
+    "R0022-V06-generated-consumer-verifier-plan",
+    "R0022-V07-transitive-consumer-verifier-plan",
+    "R0022-V08-package-consumer-verifier-plan",
+    "R0022-V09-public-consumer-verifier-plan",
+    "R0022-V10-external-consumer-verifier-plan",
+    "R0022-V11-unknown-relation-only-escalates",
+    "R0022-V12-registry-change-only-escalates",
+    "R0022-V13-package-or-release-ambiguity-only-escalates",
+    "R0022-V14-stale-projection-only-escalates",
+    "R0022-V15-generated-package-composed-verifier-plan",
+}
+verifier_ids = [case.get("id") for case in verifier_cases if isinstance(case, dict)]
+if len(verifier_ids) != len(set(verifier_ids)) or set(verifier_ids) != required_verifier_ids:
+    raise SystemExit("verifier-plan fixture population is incomplete or duplicated")
+
+def decide_verifier_plan(observations):
+    fields = "change_identity semantic_owner effect consumer evidence_layer residual_risk rollback omission_equivalent_protection omission_owner_current generated_impact package_impact public_or_external_impact registry_changed package_or_release_ambiguous stale_projection unknown_owner_or_relation transitive_consumer local_reversible"
+    exact(observations, fields)
+    booleans(observations, fields)
+    plan_complete = all((
+        observations["change_identity"], observations["semantic_owner"],
+        observations["effect"], observations["consumer"],
+        observations["evidence_layer"], observations["residual_risk"],
+        observations["rollback"], observations["omission_equivalent_protection"],
+        observations["omission_owner_current"],
+    ))
+    if (not plan_complete or observations["unknown_owner_or_relation"]
+            or observations["registry_changed"]
+            or observations["package_or_release_ambiguous"]
+            or observations["stale_projection"]):
+        return "ESCALATE_CONSERVATIVELY"
+    impact_count = sum((
+        observations["generated_impact"], observations["transitive_consumer"],
+        observations["package_impact"], observations["public_or_external_impact"],
+    ))
+    if impact_count > 1:
+        return "VERIFY_COMPOSED_AFFECTED_CONSUMERS"
+    if observations["generated_impact"]:
+        return "VERIFY_SOURCE_AND_GENERATED_CONSUMER"
+    if observations["transitive_consumer"]:
+        return "VERIFY_TRANSITIVE_CONSUMER"
+    if observations["package_impact"]:
+        return "VERIFY_PACKAGE_CONSUMER"
+    if observations["public_or_external_impact"]:
+        return "VERIFY_PUBLIC_OR_EXTERNAL_CONSUMER"
+    return "SERIAL_CHEAP_PATH" if observations["local_reversible"] else "VERIFY_AFFECTED_OWNER"
+
+verifier_failures = []
+for case in verifier_cases:
+    try:
+        if set(case) != {"id", "observations", "expected"}:
+            raise ValueError("case members")
+        if not isinstance(case["observations"], dict) or not all(type(value) is bool for value in case["observations"].values()):
+            raise ValueError("observation types")
+        actual = decide_verifier_plan(case["observations"])
+        if actual != case["expected"]:
+            verifier_failures.append(f"{case['id']}: expected {case['expected']}, observed {actual}")
+    except (KeyError, TypeError, ValueError) as exc:
+        verifier_failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
+if verifier_failures:
+    raise SystemExit("\n".join(verifier_failures))
+sys.stdout.write(f"verifier-plan controls: {len(verifier_cases)}/{len(verifier_cases)}\n")
+
+security_path = Path("fixtures/audit-action-selection/security-profile-cases.json")
+try:
+    security_payload = json.loads(security_path.read_text(encoding="utf-8"))
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"security-profile fixture unreadable: {exc}")
+if set(security_payload) != {
+        "schema_version", "kind", "proof_layer_partition",
+        "domain_effectiveness_status", "cases"}:
+    raise SystemExit("security-profile fixture schema")
+if (security_payload["schema_version"] != 1
+        or security_payload["kind"] != "conditional-native-security-profile"):
+    raise SystemExit("security-profile fixture identity")
+expected_partition = {
+    "source_static": 31,
+    "deterministic_fixture": 18,
+    "package_provenance_reachability": 4,
+    "external_domain_unverified": 6,
+    "bounded_behavioural_deferred": 1,
+}
+if security_payload["proof_layer_partition"] != expected_partition:
+    raise SystemExit("security-profile proof-layer partition")
+if security_payload["domain_effectiveness_status"] != "UNVERIFIED":
+    raise SystemExit("security-profile domain/effectiveness boundary")
+security_cases = security_payload["cases"]
+required_security_ids = {
+    "R002E-S01-material-profile-selected",
+    "R002E-S02-low-exposure-cheap-path",
+    "R002E-S03-stale-provenance-blocked",
+    "R002E-S04-authentication-is-not-authorization",
+    "R002E-S05-availability-is-not-trust-restoration",
+    "R002E-S06-label-only-proof-rejected",
+    "R002E-S07-no-trigger-no-profile",
+    "R002E-S08-unbounded-adversary-held",
+    "R002E-S09-missing-assurance-evidence-held",
+}
+security_ids = [case.get("id") for case in security_cases if isinstance(case, dict)]
+if len(security_ids) != len(set(security_ids)) or set(security_ids) != required_security_ids:
+    raise SystemExit("security-profile fixture population is incomplete or duplicated")
+
+security_fields = """material_protected_consequence exposed_or_untrusted_capability
+trust_or_privilege_boundary_change consequential_security_authority
+provenance_dependent_claim adaptive_or_common_mode_risk weak_detection_or_recovery
+consequential_security_privacy_safety_availability_usability_decision low_exposure
+reversible inside_current_proven_envelope protected_consequence_named
+unacceptable_state_named adversary_bounded exclusions_explicit trust_identity_boundary
+authority_privilege_boundary provenance_current assurance_evidence assurance_limits
+detection_containment_revocation recovery trust_reestablishment
+plausible_abuse_or_trust_check current_identity rollback authentication_as_authorization
+availability_as_trust label_or_instrument_as_whole_system_proof""".split()
+security_trigger_fields = security_fields[:8]
+full_profile_fields = """protected_consequence_named unacceptable_state_named
+adversary_bounded exclusions_explicit trust_identity_boundary authority_privilege_boundary
+provenance_current assurance_evidence assurance_limits detection_containment_revocation recovery
+trust_reestablishment""".split()
+
+def decide_security_profile(observations):
+    exact(observations, " ".join(security_fields))
+    booleans(observations, " ".join(security_fields))
+    triggered = any(observations[name] for name in security_trigger_fields)
+    if triggered:
+        if not observations["provenance_current"]:
+            return "BLOCK_STALE_PROVENANCE"
+        if observations["authentication_as_authorization"]:
+            return "REJECT_AUTHENTICATION_PROXY"
+        if observations["availability_as_trust"]:
+            return "REJECT_AVAILABILITY_PROXY"
+        if observations["label_or_instrument_as_whole_system_proof"]:
+            return "REJECT_WHOLE_SYSTEM_PROXY"
+        if not all(observations[name] for name in full_profile_fields):
+            return "HOLD_INCOMPLETE_PROFILE"
+        return "SELECT_NATIVE_SECURITY_PROFILE"
+    cheap_path = all(observations[name] for name in (
+        "low_exposure", "reversible", "inside_current_proven_envelope"))
+    if cheap_path:
+        cheap_complete = all(observations[name] for name in (
+            "protected_consequence_named", "plausible_abuse_or_trust_check",
+            "current_identity", "rollback"))
+        return "SECURITY_CHEAP_PATH" if cheap_complete else "HOLD_INCOMPLETE_CHEAP_PATH"
+    return "NO_SECURITY_PROFILE"
+
+security_failures = []
+for case in security_cases:
+    try:
+        if set(case) != {"id", "observations", "expected"}:
+            raise ValueError("case members")
+        if (not isinstance(case["observations"], dict)
+                or not all(type(value) is bool for value in case["observations"].values())):
+            raise ValueError("observation types")
+        actual = decide_security_profile(case["observations"])
+        if actual != case["expected"]:
+            security_failures.append(
+                f"{case['id']}: expected {case['expected']}, observed {actual}")
+    except (KeyError, TypeError, ValueError) as exc:
+        security_failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
+if security_failures:
+    raise SystemExit("\n".join(security_failures))
+sys.stdout.write(f"security-profile controls: {len(security_cases)}/{len(security_cases)}\n")
 PY
 
 # --- bootloader: Stage 1 derives and records the action set ---

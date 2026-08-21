@@ -42,6 +42,8 @@ reset_sandbox() {
   cp skills/implementaudit/SKILL.md "$tmp_root/skills/implementaudit/"
   cp skills/implementaudit/references/planning-depth.md \
     "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/references/audit-playbook.md \
+    "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/lean-operating-discipline.md \
     "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/child-agents.md \
@@ -855,5 +857,294 @@ case["observations"]["nominal_override_only"] = True
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "nominal override accepted as safe-stop cheap path"
+
+# 58. An omitted semantic owner cannot be relabelled as a serial cheap plan.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R0022-V01-owner-omitted-under-scoped")
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "under-scoped verifier plan accepted with omitted semantic owner"
+
+# 59. Consumer and effect omissions are equally unable to retain a cheap plan.
+for case_id in R0022-V02-consumer-omitted-under-scoped R0022-V03-effect-omitted-under-scoped; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" \
+    "$case_id" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "under-scoped verifier plan accepted for $case_id"
+done
+
+# 60. Wider transitive, package, public, and external impacts have their own
+# affected verifier and cannot collapse to the cheap local path.
+for case_id in R0022-V07-transitive-consumer-verifier-plan R0022-V08-package-consumer-verifier-plan R0022-V09-public-consumer-verifier-plan R0022-V10-external-consumer-verifier-plan; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" \
+    "$case_id" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "under-scoped verifier plan accepted for $case_id"
+done
+
+# 61. Relation, registry, ambiguity, and projection uncertainty each has one
+# live predicate; no second true predicate may mask its omission.
+for case_id in R0022-V11-unknown-relation-only-escalates R0022-V12-registry-change-only-escalates R0022-V13-package-or-release-ambiguity-only-escalates R0022-V14-stale-projection-only-escalates; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" \
+    "$case_id" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "conservative verifier plan relabelled as cheap for $case_id"
+done
+
+# 62. Multiple independent affected consumers retain the composed outcome.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/verifier-plan-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R0022-V15-generated-package-composed-verifier-plan")
+case["expected"] = "VERIFY_PACKAGE_CONSUMER"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "multi-impact verifier plan lost composed outcome"
+
+# 63. The reviewed 31/18/4/6/1 proof-layer partition is exact and retains the
+# external/domain rows as unverified rather than silently closing them.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["proof_layer_partition"]["external_domain_unverified"] = 5
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "security profile accepted a changed proof-layer partition"
+
+# 64. Each bounded security-profile control has a distinct observable outcome;
+# relabelling one as its distractor must fail against the real checker.
+while IFS='|' read -r case_id wrong_expected; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$case_id" "$wrong_expected" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id, wrong_expected = sys.argv[2:]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = wrong_expected
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "security-profile control relabelled for $case_id"
+done <<'EOF'
+R002E-S01-material-profile-selected|NO_SECURITY_PROFILE
+R002E-S02-low-exposure-cheap-path|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S03-stale-provenance-blocked|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S04-authentication-is-not-authorization|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S05-availability-is-not-trust-restoration|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S06-label-only-proof-rejected|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S07-no-trigger-no-profile|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S08-unbounded-adversary-held|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S09-missing-assurance-evidence-held|SELECT_NATIVE_SECURITY_PROFILE
+EOF
+
+# 65. Assurance evidence and the limits of that evidence are independent
+# completeness dimensions; the fixture must hold when evidence itself is absent.
+"${py_cmd[@]}" - \
+  fixtures/audit-action-selection/security-profile-cases.json <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+cases = payload["cases"]
+missing = [case["id"] for case in cases
+           if "assurance_evidence" not in case["observations"]]
+if missing:
+    raise SystemExit("security-profile cases missing assurance_evidence: " + ", ".join(missing))
+case = next((item for item in cases
+             if item["id"] == "R002E-S09-missing-assurance-evidence-held"), None)
+if case is None:
+    raise SystemExit("missing assurance-evidence negative control")
+if case["observations"]["assurance_evidence"] is not False:
+    raise SystemExit("missing assurance-evidence control is not false")
+if case["observations"]["assurance_limits"] is not True:
+    raise SystemExit("missing assurance-evidence control also removed assurance limits")
+if case["expected"] != "HOLD_INCOMPLETE_PROFILE":
+    raise SystemExit("missing assurance-evidence control has wrong outcome")
+PY
+
+# 66. Every accepted trigger-family clause is independently pinned. Removing
+# any one from the sandbox owner must make the static checker fail.
+while IFS= read -r trigger_clause; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+    "$trigger_clause" <<'PY'
+import pathlib, sys
+path = pathlib.Path(sys.argv[1])
+clause = sys.argv[2]
+text = path.read_text(encoding="utf-8")
+if text.count(clause) != 1:
+    raise SystemExit(f"trigger clause occurrence mismatch for {clause!r}")
+path.write_text(text.replace(clause, "[deleted trigger clause]"), encoding="utf-8")
+PY
+  expect_fail "security-profile trigger clause removed: $trigger_clause"
+done <<'EOF'
+material protected consequence
+or untrusted capability
+changed trust, privilege, or delegation boundary
+consequential security authority
+provenance-dependent claim
+adaptive-adversary or common-mode risk
+weak detection or recovery
+consequential security, privacy, safety, availability, or usability decision
+EOF
+
+# 67. Each named non-proof proxy is independently pinned in the accepted prose.
+# A generic whole-system sentence cannot mask deletion of a concrete proxy.
+while IFS= read -r proxy_token; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/skills/implementaudit/references/audit-playbook.md" \
+    "$proxy_token" <<'PY'
+import pathlib, sys
+path = pathlib.Path(sys.argv[1])
+token = sys.argv[2]
+text = path.read_text(encoding="utf-8")
+if text.count(token) != 1:
+    raise SystemExit(f"proxy token occurrence mismatch for {token!r}")
+path.write_text(text.replace(token, "[deleted proxy token]"), encoding="utf-8")
+PY
+  expect_fail "security-profile non-proof proxy removed: $proxy_token"
+done <<'EOF'
+scanner
+penetration-test result
+SBOM
+signature
+CVSS score
+certificate
+encryption label
+zero-trust slogan
+EOF
+
+# 68. Each trigger family is causally sufficient by itself: with every trigger
+# false the complete control observes NO_SECURITY_PROFILE, then toggling only
+# the named trigger selects the native profile.
+while IFS= read -r trigger_field; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$trigger_field" false <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+trigger_field, enabled = sys.argv[2], sys.argv[3] == "true"
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+trigger_fields = (
+    "material_protected_consequence", "exposed_or_untrusted_capability",
+    "trust_or_privilege_boundary_change", "consequential_security_authority",
+    "provenance_dependent_claim", "adaptive_or_common_mode_risk",
+    "weak_detection_or_recovery",
+    "consequential_security_privacy_safety_availability_usability_decision",
+)
+for field in trigger_fields:
+    case["observations"][field] = False
+case["observations"][trigger_field] = enabled
+case["expected"] = "SELECT_NATIVE_SECURITY_PROFILE" if enabled else "NO_SECURITY_PROFILE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "all-false trigger counterfactual failed for $trigger_field"
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$trigger_field" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+trigger_field = sys.argv[2]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+case["observations"][trigger_field] = True
+case["expected"] = "SELECT_NATIVE_SECURITY_PROFILE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "sole-trigger counterfactual failed for $trigger_field"
+done <<'EOF'
+material_protected_consequence
+exposed_or_untrusted_capability
+trust_or_privilege_boundary_change
+consequential_security_authority
+provenance_dependent_claim
+adaptive_or_common_mode_risk
+weak_detection_or_recovery
+consequential_security_privacy_safety_availability_usability_decision
+EOF
+
+# 69. Authentication, restored availability, and a named label/instrument are
+# causal non-proof proxies even when the full profile is otherwise complete.
+while IFS='|' read -r proxy_field rejected_outcome; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$proxy_field" false "SELECT_NATIVE_SECURITY_PROFILE" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+proxy_field, enabled, expected = sys.argv[2], sys.argv[3] == "true", sys.argv[4]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+case["observations"][proxy_field] = enabled
+case["expected"] = expected
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "false proxy counterfactual failed for $proxy_field"
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$proxy_field" true "$rejected_outcome" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+proxy_field, enabled, expected = sys.argv[2], sys.argv[3] == "true", sys.argv[4]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S01-material-profile-selected")
+case["observations"][proxy_field] = enabled
+case["expected"] = expected
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "true proxy counterfactual failed for $proxy_field"
+done <<'EOF'
+authentication_as_authorization|REJECT_AUTHENTICATION_PROXY
+availability_as_trust|REJECT_AVAILABILITY_PROXY
+label_or_instrument_as_whole_system_proof|REJECT_WHOLE_SYSTEM_PROXY
+EOF
 
 printf 'action-selection-contract.test: ok\n'

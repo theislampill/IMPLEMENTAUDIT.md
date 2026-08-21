@@ -67,6 +67,80 @@ health, solver success, one proof/score/reviewer count cannot substitute.
 The ordinary direct path remains unchanged: one authoritative discriminator
 settles a small reversible single-owner change without a state bundle.
 
+## Conditional work-order admission
+
+For a proposed durable RXX allocation or material multi-RXX reconciliation,
+record a cold-reconstructible conditional record before choosing exactly one of
+`NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,
+`AMEND_EXISTING_RXX`, `DEFER`, or `NEW_RXX`:
+
+- semantic centre, live failure/gap, and named consumer;
+- complete current open-and-closed RXX census and genealogy with durable current
+  locators;
+- existing-owner, overlap, dependency, and supersession analysis;
+- trigger, non-trigger/cheap path, and the cheapest decision-changing
+  discriminator;
+- distinct failure, consumer, owner, and acceptance test;
+- selected outcome and durable locators sufficient for a cold executor to
+  reconstruct the current decision without the originating conversation.
+
+Treat the complete conditional record and its resolved evidence locators as one
+authority surface. Normalize their typed gap, runtime-consumer, owner/RXX,
+overlap, dependency, supersession, distinct-four-part, census, RXX-genealogy
+identity/currentness, record currentness, and authority facts before route
+selection. Reject a missing or stale genealogy, missing currentness or authority
+field, missing or stale required locator, or any contradiction between the
+complete record and the resolved evidence. A synthetic label is not authority:
+a state label cannot substitute for current durable evidence.
+
+For a fixture-backed admission check, address the complete conditional record
+by its stable record ID and a repository-relative target plus JSON pointer, and
+bind it to its canonical JSON SHA-256. Its decision-changing evidence locator
+uses the same repository-relative, current, identity- and digest-bound shape.
+Resolve both targets at evaluation time and build one normalized admission-
+evidence object from the complete record plus the resolved evidence. Derive the
+route from that object. A compact decision projection is permitted only as a
+checked derivative: it must equal the normalized facts and cannot override
+contradictory complete evidence. Reject a missing target or pointer, absolute or
+escaping path, identity/currentness/digest mismatch, missing required state or
+authority field, or selected-outcome disagreement. Never derive the route from
+a case state label.
+
+Before deriving any terminal route, require the complete current open-and-closed
+RXX census and the resolved current genealogy. An incomplete census or
+genealogy defers the decision when no number exists and rejects any attempted
+allocation. An unresolved dependency likewise selects `DEFER`; it cannot be a
+presence-only field and cannot reach `NEW_RXX`.
+
+- `NO_ACTION` when current evidence establishes no distinct gap;
+- `SUPPORTING_ARTIFACT` when a bounded cross-cutting note has no runtime
+  consumer and adds no owner;
+- `AMEND_EXISTING_OWNER` when current evidence warrants a bounded addition to
+  an existing non-RXX owner;
+- `AMEND_EXISTING_RXX` when a current or closed RXX already owns the failure
+  mechanism, consumer, authority boundary, and acceptance surface;
+- `DEFER` when current evidence, census, genealogy, dependency state, or
+  authority is insufficient; or
+- `NEW_RXX` when a current, authorised, distinct unowned invariant needs its
+  own work-order owner.
+
+Apply the non-trigger/cheap path to ordinary non-RXX filing. Every conditional
+outcome passes the complete current open-and-closed census and genealogy gates
+before route selection. Allocate an RXX number only after the complete current open-and-closed census
+and resolved genealogy select `NEW_RXX`.
+Represent that proposed allocation as a typed object whose
+`next_unreserved_candidate` equals the live
+`identity-namespaces.json` Rockstar registry value and whose `status` is
+`next-unreserved-candidate`. Reject a bare string, a different or already
+allocated identity, a stale registry successor, or any other status. This is a
+candidate reservation proposal, not a current Rockstar: it does not become
+current until authorised publication and exact readback establish that
+transition.
+`NO_ACTION`, `SUPPORTING_ARTIFACT`, `AMEND_EXISTING_OWNER`,
+`AMEND_EXISTING_RXX`, and `DEFER` allocate no RXX number. Supporting or
+amending an existing owner never creates a duplicate owner or authority; keep
+its distinct invariant and bounded allowance explicit.
+
 ## Multi-issue reconciliation
 
 Before review/sign-off record population, examined count, enumeration source,
