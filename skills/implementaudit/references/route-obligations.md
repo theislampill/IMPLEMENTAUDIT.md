@@ -128,13 +128,6 @@ issuance, transition, authorization, dispatch, or effect. An outstanding
 standing constraint with the same source identity remains `STANDING_APPLIES`;
 it is not converted into a new instruction row.
 
-Integration ownership note: the composed bootloader Runtime Loop still says
-"only current NOT_REQUIRED advances," which predates and literally contradicts
-the H2B `REQUIRED/SATISFIED` rule above. This reference cannot repair the
-bootloader owner. Before integration, its shared writer must align that line so
-current `NOT_REQUIRED` admission and current `REQUIRED/SATISFIED` route
-advancement are both represented without conflating the two mechanisms.
-
 ## Projection and proof boundary
 
 STATE carries only `Route decision projection` and `Route decision record`.
