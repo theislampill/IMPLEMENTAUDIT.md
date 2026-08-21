@@ -382,6 +382,7 @@ PY
 legacy_token="$(cd "$matrix_repo" && bash "$claim_helper" --resume-controller \
   reader-controller --boundary new-session --epoch G0001)" \
   || fail 'F3 matrix could not mint its isolated exact-v2 control'
+legacy_token_base="$legacy_token"
 legacy_ref="${legacy_token%@*}"
 legacy_oid="${legacy_token##*@}"
 controller_oid="$(git -C "$matrix_repo" rev-parse refs/implementaudit/controllers/reader-controller)"
@@ -395,12 +396,45 @@ run_identity="$matrix_rel"
 pointer_ref='refs/implementaudit/current-generations/reader-controller'
 marker_ref='refs/implementaudit/current-generation-migrations/reader-controller'
 v3_ref='refs/implementaudit/continuity-receipts/reader-controller/G0002'
+invalidation_ref='refs/implementaudit/continuity-invalidations/reader-controller'
+state_pristine="$tmp/matrix-state-pristine.md"
+cp "$matrix_root/STATE.md" "$state_pristine"
 invalidation_oid='1111111111111111111111111111111111111111'
 state_sha='2222222222222222222222222222222222222222222222222222222222222222'
 roadmap_sha='3333333333333333333333333333333333333333333333333333333333333333'
 protected_sha='4444444444444444444444444444444444444444444444444444444444444444'
 archive_sha='5555555555555555555555555555555555555555555555555555555555555555'
 next_action='exercise the complete reader migration matrix'
+
+# A current pointer must be tied to the actual run, rather than merely to a
+# self-consistent synthetic tuple. Legacy cases deliberately retain no live
+# invalidation and their original G0001 STATE.md.
+prepare_live_tuple() {
+  local generation="$1"
+  cp "$state_pristine" "$matrix_root/STATE.md"
+  git -C "$matrix_repo" update-ref -d "$invalidation_ref" >/dev/null 2>&1 || true
+  invalidation_oid='1111111111111111111111111111111111111111'
+  legacy_token="$legacy_token_base"
+  next_action='exercise the complete reader migration matrix'
+  if [ "$generation" = yes ]; then
+    python - "$matrix_root/STATE.md" "$matrix_head" "$matrix_tree" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); head,tree=sys.argv[2:]
+s=p.read_text(encoding='utf-8')
+s=s.replace('Current epoch: G0001', 'Current epoch: G0002')
+anchor=f'| G0001 | new-session | 2000-01-01T00:00:00Z | repo at `{head}` / `{tree}` | yes | exact legacy reader fixture |'
+row=f'| G0002 | inferred-context-gap | 2000-01-01T00:01:00Z | repo at `{head}` / `{tree}` | yes | current generation reader fixture |'
+p.write_text(s.replace(anchor, anchor+'\n'+row), encoding='utf-8')
+PY
+    invalidation_token="$(cd "$matrix_repo" && bash "$claim_helper" --invalidate-continuity \
+      reader-controller --boundary inferred-context-gap --event reader-matrix-g0002)" \
+      || fail 'F3 matrix could not mint its isolated live invalidation'
+    invalidation_oid="${invalidation_token##*@}"
+  fi
+  state_sha="$(sha256sum "$matrix_root/STATE.md" | cut -d' ' -f1)"
+  roadmap_sha="$(sha256sum "$matrix_root/ROADMAP.md" | cut -d' ' -f1)"
+}
 
 make_matrix_objects() {
   local mutation="$1" object_controller=reader-controller object_claim="$matrix_claim"
@@ -415,6 +449,12 @@ make_matrix_objects() {
     pointer-schema) pointer_schema=implementaudit.current-generation.v0 ;;
     marker-schema) marker_schema=implementaudit.current-generation-migration.v0 ;;
     receipt-schema) receipt_schema=implementaudit.continuity-receipt.v2 ;;
+    live-invalidation) invalidation_oid=9999999999999999999999999999999999999999 ;;
+    live-state-hash) state_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ;;
+    live-roadmap-hash) roadmap_sha=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ;;
+    live-next-action) next_action='stale reader action' ;;
+    predecessor-ref) legacy_token="refs/implementaudit/continuity-receipts/reader-controller/G00FF@$legacy_oid" ;;
+    predecessor-oid) legacy_token="$legacy_ref@0000000000000000000000000000000000000000" ;;
     *) fail "unknown F3 owner mutation: $mutation" ;;
   esac
   pointer_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
@@ -460,11 +500,13 @@ matrix_pass=0
 while IFS=$'\t' read -r case_id marker_state pointer_state receipt_state mutation expected; do
   [ -n "$case_id" ] || continue
   expected="${expected%$'\r'}"
+  if [ "$pointer_state" = valid ]; then prepare_live_tuple yes; else prepare_live_tuple no; fi
   make_matrix_objects "$mutation"
   git -C "$matrix_repo" update-ref -d "$pointer_ref" >/dev/null 2>&1 || true
   git -C "$matrix_repo" update-ref -d "$marker_ref" >/dev/null 2>&1 || true
   git -C "$matrix_repo" update-ref -d "$legacy_ref" >/dev/null 2>&1 || true
   git -C "$matrix_repo" update-ref -d "$v3_ref" >/dev/null 2>&1 || true
+  [ "$pointer_state" != valid ] || git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"
   case "$pointer_state" in
     absent) ;;
     valid) git -C "$matrix_repo" update-ref "$pointer_ref" "$pointer_oid" ;;
@@ -507,6 +549,64 @@ while IFS=$'\t' read -r case_id marker_state pointer_state receipt_state mutatio
   matrix_pass=$((matrix_pass + 1))
 done <<<"$matrix_cases"
 [ "$matrix_pass" -eq 24 ] || fail "F3 matrix executed $matrix_pass cases instead of 24"
+
+# Held-out live binding negatives. Each begins from a real current G0002
+# tuple; a reader that validates only pointer/v3/marker self-consistency would
+# incorrectly accept these mutations.
+install_held_out_current() {
+  prepare_live_tuple yes
+  make_matrix_objects none
+  git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"
+  git -C "$matrix_repo" update-ref "$pointer_ref" "$pointer_oid"
+  git -C "$matrix_repo" update-ref "$v3_ref" "$v3_oid"
+  git -C "$matrix_repo" update-ref "$marker_ref" "$marker_oid"
+}
+
+assert_held_out_stop() {
+  local label="$1" marker_message="${2:-no}"
+  local out rc
+  set +e
+  out="$(cd "$matrix_repo" && bash "$claim_helper" --require-current-continuity reader-controller 2>&1)"
+  rc=$?
+  set -e
+  [ "$rc" -ne 0 ] || fail "held-out $label incorrectly accepted a stale generation tuple"
+  if [ "$marker_message" = yes ]; then
+    grep -Fq STOP_NO_ROOT_FALLBACK <<<"$out" || fail "held-out $label did not forbid root fallback"
+  fi
+}
+
+held_out_pass=0
+for mutation in live-invalidation live-state-hash live-roadmap-hash live-next-action predecessor-ref predecessor-oid; do
+  install_held_out_current
+  make_matrix_objects "$mutation"
+  git -C "$matrix_repo" update-ref "$pointer_ref" "$pointer_oid"
+  git -C "$matrix_repo" update-ref "$v3_ref" "$v3_oid"
+  git -C "$matrix_repo" update-ref "$marker_ref" "$marker_oid"
+  assert_held_out_stop "$mutation"
+  held_out_pass=$((held_out_pass + 1))
+done
+
+install_held_out_current
+pointer_path="$(git -C "$matrix_repo" rev-parse --path-format=absolute --git-path "$pointer_ref")"
+rm -f -- "$pointer_path"
+mkdir -p "$(dirname "$pointer_path")"
+printf 'not-an-object-id\n' >"$pointer_path"
+assert_held_out_stop broken-pointer-ref yes
+rm -f -- "$pointer_path"
+held_out_pass=$((held_out_pass + 1))
+
+install_held_out_current
+marker_path="$(git -C "$matrix_repo" rev-parse --path-format=absolute --git-path "$marker_ref")"
+rm -f -- "$marker_path"
+mkdir -p "$(dirname "$marker_path")"
+printf 'not-an-object-id\n' >"$marker_path"
+assert_held_out_stop broken-marker-ref yes
+rm -f -- "$marker_path"
+held_out_pass=$((held_out_pass + 1))
+
+[ "$held_out_pass" -eq 8 ] || fail "F3 held-out reader negatives executed $held_out_pass cases instead of 8"
+printf '%s\n' \
+  'CANONICAL_STATE_ROTATION_F3_HELD_OUT_GREEN=PASS cases=8 live=invalidation,state,roadmap,next-action,predecessor-ref,predecessor-oid broken-refs=pointer,marker'
 
 printf '%s\n' \
   'CANONICAL_STATE_ROTATION_F3_GREEN=PASS matrix=24/24 legacy=EXACT_V2_ONLY first-migration=STOP pointer-current=MARKER_POINTER_V3_JOIN marker-fallback=FORBIDDEN owner-schema-mismatch=REJECTED refs=READ_ONLY'
