@@ -44,7 +44,8 @@ case "${1:-}" in
   --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='nonzero-readback' ;;
   --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='receipt-pivot' ;;
   --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='owner-env' ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
+  --r30-shared-lease-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='shared-lease' ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only|--r30-shared-lease-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
@@ -648,7 +649,7 @@ rotation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rotation)
 r15_target = sys.argv[4]
 if r15_target not in {"", "null-sinks", "observation-order", "nonzero-readback",
-                      "receipt-pivot", "owner-env"}:
+                      "receipt-pivot", "owner-env", "shared-lease"}:
     raise SystemExit("unknown packet-r15 focused target")
 if os.name == "nt":
     if rotation.WINDOWS_TRUSTED_GIT_PATHS_V1 != (
@@ -1287,8 +1288,7 @@ def reset_owner_case():
     git(owner_repo, "update-ref", owner_segment_ref, owner_segment_oid)
     for name, data in mutable_content.items():
         (run_root / name).write_bytes(data)
-    lock_path = Path(git(owner_repo, "rev-parse", "--path-format=absolute", "--git-path",
-                         "implementaudit-r0039-publication.lock").decode().strip())
+    lock_path = owner_rotation.r0039_publication_lease_path_v1(owner_repo)
     if lock_path.exists():
         lock_path.unlink()
 
@@ -1333,6 +1333,88 @@ def with_subprocess_proxy(proxy, action):
         return action()
     finally:
         owner_rotation.subprocess = original
+
+if r15_target == "shared-lease":
+    owner_peer = Path(sys.argv[3]) / "publisher-owner-peer"
+    subprocess.run(
+        ["git", "-C", str(owner_repo), "worktree", "add", "-q", "--detach",
+         str(owner_peer), "HEAD"], check=True)
+    peer_spec = importlib.util.spec_from_file_location(
+        "rotation_sequence_cas_peer",
+        owner_peer / "skills" / "implementaudit" / "scripts" /
+        "rotate-canonical-state.py")
+    peer_rotation = importlib.util.module_from_spec(peer_spec)
+    peer_spec.loader.exec_module(peer_rotation)
+    expected_common = Path(git(
+        owner_repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
+    ).decode().strip()).resolve() / "implementaudit-r0039-publication.lock"
+    main_lease = owner_rotation.r0039_publication_lease_path_v1(owner_repo)
+    peer_lease = peer_rotation.r0039_publication_lease_path_v1(owner_peer)
+    if main_lease != expected_common or peer_lease != expected_common:
+        raise SystemExit("R30 linked-worktree owners did not resolve one Git-common lease: "
+                         + repr((expected_common, main_lease, peer_lease)))
+
+    # Direction one: the protected-mutation domain owns the common lease, so
+    # the real R0039 publisher fails fast without touching its pointer ref.
+    reset_owner_case()
+    common_fd = os.open(expected_common, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+    try:
+        owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
+            candidate_pointer_oid=owner_pointer_oid),
+            "R0039 publication writer lease is held")
+        if current_oid() is not None:
+            raise SystemExit("R30 reverse publisher changed the current pointer")
+    finally:
+        os.close(common_fd)
+        expected_common.unlink()
+
+    # Direction two: R0039 owns the common lease through both its only CAS and
+    # its post-CAS readback.  A reverse create-exclusive contender must lose at
+    # both boundaries, then the lease must disappear after terminal readback.
+    reset_owner_case()
+    lease_boundaries = []
+    def lease_boundary_hook(values, _args, _kwargs):
+        boundary = None
+        if "update-ref" in values and "--stdin" in values:
+            boundary = "update-ref"
+        elif "rev-parse" in values and "--verify" in values and current_ref in values:
+            boundary = "readback"
+        if boundary is not None:
+            try:
+                contender = os.open(
+                    expected_common, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+            except FileExistsError:
+                lease_boundaries.append(boundary)
+            else:
+                os.close(contender)
+                expected_common.unlink(missing_ok=True)
+                raise SystemExit("R30 publisher released the common lease before " + boundary)
+        return None
+    if with_subprocess_proxy(SubprocessProxy(lease_boundary_hook), lambda:
+            owner_rotation.publish_generation_pointer_v1(
+                candidate_pointer_oid=owner_pointer_oid)) != owner_pointer_oid:
+        raise SystemExit("R30 shared-lease publisher did not commit/read back")
+    update_boundary = lease_boundaries.index("update-ref")
+    if (lease_boundaries.count("update-ref") != 1
+            or lease_boundaries[update_boundary:] != ["update-ref", "readback"]
+            or current_oid() != owner_pointer_oid or expected_common.exists()):
+        raise SystemExit("R30 publisher lease boundary evidence is incomplete: "
+                         + repr(lease_boundaries))
+
+    # Direct/raw Git is deliberately outside the governed-writer promise.
+    reset_owner_case()
+    common_fd = os.open(expected_common, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+    try:
+        git(owner_repo, "update-ref", current_ref, owner_pointer_oid,
+            owner_rotation.ZERO_OID)
+        if current_oid() != owner_pointer_oid:
+            raise SystemExit("R30 raw negative control did not bypass coordination")
+    finally:
+        os.close(common_fd)
+        expected_common.unlink()
+    print("R30_SHARED_PUBLICATION_LEASE_GREEN=PASS path=GIT_COMMON "
+          "directions=PROTECTED_FIRST,R0039_FIRST raw=EXCLUDED")
+    raise SystemExit(0)
 
 reset_owner_case()
 receipt_pivot = {"done": False}
@@ -1517,8 +1599,7 @@ if not object_injected["done"] or current_oid() is not None:
 record_publisher("immutable-object")
 
 reset_owner_case()
-lease_path = Path(git(owner_repo, "rev-parse", "--path-format=absolute", "--git-path",
-                      "implementaudit-r0039-publication.lock").decode().strip())
+lease_path = owner_rotation.r0039_publication_lease_path_v1(owner_repo)
 lease_path.write_bytes(b"held")
 owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
     candidate_pointer_oid=owner_pointer_oid), "R0039 publication writer lease is held")

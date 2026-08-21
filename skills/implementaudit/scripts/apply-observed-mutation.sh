@@ -562,6 +562,40 @@ LOCK_ROOT = REPO / ".IMPLEMENTAUDIT" / ".r36-locks"
 LOCK_PARENT = LOCK_ROOT.parent
 LOCK_GATE = LOCK_ROOT / "namespace.gate"
 RELEASED_LOCK_ROOT = TX / "released-locks"
+FENCE_PATH = RUN / "mutation-fences" / f"phase-{args.phase}-step-{args.step}.json"
+protected_route_requested = path_identity(FENCE_PATH).get("kind") != "absent"
+COMMON_LEASE = None
+LEGACY_WORKTREE_LEASE = None
+if protected_route_requested:
+    common_probe = subprocess.run(
+        ["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
+        cwd=os.fspath(REPO), text=True, capture_output=True, check=False,
+    )
+    legacy_probe = subprocess.run(
+        ["git", "rev-parse", "--path-format=absolute", "--git-path",
+         "implementaudit-r0039-publication.lock"],
+        cwd=os.fspath(REPO), text=True, capture_output=True, check=False,
+    )
+    if common_probe.returncode != 0 or legacy_probe.returncode != 0:
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    actual_common = Path(os.path.abspath(native_input(common_probe.stdout.strip())))
+    claimed_common = Path(os.path.abspath(native_input(claim["git_common_dir"])))
+    if os.path.normcase(os.fspath(actual_common)) != os.path.normcase(os.fspath(claimed_common)):
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    try:
+        common_stat = os.lstat(actual_common)
+    except OSError:
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    if (
+        not stat.S_ISDIR(common_stat.st_mode)
+        or stat.S_ISLNK(common_stat.st_mode)
+        or is_reparse(common_stat)
+    ):
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    COMMON_LEASE = actual_common / "implementaudit-r0039-publication.lock"
+    LEGACY_WORKTREE_LEASE = Path(
+        os.path.abspath(native_input(legacy_probe.stdout.strip()))
+    )
 
 if not safe_directory_chain(TX_PARENT, RUN, True):
     emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
@@ -639,6 +673,89 @@ allowed = {
 }
 actual = []
 namespace_gate_fd = None
+common_lease_fd = None
+common_lease_identity = None
+
+
+def acquire_common_publication_lease():
+    """Acquire the Git-common authority/effect lease before the local gate."""
+    global common_lease_fd, common_lease_identity
+    if COMMON_LEASE is None:
+        return
+    flags = os.O_CREAT | os.O_EXCL | os.O_RDWR | getattr(os, "O_BINARY", 0)
+    while True:
+        try:
+            fd = os.open(COMMON_LEASE, flags, 0o600)
+            break
+        except OSError as error:
+            if error.errno not in {errno.EACCES, errno.EAGAIN, errno.EEXIST}:
+                raise
+            time.sleep(0.05)
+    opened = None
+    try:
+        opened = os.fstat(fd)
+        current = os.lstat(COMMON_LEASE)
+        if (
+            not stat.S_ISREG(opened.st_mode)
+            or opened.st_nlink != 1
+            or opened.st_size != 0
+            or not stat.S_ISREG(current.st_mode)
+            or stat.S_ISLNK(current.st_mode)
+            or is_reparse(current)
+            or current.st_nlink != 1
+            or current.st_size != 0
+            or (current.st_dev, current.st_ino) != (opened.st_dev, opened.st_ino)
+        ):
+            raise WriterDomainBreach("Git-common publication lease identity changed")
+        if (
+            LEGACY_WORKTREE_LEASE is not None
+            and os.path.normcase(os.fspath(LEGACY_WORKTREE_LEASE))
+            != os.path.normcase(os.fspath(COMMON_LEASE))
+            and os.path.lexists(LEGACY_WORKTREE_LEASE)
+        ):
+            raise WriterDomainBreach("Git-common publication lease version skew")
+        common_lease_fd = fd
+        common_lease_identity = (opened.st_dev, opened.st_ino)
+    except BaseException:
+        os.close(fd)
+        try:
+            current = os.lstat(COMMON_LEASE)
+            if opened is not None and (current.st_dev, current.st_ino) == (opened.st_dev, opened.st_ino):
+                os.unlink(COMMON_LEASE)
+        except OSError:
+            pass
+        raise
+
+
+def release_common_publication_lease():
+    """Release only the create-exclusive inode this process acquired."""
+    global common_lease_fd, common_lease_identity
+    if common_lease_fd is None:
+        return []
+    fd = common_lease_fd
+    identity = common_lease_identity
+    common_lease_fd = None
+    common_lease_identity = None
+    errors = []
+    try:
+        os.close(fd)
+    except BaseException as error:
+        errors.append(error)
+    try:
+        current = os.lstat(COMMON_LEASE)
+        if (
+            not stat.S_ISREG(current.st_mode)
+            or stat.S_ISLNK(current.st_mode)
+            or is_reparse(current)
+            or current.st_nlink != 1
+            or current.st_size != 0
+            or (current.st_dev, current.st_ino) != identity
+        ):
+            raise WriterDomainBreach("Git-common publication lease identity changed")
+        os.unlink(COMMON_LEASE)
+    except BaseException as error:
+        errors.append(error)
+    return errors
 
 
 def acquire_window_gate():
@@ -1411,21 +1528,29 @@ def emit_initialisation_failure():
     result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
         status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
+    release_common_publication_lease()
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
 
 try:
+    acquire_common_publication_lease()
     acquire_window_gate()
 except WriterDomainBreach:
+    release_window_gate()
+    release_common_publication_lease()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
 except OSError as error:
+    release_window_gate()
+    release_common_publication_lease()
     sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
     emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
 controller_failure, controller_identity, generation_identity = current_controller_binding()
 if controller_failure is not None:
     if release_window_gate():
+        release_common_publication_lease()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    release_common_publication_lease()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", controller_failure)
 try:
     window_failure = verification_window_failure()
@@ -1434,14 +1559,18 @@ except (OSError, RuntimeError, WriterDomainBreach) as error:
 if window_failure is not None:
     sys.stderr.write(f"apply-observed-mutation: {window_failure}\n")
     if release_window_gate():
+        release_common_publication_lease()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    release_common_publication_lease()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "OPEN_VERIFICATION_WINDOW")
 phase_hook("window-scan-complete")
 fence_failure = require_generation_fence()
 if fence_failure is not None:
     fence_status, fence_reason = fence_failure
     if release_window_gate():
+        release_common_publication_lease()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    release_common_publication_lease()
     emit_no_effect(fence_status, fence_reason)
 
 try:
@@ -1651,6 +1780,10 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
+    phase_hook("terminal-result-durable")
+    common_release_errors = release_common_publication_lease()
+    if common_release_errors:
+        sys.stderr.write("apply-observed-mutation: Git-common publication lease release requires manual reconciliation\n")
     terminal_finalized = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
@@ -1719,6 +1852,7 @@ try:
             final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
         persist_journal("PLANNED")
         require_first_protected_effect_generation_fence()
+        phase_hook("first-protected-effect-boundary")
         try:
             link(SOURCE, DESTINATION, mark_move_destination_published)
         except FileExistsError:
@@ -1737,6 +1871,7 @@ try:
 
     persist_journal("PLANNED")
     require_first_protected_effect_generation_fence()
+    phase_hook("first-protected-effect-boundary")
     replace(SOURCE, BACKUP, mark_displaced)
     persist_journal("DISPLACEMENT_DURABLE", [BACKUP])
     if fault == "after-displacement":
@@ -1811,4 +1946,5 @@ finally:
             release_locks()
             release_lock_root()
         release_namespace_gate()
+        release_common_publication_lease()
 PY

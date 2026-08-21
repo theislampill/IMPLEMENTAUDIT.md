@@ -2724,18 +2724,67 @@ def require_complete_pointer_receipt_marker_route_v1(
         raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
 
 
+def r0039_publication_lease_path_v1(repo: Path) -> Path:
+    """Resolve the one absolute Git-common lease shared by linked worktrees."""
+    common = Path(git(
+        repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
+    ).decode("utf-8", "strict").strip()).resolve()
+    try:
+        common_stat = os.lstat(common)
+    except OSError as exc:
+        raise RotationError("R0039 publication writer lease custody is unavailable") from exc
+    if (not common.is_absolute() or not stat.S_ISDIR(common_stat.st_mode)
+            or stat.S_ISLNK(common_stat.st_mode)
+            or bool(getattr(common_stat, "st_file_attributes", 0) & 0x400)):
+        raise RotationError("R0039 publication writer lease custody is unavailable")
+    return common / "implementaudit-r0039-publication.lock"
+
+
+def _r0039_legacy_worktree_lease_path_v1(repo: Path) -> Path:
+    return Path(git(
+        repo, "rev-parse", "--path-format=absolute", "--git-path",
+        "implementaudit-r0039-publication.lock"
+    ).decode("utf-8", "strict").strip()).resolve()
+
+
 @contextlib.contextmanager
-def acquire_r0039_publication_writer_lease_v1():
-    """Serialize cooperating publishers; caller supplies no route or authority."""
-    discovery_repo = publication_owner_repo_v1()
-    gate = Path(git(discovery_repo, "rev-parse", "--path-format=absolute", "--git-path",
-                    "implementaudit-r0039-publication.lock").decode().strip())
-    gate.parent.mkdir(parents=True, exist_ok=True)
+def _acquire_r0039_publication_file_lease_v1(repo: Path):
+    """Own the Git-common create-exclusive lease, failing closed on skew."""
+    gate = r0039_publication_lease_path_v1(repo)
+    legacy_gate = _r0039_legacy_worktree_lease_path_v1(repo)
     try:
         descriptor = os.open(gate, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
     except FileExistsError as exc:
         raise RotationError("R0039 publication writer lease is held") from exc
+    opened = os.fstat(descriptor)
     try:
+        current = os.lstat(gate)
+        if (not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1
+                or not stat.S_ISREG(current.st_mode) or current.st_nlink != 1
+                or (current.st_dev, current.st_ino) != (opened.st_dev, opened.st_ino)):
+            raise RotationError("R0039 publication writer lease custody changed")
+        if legacy_gate != gate and os.path.lexists(legacy_gate):
+            raise RotationError("R0039 publication writer lease version skew")
+        yield gate
+    finally:
+        os.close(descriptor)
+        try:
+            current = os.lstat(gate)
+        except FileNotFoundError:
+            current = None
+        if current is not None:
+            if (not stat.S_ISREG(current.st_mode) or current.st_nlink != 1
+                    or (current.st_dev, current.st_ino) !=
+                    (opened.st_dev, opened.st_ino)):
+                raise RotationError("R0039 publication writer lease custody changed")
+            os.unlink(gate)
+
+
+@contextlib.contextmanager
+def acquire_r0039_publication_writer_lease_v1():
+    """Serialize cooperating publishers; caller supplies no route or authority."""
+    discovery_repo = publication_owner_repo_v1()
+    with _acquire_r0039_publication_file_lease_v1(discovery_repo):
         context, session = _open_governed_publication_context_v1()
         if Path(context["repo_path"]) != discovery_repo:
             session.__exit__()
@@ -2744,10 +2793,6 @@ def acquire_r0039_publication_writer_lease_v1():
             yield context, session
         finally:
             session.__exit__()
-    finally:
-        os.close(descriptor)
-        try: os.unlink(gate)
-        except OSError: pass
 
 
 def prepare_trusted_update_ref_transaction_v1(*, repo: Path, ref: str, new_oid: str,
@@ -3096,13 +3141,8 @@ def publish_first_migration_marker_v1() -> str:
     """Publish the permanent marker only after the exact v3 receipt exists."""
     repo, controller_id, controller_oid, claim_id, run_root, run_id = (
         _publication_custody_fields_v1())
-    gate = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-path",
-                    "implementaudit-r0039-publication.lock").decode().strip())
-    gate.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        descriptor = os.open(gate, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
-    except FileExistsError as exc:
-        raise RotationError("R0039 publication writer lease is held") from exc
+    lease = _acquire_r0039_publication_file_lease_v1(repo)
+    lease.__enter__()
     try:
         pointer_ref = f"refs/implementaudit/current-generations/{controller_id}"
         marker_ref = (
@@ -3182,11 +3222,7 @@ def publish_first_migration_marker_v1() -> str:
             pointer_oid=pointer_oid, marker_oid=marker_oid)
         return marker_oid
     finally:
-        os.close(descriptor)
-        try:
-            os.unlink(gate)
-        except OSError:
-            pass
+        lease.__exit__(None, None, None)
 
 
 def canonical_bytes(value: object) -> bytes:

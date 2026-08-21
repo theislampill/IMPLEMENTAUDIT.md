@@ -19,37 +19,66 @@ reject_coordination_reparse() {
 }
 
 update_controller_ref() {
-  local py=()
+  local py=() lease_mode="${4:-local}" common_lease= legacy_lease=
   if command -v python >/dev/null 2>&1; then py=(python)
   elif command -v python3 >/dev/null 2>&1; then py=(python3)
   elif command -v py >/dev/null 2>&1; then py=(py -3)
   else return 1; fi
-  "${py[@]}" - "$gate" "$1" "$2" "$3" <<'PY'
+  if [ "$lease_mode" = shared ]; then
+    common_lease="$(git rev-parse --path-format=absolute --git-common-dir)" \
+      || return 1
+    common_lease="${common_lease%/}/implementaudit-r0039-publication.lock"
+    legacy_lease="$(git rev-parse --path-format=absolute --git-path \
+      implementaudit-r0039-publication.lock)" || return 1
+  elif [ "$lease_mode" != local ]; then
+    return 1
+  fi
+  "${py[@]}" - "$gate" "$1" "$2" "$3" "$common_lease" "$legacy_lease" <<'PY'
 import errno,os,stat,subprocess,sys,time
 if os.name=='nt': import msvcrt
 else: import fcntl
-gate,ref,new,old=sys.argv[1:]
+gate,ref,new,old,common,legacy=sys.argv[1:]
 def unsafe(s): return not stat.S_ISREG(s.st_mode) or stat.S_ISLNK(s.st_mode) or bool(getattr(s,'st_file_attributes',0)&0x400) or s.st_nlink!=1 or s.st_size!=1
-before=os.lstat(gate)
-if unsafe(before): raise SystemExit(1)
-fd=os.open(gate,os.O_RDWR|getattr(os,'O_BINARY',0)|getattr(os,'O_NOFOLLOW',0))
+def common_unsafe(s): return not stat.S_ISREG(s.st_mode) or stat.S_ISLNK(s.st_mode) or bool(getattr(s,'st_file_attributes',0)&0x400) or s.st_nlink!=1 or s.st_size!=0
+common_fd=None; common_opened=None
 try:
- opened=os.fstat(fd)
- if os.name=='nt':
+ if common:
   while True:
-   try: os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_NBLCK,1); break
+   try:
+    common_fd=os.open(common,os.O_CREAT|os.O_EXCL|os.O_RDWR|getattr(os,'O_BINARY',0),0o600)
+    break
    except OSError as e:
-    if e.errno not in {errno.EACCES,errno.EAGAIN,errno.EDEADLK}: raise
+    if e.errno not in {errno.EACCES,errno.EAGAIN,errno.EEXIST}: raise
     time.sleep(.05)
- else: fcntl.flock(fd,fcntl.LOCK_EX)
- current=os.lstat(gate)
- if unsafe(current) or (current.st_dev,current.st_ino)!=(opened.st_dev,opened.st_ino): raise SystemExit(1)
- raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)
-finally:
+  common_opened=os.fstat(common_fd); common_current=os.lstat(common)
+  if common_unsafe(common_opened) or common_unsafe(common_current) or (common_current.st_dev,common_current.st_ino)!=(common_opened.st_dev,common_opened.st_ino): raise SystemExit(1)
+  if legacy and os.path.normcase(os.path.abspath(legacy))!=os.path.normcase(os.path.abspath(common)) and os.path.lexists(legacy): raise SystemExit(1)
+ before=os.lstat(gate)
+ if unsafe(before): raise SystemExit(1)
+ fd=os.open(gate,os.O_RDWR|getattr(os,'O_BINARY',0)|getattr(os,'O_NOFOLLOW',0))
  try:
-  if os.name=='nt': os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_UNLCK,1)
-  else: fcntl.flock(fd,fcntl.LOCK_UN)
- finally: os.close(fd)
+  opened=os.fstat(fd)
+  if os.name=='nt':
+   while True:
+    try: os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_NBLCK,1); break
+    except OSError as e:
+     if e.errno not in {errno.EACCES,errno.EAGAIN,errno.EDEADLK}: raise
+     time.sleep(.05)
+  else: fcntl.flock(fd,fcntl.LOCK_EX)
+  current=os.lstat(gate)
+  if unsafe(current) or (current.st_dev,current.st_ino)!=(opened.st_dev,opened.st_ino): raise SystemExit(1)
+  raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)
+ finally:
+  try:
+   if os.name=='nt': os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_UNLCK,1)
+   else: fcntl.flock(fd,fcntl.LOCK_UN)
+  finally: os.close(fd)
+finally:
+ if common_fd is not None:
+  os.close(common_fd)
+  current=os.lstat(common)
+  if common_unsafe(current) or (current.st_dev,current.st_ino)!=(common_opened.st_dev,common_opened.st_ino): raise SystemExit(1)
+  os.unlink(common)
 PY
 }
 
@@ -450,7 +479,7 @@ sys.stdout.buffer.write(raw[:-1])
         [ -n "$expect" ] && [ "$s:$rc:$rg" = "implementaudit.controller-current.v1:$c:$expect" ] || return 1
       else [ -z "$expect" ] || return 1; fi
       new="$(printf 'implementaudit.controller-current.v1\t%s\t%s\t%s/%s\n' "$c" "$newclaim" "$repo" "$run" | git hash-object -w --stdin)" &&
-        update_controller_ref "$ref" "$new" "$old" ;;
+        update_controller_ref "$ref" "$new" "$old" shared ;;
     current)
       load || return; printf '%s\t%s\t%s\t%s\n' "$c" "$rr" "$root" "$rg" ;;
     invalidate)

@@ -127,18 +127,32 @@ from the authorized repository path and the supplied preimage's SHA-256 and
 byte length. Operation, attempt, effect-plan, controller, generation and target
 identities remain separate fields in the authority, journal and result records.
 
-The helper checks the fence before transaction setup, then rechecks the exact
-controller and pointer/receipt generation after transaction setup and all
-pre-effect hooks, immediately before the first protected target effect. The
-final check also requires the declared authority/protected generations,
-verified receipt token, authorized path and target preimage to match. Stale or
-wrong generation, wrong controller, pointer/receipt drift, wrong target or
-preimage leaves the protected target unchanged; rejections before setup report
-an empty actual-effect set, while a final-boundary rejection durably records
-only its transaction/control effects. A declared sink that cannot reject and
-report the fence returns `UNKNOWN` / `MANUAL_RECONCILIATION`, with retry
-prohibited and no terminal closure claim. This is a guarantee only for the
-cooperating helper/sink; it does not fence non-cooperating writers.
+Controller bind, R0039 pointer/marker publication, and a protected mutation
+share the create-exclusive absolute
+`<git-common-dir>/implementaudit-r0039-publication.lock` domain. Linked
+worktrees therefore cannot obtain distinct leases. The protected sink and
+controller bind wait for the common lease; R0039 publication preserves its
+fail-fast `R0039 publication writer lease is held` result. Read-only claim
+routes called by a lease holder do not reacquire it. A divergent legacy
+worktree-local lease is version skew and fails closed.
+
+The protected sink acquires the common lease before its local namespace gate,
+then takes sorted target locks, rechecks the exact controller and
+pointer/receipt generation after transaction setup and all pre-effect hooks,
+and performs the first protected effect without releasing the common lease.
+The final check also requires the declared authority/protected generations,
+verified receipt token, authorized path and target preimage to match. The sink
+holds the common lease through effect, rollback/recovery, durable terminal
+result, target-lock release, and local-gate release, then releases it last.
+Controller bind holds it through expected-old controller CAS; R0039 holds it
+through pointer or marker CAS and readback. Stale or wrong generation, wrong
+controller, pointer/receipt drift, wrong target or preimage leaves the
+protected target unchanged; rejections before setup report an empty
+actual-effect set, while a final-boundary rejection durably records only its
+transaction/control effects. A declared sink that cannot reject and report the
+fence returns `UNKNOWN` / `MANUAL_RECONCILIATION`, with retry prohibited and no
+terminal closure claim. This coordination covers only governed cooperating
+writers; direct/raw Git and other non-cooperating writers remain outside it.
 
 Routine v3 recovery is bounded: it reads the current pointer, hot STATE and
 ROADMAP pair, `WORK_GRAPH` path/digest, selected receipt, invalidation and

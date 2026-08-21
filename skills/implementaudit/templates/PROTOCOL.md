@@ -418,15 +418,25 @@ its exact pointer/receipt join; the caller cannot supply a replacement
 generation authority. It fingerprints the authorized target path plus preimage
 identity, then records distinct operation, attempt, effect-plan, controller,
 generation and target identities in authority, journal and result records.
-`require_generation_fence` checks those bindings before transaction setup and
-rechecks the exact controller and pointer/receipt generation after setup and
-all pre-effect hooks, immediately before the first protected target effect.
-Stale/wrong generation, wrong controller, pointer/receipt drift, wrong target
-or preimage leaves the protected target unchanged; a final-boundary rejection
-records only transaction/control effects. If the sink cannot reject and report
-the fence, record `UNKNOWN` / `MANUAL_RECONCILIATION`, prohibit retry and make
-no terminal closure claim. This contract fences only cooperating helper-routed
-effects; it makes no claim about non-cooperating writers.
+Controller bind, R0039 pointer/marker publication, and the protected sink use
+one create-exclusive absolute
+`<git-common-dir>/implementaudit-r0039-publication.lock`, including across
+linked worktrees. The sink and bind wait; R0039 remains fail-fast busy.
+Read-only claim routes do not reacquire the lease, and a divergent legacy
+worktree-local lease is version skew that fails closed.
+`require_generation_fence` checks the bindings before transaction setup. Lock
+order is common lease, local namespace gate, sorted target locks, final
+authority/target revalidation, then first effect. The sink holds the common
+lease through the protected effect, rollback/recovery, durable result, target
+lock release and local-gate release, then releases it last. Controller bind
+holds through expected-old controller CAS; R0039 holds through pointer/marker
+CAS and readback. Stale/wrong generation, wrong controller, pointer/receipt
+drift, wrong target or preimage leaves the protected target unchanged; a
+final-boundary rejection records only transaction/control effects. If the sink
+cannot reject and report the fence, record `UNKNOWN` /
+`MANUAL_RECONCILIATION`, prohibit retry and make no terminal closure claim.
+This contract covers governed cooperating writers only; direct/raw Git and
+other non-cooperating writers remain outside it.
 
 At phase start and after each continuity boundary, record one canonical
 execution-identity row in STATE.md:

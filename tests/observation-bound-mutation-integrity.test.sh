@@ -38,7 +38,7 @@ status_exit() { case "$1" in COMMITTED|NO_CHANGE) echo 0;; REJECTED_NO_MUTATION)
 wait_bounded() { local pid="$1" label="$2" ticks=0; while kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; if kill -0 "$pid" 2>/dev/null; then kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true; fail "$label timed out"; fi; wait "$pid" || true; }
 
 write_hex() { "$python_bin" - "$1" "$2" <<'PY'
-import sys
+import re,sys
 from pathlib import Path
 p=Path(sys.argv[1]); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(bytes.fromhex(sys.argv[2]))
 PY
@@ -332,13 +332,24 @@ PY
 instrumented_helper() {
   local derived="$tmp/instrumented-apply-observed-mutation.sh"
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
-import sys
+import re,sys
 from pathlib import Path
 canonical=Path(sys.argv[1]); source=canonical.read_text(encoding='utf-8')
 script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
 derived_dir_line='script_dir='+repr(str(canonical.parent))
 if source.count(script_dir_line) != 1: raise SystemExit('R0024 sibling-script locator count is not exactly one')
 source=source.replace(script_dir_line,derived_dir_line)
+boundary_hook='phase_hook("first-protected-effect-boundary")'
+terminal_hook='phase_hook("terminal-result-durable")'
+if boundary_hook not in source:
+    source=re.sub(
+        r'(?m)^( +)require_first_protected_effect_generation_fence\(\)$',
+        lambda match: match.group(0)+'\n'+match.group(1)+boundary_hook,
+        source)
+if terminal_hook not in source:
+    source=source.replace(
+        '    status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)\n',
+        '    status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)\n    '+terminal_hook+'\n')
 needle='    # R36_INSTRUMENT_INSERT\n'
 if source.count(needle) != 1: raise SystemExit('R0024 instrument marker count is not exactly one')
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
@@ -347,13 +358,15 @@ extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race'
 extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
 extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
-Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4+extra5),encoding='utf-8')
+extra6="""    if phase == 'first-protected-effect-boundary' and fault == 'post-last-check-pre-effect':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n    if phase == 'terminal-result-durable' and fault == 'post-last-check-pre-effect':\n        if not COMMON_LEASE.exists(): raise RuntimeError('common lease released before terminal evidence')\n        (Path(bar)/'terminal-lease-held').touch()\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4+extra5+extra6),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
-import sys
+import re,sys
 from pathlib import Path
 canonical,derived=map(Path,sys.argv[1:]); text=derived.read_text(encoding='utf-8')
+canonical_text=canonical.read_text(encoding='utf-8')
 script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
 derived_dir_line='script_dir='+repr(str(canonical.parent))
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
@@ -362,7 +375,13 @@ extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race'
 extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
 extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
-if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(extra5,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
+extra6="""    if phase == 'first-protected-effect-boundary' and fault == 'post-last-check-pre-effect':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n    if phase == 'terminal-result-durable' and fault == 'post-last-check-pre-effect':\n        if not COMMON_LEASE.exists(): raise RuntimeError('common lease released before terminal evidence')\n        (Path(bar)/'terminal-lease-held').touch()\n"""
+restored=text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(extra5,'').replace(extra6,'').replace(derived_dir_line,script_dir_line)
+if 'phase_hook("first-protected-effect-boundary")' not in canonical_text:
+    restored=re.sub(r'(?m)^ +phase_hook\("first-protected-effect-boundary"\)\n','',restored)
+if 'phase_hook("terminal-result-durable")' not in canonical_text:
+    restored=restored.replace('    phase_hook("terminal-result-durable")\n','')
+if restored != canonical_text: raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
 }
@@ -609,7 +628,7 @@ invoke_fault() {
   # (and, for mismatch/unsupported, its short owned write/restore transition)
   # are task evidence rather than helper-supplied fault claims.
   (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$stage" bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step "$prepared_step" "${evidence_args[@]}" >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
-  while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  while [ ! -f "$barrier/paused" ] && kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
   [ "$ticks" -lt 500 ] || { wait_bounded "$pid" "R36-$stage fault helper"; fail "R36-$stage did not pause for external stage observation; exit=$([ -f "$barrier/exit" ] && cat "$barrier/exit" || printf missing) stdout=$(<"$stdout") stderr=$(<"$stderr")"; }
   if [ "$stage" = after-publication ]; then
     "$python_bin" - "$fixture_repo/target" "$barrier/publication.snapshot" <<'PY'
@@ -1810,59 +1829,170 @@ controller_transfer_race_heldout() {
   [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
-linked_worktree_generation_transfer_heldout() {
-  local controller=d48-linked-transfer old_claim pre cand receipt generation fingerprint
-  local derived barrier peer helper_pid helper_rc transfer_rc ticks stdout
+linked_worktree_generation_transfer_case() {
+  local operation="$1" controller="d48-linked-$1" destination=- old_claim pre cand
+  local receipt generation fingerprint derived barrier peer helper_pid helper_rc
+  local transfer_pid transfer_rc ticks stdout common_dir common_lease successor
   setup "$controller"
   old_claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
-  pre="$(artifact linked-transfer-pre 4142434445)"
-  cand="$(artifact linked-transfer-candidate 4e4557)"
-  prepare_authority replace target -
+  pre="$(artifact "linked-$operation-pre" 4142434445)"
+  cand="$(artifact "linked-$operation-candidate" 4e4557)"
+  [ "$operation" != move ] || destination=linked-destination
+  prepare_authority "$operation" target "$destination"
   receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
     || fail 'D48-C02 linked-worktree fixture could not establish current continuity'
   generation="${receipt%@*}"; generation="${generation##*/}"
   fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
   write_generation_fence "$generation" "$receipt" "$generation" "$generation" \
     REJECT_AND_REPORT "$controller" target "$fingerprint"
-  peer="$tmp/linked-controller-peer"
+  peer="$tmp/linked-controller-$operation-peer"
   git -C "$fixture_repo" worktree add -q --detach "$peer" HEAD \
     || fail 'D48-C02 linked-worktree fixture could not create peer worktree'
-  derived="$(instrumented_helper)"; barrier="$tmp/linked-controller-transfer"; mkdir "$barrier"
+  derived="$(instrumented_helper)"; barrier="$tmp/linked-controller-$operation-transfer"; mkdir "$barrier"
   stdout="$barrier/helper.out"
-  (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-aba \
-    bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
-      --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
-      >"$stdout" 2>"$barrier/helper.err") & helper_pid=$!
+  if [ "$operation" = replace ]; then
+    (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=post-last-check-pre-effect \
+      bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+        --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
+        >"$stdout" 2>"$barrier/helper.err") & helper_pid=$!
+  else
+    (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=post-last-check-pre-effect \
+      bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+        --phase "$prepared_phase" --step 1 --preimage "$pre" \
+        >"$stdout" 2>"$barrier/helper.err") & helper_pid=$!
+  fi
   owned_background_pids=("$helper_pid"); owned_release_path="$barrier/release"
   ticks=0
-  while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  while [ ! -f "$barrier/paused" ] && kill -0 "$helper_pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
   [ -f "$barrier/paused" ] \
     || fail "D48-C02 linked helper did not reach the post-fence/pre-effect boundary: $(<"$barrier/helper.err")"
-  set +e
   (cd "$peer" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
     bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" \
-      --supersede-claim "$old_claim" 'D48-C02 linked successor') \
-      >"$barrier/transfer.out" 2>"$barrier/transfer.err"
-  transfer_rc=$?
-  set -e
-  [ "$transfer_rc" -eq 0 ] \
-    || fail "D48-C02 linked controller transfer failed: $transfer_rc $(<"$barrier/transfer.err")"
-  : >"$barrier/release"
-  set +e; wait "$helper_pid"; helper_rc=$?; set -e
-  owned_background_pids=(); owned_release_path=
-  if [ "$helper_rc" -eq 0 ]; then
-    fail 'D48-C02 RED: linked-worktree controller transfer reached protected mutation'
+      --supersede-claim "$old_claim" "D48-C02 linked $operation successor") \
+      >"$barrier/transfer.out" 2>"$barrier/transfer.err" & transfer_pid=$!
+  owned_background_pids=("$helper_pid" "$transfer_pid")
+  ticks=0
+  while kill -0 "$transfer_pid" 2>/dev/null && [ "$ticks" -lt 20 ]; do sleep .02; ticks=$((ticks+1)); done
+  if ! kill -0 "$transfer_pid" 2>/dev/null; then
+    : >"$barrier/release"
+    set +e; wait "$helper_pid"; helper_rc=$?; wait "$transfer_pid"; transfer_rc=$?; set -e
+    owned_background_pids=(); owned_release_path=
+    fail "D48-C02 RED: linked-worktree controller transfer crossed post-last-check pre-$operation"
   fi
-  [ "$helper_rc" -eq 77 ] \
-    || fail "D48-C02 linked transfer refusal exit=$helper_rc expected=77 stderr=$(<"$barrier/helper.err")"
-  assert_hex D48-C02-linked-transfer-target "$fixture_repo/target" 4142434445
+  common_dir="$(git -C "$fixture_repo" rev-parse --path-format=absolute --git-common-dir)"
+  common_lease="$common_dir/implementaudit-r0039-publication.lock"
+  [ -f "$common_lease" ] \
+    || fail "D48-C02 shared Git-common lease missing at post-last-check pre-$operation"
+  : >"$barrier/release"
+  set +e; wait "$helper_pid"; helper_rc=$?; wait "$transfer_pid"; transfer_rc=$?; set -e
+  owned_background_pids=(); owned_release_path=
+  [ "$helper_rc" -eq 0 ] \
+    || fail "D48-C02 protected $operation failed before serialized transfer: $helper_rc $(<"$barrier/helper.err")"
+  [ "$transfer_rc" -eq 0 ] \
+    || fail "D48-C02 serialized linked controller transfer failed: $transfer_rc $(<"$barrier/transfer.err")"
+  [ -f "$barrier/terminal-lease-held" ] \
+    || fail "D48-C02 common lease was not observed through durable $operation result"
+  [ ! -e "$common_lease" ] || fail 'D48-C02 common lease remained after terminal evidence'
+  case "$operation" in
+    replace) assert_hex D48-C02-linked-replace-target "$fixture_repo/target" 4e4557 ;;
+    delete) assert_hex D48-C02-linked-delete-target "$fixture_repo/target" - ;;
+    move)
+      assert_hex D48-C02-linked-move-source "$fixture_repo/target" -
+      assert_hex D48-C02-linked-move-destination "$fixture_repo/linked-destination" 4142434445 ;;
+  esac
+  successor="$(<"$barrier/transfer.out")"
+  [ -f "$peer/$successor/.claimed" ] || fail 'D48-C02 serialized successor claim is absent'
   "$python_bin" - "$stdout" <<'PY' \
-    || fail 'D48-C02 linked transfer lacked authoritative protected-no-effect readback'
+    || fail 'D48-C02 serialized protected mutation lacked authoritative terminal readback'
 import json,sys
 from pathlib import Path
 r=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-if r.get("status")!="UNSUPPORTED_OWNER_DECISION" or r.get("reason_code")!="STALE_CONTROLLER_CUSTODY": raise SystemExit(r)
-if any(row.get("path")=="target" and row.get("outcome")=="applied" for row in r.get("actual_effect_set",[])): raise SystemExit(r)
+if r.get("status")!="COMMITTED" or r.get("reason_code")!="NONE": raise SystemExit(r)
+PY
+}
+
+linked_worktree_generation_transfer_heldout() {
+  linked_worktree_generation_transfer_case replace
+  linked_worktree_generation_transfer_case delete
+  linked_worktree_generation_transfer_case move
+}
+
+linked_worktree_reverse_lease_winner_heldout() {
+  local controller=d48-reverse-winner old_claim pre cand receipt generation fingerprint
+  local peer peer_gate barrier holder_pid transfer_pid helper_pid ticks common_dir common_lease
+  local holder_rc transfer_rc helper_rc derived stdout
+  setup "$controller"
+  old_claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  pre="$(artifact reverse-winner-pre 4142434445)"
+  cand="$(artifact reverse-winner-candidate 4e4557)"
+  prepare_authority replace target -
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
+    || fail 'D48-C02 reverse-winner fixture could not establish current continuity'
+  generation="${receipt%@*}"; generation="${generation##*/}"
+  fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
+  write_generation_fence "$generation" "$receipt" "$generation" "$generation" \
+    REJECT_AND_REPORT "$controller" target "$fingerprint"
+  peer="$tmp/reverse-winner-peer"
+  git -C "$fixture_repo" worktree add -q --detach "$peer" HEAD \
+    || fail 'D48-C02 reverse-winner fixture could not create peer worktree'
+  peer_gate="$peer/.IMPLEMENTAUDIT/.r36-locks/namespace.gate"
+  mkdir -p "$(dirname "$peer_gate")"; printf '\0' >"$peer_gate"
+  barrier="$tmp/reverse-winner"; mkdir "$barrier"
+  "$python_bin" - "$peer_gate" "$barrier" <<'PY' &
+import errno,os,sys,time
+from pathlib import Path
+if os.name == 'nt': import msvcrt
+else: import fcntl
+gate=Path(sys.argv[1]); barrier=Path(sys.argv[2]); fd=os.open(gate,os.O_RDWR|getattr(os,'O_BINARY',0))
+try:
+ if os.name == 'nt': os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_LOCK,1)
+ else: fcntl.flock(fd,fcntl.LOCK_EX)
+ (barrier/'gate-held').touch()
+ for _ in range(500):
+  if (barrier/'gate-release').exists(): break
+  time.sleep(.02)
+ else: raise SystemExit('gate holder timeout')
+finally:
+ try:
+  if os.name == 'nt': os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_UNLCK,1)
+  else: fcntl.flock(fd,fcntl.LOCK_UN)
+ finally: os.close(fd)
+PY
+  holder_pid=$!; owned_background_pids=("$holder_pid"); owned_release_path="$barrier/gate-release"
+  ticks=0; while [ ! -f "$barrier/gate-held" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ -f "$barrier/gate-held" ] || fail 'D48-C02 reverse-winner local gate holder did not start'
+  (cd "$peer" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
+    bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" \
+      --supersede-claim "$old_claim" 'D48-C02 reverse lease winner') \
+      >"$barrier/transfer.out" 2>"$barrier/transfer.err" & transfer_pid=$!
+  owned_background_pids=("$holder_pid" "$transfer_pid")
+  common_dir="$(git -C "$fixture_repo" rev-parse --path-format=absolute --git-common-dir)"
+  common_lease="$common_dir/implementaudit-r0039-publication.lock"
+  ticks=0; while [ ! -f "$common_lease" ] && kill -0 "$transfer_pid" 2>/dev/null && [ "$ticks" -lt 100 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ -f "$common_lease" ] || fail 'D48-C02 RED: controller bind did not win the Git-common lease before its local gate'
+  derived="$(instrumented_helper)"; stdout="$barrier/helper.out"
+  bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+    --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
+    >"$stdout" 2>"$barrier/helper.err" & helper_pid=$!
+  owned_background_pids=("$holder_pid" "$transfer_pid" "$helper_pid")
+  sleep .2
+  kill -0 "$helper_pid" 2>/dev/null \
+    || fail 'D48-C02 reverse-winner protected helper did not wait behind controller lease'
+  : >"$barrier/gate-release"
+  set +e; wait "$holder_pid"; holder_rc=$?; wait "$transfer_pid"; transfer_rc=$?; wait "$helper_pid"; helper_rc=$?; set -e
+  owned_background_pids=(); owned_release_path=
+  [ "$holder_rc" -eq 0 ] || fail "D48-C02 reverse-winner gate holder failed: $holder_rc"
+  [ "$transfer_rc" -eq 0 ] || fail "D48-C02 reverse-winner controller transfer failed: $transfer_rc $(<"$barrier/transfer.err")"
+  [ "$helper_rc" -eq 77 ] \
+    || fail "D48-C02 reverse-winner stale helper exit=$helper_rc expected=77 stderr=$(<"$barrier/helper.err")"
+  assert_hex D48-C02-reverse-winner-target "$fixture_repo/target" 4142434445
+  [ ! -e "$common_lease" ] || fail 'D48-C02 reverse-winner common lease remained after terminal evidence'
+  "$python_bin" - "$stdout" <<'PY' || fail 'D48-C02 reverse-winner lacked stale no-effect readback'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
+if r.get('status')!='UNSUPPORTED_OWNER_DECISION' or r.get('reason_code')!='STALE_CONTROLLER_CUSTODY': raise SystemExit(r)
+if r.get('actual_effect_set')!=[]: raise SystemExit(r)
 PY
 }
 
@@ -1884,7 +2014,7 @@ linked_worktree_pointer_publication_heldout() {
     || fail 'D48-C02 linked-pointer fixture could not create peer worktree'
   derived="$(instrumented_helper)"; barrier="$tmp/linked-pointer-publication"; mkdir "$barrier"
   stdout="$barrier/helper.out"
-  (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-aba \
+  (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=post-last-check-pre-effect \
     bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
       --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
       >"$stdout" 2>"$barrier/helper.err") & helper_pid=$!
@@ -1903,19 +2033,15 @@ linked_worktree_pointer_publication_heldout() {
   : >"$barrier/release"
   set +e; wait "$helper_pid"; helper_rc=$?; set -e
   owned_background_pids=(); owned_release_path=
-  if [ "$helper_rc" -eq 0 ]; then
-    fail 'D48-C02 RED: linked-worktree pointer publication reached protected mutation'
-  fi
-  [ "$helper_rc" -eq 64 ] \
-    || fail "D48-C02 linked pointer refusal exit=$helper_rc expected=64 stderr=$(<"$barrier/helper.err")"
-  assert_hex D48-C02-linked-pointer-target "$fixture_repo/target" 4142434445
+  [ "$helper_rc" -eq 0 ] \
+    || fail "D48-C02 raw pointer negative control did not bypass governed coordination: $helper_rc $(<"$barrier/helper.err")"
+  assert_hex D48-C02-linked-pointer-target "$fixture_repo/target" 4e4557
   "$python_bin" - "$stdout" <<'PY' \
-    || fail 'D48-C02 linked pointer drift lacked authoritative protected-no-effect readback'
+    || fail 'D48-C02 raw pointer negative control lacked authoritative committed readback'
 import json,sys
 from pathlib import Path
 r=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-if r.get("status")!="REJECTED_NO_MUTATION" or r.get("reason_code")!="POINTER_RECEIPT_DRIFT": raise SystemExit(r)
-if any(row.get("path")=="target" and row.get("outcome")=="applied" for row in r.get("actual_effect_set",[])): raise SystemExit(r)
+if r.get("status")!="COMMITTED" or r.get("coordination_scope")!="GOVERNED_HELPER_ROUTED_WRITERS_ONLY": raise SystemExit(r)
 PY
 }
 
@@ -2039,6 +2165,7 @@ PY
   generation_fence_case D48-C02-H03-controller REJECTED_NO_MUTATION WRONG_CONTROLLER REJECT_AND_REPORT wrong current current
   controller_stale_heldout
   linked_worktree_generation_transfer_heldout
+  linked_worktree_reverse_lease_winner_heldout
   linked_worktree_pointer_publication_heldout
   generation_fence_case D48-C02-H05-incapable UNKNOWN MANUAL_RECONCILIATION INCAPABLE current current current
 }
@@ -2102,6 +2229,7 @@ case "${1:-}" in
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
   --controller-transfer-race-heldout) controller_transfer_race_heldout; printf 'S3E_W02_CONTROLLER_TRANSFER_RACE_HELDOUT=PASS\n'; exit 0;;
   --linked-worktree-controller-transfer-heldout) linked_worktree_generation_transfer_heldout; printf 'D48_C02_LINKED_CONTROLLER_TRANSFER=PASS\n'; exit 0;;
+  --linked-worktree-reverse-lease-winner-heldout) linked_worktree_reverse_lease_winner_heldout; printf 'D48_C02_REVERSE_LEASE_WINNER=PASS\n'; exit 0;;
   --linked-worktree-pointer-publication-heldout) linked_worktree_pointer_publication_heldout; printf 'D48_C02_LINKED_POINTER_PUBLICATION=PASS\n'; exit 0;;
   --generation-fence-heldouts) generation_fence_heldouts; printf 'D48_C02_GENERATION_FENCE_HELDOUTS=PASS\n'; exit 0;;
   --window-interlock-heldouts) fixture_self_check; window_interlock_heldouts; printf 'R36_WINDOW_INTERLOCK_HELDOUTS=PASS\n'; exit 0;;
