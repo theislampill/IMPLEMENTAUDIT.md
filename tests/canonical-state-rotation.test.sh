@@ -40,6 +40,7 @@ fi
 if $sequence_cas_only; then
   [ -f "$sequence_cas_fixture" ] || fail "missing sequence-CAS fixture"
   python - "$helper" "$sequence_cas_fixture" "$tmp" <<'PY'
+import contextlib
 import hashlib
 import importlib.util
 import json
@@ -51,6 +52,22 @@ import sys
 spec = importlib.util.spec_from_file_location("rotation_sequence_cas", sys.argv[1])
 rotation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rotation)
+# This is deliberately the installed helper's physical-owner route, with no
+# replacement of either loader.  It must stay independent of both this test's
+# cwd and the isolated publication repository built below.
+physical_owner = rotation.publication_owner_repo_v1()
+physical_context = rotation.load_governed_publication_context_v1()
+if (physical_context["repo_path"] != physical_owner
+        or set(physical_context) != {"repo_path", "run_root_path", "controller_id", "claim_id", "run_id", "generation_id", "source_epoch", "receipt_oid", "expected_old_pointer_oid", "migration_marker_oid", "publication_guard_refs"}
+        or not all(str(physical_context[key]) for key in ("controller_id", "claim_id", "run_id", "generation_id", "source_epoch", "receipt_oid"))):
+    raise SystemExit("physical ten-key v2 publication custody loader is incomplete")
+physical_cwd = Path.cwd()
+os.chdir(Path(sys.argv[3]))
+try:
+    if rotation.load_governed_publication_context_v1() != physical_context:
+        raise SystemExit("physical publication custody changed with caller cwd")
+finally:
+    os.chdir(physical_cwd)
 with open(sys.argv[2], encoding="utf-8") as stream:
     fixture = json.load(stream)
 expected = [
@@ -116,7 +133,7 @@ repo = Path(sys.argv[3]) / "sequence-cas-isolated-repo"
 subprocess.run(["git", "init", "-q", str(repo)], check=True)
 winner = blob(repo, b"winner-candidate")
 loser = blob(repo, b"loser-candidate")
-ref = "refs/implementaudit/current-generations/controller-1"
+ref = "refs/implementaudit/current-generations/cas-controller"
 winner_cas = rotation.prepare_trusted_update_ref_transaction_v1(
     repo=repo, ref=ref, new_oid=winner, old_oid=rotation.ZERO_OID, verify_refs=())
 loser_cas = rotation.prepare_trusted_update_ref_transaction_v1(
@@ -175,14 +192,16 @@ segment = dict(request, source_evidence_id="iasrc-v1-r0039-archive-case-1",
                payload_digest=hashlib.sha256(rotation.canonical_json_v1(request["payload"])).hexdigest())
 segment["event_id"] = "iaevt-v1-" + hashlib.sha256(rotation.canonical_json_v1(segment)).hexdigest()
 segment_raw = rotation.canonical_json_v1(segment)
-segment_manifest = manifest("00000000000000000000", [request["sequence"]])
-segment_manifest["events"][0].update(event_id=segment["event_id"],
-                                       segment_digest="sha256:" + hashlib.sha256(segment_raw).hexdigest(),
-                                       source_evidence_id=segment["source_evidence_id"])
-segment_manifest["population_digest"] = hashlib.sha256(rotation.canonical_json_v1(
-    rotation.manifest_population_rows_v1(segment_manifest["events"]))).hexdigest()
-segment_manifest["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1(
-    {key: value for key, value in segment_manifest.items() if key != "manifest_digest"})).hexdigest()
+original_context_loader = rotation.load_governed_publication_context_v1
+rotation.load_governed_publication_context_v1 = lambda: {
+    "controller_id": "controller-1", "claim_id": "a" * 32, "run_id": "run-1",
+    "generation_id": "G0001", "source_epoch": "G0001"}
+try:
+    segment_manifest, segment_manifest_raw = rotation.build_generation_manifest_v1(None, [segment])
+finally:
+    rotation.load_governed_publication_context_v1 = original_context_loader
+if segment_manifest_raw != rotation.canonical_json_v1(segment_manifest):
+    raise SystemExit("build_generation_manifest_v1 did not return canonical product bytes")
 segment_oid = blob(repo, segment_raw)
 segment_ref = (rotation.EVENT_SEGMENT_PREFIX + "/run-1/G0001/00000000000000000001/" +
                segment["event_id"])
@@ -266,7 +285,7 @@ completed = subprocess.run(guarded["argv"], cwd=guarded["cwd"], env=guarded["env
 if completed.returncode == 0 or git(repo, "for-each-ref", "--format=%(refname)",
                                     "refs/implementaudit/current-generations/controller-guard"):
     raise SystemExit("guard race published after receipt/marker vector changed")
-if (any(name.startswith("GIT_") and name not in {"GIT_CONFIG_NOSYSTEM", "GIT_TERMINAL_PROMPT"}
+if (any(name.startswith("GIT_") and name not in {"GIT_CONFIG_NOSYSTEM", "GIT_CONFIG_GLOBAL", "GIT_TERMINAL_PROMPT"}
         for name in guarded["env"])
         or guarded["env"].get("GIT_TERMINAL_PROMPT") != "0"):
     raise SystemExit("hostile Git environment reached the final transaction")
@@ -325,6 +344,95 @@ context = {"run_root_path": inputs}
 expected_digests = {"STATE": hashlib.sha256(content["STATE.md"]).hexdigest(),
                     "ROADMAP": hashlib.sha256(content["ROADMAP.md"]).hexdigest(),
                     "WORK_GRAPH": hashlib.sha256(content["WORK_GRAPH.json"]).hexdigest()}
+# Publisher-bound canonical-v2 winner/loser control.  The owner loader is
+# replaced only after this temporary repo has constructed the same frozen
+# controller/receipt/marker guard tuple that the production publisher consumes.
+controller_blob = blob(repo, b"implementaudit.controller-current.v1\tcontroller-1\t" + b"a" * 32 + b"\t/tmp/.IMPLEMENTAUDIT/runs/run-1\n")
+receipt_blob = blob(repo, b"receipt")
+controller_ref = "refs/implementaudit/controllers/controller-1"
+receipt_ref = "refs/implementaudit/continuity-receipts/controller-1/G0001"
+marker_ref = "refs/implementaudit/current-generation-migrations/controller-1"
+invalidation_ref = "refs/implementaudit/continuity-invalidations/controller-1"
+git(repo, "update-ref", controller_ref, controller_blob)
+git(repo, "update-ref", receipt_ref, receipt_blob)
+publication_context = {"repo_path": repo, "run_root_path": inputs, "controller_id": "controller-1",
+                       "claim_id": "a" * 32, "run_id": "run-1", "generation_id": "G0001",
+                       "source_epoch": "G0001", "expected_old_pointer_oid": None,
+                       "publication_guard_refs": tuple(sorted(((controller_ref, controller_blob),
+                           (receipt_ref, receipt_blob))))}
+publisher_pointer, publisher_pointer_raw = rotation.build_generation_pointer_v1(
+    controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+    source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=segment_manifest_oid, generation_manifest_digest=segment_manifest["manifest_digest"],
+    cold_high_water=segment_manifest["high_water"], hot_state_digest=expected_digests["STATE"],
+    hot_roadmap_digest=expected_digests["ROADMAP"], work_graph_path="WORK_GRAPH.json",
+    work_graph_digest=expected_digests["WORK_GRAPH"], degraded_state="NONE")
+publisher_pointer_oid = blob(repo, publisher_pointer_raw)
+original_acquire = rotation.acquire_r0039_publication_writer_lease_v1
+@contextlib.contextmanager
+def isolated_acquire():
+    yield publication_context
+rotation.acquire_r0039_publication_writer_lease_v1 = isolated_acquire
+try:
+    wrong_pointer, wrong_pointer_raw = rotation.build_generation_pointer_v1(
+        controller_id="controller-2", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+        source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+        generation_manifest_oid=segment_manifest_oid, generation_manifest_digest=segment_manifest["manifest_digest"],
+        cold_high_water=segment_manifest["high_water"], hot_state_digest=expected_digests["STATE"],
+        hot_roadmap_digest=expected_digests["ROADMAP"], work_graph_path="WORK_GRAPH.json",
+        work_graph_digest=expected_digests["WORK_GRAPH"], degraded_state="NONE")
+    wrong_pointer_oid = blob(repo, wrong_pointer_raw)
+    error(lambda: rotation.publish_generation_pointer_v1(candidate_pointer_oid=wrong_pointer_oid),
+          "generation pointer authority disagrees with live custody")
+    if rotation.publish_generation_pointer_v1(candidate_pointer_oid=publisher_pointer_oid) != publisher_pointer_oid:
+        raise SystemExit("publisher winner did not read back candidate pointer")
+    loser_pointer, loser_pointer_raw = rotation.build_generation_pointer_v1(
+        controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+        source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+        generation_manifest_oid=segment_manifest_oid, generation_manifest_digest=segment_manifest["manifest_digest"],
+        cold_high_water=segment_manifest["high_water"], hot_state_digest=expected_digests["STATE"],
+        hot_roadmap_digest=expected_digests["ROADMAP"], work_graph_path="WORK_GRAPH.json",
+        work_graph_digest=expected_digests["WORK_GRAPH"], degraded_state="ACTIVEGRAPH_DOGFOOD_DEGRADED")
+    loser_pointer_oid = blob(repo, loser_pointer_raw)
+    try:
+        rotation.publish_generation_pointer_v1(candidate_pointer_oid=loser_pointer_oid)
+    except rotation.ExpectedOldCasLost as loser_receipt:
+        if (loser_receipt.candidate_oid != loser_pointer_oid
+                or loser_receipt.expected_old != rotation.ZERO_OID
+                or loser_receipt.observed_after_loss != publisher_pointer_oid
+                or loser_receipt.classification != "UNREFERENCED_LOSER_QUARANTINED"):
+            raise SystemExit("publisher loser did not bind observed winner")
+    else:
+        raise SystemExit("publisher loser unexpectedly succeeded")
+
+    # A post-CAS readback outage is an unknown effect, not an invitation to
+    # replay the immutable publication transaction.  The isolated ref proves
+    # one CAS occurred while the publisher made exactly one readback attempt.
+    git(repo, "update-ref", "-d", "refs/implementaudit/current-generations/controller-1")
+    unknown_pointer, unknown_pointer_raw = rotation.build_generation_pointer_v1(
+        controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+        source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+        generation_manifest_oid=segment_manifest_oid, generation_manifest_digest=segment_manifest["manifest_digest"],
+        cold_high_water=segment_manifest["high_water"], hot_state_digest=expected_digests["STATE"],
+        hot_roadmap_digest=expected_digests["ROADMAP"], work_graph_path="WORK_GRAPH.json",
+        work_graph_digest=expected_digests["WORK_GRAPH"], degraded_state="ACTIVEGRAPH_DOGFOOD_DEGRADED")
+    unknown_pointer_oid = blob(repo, unknown_pointer_raw)
+    original_readback = rotation.read_back_published_ref_v1
+    readback_calls = []
+    def unknown_readback(cas):
+        readback_calls.append(cas["ref"])
+        raise rotation.RotationError("publication readback has unknown effect")
+    rotation.read_back_published_ref_v1 = unknown_readback
+    try:
+        error(lambda: rotation.publish_generation_pointer_v1(candidate_pointer_oid=unknown_pointer_oid),
+              "publication readback has unknown effect")
+    finally:
+        rotation.read_back_published_ref_v1 = original_readback
+    if (readback_calls != ["refs/implementaudit/current-generations/controller-1"]
+            or git(repo, "rev-parse", "--verify", "refs/implementaudit/current-generations/controller-1").decode().strip() != unknown_pointer_oid):
+        raise SystemExit("publisher unknown-effect path retried or lost its exact first effect")
+finally:
+    rotation.acquire_r0039_publication_writer_lease_v1 = original_acquire
 baseline = rotation.observe_publication_vector_v1(context=context, expected_digests=expected_digests)
 for name in content:
     target = inputs / name
@@ -365,7 +473,7 @@ finally:
     os.chdir(original_cwd)
     rotation.load_governed_publication_context_v1 = original_context
 print("CANONICAL_STATE_ROTATION_SEQUENCE_CAS_GREEN=SC01-SC10 fixture=10/10 isolated-cas=PASS "
-      "executed=42/42[fixture-cases:10,SC10-subcases:11,guard-races:5,fence-mutations:9,"
+      "executed=48/48[fixture-cases:10,SC10-subcases:11,physical-owner:3,publisher-winner-loser:2,publisher-unknown-effect:1,guard-races:5,fence-mutations:9,"
       "digest-fence:1,freeze:1,lease:1,hook-env:1,segment-core:3]")
 PY
   exit 0

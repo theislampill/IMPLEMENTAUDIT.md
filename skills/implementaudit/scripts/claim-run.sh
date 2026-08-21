@@ -70,6 +70,39 @@ canonical_generation() {
   printf 'G%04X\n' "$ordinal"
 }
 
+publication_custody_io() {
+  # Read-only Task-4 boundary: repository authority is this installed owner's
+  # physical checkout, never the caller's cwd or a supplied path/ref.
+  local owner_dir repo common refs ref c oid s rc rg root rr target_common
+  local lines=() keys=(schema claim_id claimed_at_utc mode templates repo_root git_common_dir run_base run_root run_name)
+  owner_dir="$(cd "$(dirname "$0")/../../.." && pwd -P)" || return 1
+  repo="$(git -C "$owner_dir" rev-parse --path-format=absolute --show-toplevel)" || return 1
+  common="$(git -C "$repo" rev-parse --path-format=absolute --git-common-dir)" || return 1
+  mapfile -t refs < <(git -C "$repo" for-each-ref --format='%(refname)' refs/implementaudit/controllers/)
+  [ "${#refs[@]}" = 1 ] || return 1
+  ref="${refs[0]}"; c="${ref##*/}"
+  case "$c" in ''|*[!a-z0-9-]*|-*) return 1;; esac
+  oid="$(git -C "$repo" rev-parse --verify "$ref" 2>/dev/null)" || return 1
+  IFS=$'\t' read -r s rc rg root <<< "$(git -C "$repo" cat-file blob "$oid")"
+  rr="${root%/.IMPLEMENTAUDIT/runs/*}"
+  target_common="$(git -C "$rr" rev-parse --path-format=absolute --git-common-dir)" || return 1
+  [ "$s:$rc" = "implementaudit.controller-current.v1:$c" ] &&
+    [ "$target_common" = "$common" ] || return 1
+  mapfile -t lines < "$root/.claimed" || return 1
+  [ "${#lines[@]}" = 10 ] || return 1
+  local index key value
+  for index in "${!keys[@]}"; do
+    key="${keys[$index]}"; value="${lines[$index]}"
+    case "$value" in "$key"=*) ;; *) return 1;; esac
+  done
+  [ "${lines[0]}" = "schema=implementaudit.run-claim.v2" ] || return 1
+  [ "${lines[1]}" = "claim_id=$rg" ] || return 1
+  [ "${lines[5]}" = "repo_root=$rr" ] && [ "${lines[6]}" = "git_common_dir=$target_common" ] &&
+    [[ "${lines[8]}" =~ ^run_root=\.IMPLEMENTAUDIT/runs/[A-Za-z0-9._-]+$ ]] || return 1
+  printf 'implementaudit.publication-custody.v1\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$c" "$oid" "$rg" "$rr" "$target_common" "$root" "${lines[9]#run_name=}"
+}
+
 controller_io() {
   local a="$1" c="$2" repo common ref oid s rc rg root rr target_common; shift 2
   repo="$(git rev-parse --path-format=absolute --show-toplevel)" || return
@@ -300,6 +333,7 @@ controller_io() {
 
 controller='' supersede='' deferred='' boundary='' event=''
 case "${1:-}" in
+  --publication-custody) publication_custody_io; exit $? ;;
   --current-controller) controller_io current "${2:-}"; exit $? ;;
   --resume-controller)
     controller="${2:-}"; shift 2; boundary='' epoch=''

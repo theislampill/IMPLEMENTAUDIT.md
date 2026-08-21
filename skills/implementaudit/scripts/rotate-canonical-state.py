@@ -21,7 +21,7 @@ import subprocess
 import sys
 import unicodedata
 from pathlib import Path
-from typing import Any
+from typing import Any, NamedTuple
 
 
 ZERO_OID = "0" * 40
@@ -54,11 +54,25 @@ class RotationError(RuntimeError):
 class ExpectedOldCasLost(RotationError):
     """Bounded loser evidence; callers must re-derive custody before any retry."""
 
-    def __init__(self, ref: str, expected_old: str, observed_after_loss: str | None):
+    def __init__(self, ref: str, candidate_oid: str, expected_old: str, observed_after_loss: str | None,
+                 classification: str):
         self.ref = ref
+        self.candidate_oid = candidate_oid
         self.expected_old = expected_old
         self.observed_after_loss = observed_after_loss
-        super().__init__(f"expected-old CAS lost: {ref} expected={expected_old} observed={observed_after_loss or 'ABSENT'}")
+        self.classification = classification
+        super().__init__(f"expected-old CAS lost: {ref} candidate={candidate_oid} expected={expected_old} observed={observed_after_loss or 'ABSENT'} classification={classification}")
+
+
+class PublicationObservationV1(NamedTuple):
+    role: str
+    absolute_path: str
+    expected_digest: str
+    file_identity: tuple[int, int]
+    size: int
+    ctime_ns: int
+    mtime_ns: int
+    observed_digest: str
 
 
 INT64_MIN = -(2**63)
@@ -439,6 +453,51 @@ def manifest_population_rows_v1(events: list[dict[str, object]]) -> list[dict[st
     return [{key: row[key] for key in MANIFEST_EVENT_KEYS} for row in events]
 
 
+def build_generation_manifest_v1(predecessor_manifest: dict[str, object] | None,
+                                 events: list[dict[str, object]]) -> tuple[dict[str, object], bytes]:
+    """Build the sole canonical manifest product from stored event envelopes."""
+    context = load_governed_publication_context_v1()
+    if type(events) is not list or not events:
+        raise RotationError("manifest requires immutable event population")
+    before = "00000000000000000000"
+    predecessor_digest = None
+    if predecessor_manifest is not None:
+        predecessor_digest = verify_generation_manifest_v1(predecessor_manifest)
+        before = str(predecessor_manifest["high_water"])
+    ordered = sorted(events, key=lambda row: (str(row.get("sequence")), str(row.get("event_id"))))
+    for event in ordered:
+        validate_event_output_v1(event)
+    expected_authority = (context["controller_id"], context["run_id"],
+                          context["generation_id"], context["source_epoch"])
+    if any((event["controller_id"], event["run_id"], event["generation_id"], event["source_epoch"])
+           != expected_authority for event in ordered):
+        raise RotationError("candidate events disagree with governed publication context")
+    sequences = [str(event["sequence"]) for event in ordered]
+    if sequences != allocate_candidate_sequences_v1(before, len(ordered)):
+        raise RotationError("manifest sequence is not the exact contiguous predecessor successor")
+    rows = [{"sequence": event["sequence"], "event_id": event["event_id"],
+             "segment_digest": "sha256:" + hashlib.sha256(canonical_json_v1(event)).hexdigest(),
+             "record_kind": event["record_kind"], "source_evidence_id": event["source_evidence_id"]}
+            for event in ordered]
+    counts: dict[str, int] = {}
+    for row in rows:
+        counts[str(row["record_kind"])] = counts.get(str(row["record_kind"]), 0) + 1
+    body: dict[str, object] = {
+        "schema_version": "implementaudit.state-generation-manifest.v1",
+        "query_contract_version": "implementaudit.history-query.v1",
+        "controller_id": context["controller_id"], "claim_id": context["claim_id"],
+        "run_id": context["run_id"], "generation_id": context["generation_id"],
+        "source_epoch": context["source_epoch"], "predecessor_manifest_digest": predecessor_digest,
+        "predecessor_high_water": before, "events": rows,
+        "record_class_counts": dict(sorted(counts.items())),
+        "population_digest": hashlib.sha256(canonical_json_v1(manifest_population_rows_v1(rows))).hexdigest(),
+        "high_water": rows[-1]["sequence"],
+    }
+    body["manifest_digest"] = hashlib.sha256(canonical_json_v1(body)).hexdigest()
+    verify_generation_manifest_v1(body)
+    return body, canonical_json_v1(body)
+
+
 def verify_generation_manifest_v1(manifest: dict[str, object]) -> str:
     if type(manifest) is not dict or set(manifest) != MANIFEST_KEYS:
         raise RotationError("manifest keys are not exact")
@@ -550,7 +609,10 @@ def verify_generation_successor_tuple_v1(*, pointer: dict[str, object], manifest
         "controller_id", "claim_id", "run_id", "generation_id", "source_epoch"))
     pointer_authority = tuple(predecessor_pointer[key] for key in (
         "controller_id", "claim_id", "run_id", "generation_id", "source_epoch"))
-    if (pointer["predecessor_pointer_oid"] != predecessor_oid
+    candidate_lineage = tuple(pointer[key] for key in ("controller_id", "claim_id", "run_id"))
+    predecessor_lineage = tuple(predecessor_manifest[key] for key in ("controller_id", "claim_id", "run_id"))
+    if (candidate_lineage != predecessor_lineage
+            or pointer["predecessor_pointer_oid"] != predecessor_oid
             or pointer["predecessor_pointer_digest"] != previous_digest
             or predecessor_authority != pointer_authority
             or predecessor_pointer["generation_manifest_digest"] != predecessor_digest
@@ -661,38 +723,48 @@ def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
     return None
 
 
+def publication_owner_repo_v1() -> Path:
+    """Consume the claim-run physical-owner locator without a caller path."""
+    claim_helper = Path(__file__).with_name("claim-run.sh")
+    runner = ([str(Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "bin" / "bash.exe")]
+              if os.name == "nt" else ["/bin/bash"])
+    completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               env=git_environment(), check=False)
+    if completed.returncode != 0:
+        raise RotationError("publication custody owner contract is unavailable")
+    fields = completed.stdout.decode("utf-8", "strict").rstrip("\n").split("\t")
+    if len(fields) != 8 or fields[0] != "implementaudit.publication-custody.v1":
+        raise RotationError("publication custody owner contract is invalid")
+    return require_repo(fields[4])
+
+
 def load_governed_publication_context_v1() -> dict[str, object]:
     """Read bounded controller custody without accepting a caller override."""
-    discovery_repo = require_repo(str(Path.cwd()))
-    refs = git(discovery_repo, "for-each-ref", "--format=%(refname)",
-               "refs/implementaudit/controllers/").decode("utf-8").splitlines()
-    if len(refs) != 1:
-        raise RotationError("publication controller custody is ambiguous")
-    controller_id = refs[0].rsplit("/", 1)[-1]
-    controller_oid = git(discovery_repo, "rev-parse", "--verify", refs[0]).decode("ascii", "strict").strip()
-    raw = read_exact_git_blob_oid_v1(discovery_repo, controller_oid)
-    fields = raw.decode("utf-8", "strict").rstrip("\n").split("\t")
-    if len(fields) != 4 or fields[0] != "implementaudit.controller-current.v1" or fields[1] != controller_id:
-        raise RotationError("publication controller custody is invalid")
-    claim_id, run_root_text = fields[2], fields[3]
-    if not CLAIM_ID.fullmatch(claim_id):
-        raise RotationError("publication claim identity is invalid")
-    marker = "/.IMPLEMENTAUDIT/runs/"
-    normalized_root = run_root_text.replace("\\", "/")
-    if normalized_root.count(marker) != 1:
-        raise RotationError("publication controller run-root is invalid")
-    controller_repo = require_repo(normalized_root.split(marker, 1)[0])
-    discovery_common = Path(git(discovery_repo, "rev-parse", "--path-format=absolute", "--git-common-dir").decode().strip()).resolve()
-    controller_common = Path(git(controller_repo, "rev-parse", "--path-format=absolute", "--git-common-dir").decode().strip()).resolve()
-    if discovery_common != controller_common:
-        raise RotationError("publication controller worktree is not shared custody")
-    run_root = require_run_root(run_root_text, controller_repo)
+    claim_helper = Path(__file__).with_name("claim-run.sh")
+    runner = ([str(Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "bin" / "bash.exe")]
+              if os.name == "nt" else ["/bin/bash"])
+    completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               env=git_environment(), check=False)
+    if completed.returncode != 0:
+        raise RotationError("publication custody owner contract is unavailable")
     try:
-        claim_line = (run_root / ".claimed").read_text("utf-8", "strict").splitlines()
-    except OSError as exc:
-        raise RotationError("publication claim record is unavailable") from exc
-    if claim_line != ["claim_id=" + claim_id]:
-        raise RotationError("publication claim record is invalid")
+        fields = completed.stdout.decode("utf-8", "strict").rstrip("\n").split("\t")
+    except UnicodeDecodeError as exc:
+        raise RotationError("publication custody owner contract is invalid") from exc
+    if len(fields) != 8 or fields[0] != "implementaudit.publication-custody.v1":
+        raise RotationError("publication custody owner contract is invalid")
+    _, controller_id, controller_oid, claim_id, repo_text, common_text, run_root_text, run_id = fields
+    if (not CONTROLLER_ID.fullmatch(controller_id) or not GIT_OID.fullmatch(controller_oid)
+            or not CLAIM_ID.fullmatch(claim_id) or not TOKEN_ID.fullmatch(run_id)):
+        raise RotationError("publication custody owner contract is invalid")
+    controller_repo = require_repo(repo_text)
+    controller_common = Path(git(controller_repo, "rev-parse", "--path-format=absolute", "--git-common-dir").decode().strip()).resolve()
+    if controller_common != Path(common_text).resolve():
+        raise RotationError("publication custody owner common directory is invalid")
+    run_root = require_run_root(run_root_text, controller_repo)
+    discovery_repo = controller_repo
     state = run_root / "STATE.md"
     try:
         generation_id = next(line.split(": ", 1)[1] for line in state.read_text("utf-8").splitlines()
@@ -731,10 +803,10 @@ def load_governed_publication_context_v1() -> dict[str, object]:
     if current_oid is None and marker_oid is not None:
         raise RotationError("migration marker exists without generation pointer")
     return {"repo_path": controller_repo, "run_root_path": run_root, "controller_id": controller_id,
-            "claim_id": claim_id, "run_id": run_root.name, "generation_id": generation_id,
+            "claim_id": claim_id, "run_id": run_id, "generation_id": generation_id,
             "source_epoch": generation_id, "receipt_oid": receipt_oid,
             "expected_old_pointer_oid": current_oid, "migration_marker_oid": marker_oid,
-            "publication_guard_refs": tuple(sorted(((refs[0], controller_oid),
+            "publication_guard_refs": tuple(sorted(((f"refs/implementaudit/controllers/{controller_id}", controller_oid),
                 (receipt_ref, receipt_oid), (marker_ref, marker_oid or ZERO_OID),
                 (invalidation_ref, invalidation_oid or ZERO_OID))))}
 
@@ -742,7 +814,7 @@ def load_governed_publication_context_v1() -> dict[str, object]:
 @contextlib.contextmanager
 def acquire_r0039_publication_writer_lease_v1():
     """Serialize cooperating publishers; caller supplies no route or authority."""
-    discovery_repo = require_repo(str(Path.cwd()))
+    discovery_repo = publication_owner_repo_v1()
     gate = Path(git(discovery_repo, "rev-parse", "--path-format=absolute", "--git-path",
                     "implementaudit-r0039-publication.lock").decode().strip())
     gate.parent.mkdir(parents=True, exist_ok=True)
@@ -775,27 +847,57 @@ def prepare_trusted_update_ref_transaction_v1(*, repo: Path, ref: str, new_oid: 
         rows.append(b"verify " + guard_ref.encode("ascii") + b"\0" + guard_oid.encode("ascii") + b"\0")
     rows.append(b"update " + ref.encode("ascii") + b"\0" + new_oid.encode("ascii")
                 + b"\0" + old_oid.encode("ascii") + b"\0prepare\0commit\0")
-    executable = shutil.which("git")
-    if executable is None:
+    if os.name == "nt":
+        candidates = [Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "cmd" / "git.exe",
+                      Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "bin" / "git.exe"]
+    else:
+        candidates = [Path("/usr/bin/git"), Path("/usr/local/bin/git")]
+    executable_path = next((candidate for candidate in candidates
+                            if candidate.is_file() and not candidate.is_symlink()), None)
+    if executable_path is None:
         raise RotationError("trusted Git executable is unavailable")
-    executable = os.path.realpath(executable)
-    if not os.path.isabs(executable) or Path(executable).name.lower() not in {"git", "git.exe"}:
-        raise RotationError("trusted Git executable is unavailable")
+    executable = str(executable_path.resolve())
     git_dir = Path(git(repo, "rev-parse", "--git-dir").decode("utf-8", "strict").strip())
     if not git_dir.is_absolute():
         git_dir = repo / git_dir
     hooks = git_dir / "implementaudit-r0039-empty-hooks"
+    global_config = git_dir / "implementaudit-r0039-empty-global-config"
     try:
         hooks.mkdir(mode=0o700, exist_ok=True)
         mode = stat.S_IMODE(os.lstat(hooks).st_mode)
     except OSError as exc:
         raise RotationError("trusted Git hook isolation is unavailable") from exc
-    if not hooks.is_dir() or is_reparse(os.lstat(hooks)) or (os.name != "nt" and mode & 0o077):
+    if (not hooks.is_dir() or is_reparse(os.lstat(hooks)) or any(hooks.iterdir())
+            or (os.name != "nt" and mode & 0o077)):
         raise RotationError("trusted Git hook isolation is invalid")
+    try:
+        descriptor = os.open(global_config, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    except FileExistsError:
+        descriptor = None
+    except OSError as exc:
+        raise RotationError("trusted Git global configuration is unavailable") from exc
+    if descriptor is not None:
+        os.close(descriptor)
+    try:
+        config_stat = os.lstat(global_config)
+    except OSError as exc:
+        raise RotationError("trusted Git global configuration is unavailable") from exc
+    if (not stat.S_ISREG(config_stat.st_mode) or stat.S_ISLNK(config_stat.st_mode)
+            or is_reparse(config_stat) or config_stat.st_size != 0):
+        raise RotationError("trusted Git global configuration is invalid")
+    executable_stat = os.lstat(executable)
+    if (not stat.S_ISREG(executable_stat.st_mode) or stat.S_ISLNK(executable_stat.st_mode)
+            or is_reparse(executable_stat)):
+        raise RotationError("trusted Git executable is invalid")
+    executable_digest = hashlib.sha256(Path(executable).read_bytes()).hexdigest()
     environment = {"PATH": os.path.dirname(executable), "LC_ALL": "C", "LANG": "C",
-                   "GIT_CONFIG_NOSYSTEM": "1", "GIT_TERMINAL_PROMPT": "0"}
+                   "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": str(global_config),
+                   "GIT_TERMINAL_PROMPT": "0"}
     return {"argv": [executable, "-c", f"core.hooksPath={hooks}", "update-ref", "--stdin", "-z"],
-            "cwd": str(repo), "env": environment, "stdin_bytes": b"".join(rows), "ref": ref}
+            "cwd": str(repo), "env": environment, "stdin_bytes": b"".join(rows), "ref": ref,
+            "trusted_executable_identity": (executable_stat.st_dev, executable_stat.st_ino,
+                                             executable_stat.st_size, executable_digest),
+            "trusted_hooks": str(hooks), "trusted_global_config": str(global_config)}
 
 
 def read_back_published_ref_v1(cas: dict[str, object]) -> str:
@@ -807,6 +909,21 @@ def read_back_published_ref_v1(cas: dict[str, object]) -> str:
     if not GIT_OID.fullmatch(oid):
         raise RotationError("publication readback identity is invalid")
     return oid
+
+
+def verify_trusted_update_ref_transaction_v1(cas: dict[str, object]) -> None:
+    executable = Path(str(cas["argv"][0]))
+    expected = tuple(cas["trusted_executable_identity"])
+    current = os.lstat(executable)
+    actual = (current.st_dev, current.st_ino, current.st_size,
+              hashlib.sha256(executable.read_bytes()).hexdigest())
+    if actual != expected:
+        raise RotationError("trusted Git executable changed")
+    for value, directory in ((cas["trusted_hooks"], True), (cas["trusted_global_config"], False)):
+        path = Path(str(value)); current = os.lstat(path)
+        if (is_reparse(current) or (directory and (not path.is_dir() or any(path.iterdir())))
+                or (not directory and (not stat.S_ISREG(current.st_mode) or current.st_size != 0))):
+            raise RotationError("trusted Git isolation changed")
 
 
 def quarantine_unreferenced_cas_loser_v1(repo: Path, candidate_oid: str) -> str:
@@ -882,8 +999,52 @@ def verify_frozen_immutable_publication_inputs_v1(*, repo: Path, frozen: tuple[t
         raise RotationError("immutable publication input changed")
 
 
+class PublicationObservationSessionV1:
+    def __init__(self, context: dict[str, object], expected_digests: dict[str, str] | None):
+        self.root = Path(context["run_root_path"]); self.expected = expected_digests; self.opened: list[tuple[str, Path, int, object]] = []
+
+    def __enter__(self):
+        for role, relative in (("STATE", "STATE.md"), ("ROADMAP", "ROADMAP.md"), ("WORK_GRAPH", EXPECTED_WORK_GRAPH_PATH)):
+            path = self.root / relative
+            before = os.lstat(path)
+            if not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode) or is_reparse(before):
+                raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+            flags = os.O_RDONLY | getattr(os, "O_BINARY", 0)
+            if hasattr(os, "O_NOFOLLOW"): flags |= os.O_NOFOLLOW
+            descriptor = os.open(path, flags)
+            opened = os.fstat(descriptor)
+            if (before.st_dev, before.st_ino, before.st_size, before.st_ctime_ns, before.st_mtime_ns) != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_ctime_ns, opened.st_mtime_ns):
+                os.close(descriptor); raise RotationError("publication input changed during observation")
+            self.opened.append((role, path, descriptor, opened))
+        return self
+
+    def __exit__(self, *_):
+        for _, _, descriptor, _ in self.opened: os.close(descriptor)
+        self.opened.clear()
+
+    def observe(self, *, reopen: bool) -> tuple[PublicationObservationV1, ...]:
+        rows = []
+        for role, path, descriptor, before in self.opened:
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            data = b"".join(iter(lambda: os.read(descriptor, 65536), b"")); retained = os.fstat(descriptor)
+            if reopen:
+                second = os.open(path, os.O_RDONLY | getattr(os, "O_BINARY", 0))
+                try: reopened = os.fstat(second)
+                finally: os.close(second)
+                if (reopened.st_dev, reopened.st_ino) != (before.st_dev, before.st_ino): raise RotationError("publication input changed during observation")
+            if (retained.st_dev, retained.st_ino, retained.st_size, retained.st_ctime_ns, retained.st_mtime_ns) != (before.st_dev, before.st_ino, before.st_size, before.st_ctime_ns, before.st_mtime_ns): raise RotationError("publication input changed during observation")
+            digest = hashlib.sha256(data).hexdigest(); expected = digest if self.expected is None else self.expected.get(role)
+            if type(expected) is not str or not HEX_SHA256.fullmatch(expected): raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+            if expected != digest: raise RotationError("publication input digest disagrees with candidate pointer")
+            rows.append(PublicationObservationV1(role, os.path.normcase(os.path.abspath(path)), expected, (before.st_dev,before.st_ino), before.st_size, before.st_ctime_ns, before.st_mtime_ns, digest))
+        return tuple(rows)
+
+
 def observe_publication_vector_v1(*, context: dict[str, object],
                                   expected_digests: dict[str, str] | None = None) -> tuple[tuple[object, ...], ...]:
+    with PublicationObservationSessionV1(context, expected_digests) as session:
+        return session.observe(reopen=True)
+    """legacy unreachable"""
     root = Path(context["run_root_path"])
     rows = []
     for role, relative in (("STATE", "STATE.md"), ("ROADMAP", "ROADMAP.md"),
@@ -913,11 +1074,14 @@ def observe_publication_vector_v1(*, context: dict[str, object],
                 after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns):
             raise RotationError("publication input changed during observation")
         digest = hashlib.sha256(data).hexdigest()
-        if expected_digests is not None and expected_digests.get(role) != digest:
+        expected_digest = digest if expected_digests is None else expected_digests.get(role)
+        if type(expected_digest) is not str or not HEX_SHA256.fullmatch(expected_digest):
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        if expected_digest != digest:
             raise RotationError("publication input digest disagrees with candidate pointer")
-        rows.append((role, relative, (before.st_dev, before.st_ino), before.st_size,
-                     before.st_ctime_ns, before.st_mtime_ns,
-                     digest))
+        rows.append(PublicationObservationV1(role, os.path.normcase(os.path.abspath(path)), expected_digest,
+                                              (before.st_dev, before.st_ino), before.st_size,
+                                              before.st_ctime_ns, before.st_mtime_ns, digest))
     return tuple(rows)
 
 
@@ -964,17 +1128,20 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
             repo=repo, ref=ref, new_oid=candidate_pointer_oid,
             old_oid=context["expected_old_pointer_oid"] or ZERO_OID,
             verify_refs=context["publication_guard_refs"])
-        first = observe_publication_vector_v1(context=context, expected_digests=expected_digests)
-        second = observe_publication_vector_v1(context=context, expected_digests=expected_digests)
-        if first != second or not frozen:
-            raise RotationError("publication input changed during the final fence")
-        completed = subprocess.run(cas["argv"], cwd=cas["cwd"], env=cas["env"],
-                                   input=cas["stdin_bytes"], stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE, check=False)
+        verify_trusted_update_ref_transaction_v1(cas)
+        with PublicationObservationSessionV1(context, expected_digests) as session:
+            first = session.observe(reopen=False)
+            second = session.observe(reopen=True)
+            if first != second or not frozen:
+                raise RotationError("publication input changed during the final fence")
+            completed = subprocess.run(cas["argv"], cwd=cas["cwd"], env=cas["env"],
+                                       input=cas["stdin_bytes"], stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE, check=False)
         if completed.returncode != 0:
             observed = read_optional_exact_ref_oid_v1(repo, ref)
-            quarantine_unreferenced_cas_loser_v1(repo, candidate_pointer_oid)
-            raise ExpectedOldCasLost(ref, context["expected_old_pointer_oid"] or ZERO_OID, observed)
+            classification = quarantine_unreferenced_cas_loser_v1(repo, candidate_pointer_oid)
+            raise ExpectedOldCasLost(ref, candidate_pointer_oid,
+                                     context["expected_old_pointer_oid"] or ZERO_OID, observed, classification)
         observed = read_back_published_ref_v1(cas)
         if observed != candidate_pointer_oid:
             raise RotationError("current-generation pointer readback mismatch")
