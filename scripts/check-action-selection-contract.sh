@@ -212,6 +212,14 @@ for text in \
   "detection, containment, revocation, recovery, and trust re-establishment" \
   "Authentication is not authorization" \
   "restored availability is not restored trust" \
+  "scanner" \
+  "penetration-test result" \
+  "SBOM" \
+  "signature" \
+  "CVSS score" \
+  "certificate" \
+  "encryption label" \
+  "zero-trust slogan" \
   "whole-system security proof" \
   "domain and effectiveness claims remain" \
   "unverified until their required representative context exists"
@@ -224,6 +232,11 @@ for text in \
   "material protected consequence" \
   "or untrusted capability" \
   "changed trust, privilege, or delegation boundary" \
+  "consequential security authority" \
+  "provenance-dependent claim" \
+  "adaptive-adversary or common-mode risk" \
+  "weak detection or recovery" \
+  "consequential security, privacy, safety, availability, or usability decision" \
   "Low-exposure reversible work inside a current proven envelope" \
   "separate security mode, workflow, or planning artifact"
 do
@@ -863,6 +876,7 @@ required_security_ids = {
     "R002E-S06-label-only-proof-rejected",
     "R002E-S07-no-trigger-no-profile",
     "R002E-S08-unbounded-adversary-held",
+    "R002E-S09-missing-assurance-evidence-held",
 }
 security_ids = [case.get("id") for case in security_cases if isinstance(case, dict)]
 if len(security_ids) != len(set(security_ids)) or set(security_ids) != required_security_ids:
@@ -874,14 +888,14 @@ provenance_dependent_claim adaptive_or_common_mode_risk weak_detection_or_recove
 consequential_security_privacy_safety_availability_usability_decision low_exposure
 reversible inside_current_proven_envelope protected_consequence_named
 unacceptable_state_named adversary_bounded exclusions_explicit trust_identity_boundary
-authority_privilege_boundary provenance_current assurance_limits
+authority_privilege_boundary provenance_current assurance_evidence assurance_limits
 detection_containment_revocation recovery trust_reestablishment
 plausible_abuse_or_trust_check current_identity rollback authentication_as_authorization
 availability_as_trust label_or_instrument_as_whole_system_proof""".split()
 security_trigger_fields = security_fields[:8]
 full_profile_fields = """protected_consequence_named unacceptable_state_named
 adversary_bounded exclusions_explicit trust_identity_boundary authority_privilege_boundary
-provenance_current assurance_limits detection_containment_revocation recovery
+provenance_current assurance_evidence assurance_limits detection_containment_revocation recovery
 trust_reestablishment""".split()
 
 def decide_security_profile(observations):

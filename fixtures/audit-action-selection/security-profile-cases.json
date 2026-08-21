@@ -13,6 +13,7 @@
     {
       "id": "R002E-S01-material-profile-selected",
       "observations": {
+        "assurance_evidence": true,
         "material_protected_consequence": true,
         "exposed_or_untrusted_capability": false,
         "trust_or_privilege_boundary_change": false,
@@ -47,6 +48,7 @@
     {
       "id": "R002E-S02-low-exposure-cheap-path",
       "observations": {
+        "assurance_evidence": false,
         "material_protected_consequence": false,
         "exposed_or_untrusted_capability": false,
         "trust_or_privilege_boundary_change": false,
@@ -81,6 +83,7 @@
     {
       "id": "R002E-S03-stale-provenance-blocked",
       "observations": {
+        "assurance_evidence": true,
         "material_protected_consequence": false,
         "exposed_or_untrusted_capability": false,
         "trust_or_privilege_boundary_change": false,
@@ -115,6 +118,7 @@
     {
       "id": "R002E-S04-authentication-is-not-authorization",
       "observations": {
+        "assurance_evidence": true,
         "material_protected_consequence": true,
         "exposed_or_untrusted_capability": false,
         "trust_or_privilege_boundary_change": false,
@@ -149,6 +153,7 @@
     {
       "id": "R002E-S05-availability-is-not-trust-restoration",
       "observations": {
+        "assurance_evidence": true,
         "material_protected_consequence": true,
         "exposed_or_untrusted_capability": false,
         "trust_or_privilege_boundary_change": false,
@@ -183,6 +188,7 @@
     {
       "id": "R002E-S06-label-only-proof-rejected",
       "observations": {
+        "assurance_evidence": false,
         "material_protected_consequence": false,
         "exposed_or_untrusted_capability": true,
         "trust_or_privilege_boundary_change": false,
@@ -217,6 +223,7 @@
     {
       "id": "R002E-S07-no-trigger-no-profile",
       "observations": {
+        "assurance_evidence": false,
         "material_protected_consequence": false,
         "exposed_or_untrusted_capability": false,
         "trust_or_privilege_boundary_change": false,
@@ -251,6 +258,7 @@
     {
       "id": "R002E-S08-unbounded-adversary-held",
       "observations": {
+        "assurance_evidence": true,
         "material_protected_consequence": true,
         "exposed_or_untrusted_capability": false,
         "trust_or_privilege_boundary_change": false,
@@ -265,6 +273,41 @@
         "protected_consequence_named": true,
         "unacceptable_state_named": true,
         "adversary_bounded": false,
+        "exclusions_explicit": true,
+        "trust_identity_boundary": true,
+        "authority_privilege_boundary": true,
+        "provenance_current": true,
+        "assurance_limits": true,
+        "detection_containment_revocation": true,
+        "recovery": true,
+        "trust_reestablishment": true,
+        "plausible_abuse_or_trust_check": false,
+        "current_identity": false,
+        "rollback": false,
+        "authentication_as_authorization": false,
+        "availability_as_trust": false,
+        "label_or_instrument_as_whole_system_proof": false
+      },
+      "expected": "HOLD_INCOMPLETE_PROFILE"
+    },
+    {
+      "id": "R002E-S09-missing-assurance-evidence-held",
+      "observations": {
+        "assurance_evidence": false,
+        "material_protected_consequence": true,
+        "exposed_or_untrusted_capability": false,
+        "trust_or_privilege_boundary_change": false,
+        "consequential_security_authority": false,
+        "provenance_dependent_claim": false,
+        "adaptive_or_common_mode_risk": false,
+        "weak_detection_or_recovery": false,
+        "consequential_security_privacy_safety_availability_usability_decision": false,
+        "low_exposure": false,
+        "reversible": false,
+        "inside_current_proven_envelope": false,
+        "protected_consequence_named": true,
+        "unacceptable_state_named": true,
+        "adversary_bounded": true,
         "exclusions_explicit": true,
         "trust_identity_boundary": true,
         "authority_privilege_boundary": true,
