@@ -78,16 +78,22 @@ the receipt from that already-current pointer, and R0039 may publish the marker
 only after the verified receipt exists. There is no alternative order or second
 currentness writer.
 
-The final `implementaudit.continuity-receipt.v3` is an exact 18-field record. It
-binds controller, claim, bound run name, source epoch, invalidation OID, pointer
-ref, pointer OID/digest, hot STATE/ROADMAP digests, WORK_GRAPH path/digest,
-generation manifest OID/digest, cold high-water, exact next action, and the
-immediately preceding receipt token. R0011 rereads and verifies the complete
-record after expected-zero publication. The reader matrix is fail closed:
+The final `implementaudit.continuity-receipt.v3` has one byte form: 18 nonempty
+UTF-8 fields separated by exactly 17 tabs and terminated by exactly one LF,
+with no CR or interior LF. Missing/extra LF, CRLF, trailing tabs, or an extra
+empty field are not receipts. It binds controller, claim, bound run name,
+source epoch, invalidation OID, pointer ref, pointer OID/digest, hot
+STATE/ROADMAP digests, WORK_GRAPH path/digest, generation manifest OID/digest,
+cold high-water, exact next action, and the immediately preceding receipt token.
+Every v3 verifier derives the exact `G(n-1)` receipt ref, requires token equality,
+then validates that predecessor record; a valid record aliased under any other
+generation ref is not a predecessor. R0011 preserves and verifies the raw bytes
+after expected-zero publication. The reader matrix is fail closed:
 
-- with marker and pointer both absent, only the exact current root receipt with
-  schema `implementaudit.continuity-receipt.v2` is current; v1 remains
-  historical verification evidence, not a current route;
+- with marker and pointer both physically proved absent from loose and packed
+  ref custody, only the exact current root receipt with schema
+  `implementaudit.continuity-receipt.v2` is current; a broken or malformed ref
+  is STOP, and v1 remains historical verification evidence, not a current route;
 - a pointer without its exact v3 receipt is incomplete and never current;
 - a valid pointer and its exact joined v3 receipt without a marker stops as
   `FIRST_MIGRATION_INCOMPLETE`;

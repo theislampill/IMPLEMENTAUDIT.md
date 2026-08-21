@@ -16,8 +16,20 @@ migration_population_fixture="$repo_root/fixtures/canonical-state-rotation/histo
 evidence_helper="$repo_root/skills/implementaudit/scripts/operational-evidence.py"
 tmp="$(mktemp -d)"
 trap 'rm -rf -- "$tmp"' EXIT
+candidate_evidence_ledger="$tmp/task6-candidate-evidence.ledger"
+: >"$candidate_evidence_ledger"
 
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
+record_candidate_evidence() {
+  local group="$1"
+  case "$group" in
+    ROOT_BASELINE|ARCHIVE_F2|READER_F3|SOURCE_REHYDRATION|TRANSACTION_BINDINGS|TRANSACTION_SEQUENCE) ;;
+    *) fail "unknown Task 6 candidate evidence group: $group";;
+  esac
+  ! grep -Fxq "$group" "$candidate_evidence_ledger" \
+    || fail "duplicate Task 6 candidate evidence group: $group"
+  printf '%s\n' "$group" >>"$candidate_evidence_ledger"
+}
 
 case "${1:-}" in
   '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
@@ -1712,6 +1724,158 @@ transition_current = subprocess.run([
 if (transition_current.returncode != 0
         or transition_current.stdout.decode().strip() != transition_v3):
     raise SystemExit("Task 6 copied owner transaction did not establish v3 currentness")
+
+# Fresh-review held-outs exercise the real copied owners.  Each mutation is
+# installed under the exact live refs, observed through both the R0011 reader
+# and R0039 marker precondition where applicable, and then fully restored.
+review_red = []
+transition_v3_ref, transition_v3_oid = transition_v3.rsplit("@", 1)
+transition_v3_raw = git(
+    owner_repo, "cat-file", "blob", transition_v3_oid)
+if (not transition_v3_raw.endswith(b"\n")
+        or b"\n" in transition_v3_raw[:-1]
+        or b"\r" in transition_v3_raw):
+    raise SystemExit("Task 6 positive v3 fixture is not the intended canonical record")
+transition_v3_fields = transition_v3_raw[:-1].decode("utf-8").split("\t")
+if len(transition_v3_fields) != 18:
+    raise SystemExit("Task 6 positive v3 fixture field population drifted")
+
+def install_marker_for(receipt_oid):
+    raw = "\t".join((
+        "implementaudit.current-generation-migration.v1", controller_id,
+        claim_id, run_name, "G0002", current_ref,
+        "implementaudit.state-generation-pointer.v1", transition_v3_ref,
+        receipt_oid, "true",
+    )).encode("utf-8")
+    oid_value = blob(owner_repo, raw)
+    git(owner_repo, "update-ref", marker_ref, oid_value)
+    return oid_value
+
+def claim_probe(*args):
+    return subprocess.run([
+        r"C:\Program Files\Git\bin\bash.exe",
+        str(owner_scripts / "claim-run.sh"), *args,
+    ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+       check=False)
+
+def marker_rejects():
+    try:
+        owner_rotation.publish_first_migration_marker_v1()
+    except owner_rotation.RotationError:
+        return True
+    return False
+
+def restore_complete_route():
+    git(owner_repo, "update-ref", transition_v3_ref, transition_v3_oid)
+    git(owner_repo, "update-ref", current_ref, transition_pointer_oid)
+    git(owner_repo, "update-ref", marker_ref, transition_marker_oid)
+
+# I1: a valid predecessor blob aliased under a non-immediate receipt ref must
+# not satisfy receipt verification, currentness, or marker publication.
+alias_ref = (
+    "refs/implementaudit/continuity-receipts/" + controller_id + "/G00FF")
+git(owner_repo, "update-ref", alias_ref, receipt_oid)
+forged_predecessor_fields = list(transition_v3_fields)
+forged_predecessor_fields[17] = alias_ref + "@" + receipt_oid
+forged_predecessor_raw = ("\t".join(forged_predecessor_fields) + "\n").encode()
+forged_predecessor_oid = blob(owner_repo, forged_predecessor_raw)
+git(owner_repo, "update-ref", transition_v3_ref, forged_predecessor_oid)
+git(owner_repo, "update-ref", "-d", marker_ref)
+i1_marker_rejected = marker_rejects()
+git(owner_repo, "update-ref", "-d", marker_ref)
+install_marker_for(forged_predecessor_oid)
+i1_verify = claim_probe(
+    "--verify-resume-receipt", transition_v3_ref + "@" + forged_predecessor_oid)
+i1_current = claim_probe("--require-current-continuity", controller_id)
+if not i1_marker_rejected or i1_verify.returncode == 0 or i1_current.returncode == 0:
+    review_red.append("I1_NON_IMMEDIATE_PREDECESSOR_ACCEPTED")
+git(owner_repo, "update-ref", "-d", alias_ref)
+restore_complete_route()
+
+# I2: canonical v3 bytes are exactly one LF-terminated, CR-free 18-field
+# record.  Every alternate byte form must stop at both owner boundaries.
+v3_body = transition_v3_raw[:-1]
+v3_parts = v3_body.split(b"\t")
+receipt_byte_mutations = {
+    "missing-lf": v3_body,
+    "extra-lf": v3_body + b"\n\n",
+    "crlf": v3_body + b"\r\n",
+    "trailing-tab": v3_body + b"\t\n",
+    "extra-empty-field": b"\t".join(v3_parts[:16] + [b""] + v3_parts[16:]) + b"\n",
+}
+i2_accepted = []
+for mutation_name, mutation_raw in receipt_byte_mutations.items():
+    mutation_oid = blob(owner_repo, mutation_raw)
+    git(owner_repo, "update-ref", transition_v3_ref, mutation_oid)
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    if not marker_rejects():
+        i2_accepted.append(mutation_name + ":marker")
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    install_marker_for(mutation_oid)
+    if claim_probe(
+            "--verify-resume-receipt",
+            transition_v3_ref + "@" + mutation_oid).returncode == 0:
+        i2_accepted.append(mutation_name + ":verify")
+    if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+        i2_accepted.append(mutation_name + ":current")
+    restore_complete_route()
+if i2_accepted:
+    review_red.append("I2_NONCANONICAL_V3_ACCEPTED=" + ",".join(i2_accepted))
+
+# I3: physical loose refs whose bytes are not object IDs are BROKEN, never
+# ABSENT.  Either canonical transition ref must make actual source custody stop.
+broken_ref_cases = []
+for label, broken_ref in (("pointer", current_ref), ("marker", marker_ref)):
+    git(owner_repo, "update-ref", "-d", current_ref)
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    # Recreate the pre-receipt transition in which G0002 is reconciled from
+    # its exact G0001 predecessor.  Treating the broken transition ref as
+    # absent must not reopen this otherwise valid genesis-shaped route.
+    git(owner_repo, "update-ref", "-d", transition_v3_ref)
+    broken_path = Path(git(
+        owner_repo, "rev-parse", "--path-format=absolute", "--git-path",
+        broken_ref).decode().strip())
+    broken_path.parent.mkdir(parents=True, exist_ok=True)
+    broken_path.write_text("not-an-object-id\n", encoding="ascii")
+    try:
+        try:
+            owner_rotation.load_governed_source_custody_v1()
+        except owner_rotation.RotationError:
+            pass
+        else:
+            broken_ref_cases.append(label)
+    finally:
+        broken_path.unlink()
+        git(owner_repo, "update-ref", transition_v3_ref, transition_v3_oid)
+restore_complete_route()
+if broken_ref_cases:
+    review_red.append("I3_BROKEN_REF_ACCEPTED_AS_ABSENT=" + ",".join(broken_ref_cases))
+
+# Packed custody has the same three-state boundary even when there is no loose
+# path.  Exercise the Python owner directly so a malformed packed row cannot be
+# collapsed to ABSENT by Git's failed ref resolution.
+packed_repo = Path(sys.argv[3]) / "packed-ref-custody"
+packed_repo.mkdir()
+git(packed_repo, "init", "-q")
+packed_common = Path(git(
+    packed_repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
+).decode().strip())
+packed_refs = packed_common / "packed-refs"
+for label, broken_ref in (("packed-pointer", current_ref),
+                          ("packed-marker", marker_ref)):
+    packed_refs.write_text(
+        "# pack-refs with: peeled fully-peeled sorted\n"
+        "not-an-object-id " + broken_ref + "\n", encoding="ascii")
+    try:
+        owner_rotation.read_optional_exact_ref_oid_v1(packed_repo, broken_ref)
+    except owner_rotation.RotationError:
+        pass
+    else:
+        review_red.append("I3_BROKEN_REF_ACCEPTED_AS_ABSENT=" + label)
+
+if review_red:
+    raise SystemExit("TASK6_REVIEW_RED=" + ";".join(review_red))
+
 owner_error(lambda: owner_rotation.load_governed_source_context_v1(
     "iasrc-v1-r0039-archive-task5-migration"),
     "OE_SOURCE_EVIDENCE_WRONG_BRANCH")
@@ -2064,6 +2228,7 @@ grep -Fq 'large-root=TRIGGER below-threshold=NO_TRIGGER archive=0 model=0 extra-
 grep -Fq 'population-sha256=b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497 digest-mutations=55/55' <<<"$trigger_output" \
   || fail 'trigger self-check did not prove canonical population digest mutation coverage'
 bash "$checker" --assert-root-red
+record_candidate_evidence ROOT_BASELINE
 
 before_shared_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
   refs/implementaudit/current-generations/ \
@@ -2345,6 +2510,7 @@ PY
 
 printf '%s\n' \
   'CANONICAL_STATE_ROTATION_F2_GREEN=PASS draft=BYTE_IDENTICAL archive=BYTE_IDENTICAL typed-retrieval=PASS archive-ref=EXPECTED_ZERO_CAS discovery=EXCLUDED recursive-population=EXCLUDED path=REJECTED symlink-reparse=REJECTED permissions=EXACT_READBACK'
+record_candidate_evidence ARCHIVE_F2
 
 after_shared_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
   refs/implementaudit/current-generations/ \
@@ -2625,6 +2791,7 @@ printf '%s\n' \
 
 printf '%s\n' \
   'CANONICAL_STATE_ROTATION_F3_GREEN=PASS matrix=24/24 legacy=EXACT_V2_ONLY first-migration=STOP pointer-current=MARKER_POINTER_V3_JOIN marker-fallback=FORBIDDEN owner-schema-mismatch=REJECTED refs=READ_ONLY'
+record_candidate_evidence READER_F3
 
 after_f3_shared_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
   refs/implementaudit/current-generations/ \
@@ -2813,6 +2980,7 @@ for mutation in (
 
 print("CANONICAL_STATE_ROTATION_F6_SOURCE_ROUTE_GREEN=PASS genesis=ARCHIVE successor=SNAPSHOT stored=RERESOLVED pre-c06=OE_R0038_SNAPSHOT_NOT_PUBLISHED")
 PY
+record_candidate_evidence SOURCE_REHYDRATION
 
 # Exercise the real R0011 successor path against the isolated F3 repository.
 # The JSON pointer is already current before receipt mint; the permanent marker
@@ -2913,27 +3081,122 @@ current_v3="$(cd "$matrix_repo" && bash "$claim_helper" \
 [ "$current_v3" = "$v3_token" ] || fail 'current v3 token drifted after marker publication'
 printf '%s\n' \
   'CANONICAL_STATE_ROTATION_F6_CONTINUITY_GREEN=PASS pointer-before-receipt=PASS receipt-before-marker=PASS currentness=V3_JOIN predecessor=EXACT'
+record_candidate_evidence TRANSACTION_BINDINGS
+
+# The transition-algebra rows are promoted only after the independent copied-
+# owner publisher/CAS/uncertainty/receipt controls pass in this same run.
+sequence_evidence="$(bash "$0" --sequence-cas-only)" \
+  || fail 'Task 6 copied-owner sequence evidence did not pass'
+printf '%s\n' "$sequence_evidence"
+grep -Fq 'CANONICAL_STATE_ROTATION_F6_COPIED_OWNER_GREEN=PASS' <<<"$sequence_evidence" \
+  || fail 'Task 6 copied-owner route evidence marker drifted'
+grep -Fq 'CANONICAL_STATE_ROTATION_SEQUENCE_CAS_GREEN=SC01-SC10 fixture=10/10 claim-record=10/10 publisher-cas=PASS executed=24/24' <<<"$sequence_evidence" \
+  || fail 'Task 6 sequence/CAS evidence marker drifted'
+record_candidate_evidence TRANSACTION_SEQUENCE
 
 # The complete semantic candidate is emitted only after the behavioral controls
 # above and is consumed through the checker's permanent GREEN interface.  Its
 # no-argument route remains the frozen ROOT_ONLY RED control.
 candidate="$tmp/task6-final-candidate.json"
-python - "$repo_root/fixtures/canonical-state-rotation/cases.json" "$candidate" <<'PY'
-import json,sys
-fixture=json.load(open(sys.argv[1],encoding="utf-8"))
-candidate={
-    "schema":"implementaudit.canonical-state-rotation-candidate.v1",
-    "observations":{
-        row["id"]:{"owner":row["owner"],"value":row["valid"]}
-        for row in fixture["cases"]
-    },
+build_candidate_from_evidence() {
+  python - "$repo_root/fixtures/canonical-state-rotation/cases.json" \
+    "$1" "$2" <<'PY'
+import json
+from pathlib import Path
+import sys
+
+fixture_path, ledger_path, candidate_path = map(Path, sys.argv[1:])
+fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+rows = fixture["cases"]
+by_id = {row["id"]: row for row in rows}
+
+# These groups are deliberately literal.  A behavioral PASS records a group;
+# only then may its exact reviewed rows consume the fixture's semantic label.
+GROUPS = {
+    "ROOT_BASELINE": (),
+    "ARCHIVE_F2": tuple("""
+A01-state-preimage A02-roadmap-preimage A03-artifact-preimages
+A04-typed-retrieval A05-content-addressed A06-immutable-anchor
+A07-exact-readback A08-never-current A09-not-live-discoverable
+A10-no-recursive-archive A11-retention A12-preimage-never-deleted
+""".split()),
+    "READER_F3": tuple("""
+D16-reader-invalid-legacy-row D17-reader-first-migration-row
+D18-reader-pointer-bad-receipt-row D19-reader-current-row
+D20-reader-marker-bad-receipt-row D21-reader-marker-no-pointer-row
+D22-reader-mismatch-row
+""".split()),
+    "SOURCE_REHYDRATION": tuple("""
+D23-rehydrate-identity D24-rehydrate-frontier D25-rehydrate-obligations
+D26-rehydrate-next-action D27-rehydrate-evidence-burden
+""".split()),
+    "TRANSACTION_BINDINGS": tuple("""
+D01-state-hash D02-roadmap-hash D03-protected-manifest-hash
+D04-archive-manifest-hash D05-pointer-ref D06-pointer-oid D07-receipt-ref
+D08-receipt-oid-location D09-marker-ref D10-marker-oid D11-owner-binding
+D12-next-action-binding D13-future-receipt-excluded D14-acyclic-bindings
+""".split()),
+    "TRANSACTION_SEQUENCE": tuple("""
+M01-generation-successor M02-epoch-successor M03-invalidation
+M04-predecessor-receipt M05-no-generation-reuse M06-no-epoch-reuse
+M07-no-invalidation-reuse M08-no-predecessor-substitution
+M09-no-skipped-transition M10-no-reordered-transition M11-dependency-order
+M12-archive-before-pointer M13-invalidation-after-draft
+M14-pointer-before-receipt M15-marker-after-receipt M16-compensating-cas
+M17-terminal-states M18-uncertainty-stop
+""".split()),
 }
-with open(sys.argv[2],"w",encoding="utf-8",newline="\n") as handle:
-    json.dump(candidate,handle,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+ledger = ledger_path.read_text(encoding="utf-8").splitlines()
+if (not ledger or ledger[0] != "ROOT_BASELINE" or len(ledger) != len(set(ledger))
+        or any(group not in GROUPS for group in ledger)):
+    raise SystemExit("Task 6 candidate evidence ledger is invalid")
+
+promoted_ids = [row_id for group in ledger for row_id in GROUPS[group]]
+if len(promoted_ids) != len(set(promoted_ids)) or any(
+        row_id not in by_id for row_id in promoted_ids):
+    raise SystemExit("Task 6 candidate evidence groups overlap or name unknown rows")
+required_promotions = {
+    row["id"] for row in rows if row["root_only"] != row["valid"]
+}
+all_enumerated = {
+    row_id for group in GROUPS.values() for row_id in group
+}
+if all_enumerated != required_promotions:
+    raise SystemExit("Task 6 evidence adapter does not exactly cover semantic deltas")
+
+observations = {
+    row["id"]: {"owner": row["owner"], "value": row["root_only"]}
+    for row in rows
+}
+for row_id in promoted_ids:
+    observations[row_id]["value"] = by_id[row_id]["valid"]
+candidate = {
+    "schema": "implementaudit.canonical-state-rotation-candidate.v1",
+    "observations": observations,
+}
+candidate_path.write_text(
+    json.dumps(candidate, sort_keys=True, separators=(",", ":"),
+               ensure_ascii=False),
+    encoding="utf-8", newline="\n")
 PY
+}
+build_candidate_from_evidence "$candidate_evidence_ledger" "$candidate"
 candidate_output="$(bash "$checker" --candidate "$candidate")" \
   || fail 'Task 6 exact semantic candidate was rejected'
 [ "$candidate_output" = 'CANONICAL_STATE_ROTATION_CANDIDATE=PASS denominator=110' ] \
   || fail "Task 6 candidate PASS marker drifted: $candidate_output"
+withheld_candidate="$tmp/task6-withheld-evidence-candidate.json"
+withheld_ledger="$tmp/task6-withheld-evidence.ledger"
+grep -Fxv TRANSACTION_SEQUENCE "$candidate_evidence_ledger" >"$withheld_ledger"
+build_candidate_from_evidence "$withheld_ledger" "$withheld_candidate"
+set +e
+withheld_output="$(bash "$checker" --candidate "$withheld_candidate" 2>&1)"
+withheld_rc=$?
+set -e
+[ "$withheld_rc" -ne 0 ] \
+  || fail 'TASK6_REVIEW_RED=I4_SELF_ORACLING_CANDIDATE_ACCEPTED_WITHOUT_BEHAVIORAL_EVIDENCE'
+withheld_failure_count="$(grep -o ':semantic-mutation' <<<"$withheld_output" | wc -l | tr -d ' ')"
+[ "$withheld_failure_count" = 18 ] \
+  || fail "Task 6 withheld transaction evidence did not reject exactly 18 rows: $withheld_output"
 printf '%s\n' "$candidate_output"
 printf '%s\n' 'CANONICAL_STATE_ROTATION_F7_GREEN=PASS transaction=POINTER_RECEIPT_V3_MARKER recovery=BOUNDED rehydration=EXACT root-oracle=PRESERVED_RED'

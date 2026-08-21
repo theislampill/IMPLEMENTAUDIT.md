@@ -249,13 +249,15 @@ controller, claim, run root and bound run name are derived from the installed
 owner executable and exact controller/run-claim custody; no caller may supply a
 path, branch, ref, pointer, marker, snapshot root or authority tuple.
 
-When both current-generation pointer and permanent marker are absent, new
-construction admits only an `iasrc-v1-r0039-archive-*` identity and resolves the
-exact F2 archive manifest/ref for the bound controller, claim, run and source
-epoch. Once either transition ref exists, archive construction is no longer a
-fallback. A complete successor route requires canonical generation-pointer
-JSON, the exact joined R0011 receipt v3 and the permanent marker. It admits only
-an `iasrc-v1-r0038-snapshot-*` identity and derives the single live location
+Only physical proof that both current-generation pointer and permanent marker
+are absent from loose and packed ref custody permits new construction. A broken
+or malformed transition ref is STOP, never absence. The genesis branch admits
+only an `iasrc-v1-r0039-archive-*` identity and resolves the exact F2 archive
+manifest/ref for the bound controller, claim, run and source epoch. Once either
+transition ref exists, archive construction is no longer a fallback. A complete
+successor route requires canonical generation-pointer JSON, the exact joined
+R0011 receipt v3 and the permanent marker. It admits only an
+`iasrc-v1-r0038-snapshot-*` identity and derives the single live location
 `<bound-run-root>/operational-evidence/snapshots/CURRENT`.
 
 `CURRENT` is canonical no-LF JSON with only `schema_version`, `snapshot_id`,
@@ -280,8 +282,12 @@ already-current pointer; R0039 publishes and rereads the marker only after that
 receipt exists; R0011 then verifies all three as one current route. Receipt v3
 binds pointer OID/digest, hot STATE/ROADMAP digests, `WORK_GRAPH` path/digest,
 generation manifest OID/digest, cold high-water, exact next action and immediate
-predecessor receipt. Pointer-only, marker-before-receipt and receipt-without-
-marker are incomplete crash boundaries, never current recovery routes.
+predecessor receipt. The receipt is exactly 18 nonempty tab-separated UTF-8
+fields plus one terminal LF. R0011 and the marker precondition independently
+derive `G(n-1)`, require the exact stored token, and validate its record; an
+alias, normalized byte form, CRLF, missing/extra LF, or extra empty field stops.
+Pointer-only, marker-before-receipt and receipt-without-marker are incomplete
+crash boundaries, never current recovery routes.
 
 Routine v3 currentness reads only the current pointer, hot pair, graph,
 invalidation, selected receipt and marker. It does not hydrate historical event
@@ -302,5 +308,8 @@ expected-zero anchoring, and path/link/permission controls all pass. The full
 Task-6 transaction is GREEN only when the preserved F3 reader matrix, exact
 genesis/successor source routes, pointer/v3/marker crash controls, bounded
 routine recovery, stored re-resolution, and the complete 110-case candidate
-checker all pass. This does not activate ActiveGraph, publish R38-C06, or claim
-later lifecycle or release closure.
+checker all pass. Candidate evidence begins with `root_only` and promotes only
+literal row groups whose independent archive, reader, source-rehydration,
+binding, and transaction-sequence gates have passed; withholding a group while
+fixture labels remain unchanged must fail. This does not activate ActiveGraph,
+publish R38-C06, or claim later lifecycle or release closure.

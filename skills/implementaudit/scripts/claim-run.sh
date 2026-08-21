@@ -280,25 +280,77 @@ PY
     case "$live_epoch" in G[0-9A-F][0-9A-F][0-9A-F][0-9A-F]) ;; *) return 1;; esac
     live_next="$(awk -F'|' -v e="$live_epoch" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} q($2)=="Next action"{n=q($3)} q($2)==e&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return 1
   }
+  load_raw_receipt_record() {
+    local target_oid="$1" wrapped
+    wrapped="$(git cat-file blob "$target_oid" && printf '\036')" || return 1
+    case "$wrapped" in *$'\036') wrapped="${wrapped%$'\036'}";; *) return 1;; esac
+    raw_receipt_record="$wrapped"
+  }
+  load_exact_lf_receipt_record() {
+    local target_oid="$1" wrapped
+    load_raw_receipt_record "$target_oid" || return 1
+    wrapped="$raw_receipt_record"
+    case "$wrapped" in *$'\r'*) return 1;; esac
+    case "$wrapped" in *$'\n') exact_receipt_record="${wrapped%$'\n'}";; *) return 1;; esac
+    case "$exact_receipt_record" in *$'\n'*) return 1;; esac
+  }
+  require_exact_tab_count() {
+    local rest="$1" expected="$2" observed=0
+    while [[ "$rest" == *$'\t'* ]]; do
+      rest="${rest#*$'\t'}"
+      observed=$((observed + 1))
+    done
+    [ "$observed" -eq "$expected" ]
+  }
   load_generation_predecessor() {
     local predecessor="$1" predecessor_ref predecessor_oid predecessor_record predecessor_schema
+    local predecessor_epoch predecessor_extra
     case "$predecessor" in *@*) predecessor_ref="${predecessor%@*}"; predecessor_oid="${predecessor##*@}";; *) return 1;; esac
     [[ "$predecessor_ref" =~ ^refs/implementaudit/continuity-receipts/$c/[A-Za-z0-9-]+$ ]] || return 1
     [[ "$predecessor_oid" =~ ^[0-9a-f]{40}$ ]] || return 1
     [ "$(git rev-parse --verify "$predecessor_ref" 2>/dev/null)" = "$predecessor_oid" ] || return 1
     [ "$(git cat-file -t "$predecessor_oid" 2>/dev/null)" = blob ] || return 1
-    predecessor_record="$(git cat-file blob "$predecessor_oid")" || return 1
-    case "$predecessor_record" in *$'\n'*|*$'\r'*) return 1;; esac
+    load_raw_receipt_record "$predecessor_oid" || return 1
+    predecessor_record="$raw_receipt_record"
     predecessor_schema="${predecessor_record%%$'\t'*}"
     case "$predecessor_schema" in
       implementaudit.continuity-receipt.v2)
-        IFS=$'\t' read -r predecessor_schema prc powner pclaim _ <<< "$predecessor_record"
-        [ "$predecessor_schema:$prc:$powner:$pclaim" = "implementaudit.continuity-receipt.v2:$c:$oid:$rg" ] || return 1;;
+        while [[ "$predecessor_record" == *$'\n' ]]; do
+          predecessor_record="${predecessor_record%$'\n'}"
+        done
+        case "$predecessor_record" in *$'\n'*|*$'\r'*) return 1;; esac
+        require_exact_tab_count "$predecessor_record" 11 || return 1
+        IFS=$'\t' read -r predecessor_schema prc powner pclaim ph pt pstate proad \
+          pinvalidation pboundary predecessor_epoch pnext predecessor_extra \
+          <<< "$predecessor_record"
+        [ -z "$predecessor_extra" ] || return 1
+        [ "$predecessor_schema:$prc:$powner:$pclaim" = \
+          "implementaudit.continuity-receipt.v2:$c:$oid:$rg" ] || return 1
+        [[ "$ph:$pt" =~ ^[0-9a-f]{40}:[0-9a-f]{40}$ ]] || return 1
+        [[ "$pstate:$proad" =~ ^[0-9a-f]{64}:[0-9a-f]{64}$ ]] || return 1
+        [[ "$pinvalidation" = none || "$pinvalidation" =~ ^[0-9a-f]{40}$ ]] || return 1
+        case "$pboundary" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap) ;;
+          *) return 1;; esac
+        [ -n "$pnext" ] || return 1;;
       implementaudit.continuity-receipt.v3)
-        IFS=$'\t' read -r predecessor_schema prc pclaim prun _ <<< "$predecessor_record"
-        [ "$predecessor_schema:$prc:$pclaim:$prun" = "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity" ] || return 1;;
+        load_exact_lf_receipt_record "$predecessor_oid" || return 1
+        predecessor_record="$exact_receipt_record"
+        require_exact_tab_count "$predecessor_record" 17 || return 1
+        IFS=$'\t' read -r predecessor_schema prc pclaim prun predecessor_epoch \
+          pinvalidation ppointer_ref ppointer_oid ppointer_digest pstate proad \
+          pgraph_path pgraph_digest pmanifest_oid pmanifest_digest phigh pnext \
+          ppred predecessor_extra <<< "$predecessor_record"
+        [ -z "$predecessor_extra" ] || return 1
+        [ "$predecessor_schema:$prc:$pclaim:$prun" = \
+          "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity" ] || return 1
+        [[ "$pinvalidation:$ppointer_oid:$pmanifest_oid" =~ ^[0-9a-f]{40}:[0-9a-f]{40}:[0-9a-f]{40}$ ]] || return 1
+        [[ "$ppointer_digest:$pstate:$proad:$pgraph_digest:$pmanifest_digest" =~ ^[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}:[0-9a-f]{64}$ ]] || return 1
+        [ "$pgraph_path" = WORK_GRAPH.json ] && [[ "$phigh" =~ ^[0-9]{20}$ ]] &&
+          [ -n "$pnext" ] && [ -n "$ppred" ] || return 1;;
       *) return 1;;
     esac
+    [ "$predecessor_ref" = \
+      "refs/implementaudit/continuity-receipts/$c/$predecessor_epoch" ] || return 1
   }
   load_json_pointer_live_bundle() {
     local parsed graph_file observed_graph
@@ -328,14 +380,15 @@ PY
     printf '%s@%s\n' "$previous_ref" "$previous_oid"
   }
   load_final_v3_receipt() {
-    local candidate="$1" receipt_ref receipt_oid receipt_record
+    local candidate="$1" receipt_ref receipt_oid receipt_record expected_predecessor
     case "$candidate" in *@*) receipt_ref="${candidate%@*}"; receipt_oid="${candidate##*@}";; *) return 1;; esac
     [ "$receipt_ref" = "refs/implementaudit/continuity-receipts/$c/$jpepoch" ] || return 1
     [[ "$receipt_oid" =~ ^[0-9a-f]{40}$|^[0-9a-f]{64}$ ]] || return 1
     [ "$(git rev-parse --verify "$receipt_ref" 2>/dev/null)" = "$receipt_oid" ] || return 1
     [ "$(git cat-file -t "$receipt_oid" 2>/dev/null)" = blob ] || return 1
-    receipt_record="$(git cat-file blob "$receipt_oid")" || return 1
-    case "$receipt_record" in *$'\n'*|*$'\r'*) return 1;; esac
+    load_exact_lf_receipt_record "$receipt_oid" || return 1
+    receipt_record="$exact_receipt_record"
+    require_exact_tab_count "$receipt_record" 17 || return 1
     IFS=$'\t' read -r vs vc vclaim vrun vep vinv vpref vpoid vpdigest vsh vrh \
       vgpath vg vmanifest_oid vmanifest_digest vhigh vnext vpred vextra \
       <<< "$receipt_record"
@@ -347,8 +400,9 @@ PY
     [ "$vmanifest_oid:$vmanifest_digest:$vhigh" = \
       "$jpmanifest_oid:$jpmanifest_digest:$jphigh" ] || return 1
     [ "$vnext" = "$live_next" ] || return 1
-    [ "$vpred" != "$receipt_ref@$receipt_oid" ] || return 1
-    load_generation_predecessor "$vpred" || return 1
+    expected_predecessor="$(previous_receipt_token "$jpepoch")" || return 1
+    [ "$vpred" = "$expected_predecessor" ] || return 1
+    load_generation_predecessor "$expected_predecessor" || return 1
     v3_token="$receipt_ref@$receipt_oid"
   }
   case "$a" in
@@ -457,12 +511,16 @@ PY
           case "$pnext" in *$'\t'*|*$'\r'*|*$'\n'*) return 1;; esac
           load_live_generation_state || return 1
           [ "$pinv:$psh:$prh:$pep:$pnext" = "$ioid:$sh:$rh:$live_epoch:$live_next" ] || return 1
-          load_generation_predecessor "$ppred" || return 1
+          local expected_predecessor
+          expected_predecessor="$(previous_receipt_token "$pep")" || return 1
+          [ "$ppred" = "$expected_predecessor" ] || return 1
+          load_generation_predecessor "$expected_predecessor" || return 1
 
           void="$(git rev-parse --verify "$pvref" 2>/dev/null)" || return 1
           [ "$(git cat-file -t "$void" 2>/dev/null)" = blob ] || return 1
-          vrecord="$(git cat-file blob "$void")" || return 1
-          case "$vrecord" in *$'\n'*|*$'\r'*) return 1;; esac
+          load_exact_lf_receipt_record "$void" || return 1
+          vrecord="$exact_receipt_record"
+          require_exact_tab_count "$vrecord" 13 || return 1
           IFS=$'\t' read -r vs vc vclaim vrun vep vinv vpref vpoid vsh vrh vph vah vnext vpred vextra <<< "$vrecord"
           [ -z "$vextra" ] &&
             [ "$vs:$vc:$vclaim:$vrun:$vep:$vinv:$vpref:$vpoid" = "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity:$pep:$pinv:$pref:$poid" ] &&
@@ -529,7 +587,16 @@ PY
           token="$rref@$roid"
         else token="$1"; rref="${token%@*}"; roid="${token##*@}"; fi
         [ "$(git rev-parse --verify "$rref" 2>/dev/null)" = "$roid" ] || return
-        record="$(git cat-file blob "$roid")"; s="${record%%$'\t'*}"
+        [ "$(git cat-file -t "$roid" 2>/dev/null)" = blob ] || return
+        load_raw_receipt_record "$roid" || return
+        s="${raw_receipt_record%%$'\t'*}"
+        if [ "$s" = implementaudit.continuity-receipt.v3 ]; then
+          load_exact_lf_receipt_record "$roid" || return
+          record="$exact_receipt_record"
+        else
+          record="$raw_receipt_record"
+          while [[ "$record" == *$'\n' ]]; do record="${record%$'\n'}"; done
+        fi
         case "$s" in
           implementaudit.continuity-receipt.v1)
             IFS=$'\t' read -r s rc owner rg2 h2 t2 sh2 rh2 b2 e2 _ <<< "$record"

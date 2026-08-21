@@ -1910,14 +1910,53 @@ def verify_manifest_segments_v1(repo: Path, manifest: dict[str, object]) -> None
                 "segment source evidence disagrees with exact owner manifest")
 
 
-def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
+def read_exact_ref_state_v1(repo: Path, ref: str) -> tuple[str, str | None]:
+    """Distinguish a physically absent ref from unreadable ref custody."""
     rc, output = git_optional(repo, "rev-parse", "--verify", ref)
     if rc == 0:
-        oid = output.decode("utf-8").strip()
-        if not GIT_OID.fullmatch(oid):
-            raise RotationError("governed ref identity is invalid")
+        try:
+            oid = output.decode("ascii", "strict").removesuffix("\n")
+        except UnicodeDecodeError:
+            return "MALFORMED", None
+        if output != (oid + "\n").encode("ascii") or not GIT_OID.fullmatch(oid):
+            return "MALFORMED", None
+        return "RESOLVED", oid
+
+    loose_raw = git(repo, "rev-parse", "--path-format=absolute", "--git-path", ref)
+    try:
+        loose_path = Path(loose_raw.decode("utf-8", "strict").rstrip("\n"))
+    except UnicodeDecodeError as exc:
+        raise RotationError("governed ref custody is unreadable") from exc
+    if loose_path.exists() or loose_path.is_symlink():
+        return "BROKEN", None
+
+    common_raw = git(repo, "rev-parse", "--path-format=absolute", "--git-common-dir")
+    try:
+        packed_path = Path(common_raw.decode("utf-8", "strict").rstrip("\n")) / "packed-refs"
+        if packed_path.is_symlink() or (packed_path.exists() and not packed_path.is_file()):
+            raise RotationError("governed packed-ref custody is unreadable")
+        packed_raw = packed_path.read_bytes() if packed_path.is_file() else b""
+        packed_lines = packed_raw.decode("utf-8", "strict").splitlines()
+    except RotationError:
+        raise
+    except (OSError, UnicodeDecodeError) as exc:
+        raise RotationError("governed packed-ref custody is unreadable") from exc
+    for line in packed_lines:
+        if line.startswith(("#", "^")) or not line:
+            continue
+        fields = line.split()
+        if len(fields) >= 2 and fields[-1] == ref:
+            return "BROKEN", None
+    return "ABSENT", None
+
+
+def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
+    state, oid = read_exact_ref_state_v1(repo, ref)
+    if state == "RESOLVED":
         return oid
-    return None
+    if state == "ABSENT":
+        return None
+    raise RotationError(f"governed ref exists but is {state.lower()}")
 
 
 def _is_reparse_or_link_v1(path: Path) -> bool:
@@ -2346,7 +2385,7 @@ def _open_governed_publication_context_v1(
                 raise RotationError("publication continuity receipt is unavailable")
             predecessor_receipt_token = receipt_ref + "@" + receipt_oid
         receipt = read_exact_git_blob_oid_v1(controller_repo, receipt_oid)
-        receipt_fields = receipt.decode("utf-8", "strict").rstrip("\n").split("\t")
+        receipt_fields = _decode_exact_receipt_fields_v1(receipt)
         head = git(controller_repo, "rev-parse", "HEAD").decode("ascii", "strict").strip()
         tree = git(controller_repo, "rev-parse", "HEAD^{tree}").decode("ascii", "strict").strip()
         state_digest = hashlib.sha256(state_bytes).hexdigest()
@@ -2447,6 +2486,33 @@ def _publication_custody_fields_v1() -> tuple[Path, str, str, str, Path, str]:
     return repo, controller_id, controller_oid, claim_id, run_root, run_id
 
 
+def _decode_exact_receipt_fields_v1(raw: bytes) -> list[str]:
+    """Preserve raw receipts and enforce the one canonical v3 byte form."""
+    if raw.startswith(b"implementaudit.continuity-receipt.v3\t"):
+        if (not raw.endswith(b"\n") or raw.endswith(b"\n\n")
+                or b"\n" in raw[:-1] or b"\r" in raw):
+            raise RotationError("continuity receipt bytes are not canonical")
+        body = raw[:-1]
+        expected_fields = 18
+    else:
+        body = raw
+        while body.endswith(b"\n"):
+            body = body[:-1]
+        if (not body.startswith(b"implementaudit.continuity-receipt.v2\t")
+                or b"\n" in body or b"\r" in body):
+            raise RotationError("continuity receipt bytes are not canonical")
+        expected_fields = 12
+    try:
+        fields = body.decode("utf-8", "strict").split("\t")
+    except UnicodeDecodeError as exc:
+        raise RotationError("continuity receipt bytes are not canonical") from exc
+    if (len(fields) != expected_fields
+            or body.count(b"\t") != expected_fields - 1
+            or any(field == "" for field in fields)):
+        raise RotationError("continuity receipt bytes are not canonical")
+    return fields
+
+
 def _receipt_record_v1(repo: Path, token: str) -> dict[str, object]:
     if type(token) is not str or "@" not in token:
         raise RotationError("continuity receipt token is invalid")
@@ -2456,8 +2522,83 @@ def _receipt_record_v1(repo: Path, token: str) -> dict[str, object]:
             or read_optional_exact_ref_oid_v1(repo, receipt_ref) != receipt_oid):
         raise RotationError("continuity receipt token is invalid")
     raw = read_exact_git_blob_oid_v1(repo, receipt_oid)
-    fields = raw.decode("utf-8", "strict").rstrip("\n").split("\t")
+    fields = _decode_exact_receipt_fields_v1(raw)
     return {"ref": receipt_ref, "oid": receipt_oid, "raw": raw, "fields": fields}
+
+
+def _previous_receipt_token_v1(repo: Path, controller_id: str,
+                               source_epoch: str) -> str:
+    if not GENERATION_ID.fullmatch(source_epoch):
+        raise RotationError("continuity receipt predecessor epoch is invalid")
+    ordinal = int(source_epoch[1:], 16)
+    if ordinal <= 1:
+        raise RotationError("continuity receipt predecessor epoch is invalid")
+    previous_epoch = f"G{ordinal - 1:04X}"
+    previous_ref = (
+        f"refs/implementaudit/continuity-receipts/{controller_id}/{previous_epoch}")
+    previous_oid = read_optional_exact_ref_oid_v1(repo, previous_ref)
+    if previous_oid is None:
+        raise RotationError("continuity receipt predecessor is unavailable")
+    return previous_ref + "@" + previous_oid
+
+
+def _validate_predecessor_receipt_v1(
+        repo: Path, token: str, *, controller_id: str, controller_oid: str,
+        claim_id: str, run_id: str, expected_epoch: str) -> None:
+    receipt = _receipt_record_v1(repo, token)
+    fields = receipt["fields"]
+    expected_ref = (
+        f"refs/implementaudit/continuity-receipts/{controller_id}/{expected_epoch}")
+    if receipt["ref"] != expected_ref or not isinstance(fields, list):
+        raise RotationError("continuity receipt predecessor is invalid")
+    if fields[0] == "implementaudit.continuity-receipt.v2":
+        if (fields[:4] != [fields[0], controller_id, controller_oid, claim_id]
+                or not all(GIT_OID.fullmatch(value) for value in fields[4:6])
+                or not all(HEX_SHA256.fullmatch(value) for value in fields[6:8])
+                or (fields[8] != "none" and not GIT_OID.fullmatch(fields[8]))
+                or fields[9] not in {
+                    "host-reported-compaction", "new-session", "handoff-resume",
+                    "manual-resume", "inferred-context-gap"}
+                or fields[10] != expected_epoch or not fields[11]):
+            raise RotationError("continuity receipt predecessor is invalid")
+        return
+    if (fields[:5] != [fields[0], controller_id, claim_id, run_id, expected_epoch]
+            or not GIT_OID.fullmatch(fields[5])
+            or not GIT_OID.fullmatch(fields[7])
+            or not all(HEX_SHA256.fullmatch(fields[index])
+                       for index in (8, 9, 10, 12, 14))
+            or fields[11] != "WORK_GRAPH.json"
+            or not GIT_OID.fullmatch(fields[13])
+            or re.fullmatch(r"[0-9]{20}", fields[15]) is None
+            or not fields[16] or not fields[17]):
+        raise RotationError("continuity receipt predecessor is invalid")
+
+
+def _require_immediate_predecessor_v1(
+        repo: Path, fields: list[str], *, controller_id: str,
+        controller_oid: str, claim_id: str, run_id: str,
+        source_epoch: str) -> None:
+    expected_token = _previous_receipt_token_v1(repo, controller_id, source_epoch)
+    if fields[17] != expected_token:
+        raise RotationError("continuity receipt predecessor is not immediate")
+    expected_epoch = expected_token.rsplit("/", 1)[1].split("@", 1)[0]
+    _validate_predecessor_receipt_v1(
+        repo, expected_token, controller_id=controller_id,
+        controller_oid=controller_oid, claim_id=claim_id, run_id=run_id,
+        expected_epoch=expected_epoch)
+
+
+def _require_r0011_v3_verification_v1(repo: Path, token: str) -> None:
+    claim_helper = Path(__file__).with_name("claim-run.sh")
+    runner = ([r"C:\Program Files\Git\bin\bash.exe"]
+              if os.name == "nt" else ["/bin/bash"])
+    completed = subprocess.run(
+        [*runner, str(claim_helper), "--verify-resume-receipt", token],
+        cwd=str(repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        env=git_environment(), check=False)
+    if (completed.returncode != 0
+            or completed.stdout != (token + "\n").encode("utf-8")):
+        raise RotationError("R0011 receipt v3 verification failed")
 
 
 def load_governed_source_custody_v1() -> dict[str, object]:
@@ -2540,8 +2681,17 @@ def require_complete_pointer_receipt_marker_route_v1(
             or receipt["ref"] != (
                 f"refs/implementaudit/continuity-receipts/{controller_id}/{source_epoch}")):
         raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    _require_immediate_predecessor_v1(
+        Path(live["repo_path"]), fields, controller_id=controller_id,
+        controller_oid=str(live["controller_oid"]), claim_id=claim_id,
+        run_id=run_id, source_epoch=source_epoch)
     marker_raw = read_exact_git_blob_oid_v1(Path(live["repo_path"]), marker_oid)
-    marker_fields = marker_raw.decode("utf-8", "strict").rstrip("\n").split("\t")
+    try:
+        marker_fields = marker_raw.decode("utf-8", "strict").split("\t")
+    except UnicodeDecodeError as exc:
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE") from exc
+    if b"\r" in marker_raw or b"\n" in marker_raw:
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
     if marker_fields != [
         "implementaudit.current-generation-migration.v1", controller_id,
         claim_id, run_id, source_epoch, pointer_ref,
@@ -2961,6 +3111,12 @@ def publish_first_migration_marker_v1() -> str:
                     pointer["generation_manifest_digest"],
                     pointer["cold_high_water"]]):
             raise RotationError("first migration marker requires receipt v3")
+        _require_immediate_predecessor_v1(
+            repo, fields, controller_id=controller_id,
+            controller_oid=controller_oid, claim_id=claim_id,
+            run_id=run_id, source_epoch=source_epoch)
+        _require_r0011_v3_verification_v1(
+            repo, receipt_ref + "@" + receipt_oid)
         marker_raw = "\t".join((
             "implementaudit.current-generation-migration.v1", controller_id,
             claim_id, run_id, source_epoch, pointer_ref,
@@ -2993,7 +3149,8 @@ def publish_first_migration_marker_v1() -> str:
             raise RotationError("first migration marker readback mismatch")
         live = {
             "repo_path": repo, "run_root_path": run_root,
-            "controller_id": controller_id, "claim_id": claim_id,
+            "controller_id": controller_id, "controller_oid": controller_oid,
+            "claim_id": claim_id,
             "run_id": run_id, "source_epoch": source_epoch,
             "pointer_ref": pointer_ref,
         }
