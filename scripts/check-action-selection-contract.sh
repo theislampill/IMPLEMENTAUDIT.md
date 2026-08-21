@@ -96,11 +96,28 @@ for text in \
   "free = max(0, capacity - ACTIVE)" \
   "dispatch = min(READY, free)" \
   "Use deterministic tooling, not model estimates" \
+  "Compile the bounded frontier projection" \
+  'canonical `WORK_GRAPH.json` bytes' \
+  "Narrative STATE/ROADMAP prose" \
+  "never compiler input" \
   "An unchanged reminder or status" \
   "Missing context stops the lane"
 do
   require "$child_ref" "$text"
 done
+
+for text in \
+  "derive the bounded ready-cell projection" \
+  "compile-work-graph.py" \
+  "stale counts/digests" \
+  "missing writer/resource holds" \
+  "instead of reconstructing authority from narrative STATE"
+do
+  require "$depth_ref" "$text"
+done
+
+compiler="skills/implementaudit/scripts/compile-work-graph.py"
+[ -f "$compiler" ] || fail "missing file: $compiler"
 
 # --- engineering-value admission and retirement contract (#163 / R0022) ---
 for text in \

@@ -35,6 +35,7 @@ reset_sandbox() {
   rm -rf "$tmp_root"
   mkdir -p \
     "$tmp_root/skills/implementaudit/references" \
+    "$tmp_root/skills/implementaudit/scripts" \
     "$tmp_root/skills/implementaudit/templates" \
     "$tmp_root/fixtures/audit-action-selection" \
     "$tmp_root/fixtures/native-integration" \
@@ -50,6 +51,8 @@ reset_sandbox() {
     "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/plan-lifecycle.md \
     "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/scripts/compile-work-graph.py \
+    "$tmp_root/skills/implementaudit/scripts/"
   cp skills/implementaudit/templates/THINKING.md \
     skills/implementaudit/templates/ROADMAP.md \
     "$tmp_root/skills/implementaudit/templates/"
@@ -75,6 +78,29 @@ expect_fail() {
 reset_sandbox
 bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
   >/dev/null 2>&1 || fail "checker fails on the untouched sandbox copy"
+
+# HC-H4. Canonical graph projection is executable owner behavior, not prose-only
+# scheduling advice. Each owner route and the helper itself are independently
+# pinned before the older action-selection negative controls run.
+reset_sandbox
+grep -v "Compile the bounded frontier projection" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "canonical WORK_GRAPH compiler execution owner removed"
+
+reset_sandbox
+grep -v "derive the bounded ready-cell projection" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "factor-derived WORK_GRAPH compiler route removed"
+
+reset_sandbox
+rm "$tmp_root/skills/implementaudit/scripts/compile-work-graph.py"
+expect_fail "canonical WORK_GRAPH compiler helper removed"
 
 # 3. Keyword-freedom clause removed from the contract -> must fail.
 reset_sandbox

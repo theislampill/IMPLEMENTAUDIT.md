@@ -250,6 +250,14 @@ evidence-current DONE, ACTIVE, READY, or BLOCKED state. Unknown or stale state
 defers dispatch. READY requires its actual dependency edges satisfied; compute
 free capacity only after subtracting ACTIVE occupancy.
 
+When the canonical WORK_GRAPH v1 owner exists,
+derive the bounded ready-cell projection with `compile-work-graph.py` before
+dispatch. Reject stale counts/digests,
+missing writer/resource holds, dependency gaps, cycles, and
+unknown states instead of reconstructing authority from narrative STATE,
+ROADMAP, a sidecar, or model estimates. The projection is read-only evidence;
+it does not mint currentness, transition cells, or write lifecycle state.
+
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and
 retains escalation when risk changes. Omission for convenience or cost alone is
