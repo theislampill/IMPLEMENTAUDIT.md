@@ -70,22 +70,48 @@ canonical_generation() {
   printf 'G%04X\n' "$ordinal"
 }
 
+publication_git_v1() {
+  local candidate
+  case "${OSTYPE:-}" in
+    msys*|cygwin*|win32*)
+      for candidate in \
+        '/c/Program Files/Git/cmd/git.exe' \
+        '/c/Program Files/Git/bin/git.exe'; do
+        [ -f "$candidate" ] && [ ! -L "$candidate" ] && [ -x "$candidate" ] && {
+          printf '%s\n' "$candidate"
+          return 0
+        }
+      done
+      ;;
+    linux*|darwin*|freebsd*)
+      for candidate in /usr/bin/git /usr/local/bin/git; do
+        [ -f "$candidate" ] && [ ! -L "$candidate" ] && [ -x "$candidate" ] && {
+          printf '%s\n' "$candidate"
+          return 0
+        }
+      done
+      ;;
+  esac
+  return 1
+}
+
 publication_custody_io() {
   # Read-only Task-4 boundary: repository authority is this installed owner's
   # physical checkout, never the caller's cwd or a supplied path/ref.
-  local owner_dir repo common refs ref c oid s rc rg root rr target_common run_rel
+  local git_cmd owner_dir repo common refs ref c oid s rc rg root rr target_common run_rel
   local lines=() keys=(schema claim_id claimed_at_utc mode templates repo_root git_common_dir run_base run_root run_name)
+  git_cmd="$(publication_git_v1)" || return 1
   owner_dir="$(cd "$(dirname "$0")/../../.." && pwd -P)" || return 1
-  repo="$(git -C "$owner_dir" rev-parse --path-format=absolute --show-toplevel)" || return 1
-  common="$(git -C "$repo" rev-parse --path-format=absolute --git-common-dir)" || return 1
-  mapfile -t refs < <(git -C "$repo" for-each-ref --format='%(refname)' refs/implementaudit/controllers/)
+  repo="$("$git_cmd" -C "$owner_dir" rev-parse --path-format=absolute --show-toplevel)" || return 1
+  common="$("$git_cmd" -C "$repo" rev-parse --path-format=absolute --git-common-dir)" || return 1
+  mapfile -t refs < <("$git_cmd" -C "$repo" for-each-ref --format='%(refname)' refs/implementaudit/controllers/)
   [ "${#refs[@]}" = 1 ] || return 1
   ref="${refs[0]}"; c="${ref##*/}"
   case "$c" in ''|*[!a-z0-9-]*|-*) return 1;; esac
-  oid="$(git -C "$repo" rev-parse --verify "$ref" 2>/dev/null)" || return 1
-  IFS=$'\t' read -r s rc rg root <<< "$(git -C "$repo" cat-file blob "$oid")"
+  oid="$("$git_cmd" -C "$repo" rev-parse --verify "$ref" 2>/dev/null)" || return 1
+  IFS=$'\t' read -r s rc rg root <<< "$("$git_cmd" -C "$repo" cat-file blob "$oid")"
   rr="${root%/.IMPLEMENTAUDIT/runs/*}"
-  target_common="$(git -C "$rr" rev-parse --path-format=absolute --git-common-dir)" || return 1
+  target_common="$("$git_cmd" -C "$rr" rev-parse --path-format=absolute --git-common-dir)" || return 1
   [ "$s:$rc" = "implementaudit.controller-current.v1:$c" ] &&
     [ "$target_common" = "$common" ] || return 1
   bash "$(dirname "$0")/validate-run-root.sh" --claim-only "$root" --repo-root "$rr" >/dev/null 2>&1 || return 1

@@ -897,8 +897,9 @@ def publication_owner_repo_v1() -> Path:
     return require_repo(fields[4])
 
 
-def load_governed_publication_context_v1() -> dict[str, object]:
-    """Read bounded controller custody without accepting a caller override."""
+def _open_governed_publication_context_v1(
+        ) -> tuple[dict[str, object], "PublicationObservationSessionV1"]:
+    """Open receipt-bound custody and retain its mutable-file handles."""
     claim_helper = Path(__file__).with_name("claim-run.sh")
     runner = ([r"C:\Program Files\Git\bin\bash.exe"]
               if os.name == "nt" else ["/bin/bash"])
@@ -922,51 +923,69 @@ def load_governed_publication_context_v1() -> dict[str, object]:
     if controller_common != Path(common_text).resolve():
         raise RotationError("publication custody owner common directory is invalid")
     run_root = require_run_root(run_root_text, controller_repo)
-    discovery_repo = controller_repo
-    state = run_root / "STATE.md"
+    session = PublicationObservationSessionV1(
+        {"run_root_path": run_root}, None).__enter__()
     try:
-        generation_id = next(line.split(": ", 1)[1] for line in state.read_text("utf-8").splitlines()
+        state_bytes = session.read_role_exact("STATE", reopen=False)
+        roadmap_bytes = session.read_role_exact("ROADMAP", reopen=False)
+        generation_id = next(line.split(": ", 1)[1]
+                             for line in state_bytes.decode("utf-8", "strict").splitlines()
                              if line.startswith("Current epoch: "))
-    except (OSError, StopIteration, IndexError) as exc:
-        raise RotationError("publication generation identity is unavailable") from exc
-    if not GENERATION_ID.fullmatch(generation_id):
-        raise RotationError("publication generation identity is invalid")
-    current_ref = f"refs/implementaudit/current-generations/{controller_id}"
-    marker_ref = f"refs/implementaudit/current-generation-migrations/{controller_id}"
-    receipt_ref = f"refs/implementaudit/continuity-receipts/{controller_id}/{generation_id}"
-    invalidation_ref = f"refs/implementaudit/continuity-invalidations/{controller_id}"
-    receipt_oid = read_optional_exact_ref_oid_v1(discovery_repo, receipt_ref)
-    if receipt_oid is None:
-        raise RotationError("publication continuity receipt is unavailable")
-    invalidation_oid = read_optional_exact_ref_oid_v1(discovery_repo, invalidation_ref)
-    receipt = read_exact_git_blob_oid_v1(discovery_repo, receipt_oid)
-    try:
+        if not GENERATION_ID.fullmatch(generation_id):
+            raise RotationError("publication generation identity is invalid")
+        current_ref = f"refs/implementaudit/current-generations/{controller_id}"
+        marker_ref = f"refs/implementaudit/current-generation-migrations/{controller_id}"
+        receipt_ref = f"refs/implementaudit/continuity-receipts/{controller_id}/{generation_id}"
+        invalidation_ref = f"refs/implementaudit/continuity-invalidations/{controller_id}"
+        receipt_oid = read_optional_exact_ref_oid_v1(controller_repo, receipt_ref)
+        if receipt_oid is None:
+            raise RotationError("publication continuity receipt is unavailable")
+        invalidation_oid = read_optional_exact_ref_oid_v1(controller_repo, invalidation_ref)
+        receipt = read_exact_git_blob_oid_v1(controller_repo, receipt_oid)
         receipt_fields = receipt.decode("utf-8", "strict").rstrip("\n").split("\t")
-    except UnicodeDecodeError as exc:
-        raise RotationError("publication continuity receipt is invalid") from exc
-    head = git(controller_repo, "rev-parse", "HEAD").decode("ascii", "strict").strip()
-    tree = git(controller_repo, "rev-parse", "HEAD^{tree}").decode("ascii", "strict").strip()
-    state_digest = hashlib.sha256(state.read_bytes()).hexdigest()
-    roadmap = run_root / "ROADMAP.md"
-    roadmap_digest = hashlib.sha256(roadmap.read_bytes()).hexdigest()
-    expected_receipt = ["implementaudit.continuity-receipt.v2", controller_id, controller_oid,
-                        claim_id, head, tree, state_digest, roadmap_digest,
-                        invalidation_oid or "none"]
-    if (len(receipt_fields) != 12 or receipt_fields[:9] != expected_receipt
-            or receipt_fields[9] not in {"host-reported-compaction", "new-session", "handoff-resume", "manual-resume", "inferred-context-gap"}
-            or receipt_fields[10] != generation_id or not receipt_fields[11]):
-        raise RotationError("publication continuity receipt does not bind current custody")
-    current_oid = read_optional_exact_ref_oid_v1(discovery_repo, current_ref)
-    marker_oid = read_optional_exact_ref_oid_v1(discovery_repo, marker_ref)
-    if current_oid is None and marker_oid is not None:
-        raise RotationError("migration marker exists without generation pointer")
-    return {"repo_path": controller_repo, "run_root_path": run_root, "controller_id": controller_id,
-            "claim_id": claim_id, "run_id": run_id, "generation_id": generation_id,
+        head = git(controller_repo, "rev-parse", "HEAD").decode("ascii", "strict").strip()
+        tree = git(controller_repo, "rev-parse", "HEAD^{tree}").decode("ascii", "strict").strip()
+        state_digest = hashlib.sha256(state_bytes).hexdigest()
+        roadmap_digest = hashlib.sha256(roadmap_bytes).hexdigest()
+        expected_receipt = ["implementaudit.continuity-receipt.v2", controller_id, controller_oid,
+                            claim_id, head, tree, state_digest, roadmap_digest,
+                            invalidation_oid or "none"]
+        if (len(receipt_fields) != 12 or receipt_fields[:9] != expected_receipt
+                or receipt_fields[9] not in {"host-reported-compaction", "new-session", "handoff-resume", "manual-resume", "inferred-context-gap"}
+                or receipt_fields[10] != generation_id or not receipt_fields[11]):
+            raise RotationError("publication continuity receipt does not bind current custody")
+        current_oid = read_optional_exact_ref_oid_v1(controller_repo, current_ref)
+        marker_oid = read_optional_exact_ref_oid_v1(controller_repo, marker_ref)
+        if current_oid is None and marker_oid is not None:
+            raise RotationError("migration marker exists without generation pointer")
+        context = {
+            "repo_path": controller_repo, "run_root_path": run_root,
+            "controller_id": controller_id, "claim_id": claim_id,
+            "run_id": run_id, "generation_id": generation_id,
             "source_epoch": generation_id, "receipt_oid": receipt_oid,
-            "expected_old_pointer_oid": current_oid, "migration_marker_oid": marker_oid,
-            "publication_guard_refs": tuple(sorted(((f"refs/implementaudit/controllers/{controller_id}", controller_oid),
+            "receipt_state_digest": state_digest,
+            "receipt_roadmap_digest": roadmap_digest,
+            "expected_old_pointer_oid": current_oid,
+            "migration_marker_oid": marker_oid,
+            "publication_guard_refs": tuple(sorted((
+                (f"refs/implementaudit/controllers/{controller_id}", controller_oid),
                 (receipt_ref, receipt_oid), (marker_ref, marker_oid or ZERO_OID),
-                (invalidation_ref, invalidation_oid or ZERO_OID))))}
+                (invalidation_ref, invalidation_oid or ZERO_OID)))),
+        }
+        return context, session
+    except (UnicodeDecodeError, StopIteration, IndexError) as exc:
+        session.__exit__()
+        raise RotationError("publication generation or receipt identity is unavailable") from exc
+    except BaseException:
+        session.__exit__()
+        raise
+
+
+def load_governed_publication_context_v1() -> dict[str, object]:
+    """Read bounded controller custody without accepting a caller override."""
+    context, session = _open_governed_publication_context_v1()
+    session.__exit__()
+    return context
 
 
 @contextlib.contextmanager
@@ -981,8 +1000,14 @@ def acquire_r0039_publication_writer_lease_v1():
     except FileExistsError as exc:
         raise RotationError("R0039 publication writer lease is held") from exc
     try:
-        context = load_governed_publication_context_v1()
-        yield context
+        context, session = _open_governed_publication_context_v1()
+        if Path(context["repo_path"]) != discovery_repo:
+            session.__exit__()
+            raise RotationError("publication custody owner changed under lease")
+        try:
+            yield context, session
+        finally:
+            session.__exit__()
     finally:
         os.close(descriptor)
         try: os.unlink(gate)
@@ -1214,15 +1239,29 @@ class PublicationObservationSessionV1:
             retained.close()
         self.opened.clear()
 
+    def read_role_exact(self, role: str, *, reopen: bool) -> bytes:
+        retained = next((item for name, item in self.opened if name == role), None)
+        if retained is None:
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        data = retained.read_exact()
+        current = retained.current_snapshot()
+        if current != retained.initial or len(data) != retained.initial.size:
+            raise RotationError("publication input changed during observation")
+        if reopen and retained.reopened_snapshot() != retained.initial:
+            raise RotationError("publication input changed during observation")
+        return data
+
+    def bind_expected_digests(self, expected_digests: dict[str, str]) -> None:
+        if (set(expected_digests) != {"STATE", "ROADMAP", "WORK_GRAPH"}
+                or any(type(value) is not str or not HEX_SHA256.fullmatch(value)
+                       for value in expected_digests.values())):
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        self.expected = dict(expected_digests)
+
     def observe(self, *, reopen: bool) -> tuple[PublicationObservationV1, ...]:
         rows: list[PublicationObservationV1] = []
         for role, retained in self.opened:
-            data = retained.read_exact()
-            current = retained.current_snapshot()
-            if current != retained.initial or len(data) != retained.initial.size:
-                raise RotationError("publication input changed during observation")
-            if reopen and retained.reopened_snapshot() != retained.initial:
-                raise RotationError("publication input changed during observation")
+            data = self.read_role_exact(role, reopen=reopen)
             digest = hashlib.sha256(data).hexdigest()
             expected = digest if self.expected is None else self.expected.get(role)
             if type(expected) is not str or not HEX_SHA256.fullmatch(expected):
@@ -1246,7 +1285,7 @@ def observe_publication_vector_v1(*, context: dict[str, object],
 def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
     if type(candidate_pointer_oid) is not str or not GIT_OID.fullmatch(candidate_pointer_oid):
         raise RotationError("candidate pointer identity is invalid")
-    with acquire_r0039_publication_writer_lease_v1() as context:
+    with acquire_r0039_publication_writer_lease_v1() as (context, session):
         repo = Path(context["repo_path"])
         pointer = load_canonical_generation_pointer_oid_v1(repo, candidate_pointer_oid)
         expected = (context["controller_id"], context["claim_id"], context["run_id"],
@@ -1278,26 +1317,30 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
             repo=repo, frozen=frozen, candidate_pointer=pointer, candidate_manifest=manifest,
             expected_old_pointer_oid=context["expected_old_pointer_oid"],
             candidate_pointer_oid=candidate_pointer_oid)
-        expected_digests = {"STATE": str(pointer["hot_state_digest"]),
-                            "ROADMAP": str(pointer["hot_roadmap_digest"]),
+        if (pointer["hot_state_digest"] != context["receipt_state_digest"]
+                or pointer["hot_roadmap_digest"] != context["receipt_roadmap_digest"]):
+            raise RotationError(
+                "candidate hot-state digests disagree with receipt-bound custody")
+        expected_digests = {"STATE": str(context["receipt_state_digest"]),
+                            "ROADMAP": str(context["receipt_roadmap_digest"]),
                             "WORK_GRAPH": str(pointer["work_graph_digest"])}
+        session.bind_expected_digests(expected_digests)
         ref = f"refs/implementaudit/current-generations/{context['controller_id']}"
         cas = prepare_trusted_update_ref_transaction_v1(
             repo=repo, ref=ref, new_oid=candidate_pointer_oid,
             old_oid=context["expected_old_pointer_oid"] or ZERO_OID,
             verify_refs=context["publication_guard_refs"])
-        with PublicationObservationSessionV1(context, expected_digests) as session:
-            first = session.observe(reopen=False)
-            second = session.observe(reopen=True)
-            # Revalidate the fixed executable identity and isolated Git inputs
-            # immediately before the final equality decision.  Once equality
-            # completes, the one prebuilt update-ref process is the only call.
-            verify_trusted_update_ref_transaction_v1(cas)
-            if first != second or not frozen:
-                raise RotationError("publication input changed during the final fence")
-            completed = subprocess.run(cas["argv"], cwd=cas["cwd"], env=cas["env"],
-                                       input=cas["stdin_bytes"], stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE, check=False)
+        first = session.observe(reopen=False)
+        second = session.observe(reopen=True)
+        # Revalidate the fixed executable identity and isolated Git inputs
+        # immediately before the final equality decision.  Once equality
+        # completes, the one prebuilt update-ref process is the only call.
+        verify_trusted_update_ref_transaction_v1(cas)
+        if first != second or not frozen:
+            raise RotationError("publication input changed during the final fence")
+        completed = subprocess.run(cas["argv"], cwd=cas["cwd"], env=cas["env"],
+                                   input=cas["stdin_bytes"], stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, check=False)
         if completed.returncode != 0:
             observed = read_back_published_ref_v1(cas)
             expected_old = context["expected_old_pointer_oid"] or ZERO_OID
@@ -1333,44 +1376,33 @@ def effective_mode(mode: int) -> int:
     return mode
 
 
-def git_environment() -> dict[str, str]:
-    environment = os.environ.copy()
-    for name in (
-        "BASH_ENV",
-        "CDPATH",
-        "DYLD_INSERT_LIBRARIES",
-        "ENV",
-        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
-        "GIT_COMMON_DIR",
-        "GIT_CONFIG_COUNT",
-        "GIT_CONFIG_GLOBAL",
-        "GIT_CONFIG_NOSYSTEM",
-        "GIT_CONFIG_SYSTEM",
-        "GIT_DIR",
-        "GIT_EXEC_PATH",
-        "GIT_INDEX_FILE",
-        "GIT_NAMESPACE",
-        "GIT_OBJECT_DIRECTORY",
-        "GIT_SSH",
-        "GIT_SSH_COMMAND",
-        "GIT_WORK_TREE",
-        "LD_PRELOAD",
-    ):
-        environment.pop(name, None)
-    for name in tuple(environment):
-        if (name.startswith("BASH_FUNC_")
-                or name.startswith("GIT_CONFIG_KEY_")
-                or name.startswith("GIT_CONFIG_VALUE_")):
-            environment.pop(name, None)
-    if os.name == "nt":
-        environment["PATH"] = ";".join((
+def _fixed_git_environment_v1(executable: str,
+                              platform_name: str) -> dict[str, str]:
+    if platform_name == "nt":
+        path_value = ";".join((
             r"C:\Program Files\Git\cmd",
             r"C:\Program Files\Git\bin",
             r"C:\Program Files\Git\usr\bin",
             r"C:\Windows\System32",
             r"C:\Windows",
         ))
-    return environment
+        sink = "NUL"
+    elif platform_name == "posix":
+        path_value = ":".join(dict.fromkeys(
+            (str(Path(executable).parent), "/usr/bin", "/bin")))
+        sink = "/dev/null"
+    else:
+        raise RotationError("trusted Git platform is unsupported")
+    return {
+        "PATH": path_value, "LC_ALL": "C", "LANG": "C",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": sink,
+        "GIT_TERMINAL_PROMPT": "0",
+    }
+
+
+def git_environment() -> dict[str, str]:
+    return _fixed_git_environment_v1(
+        git_executable_v1(), "nt" if os.name == "nt" else "posix")
 
 
 def git_executable_v1() -> str:

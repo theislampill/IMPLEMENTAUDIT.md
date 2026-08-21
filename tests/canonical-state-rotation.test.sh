@@ -27,7 +27,9 @@ case "${1:-}" in
   --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='null-sinks' ;;
   --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='observation-order' ;;
   --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='nonzero-readback' ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only]" ;;
+  --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='receipt-pivot' ;;
+  --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='owner-env' ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
@@ -57,7 +59,8 @@ spec = importlib.util.spec_from_file_location("rotation_sequence_cas", sys.argv[
 rotation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rotation)
 r15_target = sys.argv[4]
-if r15_target not in {"", "null-sinks", "observation-order", "nonzero-readback"}:
+if r15_target not in {"", "null-sinks", "observation-order", "nonzero-readback",
+                      "receipt-pivot", "owner-env"}:
     raise SystemExit("unknown packet-r15 focused target")
 if os.name == "nt":
     if rotation.WINDOWS_TRUSTED_GIT_PATHS_V1 != (
@@ -69,8 +72,15 @@ if os.name == "nt":
 # cwd and the isolated publication repository built below.
 physical_owner = rotation.publication_owner_repo_v1()
 physical_context = rotation.load_governed_publication_context_v1()
+expected_physical_context_keys = {
+    "repo_path", "run_root_path", "controller_id", "claim_id", "run_id",
+    "generation_id", "source_epoch", "receipt_oid", "receipt_state_digest",
+    "receipt_roadmap_digest", "expected_old_pointer_oid", "migration_marker_oid",
+    "publication_guard_refs",
+}
 if (physical_context["repo_path"] != physical_owner
-        or set(physical_context) != {"repo_path", "run_root_path", "controller_id", "claim_id", "run_id", "generation_id", "source_epoch", "receipt_oid", "expected_old_pointer_oid", "migration_marker_oid", "publication_guard_refs"}
+        or (r15_target not in {"receipt-pivot", "owner-env"}
+            and set(physical_context) != expected_physical_context_keys)
         or not all(str(physical_context[key]) for key in ("controller_id", "claim_id", "run_id", "generation_id", "source_epoch", "receipt_oid"))):
     raise SystemExit("physical ten-key v2 publication custody loader is incomplete")
 physical_cwd = Path.cwd()
@@ -114,6 +124,8 @@ EXPECTED_CLAIM_MISMATCH_KEYS = (
 )
 if (fixture.get("publisher_ids") != list(EXPECTED_PUBLISHER_IDS)
         or fixture.get("claim_record_mismatch_keys") != list(EXPECTED_CLAIM_MISMATCH_KEYS)
+        or fixture.get("r15_round1_subcases")
+        != ["receipt-pre-fence-pivot", "cross-platform-owner-environment"]
         or len(EXPECTED_PUBLISHER_IDS) != len(set(EXPECTED_PUBLISHER_IDS))
         or len(EXPECTED_CLAIM_MISMATCH_KEYS) != len(set(EXPECTED_CLAIM_MISMATCH_KEYS))):
     raise SystemExit("publisher or claim-mismatch fixture population drift")
@@ -400,6 +412,67 @@ if (owner_rotation.publication_owner_repo_v1() != owner_repo.resolve()
         != run_root.resolve()):
     raise SystemExit("temporary source-layout owner did not resolve its physical custody")
 
+def expected_fixed_environment(platform_name, executable):
+    if platform_name == "nt":
+        path_value = ";".join((
+            r"C:\Program Files\Git\cmd", r"C:\Program Files\Git\bin",
+            r"C:\Program Files\Git\usr\bin", r"C:\Windows\System32",
+            r"C:\Windows",
+        ))
+        sink = "NUL"
+    else:
+        entries = [str(Path(executable).parent), "/usr/bin", "/bin"]
+        path_value = ":".join(dict.fromkeys(entries))
+        sink = "/dev/null"
+    return {
+        "PATH": path_value, "LC_ALL": "C", "LANG": "C",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": sink,
+        "GIT_TERMINAL_PROMPT": "0",
+    }
+
+if r15_target in {"", "owner-env"}:
+    hostile_owner_environment = {
+        "PATH": str(fake_pf) if "fake_pf" in globals() else str(Path(sys.argv[3]) / "hostile-bin"),
+        "ProgramFiles": str(Path(sys.argv[3]) / "hostile-program-files"),
+        "GIT_CONFIG_PARAMETERS": "'core.hooksPath=/hostile'",
+        "GIT_HOSTILE_R15": "hostile", "LD_LIBRARY_PATH": "hostile",
+        "LD_AUDIT": "hostile", "DYLD_LIBRARY_PATH": "hostile",
+        "DYLD_HOSTILE_R15": "hostile", "BASH_ENV": "hostile",
+        "BASH_FUNC_git%%": "() { printf hostile; }",
+    }
+    saved_owner_environment = {
+        key: os.environ.get(key) for key in hostile_owner_environment
+    }
+    os.environ.update(hostile_owner_environment)
+    try:
+        host_platform = "nt" if os.name == "nt" else "posix"
+        host_executable = owner_rotation.git_executable_v1()
+        observed_host_environment = owner_rotation.git_environment()
+        if observed_host_environment != expected_fixed_environment(
+                host_platform, host_executable):
+            raise SystemExit("physical-owner environment is not exact")
+        if (owner_rotation.publication_owner_repo_v1() != owner_repo.resolve()
+                or owner_rotation.load_governed_publication_context_v1()["run_root_path"]
+                != run_root.resolve()):
+            raise SystemExit("hostile caller environment selected physical custody")
+        other_platform = "posix" if host_platform == "nt" else "nt"
+        other_executable = ("/usr/bin/git" if other_platform == "posix"
+                            else r"C:\Program Files\Git\cmd\git.exe")
+        observed_other_environment = owner_rotation._fixed_git_environment_v1(
+            other_executable, other_platform)
+        if observed_other_environment != expected_fixed_environment(
+                other_platform, other_executable):
+            raise SystemExit("other-platform owner environment is not exact")
+    finally:
+        for key, value in saved_owner_environment.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+    if r15_target == "owner-env":
+        print("R15_OWNER_ENV_GREEN=PASS")
+        raise SystemExit(0)
+
 claim_mutations = {
     "schema": "implementaudit.run-claim.v3",
     "claim_id": "b" * 32,
@@ -546,7 +619,7 @@ if owner_manifest_raw != owner_rotation.canonical_json_v1(owner_manifest):
     raise SystemExit("copied owner manifest builder did not return canonical product bytes")
 owner_manifest_oid = blob(owner_repo, owner_manifest_raw)
 
-def owner_pointer(*, controller="controller-1", degraded="NONE"):
+def owner_pointer(*, controller="controller-1", degraded="NONE", state_digest=None):
     pointer, raw = owner_rotation.build_generation_pointer_v1(
         controller_id=controller, claim_id=claim_id, run_id=run_name,
         generation_id="G0001", source_epoch="G0001",
@@ -554,7 +627,7 @@ def owner_pointer(*, controller="controller-1", degraded="NONE"):
         generation_manifest_oid=owner_manifest_oid,
         generation_manifest_digest=owner_manifest["manifest_digest"],
         cold_high_water=owner_manifest["high_water"],
-        hot_state_digest=expected_digests["STATE"],
+        hot_state_digest=state_digest or expected_digests["STATE"],
         hot_roadmap_digest=expected_digests["ROADMAP"],
         work_graph_path="WORK_GRAPH.json",
         work_graph_digest=expected_digests["WORK_GRAPH"],
@@ -564,6 +637,9 @@ def owner_pointer(*, controller="controller-1", degraded="NONE"):
 owner_pointer_value, owner_pointer_oid = owner_pointer()
 _, owner_loser_oid = owner_pointer(degraded="ACTIVEGRAPH_DOGFOOD_DEGRADED")
 _, owner_wrong_live_oid = owner_pointer(controller="controller-2")
+receipt_pivot_state = b"Current epoch: G0001\nreceipt-pivot=B\n"
+_, owner_receipt_pivot_oid = owner_pointer(
+    state_digest=hashlib.sha256(receipt_pivot_state).hexdigest())
 bad_controller_segment = reidentify(dict(owner_segment, controller_id="controller-2"))
 bad_controller_oid = blob(owner_repo, owner_rotation.canonical_json_v1(bad_controller_segment))
 bad_epoch_segment = reidentify(dict(owner_segment, source_epoch="G0002"))
@@ -628,6 +704,29 @@ def with_subprocess_proxy(proxy, action):
         return action()
     finally:
         owner_rotation.subprocess = original
+
+reset_owner_case()
+receipt_pivot = {"done": False}
+def receipt_pivot_hook(values, _args, _kwargs):
+    if (not receipt_pivot["done"] and "cat-file" in values and "blob" in values
+            and owner_receipt_pivot_oid in values):
+        (run_root / "STATE.md").write_bytes(receipt_pivot_state)
+        receipt_pivot["done"] = True
+    return None
+try:
+    with_subprocess_proxy(SubprocessProxy(receipt_pivot_hook), lambda:
+        owner_rotation.publish_generation_pointer_v1(
+            candidate_pointer_oid=owner_receipt_pivot_oid))
+except owner_rotation.RotationError:
+    pass
+else:
+    raise SystemExit("receipt-bound pre-fence pivot was accepted")
+if not receipt_pivot["done"] or current_oid() is not None:
+    raise SystemExit("receipt-bound pre-fence pivot escaped without a clean refusal")
+receipt_pivot_passed = True
+if r15_target == "receipt-pivot":
+    print("R15_RECEIPT_PIVOT_GREEN=PASS")
+    raise SystemExit(0)
 
 reset_owner_case()
 owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
@@ -749,6 +848,8 @@ for role, filename in (("STATE", "STATE.md"), ("ROADMAP", "ROADMAP.md"),
                 owner_rotation._read_posix_descriptor_bytes_v1 = original_native_read
         if not injected["done"] or current_oid() is not None:
             raise SystemExit(case_id + " escaped the publisher fence")
+        if case_id == "mutation-STATE-in-place" and not receipt_pivot_passed:
+            raise SystemExit("STATE mutation row omitted the receipt-pivot subcase")
         record_publisher(case_id)
 
 reset_owner_case()

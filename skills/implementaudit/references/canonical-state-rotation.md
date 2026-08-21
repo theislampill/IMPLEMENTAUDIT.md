@@ -20,12 +20,16 @@ calls the live owner resolver, which remains fail-closed with
 
 Publication derives controller, claim, run root, receipt, invalidation,
 migration-marker and current-generation guards from the one controller record.
-It verifies controller-worktree shared custody and the exact v2 receipt binding
-before it accepts a candidate. A create-exclusive shared-writer lease is held
-before that derivation through post-CAS readback. Candidate/predessor objects
-are frozen and reread before two complete no-follow STATE, ROADMAP and
-WORK_GRAPH observation passes. After vector equality, the prebuilt sanitized
-`git update-ref --stdin -z` transaction is the only publication operation; its
+It opens retained no-follow STATE, ROADMAP, and WORK_GRAPH handles, derives the
+generation and exact STATE/ROADMAP receipt digests from those handles, and
+verifies controller-worktree shared custody plus the exact v2 receipt binding.
+The candidate STATE/ROADMAP digests must equal those receipt-bound observations;
+WORK_GRAPH remains candidate-bound. A create-exclusive shared-writer lease and
+all three handles are held before that derivation through post-CAS readback.
+Candidate/predecessor objects are frozen and reread before two complete
+canonical-path-sorted eight-field observation passes over those same handles.
+After vector equality, the prebuilt sanitized `git update-ref --stdin -z`
+transaction is the only publication operation; its
 ordered verifies guard controller, receipt, invalidation and migration marker,
 and its update guards the expected old current-generation OID. A failed CAS is
 a typed expected-old loser only when bounded readback proves a distinct winner;
@@ -36,6 +40,10 @@ and cryptographic primitives are trusted substrate. The publisher selects Git
 only from fixed platform paths, never caller `PATH`, `ProgramFiles`, authority,
 or path overrides, but does not authenticate that substrate through SID, UID,
 ACL, executable-handle identity, digest, provenance, or authenticity claims.
+The physical-owner discovery shell also selects its own fixed platform Git and
+receives only the exact six-key `PATH`/locale/config/prompt allowlist; inherited
+`GIT_*`, `LD_*`, `DYLD_*`, `BASH_FUNC_*`, `BASH_ENV`, and platform-path override
+state is absent.
 Repository/global hooks and configuration are neutralized with the fixed
 platform null/non-executable sink (`NUL` on Windows, `/dev/null` on POSIX); a
 repository-local isolation object is never a fallback.

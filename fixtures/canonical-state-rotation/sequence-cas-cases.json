@@ -38,6 +38,10 @@
     "run_root",
     "run_name"
   ],
+  "r15_round1_subcases": [
+    "receipt-pre-fence-pivot",
+    "cross-platform-owner-environment"
+  ],
   "cases": [
     {"id": "SC01-single-winner", "expect": "WINNER"},
     {"id": "SC02-loser-not-queryable", "expect": "NOT_QUERYABLE"},
