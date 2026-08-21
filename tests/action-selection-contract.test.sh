@@ -42,6 +42,8 @@ reset_sandbox() {
   cp skills/implementaudit/SKILL.md "$tmp_root/skills/implementaudit/"
   cp skills/implementaudit/references/planning-depth.md \
     "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/references/audit-playbook.md \
+    "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/lean-operating-discipline.md \
     "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/child-agents.md \
@@ -934,5 +936,45 @@ case["expected"] = "VERIFY_PACKAGE_CONSUMER"
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "multi-impact verifier plan lost composed outcome"
+
+# 63. The reviewed 31/18/4/6/1 proof-layer partition is exact and retains the
+# external/domain rows as unverified rather than silently closing them.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["proof_layer_partition"]["external_domain_unverified"] = 5
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "security profile accepted a changed proof-layer partition"
+
+# 64. Each bounded security-profile control has a distinct observable outcome;
+# relabelling one as its distractor must fail against the real checker.
+while IFS='|' read -r case_id wrong_expected; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$case_id" "$wrong_expected" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id, wrong_expected = sys.argv[2:]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == case_id)
+case["expected"] = wrong_expected
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "security-profile control relabelled for $case_id"
+done <<'EOF'
+R002E-S01-material-profile-selected|NO_SECURITY_PROFILE
+R002E-S02-low-exposure-cheap-path|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S03-stale-provenance-blocked|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S04-authentication-is-not-authorization|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S05-availability-is-not-trust-restoration|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S06-label-only-proof-rejected|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S07-no-trigger-no-profile|SELECT_NATIVE_SECURITY_PROFILE
+R002E-S08-unbounded-adversary-held|SELECT_NATIVE_SECURITY_PROFILE
+EOF
 
 printf 'action-selection-contract.test: ok\n'

@@ -129,6 +129,24 @@ risk deepens the action set automatically; request size alone never does.
 An absent or hand-wavy action-selection record is a plan-quality defect, not a
 style preference.
 
+### Conditional systems-security selection
+
+The same live factors select the conditional profile in
+`audit-playbook.md` when there is a material protected consequence, an exposed
+or untrusted capability, a changed trust, privilege, or delegation boundary,
+consequential security authority, a provenance-dependent claim,
+adaptive-adversary or common-mode risk, weak detection or recovery, or a
+consequential security, privacy, safety, availability, or usability decision.
+Record why the profile was selected or omitted and the cheapest sufficient
+evidence layer. It remains attached to the current audit-object owner, with no
+separate security mode, workflow, or planning artifact.
+
+Low-exposure reversible work inside a current proven envelope stays on the
+cheap path: record the protected consequence, one plausible-abuse or trust
+check, exact current identity, and rollback. If neither a profile trigger nor
+that cheap-path condition exists, record the omission reason and retain the
+ordinary security pressure; do not manufacture a profile.
+
 ### Verifier-plan selection
 
 For a proposed change, derive the verifier plan in this order: exact change
