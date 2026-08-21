@@ -76,37 +76,19 @@ class PublicationObservationV1(NamedTuple):
     expected_digest: str
 
 
-class TrustedExecutableIdentityV1(NamedTuple):
-    canonical_path: str
-    file_identity: tuple[int, int]
-    size: int
-    ctime_ns: int
-    mtime_ns: int
-    sha256: str
-    owner_identity: str
-
-
 class _NativeFileSnapshotV1(NamedTuple):
     canonical_path: str
     file_identity: tuple[int, int]
     size: int
     ctime_ns: int
     mtime_ns: int
-    owner_identity: str | None
 
 
 WINDOWS_TRUSTED_GIT_PATHS_V1 = (
     r"C:\Program Files\Git\cmd\git.exe",
     r"C:\Program Files\Git\bin\git.exe",
 )
-# These are the only Windows security principals accepted as owners of the
-# fixed Program Files Git executable: LocalSystem, BUILTIN\Administrators, and
-# NT SERVICE\TrustedInstaller.  Caller/user/service SIDs are never accepted.
-WINDOWS_TRUSTED_OWNER_SIDS_V1 = frozenset({
-    "S-1-5-18",
-    "S-1-5-32-544",
-    "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464",
-})
+PLATFORM_NULL_SINK_V1 = "NUL" if os.name == "nt" else "/dev/null"
 WINDOWS_FILE_ATTRIBUTE_DIRECTORY = 0x10
 WINDOWS_FILE_ATTRIBUTE_REPARSE_POINT = 0x400
 WINDOWS_GENERIC_READ = 0x80000000
@@ -784,11 +766,10 @@ def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
     return None
 
 
-def _windows_apis_v1() -> tuple[object, object]:
+def _windows_apis_v1() -> object:
     if os.name != "nt" or not hasattr(ctypes, "WinDLL"):
         raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
     kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
-    advapi32 = ctypes.WinDLL("advapi32", use_last_error=True)
     kernel32.CreateFileW.argtypes = [
         ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p,
         ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p,
@@ -813,23 +794,11 @@ def _windows_apis_v1() -> tuple[object, object]:
         ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p,
     ]
     kernel32.ReadFile.restype = ctypes.c_int
-    kernel32.LocalFree.argtypes = [ctypes.c_void_p]
-    kernel32.LocalFree.restype = ctypes.c_void_p
-    advapi32.GetSecurityInfo.argtypes = [
-        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32,
-        ctypes.POINTER(ctypes.c_void_p), ctypes.c_void_p, ctypes.c_void_p,
-        ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p),
-    ]
-    advapi32.GetSecurityInfo.restype = ctypes.c_uint32
-    advapi32.ConvertSidToStringSidW.argtypes = [
-        ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p),
-    ]
-    advapi32.ConvertSidToStringSidW.restype = ctypes.c_int
-    return kernel32, advapi32
+    return kernel32
 
 
 def _windows_open_regular_no_reparse_v1(path: Path) -> int:
-    kernel32, _ = _windows_apis_v1()
+    kernel32 = _windows_apis_v1()
     handle = kernel32.CreateFileW(
         str(path), WINDOWS_GENERIC_READ, WINDOWS_FILE_SHARE_ALL, None,
         WINDOWS_OPEN_EXISTING, WINDOWS_FILE_FLAG_OPEN_REPARSE_POINT, None,
@@ -850,7 +819,7 @@ def _windows_open_regular_no_reparse_v1(path: Path) -> int:
 
 
 def _windows_close_handle_v1(handle: int) -> None:
-    kernel32, _ = _windows_apis_v1()
+    kernel32 = _windows_apis_v1()
     if not kernel32.CloseHandle(ctypes.c_void_p(handle)):
         raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
 
@@ -860,31 +829,8 @@ def _windows_filetime_ns_v1(value: _WindowsFileTimeV1) -> int:
     return (ticks - WINDOWS_EPOCH_OFFSET_100NS) * 100
 
 
-def _windows_owner_sid_v1(handle: int) -> str:
-    kernel32, advapi32 = _windows_apis_v1()
-    owner = ctypes.c_void_p()
-    security_descriptor = ctypes.c_void_p()
-    result = advapi32.GetSecurityInfo(
-        ctypes.c_void_p(handle), 1, 1, ctypes.byref(owner), None, None, None,
-        ctypes.byref(security_descriptor),
-    )
-    if result != 0 or not owner.value or not security_descriptor.value:
-        if security_descriptor.value:
-            kernel32.LocalFree(security_descriptor)
-        raise RotationError("trusted Windows file ownership is unavailable")
-    sid_text = ctypes.c_void_p()
-    try:
-        if not advapi32.ConvertSidToStringSidW(owner, ctypes.byref(sid_text)):
-            raise RotationError("trusted Windows file ownership is unavailable")
-        return ctypes.wstring_at(sid_text.value)
-    finally:
-        if sid_text.value:
-            kernel32.LocalFree(sid_text)
-        kernel32.LocalFree(security_descriptor)
-
-
-def _windows_snapshot_v1(handle: int, *, include_owner: bool) -> _NativeFileSnapshotV1:
-    kernel32, _ = _windows_apis_v1()
+def _windows_snapshot_v1(handle: int) -> _NativeFileSnapshotV1:
+    kernel32 = _windows_apis_v1()
     information = _WindowsByHandleFileInformationV1()
     if not kernel32.GetFileInformationByHandle(
             ctypes.c_void_p(handle), ctypes.byref(information)):
@@ -911,12 +857,11 @@ def _windows_snapshot_v1(handle: int, *, include_owner: bool) -> _NativeFileSnap
         size,
         _windows_filetime_ns_v1(information.creation_time),
         _windows_filetime_ns_v1(information.last_write_time),
-        _windows_owner_sid_v1(handle) if include_owner else None,
     )
 
 
 def _windows_read_handle_bytes_v1(handle: int) -> bytes:
-    kernel32, _ = _windows_apis_v1()
+    kernel32 = _windows_apis_v1()
     if not kernel32.SetFilePointerEx(ctypes.c_void_p(handle), 0, None, 0):
         raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
     chunks: list[bytes] = []
@@ -934,58 +879,6 @@ def _windows_read_handle_bytes_v1(handle: int) -> bytes:
 def _read_posix_descriptor_bytes_v1(descriptor: int) -> bytes:
     os.lseek(descriptor, 0, os.SEEK_SET)
     return b"".join(iter(lambda: os.read(descriptor, 65536), b""))
-
-
-def freeze_trusted_executable_v1(path: Path) -> TrustedExecutableIdentityV1:
-    if os.name == "nt":
-        handle = _windows_open_regular_no_reparse_v1(path)
-        try:
-            snapshot = _windows_snapshot_v1(handle, include_owner=True)
-            if snapshot.owner_identity not in WINDOWS_TRUSTED_OWNER_SIDS_V1:
-                raise RotationError("trusted Windows file ownership is invalid")
-            data = _windows_read_handle_bytes_v1(handle)
-            after = _windows_snapshot_v1(handle, include_owner=True)
-            if after != snapshot or len(data) != snapshot.size:
-                raise RotationError("trusted Git executable changed")
-        finally:
-            _windows_close_handle_v1(handle)
-    else:
-        if not hasattr(os, "O_NOFOLLOW"):
-            raise RotationError("trusted Git executable identity is unsupported")
-        try:
-            descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
-        except OSError as exc:
-            raise RotationError("trusted Git executable identity is unsupported") from exc
-        try:
-            before = os.fstat(descriptor)
-            if not stat.S_ISREG(before.st_mode) or before.st_uid != 0:
-                raise RotationError("trusted Git executable ownership is invalid")
-            data = _read_posix_descriptor_bytes_v1(descriptor)
-            after = os.fstat(descriptor)
-            if ((before.st_dev, before.st_ino, before.st_size, before.st_ctime_ns,
-                 before.st_mtime_ns) !=
-                    (after.st_dev, after.st_ino, after.st_size, after.st_ctime_ns,
-                     after.st_mtime_ns) or len(data) != before.st_size):
-                raise RotationError("trusted Git executable changed")
-            snapshot = _NativeFileSnapshotV1(
-                os.path.normcase(os.path.abspath(path)),
-                (before.st_dev, before.st_ino), before.st_size,
-                before.st_ctime_ns, before.st_mtime_ns, "uid:0")
-        finally:
-            os.close(descriptor)
-    return TrustedExecutableIdentityV1(
-        snapshot.canonical_path, snapshot.file_identity, snapshot.size,
-        snapshot.ctime_ns, snapshot.mtime_ns, hashlib.sha256(data).hexdigest(),
-        str(snapshot.owner_identity),
-    )
-
-
-def observe_trusted_executable_v1(
-        expected: TrustedExecutableIdentityV1) -> TrustedExecutableIdentityV1:
-    observed = freeze_trusted_executable_v1(Path(expected.canonical_path))
-    if observed != expected:
-        raise RotationError("trusted Git executable changed")
-    return observed
 
 
 def publication_owner_repo_v1() -> Path:
@@ -1112,53 +1005,13 @@ def prepare_trusted_update_ref_transaction_v1(*, repo: Path, ref: str, new_oid: 
         rows.append(b"verify " + guard_ref.encode("ascii") + b"\0" + guard_oid.encode("ascii") + b"\0")
     rows.append(b"update " + ref.encode("ascii") + b"\0" + new_oid.encode("ascii")
                 + b"\0" + old_oid.encode("ascii") + b"\0prepare\0commit\0")
-    if os.name == "nt":
-        # Platform fixed trust roots: never derive a final transaction binary
-        # from caller environment (including ProgramFiles or PATH).
-        candidates = [Path(value) for value in WINDOWS_TRUSTED_GIT_PATHS_V1]
-    else:
-        candidates = [Path("/usr/bin/git"), Path("/usr/local/bin/git")]
-    executable_path = next((candidate for candidate in candidates
-                            if candidate.is_file() and not candidate.is_symlink()), None)
-    if executable_path is None:
-        raise RotationError("trusted Git executable is unavailable")
-    trusted_executable = freeze_trusted_executable_v1(executable_path)
-    executable = trusted_executable.canonical_path
-    git_dir = Path(git(repo, "rev-parse", "--git-dir").decode("utf-8", "strict").strip())
-    if not git_dir.is_absolute():
-        git_dir = repo / git_dir
-    hooks = git_dir / "implementaudit-r0039-empty-hooks"
-    global_config = git_dir / "implementaudit-r0039-empty-global-config"
-    try:
-        hooks.mkdir(mode=0o700, exist_ok=True)
-        mode = stat.S_IMODE(os.lstat(hooks).st_mode)
-    except OSError as exc:
-        raise RotationError("trusted Git hook isolation is unavailable") from exc
-    if (not hooks.is_dir() or is_reparse(os.lstat(hooks)) or any(hooks.iterdir())
-            or (os.name != "nt" and mode & 0o077)):
-        raise RotationError("trusted Git hook isolation is invalid")
-    try:
-        descriptor = os.open(global_config, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-    except FileExistsError:
-        descriptor = None
-    except OSError as exc:
-        raise RotationError("trusted Git global configuration is unavailable") from exc
-    if descriptor is not None:
-        os.close(descriptor)
-    try:
-        config_stat = os.lstat(global_config)
-    except OSError as exc:
-        raise RotationError("trusted Git global configuration is unavailable") from exc
-    if (not stat.S_ISREG(config_stat.st_mode) or stat.S_ISLNK(config_stat.st_mode)
-            or is_reparse(config_stat) or config_stat.st_size != 0):
-        raise RotationError("trusted Git global configuration is invalid")
+    executable = git_executable_v1()
     environment = {"PATH": os.path.dirname(executable), "LC_ALL": "C", "LANG": "C",
-                   "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": str(global_config),
+                   "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": PLATFORM_NULL_SINK_V1,
                    "GIT_TERMINAL_PROMPT": "0"}
-    return {"argv": [executable, "-c", f"core.hooksPath={hooks}", "update-ref", "--stdin", "-z"],
-            "cwd": str(repo), "env": environment, "stdin_bytes": b"".join(rows), "ref": ref,
-            "trusted_executable_identity": trusted_executable,
-            "trusted_hooks": str(hooks), "trusted_global_config": str(global_config)}
+    return {"argv": [executable, "-c", f"core.hooksPath={PLATFORM_NULL_SINK_V1}",
+                     "update-ref", "--stdin", "-z"],
+            "cwd": str(repo), "env": environment, "stdin_bytes": b"".join(rows), "ref": ref}
 
 
 def read_back_published_ref_v1(cas: dict[str, object]) -> str:
@@ -1167,22 +1020,29 @@ def read_back_published_ref_v1(cas: dict[str, object]) -> str:
                                env=dict(cas["env"]), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
     if completed.returncode != 0:
         raise RotationError("publication readback has unknown effect")
-    oid = completed.stdout.decode("utf-8", "strict").strip()
+    try:
+        oid = completed.stdout.decode("utf-8", "strict").strip()
+    except UnicodeDecodeError as exc:
+        raise RotationError("publication readback has unknown effect") from exc
     if not GIT_OID.fullmatch(oid):
-        raise RotationError("publication readback identity is invalid")
+        raise RotationError("publication readback has unknown effect")
     return oid
 
 
 def verify_trusted_update_ref_transaction_v1(cas: dict[str, object]) -> None:
-    expected = cas["trusted_executable_identity"]
-    if not isinstance(expected, TrustedExecutableIdentityV1):
-        raise RotationError("trusted Git executable identity is invalid")
-    observe_trusted_executable_v1(expected)
-    for value, directory in ((cas["trusted_hooks"], True), (cas["trusted_global_config"], False)):
-        path = Path(str(value)); current = os.lstat(path)
-        if (is_reparse(current) or (directory and (not path.is_dir() or any(path.iterdir())))
-                or (not directory and (not stat.S_ISREG(current.st_mode) or current.st_size != 0))):
-            raise RotationError("trusted Git isolation changed")
+    executable = git_executable_v1()
+    expected_environment = {
+        "PATH": os.path.dirname(executable), "LC_ALL": "C", "LANG": "C",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": PLATFORM_NULL_SINK_V1,
+        "GIT_TERMINAL_PROMPT": "0",
+    }
+    expected_prefix = [executable, "-c", f"core.hooksPath={PLATFORM_NULL_SINK_V1}",
+                       "update-ref", "--stdin", "-z"]
+    if (set(cas) != {"argv", "cwd", "env", "stdin_bytes", "ref"}
+            or cas["argv"] != expected_prefix or cas["env"] != expected_environment
+            or type(cas["cwd"]) is not str or type(cas["stdin_bytes"]) is not bytes
+            or type(cas["ref"]) is not str):
+        raise RotationError("trusted Git transaction changed")
 
 
 def quarantine_unreferenced_cas_loser_v1(repo: Path, candidate_oid: str) -> str:
@@ -1264,7 +1124,7 @@ class _RetainedPublicationFileV1:
         self.descriptor: int | None = None
         if os.name == "nt":
             self.handle = _windows_open_regular_no_reparse_v1(path)
-            self.initial = _windows_snapshot_v1(self.handle, include_owner=False)
+            self.initial = _windows_snapshot_v1(self.handle)
         else:
             if not hasattr(os, "O_NOFOLLOW"):
                 raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
@@ -1280,7 +1140,7 @@ class _RetainedPublicationFileV1:
             self.initial = _NativeFileSnapshotV1(
                 os.path.normcase(os.path.abspath(path)),
                 (opened.st_dev, opened.st_ino), opened.st_size,
-                opened.st_ctime_ns, opened.st_mtime_ns, None)
+                opened.st_ctime_ns, opened.st_mtime_ns)
 
     def close(self) -> None:
         if self.handle is not None:
@@ -1299,20 +1159,20 @@ class _RetainedPublicationFileV1:
 
     def current_snapshot(self) -> _NativeFileSnapshotV1:
         if self.handle is not None:
-            return _windows_snapshot_v1(self.handle, include_owner=False)
+            return _windows_snapshot_v1(self.handle)
         if self.descriptor is None:
             raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
         current = os.fstat(self.descriptor)
         return _NativeFileSnapshotV1(
             self.initial.canonical_path, (current.st_dev, current.st_ino),
-            current.st_size, current.st_ctime_ns, current.st_mtime_ns, None)
+            current.st_size, current.st_ctime_ns, current.st_mtime_ns)
 
     def reopened_snapshot(self) -> _NativeFileSnapshotV1:
         path = Path(self.initial.canonical_path)
         if os.name == "nt":
             reopened = _windows_open_regular_no_reparse_v1(path)
             try:
-                return _windows_snapshot_v1(reopened, include_owner=False)
+                return _windows_snapshot_v1(reopened)
             finally:
                 _windows_close_handle_v1(reopened)
         if not hasattr(os, "O_NOFOLLOW"):
@@ -1330,7 +1190,7 @@ class _RetainedPublicationFileV1:
             raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
         return _NativeFileSnapshotV1(
             self.initial.canonical_path, (current.st_dev, current.st_ino),
-            current.st_size, current.st_ctime_ns, current.st_mtime_ns, None)
+            current.st_size, current.st_ctime_ns, current.st_mtime_ns)
 
 
 class PublicationObservationSessionV1:
@@ -1373,7 +1233,7 @@ class PublicationObservationSessionV1:
                 role, retained.initial.canonical_path, retained.initial.file_identity,
                 retained.initial.size, retained.initial.ctime_ns,
                 retained.initial.mtime_ns, digest, expected))
-        return tuple(rows)
+        return tuple(sorted(rows, key=lambda row: row.canonical_no_follow_path))
 
 
 def observe_publication_vector_v1(*, context: dict[str, object],
@@ -1439,10 +1299,13 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
                                        input=cas["stdin_bytes"], stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE, check=False)
         if completed.returncode != 0:
-            observed = read_optional_exact_ref_oid_v1(repo, ref)
+            observed = read_back_published_ref_v1(cas)
+            expected_old = context["expected_old_pointer_oid"] or ZERO_OID
+            if observed in {candidate_pointer_oid, expected_old}:
+                raise RotationError("publication readback has unknown effect")
             classification = quarantine_unreferenced_cas_loser_v1(repo, candidate_pointer_oid)
             raise ExpectedOldCasLost(ref, candidate_pointer_oid,
-                                     context["expected_old_pointer_oid"] or ZERO_OID, observed, classification)
+                                     expected_old, observed, classification)
         observed = read_back_published_ref_v1(cas)
         if observed != candidate_pointer_oid:
             raise RotationError("current-generation pointer readback mismatch")
@@ -1511,10 +1374,11 @@ def git_environment() -> dict[str, str]:
 
 
 def git_executable_v1() -> str:
-    if os.name != "nt":
-        return "git"
-    executable = next((Path(value) for value in WINDOWS_TRUSTED_GIT_PATHS_V1
-                       if Path(value).is_file() and not Path(value).is_symlink()), None)
+    candidates = (tuple(Path(value) for value in WINDOWS_TRUSTED_GIT_PATHS_V1)
+                  if os.name == "nt"
+                  else (Path("/usr/bin/git"), Path("/usr/local/bin/git")))
+    executable = next((candidate for candidate in candidates
+                       if candidate.is_file() and not candidate.is_symlink()), None)
     if executable is None:
         raise RotationError("trusted Git executable is unavailable")
     return str(executable)

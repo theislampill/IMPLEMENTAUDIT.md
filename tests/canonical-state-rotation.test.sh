@@ -18,13 +18,16 @@ trap 'rm -rf -- "$tmp"' EXIT
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 
 case "${1:-}" in
-  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false ;;
-  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false; sequence_cas_only=false ;;
-  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false ;;
-  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false ;;
-  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true; sequence_cas_only=false ;;
-  --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only]" ;;
+  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
+  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
+  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
+  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; r15_target='' ;;
+  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true; sequence_cas_only=false; r15_target='' ;;
+  --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='' ;;
+  --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='null-sinks' ;;
+  --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='observation-order' ;;
+  --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; r15_target='nonzero-readback' ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
@@ -39,7 +42,7 @@ if $clarifications_only; then
 fi
 if $sequence_cas_only; then
   [ -f "$sequence_cas_fixture" ] || fail "missing sequence-CAS fixture"
-  python - "$helper" "$sequence_cas_fixture" "$tmp" <<'PY'
+  python - "$helper" "$sequence_cas_fixture" "$tmp" "$r15_target" <<'PY'
 import contextlib
 import hashlib
 import importlib.util
@@ -53,23 +56,14 @@ import sys
 spec = importlib.util.spec_from_file_location("rotation_sequence_cas", sys.argv[1])
 rotation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rotation)
-native_contract_symbols = {
-    "WINDOWS_TRUSTED_GIT_PATHS_V1", "WINDOWS_TRUSTED_OWNER_SIDS_V1",
-    "freeze_trusted_executable_v1", "observe_trusted_executable_v1",
-}
-missing_native_contract = sorted(native_contract_symbols - set(vars(rotation)))
-if missing_native_contract:
-    raise SystemExit("native Windows trust/fence contract unavailable: "
-                     + ",".join(missing_native_contract))
+r15_target = sys.argv[4]
+if r15_target not in {"", "null-sinks", "observation-order", "nonzero-readback"}:
+    raise SystemExit("unknown packet-r15 focused target")
 if os.name == "nt":
     if rotation.WINDOWS_TRUSTED_GIT_PATHS_V1 != (
             r"C:\Program Files\Git\cmd\git.exe",
             r"C:\Program Files\Git\bin\git.exe"):
         raise SystemExit("native Windows Git trust roots are not exact")
-    if rotation.WINDOWS_TRUSTED_OWNER_SIDS_V1 != frozenset({
-            "S-1-5-18", "S-1-5-32-544",
-            "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464"}):
-        raise SystemExit("native Windows owner SID allowlist is not exact")
 # This is deliberately the installed helper's physical-owner route, with no
 # replacement of either loader.  It must stay independent of both this test's
 # cwd and the isolated publication repository built below.
@@ -104,6 +98,25 @@ sc10_subcases = ["manifest-as-pointer", "noncanonical-pointer-bytes", "noncanoni
                  "generation-id", "source-epoch", "cold-high-water"]
 if fixture["cases"][-1].get("subcases") != sc10_subcases:
     raise SystemExit("SC10 fixture subcase population drift")
+
+EXPECTED_PUBLISHER_IDS = (
+    "wrong-live", "stored-controller", "stored-source-epoch", "winner", "loser",
+    "guard-controller", "guard-invalidation", "guard-receipt", "guard-marker",
+    "mutation-STATE-in-place", "mutation-STATE-replacement", "mutation-STATE-write-restore",
+    "mutation-ROADMAP-in-place", "mutation-ROADMAP-replacement", "mutation-ROADMAP-write-restore",
+    "mutation-WORK_GRAPH-in-place", "mutation-WORK_GRAPH-replacement",
+    "mutation-WORK_GRAPH-write-restore", "immutable-path", "immutable-object",
+    "lease-held", "final-trace", "unknown-effect", "hostile-hooks-env",
+)
+EXPECTED_CLAIM_MISMATCH_KEYS = (
+    "schema", "claim_id", "claimed_at_utc", "mode", "templates", "repo_root",
+    "git_common_dir", "run_base", "run_root", "run_name",
+)
+if (fixture.get("publisher_ids") != list(EXPECTED_PUBLISHER_IDS)
+        or fixture.get("claim_record_mismatch_keys") != list(EXPECTED_CLAIM_MISMATCH_KEYS)
+        or len(EXPECTED_PUBLISHER_IDS) != len(set(EXPECTED_PUBLISHER_IDS))
+        or len(EXPECTED_CLAIM_MISMATCH_KEYS) != len(set(EXPECTED_CLAIM_MISMATCH_KEYS))):
+    raise SystemExit("publisher or claim-mismatch fixture population drift")
 
 
 def error(action, expected=None):
@@ -324,7 +337,7 @@ for name in ("PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.m
 owner_repo_text = owner_repo.resolve().as_posix()
 owner_common = git(owner_repo, "rev-parse", "--path-format=absolute", "--git-common-dir").decode().strip()
 claim_id = "a" * 32
-(run_root / ".claimed").write_bytes(("\n".join((
+positive_claim_lines = (
     "schema=implementaudit.run-claim.v2",
     "claim_id=" + claim_id,
     "claimed_at_utc=2026-08-21T00:00:00Z",
@@ -335,7 +348,8 @@ claim_id = "a" * 32
     "run_base=.IMPLEMENTAUDIT/runs",
     "run_root=.IMPLEMENTAUDIT/runs/" + run_name,
     "run_name=" + run_name,
-)) + "\n").encode())
+)
+(run_root / ".claimed").write_bytes(("\n".join(positive_claim_lines) + "\n").encode())
 git(owner_repo, "config", "user.name", "Task4 Fixture")
 git(owner_repo, "config", "user.email", "task4@example.invalid")
 git(owner_repo, "add", "skills", ".IMPLEMENTAUDIT")
@@ -386,6 +400,36 @@ if (owner_rotation.publication_owner_repo_v1() != owner_repo.resolve()
         != run_root.resolve()):
     raise SystemExit("temporary source-layout owner did not resolve its physical custody")
 
+claim_mutations = {
+    "schema": "implementaudit.run-claim.v3",
+    "claim_id": "b" * 32,
+    "claimed_at_utc": "not-rfc3339",
+    "mode": "hostile",
+    "templates": "STATE.md",
+    "repo_root": owner_repo_text + "/other",
+    "git_common_dir": owner_common + "/other",
+    "run_base": ".IMPLEMENTAUDIT/other-runs",
+    "run_root": ".IMPLEMENTAUDIT/runs/other-AbC123",
+    "run_name": "other-AbC123",
+}
+executed_claim_mismatch_keys = []
+for index, key in enumerate(EXPECTED_CLAIM_MISMATCH_KEYS):
+    changed = list(positive_claim_lines)
+    changed[index] = key + "=" + claim_mutations[key]
+    (run_root / ".claimed").write_bytes(("\n".join(changed) + "\n").encode())
+    rejected = subprocess.run([
+        r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+        "--publication-custody",
+    ], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+       env=owner_rotation.git_environment(), check=False)
+    if rejected.returncode == 0:
+        raise SystemExit("claim-record mismatch was accepted: " + key)
+    executed_claim_mismatch_keys.append(key)
+(run_root / ".claimed").write_bytes(("\n".join(positive_claim_lines) + "\n").encode())
+if (tuple(executed_claim_mismatch_keys) != EXPECTED_CLAIM_MISMATCH_KEYS
+        or len(executed_claim_mismatch_keys) != len(set(executed_claim_mismatch_keys))):
+    raise SystemExit("claim-record mismatch execution population drift")
+
 def owner_error(action, expected=None):
     try:
         action()
@@ -393,6 +437,13 @@ def owner_error(action, expected=None):
         if expected is not None and str(exc) != expected:
             raise SystemExit("expected %r, got %r" % (expected, exc))
         return exc
+    raise SystemExit("expected copied publisher to fail closed")
+
+def capture_owner_error(action):
+    try:
+        action()
+    except owner_rotation.RotationError as exc:
+        return type(exc).__name__, str(exc)
     raise SystemExit("expected copied publisher to fail closed")
 
 # Fixed-location/owner/native-observation controls are real where supported and
@@ -417,37 +468,61 @@ if (not any(os.path.samefile(selected_executable, fixed)
             for fixed in owner_rotation.WINDOWS_TRUSTED_GIT_PATHS_V1)
         or str(fake_pf) in str(selected_executable)):
     raise SystemExit("caller ProgramFiles selected the trusted executable")
-wrong_owner = Path(sys.argv[3]) / "wrong-owner-git.exe"
-shutil.copy2(owner_rotation.WINDOWS_TRUSTED_GIT_PATHS_V1[0], wrong_owner)
-try:
-    owner_rotation.freeze_trusted_executable_v1(wrong_owner)
-except owner_rotation.RotationError as exc:
-    if str(exc) != "trusted Windows file ownership is invalid":
-        raise
-else:
-    original_owner_sid = owner_rotation._windows_owner_sid_v1
-    owner_rotation._windows_owner_sid_v1 = lambda _handle: "S-1-5-21-1-2-3-1001"
-    try:
-        owner_error(lambda: owner_rotation.freeze_trusted_executable_v1(wrong_owner),
-                    "trusted Windows file ownership is invalid")
-    finally:
-        owner_rotation._windows_owner_sid_v1 = original_owner_sid
-owner_error(lambda: owner_rotation.freeze_trusted_executable_v1(Path(sys.argv[3])))
+fixed_null_sink = "NUL" if os.name == "nt" else "/dev/null"
+if r15_target in {"", "null-sinks"}:
+    if (fake_probe["argv"][1:3] != ["-c", "core.hooksPath=" + fixed_null_sink]
+            or fake_probe["env"].get("GIT_CONFIG_GLOBAL") != fixed_null_sink
+            or "trusted_executable_identity" in fake_probe
+            or "trusted_hooks" in fake_probe
+            or "trusted_global_config" in fake_probe):
+        raise SystemExit("fixed null/non-executable Git isolation is not exact")
+    fake_git_dir = Path(git(owner_repo, "rev-parse", "--git-dir").decode().strip())
+    if not fake_git_dir.is_absolute():
+        fake_git_dir = owner_repo / fake_git_dir
+    legacy_hooks = fake_git_dir / "implementaudit-r0039-empty-hooks"
+    legacy_config = fake_git_dir / "implementaudit-r0039-empty-global-config"
+    legacy_sentinel = Path(sys.argv[3]) / "legacy-post-preparation-hook-ran"
+    legacy_hooks.mkdir(exist_ok=True)
+    (legacy_hooks / "reference-transaction").write_text(
+        "#!/usr/bin/env sh\nprintf hook > '" + legacy_sentinel.as_posix().replace("'", "") + "'\n",
+        encoding="utf-8")
+    (legacy_hooks / "reference-transaction").chmod(0o700)
+    legacy_config.write_text("[core]\n\thooksPath = " + legacy_hooks.as_posix() + "\n",
+                             encoding="utf-8")
+    owner_rotation.verify_trusted_update_ref_transaction_v1(fake_probe)
+    fixed_probe = subprocess.run(
+        fake_probe["argv"], cwd=fake_probe["cwd"], env=fake_probe["env"],
+        input=fake_probe["stdin_bytes"], stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE, check=False)
+    if fixed_probe.returncode != 0 or legacy_sentinel.exists():
+        raise SystemExit("post-preparation hook/config injection affected fixed sinks")
+    git(owner_repo, "update-ref", "-d", "refs/implementaudit/current-generations/fake-probe")
+    if r15_target == "null-sinks":
+        print("R15_NULL_SINKS_GREEN=PASS")
+        raise SystemExit(0)
 
 expected_digests = {
     "STATE": hashlib.sha256(mutable_content["STATE.md"]).hexdigest(),
     "ROADMAP": hashlib.sha256(mutable_content["ROADMAP.md"]).hexdigest(),
     "WORK_GRAPH": hashlib.sha256(mutable_content["WORK_GRAPH.json"]).hexdigest(),
 }
-observation_rows = owner_rotation.observe_publication_vector_v1(
-    context={"run_root_path": run_root}, expected_digests=expected_digests)
-if (owner_rotation.PublicationObservationV1._fields != (
-        "semantic_role", "canonical_no_follow_path", "file_identity", "size",
-        "ctime_ns", "mtime_ns", "sha256", "expected_digest")
-        or [row.semantic_role for row in observation_rows] != ["STATE", "ROADMAP", "WORK_GRAPH"]
-        or any(len(row.file_identity) != 2 or row.sha256 != row.expected_digest
-               for row in observation_rows)):
-    raise SystemExit("native publication observation tuple is not exact")
+with owner_rotation.PublicationObservationSessionV1(
+        {"run_root_path": run_root}, expected_digests) as observation_session:
+    observation_rows = observation_session.observe(reopen=False)
+    reopened_observation_rows = observation_session.observe(reopen=True)
+if r15_target in {"", "observation-order"}:
+    if (owner_rotation.PublicationObservationV1._fields != (
+            "semantic_role", "canonical_no_follow_path", "file_identity", "size",
+            "ctime_ns", "mtime_ns", "sha256", "expected_digest")
+            or observation_rows != reopened_observation_rows
+            or [row.canonical_no_follow_path for row in observation_rows]
+            != sorted(row.canonical_no_follow_path for row in observation_rows)
+            or any(len(row.file_identity) != 2 or row.sha256 != row.expected_digest
+                   for row in observation_rows)):
+        raise SystemExit("native publication observation tuple is not exact")
+if r15_target == "observation-order":
+    print("R15_OBSERVATION_ORDER_GREEN=PASS")
+    raise SystemExit(0)
 original_windows_apis = owner_rotation._windows_apis_v1
 owner_rotation._windows_apis_v1 = lambda: (_ for _ in ()).throw(
     owner_rotation.RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED"))
@@ -517,15 +592,6 @@ def current_oid():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
     return result.stdout.decode().strip() if result.returncode == 0 else None
 
-EXPECTED_PUBLISHER_IDS = (
-    "wrong-live", "stored-controller", "stored-source-epoch", "winner", "loser",
-    "guard-controller", "guard-invalidation", "guard-receipt", "guard-marker",
-    "mutation-STATE-in-place", "mutation-STATE-replacement", "mutation-STATE-write-restore",
-    "mutation-ROADMAP-in-place", "mutation-ROADMAP-replacement", "mutation-ROADMAP-write-restore",
-    "mutation-WORK_GRAPH-in-place", "mutation-WORK_GRAPH-replacement",
-    "mutation-WORK_GRAPH-write-restore", "immutable-path", "immutable-object",
-    "lease-held", "final-trace", "unknown-effect", "hostile-hooks-env",
-)
 executed_publisher_ids = []
 
 def record_publisher(case_id):
@@ -761,7 +827,39 @@ owner_error(lambda: with_subprocess_proxy(SubprocessProxy(unknown_hook, unknown_
     "publication readback has unknown effect")
 if (unknown_trace.count("update-ref") != 1 or current_oid() != owner_pointer_oid):
     raise SystemExit("unknown-effect publisher retried or lost its first effect")
+
+nonzero_results = {}
+for readback_mode in ("failure", "contradictory"):
+    reset_owner_case()
+    nonzero_trace = []
+    nonzero_state = {"cas_seen": False, "post_cas_readbacks": 0}
+    def nonzero_hook(values, _args, _kwargs, readback_mode=readback_mode):
+        if "update-ref" in values and "--stdin" in values:
+            nonzero_state["cas_seen"] = True
+            return subprocess.CompletedProcess(values, 1, stdout=b"", stderr=b"CAS refused")
+        if (nonzero_state["cas_seen"] and "rev-parse" in values
+                and "--verify" in values and current_ref in values):
+            nonzero_state["post_cas_readbacks"] += 1
+            if readback_mode == "failure":
+                return subprocess.CompletedProcess(values, 1, stdout=b"", stderr=b"readback outage")
+            return subprocess.CompletedProcess(
+                values, 0, stdout=(owner_loser_oid + "\n").encode(), stderr=b"")
+        return None
+    nonzero_results[readback_mode] = capture_owner_error(lambda:
+        with_subprocess_proxy(SubprocessProxy(nonzero_hook, nonzero_trace), lambda:
+            owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_loser_oid)))
+    if (nonzero_trace.count("update-ref") != 1
+            or nonzero_state["post_cas_readbacks"] != 1
+            or current_oid() is not None):
+        raise SystemExit("nonzero-CAS readback control retried or changed the ref: "
+                         + readback_mode)
+expected_unknown = ("RotationError", "publication readback has unknown effect")
+if nonzero_results != {"failure": expected_unknown, "contradictory": expected_unknown}:
+    raise SystemExit("nonzero CAS readback was not unknown effect: %r" % nonzero_results)
 record_publisher("unknown-effect")
+if r15_target == "nonzero-readback":
+    print("R15_NONZERO_READBACK_GREEN=PASS")
+    raise SystemExit(0)
 
 reset_owner_case()
 owner_git_dir = Path(git(owner_repo, "rev-parse", "--git-dir").decode().strip())
@@ -777,20 +875,40 @@ hostile_environment = {
     "ProgramFiles": str(fake_pf.parents[1]), "GIT_DIR": "hostile",
     "GIT_CONFIG_GLOBAL": "hostile", "BASH_ENV": "hostile", "ENV": "hostile",
     "BASH_FUNC_git%%": "() { printf hostile; }", "LD_PRELOAD": "hostile",
-    "DYLD_INSERT_LIBRARIES": "hostile", "PATH": str(fake_pf),
+    "LD_HOSTILE_R15": "hostile", "DYLD_INSERT_LIBRARIES": "hostile",
+    "DYLD_HOSTILE_R15": "hostile", "PATH": str(fake_pf),
 }
 saved_hostile = {key: os.environ.get(key) for key in hostile_environment}
 os.environ.update(hostile_environment)
+post_preparation_sentinel = Path(sys.argv[3]) / "post-preparation-hook-ran"
+post_preparation = {"done": False}
+def post_preparation_hook(values, _args, kwargs):
+    if (not post_preparation["done"] and "update-ref" in values and "--stdin" in values):
+        local_hooks = owner_git_dir / "implementaudit-r0039-empty-hooks"
+        local_config = owner_git_dir / "implementaudit-r0039-empty-global-config"
+        local_hooks.mkdir(exist_ok=True)
+        injected = local_hooks / "reference-transaction"
+        injected.write_text(
+            "#!/usr/bin/env sh\nprintf hook > '"
+            + post_preparation_sentinel.as_posix().replace("'", "") + "'\n",
+            encoding="utf-8")
+        injected.chmod(0o700)
+        local_config.write_text("[core]\n\thooksPath = " + local_hooks.as_posix() + "\n",
+                                encoding="utf-8")
+        post_preparation["done"] = True
+    return None
 try:
-    hostile_result = owner_rotation.publish_generation_pointer_v1(
-        candidate_pointer_oid=owner_pointer_oid)
+    hostile_result = with_subprocess_proxy(SubprocessProxy(post_preparation_hook), lambda:
+        owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_pointer_oid))
 finally:
     for key, value in saved_hostile.items():
         if value is None:
             os.environ.pop(key, None)
         else:
             os.environ[key] = value
-if hostile_result != owner_pointer_oid or current_oid() != owner_pointer_oid or sentinel.exists():
+if (hostile_result != owner_pointer_oid or current_oid() != owner_pointer_oid
+        or sentinel.exists() or post_preparation_sentinel.exists()
+        or not post_preparation["done"]):
     raise SystemExit("hostile hook/environment affected the copied publisher")
 record_publisher("hostile-hooks-env")
 
@@ -799,7 +917,8 @@ if (tuple(executed_publisher_ids) != EXPECTED_PUBLISHER_IDS
     raise SystemExit("publisher execution population disagrees: expected=%r actual=%r"
                      % (EXPECTED_PUBLISHER_IDS, executed_publisher_ids))
 print("CANONICAL_STATE_ROTATION_SEQUENCE_CAS_GREEN=SC01-SC10 fixture=10/10 "
-      "publisher-cas=PASS executed=%d/%d ids=%s" % (
+      "claim-record=%d/%d publisher-cas=PASS executed=%d/%d ids=%s" % (
+          len(executed_claim_mismatch_keys), len(EXPECTED_CLAIM_MISMATCH_KEYS),
           len(executed_publisher_ids), len(EXPECTED_PUBLISHER_IDS),
           ",".join(executed_publisher_ids)))
 PY

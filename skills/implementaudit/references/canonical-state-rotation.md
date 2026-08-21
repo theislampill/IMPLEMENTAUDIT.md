@@ -28,26 +28,27 @@ WORK_GRAPH observation passes. After vector equality, the prebuilt sanitized
 `git update-ref --stdin -z` transaction is the only publication operation; its
 ordered verifies guard controller, receipt, invalidation and migration marker,
 and its update guards the expected old current-generation OID. A failed CAS is
-a loser, never a publication or blind retry; a failed post-CAS readback is an
-unknown effect.
+a typed expected-old loser only when bounded readback proves a distinct winner;
+failed or contradictory readback is an unknown effect and forbids blind retry.
 
-On native Windows, the transaction executable is selected only from the
-hardcoded `C:\Program Files\Git\cmd\git.exe` and
-`C:\Program Files\Git\bin\git.exe` roots. It must be a regular non-reparse
-file owned by exactly LocalSystem (`S-1-5-18`), BUILTIN\Administrators
-(`S-1-5-32-544`), or TrustedInstaller
-(`S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464`). The
-publisher freezes canonical path, volume serial/file index, size, creation and
-last-write nanoseconds, SHA-256, and owner SID, then revalidates that complete
-identity immediately before CAS and readback. STATE, ROADMAP, and WORK_GRAPH
-are opened with native `CreateFileW`, all read/write/delete shares, and
-`FILE_FLAG_OPEN_REPARSE_POINT`; directory or reparse attributes are rejected.
-Exact bytes are read twice from the retained first-pass handle, while pass two
-reopens the canonical path under the same native flags and requires the exact
-tuple `(role,path,file_identity,size,ctime_ns,mtime_ns,sha256,expected_digest)`.
-Missing native semantics is typed unsupported, never a success. POSIX likewise
-requires `O_NOFOLLOW`; its transaction executable must be a root-owned regular
-file with stable descriptor/path identity.
+The host OS, filesystem semantics, fixed platform Git installation, and runtime
+and cryptographic primitives are trusted substrate. The publisher selects Git
+only from fixed platform paths, never caller `PATH`, `ProgramFiles`, authority,
+or path overrides, but does not authenticate that substrate through SID, UID,
+ACL, executable-handle identity, digest, provenance, or authenticity claims.
+Repository/global hooks and configuration are neutralized with the fixed
+platform null/non-executable sink (`NUL` on Windows, `/dev/null` on POSIX); a
+repository-local isolation object is never a fallback.
+
+STATE, ROADMAP, and WORK_GRAPH remain governed mutable inputs rather than
+trusted substrate. On native Windows they are opened with `CreateFileW`, all
+read/write/delete shares, and `FILE_FLAG_OPEN_REPARSE_POINT`; directory or
+reparse attributes are rejected. Exact bytes are read twice from the retained
+first-pass handle, while pass two reopens the canonical path under the same
+native flags. Both complete eight-field observation vectors are sorted by
+`canonical_no_follow_path` and must agree exactly. Missing native semantics is
+typed unsupported, never a success. POSIX likewise requires `O_NOFOLLOW` and
+retained descriptor/reopen identity for those three mutable inputs.
 
 ## Authority and phase boundary
 
