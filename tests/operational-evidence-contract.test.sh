@@ -20,9 +20,31 @@ else
 fi
 
 loader="skills/implementaudit/scripts/operational-evidence.py"
+rotation_loader="skills/implementaudit/scripts/rotate-canonical-state.py"
 fixtures="fixtures/operational-evidence"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
+
+"${py_cmd[@]}" - "$loader" "$rotation_loader" <<'PY'
+import importlib.util
+import sys
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+evidence = load("operational_evidence_cross_owner", sys.argv[1])
+rotation = load("rotation_cross_owner", sys.argv[2])
+value = {"unicode": "\u00e9", "nested": [0, None, True]}
+if evidence.canonical_json_v1(value) != rotation.canonical_json_v1(value):
+    raise SystemExit("R0038/R0039 canonical event bytes diverged")
+if rotation.canonical_json_v1(value).endswith(b"\n"):
+    raise SystemExit("R0039 canonical event bytes retained terminal LF")
+PY
 
 expect_typed_failure() {
   local fixture="$1"

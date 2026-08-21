@@ -26,6 +26,17 @@ The bounded code owners are `load_preimage`, `classify_protected_state`,
 `build_projection_draft`, `archive_preimage`, and `verify_archive`. Finalization
 and equivalence/publication functions are deliberately absent in F2.
 
+For immutable history-event identity, `canonical_json_v1` is a distinct
+cross-owner byte contract: UTF-8, recursively sorted keys, compact separators,
+no terminal LF, signed-64-bit integers only, and no floats. Event requests have
+an exact v1 vocabulary; callers cannot supply a source locator or digest.
+`normalize_source_locator_v1` normalizes only typed path components (NFC plus
+canonical percent encoding), retains POSIX backslashes as data, and accepts the
+source identity only from its owner-manifest entry.
+The public source-context facade is intentionally unavailable until its later
+owner: every syntactically valid source-evidence ID returns
+`OE_SOURCE_CONTEXT_NOT_AVAILABLE` without repository or currentness discovery.
+
 It has no function or command that writes a current-generation, migration,
 invalidation, epoch, receipt, or marker ref. F2 does not update root STATE or
 ROADMAP, does not publish a pointer, and does not create a transition envelope.

@@ -16,6 +16,7 @@ import re
 import stat
 import subprocess
 import sys
+import unicodedata
 from pathlib import Path
 from typing import Any
 
@@ -45,6 +46,308 @@ EXPECTED_RESULTS = {
 
 class RotationError(RuntimeError):
     """A fail-closed draft/archive contract violation."""
+
+
+INT64_MIN = -(2**63)
+INT64_MAX = 2**63 - 1
+SHA_ID = re.compile(r"^sha256:[0-9a-f]{64}$")
+TOKEN_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
+CONTROLLER_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,47}$")
+GENERATION_ID = re.compile(r"^G[0-9A-F]{4}$")
+SEQUENCE_ID = re.compile(r"^[0-9]{20}$")
+EVENT_ID = re.compile(r"^iaevt-v1-[0-9a-f]{64}$")
+SOURCE_EVIDENCE_ID = re.compile(
+    r"^iasrc-v1-(r0039-archive|r0038-snapshot)-[A-Za-z0-9._-]{1,96}$"
+)
+URI_PREFIX = "implementaudit-evidence:v1/"
+URI_UNRESERVED = frozenset(
+    b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
+)
+EVENT_ENUMS_V1 = {
+    "record_kind": frozenset({
+        "finding.closed", "andon.closed", "residual.terminal", "epoch.closed",
+        "instruction.satisfied", "phase.completed", "transition.closed",
+        "recovery.record", "artifact.historical",
+    }),
+    "transition": frozenset({"MIGRATED", "APPENDED", "CORRECTED", "SUPERSEDED"}),
+    "status": frozenset({"PRESERVED", "CLOSED", "SATISFIED", "EXPIRED", "SUPERSEDED"}),
+}
+EVENT_REQUEST_KEYS = frozenset({
+    "schema_version", "run_id", "controller_id", "generation_id", "sequence",
+    "record_kind", "subject_id", "source_epoch", "transition", "status",
+    "supersedes_event_id", "payload",
+})
+EVENT_OUTPUT_KEYS = EVENT_REQUEST_KEYS | {
+    "source_evidence_id", "source_locator", "source_digest",
+    "payload_digest", "event_id",
+}
+
+
+def validate_identity_json_v1(value: object, path: str = "$") -> None:
+    """Reject values that cannot have a portable immutable JSON identity."""
+    if value is None or type(value) in (bool, str):
+        return
+    if type(value) is int:
+        if not INT64_MIN <= value <= INT64_MAX:
+            raise RotationError("OE_EVENT_PAYLOAD_INVALID")
+        return
+    if type(value) is list:
+        for index, item in enumerate(value):
+            validate_identity_json_v1(item, f"{path}[{index}]")
+        return
+    if type(value) is dict:
+        for key, item in value.items():
+            if type(key) is not str:
+                raise RotationError("OE_EVENT_PAYLOAD_INVALID")
+            validate_identity_json_v1(item, f"{path}.{key}")
+        return
+    raise RotationError("OE_EVENT_PAYLOAD_INVALID")
+
+
+def canonical_json_v1(value: object) -> bytes:
+    """Canonical identity bytes: compact UTF-8 JSON with no terminal LF."""
+    validate_identity_json_v1(value)
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+
+
+def strict_percent_decode_ascii_v1(token: str) -> bytes:
+    if not token.isascii():
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    data = bytearray()
+    index = 0
+    while index < len(token):
+        if token[index] == "%":
+            if (index + 2 >= len(token)
+                    or not re.fullmatch(r"[0-9A-Fa-f]{2}", token[index + 1:index + 3])):
+                raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+            data.append(int(token[index + 1:index + 3], 16))
+            index += 3
+        else:
+            byte = ord(token[index])
+            if byte not in URI_UNRESERVED:
+                raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+            data.append(byte)
+            index += 1
+    return bytes(data)
+
+
+def _encode_component_v1(component: str, *, evidence_uri: bool) -> str:
+    normalized = unicodedata.normalize("NFC", component)
+    forbidden = {"\0", "/"} | ({"\\"} if evidence_uri else set())
+    if normalized in {"", ".", ".."} or any(char in normalized for char in forbidden):
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    return "".join(
+        chr(byte) if byte in URI_UNRESERVED else f"%{byte:02X}"
+        for byte in normalized.encode("utf-8")
+    )
+
+
+def canonicalize_evidence_uri_v1(raw: str) -> str:
+    if not raw.isascii() or not raw.startswith(URI_PREFIX):
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    tokens = raw[len(URI_PREFIX):].split("/")
+    if not tokens or any(not token for token in tokens):
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    try:
+        return URI_PREFIX + "/".join(
+            _encode_component_v1(
+                strict_percent_decode_ascii_v1(token).decode("utf-8", "strict"),
+                evidence_uri=True,
+            ) for token in tokens
+        )
+    except UnicodeDecodeError as exc:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID") from exc
+
+
+def encode_path_component_v1(component: str) -> str:
+    return _encode_component_v1(component, evidence_uri=False)
+
+
+def decode_canonical_path_component_v1(token: str) -> str:
+    try:
+        component = strict_percent_decode_ascii_v1(token).decode("utf-8", "strict")
+    except UnicodeDecodeError as exc:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID") from exc
+    if "\0" in component or "/" in component:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    return component
+
+
+def canonicalize_portable_path_v1(raw: str, flavor: str) -> str:
+    if flavor not in {"windows", "posix", "canonical"} or not raw:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    if flavor == "windows":
+        if (raw.endswith(("/", "\\")) or ("/" in raw and "\\" in raw)
+                or raw.startswith(("/", "\\")) or re.match(r"^[A-Za-z]:", raw)):
+            raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+        parts = re.split(r"[\\\\/]", raw)
+    elif flavor == "posix":
+        if raw.endswith("/") or raw.startswith("/"):
+            raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+        parts = raw.split("/")
+    else:
+        if raw.endswith("/") or not raw.isascii() or raw.startswith("/") or "\\" in raw:
+            raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+        parts = [decode_canonical_path_component_v1(token) for token in raw.split("/")]
+    if any(part in {"", ".", ".."} or "\0" in part for part in parts):
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    return "/".join(encode_path_component_v1(part) for part in parts)
+
+
+def normalize_source_locator_v1(locator: dict[str, object], *,
+                                owner_entry: dict[str, object]) -> dict[str, object]:
+    if type(locator) is not dict or set(locator) != {
+            "kind", "root_identity", "path", "host_identity"}:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    kind = locator["kind"]
+    root_identity = locator["root_identity"]
+    raw_path = locator["path"]
+    host_identity = locator["host_identity"]
+    if (kind not in {"repo-relative", "run-root-relative", "evidence-uri", "host-bound"}
+            or type(root_identity) is not str or not SHA_ID.fullmatch(root_identity)
+            or type(raw_path) is not str or not raw_path):
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    if any(name not in owner_entry for name in ("kind", "root_identity", "host_identity", "input_path_flavor")):
+        raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    if (kind != owner_entry["kind"] or root_identity != owner_entry["root_identity"]
+            or host_identity != owner_entry["host_identity"]):
+        raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    flavor = owner_entry["input_path_flavor"]
+    if kind == "evidence-uri":
+        if host_identity is not None or flavor is not None:
+            raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+        return {"kind": kind, "root_identity": root_identity,
+                "path": canonicalize_evidence_uri_v1(raw_path), "host_identity": None}
+    if type(flavor) is not str:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    if kind == "host-bound":
+        if type(host_identity) is not str or not SHA_ID.fullmatch(host_identity):
+            raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    elif host_identity is not None:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    return {"kind": kind, "root_identity": root_identity,
+            "path": canonicalize_portable_path_v1(raw_path, flavor),
+            "host_identity": host_identity}
+
+
+def validate_canonical_source_locator_v1(locator: dict[str, object]) -> None:
+    normalized = normalize_source_locator_v1(
+        locator, owner_entry={
+            "kind": locator.get("kind"), "root_identity": locator.get("root_identity"),
+            "host_identity": locator.get("host_identity"), "input_path_flavor": (
+                None if locator.get("kind") == "evidence-uri" else "canonical"),
+        })
+    if normalized != locator:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+
+
+def validate_event_request_v1(event: dict[str, object]) -> None:
+    if type(event) is not dict or set(event) != EVENT_REQUEST_KEYS:
+        raise RotationError("OE_EVENT_REQUEST_KEYS_NOT_EXACT")
+    if event["schema_version"] != "implementaudit.history-event.v1":
+        raise RotationError("OE_EVENT_SCHEMA_INVALID")
+    if type(event["run_id"]) is not str or not TOKEN_ID.fullmatch(event["run_id"]):
+        raise RotationError("OE_EVENT_RUN_ID_INVALID")
+    if type(event["controller_id"]) is not str or not CONTROLLER_ID.fullmatch(event["controller_id"]):
+        raise RotationError("OE_EVENT_CONTROLLER_ID_INVALID")
+    if type(event["generation_id"]) is not str or not GENERATION_ID.fullmatch(event["generation_id"]):
+        raise RotationError("OE_EVENT_GENERATION_ID_INVALID")
+    if type(event["sequence"]) is not str or not SEQUENCE_ID.fullmatch(event["sequence"]):
+        raise RotationError("OE_EVENT_SEQUENCE_INVALID")
+    for name in ("record_kind", "transition", "status"):
+        if type(event[name]) is not str or event[name] not in EVENT_ENUMS_V1[name]:
+            raise RotationError(f"OE_EVENT_{name.upper()}_INVALID")
+    if type(event["subject_id"]) is not str or not TOKEN_ID.fullmatch(event["subject_id"]):
+        raise RotationError("OE_EVENT_SUBJECT_ID_INVALID")
+    if type(event["source_epoch"]) is not str or not GENERATION_ID.fullmatch(event["source_epoch"]):
+        raise RotationError("OE_EVENT_SOURCE_EPOCH_INVALID")
+    supersedes = event["supersedes_event_id"]
+    if supersedes is not None and (type(supersedes) is not str or not EVENT_ID.fullmatch(supersedes)):
+        raise RotationError("OE_EVENT_SUPERSEDES_ID_INVALID")
+    validate_identity_json_v1(event["payload"])
+
+
+def require_exact_owner_manifest_entry_v1(manifest: dict[str, object],
+                                          source_evidence_id: str) -> dict[str, object]:
+    if type(manifest) is not dict:
+        raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    entries = manifest.get("entries")
+    if not isinstance(entries, list):
+        raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    matched = [entry for entry in entries if isinstance(entry, dict)
+               and entry.get("source_evidence_id") == source_evidence_id]
+    if len(matched) != 1:
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    return matched[0]
+
+
+def resolve_owner_source_evidence_in_context_v1(
+        context: dict[str, object], source_evidence_id: str) -> tuple[dict[str, object], str]:
+    if type(context) is not dict or set(context) != {"owner_manifest"}:
+        raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    entry = require_exact_owner_manifest_entry_v1(context["owner_manifest"], source_evidence_id)
+    if (type(entry.get("sha256")) is not str
+            or not re.fullmatch(r"[0-9a-f]{64}", entry["sha256"])):
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    locator = entry.get("source_locator")
+    if not isinstance(locator, dict):
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    return normalize_source_locator_v1(locator, owner_entry=entry), "sha256:" + entry["sha256"]
+
+
+def load_governed_source_context_v1(source_evidence_id: str) -> dict[str, object]:
+    """No caller-selected source branch, path, ref, or manifest is accepted."""
+    if type(source_evidence_id) is not str or not SOURCE_EVIDENCE_ID.fullmatch(source_evidence_id):
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    raise RotationError("OE_SOURCE_CONTEXT_NOT_AVAILABLE")
+
+
+def resolve_owner_source_evidence_v1(source_evidence_id: str) -> tuple[dict[str, object], str]:
+    return resolve_owner_source_evidence_in_context_v1(
+        load_governed_source_context_v1(source_evidence_id), source_evidence_id)
+
+
+def validate_event_output_v1(event: dict[str, object]) -> None:
+    if type(event) is not dict or set(event) != EVENT_OUTPUT_KEYS:
+        raise RotationError("OE_EVENT_OUTPUT_KEYS_NOT_EXACT")
+    request = {name: event[name] for name in EVENT_REQUEST_KEYS}
+    validate_event_request_v1(request)
+    if (type(event["source_evidence_id"]) is not str
+            or not SOURCE_EVIDENCE_ID.fullmatch(event["source_evidence_id"])):
+        raise RotationError("OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    validate_canonical_source_locator_v1(event["source_locator"])
+    for name in ("source_digest", "payload_digest"):
+        if type(event[name]) is not str or not SHA_ID.fullmatch(event[name]):
+            raise RotationError("OE_EVENT_DIGEST_INVALID")
+    if type(event["event_id"]) is not str or not EVENT_ID.fullmatch(event["event_id"]):
+        raise RotationError("OE_EVENT_ID_INVALID")
+
+
+def build_event_segment_v1(event: dict[str, object], *,
+                           source_evidence_id: str) -> tuple[dict[str, object], bytes]:
+    validate_event_request_v1(event)
+    context = load_governed_source_context_v1(source_evidence_id)
+    expected = tuple(context.get(name) for name in (
+        "run_id", "controller_id", "generation_id", "source_epoch"))
+    if (event["run_id"], event["controller_id"], event["generation_id"],
+            event["source_epoch"]) != expected:
+        raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    source_locator, source_digest = resolve_owner_source_evidence_in_context_v1(
+        context, source_evidence_id)
+    envelope = dict(event)
+    envelope.update({
+        "source_evidence_id": source_evidence_id,
+        "source_locator": source_locator,
+        "source_digest": source_digest,
+        "payload_digest": hashlib.sha256(canonical_json_v1(event["payload"])).hexdigest(),
+    })
+    envelope["event_id"] = "iaevt-v1-" + hashlib.sha256(
+        canonical_json_v1(envelope)).hexdigest()
+    validate_event_output_v1(envelope)
+    return envelope, canonical_json_v1(envelope)
 
 
 def canonical_bytes(value: object) -> bytes:

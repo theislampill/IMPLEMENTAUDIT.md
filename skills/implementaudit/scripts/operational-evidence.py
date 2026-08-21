@@ -159,8 +159,31 @@ def decode_strict_json_bytes(data: bytes, owner: str):
         _error("OE_JSON_MALFORMED", "$", f"{owner} is malformed JSON")
 
 
+def validate_identity_json_v1(value, path="$"):
+    """Keep canonical identity values portable across governed owners."""
+    if value is None or type(value) in (bool, str):
+        return
+    if type(value) is int:
+        if not -(2**63) <= value <= 2**63 - 1:
+            _error("OE_JSON_MODEL_INVALID", path,
+                   "integer is outside signed 64-bit range")
+        return
+    if type(value) is list:
+        for index, item in enumerate(value):
+            validate_identity_json_v1(item, f"{path}[{index}]")
+        return
+    if type(value) is dict:
+        for key, item in value.items():
+            if type(key) is not str:
+                _error("OE_JSON_MODEL_INVALID", path, "object key is not a string")
+            validate_identity_json_v1(item, f"{path}.{key}")
+        return
+    _error("OE_JSON_MODEL_INVALID", path, "floats and non-JSON values are forbidden")
+
+
 def canonical_json_v1(value) -> bytes:
     """UTF-8 JSON, sorted object keys, declared array order, no whitespace."""
+    validate_identity_json_v1(value)
     try:
         return json.dumps(
             value, sort_keys=True, separators=(",", ":"), ensure_ascii=False,

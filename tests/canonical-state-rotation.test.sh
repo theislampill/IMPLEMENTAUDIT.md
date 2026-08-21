@@ -8,17 +8,21 @@ helper="$repo_root/skills/implementaudit/scripts/rotate-canonical-state.py"
 claim_helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
 f2_fixture="$repo_root/fixtures/canonical-state-rotation/f2-draft-archive.json"
 f3_fixture="$repo_root/fixtures/canonical-state-rotation/f3-reader-matrix.json"
+event_byte_fixture="$repo_root/fixtures/canonical-state-rotation/event-byte-cases.json"
+event_schema_fixture="$repo_root/fixtures/canonical-state-rotation/event-schema-cases.json"
+evidence_helper="$repo_root/skills/implementaudit/scripts/operational-evidence.py"
 tmp="$(mktemp -d)"
 trap 'rm -rf -- "$tmp"' EXIT
 
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 
 case "${1:-}" in
-  '') f2_only=false; f3_only=false; clarifications_only=false ;;
-  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true ;;
-  --f2-only) f2_only=true; f3_only=false; clarifications_only=false ;;
-  --f3-only) f2_only=false; f3_only=true; clarifications_only=false ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only]" ;;
+  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false ;;
+  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false ;;
+  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false ;;
+  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false ;;
+  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
@@ -30,6 +34,124 @@ if $clarifications_only; then
   printf '%s\n' \
     'CANONICAL_STATE_ROTATION_CLARIFICATIONS_RED=EVENT_BYTES_CURSOR_SEQUENCE_CAS_NOT_IMPLEMENTED' >&2
   exit 1
+fi
+if $event_bytes_only; then
+  [ -f "$event_byte_fixture" ] || fail "missing event-byte fixture"
+  [ -f "$event_schema_fixture" ] || fail "missing event-schema fixture"
+  [ -f "$evidence_helper" ] || fail "missing operational evidence carrier"
+  python - "$helper" "$evidence_helper" "$event_byte_fixture" "$event_schema_fixture" <<'PY'
+import importlib.util
+import json
+import sys
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+rotation = load("rotation_event_bytes", sys.argv[1])
+evidence = load("evidence_event_bytes", sys.argv[2])
+with open(sys.argv[3], encoding="utf-8") as stream:
+    byte_cases = json.load(stream)
+with open(sys.argv[4], encoding="utf-8") as stream:
+    schema_cases = json.load(stream)
+if byte_cases.get("schema") != "implementaudit.canonical-state-rotation-event-byte-cases.v1":
+    raise SystemExit("event-byte fixture schema drift")
+if schema_cases.get("schema") != "implementaudit.history-event-schema-cases.v1":
+    raise SystemExit("event-schema fixture schema drift")
+payload = {"z": [0, "\u00e9"], "a": {"n": None}}
+r39_bytes = rotation.canonical_json_v1(payload)
+r38_bytes = evidence.canonical_json_v1(payload)
+assert r39_bytes == r38_bytes
+assert not r39_bytes.endswith(b"\n")
+root = "sha256:" + "a" * 64
+win_entry = {"kind": "repo-relative", "root_identity": root,
+             "host_identity": None, "input_path_flavor": "windows"}
+posix_entry = {"kind": "repo-relative", "root_identity": root,
+               "host_identity": None, "input_path_flavor": "posix"}
+win_locator = {"kind": "repo-relative", "root_identity": root,
+               "path": "dir\\caf\u00e9.txt", "host_identity": None}
+posix_locator = {"kind": "repo-relative", "root_identity": root,
+                 "path": "dir/cafe\u0301.txt", "host_identity": None}
+posix_trailing_backslash = {"kind": "repo-relative", "root_identity": root,
+                            "path": "dir/file\\", "host_identity": None}
+assert rotation.normalize_source_locator_v1(win_locator, owner_entry=win_entry) == \
+       rotation.normalize_source_locator_v1(posix_locator, owner_entry=posix_entry)
+assert rotation.normalize_source_locator_v1(
+    posix_trailing_backslash, owner_entry=posix_entry)["path"].endswith("%5C")
+expected_enums = {
+    name: frozenset(values) for name, values in schema_cases["enums"].items()
+}
+if rotation.EVENT_ENUMS_V1 != expected_enums:
+    raise SystemExit("event vocabulary drift")
+for rejection in schema_cases["rejections"]:
+    event = dict(schema_cases["valid_event"])
+    event.update(rejection["patch"])
+    try:
+        rotation.validate_event_request_v1(event)
+    except rotation.RotationError as exc:
+        if str(exc) != rejection["code"]:
+            raise SystemExit(f"{rejection['id']} expected {rejection['code']}, got {exc}")
+    else:
+        raise SystemExit(f"{rejection['id']} was accepted")
+entry = {
+    "source_evidence_id": "iasrc-v1-r0039-archive-entry-1",
+    "sha256": "b" * 64,
+    "kind": "repo-relative", "root_identity": root, "host_identity": None,
+    "input_path_flavor": "posix",
+    "source_locator": {"kind": "repo-relative", "root_identity": root,
+                       "path": "owner/evidence.json", "host_identity": None},
+}
+locator, digest = rotation.resolve_owner_source_evidence_in_context_v1(
+    {"owner_manifest": {"entries": [entry]}}, entry["source_evidence_id"])
+if locator["path"] != "owner/evidence.json" or digest != "sha256:" + "b" * 64:
+    raise SystemExit("owner entry resolver changed its typed identity")
+try:
+    rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": []}}, entry["source_evidence_id"])
+except rotation.RotationError as exc:
+    if str(exc) != "OE_SOURCE_EVIDENCE_NOT_ADMITTED":
+        raise SystemExit(f"unmanifested self-hash returned {exc}")
+else:
+    raise SystemExit("self-hashed source absent from owner manifest was accepted")
+bad_entry = dict(entry)
+bad_entry["source_locator"] = dict(entry["source_locator"], root_identity="sha256:" + "c" * 64)
+try:
+    rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [bad_entry]}}, entry["source_evidence_id"])
+except rotation.RotationError as exc:
+    if str(exc) != "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH":
+        raise SystemExit(f"wrong owner entry returned {exc}")
+else:
+    raise SystemExit("wrong owner entry context was accepted")
+valid_ids = (
+    "iasrc-v1-r0039-archive-entry-1",
+    "iasrc-v1-r0038-snapshot-entry-1",
+)
+def no_live_call(*args, **kwargs):
+    raise SystemExit("public source facade attempted repository custody")
+
+rotation.git = no_live_call
+for source_evidence_id in valid_ids:
+    for public_call in (
+            lambda: rotation.load_governed_source_context_v1(source_evidence_id),
+            lambda: rotation.resolve_owner_source_evidence_v1(source_evidence_id),
+            lambda: rotation.build_event_segment_v1(
+                schema_cases["valid_event"], source_evidence_id=source_evidence_id)):
+        try:
+            public_call()
+        except rotation.RotationError as exc:
+            if str(exc) != "OE_SOURCE_CONTEXT_NOT_AVAILABLE":
+                raise SystemExit(f"public source facade returned {exc}")
+        else:
+            raise SystemExit("public source facade escaped its unavailable boundary")
+print("CANONICAL_STATE_ROTATION_EVENT_BYTES_GREEN=PASS cases=" +
+      str(len(byte_cases["cases"])))
+PY
+  exit 0
 fi
 fixture_output="$(bash "$checker" --fixture-self-check)"
 printf '%s\n' "$fixture_output"

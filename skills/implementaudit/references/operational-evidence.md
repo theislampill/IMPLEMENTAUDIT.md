@@ -31,6 +31,11 @@ unsupported, missing, or invalid input never degrades to a silent empty result.
 declared array order, no insignificant whitespace, strict JSON scalars, and no
 implicit Unicode or line-ending rewrite inside ordinary strings.
 
+For immutable event identity shared with R0039, strict JSON scalars exclude
+floats and limit integers to signed 64-bit values. The carrier therefore emits
+the same no-terminal-LF `canonical_json_v1` bytes for an admissible value; only
+the typed source-locator path contract applies NFC normalization.
+
 Source text payloads have one separate, explicit normalization before canonical
 JSON serialization:
 
