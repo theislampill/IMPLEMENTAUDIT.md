@@ -296,6 +296,22 @@ malformed_output = dict(base_event, source_evidence_id=entry["source_evidence_id
                         payload_digest="b" * 64, event_id="iaevt-v1-" + "b" * 64)
 expect_error(lambda: rotation.validate_event_output_v1(malformed_output),
              "OE_SOURCE_LOCATOR_INVALID")
+for malformed_locator in (
+        dict(entry["source_locator"], kind=[]),
+        dict(entry["source_locator"], path="\ud800")):
+    malformed_output = dict(
+        base_event, source_evidence_id=entry["source_evidence_id"],
+        source_locator=malformed_locator, source_digest="sha256:" + "b" * 64,
+        payload_digest="b" * 64, event_id="iaevt-v1-" + "b" * 64)
+    expect_error(lambda malformed_output=malformed_output: rotation.validate_event_output_v1(
+        malformed_output), "OE_SOURCE_LOCATOR_INVALID")
+    malformed_non_target = dict(
+        entry, source_evidence_id="iasrc-v1-r0038-snapshot-malformed-locator",
+        source_locator=malformed_locator)
+    expect_error(lambda malformed_non_target=malformed_non_target:
+        rotation.resolve_owner_source_evidence_in_context_v1(
+            {"owner_manifest": {"entries": [entry, malformed_non_target]}},
+            entry["source_evidence_id"]), "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
 valid_ids = (
     "iasrc-v1-r0039-archive-entry-1",
     "iasrc-v1-r0038-snapshot-entry-1",

@@ -145,9 +145,13 @@ def _encode_component_v1(component: str, *, evidence_uri: bool) -> str:
     forbidden = {"\0", "/"} | ({"\\"} if evidence_uri else set())
     if normalized in {"", ".", ".."} or any(char in normalized for char in forbidden):
         raise RotationError("OE_SOURCE_LOCATOR_INVALID")
+    try:
+        encoded = normalized.encode("utf-8", "strict")
+    except UnicodeEncodeError as exc:
+        raise RotationError("OE_SOURCE_LOCATOR_INVALID") from exc
     return "".join(
         chr(byte) if byte in URI_UNRESERVED else f"%{byte:02X}"
-        for byte in normalized.encode("utf-8")
+        for byte in encoded
     )
 
 
@@ -212,7 +216,8 @@ def normalize_source_locator_v1(locator: dict[str, object], *,
     root_identity = locator["root_identity"]
     raw_path = locator["path"]
     host_identity = locator["host_identity"]
-    if (kind not in {"repo-relative", "run-root-relative", "evidence-uri", "host-bound"}
+    if (type(kind) is not str
+            or kind not in {"repo-relative", "run-root-relative", "evidence-uri", "host-bound"}
             or type(root_identity) is not str or not SHA_ID.fullmatch(root_identity)
             or type(raw_path) is not str or not raw_path):
         raise RotationError("OE_SOURCE_LOCATOR_INVALID")
