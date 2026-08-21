@@ -41,5 +41,34 @@
       "expected_reason": "PROTECTED_TARGET_IDENTITY_MISMATCH",
       "expected_target_hex": "4f524947494e414c0a"
     }
+  ],
+  "held_out_cases": [
+    {
+      "id": "D48-C02-H01-wrong-protected-generation",
+      "expected_status": "REJECTED_NO_MUTATION",
+      "expected_reason": "PROTECTED_GENERATION_MISMATCH"
+    },
+    {
+      "id": "D48-C02-H02-pointer-receipt-mismatch",
+      "expected_status": "REJECTED_NO_MUTATION",
+      "expected_reason": "POINTER_RECEIPT_DRIFT"
+    },
+    {
+      "id": "D48-C02-H03-wrong-controller",
+      "expected_status": "REJECTED_NO_MUTATION",
+      "expected_reason": "WRONG_CONTROLLER"
+    },
+    {
+      "id": "D48-C02-H04-controller-transfer",
+      "expected_status": "UNSUPPORTED_OWNER_DECISION",
+      "expected_reason": "STALE_CONTROLLER_CUSTODY"
+    },
+    {
+      "id": "D48-C02-H05-incapable-sink",
+      "expected_status": "UNKNOWN",
+      "expected_reason": "MANUAL_RECONCILIATION",
+      "retry_permitted": false,
+      "terminal_closure_claim": "PROHIBITED"
+    }
   ]
 }

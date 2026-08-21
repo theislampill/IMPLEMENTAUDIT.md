@@ -34,7 +34,7 @@ prepared_step=1
 helper_api=v2
 
 fail() { printf 'observation-bound-mutation-integrity: %s\n' "$*" >&2; exit 1; }
-status_exit() { case "$1" in COMMITTED|NO_CHANGE) echo 0;; REJECTED_NO_MUTATION) echo 64;; CONFLICT_REBASE) echo 65;; MUTATION_FAILED_NO_STATE_CHANGE) echo 70;; MUTATION_FAILED_ROLLED_BACK) echo 71;; POST_STATE_MISMATCH_ROLLED_BACK) echo 72;; RECOVERY_REQUIRED) echo 73;; ROLLBACK_CONFLICT) echo 74;; ROLLBACK_FAILED_WITH_RESIDUE) echo 75;; POST_COMMIT_DRIFT) echo 76;; UNSUPPORTED_OWNER_DECISION) echo 77;; *) fail "unknown status $1";; esac; }
+status_exit() { case "$1" in COMMITTED|NO_CHANGE) echo 0;; REJECTED_NO_MUTATION) echo 64;; CONFLICT_REBASE) echo 65;; MUTATION_FAILED_NO_STATE_CHANGE) echo 70;; MUTATION_FAILED_ROLLED_BACK) echo 71;; POST_STATE_MISMATCH_ROLLED_BACK) echo 72;; RECOVERY_REQUIRED) echo 73;; ROLLBACK_CONFLICT) echo 74;; ROLLBACK_FAILED_WITH_RESIDUE) echo 75;; POST_COMMIT_DRIFT) echo 76;; UNSUPPORTED_OWNER_DECISION) echo 77;; UNKNOWN) echo 78;; *) fail "unknown status $1";; esac; }
 wait_bounded() { local pid="$1" label="$2" ticks=0; while kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; if kill -0 "$pid" 2>/dev/null; then kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true; fail "$label timed out"; fi; wait "$pid" || true; }
 
 write_hex() { "$python_bin" - "$1" "$2" <<'PY'
@@ -422,7 +422,7 @@ label,status,operation,source,dest,pre,candidate,post,post_identities,phase,step
 out=Path(out_path).read_text(encoding='utf-8')
 lines=[x for x in out.splitlines() if x.strip()]
 if len(lines)!=1: raise SystemExit(f'{label}: expected one stdout JSON object, got {len(lines)}')
-r=json.loads(lines[0]); required={'schema','transaction_id','claim_id','phase','step','authority_binding_sha256','coordination_scope','operation','status','reason_code','source_path','destination_path','pre_identities','candidate_identities','post_identities','planned_effect_set','planned_effect_set_sha256','actual_effect_set','residue'}
+r=json.loads(lines[0]); required={'schema','transaction_id','claim_id','phase','step','authority_binding_sha256','coordination_scope','operation','status','reason_code','source_path','destination_path','pre_identities','candidate_identities','post_identities','planned_effect_set','planned_effect_set_sha256','actual_effect_set','residue','identity_bindings','generation_fence_disposition','retry_permitted','terminal_closure_claim'}
 if set(r)!=required: raise SystemExit(f'{label}: v2 schema keys differ: got={sorted(r)}')
 if r['schema']!='implementaudit.observation_bound_mutation.v2' or r['status']!=status or r['operation']!=operation: raise SystemExit(f'{label}: schema/status/operation mismatch')
 if r['coordination_scope']!='GOVERNED_HELPER_ROUTED_WRITERS_ONLY': raise SystemExit(f'{label}: coordination scope overclaims writer exclusion: {r.get("coordination_scope")!r}')
@@ -456,6 +456,22 @@ for row in planned:
  seen.add(key); allowed[key]=set(row['allowed_effects']); roles[key]=set(row['roles'])
 digest=hashlib.sha256(json.dumps(planned,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
 if r['planned_effect_set_sha256']!=digest: raise SystemExit(f'{label}: planned-effect digest mismatch')
+bindings=r['identity_bindings']
+if set(bindings or {})!={'operation','attempt','effect','controller','generation','target'}: raise SystemExit(f'{label}: operation/attempt/effect/controller/generation/target identities are not distinct')
+if bindings['operation']!={'kind':'operation','operation':operation,'source_path':source,'destination_path':None if dest=='-' else dest}: raise SystemExit(f'{label}: operation identity mismatch')
+attempt=bindings['attempt']
+if attempt!={'kind':'attempt','transaction_id':r['transaction_id'],'claim_id':r['claim_id'],'phase':int(phase),'step':int(step),'authority_binding_sha256':r['authority_binding_sha256']}: raise SystemExit(f'{label}: attempt identity mismatch')
+if bindings['effect']!={'kind':'effect-plan','planned_effect_set_sha256':digest}: raise SystemExit(f'{label}: effect identity mismatch')
+if (bindings['controller'] is None)!=(bindings['generation'] is None): raise SystemExit(f'{label}: partial controller/generation binding')
+want_pre=json.loads(pre)
+target=bindings['target']
+if want_pre is None:
+ if target is not None: raise SystemExit(f'{label}: target fingerprint exists without a preimage')
+else:
+ body={'authorized_path':source,'preimage_identity':want_pre}
+ fingerprint=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+ if target!={'schema':'implementaudit.protected-target-fingerprint.v1',**body,'fingerprint_sha256':fingerprint}: raise SystemExit(f'{label}: target fingerprint mismatch')
+if r['retry_permitted'] is not False or r['terminal_closure_claim'] not in {'NOT_ASSERTED','PROHIBITED'}: raise SystemExit(f'{label}: retry/closure disposition is not fail closed')
 actual_by={}
 actual_rows={}
 for index,row in enumerate(r['actual_effect_set'],1):
@@ -489,6 +505,9 @@ if r['transaction_id'] is not None and planned:
  if len(result_paths)!=1: raise SystemExit(f'{label}: missing unique result owner')
  result_file=Path(fixture_root)/PurePosixPath(result_paths[0])
  if not result_file.is_file() or json.loads(result_file.read_text(encoding='utf-8'))!=r: raise SystemExit(f'{label}: durable result.json missing or differs from stdout')
+ authority_file=result_file.parent/'authority.json'
+ authority=json.loads(authority_file.read_text(encoding='utf-8'))
+ if authority.get('identity_bindings')!=bindings or authority.get('generation_fence_disposition')!=r['generation_fence_disposition']: raise SystemExit(f'{label}: durable authority/result binding drift')
  for key,rows in actual_rows.items():
   for row in rows:
    if row['outcome']!='applied' or row['effect'] not in {'create','mkdir','link','replace','unlink','rmdir'}: continue
@@ -1102,6 +1121,7 @@ r=json.load(open(sys.argv[1],encoding='utf-8'))
 if r.get('schema') != 'implementaudit.observation-bound-mutation.journal.v2': raise SystemExit(f'journal schema is not v2: {r!r}')
 if r.get('status') != 'DISPLACEMENT_DURABLE': raise SystemExit(f'journal displacement state missing: {r!r}')
 if not isinstance(r.get('transaction_id'),str) or not r['transaction_id']: raise SystemExit('journal transaction id missing')
+if set(r.get('identity_bindings') or {})!={'operation','attempt','effect','controller','generation','target'}: raise SystemExit('journal identity bindings missing')
 if not any(x.get('path','').endswith('/backup.bin') for x in r.get('residue',[])): raise SystemExit(f'journal backup residue missing: {r!r}')
 print(r['transaction_id'])
 PY
@@ -1790,6 +1810,128 @@ controller_transfer_race_heldout() {
   [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
+write_generation_fence() {
+  local controller="$1" receipt="$2" authority_generation="$3"
+  local protected_generation="$4" capability="$5" declared_controller="$6"
+  local source_path="$7" fingerprint="$8" fence
+  fence="$run_root/mutation-fences/phase-$prepared_phase-step-$prepared_step.json"
+  mkdir -p "$(dirname "$fence")"
+  "$python_bin" - "$fence" "$prepared_phase" "$prepared_step" "$source_path" \
+    "$fingerprint" "$controller" "$authority_generation" "$protected_generation" \
+    "$receipt" "$capability" "$declared_controller" <<'PY'
+import json,sys
+from pathlib import Path
+path,phase,step,source,digest,generation,authority,protected,receipt,capability,controller=sys.argv[1:]
+payload={
+ "schema":"implementaudit.protected-mutation-fence.v1",
+ "phase":int(phase),"step":int(step),"source_path":source,
+ "protected_target":{"sha256":digest,"byte_length":5},
+ "controller_generation":generation,"authority_generation":authority,
+ "protected_generation":protected,"verified_resume_receipt":receipt,
+ "sink_capability":capability,"controller_id":controller,
+}
+Path(path).write_text(json.dumps(payload,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8",newline="\n")
+PY
+}
+
+generation_fence_case() {
+  local label="$1" expected_status="$2" expected_reason="$3" capability="$4"
+  local controller_mode="$5" generation_mode="$6" receipt_mode="$7"
+  local controller="d48-${label,,}" pre cand receipt current_generation old_ref old_oid
+  local declared_controller authority_generation protected_generation declared_receipt
+  local fingerprint stdout stderr actual transaction
+  setup "$controller"
+  pre="$(artifact "$label-pre" 4142434445)"; cand="$(artifact "$label-candidate" 4e4557)"
+  old_ref="refs/implementaudit/continuity-receipts/$controller/G0001"
+  old_oid="$(git -C "$fixture_repo" rev-parse "$old_ref")"
+  prepare_authority replace target -
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
+    || fail "$label current continuity fixture failed"
+  current_generation="${receipt%@*}"; current_generation="${current_generation##*/}"
+  declared_controller="$controller"
+  authority_generation="$current_generation"
+  protected_generation="$current_generation"
+  declared_receipt="$receipt"
+  [ "$controller_mode" = current ] || declared_controller=wrong-controller
+  [ "$generation_mode" = current ] || protected_generation=G0001
+  [ "$receipt_mode" = current ] || declared_receipt="$old_ref@$old_oid"
+  fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
+  write_generation_fence "$current_generation" "$declared_receipt" \
+    "$authority_generation" "$protected_generation" "$capability" \
+    "$declared_controller" target "$fingerprint"
+  stdout="$tmp/$label.out"; stderr="$tmp/$label.err"
+  set +e
+  bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" \
+    --phase "$prepared_phase" --step "$prepared_step" --preimage "$pre" \
+    --candidate "$cand" >"$stdout" 2>"$stderr"
+  actual=$?
+  set -e
+  [ "$actual" -eq "$(status_exit "$expected_status")" ] \
+    || fail "$label exit=$actual expected=$(status_exit "$expected_status") stderr=$(<"$stderr")"
+  if [ "$expected_status" = COMMITTED ]; then
+    assert_hex "$label target" "$fixture_repo/target" 4e4557
+  else
+    assert_hex "$label target" "$fixture_repo/target" 4142434445
+    [ ! -e "$run_root/mutation-transactions/$(sed -n 's/^claim_id=//p' "$run_root/.claimed")-p$prepared_phase-s$prepared_step" ] \
+      || fail "$label created transaction effects before rejecting the fence"
+  fi
+  transaction="$($python_bin - "$stdout" "$expected_status" "$expected_reason" \
+    "$controller" "$current_generation" "$fingerprint" <<'PY'
+import json,re,sys
+from pathlib import Path
+path,status,reason,controller,generation,fingerprint=sys.argv[1:]
+r=json.loads(Path(path).read_text(encoding="utf-8"))
+if r.get("status")!=status or r.get("reason_code")!=reason: raise SystemExit(r)
+bindings=r.get("identity_bindings")
+if set(bindings or {})!={"operation","attempt","effect","controller","generation","target"}: raise SystemExit("identity roles are not distinct")
+if bindings["controller"].get("controller_id")!=controller: raise SystemExit("controller identity missing")
+if bindings["generation"].get("generation_id")!=generation: raise SystemExit("current generation identity missing")
+target=bindings["target"]
+if target.get("authorized_path")!="target" or target.get("preimage_identity",{}).get("sha256")!=fingerprint: raise SystemExit("target fingerprint missing")
+if status=="UNKNOWN":
+ if r.get("retry_permitted") is not False or r.get("terminal_closure_claim")!="PROHIBITED": raise SystemExit("manual reconciliation retry/closure boundary missing")
+if status!="COMMITTED" and (r.get("transaction_id") is not None or r.get("actual_effect_set")!=[]): raise SystemExit("fence rejection claimed an effect")
+print(r.get("transaction_id") or "NONE")
+PY
+)" || fail "$label result binding invalid"
+  if [ "$expected_status" = COMMITTED ]; then
+    "$python_bin" - "$run_root/mutation-transactions/$transaction/authority.json" \
+      "$run_root/mutation-transactions/$transaction/result.json" <<'PY' \
+      || fail "$label durable authority/result lost fence bindings"
+import json,sys
+from pathlib import Path
+authority,result=(json.loads(Path(p).read_text(encoding="utf-8")) for p in sys.argv[1:])
+if authority.get("identity_bindings")!=result.get("identity_bindings"): raise SystemExit("binding drift")
+PY
+  fi
+}
+
+generation_fence_heldouts() {
+  "$python_bin" - "$repo_root/fixtures/distributed-runtime/r48-fencing-cases.json" <<'PY' \
+    || fail 'D48-C02 held-out fixture self-check failed'
+import json,sys
+from pathlib import Path
+rows=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8")).get("held_out_cases")
+expected=[
+ ("D48-C02-H01-wrong-protected-generation","REJECTED_NO_MUTATION","PROTECTED_GENERATION_MISMATCH"),
+ ("D48-C02-H02-pointer-receipt-mismatch","REJECTED_NO_MUTATION","POINTER_RECEIPT_DRIFT"),
+ ("D48-C02-H03-wrong-controller","REJECTED_NO_MUTATION","WRONG_CONTROLLER"),
+ ("D48-C02-H04-controller-transfer","UNSUPPORTED_OWNER_DECISION","STALE_CONTROLLER_CUSTODY"),
+ ("D48-C02-H05-incapable-sink","UNKNOWN","MANUAL_RECONCILIATION"),
+]
+actual=[(row.get("id"),row.get("expected_status"),row.get("expected_reason")) for row in rows or []]
+if actual != expected: raise SystemExit({"actual":actual,"expected":expected})
+if rows[-1].get("retry_permitted") is not False: raise SystemExit("incapable sink became retryable")
+if rows[-1].get("terminal_closure_claim") != "PROHIBITED": raise SystemExit("incapable sink claimed terminal closure")
+PY
+  generation_fence_case D48-C02-H00-current COMMITTED NONE REJECT_AND_REPORT current current current
+  generation_fence_case D48-C02-H01-protected-generation REJECTED_NO_MUTATION PROTECTED_GENERATION_MISMATCH REJECT_AND_REPORT current stale current
+  generation_fence_case D48-C02-H02-pointer-receipt REJECTED_NO_MUTATION POINTER_RECEIPT_DRIFT REJECT_AND_REPORT current current stale
+  generation_fence_case D48-C02-H03-controller REJECTED_NO_MUTATION WRONG_CONTROLLER REJECT_AND_REPORT wrong current current
+  controller_stale_heldout
+  generation_fence_case D48-C02-H05-incapable UNKNOWN MANUAL_RECONCILIATION INCAPABLE current current current
+}
+
 state_family() {
   local pre cand region repl
   setup; pre="$(artifact c1-pre 414243)"; cand="$(artifact c1-candidate 5a)"; invoke R36-C1 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
@@ -1839,6 +1981,7 @@ PY
   true_kill_requires_manual_custody
   interrupted_move_requires_manual_custody
   causal_review_heldouts
+  generation_fence_heldouts
   printf 'observation-bound-mutation-integrity: PASS R0024 state family\n'
 }
 
@@ -1847,6 +1990,7 @@ case "${1:-}" in
   --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
   --controller-transfer-race-heldout) controller_transfer_race_heldout; printf 'S3E_W02_CONTROLLER_TRANSFER_RACE_HELDOUT=PASS\n'; exit 0;;
+  --generation-fence-heldouts) generation_fence_heldouts; printf 'D48_C02_GENERATION_FENCE_HELDOUTS=PASS\n'; exit 0;;
   --window-interlock-heldouts) fixture_self_check; window_interlock_heldouts; printf 'R36_WINDOW_INTERLOCK_HELDOUTS=PASS\n'; exit 0;;
   --concurrent-destination-heldout) fixture_self_check; concurrent_destination; printf 'R36_CONCURRENT_DESTINATION_HELDOUT=PASS\n'; exit 0;;
   --external-drift-heldout) fixture_self_check; external_drift_and_recovery; printf 'R36_EXTERNAL_DRIFT_HELDOUT=PASS\n'; exit 0;;

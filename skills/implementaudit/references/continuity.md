@@ -115,6 +115,28 @@ or a stale pointer/receipt join are STOP. These are reader rules only: reading
 does not publish, repair, delete, or otherwise update a pointer, receipt, or
 migration marker.
 
+### Cooperating protected-sink generation fence
+
+`apply-observed-mutation.sh` treats a phase/step
+`mutation-fences/phase-<phase>-step-<step>.json` as a protected-sink contract.
+The current generation is never caller-selected: the helper obtains the exact
+receipt token from `--require-current-continuity`, and for receipt v3 binds the
+already-verified pointer ref, pointer OID/digest, receipt ref/OID and generation.
+It combines that generation binding with an immutable target fingerprint made
+from the authorized repository path and the supplied preimage's SHA-256 and
+byte length. Operation, attempt, effect-plan, controller, generation and target
+identities remain separate fields in the authority, journal and result records.
+
+Immediately before the first transaction effect, `require_generation_fence`
+runs currentness again and requires the controller, pointer/receipt generation,
+declared authority/protected generations, verified receipt token, authorized
+path and target preimage to match. Stale or wrong generation, wrong controller,
+pointer/receipt drift, wrong target or preimage rejects before transaction
+creation and reports an empty actual-effect set. A declared sink that cannot
+reject and report the fence returns `UNKNOWN` / `MANUAL_RECONCILIATION`, with
+retry prohibited and no terminal closure claim. This is a guarantee only for
+the cooperating helper/sink; it does not fence non-cooperating writers.
+
 Routine v3 recovery is bounded: it reads the current pointer, hot STATE and
 ROADMAP pair, `WORK_GRAPH` path/digest, selected receipt, invalidation and
 marker. Historical event segments are not read. A corrupt referenced segment

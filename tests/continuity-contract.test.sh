@@ -14,6 +14,7 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 helper="skills/implementaudit/scripts/validate-run-root.sh"
+mutation_helper="skills/implementaudit/scripts/apply-observed-mutation.sh"
 ref="skills/implementaudit/references/continuity.md"
 proto="skills/implementaudit/templates/PROTOCOL.md"
 state_t="skills/implementaudit/templates/STATE.md"
@@ -506,6 +507,36 @@ p.write_text(s.replace(anchor,anchor+"\n"+row),encoding="utf-8")
 PY
 printf '\nTask 6 bounded generation recovery reconciled.\n' >>"$successor_root/ROADMAP.md"
 printf '%s' '{"schema":"implementaudit.work-graph.fixture.v1"}' >"$successor_root/WORK_GRAPH.json"
+task6_run_rel="${successor_root#$successor_repo/}"
+mkdir -p "$successor_root/phases" "$successor_root/mutation-fences" \
+  "$successor_repo/artifacts"
+"${py_cmd[@]}" - "$repo_root/fixtures/phase-validation/valid-full-spec.md" \
+  "$successor_root" "$task6_run_rel" "$successor_repo" <<'PY'
+import json,sys
+from pathlib import Path
+template,run_root,run_rel,repo=map(Path,sys.argv[1:])
+for phase,source in ((1,"protected-current"),(2,"protected-pointer-drift")):
+    text=template.read_text(encoding="utf-8")
+    text=text.replace("Phase: 1 of 3",f"Phase: {phase} of 2")
+    text=text.replace("Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1",f"Run root: {run_rel.as_posix()}")
+    text=text.replace("Baseline ref: abc123def456","Baseline ref: HEAD")
+    text=text.replace("Owner/source: src/routes/settings.ts","Owner/source: issue:#200 D48-C02")
+    needle="- Step 1: Create the settings route — target: src/routes/settings.ts (registerSettingsRoutes); change: add GET /api/settings handler behind requireAuth from src/middleware/auth.ts; verify: npm run build; expected: exit 0 with no errors"
+    authority=json.dumps({"operation":"replace","source":source,"destination":None},separators=(",",":"))
+    text=text.replace(needle,needle+"\n  mutation-authority: "+authority)
+    scope=json.dumps({"in":[source],"out":["README.md"]},separators=(",",":"))
+    text=text.replace("In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts","In scope: D48-C02 pointer-aware protected mutation fixture\nMutation scope: "+scope)
+    (run_root/"phases"/f"phase-{phase}.md").write_text(text,encoding="utf-8",newline="\n")
+for name in ("protected-current","protected-pointer-drift"):
+    (repo/name).write_bytes(b"ORIGINAL\n")
+(repo/"artifacts"/"candidate-current.bin").write_bytes(b"CURRENT\n")
+(repo/"artifacts"/"candidate-drift.bin").write_bytes(b"DRIFT\n")
+PY
+printf '%s\n' \
+  '| 1 | D48-C02 pointer-aware current protected mutation |' \
+  '| 2 | D48-C02 pointer/receipt drift refusal |' \
+  >>"$successor_root/ROADMAP.md"
+sed -i '/^| 1 |  |  | - |  |  |  | open |$/d' "$successor_root/ROADMAP.md"
 task6_state_sha="$(sha256sum "$successor_root/STATE.md" | cut -d' ' -f1)"
 task6_road_sha="$(sha256sum "$successor_root/ROADMAP.md" | cut -d' ' -f1)"
 task6_graph_sha="$(sha256sum "$successor_root/WORK_GRAPH.json" | cut -d' ' -f1)"
@@ -592,6 +623,75 @@ task6_current="$(cd "$successor_repo" && bash "$claim_helper" \
   --require-current-continuity release-v0333)" \
   || fail 'Task 6 complete pointer/v3/marker route was not current'
 [ "$task6_current" = "$task6_v3" ] || fail 'Task 6 complete route returned the wrong receipt'
+
+"${py_cmd[@]}" - "$successor_root" "$task6_current" "$receipt_e3" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+root,current,stale=sys.argv[1:]
+root=Path(root)
+for phase,source,receipt in (
+    (1,"protected-current",current),
+    (2,"protected-pointer-drift",stale),
+):
+    target=root.parents[2]/source
+    payload={
+      "schema":"implementaudit.protected-mutation-fence.v1",
+      "phase":phase,"step":1,"source_path":source,
+      "protected_target":{"sha256":hashlib.sha256(target.read_bytes()).hexdigest(),"byte_length":len(target.read_bytes())},
+      "controller_generation":"G0004","authority_generation":"G0004",
+      "protected_generation":"G0004","verified_resume_receipt":receipt,
+      "sink_capability":"REJECT_AND_REPORT","controller_id":"release-v0333",
+    }
+    (root/"mutation-fences"/f"phase-{phase}-step-1.json").write_text(
+        json.dumps(payload,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8",newline="\n")
+PY
+task6_mutation_out="$tmp/task6-protected-current.out"
+bash "$mutation_helper" --repo-root "$successor_repo" --run-root "$successor_root" \
+  --phase 1 --step 1 --preimage "$successor_repo/protected-current" \
+  --candidate "$successor_repo/artifacts/candidate-current.bin" >"$task6_mutation_out" \
+  || fail 'Task 6 pointer/v3 current generation did not reach the cooperating sink'
+"${py_cmd[@]}" - "$task6_mutation_out" "$successor_root" "$task6_pointer_ref" \
+  "$task6_pointer_oid" "$task6_v3_ref" "$task6_v3_oid" <<'PY' \
+  || fail 'Task 6 protected mutation did not bind the pointer/v3 generation'
+import json,sys
+from pathlib import Path
+out,root,pref,poid,rref,roid=sys.argv[1:]
+result=json.loads(Path(out).read_text(encoding="utf-8"))
+generation=result.get("identity_bindings",{}).get("generation",{})
+if result.get("status")!="COMMITTED" or generation!={
+ "generation_id":"G0004","receipt_schema":"implementaudit.continuity-receipt.v3",
+ "receipt_ref":rref,"receipt_oid":roid,"pointer_ref":pref,"pointer_oid":poid,
+ "pointer_digest":generation.get("pointer_digest"),
+}: raise SystemExit(result)
+if not isinstance(generation["pointer_digest"],str) or len(generation["pointer_digest"])!=64: raise SystemExit(generation)
+transaction=result["transaction_id"]
+authority=json.loads((Path(root)/"mutation-transactions"/transaction/"authority.json").read_text(encoding="utf-8"))
+durable=json.loads((Path(root)/"mutation-transactions"/transaction/"result.json").read_text(encoding="utf-8"))
+if authority.get("identity_bindings")!=result["identity_bindings"] or durable!=result: raise SystemExit("durable binding drift")
+PY
+[ "$(od -An -tx1 -v "$successor_repo/protected-current" | tr -d ' \n')" = 43555252454e540a ] \
+  || fail 'Task 6 current protected mutation did not publish exact candidate bytes'
+task6_drift_out="$tmp/task6-protected-pointer-drift.out"
+set +e
+bash "$mutation_helper" --repo-root "$successor_repo" --run-root "$successor_root" \
+  --phase 2 --step 1 --preimage "$successor_repo/protected-pointer-drift" \
+  --candidate "$successor_repo/artifacts/candidate-drift.bin" >"$task6_drift_out" 2>"$tmp/task6-protected-pointer-drift.err"
+task6_drift_rc=$?
+set -e
+[ "$task6_drift_rc" -eq 64 ] || fail "Task 6 pointer/receipt drift exit=$task6_drift_rc expected=64"
+"${py_cmd[@]}" - "$task6_drift_out" "$successor_root" <<'PY' \
+  || fail 'Task 6 pointer/receipt drift did not reject before effect'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+if r.get("status")!="REJECTED_NO_MUTATION" or r.get("reason_code")!="POINTER_RECEIPT_DRIFT": raise SystemExit(r)
+if r.get("transaction_id") is not None or r.get("actual_effect_set")!=[]: raise SystemExit(r)
+claim=r["claim_id"]
+if (Path(sys.argv[2])/"mutation-transactions"/f"{claim}-p2-s1").exists(): raise SystemExit("transaction created")
+PY
+[ "$(od -An -tx1 -v "$successor_repo/protected-pointer-drift" | tr -d ' \n')" = 4f524947494e414c0a ] \
+  || fail 'Task 6 pointer/receipt drift changed the protected target'
+printf '%s\n' 'D48_C02_POINTER_V3_FENCE=PASS current=COMMITTED drift=REJECTED_NO_MUTATION'
 
 task6_event_id="iaevt-v1-$(printf 'a%.0s' {1..64})"
 task6_event_ref="refs/implementaudit/state-event-segments/$task6_run_id/G0004/00000000000000000001/$task6_event_id"

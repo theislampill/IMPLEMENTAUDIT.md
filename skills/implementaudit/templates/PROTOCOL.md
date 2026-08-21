@@ -410,6 +410,22 @@ STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE
     ordinary narration, new execution or effects resume. When continuity cannot
     be established, hand off rather than speculate.
 
+For a protected mutation, write the phase/step fence under
+`mutation-fences/phase-<phase>-step-<step>.json` and route the effect through the
+cooperating `apply-observed-mutation.sh` sink. The sink derives current
+generation from the mechanically verified current receipt and, for receipt v3,
+its exact pointer/receipt join; the caller cannot supply a replacement
+generation authority. It fingerprints the authorized target path plus preimage
+identity, then records distinct operation, attempt, effect-plan, controller,
+generation and target identities in authority, journal and result records.
+`require_generation_fence` rechecks those bindings immediately before the first
+transaction effect. Stale/wrong generation, wrong controller,
+pointer/receipt drift, wrong target or preimage rejects with authoritative
+no-effect readback. If the sink cannot reject and report the fence, record
+`UNKNOWN` / `MANUAL_RECONCILIATION`, prohibit retry and make no terminal closure
+claim. This contract fences only cooperating helper-routed effects; it makes no
+claim about non-cooperating writers.
+
 At phase start and after each continuity boundary, record one canonical
 execution-identity row in STATE.md:
 
