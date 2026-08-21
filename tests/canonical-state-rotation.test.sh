@@ -8,6 +8,7 @@ helper="$repo_root/skills/implementaudit/scripts/rotate-canonical-state.py"
 claim_helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
 f2_fixture="$repo_root/fixtures/canonical-state-rotation/f2-draft-archive.json"
 f3_fixture="$repo_root/fixtures/canonical-state-rotation/f3-reader-matrix.json"
+sequence_cas_fixture="$repo_root/fixtures/canonical-state-rotation/sequence-cas-cases.json"
 event_byte_fixture="$repo_root/fixtures/canonical-state-rotation/event-byte-cases.json"
 event_schema_fixture="$repo_root/fixtures/canonical-state-rotation/event-schema-cases.json"
 evidence_helper="$repo_root/skills/implementaudit/scripts/operational-evidence.py"
@@ -17,12 +18,13 @@ trap 'rm -rf -- "$tmp"' EXIT
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 
 case "${1:-}" in
-  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false ;;
-  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false ;;
-  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false ;;
-  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false ;;
-  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only]" ;;
+  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false ;;
+  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false; sequence_cas_only=false ;;
+  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false ;;
+  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false ;;
+  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true; sequence_cas_only=false ;;
+  --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
@@ -34,6 +36,285 @@ if $clarifications_only; then
   printf '%s\n' \
     'CANONICAL_STATE_ROTATION_CLARIFICATIONS_RED=EVENT_BYTES_CURSOR_SEQUENCE_CAS_NOT_IMPLEMENTED' >&2
   exit 1
+fi
+if $sequence_cas_only; then
+  [ -f "$sequence_cas_fixture" ] || fail "missing sequence-CAS fixture"
+  python - "$helper" "$sequence_cas_fixture" "$tmp" <<'PY'
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+spec = importlib.util.spec_from_file_location("rotation_sequence_cas", sys.argv[1])
+rotation = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(rotation)
+with open(sys.argv[2], encoding="utf-8") as stream:
+    fixture = json.load(stream)
+expected = [
+    "SC01-single-winner", "SC02-loser-not-queryable", "SC03-loser-not-current",
+    "SC04-retry-reallocates", "SC05-winner-data-preserved",
+    "SC06-reused-predecessor-sequence", "SC07-noncontiguous-gap",
+    "SC08-wrong-predecessor-high-water", "SC09-other-predecessor-manifest",
+    "SC10-pointer-manifest-type-confusion",
+]
+if (fixture.get("schema")
+        != "implementaudit.canonical-state-rotation-sequence-cas-cases.v1"
+        or [row.get("id") for row in fixture.get("cases", [])] != expected):
+    raise SystemExit("sequence-CAS fixture population drift")
+
+
+def error(action):
+    try:
+        action()
+    except rotation.RotationError:
+        return
+    raise SystemExit("expected a fail-closed sequence-CAS refusal")
+
+
+def git(repo, *args, data=None):
+    result = subprocess.run(["git", "-C", str(repo), *args], input=data,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    if result.returncode:
+        raise SystemExit(result.stderr.decode("utf-8", "replace"))
+    return result.stdout
+
+
+def blob(repo, data):
+    return git(repo, "hash-object", "-w", "--stdin", data=data).decode().strip()
+
+
+def manifest(before, sequences):
+    events = [{"sequence": sequence, "event_id": "iaevt-v1-" + (f"{n:064x}"),
+               "segment_digest": "sha256:" + (f"{n:064x}"),
+               "record_kind": "finding.closed",
+               "source_evidence_id": "iasrc-v1-r0039-archive-case-%d" % n}
+              for n, sequence in enumerate(sequences, 1)]
+    body = {"schema_version": "implementaudit.state-generation-manifest.v1",
+            "query_contract_version": "implementaudit.history-query.v1",
+            "controller_id": "controller-1", "claim_id": "a" * 32,
+            "run_id": "run-1", "generation_id": "G0001", "source_epoch": "G0001",
+            "predecessor_manifest_digest": None, "predecessor_high_water": before,
+            "events": events, "record_class_counts": {"finding.closed": len(events)},
+            "population_digest": hashlib.sha256(rotation.canonical_json_v1(
+                rotation.manifest_population_rows_v1(events))).hexdigest(),
+            "high_water": sequences[-1]}
+    body["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1(body)).hexdigest()
+    return body
+
+
+repo = Path(sys.argv[3]) / "sequence-cas-isolated-repo"
+subprocess.run(["git", "init", "-q", str(repo)], check=True)
+winner = blob(repo, b"winner-candidate")
+loser = blob(repo, b"loser-candidate")
+ref = "refs/implementaudit/current-generations/controller-1"
+winner_cas = rotation.prepare_trusted_update_ref_transaction_v1(
+    repo=repo, ref=ref, new_oid=winner, old_oid=rotation.ZERO_OID, verify_refs=())
+loser_cas = rotation.prepare_trusted_update_ref_transaction_v1(
+    repo=repo, ref=ref, new_oid=loser, old_oid=rotation.ZERO_OID, verify_refs=())
+completed = subprocess.run(winner_cas["argv"], cwd=winner_cas["cwd"], env=winner_cas["env"],
+                           input=winner_cas["stdin_bytes"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if completed.returncode != 0 or rotation.read_back_published_ref_v1(winner_cas) != winner:
+    raise SystemExit("SC01 winner publication/readback failed")
+completed = subprocess.run(loser_cas["argv"], cwd=loser_cas["cwd"], env=loser_cas["env"],
+                           input=loser_cas["stdin_bytes"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if completed.returncode == 0:
+    raise SystemExit("SC02 expected-old loser unexpectedly published")
+refs = git(repo, "for-each-ref", "--format=%(objectname)", "refs/implementaudit/").decode().splitlines()
+if refs != [winner] or loser in refs:
+    raise SystemExit("SC02/SC03 loser is queryable or current")
+if rotation.quarantine_unreferenced_cas_loser_v1(repo, loser) != "UNREFERENCED_LOSER_QUARANTINED":
+    raise SystemExit("SC02 loser did not produce bounded unreferenced quarantine evidence")
+if rotation.allocate_candidate_sequences_v1("00000000000000000001", 1) != ["00000000000000000002"]:
+    raise SystemExit("SC04 loser retry did not allocate after winner high-water")
+if git(repo, "cat-file", "blob", winner) != b"winner-candidate":
+    raise SystemExit("SC05 winner data was not preserved")
+
+base = manifest("00000000000000000000", ["00000000000000000001"])
+rotation.verify_generation_manifest_v1(base)
+error(lambda: rotation.verify_generation_manifest_v1(manifest(
+    "00000000000000000001", ["00000000000000000001"])))
+error(lambda: rotation.verify_generation_manifest_v1(manifest(
+    "00000000000000000000", ["00000000000000000001", "00000000000000000003"])))
+error(lambda: rotation.verify_generation_manifest_v1(manifest(
+    "00000000000000000002", ["00000000000000000004"])))
+
+manifest_oid = blob(repo, rotation.canonical_json_v1(base))
+previous, previous_bytes = rotation.build_generation_pointer_v1(
+    controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+    source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=manifest_oid, generation_manifest_digest=base["manifest_digest"],
+    cold_high_water=base["high_water"], hot_state_digest="b" * 64, hot_roadmap_digest="c" * 64,
+    work_graph_path="WORK_GRAPH.json", work_graph_digest="d" * 64, degraded_state="NONE")
+other = dict(base, predecessor_manifest_digest="e" * 64)
+other["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1(
+    {key: value for key, value in other.items() if key != "manifest_digest"})).hexdigest()
+error(lambda: rotation.verify_generation_successor_tuple_v1(
+    pointer=previous, manifest=other, predecessor_oid="f" * 40, predecessor_pointer=previous))
+pointer_oid = blob(repo, previous_bytes)
+error(lambda: rotation.load_canonical_generation_manifest_oid_v1(repo, pointer_oid))
+
+request = {"schema_version": "implementaudit.history-event.v1", "run_id": "run-1",
+           "controller_id": "controller-1", "generation_id": "G0001",
+           "sequence": "00000000000000000001", "record_kind": "finding.closed",
+           "subject_id": "subject-1", "source_epoch": "G0001", "transition": "APPENDED",
+           "status": "CLOSED", "supersedes_event_id": None, "payload": {"case": "segment"}}
+segment = dict(request, source_evidence_id="iasrc-v1-r0039-archive-case-1",
+               source_locator={"kind": "repo-relative", "root_identity": "sha256:" + "a" * 64,
+                               "path": "evidence/file", "host_identity": None},
+               source_digest="sha256:" + "b" * 64,
+               payload_digest=hashlib.sha256(rotation.canonical_json_v1(request["payload"])).hexdigest())
+segment["event_id"] = "iaevt-v1-" + hashlib.sha256(rotation.canonical_json_v1(segment)).hexdigest()
+segment_raw = rotation.canonical_json_v1(segment)
+segment_manifest = manifest("00000000000000000000", [request["sequence"]])
+segment_manifest["events"][0].update(event_id=segment["event_id"],
+                                       segment_digest="sha256:" + hashlib.sha256(segment_raw).hexdigest(),
+                                       source_evidence_id=segment["source_evidence_id"])
+segment_manifest["population_digest"] = hashlib.sha256(rotation.canonical_json_v1(
+    rotation.manifest_population_rows_v1(segment_manifest["events"]))).hexdigest()
+segment_manifest["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1(
+    {key: value for key, value in segment_manifest.items() if key != "manifest_digest"})).hexdigest()
+segment_oid = blob(repo, segment_raw)
+segment_ref = (rotation.EVENT_SEGMENT_PREFIX + "/run-1/G0001/00000000000000000001/" +
+               segment["event_id"])
+git(repo, "update-ref", segment_ref, segment_oid)
+rotation.verify_manifest_segments_core_v1(repo, segment_manifest)
+bad_segment = dict(segment, controller_id="controller-2")
+bad_segment_raw = rotation.canonical_json_v1(bad_segment)
+bad_oid = blob(repo, bad_segment_raw)
+git(repo, "update-ref", segment_ref, bad_oid, segment_oid)
+error(lambda: rotation.verify_manifest_segments_core_v1(repo, segment_manifest))
+git(repo, "update-ref", segment_ref, segment_oid, bad_oid)
+segment_manifest_oid = blob(repo, rotation.canonical_json_v1(segment_manifest))
+segment_pointer, segment_pointer_bytes = rotation.build_generation_pointer_v1(
+    controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+    source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=segment_manifest_oid, generation_manifest_digest=segment_manifest["manifest_digest"],
+    cold_high_water=segment_manifest["high_water"], hot_state_digest="b" * 64,
+    hot_roadmap_digest="c" * 64, work_graph_path="WORK_GRAPH.json", work_graph_digest="d" * 64,
+    degraded_state="NONE")
+segment_pointer_oid = blob(repo, segment_pointer_bytes)
+
+# The remaining denominator is deliberately isolated: no controller or protected
+# ref is used.  It proves guards, fencing, freeze/re-read, lease exclusion, and
+# hostile process input rather than merely checking that their case IDs exist.
+guard = blob(repo, b"guard-before")
+guard_after = blob(repo, b"guard-after")
+guard_ref = "refs/implementaudit/continuity-receipts/controller-1/G0001"
+git(repo, "update-ref", guard_ref, guard)
+guarded = rotation.prepare_trusted_update_ref_transaction_v1(
+    repo=repo, ref="refs/implementaudit/current-generations/controller-guard", new_oid=loser,
+    old_oid=rotation.ZERO_OID, verify_refs=((guard_ref, guard),))
+git(repo, "update-ref", guard_ref, guard_after, guard)
+completed = subprocess.run(guarded["argv"], cwd=guarded["cwd"], env=guarded["env"],
+                           input=guarded["stdin_bytes"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if completed.returncode == 0 or git(repo, "for-each-ref", "--format=%(refname)",
+                                    "refs/implementaudit/current-generations/controller-guard"):
+    raise SystemExit("guard race published after receipt/marker vector changed")
+if (any(name.startswith("GIT_") and name not in {"GIT_CONFIG_NOSYSTEM", "GIT_TERMINAL_PROMPT"}
+        for name in guarded["env"])
+        or guarded["env"].get("GIT_TERMINAL_PROMPT") != "0"):
+    raise SystemExit("hostile Git environment reached the final transaction")
+
+guard_cases = {
+    "controller": "refs/implementaudit/controllers/controller-1",
+    "invalidation": "refs/implementaudit/continuity-invalidations/controller-1",
+    "receipt": "refs/implementaudit/continuity-receipts/controller-1/G0001",
+    "marker": "refs/implementaudit/current-generation-migrations/controller-1",
+}
+for label, frozen_ref in guard_cases.items():
+    old = blob(repo, (label + "-old").encode())
+    new = blob(repo, (label + "-new").encode())
+    git(repo, "update-ref", frozen_ref, old)
+    cas = rotation.prepare_trusted_update_ref_transaction_v1(
+        repo=repo, ref="refs/implementaudit/current-generations/race-" + label,
+        new_oid=loser, old_oid=rotation.ZERO_OID, verify_refs=((frozen_ref, old),))
+    # This mutation stands at the post-second-vector/prebuilt-CAS boundary: the
+    # transaction was already frozen and no construction/retry is permitted.
+    git(repo, "update-ref", frozen_ref, new, old)
+    completed = subprocess.run(cas["argv"], cwd=cas["cwd"], env=cas["env"],
+                               input=cas["stdin_bytes"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if completed.returncode == 0:
+        raise SystemExit(label + " guard race published after the final fence")
+
+git_dir = Path(git(repo, "rev-parse", "--git-dir").decode().strip())
+if not git_dir.is_absolute():
+    git_dir = repo / git_dir
+sentinel = Path(sys.argv[3]) / "hostile-hook-ran"
+hook = git_dir / "hooks" / "reference-transaction"
+hook.parent.mkdir(exist_ok=True)
+hook.write_text("#!/usr/bin/env sh\nprintf hook > '" + str(sentinel).replace("'", "") + "'\n", encoding="utf-8")
+hook.chmod(0o700)
+inherited = {"GIT_DIR": "bad", "BASH_ENV": "bad", "LD_PRELOAD": "bad", "DYLD_INSERT_LIBRARIES": "bad"}
+saved = {key: os.environ.get(key) for key in inherited}
+os.environ.update(inherited)
+try:
+    hostile = rotation.prepare_trusted_update_ref_transaction_v1(
+        repo=repo, ref="refs/implementaudit/current-generations/hostile",
+        new_oid=loser, old_oid=rotation.ZERO_OID, verify_refs=())
+finally:
+    for key, value in saved.items():
+        if value is None: os.environ.pop(key, None)
+        else: os.environ[key] = value
+completed = subprocess.run(hostile["argv"], cwd=hostile["cwd"], env=hostile["env"],
+                           input=hostile["stdin_bytes"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if completed.returncode != 0 or sentinel.exists():
+    raise SystemExit("hostile reference-transaction hook or inherited environment affected CAS")
+
+inputs = Path(sys.argv[3]) / "fence-inputs"
+inputs.mkdir()
+content = {"STATE.md": b"state", "ROADMAP.md": b"roadmap", "WORK_GRAPH.json": b"graph"}
+for name, data in content.items():
+    (inputs / name).write_bytes(data)
+context = {"run_root_path": inputs}
+expected_digests = {"STATE": hashlib.sha256(content["STATE.md"]).hexdigest(),
+                    "ROADMAP": hashlib.sha256(content["ROADMAP.md"]).hexdigest(),
+                    "WORK_GRAPH": hashlib.sha256(content["WORK_GRAPH.json"]).hexdigest()}
+baseline = rotation.observe_publication_vector_v1(context=context, expected_digests=expected_digests)
+for name in content:
+    target = inputs / name
+    target.write_bytes(content[name] + b"-changed")
+    if rotation.observe_publication_vector_v1(context=context) == baseline:
+        raise SystemExit("in-place input mutation escaped the two-pass fence")
+    target.write_bytes(content[name])
+    replacement = inputs / (name + ".replacement")
+    replacement.write_bytes(content[name])
+    os.replace(replacement, target)
+    if rotation.observe_publication_vector_v1(context=context) == baseline:
+        raise SystemExit("replacement input mutation escaped the two-pass fence")
+    target.write_bytes(content[name])
+    if rotation.observe_publication_vector_v1(context=context, expected_digests=expected_digests) == baseline:
+        raise SystemExit("write-restore race escaped the retained identity fence")
+error(lambda: rotation.observe_publication_vector_v1(
+    context=context, expected_digests=dict(expected_digests, STATE="0" * 64)))
+
+frozen = rotation.freeze_immutable_publication_inputs_v1(
+    repo=repo, candidate_pointer=segment_pointer, candidate_manifest=segment_manifest,
+    expected_old_pointer_oid=None, candidate_pointer_oid=segment_pointer_oid)
+changed_pointer = dict(segment_pointer, hot_state_digest="0" * 64)
+changed_pointer["pointer_digest"] = hashlib.sha256(rotation.canonical_json_v1(
+    {key: value for key, value in changed_pointer.items() if key != "pointer_digest"})).hexdigest()
+error(lambda: rotation.verify_frozen_immutable_publication_inputs_v1(
+    repo=repo, frozen=frozen, candidate_pointer=changed_pointer, candidate_manifest=segment_manifest,
+    expected_old_pointer_oid=None, candidate_pointer_oid=segment_pointer_oid))
+
+lease_context = {"repo_path": repo}
+original_context = rotation.load_governed_publication_context_v1
+rotation.load_governed_publication_context_v1 = lambda: lease_context
+original_cwd = Path.cwd()
+os.chdir(repo)
+try:
+    with rotation.acquire_r0039_publication_writer_lease_v1():
+        error(lambda: rotation.acquire_r0039_publication_writer_lease_v1().__enter__())
+finally:
+    os.chdir(original_cwd)
+    rotation.load_governed_publication_context_v1 = original_context
+print("CANONICAL_STATE_ROTATION_SEQUENCE_CAS_GREEN=SC01-SC10 fixture=10/10 isolated-cas=PASS "
+      "executed=20/20[guard-races:5,fence-mutations:9,digest-fence:1,freeze:1,lease:1,hook-env:1,segment-core:2]")
+PY
+  exit 0
 fi
 if $event_bytes_only; then
   [ -f "$event_byte_fixture" ] || fail "missing event-byte fixture"

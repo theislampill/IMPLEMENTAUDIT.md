@@ -1,11 +1,35 @@
 # Canonical-state rotation: F2 draft and archive contract (#215)
 
 Canonical-state rotation replaces an oversized live STATE/ROADMAP projection
-without changing its protected meaning. This reference currently realizes only
-the F2 draft/archive stage. Pointer readers and migration (F3), CAS/crash
-recovery (F4), invalidation and epoch allocation (F5), finalization and pointer
-publication (F6), and receipt-v3/currentness joining (F7) remain required later
-stages. F2 output is never current.
+without changing its protected meaning. F2 draft/archive output is never
+current. The bounded Task-4 publisher can commit an already-stored canonical
+event lineage only through a no-input lease and an expected-old Git CAS; it
+does not select live source evidence, alter R0011, mint receipts, or advance
+currentness outside that one guarded current-generation pointer.
+
+## Immutable event-lineage publication
+
+The publisher accepts only canonical Git blobs: an exact v1 generation manifest,
+an exact v1 generation pointer, and event blobs addressed at
+`refs/implementaudit/state-event-segments/<run>/<generation>/<sequence>/<event-id>`.
+Every manifest row is checked against its stored segment's canonical bytes,
+typed digest, recomputed event identity, authority tuple, sequence, record kind
+and source-evidence ID. This is stored-structure verification only: it never
+calls the live owner resolver, which remains fail-closed with
+`OE_SOURCE_CONTEXT_NOT_AVAILABLE` until its later owner.
+
+Publication derives controller, claim, run root, receipt, invalidation,
+migration-marker and current-generation guards from the one controller record.
+It verifies controller-worktree shared custody and the exact v2 receipt binding
+before it accepts a candidate. A create-exclusive shared-writer lease is held
+before that derivation through post-CAS readback. Candidate/predessor objects
+are frozen and reread before two complete no-follow STATE, ROADMAP and
+WORK_GRAPH observation passes. After vector equality, the prebuilt sanitized
+`git update-ref --stdin -z` transaction is the only publication operation; its
+ordered verifies guard controller, receipt, invalidation and migration marker,
+and its update guards the expected old current-generation OID. A failed CAS is
+a loser, never a publication or blind retry; a failed post-CAS readback is an
+unknown effect.
 
 ## Authority and phase boundary
 
