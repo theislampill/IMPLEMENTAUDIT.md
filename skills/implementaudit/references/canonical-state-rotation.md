@@ -31,6 +31,24 @@ and its update guards the expected old current-generation OID. A failed CAS is
 a loser, never a publication or blind retry; a failed post-CAS readback is an
 unknown effect.
 
+On native Windows, the transaction executable is selected only from the
+hardcoded `C:\Program Files\Git\cmd\git.exe` and
+`C:\Program Files\Git\bin\git.exe` roots. It must be a regular non-reparse
+file owned by exactly LocalSystem (`S-1-5-18`), BUILTIN\Administrators
+(`S-1-5-32-544`), or TrustedInstaller
+(`S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464`). The
+publisher freezes canonical path, volume serial/file index, size, creation and
+last-write nanoseconds, SHA-256, and owner SID, then revalidates that complete
+identity immediately before CAS and readback. STATE, ROADMAP, and WORK_GRAPH
+are opened with native `CreateFileW`, all read/write/delete shares, and
+`FILE_FLAG_OPEN_REPARSE_POINT`; directory or reparse attributes are rejected.
+Exact bytes are read twice from the retained first-pass handle, while pass two
+reopens the canonical path under the same native flags and requires the exact
+tuple `(role,path,file_identity,size,ctime_ns,mtime_ns,sha256,expected_digest)`.
+Missing native semantics is typed unsupported, never a success. POSIX likewise
+requires `O_NOFOLLOW`; its transaction executable must be a root-owned regular
+file with stable descriptor/path identity.
+
 ## Authority and phase boundary
 
 `skills/implementaudit/scripts/rotate-canonical-state.py` is the deterministic

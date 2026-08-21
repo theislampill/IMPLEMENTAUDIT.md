@@ -73,7 +73,7 @@ canonical_generation() {
 publication_custody_io() {
   # Read-only Task-4 boundary: repository authority is this installed owner's
   # physical checkout, never the caller's cwd or a supplied path/ref.
-  local owner_dir repo common refs ref c oid s rc rg root rr target_common
+  local owner_dir repo common refs ref c oid s rc rg root rr target_common run_rel
   local lines=() keys=(schema claim_id claimed_at_utc mode templates repo_root git_common_dir run_base run_root run_name)
   owner_dir="$(cd "$(dirname "$0")/../../.." && pwd -P)" || return 1
   repo="$(git -C "$owner_dir" rev-parse --path-format=absolute --show-toplevel)" || return 1
@@ -88,6 +88,7 @@ publication_custody_io() {
   target_common="$(git -C "$rr" rev-parse --path-format=absolute --git-common-dir)" || return 1
   [ "$s:$rc" = "implementaudit.controller-current.v1:$c" ] &&
     [ "$target_common" = "$common" ] || return 1
+  bash "$(dirname "$0")/validate-run-root.sh" --claim-only "$root" --repo-root "$rr" >/dev/null 2>&1 || return 1
   mapfile -t lines < "$root/.claimed" || return 1
   [ "${#lines[@]}" = 10 ] || return 1
   local index key value
@@ -97,8 +98,12 @@ publication_custody_io() {
   done
   [ "${lines[0]}" = "schema=implementaudit.run-claim.v2" ] || return 1
   [ "${lines[1]}" = "claim_id=$rg" ] || return 1
+  run_rel="${root#"$rr"/}"
+  [ "$run_rel" != "$root" ] || return 1
   [ "${lines[5]}" = "repo_root=$rr" ] && [ "${lines[6]}" = "git_common_dir=$target_common" ] &&
-    [[ "${lines[8]}" =~ ^run_root=\.IMPLEMENTAUDIT/runs/[A-Za-z0-9._-]+$ ]] || return 1
+    [ "${lines[7]}" = "run_base=.IMPLEMENTAUDIT/runs" ] &&
+    [ "${lines[8]}" = "run_root=$run_rel" ] &&
+    [ "${lines[9]}" = "run_name=$(basename "$root")" ] || return 1
   printf 'implementaudit.publication-custody.v1\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
     "$c" "$oid" "$rg" "$rr" "$target_common" "$root" "${lines[9]#run_name=}"
 }

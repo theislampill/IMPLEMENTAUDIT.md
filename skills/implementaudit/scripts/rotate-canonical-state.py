@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import ctypes
 import hashlib
 import hmac
 import json
@@ -65,14 +66,74 @@ class ExpectedOldCasLost(RotationError):
 
 
 class PublicationObservationV1(NamedTuple):
-    role: str
-    absolute_path: str
-    expected_digest: str
+    semantic_role: str
+    canonical_no_follow_path: str
     file_identity: tuple[int, int]
     size: int
     ctime_ns: int
     mtime_ns: int
-    observed_digest: str
+    sha256: str
+    expected_digest: str
+
+
+class TrustedExecutableIdentityV1(NamedTuple):
+    canonical_path: str
+    file_identity: tuple[int, int]
+    size: int
+    ctime_ns: int
+    mtime_ns: int
+    sha256: str
+    owner_identity: str
+
+
+class _NativeFileSnapshotV1(NamedTuple):
+    canonical_path: str
+    file_identity: tuple[int, int]
+    size: int
+    ctime_ns: int
+    mtime_ns: int
+    owner_identity: str | None
+
+
+WINDOWS_TRUSTED_GIT_PATHS_V1 = (
+    r"C:\Program Files\Git\cmd\git.exe",
+    r"C:\Program Files\Git\bin\git.exe",
+)
+# These are the only Windows security principals accepted as owners of the
+# fixed Program Files Git executable: LocalSystem, BUILTIN\Administrators, and
+# NT SERVICE\TrustedInstaller.  Caller/user/service SIDs are never accepted.
+WINDOWS_TRUSTED_OWNER_SIDS_V1 = frozenset({
+    "S-1-5-18",
+    "S-1-5-32-544",
+    "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464",
+})
+WINDOWS_FILE_ATTRIBUTE_DIRECTORY = 0x10
+WINDOWS_FILE_ATTRIBUTE_REPARSE_POINT = 0x400
+WINDOWS_GENERIC_READ = 0x80000000
+WINDOWS_FILE_SHARE_ALL = 0x1 | 0x2 | 0x4
+WINDOWS_OPEN_EXISTING = 3
+WINDOWS_FILE_FLAG_OPEN_REPARSE_POINT = 0x00200000
+WINDOWS_INVALID_HANDLE_VALUE = ctypes.c_void_p(-1).value
+WINDOWS_EPOCH_OFFSET_100NS = 116_444_736_000_000_000
+
+
+class _WindowsFileTimeV1(ctypes.Structure):
+    _fields_ = [("low", ctypes.c_uint32), ("high", ctypes.c_uint32)]
+
+
+class _WindowsByHandleFileInformationV1(ctypes.Structure):
+    _fields_ = [
+        ("attributes", ctypes.c_uint32),
+        ("creation_time", _WindowsFileTimeV1),
+        ("last_access_time", _WindowsFileTimeV1),
+        ("last_write_time", _WindowsFileTimeV1),
+        ("volume_serial", ctypes.c_uint32),
+        ("size_high", ctypes.c_uint32),
+        ("size_low", ctypes.c_uint32),
+        ("link_count", ctypes.c_uint32),
+        ("file_index_high", ctypes.c_uint32),
+        ("file_index_low", ctypes.c_uint32),
+    ]
 
 
 INT64_MIN = -(2**63)
@@ -723,10 +784,214 @@ def read_optional_exact_ref_oid_v1(repo: Path, ref: str) -> str | None:
     return None
 
 
+def _windows_apis_v1() -> tuple[object, object]:
+    if os.name != "nt" or not hasattr(ctypes, "WinDLL"):
+        raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    advapi32 = ctypes.WinDLL("advapi32", use_last_error=True)
+    kernel32.CreateFileW.argtypes = [
+        ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p,
+        ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p,
+    ]
+    kernel32.CreateFileW.restype = ctypes.c_void_p
+    kernel32.CloseHandle.argtypes = [ctypes.c_void_p]
+    kernel32.CloseHandle.restype = ctypes.c_int
+    kernel32.GetFileInformationByHandle.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(_WindowsByHandleFileInformationV1),
+    ]
+    kernel32.GetFileInformationByHandle.restype = ctypes.c_int
+    kernel32.GetFinalPathNameByHandleW.argtypes = [
+        ctypes.c_void_p, ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32,
+    ]
+    kernel32.GetFinalPathNameByHandleW.restype = ctypes.c_uint32
+    kernel32.SetFilePointerEx.argtypes = [
+        ctypes.c_void_p, ctypes.c_int64, ctypes.c_void_p, ctypes.c_uint32,
+    ]
+    kernel32.SetFilePointerEx.restype = ctypes.c_int
+    kernel32.ReadFile.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32,
+        ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p,
+    ]
+    kernel32.ReadFile.restype = ctypes.c_int
+    kernel32.LocalFree.argtypes = [ctypes.c_void_p]
+    kernel32.LocalFree.restype = ctypes.c_void_p
+    advapi32.GetSecurityInfo.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32,
+        ctypes.POINTER(ctypes.c_void_p), ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p),
+    ]
+    advapi32.GetSecurityInfo.restype = ctypes.c_uint32
+    advapi32.ConvertSidToStringSidW.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p),
+    ]
+    advapi32.ConvertSidToStringSidW.restype = ctypes.c_int
+    return kernel32, advapi32
+
+
+def _windows_open_regular_no_reparse_v1(path: Path) -> int:
+    kernel32, _ = _windows_apis_v1()
+    handle = kernel32.CreateFileW(
+        str(path), WINDOWS_GENERIC_READ, WINDOWS_FILE_SHARE_ALL, None,
+        WINDOWS_OPEN_EXISTING, WINDOWS_FILE_FLAG_OPEN_REPARSE_POINT, None,
+    )
+    if handle in (None, WINDOWS_INVALID_HANDLE_VALUE):
+        raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+    try:
+        information = _WindowsByHandleFileInformationV1()
+        if not kernel32.GetFileInformationByHandle(handle, ctypes.byref(information)):
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        if information.attributes & (
+                WINDOWS_FILE_ATTRIBUTE_DIRECTORY | WINDOWS_FILE_ATTRIBUTE_REPARSE_POINT):
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+    except BaseException:
+        kernel32.CloseHandle(handle)
+        raise
+    return int(handle)
+
+
+def _windows_close_handle_v1(handle: int) -> None:
+    kernel32, _ = _windows_apis_v1()
+    if not kernel32.CloseHandle(ctypes.c_void_p(handle)):
+        raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+
+
+def _windows_filetime_ns_v1(value: _WindowsFileTimeV1) -> int:
+    ticks = (int(value.high) << 32) | int(value.low)
+    return (ticks - WINDOWS_EPOCH_OFFSET_100NS) * 100
+
+
+def _windows_owner_sid_v1(handle: int) -> str:
+    kernel32, advapi32 = _windows_apis_v1()
+    owner = ctypes.c_void_p()
+    security_descriptor = ctypes.c_void_p()
+    result = advapi32.GetSecurityInfo(
+        ctypes.c_void_p(handle), 1, 1, ctypes.byref(owner), None, None, None,
+        ctypes.byref(security_descriptor),
+    )
+    if result != 0 or not owner.value or not security_descriptor.value:
+        if security_descriptor.value:
+            kernel32.LocalFree(security_descriptor)
+        raise RotationError("trusted Windows file ownership is unavailable")
+    sid_text = ctypes.c_void_p()
+    try:
+        if not advapi32.ConvertSidToStringSidW(owner, ctypes.byref(sid_text)):
+            raise RotationError("trusted Windows file ownership is unavailable")
+        return ctypes.wstring_at(sid_text.value)
+    finally:
+        if sid_text.value:
+            kernel32.LocalFree(sid_text)
+        kernel32.LocalFree(security_descriptor)
+
+
+def _windows_snapshot_v1(handle: int, *, include_owner: bool) -> _NativeFileSnapshotV1:
+    kernel32, _ = _windows_apis_v1()
+    information = _WindowsByHandleFileInformationV1()
+    if not kernel32.GetFileInformationByHandle(
+            ctypes.c_void_p(handle), ctypes.byref(information)):
+        raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+    if information.attributes & (
+            WINDOWS_FILE_ATTRIBUTE_DIRECTORY | WINDOWS_FILE_ATTRIBUTE_REPARSE_POINT):
+        raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+    buffer = ctypes.create_unicode_buffer(32768)
+    length = kernel32.GetFinalPathNameByHandleW(
+        ctypes.c_void_p(handle), buffer, len(buffer), 0)
+    if length == 0 or length >= len(buffer):
+        raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+    canonical = buffer.value
+    if canonical.startswith("\\\\?\\UNC\\"):
+        canonical = "\\\\" + canonical[8:]
+    elif canonical.startswith("\\\\?\\"):
+        canonical = canonical[4:]
+    size = (int(information.size_high) << 32) | int(information.size_low)
+    file_index = ((int(information.file_index_high) << 32)
+                  | int(information.file_index_low))
+    return _NativeFileSnapshotV1(
+        os.path.normcase(os.path.abspath(canonical)),
+        (int(information.volume_serial), file_index),
+        size,
+        _windows_filetime_ns_v1(information.creation_time),
+        _windows_filetime_ns_v1(information.last_write_time),
+        _windows_owner_sid_v1(handle) if include_owner else None,
+    )
+
+
+def _windows_read_handle_bytes_v1(handle: int) -> bytes:
+    kernel32, _ = _windows_apis_v1()
+    if not kernel32.SetFilePointerEx(ctypes.c_void_p(handle), 0, None, 0):
+        raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+    chunks: list[bytes] = []
+    while True:
+        buffer = ctypes.create_string_buffer(65536)
+        count = ctypes.c_uint32()
+        if not kernel32.ReadFile(
+                ctypes.c_void_p(handle), buffer, len(buffer), ctypes.byref(count), None):
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        if count.value == 0:
+            return b"".join(chunks)
+        chunks.append(buffer.raw[:count.value])
+
+
+def _read_posix_descriptor_bytes_v1(descriptor: int) -> bytes:
+    os.lseek(descriptor, 0, os.SEEK_SET)
+    return b"".join(iter(lambda: os.read(descriptor, 65536), b""))
+
+
+def freeze_trusted_executable_v1(path: Path) -> TrustedExecutableIdentityV1:
+    if os.name == "nt":
+        handle = _windows_open_regular_no_reparse_v1(path)
+        try:
+            snapshot = _windows_snapshot_v1(handle, include_owner=True)
+            if snapshot.owner_identity not in WINDOWS_TRUSTED_OWNER_SIDS_V1:
+                raise RotationError("trusted Windows file ownership is invalid")
+            data = _windows_read_handle_bytes_v1(handle)
+            after = _windows_snapshot_v1(handle, include_owner=True)
+            if after != snapshot or len(data) != snapshot.size:
+                raise RotationError("trusted Git executable changed")
+        finally:
+            _windows_close_handle_v1(handle)
+    else:
+        if not hasattr(os, "O_NOFOLLOW"):
+            raise RotationError("trusted Git executable identity is unsupported")
+        try:
+            descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+        except OSError as exc:
+            raise RotationError("trusted Git executable identity is unsupported") from exc
+        try:
+            before = os.fstat(descriptor)
+            if not stat.S_ISREG(before.st_mode) or before.st_uid != 0:
+                raise RotationError("trusted Git executable ownership is invalid")
+            data = _read_posix_descriptor_bytes_v1(descriptor)
+            after = os.fstat(descriptor)
+            if ((before.st_dev, before.st_ino, before.st_size, before.st_ctime_ns,
+                 before.st_mtime_ns) !=
+                    (after.st_dev, after.st_ino, after.st_size, after.st_ctime_ns,
+                     after.st_mtime_ns) or len(data) != before.st_size):
+                raise RotationError("trusted Git executable changed")
+            snapshot = _NativeFileSnapshotV1(
+                os.path.normcase(os.path.abspath(path)),
+                (before.st_dev, before.st_ino), before.st_size,
+                before.st_ctime_ns, before.st_mtime_ns, "uid:0")
+        finally:
+            os.close(descriptor)
+    return TrustedExecutableIdentityV1(
+        snapshot.canonical_path, snapshot.file_identity, snapshot.size,
+        snapshot.ctime_ns, snapshot.mtime_ns, hashlib.sha256(data).hexdigest(),
+        str(snapshot.owner_identity),
+    )
+
+
+def observe_trusted_executable_v1(
+        expected: TrustedExecutableIdentityV1) -> TrustedExecutableIdentityV1:
+    observed = freeze_trusted_executable_v1(Path(expected.canonical_path))
+    if observed != expected:
+        raise RotationError("trusted Git executable changed")
+    return observed
+
+
 def publication_owner_repo_v1() -> Path:
     """Consume the claim-run physical-owner locator without a caller path."""
     claim_helper = Path(__file__).with_name("claim-run.sh")
-    runner = ([str(Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "bin" / "bash.exe")]
+    runner = ([r"C:\Program Files\Git\bin\bash.exe"]
               if os.name == "nt" else ["/bin/bash"])
     completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -742,7 +1007,7 @@ def publication_owner_repo_v1() -> Path:
 def load_governed_publication_context_v1() -> dict[str, object]:
     """Read bounded controller custody without accepting a caller override."""
     claim_helper = Path(__file__).with_name("claim-run.sh")
-    runner = ([str(Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "bin" / "bash.exe")]
+    runner = ([r"C:\Program Files\Git\bin\bash.exe"]
               if os.name == "nt" else ["/bin/bash"])
     completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -848,15 +1113,17 @@ def prepare_trusted_update_ref_transaction_v1(*, repo: Path, ref: str, new_oid: 
     rows.append(b"update " + ref.encode("ascii") + b"\0" + new_oid.encode("ascii")
                 + b"\0" + old_oid.encode("ascii") + b"\0prepare\0commit\0")
     if os.name == "nt":
-        candidates = [Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "cmd" / "git.exe",
-                      Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Git" / "bin" / "git.exe"]
+        # Platform fixed trust roots: never derive a final transaction binary
+        # from caller environment (including ProgramFiles or PATH).
+        candidates = [Path(value) for value in WINDOWS_TRUSTED_GIT_PATHS_V1]
     else:
         candidates = [Path("/usr/bin/git"), Path("/usr/local/bin/git")]
     executable_path = next((candidate for candidate in candidates
                             if candidate.is_file() and not candidate.is_symlink()), None)
     if executable_path is None:
         raise RotationError("trusted Git executable is unavailable")
-    executable = str(executable_path.resolve())
+    trusted_executable = freeze_trusted_executable_v1(executable_path)
+    executable = trusted_executable.canonical_path
     git_dir = Path(git(repo, "rev-parse", "--git-dir").decode("utf-8", "strict").strip())
     if not git_dir.is_absolute():
         git_dir = repo / git_dir
@@ -885,22 +1152,17 @@ def prepare_trusted_update_ref_transaction_v1(*, repo: Path, ref: str, new_oid: 
     if (not stat.S_ISREG(config_stat.st_mode) or stat.S_ISLNK(config_stat.st_mode)
             or is_reparse(config_stat) or config_stat.st_size != 0):
         raise RotationError("trusted Git global configuration is invalid")
-    executable_stat = os.lstat(executable)
-    if (not stat.S_ISREG(executable_stat.st_mode) or stat.S_ISLNK(executable_stat.st_mode)
-            or is_reparse(executable_stat)):
-        raise RotationError("trusted Git executable is invalid")
-    executable_digest = hashlib.sha256(Path(executable).read_bytes()).hexdigest()
     environment = {"PATH": os.path.dirname(executable), "LC_ALL": "C", "LANG": "C",
                    "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": str(global_config),
                    "GIT_TERMINAL_PROMPT": "0"}
     return {"argv": [executable, "-c", f"core.hooksPath={hooks}", "update-ref", "--stdin", "-z"],
             "cwd": str(repo), "env": environment, "stdin_bytes": b"".join(rows), "ref": ref,
-            "trusted_executable_identity": (executable_stat.st_dev, executable_stat.st_ino,
-                                             executable_stat.st_size, executable_digest),
+            "trusted_executable_identity": trusted_executable,
             "trusted_hooks": str(hooks), "trusted_global_config": str(global_config)}
 
 
 def read_back_published_ref_v1(cas: dict[str, object]) -> str:
+    verify_trusted_update_ref_transaction_v1(cas)
     completed = subprocess.run([str(cas["argv"][0]), "-C", str(cas["cwd"]), "rev-parse", "--verify", str(cas["ref"])],
                                env=dict(cas["env"]), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
     if completed.returncode != 0:
@@ -912,13 +1174,10 @@ def read_back_published_ref_v1(cas: dict[str, object]) -> str:
 
 
 def verify_trusted_update_ref_transaction_v1(cas: dict[str, object]) -> None:
-    executable = Path(str(cas["argv"][0]))
-    expected = tuple(cas["trusted_executable_identity"])
-    current = os.lstat(executable)
-    actual = (current.st_dev, current.st_ino, current.st_size,
-              hashlib.sha256(executable.read_bytes()).hexdigest())
-    if actual != expected:
-        raise RotationError("trusted Git executable changed")
+    expected = cas["trusted_executable_identity"]
+    if not isinstance(expected, TrustedExecutableIdentityV1):
+        raise RotationError("trusted Git executable identity is invalid")
+    observe_trusted_executable_v1(expected)
     for value, directory in ((cas["trusted_hooks"], True), (cas["trusted_global_config"], False)):
         path = Path(str(value)); current = os.lstat(path)
         if (is_reparse(current) or (directory and (not path.is_dir() or any(path.iterdir())))
@@ -999,90 +1258,129 @@ def verify_frozen_immutable_publication_inputs_v1(*, repo: Path, frozen: tuple[t
         raise RotationError("immutable publication input changed")
 
 
+class _RetainedPublicationFileV1:
+    def __init__(self, path: Path):
+        self.handle: int | None = None
+        self.descriptor: int | None = None
+        if os.name == "nt":
+            self.handle = _windows_open_regular_no_reparse_v1(path)
+            self.initial = _windows_snapshot_v1(self.handle, include_owner=False)
+        else:
+            if not hasattr(os, "O_NOFOLLOW"):
+                raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+            flags = os.O_RDONLY | os.O_NOFOLLOW | getattr(os, "O_BINARY", 0)
+            try:
+                self.descriptor = os.open(path, flags)
+                opened = os.fstat(self.descriptor)
+            except OSError as exc:
+                raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED") from exc
+            if not stat.S_ISREG(opened.st_mode):
+                self.close()
+                raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+            self.initial = _NativeFileSnapshotV1(
+                os.path.normcase(os.path.abspath(path)),
+                (opened.st_dev, opened.st_ino), opened.st_size,
+                opened.st_ctime_ns, opened.st_mtime_ns, None)
+
+    def close(self) -> None:
+        if self.handle is not None:
+            handle, self.handle = self.handle, None
+            _windows_close_handle_v1(handle)
+        if self.descriptor is not None:
+            descriptor, self.descriptor = self.descriptor, None
+            os.close(descriptor)
+
+    def read_exact(self) -> bytes:
+        if self.handle is not None:
+            return _windows_read_handle_bytes_v1(self.handle)
+        if self.descriptor is None:
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        return _read_posix_descriptor_bytes_v1(self.descriptor)
+
+    def current_snapshot(self) -> _NativeFileSnapshotV1:
+        if self.handle is not None:
+            return _windows_snapshot_v1(self.handle, include_owner=False)
+        if self.descriptor is None:
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        current = os.fstat(self.descriptor)
+        return _NativeFileSnapshotV1(
+            self.initial.canonical_path, (current.st_dev, current.st_ino),
+            current.st_size, current.st_ctime_ns, current.st_mtime_ns, None)
+
+    def reopened_snapshot(self) -> _NativeFileSnapshotV1:
+        path = Path(self.initial.canonical_path)
+        if os.name == "nt":
+            reopened = _windows_open_regular_no_reparse_v1(path)
+            try:
+                return _windows_snapshot_v1(reopened, include_owner=False)
+            finally:
+                _windows_close_handle_v1(reopened)
+        if not hasattr(os, "O_NOFOLLOW"):
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        try:
+            descriptor = os.open(
+                path, os.O_RDONLY | os.O_NOFOLLOW | getattr(os, "O_BINARY", 0))
+            current = os.fstat(descriptor)
+        except OSError as exc:
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED") from exc
+        finally:
+            if "descriptor" in locals():
+                os.close(descriptor)
+        if not stat.S_ISREG(current.st_mode):
+            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+        return _NativeFileSnapshotV1(
+            self.initial.canonical_path, (current.st_dev, current.st_ino),
+            current.st_size, current.st_ctime_ns, current.st_mtime_ns, None)
+
+
 class PublicationObservationSessionV1:
     def __init__(self, context: dict[str, object], expected_digests: dict[str, str] | None):
-        self.root = Path(context["run_root_path"]); self.expected = expected_digests; self.opened: list[tuple[str, Path, int, object]] = []
+        self.root = Path(context["run_root_path"])
+        self.expected = expected_digests
+        self.opened: list[tuple[str, _RetainedPublicationFileV1]] = []
 
     def __enter__(self):
-        for role, relative in (("STATE", "STATE.md"), ("ROADMAP", "ROADMAP.md"), ("WORK_GRAPH", EXPECTED_WORK_GRAPH_PATH)):
-            path = self.root / relative
-            before = os.lstat(path)
-            if not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode) or is_reparse(before):
-                raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
-            flags = os.O_RDONLY | getattr(os, "O_BINARY", 0)
-            if hasattr(os, "O_NOFOLLOW"): flags |= os.O_NOFOLLOW
-            descriptor = os.open(path, flags)
-            opened = os.fstat(descriptor)
-            if (before.st_dev, before.st_ino, before.st_size, before.st_ctime_ns, before.st_mtime_ns) != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_ctime_ns, opened.st_mtime_ns):
-                os.close(descriptor); raise RotationError("publication input changed during observation")
-            self.opened.append((role, path, descriptor, opened))
+        try:
+            for role, relative in (("STATE", "STATE.md"), ("ROADMAP", "ROADMAP.md"),
+                                   ("WORK_GRAPH", EXPECTED_WORK_GRAPH_PATH)):
+                self.opened.append((role, _RetainedPublicationFileV1(self.root / relative)))
+        except BaseException:
+            self.__exit__()
+            raise
         return self
 
     def __exit__(self, *_):
-        for _, _, descriptor, _ in self.opened: os.close(descriptor)
+        for _, retained in reversed(self.opened):
+            retained.close()
         self.opened.clear()
 
     def observe(self, *, reopen: bool) -> tuple[PublicationObservationV1, ...]:
-        rows = []
-        for role, path, descriptor, before in self.opened:
-            os.lseek(descriptor, 0, os.SEEK_SET)
-            data = b"".join(iter(lambda: os.read(descriptor, 65536), b"")); retained = os.fstat(descriptor)
-            if reopen:
-                second = os.open(path, os.O_RDONLY | getattr(os, "O_BINARY", 0))
-                try: reopened = os.fstat(second)
-                finally: os.close(second)
-                if (reopened.st_dev, reopened.st_ino) != (before.st_dev, before.st_ino): raise RotationError("publication input changed during observation")
-            if (retained.st_dev, retained.st_ino, retained.st_size, retained.st_ctime_ns, retained.st_mtime_ns) != (before.st_dev, before.st_ino, before.st_size, before.st_ctime_ns, before.st_mtime_ns): raise RotationError("publication input changed during observation")
-            digest = hashlib.sha256(data).hexdigest(); expected = digest if self.expected is None else self.expected.get(role)
-            if type(expected) is not str or not HEX_SHA256.fullmatch(expected): raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
-            if expected != digest: raise RotationError("publication input digest disagrees with candidate pointer")
-            rows.append(PublicationObservationV1(role, os.path.normcase(os.path.abspath(path)), expected, (before.st_dev,before.st_ino), before.st_size, before.st_ctime_ns, before.st_mtime_ns, digest))
+        rows: list[PublicationObservationV1] = []
+        for role, retained in self.opened:
+            data = retained.read_exact()
+            current = retained.current_snapshot()
+            if current != retained.initial or len(data) != retained.initial.size:
+                raise RotationError("publication input changed during observation")
+            if reopen and retained.reopened_snapshot() != retained.initial:
+                raise RotationError("publication input changed during observation")
+            digest = hashlib.sha256(data).hexdigest()
+            expected = digest if self.expected is None else self.expected.get(role)
+            if type(expected) is not str or not HEX_SHA256.fullmatch(expected):
+                raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
+            if expected != digest:
+                raise RotationError("publication input digest disagrees with candidate pointer")
+            rows.append(PublicationObservationV1(
+                role, retained.initial.canonical_path, retained.initial.file_identity,
+                retained.initial.size, retained.initial.ctime_ns,
+                retained.initial.mtime_ns, digest, expected))
         return tuple(rows)
 
 
 def observe_publication_vector_v1(*, context: dict[str, object],
-                                  expected_digests: dict[str, str] | None = None) -> tuple[tuple[object, ...], ...]:
+                                  expected_digests: dict[str, str] | None = None
+                                  ) -> tuple[PublicationObservationV1, ...]:
     with PublicationObservationSessionV1(context, expected_digests) as session:
         return session.observe(reopen=True)
-    """legacy unreachable"""
-    root = Path(context["run_root_path"])
-    rows = []
-    for role, relative in (("STATE", "STATE.md"), ("ROADMAP", "ROADMAP.md"),
-                           ("WORK_GRAPH", EXPECTED_WORK_GRAPH_PATH)):
-        path = root / relative
-        try:
-            before = os.lstat(path)
-            if not stat.S_ISREG(before.st_mode) or stat.S_ISLNK(before.st_mode) or is_reparse(before):
-                raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
-            flags = os.O_RDONLY | getattr(os, "O_BINARY", 0)
-            if hasattr(os, "O_NOFOLLOW"):
-                flags |= os.O_NOFOLLOW
-            descriptor = os.open(path, flags)
-            try:
-                opened = os.fstat(descriptor)
-                if (before.st_dev, before.st_ino, before.st_size, before.st_ctime_ns,
-                        before.st_mtime_ns) != (opened.st_dev, opened.st_ino, opened.st_size,
-                                                opened.st_ctime_ns, opened.st_mtime_ns):
-                    raise RotationError("publication input changed during observation")
-                data = b"".join(iter(lambda: os.read(descriptor, 65536), b""))
-            finally:
-                os.close(descriptor)
-            after = os.lstat(path)
-        except OSError as exc:
-            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED") from exc
-        if (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns) != (
-                after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns):
-            raise RotationError("publication input changed during observation")
-        digest = hashlib.sha256(data).hexdigest()
-        expected_digest = digest if expected_digests is None else expected_digests.get(role)
-        if type(expected_digest) is not str or not HEX_SHA256.fullmatch(expected_digest):
-            raise RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED")
-        if expected_digest != digest:
-            raise RotationError("publication input digest disagrees with candidate pointer")
-        rows.append(PublicationObservationV1(role, os.path.normcase(os.path.abspath(path)), expected_digest,
-                                              (before.st_dev, before.st_ino), before.st_size,
-                                              before.st_ctime_ns, before.st_mtime_ns, digest))
-    return tuple(rows)
 
 
 def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
@@ -1128,10 +1426,13 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
             repo=repo, ref=ref, new_oid=candidate_pointer_oid,
             old_oid=context["expected_old_pointer_oid"] or ZERO_OID,
             verify_refs=context["publication_guard_refs"])
-        verify_trusted_update_ref_transaction_v1(cas)
         with PublicationObservationSessionV1(context, expected_digests) as session:
             first = session.observe(reopen=False)
             second = session.observe(reopen=True)
+            # Revalidate the fixed executable identity and isolated Git inputs
+            # immediately before the final equality decision.  Once equality
+            # completes, the one prebuilt update-ref process is the only call.
+            verify_trusted_update_ref_transaction_v1(cas)
             if first != second or not frozen:
                 raise RotationError("publication input changed during the final fence")
             completed = subprocess.run(cas["argv"], cwd=cas["cwd"], env=cas["env"],
@@ -1172,21 +1473,56 @@ def effective_mode(mode: int) -> int:
 def git_environment() -> dict[str, str]:
     environment = os.environ.copy()
     for name in (
+        "BASH_ENV",
+        "CDPATH",
+        "DYLD_INSERT_LIBRARIES",
+        "ENV",
         "GIT_ALTERNATE_OBJECT_DIRECTORIES",
         "GIT_COMMON_DIR",
+        "GIT_CONFIG_COUNT",
+        "GIT_CONFIG_GLOBAL",
+        "GIT_CONFIG_NOSYSTEM",
+        "GIT_CONFIG_SYSTEM",
         "GIT_DIR",
+        "GIT_EXEC_PATH",
         "GIT_INDEX_FILE",
         "GIT_NAMESPACE",
         "GIT_OBJECT_DIRECTORY",
+        "GIT_SSH",
+        "GIT_SSH_COMMAND",
         "GIT_WORK_TREE",
+        "LD_PRELOAD",
     ):
         environment.pop(name, None)
+    for name in tuple(environment):
+        if (name.startswith("BASH_FUNC_")
+                or name.startswith("GIT_CONFIG_KEY_")
+                or name.startswith("GIT_CONFIG_VALUE_")):
+            environment.pop(name, None)
+    if os.name == "nt":
+        environment["PATH"] = ";".join((
+            r"C:\Program Files\Git\cmd",
+            r"C:\Program Files\Git\bin",
+            r"C:\Program Files\Git\usr\bin",
+            r"C:\Windows\System32",
+            r"C:\Windows",
+        ))
     return environment
+
+
+def git_executable_v1() -> str:
+    if os.name != "nt":
+        return "git"
+    executable = next((Path(value) for value in WINDOWS_TRUSTED_GIT_PATHS_V1
+                       if Path(value).is_file() and not Path(value).is_symlink()), None)
+    if executable is None:
+        raise RotationError("trusted Git executable is unavailable")
+    return str(executable)
 
 
 def git(repo: Path, *args: str, input_bytes: bytes | None = None) -> bytes:
     result = subprocess.run(
-        ["git", "-C", str(repo), *args],
+        [git_executable_v1(), "-C", str(repo), *args],
         input=input_bytes,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -1201,7 +1537,7 @@ def git(repo: Path, *args: str, input_bytes: bytes | None = None) -> bytes:
 
 def git_optional(repo: Path, *args: str) -> tuple[int, bytes]:
     result = subprocess.run(
-        ["git", "-C", str(repo), *args],
+        [git_executable_v1(), "-C", str(repo), *args],
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
         env=git_environment(),
@@ -1687,7 +2023,7 @@ def archive_preimage(
     archive_raw = canonical_bytes(archive)
     manifest_oid = git(repo, "hash-object", "-w", "--stdin", input_bytes=archive_raw).decode().strip()
     update = subprocess.run(
-        ["git", "-C", str(repo), "update-ref", archive_ref, manifest_oid, ZERO_OID],
+        [git_executable_v1(), "-C", str(repo), "update-ref", archive_ref, manifest_oid, ZERO_OID],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         env=git_environment(),
