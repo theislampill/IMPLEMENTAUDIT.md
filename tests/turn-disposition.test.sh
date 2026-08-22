@@ -364,6 +364,116 @@ set_handoff_andon_state() {
     malformed-nonnumeric)
       sed -i '/^| 1 | handoff-occ-1 |/a | forged | forged-occ-1 | 1 | owner-unclear | malformed row | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
       ;;
+    structural-extra-cell)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | extra-occ-1 | 1 | failed-criterion | extra cell row | retain checkpoint | owner response | open (rerun pending) | injected |' "$state_file"
+      ;;
+    structural-leading-space)
+      sed -i '/^| 1 | handoff-occ-1 |/a\ | forged | forged-occ-1 | 1 | failed-criterion | indented row | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    structural-missing-trailing)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | missing-trailing-occ-1 | 1 | failed-criterion | missing trailing delimiter | retain checkpoint | owner response | open (rerun pending)' "$state_file"
+      ;;
+    structural-empty-extra)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | empty-extra-occ-1 | 1 | failed-criterion | empty extra cell | retain checkpoint | owner response | open (rerun pending) | |' "$state_file"
+      ;;
+    v05-wrapped)
+      sed -i 's#^| 1 | handoff-occ-1 |.*$#| 1 | `handoff-occ-1` | `1` | owner-unclear | *waiting on bounded owner input* | _retain checkpoint_ | "owner response" | `open (rerun pending)` |#' "$state_file"
+      ;;
+    a03-current-terminal-active)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | terminal-occ-1 | 1 | failed-criterion | completed sibling | retained evidence | final rerun | resolved |' "$state_file"
+      ;;
+    b01-preamble-prose)
+      sed -i '/^Open reruns, escalations,/a Narrative-only Andon preamble.' "$state_file"
+      ;;
+    b02-post-table-prose)
+      sed -i '/^## Occurrence resolution and residuals$/i Post-table narrative after the body terminator.\
+' "$state_file"
+      ;;
+    b03-outside-section-table)
+      sed -i '/^AUDIT_HANDOFF$/i ## Unrelated table\
+\
+| value | note |\
+|---|---|\
+| outside | ignored |\
+' "$state_file"
+      ;;
+    n01-missing-section)
+      sed -i '/^## Andon log$/,/^## Occurrence resolution and residuals$/{ /^## Occurrence resolution and residuals$/!d; }' "$state_file"
+      ;;
+    n01-duplicate-section)
+      sed -i '/^## Occurrence resolution and residuals$/i ## Andon log\
+\
+| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |\
+|---|---|---|---|---|---|---|---|\
+| 2 | duplicate-section-occ | 1 | failed-criterion | duplicate section | retain checkpoint | owner response | open (rerun pending) |\
+' "$state_file"
+      ;;
+    n02-missing-header)
+      sed -i '/^| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |$/d' "$state_file"
+      ;;
+    n02-duplicate-header)
+      sed -i '/^| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |$/p' "$state_file"
+      ;;
+    n02-missing-separator)
+      sed -i '/^|---|---|---|---|---|---|---|---|$/d' "$state_file"
+      ;;
+    n02-duplicate-separator)
+      sed -i '/^|---|---|---|---|---|---|---|---|$/p' "$state_file"
+      ;;
+    n02-reordered-header-separator)
+      sed -i \
+        -e 's/^| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |$/__ANDON_HEADER__/' \
+        -e 's/^|---|---|---|---|---|---|---|---|$/| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |/' \
+        -e 's/^__ANDON_HEADER__$/|---|---|---|---|---|---|---|---|/' \
+        "$state_file"
+      ;;
+    n02-separated-header)
+      sed -i '/^| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |$/G' "$state_file"
+      ;;
+    n02-altered-separator)
+      sed -i 's/^|---|---|---|---|---|---|---|---|$/|---|---|---|---|---|---|---|--|/' "$state_file"
+      ;;
+    n04-missing-leading)
+      sed -i '/^| 1 | handoff-occ-1 |/a 2 | missing-leading-occ | 1 | failed-criterion | missing leading delimiter | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    n04-trailing-content)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | trailing-content-occ | 1 | failed-criterion | trailing content | retain checkpoint | owner response | open (rerun pending) | trailing' "$state_file"
+      ;;
+    n05-missing-cell)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | missing-cell-occ | 1 | failed-criterion | missing cell | retain checkpoint | open (rerun pending) |' "$state_file"
+      ;;
+    n08-embedded-pipe)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | embedded-pipe-occ | 1 | failed-criterion | embedded | pipe | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    n09-empty-id)
+      sed -i '/^| 1 | handoff-occ-1 |/a | | empty-id-occ | 1 | failed-criterion | empty row id | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    n09-wrapper-id)
+      sed -i '/^| 1 | handoff-occ-1 |/a | `2` | wrapper-id-occ | 1 | failed-criterion | wrapped row id | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    n10-unknown-class)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | unknown-class-occ | 1 | invented-class | invalid class | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    n10-plural-class)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | plural-class-occ | 1 | failed-criterion regression | plural class | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    n16-misplaced-preheader-row)
+      sed -i '/^Open reruns, escalations,/a | 2 | misplaced-preheader-occ | 1 | failed-criterion | misplaced row | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
+      ;;
+    n16-misplaced-second-header)
+      sed -i '/^## Occurrence resolution and residuals$/i | # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |\
+' "$state_file"
+      ;;
+    n17-legacy-stop-table)
+      sed -i \
+        -e 's/^| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |$/| # | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |/' \
+        -e 's/^|---|---|---|---|---|---|---|---|$/|---|---|---|---|---|---|---|/' \
+        -e 's/^| 1 | handoff-occ-1 | 1 | owner-unclear |/| 1 | 1 | owner-unclear |/' \
+        "$state_file"
+      ;;
+    a04-active-after-terminator)
+      sed -i '/^| 1 | handoff-occ-1 |/s/^/\n/' "$state_file"
+      ;;
     duplicate)
       sed -i '/^| 1 | handoff-occ-1 |/p' "$state_file"
       ;;
@@ -491,14 +601,75 @@ expect_typed_state_pair \
   'awaiting owner decision' \
   3 BLOCK
 
-for invalid_state in outcome-gibberish outcome-terminal outcome-resolved-colon malformed-nonnumeric; do
-  record_typed_state_refusal_pair "$invalid_state" "$invalid_state"
+convergence_refusals=(
+  'N01-missing-section::n01-missing-section'
+  'N01-duplicate-section::n01-duplicate-section'
+  'N02-missing-header::n02-missing-header'
+  'N02-duplicate-header::n02-duplicate-header'
+  'N02-missing-separator::n02-missing-separator'
+  'N02-duplicate-separator::n02-duplicate-separator'
+  'N02-reordered-header-separator::n02-reordered-header-separator'
+  'N02-separated-header::n02-separated-header'
+  'N02-altered-separator::n02-altered-separator'
+  'N03-indentation+N13-valid-malformed::structural-leading-space'
+  'N04-missing-leading+N13-valid-malformed::n04-missing-leading'
+  'N04-missing-trailing+N13-valid-malformed::structural-missing-trailing'
+  'N04-trailing-content+N13-valid-malformed::n04-trailing-content'
+  'N05-missing-cell+N13-valid-malformed::n05-missing-cell'
+  'N06-empty-required::empty'
+  'N06-placeholder-required::placeholder'
+  'N07-extra-cell+N13-valid-malformed::structural-extra-cell'
+  'N07-empty-extra-cell+N13-valid-malformed::structural-empty-extra'
+  'N08-embedded-pipe+N13-valid-malformed::n08-embedded-pipe'
+  'N09-nonnumeric-id+N13-valid-malformed::malformed-nonnumeric'
+  'N09-empty-id+N13-valid-malformed::n09-empty-id'
+  'N09-wrapper-id+N13-valid-malformed::n09-wrapper-id'
+  'N09-duplicate-occurrence-class::duplicate'
+  'N10-unknown-class+N13-valid-malformed::n10-unknown-class'
+  'N10-plural-class+N13-valid-malformed::n10-plural-class'
+  'N11-unknown-outcome::outcome-gibberish'
+  'N11-terminal-looking-unknown::outcome-terminal'
+  'N11-malformed-terminal::outcome-resolved-colon'
+  'N12-malformed-phase::malformed'
+  'N12-stale-only::stale'
+  'N14-terminal-only-resolved::resolved'
+  'N14-terminal-only-closed::closed'
+  'N14-terminal-only-done::done'
+  'N15-contradictory-current::contradictory'
+  'N16-misplaced-preheader-row::n16-misplaced-preheader-row'
+  'N16-misplaced-second-header::n16-misplaced-second-header'
+  'N17-legacy-stop-table::n17-legacy-stop-table'
+  'B04-zero-rows::absent'
+  'A02-valid-malformed-sibling::malformed-nonnumeric'
+  'A04-active-after-terminator::a04-active-after-terminator'
+)
+for refusal_case in "${convergence_refusals[@]}"; do
+  label="${refusal_case%%::*}"
+  andon_state="${refusal_case#*::}"
+  record_typed_state_refusal_pair "$label" "$andon_state"
 done
 if [ "${#typed_state_refusal_failures[@]}" -ne 0 ]; then
   printf 'turn-disposition.test: typed Andon refusal mismatch: %s\n' \
     "${typed_state_refusal_failures[*]}" >&2
   exit 1
 fi
+
+convergence_admissions=(
+  'V01+B05-current-open::unresolved'
+  'V02-current-escalated::escalated'
+  'V03-current-blocked::blocked'
+  'V04+A01-history-current::historical-resolved'
+  'V05-balanced-wrappers::v05-wrapped'
+  'A03-current-terminal-plus-active::a03-current-terminal-active'
+  'B01-preamble-prose::b01-preamble-prose'
+  'B02-post-table-prose::b02-post-table-prose'
+  'B03-outside-section-table::b03-outside-section-table'
+)
+for admission_case in "${convergence_admissions[@]}"; do
+  label="${admission_case%%::*}"
+  andon_state="${admission_case#*::}"
+  expect_typed_state_pair "$label" "$andon_state" 'plain affirmative handoff evidence' 0 AUDITED_HANDOFF
+done
 
 for terminal_state in closed done; do
   expect_typed_state_pair \

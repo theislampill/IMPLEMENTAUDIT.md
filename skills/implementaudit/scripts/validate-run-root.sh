@@ -833,6 +833,13 @@ if [ -f "$state" ]; then
     if [ "$status_value" = BLOCKED ] || [ "$status_value" = INTERRUPTED ]; then
       open_andon="$(awk -F'|' -v current_phase="$phase_value" '
         function trim(value) { gsub(/^[ \t]+|[ \t]+$/, "", value); return value }
+        function blank(value) { return value ~ /^[ \t]*$/ }
+        function table_like(value, normalized, pipes) {
+          normalized=value
+          sub(/^[ \t]+/, "", normalized)
+          pipes=gsub(/\|/, "|", normalized)
+          return substr(normalized, 1, 1) == "|" || pipes >= 2
+        }
         function normalize(value, first, last, previous) {
           value=trim(value)
           do {
@@ -871,11 +878,53 @@ if [ -f "$state" ]; then
               || normalized ~ /^(resolved|closed|done)\([^()]+\)$/) return "terminal"
           return "invalid"
         }
-        /^## Andon log/ { in_andon=1; next }
-        in_andon && /^## / { in_andon=0 }
-        in_andon && /^\|/ {
+        $0 == "## Andon log" {
+          section_count++
+          if (in_andon) malformed=1
+          in_andon=1
+          stage="preamble"
+          next
+        }
+        in_andon && /^## / {
+          if (stage == "expect-separator") malformed=1
+          in_andon=0
+          stage=""
+          next
+        }
+        in_andon {
+          if ($0 == "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |") {
+            if (stage != "preamble" || header_count != 0) malformed=1
+            header_count++
+            stage="expect-separator"
+            next
+          }
+          if ($0 == "|---|---|---|---|---|---|---|---|") {
+            if (stage != "expect-separator" || separator_count != 0) malformed=1
+            separator_count++
+            stage="body"
+            next
+          }
+          if (stage == "expect-separator") {
+            malformed=1
+            next
+          }
+          if (stage == "preamble" || stage == "after-body") {
+            if (table_like($0)) malformed=1
+            next
+          }
+          if (stage != "body") {
+            malformed=1
+            next
+          }
+          if (blank($0)) {
+            stage="after-body"
+            next
+          }
+          if (substr($0, 1, 1) != "|" || substr($0, length($0), 1) != "|" || NF != 10) {
+            malformed=1
+            next
+          }
           row_id=trim($2)
-          if (row_id == "#" || row_id ~ /^-+$/) next
           if (row_id !~ /^[0-9]+$/) { malformed=1; next }
           occ=trim($3); phase=trim($4); class=trim($5); abnormality=trim($6)
           countermeasure=trim($7); rerun=trim($8); outcome=trim($9)
@@ -889,11 +938,16 @@ if [ -f "$state" ]; then
             key=tolower(normalize(occ)) SUBSEP tolower(class)
             if (key in seen) duplicate=1
             seen[key]=1
-            if (normalize(phase) == normalize(current_phase) \
-                && state == "active") open=1
+            current=(normalize(phase) == normalize(current_phase))
+            if (state == "active" && !current) malformed=1
+            if (current && state == "active") open=1
           }
         }
-        END { print open && !malformed && !duplicate ? "yes" : "no" }
+        END {
+          if (in_andon && stage == "expect-separator") malformed=1
+          if (section_count != 1 || header_count != 1 || separator_count != 1) malformed=1
+          print open && !malformed && !duplicate ? "yes" : "no"
+        }
       ' "$state")"
       [ "$open_andon" = yes ] \
         || err "STATE.md $status_value nonterminal yield requires an unresolved Andon row"
