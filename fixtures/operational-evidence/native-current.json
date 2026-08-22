@@ -2,7 +2,7 @@
   "schema": "implementaudit-native-current-fixture-v1",
   "controller_id": "controller-current",
   "claim_id": "0123456789abcdef0123456789abcdef",
-  "run_id": "native-current-run",
+  "run_id": "native-current-ABC123",
   "generation": "G0002",
   "next_action": "execute the exact bounded native-current action",
   "andon_state": "`V041_RELEASE_BLOCK=ACTIVE`; fixture containment remains open",

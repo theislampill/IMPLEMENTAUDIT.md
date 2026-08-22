@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import argparse
 import ast
+import contextlib
 import datetime
 import decimal
 import hashlib
-import importlib.util
+import io
 import json
 import math
 import os
@@ -17,6 +18,7 @@ import re
 import stat
 import subprocess
 import sys
+import types
 import urllib.error
 import urllib.request
 from collections import Counter
@@ -763,31 +765,46 @@ def _native_pointer(raw, controller, claim, run_id):
     return value
 
 
+def _native_module_from_bytes(raw, path, name, label):
+    module = types.ModuleType(name)
+    module.__file__ = os.fspath(path)
+    module.__package__ = ""
+    try:
+        exec(compile(raw, os.fspath(path), "exec"), module.__dict__)
+    except Exception as exc:
+        _error("OE_NATIVE_CURRENT_SOURCE", label,
+               f"canonical read-only source cannot be loaded: {exc}")
+    return module
+
+
 def _native_graph_projection(raw):
     compiler_path = pathlib.Path(__file__).resolve().with_name("compile-work-graph.py")
     compiler_raw = _native_file(
         compiler_path, "$native.work_graph_compiler", 256 * 1024)
-    spec = importlib.util.spec_from_file_location(
-        "_implementaudit_native_work_graph_compiler", compiler_path)
-    if spec is None or spec.loader is None:
-        _error("OE_NATIVE_CURRENT_GRAPH", "$native.WORK_GRAPH",
-               "canonical HC-H4 compiler cannot be loaded")
-    module = importlib.util.module_from_spec(spec)
+    module = _native_module_from_bytes(
+        compiler_raw, compiler_path,
+        "_implementaudit_native_work_graph_compiler",
+        "$native.work_graph_compiler")
     try:
-        spec.loader.exec_module(module)
         projection = module.compile_frontier_projection(raw)
     except Exception as exc:
         _error("OE_NATIVE_CURRENT_GRAPH", "$native.WORK_GRAPH",
                f"canonical HC-H4 compiler rejected WORK_GRAPH: {exc}")
+    if _native_file(
+            compiler_path, "$native.work_graph_compiler", 256 * 1024) != compiler_raw:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.work_graph_compiler",
+               "HC-H4 compiler changed during byte-bound execution")
     if (type(projection) is not dict or not projection.get("active") or
             not projection.get("ready") or not (
                 projection.get("writer_holds") or projection.get("resource_holds"))):
         _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
                "WORK_GRAPH omits ACTIVE, READY, or declared hold facts")
-    return projection, hashlib.sha256(compiler_raw).hexdigest()
+    return (projection, hashlib.sha256(compiler_raw).hexdigest(),
+            compiler_path, compiler_raw)
 
 
-def _native_predecessor(repo, controller, claim, run_id, generation, token):
+def _native_predecessor(
+        repo, controller, controller_oid, claim, run_id, generation, token):
     if type(token) is not str or token.count("@") != 1:
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
                "receipt predecessor token is malformed")
@@ -807,23 +824,147 @@ def _native_predecessor(repo, controller, claim, run_id, generation, token):
         fields = _native_exact_tsv(
             raw, "implementaudit.continuity-receipt.v2", 12,
             "$native.receipt.predecessor")
-        if fields[1] != controller or fields[3] != claim or fields[10] != expected_generation:
+        if (fields[1:4] != [controller, controller_oid, claim] or
+                not re.fullmatch(r"[0-9a-f]{40}", fields[4]) or
+                not re.fullmatch(r"[0-9a-f]{40}", fields[5]) or
+                not re.fullmatch(r"[0-9a-f]{64}", fields[6]) or
+                not re.fullmatch(r"[0-9a-f]{64}", fields[7]) or
+                not (fields[8] == "none" or
+                     re.fullmatch(r"[0-9a-f]{40}", fields[8])) or
+                fields[9] not in {
+                    "host-reported-compaction", "new-session",
+                    "handoff-resume", "manual-resume",
+                    "inferred-context-gap"} or
+                fields[10] != expected_generation or not fields[11]):
             _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
-                   "v2 predecessor is foreign to current custody")
+                   "v2 predecessor is malformed or foreign to current custody")
     elif raw.startswith(b"implementaudit.continuity-receipt.v3\t"):
         fields = _native_exact_tsv(
             raw, "implementaudit.continuity-receipt.v3", 18,
             "$native.receipt.predecessor")
         if (fields[1] != controller or fields[2] != claim or fields[3] != run_id or
-                fields[4] != expected_generation):
+                fields[4] != expected_generation or
+                not re.fullmatch(r"[0-9a-f]{40}", fields[5]) or
+                fields[6] != f"refs/implementaudit/current-generations/{controller}" or
+                not re.fullmatch(r"[0-9a-f]{40}", fields[7]) or
+                not re.fullmatch(r"[0-9a-f]{64}", fields[8]) or
+                not re.fullmatch(r"[0-9a-f]{64}", fields[9]) or
+                not re.fullmatch(r"[0-9a-f]{64}", fields[10]) or
+                fields[11] != "WORK_GRAPH.json" or
+                not re.fullmatch(r"[0-9a-f]{64}", fields[12]) or
+                not re.fullmatch(r"[0-9a-f]{40}", fields[13]) or
+                not re.fullmatch(r"[0-9a-f]{64}", fields[14]) or
+                not re.fullmatch(r"[0-9]{20}", fields[15]) or not fields[16]):
             _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
-                   "v3 predecessor is foreign to current custody")
+                   "v3 predecessor is malformed or foreign to current custody")
+        predecessor_ordinal = int(expected_generation[1:], 16)
+        if predecessor_ordinal <= 1 or fields[17].count("@") != 1:
+            _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+                   "v3 predecessor own-predecessor token is malformed")
+        own_ref, own_oid = fields[17].split("@")
+        own_epoch = f"G{predecessor_ordinal - 1:04X}"
+        if (own_ref !=
+                f"refs/implementaudit/continuity-receipts/{controller}/{own_epoch}" or
+                not re.fullmatch(r"[0-9a-f]{40}", own_oid)):
+            _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+                   "v3 predecessor own-predecessor token is not structurally immediate")
     else:
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
                "receipt predecessor schema is unsupported")
+    return ref, oid, raw
 
 
-def _native_route(repo, controller, claim, run_root, generation, receipt):
+def _native_route_module():
+    path = pathlib.Path(__file__).resolve().with_name("route-transaction.py")
+    raw = _native_file(path, "$native.route_validator", 512 * 1024)
+    module = _native_module_from_bytes(
+        raw, path, "_implementaudit_native_route_transaction",
+        "$native.route_validator")
+    required = (
+        "current_ref", "request_observations", "classify",
+        "executing_package_evidence", "mechanical_action_class",
+        "normalized_history_query", "digest_json", "trusted_host_executable",
+        "sanitized_action_environment", "bash_script_path")
+    if any(not callable(getattr(module, name, None)) for name in required):
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_validator",
+               "canonical R0033 read-only predicates are incomplete")
+    return module, path, raw
+
+
+def _native_require_current_receipt(repo, controller, receipt, route_module):
+    claim_path = pathlib.Path(__file__).resolve().with_name("claim-run.sh")
+    claim_raw = _native_file(claim_path, "$native.continuity_validator", 256 * 1024)
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            bash = route_module.trusted_host_executable(repo, "bash")
+            claim_arg = route_module.bash_script_path(claim_path)
+            environment = route_module.sanitized_action_environment()
+        completed = subprocess.run(
+            [os.fspath(bash), claim_arg, "--require-current-continuity", controller],
+            cwd=repo, env=environment, stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            check=False)
+    except (OSError, SystemExit):
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt",
+               "canonical R0011 currentness validator is unavailable")
+    if completed.returncode or completed.stdout.strip() != receipt:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt",
+               "canonical R0011 currentness validator rejected the receipt chain")
+    if _native_file(
+            claim_path, "$native.continuity_validator", 256 * 1024) != claim_raw:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_validator",
+               "R0011 validator changed during currentness validation")
+    return claim_path, claim_raw
+
+
+def _native_route_request(route_module, value):
+    request = {
+        "schema": route_module.REQUEST_SCHEMA,
+        "predicate_version": route_module.PREDICATE_VERSION,
+        "boundary": value["boundary"], "scope": value["scope"],
+        "action": value["action"], "inputs": value["inputs"],
+    }
+    route_module.exact_keys(
+        request,
+        {"schema", "predicate_version", "boundary", "scope", "action", "inputs"},
+        "native-current route request")
+    boundary = route_module.exact_keys(
+        request["boundary"], {"kind", "event_id", "digest"}, "boundary")
+    route_module.exact_text(boundary["kind"], "boundary.kind")
+    route_module.exact_text(boundary["event_id"], "boundary.event_id")
+    if not route_module.HEX_RE.fullmatch(boundary.get("digest", "")):
+        route_module.fail("boundary identity is malformed")
+    route_module.identity_record(request["scope"], "scope")
+    action = route_module.exact_keys(
+        request["action"], {"identity", "digest", "class", "argv"}, "action")
+    route_module.exact_text(action["identity"], "action.identity")
+    route_module.exact_text(action["class"], "action.class")
+    if not route_module.HEX_RE.fullmatch(action.get("digest", "")):
+        route_module.fail("action identity is malformed")
+    if (not isinstance(action["argv"], list) or not action["argv"] or
+            len(action["argv"]) > 64 or any(
+                not isinstance(item, str) or not item or len(item) > 4096
+                for item in action["argv"])):
+        route_module.fail("action argv is empty, oversized, or malformed")
+    if not isinstance(request["inputs"], list) or not request["inputs"]:
+        route_module.fail("inputs must be a non-empty complete identity set")
+    identities = []
+    for index, item in enumerate(request["inputs"]):
+        record = route_module.exact_keys(
+            item, {"identity", "path", "digest"}, f"inputs[{index}]")
+        identities.append(route_module.exact_text(
+            record["identity"], f"inputs[{index}].identity"))
+        route_module.exact_text(record["path"], f"inputs[{index}].path")
+        if not route_module.HEX_RE.fullmatch(record.get("digest", "")):
+            route_module.fail(f"inputs[{index}].digest is not canonical")
+    if identities != sorted(identities) or len(identities) != len(set(identities)):
+        route_module.fail("inputs are not uniquely ordered by identity")
+    return request
+
+
+def _native_route(
+        repo, controller, controller_oid, claim, run_root, generation, receipt,
+        boundary_kind, boundary_event_id, next_action, route_module):
     ref = f"refs/implementaudit/route-decisions/{controller}"
     oid = _native_ref_oid(repo, ref, "$native.route.ref")
     raw = _native_blob(repo, oid, "$native.route")
@@ -853,14 +994,6 @@ def _native_route(repo, controller, claim, run_root, generation, receipt):
     if raw != expected_raw:
         _error("OE_NATIVE_CURRENT_BYTES", "$native.route",
                "R0033 route record bytes are not canonical")
-    expires = [
-        "action-completion", "next-action-change", "scope-change",
-        "read-set-change", "host-binding-generation-change",
-        "continuity-receipt-change", "package-identity-change",
-        "child-source-identity-change", "owner-evidence-change",
-        "authority-evidence-change", "dependency-evidence-change",
-        "effect-evidence-change", "contradiction-or-invalidation",
-        "scope-expansion"]
     if (value.get("schema") != "implementaudit.route-decision.v1" or
             value.get("predicate_version") != "R0033.route-predicate.v1" or
             value.get("controller_id") != controller or value.get("claim_id") != claim or
@@ -871,7 +1004,8 @@ def _native_route(repo, controller, claim, run_root, generation, receipt):
             value.get("decision") not in {"PENDING", "NOT_REQUIRED", "REQUIRED"} or
             value.get("classification") not in {
                 "MECHANICALLY_REQUIRED", "MECHANICALLY_NOT_REQUIRED",
-                "JUDGEMENT_REQUIRED"} or value.get("expires_on") != expires or
+                "JUDGEMENT_REQUIRED"} or
+            value.get("expires_on") != route_module.EXPIRES_ON or
             type(value.get("invalidators")) is not list or
             len(value["invalidators"]) != len(set(value["invalidators"])) or
             not all(type(item) is str and item for item in value["invalidators"]) or
@@ -909,6 +1043,93 @@ def _native_route(repo, controller, claim, run_root, generation, receipt):
     if value.get("record_identity") != identity:
         _error("OE_NATIVE_CURRENT_ROUTE", "$native.route.record_identity",
                "R0033 route record identity is stale")
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            canonical_oid, canonical_value = route_module.current_ref(repo, controller)
+            if canonical_oid != oid or canonical_value != value:
+                route_module.fail("canonical route reread changed")
+            request = _native_route_request(route_module, value)
+            current = {
+                "controller_id": controller,
+                "controller_record_oid": controller_oid,
+                "claim_id": claim,
+                "explicit_run_root": os.fspath(run_root),
+                "continuity_generation": generation,
+                "continuity_receipt": receipt,
+                "boundary_kind": boundary_kind,
+                "boundary_event_id": boundary_event_id,
+                "next_action": next_action,
+            }
+            for name in ("host_id", "host_session_id"):
+                route_module.exact_text(value.get(name), name)
+            if (type(value.get("host_binding_generation")) is not str or
+                    not route_module.CONTINUITY_RE.fullmatch(
+                        value["host_binding_generation"]) or
+                    value["host_binding_generation"] != generation or
+                    type(value.get("host_correlation_id")) is not str or
+                    not route_module.HEX_RE.fullmatch(value["host_correlation_id"])):
+                route_module.fail("route host binding identity is malformed")
+            noncurrent, observed_inputs = route_module.request_observations(
+                repo, current, request)
+            decision, classification, invalidators = route_module.classify(
+                request, noncurrent)
+            package, child_source = route_module.executing_package_evidence(
+                repo, request)
+            evidence = {
+                "owner": {
+                    "controller_record_oid": controller_oid,
+                    "claim_id": claim,
+                    "run_root": os.fspath(run_root),
+                },
+                "authority": {
+                    "continuity_generation": generation,
+                    "continuity_receipt": receipt,
+                },
+                "effect": {
+                    "action_identity": request["action"]["identity"],
+                    "action_digest": request["action"]["digest"],
+                    "derived_class": route_module.mechanical_action_class(
+                        request["action"]["argv"]),
+                },
+                "dependency": {
+                    "host_binding_generation": value["host_binding_generation"],
+                    "host_correlation_id": value["host_correlation_id"],
+                },
+                "inputs": observed_inputs,
+                "package": package,
+                "child_source": child_source,
+            }
+            identity_seed = {
+                "request": request,
+                "controller_record_oid": controller_oid,
+                "claim_id": claim,
+                "continuity_receipt": receipt,
+                "host_binding_generation": value["host_binding_generation"],
+                "package": package,
+                "child_source": child_source,
+            }
+            transaction_id = route_module.digest_json(
+                {"kind": "transaction", "seed": identity_seed})
+            obligation_id = (route_module.digest_json(
+                {"kind": "obligation", "seed": identity_seed})
+                if decision == "REQUIRED" else None)
+            fingerprint = route_module.digest_json(
+                {"request": request, "mechanical_evidence": evidence})
+            history_query = route_module.normalized_history_query(request)
+            if (value.get("evidence") != evidence or value.get("package") != package or
+                    value.get("child_source") != child_source or
+                    value.get("expiry_fingerprint") != fingerprint or
+                    value.get("decision") != decision or
+                    value.get("classification") != classification or
+                    value.get("invalidators") != invalidators or
+                    value.get("route_transaction_id") != transaction_id or
+                    value.get("obligation_id") != obligation_id or
+                    value.get("history_query") != history_query):
+                route_module.fail(
+                    "route decision no longer agrees with its exact live predicate")
+    except (Exception, SystemExit):
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
+               "canonical R0033 read-only predicate rejected the route record")
     return {
         "ref": ref, "record_oid": oid, "record_identity": identity,
         "decision": value["decision"], "classification": value["classification"],
@@ -983,7 +1204,8 @@ def collect_native_current():
     roadmap_raw = _native_file(roadmap_path, "$native.ROADMAP")
     graph_raw = _native_file(graph_path, "$native.WORK_GRAPH")
     state = _native_state_facts(state_raw)
-    projection, compiler_sha256 = _native_graph_projection(graph_raw)
+    (projection, compiler_sha256, compiler_path,
+     compiler_raw) = _native_graph_projection(graph_raw)
     state_sha256 = hashlib.sha256(state_raw).hexdigest()
     roadmap_sha256 = hashlib.sha256(roadmap_raw).hexdigest()
     graph_sha256 = hashlib.sha256(graph_raw).hexdigest()
@@ -1030,9 +1252,9 @@ def collect_native_current():
     if receipt_fields != expected_receipt:
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt",
                "receipt-v3 disagrees with pointer, hot files, or next action")
-    _native_predecessor(
-        source_repository, controller, claim, run_id, generation,
-        receipt_fields[17])
+    predecessor_ref, predecessor_oid, predecessor_raw = _native_predecessor(
+        source_repository, controller, controller_oid, claim, run_id,
+        generation, receipt_fields[17])
 
     marker_ref = f"refs/implementaudit/current-generation-migrations/{controller}"
     marker_oid = _native_ref_oid(
@@ -1047,16 +1269,26 @@ def collect_native_current():
             receipt_oid, "true"]:
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
                "permanent migration marker is stale or foreign")
+    route_module, route_validator_path, route_validator_raw = _native_route_module()
+    continuity_validator_path, continuity_validator_raw = (
+        _native_require_current_receipt(
+            repository, controller, receipt, route_module))
     route = _native_route(
-        source_repository, controller, claim, run_root, generation, receipt)
+        source_repository, controller, controller_oid, claim, run_root,
+        generation, receipt, invalidation[4], invalidation[5],
+        state["next_action"], route_module)
 
     ref_fence = {
         controller_ref: controller_oid, invalidation_ref: invalidation_oid,
         pointer_ref: pointer_oid, receipt_ref: receipt_oid, marker_ref: marker_oid,
+        predecessor_ref: predecessor_oid,
         route["ref"]: route["record_oid"]}
     file_fence = {
         run_root / ".claimed": claimed_raw, run_root / ".controller": sentinel_raw,
-        state_path: state_raw, roadmap_path: roadmap_raw, graph_path: graph_raw}
+        state_path: state_raw, roadmap_path: roadmap_raw, graph_path: graph_raw,
+        compiler_path: compiler_raw,
+        route_validator_path: route_validator_raw,
+        continuity_validator_path: continuity_validator_raw}
     if _run_git(
             source_repository, "for-each-ref", "--format=%(refname)",
             "refs/implementaudit/controllers/").stdout.splitlines() != controller_refs:

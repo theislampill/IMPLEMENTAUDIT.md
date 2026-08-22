@@ -27,21 +27,33 @@ trap 'rm -rf "$tmp"' EXIT
 
 "${py_cmd[@]}" - "$loader" \
   "skills/implementaudit/scripts/compile-work-graph.py" \
+  "skills/implementaudit/scripts/route-transaction.py" \
+  "skills/implementaudit/scripts/claim-run.sh" \
+  "skills/implementaudit/scripts/validate-run-root.sh" \
+  "skills/implementaudit/references/route-obligations.md" \
+  "skills/implementaudit/SKILL.md" \
+  "skills/audit-state/SKILL.md" \
   "$fixtures/native-current.json" "$tmp/native-current" <<'PY'
 import copy
 import hashlib
-import importlib.util
 import json
 import pathlib
 import shutil
 import subprocess
 import sys
+import types
 
 
 LOADER = pathlib.Path(sys.argv[1]).resolve()
 COMPILER = pathlib.Path(sys.argv[2]).resolve()
-FIXTURE = json.loads(pathlib.Path(sys.argv[3]).read_text(encoding="utf-8"))
-CASE_ROOT = pathlib.Path(sys.argv[4]).resolve()
+ROUTE = pathlib.Path(sys.argv[3]).resolve()
+CLAIM = pathlib.Path(sys.argv[4]).resolve()
+VALIDATE_RUN_ROOT = pathlib.Path(sys.argv[5]).resolve()
+ROUTE_REFERENCE = pathlib.Path(sys.argv[6]).resolve()
+GOVERNOR = pathlib.Path(sys.argv[7]).resolve()
+AUDIT_STATE = pathlib.Path(sys.argv[8]).resolve()
+FIXTURE = json.loads(pathlib.Path(sys.argv[9]).read_text(encoding="utf-8"))
+CASE_ROOT = pathlib.Path(sys.argv[10]).resolve()
 CASE_ROOT.mkdir(parents=True)
 ZERO64 = "0" * 64
 ONE64 = "1" * 64
@@ -54,8 +66,12 @@ if schema_definition.get("x-native-current-facts") != {
         "fixed_hot_paths": ["STATE.md", "ROADMAP.md", "WORK_GRAPH.json"],
         "currentness_chain": [
             "controller", "claim", "generation_pointer", "receipt_v3",
-            "migration_marker", "route_record"],
+            "immediate_predecessor", "migration_marker", "route_record"],
+        "predecessor_predicate":
+            "canonical_R0011_read_only_currentness_and_exact_immediate_v2_v3",
+        "route_predicate": "canonical_R0033_pure_read_only_currentness",
         "graph_projection": "implementaudit.work-graph.v1",
+        "graph_compiler_execution": "byte_bound_and_finally_fenced",
         "publication": False,
         "activegraph_authority": False,
     }:
@@ -92,13 +108,17 @@ def update_ref(repo, ref, oid):
     git(repo, "update-ref", ref, oid)
 
 
+def load_bytes_module(path, name):
+    module = types.ModuleType(name)
+    module.__file__ = str(path)
+    module.__package__ = ""
+    exec(compile(path.read_bytes(), str(path), "exec"), module.__dict__)
+    return module
+
+
 def load_module(repo, serial):
     path = repo / "skills/implementaudit/scripts/operational-evidence.py"
-    spec = importlib.util.spec_from_file_location(
-        f"operational_evidence_native_current_{serial}", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+    return load_bytes_module(path, f"operational_evidence_native_current_{serial}")
 
 
 def prepare(case, serial):
@@ -110,27 +130,55 @@ def prepare(case, serial):
     write(repo / "tracked.txt", b"native current fixture\n")
     script = repo / "skills/implementaudit/scripts/operational-evidence.py"
     compiler = repo / "skills/implementaudit/scripts/compile-work-graph.py"
+    route = repo / "skills/implementaudit/scripts/route-transaction.py"
+    claim = repo / "skills/implementaudit/scripts/claim-run.sh"
+    validate_run_root = repo / "skills/implementaudit/scripts/validate-run-root.sh"
+    route_reference = repo / "skills/implementaudit/references/route-obligations.md"
+    governor = repo / "skills/implementaudit/SKILL.md"
+    audit_state = repo / "skills/audit-state/SKILL.md"
     script.parent.mkdir(parents=True)
+    route_reference.parent.mkdir(parents=True, exist_ok=True)
+    audit_state.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(LOADER, script)
     shutil.copyfile(COMPILER, compiler)
+    shutil.copyfile(ROUTE, route)
+    shutil.copyfile(CLAIM, claim)
+    shutil.copyfile(VALIDATE_RUN_ROOT, validate_run_root)
+    shutil.copyfile(ROUTE_REFERENCE, route_reference)
+    shutil.copyfile(GOVERNOR, governor)
+    shutil.copyfile(AUDIT_STATE, audit_state)
     git(repo, "add", "tracked.txt", str(script.relative_to(repo)),
-        str(compiler.relative_to(repo)))
+        str(compiler.relative_to(repo)), str(route.relative_to(repo)),
+        str(claim.relative_to(repo)), str(validate_run_root.relative_to(repo)),
+        str(route_reference.relative_to(repo)),
+        str(governor.relative_to(repo)), str(audit_state.relative_to(repo)))
     git(repo, "commit", "--quiet", "-m", "fixture")
+    head = git(repo, "rev-parse", "HEAD").decode().strip()
+    tree = git(repo, "rev-parse", "HEAD^{tree}").decode().strip()
 
     fixture = copy.deepcopy(FIXTURE)
     controller = fixture["controller_id"]
     claim = fixture["claim_id"]
     run_id = fixture["run_id"]
-    generation = fixture["generation"]
+    v3_predecessor_cases = {
+        "positive-v3-predecessor", "predecessor-v3-invalidation",
+        "predecessor-v3-pointer", "predecessor-v3-own-token",
+    }
+    generation = "G0003" if case in v3_predecessor_cases else fixture["generation"]
     run_relative = pathlib.PurePosixPath(
         ".IMPLEMENTAUDIT", "runs", run_id).as_posix()
     run_root = repo / pathlib.Path(*pathlib.PurePosixPath(run_relative).parts)
     run_root.mkdir(parents=True)
+    for name in (
+            "STATE.md", "PROTOCOL.md", "ROADMAP.md", "THINKING.md",
+            "sidecars.md", "tools.md", "context.md"):
+        write(run_root / name, f"# {name} fixture\n".encode())
     common = git(
         repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
     ).decode().strip()
     repository = repo.as_posix()
-    run_absolute = run_root.as_posix()
+    controller_run_absolute = run_root.as_posix()
+    run_absolute = str(run_root.resolve())
 
     claim_lines = [
         "schema=implementaudit.run-claim.v2",
@@ -179,6 +227,12 @@ def prepare(case, serial):
         "| {id} | {reference} | {kind} | {authority} | {subject} | {issued_epoch} | {status} | {status_evidence} | {supersedes_by} | {scope_end} |".format(
             **{**instruction, "status": instruction_status}),
         "",
+        "## Reconciliation",
+        "",
+        "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |",
+        "|---|---|---|---|---|---|",
+        f"| {generation} | manual-resume | 2026-08-20T00:00:00Z | {head} {tree} | yes | exact native-current boundary |",
+        "",
     ]
     state_raw = "\n".join(state_lines).encode("utf-8")
     roadmap_raw = b"# Native current roadmap\n\nOnly bounded current work is retained.\n"
@@ -202,14 +256,14 @@ def prepare(case, serial):
 
     controller_record = (
         "implementaudit.controller-current.v1\t"
-        f"{controller}\t{claim}\t{run_absolute}\n").encode()
+        f"{controller}\t{claim}\t{controller_run_absolute}\n").encode()
     controller_oid = object_id(repo, controller_record)
     if case != "no-controller":
         update_ref(repo, f"refs/implementaudit/controllers/{controller}", controller_oid)
     if case == "duplicate-controller":
         duplicate = object_id(repo, (
             "implementaudit.controller-current.v1\tcontroller-other\t"
-            f"{claim}\t{run_absolute}\n").encode())
+            f"{claim}\t{controller_run_absolute}\n").encode())
         update_ref(repo, "refs/implementaudit/controllers/controller-other", duplicate)
 
     invalidation_raw = (
@@ -221,8 +275,6 @@ def prepare(case, serial):
         repo, f"refs/implementaudit/continuity-invalidations/{controller}",
         invalidation_oid)
 
-    head = git(repo, "rev-parse", "HEAD").decode().strip()
-    tree = git(repo, "rev-parse", "HEAD^{tree}").decode().strip()
     state_digest = hashlib.sha256(state_raw).hexdigest()
     roadmap_digest = hashlib.sha256(roadmap_raw).hexdigest()
     graph_digest = hashlib.sha256(graph_raw).hexdigest()
@@ -230,12 +282,43 @@ def prepare(case, serial):
     manifest_oid = object_id(repo, manifest_raw)
     manifest_digest = hashlib.sha256(manifest_raw).hexdigest()
 
-    predecessor_ref = f"refs/implementaudit/continuity-receipts/{controller}/G0001"
-    predecessor_raw = (
-        "implementaudit.continuity-receipt.v2\t"
-        f"{controller}\t{controller_oid}\t{claim}\t{head}\t{tree}\t"
-        f"{state_digest}\t{roadmap_digest}\t{invalidation_oid}\t"
-        "manual-resume\tG0001\tfixture predecessor\n").encode()
+    if case in v3_predecessor_cases:
+        predecessor_epoch = "G0002"
+        predecessor_ref = (
+            f"refs/implementaudit/continuity-receipts/{controller}/"
+            f"{predecessor_epoch}")
+        predecessor_invalidation = (
+            "invalid" if case == "predecessor-v3-invalidation"
+            else invalidation_oid)
+        predecessor_pointer_ref = (
+            "refs/WRONG/pointer" if case == "predecessor-v3-pointer"
+            else f"refs/implementaudit/current-generations/{controller}")
+        own_predecessor = (
+            "not-a-predecessor-token" if case == "predecessor-v3-own-token"
+            else f"refs/implementaudit/continuity-receipts/{controller}/G0001@{head}")
+        predecessor_raw = (
+            "implementaudit.continuity-receipt.v3\t"
+            f"{controller}\t{claim}\t{run_id}\t{predecessor_epoch}\t"
+            f"{predecessor_invalidation}\t{predecessor_pointer_ref}\t{head}\t"
+            f"{ONE64}\t{state_digest}\t{roadmap_digest}\tWORK_GRAPH.json\t"
+            f"{graph_digest}\t{manifest_oid}\t{manifest_digest}\t"
+            f"00000000000000000001\t{fixture['next_action']}\t"
+            f"{own_predecessor}\n").encode()
+    else:
+        predecessor_epoch = "G0001"
+        predecessor_ref = (
+            f"refs/implementaudit/continuity-receipts/{controller}/"
+            f"{predecessor_epoch}")
+        predecessor_head = (
+            "not-an-object" if case == "predecessor-v2-head" else head)
+        predecessor_boundary = (
+            "unknown-boundary" if case == "predecessor-v2-boundary"
+            else "manual-resume")
+        predecessor_raw = (
+            "implementaudit.continuity-receipt.v2\t"
+            f"{controller}\t{controller_oid}\t{claim}\t{predecessor_head}\t{tree}\t"
+            f"{state_digest}\t{roadmap_digest}\t{invalidation_oid}\t"
+            f"{predecessor_boundary}\t{predecessor_epoch}\tfixture predecessor\n").encode()
     predecessor_oid = object_id(repo, predecessor_raw)
     update_ref(repo, predecessor_ref, predecessor_oid)
     predecessor = f"{predecessor_ref}@{predecessor_oid}"
@@ -306,7 +389,91 @@ def prepare(case, serial):
             repo, f"refs/implementaudit/current-generation-migrations/{controller}",
             marker_oid)
 
-    route_controller = "controller-other" if case == "wrong-route-controller" else controller
+    route_module = load_bytes_module(
+        route, f"route_transaction_native_current_fixture_{serial}")
+    boundary = {
+        "kind": "manual-resume", "event_id": "fixture-boundary"}
+    boundary["digest"] = route_module.digest_json(boundary)
+    scope = {"identity": fixture["next_action"]}
+    scope["digest"] = route_module.digest_json(scope)
+    action = {
+        "identity": "bounded-read",
+        "class": "PURE_BOUNDED_READ_OR_VALIDATION",
+        "argv": ["route-read-snapshot"],
+    }
+    action["digest"] = route_module.digest_json(action)
+    request = {
+        "schema": "implementaudit.route-decision-request.v1",
+        "predicate_version": "R0033.route-predicate.v1",
+        "boundary": boundary,
+        "scope": scope,
+        "action": action,
+        "inputs": [{
+            "identity": "input:hot-state",
+            "path": f"{run_relative}/STATE.md",
+            "digest": "sha256:" + state_digest,
+        }],
+    }
+    current = {
+        "controller_id": controller,
+        "controller_record_oid": controller_oid,
+        "claim_id": claim,
+        "explicit_run_root": run_absolute,
+        "continuity_generation": generation,
+        "continuity_receipt": receipt,
+        "boundary_kind": "manual-resume",
+        "boundary_event_id": "fixture-boundary",
+        "next_action": fixture["next_action"],
+    }
+    noncurrent, observed_inputs = route_module.request_observations(
+        repo, current, request)
+    decision, classification, invalidators = route_module.classify(
+        request, noncurrent)
+    package, child_source = route_module.executing_package_evidence(repo, request)
+    host_binding_generation = (
+        "G0001" if case == "stale-route-host-binding" else generation)
+    host_correlation_id = "sha256:" + "3" * 64
+    identity_seed = {
+        "request": request,
+        "controller_record_oid": controller_oid,
+        "claim_id": claim,
+        "continuity_receipt": receipt,
+        "host_binding_generation": host_binding_generation,
+        "package": package,
+        "child_source": child_source,
+    }
+    route_transaction_id = route_module.digest_json(
+        {"kind": "transaction", "seed": identity_seed})
+    obligation_id = (
+        route_module.digest_json({"kind": "obligation", "seed": identity_seed})
+        if decision == "REQUIRED" else None)
+    evidence = {
+        "owner": {
+            "controller_record_oid": controller_oid,
+            "claim_id": claim,
+            "run_root": run_absolute,
+        },
+        "authority": {
+            "continuity_generation": generation,
+            "continuity_receipt": receipt,
+        },
+        "effect": {
+            "action_identity": action["identity"],
+            "action_digest": action["digest"],
+            "derived_class": route_module.mechanical_action_class(action["argv"]),
+        },
+        "dependency": {
+            "host_binding_generation": host_binding_generation,
+            "host_correlation_id": host_correlation_id,
+        },
+        "inputs": observed_inputs,
+        "package": package,
+        "child_source": child_source,
+    }
+    expiry_fingerprint = route_module.digest_json(
+        {"request": request, "mechanical_evidence": evidence})
+    route_controller = (
+        "controller-other" if case == "wrong-route-controller" else controller)
     route_base = {
         "schema": "implementaudit.route-decision.v1",
         "predicate_version": "R0033.route-predicate.v1",
@@ -317,35 +484,53 @@ def prepare(case, serial):
         "continuity_receipt": receipt,
         "host_id": "codex",
         "host_session_id": "native-current-fixture",
-        "host_binding_generation": generation,
-        "host_correlation_id": "fixture-correlation",
-        "boundary": {"kind": "manual-resume"},
-        "scope": {"identity": fixture["next_action"]},
-        "action": {"identity": "bounded-read", "class": "PURE_BOUNDED_READ_OR_VALIDATION"},
-        "evidence": {"owner": {}, "authority": {}, "effect": {}, "dependency": {}},
-        "inputs": {},
-        "package": {},
-        "child_source": {},
-        "decision": "NOT_REQUIRED",
-        "classification": "MECHANICALLY_NOT_REQUIRED",
-        "invalidators": [],
-        "expiry_fingerprint": "sha256:" + ONE64,
-        "expires_on": [
-            "action-completion", "next-action-change", "scope-change",
-            "read-set-change", "host-binding-generation-change",
-            "continuity-receipt-change", "package-identity-change",
-            "child-source-identity-change", "owner-evidence-change",
-            "authority-evidence-change", "dependency-evidence-change",
-            "effect-evidence-change", "contradiction-or-invalidation",
-            "scope-expansion",
-        ],
+        "host_binding_generation": host_binding_generation,
+        "host_correlation_id": host_correlation_id,
+        "boundary": boundary,
+        "scope": scope,
+        "action": action,
+        "evidence": evidence,
+        "inputs": request["inputs"],
+        "package": package,
+        "child_source": child_source,
+        "decision": decision,
+        "classification": classification,
+        "invalidators": invalidators,
+        "expiry_fingerprint": expiry_fingerprint,
+        "expires_on": route_module.EXPIRES_ON,
         "predecessor_record_oid": None,
-        "route_transaction_id": "sha256:" + "2" * 64,
-        "obligation_id": None,
+        "route_transaction_id": route_transaction_id,
+        "obligation_id": obligation_id,
         "route_state": None,
         "child_lifecycle_owned": False,
         "consumed_record_oid": None,
     }
+    if case == "stale-route-scope":
+        stale_scope = {"identity": "stale native-current scope"}
+        stale_scope["digest"] = route_module.digest_json(stale_scope)
+        route_base["scope"] = stale_scope
+    elif case == "stale-route-action":
+        stale_action = {
+            "identity": "stale-action", "class": "PURE_BOUNDED_READ_OR_VALIDATION",
+            "argv": ["route-read-snapshot"],
+        }
+        stale_action["digest"] = route_module.digest_json(stale_action)
+        route_base["action"] = stale_action
+    elif case == "malformed-route-expiry":
+        route_base["expiry_fingerprint"] = "not-a-digest"
+    elif case == "contradictory-route-classification":
+        route_base["classification"] = "JUDGEMENT_REQUIRED"
+    elif case == "contradictory-route-evidence":
+        route_base["evidence"] = copy.deepcopy(evidence)
+        route_base["evidence"]["owner"]["claim_id"] = ONE64[:32]
+    elif case == "mismatched-route-inputs":
+        route_base["inputs"] = copy.deepcopy(request["inputs"])
+        route_base["inputs"][0]["digest"] = "sha256:" + ZERO64
+    elif case == "malformed-route-history":
+        route_base["history_query"] = {"schema": "unknown-history"}
+    elif case == "malformed-route-lifecycle":
+        route_base["child_lifecycle_owned"] = True
+        route_base["lifecycle"] = {"state": None}
     route_identity = "sha256:" + hashlib.sha256(canonical(route_base)).hexdigest()
     if case == "stale-route-identity":
         route_identity = "sha256:" + ZERO64
@@ -380,8 +565,22 @@ negative_cases = [
     ("missing-marker", "NCR17 missing permanent marker"),
     ("wrong-route-controller", "NCR18 wrong-controller route"),
     ("unknown-graph", "NCR19 unknown graph schema"),
+    ("predecessor-v2-head", "NCR21 malformed v2 predecessor object field"),
+    ("predecessor-v2-boundary", "NCR22 malformed v2 predecessor boundary"),
+    ("predecessor-v3-invalidation", "NCR23 malformed v3 predecessor typed field"),
+    ("predecessor-v3-pointer", "NCR24 wrong v3 predecessor pointer ref"),
+    ("predecessor-v3-own-token", "NCR25 malformed v3 own-predecessor token"),
+    ("stale-route-host-binding", "NCR26 stale R0033 host binding"),
+    ("stale-route-scope", "NCR27 stale R0033 scope"),
+    ("stale-route-action", "NCR28 stale R0033 action"),
+    ("malformed-route-expiry", "NCR29 malformed R0033 expiry fingerprint"),
+    ("contradictory-route-classification", "NCR30 contradictory R0033 decision/classification"),
+    ("contradictory-route-evidence", "NCR31 contradictory R0033 evidence"),
+    ("mismatched-route-inputs", "NCR32 mismatched R0033 inputs"),
+    ("malformed-route-history", "NCR33 malformed R0033 history payload"),
+    ("malformed-route-lifecycle", "NCR34 malformed R0033 lifecycle payload"),
 ]
-accepted = []
+red_failures = []
 for serial, (case, label) in enumerate(negative_cases, 1):
     repo = prepare(case, serial)
     module = load_module(repo, serial)
@@ -390,10 +589,143 @@ for serial, (case, label) in enumerate(negative_cases, 1):
     except module.OperationalEvidenceError:
         pass
     else:
-        accepted.append(label)
-if accepted:
-    for label in accepted:
-        print(f"{label} RED: invalid native fact was accepted", file=sys.stderr)
+        red_failures.append(f"{label}: invalid native fact was accepted")
+
+v3_positive_repo = prepare("positive-v3-predecessor", 100)
+v3_positive_module = load_module(v3_positive_repo, 100)
+v3_route_module = load_bytes_module(
+    v3_positive_repo / "skills/implementaudit/scripts/route-transaction.py",
+    "route_transaction_v3_predecessor_probe")
+v3_claim = v3_positive_repo / "skills/implementaudit/scripts/claim-run.sh"
+v3_canonical = subprocess.run(
+    [str(v3_route_module.trusted_host_executable(v3_positive_repo, "bash")),
+     v3_route_module.bash_script_path(v3_claim),
+     "--require-current-continuity", "controller-current"],
+    cwd=v3_positive_repo, env=v3_route_module.sanitized_action_environment(),
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+if v3_canonical.returncode:
+    raise SystemExit(
+        "canonical v3 predecessor fixture is invalid: " +
+        (v3_canonical.stderr.strip() or "no validator diagnostic"))
+try:
+    v3_positive_module.collect_native_current()
+except v3_positive_module.OperationalEvidenceError as exc:
+    raise SystemExit(
+        f"bounded canonical v3 predecessor/no-history control failed: {exc.receipt()}")
+older_ref = subprocess.run(
+    ["git", "-C", str(v3_positive_repo), "show-ref", "--verify", "--hash",
+     "refs/implementaudit/continuity-receipts/controller-current/G0001"],
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if older_ref.returncode == 0:
+    raise SystemExit("v3 no-history control unexpectedly resolved G0001")
+
+predecessor_race_repo = prepare("positive", 101)
+predecessor_race_module = load_module(predecessor_race_repo, 101)
+original_predecessor = predecessor_race_module._native_predecessor
+
+
+def drift_predecessor(*args, **kwargs):
+    result = original_predecessor(*args, **kwargs)
+    replacement = object_id(predecessor_race_repo, b"predecessor ref drift\n")
+    update_ref(
+        predecessor_race_repo,
+        "refs/implementaudit/continuity-receipts/controller-current/G0001",
+        replacement)
+    return result
+
+
+predecessor_race_module._native_predecessor = drift_predecessor
+try:
+    predecessor_race_module.collect_native_current()
+except predecessor_race_module.OperationalEvidenceError:
+    pass
+else:
+    red_failures.append("NCR35 predecessor-ref drift was accepted")
+
+route_race_repo = prepare("positive", 102)
+route_race_module = load_module(route_race_repo, 102)
+original_route = route_race_module._native_route
+
+
+def drift_route(*args, **kwargs):
+    result = original_route(*args, **kwargs)
+    replacement = object_id(route_race_repo, b"route ref drift\n")
+    update_ref(
+        route_race_repo,
+        "refs/implementaudit/route-decisions/controller-current",
+        replacement)
+    return result
+
+
+route_race_module._native_route = drift_route
+try:
+    route_race_module.collect_native_current()
+except route_race_module.OperationalEvidenceError:
+    pass
+else:
+    red_failures.append("NCR36 route-ref drift was accepted")
+
+fake_compiler = b'''def compile_frontier_projection(raw):
+    return {"population":4,"counts":{"DONE":1,"ACTIVE":1,"READY":1,"BLOCKED":1},
+            "active":["RACE-ACTIVE"],"ready":["CELL-B"],"blocked_summary":{},
+            "writer_holds":{"W_NATIVE_CURRENT":["CELL-A"]},"resource_holds":{},
+            "digest":"0"*64}
+'''
+compiler_race_repo = prepare("positive", 103)
+compiler_race_module = load_module(compiler_race_repo, 103)
+compiler_race_path = (
+    compiler_race_repo / "skills/implementaudit/scripts/compile-work-graph.py")
+original_native_file = compiler_race_module._native_file
+compiler_replaced = False
+
+
+def replace_compiler_after_read(path, label, maximum=256 * 1024):
+    global compiler_replaced
+    raw = original_native_file(path, label, maximum)
+    if path == compiler_race_path and not compiler_replaced:
+        compiler_replaced = True
+        path.write_bytes(fake_compiler)
+    return raw
+
+
+compiler_race_module._native_file = replace_compiler_after_read
+try:
+    compiler_race_module._native_graph_projection(
+        (compiler_race_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/WORK_GRAPH.json")
+        .read_bytes())
+except compiler_race_module.OperationalEvidenceError as exc:
+    if exc.code != "OE_NATIVE_CURRENT_CHANGED":
+        red_failures.append(
+            f"NCR37 compiler pre-execution mutation returned {exc.code}")
+else:
+    red_failures.append("NCR37 compiler pre-execution mutation was accepted")
+
+compiler_final_repo = prepare("positive", 104)
+compiler_final_module = load_module(compiler_final_repo, 104)
+compiler_final_path = (
+    compiler_final_repo / "skills/implementaudit/scripts/compile-work-graph.py")
+original_final_route = compiler_final_module._native_route
+
+
+def replace_compiler_after_execution(*args, **kwargs):
+    result = original_final_route(*args, **kwargs)
+    compiler_final_path.write_bytes(fake_compiler)
+    return result
+
+
+compiler_final_module._native_route = replace_compiler_after_execution
+try:
+    compiler_final_module.collect_native_current()
+except compiler_final_module.OperationalEvidenceError as exc:
+    if exc.code != "OE_NATIVE_CURRENT_CHANGED":
+        red_failures.append(
+            f"NCR38 compiler post-execution mutation returned {exc.code}")
+else:
+    red_failures.append("NCR38 compiler post-execution mutation was accepted")
+
+if red_failures:
+    for label in red_failures:
+        print(f"{label} RED", file=sys.stderr)
     raise SystemExit(1)
 
 before_refs = git(
@@ -408,7 +740,7 @@ after_refs = git(
 after_objects = git(positive_repo, "count-objects", "-v")
 if before_refs != after_refs or before_objects != after_objects:
     raise SystemExit("native-current read changed protected refs or Git objects")
-if (positive_repo / ".IMPLEMENTAUDIT/runs/native-current-run/operational-evidence").exists():
+if (positive_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/operational-evidence").exists():
     raise SystemExit("C03 created a snapshot/publication root")
 if record != repeat or positive_module.canonical_json_v1(record) != positive_module.canonical_json_v1(repeat):
     raise SystemExit("native-current facts are not deterministic")

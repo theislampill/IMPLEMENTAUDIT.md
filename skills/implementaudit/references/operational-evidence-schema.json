@@ -27,10 +27,14 @@
       "claim",
       "generation_pointer",
       "receipt_v3",
+      "immediate_predecessor",
       "migration_marker",
       "route_record"
     ],
+    "predecessor_predicate": "canonical_R0011_read_only_currentness_and_exact_immediate_v2_v3",
+    "route_predicate": "canonical_R0033_pure_read_only_currentness",
     "graph_projection": "implementaudit.work-graph.v1",
+    "graph_compiler_execution": "byte_bound_and_finally_fenced",
     "publication": false,
     "activegraph_authority": false
   },

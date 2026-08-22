@@ -137,19 +137,28 @@ graph, source root, snapshot root or alternate path. The returned
 The reader requires one exact canonical generation pointer, receipt v3 and
 permanent migration marker chain. It binds their controller/claim/run/source
 epoch, pointer and manifest identities, hot STATE/ROADMAP digests,
-`WORK_GRAPH.json` path/digest, next action and predecessor receipt. The current
-R0033 route ref must contain its exact canonical record bytes, current
-controller/claim/run/generation/receipt bindings and self-hashed record
-identity. Missing, duplicate, malformed, unknown, contradictory, stale or
-foreign facts are typed refusals; a legacy v1/v2 receipt is not promoted to the
-C03 fact record.
+`WORK_GRAPH.json` path/digest, next action and predecessor receipt. It invokes
+the canonical read-only R0011 currentness validator, validates every typed
+field of the immediate v2/v3 predecessor and its exact `G(n-1)` relation, and
+checks the bounded structural `G(n-2)@OID` token without reading older history.
+The current R0033 route ref must contain exact canonical record bytes and agree
+with the existing pure R0033 predicate over native controller, claim, run,
+continuity, host-generation, boundary, next-action, scope, action, evidence,
+input, package, child-source, expiry, classification, history and lifecycle
+facts. A self-hash alone does not make a route record current. Missing,
+duplicate, malformed, unknown, contradictory, stale or foreign facts are typed
+refusals; a legacy v1/v2 receipt is not promoted to the C03 fact record.
 
 ACTIVE, READY, blocked summaries and declared writer/resource holds come only
-from the canonical HC-H4 `compile_frontier_projection` implementation. Adjacent
-STATE narrative cannot override that projection. STATE contributes only its
-bounded current epoch, explicit open-Andon population, active instruction rows
-and exact next action; the pointer and receipt must bind the same hot bytes and
-values. The reader performs a final file/ref fence before returning canonical,
+from the canonical HC-H4 `compile_frontier_projection` implementation. The
+reader executes the already-read compiler bytes, reports their digest and
+fences the same path after execution and again before return; path re-import
+cannot substitute different projection bytes. Adjacent STATE narrative cannot
+override that projection. STATE contributes only its bounded current epoch,
+explicit open-Andon population, active instruction rows and exact next action;
+the pointer and receipt must bind the same hot bytes and values. The final
+file/ref fence includes the predecessor and route refs plus the compiler,
+R0011-validator and R0033-validator bytes before returning canonical,
 deterministic facts. It does not invoke lifecycle helpers, mint or change refs,
 repair state, set READY/JOIN, create a snapshot or output root, query history,
 use network, or inspect an ActiveGraph mirror. C06 remains the sole later
