@@ -861,23 +861,36 @@ if [ -f "$state" ]; then
             || value == "evidence-mismatch" || value == "transport-infrastructure" \
             || value == "misplacement" || value == "false-closure"
         }
+        function outcome_state(value, normalized) {
+          normalized=normalize(value)
+          if (normalized == "open (rerun pending)" \
+              || normalized ~ /^escalated \(cites #[0-9]+\)$/ \
+              || normalized == "blocked (handoff condition)") return "active"
+          if (normalized ~ /^(resolved|closed|done)$/ \
+              || normalized ~ /^(resolved|closed|done) [^ ].*$/ \
+              || normalized ~ /^(resolved|closed|done)\([^()]+\)$/) return "terminal"
+          return "invalid"
+        }
         /^## Andon log/ { in_andon=1; next }
         in_andon && /^## / { in_andon=0 }
-        in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
+        in_andon && /^\|/ {
+          row_id=trim($2)
+          if (row_id == "#" || row_id ~ /^-+$/) next
+          if (row_id !~ /^[0-9]+$/) { malformed=1; next }
           occ=trim($3); phase=trim($4); class=trim($5); abnormality=trim($6)
           countermeasure=trim($7); rerun=trim($8); outcome=trim($9)
+          state=outcome_state(outcome)
           valid=substantive(occ) && substantive(phase) && canonical_class(class) \
             && substantive(abnormality) && substantive(countermeasure) && substantive(rerun) \
-            && substantive(outcome)
+            && substantive(outcome) && state != "invalid"
           if (!valid) {
             malformed=1
           } else {
             key=tolower(normalize(occ)) SUBSEP tolower(class)
             if (key in seen) duplicate=1
             seen[key]=1
-            normalized_outcome=normalize(outcome)
             if (normalize(phase) == normalize(current_phase) \
-                && normalized_outcome !~ /^(resolved|closed|done)([ (]|$)/) open=1
+                && state == "active") open=1
           }
         }
         END { print open && !malformed && !duplicate ? "yes" : "no" }

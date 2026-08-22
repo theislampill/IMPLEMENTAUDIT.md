@@ -322,6 +322,27 @@ set_handoff_andon_state() {
     resolved)
       sed -i 's/| open (rerun pending) |/| resolved |/' "$state_file"
       ;;
+    closed)
+      sed -i 's/| open (rerun pending) |/| closed |/' "$state_file"
+      ;;
+    done)
+      sed -i 's/| open (rerun pending) |/| done |/' "$state_file"
+      ;;
+    outcome-gibberish)
+      sed -i 's/| open (rerun pending) |/| gibberish |/' "$state_file"
+      ;;
+    outcome-terminal)
+      sed -i 's/| open (rerun pending) |/| terminal |/' "$state_file"
+      ;;
+    outcome-resolved-colon)
+      sed -i 's/| open (rerun pending) |/| resolved: owner replied |/' "$state_file"
+      ;;
+    escalated)
+      sed -i 's/| open (rerun pending) |/| escalated (cites #7) |/' "$state_file"
+      ;;
+    blocked)
+      sed -i 's/| open (rerun pending) |/| blocked (handoff condition) |/' "$state_file"
+      ;;
     absent)
       sed -i '/^| 1 | handoff-occ-1 |/d' "$state_file"
       ;;
@@ -339,6 +360,9 @@ set_handoff_andon_state() {
       ;;
     historical-resolved)
       sed -i '/^| 1 | handoff-occ-1 |/a | 2 | historical-occ-1 | 0 | failed-criterion | prior phase issue | retained prior evidence | prior rerun | resolved |' "$state_file"
+      ;;
+    malformed-nonnumeric)
+      sed -i '/^| 1 | handoff-occ-1 |/a | forged | forged-occ-1 | 1 | owner-unclear | malformed row | retain checkpoint | owner response | open (rerun pending) |' "$state_file"
       ;;
     duplicate)
       sed -i '/^| 1 | handoff-occ-1 |/p' "$state_file"
@@ -381,6 +405,32 @@ expect_typed_state_pair() {
     expect_yield_pass "$label shares typed acceptance" "$yield_root"
   else
     expect_yield_fail "$label shares typed refusal" "$yield_root"
+  fi
+}
+
+typed_state_refusal_failures=()
+record_typed_state_refusal_pair() {
+  local label="$1" andon_state="$2"
+  local root="$tmp/typed-refusal-$label" request="$tmp/typed-refusal-$label.json" yield_root="$tmp/typed-refusal-$label-yield"
+  local handoff_rc yield_rc
+  cp -r "$handoff_root" "$root"
+  set_handoff_andon_state "$root" "$andon_state"
+  make_request "$request" AUDITED_HANDOFF "$root" not-required valid
+  set +e
+  python "$evaluator" --request "$request" >/dev/null 2>&1
+  handoff_rc=$?
+  set -e
+  cp -r "$root" "$yield_root"
+  sed -i '/^AUDIT_HANDOFF$/d' "$yield_root/STATE.md"
+  set +e
+  bash skills/implementaudit/scripts/validate-run-root.sh --nonterminal-yield "$yield_root" >/dev/null 2>&1
+  yield_rc=$?
+  set -e
+  if [ "$handoff_rc" -ne 3 ]; then
+    typed_state_refusal_failures+=("$label-handoff=$handoff_rc")
+  fi
+  if [ "$yield_rc" -eq 0 ]; then
+    typed_state_refusal_failures+=("$label-yield=$yield_rc")
   fi
 }
 
@@ -440,6 +490,31 @@ expect_typed_state_pair \
   resolved \
   'awaiting owner decision' \
   3 BLOCK
+
+for invalid_state in outcome-gibberish outcome-terminal outcome-resolved-colon malformed-nonnumeric; do
+  record_typed_state_refusal_pair "$invalid_state" "$invalid_state"
+done
+if [ "${#typed_state_refusal_failures[@]}" -ne 0 ]; then
+  printf 'turn-disposition.test: typed Andon refusal mismatch: %s\n' \
+    "${typed_state_refusal_failures[*]}" >&2
+  exit 1
+fi
+
+for terminal_state in closed done; do
+  expect_typed_state_pair \
+    "$terminal_state-typed-awaiting" \
+    "$terminal_state" \
+    'awaiting owner decision' \
+    3 BLOCK
+done
+
+for active_state in escalated blocked; do
+  expect_typed_state_pair \
+    "$active_state-typed" \
+    "$active_state" \
+    'plain affirmative handoff evidence' \
+    0 AUDITED_HANDOFF
+done
 
 for typed_state in absent malformed empty placeholder stale duplicate contradictory; do
   expect_typed_state_pair \
