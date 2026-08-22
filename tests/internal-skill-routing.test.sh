@@ -421,6 +421,11 @@ def accepts_secondary_abnormality(events: list[Event]) -> bool:
         elif event.kind == "governor-rederive":
             if active or last_kind != "child-return":
                 return False
+        elif event.kind == "consequential-action":
+            if active or last_kind != "governor-rederive":
+                return False
+        else:
+            return False
         last_kind = event.kind
     if active:
         return False
@@ -485,6 +490,27 @@ secondary_cases = {
             Event("child-loaded", "audit-andon"),
         ],
     ),
+    "v2-return-cannot-authorize-action": (
+        False,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "evidential-support-v2"),
+            Event("child-return"),
+            Event("consequential-action"),
+        ],
+    ),
+    "v2-return-followed-by-fresh-governor-decision": (
+        True,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "evidential-support-v2"),
+            Event("child-return"),
+            Event("governor-rederive"),
+            Event("consequential-action"),
+        ],
+    ),
 }
 
 for name, (expected, events) in secondary_cases.items():
@@ -498,5 +524,268 @@ for name, (expected, events) in secondary_cases.items():
 print(
     "internal-skill-routing.test: secondary abnormality controls ok "
     f"({len(secondary_cases)}/{len(secondary_cases)})"
+)
+PY
+
+python - <<'PY'
+from __future__ import annotations
+
+from dataclasses import dataclass
+import json
+from pathlib import Path
+import re
+from typing import Any
+
+
+SCHEMA_START = "<!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_START -->"
+SCHEMA_END = "<!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_END -->"
+SCHEMA_ID = "implementaudit.audit-implement.evidential-support.v2"
+FIELDS = {
+    "schema",
+    "audit_object",
+    "proposition",
+    "evidence_id",
+    "evidence_sha256",
+    "evidence_kind",
+    "support",
+    "authority_ceiling",
+}
+SUPPORT_STATES = {
+    "established",
+    "contradicted",
+    "insufficient",
+    "not-applicable",
+}
+EVIDENCE_KINDS = {
+    "exact-observation",
+    "absence",
+    "attempt",
+    "receipt",
+    "package-membership",
+    "nearby-release-claim",
+}
+
+
+def fail(message: str) -> None:
+    raise SystemExit(f"internal-skill-routing.test: evidential support: {message}")
+
+
+def load_schema() -> dict[str, Any] | None:
+    text = Path("skills/audit-implement/SKILL.md").read_text(encoding="utf-8")
+    if SCHEMA_START not in text or SCHEMA_END not in text:
+        return None
+    block = text.split(SCHEMA_START, 1)[1].split(SCHEMA_END, 1)[0]
+    match = re.fullmatch(r"\s*```json\s*\n(.*?)\n```\s*", block, re.DOTALL)
+    if not match:
+        fail("v2 schema block is not one JSON code fence")
+    try:
+        schema = json.loads(match.group(1))
+    except (json.JSONDecodeError, UnicodeError) as exc:
+        fail(f"v2 schema block is malformed: {exc}")
+    if not isinstance(schema, dict):
+        fail("v2 schema block is not an object")
+    return schema
+
+
+schema = load_schema()
+observed_states = (
+    set(schema.get("properties", {}).get("support", {}).get("enum", []))
+    if schema is not None
+    else {"neutral"}
+)
+if observed_states != SUPPORT_STATES:
+    fail(
+        "exact non-release proposition states collapse: "
+        f"expected={sorted(SUPPORT_STATES)} observed={sorted(observed_states)}"
+    )
+
+if schema.get("$id") != SCHEMA_ID:
+    fail("v2 schema identity drift")
+if schema.get("type") != "object" or schema.get("additionalProperties") is not False:
+    fail("v2 schema must be a closed object")
+if set(schema.get("required", [])) != FIELDS:
+    fail("v2 required-field population drift")
+properties = schema.get("properties")
+if not isinstance(properties, dict) or set(properties) != FIELDS:
+    fail("v2 property population drift")
+if properties["schema"].get("const") != SCHEMA_ID:
+    fail("v2 record schema discriminator drift")
+if properties["evidence_kind"].get("enum") != sorted(EVIDENCE_KINDS):
+    fail("v2 evidence-kind population drift")
+if properties["authority_ceiling"].get("const") != "none":
+    fail("v2 authority ceiling must remain none")
+
+governor = Path("skills/implementaudit/SKILL.md").read_text(encoding="utf-8")
+for token in (
+    "CHILD_RESULT_AUTHORITY=NONE",
+    "CHILD_RESULT_CLOSURE=NONE",
+    "A child result returns here as evidence input",
+    "governor re-derives current state before any later route or transition",
+):
+    if token not in governor:
+        fail(f"governor envelope missing {token}")
+
+
+@dataclass(frozen=True)
+class BoundEvidence:
+    audit_object: str
+    proposition: str
+    evidence_id: str
+    evidence_sha256: str
+    evidence_kind: str
+
+
+def pairs_without_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate field: {key}")
+        result[key] = value
+    return result
+
+
+def parse_return(raw: bytes, bound: BoundEvidence) -> tuple[str, str] | None:
+    try:
+        text = raw.decode("utf-8", errors="strict")
+    except UnicodeDecodeError:
+        return None
+    if not text or "\x00" in text or "\x7f" in text:
+        return None
+    if text.lstrip()[:1] not in "{[":
+        if any(ord(char) < 0x20 and char not in "\n\r\t" for char in text):
+            return None
+        return ("v1-neutral", text)
+    try:
+        record = json.loads(text, object_pairs_hook=pairs_without_duplicates)
+    except (json.JSONDecodeError, UnicodeError, ValueError):
+        return None
+    if not isinstance(record, dict) or set(record) != FIELDS:
+        return None
+    if record.get("schema") != SCHEMA_ID:
+        return None
+    for field in FIELDS - {"schema"}:
+        if not isinstance(record.get(field), str) or not record[field]:
+            return None
+    if record["authority_ceiling"] != "none":
+        return None
+    if record["support"] not in SUPPORT_STATES:
+        return None
+    if record["evidence_kind"] not in EVIDENCE_KINDS:
+        return None
+    if not re.fullmatch(r"[0-9a-f]{64}", record["evidence_sha256"]):
+        return None
+    if any(
+        record[field] != getattr(bound, field)
+        for field in (
+            "audit_object",
+            "proposition",
+            "evidence_id",
+            "evidence_sha256",
+            "evidence_kind",
+        )
+    ):
+        return None
+    if record["support"] == "established" and record["evidence_kind"] != "exact-observation":
+        return None
+    return ("v2", record["support"])
+
+
+bound = BoundEvidence(
+    audit_object="tdqyq:run-v041:hc-h3",
+    proposition="source:non-release:route-envelope-v2",
+    evidence_id="evidence:hc-h3:exact-observation",
+    evidence_sha256="5f" * 32,
+    evidence_kind="exact-observation",
+)
+base = {
+    "schema": SCHEMA_ID,
+    "audit_object": bound.audit_object,
+    "proposition": bound.proposition,
+    "evidence_id": bound.evidence_id,
+    "evidence_sha256": bound.evidence_sha256,
+    "evidence_kind": bound.evidence_kind,
+    "support": "insufficient",
+    "authority_ceiling": "none",
+}
+
+for state in sorted(SUPPORT_STATES):
+    record = dict(base, support=state)
+    observed = parse_return(json.dumps(record, separators=(",", ":")).encode(), bound)
+    if observed != ("v2", state):
+        fail(f"v2 state {state} is not independently representable: {observed!r}")
+
+negative_records: dict[str, dict[str, Any]] = {
+    "unknown-field": dict(base, unexpected="value"),
+    "missing-field": {key: value for key, value in base.items() if key != "proposition"},
+    "wrong-schema": dict(base, schema="implementaudit.audit-implement.evidential-support.v1"),
+    "wrong-audit-object": dict(base, audit_object="tdqyq:other"),
+    "wrong-proposition": dict(base, proposition="release:nearby"),
+    "wrong-evidence-id": dict(base, evidence_id="evidence:other"),
+    "wrong-evidence-digest": dict(base, evidence_sha256="6a" * 32),
+    "malformed-evidence-digest": dict(base, evidence_sha256="5F" * 32),
+    "wrong-evidence-kind": dict(base, evidence_kind="receipt"),
+    "unknown-support-state": dict(base, support="supported"),
+    "authority-bearing-ceiling": dict(base, authority_ceiling="mutation"),
+    "authority-bearing-output": dict(base, authorization="commit"),
+}
+for name, record in negative_records.items():
+    raw = json.dumps(record, separators=(",", ":")).encode()
+    if parse_return(raw, bound) is not None:
+        fail(f"negative control accepted: {name}")
+
+malformed_controls = {
+    "invalid-utf8": b"\xff",
+    "nul-byte": b'{"schema":"x"}\x00',
+    "truncated-json": b'{"schema":',
+    "json-array": b"[]",
+    "duplicate-field": (
+        b'{"schema":"' + SCHEMA_ID.encode() + b'","schema":"' + SCHEMA_ID.encode() + b'"}'
+    ),
+}
+for name, raw in malformed_controls.items():
+    if parse_return(raw, bound) is not None:
+        fail(f"malformed control accepted: {name}")
+
+neutral_kinds = {
+    "absence",
+    "attempt",
+    "receipt",
+    "package-membership",
+    "nearby-release-claim",
+}
+for kind in sorted(neutral_kinds):
+    kind_bound = BoundEvidence(
+        audit_object=bound.audit_object,
+        proposition=bound.proposition,
+        evidence_id=f"evidence:hc-h3:{kind}",
+        evidence_sha256=bound.evidence_sha256,
+        evidence_kind=kind,
+    )
+    record = dict(
+        base,
+        evidence_id=kind_bound.evidence_id,
+        evidence_kind=kind,
+        support="established",
+    )
+    if parse_return(json.dumps(record, separators=(",", ":")).encode(), kind_bound) is not None:
+        fail(f"neutral evidence kind became supported: {kind}")
+
+legacy_controls = (
+    "established",
+    "attempt succeeded",
+    "receipt=receipt:hc-h3",
+    "package membership includes audit-implement",
+    "nearby release claim passed",
+)
+for raw_text in legacy_controls:
+    observed = parse_return(raw_text.encode(), bound)
+    if observed != ("v1-neutral", raw_text):
+        fail(f"v1 neutral compatibility drift: {raw_text!r} -> {observed!r}")
+
+print(
+    "internal-skill-routing.test: evidential support controls ok "
+    f"({len(SUPPORT_STATES)} states, {len(negative_records)} bound negatives, "
+    f"{len(malformed_controls)} malformed, {len(neutral_kinds)} neutral v2, "
+    f"{len(legacy_controls)} v1 controls)"
 )
 PY

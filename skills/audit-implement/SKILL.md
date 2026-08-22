@@ -38,6 +38,82 @@ commit/tree, generated artifact, package, install and applicable host identity
 to the claimed next boundary. `NOT_APPLICABLE`, stale, absent, mixed, or
 ambiguous identity refuses and returns to `/implementaudit`.
 
+For one exact non-release proposition, the child may return the following
+closed evidential-support v2 envelope. Legacy v1/unversioned prose remains
+parseable exactly as neutral evidence and is never promoted to v2 support.
+
+<!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_START -->
+```json
+{
+  "$id": "implementaudit.audit-implement.evidential-support.v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "audit_object",
+    "proposition",
+    "evidence_id",
+    "evidence_sha256",
+    "evidence_kind",
+    "support",
+    "authority_ceiling"
+  ],
+  "properties": {
+    "schema": {
+      "const": "implementaudit.audit-implement.evidential-support.v2"
+    },
+    "audit_object": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidence_kind": {
+      "enum": [
+        "absence",
+        "attempt",
+        "exact-observation",
+        "nearby-release-claim",
+        "package-membership",
+        "receipt"
+      ]
+    },
+    "support": {
+      "enum": [
+        "established",
+        "contradicted",
+        "insufficient",
+        "not-applicable"
+      ]
+    },
+    "authority_ceiling": {
+      "const": "none"
+    }
+  }
+}
+```
+<!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_END -->
+
+`established` means only that the exact bound observation supports the exact
+bound proposition. `contradicted` means that observation refutes it;
+`insufficient` leaves it unverified; `not-applicable` says the evidence does not
+bear on that proposition. Absence, attempt, receipt, package membership and a
+nearby release claim never establish support. The envelope must match the
+governor-bound audit object, proposition, evidence identity, lowercase SHA-256,
+evidence kind and `authority_ceiling=none`. Invalid UTF-8/JSON, malformed bytes,
+missing, unknown or duplicate fields, an unknown discriminator/state/kind, any
+binding mismatch, or authority-bearing output fails closed to the governor.
+
 Compare without collapsing source, generated, packaged, installed, hosted,
 exact-main, released and public-readback states. Return the bounded
 realised implementation supported at each applicable evidence surface:
