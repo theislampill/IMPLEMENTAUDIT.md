@@ -18,6 +18,22 @@
     "other_whitespace": "preserve",
     "unicode": "preserve"
   },
+  "x-native-current-facts": {
+    "schema": "implementaudit-native-current-facts-v1",
+    "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
+    "fixed_hot_paths": ["STATE.md", "ROADMAP.md", "WORK_GRAPH.json"],
+    "currentness_chain": [
+      "controller",
+      "claim",
+      "generation_pointer",
+      "receipt_v3",
+      "migration_marker",
+      "route_record"
+    ],
+    "graph_projection": "implementaudit.work-graph.v1",
+    "publication": false,
+    "activegraph_authority": false
+  },
   "title": "IMPLEMENTAUDIT operational evidence v1",
   "type": "object",
   "additionalProperties": false,

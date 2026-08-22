@@ -7,12 +7,14 @@ import ast
 import datetime
 import decimal
 import hashlib
+import importlib.util
 import json
 import math
 import os
 import pathlib
 import platform
 import re
+import stat
 import subprocess
 import sys
 import urllib.error
@@ -31,6 +33,7 @@ EXTERNAL_READ_CAPTURE_SCHEMA = "implementaudit-external-read-capture-v1"
 STATIC_RECEIPT_SCHEMA = "implementaudit-static-receipt-v1"
 STATIC_NORMALIZED_SCHEMA = "implementaudit-static-normalized-v1"
 STATIC_NORMALIZED_SET_SCHEMA = "implementaudit-static-normalized-set-v1"
+NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v1"
 FAMILIES = (
     "CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE")
 STATES = (
@@ -467,6 +470,647 @@ def _require_repository_snapshot_stable(
             observed_file_rows != physical_file_rows):
         _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
                "repository physical snapshot changed during collection")
+
+
+def _native_file(path, label, maximum=256 * 1024):
+    try:
+        before = path.lstat()
+        if (not stat.S_ISREG(before.st_mode) or path.is_symlink() or
+                bool(getattr(before, "st_file_attributes", 0) & 0x400) or
+                before.st_size > maximum):
+            raise OSError("unsafe native-current file")
+        raw = path.read_bytes()
+        after = path.lstat()
+    except OSError:
+        _error("OE_NATIVE_CURRENT_FILE", label,
+               "required bounded native-current file is unreadable or unsafe")
+    identity = (
+        before.st_dev, before.st_ino, before.st_mode, before.st_size,
+        before.st_mtime_ns)
+    observed = (
+        after.st_dev, after.st_ino, after.st_mode, after.st_size,
+        after.st_mtime_ns)
+    if identity != observed or len(raw) != before.st_size:
+        _error("OE_NATIVE_CURRENT_CHANGED", label,
+               "native-current file changed during observation")
+    return raw
+
+
+def _native_blob(repo, oid, label, maximum=512 * 1024):
+    if type(oid) is not str or not re.fullmatch(r"[0-9a-f]{40}", oid):
+        _error("OE_NATIVE_CURRENT_GIT", label, "Git object identity is malformed")
+    try:
+        object_type = _run_git(repo, "cat-file", "-t", oid).stdout.strip()
+        size_text = _run_git(repo, "cat-file", "-s", oid).stdout.strip()
+    except OperationalEvidenceError:
+        _error("OE_NATIVE_CURRENT_GIT", label,
+               "required native-current Git object is missing or unreadable")
+    try:
+        size = int(size_text)
+    except ValueError:
+        _error("OE_NATIVE_CURRENT_GIT", label, "Git object size is malformed")
+    if object_type != "blob" or not 0 <= size <= maximum:
+        _error("OE_NATIVE_CURRENT_GIT", label,
+               "required native-current Git blob is absent or outside its bound")
+    try:
+        raw = _run_git(repo, "cat-file", "blob", oid, text=False).stdout
+    except OperationalEvidenceError:
+        _error("OE_NATIVE_CURRENT_GIT", label,
+               "required native-current Git blob is missing or unreadable")
+    if len(raw) != size:
+        _error("OE_NATIVE_CURRENT_CHANGED", label,
+               "native-current Git blob changed during observation")
+    return raw
+
+
+def _native_ref_oid(repo, ref, label):
+    try:
+        oid = _run_git(repo, "rev-parse", "--verify", ref).stdout.strip()
+    except OperationalEvidenceError:
+        _error("OE_NATIVE_CURRENT_GIT", label,
+               "required native-current ref is missing or unreadable")
+    if not re.fullmatch(r"[0-9a-f]{40}", oid):
+        _error("OE_NATIVE_CURRENT_GIT", label, "native-current ref is malformed")
+    return oid
+
+
+def _native_exact_tsv(raw, schema, count, label):
+    if (not raw.endswith(b"\n") or b"\n" in raw[:-1] or b"\r" in raw or
+            b"\x00" in raw or any(
+                byte < 0x20 and byte not in (0x09, 0x0A) or byte == 0x7f
+                for byte in raw)):
+        _error("OE_NATIVE_CURRENT_BYTES", label,
+               "native-current record does not have exact LF-delimited TSV bytes")
+    try:
+        fields = raw[:-1].decode("utf-8", "strict").split("\t")
+    except UnicodeDecodeError:
+        _error("OE_NATIVE_CURRENT_BYTES", label,
+               "native-current record is not exact UTF-8")
+    if len(fields) != count or fields[0] != schema or any(field == "" for field in fields):
+        _error("OE_NATIVE_CURRENT_BYTES", label,
+               "native-current record schema or field population is malformed")
+    return fields
+
+
+def _native_resolved_path(value, label):
+    if type(value) is not str or not value or "\x00" in value:
+        _error("OE_NATIVE_CURRENT_PATH", label, "native path is malformed")
+    try:
+        supplied = pathlib.Path(value)
+        resolved = supplied.resolve(strict=True)
+    except OSError:
+        _error("OE_NATIVE_CURRENT_PATH", label, "native path cannot be resolved")
+    if supplied.absolute() != resolved:
+        _error("OE_NATIVE_CURRENT_PATH", label,
+               "native path traverses an alias or is not canonical")
+    return resolved
+
+
+def _native_claim(run_root, repository, common, controller, claim, run_id):
+    claimed_raw = _native_file(run_root / ".claimed", "$native.claim", 16 * 1024)
+    if (not claimed_raw.endswith(b"\n") or b"\r" in claimed_raw or
+            b"\n" in claimed_raw[:-1].replace(b"\n", b"", 9)):
+        _error("OE_NATIVE_CURRENT_CLAIM", "$native.claim",
+               "run claim does not have exact bounded LF records")
+    try:
+        lines = claimed_raw[:-1].decode("utf-8", "strict").split("\n")
+    except UnicodeDecodeError:
+        _error("OE_NATIVE_CURRENT_CLAIM", "$native.claim",
+               "run claim is not exact UTF-8")
+    keys = (
+        "schema", "claim_id", "claimed_at_utc", "mode", "templates",
+        "repo_root", "git_common_dir", "run_base", "run_root", "run_name")
+    if len(lines) != len(keys):
+        _error("OE_NATIVE_CURRENT_CLAIM", "$native.claim",
+               "run claim field population is malformed")
+    values = {}
+    for key, line in zip(keys, lines):
+        prefix = f"{key}="
+        if not line.startswith(prefix) or line == prefix:
+            _error("OE_NATIVE_CURRENT_CLAIM", "$native.claim",
+                   "run claim field ordering is malformed")
+        values[key] = line[len(prefix):]
+    relative = pathlib.PurePosixPath(".IMPLEMENTAUDIT", "runs", run_id).as_posix()
+    if (values["schema"] != "implementaudit.run-claim.v2" or
+            values["claim_id"] != claim or values["run_base"] != ".IMPLEMENTAUDIT/runs" or
+            values["run_root"] != relative or values["run_name"] != run_id or
+            _native_resolved_path(values["repo_root"], "$native.claim.repo_root") != repository or
+            _native_resolved_path(values["git_common_dir"], "$native.claim.git_common_dir") != common):
+        _error("OE_NATIVE_CURRENT_CLAIM", "$native.claim",
+               "run claim disagrees with native controller custody")
+    controller_raw = _native_file(
+        run_root / ".controller", "$native.controller_sentinel", 1024)
+    if controller_raw != f"controller_id={controller}\n".encode("utf-8"):
+        _error("OE_NATIVE_CURRENT_CLAIM", "$native.controller_sentinel",
+               "controller sentinel disagrees with controller custody")
+    return claimed_raw, controller_raw, relative
+
+
+def _native_markdown_cells(line, expected, label):
+    stripped = line.strip()
+    if not stripped.startswith("|") or not stripped.endswith("|"):
+        _error("OE_NATIVE_CURRENT_STATE", label, "Markdown table row is malformed")
+    cells = [cell.strip() for cell in stripped[1:-1].split("|")]
+    if len(cells) != expected or any(cell == "" for cell in cells):
+        _error("OE_NATIVE_CURRENT_STATE", label, "Markdown table row is malformed")
+    return cells
+
+
+def _native_state_facts(raw):
+    if raw.startswith(b"\xef\xbb\xbf"):
+        _error("OE_NATIVE_CURRENT_STATE", "$native.STATE",
+               "hot STATE must not contain a UTF-8 BOM")
+    try:
+        lines = raw.decode("utf-8", "strict").splitlines()
+    except UnicodeDecodeError:
+        _error("OE_NATIVE_CURRENT_STATE", "$native.STATE",
+               "hot STATE is not exact UTF-8")
+    epochs = [line[len("Current epoch: "):].strip() for line in lines
+              if line.startswith("Current epoch: ")]
+    if len(epochs) != 1 or not re.fullmatch(r"G[0-9A-F]{4}", epochs[0]):
+        _error("OE_NATIVE_CURRENT_STATE", "$native.STATE.current_epoch",
+               "hot STATE has no unique canonical current epoch")
+    headings = [index for index, line in enumerate(lines) if line == "## Current phase"]
+    if len(headings) != 1:
+        _error("OE_NATIVE_CURRENT_STATE", "$native.STATE.current_phase",
+               "hot STATE has no unique current-phase section")
+    start = headings[0] + 1
+    end = next((index for index in range(start, len(lines))
+                if lines[index].startswith("## ")), len(lines))
+    phase_rows = {}
+    for index in range(start, end):
+        if not lines[index].lstrip().startswith("|"):
+            continue
+        cells = _native_markdown_cells(
+            lines[index], 2, f"$native.STATE.current_phase[{index + 1}]")
+        if cells in (["Field", "Value"], ["---", "---"]):
+            continue
+        if cells[0] in phase_rows:
+            _error("OE_NATIVE_CURRENT_STATE", "$native.STATE.current_phase",
+                   "hot STATE current-phase field is duplicated")
+        phase_rows[cells[0]] = cells[1]
+    next_action = phase_rows.get("Next action", "").strip()
+    andon_state = phase_rows.get("Andon state", "").strip()
+    if not next_action or next_action in {"-", "none", "pending"}:
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.STATE.next_action",
+               "hot STATE has no exact next action")
+    open_andons = sorted(set(re.findall(
+        r"(?<![A-Za-z0-9_-])([A-Z][A-Z0-9_-]*)=ACTIVE(?![A-Za-z0-9_-])",
+        andon_state)))
+    if not open_andons:
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.STATE.open_andons",
+               "hot STATE has no explicit open Andon")
+
+    instruction_header = [
+        "Instr", "Reference", "Kind", "Authority", "Subject", "Issued epoch",
+        "Status", "Status evidence", "Supersedes/by", "Scope end"]
+    header_rows = []
+    for index, line in enumerate(lines):
+        if not line.lstrip().startswith("|"):
+            continue
+        try:
+            cells = _native_markdown_cells(
+                line, 10, f"$native.STATE.instructions[{index + 1}]")
+        except OperationalEvidenceError:
+            continue
+        if cells == instruction_header:
+            header_rows.append(index)
+    if len(header_rows) != 1:
+        _error("OE_NATIVE_CURRENT_STATE", "$native.STATE.instructions",
+               "hot STATE has no unique instruction table")
+    mapping = [
+        "id", "reference", "kind", "authority", "subject", "issued_epoch",
+        "status", "status_evidence", "supersedes_by", "scope_end"]
+    active = []
+    seen = set()
+    index = header_rows[0] + 2
+    while index < len(lines) and lines[index].lstrip().startswith("|"):
+        cells = _native_markdown_cells(
+            lines[index], 10, f"$native.STATE.instructions[{index + 1}]")
+        if cells[0] in seen:
+            _error("OE_NATIVE_CURRENT_STATE", "$native.STATE.instructions",
+                   "instruction identity is duplicated")
+        seen.add(cells[0])
+        row = dict(zip(mapping, cells))
+        if row["status"] == "active":
+            active.append(row)
+        index += 1
+    if not active:
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.STATE.active_instructions",
+               "hot STATE has no active instruction")
+    return {
+        "epoch": epochs[0], "next_action": next_action,
+        "andon_state": andon_state, "open_andons": open_andons,
+        "active_instructions": sorted(active, key=lambda row: row["id"]),
+    }
+
+
+def _native_pointer(raw, controller, claim, run_id):
+    value = decode_strict_json_bytes(raw, "current-generation pointer")
+    validate_identity_json_v1(value)
+    keys = {
+        "schema_version", "controller_id", "claim_id", "run_id",
+        "generation_id", "predecessor_pointer_oid",
+        "predecessor_pointer_digest", "generation_manifest_oid",
+        "generation_manifest_digest", "cold_high_water", "hot_state_digest",
+        "hot_roadmap_digest", "work_graph_path", "work_graph_digest",
+        "query_contract_version", "source_epoch", "degraded_state",
+        "pointer_digest"}
+    _object(value, "$native.pointer", exact_keys=keys, required=keys)
+    if canonical_json_v1(value) != raw:
+        _error("OE_NATIVE_CURRENT_BYTES", "$native.pointer",
+               "current-generation pointer bytes are not canonical_json_v1")
+    patterns = {
+        "claim_id": r"[0-9a-f]{32}", "run_id": r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}",
+        "generation_id": r"G[0-9A-F]{4}", "source_epoch": r"G[0-9A-F]{4}",
+        "generation_manifest_oid": r"[0-9a-f]{40}",
+        "generation_manifest_digest": r"[0-9a-f]{64}",
+        "cold_high_water": r"[0-9]{20}", "hot_state_digest": r"[0-9a-f]{64}",
+        "hot_roadmap_digest": r"[0-9a-f]{64}",
+        "work_graph_digest": r"[0-9a-f]{64}", "pointer_digest": r"[0-9a-f]{64}",
+    }
+    if any(type(value[name]) is not str or not re.fullmatch(pattern, value[name])
+           for name, pattern in patterns.items()):
+        _error("OE_NATIVE_CURRENT_POINTER", "$native.pointer",
+               "current-generation pointer identity is malformed")
+    predecessor = (
+        value["predecessor_pointer_oid"], value["predecessor_pointer_digest"])
+    if (predecessor[0] is None) != (predecessor[1] is None):
+        _error("OE_NATIVE_CURRENT_POINTER", "$native.pointer",
+               "pointer predecessor identity is incomplete")
+    if predecessor[0] is not None and (
+            type(predecessor[0]) is not str or
+            not re.fullmatch(r"[0-9a-f]{40}", predecessor[0]) or
+            type(predecessor[1]) is not str or
+            not re.fullmatch(r"[0-9a-f]{64}", predecessor[1])):
+        _error("OE_NATIVE_CURRENT_POINTER", "$native.pointer",
+               "pointer predecessor identity is malformed")
+    if (value["schema_version"] != "implementaudit.state-generation-pointer.v1" or
+            value["controller_id"] != controller or value["claim_id"] != claim or
+            value["run_id"] != run_id or
+            value["generation_id"] != value["source_epoch"] or
+            value["query_contract_version"] != "implementaudit.history-query.v1" or
+            value["work_graph_path"] != "WORK_GRAPH.json" or
+            value["degraded_state"] not in {"NONE", "ACTIVEGRAPH_DOGFOOD_DEGRADED"}):
+        _error("OE_NATIVE_CURRENT_POINTER", "$native.pointer",
+               "pointer disagrees with native controller/claim/run/epoch custody")
+    unsigned = dict(value)
+    supplied = unsigned.pop("pointer_digest")
+    observed = hashlib.sha256(canonical_json_v1(unsigned)).hexdigest()
+    if supplied != observed:
+        _error("OE_NATIVE_CURRENT_POINTER", "$native.pointer.pointer_digest",
+               "pointer digest is stale")
+    return value
+
+
+def _native_graph_projection(raw):
+    compiler_path = pathlib.Path(__file__).resolve().with_name("compile-work-graph.py")
+    compiler_raw = _native_file(
+        compiler_path, "$native.work_graph_compiler", 256 * 1024)
+    spec = importlib.util.spec_from_file_location(
+        "_implementaudit_native_work_graph_compiler", compiler_path)
+    if spec is None or spec.loader is None:
+        _error("OE_NATIVE_CURRENT_GRAPH", "$native.WORK_GRAPH",
+               "canonical HC-H4 compiler cannot be loaded")
+    module = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(module)
+        projection = module.compile_frontier_projection(raw)
+    except Exception as exc:
+        _error("OE_NATIVE_CURRENT_GRAPH", "$native.WORK_GRAPH",
+               f"canonical HC-H4 compiler rejected WORK_GRAPH: {exc}")
+    if (type(projection) is not dict or not projection.get("active") or
+            not projection.get("ready") or not (
+                projection.get("writer_holds") or projection.get("resource_holds"))):
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
+               "WORK_GRAPH omits ACTIVE, READY, or declared hold facts")
+    return projection, hashlib.sha256(compiler_raw).hexdigest()
+
+
+def _native_predecessor(repo, controller, claim, run_id, generation, token):
+    if type(token) is not str or token.count("@") != 1:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+               "receipt predecessor token is malformed")
+    ref, oid = token.split("@")
+    ordinal = int(generation[1:], 16)
+    if ordinal <= 1:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+               "receipt-v3 has no admissible predecessor generation")
+    expected_generation = f"G{ordinal - 1:04X}"
+    expected_ref = f"refs/implementaudit/continuity-receipts/{controller}/{expected_generation}"
+    if ref != expected_ref or _native_ref_oid(
+            repo, ref, "$native.receipt.predecessor_ref") != oid:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+               "receipt predecessor is stale or foreign")
+    raw = _native_blob(repo, oid, "$native.receipt.predecessor")
+    if raw.startswith(b"implementaudit.continuity-receipt.v2\t"):
+        fields = _native_exact_tsv(
+            raw, "implementaudit.continuity-receipt.v2", 12,
+            "$native.receipt.predecessor")
+        if fields[1] != controller or fields[3] != claim or fields[10] != expected_generation:
+            _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+                   "v2 predecessor is foreign to current custody")
+    elif raw.startswith(b"implementaudit.continuity-receipt.v3\t"):
+        fields = _native_exact_tsv(
+            raw, "implementaudit.continuity-receipt.v3", 18,
+            "$native.receipt.predecessor")
+        if (fields[1] != controller or fields[2] != claim or fields[3] != run_id or
+                fields[4] != expected_generation):
+            _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+                   "v3 predecessor is foreign to current custody")
+    else:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt.predecessor",
+               "receipt predecessor schema is unsupported")
+
+
+def _native_route(repo, controller, claim, run_root, generation, receipt):
+    ref = f"refs/implementaudit/route-decisions/{controller}"
+    oid = _native_ref_oid(repo, ref, "$native.route.ref")
+    raw = _native_blob(repo, oid, "$native.route")
+    if not raw.endswith(b"\n") or b"\n" in raw[:-1] or b"\r" in raw:
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
+               "R0033 route record bytes are malformed")
+    value = decode_strict_json_bytes(raw[:-1], "R0033 route record")
+    validate_identity_json_v1(value)
+    base_keys = {
+        "schema", "predicate_version", "controller_id", "claim_id",
+        "explicit_run_root", "continuity_generation", "continuity_receipt",
+        "host_id", "host_session_id", "host_binding_generation",
+        "host_correlation_id", "boundary", "scope", "action", "evidence",
+        "inputs", "package", "child_source", "decision", "classification",
+        "invalidators", "expiry_fingerprint", "expires_on",
+        "predecessor_record_oid", "route_transaction_id", "obligation_id",
+        "route_state", "child_lifecycle_owned", "consumed_record_oid",
+        "record_identity"}
+    allowed = [base_keys, base_keys | {"history_query"}, base_keys | {"lifecycle"},
+               base_keys | {"history_query", "lifecycle"}]
+    if type(value) is not dict or set(value) not in allowed:
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
+               "R0033 route record field population is malformed")
+    expected_raw = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
+        allow_nan=False).encode("utf-8") + b"\n"
+    if raw != expected_raw:
+        _error("OE_NATIVE_CURRENT_BYTES", "$native.route",
+               "R0033 route record bytes are not canonical")
+    expires = [
+        "action-completion", "next-action-change", "scope-change",
+        "read-set-change", "host-binding-generation-change",
+        "continuity-receipt-change", "package-identity-change",
+        "child-source-identity-change", "owner-evidence-change",
+        "authority-evidence-change", "dependency-evidence-change",
+        "effect-evidence-change", "contradiction-or-invalidation",
+        "scope-expansion"]
+    if (value.get("schema") != "implementaudit.route-decision.v1" or
+            value.get("predicate_version") != "R0033.route-predicate.v1" or
+            value.get("controller_id") != controller or value.get("claim_id") != claim or
+            _native_resolved_path(value.get("explicit_run_root"),
+                                  "$native.route.explicit_run_root") != run_root or
+            value.get("continuity_generation") != generation or
+            value.get("continuity_receipt") != receipt or
+            value.get("decision") not in {"PENDING", "NOT_REQUIRED", "REQUIRED"} or
+            value.get("classification") not in {
+                "MECHANICALLY_REQUIRED", "MECHANICALLY_NOT_REQUIRED",
+                "JUDGEMENT_REQUIRED"} or value.get("expires_on") != expires or
+            type(value.get("invalidators")) is not list or
+            len(value["invalidators"]) != len(set(value["invalidators"])) or
+            not all(type(item) is str and item for item in value["invalidators"]) or
+            type(value.get("route_transaction_id")) is not str or
+            not re.fullmatch(r"sha256:[0-9a-f]{64}", value["route_transaction_id"])):
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
+               "R0033 route record is stale, foreign, or malformed")
+    lifecycle = value.get("lifecycle")
+    if value["decision"] == "REQUIRED":
+        allowed_states = {"UNSATISFIED"} if lifecycle is None else {
+            "OPEN", "RETURNED", "SATISFIED"}
+        if (value.get("route_state") not in allowed_states or
+                type(value.get("obligation_id")) is not str or
+                not value["obligation_id"]):
+            _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
+                   "required R0033 route has no exact obligation state")
+    elif value.get("route_state") is not None or value.get("obligation_id") is not None:
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
+               "non-required R0033 route owns an obligation")
+    if value.get("child_lifecycle_owned") is not (lifecycle is not None):
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route.lifecycle",
+               "R0033 lifecycle ownership is contradictory")
+    if lifecycle is not None and (
+            type(lifecycle) is not dict or lifecycle.get("state") != value["route_state"]):
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route.lifecycle",
+               "R0033 lifecycle state is malformed")
+    for name in ("predecessor_record_oid", "consumed_record_oid"):
+        candidate = value.get(name)
+        if candidate is not None and (
+                type(candidate) is not str or not re.fullmatch(r"[0-9a-f]{40}", candidate)):
+            _error("OE_NATIVE_CURRENT_ROUTE", f"$native.route.{name}",
+                   "R0033 route object identity is malformed")
+    base = {key: item for key, item in value.items() if key != "record_identity"}
+    identity = "sha256:" + hashlib.sha256(canonical_json_v1(base)).hexdigest()
+    if value.get("record_identity") != identity:
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route.record_identity",
+               "R0033 route record identity is stale")
+    return {
+        "ref": ref, "record_oid": oid, "record_identity": identity,
+        "decision": value["decision"], "classification": value["classification"],
+        "route_transaction_id": value["route_transaction_id"],
+        "obligation_id": value["obligation_id"], "route_state": value["route_state"],
+    }
+
+
+def collect_native_current():
+    """Read one exact native hot/current fact set without lifecycle authority."""
+    source_repository = pathlib.Path(__file__).resolve().parents[3]
+    observed_source = _native_resolved_path(
+        _run_git(source_repository, "rev-parse", "--path-format=absolute",
+                 "--show-toplevel").stdout.strip(), "$native.source_repository")
+    if observed_source != source_repository:
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.source_repository",
+               "carrier source is not in its own repository checkout")
+    common = _native_resolved_path(
+        _run_git(source_repository, "rev-parse", "--path-format=absolute",
+                 "--git-common-dir").stdout.strip(), "$native.git_common_dir")
+    controller_refs = _run_git(
+        source_repository, "for-each-ref", "--format=%(refname)",
+        "refs/implementaudit/controllers/").stdout.splitlines()
+    if len(controller_refs) != 1:
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.controller",
+               "native controller population must contain exactly one ref")
+    controller_ref = controller_refs[0]
+    prefix = "refs/implementaudit/controllers/"
+    controller = controller_ref[len(prefix):] if controller_ref.startswith(prefix) else ""
+    if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,47}", controller):
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.controller",
+               "native controller identity is malformed")
+    controller_oid = _native_ref_oid(
+        source_repository, controller_ref, "$native.controller.ref")
+    controller_fields = _native_exact_tsv(
+        _native_blob(source_repository, controller_oid, "$native.controller"),
+        "implementaudit.controller-current.v1", 4, "$native.controller")
+    claim = controller_fields[2]
+    if (controller_fields[1] != controller or
+            not re.fullmatch(r"[0-9a-f]{32}", claim)):
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.controller",
+               "native controller record is foreign or malformed")
+    run_root = _native_resolved_path(controller_fields[3], "$native.run_root")
+    try:
+        repository = run_root.parents[2]
+    except (ValueError, IndexError):
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.run_root",
+               "native run root is outside fixed run custody")
+    try:
+        run_relative = run_root.relative_to(repository)
+    except ValueError:
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.run_root",
+               "native run root is outside controller repository")
+    if (len(run_relative.parts) != 3 or run_relative.parts[:2] != (
+            ".IMPLEMENTAUDIT", "runs") or run_root.is_symlink()):
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.run_root",
+               "native run root is not the fixed bound-run-root location")
+    run_id = run_relative.parts[2]
+    controller_common = _native_resolved_path(
+        _run_git(repository, "rev-parse", "--path-format=absolute",
+                 "--git-common-dir").stdout.strip(), "$native.controller_git_common_dir")
+    if controller_common != common:
+        _error("OE_NATIVE_CURRENT_CUSTODY", "$native.controller",
+               "controller repository is foreign to carrier Git custody")
+    claimed_raw, sentinel_raw, run_relative_text = _native_claim(
+        run_root, repository, common, controller, claim, run_id)
+
+    state_path = run_root / "STATE.md"
+    roadmap_path = run_root / "ROADMAP.md"
+    graph_path = run_root / "WORK_GRAPH.json"
+    state_raw = _native_file(state_path, "$native.STATE")
+    roadmap_raw = _native_file(roadmap_path, "$native.ROADMAP")
+    graph_raw = _native_file(graph_path, "$native.WORK_GRAPH")
+    state = _native_state_facts(state_raw)
+    projection, compiler_sha256 = _native_graph_projection(graph_raw)
+    state_sha256 = hashlib.sha256(state_raw).hexdigest()
+    roadmap_sha256 = hashlib.sha256(roadmap_raw).hexdigest()
+    graph_sha256 = hashlib.sha256(graph_raw).hexdigest()
+
+    invalidation_ref = f"refs/implementaudit/continuity-invalidations/{controller}"
+    invalidation_oid = _native_ref_oid(
+        source_repository, invalidation_ref, "$native.invalidation.ref")
+    invalidation = _native_exact_tsv(
+        _native_blob(source_repository, invalidation_oid, "$native.invalidation"),
+        "implementaudit.continuity-invalidation.v1", 6, "$native.invalidation")
+    if (invalidation[1:4] != [controller, controller_oid, claim] or
+            invalidation[4] not in {
+                "host-reported-compaction", "new-session", "handoff-resume",
+                "manual-resume", "inferred-context-gap"}):
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.invalidation",
+               "continuity invalidation is foreign or malformed")
+
+    pointer_ref = f"refs/implementaudit/current-generations/{controller}"
+    pointer_oid = _native_ref_oid(
+        source_repository, pointer_ref, "$native.pointer.ref")
+    pointer_raw = _native_blob(source_repository, pointer_oid, "$native.pointer")
+    pointer = _native_pointer(pointer_raw, controller, claim, run_id)
+    generation = pointer["source_epoch"]
+    if (state["epoch"] != generation or pointer["hot_state_digest"] != state_sha256 or
+            pointer["hot_roadmap_digest"] != roadmap_sha256 or
+            pointer["work_graph_digest"] != graph_sha256):
+        _error("OE_NATIVE_CURRENT_STALE", "$native.hot",
+               "hot STATE/ROADMAP/WORK_GRAPH disagree with current pointer")
+
+    receipt_ref = f"refs/implementaudit/continuity-receipts/{controller}/{generation}"
+    receipt_oid = _native_ref_oid(
+        source_repository, receipt_ref, "$native.receipt.ref")
+    receipt_fields = _native_exact_tsv(
+        _native_blob(source_repository, receipt_oid, "$native.receipt"),
+        "implementaudit.continuity-receipt.v3", 18, "$native.receipt")
+    receipt = f"{receipt_ref}@{receipt_oid}"
+    expected_receipt = [
+        "implementaudit.continuity-receipt.v3", controller, claim, run_id,
+        generation, invalidation_oid, pointer_ref, pointer_oid,
+        pointer["pointer_digest"], state_sha256, roadmap_sha256,
+        "WORK_GRAPH.json", graph_sha256, pointer["generation_manifest_oid"],
+        pointer["generation_manifest_digest"], pointer["cold_high_water"],
+        state["next_action"], receipt_fields[17]]
+    if receipt_fields != expected_receipt:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt",
+               "receipt-v3 disagrees with pointer, hot files, or next action")
+    _native_predecessor(
+        source_repository, controller, claim, run_id, generation,
+        receipt_fields[17])
+
+    marker_ref = f"refs/implementaudit/current-generation-migrations/{controller}"
+    marker_oid = _native_ref_oid(
+        source_repository, marker_ref, "$native.marker.ref")
+    marker = _native_exact_tsv(
+        _native_blob(source_repository, marker_oid, "$native.marker"),
+        "implementaudit.current-generation-migration.v1", 10, "$native.marker")
+    if marker != [
+            "implementaudit.current-generation-migration.v1", controller, claim,
+            run_id, generation, pointer_ref,
+            "implementaudit.state-generation-pointer.v1", receipt_ref,
+            receipt_oid, "true"]:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+               "permanent migration marker is stale or foreign")
+    route = _native_route(
+        source_repository, controller, claim, run_root, generation, receipt)
+
+    ref_fence = {
+        controller_ref: controller_oid, invalidation_ref: invalidation_oid,
+        pointer_ref: pointer_oid, receipt_ref: receipt_oid, marker_ref: marker_oid,
+        route["ref"]: route["record_oid"]}
+    file_fence = {
+        run_root / ".claimed": claimed_raw, run_root / ".controller": sentinel_raw,
+        state_path: state_raw, roadmap_path: roadmap_raw, graph_path: graph_raw}
+    if _run_git(
+            source_repository, "for-each-ref", "--format=%(refname)",
+            "refs/implementaudit/controllers/").stdout.splitlines() != controller_refs:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.controller",
+               "controller population changed during observation")
+    if any(_native_ref_oid(
+            source_repository, ref, "$native.final_ref_fence") != oid
+           for ref, oid in ref_fence.items()):
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.refs",
+               "native-current ref changed during observation")
+    if any(_native_file(path, "$native.final_file_fence") != raw
+           for path, raw in file_fence.items()):
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.hot",
+               "native-current file changed during observation")
+
+    result = {
+        "schema": NATIVE_CURRENT_SCHEMA,
+        "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
+        "establishes": [],
+        "repository": {
+            "root": repository.as_posix(), "git_common_dir": common.as_posix()},
+        "controller": {
+            "id": controller, "ref": controller_ref, "record_oid": controller_oid},
+        "claim": {
+            "id": claim, "run_id": run_id, "run_root": run_relative_text},
+        "continuity": {
+            "generation": generation, "source_epoch": pointer["source_epoch"],
+            "invalidation_ref": invalidation_ref,
+            "invalidation_oid": invalidation_oid,
+            "boundary_kind": invalidation[4], "boundary_event_id": invalidation[5],
+            "pointer_ref": pointer_ref, "pointer_oid": pointer_oid,
+            "pointer_digest": pointer["pointer_digest"],
+            "receipt_schema": receipt_fields[0], "receipt_ref": receipt_ref,
+            "receipt_oid": receipt_oid, "receipt": receipt,
+            "marker_ref": marker_ref, "marker_oid": marker_oid,
+            "generation_manifest_oid": pointer["generation_manifest_oid"],
+            "generation_manifest_digest": pointer["generation_manifest_digest"],
+            "cold_high_water": pointer["cold_high_water"],
+            "degraded_state": pointer["degraded_state"]},
+        "hot": {
+            "state_path": "STATE.md", "state_sha256": state_sha256,
+            "roadmap_path": "ROADMAP.md", "roadmap_sha256": roadmap_sha256,
+            "work_graph_path": "WORK_GRAPH.json",
+            "work_graph_sha256": graph_sha256,
+            "work_graph_compiler_sha256": compiler_sha256},
+        "frontier": projection,
+        "andon_state": state["andon_state"],
+        "open_andons": state["open_andons"],
+        "active_instructions": state["active_instructions"],
+        "next_action": state["next_action"],
+        "route": route,
+    }
+    result["semantic_sha256"] = hashlib.sha256(canonical_json_v1(result)).hexdigest()
+    return result
 
 
 def collect_repository(root: pathlib.Path):

@@ -25,6 +25,425 @@ fixtures="fixtures/operational-evidence"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
+"${py_cmd[@]}" - "$loader" \
+  "skills/implementaudit/scripts/compile-work-graph.py" \
+  "$fixtures/native-current.json" "$tmp/native-current" <<'PY'
+import copy
+import hashlib
+import importlib.util
+import json
+import pathlib
+import shutil
+import subprocess
+import sys
+
+
+LOADER = pathlib.Path(sys.argv[1]).resolve()
+COMPILER = pathlib.Path(sys.argv[2]).resolve()
+FIXTURE = json.loads(pathlib.Path(sys.argv[3]).read_text(encoding="utf-8"))
+CASE_ROOT = pathlib.Path(sys.argv[4]).resolve()
+CASE_ROOT.mkdir(parents=True)
+ZERO64 = "0" * 64
+ONE64 = "1" * 64
+schema_definition = json.loads(
+    (LOADER.parent.parent / "references/operational-evidence-schema.json")
+    .read_text(encoding="utf-8"))
+if schema_definition.get("x-native-current-facts") != {
+        "schema": "implementaudit-native-current-facts-v1",
+        "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
+        "fixed_hot_paths": ["STATE.md", "ROADMAP.md", "WORK_GRAPH.json"],
+        "currentness_chain": [
+            "controller", "claim", "generation_pointer", "receipt_v3",
+            "migration_marker", "route_record"],
+        "graph_projection": "implementaudit.work-graph.v1",
+        "publication": False,
+        "activegraph_authority": False,
+    }:
+    raise SystemExit("NCR20 RED: schema does not freeze native-current facts")
+
+
+def canonical(value):
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False).encode("utf-8")
+
+
+def git(repo, *args, input_bytes=None):
+    completed = subprocess.run(
+        ["git", "-C", str(repo), *args], input=input_bytes,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    if completed.returncode:
+        raise SystemExit(
+            f"native-current fixture git {' '.join(args)} failed: "
+            f"{completed.stderr.decode('utf-8', 'replace')}")
+    return completed.stdout
+
+
+def write(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(data)
+
+
+def object_id(repo, data):
+    return git(repo, "hash-object", "-w", "--stdin", input_bytes=data).decode().strip()
+
+
+def update_ref(repo, ref, oid):
+    git(repo, "update-ref", ref, oid)
+
+
+def load_module(repo, serial):
+    path = repo / "skills/implementaudit/scripts/operational-evidence.py"
+    spec = importlib.util.spec_from_file_location(
+        f"operational_evidence_native_current_{serial}", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def prepare(case, serial):
+    repo = CASE_ROOT / f"case-{serial:02d}-{case}"
+    repo.mkdir()
+    git(repo, "init", "--quiet")
+    git(repo, "config", "user.name", "Fixture")
+    git(repo, "config", "user.email", "fixture@example.invalid")
+    write(repo / "tracked.txt", b"native current fixture\n")
+    script = repo / "skills/implementaudit/scripts/operational-evidence.py"
+    compiler = repo / "skills/implementaudit/scripts/compile-work-graph.py"
+    script.parent.mkdir(parents=True)
+    shutil.copyfile(LOADER, script)
+    shutil.copyfile(COMPILER, compiler)
+    git(repo, "add", "tracked.txt", str(script.relative_to(repo)),
+        str(compiler.relative_to(repo)))
+    git(repo, "commit", "--quiet", "-m", "fixture")
+
+    fixture = copy.deepcopy(FIXTURE)
+    controller = fixture["controller_id"]
+    claim = fixture["claim_id"]
+    run_id = fixture["run_id"]
+    generation = fixture["generation"]
+    run_relative = pathlib.PurePosixPath(
+        ".IMPLEMENTAUDIT", "runs", run_id).as_posix()
+    run_root = repo / pathlib.Path(*pathlib.PurePosixPath(run_relative).parts)
+    run_root.mkdir(parents=True)
+    common = git(
+        repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
+    ).decode().strip()
+    repository = repo.as_posix()
+    run_absolute = run_root.as_posix()
+
+    claim_lines = [
+        "schema=implementaudit.run-claim.v2",
+        f"claim_id={claim}",
+        "claimed_at_utc=2026-08-20T00:00:00Z",
+        "mode=full",
+        "templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md",
+        f"repo_root={repository}",
+        f"git_common_dir={common}",
+        "run_base=.IMPLEMENTAUDIT/runs",
+        f"run_root={run_relative}",
+        f"run_name={run_id}",
+    ]
+    write(run_root / ".claimed", ("\n".join(claim_lines) + "\n").encode())
+    write(run_root / ".controller", f"controller_id={controller}\n".encode())
+
+    instruction = fixture["active_instruction"]
+    instruction_status = "satisfied" if case == "no-active-instruction" else instruction["status"]
+    current_rows = [
+        ("Run root", f"`{run_relative}`"),
+        ("Phase", "native-current fixture"),
+        ("Status", "IN_PHASE"),
+    ]
+    if case != "no-open-andon":
+        current_rows.append(("Andon state", fixture["andon_state"]))
+    current_rows.append((
+        "Audit object state",
+        "adjacent narrative falsely says CELL-A DONE and CELL-B BLOCKED"))
+    if case != "no-next-action":
+        current_rows.append(("Next action", fixture["next_action"]))
+    state_lines = [
+        "# Native current fixture",
+        "",
+        f"Current epoch: {generation}",
+        "",
+        "## Current phase",
+        "",
+        "| Field | Value |",
+        "|---|---|",
+        *[f"| {key} | {value} |" for key, value in current_rows],
+        "",
+        "## Instruction lifecycle",
+        "",
+        "| Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+        "| {id} | {reference} | {kind} | {authority} | {subject} | {issued_epoch} | {status} | {status_evidence} | {supersedes_by} | {scope_end} |".format(
+            **{**instruction, "status": instruction_status}),
+        "",
+    ]
+    state_raw = "\n".join(state_lines).encode("utf-8")
+    roadmap_raw = b"# Native current roadmap\n\nOnly bounded current work is retained.\n"
+    write(run_root / "STATE.md", state_raw)
+    write(run_root / "ROADMAP.md", roadmap_raw)
+
+    graph = fixture["work_graph"]
+    if case == "no-active":
+        graph["cells"][0]["state"] = "DONE"
+    elif case == "no-ready":
+        graph["cells"][1]["state"] = "DONE"
+    elif case == "no-holds":
+        graph["serialization_groups"] = {}
+    elif case == "unknown-graph":
+        graph["schema"] = "implementaudit.work-graph.future"
+    graph_raw = canonical(graph)
+    write(run_root / "WORK_GRAPH.json", graph_raw)
+    write(
+        repo / ".activegraph/native-current.json",
+        canonical({"active": ["MIRROR-ONLY"], "authority": "forbidden"}))
+
+    controller_record = (
+        "implementaudit.controller-current.v1\t"
+        f"{controller}\t{claim}\t{run_absolute}\n").encode()
+    controller_oid = object_id(repo, controller_record)
+    if case != "no-controller":
+        update_ref(repo, f"refs/implementaudit/controllers/{controller}", controller_oid)
+    if case == "duplicate-controller":
+        duplicate = object_id(repo, (
+            "implementaudit.controller-current.v1\tcontroller-other\t"
+            f"{claim}\t{run_absolute}\n").encode())
+        update_ref(repo, "refs/implementaudit/controllers/controller-other", duplicate)
+
+    invalidation_raw = (
+        "implementaudit.continuity-invalidation.v1\t"
+        f"{controller}\t{controller_oid}\t{claim}\tmanual-resume\tfixture-boundary\n"
+    ).encode()
+    invalidation_oid = object_id(repo, invalidation_raw)
+    update_ref(
+        repo, f"refs/implementaudit/continuity-invalidations/{controller}",
+        invalidation_oid)
+
+    head = git(repo, "rev-parse", "HEAD").decode().strip()
+    tree = git(repo, "rev-parse", "HEAD^{tree}").decode().strip()
+    state_digest = hashlib.sha256(state_raw).hexdigest()
+    roadmap_digest = hashlib.sha256(roadmap_raw).hexdigest()
+    graph_digest = hashlib.sha256(graph_raw).hexdigest()
+    manifest_raw = canonical({"schema": "implementaudit.state-generation-manifest.v1"})
+    manifest_oid = object_id(repo, manifest_raw)
+    manifest_digest = hashlib.sha256(manifest_raw).hexdigest()
+
+    predecessor_ref = f"refs/implementaudit/continuity-receipts/{controller}/G0001"
+    predecessor_raw = (
+        "implementaudit.continuity-receipt.v2\t"
+        f"{controller}\t{controller_oid}\t{claim}\t{head}\t{tree}\t"
+        f"{state_digest}\t{roadmap_digest}\t{invalidation_oid}\t"
+        "manual-resume\tG0001\tfixture predecessor\n").encode()
+    predecessor_oid = object_id(repo, predecessor_raw)
+    update_ref(repo, predecessor_ref, predecessor_oid)
+    predecessor = f"{predecessor_ref}@{predecessor_oid}"
+
+    pointer_claim = ONE64[:32] if case == "wrong-claim" else claim
+    pointer_run = "foreign-run" if case == "wrong-run" else run_id
+    pointer_epoch = "G0001" if case == "wrong-epoch" else generation
+    pointer_graph_digest = ZERO64 if case == "stale-graph-digest" else graph_digest
+    pointer_state_digest = ZERO64 if case == "stale-state-digest" else state_digest
+    pointer_body = {
+        "schema_version": "implementaudit.state-generation-pointer.v1",
+        "controller_id": controller,
+        "claim_id": pointer_claim,
+        "run_id": pointer_run,
+        "generation_id": generation,
+        "predecessor_pointer_oid": None,
+        "predecessor_pointer_digest": None,
+        "generation_manifest_oid": manifest_oid,
+        "generation_manifest_digest": manifest_digest,
+        "cold_high_water": "00000000000000000001",
+        "hot_state_digest": pointer_state_digest,
+        "hot_roadmap_digest": roadmap_digest,
+        "work_graph_path": "WORK_GRAPH.json",
+        "work_graph_digest": pointer_graph_digest,
+        "query_contract_version": "implementaudit.history-query.v1",
+        "source_epoch": pointer_epoch,
+        "degraded_state": "NONE",
+    }
+    pointer = {
+        **pointer_body,
+        "pointer_digest": hashlib.sha256(canonical(pointer_body)).hexdigest(),
+    }
+    pointer_raw = canonical(pointer)
+    if case == "malformed-pointer":
+        pointer_raw = pointer_raw.replace(
+            b'{"claim_id"',
+            b'{"controller_id":"duplicate","claim_id"', 1)
+    pointer_oid = object_id(repo, pointer_raw)
+    pointer_ref = f"refs/implementaudit/current-generations/{controller}"
+    update_ref(repo, pointer_ref, pointer_oid)
+
+    receipt_ref = f"refs/implementaudit/continuity-receipts/{controller}/{generation}"
+    receipt_raw = (
+        "implementaudit.continuity-receipt.v3\t"
+        f"{controller}\t{claim}\t{run_id}\t{generation}\t{invalidation_oid}\t"
+        f"{pointer_ref}\t{pointer_oid}\t{pointer['pointer_digest']}\t"
+        f"{state_digest}\t{roadmap_digest}\tWORK_GRAPH.json\t{graph_digest}\t"
+        f"{manifest_oid}\t{manifest_digest}\t00000000000000000001\t"
+        f"{fixture['next_action']}\t{predecessor}\n").encode()
+    if case == "receipt-v2":
+        receipt_raw = (
+            "implementaudit.continuity-receipt.v2\t"
+            f"{controller}\t{controller_oid}\t{claim}\t{head}\t{tree}\t"
+            f"{state_digest}\t{roadmap_digest}\t{invalidation_oid}\t"
+            f"manual-resume\t{generation}\t{fixture['next_action']}\n").encode()
+    receipt_oid = object_id(repo, receipt_raw)
+    update_ref(repo, receipt_ref, receipt_oid)
+    receipt = f"{receipt_ref}@{receipt_oid}"
+
+    marker_raw = (
+        "implementaudit.current-generation-migration.v1\t"
+        f"{controller}\t{claim}\t{run_id}\t{generation}\t{pointer_ref}\t"
+        f"implementaudit.state-generation-pointer.v1\t{receipt_ref}\t"
+        f"{receipt_oid}\ttrue\n").encode()
+    marker_oid = object_id(repo, marker_raw)
+    if case != "missing-marker":
+        update_ref(
+            repo, f"refs/implementaudit/current-generation-migrations/{controller}",
+            marker_oid)
+
+    route_controller = "controller-other" if case == "wrong-route-controller" else controller
+    route_base = {
+        "schema": "implementaudit.route-decision.v1",
+        "predicate_version": "R0033.route-predicate.v1",
+        "controller_id": route_controller,
+        "claim_id": claim,
+        "explicit_run_root": run_absolute,
+        "continuity_generation": generation,
+        "continuity_receipt": receipt,
+        "host_id": "codex",
+        "host_session_id": "native-current-fixture",
+        "host_binding_generation": generation,
+        "host_correlation_id": "fixture-correlation",
+        "boundary": {"kind": "manual-resume"},
+        "scope": {"identity": fixture["next_action"]},
+        "action": {"identity": "bounded-read", "class": "PURE_BOUNDED_READ_OR_VALIDATION"},
+        "evidence": {"owner": {}, "authority": {}, "effect": {}, "dependency": {}},
+        "inputs": {},
+        "package": {},
+        "child_source": {},
+        "decision": "NOT_REQUIRED",
+        "classification": "MECHANICALLY_NOT_REQUIRED",
+        "invalidators": [],
+        "expiry_fingerprint": "sha256:" + ONE64,
+        "expires_on": [
+            "action-completion", "next-action-change", "scope-change",
+            "read-set-change", "host-binding-generation-change",
+            "continuity-receipt-change", "package-identity-change",
+            "child-source-identity-change", "owner-evidence-change",
+            "authority-evidence-change", "dependency-evidence-change",
+            "effect-evidence-change", "contradiction-or-invalidation",
+            "scope-expansion",
+        ],
+        "predecessor_record_oid": None,
+        "route_transaction_id": "sha256:" + "2" * 64,
+        "obligation_id": None,
+        "route_state": None,
+        "child_lifecycle_owned": False,
+        "consumed_record_oid": None,
+    }
+    route_identity = "sha256:" + hashlib.sha256(canonical(route_base)).hexdigest()
+    if case == "stale-route-identity":
+        route_identity = "sha256:" + ZERO64
+    route_record = {**route_base, "record_identity": route_identity}
+    route_oid = object_id(repo, canonical(route_record) + b"\n")
+    update_ref(repo, f"refs/implementaudit/route-decisions/{controller}", route_oid)
+    return repo
+
+
+positive_repo = prepare("positive", 0)
+positive_module = load_module(positive_repo, 0)
+if not hasattr(positive_module, "collect_native_current"):
+    raise SystemExit("NCR00 RED: collect_native_current is missing")
+
+negative_cases = [
+    ("no-active", "NCR01 missing ACTIVE set"),
+    ("no-ready", "NCR02 missing READY set"),
+    ("no-holds", "NCR03 missing declared holds"),
+    ("no-open-andon", "NCR04 missing open Andon"),
+    ("no-active-instruction", "NCR05 missing active instruction"),
+    ("no-next-action", "NCR06 missing next action"),
+    ("no-controller", "NCR07 missing controller"),
+    ("wrong-claim", "NCR08 wrong claim"),
+    ("stale-graph-digest", "NCR09 stale graph digest"),
+    ("stale-route-identity", "NCR10 stale route identity"),
+    ("wrong-epoch", "NCR11 wrong epoch"),
+    ("receipt-v2", "NCR12 non-v3 receipt"),
+    ("duplicate-controller", "NCR13 duplicate controller"),
+    ("malformed-pointer", "NCR14 malformed duplicate-key pointer"),
+    ("wrong-run", "NCR15 wrong run"),
+    ("stale-state-digest", "NCR16 stale hot STATE digest"),
+    ("missing-marker", "NCR17 missing permanent marker"),
+    ("wrong-route-controller", "NCR18 wrong-controller route"),
+    ("unknown-graph", "NCR19 unknown graph schema"),
+]
+accepted = []
+for serial, (case, label) in enumerate(negative_cases, 1):
+    repo = prepare(case, serial)
+    module = load_module(repo, serial)
+    try:
+        module.collect_native_current()
+    except module.OperationalEvidenceError:
+        pass
+    else:
+        accepted.append(label)
+if accepted:
+    for label in accepted:
+        print(f"{label} RED: invalid native fact was accepted", file=sys.stderr)
+    raise SystemExit(1)
+
+before_refs = git(
+    positive_repo, "for-each-ref", "--format=%(refname)%00%(objectname)",
+    "refs/implementaudit/")
+before_objects = git(positive_repo, "count-objects", "-v")
+record = positive_module.collect_native_current()
+repeat = positive_module.collect_native_current()
+after_refs = git(
+    positive_repo, "for-each-ref", "--format=%(refname)%00%(objectname)",
+    "refs/implementaudit/")
+after_objects = git(positive_repo, "count-objects", "-v")
+if before_refs != after_refs or before_objects != after_objects:
+    raise SystemExit("native-current read changed protected refs or Git objects")
+if (positive_repo / ".IMPLEMENTAUDIT/runs/native-current-run/operational-evidence").exists():
+    raise SystemExit("C03 created a snapshot/publication root")
+if record != repeat or positive_module.canonical_json_v1(record) != positive_module.canonical_json_v1(repeat):
+    raise SystemExit("native-current facts are not deterministic")
+if record.get("schema") != "implementaudit-native-current-facts-v1":
+    raise SystemExit("native-current fact schema missing")
+if record.get("authority_ceiling") != "READ_ONLY_NATIVE_CURRENT_FACT":
+    raise SystemExit("native-current authority ceiling drift")
+if record.get("frontier", {}).get("active") != ["CELL-A"]:
+    raise SystemExit("WORK_GRAPH ACTIVE projection was overridden by adjacent narrative")
+if record.get("frontier", {}).get("ready") != ["CELL-B"]:
+    raise SystemExit("WORK_GRAPH READY projection was overridden by adjacent narrative")
+if record.get("frontier", {}).get("writer_holds") != {
+        "W_NATIVE_CURRENT": ["CELL-A", "CELL-B"]}:
+    raise SystemExit("declared writer holds were not retained")
+if record.get("open_andons") != ["V041_RELEASE_BLOCK"]:
+    raise SystemExit("open Andon fact missing")
+if [row.get("id") for row in record.get("active_instructions", [])] != ["i01"]:
+    raise SystemExit("active instruction fact missing")
+if record.get("continuity", {}).get("receipt_schema") != "implementaudit.continuity-receipt.v3":
+    raise SystemExit("receipt-v3 fact missing")
+if record.get("route", {}).get("record_identity") is None:
+    raise SystemExit("R0033 route identity missing")
+if b"activegraph" in positive_module.canonical_json_v1(record).lower():
+    raise SystemExit("ActiveGraph mirror entered native-current input or authority")
+semantic = record.get("semantic_sha256")
+without_semantic = {key: value for key, value in record.items() if key != "semantic_sha256"}
+if semantic != hashlib.sha256(positive_module.canonical_json_v1(without_semantic)).hexdigest():
+    raise SystemExit("native-current semantic digest mismatch")
+PY
+
+if [ "${1:-}" = "--native-current-only" ]; then
+  printf 'operational-evidence-contract.test: native-current ok\n'
+  exit 0
+fi
+
 "${py_cmd[@]}" - "$loader" "$rotation_loader" <<'PY'
 import importlib.util
 import sys

@@ -1,0 +1,34 @@
+{
+  "schema": "implementaudit-native-current-fixture-v1",
+  "controller_id": "controller-current",
+  "claim_id": "0123456789abcdef0123456789abcdef",
+  "run_id": "native-current-run",
+  "generation": "G0002",
+  "next_action": "execute the exact bounded native-current action",
+  "andon_state": "`V041_RELEASE_BLOCK=ACTIVE`; fixture containment remains open",
+  "active_instruction": {
+    "id": "i01",
+    "reference": "fixture owner objective",
+    "kind": "persistent-objective",
+    "authority": "owner",
+    "subject": "execute the exact bounded native-current action",
+    "issued_epoch": "G0001",
+    "status": "active",
+    "status_evidence": "fixture authority record",
+    "supersedes_by": "none",
+    "scope_end": "fixture terminal boundary"
+  },
+  "work_graph": {
+    "schema": "implementaudit.work-graph.v1",
+    "population": {"total_cells": 4},
+    "cells": [
+      {"id": "CELL-A", "state": "ACTIVE", "deps": ["CELL-D"]},
+      {"id": "CELL-B", "state": "READY", "deps": ["CELL-D"]},
+      {"id": "CELL-C", "state": "BLOCKED", "deps": ["CELL-A"]},
+      {"id": "CELL-D", "state": "DONE", "deps": []}
+    ],
+    "serialization_groups": {
+      "W_NATIVE_CURRENT": ["CELL-A", "CELL-B"]
+    }
+  }
+}

@@ -124,6 +124,37 @@ never invokes R0035. The APIs are C02 substrate, not CLI commands, default
 preflight, helper registration, package admission, or a public route; those
 remain in their assigned downstream cells.
 
+## Native-current controller facts
+
+`collect_native_current()` is the C03 no-argument, read-only boundary. It
+derives the repository, bound run root, sole controller, claim and fixed
+`STATE.md`, `ROADMAP.md` and `WORK_GRAPH.json` paths from native Git/controller
+custody. It accepts no caller controller, claim, run, epoch, receipt, route,
+graph, source root, snapshot root or alternate path. The returned
+`implementaudit-native-current-facts-v1` record has the
+`READ_ONLY_NATIVE_CURRENT_FACT` ceiling and an empty `establishes` population.
+
+The reader requires one exact canonical generation pointer, receipt v3 and
+permanent migration marker chain. It binds their controller/claim/run/source
+epoch, pointer and manifest identities, hot STATE/ROADMAP digests,
+`WORK_GRAPH.json` path/digest, next action and predecessor receipt. The current
+R0033 route ref must contain its exact canonical record bytes, current
+controller/claim/run/generation/receipt bindings and self-hashed record
+identity. Missing, duplicate, malformed, unknown, contradictory, stale or
+foreign facts are typed refusals; a legacy v1/v2 receipt is not promoted to the
+C03 fact record.
+
+ACTIVE, READY, blocked summaries and declared writer/resource holds come only
+from the canonical HC-H4 `compile_frontier_projection` implementation. Adjacent
+STATE narrative cannot override that projection. STATE contributes only its
+bounded current epoch, explicit open-Andon population, active instruction rows
+and exact next action; the pointer and receipt must bind the same hot bytes and
+values. The reader performs a final file/ref fence before returning canonical,
+deterministic facts. It does not invoke lifecycle helpers, mint or change refs,
+repair state, set READY/JOIN, create a snapshot or output root, query history,
+use network, or inspect an ActiveGraph mirror. C06 remains the sole later
+snapshot compiler/publication owner.
+
 ## Canonical evidence and failure collection
 
 `collect_evidence_failure` is the C04 read-only boundary. It accepts one fixed,
