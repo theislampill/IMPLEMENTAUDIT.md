@@ -359,7 +359,8 @@ extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n 
 extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
 extra6="""    if phase == 'first-protected-effect-boundary' and fault == 'post-last-check-pre-effect':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n    if phase == 'terminal-result-durable' and fault == 'post-last-check-pre-effect':\n        if not COMMON_LEASE.exists(): raise RuntimeError('common lease released before terminal evidence')\n        (Path(bar)/'terminal-lease-held').touch()\n"""
-Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4+extra5+extra6),encoding='utf-8')
+extra7="""    if phase == 'pre-transaction' and fault in {'protected-replay-no-state','protected-replay-release-fails'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        original_replay_open=os.open\n        def observe_common_wait(path,*args,**kwargs):\n            try: return original_replay_open(path,*args,**kwargs)\n            except OSError as error:\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE and error.errno in {errno.EACCES,errno.EAGAIN,errno.EEXIST}: (b/'common-waiting').touch()\n                raise\n        os.open=observe_common_wait\n        if fault == 'protected-replay-release-fails':\n            original_replay_unlink=os.unlink\n            def fail_common_release(path,*args,**kwargs):\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE: raise OSError(errno.EACCES,'injected common lease release failure')\n                return original_replay_unlink(path,*args,**kwargs)\n            os.unlink=fail_common_release\n        wait('ready')\n    if phase == 'init' and fault == 'protected-replay-no-state':\n        final_result('MUTATION_FAILED_NO_STATE_CHANGE','NONE')\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4+extra5+extra6+extra7),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
@@ -376,7 +377,8 @@ extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n 
 extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
 extra6="""    if phase == 'first-protected-effect-boundary' and fault == 'post-last-check-pre-effect':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n    if phase == 'terminal-result-durable' and fault == 'post-last-check-pre-effect':\n        if not COMMON_LEASE.exists(): raise RuntimeError('common lease released before terminal evidence')\n        (Path(bar)/'terminal-lease-held').touch()\n"""
-restored=text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(extra5,'').replace(extra6,'').replace(derived_dir_line,script_dir_line)
+extra7="""    if phase == 'pre-transaction' and fault in {'protected-replay-no-state','protected-replay-release-fails'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        original_replay_open=os.open\n        def observe_common_wait(path,*args,**kwargs):\n            try: return original_replay_open(path,*args,**kwargs)\n            except OSError as error:\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE and error.errno in {errno.EACCES,errno.EAGAIN,errno.EEXIST}: (b/'common-waiting').touch()\n                raise\n        os.open=observe_common_wait\n        if fault == 'protected-replay-release-fails':\n            original_replay_unlink=os.unlink\n            def fail_common_release(path,*args,**kwargs):\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE: raise OSError(errno.EACCES,'injected common lease release failure')\n                return original_replay_unlink(path,*args,**kwargs)\n            os.unlink=fail_common_release\n        wait('ready')\n    if phase == 'init' and fault == 'protected-replay-no-state':\n        final_result('MUTATION_FAILED_NO_STATE_CHANGE','NONE')\n"""
+restored=text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(extra5,'').replace(extra6,'').replace(extra7,'').replace(derived_dir_line,script_dir_line)
 if 'phase_hook("first-protected-effect-boundary")' not in canonical_text:
     restored=re.sub(r'(?m)^ +phase_hook\("first-protected-effect-boundary"\)\n','',restored)
 if 'phase_hook("terminal-result-durable")' not in canonical_text:
@@ -1829,6 +1831,192 @@ controller_transfer_race_heldout() {
   [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
+protected_replay_lease_cleanup_heldout() {
+  local controller=d48-protected-replay release_controller=d48-replay-release-failure
+  local claim old_claim pre cand receipt generation fingerprint phase derived barrier peer
+  local common_dir common_lease legacy_lease actor pid_a pid_b ticks publisher_oid successor
+  local sink_pre sink_cand sink_stdout sink_stderr sink_rc release_pid release_rc transaction
+
+  # Both actors cross the transaction-absence observation before either may
+  # acquire the common lease. The first terminalizes a durable no-state result;
+  # the serialized replay must release both coordination layers before exit.
+  setup "$controller"
+  claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"; old_claim="$claim"
+  pre="$(artifact protected-replay-pre 4142434445)"
+  cand="$(artifact protected-replay-candidate 4e4557)"
+  prepare_authority replace target -; phase="$prepared_phase"
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
+    || fail 'D48-C02 protected replay could not establish current continuity'
+  generation="${receipt%@*}"; generation="${generation##*/}"
+  fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
+  write_generation_fence "$generation" "$receipt" "$generation" "$generation" \
+    REJECT_AND_REPORT "$controller" target "$fingerprint"
+  peer="$tmp/protected-replay-peer"
+  git -C "$fixture_repo" worktree add -q --detach "$peer" HEAD \
+    || fail 'D48-C02 protected replay could not create linked legacy-path witness'
+  common_dir="$(git -C "$fixture_repo" rev-parse --path-format=absolute --git-common-dir)"
+  common_lease="$common_dir/implementaudit-r0039-publication.lock"
+  legacy_lease="$(git -C "$peer" rev-parse --path-format=absolute --git-path implementaudit-r0039-publication.lock)"
+  [ "$legacy_lease" != "$common_lease" ] || fail 'D48-C02 protected replay legacy witness did not diverge'
+  derived="$(instrumented_helper)"; barrier="$tmp/protected-replay"; mkdir -p "$barrier/a" "$barrier/b"
+  : >"$common_lease"
+  for actor in a b; do
+    (set +e
+      IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier/$actor" \
+      IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=protected-replay-no-state \
+        bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+          --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" \
+          >"$barrier/$actor.out" 2>"$barrier/$actor.err"
+      echo $? >"$barrier/$actor.exit") &
+    [ "$actor" = a ] && pid_a=$! || pid_b=$!
+  done
+  owned_background_pids=("$pid_a" "$pid_b"); owned_release_path=
+  ticks=0
+  while { [ ! -f "$barrier/a/ready" ] || [ ! -f "$barrier/b/ready" ]; } && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ "$ticks" -lt 500 ] || fail 'D48-C02 protected replay peers did not both reach transaction-absence boundary'
+  : >"$barrier/a/release"; : >"$barrier/b/release"
+  ticks=0
+  while { [ ! -f "$barrier/a/common-waiting" ] || [ ! -f "$barrier/b/common-waiting" ]; } && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ "$ticks" -lt 500 ] || fail 'D48-C02 protected replay peers did not both pass absence behind the common barrier'
+  rm -f -- "$common_lease"
+  wait_bounded "$pid_a" 'D48-C02 protected replay actor a'
+  wait_bounded "$pid_b" 'D48-C02 protected replay actor b'
+  owned_background_pids=()
+  "$python_bin" - "$barrier" "$run_root" "$fixture_repo/target" "$phase" <<'PY' \
+    || fail 'D48-C02 protected replay terminal pair or durable winner state was invalid'
+import json,sys
+from pathlib import Path
+barrier,run,target=map(Path,sys.argv[1:4]); phase=int(sys.argv[4]); rows=[]
+for actor in ('a','b'):
+    record=json.loads((barrier/f'{actor}.out').read_text(encoding='utf-8'))
+    rows.append((int((barrier/f'{actor}.exit').read_text()),record['status'],record['reason_code']))
+if sorted(rows)!=[(65,'CONFLICT_REBASE','PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY'),(70,'MUTATION_FAILED_NO_STATE_CHANGE','NONE')]:
+    raise SystemExit(rows)
+transactions=list((run/'mutation-transactions').glob(f'*-p{phase}-s1'))
+if len(transactions)!=1 or not (transactions[0]/'result.json').is_file(): raise SystemExit(transactions)
+durable=json.loads((transactions[0]/'result.json').read_text(encoding='utf-8'))
+if durable.get('status')!='MUTATION_FAILED_NO_STATE_CHANGE' or durable.get('reason_code')!='NONE': raise SystemExit(durable)
+if target.read_bytes()!=b'ABCDE': raise SystemExit('protected target bytes changed')
+PY
+  [ ! -e "$common_lease" ] && [ ! -L "$common_lease" ] \
+    || fail 'D48-C02 protected replay orphaned the Git-common publication lease'
+  [ ! -e "$legacy_lease" ] && [ ! -L "$legacy_lease" ] \
+    || fail 'D48-C02 protected replay left divergent legacy lease residue'
+
+  # The same local gate and common domain remain usable by a later protected
+  # sink, controller transfer, and R0039 CAS/readback publisher.
+  write_hex "$fixture_repo/a" 4141414141
+  sink_pre="$(artifact protected-replay-followup-pre 4141414141)"
+  sink_cand="$(artifact protected-replay-followup-candidate 4242424242)"
+  prepare_authority replace a -
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
+    || fail 'D48-C02 protected replay follow-up sink could not establish current continuity'
+  generation="${receipt%@*}"; generation="${generation##*/}"
+  fingerprint="$(sha256sum "$fixture_repo/a" | cut -d' ' -f1)"
+  write_generation_fence "$generation" "$receipt" "$generation" "$generation" \
+    REJECT_AND_REPORT "$controller" a "$fingerprint"
+  sink_stdout="$barrier/followup-sink.out"; sink_stderr="$barrier/followup-sink.err"
+  set +e
+  bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" \
+    --phase "$prepared_phase" --step 1 --preimage "$sink_pre" --candidate "$sink_cand" \
+    >"$sink_stdout" 2>"$sink_stderr"
+  sink_rc=$?
+  set -e
+  [ "$sink_rc" -eq 0 ] || fail "D48-C02 protected replay follow-up sink exit=$sink_rc stderr=$(<"$sink_stderr")"
+  assert_hex D48-C02-protected-replay-original-target "$fixture_repo/target" 4142434445
+  assert_hex D48-C02-protected-replay-followup-sink "$fixture_repo/a" 4242424242
+  "$python_bin" - "$sink_stdout" <<'PY' || fail 'D48-C02 protected replay follow-up sink lacked committed readback'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r.get('status')!='COMMITTED' or r.get('reason_code')!='NONE': raise SystemExit(r)
+PY
+  successor="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
+    bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" \
+      --supersede-claim "$old_claim" 'D48-C02 protected replay successor')" \
+    || fail 'D48-C02 protected replay follow-up controller transfer failed'
+  [ -f "$fixture_repo/$successor/.claimed" ] || fail 'D48-C02 protected replay successor claim is absent'
+  publisher_oid="$(printf '%s' '{"schema_version":"implementaudit.state-generation-pointer.v1"}' \
+    | git -C "$fixture_repo" hash-object -w --stdin)"
+  "$python_bin" - "$repo_root/skills/implementaudit/scripts/rotate-canonical-state.py" \
+    "$fixture_repo" "$publisher_oid" <<'PY' \
+    || fail 'D48-C02 protected replay follow-up R0039 publisher failed'
+import importlib.util,subprocess,sys
+from pathlib import Path
+module_path,repo,oid=Path(sys.argv[1]),Path(sys.argv[2]),sys.argv[3]
+spec=importlib.util.spec_from_file_location('r30_replay_followup_publisher',module_path)
+rotation=importlib.util.module_from_spec(spec); spec.loader.exec_module(rotation)
+ref='refs/implementaudit/current-generations/replay-followup'
+with rotation._acquire_r0039_publication_file_lease_v1(repo):
+    cas=rotation.prepare_trusted_update_ref_transaction_v1(
+        repo=repo,ref=ref,new_oid=oid,old_oid=rotation.ZERO_OID,verify_refs=())
+    rotation.verify_trusted_update_ref_transaction_v1(cas)
+    completed=subprocess.run(cas['argv'],cwd=cas['cwd'],env=cas['env'],input=cas['stdin_bytes'],
+                             stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=False)
+    if completed.returncode!=0: raise SystemExit(completed.stderr)
+    if rotation.read_back_published_ref_v1(cas)!=oid: raise SystemExit('publisher readback mismatch')
+PY
+  [ ! -e "$common_lease" ] && [ ! -L "$common_lease" ] \
+    || fail 'D48-C02 protected replay follow-up left common lease residue'
+  [ ! -e "$legacy_lease" ] && [ ! -L "$legacy_lease" ] \
+    || fail 'D48-C02 protected replay follow-up left legacy lease residue'
+
+  # A replay-side release failure must keep its owned lease and emit the
+  # established manual-reconciliation type instead of blindly unlinking it.
+  setup "$release_controller"
+  claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  pre="$(artifact protected-replay-release-pre 4142434445)"
+  cand="$(artifact protected-replay-release-candidate 4e4557)"
+  prepare_authority replace target -; phase="$prepared_phase"
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$release_controller")" \
+    || fail 'D48-C02 replay release-failure fixture could not establish current continuity'
+  generation="${receipt%@*}"; generation="${generation##*/}"
+  fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
+  write_generation_fence "$generation" "$receipt" "$generation" "$generation" \
+    REJECT_AND_REPORT "$release_controller" target "$fingerprint"
+  peer="$tmp/protected-replay-release-peer"
+  git -C "$fixture_repo" worktree add -q --detach "$peer" HEAD \
+    || fail 'D48-C02 replay release-failure could not create legacy-path witness'
+  common_dir="$(git -C "$fixture_repo" rev-parse --path-format=absolute --git-common-dir)"
+  common_lease="$common_dir/implementaudit-r0039-publication.lock"
+  legacy_lease="$(git -C "$peer" rev-parse --path-format=absolute --git-path implementaudit-r0039-publication.lock)"
+  derived="$(instrumented_helper)"; barrier="$tmp/protected-replay-release-failure"; mkdir "$barrier"
+  transaction="$claim-p$phase-s1"
+  : >"$common_lease"
+  (set +e
+    IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" \
+    IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=protected-replay-release-fails \
+      bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+        --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" \
+        >"$barrier/helper.out" 2>"$barrier/helper.err"
+    echo $? >"$barrier/helper.exit") & release_pid=$!
+  owned_background_pids=("$release_pid"); owned_release_path="$barrier/release"
+  ticks=0; while [ ! -f "$barrier/ready" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ "$ticks" -lt 500 ] || fail 'D48-C02 replay release-failure helper did not reach absence boundary'
+  : >"$barrier/release"
+  ticks=0; while [ ! -f "$barrier/common-waiting" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ "$ticks" -lt 500 ] || fail 'D48-C02 replay release-failure helper did not wait behind common barrier'
+  mkdir -p "$run_root/mutation-transactions/$transaction"
+  rm -f -- "$common_lease"
+  wait_bounded "$release_pid" 'D48-C02 replay release-failure helper'
+  owned_background_pids=(); owned_release_path=
+  release_rc="$(<"$barrier/helper.exit")"
+  [ "$release_rc" -eq 65 ] || fail "D48-C02 replay release-failure exit=$release_rc expected=65 stderr=$(<"$barrier/helper.err")"
+  grep -Fq 'Git-common publication lease release requires manual reconciliation' "$barrier/helper.err" \
+    || fail 'D48-C02 replay release failure was not typed for manual reconciliation'
+  [ -f "$common_lease" ] && [ ! -L "$common_lease" ] \
+    || fail 'D48-C02 replay release failure blindly removed or replaced the owned lease'
+  [ ! -e "$legacy_lease" ] && [ ! -L "$legacy_lease" ] \
+    || fail 'D48-C02 replay release failure wrote divergent legacy custody'
+  assert_hex D48-C02-protected-replay-release-target "$fixture_repo/target" 4142434445
+  "$python_bin" - "$barrier/helper.out" <<'PY' || fail 'D48-C02 replay release failure lacked conflict readback'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r.get('status')!='CONFLICT_REBASE' or r.get('reason_code')!='PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY': raise SystemExit(r)
+if r.get('retry_permitted') is not False or r.get('terminal_closure_claim')!='NOT_ASSERTED': raise SystemExit(r)
+PY
+  rm -f -- "$common_lease"
+}
+
 linked_worktree_generation_transfer_case() {
   local operation="$1" controller="d48-linked-$1" destination=- old_claim pre cand
   local receipt generation fingerprint derived barrier peer helper_pid helper_rc
@@ -2228,6 +2416,7 @@ case "${1:-}" in
   --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
   --controller-transfer-race-heldout) controller_transfer_race_heldout; printf 'S3E_W02_CONTROLLER_TRANSFER_RACE_HELDOUT=PASS\n'; exit 0;;
+  --protected-replay-lease-cleanup-heldout) protected_replay_lease_cleanup_heldout; printf 'D48_C02_PROTECTED_REPLAY_LEASE_CLEANUP=PASS\n'; exit 0;;
   --linked-worktree-controller-transfer-heldout) linked_worktree_generation_transfer_heldout; printf 'D48_C02_LINKED_CONTROLLER_TRANSFER=PASS\n'; exit 0;;
   --linked-worktree-reverse-lease-winner-heldout) linked_worktree_reverse_lease_winner_heldout; printf 'D48_C02_REVERSE_LEASE_WINNER=PASS\n'; exit 0;;
   --linked-worktree-pointer-publication-heldout) linked_worktree_pointer_publication_heldout; printf 'D48_C02_LINKED_POINTER_PUBLICATION=PASS\n'; exit 0;;

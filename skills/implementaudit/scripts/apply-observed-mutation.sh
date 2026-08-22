@@ -1407,6 +1407,12 @@ def emit_transaction_conflict(reason_code):
         "retry_permitted": False,
         "terminal_closure_claim": "NOT_ASSERTED",
     }
+    gate_release_errors = release_window_gate()
+    common_release_errors = release_common_publication_lease()
+    if gate_release_errors:
+        sys.stderr.write("apply-observed-mutation: governed-writer gate release requires manual reconciliation\n")
+    if common_release_errors:
+        sys.stderr.write("apply-observed-mutation: Git-common publication lease release requires manual reconciliation\n")
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS["CONFLICT_REBASE"])
 
