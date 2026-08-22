@@ -39,8 +39,9 @@ to the claimed next boundary. `NOT_APPLICABLE`, stale, absent, mixed, or
 ambiguous identity refuses and returns to `/implementaudit`.
 
 For one exact non-release proposition, the child may return the following
-closed evidential-support v2 envelope. Legacy v1/unversioned prose remains
-parseable exactly as neutral evidence and is never promoted to v2 support.
+closed evidential-support v2 envelope. Eight exact pre-v2 return-state tokens
+are frozen as compatibility inputs; the canonical validator accepts them only
+on a neutral verification-only route and does not claim a pre-v2 parser existed.
 
 <!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_START -->
 ```json
@@ -51,6 +52,7 @@ parseable exactly as neutral evidence and is never promoted to v2 support.
   "required": [
     "schema",
     "audit_object",
+    "proposition_domain",
     "proposition",
     "evidence_id",
     "evidence_sha256",
@@ -65,6 +67,9 @@ parseable exactly as neutral evidence and is never promoted to v2 support.
     "audit_object": {
       "type": "string",
       "minLength": 1
+    },
+    "proposition_domain": {
+      "const": "non-release"
     },
     "proposition": {
       "type": "string",
@@ -99,20 +104,60 @@ parseable exactly as neutral evidence and is never promoted to v2 support.
     "authority_ceiling": {
       "const": "none"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "support": {
+            "const": "established"
+          }
+        },
+        "required": [
+          "support"
+        ]
+      },
+      "then": {
+        "properties": {
+          "evidence_kind": {
+            "const": "exact-observation"
+          },
+          "proposition_domain": {
+            "const": "non-release"
+          },
+          "proposition": {
+            "not": {
+              "pattern": "^(release|currentness|lifecycle):"
+            }
+          }
+        }
+      }
+    }
+  ]
 }
 ```
 <!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_END -->
+
+The canonical return-envelope consumer is
+`../implementaudit/scripts/validate-audit-implement-return.py`. Before a child
+return is decision-usable, the governor invokes it with the exact bound audit
+object, proposition domain and identity, evidence identity/digest and evidence
+kind. Schema validity is structural only: the governor still adjudicates
+whether an exact observation actually supports the proposition. Validator
+success grants no authority and never skips fresh governor re-derivation.
 
 `established` means only that the exact bound observation supports the exact
 bound proposition. `contradicted` means that observation refutes it;
 `insufficient` leaves it unverified; `not-applicable` says the evidence does not
 bear on that proposition. Absence, attempt, receipt, package membership and a
 nearby release claim never establish support. The envelope must match the
-governor-bound audit object, proposition, evidence identity, lowercase SHA-256,
-evidence kind and `authority_ceiling=none`. Invalid UTF-8/JSON, malformed bytes,
-missing, unknown or duplicate fields, an unknown discriminator/state/kind, any
-binding mismatch, or authority-bearing output fails closed to the governor.
+governor-bound audit object, explicit `non-release` proposition domain,
+proposition, evidence identity, lowercase SHA-256, evidence kind and
+`authority_ceiling=none`. Canonical v2 bytes are one compact UTF-8 JSON object
+with schema-order keys and no C0/DEL, whitespace, BOM or terminal newline.
+Invalid UTF-8/JSON, noncanonical bytes, missing, unknown or duplicate fields,
+an unknown discriminator/state/kind, a binding mismatch, or authority-bearing
+output fails closed to the governor.
 
 Compare without collapsing source, generated, packaged, installed, hosted,
 exact-main, released and public-readback states. Return the bounded
