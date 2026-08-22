@@ -357,6 +357,24 @@ expect_handoff_evidence \
   'request owner authorization for phase 1' \
   0 AUDITED_HANDOFF
 
+expect_handoff_evidence \
+  resolved-owner-decision \
+  'owner decision is resolved' \
+  'request owner authorization for phase 1' \
+  3 BLOCK
+
+expect_handoff_evidence \
+  negated-awaiting-owner-decision \
+  'not awaiting owner decision' \
+  'request owner authorization for phase 1' \
+  3 BLOCK
+
+expect_handoff_evidence \
+  active-owner-decision \
+  'awaiting owner decision' \
+  'request owner authorization for phase 1' \
+  0 AUDITED_HANDOFF
+
 surface_handoff_root="$tmp/surface-handoff"
 cp -r "$handoff_root" "$surface_handoff_root"
 sed -i 's/AUDIT_HANDOFF/ANDON_HANDOFF/' "$surface_handoff_root/STATE.md"

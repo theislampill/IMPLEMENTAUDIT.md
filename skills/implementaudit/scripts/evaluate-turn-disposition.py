@@ -106,16 +106,15 @@ PLACEHOLDER_TEXT = {
     "todo",
     "unknown",
 }
-HANDOFF_BLOCKER = re.compile(
-    r"\b(?:block(?:ed|er|ing)?|owner decision|owner request\w*|unsafe scope|missing (?:authorization|access|required tool)|"
-    r"external dependency|irreproducib\w*|no bounded countermeasure|unresolved)\b",
-    re.IGNORECASE,
+HANDOFF_BLOCKER_TEXT = (
+    r"(?:block(?:ed|er|ing)?|owner decision|owner request\w*|unsafe scope|"
+    r"missing (?:authorization|access|required tool)|external dependency|"
+    r"irreproducib\w*|no bounded countermeasure|unresolved)"
 )
+HANDOFF_BLOCKER = re.compile(rf"\b{HANDOFF_BLOCKER_TEXT}\b", re.IGNORECASE)
 HANDOFF_NEGATED = re.compile(
-    r"\b(?:no|not)\s+(?:active\s+)?(?:blocker|blockers|blocked|blocking)\b|"
-    r"\bnone(?:\s+of\s+the)?\s+(?:blocker|blockers|blocked|blocking)\b|"
-    r"\bwithout(?:\s+any)?\s+(?:blocker|blockers|blocked|blocking)\b|"
-    r"\b(?:blocker|blockers|blocked|blocking)\b.{0,80}\b(?:resolved|complete(?:d)?)\b|"
+    rf"\b(?:no|not|none|without)\b.{{0,80}}\b{HANDOFF_BLOCKER_TEXT}\b|"
+    rf"\b{HANDOFF_BLOCKER_TEXT}\b.{{0,80}}\b(?:resolved|complete(?:d)?)\b|"
     r"\b(?:work|audit|run)\b.{0,40}\bcomplete(?:d)?\b",
     re.IGNORECASE,
 )
