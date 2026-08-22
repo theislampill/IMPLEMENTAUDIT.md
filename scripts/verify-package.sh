@@ -696,6 +696,7 @@ bash scripts/check-terminology-integration.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/lean-discipline.test.sh
 bash tests/andon-class-contract.test.sh
+bash tests/distributed-runtime-contract.test.sh
 bash tests/continuity-contract.test.sh
 bash tests/interruption-durability.test.sh
 bash tests/lesson-lift-contract.test.sh
