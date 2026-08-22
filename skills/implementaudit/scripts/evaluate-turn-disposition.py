@@ -106,18 +106,6 @@ PLACEHOLDER_TEXT = {
     "todo",
     "unknown",
 }
-HANDOFF_BLOCKER_TEXT = (
-    r"(?:block(?:ed|er|ing)?|owner decision|owner request\w*|unsafe scope|"
-    r"missing (?:authorization|access|required tool)|external dependency|"
-    r"irreproducib\w*|no bounded countermeasure|unresolved)"
-)
-HANDOFF_BLOCKER = re.compile(rf"\b{HANDOFF_BLOCKER_TEXT}\b", re.IGNORECASE)
-HANDOFF_NEGATED = re.compile(
-    rf"\b(?:no|not|none|without)\b.{{0,80}}\b{HANDOFF_BLOCKER_TEXT}\b|"
-    rf"\b{HANDOFF_BLOCKER_TEXT}\b.{{0,80}}\b(?:resolved|complete(?:d)?)\b|"
-    r"\b(?:work|audit|run)\b.{0,40}\bcomplete(?:d)?\b",
-    re.IGNORECASE,
-)
 NEXT_ACTION = re.compile(
     r"^(?:add|approve|authorize|contact|continue|correct|decide|escalate|fix|inspect|obtain|provide|read|reconcile|"
     r"remove|replace|request|resolve|restore|resume|retry|rerun|review|run|supply|update|verify|wait|write|handoff)\b"
@@ -353,7 +341,11 @@ def validate_route(route: Any, binding: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
-def run_root_validator(run_root: str, *, nonterminal_yield: bool = False) -> None:
+def run_root_validator(
+    run_root: str, *, nonterminal_yield: bool = False, audited_handoff: bool = False
+) -> None:
+    if nonterminal_yield and audited_handoff:
+        raise DecisionBlocked("run-root validation mode is ambiguous")
     root = Path(run_root)
     if not root.is_dir() or root.is_symlink():
         raise DecisionBlocked("claimed run root is absent, aliased, or not a directory")
@@ -382,7 +374,9 @@ def run_root_validator(run_root: str, *, nonterminal_yield: bool = False) -> Non
             converted.append(result.stdout.strip())
         validator_arg, root_arg = converted
     command = [bash_executable, validator_arg]
-    if nonterminal_yield:
+    if audited_handoff:
+        command.append("--audited-handoff")
+    elif nonterminal_yield:
         command.append("--nonterminal-yield")
     command.append(root_arg)
     completed = subprocess.run(command, text=True, capture_output=True, check=False)
@@ -478,7 +472,7 @@ def validate_closure(run_root: str, route: dict[str, Any]) -> None:
 
 
 def validate_handoff(run_root: str, route: dict[str, Any]) -> None:
-    run_root_validator(run_root)
+    run_root_validator(run_root, audited_handoff=True)
     lines = state_lines(run_root)
     fields = state_fields(lines)
     validate_projection(fields, route)
@@ -493,11 +487,9 @@ def validate_handoff(run_root: str, route: dict[str, Any]) -> None:
     next_action = single_state_field(lines, "Next action")
     if (
         normalized_evidence(handoff_state) in PLACEHOLDER_TEXT
-        or HANDOFF_NEGATED.search(handoff_state)
-        or not HANDOFF_BLOCKER.search(handoff_state)
         or not has_concrete_next_action(next_action)
     ):
-        raise DecisionBlocked("audited handoff lacks a substantive blocker/current state and concrete next action")
+        raise DecisionBlocked("audited handoff lacks non-placeholder narrative or a concrete next action")
     valid_sequences = (
         ["AUDIT_HANDOFF"],
         ["ANDON_PROBE", "ANDON_ESCALATE", "ANDON_HANDOFF", "AUDIT_HANDOFF"],

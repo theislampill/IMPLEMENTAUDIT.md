@@ -684,6 +684,9 @@ elif [ "${1:-}" = "--ledger" ]; then
 elif [ "${1:-}" = "--nonterminal-yield" ]; then
   mode=nonterminal-yield
   shift
+elif [ "${1:-}" = "--audited-handoff" ]; then
+  mode=audited-handoff
+  shift
 fi
 run_root="${1:-}"
 if [ -z "$run_root" ]; then
@@ -693,6 +696,8 @@ if [ -z "$run_root" ]; then
     printf 'usage: validate-run-root.sh --ledger <markdown-ledger>\n' >&2
   elif [ "$mode" = nonterminal-yield ]; then
     printf 'usage: validate-run-root.sh --nonterminal-yield <run-root>\n' >&2
+  elif [ "$mode" = audited-handoff ]; then
+    printf 'usage: validate-run-root.sh --audited-handoff <run-root>\n' >&2
   else
     printf 'usage: validate-run-root.sh <run-root>\n' >&2
   fi
@@ -761,14 +766,14 @@ else
   done
 fi
 
-if { [ "$mode" = full ] || [ "$mode" = nonterminal-yield ]; } && [ -d "$run_root/phases" ]; then
+if { [ "$mode" = full ] || [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; } && [ -d "$run_root/phases" ]; then
   while IFS= read -r phase; do check_done_phase_captures "$phase"; done \
     < <(find "$run_root/phases" -type f -name 'phase-*.md' -print | sort)
 fi
 
 state="$run_root/STATE.md"
 if [ -f "$state" ]; then
-  if [ "$mode" = full ] || [ "$mode" = nonterminal-yield ]; then
+  if [ "$mode" = full ] || [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; then
     status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
     if [ -z "$status_line" ]; then
       err "STATE.md has no '| Status |' row in the Current phase table"
@@ -781,7 +786,7 @@ if [ -f "$state" ]; then
     fi
   fi
 
-  if [ "$mode" = nonterminal-yield ]; then
+  if [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; then
     state_field() {
       awk -F'|' -v wanted="$1" '
         function trim(value) { gsub(/^[ \t`]+|[ \t`]+$/, "", value); return value }
@@ -797,16 +802,22 @@ if [ -f "$state" ]; then
       fi
     }
 
-    case "$status_value" in
-      open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED) : ;;
-      *) err "STATE.md Status '$status_value' cannot represent a nonterminal yield" ;;
-    esac
+    if [ "$mode" = audited-handoff ]; then
+      [ "$status_value" = BLOCKED ] \
+        || err "STATE.md audited handoff requires Status 'BLOCKED'"
+    else
+      case "$status_value" in
+        open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED) : ;;
+        *) err "STATE.md Status '$status_value' cannot represent a nonterminal yield" ;;
+      esac
+    fi
     audit_object_state="$(state_field 'Audit object state')"
     [ "$audit_object_state" = open ] \
       || err "STATE.md nonterminal yield requires Audit object state 'open'"
     for field in 'Phase' 'Route' 'Owner/source' 'Last check' 'Next action'; do
       require_state_field "$field"
     done
+    phase_value="$(state_field 'Phase')"
     route_projection="$(state_field 'Route decision projection')"
     case "$route_projection" in
       NOT_REQUIRED|REQUIRED) : ;;
@@ -816,11 +827,11 @@ if [ -f "$state" ]; then
     if ! printf '%s\n' "$route_record" | grep -Eq '^([0-9a-f]{40}|[0-9a-f]{64})$'; then
       err "STATE.md nonterminal yield requires a canonical route decision record OID"
     fi
-    if grep -Eq '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF)$' "$state"; then
+    if [ "$mode" = nonterminal-yield ] && grep -Eq '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF)$' "$state"; then
       err "STATE.md nonterminal yield cannot carry a terminal or handoff marker"
     fi
     if [ "$status_value" = BLOCKED ] || [ "$status_value" = INTERRUPTED ]; then
-      open_andon="$(awk -F'|' '
+      open_andon="$(awk -F'|' -v current_phase="$phase_value" '
         function trim(value) { gsub(/^[ \t]+|[ \t]+$/, "", value); return value }
         function normalize(value, first, last, previous) {
           value=trim(value)
@@ -855,11 +866,21 @@ if [ -f "$state" ]; then
         in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
           occ=trim($3); phase=trim($4); class=trim($5); abnormality=trim($6)
           countermeasure=trim($7); rerun=trim($8); outcome=trim($9)
-          if (substantive(occ) && substantive(phase) && canonical_class(class) \
-              && substantive(abnormality) && substantive(countermeasure) && substantive(rerun) \
-              && substantive(outcome) && tolower(outcome) !~ /^(resolved|closed|done)([ (]|$)/) found=1
+          valid=substantive(occ) && substantive(phase) && canonical_class(class) \
+            && substantive(abnormality) && substantive(countermeasure) && substantive(rerun) \
+            && substantive(outcome)
+          if (!valid) {
+            malformed=1
+          } else {
+            key=tolower(normalize(occ)) SUBSEP tolower(class)
+            if (key in seen) duplicate=1
+            seen[key]=1
+            normalized_outcome=normalize(outcome)
+            if (normalize(phase) == normalize(current_phase) \
+                && normalized_outcome !~ /^(resolved|closed|done)([ (]|$)/) open=1
+          }
         }
-        END { print found ? "yes" : "no" }
+        END { print open && !malformed && !duplicate ? "yes" : "no" }
       ' "$state")"
       [ "$open_andon" = yes ] \
         || err "STATE.md $status_value nonterminal yield requires an unresolved Andon row"

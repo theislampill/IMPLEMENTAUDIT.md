@@ -281,6 +281,8 @@ sed -i \
   -e 's/| Status | IN_PHASE |/| Status | BLOCKED |/' \
   -e 's/Handoff state, if any:/Handoff state, if any: audited blocker recorded/' \
   "$handoff_root/STATE.md"
+sed -i '/^|---|---|---|---|---|---|---|---|$/a | 1 | handoff-occ-1 | 1 | owner-unclear | waiting on bounded owner input | retain checkpoint | owner response | open (rerun pending) |' \
+  "$handoff_root/STATE.md"
 printf '\nAUDIT_HANDOFF\n' >> "$handoff_root/STATE.md"
 request="$tmp/ty-3.json"
 make_request "$request" AUDITED_HANDOFF "$handoff_root" not-required valid
@@ -300,9 +302,10 @@ arbitrary_handoff_root="$tmp/arbitrary-handoff"
 cp -r "$handoff_root" "$arbitrary_handoff_root"
 sed -i 's/^Handoff state, if any:.*/Handoff state, if any: prose recorded/' \
   "$arbitrary_handoff_root/STATE.md"
+sed -i '/^| 1 | handoff-occ-1 |/d' "$arbitrary_handoff_root/STATE.md"
 request="$tmp/arbitrary-handoff.json"
 make_request "$request" AUDITED_HANDOFF "$arbitrary_handoff_root" not-required valid
-expect_disposition arbitrary-handoff-prose 3 BLOCK "$request"
+expect_disposition arbitrary-handoff-prose-without-typed-state 3 BLOCK "$request"
 
 actionless_handoff_root="$tmp/actionless-handoff"
 cp -r "$handoff_root" "$actionless_handoff_root"
@@ -312,10 +315,50 @@ request="$tmp/actionless-handoff.json"
 make_request "$request" AUDITED_HANDOFF "$actionless_handoff_root" not-required valid
 expect_disposition actionless-handoff 3 BLOCK "$request"
 
+set_handoff_andon_state() {
+  local root="$1" state="$2" state_file="$1/STATE.md"
+  case "$state" in
+    unresolved) ;;
+    resolved)
+      sed -i 's/| open (rerun pending) |/| resolved |/' "$state_file"
+      ;;
+    absent)
+      sed -i '/^| 1 | handoff-occ-1 |/d' "$state_file"
+      ;;
+    malformed)
+      sed -i 's/| 1 | handoff-occ-1 | 1 | owner-unclear |/| 1 | handoff-occ-1 | | owner-unclear |/' "$state_file"
+      ;;
+    empty)
+      sed -i 's/^| 1 | handoff-occ-1 |.*$/| 1 | handoff-occ-1 | | | | | | |/' "$state_file"
+      ;;
+    placeholder)
+      sed -i 's/^| 1 | handoff-occ-1 |.*$/| 1 | `none` | `none` | owner-unclear | `none` | `pending` | `none` | `pending` |/' "$state_file"
+      ;;
+    stale)
+      sed -i 's/| handoff-occ-1 | 1 | owner-unclear |/| handoff-occ-1 | 0 | owner-unclear |/' "$state_file"
+      ;;
+    historical-resolved)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | historical-occ-1 | 0 | failed-criterion | prior phase issue | retained prior evidence | prior rerun | resolved |' "$state_file"
+      ;;
+    duplicate)
+      sed -i '/^| 1 | handoff-occ-1 |/p' "$state_file"
+      ;;
+    contradictory)
+      sed -i '/^| 1 | handoff-occ-1 |/a | 2 | handoff-occ-1 | 1 | owner-unclear | waiting on bounded owner input | retain checkpoint | owner response | resolved |' "$state_file"
+      ;;
+    *)
+      printf 'turn-disposition.test: unknown typed handoff state: %s\n' "$state" >&2
+      exit 1
+      ;;
+  esac
+}
+
 expect_handoff_evidence() {
   local label="$1" handoff_state="$2" next_action="$3" expected_rc="$4" expected_disposition="$5"
+  local andon_state="${6:-unresolved}"
   local root="$tmp/handoff-evidence-$label" request="$tmp/handoff-evidence-$label.json"
   cp -r "$handoff_root" "$root"
+  set_handoff_andon_state "$root" "$andon_state"
   sed -i \
     -e "s|^Handoff state, if any:.*|Handoff state, if any: $handoff_state|" \
     -e "s#| Next action | continue current phase |#| Next action | $next_action |#" \
@@ -324,11 +367,28 @@ expect_handoff_evidence() {
   expect_disposition "$label" "$expected_rc" "$expected_disposition" "$request"
 }
 
+expect_typed_state_pair() {
+  local label="$1" andon_state="$2" handoff_state="$3" expected_rc="$4" expected_disposition="$5"
+  local root="$tmp/typed-state-$label" request="$tmp/typed-state-$label.json" yield_root="$tmp/typed-state-$label-yield"
+  cp -r "$handoff_root" "$root"
+  set_handoff_andon_state "$root" "$andon_state"
+  sed -i "s|^Handoff state, if any:.*|Handoff state, if any: $handoff_state|" "$root/STATE.md"
+  make_request "$request" AUDITED_HANDOFF "$root" not-required valid
+  expect_disposition "$label-handoff" "$expected_rc" "$expected_disposition" "$request"
+  cp -r "$root" "$yield_root"
+  sed -i '/^AUDIT_HANDOFF$/d' "$yield_root/STATE.md"
+  if [ "$expected_rc" -eq 0 ]; then
+    expect_yield_pass "$label shares typed acceptance" "$yield_root"
+  else
+    expect_yield_fail "$label shares typed refusal" "$yield_root"
+  fi
+}
+
 expect_handoff_evidence \
   negated-blocker-nominal-action \
   'no blocker remains; work is complete' \
   wait \
-  3 BLOCK
+  3 BLOCK resolved
 
 negated_handoffs=(
   'not-blocked::not blocked; work may proceed'
@@ -340,7 +400,7 @@ negated_handoffs=(
 for handoff_case in "${negated_handoffs[@]}"; do
   label="${handoff_case%%::*}"
   handoff_state="${handoff_case#*::}"
-  expect_handoff_evidence "$label" "$handoff_state" 'request owner authorization for phase 1' 3 BLOCK
+  expect_handoff_evidence "$label" "$handoff_state" 'request owner authorization for phase 1' 3 BLOCK resolved
 done
 
 for nominal_action in wait resume continue fix review reconcile rerun handoff; do
@@ -361,19 +421,54 @@ expect_handoff_evidence \
   resolved-owner-decision \
   'owner decision is resolved' \
   'request owner authorization for phase 1' \
-  3 BLOCK
+  3 BLOCK resolved
 
 expect_handoff_evidence \
   negated-awaiting-owner-decision \
   'not awaiting owner decision' \
   'request owner authorization for phase 1' \
-  3 BLOCK
+  3 BLOCK resolved
 
 expect_handoff_evidence \
   active-owner-decision \
   'awaiting owner decision' \
   'request owner authorization for phase 1' \
   0 AUDITED_HANDOFF
+
+expect_typed_state_pair \
+  resolved-typed-awaiting \
+  resolved \
+  'awaiting owner decision' \
+  3 BLOCK
+
+for typed_state in absent malformed empty placeholder stale duplicate contradictory; do
+  expect_typed_state_pair \
+    "$typed_state-typed-awaiting" \
+    "$typed_state" \
+    'awaiting owner decision' \
+    3 BLOCK
+done
+
+expect_typed_state_pair \
+  historical-resolved-plus-current-unresolved \
+  historical-resolved \
+  'plain affirmative handoff evidence' \
+  0 AUDITED_HANDOFF
+
+for narrative_case in \
+  'owner decision is not resolved' \
+  'owner decision remains unresolved' \
+  'owner decision is resolved' \
+  'owner decision is no longer pending' \
+  'owner request is no longer required' \
+  'plain affirmative handoff evidence'; do
+  label="${narrative_case//[^A-Za-z0-9]/-}"
+  expect_typed_state_pair \
+    "unresolved-$label" \
+    unresolved \
+    "$narrative_case" \
+    0 AUDITED_HANDOFF
+done
 
 surface_handoff_root="$tmp/surface-handoff"
 cp -r "$handoff_root" "$surface_handoff_root"
