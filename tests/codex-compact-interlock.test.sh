@@ -23,30 +23,30 @@ else fail 'Python 3 is required'; fi
 [ -f "$adapter" ] || fail 'HC-H1 RED: compact interlock adapter is absent'
 [ -f "$hook_config" ] || fail 'HC-H1 RED: default Codex hook definition is absent'
 
-"${py[@]}" - "$hook_config" <<'PY' || fail 'default Codex hook definition is not exact'
+manifest_command="$(
+"${py[@]}" - "$hook_config" <<'PY'
 import json
 import sys
 from pathlib import Path
 
 value = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-expected = {
-    "hooks": {
-        "SessionStart": [
-            {
-                "matcher": "^compact$",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "python3 \"${PLUGIN_ROOT}/skills/implementaudit/scripts/codex-compact-interlock.py\"",
-                        "statusMessage": "Protecting IMPLEMENTAUDIT continuity",
-                    }
-                ],
-            }
-        ]
-    }
-}
-assert value == expected
+assert set(value) == {"hooks"}
+assert set(value["hooks"]) == {"SessionStart"}
+session_start = value.get("hooks", {}).get("SessionStart")
+assert isinstance(session_start, list) and len(session_start) == 1
+entry = session_start[0]
+assert set(entry) == {"matcher", "hooks"}
+assert entry.get("matcher") == "^compact$"
+commands = entry.get("hooks")
+assert isinstance(commands, list) and len(commands) == 1
+command = commands[0]
+assert set(command) == {"type", "command", "statusMessage"}
+assert command.get("type") == "command"
+assert command.get("statusMessage") == "Protecting IMPLEMENTAUDIT continuity"
+assert isinstance(command.get("command"), str) and command["command"]
+print(command["command"])
 PY
+)" || fail 'default Codex hook definition is not exact'
 
 assert_result() {
   local raw="$1" expression="$2" label="$3"
@@ -78,6 +78,31 @@ run_hook() {
 hostile="$tmp/hostile-cwd"
 mkdir -p "$hostile/.IMPLEMENTAUDIT/runs/newest"
 printf 'controller_id=foreign\nclaim_id=foreign\n' > "$hostile/.IMPLEMENTAUDIT/runs/newest/STATE.md"
+
+# The actual manifest transport must reach the adapter before the adapter can
+# harden its own child environment. A hostile bare `python3` on PATH is the
+# causal held-out: selecting it would produce no hook decision at all.
+hostile_bin="$tmp/hostile-bin"
+manifest_data="$tmp/manifest-plugin-data"
+mkdir -p "$hostile_bin"
+printf '#!/bin/sh\nexit 0\n' > "$hostile_bin/python3"
+chmod +x "$hostile_bin/python3"
+set +e
+manifest_output="$(cd "$hostile" && \
+  PATH="$hostile_bin:/usr/bin:/bin" PLUGIN_ROOT="$repo_root" \
+  PLUGIN_DATA="$manifest_data" /bin/sh -c "$manifest_command" \
+  <<<'{"session_id":"session-manifest","cwd":"ignored","hook_event_name":"SessionStart","source":"compact"}' \
+  2>"$tmp/manifest.err")"
+manifest_status=$?
+set -e
+[ "$manifest_status" -eq 0 ] \
+  || fail "manifest command exited $manifest_status: $(cat "$tmp/manifest.err")"
+[ ! -s "$tmp/manifest.err" ] \
+  || fail "manifest command leaked diagnostics: $(cat "$tmp/manifest.err")"
+assert_result "$manifest_output" \
+  'value["status"] == "UNBOUND" and value["continue"] is True' \
+  'HC-H1 RED: ambient PATH bypassed the manifest adapter transport'
+[ ! -e "$manifest_data" ] || fail 'manifest held-out created absent binding state'
 
 # Non-compact SessionStart values are strict no-ops and must not inspect or
 # create PLUGIN_DATA state.
