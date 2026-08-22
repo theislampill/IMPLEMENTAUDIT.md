@@ -73,7 +73,9 @@ on a neutral verification-only route and does not claim a pre-v2 parser existed.
     },
     "proposition": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "$comment": "Full NFC stability and Unicode Cc/Cf rejection are enforced by the canonical validator.",
+      "pattern": "^[^\\s\\u0000-\\u001f\\u007f-\\u009f\\u00ad\\u0600-\\u0605\\u061c\\u06dd\\u070f\\u0890-\\u0891\\u08e2\\u180e\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u2064\\u2066-\\u206f\\ufeff\\ufff9-\\ufffb](?:.*[^\\s\\u0000-\\u001f\\u007f-\\u009f\\u00ad\\u0600-\\u0605\\u061c\\u06dd\\u070f\\u0890-\\u0891\\u08e2\\u180e\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u2064\\u2066-\\u206f\\ufeff\\ufff9-\\ufffb])?$"
     },
     "evidence_id": {
       "type": "string",
@@ -127,7 +129,7 @@ on a neutral verification-only route and does not claim a pre-v2 parser existed.
           },
           "proposition": {
             "not": {
-              "pattern": "^(release|currentness|lifecycle):"
+              "pattern": "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee]|[Cc][Uu][Rr][Rr][Ee][Nn][Tt][Nn][Ee][Ss][Ss]|[Ll][Ii][Ff][Ee][Cc][Yy][Cc][Ll][Ee]):"
             }
           }
         }
@@ -154,7 +156,10 @@ nearby release claim never establish support. The envelope must match the
 governor-bound audit object, explicit `non-release` proposition domain,
 proposition, evidence identity, lowercase SHA-256, evidence kind and
 `authority_ceiling=none`. Canonical v2 bytes are one compact UTF-8 JSON object
-with schema-order keys and no C0/DEL, whitespace, BOM or terminal newline.
+with schema-order keys and no structural whitespace, BOM or terminal newline.
+After JSON decode, the consumer recursively rejects decoded C0, DEL and Unicode category `Cc` or `Cf`
+in every string field. Its proposition lexical normal form is NFC-stable, nonempty, has no leading/trailing Unicode whitespace
+and contains no `Cc`, `Cf` or hidden format prefix; validate that form before case-insensitive prohibited-domain classification.
 Invalid UTF-8/JSON, noncanonical bytes, missing, unknown or duplicate fields,
 an unknown discriminator/state/kind, a binding mismatch, or authority-bearing
 output fails closed to the governor.

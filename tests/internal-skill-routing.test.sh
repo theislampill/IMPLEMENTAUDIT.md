@@ -567,6 +567,19 @@ EVIDENCE_KINDS = (
     "package-membership",
     "receipt",
 )
+PROPOSITION_LEXICAL_PATTERN = (
+    r"^[^\s\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0605\u061c\u06dd\u070f"
+    r"\u0890-\u0891\u08e2\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064"
+    r"\u2066-\u206f\ufeff\ufff9-\ufffb](?:.*[^\s\u0000-\u001f\u007f-\u009f"
+    r"\u00ad\u0600-\u0605\u061c\u06dd\u070f\u0890-\u0891\u08e2\u180e"
+    r"\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u206f\ufeff"
+    r"\ufff9-\ufffb])?$"
+)
+PROHIBITED_PROPOSITION_PATTERN = (
+    r"^([Rr][Ee][Ll][Ee][Aa][Ss][Ee]|"
+    r"[Cc][Uu][Rr][Rr][Ee][Nn][Tt][Nn][Ee][Ss][Ss]|"
+    r"[Ll][Ii][Ff][Ee][Cc][Yy][Cc][Ll][Ee]):"
+)
 VALIDATOR = Path("skills/implementaudit/scripts/validate-audit-implement-return.py")
 TEMP_ROOT = Path(sys.argv[1])
 
@@ -617,6 +630,17 @@ if properties["schema"].get("const") != SCHEMA_ID:
     fail("v2 record schema discriminator drift")
 if properties["proposition_domain"].get("const") != "non-release":
     fail("v2 proposition domain must remain explicitly non-release")
+expected_proposition_schema = {
+    "type": "string",
+    "minLength": 1,
+    "$comment": (
+        "Full NFC stability and Unicode Cc/Cf rejection are enforced by the "
+        "canonical validator."
+    ),
+    "pattern": PROPOSITION_LEXICAL_PATTERN,
+}
+if properties["proposition"] != expected_proposition_schema:
+    fail("v2 proposition structural lexical boundary drift")
 if properties["evidence_kind"].get("enum") != list(EVIDENCE_KINDS):
     fail("v2 evidence-kind population drift")
 if properties["authority_ceiling"].get("const") != "none":
@@ -631,13 +655,44 @@ established_constraint = {
             "evidence_kind": {"const": "exact-observation"},
             "proposition_domain": {"const": "non-release"},
             "proposition": {
-                "not": {"pattern": "^(release|currentness|lifecycle):"},
+                "not": {"pattern": PROHIBITED_PROPOSITION_PATTERN},
             },
         },
     },
 }
 if schema.get("allOf") != [established_constraint]:
     fail("v2 established cross-field schema constraint missing")
+
+lexical_pattern = re.compile(PROPOSITION_LEXICAL_PATTERN)
+for proposition in (
+    " release:published",
+    "\trelease:published",
+    "\nrelease:published",
+    "\u00a0release:published",
+    "\u0085release:published",
+    "\u00adrelease:published",
+    "\u200brelease:published",
+    "\ufeffrelease:published",
+    "source:ordinary ",
+    "source:ordinary\u00a0",
+):
+    if lexical_pattern.search(proposition):
+        fail(f"v2 schema lexical pattern accepts non-normal proposition {proposition!r}")
+for proposition in ("x", "source:ordinary", "source:ملاحظة:é"):
+    if not lexical_pattern.search(proposition):
+        fail(f"v2 schema lexical pattern rejects ordinary proposition {proposition!r}")
+
+prohibited_pattern = re.compile(PROHIBITED_PROPOSITION_PATTERN)
+for proposition in (
+    "release:published",
+    "ReLeAsE:published",
+    "currentness:head",
+    "CuRrEnTnEsS:head",
+    "lifecycle:ready",
+    "LiFeCyClE:ready",
+):
+    if not prohibited_pattern.search(proposition):
+        fail(f"v2 schema prohibited-domain pattern misses {proposition!r}")
 
 governor = Path("skills/implementaudit/SKILL.md").read_text(encoding="utf-8")
 for token in (
@@ -648,6 +703,15 @@ for token in (
 ):
     if token not in governor:
         fail(f"governor envelope missing {token}")
+
+audit_implement = Path("skills/audit-implement/SKILL.md").read_text(encoding="utf-8")
+for token in (
+    "recursively rejects decoded C0, DEL and Unicode category `Cc` or `Cf`",
+    "NFC-stable, nonempty, has no leading/trailing Unicode whitespace",
+    "before case-insensitive prohibited-domain classification",
+):
+    if token not in audit_implement:
+        fail(f"audit-implement lexical contract missing {token}")
 
 
 @dataclass(frozen=True)
@@ -699,6 +763,17 @@ def run_validator(
         command.extend(("--input", str(input_path)))
         input_bytes = None
     return subprocess.run(command, input=input_bytes, capture_output=True, check=False)
+
+
+def bound_from_record(record: dict[str, Any]) -> BoundEvidence:
+    return BoundEvidence(
+        audit_object=record["audit_object"],
+        proposition_domain=record["proposition_domain"],
+        proposition=record["proposition"],
+        evidence_id=record["evidence_id"],
+        evidence_sha256=record["evidence_sha256"],
+        evidence_kind=record["evidence_kind"],
+    )
 
 
 def require_accept(
@@ -844,6 +919,86 @@ malformed_controls = {
 for name, (raw, reason) in malformed_controls.items():
     require_reject(name, raw, bound, reason)
 
+decoded_control_fields = (
+    "audit_object",
+    "proposition",
+    "evidence_id",
+    "schema",
+    "proposition_domain",
+    "evidence_sha256",
+    "evidence_kind",
+    "support",
+    "authority_ceiling",
+)
+for field in decoded_control_fields:
+    for control_name, control in (("u0001", "\u0001"), ("newline", "\n"), ("tab", "\t")):
+        record = dict(base, **{field: f"{base[field]}{control}"})
+        require_reject(
+            f"decoded {control_name} in {field}",
+            canonical(record),
+            bound_from_record(record),
+            "decoded-control",
+        )
+
+proposition_prefixes = {
+    "space": (" ", "proposition-normal-form"),
+    "tab": ("\t", "decoded-control"),
+    "newline": ("\n", "decoded-control"),
+    "no-break-space": ("\u00a0", "proposition-normal-form"),
+    "c1-next-line": ("\u0085", "decoded-control"),
+    "soft-hyphen": ("\u00ad", "decoded-control"),
+    "zero-width-space": ("\u200b", "decoded-control"),
+    "bom": ("\ufeff", "decoded-control"),
+}
+prohibited_spellings = (
+    "release",
+    "ReLeAsE",
+    "currentness",
+    "CuRrEnTnEsS",
+    "lifecycle",
+    "LiFeCyClE",
+)
+for prefix_name, (prefix, reason) in proposition_prefixes.items():
+    for namespace in prohibited_spellings:
+        proposition = f"{prefix}{namespace}:published:v0.4.1"
+        record = dict(base, proposition=proposition, support="established")
+        require_reject(
+            f"{prefix_name}-prefixed {namespace} proposition",
+            canonical(record),
+            bound_from_record(record),
+            reason,
+        )
+
+for suffix_name, suffix in (("space", " "), ("no-break-space", "\u00a0")):
+    proposition = f"{bound.proposition}{suffix}"
+    record = dict(base, proposition=proposition)
+    require_reject(
+        f"{suffix_name}-suffixed proposition",
+        canonical(record),
+        bound_from_record(record),
+        "proposition-normal-form",
+    )
+
+decomposed_proposition = "source:cafe\u0301"
+decomposed_record = dict(base, proposition=decomposed_proposition)
+require_reject(
+    "non-NFC proposition",
+    canonical(decomposed_record),
+    bound_from_record(decomposed_record),
+    "proposition-normal-form",
+)
+
+unicode_proposition = "source:ملاحظة:é"
+for state in sorted(SUPPORT_STATES):
+    record = dict(base, proposition=unicode_proposition, support=state)
+    require_accept(
+        f"NFC ordinary Unicode proposition state {state}",
+        canonical(record),
+        bound_from_record(record),
+        "v2-evidence-input",
+        state,
+    )
+
 validator_source = VALIDATOR.read_text(encoding="utf-8")
 duplicate_guard = '    if duplicates:\n        return reject("duplicate-field")\n'
 if validator_source.count(duplicate_guard) != 1:
@@ -937,6 +1092,9 @@ print(
     "internal-skill-routing.test: evidential support controls ok "
     f"({len(SUPPORT_STATES)} states, {len(negative_records)} bound negatives, "
     f"{len(malformed_controls)} malformed, {len(neutral_kinds)} neutral v2, "
-    f"{len(prohibited_domains)} prohibited domains, {len(legacy_controls)} frozen v1 controls)"
+    f"{len(decoded_control_fields) * 3} decoded controls, "
+    f"{len(proposition_prefixes) * len(prohibited_spellings)} prefixed domains, "
+    f"{len(prohibited_domains)} exact prohibited domains, "
+    f"{len(legacy_controls)} frozen v1 controls)"
 )
 PY

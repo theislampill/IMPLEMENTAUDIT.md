@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import sys
 from typing import Any
+import unicodedata
 
 
 SCHEMA_ID = "implementaudit.audit-implement.evidential-support.v2"
@@ -83,6 +84,32 @@ def canonical_pairs(pairs: ParsedPairs) -> str:
     return "{" + ",".join(encoded) + "}"
 
 
+def has_decoded_control(value: Any) -> bool:
+    if isinstance(value, str):
+        return any(
+            ord(character) <= 0x1F
+            or ord(character) == 0x7F
+            or unicodedata.category(character) in {"Cc", "Cf"}
+            for character in value
+        )
+    if isinstance(value, ParsedPairs):
+        return any(
+            has_decoded_control(key) or has_decoded_control(item)
+            for key, item in value
+        )
+    if isinstance(value, list):
+        return any(has_decoded_control(item) for item in value)
+    return False
+
+
+def proposition_has_lexical_normal_form(proposition: str) -> bool:
+    return (
+        unicodedata.normalize("NFC", proposition) == proposition
+        and not proposition[0].isspace()
+        and not proposition[-1].isspace()
+    )
+
+
 def validate(raw: bytes, expected: argparse.Namespace) -> int:
     if not raw:
         return reject("empty")
@@ -109,6 +136,8 @@ def validate(raw: bytes, expected: argparse.Namespace) -> int:
     duplicates = {key for key in keys if keys.count(key) > 1}
     if duplicates:
         return reject("duplicate-field")
+    if has_decoded_control(parsed):
+        return reject("decoded-control")
     record = dict(parsed)
     if set(record) != set(FIELDS):
         return reject("field-population")
@@ -130,6 +159,8 @@ def validate(raw: bytes, expected: argparse.Namespace) -> int:
         return reject("authority-ceiling")
     if not re.fullmatch(r"[0-9a-f]{64}", record["evidence_sha256"]):
         return reject("evidence-sha256")
+    if not proposition_has_lexical_normal_form(record["proposition"]):
+        return reject("proposition-normal-form")
 
     bindings = {
         "audit_object": expected.expect_audit_object,
