@@ -129,6 +129,47 @@ risk deepens the action set automatically; request size alone never does.
 An absent or hand-wavy action-selection record is a plan-quality defect, not a
 style preference.
 
+### Conditional systems-security selection
+
+The same live factors select the conditional profile in
+`audit-playbook.md` when there is a material protected consequence, an exposed
+or untrusted capability, a changed trust, privilege, or delegation boundary,
+consequential security authority, a provenance-dependent claim,
+adaptive-adversary or common-mode risk, weak detection or recovery, or a
+consequential security, privacy, safety, availability, or usability decision.
+Record why the profile was selected or omitted and the cheapest sufficient
+evidence layer. It remains attached to the current audit-object owner, with no
+separate security mode, workflow, or planning artifact.
+
+Low-exposure reversible work inside a current proven envelope stays on the
+cheap path: record the protected consequence, one plausible-abuse or trust
+check, exact current identity, and rollback. If neither a profile trigger nor
+that cheap-path condition exists, record the omission reason and retain the
+ordinary security pressure; do not manufacture a profile.
+
+### Verifier-plan selection
+
+For a proposed change, derive the verifier plan in this order: exact change
+identity -> authoritative changed semantic owners and effects -> affected
+evidence obligations and consumers -> cheapest sufficient verifier plan ->
+escalation or omission rationale. Record the affected generated, runtime,
+package, registry, release, public, and external consumers; the evidence layer;
+residual risk; rollback; the cheapest sufficient decision-changing verifier;
+and the equivalent-protection evidence and current owner authority for every
+omitted verifier.
+
+A trivial local reversible change with a current owner, effect, consumer,
+evidence layer, residual, rollback, and equivalent protection stays on the
+serial cheap path. A generated, transitive runtime, package, or public/external
+consumer selects the verifier for that affected consumer. Do not select full
+verification from diff size, a fixed command count, or a generic review mandate;
+select it only for the named owner, consumer, or risk that needs it.
+
+Unknown owner or relation, a changed registry, package or release ambiguity,
+or a stale projection invalidates a narrow plan: stop, reclassify, and escalate
+conservatively. Do not create a permanent graph, worksheet, model call, or
+second action-selection owner for ordinary cheap work.
+
 ## Engineering-value admission and control lifecycle
 
 Preserve the gate or engineering obligation where warranted, while omitting
@@ -208,6 +249,18 @@ Before activation, reconcile every governed cell exactly once into an
 evidence-current DONE, ACTIVE, READY, or BLOCKED state. Unknown or stale state
 defers dispatch. READY requires its actual dependency edges satisfied; compute
 free capacity only after subtracting ACTIVE occupancy.
+
+When the canonical WORK_GRAPH v1 owner exists,
+derive the bounded ready-cell projection with `compile-work-graph.py` before
+dispatch. Reject stale counts/digests, an absent or malformed declared
+writer/resource hold index, dependency gaps, cycles, and unknown states
+instead of reconstructing authority from narrative STATE, ROADMAP, a sidecar,
+or model estimates. Empty `{}` truthfully means the graph declares no holds. The
+projection transcribes every declared hold losslessly and deterministically; it
+does not attest undeclared relationships or semantic completeness. Upstream
+graph construction, review, and currentness own that completeness. The
+projection is read-only evidence; it does not mint currentness, transition
+cells, or write lifecycle state.
 
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and

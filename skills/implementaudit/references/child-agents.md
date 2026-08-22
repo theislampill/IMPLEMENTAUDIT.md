@@ -227,6 +227,18 @@ Use deterministic tooling, not model estimates; ungrounded terms require
 reacquisition or serial execution.
 Completion reconciles; never infer other ACTIVE=0.
 
+Compile the bounded frontier projection from canonical `WORK_GRAPH.json` bytes
+with `scripts/compile-work-graph.py` before dispatch. The compiler validates the
+declared cell population against the supplied cells, dependency closure,
+acyclicity, the declared writer/resource hold index, cached frontier and any
+supplied graph digest, then emits only the deterministic read-only projection.
+It projects every declared hold losslessly; an honest no-hold graph declares
+`{}`. It rejects an absent or malformed hold index, but cannot attest undeclared relationships:
+upstream graph construction, review, and currentness own
+semantic completeness. Narrative STATE/ROADMAP prose and ActiveGraph are
+contradiction evidence only; they are never compiler input, DAG authority,
+currentness authority, or lifecycle mutation authority.
+
 Use the serial cheap path for fewer than three material units, one ready cell,
 a strict dependency chain, unavailable concurrency, or when
 coordination would cost more than the work. Do not create a
