@@ -93,6 +93,29 @@ TERMINAL_MARKERS = {
     "AUDIT_HANDOFF",
     "ANDON_HANDOFF",
 }
+HANDOFF_SEQUENCE_MARKERS = TERMINAL_MARKERS | {"ANDON_PROBE", "ANDON_ESCALATE"}
+PLACEHOLDER_TEXT = {
+    "",
+    "-",
+    "n/a",
+    "na",
+    "none",
+    "not applicable",
+    "pending",
+    "tbd",
+    "todo",
+    "unknown",
+}
+HANDOFF_BLOCKER = re.compile(
+    r"\b(?:blocked?|blocker|owner decision|owner request|unsafe scope|missing (?:authorization|access|required tool)|"
+    r"external dependency|irreproducib\w*|no bounded countermeasure|unresolved)\b",
+    re.IGNORECASE,
+)
+NEXT_ACTION = re.compile(
+    r"^(?:add|approve|authorize|contact|continue|correct|decide|escalate|fix|inspect|obtain|provide|read|reconcile|"
+    r"remove|replace|request|resolve|restore|resume|retry|rerun|review|run|supply|update|verify|wait|write)\b",
+    re.IGNORECASE,
+)
 
 
 class InputError(ValueError):
@@ -371,6 +394,23 @@ def state_fields(lines: list[str]) -> dict[str, str]:
     return values
 
 
+def single_state_field(lines: list[str], name: str) -> str:
+    values: list[str] = []
+    for line in lines:
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip(" \t`") for cell in line.split("|")]
+        if len(cells) > 2 and cells[1] == name:
+            values.append(cells[2])
+    if len(values) != 1:
+        raise DecisionBlocked(f"STATE.md requires exactly one {name} row")
+    return values[0]
+
+
+def normalized_evidence(value: str) -> str:
+    return value.strip(" \t`[]<>").lower()
+
+
 def validate_projection(fields: dict[str, str], route: dict[str, Any]) -> None:
     if fields["Route decision projection"] != route["decision"]:
         raise DecisionBlocked("STATE route projection disagrees with the canonical route result")
@@ -380,6 +420,10 @@ def validate_projection(fields: dict[str, str], route: dict[str, Any]) -> None:
 
 def exact_markers(lines: list[str]) -> list[str]:
     return [line for line in lines if line in TERMINAL_MARKERS]
+
+
+def exact_handoff_sequence(lines: list[str]) -> list[str]:
+    return [line for line in lines if line in HANDOFF_SEQUENCE_MARKERS]
 
 
 def validate_closure(run_root: str, route: dict[str, Any]) -> None:
@@ -400,14 +444,27 @@ def validate_handoff(run_root: str, route: dict[str, Any]) -> None:
     lines = state_lines(run_root)
     fields = state_fields(lines)
     validate_projection(fields, route)
-    markers = exact_markers(lines)
+    markers = exact_handoff_sequence(lines)
     nonblank = [line for line in lines if line.strip()]
     handoff_rows = [line for line in lines if line.startswith("Handoff state, if any:")]
     if fields["Status"] != "BLOCKED":
         raise DecisionBlocked("audited handoff requires BLOCKED lifecycle state")
-    if len(handoff_rows) != 1 or not handoff_rows[0].split(":", 1)[1].strip():
+    if len(handoff_rows) != 1:
         raise DecisionBlocked("audited handoff lacks durable handoff evidence")
-    if markers != ["AUDIT_HANDOFF"] or nonblank[-1] != "AUDIT_HANDOFF":
+    handoff_state = handoff_rows[0].split(":", 1)[1].strip()
+    next_action = single_state_field(lines, "Next action")
+    if (
+        normalized_evidence(handoff_state) in PLACEHOLDER_TEXT
+        or not HANDOFF_BLOCKER.search(handoff_state)
+        or normalized_evidence(next_action) in PLACEHOLDER_TEXT
+        or not NEXT_ACTION.search(next_action.strip(" \t`"))
+    ):
+        raise DecisionBlocked("audited handoff lacks a substantive blocker/current state and concrete next action")
+    valid_sequences = (
+        ["AUDIT_HANDOFF"],
+        ["ANDON_PROBE", "ANDON_ESCALATE", "ANDON_HANDOFF", "AUDIT_HANDOFF"],
+    )
+    if markers not in valid_sequences or nonblank[-1] != "AUDIT_HANDOFF":
         raise DecisionBlocked("handoff marker is missing, nonterminal, duplicated, or mixed with closure")
 
 

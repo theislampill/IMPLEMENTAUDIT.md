@@ -821,11 +821,29 @@ if [ -f "$state" ]; then
     fi
     if [ "$status_value" = BLOCKED ] || [ "$status_value" = INTERRUPTED ]; then
       open_andon="$(awk -F'|' '
+        function trim(value) { gsub(/^[ \t]+|[ \t]+$/, "", value); return value }
+        function substantive(value, normalized) {
+          value=trim(value); normalized=tolower(value)
+          return value != "" && value != "-" && normalized != "none" && normalized != "pending" \
+            && normalized != "n/a" && normalized != "na" && normalized != "not applicable" \
+            && normalized != "tbd" && normalized != "todo" && normalized != "unknown"
+        }
+        function canonical_class(value) {
+          return value == "failed-criterion" || value == "regression" || value == "hung-command" \
+            || value == "substituted-command" || value == "owner-unclear" \
+            || value == "generated-artifact-mismatch" || value == "stale-sidecar" \
+            || value == "policy-conflict" || value == "impossible-criterion" \
+            || value == "evidence-mismatch" || value == "transport-infrastructure" \
+            || value == "misplacement" || value == "false-closure"
+        }
         /^## Andon log/ { in_andon=1; next }
         in_andon && /^## / { in_andon=0 }
         in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
-          outcome=$9; gsub(/^[ \t]+|[ \t]+$/, "", outcome)
-          if (tolower(outcome) !~ /^(resolved|closed|done)([ (]|$)/) found=1
+          occ=trim($3); phase=trim($4); class=trim($5); abnormality=trim($6)
+          countermeasure=trim($7); rerun=trim($8); outcome=trim($9)
+          if (substantive(occ) && substantive(phase) && canonical_class(class) \
+              && substantive(abnormality) && substantive(countermeasure) && substantive(rerun) \
+              && substantive(outcome) && tolower(outcome) !~ /^(resolved|closed|done)([ (]|$)/) found=1
         }
         END { print found ? "yes" : "no" }
       ' "$state")"

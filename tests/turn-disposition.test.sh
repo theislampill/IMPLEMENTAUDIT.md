@@ -94,6 +94,37 @@ cp -r "$run_root" "$candidate"
 sed -i 's/| Status | IN_PHASE |/| Status | BLOCKED |/' "$candidate/STATE.md"
 expect_yield_fail 'BLOCKED requires an open Andon row' "$candidate"
 
+candidate="$tmp/empty-andon-shell"
+cp -r "$run_root" "$candidate"
+sed -i 's/| Status | IN_PHASE |/| Status | BLOCKED |/' "$candidate/STATE.md"
+sed -i '/^|---|---|---|---|---|---|---|---|$/a | 1 | forged-occ | | | | | | |' \
+  "$candidate/STATE.md"
+expect_yield_fail 'exact review empty Andon shell row' "$candidate"
+
+missing_rows=(
+  'row-id::| forged | turn-1 | 1 | failed-criterion | waiting on bounded input | retain checkpoint | owner response | open (rerun pending) |'
+  'occ::| 1 | | 1 | failed-criterion | waiting on bounded input | retain checkpoint | owner response | open (rerun pending) |'
+  'phase::| 1 | turn-1 | | failed-criterion | waiting on bounded input | retain checkpoint | owner response | open (rerun pending) |'
+  'class::| 1 | turn-1 | 1 | | waiting on bounded input | retain checkpoint | owner response | open (rerun pending) |'
+  'abnormality::| 1 | turn-1 | 1 | failed-criterion | | retain checkpoint | owner response | open (rerun pending) |'
+  'countermeasure::| 1 | turn-1 | 1 | failed-criterion | waiting on bounded input | | owner response | open (rerun pending) |'
+  'rerun-evidence::| 1 | turn-1 | 1 | failed-criterion | waiting on bounded input | retain checkpoint | | open (rerun pending) |'
+  'outcome::| 1 | turn-1 | 1 | failed-criterion | waiting on bounded input | retain checkpoint | owner response | |'
+  'resolved-outcome::| 1 | turn-1 | 1 | failed-criterion | waiting on bounded input | retain checkpoint | owner response | resolved |'
+  'recognized-class::| 1 | turn-1 | 1 | invented-class | waiting on bounded input | retain checkpoint | owner response | open (rerun pending) |'
+)
+for status in BLOCKED INTERRUPTED; do
+  for row_case in "${missing_rows[@]}"; do
+    label="${row_case%%::*}"
+    row="${row_case#*::}"
+    candidate="$tmp/partial-andon-$status-$label"
+    cp -r "$run_root" "$candidate"
+    sed -i "s/| Status | IN_PHASE |/| Status | $status |/" "$candidate/STATE.md"
+    sed -i "/^|---|---|---|---|---|---|---|---|$/a $row" "$candidate/STATE.md"
+    expect_yield_fail "$status requires substantive Andon $label" "$candidate"
+  done
+done
+
 evaluator="skills/implementaudit/scripts/evaluate-turn-disposition.py"
 
 make_request() {
@@ -237,6 +268,32 @@ request="$tmp/ty-3.json"
 make_request "$request" AUDITED_HANDOFF "$handoff_root" not-required valid
 expect_disposition TY-3 0 AUDITED_HANDOFF "$request"
 
+for handoff_placeholder in none pending 'n/a' 'not applicable' - TBD TODO unknown '   '; do
+  placeholder_root="$tmp/handoff-placeholder-${handoff_placeholder//[^A-Za-z0-9]/_}"
+  cp -r "$handoff_root" "$placeholder_root"
+  sed -i "s|^Handoff state, if any:.*|Handoff state, if any: $handoff_placeholder|" \
+    "$placeholder_root/STATE.md"
+  request="$tmp/handoff-placeholder-${handoff_placeholder//[^A-Za-z0-9]/_}.json"
+  make_request "$request" AUDITED_HANDOFF "$placeholder_root" not-required valid
+  expect_disposition "handoff-placeholder-$handoff_placeholder" 3 BLOCK "$request"
+done
+
+arbitrary_handoff_root="$tmp/arbitrary-handoff"
+cp -r "$handoff_root" "$arbitrary_handoff_root"
+sed -i 's/^Handoff state, if any:.*/Handoff state, if any: prose recorded/' \
+  "$arbitrary_handoff_root/STATE.md"
+request="$tmp/arbitrary-handoff.json"
+make_request "$request" AUDITED_HANDOFF "$arbitrary_handoff_root" not-required valid
+expect_disposition arbitrary-handoff-prose 3 BLOCK "$request"
+
+actionless_handoff_root="$tmp/actionless-handoff"
+cp -r "$handoff_root" "$actionless_handoff_root"
+sed -i 's/| Next action | continue current phase |/| Next action | none |/' \
+  "$actionless_handoff_root/STATE.md"
+request="$tmp/actionless-handoff.json"
+make_request "$request" AUDITED_HANDOFF "$actionless_handoff_root" not-required valid
+expect_disposition actionless-handoff 3 BLOCK "$request"
+
 surface_handoff_root="$tmp/surface-handoff"
 cp -r "$handoff_root" "$surface_handoff_root"
 sed -i 's/AUDIT_HANDOFF/ANDON_HANDOFF/' "$surface_handoff_root/STATE.md"
@@ -244,6 +301,28 @@ sed -i '/^ANDON_HANDOFF$/i ANDON_PROBE\nANDON_ESCALATE' "$surface_handoff_root/S
 request="$tmp/surface-handoff.json"
 make_request "$request" AUDITED_HANDOFF "$surface_handoff_root" not-required valid
 expect_disposition surface-handoff-is-not-audit-handoff 3 BLOCK "$request"
+
+combined_handoff_root="$tmp/combined-handoff"
+cp -r "$surface_handoff_root" "$combined_handoff_root"
+printf 'AUDIT_HANDOFF\n' >> "$combined_handoff_root/STATE.md"
+request="$tmp/combined-handoff.json"
+make_request "$request" AUDITED_HANDOFF "$combined_handoff_root" not-required valid
+expect_disposition combined-surface-and-audit-handoff 0 AUDITED_HANDOFF "$request"
+
+duplicate_handoff_root="$tmp/duplicate-handoff"
+cp -r "$combined_handoff_root" "$duplicate_handoff_root"
+printf 'AUDIT_HANDOFF\n' >> "$duplicate_handoff_root/STATE.md"
+request="$tmp/duplicate-handoff.json"
+make_request "$request" AUDITED_HANDOFF "$duplicate_handoff_root" not-required valid
+expect_disposition duplicate-final-audit-handoff 3 BLOCK "$request"
+
+out_of_order_handoff_root="$tmp/out-of-order-handoff"
+cp -r "$handoff_root" "$out_of_order_handoff_root"
+sed -i '/^AUDIT_HANDOFF$/i ANDON_ESCALATE\nANDON_PROBE\nANDON_HANDOFF' \
+  "$out_of_order_handoff_root/STATE.md"
+request="$tmp/out-of-order-handoff.json"
+make_request "$request" AUDITED_HANDOFF "$out_of_order_handoff_root" not-required valid
+expect_disposition out-of-order-surface-handoff 3 BLOCK "$request"
 
 request="$tmp/ty-4.json"
 make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid
