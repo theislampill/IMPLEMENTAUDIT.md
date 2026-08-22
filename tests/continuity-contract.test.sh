@@ -391,10 +391,117 @@ current_receipt="$(cd "$successor_repo" && bash "$claim_helper" \
 [ "$current_receipt" = "$receipt" ] \
   || fail "current continuity gate did not return the active receipt"
 
+# HC-H1 causal RED: hold the real governed-writer gate until the invalidator
+# has prepared its exact candidate object, then transfer the controller ref.
+# A one-ref CAS publishes stale authority here; the corrected transaction must
+# verify the controller/currentness read set atomically with the invalidation.
+h1_gate="$successor_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate"
+h1_ready="$tmp/h1-lock-ready"
+h1_release="$tmp/h1-lock-release"
+h1_status="$tmp/h1-invalidation-status"
+h1_output="$tmp/h1-invalidation-output"
+h1_error="$tmp/h1-invalidation-error"
+h1_controller_ref='refs/implementaudit/controllers/release-v0333'
+h1_controller_oid="$(git -C "$successor_repo" rev-parse --verify "$h1_controller_ref")"
+h1_alternate_oid="$(printf 'implementaudit.controller-current.v1\trelease-v0333\t%s\t%s\n' \
+  "$initial_claim" "$initial_root" | git -C "$successor_repo" hash-object -w --stdin)"
+h1_event='hc-h1-controller-transfer-barrier'
+h1_candidate_oid="$(printf 'implementaudit.continuity-invalidation.v1\trelease-v0333\t%s\t%s\tinferred-context-gap\t%s\n' \
+  "$h1_controller_oid" "$successor_claim" "$h1_event" \
+  | git -C "$successor_repo" hash-object --stdin)"
+
+"${py_cmd[@]}" - "$h1_gate" "$h1_ready" "$h1_release" <<'PY' &
+import errno
+import os
+import sys
+import time
+
+gate, ready, release = sys.argv[1:]
+descriptor = os.open(gate, os.O_RDWR | getattr(os, "O_BINARY", 0))
+try:
+    if os.name == "nt":
+        import msvcrt
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_LOCK, 1)
+    else:
+        import fcntl
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+    with open(ready, "xb") as marker:
+        marker.write(b"ready\n")
+    while not os.path.exists(release):
+        time.sleep(0.01)
+finally:
+    if os.name == "nt":
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+    else:
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
+    os.close(descriptor)
+PY
+h1_holder=$!
+for _ in {1..500}; do
+  [ -f "$h1_ready" ] && break
+  sleep 0.01
+done
+[ -f "$h1_ready" ] || fail 'HC-H1 lock holder did not establish the causal barrier'
+
+(
+  set +e
+  cd "$successor_repo" || exit 99
+  bash "$claim_helper" --invalidate-continuity release-v0333 \
+    --boundary inferred-context-gap --event "$h1_event" \
+    >"$h1_output" 2>"$h1_error"
+  printf '%s\n' "$?" >"$h1_status"
+) &
+h1_invalidator=$!
+for _ in {1..1000}; do
+  git -C "$successor_repo" cat-file -e "$h1_candidate_oid^{blob}" 2>/dev/null && break
+  sleep 0.01
+done
+git -C "$successor_repo" cat-file -e "$h1_candidate_oid^{blob}" 2>/dev/null \
+  || fail 'HC-H1 invalidator did not reach the post-observation publication barrier'
+git -C "$successor_repo" update-ref "$h1_controller_ref" \
+  "$h1_alternate_oid" "$h1_controller_oid"
+: > "$h1_release"
+wait "$h1_holder"
+wait "$h1_invalidator"
+[ -f "$h1_status" ] || fail 'HC-H1 invalidator did not report a terminal outcome'
+[ "$(cat "$h1_status")" -ne 0 ] \
+  || fail 'HC-H1 RED: stale controller observation published an invalidation'
+if git -C "$successor_repo" rev-parse --verify \
+    refs/implementaudit/continuity-invalidations/release-v0333 >/dev/null 2>&1; then
+  fail 'HC-H1 guard loss left a visible invalidation'
+fi
+[ "$(git -C "$successor_repo" rev-parse --verify "$h1_controller_ref")" = \
+    "$h1_alternate_oid" ] \
+  || fail 'HC-H1 invalidation disturbed the winning controller transfer'
+git -C "$successor_repo" update-ref "$h1_controller_ref" \
+  "$h1_controller_oid" "$h1_alternate_oid"
+
+# Root-v2 selection is current only while its exact successor receipt remains
+# absent.  A pre-existing successor cannot be silently ignored by invalidation.
+h1_root_successor_ref='refs/implementaudit/continuity-receipts/release-v0333/G0003'
+h1_root_successor_oid="$(printf 'not-a-current-receipt\n' \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+git -C "$successor_repo" update-ref "$h1_root_successor_ref" \
+  "$h1_root_successor_oid" 0000000000000000000000000000000000000000
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --invalidate-continuity release-v0333 --boundary inferred-context-gap \
+    --event hc-h1-root-successor-present --expected-current "$receipt") \
+    >/dev/null 2>&1; then
+  fail 'HC-H1 root-v2 invalidation ignored a present successor receipt'
+fi
+if git -C "$successor_repo" rev-parse --verify \
+    refs/implementaudit/continuity-invalidations/release-v0333 >/dev/null 2>&1; then
+  fail 'HC-H1 root-successor rejection left a visible invalidation'
+fi
+git -C "$successor_repo" update-ref -d "$h1_root_successor_ref" \
+  "$h1_root_successor_oid"
+
 invalidation="$(cd "$successor_repo" && bash "$claim_helper" \
   --invalidate-continuity release-v0333 --boundary inferred-context-gap \
-  --event generic-no-native-hook-e3 2>/dev/null)" \
-  || fail "host-neutral continuity invalidation command is absent"
+  --event generic-no-native-hook-e3 2>"$tmp/h1-positive.err")" \
+  || fail "host-neutral continuity invalidation command is absent: $(cat "$tmp/h1-positive.err")"
 case "$invalidation" in
   refs/implementaudit/continuity-invalidations/release-v0333@[0-9a-f][0-9a-f]*) :;;
   *) fail "continuity invalidation is not a ref-bound token: $invalidation";;
@@ -592,6 +699,93 @@ task6_current="$(cd "$successor_repo" && bash "$claim_helper" \
   --require-current-continuity release-v0333)" \
   || fail 'Task 6 complete pointer/v3/marker route was not current'
 [ "$task6_current" = "$task6_v3" ] || fail 'Task 6 complete route returned the wrong receipt'
+
+# The v3 invalidator must guard every authority/currentness ref in the same
+# transaction.  The candidate-object observation is the causal barrier: each
+# competing write happens after validation but before the real update-ref
+# transaction can acquire the writer gate.
+h1_v3_controller_ref='refs/implementaudit/controllers/release-v0333'
+h1_v3_controller_oid="$(git -C "$successor_repo" rev-parse --verify "$h1_v3_controller_ref")"
+h1_v3_invalidation_ref='refs/implementaudit/continuity-invalidations/release-v0333'
+h1_v3_invalidation_oid="$(git -C "$successor_repo" rev-parse --verify "$h1_v3_invalidation_ref")"
+h1_v3_guard_race() {
+  local label="$1" target_ref="$2" target_old="$3" target_new="$4"
+  local event="hc-h1-v3-$label" candidate_oid ready release status output error holder invalidator
+  ready="$tmp/h1-v3-$label-ready"; release="$tmp/h1-v3-$label-release"
+  status="$tmp/h1-v3-$label-status"; output="$tmp/h1-v3-$label-output"; error="$tmp/h1-v3-$label-error"
+  candidate_oid="$(printf 'implementaudit.continuity-invalidation.v1\trelease-v0333\t%s\t%s\tmanual-resume\t%s\n' \
+    "$h1_v3_controller_oid" "$successor_claim" "$event" \
+    | git -C "$successor_repo" hash-object --stdin)"
+  "${py_cmd[@]}" - "$h1_gate" "$ready" "$release" <<'PY' &
+import os
+import sys
+import time
+
+gate, ready, release = sys.argv[1:]
+descriptor = os.open(gate, os.O_RDWR | getattr(os, "O_BINARY", 0))
+try:
+    if os.name == "nt":
+        import msvcrt
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_LOCK, 1)
+    else:
+        import fcntl
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+    with open(ready, "xb") as marker:
+        marker.write(b"ready\n")
+    while not os.path.exists(release):
+        time.sleep(0.01)
+finally:
+    if os.name == "nt":
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+    else:
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
+    os.close(descriptor)
+PY
+  holder=$!
+  for _ in {1..500}; do [ -f "$ready" ] && break; sleep 0.01; done
+  [ -f "$ready" ] || fail "HC-H1 $label lock holder did not establish the barrier"
+  (
+    set +e
+    cd "$successor_repo" || exit 99
+    bash "$claim_helper" --invalidate-continuity release-v0333 \
+      --boundary manual-resume --event "$event" --expected-current "$task6_v3" \
+      >"$output" 2>"$error"
+    printf '%s\n' "$?" >"$status"
+  ) &
+  invalidator=$!
+  for _ in {1..1000}; do
+    git -C "$successor_repo" cat-file -e "$candidate_oid^{blob}" 2>/dev/null && break
+    sleep 0.01
+  done
+  git -C "$successor_repo" cat-file -e "$candidate_oid^{blob}" 2>/dev/null \
+    || fail "HC-H1 $label invalidator did not reach the publication barrier"
+  git -C "$successor_repo" update-ref "$target_ref" "$target_new" "$target_old"
+  : > "$release"
+  wait "$holder"; wait "$invalidator"
+  [ -f "$status" ] && [ "$(cat "$status")" -ne 0 ] \
+    || fail "HC-H1 $label drift published an invalidation"
+  [ "$(git -C "$successor_repo" rev-parse --verify "$target_ref")" = "$target_new" ] \
+    || fail "HC-H1 $label invalidation overwrote the competing writer"
+  git -C "$successor_repo" update-ref "$target_ref" "$target_old" "$target_new"
+  [ "$(git -C "$successor_repo" rev-parse --verify "$h1_v3_invalidation_ref")" = \
+      "$h1_v3_invalidation_oid" ] \
+    || fail "HC-H1 $label race changed the restored invalidation fence"
+  [ "$(cd "$successor_repo" && bash "$claim_helper" --require-current-continuity release-v0333)" = \
+      "$task6_v3" ] || fail "HC-H1 $label race did not restore exact v3 currentness"
+}
+
+h1_guard_foreign_oid="$(printf 'hc-h1-guard-drift\n' \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+h1_v3_guard_race pointer "$task6_pointer_ref" "$task6_pointer_oid" "$h1_guard_foreign_oid"
+h1_v3_guard_race marker "$task6_marker_ref" "$task6_marker_oid" "$h1_guard_foreign_oid"
+h1_v3_guard_race receipt "$task6_v3_ref" "$task6_v3_oid" "$h1_guard_foreign_oid"
+h1_v3_competing_invalidation_oid="$(printf 'implementaudit.continuity-invalidation.v1\trelease-v0333\t%s\t%s\tmanual-resume\tcompeting-writer\n' \
+  "$h1_v3_controller_oid" "$successor_claim" \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+h1_v3_guard_race invalidation "$h1_v3_invalidation_ref" \
+  "$h1_v3_invalidation_oid" "$h1_v3_competing_invalidation_oid"
 
 task6_event_id="iaevt-v1-$(printf 'a%.0s' {1..64})"
 task6_event_ref="refs/implementaudit/state-event-segments/$task6_run_id/G0004/00000000000000000001/$task6_event_id"

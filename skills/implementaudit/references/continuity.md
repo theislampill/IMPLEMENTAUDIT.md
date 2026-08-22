@@ -47,10 +47,22 @@ Before repository mutation:
 6. Record the reconciled epoch and Next action; otherwise hand off exact evidence.
 
 At a boundary call `claim-run.sh --invalidate-continuity <id> --boundary
-<provenance> --event <opaque-event-id>`. A native host signal is a trigger,
-never continuity authority. The generic no-native-hook fallback uses it for
-new-session, handoff/manual-resume, or inferred-context-gap. One portable gate
-governs with or without native support.
+<provenance> --event <opaque-event-id>`. A caller that already holds an exact
+observed receipt may add `--expected-current <receipt-token>` as a guard
+assertion; the token is not authority, and `claim-run.sh` independently resolves
+and validates the live controller/currentness tuple. A native host signal is a
+trigger, never continuity authority. The generic no-native-hook fallback uses
+the same command for new-session, handoff/manual-resume, or
+inferred-context-gap. One portable gate governs with or without native support.
+
+Invalidation publication is one deterministic Git transaction. Its sorted
+read set verifies the controller ref, selected receipt, current-generation
+pointer or exact absence, migration marker or exact absence, and any required
+root-successor absence; the invalidation update's expected-old field guards the
+sole write ref. Guard/CAS loss leaves the invalidation unchanged. An uncertain
+process result is classified only by exact readback as candidate committed,
+old unchanged, or unknown/foreign. Unknown never authorizes retry, rollback,
+continuation, or lifecycle credit.
 
 After separate reads mint `--resume-controller <id> --boundary <provenance>
 --epoch <epoch>`, then `--verify-resume-receipt`. This binds controller/claim,
@@ -202,6 +214,35 @@ untrusted or malformed binding is unavailable. R003A attribution cannot mint a
 continuity receipt, satisfy a route obligation, close an object, authorise an
 effect or prove native host activation. SessionEnd may tombstone attribution;
 it cannot close the governed object.
+
+### Codex compact actuator
+
+The canonical plugin's default `hooks/hooks.json` matches only
+`SessionStart(source=compact)` and invokes
+`scripts/codex-compact-interlock.py`. The adapter owns the fixed lower-case
+namespace `codex`, takes only the host-supplied `session_id`, and derives the
+one existing H0 store as the fixed versioned child
+`PLUGIN_DATA/host-session-binding-v1`. It never accepts a store, controller,
+run, repository or executable path from the event or caller.
+
+`startup`, `resume`, and `clear` are no-effect responses. An absent H0 binding
+is the zero-scan non-trigger and does not create the store. A present binding is
+validated against the exact live controller/claim/run and its applicable
+continuity receipt, then the deterministic compact event is sent through the
+same atomic `--invalidate-continuity` path with `host-reported-compaction`.
+Success returns hook JSON with `continue:false`, so Codex ends the turn before
+another model request. Duplicate delivery of the same bound boundary returns
+the same invalidation; a successor binding/receipt derives a distinct event.
+
+Missing `PLUGIN_DATA`, malformed input, or disabled, untrusted, inaccessible,
+ambiguous, stale, foreign, superseded, tombstoned or mismatched binding state
+returns a fail-closed stop without guessing. Event `cwd`, transcript, target
+prose, ambient PATH, newest-run and controller enumeration are not authority.
+The hook reads/validates/invalidates only: it cannot initialise or bind H0,
+resume, mint a continuity receipt, invoke a child skill or route transaction,
+advance lifecycle, or close work. Source/package tests prove only the adapter
+and archive projection; installed, enabled, trusted-definition and fired-event
+proof remain separate host evidence.
 
 ## Turn disposition after attribution
 
