@@ -758,6 +758,13 @@ def release_common_publication_lease():
     return errors
 
 
+def release_common_publication_lease_with_report():
+    errors = release_common_publication_lease()
+    if errors:
+        sys.stderr.write("apply-observed-mutation: Git-common publication lease release requires manual reconciliation\n")
+    return errors
+
+
 def acquire_window_gate():
     """Lock the persistent governed-writer inode before any run-root effect."""
     global namespace_gate_fd
@@ -1408,11 +1415,9 @@ def emit_transaction_conflict(reason_code):
         "terminal_closure_claim": "NOT_ASSERTED",
     }
     gate_release_errors = release_window_gate()
-    common_release_errors = release_common_publication_lease()
+    release_common_publication_lease_with_report()
     if gate_release_errors:
         sys.stderr.write("apply-observed-mutation: governed-writer gate release requires manual reconciliation\n")
-    if common_release_errors:
-        sys.stderr.write("apply-observed-mutation: Git-common publication lease release requires manual reconciliation\n")
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS["CONFLICT_REBASE"])
 
@@ -1534,7 +1539,7 @@ def emit_initialisation_failure():
     result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
         status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
-    release_common_publication_lease()
+    release_common_publication_lease_with_report()
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -1544,19 +1549,19 @@ try:
     acquire_window_gate()
 except WriterDomainBreach:
     release_window_gate()
-    release_common_publication_lease()
+    release_common_publication_lease_with_report()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
 except OSError as error:
     release_window_gate()
-    release_common_publication_lease()
+    release_common_publication_lease_with_report()
     sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
     emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
 controller_failure, controller_identity, generation_identity = current_controller_binding()
 if controller_failure is not None:
     if release_window_gate():
-        release_common_publication_lease()
+        release_common_publication_lease_with_report()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
-    release_common_publication_lease()
+    release_common_publication_lease_with_report()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", controller_failure)
 try:
     window_failure = verification_window_failure()
@@ -1565,18 +1570,18 @@ except (OSError, RuntimeError, WriterDomainBreach) as error:
 if window_failure is not None:
     sys.stderr.write(f"apply-observed-mutation: {window_failure}\n")
     if release_window_gate():
-        release_common_publication_lease()
+        release_common_publication_lease_with_report()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
-    release_common_publication_lease()
+    release_common_publication_lease_with_report()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "OPEN_VERIFICATION_WINDOW")
 phase_hook("window-scan-complete")
 fence_failure = require_generation_fence()
 if fence_failure is not None:
     fence_status, fence_reason = fence_failure
     if release_window_gate():
-        release_common_publication_lease()
+        release_common_publication_lease_with_report()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
-    release_common_publication_lease()
+    release_common_publication_lease_with_report()
     emit_no_effect(fence_status, fence_reason)
 
 try:
@@ -1787,9 +1792,7 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
     phase_hook("terminal-result-durable")
-    common_release_errors = release_common_publication_lease()
-    if common_release_errors:
-        sys.stderr.write("apply-observed-mutation: Git-common publication lease release requires manual reconciliation\n")
+    release_common_publication_lease_with_report()
     terminal_finalized = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
@@ -1952,5 +1955,5 @@ finally:
             release_locks()
             release_lock_root()
         release_namespace_gate()
-        release_common_publication_lease()
+        release_common_publication_lease_with_report()
 PY

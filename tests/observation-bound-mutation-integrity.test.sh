@@ -360,7 +360,8 @@ extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race'
 extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
 extra6="""    if phase == 'first-protected-effect-boundary' and fault == 'post-last-check-pre-effect':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n    if phase == 'terminal-result-durable' and fault == 'post-last-check-pre-effect':\n        if not COMMON_LEASE.exists(): raise RuntimeError('common lease released before terminal evidence')\n        (Path(bar)/'terminal-lease-held').touch()\n"""
 extra7="""    if phase == 'pre-transaction' and fault in {'protected-replay-no-state','protected-replay-release-fails'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        original_replay_open=os.open\n        def observe_common_wait(path,*args,**kwargs):\n            try: return original_replay_open(path,*args,**kwargs)\n            except OSError as error:\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE and error.errno in {errno.EACCES,errno.EAGAIN,errno.EEXIST}: (b/'common-waiting').touch()\n                raise\n        os.open=observe_common_wait\n        if fault == 'protected-replay-release-fails':\n            original_replay_unlink=os.unlink\n            def fail_common_release(path,*args,**kwargs):\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE: raise OSError(errno.EACCES,'injected common lease release failure')\n                return original_replay_unlink(path,*args,**kwargs)\n            os.unlink=fail_common_release\n        wait('ready')\n    if phase == 'init' and fault == 'protected-replay-no-state':\n        final_result('MUTATION_FAILED_NO_STATE_CHANGE','NONE')\n"""
-Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4+extra5+extra6+extra7),encoding='utf-8')
+extra8="""    if phase == 'pre-transaction' and fault == 'early-generation-release-replaced':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        original_early_open=os.open; original_early_close=os.close\n        original_early_release_window=release_window_gate\n        early_release={'common_fd':None,'replaced':False}\n        def observe_early_common_open(path,*args,**kwargs):\n            fd=original_early_open(path,*args,**kwargs)\n            if COMMON_LEASE is not None and Path(path)==COMMON_LEASE:\n                if path_identity(TX).get('kind')!='absent': raise RuntimeError('transaction existed before common lease acquisition')\n                early_release['common_fd']=fd\n                (b/'common-path').write_text(str(COMMON_LEASE),encoding='utf-8')\n                (b/'common-acquired').touch()\n            return fd\n        def observe_early_window_release():\n            had_gate=namespace_gate_fd is not None\n            errors=original_early_release_window()\n            if had_gate and not errors: (b/'local-released-before-common').touch()\n            return errors\n        def replace_early_common_on_close(fd,*args,**kwargs):\n            original_early_close(fd,*args,**kwargs)\n            if fd==early_release['common_fd'] and not early_release['replaced']:\n                if not (b/'local-released-before-common').is_file(): raise RuntimeError('common lease released before local gate')\n                early_release['replaced']=True\n                os.replace(COMMON_LEASE,b/'owned-common-lease')\n                COMMON_LEASE.write_bytes(b'FOREIGN')\n                (b/'common-replaced').touch()\n        os.open=observe_early_common_open; os.close=replace_early_common_on_close\n        globals()['release_window_gate']=observe_early_window_release\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4+extra5+extra6+extra7+extra8),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
@@ -378,7 +379,8 @@ extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race'
 extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
 extra6="""    if phase == 'first-protected-effect-boundary' and fault == 'post-last-check-pre-effect':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n    if phase == 'terminal-result-durable' and fault == 'post-last-check-pre-effect':\n        if not COMMON_LEASE.exists(): raise RuntimeError('common lease released before terminal evidence')\n        (Path(bar)/'terminal-lease-held').touch()\n"""
 extra7="""    if phase == 'pre-transaction' and fault in {'protected-replay-no-state','protected-replay-release-fails'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        original_replay_open=os.open\n        def observe_common_wait(path,*args,**kwargs):\n            try: return original_replay_open(path,*args,**kwargs)\n            except OSError as error:\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE and error.errno in {errno.EACCES,errno.EAGAIN,errno.EEXIST}: (b/'common-waiting').touch()\n                raise\n        os.open=observe_common_wait\n        if fault == 'protected-replay-release-fails':\n            original_replay_unlink=os.unlink\n            def fail_common_release(path,*args,**kwargs):\n                if COMMON_LEASE is not None and Path(path)==COMMON_LEASE: raise OSError(errno.EACCES,'injected common lease release failure')\n                return original_replay_unlink(path,*args,**kwargs)\n            os.unlink=fail_common_release\n        wait('ready')\n    if phase == 'init' and fault == 'protected-replay-no-state':\n        final_result('MUTATION_FAILED_NO_STATE_CHANGE','NONE')\n"""
-restored=text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(extra5,'').replace(extra6,'').replace(extra7,'').replace(derived_dir_line,script_dir_line)
+extra8="""    if phase == 'pre-transaction' and fault == 'early-generation-release-replaced':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        original_early_open=os.open; original_early_close=os.close\n        original_early_release_window=release_window_gate\n        early_release={'common_fd':None,'replaced':False}\n        def observe_early_common_open(path,*args,**kwargs):\n            fd=original_early_open(path,*args,**kwargs)\n            if COMMON_LEASE is not None and Path(path)==COMMON_LEASE:\n                if path_identity(TX).get('kind')!='absent': raise RuntimeError('transaction existed before common lease acquisition')\n                early_release['common_fd']=fd\n                (b/'common-path').write_text(str(COMMON_LEASE),encoding='utf-8')\n                (b/'common-acquired').touch()\n            return fd\n        def observe_early_window_release():\n            had_gate=namespace_gate_fd is not None\n            errors=original_early_release_window()\n            if had_gate and not errors: (b/'local-released-before-common').touch()\n            return errors\n        def replace_early_common_on_close(fd,*args,**kwargs):\n            original_early_close(fd,*args,**kwargs)\n            if fd==early_release['common_fd'] and not early_release['replaced']:\n                if not (b/'local-released-before-common').is_file(): raise RuntimeError('common lease released before local gate')\n                early_release['replaced']=True\n                os.replace(COMMON_LEASE,b/'owned-common-lease')\n                COMMON_LEASE.write_bytes(b'FOREIGN')\n                (b/'common-replaced').touch()\n        os.open=observe_early_common_open; os.close=replace_early_common_on_close\n        globals()['release_window_gate']=observe_early_window_release\n"""
+restored=text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(extra5,'').replace(extra6,'').replace(extra7,'').replace(extra8,'').replace(derived_dir_line,script_dir_line)
 if 'phase_hook("first-protected-effect-boundary")' not in canonical_text:
     restored=re.sub(r'(?m)^ +phase_hook\("first-protected-effect-boundary"\)\n','',restored)
 if 'phase_hook("terminal-result-durable")' not in canonical_text:
@@ -2017,6 +2019,73 @@ PY
   rm -f -- "$common_lease"
 }
 
+early_generation_release_diagnostic_heldout() {
+  local controller=d48-early-generation-release claim pre cand receipt generation fingerprint
+  local peer common_dir common_lease legacy_lease derived barrier stdout stderr actual transaction
+  setup "$controller"
+  claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  pre="$(artifact early-generation-release-pre 4142434445)"
+  cand="$(artifact early-generation-release-candidate 4e4557)"
+  prepare_authority replace target -
+  receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --require-current-continuity "$controller")" \
+    || fail 'D48-C02 early generation release fixture could not establish current continuity'
+  generation="${receipt%@*}"; generation="${generation##*/}"
+  fingerprint="$(sha256sum "$fixture_repo/target" | cut -d' ' -f1)"
+  write_generation_fence "$generation" "$receipt" "$generation" G0001 \
+    REJECT_AND_REPORT "$controller" target "$fingerprint"
+  peer="$tmp/early-generation-release-peer"
+  git -C "$fixture_repo" worktree add -q --detach "$peer" HEAD \
+    || fail 'D48-C02 early generation release could not create legacy-path witness'
+  common_dir="$(git -C "$fixture_repo" rev-parse --path-format=absolute --git-common-dir)"
+  common_lease="$common_dir/implementaudit-r0039-publication.lock"
+  legacy_lease="$(git -C "$peer" rev-parse --path-format=absolute --git-path implementaudit-r0039-publication.lock)"
+  [ "$legacy_lease" != "$common_lease" ] \
+    || fail 'D48-C02 early generation release legacy witness did not diverge'
+  derived="$(instrumented_helper)"; barrier="$tmp/early-generation-release"; mkdir "$barrier"
+  stdout="$barrier/helper.out"; stderr="$barrier/helper.err"
+  transaction="$claim-p$prepared_phase-s$prepared_step"
+  set +e
+  IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" \
+  IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=early-generation-release-replaced \
+    bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" \
+      --phase "$prepared_phase" --step "$prepared_step" --preimage "$pre" \
+      --candidate "$cand" >"$stdout" 2>"$stderr"
+  actual=$?
+  set -e
+  [ "$actual" -eq 64 ] \
+    || fail "D48-C02 early generation release exit=$actual expected=64 stderr=$(<"$stderr")"
+  [ -f "$barrier/common-acquired" ] && [ -f "$barrier/local-released-before-common" ] \
+    && [ -f "$barrier/common-replaced" ] \
+    || fail 'D48-C02 early generation release did not prove ordered common/local acquisition and replacement'
+  "$python_bin" - "$barrier/common-path" "$common_lease" <<'PY' \
+    || fail 'D48-C02 early generation release did not acquire the exact Git-common path'
+import os,sys
+from pathlib import Path
+actual=Path(sys.argv[1]).read_text(encoding='utf-8')
+if os.path.normcase(os.path.abspath(actual))!=os.path.normcase(os.path.abspath(sys.argv[2])): raise SystemExit((actual,sys.argv[2]))
+PY
+  [ -f "$barrier/owned-common-lease" ] && [ ! -L "$barrier/owned-common-lease" ] \
+    || fail 'D48-C02 early generation release lost the acquired lease inode witness'
+  assert_hex D48-C02-early-generation-release-foreign "$common_lease" 464f524549474e
+  [ ! -e "$legacy_lease" ] && [ ! -L "$legacy_lease" ] \
+    || fail 'D48-C02 early generation release wrote divergent legacy custody'
+  assert_hex D48-C02-early-generation-release-target "$fixture_repo/target" 4142434445
+  [ ! -e "$run_root/mutation-transactions/$transaction" ] \
+    || fail 'D48-C02 early generation release created a transaction effect before rejecting the fence'
+  "$python_bin" - "$stdout" <<'PY' \
+    || fail 'D48-C02 early generation release rejection readback was invalid'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
+if r.get('status')!='REJECTED_NO_MUTATION' or r.get('reason_code')!='PROTECTED_GENERATION_MISMATCH': raise SystemExit(r)
+if r.get('transaction_id') is not None or r.get('actual_effect_set')!=[]: raise SystemExit(r)
+if r.get('retry_permitted') is not False or r.get('terminal_closure_claim')!='NOT_ASSERTED': raise SystemExit(r)
+PY
+  grep -Fq 'Git-common publication lease release requires manual reconciliation' "$stderr" \
+    || fail 'D48-C02 early generation release omitted Git-common manual reconciliation diagnostic'
+  rm -f -- "$common_lease" "$barrier/owned-common-lease"
+}
+
 linked_worktree_generation_transfer_case() {
   local operation="$1" controller="d48-linked-$1" destination=- old_claim pre cand
   local receipt generation fingerprint derived barrier peer helper_pid helper_rc
@@ -2417,6 +2486,7 @@ case "${1:-}" in
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
   --controller-transfer-race-heldout) controller_transfer_race_heldout; printf 'S3E_W02_CONTROLLER_TRANSFER_RACE_HELDOUT=PASS\n'; exit 0;;
   --protected-replay-lease-cleanup-heldout) protected_replay_lease_cleanup_heldout; printf 'D48_C02_PROTECTED_REPLAY_LEASE_CLEANUP=PASS\n'; exit 0;;
+  --early-generation-release-diagnostic-heldout) early_generation_release_diagnostic_heldout; printf 'D48_C02_EARLY_GENERATION_RELEASE_DIAGNOSTIC=PASS\n'; exit 0;;
   --linked-worktree-controller-transfer-heldout) linked_worktree_generation_transfer_heldout; printf 'D48_C02_LINKED_CONTROLLER_TRANSFER=PASS\n'; exit 0;;
   --linked-worktree-reverse-lease-winner-heldout) linked_worktree_reverse_lease_winner_heldout; printf 'D48_C02_REVERSE_LEASE_WINNER=PASS\n'; exit 0;;
   --linked-worktree-pointer-publication-heldout) linked_worktree_pointer_publication_heldout; printf 'D48_C02_LINKED_POINTER_PUBLICATION=PASS\n'; exit 0;;
