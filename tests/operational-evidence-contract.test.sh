@@ -69,7 +69,13 @@ if schema_definition.get("x-native-current-facts") != {
             "immediate_predecessor", "migration_marker", "route_record"],
         "predecessor_predicate":
             "canonical_R0011_read_only_currentness_and_exact_immediate_v2_v3",
+        "predecessor_validator_execution": {
+            "mode": "byte_bound_private_materialization",
+            "closure": ["claim-run.sh", "validate-run-root.sh"],
+        },
         "route_predicate": "canonical_R0033_pure_read_only_currentness",
+        "route_semantic_fence":
+            "complete_canonical_R0033_recheck_as_final_target_sensitive_observation",
         "graph_projection": "implementaudit.work-graph.v1",
         "graph_compiler_execution": "byte_bound_and_finally_fenced",
         "publication": False,
@@ -128,6 +134,10 @@ def prepare(case, serial):
     git(repo, "config", "user.name", "Fixture")
     git(repo, "config", "user.email", "fixture@example.invalid")
     write(repo / "tracked.txt", b"native current fixture\n")
+    request_input = FIXTURE["route_request_input"]
+    request_input_path = request_input["path"]
+    request_input_raw = request_input["content"].encode("utf-8")
+    write(repo / request_input_path, request_input_raw)
     script = repo / "skills/implementaudit/scripts/operational-evidence.py"
     compiler = repo / "skills/implementaudit/scripts/compile-work-graph.py"
     route = repo / "skills/implementaudit/scripts/route-transaction.py"
@@ -147,7 +157,8 @@ def prepare(case, serial):
     shutil.copyfile(ROUTE_REFERENCE, route_reference)
     shutil.copyfile(GOVERNOR, governor)
     shutil.copyfile(AUDIT_STATE, audit_state)
-    git(repo, "add", "tracked.txt", str(script.relative_to(repo)),
+    git(repo, "add", "tracked.txt", request_input_path,
+        str(script.relative_to(repo)),
         str(compiler.relative_to(repo)), str(route.relative_to(repo)),
         str(claim.relative_to(repo)), str(validate_run_root.relative_to(repo)),
         str(route_reference.relative_to(repo)),
@@ -408,11 +419,18 @@ def prepare(case, serial):
         "boundary": boundary,
         "scope": scope,
         "action": action,
-        "inputs": [{
-            "identity": "input:hot-state",
-            "path": f"{run_relative}/STATE.md",
-            "digest": "sha256:" + state_digest,
-        }],
+        "inputs": [
+            {
+                "identity": "input:hot-state",
+                "path": f"{run_relative}/STATE.md",
+                "digest": "sha256:" + state_digest,
+            },
+            {
+                "identity": "input:request",
+                "path": request_input_path,
+                "digest": "sha256:" + hashlib.sha256(request_input_raw).hexdigest(),
+            },
+        ],
     }
     current = {
         "controller_id": controller,
@@ -722,6 +740,117 @@ except compiler_final_module.OperationalEvidenceError as exc:
             f"NCR38 compiler post-execution mutation returned {exc.code}")
 else:
     red_failures.append("NCR38 compiler post-execution mutation was accepted")
+
+
+def expect_late_route_read_set_refusal(serial, label, mutate):
+    repo = prepare("positive", serial)
+    module = load_module(repo, serial)
+    original_route = module._native_route
+    mutated = False
+
+    def mutate_after_route(*args, **kwargs):
+        nonlocal mutated
+        result = original_route(*args, **kwargs)
+        if not mutated:
+            mutate(repo)
+            mutated = True
+        return result
+
+    module._native_route = mutate_after_route
+    try:
+        module.collect_native_current()
+    except module.OperationalEvidenceError:
+        pass
+    else:
+        red_failures.append(f"{label} was accepted")
+    if not mutated:
+        red_failures.append(f"{label} injection did not reach the post-route boundary")
+
+
+expect_late_route_read_set_refusal(
+    105, "NCR39 late R0033 request-input mutation",
+    lambda repo: write(repo / "request-input.txt", b"late request mutation\n"))
+expect_late_route_read_set_refusal(
+    106, "NCR40 late R0033 executing-package mutation",
+    lambda repo: write(
+        repo / "skills/implementaudit/SKILL.md", b"late package mutation\n"))
+expect_late_route_read_set_refusal(
+    107, "NCR41 late R0033 audit-state child mutation",
+    lambda repo: write(
+        repo / "skills/audit-state/SKILL.md", b"late child mutation\n"))
+expect_late_route_read_set_refusal(
+    108, "NCR42 late R0033 tracked-member mutation",
+    lambda repo: write(repo / "tracked.txt", b"late tracked mutation\n"))
+expect_late_route_read_set_refusal(
+    109, "NCR43 late R0033 Git-metadata mutation",
+    lambda repo: git(repo, "config", "fixture.late-route-read-set", "changed"))
+
+
+def expect_validator_path_substitution_contained(serial, name):
+    repo = prepare("positive", serial)
+    module = load_module(repo, serial)
+    source = repo / "skills/implementaudit/scripts" / name
+    sentinel = repo / f"{name}.executed-sentinel"
+    receipt_oid = git(
+        repo, "rev-parse", "--verify",
+        "refs/implementaudit/continuity-receipts/controller-current/G0002"
+    ).decode().strip()
+    receipt = (
+        "refs/implementaudit/continuity-receipts/controller-current/G0002@" +
+        receipt_oid)
+    if name == "claim-run.sh":
+        replacement = (
+            "#!/usr/bin/env bash\n"
+            f"printf 'replacement executed\\n' > '{sentinel.as_posix()}'\n"
+            f"printf '%s\\n' '{receipt}'\n"
+        ).encode()
+        label = "NCR44 observed claim-run path substitution"
+    else:
+        replacement = (
+            "#!/usr/bin/env bash\n"
+            f"printf 'replacement executed\\n' > '{sentinel.as_posix()}'\n"
+            "exit 0\n"
+        ).encode()
+        label = "NCR45 observed validate-run-root path substitution"
+    before_refs = git(
+        repo, "for-each-ref", "--format=%(refname)%00%(objectname)",
+        "refs/implementaudit/")
+    before_objects = git(repo, "count-objects", "-v")
+    real_run = module.subprocess.run
+    substituted = False
+
+    def substitute_before_execution(command, *args, **kwargs):
+        nonlocal substituted
+        if (not substituted and isinstance(command, (list, tuple)) and
+                "--require-current-continuity" in command):
+            source.write_bytes(replacement)
+            substituted = True
+        return real_run(command, *args, **kwargs)
+
+    module.subprocess.run = substitute_before_execution
+    try:
+        try:
+            module.collect_native_current()
+        except module.OperationalEvidenceError:
+            pass
+        else:
+            red_failures.append(f"{label} returned native-current facts")
+    finally:
+        module.subprocess.run = real_run
+    after_refs = git(
+        repo, "for-each-ref", "--format=%(refname)%00%(objectname)",
+        "refs/implementaudit/")
+    after_objects = git(repo, "count-objects", "-v")
+    if not substituted:
+        red_failures.append(f"{label} did not reach the execution boundary")
+    if sentinel.exists():
+        red_failures.append(f"{label} executed replacement bytes")
+    if before_refs != after_refs or before_objects != after_objects:
+        red_failures.append(f"{label} changed protected refs or Git objects")
+
+
+expect_validator_path_substitution_contained(110, "claim-run.sh")
+expect_validator_path_substitution_contained(111, "validate-run-root.sh")
 
 if red_failures:
     for label in red_failures:

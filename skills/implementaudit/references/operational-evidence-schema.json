@@ -32,7 +32,12 @@
       "route_record"
     ],
     "predecessor_predicate": "canonical_R0011_read_only_currentness_and_exact_immediate_v2_v3",
+    "predecessor_validator_execution": {
+      "mode": "byte_bound_private_materialization",
+      "closure": ["claim-run.sh", "validate-run-root.sh"]
+    },
     "route_predicate": "canonical_R0033_pure_read_only_currentness",
+    "route_semantic_fence": "complete_canonical_R0033_recheck_as_final_target_sensitive_observation",
     "graph_projection": "implementaudit.work-graph.v1",
     "graph_compiler_execution": "byte_bound_and_finally_fenced",
     "publication": false,

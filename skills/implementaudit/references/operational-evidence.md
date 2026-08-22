@@ -138,9 +138,13 @@ The reader requires one exact canonical generation pointer, receipt v3 and
 permanent migration marker chain. It binds their controller/claim/run/source
 epoch, pointer and manifest identities, hot STATE/ROADMAP digests,
 `WORK_GRAPH.json` path/digest, next action and predecessor receipt. It invokes
-the canonical read-only R0011 currentness validator, validates every typed
-field of the immediate v2/v3 predecessor and its exact `G(n-1)` relation, and
-checks the bounded structural `G(n-2)@OID` token without reading older history.
+the canonical read-only R0011 currentness validator from a private byte-bound
+materialization: the already-read `claim-run.sh` and its complete repository-
+script dependency `validate-run-root.sh` are the only source bytes executed.
+The mutable source paths are never invoked after observation, and both source
+identities stay in the final file fence. R0011 validates every typed field of
+the immediate v2/v3 predecessor and its exact `G(n-1)` relation, and checks the
+bounded structural `G(n-2)@OID` token without reading older history.
 The current R0033 route ref must contain exact canonical record bytes and agree
 with the existing pure R0033 predicate over native controller, claim, run,
 continuity, host-generation, boundary, next-action, scope, action, evidence,
@@ -156,13 +160,18 @@ fences the same path after execution and again before return; path re-import
 cannot substitute different projection bytes. Adjacent STATE narrative cannot
 override that projection. STATE contributes only its bounded current epoch,
 explicit open-Andon population, active instruction rows and exact next action;
-the pointer and receipt must bind the same hot bytes and values. The final
-file/ref fence includes the predecessor and route refs plus the compiler,
-R0011-validator and R0033-validator bytes before returning canonical,
-deterministic facts. It does not invoke lifecycle helpers, mint or change refs,
-repair state, set READY/JOIN, create a snapshot or output root, query history,
-use network, or inspect an ActiveGraph mirror. C06 remains the sole later
-snapshot compiler/publication owner.
+the pointer and receipt must bind the same hot bytes and values. The physical
+file/ref fence includes the predecessor and route refs plus the compiler and
+both R0011/R0033 validator-source identities. After that fence, the reader runs
+the complete canonical R0033 semantic predicate again as its final target-
+sensitive observation and requires the same route identity. That owner recheck,
+not a locally enumerated subset, re-observes request inputs, executing-package
+sources, audit-state child source, the whole-worktree population and relevant
+Git metadata before the prebuilt deterministic fact object is returned. It
+does not invoke lifecycle helpers, mint or change refs, repair state, set
+READY/JOIN, create a snapshot or output root, query history, use network, or
+inspect an ActiveGraph mirror. C06 remains the sole later snapshot
+compiler/publication owner.
 
 ## Canonical evidence and failure collection
 

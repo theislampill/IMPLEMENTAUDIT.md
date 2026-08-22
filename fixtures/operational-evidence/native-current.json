@@ -5,6 +5,10 @@
   "run_id": "native-current-ABC123",
   "generation": "G0002",
   "next_action": "execute the exact bounded native-current action",
+  "route_request_input": {
+    "path": "request-input.txt",
+    "content": "bound route request input\n"
+  },
   "andon_state": "`V041_RELEASE_BLOCK=ACTIVE`; fixture containment remains open",
   "active_instruction": {
     "id": "i01",

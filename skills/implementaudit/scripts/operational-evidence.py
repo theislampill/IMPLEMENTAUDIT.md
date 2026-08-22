@@ -18,6 +18,7 @@ import re
 import stat
 import subprocess
 import sys
+import tempfile
 import types
 import urllib.error
 import urllib.request
@@ -893,17 +894,37 @@ def _native_route_module():
 
 def _native_require_current_receipt(repo, controller, receipt, route_module):
     claim_path = pathlib.Path(__file__).resolve().with_name("claim-run.sh")
+    validate_path = claim_path.with_name("validate-run-root.sh")
     claim_raw = _native_file(claim_path, "$native.continuity_validator", 256 * 1024)
+    validate_raw = _native_file(
+        validate_path, "$native.continuity_claim_validator", 256 * 1024)
     try:
         with contextlib.redirect_stdout(io.StringIO()):
             bash = route_module.trusted_host_executable(repo, "bash")
-            claim_arg = route_module.bash_script_path(claim_path)
             environment = route_module.sanitized_action_environment()
-        completed = subprocess.run(
-            [os.fspath(bash), claim_arg, "--require-current-continuity", controller],
-            cwd=repo, env=environment, stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-            check=False)
+        with tempfile.TemporaryDirectory(
+                prefix="implementaudit-native-current-r0011-") as temporary:
+            closure = pathlib.Path(temporary)
+            materialized_claim = closure / claim_path.name
+            materialized_validate = closure / validate_path.name
+            for target, raw, label in (
+                    (materialized_claim, claim_raw,
+                     "$native.materialized_continuity_validator"),
+                    (materialized_validate, validate_raw,
+                     "$native.materialized_continuity_claim_validator")):
+                with target.open("xb") as stream:
+                    stream.write(raw)
+                if _native_file(target, label, 256 * 1024) != raw:
+                    _error("OE_NATIVE_CURRENT_CHANGED", label,
+                           "private R0011 materialization changed before execution")
+            with contextlib.redirect_stdout(io.StringIO()):
+                claim_arg = route_module.bash_script_path(materialized_claim)
+            completed = subprocess.run(
+                [os.fspath(bash), claim_arg,
+                 "--require-current-continuity", controller],
+                cwd=repo, env=environment, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                check=False)
     except (OSError, SystemExit):
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt",
                "canonical R0011 currentness validator is unavailable")
@@ -914,7 +935,12 @@ def _native_require_current_receipt(repo, controller, receipt, route_module):
             claim_path, "$native.continuity_validator", 256 * 1024) != claim_raw:
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_validator",
                "R0011 validator changed during currentness validation")
-    return claim_path, claim_raw
+    if _native_file(
+            validate_path, "$native.continuity_claim_validator",
+            256 * 1024) != validate_raw:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_claim_validator",
+               "R0011 claim validator changed during currentness validation")
+    return claim_path, claim_raw, validate_path, validate_raw
 
 
 def _native_route_request(route_module, value):
@@ -1270,7 +1296,8 @@ def collect_native_current():
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
                "permanent migration marker is stale or foreign")
     route_module, route_validator_path, route_validator_raw = _native_route_module()
-    continuity_validator_path, continuity_validator_raw = (
+    (continuity_validator_path, continuity_validator_raw,
+     continuity_claim_validator_path, continuity_claim_validator_raw) = (
         _native_require_current_receipt(
             repository, controller, receipt, route_module))
     route = _native_route(
@@ -1288,7 +1315,8 @@ def collect_native_current():
         state_path: state_raw, roadmap_path: roadmap_raw, graph_path: graph_raw,
         compiler_path: compiler_raw,
         route_validator_path: route_validator_raw,
-        continuity_validator_path: continuity_validator_raw}
+        continuity_validator_path: continuity_validator_raw,
+        continuity_claim_validator_path: continuity_claim_validator_raw}
     if _run_git(
             source_repository, "for-each-ref", "--format=%(refname)",
             "refs/implementaudit/controllers/").stdout.splitlines() != controller_refs:
@@ -1342,6 +1370,13 @@ def collect_native_current():
         "route": route,
     }
     result["semantic_sha256"] = hashlib.sha256(canonical_json_v1(result)).hexdigest()
+    final_route = _native_route(
+        source_repository, controller, controller_oid, claim, run_root,
+        generation, receipt, invalidation[4], invalidation[5],
+        state["next_action"], route_module)
+    if final_route != route:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route",
+               "R0033 route identity changed during final semantic observation")
     return result
 
 
