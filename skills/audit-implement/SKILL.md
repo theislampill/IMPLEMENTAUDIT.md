@@ -160,6 +160,9 @@ with schema-order keys and no structural whitespace, BOM or terminal newline.
 After JSON decode, the consumer recursively rejects decoded C0, DEL and Unicode category `Cc` or `Cf`
 in every string field. Its proposition lexical normal form is NFC-stable, nonempty, has no leading/trailing Unicode whitespace
 and contains no `Cc`, `Cf` or hidden format prefix; validate that form before case-insensitive prohibited-domain classification.
+Reserved namespace spelling is ASCII-only with ASCII case variation for the
+literal `release:`, `currentness:` and `lifecycle:` tokens. Ordinary NFC Unicode propositions remain permitted outside those reserved ASCII tokens
+when they satisfy the same lexical normal form.
 Invalid UTF-8/JSON, noncanonical bytes, missing, unknown or duplicate fields,
 an unknown discriminator/state/kind, a binding mismatch, or authority-bearing
 output fails closed to the governor.

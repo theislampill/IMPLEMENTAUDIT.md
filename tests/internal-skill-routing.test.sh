@@ -580,6 +580,12 @@ PROHIBITED_PROPOSITION_PATTERN = (
     r"[Cc][Uu][Rr][Rr][Ee][Nn][Tt][Nn][Ee][Ss][Ss]|"
     r"[Ll][Ii][Ff][Ee][Cc][Yy][Cc][Ll][Ee]):"
 )
+UNICODE_CASEFOLD_HELDOUTS = (
+    "releaſe:heldout",
+    "currentneſs:heldout",
+    "lıfecycle:heldout",
+    "lİfecycle:heldout",
+)
 VALIDATOR = Path("skills/implementaudit/scripts/validate-audit-implement-return.py")
 TEMP_ROOT = Path(sys.argv[1])
 
@@ -693,6 +699,9 @@ for proposition in (
 ):
     if not prohibited_pattern.search(proposition):
         fail(f"v2 schema prohibited-domain pattern misses {proposition!r}")
+for proposition in UNICODE_CASEFOLD_HELDOUTS:
+    if not lexical_pattern.search(proposition) or prohibited_pattern.search(proposition):
+        fail(f"v2 schema rejects ordinary Unicode casefold held-out {proposition!r}")
 
 governor = Path("skills/implementaudit/SKILL.md").read_text(encoding="utf-8")
 for token in (
@@ -709,6 +718,8 @@ for token in (
     "recursively rejects decoded C0, DEL and Unicode category `Cc` or `Cf`",
     "NFC-stable, nonempty, has no leading/trailing Unicode whitespace",
     "before case-insensitive prohibited-domain classification",
+    "Reserved namespace spelling is ASCII-only with ASCII case variation",
+    "Ordinary NFC Unicode propositions remain permitted outside those reserved ASCII tokens",
 ):
     if token not in audit_implement:
         fail(f"audit-implement lexical contract missing {token}")
@@ -1068,6 +1079,16 @@ for namespace in prohibited_domains:
         "established-proposition-domain",
     )
 
+for proposition in UNICODE_CASEFOLD_HELDOUTS:
+    record = dict(base, proposition=proposition, support="established")
+    require_accept(
+        f"Unicode casefold parity held-out {proposition}",
+        canonical(record),
+        bound_from_record(record),
+        "v2-evidence-input",
+        "established",
+    )
+
 legacy_controls = (
     "established",
     "contradicted",
@@ -1095,6 +1116,7 @@ print(
     f"{len(decoded_control_fields) * 3} decoded controls, "
     f"{len(proposition_prefixes) * len(prohibited_spellings)} prefixed domains, "
     f"{len(prohibited_domains)} exact prohibited domains, "
+    f"{len(UNICODE_CASEFOLD_HELDOUTS)} Unicode casefold parity controls, "
     f"{len(legacy_controls)} frozen v1 controls)"
 )
 PY

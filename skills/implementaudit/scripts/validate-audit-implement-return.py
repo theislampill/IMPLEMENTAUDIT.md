@@ -49,7 +49,10 @@ LEGACY_NEUTRAL_TOKENS = {
     "unresolved",
     "boundary not supportable",
 }
-PROHIBITED_PROPOSITION = re.compile(r"^(?:release|currentness|lifecycle):", re.IGNORECASE)
+PROHIBITED_PROPOSITION = re.compile(
+    r"^(?:release|currentness|lifecycle):",
+    re.IGNORECASE | re.ASCII,
+)
 
 
 class ParsedPairs(list[tuple[str, Any]]):
