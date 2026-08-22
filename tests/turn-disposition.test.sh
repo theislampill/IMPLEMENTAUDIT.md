@@ -408,6 +408,27 @@ set_handoff_andon_state() {
 | 2 | duplicate-section-occ | 1 | failed-criterion | duplicate section | retain checkpoint | owner response | open (rerun pending) |\
 ' "$state_file"
       ;;
+    d01-n18-sole-case-alias)
+      sed -i 's/^## Andon log$/## andon log/' "$state_file"
+      ;;
+    d01-n19-case-alias-duplicate)
+      append_andon_alias "$state_file" '## andon log'
+      ;;
+    d01-n20-trailing-space-alias-duplicate)
+      append_andon_alias "$state_file" '## Andon log '
+      ;;
+    d01-n21-indented-alias-duplicate)
+      append_andon_alias "$state_file" ' ## Andon log'
+      ;;
+    d01-n22-internal-space-alias-duplicate)
+      append_andon_alias "$state_file" '##  Andon   log'
+      ;;
+    d01-n23-closing-hash-alias-duplicate)
+      append_andon_alias "$state_file" '## Andon log ##'
+      ;;
+    d01-n24-tab-alias-duplicate)
+      append_andon_alias "$state_file" $'##\tAndon\tlog\t'
+      ;;
     n02-missing-header)
       sed -i '/^| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |$/d' "$state_file"
       ;;
@@ -485,6 +506,30 @@ set_handoff_andon_state() {
       exit 1
       ;;
   esac
+}
+
+append_andon_alias() {
+  local state_file="$1" heading="$2"
+  python - "$state_file" "$heading" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+heading = sys.argv[2]
+marker = "## Occurrence resolution and residuals"
+alias = "\n".join((
+    heading,
+    "",
+    "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
+    "|---|---|---|---|---|---|---|---|",
+    "| forged | alias-occ | 1 | failed-criterion | malformed alias state | retain checkpoint | owner response | open (rerun pending) |",
+    "",
+))
+payload = path.read_text(encoding="utf-8")
+if payload.count(marker) != 1:
+    raise SystemExit("turn-disposition.test: expected one occurrence-resolution marker")
+path.write_text(payload.replace(marker, alias + marker, 1), encoding="utf-8")
+PY
 }
 
 expect_handoff_evidence() {
@@ -604,6 +649,14 @@ expect_typed_state_pair \
 convergence_refusals=(
   'N01-missing-section::n01-missing-section'
   'N01-duplicate-section::n01-duplicate-section'
+  'D01-N18-sole-case-alias::d01-n18-sole-case-alias'
+  'D01-N19-case-alias-duplicate::d01-n19-case-alias-duplicate'
+  'D01-N20-trailing-space-alias-duplicate::d01-n20-trailing-space-alias-duplicate'
+  'D01-N21-indented-alias-duplicate::d01-n21-indented-alias-duplicate'
+  'D01-N22-internal-space-alias-duplicate::d01-n22-internal-space-alias-duplicate'
+  'D01-N23-closing-hash-alias-duplicate::d01-n23-closing-hash-alias-duplicate'
+  'D01-N24-tab-alias-duplicate::d01-n24-tab-alias-duplicate'
+  'D01-N25-exact-duplicate::n01-duplicate-section'
   'N02-missing-header::n02-missing-header'
   'N02-duplicate-header::n02-duplicate-header'
   'N02-missing-separator::n02-missing-separator'

@@ -5,7 +5,14 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT
+trajectory_review_dir=""
+cleanup() {
+  rm -rf "$tmp"
+  if [ -n "$trajectory_review_dir" ]; then
+    rm -rf "$trajectory_review_dir"
+  fi
+}
+trap cleanup EXIT
 
 helper="skills/implementaudit/scripts/validate-run-root.sh"
 
@@ -41,6 +48,140 @@ grep -oE '^\| *[0-9]+ *\|' "$tmp/good/ROADMAP.md" | grep -oE '[0-9]+' | sort -un
   printf 'stub\n' > "$tmp/good/phases/phase-$n.md"
 done
 bash "$helper" "$tmp/good"
+
+# Digest-bound second-independent-review trajectory enforcement. This runs
+# before the inherited DONE/tools-template RED so the two claims remain
+# independently observable.
+trajectory_review_dir="$(mktemp -d "$repo_root/.trajectory-reviews.XXXXXX")"
+review_a="$trajectory_review_dir/review-a.md"
+review_b="$trajectory_review_dir/review-b.md"
+review_pass="$trajectory_review_dir/review-pass.md"
+printf '# Independent candidate review A\n\nHC_H7A_TEST_REVIEW_A: NEEDS_REVISION\n' > "$review_a"
+printf '# Independent candidate review B\n\nHC_H7A_TEST_REVIEW_B: NEEDS_REVISION\n' > "$review_b"
+printf '# Independent candidate review control\n\nHC_H7A_TEST_REVIEW_CONTROL: PASS\n' > "$review_pass"
+review_a_rel="${review_a#"$repo_root/"}"
+review_b_rel="${review_b#"$repo_root/"}"
+review_pass_rel="${review_pass#"$repo_root/"}"
+review_a_sha="$(sha256sum "$review_a" | awk '{print $1}')"
+review_b_sha="$(sha256sum "$review_b" | awk '{print $1}')"
+review_pass_sha="$(sha256sum "$review_pass" | awk '{print $1}')"
+
+make_review_trajectory_root() {
+  local name="$1" second_class="$2" second_owner="$3" second_path="$4" second_sha="$5" decision="${6:-}"
+  local root="$tmp/$name" state
+  mkdir -p "$root"
+  cp -r "$tmp/good/." "$root/"
+  state="$root/STATE.md"
+  "${py_cmd[@]}" - "$state" "$review_a_rel" "$review_a_sha" "$second_path" "$second_sha" "$second_class" "$second_owner" "$decision" <<'PY'
+import sys
+from pathlib import Path
+
+state_path = Path(sys.argv[1])
+review_a, sha_a, review_b, sha_b, second_class, second_owner, decision = sys.argv[2:]
+payload = state_path.read_text(encoding="utf-8")
+artifact_header = "| Artifact | Status | Notes |\n|---|---|---|"
+artifact_rows = (
+    f"{artifact_header}\n"
+    f"| `{review_a}` | independent review | SHA-256 `{sha_a}`; NEEDS_REVISION |\n"
+    f"| `{review_b}` | independent review | SHA-256 `{sha_b}`; NEEDS_REVISION |"
+)
+if payload.count(artifact_header) != 1:
+    raise SystemExit("run-root-validation.test: expected one Runtime artifacts header")
+payload = payload.replace(artifact_header, artifact_rows, 1)
+occurrence = "## Occurrence resolution and residuals"
+rows = (
+    "| 901 | trajectory-a | direct | regression | candidate countermeasure failed | repair; owner/source=eval/shared-owner.py | "
+    f"`{review_a}` | resolved |\n"
+    f"| 902 | trajectory-b | direct | {second_class} | candidate countermeasure failed | repair; owner/source={second_owner} | "
+    f"`{review_b}` | resolved |\n"
+)
+if decision:
+    rows += f"\nMechanism-replacement decision: {decision}\n"
+if payload.count(occurrence) != 1:
+    raise SystemExit("run-root-validation.test: expected one occurrence-resolution heading")
+state_path.write_text(payload.replace(occurrence, rows + "\n" + occurrence, 1), encoding="utf-8")
+PY
+}
+
+make_review_trajectory_root trajectory-two-reviews-no-decision \
+  regression eval/shared-owner.py "$review_b_rel" "$review_b_sha"
+if bash "$helper" "$tmp/trajectory-two-reviews-no-decision" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: two digest-bound independent same-family/owner reviews must require a decision\n' >&2
+  exit 1
+fi
+
+make_review_trajectory_root trajectory-one-review \
+  regression eval/shared-owner.py "$review_a_rel" "$review_a_sha"
+bash "$helper" "$tmp/trajectory-one-review" >/dev/null || {
+  printf 'run-root-validation.test: duplicate review identity must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+make_review_trajectory_root trajectory-duplicate-occurrence \
+  regression eval/shared-owner.py "$review_b_rel" "$review_b_sha"
+sed -i 's/| 902 | trajectory-b |/| 902 | trajectory-a |/' \
+  "$tmp/trajectory-duplicate-occurrence/STATE.md"
+bash "$helper" "$tmp/trajectory-duplicate-occurrence" >/dev/null || {
+  printf 'run-root-validation.test: duplicate Andon occurrence must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+make_review_trajectory_root trajectory-unrelated-family \
+  failed-criterion eval/shared-owner.py "$review_b_rel" "$review_b_sha"
+bash "$helper" "$tmp/trajectory-unrelated-family" >/dev/null || {
+  printf 'run-root-validation.test: unrelated review families must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+make_review_trajectory_root trajectory-different-owner \
+  regression eval/other-owner.py "$review_b_rel" "$review_b_sha"
+bash "$helper" "$tmp/trajectory-different-owner" >/dev/null || {
+  printf 'run-root-validation.test: different review owners must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+make_review_trajectory_root trajectory-digest-mismatch \
+  regression eval/shared-owner.py "$review_b_rel" "f${review_b_sha:1}"
+bash "$helper" "$tmp/trajectory-digest-mismatch" >/dev/null || {
+  printf 'run-root-validation.test: digest mismatch must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+make_review_trajectory_root trajectory-missing-artifact \
+  regression eval/shared-owner.py '.trajectory-reviews.missing/review.md' "$review_b_sha"
+bash "$helper" "$tmp/trajectory-missing-artifact" >/dev/null || {
+  printf 'run-root-validation.test: missing review artifact must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+make_review_trajectory_root trajectory-terminal-disposition-mismatch \
+  regression eval/shared-owner.py "$review_pass_rel" "$review_pass_sha"
+bash "$helper" "$tmp/trajectory-terminal-disposition-mismatch" >/dev/null || {
+  printf 'run-root-validation.test: terminal review disposition mismatch must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+mkdir -p "$tmp/trajectory-review-words-only"
+cp -r "$tmp/good/." "$tmp/trajectory-review-words-only/"
+printf '\nIndependent review NEEDS_REVISION words without a bound artifact are narrative only.\n' \
+  >> "$tmp/trajectory-review-words-only/STATE.md"
+bash "$helper" "$tmp/trajectory-review-words-only" >/dev/null || {
+  printf 'run-root-validation.test: review-like narrative words must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+for decision in \
+  'replace-mechanism (shared parser)' \
+  'continue (complete admitted convergence model)' \
+  'escalate-to-convergence-mode (shared invariant)'; do
+  decision_name="${decision%% *}"
+  make_review_trajectory_root "trajectory-with-$decision_name" \
+    regression eval/shared-owner.py "$review_b_rel" "$review_b_sha" "$decision"
+  bash "$helper" "$tmp/trajectory-with-$decision_name" >/dev/null || {
+    printf 'run-root-validation.test: digest-bound trajectory with %s decision expected PASS\n' "$decision_name" >&2
+    exit 1
+  }
+done
 
 # 1b. #139 full-mode evidence resolution. Only a phase explicitly marked done
 # resolves current mandatory-command capture grammar; open phases remain cheap.

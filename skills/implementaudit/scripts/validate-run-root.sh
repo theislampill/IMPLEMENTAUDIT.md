@@ -434,7 +434,8 @@ PY
 fi
 
 check_recurrence_decision() {
-  local ledger="$1" findings invalid_lines missing_classes
+  local ledger="$1" findings invalid_lines missing_classes trajectory_missing validator_repo_root
+  local -a recurrence_py
   findings="$(awk -F'|' '
     function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
     function owner_source(v) {
@@ -491,6 +492,162 @@ check_recurrence_decision() {
   missing_classes="$(printf '%s\n' "$findings" | awk -F'\t' '$1 == "missing" { print $2 }' | tr '\n' ' ')"
   if [ -n "$missing_classes" ]; then
     err "Andon class(es) $missing_classes reached 3 distinct linked occurrences with the last 2 repairs on one owner/source; add a following Mechanism-replacement decision:"
+  fi
+
+  trajectory_missing=""
+  if grep -qi 'independent review' "$ledger"; then
+    recurrence_py=()
+    if command -v python >/dev/null 2>&1; then recurrence_py=(python)
+    elif command -v python3 >/dev/null 2>&1; then recurrence_py=(python3)
+    elif command -v py >/dev/null 2>&1; then recurrence_py=(py -3)
+    else
+      err "python, python3, or py -3 is required for digest-bound recurrence validation"
+    fi
+    validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
+    if [ -z "$validator_repo_root" ]; then
+      err "digest-bound recurrence validation cannot resolve the executing repository root"
+    elif [ "${#recurrence_py[@]}" -gt 0 ]; then
+      if ! trajectory_missing="$("${recurrence_py[@]}" - "$validator_repo_root" "$ledger" <<'PY'
+import hashlib
+import re
+import sys
+from collections import defaultdict
+from pathlib import Path, PurePosixPath
+
+repo_root = Path(sys.argv[1]).resolve()
+ledger_path = Path(sys.argv[2])
+try:
+    lines = ledger_path.read_text(encoding="utf-8").splitlines()
+except (OSError, UnicodeError):
+    raise SystemExit(0)
+
+
+def trim(value):
+    return value.strip(" \t")
+
+
+def table_rows(section):
+    active = False
+    for line_number, line in enumerate(lines, 1):
+        if line == section:
+            active = True
+            continue
+        if active and line.startswith("## "):
+            active = False
+        if not active or not line.startswith("|") or not line.endswith("|"):
+            continue
+        cells = [trim(cell) for cell in line.split("|")[1:-1]]
+        yield line_number, cells
+
+
+artifact_rows = defaultdict(list)
+digest_pattern = re.compile(r"\bSHA-256\s+`?([0-9a-fA-F]{64})`?")
+for _, cells in table_rows("## Runtime artifacts"):
+    if len(cells) != 3:
+        continue
+    path_match = re.fullmatch(r"`([^`]+)`", cells[0])
+    combined = " ".join(cells[1:])
+    digest_match = digest_pattern.search(combined)
+    if (not path_match or not digest_match
+            or not re.search(r"\bindependent(?: candidate)? review\b", combined, re.I)
+            or not re.search(r"\bNEEDS_REVISION\b", combined)):
+        continue
+    artifact_rows[path_match.group(1)].append(digest_match.group(1).lower())
+
+
+def verified_review(relative):
+    normalized = relative.replace("\\", "/")
+    pure = PurePosixPath(normalized)
+    if (not normalized or pure.is_absolute() or normalized != str(pure)
+            or any(part in ("", ".", "..") for part in pure.parts)
+            or pure.parts[0] == ".git"
+            or re.match(r"^[A-Za-z]:", normalized)):
+        return None
+    declared = artifact_rows.get(relative, [])
+    if not declared or len(set(declared)) != 1:
+        return None
+    lexical = repo_root.joinpath(*pure.parts)
+    try:
+        resolved = lexical.resolve(strict=True)
+        resolved.relative_to(repo_root)
+    except (OSError, ValueError):
+        return None
+    if not lexical.is_file() or lexical.is_symlink():
+        return None
+    try:
+        payload = resolved.read_bytes()
+        report_lines = resolved.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError):
+        return None
+    digest = hashlib.sha256(payload).hexdigest()
+    if digest != declared[0]:
+        return None
+    terminal = next((line for line in reversed(report_lines) if line.strip()), "")
+    if not re.fullmatch(r"[^:]+:\s*NEEDS_REVISION(?:\s+C\d+/I\d+/M\d+)?\s*", terminal):
+        return None
+    return relative, digest
+
+
+def owner_source(value):
+    match = re.search(r"owner/source\s*=\s*([^\s;,)]+)", value)
+    if not match:
+        return ""
+    owner = match.group(1).replace("\\", "/")
+    while owner.startswith("./"):
+        owner = owner[2:]
+    return owner
+
+
+groups = defaultdict(dict)
+for line_number, cells in table_rows("## Andon log"):
+    if len(cells) != 8 or not re.fullmatch(r"[0-9]+", cells[0]):
+        continue
+    review_match = re.fullmatch(r"`([^`]+)`", cells[6])
+    if not review_match:
+        continue
+    identity = verified_review(review_match.group(1))
+    occurrence = cells[1]
+    owner = owner_source(cells[5])
+    family = cells[3]
+    if identity and occurrence and owner and family:
+        groups[(family, owner)].setdefault((identity, occurrence), line_number)
+
+decision_pattern = re.compile(
+    r"^Mechanism-replacement decision:\s*"
+    r"(?:replace-mechanism|continue|escalate-to-convergence-mode)\s*"
+    r"\([^()]*[A-Za-z0-9][^()]*\)\s*$"
+)
+decisions = [number for number, line in enumerate(lines, 1) if decision_pattern.fullmatch(line)]
+audit_complete = next(
+    (number for number, line in enumerate(lines, 1) if line.strip() == "AUDIT_COMPLETE"),
+    0,
+)
+for (family, owner), entries_by_key in sorted(groups.items()):
+    entries = [(*key, line_number) for key, line_number in entries_by_key.items()]
+    trigger_lines = [
+        max(left[2], right[2])
+        for index, left in enumerate(entries)
+        for right in entries[index + 1:]
+        if left[0] != right[0] and left[1] != right[1]
+    ]
+    if not trigger_lines:
+        continue
+    trigger_line = min(trigger_lines)
+    if not any(number > trigger_line and (not audit_complete or number < audit_complete)
+               for number in decisions):
+        print(f"{family}\t{owner}")
+PY
+)"; then
+        err "digest-bound recurrence evidence could not be parsed"
+        trajectory_missing=""
+      fi
+    fi
+  fi
+  if [ -n "$trajectory_missing" ]; then
+    while IFS=$'\t' read -r family owner; do
+      [ -n "$family" ] || continue
+      err "Andon family '$family' has 2 distinct digest-bound NEEDS_REVISION reviews on owner/source '$owner'; add a following Mechanism-replacement decision:"
+    done <<< "$trajectory_missing"
   fi
 }
 
@@ -878,6 +1035,19 @@ if [ -f "$state" ]; then
               || normalized ~ /^(resolved|closed|done)\([^()]+\)$/) return "terminal"
           return "invalid"
         }
+        function semantic_andon_heading(value, normalized) {
+          normalized=value
+          if (normalized !~ /^ {0,3}##[ \t]+/) return 0
+          sub(/^ {0,3}##[ \t]+/, "", normalized)
+          normalized=tolower(normalized)
+          sub(/[ \t]+#+[ \t]*$/, "", normalized)
+          normalized=trim(normalized)
+          return normalized ~ /^andon[ \t]+log$/
+        }
+        semantic_andon_heading($0) {
+          semantic_section_count++
+          if ($0 != "## Andon log") malformed=1
+        }
         $0 == "## Andon log" {
           section_count++
           if (in_andon) malformed=1
@@ -945,7 +1115,8 @@ if [ -f "$state" ]; then
         }
         END {
           if (in_andon && stage == "expect-separator") malformed=1
-          if (section_count != 1 || header_count != 1 || separator_count != 1) malformed=1
+          if (semantic_section_count != 1 || section_count != 1 \
+              || header_count != 1 || separator_count != 1) malformed=1
           print open && !malformed && !duplicate ? "yes" : "no"
         }
       ' "$state")"
