@@ -434,7 +434,7 @@ PY
 fi
 
 check_recurrence_decision() {
-  local ledger="$1" findings invalid_lines missing_classes trajectory_missing validator_repo_root
+  local ledger="$1" findings invalid_lines missing_classes trajectory_missing
   local -a recurrence_py
   findings="$(awk -F'|' '
     function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
@@ -495,7 +495,7 @@ check_recurrence_decision() {
   fi
 
   trajectory_missing=""
-  if grep -qi 'independent review' "$ledger"; then
+  if grep -q '^cold-review:' "$ledger"; then
     recurrence_py=()
     if command -v python >/dev/null 2>&1; then recurrence_py=(python)
     elif command -v python3 >/dev/null 2>&1; then recurrence_py=(python3)
@@ -503,19 +503,17 @@ check_recurrence_decision() {
     else
       err "python, python3, or py -3 is required for digest-bound recurrence validation"
     fi
-    validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
-    if [ -z "$validator_repo_root" ]; then
-      err "digest-bound recurrence validation cannot resolve the executing repository root"
-    elif [ "${#recurrence_py[@]}" -gt 0 ]; then
-      if ! trajectory_missing="$("${recurrence_py[@]}" - "$validator_repo_root" "$ledger" <<'PY'
+    if [ "${#recurrence_py[@]}" -gt 0 ]; then
+      if ! trajectory_missing="$("${recurrence_py[@]}" - "$ledger" <<'PY'
 import hashlib
 import re
+import subprocess
 import sys
 from collections import defaultdict
 from pathlib import Path, PurePosixPath
 
-repo_root = Path(sys.argv[1]).resolve()
-ledger_path = Path(sys.argv[2])
+ledger_path = Path(sys.argv[1]).resolve()
+run_root = ledger_path.parent
 try:
     lines = ledger_path.read_text(encoding="utf-8").splitlines()
 except (OSError, UnicodeError):
@@ -540,22 +538,7 @@ def table_rows(section):
         yield line_number, cells
 
 
-artifact_rows = defaultdict(list)
-digest_pattern = re.compile(r"\bSHA-256\s+`?([0-9a-fA-F]{64})`?")
-for _, cells in table_rows("## Runtime artifacts"):
-    if len(cells) != 3:
-        continue
-    path_match = re.fullmatch(r"`([^`]+)`", cells[0])
-    combined = " ".join(cells[1:])
-    digest_match = digest_pattern.search(combined)
-    if (not path_match or not digest_match
-            or not re.search(r"\bindependent(?: candidate)? review\b", combined, re.I)
-            or not re.search(r"\bNEEDS_REVISION\b", combined)):
-        continue
-    artifact_rows[path_match.group(1)].append(digest_match.group(1).lower())
-
-
-def verified_review(relative):
+def contained_bytes(relative, declared_digest):
     normalized = relative.replace("\\", "/")
     pure = PurePosixPath(normalized)
     if (not normalized or pure.is_absolute() or normalized != str(pure)
@@ -563,29 +546,98 @@ def verified_review(relative):
             or pure.parts[0] == ".git"
             or re.match(r"^[A-Za-z]:", normalized)):
         return None
-    declared = artifact_rows.get(relative, [])
-    if not declared or len(set(declared)) != 1:
-        return None
-    lexical = repo_root.joinpath(*pure.parts)
+    lexical = run_root.joinpath(*pure.parts)
     try:
         resolved = lexical.resolve(strict=True)
-        resolved.relative_to(repo_root)
+        resolved.relative_to(run_root)
     except (OSError, ValueError):
         return None
     if not lexical.is_file() or lexical.is_symlink():
         return None
     try:
         payload = resolved.read_bytes()
-        report_lines = resolved.read_text(encoding="utf-8").splitlines()
-    except (OSError, UnicodeError):
+    except OSError:
         return None
     digest = hashlib.sha256(payload).hexdigest()
-    if digest != declared[0]:
+    if digest != declared_digest:
         return None
-    terminal = next((line for line in reversed(report_lines) if line.strip()), "")
-    if not re.fullmatch(r"[^:]+:\s*NEEDS_REVISION(?:\s+C\d+/I\d+/M\d+)?\s*", terminal):
+    return resolved, payload
+
+
+prospective_re = re.compile(
+    r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
+    r"\| attestation: ([A-Za-z0-9._/-]+) "
+    r"\| attestation_sha256: ([0-9a-f]{64}) "
+    r"\| packet: ([A-Za-z0-9._/-]+) "
+    r"\| packet_sha256: ([0-9a-f]{64}) "
+    r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
+)
+attestation_keys = (
+    "reviewer_identity", "requested_model", "actual_model",
+    "authoring_context_reuse", "other_reviewer_output_seen",
+    "base_sha", "head_sha",
+)
+
+
+def qualified_review(line):
+    match = prospective_re.fullmatch(line)
+    if not match or match.group(1) != "GAP-REVISE":
         return None
-    return relative, digest
+    disposition, report_rel, report_digest, packet_rel, packet_digest, base, head = match.groups()
+    report_bound = contained_bytes(report_rel, report_digest)
+    packet_bound = contained_bytes(packet_rel, packet_digest)
+    if not report_bound or not packet_bound:
+        return None
+    try:
+        report = report_bound[0].read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError):
+        return None
+    if report.count("Report state: FINAL") != 1 or report.count("Reviewer attestation:") != 1:
+        return None
+    header = report.index("Reviewer attestation:")
+    block = report[header + 1:header + 1 + len(attestation_keys)]
+    if len(block) != len(attestation_keys):
+        return None
+    values = {}
+    for index, key in enumerate(attestation_keys):
+        prefix = f"- {key}:"
+        exact = [item for item in report if item.startswith(prefix)]
+        if len(exact) != 1 or block[index] != exact[0]:
+            return None
+        values[key] = exact[0].split(":", 1)[1].strip()
+    if (values["authoring_context_reuse"] != "no"
+            or values["base_sha"] != base or values["head_sha"] != head):
+        return None
+    nonempty = [item for item in report if item.strip()]
+    if not nonempty or nonempty[-1] != disposition:
+        return None
+    terminal = [item for item in report if item in {"PASS", "GAP-REVISE", "BLOCKED", "OWNER DECISION"}]
+    if terminal != [disposition]:
+        return None
+    for prefix in ("Verdict:", "Disposition:", "cold-review-disposition:"):
+        for item in report:
+            if item.startswith(prefix) and item.split(":", 1)[1].strip() != disposition:
+                return None
+    def git(*args):
+        return subprocess.run(
+            ["git", "-C", str(run_root), *args],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            check=False,
+        )
+    for sha in (base, head):
+        resolved = git("cat-file", "-t", sha)
+        if resolved.returncode != 0 or resolved.stdout.strip() != "commit":
+            return None
+    if base == head or git("merge-base", "--is-ancestor", base, head).returncode != 0:
+        return None
+    return report_rel, report_digest, packet_digest, head
+
+
+qualified = {}
+for line in lines:
+    identity = qualified_review(line)
+    if identity:
+        qualified[identity[0]] = identity
 
 
 def owner_source(value):
@@ -605,12 +657,12 @@ for line_number, cells in table_rows("## Andon log"):
     review_match = re.fullmatch(r"`([^`]+)`", cells[6])
     if not review_match:
         continue
-    identity = verified_review(review_match.group(1))
+    identity = qualified.get(review_match.group(1))
     occurrence = cells[1]
     owner = owner_source(cells[5])
     family = cells[3]
     if identity and occurrence and owner and family:
-        groups[(family, owner)].setdefault((identity, occurrence), line_number)
+        groups[(family, owner)].setdefault((*identity[1:], occurrence), line_number)
 
 decision_pattern = re.compile(
     r"^Mechanism-replacement decision:\s*"
@@ -625,10 +677,11 @@ audit_complete = next(
 for (family, owner), entries_by_key in sorted(groups.items()):
     entries = [(*key, line_number) for key, line_number in entries_by_key.items()]
     trigger_lines = [
-        max(left[2], right[2])
+        max(left[4], right[4])
         for index, left in enumerate(entries)
         for right in entries[index + 1:]
-        if left[0] != right[0] and left[1] != right[1]
+        if (left[0] != right[0] and left[1] != right[1]
+            and left[2] != right[2] and left[3] != right[3])
     ]
     if not trigger_lines:
         continue
@@ -646,7 +699,7 @@ PY
   if [ -n "$trajectory_missing" ]; then
     while IFS=$'\t' read -r family owner; do
       [ -n "$family" ] || continue
-      err "Andon family '$family' has 2 distinct digest-bound NEEDS_REVISION reviews on owner/source '$owner'; add a following Mechanism-replacement decision:"
+      err "Andon family '$family' has 2 distinct digest-bound GAP-REVISE reviews on owner/source '$owner'; add a following Mechanism-replacement decision:"
     done <<< "$trajectory_missing"
   fi
 }
@@ -1152,8 +1205,6 @@ if [ -f "$state" ]; then
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
-  check_recurrence_decision "$state"
-
   if [ "$mode" = micro ]; then
     terminal_line="$(awk 'NF { last=$0 } END { print last }' "$state")"
     case "$terminal_line" in
@@ -1297,6 +1348,7 @@ if [ -f "$state" ] && grep -qi '^[[:space:]]*cold-review[[:space:]]*:' "$state";
   if [ "${#cold_py[@]}" -gt 0 ]; then
     cold_error=""
     if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" <<'PY'
+import hashlib
 import pathlib
 import re
 import subprocess
@@ -1317,9 +1369,17 @@ exact = [line for line in lines if line.startswith("cold-review:")]
 if len(near) != len(exact):
     die("STATE.md cold-review rows must use exact lowercase column-zero grammar")
 
-row_re = re.compile(
+legacy_row_re = re.compile(
     r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
     r"\| attestation: ([A-Za-z0-9._/-]+) "
+    r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
+)
+prospective_row_re = re.compile(
+    r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
+    r"\| attestation: ([A-Za-z0-9._/-]+) "
+    r"\| attestation_sha256: ([0-9a-f]{64}) "
+    r"\| packet: ([A-Za-z0-9._/-]+) "
+    r"\| packet_sha256: ([0-9a-f]{64}) "
     r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
 )
 keys = (
@@ -1329,13 +1389,24 @@ keys = (
 )
 
 for line in exact:
-    match = row_re.fullmatch(line)
+    prospective = prospective_row_re.fullmatch(line)
+    match = prospective or legacy_row_re.fullmatch(line)
     if not match:
         die("STATE.md cold-review row must use exact disposition and attestation grammar")
     disposition = match.group(1)
     rel = match.group(2)
-    declared_base = match.group(3)
-    declared_head = match.group(4)
+    if prospective:
+        declared_attestation_sha = match.group(3)
+        packet_rel = match.group(4)
+        declared_packet_sha = match.group(5)
+        declared_base = match.group(6)
+        declared_head = match.group(7)
+    else:
+        declared_attestation_sha = None
+        packet_rel = None
+        declared_packet_sha = None
+        declared_base = match.group(3)
+        declared_head = match.group(4)
     pure = pathlib.PurePosixPath(rel)
     if pure.is_absolute() or ".." in pure.parts or "." in pure.parts or ":" in rel or "\\" in rel:
         die("cold-review attestation path must be safe and run-root-relative")
@@ -1347,6 +1418,24 @@ for line in exact:
         die("cold-review attestation escapes the run root")
     if not artifact_path.is_file() or artifact_path.is_symlink():
         die("cold-review attestation must resolve to a regular non-symlink file")
+    artifact_bytes = artifact.read_bytes()
+    if declared_attestation_sha is not None:
+        if hashlib.sha256(artifact_bytes).hexdigest() != declared_attestation_sha:
+            die("cold-review attestation SHA-256 must match the contained report bytes")
+        packet_pure = pathlib.PurePosixPath(packet_rel)
+        if (packet_pure.is_absolute() or ".." in packet_pure.parts or "." in packet_pure.parts
+                or ":" in packet_rel or "\\" in packet_rel):
+            die("cold-review packet path must be safe and run-root-relative")
+        packet_path = root / pathlib.Path(*packet_pure.parts)
+        packet = packet_path.resolve()
+        try:
+            packet.relative_to(root)
+        except ValueError:
+            die("cold-review packet escapes the run root")
+        if not packet_path.is_file() or packet_path.is_symlink():
+            die("cold-review packet must resolve to a regular non-symlink file")
+        if hashlib.sha256(packet.read_bytes()).hexdigest() != declared_packet_sha:
+            die("cold-review packet SHA-256 must match the contained packet bytes")
     report = artifact.read_text(encoding="utf-8").splitlines()
     if report.count("Reviewer attestation:") != 1:
         die("cold-review artifact requires exactly one Reviewer attestation header")
@@ -1449,6 +1538,10 @@ PY
     fi
   fi
 fi
+
+# Cold-review grammar and owner bindings are validated before the recurrence
+# consumer can count any prospective GAP-REVISE record.
+check_recurrence_decision "$state"
 
 # The repository-side #86 successor/non-verdict parser is mandatory whenever a
 # live record root carries those prospective rows. Direct Markdown files are

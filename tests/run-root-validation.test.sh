@@ -56,15 +56,23 @@ trajectory_review_dir="$(mktemp -d "$repo_root/.trajectory-reviews.XXXXXX")"
 review_a="$trajectory_review_dir/review-a.md"
 review_b="$trajectory_review_dir/review-b.md"
 review_pass="$trajectory_review_dir/review-pass.md"
+ordinary_a="$trajectory_review_dir/ordinary-a.md"
+ordinary_b="$trajectory_review_dir/ordinary-b.md"
 printf '# Independent candidate review A\n\nHC_H7A_TEST_REVIEW_A: NEEDS_REVISION\n' > "$review_a"
 printf '# Independent candidate review B\n\nHC_H7A_TEST_REVIEW_B: NEEDS_REVISION\n' > "$review_b"
 printf '# Independent candidate review control\n\nHC_H7A_TEST_REVIEW_CONTROL: PASS\n' > "$review_pass"
+printf 'ordinary fixture A\nITEM_A: NEEDS_REVISION\n' > "$ordinary_a"
+printf 'ordinary fixture B\nITEM_B: NEEDS_REVISION\n' > "$ordinary_b"
 review_a_rel="${review_a#"$repo_root/"}"
 review_b_rel="${review_b#"$repo_root/"}"
 review_pass_rel="${review_pass#"$repo_root/"}"
+ordinary_a_rel="${ordinary_a#"$repo_root/"}"
+ordinary_b_rel="${ordinary_b#"$repo_root/"}"
 review_a_sha="$(sha256sum "$review_a" | awk '{print $1}')"
 review_b_sha="$(sha256sum "$review_b" | awk '{print $1}')"
 review_pass_sha="$(sha256sum "$review_pass" | awk '{print $1}')"
+ordinary_a_sha="$(sha256sum "$ordinary_a" | awk '{print $1}')"
+ordinary_b_sha="$(sha256sum "$ordinary_b" | awk '{print $1}')"
 
 make_review_trajectory_root() {
   local name="$1" second_class="$2" second_owner="$3" second_path="$4" second_sha="$5" decision="${6:-}"
@@ -105,10 +113,10 @@ PY
 
 make_review_trajectory_root trajectory-two-reviews-no-decision \
   regression eval/shared-owner.py "$review_b_rel" "$review_b_sha"
-if bash "$helper" "$tmp/trajectory-two-reviews-no-decision" >/dev/null 2>&1; then
-  printf 'run-root-validation.test: two digest-bound independent same-family/owner reviews must require a decision\n' >&2
+bash "$helper" "$tmp/trajectory-two-reviews-no-decision" >/dev/null || {
+  printf 'run-root-validation.test: Runtime-artifact review prose must not establish the trajectory trigger\n' >&2
   exit 1
-fi
+}
 
 make_review_trajectory_root trajectory-one-review \
   regression eval/shared-owner.py "$review_a_rel" "$review_a_sha"
@@ -169,6 +177,225 @@ bash "$helper" "$tmp/trajectory-review-words-only" >/dev/null || {
   printf 'run-root-validation.test: review-like narrative words must not establish the trajectory trigger\n' >&2
   exit 1
 }
+
+# C2 causal aggregate: Runtime-artifact prose and terminal-looking ordinary
+# files are custody declarations, not an authoritative independent-review
+# classification. All three cases must stay on the cheap path.
+c2_false_oracle_failures=0
+
+make_review_trajectory_root trajectory-negated-review-status \
+  regression eval/shared-owner.py "$review_b_rel" "$review_b_sha"
+sed -i 's/| independent review |/| not an independent review |/g' \
+  "$tmp/trajectory-negated-review-status/STATE.md"
+if ! c2_output="$(bash "$helper" "$tmp/trajectory-negated-review-status" 2>&1)"; then
+  grep -Fq "2 distinct digest-bound NEEDS_REVISION reviews" <<<"$c2_output" || {
+    printf '%s\n' "$c2_output" >&2
+    printf 'run-root-validation.test: negated review Status failed for the wrong reason\n' >&2
+    exit 1
+  }
+  c2_false_oracle_failures=$((c2_false_oracle_failures + 1))
+fi
+
+make_review_trajectory_root trajectory-review-words-in-notes \
+  regression eval/shared-owner.py "$review_b_rel" "$review_b_sha"
+sed -i 's/| independent review | SHA-256/| evidence | not an independent review; SHA-256/g' \
+  "$tmp/trajectory-review-words-in-notes/STATE.md"
+if ! c2_output="$(bash "$helper" "$tmp/trajectory-review-words-in-notes" 2>&1)"; then
+  grep -Fq "2 distinct digest-bound NEEDS_REVISION reviews" <<<"$c2_output" || {
+    printf '%s\n' "$c2_output" >&2
+    printf 'run-root-validation.test: review words in Notes failed for the wrong reason\n' >&2
+    exit 1
+  }
+  c2_false_oracle_failures=$((c2_false_oracle_failures + 1))
+fi
+
+make_review_trajectory_root trajectory-ordinary-terminal-files \
+  regression eval/shared-owner.py "$ordinary_b_rel" "$ordinary_b_sha"
+sed -i \
+  -e "s#${review_a_rel}#${ordinary_a_rel}#g" \
+  -e "s#${review_a_sha}#${ordinary_a_sha}#g" \
+  "$tmp/trajectory-ordinary-terminal-files/STATE.md"
+if ! c2_output="$(bash "$helper" "$tmp/trajectory-ordinary-terminal-files" 2>&1)"; then
+  grep -Fq "2 distinct digest-bound NEEDS_REVISION reviews" <<<"$c2_output" || {
+    printf '%s\n' "$c2_output" >&2
+    printf 'run-root-validation.test: ordinary terminal-looking files failed for the wrong reason\n' >&2
+    exit 1
+  }
+  c2_false_oracle_failures=$((c2_false_oracle_failures + 1))
+fi
+
+if [ "$c2_false_oracle_failures" -ne 0 ]; then
+  printf 'run-root-validation.test: C2 self-oracle aggregate RED (%s/3 false classifications)\n' \
+    "$c2_false_oracle_failures" >&2
+  exit 1
+fi
+
+# The convergence route consumes the existing prospective cold-review owner,
+# with exact report and packet bytes plus distinct reviewed heads.
+trajectory_git="$tmp/trajectory-git"
+git init -q "$trajectory_git"
+git -C "$trajectory_git" config user.name implementaudit-test
+git -C "$trajectory_git" config user.email implementaudit-test@example.invalid
+printf 'trajectory base\n' > "$trajectory_git/base.txt"
+git -C "$trajectory_git" add base.txt
+git -C "$trajectory_git" commit -q -m base
+trajectory_base="$(git -C "$trajectory_git" rev-parse HEAD)"
+printf 'trajectory head a\n' > "$trajectory_git/head-a.txt"
+git -C "$trajectory_git" add head-a.txt
+git -C "$trajectory_git" commit -q -m head-a
+trajectory_head_a="$(git -C "$trajectory_git" rev-parse HEAD)"
+printf 'trajectory head b\n' > "$trajectory_git/head-b.txt"
+git -C "$trajectory_git" add head-b.txt
+git -C "$trajectory_git" commit -q -m head-b
+trajectory_head_b="$(git -C "$trajectory_git" rev-parse HEAD)"
+
+make_qualified_review_trajectory_root() {
+  local name="$1" second_class="$2" second_owner="$3" decision="${4:-}"
+  local root="$trajectory_git/.IMPLEMENTAUDIT/$name" state
+  local report_a_sha report_b_sha packet_a_sha packet_b_sha
+  mkdir -p "$root/reviews" "$root/packets"
+  cp -r "$tmp/good/." "$root/"
+  state="$root/STATE.md"
+  cat > "$root/reviews/a.md" <<EOF
+Report state: FINAL
+Verdict: GAP-REVISE
+Reviewer attestation:
+- reviewer_identity: trajectory-review-a
+- requested_model: GPT-5
+- actual_model: GPT-5
+- authoring_context_reuse: no
+- other_reviewer_output_seen: no
+- base_sha: $trajectory_base
+- head_sha: $trajectory_head_a
+
+GAP-REVISE
+EOF
+  cat > "$root/reviews/b.md" <<EOF
+Report state: FINAL
+Verdict: GAP-REVISE
+Reviewer attestation:
+- reviewer_identity: trajectory-review-b
+- requested_model: GPT-5
+- actual_model: GPT-5
+- authoring_context_reuse: no
+- other_reviewer_output_seen: no
+- base_sha: $trajectory_base
+- head_sha: $trajectory_head_b
+
+GAP-REVISE
+EOF
+  printf 'packet a: candidate %s\n' "$trajectory_head_a" > "$root/packets/a.md"
+  printf 'packet b: candidate %s\n' "$trajectory_head_b" > "$root/packets/b.md"
+  report_a_sha="$(sha256sum "$root/reviews/a.md" | awk '{print $1}')"
+  report_b_sha="$(sha256sum "$root/reviews/b.md" | awk '{print $1}')"
+  packet_a_sha="$(sha256sum "$root/packets/a.md" | awk '{print $1}')"
+  packet_b_sha="$(sha256sum "$root/packets/b.md" | awk '{print $1}')"
+  cat >> "$state" <<EOF
+model-identity: requested_model: GPT-5 | actual_model: GPT-5 | evidence: self-report | claims: bound
+cold-review: disposition: GAP-REVISE | attestation: reviews/a.md | attestation_sha256: $report_a_sha | packet: packets/a.md | packet_sha256: $packet_a_sha | base_sha: $trajectory_base | head_sha: $trajectory_head_a
+cold-review: disposition: GAP-REVISE | attestation: reviews/b.md | attestation_sha256: $report_b_sha | packet: packets/b.md | packet_sha256: $packet_b_sha | base_sha: $trajectory_base | head_sha: $trajectory_head_b
+EOF
+  "${py_cmd[@]}" - "$state" "$second_class" "$second_owner" "$decision" <<'PY'
+import sys
+from pathlib import Path
+
+state_path = Path(sys.argv[1])
+second_class, second_owner, decision = sys.argv[2:]
+payload = state_path.read_text(encoding="utf-8")
+occurrence = "## Occurrence resolution and residuals"
+rows = (
+    "| 911 | trajectory-qualified-a | direct | regression | candidate countermeasure failed | "
+    "repair; owner/source=eval/shared-owner.py | `reviews/a.md` | resolved |\n"
+    f"| 912 | trajectory-qualified-b | direct | {second_class} | candidate countermeasure failed | "
+    f"repair; owner/source={second_owner} | `reviews/b.md` | resolved |\n"
+)
+if decision:
+    rows += f"\nMechanism-replacement decision: {decision}\n"
+if payload.count(occurrence) != 1:
+    raise SystemExit("run-root-validation.test: expected one occurrence-resolution heading")
+state_path.write_text(payload.replace(occurrence, rows + "\n" + occurrence, 1), encoding="utf-8")
+PY
+  printf '%s\n' "$root"
+}
+
+qualified_no_decision="$(make_qualified_review_trajectory_root \
+  trajectory-qualified-no-decision regression eval/shared-owner.py)"
+qualified_output="$(bash "$helper" "$qualified_no_decision" 2>&1)" && {
+  printf '%s\n' "$qualified_output" >&2
+  printf 'run-root-validation.test: two qualified same-family/owner reviews must require a decision\n' >&2
+  exit 1
+}
+grep -Fq "2 distinct digest-bound GAP-REVISE reviews" <<<"$qualified_output" || {
+  printf '%s\n' "$qualified_output" >&2
+  printf 'run-root-validation.test: qualified review trajectory failed for the wrong reason\n' >&2
+  exit 1
+}
+
+qualified_one="$(make_qualified_review_trajectory_root \
+  trajectory-qualified-one regression eval/shared-owner.py)"
+sed -i -e '/cold-review:.*attestation: reviews\/b.md/d' -e '/| 912 |/d' \
+  "$qualified_one/STATE.md"
+bash "$helper" "$qualified_one" >/dev/null || {
+  printf 'run-root-validation.test: one qualified review must not establish the trajectory trigger\n' >&2
+  exit 1
+}
+
+qualified_duplicate_occurrence="$(make_qualified_review_trajectory_root \
+  trajectory-qualified-duplicate-occurrence regression eval/shared-owner.py)"
+sed -i 's/| 912 | trajectory-qualified-b |/| 912 | trajectory-qualified-a |/' \
+  "$qualified_duplicate_occurrence/STATE.md"
+bash "$helper" "$qualified_duplicate_occurrence" >/dev/null || {
+  printf 'run-root-validation.test: duplicate qualified-review occurrence must remain cheap\n' >&2
+  exit 1
+}
+
+qualified_duplicate_identity="$(make_qualified_review_trajectory_root \
+  trajectory-qualified-duplicate-identity regression eval/shared-owner.py)"
+qualified_a_row="$(grep '^cold-review:.*attestation: reviews/a.md' \
+  "$qualified_duplicate_identity/STATE.md")"
+"${py_cmd[@]}" - "$qualified_duplicate_identity/STATE.md" "$qualified_a_row" <<'PY'
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+row_a = sys.argv[2]
+lines = path.read_text(encoding="utf-8").splitlines()
+lines = [row_a if line.startswith("cold-review:") and "attestation: reviews/b.md" in line else line
+         for line in lines]
+lines = [line.replace("`reviews/b.md`", "`reviews/a.md`") for line in lines]
+path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
+bash "$helper" "$qualified_duplicate_identity" >/dev/null || {
+  printf 'run-root-validation.test: copied report/packet/head identity must not create independence\n' >&2
+  exit 1
+}
+
+for cheap_case in different-family different-owner; do
+  if [ "$cheap_case" = different-family ]; then
+    qualified_cheap="$(make_qualified_review_trajectory_root \
+      trajectory-qualified-different-family failed-criterion eval/shared-owner.py)"
+  else
+    qualified_cheap="$(make_qualified_review_trajectory_root \
+      trajectory-qualified-different-owner regression eval/other-owner.py)"
+  fi
+  bash "$helper" "$qualified_cheap" >/dev/null || {
+    printf 'run-root-validation.test: qualified %s trajectory must remain cheap\n' "$cheap_case" >&2
+    exit 1
+  }
+done
+
+for decision in \
+  'replace-mechanism (shared parser)' \
+  'continue (complete admitted convergence model)' \
+  'escalate-to-convergence-mode (shared invariant)'; do
+  decision_name="${decision%% *}"
+  qualified_with_decision="$(make_qualified_review_trajectory_root \
+    "trajectory-qualified-with-$decision_name" regression eval/shared-owner.py "$decision")"
+  bash "$helper" "$qualified_with_decision" >/dev/null || {
+    printf 'run-root-validation.test: qualified trajectory with %s decision expected PASS\n' \
+      "$decision_name" >&2
+    exit 1
+  }
+done
 
 for decision in \
   'replace-mechanism (shared parser)' \
@@ -924,6 +1151,72 @@ review_case() {
   cp -r "$review_attested/." "$destination/"
   printf '%s\n' "$destination"
 }
+
+# The prospective suffix keeps the legacy row owner while binding exact report
+# and packet bytes. Legacy coverage above is intentionally unchanged.
+review_prospective="$(review_case review-prospective)"
+printf 'immutable cold-review packet\n' > "$review_prospective/reviews/packet.md"
+prospective_report_sha="$(sha256sum "$review_prospective/reviews/cold.md" | awk '{print $1}')"
+prospective_packet_sha="$(sha256sum "$review_prospective/reviews/packet.md" | awk '{print $1}')"
+sed -i '/^cold-review:/d' "$review_prospective/STATE.md"
+cat >> "$review_prospective/STATE.md" <<EOF
+cold-review: disposition: PASS | attestation: reviews/cold.md | attestation_sha256: $prospective_report_sha | packet: reviews/packet.md | packet_sha256: $prospective_packet_sha | base_sha: $review_base | head_sha: $review_head
+EOF
+bash "$helper" "$review_prospective" >/dev/null || {
+  printf 'run-root-validation.test: valid digest-bound cold-review attestation rejected\n' >&2
+  exit 1
+}
+
+mismatched_sha() {
+  case "$1" in
+    f*) printf 'e%s\n' "${1:1}" ;;
+    *) printf 'f%s\n' "${1:1}" ;;
+  esac
+}
+
+review_report_digest_mismatch="$(review_case review-report-digest-mismatch)"
+cp -r "$review_prospective/." "$review_report_digest_mismatch/"
+bad_report_sha="$(mismatched_sha "$prospective_report_sha")"
+sed -i "s/$prospective_report_sha/$bad_report_sha/" \
+  "$review_report_digest_mismatch/STATE.md"
+expect_cold_review_fail "$review_report_digest_mismatch" \
+  "cold-review attestation SHA-256 must match the contained report bytes" \
+  "mismatched prospective report digest"
+
+review_packet_digest_mismatch="$(review_case review-packet-digest-mismatch)"
+cp -r "$review_prospective/." "$review_packet_digest_mismatch/"
+bad_packet_sha="$(mismatched_sha "$prospective_packet_sha")"
+sed -i "s/$prospective_packet_sha/$bad_packet_sha/" \
+  "$review_packet_digest_mismatch/STATE.md"
+expect_cold_review_fail "$review_packet_digest_mismatch" \
+  "cold-review packet SHA-256 must match the contained packet bytes" \
+  "mismatched prospective packet digest"
+
+review_packet_missing="$(review_case review-packet-missing)"
+cp -r "$review_prospective/." "$review_packet_missing/"
+sed -i 's#packet: reviews/packet.md#packet: reviews/missing.md#' \
+  "$review_packet_missing/STATE.md"
+expect_cold_review_fail "$review_packet_missing" \
+  "cold-review packet must resolve to a regular non-symlink file" \
+  "missing prospective packet"
+
+review_packet_unsafe="$(review_case review-packet-unsafe)"
+cp -r "$review_prospective/." "$review_packet_unsafe/"
+sed -i 's#packet: reviews/packet.md#packet: ../packet.md#' \
+  "$review_packet_unsafe/STATE.md"
+expect_cold_review_fail "$review_packet_unsafe" \
+  "cold-review packet path must be safe and run-root-relative" \
+  "unsafe prospective packet path"
+
+review_packet_symlink="$(review_case review-packet-symlink)"
+cp -r "$review_prospective/." "$review_packet_symlink/"
+mv "$review_packet_symlink/reviews/packet.md" \
+  "$review_packet_symlink/reviews/packet-target.md"
+if ln -s packet-target.md "$review_packet_symlink/reviews/packet.md" 2>/dev/null; then
+  expect_cold_review_fail "$review_packet_symlink" \
+    "cold-review packet must resolve to a regular non-symlink file" \
+    "symlinked prospective packet"
+fi
 
 review_self="$(review_case review-self)"
 sed -i 's/authoring_context_reuse: no/authoring_context_reuse: yes/' \
