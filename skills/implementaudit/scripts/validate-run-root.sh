@@ -822,9 +822,23 @@ if [ -f "$state" ]; then
     if [ "$status_value" = BLOCKED ] || [ "$status_value" = INTERRUPTED ]; then
       open_andon="$(awk -F'|' '
         function trim(value) { gsub(/^[ \t]+|[ \t]+$/, "", value); return value }
+        function normalize(value, first, last, previous) {
+          value=trim(value)
+          do {
+            previous=value
+            first=substr(value, 1, 1); last=substr(value, length(value), 1)
+            if ((first == "`" && last == "`") || (first == "*" && last == "*") \
+                || (first == "_" && last == "_") || (first == "\"" && last == "\"") \
+                || (first == "\047" && last == "\047") || (first == "[" && last == "]") \
+                || (first == "<" && last == ">")) {
+              value=trim(substr(value, 2, length(value) - 2))
+            }
+          } while (value != previous && length(value) >= 2)
+          return tolower(value)
+        }
         function substantive(value, normalized) {
-          value=trim(value); normalized=tolower(value)
-          return value != "" && value != "-" && normalized != "none" && normalized != "pending" \
+          normalized=normalize(value)
+          return normalized != "" && normalized != "-" && normalized != "none" && normalized != "pending" \
             && normalized != "n/a" && normalized != "na" && normalized != "not applicable" \
             && normalized != "tbd" && normalized != "todo" && normalized != "unknown"
         }

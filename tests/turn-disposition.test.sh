@@ -125,6 +125,24 @@ for status in BLOCKED INTERRUPTED; do
   done
 done
 
+wrapped_placeholder_rows=(
+  'backtick::| 1 | `none` | `none` | failed-criterion | `none` | `pending` | `none` | `pending` |'
+  'emphasis::| 1 | **none** | _none_ | failed-criterion | **none** | _pending_ | **none** | _pending_ |'
+  "quoted::| 1 | \"none\" | 'none' | failed-criterion | \"none\" | 'pending' | \"none\" | 'pending' |"
+  'whitespace::| 1 |   none   |   none   | failed-criterion |   none   |   pending   |   none   |   pending   |'
+)
+for status in BLOCKED INTERRUPTED; do
+  for row_case in "${wrapped_placeholder_rows[@]}"; do
+    label="${row_case%%::*}"
+    row="${row_case#*::}"
+    candidate="$tmp/wrapped-placeholder-$status-$label"
+    cp -r "$run_root" "$candidate"
+    sed -i "s/| Status | IN_PHASE |/| Status | $status |/" "$candidate/STATE.md"
+    sed -i "/^|---|---|---|---|---|---|---|---|$/a $row" "$candidate/STATE.md"
+    expect_yield_fail "$status rejects $label-wrapped Andon placeholders" "$candidate"
+  done
+done
+
 evaluator="skills/implementaudit/scripts/evaluate-turn-disposition.py"
 
 make_request() {
@@ -293,6 +311,51 @@ sed -i 's/| Next action | continue current phase |/| Next action | none |/' \
 request="$tmp/actionless-handoff.json"
 make_request "$request" AUDITED_HANDOFF "$actionless_handoff_root" not-required valid
 expect_disposition actionless-handoff 3 BLOCK "$request"
+
+expect_handoff_evidence() {
+  local label="$1" handoff_state="$2" next_action="$3" expected_rc="$4" expected_disposition="$5"
+  local root="$tmp/handoff-evidence-$label" request="$tmp/handoff-evidence-$label.json"
+  cp -r "$handoff_root" "$root"
+  sed -i \
+    -e "s|^Handoff state, if any:.*|Handoff state, if any: $handoff_state|" \
+    -e "s#| Next action | continue current phase |#| Next action | $next_action |#" \
+    "$root/STATE.md"
+  make_request "$request" AUDITED_HANDOFF "$root" not-required valid
+  expect_disposition "$label" "$expected_rc" "$expected_disposition" "$request"
+}
+
+expect_handoff_evidence \
+  negated-blocker-nominal-action \
+  'no blocker remains; work is complete' \
+  wait \
+  3 BLOCK
+
+negated_handoffs=(
+  'not-blocked::not blocked; work may proceed'
+  'none-remain::none of the blockers remain'
+  'without-blocker::without any blocker; work is complete'
+  'resolved-blocker::the blocker is resolved'
+  'complete-blocker::blocked work is complete'
+)
+for handoff_case in "${negated_handoffs[@]}"; do
+  label="${handoff_case%%::*}"
+  handoff_state="${handoff_case#*::}"
+  expect_handoff_evidence "$label" "$handoff_state" 'request owner authorization for phase 1' 3 BLOCK
+done
+
+for nominal_action in wait resume continue fix review reconcile rerun handoff; do
+  expect_handoff_evidence \
+    "nominal-action-$nominal_action" \
+    'blocked by missing owner authorization' \
+    "$nominal_action" \
+    3 BLOCK
+done
+
+expect_handoff_evidence \
+  substantive-owner-handoff \
+  'blocked by missing owner authorization' \
+  'request owner authorization for phase 1' \
+  0 AUDITED_HANDOFF
 
 surface_handoff_root="$tmp/surface-handoff"
 cp -r "$handoff_root" "$surface_handoff_root"

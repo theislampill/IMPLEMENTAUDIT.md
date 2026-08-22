@@ -107,15 +107,43 @@ PLACEHOLDER_TEXT = {
     "unknown",
 }
 HANDOFF_BLOCKER = re.compile(
-    r"\b(?:blocked?|blocker|owner decision|owner request|unsafe scope|missing (?:authorization|access|required tool)|"
+    r"\b(?:block(?:ed|er|ing)?|owner decision|owner request\w*|unsafe scope|missing (?:authorization|access|required tool)|"
     r"external dependency|irreproducib\w*|no bounded countermeasure|unresolved)\b",
+    re.IGNORECASE,
+)
+HANDOFF_NEGATED = re.compile(
+    r"\b(?:no|not)\s+(?:active\s+)?(?:blocker|blockers|blocked|blocking)\b|"
+    r"\bnone(?:\s+of\s+the)?\s+(?:blocker|blockers|blocked|blocking)\b|"
+    r"\bwithout(?:\s+any)?\s+(?:blocker|blockers|blocked|blocking)\b|"
+    r"\b(?:blocker|blockers|blocked|blocking)\b.{0,80}\b(?:resolved|complete(?:d)?)\b|"
+    r"\b(?:work|audit|run)\b.{0,40}\bcomplete(?:d)?\b",
     re.IGNORECASE,
 )
 NEXT_ACTION = re.compile(
     r"^(?:add|approve|authorize|contact|continue|correct|decide|escalate|fix|inspect|obtain|provide|read|reconcile|"
-    r"remove|replace|request|resolve|restore|resume|retry|rerun|review|run|supply|update|verify|wait|write)\b",
+    r"remove|replace|request|resolve|restore|resume|retry|rerun|review|run|supply|update|verify|wait|write|handoff)\b"
+    r"\s+(.+)$",
     re.IGNORECASE,
 )
+NON_TARGET_WORDS = {
+    "a",
+    "an",
+    "and",
+    "at",
+    "for",
+    "from",
+    "it",
+    "now",
+    "of",
+    "on",
+    "or",
+    "that",
+    "the",
+    "then",
+    "this",
+    "to",
+    "with",
+}
 
 
 class InputError(ValueError):
@@ -411,6 +439,17 @@ def normalized_evidence(value: str) -> str:
     return value.strip(" \t`[]<>").lower()
 
 
+def has_concrete_next_action(value: str) -> bool:
+    normalized = normalized_evidence(value)
+    if normalized in PLACEHOLDER_TEXT:
+        return False
+    match = NEXT_ACTION.fullmatch(normalized)
+    if match is None:
+        return False
+    target_words = re.findall(r"[a-z0-9]+", normalized_evidence(match.group(1)))
+    return any(word not in NON_TARGET_WORDS and word not in PLACEHOLDER_TEXT for word in target_words)
+
+
 def validate_projection(fields: dict[str, str], route: dict[str, Any]) -> None:
     if fields["Route decision projection"] != route["decision"]:
         raise DecisionBlocked("STATE route projection disagrees with the canonical route result")
@@ -455,9 +494,9 @@ def validate_handoff(run_root: str, route: dict[str, Any]) -> None:
     next_action = single_state_field(lines, "Next action")
     if (
         normalized_evidence(handoff_state) in PLACEHOLDER_TEXT
+        or HANDOFF_NEGATED.search(handoff_state)
         or not HANDOFF_BLOCKER.search(handoff_state)
-        or normalized_evidence(next_action) in PLACEHOLDER_TEXT
-        or not NEXT_ACTION.search(next_action.strip(" \t`"))
+        or not has_concrete_next_action(next_action)
     ):
         raise DecisionBlocked("audited handoff lacks a substantive blocker/current state and concrete next action")
     valid_sequences = (
