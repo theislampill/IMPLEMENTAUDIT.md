@@ -1,0 +1,3484 @@
+#!/usr/bin/env bash
+# R0039 F1 is an immutable, nonmergeable semantic RED checkpoint.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+checker="$repo_root/scripts/check-canonical-state-rotation.sh"
+helper="$repo_root/skills/implementaudit/scripts/rotate-canonical-state.py"
+claim_helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
+f2_fixture="$repo_root/fixtures/canonical-state-rotation/f2-draft-archive.json"
+f3_fixture="$repo_root/fixtures/canonical-state-rotation/f3-reader-matrix.json"
+sequence_cas_fixture="$repo_root/fixtures/canonical-state-rotation/sequence-cas-cases.json"
+event_byte_fixture="$repo_root/fixtures/canonical-state-rotation/event-byte-cases.json"
+event_schema_fixture="$repo_root/fixtures/canonical-state-rotation/event-schema-cases.json"
+migration_classification_fixture="$repo_root/fixtures/canonical-state-rotation/hot-cold-section-classification.json"
+migration_population_fixture="$repo_root/fixtures/canonical-state-rotation/history-population-cases.json"
+evidence_helper="$repo_root/skills/implementaudit/scripts/operational-evidence.py"
+tmp="$(mktemp -d)"
+trap 'rm -rf -- "$tmp"' EXIT
+candidate_evidence_ledger="$tmp/task6-candidate-evidence.ledger"
+: >"$candidate_evidence_ledger"
+
+fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
+record_candidate_evidence() {
+  local group="$1"
+  case "$group" in
+    ROOT_BASELINE|ARCHIVE_F2|READER_F3|SOURCE_REHYDRATION|TRANSACTION_BINDINGS|TRANSACTION_SEQUENCE) ;;
+    *) fail "unknown Task 6 candidate evidence group: $group";;
+  esac
+  ! grep -Fxq "$group" "$candidate_evidence_ledger" \
+    || fail "duplicate Task 6 candidate evidence group: $group"
+  printf '%s\n' "$group" >>"$candidate_evidence_ledger"
+}
+
+case "${1:-}" in
+  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='' ;;
+  --migration-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=true; r15_target='' ;;
+  --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='null-sinks' ;;
+  --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='observation-order' ;;
+  --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='nonzero-readback' ;;
+  --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='receipt-pivot' ;;
+  --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='owner-env' ;;
+  --r30-shared-lease-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='shared-lease' ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only|--r30-shared-lease-only]" ;;
+esac
+
+[ -f "$checker" ] || fail "missing root checker: $checker"
+bash -n "$checker" || fail "checker syntax is invalid"
+if $migration_only; then
+  [ -f "$migration_classification_fixture" ] || fail "missing migration classification fixture"
+  [ -f "$migration_population_fixture" ] || fail "missing migration population fixture"
+  [ -f "$helper" ] || fail "missing rotation helper"
+  python - "$helper" "$migration_classification_fixture" \
+    "$migration_population_fixture" "$repo_root" <<'PY'
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False, allow_nan=False).encode("utf-8")
+
+
+def expect_rotation_error(rotation, action, label):
+    try:
+        action()
+    except rotation.RotationError:
+        return
+    raise SystemExit(label + " was accepted")
+
+
+def independently_materialize_preimage(template_text, source_spec):
+    text = template_text.replace("\r\n", "\n")
+    sections = source_spec["sections"]
+    for index in range(len(sections) - 1, -1, -1):
+        section = sections[index]
+        heading = section["heading"]
+        start = text.index(heading + "\n")
+        end = (len(text) if index + 1 == len(sections)
+               else text.index(sections[index + 1]["heading"] + "\n", start))
+        block = text[start:end]
+        for table in section.get("tables", []):
+            prefix = table["header"] + "\n" + table["delimiter"] + "\n"
+            table_start = block.index(prefix) + len(prefix)
+            population_end = table_start
+            while block[population_end:].startswith("|"):
+                population_end = block.index("\n", population_end) + 1
+            rows = "\n".join(row["source_line"] for row in table["rows"])
+            block = (block[:table_start] + rows + "\n\n"
+                     + block[population_end:].lstrip("\n"))
+        literal_rows = [row["source_line"] for row in section.get("records", [])]
+        if literal_rows:
+            block = block.rstrip("\n") + "\n\n" + "\n".join(literal_rows) + "\n\n"
+        text = text[:start] + block + text[end:]
+    return text.encode("utf-8")
+
+
+helper_path, classification_path, population_path, repo_text = sys.argv[1:]
+repo = Path(repo_text).resolve()
+classification_doc = json.loads(Path(classification_path).read_text(encoding="utf-8"))
+population = json.loads(Path(population_path).read_text(encoding="utf-8"))
+classes = ["HOT_CURRENT", "HOT_POINTER", "COLD_HISTORY",
+           "ON_DEMAND_EVIDENCE", "DUPLICATE_DERIVABLE"]
+if (classification_doc.get("schema")
+        != "implementaudit.hot-cold-section-classification.v1"
+        or classification_doc.get("classes") != classes
+        or list(classification_doc.get("sources", {})) != ["STATE.md", "ROADMAP.md"]
+        or population.get("schema") != "implementaudit.history-population-cases.v1"):
+    raise SystemExit("migration fixture schema/order drift")
+for source_name, source_spec in classification_doc["sources"].items():
+    headings = [row.get("heading") for row in source_spec.get("sections", [])]
+    if not headings or len(headings) != len(set(headings)):
+        raise SystemExit(source_name + " fixture headings are not exact and unique")
+    explicit = []
+    for section in source_spec["sections"]:
+        if section.get("classification") not in classes:
+            raise SystemExit("unknown fixture classification")
+        if section.get("classification") == "DUPLICATE_DERIVABLE" and not section.get("derivation_pointer"):
+            raise SystemExit("duplicate-derivable section lacks exact pointer")
+        explicit.extend(section.get("records", []))
+        for table in section.get("tables", []):
+            explicit.extend(table.get("rows", []))
+    source_lines = [row.get("source_line") for row in explicit]
+    if len(source_lines) != len(set(source_lines)):
+        raise SystemExit(source_name + " explicit fixture records overlap")
+
+spec = importlib.util.spec_from_file_location("rotation_migration", helper_path)
+rotation = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(rotation)
+required = (
+    "ClassificationFixture", "ClassifiedRecord", "LegacyRecord",
+    "MigrationReceipt", "NativeCurrent", "GraphProjection", "CustodyPointer",
+    "classify_all_source_records_v1", "verify_classification_coverage_v1",
+    "enumerate_legacy_history_v1", "verify_migration_equivalence_v1",
+    "hash_population_v1", "render_state_template_v1", "render_roadmap_template_v1",
+    "derive_hot_state_v1", "derive_hot_roadmap_v1",
+)
+missing = [name for name in required if not hasattr(rotation, name)]
+if missing:
+    print("CANONICAL_STATE_ROTATION_MIGRATION_RED="
+          "POPULATION_CLASSIFICATION_NOT_IMPLEMENTED missing=" + ",".join(missing),
+          file=sys.stderr)
+    raise SystemExit(1)
+
+correction_reds = []
+if not all(hasattr(rotation, name) for name in (
+        "MaterializedMigrationInputs", "load_materialized_migration_preimages_v1",
+        "prove_materialized_preimage_derivation_v1")):
+    correction_reds.append(
+        "C1_MATERIALIZED_PREIMAGE_DIRECT_CLASSIFICATION_NOT_IMPLEMENTED")
+if hasattr(rotation, "EventSegment"):
+    correction_reds.append(
+        "C2_CANONICAL_STORED_MANIFEST_EVENT_EQUIVALENCE_NOT_IMPLEMENTED")
+if not all(hasattr(rotation, name) for name in (
+        "RuntimeArtifact", "LedgerFinding", "ResidualRecord", "DecisionRecord",
+        "ScopeCreepRecord", "verify_hot_renderer_template_parity_v1")):
+    correction_reds.append(
+        "I1_TYPED_HOT_SCHEMA_TEMPLATE_PARITY_NOT_IMPLEMENTED")
+if not hasattr(rotation, "AndonRecord"):
+    correction_reds.append(
+        "I1_TYPED_ANDON_FULL_COLUMN_SURVIVAL_NOT_IMPLEMENTED")
+if not hasattr(rotation, "InstructionRecord"):
+    correction_reds.append(
+        "I1_TYPED_INSTRUCTION_FULL_COLUMN_SURVIVAL_NOT_IMPLEMENTED")
+if not all(hasattr(rotation, name) for name in (
+        "DerivationPointer", "DerivationSource")):
+    correction_reds.append(
+        "I2_RESOLVED_TYPED_DERIVATION_POINTER_NOT_IMPLEMENTED")
+if correction_reds:
+    for red in correction_reds:
+        print("CANONICAL_STATE_ROTATION_CORRECTION_RED=" + red, file=sys.stderr)
+    raise SystemExit(1)
+
+frozen_commit = population.get("frozen_template_commit")
+frozen_digests = population.get("frozen_template_sha256")
+if (not isinstance(frozen_commit, str) or len(frozen_commit) != 40
+        or not isinstance(frozen_digests, dict)
+        or set(frozen_digests) != {"STATE.md", "ROADMAP.md"}):
+    raise SystemExit("frozen template identity fixture is invalid")
+materialized = rotation.load_materialized_migration_preimages_v1(population)
+frozen_templates = {}
+for name, source_spec in classification_doc["sources"].items():
+    path = "skills/implementaudit/templates/" + name
+    frozen_template = subprocess.check_output(
+        ["git", "-C", str(repo), "show", frozen_commit + ":" + path])
+    if hashlib.sha256(frozen_template).hexdigest() != frozen_digests[name]:
+        raise SystemExit(name + " frozen template digest drift")
+    frozen_templates[name] = frozen_template
+    independently_derived = independently_materialize_preimage(
+        frozen_template.decode("utf-8", "strict"), source_spec)
+    if independently_derived != materialized.sources[name]:
+        raise SystemExit(name + " materialized preimage derivation is not byte-exact")
+rotation.prove_materialized_preimage_derivation_v1(
+    frozen_templates, classification_doc["sources"], materialized)
+derivation_sources = {}
+for name, raw in frozen_templates.items():
+    source_id = ("git:" + frozen_commit
+                 + ":skills/implementaudit/templates/" + name)
+    derivation_sources[source_id] = rotation.DerivationSource(
+        owner="R0039", source_id=source_id, source_bytes=raw)
+classification = rotation.ClassificationFixture.from_mapping(
+    classification_doc, derivation_sources)
+sources = dict(materialized.sources)
+materialized_preimages_before = dict(sources)
+# Direct positive control: classify the immutable materialized fixture bytes,
+# not an in-test injection result.
+coverage = rotation.classify_all_source_records_v1(sources, classification)
+rotation.verify_classification_coverage_v1(sources, coverage)
+observed_source_counts = {name: len(rows) for name, rows in coverage.items()}
+observed_class_counts = {name: 0 for name in classes}
+for rows in coverage.values():
+    for row in rows:
+        observed_class_counts[row.classification] += 1
+        if (row.classification == "DUPLICATE_DERIVABLE"
+                and type(row.derivation_pointer) is not rotation.DerivationPointer):
+            raise SystemExit("duplicate-derivable range lost its resolved typed pointer")
+if observed_source_counts != population["expected_source_record_counts"]:
+    raise SystemExit("classification source denominator drift: %r" % observed_source_counts)
+if observed_class_counts != population["expected_class_counts"]:
+    raise SystemExit("classification class denominator drift: %r" % observed_class_counts)
+
+bad_materialized = copy.deepcopy(population)
+bad_materialized["materialized_migration_preimages"]["sources"]["STATE.md"][
+    "sha256"] = "0" * 64
+expect_rotation_error(
+    rotation,
+    lambda: rotation.load_materialized_migration_preimages_v1(bad_materialized),
+    "materialized preimage wrong digest")
+
+def derivation_variant(mutator):
+    changed = copy.deepcopy(classification_doc)
+    pointer = changed["sources"]["STATE.md"]["sections"][0]["derivation_pointer"]
+    mutator(changed, pointer)
+    return changed
+
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: _doc["sources"]["STATE.md"][
+        "sections"][0].__setitem__("derivation_pointer", "arbitrary")),
+    derivation_sources), "arbitrary derivation pointer")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: pointer.__setitem__(
+        "source_id", "git:unresolved")), derivation_sources),
+    "unresolved derivation pointer")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: pointer.__setitem__("owner", "R0038")),
+    derivation_sources), "wrong-owner derivation pointer")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    derivation_variant(lambda _doc, pointer: pointer.__setitem__(
+        "source_digest", "sha256:" + "0" * 64)), derivation_sources),
+    "wrong-digest derivation pointer")
+divergent_sources = dict(derivation_sources)
+state_source_id = next(key for key in divergent_sources if key.endswith("STATE.md"))
+state_source = divergent_sources[state_source_id]
+divergent_sources[state_source_id] = rotation.DerivationSource(
+    owner=state_source.owner, source_id=state_source.source_id,
+    source_bytes=state_source.source_bytes + b"divergence\n")
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    classification_doc, divergent_sources), "byte-divergent derivation source")
+hidden_history = copy.deepcopy(classification_doc)
+hidden_row = hidden_history["sources"]["STATE.md"]["sections"][4]["tables"][0]["rows"][1]
+hidden_row["classification"] = "DUPLICATE_DERIVABLE"
+hidden_row["derivation_pointer"] = copy.deepcopy(
+    classification_doc["sources"]["STATE.md"]["sections"][0]["derivation_pointer"])
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    hidden_history, derivation_sources), "hidden-history derivation pointer")
+
+records = rotation.enumerate_legacy_history_v1(
+    sources["STATE.md"], sources["ROADMAP.md"], classification)
+expected_removed = population["expected_removed_rows"]
+observed_removed = [{
+    "source_name": row.source_name,
+    "heading": row.heading,
+    "record_kind": row.record_kind,
+    "source_line": row.source_bytes.rstrip(b"\n").decode("utf-8"),
+} for row in records]
+if observed_removed != expected_removed:
+    raise SystemExit("removed history population drift: %r" % observed_removed)
+removed_counts = {"COLD_HISTORY": 0, "ON_DEMAND_EVIDENCE": 0}
+for classified_rows in coverage.values():
+    for row in classified_rows:
+        if row.classification in removed_counts:
+            removed_counts[row.classification] += 1
+if removed_counts != population["expected_removed_class_counts"]:
+    raise SystemExit("removed class denominator drift")
+
+expected_pairs = []
+for row in records:
+    digest = hashlib.sha256(row.source_bytes).hexdigest()
+    identity_body = {
+        "schema": "implementaudit.legacy-record-id.v1",
+        "source_name": row.source_name,
+        "heading": row.heading,
+        "record_kind": row.record_kind,
+        "ordinal": row.ordinal,
+        "byte_start": row.byte_start,
+        "byte_end": row.byte_end,
+        "source_digest": digest,
+    }
+    expected_id = "ialegacy-v1-" + hashlib.sha256(canonical(identity_body)).hexdigest()
+    if row.source_digest != digest or row.stable_id != expected_id:
+        raise SystemExit("legacy record identity is not independently reproducible")
+    expected_pairs.append((expected_id, digest))
+
+source_evidence_id = "iasrc-v1-r0039-archive-task5-migration"
+root_identity = "sha256:" + materialized.population_digest
+source_locator = {
+    "kind": "evidence-uri",
+    "root_identity": root_identity,
+    "path": "implementaudit-evidence:v1/task5/materialized-preimages",
+    "host_identity": None,
+}
+source_context = {
+    "run_id": "hot-state-migration-fixture",
+    "controller_id": "migration-controller",
+    "generation_id": "G0001",
+    "source_epoch": "G0001",
+    "owner_manifest": {"entries": [{
+        "source_evidence_id": source_evidence_id,
+        "sha256": materialized.population_digest,
+        "kind": "evidence-uri",
+        "root_identity": root_identity,
+        "host_identity": None,
+        "input_path_flavor": None,
+        "source_locator": source_locator,
+    }]},
+}
+publication_context = {
+    "controller_id": "migration-controller",
+    "claim_id": "f" * 32,
+    "run_id": "hot-state-migration-fixture",
+    "generation_id": "G0001",
+    "source_epoch": "G0001",
+}
+original_source_loader = rotation.load_governed_source_context_v1
+original_publication_loader = rotation.load_governed_publication_context_v1
+rotation.load_governed_source_context_v1 = lambda _source_id: source_context
+rotation.load_governed_publication_context_v1 = lambda: publication_context
+try:
+    event_envelopes = []
+    event_bytes = []
+    for index, row in enumerate(records, 1):
+        request = {
+            "schema_version": "implementaudit.history-event.v1",
+            "run_id": publication_context["run_id"],
+            "controller_id": publication_context["controller_id"],
+            "generation_id": publication_context["generation_id"],
+            "sequence": "%020d" % index,
+            "record_kind": row.record_kind,
+            "subject_id": row.stable_id,
+            "source_epoch": publication_context["source_epoch"],
+            "transition": "MIGRATED",
+            "status": "SATISFIED" if row.record_kind == "instruction.satisfied" else "CLOSED",
+            "supersedes_event_id": None,
+            "payload": {
+                "legacy_record_id": row.stable_id,
+                "legacy_source_digest": row.source_digest,
+            },
+        }
+        envelope, raw = rotation.build_event_segment_v1(
+            request, source_evidence_id=source_evidence_id)
+        event_envelopes.append(envelope)
+        event_bytes.append(raw)
+    manifest, _manifest_bytes = rotation.build_generation_manifest_v1(
+        None, event_envelopes)
+finally:
+    rotation.load_governed_source_context_v1 = original_source_loader
+    rotation.load_governed_publication_context_v1 = original_publication_loader
+
+with tempfile.TemporaryDirectory(prefix="task5-segments-") as segment_dir:
+    segment_repo = Path(segment_dir)
+    subprocess.run(["git", "init", "-q", str(segment_repo)], check=True)
+    stored = []
+    for envelope, raw in zip(event_envelopes, event_bytes, strict=True):
+        oid = subprocess.check_output(
+            ["git", "-C", str(segment_repo), "hash-object", "-w", "--stdin"],
+            input=raw).decode("ascii").strip()
+        ref = (rotation.EVENT_SEGMENT_PREFIX + "/" + envelope["run_id"] + "/"
+               + envelope["generation_id"] + "/" + envelope["sequence"] + "/"
+               + envelope["event_id"])
+        subprocess.run(["git", "-C", str(segment_repo), "update-ref", ref, oid],
+                       check=True)
+        stored.append((ref, oid))
+    receipt = rotation.verify_migration_equivalence_v1(
+        records, event_bytes, manifest, segment_repo)
+
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes[:-1], manifest, segment_repo),
+        "removed record without manifest event")
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records + [records[0]], event_bytes, manifest, segment_repo),
+        "duplicate source record")
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes + [event_bytes[0]], manifest, segment_repo),
+        "duplicate destination event")
+
+    extra_request = {
+        "schema_version": "implementaudit.history-event.v1",
+        "run_id": publication_context["run_id"],
+        "controller_id": publication_context["controller_id"],
+        "generation_id": publication_context["generation_id"],
+        "sequence": "%020d" % (len(records) + 1),
+        "record_kind": records[0].record_kind,
+        "subject_id": records[0].stable_id,
+        "source_epoch": publication_context["source_epoch"],
+        "transition": "MIGRATED",
+        "status": "CLOSED",
+        "supersedes_event_id": None,
+        "payload": {
+            "legacy_record_id": records[0].stable_id,
+            "legacy_source_digest": records[0].source_digest,
+        },
+    }
+    rotation.load_governed_source_context_v1 = lambda _source_id: source_context
+    try:
+        _extra_envelope, extra_raw = rotation.build_event_segment_v1(
+            extra_request, source_evidence_id=source_evidence_id)
+    finally:
+        rotation.load_governed_source_context_v1 = original_source_loader
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes + [extra_raw], manifest, segment_repo),
+        "well-formed unmanifested event")
+
+    missing_ref, missing_oid = stored[-1]
+    subprocess.run(["git", "-C", str(segment_repo), "update-ref", "-d", missing_ref],
+                   check=True)
+    expect_rotation_error(rotation, lambda: rotation.verify_migration_equivalence_v1(
+        records, event_bytes, manifest, segment_repo),
+        "well-formed unstored event")
+    subprocess.run(["git", "-C", str(segment_repo), "update-ref",
+                    missing_ref, missing_oid], check=True)
+
+expected_population_digest = hashlib.sha256(canonical([
+    [stable_id, digest] for stable_id, digest in sorted(expected_pairs)
+])).hexdigest()
+if (receipt.source_count != len(expected_removed)
+        or receipt.event_count != len(expected_removed)
+        or receipt.population_digest != expected_population_digest
+        or rotation.hash_population_v1(sorted(expected_pairs)) != expected_population_digest):
+    raise SystemExit("migration receipt population identity drift")
+mutated_pairs = list(sorted(expected_pairs))
+mutated_pairs[0] = (mutated_pairs[0][0], "0" * 64)
+if rotation.hash_population_v1(mutated_pairs) == expected_population_digest:
+    raise SystemExit("population digest did not detect a source mutation")
+
+unknown_sources = dict(sources)
+unknown_sources["STATE.md"] += b"\n## Unknown migration section\nunknown\n"
+expect_rotation_error(rotation, lambda: rotation.classify_all_source_records_v1(
+    unknown_sources, classification), "unknown section")
+unmatched_sources = dict(sources)
+delimiter = b"|---|---|---:|---|---|---|---|---|\n"
+unmatched_sources["STATE.md"] = unmatched_sources["STATE.md"].replace(
+    delimiter, delimiter + b"| 99 | unmatched | P1 | none | open | none | - | none |\n", 1)
+expect_rotation_error(rotation, lambda: rotation.classify_all_source_records_v1(
+    unmatched_sources, classification), "unmatched row")
+overlap_doc = copy.deepcopy(classification_doc)
+overlap_section = overlap_doc["sources"]["ROADMAP.md"]["sections"][3]
+overlap_section["records"].append(dict(overlap_section["records"][0]))
+expect_rotation_error(rotation, lambda: rotation.ClassificationFixture.from_mapping(
+    overlap_doc, derivation_sources), "overlapping rule")
+
+native_data = dict(population["native_current"])
+native_data["open_andons"] = tuple(
+    rotation.AndonRecord(**row) for row in native_data["open_andons"])
+native_data["active_instructions"] = tuple(
+    rotation.InstructionRecord(**row) for row in native_data["active_instructions"])
+native_data["runtime_artifacts"] = tuple(
+    rotation.RuntimeArtifact(**row) for row in native_data["runtime_artifacts"])
+native_data["open_ledger"] = tuple(
+    rotation.LedgerFinding(**row) for row in native_data["open_ledger"])
+native_data["open_residuals"] = tuple(
+    rotation.ResidualRecord(**row) for row in native_data["open_residuals"])
+native_data["agents_update_decision"] = rotation.DecisionRecord(
+    **native_data["agents_update_decision"])
+native_data["continuity_decision_record"] = rotation.DecisionRecord(
+    **native_data["continuity_decision_record"])
+native_data["action_selected"] = tuple(native_data["action_selected"])
+native_data["action_omitted"] = tuple(native_data["action_omitted"])
+native_data["planning_evidence"] = tuple(native_data["planning_evidence"])
+native_data["open_scope_creep"] = tuple(
+    rotation.ScopeCreepRecord(**row) for row in native_data["open_scope_creep"])
+graph_data = dict(population["graph_projection"])
+graph_data["active_nodes"] = tuple(graph_data["active_nodes"])
+native = rotation.NativeCurrent(**native_data)
+graph = rotation.GraphProjection(**graph_data)
+custody = rotation.CustodyPointer(**population["custody_pointer"])
+state_hot = rotation.derive_hot_state_v1(native, graph, custody)
+roadmap_hot = rotation.derive_hot_roadmap_v1(native, graph, custody)
+if (state_hot != rotation.render_state_template_v1(native.hot_state_fields(), graph, custody)
+        or roadmap_hot != rotation.render_roadmap_template_v1(
+            native.hot_roadmap_fields(), graph, custody)):
+    raise SystemExit("hot projection facade and renderer diverged")
+
+expected_andon_row = (
+    "| 1 | o1 | migration | failed-criterion | open population gap | "
+    "enumerate exact rows | pending | open (rerun pending) |")
+expected_instruction_row = (
+    "| i1 | event:active | standing-constraint | owner | preserve archives | "
+    "G0002 | active | current-state | - | task end |")
+for exact_row in (expected_andon_row, expected_instruction_row):
+    if sources["STATE.md"].count((exact_row + "\n").encode("utf-8")) != 1:
+        raise SystemExit("materialized current-row positive control drift: " + exact_row)
+
+def verify_exact_current_rows(rendered):
+    for exact_row in (expected_andon_row, expected_instruction_row):
+        if rendered.count((exact_row + "\n").encode("utf-8")) != 1:
+            raise rotation.RotationError(
+                "current typed row was not preserved byte-for-byte")
+
+verify_exact_current_rows(state_hot)
+for field in rotation.AndonRecord._fields:
+    changed = native.open_andons[0]._replace(**{field: "changed-" + field})
+    changed_native = native._replace(open_andons=(changed,))
+    expect_rotation_error(
+        rotation,
+        lambda changed_native=changed_native: verify_exact_current_rows(
+            rotation.derive_hot_state_v1(changed_native, graph, custody)),
+        "changed Andon column " + field)
+expect_rotation_error(
+    rotation,
+    lambda: verify_exact_current_rows(rotation.derive_hot_state_v1(
+        native._replace(open_andons=()), graph, custody)),
+    "missing Andon row")
+for field in rotation.InstructionRecord._fields:
+    changed = native.active_instructions[0]._replace(
+        **{field: "changed-" + field})
+    changed_native = native._replace(active_instructions=(changed,))
+    expect_rotation_error(
+        rotation,
+        lambda changed_native=changed_native: verify_exact_current_rows(
+            rotation.derive_hot_state_v1(changed_native, graph, custody)),
+        "changed instruction column " + field)
+expect_rotation_error(
+    rotation,
+    lambda: verify_exact_current_rows(rotation.derive_hot_state_v1(
+        native._replace(active_instructions=()), graph, custody)),
+    "missing instruction row")
+
+state_template = (repo / "skills/implementaudit/templates/STATE.md").read_bytes()
+roadmap_template = (repo / "skills/implementaudit/templates/ROADMAP.md").read_bytes()
+rotation.verify_hot_renderer_template_parity_v1(
+    state_template, roadmap_template, state_hot, roadmap_hot)
+for heading in rotation.STATE_HOT_SECTIONS_V1[1:]:
+    omitted = state_hot.replace((heading + "\n").encode("utf-8"), b"", 1)
+    expect_rotation_error(rotation, lambda omitted=omitted:
+        rotation.verify_hot_renderer_template_parity_v1(
+            state_template, roadmap_template, omitted, roadmap_hot),
+        "STATE hot-section omission " + heading)
+for heading in rotation.ROADMAP_HOT_SECTIONS_V1[1:]:
+    omitted = roadmap_hot.replace((heading + "\n").encode("utf-8"), b"", 1)
+    expect_rotation_error(rotation, lambda omitted=omitted:
+        rotation.verify_hot_renderer_template_parity_v1(
+            state_template, roadmap_template, state_hot, omitted),
+        "ROADMAP hot-section omission " + heading)
+template_omission = state_template.replace(b"## Ledger\n", b"", 1)
+expect_rotation_error(rotation, lambda: rotation.verify_hot_renderer_template_parity_v1(
+    template_omission, roadmap_template, state_hot, roadmap_hot),
+    "canonical template section omission")
+for name, rendered in (("STATE.md", state_hot), ("ROADMAP.md", roadmap_hot)):
+    if len(rendered) > population["hot_projection_limits"][name]:
+        raise SystemExit(name + " exceeded the bounded hot projection limit")
+    if b"ActiveGraph" in rendered:
+        raise SystemExit(name + " acquired an ActiveGraph dependency")
+    for forbidden in population["forbidden_closed_history"]:
+        if forbidden.encode("utf-8") in rendered:
+            raise SystemExit(name + " retained closed history: " + forbidden)
+required_current = (
+    native.next_action, *native.open_andons[0], *native.active_instructions[0],
+    native.runtime_artifacts[0].path, native.open_ledger[0].finding,
+    native.open_residuals[0].residual, native.execution_identity,
+    native.agents_update_decision.reason, native.continuity_decision_record.reason,
+    native.baseline_ref, native.implementaudit_base, *native.action_selected,
+    *native.action_omitted, *native.planning_evidence,
+    native.open_scope_creep[0].issue, graph.work_graph_digest,
+    custody.current_generation_ref, custody.archive_ref, custody.history_query,
+)
+for current in required_current:
+    if current.encode("utf-8") not in state_hot + roadmap_hot:
+        raise SystemExit("hot projection omitted current/pointer field: " + current)
+if sources != materialized_preimages_before:
+    raise SystemExit("migration mutated materialized preimage bytes")
+
+fixture_root = repo / ".IMPLEMENTAUDIT" / "runs" / "hot-state-migration-fixture"
+fixture_root.mkdir(parents=True, exist_ok=True)
+(fixture_root / "STATE.md").write_bytes(state_hot)
+(fixture_root / "ROADMAP.md").write_bytes(roadmap_hot)
+for name in ("PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
+    (fixture_root / name).write_bytes(
+        (repo / "skills" / "implementaudit" / "templates" / name).read_bytes())
+(fixture_root / "WORK_GRAPH.json").write_bytes(b'{"active":["R39-F6"]}\n')
+common = subprocess.check_output([
+    "git", "-C", str(repo), "rev-parse", "--path-format=absolute", "--git-common-dir",
+], text=True).strip()
+claim = "\n".join((
+    "schema=implementaudit.run-claim.v2",
+    "claim_id=" + "f" * 32,
+    "claimed_at_utc=2000-01-01T00:00:00Z",
+    "mode=full",
+    "templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md",
+    "repo_root=" + repo.as_posix(),
+    "git_common_dir=" + Path(common).as_posix(),
+    "run_base=.IMPLEMENTAUDIT/runs",
+    "run_root=.IMPLEMENTAUDIT/runs/hot-state-migration-fixture",
+    "run_name=hot-state-migration-fixture",
+)) + "\n"
+(fixture_root / ".claimed").write_text(claim, encoding="utf-8")
+print("CANONICAL_STATE_ROTATION_MIGRATION_GREEN=PASS "
+      "classification=%d class-counts=%s removed=%d/%d stored-queryable=%d "
+      "population-sha256=%s hot-state-bytes=%d hot-roadmap-bytes=%d"
+      % (sum(observed_source_counts.values()),
+         ",".join("%s:%d" % (name, observed_class_counts[name]) for name in classes),
+         receipt.source_count, len(expected_removed), receipt.event_count,
+         receipt.population_digest, len(state_hot), len(roadmap_hot)))
+PY
+  exit 0
+fi
+if $clarifications_only; then
+  # Catches production that omits event-byte canonicalization, bound cursors,
+  # or sequence-CAS isolation despite an apparently valid reader migration.
+  bash "$checker" --clarification-fixtures-self-check >/dev/null
+  printf '%s\n' \
+    'CANONICAL_STATE_ROTATION_CLARIFICATIONS_RED=EVENT_BYTES_CURSOR_SEQUENCE_CAS_NOT_IMPLEMENTED' >&2
+  exit 1
+fi
+if $sequence_cas_only; then
+  [ -f "$sequence_cas_fixture" ] || fail "missing sequence-CAS fixture"
+  python - "$helper" "$sequence_cas_fixture" "$tmp" "$r15_target" <<'PY'
+import contextlib
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+
+spec = importlib.util.spec_from_file_location("rotation_sequence_cas", sys.argv[1])
+rotation = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(rotation)
+r15_target = sys.argv[4]
+if r15_target not in {"", "null-sinks", "observation-order", "nonzero-readback",
+                      "receipt-pivot", "owner-env", "shared-lease"}:
+    raise SystemExit("unknown packet-r15 focused target")
+if os.name == "nt":
+    if rotation.WINDOWS_TRUSTED_GIT_PATHS_V1 != (
+            r"C:\Program Files\Git\cmd\git.exe",
+            r"C:\Program Files\Git\bin\git.exe"):
+        raise SystemExit("native Windows Git trust roots are not exact")
+# This is deliberately the installed helper's physical-owner route, with no
+# replacement of either loader.  It must stay independent of both this test's
+# cwd and the isolated publication repository built below.
+physical_owner = rotation.publication_owner_repo_v1()
+physical_context = rotation.load_governed_publication_context_v1()
+expected_physical_context_keys = {
+    "repo_path", "run_root_path", "controller_id", "claim_id", "run_id",
+    "generation_id", "source_epoch", "receipt_ref", "receipt_oid",
+    "predecessor_receipt_token", "receipt_state_digest",
+    "receipt_roadmap_digest", "expected_old_pointer_oid",
+    "migration_marker_oid", "publication_guard_refs",
+}
+if (physical_context["repo_path"] != physical_owner
+        or (r15_target not in {"receipt-pivot", "owner-env"}
+            and set(physical_context) != expected_physical_context_keys)
+        or not all(str(physical_context[key]) for key in ("controller_id", "claim_id", "run_id", "generation_id", "source_epoch", "receipt_oid"))):
+    raise SystemExit("physical ten-key v2 publication custody loader is incomplete")
+physical_cwd = Path.cwd()
+os.chdir(Path(sys.argv[3]))
+try:
+    if rotation.load_governed_publication_context_v1() != physical_context:
+        raise SystemExit("physical publication custody changed with caller cwd")
+finally:
+    os.chdir(physical_cwd)
+with open(sys.argv[2], encoding="utf-8") as stream:
+    fixture = json.load(stream)
+expected = [
+    "SC01-single-winner", "SC02-loser-not-queryable", "SC03-loser-not-current",
+    "SC04-retry-reallocates", "SC05-winner-data-preserved",
+    "SC06-reused-predecessor-sequence", "SC07-noncontiguous-gap",
+    "SC08-wrong-predecessor-high-water", "SC09-other-predecessor-manifest",
+    "SC10-pointer-manifest-type-confusion",
+]
+if (fixture.get("schema")
+        != "implementaudit.canonical-state-rotation-sequence-cas-cases.v1"
+        or [row.get("id") for row in fixture.get("cases", [])] != expected):
+    raise SystemExit("sequence-CAS fixture population drift")
+sc10_subcases = ["manifest-as-pointer", "noncanonical-pointer-bytes", "noncanonical-manifest-bytes",
+                 "manifest-oid", "manifest-digest", "controller-id", "claim-id", "run-id",
+                 "generation-id", "source-epoch", "cold-high-water"]
+if fixture["cases"][-1].get("subcases") != sc10_subcases:
+    raise SystemExit("SC10 fixture subcase population drift")
+
+EXPECTED_PUBLISHER_IDS = (
+    "wrong-live", "stored-controller", "stored-source-epoch", "winner", "loser",
+    "guard-controller", "guard-invalidation", "guard-receipt", "guard-marker",
+    "mutation-STATE-in-place", "mutation-STATE-replacement", "mutation-STATE-write-restore",
+    "mutation-ROADMAP-in-place", "mutation-ROADMAP-replacement", "mutation-ROADMAP-write-restore",
+    "mutation-WORK_GRAPH-in-place", "mutation-WORK_GRAPH-replacement",
+    "mutation-WORK_GRAPH-write-restore", "immutable-path", "immutable-object",
+    "lease-held", "final-trace", "unknown-effect", "hostile-hooks-env",
+)
+EXPECTED_CLAIM_MISMATCH_KEYS = (
+    "schema", "claim_id", "claimed_at_utc", "mode", "templates", "repo_root",
+    "git_common_dir", "run_base", "run_root", "run_name",
+)
+if (fixture.get("publisher_ids") != list(EXPECTED_PUBLISHER_IDS)
+        or fixture.get("claim_record_mismatch_keys") != list(EXPECTED_CLAIM_MISMATCH_KEYS)
+        or fixture.get("r15_round1_subcases")
+        != ["receipt-pre-fence-pivot", "cross-platform-owner-environment"]
+        or len(EXPECTED_PUBLISHER_IDS) != len(set(EXPECTED_PUBLISHER_IDS))
+        or len(EXPECTED_CLAIM_MISMATCH_KEYS) != len(set(EXPECTED_CLAIM_MISMATCH_KEYS))):
+    raise SystemExit("publisher or claim-mismatch fixture population drift")
+
+
+def error(action, expected=None):
+    try:
+        action()
+    except rotation.RotationError as exc:
+        if expected is not None and str(exc) != expected:
+            raise SystemExit("expected %r, got %r" % (expected, exc))
+        return
+    raise SystemExit("expected a fail-closed sequence-CAS refusal")
+
+
+def git(repo, *args, data=None):
+    result = subprocess.run(["git", "-C", str(repo), *args], input=data,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    if result.returncode:
+        raise SystemExit(result.stderr.decode("utf-8", "replace"))
+    return result.stdout
+
+
+def blob(repo, data):
+    return git(repo, "hash-object", "-w", "--stdin", data=data).decode().strip()
+
+
+def manifest(before, sequences):
+    events = [{"sequence": sequence, "event_id": "iaevt-v1-" + (f"{n:064x}"),
+               "segment_digest": "sha256:" + (f"{n:064x}"),
+               "record_kind": "finding.closed",
+               "source_evidence_id": "iasrc-v1-r0039-archive-case-%d" % n}
+              for n, sequence in enumerate(sequences, 1)]
+    body = {"schema_version": "implementaudit.state-generation-manifest.v1",
+            "query_contract_version": "implementaudit.history-query.v1",
+            "controller_id": "controller-1", "claim_id": "a" * 32,
+            "run_id": "run-1", "generation_id": "G0001", "source_epoch": "G0001",
+            "predecessor_manifest_digest": None, "predecessor_high_water": before,
+            "events": events, "record_class_counts": {"finding.closed": len(events)},
+            "population_digest": hashlib.sha256(rotation.canonical_json_v1(
+                rotation.manifest_population_rows_v1(events))).hexdigest(),
+            "high_water": sequences[-1]}
+    body["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1(body)).hexdigest()
+    return body
+
+
+repo = Path(sys.argv[3]) / "sequence-cas-isolated-repo"
+subprocess.run(["git", "init", "-q", str(repo)], check=True)
+winner = blob(repo, b"winner-candidate")
+loser = blob(repo, b"loser-candidate")
+ref = "refs/implementaudit/current-generations/cas-controller"
+winner_cas = rotation.prepare_trusted_update_ref_transaction_v1(
+    repo=repo, ref=ref, new_oid=winner, old_oid=rotation.ZERO_OID, verify_refs=())
+loser_cas = rotation.prepare_trusted_update_ref_transaction_v1(
+    repo=repo, ref=ref, new_oid=loser, old_oid=rotation.ZERO_OID, verify_refs=())
+completed = subprocess.run(winner_cas["argv"], cwd=winner_cas["cwd"], env=winner_cas["env"],
+                           input=winner_cas["stdin_bytes"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if completed.returncode != 0 or rotation.read_back_published_ref_v1(winner_cas) != winner:
+    raise SystemExit("SC01 winner publication/readback failed")
+completed = subprocess.run(loser_cas["argv"], cwd=loser_cas["cwd"], env=loser_cas["env"],
+                           input=loser_cas["stdin_bytes"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if completed.returncode == 0:
+    raise SystemExit("SC02 expected-old loser unexpectedly published")
+refs = git(repo, "for-each-ref", "--format=%(objectname)", "refs/implementaudit/").decode().splitlines()
+if refs != [winner] or loser in refs:
+    raise SystemExit("SC02/SC03 loser is queryable or current")
+if rotation.quarantine_unreferenced_cas_loser_v1(repo, loser) != "UNREFERENCED_LOSER_QUARANTINED":
+    raise SystemExit("SC02 loser did not produce bounded unreferenced quarantine evidence")
+if rotation.allocate_candidate_sequences_v1("00000000000000000001", 1) != ["00000000000000000002"]:
+    raise SystemExit("SC04 loser retry did not allocate after winner high-water")
+if git(repo, "cat-file", "blob", winner) != b"winner-candidate":
+    raise SystemExit("SC05 winner data was not preserved")
+
+base = manifest("00000000000000000000", ["00000000000000000001"])
+rotation.verify_generation_manifest_v1(base)
+error(lambda: rotation.verify_generation_manifest_v1(manifest(
+    "00000000000000000001", ["00000000000000000001"])))
+error(lambda: rotation.verify_generation_manifest_v1(manifest(
+    "00000000000000000000", ["00000000000000000001", "00000000000000000003"])))
+error(lambda: rotation.verify_generation_manifest_v1(manifest(
+    "00000000000000000002", ["00000000000000000004"])))
+
+manifest_oid = blob(repo, rotation.canonical_json_v1(base))
+previous, previous_bytes = rotation.build_generation_pointer_v1(
+    controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+    source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=manifest_oid, generation_manifest_digest=base["manifest_digest"],
+    cold_high_water=base["high_water"], hot_state_digest="b" * 64, hot_roadmap_digest="c" * 64,
+    work_graph_path="WORK_GRAPH.json", work_graph_digest="d" * 64, degraded_state="NONE")
+other = dict(base, predecessor_manifest_digest="e" * 64)
+other["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1(
+    {key: value for key, value in other.items() if key != "manifest_digest"})).hexdigest()
+error(lambda: rotation.verify_generation_successor_tuple_v1(
+    pointer=previous, manifest=other, predecessor_oid="f" * 40, predecessor_pointer=previous))
+pointer_oid = blob(repo, previous_bytes)
+error(lambda: rotation.load_canonical_generation_manifest_oid_v1(repo, pointer_oid))
+
+request = {"schema_version": "implementaudit.history-event.v1", "run_id": "run-1",
+           "controller_id": "controller-1", "generation_id": "G0001",
+           "sequence": "00000000000000000001", "record_kind": "finding.closed",
+           "subject_id": "subject-1", "source_epoch": "G0001", "transition": "APPENDED",
+           "status": "CLOSED", "supersedes_event_id": None, "payload": {"case": "segment"}}
+segment = dict(request, source_evidence_id="iasrc-v1-r0039-archive-case-1",
+               source_locator={"kind": "repo-relative", "root_identity": "sha256:" + "a" * 64,
+                               "path": "evidence/file", "host_identity": None},
+               source_digest="sha256:" + "b" * 64,
+               payload_digest=hashlib.sha256(rotation.canonical_json_v1(request["payload"])).hexdigest())
+segment["event_id"] = "iaevt-v1-" + hashlib.sha256(rotation.canonical_json_v1(segment)).hexdigest()
+segment_raw = rotation.canonical_json_v1(segment)
+segment_event_row = {
+    "sequence": segment["sequence"], "event_id": segment["event_id"],
+    "segment_digest": "sha256:" + hashlib.sha256(segment_raw).hexdigest(),
+    "record_kind": segment["record_kind"],
+    "source_evidence_id": segment["source_evidence_id"],
+}
+segment_manifest = {
+    "schema_version": "implementaudit.state-generation-manifest.v1",
+    "query_contract_version": "implementaudit.history-query.v1",
+    "controller_id": "controller-1", "claim_id": "a" * 32,
+    "run_id": "run-1", "generation_id": "G0001", "source_epoch": "G0001",
+    "predecessor_manifest_digest": None,
+    "predecessor_high_water": "00000000000000000000",
+    "events": [segment_event_row], "record_class_counts": {"finding.closed": 1},
+    "population_digest": hashlib.sha256(rotation.canonical_json_v1(
+        rotation.manifest_population_rows_v1([segment_event_row]))).hexdigest(),
+    "high_water": "00000000000000000001",
+}
+segment_manifest["manifest_digest"] = hashlib.sha256(
+    rotation.canonical_json_v1(segment_manifest)).hexdigest()
+segment_manifest_raw = rotation.canonical_json_v1(segment_manifest)
+segment_oid = blob(repo, segment_raw)
+segment_ref = (rotation.EVENT_SEGMENT_PREFIX + "/run-1/G0001/00000000000000000001/" +
+               segment["event_id"])
+git(repo, "update-ref", segment_ref, segment_oid)
+rotation.verify_manifest_segments_core_v1(repo, segment_manifest)
+def reidentify(value):
+    result = dict(value)
+    result.pop("event_id")
+    result["event_id"] = "iaevt-v1-" + hashlib.sha256(rotation.canonical_json_v1(result)).hexdigest()
+    return result
+
+bad_segment = reidentify(dict(segment, controller_id="controller-2"))
+bad_segment_raw = rotation.canonical_json_v1(bad_segment)
+bad_oid = blob(repo, bad_segment_raw)
+git(repo, "update-ref", segment_ref, bad_oid, segment_oid)
+error(lambda: rotation.verify_manifest_segments_core_v1(repo, segment_manifest),
+      "manifest row and segment semantics disagree")
+git(repo, "update-ref", segment_ref, segment_oid, bad_oid)
+bad_epoch = reidentify(dict(segment, source_epoch="G0002"))
+bad_epoch_oid = blob(repo, rotation.canonical_json_v1(bad_epoch))
+git(repo, "update-ref", segment_ref, bad_epoch_oid, segment_oid)
+error(lambda: rotation.verify_manifest_segments_core_v1(repo, segment_manifest),
+      "manifest row and segment semantics disagree")
+git(repo, "update-ref", segment_ref, segment_oid, bad_epoch_oid)
+segment_manifest_oid = blob(repo, rotation.canonical_json_v1(segment_manifest))
+segment_pointer, segment_pointer_bytes = rotation.build_generation_pointer_v1(
+    controller_id="controller-1", claim_id="a" * 32, run_id="run-1", generation_id="G0001",
+    source_epoch="G0001", predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=segment_manifest_oid, generation_manifest_digest=segment_manifest["manifest_digest"],
+    cold_high_water=segment_manifest["high_water"], hot_state_digest="b" * 64,
+    hot_roadmap_digest="c" * 64, work_graph_path="WORK_GRAPH.json", work_graph_digest="d" * 64,
+    degraded_state="NONE")
+segment_pointer_oid = blob(repo, segment_pointer_bytes)
+
+def rehashed_pointer(pointer):
+    result = dict(pointer)
+    result["pointer_digest"] = hashlib.sha256(rotation.canonical_json_v1(
+        {key: value for key, value in result.items() if key != "pointer_digest"})).hexdigest()
+    return result
+
+# Every SC10 subcase is executed against the strict tuple boundary, rather than
+# being treated as a fixture label.  The actual manifest OID is separately
+# supplied so a pointer's self-reported OID cannot make the comparison tautological.
+error(lambda: rotation.load_canonical_generation_manifest_oid_v1(repo, segment_pointer_oid),
+      "manifest keys are not exact")
+noncanonical_pointer_oid = blob(repo, json.dumps(segment_pointer, sort_keys=True).encode())
+error(lambda: rotation.load_canonical_generation_pointer_oid_v1(repo, noncanonical_pointer_oid),
+      "generation pointer bytes are not canonical")
+noncanonical_manifest_oid = blob(repo, json.dumps(segment_manifest, sort_keys=True).encode())
+error(lambda: rotation.load_canonical_generation_manifest_oid_v1(repo, noncanonical_manifest_oid),
+      "generation manifest bytes are not canonical")
+tuple_mutations = {
+    "manifest-oid": ("generation_manifest_oid", pointer_oid),
+    "manifest-digest": ("generation_manifest_digest", "0" * 64),
+    "controller-id": ("controller_id", "controller-2"),
+    "claim-id": ("claim_id", "b" * 32),
+    "run-id": ("run_id", "run-2"),
+    "generation-id": ("generation_id", "G0002"),
+    "source-epoch": ("source_epoch", "G0002"),
+    "cold-high-water": ("cold_high_water", "00000000000000000002"),
+}
+for label, (field, value) in tuple_mutations.items():
+    changed = rehashed_pointer(dict(segment_pointer, **{field: value}))
+    error(lambda changed=changed: rotation.verify_pointer_manifest_tuple_v1(
+        pointer=changed, manifest=segment_manifest, manifest_oid=segment_manifest_oid),
+        "pointer and manifest tuple disagrees")
+
+# Publisher controls use a genuine temporary source layout.  The copied module
+# resolves its own copied claim-run/validator and every counted scenario enters
+# publish_generation_pointer_v1 through the unmodified no-input lease/context
+# route.  Only low-level native-read and subprocess boundaries are injected.
+owner_repo = Path(sys.argv[3]) / "publisher-owner"
+subprocess.run(["git", "init", "-q", str(owner_repo)], check=True)
+owner_scripts = owner_repo / "skills" / "implementaudit" / "scripts"
+owner_scripts.mkdir(parents=True)
+source_scripts = Path(sys.argv[1]).parent
+for name in ("rotate-canonical-state.py", "claim-run.sh", "validate-run-root.sh"):
+    shutil.copy2(source_scripts / name, owner_scripts / name)
+run_name = "task4-AbC123"
+run_root = owner_repo / ".IMPLEMENTAUDIT" / "runs" / run_name
+run_root.mkdir(parents=True)
+mutable_content = {
+    "STATE.md": b"Current epoch: G0001\n",
+    "ROADMAP.md": b"Task 4 publisher fixture\n",
+    "WORK_GRAPH.json": b'{"nodes":[]}\n',
+}
+for name, data in mutable_content.items():
+    (run_root / name).write_bytes(data)
+for name in ("PROTOCOL.md", "THINKING.md", "sidecars.md", "tools.md", "context.md"):
+    (run_root / name).write_text(name + "\n", encoding="utf-8")
+owner_repo_text = owner_repo.resolve().as_posix()
+owner_common = git(owner_repo, "rev-parse", "--path-format=absolute", "--git-common-dir").decode().strip()
+claim_id = "a" * 32
+positive_claim_lines = (
+    "schema=implementaudit.run-claim.v2",
+    "claim_id=" + claim_id,
+    "claimed_at_utc=2026-08-21T00:00:00Z",
+    "mode=full",
+    "templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md",
+    "repo_root=" + owner_repo_text,
+    "git_common_dir=" + owner_common,
+    "run_base=.IMPLEMENTAUDIT/runs",
+    "run_root=.IMPLEMENTAUDIT/runs/" + run_name,
+    "run_name=" + run_name,
+)
+(run_root / ".claimed").write_bytes(("\n".join(positive_claim_lines) + "\n").encode())
+git(owner_repo, "config", "user.name", "Task4 Fixture")
+git(owner_repo, "config", "user.email", "task4@example.invalid")
+git(owner_repo, "add", "skills", ".IMPLEMENTAUDIT")
+git(owner_repo, "commit", "-q", "-m", "fixture owner")
+owner_head = git(owner_repo, "rev-parse", "HEAD").decode().strip()
+owner_tree = git(owner_repo, "rev-parse", "HEAD^{tree}").decode().strip()
+controller_id = "controller-1"
+controller_ref = "refs/implementaudit/controllers/" + controller_id
+controller_raw = ("implementaudit.controller-current.v1\t" + controller_id + "\t"
+                  + claim_id + "\t" + run_root.resolve().as_posix() + "\n").encode()
+controller_oid = blob(owner_repo, controller_raw)
+git(owner_repo, "update-ref", controller_ref, controller_oid)
+receipt_ref = "refs/implementaudit/continuity-receipts/controller-1/G0001"
+receipt_raw = "\t".join((
+    "implementaudit.continuity-receipt.v2", controller_id, controller_oid,
+    claim_id, owner_head, owner_tree,
+    hashlib.sha256(mutable_content["STATE.md"]).hexdigest(),
+    hashlib.sha256(mutable_content["ROADMAP.md"]).hexdigest(),
+    "none", "manual-resume", "G0001", "task4-fixture-event",
+)).encode() + b"\n"
+receipt_oid = blob(owner_repo, receipt_raw)
+git(owner_repo, "update-ref", receipt_ref, receipt_oid)
+marker_ref = "refs/implementaudit/current-generation-migrations/controller-1"
+invalidation_ref = "refs/implementaudit/continuity-invalidations/controller-1"
+current_ref = "refs/implementaudit/current-generations/controller-1"
+
+owner_spec = importlib.util.spec_from_file_location(
+    "rotation_sequence_cas_owner", owner_scripts / "rotate-canonical-state.py")
+owner_rotation = importlib.util.module_from_spec(owner_spec)
+owner_spec.loader.exec_module(owner_rotation)
+owner_validator_probe = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "validate-run-root.sh"),
+    "--claim-only", run_root.resolve().as_posix(), "--repo-root", owner_repo_text,
+], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if owner_validator_probe.returncode != 0:
+    raise SystemExit("temporary source-layout owner validator failed: "
+                     + owner_validator_probe.stderr.decode("utf-8", "replace"))
+owner_custody_probe = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    "--publication-custody",
+], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+   env=owner_rotation.git_environment(), check=False)
+if owner_custody_probe.returncode != 0:
+    raise SystemExit("temporary source-layout custody route failed: stdout=%r stderr=%r"
+                     % (owner_custody_probe.stdout, owner_custody_probe.stderr))
+if (owner_rotation.publication_owner_repo_v1() != owner_repo.resolve()
+        or owner_rotation.load_governed_publication_context_v1()["run_root_path"]
+        != run_root.resolve()):
+    raise SystemExit("temporary source-layout owner did not resolve its physical custody")
+
+archive_population = {
+    "schema": "implementaudit.canonical-state-rotation-f2-fixture.v1",
+    "controller": controller_id, "generation": "g0001",
+    "archive_ref": (
+        "refs/implementaudit/state-archives/" + controller_id + "/g0001"),
+    "protected_files": [
+        {"role": "STATE", "path": "STATE.md"},
+        {"role": "ROADMAP", "path": "ROADMAP.md"},
+        {"role": "WORK_GRAPH", "path": "WORK_GRAPH.json"},
+    ],
+    "forbidden_source_components": [
+        "state-generations", "state-archives", "quarantine"],
+    "forbidden_transition_fields": [
+        "current_generation", "epoch", "invalidation_oid", "migration_marker",
+        "pointer_oid", "predecessor_receipt", "receipt_oid"],
+    "expected": {
+        "draft_schema": "implementaudit.canonical-state-projection-draft.v1",
+        "archive_schema": "implementaudit.canonical-state-archive.v1",
+        "archive_ref_update": "EXPECTED_ZERO_CAS", "discovery": "EXCLUDED",
+        "recursive_population": "EXCLUDED",
+        "retrieval": "GIT_BLOB_OID_AND_SHA256",
+        "permissions": "SOURCE_MODE_EXACT_READBACK",
+    },
+}
+archive_population_path = run_root / "archive-population.json"
+archive_population_path.write_text(
+    json.dumps(archive_population, indent=2) + "\n", encoding="utf-8")
+owner_rotation.build_projection_draft(
+    owner_repo, run_root, controller_id, "g0001", archive_population_path)
+owner_rotation.archive_preimage(
+    owner_repo, run_root, controller_id, "g0001",
+    run_root / "state-generations" / "g0001" / "draft")
+genesis_source = owner_rotation.load_governed_source_context_v1(
+    "iasrc-v1-r0039-archive-task5-migration")
+if (genesis_source["pointer_oid"] is not None
+        or genesis_source["marker_oid"] is not None
+        or set(genesis_source["owner_manifest"]) != {"entries"}
+        or len(genesis_source["owner_manifest"]["entries"]) != 1):
+    raise SystemExit("Task 6 copied owner did not admit the exact genesis archive route")
+
+def expected_fixed_environment(platform_name, executable):
+    if platform_name == "nt":
+        path_value = ";".join((
+            r"C:\Program Files\Git\cmd", r"C:\Program Files\Git\bin",
+            r"C:\Program Files\Git\usr\bin", r"C:\Windows\System32",
+            r"C:\Windows",
+        ))
+        sink = "NUL"
+    else:
+        entries = [str(Path(executable).parent), "/usr/bin", "/bin"]
+        path_value = ":".join(dict.fromkeys(entries))
+        sink = "/dev/null"
+    return {
+        "PATH": path_value, "LC_ALL": "C", "LANG": "C",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": sink,
+        "GIT_TERMINAL_PROMPT": "0",
+    }
+
+if r15_target in {"", "owner-env"}:
+    hostile_owner_environment = {
+        "PATH": str(fake_pf) if "fake_pf" in globals() else str(Path(sys.argv[3]) / "hostile-bin"),
+        "ProgramFiles": str(Path(sys.argv[3]) / "hostile-program-files"),
+        "GIT_CONFIG_PARAMETERS": "'core.hooksPath=/hostile'",
+        "GIT_HOSTILE_R15": "hostile", "LD_LIBRARY_PATH": "hostile",
+        "LD_AUDIT": "hostile", "DYLD_LIBRARY_PATH": "hostile",
+        "DYLD_HOSTILE_R15": "hostile", "BASH_ENV": "hostile",
+        "BASH_FUNC_git%%": "() { printf hostile; }",
+    }
+    saved_owner_environment = {
+        key: os.environ.get(key) for key in hostile_owner_environment
+    }
+    os.environ.update(hostile_owner_environment)
+    try:
+        host_platform = "nt" if os.name == "nt" else "posix"
+        host_executable = owner_rotation.git_executable_v1()
+        observed_host_environment = owner_rotation.git_environment()
+        if observed_host_environment != expected_fixed_environment(
+                host_platform, host_executable):
+            raise SystemExit("physical-owner environment is not exact")
+        if (owner_rotation.publication_owner_repo_v1() != owner_repo.resolve()
+                or owner_rotation.load_governed_publication_context_v1()["run_root_path"]
+                != run_root.resolve()):
+            raise SystemExit("hostile caller environment selected physical custody")
+        other_platform = "posix" if host_platform == "nt" else "nt"
+        other_executable = ("/usr/bin/git" if other_platform == "posix"
+                            else r"C:\Program Files\Git\cmd\git.exe")
+        observed_other_environment = owner_rotation._fixed_git_environment_v1(
+            other_executable, other_platform)
+        if observed_other_environment != expected_fixed_environment(
+                other_platform, other_executable):
+            raise SystemExit("other-platform owner environment is not exact")
+    finally:
+        for key, value in saved_owner_environment.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+    if r15_target == "owner-env":
+        print("R15_OWNER_ENV_GREEN=PASS")
+        raise SystemExit(0)
+
+claim_mutations = {
+    "schema": "implementaudit.run-claim.v3",
+    "claim_id": "b" * 32,
+    "claimed_at_utc": "not-rfc3339",
+    "mode": "hostile",
+    "templates": "STATE.md",
+    "repo_root": owner_repo_text + "/other",
+    "git_common_dir": owner_common + "/other",
+    "run_base": ".IMPLEMENTAUDIT/other-runs",
+    "run_root": ".IMPLEMENTAUDIT/runs/other-AbC123",
+    "run_name": "other-AbC123",
+}
+executed_claim_mismatch_keys = []
+for index, key in enumerate(EXPECTED_CLAIM_MISMATCH_KEYS):
+    changed = list(positive_claim_lines)
+    changed[index] = key + "=" + claim_mutations[key]
+    (run_root / ".claimed").write_bytes(("\n".join(changed) + "\n").encode())
+    rejected = subprocess.run([
+        r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+        "--publication-custody",
+    ], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+       env=owner_rotation.git_environment(), check=False)
+    if rejected.returncode == 0:
+        raise SystemExit("claim-record mismatch was accepted: " + key)
+    executed_claim_mismatch_keys.append(key)
+(run_root / ".claimed").write_bytes(("\n".join(positive_claim_lines) + "\n").encode())
+if (tuple(executed_claim_mismatch_keys) != EXPECTED_CLAIM_MISMATCH_KEYS
+        or len(executed_claim_mismatch_keys) != len(set(executed_claim_mismatch_keys))):
+    raise SystemExit("claim-record mismatch execution population drift")
+
+def owner_error(action, expected=None):
+    try:
+        action()
+    except owner_rotation.RotationError as exc:
+        if expected is not None and str(exc) != expected:
+            raise SystemExit("expected %r, got %r" % (expected, exc))
+        return exc
+    raise SystemExit("expected copied publisher to fail closed")
+
+def capture_owner_error(action):
+    try:
+        action()
+    except owner_rotation.RotationError as exc:
+        return type(exc).__name__, str(exc)
+    raise SystemExit("expected copied publisher to fail closed")
+
+# Fixed-location/owner/native-observation controls are real where supported and
+# otherwise inject only the lowest native wrapper to prove the typed refusal.
+fake_pf = Path(sys.argv[3]) / "fake-program-files" / "Git" / "cmd"
+fake_pf.mkdir(parents=True)
+(fake_pf / "git.exe").write_bytes(b"caller-selected-not-git")
+fake_oid = blob(owner_repo, b"fake-selection-probe")
+saved_program_files = os.environ.get("ProgramFiles")
+os.environ["ProgramFiles"] = str(fake_pf.parents[1])
+try:
+    fake_probe = owner_rotation.prepare_trusted_update_ref_transaction_v1(
+        repo=owner_repo, ref="refs/implementaudit/current-generations/fake-probe",
+        new_oid=fake_oid, old_oid=owner_rotation.ZERO_OID, verify_refs=())
+finally:
+    if saved_program_files is None:
+        os.environ.pop("ProgramFiles", None)
+    else:
+        os.environ["ProgramFiles"] = saved_program_files
+selected_executable = Path(fake_probe["argv"][0])
+if (not any(os.path.samefile(selected_executable, fixed)
+            for fixed in owner_rotation.WINDOWS_TRUSTED_GIT_PATHS_V1)
+        or str(fake_pf) in str(selected_executable)):
+    raise SystemExit("caller ProgramFiles selected the trusted executable")
+fixed_null_sink = "NUL" if os.name == "nt" else "/dev/null"
+if r15_target in {"", "null-sinks"}:
+    if (fake_probe["argv"][1:3] != ["-c", "core.hooksPath=" + fixed_null_sink]
+            or fake_probe["env"].get("GIT_CONFIG_GLOBAL") != fixed_null_sink
+            or "trusted_executable_identity" in fake_probe
+            or "trusted_hooks" in fake_probe
+            or "trusted_global_config" in fake_probe):
+        raise SystemExit("fixed null/non-executable Git isolation is not exact")
+    fake_git_dir = Path(git(owner_repo, "rev-parse", "--git-dir").decode().strip())
+    if not fake_git_dir.is_absolute():
+        fake_git_dir = owner_repo / fake_git_dir
+    legacy_hooks = fake_git_dir / "implementaudit-r0039-empty-hooks"
+    legacy_config = fake_git_dir / "implementaudit-r0039-empty-global-config"
+    legacy_sentinel = Path(sys.argv[3]) / "legacy-post-preparation-hook-ran"
+    legacy_hooks.mkdir(exist_ok=True)
+    (legacy_hooks / "reference-transaction").write_text(
+        "#!/usr/bin/env sh\nprintf hook > '" + legacy_sentinel.as_posix().replace("'", "") + "'\n",
+        encoding="utf-8")
+    (legacy_hooks / "reference-transaction").chmod(0o700)
+    legacy_config.write_text("[core]\n\thooksPath = " + legacy_hooks.as_posix() + "\n",
+                             encoding="utf-8")
+    owner_rotation.verify_trusted_update_ref_transaction_v1(fake_probe)
+    fixed_probe = subprocess.run(
+        fake_probe["argv"], cwd=fake_probe["cwd"], env=fake_probe["env"],
+        input=fake_probe["stdin_bytes"], stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE, check=False)
+    if fixed_probe.returncode != 0 or legacy_sentinel.exists():
+        raise SystemExit("post-preparation hook/config injection affected fixed sinks")
+    git(owner_repo, "update-ref", "-d", "refs/implementaudit/current-generations/fake-probe")
+    if r15_target == "null-sinks":
+        print("R15_NULL_SINKS_GREEN=PASS")
+        raise SystemExit(0)
+
+expected_digests = {
+    "STATE": hashlib.sha256(mutable_content["STATE.md"]).hexdigest(),
+    "ROADMAP": hashlib.sha256(mutable_content["ROADMAP.md"]).hexdigest(),
+    "WORK_GRAPH": hashlib.sha256(mutable_content["WORK_GRAPH.json"]).hexdigest(),
+}
+with owner_rotation.PublicationObservationSessionV1(
+        {"run_root_path": run_root}, expected_digests) as observation_session:
+    observation_rows = observation_session.observe(reopen=False)
+    reopened_observation_rows = observation_session.observe(reopen=True)
+if r15_target in {"", "observation-order"}:
+    if (owner_rotation.PublicationObservationV1._fields != (
+            "semantic_role", "canonical_no_follow_path", "file_identity", "size",
+            "ctime_ns", "mtime_ns", "sha256", "expected_digest")
+            or observation_rows != reopened_observation_rows
+            or [row.canonical_no_follow_path for row in observation_rows]
+            != sorted(row.canonical_no_follow_path for row in observation_rows)
+            or any(len(row.file_identity) != 2 or row.sha256 != row.expected_digest
+                   for row in observation_rows)):
+        raise SystemExit("native publication observation tuple is not exact")
+if r15_target == "observation-order":
+    print("R15_OBSERVATION_ORDER_GREEN=PASS")
+    raise SystemExit(0)
+original_windows_apis = owner_rotation._windows_apis_v1
+owner_rotation._windows_apis_v1 = lambda: (_ for _ in ()).throw(
+    owner_rotation.RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED"))
+try:
+    owner_error(lambda: owner_rotation.observe_publication_vector_v1(
+        context={"run_root_path": run_root}, expected_digests=expected_digests),
+        "OE_PUBLICATION_FENCE_UNSUPPORTED")
+finally:
+    owner_rotation._windows_apis_v1 = original_windows_apis
+
+owner_segment = reidentify(dict(segment, run_id=run_name))
+owner_segment_raw = owner_rotation.canonical_json_v1(owner_segment)
+owner_segment_oid = blob(owner_repo, owner_segment_raw)
+owner_segment_ref = (owner_rotation.EVENT_SEGMENT_PREFIX
+                     + "/" + run_name + "/G0001/00000000000000000001/"
+                     + owner_segment["event_id"])
+git(owner_repo, "update-ref", owner_segment_ref, owner_segment_oid)
+owner_manifest, owner_manifest_raw = owner_rotation.build_generation_manifest_v1(
+    None, [owner_segment])
+if owner_manifest_raw != owner_rotation.canonical_json_v1(owner_manifest):
+    raise SystemExit("copied owner manifest builder did not return canonical product bytes")
+owner_manifest_oid = blob(owner_repo, owner_manifest_raw)
+
+def owner_pointer(*, controller="controller-1", degraded="NONE", state_digest=None):
+    pointer, raw = owner_rotation.build_generation_pointer_v1(
+        controller_id=controller, claim_id=claim_id, run_id=run_name,
+        generation_id="G0001", source_epoch="G0001",
+        predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+        generation_manifest_oid=owner_manifest_oid,
+        generation_manifest_digest=owner_manifest["manifest_digest"],
+        cold_high_water=owner_manifest["high_water"],
+        hot_state_digest=state_digest or expected_digests["STATE"],
+        hot_roadmap_digest=expected_digests["ROADMAP"],
+        work_graph_path="WORK_GRAPH.json",
+        work_graph_digest=expected_digests["WORK_GRAPH"],
+        degraded_state=degraded)
+    return pointer, blob(owner_repo, raw)
+
+owner_pointer_value, owner_pointer_oid = owner_pointer()
+_, owner_loser_oid = owner_pointer(degraded="ACTIVEGRAPH_DOGFOOD_DEGRADED")
+_, owner_wrong_live_oid = owner_pointer(controller="controller-2")
+receipt_pivot_state = b"Current epoch: G0001\nreceipt-pivot=B\n"
+_, owner_receipt_pivot_oid = owner_pointer(
+    state_digest=hashlib.sha256(receipt_pivot_state).hexdigest())
+bad_controller_segment = reidentify(dict(owner_segment, controller_id="controller-2"))
+bad_controller_oid = blob(owner_repo, owner_rotation.canonical_json_v1(bad_controller_segment))
+bad_epoch_segment = reidentify(dict(owner_segment, source_epoch="G0002"))
+bad_epoch_oid = blob(owner_repo, owner_rotation.canonical_json_v1(bad_epoch_segment))
+
+def delete_ref(ref_name):
+    subprocess.run(["git", "-C", str(owner_repo), "update-ref", "-d", ref_name],
+                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+
+def reset_owner_case():
+    delete_ref(current_ref)
+    delete_ref(marker_ref)
+    delete_ref(invalidation_ref)
+    git(owner_repo, "update-ref", controller_ref, controller_oid)
+    git(owner_repo, "update-ref", receipt_ref, receipt_oid)
+    git(owner_repo, "update-ref", owner_segment_ref, owner_segment_oid)
+    for name, data in mutable_content.items():
+        (run_root / name).write_bytes(data)
+    lock_path = owner_rotation.r0039_publication_lease_path_v1(owner_repo)
+    if lock_path.exists():
+        lock_path.unlink()
+
+def current_oid():
+    result = subprocess.run(["git", "-C", str(owner_repo), "rev-parse", "--verify", current_ref],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    return result.stdout.decode().strip() if result.returncode == 0 else None
+
+executed_publisher_ids = []
+
+def record_publisher(case_id):
+    if case_id in executed_publisher_ids:
+        raise SystemExit("duplicate publisher case execution: " + case_id)
+    executed_publisher_ids.append(case_id)
+
+class SubprocessProxy:
+    PIPE = subprocess.PIPE
+    DEVNULL = subprocess.DEVNULL
+    STDOUT = subprocess.STDOUT
+    def __init__(self, hook=None, trace=None):
+        self.hook = hook
+        self.trace = trace
+    def run(self, argv, *args, **kwargs):
+        values = [str(value) for value in argv]
+        if self.trace is not None:
+            if "update-ref" in values and "--stdin" in values:
+                self.trace.append("update-ref")
+            elif "rev-parse" in values and "--verify" in values and current_ref in values:
+                self.trace.append("readback")
+            else:
+                self.trace.append("other")
+        if self.hook is not None:
+            replacement = self.hook(values, args, kwargs)
+            if replacement is not None:
+                return replacement
+        return subprocess.run(argv, *args, **kwargs)
+
+def with_subprocess_proxy(proxy, action):
+    original = owner_rotation.subprocess
+    owner_rotation.subprocess = proxy
+    try:
+        return action()
+    finally:
+        owner_rotation.subprocess = original
+
+if r15_target == "shared-lease":
+    owner_peer = Path(sys.argv[3]) / "publisher-owner-peer"
+    subprocess.run(
+        ["git", "-C", str(owner_repo), "worktree", "add", "-q", "--detach",
+         str(owner_peer), "HEAD"], check=True)
+    peer_spec = importlib.util.spec_from_file_location(
+        "rotation_sequence_cas_peer",
+        owner_peer / "skills" / "implementaudit" / "scripts" /
+        "rotate-canonical-state.py")
+    peer_rotation = importlib.util.module_from_spec(peer_spec)
+    peer_spec.loader.exec_module(peer_rotation)
+    expected_common = Path(git(
+        owner_repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
+    ).decode().strip()).resolve() / "implementaudit-r0039-publication.lock"
+    main_lease = owner_rotation.r0039_publication_lease_path_v1(owner_repo)
+    peer_lease = peer_rotation.r0039_publication_lease_path_v1(owner_peer)
+    if main_lease != expected_common or peer_lease != expected_common:
+        raise SystemExit("R30 linked-worktree owners did not resolve one Git-common lease: "
+                         + repr((expected_common, main_lease, peer_lease)))
+
+    # Direction one: the protected-mutation domain owns the common lease, so
+    # the real R0039 publisher fails fast without touching its pointer ref.
+    reset_owner_case()
+    common_fd = os.open(expected_common, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+    try:
+        owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
+            candidate_pointer_oid=owner_pointer_oid),
+            "R0039 publication writer lease is held")
+        if current_oid() is not None:
+            raise SystemExit("R30 reverse publisher changed the current pointer")
+    finally:
+        os.close(common_fd)
+        expected_common.unlink()
+
+    # Direction two: R0039 owns the common lease through both its only CAS and
+    # its post-CAS readback.  A reverse create-exclusive contender must lose at
+    # both boundaries, then the lease must disappear after terminal readback.
+    reset_owner_case()
+    lease_boundaries = []
+    def lease_boundary_hook(values, _args, _kwargs):
+        boundary = None
+        if "update-ref" in values and "--stdin" in values:
+            boundary = "update-ref"
+        elif "rev-parse" in values and "--verify" in values and current_ref in values:
+            boundary = "readback"
+        if boundary is not None:
+            try:
+                contender = os.open(
+                    expected_common, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+            except FileExistsError:
+                lease_boundaries.append(boundary)
+            else:
+                os.close(contender)
+                expected_common.unlink(missing_ok=True)
+                raise SystemExit("R30 publisher released the common lease before " + boundary)
+        return None
+    if with_subprocess_proxy(SubprocessProxy(lease_boundary_hook), lambda:
+            owner_rotation.publish_generation_pointer_v1(
+                candidate_pointer_oid=owner_pointer_oid)) != owner_pointer_oid:
+        raise SystemExit("R30 shared-lease publisher did not commit/read back")
+    update_boundary = lease_boundaries.index("update-ref")
+    if (lease_boundaries.count("update-ref") != 1
+            or lease_boundaries[update_boundary:] != ["update-ref", "readback"]
+            or current_oid() != owner_pointer_oid or expected_common.exists()):
+        raise SystemExit("R30 publisher lease boundary evidence is incomplete: "
+                         + repr(lease_boundaries))
+
+    # Direct/raw Git is deliberately outside the governed-writer promise.
+    reset_owner_case()
+    common_fd = os.open(expected_common, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+    try:
+        git(owner_repo, "update-ref", current_ref, owner_pointer_oid,
+            owner_rotation.ZERO_OID)
+        if current_oid() != owner_pointer_oid:
+            raise SystemExit("R30 raw negative control did not bypass coordination")
+    finally:
+        os.close(common_fd)
+        expected_common.unlink()
+    print("R30_SHARED_PUBLICATION_LEASE_GREEN=PASS path=GIT_COMMON "
+          "directions=PROTECTED_FIRST,R0039_FIRST raw=EXCLUDED")
+    raise SystemExit(0)
+
+reset_owner_case()
+receipt_pivot = {"done": False}
+def receipt_pivot_hook(values, _args, _kwargs):
+    if (not receipt_pivot["done"] and "cat-file" in values and "blob" in values
+            and owner_receipt_pivot_oid in values):
+        (run_root / "STATE.md").write_bytes(receipt_pivot_state)
+        receipt_pivot["done"] = True
+    return None
+try:
+    with_subprocess_proxy(SubprocessProxy(receipt_pivot_hook), lambda:
+        owner_rotation.publish_generation_pointer_v1(
+            candidate_pointer_oid=owner_receipt_pivot_oid))
+except owner_rotation.RotationError:
+    pass
+else:
+    raise SystemExit("receipt-bound pre-fence pivot was accepted")
+if not receipt_pivot["done"] or current_oid() is not None:
+    raise SystemExit("receipt-bound pre-fence pivot escaped without a clean refusal")
+receipt_pivot_passed = True
+if r15_target == "receipt-pivot":
+    print("R15_RECEIPT_PIVOT_GREEN=PASS")
+    raise SystemExit(0)
+
+reset_owner_case()
+owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
+    candidate_pointer_oid=owner_wrong_live_oid),
+    "generation pointer authority disagrees with live custody")
+if current_oid() is not None:
+    raise SystemExit("wrong-live publisher changed current ref")
+record_publisher("wrong-live")
+
+for case_id, bad_oid in (("stored-controller", bad_controller_oid),
+                         ("stored-source-epoch", bad_epoch_oid)):
+    reset_owner_case()
+    git(owner_repo, "update-ref", owner_segment_ref, bad_oid, owner_segment_oid)
+    owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
+        candidate_pointer_oid=owner_pointer_oid),
+        "manifest row and segment semantics disagree")
+    if current_oid() is not None:
+        raise SystemExit(case_id + " publisher changed current ref")
+    record_publisher(case_id)
+
+reset_owner_case()
+if owner_rotation.publish_generation_pointer_v1(
+        candidate_pointer_oid=owner_pointer_oid) != owner_pointer_oid or current_oid() != owner_pointer_oid:
+    raise SystemExit("publisher winner did not commit/read back its candidate")
+record_publisher("winner")
+
+reset_owner_case()
+loser_injected = {"done": False}
+def loser_hook(values, _args, _kwargs):
+    if not loser_injected["done"] and "update-ref" in values and "--stdin" in values:
+        git(owner_repo, "update-ref", current_ref, owner_pointer_oid)
+        loser_injected["done"] = True
+    return None
+try:
+    with_subprocess_proxy(SubprocessProxy(loser_hook), lambda:
+        owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_loser_oid))
+except owner_rotation.ExpectedOldCasLost as loser_receipt:
+    if (loser_receipt.candidate_oid != owner_loser_oid
+            or loser_receipt.expected_old != owner_rotation.ZERO_OID
+            or loser_receipt.observed_after_loss != owner_pointer_oid
+            or loser_receipt.classification != "UNREFERENCED_LOSER_QUARANTINED"):
+        raise SystemExit("publisher loser receipt is not exact")
+else:
+    raise SystemExit("publisher loser unexpectedly succeeded")
+if not loser_injected["done"] or current_oid() != owner_pointer_oid:
+    raise SystemExit("publisher loser did not preserve the observed winner")
+record_publisher("loser")
+
+guard_cases = (
+    ("guard-controller", controller_ref, controller_oid),
+    ("guard-invalidation", invalidation_ref, owner_rotation.ZERO_OID),
+    ("guard-receipt", receipt_ref, receipt_oid),
+    ("guard-marker", marker_ref, owner_rotation.ZERO_OID),
+)
+for case_id, guard_ref_name, guard_before in guard_cases:
+    reset_owner_case()
+    guard_after = blob(owner_repo, (case_id + "-after").encode())
+    injected = {"done": False}
+    def guard_hook(values, _args, _kwargs, guard_ref_name=guard_ref_name,
+                   guard_before=guard_before, guard_after=guard_after):
+        if not injected["done"] and "update-ref" in values and "--stdin" in values:
+            if guard_before == owner_rotation.ZERO_OID:
+                git(owner_repo, "update-ref", guard_ref_name, guard_after)
+            else:
+                git(owner_repo, "update-ref", guard_ref_name, guard_after, guard_before)
+            injected["done"] = True
+        return None
+    owner_error(lambda: with_subprocess_proxy(SubprocessProxy(guard_hook), lambda:
+        owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_pointer_oid)))
+    if not injected["done"] or current_oid() is not None:
+        raise SystemExit(case_id + " escaped the post-equality transaction guard")
+    record_publisher(case_id)
+
+for role, filename in (("STATE", "STATE.md"), ("ROADMAP", "ROADMAP.md"),
+                       ("WORK_GRAPH", "WORK_GRAPH.json")):
+    for mutation in ("in-place", "replacement", "write-restore"):
+        case_id = "mutation-%s-%s" % (role, mutation)
+        reset_owner_case()
+        target = run_root / filename
+        original_native_read = (owner_rotation._windows_read_handle_bytes_v1
+                                if os.name == "nt"
+                                else owner_rotation._read_posix_descriptor_bytes_v1)
+        injected = {"done": False}
+        def mutating_read(handle, target=target, filename=filename, mutation=mutation):
+            data = original_native_read(handle)
+            if not injected["done"] and data == mutable_content[filename]:
+                if mutation == "in-place":
+                    target.write_bytes(data + b"-changed")
+                elif mutation == "replacement":
+                    replacement = target.with_name(target.name + ".replacement")
+                    replacement.write_bytes(data)
+                    try:
+                        os.replace(replacement, target)
+                    except PermissionError as exc:
+                        # A retained native Windows handle may prevent the path
+                        # replacement outright.  That is the stronger safe
+                        # outcome for this adversarial boundary: the attempted
+                        # replacement cannot reach the CAS.
+                        replacement.unlink(missing_ok=True)
+                        injected["done"] = True
+                        raise owner_rotation.RotationError(
+                            "sandbox replacement blocked by retained handle") from exc
+                else:
+                    target.write_bytes(data + b"-changed")
+                    target.write_bytes(data)
+                injected["done"] = True
+            return data
+        if os.name == "nt":
+            owner_rotation._windows_read_handle_bytes_v1 = mutating_read
+        else:
+            owner_rotation._read_posix_descriptor_bytes_v1 = mutating_read
+        try:
+            owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
+                candidate_pointer_oid=owner_pointer_oid))
+        finally:
+            if os.name == "nt":
+                owner_rotation._windows_read_handle_bytes_v1 = original_native_read
+            else:
+                owner_rotation._read_posix_descriptor_bytes_v1 = original_native_read
+        if not injected["done"] or current_oid() is not None:
+            raise SystemExit(case_id + " escaped the publisher fence")
+        if case_id == "mutation-STATE-in-place" and not receipt_pivot_passed:
+            raise SystemExit("STATE mutation row omitted the receipt-pivot subcase")
+        record_publisher(case_id)
+
+reset_owner_case()
+path_injected = {"count": 0, "done": False}
+def immutable_path_hook(values, _args, kwargs):
+    if "rev-parse" in values and "--verify" in values and owner_segment_ref in values:
+        result = subprocess.run(values, **kwargs)
+        path_injected["count"] += 1
+        if path_injected["count"] == 2:
+            git(owner_repo, "update-ref", owner_segment_ref, bad_controller_oid, owner_segment_oid)
+            path_injected["done"] = True
+        return result
+    return None
+owner_error(lambda: with_subprocess_proxy(SubprocessProxy(immutable_path_hook), lambda:
+    owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_pointer_oid)))
+if not path_injected["done"] or current_oid() is not None:
+    raise SystemExit("immutable path mutation escaped publisher verification")
+record_publisher("immutable-path")
+
+reset_owner_case()
+object_injected = {"count": 0, "done": False}
+def immutable_object_hook(values, _args, kwargs):
+    if "cat-file" in values and "blob" in values and owner_pointer_oid in values:
+        result = subprocess.run(values, **kwargs)
+        object_injected["count"] += 1
+        if object_injected["count"] == 4:
+            object_injected["done"] = True
+            return subprocess.CompletedProcess(
+                result.args, 0, stdout=result.stdout + b" ", stderr=result.stderr)
+        return result
+    return None
+owner_error(lambda: with_subprocess_proxy(SubprocessProxy(immutable_object_hook), lambda:
+    owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_pointer_oid)))
+if not object_injected["done"] or current_oid() is not None:
+    raise SystemExit("immutable object corruption escaped publisher verification")
+record_publisher("immutable-object")
+
+reset_owner_case()
+lease_path = owner_rotation.r0039_publication_lease_path_v1(owner_repo)
+lease_path.write_bytes(b"held")
+owner_error(lambda: owner_rotation.publish_generation_pointer_v1(
+    candidate_pointer_oid=owner_pointer_oid), "R0039 publication writer lease is held")
+if current_oid() is not None:
+    raise SystemExit("lease-held publisher changed current ref")
+lease_path.unlink()
+record_publisher("lease-held")
+
+reset_owner_case()
+operation_trace = []
+if with_subprocess_proxy(SubprocessProxy(trace=operation_trace), lambda:
+        owner_rotation.publish_generation_pointer_v1(
+            candidate_pointer_oid=owner_pointer_oid)) != owner_pointer_oid:
+    raise SystemExit("final-trace publisher did not succeed")
+final_index = operation_trace.index("update-ref")
+if (operation_trace.count("update-ref") != 1
+        or operation_trace[final_index:] != ["update-ref", "readback"]
+        or current_oid() != owner_pointer_oid):
+    raise SystemExit("post-equality trace is not one update-ref then readback")
+record_publisher("final-trace")
+
+reset_owner_case()
+unknown_trace = []
+unknown_state = {"committed": False}
+def unknown_hook(values, _args, kwargs):
+    if "update-ref" in values and "--stdin" in values:
+        result = subprocess.run(values, **kwargs)
+        unknown_state["committed"] = result.returncode == 0
+        return result
+    if (unknown_state["committed"] and "rev-parse" in values
+            and "--verify" in values and current_ref in values):
+        return subprocess.CompletedProcess(values, 1, stdout=b"", stderr=b"readback outage")
+    return None
+owner_error(lambda: with_subprocess_proxy(SubprocessProxy(unknown_hook, unknown_trace), lambda:
+    owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_pointer_oid)),
+    "publication readback has unknown effect")
+if (unknown_trace.count("update-ref") != 1 or current_oid() != owner_pointer_oid):
+    raise SystemExit("unknown-effect publisher retried or lost its first effect")
+
+nonzero_results = {}
+for readback_mode in ("failure", "contradictory"):
+    reset_owner_case()
+    nonzero_trace = []
+    nonzero_state = {"cas_seen": False, "post_cas_readbacks": 0}
+    def nonzero_hook(values, _args, _kwargs, readback_mode=readback_mode):
+        if "update-ref" in values and "--stdin" in values:
+            nonzero_state["cas_seen"] = True
+            return subprocess.CompletedProcess(values, 1, stdout=b"", stderr=b"CAS refused")
+        if (nonzero_state["cas_seen"] and "rev-parse" in values
+                and "--verify" in values and current_ref in values):
+            nonzero_state["post_cas_readbacks"] += 1
+            if readback_mode == "failure":
+                return subprocess.CompletedProcess(values, 1, stdout=b"", stderr=b"readback outage")
+            return subprocess.CompletedProcess(
+                values, 0, stdout=(owner_loser_oid + "\n").encode(), stderr=b"")
+        return None
+    nonzero_results[readback_mode] = capture_owner_error(lambda:
+        with_subprocess_proxy(SubprocessProxy(nonzero_hook, nonzero_trace), lambda:
+            owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_loser_oid)))
+    if (nonzero_trace.count("update-ref") != 1
+            or nonzero_state["post_cas_readbacks"] != 1
+            or current_oid() is not None):
+        raise SystemExit("nonzero-CAS readback control retried or changed the ref: "
+                         + readback_mode)
+expected_unknown = ("RotationError", "publication readback has unknown effect")
+if nonzero_results != {"failure": expected_unknown, "contradictory": expected_unknown}:
+    raise SystemExit("nonzero CAS readback was not unknown effect: %r" % nonzero_results)
+record_publisher("unknown-effect")
+if r15_target == "nonzero-readback":
+    print("R15_NONZERO_READBACK_GREEN=PASS")
+    raise SystemExit(0)
+
+reset_owner_case()
+owner_git_dir = Path(git(owner_repo, "rev-parse", "--git-dir").decode().strip())
+if not owner_git_dir.is_absolute():
+    owner_git_dir = owner_repo / owner_git_dir
+sentinel = Path(sys.argv[3]) / "hostile-owner-hook-ran"
+hook = owner_git_dir / "hooks" / "reference-transaction"
+hook.parent.mkdir(exist_ok=True)
+hook.write_text("#!/usr/bin/env sh\nprintf hook > '" + sentinel.as_posix().replace("'", "") + "'\n",
+                encoding="utf-8")
+hook.chmod(0o700)
+hostile_environment = {
+    "ProgramFiles": str(fake_pf.parents[1]), "GIT_DIR": "hostile",
+    "GIT_CONFIG_GLOBAL": "hostile", "BASH_ENV": "hostile", "ENV": "hostile",
+    "BASH_FUNC_git%%": "() { printf hostile; }", "LD_PRELOAD": "hostile",
+    "LD_HOSTILE_R15": "hostile", "DYLD_INSERT_LIBRARIES": "hostile",
+    "DYLD_HOSTILE_R15": "hostile", "PATH": str(fake_pf),
+}
+saved_hostile = {key: os.environ.get(key) for key in hostile_environment}
+os.environ.update(hostile_environment)
+post_preparation_sentinel = Path(sys.argv[3]) / "post-preparation-hook-ran"
+post_preparation = {"done": False}
+def post_preparation_hook(values, _args, kwargs):
+    if (not post_preparation["done"] and "update-ref" in values and "--stdin" in values):
+        local_hooks = owner_git_dir / "implementaudit-r0039-empty-hooks"
+        local_config = owner_git_dir / "implementaudit-r0039-empty-global-config"
+        local_hooks.mkdir(exist_ok=True)
+        injected = local_hooks / "reference-transaction"
+        injected.write_text(
+            "#!/usr/bin/env sh\nprintf hook > '"
+            + post_preparation_sentinel.as_posix().replace("'", "") + "'\n",
+            encoding="utf-8")
+        injected.chmod(0o700)
+        local_config.write_text("[core]\n\thooksPath = " + local_hooks.as_posix() + "\n",
+                                encoding="utf-8")
+        post_preparation["done"] = True
+    return None
+try:
+    hostile_result = with_subprocess_proxy(SubprocessProxy(post_preparation_hook), lambda:
+        owner_rotation.publish_generation_pointer_v1(candidate_pointer_oid=owner_pointer_oid))
+finally:
+    for key, value in saved_hostile.items():
+        if value is None:
+            os.environ.pop(key, None)
+        else:
+            os.environ[key] = value
+if (hostile_result != owner_pointer_oid or current_oid() != owner_pointer_oid
+        or sentinel.exists() or post_preparation_sentinel.exists()
+        or not post_preparation["done"]):
+    raise SystemExit("hostile hook/environment affected the copied publisher")
+record_publisher("hostile-hooks-env")
+
+# Full Task-6 copied-owner transaction.  A fresh invalidation advances the
+# live epoch while the previous v2 receipt remains the exact predecessor.
+# R0039 must use that predecessor to publish the already-finalized pointer;
+# only then may the copied R0011 owner mint/verify v3 and R0039 publish marker.
+reset_owner_case()
+transition_invalidation = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    "--invalidate-continuity", controller_id, "--boundary", "manual-resume",
+    "--event", "task6-copied-owner-transition",
+], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if transition_invalidation.returncode != 0:
+    raise SystemExit("Task 6 copied owner could not mint transition invalidation")
+transition_invalidation_oid = transition_invalidation.stdout.decode().strip().rsplit("@", 1)[1]
+transition_next = "complete the bounded generation transaction"
+transition_state = (
+    "Current epoch: G0002\n"
+    f"| Next action | {transition_next} |\n"
+    f"| G0002 | manual-resume | 2026-08-21T00:01:00Z | "
+    f"repo at `{owner_head}` / `{owner_tree}` | yes | Task 6 transition |\n"
+).encode()
+transition_roadmap = b"Task 6 copied-owner transition roadmap\n"
+(run_root / "STATE.md").write_bytes(transition_state)
+(run_root / "ROADMAP.md").write_bytes(transition_roadmap)
+transition_context = owner_rotation.load_governed_publication_context_v1()
+expected_predecessor = receipt_ref + "@" + receipt_oid
+if (transition_context["source_epoch"] != "G0002"
+        or transition_context.get("predecessor_receipt_token") != expected_predecessor
+        or transition_context["receipt_oid"] != receipt_oid):
+    raise SystemExit("Task 6 transition did not retain the exact predecessor receipt")
+transition_segment = reidentify(dict(
+    owner_segment, generation_id="G0002", source_epoch="G0002"))
+transition_segment_raw = owner_rotation.canonical_json_v1(transition_segment)
+transition_segment_oid = blob(owner_repo, transition_segment_raw)
+transition_segment_ref = (
+    owner_rotation.EVENT_SEGMENT_PREFIX + "/" + run_name
+    + "/G0002/00000000000000000001/" + transition_segment["event_id"])
+git(owner_repo, "update-ref", transition_segment_ref, transition_segment_oid)
+transition_manifest, transition_manifest_raw = owner_rotation.build_generation_manifest_v1(
+    None, [transition_segment])
+transition_manifest_oid = blob(owner_repo, transition_manifest_raw)
+transition_pointer, transition_pointer_raw = owner_rotation.build_generation_pointer_v1(
+    controller_id=controller_id, claim_id=claim_id, run_id=run_name,
+    generation_id="G0002", source_epoch="G0002",
+    predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=transition_manifest_oid,
+    generation_manifest_digest=transition_manifest["manifest_digest"],
+    cold_high_water=transition_manifest["high_water"],
+    hot_state_digest=hashlib.sha256(transition_state).hexdigest(),
+    hot_roadmap_digest=hashlib.sha256(transition_roadmap).hexdigest(),
+    work_graph_path="WORK_GRAPH.json",
+    work_graph_digest=hashlib.sha256(mutable_content["WORK_GRAPH.json"]).hexdigest(),
+    degraded_state="NONE")
+transition_pointer_oid = blob(owner_repo, transition_pointer_raw)
+if owner_rotation.publish_generation_pointer_v1(
+        candidate_pointer_oid=transition_pointer_oid) != transition_pointer_oid:
+    raise SystemExit("Task 6 copied owner did not publish/read back its pointer")
+transition_v3_process = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    "--resume-controller", controller_id, "--boundary", "manual-resume",
+    "--epoch", "G0002",
+], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if transition_v3_process.returncode != 0:
+    raise SystemExit("Task 6 copied R0011 owner did not mint receipt v3: "
+                     + transition_v3_process.stderr.decode("utf-8", "replace"))
+transition_v3 = transition_v3_process.stdout.decode().strip()
+verified_transition_v3 = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    "--verify-resume-receipt", transition_v3,
+], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if (verified_transition_v3.returncode != 0
+        or verified_transition_v3.stdout.decode().strip() != transition_v3):
+    raise SystemExit("Task 6 copied R0011 owner did not reread/verify receipt v3")
+transition_marker_oid = owner_rotation.publish_first_migration_marker_v1()
+if git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip() != transition_marker_oid:
+    raise SystemExit("Task 6 copied R0039 owner did not publish/read back marker")
+transition_current = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    "--require-current-continuity", controller_id,
+], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if (transition_current.returncode != 0
+        or transition_current.stdout.decode().strip() != transition_v3):
+    raise SystemExit("Task 6 copied owner transaction did not establish v3 currentness")
+
+# Fresh-review held-outs exercise the real copied owners.  Each mutation is
+# installed under the exact live refs, observed through both the R0011 reader
+# and R0039 marker precondition where applicable, and then fully restored.
+review_red = []
+r2_review_red = []
+transition_v3_ref, transition_v3_oid = transition_v3.rsplit("@", 1)
+transition_v3_raw = git(
+    owner_repo, "cat-file", "blob", transition_v3_oid)
+if (not transition_v3_raw.endswith(b"\n")
+        or b"\n" in transition_v3_raw[:-1]
+        or b"\r" in transition_v3_raw):
+    raise SystemExit("Task 6 positive v3 fixture is not the intended canonical record")
+transition_v3_fields = transition_v3_raw[:-1].decode("utf-8").split("\t")
+if len(transition_v3_fields) != 18:
+    raise SystemExit("Task 6 positive v3 fixture field population drifted")
+v3_body = transition_v3_raw[:-1]
+v3_parts = v3_body.split(b"\t")
+
+def install_marker_for(receipt_oid):
+    raw = "\t".join((
+        "implementaudit.current-generation-migration.v1", controller_id,
+        claim_id, run_name, "G0002", current_ref,
+        "implementaudit.state-generation-pointer.v1", transition_v3_ref,
+        receipt_oid, "true",
+    )).encode("utf-8")
+    oid_value = blob(owner_repo, raw)
+    git(owner_repo, "update-ref", marker_ref, oid_value)
+    return oid_value
+
+def claim_probe(*args):
+    return subprocess.run([
+        r"C:\Program Files\Git\bin\bash.exe",
+        str(owner_scripts / "claim-run.sh"), *args,
+    ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+       check=False)
+
+def marker_rejects():
+    try:
+        owner_rotation.publish_first_migration_marker_v1()
+    except owner_rotation.RotationError:
+        return True
+    return False
+
+def restore_complete_route():
+    git(owner_repo, "update-ref", transition_v3_ref, transition_v3_oid)
+    git(owner_repo, "update-ref", current_ref, transition_pointer_oid)
+    git(owner_repo, "update-ref", marker_ref, transition_marker_oid)
+
+# R2-I1: the exact v3 byte grammar is shared by the Python marker owner and
+# the Bash verifier/currentness owner.  NUL is exercised in both the otherwise
+# weak next-action field and the immediate-predecessor field.  The latter also
+# proves that one owner cannot normalize a byte sequence another owner rejects.
+nul_acceptances = []
+for field_name, field_index in (("next-action", 16), ("predecessor", 17)):
+    nul_parts = list(v3_parts)
+    nul_parts[field_index] += b"\0"
+    nul_raw = b"\t".join(nul_parts) + b"\n"
+    nul_oid = blob(owner_repo, nul_raw)
+    try:
+        owner_rotation._decode_exact_receipt_fields_v1(nul_raw)
+    except owner_rotation.RotationError:
+        pass
+    else:
+        nul_acceptances.append(field_name + ":python")
+    git(owner_repo, "update-ref", transition_v3_ref, nul_oid)
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    if not marker_rejects():
+        nul_acceptances.append(field_name + ":marker")
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    install_marker_for(nul_oid)
+    if claim_probe(
+            "--verify-resume-receipt",
+            transition_v3_ref + "@" + nul_oid).returncode == 0:
+        nul_acceptances.append(field_name + ":verify")
+    if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+        nul_acceptances.append(field_name + ":current")
+    restore_complete_route()
+if nul_acceptances:
+    r2_review_red.append("I1_V3_NUL_ACCEPTED=" + ",".join(nul_acceptances))
+
+# I1: a valid predecessor blob aliased under a non-immediate receipt ref must
+# not satisfy receipt verification, currentness, or marker publication.
+alias_ref = (
+    "refs/implementaudit/continuity-receipts/" + controller_id + "/G00FF")
+git(owner_repo, "update-ref", alias_ref, receipt_oid)
+forged_predecessor_fields = list(transition_v3_fields)
+forged_predecessor_fields[17] = alias_ref + "@" + receipt_oid
+forged_predecessor_raw = ("\t".join(forged_predecessor_fields) + "\n").encode()
+forged_predecessor_oid = blob(owner_repo, forged_predecessor_raw)
+git(owner_repo, "update-ref", transition_v3_ref, forged_predecessor_oid)
+git(owner_repo, "update-ref", "-d", marker_ref)
+i1_marker_rejected = marker_rejects()
+git(owner_repo, "update-ref", "-d", marker_ref)
+install_marker_for(forged_predecessor_oid)
+i1_verify = claim_probe(
+    "--verify-resume-receipt", transition_v3_ref + "@" + forged_predecessor_oid)
+i1_current = claim_probe("--require-current-continuity", controller_id)
+if not i1_marker_rejected or i1_verify.returncode == 0 or i1_current.returncode == 0:
+    review_red.append("I1_NON_IMMEDIATE_PREDECESSOR_ACCEPTED")
+git(owner_repo, "update-ref", "-d", alias_ref)
+restore_complete_route()
+
+# I2: canonical v3 bytes are exactly one LF-terminated, CR-free 18-field
+# record.  Every alternate byte form must stop at both owner boundaries.
+receipt_byte_mutations = {
+    "missing-lf": v3_body,
+    "extra-lf": v3_body + b"\n\n",
+    "crlf": v3_body + b"\r\n",
+    "trailing-tab": v3_body + b"\t\n",
+    "extra-empty-field": b"\t".join(v3_parts[:16] + [b""] + v3_parts[16:]) + b"\n",
+}
+i2_accepted = []
+for mutation_name, mutation_raw in receipt_byte_mutations.items():
+    mutation_oid = blob(owner_repo, mutation_raw)
+    git(owner_repo, "update-ref", transition_v3_ref, mutation_oid)
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    if not marker_rejects():
+        i2_accepted.append(mutation_name + ":marker")
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    install_marker_for(mutation_oid)
+    if claim_probe(
+            "--verify-resume-receipt",
+            transition_v3_ref + "@" + mutation_oid).returncode == 0:
+        i2_accepted.append(mutation_name + ":verify")
+    if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+        i2_accepted.append(mutation_name + ":current")
+    restore_complete_route()
+if i2_accepted:
+    review_red.append("I2_NONCANONICAL_V3_ACCEPTED=" + ",".join(i2_accepted))
+
+# I3: physical loose refs whose bytes are not object IDs are BROKEN, never
+# ABSENT.  Either canonical transition ref must make actual source custody stop.
+broken_ref_cases = []
+for label, broken_ref in (("pointer", current_ref), ("marker", marker_ref)):
+    git(owner_repo, "update-ref", "-d", current_ref)
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    # Recreate the pre-receipt transition in which G0002 is reconciled from
+    # its exact G0001 predecessor.  Treating the broken transition ref as
+    # absent must not reopen this otherwise valid genesis-shaped route.
+    git(owner_repo, "update-ref", "-d", transition_v3_ref)
+    broken_path = Path(git(
+        owner_repo, "rev-parse", "--path-format=absolute", "--git-path",
+        broken_ref).decode().strip())
+    broken_path.parent.mkdir(parents=True, exist_ok=True)
+    broken_path.write_text("not-an-object-id\n", encoding="ascii")
+    try:
+        try:
+            owner_rotation.load_governed_source_custody_v1()
+        except owner_rotation.RotationError:
+            pass
+        else:
+            broken_ref_cases.append(label)
+    finally:
+        broken_path.unlink()
+        git(owner_repo, "update-ref", transition_v3_ref, transition_v3_oid)
+restore_complete_route()
+if broken_ref_cases:
+    review_red.append("I3_BROKEN_REF_ACCEPTED_AS_ABSENT=" + ",".join(broken_ref_cases))
+
+# Packed custody has the same three-state boundary even when there is no loose
+# path.  Exercise the Python owner directly so a malformed packed row cannot be
+# collapsed to ABSENT by Git's failed ref resolution.
+packed_repo = Path(sys.argv[3]) / "packed-ref-custody"
+packed_repo.mkdir()
+git(packed_repo, "init", "-q")
+packed_common = Path(git(
+    packed_repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
+).decode().strip())
+packed_refs = packed_common / "packed-refs"
+for label, broken_ref in (("packed-pointer", current_ref),
+                          ("packed-marker", marker_ref)):
+    packed_refs.write_text(
+        "# pack-refs with: peeled fully-peeled sorted\n"
+        "not-an-object-id " + broken_ref + "\n", encoding="ascii")
+    try:
+        owner_rotation.read_optional_exact_ref_oid_v1(packed_repo, broken_ref)
+    except owner_rotation.RotationError:
+        pass
+    else:
+        review_red.append("I3_BROKEN_REF_ACCEPTED_AS_ABSENT=" + label)
+
+# R2-I2: install a genuine G0003 pointer/receipt/marker route whose exact
+# immediate predecessor is G0002.  Mutating one shallow G0002 lineage factor
+# at a time must stop the Python marker owner, Bash verifier, and Bash
+# currentness reader.  The G0003 receipt always names the exact stored G0002
+# token, so these controls exercise predecessor-record validation rather than
+# outer-token equality alone.
+g3_invalidation_process = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    "--invalidate-continuity", controller_id, "--boundary", "manual-resume",
+    "--event", "task6-r2-g0003-lineage",
+], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if g3_invalidation_process.returncode != 0:
+    raise SystemExit("Task 6 R2 could not mint the G0003 invalidation")
+g3_invalidation_oid = g3_invalidation_process.stdout.decode().strip().rsplit("@", 1)[1]
+g3_next = "verify the bounded G0003 lineage"
+g3_state = (
+    "Current epoch: G0003\n"
+    f"| Next action | {g3_next} |\n"
+    f"| G0003 | manual-resume | 2026-08-21T00:02:00Z | "
+    f"repo at `{owner_head}` / `{owner_tree}` | yes | Task 6 R2 lineage |\n"
+).encode()
+g3_roadmap = b"Task 6 R2 copied-owner G0003 lineage roadmap\n"
+(run_root / "STATE.md").write_bytes(g3_state)
+(run_root / "ROADMAP.md").write_bytes(g3_roadmap)
+g3_segment = reidentify(dict(
+    transition_segment, generation_id="G0003", source_epoch="G0003",
+    sequence="00000000000000000002"))
+g3_segment_raw = owner_rotation.canonical_json_v1(g3_segment)
+g3_segment_oid = blob(owner_repo, g3_segment_raw)
+g3_segment_ref = (
+    owner_rotation.EVENT_SEGMENT_PREFIX + "/" + run_name
+    + "/G0003/00000000000000000002/" + g3_segment["event_id"])
+git(owner_repo, "update-ref", g3_segment_ref, g3_segment_oid)
+g3_event_row = {
+    "sequence": g3_segment["sequence"], "event_id": g3_segment["event_id"],
+    "segment_digest": "sha256:" + hashlib.sha256(g3_segment_raw).hexdigest(),
+    "record_kind": g3_segment["record_kind"],
+    "source_evidence_id": g3_segment["source_evidence_id"],
+}
+g3_manifest = {
+    "schema_version": "implementaudit.state-generation-manifest.v1",
+    "query_contract_version": "implementaudit.history-query.v1",
+    "controller_id": controller_id, "claim_id": claim_id,
+    "run_id": run_name, "generation_id": "G0003", "source_epoch": "G0003",
+    "predecessor_manifest_digest": transition_manifest["manifest_digest"],
+    "predecessor_high_water": transition_manifest["high_water"],
+    "events": [g3_event_row],
+    "record_class_counts": {g3_segment["record_kind"]: 1},
+    "population_digest": hashlib.sha256(owner_rotation.canonical_json_v1(
+        owner_rotation.manifest_population_rows_v1([g3_event_row]))).hexdigest(),
+    "high_water": g3_segment["sequence"],
+}
+g3_manifest["manifest_digest"] = hashlib.sha256(
+    owner_rotation.canonical_json_v1(g3_manifest)).hexdigest()
+owner_rotation.verify_generation_manifest_v1(g3_manifest)
+g3_manifest_oid = blob(owner_repo, owner_rotation.canonical_json_v1(g3_manifest))
+g3_pointer, g3_pointer_raw = owner_rotation.build_generation_pointer_v1(
+    controller_id=controller_id, claim_id=claim_id, run_id=run_name,
+    generation_id="G0003", source_epoch="G0003",
+    predecessor_pointer_oid=transition_pointer_oid,
+    predecessor_pointer_digest=transition_pointer["pointer_digest"],
+    generation_manifest_oid=g3_manifest_oid,
+    generation_manifest_digest=g3_manifest["manifest_digest"],
+    cold_high_water=g3_manifest["high_water"],
+    hot_state_digest=hashlib.sha256(g3_state).hexdigest(),
+    hot_roadmap_digest=hashlib.sha256(g3_roadmap).hexdigest(),
+    work_graph_path="WORK_GRAPH.json",
+    work_graph_digest=hashlib.sha256(mutable_content["WORK_GRAPH.json"]).hexdigest(),
+    degraded_state="NONE")
+g3_pointer_oid = blob(owner_repo, g3_pointer_raw)
+owner_rotation.verify_pointer_manifest_tuple_v1(
+    pointer=g3_pointer, manifest=g3_manifest, manifest_oid=g3_manifest_oid)
+owner_rotation.verify_generation_successor_tuple_v1(
+    pointer=g3_pointer, manifest=g3_manifest,
+    predecessor_oid=transition_pointer_oid,
+    predecessor_pointer=transition_pointer,
+    predecessor_manifest=transition_manifest)
+g3_receipt_ref = (
+    "refs/implementaudit/continuity-receipts/" + controller_id + "/G0003")
+
+def g3_receipt_for(g2_oid):
+    fields = [
+        "implementaudit.continuity-receipt.v3", controller_id, claim_id,
+        run_name, "G0003", g3_invalidation_oid, current_ref, g3_pointer_oid,
+        g3_pointer["pointer_digest"], hashlib.sha256(g3_state).hexdigest(),
+        hashlib.sha256(g3_roadmap).hexdigest(), "WORK_GRAPH.json",
+        hashlib.sha256(mutable_content["WORK_GRAPH.json"]).hexdigest(),
+        g3_manifest_oid, g3_manifest["manifest_digest"],
+        g3_manifest["high_water"], g3_next,
+        transition_v3_ref + "@" + g2_oid,
+    ]
+    raw = ("\t".join(fields) + "\n").encode()
+    return raw, blob(owner_repo, raw)
+
+def install_g3_marker_for(g3_receipt_oid):
+    raw = "\t".join((
+        "implementaudit.current-generation-migration.v1", controller_id,
+        claim_id, run_name, "G0003", current_ref,
+        "implementaudit.state-generation-pointer.v1", g3_receipt_ref,
+        g3_receipt_oid, "true",
+    )).encode()
+    marker_oid = blob(owner_repo, raw)
+    git(owner_repo, "update-ref", marker_ref, marker_oid)
+    return marker_oid
+
+git(owner_repo, "update-ref", "-d", marker_ref)
+git(owner_repo, "update-ref", current_ref, g3_pointer_oid, transition_pointer_oid)
+g2_lineage_mutations = {
+    "wrong-pointer-ref": (6, "refs/implementaudit/current-generations/controller-2"),
+    "wrong-own-predecessor": (
+        17, "refs/implementaudit/continuity-receipts/" + controller_id
+        + "/G0000@" + receipt_oid),
+}
+g2_lineage_acceptances = []
+for mutation_name, (field_index, field_value) in g2_lineage_mutations.items():
+    mutated_g2_fields = list(transition_v3_fields)
+    mutated_g2_fields[field_index] = field_value
+    mutated_g2_raw = ("\t".join(mutated_g2_fields) + "\n").encode()
+    mutated_g2_oid = blob(owner_repo, mutated_g2_raw)
+    git(owner_repo, "update-ref", transition_v3_ref, mutated_g2_oid)
+    g3_receipt_raw, g3_receipt_oid = g3_receipt_for(mutated_g2_oid)
+    owner_rotation._decode_exact_receipt_fields_v1(g3_receipt_raw)
+    git(owner_repo, "update-ref", g3_receipt_ref, g3_receipt_oid)
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    if not marker_rejects():
+        g2_lineage_acceptances.append(mutation_name + ":marker")
+    git(owner_repo, "update-ref", "-d", marker_ref)
+    install_g3_marker_for(g3_receipt_oid)
+    if claim_probe(
+            "--verify-resume-receipt",
+            g3_receipt_ref + "@" + g3_receipt_oid).returncode == 0:
+        g2_lineage_acceptances.append(mutation_name + ":verify")
+    if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+        g2_lineage_acceptances.append(mutation_name + ":current")
+if g2_lineage_acceptances:
+    r2_review_red.append(
+        "I2_SHALLOW_G0002_LINEAGE_ACCEPTED=" + ",".join(g2_lineage_acceptances))
+
+# Positive control: the same real G0003 route is complete when its exact G0002
+# predecessor retains the canonical pointer ref and its G0001 token shape.
+git(owner_repo, "update-ref", transition_v3_ref, transition_v3_oid)
+exact_g3_raw, exact_g3_oid = g3_receipt_for(transition_v3_oid)
+git(owner_repo, "update-ref", g3_receipt_ref, exact_g3_oid)
+git(owner_repo, "update-ref", "-d", marker_ref)
+exact_g3_marker = owner_rotation.publish_first_migration_marker_v1()
+exact_g3_verify = claim_probe(
+    "--verify-resume-receipt", g3_receipt_ref + "@" + exact_g3_oid)
+exact_g3_current = claim_probe("--require-current-continuity", controller_id)
+if (git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip()
+        != exact_g3_marker or exact_g3_verify.returncode != 0
+        or exact_g3_current.returncode != 0
+        or exact_g3_current.stdout.decode().strip()
+        != g3_receipt_ref + "@" + exact_g3_oid):
+    raise SystemExit("Task 6 R2 exact G0002 predecessor control is not green")
+
+# Restore the original complete G0002 route for the remaining Task-6 controls.
+git(owner_repo, "update-ref", "-d", marker_ref)
+git(owner_repo, "update-ref", current_ref, transition_pointer_oid, g3_pointer_oid)
+git(owner_repo, "update-ref", invalidation_ref, transition_invalidation_oid,
+    g3_invalidation_oid)
+(run_root / "STATE.md").write_bytes(transition_state)
+(run_root / "ROADMAP.md").write_bytes(transition_roadmap)
+restore_complete_route()
+
+if review_red:
+    raise SystemExit("TASK6_REVIEW_RED=" + ";".join(review_red))
+if r2_review_red:
+    raise SystemExit("TASK6_R2_REVIEW_RED=" + ";".join(r2_review_red))
+print("TASK6_R2_LINEAGE_GREEN=PASS byte-grammar=NUL_C0_DEL_REJECTED "
+      "predecessor=CANONICAL_POINTER_AND_ONE_HOP_TOKEN recursion=EXCLUDED")
+
+owner_error(lambda: owner_rotation.load_governed_source_context_v1(
+    "iasrc-v1-r0039-archive-task5-migration"),
+    "OE_SOURCE_EVIDENCE_WRONG_BRANCH")
+owner_error(lambda: owner_rotation.load_governed_source_context_v1(
+    "iasrc-v1-r0038-snapshot-" + "f" * 64),
+    "OE_R0038_SNAPSHOT_NOT_PUBLISHED")
+stored_locator, stored_digest = owner_rotation.resolve_stored_owner_source_evidence_v1(
+    manifest={
+        "controller_id": controller_id, "claim_id": claim_id,
+        "run_id": run_name, "source_epoch": "G0001",
+    },
+    source_evidence_id="iasrc-v1-r0039-archive-task5-migration")
+if (stored_locator.get("kind") != "evidence-uri"
+        or not stored_digest.startswith("sha256:")):
+    raise SystemExit("Task 6 stored archive evidence did not re-resolve after publication")
+print("CANONICAL_STATE_ROTATION_F6_COPIED_OWNER_GREEN=PASS "
+      "genesis=ARCHIVE transition=PREDECESSOR_V2 pointer=R0039 "
+      "receipt-v3=R0011 marker=R0039 successor=PRE_C06_STOP stored=RERESOLVED")
+
+if (tuple(executed_publisher_ids) != EXPECTED_PUBLISHER_IDS
+        or len(executed_publisher_ids) != len(set(executed_publisher_ids))):
+    raise SystemExit("publisher execution population disagrees: expected=%r actual=%r"
+                     % (EXPECTED_PUBLISHER_IDS, executed_publisher_ids))
+print("CANONICAL_STATE_ROTATION_SEQUENCE_CAS_GREEN=SC01-SC10 fixture=10/10 "
+      "claim-record=%d/%d publisher-cas=PASS executed=%d/%d ids=%s" % (
+          len(executed_claim_mismatch_keys), len(EXPECTED_CLAIM_MISMATCH_KEYS),
+          len(executed_publisher_ids), len(EXPECTED_PUBLISHER_IDS),
+          ",".join(executed_publisher_ids)))
+PY
+  exit 0
+fi
+if $event_bytes_only; then
+  [ -f "$event_byte_fixture" ] || fail "missing event-byte fixture"
+  [ -f "$event_schema_fixture" ] || fail "missing event-schema fixture"
+  [ -f "$evidence_helper" ] || fail "missing operational evidence carrier"
+  python - "$helper" "$evidence_helper" "$event_byte_fixture" "$event_schema_fixture" <<'PY'
+import importlib.util
+import json
+import sys
+import copy
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+rotation = load("rotation_event_bytes", sys.argv[1])
+evidence = load("evidence_event_bytes", sys.argv[2])
+with open(sys.argv[3], encoding="utf-8") as stream:
+    byte_cases = json.load(stream)
+with open(sys.argv[4], encoding="utf-8") as stream:
+    schema_cases = json.load(stream)
+if byte_cases.get("schema") != "implementaudit.canonical-state-rotation-event-byte-cases.v1":
+    raise SystemExit("event-byte fixture schema drift")
+if schema_cases.get("schema") != "implementaudit.history-event-schema-cases.v1":
+    raise SystemExit("event-schema fixture schema drift")
+root = "sha256:" + "a" * 64
+win_entry = {"kind": "repo-relative", "root_identity": root,
+             "host_identity": None, "input_path_flavor": "windows"}
+posix_entry = {"kind": "repo-relative", "root_identity": root,
+               "host_identity": None, "input_path_flavor": "posix"}
+win_locator = {"kind": "repo-relative", "root_identity": root,
+               "path": "dir\\caf\u00e9.txt", "host_identity": None}
+posix_locator = {"kind": "repo-relative", "root_identity": root,
+                 "path": "dir/cafe\u0301.txt", "host_identity": None}
+posix_trailing_backslash = {"kind": "repo-relative", "root_identity": root,
+                            "path": "dir/file\\", "host_identity": None}
+expected_enums = {
+    name: frozenset(values) for name, values in schema_cases["enums"].items()
+}
+entry = {
+    "source_evidence_id": "iasrc-v1-r0039-archive-entry-1",
+    "sha256": "b" * 64,
+    "kind": "repo-relative", "root_identity": root, "host_identity": None,
+    "input_path_flavor": "posix",
+    "source_locator": {"kind": "repo-relative", "root_identity": root,
+                       "path": "owner/evidence.json", "host_identity": None},
+}
+manifest = {"entries": [entry]}
+base_event = schema_cases["valid_event"]
+
+
+def expect_error(action, code):
+    try:
+        action()
+    except rotation.RotationError as exc:
+        if str(exc) != code:
+            raise SystemExit(f"expected {code}, got {exc}")
+    else:
+        raise SystemExit(f"expected {code}, action was accepted")
+
+
+if rotation.EVENT_ENUMS_V1 != expected_enums:
+    raise SystemExit("event vocabulary drift")
+for rejection in schema_cases["rejections"]:
+    event = dict(base_event)
+    event.update(rejection["patch"])
+    expect_error(lambda event=event: rotation.validate_event_request_v1(event),
+                 rejection["code"])
+
+
+def synthetic_context(source_evidence_id):
+    if source_evidence_id != entry["source_evidence_id"]:
+        raise SystemExit("builder asked for an unexpected source identity")
+    return {
+        "run_id": base_event["run_id"],
+        "controller_id": base_event["controller_id"],
+        "generation_id": base_event["generation_id"],
+        "source_epoch": base_event["source_epoch"],
+        "owner_manifest": manifest,
+    }
+
+
+def case_eb01():
+    payload = {"z": [0, "\u00e9"], "a": {"n": None}}
+    if rotation.canonical_json_v1(payload) != evidence.canonical_json_v1(payload):
+        raise SystemExit("R0038/R0039 key-order bytes diverged")
+
+
+def case_eb02():
+    if rotation.canonical_json_v1({"value": 1}).endswith(b"\n"):
+        raise SystemExit("event bytes retained terminal LF")
+
+
+def case_eb03():
+    if rotation.canonical_json_v1({"value": "\u00e9"}).startswith(b"\xef\xbb\xbf"):
+        raise SystemExit("event bytes retained UTF-8 BOM")
+
+
+def case_eb04():
+    raw = "cafe\u0301"
+    if raw.encode("utf-8") not in rotation.canonical_json_v1({"value": raw}):
+        raise SystemExit("ordinary event string was normalized")
+
+
+def case_eb05():
+    expect_error(lambda: rotation.canonical_json_v1({"bad": 1.5}), "OE_EVENT_PAYLOAD_INVALID")
+
+
+def case_eb06():
+    rotation.canonical_json_v1({"low": -(2**63), "high": 2**63 - 1})
+
+
+def case_eb07():
+    if rotation.normalize_source_locator_v1(win_locator, owner_entry=win_entry) != \
+            rotation.normalize_source_locator_v1(posix_locator, owner_entry=posix_entry):
+        raise SystemExit("Windows/POSIX typed paths diverged")
+
+
+def case_eb08():
+    upper = dict(posix_locator, path="Dir/file")
+    lower = dict(posix_locator, path="dir/file")
+    if rotation.normalize_source_locator_v1(upper, owner_entry=posix_entry) == \
+            rotation.normalize_source_locator_v1(lower, owner_entry=posix_entry):
+        raise SystemExit("case was erased from locator identity")
+
+
+def case_eb09():
+    host = dict(posix_locator, kind="host-bound")
+    host_entry = dict(posix_entry, kind="host-bound")
+    expect_error(lambda: rotation.normalize_source_locator_v1(host, owner_entry=host_entry),
+                 "OE_SOURCE_LOCATOR_INVALID")
+
+
+def case_eb10():
+    literal = dict(posix_locator, path="dir/file\\name")
+    if not rotation.normalize_source_locator_v1(literal, owner_entry=posix_entry)["path"].endswith("%5Cname"):
+        raise SystemExit("POSIX literal backslash was not data")
+
+
+def case_eb11():
+    expect_error(lambda: rotation.validate_event_request_v1(
+        dict(base_event, source_locator={})), "OE_EVENT_REQUEST_KEYS_NOT_EXACT")
+
+
+def case_eb12():
+    if not rotation.normalize_source_locator_v1(
+            posix_trailing_backslash, owner_entry=posix_entry)["path"].endswith("%5C"):
+        raise SystemExit("POSIX trailing backslash was not data")
+
+
+def case_eb13():
+    bad_entry = dict(entry)
+    bad_entry["source_locator"] = dict(entry["source_locator"], root_identity="sha256:" + "c" * 64)
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [bad_entry]}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+
+
+def case_eb14():
+    expect_error(lambda: rotation.validate_event_request_v1(dict(base_event, extra=True)),
+                 "OE_EVENT_REQUEST_KEYS_NOT_EXACT")
+
+
+def case_eb15():
+    incomplete = dict(base_event)
+    del incomplete["payload"]
+    expect_error(lambda: rotation.validate_event_request_v1(incomplete),
+                 "OE_EVENT_REQUEST_KEYS_NOT_EXACT")
+
+
+def case_eb16():
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": []}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+
+
+def case_eb17():
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [dict(entry, unexpected=True)]}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [entry], "unexpected": True}}, entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    malformed_non_target = dict(
+        entry, source_evidence_id="iasrc-v1-r0038-snapshot-non-target", sha256="bad")
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": {"entries": [entry, malformed_non_target]}},
+        entry["source_evidence_id"]), "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+
+
+def case_eb18():
+    original = rotation.load_governed_source_context_v1
+    wrong_context = synthetic_context(entry["source_evidence_id"])
+    wrong_context["controller_id"] = "controller-2"
+    rotation.load_governed_source_context_v1 = lambda source_evidence_id: wrong_context
+    try:
+        expect_error(lambda: rotation.build_event_segment_v1(
+            copy.deepcopy(base_event), source_evidence_id=entry["source_evidence_id"]),
+        "OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
+    finally:
+        rotation.load_governed_source_context_v1 = original
+
+
+def case_eb19():
+    expect_error(lambda: rotation.resolve_owner_source_evidence_in_context_v1(
+        {"owner_manifest": manifest}, "malformed source id"), "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+
+
+def case_eb20():
+    original = rotation.load_governed_source_context_v1
+    rotation.load_governed_source_context_v1 = synthetic_context
+    try:
+        built, raw = rotation.build_event_segment_v1(
+            copy.deepcopy(base_event), source_evidence_id=entry["source_evidence_id"])
+    finally:
+        rotation.load_governed_source_context_v1 = original
+    rotation.validate_event_output_v1(built)
+    if raw != rotation.canonical_json_v1(built) or raw.endswith(b"\n"):
+        raise SystemExit("successful event did not retain canonical bytes")
+
+
+case_tests = {
+    "EB01-key-order": case_eb01, "EB02-no-terminal-lf": case_eb02,
+    "EB03-utf8-no-bom": case_eb03, "EB04-unicode-preserved": case_eb04,
+    "EB05-float-rejected": case_eb05, "EB06-int64-boundary": case_eb06,
+    "EB07-windows-posix-path-converges": case_eb07,
+    "EB08-case-remains-semantic": case_eb08,
+    "EB09-host-bound-requires-host-identity": case_eb09,
+    "EB10-posix-literal-backslash-distinct": case_eb10,
+    "EB11-caller-source-fields-rejected": case_eb11,
+    "EB12-posix-trailing-backslash-is-data": case_eb12,
+    "EB13-owner-manifest-context-mismatch": case_eb13,
+    "EB14-event-extra-key-rejected": case_eb14,
+    "EB15-event-missing-key-rejected": case_eb15,
+    "EB16-self-hashed-source-absent-owner-manifest": case_eb16,
+    "EB17-wrong-owner-manifest-ref": case_eb17,
+    "EB18-wrong-owner-run-controller": case_eb18,
+    "EB19-unknown-source-evidence-id": case_eb19,
+    "EB20-stored-source-evidence-revalidated": case_eb20,
+}
+fixture_ids = [case.get("id") for case in byte_cases["cases"]]
+if (len(fixture_ids) != len(set(fixture_ids))
+        or set(fixture_ids) != set(case_tests)
+        or any(case.get("expect") not in {"ACCEPT", "REJECT"}
+               for case in byte_cases["cases"])):
+    raise SystemExit("event-byte fixture rows are not exact and uniquely mapped")
+executed_case_rows = 0
+for case in byte_cases["cases"]:
+    try:
+        case_tests[case["id"]]()
+    except KeyError as exc:
+        raise SystemExit(f"fixture case is not executed: {case['id']}") from exc
+    executed_case_rows += 1
+malformed_output = dict(base_event, source_evidence_id=entry["source_evidence_id"],
+                        source_locator=[], source_digest="sha256:" + "b" * 64,
+                        payload_digest="b" * 64, event_id="iaevt-v1-" + "b" * 64)
+expect_error(lambda: rotation.validate_event_output_v1(malformed_output),
+             "OE_SOURCE_LOCATOR_INVALID")
+for malformed_locator in (
+        dict(entry["source_locator"], kind=[]),
+        dict(entry["source_locator"], path="\ud800")):
+    malformed_output = dict(
+        base_event, source_evidence_id=entry["source_evidence_id"],
+        source_locator=malformed_locator, source_digest="sha256:" + "b" * 64,
+        payload_digest="b" * 64, event_id="iaevt-v1-" + "b" * 64)
+    expect_error(lambda malformed_output=malformed_output: rotation.validate_event_output_v1(
+        malformed_output), "OE_SOURCE_LOCATOR_INVALID")
+    malformed_non_target = dict(
+        entry, source_evidence_id="iasrc-v1-r0038-snapshot-malformed-locator",
+        source_locator=malformed_locator)
+    expect_error(lambda malformed_non_target=malformed_non_target:
+        rotation.resolve_owner_source_evidence_in_context_v1(
+            {"owner_manifest": {"entries": [entry, malformed_non_target]}},
+            entry["source_evidence_id"]), "OE_SOURCE_EVIDENCE_NOT_ADMITTED")
+valid_ids = (
+    "iasrc-v1-r0039-archive-entry-1",
+    "iasrc-v1-r0038-snapshot-entry-1",
+)
+def no_live_call(*args, **kwargs):
+    raise SystemExit("public source facade attempted repository custody")
+
+rotation.git = no_live_call
+for source_evidence_id in valid_ids:
+    for public_call in (
+            lambda: rotation.load_governed_source_context_v1(source_evidence_id),
+            lambda: rotation.resolve_owner_source_evidence_v1(source_evidence_id),
+            lambda: rotation.build_event_segment_v1(
+                schema_cases["valid_event"], source_evidence_id=source_evidence_id)):
+        try:
+            public_call()
+        except rotation.RotationError as exc:
+            if str(exc) != "OE_SOURCE_CONTEXT_NOT_AVAILABLE":
+                raise SystemExit(f"public source facade returned {exc}")
+        else:
+            raise SystemExit("public source facade escaped its unavailable boundary")
+print("CANONICAL_STATE_ROTATION_EVENT_BYTES_GREEN=PASS cases=" +
+      str(executed_case_rows))
+PY
+  exit 0
+fi
+fixture_output="$(bash "$checker" --fixture-self-check)"
+printf '%s\n' "$fixture_output"
+grep -Fq 'denominator=110 omission=110 mutation=110 owner-mutation=110 root-semantic-red=56' <<<"$fixture_output" \
+  || fail 'protected denominator is not the exact reviewed four-part population'
+grep -Fq 'partitions={"ARCHIVED_ONLY_HISTORY":14,"DERIVED_BINDINGS":29,"MONOTONIC_TRANSITION":18,"PRESERVED_PAYLOAD":49}' <<<"$fixture_output" \
+  || fail 'protected denominator is not exactly four-part'
+if grep -Fq 'TRIGGER_CALIBRATION' <<<"$fixture_output"; then
+  fail 'trigger/calibration leaked into the protected-state partitions'
+fi
+trigger_output="$(bash "$checker" --trigger-self-check)"
+printf '%s\n' "$trigger_output"
+grep -Fq 'CANONICAL_STATE_ROTATION_TRIGGER_SELF_CHECK=PASS' <<<"$trigger_output" \
+  || fail 'trigger/calibration self-check did not pass'
+grep -Fq 'large-root=TRIGGER below-threshold=NO_TRIGGER archive=0 model=0 extra-ceremony=0' <<<"$trigger_output" \
+  || fail 'trigger self-check did not preserve the positive and cheap-path outcomes'
+grep -Fq 'population-sha256=b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497 digest-mutations=55/55' <<<"$trigger_output" \
+  || fail 'trigger self-check did not prove canonical population digest mutation coverage'
+bash "$checker" --assert-root-red
+record_candidate_evidence ROOT_BASELINE
+
+before_shared_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
+  refs/implementaudit/current-generations/ \
+  refs/implementaudit/current-generation-migrations/ \
+  refs/implementaudit/continuity-invalidations/ \
+  refs/implementaudit/continuity-receipts/ \
+  refs/implementaudit/state-archives/)"
+
+[ -f "$f2_fixture" ] || fail "missing F2 fixture: $f2_fixture"
+if [ ! -f "$helper" ]; then
+  printf '%s\n' \
+    'CANONICAL_STATE_ROTATION_F2_RED=DRAFT_ARCHIVE_OWNER_ABSENT' >&2
+  exit 1
+fi
+bash "$checker" --f2-fixture-self-check
+
+make_clean_root() {
+  local root="$1"
+  local run="$root/.IMPLEMENTAUDIT/runs/run-f2"
+  mkdir -p "$run"
+  git -C "$root" init -q
+  printf 'controller: v0333-release\nphase: R39-F2\nnext: implement draft and archive\n' >"$run/STATE.md"
+  printf 'audit: R0039\nfrontier: R39-F2\nnext: implement draft and archive\n' >"$run/ROADMAP.md"
+  printf '{"active":["R39-F2"],"blocked":["R39-F3"]}\n' >"$run/WORK_GRAPH.json"
+  cp "$f2_fixture" "$run/archive-population.json"
+  git -C "$root" add .
+  GIT_AUTHOR_DATE='2000-01-01T00:00:00Z' \
+    GIT_COMMITTER_DATE='2000-01-01T00:00:00Z' \
+    git -C "$root" -c user.name=fixture -c user.email=fixture@example.invalid \
+      -c commit.gpgsign=false commit -qm preimage
+  [ -z "$(git -C "$root" status --porcelain)" ] \
+    || fail "two-clean-root control did not start clean: $root"
+}
+
+root_a="$tmp/root-a"
+root_b="$tmp/root-b"
+mkdir -p "$root_a" "$root_b"
+make_clean_root "$root_a"
+make_clean_root "$root_b"
+run_a="$root_a/.IMPLEMENTAUDIT/runs/run-f2"
+run_b="$root_b/.IMPLEMENTAUDIT/runs/run-f2"
+
+draft_a="$(python "$helper" draft \
+  --repo-root "$root_a" --run-root "$run_a" \
+  --controller v0333-release --generation g0008 \
+  --manifest "$run_a/archive-population.json")"
+draft_b="$(python "$helper" draft \
+  --repo-root "$root_b" --run-root "$run_b" \
+  --controller v0333-release --generation g0008 \
+  --manifest "$run_b/archive-population.json")"
+
+draft_dir_a="$run_a/state-generations/g0008/draft"
+draft_dir_b="$run_b/state-generations/g0008/draft"
+diff -ru "$draft_dir_a" "$draft_dir_b" >/dev/null \
+  || fail 'two clean roots produced different projection-draft bytes'
+
+archive_a="$(python "$helper" archive \
+  --repo-root "$root_a" --run-root "$run_a" \
+  --controller v0333-release --generation g0008 \
+  --draft-dir "$draft_dir_a")"
+archive_b="$(python "$helper" archive \
+  --repo-root "$root_b" --run-root "$run_b" \
+  --controller v0333-release --generation g0008 \
+  --draft-dir "$draft_dir_b")"
+
+archive_ref='refs/implementaudit/state-archives/v0333-release/g0008'
+archive_oid_a="$(git -C "$root_a" rev-parse --verify "$archive_ref")"
+archive_oid_b="$(git -C "$root_b" rev-parse --verify "$archive_ref")"
+[ "$archive_oid_a" = "$archive_oid_b" ] \
+  || fail 'two clean roots produced different archive-manifest OIDs'
+[ "$(git -C "$root_a" cat-file -t "$archive_oid_a")" = blob ] \
+  || fail 'archive ref does not resolve to a typed blob'
+[ "$(git -C "$root_a" cat-file blob "$archive_oid_a")" = \
+   "$(git -C "$root_b" cat-file blob "$archive_oid_b")" ] \
+  || fail 'two clean roots produced different archive-manifest bytes'
+
+verify_a="$(python "$helper" verify-archive \
+  --repo-root "$root_a" --controller v0333-release --generation g0008)"
+verify_b="$(python "$helper" verify-archive \
+  --repo-root "$root_b" --controller v0333-release --generation g0008)"
+
+foreign="$tmp/foreign"
+mkdir -p "$foreign"
+git -C "$foreign" init -q
+if ! verify_sanitized="$(GIT_DIR="$foreign/.git" GIT_WORK_TREE="$foreign" \
+    python "$helper" verify-archive \
+      --repo-root "$root_a" --controller v0333-release --generation g0008)"; then
+  fail 'ambient Git repository variables overrode the explicit repository root'
+fi
+[ "$verify_sanitized" = "$verify_a" ] \
+  || fail 'ambient Git repository variables changed typed archive retrieval'
+
+if python "$helper" archive \
+    --repo-root "$root_a" --run-root "$run_a" \
+    --controller v0333-release --generation g0008 \
+    --draft-dir "$draft_dir_a" >"$tmp/reanchor.out" 2>&1; then
+  fail 'archive ref accepted a non-zero predecessor'
+fi
+grep -Fq 'archive ref already exists; expected-zero CAS refused' "$tmp/reanchor.out" \
+  || fail 'archive ref collision did not fail with the expected-zero diagnostic'
+
+for root in "$root_a" "$root_b"; do
+  [ -z "$(git -C "$root" for-each-ref --format='%(refname)' \
+      refs/implementaudit/current-generations/ \
+      refs/implementaudit/current-generation-migrations/ \
+      refs/implementaudit/continuity-invalidations/ \
+      refs/implementaudit/continuity-receipts/)" ] \
+    || fail 'F2 wrote a current-generation, marker, invalidation, or receipt ref'
+done
+
+python - "$draft_a" "$draft_b" "$archive_a" "$archive_b" \
+  "$verify_a" "$verify_b" <<'PY' || fail 'F2 receipts are malformed or nondeterministic'
+import json,sys
+draft_a,draft_b,archive_a,archive_b,verify_a,verify_b = map(json.loads,sys.argv[1:])
+if draft_a != draft_b:
+    raise SystemExit("draft receipts differ")
+if archive_a != archive_b:
+    raise SystemExit("archive receipts differ")
+if verify_a != verify_b or verify_a != archive_a:
+    raise SystemExit("archive readback receipt differs")
+if draft_a.get("schema") != "implementaudit.canonical-state-projection-draft-receipt.v1":
+    raise SystemExit("draft receipt schema")
+if archive_a.get("schema") != "implementaudit.canonical-state-archive-receipt.v1":
+    raise SystemExit("archive receipt schema")
+PY
+
+python - "$root_a" "$draft_dir_a" "$archive_oid_a" <<'PY' \
+  || fail 'archive typed retrieval, discovery exclusion, or permission readback failed'
+import hashlib,json,os,stat,subprocess,sys
+from pathlib import Path
+root,draft_dir,manifest_oid=Path(sys.argv[1]),Path(sys.argv[2]),sys.argv[3]
+draft=json.loads((draft_dir/'draft-manifest.json').read_text(encoding='utf-8'))
+for forbidden in ('current_generation','epoch','invalidation_oid','migration_marker','pointer_oid','predecessor_receipt','receipt_oid'):
+    if forbidden in draft:
+        raise SystemExit(f"transition envelope leaked: {forbidden}")
+archive=json.loads(subprocess.check_output(['git','-C',str(root),'cat-file','blob',manifest_oid],text=True))
+if archive['entries'] != draft['entries']:
+    raise SystemExit('archive and draft entries differ')
+for entry in archive['entries']:
+    if any(part in {'state-generations','state-archives','quarantine'} for part in Path(entry['source_path']).parts):
+        raise SystemExit('recursive population leak')
+    data=subprocess.check_output(['git','-C',str(root),'cat-file','blob',entry['blob_oid']])
+    if hashlib.sha256(data).hexdigest()!=entry['sha256'] or len(data)!=entry['byte_length']:
+        raise SystemExit('typed object identity mismatch')
+    if subprocess.check_output(['git','-C',str(root),'cat-file','-t',entry['blob_oid']],text=True).strip()!='blob':
+        raise SystemExit('archive entry is not a blob')
+    draft_path=draft_dir/entry['draft_path']
+    if f"{stat.S_IMODE(os.lstat(draft_path).st_mode):04o}" != entry['mode']:
+        raise SystemExit('draft permission readback mismatch')
+PY
+
+negative="$tmp/negative"
+mkdir -p "$negative"
+make_clean_root "$negative"
+negative_run="$negative/.IMPLEMENTAUDIT/runs/run-f2"
+python - "$negative_run/archive-population.json" <<'PY'
+import json,sys
+from pathlib import Path
+path=Path(sys.argv[1]); data=json.loads(path.read_text(encoding='utf-8'))
+data['protected_files'][0]['path']='../STATE.md'
+path.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
+PY
+if python "$helper" draft --repo-root "$negative" --run-root "$negative_run" \
+    --controller v0333-release --generation g0008 \
+    --manifest "$negative_run/archive-population.json" >"$tmp/traversal.out" 2>&1; then
+  fail 'path traversal reached the draft writer'
+fi
+grep -Fq 'unsafe protected path: ../STATE.md' "$tmp/traversal.out" \
+  || fail 'path traversal did not fail with the bounded diagnostic'
+
+mkdir -p "$negative_run/STATE-GENERATIONS"
+printf 'recursive preimage\n' >"$negative_run/STATE-GENERATIONS/STATE.md"
+python - "$negative_run/archive-population.json" "$f2_fixture" <<'PY'
+import json,sys
+from pathlib import Path
+path,fixture=map(Path,sys.argv[1:])
+data=json.loads(fixture.read_text(encoding='utf-8'))
+data['protected_files'][0]['path']='STATE-GENERATIONS/STATE.md'
+path.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
+PY
+if python "$helper" draft --repo-root "$negative" --run-root "$negative_run" \
+    --controller v0333-release --generation g0008 \
+    --manifest "$negative_run/archive-population.json" >"$tmp/recursive-case.out" 2>&1; then
+  fail 'case-aliased recursive population reached the draft writer'
+fi
+grep -Fq 'unsafe protected path: STATE-GENERATIONS/STATE.md' "$tmp/recursive-case.out" \
+  || fail 'case-aliased recursive population lacked the bounded diagnostic'
+
+tampered="$tmp/tampered-draft"
+mkdir -p "$tampered"
+make_clean_root "$tampered"
+tampered_run="$tampered/.IMPLEMENTAUDIT/runs/run-f2"
+python "$helper" draft --repo-root "$tampered" --run-root "$tampered_run" \
+  --controller v0333-release --generation g0008 \
+  --manifest "$tampered_run/archive-population.json" >/dev/null
+tampered_draft="$tampered_run/state-generations/g0008/draft"
+python - "$tampered_draft/draft-manifest.json" <<'PY'
+import json,sys
+from pathlib import Path
+path=Path(sys.argv[1]); data=json.loads(path.read_text(encoding='utf-8'))
+data['entries'][0]['source_path']='state-archives/recursive/STATE.md'
+path.write_bytes((json.dumps(data,sort_keys=True,separators=(',',':'))+'\n').encode('utf-8'))
+PY
+if python "$helper" archive --repo-root "$tampered" --run-root "$tampered_run" \
+    --controller v0333-release --generation g0008 \
+    --draft-dir "$tampered_draft" >"$tmp/tampered-draft.out" 2>&1; then
+  fail 'recursive source-path mutation reached the archive writer'
+fi
+grep -Fq 'unsafe protected path: state-archives/recursive/STATE.md' "$tmp/tampered-draft.out" \
+  || fail 'recursive source-path mutation lacked the bounded diagnostic'
+
+cp "$f2_fixture" "$negative_run/archive-population.json"
+python - "$negative_run/STATE.md" <<'PY'
+import os,stat,sys
+os.chmod(sys.argv[1],stat.S_IREAD)
+PY
+if python "$helper" draft --repo-root "$negative" --run-root "$negative_run" \
+    --controller v0333-release --generation g0008 \
+    --manifest "$negative_run/archive-population.json" >"$tmp/permission.out" 2>&1; then
+  fail 'read-only protected input reached the draft writer'
+fi
+grep -Fq 'unsafe permissions for protected file: STATE.md' "$tmp/permission.out" \
+  || fail 'permission mutation did not fail with the bounded diagnostic'
+
+cp "$f2_fixture" "$negative_run/archive-population.json"
+reparse_kind="$(python - "$negative_run" <<'PY'
+import os,subprocess,sys
+from pathlib import Path
+root=Path(sys.argv[1]); outside=root.parent.parent.parent/'reparse-outside'; alias=root/'alias'
+outside.mkdir(); (outside/'STATE.md').write_text('outside\n',encoding='utf-8')
+try:
+    os.symlink(outside,alias,target_is_directory=True)
+    print('symlink')
+except OSError:
+    result=subprocess.run(
+        ['cmd.exe','/d','/c','mklink','/J',str(alias),str(outside)],
+        stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=False,
+    )
+    if result.returncode:
+        raise SystemExit('could not create a symlink or reparse-point control')
+    print('reparse-junction')
+PY
+)"
+python - "$negative_run/archive-population.json" <<'PY'
+import json,sys
+from pathlib import Path
+path=Path(sys.argv[1]); data=json.loads(path.read_text(encoding='utf-8'))
+data['protected_files'][0]['path']='alias/STATE.md'
+path.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
+PY
+set +e
+python "$helper" draft --repo-root "$negative" --run-root "$negative_run" \
+  --controller v0333-release --generation g0008 \
+  --manifest "$negative_run/archive-population.json" >"$tmp/reparse.out" 2>&1
+reparse_rc=$?
+set -e
+python - "$negative_run/alias" <<'PY'
+import os,sys
+from pathlib import Path
+path=Path(sys.argv[1])
+if path.is_symlink():
+    path.unlink()
+elif path.exists():
+    os.rmdir(path)
+PY
+[ "$reparse_rc" -ne 0 ] || fail "$reparse_kind path reached the draft writer"
+grep -Fq 'directory custody contains a symlink or reparse point' "$tmp/reparse.out" \
+  || fail "$reparse_kind path did not fail with the bounded diagnostic"
+
+python - "$helper" <<'PY' \
+  || fail 'Windows reparse-point detector did not reject the held-out attribute'
+import importlib.util,sys
+from types import SimpleNamespace
+spec=importlib.util.spec_from_file_location('rotation_helper',sys.argv[1])
+module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+if not module.is_reparse(SimpleNamespace(st_file_attributes=0x400)):
+    raise SystemExit('reparse bit accepted')
+PY
+
+printf '%s\n' \
+  'CANONICAL_STATE_ROTATION_F2_GREEN=PASS draft=BYTE_IDENTICAL archive=BYTE_IDENTICAL typed-retrieval=PASS archive-ref=EXPECTED_ZERO_CAS discovery=EXCLUDED recursive-population=EXCLUDED path=REJECTED symlink-reparse=REJECTED permissions=EXACT_READBACK'
+record_candidate_evidence ARCHIVE_F2
+
+after_shared_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
+  refs/implementaudit/current-generations/ \
+  refs/implementaudit/current-generation-migrations/ \
+  refs/implementaudit/continuity-invalidations/ \
+  refs/implementaudit/continuity-receipts/ \
+  refs/implementaudit/state-archives/)"
+[ "$before_shared_refs" = "$after_shared_refs" ] \
+  || fail 'F2 test mutated a shared protected Git-ref namespace'
+
+if $f2_only; then
+  exit 0
+fi
+
+[ -f "$f3_fixture" ] || fail "missing F3 fixture: $f3_fixture"
+[ -f "$claim_helper" ] || fail "missing claim reader owner: $claim_helper"
+bash "$checker" --f3-fixture-self-check
+
+matrix_repo="$tmp/matrix-repo"
+mkdir -p "$matrix_repo"
+git -C "$matrix_repo" init -q
+git -C "$matrix_repo" config user.name 'reader matrix fixture'
+git -C "$matrix_repo" config user.email 'reader-matrix@example.invalid'
+printf 'reader matrix\n' >"$matrix_repo/product.txt"
+git -C "$matrix_repo" add product.txt
+GIT_AUTHOR_DATE='2000-01-01T00:00:00Z' \
+  GIT_COMMITTER_DATE='2000-01-01T00:00:00Z' \
+  git -C "$matrix_repo" -c commit.gpgsign=false commit -qm preimage
+matrix_rel="$(cd "$matrix_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
+  bash "$claim_helper" --controller reader-controller 'reader migration matrix')" \
+  || fail 'F3 matrix controller claim failed'
+matrix_root="$matrix_repo/$matrix_rel"
+matrix_claim="$(sed -n 's/^claim_id=//p' "$matrix_root/.claimed")"
+for file in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+  cp "$repo_root/skills/implementaudit/templates/$file" "$matrix_root/$file"
+done
+matrix_head="$(git -C "$matrix_repo" rev-parse HEAD)"
+matrix_tree="$(git -C "$matrix_repo" rev-parse 'HEAD^{tree}')"
+python - "$matrix_root/STATE.md" "$matrix_rel" "$matrix_head" "$matrix_tree" <<'PY'
+import sys
+from pathlib import Path
+path=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
+text=path.read_text(encoding='utf-8')
+text=text.replace('| Run root |  |',f'| Run root | `{run}` |')
+text=text.replace('| Next action |  |','| Next action | exercise the complete reader migration matrix |')
+anchor='| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
+row=f'| G0001 | new-session | 2000-01-01T00:00:00Z | repo at `{head}` / `{tree}` | yes | exact legacy reader fixture |'
+path.write_text(text.replace(anchor,anchor+'\n'+row),encoding='utf-8')
+PY
+legacy_token="$(cd "$matrix_repo" && bash "$claim_helper" --resume-controller \
+  reader-controller --boundary new-session --epoch G0001)" \
+  || fail 'F3 matrix could not mint its isolated exact-v2 control'
+legacy_token_base="$legacy_token"
+legacy_ref="${legacy_token%@*}"
+legacy_oid="${legacy_token##*@}"
+controller_oid="$(git -C "$matrix_repo" rev-parse refs/implementaudit/controllers/reader-controller)"
+legacy_v1_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+  implementaudit.continuity-receipt.v1 reader-controller "$controller_oid" "$matrix_claim" \
+  "$matrix_head" "$matrix_tree" \
+  "$(sha256sum "$matrix_root/STATE.md" | cut -d' ' -f1)" \
+  "$(sha256sum "$matrix_root/ROADMAP.md" | cut -d' ' -f1)" \
+  | git -C "$matrix_repo" hash-object -w --stdin)"
+run_identity="$matrix_rel"
+pointer_ref='refs/implementaudit/current-generations/reader-controller'
+marker_ref='refs/implementaudit/current-generation-migrations/reader-controller'
+v3_ref='refs/implementaudit/continuity-receipts/reader-controller/G0002'
+invalidation_ref='refs/implementaudit/continuity-invalidations/reader-controller'
+state_pristine="$tmp/matrix-state-pristine.md"
+cp "$matrix_root/STATE.md" "$state_pristine"
+invalidation_oid='1111111111111111111111111111111111111111'
+state_sha='2222222222222222222222222222222222222222222222222222222222222222'
+roadmap_sha='3333333333333333333333333333333333333333333333333333333333333333'
+protected_sha='4444444444444444444444444444444444444444444444444444444444444444'
+archive_sha='5555555555555555555555555555555555555555555555555555555555555555'
+next_action='exercise the complete reader migration matrix'
+
+# A current pointer must be tied to the actual run, rather than merely to a
+# self-consistent synthetic tuple. Legacy cases deliberately retain no live
+# invalidation and their original G0001 STATE.md.
+prepare_live_tuple() {
+  local generation="$1"
+  cp "$state_pristine" "$matrix_root/STATE.md"
+  git -C "$matrix_repo" update-ref -d "$invalidation_ref" >/dev/null 2>&1 || true
+  invalidation_oid='1111111111111111111111111111111111111111'
+  legacy_token="$legacy_token_base"
+  next_action='exercise the complete reader migration matrix'
+  if [ "$generation" = yes ]; then
+    python - "$matrix_root/STATE.md" "$matrix_head" "$matrix_tree" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); head,tree=sys.argv[2:]
+s=p.read_text(encoding='utf-8')
+s=s.replace('Current epoch: G0001', 'Current epoch: G0002')
+anchor=f'| G0001 | new-session | 2000-01-01T00:00:00Z | repo at `{head}` / `{tree}` | yes | exact legacy reader fixture |'
+row=f'| G0002 | inferred-context-gap | 2000-01-01T00:01:00Z | repo at `{head}` / `{tree}` | yes | current generation reader fixture |'
+p.write_text(s.replace(anchor, anchor+'\n'+row), encoding='utf-8')
+PY
+    invalidation_token="$(cd "$matrix_repo" && bash "$claim_helper" --invalidate-continuity \
+      reader-controller --boundary inferred-context-gap --event reader-matrix-g0002)" \
+      || fail 'F3 matrix could not mint its isolated live invalidation'
+    invalidation_oid="${invalidation_token##*@}"
+  fi
+  state_sha="$(sha256sum "$matrix_root/STATE.md" | cut -d' ' -f1)"
+  roadmap_sha="$(sha256sum "$matrix_root/ROADMAP.md" | cut -d' ' -f1)"
+}
+
+make_matrix_objects() {
+  local mutation="$1" object_controller=reader-controller object_claim="$matrix_claim"
+  local object_run="$run_identity" pointer_schema=implementaudit.current-generation.v1
+  local marker_schema=implementaudit.current-generation-migration.v1
+  local receipt_schema=implementaudit.continuity-receipt.v3
+  case "$mutation" in
+    none) ;;
+    controller) object_controller=other-controller ;;
+    claim) object_claim=other-claim ;;
+    run) object_run=.IMPLEMENTAUDIT/runs/other-run ;;
+    pointer-schema) pointer_schema=implementaudit.current-generation.v0 ;;
+    marker-schema) marker_schema=implementaudit.current-generation-migration.v0 ;;
+    receipt-schema) receipt_schema=implementaudit.continuity-receipt.v2 ;;
+    live-invalidation) invalidation_oid=9999999999999999999999999999999999999999 ;;
+    live-state-hash) state_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ;;
+    live-roadmap-hash) roadmap_sha=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ;;
+    live-next-action) next_action='stale reader action' ;;
+    predecessor-ref) legacy_token="refs/implementaudit/continuity-receipts/reader-controller/G00FF@$legacy_oid" ;;
+    predecessor-oid) legacy_token="$legacy_ref@0000000000000000000000000000000000000000" ;;
+    *) fail "unknown F3 owner mutation: $mutation" ;;
+  esac
+  pointer_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$pointer_schema" "$object_controller" "$object_claim" "$object_run" g0008 G0002 \
+    "$invalidation_oid" "$legacy_token" "$v3_ref" implementaudit.canonical-state-projection.v1 \
+    "$state_sha" "$roadmap_sha" "$protected_sha" "$archive_sha" "$next_action" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  v3_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$receipt_schema" "$object_controller" "$object_claim" "$object_run" G0002 \
+    "$invalidation_oid" "$pointer_ref" "$pointer_oid" "$state_sha" "$roadmap_sha" \
+    "$protected_sha" "$archive_sha" "$next_action" "$legacy_token" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  marker_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$marker_schema" "$object_controller" "$object_claim" "$object_run" G0002 \
+    "$pointer_ref" implementaudit.current-generation.v1 "$v3_ref" "$v3_oid" true \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  malformed_oid="$(printf 'malformed\n' | git -C "$matrix_repo" hash-object -w --stdin)"
+  stale_v3_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    implementaudit.continuity-receipt.v3 reader-controller "$matrix_claim" "$run_identity" G0002 \
+    "$invalidation_oid" "$pointer_ref" 9999999999999999999999999999999999999999 \
+    "$state_sha" "$roadmap_sha" "$protected_sha" "$archive_sha" "$next_action" "$legacy_token" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  mismatch_v3_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    implementaudit.continuity-receipt.v3 reader-controller other-claim "$run_identity" G0002 \
+    "$invalidation_oid" "$pointer_ref" "$pointer_oid" "$state_sha" "$roadmap_sha" \
+    "$protected_sha" "$archive_sha" "$next_action" "$legacy_token" \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  invalidated_v2_oid="$(git -C "$matrix_repo" cat-file blob "$legacy_oid" \
+    | sed $'s/\tnone\tnew-session\t/\t8888888888888888888888888888888888888888\tnew-session\t/' \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+  mismatched_v2_oid="$(git -C "$matrix_repo" cat-file blob "$legacy_oid" \
+    | sed $'s/\t'$matrix_claim$'\t/\tother-claim\t/' \
+    | git -C "$matrix_repo" hash-object -w --stdin)"
+}
+
+matrix_cases="$(python - "$f3_fixture" <<'PY'
+import json,sys
+for row in json.load(open(sys.argv[1],encoding='utf-8'))['cases']:
+    print('\t'.join(str(row[key]) for key in ('id','marker','pointer','receipt','owner_mutation','expected')))
+PY
+)"
+matrix_pass=0
+while IFS=$'\t' read -r case_id marker_state pointer_state receipt_state mutation expected; do
+  [ -n "$case_id" ] || continue
+  expected="${expected%$'\r'}"
+  if [ "$pointer_state" = valid ]; then prepare_live_tuple yes; else prepare_live_tuple no; fi
+  make_matrix_objects "$mutation"
+  git -C "$matrix_repo" update-ref -d "$pointer_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$marker_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$legacy_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$v3_ref" >/dev/null 2>&1 || true
+  [ "$pointer_state" != valid ] || git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"
+  case "$pointer_state" in
+    absent) ;;
+    valid) git -C "$matrix_repo" update-ref "$pointer_ref" "$pointer_oid" ;;
+    malformed) git -C "$matrix_repo" update-ref "$pointer_ref" "$malformed_oid" ;;
+  esac
+  case "$receipt_state" in
+    absent) current_token='' ;;
+    exact-v1) git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_v1_oid"; current_token="$legacy_ref@$legacy_v1_oid" ;;
+    exact-v2) git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"; current_token="$legacy_token" ;;
+    invalidated-v2) git -C "$matrix_repo" update-ref "$legacy_ref" "$invalidated_v2_oid"; current_token="$legacy_ref@$invalidated_v2_oid" ;;
+    mismatched-v2) git -C "$matrix_repo" update-ref "$legacy_ref" "$mismatched_v2_oid"; current_token="$legacy_ref@$mismatched_v2_oid" ;;
+    exact-v3) git -C "$matrix_repo" update-ref "$v3_ref" "$v3_oid"; current_token="$v3_ref@$v3_oid" ;;
+    stale-v3) git -C "$matrix_repo" update-ref "$v3_ref" "$stale_v3_oid"; current_token="$v3_ref@$stale_v3_oid" ;;
+    mismatched-v3) git -C "$matrix_repo" update-ref "$v3_ref" "$mismatch_v3_oid"; current_token="$v3_ref@$mismatch_v3_oid" ;;
+  esac
+  case "$marker_state" in
+    absent) ;;
+    valid) git -C "$matrix_repo" update-ref "$marker_ref" "$marker_oid" ;;
+    malformed) git -C "$matrix_repo" update-ref "$marker_ref" "$malformed_oid" ;;
+  esac
+  set +e
+  matrix_output="$(cd "$matrix_repo" && bash "$claim_helper" \
+    --require-current-continuity reader-controller 2>&1)"
+  matrix_rc=$?
+  set -e
+  matrix_actual=STOP
+  if [ "$matrix_rc" -eq 0 ] && [ "$matrix_output" = "$legacy_token" ]; then
+    matrix_actual=LEGACY_COMPATIBILITY
+  elif [ "$matrix_rc" -eq 0 ] && [ "$matrix_output" = "$current_token" ]; then
+    matrix_actual=POINTER_CURRENT
+  elif grep -Fq 'FIRST_MIGRATION_INCOMPLETE' <<<"$matrix_output"; then
+    matrix_actual=FIRST_MIGRATION_INCOMPLETE
+  elif grep -Fq 'STOP_NO_ROOT_FALLBACK' <<<"$matrix_output"; then
+    matrix_actual=STOP_NO_ROOT_FALLBACK
+  fi
+  if [ "$matrix_actual" != "$expected" ]; then
+    printf '%s\n' "CANONICAL_STATE_ROTATION_F3_RED=READER_MATRIX_NOT_ENFORCED case=$case_id expected=$expected actual=$matrix_actual" >&2
+    exit 1
+  fi
+  matrix_pass=$((matrix_pass + 1))
+done <<<"$matrix_cases"
+[ "$matrix_pass" -eq 24 ] || fail "F3 matrix executed $matrix_pass cases instead of 24"
+
+# Held-out live binding negatives. Each begins from a real current G0002
+# tuple; a reader that validates only pointer/v3/marker self-consistency would
+# incorrectly accept these mutations.
+install_held_out_current() {
+  prepare_live_tuple yes
+  make_matrix_objects none
+  git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"
+  git -C "$matrix_repo" update-ref "$pointer_ref" "$pointer_oid"
+  git -C "$matrix_repo" update-ref "$v3_ref" "$v3_oid"
+  git -C "$matrix_repo" update-ref "$marker_ref" "$marker_oid"
+}
+
+assert_held_out_stop() {
+  local label="$1" marker_message="${2:-no}"
+  local out rc
+  set +e
+  out="$(cd "$matrix_repo" && bash "$claim_helper" --require-current-continuity reader-controller 2>&1)"
+  rc=$?
+  set -e
+  [ "$rc" -ne 0 ] || fail "held-out $label incorrectly accepted a stale generation tuple"
+  if [ "$marker_message" = yes ]; then
+    grep -Fq STOP_NO_ROOT_FALLBACK <<<"$out" || fail "held-out $label did not forbid root fallback"
+  fi
+}
+
+held_out_pass=0
+for mutation in live-invalidation live-state-hash live-roadmap-hash live-next-action predecessor-ref predecessor-oid; do
+  install_held_out_current
+  make_matrix_objects "$mutation"
+  git -C "$matrix_repo" update-ref "$pointer_ref" "$pointer_oid"
+  git -C "$matrix_repo" update-ref "$v3_ref" "$v3_oid"
+  git -C "$matrix_repo" update-ref "$marker_ref" "$marker_oid"
+  assert_held_out_stop "$mutation"
+  held_out_pass=$((held_out_pass + 1))
+done
+
+install_held_out_current
+pointer_path="$(git -C "$matrix_repo" rev-parse --path-format=absolute --git-path "$pointer_ref")"
+rm -f -- "$pointer_path"
+mkdir -p "$(dirname "$pointer_path")"
+printf 'not-an-object-id\n' >"$pointer_path"
+assert_held_out_stop broken-pointer-ref yes
+rm -f -- "$pointer_path"
+held_out_pass=$((held_out_pass + 1))
+
+install_held_out_current
+marker_path="$(git -C "$matrix_repo" rev-parse --path-format=absolute --git-path "$marker_ref")"
+rm -f -- "$marker_path"
+mkdir -p "$(dirname "$marker_path")"
+printf 'not-an-object-id\n' >"$marker_path"
+assert_held_out_stop broken-marker-ref yes
+rm -f -- "$marker_path"
+held_out_pass=$((held_out_pass + 1))
+
+[ "$held_out_pass" -eq 8 ] || fail "F3 held-out reader negatives executed $held_out_pass cases instead of 8"
+printf '%s\n' \
+  'CANONICAL_STATE_ROTATION_F3_HELD_OUT_GREEN=PASS cases=8 live=invalidation,state,roadmap,next-action,predecessor-ref,predecessor-oid broken-refs=pointer,marker'
+
+printf '%s\n' \
+  'CANONICAL_STATE_ROTATION_F3_GREEN=PASS matrix=24/24 legacy=EXACT_V2_ONLY first-migration=STOP pointer-current=MARKER_POINTER_V3_JOIN marker-fallback=FORBIDDEN owner-schema-mismatch=REJECTED refs=READ_ONLY'
+record_candidate_evidence READER_F3
+
+after_f3_shared_refs="$(git -C "$repo_root" for-each-ref --format='%(refname) %(objectname)' \
+  refs/implementaudit/current-generations/ \
+  refs/implementaudit/current-generation-migrations/ \
+  refs/implementaudit/continuity-invalidations/ \
+  refs/implementaudit/continuity-receipts/ \
+  refs/implementaudit/state-archives/)"
+[ "$before_shared_refs" = "$after_f3_shared_refs" ] \
+  || fail 'F3 reader matrix mutated a shared protected Git-ref namespace'
+
+if $f3_only; then
+  exit 0
+fi
+
+python - "$helper" "$tmp" "$root_a" "$run_a" <<'PY'
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+spec = importlib.util.spec_from_file_location("task6_rotation", sys.argv[1])
+rotation = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+sys.modules[spec.name] = rotation
+spec.loader.exec_module(rotation)
+
+required = (
+    "load_governed_source_custody_v1",
+    "load_exact_r0039_f2_archive_manifest_v1",
+    "load_exact_r0038_current_snapshot_manifest_v1",
+    "load_immutable_r0038_snapshot_for_evidence_id_v1",
+    "require_complete_pointer_receipt_marker_route_v1",
+    "resolve_stored_owner_source_evidence_v1",
+    "verify_manifest_segments_v1",
+    "publish_first_migration_marker_v1",
+)
+missing = [name for name in required if not hasattr(rotation, name)]
+if missing:
+    raise SystemExit("TASK6_RED_MISSING_INTERFACES=" + ",".join(missing))
+
+def expect_error(action, expected):
+    try:
+        action()
+    except rotation.RotationError as exc:
+        if str(exc) != expected:
+            raise SystemExit("expected %r, got %r" % (expected, exc))
+        return
+    raise SystemExit("expected RotationError: " + expected)
+
+run_root = Path(sys.argv[2]) / "task6-source-route"
+snapshots = run_root / "operational-evidence" / "snapshots"
+snapshots.mkdir(parents=True)
+pointer_oid = "1" * 40
+snapshot_digest = "2" * 64
+snapshot_id = "iasnap-v1-" + snapshot_digest
+evidence_id = "iasrc-v1-r0038-snapshot-" + snapshot_digest + "-native-current"
+root_identity = "sha256:" + "3" * 64
+entry = {
+    "source_evidence_id": evidence_id,
+    "sha256": "4" * 64,
+    "kind": "run-root-relative",
+    "root_identity": root_identity,
+    "host_identity": None,
+    "input_path_flavor": "posix",
+    "source_locator": {
+        "kind": "run-root-relative",
+        "root_identity": root_identity,
+        "path": "operational-evidence/source.json",
+        "host_identity": None,
+    },
+}
+manifest = {
+    "schema_version": "IA-OPERATIONAL-SNAPSHOT-v1",
+    "controller_id": "controller-1",
+    "claim_id": "a" * 32,
+    "run_id": "run-1",
+    "source_epoch": "G0002",
+    "source_pointer_oid": pointer_oid,
+    "source_evidence_entries": [entry],
+}
+manifest_raw = rotation.canonical_json_v1(manifest)
+manifest_sha = hashlib.sha256(manifest_raw).hexdigest()
+snapshot_dir = snapshots / snapshot_id
+snapshot_dir.mkdir()
+(snapshot_dir / "manifest.json").write_bytes(manifest_raw)
+current = {
+    "schema_version": "implementaudit.operational-snapshot-current.v1",
+    "snapshot_id": snapshot_id,
+    "manifest_sha256": manifest_sha,
+    "source_pointer_oid": pointer_oid,
+}
+(snapshots / "CURRENT").write_bytes(rotation.canonical_json_v1(current))
+
+loaded = rotation.load_exact_r0038_current_snapshot_manifest_v1(
+    run_root=run_root, pointer_oid=pointer_oid,
+    controller_id="controller-1", claim_id="a" * 32,
+    run_id="run-1", source_epoch="G0002")
+if loaded != {"entries": [entry]}:
+    raise SystemExit("Task 6 current snapshot did not return the exact owner manifest")
+stored = rotation.load_immutable_r0038_snapshot_for_evidence_id_v1(
+    run_root=run_root, controller_id="controller-1", claim_id="a" * 32,
+    run_id="run-1", source_epoch="G0002", source_evidence_id=evidence_id)
+if stored != {"entries": [entry]}:
+    raise SystemExit("Task 6 stored snapshot did not re-resolve by immutable identity")
+
+def install_manifest(value):
+    raw = rotation.canonical_json_v1(value)
+    (snapshot_dir / "manifest.json").write_bytes(raw)
+    selected = {**current, "manifest_sha256": hashlib.sha256(raw).hexdigest()}
+    (snapshots / "CURRENT").write_bytes(rotation.canonical_json_v1(selected))
+
+(snapshots / "CURRENT").write_bytes(rotation.canonical_json_v1(
+    {**current, "manifest_sha256": "0" * 64}))
+expect_error(lambda: rotation.load_exact_r0038_current_snapshot_manifest_v1(
+    run_root=run_root, pointer_oid=pointer_oid,
+    controller_id="controller-1", claim_id="a" * 32,
+    run_id="run-1", source_epoch="G0002"),
+    "OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+for changed_manifest in (
+    {**manifest, "claim_id": "b" * 32},
+    {**manifest, "source_evidence_entries": [entry, entry]},
+    {**manifest, "source_evidence_entries": [{
+        **entry, "source_evidence_id": (
+            "iasrc-v1-r0038-snapshot-" + "5" * 64 + "-native-current"),
+    }]},
+):
+    install_manifest(changed_manifest)
+    expect_error(lambda: rotation.load_exact_r0038_current_snapshot_manifest_v1(
+        run_root=run_root, pointer_oid=pointer_oid,
+        controller_id="controller-1", claim_id="a" * 32,
+        run_id="run-1", source_epoch="G0002"),
+        "OE_R0038_SNAPSHOT_MANIFEST_INVALID")
+
+install_manifest(manifest)
+original_read = rotation._read_bounded_regular_bytes_v1
+current_reads = 0
+def changed_current(path, root, error):
+    global current_reads
+    raw = original_read(path, root, error)
+    if path == snapshots / "CURRENT":
+        current_reads += 1
+        if current_reads == 2:
+            return raw + b" "
+    return raw
+rotation._read_bounded_regular_bytes_v1 = changed_current
+try:
+    expect_error(lambda: rotation.load_exact_r0038_current_snapshot_manifest_v1(
+        run_root=run_root, pointer_oid=pointer_oid,
+        controller_id="controller-1", claim_id="a" * 32,
+        run_id="run-1", source_epoch="G0002"),
+        "OE_R0038_SNAPSHOT_CURRENT_CHANGED")
+finally:
+    rotation._read_bounded_regular_bytes_v1 = original_read
+
+(snapshots / "CURRENT").unlink()
+expect_error(lambda: rotation.load_exact_r0038_current_snapshot_manifest_v1(
+    run_root=run_root, pointer_oid=pointer_oid,
+    controller_id="controller-1", claim_id="a" * 32,
+    run_id="run-1", source_epoch="G0002"),
+    "OE_R0038_SNAPSHOT_NOT_PUBLISHED")
+(snapshots / "CURRENT").write_bytes(rotation.canonical_json_v1(current) + b"\n")
+expect_error(lambda: rotation.load_exact_r0038_current_snapshot_manifest_v1(
+    run_root=run_root, pointer_oid=pointer_oid,
+    controller_id="controller-1", claim_id="a" * 32,
+    run_id="run-1", source_epoch="G0002"),
+    "OE_R0038_SNAPSHOT_CURRENT_INVALID")
+
+archive_args = {
+    "repo": Path(sys.argv[3]), "run_root": Path(sys.argv[4]),
+    "controller_id": "v0333-release", "claim_id": "a" * 32,
+    "run_id": "run-f2", "source_epoch": "G0002",
+}
+archive_loaded = rotation.load_exact_r0039_f2_archive_manifest_v1(**archive_args)
+if set(archive_loaded) != {"entries"} or len(archive_loaded["entries"]) != 1:
+    raise SystemExit("Task 6 genesis route did not load the exact F2 archive")
+for mutation in (
+    {"claim_id": "invalid-claim"}, {"run_id": "other-run"},
+    {"source_epoch": "g0002"}, {"run_root": Path(sys.argv[2])},
+):
+    changed = {**archive_args, **mutation}
+    expect_error(
+        lambda changed=changed:
+            rotation.load_exact_r0039_f2_archive_manifest_v1(**changed),
+        "OE_R0039_ARCHIVE_INVALID")
+
+print("CANONICAL_STATE_ROTATION_F6_SOURCE_ROUTE_GREEN=PASS genesis=ARCHIVE successor=SNAPSHOT stored=RERESOLVED pre-c06=OE_R0038_SNAPSHOT_NOT_PUBLISHED")
+PY
+record_candidate_evidence SOURCE_REHYDRATION
+
+# Exercise the real R0011 successor path against the isolated F3 repository.
+# The JSON pointer is already current before receipt mint; the permanent marker
+# is deliberately absent until the verified v3 object has been reread.
+prepare_live_tuple yes
+git -C "$matrix_repo" update-ref -d "$pointer_ref" >/dev/null 2>&1 || true
+git -C "$matrix_repo" update-ref -d "$marker_ref" >/dev/null 2>&1 || true
+git -C "$matrix_repo" update-ref -d "$v3_ref" >/dev/null 2>&1 || true
+git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"
+json_run_id="$(basename "$matrix_root")"
+printf '%s' '{"schema":"implementaudit.work-graph.fixture.v1"}' >"$matrix_root/WORK_GRAPH.json"
+json_graph_sha="$(sha256sum "$matrix_root/WORK_GRAPH.json" | cut -d' ' -f1)"
+json_pointer_oid="$(python - "$matrix_claim" "$json_run_id" "$state_sha" \
+  "$roadmap_sha" "$json_graph_sha" "$archive_sha" <<'PY' \
+  | git -C "$matrix_repo" hash-object -w --stdin
+import hashlib,json,sys
+claim,run,state,road,graph,manifest=sys.argv[1:]
+body={
+ "schema_version":"implementaudit.state-generation-pointer.v1",
+ "controller_id":"reader-controller","claim_id":claim,"run_id":run,
+ "generation_id":"G0002","source_epoch":"G0002",
+ "predecessor_pointer_oid":None,"predecessor_pointer_digest":None,
+ "generation_manifest_oid":"6"*40,"generation_manifest_digest":manifest,
+ "cold_high_water":"00000000000000000001",
+ "hot_state_digest":state,"hot_roadmap_digest":road,
+ "work_graph_path":"WORK_GRAPH.json","work_graph_digest":graph,
+ "query_contract_version":"implementaudit.history-query.v1",
+ "degraded_state":"NONE",
+}
+raw=json.dumps(body,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+body["pointer_digest"]=hashlib.sha256(raw).hexdigest()
+print(json.dumps(body,sort_keys=True,separators=(",",":"),ensure_ascii=False),end="")
+PY
+)"
+git -C "$matrix_repo" update-ref "$pointer_ref" "$json_pointer_oid"
+json_pointer_digest="$(git -C "$matrix_repo" cat-file blob "$json_pointer_oid" \
+  | python -c 'import json,sys; print(json.load(sys.stdin)["pointer_digest"])')"
+
+set +e
+pre_receipt_output="$(cd "$matrix_repo" && bash "$claim_helper" \
+  --require-current-continuity reader-controller 2>&1)"
+pre_receipt_rc=$?
+set -e
+[ "$pre_receipt_rc" -ne 0 ] \
+  || fail 'pointer without receipt unexpectedly became current'
+if grep -Fq 'FIRST_MIGRATION_INCOMPLETE' <<<"$pre_receipt_output"; then
+  fail 'pointer without receipt was misclassified as receipt-without-marker'
+fi
+
+v3_token="$(cd "$matrix_repo" && bash "$claim_helper" --resume-controller \
+  reader-controller --boundary inferred-context-gap --epoch G0002)" \
+  || fail 'Task 6 R0011 path did not mint receipt v3 from the current pointer'
+v3_ref_live="${v3_token%@*}"
+v3_oid_live="${v3_token##*@}"
+[ "$v3_ref_live" = "$v3_ref" ] || fail 'Task 6 v3 receipt ref drifted'
+verified_v3="$(cd "$matrix_repo" && bash "$claim_helper" \
+  --verify-resume-receipt "$v3_token")" \
+  || fail 'Task 6 R0011 path did not reread and verify receipt v3'
+[ "$verified_v3" = "$v3_token" ] || fail 'Task 6 verified v3 token drifted'
+IFS=$'\t' read -r v3_schema v3_controller v3_claim v3_run v3_epoch \
+  v3_invalidation v3_pointer_ref v3_pointer_oid v3_pointer_digest v3_state \
+  v3_road v3_graph_path v3_graph v3_manifest_oid v3_manifest \
+  v3_high_water v3_next v3_predecessor v3_extra \
+  <<<"$(git -C "$matrix_repo" cat-file blob "$v3_oid_live")"
+[ "$v3_schema:$v3_controller:$v3_claim:$v3_run:$v3_epoch" = \
+  "implementaudit.continuity-receipt.v3:reader-controller:$matrix_claim:$json_run_id:G0002" ] \
+  || fail 'Task 6 v3 receipt authority tuple drifted'
+[ -z "$v3_extra" ] || fail 'Task 6 v3 receipt gained an unowned field'
+[ "$v3_pointer_ref:$v3_pointer_oid:$v3_pointer_digest:$v3_state:$v3_road" = \
+  "$pointer_ref:$json_pointer_oid:$json_pointer_digest:$state_sha:$roadmap_sha" ] \
+  || fail 'Task 6 v3 receipt pointer/hot/graph/manifest bundle drifted'
+[ "$v3_graph_path:$v3_graph:$v3_manifest_oid:$v3_manifest:$v3_high_water" = \
+  "WORK_GRAPH.json:$json_graph_sha:6666666666666666666666666666666666666666:$archive_sha:00000000000000000001" ] \
+  || fail 'Task 6 v3 receipt graph/manifest/high-water bundle drifted'
+[ "$v3_predecessor" = "$legacy_token" ] \
+  || fail 'Task 6 v3 receipt predecessor token drifted'
+
+set +e
+pre_marker_output="$(cd "$matrix_repo" && bash "$claim_helper" \
+  --require-current-continuity reader-controller 2>&1)"
+pre_marker_rc=$?
+set -e
+[ "$pre_marker_rc" -ne 0 ] \
+  || fail 'receipt without permanent marker unexpectedly became current'
+grep -Fq 'FIRST_MIGRATION_INCOMPLETE' <<<"$pre_marker_output" \
+  || fail 'receipt without marker did not return FIRST_MIGRATION_INCOMPLETE'
+
+json_marker_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
+  implementaudit.current-generation-migration.v1 reader-controller "$matrix_claim" \
+  "$json_run_id" G0002 "$pointer_ref" implementaudit.state-generation-pointer.v1 \
+  "$v3_ref_live" "$v3_oid_live" true \
+  | git -C "$matrix_repo" hash-object -w --stdin)"
+git -C "$matrix_repo" update-ref "$marker_ref" "$json_marker_oid" 0000000000000000000000000000000000000000 2>/dev/null \
+  || git -C "$matrix_repo" update-ref "$marker_ref" "$json_marker_oid"
+current_v3="$(cd "$matrix_repo" && bash "$claim_helper" \
+  --require-current-continuity reader-controller)" \
+  || fail 'complete pointer/receipt-v3/marker route did not become current'
+[ "$current_v3" = "$v3_token" ] || fail 'current v3 token drifted after marker publication'
+printf '%s\n' \
+  'CANONICAL_STATE_ROTATION_F6_CONTINUITY_GREEN=PASS pointer-before-receipt=PASS receipt-before-marker=PASS currentness=V3_JOIN predecessor=EXACT'
+record_candidate_evidence TRANSACTION_BINDINGS
+
+# The transition-algebra rows are promoted only after the independent copied-
+# owner publisher/CAS/uncertainty/receipt controls pass in this same run.
+sequence_evidence="$(bash "$0" --sequence-cas-only)" \
+  || fail 'Task 6 copied-owner sequence evidence did not pass'
+printf '%s\n' "$sequence_evidence"
+grep -Fq 'CANONICAL_STATE_ROTATION_F6_COPIED_OWNER_GREEN=PASS' <<<"$sequence_evidence" \
+  || fail 'Task 6 copied-owner route evidence marker drifted'
+grep -Fq 'CANONICAL_STATE_ROTATION_SEQUENCE_CAS_GREEN=SC01-SC10 fixture=10/10 claim-record=10/10 publisher-cas=PASS executed=24/24' <<<"$sequence_evidence" \
+  || fail 'Task 6 sequence/CAS evidence marker drifted'
+record_candidate_evidence TRANSACTION_SEQUENCE
+
+# The complete semantic candidate is emitted only after the behavioral controls
+# above and is consumed through the checker's permanent GREEN interface.  Its
+# no-argument route remains the frozen ROOT_ONLY RED control.
+candidate="$tmp/task6-final-candidate.json"
+build_candidate_from_evidence() {
+  python - "$repo_root/fixtures/canonical-state-rotation/cases.json" \
+    "$1" "$2" <<'PY'
+import json
+from pathlib import Path
+import sys
+
+fixture_path, ledger_path, candidate_path = map(Path, sys.argv[1:])
+fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+rows = fixture["cases"]
+by_id = {row["id"]: row for row in rows}
+
+# These groups are deliberately literal.  A behavioral PASS records a group;
+# only then may its exact reviewed rows consume the fixture's semantic label.
+GROUPS = {
+    "ROOT_BASELINE": (),
+    "ARCHIVE_F2": tuple("""
+A01-state-preimage A02-roadmap-preimage A03-artifact-preimages
+A04-typed-retrieval A05-content-addressed A06-immutable-anchor
+A07-exact-readback A08-never-current A09-not-live-discoverable
+A10-no-recursive-archive A11-retention A12-preimage-never-deleted
+""".split()),
+    "READER_F3": tuple("""
+D16-reader-invalid-legacy-row D17-reader-first-migration-row
+D18-reader-pointer-bad-receipt-row D19-reader-current-row
+D20-reader-marker-bad-receipt-row D21-reader-marker-no-pointer-row
+D22-reader-mismatch-row
+""".split()),
+    "SOURCE_REHYDRATION": tuple("""
+D23-rehydrate-identity D24-rehydrate-frontier D25-rehydrate-obligations
+D26-rehydrate-next-action D27-rehydrate-evidence-burden
+""".split()),
+    "TRANSACTION_BINDINGS": tuple("""
+D01-state-hash D02-roadmap-hash D03-protected-manifest-hash
+D04-archive-manifest-hash D05-pointer-ref D06-pointer-oid D07-receipt-ref
+D08-receipt-oid-location D09-marker-ref D10-marker-oid D11-owner-binding
+D12-next-action-binding D13-future-receipt-excluded D14-acyclic-bindings
+""".split()),
+    "TRANSACTION_SEQUENCE": tuple("""
+M01-generation-successor M02-epoch-successor M03-invalidation
+M04-predecessor-receipt M05-no-generation-reuse M06-no-epoch-reuse
+M07-no-invalidation-reuse M08-no-predecessor-substitution
+M09-no-skipped-transition M10-no-reordered-transition M11-dependency-order
+M12-archive-before-pointer M13-invalidation-after-draft
+M14-pointer-before-receipt M15-marker-after-receipt M16-compensating-cas
+M17-terminal-states M18-uncertainty-stop
+""".split()),
+}
+ledger = ledger_path.read_text(encoding="utf-8").splitlines()
+if (not ledger or ledger[0] != "ROOT_BASELINE" or len(ledger) != len(set(ledger))
+        or any(group not in GROUPS for group in ledger)):
+    raise SystemExit("Task 6 candidate evidence ledger is invalid")
+
+promoted_ids = [row_id for group in ledger for row_id in GROUPS[group]]
+if len(promoted_ids) != len(set(promoted_ids)) or any(
+        row_id not in by_id for row_id in promoted_ids):
+    raise SystemExit("Task 6 candidate evidence groups overlap or name unknown rows")
+required_promotions = {
+    row["id"] for row in rows if row["root_only"] != row["valid"]
+}
+all_enumerated = {
+    row_id for group in GROUPS.values() for row_id in group
+}
+if all_enumerated != required_promotions:
+    raise SystemExit("Task 6 evidence adapter does not exactly cover semantic deltas")
+
+observations = {
+    row["id"]: {"owner": row["owner"], "value": row["root_only"]}
+    for row in rows
+}
+for row_id in promoted_ids:
+    observations[row_id]["value"] = by_id[row_id]["valid"]
+candidate = {
+    "schema": "implementaudit.canonical-state-rotation-candidate.v1",
+    "observations": observations,
+}
+candidate_path.write_text(
+    json.dumps(candidate, sort_keys=True, separators=(",", ":"),
+               ensure_ascii=False),
+    encoding="utf-8", newline="\n")
+PY
+}
+build_candidate_from_evidence "$candidate_evidence_ledger" "$candidate"
+candidate_output="$(bash "$checker" --candidate "$candidate")" \
+  || fail 'Task 6 exact semantic candidate was rejected'
+[ "$candidate_output" = 'CANONICAL_STATE_ROTATION_CANDIDATE=PASS denominator=110' ] \
+  || fail "Task 6 candidate PASS marker drifted: $candidate_output"
+withheld_candidate="$tmp/task6-withheld-evidence-candidate.json"
+withheld_ledger="$tmp/task6-withheld-evidence.ledger"
+grep -Fxv TRANSACTION_SEQUENCE "$candidate_evidence_ledger" >"$withheld_ledger"
+build_candidate_from_evidence "$withheld_ledger" "$withheld_candidate"
+set +e
+withheld_output="$(bash "$checker" --candidate "$withheld_candidate" 2>&1)"
+withheld_rc=$?
+set -e
+[ "$withheld_rc" -ne 0 ] \
+  || fail 'TASK6_REVIEW_RED=I4_SELF_ORACLING_CANDIDATE_ACCEPTED_WITHOUT_BEHAVIORAL_EVIDENCE'
+withheld_failure_count="$(grep -o ':semantic-mutation' <<<"$withheld_output" | wc -l | tr -d ' ')"
+[ "$withheld_failure_count" = 18 ] \
+  || fail "Task 6 withheld transaction evidence did not reject exactly 18 rows: $withheld_output"
+printf '%s\n' "$candidate_output"
+printf '%s\n' 'CANONICAL_STATE_ROTATION_F7_GREEN=PASS transaction=POINTER_RECEIPT_V3_MARKER recovery=BOUNDED rehydration=EXACT root-oracle=PRESERVED_RED'

@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://implementaudit.local/schema/operational-evidence-v1.json",
+  "x-implementaudit-schema": "implementaudit-operational-evidence-schema-v1",
+  "x-canonicalisation": {
+    "identity": "canonical_json_v1",
+    "encoding": "UTF-8",
+    "bom": false,
+    "object_keys": "recursive_lexicographic",
+    "array_order": "declared_semantic_order",
+    "insignificant_whitespace": false,
+    "string_rewriting": false
+  },
+  "x-payload-normalisation": {
+    "identity": "canonical_payload_text_v1",
+    "line_endings": "CRLF_and_CR_to_LF",
+    "trailing_lf": "remove_all",
+    "other_whitespace": "preserve",
+    "unicode": "preserve"
+  },
+  "title": "IMPLEMENTAUDIT operational evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "aggregate",
+    "families",
+    "affected_families",
+    "capability_declarations",
+    "currentness_predicates",
+    "entities",
+    "relations",
+    "payload_records"
+  ],
+  "properties": {
+    "schema": {"const": "implementaudit-operational-evidence-v1"},
+    "aggregate": {"enum": ["COMPLETE", "DEGRADED", "STALE", "INVALID", "SUPERSEDED"]},
+    "families": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "CODE"},
+        {"const": "OWNERSHIP"},
+        {"const": "EXECUTION"},
+        {"const": "EVIDENCE"},
+        {"const": "FAILURE"},
+        {"const": "RELEASE"}
+      ],
+      "items": false,
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "affected_families": {"type": "array", "items": {"$ref": "#/$defs/family"}, "uniqueItems": true},
+    "capability_declarations": {"type": "array", "items": {"$ref": "#/$defs/capability"}},
+    "currentness_predicates": {"type": "array", "items": {"$ref": "#/$defs/predicate"}},
+    "entities": {"type": "array", "items": {"$ref": "#/$defs/entity"}},
+    "relations": {"type": "array", "items": {"$ref": "#/$defs/relation"}},
+    "payload_records": {"type": "array", "items": {"$ref": "#/$defs/payload"}}
+  },
+  "$defs": {
+    "family": {"enum": ["CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE"]},
+    "state": {"enum": ["CURRENT", "UNKNOWN", "UNSUPPORTED", "STALE", "UNVERIFIED", "CONTRADICTORY", "PARSER_ERROR", "INVALID"]},
+    "layer": {"enum": ["repository", "git", "planning", "controller", "execution", "evidence", "failure", "package", "install", "host", "ci", "release", "external", "public"]},
+    "source_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "layer"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "layer": {"$ref": "#/$defs/layer"}
+      }
+    },
+    "currentness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "invalidators"],
+      "properties": {
+        "state": {"$ref": "#/$defs/state"},
+        "invalidators": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "supported", "reason_code"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "supported": {"type": "boolean"},
+        "reason_code": {"type": "string", "minLength": 1}
+      }
+    },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "predicate", "input_sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "predicate": {"type": "string", "minLength": 1},
+        "input_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "record_type", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "required"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "record_type": {"enum": ["Repository", "Commit", "Tree", "Worktree", "File", "Symbol", "Package", "GeneratedArtifact", "Controller", "CustodyClaim", "Receipt", "Run", "Phase", "WorkItem", "Writer", "Resource", "Claim", "Criterion", "Evidence", "Check", "Review", "Andon", "Residual", "Countermeasure", "Issue", "PullRequest", "WorkflowRun", "Release", "Tag", "Asset", "Install", "PublicSurface"]},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "required": {"type": "boolean"}
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "relation_type", "source_entity_id", "target_entity_id", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "confidence", "inference_rule"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "relation_type": {"enum": ["OWNS", "WRITES", "GENERATES", "PACKAGES", "INSTALLS", "CONSUMES", "DEPENDS_ON", "BLOCKS", "READY_WHEN", "SERIALISES_WITH", "JOINS", "CLAIMS", "EVIDENCES", "CONTRADICTS", "INVALIDATES", "SUPERSEDES", "FAILED_AT", "CONTAINED_BY", "REPAIRED_BY", "VERIFIED_BY", "RECOVERED_TO", "QUALIFIES", "MERGES_TO", "TAGS", "PUBLISHES", "READ_BACK_AS"]},
+        "source_entity_id": {"type": "string", "minLength": 1},
+        "target_entity_id": {"type": "string", "minLength": 1},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "confidence": {"enum": ["mechanical", "declared", "inferred"]},
+        "inference_rule": {"type": ["string", "null"]}
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "media_type", "payload", "payload_sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "media_type": {"type": "string", "minLength": 1},
+        "payload": {"type": "string"},
+        "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

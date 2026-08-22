@@ -45,6 +45,7 @@ EXITS = {
     "ROLLBACK_FAILED_WITH_RESIDUE": 75,
     "POST_COMMIT_DRIFT": 76,
     "UNSUPPORTED_OWNER_DECISION": 77,
+    "UNKNOWN": 78,
 }
 COORDINATION_SCOPE = "GOVERNED_HELPER_ROUTED_WRITERS_ONLY"
 
@@ -445,6 +446,55 @@ def current_post_rows():
 
 
 empty_effect_digest = digest(canonical([]))
+controller_identity = None
+generation_identity = None
+fence_disposition = "NOT_APPLICABLE"
+
+
+def protected_target_fingerprint():
+    if SOURCE is None or source_initial.get("kind") != "regular":
+        return None
+    body = {
+        "authorized_path": source_name,
+        "preimage_identity": {
+            "sha256": source_initial["sha256"],
+            "byte_length": source_initial["byte_length"],
+        },
+    }
+    return {
+        "schema": "implementaudit.protected-target-fingerprint.v1",
+        **body,
+        "fingerprint_sha256": digest(canonical(body)),
+    }
+
+
+target_identity = protected_target_fingerprint()
+
+
+def identity_bindings(transaction=None, effect_digest=empty_effect_digest):
+    return {
+        "operation": {
+            "kind": "operation",
+            "operation": operation,
+            "source_path": source_name,
+            "destination_path": destination_name,
+        },
+        "attempt": {
+            "kind": "attempt",
+            "transaction_id": transaction,
+            "claim_id": claim_id,
+            "phase": args.phase,
+            "step": args.step,
+            "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        },
+        "effect": {
+            "kind": "effect-plan",
+            "planned_effect_set_sha256": effect_digest,
+        },
+        "controller": controller_identity,
+        "generation": generation_identity,
+        "target": target_identity,
+    }
 
 
 def emit_no_effect(status, why, transaction=None):
@@ -468,6 +518,10 @@ def emit_no_effect(status, why, transaction=None):
         "planned_effect_set_sha256": empty_effect_digest,
         "actual_effect_set": [],
         "residue": [],
+        "identity_bindings": identity_bindings(transaction),
+        "generation_fence_disposition": fence_disposition,
+        "retry_permitted": False,
+        "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
     }
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
@@ -508,6 +562,40 @@ LOCK_ROOT = REPO / ".IMPLEMENTAUDIT" / ".r36-locks"
 LOCK_PARENT = LOCK_ROOT.parent
 LOCK_GATE = LOCK_ROOT / "namespace.gate"
 RELEASED_LOCK_ROOT = TX / "released-locks"
+FENCE_PATH = RUN / "mutation-fences" / f"phase-{args.phase}-step-{args.step}.json"
+protected_route_requested = path_identity(FENCE_PATH).get("kind") != "absent"
+COMMON_LEASE = None
+LEGACY_WORKTREE_LEASE = None
+if protected_route_requested:
+    common_probe = subprocess.run(
+        ["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
+        cwd=os.fspath(REPO), text=True, capture_output=True, check=False,
+    )
+    legacy_probe = subprocess.run(
+        ["git", "rev-parse", "--path-format=absolute", "--git-path",
+         "implementaudit-r0039-publication.lock"],
+        cwd=os.fspath(REPO), text=True, capture_output=True, check=False,
+    )
+    if common_probe.returncode != 0 or legacy_probe.returncode != 0:
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    actual_common = Path(os.path.abspath(native_input(common_probe.stdout.strip())))
+    claimed_common = Path(os.path.abspath(native_input(claim["git_common_dir"])))
+    if os.path.normcase(os.fspath(actual_common)) != os.path.normcase(os.fspath(claimed_common)):
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    try:
+        common_stat = os.lstat(actual_common)
+    except OSError:
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    if (
+        not stat.S_ISDIR(common_stat.st_mode)
+        or stat.S_ISLNK(common_stat.st_mode)
+        or is_reparse(common_stat)
+    ):
+        emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+    COMMON_LEASE = actual_common / "implementaudit-r0039-publication.lock"
+    LEGACY_WORKTREE_LEASE = Path(
+        os.path.abspath(native_input(legacy_probe.stdout.strip()))
+    )
 
 if not safe_directory_chain(TX_PARENT, RUN, True):
     emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
@@ -585,6 +673,96 @@ allowed = {
 }
 actual = []
 namespace_gate_fd = None
+common_lease_fd = None
+common_lease_identity = None
+
+
+def acquire_common_publication_lease():
+    """Acquire the Git-common authority/effect lease before the local gate."""
+    global common_lease_fd, common_lease_identity
+    if COMMON_LEASE is None:
+        return
+    flags = os.O_CREAT | os.O_EXCL | os.O_RDWR | getattr(os, "O_BINARY", 0)
+    while True:
+        try:
+            fd = os.open(COMMON_LEASE, flags, 0o600)
+            break
+        except OSError as error:
+            if error.errno not in {errno.EACCES, errno.EAGAIN, errno.EEXIST}:
+                raise
+            time.sleep(0.05)
+    opened = None
+    try:
+        opened = os.fstat(fd)
+        current = os.lstat(COMMON_LEASE)
+        if (
+            not stat.S_ISREG(opened.st_mode)
+            or opened.st_nlink != 1
+            or opened.st_size != 0
+            or not stat.S_ISREG(current.st_mode)
+            or stat.S_ISLNK(current.st_mode)
+            or is_reparse(current)
+            or current.st_nlink != 1
+            or current.st_size != 0
+            or (current.st_dev, current.st_ino) != (opened.st_dev, opened.st_ino)
+        ):
+            raise WriterDomainBreach("Git-common publication lease identity changed")
+        if (
+            LEGACY_WORKTREE_LEASE is not None
+            and os.path.normcase(os.fspath(LEGACY_WORKTREE_LEASE))
+            != os.path.normcase(os.fspath(COMMON_LEASE))
+            and os.path.lexists(LEGACY_WORKTREE_LEASE)
+        ):
+            raise WriterDomainBreach("Git-common publication lease version skew")
+        common_lease_fd = fd
+        common_lease_identity = (opened.st_dev, opened.st_ino)
+    except BaseException:
+        os.close(fd)
+        try:
+            current = os.lstat(COMMON_LEASE)
+            if opened is not None and (current.st_dev, current.st_ino) == (opened.st_dev, opened.st_ino):
+                os.unlink(COMMON_LEASE)
+        except OSError:
+            pass
+        raise
+
+
+def release_common_publication_lease():
+    """Release only the create-exclusive inode this process acquired."""
+    global common_lease_fd, common_lease_identity
+    if common_lease_fd is None:
+        return []
+    fd = common_lease_fd
+    identity = common_lease_identity
+    common_lease_fd = None
+    common_lease_identity = None
+    errors = []
+    try:
+        os.close(fd)
+    except BaseException as error:
+        errors.append(error)
+    try:
+        current = os.lstat(COMMON_LEASE)
+        if (
+            not stat.S_ISREG(current.st_mode)
+            or stat.S_ISLNK(current.st_mode)
+            or is_reparse(current)
+            or current.st_nlink != 1
+            or current.st_size != 0
+            or (current.st_dev, current.st_ino) != identity
+        ):
+            raise WriterDomainBreach("Git-common publication lease identity changed")
+        os.unlink(COMMON_LEASE)
+    except BaseException as error:
+        errors.append(error)
+    return errors
+
+
+def release_common_publication_lease_with_report():
+    errors = release_common_publication_lease()
+    if errors:
+        sys.stderr.write("apply-observed-mutation: Git-common publication lease release requires manual reconciliation\n")
+    return errors
 
 
 def acquire_window_gate():
@@ -665,7 +843,68 @@ def release_window_gate():
     return errors
 
 
-def current_controller_failure():
+def git_read(args, binary=False):
+    completed = subprocess.run(
+        ["git", *args], cwd=os.fspath(REPO), text=not binary,
+        capture_output=True, check=False,
+    )
+    return completed.returncode, completed.stdout
+
+
+def load_generation_identity(controller, token, control):
+    if token.count("@") != 1:
+        return None
+    receipt_ref, receipt_oid = token.split("@", 1)
+    if re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", receipt_oid) is None:
+        return None
+    if not receipt_ref.startswith(f"refs/implementaudit/continuity-receipts/{controller}/"):
+        return None
+    generation = receipt_ref.rsplit("/", 1)[-1]
+    if re.fullmatch(r"G[0-9A-F]{4}", generation) is None:
+        return None
+    rc, observed_oid = git_read(["rev-parse", "--verify", receipt_ref])
+    if rc != 0 or observed_oid.strip() != receipt_oid:
+        return None
+    rc, raw = git_read(["cat-file", "blob", receipt_oid], binary=True)
+    if rc != 0 or not raw.endswith(b"\n") or raw.endswith(b"\n\n") or b"\r" in raw or b"\x00" in raw:
+        return None
+    try:
+        fields = raw[:-1].decode("utf-8", "strict").split("\t")
+    except UnicodeDecodeError:
+        return None
+    pointer_ref = pointer_oid = pointer_digest = None
+    if len(fields) == 12 and fields[0] == "implementaudit.continuity-receipt.v2":
+        if (
+            fields[1] != controller
+            or fields[2] != control["controller_oid"]
+            or fields[3] != claim_id
+            or fields[10] != generation
+        ):
+            return None
+    elif len(fields) == 18 and fields[0] == "implementaudit.continuity-receipt.v3":
+        if fields[1] != controller or fields[2] != claim_id or fields[4] != generation:
+            return None
+        pointer_ref, pointer_oid, pointer_digest = fields[6:9]
+        if (
+            pointer_ref != f"refs/implementaudit/current-generations/{controller}"
+            or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", pointer_oid) is None
+            or re.fullmatch(r"[0-9a-f]{64}", pointer_digest) is None
+        ):
+            return None
+    else:
+        return None
+    return {
+        "generation_id": generation,
+        "receipt_schema": fields[0],
+        "receipt_ref": receipt_ref,
+        "receipt_oid": receipt_oid,
+        "pointer_ref": pointer_ref,
+        "pointer_oid": pointer_oid,
+        "pointer_digest": pointer_digest,
+    }
+
+
+def current_controller_binding():
     marker = RUN / ".controller"
     identity = path_identity(marker)
     same = lambda l, r: os.path.normcase(os.path.abspath(native_input(l))) == os.path.normcase(os.path.abspath(r))
@@ -681,28 +920,138 @@ def current_controller_failure():
             cwd=os.fspath(REPO), text=True, capture_output=True,
         )
         if refs.returncode != 0:
-            return "STALE_CONTROLLER_CUSTODY"
+            return "STALE_CONTROLLER_CUSTODY", None, None
         for controller in refs.stdout.splitlines():
             rc, fields = record(controller)
             if rc == 0 and len(fields) == 4 and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id:
-                return "STALE_CONTROLLER_CUSTODY"
-        return None
+                return "STALE_CONTROLLER_CUSTODY", None, None
+        return None, None, None
     if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
     match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
     if match is None:
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
     controller = match.group(1).decode("ascii")
     rc, fields = record(controller)
     if rc != 0 or len(fields) != 4:
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
     if not (fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id):
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    controller_ref = f"refs/implementaudit/controllers/{controller}"
+    rc, controller_oid = git_read(["rev-parse", "--verify", controller_ref])
+    controller_oid = controller_oid.strip()
+    if rc != 0 or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", controller_oid) is None:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    control = {
+        "controller_id": controller,
+        "controller_ref": controller_ref,
+        "controller_oid": controller_oid,
+        "claim_id": claim_id,
+    }
     current = subprocess.run(
         [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--require-current-continuity", controller],
         cwd=os.fspath(REPO), text=True, capture_output=True,
     )
-    return None if current.returncode == 0 else "STALE_CONTINUITY_RECEIPT"
+    if current.returncode != 0:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    token = current.stdout.rstrip("\r\n")
+    generation = load_generation_identity(controller, token, control)
+    if generation is None:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    return None, control, generation
+
+
+def require_generation_fence():
+    global controller_identity, generation_identity, fence_disposition
+    fence_path = RUN / "mutation-fences" / f"phase-{args.phase}-step-{args.step}.json"
+    fence_kind = path_identity(fence_path)
+    if fence_kind.get("kind") == "absent":
+        fence_disposition = "NOT_APPLICABLE"
+        return None
+    if (
+        fence_kind.get("kind") != "regular"
+        or fence_kind.get("link_count") != 1
+        or not contained_regular(fence_path, RUN)
+    ):
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    try:
+        fence = json.loads(fence_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    required = {
+        "schema", "phase", "step", "source_path", "protected_target",
+        "controller_generation", "authority_generation", "protected_generation",
+        "verified_resume_receipt",
+    }
+    optional = {"sink_capability", "controller_id"}
+    if (
+        not isinstance(fence, dict)
+        or set(fence) - required - optional
+        or not required.issubset(fence)
+        or fence.get("schema") != "implementaudit.protected-mutation-fence.v1"
+    ):
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    if controller_identity is None or generation_identity is None:
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    controller = controller_identity["controller_id"]
+    declared_controller = fence.get("controller_id", controller)
+    capability = fence.get("sink_capability", "REJECT_AND_REPORT")
+    if declared_controller != controller:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "WRONG_CONTROLLER"
+    if fence.get("phase") != args.phase or fence.get("step") != args.step or fence.get("source_path") != source_name:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    target = fence.get("protected_target")
+    expected_target = None if target_identity is None else target_identity["preimage_identity"]
+    if not isinstance(target, dict) or set(target) != {"sha256", "byte_length"} or target != expected_target:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    current_generation = generation_identity["generation_id"]
+    generations = [
+        fence.get("controller_generation"), fence.get("authority_generation"),
+        fence.get("protected_generation"),
+    ]
+    if any(not isinstance(item, str) or re.fullmatch(r"G[0-9A-F]{4}", item) is None for item in generations):
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_AUTHORITY_GENERATION"
+    if fence["controller_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_CONTROLLER_GENERATION"
+    if fence["authority_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_AUTHORITY_GENERATION"
+    if fence["protected_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_GENERATION_MISMATCH"
+    current_token = f'{generation_identity["receipt_ref"]}@{generation_identity["receipt_oid"]}'
+    if fence.get("verified_resume_receipt") != current_token:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "POINTER_RECEIPT_DRIFT"
+    if capability != "REJECT_AND_REPORT":
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    failure, current_control, current_generation_binding = current_controller_binding()
+    if failure is not None:
+        fence_disposition = "REJECTED"
+        status = "UNSUPPORTED_OWNER_DECISION" if failure == "STALE_CONTROLLER_CUSTODY" else "REJECTED_NO_MUTATION"
+        reason_code = failure if failure == "STALE_CONTROLLER_CUSTODY" else "POINTER_RECEIPT_DRIFT"
+        return status, reason_code
+    if current_control != controller_identity:
+        fence_disposition = "REJECTED"
+        return "UNSUPPORTED_OWNER_DECISION", "STALE_CONTROLLER_CUSTODY"
+    if current_generation_binding != generation_identity:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "POINTER_RECEIPT_DRIFT"
+    if source_initial != path_identity(SOURCE):
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    fence_disposition = "VERIFIED"
+    return None
 
 
 def window_intents():
@@ -1011,29 +1360,32 @@ def observations():
     return result
 
 
-authority_record = {
-    "schema": "implementaudit.observation-bound-mutation.authority.v2",
-    "transaction_id": transaction_id,
-    "created_at_utc": utc_now(),
-    "claim": {
-        "claim_id": claim_id,
-        "claim_sha256": digest(claim_bytes),
-        "repo_root": claim["repo_root"],
-        "git_common_dir": claim["git_common_dir"],
-        "run_root": claim["run_root"],
-    },
-    "phase": {
-        "phase": args.phase,
-        "step": args.step,
-        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
-    },
-    "operation": operation,
-    "source": source_name,
-    "destination": destination_name,
-    "observations": observations(),
-    "planned_effect_set": planned,
-    "planned_effect_set_sha256": planned_digest,
-}
+def authority_record():
+    return {
+        "schema": "implementaudit.observation-bound-mutation.authority.v2",
+        "transaction_id": transaction_id,
+        "created_at_utc": utc_now(),
+        "claim": {
+            "claim_id": claim_id,
+            "claim_sha256": digest(claim_bytes),
+            "repo_root": claim["repo_root"],
+            "git_common_dir": claim["git_common_dir"],
+            "run_root": claim["run_root"],
+        },
+        "phase": {
+            "phase": args.phase,
+            "step": args.step,
+            "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        },
+        "operation": operation,
+        "source": source_name,
+        "destination": destination_name,
+        "observations": observations(),
+        "planned_effect_set": planned,
+        "planned_effect_set_sha256": planned_digest,
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "generation_fence_disposition": fence_disposition,
+    }
 
 
 def emit_transaction_conflict(reason_code):
@@ -1057,7 +1409,15 @@ def emit_transaction_conflict(reason_code):
         "planned_effect_set_sha256": planned_digest,
         "actual_effect_set": actual,
         "residue": [],
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "generation_fence_disposition": fence_disposition,
+        "retry_permitted": False,
+        "terminal_closure_claim": "NOT_ASSERTED",
     }
+    gate_release_errors = release_window_gate()
+    release_common_publication_lease_with_report()
+    if gate_release_errors:
+        sys.stderr.write("apply-observed-mutation: governed-writer gate release requires manual reconciliation\n")
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS["CONFLICT_REBASE"])
 
@@ -1115,6 +1475,10 @@ def result_record(status, reason_code, residue_paths, effect_rows):
         "planned_effect_set_sha256": planned_digest,
         "actual_effect_set": list(effect_rows),
         "residue": [residue_row(path) for path in residue_paths if path_identity(path).get("kind") != "absent"],
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "generation_fence_disposition": fence_disposition,
+        "retry_permitted": False,
+        "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
     }
 
 
@@ -1175,21 +1539,29 @@ def emit_initialisation_failure():
     result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
         status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
+    release_common_publication_lease_with_report()
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
 
 try:
+    acquire_common_publication_lease()
     acquire_window_gate()
 except WriterDomainBreach:
+    release_window_gate()
+    release_common_publication_lease_with_report()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
 except OSError as error:
+    release_window_gate()
+    release_common_publication_lease_with_report()
     sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
     emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
-controller_failure = current_controller_failure()
+controller_failure, controller_identity, generation_identity = current_controller_binding()
 if controller_failure is not None:
     if release_window_gate():
+        release_common_publication_lease_with_report()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    release_common_publication_lease_with_report()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", controller_failure)
 try:
     window_failure = verification_window_failure()
@@ -1198,9 +1570,19 @@ except (OSError, RuntimeError, WriterDomainBreach) as error:
 if window_failure is not None:
     sys.stderr.write(f"apply-observed-mutation: {window_failure}\n")
     if release_window_gate():
+        release_common_publication_lease_with_report()
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    release_common_publication_lease_with_report()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "OPEN_VERIFICATION_WINDOW")
 phase_hook("window-scan-complete")
+fence_failure = require_generation_fence()
+if fence_failure is not None:
+    fence_status, fence_reason = fence_failure
+    if release_window_gate():
+        release_common_publication_lease_with_report()
+        emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    release_common_publication_lease_with_report()
+    emit_no_effect(fence_status, fence_reason)
 
 try:
     if path_identity(TX_PARENT).get("kind") == "absent":
@@ -1215,7 +1597,7 @@ except FileExistsError:
 except OSError:
     emit_initialisation_failure()
 try:
-    write_new(AUTHORITY, canonical(authority_record), mark_init_authority)
+    write_new(AUTHORITY, canonical(authority_record()), mark_init_authority)
     fsync_dir(TX)
 except OSError:
     emit_initialisation_failure()
@@ -1237,6 +1619,8 @@ def journal_record(status, residue_paths=(), effect_rows=None):
         "actual_effect_set": list(actual if effect_rows is None else effect_rows),
         "residue": [residue_row(path) for path in residue_paths if path.exists()],
         "updated_at_utc": utc_now(),
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "generation_fence_disposition": fence_disposition,
     }
 
 
@@ -1407,9 +1791,17 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
+    phase_hook("terminal-result-durable")
+    release_common_publication_lease_with_report()
     terminal_finalized = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
+
+
+def require_first_protected_effect_generation_fence():
+    fence_failure = require_generation_fence()
+    if fence_failure is not None:
+        final_result(*fence_failure)
 
 
 phase_hook("init")
@@ -1468,6 +1860,8 @@ try:
         if not source_observation_unchanged() or path_identity(DESTINATION).get("kind") != "absent":
             final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
         persist_journal("PLANNED")
+        require_first_protected_effect_generation_fence()
+        phase_hook("first-protected-effect-boundary")
         try:
             link(SOURCE, DESTINATION, mark_move_destination_published)
         except FileExistsError:
@@ -1485,6 +1879,8 @@ try:
         final_result("COMMITTED")
 
     persist_journal("PLANNED")
+    require_first_protected_effect_generation_fence()
+    phase_hook("first-protected-effect-boundary")
     replace(SOURCE, BACKUP, mark_displaced)
     persist_journal("DISPLACEMENT_DURABLE", [BACKUP])
     if fault == "after-displacement":
@@ -1559,4 +1955,5 @@ finally:
             release_locks()
             release_lock_root()
         release_namespace_gate()
+        release_common_publication_lease_with_report()
 PY

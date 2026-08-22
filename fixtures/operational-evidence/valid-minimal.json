@@ -1,0 +1,115 @@
+{
+  "schema": "implementaudit-operational-evidence-v1",
+  "aggregate": "COMPLETE",
+  "families": [
+    "CODE",
+    "OWNERSHIP",
+    "EXECUTION",
+    "EVIDENCE",
+    "FAILURE",
+    "RELEASE"
+  ],
+  "affected_families": [],
+  "capability_declarations": [],
+  "currentness_predicates": [],
+  "entities": [
+    {
+      "id": "entity:repository",
+      "family": "CODE",
+      "record_type": "Repository",
+      "native_owner_identity": "git:repository",
+      "source_identity": {
+        "id": "tree:4e5f6ce2467c7c0535408a5c3745a0365b94f5c3",
+        "layer": "repository"
+      },
+      "evidence_layer": "repository",
+      "currentness": {
+        "state": "CURRENT",
+        "invalidators": []
+      },
+      "required": true
+    },
+    {
+      "id": "entity:writer",
+      "family": "OWNERSHIP",
+      "record_type": "Writer",
+      "native_owner_identity": "plan:r0038-c00",
+      "source_identity": {
+        "id": "owner:r0038",
+        "layer": "planning"
+      },
+      "evidence_layer": "planning",
+      "currentness": {
+        "state": "CURRENT",
+        "invalidators": []
+      },
+      "required": true
+    },
+    {
+      "id": "entity:work-item",
+      "family": "EXECUTION",
+      "record_type": "WorkItem",
+      "native_owner_identity": "controller:v0333-release",
+      "source_identity": {
+        "id": "cell:r38-c01",
+        "layer": "execution"
+      },
+      "evidence_layer": "execution",
+      "currentness": {
+        "state": "CURRENT",
+        "invalidators": []
+      },
+      "required": true
+    },
+    {
+      "id": "entity:evidence",
+      "family": "EVIDENCE",
+      "record_type": "Evidence",
+      "native_owner_identity": "test:operational-evidence-contract",
+      "source_identity": {
+        "id": "fixture:valid-minimal",
+        "layer": "evidence"
+      },
+      "evidence_layer": "evidence",
+      "currentness": {
+        "state": "CURRENT",
+        "invalidators": []
+      },
+      "required": true
+    },
+    {
+      "id": "entity:andon",
+      "family": "FAILURE",
+      "record_type": "Andon",
+      "native_owner_identity": "run:r38-c01",
+      "source_identity": {
+        "id": "andon:none",
+        "layer": "failure"
+      },
+      "evidence_layer": "failure",
+      "currentness": {
+        "state": "CURRENT",
+        "invalidators": []
+      },
+      "required": true
+    },
+    {
+      "id": "entity:release",
+      "family": "RELEASE",
+      "record_type": "Release",
+      "native_owner_identity": "github:release",
+      "source_identity": {
+        "id": "release:v0.4.0.0",
+        "layer": "release"
+      },
+      "evidence_layer": "release",
+      "currentness": {
+        "state": "CURRENT",
+        "invalidators": []
+      },
+      "required": true
+    }
+  ],
+  "relations": [],
+  "payload_records": []
+}

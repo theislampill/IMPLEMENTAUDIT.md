@@ -22,10 +22,22 @@ fi
 registry="skills/implementaudit/references/identity-namespaces.json"
 resolver="skills/implementaudit/scripts/resolve-durable-identity.py"
 checker="scripts/check-durable-identities.py"
+campaign_plan="docs/superpowers/plans/2026-08-20-v041-thread5-autodag.md"
 
 [ -f "$registry" ] || fail "missing canonical namespace registry"
 [ -f "$resolver" ] || fail "missing packaged durable-identity resolver"
 [ -f "$checker" ] || fail "missing maintained-source identity checker"
+[ -f "$campaign_plan" ] || fail "missing maintained Thread-5 campaign plan"
+
+grep -Fq 'Derived population: 68 total cells, comprising 10 control/planning cells and 58 execution cells. Exactly 38 execution cells are admitted implementation/action cells.' "$campaign_plan" \
+  || fail "Thread-5 plan has stale derived implementation population"
+grep -Fq '## Admitted implementation/action cells (38)' "$campaign_plan" \
+  || fail "Thread-5 plan has stale admitted implementation heading"
+grep -Fq 'It is not in the 38 implementation count.' "$campaign_plan" \
+  || fail "Thread-5 plan has stale deferred-cell implementation population"
+if grep -Fq 'not in the 37 implementation count' "$campaign_plan"; then
+  fail "Thread-5 plan retained the stale 37-cell implementation population"
+fi
 
 "${py_cmd[@]}" "$resolver" --validate
 
@@ -57,10 +69,19 @@ for invalid in R1 r28 R000a R00001 G040 e0 X0001; do
   fi
 done
 
-"${py_cmd[@]}" "$resolver" --require-allocated R0037 >/dev/null
-if "${py_cmd[@]}" "$resolver" --require-allocated R0038 >/dev/null 2>&1; then
-  fail "formatting the next Rockstar silently allocated it"
+assert_eq R0037 --require-allocated R0037
+assert_eq R0038 --require-allocated R0038
+assert_eq R0039 --require-allocated R0039
+assert_eq R003A --require-allocated R003A
+if "${py_cmd[@]}" "$resolver" --require-allocated R003B >/dev/null 2>&1; then
+  fail "the next unreserved Rockstar was silently allocated"
 fi
+
+for canonical_born in R0038 R0039 R003A; do
+  if "${py_cmd[@]}" "$resolver" --legacy "$canonical_born" >/dev/null 2>&1; then
+    fail "canonical-born Rockstar gained a fabricated legacy alias: $canonical_born"
+  fi
+done
 
 "${py_cmd[@]}" - "$resolver" <<'PY'
 import subprocess

@@ -66,6 +66,104 @@ verified receipt, controller/epoch, exact ACTIVE/READY/BLOCKED frontier and any
 discrepancy. Only then may ordinary task narration or new execution resume.
 Legacy v1 receipts work only without invalidation.
 
+### Canonical-state reader migration
+
+`--require-current-continuity` reads the permanent migration marker at
+`refs/implementaudit/current-generation-migrations/<controller>`, the pointer at
+`refs/implementaudit/current-generations/<controller>`, and the receipt selected
+by that pointer before it considers the root receipt path. The first publication
+order is exactly `pointer -> receipt v3 -> permanent marker`: R0039 publishes and
+rereads the canonical pointer by expected-old-zero CAS, R0011 mints and verifies
+the receipt from that already-current pointer, and R0039 may publish the marker
+only after the verified receipt exists. There is no alternative order or second
+currentness writer.
+
+The final `implementaudit.continuity-receipt.v3` has one byte form: 18 nonempty
+UTF-8 fields separated by exactly 17 tabs and terminated by exactly one LF,
+with no CR, interior LF, NUL, other C0 control, or DEL. Missing/extra LF, CRLF,
+trailing tabs, an extra empty field, or any forbidden byte are not receipts.
+The Bash and Python owners apply this byte grammar before field semantics; raw
+v3 bytes are never normalized through shell command substitution. It binds
+controller, claim, bound run name,
+source epoch, invalidation OID, pointer ref, pointer OID/digest, hot
+STATE/ROADMAP digests, WORK_GRAPH path/digest, generation manifest OID/digest,
+cold high-water, exact next action, and the immediately preceding receipt token.
+Every v3 verifier derives the exact `G(n-1)` receipt ref, requires token equality,
+then validates that predecessor record; a valid record aliased under any other
+generation ref is not a predecessor. For a v3 predecessor, that bounded record
+check also requires the exact canonical current-generation pointer ref, every
+typed authority/state field, and an own-predecessor token whose ref is
+structurally `G(n-2)` with a typed OID. It does not resolve `G(n-2)` or recurse
+through older receipts. R0011 preserves and verifies the raw bytes after
+expected-zero publication. The reader matrix is fail closed:
+
+- with marker and pointer both physically proved absent from loose and packed
+  ref custody, only the exact current root receipt with schema
+  `implementaudit.continuity-receipt.v2` is current; a broken or malformed ref
+  is STOP, and v1 remains historical verification evidence, not a current route;
+- a pointer without its exact v3 receipt is incomplete and never current;
+- a valid pointer and its exact joined v3 receipt without a marker stops as
+  `FIRST_MIGRATION_INCOMPLETE`;
+- once any marker ref exists, an absent or structurally malformed pointer stops
+  as `STOP_NO_ROOT_FALLBACK`, and no root receipt may restore currentness; and
+- marker, pointer, and `implementaudit.continuity-receipt.v3` are current only
+  when their schemas and every authority, pointer, hot, graph, manifest,
+  high-water, predecessor, and next-action field form one exact join.
+
+Unknown records, mixed v2/v3 state, wrong object types, owner/run/schema drift,
+or a stale pointer/receipt join are STOP. These are reader rules only: reading
+does not publish, repair, delete, or otherwise update a pointer, receipt, or
+migration marker.
+
+### Cooperating protected-sink generation fence
+
+`apply-observed-mutation.sh` treats a phase/step
+`mutation-fences/phase-<phase>-step-<step>.json` as a protected-sink contract.
+The current generation is never caller-selected: the helper obtains the exact
+receipt token from `--require-current-continuity`, and for receipt v3 binds the
+already-verified pointer ref, pointer OID/digest, receipt ref/OID and generation.
+It combines that generation binding with an immutable target fingerprint made
+from the authorized repository path and the supplied preimage's SHA-256 and
+byte length. Operation, attempt, effect-plan, controller, generation and target
+identities remain separate fields in the authority, journal and result records.
+
+Controller bind, R0039 pointer/marker publication, and a protected mutation
+share the create-exclusive absolute
+`<git-common-dir>/implementaudit-r0039-publication.lock` domain. Linked
+worktrees therefore cannot obtain distinct leases. The protected sink and
+controller bind wait for the common lease; R0039 publication preserves its
+fail-fast `R0039 publication writer lease is held` result. Read-only claim
+routes called by a lease holder do not reacquire it. A divergent legacy
+worktree-local lease is version skew and fails closed.
+
+The protected sink acquires the common lease before its local namespace gate,
+then takes sorted target locks, rechecks the exact controller and
+pointer/receipt generation after transaction setup and all pre-effect hooks,
+and performs the first protected effect without releasing the common lease.
+The final check also requires the declared authority/protected generations,
+verified receipt token, authorized path and target preimage to match. The sink
+holds the common lease through effect, rollback/recovery, durable terminal
+result, target-lock release, and local-gate release, then releases it last.
+Controller bind holds it through expected-old controller CAS; R0039 holds it
+through pointer or marker CAS and readback. Stale or wrong generation, wrong
+controller, pointer/receipt drift, wrong target or preimage leaves the
+protected target unchanged; rejections before setup report an empty
+actual-effect set, while a final-boundary rejection durably records only its
+transaction/control effects. A declared sink that cannot reject and report the
+fence returns `UNKNOWN` / `MANUAL_RECONCILIATION`, with retry prohibited and no
+terminal closure claim. This coordination covers only governed cooperating
+writers; direct/raw Git and other non-cooperating writers remain outside it.
+
+Routine v3 recovery is bounded: it reads the current pointer, hot STATE and
+ROADMAP pair, `WORK_GRAPH` path/digest, selected receipt, invalidation and
+marker. Historical event segments are not read. A corrupt referenced segment
+therefore does not invalidate an otherwise exact routine currentness check; it
+fails only when the explicit immutable-history query reads and validates that
+segment. Recovery after an interrupted first publication uses a fresh R0011
+invalidation/epoch and either completes the same verified pointer transaction
+or publishes a proved compensating successor. It never hydrates wholesale
+history or restores root-v2 after a marker exists.
+
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs
 model judgement. It cannot mint the invalidation/receipt or authorise an effect.
