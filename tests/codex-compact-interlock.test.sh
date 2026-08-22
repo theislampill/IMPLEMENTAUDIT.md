@@ -23,7 +23,7 @@ else fail 'Python 3 is required'; fi
 [ -f "$adapter" ] || fail 'HC-H1 RED: compact interlock adapter is absent'
 [ -f "$hook_config" ] || fail 'HC-H1 RED: default Codex hook definition is absent'
 
-manifest_command="$(
+manifest_windows_command="$(
 "${py[@]}" - "$hook_config" <<'PY'
 import json
 import sys
@@ -40,11 +40,18 @@ assert entry.get("matcher") == "^compact$"
 commands = entry.get("hooks")
 assert isinstance(commands, list) and len(commands) == 1
 command = commands[0]
-assert set(command) == {"type", "command", "statusMessage"}
+assert set(command) == {"type", "command", "commandWindows", "statusMessage"}
 assert command.get("type") == "command"
 assert command.get("statusMessage") == "Protecting IMPLEMENTAUDIT continuity"
-assert isinstance(command.get("command"), str) and command["command"]
-print(command["command"])
+assert command.get("command") == (
+    'python3 "${PLUGIN_ROOT}/skills/implementaudit/scripts/'
+    'codex-compact-interlock.py"'
+)
+assert command.get("commandWindows") == (
+    'C:\\Windows\\py.exe -3 "%PLUGIN_ROOT%\\skills\\implementaudit\\scripts\\'
+    'codex-compact-interlock.py"'
+)
+print(command["commandWindows"])
 PY
 )" || fail 'default Codex hook definition is not exact'
 
@@ -79,18 +86,29 @@ hostile="$tmp/hostile-cwd"
 mkdir -p "$hostile/.IMPLEMENTAUDIT/runs/newest"
 printf 'controller_id=foreign\nclaim_id=foreign\n' > "$hostile/.IMPLEMENTAUDIT/runs/newest/STATE.md"
 
-# The actual manifest transport must reach the adapter before the adapter can
-# harden its own child environment. A hostile bare `python3` on PATH is the
-# causal held-out: selecting it would produce no hook decision at all.
+# The actual Windows manifest transport must reach the adapter before the
+# adapter can harden its own child environment. Codex selects commandWindows on
+# Windows and runs it through cmd.exe. A hostile bare `python3.cmd` on PATH is
+# the causal held-out: selecting it would produce no hook decision at all.
 hostile_bin="$tmp/hostile-bin"
 manifest_data="$tmp/manifest-plugin-data"
 mkdir -p "$hostile_bin"
-printf '#!/bin/sh\nexit 0\n' > "$hostile_bin/python3"
-chmod +x "$hostile_bin/python3"
+surrogate_selected="$tmp/python3-surrogate-selected"
+surrogate_selected_windows="$(cygpath -w "$surrogate_selected")"
+printf '@echo off\r\n> "%s" echo selected\r\nexit /b 0\r\n' \
+  "$surrogate_selected_windows" > "$hostile_bin/python3.cmd"
+hostile_bin_windows="$(cygpath -w "$hostile_bin")"
+repo_root_windows="$(cygpath -w "$repo_root")"
+manifest_data_windows="$(cygpath -w "$manifest_data")"
 set +e
 manifest_output="$(cd "$hostile" && \
-  PATH="$hostile_bin:/usr/bin:/bin" PLUGIN_ROOT="$repo_root" \
-  PLUGIN_DATA="$manifest_data" /bin/sh -c "$manifest_command" \
+  PATH="$hostile_bin_windows" PLUGIN_ROOT="$repo_root_windows" \
+  PLUGIN_DATA="$manifest_data_windows" \
+  HC_H1_COMMAND_WINDOWS="$manifest_windows_command" \
+  MSYS2_ARG_CONV_EXCL='*' \
+  /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe \
+  -NoProfile -NonInteractive \
+  -Command '$input | & $env:ComSpec /Q /D /C $env:HC_H1_COMMAND_WINDOWS' \
   <<<'{"session_id":"session-manifest","cwd":"ignored","hook_event_name":"SessionStart","source":"compact"}' \
   2>"$tmp/manifest.err")"
 manifest_status=$?
@@ -102,6 +120,8 @@ set -e
 assert_result "$manifest_output" \
   'value["status"] == "UNBOUND" and value["continue"] is True' \
   'HC-H1 RED: ambient PATH bypassed the manifest adapter transport'
+[ ! -e "$surrogate_selected" ] \
+  || fail 'HC-H1 RED: commandWindows selected ambient python3.cmd'
 [ ! -e "$manifest_data" ] || fail 'manifest held-out created absent binding state'
 
 # Non-compact SessionStart values are strict no-ops and must not inspect or

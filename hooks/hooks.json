@@ -6,7 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"/bin/sh\" -c 'if [ -x /c/Windows/py.exe ]; then exec /c/Windows/py.exe -3 \"$1\"; elif [ -x /usr/bin/python3 ]; then exec /usr/bin/python3 \"$1\"; elif [ -x /usr/local/bin/python3 ]; then exec /usr/local/bin/python3 \"$1\"; else exit 127; fi' implementaudit-codex-compact \"${PLUGIN_ROOT}/skills/implementaudit/scripts/codex-compact-interlock.py\"",
+            "command": "python3 \"${PLUGIN_ROOT}/skills/implementaudit/scripts/codex-compact-interlock.py\"",
+            "commandWindows": "C:\\Windows\\py.exe -3 \"%PLUGIN_ROOT%\\skills\\implementaudit\\scripts\\codex-compact-interlock.py\"",
             "statusMessage": "Protecting IMPLEMENTAUDIT continuity"
           }
         ]
