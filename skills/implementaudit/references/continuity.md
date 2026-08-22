@@ -203,6 +203,23 @@ continuity receipt, satisfy a route obligation, close an object, authorise an
 effect or prove native host activation. SessionEnd may tombstone attribution;
 it cannot close the governed object.
 
+## Turn disposition after attribution
+
+R003A attribution identifies the governed object but does not decide whether a
+host turn may end. The host-neutral core is
+`scripts/evaluate-turn-disposition.py`: it strictly decodes one request, binds
+the exact `validate-event` correlation to the explicit run root, consumes the
+current `route-transaction.py check` result, and verifies the claimed closure,
+audited handoff, or nonterminal-yield evidence already owned by STATE and the
+run-root validator. An in-scope `REQUIRED/UNSATISFIED` obligation blocks; STATE
+projection alone cannot satisfy it.
+
+No active audit object is the only zero-object cheap path and performs no
+binding, route, or run-root scan. A valid nonterminal yield retains the existing
+lifecycle state, records a durable Next action, and emits no terminal/handoff
+marker. The evaluator creates no receipt, route decision, closure, lifecycle
+state, package/install evidence, or host-activation claim.
+
 ## Identity and instruction lifecycle
 
 ```text

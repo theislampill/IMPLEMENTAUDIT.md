@@ -258,6 +258,31 @@ handoff, or explicit Plan Closure without advancing as completed. Check for
 mid-run interruption (see §"Mid-run interruption" below) before continuing to
 phase N+1.
 
+## Governed host-turn disposition
+
+Ending one host turn is not audit-object termination. A caller first obtains
+the exact current R003A event-attribution result and R0033 `check` result, then
+passes those complete result objects and their correlation inputs to
+`scripts/evaluate-turn-disposition.py --request <json>`. The evaluator accepts
+exactly one disposition:
+
+- `NO_ACTIVE_AUDIT_OBJECT`: the only zero-object cheap path; binding, route,
+  and run-root inputs are absent and no run-root validator is executed;
+- `TERMINAL_CLOSURE`: STATE is `DONE` / `terminal verified closure`, with
+  `AUDIT_COMPLETE` immediately before final `IMPLEMENTAUDIT_RUN_COMPLETE`;
+- `AUDITED_HANDOFF`: STATE is `BLOCKED`, carries durable handoff evidence, and
+  ends in exactly one valid handoff marker without a completion marker; or
+- `NONTERMINAL_YIELD`: the existing `open`, `READY_TO_DISPATCH`, `IN_PHASE`,
+  `PAUSED`, `BLOCKED`, or `INTERRUPTED` state has the evidence required by
+  `validate-run-root.sh --nonterminal-yield` and no terminal/handoff marker.
+
+Every active-object path requires a current, exact attributed binding and a
+current R0033 result. `PENDING`, `REQUIRED/UNSATISFIED`, stale, ambiguous, or
+foreign evidence blocks. A valid yield creates no marker or lifecycle state.
+The evaluator is source-core evidence only: it neither activates a host hook
+nor proves package, install, native host firing, closure, or handoff beyond the
+validated input surface.
+
 ## Mid-run interruption
 
 A mid-run interruption is any user message that arrives while a phase is in

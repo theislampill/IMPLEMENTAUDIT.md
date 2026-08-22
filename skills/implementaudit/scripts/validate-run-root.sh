@@ -681,6 +681,9 @@ if [ "${1:-}" = "--micro" ]; then
 elif [ "${1:-}" = "--ledger" ]; then
   mode=ledger
   shift
+elif [ "${1:-}" = "--nonterminal-yield" ]; then
+  mode=nonterminal-yield
+  shift
 fi
 run_root="${1:-}"
 if [ -z "$run_root" ]; then
@@ -688,6 +691,8 @@ if [ -z "$run_root" ]; then
     printf 'usage: validate-run-root.sh --micro <run-root>\n' >&2
   elif [ "$mode" = ledger ]; then
     printf 'usage: validate-run-root.sh --ledger <markdown-ledger>\n' >&2
+  elif [ "$mode" = nonterminal-yield ]; then
+    printf 'usage: validate-run-root.sh --nonterminal-yield <run-root>\n' >&2
   else
     printf 'usage: validate-run-root.sh <run-root>\n' >&2
   fi
@@ -756,14 +761,14 @@ else
   done
 fi
 
-if [ "$mode" = full ] && [ -d "$run_root/phases" ]; then
+if { [ "$mode" = full ] || [ "$mode" = nonterminal-yield ]; } && [ -d "$run_root/phases" ]; then
   while IFS= read -r phase; do check_done_phase_captures "$phase"; done \
     < <(find "$run_root/phases" -type f -name 'phase-*.md' -print | sort)
 fi
 
 state="$run_root/STATE.md"
 if [ -f "$state" ]; then
-  if [ "$mode" = full ]; then
+  if [ "$mode" = full ] || [ "$mode" = nonterminal-yield ]; then
     status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
     if [ -z "$status_line" ]; then
       err "STATE.md has no '| Status |' row in the Current phase table"
@@ -773,6 +778,59 @@ if [ -f "$state" ]; then
         open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE) : ;;
         *) err "STATE.md Status '$status_value' is not a contract token (open / READY_TO_DISPATCH / IN_PHASE / PAUSED / BLOCKED / INTERRUPTED / DONE)" ;;
       esac
+    fi
+  fi
+
+  if [ "$mode" = nonterminal-yield ]; then
+    state_field() {
+      awk -F'|' -v wanted="$1" '
+        function trim(value) { gsub(/^[ \t`]+|[ \t`]+$/, "", value); return value }
+        /^\|/ && trim($2) == wanted { print trim($3) }
+      ' "$state"
+    }
+    require_state_field() {
+      local field="$1" value count
+      value="$(state_field "$field")"
+      count="$(printf '%s\n' "$value" | awk 'NF { n++ } END { print n + 0 }')"
+      if [ "$count" -ne 1 ] || [ -z "$value" ] || [ "$value" = none ] || [ "$value" = pending ]; then
+        err "STATE.md nonterminal yield requires one nonempty '$field' value"
+      fi
+    }
+
+    case "$status_value" in
+      open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED) : ;;
+      *) err "STATE.md Status '$status_value' cannot represent a nonterminal yield" ;;
+    esac
+    audit_object_state="$(state_field 'Audit object state')"
+    [ "$audit_object_state" = open ] \
+      || err "STATE.md nonterminal yield requires Audit object state 'open'"
+    for field in 'Phase' 'Route' 'Owner/source' 'Last check' 'Next action'; do
+      require_state_field "$field"
+    done
+    route_projection="$(state_field 'Route decision projection')"
+    case "$route_projection" in
+      NOT_REQUIRED|REQUIRED) : ;;
+      *) err "STATE.md nonterminal yield requires a non-PENDING canonical route projection" ;;
+    esac
+    route_record="$(state_field 'Route decision record')"
+    if ! printf '%s\n' "$route_record" | grep -Eq '^([0-9a-f]{40}|[0-9a-f]{64})$'; then
+      err "STATE.md nonterminal yield requires a canonical route decision record OID"
+    fi
+    if grep -Eq '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF)$' "$state"; then
+      err "STATE.md nonterminal yield cannot carry a terminal or handoff marker"
+    fi
+    if [ "$status_value" = BLOCKED ] || [ "$status_value" = INTERRUPTED ]; then
+      open_andon="$(awk -F'|' '
+        /^## Andon log/ { in_andon=1; next }
+        in_andon && /^## / { in_andon=0 }
+        in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
+          outcome=$9; gsub(/^[ \t]+|[ \t]+$/, "", outcome)
+          if (tolower(outcome) !~ /^(resolved|closed|done)([ (]|$)/) found=1
+        }
+        END { print found ? "yes" : "no" }
+      ' "$state")"
+      [ "$open_andon" = yes ] \
+        || err "STATE.md $status_value nonterminal yield requires an unresolved Andon row"
     fi
   fi
 
