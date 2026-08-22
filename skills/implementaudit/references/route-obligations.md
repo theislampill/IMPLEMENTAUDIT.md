@@ -37,6 +37,28 @@ and hooks before evidence is gathered.
 Missing, mismatched, aliased or fabricated evidence stays `PENDING` or maps to
 `REQUIRED`; caller-selected class labels cannot mint the cheap path.
 
+### Pure read-only current-route validation
+
+R0033 also exposes one owner-native pure validator for the C03 read-only fact
+consumer. It reads the current route record, independently reacquires current
+controller/claim/run/continuity custody, reconstructs only canonical `CURRENT`
+request inputs from the writer-retained observed input set, and recomputes the
+same classification, package, audit-state child, whole-worktree/read-set, Git
+metadata, expiry, transaction and obligation semantics. It validates lifecycle
+shape through the canonical record reader, repeats current controller and route
+observations, then ends with one exact controller-ref/route-ref identity-pair
+fence. A noncurrent observed input cannot be reconstructed as caller intent and
+fails closed.
+
+This pure validator does not call the R003A store, attribute a current host
+event, authorize an effect, mutate a ref or accept a host/store/path argument
+from C03. Retained host/session fields remain immutable route dependencies, not
+a claim about the current reader session. A tombstoned authoring session may
+therefore leave an otherwise current route readable. Every `decide`, `check`,
+`consume`, `open`, `return`, `complete` and `replay` path continues through the
+compound effect predicate and mandatory exact active R003A attribution; a
+tombstoned, foreign, stale or ambiguous session cannot authorize those paths.
+
 The mechanically-not-required predicate also requires the exact current H0
 host/session binding; current controller, claim, run, continuity generation and
 receipt; exact boundary, scope, action and action class; current owner,

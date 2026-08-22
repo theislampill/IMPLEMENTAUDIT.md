@@ -33,11 +33,14 @@
     ],
     "predecessor_predicate": "canonical_R0011_read_only_currentness_and_exact_immediate_v2_v3",
     "predecessor_validator_execution": {
-      "mode": "byte_bound_private_materialization",
-      "closure": ["claim-run.sh", "validate-run-root.sh"]
+      "mode": "child_loaded_byte_bound_private_materialization",
+      "closure": ["claim-run.sh", "validate-run-root.sh"],
+      "child_binding": "completed_child_reports_exact_sha256_pair",
+      "environment": "exact_allowlist_without_inherited_python_loader_or_module_overrides",
+      "cleanup": "exact_members_or_typed_residue_with_manual_reconciliation"
     },
     "route_predicate": "canonical_R0033_pure_read_only_currentness",
-    "route_semantic_fence": "complete_canonical_R0033_recheck_as_final_target_sensitive_observation",
+    "route_semantic_fence": "canonical_R0033_recheck_with_fresh_controller_and_final_route_controller_ref_pair",
     "graph_projection": "implementaudit.work-graph.v1",
     "graph_compiler_execution": "byte_bound_and_finally_fenced",
     "publication": false,

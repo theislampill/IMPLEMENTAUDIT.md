@@ -882,14 +882,94 @@ def _native_route_module():
         raw, path, "_implementaudit_native_route_transaction",
         "$native.route_validator")
     required = (
-        "current_ref", "request_observations", "classify",
-        "executing_package_evidence", "mechanical_action_class",
-        "normalized_history_query", "digest_json", "trusted_host_executable",
+        "validate_pure_current_route", "trusted_host_executable",
         "sanitized_action_environment", "bash_script_path")
     if any(not callable(getattr(module, name, None)) for name in required):
         _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_validator",
                "canonical R0033 read-only predicates are incomplete")
     return module, path, raw
+
+
+def _native_child_environment(route_module):
+    with contextlib.redirect_stdout(io.StringIO()):
+        source = route_module.sanitized_action_environment()
+    inherited = {
+        "comspec", "pathext", "systemdrive", "systemroot", "temp", "tmp",
+        "tmpdir", "windir",
+    }
+    fixed = {
+        "GIT_ATTR_NOSYSTEM", "GIT_CONFIG_GLOBAL", "GIT_CONFIG_NOSYSTEM",
+        "GIT_EXTERNAL_DIFF", "GIT_OPTIONAL_LOCKS", "GIT_PAGER", "LC_ALL",
+        "PAGER", "PATH",
+    }
+    environment = {
+        key: value for key, value in source.items()
+        if key in fixed or key.casefold() in inherited
+    }
+    if "PATH" not in environment:
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.child_environment",
+               "private R0011 child PATH is unavailable")
+    environment["PYTHONNOUSERSITE"] = "1"
+    environment["PYTHONSAFEPATH"] = "1"
+    return environment
+
+
+def _native_private_residue(closure):
+    try:
+        members = sorted(closure.iterdir(), key=lambda item: os.fspath(item))
+    except OSError:
+        members = []
+    return sorted([os.fspath(closure), *(os.fspath(path) for path in members)])
+
+
+def _native_cleanup_private_closure(closure, expected):
+    try:
+        for path, raw in expected:
+            if _native_file(path, "$native.private_continuity_closure") != raw:
+                raise OSError("private R0011 closure member changed before cleanup")
+            os.unlink(path)
+        os.rmdir(closure)
+    except (OSError, OperationalEvidenceError):
+        residue = _native_private_residue(closure)
+        _error(
+            "OE_NATIVE_CURRENT_CLEANUP",
+            "$native.private_continuity_closure",
+            "private R0011 closure cleanup refused; residue=" +
+            json.dumps(residue, sort_keys=True, separators=(",", ":")) +
+            "; manual reconciliation required",
+        )
+
+
+_NATIVE_R0011_CHILD_BOOTSTRAP = r'''set -u
+claim_path="$1"
+validate_path="$2"
+expected_claim="$3"
+expected_validate="$4"
+shift 4
+claim_payload="$(base64 < "$claim_path")" || exit 90
+validate_payload="$(base64 < "$validate_path")" || exit 91
+claim_text="$(printf '%s' "$claim_payload" | base64 -d; printf 'X')" || exit 92
+validate_text="$(printf '%s' "$validate_payload" | base64 -d; printf 'X')" || exit 93
+claim_text="${claim_text%X}"
+validate_text="${validate_text%X}"
+observed_claim="$(printf '%s' "$claim_text" | sha256sum | cut -d' ' -f1)" || exit 94
+observed_validate="$(printf '%s' "$validate_text" | sha256sum | cut -d' ' -f1)" || exit 95
+[ "$observed_claim" = "$expected_claim" ] || exit 96
+[ "$observed_validate" = "$expected_validate" ] || exit 97
+bash() {
+  if [ "$#" -ge 1 ] && [ "${1##*/}" = "validate-run-root.sh" ]; then
+    shift
+    ( set -- "$@"; eval "$validate_text" )
+  else
+    command bash "$@"
+  fi
+}
+( set -- "$@"; eval "$claim_text" )
+status=$?
+printf 'implementaudit-native-r0011-child-v1\t%s\t%s\n' \
+  "$observed_claim" "$observed_validate" >&2
+exit "$status"
+'''
 
 
 def _native_require_current_receipt(repo, controller, receipt, route_module):
@@ -898,39 +978,60 @@ def _native_require_current_receipt(repo, controller, receipt, route_module):
     claim_raw = _native_file(claim_path, "$native.continuity_validator", 256 * 1024)
     validate_raw = _native_file(
         validate_path, "$native.continuity_claim_validator", 256 * 1024)
+    closure = None
+    completed = None
     try:
         with contextlib.redirect_stdout(io.StringIO()):
             bash = route_module.trusted_host_executable(repo, "bash")
-            environment = route_module.sanitized_action_environment()
-        with tempfile.TemporaryDirectory(
-                prefix="implementaudit-native-current-r0011-") as temporary:
-            closure = pathlib.Path(temporary)
-            materialized_claim = closure / claim_path.name
-            materialized_validate = closure / validate_path.name
-            for target, raw, label in (
-                    (materialized_claim, claim_raw,
-                     "$native.materialized_continuity_validator"),
-                    (materialized_validate, validate_raw,
-                     "$native.materialized_continuity_claim_validator")):
-                with target.open("xb") as stream:
-                    stream.write(raw)
-                if _native_file(target, label, 256 * 1024) != raw:
-                    _error("OE_NATIVE_CURRENT_CHANGED", label,
-                           "private R0011 materialization changed before execution")
-            with contextlib.redirect_stdout(io.StringIO()):
-                claim_arg = route_module.bash_script_path(materialized_claim)
-            completed = subprocess.run(
-                [os.fspath(bash), claim_arg,
-                 "--require-current-continuity", controller],
-                cwd=repo, env=environment, stdin=subprocess.DEVNULL,
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-                check=False)
+        environment = _native_child_environment(route_module)
+        closure = pathlib.Path(tempfile.mkdtemp(
+            prefix="implementaudit-native-current-r0011-"))
+        materialized_claim = closure / claim_path.name
+        materialized_validate = closure / validate_path.name
+        expected = (
+            (materialized_claim, claim_raw),
+            (materialized_validate, validate_raw),
+        )
+        for target, raw in expected:
+            with target.open("xb") as stream:
+                stream.write(raw)
+            if _native_file(
+                    target, "$native.private_continuity_closure",
+                    256 * 1024) != raw:
+                _error(
+                    "OE_NATIVE_CURRENT_CHANGED",
+                    "$native.private_continuity_closure",
+                    "private R0011 materialization changed before child launch")
+        with contextlib.redirect_stdout(io.StringIO()):
+            claim_arg = route_module.bash_script_path(materialized_claim)
+            validate_arg = route_module.bash_script_path(materialized_validate)
+        completed = subprocess.run(
+            [
+                os.fspath(bash), "-c", _NATIVE_R0011_CHILD_BOOTSTRAP,
+                "implementaudit-native-r0011-child", claim_arg, validate_arg,
+                hashlib.sha256(claim_raw).hexdigest(),
+                hashlib.sha256(validate_raw).hexdigest(),
+                "--require-current-continuity", controller,
+            ],
+            cwd=repo, env=environment, stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            check=False)
     except (OSError, SystemExit):
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt",
                "canonical R0011 currentness validator is unavailable")
+    finally:
+        if closure is not None:
+            _native_cleanup_private_closure(closure, expected)
+    child_binding = (
+        "implementaudit-native-r0011-child-v1\t" +
+        hashlib.sha256(claim_raw).hexdigest() + "\t" +
+        hashlib.sha256(validate_raw).hexdigest())
     if completed.returncode or completed.stdout.strip() != receipt:
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.receipt",
                "canonical R0011 currentness validator rejected the receipt chain")
+    if completed.stderr.splitlines().count(child_binding) != 1:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_child",
+               "completed R0011 child did not bind the exact helper identities")
     if _native_file(
             claim_path, "$native.continuity_validator", 256 * 1024) != claim_raw:
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_validator",
@@ -943,226 +1044,27 @@ def _native_require_current_receipt(repo, controller, receipt, route_module):
     return claim_path, claim_raw, validate_path, validate_raw
 
 
-def _native_route_request(route_module, value):
-    request = {
-        "schema": route_module.REQUEST_SCHEMA,
-        "predicate_version": route_module.PREDICATE_VERSION,
-        "boundary": value["boundary"], "scope": value["scope"],
-        "action": value["action"], "inputs": value["inputs"],
-    }
-    route_module.exact_keys(
-        request,
-        {"schema", "predicate_version", "boundary", "scope", "action", "inputs"},
-        "native-current route request")
-    boundary = route_module.exact_keys(
-        request["boundary"], {"kind", "event_id", "digest"}, "boundary")
-    route_module.exact_text(boundary["kind"], "boundary.kind")
-    route_module.exact_text(boundary["event_id"], "boundary.event_id")
-    if not route_module.HEX_RE.fullmatch(boundary.get("digest", "")):
-        route_module.fail("boundary identity is malformed")
-    route_module.identity_record(request["scope"], "scope")
-    action = route_module.exact_keys(
-        request["action"], {"identity", "digest", "class", "argv"}, "action")
-    route_module.exact_text(action["identity"], "action.identity")
-    route_module.exact_text(action["class"], "action.class")
-    if not route_module.HEX_RE.fullmatch(action.get("digest", "")):
-        route_module.fail("action identity is malformed")
-    if (not isinstance(action["argv"], list) or not action["argv"] or
-            len(action["argv"]) > 64 or any(
-                not isinstance(item, str) or not item or len(item) > 4096
-                for item in action["argv"])):
-        route_module.fail("action argv is empty, oversized, or malformed")
-    if not isinstance(request["inputs"], list) or not request["inputs"]:
-        route_module.fail("inputs must be a non-empty complete identity set")
-    identities = []
-    for index, item in enumerate(request["inputs"]):
-        record = route_module.exact_keys(
-            item, {"identity", "path", "digest"}, f"inputs[{index}]")
-        identities.append(route_module.exact_text(
-            record["identity"], f"inputs[{index}].identity"))
-        route_module.exact_text(record["path"], f"inputs[{index}].path")
-        if not route_module.HEX_RE.fullmatch(record.get("digest", "")):
-            route_module.fail(f"inputs[{index}].digest is not canonical")
-    if identities != sorted(identities) or len(identities) != len(set(identities)):
-        route_module.fail("inputs are not uniquely ordered by identity")
-    return request
-
-
 def _native_route(
         repo, controller, controller_oid, claim, run_root, generation, receipt,
         boundary_kind, boundary_event_id, next_action, route_module):
-    ref = f"refs/implementaudit/route-decisions/{controller}"
-    oid = _native_ref_oid(repo, ref, "$native.route.ref")
-    raw = _native_blob(repo, oid, "$native.route")
-    if not raw.endswith(b"\n") or b"\n" in raw[:-1] or b"\r" in raw:
-        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
-               "R0033 route record bytes are malformed")
-    value = decode_strict_json_bytes(raw[:-1], "R0033 route record")
-    validate_identity_json_v1(value)
-    base_keys = {
-        "schema", "predicate_version", "controller_id", "claim_id",
-        "explicit_run_root", "continuity_generation", "continuity_receipt",
-        "host_id", "host_session_id", "host_binding_generation",
-        "host_correlation_id", "boundary", "scope", "action", "evidence",
-        "inputs", "package", "child_source", "decision", "classification",
-        "invalidators", "expiry_fingerprint", "expires_on",
-        "predecessor_record_oid", "route_transaction_id", "obligation_id",
-        "route_state", "child_lifecycle_owned", "consumed_record_oid",
-        "record_identity"}
-    allowed = [base_keys, base_keys | {"history_query"}, base_keys | {"lifecycle"},
-               base_keys | {"history_query", "lifecycle"}]
-    if type(value) is not dict or set(value) not in allowed:
-        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
-               "R0033 route record field population is malformed")
-    expected_raw = json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
-        allow_nan=False).encode("utf-8") + b"\n"
-    if raw != expected_raw:
-        _error("OE_NATIVE_CURRENT_BYTES", "$native.route",
-               "R0033 route record bytes are not canonical")
-    if (value.get("schema") != "implementaudit.route-decision.v1" or
-            value.get("predicate_version") != "R0033.route-predicate.v1" or
-            value.get("controller_id") != controller or value.get("claim_id") != claim or
-            _native_resolved_path(value.get("explicit_run_root"),
-                                  "$native.route.explicit_run_root") != run_root or
-            value.get("continuity_generation") != generation or
-            value.get("continuity_receipt") != receipt or
-            value.get("decision") not in {"PENDING", "NOT_REQUIRED", "REQUIRED"} or
-            value.get("classification") not in {
-                "MECHANICALLY_REQUIRED", "MECHANICALLY_NOT_REQUIRED",
-                "JUDGEMENT_REQUIRED"} or
-            value.get("expires_on") != route_module.EXPIRES_ON or
-            type(value.get("invalidators")) is not list or
-            len(value["invalidators"]) != len(set(value["invalidators"])) or
-            not all(type(item) is str and item for item in value["invalidators"]) or
-            type(value.get("route_transaction_id")) is not str or
-            not re.fullmatch(r"sha256:[0-9a-f]{64}", value["route_transaction_id"])):
-        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
-               "R0033 route record is stale, foreign, or malformed")
-    lifecycle = value.get("lifecycle")
-    if value["decision"] == "REQUIRED":
-        allowed_states = {"UNSATISFIED"} if lifecycle is None else {
-            "OPEN", "RETURNED", "SATISFIED"}
-        if (value.get("route_state") not in allowed_states or
-                type(value.get("obligation_id")) is not str or
-                not value["obligation_id"]):
-            _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
-                   "required R0033 route has no exact obligation state")
-    elif value.get("route_state") is not None or value.get("obligation_id") is not None:
-        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
-               "non-required R0033 route owns an obligation")
-    if value.get("child_lifecycle_owned") is not (lifecycle is not None):
-        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route.lifecycle",
-               "R0033 lifecycle ownership is contradictory")
-    if lifecycle is not None and (
-            type(lifecycle) is not dict or lifecycle.get("state") != value["route_state"]):
-        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route.lifecycle",
-               "R0033 lifecycle state is malformed")
-    for name in ("predecessor_record_oid", "consumed_record_oid"):
-        candidate = value.get(name)
-        if candidate is not None and (
-                type(candidate) is not str or not re.fullmatch(r"[0-9a-f]{40}", candidate)):
-            _error("OE_NATIVE_CURRENT_ROUTE", f"$native.route.{name}",
-                   "R0033 route object identity is malformed")
-    base = {key: item for key, item in value.items() if key != "record_identity"}
-    identity = "sha256:" + hashlib.sha256(canonical_json_v1(base)).hexdigest()
-    if value.get("record_identity") != identity:
-        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route.record_identity",
-               "R0033 route record identity is stale")
+    expected_current = {
+        "controller_id": controller,
+        "controller_record_oid": controller_oid,
+        "claim_id": claim,
+        "explicit_run_root": os.fspath(run_root),
+        "continuity_generation": generation,
+        "continuity_receipt": receipt,
+        "boundary_kind": boundary_kind,
+        "boundary_event_id": boundary_event_id,
+        "next_action": next_action,
+    }
     try:
         with contextlib.redirect_stdout(io.StringIO()):
-            canonical_oid, canonical_value = route_module.current_ref(repo, controller)
-            if canonical_oid != oid or canonical_value != value:
-                route_module.fail("canonical route reread changed")
-            request = _native_route_request(route_module, value)
-            current = {
-                "controller_id": controller,
-                "controller_record_oid": controller_oid,
-                "claim_id": claim,
-                "explicit_run_root": os.fspath(run_root),
-                "continuity_generation": generation,
-                "continuity_receipt": receipt,
-                "boundary_kind": boundary_kind,
-                "boundary_event_id": boundary_event_id,
-                "next_action": next_action,
-            }
-            for name in ("host_id", "host_session_id"):
-                route_module.exact_text(value.get(name), name)
-            if (type(value.get("host_binding_generation")) is not str or
-                    not route_module.CONTINUITY_RE.fullmatch(
-                        value["host_binding_generation"]) or
-                    value["host_binding_generation"] != generation or
-                    type(value.get("host_correlation_id")) is not str or
-                    not route_module.HEX_RE.fullmatch(value["host_correlation_id"])):
-                route_module.fail("route host binding identity is malformed")
-            noncurrent, observed_inputs = route_module.request_observations(
-                repo, current, request)
-            decision, classification, invalidators = route_module.classify(
-                request, noncurrent)
-            package, child_source = route_module.executing_package_evidence(
-                repo, request)
-            evidence = {
-                "owner": {
-                    "controller_record_oid": controller_oid,
-                    "claim_id": claim,
-                    "run_root": os.fspath(run_root),
-                },
-                "authority": {
-                    "continuity_generation": generation,
-                    "continuity_receipt": receipt,
-                },
-                "effect": {
-                    "action_identity": request["action"]["identity"],
-                    "action_digest": request["action"]["digest"],
-                    "derived_class": route_module.mechanical_action_class(
-                        request["action"]["argv"]),
-                },
-                "dependency": {
-                    "host_binding_generation": value["host_binding_generation"],
-                    "host_correlation_id": value["host_correlation_id"],
-                },
-                "inputs": observed_inputs,
-                "package": package,
-                "child_source": child_source,
-            }
-            identity_seed = {
-                "request": request,
-                "controller_record_oid": controller_oid,
-                "claim_id": claim,
-                "continuity_receipt": receipt,
-                "host_binding_generation": value["host_binding_generation"],
-                "package": package,
-                "child_source": child_source,
-            }
-            transaction_id = route_module.digest_json(
-                {"kind": "transaction", "seed": identity_seed})
-            obligation_id = (route_module.digest_json(
-                {"kind": "obligation", "seed": identity_seed})
-                if decision == "REQUIRED" else None)
-            fingerprint = route_module.digest_json(
-                {"request": request, "mechanical_evidence": evidence})
-            history_query = route_module.normalized_history_query(request)
-            if (value.get("evidence") != evidence or value.get("package") != package or
-                    value.get("child_source") != child_source or
-                    value.get("expiry_fingerprint") != fingerprint or
-                    value.get("decision") != decision or
-                    value.get("classification") != classification or
-                    value.get("invalidators") != invalidators or
-                    value.get("route_transaction_id") != transaction_id or
-                    value.get("obligation_id") != obligation_id or
-                    value.get("history_query") != history_query):
-                route_module.fail(
-                    "route decision no longer agrees with its exact live predicate")
+            return route_module.validate_pure_current_route(
+                repo, controller, expected_current)
     except (Exception, SystemExit):
         _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
-               "canonical R0033 read-only predicate rejected the route record")
-    return {
-        "ref": ref, "record_oid": oid, "record_identity": identity,
-        "decision": value["decision"], "classification": value["classification"],
-        "route_transaction_id": value["route_transaction_id"],
-        "obligation_id": value["obligation_id"], "route_state": value["route_state"],
-    }
-
+               "canonical R0033 pure current-route validator rejected the route record")
 
 def collect_native_current():
     """Read one exact native hot/current fact set without lifecycle authority."""

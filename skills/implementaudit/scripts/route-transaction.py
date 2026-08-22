@@ -126,6 +126,29 @@ def git(repo: Path, *args: str, input_text: str | None = None, check: bool = Tru
     return completed.stdout.strip()
 
 
+def write_route_record_blob(repo: Path, raw: str) -> str:
+    """Write canonical route-record bytes without host newline translation."""
+    executable = trusted_host_executable(repo, "git")
+    completed = subprocess.run(
+        [str(executable), "hash-object", "-w", "--stdin"],
+        cwd=repo,
+        env=sanitized_action_environment(),
+        input=raw.encode("utf-8"),
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode:
+        detail = (completed.stderr or completed.stdout).decode("utf-8", errors="replace").strip()
+        fail(f"git hash-object -w --stdin failed: {detail or f'exit {completed.returncode}'}")
+    try:
+        oid = completed.stdout.decode("ascii").strip()
+    except UnicodeDecodeError:
+        fail("git hash-object -w --stdin returned a non-ASCII object identity")
+    if not OID_RE.fullmatch(oid):
+        fail("git hash-object -w --stdin returned a malformed object identity")
+    return oid
+
+
 def digest_json(value: Any) -> str:
     raw = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     return f"sha256:{hashlib.sha256(raw).hexdigest()}"
@@ -169,6 +192,11 @@ def read_request(path: str) -> dict[str, Any]:
         request = json.loads(target.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
     except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
         fail(f"request is unreadable or malformed: {exc}")
+    return validate_request(request)
+
+
+def validate_request(request: Any) -> dict[str, Any]:
+    """Validate one already-observed canonical R0033 request value."""
     keys = {
         "schema",
         "predicate_version",
@@ -708,10 +736,16 @@ def bash_script_path(path: Path) -> str:
     return f"/{drive[0].lower()}{tail.replace(os.sep, '/')}"
 
 
-def current_controller(repo: Path, controller: str) -> dict[str, str]:
+def current_controller(
+    repo: Path,
+    controller: str,
+    *,
+    environment: dict[str, str] | None = None,
+) -> dict[str, str]:
     claim = Path(__file__).with_name("claim-run.sh")
     bash = trusted_host_executable(repo, "bash")
-    environment = sanitized_action_environment()
+    if environment is None:
+        environment = sanitized_action_environment()
     claim_arg = bash_script_path(claim)
     current = run([str(bash), claim_arg, "--current-controller", controller], cwd=repo, label="controller currentness", environment=environment)
     parts = current.split("\t")
@@ -920,6 +954,29 @@ def sanitized_action_environment() -> dict[str, str]:
     return environment
 
 
+def pure_route_environment() -> dict[str, str]:
+    """Return the exact host allowlist for the no-effect R0033 reader."""
+    source = sanitized_action_environment()
+    inherited = {
+        "comspec", "pathext", "systemdrive", "systemroot", "temp", "tmp",
+        "tmpdir", "windir",
+    }
+    fixed = {
+        "GIT_ATTR_NOSYSTEM", "GIT_CONFIG_GLOBAL", "GIT_CONFIG_NOSYSTEM",
+        "GIT_EXTERNAL_DIFF", "GIT_OPTIONAL_LOCKS", "GIT_PAGER", "LC_ALL",
+        "PAGER", "PATH",
+    }
+    environment = {
+        key: value for key, value in source.items()
+        if key in fixed or key.casefold() in inherited
+    }
+    if "PATH" not in environment:
+        fail("pure R0033 reader PATH is unavailable")
+    environment["PYTHONNOUSERSITE"] = "1"
+    environment["PYTHONSAFEPATH"] = "1"
+    return environment
+
+
 def worktree_read_set(repo: Path) -> dict[str, Any]:
     git_executable = trusted_host_executable(repo, "git")
     git_read = [str(git_executable), "-c", "core.fsmonitor=false", "-c", "core.hooksPath="]
@@ -1090,13 +1147,13 @@ def executing_package_evidence(repo: Path, request: dict[str, Any]) -> tuple[dic
     return package, child_source
 
 
-def evaluate(
+def route_semantic_basis(
     repo: Path,
-    common: str,
-    args: argparse.Namespace,
     current: dict[str, str],
     request: dict[str, Any],
-) -> tuple[str, str, list[str], dict[str, Any], str, str, str | None]:
+    host_binding_generation: str,
+) -> dict[str, Any]:
+    """Compute the R0033 route predicate without host-event attribution."""
     noncurrent, observed_inputs = request_observations(repo, current, request)
     decision, classification, invalidators = classify(request, noncurrent)
     package, child_source = executing_package_evidence(repo, request)
@@ -1105,21 +1162,32 @@ def evaluate(
         "controller_record_oid": current["controller_record_oid"],
         "claim_id": current["claim_id"],
         "continuity_receipt": current["continuity_receipt"],
-        "host_binding_generation": args.binding_generation,
+        "host_binding_generation": host_binding_generation,
         "package": package,
         "child_source": child_source,
     }
     transaction_id = digest_json({"kind": "transaction", "seed": identity_seed})
     obligation_id = digest_json({"kind": "obligation", "seed": identity_seed}) if decision == "REQUIRED" else None
-    attributed = validate_binding(
-        repo,
-        common,
-        args,
-        current,
-        request,
-        obligation_id,
-        transaction_id if obligation_id else None,
-    )
+    return {
+        "decision": decision,
+        "classification": classification,
+        "invalidators": invalidators,
+        "observed_inputs": observed_inputs,
+        "package": package,
+        "child_source": child_source,
+        "transaction_id": transaction_id,
+        "obligation_id": obligation_id,
+    }
+
+
+def route_semantics_from_basis(
+    current: dict[str, str],
+    request: dict[str, Any],
+    host_binding_generation: str,
+    host_correlation_id: str,
+    basis: dict[str, Any],
+) -> tuple[str, str, list[str], dict[str, Any], str, str, str | None]:
+    """Finish the pure R0033 semantics with one retained dependency identity."""
     evidence = {
         "owner": {
             "controller_record_oid": current["controller_record_oid"],
@@ -1136,15 +1204,23 @@ def evaluate(
             "derived_class": mechanical_action_class(request["action"]["argv"]),
         },
         "dependency": {
-            "host_binding_generation": args.binding_generation,
-            "host_correlation_id": attributed["correlation_id"],
+            "host_binding_generation": host_binding_generation,
+            "host_correlation_id": host_correlation_id,
         },
-        "inputs": observed_inputs,
-        "package": package,
-        "child_source": child_source,
+        "inputs": basis["observed_inputs"],
+        "package": basis["package"],
+        "child_source": basis["child_source"],
     }
     fingerprint = digest_json({"request": request, "mechanical_evidence": evidence})
-    return decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id
+    return (
+        basis["decision"],
+        basis["classification"],
+        basis["invalidators"],
+        evidence,
+        fingerprint,
+        basis["transaction_id"],
+        basis["obligation_id"],
+    )
 
 
 def validate_binding(
@@ -1248,6 +1324,34 @@ def validate_binding(
     if attributed.get("status") != "ATTRIBUTED":
         binding_failure("host event attribution is unavailable")
     return attributed
+
+
+def evaluate(
+    repo: Path,
+    common: str,
+    args: argparse.Namespace,
+    current: dict[str, str],
+    request: dict[str, Any],
+) -> tuple[str, str, list[str], dict[str, Any], str, str, str | None]:
+    """Evaluate one effect path with mandatory exact R003A attribution."""
+    basis = route_semantic_basis(
+        repo, current, request, args.binding_generation)
+    attributed = validate_binding(
+        repo,
+        common,
+        args,
+        current,
+        request,
+        basis["obligation_id"],
+        basis["transaction_id"] if basis["obligation_id"] else None,
+    )
+    return route_semantics_from_basis(
+        current,
+        request,
+        args.binding_generation,
+        attributed["correlation_id"],
+        basis,
+    )
 
 
 def validate_source_event_binding(
@@ -1372,6 +1476,164 @@ def mirror_observation(decision: str, route_state: str | None, claim: str) -> st
     return "IGNORED_CORROBORATION" if claim == canonical else "IGNORED_CONTRADICTION"
 
 
+def _pure_route_final_ref_fence(
+    repo: Path, controller: str, controller_oid: str, route_oid: str
+) -> None:
+    controller_ref = f"refs/implementaudit/controllers/{controller}"
+    route_ref = ref_name(controller)
+    raw = git(
+        repo,
+        "for-each-ref",
+        "--format=%(refname)%09%(objectname)",
+        controller_ref,
+        route_ref,
+    )
+    rows = raw.splitlines()
+    observed: dict[str, str] = {}
+    for row in rows:
+        parts = row.split("\t")
+        if len(parts) != 2 or parts[0] in observed or not OID_RE.fullmatch(parts[1]):
+            fail("final R0033 route/controller ref fence is malformed")
+        observed[parts[0]] = parts[1]
+    if observed != {controller_ref: controller_oid, route_ref: route_oid}:
+        fail("R0033 route or current-controller identity changed during pure validation")
+
+
+def validate_pure_current_route(
+    repo: Path,
+    controller: str,
+    expected_current: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Validate current route semantics without attributing a host event/effect."""
+    environment = pure_route_environment()
+    oid, record = current_ref(repo, controller)
+    if oid is None or record is None:
+        fail("canonical route decision is absent")
+    route_raw = git_blob_bytes(repo, oid, "pure current route")
+    try:
+        canonical_route_raw = json.dumps(
+            record,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=True,
+            allow_nan=False,
+        ).encode("utf-8") + b"\n"
+    except (TypeError, ValueError):
+        fail("current route record cannot be encoded as canonical JSON")
+    if route_raw != canonical_route_raw:
+        fail("current route record bytes are not exact canonical JSON")
+    current = current_controller(repo, controller, environment=environment)
+    if expected_current is not None:
+        allowed = {
+            "controller_id",
+            "controller_record_oid",
+            "claim_id",
+            "explicit_run_root",
+            "continuity_generation",
+            "continuity_receipt",
+            "boundary_kind",
+            "boundary_event_id",
+            "next_action",
+        }
+        if set(expected_current) != allowed or any(
+            current.get(key) != value for key, value in expected_current.items()
+        ):
+            fail("current controller disagrees with the bounded C03 observation")
+    bound_context = {
+        "controller_id": current["controller_id"],
+        "claim_id": current["claim_id"],
+        "explicit_run_root": current["explicit_run_root"],
+        "continuity_generation": current["continuity_generation"],
+        "continuity_receipt": current["continuity_receipt"],
+    }
+    for key, value in bound_context.items():
+        if record.get(key) != value:
+            fail(f"route decision expired because bound {key} changed")
+    exact_text(record.get("host_id"), "route host_id")
+    exact_text(record.get("host_session_id"), "route host_session_id")
+    binding_generation = record.get("host_binding_generation")
+    correlation_id = record.get("host_correlation_id")
+    if (
+        not isinstance(binding_generation, str)
+        or not CONTINUITY_RE.fullmatch(binding_generation)
+        or not isinstance(correlation_id, str)
+        or not HEX_RE.fullmatch(correlation_id)
+    ):
+        fail("route retained host dependency identity is malformed")
+    request_inputs: list[dict[str, str]] = []
+    if not isinstance(record.get("inputs"), list) or not record["inputs"]:
+        fail("current route record has no exact observed input set")
+    for index, item in enumerate(record["inputs"]):
+        observed = exact_keys(
+            item, {"identity", "path", "digest", "status"},
+            f"route inputs[{index}]")
+        if observed["status"] != "CURRENT":
+            fail("pure route validation cannot reconstruct a noncurrent request input")
+        request_inputs.append({
+            "identity": observed["identity"],
+            "path": observed["path"],
+            "digest": observed["digest"],
+        })
+    request = validate_request(
+        {
+            "schema": REQUEST_SCHEMA,
+            "predicate_version": PREDICATE_VERSION,
+            "boundary": record["boundary"],
+            "scope": record["scope"],
+            "action": record["action"],
+            "inputs": request_inputs,
+        }
+    )
+    basis = route_semantic_basis(
+        repo, current, request, binding_generation)
+    (
+        decision,
+        classification,
+        invalidators,
+        evidence,
+        fingerprint,
+        transaction_id,
+        obligation_id,
+    ) = route_semantics_from_basis(
+        current, request, binding_generation, correlation_id, basis)
+    retained_evidence = {
+        key: evidence[key] for key in (
+            "owner", "authority", "effect", "dependency")
+    }
+    if (
+        record.get("evidence") != retained_evidence
+        or record.get("inputs") != basis["observed_inputs"]
+        or record.get("package") != basis["package"]
+        or record.get("child_source") != basis["child_source"]
+        or record.get("expiry_fingerprint") != fingerprint
+        or record.get("decision") != decision
+        or record.get("classification") != classification
+        or record.get("invalidators") != invalidators
+        or record.get("route_transaction_id") != transaction_id
+        or record.get("obligation_id") != obligation_id
+        or record.get("history_query") != normalized_history_query(request)
+    ):
+        fail("route decision no longer agrees with its exact live predicate")
+    post_current = current_controller(repo, controller, environment=environment)
+    post_oid, post_record = current_ref(repo, controller)
+    if post_current != current or post_oid != oid or post_record != record:
+        fail("R0033 route/controller semantics changed during pure validation")
+    _pure_route_final_ref_fence(
+        repo, controller, current["controller_record_oid"], oid)
+    return {
+        "controller_id": controller,
+        "controller_record_oid": current["controller_record_oid"],
+        "ref": ref_name(controller),
+        "record_oid": oid,
+        "record_identity": record["record_identity"],
+        "decision": decision,
+        "classification": classification,
+        "route_transaction_id": transaction_id,
+        "obligation_id": obligation_id,
+        "route_state": record["route_state"],
+    }
+
+
 def common_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--controller", required=True)
     parser.add_argument("--store", required=True)
@@ -1440,7 +1702,7 @@ def cas_route_record(
 ) -> tuple[str, dict[str, Any]]:
     record = {**record_base, "record_identity": digest_json(record_base)}
     raw = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
-    new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
+    new_oid = write_route_record_blob(repo, raw)
     completed = subprocess.run(
         [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(controller), new_oid, expected_oid],
         cwd=repo,
@@ -2037,7 +2299,7 @@ def command_decide(args: argparse.Namespace) -> None:
             record_base["history_query"] = history_query
         record = {**record_base, "record_identity": digest_json(record_base)}
         raw = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
-        new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
+        new_oid = write_route_record_blob(repo, raw)
         completed = subprocess.run(
             [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), new_oid, expected_oid],
             cwd=repo, env=sanitized_action_environment(), capture_output=True, text=True
@@ -2187,7 +2449,7 @@ def command_consume(args: argparse.Namespace) -> None:
         }
         in_progress = {**in_progress_base, "record_identity": digest_json(in_progress_base)}
         in_progress_raw = json.dumps(in_progress, sort_keys=True, separators=(",", ":")) + "\n"
-        in_progress_oid = git(repo, "hash-object", "-w", "--stdin", input_text=in_progress_raw)
+        in_progress_oid = write_route_record_blob(repo, in_progress_raw)
         admitted = subprocess.run(
             [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), in_progress_oid, old_oid],
             cwd=repo,
@@ -2233,7 +2495,7 @@ def command_consume(args: argparse.Namespace) -> None:
         }
         successor = {**successor_base, "record_identity": digest_json(successor_base)}
         raw = json.dumps(successor, sort_keys=True, separators=(",", ":")) + "\n"
-        new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
+        new_oid = write_route_record_blob(repo, raw)
         completed = subprocess.run(
             [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), new_oid, in_progress_oid],
             cwd=repo,

@@ -37,6 +37,7 @@ trap 'rm -rf "$tmp"' EXIT
 import copy
 import hashlib
 import json
+import os
 import pathlib
 import shutil
 import subprocess
@@ -70,12 +71,17 @@ if schema_definition.get("x-native-current-facts") != {
         "predecessor_predicate":
             "canonical_R0011_read_only_currentness_and_exact_immediate_v2_v3",
         "predecessor_validator_execution": {
-            "mode": "byte_bound_private_materialization",
+            "mode": "child_loaded_byte_bound_private_materialization",
             "closure": ["claim-run.sh", "validate-run-root.sh"],
+            "child_binding": "completed_child_reports_exact_sha256_pair",
+            "environment":
+                "exact_allowlist_without_inherited_python_loader_or_module_overrides",
+            "cleanup":
+                "exact_members_or_typed_residue_with_manual_reconciliation",
         },
         "route_predicate": "canonical_R0033_pure_read_only_currentness",
         "route_semantic_fence":
-            "complete_canonical_R0033_recheck_as_final_target_sensitive_observation",
+            "canonical_R0033_recheck_with_fresh_controller_and_final_route_controller_ref_pair",
         "graph_projection": "implementaudit.work-graph.v1",
         "graph_compiler_execution": "byte_bound_and_finally_fenced",
         "publication": False,
@@ -449,7 +455,7 @@ def prepare(case, serial):
         request, noncurrent)
     package, child_source = route_module.executing_package_evidence(repo, request)
     host_binding_generation = (
-        "G0001" if case == "stale-route-host-binding" else generation)
+        "not-a-generation" if case == "stale-route-host-binding" else generation)
     host_correlation_id = "sha256:" + "3" * 64
     identity_seed = {
         "request": request,
@@ -507,8 +513,11 @@ def prepare(case, serial):
         "boundary": boundary,
         "scope": scope,
         "action": action,
-        "evidence": evidence,
-        "inputs": request["inputs"],
+        "evidence": {
+            key: evidence[key] for key in (
+                "owner", "authority", "effect", "dependency")
+        },
+        "inputs": observed_inputs,
         "package": package,
         "child_source": child_source,
         "decision": decision,
@@ -553,7 +562,11 @@ def prepare(case, serial):
     if case == "stale-route-identity":
         route_identity = "sha256:" + ZERO64
     route_record = {**route_base, "record_identity": route_identity}
-    route_oid = object_id(repo, canonical(route_record) + b"\n")
+    route_raw = canonical(route_record) + b"\n"
+    if case == "noncanonical-route-bytes":
+        route_raw = json.dumps(
+            route_record, sort_keys=True, indent=2).encode("utf-8") + b"\n"
+    route_oid = object_id(repo, route_raw)
     update_ref(repo, f"refs/implementaudit/route-decisions/{controller}", route_oid)
     return repo
 
@@ -588,7 +601,7 @@ negative_cases = [
     ("predecessor-v3-invalidation", "NCR23 malformed v3 predecessor typed field"),
     ("predecessor-v3-pointer", "NCR24 wrong v3 predecessor pointer ref"),
     ("predecessor-v3-own-token", "NCR25 malformed v3 own-predecessor token"),
-    ("stale-route-host-binding", "NCR26 stale R0033 host binding"),
+    ("stale-route-host-binding", "NCR26 malformed retained R0033 host dependency"),
     ("stale-route-scope", "NCR27 stale R0033 scope"),
     ("stale-route-action", "NCR28 stale R0033 action"),
     ("malformed-route-expiry", "NCR29 malformed R0033 expiry fingerprint"),
@@ -597,6 +610,7 @@ negative_cases = [
     ("mismatched-route-inputs", "NCR32 mismatched R0033 inputs"),
     ("malformed-route-history", "NCR33 malformed R0033 history payload"),
     ("malformed-route-lifecycle", "NCR34 malformed R0033 lifecycle payload"),
+    ("noncanonical-route-bytes", "NCR49 noncanonical R0033 route-record bytes"),
 ]
 red_failures = []
 for serial, (case, label) in enumerate(negative_cases, 1):
@@ -786,10 +800,9 @@ expect_late_route_read_set_refusal(
     lambda repo: git(repo, "config", "fixture.late-route-read-set", "changed"))
 
 
-def expect_validator_path_substitution_contained(serial, name):
+def expect_private_validator_substitution_contained(serial, name):
     repo = prepare("positive", serial)
     module = load_module(repo, serial)
-    source = repo / "skills/implementaudit/scripts" / name
     sentinel = repo / f"{name}.executed-sentinel"
     receipt_oid = git(
         repo, "rev-parse", "--verify",
@@ -804,29 +817,43 @@ def expect_validator_path_substitution_contained(serial, name):
             f"printf 'replacement executed\\n' > '{sentinel.as_posix()}'\n"
             f"printf '%s\\n' '{receipt}'\n"
         ).encode()
-        label = "NCR44 observed claim-run path substitution"
+        label = "NCR44 private claim-run child substitution"
     else:
         replacement = (
             "#!/usr/bin/env bash\n"
             f"printf 'replacement executed\\n' > '{sentinel.as_posix()}'\n"
             "exit 0\n"
         ).encode()
-        label = "NCR45 observed validate-run-root path substitution"
+        label = "NCR45 private validate-run-root child substitution"
     before_refs = git(
         repo, "for-each-ref", "--format=%(refname)%00%(objectname)",
         "refs/implementaudit/")
     before_objects = git(repo, "count-objects", "-v")
     real_run = module.subprocess.run
+    real_mkdtemp = module.tempfile.mkdtemp
     substituted = False
+    closure = None
+
+    def observe_private_closure(*args, **kwargs):
+        nonlocal closure
+        value = real_mkdtemp(*args, **kwargs)
+        closure = pathlib.Path(value)
+        return value
 
     def substitute_before_execution(command, *args, **kwargs):
         nonlocal substituted
         if (not substituted and isinstance(command, (list, tuple)) and
                 "--require-current-continuity" in command):
-            source.write_bytes(replacement)
+            if closure is None:
+                red_failures.append(
+                    f"{label} did not expose its exact private closure")
+                return real_run(command, *args, **kwargs)
+            target = closure / name
+            target.write_bytes(replacement)
             substituted = True
         return real_run(command, *args, **kwargs)
 
+    module.tempfile.mkdtemp = observe_private_closure
     module.subprocess.run = substitute_before_execution
     try:
         try:
@@ -836,7 +863,10 @@ def expect_validator_path_substitution_contained(serial, name):
         else:
             red_failures.append(f"{label} returned native-current facts")
     finally:
+        module.tempfile.mkdtemp = real_mkdtemp
         module.subprocess.run = real_run
+        if closure is not None and closure.exists():
+            shutil.rmtree(closure)
     after_refs = git(
         repo, "for-each-ref", "--format=%(refname)%00%(objectname)",
         "refs/implementaudit/")
@@ -849,8 +879,159 @@ def expect_validator_path_substitution_contained(serial, name):
         red_failures.append(f"{label} changed protected refs or Git objects")
 
 
-expect_validator_path_substitution_contained(110, "claim-run.sh")
-expect_validator_path_substitution_contained(111, "validate-run-root.sh")
+expect_private_validator_substitution_contained(110, "claim-run.sh")
+expect_private_validator_substitution_contained(111, "validate-run-root.sh")
+
+
+python_loader_repo = prepare("positive", 112)
+python_loader_module = load_module(python_loader_repo, 112)
+python_loader_root = CASE_ROOT / "python-loader-override"
+python_loader_root.mkdir()
+python_loader_sentinel = CASE_ROOT / "python-loader.executed-sentinel"
+write(
+    python_loader_root / "sitecustomize.py",
+    ("from pathlib import Path\n"
+     f"Path({str(python_loader_sentinel)!r}).write_text("
+     "'loader executed\\n', encoding='utf-8')\n").encode())
+old_pythonpath = os.environ.get("PYTHONPATH")
+os.environ["PYTHONPATH"] = str(python_loader_root)
+try:
+    try:
+        python_loader_module.collect_native_current()
+    except python_loader_module.OperationalEvidenceError as exc:
+        red_failures.append(
+            f"NCR46 isolated child environment rejected the positive route: "
+            f"{exc.receipt()}")
+finally:
+    if old_pythonpath is None:
+        os.environ.pop("PYTHONPATH", None)
+    else:
+        os.environ["PYTHONPATH"] = old_pythonpath
+if python_loader_sentinel.exists():
+    red_failures.append("NCR46 inherited Python loader executed outside the closure")
+
+
+controller_race_repo = prepare("positive", 113)
+controller_race_module = load_module(controller_race_repo, 113)
+original_controller_route = controller_race_module._native_route
+controller_route_calls = 0
+controller_replaced = False
+controller_ref = "refs/implementaudit/controllers/controller-current"
+controller_old_oid = git(
+    controller_race_repo, "rev-parse", "--verify", controller_ref).decode().strip()
+controller_record = git(
+    controller_race_repo, "cat-file", "blob", controller_old_oid)
+controller_new_oid = object_id(
+    controller_race_repo, controller_record.rstrip(b"\n") + b"\n")
+if controller_new_oid == controller_old_oid:
+    controller_new_oid = object_id(
+        controller_race_repo,
+        controller_record.rstrip(b"\n") + b"\textra-field\n")
+
+
+def replace_controller_before_final_route(*args, **kwargs):
+    global controller_route_calls, controller_replaced
+    controller_route_calls += 1
+    if controller_route_calls == 2:
+        update_ref(controller_race_repo, controller_ref, controller_new_oid)
+        controller_replaced = True
+    return original_controller_route(*args, **kwargs)
+
+
+controller_race_module._native_route = replace_controller_before_final_route
+try:
+    controller_record_result = controller_race_module.collect_native_current()
+except controller_race_module.OperationalEvidenceError:
+    pass
+else:
+    if controller_record_result["controller"]["record_oid"] == controller_old_oid:
+        red_failures.append(
+            "NCR47 late current-controller replacement returned stale native facts")
+if not controller_replaced:
+    red_failures.append(
+        "NCR47 late current-controller replacement did not reach the final route boundary")
+
+
+cleanup_repo = prepare("positive", 114)
+cleanup_module = load_module(cleanup_repo, 114)
+cleanup_route_module, _, _ = cleanup_module._native_route_module()
+cleanup_receipt_oid = git(
+    cleanup_repo, "rev-parse", "--verify",
+    "refs/implementaudit/continuity-receipts/controller-current/G0002"
+).decode().strip()
+cleanup_receipt = (
+    "refs/implementaudit/continuity-receipts/controller-current/G0002@" +
+    cleanup_receipt_oid)
+real_mkdtemp = cleanup_module.tempfile.mkdtemp
+real_unlink = cleanup_module.os.unlink
+real_cleanup_run = cleanup_module.subprocess.run
+cleanup_closure = None
+cleanup_armed = False
+cleanup_refused = False
+
+
+def observe_private_closure(*args, **kwargs):
+    global cleanup_closure
+    value = real_mkdtemp(*args, **kwargs)
+    cleanup_closure = pathlib.Path(value)
+    return value
+
+
+def arm_cleanup_after_child(command, *args, **kwargs):
+    global cleanup_armed
+    completed = real_cleanup_run(command, *args, **kwargs)
+    if (isinstance(command, (list, tuple)) and
+            "--require-current-continuity" in command):
+        cleanup_armed = True
+    return completed
+
+
+def refuse_exact_cleanup(path, *args, **kwargs):
+    global cleanup_refused
+    if (cleanup_armed and pathlib.Path(os.fspath(path)).name == "claim-run.sh"):
+        cleanup_refused = True
+        raise PermissionError("injected exact private cleanup refusal")
+    return real_unlink(path, *args, **kwargs)
+
+
+cleanup_module.tempfile.mkdtemp = observe_private_closure
+cleanup_module.subprocess.run = arm_cleanup_after_child
+cleanup_module.os.unlink = refuse_exact_cleanup
+cleanup_error = None
+try:
+    try:
+        cleanup_module._native_require_current_receipt(
+            cleanup_repo, "controller-current", cleanup_receipt,
+            cleanup_route_module)
+    except cleanup_module.OperationalEvidenceError as exc:
+        cleanup_error = exc
+finally:
+    cleanup_module.tempfile.mkdtemp = real_mkdtemp
+    cleanup_module.subprocess.run = real_cleanup_run
+    cleanup_module.os.unlink = real_unlink
+if cleanup_closure is None:
+    red_failures.append("NCR48 cleanup refusal did not observe the private closure")
+else:
+    expected_residue = sorted(str(path) for path in (
+        cleanup_closure,
+        cleanup_closure / "claim-run.sh",
+        cleanup_closure / "validate-run-root.sh",
+    ))
+    expected_cleanup_message = (
+        "private R0011 closure cleanup refused; residue=" +
+        json.dumps(expected_residue, sort_keys=True, separators=(",", ":")) +
+        "; manual reconciliation required")
+    if (cleanup_error is None or cleanup_error.code != "OE_NATIVE_CURRENT_CLEANUP" or
+            cleanup_error.path != "$native.private_continuity_closure" or
+            cleanup_error.message != expected_cleanup_message):
+        red_failures.append(
+            "NCR48 cleanup refusal lacked exact residue/manual-reconciliation evidence")
+    if not all(pathlib.Path(path).exists() for path in expected_residue):
+        red_failures.append("NCR48 cleanup refusal did not preserve exact bounded residue")
+    if cleanup_closure.exists():
+        shutil.rmtree(cleanup_closure)
+if not cleanup_refused:
+    red_failures.append("NCR48 cleanup refusal did not reach the exact cleanup boundary")
 
 if red_failures:
     for label in red_failures:

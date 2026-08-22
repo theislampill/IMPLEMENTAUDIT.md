@@ -139,17 +139,28 @@ permanent migration marker chain. It binds their controller/claim/run/source
 epoch, pointer and manifest identities, hot STATE/ROADMAP digests,
 `WORK_GRAPH.json` path/digest, next action and predecessor receipt. It invokes
 the canonical read-only R0011 currentness validator from a private byte-bound
-materialization: the already-read `claim-run.sh` and its complete repository-
-script dependency `validate-run-root.sh` are the only source bytes executed.
-The mutable source paths are never invoked after observation, and both source
-identities stay in the final file fence. R0011 validates every typed field of
+materialization. The child loads both already-read `claim-run.sh` and
+`validate-run-root.sh` payloads, verifies their exact SHA-256 identities, and
+executes only those loaded bytes; the completed child reports the same exact
+identity pair. Its inherited environment is an exact platform/Git allowlist,
+with Python safe-path/user-site hardening and no inherited Python loader or
+module override. The mutable source paths are never invoked after observation,
+and both source identities stay in the final file fence. Cleanup removes only
+the two exact materialized members and their directory; refusal is a typed
+fail-closed result that names the exact residue and requires manual
+reconciliation, never blind deletion. R0011 validates every typed field of
 the immediate v2/v3 predecessor and its exact `G(n-1)` relation, and checks the
 bounded structural `G(n-2)@OID` token without reading older history.
 The current R0033 route ref must contain exact canonical record bytes and agree
-with the existing pure R0033 predicate over native controller, claim, run,
-continuity, host-generation, boundary, next-action, scope, action, evidence,
-input, package, child-source, expiry, classification, history and lifecycle
-facts. A self-hash alone does not make a route record current. Missing,
+with the owner-native pure R0033 predicate over native controller, claim, run,
+continuity, retained host-dependency identity, boundary, next-action, scope,
+action, evidence, observed current inputs, package, child-source, expiry,
+classification, history and lifecycle facts. The pure predicate independently
+reacquires current controller/continuity custody and finally fences the exact
+controller-ref/route-ref identity pair. It performs no live R003A store lookup,
+attributes no current host event or effect, and emits no host/session identity;
+a tombstoned authoring session therefore does not invalidate an otherwise
+current read-only route fact. A self-hash alone does not make a route record current. Missing,
 duplicate, malformed, unknown, contradictory, stale or foreign facts are typed
 refusals; a legacy v1/v2 receipt is not promoted to the C03 fact record.
 
@@ -167,7 +178,9 @@ the complete canonical R0033 semantic predicate again as its final target-
 sensitive observation and requires the same route identity. That owner recheck,
 not a locally enumerated subset, re-observes request inputs, executing-package
 sources, audit-state child source, the whole-worktree population and relevant
-Git metadata before the prebuilt deterministic fact object is returned. It
+Git metadata, reacquires current controller custody and ends with the exact
+route/controller ref-pair fence before the prebuilt deterministic fact object
+is returned. It
 does not invoke lifecycle helpers, mint or change refs, repair state, set
 READY/JOIN, create a snapshot or output root, query history, use network, or
 inspect an ActiveGraph mirror. C06 remains the sole later snapshot

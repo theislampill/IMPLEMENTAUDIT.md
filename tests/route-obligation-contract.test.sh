@@ -872,4 +872,28 @@ expect_blocked "STATE pending cannot override required" route controller-history
 assert_json "$required_blob" 'value["expires_on"] and "scope-expansion" in value["expires_on"] and "continuity-receipt-change" in value["expires_on"]'
 assert_json "$judgement_decide" 'value["record_oid"] and value["decision"] == "REQUIRED"'
 
+# The pure R0033 owner validator remains usable for a read-only C03 projection
+# after event attribution is tombstoned, while every R0033 effect path refuses.
+host tombstone --owner-id host-owner --host-id codex --host-session-id route-red \
+  --expected-generation G0001 --reason route-owner-read-only-control >/dev/null
+expect_blocked "tombstoned session cannot authorize a new route effect" \
+  route controller-route route-red G0001 check --request "$required_request" >/dev/null
+set +e
+pure_tombstoned="$("${py[@]}" - "$core" "$tmp/repo" controller-route <<'PY'
+import importlib.util,json
+from pathlib import Path
+import sys
+path,repo,controller=sys.argv[1:]
+spec=importlib.util.spec_from_file_location("route_transaction_pure_control",path)
+module=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+print(json.dumps(module.validate_pure_current_route(Path(repo),controller),sort_keys=True))
+PY
+)"
+pure_tombstoned_status=$?
+set -e
+[ "$pure_tombstoned_status" -eq 0 ] || fail "pure R0033 read-only validation required live R003A attribution: $pure_tombstoned"
+current_required_oid="$(git -C "$tmp/repo" rev-parse refs/implementaudit/route-decisions/controller-route)"
+assert_json "$pure_tombstoned" 'value["record_oid"] == "'"$current_required_oid"'" and value["controller_id"] == "controller-route"'
+
 printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay held-out; first RED preserved)\n'
