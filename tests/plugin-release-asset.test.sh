@@ -43,6 +43,37 @@ for source_path, expected_path in cases.items():
         raise SystemExit(f"separator variant was not normalized: {source_path!r}")
 PY
 
+PYTHONDONTWRITEBYTECODE=1 "${py_cmd[@]}" - \
+  "$repo_root/scripts/package-contract.py" "$repo_root" <<'PY' \
+  || fail "canonical plugin projection does not carry the exact default hook"
+import importlib.util
+import sys
+from pathlib import Path
+
+spec = importlib.util.spec_from_file_location("package_contract", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+root = Path(sys.argv[2])
+contract = module.validate_contract(root)
+entries = {
+    path: data
+    for path, data, _mode in module.artifact_payload_entries(
+        root, "canonical_plugin", contract
+    )
+}
+expected = (root / "hooks/hooks.json").read_bytes()
+if entries.get("hooks/hooks.json") != expected:
+    raise SystemExit("canonical plugin projection omitted or changed hooks/hooks.json")
+standalone = {
+    path
+    for path, _data, _mode in module.artifact_payload_entries(
+        root, "standalone_compatibility", contract
+    )
+}
+if "hooks/hooks.json" in standalone or any(path.startswith("hooks/") for path in standalone):
+    raise SystemExit("standalone compatibility projection contains host hooks")
+PY
+
 source_commit="$(git -C "$repo_root" rev-parse HEAD^{commit})"
 source_tree="$(git -C "$repo_root" rev-parse "${source_commit}^{tree}")"
 tmp="$(mktemp -d)"
@@ -243,6 +274,7 @@ def validate_archive(raw_path, role):
         expected_top_level = {
             ".codex-plugin",
             ".claude-plugin",
+            "hooks",
             "skills",
             package_name,
             inventory_name,
@@ -253,6 +285,7 @@ def validate_archive(raw_path, role):
             ".codex-plugin/plugin.json",
             ".claude-plugin/plugin.json",
             ".claude-plugin/marketplace.json",
+            "hooks/hooks.json",
             "skills/implementaudit/SKILL.md",
             "skills/audit-state/SKILL.md",
             "skills/audit-assess/SKILL.md",
@@ -261,6 +294,8 @@ def validate_archive(raw_path, role):
         }
         if not required.issubset(payloads):
             raise SystemExit("canonical plugin is missing required plugin-root members")
+        if payloads["hooks/hooks.json"] != (source_root / "hooks/hooks.json").read_bytes():
+            raise SystemExit("canonical plugin hook definition differs from tracked source")
         observed_skills = sorted(
             PurePosixPath(name).parts[1]
             for name in payloads
@@ -302,10 +337,10 @@ def validate_archive(raw_path, role):
         if top_level != expected_top_level:
             raise SystemExit("standalone top-level layout is incorrect")
         if any(
-            name.startswith(("skills/", ".codex-plugin/", ".claude-plugin/"))
+            name.startswith(("skills/", "hooks/", ".codex-plugin/", ".claude-plugin/"))
             for name in payloads
         ):
-            raise SystemExit("standalone contains nested skills or host manifests")
+            raise SystemExit("standalone contains nested skills, host hooks or host manifests")
         for required in (
             "SKILL.md", "references/", "scripts/", "templates/",
             "scripts/resolve-internal-skill.py",

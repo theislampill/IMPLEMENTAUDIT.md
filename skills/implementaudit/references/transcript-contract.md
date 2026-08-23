@@ -261,6 +261,24 @@ IMPLEMENTAUDIT_CONTINUITY_SAVED
 Neither marker is a completion or handoff signal; both may appear in
 transcripts that later reach AUDIT_COMPLETE or an audited handoff.
 
+## Host-turn disposition
+
+A host turn may end only as no active audit object, valid terminal closure,
+valid audited handoff, or valid nonterminal yield. These are disposition
+classes, not lifecycle states. `scripts/evaluate-turn-disposition.py` consumes
+the exact current R003A attribution result, its correlation inputs, the current
+R0033 check result, and the bound run root. Stale, ambiguous, foreign, or
+malformed attribution and `PENDING` or `REQUIRED/UNSATISFIED` route state block.
+
+A nonterminal yield retains one existing STATE status (`open`,
+`READY_TO_DISPATCH`, `IN_PHASE`, `PAUSED`, `BLOCKED`, or `INTERRUPTED`) and
+durable continuation evidence. It emits no terminal or handoff marker. Bare
+abandonment is therefore invalid, while progress, a question, or a bounded
+wait with a recorded Next action remains allowable. No-active-object is the
+only path that omits binding, route, and run-root reads. Source classification
+is not actual host activation evidence; HC-H7B or another separately qualified
+adapter remains responsible for host translation and firing claims.
+
 Context-epoch continuity (#35) deliberately introduces NO new marker: a
 continuity boundary is recorded as a new epoch row in STATE.md `## Context
 epochs and instruction applicability` (provenance exactly one of
@@ -295,7 +313,15 @@ The selected child is exactly one of `audit-state`, `audit-assess`,
 `audit-implement`, or `audit-andon`, and the announced identity must equal the
 resolved and loaded child. Child files merely being packaged or discoverable,
 or governor reasoning producing similar words or conclusions, is not a route.
-Those governor-only cases emit no child announcement. An actual child load
+Those governor-only cases emit no selected-child announcement. Exact current
+`NOT_REQUIRED` instead emits the explicit no-child projection:
+
+```text
+CHILD_SKILL_ROUTE=NOT_REQUIRED
+No internal child is used because the exact current R0033 route is NOT_REQUIRED.
+```
+
+That branch performs no resolver, load, OPEN, return or completion. An actual child load
 without the announcement, an announcement without a load, a mismatched child,
 duplicate child announcements, or a retroactive announcement is a routing
 observability failure; none creates authority or closure.

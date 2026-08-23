@@ -104,7 +104,9 @@ for token in (
     "## Child-skill routing observability",
     "CHILD_SKILL_ROUTE=<selected-child>",
     "actual child load",
-    "governor-only cases emit no child announcement",
+    "governor-only cases emit no selected-child announcement",
+    "CHILD_SKILL_ROUTE=NOT_REQUIRED",
+    "No internal child is used because the exact current R0033 route is NOT_REQUIRED.",
     "verified receipt precedes",
     "already-known cheap deterministic failure",
     "new constraint defeats the selected countermeasure",
@@ -275,13 +277,98 @@ fi
 
 printf 'internal-skill-routing.test: resolver controls ok\n'
 
-python - <<'PY'
+python - skills/implementaudit/scripts/route-transaction.py <<'PY'
 from __future__ import annotations
 
+import contextlib
 from dataclasses import dataclass
+import importlib.util
+import io
+from pathlib import Path
+import sys
 
 
-CHILDREN = {"audit-state", "audit-assess", "audit-implement", "audit-andon"}
+spec = importlib.util.spec_from_file_location("route_transaction", sys.argv[1])
+route_transaction = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(route_transaction)
+
+expected_routes = {
+    "STALE_CONTEXT_RECONSTRUCTION": (
+        "audit-state",
+        "rehydrate bounded current state after the exact stale-context boundary",
+    ),
+    "IMMUTABLE_INDEPENDENT_REVIEW": (
+        "audit-assess",
+        "independently assess the exact immutable review packet",
+    ),
+    "MAINTAINER_QUALIFICATION": (
+        "audit-implement",
+        "qualify the exact maintainer candidate after verified release currentness",
+    ),
+    "NONTRIVIAL_ANDON_DIAGNOSIS": (
+        "audit-andon",
+        "diagnose the established nontrivial Andon within its authority ceiling",
+    ),
+}
+if route_transaction.CHILD_ROUTE_MAP != expected_routes:
+    raise SystemExit("internal-skill-routing.test: production closed child map disagrees")
+
+for reason, expected in expected_routes.items():
+    child, visible_reason = route_transaction.mapped_child_route(
+        {"decision": "REQUIRED", "action": {"argv": ["route-trigger", reason]}}
+    )
+    if (child, visible_reason) != expected:
+        raise SystemExit(f"internal-skill-routing.test: {reason} mapped incorrectly")
+    loaded, resolved = route_transaction.child_delivery_bytes(child)
+    canonical = Path("skills") / child / "SKILL.md"
+    if resolved != canonical.resolve() or loaded != canonical.read_bytes():
+        raise SystemExit(f"internal-skill-routing.test: {reason} did not resolve/load exact child bytes")
+    packet = {
+        "schema": route_transaction.PACKET_SCHEMA,
+        "obligation_id": "sha256:" + "0" * 64,
+        "route_transaction_id": "sha256:" + "1" * 64,
+        "source_event": {
+            "schema": route_transaction.SOURCE_EVENT_SCHEMA,
+            "source_identity": "host:matrix",
+            "provenance": {
+                "schema": route_transaction.SOURCE_EVENT_PROVENANCE_SCHEMA,
+                "event_id": "host:matrix",
+                "host_correlation_id": "sha256:" + "2" * 64,
+            },
+            "body": "exact production packet target control",
+            "kind": "one-shot-action",
+            "reactivation": {
+                "reopen": False,
+                "target_changed": False,
+                "invalidating_evidence": False,
+            },
+        },
+        "target_identity": child,
+    }
+    route_transaction.route_packet_record(
+        packet,
+        packet["obligation_id"],
+        packet["route_transaction_id"],
+        expected_target=child,
+    )
+    for wrong_child in sorted(set(expected_routes.values()) - {expected}):
+        with contextlib.redirect_stdout(io.StringIO()):
+            try:
+                route_transaction.route_packet_record(
+                    {**packet, "target_identity": wrong_child[0]},
+                    packet["obligation_id"],
+                    packet["route_transaction_id"],
+                    expected_target=child,
+                )
+            except SystemExit:
+                pass
+            else:
+                raise SystemExit(
+                    f"internal-skill-routing.test: {reason} accepted wrong target {wrong_child[0]}"
+                )
+
+print("internal-skill-routing.test: production route/load controls ok (G01-G16)")
 
 
 @dataclass(frozen=True)
@@ -289,103 +376,6 @@ class Event:
     kind: str
     value: str = ""
     message: int = 0
-
-
-def accepts(events: list[Event]) -> bool:
-    loads = [(index, event) for index, event in enumerate(events) if event.kind == "child-loaded"]
-    announces = [(index, event) for index, event in enumerate(events) if event.kind == "route-announcement"]
-    if not loads:
-        return not announces
-    if len(loads) != 1 or len(announces) != 1:
-        return False
-    load_index, load = loads[0]
-    announce_index, announce = announces[0]
-    if load.value not in CHILDREN or announce.value != load.value or announce_index <= load_index:
-        return False
-    if load.value == "audit-state":
-        receipts = [(index, event) for index, event in enumerate(events) if event.kind == "verified-receipt"]
-        if len(receipts) != 1 or receipts[0][0] >= load_index:
-            return False
-        first_permitted_message = min(
-            (event.message for index, event in enumerate(events)
-             if index > receipts[0][0] and event.kind == "assistant-narration"),
-            default=announce.message,
-        )
-        if announce.message != first_permitted_message:
-            return False
-    return True
-
-
-cases = {
-    "state-route-after-receipt-visible": (
-        True,
-        [
-            Event("verified-receipt"),
-            Event("child-loaded", "audit-state"),
-            Event("route-announcement", "audit-state", 1),
-            Event("assistant-narration", message=1),
-        ],
-    ),
-    "state-route-before-receipt": (
-        False,
-        [
-            Event("child-loaded", "audit-state"),
-            Event("route-announcement", "audit-state", 1),
-            Event("verified-receipt"),
-        ],
-    ),
-    "state-route-announced-late": (
-        False,
-        [
-            Event("verified-receipt"),
-            Event("child-loaded", "audit-state"),
-            Event("assistant-narration", message=1),
-            Event("route-announcement", "audit-state", 2),
-        ],
-    ),
-    "governor-only-equivalent-reasoning": (
-        True,
-        [Event("verified-receipt"), Event("assistant-narration", "state-like", 1)],
-    ),
-    "false-route-announcement": (
-        False,
-        [Event("route-announcement", "audit-state", 1)],
-    ),
-    "loaded-child-missing-announcement": (
-        False,
-        [Event("child-loaded", "audit-assess"), Event("assistant-narration", message=1)],
-    ),
-    "wrong-child-announced": (
-        False,
-        [
-            Event("child-loaded", "audit-assess"),
-            Event("route-announcement", "audit-implement", 1),
-        ],
-    ),
-    "assess-route-visible": (
-        True,
-        [Event("child-loaded", "audit-assess"), Event("route-announcement", "audit-assess", 1)],
-    ),
-    "implement-route-visible": (
-        True,
-        [Event("child-loaded", "audit-implement"), Event("route-announcement", "audit-implement", 1)],
-    ),
-    "andon-route-visible": (
-        True,
-        [Event("child-loaded", "audit-andon"), Event("route-announcement", "audit-andon", 1)],
-    ),
-}
-
-for name, (expected, events) in cases.items():
-    observed = accepts(events)
-    if observed != expected:
-        raise SystemExit(
-            f"internal-skill-routing.test: observability case {name}: "
-            f"expected {expected}, observed {observed}"
-        )
-
-print(f"internal-skill-routing.test: routing observability controls ok ({len(cases)}/{len(cases)})")
-
 
 def accepts_secondary_abnormality(events: list[Event]) -> bool:
     active = ""
@@ -396,7 +386,7 @@ def accepts_secondary_abnormality(events: list[Event]) -> bool:
     implement_after_repair = False
     for index, event in enumerate(events):
         if event.kind == "governor-route":
-            if active or event.value not in CHILDREN:
+            if active or event.value not in {child for child, _ in expected_routes.values()}:
                 return False
         elif event.kind == "child-loaded":
             if active or last_kind != "governor-route" or events[index - 1].value != event.value:
@@ -421,6 +411,11 @@ def accepts_secondary_abnormality(events: list[Event]) -> bool:
         elif event.kind == "governor-rederive":
             if active or last_kind != "child-return":
                 return False
+        elif event.kind == "consequential-action":
+            if active or last_kind != "governor-rederive":
+                return False
+        else:
+            return False
         last_kind = event.kind
     if active:
         return False
@@ -485,6 +480,27 @@ secondary_cases = {
             Event("child-loaded", "audit-andon"),
         ],
     ),
+    "v2-return-cannot-authorize-action": (
+        False,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "evidential-support-v2"),
+            Event("child-return"),
+            Event("consequential-action"),
+        ],
+    ),
+    "v2-return-followed-by-fresh-governor-decision": (
+        True,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "evidential-support-v2"),
+            Event("child-return"),
+            Event("governor-rederive"),
+            Event("consequential-action"),
+        ],
+    ),
 }
 
 for name, (expected, events) in secondary_cases.items():
@@ -498,5 +514,599 @@ for name, (expected, events) in secondary_cases.items():
 print(
     "internal-skill-routing.test: secondary abnormality controls ok "
     f"({len(secondary_cases)}/{len(secondary_cases)})"
+)
+PY
+
+python - "$tmp" <<'PY'
+from __future__ import annotations
+
+from dataclasses import dataclass
+import json
+from pathlib import Path
+import re
+import subprocess
+import sys
+from typing import Any
+
+
+SCHEMA_START = "<!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_START -->"
+SCHEMA_END = "<!-- AUDIT_IMPLEMENT_EVIDENTIAL_SUPPORT_V2_SCHEMA_END -->"
+SCHEMA_ID = "implementaudit.audit-implement.evidential-support.v2"
+FIELDS = (
+    "schema",
+    "audit_object",
+    "proposition_domain",
+    "proposition",
+    "evidence_id",
+    "evidence_sha256",
+    "evidence_kind",
+    "support",
+    "authority_ceiling",
+)
+SUPPORT_STATES = (
+    "established",
+    "contradicted",
+    "insufficient",
+    "not-applicable",
+)
+EVIDENCE_KINDS = (
+    "absence",
+    "attempt",
+    "exact-observation",
+    "nearby-release-claim",
+    "package-membership",
+    "receipt",
+)
+PROPOSITION_LEXICAL_PATTERN = (
+    r"^[^\s\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0605\u061c\u06dd\u070f"
+    r"\u0890-\u0891\u08e2\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064"
+    r"\u2066-\u206f\ufeff\ufff9-\ufffb](?:.*[^\s\u0000-\u001f\u007f-\u009f"
+    r"\u00ad\u0600-\u0605\u061c\u06dd\u070f\u0890-\u0891\u08e2\u180e"
+    r"\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u206f\ufeff"
+    r"\ufff9-\ufffb])?$"
+)
+PROHIBITED_PROPOSITION_PATTERN = (
+    r"^([Rr][Ee][Ll][Ee][Aa][Ss][Ee]|"
+    r"[Cc][Uu][Rr][Rr][Ee][Nn][Tt][Nn][Ee][Ss][Ss]|"
+    r"[Ll][Ii][Ff][Ee][Cc][Yy][Cc][Ll][Ee]):"
+)
+UNICODE_CASEFOLD_HELDOUTS = (
+    "releaſe:heldout",
+    "currentneſs:heldout",
+    "lıfecycle:heldout",
+    "lİfecycle:heldout",
+)
+VALIDATOR = Path("skills/implementaudit/scripts/validate-audit-implement-return.py")
+TEMP_ROOT = Path(sys.argv[1])
+
+
+def fail(message: str) -> None:
+    raise SystemExit(f"internal-skill-routing.test: evidential support: {message}")
+
+
+def load_schema() -> dict[str, Any] | None:
+    text = Path("skills/audit-implement/SKILL.md").read_text(encoding="utf-8")
+    if SCHEMA_START not in text or SCHEMA_END not in text:
+        return None
+    block = text.split(SCHEMA_START, 1)[1].split(SCHEMA_END, 1)[0]
+    match = re.fullmatch(r"\s*```json\s*\n(.*?)\n```\s*", block, re.DOTALL)
+    if not match:
+        fail("v2 schema block is not one JSON code fence")
+    try:
+        schema = json.loads(match.group(1))
+    except (json.JSONDecodeError, UnicodeError) as exc:
+        fail(f"v2 schema block is malformed: {exc}")
+    if not isinstance(schema, dict):
+        fail("v2 schema block is not an object")
+    return schema
+
+
+schema = load_schema()
+observed_states = (
+    set(schema.get("properties", {}).get("support", {}).get("enum", []))
+    if schema is not None
+    else {"neutral"}
+)
+if observed_states != set(SUPPORT_STATES):
+    fail(
+        "exact non-release proposition states collapse: "
+        f"expected={sorted(SUPPORT_STATES)} observed={sorted(observed_states)}"
+    )
+
+if schema.get("$id") != SCHEMA_ID:
+    fail("v2 schema identity drift")
+if schema.get("type") != "object" or schema.get("additionalProperties") is not False:
+    fail("v2 schema must be a closed object")
+if tuple(schema.get("required", [])) != FIELDS:
+    fail("v2 required-field population drift")
+properties = schema.get("properties")
+if not isinstance(properties, dict) or tuple(properties) != FIELDS:
+    fail("v2 property population drift")
+if properties["schema"].get("const") != SCHEMA_ID:
+    fail("v2 record schema discriminator drift")
+if properties["proposition_domain"].get("const") != "non-release":
+    fail("v2 proposition domain must remain explicitly non-release")
+expected_proposition_schema = {
+    "type": "string",
+    "minLength": 1,
+    "$comment": (
+        "Full NFC stability and Unicode Cc/Cf rejection are enforced by the "
+        "canonical validator."
+    ),
+    "pattern": PROPOSITION_LEXICAL_PATTERN,
+}
+if properties["proposition"] != expected_proposition_schema:
+    fail("v2 proposition structural lexical boundary drift")
+if properties["evidence_kind"].get("enum") != list(EVIDENCE_KINDS):
+    fail("v2 evidence-kind population drift")
+if properties["authority_ceiling"].get("const") != "none":
+    fail("v2 authority ceiling must remain none")
+established_constraint = {
+    "if": {
+        "properties": {"support": {"const": "established"}},
+        "required": ["support"],
+    },
+    "then": {
+        "properties": {
+            "evidence_kind": {"const": "exact-observation"},
+            "proposition_domain": {"const": "non-release"},
+            "proposition": {
+                "not": {"pattern": PROHIBITED_PROPOSITION_PATTERN},
+            },
+        },
+    },
+}
+if schema.get("allOf") != [established_constraint]:
+    fail("v2 established cross-field schema constraint missing")
+
+lexical_pattern = re.compile(PROPOSITION_LEXICAL_PATTERN)
+for proposition in (
+    " release:published",
+    "\trelease:published",
+    "\nrelease:published",
+    "\u00a0release:published",
+    "\u0085release:published",
+    "\u00adrelease:published",
+    "\u200brelease:published",
+    "\ufeffrelease:published",
+    "source:ordinary ",
+    "source:ordinary\u00a0",
+):
+    if lexical_pattern.search(proposition):
+        fail(f"v2 schema lexical pattern accepts non-normal proposition {proposition!r}")
+for proposition in ("x", "source:ordinary", "source:ملاحظة:é"):
+    if not lexical_pattern.search(proposition):
+        fail(f"v2 schema lexical pattern rejects ordinary proposition {proposition!r}")
+
+prohibited_pattern = re.compile(PROHIBITED_PROPOSITION_PATTERN)
+for proposition in (
+    "release:published",
+    "ReLeAsE:published",
+    "currentness:head",
+    "CuRrEnTnEsS:head",
+    "lifecycle:ready",
+    "LiFeCyClE:ready",
+):
+    if not prohibited_pattern.search(proposition):
+        fail(f"v2 schema prohibited-domain pattern misses {proposition!r}")
+for proposition in UNICODE_CASEFOLD_HELDOUTS:
+    if not lexical_pattern.search(proposition) or prohibited_pattern.search(proposition):
+        fail(f"v2 schema rejects ordinary Unicode casefold held-out {proposition!r}")
+
+governor = Path("skills/implementaudit/SKILL.md").read_text(encoding="utf-8")
+for token in (
+    "CHILD_RESULT_AUTHORITY=NONE",
+    "CHILD_RESULT_CLOSURE=NONE",
+    "A child result returns here as evidence input",
+    "governor re-derives current state before any later route or transition",
+):
+    if token not in governor:
+        fail(f"governor envelope missing {token}")
+
+audit_implement = Path("skills/audit-implement/SKILL.md").read_text(encoding="utf-8")
+for token in (
+    "recursively rejects decoded C0, DEL and Unicode category `Cc` or `Cf`",
+    "NFC-stable, nonempty, has no leading/trailing Unicode whitespace",
+    "before case-insensitive prohibited-domain classification",
+    "Reserved namespace spelling is ASCII-only with ASCII case variation",
+    "Ordinary NFC Unicode propositions remain permitted outside those reserved ASCII tokens",
+):
+    if token not in audit_implement:
+        fail(f"audit-implement lexical contract missing {token}")
+
+
+@dataclass(frozen=True)
+class BoundEvidence:
+    audit_object: str
+    proposition_domain: str
+    proposition: str
+    evidence_id: str
+    evidence_sha256: str
+    evidence_kind: str
+
+
+def canonical(record: dict[str, Any]) -> bytes:
+    return json.dumps(
+        record,
+        ensure_ascii=False,
+        allow_nan=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+
+
+def run_validator(
+    raw: bytes,
+    bound: BoundEvidence,
+    *,
+    script: Path = VALIDATOR,
+    file_mode: bool = False,
+) -> subprocess.CompletedProcess[bytes]:
+    command = [
+        sys.executable,
+        str(script),
+        "--expect-audit-object",
+        bound.audit_object,
+        "--expect-proposition-domain",
+        bound.proposition_domain,
+        "--expect-proposition",
+        bound.proposition,
+        "--expect-evidence-id",
+        bound.evidence_id,
+        "--expect-evidence-sha256",
+        bound.evidence_sha256,
+        "--expect-evidence-kind",
+        bound.evidence_kind,
+    ]
+    input_bytes: bytes | None = raw
+    if file_mode:
+        input_path = TEMP_ROOT / "audit-implement-return.bin"
+        input_path.write_bytes(raw)
+        command.extend(("--input", str(input_path)))
+        input_bytes = None
+    return subprocess.run(command, input=input_bytes, capture_output=True, check=False)
+
+
+def bound_from_record(record: dict[str, Any]) -> BoundEvidence:
+    return BoundEvidence(
+        audit_object=record["audit_object"],
+        proposition_domain=record["proposition_domain"],
+        proposition=record["proposition"],
+        evidence_id=record["evidence_id"],
+        evidence_sha256=record["evidence_sha256"],
+        evidence_kind=record["evidence_kind"],
+    )
+
+
+def require_accept(
+    name: str,
+    raw: bytes,
+    bound: BoundEvidence,
+    expected_route: str,
+    expected_support: str,
+    *,
+    script: Path = VALIDATOR,
+    file_mode: bool = False,
+) -> None:
+    result = run_validator(raw, bound, script=script, file_mode=file_mode)
+    if result.returncode != 0:
+        fail(f"{name} rejected: rc={result.returncode} stderr={result.stderr!r}")
+    try:
+        payload = json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        fail(f"{name} returned malformed success output: {exc}")
+    expected = {
+        "schema": "implementaudit.audit-implement.return-validation.v1",
+        "route": expected_route,
+        "support": expected_support,
+    }
+    if payload != expected:
+        fail(f"{name} success output drift: expected={expected!r} observed={payload!r}")
+
+
+def require_reject(name: str, raw: bytes, bound: BoundEvidence, reason: str) -> None:
+    result = run_validator(raw, bound)
+    expected = f"validate-audit-implement-return: {reason}\n".encode()
+    if result.returncode != 1 or result.stdout or result.stderr != expected:
+        fail(
+            f"{name} was not causally rejected: rc={result.returncode} "
+            f"stdout={result.stdout!r} stderr={result.stderr!r} expected={expected!r}"
+        )
+
+
+if not VALIDATOR.is_file():
+    fail(f"canonical packaged validator missing: {VALIDATOR.as_posix()}")
+
+
+bound = BoundEvidence(
+    audit_object="tdqyq:run-v041:hc-h3",
+    proposition_domain="non-release",
+    proposition="source:non-release:route-envelope-v2",
+    evidence_id="evidence:hc-h3:exact-observation",
+    evidence_sha256="5f" * 32,
+    evidence_kind="exact-observation",
+)
+base = {
+    "schema": SCHEMA_ID,
+    "audit_object": bound.audit_object,
+    "proposition_domain": bound.proposition_domain,
+    "proposition": bound.proposition,
+    "evidence_id": bound.evidence_id,
+    "evidence_sha256": bound.evidence_sha256,
+    "evidence_kind": bound.evidence_kind,
+    "support": "insufficient",
+    "authority_ceiling": "none",
+}
+
+for state in sorted(SUPPORT_STATES):
+    record = dict(base, support=state)
+    require_accept(
+        f"v2 state {state}",
+        canonical(record),
+        bound,
+        "v2-evidence-input",
+        state,
+        file_mode=state == "established",
+    )
+
+uppercase_bound = BoundEvidence(
+    audit_object=bound.audit_object,
+    proposition_domain=bound.proposition_domain,
+    proposition=bound.proposition,
+    evidence_id=bound.evidence_id,
+    evidence_sha256="5F" * 32,
+    evidence_kind=bound.evidence_kind,
+)
+negative_records: dict[str, tuple[dict[str, Any], BoundEvidence, str]] = {
+    "unknown-field": (dict(base, unexpected="value"), bound, "field-population"),
+    "missing-field": (
+        {key: value for key, value in base.items() if key != "proposition"},
+        bound,
+        "field-population",
+    ),
+    "wrong-schema": (
+        dict(base, schema="implementaudit.audit-implement.evidential-support.v1"),
+        bound,
+        "schema",
+    ),
+    "wrong-audit-object": (dict(base, audit_object="tdqyq:other"), bound, "binding-audit_object"),
+    "wrong-proposition-domain": (
+        dict(base, proposition_domain="release"),
+        bound,
+        "proposition-domain",
+    ),
+    "wrong-proposition": (dict(base, proposition="source:other"), bound, "binding-proposition"),
+    "wrong-evidence-id": (dict(base, evidence_id="evidence:other"), bound, "binding-evidence_id"),
+    "wrong-evidence-digest": (
+        dict(base, evidence_sha256="6a" * 32),
+        bound,
+        "binding-evidence_sha256",
+    ),
+    "malformed-evidence-digest": (
+        dict(base, evidence_sha256=uppercase_bound.evidence_sha256),
+        uppercase_bound,
+        "evidence-sha256",
+    ),
+    "wrong-evidence-kind": (dict(base, evidence_kind="receipt"), bound, "binding-evidence_kind"),
+    "unknown-support-state": (dict(base, support="supported"), bound, "support"),
+    "authority-bearing-ceiling": (
+        dict(base, authority_ceiling="mutation"),
+        bound,
+        "authority-ceiling",
+    ),
+    "authority-bearing-output": (dict(base, authorization="commit"), bound, "field-population"),
+}
+for name, (record, record_bound, reason) in negative_records.items():
+    require_reject(name, canonical(record), record_bound, reason)
+
+duplicate_raw = canonical(base)[:-1] + (
+    b',"schema":"' + SCHEMA_ID.encode() + b'"}'
+)
+reordered = {
+    "audit_object": base["audit_object"],
+    "schema": base["schema"],
+    **{key: value for key, value in base.items() if key not in {"schema", "audit_object"}},
+}
+malformed_controls = {
+    "invalid-utf8": (b"\xff", "utf8"),
+    "nul-byte": (canonical(base) + b"\x00", "control-byte"),
+    "c0-byte": (canonical(base) + b"\n", "control-byte"),
+    "del-byte": (canonical(base) + b"\x7f", "control-byte"),
+    "truncated-json": (b'{"schema":', "json"),
+    "json-array": (b"[]", "object"),
+    "noncanonical-whitespace": (canonical(base) + b" ", "noncanonical"),
+    "noncanonical-key-order": (canonical(reordered), "noncanonical"),
+    "duplicate-field": (duplicate_raw, "duplicate-field"),
+}
+for name, (raw, reason) in malformed_controls.items():
+    require_reject(name, raw, bound, reason)
+
+decoded_control_fields = (
+    "audit_object",
+    "proposition",
+    "evidence_id",
+    "schema",
+    "proposition_domain",
+    "evidence_sha256",
+    "evidence_kind",
+    "support",
+    "authority_ceiling",
+)
+for field in decoded_control_fields:
+    for control_name, control in (("u0001", "\u0001"), ("newline", "\n"), ("tab", "\t")):
+        record = dict(base, **{field: f"{base[field]}{control}"})
+        require_reject(
+            f"decoded {control_name} in {field}",
+            canonical(record),
+            bound_from_record(record),
+            "decoded-control",
+        )
+
+proposition_prefixes = {
+    "space": (" ", "proposition-normal-form"),
+    "tab": ("\t", "decoded-control"),
+    "newline": ("\n", "decoded-control"),
+    "no-break-space": ("\u00a0", "proposition-normal-form"),
+    "c1-next-line": ("\u0085", "decoded-control"),
+    "soft-hyphen": ("\u00ad", "decoded-control"),
+    "zero-width-space": ("\u200b", "decoded-control"),
+    "bom": ("\ufeff", "decoded-control"),
+}
+prohibited_spellings = (
+    "release",
+    "ReLeAsE",
+    "currentness",
+    "CuRrEnTnEsS",
+    "lifecycle",
+    "LiFeCyClE",
+)
+for prefix_name, (prefix, reason) in proposition_prefixes.items():
+    for namespace in prohibited_spellings:
+        proposition = f"{prefix}{namespace}:published:v0.4.1"
+        record = dict(base, proposition=proposition, support="established")
+        require_reject(
+            f"{prefix_name}-prefixed {namespace} proposition",
+            canonical(record),
+            bound_from_record(record),
+            reason,
+        )
+
+for suffix_name, suffix in (("space", " "), ("no-break-space", "\u00a0")):
+    proposition = f"{bound.proposition}{suffix}"
+    record = dict(base, proposition=proposition)
+    require_reject(
+        f"{suffix_name}-suffixed proposition",
+        canonical(record),
+        bound_from_record(record),
+        "proposition-normal-form",
+    )
+
+decomposed_proposition = "source:cafe\u0301"
+decomposed_record = dict(base, proposition=decomposed_proposition)
+require_reject(
+    "non-NFC proposition",
+    canonical(decomposed_record),
+    bound_from_record(decomposed_record),
+    "proposition-normal-form",
+)
+
+unicode_proposition = "source:ملاحظة:é"
+for state in sorted(SUPPORT_STATES):
+    record = dict(base, proposition=unicode_proposition, support=state)
+    require_accept(
+        f"NFC ordinary Unicode proposition state {state}",
+        canonical(record),
+        bound_from_record(record),
+        "v2-evidence-input",
+        state,
+    )
+
+validator_source = VALIDATOR.read_text(encoding="utf-8")
+duplicate_guard = '    if duplicates:\n        return reject("duplicate-field")\n'
+if validator_source.count(duplicate_guard) != 1:
+    fail("canonical duplicate guard is not uniquely mutation-controllable")
+mutated_validator = TEMP_ROOT / "validate-return-without-duplicate-guard.py"
+mutated_validator.write_text(
+    validator_source.replace(
+        duplicate_guard,
+        '    if False and duplicates:\n        return reject("duplicate-field")\n',
+    ),
+    encoding="utf-8",
+)
+require_accept(
+    "duplicate guard mutation control",
+    duplicate_raw,
+    bound,
+    "v2-evidence-input",
+    "insufficient",
+    script=mutated_validator,
+)
+
+neutral_kinds = {
+    "absence",
+    "attempt",
+    "receipt",
+    "package-membership",
+    "nearby-release-claim",
+}
+for kind in sorted(neutral_kinds):
+    kind_bound = BoundEvidence(
+        audit_object=bound.audit_object,
+        proposition_domain=bound.proposition_domain,
+        proposition=bound.proposition,
+        evidence_id=f"evidence:hc-h3:{kind}",
+        evidence_sha256=bound.evidence_sha256,
+        evidence_kind=kind,
+    )
+    record = dict(
+        base,
+        evidence_id=kind_bound.evidence_id,
+        evidence_kind=kind,
+        support="established",
+    )
+    require_reject(
+        f"neutral evidence kind {kind}",
+        canonical(record),
+        kind_bound,
+        "established-evidence-kind",
+    )
+
+prohibited_domains = ("release", "currentness", "lifecycle")
+for namespace in prohibited_domains:
+    proposition = f"{namespace}:published:v0.4.1"
+    domain_bound = BoundEvidence(
+        audit_object=bound.audit_object,
+        proposition_domain=bound.proposition_domain,
+        proposition=proposition,
+        evidence_id=bound.evidence_id,
+        evidence_sha256=bound.evidence_sha256,
+        evidence_kind=bound.evidence_kind,
+    )
+    record = dict(base, proposition=proposition, support="established")
+    require_reject(
+        f"established {namespace} proposition",
+        canonical(record),
+        domain_bound,
+        "established-proposition-domain",
+    )
+
+for proposition in UNICODE_CASEFOLD_HELDOUTS:
+    record = dict(base, proposition=proposition, support="established")
+    require_accept(
+        f"Unicode casefold parity held-out {proposition}",
+        canonical(record),
+        bound_from_record(record),
+        "v2-evidence-input",
+        "established",
+    )
+
+legacy_controls = (
+    "established",
+    "contradicted",
+    "insufficient",
+    "stale",
+    "identity mismatch",
+    "qualification gap",
+    "unresolved",
+    "boundary not supportable",
+)
+for raw_text in legacy_controls:
+    require_accept(
+        f"frozen base-derived legacy token {raw_text}",
+        raw_text.encode(),
+        bound,
+        "legacy-neutral-verification-only",
+        "neutral",
+    )
+require_reject("unfrozen legacy prose", b"attempt succeeded", bound, "legacy-token")
+
+print(
+    "internal-skill-routing.test: evidential support controls ok "
+    f"({len(SUPPORT_STATES)} states, {len(negative_records)} bound negatives, "
+    f"{len(malformed_controls)} malformed, {len(neutral_kinds)} neutral v2, "
+    f"{len(decoded_control_fields) * 3} decoded controls, "
+    f"{len(proposition_prefixes) * len(prohibited_spellings)} prefixed domains, "
+    f"{len(prohibited_domains)} exact prohibited domains, "
+    f"{len(UNICODE_CASEFOLD_HELDOUTS)} Unicode casefold parity controls, "
+    f"{len(legacy_controls)} frozen v1 controls)"
 )
 PY

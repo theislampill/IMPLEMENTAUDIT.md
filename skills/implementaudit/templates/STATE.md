@@ -27,6 +27,15 @@ current immutable generation and its exact archive.
 Status values: `open` / `READY_TO_DISPATCH` / `IN_PHASE` / `PAUSED` /
 `BLOCKED` / `INTERRUPTED` / `DONE`.
 
+For a governed nonterminal yield, `Audit object state` remains `open`; Phase,
+Route, Owner/source, Last check, and Next action are nonempty; and STATE carries
+no terminal or handoff marker. `BLOCKED` and `INTERRUPTED` also require an
+unresolved Andon row. The Route decision projection and record rows are optional
+diagnostics: they neither authorize nor veto a disposition. This is evidence for
+the existing status, not a new lifecycle state. `validate-run-root.sh
+--nonterminal-yield <run-root>` checks the lifecycle projection; the current
+R0033 result remains the route authority.
+
 ## Audit object state
 
 Audit object / record / surface:

@@ -79,14 +79,28 @@ PY
 
 controller_record="$(printf 'implementaudit.controller-current.v1\tcontroller-route\t%s\t%s\n' "$claim_id" "$run_root" | git -C "$tmp/repo" hash-object -w --stdin)"
 git -C "$tmp/repo" update-ref refs/implementaudit/controllers/controller-route "$controller_record"
-(
-  cd "$tmp/repo"
-  bash "$claim" --invalidate-continuity controller-route --boundary new-session --event exact-boundary-event >/dev/null
-)
-continuity_receipt="$(
-  cd "$tmp/repo"
-  bash "$claim" --resume-controller controller-route --boundary new-session --epoch G0001
-)"
+mint_initial_receipt() {
+  local controller="$1" controller_oid="$2" claim_local="$3" root="$4" event_id="$5"
+  local head tree state_sha road_sha invalidation_oid invalidation_ref receipt_oid receipt_ref
+  head="$(git -C "$tmp/repo" rev-parse HEAD)"
+  tree="$(git -C "$tmp/repo" rev-parse 'HEAD^{tree}')"
+  state_sha="$(sha256sum "$root/STATE.md" | cut -d' ' -f1)"
+  road_sha="$(sha256sum "$root/ROADMAP.md" | cut -d' ' -f1)"
+  invalidation_ref="refs/implementaudit/continuity-invalidations/$controller"
+  invalidation_oid="$(printf 'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\tnew-session\t%s\n' \
+    "$controller" "$controller_oid" "$claim_local" "$event_id" \
+    | git -C "$tmp/repo" hash-object -w --stdin)"
+  git -C "$tmp/repo" update-ref "$invalidation_ref" "$invalidation_oid" 0000000000000000000000000000000000000000
+  receipt_ref="refs/implementaudit/continuity-receipts/$controller/G0001"
+  receipt_oid="$(printf 'implementaudit.continuity-receipt.v2\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tnew-session\tG0001\texecute exact route-bound action\n' \
+    "$controller" "$controller_oid" "$claim_local" "$head" "$tree" "$state_sha" "$road_sha" "$invalidation_oid" \
+    | git -C "$tmp/repo" hash-object -w --stdin)"
+  git -C "$tmp/repo" update-ref "$receipt_ref" "$receipt_oid" 0000000000000000000000000000000000000000
+  printf '%s@%s\n' "$receipt_ref" "$receipt_oid"
+}
+continuity_receipt="$(mint_initial_receipt controller-route "$controller_record" "$claim_id" "$run_root" exact-boundary-event)"
+[ "$(cd "$tmp/repo" && bash "$claim" --require-current-continuity controller-route)" = "$continuity_receipt" ] ||
+  fail "initial route fixture did not establish exact raw continuity"
 
 set +e
 if [ -f "$core" ]; then
@@ -145,6 +159,79 @@ route() {
   )
 }
 
+observe() {
+  local controller="$1" session="$2" generation="$3"
+  (
+    unset BASH_XTRACEFD
+    cd "$tmp/repo"
+    "${py[@]}" "$core" observe-current --controller "$controller" \
+      --store "$tmp/host-store" --host-id codex --host-session-id "$session" \
+      --binding-generation "$generation"
+  )
+}
+
+expect_observe_blocked() {
+  local label="$1" controller="$2" session="$3" generation="$4"
+  local output status
+  set +e
+  output="$(observe "$controller" "$session" "$generation" 2>&1)"
+  status=$?
+  set -e
+  [ "$status" -ne 0 ] || fail "request-free observation unexpectedly advanced: $label"
+  assert_json "$output" 'value["decision"] in ("PENDING", "NOT_REQUIRED", "REQUIRED") and value["advance_allowed"] is False'
+  printf '%s\n' "$output"
+}
+
+expect_observe_flag_rejected() {
+  local label="$1"
+  shift
+  local output status
+  set +e
+  output="$({
+    cd "$tmp/repo"
+    "${py[@]}" "$core" observe-current --controller controller-cheap \
+      --store "$tmp/host-store" --host-id codex --host-session-id session-cheap \
+      --binding-generation G0001 "$@"
+  } 2>&1)"
+  status=$?
+  set -e
+  [ "$status" -ne 0 ] || fail "request-free observer accepted caller authority: $label"
+  [[ "$output" == *"unrecognized arguments"* ]] || fail "request-free observer rejected $label for the wrong reason: $output"
+}
+
+read_only_snapshot() {
+  "${py[@]}" - "$tmp/repo" "$tmp/host-store" "$repo_root" <<'PY'
+import hashlib,os,subprocess,sys
+from pathlib import Path
+repo,store,source=map(Path,sys.argv[1:])
+digest=hashlib.sha256()
+def add(label,data):
+ digest.update(label.encode()+b"\0"+len(data).to_bytes(8,"big")+data)
+def command(label,*argv,cwd):
+ add(label,subprocess.check_output(argv,cwd=cwd))
+command("refs","git","for-each-ref","--format=%(refname) %(objectname)",cwd=repo)
+command("objects","git","count-objects","-v",cwd=repo)
+command("repo-status","git","status","--porcelain=v1","-uall",cwd=repo)
+command("source-status","git","status","--porcelain=v1","-uall",cwd=source)
+for label,root in (
+ ("store",store),
+ ("runs",repo/".IMPLEMENTAUDIT"/"runs"),
+ ("route-lock",repo/".git"/"implementaudit-locks"),
+):
+ if not root.exists():
+  add(label,b"MISSING")
+  continue
+ for path in sorted(root.rglob("*"),key=lambda value:value.as_posix()):
+  relative=path.relative_to(root).as_posix().encode()
+  if path.is_symlink(): payload=b"SYMLINK\0"+os.readlink(path).encode()
+  elif path.is_file(): payload=b"FILE\0"+path.read_bytes()
+  elif path.is_dir(): payload=b"DIR"
+  else: payload=b"OTHER"
+  add(label+":"+relative.decode(),payload)
+print(digest.hexdigest())
+PY
+}
+
 make_run() {
   local controller="$1" run_name="$2" claim_id_local="$3" event_id="$4"
   local target="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name"
@@ -177,11 +264,10 @@ PY
   local record receipt
   record="$(printf 'implementaudit.controller-current.v1\t%s\t%s\t%s\n' "$controller" "$claim_id_local" "$target" | git -C "$tmp/repo" hash-object -w --stdin)"
   git -C "$tmp/repo" update-ref "refs/implementaudit/controllers/$controller" "$record"
-  (
-    cd "$tmp/repo"
-    bash "$claim" --invalidate-continuity "$controller" --boundary new-session --event "$event_id" >/dev/null
-    bash "$claim" --resume-controller "$controller" --boundary new-session --epoch G0001
-  )
+  receipt="$(mint_initial_receipt "$controller" "$record" "$claim_id_local" "$target" "$event_id")"
+  [ "$(cd "$tmp/repo" && bash "$claim" --require-current-continuity "$controller")" = "$receipt" ] ||
+    fail "$controller fixture did not establish exact raw continuity"
+  printf '%s\n' "$receipt"
 }
 
 host_core="$repo_root/skills/implementaudit/scripts/host-session-binding.py"
@@ -412,10 +498,12 @@ printf 'route obligation REQUIRED\n' > "$run_root/route-prose.txt"
 cp "$run_root/STATE.md" "$tmp/state-before-projection-edit.md"
 printf '\n| Route decision projection | NOT_REQUIRED |\n| Route decision record | invented |\n' >> "$run_root/STATE.md"
 expect_blocked "prose/STATE cannot create authority" route controller-route route-red G0001 check --request "$required_request" >/dev/null
+expect_observe_blocked "absence cannot create request-free authority" controller-route route-red G0001 >/dev/null
 cp "$tmp/state-before-projection-edit.md" "$run_root/STATE.md"
 junk="$(printf 'not-json\n' | git -C "$tmp/repo" hash-object -w --stdin)"
 git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-route "$junk"
 expect_blocked "malformed current route record" route controller-route route-red G0001 check --request "$required_request" >/dev/null
+expect_observe_blocked "malformed current route record" controller-route route-red G0001 >/dev/null
 git -C "$tmp/repo" update-ref -d refs/implementaudit/route-decisions/controller-route
 
 # 6-9 and 42-45: required/judgement classification, immutable obligation skeleton,
@@ -447,13 +535,23 @@ source_e2_correlation="$(source_event_correlation host:E2)"
 source_e3_correlation="$(source_event_correlation host:E3)"
 required_check="$(expect_blocked "required route remains unsatisfied" route controller-route route-red G0001 check --request "$required_request")"
 assert_json "$required_check" 'value["decision"] == "REQUIRED" and value["advance_allowed"] is False and value["route_state"] == "UNSATISFIED"'
+set +e
+required_snapshot_before="$(read_only_snapshot)"
+required_observed="$(observe controller-route route-red G0001 2>&1)"
+required_observed_status=$?
+required_snapshot_after="$(read_only_snapshot)"
+set -e
+[ "$required_observed_status" -eq 3 ] || fail "request-free REQUIRED/UNSATISFIED did not retain the check exit class"
+[ "$required_observed" = "$required_check" ] || fail "request-free REQUIRED/UNSATISFIED result differs from check"
+[ "$required_snapshot_before" = "$required_snapshot_after" ] || fail "request-free REQUIRED/UNSATISFIED observation changed persistent state"
 required_blob="$(git -C "$tmp/repo" cat-file blob "$required_oid")"
 assert_json "$required_blob" 'value["child_lifecycle_owned"] is False and "child_open" not in value and "child_return" not in value and "completion" not in value'
 assert_json "$required_blob" 'value["predecessor_record_oid"] is None and value["record_identity"].startswith("sha256:")'
 
-# HC-H2B: the canonical REQUIRED obligation opens only with the exact full
-# audit-state bytes and immutable packet, accepts the same live return, rereads
-# currentness after return, and records exactly one governor decision.
+# HC-H2B: the canonical MAINTAINER_QUALIFICATION obligation opens only with the
+# mapped audit-implement bytes and immutable packet, visibly names that exact
+# load, accepts the same live return, rereads currentness after return, and
+# records exactly one governor decision.
 route_packet="$tmp/route-packet.json"
 child_return="$tmp/child-return.json"
 governor_decision="$tmp/governor-decision.json"
@@ -477,7 +575,7 @@ packet={
  "obligation_id":decided["obligation_id"],
  "route_transaction_id":decided["route_transaction_id"],
  "source_event":event,
- "target_identity":"target:hc-h2b",
+ "target_identity":"audit-implement",
 }
 def write(path,value):
  raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
@@ -504,16 +602,24 @@ decision={
 write(sys.argv[4],decision)
 PY
 
+open_visible="$tmp/open-visible.txt"
 opened="$(route controller-route route-red G0001 open --request "$required_request" \
-  --expected-record "$required_oid" --packet "$route_packet")"
+  --expected-record "$required_oid" --packet "$route_packet" 2>"$open_visible")"
 assert_json "$opened" 'value["status"] == "CHILD_OPEN" and value["decision"] == "REQUIRED" and value["route_state"] == "OPEN" and value["advance_allowed"] is False'
 open_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
-"${py[@]}" - "$opened" "$repo_root/skills/audit-state/SKILL.md" "$route_packet" <<'PY'
+"${py[@]}" - "$opened" "$repo_root/skills/audit-implement/SKILL.md" "$route_packet" <<'PY'
 import base64,json,sys
 value=json.loads(sys.argv[1])
-assert base64.b64decode(value["delivery"]["child"]["bytes_b64"]) == open(sys.argv[2],"rb").read()
+if base64.b64decode(value["delivery"]["child"]["bytes_b64"]) != open(sys.argv[2],"rb").read():
+ raise SystemExit("mapped audit-implement child bytes were not delivered")
 assert base64.b64decode(value["delivery"]["packet"]["bytes_b64"]) == open(sys.argv[3],"rb").read()
 PY
+mapfile -t open_visible_lines < "$open_visible"
+[ "${#open_visible_lines[@]}" -eq 2 ] || fail "mapped child OPEN did not emit exactly two visible route lines"
+[ "${open_visible_lines[0]: -1}" != $'\r' ] || open_visible_lines[0]="${open_visible_lines[0]%$'\r'}"
+[ "${open_visible_lines[1]: -1}" != $'\r' ] || open_visible_lines[1]="${open_visible_lines[1]%$'\r'}"
+[ "${open_visible_lines[0]}" = 'CHILD_SKILL_ROUTE=audit-implement' ] || fail "mapped child OPEN emitted the wrong route identity"
+[ "${open_visible_lines[1]}" = "I'm using audit-implement to qualify the exact maintainer candidate after verified release currentness." ] || fail "mapped child OPEN emitted the wrong bounded reason"
 open_blob="$(git -C "$tmp/repo" cat-file blob "$open_oid")"
 assert_json "$open_blob" 'value["predecessor_record_oid"] == "'"$required_oid"'" and value["route_state"] == "OPEN" and value["child_lifecycle_owned"] is True and value["lifecycle"]["delivery"]'
 
@@ -541,6 +647,11 @@ assert_json "$complete_blob" 'value["predecessor_record_oid"] == "'"$return_oid"
 
 completion_check="$(route controller-route route-red G0001 check --request "$required_request")"
 assert_json "$completion_check" 'value["decision"] == "REQUIRED" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
+completion_snapshot_before="$(read_only_snapshot)"
+completion_observed="$(observe controller-route route-red G0001)"
+completion_snapshot_after="$(read_only_snapshot)"
+[ "$completion_observed" = "$completion_check" ] || fail "request-free REQUIRED/SATISFIED result differs from check"
+[ "$completion_snapshot_before" = "$completion_snapshot_after" ] || fail "request-free REQUIRED/SATISFIED observation changed persistent state"
 "${py[@]}" - "$complete_blob" "$tmp" <<'PY'
 import base64,copy,hashlib,json,sys
 source=json.loads(sys.argv[1]); root=sys.argv[2]
@@ -580,15 +691,78 @@ decision["return_digest"]=foreign["lifecycle"]["child_return"]["digest"]
 foreign["lifecycle"]["governor_decision"]=artifact_value(decision)
 finish("foreign-bundle",foreign)
 
+event_mismatch=copy.deepcopy(source)
+packet=json.loads(base64.b64decode(event_mismatch["lifecycle"]["delivery"]["packet"]["bytes_b64"]))
+returned=json.loads(base64.b64decode(event_mismatch["lifecycle"]["child_return"]["bytes_b64"]))
+decision=json.loads(base64.b64decode(event_mismatch["lifecycle"]["governor_decision"]["bytes_b64"]))
+packet["source_event"]["provenance"]["host_correlation_id"]="sha256:"+"2"*64
+event_mismatch["lifecycle"]["delivery"]["packet"]=artifact_value(packet)
+returned["packet_digest"]=event_mismatch["lifecycle"]["delivery"]["packet"]["digest"]
+event_mismatch["lifecycle"]["child_return"]=artifact_value(returned)
+decision["return_digest"]=event_mismatch["lifecycle"]["child_return"]["digest"]
+event_mismatch["lifecycle"]["governor_decision"]=artifact_value(decision)
+finish("event-attribution-mismatch",event_mismatch)
+
 shortcut=copy.deepcopy(source)
 shortcut["predecessor_record_oid"]=shortcut["lifecycle"]["required_record_oid"]
 finish("shortcut-chain",shortcut)
+
+mixed=copy.deepcopy(source)
+mixed["mixed_version_member"]="forbidden"
+finish("mixed-version",mixed)
+
+wrong_controller=copy.deepcopy(source)
+wrong_controller["controller_id"]="controller-foreign"
+finish("wrong-controller",wrong_controller)
+
+bad_identity=copy.deepcopy(source)
+bad_identity["record_identity"]="sha256:"+"0"*64
+with open(f"{root}/proxy-bad-identity.json","wb") as handle:
+ handle.write(canonical(bad_identity)+b"\n")
+
+malformed_lifecycle=copy.deepcopy(source)
+malformed_lifecycle["lifecycle"]["state"]="OPEN"
+finish("malformed-lifecycle",malformed_lifecycle)
+
+for name,path,value in (
+ ("foreign-claim",("claim_id",),"f"*32),
+ ("foreign-run",("explicit_run_root",),source["explicit_run_root"]+"-foreign"),
+ ("foreign-continuity-generation",("continuity_generation",),"G0002"),
+ ("foreign-continuity-receipt",("continuity_receipt",),source["continuity_receipt"]+"-foreign"),
+ ("foreign-boundary",("boundary","event_id"),"foreign-boundary"),
+ ("foreign-scope",("scope","identity"),"foreign-scope"),
+ ("foreign-action",("action","identity"),"foreign-action"),
+ ("foreign-package",("package","head"),"0"*40),
+ ("foreign-child-source",("child_source","digest"),"sha256:"+"0"*64),
+ ("foreign-input",("inputs",0,"digest"),"sha256:"+"0"*64),
+ ("foreign-host-correlation",("host_correlation_id",),"sha256:"+"0"*64),
+):
+ value_copy=copy.deepcopy(source)
+ cursor=value_copy
+ for member in path[:-1]: cursor=cursor[member]
+ cursor[path[-1]]=value
+ finish(name,value_copy)
+
+with open(f"{root}/proxy-noncanonical.json","w",encoding="utf-8",newline="\n") as handle:
+ json.dump(source,handle,sort_keys=True,indent=2,ensure_ascii=True)
+ handle.write("\n")
+duplicate_raw=b'{"schema":"duplicate",'+canonical(source)[1:]+b"\n"
+with open(f"{root}/proxy-duplicate-member.json","wb") as handle:
+ handle.write(duplicate_raw)
 PY
-for proxy_case in wrong-child invalid-bundle foreign-bundle shortcut-chain; do
+for proxy_case in \
+  wrong-child invalid-bundle foreign-bundle shortcut-chain mixed-version \
+  event-attribution-mismatch wrong-controller bad-identity malformed-lifecycle \
+  foreign-claim foreign-run \
+  foreign-continuity-generation foreign-continuity-receipt foreign-boundary \
+  foreign-scope foreign-action foreign-package foreign-child-source \
+  foreign-input foreign-host-correlation noncanonical duplicate-member; do
   proxy_oid="$(git -C "$tmp/repo" hash-object -w "$tmp/proxy-$proxy_case.json")"
   git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-route "$proxy_oid" "$complete_oid"
   expect_blocked "$proxy_case cannot satisfy full-byte route delivery" \
     route controller-route route-red G0001 check --request "$required_request" >/dev/null
+  expect_observe_blocked "$proxy_case cannot satisfy request-free route delivery" \
+    controller-route route-red G0001 >/dev/null
   git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-route "$complete_oid" "$proxy_oid"
 done
 duplicate_completion="$(route controller-route route-red G0001 complete --request "$required_request" \
@@ -706,12 +880,24 @@ v3_route_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["re
 v3_route_blob="$(git -C "$tmp/repo" cat-file blob "$v3_route_oid")"
 assert_json "$v3_route_blob" 'value["continuity_generation"] == "G0002" and value["continuity_receipt"] == "'"$v3_receipt"'"'
 [ "$(git -C "$tmp/repo" rev-parse "$unrelated_ref")" = "$unrelated_oid" ] || fail "routine v3 route recovery touched unrelated history"
+set +e
+v3_observed="$(observe controller-v3 session-v3 G0001 2>&1)"
+v3_observed_status=$?
+set -e
+[ "$v3_observed_status" -eq 3 ] || fail "request-free v3 REQUIRED/UNSATISFIED changed its exit class"
+assert_json "$v3_observed" 'value["decision"] == "REQUIRED" and value["advance_allowed"] is False and value["history_read_performed"] is False'
+[ "$(git -C "$tmp/repo" rev-parse "$unrelated_ref")" = "$unrelated_oid" ] || fail "request-free v3 observation enumerated or touched unrelated history"
 
 incomplete_request="$tmp/incomplete.json"
 mutate_request "$pending_request" "$incomplete_request" 'value["inputs"][0]["digest"]="sha256:"+"0"*64'
 pending_decide="$(route controller-pending session-pending G0001 decide --request "$incomplete_request" --expected-record none)"
 assert_json "$pending_decide" 'value["decision"] == "PENDING" and value["advance_allowed"] is False and value["invalidators"]'
 pending_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$pending_decide")"
+stale_snapshot_before="$(read_only_snapshot)"
+stale_observed="$(expect_observe_blocked "stale retained input is lossy" controller-pending session-pending G0001)"
+stale_snapshot_after="$(read_only_snapshot)"
+assert_json "$stale_observed" 'value["advance_allowed"] is False and value["enforcement_available"] is False'
+[ "$stale_snapshot_before" = "$stale_snapshot_after" ] || fail "lossy request-free observation changed persistent state"
 set +e
 mirror_check="$(route controller-pending session-pending G0001 check --request "$incomplete_request" --mirror-claim SATISFIED 2>&1)"
 mirror_status=$?
@@ -720,6 +906,12 @@ set -e
 assert_json "$mirror_check" 'value["decision"] == "PENDING" and value["advance_allowed"] is False and value["record_oid"] == "'"$pending_oid"'"'
 assert_json "$mirror_check" 'value["mirror_claim"] == "SATISFIED" and value["mirror_status"] == "IGNORED_CONTRADICTION"'
 [ "$(git -C "$tmp/repo" rev-parse refs/implementaudit/route-decisions/controller-pending)" = "$pending_oid" ] || fail "mirror claim mutated canonical route authority"
+missing_request="$tmp/missing-input.json"
+mutate_request "$pending_request" "$missing_request" 'value["inputs"]=[{"identity":"input:missing","path":"absent-input.txt","digest":"sha256:"+"0"*64},*value["inputs"]]'
+missing_decide="$(route controller-pending session-pending G0001 decide --request "$missing_request" --expected-record "$pending_oid")"
+pending_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$missing_decide")"
+missing_observed="$(expect_observe_blocked "omitted missing input is lossy" controller-pending session-pending G0001)"
+assert_json "$missing_observed" 'value["advance_allowed"] is False and value["enforcement_available"] is False'
 evil_request="$tmp/evil-basename.json"
 mutate_request "$pending_request" "$evil_request" 'value["action"]["argv"]=["/tmp/evil/git","diff","--","baseline.txt"]; value["action"]["digest"]=h({"identity":value["action"]["identity"],"class":value["action"]["class"],"argv":value["action"]["argv"]})'
 judgement_decide="$(route controller-pending session-pending G0001 decide --request "$evil_request" --expected-record "$pending_oid")"
@@ -734,15 +926,48 @@ assert_json "$cheap_decide" 'value["history_query"] is None and value["history_r
 cheap_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$cheap_decide")"
 cheap_check="$(route controller-cheap session-cheap G0001 check --request "$cheap_request")"
 assert_json "$cheap_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False and value["admission_required"] is True'
+set +e
+cheap_snapshot_before="$(read_only_snapshot)"
+cheap_observed="$(observe controller-cheap session-cheap G0001 2>&1)"
+cheap_observed_status=$?
+cheap_snapshot_after="$(read_only_snapshot)"
+set -e
+if [ "$cheap_observed_status" -ne 0 ]; then
+  printf 'route-obligation-contract.test: request-free current-result operation is absent RED\n' >&2
+  exit 1
+fi
+[ "$cheap_observed" = "$cheap_check" ] || fail "request-free NOT_REQUIRED result differs from check"
+[ "$cheap_snapshot_before" = "$cheap_snapshot_after" ] || fail "request-free NOT_REQUIRED observation changed persistent state"
+for rejected in \
+  '--request|absent.json' '--request-path|absent.json' '--ref|refs/heads/main' \
+  '--run-root|foreign-run' '--claim|foreign-claim' '--cwd|foreign-cwd' \
+  '--target|foreign-target' '--transcript|foreign-transcript' \
+  '--newest-run|true' '--mirror-claim|SATISFIED'; do
+  IFS='|' read -r rejected_flag rejected_value <<< "$rejected"
+  expect_observe_flag_rejected "$rejected_flag" "$rejected_flag" "$rejected_value"
+done
+mkdir -p "$tmp/wrong-cwd"
+git -C "$tmp/wrong-cwd" init -q
+set +e
+wrong_cwd_observed="$({
+  cd "$tmp/wrong-cwd"
+  "${py[@]}" "$core" observe-current --controller controller-cheap \
+    --store "$tmp/host-store" --host-id codex --host-session-id session-cheap \
+    --binding-generation G0001
+} 2>&1)"
+wrong_cwd_observed_status=$?
+set -e
+[ "$wrong_cwd_observed_status" -ne 0 ] || fail "wrong cwd selected foreign request-free authority"
+assert_json "$wrong_cwd_observed" 'value["advance_allowed"] is False and value["enforcement_available"] is False'
 printf 'read-set-v2\n' > "$tmp/repo/unlisted-observation.txt"
 expect_blocked "unlisted worktree read-set change expires receipt" route controller-cheap session-cheap G0001 check --request "$cheap_request" >/dev/null
+expect_observe_blocked "request-free read-set change expires receipt" controller-cheap session-cheap G0001 >/dev/null
 printf 'read-set-v1\n' > "$tmp/repo/unlisted-observation.txt"
 route controller-cheap session-cheap G0001 check --request "$cheap_request" >/dev/null
 wrapper_check="$(
   cd "$tmp/repo"
   bash "$claim" --require-current-route controller-cheap --store "$tmp/host-store" \
-    --host-id codex --host-session-id session-cheap --binding-generation G0001 \
-    --request "$cheap_request"
+    --host-id codex --host-session-id session-cheap --binding-generation G0001
 )"
 assert_json "$wrapper_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False and value["admission_required"] is True'
 for class in MECHANICAL_CURRENTNESS_ACTION EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION SAFE_STATUS_OR_CONTAINMENT EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION; do
@@ -787,6 +1012,9 @@ assert_json "$same_again" 'value["idempotent"] is True and value["record_oid"]'
 # 34-41: controller/binding/continuity isolation and independent-scope behavior.
 expect_blocked "foreign controller" route controller-route session-cheap G0001 check --request "$required_request" >/dev/null
 expect_blocked "foreign session claim" route controller-cheap route-red G0001 check --request "$cheap_request" >/dev/null
+expect_observe_blocked "request-free foreign controller binding" controller-route session-cheap G0001 >/dev/null
+expect_observe_blocked "request-free foreign session binding" controller-cheap route-red G0001 >/dev/null
+expect_observe_blocked "request-free absent host binding" controller-cheap session-unbound G0001 >/dev/null
 independent="$(route controller-cheap session-cheap G0001 check --request "$cheap_request")"
 assert_json "$independent" 'value["decision"] == "NOT_REQUIRED" and value["admission_required"] is True and value["advance_allowed"] is False'
 # A non-cooperating ref replacement during the deliberately multi-owner check
@@ -802,6 +1030,53 @@ race_status=$?
 set -e
 [ "$race_status" -ne 0 ] || fail "concurrent route-ref replacement returned stale NOT_REQUIRED authority"
 git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-cheap "$cheap_oid" "$race_junk"
+set +e
+observe controller-cheap session-cheap G0001 >"$tmp/race-observe-route.out" 2>&1 &
+observe_route_pid=$!
+sleep 0.1
+git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-cheap "$race_junk" "$cheap_oid"
+wait "$observe_route_pid"
+observe_route_status=$?
+set -e
+[ "$observe_route_status" -ne 0 ] || fail "request-free route-ref replacement returned stale NOT_REQUIRED authority"
+git -C "$tmp/repo" update-ref refs/implementaudit/route-decisions/controller-cheap "$cheap_oid" "$race_junk"
+
+cheap_controller_oid="$(git -C "$tmp/repo" rev-parse refs/implementaudit/controllers/controller-cheap)"
+controller_race_junk="$(printf 'controller-race\n' | git -C "$tmp/repo" hash-object -w --stdin)"
+set +e
+observe controller-cheap session-cheap G0001 >"$tmp/race-observe-controller.out" 2>&1 &
+observe_controller_pid=$!
+sleep 0.1
+git -C "$tmp/repo" update-ref refs/implementaudit/controllers/controller-cheap "$controller_race_junk" "$cheap_controller_oid"
+wait "$observe_controller_pid"
+observe_controller_status=$?
+set -e
+[ "$observe_controller_status" -ne 0 ] || fail "request-free controller replacement returned stale NOT_REQUIRED authority"
+git -C "$tmp/repo" update-ref refs/implementaudit/controllers/controller-cheap "$cheap_controller_oid" "$controller_race_junk"
+
+cp "$cheap_root/STATE.md" "$tmp/cheap-state-before-race.md"
+set +e
+observe controller-cheap session-cheap G0001 >"$tmp/race-observe-continuity.out" 2>&1 &
+observe_continuity_pid=$!
+sleep 0.1
+printf '\ncontinuity-race\n' >> "$cheap_root/STATE.md"
+wait "$observe_continuity_pid"
+observe_continuity_status=$?
+set -e
+[ "$observe_continuity_status" -ne 0 ] || fail "request-free continuity replacement returned stale NOT_REQUIRED authority"
+cp "$tmp/cheap-state-before-race.md" "$cheap_root/STATE.md"
+
+cp "$tmp/repo/baseline.txt" "$tmp/baseline-before-race.txt"
+set +e
+observe controller-cheap session-cheap G0001 >"$tmp/race-observe-input.out" 2>&1 &
+observe_input_pid=$!
+sleep 0.1
+printf 'input-race\n' >> "$tmp/repo/baseline.txt"
+wait "$observe_input_pid"
+observe_input_status=$?
+set -e
+[ "$observe_input_status" -ne 0 ] || fail "request-free input replacement returned stale NOT_REQUIRED authority"
+cp "$tmp/baseline-before-race.txt" "$tmp/repo/baseline.txt"
 old_transaction="$(git -C "$tmp/repo" cat-file blob "$cheap_oid" | "${py[@]}" -c 'import json,sys;print(json.load(sys.stdin)["route_transaction_id"])')"
 host rebind --owner-id host-owner --host-id codex --host-session-id session-cheap \
   --expected-generation G0001 --reason binding-generation-control \
@@ -811,12 +1086,29 @@ host rebind --owner-id host-owner --host-id codex --host-session-id session-chea
   --activation-receipt activation-cheap-g2 --continuity-generation G0001 \
   --continuity-receipt "$cheap_receipt" >/dev/null
 expect_blocked "current binding generation expires prior receipt" route controller-cheap session-cheap G0002 check --request "$cheap_request" >/dev/null
+expect_observe_blocked "request-free binding generation expires prior receipt" controller-cheap session-cheap G0002 >/dev/null
 rebound_decide="$(route controller-cheap session-cheap G0002 decide --request "$cheap_request" --expected-record "$cheap_oid")"
 rebound_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$rebound_decide")"
 assert_json "$rebound_decide" "value[\"decision\"] == \"NOT_REQUIRED\" and value[\"record_oid\"] != \"$cheap_oid\" and not value.get(\"idempotent\", False)"
 rebound_transaction="$(git -C "$tmp/repo" cat-file blob "$rebound_oid" | "${py[@]}" -c 'import json,sys;print(json.load(sys.stdin)["route_transaction_id"])')"
 [ "$old_transaction" != "$rebound_transaction" ] || fail "binding generation reused the route transaction identity"
 route controller-cheap session-cheap G0002 check --request "$cheap_request" >/dev/null
+cp -R "$tmp/host-store" "$tmp/host-store-before-ambiguity"
+"${py[@]}" - "$tmp/host-store" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+store=Path(sys.argv[1])
+key=hashlib.sha256(b"codex\0session-cheap").hexdigest()
+target=store/"bindings"/key[:2]/key/"binding.json"
+value=json.loads(target.read_text(encoding="utf-8"))
+value["records"][0]["status"]="ACTIVE"
+value["records"][0]["supersession_or_tombstone_reason"]=None
+target.write_text(json.dumps(value,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8",newline="\n")
+PY
+expect_observe_blocked "ambiguous H0 binding population" controller-cheap session-cheap G0002 >/dev/null
+rm -rf "$tmp/host-store"
+mv "$tmp/host-store-before-ambiguity" "$tmp/host-store"
+observe controller-cheap session-cheap G0002 >/dev/null
 current_action_oid="$rebound_oid"
 for class in PURE_BOUNDED_READ_OR_VALIDATION MECHANICAL_CURRENTNESS_ACTION EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION SAFE_STATUS_OR_CONTAINMENT EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION; do
   consume_request="$tmp/consume-$class.json"
@@ -872,12 +1164,162 @@ expect_blocked "STATE pending cannot override required" route controller-history
 assert_json "$required_blob" 'value["expires_on"] and "scope-expansion" in value["expires_on"] and "continuity-receipt-change" in value["expires_on"]'
 assert_json "$judgement_decide" 'value["record_oid"] and value["decision"] == "REQUIRED"'
 
+# G01-G16/G25/G35/G36/G40: exercise the closed child map through four fresh
+# controller/run/receipt/binding lifecycles.  Every cross-target packet must
+# fail before OPEN, while each sole mapped child must resolve and load its exact
+# bytes, emit one bounded route statement, return only to the governor, and
+# reach final request-free admission only after the one governor decision.
+run_governed_child_case() {
+  local case_id="$1" claim_local="$2" reason="$3" child="$4" visible_reason="$5"
+  local controller="controller-${case_id,,}" session="session-${case_id,,}"
+  local run_name="${case_id,,}-ABC123" request="$tmp/${case_id,,}-request.json"
+  local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name" receipt decided required_record
+  local obligation transaction attributed correlation target wrong_packet wrong_visible
+  local wrong_output wrong_status packet returned_artifact decision_artifact opened open_record
+  local open_visible returned_result return_record completed_result complete_record admitted
+
+  receipt="$(make_run "$controller" "$run_name" "$claim_local" exact-boundary-event)"
+  bind_host "$session" "$controller" "$claim_local" "$root" "$receipt" "activation-${case_id,,}"
+  write_request "$request" PURE_BOUNDED_READ_OR_VALIDATION "$reason"
+  decided="$(route "$controller" "$session" G0001 decide --request "$request" --expected-record none)"
+  assert_json "$decided" 'value["decision"] == "REQUIRED" and value["route_state"] == "UNSATISFIED"'
+  required_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$decided")"
+  obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$decided")"
+  transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$decided")"
+  attributed="$(host validate-event --host-id codex --host-session-id "$session" \
+    --binding-generation G0001 --controller-id "$controller" --claim-id "$claim_local" \
+    --explicit-run-root "$root" --repository-identity "$repo_custody" \
+    --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
+    --continuity-generation G0001 --continuity-receipt "$receipt" \
+    --event-id "host:$case_id" --obligation-id "$obligation" \
+    --route-transaction-id "$transaction")"
+  correlation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$attributed")"
+
+  for target in audit-state audit-assess audit-implement audit-andon; do
+    [ "$target" != "$child" ] || continue
+    wrong_packet="$tmp/${case_id,,}-wrong-$target.json"
+    "${py[@]}" - "$wrong_packet" "$obligation" "$transaction" "$correlation" "$case_id" "$target" <<'PY'
+import hashlib,json,sys
+path,obligation,transaction,correlation,event_id,target=sys.argv[1:]
+value={
+ "schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":target,
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:"+event_id,
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1","event_id":"host:"+event_id,
+   "host_correlation_id":correlation},"body":"cross-target refusal","kind":"one-shot-action",
+  "reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}},
+}
+with open(path,"w",encoding="utf-8",newline="\n") as handle:
+ json.dump(value,handle,sort_keys=True,separators=(",",":")); handle.write("\n")
+PY
+    wrong_visible="$tmp/${case_id,,}-wrong-$target.visible"
+    set +e
+    wrong_output="$(route "$controller" "$session" G0001 open --request "$request" \
+      --expected-record "$required_record" --packet "$wrong_packet" 2>"$wrong_visible")"
+    wrong_status=$?
+    set -e
+    [ "$wrong_status" -ne 0 ] || fail "$case_id cross-target $target reached OPEN"
+    assert_json "$wrong_output" 'value["advance_allowed"] is False and value["enforcement_available"] is False'
+    [ ! -s "$wrong_visible" ] || fail "$case_id cross-target $target emitted a route statement"
+    [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$required_record" ] ||
+      fail "$case_id cross-target $target changed canonical route state"
+  done
+
+  packet="$tmp/${case_id,,}-packet.json"
+  returned_artifact="$tmp/${case_id,,}-return.json"
+  decision_artifact="$tmp/${case_id,,}-decision.json"
+  "${py[@]}" - "$packet" "$returned_artifact" "$decision_artifact" "$obligation" \
+    "$transaction" "$correlation" "$case_id" "$child" <<'PY'
+import hashlib,json,sys
+packet_path,return_path,decision_path,obligation,transaction,correlation,event_id,target=sys.argv[1:]
+def write(path,value):
+ raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
+ open(path,"wb").write(raw)
+ return "sha256:"+hashlib.sha256(raw).hexdigest()
+packet={
+ "schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":target,
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:"+event_id,
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1","event_id":"host:"+event_id,
+   "host_correlation_id":correlation},"body":"perform the mapped governed child once",
+  "kind":"one-shot-action","reactivation":{"reopen":False,"target_changed":False,
+   "invalidating_evidence":False}},
+}
+packet_digest=write(packet_path,packet)
+returned={"schema":"implementaudit.child-return.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"packet_digest":packet_digest,"status":"RETURNED",
+ "payload":{"result":"bounded child analysis","requested_next_child":"audit-state"}}
+return_digest=write(return_path,returned)
+decision={"schema":"implementaudit.governor-route-decision.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
+ "reason":"governor reconciled the exact mapped child return"}
+write(decision_path,decision)
+PY
+
+  expect_blocked "$case_id admitted before OPEN" route "$controller" "$session" G0001 admit-current >/dev/null
+  open_visible="$tmp/${case_id,,}-open.visible"
+  opened="$(route "$controller" "$session" G0001 open --request "$request" \
+    --expected-record "$required_record" --packet "$packet" 2>"$open_visible")"
+  assert_json "$opened" 'value["status"] == "CHILD_OPEN" and value["route_state"] == "OPEN"'
+  open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
+  "${py[@]}" - "$opened" "$repo_root/skills/$child/SKILL.md" "$child" <<'PY'
+import base64,json,sys
+from pathlib import Path
+value=json.loads(sys.argv[1]); expected=open(sys.argv[2],"rb").read()
+delivery=value["delivery"]["child"]
+if Path(delivery["identity"]).resolve() != Path(sys.argv[2]).resolve() or base64.b64decode(delivery["bytes_b64"]) != expected:
+ raise SystemExit("mapped child resolver/load bytes disagree")
+PY
+  mapfile -t open_visible_lines < "$open_visible"
+  [ "${#open_visible_lines[@]}" -eq 2 ] || fail "$case_id did not emit exactly one two-line route"
+  [ "${open_visible_lines[0]: -1}" != $'\r' ] || open_visible_lines[0]="${open_visible_lines[0]%$'\r'}"
+  [ "${open_visible_lines[1]: -1}" != $'\r' ] || open_visible_lines[1]="${open_visible_lines[1]%$'\r'}"
+  [ "${open_visible_lines[0]}" = "CHILD_SKILL_ROUTE=$child" ] || fail "$case_id emitted the wrong child identity"
+  [ "${open_visible_lines[1]}" = "I'm using $child to $visible_reason." ] || fail "$case_id emitted the wrong bounded reason"
+  expect_blocked "$case_id OPEN/process-loss state admitted" route "$controller" "$session" G0001 admit-current >/dev/null
+
+  returned_result="$(route "$controller" "$session" G0001 return --request "$request" \
+    --expected-record "$open_record" --return "$returned_artifact")"
+  assert_json "$returned_result" 'value["status"] == "CHILD_RETURNED" and value["route_state"] == "RETURNED" and value["advance_allowed"] is False'
+  return_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$returned_result")"
+  expect_blocked "$case_id child-to-child payload bypassed governor" route "$controller" "$session" G0001 admit-current >/dev/null
+  completed_result="$(route "$controller" "$session" G0001 complete --request "$request" \
+    --expected-record "$return_record" --packet "$packet" --return "$returned_artifact" \
+    --decision "$decision_artifact")"
+  assert_json "$completed_result" 'value["status"] == "ROUTE_COMPLETE" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1'
+  complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$completed_result")"
+  admitted="$(cd "$tmp/repo" && bash "$claim" --require-current-route "$controller" \
+    --store "$tmp/host-store" --host-id codex --host-session-id "$session" \
+    --binding-generation G0001)"
+  assert_json "$admitted" 'value["decision"] == "REQUIRED" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
+  [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$complete_record" ] ||
+    fail "$case_id final admission changed canonical route state"
+}
+
+run_governed_child_case G01 55555555555555555555555555555555 \
+  STALE_CONTEXT_RECONSTRUCTION audit-state \
+  'rehydrate bounded current state after the exact stale-context boundary'
+run_governed_child_case G02 66666666666666666666666666666666 \
+  IMMUTABLE_INDEPENDENT_REVIEW audit-assess \
+  'independently assess the exact immutable review packet'
+run_governed_child_case G03 77777777777777777777777777777777 \
+  MAINTAINER_QUALIFICATION audit-implement \
+  'qualify the exact maintainer candidate after verified release currentness'
+run_governed_child_case G04 88888888888888888888888888888888 \
+  NONTRIVIAL_ANDON_DIAGNOSIS audit-andon \
+  'diagnose the established nontrivial Andon within its authority ceiling'
+
 # The pure R0033 owner validator remains usable for a read-only C03 projection
 # after event attribution is tombstoned, while every R0033 effect path refuses.
 host tombstone --owner-id host-owner --host-id codex --host-session-id route-red \
   --expected-generation G0001 --reason route-owner-read-only-control >/dev/null
 expect_blocked "tombstoned session cannot authorize a new route effect" \
   route controller-route route-red G0001 check --request "$required_request" >/dev/null
+tombstone_snapshot_before="$(read_only_snapshot)"
+expect_observe_blocked "tombstoned session cannot authorize request-free observation" \
+  controller-route route-red G0001 >/dev/null
+tombstone_snapshot_after="$(read_only_snapshot)"
+[ "$tombstone_snapshot_before" = "$tombstone_snapshot_after" ] || fail "tombstoned request-free observation changed persistent state"
 set +e
 pure_tombstoned="$("${py[@]}" - "$core" "$tmp/repo" controller-route <<'PY'
 import importlib.util,json
@@ -896,4 +1338,6 @@ set -e
 current_required_oid="$(git -C "$tmp/repo" rev-parse refs/implementaudit/route-decisions/controller-route)"
 assert_json "$pure_tombstoned" 'value["record_oid"] == "'"$current_required_oid"'" and value["controller_id"] == "controller-route"'
 
-printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay held-out; first RED preserved)\n'
+printf 'route-obligation-contract.test: request-free current-result matrix GREEN\n'
+printf 'route-obligation-contract.test: G01-G40 common governed-child matrix GREEN\n'
+printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + all-four child-route matrix; first RED preserved)\n'
