@@ -82,7 +82,15 @@ sed -i \
   -e 's/| Route decision projection | NOT_REQUIRED |/| Route decision projection | PENDING |/' \
   -e 's/| Route decision record | 1111111111111111111111111111111111111111 |/| Route decision record | none |/' \
   "$candidate/STATE.md"
-expect_yield_fail 'PENDING route projection blocks yield' "$candidate"
+expect_yield_pass 'PENDING route diagnostic cannot veto yield' "$candidate"
+
+candidate="$tmp/absent-route-projection"
+cp -r "$run_root" "$candidate"
+sed -i \
+  -e '/^| Route decision projection |/d' \
+  -e '/^| Route decision record |/d' \
+  "$candidate/STATE.md"
+expect_yield_pass 'absent route diagnostics cannot veto yield' "$candidate"
 
 candidate="$tmp/missing-next-action"
 cp -r "$run_root" "$candidate"
@@ -147,13 +155,14 @@ evaluator="skills/implementaudit/scripts/evaluate-turn-disposition.py"
 
 make_request() {
   local output="$1" claim="$2" root="$3" route_mode="$4" binding_mode="$5"
-  python - "$output" "$claim" "$root" "$route_mode" "$binding_mode" <<'PY'
+  local projection_status="${6:-CURRENT}"
+  python - "$output" "$claim" "$root" "$route_mode" "$binding_mode" "$projection_status" <<'PY'
 import hashlib
 import json
 import sys
 from pathlib import Path
 
-output, claim, root, route_mode, binding_mode = sys.argv[1:]
+output, claim, root, route_mode, binding_mode, projection_status = sys.argv[1:]
 proof_layers = {
     "source_core": "PRESENT",
     "package": "UNVERIFIED",
@@ -225,7 +234,7 @@ else:
         "history_read_performed": False,
         "mirror_claim": "ABSENT",
         "mirror_status": "IGNORED_ABSENT",
-        "projection_status": "CURRENT",
+        "projection_status": projection_status,
         "proof_layers": proof_layers,
         "host_activation_proven": False,
     }
@@ -803,6 +812,104 @@ request="$tmp/ty-4.json"
 make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid
 expect_disposition TY-4 0 NONTERMINAL_YIELD "$request"
 
+projection_diagnostics=(
+  'current-matched|CURRENT|MATCHED|matching diagnostic prose'
+  'invalid-stale|INVALID|INVALID|prior-record'
+  'legacy-absent|LEGACY_ABSENT|ABSENT|none'
+  'unavailable-contradictory|UNAVAILABLE|contradictory|not-a-route-oid'
+)
+for projection_case in "${projection_diagnostics[@]}"; do
+  IFS='|' read -r label projection_status state_projection state_record <<<"$projection_case"
+  projection_root="$tmp/projection-$label"
+  cp -r "$run_root" "$projection_root"
+  sed -i \
+    -e "s/| Route decision projection | NOT_REQUIRED |/| Route decision projection | $state_projection |/" \
+    -e "s/| Route decision record | 1111111111111111111111111111111111111111 |/| Route decision record | $state_record |/" \
+    "$projection_root/STATE.md"
+  request="$tmp/projection-$label.json"
+  make_request "$request" NONTERMINAL_YIELD "$projection_root" not-required valid "$projection_status"
+  expect_disposition "projection-diagnostic-$label" 0 NONTERMINAL_YIELD "$request"
+done
+
+request="$tmp/projection-rows-absent.json"
+make_request "$request" NONTERMINAL_YIELD "$tmp/absent-route-projection" not-required valid LEGACY_ABSENT
+expect_disposition projection-rows-absent 0 NONTERMINAL_YIELD "$request"
+
+request="$tmp/malformed-projection-status.json"
+make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid MATCHED
+expect_disposition malformed-projection-status 2 BLOCK "$request"
+
+request="$tmp/nontype-projection-status.json"
+make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid CURRENT
+python - "$request" <<'PY'
+import json
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["route"]["projection_status"] = ["CURRENT"]
+path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+PY
+expect_disposition nontype-projection-status 2 BLOCK "$request"
+
+open_route_root="$tmp/open-route"
+cp -r "$run_root" "$open_route_root"
+request="$tmp/open-route.json"
+make_request "$request" NONTERMINAL_YIELD "$open_route_root" open-required valid INVALID
+expect_disposition permissive-projection-cannot-rescue-open-R0033 3 BLOCK "$request"
+
+python - "$request" <<'PY'
+import json
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["route"]["advance_allowed"] = True
+payload["route"]["route_state"] = "SATISFIED"
+payload["route"]["governor_decision_count"] = 1
+path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+PY
+expect_disposition satisfied-R0033-invalid-projection 0 NONTERMINAL_YIELD "$request"
+
+request="$tmp/pending-route-result.json"
+make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid INVALID
+python - "$request" <<'PY'
+import json
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["route"]["decision"] = "PENDING"
+path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+PY
+expect_disposition permissive-projection-cannot-rescue-pending-route 3 BLOCK "$request"
+
+request="$tmp/stale-route-result.json"
+make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid INVALID
+python - "$request" <<'PY'
+import json
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["route"]["status"] = "STALE"
+path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+PY
+expect_disposition stale-route-remains-blocked 3 BLOCK "$request"
+
+request="$tmp/malformed-route-record.json"
+make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid INVALID
+python - "$request" <<'PY'
+import json
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["route"]["record_oid"] = "not-a-route-oid"
+path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+PY
+expect_disposition malformed-route-record-remains-unavailable 2 BLOCK "$request"
+
 request="$tmp/ty-5.json"
 make_request "$request" TERMINAL_CLOSURE "$run_root" not-required valid
 expect_disposition TY-5 3 BLOCK "$request"
@@ -816,27 +923,6 @@ for binding_case in stale foreign ambiguous; do
   make_request "$request" NONTERMINAL_YIELD "$run_root" not-required "$binding_case"
   expect_disposition "binding-$binding_case" 3 BLOCK "$request"
 done
-
-open_route_root="$tmp/open-route"
-cp -r "$run_root" "$open_route_root"
-sed -i 's/| Route decision projection | NOT_REQUIRED |/| Route decision projection | REQUIRED |/' \
-  "$open_route_root/STATE.md"
-request="$tmp/open-route.json"
-make_request "$request" NONTERMINAL_YIELD "$open_route_root" open-required valid
-expect_disposition open-R0033 3 BLOCK "$request"
-
-python - "$request" <<'PY'
-import json
-import sys
-from pathlib import Path
-path = Path(sys.argv[1])
-payload = json.loads(path.read_text(encoding="utf-8"))
-payload["route"]["advance_allowed"] = True
-payload["route"]["route_state"] = "SATISFIED"
-payload["route"]["governor_decision_count"] = 1
-path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
-PY
-expect_disposition satisfied-R0033 0 NONTERMINAL_YIELD "$request"
 
 mixed_closure="$tmp/mixed-closure"
 cp -r "$terminal_root" "$mixed_closure"

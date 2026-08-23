@@ -1028,15 +1028,6 @@ if [ -f "$state" ]; then
       require_state_field "$field"
     done
     phase_value="$(state_field 'Phase')"
-    route_projection="$(state_field 'Route decision projection')"
-    case "$route_projection" in
-      NOT_REQUIRED|REQUIRED) : ;;
-      *) err "STATE.md nonterminal yield requires a non-PENDING canonical route projection" ;;
-    esac
-    route_record="$(state_field 'Route decision record')"
-    if ! printf '%s\n' "$route_record" | grep -Eq '^([0-9a-f]{40}|[0-9a-f]{64})$'; then
-      err "STATE.md nonterminal yield requires a canonical route decision record OID"
-    fi
     if [ "$mode" = nonterminal-yield ] && grep -Eq '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF)$' "$state"; then
       err "STATE.md nonterminal yield cannot carry a terminal or handoff marker"
     fi
