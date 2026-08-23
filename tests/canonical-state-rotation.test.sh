@@ -957,6 +957,13 @@ git(owner_repo, "add", "skills", ".IMPLEMENTAUDIT")
 git(owner_repo, "commit", "-q", "-m", "fixture owner")
 owner_head = git(owner_repo, "rev-parse", "HEAD").decode().strip()
 owner_tree = git(owner_repo, "rev-parse", "HEAD^{tree}").decode().strip()
+mutable_content["STATE.md"] = (
+    "Current epoch: G0001\n"
+    "| Next action | task4-fixture-event |\n"
+    f"| G0001 | manual-resume | 2026-08-21T00:00:00Z | "
+    f"repo at `{owner_head}` / `{owner_tree}` | yes | Task 4 fixture |\n"
+).encode()
+(run_root / "STATE.md").write_bytes(mutable_content["STATE.md"])
 controller_id = "controller-1"
 controller_ref = "refs/implementaudit/controllers/" + controller_id
 controller_raw = ("implementaudit.controller-current.v1\t" + controller_id + "\t"
@@ -2795,10 +2802,18 @@ prepare_live_tuple() {
   local generation="$1"
   cp "$state_pristine" "$matrix_root/STATE.md"
   git -C "$matrix_repo" update-ref -d "$invalidation_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$pointer_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$marker_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref -d "$v3_ref" >/dev/null 2>&1 || true
+  git -C "$matrix_repo" update-ref "$legacy_ref" "$legacy_oid"
   invalidation_oid='1111111111111111111111111111111111111111'
   legacy_token="$legacy_token_base"
   next_action='exercise the complete reader migration matrix'
   if [ "$generation" = yes ]; then
+    invalidation_token="$(cd "$matrix_repo" && bash "$claim_helper" --invalidate-continuity \
+      reader-controller --boundary inferred-context-gap --event reader-matrix-g0002)" \
+      || fail 'F3 matrix could not mint its isolated live invalidation'
+    invalidation_oid="${invalidation_token##*@}"
     python - "$matrix_root/STATE.md" "$matrix_head" "$matrix_tree" <<'PY'
 import sys
 from pathlib import Path
@@ -2809,10 +2824,6 @@ anchor=f'| G0001 | new-session | 2000-01-01T00:00:00Z | repo at `{head}` / `{tre
 row=f'| G0002 | inferred-context-gap | 2000-01-01T00:01:00Z | repo at `{head}` / `{tree}` | yes | current generation reader fixture |'
 p.write_text(s.replace(anchor, anchor+'\n'+row), encoding='utf-8')
 PY
-    invalidation_token="$(cd "$matrix_repo" && bash "$claim_helper" --invalidate-continuity \
-      reader-controller --boundary inferred-context-gap --event reader-matrix-g0002)" \
-      || fail 'F3 matrix could not mint its isolated live invalidation'
-    invalidation_oid="${invalidation_token##*@}"
   fi
   state_sha="$(sha256sum "$matrix_root/STATE.md" | cut -d' ' -f1)"
   roadmap_sha="$(sha256sum "$matrix_root/ROADMAP.md" | cut -d' ' -f1)"

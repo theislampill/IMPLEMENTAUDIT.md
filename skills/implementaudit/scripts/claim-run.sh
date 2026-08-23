@@ -95,6 +95,184 @@ publication_git_v1() {
   return 1
 }
 
+update_invalidation_transaction_v1() {
+  local repo="$1" ref="$2" new="$3" old="$4" git_cmd py=(); shift 4
+  git_cmd="$(publication_git_v1)" || return 3
+  if command -v python >/dev/null 2>&1; then py=(python)
+  elif command -v python3 >/dev/null 2>&1; then py=(python3)
+  elif command -v py >/dev/null 2>&1; then py=(py -3)
+  else return 3; fi
+  "${py[@]}" - "$gate" "$git_cmd" "$repo" "$ref" "$new" "$old" "$@" <<'PY'
+import errno
+import os
+import re
+import stat
+import subprocess
+import sys
+import time
+
+gate, git_executable, repo, ref, new, old, *raw_guards = sys.argv[1:]
+zero = "0" * 40
+oid_re = re.compile(r"[0-9a-f]{40}")
+ref_re = re.compile(r"refs/[A-Za-z0-9._/-]+")
+
+
+def unknown() -> "NoReturn":
+    raise SystemExit(3)
+
+
+def unsafe(info: os.stat_result) -> bool:
+    return (
+        not stat.S_ISREG(info.st_mode)
+        or stat.S_ISLNK(info.st_mode)
+        or bool(getattr(info, "st_file_attributes", 0) & 0x400)
+        or info.st_nlink != 1
+        or info.st_size != 1
+    )
+
+
+if (
+    len(raw_guards) % 2
+    or not ref_re.fullmatch(ref)
+    or not oid_re.fullmatch(new)
+    or not oid_re.fullmatch(old)
+):
+    unknown()
+guards = []
+for index in range(0, len(raw_guards), 2):
+    guard_ref, guard_oid = raw_guards[index : index + 2]
+    if not ref_re.fullmatch(guard_ref) or not oid_re.fullmatch(guard_oid):
+        unknown()
+    guards.append((guard_ref, guard_oid))
+guards.sort()
+if len({guard_ref for guard_ref, _ in guards}) != len(guards):
+    unknown()
+
+payload = bytearray(b"start\0")
+for guard_ref, guard_oid in guards:
+    payload.extend(f"verify {guard_ref}".encode("ascii"))
+    payload.extend(b"\0")
+    payload.extend(guard_oid.encode("ascii"))
+    payload.extend(b"\0")
+payload.extend(f"update {ref}".encode("ascii"))
+payload.extend(b"\0")
+payload.extend(new.encode("ascii"))
+payload.extend(b"\0")
+payload.extend(old.encode("ascii"))
+payload.extend(b"\0prepare\0commit\0")
+
+environment = {
+    "PATH": os.path.dirname(git_executable),
+    "LC_ALL": "C",
+    "LANG": "C",
+    "GIT_CONFIG_NOSYSTEM": "1",
+    "GIT_CONFIG_GLOBAL": os.devnull,
+    "GIT_TERMINAL_PROMPT": "0",
+}
+base_command = [
+    git_executable,
+    "-C",
+    repo,
+    "-c",
+    f"core.hooksPath={os.devnull}",
+]
+
+
+def readback() -> str | None:
+    try:
+        result = subprocess.run(
+            base_command
+            + ["for-each-ref", "--format=%(objectname) %(refname)", ref],
+            check=False,
+            capture_output=True,
+            env=environment,
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0 or result.stderr or b"\0" in result.stdout:
+        return None
+    rows = result.stdout.decode("ascii", errors="strict").splitlines()
+    if not rows:
+        return zero
+    if len(rows) != 1:
+        return None
+    try:
+        observed_oid, observed_ref = rows[0].split(" ", 1)
+    except ValueError:
+        return None
+    if observed_ref != ref or not oid_re.fullmatch(observed_oid):
+        return None
+    return observed_oid
+
+
+try:
+    before = os.lstat(gate)
+    if unsafe(before):
+        unknown()
+    descriptor = os.open(
+        gate,
+        os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0),
+    )
+    try:
+        opened = os.fstat(descriptor)
+        if os.name == "nt":
+            import msvcrt
+
+            while True:
+                try:
+                    os.lseek(descriptor, 0, os.SEEK_SET)
+                    msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
+                    break
+                except OSError as error:
+                    if error.errno not in {errno.EACCES, errno.EAGAIN, errno.EDEADLK}:
+                        raise
+                    time.sleep(0.05)
+        else:
+            import fcntl
+
+            fcntl.flock(descriptor, fcntl.LOCK_EX)
+        current = os.lstat(gate)
+        if unsafe(current) or (current.st_dev, current.st_ino) != (
+            opened.st_dev,
+            opened.st_ino,
+        ):
+            unknown()
+        try:
+            transaction = subprocess.run(
+                base_command + ["update-ref", "--stdin", "-z"],
+                input=bytes(payload),
+                check=False,
+                capture_output=True,
+                env=environment,
+                timeout=30,
+            )
+        except (OSError, subprocess.SubprocessError):
+            transaction = None
+        observed = readback()
+        if observed == new:
+            raise SystemExit(0)
+        if observed is None or observed not in {old, new}:
+            unknown()
+        if transaction is not None and transaction.returncode == 0:
+            unknown()
+        raise SystemExit(2)
+    finally:
+        try:
+            if os.name == "nt":
+                os.lseek(descriptor, 0, os.SEEK_SET)
+                msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(descriptor, fcntl.LOCK_UN)
+        finally:
+            os.close(descriptor)
+except SystemExit:
+    raise
+except (OSError, UnicodeError, ValueError):
+    unknown()
+PY
+}
+
 publication_custody_io() {
   # Read-only Task-4 boundary: repository authority is this installed owner's
   # physical checkout, never the caller's cwd or a supplied path/ref.
@@ -455,7 +633,7 @@ sys.stdout.buffer.write(raw[:-1])
       load || return; printf '%s\t%s\t%s\t%s\n' "$c" "$rr" "$root" "$rg" ;;
     invalidate)
       load || return; [ "$repo" = "$rr" ] || return 1
-      local b="$1" event="$2" iref="refs/implementaudit/continuity-invalidations/$c" old new zero=0000000000000000000000000000000000000000
+      local b="$1" event="$2" expected_current="${3:-}" iref="refs/implementaudit/continuity-invalidations/$c" old new zero=0000000000000000000000000000000000000000
       case "$b" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap):;; *) return 1;; esac
       case "$event" in ''|*$'\t'*|*$'\r'*|*$'\n'*) return 1;; esac
       old="$(git rev-parse --verify "$iref" 2>/dev/null || printf %s "$zero")"
@@ -464,8 +642,54 @@ sys.stdout.buffer.write(raw[:-1])
         [ "$is" = implementaudit.continuity-invalidation.v1 ] || return 1
         if [ "$ic:$io:$irg:$ib:$ie" = "$c:$oid:$rg:$b:$event" ]; then printf '%s@%s\n' "$iref" "$old"; return; fi
       fi
+      local current_token confirmed_token rref roid pref="refs/implementaudit/current-generations/$c"
+      local mref="refs/implementaudit/current-generation-migrations/$c" poid moid pointer_state marker_state
+      local successor_ref successor_state epoch digits ordinal guard_status guards=()
+      current_token="$(controller_io require "$c")" || return 1
+      [ -z "$expected_current" ] || [ "$current_token" = "$expected_current" ] || return 1
+      load || return 1
+      confirmed_token="$(controller_io require "$c")" || return 1
+      [ "$confirmed_token" = "$current_token" ] || return 1
+      rref="${current_token%@*}"; roid="${current_token##*@}"
+      case "$rref@$roid" in
+        refs/implementaudit/continuity-receipts/"$c"/*@[0-9a-f][0-9a-f]*) ;;
+        *) return 1 ;;
+      esac
+      [ "$(git rev-parse --verify "$rref" 2>/dev/null)" = "$roid" ] || return 1
+      pointer_state="$(generation_ref_state "$pref")" || return 1
+      marker_state="$(generation_ref_state "$mref")" || return 1
+      case "$pointer_state" in
+        RESOLVED) poid="$(git rev-parse --verify "$pref" 2>/dev/null)" || return 1 ;;
+        ABSENT) poid="$zero" ;;
+        *) return 1 ;;
+      esac
+      case "$marker_state" in
+        RESOLVED) moid="$(git rev-parse --verify "$mref" 2>/dev/null)" || return 1 ;;
+        ABSENT) moid="$zero" ;;
+        *) return 1 ;;
+      esac
+      # The update command's expected-old field is the invalidation-ref guard.
+      # Listing the destination again as a separate verify command would make
+      # Git reject the transaction as two operations on one ref.
+      guards=("$ref" "$oid" "$pref" "$poid" "$mref" "$moid" "$rref" "$roid")
+      if [ "$pointer_state:$marker_state" = ABSENT:ABSENT ]; then
+        epoch="${rref##*/}"
+        epoch="$(canonical_generation "$epoch")" || return 1
+        digits="${epoch#G}"; ordinal=$((16#$digits + 1))
+        [ "$ordinal" -le 65535 ] || return 1
+        successor_ref="refs/implementaudit/continuity-receipts/$c/$(printf 'G%04X' "$ordinal")"
+        successor_state="$(generation_ref_state "$successor_ref")" || return 1
+        [ "$successor_state" = ABSENT ] || return 1
+        guards+=("$successor_ref" "$zero")
+      fi
       new="$(printf 'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\t%s\t%s\n' "$c" "$oid" "$rg" "$b" "$event" | git hash-object -w --stdin)" &&
-        update_controller_ref "$iref" "$new" "$old" || return
+        update_invalidation_transaction_v1 "$repo" "$iref" "$new" "$old" "${guards[@]}"
+      guard_status=$?
+      case "$guard_status" in
+        0) ;;
+        2) printf 'claim-run.sh: CONTINUITY_INVALIDATION_CAS_LOST\n' >&2; return 1 ;;
+        *) printf 'claim-run.sh: CONTINUITY_INVALIDATION_EFFECT_UNKNOWN\n' >&2; return 1 ;;
+      esac
       printf '%s@%s\n' "$iref" "$new" ;;
     resume|verify|require)
       load || return; [ "$repo" = "$rr" ] || return 1
@@ -687,8 +911,8 @@ case "${1:-}" in
     exit $?
     ;;
   --invalidate-continuity)
-    controller="${2:-}"; shift 2; deferred=invalidate
-    while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --event) event="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown invalidation argument: %s\n' "$1" >&2; exit 1;; esac; done ;;
+    controller="${2:-}"; shift 2; deferred=invalidate; expected_current=''
+    while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --event) event="${2:-}"; shift 2;; --expected-current) expected_current="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown invalidation argument: %s\n' "$1" >&2; exit 1;; esac; done ;;
   --controller)
     controller="${2:-}"; shift 2
     if [ "${1:-}" = --supersede-claim ]; then supersede="${2:-}"; shift 2; fi ;;
@@ -737,7 +961,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 fi
 
 if [ "$deferred" = invalidate ]; then
-  controller_io invalidate "$controller" "$boundary" "$event"; exit $?
+  controller_io invalidate "$controller" "$boundary" "$event" "$expected_current"; exit $?
 fi
 
 mkdir -p "$base" || {

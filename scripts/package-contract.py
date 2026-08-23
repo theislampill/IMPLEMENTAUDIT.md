@@ -472,6 +472,11 @@ def artifact_payload_entries(
     child_entries = internal_skill_entries(root)
     package_data = normalized_bytes(root / CONTRACT_PATH)
     if role == "canonical_plugin":
+        hook_relative = "hooks/hooks.json"
+        tracked = set(git_output(root, "ls-files", "--", hook_relative).splitlines())
+        hook_path = root / hook_relative
+        if hook_relative not in tracked or hook_path.is_symlink() or not hook_path.is_file():
+            raise ContractError("canonical plugin hook must be one tracked regular file")
         entries: list[tuple[str, bytes, int]] = [
             (
                 ".codex-plugin/plugin.json",
@@ -488,6 +493,7 @@ def artifact_payload_entries(
                 normalized_bytes(root / ".claude-plugin/marketplace.json"),
                 0o644,
             ),
+            (hook_relative, normalized_bytes(hook_path), 0o644),
             (PACKAGE_NAME, package_data, 0o644),
         ]
         entries.extend(

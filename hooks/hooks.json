@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^compact$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/skills/implementaudit/scripts/codex-compact-interlock.py\"",
+            "commandWindows": "C:\\Windows\\py.exe -3 \"%PLUGIN_ROOT%\\skills\\implementaudit\\scripts\\codex-compact-interlock.py\"",
+            "statusMessage": "Protecting IMPLEMENTAUDIT continuity"
+          }
+        ]
+      }
+    ]
+  }
+}
