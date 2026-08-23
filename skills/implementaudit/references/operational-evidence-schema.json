@@ -59,6 +59,22 @@
     "activegraph_authority": false,
     "publication": false
   },
+  "x-bounded-snapshot-diff-export": {
+    "diff_schema": "implementaudit-operational-snapshot-diff.v1",
+    "export_schema": "implementaudit-operational-snapshot-export.v1",
+    "projection_schema": "implementaudit-operational-snapshot-projection.v1",
+    "payload_schema": "implementaudit-operational-snapshot-payload.v1",
+    "semantic_identity": "record_id_plus_explicit_snapshot_fields",
+    "canonical_json_export": "canonical_json_v1(snapshot)",
+    "projection_formats": ["table", "graph"],
+    "projection_encoding": "canonical_json_v1_inert_data",
+    "bounds": "finite_positive_rows_and_record_bytes",
+    "overflow": "OE_EXPORT_REQUIRES_BOUNDED_REVIEW",
+    "destination": "explicit_absolute_new_file_under_isolated_owned_root",
+    "authority_ceiling": "READ_ONLY_OBSERVATION_OR_EXPLICIT_TASK_OWNED_DESTINATION_ONLY",
+    "activegraph_authority": false,
+    "publication": false
+  },
   "x-immutable-snapshot-publication": {
     "schema": "IA-OPERATIONAL-SNAPSHOT-v1",
     "input_schema": "implementaudit-operational-snapshot-input.v1",

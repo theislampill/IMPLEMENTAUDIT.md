@@ -43,6 +43,9 @@ SNAPSHOT_PAYLOAD_SCHEMA = "implementaudit-operational-snapshot-payload.v1"
 SNAPSHOT_MANIFEST_SCHEMA = "IA-OPERATIONAL-SNAPSHOT-v1"
 SNAPSHOT_CURRENT_SCHEMA = "implementaudit.operational-snapshot-current.v1"
 SNAPSHOT_PUBLICATION_SCHEMA = "implementaudit-operational-snapshot-publication-v1"
+SNAPSHOT_DIFF_SCHEMA = "implementaudit-operational-snapshot-diff.v1"
+SNAPSHOT_PROJECTION_SCHEMA = "implementaudit-operational-snapshot-projection.v1"
+SNAPSHOT_EXPORT_SCHEMA = "implementaudit-operational-snapshot-export.v1"
 SNAPSHOT_ID_RE = re.compile(r"^iasnap-v1-[0-9a-f]{64}$")
 SNAPSHOT_EVIDENCE_ID_RE = re.compile(
     r"^iasrc-v1-r0038-snapshot-([0-9a-f]{64})"
@@ -69,6 +72,9 @@ SNAPSHOT_MANIFEST_KEYS = frozenset({
 SNAPSHOT_OWNER_ENTRY_KEYS = frozenset({
     "source_evidence_id", "sha256", "kind", "root_identity",
     "host_identity", "input_path_flavor", "source_locator"})
+SNAPSHOT_PAYLOAD_KEYS = frozenset({
+    "schema_version", "snapshot_id", "aggregate", "families",
+    "missing_or_omitted_state", "collections", "input_manifest_sha256"})
 FAMILIES = (
     "CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE")
 STATES = (
@@ -3325,6 +3331,245 @@ def normalize_static_receipts(values):
     return result
 
 
+def _validate_diff_snapshot_v1(snapshot: object, path: str) -> dict:
+    """Validate one immutable payload without repairing or selecting authority."""
+    if (type(snapshot) is not dict or set(snapshot) != SNAPSHOT_PAYLOAD_KEYS or
+            snapshot.get("schema_version") != SNAPSHOT_PAYLOAD_SCHEMA or
+            type(snapshot.get("snapshot_id")) is not str or
+            not SNAPSHOT_ID_RE.fullmatch(snapshot["snapshot_id"]) or
+            snapshot.get("aggregate") not in AGGREGATES or
+            tuple(snapshot.get("families", ())) != FAMILIES or
+            type(snapshot.get("missing_or_omitted_state")) is not list or
+            type(snapshot.get("collections")) is not dict or
+            type(snapshot.get("input_manifest_sha256")) is not str or
+            not re.fullmatch(r"[0-9a-f]{64}", snapshot["input_manifest_sha256"]) or
+            snapshot["snapshot_id"] !=
+            "iasnap-v1-" + snapshot["input_manifest_sha256"]):
+        _error("OE_DIFF_SNAPSHOT_INVALID", path,
+               "snapshot payload schema, identity, families, or manifest differs")
+    try:
+        validate_identity_json_v1(snapshot, path)
+        canonical = json.loads(canonical_json_v1(snapshot).decode("utf-8"))
+        _snapshot_query_records_v1(canonical)
+    except OperationalEvidenceError as exc:
+        if exc.code == "OE_DIFF_SNAPSHOT_INVALID":
+            raise
+        _error("OE_DIFF_SNAPSHOT_INVALID", path,
+               "snapshot payload contains invalid or duplicate records")
+    return canonical
+
+
+def _snapshot_diff_items_v1(snapshot: dict) -> dict[str, object]:
+    items = {
+        "snapshot:aggregate": snapshot["aggregate"],
+        "snapshot:families": snapshot["families"],
+        "snapshot:missing_or_omitted_state": sorted(
+            snapshot["missing_or_omitted_state"], key=canonical_json_v1),
+    }
+    for row in _snapshot_query_records_v1(snapshot):
+        items[row["path"]] = row["record"]
+    return items
+
+
+def diff_snapshots(before: object, after: object) -> dict:
+    """Return a deterministic semantic diff between two validated payloads."""
+    left = _validate_diff_snapshot_v1(before, "$.before")
+    right = _validate_diff_snapshot_v1(after, "$.after")
+    left_items = _snapshot_diff_items_v1(left)
+    right_items = _snapshot_diff_items_v1(right)
+    left_keys = set(left_items)
+    right_keys = set(right_items)
+    added = [
+        {"identity": identity, "record": right_items[identity]}
+        for identity in sorted(right_keys - left_keys)]
+    removed = [
+        {"identity": identity, "record": left_items[identity]}
+        for identity in sorted(left_keys - right_keys)]
+    changed = [
+        {"identity": identity, "before": left_items[identity],
+         "after": right_items[identity]}
+        for identity in sorted(left_keys & right_keys)
+        if canonical_json_v1(left_items[identity]) !=
+        canonical_json_v1(right_items[identity])]
+    return {
+        "schema": SNAPSHOT_DIFF_SCHEMA,
+        "before_snapshot_id": left["snapshot_id"],
+        "after_snapshot_id": right["snapshot_id"],
+        "before_input_manifest_sha256": left["input_manifest_sha256"],
+        "after_input_manifest_sha256": right["input_manifest_sha256"],
+        "added": added, "removed": removed, "changed": changed,
+        "counts": {"added": len(added), "removed": len(removed),
+                   "changed": len(changed)},
+        "authority_ceiling": "READ_ONLY_OBSERVATION", "establishes": [],
+    }
+
+
+def render_snapshot_projection_v1(
+        snapshot: object, *, output_format: str,
+        max_rows: int, max_bytes: int) -> bytes:
+    """Render an inert bounded table/graph projection as canonical JSON."""
+    value = _validate_diff_snapshot_v1(snapshot, "$snapshot")
+    if output_format not in ("table", "graph"):
+        _error("OE_EXPORT_FORMAT_INVALID", "$.format",
+               "bounded projection format must be table or graph")
+    if (type(max_rows) is not int or max_rows <= 0 or
+            type(max_bytes) is not int or max_bytes <= 0):
+        _error("OE_EXPORT_BOUND_INVALID", "$export",
+               "projection bounds must be finite positive integers")
+    population = _snapshot_query_records_v1(value)
+    population.sort(key=lambda row: (
+        row["record"]["currentness"]["state"] == "CURRENT",
+        row["record"]["currentness"]["state"],
+        row["record"]["family"], row["record"]["id"],
+        canonical_json_v1(row["record"])))
+    state_census = Counter(
+        row["record"]["currentness"]["state"] for row in population)
+    retained = []
+    retained_bytes = 0
+    for row in population:
+        row_bytes = len(canonical_json_v1(row))
+        if len(retained) >= max_rows or retained_bytes + row_bytes > max_bytes:
+            break
+        retained.append(row)
+        retained_bytes += row_bytes
+    retained_ids = {row["record"]["id"] for row in retained}
+    omitted_state_census = Counter(
+        row["record"]["currentness"]["state"] for row in population
+        if row["record"]["id"] not in retained_ids)
+    omitted_count = len(population) - len(retained)
+    result = {
+        "schema": SNAPSHOT_PROJECTION_SCHEMA,
+        "format": output_format, "snapshot_id": value["snapshot_id"],
+        "rows": retained, "row_bytes": retained_bytes,
+        "max_rows": max_rows, "max_bytes": max_bytes,
+        "population_count": len(population),
+        "included_count": len(retained), "omitted_count": omitted_count,
+        "state_census": dict(sorted(state_census.items())),
+        "omitted_state_census": dict(sorted(omitted_state_census.items())),
+        "missing_or_omitted_state": sorted(
+            value["missing_or_omitted_state"], key=canonical_json_v1),
+        "truncated": omitted_count != 0,
+        "code": ("OE_EXPORT_REQUIRES_BOUNDED_REVIEW"
+                 if omitted_count else "OK"),
+        "decision_usable": omitted_count == 0,
+        "authority_ceiling": "READ_ONLY_OBSERVATION", "establishes": [],
+    }
+    return canonical_json_v1(result)
+
+
+def _export_destination_v1(
+        destination: object, owned_root: object) -> tuple[pathlib.Path, pathlib.Path]:
+    if not isinstance(destination, (str, os.PathLike)) or not isinstance(
+            owned_root, (str, os.PathLike)):
+        _error("OE_EXPORT_DESTINATION_INVALID", "$.destination",
+               "destination and owned root must be explicit paths")
+    requested = pathlib.Path(destination)
+    root = pathlib.Path(owned_root)
+    if not requested.is_absolute() or not root.is_absolute():
+        _error("OE_EXPORT_DESTINATION_INVALID", "$.destination",
+               "destination authority cannot be cwd-relative")
+    try:
+        if _snapshot_is_link_v1(root):
+            raise OSError("owned root is a link or reparse point")
+        resolved_root = root.resolve(strict=True)
+        if not resolved_root.is_dir():
+            raise OSError("owned root is not a directory")
+        resolved_destination = requested.resolve(strict=False)
+        resolved_destination.relative_to(resolved_root)
+        relative_parent = resolved_destination.parent.relative_to(resolved_root)
+        cursor = resolved_root
+        for part in relative_parent.parts:
+            cursor = cursor / part
+            if _snapshot_is_link_v1(cursor) or not cursor.is_dir():
+                raise OSError("destination parent is not an owned regular directory")
+        repository = pathlib.Path(__file__).resolve().parents[3]
+        try:
+            resolved_root.relative_to(repository)
+        except ValueError:
+            pass
+        else:
+            raise OSError("repository and authority roots are not export custody")
+    except (OSError, RuntimeError, ValueError):
+        _error("OE_EXPORT_DESTINATION_INVALID", "$.destination",
+               "destination is outside the explicit isolated owned root")
+    if os.path.lexists(resolved_destination):
+        _error("OE_EXPORT_DESTINATION_EXISTS", "$.destination",
+               "export destination must be new and task-owned")
+    return resolved_destination, resolved_root
+
+
+def export_snapshot(
+        snapshot: object, destination: object, *, owned_root: object,
+        output_format: str = "json", max_rows: int | None = None,
+        max_bytes: int | None = None) -> dict:
+    """Write one new export below an explicit isolated task-owned root."""
+    value = _validate_diff_snapshot_v1(snapshot, "$snapshot")
+    target, root = _export_destination_v1(destination, owned_root)
+    if output_format == "json":
+        if max_rows is not None or max_bytes is not None:
+            _error("OE_EXPORT_BOUND_INVALID", "$export",
+                   "canonical JSON export is complete and cannot be truncated")
+        raw = canonical_json_v1(value)
+        truncated = False
+    elif output_format in ("table", "graph"):
+        raw = render_snapshot_projection_v1(
+            value, output_format=output_format,
+            max_rows=max_rows, max_bytes=max_bytes)
+        truncated = json.loads(raw.decode("utf-8"))["truncated"]
+    else:
+        _error("OE_EXPORT_FORMAT_INVALID", "$.format",
+               "export format must be json, table, or graph")
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    if hasattr(os, "O_BINARY"):
+        flags |= os.O_BINARY
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    created = False
+    try:
+        descriptor = os.open(target, flags, 0o600)
+        created = True
+        with os.fdopen(descriptor, "wb") as stream:
+            stream.write(raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+        if (target.resolve(strict=True).parent != target.parent.resolve(strict=True) or
+                target.parent.resolve(strict=True) != target.parent or
+                not target.is_file() or _snapshot_is_link_v1(target) or
+                root.resolve(strict=True) != root):
+            raise OSError("export destination changed during write")
+    except FileExistsError:
+        _error("OE_EXPORT_DESTINATION_EXISTS", "$.destination",
+               "export destination became occupied")
+    except OSError:
+        if created:
+            try:
+                target.unlink()
+            except OSError:
+                pass
+        _error("OE_EXPORT_WRITE_FAILED", "$.destination",
+               "export could not be written and verified atomically")
+    return {
+        "schema": SNAPSHOT_EXPORT_SCHEMA, "snapshot_id": value["snapshot_id"],
+        "format": output_format, "output_sha256": hashlib.sha256(raw).hexdigest(),
+        "output_bytes": len(raw), "truncated": truncated,
+        "decision_usable": not truncated,
+        "authority_ceiling": "EXPLICIT_TASK_OWNED_DESTINATION_ONLY",
+        "establishes": [],
+    }
+
+
+def _load_diff_snapshot_file_v1(path: pathlib.Path, label: str) -> dict:
+    try:
+        raw = _native_file(path, label, 16 * 1024 * 1024)
+        value = _snapshot_decode_canonical_object_v1(raw, "OE_DIFF_SNAPSHOT_INVALID")
+    except OperationalEvidenceError as exc:
+        if exc.code == "OE_DIFF_SNAPSHOT_INVALID":
+            raise
+        _error("OE_DIFF_SNAPSHOT_INVALID", label,
+               "snapshot input is unreadable or not a regular canonical file")
+    return _validate_diff_snapshot_v1(value, label)
+
+
 def _snapshot_query_records_v1(snapshot: object) -> list[dict]:
     """Return record-shaped snapshot members with stable logical paths."""
     if type(snapshot) is not dict or snapshot.get("schema_version") != (
@@ -3878,7 +4123,7 @@ def _load_selected_snapshot_v1() -> dict:
 
 def build_cli_parser_v1() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="validate, canonicalize, and query R0038 operational evidence")
+        description="validate, query, diff, and export R0038 operational evidence")
     commands = parser.add_subparsers(dest="command", required=True)
     for name in ("validate", "canonicalize"):
         command = commands.add_parser(name)
@@ -3891,6 +4136,16 @@ def build_cli_parser_v1() -> argparse.ArgumentParser:
     query.add_argument("--max-bytes", required=True, type=int)
     why = commands.add_parser("why")
     why.add_argument("record_id")
+    diff = commands.add_parser("diff")
+    diff.add_argument("before", type=pathlib.Path)
+    diff.add_argument("after", type=pathlib.Path)
+    export = commands.add_parser("export")
+    export.add_argument("--destination", required=True, type=pathlib.Path)
+    export.add_argument("--owned-root", required=True, type=pathlib.Path)
+    export.add_argument("--format", choices=("json", "table", "graph"),
+                        default="json")
+    export.add_argument("--max-rows", type=int)
+    export.add_argument("--max-bytes", type=int)
     return parser
 
 
@@ -4050,7 +4305,20 @@ def main() -> int:
             }
             sys.stdout.buffer.write(canonical_json_v1(receipt))
             return 0
+        if args.command == "diff":
+            before = _load_diff_snapshot_file_v1(args.before, "$.before")
+            after = _load_diff_snapshot_file_v1(args.after, "$.after")
+            sys.stdout.buffer.write(canonical_json_v1(
+                diff_snapshots(before, after)))
+            return 0
         snapshot = _load_selected_snapshot_v1()
+        if args.command == "export":
+            receipt = export_snapshot(
+                snapshot, args.destination, owned_root=args.owned_root,
+                output_format=args.format, max_rows=args.max_rows,
+                max_bytes=args.max_bytes)
+            sys.stdout.buffer.write(canonical_json_v1(receipt))
+            return 0
         if args.command == "status":
             result = evaluate_currentness(snapshot)
         elif args.command == "why":

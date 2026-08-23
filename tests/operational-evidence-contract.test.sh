@@ -649,14 +649,305 @@ finally:
     evidence.subprocess.run = original_subprocess_run
 if effects:
     raise SystemExit(f"C07-R16 pure readers crossed an effect boundary: {effects}")
-for forbidden in ("diff_snapshots", "export_snapshot"):
-    if hasattr(evidence, forbidden):
-        raise SystemExit(f"C07-R17 crossed into C08 interface {forbidden}")
+for required in ("diff_snapshots", "export_snapshot"):
+    if not hasattr(evidence, required):
+        raise SystemExit(f"C08-DE00 required diff/export interface is absent: {required}")
 if any(action.dest in ("repository", "run_root", "snapshot_root", "manifest")
        for action in parser._actions):
     raise SystemExit("C07-R16 CLI accepted caller-supplied authority")
 PY
 }
+
+run_diff_export_contract() {
+"${py_cmd[@]}" - "$loader" "$fixtures/diff-export-cases.json" \
+  "skills/implementaudit/references/operational-evidence-schema.json" \
+  "$tmp/diff-export" <<'PY'
+import copy
+import hashlib
+import importlib.util
+import inspect
+import json
+import os
+import pathlib
+import sys
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+evidence = load("operational_evidence_diff_export", sys.argv[1])
+fixture = json.loads(pathlib.Path(sys.argv[2]).read_text(encoding="utf-8"))
+schema = json.loads(pathlib.Path(sys.argv[3]).read_text(encoding="utf-8"))
+tmp = pathlib.Path(sys.argv[4]).resolve()
+tmp.mkdir(parents=True)
+expected_ids = [f"DE{i:02d}" for i in range(1, 19)]
+if (fixture.get("schema") !=
+        "implementaudit.operational-evidence-diff-export-cases.v1" or
+        [row.get("id") for row in fixture.get("cases", [])] != expected_ids or
+        len({row.get("operation") for row in fixture["cases"]}) != 18 or
+        fixture.get("states") != list(evidence.STATES) or
+        fixture.get("formats") != ["json", "table", "graph"]):
+    raise SystemExit("C08 DE fixture does not bind the complete ordered matrix")
+missing = [name for name in fixture["required_interfaces"]
+           if not hasattr(evidence, name)]
+if missing:
+    raise SystemExit(f"C08-DE00 required diff/export interface is absent: {missing}")
+if schema.get("x-bounded-snapshot-diff-export") != {
+        "diff_schema": "implementaudit-operational-snapshot-diff.v1",
+        "export_schema": "implementaudit-operational-snapshot-export.v1",
+        "projection_schema": "implementaudit-operational-snapshot-projection.v1",
+        "payload_schema": "implementaudit-operational-snapshot-payload.v1",
+        "semantic_identity": "record_id_plus_explicit_snapshot_fields",
+        "canonical_json_export": "canonical_json_v1(snapshot)",
+        "projection_formats": ["table", "graph"],
+        "projection_encoding": "canonical_json_v1_inert_data",
+        "bounds": "finite_positive_rows_and_record_bytes",
+        "overflow": "OE_EXPORT_REQUIRES_BOUNDED_REVIEW",
+        "destination": "explicit_absolute_new_file_under_isolated_owned_root",
+        "authority_ceiling": "READ_ONLY_OBSERVATION_OR_EXPLICIT_TASK_OWNED_DESTINATION_ONLY",
+        "activegraph_authority": False, "publication": False,
+    }:
+    raise SystemExit("C08 diff/export schema contract is absent or widened")
+
+
+def currentness(state="CURRENT", invalidators=None):
+    return {"state": state, "invalidators": list(invalidators or [])}
+
+
+def record(identifier, family="EVIDENCE", state="CURRENT", **extra):
+    return {
+        "id": identifier, "family": family,
+        "native_owner_identity": f"owner:{family.lower()}",
+        "source_identity": {"id": f"source:{identifier}", "layer": "evidence"},
+        "evidence_layer": "evidence", "currentness": currentness(state),
+        "record_type": "Evidence", "required": False,
+        "capability": "retained", **extra,
+    }
+
+
+def snapshot(identifier, records=None, *, aggregate="DEGRADED", omitted=None,
+             manifest_digest=None):
+    return {
+        "schema_version": "implementaudit-operational-snapshot-payload.v1",
+        "snapshot_id": "iasnap-v1-" + identifier * 64,
+        "aggregate": aggregate,
+        "families": list(evidence.FAMILIES),
+        "missing_or_omitted_state": list(omitted or []),
+        "collections": {"fixture": {"owner": "R0038-test", "state": "CURRENT",
+                                     "value": {"records": list(records or [])}}},
+        "input_manifest_sha256": manifest_digest or identifier * 64,
+    }
+
+
+def canonical(value):
+    return evidence.canonical_json_v1(value)
+
+
+def expect_error(code, action):
+    try:
+        action()
+    except evidence.OperationalEvidenceError as exc:
+        if exc.code != code:
+            raise SystemExit(f"expected {code}, observed {exc.code}")
+    else:
+        raise SystemExit(f"expected {code}, operation passed")
+
+
+observed = []
+base = snapshot("a", [record("one"), record("two", state="STALE")])
+permuted = copy.deepcopy(base)
+permuted["collections"]["fixture"]["value"]["records"].reverse()
+first = evidence.diff_snapshots(base, permuted)
+second = evidence.diff_snapshots(permuted, base)
+if first["added"] or first["removed"] or first["changed"] or canonical(first) != canonical(second):
+    raise SystemExit("DE01 permutation did not yield one empty canonical diff")
+observed.append("DE01")
+
+added_snapshot = snapshot("b", [record("one"), record("two", state="STALE"),
+                                record("three")])
+added = evidence.diff_snapshots(base, added_snapshot)
+if ([row["identity"] for row in added["added"]] != ["record:three"] or
+        added["removed"] or added["changed"] or
+        added["before_snapshot_id"] != base["snapshot_id"] or
+        added["after_snapshot_id"] != added_snapshot["snapshot_id"]):
+    raise SystemExit("DE02 added record was not represented exactly once")
+observed.append("DE02")
+
+removed_snapshot = snapshot("c", [record("one")])
+removed = evidence.diff_snapshots(base, removed_snapshot)
+if [row["identity"] for row in removed["removed"]] != ["record:two"]:
+    raise SystemExit("DE03 removed record was normalized away")
+observed.append("DE03")
+
+changed_snapshot = snapshot("d", [record("one", capability="changed"),
+                                  record("two", state="STALE")])
+changed = evidence.diff_snapshots(base, changed_snapshot)
+if ([row["identity"] for row in changed["changed"]] != ["record:one"] or
+        changed["added"] or changed["removed"]):
+    raise SystemExit("DE04 semantic change became remove/add")
+observed.append("DE04")
+
+state_base = snapshot("a", [record("one"), record("two")])
+for state in fixture["states"][1:]:
+    state_snapshot = snapshot("e", [record("one"), record("two", state=state)])
+    state_diff = evidence.diff_snapshots(state_base, state_snapshot)
+    if ([row["identity"] for row in state_diff["changed"]] != ["record:two"] or
+            state_diff["changed"][0]["after"]["currentness"]["state"] != state):
+        raise SystemExit(f"DE05 lost explicit currentness transition to {state}")
+observed.append("DE05")
+
+identity_snapshot = snapshot(
+    "f", [record("one"), record("two", state="STALE")], aggregate="STALE",
+    omitted=[{"family": "EVIDENCE", "kind": "OWNER_FACT_NON_CURRENT",
+              "state": "STALE"}], manifest_digest="f" * 64)
+identity = evidence.diff_snapshots(base, identity_snapshot)
+if ([row["identity"] for row in identity["changed"]] != [
+        "snapshot:aggregate", "snapshot:missing_or_omitted_state"] or
+        identity["before_input_manifest_sha256"] ==
+        identity["after_input_manifest_sha256"]):
+    raise SystemExit("DE06 snapshot identity/currentness changes were hidden")
+observed.append("DE06")
+
+json_destination = tmp / "snapshot.json"
+json_receipt = evidence.export_snapshot(
+    base, json_destination, owned_root=tmp, output_format="json")
+if (json_destination.read_bytes() != canonical(base) or
+        json_receipt["output_sha256"] != hashlib.sha256(canonical(base)).hexdigest() or
+        json.loads(json_destination.read_text(encoding="utf-8")) != base):
+    raise SystemExit("DE07 JSON export diverged from canonical snapshot bytes")
+observed.append("DE07")
+
+ambient_before = canonical(evidence.diff_snapshots(base, changed_snapshot))
+old_cwd = pathlib.Path.cwd()
+old_locale = os.environ.get("LC_ALL")
+try:
+    os.chdir(tmp)
+    os.environ["LC_ALL"] = "C.invalid-hostile"
+    os.environ["IMPLEMENTAUDIT_DIFF_NOISE"] = "ignored"
+    ambient_after = canonical(evidence.diff_snapshots(base, changed_snapshot))
+finally:
+    os.chdir(old_cwd)
+    os.environ.pop("IMPLEMENTAUDIT_DIFF_NOISE", None)
+    if old_locale is None:
+        os.environ.pop("LC_ALL", None)
+    else:
+        os.environ["LC_ALL"] = old_locale
+if ambient_before != ambient_after:
+    raise SystemExit("DE08 diff bytes depend on ambient cwd/locale/environment")
+observed.append("DE08")
+
+for output_format in ("table", "graph"):
+    projection = json.loads(evidence.render_snapshot_projection_v1(
+        base, output_format=output_format, max_rows=100, max_bytes=100000))
+    if (projection["format"] != output_format or projection["truncated"] or
+            projection["included_count"] != 2 or projection["omitted_count"] != 0 or
+            projection["state_census"] != {"CURRENT": 1, "STALE": 1}):
+        raise SystemExit(f"DE09 {output_format} projection lost state coverage")
+observed.append("DE09")
+
+bounded = json.loads(evidence.render_snapshot_projection_v1(
+    base, output_format="table", max_rows=1, max_bytes=100000))
+if (not bounded["truncated"] or bounded["decision_usable"] or
+        bounded["included_count"] != 1 or bounded["omitted_count"] != 1 or
+        bounded["state_census"] != {"CURRENT": 1, "STALE": 1}):
+    raise SystemExit("DE10 bounded projection did not remain explicit nondecision")
+observed.append("DE10")
+
+hostile_text = "|\n\t\u001b[31m`<script>javascript:()</script> $(touch pwn) =1+1"
+hostile = snapshot("9", [record("hostile", capability=hostile_text)])
+hostile_projection = json.loads(evidence.render_snapshot_projection_v1(
+    hostile, output_format="graph", max_rows=10, max_bytes=100000))
+if hostile_projection["rows"][0]["record"]["capability"] != hostile_text:
+    raise SystemExit("DE11 hostile content was executed, removed, or normalized")
+observed.append("DE11")
+
+duplicate = snapshot("7", [record("dup"), record("dup")])
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(base, duplicate))
+invalid_schema = copy.deepcopy(base)
+invalid_schema["schema_version"] = "wrong"
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(invalid_schema, base))
+invalid_digest = copy.deepcopy(base)
+invalid_digest["input_manifest_sha256"] = "0" * 64
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(base, invalid_digest))
+observed.append("DE12")
+
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, None, owned_root=tmp, output_format="json"))
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, pathlib.Path("relative.json"), owned_root=tmp, output_format="json"))
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, tmp.parent / "outside.json", owned_root=tmp, output_format="json"))
+if (tmp.parent / "outside.json").exists():
+    raise SystemExit("DE13 export wrote outside the explicit owned root")
+observed.append("DE13")
+
+occupied = tmp / "occupied.json"
+occupied.write_text("non-task-owned", encoding="utf-8")
+expect_error("OE_EXPORT_DESTINATION_EXISTS", lambda: evidence.export_snapshot(
+    base, occupied, owned_root=tmp, output_format="json"))
+if occupied.read_text(encoding="utf-8") != "non-task-owned":
+    raise SystemExit("DE14 export mutated an existing destination")
+observed.append("DE14")
+
+noncurrent_first = json.loads(evidence.render_snapshot_projection_v1(
+    base, output_format="table", max_rows=1, max_bytes=100000))
+if (noncurrent_first["rows"][0]["record"]["currentness"]["state"] == "CURRENT" or
+        noncurrent_first["omitted_state_census"] != {"CURRENT": 1}):
+    raise SystemExit("DE15 bound preferentially hid non-current rows")
+observed.append("DE15")
+
+effects = []
+original_process = evidence.subprocess.run
+original_network = evidence.urllib.request.urlopen
+evidence.subprocess.run = lambda *_a, **_k: effects.append("PROCESS")
+evidence.urllib.request.urlopen = lambda *_a, **_k: effects.append("NETWORK")
+try:
+    evidence.diff_snapshots(hostile, base)
+    evidence.render_snapshot_projection_v1(
+        hostile, output_format="graph", max_rows=10, max_bytes=100000)
+finally:
+    evidence.subprocess.run = original_process
+    evidence.urllib.request.urlopen = original_network
+if effects:
+    raise SystemExit(f"DE16 command-looking data triggered effects: {effects}")
+observed.append("DE16")
+
+before_bytes = canonical(base)
+evidence.diff_snapshots(base, changed_snapshot)
+if canonical(base) != before_bytes:
+    raise SystemExit("DE17 diff mutated the immutable input snapshot")
+observed.append("DE17")
+
+source = inspect.getsource(evidence.diff_snapshots) + inspect.getsource(
+    evidence.export_snapshot) + inspect.getsource(evidence.render_snapshot_projection_v1)
+if any(name in source for name in ("ActiveGraph", "madge", "knip", "sqlite",
+                                    "urlopen(", "subprocess.", "pip install")):
+    raise SystemExit("DE18 core diff/export depends on optional or external tooling")
+observed.append("DE18")
+
+if observed != expected_ids:
+    raise SystemExit(f"C08 DE matrix skipped or reordered cases: {observed}")
+
+parser = evidence.build_cli_parser_v1()
+if parser.parse_args(["diff", "before.json", "after.json"]).command != "diff":
+    raise SystemExit("C08 diff CLI route is absent")
+export_args = parser.parse_args([
+    "export", "--destination", os.fspath(tmp / "cli.json"),
+    "--owned-root", os.fspath(tmp), "--format", "json"])
+if export_args.command != "export" or export_args.destination != (tmp / "cli.json"):
+    raise SystemExit("C08 export CLI route is absent or derived authority")
+PY
+}
+
+if [ "${1:-}" = "--diff-export-only" ]; then
+  run_diff_export_contract
+  printf 'operational-evidence-contract.test: diff/export ok\n'
+  exit 0
+fi
 
 if [ "${1:-}" = "--query-only" ]; then
   run_query_contract
@@ -3804,5 +4095,6 @@ if any(fact.get("state") == "CURRENT" for fact in partial["facts"]):
 PY
 
 run_query_contract
+run_diff_export_contract
 
 printf 'operational-evidence-contract.test: ok\n'
