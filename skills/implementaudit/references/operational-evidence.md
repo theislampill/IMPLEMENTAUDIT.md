@@ -186,6 +186,74 @@ READY/JOIN, create a snapshot or output root, query history, use network, or
 inspect an ActiveGraph mirror. C06 remains the sole later snapshot
 compiler/publication owner.
 
+## Immutable current snapshot publication
+
+`publish_current_snapshot()` is the C06 no-argument producer. It accepts no
+repository, run root, output root, controller, claim, branch, pointer, receipt,
+epoch, snapshot ID, manifest, locator or digest. The carrier derives the sole
+controller and bound run from `collect_native_current()`, then derives the only
+effect root as
+`<bound-run-root>/operational-evidence/snapshots`. Its receipt is an R0038
+output-root observation with an empty `establishes` population; it creates no
+controller, route, currentness, lifecycle, release or closure authority.
+
+One writer lock in the carrier's native Git common custody is held before the
+first native-current observation and remains held through final `CURRENT` and
+immutable-member readback. While holding it, C06 calls the accepted C02-C05
+collectors. C02 repository collection is required. A typed absent C04 or C05
+owner artifact becomes an explicit `UNKNOWN` collector row and a `DEGRADED`
+missing/omitted-state entry rather than a fabricated empty or current fact.
+Malformed, stale-custody or contradictory owner input remains invalid and
+refuses publication rather than being laundered through that absence path.
+Repository diagnostics and every C05 candidate invalidator are also retained
+in that census. An invalid required native/repository input refuses publication
+before an output directory is created; `INVALID` never advances `CURRENT`.
+
+The compiler binds exact compiler and schema bytes, the portable native-current
+semantic record, controller/claim/run/source epoch/current pointer, hot STATE,
+ROADMAP and WORK_GRAPH digests, canonical R0033 route identity and every
+collector result/digest in
+`implementaudit-operational-snapshot-input.v1`. Absolute checkout, Git-common,
+run-root, temporary-directory, clock and process spellings are excluded from
+semantic bytes; their native custody is preserved by the bound controller,
+claim, run and current tuple. Immediately before any output effect the carrier
+rereads compiler/schema, reacquires the complete C03 result, reruns every
+collector and requires exact equality. It separately requires the old
+`CURRENT` bytes to remain unchanged through that fence.
+
+The snapshot ID is exactly
+`iasnap-v1-<sha256(canonical input-manifest bytes)>`. A snapshot directory
+contains canonical no-terminal-LF `input-manifest.json`, `snapshot.json` and
+`manifest.json`. The first two carry the deterministic input and full
+complete-or-degraded projection. The R39-frozen owner manifest has exactly:
+
+```text
+schema_version controller_id claim_id run_id source_epoch
+source_pointer_oid source_evidence_entries
+```
+
+Each unique source entry is
+`iasrc-v1-r0038-snapshot-<snapshot-digest>[-label]`, binds the exact
+`snapshot.json` digest and uses the fixed run-root-relative locator beneath the
+same immutable snapshot directory. An existing same-identity directory is
+reused only after exact population and byte readback; it is never overwritten.
+A create-once temporary directory is verified before rename. Private temporary
+cleanup removes only the three exact task-owned members and refuses unknown or
+link/reparse residue.
+
+`CURRENT` is canonical no-terminal-LF JSON with exactly `schema_version`,
+`snapshot_id`, `manifest_sha256` and `source_pointer_oid`. Before replacement,
+C06 rechecks the prior selection. It writes a durable temporary sibling and
+uses atomic replacement last. Post-selection readback verifies `CURRENT`, its
+manifest, the complete source-entry population and every selected source
+digest. A failure before replacement leaves the old complete selection or no
+selection; an interruption after replacement is reported as
+`OE_SNAPSHOT_PUBLICATION_UNKNOWN_EFFECT`, and the new selection must still be
+independently read back before retry. An unselected immutable directory is
+residue, not discovery authority: readers follow only valid canonical
+`CURRENT`. Stored snapshot identities remain immutable and can be reread after
+a later selection without creating new R0039 archives.
+
 ## Canonical evidence and failure collection
 
 `collect_evidence_failure` is the C04 read-only boundary. It accepts one fixed,

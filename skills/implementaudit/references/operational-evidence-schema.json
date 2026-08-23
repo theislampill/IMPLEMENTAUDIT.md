@@ -46,6 +46,23 @@
     "publication": false,
     "activegraph_authority": false
   },
+  "x-immutable-snapshot-publication": {
+    "schema": "IA-OPERATIONAL-SNAPSHOT-v1",
+    "input_schema": "implementaudit-operational-snapshot-input.v1",
+    "payload_schema": "implementaudit-operational-snapshot-payload.v1",
+    "current_schema": "implementaudit.operational-snapshot-current.v1",
+    "snapshot_id": "iasnap-v1-<canonical_input_manifest_sha256>",
+    "output_root": "<native-bound-run-root>/operational-evidence/snapshots",
+    "writer": "single_output_root_writer_before_native_derivation_through_readback",
+    "manifest_keys": ["schema_version", "controller_id", "claim_id", "run_id", "source_epoch", "source_pointer_oid", "source_evidence_entries"],
+    "current_keys": ["schema_version", "snapshot_id", "manifest_sha256", "source_pointer_oid"],
+    "publication": "immutable_materialization_then_atomic_CURRENT_replace",
+    "input_fence": "compiler_schema_native_route_graph_collectors_and_prior_CURRENT",
+    "volatile_envelope": "excluded_from_semantic_identity",
+    "invalid": "never_advances_CURRENT",
+    "degraded": "retains_complete_missing_or_omitted_state",
+    "authority_ceiling": "R0038_OUTPUT_ROOT_ONLY"
+  },
   "title": "IMPLEMENTAUDIT operational evidence v1",
   "type": "object",
   "additionalProperties": false,

@@ -37,6 +37,23 @@ STATIC_RECEIPT_SCHEMA = "implementaudit-static-receipt-v1"
 STATIC_NORMALIZED_SCHEMA = "implementaudit-static-normalized-v1"
 STATIC_NORMALIZED_SET_SCHEMA = "implementaudit-static-normalized-set-v1"
 NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v1"
+SNAPSHOT_INPUT_SCHEMA = "implementaudit-operational-snapshot-input.v1"
+SNAPSHOT_PAYLOAD_SCHEMA = "implementaudit-operational-snapshot-payload.v1"
+SNAPSHOT_MANIFEST_SCHEMA = "IA-OPERATIONAL-SNAPSHOT-v1"
+SNAPSHOT_CURRENT_SCHEMA = "implementaudit.operational-snapshot-current.v1"
+SNAPSHOT_PUBLICATION_SCHEMA = "implementaudit-operational-snapshot-publication-v1"
+SNAPSHOT_ID_RE = re.compile(r"^iasnap-v1-[0-9a-f]{64}$")
+SNAPSHOT_EVIDENCE_ID_RE = re.compile(
+    r"^iasrc-v1-r0038-snapshot-([0-9a-f]{64})"
+    r"(?:-([A-Za-z0-9][A-Za-z0-9._-]{0,30}))?$")
+SNAPSHOT_CURRENT_KEYS = frozenset({
+    "schema_version", "snapshot_id", "manifest_sha256", "source_pointer_oid"})
+SNAPSHOT_MANIFEST_KEYS = frozenset({
+    "schema_version", "controller_id", "claim_id", "run_id", "source_epoch",
+    "source_pointer_oid", "source_evidence_entries"})
+SNAPSHOT_OWNER_ENTRY_KEYS = frozenset({
+    "source_evidence_id", "sha256", "kind", "root_identity",
+    "host_identity", "input_path_flavor", "source_locator"})
 FAMILIES = (
     "CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE")
 STATES = (
@@ -2167,6 +2184,580 @@ def collect_release(root: pathlib.Path):
         _error("OE_RELEASE_CHANGED_DURING_SCAN", "$release",
                "repository changed during RELEASE collection")
     return immutable_result
+
+
+def _snapshot_stage_v1(stage: str) -> None:
+    """Internal fault boundary; tests may replace this no-op, callers may not."""
+    del stage
+
+
+def _snapshot_is_link_v1(path: pathlib.Path) -> bool:
+    try:
+        metadata = os.lstat(path)
+    except OSError:
+        return False
+    return (stat.S_ISLNK(metadata.st_mode) or
+            bool(getattr(metadata, "st_file_attributes", 0) &
+                 getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)))
+
+
+def _snapshot_read_regular_v1(
+        path: pathlib.Path, root: pathlib.Path, code: str,
+        *, maximum: int = 16 * 1024 * 1024) -> bytes:
+    try:
+        root_absolute = pathlib.Path(os.path.abspath(root))
+        path_absolute = pathlib.Path(os.path.abspath(path))
+        relative = path_absolute.relative_to(root_absolute)
+        cursor = root_absolute
+        if _snapshot_is_link_v1(cursor) or not cursor.is_dir():
+            _error(code, "$snapshot", "snapshot custody root is not a physical directory")
+        for component in relative.parts:
+            if component in {"", ".", ".."}:
+                _error(code, "$snapshot", "snapshot path is not canonical")
+            cursor = cursor / component
+            if _snapshot_is_link_v1(cursor):
+                _error(code, "$snapshot", "snapshot path crosses a link or reparse point")
+        metadata = os.lstat(path_absolute)
+        if (not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1 or
+                metadata.st_size > maximum):
+            _error(code, "$snapshot", "snapshot member is not one bounded physical file")
+        raw = path_absolute.read_bytes()
+        if len(raw) != metadata.st_size:
+            _error(code, "$snapshot", "snapshot member changed during read")
+        return raw
+    except OperationalEvidenceError:
+        raise
+    except (OSError, ValueError):
+        _error(code, "$snapshot", "snapshot member is unreadable or outside custody")
+
+
+def _snapshot_decode_canonical_object_v1(raw: bytes, code: str) -> dict:
+    value = decode_strict_json_bytes(raw, "operational snapshot")
+    if type(value) is not dict or canonical_json_v1(value) != raw:
+        _error(code, "$snapshot", "snapshot JSON is not one exact canonical object")
+    return value
+
+
+def _snapshot_write_new_file_v1(path: pathlib.Path, raw: bytes) -> None:
+    try:
+        with path.open("xb") as stream:
+            stream.write(raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except OSError:
+        _error("OE_SNAPSHOT_WRITE_FAILED", "$snapshot",
+               "immutable snapshot member could not be durably created")
+
+
+def _snapshot_portable_native_v1(native: dict) -> dict:
+    """Remove volatile checkout spelling while retaining owner-native identity."""
+    repository_root = pathlib.Path(native["repository"]["root"])
+    common_root = pathlib.Path(native["repository"]["git_common_dir"])
+    run_relative = pathlib.PurePosixPath(native["claim"]["run_root"])
+    run_root = repository_root.joinpath(*run_relative.parts)
+
+    def spellings(path):
+        return {str(path), os.fspath(path), path.as_posix(),
+                str(path.resolve()), path.resolve().as_posix()}
+
+    replacements = {}
+    for spelling in spellings(repository_root):
+        replacements[spelling] = "$REPOSITORY_ROOT"
+    for spelling in spellings(common_root):
+        replacements[spelling] = "$GIT_COMMON_DIR"
+    for spelling in spellings(run_root):
+        replacements[spelling] = "$RUN_ROOT"
+
+    def replace(value):
+        if type(value) is dict:
+            return {key: replace(item) for key, item in value.items()
+                    if key != "semantic_sha256"}
+        if type(value) is list:
+            return [replace(item) for item in value]
+        if type(value) is str:
+            return replacements.get(value, value)
+        return value
+
+    result = replace(native)
+    result["semantic_sha256"] = hashlib.sha256(
+        canonical_json_v1(result)).hexdigest()
+    return result
+
+
+def _snapshot_optional_collection_v1(owner: str, action) -> dict:
+    try:
+        value = action()
+    except OperationalEvidenceError as exc:
+        if exc.code not in {"OE_RUN_ARTIFACT_MISSING", "OE_RELEASE_ARTIFACT_MISSING"}:
+            raise
+        value = {"code": exc.code, "path": exc.path}
+        return {
+            "owner": owner, "state": "UNKNOWN", "value": value,
+            "sha256": hashlib.sha256(canonical_json_v1(value)).hexdigest()}
+    return {
+        "owner": owner, "state": "CURRENT", "value": value,
+        "sha256": hashlib.sha256(canonical_json_v1(value)).hexdigest()}
+
+
+def _collect_snapshot_inputs_v1(native: dict) -> dict:
+    repository_root = pathlib.Path(native["repository"]["root"])
+    run_relative = pathlib.PurePosixPath(native["claim"]["run_root"])
+    run_root = repository_root.joinpath(*run_relative.parts)
+    repository = collect_repository(repository_root)
+    collections = {
+        "native_current": {
+            "owner": "R0038-C03", "state": "CURRENT",
+            "value": _snapshot_portable_native_v1(native)},
+        "repository": {
+            "owner": "R0038-C02", "state": "CURRENT", "value": repository},
+        "evidence_failure": _snapshot_optional_collection_v1(
+            "R0038-C04", lambda: collect_evidence_failure(run_root)),
+        "release": _snapshot_optional_collection_v1(
+            "R0038-C05", lambda: collect_release(repository_root)),
+    }
+    for row in collections.values():
+        row.setdefault(
+            "sha256", hashlib.sha256(canonical_json_v1(row["value"])).hexdigest())
+    return collections
+
+
+def _snapshot_missing_census_v1(collections: dict) -> list[dict]:
+    missing = []
+    for name in sorted(collections):
+        row = collections[name]
+        if row["state"] != "CURRENT":
+            missing.append({
+                "kind": "COLLECTOR_NON_CURRENT", "collector": name,
+                "state": row["state"], "code": row["value"].get("code")})
+    repository = collections["repository"]["value"]
+    for bucket in ("errors", "unknown"):
+        for value in repository.get("diagnostics", {}).get(bucket, []):
+            missing.append({
+                "kind": "REPOSITORY_DIAGNOSTIC", "collector": "repository",
+                "state": "UNKNOWN", "code": f"{bucket}:{value}"})
+    release = collections["release"]
+    if release["state"] == "CURRENT":
+        for value in release["value"].get("candidate", {}).get("invalidators", []):
+            missing.append({
+                "kind": "RELEASE_INVALIDATOR", "collector": "release",
+                "state": release["value"]["candidate"].get("state", "UNVERIFIED"),
+                "code": value})
+    return sorted(missing, key=canonical_json_v1)
+
+
+def _build_snapshot_material_v1(
+        native: dict, collections: dict, schema_raw: bytes,
+        compiler_raw: bytes) -> dict:
+    missing = _snapshot_missing_census_v1(collections)
+    aggregate = "DEGRADED" if missing else "COMPLETE"
+    portable_native = collections["native_current"]["value"]
+    input_manifest = {
+        "schema_version": SNAPSHOT_INPUT_SCHEMA,
+        "compiler_sha256": hashlib.sha256(compiler_raw).hexdigest(),
+        "schema_sha256": hashlib.sha256(schema_raw).hexdigest(),
+        "current_tuple": {
+            "controller_id": native["controller"]["id"],
+            "claim_id": native["claim"]["id"],
+            "run_id": native["claim"]["run_id"],
+            "source_epoch": native["continuity"]["source_epoch"],
+            "source_pointer_oid": native["continuity"]["pointer_oid"],
+            "hot_state_sha256": native["hot"]["state_sha256"],
+            "hot_roadmap_sha256": native["hot"]["roadmap_sha256"],
+            "work_graph_sha256": native["hot"]["work_graph_sha256"],
+            "route_identity": native["route"]["record_identity"],
+        },
+        "collector_inputs": [
+            {"name": name, "owner": row["owner"], "state": row["state"],
+             "sha256": row["sha256"]}
+            for name, row in sorted(collections.items())],
+        "native_semantic_sha256": portable_native["semantic_sha256"],
+        "missing_or_omitted_state": missing,
+    }
+    input_raw = canonical_json_v1(input_manifest)
+    snapshot_digest = hashlib.sha256(input_raw).hexdigest()
+    snapshot_id = "iasnap-v1-" + snapshot_digest
+    payload = {
+        "schema_version": SNAPSHOT_PAYLOAD_SCHEMA,
+        "snapshot_id": snapshot_id, "aggregate": aggregate,
+        "families": list(FAMILIES),
+        "missing_or_omitted_state": missing,
+        "collections": {name: row for name, row in sorted(collections.items())},
+        "input_manifest_sha256": snapshot_digest,
+    }
+    payload_raw = canonical_json_v1(payload)
+    root_identity = "sha256:" + hashlib.sha256(canonical_json_v1({
+        "controller_id": native["controller"]["id"],
+        "claim_id": native["claim"]["id"],
+        "run_id": native["claim"]["run_id"],
+    })).hexdigest()
+    evidence_id = (
+        "iasrc-v1-r0038-snapshot-" + snapshot_digest + "-operational-evidence")
+    entry = {
+        "source_evidence_id": evidence_id,
+        "sha256": hashlib.sha256(payload_raw).hexdigest(),
+        "kind": "run-root-relative", "root_identity": root_identity,
+        "host_identity": None, "input_path_flavor": "posix",
+        "source_locator": {
+            "kind": "run-root-relative", "root_identity": root_identity,
+            "path": (
+                f"operational-evidence/snapshots/{snapshot_id}/snapshot.json"),
+            "host_identity": None,
+        },
+    }
+    manifest = {
+        "schema_version": SNAPSHOT_MANIFEST_SCHEMA,
+        "controller_id": native["controller"]["id"],
+        "claim_id": native["claim"]["id"],
+        "run_id": native["claim"]["run_id"],
+        "source_epoch": native["continuity"]["source_epoch"],
+        "source_pointer_oid": native["continuity"]["pointer_oid"],
+        "source_evidence_entries": [entry],
+    }
+    manifest_raw = canonical_json_v1(manifest)
+    current = {
+        "schema_version": SNAPSHOT_CURRENT_SCHEMA,
+        "snapshot_id": snapshot_id,
+        "manifest_sha256": hashlib.sha256(manifest_raw).hexdigest(),
+        "source_pointer_oid": native["continuity"]["pointer_oid"],
+    }
+    return {
+        "snapshot_id": snapshot_id, "aggregate": aggregate,
+        "evidence_id": evidence_id, "input_raw": input_raw,
+        "payload_raw": payload_raw, "manifest_raw": manifest_raw,
+        "current_raw": canonical_json_v1(current),
+    }
+
+
+def _snapshot_validate_owner_entry_v1(entry: object, snapshot_digest: str) -> None:
+    if (type(entry) is not dict or set(entry) != SNAPSHOT_OWNER_ENTRY_KEYS or
+            type(entry.get("source_evidence_id")) is not str or
+            type(entry.get("sha256")) is not str or
+            not re.fullmatch(r"[0-9a-f]{64}", entry["sha256"]) or
+            entry.get("kind") != "run-root-relative" or
+            type(entry.get("root_identity")) is not str or
+            not re.fullmatch(r"sha256:[0-9a-f]{64}", entry["root_identity"]) or
+            entry.get("host_identity") is not None or
+            entry.get("input_path_flavor") != "posix"):
+        _error("OE_SNAPSHOT_MANIFEST_INVALID", "$snapshot.manifest",
+               "source-evidence entry is malformed")
+    match = SNAPSHOT_EVIDENCE_ID_RE.fullmatch(entry["source_evidence_id"])
+    locator = entry.get("source_locator")
+    if (match is None or match.group(1) != snapshot_digest or
+            type(locator) is not dict or set(locator) != {
+                "kind", "root_identity", "path", "host_identity"} or
+            locator.get("kind") != entry["kind"] or
+            locator.get("root_identity") != entry["root_identity"] or
+            locator.get("host_identity") is not None or
+            locator.get("path") != (
+                f"operational-evidence/snapshots/iasnap-v1-{snapshot_digest}/"
+                "snapshot.json")):
+        _error("OE_SNAPSHOT_MANIFEST_INVALID", "$snapshot.manifest",
+               "source-evidence entry does not bind this snapshot")
+
+
+def _snapshot_validate_manifest_v1(raw: bytes, snapshot_id: str) -> dict:
+    value = _snapshot_decode_canonical_object_v1(
+        raw, "OE_SNAPSHOT_MANIFEST_INVALID")
+    if (set(value) != SNAPSHOT_MANIFEST_KEYS or
+            value.get("schema_version") != SNAPSHOT_MANIFEST_SCHEMA or
+            not SNAPSHOT_ID_RE.fullmatch(snapshot_id) or
+            type(value.get("controller_id")) is not str or
+            not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,47}", value["controller_id"]) or
+            type(value.get("claim_id")) is not str or
+            not re.fullmatch(r"[0-9a-f]{32}", value["claim_id"]) or
+            type(value.get("run_id")) is not str or
+            not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", value["run_id"]) or
+            type(value.get("source_epoch")) is not str or
+            not re.fullmatch(r"G[0-9]{4}", value["source_epoch"]) or
+            type(value.get("source_pointer_oid")) is not str or
+            not re.fullmatch(
+                r"(?:[0-9a-f]{40}|[0-9a-f]{64})", value["source_pointer_oid"]) or
+            type(value.get("source_evidence_entries")) is not list or
+            not value["source_evidence_entries"]):
+        _error("OE_SNAPSHOT_MANIFEST_INVALID", "$snapshot.manifest",
+               "snapshot owner manifest has the wrong schema or key set")
+    identities = set()
+    digest = snapshot_id.removeprefix("iasnap-v1-")
+    for entry in value["source_evidence_entries"]:
+        _snapshot_validate_owner_entry_v1(entry, digest)
+        identity = entry["source_evidence_id"]
+        if identity in identities:
+            _error("OE_SNAPSHOT_MANIFEST_INVALID", "$snapshot.manifest",
+                   "source-evidence identities must be unique")
+        identities.add(identity)
+    return value
+
+
+def _snapshot_validate_current_v1(
+        raw: bytes, snapshots: pathlib.Path) -> dict:
+    value = _snapshot_decode_canonical_object_v1(
+        raw, "OE_SNAPSHOT_CURRENT_INVALID")
+    if (set(value) != SNAPSHOT_CURRENT_KEYS or
+            value.get("schema_version") != SNAPSHOT_CURRENT_SCHEMA or
+            type(value.get("snapshot_id")) is not str or
+            not SNAPSHOT_ID_RE.fullmatch(value["snapshot_id"]) or
+            type(value.get("manifest_sha256")) is not str or
+            not re.fullmatch(r"[0-9a-f]{64}", value["manifest_sha256"]) or
+            type(value.get("source_pointer_oid")) is not str or
+            not re.fullmatch(
+                r"(?:[0-9a-f]{40}|[0-9a-f]{64})", value["source_pointer_oid"])):
+        _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
+               "CURRENT has the wrong schema, key set, or identity")
+    manifest_path = snapshots / value["snapshot_id"] / "manifest.json"
+    manifest_raw = _snapshot_read_regular_v1(
+        manifest_path, snapshots, "OE_SNAPSHOT_CURRENT_INVALID")
+    if hashlib.sha256(manifest_raw).hexdigest() != value["manifest_sha256"]:
+        _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
+               "CURRENT does not bind its immutable manifest")
+    manifest = _snapshot_validate_manifest_v1(manifest_raw, value["snapshot_id"])
+    if manifest["source_pointer_oid"] != value["source_pointer_oid"]:
+        _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
+               "CURRENT and manifest pointer identities disagree")
+    run_root = snapshots.parents[1]
+    for entry in manifest["source_evidence_entries"]:
+        relative = pathlib.PurePosixPath(entry["source_locator"]["path"])
+        source_path = run_root.joinpath(*relative.parts)
+        source_raw = _snapshot_read_regular_v1(
+            source_path, run_root, "OE_SNAPSHOT_CURRENT_INVALID")
+        if hashlib.sha256(source_raw).hexdigest() != entry["sha256"]:
+            _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
+                   "CURRENT-selected source evidence does not match its digest")
+    return value
+
+
+def _snapshot_current_raw_v1(snapshots: pathlib.Path) -> bytes | None:
+    current = snapshots / "CURRENT"
+    if not current.exists() and not current.is_symlink():
+        return None
+    raw = _snapshot_read_regular_v1(
+        current, snapshots, "OE_SNAPSHOT_CURRENT_INVALID", maximum=64 * 1024)
+    _snapshot_validate_current_v1(raw, snapshots)
+    return raw
+
+
+def _snapshot_verify_materialization_v1(
+        snapshot_dir: pathlib.Path, expected: dict[str, bytes],
+        snapshot_id: str) -> None:
+    try:
+        if (_snapshot_is_link_v1(snapshot_dir) or not snapshot_dir.is_dir() or
+                {path.name for path in snapshot_dir.iterdir()} != set(expected)):
+            _error("OE_SNAPSHOT_IMMUTABLE_MISMATCH", "$snapshot",
+                   "immutable snapshot population differs from the candidate")
+    except OSError:
+        _error("OE_SNAPSHOT_IMMUTABLE_MISMATCH", "$snapshot",
+               "immutable snapshot population cannot be enumerated")
+    for name, raw in expected.items():
+        if _snapshot_read_regular_v1(
+                snapshot_dir / name, snapshot_dir,
+                "OE_SNAPSHOT_IMMUTABLE_MISMATCH") != raw:
+            _error("OE_SNAPSHOT_IMMUTABLE_MISMATCH", "$snapshot",
+                   "immutable snapshot bytes differ from the candidate")
+    _snapshot_validate_manifest_v1(expected["manifest.json"], snapshot_id)
+
+
+def _snapshot_cleanup_pending_v1(path: pathlib.Path | None) -> None:
+    if path is None or not path.exists():
+        return
+    try:
+        members = {member.name: member for member in path.iterdir()}
+        if set(members) - {"input-manifest.json", "snapshot.json", "manifest.json"}:
+            _error("OE_SNAPSHOT_CLEANUP_REFUSED", "$snapshot.pending",
+                   "pending directory contains non-task-owned residue")
+        for member in members.values():
+            if _snapshot_is_link_v1(member) or not member.is_file():
+                _error("OE_SNAPSHOT_CLEANUP_REFUSED", "$snapshot.pending",
+                       "pending directory contains a non-file member")
+            member.unlink()
+        path.rmdir()
+    except OperationalEvidenceError:
+        raise
+    except OSError:
+        _error("OE_SNAPSHOT_CLEANUP_REFUSED", "$snapshot.pending",
+               "pending task-owned snapshot residue needs reconciliation")
+
+
+def publish_current_snapshot():
+    """Compile and atomically select one native-custody R0038 snapshot."""
+    source_repository = pathlib.Path(__file__).resolve().parents[3]
+    common = _native_resolved_path(
+        _run_git(source_repository, "rev-parse", "--path-format=absolute",
+                 "--git-common-dir").stdout.strip(), "$snapshot.git_common_dir")
+    lock = common / "implementaudit-r0038-snapshot-writer.lock"
+    pending = None
+    current_temp = None
+    lock_held = False
+    selection_replaced = False
+    try:
+        try:
+            lock.mkdir()
+            lock_held = True
+        except OSError:
+            _error("OE_SNAPSHOT_WRITER_BUSY", "$snapshot.writer",
+                   "the single R0038 output-root writer is already held")
+        _snapshot_stage_v1("writer-held")
+
+        compiler_path = pathlib.Path(__file__).resolve()
+        schema_path = compiler_path.parent.parent / "references" / (
+            "operational-evidence-schema.json")
+        compiler_raw = _native_file(compiler_path, "$snapshot.compiler", 2 * 1024 * 1024)
+        schema_raw = _native_file(schema_path, "$snapshot.schema", 512 * 1024)
+        schema_value = decode_strict_json_bytes(schema_raw, "snapshot schema")
+        if schema_value.get("x-immutable-snapshot-publication", {}).get(
+                "schema") != SNAPSHOT_MANIFEST_SCHEMA:
+            _error("OE_SNAPSHOT_SCHEMA_INVALID", "$snapshot.schema",
+                   "schema does not admit the immutable snapshot contract")
+
+        native = collect_native_current()
+        repository_root = pathlib.Path(native["repository"]["root"])
+        run_relative = pathlib.PurePosixPath(native["claim"]["run_root"])
+        run_root = repository_root.joinpath(*run_relative.parts)
+        snapshots = run_root / "operational-evidence" / "snapshots"
+        if snapshots.exists() and (_snapshot_is_link_v1(snapshots) or not snapshots.is_dir()):
+            _error("OE_SNAPSHOT_OUTPUT_INVALID", "$snapshot.output_root",
+                   "snapshot output root is not one physical directory")
+        before_current = (_snapshot_current_raw_v1(snapshots)
+                          if snapshots.exists() else None)
+        collections = _collect_snapshot_inputs_v1(native)
+        _snapshot_stage_v1("after-first-observation")
+
+        final_compiler = _native_file(
+            compiler_path, "$snapshot.final_compiler", 2 * 1024 * 1024)
+        final_schema = _native_file(
+            schema_path, "$snapshot.final_schema", 512 * 1024)
+        final_native = collect_native_current()
+        final_collections = _collect_snapshot_inputs_v1(final_native)
+        if (compiler_raw != final_compiler or schema_raw != final_schema or
+                canonical_json_v1(_snapshot_portable_native_v1(native)) !=
+                canonical_json_v1(_snapshot_portable_native_v1(final_native)) or
+                canonical_json_v1(collections) != canonical_json_v1(final_collections)):
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
+                   "a compiler, schema, native, route, graph, or collector input drifted")
+        final_current = (_snapshot_current_raw_v1(snapshots)
+                         if snapshots.exists() else None)
+        if final_current != before_current:
+            _error("OE_SNAPSHOT_CURRENT_CHANGED", "$snapshot.CURRENT",
+                   "CURRENT changed during the complete input fence")
+
+        material = _build_snapshot_material_v1(
+            native, collections, schema_raw, compiler_raw)
+        if material["aggregate"] == "INVALID":
+            _error("OE_SNAPSHOT_INVALID_AGGREGATE", "$snapshot.aggregate",
+                   "INVALID input cannot be published")
+        _snapshot_stage_v1("before-temp-creation")
+        operational_root = run_root / "operational-evidence"
+        operational_root.mkdir(exist_ok=True)
+        if _snapshot_is_link_v1(operational_root) or not operational_root.is_dir():
+            _error("OE_SNAPSHOT_OUTPUT_INVALID", "$snapshot.output_root",
+                   "operational-evidence root is not one physical directory")
+        snapshots.mkdir(exist_ok=True)
+        if _snapshot_is_link_v1(snapshots) or not snapshots.is_dir():
+            _error("OE_SNAPSHOT_OUTPUT_INVALID", "$snapshot.output_root",
+                   "snapshot output root is not one physical directory")
+
+        expected = {
+            "input-manifest.json": material["input_raw"],
+            "snapshot.json": material["payload_raw"],
+            "manifest.json": material["manifest_raw"],
+        }
+        snapshot_dir = snapshots / material["snapshot_id"]
+        if snapshot_dir.exists() or snapshot_dir.is_symlink():
+            _snapshot_verify_materialization_v1(
+                snapshot_dir, expected, material["snapshot_id"])
+        else:
+            pending = pathlib.Path(tempfile.mkdtemp(
+                prefix=".pending-r0038-", dir=snapshots))
+            _snapshot_stage_v1("after-temp-creation")
+            for name in ("input-manifest.json", "snapshot.json", "manifest.json"):
+                _snapshot_stage_v1("before-" + name)
+                _snapshot_write_new_file_v1(pending / name, expected[name])
+                _snapshot_stage_v1("after-" + name)
+            _snapshot_verify_materialization_v1(
+                pending, expected, material["snapshot_id"])
+            _snapshot_stage_v1("after-manifest-reread")
+            try:
+                pending.rename(snapshot_dir)
+            except OSError:
+                _error("OE_SNAPSHOT_IMMUTABLE_MISMATCH", "$snapshot",
+                       "immutable snapshot identity already has different custody")
+            pending = None
+            _snapshot_verify_materialization_v1(
+                snapshot_dir, expected, material["snapshot_id"])
+
+        if _snapshot_current_raw_v1(snapshots) != before_current:
+            _error("OE_SNAPSHOT_CURRENT_CHANGED", "$snapshot.CURRENT",
+                   "CURRENT changed immediately before atomic selection")
+        _snapshot_stage_v1("before-current-temp")
+        descriptor, current_name = tempfile.mkstemp(
+            prefix=".CURRENT-r0038-", dir=snapshots)
+        current_temp = pathlib.Path(current_name)
+        try:
+            with os.fdopen(descriptor, "wb") as stream:
+                stream.write(material["current_raw"])
+                stream.flush()
+                os.fsync(stream.fileno())
+        except OSError:
+            _error("OE_SNAPSHOT_WRITE_FAILED", "$snapshot.CURRENT",
+                   "CURRENT temporary sibling could not be durably written")
+        _snapshot_stage_v1("after-current-temp")
+        if _snapshot_read_regular_v1(
+                current_temp, snapshots, "OE_SNAPSHOT_CURRENT_INVALID",
+                maximum=64 * 1024) != material["current_raw"]:
+            _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
+                   "CURRENT temporary sibling failed exact reread")
+        _snapshot_stage_v1("before-current-replace")
+        try:
+            os.replace(current_temp, snapshots / "CURRENT")
+            current_temp = None
+            selection_replaced = True
+        except OSError:
+            _error("OE_SNAPSHOT_WRITE_FAILED", "$snapshot.CURRENT",
+                   "CURRENT atomic replacement failed")
+        try:
+            _snapshot_stage_v1("after-current-replace")
+        except Exception:
+            _error("OE_SNAPSHOT_PUBLICATION_UNKNOWN_EFFECT", "$snapshot.CURRENT",
+                   "CURRENT replaced but post-selection completion is unknown")
+        readback = _snapshot_current_raw_v1(snapshots)
+        if readback != material["current_raw"]:
+            _error("OE_SNAPSHOT_PUBLICATION_UNKNOWN_EFFECT", "$snapshot.CURRENT",
+                   "post-selection readback did not match the candidate")
+        _snapshot_verify_materialization_v1(
+            snapshot_dir, expected, material["snapshot_id"])
+        return {
+            "schema": SNAPSHOT_PUBLICATION_SCHEMA,
+            "snapshot_id": material["snapshot_id"],
+            "aggregate": material["aggregate"],
+            "manifest_sha256": hashlib.sha256(material["manifest_raw"]).hexdigest(),
+            "current_sha256": hashlib.sha256(material["current_raw"]).hexdigest(),
+            "source_evidence_ids": [material["evidence_id"]],
+            "selection_state": (
+                "UNCHANGED" if before_current == material["current_raw"] else "ADVANCED"),
+            "authority_ceiling": "R0038_OUTPUT_ROOT_ONLY",
+            "establishes": [],
+        }
+    except OperationalEvidenceError:
+        raise
+    except Exception:
+        if selection_replaced:
+            _error("OE_SNAPSHOT_PUBLICATION_UNKNOWN_EFFECT", "$snapshot.CURRENT",
+                   "publication failed after atomic selection")
+        _error("OE_SNAPSHOT_PUBLICATION_FAILED", "$snapshot",
+               "snapshot publication failed before atomic selection")
+    finally:
+        if current_temp is not None:
+            try:
+                current_temp.unlink(missing_ok=True)
+            except OSError:
+                pass
+        if pending is not None:
+            _snapshot_cleanup_pending_v1(pending)
+        if lock_held:
+            try:
+                lock.rmdir()
+            except OSError:
+                if sys.exc_info()[0] is None:
+                    _error("OE_SNAPSHOT_CLEANUP_REFUSED", "$snapshot.writer",
+                           "writer lock residue needs manual reconciliation")
 
 
 def _native_external_get(url, headers):

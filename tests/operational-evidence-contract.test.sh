@@ -33,15 +33,19 @@ trap 'rm -rf "$tmp"' EXIT
   "skills/implementaudit/references/route-obligations.md" \
   "skills/implementaudit/SKILL.md" \
   "skills/audit-state/SKILL.md" \
-  "$fixtures/native-current.json" "$tmp/native-current" <<'PY'
+  "$fixtures/native-current.json" "$tmp/native-current" \
+  "$rotation_loader" <<'PY'
 import copy
 import hashlib
+import importlib.util
+import inspect
 import json
 import os
 import pathlib
 import shutil
 import subprocess
 import sys
+import threading
 import types
 
 
@@ -55,6 +59,7 @@ GOVERNOR = pathlib.Path(sys.argv[7]).resolve()
 AUDIT_STATE = pathlib.Path(sys.argv[8]).resolve()
 FIXTURE = json.loads(pathlib.Path(sys.argv[9]).read_text(encoding="utf-8"))
 CASE_ROOT = pathlib.Path(sys.argv[10]).resolve()
+ROTATION = pathlib.Path(sys.argv[11]).resolve()
 CASE_ROOT.mkdir(parents=True)
 ZERO64 = "0" * 64
 ONE64 = "1" * 64
@@ -88,6 +93,18 @@ if schema_definition.get("x-native-current-facts") != {
         "activegraph_authority": False,
     }:
     raise SystemExit("NCR20 RED: schema does not freeze native-current facts")
+snapshot_schema = schema_definition.get("x-immutable-snapshot-publication", {})
+if (snapshot_schema.get("schema") != "IA-OPERATIONAL-SNAPSHOT-v1" or
+        snapshot_schema.get("current_schema") !=
+        "implementaudit.operational-snapshot-current.v1" or
+        snapshot_schema.get("authority_ceiling") != "R0038_OUTPUT_ROOT_ONLY"):
+    raise SystemExit("C06 schema does not freeze immutable snapshot publication")
+fixture_manifest = json.loads(
+    pathlib.Path("fixtures/operational-evidence/snapshots/fixture-manifest.json")
+    .read_text(encoding="utf-8"))
+if (fixture_manifest.get("causal_cases") != [f"C06-R{i:02d}" for i in range(1, 16)] or
+        fixture_manifest.get("held_out_cases") != [f"C06-H{i:02d}" for i in range(1, 5)]):
+    raise SystemExit("C06 fixture manifest does not enumerate the complete matrix")
 
 
 def canonical(value):
@@ -150,6 +167,7 @@ def prepare(case, serial):
     claim = repo / "skills/implementaudit/scripts/claim-run.sh"
     validate_run_root = repo / "skills/implementaudit/scripts/validate-run-root.sh"
     route_reference = repo / "skills/implementaudit/references/route-obligations.md"
+    schema = repo / "skills/implementaudit/references/operational-evidence-schema.json"
     governor = repo / "skills/implementaudit/SKILL.md"
     audit_state = repo / "skills/audit-state/SKILL.md"
     script.parent.mkdir(parents=True)
@@ -161,6 +179,8 @@ def prepare(case, serial):
     shutil.copyfile(CLAIM, claim)
     shutil.copyfile(VALIDATE_RUN_ROOT, validate_run_root)
     shutil.copyfile(ROUTE_REFERENCE, route_reference)
+    shutil.copyfile(
+        LOADER.parent.parent / "references/operational-evidence-schema.json", schema)
     shutil.copyfile(GOVERNOR, governor)
     shutil.copyfile(AUDIT_STATE, audit_state)
     git(repo, "add", "tracked.txt", request_input_path,
@@ -168,8 +188,12 @@ def prepare(case, serial):
         str(compiler.relative_to(repo)), str(route.relative_to(repo)),
         str(claim.relative_to(repo)), str(validate_run_root.relative_to(repo)),
         str(route_reference.relative_to(repo)),
+        str(schema.relative_to(repo)),
         str(governor.relative_to(repo)), str(audit_state.relative_to(repo)))
     git(repo, "commit", "--quiet", "-m", "fixture")
+    info_exclude = repo / ".git/info/exclude"
+    with info_exclude.open("a", encoding="utf-8") as stream:
+        stream.write(".IMPLEMENTAUDIT/\n")
     head = git(repo, "rev-parse", "HEAD").decode().strip()
     tree = git(repo, "rev-parse", "HEAD^{tree}").decode().strip()
 
@@ -622,6 +646,18 @@ for serial, (case, label) in enumerate(negative_cases, 1):
         pass
     else:
         red_failures.append(f"{label}: invalid native fact was accepted")
+    if case in {
+            "no-active", "no-ready", "no-holds", "no-open-andon",
+            "no-active-instruction", "no-next-action", "no-controller",
+            "wrong-claim", "stale-graph-digest", "wrong-epoch"}:
+        try:
+            module.publish_current_snapshot()
+        except module.OperationalEvidenceError:
+            pass
+        else:
+            red_failures.append(f"{label}: publisher accepted invalid native fact")
+        if (repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/operational-evidence").exists():
+            red_failures.append(f"{label}: publisher created output before validation")
 
 v3_positive_repo = prepare("positive-v3-predecessor", 100)
 v3_positive_module = load_module(v3_positive_repo, 100)
@@ -1079,6 +1115,250 @@ semantic = record.get("semantic_sha256")
 without_semantic = {key: value for key, value in record.items() if key != "semantic_sha256"}
 if semantic != hashlib.sha256(positive_module.canonical_json_v1(without_semantic)).hexdigest():
     raise SystemExit("native-current semantic digest mismatch")
+
+snapshot_repo = prepare("positive", 200)
+snapshot_module = load_module(snapshot_repo, 200)
+if list(inspect.signature(snapshot_module.publish_current_snapshot).parameters):
+    raise SystemExit("C06-R09 publisher accepts caller-supplied authority")
+snapshot_native = snapshot_module.collect_native_current()
+snapshot_run = snapshot_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123"
+snapshot_root = snapshot_run / "operational-evidence/snapshots"
+
+rotation_spec = importlib.util.spec_from_file_location(
+    "rotation_c06_consumer", ROTATION)
+rotation = importlib.util.module_from_spec(rotation_spec)
+sys.modules[rotation_spec.name] = rotation
+rotation_spec.loader.exec_module(rotation)
+consumer_args = {
+    "run_root": snapshot_run,
+    "pointer_oid": snapshot_native["continuity"]["pointer_oid"],
+    "controller_id": snapshot_native["controller"]["id"],
+    "claim_id": snapshot_native["claim"]["id"],
+    "run_id": snapshot_native["claim"]["run_id"],
+    "source_epoch": snapshot_native["continuity"]["source_epoch"],
+}
+try:
+    rotation.load_exact_r0038_current_snapshot_manifest_v1(**consumer_args)
+except rotation.RotationError as exc:
+    if str(exc) != "OE_R0038_SNAPSHOT_NOT_PUBLISHED":
+        raise SystemExit(f"C06-R10 pre-publication consumer returned {exc}")
+else:
+    raise SystemExit("C06-R10 consumer found a snapshot before publication")
+
+original_external_get = snapshot_module._native_external_get
+def forbidden_external_get(*args, **kwargs):
+    raise SystemExit("C06-R15 snapshot publisher attempted network")
+snapshot_module._native_external_get = forbidden_external_get
+try:
+    publication = snapshot_module.publish_current_snapshot()
+finally:
+    snapshot_module._native_external_get = original_external_get
+if (publication.get("schema") !=
+        "implementaudit-operational-snapshot-publication-v1" or
+        publication.get("selection_state") != "ADVANCED" or
+        publication.get("aggregate") != "DEGRADED" or
+        publication.get("authority_ceiling") != "R0038_OUTPUT_ROOT_ONLY" or
+        publication.get("establishes") != []):
+    raise SystemExit("C06 publication receipt is malformed or over-authoritative")
+snapshot_id = publication["snapshot_id"]
+snapshot_dir = snapshot_root / snapshot_id
+input_raw = (snapshot_dir / "input-manifest.json").read_bytes()
+payload_raw = (snapshot_dir / "snapshot.json").read_bytes()
+manifest_raw = (snapshot_dir / "manifest.json").read_bytes()
+current_raw = (snapshot_root / "CURRENT").read_bytes()
+if any(raw.endswith(b"\n") for raw in (input_raw, payload_raw, manifest_raw, current_raw)):
+    raise SystemExit("C06 canonical snapshot bytes retained terminal LF")
+input_manifest = json.loads(input_raw)
+payload = json.loads(payload_raw)
+manifest = json.loads(manifest_raw)
+current = json.loads(current_raw)
+if snapshot_id != "iasnap-v1-" + hashlib.sha256(input_raw).hexdigest():
+    raise SystemExit("C06 snapshot identity is not the canonical input-manifest digest")
+if set(manifest) != {
+        "schema_version", "controller_id", "claim_id", "run_id", "source_epoch",
+        "source_pointer_oid", "source_evidence_entries"}:
+    raise SystemExit("C06 manifest key set drifted from the frozen R39 consumer")
+if set(current) != {
+        "schema_version", "snapshot_id", "manifest_sha256", "source_pointer_oid"}:
+    raise SystemExit("C06 CURRENT key set drifted from the frozen R39 consumer")
+if (current["manifest_sha256"] != hashlib.sha256(manifest_raw).hexdigest() or
+        current["snapshot_id"] != snapshot_id or
+        current["source_pointer_oid"] != snapshot_native["continuity"]["pointer_oid"]):
+    raise SystemExit("C06 CURRENT does not bind the exact immutable manifest")
+if (payload.get("aggregate") != "DEGRADED" or
+        {row.get("collector") for row in payload.get("missing_or_omitted_state", [])}
+        < {"evidence_failure", "release"}):
+    raise SystemExit("C06-R05 DEGRADED snapshot lost its complete missing census")
+if input_manifest.get("missing_or_omitted_state") != payload.get(
+        "missing_or_omitted_state"):
+    raise SystemExit("C06 input manifest and payload missing censuses disagree")
+
+original_collections = snapshot_module._collect_snapshot_inputs_v1(snapshot_native)
+variant_native = copy.deepcopy(snapshot_native)
+original_repo_root = pathlib.Path(snapshot_native["repository"]["root"])
+original_common = pathlib.Path(snapshot_native["repository"]["git_common_dir"])
+original_run = original_repo_root / pathlib.PurePosixPath(
+    snapshot_native["claim"]["run_root"])
+variant_repo_root = CASE_ROOT / "different-absolute-envelope/repository"
+variant_common = CASE_ROOT / "different-absolute-envelope/common.git"
+variant_run = variant_repo_root / pathlib.PurePosixPath(
+    snapshot_native["claim"]["run_root"])
+replacements = {
+    str(original_repo_root): str(variant_repo_root),
+    original_repo_root.as_posix(): variant_repo_root.as_posix(),
+    str(original_common): str(variant_common),
+    original_common.as_posix(): variant_common.as_posix(),
+    str(original_run): str(variant_run),
+    original_run.as_posix(): variant_run.as_posix(),
+}
+def replace_envelope(value):
+    if isinstance(value, dict):
+        return {key: replace_envelope(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [replace_envelope(item) for item in value]
+    if isinstance(value, str):
+        return replacements.get(value, value)
+    return value
+variant_native = replace_envelope(variant_native)
+variant_collections = copy.deepcopy(original_collections)
+variant_collections["native_current"]["value"] = (
+    snapshot_module._snapshot_portable_native_v1(variant_native))
+variant_collections["native_current"]["sha256"] = hashlib.sha256(
+    snapshot_module.canonical_json_v1(
+        variant_collections["native_current"]["value"])).hexdigest()
+compiler_raw = (snapshot_repo /
+    "skills/implementaudit/scripts/operational-evidence.py").read_bytes()
+schema_raw = (snapshot_repo /
+    "skills/implementaudit/references/operational-evidence-schema.json").read_bytes()
+original_material = snapshot_module._build_snapshot_material_v1(
+    snapshot_native, original_collections, schema_raw, compiler_raw)
+variant_material = snapshot_module._build_snapshot_material_v1(
+    variant_native, variant_collections, schema_raw, compiler_raw)
+for key in ("snapshot_id", "input_raw", "payload_raw", "manifest_raw", "current_raw"):
+    if original_material[key] != variant_material[key]:
+        raise SystemExit(f"C06-R04 volatile absolute envelope changed {key}")
+
+owner_manifest = rotation.load_exact_r0038_current_snapshot_manifest_v1(
+    **consumer_args)
+if owner_manifest != {"entries": manifest["source_evidence_entries"]}:
+    raise SystemExit("C06-R10 unchanged R39 consumer did not resolve exact entries")
+evidence_id = publication["source_evidence_ids"][0]
+if rotation.load_immutable_r0038_snapshot_for_evidence_id_v1(
+        run_root=snapshot_run,
+        controller_id=snapshot_native["controller"]["id"],
+        claim_id=snapshot_native["claim"]["id"],
+        run_id=snapshot_native["claim"]["run_id"],
+        source_epoch=snapshot_native["continuity"]["source_epoch"],
+        source_evidence_id=evidence_id) != owner_manifest:
+    raise SystemExit("C06-R10 stored snapshot did not re-resolve by immutable identity")
+
+repeat_publication = snapshot_module.publish_current_snapshot()
+if (repeat_publication["snapshot_id"] != snapshot_id or
+        repeat_publication["selection_state"] != "UNCHANGED" or
+        (snapshot_dir / "input-manifest.json").read_bytes() != input_raw or
+        (snapshot_dir / "snapshot.json").read_bytes() != payload_raw or
+        (snapshot_dir / "manifest.json").read_bytes() != manifest_raw):
+    raise SystemExit("C06 identical publication was not deterministic and immutable")
+
+lock_common = pathlib.Path(git(
+    snapshot_repo, "rev-parse", "--path-format=absolute", "--git-common-dir"
+).decode().strip())
+writer_lock = lock_common / "implementaudit-r0038-snapshot-writer.lock"
+writer_lock.mkdir()
+try:
+    try:
+        snapshot_module.publish_current_snapshot()
+    except snapshot_module.OperationalEvidenceError as exc:
+        if exc.code != "OE_SNAPSHOT_WRITER_BUSY":
+            raise SystemExit(f"C06-R08 writer loser returned {exc.code}")
+    else:
+        raise SystemExit("C06-R08 concurrent writer was admitted")
+finally:
+    writer_lock.rmdir()
+if (snapshot_root / "CURRENT").read_bytes() != current_raw:
+    raise SystemExit("C06-R08 writer loser changed the winner selection")
+
+drift_repo = prepare("positive", 201)
+drift_module = load_module(drift_repo, 201)
+drift_state = drift_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/STATE.md"
+drift_original = drift_state.read_bytes()
+def drift_after_observation(stage):
+    if stage == "after-first-observation":
+        drift_state.write_bytes(drift_original + b"\nlate drift\n")
+drift_module._snapshot_stage_v1 = drift_after_observation
+try:
+    drift_module.publish_current_snapshot()
+except drift_module.OperationalEvidenceError:
+    pass
+else:
+    raise SystemExit("C06-H01 final input fence accepted late hot-state drift")
+if (drift_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/operational-evidence").exists():
+    raise SystemExit("C06-H01 late drift created publication output")
+
+invalid_repo = prepare("positive", 202)
+invalid_module = load_module(invalid_repo, 202)
+invalid_run = invalid_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123"
+(invalid_run / "operational-evidence.json").write_bytes(b'{"malformed":')
+try:
+    invalid_module.publish_current_snapshot()
+except invalid_module.OperationalEvidenceError as exc:
+    if exc.code != "OE_JSON_MALFORMED":
+        raise SystemExit(f"C06-R06 invalid owner input returned {exc.code}")
+else:
+    raise SystemExit("C06-R06 invalid owner input was published as DEGRADED")
+if (invalid_run / "operational-evidence/snapshots/CURRENT").exists():
+    raise SystemExit("C06-R06 invalid owner input advanced CURRENT")
+
+fault_stages = fixture_manifest["fault_stages"]
+for index, fault_stage in enumerate(fault_stages, 300):
+    fault_repo = prepare("positive", index)
+    fault_module = load_module(fault_repo, index)
+    fault_run = fault_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123"
+    fault_snapshots = fault_run / "operational-evidence/snapshots"
+    def inject(stage, expected=fault_stage):
+        if stage == expected:
+            raise RuntimeError("fixture fault")
+    fault_module._snapshot_stage_v1 = inject
+    try:
+        fault_module.publish_current_snapshot()
+    except fault_module.OperationalEvidenceError as exc:
+        expected_code = (
+            "OE_SNAPSHOT_PUBLICATION_UNKNOWN_EFFECT"
+            if fault_stage == "after-current-replace"
+            else "OE_SNAPSHOT_PUBLICATION_FAILED")
+        if exc.code != expected_code:
+            raise SystemExit(
+                f"C06-R07 {fault_stage} returned {exc.code}, expected {expected_code}")
+    else:
+        raise SystemExit(f"C06-R07 {fault_stage} did not interrupt publication")
+    current_path = fault_snapshots / "CURRENT"
+    if fault_stage == "after-current-replace":
+        current_value = fault_module._snapshot_current_raw_v1(fault_snapshots)
+        if current_value is None:
+            raise SystemExit("C06-R07 post-replace fault lost the new complete selection")
+    elif current_path.exists() or current_path.is_symlink():
+        raise SystemExit(f"C06-R07 {fault_stage} advanced CURRENT")
+    if fault_stage == "before-current-temp":
+        fault_native = fault_module.collect_native_current()
+        try:
+            rotation.load_exact_r0038_current_snapshot_manifest_v1(
+                run_root=fault_run,
+                pointer_oid=fault_native["continuity"]["pointer_oid"],
+                controller_id=fault_native["controller"]["id"],
+                claim_id=fault_native["claim"]["id"],
+                run_id=fault_native["claim"]["run_id"],
+                source_epoch=fault_native["continuity"]["source_epoch"])
+        except rotation.RotationError as exc:
+            if str(exc) != "OE_R0038_SNAPSHOT_NOT_PUBLISHED":
+                raise SystemExit(f"C06-H02 unselected snapshot returned {exc}")
+        else:
+            raise SystemExit("C06-H02 unselected immutable directory was discovered")
+    if fault_snapshots.exists():
+        residue = [
+            path.name for path in fault_snapshots.iterdir()
+            if path.name.startswith(".pending-") or path.name.startswith(".CURRENT-")]
+        if residue:
+            raise SystemExit(f"C06-R07 {fault_stage} left private temp residue: {residue}")
 PY
 
 if [ "${1:-}" = "--native-current-only" ]; then
