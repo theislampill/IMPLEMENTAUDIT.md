@@ -739,6 +739,13 @@ def record(identifier, family="EVIDENCE", state="CURRENT", **extra):
 def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
              manifest_digest=None):
     records = copy.deepcopy(list(records or []))
+    release_types = sorted({
+        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+        "Release", "Asset", "PublicSurface"})
+    release_invalidators = [
+        f"MISSING_RELEASE_LAYER:{record_type}" for record_type in release_types]
+    release_invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
     for sequence, row in enumerate(records):
         row["sequence"] = sequence
     if omitted is None:
@@ -751,6 +758,12 @@ def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
             "state": row["currentness"]["state"],
             "invalidators": list(row["currentness"]["invalidators"]),
         } for row in records if row["currentness"]["state"] != "CURRENT"]
+    omitted = list(omitted)
+    omitted.extend({
+        "kind": "RELEASE_INVALIDATOR", "collector": "release",
+        "owner": "R0038-C05", "state": "UNVERIFIED", "code": code}
+        for code in release_invalidators)
+    omitted.sort(key=evidence.canonical_json_v1)
     aggregate = aggregate or ("DEGRADED" if omitted else "COMPLETE")
 
     def semantic(value):
@@ -759,24 +772,64 @@ def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
             evidence.canonical_json_v1(result)).hexdigest()
         return result
 
+    frontier = {"population": 1,
+                "counts": {"DONE": 1, "ACTIVE": 0, "READY": 0, "BLOCKED": 0},
+                "active": [], "ready": [], "blocked_summary": {},
+                "writer_holds": {}, "resource_holds": {}}
+    frontier["digest"] = hashlib.sha256(
+        evidence.canonical_json_v1(frontier)).hexdigest()
     native_value = semantic({
         "schema": evidence.NATIVE_CURRENT_SCHEMA,
         "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT", "establishes": [],
         "repository": {"root": "$REPOSITORY_ROOT", "git_common_dir": "$GIT_COMMON_DIR"},
-        "controller": {"id": "fixture-controller"},
+        "controller": {"id": "fixture-controller", "ref": "refs/controller",
+                       "record_oid": "1" * 40},
         "claim": {"id": "fixture-claim", "run_id": "fixture-run",
                   "run_root": ".IMPLEMENTAUDIT/runs/fixture-run"},
-        "continuity": {"generation": "G0001"},
-        "hot": {"state_sha256": "2" * 64},
-        "frontier": {"population": 1}, "andon_state": "NONE",
-        "open_andons": [], "active_instructions": [],
-        "next_action": "bounded fixture observation", "route": {"action": "CONTINUE"},
+        "continuity": {
+            "generation": "G0001", "source_epoch": "G0001",
+            "invalidation_ref": "refs/invalidation", "invalidation_oid": "2" * 40,
+            "boundary_kind": "manual-resume", "boundary_event_id": "fixture-event",
+            "pointer_ref": "refs/pointer", "pointer_oid": "3" * 40,
+            "pointer_digest": "2" * 64,
+            "receipt_schema": "implementaudit.continuity-receipt.v3",
+            "receipt_ref": "refs/receipt", "receipt_oid": "4" * 40,
+            "receipt": "refs/receipt@" + "4" * 40,
+            "marker_ref": "refs/marker", "marker_oid": "5" * 40,
+            "generation_manifest_oid": "6" * 40,
+            "generation_manifest_digest": "3" * 64,
+            "cold_high_water": "fixture-high-water", "degraded_state": "NONE"},
+        "hot": {"state_path": "STATE.md", "state_sha256": "2" * 64,
+                "roadmap_path": "ROADMAP.md", "roadmap_sha256": "3" * 64,
+                "work_graph_path": "WORK_GRAPH.json", "work_graph_sha256": "4" * 64,
+                "work_graph_compiler_sha256": "5" * 64},
+        "frontier": frontier,
+        "andon_state": "FIXTURE=ACTIVE",
+        "open_andons": ["FIXTURE"], "active_instructions": [{
+            "id": "I001", "reference": "fixture", "kind": "test",
+            "authority": "fixture", "subject": "fixture", "issued_epoch": "G0001",
+            "status": "active", "status_evidence": "fixture",
+            "supersedes_by": "-", "scope_end": "fixture"}],
+        "next_action": "bounded fixture observation", "route": {
+            "controller_id": "fixture-controller", "controller_record_oid": "1" * 40,
+            "ref": "refs/route", "record_oid": "7" * 40,
+            "record_identity": "fixture-route", "decision": "NOT_REQUIRED",
+            "classification": "none", "route_transaction_id": "fixture-transaction",
+            "obligation_id": None, "route_state": None},
     })
     repository_value = {
         "schema": evidence.REPOSITORY_COLLECTION_SCHEMA,
         "repository": {"commit": "3" * 40, "tree": "4" * 40,
                        "worktree_state": "CLEAN", "input_file_set_sha256": "5" * 64},
-        "capabilities": [],
+        "capabilities": [
+            {"capability": "file_facts", "state": "SUPPORTED",
+             "reason_code": "fixture"},
+            {"capability": "package_manifest", "state": "NOT_APPLICABLE",
+             "reason_code": "fixture"},
+            {"capability": "python_ast", "state": "NOT_APPLICABLE",
+             "reason_code": "fixture"},
+            {"capability": "validation_registry_entries",
+             "state": "NOT_APPLICABLE", "reason_code": "fixture"}],
         "diagnostics": {"warnings": [], "errors": [], "skipped": [], "unknown": []},
         "facts": [], "static_collector_invocations": [],
     }
@@ -797,9 +850,23 @@ def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
         "repository": {"commit": "3" * 40, "tree": "4" * 40,
                        "worktree_state": "CLEAN"},
         "local_manifest_sha256": "7" * 64, "external_capture_sha256": "8" * 64,
-        "external_boundary": {"capture_identity": "fixture-capture"},
-        "omissions": [], "node_type_census": {}, "nodes": [],
-        "candidate": {"state": "UNVERIFIED", "invalidators": ["FIXTURE"],
+        "external_boundary": {
+            "capture_identity": "fixture-capture", "source_identity": "fixture-source",
+            "auth_state": "PRESENT", "rate_state": "AVAILABLE", "rate_remaining": 1,
+            "pagination_state": "COMPLETE", "pagination_pages": 1,
+            "object_drift": False, "captured_at": "2026-01-01T00:00:00Z",
+            "expires_at": "2027-01-01T00:00:00Z",
+            "evaluated_at": "2026-01-01T00:00:01Z"},
+        "omissions": [{
+            "record_type": record_type, "state": "UNKNOWN",
+            "invalidator": f"MISSING_RELEASE_LAYER:{record_type}"}
+            for record_type in release_types], "node_type_census": {
+            "Commit": 0, "Tree": 0, "Worktree": 0, "GeneratedArtifact": 0,
+            "Package": 0, "Install": 0, "Host": 0, "PullRequest": 0,
+            "Check": 0, "Merge": 0, "Tag": 0, "Release": 0,
+            "Asset": 0, "PublicSurface": 0}, "nodes": [],
+        "candidate": {"state": "UNVERIFIED",
+                      "invalidators": release_invalidators,
                       "local_commit": "3" * 40, "public_commit": None},
         "establishes": [],
     })
@@ -891,11 +958,10 @@ for state in fixture["states"][1:]:
         state_diff = evidence.diff_snapshots(state_base, state_snapshot)
     except evidence.OperationalEvidenceError as exc:
         raise SystemExit(
-            f"DE05 {state} snapshot failed {exc.code}: "
+            f"DE05 {state} snapshot failed {exc.code} at {exc.path}: "
             f"{state_snapshot['missing_or_omitted_state']}") from exc
     if ([row["identity"] for row in state_diff["changed"]] != [
-            "record:two", "snapshot:aggregate",
-            "snapshot:missing_or_omitted_state"] or
+            "record:two", "snapshot:missing_or_omitted_state"] or
             state_diff["changed"][0]["after"]["currentness"]["state"] != state):
         raise SystemExit(f"DE05 lost explicit currentness transition to {state}")
 observed.append("DE05")
@@ -910,7 +976,7 @@ identity_snapshot = snapshot(
     manifest_digest="f" * 64)
 identity = evidence.diff_snapshots(base, identity_snapshot)
 if ([row["identity"] for row in identity["changed"]] != [
-        "record:two", "snapshot:aggregate", "snapshot:missing_or_omitted_state"] or
+        "record:two", "snapshot:missing_or_omitted_state"] or
         identity["before_input_manifest_sha256"] ==
         identity["after_input_manifest_sha256"]):
     raise SystemExit("DE06 snapshot identity/currentness changes were hidden")
@@ -1063,22 +1129,23 @@ if alias_root_destination.exists():
     raise SystemExit("DE14 export accepted a non-canonical owned-root spelling")
 
 replacement_destination = tmp / "replacement.json"
-original_link_check = evidence._snapshot_is_link_v1
+replacement_alias = tmp / "replacement-stage-alias"
+original_stage_hook = evidence._snapshot_stage_v1
 
 
-def replace_at_final_check(path):
-    if pathlib.Path(path) == replacement_destination and path.exists():
-        path.unlink()
-        path.write_bytes(b"post-write replacement")
-    return original_link_check(path)
+def replace_at_final_check(phase):
+    if phase == "before-publish":
+        stage = next(path for path in tmp.iterdir()
+                     if path.name.endswith(".implementaudit-stage"))
+        os.link(stage, replacement_alias)
 
 
-evidence._snapshot_is_link_v1 = replace_at_final_check
+evidence._snapshot_stage_v1 = replace_at_final_check
 try:
     expect_error("OE_EXPORT_WRITE_FAILED", lambda: evidence.export_snapshot(
         base, replacement_destination, owned_root=tmp, output_format="json"))
 finally:
-    evidence._snapshot_is_link_v1 = original_link_check
+    evidence._snapshot_stage_v1 = original_stage_hook
 observed.append("DE14")
 
 noncurrent_first = json.loads(evidence.render_snapshot_projection_v1(
@@ -2537,6 +2604,385 @@ census_compiler_raw = (
 census_schema_raw = (
     census_repo / "skills/implementaudit/references/operational-evidence-schema.json"
 ).read_bytes()
+c08_r3_material = census_module._build_snapshot_material_v1(
+    census_native, census_collections, census_schema_raw, census_compiler_raw)
+c08_r3_payload = json.loads(c08_r3_material["payload_raw"].decode("utf-8"))
+c08_r3_positive = census_module.diff_snapshots(
+    c08_r3_payload, copy.deepcopy(c08_r3_payload))
+if (c08_r3_positive["added"] or c08_r3_positive["removed"] or
+        c08_r3_positive["changed"]):
+    correction_red_failures.append(
+        "C08-R3-C1 genuine producer payload did not yield an empty diff")
+
+
+def c08_r3_refresh_payload(payload, preserve_semantic=None):
+    """Refresh every enclosing producer digest after one hostile mutation."""
+    for name, collection in payload["collections"].items():
+        value = collection["value"]
+        if (collection["state"] == "CURRENT" and isinstance(value, dict) and
+                "semantic_sha256" in value and
+                preserve_semantic != (name, "semantic_sha256")):
+            semantic = {
+                key: item for key, item in value.items()
+                if key != "semantic_sha256"}
+            value["semantic_sha256"] = hashlib.sha256(
+                census_module.canonical_json_v1(semantic)).hexdigest()
+        collection["sha256"] = hashlib.sha256(
+            census_module.canonical_json_v1(value)).hexdigest()
+
+
+def c08_r3_value(payload, actual_path):
+    collection = payload["collections"][actual_path[0]]["value"]
+    value = collection
+    for part in actual_path[1:]:
+        value = value[part]
+    return value
+
+
+def c08_r3_parent(payload, actual_path):
+    parent = c08_r3_value(payload, actual_path[:-1])
+    return parent, actual_path[-1]
+
+
+def c08_r3_discriminator(value, index):
+    if isinstance(value, dict):
+        for key in ("record_type", "kind", "capability", "id"):
+            if isinstance(value.get(key), str) and value[key]:
+                return value[key]
+    return str(index)
+
+
+def c08_r3_schema_nodes():
+    """Select one genuine producer node for every named structural branch."""
+    nodes = {}
+
+    def visit(value, actual_path, display_path):
+        kind = type(value).__name__
+        nodes.setdefault((display_path, kind), (actual_path, value))
+        if isinstance(value, dict):
+            for key in sorted(value):
+                visit(value[key], actual_path + (key,), f"{display_path}.{key}")
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                discriminator = c08_r3_discriminator(item, index)
+                visit(item, actual_path + (index,),
+                      f"{display_path}[{discriminator}]")
+
+    for name in sorted(c08_r3_payload["collections"]):
+        visit(c08_r3_payload["collections"][name]["value"], (name,), name)
+    return list(nodes.values())
+
+
+def c08_r3_expect_invalid(label, payload):
+    try:
+        census_module.diff_snapshots(c08_r3_payload, payload)
+    except census_module.OperationalEvidenceError as exc:
+        if exc.code != "OE_DIFF_SNAPSHOT_INVALID":
+            correction_red_failures.append(
+                f"C08-R3-C1 {label} returned {exc.code}")
+    except Exception as exc:
+        correction_red_failures.append(
+            f"C08-R3-C1 {label} leaked {type(exc).__name__}")
+    else:
+        correction_red_failures.append(
+            f"C08-R3-C1 {label} returned success-shaped diff")
+
+
+# Generated closed-grammar matrix. Each operator is applied to one genuine
+# instance of every named producer branch/variant. Enclosing semantic and
+# collection digests are maliciously refreshed so an outer checksum cannot be
+# the discriminator.
+for actual_path, original in c08_r3_schema_nodes():
+    label = ".".join(str(part) for part in actual_path)
+    if isinstance(original, dict):
+        dynamic_map = actual_path[-2:] in (
+            ("frontier", "blocked_summary"),
+            ("frontier", "writer_holds"),
+            ("frontier", "resource_holds"))
+        mutated = copy.deepcopy(c08_r3_payload)
+        c08_r3_value(mutated, actual_path)["__foreign_branch__"] = {
+            "foreign": "member"}
+        c08_r3_refresh_payload(mutated)
+        c08_r3_expect_invalid(f"{label}:extra-key", mutated)
+        for key in (() if dynamic_map else sorted(original)):
+            mutated = copy.deepcopy(c08_r3_payload)
+            del c08_r3_value(mutated, actual_path)[key]
+            if key == "semantic_sha256":
+                c08_r3_refresh_payload(
+                    mutated, preserve_semantic=(actual_path[0], key))
+            else:
+                c08_r3_refresh_payload(mutated)
+            c08_r3_expect_invalid(f"{label}:missing-{key}", mutated)
+    elif isinstance(original, list):
+        mutated = copy.deepcopy(c08_r3_payload)
+        parent, key = c08_r3_parent(mutated, actual_path)
+        parent[key] = {"foreign": "array-type"}
+        c08_r3_refresh_payload(mutated)
+        c08_r3_expect_invalid(f"{label}:wrong-array-type", mutated)
+
+        mutated = copy.deepcopy(c08_r3_payload)
+        c08_r3_value(mutated, actual_path).append({"foreign": "array-member"})
+        c08_r3_refresh_payload(mutated)
+        c08_r3_expect_invalid(f"{label}:foreign-array-member", mutated)
+    else:
+        mutated = copy.deepcopy(c08_r3_payload)
+        parent, key = c08_r3_parent(mutated, actual_path)
+        if type(original) is bool:
+            parent[key] = 0
+        elif type(original) is int:
+            parent[key] = True
+        elif original is None:
+            parent[key] = "foreign-null"
+        elif type(original) is str:
+            parent[key] = {"foreign": "scalar-type"}
+        else:
+            parent[key] = {"foreign": "scalar-type"}
+        preserve = ((actual_path[0], "semantic_sha256")
+                    if actual_path[-1] == "semantic_sha256" else None)
+        c08_r3_refresh_payload(mutated, preserve_semantic=preserve)
+        c08_r3_expect_invalid(f"{label}:wrong-scalar-type", mutated)
+        if type(original) is str and original:
+            mutated = copy.deepcopy(c08_r3_payload)
+            parent, key = c08_r3_parent(mutated, actual_path)
+            parent[key] = ""
+            c08_r3_refresh_payload(mutated, preserve_semantic=preserve)
+            c08_r3_expect_invalid(f"{label}:empty-text", mutated)
+            if actual_path[-1] in {
+                    "state", "record_type", "family", "layer", "leg",
+                    "result_class", "cause_confidence", "recovery_state",
+                    "worktree_state", "file_type", "language", "auth_state",
+                    "rate_state", "pagination_state", "decision", "route_state"}:
+                mutated = copy.deepcopy(c08_r3_payload)
+                parent, key = c08_r3_parent(mutated, actual_path)
+                parent[key] = "__FOREIGN_ENUM__"
+                c08_r3_refresh_payload(mutated, preserve_semantic=preserve)
+                c08_r3_expect_invalid(f"{label}:foreign-enum", mutated)
+
+
+def c08_r3_named_mutation(label, action):
+    mutated = copy.deepcopy(c08_r3_payload)
+    action(mutated)
+    c08_r3_refresh_payload(mutated)
+    c08_r3_expect_invalid(label, mutated)
+
+
+def c08_r3_repo_foreign_fact(payload):
+    payload["collections"]["repository"]["value"]["facts"].append(
+        {"foreign": "member"})
+
+
+def c08_r3_native_foreign_repository_key(payload):
+    payload["collections"]["native_current"]["value"]["repository"][
+        "foreign"] = "member"
+
+
+def c08_r3_release_ill_typed_object(payload):
+    node = next(row for row in payload["collections"]["release"]["value"][
+        "nodes"] if row["record_type"] == "Commit")
+    node["object_identity"] = {"foreign": "object"}
+
+
+def c08_r3_duplicate_identity(payload):
+    records = payload["collections"]["evidence_failure"]["value"][
+        "evidence_records"]
+    records[1]["id"] = records[0]["id"]
+
+
+def c08_r3_duplicate_sequence(payload):
+    records = payload["collections"]["evidence_failure"]["value"][
+        "evidence_records"]
+    records[1]["sequence"] = records[0]["sequence"]
+
+
+def c08_r3_bad_layer_census(payload):
+    payload["collections"]["evidence_failure"]["value"]["layer_census"][
+        "EFFECT"] += 1
+
+
+def c08_r3_bad_release_census(payload):
+    payload["collections"]["release"]["value"]["node_type_census"][
+        "Commit"] += 1
+
+
+def c08_r3_bad_currentness(payload):
+    record = payload["collections"]["evidence_failure"]["value"][
+        "evidence_records"][0]
+    record["currentness"] = {"state": "CURRENT", "invalidators": ["FOREIGN"]}
+
+
+for label, action in (
+        ("repository-foreign-fact", c08_r3_repo_foreign_fact),
+        ("native-foreign-repository-key", c08_r3_native_foreign_repository_key),
+        ("release-ill-typed-object", c08_r3_release_ill_typed_object),
+        ("duplicate-record-identity", c08_r3_duplicate_identity),
+        ("duplicate-record-sequence", c08_r3_duplicate_sequence),
+        ("evidence-layer-census", c08_r3_bad_layer_census),
+        ("release-node-type-census", c08_r3_bad_release_census),
+        ("CURRENT-with-invalidator", c08_r3_bad_currentness)):
+    c08_r3_named_mutation(label, action)
+
+
+# The staged publication contract is finite and observable at named phases.
+# On the rejected destination-direct mechanism none of these phases exists;
+# the matrix must therefore RED before any production mechanism replacement.
+c08_r3_export_root = CASE_ROOT / "c08-r3-export-matrix"
+c08_r3_export_root.mkdir()
+c08_r3_phases = (
+    "stage-created", "write-complete", "fsync-complete",
+    "readback-start", "readback-eof", "before-publish")
+c08_r3_topologies = (
+    "same-inode-same-size", "same-inode-size-change",
+    "unlink-recreate", "link-swap", "destination-occupation")
+for phase in c08_r3_phases:
+    for topology in c08_r3_topologies:
+        case_root = c08_r3_export_root / f"{phase}-{topology}"
+        case_root.mkdir()
+        destination = case_root / "snapshot.json"
+        alias = case_root / "stage-alias"
+        phase_seen = False
+        mutation_succeeded = False
+        mutation_excluded = False
+        original_stage = census_module._snapshot_stage_v1
+
+        def mutate_at_phase(observed_phase, *, expected=phase, kind=topology):
+            global phase_seen, mutation_succeeded, mutation_excluded
+            if observed_phase != expected:
+                return
+            phase_seen = True
+            stage_paths = [
+                path for path in case_root.iterdir()
+                if path not in (destination, alias)]
+            try:
+                if kind == "destination-occupation":
+                    destination.write_bytes(b"foreign-destination")
+                elif not stage_paths:
+                    return
+                elif kind == "same-inode-same-size":
+                    with stage_paths[0].open("r+b") as stream:
+                        observed = stream.read()
+                        stream.seek(0)
+                        stream.write(b"X" * len(observed) if observed else b"X")
+                        stream.flush()
+                        os.fsync(stream.fileno())
+                elif kind == "same-inode-size-change":
+                    with stage_paths[0].open("ab") as stream:
+                        stream.write(b"X")
+                        stream.flush()
+                        os.fsync(stream.fileno())
+                elif kind == "unlink-recreate":
+                    stage_paths[0].unlink()
+                    stage_paths[0].write_bytes(b"foreign-stage")
+                else:
+                    os.link(stage_paths[0], alias)
+                mutation_succeeded = True
+            except OSError:
+                mutation_excluded = True
+
+        census_module._snapshot_stage_v1 = mutate_at_phase
+        receipt = None
+        error = None
+        try:
+            try:
+                receipt = census_module.export_snapshot(
+                    c08_r3_payload, destination, owned_root=case_root,
+                    output_format="json")
+            except census_module.OperationalEvidenceError as exc:
+                error = exc
+        finally:
+            census_module._snapshot_stage_v1 = original_stage
+        label = f"{phase}/{topology}"
+        if not phase_seen:
+            correction_red_failures.append(
+                f"C08-R3-C2 {label} did not reach the staged transaction phase")
+        elif topology == "destination-occupation":
+            if (not mutation_succeeded or error is None or
+                    error.code != "OE_EXPORT_DESTINATION_EXISTS" or
+                    destination.read_bytes() != b"foreign-destination"):
+                correction_red_failures.append(
+                    f"C08-R3-C2 {label} overwrote or misclassified foreign occupancy")
+        elif mutation_succeeded:
+            if error is None or error.code != "OE_EXPORT_WRITE_FAILED" or receipt:
+                correction_red_failures.append(
+                    f"C08-R3-C2 {label} mutation returned success-shaped receipt")
+        elif mutation_excluded:
+            if (receipt is None or error is not None or
+                    destination.read_bytes() !=
+                    census_module.canonical_json_v1(c08_r3_payload)):
+                correction_red_failures.append(
+                    f"C08-R3-C2 {label} excluded mutation lost the positive export")
+
+if os.name == "nt":
+    if not hasattr(census_module, "_snapshot_atomic_no_replace_v1"):
+        correction_red_failures.append(
+            "C08-R3-C2 after-publication live-handle exclusion is absent")
+    else:
+        after_root = c08_r3_export_root / "after-publication"
+        after_root.mkdir()
+        after_destination = after_root / "snapshot.json"
+        original_publish = census_module._snapshot_atomic_no_replace_v1
+        after_attack_excluded = False
+
+        def publish_then_attack(handle, target):
+            global after_attack_excluded
+            result = original_publish(handle, target)
+            try:
+                with pathlib.Path(target).open("r+b") as stream:
+                    stream.write(b"X")
+                    stream.flush()
+                    os.fsync(stream.fileno())
+            except OSError:
+                after_attack_excluded = True
+            return result
+
+        census_module._snapshot_atomic_no_replace_v1 = publish_then_attack
+        try:
+            after_receipt = census_module.export_snapshot(
+                c08_r3_payload, after_destination, owned_root=after_root,
+                output_format="json")
+        finally:
+            census_module._snapshot_atomic_no_replace_v1 = original_publish
+        if (not after_attack_excluded or
+                after_destination.read_bytes() !=
+                census_module.canonical_json_v1(c08_r3_payload) or
+                after_receipt["output_sha256"] != hashlib.sha256(
+                    after_destination.read_bytes()).hexdigest()):
+            correction_red_failures.append(
+                "C08-R3-C2 post-publication write was not excluded by live handle")
+def refresh_release_candidate_invalidators(value):
+    boundary = value["external_boundary"]
+    boundary_currentness = census_module._external_boundary_currentness(
+        boundary["auth_state"], boundary["rate_state"],
+        boundary["pagination_state"], boundary["object_drift"],
+        boundary["expires_at"], boundary["evaluated_at"])
+    invalidators = list(boundary_currentness["invalidators"])
+    for row in value["nodes"]:
+        if row["layer"] != "EXTERNAL":
+            continue
+        for invalidator in row["currentness"]["invalidators"]:
+            if invalidator not in invalidators:
+                invalidators.append(invalidator)
+    required_types = {
+        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+        "Release", "Asset", "PublicSurface"}
+    observed_types = {row["record_type"] for row in value["nodes"]}
+    invalidators.extend(
+        f"MISSING_RELEASE_LAYER:{record_type}"
+        for record_type in sorted(required_types - observed_types))
+    public_nodes = [
+        row for row in value["nodes"]
+        if row["record_type"] == "PublicSurface"]
+    if len(public_nodes) != 1:
+        invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
+    elif public_nodes[0]["commit_identity"] != value["repository"]["commit"]:
+        invalidators.append("PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT")
+    if value["repository"]["worktree_state"] != "CLEAN":
+        invalidators.append("LOCAL_WORKTREE_DIRTY")
+    if not invalidators:
+        invalidators.append("NATIVE_CANDIDATE_QUALIFICATION_REQUIRED")
+    value["candidate"]["invalidators"] = invalidators
+
+
 census_targets = (
     ("evidence_failure", "evidence_records", "claim-effectiveness",
      "R0038-C04", "EVIDENCE", None, "fixture-evidence-owner"),
@@ -2547,8 +2993,8 @@ census_targets = (
     ("release", "nodes", "external-pr",
      "R0038-C05", "RELEASE", "EXTERNAL", "github:fixture/repository"),
 )
-admitted_non_current_states = (
-    "UNKNOWN", "UNVERIFIED", "STALE", "CONTRADICTORY", "PARSER_ERROR")
+admitted_non_current_states = tuple(
+    state for state in census_module.STATES if state != "CURRENT")
 for (collector, bucket, record_id, owner, family, layer,
      native_owner_identity) in census_targets:
     for state in admitted_non_current_states:
@@ -2558,6 +3004,12 @@ for (collector, bucket, record_id, owner, family, layer,
         invalidators = [f"HELD_OUT_{state}"]
         target["currentness"] = {
             "state": state, "invalidators": invalidators}
+        if collector == "release" and target.get("layer") == "EXTERNAL":
+            target["native_currentness"] = {
+                "state": state, "invalidators": invalidators}
+            target["currentness"] = census_module._compose_currentness(
+                target["native_currentness"], target["capture_currentness"])
+            refresh_release_candidate_invalidators(value)
         census_module._currentness(
             target["currentness"], f"$held_out.{collector}.{record_id}")
         semantic_value = {
@@ -2569,6 +3021,14 @@ for (collector, bucket, record_id, owner, family, layer,
             census_module.canonical_json_v1(value)).hexdigest()
         material = census_module._build_snapshot_material_v1(
             census_native, collections, census_schema_raw, census_compiler_raw)
+        held_out_payload = json.loads(material["payload_raw"].decode("utf-8"))
+        held_out_diff = census_module.diff_snapshots(
+            held_out_payload, copy.deepcopy(held_out_payload))
+        if (held_out_diff["added"] or held_out_diff["removed"] or
+                held_out_diff["changed"]):
+            correction_red_failures.append(
+                f"C08-R3-C1 valid {collector}/{record_id}/{state} "
+                "did not yield an empty diff")
         input_census = json.loads(material["input_raw"])[
             "missing_or_omitted_state"]
         payload_census = json.loads(material["payload_raw"])[

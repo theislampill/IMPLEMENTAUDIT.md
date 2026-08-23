@@ -6,6 +6,7 @@ import argparse
 import ast
 import base64
 import contextlib
+import ctypes
 import datetime
 import decimal
 import hashlib
@@ -16,6 +17,7 @@ import os
 import pathlib
 import platform
 import re
+import secrets
 import stat
 import subprocess
 import sys
@@ -3376,8 +3378,211 @@ def _snapshot_diff_semantic_v1(value: dict, path: str) -> None:
                "snapshot collection semantic digest differs")
 
 
+def _snapshot_diff_keyset_v1(names: str) -> frozenset[str]:
+    return frozenset(names.split())
+
+
+_SNAPSHOT_DIFF_CLOSED_KEYSETS_V1 = frozenset({
+    SNAPSHOT_PAYLOAD_KEYS,
+    _snapshot_diff_keyset_v1(
+        "native_current repository evidence_failure release"),
+    _snapshot_diff_keyset_v1("owner state value sha256"),
+    _snapshot_diff_keyset_v1("state invalidators"),
+    _snapshot_diff_keyset_v1(
+        "schema authority_ceiling establishes repository controller claim "
+        "continuity hot frontier andon_state open_andons "
+        "active_instructions next_action route semantic_sha256"),
+    _snapshot_diff_keyset_v1("root git_common_dir"),
+    _snapshot_diff_keyset_v1("id ref record_oid"),
+    _snapshot_diff_keyset_v1("id run_id run_root"),
+    _snapshot_diff_keyset_v1(
+        "generation source_epoch invalidation_ref invalidation_oid "
+        "boundary_kind boundary_event_id pointer_ref pointer_oid "
+        "pointer_digest receipt_schema receipt_ref receipt_oid receipt "
+        "marker_ref marker_oid generation_manifest_oid "
+        "generation_manifest_digest cold_high_water degraded_state"),
+    _snapshot_diff_keyset_v1(
+        "state_path state_sha256 roadmap_path roadmap_sha256 "
+        "work_graph_path work_graph_sha256 work_graph_compiler_sha256"),
+    _snapshot_diff_keyset_v1(
+        "population counts active ready blocked_summary writer_holds "
+        "resource_holds digest"),
+    _snapshot_diff_keyset_v1("DONE ACTIVE READY BLOCKED"),
+    _snapshot_diff_keyset_v1(
+        "id reference kind authority subject issued_epoch status "
+        "status_evidence supersedes_by scope_end"),
+    _snapshot_diff_keyset_v1(
+        "controller_id controller_record_oid ref record_oid record_identity "
+        "decision classification route_transaction_id obligation_id route_state"),
+    _snapshot_diff_keyset_v1(
+        "schema repository capabilities diagnostics facts "
+        "static_collector_invocations"),
+    _snapshot_diff_keyset_v1(
+        "commit tree worktree_state input_file_set_sha256"),
+    _snapshot_diff_keyset_v1("warnings errors skipped unknown"),
+    _snapshot_diff_keyset_v1("capability state reason_code"),
+    _snapshot_diff_keyset_v1("capability state reason_code provenance"),
+    _snapshot_diff_keyset_v1(
+        "collector_identity collector_version collector_package_sha256 "
+        "invocation_identity output_schema_identity parser "
+        "input_file_set_sha256"),
+    _snapshot_diff_keyset_v1(
+        "collector input_path input_sha256 collector_identity "
+        "collector_version collector_package_sha256 invocation_identity "
+        "output_schema_identity parser"),
+    _snapshot_diff_keyset_v1(
+        "kind path sha256 bytes file_type language state provenance"),
+    _snapshot_diff_keyset_v1("kind path state provenance"),
+    _snapshot_diff_keyset_v1("kind source target state provenance"),
+    _snapshot_diff_keyset_v1(
+        "kind path package_name sha256 state provenance"),
+    _snapshot_diff_keyset_v1("kind package_name path state provenance"),
+    _snapshot_diff_keyset_v1("kind path sha256 state provenance"),
+    _snapshot_diff_keyset_v1("method commit tree"),
+    _snapshot_diff_keyset_v1(
+        "collector_identity collector_version collector_package_sha256 "
+        "invocation_identity output_schema_identity parser input_path input_sha256"),
+    _snapshot_diff_keyset_v1(
+        "collector_identity collector_version collector_package_sha256 "
+        "invocation_identity output_schema_identity parser input_path "
+        "input_sha256 reason"),
+    _snapshot_diff_keyset_v1("parser input_path"),
+    _snapshot_diff_keyset_v1("parser input_path input_sha256"),
+    _snapshot_diff_keyset_v1("method reason"),
+    _snapshot_diff_keyset_v1(
+        "schema families source first_red_id first_red_state weakest_leg_id "
+        "residual_ids layer_census evidence_records failure_records "
+        "establishes semantic_sha256"),
+    _snapshot_diff_keyset_v1("path sha256 run_identity artifact_identity"),
+    _snapshot_diff_keyset_v1("ATTEMPT RECEIPT EFFECT RECOVERY CLOSURE"),
+    _snapshot_diff_keyset_v1(
+        "id sequence record_type claim_id criterion_id leg result_class proxy "
+        "source_identity native_owner_identity currentness controls "
+        "contrary_evidence family authority_ceiling artifact_sha256"),
+    _snapshot_diff_keyset_v1(
+        "id sequence record_type andon_id abnormality_class statement "
+        "cause_confidence evidence_ids recovery_state source_identity "
+        "native_owner_identity currentness family authority_ceiling "
+        "artifact_sha256"),
+    _snapshot_diff_keyset_v1(
+        "schema families repository local_manifest_sha256 "
+        "external_capture_sha256 external_boundary omissions node_type_census "
+        "nodes candidate establishes semantic_sha256"),
+    _snapshot_diff_keyset_v1("commit tree worktree_state"),
+    _snapshot_diff_keyset_v1(
+        "capture_identity source_identity auth_state rate_state rate_remaining "
+        "pagination_state pagination_pages object_drift captured_at expires_at "
+        "evaluated_at"),
+    _snapshot_diff_keyset_v1("record_type state invalidator"),
+    _snapshot_diff_keyset_v1(
+        "Commit Tree Worktree GeneratedArtifact Package Install Host "
+        "PullRequest Check Merge Tag Release Asset PublicSurface"),
+    _snapshot_diff_keyset_v1(
+        "state invalidators local_commit public_commit"),
+    _snapshot_diff_keyset_v1(
+        "id record_type family source_identity native_owner_identity "
+        "currentness authority_ceiling layer object_identity"),
+    _snapshot_diff_keyset_v1(
+        "id record_type family source_identity native_owner_identity "
+        "currentness authority_ceiling layer path sha256 manifest_sha256"),
+    _snapshot_diff_keyset_v1(
+        "id record_type family source_identity native_owner_identity "
+        "currentness authority_ceiling layer stable_id commit_identity "
+        "updated_at etag payload_sha256 native_currentness "
+        "capture_currentness capture_identity capture_sha256"),
+    _snapshot_diff_keyset_v1("code path"),
+    _snapshot_diff_keyset_v1("kind collector owner state code"),
+    _snapshot_diff_keyset_v1(
+        "kind collector owner family fact_path record_id record_type "
+        "native_owner_identity state invalidators"),
+    _snapshot_diff_keyset_v1(
+        "kind collector owner family layer fact_path record_id record_type "
+        "native_owner_identity state invalidators"),
+})
+
+_SNAPSHOT_DIFF_DYNAMIC_MAP_SUFFIXES_V1 = (
+    ".frontier.blocked_summary", ".frontier.writer_holds",
+    ".frontier.resource_holds")
+
+
+def _snapshot_diff_closed_tree_v1(value: object, path: str) -> None:
+    """Consume every JSON branch admitted by the four producer grammars."""
+    if type(value) is dict:
+        dynamic = path.endswith(_SNAPSHOT_DIFF_DYNAMIC_MAP_SUFFIXES_V1)
+        if not dynamic and frozenset(value) not in _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1:
+            _error("OE_DIFF_SNAPSHOT_INVALID", path,
+                   "snapshot object has an unconsumed producer branch")
+        for key, member in value.items():
+            if type(key) is not str or not key:
+                _error("OE_DIFF_SNAPSHOT_INVALID", path,
+                       "snapshot object key must be non-empty text")
+            _snapshot_diff_closed_tree_v1(member, f"{path}.{key}")
+        return
+    if type(value) is list:
+        for index, member in enumerate(value):
+            _snapshot_diff_closed_tree_v1(member, f"{path}[{index}]")
+        return
+    key = path.rsplit(".", 1)[-1]
+    nullable = {
+        "code", "public_commit", "obligation_id", "route_state",
+        "first_red_id", "weakest_leg_id"}
+    if value is None:
+        if key not in nullable:
+            _error("OE_DIFF_SNAPSHOT_INVALID", path,
+                   "snapshot scalar is not nullable")
+        return
+    if type(value) is bool:
+        if key not in {"proxy", "object_drift"}:
+            _error("OE_DIFF_SNAPSHOT_INVALID", path,
+                   "snapshot scalar boolean is not admitted here")
+        return
+    if type(value) is int:
+        if value < 0 or key not in {
+                "sequence", "bytes", "population", "rate_remaining",
+                "pagination_pages", "DONE", "ACTIVE", "READY", "BLOCKED",
+                "ATTEMPT", "RECEIPT", "EFFECT", "RECOVERY", "CLOSURE",
+                "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+                "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+                "Release", "Asset", "PublicSurface"}:
+            _error("OE_DIFF_SNAPSHOT_INVALID", path,
+                   "snapshot scalar integer is not admitted here")
+        return
+    if type(value) is not str or not value:
+        _error("OE_DIFF_SNAPSHOT_INVALID", path,
+               "snapshot scalar must be non-empty text")
+    if ("sha256" in key or key.endswith("_digest") or key == "digest"):
+        _snapshot_diff_digest_v1(value, path)
+    enum_values = {
+        "family": set(FAMILIES),
+        "layer": {"LOCAL", "EXTERNAL"},
+        "record_type": {
+            "Claim", "Criterion", "Evidence", "Check", "Review", "Andon",
+            "Residual", "Containment", "Countermeasure", "Rerun", "Recovery",
+            "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+            "Install", "Host", "PullRequest", "Merge", "Tag", "Release",
+            "Asset", "PublicSurface"},
+        "leg": {"ATTEMPT", "RECEIPT", "EFFECT", "RECOVERY", "CLOSURE"},
+        "result_class": {"RED", "GREEN", "NONVERDICT", "UNKNOWN"},
+        "cause_confidence": {"UNKNOWN", "LOW", "MEDIUM", "HIGH"},
+        "recovery_state": {"NOT_CLAIMED", "ATTEMPTED", "OBSERVED", "UNVERIFIED"},
+        "worktree_state": {"CLEAN", "DIRTY"},
+        "file_type": {"file", "symlink"},
+        "language": {"python", "shell", "javascript", "typescript", "json", "unsupported"},
+        "auth_state": {"PRESENT", "ABSENT", "UNKNOWN"},
+        "rate_state": {"AVAILABLE", "EXHAUSTED", "UNKNOWN"},
+        "pagination_state": {"COMPLETE", "INCOMPLETE", "UNKNOWN"},
+    }
+    if key in enum_values and value not in enum_values[key]:
+        _error("OE_DIFF_SNAPSHOT_INVALID", path,
+               "snapshot scalar has a foreign enum value")
+    if key == "state" and value not in set(STATES) | {
+            "SUPPORTED", "PARTIAL", "NOT_APPLICABLE"}:
+        _error("OE_DIFF_SNAPSHOT_INVALID", path,
+               "snapshot state has a foreign enum value")
+
+
 def _snapshot_diff_evidence_record_v1(
-        value: object, path: str, identities: set[str]) -> None:
+        value: object, path: str, identities: set[str]) -> dict:
     keys = {
         "id", "sequence", "record_type", "claim_id", "criterion_id", "leg",
         "result_class", "proxy", "source_identity", "native_owner_identity",
@@ -3415,10 +3620,11 @@ def _snapshot_diff_evidence_record_v1(
                    "evidence references must be unique non-empty strings")
     _snapshot_diff_currentness_v1(row["currentness"], f"{path}.currentness")
     _snapshot_diff_digest_v1(row["artifact_sha256"], f"{path}.artifact_sha256")
+    return row
 
 
 def _snapshot_diff_failure_record_v1(
-        value: object, path: str, identities: set[str]) -> None:
+        value: object, path: str, identities: set[str]) -> dict:
     keys = {
         "id", "sequence", "record_type", "andon_id", "abnormality_class",
         "statement", "cause_confidence", "evidence_ids", "recovery_state",
@@ -3449,10 +3655,11 @@ def _snapshot_diff_failure_record_v1(
                "failure evidence references must be non-empty strings")
     _snapshot_diff_currentness_v1(row["currentness"], f"{path}.currentness")
     _snapshot_diff_digest_v1(row["artifact_sha256"], f"{path}.artifact_sha256")
+    return row
 
 
 def _snapshot_diff_release_record_v1(
-        value: object, path: str, identities: set[str]) -> None:
+        value: object, path: str, identities: set[str]) -> dict:
     required = {
         "id", "record_type", "family", "source_identity",
         "native_owner_identity", "currentness", "authority_ceiling", "layer"}
@@ -3487,6 +3694,34 @@ def _snapshot_diff_release_record_v1(
     for key in ("native_currentness", "capture_currentness"):
         if key in value:
             _snapshot_diff_currentness_v1(value[key], f"{path}.{key}")
+    if "object_identity" in value:
+        object_identity = _snapshot_diff_text_v1(
+            value["object_identity"], f"{path}.object_identity")
+        if value["record_type"] in {"Commit", "Tree"}:
+            if re.fullmatch(r"[0-9a-f]{40}", object_identity) is None:
+                _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.object_identity",
+                       "release Git object identity is malformed")
+        elif value["record_type"] != "Worktree" or object_identity not in {
+                "CLEAN", "DIRTY"}:
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.object_identity",
+                   "release object identity differs from its local variant")
+    if "path" in value:
+        _snapshot_diff_text_v1(value["path"], f"{path}.path")
+        _snapshot_diff_digest_v1(value["sha256"], f"{path}.sha256")
+        _snapshot_diff_digest_v1(
+            value["manifest_sha256"], f"{path}.manifest_sha256")
+    if "stable_id" in value:
+        for key in ("stable_id", "source_identity", "native_owner_identity",
+                    "updated_at", "etag", "capture_identity"):
+            _snapshot_diff_text_v1(value[key], f"{path}.{key}")
+        _snapshot_diff_digest_v1(
+            value["payload_sha256"], f"{path}.payload_sha256")
+        _snapshot_diff_digest_v1(
+            value["capture_sha256"], f"{path}.capture_sha256")
+        if re.fullmatch(r"[0-9a-f]{40}", value["commit_identity"]) is None:
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.commit_identity",
+                   "external release commit identity is malformed")
+    return value
 
 
 def _snapshot_diff_missing_v1(value: object, path: str) -> None:
@@ -3532,7 +3767,314 @@ def _snapshot_diff_missing_v1(value: object, path: str) -> None:
         _snapshot_diff_text_v1(value["code"], f"{path}.code")
 
 
-def _snapshot_diff_collections_v1(collections: object, path: str) -> set[str]:
+def _snapshot_diff_repository_v1(value: dict, path: str) -> None:
+    repository = _snapshot_diff_exact_object_v1(
+        value["repository"],
+        {"commit", "tree", "worktree_state", "input_file_set_sha256"},
+        f"{path}.repository")
+    for key in ("commit", "tree"):
+        if re.fullmatch(r"[0-9a-f]{40}", repository[key]) is None:
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.repository.{key}",
+                   "repository Git identity is malformed")
+    _snapshot_diff_digest_v1(
+        repository["input_file_set_sha256"],
+        f"{path}.repository.input_file_set_sha256")
+
+    diagnostics = _snapshot_diff_exact_object_v1(
+        value["diagnostics"], {"warnings", "errors", "skipped", "unknown"},
+        f"{path}.diagnostics")
+    for bucket, members in diagnostics.items():
+        if (type(members) is not list or any(
+                type(member) is not str or not member for member in members) or
+                len(set(members)) != len(members)):
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.diagnostics.{bucket}",
+                   "repository diagnostic population is malformed")
+
+    invocations = value["static_collector_invocations"]
+    if type(invocations) is not list:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.static_collector_invocations",
+               "static invocation population must be an array")
+    invocation_keys = {
+        "collector", "input_path", "input_sha256", "collector_identity",
+        "collector_version", "collector_package_sha256", "invocation_identity",
+        "output_schema_identity", "parser"}
+    for index, invocation in enumerate(invocations):
+        _snapshot_diff_exact_object_v1(
+            invocation, invocation_keys,
+            f"{path}.static_collector_invocations[{index}]")
+        if invocation["collector"] != "python_ast":
+            _error("OE_DIFF_SNAPSHOT_INVALID",
+                   f"{path}.static_collector_invocations[{index}].collector",
+                   "static invocation collector is foreign")
+
+    capabilities = value["capabilities"]
+    if type(capabilities) is not list:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.capabilities",
+               "repository capabilities must be an array")
+    seen_capabilities = set()
+    for index, capability in enumerate(capabilities):
+        capability_path = f"{path}.capabilities[{index}]"
+        name = capability.get("capability") if type(capability) is dict else None
+        keys = {"capability", "state", "reason_code"}
+        if name == "python_ast" and invocations:
+            keys.add("provenance")
+        row = _snapshot_diff_exact_object_v1(capability, keys, capability_path)
+        if (name not in {"file_facts", "package_manifest", "python_ast",
+                         "validation_registry_entries"} or
+                name in seen_capabilities):
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{capability_path}.capability",
+                   "repository capability identity is foreign or duplicated")
+        seen_capabilities.add(name)
+        if "provenance" in row:
+            expected = {
+                "collector_identity", "collector_version",
+                "collector_package_sha256", "invocation_identity",
+                "output_schema_identity", "parser", "input_file_set_sha256"}
+            _snapshot_diff_exact_object_v1(
+                row["provenance"], expected, f"{capability_path}.provenance")
+    if seen_capabilities != {
+            "file_facts", "package_manifest", "python_ast",
+            "validation_registry_entries"}:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.capabilities",
+               "repository capability population is incomplete")
+
+    fact_variants = {
+        "FILE": {"kind", "path", "sha256", "bytes", "file_type",
+                 "language", "state", "provenance"},
+        "FILE_UNREADABLE_OBSERVATION": {"kind", "path", "state", "provenance"},
+        "PARSER_ERROR_OBSERVATION": {"kind", "path", "state", "provenance"},
+        "PYTHON_IMPORT": {"kind", "source", "target", "state", "provenance"},
+        "PYTHON_REVERSE_DEPENDENT": {
+            "kind", "source", "target", "state", "provenance"},
+        "UNSUPPORTED_IMPORT_OBSERVATION": {
+            "kind", "source", "target", "state", "provenance"},
+        "PACKAGE_MANIFEST": {
+            "kind", "path", "package_name", "sha256", "state", "provenance"},
+        "PACKAGE_ROOT": {"kind", "package_name", "path", "state", "provenance"},
+        "PACKAGE_MANIFEST_ERROR": {"kind", "path", "state", "provenance"},
+        "REGISTRY_FILE": {"kind", "path", "sha256", "state", "provenance"},
+    }
+    facts = value["facts"]
+    if type(facts) is not list:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.facts",
+               "repository facts must be an array")
+    ast_keys = {
+        "collector_identity", "collector_version", "collector_package_sha256",
+        "invocation_identity", "output_schema_identity", "parser",
+        "input_path", "input_sha256"}
+    for index, fact in enumerate(facts):
+        fact_path = f"{path}.facts[{index}]"
+        kind = fact.get("kind") if type(fact) is dict else None
+        if kind not in fact_variants:
+            _error("OE_DIFF_SNAPSHOT_INVALID", fact_path,
+                   "repository fact kind is foreign")
+        row = _snapshot_diff_exact_object_v1(
+            fact, fact_variants[kind], fact_path)
+        provenance_keys = {
+            "FILE": {"method", "commit", "tree"},
+            "FILE_UNREADABLE_OBSERVATION": {"method", "commit", "tree"},
+            "PARSER_ERROR_OBSERVATION": ast_keys,
+            "PYTHON_IMPORT": ast_keys,
+            "PYTHON_REVERSE_DEPENDENT": ast_keys,
+            "UNSUPPORTED_IMPORT_OBSERVATION": ast_keys | {"reason"},
+            "PACKAGE_MANIFEST": {"parser", "input_path"},
+            "PACKAGE_ROOT": {"parser", "input_path", "input_sha256"},
+            "PACKAGE_MANIFEST_ERROR": {"parser", "input_path", "input_sha256"},
+            "REGISTRY_FILE": {"method", "reason"},
+        }[kind]
+        _snapshot_diff_exact_object_v1(
+            row["provenance"], provenance_keys, f"{fact_path}.provenance")
+
+
+def _snapshot_diff_native_v1(value: dict, path: str) -> None:
+    fixed = {
+        "repository": {"root", "git_common_dir"},
+        "controller": {"id", "ref", "record_oid"},
+        "claim": {"id", "run_id", "run_root"},
+        "continuity": {
+            "generation", "source_epoch", "invalidation_ref", "invalidation_oid",
+            "boundary_kind", "boundary_event_id", "pointer_ref", "pointer_oid",
+            "pointer_digest", "receipt_schema", "receipt_ref", "receipt_oid",
+            "receipt", "marker_ref", "marker_oid", "generation_manifest_oid",
+            "generation_manifest_digest", "cold_high_water", "degraded_state"},
+        "hot": {
+            "state_path", "state_sha256", "roadmap_path", "roadmap_sha256",
+            "work_graph_path", "work_graph_sha256", "work_graph_compiler_sha256"},
+        "frontier": {
+            "population", "counts", "active", "ready", "blocked_summary",
+            "writer_holds", "resource_holds", "digest"},
+        "route": {
+            "controller_id", "controller_record_oid", "ref", "record_oid",
+            "record_identity", "decision", "classification",
+            "route_transaction_id", "obligation_id", "route_state"},
+    }
+    for key, keys in fixed.items():
+        _snapshot_diff_exact_object_v1(value[key], keys, f"{path}.{key}")
+    for key in ("controller", "continuity", "route"):
+        for member, item in value[key].items():
+            if member.endswith("_oid") and re.fullmatch(r"[0-9a-f]{40}", item) is None:
+                _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.{key}.{member}",
+                       "native Git object identity is malformed")
+    if value["route"]["decision"] not in {"REQUIRED", "NOT_REQUIRED"}:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.route.decision",
+               "native route decision is foreign")
+    if value["route"]["decision"] == "REQUIRED":
+        if (type(value["route"]["obligation_id"]) is not str or
+                value["route"]["route_state"] not in {
+                    "UNSATISFIED", "OPEN", "RETURNED", "SATISFIED"}):
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.route",
+                   "required route obligation state is malformed")
+    counts = _snapshot_diff_exact_object_v1(
+        value["frontier"]["counts"], {"DONE", "ACTIVE", "READY", "BLOCKED"},
+        f"{path}.frontier.counts")
+    if (sum(counts.values()) != value["frontier"]["population"] or
+            len(value["frontier"]["active"]) != counts["ACTIVE"] or
+            len(value["frontier"]["ready"]) != counts["READY"] or
+            len(value["frontier"]["blocked_summary"]) != counts["BLOCKED"]):
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.frontier",
+               "native frontier census differs from its population")
+    for name in ("active", "ready"):
+        members = value["frontier"][name]
+        if (type(members) is not list or members != sorted(set(members)) or
+                any(type(member) is not str or not member for member in members)):
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.frontier.{name}",
+                   "native frontier identities are malformed")
+    for name in ("blocked_summary", "writer_holds", "resource_holds"):
+        mapping = value["frontier"][name]
+        if type(mapping) is not dict:
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.frontier.{name}",
+                   "native frontier hold map is malformed")
+        for identity, members in mapping.items():
+            if (not identity or type(members) is not list or
+                    members != sorted(set(members)) or
+                    any(type(member) is not str or not member for member in members)):
+                _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.frontier.{name}",
+                       "native frontier hold population is malformed")
+    frontier = dict(value["frontier"])
+    digest = frontier.pop("digest")
+    if hashlib.sha256(canonical_json_v1(frontier)).hexdigest() != digest:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.frontier.digest",
+               "native frontier digest differs")
+    if (type(value["open_andons"]) is not list or
+            value["open_andons"] != sorted(set(value["open_andons"])) or
+            not value["open_andons"]):
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.open_andons",
+               "native open-Andon population is malformed")
+    instructions = value["active_instructions"]
+    instruction_keys = {
+        "id", "reference", "kind", "authority", "subject", "issued_epoch",
+        "status", "status_evidence", "supersedes_by", "scope_end"}
+    if type(instructions) is not list or not instructions:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.active_instructions",
+               "native active-instruction population is absent")
+    seen = set()
+    for index, instruction in enumerate(instructions):
+        row = _snapshot_diff_exact_object_v1(
+            instruction, instruction_keys, f"{path}.active_instructions[{index}]")
+        if row["status"] != "active" or row["id"] in seen:
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.active_instructions[{index}]",
+                   "native active instruction is foreign or duplicated")
+        seen.add(row["id"])
+
+
+def _snapshot_diff_release_v1(value: dict, path: str) -> None:
+    repository = _snapshot_diff_exact_object_v1(
+        value["repository"], {"commit", "tree", "worktree_state"},
+        f"{path}.repository")
+    boundary = _snapshot_diff_exact_object_v1(
+        value["external_boundary"], {
+            "capture_identity", "source_identity", "auth_state", "rate_state",
+            "rate_remaining", "pagination_state", "pagination_pages",
+            "object_drift", "captured_at", "expires_at", "evaluated_at"},
+        f"{path}.external_boundary")
+    candidate = _snapshot_diff_exact_object_v1(
+        value["candidate"], {"state", "invalidators", "local_commit", "public_commit"},
+        f"{path}.candidate")
+    if (candidate["state"] != "UNVERIFIED" or
+            candidate["local_commit"] != repository["commit"]):
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.candidate",
+               "release candidate state or local identity differs")
+    for key in ("captured_at", "expires_at", "evaluated_at"):
+        if (type(boundary[key]) is not str or re.fullmatch(
+                r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", boundary[key]) is None):
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.external_boundary.{key}",
+                   "release boundary timestamp is malformed")
+    if (boundary["captured_at"] >= boundary["expires_at"] or
+            boundary["evaluated_at"] < boundary["captured_at"]):
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.external_boundary",
+               "release boundary chronology differs")
+    boundary_currentness = _external_boundary_currentness(
+        boundary["auth_state"], boundary["rate_state"],
+        boundary["pagination_state"], boundary["object_drift"],
+        boundary["expires_at"], boundary["evaluated_at"])
+    local_types = {"GeneratedArtifact", "Package", "Install", "Host"}
+    external_types = {
+        "PullRequest", "Check", "Merge", "Tag", "Release", "Asset",
+        "PublicSurface"}
+    for index, row in enumerate(value["nodes"]):
+        node_path = f"{path}.nodes[{index}]"
+        if "object_identity" in row:
+            if row["record_type"] not in {"Commit", "Tree", "Worktree"} or row["layer"] != "LOCAL":
+                _error("OE_DIFF_SNAPSHOT_INVALID", node_path,
+                       "release object node uses a foreign variant")
+        elif "path" in row:
+            if row["record_type"] not in local_types or row["layer"] != "LOCAL":
+                _error("OE_DIFF_SNAPSHOT_INVALID", node_path,
+                       "release local-path node uses a foreign variant")
+        elif row["record_type"] not in external_types or row["layer"] != "EXTERNAL":
+            _error("OE_DIFF_SNAPSHOT_INVALID", node_path,
+                   "release external node uses a foreign variant")
+        if row["layer"] == "EXTERNAL":
+            expected = _compose_currentness(
+                row["native_currentness"], row["capture_currentness"])
+            if (row["capture_currentness"] != boundary_currentness or
+                    row["currentness"] != expected or
+                    row["capture_identity"] != boundary["capture_identity"] or
+                    row["capture_sha256"] != value["external_capture_sha256"]):
+                _error("OE_DIFF_SNAPSHOT_INVALID", node_path,
+                       "release external currentness or capture identity differs")
+    required_types = {
+        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+        "Release", "Asset", "PublicSurface"}
+    observed_types = {row["record_type"] for row in value["nodes"]}
+    missing_types = sorted(required_types - observed_types)
+    expected_omissions = [{
+        "record_type": record_type, "state": "UNKNOWN",
+        "invalidator": f"MISSING_RELEASE_LAYER:{record_type}"}
+        for record_type in missing_types]
+    if value["omissions"] != expected_omissions:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.omissions",
+               "release omission census differs from validated nodes")
+    public_nodes = [
+        row for row in value["nodes"] if row["record_type"] == "PublicSurface"]
+    public_commit = (public_nodes[0]["commit_identity"]
+                     if len(public_nodes) == 1 else None)
+    if candidate["public_commit"] != public_commit:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.candidate.public_commit",
+               "release public candidate identity differs")
+    expected_invalidators = list(boundary_currentness["invalidators"])
+    for row in (item for item in value["nodes"] if item["layer"] == "EXTERNAL"):
+        for invalidator in row["currentness"]["invalidators"]:
+            if invalidator not in expected_invalidators:
+                expected_invalidators.append(invalidator)
+    expected_invalidators.extend(
+        f"MISSING_RELEASE_LAYER:{record_type}" for record_type in missing_types)
+    if len(public_nodes) != 1:
+        expected_invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
+    elif public_commit != repository["commit"]:
+        expected_invalidators.append("PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT")
+    if repository["worktree_state"] != "CLEAN":
+        expected_invalidators.append("LOCAL_WORKTREE_DIRTY")
+    if not expected_invalidators:
+        expected_invalidators.append("NATIVE_CANDIDATE_QUALIFICATION_REQUIRED")
+    if candidate["invalidators"] != expected_invalidators:
+        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.candidate.invalidators",
+               "release candidate invalidators differ from validated nodes")
+
+
+def _snapshot_diff_collections_v1(
+        collections: object, path: str) -> tuple[set[str], list[dict]]:
     owners = {
         "native_current": "R0038-C03", "repository": "R0038-C02",
         "evidence_failure": "R0038-C04", "release": "R0038-C05"}
@@ -3540,6 +4082,7 @@ def _snapshot_diff_collections_v1(collections: object, path: str) -> set[str]:
         _error("OE_DIFF_SNAPSHOT_INVALID", path,
                "snapshot must retain the complete producer collection population")
     identities: set[str] = set()
+    population: list[dict] = []
     for name in sorted(owners):
         member_path = f"{path}.{name}"
         member = _snapshot_diff_exact_object_v1(
@@ -3580,6 +4123,13 @@ def _snapshot_diff_collections_v1(collections: object, path: str) -> set[str]:
                        "native-current collection schema differs")
             _snapshot_diff_text_v1(current["andon_state"], f"{member_path}.andon_state")
             _snapshot_diff_text_v1(current["next_action"], f"{member_path}.next_action")
+            _snapshot_diff_native_v1(current, f"{member_path}.value")
+            route = current["route"]
+            if (route["decision"] != "REQUIRED" and
+                    (route["obligation_id"] is not None or
+                     route["route_state"] is not None)):
+                _error("OE_DIFF_SNAPSHOT_INVALID", f"{member_path}.value.route",
+                       "non-required route cannot retain obligation state")
             _snapshot_diff_semantic_v1(current, f"{member_path}.value")
         elif name == "repository":
             keys = {
@@ -3595,6 +4145,7 @@ def _snapshot_diff_collections_v1(collections: object, path: str) -> set[str]:
                     type(repository["diagnostics"]) is not dict):
                 _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
                        "repository collection schema differs")
+            _snapshot_diff_repository_v1(repository, f"{member_path}.value")
         elif name == "evidence_failure":
             keys = {
                 "schema", "families", "source", "first_red_id", "first_red_state",
@@ -3613,18 +4164,81 @@ def _snapshot_diff_collections_v1(collections: object, path: str) -> set[str]:
                        "evidence/failure collection schema differs")
             evidence_sequences = []
             for index, row in enumerate(evidence["evidence_records"]):
-                _snapshot_diff_evidence_record_v1(
-                    row, f"{member_path}.value.evidence_records[{index}]", identities)
+                record_path = f"{member_path}.value.evidence_records[{index}]"
+                parsed = _snapshot_diff_evidence_record_v1(
+                    row, record_path, identities)
+                population.append({"path": f"record:{parsed['id']}",
+                                   "record": parsed})
                 evidence_sequences.append(row["sequence"])
             failure_sequences = []
             for index, row in enumerate(evidence["failure_records"]):
-                _snapshot_diff_failure_record_v1(
-                    row, f"{member_path}.value.failure_records[{index}]", identities)
+                record_path = f"{member_path}.value.failure_records[{index}]"
+                parsed = _snapshot_diff_failure_record_v1(
+                    row, record_path, identities)
+                population.append({"path": f"record:{parsed['id']}",
+                                   "record": parsed})
                 failure_sequences.append(row["sequence"])
             if (len(evidence_sequences) != len(set(evidence_sequences)) or
                     len(failure_sequences) != len(set(failure_sequences))):
                 _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
                        "snapshot evidence/failure sequences are not unique")
+            evidence_by_id = {
+                row["id"]: row for row in evidence["evidence_records"]}
+            failure_by_id = {
+                row["id"]: row for row in evidence["failure_records"]}
+            red_records = [
+                row for row in evidence["evidence_records"]
+                if row["result_class"] == "RED" and not row["proxy"]]
+            expected_first_red = (min(
+                red_records, key=lambda row: row["sequence"])["id"]
+                if red_records else None)
+            if (evidence["first_red_id"] != expected_first_red or
+                    evidence["first_red_state"] != (
+                        "PRESENT" if red_records else "NOT_APPLICABLE")):
+                _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                       "first RED identity/state differs from validated evidence")
+            weakest = evidence_by_id.get(evidence["weakest_leg_id"])
+            if (weakest is None or weakest["proxy"] or
+                    (red_records and weakest["result_class"] != "RED")):
+                _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                       "weakest leg differs from validated evidence")
+            for row in evidence["evidence_records"]:
+                if any(reference not in evidence_by_id
+                       for reference in row["contrary_evidence"]):
+                    _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                           "contrary evidence references an absent record")
+            andon_ids = {
+                row["id"] for row in evidence["failure_records"]
+                if row["record_type"] == "Andon"}
+            for row in evidence["failure_records"]:
+                if (row["andon_id"] not in andon_ids or any(
+                        reference not in evidence_by_id
+                        for reference in row["evidence_ids"])):
+                    _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                           "failure lineage references an absent record")
+                if row["recovery_state"] == "OBSERVED":
+                    recovery = [evidence_by_id[item] for item in row["evidence_ids"]]
+                    if (not recovery or any(
+                            item["leg"] != "RECOVERY" or
+                            item["result_class"] != "GREEN" or item["proxy"] or
+                            item["currentness"]["state"] != "CURRENT"
+                            for item in recovery)):
+                        _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                               "observed recovery lacks current direct evidence")
+            if (type(evidence["residual_ids"]) is not list or
+                    len(set(evidence["residual_ids"])) != len(evidence["residual_ids"]) or
+                    any(item not in failure_by_id or
+                        failure_by_id[item]["record_type"] != "Residual"
+                        for item in evidence["residual_ids"])):
+                _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                       "residual census differs from validated failure records")
+            expected_census = Counter(
+                row["leg"] for row in evidence["evidence_records"])
+            if evidence["layer_census"] != {
+                    leg: expected_census.get(leg, 0)
+                    for leg in ("ATTEMPT", "RECEIPT", "EFFECT", "RECOVERY", "CLOSURE")}:
+                _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                       "evidence layer census differs from validated records")
             _snapshot_diff_semantic_v1(evidence, f"{member_path}.value")
         else:
             keys = {
@@ -3644,13 +4258,26 @@ def _snapshot_diff_collections_v1(collections: object, path: str) -> set[str]:
                 _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
                        "release collection schema differs")
             for index, row in enumerate(release["nodes"]):
-                _snapshot_diff_release_record_v1(
-                    row, f"{member_path}.value.nodes[{index}]", identities)
+                record_path = f"{member_path}.value.nodes[{index}]"
+                parsed = _snapshot_diff_release_record_v1(
+                    row, record_path, identities)
+                population.append({"path": f"record:{parsed['id']}",
+                                   "record": parsed})
+            required_types = {
+                "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+                "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+                "Release", "Asset", "PublicSurface"}
+            type_census = Counter(row["record_type"] for row in release["nodes"])
+            if release["node_type_census"] != {
+                    key: type_census[key] for key in sorted(required_types)}:
+                _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+                       "release node-type census differs from validated records")
+            _snapshot_diff_release_v1(release, f"{member_path}.value")
             _snapshot_diff_semantic_v1(release, f"{member_path}.value")
-    return identities
+    return identities, population
 
 
-def _validate_diff_snapshot_v1(snapshot: object, path: str) -> dict:
+def _parse_diff_snapshot_v1(snapshot: object, path: str) -> tuple[dict, list[dict]]:
     """Validate one immutable payload without repairing or selecting authority."""
     if (type(snapshot) is not dict or set(snapshot) != SNAPSHOT_PAYLOAD_KEYS or
             snapshot.get("schema_version") != SNAPSHOT_PAYLOAD_SCHEMA or
@@ -3669,6 +4296,7 @@ def _validate_diff_snapshot_v1(snapshot: object, path: str) -> dict:
     try:
         validate_identity_json_v1(snapshot, path)
         canonical = json.loads(canonical_json_v1(snapshot).decode("utf-8"))
+        _snapshot_diff_closed_tree_v1(canonical, path)
         missing = canonical["missing_or_omitted_state"]
         for index, row in enumerate(missing):
             _snapshot_diff_missing_v1(row, f"{path}.missing_or_omitted_state[{index}]")
@@ -3676,10 +4304,12 @@ def _validate_diff_snapshot_v1(snapshot: object, path: str) -> dict:
                 canonical["aggregate"] == "COMPLETE") != (not missing):
             _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.aggregate",
                    "snapshot aggregate and missing-state census differ")
-        validated_identities = _snapshot_diff_collections_v1(
+        validated_identities, population = _snapshot_diff_collections_v1(
             canonical["collections"], f"{path}.collections")
-        records = _snapshot_query_records_v1(canonical)
-        if {row["record"]["id"] for row in records} != validated_identities:
+        if _snapshot_missing_census_v1(canonical["collections"]) != missing:
+            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.missing_or_omitted_state",
+                   "snapshot missing-state census differs from validated collections")
+        if {row["record"]["id"] for row in population} != validated_identities:
             _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.collections",
                    "snapshot record population differs from validated members")
     except OperationalEvidenceError as exc:
@@ -3687,27 +4317,35 @@ def _validate_diff_snapshot_v1(snapshot: object, path: str) -> dict:
             raise
         _error("OE_DIFF_SNAPSHOT_INVALID", path,
                "snapshot payload contains invalid or duplicate records")
-    return canonical
+    except Exception:
+        _error("OE_DIFF_SNAPSHOT_INVALID", path,
+               "snapshot payload contains a malformed producer branch")
+    return canonical, population
 
 
-def _snapshot_diff_items_v1(snapshot: dict) -> dict[str, object]:
+def _validate_diff_snapshot_v1(snapshot: object, path: str) -> dict:
+    return _parse_diff_snapshot_v1(snapshot, path)[0]
+
+
+def _snapshot_diff_items_v1(
+        snapshot: dict, population: list[dict]) -> dict[str, object]:
     items = {
         "snapshot:aggregate": snapshot["aggregate"],
         "snapshot:families": snapshot["families"],
         "snapshot:missing_or_omitted_state": sorted(
             snapshot["missing_or_omitted_state"], key=canonical_json_v1),
     }
-    for row in _snapshot_query_records_v1(snapshot):
+    for row in population:
         items[row["path"]] = row["record"]
     return items
 
 
 def diff_snapshots(before: object, after: object) -> dict:
     """Return a deterministic semantic diff between two validated payloads."""
-    left = _validate_diff_snapshot_v1(before, "$.before")
-    right = _validate_diff_snapshot_v1(after, "$.after")
-    left_items = _snapshot_diff_items_v1(left)
-    right_items = _snapshot_diff_items_v1(right)
+    left, left_population = _parse_diff_snapshot_v1(before, "$.before")
+    right, right_population = _parse_diff_snapshot_v1(after, "$.after")
+    left_items = _snapshot_diff_items_v1(left, left_population)
+    right_items = _snapshot_diff_items_v1(right, right_population)
     left_keys = set(left_items)
     right_keys = set(right_items)
     added = [
@@ -3739,7 +4377,15 @@ def render_snapshot_projection_v1(
         snapshot: object, *, output_format: str,
         max_rows: int, max_bytes: int) -> bytes:
     """Render an inert bounded table/graph projection as canonical JSON."""
-    value = _validate_diff_snapshot_v1(snapshot, "$snapshot")
+    value, population = _parse_diff_snapshot_v1(snapshot, "$snapshot")
+    return _render_snapshot_projection_parsed_v1(
+        value, population, output_format=output_format,
+        max_rows=max_rows, max_bytes=max_bytes)
+
+
+def _render_snapshot_projection_parsed_v1(
+        value: dict, population: list[dict], *, output_format: str,
+        max_rows: int, max_bytes: int) -> bytes:
     if output_format not in ("table", "graph"):
         _error("OE_EXPORT_FORMAT_INVALID", "$.format",
                "bounded projection format must be table or graph")
@@ -3747,7 +4393,6 @@ def render_snapshot_projection_v1(
             type(max_bytes) is not int or max_bytes <= 0):
         _error("OE_EXPORT_BOUND_INVALID", "$export",
                "projection bounds must be finite positive integers")
-    population = _snapshot_query_records_v1(value)
     population.sort(key=lambda row: (
         row["record"]["currentness"]["state"] == "CURRENT",
         row["record"]["currentness"]["state"],
@@ -3844,12 +4489,185 @@ def _snapshot_same_file_identity_v1(left: os.stat_result, right: os.stat_result)
     return (left.st_dev, left.st_ino) == (right.st_dev, right.st_ino)
 
 
+def _snapshot_windows_kernel_v1():
+    if os.name != "nt":
+        raise OSError("staged export requires Windows no-replace handle rename")
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel.CreateFileW.argtypes = [
+        ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p,
+        ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p]
+    kernel.CreateFileW.restype = ctypes.c_void_p
+    kernel.WriteFile.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32,
+        ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p]
+    kernel.WriteFile.restype = ctypes.c_int
+    kernel.ReadFile.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32,
+        ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p]
+    kernel.ReadFile.restype = ctypes.c_int
+    kernel.FlushFileBuffers.argtypes = [ctypes.c_void_p]
+    kernel.FlushFileBuffers.restype = ctypes.c_int
+    kernel.SetFilePointerEx.argtypes = [
+        ctypes.c_void_p, ctypes.c_int64, ctypes.POINTER(ctypes.c_int64),
+        ctypes.c_uint32]
+    kernel.SetFilePointerEx.restype = ctypes.c_int
+    kernel.SetFileInformationByHandle.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32]
+    kernel.SetFileInformationByHandle.restype = ctypes.c_int
+    kernel.GetFileInformationByHandle.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+    kernel.GetFileInformationByHandle.restype = ctypes.c_int
+    kernel.CloseHandle.argtypes = [ctypes.c_void_p]
+    kernel.CloseHandle.restype = ctypes.c_int
+    return kernel
+
+
+class _SnapshotFileTimeV1(ctypes.Structure):
+    _fields_ = [("low", ctypes.c_uint32), ("high", ctypes.c_uint32)]
+
+
+class _SnapshotHandleInfoV1(ctypes.Structure):
+    _fields_ = [
+        ("attributes", ctypes.c_uint32),
+        ("creation_time", _SnapshotFileTimeV1),
+        ("access_time", _SnapshotFileTimeV1),
+        ("write_time", _SnapshotFileTimeV1),
+        ("volume_serial", ctypes.c_uint32),
+        ("size_high", ctypes.c_uint32),
+        ("size_low", ctypes.c_uint32),
+        ("links", ctypes.c_uint32),
+        ("file_index_high", ctypes.c_uint32),
+        ("file_index_low", ctypes.c_uint32),
+    ]
+
+
+def _snapshot_handle_info_v1(kernel, handle) -> _SnapshotHandleInfoV1:
+    info = _SnapshotHandleInfoV1()
+    if not kernel.GetFileInformationByHandle(handle, ctypes.byref(info)):
+        raise ctypes.WinError(ctypes.get_last_error())
+    return info
+
+
+def _snapshot_handle_regular_v1(info: _SnapshotHandleInfoV1, size: int) -> bool:
+    observed_size = (info.size_high << 32) | info.size_low
+    return not (info.attributes & (0x10 | 0x400)) and info.links == 1 and (
+        observed_size == size)
+
+
+def _snapshot_delete_stage_v1(kernel, handle) -> None:
+    disposition = ctypes.c_ubyte(1)
+    if not kernel.SetFileInformationByHandle(
+            handle, 4, ctypes.byref(disposition), ctypes.sizeof(disposition)):
+        raise ctypes.WinError(ctypes.get_last_error())
+
+
+def _snapshot_atomic_no_replace_v1(handle, target: pathlib.Path) -> None:
+    """Atomically rename the live private stage; replacement is forbidden."""
+    kernel = _snapshot_windows_kernel_v1()
+    name = os.fspath(target).encode("utf-16-le")
+    pointer_size = ctypes.sizeof(ctypes.c_void_p)
+    root_offset = (4 + pointer_size - 1) // pointer_size * pointer_size
+    length_offset = root_offset + pointer_size
+    name_offset = length_offset + 4
+    buffer = ctypes.create_string_buffer(name_offset + len(name) + 2)
+    ctypes.c_uint32.from_buffer(buffer, 0).value = 0
+    ctypes.c_void_p.from_buffer(buffer, root_offset).value = None
+    ctypes.c_uint32.from_buffer(buffer, length_offset).value = len(name)
+    ctypes.memmove(ctypes.addressof(buffer) + name_offset, name, len(name))
+    if not kernel.SetFileInformationByHandle(
+            handle, 3, buffer, name_offset + len(name)):
+        code = ctypes.get_last_error()
+        if code in {80, 183}:
+            raise FileExistsError(code, "export destination became occupied")
+        raise ctypes.WinError(code)
+
+
+def _snapshot_stage_export_v1(raw: bytes, target: pathlib.Path) -> None:
+    """Publish one exact byte string through a write/delete-excluded stage."""
+    kernel = _snapshot_windows_kernel_v1()
+    stage = target.with_name(
+        f".{target.name}.{secrets.token_hex(16)}.implementaudit-stage")
+    handle = kernel.CreateFileW(
+        os.fspath(stage), 0x80000000 | 0x40000000 | 0x00010000,
+        0x00000001, None, 1, 0x00000100, None)
+    if handle == ctypes.c_void_p(-1).value:
+        code = ctypes.get_last_error()
+        if code in {80, 183}:
+            raise OSError(code, "private stage identity collided")
+        raise ctypes.WinError(code)
+    published = False
+    delete_marked = False
+    try:
+        created = _snapshot_handle_info_v1(kernel, handle)
+        if not _snapshot_handle_regular_v1(created, 0):
+            raise OSError("private stage is not one regular physical file")
+        _snapshot_stage_v1("stage-created")
+        offset = 0
+        while offset < len(raw):
+            chunk = raw[offset:offset + 1024 * 1024]
+            buffer = ctypes.create_string_buffer(chunk)
+            written = ctypes.c_uint32()
+            if (not kernel.WriteFile(handle, buffer, len(chunk),
+                                     ctypes.byref(written), None) or
+                    written.value != len(chunk)):
+                raise ctypes.WinError(ctypes.get_last_error())
+            offset += written.value
+        _snapshot_stage_v1("write-complete")
+        if not kernel.FlushFileBuffers(handle):
+            raise ctypes.WinError(ctypes.get_last_error())
+        _snapshot_stage_v1("fsync-complete")
+        if not kernel.SetFilePointerEx(handle, 0, None, 0):
+            raise ctypes.WinError(ctypes.get_last_error())
+        _snapshot_stage_v1("readback-start")
+        observed = bytearray()
+        while len(observed) <= len(raw):
+            capacity = min(1024 * 1024, len(raw) + 1 - len(observed))
+            buffer = ctypes.create_string_buffer(capacity)
+            count = ctypes.c_uint32()
+            if not kernel.ReadFile(
+                    handle, buffer, capacity, ctypes.byref(count), None):
+                raise ctypes.WinError(ctypes.get_last_error())
+            if count.value == 0:
+                break
+            observed.extend(buffer.raw[:count.value])
+        _snapshot_stage_v1("readback-eof")
+        verified = _snapshot_handle_info_v1(kernel, handle)
+        if (bytes(observed) != raw or
+                not _snapshot_handle_regular_v1(verified, len(raw)) or
+                (created.volume_serial, created.file_index_high,
+                 created.file_index_low) !=
+                (verified.volume_serial, verified.file_index_high,
+                 verified.file_index_low)):
+            raise OSError("private stage identity or exact bytes changed")
+        _snapshot_stage_v1("before-publish")
+        final_stage = _snapshot_handle_info_v1(kernel, handle)
+        if (not _snapshot_handle_regular_v1(final_stage, len(raw)) or
+                (created.volume_serial, created.file_index_high,
+                 created.file_index_low) !=
+                (final_stage.volume_serial, final_stage.file_index_high,
+                 final_stage.file_index_low)):
+            raise OSError("private stage changed immediately before publication")
+        _snapshot_atomic_no_replace_v1(handle, target)
+        published = True
+    finally:
+        if not published:
+            try:
+                _snapshot_delete_stage_v1(kernel, handle)
+                delete_marked = True
+            except OSError:
+                pass
+        if not kernel.CloseHandle(handle):
+            if published:
+                raise ctypes.WinError(ctypes.get_last_error())
+        if not published and not delete_marked:
+            raise OSError("private stage cleanup could not be identity-bound")
+
+
 def export_snapshot(
         snapshot: object, destination: object, *, owned_root: object,
         output_format: str = "json", max_rows: int | None = None,
         max_bytes: int | None = None) -> dict:
     """Write one new export below an explicit isolated task-owned root."""
-    value = _validate_diff_snapshot_v1(snapshot, "$snapshot")
+    value, population = _parse_diff_snapshot_v1(snapshot, "$snapshot")
     target, root = _export_destination_v1(destination, owned_root)
     if output_format == "json":
         if max_rows is not None or max_bytes is not None:
@@ -3858,87 +4676,19 @@ def export_snapshot(
         raw = canonical_json_v1(value)
         truncated = False
     elif output_format in ("table", "graph"):
-        raw = render_snapshot_projection_v1(
-            value, output_format=output_format,
+        raw = _render_snapshot_projection_parsed_v1(
+            value, population, output_format=output_format,
             max_rows=max_rows, max_bytes=max_bytes)
         truncated = json.loads(raw.decode("utf-8"))["truncated"]
     else:
         _error("OE_EXPORT_FORMAT_INVALID", "$.format",
                "export format must be json, table, or graph")
-    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
-    if hasattr(os, "O_BINARY"):
-        flags |= os.O_BINARY
-    if hasattr(os, "O_NOFOLLOW"):
-        flags |= os.O_NOFOLLOW
-    created = False
-    created_metadata = None
     try:
-        descriptor = os.open(target, flags, 0o600)
-        created = True
-        created_metadata = os.fstat(descriptor)
-        if (not stat.S_ISREG(created_metadata.st_mode) or
-                created_metadata.st_nlink != 1):
-            raise OSError("created export is not one regular physical file")
-        with os.fdopen(descriptor, "wb") as stream:
-            stream.write(raw)
-            stream.flush()
-            os.fsync(stream.fileno())
-        read_flags = os.O_RDONLY
-        if hasattr(os, "O_BINARY"):
-            read_flags |= os.O_BINARY
-        if hasattr(os, "O_NOFOLLOW"):
-            read_flags |= os.O_NOFOLLOW
-        reader = os.open(target, read_flags)
-        try:
-            reader_metadata = os.fstat(reader)
-            if (_snapshot_is_link_v1(target) or
-                    not _snapshot_same_file_identity_v1(
-                        created_metadata, reader_metadata) or
-                    not stat.S_ISREG(reader_metadata.st_mode) or
-                    reader_metadata.st_nlink != 1 or
-                    reader_metadata.st_size != len(raw)):
-                raise OSError("export destination identity changed after close")
-            path_metadata = os.lstat(target)
-            if (not _snapshot_same_file_identity_v1(
-                    reader_metadata, path_metadata) or
-                    not stat.S_ISREG(path_metadata.st_mode) or
-                    path_metadata.st_nlink != 1 or
-                    path_metadata.st_size != len(raw)):
-                raise OSError("export path does not name the created file")
-            observed = bytearray()
-            while len(observed) <= len(raw):
-                chunk = os.read(reader, min(1024 * 1024, len(raw) + 1 - len(observed)))
-                if not chunk:
-                    break
-                observed.extend(chunk)
-            if bytes(observed) != raw:
-                raise OSError("export readback differs from receipt bytes")
-            final_open_metadata = os.lstat(target)
-            if not _snapshot_same_file_identity_v1(
-                    reader_metadata, final_open_metadata):
-                raise OSError("export path changed during readback")
-        finally:
-            os.close(reader)
-        final_metadata = os.lstat(target)
-        if (not _snapshot_same_file_identity_v1(created_metadata, final_metadata) or
-                not stat.S_ISREG(final_metadata.st_mode) or
-                final_metadata.st_nlink != 1 or
-                final_metadata.st_size != len(raw) or
-                target.resolve(strict=True).parent != target.parent.resolve(strict=True) or
-                target.parent.resolve(strict=True) != target.parent or
-                root.resolve(strict=True) != root):
-            raise OSError("export destination changed after verification")
+        _snapshot_stage_export_v1(raw, target)
     except FileExistsError:
         _error("OE_EXPORT_DESTINATION_EXISTS", "$.destination",
                "export destination became occupied")
     except OSError:
-        if created and created_metadata is not None:
-            try:
-                path_metadata = os.lstat(target)
-                if _snapshot_same_file_identity_v1(created_metadata, path_metadata):
-                    target.unlink()
-            except OSError:
-                pass
         _error("OE_EXPORT_WRITE_FAILED", "$.destination",
                "export could not be written and verified atomically")
     return {
