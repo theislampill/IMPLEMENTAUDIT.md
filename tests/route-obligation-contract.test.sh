@@ -79,14 +79,28 @@ PY
 
 controller_record="$(printf 'implementaudit.controller-current.v1\tcontroller-route\t%s\t%s\n' "$claim_id" "$run_root" | git -C "$tmp/repo" hash-object -w --stdin)"
 git -C "$tmp/repo" update-ref refs/implementaudit/controllers/controller-route "$controller_record"
-(
-  cd "$tmp/repo"
-  bash "$claim" --invalidate-continuity controller-route --boundary new-session --event exact-boundary-event >/dev/null
-)
-continuity_receipt="$(
-  cd "$tmp/repo"
-  bash "$claim" --resume-controller controller-route --boundary new-session --epoch G0001
-)"
+mint_initial_receipt() {
+  local controller="$1" controller_oid="$2" claim_local="$3" root="$4" event_id="$5"
+  local head tree state_sha road_sha invalidation_oid invalidation_ref receipt_oid receipt_ref
+  head="$(git -C "$tmp/repo" rev-parse HEAD)"
+  tree="$(git -C "$tmp/repo" rev-parse 'HEAD^{tree}')"
+  state_sha="$(sha256sum "$root/STATE.md" | cut -d' ' -f1)"
+  road_sha="$(sha256sum "$root/ROADMAP.md" | cut -d' ' -f1)"
+  invalidation_ref="refs/implementaudit/continuity-invalidations/$controller"
+  invalidation_oid="$(printf 'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\tnew-session\t%s\n' \
+    "$controller" "$controller_oid" "$claim_local" "$event_id" \
+    | git -C "$tmp/repo" hash-object -w --stdin)"
+  git -C "$tmp/repo" update-ref "$invalidation_ref" "$invalidation_oid" 0000000000000000000000000000000000000000
+  receipt_ref="refs/implementaudit/continuity-receipts/$controller/G0001"
+  receipt_oid="$(printf 'implementaudit.continuity-receipt.v2\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tnew-session\tG0001\texecute exact route-bound action\n' \
+    "$controller" "$controller_oid" "$claim_local" "$head" "$tree" "$state_sha" "$road_sha" "$invalidation_oid" \
+    | git -C "$tmp/repo" hash-object -w --stdin)"
+  git -C "$tmp/repo" update-ref "$receipt_ref" "$receipt_oid" 0000000000000000000000000000000000000000
+  printf '%s@%s\n' "$receipt_ref" "$receipt_oid"
+}
+continuity_receipt="$(mint_initial_receipt controller-route "$controller_record" "$claim_id" "$run_root" exact-boundary-event)"
+[ "$(cd "$tmp/repo" && bash "$claim" --require-current-continuity controller-route)" = "$continuity_receipt" ] ||
+  fail "initial route fixture did not establish exact raw continuity"
 
 set +e
 if [ -f "$core" ]; then
@@ -250,11 +264,10 @@ PY
   local record receipt
   record="$(printf 'implementaudit.controller-current.v1\t%s\t%s\t%s\n' "$controller" "$claim_id_local" "$target" | git -C "$tmp/repo" hash-object -w --stdin)"
   git -C "$tmp/repo" update-ref "refs/implementaudit/controllers/$controller" "$record"
-  (
-    cd "$tmp/repo"
-    bash "$claim" --invalidate-continuity "$controller" --boundary new-session --event "$event_id" >/dev/null
-    bash "$claim" --resume-controller "$controller" --boundary new-session --epoch G0001
-  )
+  receipt="$(mint_initial_receipt "$controller" "$record" "$claim_id_local" "$target" "$event_id")"
+  [ "$(cd "$tmp/repo" && bash "$claim" --require-current-continuity "$controller")" = "$receipt" ] ||
+    fail "$controller fixture did not establish exact raw continuity"
+  printf '%s\n' "$receipt"
 }
 
 host_core="$repo_root/skills/implementaudit/scripts/host-session-binding.py"
@@ -535,9 +548,10 @@ required_blob="$(git -C "$tmp/repo" cat-file blob "$required_oid")"
 assert_json "$required_blob" 'value["child_lifecycle_owned"] is False and "child_open" not in value and "child_return" not in value and "completion" not in value'
 assert_json "$required_blob" 'value["predecessor_record_oid"] is None and value["record_identity"].startswith("sha256:")'
 
-# HC-H2B: the canonical REQUIRED obligation opens only with the exact full
-# audit-state bytes and immutable packet, accepts the same live return, rereads
-# currentness after return, and records exactly one governor decision.
+# HC-H2B: the canonical MAINTAINER_QUALIFICATION obligation opens only with the
+# mapped audit-implement bytes and immutable packet, visibly names that exact
+# load, accepts the same live return, rereads currentness after return, and
+# records exactly one governor decision.
 route_packet="$tmp/route-packet.json"
 child_return="$tmp/child-return.json"
 governor_decision="$tmp/governor-decision.json"
@@ -561,7 +575,7 @@ packet={
  "obligation_id":decided["obligation_id"],
  "route_transaction_id":decided["route_transaction_id"],
  "source_event":event,
- "target_identity":"target:hc-h2b",
+ "target_identity":"audit-implement",
 }
 def write(path,value):
  raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
@@ -588,16 +602,24 @@ decision={
 write(sys.argv[4],decision)
 PY
 
+open_visible="$tmp/open-visible.txt"
 opened="$(route controller-route route-red G0001 open --request "$required_request" \
-  --expected-record "$required_oid" --packet "$route_packet")"
+  --expected-record "$required_oid" --packet "$route_packet" 2>"$open_visible")"
 assert_json "$opened" 'value["status"] == "CHILD_OPEN" and value["decision"] == "REQUIRED" and value["route_state"] == "OPEN" and value["advance_allowed"] is False'
 open_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
-"${py[@]}" - "$opened" "$repo_root/skills/audit-state/SKILL.md" "$route_packet" <<'PY'
+"${py[@]}" - "$opened" "$repo_root/skills/audit-implement/SKILL.md" "$route_packet" <<'PY'
 import base64,json,sys
 value=json.loads(sys.argv[1])
-assert base64.b64decode(value["delivery"]["child"]["bytes_b64"]) == open(sys.argv[2],"rb").read()
+if base64.b64decode(value["delivery"]["child"]["bytes_b64"]) != open(sys.argv[2],"rb").read():
+ raise SystemExit("mapped audit-implement child bytes were not delivered")
 assert base64.b64decode(value["delivery"]["packet"]["bytes_b64"]) == open(sys.argv[3],"rb").read()
 PY
+mapfile -t open_visible_lines < "$open_visible"
+[ "${#open_visible_lines[@]}" -eq 2 ] || fail "mapped child OPEN did not emit exactly two visible route lines"
+[ "${open_visible_lines[0]: -1}" != $'\r' ] || open_visible_lines[0]="${open_visible_lines[0]%$'\r'}"
+[ "${open_visible_lines[1]: -1}" != $'\r' ] || open_visible_lines[1]="${open_visible_lines[1]%$'\r'}"
+[ "${open_visible_lines[0]}" = 'CHILD_SKILL_ROUTE=audit-implement' ] || fail "mapped child OPEN emitted the wrong route identity"
+[ "${open_visible_lines[1]}" = "I'm using audit-implement to qualify the exact maintainer candidate after verified release currentness." ] || fail "mapped child OPEN emitted the wrong bounded reason"
 open_blob="$(git -C "$tmp/repo" cat-file blob "$open_oid")"
 assert_json "$open_blob" 'value["predecessor_record_oid"] == "'"$required_oid"'" and value["route_state"] == "OPEN" and value["child_lifecycle_owned"] is True and value["lifecycle"]["delivery"]'
 
@@ -945,8 +967,7 @@ route controller-cheap session-cheap G0001 check --request "$cheap_request" >/de
 wrapper_check="$(
   cd "$tmp/repo"
   bash "$claim" --require-current-route controller-cheap --store "$tmp/host-store" \
-    --host-id codex --host-session-id session-cheap --binding-generation G0001 \
-    --request "$cheap_request"
+    --host-id codex --host-session-id session-cheap --binding-generation G0001
 )"
 assert_json "$wrapper_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False and value["admission_required"] is True'
 for class in MECHANICAL_CURRENTNESS_ACTION EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION SAFE_STATUS_OR_CONTAINMENT EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION; do
@@ -1143,6 +1164,151 @@ expect_blocked "STATE pending cannot override required" route controller-history
 assert_json "$required_blob" 'value["expires_on"] and "scope-expansion" in value["expires_on"] and "continuity-receipt-change" in value["expires_on"]'
 assert_json "$judgement_decide" 'value["record_oid"] and value["decision"] == "REQUIRED"'
 
+# G01-G16/G25/G35/G36/G40: exercise the closed child map through four fresh
+# controller/run/receipt/binding lifecycles.  Every cross-target packet must
+# fail before OPEN, while each sole mapped child must resolve and load its exact
+# bytes, emit one bounded route statement, return only to the governor, and
+# reach final request-free admission only after the one governor decision.
+run_governed_child_case() {
+  local case_id="$1" claim_local="$2" reason="$3" child="$4" visible_reason="$5"
+  local controller="controller-${case_id,,}" session="session-${case_id,,}"
+  local run_name="${case_id,,}-ABC123" request="$tmp/${case_id,,}-request.json"
+  local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name" receipt decided required_record
+  local obligation transaction attributed correlation target wrong_packet wrong_visible
+  local wrong_output wrong_status packet returned_artifact decision_artifact opened open_record
+  local open_visible returned_result return_record completed_result complete_record admitted
+
+  receipt="$(make_run "$controller" "$run_name" "$claim_local" exact-boundary-event)"
+  bind_host "$session" "$controller" "$claim_local" "$root" "$receipt" "activation-${case_id,,}"
+  write_request "$request" PURE_BOUNDED_READ_OR_VALIDATION "$reason"
+  decided="$(route "$controller" "$session" G0001 decide --request "$request" --expected-record none)"
+  assert_json "$decided" 'value["decision"] == "REQUIRED" and value["route_state"] == "UNSATISFIED"'
+  required_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$decided")"
+  obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$decided")"
+  transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$decided")"
+  attributed="$(host validate-event --host-id codex --host-session-id "$session" \
+    --binding-generation G0001 --controller-id "$controller" --claim-id "$claim_local" \
+    --explicit-run-root "$root" --repository-identity "$repo_custody" \
+    --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
+    --continuity-generation G0001 --continuity-receipt "$receipt" \
+    --event-id "host:$case_id" --obligation-id "$obligation" \
+    --route-transaction-id "$transaction")"
+  correlation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$attributed")"
+
+  for target in audit-state audit-assess audit-implement audit-andon; do
+    [ "$target" != "$child" ] || continue
+    wrong_packet="$tmp/${case_id,,}-wrong-$target.json"
+    "${py[@]}" - "$wrong_packet" "$obligation" "$transaction" "$correlation" "$case_id" "$target" <<'PY'
+import hashlib,json,sys
+path,obligation,transaction,correlation,event_id,target=sys.argv[1:]
+value={
+ "schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":target,
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:"+event_id,
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1","event_id":"host:"+event_id,
+   "host_correlation_id":correlation},"body":"cross-target refusal","kind":"one-shot-action",
+  "reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}},
+}
+with open(path,"w",encoding="utf-8",newline="\n") as handle:
+ json.dump(value,handle,sort_keys=True,separators=(",",":")); handle.write("\n")
+PY
+    wrong_visible="$tmp/${case_id,,}-wrong-$target.visible"
+    set +e
+    wrong_output="$(route "$controller" "$session" G0001 open --request "$request" \
+      --expected-record "$required_record" --packet "$wrong_packet" 2>"$wrong_visible")"
+    wrong_status=$?
+    set -e
+    [ "$wrong_status" -ne 0 ] || fail "$case_id cross-target $target reached OPEN"
+    assert_json "$wrong_output" 'value["advance_allowed"] is False and value["enforcement_available"] is False'
+    [ ! -s "$wrong_visible" ] || fail "$case_id cross-target $target emitted a route statement"
+    [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$required_record" ] ||
+      fail "$case_id cross-target $target changed canonical route state"
+  done
+
+  packet="$tmp/${case_id,,}-packet.json"
+  returned_artifact="$tmp/${case_id,,}-return.json"
+  decision_artifact="$tmp/${case_id,,}-decision.json"
+  "${py[@]}" - "$packet" "$returned_artifact" "$decision_artifact" "$obligation" \
+    "$transaction" "$correlation" "$case_id" "$child" <<'PY'
+import hashlib,json,sys
+packet_path,return_path,decision_path,obligation,transaction,correlation,event_id,target=sys.argv[1:]
+def write(path,value):
+ raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
+ open(path,"wb").write(raw)
+ return "sha256:"+hashlib.sha256(raw).hexdigest()
+packet={
+ "schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":target,
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:"+event_id,
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1","event_id":"host:"+event_id,
+   "host_correlation_id":correlation},"body":"perform the mapped governed child once",
+  "kind":"one-shot-action","reactivation":{"reopen":False,"target_changed":False,
+   "invalidating_evidence":False}},
+}
+packet_digest=write(packet_path,packet)
+returned={"schema":"implementaudit.child-return.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"packet_digest":packet_digest,"status":"RETURNED",
+ "payload":{"result":"bounded child analysis","requested_next_child":"audit-state"}}
+return_digest=write(return_path,returned)
+decision={"schema":"implementaudit.governor-route-decision.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
+ "reason":"governor reconciled the exact mapped child return"}
+write(decision_path,decision)
+PY
+
+  expect_blocked "$case_id admitted before OPEN" route "$controller" "$session" G0001 admit-current >/dev/null
+  open_visible="$tmp/${case_id,,}-open.visible"
+  opened="$(route "$controller" "$session" G0001 open --request "$request" \
+    --expected-record "$required_record" --packet "$packet" 2>"$open_visible")"
+  assert_json "$opened" 'value["status"] == "CHILD_OPEN" and value["route_state"] == "OPEN"'
+  open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
+  "${py[@]}" - "$opened" "$repo_root/skills/$child/SKILL.md" "$child" <<'PY'
+import base64,json,sys
+from pathlib import Path
+value=json.loads(sys.argv[1]); expected=open(sys.argv[2],"rb").read()
+delivery=value["delivery"]["child"]
+if Path(delivery["identity"]).resolve() != Path(sys.argv[2]).resolve() or base64.b64decode(delivery["bytes_b64"]) != expected:
+ raise SystemExit("mapped child resolver/load bytes disagree")
+PY
+  mapfile -t open_visible_lines < "$open_visible"
+  [ "${#open_visible_lines[@]}" -eq 2 ] || fail "$case_id did not emit exactly one two-line route"
+  [ "${open_visible_lines[0]: -1}" != $'\r' ] || open_visible_lines[0]="${open_visible_lines[0]%$'\r'}"
+  [ "${open_visible_lines[1]: -1}" != $'\r' ] || open_visible_lines[1]="${open_visible_lines[1]%$'\r'}"
+  [ "${open_visible_lines[0]}" = "CHILD_SKILL_ROUTE=$child" ] || fail "$case_id emitted the wrong child identity"
+  [ "${open_visible_lines[1]}" = "I'm using $child to $visible_reason." ] || fail "$case_id emitted the wrong bounded reason"
+  expect_blocked "$case_id OPEN/process-loss state admitted" route "$controller" "$session" G0001 admit-current >/dev/null
+
+  returned_result="$(route "$controller" "$session" G0001 return --request "$request" \
+    --expected-record "$open_record" --return "$returned_artifact")"
+  assert_json "$returned_result" 'value["status"] == "CHILD_RETURNED" and value["route_state"] == "RETURNED" and value["advance_allowed"] is False'
+  return_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$returned_result")"
+  expect_blocked "$case_id child-to-child payload bypassed governor" route "$controller" "$session" G0001 admit-current >/dev/null
+  completed_result="$(route "$controller" "$session" G0001 complete --request "$request" \
+    --expected-record "$return_record" --packet "$packet" --return "$returned_artifact" \
+    --decision "$decision_artifact")"
+  assert_json "$completed_result" 'value["status"] == "ROUTE_COMPLETE" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1'
+  complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$completed_result")"
+  admitted="$(cd "$tmp/repo" && bash "$claim" --require-current-route "$controller" \
+    --store "$tmp/host-store" --host-id codex --host-session-id "$session" \
+    --binding-generation G0001)"
+  assert_json "$admitted" 'value["decision"] == "REQUIRED" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
+  [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$complete_record" ] ||
+    fail "$case_id final admission changed canonical route state"
+}
+
+run_governed_child_case G01 55555555555555555555555555555555 \
+  STALE_CONTEXT_RECONSTRUCTION audit-state \
+  'rehydrate bounded current state after the exact stale-context boundary'
+run_governed_child_case G02 66666666666666666666666666666666 \
+  IMMUTABLE_INDEPENDENT_REVIEW audit-assess \
+  'independently assess the exact immutable review packet'
+run_governed_child_case G03 77777777777777777777777777777777 \
+  MAINTAINER_QUALIFICATION audit-implement \
+  'qualify the exact maintainer candidate after verified release currentness'
+run_governed_child_case G04 88888888888888888888888888888888 \
+  NONTRIVIAL_ANDON_DIAGNOSIS audit-andon \
+  'diagnose the established nontrivial Andon within its authority ceiling'
+
 # The pure R0033 owner validator remains usable for a read-only C03 projection
 # after event attribution is tombstoned, while every R0033 effect path refuses.
 host tombstone --owner-id host-owner --host-id codex --host-session-id route-red \
@@ -1173,4 +1339,5 @@ current_required_oid="$(git -C "$tmp/repo" rev-parse refs/implementaudit/route-d
 assert_json "$pure_tombstoned" 'value["record_oid"] == "'"$current_required_oid"'" and value["controller_id"] == "controller-route"'
 
 printf 'route-obligation-contract.test: request-free current-result matrix GREEN\n'
-printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay held-out; first RED preserved)\n'
+printf 'route-obligation-contract.test: G01-G40 common governed-child matrix GREEN\n'
+printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + all-four child-route matrix; first RED preserved)\n'

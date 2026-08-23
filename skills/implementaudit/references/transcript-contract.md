@@ -313,7 +313,15 @@ The selected child is exactly one of `audit-state`, `audit-assess`,
 `audit-implement`, or `audit-andon`, and the announced identity must equal the
 resolved and loaded child. Child files merely being packaged or discoverable,
 or governor reasoning producing similar words or conclusions, is not a route.
-Those governor-only cases emit no child announcement. An actual child load
+Those governor-only cases emit no selected-child announcement. Exact current
+`NOT_REQUIRED` instead emits the explicit no-child projection:
+
+```text
+CHILD_SKILL_ROUTE=NOT_REQUIRED
+No internal child is used because the exact current R0033 route is NOT_REQUIRED.
+```
+
+That branch performs no resolver, load, OPEN, return or completion. An actual child load
 without the announcement, an announcement without a load, a mismatched child,
 duplicate child announcements, or a retroactive announcement is a routing
 observability failure; none creates authority or closure.

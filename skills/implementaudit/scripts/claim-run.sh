@@ -907,7 +907,7 @@ case "${1:-}" in
     elif command -v python3 >/dev/null 2>&1; then route_py=(python3)
     elif command -v py >/dev/null 2>&1; then route_py=(py -3)
     else printf 'claim-run.sh: Python 3 is required for route currentness\n' >&2; exit 1; fi
-    "${route_py[@]}" "$(dirname "$0")/route-transaction.py" check --controller "$controller" "$@"
+    "${route_py[@]}" "$(dirname "$0")/route-transaction.py" admit-current --controller "$controller" "$@"
     exit $?
     ;;
   --invalidate-continuity)

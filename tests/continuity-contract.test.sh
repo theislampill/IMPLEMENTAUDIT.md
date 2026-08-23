@@ -188,6 +188,22 @@ for tok in --invalidate-continuity --require-current-continuity; do
   grep -q -- "$tok" "$ref" || fail "reference missing host-neutral currentness route: $tok"
   grep -q -- "$tok" skills/implementaudit/scripts/claim-run.sh || fail "claim helper missing host-neutral currentness route: $tok"
 done
+if ! "${py_cmd[@]}" - skills/implementaudit/scripts/claim-run.sh <<'PY'
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+start = text.index("  --require-current-route)")
+end = text.index("  --invalidate-continuity)", start)
+section = text[start:end]
+if "route-transaction.py\" admit-current" not in section:
+    raise SystemExit("effect-bearing route gate does not use request-free admit-current")
+if "route-transaction.py\" check" in section:
+    raise SystemExit("effect-bearing route gate still accepts caller-supplied check authority")
+PY
+then
+  fail "claim helper does not separate raw continuity from request-free route admission"
+fi
 contains_normalized "$ref" "generic no-native-hook fallback" ||
   fail "reference missing generic no-native-hook fallback"
 contains_normalized "$ref" "native host signal is a trigger, never continuity authority" ||

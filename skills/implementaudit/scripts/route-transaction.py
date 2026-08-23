@@ -53,6 +53,24 @@ REQUIRED_REASONS = {
     "MAINTAINER_QUALIFICATION",
     "NONTRIVIAL_ANDON_DIAGNOSIS",
 }
+CHILD_ROUTE_MAP = {
+    "STALE_CONTEXT_RECONSTRUCTION": (
+        "audit-state",
+        "rehydrate bounded current state after the exact stale-context boundary",
+    ),
+    "IMMUTABLE_INDEPENDENT_REVIEW": (
+        "audit-assess",
+        "independently assess the exact immutable review packet",
+    ),
+    "MAINTAINER_QUALIFICATION": (
+        "audit-implement",
+        "qualify the exact maintainer candidate after verified release currentness",
+    ),
+    "NONTRIVIAL_ANDON_DIAGNOSIS": (
+        "audit-andon",
+        "diagnose the established nontrivial Andon within its authority ceiling",
+    ),
+}
 CONTINUITY_RE = re.compile(r"G[0-9A-F]{4}")
 CONTROLLER_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,47}")
 OID_RE = re.compile(r"[0-9a-f]{40}(?:[0-9a-f]{24})?")
@@ -356,7 +374,12 @@ def decoded_artifact(raw: bytes, label: str) -> dict[str, Any]:
 
 
 def route_packet_record(
-    packet: Any, obligation_id: str, transaction_id: str, label: str = "route packet"
+    packet: Any,
+    obligation_id: str,
+    transaction_id: str,
+    label: str = "route packet",
+    *,
+    expected_target: str | None = None,
 ) -> dict[str, Any]:
     packet = exact_keys(
         packet,
@@ -369,6 +392,8 @@ def route_packet_record(
         fail(f"{label} names a foreign obligation or transaction")
     source_event_record(packet["source_event"], f"{label} source_event")
     exact_text(packet["target_identity"], f"{label} target_identity")
+    if expected_target is not None and packet["target_identity"] != expected_target:
+        fail(f"{label} target does not match the sole mapped governed child")
     return packet
 
 
@@ -414,9 +439,13 @@ def governor_decision_record(
     return decision
 
 
-def read_route_packet(path: str, obligation_id: str, transaction_id: str) -> tuple[bytes, dict[str, Any]]:
+def read_route_packet(
+    path: str, obligation_id: str, transaction_id: str, *, expected_target: str | None = None
+) -> tuple[bytes, dict[str, Any]]:
     raw, packet = read_exact_artifact(path, "route packet")
-    return raw, route_packet_record(packet, obligation_id, transaction_id)
+    return raw, route_packet_record(
+        packet, obligation_id, transaction_id, expected_target=expected_target
+    )
 
 
 def read_child_return(
@@ -469,6 +498,17 @@ def mechanical_required_reason(argv: list[str]) -> str | None:
     if len(argv) == 2 and argv[0] == "route-trigger" and argv[1] in REQUIRED_REASONS:
         return argv[1]
     return None
+
+
+def mapped_child_route(record: dict[str, Any]) -> tuple[str, str]:
+    action = record.get("action")
+    reason = mechanical_required_reason(action.get("argv", []) if isinstance(action, dict) else [])
+    if record.get("decision") != "REQUIRED" or reason not in CHILD_ROUTE_MAP:
+        fail(
+            "required route does not establish exactly one canonical governed child",
+            decision=record.get("decision", "PENDING"),
+        )
+    return CHILD_ROUTE_MAP[reason]
 
 
 def normalized_history_query(request: dict[str, Any]) -> dict[str, Any] | None:
@@ -575,10 +615,11 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
         delivery = exact_keys(lifecycle["delivery"], {"child", "packet"}, "route lifecycle delivery")
         child_raw = validate_bytes_identity(delivery["child"], "route lifecycle child", with_identity=True)
         packet_raw = validate_bytes_identity(delivery["packet"], "route lifecycle packet")
-        exact_child_raw, exact_child_path = child_delivery_bytes()
+        mapped_child, _ = mapped_child_route(record)
+        exact_child_raw, exact_child_path = child_delivery_bytes(mapped_child)
         exact_child = {"identity": str(exact_child_path), **bytes_identity(exact_child_raw)}
         if delivery["child"] != exact_child or child_raw != exact_child_raw:
-            fail("route lifecycle child is not the exact current audit-state source")
+            fail("route lifecycle child is not the exact mapped current child source")
         if record.get("child_source") != {
             "identity": exact_child["identity"], "digest": exact_child["digest"]
         }:
@@ -588,6 +629,7 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
             record["obligation_id"],
             record["route_transaction_id"],
             "route lifecycle packet",
+            expected_target=mapped_child,
         )
         returned_raw = None
         if lifecycle["child_return"] is not None:
@@ -1134,7 +1176,15 @@ def request_observations(
     return sorted(invalidators), observed_inputs
 
 
-def executing_package_evidence(repo: Path, request: dict[str, Any]) -> tuple[dict[str, Any], dict[str, str]]:
+def executing_package_evidence(
+    repo: Path, request: dict[str, Any], decision: str | None = None
+) -> tuple[dict[str, Any], dict[str, str]]:
+    if decision is None:
+        decision = (
+            "NOT_REQUIRED"
+            if mechanical_action_class(request["action"]["argv"]) in CLOSED_ACTION_CLASSES
+            else "REQUIRED"
+        )
     skill_root = Path(__file__).resolve().parent.parent
     source_paths = [
         skill_root / "SKILL.md",
@@ -1142,6 +1192,9 @@ def executing_package_evidence(repo: Path, request: dict[str, Any]) -> tuple[dic
         Path(__file__).resolve(),
         Path(__file__).resolve().with_name("claim-run.sh"),
     ]
+    reason = mechanical_required_reason(request["action"]["argv"])
+    if decision == "REQUIRED" and reason in CHILD_ROUTE_MAP:
+        source_paths.append(Path(__file__).resolve().with_name("resolve-internal-skill.py"))
     if mechanical_action_class(request["action"]["argv"]) == "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION":
         source_paths.append(Path(request["action"]["argv"][2]).resolve())
     package = {
@@ -1154,14 +1207,13 @@ def executing_package_evidence(repo: Path, request: dict[str, Any]) -> tuple[dic
         "PURE_BOUNDED_READ_OR_VALIDATION", "SAFE_STATUS_OR_CONTAINMENT"
     }:
         package["worktree_read_set"] = worktree_read_set(repo)
-    candidates = [
-        skill_root.parent / "audit-state" / "SKILL.md",
-        skill_root / "internal-procedures" / "audit-state.md",
-    ]
-    child = next((path for path in candidates if path.is_file()), None)
-    if child is None:
-        fail("exact audit-state child source is absent from the executing package")
-    child_source = {"identity": str(child.resolve()), "digest": file_digest(child.resolve())}
+    if decision == "REQUIRED" and reason in CHILD_ROUTE_MAP:
+        child_raw, child = child_delivery_bytes(CHILD_ROUTE_MAP[reason][0])
+        child_source = {"identity": str(child), "digest": bytes_identity(child_raw)["digest"]}
+    else:
+        state = "UNMAPPED_REQUIRED" if decision == "REQUIRED" else decision
+        identity = f"R0033:{state}:NO_CHILD"
+        child_source = {"identity": identity, "digest": digest_json({"identity": identity})}
     return package, child_source
 
 
@@ -1174,7 +1226,7 @@ def route_semantic_basis(
     """Compute the R0033 route predicate without host-event attribution."""
     noncurrent, observed_inputs = request_observations(repo, current, request)
     decision, classification, invalidators = classify(request, noncurrent)
-    package, child_source = executing_package_evidence(repo, request)
+    package, child_source = executing_package_evidence(repo, request, decision)
     identity_seed = {
         "request": request,
         "controller_record_oid": current["controller_record_oid"],
@@ -1742,19 +1794,91 @@ def cas_route_record(
     return new_oid, record
 
 
-def child_delivery_bytes() -> tuple[bytes, Path]:
-    skill_root = Path(__file__).resolve().parent.parent
-    candidates = [
-        skill_root.parent / "audit-state" / "SKILL.md",
-        skill_root / "internal-procedures" / "audit-state.md",
-    ]
-    child = next((path.resolve() for path in candidates if path.is_file()), None)
-    if child is None:
-        fail("exact audit-state child source is absent from the executing package")
+def skill_frontmatter_identity(raw: bytes, label: str) -> tuple[str, str]:
     try:
-        return child.read_bytes(), child
+        text = raw.decode("utf-8", "strict")
+    except UnicodeError as exc:
+        fail(f"{label} bytes are not exact UTF-8: {exc}")
+    frontmatter = re.match(r"\A---\n(.*?)\n---\n", text, re.DOTALL)
+    if frontmatter is None:
+        fail(f"{label} has no exact YAML frontmatter")
+    name = re.search(r"^name:\s*([^\s\"]+)\s*$", frontmatter.group(1), re.MULTILINE)
+    version = re.search(r'^\s+version:\s*"([^"]+)"\s*$', frontmatter.group(1), re.MULTILINE)
+    if name is None or version is None:
+        fail(f"{label} frontmatter has no exact name/version identity")
+    return name.group(1), version.group(1)
+
+
+def child_delivery_bytes(mapped_child: str) -> tuple[bytes, Path]:
+    if mapped_child not in {child for child, _ in CHILD_ROUTE_MAP.values()}:
+        fail("governed child route is outside the closed population")
+    skill_root = Path(__file__).resolve().parent.parent
+    governor_requested = skill_root / "SKILL.md"
+    resolver_requested = Path(__file__).resolve().with_name("resolve-internal-skill.py")
+    resolved_entries: list[Path] = []
+    for requested, label in (
+        (governor_requested, "governor"),
+        (resolver_requested, "internal-child resolver"),
+    ):
+        try:
+            resolved = requested.resolve(strict=True)
+            info = os.lstat(requested)
+        except OSError as exc:
+            fail(f"{label} cannot be inspected: {exc}")
+        if requested.absolute() != resolved or not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode):
+            fail(f"{label} traverses an alias or is not an exact regular file")
+        resolved_entries.append(resolved)
+    governor, resolver = resolved_entries
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(resolver),
+            "--governor",
+            str(governor),
+            "--child",
+            mapped_child,
+        ],
+        cwd=governor.parent,
+        env=pure_route_environment(),
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode:
+        detail = completed.stderr.strip() or completed.stdout.strip() or f"exit {completed.returncode}"
+        fail(f"internal-child resolver refused {mapped_child}: {detail}")
+    rows = completed.stdout.splitlines()
+    if len(rows) != 1 or completed.stderr:
+        fail("internal-child resolver returned a noncanonical result stream")
+    requested_child = Path(rows[0])
+    try:
+        child = requested_child.resolve(strict=True)
+        child_info = os.lstat(requested_child)
     except OSError as exc:
-        fail(f"exact audit-state child bytes are unreadable: {exc}")
+        fail(f"resolved {mapped_child} child cannot be inspected: {exc}")
+    if requested_child.absolute() != child or not stat.S_ISREG(child_info.st_mode) or stat.S_ISLNK(child_info.st_mode):
+        fail(f"resolved {mapped_child} child traverses an alias or is not a regular file")
+    expected_paths = {
+        (skill_root.parent / mapped_child / "SKILL.md").absolute(),
+        (skill_root / "internal-procedures" / f"{mapped_child}.md").absolute(),
+    }
+    if child not in expected_paths:
+        fail(f"resolved {mapped_child} child is outside the executing package layout")
+    try:
+        child_raw = child.read_bytes()
+        governor_raw = governor.read_bytes()
+    except OSError as exc:
+        fail(f"exact governed child bytes are unreadable: {exc}")
+    governor_name, governor_version = skill_frontmatter_identity(governor_raw, "governor")
+    child_name, child_version = skill_frontmatter_identity(child_raw, "governed child")
+    if governor_name != "implementaudit" or child_name != mapped_child or child_version != governor_version:
+        fail("resolved child frontmatter identity/version disagrees with the executing governor")
+    return child_raw, child
+
+
+def emit_visible_child_route(mapped_child: str, reason: str) -> None:
+    print(f"CHILD_SKILL_ROUTE={mapped_child}", file=sys.stderr)
+    print(f"I'm using {mapped_child} to {reason}.", file=sys.stderr)
 
 
 def command_open(args: argparse.Namespace) -> None:
@@ -1766,8 +1890,14 @@ def command_open(args: argparse.Namespace) -> None:
             fail("child-open CAS expected record is stale", decision="REQUIRED")
         if old["decision"] != "REQUIRED" or old.get("route_state") != "UNSATISFIED" or "lifecycle" in old:
             fail("only an exact unsatisfied REQUIRED obligation can open a child", decision=old["decision"])
+        mapped_child, visible_reason = mapped_child_route(old)
         current, _, fingerprint = validate_route_currentness(repo, common, args, request, old)
-        packet_raw, packet = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+        packet_raw, packet = read_route_packet(
+            args.packet,
+            old["obligation_id"],
+            old["route_transaction_id"],
+            expected_target=mapped_child,
+        )
         validate_source_event_binding(
             repo,
             common,
@@ -1778,11 +1908,16 @@ def command_open(args: argparse.Namespace) -> None:
             old["obligation_id"],
             old["route_transaction_id"],
         )
-        child_raw, child_path = child_delivery_bytes()
+        child_raw, child_path = child_delivery_bytes(mapped_child)
         delivery = {
             "child": {"identity": str(child_path), **bytes_identity(child_raw)},
             "packet": bytes_identity(packet_raw),
         }
+        if old.get("child_source") != {
+            "identity": str(child_path),
+            "digest": delivery["child"]["digest"],
+        }:
+            fail("mapped child delivery disagrees with the bound route decision", decision="REQUIRED")
         lifecycle = {
             "state": "OPEN",
             "required_record_oid": old_oid,
@@ -1801,12 +1936,18 @@ def command_open(args: argparse.Namespace) -> None:
         }
         new_oid, record = cas_route_record(repo, args.controller, old_oid, record_base, "child-open")
         post_route_currentness(repo, common, args, request, current, fingerprint, new_oid)
-        packet_after, _ = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
-        child_after, _ = child_delivery_bytes()
+        packet_after, _ = read_route_packet(
+            args.packet,
+            old["obligation_id"],
+            old["route_transaction_id"],
+            expected_target=mapped_child,
+        )
+        child_after, _ = child_delivery_bytes(mapped_child)
         if bytes_identity(packet_after) != delivery["packet"] or bytes_identity(child_after) != {
             key: value for key, value in delivery["child"].items() if key != "identity"
         }:
             fail("child or packet bytes changed during delivery", decision="REQUIRED")
+        emit_visible_child_route(mapped_child, visible_reason)
     emit(
         {
             "schema": RESULT_SCHEMA,
@@ -1907,8 +2048,14 @@ def command_complete(args: argparse.Namespace) -> None:
         lifecycle = old.get("lifecycle")
         if old["decision"] != "REQUIRED" or not isinstance(lifecycle, dict):
             fail("only an exact REQUIRED lifecycle can complete", decision=old["decision"])
+        mapped_child, _ = mapped_child_route(old)
         current, _, fingerprint = validate_route_currentness(repo, common, args, request, old)
-        packet_raw, packet = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+        packet_raw, packet = read_route_packet(
+            args.packet,
+            old["obligation_id"],
+            old["route_transaction_id"],
+            expected_target=mapped_child,
+        )
         validate_source_event_binding(
             repo,
             common,
@@ -1931,7 +2078,7 @@ def command_complete(args: argparse.Namespace) -> None:
             old["route_transaction_id"],
             bytes_identity(return_raw)["digest"],
         )
-        child_raw, child_path = child_delivery_bytes()
+        child_raw, child_path = child_delivery_bytes(mapped_child)
         live_delivery = {
             "child": {"identity": str(child_path), **bytes_identity(child_raw)},
             "packet": bytes_identity(packet_raw),
@@ -1971,7 +2118,12 @@ def command_complete(args: argparse.Namespace) -> None:
         new_oid, record = cas_route_record(repo, args.controller, old_oid, record_base, "route-completion")
         try:
             post_route_currentness(repo, common, args, request, current, fingerprint, new_oid)
-            packet_after, _ = read_route_packet(args.packet, old["obligation_id"], old["route_transaction_id"])
+            packet_after, _ = read_route_packet(
+                args.packet,
+                old["obligation_id"],
+                old["route_transaction_id"],
+                expected_target=mapped_child,
+            )
             return_after, _ = read_child_return(
                 args.return_path,
                 old["obligation_id"],
@@ -2070,6 +2222,7 @@ def command_replay(args: argparse.Namespace) -> None:
         if record.get("decision") != "REQUIRED" or not isinstance(lifecycle, dict) or lifecycle.get("state") != "SATISFIED":
             ambiguous_replay_stop("replay target is not an exact terminal route")
         current, _, fingerprint = validate_route_currentness(repo, common, args, request, record)
+        mapped_child, _ = mapped_child_route(record)
         try:
             packet_raw = base64.b64decode(lifecycle["delivery"]["packet"]["bytes_b64"], validate=True)
             packet = route_packet_record(
@@ -2077,6 +2230,7 @@ def command_replay(args: argparse.Namespace) -> None:
                 record["obligation_id"],
                 record["route_transaction_id"],
                 "stored route packet",
+                expected_target=mapped_child,
             )
             stored_event = source_event_record(packet["source_event"], "stored source_event")
         except (KeyError, TypeError, ValueError, UnicodeError, json.JSONDecodeError, SystemExit):
@@ -2179,12 +2333,14 @@ def validate_current_result(
         fail("route decision no longer agrees with the current predicate", decision=record["decision"])
     lifecycle = record.get("lifecycle")
     if record["decision"] == "REQUIRED" and isinstance(lifecycle, dict):
+        mapped_child, _ = mapped_child_route(record)
         packet_raw = validate_bytes_identity(lifecycle["delivery"]["packet"], "lifecycle.delivery.packet")
         packet = route_packet_record(
             decoded_artifact(packet_raw, "lifecycle route packet"),
             record["obligation_id"],
             record["route_transaction_id"],
             "lifecycle route packet",
+            expected_target=mapped_child,
         )
         validate_source_event_binding(
             repo,
@@ -2277,6 +2433,36 @@ def command_observe_current(args: argparse.Namespace) -> None:
             expected_record=record,
         )
     emit_current_result(validated, mirror_claim="ABSENT")
+
+
+def command_admit_current(args: argparse.Namespace) -> None:
+    """Request-free effect gate over one exact current route result."""
+    repo, _, common = repo_context()
+    with namespace_gate(common):
+        oid, record = current_ref(repo, args.controller)
+        if oid is None or record is None:
+            fail("canonical route decision is absent")
+        validate_canonical_route_record_bytes(repo, oid, record)
+        request = candidate_request_from_record(record, require_current_inputs=False)
+        validated = validate_current_result(
+            repo,
+            common,
+            args,
+            request,
+            expected_oid=oid,
+            expected_record=record,
+        )
+        payload = current_result_payload(validated, mirror_claim="ABSENT")
+        if not (validated["current_not_required"] or validated["current_satisfied"]):
+            emit(payload)
+            raise SystemExit(3)
+        if validated["current_not_required"]:
+            print("CHILD_SKILL_ROUTE=NOT_REQUIRED", file=sys.stderr)
+            print(
+                "No internal child is used because the exact current R0033 route is NOT_REQUIRED.",
+                file=sys.stderr,
+            )
+    emit(payload)
 
 
 def command_decide(args: argparse.Namespace) -> None:
@@ -2617,6 +2803,9 @@ def parse_args() -> argparse.Namespace:
     observe_current = subparsers.add_parser("observe-current")
     binding_args(observe_current)
     observe_current.set_defaults(run=command_observe_current)
+    admit_current = subparsers.add_parser("admit-current")
+    binding_args(admit_current)
+    admit_current.set_defaults(run=command_admit_current)
     consume = subparsers.add_parser("consume")
     common_args(consume)
     consume.add_argument("--expected-record", required=True)

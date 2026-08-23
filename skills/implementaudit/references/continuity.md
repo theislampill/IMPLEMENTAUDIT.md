@@ -72,8 +72,9 @@ New continuity generations use `G` plus four uppercase hexadecimal digits
 and is canonicalised before a new receipt is minted; unchanged historical
 `eNN` state and receipt records remain exact legacy evidence rather than being
 rewritten in place.
-`--require-current-continuity <id>` verifies the binding under the shared writer
-gate before effects. The first substantive post-boundary message reports the
+`--require-current-continuity <id>` verifies the raw binding under the shared
+writer gate for reconciliation and route construction; it does not by itself
+authorize an ordinary governed effect. The first substantive post-boundary message reports the
 verified receipt, controller/epoch, exact ACTIVE/READY/BLOCKED frontier and any
 discrepancy. Only then may ordinary task narration or new execution resume.
 Legacy v1 receipts work only without invalidation.
@@ -146,6 +147,15 @@ before its exact action; a `REQUIRED/UNSATISFIED` record blocks until the H2B
 child lifecycle returns and completes it. STATE is a projection, never the
 decision authority.
 
+Before an ordinary governed source, graph/lifecycle, dispatch, package,
+release or external effect, use request-free `claim-run.sh
+--require-current-route <controller> <active-binding-args>`. It derives the
+current request from canonical route authority and exits zero only for exact
+current `NOT_REQUIRED`, with its no-child projection, or exact current
+`REQUIRED/SATISFIED` after the mapped child lifecycle and post-return
+currentness. Route writers and recovery internals continue to use the raw
+continuity verifier; they do not recursively call the effect gate.
+
 Routine route recovery proves its bounded read with
 `history_read_performed: false`; unrelated immutable event segments are not
 enumerated or hydrated. If hot state names one exact unresolved
@@ -158,10 +168,13 @@ ignored observation and cannot override canonical `PENDING` or another route
 state.
 
 The H2B lifecycle is a CAS chain from `REQUIRED/UNSATISFIED` through `OPEN` and
-`RETURNED` to `SATISFIED`. It delivers the complete audit-state child bytes and
+`RETURNED` to `SATISFIED`. The exact required reason maps stale-context,
+independent-review, maintainer-qualification and nontrivial-Andon work to
+`audit-state`, `audit-assess`, `audit-implement` and `audit-andon`
+respectively. It resolves and delivers the complete mapped child bytes and
 immutable route packet, accepts only the return bound to that packet, rereads
 post-return currentness and those same live bytes, semantically revalidates the
-embedded artifacts against the exact original authority and current audit-state
+embedded artifacts against the exact original authority and current mapped
 child, and records exactly one governor decision. Identical completion is
 idempotent. Compaction replay uses host-bound source-event identity plus body,
 kind, reactivation, and provenance rather than text equality: reconstructed

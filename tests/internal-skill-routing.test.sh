@@ -104,7 +104,9 @@ for token in (
     "## Child-skill routing observability",
     "CHILD_SKILL_ROUTE=<selected-child>",
     "actual child load",
-    "governor-only cases emit no child announcement",
+    "governor-only cases emit no selected-child announcement",
+    "CHILD_SKILL_ROUTE=NOT_REQUIRED",
+    "No internal child is used because the exact current R0033 route is NOT_REQUIRED.",
     "verified receipt precedes",
     "already-known cheap deterministic failure",
     "new constraint defeats the selected countermeasure",
@@ -275,13 +277,98 @@ fi
 
 printf 'internal-skill-routing.test: resolver controls ok\n'
 
-python - <<'PY'
+python - skills/implementaudit/scripts/route-transaction.py <<'PY'
 from __future__ import annotations
 
+import contextlib
 from dataclasses import dataclass
+import importlib.util
+import io
+from pathlib import Path
+import sys
 
 
-CHILDREN = {"audit-state", "audit-assess", "audit-implement", "audit-andon"}
+spec = importlib.util.spec_from_file_location("route_transaction", sys.argv[1])
+route_transaction = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(route_transaction)
+
+expected_routes = {
+    "STALE_CONTEXT_RECONSTRUCTION": (
+        "audit-state",
+        "rehydrate bounded current state after the exact stale-context boundary",
+    ),
+    "IMMUTABLE_INDEPENDENT_REVIEW": (
+        "audit-assess",
+        "independently assess the exact immutable review packet",
+    ),
+    "MAINTAINER_QUALIFICATION": (
+        "audit-implement",
+        "qualify the exact maintainer candidate after verified release currentness",
+    ),
+    "NONTRIVIAL_ANDON_DIAGNOSIS": (
+        "audit-andon",
+        "diagnose the established nontrivial Andon within its authority ceiling",
+    ),
+}
+if route_transaction.CHILD_ROUTE_MAP != expected_routes:
+    raise SystemExit("internal-skill-routing.test: production closed child map disagrees")
+
+for reason, expected in expected_routes.items():
+    child, visible_reason = route_transaction.mapped_child_route(
+        {"decision": "REQUIRED", "action": {"argv": ["route-trigger", reason]}}
+    )
+    if (child, visible_reason) != expected:
+        raise SystemExit(f"internal-skill-routing.test: {reason} mapped incorrectly")
+    loaded, resolved = route_transaction.child_delivery_bytes(child)
+    canonical = Path("skills") / child / "SKILL.md"
+    if resolved != canonical.resolve() or loaded != canonical.read_bytes():
+        raise SystemExit(f"internal-skill-routing.test: {reason} did not resolve/load exact child bytes")
+    packet = {
+        "schema": route_transaction.PACKET_SCHEMA,
+        "obligation_id": "sha256:" + "0" * 64,
+        "route_transaction_id": "sha256:" + "1" * 64,
+        "source_event": {
+            "schema": route_transaction.SOURCE_EVENT_SCHEMA,
+            "source_identity": "host:matrix",
+            "provenance": {
+                "schema": route_transaction.SOURCE_EVENT_PROVENANCE_SCHEMA,
+                "event_id": "host:matrix",
+                "host_correlation_id": "sha256:" + "2" * 64,
+            },
+            "body": "exact production packet target control",
+            "kind": "one-shot-action",
+            "reactivation": {
+                "reopen": False,
+                "target_changed": False,
+                "invalidating_evidence": False,
+            },
+        },
+        "target_identity": child,
+    }
+    route_transaction.route_packet_record(
+        packet,
+        packet["obligation_id"],
+        packet["route_transaction_id"],
+        expected_target=child,
+    )
+    for wrong_child in sorted(set(expected_routes.values()) - {expected}):
+        with contextlib.redirect_stdout(io.StringIO()):
+            try:
+                route_transaction.route_packet_record(
+                    {**packet, "target_identity": wrong_child[0]},
+                    packet["obligation_id"],
+                    packet["route_transaction_id"],
+                    expected_target=child,
+                )
+            except SystemExit:
+                pass
+            else:
+                raise SystemExit(
+                    f"internal-skill-routing.test: {reason} accepted wrong target {wrong_child[0]}"
+                )
+
+print("internal-skill-routing.test: production route/load controls ok (G01-G16)")
 
 
 @dataclass(frozen=True)
@@ -289,103 +376,6 @@ class Event:
     kind: str
     value: str = ""
     message: int = 0
-
-
-def accepts(events: list[Event]) -> bool:
-    loads = [(index, event) for index, event in enumerate(events) if event.kind == "child-loaded"]
-    announces = [(index, event) for index, event in enumerate(events) if event.kind == "route-announcement"]
-    if not loads:
-        return not announces
-    if len(loads) != 1 or len(announces) != 1:
-        return False
-    load_index, load = loads[0]
-    announce_index, announce = announces[0]
-    if load.value not in CHILDREN or announce.value != load.value or announce_index <= load_index:
-        return False
-    if load.value == "audit-state":
-        receipts = [(index, event) for index, event in enumerate(events) if event.kind == "verified-receipt"]
-        if len(receipts) != 1 or receipts[0][0] >= load_index:
-            return False
-        first_permitted_message = min(
-            (event.message for index, event in enumerate(events)
-             if index > receipts[0][0] and event.kind == "assistant-narration"),
-            default=announce.message,
-        )
-        if announce.message != first_permitted_message:
-            return False
-    return True
-
-
-cases = {
-    "state-route-after-receipt-visible": (
-        True,
-        [
-            Event("verified-receipt"),
-            Event("child-loaded", "audit-state"),
-            Event("route-announcement", "audit-state", 1),
-            Event("assistant-narration", message=1),
-        ],
-    ),
-    "state-route-before-receipt": (
-        False,
-        [
-            Event("child-loaded", "audit-state"),
-            Event("route-announcement", "audit-state", 1),
-            Event("verified-receipt"),
-        ],
-    ),
-    "state-route-announced-late": (
-        False,
-        [
-            Event("verified-receipt"),
-            Event("child-loaded", "audit-state"),
-            Event("assistant-narration", message=1),
-            Event("route-announcement", "audit-state", 2),
-        ],
-    ),
-    "governor-only-equivalent-reasoning": (
-        True,
-        [Event("verified-receipt"), Event("assistant-narration", "state-like", 1)],
-    ),
-    "false-route-announcement": (
-        False,
-        [Event("route-announcement", "audit-state", 1)],
-    ),
-    "loaded-child-missing-announcement": (
-        False,
-        [Event("child-loaded", "audit-assess"), Event("assistant-narration", message=1)],
-    ),
-    "wrong-child-announced": (
-        False,
-        [
-            Event("child-loaded", "audit-assess"),
-            Event("route-announcement", "audit-implement", 1),
-        ],
-    ),
-    "assess-route-visible": (
-        True,
-        [Event("child-loaded", "audit-assess"), Event("route-announcement", "audit-assess", 1)],
-    ),
-    "implement-route-visible": (
-        True,
-        [Event("child-loaded", "audit-implement"), Event("route-announcement", "audit-implement", 1)],
-    ),
-    "andon-route-visible": (
-        True,
-        [Event("child-loaded", "audit-andon"), Event("route-announcement", "audit-andon", 1)],
-    ),
-}
-
-for name, (expected, events) in cases.items():
-    observed = accepts(events)
-    if observed != expected:
-        raise SystemExit(
-            f"internal-skill-routing.test: observability case {name}: "
-            f"expected {expected}, observed {observed}"
-        )
-
-print(f"internal-skill-routing.test: routing observability controls ok ({len(cases)}/{len(cases)})")
-
 
 def accepts_secondary_abnormality(events: list[Event]) -> bool:
     active = ""
@@ -396,7 +386,7 @@ def accepts_secondary_abnormality(events: list[Event]) -> bool:
     implement_after_repair = False
     for index, event in enumerate(events):
         if event.kind == "governor-route":
-            if active or event.value not in CHILDREN:
+            if active or event.value not in {child for child, _ in expected_routes.values()}:
                 return False
         elif event.kind == "child-loaded":
             if active or last_kind != "governor-route" or events[index - 1].value != event.value:

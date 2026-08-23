@@ -43,7 +43,7 @@ R0033 also exposes one owner-native pure validator for the C03 read-only fact
 consumer. It reads the current route record, independently reacquires current
 controller/claim/run/continuity custody, reconstructs only canonical `CURRENT`
 request inputs from the writer-retained observed input set, and recomputes the
-same classification, package, audit-state child, whole-worktree/read-set, Git
+same classification, package, mapped-child source, whole-worktree/read-set, Git
 metadata, expiry, transaction and obligation semantics. It validates lifecycle
 shape through the canonical record reader, repeats current controller and route
 observations, then ends with one exact controller-ref/route-ref identity-pair
@@ -88,6 +88,17 @@ performs no decision, consume, lifecycle transition, ref/store/run-root write,
 dispatch, package, host or external effect. Unlike the C03 pure validator, it
 proves the currently supplied active binding and therefore rejects a
 tombstoned authoring session.
+
+`admit-current` accepts the same request-free binding arguments and reuses this
+complete derivation and validation pipeline. It is the effect-bearing operation
+behind `claim-run.sh --require-current-route`; callers cannot supply a request.
+It exits zero only for exact current `NOT_REQUIRED` or exact current
+`REQUIRED/SATISFIED`. The former emits exactly
+`CHILD_SKILL_ROUTE=NOT_REQUIRED` and `No internal child is used because the
+exact current R0033 route is NOT_REQUIRED.` without resolver, load or lifecycle
+work. `PENDING`, `REQUIRED/UNSATISFIED`, stale, foreign, malformed, mismatched or
+ambiguous state remains nonzero. `observe-current` remains a read-only result
+projection, not the ordinary-effect gate.
 
 The mechanically-not-required predicate also requires the exact current H0
 host/session binding; current controller, claim, run, continuity generation and
@@ -150,10 +161,32 @@ the route ref, changes its result, or grants advancement.
 
 `open --expected-record <oid> --packet <path>` accepts only the exact current
 `REQUIRED/UNSATISFIED` record. It validates the immutable packet and stores the
-full audit-state child and packet bytes, byte counts, digests, and identities in
+full mapped child and packet bytes, byte counts, digests, and identities in
 the canonical `OPEN` successor. The packet's source-event identity is bound to
 the exact current host/session attribution and route obligation/transaction;
-a caller-supplied label is not provenance. `return --expected-record <oid> --return
+a caller-supplied label is not provenance, and its target must equal this
+closed map:
+
+| Required reason | Sole child |
+|---|---|
+| `STALE_CONTEXT_RECONSTRUCTION` | `audit-state` |
+| `IMMUTABLE_INDEPENDENT_REVIEW` | `audit-assess` |
+| `MAINTAINER_QUALIFICATION` | `audit-implement` |
+| `NONTRIVIAL_ANDON_DIAGNOSIS` | `audit-andon` |
+
+The existing resolver must select that exact child in the executing package or
+standalone layout. Missing, extra, ambiguous, aliased, out-of-package,
+unreadable, changed, wrong-name or wrong-version child bytes fail before visible
+success. After the OPEN CAS, post-currentness and exact child/packet reread, the
+owner emits once on its diagnostic stream:
+
+```text
+CHILD_SKILL_ROUTE=<mapped-child>
+I'm using <mapped-child> to <exact bounded reason>.
+```
+
+Process loss after OPEN but before those lines remains non-admitted and requires
+governed recovery. `return --expected-record <oid> --return
 <path>` accepts only a return bound to that obligation, route transaction, and
 packet digest, then stores its exact bytes as the canonical `RETURNED`
 successor. Neither state advances.
@@ -163,10 +196,12 @@ successor. Neither state advances.
 and the same live return before recording a canonical `SATISFIED` successor. A
 decision must bind the exact return digest. Every lifecycle read revalidates the
 embedded child, packet, return, and decision bytes against the exact current
-audit-state child and the original `REQUIRED/UNSATISFIED` authority. The
+mapped child and the original `REQUIRED/UNSATISFIED` authority. The
 lifecycle admits exactly one governor decision; replaying that identical
 completion is idempotent and emits no second record. Only a current
-`REQUIRED/SATISFIED` check grants advancement.
+`REQUIRED/SATISFIED` request-free admission grants an ordinary governed effect.
+Child output always returns to the governor and cannot select a second child;
+only a fresh current R0033 transaction can do that.
 
 `replay --expected-record <oid> --event <path>` compares immutable source-event
 identity plus canonical body, kind, reactivation flags, and host-correlation
