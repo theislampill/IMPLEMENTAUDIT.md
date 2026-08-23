@@ -1,0 +1,8 @@
+{
+  "activegraph": {
+    "state": "DONE",
+    "digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "expected_classifier": "FRESH_CONTEXT_RESUME",
+  "expected_contradiction": "ACTIVEGRAPH_WORK_GRAPH_CONTRADICTION"
+}

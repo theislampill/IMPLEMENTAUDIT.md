@@ -1,0 +1,74 @@
+{
+  "evidence_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "expected_classifier_without_result": "QUERY_HISTORY_THEN_RESUME",
+  "expected_classifier_with_result": "FRESH_CONTEXT_RESUME",
+  "usable_query_result": {
+    "schema": "implementaudit.operational-evidence-query-result.v1",
+    "query_contract": "implementaudit.history-query.v1",
+    "filters": {
+      "event_ids": [
+        "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ]
+    },
+    "rows": [
+      {
+        "schema_version": "implementaudit.history-event.v1",
+        "run_id": "v041-thread5-autodag-TmDJfs",
+        "controller_id": "v0333-release",
+        "generation_id": "G0125",
+        "sequence": "0000000000000001",
+        "record_kind": "andon.closed",
+        "subject_id": "o53",
+        "source_epoch": "G0125",
+        "transition": "APPENDED",
+        "status": "CLOSED",
+        "supersedes_event_id": null,
+        "payload": {
+          "classification": "evidence-mismatch",
+          "resolution": "use Git-for-Windows Bash serialization"
+        },
+        "source_evidence_id": "source-o53",
+        "source_locator": {
+          "kind": "run-root-relative",
+          "root_identity": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "path": "STATE.md#andon-log",
+          "host_identity": null
+        },
+        "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "payload_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "row_bytes": 886,
+    "max_rows": 1,
+    "max_bytes": 4096,
+    "coverage": {
+      "start": {
+        "sequence": "0000000000000001",
+        "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "end": {
+        "sequence": "0000000000000001",
+        "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    "requested_position": null,
+    "next_cursor": null,
+    "truncated": false,
+    "code": "OK",
+    "decision_usable": true,
+    "authority_ceiling": "READ_ONLY_OBSERVATION",
+    "establishes": []
+  },
+  "invalid_result_mutations": [
+    {"path": "truncated", "value": true},
+    {"path": "decision_usable", "value": false},
+    {"path": "requested_position", "value": {"sequence": "0000000000000001", "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}},
+    {"path": "filters.event_ids", "value": ["iaevt-v1-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"]},
+    {"path": "rows.0.controller_id", "value": "foreign-controller"},
+    {"path": "rows.0.run_id", "value": "foreign-run"},
+    {"path": "rows.0.generation_id", "value": "G0124"},
+    {"path": "rows.0.source_epoch", "value": "G0124"},
+    {"path": "row_bytes", "value": 885}
+  ]
+}
