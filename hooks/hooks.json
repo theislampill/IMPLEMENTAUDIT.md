@@ -12,6 +12,18 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/skills/implementaudit/scripts/host-stop-interlock.py\"",
+            "commandWindows": "C:\\Windows\\py.exe -3 \"%PLUGIN_ROOT%\\skills\\implementaudit\\scripts\\host-stop-interlock.py\"",
+            "statusMessage": "Validating IMPLEMENTAUDIT turn disposition"
+          }
+        ]
+      }
     ]
   }
 }

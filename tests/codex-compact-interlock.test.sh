@@ -3,6 +3,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 adapter="$repo_root/skills/implementaudit/scripts/codex-compact-interlock.py"
+stop_adapter="$repo_root/skills/implementaudit/scripts/host-stop-interlock.py"
 binding_core="$repo_root/skills/implementaudit/scripts/host-session-binding.py"
 claim_helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
 hook_config="$repo_root/hooks/hooks.json"
@@ -21,6 +22,7 @@ elif command -v py >/dev/null 2>&1; then py=(py -3)
 else fail 'Python 3 is required'; fi
 
 [ -f "$adapter" ] || fail 'HC-H1 RED: compact interlock adapter is absent'
+[ -f "$stop_adapter" ] || fail 'HC-H7B RED: Stop interlock adapter is absent'
 [ -f "$hook_config" ] || fail 'HC-H1 RED: default Codex hook definition is absent'
 
 manifest_windows_command="$(
@@ -31,7 +33,7 @@ from pathlib import Path
 
 value = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 assert set(value) == {"hooks"}
-assert set(value["hooks"]) == {"SessionStart"}
+assert set(value["hooks"]) == {"SessionStart", "Stop"}
 session_start = value.get("hooks", {}).get("SessionStart")
 assert isinstance(session_start, list) and len(session_start) == 1
 entry = session_start[0]
@@ -50,6 +52,25 @@ assert command.get("command") == (
 assert command.get("commandWindows") == (
     'C:\\Windows\\py.exe -3 "%PLUGIN_ROOT%\\skills\\implementaudit\\scripts\\'
     'codex-compact-interlock.py"'
+)
+
+stop = value.get("hooks", {}).get("Stop")
+assert isinstance(stop, list) and len(stop) == 1
+stop_entry = stop[0]
+assert set(stop_entry) == {"hooks"}
+stop_commands = stop_entry.get("hooks")
+assert isinstance(stop_commands, list) and len(stop_commands) == 1
+stop_command = stop_commands[0]
+assert set(stop_command) == {"type", "command", "commandWindows", "statusMessage"}
+assert stop_command.get("type") == "command"
+assert stop_command.get("statusMessage") == "Validating IMPLEMENTAUDIT turn disposition"
+assert stop_command.get("command") == (
+    'python3 "${PLUGIN_ROOT}/skills/implementaudit/scripts/'
+    'host-stop-interlock.py"'
+)
+assert stop_command.get("commandWindows") == (
+    'C:\\Windows\\py.exe -3 "%PLUGIN_ROOT%\\skills\\implementaudit\\scripts\\'
+    'host-stop-interlock.py"'
 )
 print(command["commandWindows"])
 PY
