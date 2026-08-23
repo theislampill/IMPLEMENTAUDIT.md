@@ -659,6 +659,24 @@ def git_blob_bytes(repo: Path, oid: str, label: str) -> bytes:
     return completed.stdout
 
 
+def validate_canonical_route_record_bytes(
+    repo: Path, oid: str, record: dict[str, Any]
+) -> None:
+    route_raw = git_blob_bytes(repo, oid, "current route record")
+    try:
+        canonical_route_raw = json.dumps(
+            record,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=True,
+            allow_nan=False,
+        ).encode("utf-8") + b"\n"
+    except (TypeError, ValueError):
+        fail("current route record cannot be encoded as canonical JSON")
+    if route_raw != canonical_route_raw:
+        fail("current route record bytes are not exact canonical JSON")
+
+
 def validate_required_route_record(
     repo: Path, controller: str, required_oid: str, lifecycle_record: dict[str, Any]
 ) -> None:
@@ -1499,6 +1517,42 @@ def _pure_route_final_ref_fence(
         fail("R0033 route or current-controller identity changed during pure validation")
 
 
+def candidate_request_from_record(
+    record: dict[str, Any], *, require_current_inputs: bool
+) -> dict[str, Any]:
+    retained_inputs = record.get("inputs")
+    if not isinstance(retained_inputs, list) or not retained_inputs:
+        fail("current route record has no exact observed input set")
+    request_inputs: list[dict[str, str]] = []
+    for index, item in enumerate(retained_inputs):
+        observed = exact_keys(
+            item,
+            {"identity", "path", "digest", "status"},
+            f"route inputs[{index}]",
+        )
+        if observed["status"] not in {"CURRENT", "STALE"}:
+            fail("current route record has a malformed observed input status")
+        if require_current_inputs and observed["status"] != "CURRENT":
+            fail("pure route validation cannot reconstruct a noncurrent request input")
+        request_inputs.append(
+            {
+                "identity": observed["identity"],
+                "path": observed["path"],
+                "digest": observed["digest"],
+            }
+        )
+    return validate_request(
+        {
+            "schema": REQUEST_SCHEMA,
+            "predicate_version": PREDICATE_VERSION,
+            "boundary": record["boundary"],
+            "scope": record["scope"],
+            "action": record["action"],
+            "inputs": request_inputs,
+        }
+    )
+
+
 def validate_pure_current_route(
     repo: Path,
     controller: str,
@@ -1509,19 +1563,7 @@ def validate_pure_current_route(
     oid, record = current_ref(repo, controller)
     if oid is None or record is None:
         fail("canonical route decision is absent")
-    route_raw = git_blob_bytes(repo, oid, "pure current route")
-    try:
-        canonical_route_raw = json.dumps(
-            record,
-            sort_keys=True,
-            separators=(",", ":"),
-            ensure_ascii=True,
-            allow_nan=False,
-        ).encode("utf-8") + b"\n"
-    except (TypeError, ValueError):
-        fail("current route record cannot be encoded as canonical JSON")
-    if route_raw != canonical_route_raw:
-        fail("current route record bytes are not exact canonical JSON")
+    validate_canonical_route_record_bytes(repo, oid, record)
     current = current_controller(repo, controller, environment=environment)
     if expected_current is not None:
         allowed = {
@@ -1560,30 +1602,7 @@ def validate_pure_current_route(
         or not HEX_RE.fullmatch(correlation_id)
     ):
         fail("route retained host dependency identity is malformed")
-    request_inputs: list[dict[str, str]] = []
-    if not isinstance(record.get("inputs"), list) or not record["inputs"]:
-        fail("current route record has no exact observed input set")
-    for index, item in enumerate(record["inputs"]):
-        observed = exact_keys(
-            item, {"identity", "path", "digest", "status"},
-            f"route inputs[{index}]")
-        if observed["status"] != "CURRENT":
-            fail("pure route validation cannot reconstruct a noncurrent request input")
-        request_inputs.append({
-            "identity": observed["identity"],
-            "path": observed["path"],
-            "digest": observed["digest"],
-        })
-    request = validate_request(
-        {
-            "schema": REQUEST_SCHEMA,
-            "predicate_version": PREDICATE_VERSION,
-            "boundary": record["boundary"],
-            "scope": record["scope"],
-            "action": record["action"],
-            "inputs": request_inputs,
-        }
-    )
+    request = candidate_request_from_record(record, require_current_inputs=True)
     basis = route_semantic_basis(
         repo, current, request, binding_generation)
     (
@@ -1634,12 +1653,16 @@ def validate_pure_current_route(
     }
 
 
-def common_args(parser: argparse.ArgumentParser) -> None:
+def binding_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--controller", required=True)
     parser.add_argument("--store", required=True)
     parser.add_argument("--host-id", required=True)
     parser.add_argument("--host-session-id", required=True)
     parser.add_argument("--binding-generation", required=True)
+
+
+def common_args(parser: argparse.ArgumentParser) -> None:
+    binding_args(parser)
     parser.add_argument("--request", required=True)
     parser.add_argument("--mirror-claim", choices=("ABSENT", "PENDING", "SATISFIED"), default="ABSENT")
 
@@ -2107,99 +2130,153 @@ def command_replay(args: argparse.Namespace) -> None:
         raise SystemExit(3)
 
 
+def validate_current_result(
+    repo: Path,
+    common: str,
+    args: argparse.Namespace,
+    request: dict[str, Any],
+    *,
+    expected_oid: str | None = None,
+    expected_record: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    history_query = normalized_history_query(request)
+    oid, record = current_ref(repo, args.controller)
+    if oid is None or record is None:
+        fail("canonical route decision is absent")
+    validate_canonical_route_record_bytes(repo, oid, record)
+    if expected_oid is not None and oid != expected_oid:
+        fail("route decision changed after request-free candidate derivation", decision=record["decision"])
+    if expected_record is not None and record != expected_record:
+        fail("route record changed after request-free candidate derivation", decision=record["decision"])
+    current = current_controller(repo, args.controller)
+    bound_context = {
+        "controller_id": args.controller,
+        "claim_id": current["claim_id"],
+        "explicit_run_root": current["explicit_run_root"],
+        "continuity_generation": current["continuity_generation"],
+        "continuity_receipt": current["continuity_receipt"],
+        "host_id": args.host_id,
+        "host_session_id": args.host_session_id,
+        "host_binding_generation": args.binding_generation,
+    }
+    for key, value in bound_context.items():
+        if record.get(key) != value:
+            fail(f"route decision expired because bound {key} changed", decision=record["decision"])
+    decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
+        repo, common, args, current, request
+    )
+    if record.get("expiry_fingerprint") != fingerprint:
+        fail("route decision expired because its bound scope or evidence changed", decision=record["decision"])
+    if record.get("history_query") != history_query:
+        fail("route decision history-query request changed", decision=record["decision"])
+    if (decision, classification, invalidators, transaction_id, obligation_id) != (
+        record.get("decision"),
+        record.get("classification"),
+        record.get("invalidators"),
+        record.get("route_transaction_id"),
+        record.get("obligation_id"),
+    ):
+        fail("route decision no longer agrees with the current predicate", decision=record["decision"])
+    lifecycle = record.get("lifecycle")
+    if record["decision"] == "REQUIRED" and isinstance(lifecycle, dict):
+        packet_raw = validate_bytes_identity(lifecycle["delivery"]["packet"], "lifecycle.delivery.packet")
+        packet = route_packet_record(
+            decoded_artifact(packet_raw, "lifecycle route packet"),
+            record["obligation_id"],
+            record["route_transaction_id"],
+            "lifecycle route packet",
+        )
+        validate_source_event_binding(
+            repo,
+            common,
+            args,
+            current,
+            request,
+            packet["source_event"],
+            record["obligation_id"],
+            record["route_transaction_id"],
+        )
+    final_oid, _ = current_ref(repo, args.controller)
+    final_current = current_controller(repo, args.controller)
+    final_eval = evaluate(repo, common, args, final_current, request)
+    if final_oid != oid or final_current != current or final_eval[4] != fingerprint:
+        fail("route decision changed during the currentness check", decision=record["decision"])
+    return {
+        "oid": oid,
+        "record": record,
+        "current": current,
+        "history_query": history_query,
+        "obligation_id": obligation_id,
+        "current_not_required": record["decision"] == "NOT_REQUIRED",
+        "current_satisfied": record["decision"] == "REQUIRED" and record.get("route_state") == "SATISFIED",
+    }
+
+
+def current_result_payload(
+    validated: dict[str, Any], *, mirror_claim: str
+) -> dict[str, Any]:
+    oid = validated["oid"]
+    record = validated["record"]
+    current = validated["current"]
+    return {
+        "schema": RESULT_SCHEMA,
+        "status": "CURRENT",
+        "decision": record["decision"],
+        "classification": record["classification"],
+        "advance_allowed": validated["current_satisfied"],
+        "admission_required": validated["current_not_required"],
+        "enforcement_available": True,
+        "record_oid": oid,
+        "record_identity": record["record_identity"],
+        "obligation_id": validated["obligation_id"],
+        "route_state": record.get("route_state"),
+        "governor_decision_count": record.get("lifecycle", {}).get("governor_decision_count", 0),
+        "history_query": validated["history_query"],
+        "history_read_performed": False,
+        "mirror_claim": mirror_claim,
+        "mirror_status": mirror_observation(record["decision"], record.get("route_state"), mirror_claim),
+        "projection_status": projection_status(current["explicit_run_root"], record["decision"], oid),
+        "proof_layers": {
+            "source_core": "PRESENT",
+            "package": "UNVERIFIED",
+            "install": "UNVERIFIED",
+            "host_activation": "UNVERIFIED",
+        },
+        "host_activation_proven": False,
+    }
+
+
+def emit_current_result(validated: dict[str, Any], *, mirror_claim: str) -> None:
+    emit(current_result_payload(validated, mirror_claim=mirror_claim))
+    if not (validated["current_not_required"] or validated["current_satisfied"]):
+        raise SystemExit(3)
+
+
 def command_check(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
     request = read_request(args.request)
-    history_query = normalized_history_query(request)
+    with namespace_gate(common):
+        validated = validate_current_result(repo, common, args, request)
+    emit_current_result(validated, mirror_claim=args.mirror_claim)
+
+
+def command_observe_current(args: argparse.Namespace) -> None:
+    repo, _, common = repo_context()
     with namespace_gate(common):
         oid, record = current_ref(repo, args.controller)
         if oid is None or record is None:
             fail("canonical route decision is absent")
-        current = current_controller(repo, args.controller)
-        bound_context = {
-            "controller_id": args.controller,
-            "claim_id": current["claim_id"],
-            "explicit_run_root": current["explicit_run_root"],
-            "continuity_generation": current["continuity_generation"],
-            "continuity_receipt": current["continuity_receipt"],
-            "host_id": args.host_id,
-            "host_session_id": args.host_session_id,
-            "host_binding_generation": args.binding_generation,
-        }
-        for key, value in bound_context.items():
-            if record.get(key) != value:
-                fail(f"route decision expired because bound {key} changed", decision=record["decision"])
-        decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
-            repo, common, args, current, request
+        validate_canonical_route_record_bytes(repo, oid, record)
+        request = candidate_request_from_record(record, require_current_inputs=False)
+        validated = validate_current_result(
+            repo,
+            common,
+            args,
+            request,
+            expected_oid=oid,
+            expected_record=record,
         )
-        if record.get("expiry_fingerprint") != fingerprint:
-            fail("route decision expired because its bound scope or evidence changed", decision=record["decision"])
-        if record.get("history_query") != history_query:
-            fail("route decision history-query request changed", decision=record["decision"])
-        if (decision, classification, invalidators, transaction_id, obligation_id) != (
-            record.get("decision"),
-            record.get("classification"),
-            record.get("invalidators"),
-            record.get("route_transaction_id"),
-            record.get("obligation_id"),
-        ):
-            fail("route decision no longer agrees with the current predicate", decision=record["decision"])
-        lifecycle = record.get("lifecycle")
-        if record["decision"] == "REQUIRED" and isinstance(lifecycle, dict):
-            packet_raw = validate_bytes_identity(lifecycle["delivery"]["packet"], "lifecycle.delivery.packet")
-            packet = route_packet_record(
-                decoded_artifact(packet_raw, "lifecycle route packet"),
-                record["obligation_id"],
-                record["route_transaction_id"],
-                "lifecycle route packet",
-            )
-            validate_source_event_binding(
-                repo,
-                common,
-                args,
-                current,
-                request,
-                packet["source_event"],
-                record["obligation_id"],
-                record["route_transaction_id"],
-            )
-        final_oid, _ = current_ref(repo, args.controller)
-        final_current = current_controller(repo, args.controller)
-        final_eval = evaluate(repo, common, args, final_current, request)
-        if final_oid != oid or final_current != current or final_eval[4] != fingerprint:
-            fail("route decision changed during the currentness check", decision=record["decision"])
-        current_not_required = record["decision"] == "NOT_REQUIRED"
-        current_satisfied = record["decision"] == "REQUIRED" and record.get("route_state") == "SATISFIED"
-    emit(
-        {
-            "schema": RESULT_SCHEMA,
-            "status": "CURRENT",
-            "decision": record["decision"],
-            "classification": record["classification"],
-            "advance_allowed": current_satisfied,
-            "admission_required": current_not_required,
-            "enforcement_available": True,
-            "record_oid": oid,
-            "record_identity": record["record_identity"],
-            "obligation_id": obligation_id,
-            "route_state": record.get("route_state"),
-            "governor_decision_count": record.get("lifecycle", {}).get("governor_decision_count", 0),
-            "history_query": history_query,
-            "history_read_performed": False,
-            "mirror_claim": args.mirror_claim,
-            "mirror_status": mirror_observation(record["decision"], record.get("route_state"), args.mirror_claim),
-            "projection_status": projection_status(current["explicit_run_root"], record["decision"], oid),
-            "proof_layers": {
-                "source_core": "PRESENT",
-                "package": "UNVERIFIED",
-                "install": "UNVERIFIED",
-                "host_activation": "UNVERIFIED",
-            },
-            "host_activation_proven": False,
-        }
-    )
-    if not (current_not_required or current_satisfied):
-        raise SystemExit(3)
+    emit_current_result(validated, mirror_claim="ABSENT")
 
 
 def command_decide(args: argparse.Namespace) -> None:
@@ -2537,6 +2614,9 @@ def parse_args() -> argparse.Namespace:
     check = subparsers.add_parser("check")
     common_args(check)
     check.set_defaults(run=command_check)
+    observe_current = subparsers.add_parser("observe-current")
+    binding_args(observe_current)
+    observe_current.set_defaults(run=command_observe_current)
     consume = subparsers.add_parser("consume")
     common_args(consume)
     consume.add_argument("--expected-record", required=True)

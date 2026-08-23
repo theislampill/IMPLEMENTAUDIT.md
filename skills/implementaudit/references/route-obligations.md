@@ -59,6 +59,36 @@ therefore leave an otherwise current route readable. Every `decide`, `check`,
 compound effect predicate and mandatory exact active R003A attribution; a
 tombstoned, foreign, stale or ambiguous session cannot authorize those paths.
 
+### Request-free active-binding observation
+
+`observe-current` accepts only the controller identity and the existing R003A
+store, fixed host namespace, host-supplied session identity and current binding
+generation. It accepts no request, route ref, claim, run root, continuity,
+obligation, transaction, event, cwd or target locator, transcript, newest-run
+selector or mirror claim. Under the shared Git-common namespace lock it derives
+the sole route ref from the controller, requires exact canonical record bytes,
+and builds an owner-local candidate from the record's boundary, scope, action
+and strictly shaped ordered observed inputs.
+
+That candidate is evidence, not authority. Missing inputs remain missing, and
+stale rows retain their observed status and digest; either lossy form must fail
+the shared current-result validation. The operation runs the same complete
+controller, active R003A binding/event, predicate, fingerprint, history,
+decision, classification, invalidator, transaction, obligation and H2B source-
+event checks as `check`, then repeats the route, controller and full evaluation
+fence. The derivation record and validated record must remain identical.
+
+On success, `observe-current` emits the unchanged
+`implementaudit.route-transaction-result.v1` envelope with internal mirror
+claim `ABSENT`. Current `NOT_REQUIRED` and `REQUIRED/SATISFIED` retain their
+existing success meanings; `PENDING`, `REQUIRED/UNSATISFIED`, lossy, stale,
+foreign, tombstoned, ambiguous or changed observations retain their existing
+nonzero fail-closed meanings. Observation never enumerates cold history and
+performs no decision, consume, lifecycle transition, ref/store/run-root write,
+dispatch, package, host or external effect. Unlike the C03 pure validator, it
+proves the currently supplied active binding and therefore rejects a
+tombstoned authoring session.
+
 The mechanically-not-required predicate also requires the exact current H0
 host/session binding; current controller, claim, run, continuity generation and
 receipt; exact boundary, scope, action and action class; current owner,
