@@ -715,36 +715,128 @@ if schema.get("x-bounded-snapshot-diff-export") != {
 
 
 def currentness(state="CURRENT", invalidators=None):
-    return {"state": state, "invalidators": list(invalidators or [])}
+    if invalidators is None:
+        invalidators = [] if state == "CURRENT" else [f"FIXTURE_{state}"]
+    return {"state": state, "invalidators": list(invalidators)}
 
 
 def record(identifier, family="EVIDENCE", state="CURRENT", **extra):
-    return {
-        "id": identifier, "family": family,
+    value = {
+        "id": identifier, "sequence": 0, "record_type": "Evidence",
+        "claim_id": f"claim:{identifier}", "criterion_id": f"criterion:{identifier}",
+        "leg": "EFFECT", "result_class": "GREEN", "proxy": False,
+        "source_identity": f"source:{identifier}",
         "native_owner_identity": f"owner:{family.lower()}",
-        "source_identity": {"id": f"source:{identifier}", "layer": "evidence"},
-        "evidence_layer": "evidence", "currentness": currentness(state),
-        "record_type": "Evidence", "required": False,
-        "capability": "retained", **extra,
+        "currentness": currentness(state), "controls": [],
+        "contrary_evidence": [], "family": family,
+        "authority_ceiling": "READ_ONLY_NATIVE_ARTIFACT_FACT",
+        "artifact_sha256": "1" * 64,
     }
+    value.update(extra)
+    return value
 
 
-def snapshot(identifier, records=None, *, aggregate="DEGRADED", omitted=None,
+def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
              manifest_digest=None):
+    records = copy.deepcopy(list(records or []))
+    for sequence, row in enumerate(records):
+        row["sequence"] = sequence
+    if omitted is None:
+        omitted = [{
+            "kind": "OWNER_FACT_NON_CURRENT", "collector": "evidence_failure",
+            "owner": "R0038-C04", "family": row["family"],
+            "fact_path": f"evidence_records/{row['id']}", "record_id": row["id"],
+            "record_type": row["record_type"],
+            "native_owner_identity": row["native_owner_identity"],
+            "state": row["currentness"]["state"],
+            "invalidators": list(row["currentness"]["invalidators"]),
+        } for row in records if row["currentness"]["state"] != "CURRENT"]
+    aggregate = aggregate or ("DEGRADED" if omitted else "COMPLETE")
+
+    def semantic(value):
+        result = copy.deepcopy(value)
+        result["semantic_sha256"] = hashlib.sha256(
+            evidence.canonical_json_v1(result)).hexdigest()
+        return result
+
+    native_value = semantic({
+        "schema": evidence.NATIVE_CURRENT_SCHEMA,
+        "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT", "establishes": [],
+        "repository": {"root": "$REPOSITORY_ROOT", "git_common_dir": "$GIT_COMMON_DIR"},
+        "controller": {"id": "fixture-controller"},
+        "claim": {"id": "fixture-claim", "run_id": "fixture-run",
+                  "run_root": ".IMPLEMENTAUDIT/runs/fixture-run"},
+        "continuity": {"generation": "G0001"},
+        "hot": {"state_sha256": "2" * 64},
+        "frontier": {"population": 1}, "andon_state": "NONE",
+        "open_andons": [], "active_instructions": [],
+        "next_action": "bounded fixture observation", "route": {"action": "CONTINUE"},
+    })
+    repository_value = {
+        "schema": evidence.REPOSITORY_COLLECTION_SCHEMA,
+        "repository": {"commit": "3" * 40, "tree": "4" * 40,
+                       "worktree_state": "CLEAN", "input_file_set_sha256": "5" * 64},
+        "capabilities": [],
+        "diagnostics": {"warnings": [], "errors": [], "skipped": [], "unknown": []},
+        "facts": [], "static_collector_invocations": [],
+    }
+    evidence_value = semantic({
+        "schema": evidence.EVIDENCE_FAILURE_COLLECTION_SCHEMA,
+        "families": ["EVIDENCE", "FAILURE"],
+        "source": {"path": "operational-evidence.json", "sha256": "6" * 64,
+                   "run_identity": "fixture-run", "artifact_identity": "fixture-artifact"},
+        "first_red_id": None, "first_red_state": "NOT_APPLICABLE",
+        "weakest_leg_id": records[0]["id"] if records else None,
+        "residual_ids": [],
+        "layer_census": {"ATTEMPT": 0, "RECEIPT": 0, "EFFECT": len(records),
+                         "RECOVERY": 0, "CLOSURE": 0},
+        "evidence_records": records, "failure_records": [], "establishes": [],
+    })
+    release_value = semantic({
+        "schema": evidence.RELEASE_COLLECTION_SCHEMA, "families": ["RELEASE"],
+        "repository": {"commit": "3" * 40, "tree": "4" * 40,
+                       "worktree_state": "CLEAN"},
+        "local_manifest_sha256": "7" * 64, "external_capture_sha256": "8" * 64,
+        "external_boundary": {"capture_identity": "fixture-capture"},
+        "omissions": [], "node_type_census": {}, "nodes": [],
+        "candidate": {"state": "UNVERIFIED", "invalidators": ["FIXTURE"],
+                      "local_commit": "3" * 40, "public_commit": None},
+        "establishes": [],
+    })
+
+    def collection(owner, value):
+        return {"owner": owner, "state": "CURRENT", "value": value,
+                "sha256": hashlib.sha256(
+                    evidence.canonical_json_v1(value)).hexdigest()}
+
     return {
         "schema_version": "implementaudit-operational-snapshot-payload.v1",
         "snapshot_id": "iasnap-v1-" + identifier * 64,
         "aggregate": aggregate,
         "families": list(evidence.FAMILIES),
-        "missing_or_omitted_state": list(omitted or []),
-        "collections": {"fixture": {"owner": "R0038-test", "state": "CURRENT",
-                                     "value": {"records": list(records or [])}}},
+        "missing_or_omitted_state": list(omitted),
+        "collections": {
+            "native_current": collection("R0038-C03", native_value),
+            "repository": collection("R0038-C02", repository_value),
+            "evidence_failure": collection("R0038-C04", evidence_value),
+            "release": collection("R0038-C05", release_value),
+        },
         "input_manifest_sha256": manifest_digest or identifier * 64,
     }
 
 
 def canonical(value):
     return evidence.canonical_json_v1(value)
+
+
+def refresh_collection(value, name):
+    collection = value["collections"][name]
+    semantic_value = collection["value"]
+    if "semantic_sha256" in semantic_value:
+        semantic_value.pop("semantic_sha256")
+        semantic_value["semantic_sha256"] = hashlib.sha256(
+            canonical(semantic_value)).hexdigest()
+    collection["sha256"] = hashlib.sha256(canonical(semantic_value)).hexdigest()
 
 
 def expect_error(code, action):
@@ -758,16 +850,17 @@ def expect_error(code, action):
 
 
 observed = []
-base = snapshot("a", [record("one"), record("two", state="STALE")])
+base = snapshot("a", [record("one"), record("two")])
 permuted = copy.deepcopy(base)
-permuted["collections"]["fixture"]["value"]["records"].reverse()
+permuted["collections"]["evidence_failure"]["value"]["evidence_records"].reverse()
+refresh_collection(permuted, "evidence_failure")
 first = evidence.diff_snapshots(base, permuted)
 second = evidence.diff_snapshots(permuted, base)
 if first["added"] or first["removed"] or first["changed"] or canonical(first) != canonical(second):
     raise SystemExit("DE01 permutation did not yield one empty canonical diff")
 observed.append("DE01")
 
-added_snapshot = snapshot("b", [record("one"), record("two", state="STALE"),
+added_snapshot = snapshot("b", [record("one"), record("two"),
                                 record("three")])
 added = evidence.diff_snapshots(base, added_snapshot)
 if ([row["identity"] for row in added["added"]] != ["record:three"] or
@@ -783,8 +876,8 @@ if [row["identity"] for row in removed["removed"]] != ["record:two"]:
     raise SystemExit("DE03 removed record was normalized away")
 observed.append("DE03")
 
-changed_snapshot = snapshot("d", [record("one", capability="changed"),
-                                  record("two", state="STALE")])
+changed_snapshot = snapshot("d", [record("one", claim_id="changed"),
+                                  record("two")])
 changed = evidence.diff_snapshots(base, changed_snapshot)
 if ([row["identity"] for row in changed["changed"]] != ["record:one"] or
         changed["added"] or changed["removed"]):
@@ -794,19 +887,30 @@ observed.append("DE04")
 state_base = snapshot("a", [record("one"), record("two")])
 for state in fixture["states"][1:]:
     state_snapshot = snapshot("e", [record("one"), record("two", state=state)])
-    state_diff = evidence.diff_snapshots(state_base, state_snapshot)
-    if ([row["identity"] for row in state_diff["changed"]] != ["record:two"] or
+    try:
+        state_diff = evidence.diff_snapshots(state_base, state_snapshot)
+    except evidence.OperationalEvidenceError as exc:
+        raise SystemExit(
+            f"DE05 {state} snapshot failed {exc.code}: "
+            f"{state_snapshot['missing_or_omitted_state']}") from exc
+    if ([row["identity"] for row in state_diff["changed"]] != [
+            "record:two", "snapshot:aggregate",
+            "snapshot:missing_or_omitted_state"] or
             state_diff["changed"][0]["after"]["currentness"]["state"] != state):
         raise SystemExit(f"DE05 lost explicit currentness transition to {state}")
 observed.append("DE05")
 
 identity_snapshot = snapshot(
-    "f", [record("one"), record("two", state="STALE")], aggregate="STALE",
+    "f", [record("one"), record("two", state="STALE")], aggregate="DEGRADED",
     omitted=[{"family": "EVIDENCE", "kind": "OWNER_FACT_NON_CURRENT",
-              "state": "STALE"}], manifest_digest="f" * 64)
+              "collector": "evidence_failure", "owner": "R0038-C04",
+              "fact_path": "evidence_records/two", "record_id": "two",
+              "record_type": "Evidence", "native_owner_identity": "owner:evidence",
+              "state": "STALE", "invalidators": ["FIXTURE_STALE"]}],
+    manifest_digest="f" * 64)
 identity = evidence.diff_snapshots(base, identity_snapshot)
 if ([row["identity"] for row in identity["changed"]] != [
-        "snapshot:aggregate", "snapshot:missing_or_omitted_state"] or
+        "record:two", "snapshot:aggregate", "snapshot:missing_or_omitted_state"] or
         identity["before_input_manifest_sha256"] ==
         identity["after_input_manifest_sha256"]):
     raise SystemExit("DE06 snapshot identity/currentness changes were hidden")
@@ -840,9 +944,10 @@ if ambient_before != ambient_after:
     raise SystemExit("DE08 diff bytes depend on ambient cwd/locale/environment")
 observed.append("DE08")
 
+mixed = snapshot("8", [record("one"), record("two", state="STALE")])
 for output_format in ("table", "graph"):
     projection = json.loads(evidence.render_snapshot_projection_v1(
-        base, output_format=output_format, max_rows=100, max_bytes=100000))
+        mixed, output_format=output_format, max_rows=100, max_bytes=100000))
     if (projection["format"] != output_format or projection["truncated"] or
             projection["included_count"] != 2 or projection["omitted_count"] != 0 or
             projection["state_census"] != {"CURRENT": 1, "STALE": 1}):
@@ -850,7 +955,7 @@ for output_format in ("table", "graph"):
 observed.append("DE09")
 
 bounded = json.loads(evidence.render_snapshot_projection_v1(
-    base, output_format="table", max_rows=1, max_bytes=100000))
+    mixed, output_format="table", max_rows=1, max_bytes=100000))
 if (not bounded["truncated"] or bounded["decision_usable"] or
         bounded["included_count"] != 1 or bounded["omitted_count"] != 1 or
         bounded["state_census"] != {"CURRENT": 1, "STALE": 1}):
@@ -858,10 +963,10 @@ if (not bounded["truncated"] or bounded["decision_usable"] or
 observed.append("DE10")
 
 hostile_text = "|\n\t\u001b[31m`<script>javascript:()</script> $(touch pwn) =1+1"
-hostile = snapshot("9", [record("hostile", capability=hostile_text)])
+hostile = snapshot("9", [record("hostile", claim_id=hostile_text)])
 hostile_projection = json.loads(evidence.render_snapshot_projection_v1(
     hostile, output_format="graph", max_rows=10, max_bytes=100000))
-if hostile_projection["rows"][0]["record"]["capability"] != hostile_text:
+if hostile_projection["rows"][0]["record"]["claim_id"] != hostile_text:
     raise SystemExit("DE11 hostile content was executed, removed, or normalized")
 observed.append("DE11")
 
@@ -873,6 +978,56 @@ expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(invalid
 invalid_digest = copy.deepcopy(base)
 invalid_digest["input_manifest_sha256"] = "0" * 64
 expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(base, invalid_digest))
+
+foreign_record_type = copy.deepcopy(base)
+foreign_record_type["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["record_type"] = "Foreign"
+refresh_collection(foreign_record_type, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, foreign_record_type))
+
+current_with_invalidator = copy.deepcopy(base)
+current_with_invalidator["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["currentness"]["invalidators"] = ["FOREIGN"]
+refresh_collection(current_with_invalidator, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, current_with_invalidator))
+
+empty_collections = copy.deepcopy(base)
+empty_collections["collections"] = {}
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, empty_collections))
+
+foreign_currentness = copy.deepcopy(base)
+foreign_currentness["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["currentness"]["state"] = "FOREIGN"
+refresh_collection(foreign_currentness, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, foreign_currentness))
+
+foreign_omitted = copy.deepcopy(base)
+foreign_omitted["missing_or_omitted_state"] = [{"foreign": "value"}]
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, foreign_omitted))
+
+unknown_nested_member = copy.deepcopy(base)
+unknown_nested_member["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["unknown"] = "foreign"
+refresh_collection(unknown_nested_member, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, unknown_nested_member))
+
+mixed_release_variant = copy.deepcopy(base)
+mixed_release_variant["collections"]["release"]["value"]["nodes"] = [{
+    "id": "git-commit", "record_type": "Commit", "family": "RELEASE",
+    "source_identity": "git:HEAD", "native_owner_identity": "git:repository",
+    "currentness": currentness(),
+    "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION", "layer": "LOCAL",
+    "object_identity": "3" * 40, "path": "foreign-mixed-variant",
+}]
+refresh_collection(mixed_release_variant, "release")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, mixed_release_variant))
 observed.append("DE12")
 
 expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
@@ -891,10 +1046,43 @@ expect_error("OE_EXPORT_DESTINATION_EXISTS", lambda: evidence.export_snapshot(
     base, occupied, owned_root=tmp, output_format="json"))
 if occupied.read_text(encoding="utf-8") != "non-task-owned":
     raise SystemExit("DE14 export mutated an existing destination")
+
+alias_parent = tmp / "alias-parent"
+alias_parent.mkdir()
+alias_destination = alias_parent / ".." / "alias-destination.json"
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, alias_destination, owned_root=tmp, output_format="json"))
+if (tmp / "alias-destination.json").exists():
+    raise SystemExit("DE14 export accepted a non-canonical destination spelling")
+
+alias_root = alias_parent / ".."
+alias_root_destination = tmp / "alias-root-destination.json"
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, alias_root_destination, owned_root=alias_root, output_format="json"))
+if alias_root_destination.exists():
+    raise SystemExit("DE14 export accepted a non-canonical owned-root spelling")
+
+replacement_destination = tmp / "replacement.json"
+original_link_check = evidence._snapshot_is_link_v1
+
+
+def replace_at_final_check(path):
+    if pathlib.Path(path) == replacement_destination and path.exists():
+        path.unlink()
+        path.write_bytes(b"post-write replacement")
+    return original_link_check(path)
+
+
+evidence._snapshot_is_link_v1 = replace_at_final_check
+try:
+    expect_error("OE_EXPORT_WRITE_FAILED", lambda: evidence.export_snapshot(
+        base, replacement_destination, owned_root=tmp, output_format="json"))
+finally:
+    evidence._snapshot_is_link_v1 = original_link_check
 observed.append("DE14")
 
 noncurrent_first = json.loads(evidence.render_snapshot_projection_v1(
-    base, output_format="table", max_rows=1, max_bytes=100000))
+    mixed, output_format="table", max_rows=1, max_bytes=100000))
 if (noncurrent_first["rows"][0]["record"]["currentness"]["state"] == "CURRENT" or
         noncurrent_first["omitted_state_census"] != {"CURRENT": 1}):
     raise SystemExit("DE15 bound preferentially hid non-current rows")
@@ -2179,6 +2367,12 @@ original_material = snapshot_module._build_snapshot_material_v1(
     snapshot_native, original_collections, schema_raw, compiler_raw)
 variant_material = snapshot_module._build_snapshot_material_v1(
     variant_native, variant_collections, schema_raw, compiler_raw)
+materialized_payload = json.loads(original_material["payload_raw"].decode("utf-8"))
+materialized_diff = snapshot_module.diff_snapshots(
+    materialized_payload, copy.deepcopy(materialized_payload))
+if (materialized_diff["added"] or materialized_diff["removed"] or
+        materialized_diff["changed"]):
+    raise SystemExit("C08-R2 exact producer payload did not yield an empty diff")
 for key in ("snapshot_id", "input_raw", "payload_raw", "manifest_raw", "current_raw"):
     if original_material[key] != variant_material[key]:
         raise SystemExit(f"C06-R04 volatile absolute envelope changed {key}")
