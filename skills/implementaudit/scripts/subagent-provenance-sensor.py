@@ -10,6 +10,7 @@ import json
 import pathlib
 import re
 import sys
+import unicodedata
 from typing import Any
 
 
@@ -74,6 +75,27 @@ RECEIPT_RE = re.compile(
     r"^refs/implementaudit/continuity-receipts/[^/]+/G[0-9A-F]+@[0-9a-f]{40}$"
 )
 TOKEN_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/@+-]*$")
+HISTORY_TOKEN_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
+HISTORY_CONTROLLER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,47}$")
+GENERATION_RE = re.compile(r"^G[0-9A-F]{4}$")
+SEQUENCE_RE = re.compile(r"^[0-9]{20}$")
+SOURCE_EVIDENCE_RE = re.compile(
+    r"^iasrc-v1-(?:r0039-archive|r0038-snapshot)-[A-Za-z0-9._-]{1,96}$"
+)
+PATH_COMPONENT_RE = re.compile(r"^(?:[A-Za-z0-9._~-]|%[0-9A-F]{2})+$")
+HISTORY_RECORD_KINDS = {
+    "finding.closed", "andon.closed", "residual.terminal", "epoch.closed",
+    "instruction.satisfied", "phase.completed", "transition.closed",
+    "recovery.record", "artifact.historical",
+}
+HISTORY_TRANSITIONS = {"MIGRATED", "APPENDED", "CORRECTED", "SUPERSEDED"}
+HISTORY_STATUSES = {"PRESERVED", "CLOSED", "SATISFIED", "EXPIRED", "SUPERSEDED"}
+URI_PREFIX = "implementaudit-evidence:v1/"
+URI_UNRESERVED = frozenset(
+    b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
+)
+INT64_MIN = -(2**63)
+INT64_MAX = 2**63 - 1
 
 
 class ContinuationError(ValueError):
@@ -172,6 +194,127 @@ def text_list(value: Any, path: str, *, allow_empty: bool = False) -> list[str]:
     return result
 
 
+def validate_identity_json(value: Any, path: str) -> None:
+    if value is None or type(value) is bool:
+        return
+    if type(value) is str:
+        exact_text(value, path)
+        return
+    if type(value) is int:
+        if not INT64_MIN <= value <= INT64_MAX:
+            fail("CONTINUATION_SCHEMA_INVALID", path, "integer exceeds R0038 identity bounds")
+        return
+    if type(value) is list:
+        for index, item in enumerate(value):
+            validate_identity_json(item, f"{path}[{index}]")
+        return
+    if type(value) is dict:
+        for key, item in value.items():
+            if type(key) is not str:
+                fail("CONTINUATION_SCHEMA_INVALID", path, "payload keys must be text")
+            validate_identity_json(item, f"{path}.{key}")
+        return
+    fail("CONTINUATION_SCHEMA_INVALID", path, "value has no R0038 identity")
+
+
+def canonical_path_component(token: str, path: str, *, evidence_uri: bool) -> None:
+    if not PATH_COMPONENT_RE.fullmatch(token):
+        fail("CONTINUATION_SCHEMA_INVALID", path, "source path component is not canonical")
+    raw = bytearray()
+    index = 0
+    while index < len(token):
+        if token[index] == "%":
+            raw.append(int(token[index + 1:index + 3], 16))
+            index += 3
+        else:
+            raw.append(ord(token[index]))
+            index += 1
+    try:
+        decoded = bytes(raw).decode("utf-8", "strict")
+    except UnicodeDecodeError:
+        fail("CONTINUATION_SCHEMA_INVALID", path, "source path component is not UTF-8")
+    decoded = unicodedata.normalize("NFC", decoded)
+    forbidden = {"\0", "/"} | ({"\\"} if evidence_uri else set())
+    if decoded in {"", ".", ".."} or any(char in decoded for char in forbidden):
+        fail("CONTINUATION_SCHEMA_INVALID", path, "source path component is unsafe")
+    encoded = decoded.encode("utf-8", "strict")
+    expected = "".join(
+        chr(byte) if byte in URI_UNRESERVED else f"%{byte:02X}"
+        for byte in encoded
+    )
+    if token != expected:
+        fail("CONTINUATION_SCHEMA_INVALID", path, "source path component is not normalized")
+
+
+def validate_source_locator(value: Any, path: str) -> dict[str, Any]:
+    locator = exact_object(value, SOURCE_LOCATOR_KEYS, path)
+    kind = locator["kind"]
+    if kind not in {"repo-relative", "run-root-relative", "evidence-uri", "host-bound"}:
+        fail("CONTINUATION_SCHEMA_INVALID", f"{path}.kind", "kind is invalid")
+    exact_text(locator["root_identity"], f"{path}.root_identity", SHA256_ID_RE)
+    raw_path = exact_text(locator["path"], f"{path}.path")
+    if not raw_path.isascii():
+        fail("CONTINUATION_SCHEMA_INVALID", f"{path}.path", "source path is not canonical ASCII")
+    if kind == "evidence-uri":
+        if locator["host_identity"] is not None or not raw_path.startswith(URI_PREFIX):
+            fail("CONTINUATION_SCHEMA_INVALID", path, "evidence URI locator is inconsistent")
+        components = raw_path[len(URI_PREFIX):].split("/")
+        evidence_uri = True
+    else:
+        if raw_path.startswith("/") or raw_path.endswith("/") or "\\" in raw_path:
+            fail("CONTINUATION_SCHEMA_INVALID", f"{path}.path", "relative source path is invalid")
+        components = raw_path.split("/")
+        evidence_uri = False
+        if kind == "host-bound":
+            exact_text(locator["host_identity"], f"{path}.host_identity", SHA256_ID_RE)
+        elif locator["host_identity"] is not None:
+            fail("CONTINUATION_SCHEMA_INVALID", f"{path}.host_identity", "host identity is not allowed")
+    if not components or any(not component for component in components):
+        fail("CONTINUATION_SCHEMA_INVALID", f"{path}.path", "source path is empty")
+    for index, component in enumerate(components):
+        canonical_path_component(
+            component, f"{path}.path[{index}]", evidence_uri=evidence_uri,
+        )
+    return locator
+
+
+def validate_history_event(value: Any, path: str) -> dict[str, Any]:
+    event = exact_object(value, HISTORY_EVENT_KEYS, path)
+    if event["schema_version"] != "implementaudit.history-event.v1":
+        fail("CONTINUATION_SCHEMA_INVALID", f"{path}.schema_version", "event schema is invalid")
+    exact_text(event["run_id"], f"{path}.run_id", HISTORY_TOKEN_RE)
+    exact_text(event["controller_id"], f"{path}.controller_id", HISTORY_CONTROLLER_RE)
+    exact_text(event["generation_id"], f"{path}.generation_id", GENERATION_RE)
+    exact_text(event["sequence"], f"{path}.sequence", SEQUENCE_RE)
+    exact_text(event["subject_id"], f"{path}.subject_id", HISTORY_TOKEN_RE)
+    exact_text(event["source_epoch"], f"{path}.source_epoch", GENERATION_RE)
+    exact_text(event["source_evidence_id"], f"{path}.source_evidence_id", SOURCE_EVIDENCE_RE)
+    if event["record_kind"] not in HISTORY_RECORD_KINDS:
+        fail("CONTINUATION_SCHEMA_INVALID", f"{path}.record_kind", "record kind is invalid")
+    if event["transition"] not in HISTORY_TRANSITIONS:
+        fail("CONTINUATION_SCHEMA_INVALID", f"{path}.transition", "transition is invalid")
+    if event["status"] not in HISTORY_STATUSES:
+        fail("CONTINUATION_SCHEMA_INVALID", f"{path}.status", "status is invalid")
+    if event["supersedes_event_id"] is not None:
+        exact_text(event["supersedes_event_id"], f"{path}.supersedes_event_id", EVENT_ID_RE)
+    validate_identity_json(event["payload"], f"{path}.payload")
+    validate_source_locator(event["source_locator"], f"{path}.source_locator")
+    exact_text(event["source_digest"], f"{path}.source_digest", SHA256_ID_RE)
+    exact_text(event["payload_digest"], f"{path}.payload_digest", SHA256_RE)
+    exact_text(event["event_id"], f"{path}.event_id", EVENT_ID_RE)
+    return event
+
+
+def history_event_identity_is_valid(event: dict[str, Any]) -> bool:
+    expected_payload = hashlib.sha256(canonical_json(event["payload"])).hexdigest()
+    if event["payload_digest"] != expected_payload:
+        return False
+    unsigned = dict(event)
+    unsigned.pop("event_id")
+    expected_identity = "iaevt-v1-" + hashlib.sha256(canonical_json(unsigned)).hexdigest()
+    return event["event_id"] == expected_identity
+
+
 def validate_controller(value: Any, path: str) -> dict[str, Any]:
     result = exact_object(value, CONTROLLER_KEYS, path)
     exact_text(result["controller_id"], f"{path}.controller_id", TOKEN_RE)
@@ -250,7 +393,7 @@ def validate_position(value: Any, path: str, *, nullable: bool = True) -> dict[s
     if value is None and nullable:
         return None
     result = exact_object(value, POSITION_KEYS, path)
-    exact_text(result["sequence"], f"{path}.sequence", re.compile(r"^[0-9]{16}$"))
+    exact_text(result["sequence"], f"{path}.sequence", SEQUENCE_RE)
     exact_text(result["event_id"], f"{path}.event_id", EVENT_ID_RE)
     return result
 
@@ -269,37 +412,7 @@ def validate_query_result(value: Any, path: str) -> dict[str, Any]:
         fail("CONTINUATION_SCHEMA_INVALID", f"{path}.rows", "rows must be an array")
     for index, row in enumerate(result["rows"]):
         row_path = f"{path}.rows[{index}]"
-        event = exact_object(row, HISTORY_EVENT_KEYS, row_path)
-        if event["schema_version"] != "implementaudit.history-event.v1":
-            fail("CONTINUATION_SCHEMA_INVALID", f"{row_path}.schema_version", "event schema is invalid")
-        for key in (
-            "run_id", "controller_id", "generation_id", "record_kind", "subject_id",
-            "source_epoch", "transition", "status", "source_evidence_id",
-        ):
-            exact_text(event[key], f"{row_path}.{key}", TOKEN_RE)
-        exact_text(event["sequence"], f"{row_path}.sequence", re.compile(r"^[0-9]{16}$"))
-        exact_text(event["event_id"], f"{row_path}.event_id", EVENT_ID_RE)
-        if event["supersedes_event_id"] is not None:
-            exact_text(
-                event["supersedes_event_id"],
-                f"{row_path}.supersedes_event_id",
-                EVENT_ID_RE,
-            )
-        if type(event["payload"]) is not dict:
-            fail("CONTINUATION_SCHEMA_INVALID", f"{row_path}.payload", "payload must be an object")
-        locator = exact_object(
-            event["source_locator"], SOURCE_LOCATOR_KEYS, f"{row_path}.source_locator"
-        )
-        if locator["kind"] not in {
-            "repo-relative", "run-root-relative", "evidence-uri", "host-bound"
-        }:
-            fail("CONTINUATION_SCHEMA_INVALID", f"{row_path}.source_locator.kind", "kind is invalid")
-        exact_text(locator["root_identity"], f"{row_path}.source_locator.root_identity", SHA256_RE)
-        exact_text(locator["path"], f"{row_path}.source_locator.path")
-        if locator["host_identity"] is not None:
-            exact_text(locator["host_identity"], f"{row_path}.source_locator.host_identity", SHA256_RE)
-        for key in ("source_digest", "payload_digest"):
-            exact_text(event[key], f"{row_path}.{key}", SHA256_RE)
+        validate_history_event(row, row_path)
     for key in ("row_bytes", "max_rows", "max_bytes"):
         if type(result[key]) is not int or result[key] < (0 if key == "row_bytes" else 1):
             fail("CONTINUATION_SCHEMA_INVALID", f"{path}.{key}", "bound is invalid")
@@ -331,6 +444,7 @@ def query_result_is_usable(
         and row["run_id"] == packet["controller"]["run_id"]
         and row["generation_id"] == receipt_generation
         and row["source_epoch"] == receipt_generation
+        and history_event_identity_is_valid(row)
         and value["row_bytes"] == len(canonical_json(row))
         and value["max_rows"] >= 1
         and value["max_bytes"] >= value["row_bytes"]
@@ -380,6 +494,12 @@ def packet_digest(packet: dict[str, Any]) -> str:
 
 
 def validate_packet(value: Any) -> dict[str, Any]:
+    if len(canonical_json(value)) > MAX_PACKET_BYTES:
+        fail(
+            "CONTINUATION_BOUND_EXCEEDED",
+            "$packet",
+            f"canonical packet exceeds {MAX_PACKET_BYTES} bytes",
+        )
     result = exact_object(value, PACKET_KEYS, "$packet")
     source = dict(result)
     source.pop("packet_digest")
@@ -471,7 +591,10 @@ def classify(packet: dict[str, Any], observation: dict[str, Any]) -> dict[str, A
     if observation["effect_status"] != "CLEAR":
         contradictions.append("EFFECT_NOT_CLEAR")
     mirror = observation["activegraph"]
-    if mirror is not None and mirror["state"] != observation["graph"]["state"]:
+    if mirror is not None and (
+        mirror["state"] != observation["graph"]["state"]
+        or mirror["digest"] != observation["graph"]["digest"]
+    ):
         contradictions.append("ACTIVEGRAPH_WORK_GRAPH_CONTRADICTION")
 
     packet_events = {row["event_id"]: row for row in packet["process"]["instruction_events"]}

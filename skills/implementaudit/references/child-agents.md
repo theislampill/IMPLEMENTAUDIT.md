@@ -352,7 +352,9 @@ constraints and instruction identities, evidence pointers and focused tests,
 and next-action/stop/return fields. It has no transcript, expected frontier,
 unrelated epochs, Andons, completed-cell history or ActiveGraph authority. Its
 measurement reports exact canonical UTF-8 bytes and characters plus the
-declared `characters/4-ceiling` token estimate.
+declared `characters/4-ceiling` token estimate. Both `build` and `classify`
+reject a canonical packet larger than 32 KiB; recomputing the packet digest
+does not bypass that bound.
 
 After independently reacquiring current observations, classify the packet:
 
@@ -375,7 +377,10 @@ The only classifiers are:
 Only an untruncated, decision-usable first page for that exact ID can satisfy
 the query. A later cursor, changed filter or generation/manifest projection,
 unrelated result, truncation or incomplete result returns to
-`REPORT_AND_WAIT`. Reconstructed consumed instruction events remain consumed;
+`REPORT_AND_WAIT`. A returned R0038 row must also reproduce its canonical
+payload digest and the `iaevt-v1-` identity of the complete event envelope;
+`row_bytes` is a bound, not an integrity digest. Reconstructed consumed
+instruction events remain consumed;
 a distinct event is merely reported as newly admitted for governor
 adjudication. No classifier dispatches, edits, advances lifecycle, establishes
 result/PASS/JOIN/currentness, or performs an effect.
@@ -384,8 +389,9 @@ result/PASS/JOIN/currentness, or performs an effect.
 keeps `STARTED`, `PARTIAL`, `FAILED`, `CANCELLED` and `SUCCESS_RETURNED`
 distinct and returns an empty `establishes` list. The parent/governor rereads
 the worker return and remains the canonical writer. ActiveGraph may be absent;
-if it contradicts WORK_GRAPH, the contradiction is surfaced while WORK_GRAPH
-remains authoritative. Actual installed, enabled, trusted and fired-hook proof
+if its comparable state or digest contradicts WORK_GRAPH, the contradiction is
+surfaced while WORK_GRAPH remains authoritative. Actual installed, enabled,
+trusted and fired-hook proof
 belongs to the separately governed host-activation owner.
 
 ## Ledger normalization

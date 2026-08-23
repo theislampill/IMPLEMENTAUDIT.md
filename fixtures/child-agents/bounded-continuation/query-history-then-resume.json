@@ -1,5 +1,5 @@
 {
-  "evidence_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "evidence_id": "iaevt-v1-17758a37e72202243316ec19f0a18447500623e6960b5ee11189a3d380391b41",
   "expected_classifier_without_result": "QUERY_HISTORY_THEN_RESUME",
   "expected_classifier_with_result": "FRESH_CONTEXT_RESUME",
   "usable_query_result": {
@@ -7,7 +7,7 @@
     "query_contract": "implementaudit.history-query.v1",
     "filters": {
       "event_ids": [
-        "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        "iaevt-v1-17758a37e72202243316ec19f0a18447500623e6960b5ee11189a3d380391b41"
       ]
     },
     "rows": [
@@ -16,7 +16,7 @@
         "run_id": "v041-thread5-autodag-TmDJfs",
         "controller_id": "v0333-release",
         "generation_id": "G0125",
-        "sequence": "0000000000000001",
+        "sequence": "00000000000000000001",
         "record_kind": "andon.closed",
         "subject_id": "o53",
         "source_epoch": "G0125",
@@ -27,29 +27,29 @@
           "classification": "evidence-mismatch",
           "resolution": "use Git-for-Windows Bash serialization"
         },
-        "source_evidence_id": "source-o53",
+        "source_evidence_id": "iasrc-v1-r0038-snapshot-o53",
         "source_locator": {
           "kind": "run-root-relative",
-          "root_identity": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-          "path": "STATE.md#andon-log",
+          "root_identity": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "path": "STATE.md%23andon-log",
           "host_identity": null
         },
-        "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-        "payload_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        "source_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "payload_digest": "3efdaf030199a8e89248cb56d4eb7db2b406f76ad835e1b873d0cc6a9e7f0620",
+        "event_id": "iaevt-v1-17758a37e72202243316ec19f0a18447500623e6960b5ee11189a3d380391b41"
       }
     ],
-    "row_bytes": 886,
+    "row_bytes": 923,
     "max_rows": 1,
     "max_bytes": 4096,
     "coverage": {
       "start": {
-        "sequence": "0000000000000001",
-        "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        "sequence": "00000000000000000001",
+        "event_id": "iaevt-v1-17758a37e72202243316ec19f0a18447500623e6960b5ee11189a3d380391b41"
       },
       "end": {
-        "sequence": "0000000000000001",
-        "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        "sequence": "00000000000000000001",
+        "event_id": "iaevt-v1-17758a37e72202243316ec19f0a18447500623e6960b5ee11189a3d380391b41"
       }
     },
     "requested_position": null,
@@ -63,12 +63,12 @@
   "invalid_result_mutations": [
     {"path": "truncated", "value": true},
     {"path": "decision_usable", "value": false},
-    {"path": "requested_position", "value": {"sequence": "0000000000000001", "event_id": "iaevt-v1-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}},
+    {"path": "requested_position", "value": {"sequence": "00000000000000000001", "event_id": "iaevt-v1-17758a37e72202243316ec19f0a18447500623e6960b5ee11189a3d380391b41"}},
     {"path": "filters.event_ids", "value": ["iaevt-v1-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"]},
     {"path": "rows.0.controller_id", "value": "foreign-controller"},
     {"path": "rows.0.run_id", "value": "foreign-run"},
     {"path": "rows.0.generation_id", "value": "G0124"},
     {"path": "rows.0.source_epoch", "value": "G0124"},
-    {"path": "row_bytes", "value": 885}
+    {"path": "row_bytes", "value": 922}
   ]
 }

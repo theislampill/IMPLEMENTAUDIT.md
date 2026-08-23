@@ -85,6 +85,7 @@ PY
 
 "${py[@]}" - "$sensor" "$repo_root/fixtures/child-agents/bounded-continuation" "$tmp" <<'PY'
 import copy
+import hashlib
 import json
 import os
 import pathlib
@@ -116,6 +117,20 @@ def set_path(target, dotted, value):
         target = target[int(part)] if isinstance(target, list) else target[part]
     final = int(parts[-1]) if isinstance(target, list) else parts[-1]
     target[final] = copy.deepcopy(value)
+
+
+def canonical_bytes(value):
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+
+
+def refresh_history_identity(row):
+    row["payload_digest"] = hashlib.sha256(canonical_bytes(row["payload"])).hexdigest()
+    unsigned = dict(row)
+    unsigned.pop("event_id", None)
+    row["event_id"] = "iaevt-v1-" + hashlib.sha256(canonical_bytes(unsigned)).hexdigest()
 
 
 def write(name, value):
@@ -238,6 +253,32 @@ for index, mutation in enumerate(case["invalid_result_mutations"]):
     value = classify(packet, observation, f"query-bad-{index}")
     assert_classification(value, "REPORT_AND_WAIT", "HISTORY_QUERY_RESULT_NOT_DECISION_USABLE")
 
+# H6-R06A: row length is not history-event integrity. Decision-bearing
+# substitution must fail with stale payload/event identity even after row_bytes
+# is recomputed.
+observation = copy.deepcopy(BASE["observation"])
+observation["query_result"] = copy.deepcopy(case["usable_query_result"])
+row = observation["query_result"]["rows"][0]
+row["payload"]["resolution"] = "substituted decision"
+observation["query_result"]["row_bytes"] = len(canonical_bytes(row))
+value = classify(packet, observation, "query-substituted-row")
+assert_classification(
+    value, "REPORT_AND_WAIT", "HISTORY_QUERY_RESULT_NOT_DECISION_USABLE",
+)
+
+# Recomputing independently supplied payload/event digests changes the event
+# identity and still cannot satisfy the one-ID request/coverage fence.
+observation = copy.deepcopy(BASE["observation"])
+observation["query_result"] = copy.deepcopy(case["usable_query_result"])
+row = observation["query_result"]["rows"][0]
+row["payload"]["resolution"] = "substituted decision"
+refresh_history_identity(row)
+observation["query_result"]["row_bytes"] = len(canonical_bytes(row))
+value = classify(packet, observation, "query-redigested-substitution")
+assert_classification(
+    value, "REPORT_AND_WAIT", "HISTORY_QUERY_RESULT_NOT_DECISION_USABLE",
+)
+
 # H6-R07/R14: unrelated growth is not input, and narrative/frontier keys fail closed.
 case = load("unrelated-history.json")
 history = TMP / "unrelated-history.json"
@@ -258,6 +299,19 @@ oversized["continuation"]["next_action"] = "x" * case["max_packet_bytes"]
 error = invoke("build", "--input", write("oversized-source.json", oversized), ok=False)
 if error["code"] != "CONTINUATION_BOUND_EXCEEDED":
     raise SystemExit(f"oversized packet returned {error}")
+
+# H6-R07A: classify applies the same canonical bound to a correctly
+# re-digested packet that bypasses build.
+oversized_packet = build(tag="oversized-classify")
+oversized_packet["continuation"]["next_action"] = "x" * (case["max_packet_bytes"] + 8192)
+unsigned = dict(oversized_packet)
+unsigned.pop("packet_digest")
+oversized_packet["packet_digest"] = hashlib.sha256(canonical_bytes(unsigned)).hexdigest()
+if len(canonical_bytes(oversized_packet)) <= case["max_packet_bytes"]:
+    raise SystemExit("oversized classify control did not cross the packet bound")
+error = classify(oversized_packet, tag="oversized-classify", ok=False)
+if error["code"] != "CONTINUATION_BOUND_EXCEEDED":
+    raise SystemExit(f"oversized classify packet returned {error}")
 
 # H6-R08/R09: consumed steers remain consumed; a distinct admitted event is new once.
 case = load("reconstructed-consumed-owner-event.json")
@@ -300,6 +354,10 @@ value = classify(build(tag="activegraph"), observation, "activegraph")
 assert_classification(value, case["expected_classifier"], case["expected_contradiction"])
 if value["recovered"]["graph"]["state"] != "ACTIVE":
     raise SystemExit("ActiveGraph overrode authoritative WORK_GRAPH state")
+observation = copy.deepcopy(BASE["observation"])
+observation["activegraph"] = case["same_state_different_digest"]
+value = classify(build(tag="activegraph-digest"), observation, "activegraph-digest")
+assert_classification(value, case["expected_classifier"], case["expected_contradiction"])
 PY
 
 printf 'FRESH_WORKER_BOUNDED_RESUME_TEST=PASS\n'
