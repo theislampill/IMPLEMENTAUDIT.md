@@ -87,6 +87,12 @@ ROUTE_RESULT_KEYS = {
     "proof_layers",
     "host_activation_proven",
 }
+PROJECTION_STATUSES = {
+    "CURRENT",
+    "INVALID",
+    "LEGACY_ABSENT",
+    "UNAVAILABLE",
+}
 TERMINAL_MARKERS = {
     "AUDIT_COMPLETE",
     "IMPLEMENTAUDIT_RUN_COMPLETE",
@@ -298,8 +304,11 @@ def validate_route(route: Any, binding: dict[str, Any]) -> dict[str, Any]:
         raise InputError("route.record_identity is not canonical")
     if type(result["governor_decision_count"]) is not int or result["governor_decision_count"] < 0:
         raise InputError("route.governor_decision_count is not a nonnegative integer")
-    if result["projection_status"] != "CURRENT":
-        raise DecisionBlocked("route result does not match the STATE projection")
+    if (
+        not isinstance(result["projection_status"], str)
+        or result["projection_status"] not in PROJECTION_STATUSES
+    ):
+        raise InputError("route.projection_status is not canonical")
     if result["mirror_status"] not in {
         "IGNORED_ABSENT",
         "IGNORED_CORROBORATION",
@@ -398,8 +407,6 @@ def state_fields(lines: list[str]) -> dict[str, str]:
     wanted = {
         "Status",
         "Audit object state",
-        "Route decision projection",
-        "Route decision record",
     }
     values: dict[str, str] = {}
     for line in lines:
@@ -443,13 +450,6 @@ def has_concrete_next_action(value: str) -> bool:
     return any(word not in NON_TARGET_WORDS and word not in PLACEHOLDER_TEXT for word in target_words)
 
 
-def validate_projection(fields: dict[str, str], route: dict[str, Any]) -> None:
-    if fields["Route decision projection"] != route["decision"]:
-        raise DecisionBlocked("STATE route projection disagrees with the canonical route result")
-    if fields["Route decision record"] != route["record_oid"]:
-        raise DecisionBlocked("STATE route record disagrees with the canonical route result")
-
-
 def exact_markers(lines: list[str]) -> list[str]:
     return [line for line in lines if line in TERMINAL_MARKERS]
 
@@ -458,11 +458,10 @@ def exact_handoff_sequence(lines: list[str]) -> list[str]:
     return [line for line in lines if line in HANDOFF_SEQUENCE_MARKERS]
 
 
-def validate_closure(run_root: str, route: dict[str, Any]) -> None:
+def validate_closure(run_root: str) -> None:
     run_root_validator(run_root)
     lines = state_lines(run_root)
     fields = state_fields(lines)
-    validate_projection(fields, route)
     markers = exact_markers(lines)
     nonblank = [line for line in lines if line.strip()]
     if fields["Status"] != "DONE" or fields["Audit object state"] != "terminal verified closure":
@@ -471,11 +470,10 @@ def validate_closure(run_root: str, route: dict[str, Any]) -> None:
         raise DecisionBlocked("terminal closure markers are missing, reordered, duplicated, or mixed with handoff")
 
 
-def validate_handoff(run_root: str, route: dict[str, Any]) -> None:
+def validate_handoff(run_root: str) -> None:
     run_root_validator(run_root, audited_handoff=True)
     lines = state_lines(run_root)
     fields = state_fields(lines)
-    validate_projection(fields, route)
     markers = exact_handoff_sequence(lines)
     nonblank = [line for line in lines if line.strip()]
     handoff_rows = [line for line in lines if line.startswith("Handoff state, if any:")]
@@ -498,11 +496,10 @@ def validate_handoff(run_root: str, route: dict[str, Any]) -> None:
         raise DecisionBlocked("handoff marker is missing, nonterminal, duplicated, or mixed with closure")
 
 
-def validate_yield(run_root: str, route: dict[str, Any]) -> None:
+def validate_yield(run_root: str) -> None:
     run_root_validator(run_root, nonterminal_yield=True)
     lines = state_lines(run_root)
     fields = state_fields(lines)
-    validate_projection(fields, route)
     if exact_markers(lines):
         raise DecisionBlocked("nonterminal yield emitted a terminal or handoff marker")
 
@@ -523,13 +520,13 @@ def decision(request: dict[str, Any], claim: str) -> dict[str, Any]:
     run_root = request["run_root"]
     assert isinstance(run_root, str)
     binding = validate_binding(request["binding"], run_root)
-    route = validate_route(request["route"], binding)
+    validate_route(request["route"], binding)
     if claim == "TERMINAL_CLOSURE":
-        validate_closure(run_root, route)
+        validate_closure(run_root)
     elif claim == "AUDITED_HANDOFF":
-        validate_handoff(run_root, route)
+        validate_handoff(run_root)
     else:
-        validate_yield(run_root, route)
+        validate_yield(run_root)
     return {
         "schema": RESULT_SCHEMA,
         "status": "ALLOW",
