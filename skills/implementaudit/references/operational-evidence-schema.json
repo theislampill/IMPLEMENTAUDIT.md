@@ -46,6 +46,19 @@
     "publication": false,
     "activegraph_authority": false
   },
+  "x-bounded-history-query": {
+    "schema": "implementaudit.operational-evidence-query.v1",
+    "cursor_schema": "implementaudit.history-query-cursor.v1",
+    "history_contract": "implementaudit.history-query.v1",
+    "authority_ceiling": "READ_ONLY_OBSERVATION",
+    "cursor_integrity": "sha256_checksum_not_authentication",
+    "cursor_pages": "never_decision_usable",
+    "decision_page": "untruncated_first_page_from_filter_start_only",
+    "overflow": "OE_QUERY_REQUIRES_BOUNDED_REVIEW",
+    "history_discovery": "verified_current_pointer_manifest_predecessor_chain_only",
+    "activegraph_authority": false,
+    "publication": false
+  },
   "x-immutable-snapshot-publication": {
     "schema": "IA-OPERATIONAL-SNAPSHOT-v1",
     "input_schema": "implementaudit-operational-snapshot-input.v1",

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import base64
 import contextlib
 import datetime
 import decimal
@@ -48,6 +49,20 @@ SNAPSHOT_EVIDENCE_ID_RE = re.compile(
     r"(?:-([A-Za-z0-9][A-Za-z0-9._-]{0,30}))?$")
 SNAPSHOT_CURRENT_KEYS = frozenset({
     "schema_version", "snapshot_id", "manifest_sha256", "source_pointer_oid"})
+QUERY_SCHEMA = "implementaudit.operational-evidence-query.v1"
+QUERY_STATUS_SCHEMA = "implementaudit.operational-evidence-status.v1"
+QUERY_RESULT_SCHEMA = "implementaudit.operational-evidence-query-result.v1"
+QUERY_WHY_SCHEMA = "implementaudit.operational-evidence-why.v1"
+HISTORY_QUERY_SCHEMA = "implementaudit.history-query.v1"
+HISTORY_REQUEST_SCHEMA = "implementaudit.history-query-request.v1"
+HISTORY_CURSOR_SCHEMA = "implementaudit.history-query-cursor.v1"
+HISTORY_EVENT_SCHEMA = "implementaudit.history-event.v1"
+HISTORY_MANIFEST_SCHEMA = "implementaudit.state-generation-manifest.v1"
+HISTORY_EVENT_ID_RE = re.compile(r"^iaevt-v1-[0-9a-f]{64}$")
+HISTORY_SEQUENCE_RE = re.compile(r"^[0-9]{20}$")
+HISTORY_FILTER_KEYS = frozenset({
+    "event_ids", "record_kinds", "subject_ids", "source_evidence_ids",
+    "statuses", "transitions"})
 SNAPSHOT_MANIFEST_KEYS = frozenset({
     "schema_version", "controller_id", "claim_id", "run_id", "source_epoch",
     "source_pointer_oid", "source_evidence_entries"})
@@ -3310,6 +3325,535 @@ def normalize_static_receipts(values):
     return result
 
 
+def _snapshot_query_records_v1(snapshot: object) -> list[dict]:
+    """Return record-shaped snapshot members with stable logical paths."""
+    if type(snapshot) is not dict or snapshot.get("schema_version") != (
+            SNAPSHOT_PAYLOAD_SCHEMA):
+        _error("OE_QUERY_SNAPSHOT_INVALID", "$snapshot",
+               "query input is not an R0038 snapshot payload")
+    if tuple(snapshot.get("families", ())) != FAMILIES:
+        _error("OE_QUERY_SNAPSHOT_INVALID", "$.families",
+               "snapshot does not retain the six frozen families")
+    collections = snapshot.get("collections")
+    if type(collections) is not dict:
+        _error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
+               "snapshot collections must be an object")
+    records = []
+    identities = set()
+
+    def visit(value):
+        if type(value) is dict:
+            currentness = value.get("currentness")
+            if (type(value.get("id")) is str and value.get("family") in FAMILIES and
+                    type(currentness) is dict and
+                    currentness.get("state") in STATES and
+                    type(currentness.get("invalidators")) is list):
+                identity = value["id"]
+                if identity in identities:
+                    _error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
+                           f"duplicate record identity: {identity}")
+                identities.add(identity)
+                records.append({
+                    "path": f"record:{identity}",
+                    "record": json.loads(canonical_json_v1(value).decode("utf-8")),
+                })
+                return
+            for key in sorted(value):
+                visit(value[key])
+        elif type(value) is list:
+            for row in value:
+                visit(row)
+
+    visit(collections)
+    return sorted(records, key=lambda row: (
+        row["record"]["family"], row["record"]["id"],
+        canonical_json_v1(row["record"])))
+
+
+def evaluate_currentness(snapshot: dict) -> dict:
+    """Report currentness without turning absence or degradation into success."""
+    census = {family: Counter() for family in FAMILIES}
+    for row in _snapshot_query_records_v1(snapshot):
+        record = row["record"]
+        census[record["family"]][record["currentness"]["state"]] += 1
+    omitted = snapshot.get("missing_or_omitted_state", [])
+    if type(omitted) is not list:
+        _error("OE_QUERY_SNAPSHOT_INVALID", "$.missing_or_omitted_state",
+               "omitted-state census must be an array")
+    return {
+        "schema": QUERY_STATUS_SCHEMA,
+        "snapshot_id": snapshot.get("snapshot_id"),
+        "aggregate": snapshot.get("aggregate"),
+        "families": list(FAMILIES),
+        "family_state_census": {
+            family: dict(sorted(census[family].items())) for family in FAMILIES},
+        "missing_or_omitted_state": sorted(
+            json.loads(canonical_json_v1(omitted).decode("utf-8")),
+            key=canonical_json_v1),
+        "authority_ceiling": "READ_ONLY_OBSERVATION",
+        "establishes": [],
+    }
+
+
+def query_family(snapshot: dict, family: str, current_only: bool = False) -> dict:
+    """Return one deterministic family view and an explicit omission census."""
+    if family not in FAMILIES:
+        _error("OE_QUERY_FILTER_INVALID", "$.family", "unsupported family")
+    if type(current_only) is not bool:
+        _error("OE_QUERY_FILTER_INVALID", "$.current_only", "must be boolean")
+    rows = [
+        row for row in _snapshot_query_records_v1(snapshot)
+        if row["record"]["family"] == family]
+    omitted = Counter()
+    if current_only:
+        retained = []
+        for row in rows:
+            state = row["record"]["currentness"]["state"]
+            if state == "CURRENT":
+                retained.append(row)
+            else:
+                omitted[state] += 1
+        rows = retained
+    return {
+        "schema": QUERY_RESULT_SCHEMA,
+        "snapshot_id": snapshot.get("snapshot_id"),
+        "family": family,
+        "current_only": current_only,
+        "rows": rows,
+        "omitted_state_census": dict(sorted(omitted.items())),
+        "missing_or_omitted_state": sorted(
+            json.loads(canonical_json_v1(
+                snapshot.get("missing_or_omitted_state", [])).decode("utf-8")),
+            key=canonical_json_v1),
+        "authority_ceiling": "READ_ONLY_OBSERVATION",
+        "establishes": [],
+    }
+
+
+def explain_history_why_v1(snapshot: dict, record_id: str) -> dict:
+    """Explain retained relation lineage; never infer an absent cause."""
+    if type(record_id) is not str or not record_id:
+        _error("OE_QUERY_FILTER_INVALID", "$.record_id",
+               "record identity must be non-empty text")
+    records = [row["record"] for row in _snapshot_query_records_v1(snapshot)]
+    by_id = {row["id"]: row for row in records}
+    if record_id not in by_id:
+        return {
+            "schema": QUERY_WHY_SCHEMA, "record_id": record_id,
+            "status": "UNKNOWN", "chain": [], "relations": [],
+            "contrary_evidence": [],
+            "authority_ceiling": "READ_ONLY_OBSERVATION", "establishes": []}
+    outgoing = {}
+    for relation in records:
+        if not {"relation_type", "source_entity_id", "target_entity_id"} <= set(
+                relation):
+            continue
+        outgoing.setdefault(relation["source_entity_id"], []).append(relation)
+    for rows in outgoing.values():
+        rows.sort(key=lambda row: (
+            row["target_entity_id"], row["relation_type"], row["id"]))
+    order = []
+    retained_relations = []
+    active = set()
+    complete = set()
+
+    def visit(identity):
+        if identity in active:
+            _error("OE_WHY_CYCLE", "$.relations",
+                   "why lineage contains a reachable cycle")
+        if identity in complete:
+            return
+        active.add(identity)
+        record = by_id.get(identity)
+        if record is not None:
+            order.append(record)
+        for relation in outgoing.get(identity, []):
+            target = relation["target_entity_id"]
+            if target not in by_id:
+                _error("OE_QUERY_SNAPSHOT_INVALID", "$.relations",
+                       "why relation endpoint is absent")
+            retained_relations.append(relation)
+            visit(target)
+        active.remove(identity)
+        complete.add(identity)
+
+    visit(record_id)
+    contrary = sorted({
+        item for row in order
+        for item in row.get("contrary_evidence", [])
+        if type(item) is str and item})
+    return {
+        "schema": QUERY_WHY_SCHEMA, "record_id": record_id,
+        "status": "FOUND", "chain": order,
+        "relations": retained_relations, "contrary_evidence": contrary,
+        "authority_ceiling": "READ_ONLY_OBSERVATION", "establishes": []}
+
+
+def normalize_history_filters_v1(filters: object) -> dict:
+    """Normalize a direct query filter or the exact HC-H2B one-ID request."""
+    if type(filters) is not dict:
+        _error("OE_QUERY_FILTER_INVALID", "$.filters", "must be an object")
+    if filters.get("schema") == HISTORY_REQUEST_SCHEMA:
+        if (set(filters) != {"schema", "route", "requirement", "evidence_ids"} or
+                filters.get("route") != "QUERY_HISTORY_THEN_RESUME" or
+                filters.get("requirement") != "REQUIRED" or
+                type(filters.get("evidence_ids")) is not list or
+                len(filters["evidence_ids"]) != 1 or
+                type(filters["evidence_ids"][0]) is not str or
+                not HISTORY_EVENT_ID_RE.fullmatch(filters["evidence_ids"][0])):
+            _error("OE_QUERY_FILTER_INVALID", "$.filters",
+                   "HC-H2B request must carry one canonical evidence identity")
+        return {"event_ids": list(filters["evidence_ids"])}
+    if not filters or not set(filters) <= HISTORY_FILTER_KEYS:
+        _error("OE_QUERY_FILTER_INVALID", "$.filters",
+               "at least one supported filter is required")
+    normalized = {}
+    for key in sorted(filters):
+        values = filters[key]
+        if (type(values) is not list or not values or
+                any(type(item) is not str or not item for item in values)):
+            _error("OE_QUERY_FILTER_INVALID", f"$.filters.{key}",
+                   "filter values must be a non-empty string array")
+        unique = sorted(set(values))
+        if len(unique) != len(values):
+            _error("OE_QUERY_FILTER_INVALID", f"$.filters.{key}",
+                   "filter values must be unique")
+        if key == "event_ids" and any(
+                not HISTORY_EVENT_ID_RE.fullmatch(item) for item in unique):
+            _error("OE_QUERY_FILTER_INVALID", f"$.filters.{key}",
+                   "event identity is not canonical")
+        normalized[key] = unique
+    return normalized
+
+
+def _history_request_v1(request: object) -> tuple[dict, int, int]:
+    if (type(request) is not dict or
+            set(request) != {"schema", "filters", "max_rows", "max_bytes"} or
+            request.get("schema") != QUERY_SCHEMA):
+        _error("OE_QUERY_FILTER_INVALID", "$query",
+               "query request has the wrong schema or key set")
+    filters = normalize_history_filters_v1(request["filters"])
+    for key in ("max_rows", "max_bytes"):
+        value = request[key]
+        if type(value) is not int or value <= 0:
+            _error("OE_QUERY_BOUND_INVALID", f"$.{key}",
+                   "bound must be a finite positive integer")
+    return filters, request["max_rows"], request["max_bytes"]
+
+
+def _manifest_digest_v1(manifest: dict) -> str:
+    candidate = dict(manifest)
+    candidate.pop("manifest_digest", None)
+    return hashlib.sha256(canonical_json_v1(candidate)).hexdigest()
+
+
+def _validate_query_manifest_v1(manifest: object, path: str) -> dict:
+    if (type(manifest) is not dict or
+            manifest.get("schema_version") != HISTORY_MANIFEST_SCHEMA or
+            manifest.get("query_contract_version") != HISTORY_QUERY_SCHEMA or
+            type(manifest.get("manifest_digest")) is not str or
+            _manifest_digest_v1(manifest) != manifest.get("manifest_digest") or
+            type(manifest.get("generation_id")) is not str or
+            not re.fullmatch(r"G[0-9]{4}", manifest["generation_id"]) or
+            type(manifest.get("events")) is not list):
+        _error("OE_QUERY_MANIFEST_INVALID", path,
+               "history manifest is not a verified canonical generation")
+    seen = set()
+    previous = None
+    for index, row in enumerate(manifest["events"]):
+        row_path = f"{path}.events[{index}]"
+        if (type(row) is not dict or
+                type(row.get("event_id")) is not str or
+                not HISTORY_EVENT_ID_RE.fullmatch(row["event_id"]) or
+                type(row.get("sequence")) is not str or
+                not HISTORY_SEQUENCE_RE.fullmatch(row["sequence"]) or
+                type(row.get("record_kind")) is not str or
+                type(row.get("source_evidence_id")) is not str or
+                type(row.get("segment_digest")) is not str or
+                not re.fullmatch(r"sha256:[0-9a-f]{64}", row["segment_digest"])):
+            _error("OE_QUERY_MANIFEST_INVALID", row_path,
+                   "manifest event row is malformed")
+        position = (row["sequence"], row["event_id"])
+        if position in seen or (previous is not None and position <= previous):
+            _error("OE_QUERY_MANIFEST_INVALID", row_path,
+                   "manifest event order is duplicate or noncanonical")
+        seen.add(position)
+        previous = position
+    return manifest
+
+
+def encode_query_cursor_v1(
+        request: dict, manifest: dict, position: dict) -> str:
+    filters, _rows, _bytes = _history_request_v1(request)
+    _validate_query_manifest_v1(manifest, "$manifest")
+    if (type(position) is not dict or set(position) != {"sequence", "event_id"} or
+            type(position.get("sequence")) is not str or
+            not HISTORY_SEQUENCE_RE.fullmatch(position["sequence"]) or
+            type(position.get("event_id")) is not str or
+            not HISTORY_EVENT_ID_RE.fullmatch(position["event_id"])):
+        _error("OE_QUERY_CURSOR_POSITION_STALE", "$.requested_position",
+               "cursor position is not canonical")
+    body = {
+        "schema": HISTORY_CURSOR_SCHEMA,
+        "query_contract": HISTORY_QUERY_SCHEMA,
+        "generation_id": manifest["generation_id"],
+        "manifest_digest": manifest["manifest_digest"],
+        "filters_sha256": hashlib.sha256(canonical_json_v1(filters)).hexdigest(),
+        "requested_position": dict(position),
+    }
+    raw = canonical_json_v1(body)
+    payload = base64.urlsafe_b64encode(raw).decode("ascii").rstrip("=")
+    return f"iaqcur-v1.{payload}.{hashlib.sha256(raw).hexdigest()}"
+
+
+def decode_query_cursor_v1(
+        cursor: str, request: dict, manifest: dict) -> dict:
+    filters, _rows, _bytes = _history_request_v1(request)
+    _validate_query_manifest_v1(manifest, "$manifest")
+    if type(cursor) is not str:
+        _error("OE_QUERY_CURSOR_DIGEST_INVALID", "$.cursor",
+               "cursor is not text")
+    parts = cursor.split(".")
+    if len(parts) != 3 or parts[0] != "iaqcur-v1" or not re.fullmatch(
+            r"[0-9a-f]{64}", parts[2]):
+        _error("OE_QUERY_CURSOR_DIGEST_INVALID", "$.cursor",
+               "cursor framing or checksum is malformed")
+    try:
+        raw = base64.b64decode(
+            parts[1] + "=" * (-len(parts[1]) % 4), altchars=b"-_",
+            validate=True)
+    except (ValueError, TypeError):
+        _error("OE_QUERY_CURSOR_DIGEST_INVALID", "$.cursor",
+               "cursor payload is malformed")
+    if hashlib.sha256(raw).hexdigest() != parts[2]:
+        _error("OE_QUERY_CURSOR_DIGEST_INVALID", "$.cursor",
+               "cursor checksum does not match its payload")
+    body = decode_strict_json_bytes(raw, "history query cursor")
+    if (type(body) is not dict or set(body) != {
+            "schema", "query_contract", "generation_id", "manifest_digest",
+            "filters_sha256", "requested_position"} or
+            body.get("schema") != HISTORY_CURSOR_SCHEMA or
+            body.get("query_contract") != HISTORY_QUERY_SCHEMA):
+        _error("OE_QUERY_CURSOR_VERSION_MISMATCH", "$.cursor",
+               "cursor schema or query contract is unsupported")
+    if body.get("generation_id") != manifest["generation_id"]:
+        _error("OE_QUERY_CURSOR_GENERATION_MISMATCH", "$.cursor",
+               "cursor generation is not current")
+    if body.get("manifest_digest") != manifest["manifest_digest"]:
+        _error("OE_QUERY_CURSOR_MANIFEST_MISMATCH", "$.cursor",
+               "cursor manifest is not current")
+    if body.get("filters_sha256") != hashlib.sha256(
+            canonical_json_v1(filters)).hexdigest():
+        _error("OE_QUERY_CURSOR_FILTER_MISMATCH", "$.cursor",
+               "cursor filters differ from this request")
+    position = body.get("requested_position")
+    if (type(position) is not dict or set(position) != {"sequence", "event_id"} or
+            type(position.get("sequence")) is not str or
+            not HISTORY_SEQUENCE_RE.fullmatch(position["sequence"]) or
+            type(position.get("event_id")) is not str or
+            not HISTORY_EVENT_ID_RE.fullmatch(position["event_id"])):
+        _error("OE_QUERY_CURSOR_POSITION_STALE", "$.cursor.requested_position",
+               "cursor position is not canonical")
+    return body
+
+
+def _history_manifests_v1(current_manifest: dict, load_predecessor) -> list[dict]:
+    current = _validate_query_manifest_v1(current_manifest, "$manifest")
+    manifests = [current]
+    seen = {current["manifest_digest"]}
+    expected = current.get("predecessor_manifest_digest")
+    while expected is not None:
+        if type(expected) is not str or not re.fullmatch(r"[0-9a-f]{64}", expected):
+            _error("OE_QUERY_MANIFEST_INVALID", "$manifest.predecessor",
+                   "predecessor digest is malformed")
+        if expected in seen:
+            _error("OE_QUERY_MANIFEST_INVALID", "$manifest.predecessor",
+                   "predecessor chain contains a cycle")
+        try:
+            predecessor = load_predecessor(expected)
+        except OperationalEvidenceError:
+            raise
+        except Exception:
+            _error("OE_QUERY_MANIFEST_INVALID", "$manifest.predecessor",
+                   "verified predecessor could not be loaded")
+        predecessor = _validate_query_manifest_v1(
+            predecessor, "$manifest.predecessor")
+        if predecessor["manifest_digest"] != expected:
+            _error("OE_QUERY_MANIFEST_INVALID", "$manifest.predecessor",
+                   "loader returned a foreign predecessor")
+        if (predecessor.get("controller_id") != current.get("controller_id") or
+                predecessor.get("claim_id") != current.get("claim_id") or
+                predecessor.get("run_id") != current.get("run_id")):
+            _error("OE_QUERY_MANIFEST_INVALID", "$manifest.predecessor",
+                   "predecessor crossed controller, claim, or run custody")
+        manifests.append(predecessor)
+        seen.add(expected)
+        expected = predecessor.get("predecessor_manifest_digest")
+    return manifests
+
+
+def _history_event_v1(manifest: dict, row: dict, load_segment) -> tuple[dict, bytes]:
+    try:
+        raw = load_segment(manifest, row)
+    except OperationalEvidenceError:
+        raise
+    except Exception:
+        _error("OE_QUERY_SEGMENT_INVALID", "$.segment",
+               "referenced event segment could not be loaded")
+    if type(raw) is not bytes or hashlib.sha256(raw).hexdigest() != (
+            row["segment_digest"].removeprefix("sha256:")):
+        _error("OE_QUERY_SEGMENT_INVALID", "$.segment",
+               "referenced event segment digest differs")
+    event = decode_strict_json_bytes(raw, "history event segment")
+    if canonical_json_v1(event) != raw:
+        _error("OE_QUERY_SEGMENT_INVALID", "$.segment",
+               "event segment is not canonical")
+    candidate = dict(event) if type(event) is dict else {}
+    candidate.pop("event_id", None)
+    expected_id = "iaevt-v1-" + hashlib.sha256(
+        canonical_json_v1(candidate)).hexdigest()
+    if (type(event) is not dict or
+            event.get("schema_version") != HISTORY_EVENT_SCHEMA or
+            event.get("event_id") != row["event_id"] or
+            event.get("event_id") != expected_id or
+            event.get("sequence") != row["sequence"] or
+            event.get("record_kind") != row["record_kind"] or
+            event.get("source_evidence_id") != row["source_evidence_id"] or
+            event.get("generation_id") != manifest["generation_id"] or
+            event.get("controller_id") != manifest.get("controller_id") or
+            event.get("run_id") != manifest.get("run_id")):
+        _error("OE_QUERY_SEGMENT_INVALID", "$.segment",
+               "event segment crossed its verified manifest custody")
+    return event, raw
+
+
+def _history_matches_v1(event: dict, filters: dict) -> bool:
+    fields = {
+        "event_ids": "event_id", "record_kinds": "record_kind",
+        "subject_ids": "subject_id", "source_evidence_ids": "source_evidence_id",
+        "statuses": "status", "transitions": "transition"}
+    return all(event.get(fields[key]) in values for key, values in filters.items())
+
+
+def query_history_v1(
+        request: dict, current_manifest: dict, cursor: str | None = None,
+        *, load_segment, load_predecessor) -> dict:
+    """Read only the verified predecessor chain under explicit finite bounds."""
+    filters, max_rows, max_bytes = _history_request_v1(request)
+    manifests = _history_manifests_v1(current_manifest, load_predecessor)
+    cursor_body = (decode_query_cursor_v1(cursor, request, current_manifest)
+                   if cursor is not None else None)
+    requested_position = (cursor_body["requested_position"]
+                          if cursor_body is not None else None)
+    population = []
+    identities = set()
+    for manifest in manifests:
+        for row in manifest["events"]:
+            identity = (row["sequence"], row["event_id"])
+            if identity in identities:
+                _error("OE_QUERY_MANIFEST_INVALID", "$.manifest.events",
+                       "predecessor population repeats an event position")
+            identities.add(identity)
+            population.append((identity, manifest, row))
+    population.sort(key=lambda item: item[0])
+    if requested_position is not None:
+        position_tuple = (
+            requested_position["sequence"], requested_position["event_id"])
+        if position_tuple not in identities:
+            _error("OE_QUERY_CURSOR_POSITION_STALE", "$.cursor.requested_position",
+                   "cursor position is absent from verified history")
+    else:
+        position_tuple = None
+    rows = []
+    row_bytes = 0
+    truncated = False
+    observed_start = None
+    observed_end = None
+    next_position = None
+    metadata_fields = {
+        "event_ids": "event_id", "record_kinds": "record_kind",
+        "source_evidence_ids": "source_evidence_id"}
+    for identity, manifest, row in population:
+        if position_tuple is not None and identity <= position_tuple:
+            continue
+        if observed_start is None:
+            observed_start = {"sequence": identity[0], "event_id": identity[1]}
+        observed_end = {"sequence": identity[0], "event_id": identity[1]}
+        if any(row[metadata_fields[key]] not in values
+               for key, values in filters.items() if key in metadata_fields):
+            continue
+        event, raw = _history_event_v1(manifest, row, load_segment)
+        if not _history_matches_v1(event, filters):
+            continue
+        if len(rows) >= max_rows or row_bytes + len(raw) > max_bytes:
+            truncated = True
+            break
+        rows.append(event)
+        row_bytes += len(raw)
+        next_position = {"sequence": identity[0], "event_id": identity[1]}
+    next_cursor = None
+    if truncated and next_position is not None:
+        next_cursor = encode_query_cursor_v1(
+            request, current_manifest, next_position)
+    return {
+        "schema": QUERY_RESULT_SCHEMA,
+        "query_contract": HISTORY_QUERY_SCHEMA,
+        "filters": filters,
+        "rows": rows,
+        "row_bytes": row_bytes,
+        "max_rows": max_rows, "max_bytes": max_bytes,
+        "coverage": {"start": observed_start, "end": observed_end},
+        "requested_position": requested_position,
+        "next_cursor": next_cursor,
+        "truncated": truncated,
+        "code": ("OE_QUERY_REQUIRES_BOUNDED_REVIEW" if truncated else "OK"),
+        "decision_usable": cursor is None and not truncated,
+        "authority_ceiling": "READ_ONLY_OBSERVATION",
+        "establishes": [],
+    }
+
+
+def _load_selected_snapshot_v1() -> dict:
+    native = collect_native_current()
+    repository_root = pathlib.Path(native["repository"]["root"])
+    run_root = repository_root.joinpath(
+        *pathlib.PurePosixPath(native["claim"]["run_root"]).parts)
+    snapshots = run_root / "operational-evidence" / "snapshots"
+    raw = _snapshot_current_raw_v1(snapshots)
+    if raw is None:
+        _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
+               "no selected operational snapshot exists")
+    current = _snapshot_validate_current_v1(raw, snapshots)
+    payload_raw = _snapshot_read_regular_v1(
+        snapshots / current["snapshot_id"] / "snapshot.json", snapshots,
+        "OE_SNAPSHOT_CURRENT_INVALID")
+    payload = _snapshot_decode_canonical_object_v1(
+        payload_raw, "OE_SNAPSHOT_CURRENT_INVALID")
+    if (payload.get("schema_version") != SNAPSHOT_PAYLOAD_SCHEMA or
+            payload.get("snapshot_id") != current["snapshot_id"]):
+        _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.snapshot",
+               "selected snapshot identity or schema differs")
+    return payload
+
+
+def build_cli_parser_v1() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="validate, canonicalize, and query R0038 operational evidence")
+    commands = parser.add_subparsers(dest="command", required=True)
+    for name in ("validate", "canonicalize"):
+        command = commands.add_parser(name)
+        command.add_argument("input", type=pathlib.Path)
+    commands.add_parser("status")
+    query = commands.add_parser("query")
+    query.add_argument("--family", required=True, choices=FAMILIES)
+    query.add_argument("--current-only", action="store_true")
+    query.add_argument("--max-rows", required=True, type=int)
+    query.add_argument("--max-bytes", required=True, type=int)
+    why = commands.add_parser("why")
+    why.add_argument("record_id")
+    return parser
+
+
 def _validate_record(value):
     if type(value) is not dict:
         _error("OE_SCHEMA_INVALID", "$", "must be an object")
@@ -3441,17 +3985,15 @@ def load_operational_evidence(path: pathlib.Path):
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="validate and canonicalize R0038 operational evidence")
-    parser.add_argument("command", choices=("validate", "canonicalize"))
-    parser.add_argument("input", type=pathlib.Path)
+    parser = build_cli_parser_v1()
     args = parser.parse_args()
     try:
-        value, schema_sha256 = load_operational_evidence(args.input)
-        canonical = canonical_json_v1(value)
-        if args.command == "canonicalize":
-            sys.stdout.buffer.write(canonical)
-        else:
+        if args.command in ("validate", "canonicalize"):
+            value, schema_sha256 = load_operational_evidence(args.input)
+            canonical = canonical_json_v1(value)
+            if args.command == "canonicalize":
+                sys.stdout.buffer.write(canonical)
+                return 0
             census = Counter(
                 row["currentness"]["state"]
                 for name in ("capability_declarations", "currentness_predicates",
@@ -3467,6 +4009,38 @@ def main() -> int:
                 "fact_state_census": dict(sorted(census.items())),
             }
             sys.stdout.buffer.write(canonical_json_v1(receipt))
+            return 0
+        snapshot = _load_selected_snapshot_v1()
+        if args.command == "status":
+            result = evaluate_currentness(snapshot)
+        elif args.command == "why":
+            result = explain_history_why_v1(snapshot, args.record_id)
+        else:
+            if (type(args.max_rows) is not int or args.max_rows <= 0 or
+                    type(args.max_bytes) is not int or args.max_bytes <= 0):
+                _error("OE_QUERY_BOUND_INVALID", "$query",
+                       "query bounds must be finite positive integers")
+            result = query_family(
+                snapshot, args.family, current_only=args.current_only)
+            retained = []
+            size = 0
+            truncated = False
+            for row in result["rows"]:
+                row_size = len(canonical_json_v1(row))
+                if len(retained) >= args.max_rows or size + row_size > args.max_bytes:
+                    truncated = True
+                    break
+                retained.append(row)
+                size += row_size
+            result.update({
+                "rows": retained, "row_bytes": size,
+                "max_rows": args.max_rows, "max_bytes": args.max_bytes,
+                "truncated": truncated,
+                "code": ("OE_QUERY_REQUIRES_BOUNDED_REVIEW"
+                         if truncated else "OK"),
+                "decision_usable": not truncated,
+            })
+        sys.stdout.buffer.write(canonical_json_v1(result))
         return 0
     except OperationalEvidenceError as exc:
         sys.stderr.buffer.write(canonical_json_v1(exc.receipt()))

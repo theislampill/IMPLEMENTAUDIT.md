@@ -254,6 +254,49 @@ residue, not discovery authority: readers follow only valid canonical
 `CURRENT`. Stored snapshot identities remain immutable and can be reread after
 a later selection without creating new R0039 archives.
 
+## Deterministic read-only status, query and why
+
+`status`, `query` and `why` are C07 readers. They accept no repository, run
+root, snapshot root, controller, claim, pointer, manifest locator or other
+caller-supplied authority path. The CLI derives the bound run through the C03
+native-current reader, follows only the validated snapshot `CURRENT`, and
+returns canonical JSON under the `READ_ONLY_OBSERVATION` authority ceiling with
+an empty `establishes` population. These commands do not publish a snapshot,
+change `CURRENT`, mint route/currentness/lifecycle authority, inspect an
+ActiveGraph mirror, use network or invoke a model.
+
+`evaluate_currentness()` reports a separate state census for each of the six
+frozen families and retains the snapshot's explicit missing-or-omitted-state
+population. `query_family()` orders records by stable logical identity, retains
+native owner/source identity and exact invalidators, and may filter to
+`CURRENT` only when it also reports the omitted-state census. Non-current facts
+are observations, never normalized to success. `explain_history_why_v1()`
+follows only retained relation endpoints in deterministic order, retains
+declared contrary evidence, reports a missing identity as `UNKNOWN`, and
+refuses a reachable cycle rather than inventing a cause.
+
+`query_history_v1()` accepts at least one non-empty normalized filter plus
+finite positive row and byte bounds. Its history authority is only the verified
+current R39 generation manifest and that manifest's digest-linked predecessor
+chain. Manifest metadata is used to avoid hydrating unrelated immutable
+segments; every referenced segment is checked against its digest, canonical
+event identity, generation, controller and run before it is returned. The exact
+HC-H2B `implementaudit.history-query-request.v1` form is accepted only for one
+canonical `iaevt-v1-<64-lowercase-hex>` identity and is normalized to an exact
+event-ID filter. Executing that read does not satisfy, clear or promote the
+R0033 route obligation.
+
+Rows use canonical sequence/event order. Results state the requested position,
+observed coverage, row and byte bounds, truncation and next cursor. Cursor
+payloads bind query contract, current generation, current manifest, normalized
+filter digest and exact requested position. Their SHA-256 suffix is an integrity
+checksum, not authentication. A cursor-selected page is always nondecision; only
+an untruncated first page from filter start is decision-usable. Any row- or
+byte-bound overflow returns `OE_QUERY_REQUIRES_BOUNDED_REVIEW` and cannot support
+a negative, absence, closure or route-satisfaction conclusion. Diff/export
+remain C08 work; validation registration, helper reachability and package
+admission remain C11 work.
+
 ## Canonical evidence and failure collection
 
 `collect_evidence_failure` is the C04 read-only boundary. It accepts one fixed,

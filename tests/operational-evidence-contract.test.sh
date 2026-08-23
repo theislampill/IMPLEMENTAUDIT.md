@@ -25,6 +25,497 @@ fixtures="fixtures/operational-evidence"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
+run_query_contract() {
+"${py_cmd[@]}" - "$loader" "$rotation_loader" \
+  "$fixtures/query-cases.json" \
+  "fixtures/canonical-state-rotation/query-cursor-cases.json" <<'PY'
+import base64
+import copy
+import hashlib
+import importlib.util
+import json
+import pathlib
+import sys
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+evidence = load("operational_evidence_query", sys.argv[1])
+rotation = load("rotation_query", sys.argv[2])
+cases = json.loads(pathlib.Path(sys.argv[3]).read_text(encoding="utf-8"))
+frozen = json.loads(pathlib.Path(sys.argv[4]).read_text(encoding="utf-8"))
+families = ["CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE"]
+
+if cases != {
+        "schema": "implementaudit.operational-evidence-query-cases.v1",
+        "causal_cases": [f"C07-R{i:02d}" for i in range(1, 19)],
+        "held_out_cases": [f"C07-H{i:02d}" for i in range(1, 5)],
+        "families": families,
+        "cursor_cases": frozen["cases"],
+    }:
+    raise SystemExit("C07 query fixture does not bind the frozen matrix")
+
+required_functions = {
+    "evaluate_currentness", "query_family", "normalize_history_filters_v1",
+    "encode_query_cursor_v1", "decode_query_cursor_v1", "query_history_v1",
+    "explain_history_why_v1", "build_cli_parser_v1",
+}
+missing = sorted(name for name in required_functions if not hasattr(evidence, name))
+if missing:
+    raise SystemExit(f"C07-R01 status/query/why interfaces are absent: {missing}")
+
+schema = json.loads(pathlib.Path(
+    "skills/implementaudit/references/operational-evidence-schema.json"
+).read_text(encoding="utf-8"))
+if schema.get("x-bounded-history-query") != {
+        "schema": "implementaudit.operational-evidence-query.v1",
+        "cursor_schema": "implementaudit.history-query-cursor.v1",
+        "history_contract": "implementaudit.history-query.v1",
+        "authority_ceiling": "READ_ONLY_OBSERVATION",
+        "cursor_integrity": "sha256_checksum_not_authentication",
+        "cursor_pages": "never_decision_usable",
+        "decision_page": "untruncated_first_page_from_filter_start_only",
+        "overflow": "OE_QUERY_REQUIRES_BOUNDED_REVIEW",
+        "history_discovery": "verified_current_pointer_manifest_predecessor_chain_only",
+        "activegraph_authority": False,
+        "publication": False,
+    }:
+    raise SystemExit("C07 query schema contract is absent or widened")
+
+
+def currentness(state="CURRENT", invalidators=None):
+    return {"state": state, "invalidators": list(invalidators or [])}
+
+
+def record(identifier, family, state="CURRENT", invalidators=None, **extra):
+    return {
+        "id": identifier,
+        "family": family,
+        "native_owner_identity": f"owner:{family.lower()}",
+        "source_identity": {"id": f"source:{identifier}", "layer": "evidence"},
+        "evidence_layer": "evidence",
+        "currentness": currentness(state, invalidators),
+        **extra,
+    }
+
+
+records = [
+    record("code", "CODE", record_type="File", required=True,
+           capability="tracked-file"),
+    record("owner", "OWNERSHIP", record_type="Writer", required=True,
+           capability="semantic-owner"),
+    record("execution", "EXECUTION", record_type="Run", required=True,
+           capability="bounded-run"),
+    record("evidence", "EVIDENCE", record_type="Evidence", required=True,
+           capability="claim-leg", contrary_evidence=["contrary-open"]),
+    record("failure", "FAILURE", record_type="Andon", required=True,
+           capability="supported-cause"),
+    record("release", "RELEASE", record_type="Release", required=True,
+           capability="public-readback"),
+    record("stale-evidence", "EVIDENCE", "STALE", ["receipt-drift"],
+           record_type="Evidence", required=False, capability="historical-only"),
+]
+relations = [
+    record("rel-evidence-criterion", "EVIDENCE", relation_type="EVIDENCES",
+           source_entity_id="evidence", target_entity_id="failure",
+           confidence="mechanical", inference_rule=None),
+    record("rel-failure-release", "FAILURE", relation_type="BLOCKS",
+           source_entity_id="failure", target_entity_id="release",
+           confidence="declared", inference_rule=None),
+]
+snapshot = {
+    "schema_version": "implementaudit-operational-snapshot-payload.v1",
+    "snapshot_id": "iasnap-v1-" + "a" * 64,
+    "aggregate": "DEGRADED",
+    "families": families,
+    "missing_or_omitted_state": [{"kind": "OWNER_FACT_NON_CURRENT",
+                                   "family": "EVIDENCE", "state": "STALE"}],
+    "collections": {
+        "fixture": {"owner": "R0038-test", "state": "CURRENT",
+                    "value": {"records": records, "relations": relations}},
+    },
+    "input_manifest_sha256": "a" * 64,
+}
+
+status = evidence.evaluate_currentness(snapshot)
+if (status["schema"] != "implementaudit.operational-evidence-status.v1" or
+        status["aggregate"] != "DEGRADED" or
+        status["family_state_census"]["EVIDENCE"] != {"CURRENT": 2, "STALE": 1} or
+        status["authority_ceiling"] != "READ_ONLY_OBSERVATION" or
+        status["establishes"]):
+    raise SystemExit("C07-R02/R05 status lost six-family currentness or authority")
+
+current_view = evidence.query_family(snapshot, "EVIDENCE", current_only=True)
+if ([row["record"]["id"] for row in current_view["rows"]] != [
+        "evidence", "rel-evidence-criterion"] or
+        current_view["omitted_state_census"] != {"STALE": 1}):
+    raise SystemExit("C07-R03 CURRENT-only view hid its omitted-state census")
+all_view = evidence.query_family(snapshot, "EVIDENCE")
+if len(all_view["rows"]) != 3 or not any(
+        row["record"]["currentness"]["invalidators"] == ["receipt-drift"]
+        for row in all_view["rows"]):
+    raise SystemExit("C07-R05 query normalized a non-current fact to success")
+
+permuted = copy.deepcopy(snapshot)
+permuted["collections"]["fixture"]["value"]["records"].reverse()
+permuted["collections"]["fixture"]["value"]["relations"].reverse()
+if evidence.canonical_json_v1(evidence.query_family(snapshot, "EVIDENCE")) != \
+        evidence.canonical_json_v1(evidence.query_family(permuted, "EVIDENCE")):
+    raise SystemExit("C07-R04 query bytes depend on input ordering")
+
+why = evidence.explain_history_why_v1(snapshot, "evidence")
+if ([row["id"] for row in why["chain"]] != ["evidence", "failure", "release"] or
+        why["contrary_evidence"] != ["contrary-open"]):
+    raise SystemExit("C07-R06 why chain is not deterministic or lost contrary evidence")
+missing_why = evidence.explain_history_why_v1(snapshot, "absent")
+if missing_why["status"] != "UNKNOWN" or missing_why["chain"]:
+    raise SystemExit("C07-R06 missing why edge invented a cause")
+cyclic = copy.deepcopy(snapshot)
+cyclic["collections"]["fixture"]["value"]["relations"].append(
+    record("rel-release-evidence", "RELEASE", relation_type="DEPENDS_ON",
+           source_entity_id="release", target_entity_id="evidence",
+           confidence="declared", inference_rule=None))
+try:
+    evidence.explain_history_why_v1(cyclic, "evidence")
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_WHY_CYCLE":
+        raise SystemExit(f"C07-R06 wrong why-cycle discriminator: {exc.code}")
+else:
+    raise SystemExit("C07-R06 malformed why cycle was accepted")
+
+
+def source_locator():
+    return {
+        "kind": "run-root-relative", "root_identity": "sha256:" + "b" * 64,
+        "path": "operational-evidence/snapshots/iasnap-v1-" + "a" * 64 +
+                "/snapshot.json", "host_identity": None,
+    }
+
+
+def event(sequence, generation, kind, subject, status="CLOSED"):
+    value = {
+        "schema_version": "implementaudit.history-event.v1",
+        "run_id": "run-query", "controller_id": "controller-query",
+        "generation_id": generation, "sequence": f"{sequence:020d}",
+        "record_kind": kind, "subject_id": subject,
+        "source_epoch": generation, "transition": "APPENDED", "status": status,
+        "supersedes_event_id": None, "payload": {"subject": subject},
+        "source_evidence_id": "iasrc-v1-r0038-snapshot-" + "a" * 64,
+        "source_locator": source_locator(), "source_digest": "sha256:" + "c" * 64,
+    }
+    value["payload_digest"] = hashlib.sha256(
+        rotation.canonical_json_v1(value["payload"])).hexdigest()
+    value["event_id"] = "iaevt-v1-" + hashlib.sha256(
+        rotation.canonical_json_v1(value)).hexdigest()
+    rotation.validate_event_output_v1(value)
+    return value
+
+
+def manifest(generation, events, predecessor=None):
+    before = predecessor["high_water"] if predecessor else "00000000000000000000"
+    predecessor_digest = predecessor["manifest_digest"] if predecessor else None
+    rows = [{
+        "sequence": value["sequence"], "event_id": value["event_id"],
+        "segment_digest": "sha256:" + hashlib.sha256(
+            rotation.canonical_json_v1(value)).hexdigest(),
+        "record_kind": value["record_kind"],
+        "source_evidence_id": value["source_evidence_id"],
+    } for value in events]
+    counts = {}
+    for row in rows:
+        counts[row["record_kind"]] = counts.get(row["record_kind"], 0) + 1
+    value = {
+        "schema_version": "implementaudit.state-generation-manifest.v1",
+        "query_contract_version": "implementaudit.history-query.v1",
+        "controller_id": "controller-query", "claim_id": "d" * 32,
+        "run_id": "run-query", "generation_id": generation,
+        "source_epoch": generation,
+        "predecessor_manifest_digest": predecessor_digest,
+        "predecessor_high_water": before, "events": rows,
+        "record_class_counts": dict(sorted(counts.items())),
+        "population_digest": hashlib.sha256(rotation.canonical_json_v1([
+            {key: row[key] for key in rotation.MANIFEST_EVENT_KEYS} for row in rows
+        ])).hexdigest(),
+        "high_water": rows[-1]["sequence"],
+    }
+    value["manifest_digest"] = hashlib.sha256(
+        rotation.canonical_json_v1(value)).hexdigest()
+    rotation.verify_generation_manifest_v1(value)
+    return value
+
+
+old_events = [
+    event(1, "G0001", "finding.closed", "finding-old"),
+    event(2, "G0001", "andon.closed", "andon-old"),
+]
+old_manifest = manifest("G0001", old_events)
+new_events = [
+    event(3, "G0002", "finding.closed", "finding-new"),
+    event(4, "G0002", "transition.closed", "transition-new"),
+]
+new_manifest = manifest("G0002", new_events, old_manifest)
+events_by_id = {row["event_id"]: row for row in old_events + new_events}
+manifests = {old_manifest["manifest_digest"]: old_manifest}
+loaded = []
+
+
+def load_predecessor(digest):
+    return manifests[digest]
+
+
+def load_segment(_manifest, row):
+    loaded.append(row["event_id"])
+    return rotation.canonical_json_v1(events_by_id[row["event_id"]])
+
+
+def request(filters, rows=10, size=65536):
+    return {"schema": "implementaudit.operational-evidence-query.v1",
+            "filters": filters, "max_rows": rows, "max_bytes": size}
+
+
+target = new_events[0]["event_id"]
+exact_request = request({"event_ids": [target]})
+result = evidence.query_history_v1(
+    exact_request, new_manifest, load_segment=load_segment,
+    load_predecessor=load_predecessor)
+if ([row["event_id"] for row in result["rows"]] != [target] or
+        loaded != [target] or not result["decision_usable"] or result["truncated"] or
+        result["authority_ceiling"] != "READ_ONLY_OBSERVATION" or
+        result["establishes"]):
+    raise SystemExit("C07-R12/R15 exact query hydrated unrelated history or gained authority")
+
+
+def corrupt_referenced_segment(manifest_value, row):
+    if row["event_id"] == target:
+        return b"{}"
+    raise SystemExit("C07-R13 exact query attempted to hydrate unrelated history")
+
+
+try:
+    evidence.query_history_v1(
+        exact_request, new_manifest, load_segment=corrupt_referenced_segment,
+        load_predecessor=load_predecessor)
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_QUERY_SEGMENT_INVALID":
+        raise SystemExit(f"C07-R13 referenced corruption returned {exc.code}")
+else:
+    raise SystemExit("C07-R13 referenced corrupt segment was accepted")
+
+foreign_old = copy.deepcopy(old_manifest)
+foreign_old["run_id"] = "foreign-run"
+foreign_old["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1({
+    key: value for key, value in foreign_old.items() if key != "manifest_digest"
+})).hexdigest()
+foreign_current = copy.deepcopy(new_manifest)
+foreign_current["predecessor_manifest_digest"] = foreign_old["manifest_digest"]
+foreign_current["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1({
+    key: value for key, value in foreign_current.items()
+    if key != "manifest_digest"
+})).hexdigest()
+try:
+    evidence.query_history_v1(
+        exact_request, foreign_current, load_segment=load_segment,
+        load_predecessor=lambda _digest: foreign_old)
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_QUERY_MANIFEST_INVALID":
+        raise SystemExit(f"C07-R13 foreign predecessor returned {exc.code}")
+else:
+    raise SystemExit("C07-R13 foreign predecessor custody was accepted")
+
+for filters in ({}, {"event_ids": []}, {"event_ids": [True]},
+                {"not_a_filter": [target]}):
+    try:
+        evidence.normalize_history_filters_v1(filters)
+    except evidence.OperationalEvidenceError as exc:
+        if exc.code != "OE_QUERY_FILTER_INVALID":
+            raise SystemExit(f"C07-R07 wrong filter discriminator: {exc.code}")
+    else:
+        raise SystemExit("C07-R07 empty/malformed filter was accepted")
+for bad in (0, -1, True, 1.5):
+    try:
+        evidence.query_history_v1(
+            request({"event_ids": [target]}, rows=bad), new_manifest,
+            load_segment=load_segment, load_predecessor=load_predecessor)
+    except evidence.OperationalEvidenceError as exc:
+        if exc.code != "OE_QUERY_BOUND_INVALID":
+            raise SystemExit(f"C07-R07 wrong bound discriminator: {exc.code}")
+    else:
+        raise SystemExit("C07-R07 non-positive/non-integer bound was accepted")
+
+position = {"sequence": old_events[1]["sequence"],
+            "event_id": old_events[1]["event_id"]}
+cursor = evidence.encode_query_cursor_v1(exact_request, new_manifest, position)
+decoded = evidence.decode_query_cursor_v1(cursor, exact_request, new_manifest)
+if decoded["requested_position"] != position:
+    raise SystemExit("QC01 valid cursor did not round-trip")
+
+
+def decode_cursor(token):
+    encoded = token.split(".")[1]
+    encoded += "=" * (-len(encoded) % 4)
+    return json.loads(base64.urlsafe_b64decode(encoded).decode("utf-8"))
+
+
+def encode_cursor(value):
+    raw = evidence.canonical_json_v1(value)
+    payload = base64.urlsafe_b64encode(raw).decode("ascii").rstrip("=")
+    return "iaqcur-v1." + payload + "." + hashlib.sha256(raw).hexdigest()
+
+
+def expect_cursor_failure(case_id, token, expected_code, req=exact_request,
+                          current_manifest=new_manifest):
+    try:
+        evidence.decode_query_cursor_v1(token, req, current_manifest)
+    except evidence.OperationalEvidenceError as exc:
+        if exc.code != expected_code:
+            raise SystemExit(f"{case_id} expected {expected_code}, got {exc.code}")
+    else:
+        raise SystemExit(f"{case_id} cursor was accepted")
+
+
+mutated = decode_cursor(cursor)
+mutated["schema"] = "implementaudit.history-query-cursor.v2"
+expect_cursor_failure("QC02", encode_cursor(mutated), "OE_QUERY_CURSOR_VERSION_MISMATCH")
+mutated = decode_cursor(cursor); mutated["generation_id"] = "G0001"
+expect_cursor_failure("QC03", encode_cursor(mutated), "OE_QUERY_CURSOR_GENERATION_MISMATCH")
+mutated = decode_cursor(cursor); mutated["manifest_digest"] = "e" * 64
+expect_cursor_failure("QC04", encode_cursor(mutated), "OE_QUERY_CURSOR_MANIFEST_MISMATCH")
+expect_cursor_failure(
+    "QC05", cursor, "OE_QUERY_CURSOR_FILTER_MISMATCH",
+    req=request({"event_ids": [old_events[0]["event_id"]]}))
+stale = decode_cursor(cursor)
+stale["requested_position"] = {"sequence": "99999999999999999999",
+                                "event_id": "iaevt-v1-" + "f" * 64}
+stale_cursor = encode_cursor(stale)
+try:
+    evidence.query_history_v1(
+        exact_request, new_manifest, cursor=stale_cursor,
+        load_segment=load_segment, load_predecessor=load_predecessor)
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_QUERY_CURSOR_POSITION_STALE":
+        raise SystemExit(f"QC06 wrong stale-position discriminator: {exc.code}")
+else:
+    raise SystemExit("QC06 stale cursor position was accepted")
+expect_cursor_failure(
+    "QC07", cursor[:-1] + ("0" if cursor[-1] != "0" else "1"),
+    "OE_QUERY_CURSOR_DIGEST_INVALID")
+
+recomputed = evidence.encode_query_cursor_v1(
+    exact_request, new_manifest,
+    {"sequence": new_events[0]["sequence"], "event_id": target})
+page = evidence.query_history_v1(
+    exact_request, new_manifest, cursor=recomputed, load_segment=load_segment,
+    load_predecessor=load_predecessor)
+if page["decision_usable"] or page["requested_position"] != {
+        "sequence": new_events[0]["sequence"], "event_id": target}:
+    raise SystemExit("QC08 recomputed skip became decision-usable or hid coverage")
+
+overflow = evidence.query_history_v1(
+    request({"record_kinds": ["finding.closed"]}, rows=1), new_manifest,
+    load_segment=load_segment, load_predecessor=load_predecessor)
+if (overflow["code"] != "OE_QUERY_REQUIRES_BOUNDED_REVIEW" or
+        not overflow["truncated"] or overflow["decision_usable"] or
+        overflow["next_cursor"] is None):
+    raise SystemExit("C07-R08/R11 overflow made a negative or complete claim")
+
+old_raw = rotation.canonical_json_v1(old_events[0])
+byte_overflow = evidence.query_history_v1(
+    request({"record_kinds": ["finding.closed"]}, rows=10,
+            size=len(old_raw)), new_manifest,
+    load_segment=load_segment, load_predecessor=load_predecessor)
+if (len(byte_overflow["rows"]) != 1 or not byte_overflow["truncated"] or
+        byte_overflow["next_cursor"] is None or
+        byte_overflow["code"] != "OE_QUERY_REQUIRES_BOUNDED_REVIEW" or
+        byte_overflow["coverage"]["start"] is None or
+        byte_overflow["coverage"]["end"] is None):
+    raise SystemExit("C07-R08 byte overflow lost bounded coverage or next cursor")
+
+route_request = {
+    "schema": "implementaudit.history-query-request.v1",
+    "route": "QUERY_HISTORY_THEN_RESUME", "requirement": "REQUIRED",
+    "evidence_ids": [target],
+}
+if evidence.normalize_history_filters_v1(route_request) != {"event_ids": [target]}:
+    raise SystemExit("C07-R12 exact HC-H2B request did not normalize")
+loaded.clear()
+route_result = evidence.query_history_v1(
+    request(route_request), new_manifest, load_segment=load_segment,
+    load_predecessor=load_predecessor)
+if ([row["event_id"] for row in route_result["rows"]] != [target] or
+        loaded != [target] or not route_result["decision_usable"] or
+        route_result["establishes"]):
+    raise SystemExit("C07-R12 exact HC-H2B request was not selectively executed")
+for key, value in (
+        ("route", "OTHER"), ("requirement", "OPTIONAL"),
+        ("evidence_ids", []), ("evidence_ids", [target, old_events[0]["event_id"]]),
+        ("evidence_ids", ["foreign"])):
+    bad = dict(route_request); bad[key] = value
+    try:
+        evidence.normalize_history_filters_v1(bad)
+    except evidence.OperationalEvidenceError as exc:
+        if exc.code != "OE_QUERY_FILTER_INVALID":
+            raise SystemExit(f"C07-R12 malformed route request returned {exc.code}")
+    else:
+        raise SystemExit("C07-R12 malformed route request was accepted")
+
+parser = evidence.build_cli_parser_v1()
+if parser.parse_args(["status"]).command != "status":
+    raise SystemExit("C07-R01 status grammar is absent")
+query_args = parser.parse_args([
+    "query", "--family", "CODE", "--max-rows", "1", "--max-bytes", "1024"])
+if query_args.command != "query" or query_args.family != "CODE":
+    raise SystemExit("C07-R01 query grammar is absent")
+if parser.parse_args(["why", "evidence"]).record_id != "evidence":
+    raise SystemExit("C07-R01 why grammar is absent")
+effects = []
+original_urlopen = evidence.urllib.request.urlopen
+original_subprocess_run = evidence.subprocess.run
+
+
+def forbidden_network(*_args, **_kwargs):
+    effects.append("NETWORK")
+    raise AssertionError("C07 reader attempted network")
+
+
+def forbidden_process(*_args, **_kwargs):
+    effects.append("PROCESS")
+    raise AssertionError("C07 pure reader attempted a process effect")
+
+
+evidence.urllib.request.urlopen = forbidden_network
+evidence.subprocess.run = forbidden_process
+try:
+    evidence.evaluate_currentness(snapshot)
+    evidence.query_family(snapshot, "CODE")
+    evidence.explain_history_why_v1(snapshot, "evidence")
+    evidence.query_history_v1(
+        exact_request, new_manifest, load_segment=load_segment,
+        load_predecessor=load_predecessor)
+finally:
+    evidence.urllib.request.urlopen = original_urlopen
+    evidence.subprocess.run = original_subprocess_run
+if effects:
+    raise SystemExit(f"C07-R16 pure readers crossed an effect boundary: {effects}")
+for forbidden in ("diff_snapshots", "export_snapshot"):
+    if hasattr(evidence, forbidden):
+        raise SystemExit(f"C07-R17 crossed into C08 interface {forbidden}")
+if any(action.dest in ("repository", "run_root", "snapshot_root", "manifest")
+       for action in parser._actions):
+    raise SystemExit("C07-R16 CLI accepted caller-supplied authority")
+PY
+}
+
+if [ "${1:-}" = "--query-only" ]; then
+  run_query_contract
+  printf 'operational-evidence-contract.test: query ok\n'
+  exit 0
+fi
+
 "${py_cmd[@]}" - "$loader" \
   "skills/implementaudit/scripts/compile-work-graph.py" \
   "skills/implementaudit/scripts/route-transaction.py" \
@@ -3163,5 +3654,7 @@ if partial["outcome"] != "PARTIAL" or partial["diagnostics"]["skipped"] != [
 if any(fact.get("state") == "CURRENT" for fact in partial["facts"]):
     raise SystemExit("non-current external receipt retained CURRENT facts")
 PY
+
+run_query_contract
 
 printf 'operational-evidence-contract.test: ok\n'
