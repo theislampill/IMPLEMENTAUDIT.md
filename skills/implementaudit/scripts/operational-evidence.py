@@ -3541,45 +3541,74 @@ def _history_request_v1(request: object) -> tuple[dict, int, int]:
     return filters, request["max_rows"], request["max_bytes"]
 
 
-def _manifest_digest_v1(manifest: dict) -> str:
-    candidate = dict(manifest)
-    candidate.pop("manifest_digest", None)
-    return hashlib.sha256(canonical_json_v1(candidate)).hexdigest()
+def _load_r39_query_contract_v1() -> tuple[types.ModuleType, pathlib.Path, bytes]:
+    """Execute the exact fixed sibling R39 verifier bytes as trusted source."""
+    path = pathlib.Path(__file__).resolve().with_name("rotate-canonical-state.py")
+    raw = _native_file(path, "$query.r39_contract", 512 * 1024)
+    name = "_implementaudit_r39_query_contract_v1"
+    module = types.ModuleType(name)
+    module.__file__ = os.fspath(path)
+    previous = sys.modules.get(name)
+    sys.modules[name] = module
+    try:
+        exec(compile(raw, os.fspath(path), "exec"), module.__dict__)
+    except Exception:
+        _error("OE_QUERY_R39_CONTRACT_INVALID", "$query.r39_contract",
+               "exact R39 query contract could not be loaded")
+    finally:
+        if previous is None:
+            sys.modules.pop(name, None)
+        else:
+            sys.modules[name] = previous
+    if not all(hasattr(module, name) for name in (
+            "RotationError", "verify_generation_manifest_v1",
+            "load_governed_source_custody_v1",
+            "load_canonical_generation_pointer_oid_v1",
+            "load_canonical_generation_manifest_oid_v1",
+            "verify_pointer_manifest_tuple_v1",
+            "require_complete_pointer_receipt_marker_route_v1")):
+        _error("OE_QUERY_R39_CONTRACT_INVALID", "$query.r39_contract",
+               "exact R39 query contract is incomplete")
+    return module, path, raw
 
 
-def _validate_query_manifest_v1(manifest: object, path: str) -> dict:
-    if (type(manifest) is not dict or
-            manifest.get("schema_version") != HISTORY_MANIFEST_SCHEMA or
-            manifest.get("query_contract_version") != HISTORY_QUERY_SCHEMA or
-            type(manifest.get("manifest_digest")) is not str or
-            _manifest_digest_v1(manifest) != manifest.get("manifest_digest") or
-            type(manifest.get("generation_id")) is not str or
-            not re.fullmatch(r"G[0-9]{4}", manifest["generation_id"]) or
-            type(manifest.get("events")) is not list):
+def _validate_query_manifest_v1(
+        manifest: object, path: str, r39: types.ModuleType | None = None) -> dict:
+    contract = r39 or _load_r39_query_contract_v1()[0]
+    try:
+        contract.verify_generation_manifest_v1(manifest)
+    except contract.RotationError:
         _error("OE_QUERY_MANIFEST_INVALID", path,
-               "history manifest is not a verified canonical generation")
-    seen = set()
-    previous = None
-    for index, row in enumerate(manifest["events"]):
-        row_path = f"{path}.events[{index}]"
-        if (type(row) is not dict or
-                type(row.get("event_id")) is not str or
-                not HISTORY_EVENT_ID_RE.fullmatch(row["event_id"]) or
-                type(row.get("sequence")) is not str or
-                not HISTORY_SEQUENCE_RE.fullmatch(row["sequence"]) or
-                type(row.get("record_kind")) is not str or
-                type(row.get("source_evidence_id")) is not str or
-                type(row.get("segment_digest")) is not str or
-                not re.fullmatch(r"sha256:[0-9a-f]{64}", row["segment_digest"])):
-            _error("OE_QUERY_MANIFEST_INVALID", row_path,
-                   "manifest event row is malformed")
-        position = (row["sequence"], row["event_id"])
-        if position in seen or (previous is not None and position <= previous):
-            _error("OE_QUERY_MANIFEST_INVALID", row_path,
-                   "manifest event order is duplicate or noncanonical")
-        seen.add(position)
-        previous = position
+               "canonical R39 manifest verification failed")
     return manifest
+
+
+def _require_r39_current_manifest_v1(
+        r39: types.ModuleType, expected: dict) -> dict:
+    """Bind one exact manifest to the live no-argument R39 current selection."""
+    try:
+        live = r39.load_governed_source_custody_v1()
+        pointer_oid = live.get("pointer_oid")
+        marker_oid = live.get("marker_oid")
+        if pointer_oid is None or marker_oid is None:
+            raise r39.RotationError("current R39 pointer route is incomplete")
+        pointer = r39.load_canonical_generation_pointer_oid_v1(
+            live["repo_path"], pointer_oid)
+        manifest_oid = pointer["generation_manifest_oid"]
+        observed = r39.load_canonical_generation_manifest_oid_v1(
+            live["repo_path"], manifest_oid)
+        r39.verify_pointer_manifest_tuple_v1(
+            pointer=pointer, manifest=observed, manifest_oid=manifest_oid)
+        r39.require_complete_pointer_receipt_marker_route_v1(
+            live=live, receipt=live["receipt"], pointer=pointer,
+            pointer_oid=pointer_oid, marker_oid=marker_oid)
+    except r39.RotationError:
+        _error("OE_QUERY_CURRENT_MANIFEST_INVALID", "$query.current_manifest",
+               "live R39 pointer/receipt/marker selection is not exact")
+    if canonical_json_v1(observed) != canonical_json_v1(expected):
+        _error("OE_QUERY_CURRENT_MANIFEST_INVALID", "$query.current_manifest",
+               "supplied manifest is not the live R39 current selection")
+    return observed
 
 
 def encode_query_cursor_v1(
@@ -3657,8 +3686,10 @@ def decode_query_cursor_v1(
     return body
 
 
-def _history_manifests_v1(current_manifest: dict, load_predecessor) -> list[dict]:
-    current = _validate_query_manifest_v1(current_manifest, "$manifest")
+def _history_manifests_v1(
+        current_manifest: dict, load_predecessor,
+        r39: types.ModuleType) -> list[dict]:
+    current = _validate_query_manifest_v1(current_manifest, "$manifest", r39)
     manifests = [current]
     seen = {current["manifest_digest"]}
     expected = current.get("predecessor_manifest_digest")
@@ -3677,7 +3708,7 @@ def _history_manifests_v1(current_manifest: dict, load_predecessor) -> list[dict
             _error("OE_QUERY_MANIFEST_INVALID", "$manifest.predecessor",
                    "verified predecessor could not be loaded")
         predecessor = _validate_query_manifest_v1(
-            predecessor, "$manifest.predecessor")
+            predecessor, "$manifest.predecessor", r39)
         if predecessor["manifest_digest"] != expected:
             _error("OE_QUERY_MANIFEST_INVALID", "$manifest.predecessor",
                    "loader returned a foreign predecessor")
@@ -3740,7 +3771,11 @@ def query_history_v1(
         *, load_segment, load_predecessor) -> dict:
     """Read only the verified predecessor chain under explicit finite bounds."""
     filters, max_rows, max_bytes = _history_request_v1(request)
-    manifests = _history_manifests_v1(current_manifest, load_predecessor)
+    r39, r39_path, r39_raw = _load_r39_query_contract_v1()
+    _validate_query_manifest_v1(current_manifest, "$manifest", r39)
+    _require_r39_current_manifest_v1(r39, current_manifest)
+    manifests = _history_manifests_v1(
+        current_manifest, load_predecessor, r39)
     cursor_body = (decode_query_cursor_v1(cursor, request, current_manifest)
                    if cursor is not None else None)
     requested_position = (cursor_body["requested_position"]
@@ -3795,7 +3830,7 @@ def query_history_v1(
     if truncated and next_position is not None:
         next_cursor = encode_query_cursor_v1(
             request, current_manifest, next_position)
-    return {
+    result = {
         "schema": QUERY_RESULT_SCHEMA,
         "query_contract": HISTORY_QUERY_SCHEMA,
         "filters": filters,
@@ -3811,6 +3846,11 @@ def query_history_v1(
         "authority_ceiling": "READ_ONLY_OBSERVATION",
         "establishes": [],
     }
+    if _native_file(r39_path, "$query.r39_contract", 512 * 1024) != r39_raw:
+        _error("OE_QUERY_R39_CONTRACT_CHANGED", "$query.r39_contract",
+               "R39 query contract changed during the bounded read")
+    _require_r39_current_manifest_v1(r39, current_manifest)
+    return result
 
 
 def _load_selected_snapshot_v1() -> dict:

@@ -263,6 +263,126 @@ events_by_id = {row["event_id"]: row for row in old_events + new_events}
 manifests = {old_manifest["manifest_digest"]: old_manifest}
 loaded = []
 
+rejected_by_r39 = {
+    "schema_version": "implementaudit.state-generation-manifest.v1",
+    "query_contract_version": "implementaudit.history-query.v1",
+    "generation_id": "G0002", "events": [],
+}
+rejected_by_r39["manifest_digest"] = hashlib.sha256(
+    rotation.canonical_json_v1(rejected_by_r39)).hexdigest()
+try:
+    rotation.verify_generation_manifest_v1(rejected_by_r39)
+except rotation.RotationError:
+    pass
+else:
+    raise SystemExit("C07-C01 discriminator is not rejected by canonical R39")
+try:
+    evidence.query_history_v1(
+        {"schema": "implementaudit.operational-evidence-query.v1",
+         "filters": {"event_ids": [new_events[0]["event_id"]]},
+         "max_rows": 10, "max_bytes": 65536},
+        rejected_by_r39,
+        load_segment=lambda *_args: (_ for _ in ()).throw(
+            AssertionError("invalid manifest traversed a segment")),
+        load_predecessor=lambda *_args: (_ for _ in ()).throw(
+            AssertionError("invalid manifest traversed a predecessor")))
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_QUERY_MANIFEST_INVALID":
+        raise SystemExit(f"C07-C01 wrong manifest refusal {exc.code}")
+else:
+    raise SystemExit(
+        "C07-C01 unverified self-digested manifest produced an OK absence")
+
+manifest_oid = "1" * 40
+pointer_oid = "2" * 40
+marker_oid = "3" * 40
+pointer, _pointer_raw = rotation.build_generation_pointer_v1(
+    controller_id=new_manifest["controller_id"],
+    claim_id=new_manifest["claim_id"], run_id=new_manifest["run_id"],
+    generation_id=new_manifest["generation_id"], source_epoch=new_manifest["source_epoch"],
+    predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=manifest_oid,
+    generation_manifest_digest=new_manifest["manifest_digest"],
+    cold_high_water=new_manifest["high_water"], hot_state_digest="4" * 64,
+    hot_roadmap_digest="5" * 64, work_graph_path="WORK_GRAPH.json",
+    work_graph_digest="6" * 64, degraded_state="NONE")
+live_selection = {
+    "repo_path": pathlib.Path("fixture-repository"),
+    "pointer_oid": pointer_oid, "marker_oid": marker_oid,
+    "receipt": {"fixture": "current-v3"},
+}
+selection_calls = []
+original_selection_functions = {
+    name: getattr(rotation, name) for name in (
+        "load_governed_source_custody_v1",
+        "load_canonical_generation_pointer_oid_v1",
+        "load_canonical_generation_manifest_oid_v1",
+        "verify_pointer_manifest_tuple_v1",
+        "require_complete_pointer_receipt_marker_route_v1")
+}
+rotation.load_governed_source_custody_v1 = lambda: (
+    selection_calls.append("CURRENT") or live_selection)
+rotation.load_canonical_generation_pointer_oid_v1 = lambda repo, oid: (
+    selection_calls.append(("POINTER", repo, oid)) or pointer)
+rotation.load_canonical_generation_manifest_oid_v1 = lambda repo, oid: (
+    selection_calls.append(("MANIFEST", repo, oid)) or new_manifest)
+
+
+def verify_tuple_spy(**kwargs):
+    selection_calls.append("TUPLE")
+    return original_selection_functions["verify_pointer_manifest_tuple_v1"](
+        **kwargs)
+
+
+rotation.verify_pointer_manifest_tuple_v1 = verify_tuple_spy
+rotation.require_complete_pointer_receipt_marker_route_v1 = lambda **kwargs: (
+    selection_calls.append(("ROUTE", kwargs)) or None)
+try:
+    if evidence._require_r39_current_manifest_v1(
+            rotation, new_manifest) != new_manifest:
+        raise SystemExit("C07-C01 exact-current positive returned foreign manifest")
+finally:
+    for name, function in original_selection_functions.items():
+        setattr(rotation, name, function)
+if (selection_calls[:4] != [
+        "CURRENT", ("POINTER", pathlib.Path("fixture-repository"), pointer_oid),
+        ("MANIFEST", pathlib.Path("fixture-repository"), manifest_oid), "TUPLE"] or
+        len(selection_calls) != 5 or selection_calls[4][0] != "ROUTE"):
+    raise SystemExit("C07-C01 exact-current positive skipped a canonical R39 binding leg")
+
+selected_current = [new_manifest]
+
+
+def require_fixture_current(_r39, expected):
+    if evidence.canonical_json_v1(expected) != evidence.canonical_json_v1(
+            selected_current[0]):
+        raise evidence.OperationalEvidenceError(
+            "OE_QUERY_CURRENT_MANIFEST_INVALID", "$query.current_manifest",
+            "fixture manifest is not selected current")
+    return selected_current[0]
+
+
+evidence._require_r39_current_manifest_v1 = require_fixture_current
+
+selected_current[0] = old_manifest
+try:
+    evidence.query_history_v1(
+        {"schema": "implementaudit.operational-evidence-query.v1",
+         "filters": {"event_ids": [new_events[0]["event_id"]]},
+         "max_rows": 10, "max_bytes": 65536},
+        new_manifest,
+        load_segment=lambda *_args: (_ for _ in ()).throw(
+            AssertionError("stale current selection traversed a segment")),
+        load_predecessor=lambda *_args: (_ for _ in ()).throw(
+            AssertionError("stale current selection traversed a predecessor")))
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_QUERY_CURRENT_MANIFEST_INVALID":
+        raise SystemExit(f"C07-C01 wrong stale-current refusal {exc.code}")
+else:
+    raise SystemExit("C07-C01 structurally valid stale manifest became decision-usable")
+finally:
+    selected_current[0] = new_manifest
+
 
 def load_predecessor(digest):
     return manifests[digest]
@@ -288,6 +408,31 @@ if ([row["event_id"] for row in result["rows"]] != [target] or
         result["authority_ceiling"] != "READ_ONLY_OBSERVATION" or
         result["establishes"]):
     raise SystemExit("C07-R12/R15 exact query hydrated unrelated history or gained authority")
+
+current_observations = []
+
+
+def require_stable_current(_r39, expected):
+    current_observations.append("CURRENT")
+    if len(current_observations) == 2:
+        raise evidence.OperationalEvidenceError(
+            "OE_QUERY_CURRENT_MANIFEST_INVALID", "$query.current_manifest",
+            "fixture selection changed during query")
+    return expected
+
+
+evidence._require_r39_current_manifest_v1 = require_stable_current
+try:
+    evidence.query_history_v1(
+        exact_request, new_manifest, load_segment=load_segment,
+        load_predecessor=load_predecessor)
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_QUERY_CURRENT_MANIFEST_INVALID":
+        raise SystemExit(f"C07-C01 wrong final-current fence refusal {exc.code}")
+else:
+    raise SystemExit("C07-C01 current selection drift escaped final fence")
+finally:
+    evidence._require_r39_current_manifest_v1 = require_fixture_current
 
 
 def corrupt_referenced_segment(manifest_value, row):
@@ -317,6 +462,7 @@ foreign_current["manifest_digest"] = hashlib.sha256(rotation.canonical_json_v1({
     key: value for key, value in foreign_current.items()
     if key != "manifest_digest"
 })).hexdigest()
+selected_current[0] = foreign_current
 try:
     evidence.query_history_v1(
         exact_request, foreign_current, load_segment=load_segment,
@@ -326,6 +472,8 @@ except evidence.OperationalEvidenceError as exc:
         raise SystemExit(f"C07-R13 foreign predecessor returned {exc.code}")
 else:
     raise SystemExit("C07-R13 foreign predecessor custody was accepted")
+finally:
+    selected_current[0] = new_manifest
 
 for filters in ({}, {"event_ids": []}, {"event_ids": [True]},
                 {"not_a_filter": [target]}):
