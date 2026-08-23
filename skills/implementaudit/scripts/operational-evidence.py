@@ -2328,18 +2328,59 @@ def _snapshot_missing_census_v1(collections: dict) -> list[dict]:
         if row["state"] != "CURRENT":
             missing.append({
                 "kind": "COLLECTOR_NON_CURRENT", "collector": name,
-                "state": row["state"], "code": row["value"].get("code")})
+                "owner": row["owner"], "state": row["state"],
+                "code": row["value"].get("code")})
     repository = collections["repository"]["value"]
     for bucket in ("errors", "unknown"):
         for value in repository.get("diagnostics", {}).get(bucket, []):
             missing.append({
                 "kind": "REPOSITORY_DIAGNOSTIC", "collector": "repository",
+                "owner": collections["repository"]["owner"],
                 "state": "UNKNOWN", "code": f"{bucket}:{value}"})
+
+    evidence_failure = collections["evidence_failure"]
+    if evidence_failure["state"] == "CURRENT":
+        for bucket in ("evidence_records", "failure_records"):
+            for record in evidence_failure["value"].get(bucket, []):
+                currentness = record["currentness"]
+                if currentness["state"] == "CURRENT":
+                    continue
+                missing.append({
+                    "kind": "OWNER_FACT_NON_CURRENT",
+                    "collector": "evidence_failure",
+                    "owner": evidence_failure["owner"],
+                    "family": record["family"],
+                    "fact_path": f"{bucket}/{record['id']}",
+                    "record_id": record["id"],
+                    "record_type": record["record_type"],
+                    "native_owner_identity": record["native_owner_identity"],
+                    "state": currentness["state"],
+                    "invalidators": list(currentness["invalidators"]),
+                })
+
     release = collections["release"]
     if release["state"] == "CURRENT":
+        for record in release["value"].get("nodes", []):
+            currentness = record["currentness"]
+            if currentness["state"] == "CURRENT":
+                continue
+            missing.append({
+                "kind": "OWNER_FACT_NON_CURRENT",
+                "collector": "release",
+                "owner": release["owner"],
+                "family": record["family"],
+                "layer": record["layer"],
+                "fact_path": f"nodes/{record['id']}",
+                "record_id": record["id"],
+                "record_type": record["record_type"],
+                "native_owner_identity": record["native_owner_identity"],
+                "state": currentness["state"],
+                "invalidators": list(currentness["invalidators"]),
+            })
         for value in release["value"].get("candidate", {}).get("invalidators", []):
             missing.append({
                 "kind": "RELEASE_INVALIDATOR", "collector": "release",
+                "owner": release["owner"],
                 "state": release["value"]["candidate"].get("state", "UNVERIFIED"),
                 "code": value})
     return sorted(missing, key=canonical_json_v1)
@@ -2576,6 +2617,29 @@ def _snapshot_cleanup_pending_v1(path: pathlib.Path | None) -> None:
                "pending task-owned snapshot residue needs reconciliation")
 
 
+def _snapshot_require_input_fence_v1(
+        compiler_path: pathlib.Path, schema_path: pathlib.Path,
+        snapshots: pathlib.Path, compiler_raw: bytes, schema_raw: bytes,
+        native: dict, collections: dict, before_current: bytes | None) -> None:
+    final_compiler = _native_file(
+        compiler_path, "$snapshot.final_compiler", 2 * 1024 * 1024)
+    final_schema = _native_file(
+        schema_path, "$snapshot.final_schema", 512 * 1024)
+    final_native = collect_native_current()
+    final_collections = _collect_snapshot_inputs_v1(final_native)
+    if (compiler_raw != final_compiler or schema_raw != final_schema or
+            canonical_json_v1(_snapshot_portable_native_v1(native)) !=
+            canonical_json_v1(_snapshot_portable_native_v1(final_native)) or
+            canonical_json_v1(collections) != canonical_json_v1(final_collections)):
+        _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
+               "a compiler, schema, native, route, graph, or collector input drifted")
+    final_current = (_snapshot_current_raw_v1(snapshots)
+                     if snapshots.exists() else None)
+    if final_current != before_current:
+        _error("OE_SNAPSHOT_CURRENT_CHANGED", "$snapshot.CURRENT",
+               "CURRENT changed during the complete input fence")
+
+
 def publish_current_snapshot():
     """Compile and atomically select one native-custody R0038 snapshot."""
     source_repository = pathlib.Path(__file__).resolve().parents[3]
@@ -2620,23 +2684,9 @@ def publish_current_snapshot():
         collections = _collect_snapshot_inputs_v1(native)
         _snapshot_stage_v1("after-first-observation")
 
-        final_compiler = _native_file(
-            compiler_path, "$snapshot.final_compiler", 2 * 1024 * 1024)
-        final_schema = _native_file(
-            schema_path, "$snapshot.final_schema", 512 * 1024)
-        final_native = collect_native_current()
-        final_collections = _collect_snapshot_inputs_v1(final_native)
-        if (compiler_raw != final_compiler or schema_raw != final_schema or
-                canonical_json_v1(_snapshot_portable_native_v1(native)) !=
-                canonical_json_v1(_snapshot_portable_native_v1(final_native)) or
-                canonical_json_v1(collections) != canonical_json_v1(final_collections)):
-            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
-                   "a compiler, schema, native, route, graph, or collector input drifted")
-        final_current = (_snapshot_current_raw_v1(snapshots)
-                         if snapshots.exists() else None)
-        if final_current != before_current:
-            _error("OE_SNAPSHOT_CURRENT_CHANGED", "$snapshot.CURRENT",
-                   "CURRENT changed during the complete input fence")
+        _snapshot_require_input_fence_v1(
+            compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
+            native, collections, before_current)
 
         material = _build_snapshot_material_v1(
             native, collections, schema_raw, compiler_raw)
@@ -2705,6 +2755,16 @@ def publish_current_snapshot():
             _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
                    "CURRENT temporary sibling failed exact reread")
         _snapshot_stage_v1("before-current-replace")
+        _snapshot_require_input_fence_v1(
+            compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
+            native, collections, before_current)
+        _snapshot_verify_materialization_v1(
+            snapshot_dir, expected, material["snapshot_id"])
+        if _snapshot_read_regular_v1(
+                current_temp, snapshots, "OE_SNAPSHOT_CURRENT_INVALID",
+                maximum=64 * 1024) != material["current_raw"]:
+            _error("OE_SNAPSHOT_CURRENT_INVALID", "$snapshot.CURRENT",
+                   "CURRENT temporary sibling changed before atomic selection")
         try:
             os.replace(current_temp, snapshots / "CURRENT")
             current_temp = None

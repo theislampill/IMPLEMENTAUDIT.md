@@ -63,6 +63,11 @@ ROTATION = pathlib.Path(sys.argv[11]).resolve()
 CASE_ROOT.mkdir(parents=True)
 ZERO64 = "0" * 64
 ONE64 = "1" * 64
+RUN_ARTIFACT_FIXTURE = pathlib.Path(
+    "fixtures/operational-evidence/run-artifacts/positive/operational-evidence.json"
+).resolve()
+RELEASE_FIXTURE = pathlib.Path(
+    "fixtures/operational-evidence/release/positive").resolve()
 schema_definition = json.loads(
     (LOADER.parent.parent / "references/operational-evidence-schema.json")
     .read_text(encoding="utf-8"))
@@ -150,7 +155,7 @@ def load_module(repo, serial):
     return load_bytes_module(path, f"operational_evidence_native_current_{serial}")
 
 
-def prepare(case, serial):
+def prepare(case, serial, *, include_c04=False, include_c05=False):
     repo = CASE_ROOT / f"case-{serial:02d}-{case}"
     repo.mkdir()
     git(repo, "init", "--quiet")
@@ -183,6 +188,12 @@ def prepare(case, serial):
         LOADER.parent.parent / "references/operational-evidence-schema.json", schema)
     shutil.copyfile(GOVERNOR, governor)
     shutil.copyfile(AUDIT_STATE, audit_state)
+    if include_c05:
+        for release_member in RELEASE_FIXTURE.rglob("*"):
+            if release_member.is_file():
+                destination = repo / release_member.relative_to(RELEASE_FIXTURE)
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(release_member, destination)
     git(repo, "add", "tracked.txt", request_input_path,
         str(script.relative_to(repo)),
         str(compiler.relative_to(repo)), str(route.relative_to(repo)),
@@ -190,6 +201,8 @@ def prepare(case, serial):
         str(route_reference.relative_to(repo)),
         str(schema.relative_to(repo)),
         str(governor.relative_to(repo)), str(audit_state.relative_to(repo)))
+    if include_c05:
+        git(repo, "add", "release-local.json", "external-capture.json", "artifacts")
     git(repo, "commit", "--quiet", "-m", "fixture")
     info_exclude = repo / ".git/info/exclude"
     with info_exclude.open("a", encoding="utf-8") as stream:
@@ -279,6 +292,8 @@ def prepare(case, serial):
     roadmap_raw = b"# Native current roadmap\n\nOnly bounded current work is retained.\n"
     write(run_root / "STATE.md", state_raw)
     write(run_root / "ROADMAP.md", roadmap_raw)
+    if include_c04:
+        shutil.copyfile(RUN_ARTIFACT_FIXTURE, run_root / "operational-evidence.json")
 
     graph = fixture["work_graph"]
     if case == "no-active":
@@ -1294,6 +1309,236 @@ else:
     raise SystemExit("C06-H01 final input fence accepted late hot-state drift")
 if (drift_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/operational-evidence").exists():
     raise SystemExit("C06-H01 late drift created publication output")
+
+correction_red_failures = []
+late_stages = (
+    "after-manifest-reread", "before-current-temp", "after-current-temp",
+    "before-current-replace")
+late_inputs = (
+    "compiler", "schema", "native", "route", "graph", "repository",
+    "evidence_failure", "release")
+
+
+late_repo = prepare("positive", 500)
+late_module = load_module(late_repo, 500)
+late_native = late_module.collect_native_current()
+late_collections = late_module._collect_snapshot_inputs_v1(late_native)
+late_run = late_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123"
+late_output = late_run / "operational-evidence"
+late_current = late_output / "snapshots/CURRENT"
+late_compiler_path = (
+    late_repo / "skills/implementaudit/scripts/operational-evidence.py")
+late_schema_path = (
+    late_repo / "skills/implementaudit/references/operational-evidence-schema.json")
+late_compiler_raw = late_compiler_path.read_bytes()
+late_schema_raw = late_schema_path.read_bytes()
+
+
+def late_observation_variant(input_name):
+    native = copy.deepcopy(late_native)
+    collections = copy.deepcopy(late_collections)
+    if input_name == "native":
+        native["hot"]["state_sha256"] = ZERO64
+    elif input_name == "route":
+        native["route"]["record_identity"] = "sha256:" + ZERO64
+    elif input_name == "graph":
+        native["hot"]["work_graph_sha256"] = ZERO64
+    elif input_name in {"repository", "evidence_failure", "release"}:
+        collections[input_name]["value"]["late_test_probe"] = input_name
+        collections[input_name]["sha256"] = hashlib.sha256(
+            late_module.canonical_json_v1(
+                collections[input_name]["value"])).hexdigest()
+    return native, collections
+
+
+for late_stage, late_input in (
+        (stage, input_name) for stage in late_stages for input_name in late_inputs):
+    if late_output.exists():
+        shutil.rmtree(late_output)
+    mutation = {"done": False}
+    final_native, final_collections = late_observation_variant(late_input)
+
+    def observed_native(state=mutation, final=final_native):
+        return copy.deepcopy(final if state["done"] else late_native)
+
+    def observed_collections(native, state=mutation, final=final_collections):
+        del native
+        return copy.deepcopy(final if state["done"] else late_collections)
+
+    def mutate_at_late_stage(stage, expected=late_stage, name=late_input,
+                             state=mutation):
+        if stage != expected or state["done"]:
+            return
+        if name == "compiler":
+            late_compiler_path.write_bytes(
+                late_compiler_raw + b"\n# late compiler drift\n")
+        elif name == "schema":
+            late_schema_path.write_bytes(late_schema_raw + b"\n")
+        state["done"] = True
+
+    late_module.collect_native_current = observed_native
+    late_module._collect_snapshot_inputs_v1 = observed_collections
+    late_module._snapshot_stage_v1 = mutate_at_late_stage
+    try:
+        try:
+            late_receipt = late_module.publish_current_snapshot()
+        except late_module.OperationalEvidenceError:
+            late_receipt = None
+        except Exception as exc:
+            correction_red_failures.append(
+                f"C06-C1 {late_stage}/{late_input} returned untyped "
+                f"{type(exc).__name__}")
+            late_receipt = None
+    finally:
+        late_compiler_path.write_bytes(late_compiler_raw)
+        late_schema_path.write_bytes(late_schema_raw)
+    if not mutation["done"]:
+        correction_red_failures.append(
+            f"C06-C1 {late_stage}/{late_input} did not reach its callback")
+    if late_receipt is not None:
+        correction_red_failures.append(
+            f"C06-C1 {late_stage}/{late_input} returned success "
+            f"{late_receipt.get('selection_state')}")
+    if late_current.exists() or late_current.is_symlink():
+        correction_red_failures.append(
+            f"C06-C1 {late_stage}/{late_input} advanced CURRENT")
+
+census_repo = prepare(
+    "positive", 550, include_c04=True, include_c05=True)
+census_module = load_module(census_repo, 550)
+census_native = census_module.collect_native_current()
+census_collections = census_module._collect_snapshot_inputs_v1(census_native)
+census_compiler_raw = (
+    census_repo / "skills/implementaudit/scripts/operational-evidence.py").read_bytes()
+census_schema_raw = (
+    census_repo / "skills/implementaudit/references/operational-evidence-schema.json"
+).read_bytes()
+census_targets = (
+    ("evidence_failure", "evidence_records", "claim-effectiveness",
+     "R0038-C04", "EVIDENCE", None, "fixture-evidence-owner"),
+    ("evidence_failure", "failure_records", "andon-first-red",
+     "R0038-C04", "FAILURE", None, "fixture-failure-owner"),
+    ("release", "nodes", "generated-plugin",
+     "R0038-C05", "RELEASE", "LOCAL", "fixture-generated-owner"),
+    ("release", "nodes", "external-pr",
+     "R0038-C05", "RELEASE", "EXTERNAL", "github:fixture/repository"),
+)
+admitted_non_current_states = (
+    "UNKNOWN", "UNVERIFIED", "STALE", "CONTRADICTORY", "PARSER_ERROR")
+for (collector, bucket, record_id, owner, family, layer,
+     native_owner_identity) in census_targets:
+    for state in admitted_non_current_states:
+        collections = copy.deepcopy(census_collections)
+        value = collections[collector]["value"]
+        target = next(row for row in value[bucket] if row["id"] == record_id)
+        invalidators = [f"HELD_OUT_{state}"]
+        target["currentness"] = {
+            "state": state, "invalidators": invalidators}
+        census_module._currentness(
+            target["currentness"], f"$held_out.{collector}.{record_id}")
+        semantic_value = {
+            key: item for key, item in value.items()
+            if key != "semantic_sha256"}
+        value["semantic_sha256"] = hashlib.sha256(
+            census_module.canonical_json_v1(semantic_value)).hexdigest()
+        collections[collector]["sha256"] = hashlib.sha256(
+            census_module.canonical_json_v1(value)).hexdigest()
+        material = census_module._build_snapshot_material_v1(
+            census_native, collections, census_schema_raw, census_compiler_raw)
+        input_census = json.loads(material["input_raw"])[
+            "missing_or_omitted_state"]
+        payload_census = json.loads(material["payload_raw"])[
+            "missing_or_omitted_state"]
+        fact_path = f"{bucket}/{record_id}"
+        for surface, rows in (
+                ("input-manifest", input_census), ("payload", payload_census)):
+            matches = [
+                row for row in rows
+                if row.get("kind") == "OWNER_FACT_NON_CURRENT" and
+                row.get("collector") == collector and
+                row.get("fact_path") == fact_path]
+            if len(matches) != 1:
+                correction_red_failures.append(
+                    f"C06-I1 {surface} retained {len(matches)} rows for "
+                    f"{collector}/{fact_path}/{state}")
+                continue
+            observed = matches[0]
+            expected = {
+                "owner": owner, "family": family, "state": state,
+                "invalidators": invalidators,
+                "native_owner_identity": native_owner_identity}
+            if any(observed.get(key) != item for key, item in expected.items()):
+                correction_red_failures.append(
+                    f"C06-I1 {surface} lost owner/state for "
+                    f"{collector}/{fact_path}/{state}")
+            if layer is not None and observed.get("layer") != layer:
+                correction_red_failures.append(
+                    f"C06-I1 {surface} lost layer for "
+                    f"{collector}/{fact_path}/{state}")
+        if input_census != payload_census:
+            correction_red_failures.append(
+                f"C06-I1 census surfaces disagree for "
+                f"{collector}/{fact_path}/{state}")
+
+publisher_census_repo = census_repo
+publisher_census_run = (
+    publisher_census_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123")
+publisher_census_module = census_module
+publisher_collections = copy.deepcopy(census_collections)
+publisher_changes = (
+    ("evidence_failure", "evidence_records", "claim-effectiveness",
+     "UNKNOWN", ["PUBLISHER_C04_UNKNOWN"]),
+    ("release", "nodes", "external-pr",
+     "UNVERIFIED", ["PUBLISHER_C05_UNVERIFIED"]),
+)
+for collector, bucket, record_id, state, invalidators in publisher_changes:
+    value = publisher_collections[collector]["value"]
+    target = next(row for row in value[bucket] if row["id"] == record_id)
+    target["currentness"] = {
+        "state": state, "invalidators": invalidators}
+    semantic_value = {
+        key: item for key, item in value.items()
+        if key != "semantic_sha256"}
+    value["semantic_sha256"] = hashlib.sha256(
+        publisher_census_module.canonical_json_v1(semantic_value)).hexdigest()
+    publisher_collections[collector]["sha256"] = hashlib.sha256(
+        publisher_census_module.canonical_json_v1(value)).hexdigest()
+publisher_census_module.collect_native_current = lambda: copy.deepcopy(
+    census_native)
+publisher_census_module._collect_snapshot_inputs_v1 = lambda native: (
+    copy.deepcopy(publisher_collections))
+publisher_census_receipt = publisher_census_module.publish_current_snapshot()
+publisher_census_dir = (
+    publisher_census_run / "operational-evidence/snapshots" /
+    publisher_census_receipt["snapshot_id"])
+publisher_input_census = json.loads(
+    (publisher_census_dir / "input-manifest.json").read_bytes()
+)["missing_or_omitted_state"]
+publisher_payload_census = json.loads(
+    (publisher_census_dir / "snapshot.json").read_bytes()
+)["missing_or_omitted_state"]
+for collector, fact_path, owner, state in (
+        ("evidence_failure", "evidence_records/claim-effectiveness",
+         "R0038-C04", "UNKNOWN"),
+        ("release", "nodes/external-pr", "R0038-C05", "UNVERIFIED")):
+    for surface, rows in (
+            ("input-manifest", publisher_input_census),
+            ("payload", publisher_payload_census)):
+        matches = [
+            row for row in rows
+            if row.get("kind") == "OWNER_FACT_NON_CURRENT" and
+            row.get("collector") == collector and
+            row.get("fact_path") == fact_path and
+            row.get("owner") == owner and row.get("state") == state]
+        if len(matches) != 1:
+            correction_red_failures.append(
+                f"C06-I1 no-argument {surface} retained {len(matches)} rows "
+                f"for {collector}/{fact_path}/{state}")
+
+if correction_red_failures:
+    for label in correction_red_failures:
+        print(f"{label} RED", file=sys.stderr)
+    raise SystemExit(1)
 
 invalid_repo = prepare("positive", 202)
 invalid_module = load_module(invalid_repo, 202)
