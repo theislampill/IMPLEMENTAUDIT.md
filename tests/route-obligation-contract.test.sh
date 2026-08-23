@@ -652,6 +652,77 @@ completion_observed="$(observe controller-route route-red G0001)"
 completion_snapshot_after="$(read_only_snapshot)"
 [ "$completion_observed" = "$completion_check" ] || fail "request-free REQUIRED/SATISFIED result differs from check"
 [ "$completion_snapshot_before" = "$completion_snapshot_after" ] || fail "request-free REQUIRED/SATISFIED observation changed persistent state"
+assert_json "$completion_observed" 'value["route_transaction_id"] == "'"$required_transaction"'" and value["obligation_id"] == "'"$required_obligation"'"'
+completion_admitted="$(route controller-route route-red G0001 admit-current)"
+assert_json "$completion_admitted" 'value["route_transaction_id"] == "'"$required_transaction"'" and value["obligation_id"] == "'"$required_obligation"'"'
+
+# The activation-time causal join is real at every owner boundary: the
+# request-free R0033 projection supplies the exact pair, H0 attributes that
+# pair into its correlation digest, and H7A consumes both production results.
+join_event=host:H7B-JOIN
+join_attribution="$(host validate-event --host-id codex --host-session-id route-red \
+  --binding-generation G0001 --controller-id controller-route --claim-id "$claim_id" \
+  --explicit-run-root "$run_root" --repository-identity "$repo_custody" \
+  --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
+  --continuity-generation G0001 --continuity-receipt "$continuity_receipt" \
+  --event-id "$join_event" --obligation-id "$required_obligation" \
+  --route-transaction-id "$required_transaction")"
+assert_json "$join_attribution" 'value["status"] == "ATTRIBUTED" and value["obligation_id"] == "'"$required_obligation"'" and value["route_transaction_id"] == "'"$required_transaction"'" and value["correlation_id"].startswith("sha256:")'
+"${py[@]}" - "$repo_root/skills/implementaudit/scripts/evaluate-turn-disposition.py" \
+  "$completion_observed" "$join_attribution" "$run_root" "$repo_custody" \
+  "$common_custody" "$continuity_receipt" "$join_event" <<'PY'
+import copy,hashlib,importlib.util,json,sys
+from pathlib import Path
+
+evaluator_path,route_raw,binding_raw,run_root,repo,common,receipt,event_id=sys.argv[1:]
+spec=importlib.util.spec_from_file_location("evaluate_turn_disposition",evaluator_path)
+module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+route=json.loads(route_raw)
+binding_result=json.loads(binding_raw)
+canonical_run_root=str(Path(run_root).resolve(strict=True))
+canonical_repo=str(Path(repo).resolve(strict=True))
+canonical_common=str(Path(common).resolve(strict=True))
+correlation={
+ "host_id":"codex","host_session_id":"route-red","binding_generation":"G0001",
+ "controller_id":"controller-route","claim_id":"0123456789abcdef0123456789abcdef",
+ "explicit_run_root":canonical_run_root,"repository_identity":canonical_repo,
+ "git_common_directory_identity":canonical_common,"worktree_identity":canonical_repo,
+ "applicable_continuity_generation":"G0001","applicable_continuity_receipt":receipt,
+ "event_id":event_id,"turn_id":None,"tool_use_id":None,"agent_id":None,
+ "obligation_id":route["obligation_id"],"route_transaction_id":route["route_transaction_id"],
+}
+binding={"correlation":correlation,"result":binding_result}
+validated_binding=module.validate_binding(binding,canonical_run_root)
+assert module.validate_route(route,validated_binding)==route
+
+def rejects(label,mutate):
+ candidate=copy.deepcopy(route); mutate(candidate)
+ try:
+  module.validate_route(candidate,validated_binding)
+ except (module.InputError,module.DecisionBlocked):
+  return
+ raise SystemExit(f"H7A accepted {label} route transaction substitution")
+
+rejects("swapped",lambda value:value.__setitem__("route_transaction_id",value["obligation_id"]))
+rejects("foreign",lambda value:value.__setitem__("route_transaction_id","sha256:"+"5"*64))
+rejects("missing",lambda value:value.pop("route_transaction_id"))
+rejects("null-half",lambda value:value.__setitem__("route_transaction_id",None))
+rejects("stale",lambda value:value.__setitem__("status","STALE"))
+rejects("malformed",lambda value:value.__setitem__("route_transaction_id","not-a-transaction"))
+rejects("caller-computed",lambda value:value.__setitem__("route_transaction_id","sha256:"+hashlib.sha256(b"caller-computed").hexdigest()))
+rejects("record-OID-substituted",lambda value:value.__setitem__("route_transaction_id",value["record_oid"]))
+def locally_appended(value):
+ value.pop("route_transaction_id")
+ value["route_transaction_id"]="sha256:"+hashlib.sha256(b"local-adapter").hexdigest()
+rejects("locally-appended",locally_appended)
+old_shape=copy.deepcopy(route); old_shape.pop("route_transaction_id")
+try:
+ module.validate_route(old_shape,validated_binding)
+except module.InputError:
+ pass
+else:
+ raise SystemExit("H7A accepted the old 19-key route result")
+PY
 "${py[@]}" - "$complete_blob" "$tmp" <<'PY'
 import base64,copy,hashlib,json,sys
 source=json.loads(sys.argv[1]); root=sys.argv[2]
@@ -926,6 +997,7 @@ assert_json "$cheap_decide" 'value["history_query"] is None and value["history_r
 cheap_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$cheap_decide")"
 cheap_check="$(route controller-cheap session-cheap G0001 check --request "$cheap_request")"
 assert_json "$cheap_check" 'value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False and value["admission_required"] is True'
+assert_json "$cheap_check" 'value["obligation_id"] is None and value["route_transaction_id"] is None'
 set +e
 cheap_snapshot_before="$(read_only_snapshot)"
 cheap_observed="$(observe controller-cheap session-cheap G0001 2>&1)"

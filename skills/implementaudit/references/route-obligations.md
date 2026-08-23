@@ -78,9 +78,12 @@ decision, classification, invalidator, transaction, obligation and H2B source-
 event checks as `check`, then repeats the route, controller and full evaluation
 fence. The derivation record and validated record must remain identical.
 
-On success, `observe-current` emits the unchanged
+On success, `observe-current` emits the existing
 `implementaudit.route-transaction-result.v1` envelope with internal mirror
-claim `ABSENT`. Current `NOT_REQUIRED` and `REQUIRED/SATISFIED` retain their
+claim `ABSENT`. The envelope projects the exact `route_transaction_id` already
+validated against the current record and live predicate, paired with
+`obligation_id` for `REQUIRED`; both fields are explicitly null for
+`NOT_REQUIRED`. Current `NOT_REQUIRED` and `REQUIRED/SATISFIED` retain their
 existing success meanings; `PENDING`, `REQUIRED/UNSATISFIED`, lossy, stale,
 foreign, tombstoned, ambiguous or changed observations retain their existing
 nonzero fail-closed meanings. Observation never enumerates cold history and

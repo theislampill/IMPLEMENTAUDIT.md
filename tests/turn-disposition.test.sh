@@ -178,8 +178,8 @@ if claim == "NO_ACTIVE_AUDIT_OBJECT":
         "route": None,
     }
 else:
-    obligation = "obligation-1" if route_mode == "open-required" else None
-    transaction = "transaction-1" if obligation else None
+    obligation = "sha256:" + "3" * 64 if route_mode == "open-required" else None
+    transaction = "sha256:" + "4" * 64 if obligation else None
     correlation_root = root
     if binding_mode == "foreign":
         correlation_root = str(Path(root).parent / "foreign-object")
@@ -228,6 +228,7 @@ else:
         "record_oid": "1" * 40,
         "record_identity": "sha256:" + "2" * 64,
         "obligation_id": obligation,
+        "route_transaction_id": transaction,
         "route_state": "UNSATISFIED" if obligation else None,
         "governor_decision_count": 0,
         "history_query": None,
@@ -870,6 +871,45 @@ payload["route"]["governor_decision_count"] = 1
 path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 PY
 expect_disposition satisfied-R0033-invalid-projection 0 NONTERMINAL_YIELD "$request"
+
+required_join_request="$tmp/required-transaction-join.json"
+cp "$request" "$required_join_request"
+
+mutate_required_transaction() {
+  local output="$1" expression="$2"
+  python - "$required_join_request" "$output" "$expression" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+source, output, expression = sys.argv[1:]
+payload = json.loads(Path(source).read_text(encoding="utf-8"))
+exec(expression, {"__builtins__": {}, "hashlib": hashlib}, {"value": payload})
+Path(output).write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+PY
+}
+
+transaction_mutations=(
+  'swapped|value["route"]["route_transaction_id"]=value["route"]["obligation_id"]|3'
+  'foreign|value["route"]["route_transaction_id"]="sha256:"+"5"*64|3'
+  'missing|value["route"].pop("route_transaction_id")|2'
+  'null-half|value["route"]["route_transaction_id"]=None|3'
+  'malformed|value["route"]["route_transaction_id"]="not-a-transaction"|2'
+  'caller-computed|value["route"]["route_transaction_id"]="sha256:"+hashlib.sha256(b"caller-computed").hexdigest()|3'
+  'oid-substituted|value["route"]["route_transaction_id"]=value["route"]["record_oid"]|2'
+  'locally-appended|value["route"].pop("route_transaction_id");value["route"]["route_transaction_id"]="sha256:"+hashlib.sha256(b"local-adapter").hexdigest()|3'
+)
+for transaction_case in "${transaction_mutations[@]}"; do
+  IFS='|' read -r label expression expected_rc <<<"$transaction_case"
+  candidate="$tmp/required-transaction-$label.json"
+  mutate_required_transaction "$candidate" "$expression"
+  expect_disposition "required-transaction-$label" "$expected_rc" BLOCK "$candidate"
+done
+
+stale_transaction_request="$tmp/required-transaction-stale.json"
+mutate_required_transaction "$stale_transaction_request" 'value["route"]["status"]="STALE"'
+expect_disposition required-transaction-stale 3 BLOCK "$stale_transaction_request"
 
 request="$tmp/pending-route-result.json"
 make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid INVALID

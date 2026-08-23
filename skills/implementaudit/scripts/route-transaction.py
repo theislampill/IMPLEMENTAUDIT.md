@@ -2363,6 +2363,7 @@ def validate_current_result(
         "current": current,
         "history_query": history_query,
         "obligation_id": obligation_id,
+        "route_transaction_id": transaction_id if obligation_id is not None else None,
         "current_not_required": record["decision"] == "NOT_REQUIRED",
         "current_satisfied": record["decision"] == "REQUIRED" and record.get("route_state") == "SATISFIED",
     }
@@ -2385,6 +2386,7 @@ def current_result_payload(
         "record_oid": oid,
         "record_identity": record["record_identity"],
         "obligation_id": validated["obligation_id"],
+        "route_transaction_id": validated["route_transaction_id"],
         "route_state": record.get("route_state"),
         "governor_decision_count": record.get("lifecycle", {}).get("governor_decision_count", 0),
         "history_query": validated["history_query"],
