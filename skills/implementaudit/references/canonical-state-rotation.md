@@ -261,6 +261,34 @@ continuity receipt, migration marker, lifecycle, or R0038 snapshot. The
 existing governed activation order remains pointer, receipt v3, then permanent
 marker; a preparation receipt is not currentness or publication authority.
 
+## Governed post-marker successor preparation
+
+`prepare_live_successor_v1()` is the no-argument recovery assembler for an
+exactly invalidated current v3 route after first migration. Under the existing
+R0039 writer lease it derives the controller, claim, run, next source epoch,
+current pointer, current receipt, invalidation, hot files, and permanent marker
+from governed custody. It accepts no caller-selected repository, run, path,
+epoch, pointer, receipt, marker, or authority tuple.
+
+When the invalidation is the exact immediate successor of the current receipt,
+the hot generation is exactly one epoch after the current pointer, and every
+retained byte/ref fence agrees, the assembler may create a continuity-only
+manifest with an empty event delta. This is not an empty history: it requires a
+non-null predecessor manifest, preserves that manifest's exact digest and high
+water, increments generation/source epoch exactly once, and changes no cold
+event ref. Empty genesis and an empty successor that advances high water remain
+invalid. The assembler writes and verifies only immutable manifest and pointer
+blobs and returns `implementaudit.live-successor-preparation.v1` with authority
+ceiling `R0039_CANDIDATE_ONLY`; it publishes no ref.
+
+The permanent migration marker is an immutable genesis sentinel. It continues
+to bind the first canonical pointer and its joined receipt v3 while the current
+pointer and selected receipt advance through proved successors. Successor
+publication is therefore `candidate pointer CAS -> current receipt v3`; it
+neither replaces nor republishes the marker. Missing, malformed, foreign, stale,
+partial, failed-CAS, non-immediate, hot-byte-drifted, or genesis-anchor-drifted
+state stops before ordinary recovery can become current.
+
 `derive_hot_state_v1` and `derive_hot_roadmap_v1` accept only typed native
 current fields, the exact `WORK_GRAPH.json` digest/projection, and typed
 generation/archive/query custody. The single `NativeCurrent` schema includes
@@ -322,10 +350,13 @@ identity re-resolves the immutable snapshot named by that stored identity.
 uses this stored owner route to compare every segment locator and digest.
 
 The first cross-owner transaction is exactly `pointer -> receipt v3 ->
-permanent marker`. R0039 finalizes and rereads the pointer by expected-old-zero
+permanent marker`. R0039 finalizes and rereads the genesis pointer by expected-old-zero
 CAS; R0011 alone mints, rereads and verifies the exact v3 record from that
 already-current pointer; R0039 publishes and rereads the marker only after that
-receipt exists; R0011 then verifies all three as one current route. Receipt v3
+receipt exists; R0011 then verifies all three as one current route. Later
+successors advance the pointer and selected v3 receipt while retaining and
+verifying that exact immutable marker against the genesis pointer/receipt it
+names. Receipt v3
 binds pointer OID/digest, hot STATE/ROADMAP digests, `WORK_GRAPH` path/digest,
 generation manifest OID/digest, cold high-water, exact next action and immediate
 predecessor receipt. The receipt is exactly 18 nonempty tab-separated UTF-8

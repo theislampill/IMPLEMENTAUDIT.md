@@ -1632,7 +1632,7 @@ def build_generation_manifest_v1(predecessor_manifest: dict[str, object] | None,
                                  events: list[dict[str, object]]) -> tuple[dict[str, object], bytes]:
     """Build the sole canonical manifest product from stored event envelopes."""
     context = load_governed_publication_context_v1()
-    if type(events) is not list or not events:
+    if type(events) is not list or (not events and predecessor_manifest is None):
         raise RotationError("manifest requires immutable event population")
     before = "00000000000000000000"
     predecessor_digest = None
@@ -1648,7 +1648,7 @@ def build_generation_manifest_v1(predecessor_manifest: dict[str, object] | None,
            != expected_authority for event in ordered):
         raise RotationError("candidate events disagree with governed publication context")
     sequences = [str(event["sequence"]) for event in ordered]
-    if sequences != allocate_candidate_sequences_v1(before, len(ordered)):
+    if sequences and sequences != allocate_candidate_sequences_v1(before, len(ordered)):
         raise RotationError("manifest sequence is not the exact contiguous predecessor successor")
     rows = [{"sequence": event["sequence"], "event_id": event["event_id"],
              "segment_digest": "sha256:" + hashlib.sha256(canonical_json_v1(event)).hexdigest(),
@@ -1666,7 +1666,7 @@ def build_generation_manifest_v1(predecessor_manifest: dict[str, object] | None,
         "predecessor_high_water": before, "events": rows,
         "record_class_counts": dict(sorted(counts.items())),
         "population_digest": hashlib.sha256(canonical_json_v1(manifest_population_rows_v1(rows))).hexdigest(),
-        "high_water": rows[-1]["sequence"],
+        "high_water": (rows[-1]["sequence"] if rows else before),
     }
     body["manifest_digest"] = hashlib.sha256(canonical_json_v1(body)).hexdigest()
     verify_generation_manifest_v1(body)
@@ -1695,7 +1695,8 @@ def verify_generation_manifest_v1(manifest: dict[str, object]) -> str:
     if type(before) is not str or type(high) is not str or not SEQUENCE_ID.fullmatch(before) or not SEQUENCE_ID.fullmatch(high):
         raise RotationError("manifest high-water is invalid")
     events = manifest["events"]
-    if type(events) is not list or not events or (predecessor is None and before != "00000000000000000000"):
+    if (type(events) is not list or (not events and predecessor is None)
+            or (predecessor is None and before != "00000000000000000000")):
         raise RotationError("manifest predecessor/events are invalid")
     for row in events:
         if (type(row) is not dict or set(row) != MANIFEST_EVENT_KEYS
@@ -1709,8 +1710,13 @@ def verify_generation_manifest_v1(manifest: dict[str, object]) -> str:
         raise RotationError("manifest events are not in canonical order")
     if len({row["sequence"] for row in events}) != len(events) or len({row["event_id"] for row in events}) != len(events):
         raise RotationError("manifest contains duplicate identity")
-    if [row["sequence"] for row in events] != allocate_candidate_sequences_v1(before, len(events)) or high != events[-1]["sequence"]:
-        raise RotationError("manifest sequence is not contiguous")
+    if events:
+        if ([row["sequence"] for row in events]
+                != allocate_candidate_sequences_v1(before, len(events))
+                or high != events[-1]["sequence"]):
+            raise RotationError("manifest sequence is not contiguous")
+    elif high != before:
+        raise RotationError("empty successor manifest changed the predecessor high-water")
     counts: dict[str, int] = {}
     for row in events: counts[row["record_kind"]] = counts.get(row["record_kind"], 0) + 1
     if manifest["record_class_counts"] != dict(sorted(counts.items())):
@@ -2594,8 +2600,8 @@ def _open_governed_publication_context_v1(
         predecessor_receipt_token: str | None = None
         transition = receipt_oid is None
         if transition:
-            if (current_oid is not None or marker_oid is not None
-                    or invalidation_oid is None or invalidation_fields is None):
+            if (invalidation_oid is None or invalidation_fields is None
+                    or (current_oid is None) != (marker_oid is None)):
                 raise RotationError("publication continuity receipt is unavailable")
             ordinal = int(generation_id[1:], 16)
             if ordinal <= 1:
@@ -2614,26 +2620,62 @@ def _open_governed_publication_context_v1(
         tree = git(controller_repo, "rev-parse", "HEAD^{tree}").decode("ascii", "strict").strip()
         state_digest = hashlib.sha256(state_bytes).hexdigest()
         roadmap_digest = hashlib.sha256(roadmap_bytes).hexdigest()
-        receipt_authority = ["implementaudit.continuity-receipt.v2", controller_id,
-                             controller_oid, claim_id, head, tree]
         allowed_boundaries = {"host-reported-compaction", "new-session",
                               "handoff-resume", "manual-resume",
                               "inferred-context-gap"}
-        if (len(receipt_fields) != 12 or receipt_fields[:6] != receipt_authority
-                or not all(HEX_SHA256.fullmatch(value)
-                           for value in receipt_fields[6:8])
-                or (not transition
-                    and receipt_fields[8] != (invalidation_oid or "none"))
-                or (receipt_fields[8] != "none"
-                    and not GIT_OID.fullmatch(receipt_fields[8]))
-                or receipt_fields[9] not in allowed_boundaries
-                or receipt_fields[10] != (
-                    f"G{int(generation_id[1:], 16) - 1:04X}"
-                    if transition else generation_id)
-                or not receipt_fields[11]):
-            raise RotationError("publication continuity receipt does not bind current custody")
-        if not transition and receipt_fields[6:8] != [state_digest, roadmap_digest]:
-            raise RotationError("publication continuity receipt does not bind current custody")
+        predecessor_epoch = (
+            f"G{int(generation_id[1:], 16) - 1:04X}"
+            if transition else generation_id)
+        if current_oid is None:
+            receipt_authority = [
+                "implementaudit.continuity-receipt.v2", controller_id,
+                controller_oid, claim_id, head, tree]
+            if (len(receipt_fields) != 12
+                    or receipt_fields[:6] != receipt_authority
+                    or not all(HEX_SHA256.fullmatch(value)
+                               for value in receipt_fields[6:8])
+                    or (not transition
+                        and receipt_fields[8] != (invalidation_oid or "none"))
+                    or (receipt_fields[8] != "none"
+                        and not GIT_OID.fullmatch(receipt_fields[8]))
+                    or receipt_fields[9] not in allowed_boundaries
+                    or receipt_fields[10] != predecessor_epoch
+                    or not receipt_fields[11]
+                    or (not transition and
+                        receipt_fields[6:8] != [state_digest, roadmap_digest])):
+                raise RotationError(
+                    "publication continuity receipt does not bind current custody")
+        else:
+            predecessor_pointer = load_canonical_generation_pointer_oid_v1(
+                controller_repo, current_oid)
+            predecessor_live = {
+                "repo_path": controller_repo, "controller_id": controller_id,
+                "controller_oid": controller_oid, "claim_id": claim_id,
+                "run_id": run_id, "source_epoch": predecessor_epoch,
+                "pointer_ref": current_ref,
+            }
+            predecessor_receipt = {
+                "ref": receipt_ref, "oid": receipt_oid,
+                "raw": receipt, "fields": receipt_fields,
+            }
+            require_complete_pointer_receipt_marker_route_v1(
+                live=predecessor_live, receipt=predecessor_receipt,
+                pointer=predecessor_pointer, pointer_oid=current_oid,
+                marker_oid=str(marker_oid))
+            if predecessor_pointer["source_epoch"] != predecessor_epoch:
+                raise RotationError(
+                    "publication continuity receipt does not bind current custody")
+            if transition:
+                if receipt_fields[5] == invalidation_oid:
+                    raise RotationError(
+                        "publication continuity receipt does not bind current custody")
+            elif (receipt_fields[5] != invalidation_oid
+                    or receipt_fields[9:11] != [state_digest, roadmap_digest]
+                    or receipt_fields[12] != hashlib.sha256(
+                        session.read_role_exact(
+                            "WORK_GRAPH", reopen=False)).hexdigest()):
+                raise RotationError(
+                    "publication continuity receipt does not bind current custody")
         if transition:
             state_lines = state_bytes.decode("utf-8", "strict").splitlines()
             next_actions = []
@@ -2932,20 +2974,79 @@ def require_complete_pointer_receipt_marker_route_v1(
         Path(live["repo_path"]), fields, controller_id=controller_id,
         controller_oid=str(live["controller_oid"]), claim_id=claim_id,
         run_id=run_id, source_epoch=source_epoch)
-    marker_raw = read_exact_git_blob_oid_v1(Path(live["repo_path"]), marker_oid)
+    repo = Path(live["repo_path"])
+    marker_raw = read_exact_git_blob_oid_v1(repo, marker_oid)
     try:
         marker_fields = marker_raw.decode("utf-8", "strict").split("\t")
     except UnicodeDecodeError as exc:
         raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE") from exc
     if b"\r" in marker_raw or b"\n" in marker_raw:
         raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
-    if marker_fields != [
-        "implementaudit.current-generation-migration.v1", controller_id,
-        claim_id, run_id, source_epoch, pointer_ref,
-        "implementaudit.state-generation-pointer.v1", str(receipt["ref"]),
-        str(receipt["oid"]), "true",
-    ]:
+    if (len(marker_fields) != 10
+            or marker_fields[:4] != [
+                "implementaudit.current-generation-migration.v1", controller_id,
+                claim_id, run_id]
+            or not GENERATION_ID.fullmatch(marker_fields[4])
+            or marker_fields[5:7] != [
+                pointer_ref, "implementaudit.state-generation-pointer.v1"]
+            or marker_fields[9] != "true"):
         raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    genesis_epoch = marker_fields[4]
+    genesis_receipt_ref = marker_fields[7]
+    genesis_receipt_oid = marker_fields[8]
+    if (genesis_receipt_ref != (
+            f"refs/implementaudit/continuity-receipts/{controller_id}/{genesis_epoch}")
+            or not GIT_OID.fullmatch(genesis_receipt_oid)):
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    genesis_receipt = _receipt_record_v1(
+        repo, genesis_receipt_ref + "@" + genesis_receipt_oid)
+    genesis_fields = genesis_receipt["fields"]
+    if (type(genesis_fields) is not list or len(genesis_fields) != 18
+            or genesis_fields[:5] != [
+                "implementaudit.continuity-receipt.v3", controller_id,
+                claim_id, run_id, genesis_epoch]
+            or genesis_fields[6] != pointer_ref
+            or not GIT_OID.fullmatch(genesis_fields[7])):
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    genesis_pointer_oid = genesis_fields[7]
+    genesis_pointer = load_canonical_generation_pointer_oid_v1(
+        repo, genesis_pointer_oid)
+    if (tuple(genesis_pointer[name] for name in (
+            "controller_id", "claim_id", "run_id", "source_epoch"))
+            != (controller_id, claim_id, run_id, genesis_epoch)
+            or genesis_pointer["generation_id"] != genesis_epoch
+            or genesis_pointer["predecessor_pointer_oid"] is not None
+            or genesis_pointer["predecessor_pointer_digest"] is not None
+            or genesis_fields[8:16] != [
+                genesis_pointer["pointer_digest"],
+                genesis_pointer["hot_state_digest"],
+                genesis_pointer["hot_roadmap_digest"],
+                genesis_pointer["work_graph_path"],
+                genesis_pointer["work_graph_digest"],
+                genesis_pointer["generation_manifest_oid"],
+                genesis_pointer["generation_manifest_digest"],
+                genesis_pointer["cold_high_water"]]):
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    _require_structural_predecessor_token_v1(
+        genesis_fields[17], controller_id=controller_id,
+        receipt_epoch=genesis_epoch)
+    current_ordinal = int(source_epoch[1:], 16)
+    genesis_ordinal = int(genesis_epoch[1:], 16)
+    if current_ordinal < genesis_ordinal:
+        raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    if current_ordinal == genesis_ordinal:
+        if (pointer_oid != genesis_pointer_oid
+                or pointer["predecessor_pointer_oid"] is not None
+                or pointer["predecessor_pointer_digest"] is not None):
+            raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
+    else:
+        predecessor_receipt = _receipt_record_v1(repo, fields[17])
+        predecessor_fields = predecessor_receipt["fields"]
+        if (not isinstance(predecessor_fields, list)
+                or len(predecessor_fields) != 18
+                or pointer["predecessor_pointer_oid"] != predecessor_fields[7]
+                or pointer["predecessor_pointer_digest"] != predecessor_fields[8]):
+            raise RotationError("OE_SOURCE_ROUTE_INCOMPLETE")
 
 
 @contextlib.contextmanager
@@ -3241,6 +3342,108 @@ def prepare_live_genesis_v1() -> dict[str, object]:
             "classification_oid": classification_oid,
             "event_count": stored_receipt.event_count,
             "event_population_digest": stored_receipt.population_digest,
+            "generation_manifest_oid": manifest_oid,
+            "generation_manifest_digest": str(manifest["manifest_digest"]),
+            "candidate_pointer_oid": pointer_oid,
+            "authority_ceiling": "R0039_CANDIDATE_ONLY",
+        }
+
+
+def prepare_live_successor_v1() -> dict[str, object]:
+    """Prepare a continuity-only successor from exact governed custody."""
+    with acquire_r0039_publication_writer_lease_v1() as (context, session):
+        predecessor_oid = context.get("expected_old_pointer_oid")
+        marker_oid = context.get("migration_marker_oid")
+        predecessor_receipt = context.get("predecessor_receipt_token")
+        if (type(predecessor_oid) is not str or not GIT_OID.fullmatch(predecessor_oid)
+                or type(marker_oid) is not str or not GIT_OID.fullmatch(marker_oid)
+                or type(predecessor_receipt) is not str
+                or predecessor_receipt != (
+                    str(context.get("receipt_ref")) + "@" +
+                    str(context.get("receipt_oid")))):
+            raise RotationError("live-successor requires an invalidated post-marker predecessor")
+        repo = Path(context["repo_path"])
+        controller_id = str(context["controller_id"])
+        claim_id = str(context["claim_id"])
+        run_id = str(context["run_id"])
+        generation_id = str(context["generation_id"])
+        source_epoch = str(context["source_epoch"])
+        predecessor_pointer = load_canonical_generation_pointer_oid_v1(
+            repo, predecessor_oid)
+        predecessor_manifest = load_canonical_generation_manifest_oid_v1(
+            repo, str(predecessor_pointer["generation_manifest_oid"]))
+        previous_epoch = str(predecessor_pointer["source_epoch"])
+        if (source_epoch != generation_id
+                or not GENERATION_ID.fullmatch(generation_id)
+                or int(generation_id[1:], 16) != int(previous_epoch[1:], 16) + 1
+                or tuple(predecessor_pointer[name] for name in (
+                    "controller_id", "claim_id", "run_id"))
+                != (controller_id, claim_id, run_id)):
+            raise RotationError("live-successor generation is not the exact next epoch")
+
+        initial_hot = {
+            role: session.read_role_exact(role, reopen=False)
+            for role in ("STATE", "ROADMAP", "WORK_GRAPH")
+        }
+        hot_digests = {
+            role: hashlib.sha256(raw).hexdigest()
+            for role, raw in initial_hot.items()
+        }
+        if (hot_digests["STATE"] != context["receipt_state_digest"]
+                or hot_digests["ROADMAP"] != context["receipt_roadmap_digest"]):
+            raise RotationError("live-successor hot custody disagrees")
+
+        manifest, manifest_raw = build_generation_manifest_v1(
+            predecessor_manifest, [])
+        if (manifest["events"] or manifest["high_water"]
+                != predecessor_manifest["high_water"]):
+            raise RotationError("live-successor changed cold history without evidence")
+        manifest_oid = git(
+            repo, "hash-object", "-w", "--stdin",
+            input_bytes=manifest_raw).decode("ascii", "strict").strip()
+        loaded_manifest = load_canonical_generation_manifest_oid_v1(
+            repo, manifest_oid)
+        pointer, pointer_raw = build_generation_pointer_v1(
+            controller_id=controller_id, claim_id=claim_id, run_id=run_id,
+            generation_id=generation_id, source_epoch=source_epoch,
+            predecessor_pointer_oid=predecessor_oid,
+            predecessor_pointer_digest=str(predecessor_pointer["pointer_digest"]),
+            generation_manifest_oid=manifest_oid,
+            generation_manifest_digest=str(manifest["manifest_digest"]),
+            cold_high_water=str(manifest["high_water"]),
+            hot_state_digest=hot_digests["STATE"],
+            hot_roadmap_digest=hot_digests["ROADMAP"],
+            work_graph_path=EXPECTED_WORK_GRAPH_PATH,
+            work_graph_digest=hot_digests["WORK_GRAPH"],
+            degraded_state=str(predecessor_pointer["degraded_state"]))
+        pointer_oid = git(
+            repo, "hash-object", "-w", "--stdin",
+            input_bytes=pointer_raw).decode("ascii", "strict").strip()
+        loaded_pointer = load_canonical_generation_pointer_oid_v1(
+            repo, pointer_oid)
+        verify_pointer_manifest_tuple_v1(
+            pointer=loaded_pointer, manifest=loaded_manifest,
+            manifest_oid=manifest_oid)
+        verify_generation_successor_tuple_v1(
+            pointer=loaded_pointer, manifest=loaded_manifest,
+            predecessor_oid=predecessor_oid,
+            predecessor_pointer=predecessor_pointer,
+            predecessor_manifest=predecessor_manifest)
+        final_hot = {
+            role: session.read_role_exact(role, reopen=True)
+            for role in ("STATE", "ROADMAP", "WORK_GRAPH")
+        }
+        if final_hot != initial_hot:
+            raise RotationError("live-successor hot custody changed")
+        return {
+            "schema": "implementaudit.live-successor-preparation.v1",
+            "controller_id": controller_id,
+            "claim_id": claim_id,
+            "run_id": run_id,
+            "source_epoch": source_epoch,
+            "predecessor_pointer_oid": predecessor_oid,
+            "permanent_marker_oid": marker_oid,
+            "event_count": 0,
             "generation_manifest_oid": manifest_oid,
             "generation_manifest_digest": str(manifest["manifest_digest"]),
             "candidate_pointer_oid": pointer_oid,

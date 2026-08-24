@@ -434,24 +434,108 @@ observed=hashlib.sha256(canonical(body).encode("utf-8")).hexdigest()
 if supplied != observed:
     raise SystemExit(1)
 ordered=("schema_version","controller_id","claim_id","run_id","generation_id",
-         "source_epoch","generation_manifest_oid","generation_manifest_digest",
+         "source_epoch","predecessor_pointer_oid","predecessor_pointer_digest",
+         "generation_manifest_oid","generation_manifest_digest",
          "cold_high_water","hot_state_digest","hot_roadmap_digest",
          "work_graph_path","work_graph_digest","query_contract_version",
          "degraded_state","pointer_digest")
-print("\t".join(value[name] for name in ordered))
+print("\t".join("none" if value[name] is None else value[name] for name in ordered))
 PY
   }
   load_generation_migration() {
     marker_state="$(generation_ref_state "$mref")" || return 1
-    moid=''; mrecord=''
+    moid=''; mrecord=''; marker_terminal_lf=false
     [ "$marker_state" = RESOLVED ] || return 0
     moid="$(git rev-parse --verify "$mref" 2>/dev/null)" || { marker_state=BROKEN; return 0; }
     [ "$(git cat-file -t "$moid" 2>/dev/null)" = blob ] || { marker_state=MALFORMED; return 0; }
     mrecord="$(git cat-file blob "$moid" && printf '\036')" || { marker_state=MALFORMED; return 0; }
     case "$mrecord" in *$'\036') mrecord="${mrecord%$'\036'}";; *) marker_state=MALFORMED; return 0;; esac
     case "$mrecord" in *$'\r'*) marker_state=MALFORMED; return 0;; esac
-    case "$mrecord" in *$'\n') mrecord="${mrecord%$'\n'}";; esac
+    case "$mrecord" in *$'\n') marker_terminal_lf=true; mrecord="${mrecord%$'\n'}";; esac
     case "$mrecord" in *$'\n'*) marker_state=MALFORMED;; esac
+  }
+  require_permanent_genesis_marker() {
+    local ms mc mclaim mrun mepoch mpref mpschema mvref mvoid mterminal mextra
+    local genesis_raw genesis_parsed gps gpc gpclaim gprun gpgen gpepoch
+    local gpprevious_oid gpprevious_digest gpmanifest_oid gpmanifest_digest gphigh gpstate gproad gpgpath
+    local gpgdigest gpquery gpdegraded gpdigest gpextra
+    local grs grc grclaim grun grep ginv grpref grpoid grpdigest grstate grroad
+    local grgpath grgdigest grmanifest_oid grmanifest_digest grhigh grnext grpred grextra
+    local marker_py=() genesis_predecessor_ref genesis_predecessor_oid
+    [ "$marker_state" = RESOLVED ] &&
+      [ "$marker_terminal_lf" = false ] || return 1
+    IFS=$'\t' read -r ms mc mclaim mrun mepoch mpref mpschema mvref mvoid \
+      mterminal mextra <<< "$mrecord"
+    [ -z "$mextra" ] &&
+      [ "$ms:$mc:$mclaim:$mrun" = \
+        "implementaudit.current-generation-migration.v1:$c:$rg:$run_identity" ] &&
+      [[ "$mepoch" =~ ^G[0-9A-F]{4}$ ]] &&
+      [ "$mpref:$mpschema:$mterminal" = \
+        "$pref:implementaudit.state-generation-pointer.v1:true" ] &&
+      [ "$mvref" = "refs/implementaudit/continuity-receipts/$c/$mepoch" ] &&
+      [[ "$mvoid" =~ ^[0-9a-f]{40}$ ]] || return 1
+    [ "$(git rev-parse --verify "$mvref" 2>/dev/null)" = "$mvoid" ] || return 1
+    [ "$(git cat-file -t "$mvoid" 2>/dev/null)" = blob ] || return 1
+    load_exact_lf_receipt_record "$mvoid" || return 1
+    require_exact_tab_count "$exact_receipt_record" 17 || return 1
+    IFS=$'\t' read -r grs grc grclaim grun grep ginv grpref grpoid grpdigest \
+      grstate grroad grgpath grgdigest grmanifest_oid grmanifest_digest grhigh \
+      grnext grpred grextra <<< "$exact_receipt_record"
+    [ -z "$grextra" ] &&
+      [ "$grs:$grc:$grclaim:$grun:$grep" = \
+        "implementaudit.continuity-receipt.v3:$c:$rg:$run_identity:$mepoch" ] &&
+      [ "$grpref" = "$pref" ] && [[ "$grpoid" =~ ^[0-9a-f]{40}$ ]] || return 1
+    genesis_raw="$(git cat-file blob "$grpoid" && printf '\036')" || return 1
+    case "$genesis_raw" in *$'\036') genesis_raw="${genesis_raw%$'\036'}";; *) return 1;; esac
+    case "$genesis_raw" in *$'\n'*|*$'\r'*) return 1;; esac
+    genesis_parsed="$(load_json_generation_pointer "$genesis_raw")" || return 1
+    IFS=$'\t' read -r gps gpc gpclaim gprun gpgen gpepoch \
+      gpprevious_oid gpprevious_digest gpmanifest_oid \
+      gpmanifest_digest gphigh gpstate gproad gpgpath gpgdigest gpquery \
+      gpdegraded gpdigest gpextra <<< "$genesis_parsed"
+    [ -z "$gpextra" ] && [ "$gpc:$gpclaim:$gprun:$gpgen:$gpepoch" = \
+      "$c:$rg:$run_identity:$mepoch:$mepoch" ] &&
+      [ "$grpdigest:$grstate:$grroad:$grgpath:$grgdigest" = \
+        "$gpdigest:$gpstate:$gproad:$gpgpath:$gpgdigest" ] &&
+      [ "$grmanifest_oid:$grmanifest_digest:$grhigh" = \
+        "$gpmanifest_oid:$gpmanifest_digest:$gphigh" ] &&
+      [ "$gpprevious_oid:$gpprevious_digest" = none:none ] || return 1
+    if command -v python >/dev/null 2>&1; then marker_py=(python)
+    elif command -v python3 >/dev/null 2>&1; then marker_py=(python3)
+    elif command -v py >/dev/null 2>&1; then marker_py=(py -3)
+    else return 1; fi
+    "${marker_py[@]}" - "$genesis_raw" <<'PY' >/dev/null || return 1
+import json,sys
+value=json.loads(sys.argv[1])
+if value.get("predecessor_pointer_oid") is not None or value.get("predecessor_pointer_digest") is not None:
+    raise SystemExit(1)
+PY
+    if [ "$jpepoch" = "$mepoch" ]; then
+      [ "$poid" = "$grpoid" ] &&
+        [ "$jpprevious_oid:$jpprevious_digest" = none:none ] || return 1
+    else
+      [[ "$jpepoch" =~ ^G([0-9A-F]{4})$ ]] || return 1
+      local current_ordinal=$((16#${BASH_REMATCH[1]}))
+      [[ "$mepoch" =~ ^G([0-9A-F]{4})$ ]] || return 1
+      local genesis_ordinal=$((16#${BASH_REMATCH[1]}))
+      [ "$current_ordinal" -gt "$genesis_ordinal" ] &&
+        [ "$jpprevious_oid" != none ] &&
+        [ "$jpprevious_digest" != none ] &&
+        [ "$jpprevious_oid:$jpprevious_digest" = \
+          "$ppointer_oid:$ppointer_digest" ] || return 1
+    fi
+    case "$grpred" in
+      *@*) genesis_predecessor_ref="${grpred%@*}";
+           genesis_predecessor_oid="${grpred##*@}";;
+      *) return 1;;
+    esac
+    [[ "$mepoch" =~ ^G([0-9A-F]{4})$ ]] || return 1
+    local marker_ordinal=$((16#${BASH_REMATCH[1]})) marker_predecessor_epoch
+    [ "$marker_ordinal" -gt 1 ] || return 1
+    printf -v marker_predecessor_epoch 'G%04X' "$((marker_ordinal - 1))"
+    [ "$genesis_predecessor_ref" = \
+      "refs/implementaudit/continuity-receipts/$c/$marker_predecessor_epoch" ] &&
+      [[ "$genesis_predecessor_oid" =~ ^[0-9a-f]{40}$ ]] || return 1
   }
   load_live_generation_state() {
     live_epoch="$(sed -n 's/^Current epoch: //p' "$state")"
@@ -567,7 +651,8 @@ sys.stdout.buffer.write(raw[:-1])
   load_json_pointer_live_bundle() {
     local parsed graph_file observed_graph
     parsed="$(load_json_generation_pointer "$precord")" || return 1
-    IFS=$'\t' read -r jps jpc jpclaim jprun jpgen jpepoch jpmanifest_oid \
+    IFS=$'\t' read -r jps jpc jpclaim jprun jpgen jpepoch \
+      jpprevious_oid jpprevious_digest jpmanifest_oid \
       jpmanifest_digest jphigh jpstate jproad jpgraph_path jpgraph_digest \
       jpquery jpdegraded jpdigest jpextra <<< "$parsed"
     [ -z "$jpextra" ] || return 1
@@ -699,14 +784,15 @@ sys.stdout.buffer.write(raw[:-1])
       load_invalidation || return
       if [ "$a" = require ]; then
         local pref="refs/implementaudit/current-generations/$c" mref="refs/implementaudit/current-generation-migrations/$c"
-        local poid moid precord mrecord vrecord run_identity pointer_state marker_state live_epoch live_next
+        local poid moid precord mrecord vrecord run_identity pointer_state marker_state marker_terminal_lf live_epoch live_next
         local ps pc pclaim prun pgen pep pinv ppred pvref pproj psh prh pph pah pnext pextra
         local vs vc vclaim vrun vep vinv vpref vpoid vsh vrh vph vah vnext vpred vextra void
         local ms mc mclaim mrun mep mpref mpschema mvref mvoid mterminal mextra
-        local jps jpc jpclaim jprun jpgen jpepoch jpmanifest_oid jpmanifest_digest
+        local jps jpc jpclaim jprun jpgen jpepoch jpprevious_oid jpprevious_digest
+        local jpmanifest_oid jpmanifest_digest
         local jphigh jpstate jproad jpgraph_path jpgraph_digest jpquery jpdegraded
         local jpdigest jpextra vpdigest vgpath vg vmanifest_oid vmanifest_digest
-        local vhigh v3_token
+        local vhigh v3_token ppointer_oid='' ppointer_digest=''
         load_current_generation || return
         load_generation_migration || return
         if [ "$pointer_state" != ABSENT ] || [ "$marker_state" != ABSENT ]; then
@@ -741,12 +827,7 @@ sys.stdout.buffer.write(raw[:-1])
               printf 'claim-run.sh: FIRST_MIGRATION_INCOMPLETE: current-generation pointer and v3 receipt exist without a migration marker\n' >&2
               return 1
             fi
-            IFS=$'\t' read -r ms mc mclaim mrun mep mpref mpschema mvref mvoid mterminal mextra <<< "$mrecord"
-            [ -z "$mextra" ] &&
-              [ "$ms:$mc:$mclaim:$mrun:$mep" = \
-                "implementaudit.current-generation-migration.v1:$c:$rg:$run_identity:$jpepoch" ] &&
-              [ "$mpref:$mpschema:$mvref:$mvoid:$mterminal" = \
-                "$pref:implementaudit.state-generation-pointer.v1:$final_vref:$final_void:true" ] || return 1
+            require_permanent_genesis_marker || return 1
             printf '%s\n' "$v3_token"
             return
           fi
@@ -804,16 +885,19 @@ sys.stdout.buffer.write(raw[:-1])
         [ "$ioid" = none ] || [ "$ib" = "$b" ] || return 1
         next="$(awk -F'|' -v e="$e" -v b="$b" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} /^Current epoch:/{ce=$0} q($2)=="Next action"{n=q($3)} q($2)==e&&q($3)==b&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ce=="Current epoch: "e&&ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return
         local pref="refs/implementaudit/current-generations/$c" mref="refs/implementaudit/current-generation-migrations/$c"
-        local poid moid precord mrecord pointer_state marker_state pointer_format
+        local poid moid precord mrecord pointer_state marker_state marker_terminal_lf pointer_format
         local live_epoch live_next run_identity jps jpc jpclaim jprun jpgen jpepoch
-        local jpmanifest_oid jpmanifest_digest jphigh jpstate jproad jpgraph_path
+        local jpprevious_oid jpprevious_digest jpmanifest_oid jpmanifest_digest
+        local jphigh jpstate jproad jpgraph_path
         local jpgraph_digest jpquery jpdegraded jpdigest jpextra predecessor
         local vs vc vclaim vrun vep vinv vpref vpoid vpdigest vsh vrh vgpath vg
         local vmanifest_oid vmanifest_digest vhigh vnext vpred vextra v3_token
+        local ppointer_oid='' ppointer_digest=''
         load_current_generation || return 1
         load_generation_migration || return 1
         if [ "$pointer_state" != ABSENT ] || [ "$marker_state" != ABSENT ]; then
-          [ "$pointer_state:$pointer_format:$marker_state" = RESOLVED:JSON:ABSENT ] || return 1
+          [ "$pointer_state:$pointer_format" = RESOLVED:JSON ] || return 1
+          case "$marker_state" in ABSENT|RESOLVED) ;; *) return 1;; esac
           [ "$ioid" != none ] || return 1
           load_live_generation_state || return 1
           [ "$live_epoch:$live_next" = "$e:$next" ] || return 1
@@ -821,6 +905,7 @@ sys.stdout.buffer.write(raw[:-1])
           [ "$jpepoch" = "$e" ] || return 1
           predecessor="$(previous_receipt_token "$e")" || return 1
           load_generation_predecessor "$predecessor" || return 1
+          [ "$marker_state" = ABSENT ] || require_permanent_genesis_marker || return 1
           rref="refs/implementaudit/continuity-receipts/$c/$e"
           newr="$(printf 'implementaudit.continuity-receipt.v3\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
             "$c" "$rg" "$run_identity" "$e" "$ioid" "$pref" "$poid" "$jpdigest" \
@@ -869,10 +954,12 @@ sys.stdout.buffer.write(raw[:-1])
           implementaudit.continuity-receipt.v3)
             local pref="refs/implementaudit/current-generations/$c" poid precord pointer_state pointer_format
             local live_epoch live_next run_identity jps jpc jpclaim jprun jpgen jpepoch
-            local jpmanifest_oid jpmanifest_digest jphigh jpstate jproad jpgraph_path
+            local jpprevious_oid jpprevious_digest jpmanifest_oid jpmanifest_digest
+            local jphigh jpstate jproad jpgraph_path
             local jpgraph_digest jpquery jpdegraded jpdigest jpextra
             local vs vc vclaim vrun vep vinv vpref vpoid vpdigest vsh vrh vgpath vg
             local vmanifest_oid vmanifest_digest vhigh vnext vpred vextra v3_token
+            local ppointer_oid='' ppointer_digest=''
             load_current_generation || return 1
             [ "$pointer_state:$pointer_format" = RESOLVED:JSON ] || return 1
             load_live_generation_state || return 1

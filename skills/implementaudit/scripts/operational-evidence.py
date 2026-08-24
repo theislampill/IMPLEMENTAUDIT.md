@@ -606,6 +606,22 @@ def _native_exact_tsv(raw, schema, count, label):
     return fields
 
 
+def _native_exact_no_lf_tsv(raw, schema, count, label):
+    if (not raw or b"\n" in raw or b"\r" in raw or b"\x00" in raw or any(
+            byte < 0x20 and byte != 0x09 or byte == 0x7f for byte in raw)):
+        _error("OE_NATIVE_CURRENT_BYTES", label,
+               "native-current record does not have exact no-LF TSV bytes")
+    try:
+        fields = raw.decode("utf-8", "strict").split("\t")
+    except UnicodeDecodeError:
+        _error("OE_NATIVE_CURRENT_BYTES", label,
+               "native-current record is not exact UTF-8")
+    if len(fields) != count or fields[0] != schema or any(field == "" for field in fields):
+        _error("OE_NATIVE_CURRENT_BYTES", label,
+               "native-current record schema or field population is malformed")
+    return fields
+
+
 def _native_resolved_path(value, label):
     if type(value) is not str or not value or "\x00" in value:
         _error("OE_NATIVE_CURRENT_PATH", label, "native path is malformed")
@@ -1279,16 +1295,87 @@ def collect_native_current():
     marker_ref = f"refs/implementaudit/current-generation-migrations/{controller}"
     marker_oid = _native_ref_oid(
         source_repository, marker_ref, "$native.marker.ref")
-    marker = _native_exact_tsv(
+    marker = _native_exact_no_lf_tsv(
         _native_blob(source_repository, marker_oid, "$native.marker"),
         "implementaudit.current-generation-migration.v1", 10, "$native.marker")
-    if marker != [
+    if (marker[:4] != [
             "implementaudit.current-generation-migration.v1", controller, claim,
-            run_id, generation, pointer_ref,
-            "implementaudit.state-generation-pointer.v1", receipt_ref,
-            receipt_oid, "true"]:
+            run_id] or not re.fullmatch(r"G[0-9A-F]{4}", marker[4]) or
+            marker[5:7] != [
+                pointer_ref, "implementaudit.state-generation-pointer.v1"] or
+            marker[9] != "true"):
         _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
-               "permanent migration marker is stale or foreign")
+               "permanent migration marker is malformed or foreign")
+    genesis_generation = marker[4]
+    genesis_receipt_ref = marker[7]
+    genesis_receipt_oid = marker[8]
+    if (genesis_receipt_ref !=
+            f"refs/implementaudit/continuity-receipts/{controller}/{genesis_generation}" or
+            _native_ref_oid(source_repository, genesis_receipt_ref,
+                            "$native.marker.receipt_ref") != genesis_receipt_oid):
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+               "permanent migration marker receipt is stale or foreign")
+    genesis_receipt_fields = _native_exact_tsv(
+        _native_blob(source_repository, genesis_receipt_oid,
+                     "$native.marker.receipt"),
+        "implementaudit.continuity-receipt.v3", 18,
+        "$native.marker.receipt")
+    if (genesis_receipt_fields[:5] != [
+            "implementaudit.continuity-receipt.v3", controller, claim, run_id,
+            genesis_generation] or genesis_receipt_fields[6] != pointer_ref or
+            not re.fullmatch(r"[0-9a-f]{40}", genesis_receipt_fields[7])):
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+               "permanent migration marker receipt is malformed or foreign")
+    genesis_pointer_oid = genesis_receipt_fields[7]
+    genesis_pointer = _native_pointer(
+        _native_blob(source_repository, genesis_pointer_oid,
+                     "$native.marker.pointer"),
+        controller, claim, run_id)
+    if (genesis_pointer["source_epoch"] != genesis_generation or
+            genesis_pointer["generation_id"] != genesis_generation or
+            genesis_pointer["predecessor_pointer_oid"] is not None or
+            genesis_pointer["predecessor_pointer_digest"] is not None or
+            genesis_receipt_fields[8:16] != [
+                genesis_pointer["pointer_digest"],
+                genesis_pointer["hot_state_digest"],
+                genesis_pointer["hot_roadmap_digest"],
+                genesis_pointer["work_graph_path"],
+                genesis_pointer["work_graph_digest"],
+                genesis_pointer["generation_manifest_oid"],
+                genesis_pointer["generation_manifest_digest"],
+                genesis_pointer["cold_high_water"]]):
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+               "permanent migration marker does not bind the immutable genesis")
+    if genesis_receipt_fields[17].count("@") != 1:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+               "permanent genesis predecessor token is malformed")
+    genesis_predecessor_ref, genesis_predecessor_oid = (
+        genesis_receipt_fields[17].split("@"))
+    genesis_ordinal = int(genesis_generation[1:], 16)
+    if (genesis_ordinal <= 1 or genesis_predecessor_ref !=
+            f"refs/implementaudit/continuity-receipts/{controller}/"
+            f"G{genesis_ordinal - 1:04X}" or
+            not re.fullmatch(r"[0-9a-f]{40}", genesis_predecessor_oid)):
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+               "permanent genesis predecessor token is not structurally immediate")
+    current_ordinal = int(generation[1:], 16)
+    if current_ordinal < genesis_ordinal:
+        _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+               "current generation predates permanent genesis")
+    if current_ordinal == genesis_ordinal:
+        if (pointer_oid != genesis_pointer_oid or
+                pointer["predecessor_pointer_oid"] is not None or
+                pointer["predecessor_pointer_digest"] is not None):
+            _error("OE_NATIVE_CURRENT_RECEIPT", "$native.marker",
+                   "current genesis disagrees with permanent marker")
+    else:
+        predecessor_fields = _native_exact_tsv(
+            predecessor_raw, "implementaudit.continuity-receipt.v3", 18,
+            "$native.receipt.predecessor")
+        if (pointer["predecessor_pointer_oid"] != predecessor_fields[7] or
+                pointer["predecessor_pointer_digest"] != predecessor_fields[8]):
+            _error("OE_NATIVE_CURRENT_RECEIPT", "$native.pointer.predecessor",
+                   "current pointer is not joined to its immediate receipt predecessor")
     route_module, route_validator_path, route_validator_raw = _native_route_module()
     (continuity_validator_path, continuity_validator_raw,
      continuity_claim_validator_path, continuity_claim_validator_raw) = (
@@ -1302,6 +1389,7 @@ def collect_native_current():
     ref_fence = {
         controller_ref: controller_oid, invalidation_ref: invalidation_oid,
         pointer_ref: pointer_oid, receipt_ref: receipt_oid, marker_ref: marker_oid,
+        genesis_receipt_ref: genesis_receipt_oid,
         predecessor_ref: predecessor_oid,
         route["ref"]: route["record_oid"]}
     file_fence = {

@@ -89,7 +89,11 @@ order is exactly `pointer -> receipt v3 -> permanent marker`: R0039 publishes an
 rereads the canonical pointer by expected-old-zero CAS, R0011 mints and verifies
 the receipt from that already-current pointer, and R0039 may publish the marker
 only after the verified receipt exists. There is no alternative order or second
-currentness writer.
+currentness writer. The marker is thereafter an immutable genesis sentinel: it
+continues to bind that first pointer and receipt while a proved immediate
+successor advances the current pointer and selected v3 receipt. R0011 validates
+the marker's genesis join separately from the current pointer/receipt join and
+never republishes or rebinds the marker during resume.
 
 The final `implementaudit.continuity-receipt.v3` has one byte form: 18 nonempty
 UTF-8 fields separated by exactly 17 tabs and terminated by exactly one LF,
@@ -120,8 +124,9 @@ expected-zero publication. The reader matrix is fail closed:
 - once any marker ref exists, an absent or structurally malformed pointer stops
   as `STOP_NO_ROOT_FALLBACK`, and no root receipt may restore currentness; and
 - marker, pointer, and `implementaudit.continuity-receipt.v3` are current only
-  when their schemas and every authority, pointer, hot, graph, manifest,
-  high-water, predecessor, and next-action field form one exact join.
+  when the marker forms an exact immutable genesis join and the selected current
+  pointer/receipt schemas and every authority, pointer, hot, graph, manifest,
+  high-water, predecessor, and next-action field form their exact current join.
 
 Unknown records, mixed v2/v3 state, wrong object types, owner/run/schema drift,
 or a stale pointer/receipt join are STOP. These are reader rules only: reading
@@ -135,8 +140,12 @@ therefore does not invalidate an otherwise exact routine currentness check; it
 fails only when the explicit immutable-history query reads and validates that
 segment. Recovery after an interrupted first publication uses a fresh R0011
 invalidation/epoch and either completes the same verified pointer transaction
-or publishes a proved compensating successor. It never hydrates wholesale
-history or restores root-v2 after a marker exists.
+or publishes a proved immediate successor. A no-argument R0039 assembler may
+produce an empty event delta only when the exact predecessor manifest and
+unchanged high-water are retained; empty genesis remains forbidden. R0011 then
+mints the successor receipt with the permanent marker still anchored to
+genesis. Recovery never hydrates wholesale history or restores root-v2 after a
+marker exists.
 
 Continuity currentness does not itself authorize the next route. After the
 receipt is current, load `route-obligations.md` and classify the exact boundary,

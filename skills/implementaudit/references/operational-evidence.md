@@ -134,8 +134,10 @@ graph, source root, snapshot root or alternate path. The returned
 `implementaudit-native-current-facts-v1` record has the
 `READ_ONLY_NATIVE_CURRENT_FACT` ceiling and an empty `establishes` population.
 
-The reader requires one exact canonical generation pointer, receipt v3 and
-permanent migration marker chain. It binds their controller/claim/run/source
+The reader requires one exact canonical current generation pointer/receipt v3
+join plus the permanent migration marker's immutable genesis join. It binds
+both joins to the same controller/claim/run, validates the marker's original
+generation pointer and receipt independently, and binds the current source
 epoch, pointer and manifest identities, hot STATE/ROADMAP digests,
 `WORK_GRAPH.json` path/digest, next action and predecessor receipt. It invokes
 the canonical read-only R0011 currentness validator from a private byte-bound

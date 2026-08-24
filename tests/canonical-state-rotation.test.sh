@@ -19,6 +19,7 @@ trap 'rm -rf -- "$tmp"' EXIT
 candidate_evidence_ledger="$tmp/task6-candidate-evidence.ledger"
 : >"$candidate_evidence_ledger"
 live_genesis_only=false
+post_marker_recovery_only=false
 
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 record_candidate_evidence() {
@@ -41,16 +42,262 @@ case "${1:-}" in
   --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='' ;;
   --migration-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=true; r15_target='' ;;
   --live-genesis-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; live_genesis_only=true; r15_target='' ;;
+  --post-marker-recovery-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; post_marker_recovery_only=true; r15_target='' ;;
   --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='null-sinks' ;;
   --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='observation-order' ;;
   --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='nonzero-readback' ;;
   --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='receipt-pivot' ;;
   --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='owner-env' ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--live-genesis-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--live-genesis-only|--post-marker-recovery-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
+if $post_marker_recovery_only; then
+  python - "$helper" "$tmp" <<'PY'
+import hashlib
+import importlib.util
+import inspect
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False, allow_nan=False).encode("utf-8")
+
+
+def git(repo, *args, input_bytes=None):
+    return subprocess.check_output(
+        ["git", "-C", str(repo), *args], input=input_bytes
+    ).decode("ascii").strip()
+
+
+def blob(repo, raw):
+    return git(repo, "hash-object", "-w", "--stdin", input_bytes=raw)
+
+
+def update(repo, ref, oid):
+    subprocess.check_call(["git", "-C", str(repo), "update-ref", ref, oid])
+
+
+def expect_rotation_error(rotation, action, label):
+    try:
+        action()
+    except rotation.RotationError:
+        return
+    raise SystemExit(label + " was accepted")
+
+
+spec = importlib.util.spec_from_file_location("rotation_post_marker", sys.argv[1])
+rotation = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(rotation)
+red = []
+
+controller = "post-marker-controller"
+claim = "1" * 32
+run_id = "post-marker-run"
+kind = sorted(rotation.EVENT_ENUMS_V1["record_kind"])[0]
+source_id = "iasrc-v1-r0038-snapshot-" + "2" * 64 + "-recovery"
+event_row = {
+    "sequence": "00000000000000000001",
+    "event_id": "iaevt-v1-" + "3" * 64,
+    "segment_digest": "sha256:" + "4" * 64,
+    "record_kind": kind,
+    "source_evidence_id": source_id,
+}
+predecessor_body = {
+    "schema_version": "implementaudit.state-generation-manifest.v1",
+    "query_contract_version": "implementaudit.history-query.v1",
+    "controller_id": controller,
+    "claim_id": claim,
+    "run_id": run_id,
+    "generation_id": "G0002",
+    "source_epoch": "G0002",
+    "predecessor_manifest_digest": None,
+    "predecessor_high_water": "00000000000000000000",
+    "events": [event_row],
+    "record_class_counts": {kind: 1},
+    "population_digest": hashlib.sha256(canonical([event_row])).hexdigest(),
+    "high_water": "00000000000000000001",
+}
+predecessor_body["manifest_digest"] = hashlib.sha256(
+    canonical(predecessor_body)).hexdigest()
+rotation.verify_generation_manifest_v1(predecessor_body)
+
+successor_body = {
+    "schema_version": "implementaudit.state-generation-manifest.v1",
+    "query_contract_version": "implementaudit.history-query.v1",
+    "controller_id": controller,
+    "claim_id": claim,
+    "run_id": run_id,
+    "generation_id": "G0003",
+    "source_epoch": "G0003",
+    "predecessor_manifest_digest": predecessor_body["manifest_digest"],
+    "predecessor_high_water": predecessor_body["high_water"],
+    "events": [],
+    "record_class_counts": {},
+    "population_digest": hashlib.sha256(canonical([])).hexdigest(),
+    "high_water": predecessor_body["high_water"],
+}
+successor_body["manifest_digest"] = hashlib.sha256(
+    canonical(successor_body)).hexdigest()
+try:
+    rotation.verify_generation_manifest_v1(successor_body)
+except rotation.RotationError as exc:
+    red.append("EMPTY_SUCCESSOR_VERIFY=" + str(exc))
+
+old_context = rotation.load_governed_publication_context_v1
+rotation.load_governed_publication_context_v1 = lambda: {
+    "controller_id": controller, "claim_id": claim, "run_id": run_id,
+    "generation_id": "G0003", "source_epoch": "G0003",
+}
+try:
+    try:
+        built, raw = rotation.build_generation_manifest_v1(predecessor_body, [])
+        if built != successor_body or raw != canonical(successor_body):
+            red.append("EMPTY_SUCCESSOR_BUILD=wrong-bytes")
+    except rotation.RotationError as exc:
+        red.append("EMPTY_SUCCESSOR_BUILD=" + str(exc))
+finally:
+    rotation.load_governed_publication_context_v1 = old_context
+
+genesis_empty = dict(successor_body)
+genesis_empty.update({
+    "generation_id": "G0002", "source_epoch": "G0002",
+    "predecessor_manifest_digest": None,
+    "predecessor_high_water": "00000000000000000000",
+    "high_water": "00000000000000000000",
+})
+genesis_empty["manifest_digest"] = hashlib.sha256(
+    canonical({key: value for key, value in genesis_empty.items()
+               if key != "manifest_digest"})).hexdigest()
+expect_rotation_error(
+    rotation, lambda: rotation.verify_generation_manifest_v1(genesis_empty),
+    "empty genesis manifest")
+advanced_empty = dict(successor_body)
+advanced_empty["high_water"] = "00000000000000000002"
+advanced_empty["manifest_digest"] = hashlib.sha256(
+    canonical({key: value for key, value in advanced_empty.items()
+               if key != "manifest_digest"})).hexdigest()
+expect_rotation_error(
+    rotation, lambda: rotation.verify_generation_manifest_v1(advanced_empty),
+    "empty successor with advanced high-water")
+
+repo = Path(sys.argv[2]) / "marker-route"
+repo.mkdir()
+subprocess.check_call(["git", "init", "-q", str(repo)])
+controller_oid = blob(repo, b"controller")
+pointer_ref = f"refs/implementaudit/current-generations/{controller}"
+v1_ref = f"refs/implementaudit/continuity-receipts/{controller}/G0001"
+v1_raw = (f"implementaudit.continuity-receipt.v2\t{controller}\t{controller_oid}\t"
+          f"{claim}\t{'5' * 40}\t{'6' * 40}\t{'7' * 64}\t{'8' * 64}\tnone\t"
+          "manual-resume\tG0001\tpredecessor\n").encode()
+v1_oid = blob(repo, v1_raw)
+update(repo, v1_ref, v1_oid)
+
+genesis_pointer, genesis_raw = rotation.build_generation_pointer_v1(
+    controller_id=controller, claim_id=claim, run_id=run_id,
+    generation_id="G0002", source_epoch="G0002",
+    predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid="9" * 40,
+    generation_manifest_digest="a" * 64,
+    cold_high_water="00000000000000000001",
+    hot_state_digest="b" * 64, hot_roadmap_digest="c" * 64,
+    work_graph_path="WORK_GRAPH.json", work_graph_digest="d" * 64,
+    degraded_state="NONE")
+genesis_oid = blob(repo, genesis_raw)
+genesis_receipt_ref = (
+    f"refs/implementaudit/continuity-receipts/{controller}/G0002")
+genesis_receipt_raw = (
+    f"implementaudit.continuity-receipt.v3\t{controller}\t{claim}\t{run_id}\tG0002\t"
+    f"{'e' * 40}\t{pointer_ref}\t{genesis_oid}\t{genesis_pointer['pointer_digest']}\t"
+    f"{genesis_pointer['hot_state_digest']}\t{genesis_pointer['hot_roadmap_digest']}\t"
+    f"WORK_GRAPH.json\t{genesis_pointer['work_graph_digest']}\t"
+    f"{genesis_pointer['generation_manifest_oid']}\t"
+    f"{genesis_pointer['generation_manifest_digest']}\t"
+    f"{genesis_pointer['cold_high_water']}\tgenesis-next\t{v1_ref}@{v1_oid}\n").encode()
+genesis_receipt_oid = blob(repo, genesis_receipt_raw)
+update(repo, genesis_receipt_ref, genesis_receipt_oid)
+
+marker_raw = (
+    f"implementaudit.current-generation-migration.v1\t{controller}\t{claim}\t{run_id}\t"
+    f"G0002\t{pointer_ref}\timplementaudit.state-generation-pointer.v1\t"
+    f"{genesis_receipt_ref}\t{genesis_receipt_oid}\ttrue").encode()
+marker_oid = blob(repo, marker_raw)
+
+successor_pointer, successor_raw = rotation.build_generation_pointer_v1(
+    controller_id=controller, claim_id=claim, run_id=run_id,
+    generation_id="G0003", source_epoch="G0003",
+    predecessor_pointer_oid=genesis_oid,
+    predecessor_pointer_digest=genesis_pointer["pointer_digest"],
+    generation_manifest_oid="f" * 40,
+    generation_manifest_digest="0" * 64,
+    cold_high_water="00000000000000000001",
+    hot_state_digest="1" * 64, hot_roadmap_digest="2" * 64,
+    work_graph_path="WORK_GRAPH.json", work_graph_digest="3" * 64,
+    degraded_state="NONE")
+successor_oid = blob(repo, successor_raw)
+successor_receipt_ref = (
+    f"refs/implementaudit/continuity-receipts/{controller}/G0003")
+successor_receipt_raw = (
+    f"implementaudit.continuity-receipt.v3\t{controller}\t{claim}\t{run_id}\tG0003\t"
+    f"{'4' * 40}\t{pointer_ref}\t{successor_oid}\t{successor_pointer['pointer_digest']}\t"
+    f"{successor_pointer['hot_state_digest']}\t{successor_pointer['hot_roadmap_digest']}\t"
+    f"WORK_GRAPH.json\t{successor_pointer['work_graph_digest']}\t"
+    f"{successor_pointer['generation_manifest_oid']}\t"
+    f"{successor_pointer['generation_manifest_digest']}\t"
+    f"{successor_pointer['cold_high_water']}\tsuccessor-next\t"
+    f"{genesis_receipt_ref}@{genesis_receipt_oid}\n").encode()
+successor_receipt_oid = blob(repo, successor_receipt_raw)
+update(repo, successor_receipt_ref, successor_receipt_oid)
+successor_receipt = rotation._receipt_record_v1(
+    repo, successor_receipt_ref + "@" + successor_receipt_oid)
+live = {
+    "repo_path": repo, "controller_id": controller,
+    "controller_oid": controller_oid, "claim_id": claim, "run_id": run_id,
+    "source_epoch": "G0003", "pointer_ref": pointer_ref,
+}
+try:
+    rotation.require_complete_pointer_receipt_marker_route_v1(
+        live=live, receipt=successor_receipt, pointer=successor_pointer,
+        pointer_oid=successor_oid, marker_oid=marker_oid)
+except rotation.RotationError as exc:
+    red.append("IMMUTABLE_GENESIS_MARKER=" + str(exc))
+
+if not hasattr(rotation, "prepare_live_successor_v1"):
+    red.append("SUCCESSOR_ASSEMBLER=missing")
+elif list(inspect.signature(rotation.prepare_live_successor_v1).parameters):
+    red.append("SUCCESSOR_ASSEMBLER=accepts-caller-input")
+
+if red:
+    raise SystemExit("POST_MARKER_RECOVERY_RED=" + ";".join(red))
+
+# A marker with changed byte grammar or anchored to the current successor is
+# not accepted merely because its controller/run fields look plausible.
+expect_rotation_error(
+    rotation,
+    lambda: rotation.require_complete_pointer_receipt_marker_route_v1(
+        live=live, receipt=successor_receipt, pointer=successor_pointer,
+        pointer_oid=successor_oid, marker_oid=blob(repo, marker_raw + b"\n")),
+    "LF-terminated permanent marker")
+foreign_marker = (
+    f"implementaudit.current-generation-migration.v1\t{controller}\t{claim}\t{run_id}\t"
+    f"G0003\t{pointer_ref}\timplementaudit.state-generation-pointer.v1\t"
+    f"{successor_receipt_ref}\t{successor_receipt_oid}\ttrue").encode()
+expect_rotation_error(
+    rotation,
+    lambda: rotation.require_complete_pointer_receipt_marker_route_v1(
+        live=live, receipt=successor_receipt, pointer=successor_pointer,
+        pointer_oid=successor_oid, marker_oid=blob(repo, foreign_marker)),
+    "successor-rebound permanent marker")
+print("POST_MARKER_RECOVERY_GREEN=PASS marker=IMMUTABLE_GENESIS successor=EMPTY_DELTA assembler=NO_ARGUMENT")
+PY
+  exit $?
+fi
 if $live_genesis_only; then
   python - "$helper" "$tmp" <<'PY'
 import contextlib
@@ -1197,7 +1444,6 @@ if os.name == "nt":
 # replacement of either loader.  It must stay independent of both this test's
 # cwd and the isolated publication repository built below.
 physical_owner = rotation.publication_owner_repo_v1()
-physical_context = rotation.load_governed_publication_context_v1()
 expected_physical_context_keys = {
     "repo_path", "run_root_path", "controller_id", "claim_id", "run_id",
     "generation_id", "source_epoch", "receipt_ref", "receipt_oid",
@@ -1205,15 +1451,31 @@ expected_physical_context_keys = {
     "receipt_roadmap_digest", "expected_old_pointer_oid",
     "migration_marker_oid", "publication_guard_refs",
 }
-if (physical_context["repo_path"] != physical_owner
-        or (r15_target not in {"receipt-pivot", "owner-env"}
-            and set(physical_context) != expected_physical_context_keys)
-        or not all(str(physical_context[key]) for key in ("controller_id", "claim_id", "run_id", "generation_id", "source_epoch", "receipt_oid"))):
-    raise SystemExit("physical ten-key v2 publication custody loader is incomplete")
+
+def physical_observation():
+    try:
+        return ("CURRENT", rotation.load_governed_publication_context_v1())
+    except rotation.RotationError as exc:
+        return ("STOP", str(exc))
+
+
+physical_observed = physical_observation()
+if physical_observed[0] == "CURRENT":
+    physical_context = physical_observed[1]
+    if (physical_context["repo_path"] != physical_owner
+            or (r15_target not in {"receipt-pivot", "owner-env"}
+                and set(physical_context) != expected_physical_context_keys)
+            or not all(str(physical_context[key]) for key in (
+                "controller_id", "claim_id", "run_id", "generation_id",
+                "source_epoch", "receipt_oid"))):
+        raise SystemExit("physical publication custody loader is incomplete")
+elif physical_observed != (
+        "STOP", "publication continuity receipt does not bind current custody"):
+    raise SystemExit("physical publication custody returned an untyped refusal")
 physical_cwd = Path.cwd()
 os.chdir(Path(sys.argv[3]))
 try:
-    if rotation.load_governed_publication_context_v1() != physical_context:
+    if physical_observation() != physical_observed:
         raise SystemExit("physical publication custody changed with caller cwd")
 finally:
     os.chdir(physical_cwd)
@@ -2451,12 +2713,10 @@ for label, broken_ref in (("packed-pointer", current_ref),
     else:
         review_red.append("I3_BROKEN_REF_ACCEPTED_AS_ABSENT=" + label)
 
-# R2-I2: install a genuine G0003 pointer/receipt/marker route whose exact
-# immediate predecessor is G0002.  Mutating one shallow G0002 lineage factor
-# at a time must stop the Python marker owner, Bash verifier, and Bash
-# currentness reader.  The G0003 receipt always names the exact stored G0002
-# token, so these controls exercise predecessor-record validation rather than
-# outer-token equality alone.
+# R2-I2: cross a real post-marker invalidation and let the no-argument owner
+# assemble the continuity-only G0003 successor.  The permanent marker remains
+# the immutable G0002 genesis sentinel while the current pointer and receipt
+# advance.  Candidate preparation itself has no publication authority.
 g3_invalidation_process = subprocess.run([
     r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
     "--invalidate-continuity", controller_id, "--boundary", "manual-resume",
@@ -2475,52 +2735,39 @@ g3_state = (
 g3_roadmap = b"Task 6 R2 copied-owner G0003 lineage roadmap\n"
 (run_root / "STATE.md").write_bytes(g3_state)
 (run_root / "ROADMAP.md").write_bytes(g3_roadmap)
-g3_segment = reidentify(dict(
-    transition_segment, generation_id="G0003", source_epoch="G0003",
-    sequence="00000000000000000002"))
-g3_segment_raw = owner_rotation.canonical_json_v1(g3_segment)
-g3_segment_oid = blob(owner_repo, g3_segment_raw)
-g3_segment_ref = (
-    owner_rotation.EVENT_SEGMENT_PREFIX + "/" + run_name
-    + "/G0003/00000000000000000002/" + g3_segment["event_id"])
-git(owner_repo, "update-ref", g3_segment_ref, g3_segment_oid)
-g3_event_row = {
-    "sequence": g3_segment["sequence"], "event_id": g3_segment["event_id"],
-    "segment_digest": "sha256:" + hashlib.sha256(g3_segment_raw).hexdigest(),
-    "record_kind": g3_segment["record_kind"],
-    "source_evidence_id": g3_segment["source_evidence_id"],
-}
-g3_manifest = {
-    "schema_version": "implementaudit.state-generation-manifest.v1",
-    "query_contract_version": "implementaudit.history-query.v1",
-    "controller_id": controller_id, "claim_id": claim_id,
-    "run_id": run_name, "generation_id": "G0003", "source_epoch": "G0003",
-    "predecessor_manifest_digest": transition_manifest["manifest_digest"],
-    "predecessor_high_water": transition_manifest["high_water"],
-    "events": [g3_event_row],
-    "record_class_counts": {g3_segment["record_kind"]: 1},
-    "population_digest": hashlib.sha256(owner_rotation.canonical_json_v1(
-        owner_rotation.manifest_population_rows_v1([g3_event_row]))).hexdigest(),
-    "high_water": g3_segment["sequence"],
-}
-g3_manifest["manifest_digest"] = hashlib.sha256(
-    owner_rotation.canonical_json_v1(g3_manifest)).hexdigest()
-owner_rotation.verify_generation_manifest_v1(g3_manifest)
-g3_manifest_oid = blob(owner_repo, owner_rotation.canonical_json_v1(g3_manifest))
-g3_pointer, g3_pointer_raw = owner_rotation.build_generation_pointer_v1(
-    controller_id=controller_id, claim_id=claim_id, run_id=run_name,
-    generation_id="G0003", source_epoch="G0003",
-    predecessor_pointer_oid=transition_pointer_oid,
-    predecessor_pointer_digest=transition_pointer["pointer_digest"],
-    generation_manifest_oid=g3_manifest_oid,
-    generation_manifest_digest=g3_manifest["manifest_digest"],
-    cold_high_water=g3_manifest["high_water"],
-    hot_state_digest=hashlib.sha256(g3_state).hexdigest(),
-    hot_roadmap_digest=hashlib.sha256(g3_roadmap).hexdigest(),
-    work_graph_path="WORK_GRAPH.json",
-    work_graph_digest=hashlib.sha256(mutable_content["WORK_GRAPH.json"]).hexdigest(),
-    degraded_state="NONE")
-g3_pointer_oid = blob(owner_repo, g3_pointer_raw)
+g3_preparation = owner_rotation.prepare_live_successor_v1()
+if (g3_preparation.get("schema")
+        != "implementaudit.live-successor-preparation.v1"
+        or g3_preparation.get("event_count") != 0
+        or g3_preparation.get("source_epoch") != "G0003"
+        or g3_preparation.get("predecessor_pointer_oid")
+        != transition_pointer_oid
+        or g3_preparation.get("permanent_marker_oid")
+        != transition_marker_oid
+        or g3_preparation.get("authority_ceiling")
+        != "R0039_CANDIDATE_ONLY"):
+    raise SystemExit("Task 6 R2 live successor preparation disagrees")
+if git(owner_repo, "rev-parse", "--verify", current_ref).decode().strip() \
+        != transition_pointer_oid:
+    raise SystemExit("Task 6 R2 candidate assembler published the pointer")
+if git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip() \
+        != transition_marker_oid:
+    raise SystemExit("Task 6 R2 candidate assembler changed the permanent marker")
+g3_pointer_oid = str(g3_preparation["candidate_pointer_oid"])
+g3_pointer = owner_rotation.load_canonical_generation_pointer_oid_v1(
+    owner_repo, g3_pointer_oid)
+g3_manifest_oid = str(g3_preparation["generation_manifest_oid"])
+g3_manifest = owner_rotation.load_canonical_generation_manifest_oid_v1(
+    owner_repo, g3_manifest_oid)
+if (g3_manifest["events"] != [] or g3_manifest["record_class_counts"] != {}
+        or g3_manifest["population_digest"]
+        != hashlib.sha256(owner_rotation.canonical_json_v1([])).hexdigest()
+        or g3_manifest["predecessor_manifest_digest"]
+        != transition_manifest["manifest_digest"]
+        or g3_manifest["predecessor_high_water"]
+        != transition_manifest["high_water"]
+        or g3_manifest["high_water"] != transition_manifest["high_water"]):
+    raise SystemExit("Task 6 R2 empty-delta successor changed cold history")
 owner_rotation.verify_pointer_manifest_tuple_v1(
     pointer=g3_pointer, manifest=g3_manifest, manifest_oid=g3_manifest_oid)
 owner_rotation.verify_generation_successor_tuple_v1(
@@ -2530,84 +2777,63 @@ owner_rotation.verify_generation_successor_tuple_v1(
     predecessor_manifest=transition_manifest)
 g3_receipt_ref = (
     "refs/implementaudit/continuity-receipts/" + controller_id + "/G0003")
+if owner_rotation.publish_generation_pointer_v1(
+        candidate_pointer_oid=g3_pointer_oid) != g3_pointer_oid:
+    raise SystemExit("Task 6 R2 did not publish/read back the successor pointer")
+if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+    raise SystemExit("Task 6 R2 admitted partial successor before receipt")
+if git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip() \
+        != transition_marker_oid:
+    raise SystemExit("Task 6 R2 successor publication changed the marker")
 
-def g3_receipt_for(g2_oid):
-    fields = [
-        "implementaudit.continuity-receipt.v3", controller_id, claim_id,
-        run_name, "G0003", g3_invalidation_oid, current_ref, g3_pointer_oid,
-        g3_pointer["pointer_digest"], hashlib.sha256(g3_state).hexdigest(),
-        hashlib.sha256(g3_roadmap).hexdigest(), "WORK_GRAPH.json",
-        hashlib.sha256(mutable_content["WORK_GRAPH.json"]).hexdigest(),
-        g3_manifest_oid, g3_manifest["manifest_digest"],
-        g3_manifest["high_water"], g3_next,
-        transition_v3_ref + "@" + g2_oid,
-    ]
-    raw = ("\t".join(fields) + "\n").encode()
-    return raw, blob(owner_repo, raw)
+g3_resume = claim_probe(
+    "--resume-controller", controller_id, "--boundary", "manual-resume",
+    "--epoch", "G0003")
+if g3_resume.returncode != 0:
+    raise SystemExit("Task 6 R2 marker-present resume failed: "
+                     + g3_resume.stderr.decode("utf-8", "replace"))
+g3_token = g3_resume.stdout.decode().strip()
+g3_token_ref, g3_receipt_oid = g3_token.rsplit("@", 1)
+if g3_token_ref != g3_receipt_ref:
+    raise SystemExit("Task 6 R2 marker-present resume minted wrong receipt ref")
+g3_verify = claim_probe("--verify-resume-receipt", g3_token)
+g3_current = claim_probe("--require-current-continuity", controller_id)
+if (g3_verify.returncode != 0 or g3_verify.stdout.decode().strip() != g3_token
+        or g3_current.returncode != 0
+        or g3_current.stdout.decode().strip() != g3_token
+        or git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip()
+        != transition_marker_oid):
+    raise SystemExit("Task 6 R2 marker-present successor route is not green")
 
-def install_g3_marker_for(g3_receipt_oid):
-    raw = "\t".join((
-        "implementaudit.current-generation-migration.v1", controller_id,
-        claim_id, run_name, "G0003", current_ref,
-        "implementaudit.state-generation-pointer.v1", g3_receipt_ref,
-        g3_receipt_oid, "true",
-    )).encode()
-    marker_oid = blob(owner_repo, raw)
-    git(owner_repo, "update-ref", marker_ref, marker_oid)
-    return marker_oid
+lf_marker_oid = blob(
+    owner_repo,
+    git(owner_repo, "cat-file", "blob", transition_marker_oid) + b"\n")
+git(owner_repo, "update-ref", marker_ref, lf_marker_oid,
+    transition_marker_oid)
+if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+    r2_review_red.append("I2_LF_TERMINATED_PERMANENT_MARKER_ACCEPTED")
+git(owner_repo, "update-ref", marker_ref, transition_marker_oid,
+    lf_marker_oid)
 
-git(owner_repo, "update-ref", "-d", marker_ref)
-git(owner_repo, "update-ref", current_ref, g3_pointer_oid, transition_pointer_oid)
-g2_lineage_mutations = {
-    "wrong-pointer-ref": (6, "refs/implementaudit/current-generations/controller-2"),
-    "wrong-own-predecessor": (
-        17, "refs/implementaudit/continuity-receipts/" + controller_id
-        + "/G0000@" + receipt_oid),
-}
-g2_lineage_acceptances = []
-for mutation_name, (field_index, field_value) in g2_lineage_mutations.items():
-    mutated_g2_fields = list(transition_v3_fields)
-    mutated_g2_fields[field_index] = field_value
-    mutated_g2_raw = ("\t".join(mutated_g2_fields) + "\n").encode()
-    mutated_g2_oid = blob(owner_repo, mutated_g2_raw)
-    git(owner_repo, "update-ref", transition_v3_ref, mutated_g2_oid)
-    g3_receipt_raw, g3_receipt_oid = g3_receipt_for(mutated_g2_oid)
-    owner_rotation._decode_exact_receipt_fields_v1(g3_receipt_raw)
-    git(owner_repo, "update-ref", g3_receipt_ref, g3_receipt_oid)
-    git(owner_repo, "update-ref", "-d", marker_ref)
-    if not marker_rejects():
-        g2_lineage_acceptances.append(mutation_name + ":marker")
-    git(owner_repo, "update-ref", "-d", marker_ref)
-    install_g3_marker_for(g3_receipt_oid)
-    if claim_probe(
-            "--verify-resume-receipt",
-            g3_receipt_ref + "@" + g3_receipt_oid).returncode == 0:
-        g2_lineage_acceptances.append(mutation_name + ":verify")
-    if claim_probe("--require-current-continuity", controller_id).returncode == 0:
-        g2_lineage_acceptances.append(mutation_name + ":current")
-if g2_lineage_acceptances:
-    r2_review_red.append(
-        "I2_SHALLOW_G0002_LINEAGE_ACCEPTED=" + ",".join(g2_lineage_acceptances))
-
-# Positive control: the same real G0003 route is complete when its exact G0002
-# predecessor retains the canonical pointer ref and its G0001 token shape.
-git(owner_repo, "update-ref", transition_v3_ref, transition_v3_oid)
-exact_g3_raw, exact_g3_oid = g3_receipt_for(transition_v3_oid)
-git(owner_repo, "update-ref", g3_receipt_ref, exact_g3_oid)
-git(owner_repo, "update-ref", "-d", marker_ref)
-exact_g3_marker = owner_rotation.publish_first_migration_marker_v1()
-exact_g3_verify = claim_probe(
-    "--verify-resume-receipt", g3_receipt_ref + "@" + exact_g3_oid)
-exact_g3_current = claim_probe("--require-current-continuity", controller_id)
-if (git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip()
-        != exact_g3_marker or exact_g3_verify.returncode != 0
-        or exact_g3_current.returncode != 0
-        or exact_g3_current.stdout.decode().strip()
-        != g3_receipt_ref + "@" + exact_g3_oid):
-    raise SystemExit("Task 6 R2 exact G0002 predecessor control is not green")
+# The permanent marker's genesis receipt/ref remains live custody.  Moving that
+# ref to even a valid current receipt must fail currentness; restoring the exact
+# genesis OID restores the route.  Re-publication is never a successor step.
+git(owner_repo, "update-ref", transition_v3_ref, g3_receipt_oid,
+    transition_v3_oid)
+if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+    r2_review_red.append("I2_MUTATED_GENESIS_RECEIPT_REF_ACCEPTED")
+git(owner_repo, "update-ref", transition_v3_ref, transition_v3_oid,
+    g3_receipt_oid)
+if claim_probe("--require-current-continuity", controller_id).returncode != 0:
+    raise SystemExit("Task 6 R2 route did not recover after genesis ref restore")
+try:
+    owner_rotation.publish_first_migration_marker_v1()
+except owner_rotation.RotationError:
+    pass
+else:
+    r2_review_red.append("I2_SUCCESSOR_REPUBLISHED_PERMANENT_MARKER")
 
 # Restore the original complete G0002 route for the remaining Task-6 controls.
-git(owner_repo, "update-ref", "-d", marker_ref)
 git(owner_repo, "update-ref", current_ref, transition_pointer_oid, g3_pointer_oid)
 git(owner_repo, "update-ref", invalidation_ref, transition_invalidation_oid,
     g3_invalidation_oid)

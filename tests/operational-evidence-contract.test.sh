@@ -1783,7 +1783,7 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
         "implementaudit.current-generation-migration.v1\t"
         f"{controller}\t{claim}\t{run_id}\t{generation}\t{pointer_ref}\t"
         f"implementaudit.state-generation-pointer.v1\t{receipt_ref}\t"
-        f"{receipt_oid}\ttrue\n").encode()
+        f"{receipt_oid}\ttrue").encode()
     marker_oid = object_id(repo, marker_raw)
     if case != "missing-marker":
         update_ref(
