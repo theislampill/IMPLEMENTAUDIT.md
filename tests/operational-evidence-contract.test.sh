@@ -1961,9 +1961,6 @@ if not hasattr(positive_module, "collect_native_current"):
     raise SystemExit("NCR00 RED: collect_native_current is missing")
 
 negative_cases = [
-    ("no-active", "NCR01 missing ACTIVE set"),
-    ("no-ready", "NCR02 missing READY set"),
-    ("no-holds", "NCR03 missing declared holds"),
     ("no-open-andon", "NCR04 missing open Andon"),
     ("no-active-instruction", "NCR05 missing active instruction"),
     ("no-next-action", "NCR06 missing next action"),
@@ -1997,6 +1994,66 @@ negative_cases = [
     ("noncanonical-route-bytes", "NCR49 noncanonical R0033 route-record bytes"),
 ]
 red_failures = []
+
+
+def expect_frontier_projection_error(label, mutation, serial):
+    """Exercise the real collector's frontier-shape boundary with a bad projection."""
+    repo = prepare("positive", serial)
+    module = load_module(repo, serial)
+    graph_path = repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/WORK_GRAPH.json"
+    graph_raw = graph_path.read_bytes()
+    projection = copy.deepcopy(module._native_graph_projection(graph_raw)[0])
+    mutation(projection)
+
+    def fake_module(*args, **kwargs):
+        return types.SimpleNamespace(
+            compile_frontier_projection=lambda ignored: copy.deepcopy(projection))
+
+    module._native_module_from_bytes = fake_module
+    try:
+        module._native_graph_projection(graph_raw)
+    except module.OperationalEvidenceError as exc:
+        if exc.code != "OE_NATIVE_CURRENT_MISSING":
+            red_failures.append(f"{label}: returned {exc.code}")
+    else:
+        red_failures.append(f"{label}: malformed frontier projection was accepted")
+
+
+frontier_projection_controls = [
+    ("R0038-H03 missing frontier field", lambda projection: projection.pop("active")),
+    ("R0038-H04 wrong frontier field type",
+     lambda projection: projection.__setitem__("active", {})),
+    ("R0038-H05 inconsistent frontier count",
+     lambda projection: projection["counts"].__setitem__("ACTIVE", 0)),
+]
+
+zero_active_repo = prepare("no-active", 140)
+zero_active_module = load_module(zero_active_repo, 140)
+try:
+    zero_active_record = zero_active_module.collect_native_current()
+except zero_active_module.OperationalEvidenceError as exc:
+    raise SystemExit(
+        "R0038-H01 legitimate zero-ACTIVE fixture was rejected: "
+        f"{exc.code} at {exc.path}: {exc.message}")
+if (zero_active_record["frontier"]["counts"]["ACTIVE"] != 0 or
+        zero_active_record["frontier"]["active"] != []):
+    raise SystemExit("R0038-H01 zero-ACTIVE frontier facts are inconsistent")
+
+zero_hold_repo = prepare("no-holds", 141)
+zero_hold_module = load_module(zero_hold_repo, 141)
+try:
+    zero_hold_record = zero_hold_module.collect_native_current()
+except zero_hold_module.OperationalEvidenceError as exc:
+    raise SystemExit(
+        "R0038-H02 legitimate zero-hold fixture was rejected: "
+        f"{exc.code} at {exc.path}: {exc.message}")
+if (zero_hold_record["frontier"]["writer_holds"] != {} or
+        zero_hold_record["frontier"]["resource_holds"] != {}):
+    raise SystemExit("R0038-H02 zero-hold frontier facts are inconsistent")
+
+for serial, (label, mutation) in enumerate(frontier_projection_controls, 150):
+    expect_frontier_projection_error(label, mutation, serial)
+
 for serial, (case, label) in enumerate(negative_cases, 1):
     repo = prepare(case, serial)
     module = load_module(repo, serial)
@@ -2007,8 +2064,8 @@ for serial, (case, label) in enumerate(negative_cases, 1):
     else:
         red_failures.append(f"{label}: invalid native fact was accepted")
     if case in {
-            "no-active", "no-ready", "no-holds", "no-open-andon",
-            "no-active-instruction", "no-next-action", "no-controller",
+            "no-open-andon", "no-active-instruction", "no-next-action",
+            "no-controller",
             "wrong-claim", "stale-graph-digest", "wrong-epoch"}:
         try:
             module.publish_current_snapshot()

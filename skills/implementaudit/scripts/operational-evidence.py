@@ -846,11 +846,52 @@ def _native_graph_projection(raw):
             compiler_path, "$native.work_graph_compiler", 256 * 1024) != compiler_raw:
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.work_graph_compiler",
                "HC-H4 compiler changed during byte-bound execution")
-    if (type(projection) is not dict or not projection.get("active") or
-            not projection.get("ready") or not (
-                projection.get("writer_holds") or projection.get("resource_holds"))):
+    required_frontier = {
+        "population", "counts", "active", "ready", "blocked_summary",
+        "writer_holds", "resource_holds", "digest"}
+    if type(projection) is not dict or not required_frontier <= set(projection):
         _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
-               "WORK_GRAPH omits ACTIVE, READY, or declared hold facts")
+               "WORK_GRAPH frontier facts are missing")
+    population = projection["population"]
+    counts = projection["counts"]
+    if (type(population) is not int or population < 0 or
+            type(counts) is not dict or set(counts) != {
+                "DONE", "ACTIVE", "READY", "BLOCKED"} or
+            any(type(count) is not int or count < 0
+                for count in counts.values()) or
+            type(projection["digest"]) is not str or
+            not re.fullmatch(r"[0-9a-f]{64}", projection["digest"])):
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
+               "WORK_GRAPH frontier population is malformed")
+    active = projection["active"]
+    ready = projection["ready"]
+    blocked_summary = projection["blocked_summary"]
+    writer_holds = projection["writer_holds"]
+    resource_holds = projection["resource_holds"]
+    if (type(active) is not list or type(ready) is not list or
+            type(blocked_summary) is not dict or type(writer_holds) is not dict or
+            type(resource_holds) is not dict):
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
+               "WORK_GRAPH frontier collection types are malformed")
+    def valid_members(members):
+        return (type(members) is list and
+                all(type(member) is str and member for member in members) and
+                members == sorted(set(members)))
+
+    if not valid_members(active) or not valid_members(ready):
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
+               "WORK_GRAPH frontier identities are malformed")
+    for mapping in (blocked_summary, writer_holds, resource_holds):
+        for identity, members in mapping.items():
+            if type(identity) is not str or not identity or not valid_members(members):
+                _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
+                       "WORK_GRAPH frontier hold maps are malformed")
+    if (sum(counts.values()) != population or
+            len(active) != counts["ACTIVE"] or
+            len(ready) != counts["READY"] or
+            len(blocked_summary) != counts["BLOCKED"]):
+        _error("OE_NATIVE_CURRENT_MISSING", "$native.WORK_GRAPH.frontier",
+               "WORK_GRAPH frontier census is inconsistent")
     return (projection, hashlib.sha256(compiler_raw).hexdigest(),
             compiler_path, compiler_raw)
 
