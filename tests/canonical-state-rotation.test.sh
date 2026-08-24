@@ -18,6 +18,7 @@ tmp="$(mktemp -d)"
 trap 'rm -rf -- "$tmp"' EXIT
 candidate_evidence_ledger="$tmp/task6-candidate-evidence.ledger"
 : >"$candidate_evidence_ledger"
+live_genesis_only=false
 
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 record_candidate_evidence() {
@@ -39,16 +40,315 @@ case "${1:-}" in
   --event-bytes-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=true; sequence_cas_only=false; migration_only=false; r15_target='' ;;
   --sequence-cas-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='' ;;
   --migration-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=true; r15_target='' ;;
+  --live-genesis-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; live_genesis_only=true; r15_target='' ;;
   --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='null-sinks' ;;
   --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='observation-order' ;;
   --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='nonzero-readback' ;;
   --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='receipt-pivot' ;;
   --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='owner-env' ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--live-genesis-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
+if $live_genesis_only; then
+  python - "$helper" "$tmp" <<'PY'
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"),
+                      ensure_ascii=False, allow_nan=False).encode("utf-8")
+
+
+def git(repo, *args, input_bytes=None):
+    return subprocess.check_output(
+        ["git", "-C", str(repo), *args], input=input_bytes).decode("ascii").strip()
+
+
+def hash_blob(repo, raw):
+    return git(repo, "hash-object", "-w", "--stdin", input_bytes=raw)
+
+
+def expect_rotation_error(rotation, action, label):
+    try:
+        action()
+    except rotation.RotationError:
+        return
+    raise SystemExit(label + " was accepted")
+
+
+spec = importlib.util.spec_from_file_location("rotation_live_genesis", sys.argv[1])
+rotation = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(rotation)
+
+required = (
+    "migration_classification_ref_v1",
+    "load_live_genesis_classification_oid_v1",
+    "publish_live_genesis_classification_v1",
+    "verify_migration_population_v1",
+)
+missing = [name for name in required if not hasattr(rotation, name)]
+
+source_bytes = {
+    "STATE.md": (
+        b"# STATE\n"
+        b"Archived controller state.\n\n"
+        b"## Ledger\n"
+        b"| ID | Status |\n"
+        b"|---|---|\n"
+        b"| 1 | validated-resolved |\n"
+    ),
+    "ROADMAP.md": b"# ROADMAP\nArchived roadmap.\n",
+}
+classification_doc = {
+    "schema": "implementaudit.hot-cold-section-classification.v1",
+    "classes": list(rotation.CLASSIFICATIONS_V1),
+    "sources": {
+        "STATE.md": {"sections": [
+            {"heading": "# STATE", "classification": "COLD_HISTORY",
+             "record_kind": "recovery.record"},
+            {"heading": "## Ledger", "classification": "COLD_HISTORY",
+             "record_kind": "recovery.record", "tables": [{
+                 "header": "| ID | Status |", "delimiter": "|---|---|",
+                 "rows": [{"source_line": "| 1 | validated-resolved |",
+                           "classification": "COLD_HISTORY",
+                           "record_kind": "finding.closed"}],
+             }]},
+        ]},
+        "ROADMAP.md": {"sections": [
+            {"heading": "# ROADMAP", "classification": "COLD_HISTORY",
+             "record_kind": "recovery.record"},
+        ]},
+    },
+}
+
+empty_derivation_error = None
+try:
+    empty_classification = rotation.ClassificationFixture.from_mapping(
+        classification_doc, {})
+except rotation.RotationError as exc:
+    empty_derivation_error = str(exc)
+
+if missing or empty_derivation_error is not None:
+    print(
+        "CANONICAL_STATE_ROTATION_LIVE_GENESIS_RED="
+        "ADMISSION_AND_PURE_EQUIVALENCE_NOT_IMPLEMENTED missing=%s "
+        "empty-derivation=%s fixture=UNADMITTED" % (
+            ",".join(missing) if missing else "none",
+            empty_derivation_error or "accepted",
+        ),
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+
+coverage = rotation.classify_all_source_records_v1(
+    source_bytes, empty_classification)
+rotation.verify_classification_coverage_v1(source_bytes, coverage)
+records = rotation.enumerate_legacy_history_v1(
+    source_bytes["STATE.md"], source_bytes["ROADMAP.md"], empty_classification)
+if not records:
+    raise SystemExit("actual-archive-shaped fixture produced no migration population")
+
+duplicate_doc = copy.deepcopy(classification_doc)
+duplicate_doc["sources"]["STATE.md"]["sections"][0][
+    "classification"] = "DUPLICATE_DERIVABLE"
+duplicate_doc["sources"]["STATE.md"]["sections"][0][
+    "record_kind"] = "template.identity"
+expect_rotation_error(
+    rotation,
+    lambda: rotation.ClassificationFixture.from_mapping(duplicate_doc, {}),
+    "empty derivation population with duplicate-derivable bytes",
+)
+
+repo = Path(sys.argv[2]) / "live-genesis-task2-repo"
+repo.mkdir()
+subprocess.run(["git", "init", "-q", str(repo)], check=True)
+subprocess.run(["git", "-C", str(repo), "config", "user.name", "live genesis fixture"], check=True)
+subprocess.run(["git", "-C", str(repo), "config", "user.email", "fixture@example.invalid"], check=True)
+
+controller_id = "live-genesis-controller"
+claim_id = "a" * 32
+run_id = "live-genesis-run"
+run_root = repo / ".IMPLEMENTAUDIT" / "runs" / run_id
+run_root.mkdir(parents=True)
+controller_oid = hash_blob(repo, b"controller\n")
+controller_ref = "refs/implementaudit/controllers/" + controller_id
+subprocess.run(["git", "-C", str(repo), "update-ref", controller_ref, controller_oid], check=True)
+
+entries = []
+for role, path, raw in (
+        ("STATE", "STATE.md", source_bytes["STATE.md"]),
+        ("ROADMAP", "ROADMAP.md", source_bytes["ROADMAP.md"]),
+        ("WORK_GRAPH", "WORK_GRAPH.json", b'{"nodes":[]}\n')):
+    oid = hash_blob(repo, raw)
+    entries.append({
+        "role": role, "source_path": path, "draft_path": path,
+        "sha256": hashlib.sha256(raw).hexdigest(), "byte_length": len(raw),
+        "mode": 0o100644, "blob_oid": oid,
+    })
+archive_ref = rotation.ARCHIVE_PREFIX + "/" + controller_id + "/g0001"
+archive = {
+    "schema": "implementaudit.canonical-state-archive.v1",
+    "controller": controller_id,
+    "generation": "g0001",
+    "archive_ref": archive_ref,
+    "draft_manifest_sha256": "b" * 64,
+    "entries": entries,
+    "discovery": "EXCLUDED",
+    "recursive_population": "EXCLUDED",
+}
+archive_oid = hash_blob(repo, canonical(archive) + b"\n")
+subprocess.run(["git", "-C", str(repo), "update-ref", archive_ref, archive_oid], check=True)
+candidate_raw = canonical(classification_doc)
+candidate_oid = hash_blob(repo, candidate_raw)
+
+expected_ref = (
+    "refs/implementaudit/state-migration-classifications/"
+    + controller_id + "/" + archive_oid)
+if rotation.migration_classification_ref_v1(controller_id, archive_oid) != expected_ref:
+    raise SystemExit("classification ref is not controller/archive deterministic")
+for bad_controller, bad_archive in (("bad/ref", archive_oid),
+                                    (controller_id, "0" * 39),
+                                    (controller_id, "A" * 40)):
+    expect_rotation_error(
+        rotation,
+        lambda bad_controller=bad_controller, bad_archive=bad_archive:
+            rotation.migration_classification_ref_v1(bad_controller, bad_archive),
+        "invalid classification ref component",
+    )
+
+original_custody = rotation._publication_custody_fields_v1
+rotation._publication_custody_fields_v1 = lambda: (
+    repo, controller_id, controller_oid, claim_id, run_root, run_id)
+try:
+    published_oid = rotation.publish_live_genesis_classification_v1(
+        candidate_classification_oid=candidate_oid)
+    if published_oid != candidate_oid or git(repo, "rev-parse", expected_ref) != candidate_oid:
+        raise SystemExit("classification admission did not read back exact candidate")
+    loaded_ref, loaded_oid, loaded_fixture, loaded_raw = (
+        rotation.load_live_genesis_classification_oid_v1(
+            repo, controller_id=controller_id, archive_oid=archive_oid))
+    if (loaded_ref != expected_ref or loaded_oid != candidate_oid
+            or loaded_raw != candidate_raw
+            or loaded_fixture != empty_classification):
+        raise SystemExit("classification admission typed readback disagrees")
+    if rotation.publish_live_genesis_classification_v1(
+            candidate_classification_oid=candidate_oid) != candidate_oid:
+        raise SystemExit("same classification admission was not idempotent")
+
+    alternate_doc = copy.deepcopy(classification_doc)
+    alternate_doc["sources"]["ROADMAP.md"]["sections"][0][
+        "record_kind"] = "artifact.historical"
+    alternate_oid = hash_blob(repo, canonical(alternate_doc))
+    expect_rotation_error(
+        rotation,
+        lambda: rotation.publish_live_genesis_classification_v1(
+            candidate_classification_oid=alternate_oid),
+        "different classification at immutable target",
+    )
+    noncanonical_oid = hash_blob(repo, json.dumps(classification_doc).encode("utf-8"))
+    expect_rotation_error(
+        rotation,
+        lambda: rotation.publish_live_genesis_classification_v1(
+            candidate_classification_oid=noncanonical_oid),
+        "noncanonical classification blob",
+    )
+    expect_rotation_error(
+        rotation,
+        lambda: rotation.load_live_genesis_classification_oid_v1(
+            repo, controller_id=controller_id, archive_oid=controller_oid),
+        "wrong archive-keyed classification ref",
+    )
+    pointer_ref = "refs/implementaudit/current-generations/" + controller_id
+    subprocess.run(["git", "-C", str(repo), "update-ref", pointer_ref, controller_oid], check=True)
+    expect_rotation_error(
+        rotation,
+        lambda: rotation.publish_live_genesis_classification_v1(
+            candidate_classification_oid=candidate_oid),
+        "classification admission with current pointer",
+    )
+finally:
+    rotation._publication_custody_fields_v1 = original_custody
+
+source = records[0]
+payload = {
+    "legacy_record_id": source.stable_id,
+    "legacy_source_digest": source.source_digest,
+}
+event = {
+    "schema_version": "implementaudit.history-event.v1",
+    "run_id": run_id,
+    "controller_id": controller_id,
+    "generation_id": "G0001",
+    "sequence": "00000000000000000001",
+    "record_kind": source.record_kind,
+    "subject_id": source.stable_id,
+    "source_epoch": "G0001",
+    "transition": "MIGRATED",
+    "status": "CLOSED",
+    "supersedes_event_id": None,
+    "payload": payload,
+    "source_evidence_id": "iasrc-v1-r0039-archive-live-genesis",
+    "source_locator": {
+        "kind": "evidence-uri", "root_identity": "sha256:" + "c" * 64,
+        "path": "implementaudit-evidence:v1/live-genesis", "host_identity": None,
+    },
+    "source_digest": "sha256:" + "c" * 64,
+    "payload_digest": hashlib.sha256(canonical(payload)).hexdigest(),
+}
+event["event_id"] = "iaevt-v1-" + hashlib.sha256(canonical(event)).hexdigest()
+event_raw = canonical(event)
+context = {
+    "controller_id": controller_id, "claim_id": claim_id, "run_id": run_id,
+    "generation_id": "G0001", "source_epoch": "G0001",
+}
+original_publication_context = rotation.load_governed_publication_context_v1
+rotation.load_governed_publication_context_v1 = lambda: context
+try:
+    manifest, _ = rotation.build_generation_manifest_v1(None, [event])
+finally:
+    rotation.load_governed_publication_context_v1 = original_publication_context
+
+receipt = rotation.verify_migration_population_v1([source], [event_raw], manifest)
+if receipt.source_count != 1 or receipt.event_count != 1:
+    raise SystemExit("pure migration receipt counts disagree")
+expect_rotation_error(
+    rotation,
+    lambda: rotation.verify_migration_population_v1([source, source], [event_raw], manifest),
+    "duplicate source in pure migration proof",
+)
+expect_rotation_error(
+    rotation,
+    lambda: rotation.verify_migration_population_v1([source], [event_raw, event_raw], manifest),
+    "duplicate destination in pure migration proof",
+)
+expect_rotation_error(
+    rotation,
+    lambda: rotation.verify_migration_population_v1(records, [event_raw], manifest),
+    "omitted source in pure migration proof",
+)
+expect_rotation_error(
+    rotation,
+    lambda: rotation.verify_migration_equivalence_v1([source], [event_raw], manifest, repo),
+    "stored equivalence without immutable event ref",
+)
+
+print(
+    "CANONICAL_STATE_ROTATION_LIVE_GENESIS_TASK2_GREEN=PASS "
+    "interfaces=4 empty-derivation=ZERO_DUPLICATE_ONLY "
+    "classification=EXPECTED_ZERO_CAS_IDEMPOTENT pure-equivalence=BEFORE_STORED_REFS"
+)
+PY
+  exit 0
+fi
 if $migration_only; then
   [ -f "$migration_classification_fixture" ] || fail "missing migration classification fixture"
   [ -f "$migration_population_fixture" ] || fail "missing migration population fixture"
@@ -2418,6 +2718,7 @@ print("CANONICAL_STATE_ROTATION_EVENT_BYTES_GREEN=PASS cases=" +
 PY
   exit 0
 fi
+bash "$0" --live-genesis-only
 fixture_output="$(bash "$checker" --fixture-self-check)"
 printf '%s\n' "$fixture_output"
 grep -Fq 'denominator=110 omission=110 mutation=110 owner-mutation=110 root-semantic-red=56' <<<"$fixture_output" \

@@ -199,11 +199,29 @@ Every classified byte range has exactly one class:
   history row. Arbitrary, unresolved, wrong-owner, wrong-digest,
   byte-divergent, and hidden-history pointers fail.
 
+An actual archive classification may carry an empty derivation-source map only
+when no section, explicit record, or table row is `DUPLICATE_DERIVABLE`. The
+first duplicate-derivable range still requires the complete typed source and
+pointer proof above. Reviewed live classifications are canonical JSON blobs
+admitted at exactly
+`refs/implementaudit/state-migration-classifications/<controller>/<archive-oid>`.
+`publish_live_genesis_classification_v1` accepts only the candidate blob OID,
+derives controller/run/repository/archive custody, requires physical absence of
+the current-generation and permanent-marker refs, validates complete coverage
+against the sole exact F2 archive, and creates the classification ref by an
+expected-old-zero transaction guarded by controller, archive, pointer, and
+marker refs. Exact same-OID replay is idempotent; different, malformed,
+noncanonical, stale, wrong-keyed, or incomplete custody is STOP.
+
 `enumerate_legacy_history_v1` returns every `COLD_HISTORY` and
 `ON_DEMAND_EVIDENCE` range in source and byte order. `LegacyRecord` identity
 binds source name, heading, kind, ordinal, exact byte range, and SHA-256 of the
-unchanged source bytes. `verify_migration_equivalence_v1` rejects duplicate
-source or destination identity and requires exact set equality between every
+unchanged source bytes. `verify_migration_population_v1` is the pure boundary:
+it rejects duplicate source or destination identity and proves exact equality
+between source records, canonical event bytes, and the manifest without any Git
+read or write. `verify_migration_equivalence_v1` calls that proof first, then
+adds exact stored-ref/byte readback. Together they reject duplicate
+source or destination identity and require exact set equality between every
 removed `(legacy_record_id, legacy_source_digest)` pair and canonical event
 envelopes admitted by `EVENT_OUTPUT_KEYS`. It validates canonical raw segment
 bytes, event and payload identities, exact manifest population, and Task-4

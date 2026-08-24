@@ -29,6 +29,8 @@ from typing import Any, Mapping, NamedTuple, Sequence
 
 ZERO_OID = "0" * 40
 ARCHIVE_PREFIX = "refs/implementaudit/state-archives"
+MIGRATION_CLASSIFICATION_PREFIX = (
+    "refs/implementaudit/state-migration-classifications")
 FORBIDDEN_TRANSITION_FIELDS = {
     "current_generation",
     "epoch",
@@ -177,7 +179,7 @@ class ClassificationFixture(NamedTuple):
 
 def _validate_derivation_sources_v1(
         sources: Mapping[str, DerivationSource]) -> dict[str, DerivationSource]:
-    if type(sources) is not dict or not sources:
+    if type(sources) is not dict:
         raise RotationError("derivation source population is invalid")
     normalized: dict[str, DerivationSource] = {}
     for source_id, source in sources.items():
@@ -770,11 +772,12 @@ def hash_population_v1(rows: Sequence[tuple[str, str]]) -> str:
     return hashlib.sha256(canonical_json_v1(normalized)).hexdigest()
 
 
-def verify_migration_equivalence_v1(
+def verify_migration_population_v1(
         records: list[LegacyRecord], segment_bytes: list[bytes],
-        manifest: dict[str, object], repo: Path) -> MigrationReceipt:
+        manifest: dict[str, object]) -> MigrationReceipt:
+    """Prove exact source/event/manifest equality without Git effects."""
     if (type(records) is not list or type(segment_bytes) is not list
-            or not records or not segment_bytes or not isinstance(repo, Path)
+            or not records or not segment_bytes
             or any(type(row) is not LegacyRecord for row in records)
             or any(type(raw) is not bytes or not raw for raw in segment_bytes)):
         raise RotationError("legacy history population is not equivalent")
@@ -783,7 +786,6 @@ def verify_migration_equivalence_v1(
         raise RotationError("legacy history population is not equivalent")
     source_records = {(row.stable_id, row.source_digest): row for row in records}
     verify_generation_manifest_v1(manifest)
-    verify_manifest_segments_core_v1(repo, manifest)
     manifest_rows = {str(row["event_id"]): row for row in manifest["events"]}
     destination: set[tuple[str, str]] = set()
     observed_event_ids: set[str] = set()
@@ -817,11 +819,6 @@ def verify_migration_equivalence_v1(
                 or row["segment_digest"]
                 != "sha256:" + hashlib.sha256(raw).hexdigest()):
             raise RotationError("legacy history population is not equivalent")
-        stored = load_exact_segment_bytes_v1(
-            repo, str(manifest["run_id"]), str(manifest["generation_id"]),
-            str(event["sequence"]), event_id)
-        if not hmac.compare_digest(raw, stored):
-            raise RotationError("legacy history population is not equivalent")
         observed_event_ids.add(event_id)
         pair = (str(payload["legacy_record_id"]),
                 str(payload["legacy_source_digest"]))
@@ -838,6 +835,27 @@ def verify_migration_equivalence_v1(
         raise RotationError("legacy history population is not equivalent")
     return MigrationReceipt(source_count=len(records), event_count=len(segment_bytes),
                             population_digest=hash_population_v1(sorted(source)))
+
+
+def verify_migration_equivalence_v1(
+        records: list[LegacyRecord], segment_bytes: list[bytes],
+        manifest: dict[str, object], repo: Path) -> MigrationReceipt:
+    """Prove pure population equality first, then exact immutable ref bytes."""
+    receipt = verify_migration_population_v1(records, segment_bytes, manifest)
+    if not isinstance(repo, Path):
+        raise RotationError("legacy history population is not equivalent")
+    verify_manifest_segments_core_v1(repo, manifest)
+    for raw in segment_bytes:
+        try:
+            event = json.loads(raw.decode("utf-8", "strict"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise RotationError("legacy history population is not equivalent") from exc
+        stored = load_exact_segment_bytes_v1(
+            repo, str(manifest["run_id"]), str(manifest["generation_id"]),
+            str(event["sequence"]), str(event["event_id"]))
+        if not hmac.compare_digest(raw, stored):
+            raise RotationError("legacy history population is not equivalent")
+    return receipt
 
 
 def _hot_value_v1(value: object) -> str:
@@ -2172,6 +2190,203 @@ def load_exact_r0039_f2_archive_manifest_v1(
     }
     validate_owner_manifest_entry_v1(entry)
     return {"entries": [entry]}
+
+
+def migration_classification_ref_v1(controller_id: str, archive_oid: str) -> str:
+    """Return the sole controller/archive-keyed immutable classification ref."""
+    if (type(controller_id) is not str
+            or not CONTROLLER_ID.fullmatch(controller_id)
+            or type(archive_oid) is not str
+            or not GIT_OID.fullmatch(archive_oid)):
+        raise RotationError("migration classification identity is invalid")
+    return f"{MIGRATION_CLASSIFICATION_PREFIX}/{controller_id}/{archive_oid}"
+
+
+def _load_live_genesis_archive_sources_v1(
+        repo: Path, *, controller_id: str,
+        archive_oid: str) -> tuple[str, dict[str, object], dict[str, bytes]]:
+    if (not isinstance(repo, Path) or type(controller_id) is not str
+            or not CONTROLLER_ID.fullmatch(controller_id)
+            or type(archive_oid) is not str or not GIT_OID.fullmatch(archive_oid)):
+        raise RotationError("live-genesis archive custody is invalid")
+    repo = require_repo(str(repo))
+    prefix = f"{ARCHIVE_PREFIX}/{controller_id}/"
+    refs = [line for line in git(
+        repo, "for-each-ref", "--format=%(refname)", prefix
+    ).decode("utf-8", "strict").splitlines() if line]
+    if len(refs) != 1:
+        raise RotationError("live-genesis archive custody is invalid")
+    archive_ref = refs[0]
+    generation = archive_ref.removeprefix(prefix)
+    if not re.fullmatch(r"g[0-9]{4}", generation):
+        raise RotationError("live-genesis archive custody is invalid")
+    if read_optional_exact_ref_oid_v1(repo, archive_ref) != archive_oid:
+        raise RotationError("live-genesis archive custody is invalid")
+    verify_archive(repo, controller_id, generation)
+    archive_raw = read_exact_git_blob_oid_v1(repo, archive_oid)
+    try:
+        archive = json.loads(archive_raw.decode("utf-8", "strict"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RotationError("live-genesis archive custody is invalid") from exc
+    if type(archive) is not dict or canonical_bytes(archive) != archive_raw:
+        raise RotationError("live-genesis archive custody is invalid")
+    entries = archive.get("entries")
+    if type(entries) is not list:
+        raise RotationError("live-genesis archive custody is invalid")
+    by_role = {entry.get("role"): entry for entry in entries
+               if type(entry) is dict}
+    if (len(by_role) != len(entries)
+            or set(by_role) != {"STATE", "ROADMAP", "WORK_GRAPH"}
+            or by_role["STATE"].get("source_path") != "STATE.md"
+            or by_role["ROADMAP"].get("source_path") != "ROADMAP.md"
+            or by_role["WORK_GRAPH"].get("source_path") != "WORK_GRAPH.json"):
+        raise RotationError("live-genesis archive custody is invalid")
+    sources = {
+        "STATE.md": read_exact_git_blob_oid_v1(
+            repo, str(by_role["STATE"].get("blob_oid"))),
+        "ROADMAP.md": read_exact_git_blob_oid_v1(
+            repo, str(by_role["ROADMAP"].get("blob_oid"))),
+    }
+    return archive_ref, archive, sources
+
+
+def _decode_live_genesis_classification_v1(
+        raw: bytes, sources: Mapping[str, bytes]
+        ) -> ClassificationFixture:
+    mapping = _decode_exact_canonical_json_v1(
+        raw, "live-genesis classification bytes are invalid")
+    try:
+        fixture = ClassificationFixture.from_mapping(mapping, {})
+        coverage = classify_all_source_records_v1(sources, fixture)
+        verify_classification_coverage_v1(sources, coverage)
+    except RotationError as exc:
+        raise RotationError("live-genesis classification is invalid") from exc
+    return fixture
+
+
+def load_live_genesis_classification_oid_v1(
+        repo: Path, *, controller_id: str, archive_oid: str
+        ) -> tuple[str, str, ClassificationFixture, bytes]:
+    """Load the exact admitted classification and reprove archive coverage."""
+    if not isinstance(repo, Path):
+        raise RotationError("live-genesis classification custody is invalid")
+    repo = require_repo(str(repo))
+    classification_ref = migration_classification_ref_v1(
+        controller_id, archive_oid)
+    _archive_ref, _archive, sources = _load_live_genesis_archive_sources_v1(
+        repo, controller_id=controller_id, archive_oid=archive_oid)
+    classification_oid = read_optional_exact_ref_oid_v1(repo, classification_ref)
+    if classification_oid is None:
+        raise RotationError("live-genesis classification is unavailable")
+    raw = read_exact_git_blob_oid_v1(repo, classification_oid)
+    fixture = _decode_live_genesis_classification_v1(raw, sources)
+    if read_exact_git_blob_oid_v1(repo, classification_oid) != raw:
+        raise RotationError("live-genesis classification readback changed")
+    return classification_ref, classification_oid, fixture, raw
+
+
+def _classification_admission_transaction_v1(
+        *, repo: Path, classification_ref: str, classification_oid: str,
+        guards: tuple[tuple[str, str], ...]) -> tuple[list[str], dict[str, str], bytes]:
+    if (not isinstance(repo, Path)
+            or not classification_ref.startswith(MIGRATION_CLASSIFICATION_PREFIX + "/")
+            or not GIT_OID.fullmatch(classification_oid)
+            or tuple(sorted(guards)) != guards):
+        raise RotationError("classification admission transaction is invalid")
+    rows = [b"start\0"]
+    for ref, oid in guards:
+        if (not ref.startswith("refs/implementaudit/")
+                or not GIT_OID.fullmatch(oid)):
+            raise RotationError("classification admission guard is invalid")
+        rows.append(b"verify " + ref.encode("ascii") + b"\0"
+                    + oid.encode("ascii") + b"\0")
+    rows.append(b"update " + classification_ref.encode("ascii") + b"\0"
+                + classification_oid.encode("ascii") + b"\0"
+                + ZERO_OID.encode("ascii") + b"\0prepare\0commit\0")
+    executable = git_executable_v1()
+    environment = {
+        "PATH": os.path.dirname(executable), "LC_ALL": "C", "LANG": "C",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": PLATFORM_NULL_SINK_V1,
+        "GIT_TERMINAL_PROMPT": "0",
+    }
+    return ([executable, "-c", f"core.hooksPath={PLATFORM_NULL_SINK_V1}",
+             "update-ref", "--stdin", "-z"], environment, b"".join(rows))
+
+
+def publish_live_genesis_classification_v1(
+        *, candidate_classification_oid: str) -> str:
+    """Admit one reviewed classification without accepting caller custody."""
+    if (type(candidate_classification_oid) is not str
+            or not GIT_OID.fullmatch(candidate_classification_oid)):
+        raise RotationError("candidate classification identity is invalid")
+    repo, controller_id, controller_oid, _claim_id, _run_root, _run_id = (
+        _publication_custody_fields_v1())
+    repo = require_repo(str(repo))
+    controller_ref = f"refs/implementaudit/controllers/{controller_id}"
+    current_ref = f"refs/implementaudit/current-generations/{controller_id}"
+    marker_ref = f"refs/implementaudit/current-generation-migrations/{controller_id}"
+    if read_optional_exact_ref_oid_v1(repo, controller_ref) != controller_oid:
+        raise RotationError("classification admission custody is stale")
+    for ref in (current_ref, marker_ref):
+        state, _oid = read_exact_ref_state_v1(repo, ref)
+        if state != "ABSENT":
+            raise RotationError("classification admission requires genesis custody")
+    prefix = f"{ARCHIVE_PREFIX}/{controller_id}/"
+    archive_refs = [line for line in git(
+        repo, "for-each-ref", "--format=%(refname)", prefix
+    ).decode("utf-8", "strict").splitlines() if line]
+    if len(archive_refs) != 1:
+        raise RotationError("live-genesis archive custody is invalid")
+    archive_ref = archive_refs[0]
+    archive_oid = read_optional_exact_ref_oid_v1(repo, archive_ref)
+    if archive_oid is None:
+        raise RotationError("live-genesis archive custody is invalid")
+    classification_ref = migration_classification_ref_v1(
+        controller_id, archive_oid)
+    _exact_archive_ref, _archive, sources = _load_live_genesis_archive_sources_v1(
+        repo, controller_id=controller_id, archive_oid=archive_oid)
+    candidate_raw = read_exact_git_blob_oid_v1(repo, candidate_classification_oid)
+    _decode_live_genesis_classification_v1(candidate_raw, sources)
+    existing = read_optional_exact_ref_oid_v1(repo, classification_ref)
+    if existing is not None:
+        if existing != candidate_classification_oid:
+            raise RotationError("migration classification ref is immutable")
+        loaded = load_live_genesis_classification_oid_v1(
+            repo, controller_id=controller_id, archive_oid=archive_oid)
+        if loaded[1] != candidate_classification_oid or loaded[3] != candidate_raw:
+            raise RotationError("migration classification idempotent readback disagrees")
+        if (read_optional_exact_ref_oid_v1(repo, controller_ref) != controller_oid
+                or read_optional_exact_ref_oid_v1(repo, archive_ref) != archive_oid
+                or read_optional_exact_ref_oid_v1(repo, current_ref) is not None
+                or read_optional_exact_ref_oid_v1(repo, marker_ref) is not None):
+            raise RotationError("classification admission custody is stale")
+        return candidate_classification_oid
+    if read_exact_git_blob_oid_v1(repo, candidate_classification_oid) != candidate_raw:
+        raise RotationError("candidate classification bytes changed")
+    guards = tuple(sorted((
+        (archive_ref, archive_oid), (controller_ref, controller_oid),
+        (current_ref, ZERO_OID), (marker_ref, ZERO_OID),
+    )))
+    argv, environment, stdin_bytes = _classification_admission_transaction_v1(
+        repo=repo, classification_ref=classification_ref,
+        classification_oid=candidate_classification_oid, guards=guards)
+    completed = subprocess.run(
+        argv, cwd=str(repo), env=environment, input=stdin_bytes,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    if completed.returncode != 0:
+        observed = read_optional_exact_ref_oid_v1(repo, classification_ref)
+        if observed != candidate_classification_oid:
+            raise RotationError("classification admission CAS failed")
+        if (read_optional_exact_ref_oid_v1(repo, controller_ref) != controller_oid
+                or read_optional_exact_ref_oid_v1(repo, archive_ref) != archive_oid
+                or read_optional_exact_ref_oid_v1(repo, current_ref) is not None
+                or read_optional_exact_ref_oid_v1(repo, marker_ref) is not None):
+            raise RotationError("classification admission custody is stale")
+    loaded = load_live_genesis_classification_oid_v1(
+        repo, controller_id=controller_id, archive_oid=archive_oid)
+    if loaded[1] != candidate_classification_oid or loaded[3] != candidate_raw:
+        raise RotationError("classification admission readback disagrees")
+    return candidate_classification_oid
 
 
 def _windows_apis_v1() -> object:
