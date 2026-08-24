@@ -266,15 +266,26 @@ def _text(value, path):
     return value
 
 
-def _string_list(value, path, *, allowed=None, unique=True):
+def _string_list_violation_v1(value, *, allowed=None, unique=True):
+    """Return the one producer list-grammar violation, if any."""
     if type(value) is not list:
-        _error("OE_SCHEMA_INVALID", path, "must be an array")
+        return None, "must be an array"
     for index, item in enumerate(value):
-        _text(item, f"{path}[{index}]")
+        if type(item) is not str or not item:
+            return index, "must be a non-empty string"
         if allowed is not None and item not in allowed:
-            _error("OE_SCHEMA_INVALID", f"{path}[{index}]", "unsupported value")
+            return index, "unsupported value"
     if unique and len(set(value)) != len(value):
-        _error("OE_SCHEMA_INVALID", path, "must not contain duplicates")
+        return None, "must not contain duplicates"
+    return None, None
+
+
+def _string_list(value, path, *, allowed=None, unique=True):
+    index, violation = _string_list_violation_v1(
+        value, allowed=allowed, unique=unique)
+    if violation is not None:
+        member_path = path if index is None else f"{path}[{index}]"
+        _error("OE_SCHEMA_INVALID", member_path, violation)
     return value
 
 
@@ -3354,15 +3365,22 @@ def _snapshot_diff_digest_v1(value: object, path: str) -> str:
     return value
 
 
+def _snapshot_diff_unique_string_list_v1(value: object, path: str) -> list[str]:
+    index, violation = _string_list_violation_v1(value)
+    if violation is not None:
+        member_path = path if index is None else f"{path}[{index}]"
+        _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
+               f"snapshot producer list {violation}")
+    return value
+
+
 def _snapshot_diff_currentness_v1(value: object, path: str) -> None:
     currentness = _snapshot_diff_exact_object_v1(
         value, {"state", "invalidators"}, path)
     state = currentness["state"]
     invalidators = currentness["invalidators"]
-    if (state not in STATES or type(invalidators) is not list or
-            any(type(item) is not str or not item for item in invalidators) or
-            len(set(invalidators)) != len(invalidators) or
-            (state == "CURRENT" and invalidators) or
+    _snapshot_diff_unique_string_list_v1(invalidators, f"{path}.invalidators")
+    if (state not in STATES or (state == "CURRENT" and invalidators) or
             (state == "STALE" and not invalidators)):
         _error("OE_DIFF_SNAPSHOT_INVALID", path,
                "snapshot currentness state and invalidators are inconsistent")
@@ -3612,12 +3630,7 @@ def _snapshot_diff_evidence_record_v1(
                 "native_owner_identity"):
         _snapshot_diff_text_v1(row[key], f"{path}.{key}")
     for key in ("controls", "contrary_evidence"):
-        values = row[key]
-        if (type(values) is not list or
-                any(type(item) is not str or not item for item in values) or
-                len(set(values)) != len(values)):
-            _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.{key}",
-                   "evidence references must be unique non-empty strings")
+        _snapshot_diff_unique_string_list_v1(row[key], f"{path}.{key}")
     _snapshot_diff_currentness_v1(row["currentness"], f"{path}.currentness")
     _snapshot_diff_digest_v1(row["artifact_sha256"], f"{path}.artifact_sha256")
     return row
@@ -3649,10 +3662,8 @@ def _snapshot_diff_failure_record_v1(
     for key in ("andon_id", "abnormality_class", "statement",
                 "source_identity", "native_owner_identity"):
         _snapshot_diff_text_v1(row[key], f"{path}.{key}")
-    if (type(row["evidence_ids"]) is not list or any(
-            type(item) is not str or not item for item in row["evidence_ids"])):
-        _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.evidence_ids",
-               "failure evidence references must be non-empty strings")
+    _snapshot_diff_unique_string_list_v1(
+        row["evidence_ids"], f"{path}.evidence_ids")
     _snapshot_diff_currentness_v1(row["currentness"], f"{path}.currentness")
     _snapshot_diff_digest_v1(row["artifact_sha256"], f"{path}.artifact_sha256")
     return row
@@ -4225,9 +4236,9 @@ def _snapshot_diff_collections_v1(
                             for item in recovery)):
                         _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
                                "observed recovery lacks current direct evidence")
-            if (type(evidence["residual_ids"]) is not list or
-                    len(set(evidence["residual_ids"])) != len(evidence["residual_ids"]) or
-                    any(item not in failure_by_id or
+            _snapshot_diff_unique_string_list_v1(
+                evidence["residual_ids"], f"{member_path}.value.residual_ids")
+            if (any(item not in failure_by_id or
                         failure_by_id[item]["record_type"] != "Residual"
                         for item in evidence["residual_ids"])):
                 _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
@@ -4516,6 +4527,11 @@ def _snapshot_windows_kernel_v1():
     kernel.SetFileInformationByHandle.restype = ctypes.c_int
     kernel.GetFileInformationByHandle.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
     kernel.GetFileInformationByHandle.restype = ctypes.c_int
+    kernel.GetVolumeInformationByHandleW.argtypes = [
+        ctypes.c_void_p, ctypes.c_wchar_p, ctypes.c_uint32,
+        ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint32), ctypes.c_wchar_p, ctypes.c_uint32]
+    kernel.GetVolumeInformationByHandleW.restype = ctypes.c_int
     kernel.CloseHandle.argtypes = [ctypes.c_void_p]
     kernel.CloseHandle.restype = ctypes.c_int
     return kernel
@@ -4551,6 +4567,15 @@ def _snapshot_handle_regular_v1(info: _SnapshotHandleInfoV1, size: int) -> bool:
     observed_size = (info.size_high << 32) | info.size_low
     return not (info.attributes & (0x10 | 0x400)) and info.links == 1 and (
         observed_size == size)
+
+
+def _snapshot_hardlink_publication_capable_v1(kernel, handle) -> bool:
+    """Admit publication only when the bound volume cannot add hard links."""
+    flags = ctypes.c_uint32()
+    if not kernel.GetVolumeInformationByHandleW(
+            handle, None, 0, None, None, ctypes.byref(flags), None, 0):
+        raise ctypes.WinError(ctypes.get_last_error())
+    return not bool(flags.value & 0x00400000)
 
 
 def _snapshot_delete_stage_v1(kernel, handle) -> None:
@@ -4600,6 +4625,9 @@ def _snapshot_stage_export_v1(raw: bytes, target: pathlib.Path) -> None:
         created = _snapshot_handle_info_v1(kernel, handle)
         if not _snapshot_handle_regular_v1(created, 0):
             raise OSError("private stage is not one regular physical file")
+        if not _snapshot_hardlink_publication_capable_v1(kernel, handle):
+            raise OSError(
+                "volume cannot exclude hard-link topology through publication")
         _snapshot_stage_v1("stage-created")
         offset = 0
         while offset < len(raw):

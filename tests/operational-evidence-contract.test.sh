@@ -918,6 +918,166 @@ def expect_error(code, action):
 
 observed = []
 base = snapshot("a", [record("one"), record("two")])
+
+# R4 causal controls are intentionally independent of the R3 generated model.
+# C1 records the genuine C04 producer's unique-list calls and then duplicates a
+# real retained failure reference with every dependent digest refreshed.  C2
+# attacks the native operation itself on both sides of the terminal rename;
+# neither cell is derived from the production phase-hook population.
+r4_causal_red = []
+producer_unique_paths = []
+original_string_list = evidence._string_list
+
+
+def observe_producer_unique(value, path, *, allowed=None, unique=True):
+    if unique:
+        producer_unique_paths.append(path)
+    return original_string_list(value, path, allowed=allowed, unique=unique)
+
+
+evidence._string_list = observe_producer_unique
+try:
+    producer_evidence = evidence.collect_evidence_failure(pathlib.Path(
+        "fixtures/operational-evidence/run-artifacts/positive"))
+finally:
+    evidence._string_list = original_string_list
+producer_operators = {
+    ("currentness.invalidators"
+     if path.endswith(".currentness.invalidators")
+     else path.rsplit(".", 1)[-1])
+    for path in producer_unique_paths}
+expected_producer_operators = {
+    "currentness.invalidators", "controls", "contrary_evidence",
+    "evidence_ids", "residual_ids"}
+if producer_operators != expected_producer_operators:
+    r4_causal_red.append(
+        "C08-R4-C1 producer unique-list census mismatch "
+        f"{sorted(producer_operators)}")
+
+producer_snapshot = copy.deepcopy(base)
+producer_collection = producer_snapshot["collections"]["evidence_failure"]
+producer_collection["value"] = producer_evidence
+producer_collection["sha256"] = hashlib.sha256(
+    canonical(producer_evidence)).hexdigest()
+duplicate_lineage = copy.deepcopy(producer_snapshot)
+failure = duplicate_lineage["collections"]["evidence_failure"]["value"][
+    "failure_records"][0]
+failure["evidence_ids"].append(failure["evidence_ids"][0])
+refresh_collection(duplicate_lineage, "evidence_failure")
+try:
+    evidence.diff_snapshots(producer_snapshot, duplicate_lineage)
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_DIFF_SNAPSHOT_INVALID":
+        r4_causal_red.append(
+            f"C08-R4-C1 duplicate evidence_ids returned {exc.code}")
+else:
+    r4_causal_red.append(
+        "C08-R4-C1 duplicate evidence_ids returned success-shaped diff")
+
+if os.name == "nt":
+    original_publish = evidence._snapshot_atomic_no_replace_v1
+
+    late_root = tmp / "r4-late-edge"
+    late_root.mkdir()
+    late_destination = late_root / "snapshot.json"
+    late_alias = late_root / "late-alias"
+    late_edge_reached = False
+    late_link_created = False
+
+    def attack_late_edge(handle, target):
+        global late_edge_reached, late_link_created
+        late_edge_reached = True
+        stage = next(
+            path for path in late_root.iterdir()
+            if path != late_destination and
+            path.name.endswith(".implementaudit-stage"))
+        try:
+            os.link(stage, late_alias)
+            late_link_created = True
+        except OSError:
+            pass
+        return original_publish(handle, target)
+
+    evidence._snapshot_atomic_no_replace_v1 = attack_late_edge
+    late_receipt = None
+    late_error = None
+    try:
+        try:
+            late_receipt = evidence.export_snapshot(
+                producer_snapshot, late_destination, owned_root=late_root,
+                output_format="json")
+        except evidence.OperationalEvidenceError as exc:
+            late_error = exc
+    finally:
+        evidence._snapshot_atomic_no_replace_v1 = original_publish
+    if (late_link_created and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 late hard link crossed final-check/native-rename edge")
+    if (not late_edge_reached and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 unavailable hard-link custody did not fail typed")
+    if not late_edge_reached and any(late_root.iterdir()):
+        r4_causal_red.append(
+            "C08-R4-C2 capability refusal left a stage or destination")
+
+    post_root = tmp / "r4-post-edge"
+    post_root.mkdir()
+    post_destination = post_root / "snapshot.json"
+    post_alias = post_root / "post-alias"
+    post_edge_reached = False
+    post_link_created = False
+
+    def attack_post_edge(handle, target):
+        global post_edge_reached, post_link_created
+        post_edge_reached = True
+        result = original_publish(handle, target)
+        try:
+            os.link(target, post_alias)
+            post_link_created = True
+        except OSError:
+            pass
+        return result
+
+    evidence._snapshot_atomic_no_replace_v1 = attack_post_edge
+    post_receipt = None
+    post_error = None
+    try:
+        try:
+            post_receipt = evidence.export_snapshot(
+                producer_snapshot, post_destination, owned_root=post_root,
+                output_format="json")
+        except evidence.OperationalEvidenceError as exc:
+            post_error = exc
+    finally:
+        evidence._snapshot_atomic_no_replace_v1 = original_publish
+    if (post_link_created and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 post-publication live-handle hard link returned success")
+    if (not post_edge_reached and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 unavailable post-publication custody did not fail typed")
+    if not post_edge_reached and any(post_root.iterdir()):
+        r4_causal_red.append(
+            "C08-R4-C2 post-publication capability refusal left an object")
+
+if r4_causal_red:
+    raise SystemExit("; ".join(r4_causal_red))
+
+# The real current-volume capability cell above remains unmocked.  The
+# remaining positive transaction controls exercise exact bytes, collision and
+# cleanup on the explicit no-hard-link-capability branch.
+if hasattr(evidence, "_snapshot_hardlink_publication_capable_v1"):
+    evidence._snapshot_hardlink_publication_capable_v1 = (
+        lambda _kernel, _handle: True)
+
 permuted = copy.deepcopy(base)
 permuted["collections"]["evidence_failure"]["value"]["evidence_records"].reverse()
 refresh_collection(permuted, "evidence_failure")
@@ -2822,9 +2982,85 @@ for label, action in (
     c08_r3_named_mutation(label, action)
 
 
+# Derive the unique-list operator population from genuine producer validation,
+# not from the C08 parser or its hand-selected field model.  Any new producer
+# unique-list call changes this census before it can silently escape the diff
+# grammar.
+c08_r4_unique_paths = []
+c08_r4_original_string_list = census_module._string_list
+
+
+def c08_r4_observe_unique_list(value, path, *, allowed=None, unique=True):
+    if unique and path.startswith("$run_artifact"):
+        c08_r4_unique_paths.append(path)
+    return c08_r4_original_string_list(
+        value, path, allowed=allowed, unique=unique)
+
+
+census_module._string_list = c08_r4_observe_unique_list
+try:
+    census_module._collect_snapshot_inputs_v1(census_native)
+finally:
+    census_module._string_list = c08_r4_original_string_list
+
+
+def c08_r4_unique_operator(path):
+    if path.endswith(".currentness.invalidators"):
+        return "currentness.invalidators"
+    return path.rsplit(".", 1)[-1]
+
+
+c08_r4_unique_operators = {
+    c08_r4_unique_operator(path) for path in c08_r4_unique_paths}
+c08_r4_expected_unique_operators = {
+    "currentness.invalidators", "controls", "contrary_evidence",
+    "evidence_ids", "residual_ids"}
+if c08_r4_unique_operators != c08_r4_expected_unique_operators:
+    correction_red_failures.append(
+        "C08-R4-C1 producer unique-list census differs: "
+        f"observed={sorted(c08_r4_unique_operators)} "
+        f"expected={sorted(c08_r4_expected_unique_operators)}")
+
+
+def c08_r4_duplicate_unique_operator(payload, operator):
+    evidence = payload["collections"]["evidence_failure"]["value"]
+    records = evidence["evidence_records"]
+    failures = evidence["failure_records"]
+    if operator == "controls":
+        records[0]["controls"] = ["PARITY_CONTROL", "PARITY_CONTROL"]
+    elif operator == "contrary_evidence":
+        records[0]["contrary_evidence"] = [records[0]["id"], records[0]["id"]]
+    elif operator == "evidence_ids":
+        reference = records[0]["id"]
+        failures[0]["evidence_ids"] = [reference, reference]
+    elif operator == "residual_ids":
+        residual = next(
+            row["id"] for row in failures if row["record_type"] == "Residual")
+        evidence["residual_ids"] = [residual, residual]
+    else:
+        populations = (records, failures,
+                       payload["collections"]["release"]["value"]["nodes"])
+        currentness = next(
+            row["currentness"] for population in populations for row in population)
+        currentness["invalidators"] = [
+            "PARITY_INVALIDATOR", "PARITY_INVALIDATOR"]
+
+
+for operator in sorted(c08_r4_expected_unique_operators):
+    c08_r3_named_mutation(
+        f"producer-unique-list:{operator}",
+        lambda payload, selected=operator:
+        c08_r4_duplicate_unique_operator(payload, selected))
+
+
 # The staged publication contract is finite and observable at named phases.
 # On the rejected destination-direct mechanism none of these phases exists;
 # the matrix must therefore RED before any production mechanism replacement.
+c08_r4_capability_check = getattr(
+    census_module, "_snapshot_hardlink_publication_capable_v1", None)
+if c08_r4_capability_check is not None:
+    census_module._snapshot_hardlink_publication_capable_v1 = (
+        lambda _kernel, _handle: True)
 c08_r3_export_root = CASE_ROOT / "c08-r3-export-matrix"
 c08_r3_export_root.mkdir()
 c08_r3_phases = (
@@ -2948,6 +3184,108 @@ if os.name == "nt":
                     after_destination.read_bytes()).hexdigest()):
             correction_red_failures.append(
                 "C08-R3-C2 post-publication write was not excluded by live handle")
+
+    if c08_r4_capability_check is not None:
+        census_module._snapshot_hardlink_publication_capable_v1 = (
+            c08_r4_capability_check)
+
+    # These two cells are derived from native operation edges, not the
+    # production hook population.  They reproduce hard-link creation between
+    # the final handle observation and FileRenameInfo, and immediately after
+    # the atomic rename while the transaction handle is still live.
+    late_root = c08_r3_export_root / "native-late-hardlink"
+    late_root.mkdir()
+    late_destination = late_root / "snapshot.json"
+    late_alias = late_root / "late-alias"
+    original_publish = census_module._snapshot_atomic_no_replace_v1
+    late_edge_reached = False
+    late_link_created = False
+
+    def attack_before_native_rename(handle, target):
+        global late_edge_reached, late_link_created
+        late_edge_reached = True
+        stage = next(
+            path for path in late_root.iterdir()
+            if path != late_destination and
+            path.name.endswith(".implementaudit-stage"))
+        try:
+            os.link(stage, late_alias)
+            late_link_created = True
+        except OSError:
+            pass
+        return original_publish(handle, target)
+
+    census_module._snapshot_atomic_no_replace_v1 = attack_before_native_rename
+    late_receipt = None
+    late_error = None
+    try:
+        try:
+            late_receipt = census_module.export_snapshot(
+                c08_r3_payload, late_destination, owned_root=late_root,
+                output_format="json")
+        except census_module.OperationalEvidenceError as exc:
+            late_error = exc
+    finally:
+        census_module._snapshot_atomic_no_replace_v1 = original_publish
+    if (late_link_created and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 after-final-check/before-native-rename hard link "
+            "returned success-shaped receipt")
+    if (not late_edge_reached and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 unavailable hard-link custody did not fail typed")
+    if not late_edge_reached and any(late_root.iterdir()):
+        correction_red_failures.append(
+            "C08-R4-C2 capability refusal left a stage or destination")
+
+    post_root = c08_r3_export_root / "native-post-publication-hardlink"
+    post_root.mkdir()
+    post_destination = post_root / "snapshot.json"
+    post_alias = post_root / "post-alias"
+    post_edge_reached = False
+    post_link_created = False
+
+    def publish_then_hardlink(handle, target):
+        global post_edge_reached, post_link_created
+        post_edge_reached = True
+        result = original_publish(handle, target)
+        try:
+            os.link(target, post_alias)
+            post_link_created = True
+        except OSError:
+            pass
+        return result
+
+    census_module._snapshot_atomic_no_replace_v1 = publish_then_hardlink
+    post_receipt = None
+    post_error = None
+    try:
+        try:
+            post_receipt = census_module.export_snapshot(
+                c08_r3_payload, post_destination, owned_root=post_root,
+                output_format="json")
+        except census_module.OperationalEvidenceError as exc:
+            post_error = exc
+    finally:
+        census_module._snapshot_atomic_no_replace_v1 = original_publish
+    if (post_link_created and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 post-publication live-handle hard link returned "
+            "success-shaped receipt")
+    if (not post_edge_reached and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 unavailable post-publication custody did not fail typed")
+    if not post_edge_reached and any(post_root.iterdir()):
+        correction_red_failures.append(
+            "C08-R4-C2 post-publication capability refusal left an object")
 def refresh_release_candidate_invalidators(value):
     boundary = value["external_boundary"]
     boundary_currentness = census_module._external_boundary_currentness(
