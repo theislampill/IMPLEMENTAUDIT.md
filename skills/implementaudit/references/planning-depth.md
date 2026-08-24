@@ -274,7 +274,9 @@ Preparation predecessor observations are closed over the target's dependencies
 and live holders. Qualified predecessors bind their exact graph-owned
 commit/tree/review identity; all others carry a mechanically derived unavailable
 reason. Activation recompiles current graph bytes instead of accepting stored
-predecessor values supplied again by the caller.
+predecessor values supplied again by the caller and requires the record's exact
+graph binding. This contract has no unchanged-slice reuse receipt for a changed
+graph.
 
 Every source-bearing DONE cell must expose one exact qualified product and one
 current disposition through its existing result owner. Non-cell owner
@@ -291,9 +293,13 @@ document classifies every DONE cell, exhaustively maps every qualified cell and
 non-cell owner to an exact product and one kind-specific disposition, and binds
 join, proposal, review, receipt, and future-consumer identities. The compiler
 requires and hashes the authoritative source bytes independently of graph
-shape. Missing/falsified classification or shaped-but-unbound evidence rejects;
-runtime debt/P0 is derived from the complete governed population. Only a graph
-with no product signal takes the byte-identical legacy path.
+shape, and the CLI binds the actual supplied authority path to the declaration
+after canonical resolution relative to the graph directory. Governed
+two-argument input and the graph authority owner are themselves product
+signals. Missing/falsified classification or shaped-but-unbound evidence
+rejects; runtime debt/P0 is derived from the complete governed population.
+Only one-argument input with no product or authority signal takes the
+byte-identical legacy path.
 
 A product-aware preference only orders otherwise equal work already admitted
 by current dependencies, writer/resource holds, qualification independence,

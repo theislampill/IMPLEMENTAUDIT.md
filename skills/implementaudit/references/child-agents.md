@@ -247,16 +247,17 @@ cost boundary, invalidators, and activation revalidation. It states
 `lifecycle_credit: NONE`, `implementation_evidence: NONE`, and
 `authority_minted: NONE`. Preparation never satisfies a dependency, creates
 dispatch, authorizes source, substitutes for activation-time causal RED, or
-discharges independent review. A changed graph requires comparison; only a
-proved unchanged target slice may reuse its bounded section.
+discharges independent review. Activation requires the record's exact graph
+binding; this contract owns no unchanged-slice reuse receipt for a changed
+graph.
 
 The predecessor set is derived from the target dependencies plus any live hold
 owners, not chosen by the preparer. Each observation binds the exact qualified
 commit/tree/review identity available from its graph owner, or an explicit
 `NOT_DONE` / `NON_SOURCE_PRODUCT` unavailable state. Activation recompiles
-current graph bytes (and any governed product-authority bytes) and derives the
-current target, predecessor, and interface binding; caller-echoed stored values
-cannot satisfy revalidation.
+current graph bytes (and any governed product-authority bytes), requires the
+exact graph binding, and derives the current target, predecessor, and interface
+binding; caller-echoed stored values cannot satisfy revalidation.
 
 `PRODUCT_FRONTIER` consumes exact qualified product identities from the
 existing DONE-cell `result` owner and non-cell owner amendments from existing
@@ -272,8 +273,12 @@ Once `integration_topology.product_contract` governs products, classification
 is mandatory: its authoritative census must cover every DONE cell and every
 DONE cell carries an explicit matching `source_bearing` boolean. The compiler
 requires the separately supplied authoritative source bytes and verifies their
-exact path-bound byte count, SHA-256, content, current receipt, and binding from
-the graph's existing `authority` owner. The verified document exhaustively
+exact byte count, SHA-256, content, current receipt, and binding from the
+graph's existing `authority` owner. Governed two-argument input and that owner
+are both mandatory signals, so neither can silently enter the legacy path. The
+CLI resolves the actual supplied authority path against the declaration
+(relative declarations are anchored at the graph directory). The verified
+document exhaustively
 binds cell and non-cell owners, product identities, kind-specific dispositions,
 named integration joins, composition authorizations, and future consumers.
 Omission, falsification, an unknown non-cell owner, composition into an
@@ -284,7 +289,7 @@ than disappearing. A graph with no product signal remains on the exact legacy
 path and needs no authority document.
 Invoke governed compilation as
 `compile-work-graph.py WORK_GRAPH.json PRODUCT_AUTHORITY.json`; the one-argument
-form remains valid only for the no-product legacy path.
+form remains valid only for the no-product legacy path with no authority owner.
 
 A product-aware preference may break a tie only among cells already admitted
 to execution or preparation by the ordinary dependency, currentness, hold,

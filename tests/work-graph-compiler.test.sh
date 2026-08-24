@@ -648,6 +648,18 @@ if unrelated_item["graph"]["sha256"] == prep_item["graph"]["sha256"]:
     raise SystemExit("P06: unrelated graph drift was not observable")
 if unrelated_item["target_binding_sha256"] != prep_item["target_binding_sha256"]:
     raise SystemExit("P06: unrelated drift invalidated the target slice")
+try:
+    module.validate_preparation_activation_v1(
+        prep_item,
+        current_receipt=prep_item["receipt"],
+        current_graph_bytes=canonical(signed_graph(unrelated)),
+        causal_red_passed=True,
+    )
+except module.WorkGraphError as exc:
+    if "exact graph binding changed" not in str(exc):
+        raise SystemExit(f"P06 exact graph drift: wrong diagnostic: {exc}")
+else:
+    raise SystemExit("P06: unrelated graph drift reused an unchanged target slice")
 target_drift = copy.deepcopy(prep_red)
 target_drift["cells"][3]["preparation"]["record"]["interface_assumptions"]["route_contract"] = "c" * 64
 target_item = module.compile_frontier_projection(canonical(signed_graph(target_drift)))["preparation_frontier"][0]
@@ -746,9 +758,12 @@ else:
     raise SystemExit("Q05: foreign authority content accepted")
 with tempfile.TemporaryDirectory() as authority_temp:
     graph_path = pathlib.Path(authority_temp, "WORK_GRAPH.json")
-    authority_path = pathlib.Path(authority_temp, "PRODUCT_AUTHORITY.json")
+    authority_path = pathlib.Path(
+        authority_temp, "governor", "product-authority.json"
+    )
     authority_bytes = refresh_product_authority(product_graph)
     graph_path.write_bytes(canonical(signed_graph(product_graph)))
+    authority_path.parent.mkdir()
     authority_path.write_bytes(authority_bytes)
     completed = subprocess.run(
         [sys.executable, str(module_path), str(graph_path), str(authority_path)],
@@ -761,6 +776,87 @@ with tempfile.TemporaryDirectory() as authority_temp:
             "Q05: governed CLI did not bind exact authority source: "
             + completed.stderr.decode()
         )
+
+# R3 causal held-outs: each accepted path is a false pass in the unchanged R2
+# candidate. Production must reject all three without changing true one-argument
+# legacy projection bytes.
+r3_false_passes = []
+stripped_governed = copy.deepcopy(product_graph)
+stripped_governed["integration_topology"] = {}
+for stripped_cell in stripped_governed["cells"]:
+    stripped_cell.pop("source_bearing", None)
+stripped_authority_bytes = refresh_product_authority(product_graph)
+try:
+    module.compile_frontier_projection(
+        canonical(signed_graph(stripped_governed)), stripped_authority_bytes
+    )
+except module.WorkGraphError as exc:
+    if "qualified product contract required" not in str(exc):
+        raise SystemExit(f"I1 governed bytes discriminator: wrong diagnostic: {exc}")
+else:
+    r3_false_passes.append(
+        "I1: governed authority bytes shed graph-local signals and compiled legacy"
+    )
+try:
+    module.compile_frontier_projection(canonical(signed_graph(stripped_governed)))
+except module.WorkGraphError as exc:
+    if "qualified product contract required" not in str(exc):
+        raise SystemExit(f"I1 authority owner discriminator: wrong diagnostic: {exc}")
+else:
+    r3_false_passes.append(
+        "I1: graph authority owner shed its contract and compiled legacy"
+    )
+try:
+    module.compile_frontier_projection(canonical(graph), b"{}")
+except module.WorkGraphError as exc:
+    if "qualified product contract required" not in str(exc):
+        raise SystemExit(f"I1 authority input discriminator: wrong diagnostic: {exc}")
+else:
+    r3_false_passes.append(
+        "I1: two-argument authority input compiled a true legacy graph"
+    )
+
+with tempfile.TemporaryDirectory() as authority_temp:
+    graph_path = pathlib.Path(authority_temp, "WORK_GRAPH.json")
+    foreign_path = pathlib.Path(authority_temp, "FOREIGN_COPY.json")
+    authority_bytes = refresh_product_authority(product_graph)
+    graph_path.write_bytes(canonical(signed_graph(product_graph)))
+    foreign_path.write_bytes(authority_bytes)
+    completed = subprocess.run(
+        [sys.executable, str(module_path), str(graph_path), str(foreign_path)],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if completed.returncode == 0:
+        r3_false_passes.append(
+            "I2: foreign authority path with byte-identical content was accepted"
+        )
+    elif b"declared source path mismatch" not in completed.stderr:
+        raise SystemExit(
+            "I2 foreign authority path: wrong diagnostic: "
+            + completed.stderr.decode()
+        )
+
+foreign_graph_identity = copy.deepcopy(prep_red)
+foreign_graph_identity["graph_id"] = "foreign-graph-authority"
+try:
+    if module.validate_preparation_activation_v1(
+        prep_item,
+        current_receipt=prep_item["receipt"],
+        current_graph_bytes=canonical(signed_graph(foreign_graph_identity)),
+        causal_red_passed=True,
+    ):
+        r3_false_passes.append(
+            "I3: activation accepted a foreign exact graph binding"
+        )
+except module.WorkGraphError as exc:
+    if "exact graph binding changed" not in str(exc):
+        raise SystemExit(f"I3 foreign graph binding: wrong diagnostic: {exc}")
+
+if r3_false_passes:
+    raise SystemExit("R0035 R3 causal RED:\n" + "\n".join(r3_false_passes))
+
 if products["qualified_products"] != 2 or products["counts"]["COMPOSED"] != 1:
     raise SystemExit("Q03/Q06: qualified product emitted zero or multiple times")
 if products["current_products"] != 2 or products["integration_debt"] != 2:

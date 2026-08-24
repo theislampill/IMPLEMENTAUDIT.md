@@ -133,8 +133,11 @@ for text in \
   "lifecycle_credit: NONE" \
   "product-aware preference" \
   "authoritative source bytes" \
+  "actual supplied authority path" \
+  "governed two-argument input" \
   "cover every DONE cell" \
   "Activation recompiles" \
+  "exact graph binding" \
   "TASK_CONTINUATION" \
   "NEW_TASK_DISPATCH" \
   "INDEPENDENT_REVIEW" \

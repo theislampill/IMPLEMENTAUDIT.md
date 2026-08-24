@@ -214,6 +214,32 @@ def _validate_product_result_v1(
     return result
 
 
+def validate_product_authority_cli_path_v1(
+    graph_bytes: bytes,
+    graph_path: pathlib.Path,
+    product_authority_path: pathlib.Path,
+) -> None:
+    """Bind the CLI's supplied authority file to the graph declaration."""
+    decoded = decode_strict_json_bytes(graph_bytes, str(graph_path))
+    graph = _require_object(decoded, str(graph_path))
+    authority = graph.get("authority")
+    if type(authority) is not dict:
+        return
+    source = authority.get("qualified_product_contract")
+    if type(source) is not dict:
+        return
+    declared = source.get("path")
+    if type(declared) is not str or not declared:
+        return
+    declared_path = pathlib.Path(declared)
+    if not declared_path.is_absolute():
+        declared_path = graph_path.resolve().parent / declared_path
+    if declared_path.resolve() != product_authority_path.resolve():
+        raise WorkGraphError(
+            "qualified product authority: declared source path mismatch"
+        )
+
+
 def _validate_product_contract_v1(
     graph: dict[str, JSONValue],
     cells: list[dict[str, JSONValue]],
@@ -223,8 +249,12 @@ def _validate_product_contract_v1(
     topology_value = graph.get("integration_topology")
     topology = topology_value if type(topology_value) is dict else {}
     contract_value = topology.get("product_contract")
+    authority_value = graph.get("authority")
     product_signal = any("source_bearing" in cell for cell in cells) or any(
         key in topology for key in ("qualified_products", "composition_proposals")
+    ) or product_authority_bytes is not None or (
+        type(authority_value) is dict
+        and "qualified_product_contract" in authority_value
     )
     if contract_value is None:
         if product_signal:
@@ -971,6 +1001,10 @@ def validate_preparation_activation_v1(
         record.get("interface_assumptions")
     ):
         raise WorkGraphError("preparation activation: interface assumptions changed")
+    if canonical_json_v1(current.get("graph")) != canonical_json_v1(
+        record.get("graph")
+    ):
+        raise WorkGraphError("preparation activation: exact graph binding changed")
     return True
 
 
@@ -1273,7 +1307,12 @@ def main(argv: list[str]) -> int:
     path = pathlib.Path(argv[1])
     try:
         raw = path.read_bytes()
-        authority_bytes = pathlib.Path(argv[2]).read_bytes() if len(argv) == 3 else None
+        authority_path = pathlib.Path(argv[2]) if len(argv) == 3 else None
+        authority_bytes = (
+            authority_path.read_bytes() if authority_path is not None else None
+        )
+        if authority_path is not None:
+            validate_product_authority_cli_path_v1(raw, path, authority_path)
         projection = compile_frontier_projection(raw, authority_bytes)
     except OSError as exc:
         print(f"compile-work-graph: {path}: {exc}", file=sys.stderr)
