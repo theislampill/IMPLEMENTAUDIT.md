@@ -77,6 +77,7 @@ ROUTE_RESULT_KEYS = {
     "record_oid",
     "record_identity",
     "obligation_id",
+    "route_transaction_id",
     "route_state",
     "governor_decision_count",
     "history_query",
@@ -317,6 +318,11 @@ def validate_route(route: Any, binding: dict[str, Any]) -> dict[str, Any]:
         raise InputError("route.mirror_status is not canonical")
     exact_text(result["mirror_claim"], "route.mirror_claim", nullable=True)
     validate_history_query(result["history_query"])
+    route_transaction = result["route_transaction_id"]
+    if route_transaction is not None and (
+        not isinstance(route_transaction, str) or not SHA256_ID.fullmatch(route_transaction)
+    ):
+        raise InputError("route.route_transaction_id is not canonical")
 
     decision = result["decision"]
     if decision == "NOT_REQUIRED":
@@ -325,6 +331,7 @@ def validate_route(route: Any, binding: dict[str, Any]) -> dict[str, Any]:
             and result["advance_allowed"] is False
             and result["admission_required"] is True
             and result["obligation_id"] is None
+            and result["route_transaction_id"] is None
             and result["route_state"] is None
             and result["governor_decision_count"] == 0
             and binding["obligation_id"] is None
@@ -339,6 +346,8 @@ def validate_route(route: Any, binding: dict[str, Any]) -> dict[str, Any]:
             and result["route_state"] == "SATISFIED"
             and isinstance(result["obligation_id"], str)
             and result["obligation_id"]
+            and isinstance(result["route_transaction_id"], str)
+            and binding["route_transaction_id"] == result["route_transaction_id"]
             and result["governor_decision_count"] == 1
             and binding["obligation_id"] == result["obligation_id"]
             and isinstance(binding["route_transaction_id"], str)

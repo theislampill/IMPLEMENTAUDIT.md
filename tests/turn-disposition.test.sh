@@ -152,6 +152,10 @@ for status in BLOCKED INTERRUPTED; do
 done
 
 evaluator="skills/implementaudit/scripts/evaluate-turn-disposition.py"
+host_stop_adapter="$repo_root/skills/implementaudit/scripts/host-stop-interlock.py"
+host_binding_core="$repo_root/skills/implementaudit/scripts/host-session-binding.py"
+route_core="$repo_root/skills/implementaudit/scripts/route-transaction.py"
+claim_helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
 
 make_request() {
   local output="$1" claim="$2" root="$3" route_mode="$4" binding_mode="$5"
@@ -178,8 +182,8 @@ if claim == "NO_ACTIVE_AUDIT_OBJECT":
         "route": None,
     }
 else:
-    obligation = "obligation-1" if route_mode == "open-required" else None
-    transaction = "transaction-1" if obligation else None
+    obligation = "sha256:" + "3" * 64 if route_mode == "open-required" else None
+    transaction = "sha256:" + "4" * 64 if obligation else None
     correlation_root = root
     if binding_mode == "foreign":
         correlation_root = str(Path(root).parent / "foreign-object")
@@ -228,6 +232,7 @@ else:
         "record_oid": "1" * 40,
         "record_identity": "sha256:" + "2" * 64,
         "obligation_id": obligation,
+        "route_transaction_id": transaction,
         "route_state": "UNSATISFIED" if obligation else None,
         "governor_decision_count": 0,
         "history_query": None,
@@ -871,6 +876,45 @@ path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 PY
 expect_disposition satisfied-R0033-invalid-projection 0 NONTERMINAL_YIELD "$request"
 
+required_join_request="$tmp/required-transaction-join.json"
+cp "$request" "$required_join_request"
+
+mutate_required_transaction() {
+  local output="$1" expression="$2"
+  python - "$required_join_request" "$output" "$expression" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+source, output, expression = sys.argv[1:]
+payload = json.loads(Path(source).read_text(encoding="utf-8"))
+exec(expression, {"__builtins__": {}, "hashlib": hashlib}, {"value": payload})
+Path(output).write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+PY
+}
+
+transaction_mutations=(
+  'swapped|value["route"]["route_transaction_id"]=value["route"]["obligation_id"]|3'
+  'foreign|value["route"]["route_transaction_id"]="sha256:"+"5"*64|3'
+  'missing|value["route"].pop("route_transaction_id")|2'
+  'null-half|value["route"]["route_transaction_id"]=None|3'
+  'malformed|value["route"]["route_transaction_id"]="not-a-transaction"|2'
+  'caller-computed|value["route"]["route_transaction_id"]="sha256:"+hashlib.sha256(b"caller-computed").hexdigest()|3'
+  'oid-substituted|value["route"]["route_transaction_id"]=value["route"]["record_oid"]|2'
+  'locally-appended|value["route"].pop("route_transaction_id");value["route"]["route_transaction_id"]="sha256:"+hashlib.sha256(b"local-adapter").hexdigest()|3'
+)
+for transaction_case in "${transaction_mutations[@]}"; do
+  IFS='|' read -r label expression expected_rc <<<"$transaction_case"
+  candidate="$tmp/required-transaction-$label.json"
+  mutate_required_transaction "$candidate" "$expression"
+  expect_disposition "required-transaction-$label" "$expected_rc" BLOCK "$candidate"
+done
+
+stale_transaction_request="$tmp/required-transaction-stale.json"
+mutate_required_transaction "$stale_transaction_request" 'value["route"]["status"]="STALE"'
+expect_disposition required-transaction-stale 3 BLOCK "$stale_transaction_request"
+
 request="$tmp/pending-route-result.json"
 make_request "$request" NONTERMINAL_YIELD "$run_root" not-required valid INVALID
 python - "$request" <<'PY'
@@ -980,4 +1024,352 @@ assert payload["disposition"] == "NO_ACTIVE_AUDIT_OBJECT"
 assert payload["stop_allowed"] is True
 PY
 
-printf 'turn-disposition.test: ok (TY-1..TY-6 + binding + R0033 + strict decoding)\n'
+[ -f "$host_stop_adapter" ] || {
+  printf 'turn-disposition.test: HC-H7B RED: Stop interlock adapter is absent\n' >&2
+  exit 1
+}
+
+stop_repo="$tmp/stop-repo"
+stop_run_rel=".IMPLEMENTAUDIT/runs/stop-ABC123"
+stop_run_shell="$stop_repo/$stop_run_rel"
+stop_store="$tmp/stop-plugin-data/host-session-binding-v1"
+stop_session="stop-session"
+stop_controller="stop-controller"
+stop_claim="99999999999999999999999999999999"
+mkdir -p "$stop_repo" "$stop_run_shell"
+git -C "$stop_repo" init -q
+git -C "$stop_repo" config user.email hc-h7b@example.invalid
+git -C "$stop_repo" config user.name 'HC-H7B fixture'
+printf 'stop fixture\n' > "$stop_repo/baseline.txt"
+git -C "$stop_repo" add baseline.txt
+git -C "$stop_repo" commit -qm 'HC-H7B fixture'
+
+stop_repo_custody="$(python - "$stop_repo" <<'PY'
+import os,sys
+print(os.path.abspath(sys.argv[1]).replace("\\", "/"))
+PY
+)"
+stop_common_custody="$stop_repo_custody/.git"
+stop_run_root="$stop_repo_custody/$stop_run_rel"
+cp -R "$run_root/." "$stop_run_shell/"
+stop_head="$(git -C "$stop_repo" rev-parse HEAD)"
+stop_tree="$(git -C "$stop_repo" rev-parse 'HEAD^{tree}')"
+python - "$stop_run_shell/STATE.md" "$stop_head" "$stop_tree" <<'PY'
+import sys
+from pathlib import Path
+
+path=Path(sys.argv[1]); head,tree=sys.argv[2:]
+text=path.read_text(encoding="utf-8")
+text=text.replace("| Next action | continue current phase |", "| Next action | continue exact route-bound action |")
+anchor=(
+ "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n"
+ "|---|---|---|---|---|---|"
+)
+row=f"| G0001 | new-session | 2026-08-23T00:00:00Z | {head} {tree} | yes | exact Stop boundary |"
+if text.count(anchor) != 1:
+ raise SystemExit("turn-disposition.test: Stop fixture lost continuity table")
+path.write_text(text.replace(anchor, anchor+"\n"+row), encoding="utf-8", newline="\n")
+PY
+
+cat > "$stop_run_shell/.claimed" <<EOF
+schema=implementaudit.run-claim.v2
+claim_id=$stop_claim
+claimed_at_utc=2026-08-23T00:00:00Z
+mode=full
+templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md
+repo_root=$stop_repo_custody
+git_common_dir=$stop_common_custody
+run_base=.IMPLEMENTAUDIT/runs
+run_root=$stop_run_rel
+run_name=stop-ABC123
+EOF
+printf 'controller_id=%s\n' "$stop_controller" > "$stop_run_shell/.controller"
+
+stop_controller_record="$(printf 'implementaudit.controller-current.v1\t%s\t%s\t%s\n' \
+  "$stop_controller" "$stop_claim" "$stop_run_root" | git -C "$stop_repo" hash-object -w --stdin)"
+git -C "$stop_repo" update-ref "refs/implementaudit/controllers/$stop_controller" "$stop_controller_record"
+stop_invalidation_oid="$(printf 'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\tnew-session\tstop-boundary-event\n' \
+  "$stop_controller" "$stop_controller_record" "$stop_claim" | git -C "$stop_repo" hash-object -w --stdin)"
+git -C "$stop_repo" update-ref "refs/implementaudit/continuity-invalidations/$stop_controller" "$stop_invalidation_oid"
+stop_state_sha="$(sha256sum "$stop_run_shell/STATE.md" | cut -d' ' -f1)"
+stop_road_sha="$(sha256sum "$stop_run_shell/ROADMAP.md" | cut -d' ' -f1)"
+stop_receipt_oid="$(printf 'implementaudit.continuity-receipt.v2\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tnew-session\tG0001\tcontinue exact route-bound action\n' \
+  "$stop_controller" "$stop_controller_record" "$stop_claim" "$stop_head" "$stop_tree" \
+  "$stop_state_sha" "$stop_road_sha" "$stop_invalidation_oid" | git -C "$stop_repo" hash-object -w --stdin)"
+stop_receipt="refs/implementaudit/continuity-receipts/$stop_controller/G0001@$stop_receipt_oid"
+git -C "$stop_repo" update-ref "refs/implementaudit/continuity-receipts/$stop_controller/G0001" "$stop_receipt_oid"
+[ "$(cd "$stop_repo" && bash "$claim_helper" --require-current-continuity "$stop_controller")" = "$stop_receipt" ] || {
+  printf 'turn-disposition.test: Stop fixture continuity is not current\n' >&2
+  exit 1
+}
+
+python "$host_binding_core" --store "$stop_store" init --owner-id stop-owner >/dev/null
+python "$host_binding_core" --store "$stop_store" bind \
+  --owner-id stop-owner --host-id codex --host-session-id "$stop_session" \
+  --controller-id "$stop_controller" --claim-id "$stop_claim" \
+  --explicit-run-root "$stop_run_root" --repository-identity "$stop_repo_custody" \
+  --git-common-directory-identity "$stop_common_custody" --worktree-identity "$stop_repo_custody" \
+  --activation-event-id stop-activation --activation-receipt stop-activation-receipt \
+  --continuity-generation G0001 --continuity-receipt "$stop_receipt" >/dev/null
+
+write_stop_route_request() {
+  local output="$1" required_reason="${2:-}"
+  python - "$output" "$required_reason" "$stop_repo/baseline.txt" <<'PY'
+import hashlib,json,sys
+
+def digest(value):
+ return "sha256:"+hashlib.sha256(json.dumps(value,sort_keys=True,separators=(",", ":")).encode()).hexdigest()
+def file_digest(path):
+ return "sha256:"+hashlib.sha256(open(path,"rb").read()).hexdigest()
+
+target,reason,baseline=sys.argv[1:]
+argv=["route-read-snapshot"] if not reason else ["route-trigger",reason]
+identity="action:pure_bounded_read_or_validation"
+action={"identity":identity,"class":"PURE_BOUNDED_READ_OR_VALIDATION","argv":argv}
+action["digest"]=digest(action)
+value={
+ "schema":"implementaudit.route-decision-request.v1",
+ "predicate_version":"R0033.route-predicate.v1",
+ "boundary":{"kind":"new-session","event_id":"stop-boundary-event",
+             "digest":digest({"kind":"new-session","event_id":"stop-boundary-event"})},
+ "scope":{"identity":"continue exact route-bound action",
+          "digest":digest({"identity":"continue exact route-bound action"})},
+ "action":action,
+ "inputs":[{"identity":"input:repository","path":"baseline.txt","digest":file_digest(baseline)}],
+}
+with open(target,"w",encoding="utf-8",newline="\n") as handle:
+ json.dump(value,handle,sort_keys=True,separators=(",",":")); handle.write("\n")
+PY
+}
+
+run_stop_route() {
+  (
+    cd "$stop_repo"
+    python "$route_core" "$@" --controller "$stop_controller" --store "$stop_store" \
+      --host-id codex --host-session-id "$stop_session" --binding-generation G0001
+  )
+}
+
+stop_event() {
+  local turn="$1" reentry="$2" message="$3"
+  python - "$stop_session" "$turn" "$reentry" "$message" <<'PY'
+import json,sys
+session,turn,reentry,message=sys.argv[1:]
+print(json.dumps({
+ "session_id":session,"turn_id":turn,"hook_event_name":"Stop",
+ "stop_hook_active":reentry=="true","last_assistant_message":message,
+ "cwd":"untrusted-cwd","transcript_path":"untrusted-transcript",
+},sort_keys=True,separators=(",",":")))
+PY
+}
+
+run_stop_hook() {
+  local plugin_data="$1" payload="$2" output status
+  set +e
+  output="$(cd "$tmp" && PLUGIN_ROOT="$repo_root" PLUGIN_DATA="$plugin_data" \
+    python "$host_stop_adapter" <<<"$payload" 2>"$tmp/stop-hook.err")"
+  status=$?
+  set -e
+  [ "$status" -eq 0 ] || {
+    printf 'turn-disposition.test: Stop hook exited %s: %s\n' "$status" "$(cat "$tmp/stop-hook.err")" >&2
+    exit 1
+  }
+  [ ! -s "$tmp/stop-hook.err" ] || {
+    printf 'turn-disposition.test: Stop hook leaked stderr: %s\n' "$(cat "$tmp/stop-hook.err")" >&2
+    exit 1
+  }
+  printf '%s\n' "$output"
+}
+
+assert_stop_result() {
+  local payload="$1" expression="$2" label="$3"
+  python - "$payload" "$expression" <<'PY' || {
+import json,sys
+value=json.loads(sys.argv[1])
+assert value.get("schema") == "implementaudit.host-stop-interlock-result.v1"
+assert value.get("host_activation_proven") is False
+assert "continue" not in value and "stopReason" not in value
+assert eval(sys.argv[2],{"__builtins__":{}},{"value":value})
+PY
+    printf 'turn-disposition.test: Stop result mismatch: %s\n' "$label" >&2
+    exit 1
+  }
+}
+
+stop_snapshot() {
+  python - "$stop_repo" "$stop_store" "$stop_run_shell" <<'PY'
+import hashlib,os,subprocess,sys
+from pathlib import Path
+repo,store,run=map(Path,sys.argv[1:])
+h=hashlib.sha256()
+def add(label,data):
+ h.update(label.encode()+b"\0"+len(data).to_bytes(8,"big")+data)
+add("refs",subprocess.check_output(["git","for-each-ref","--format=%(refname) %(objectname)"],cwd=repo))
+add("status",subprocess.check_output(["git","status","--porcelain=v1","-uall"],cwd=repo))
+for label,root in (("store",store),("run",run)):
+ if not root.exists(): continue
+ for path in sorted(root.rglob("*"),key=lambda item:item.as_posix()):
+  rel=path.relative_to(root).as_posix()
+  if path.is_symlink(): add(label+":"+rel,b"SYMLINK")
+  elif path.is_file(): add(label+":"+rel,path.read_bytes())
+print(h.hexdigest())
+PY
+}
+
+cheap_route_request="$tmp/stop-route-cheap.json"
+write_stop_route_request "$cheap_route_request"
+cheap_decision="$(run_stop_route decide --request "$cheap_route_request" --expected-record none)"
+cheap_oid="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["record_oid"])' "$cheap_decision")"
+python - "$cheap_decision" <<'PY'
+import json,sys
+value=json.loads(sys.argv[1])
+assert value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False
+PY
+
+false_terminal_event="$(stop_event turn-false-terminal false $'Status update.\nAUDIT_COMPLETE\nIMPLEMENTAUDIT_RUN_COMPLETE')"
+false_terminal_result="$(run_stop_hook "$tmp/stop-plugin-data" "$false_terminal_event")"
+assert_stop_result "$false_terminal_result" \
+  'value["status"] == "BLOCK" and value["decision"] == "block" and value["disposition"] == "BLOCK" and "terminal closure" in value["reason"]' \
+  'false terminal claim reached host Stop'
+
+progress_event="$(stop_event turn-progress false 'Progress is durable; continuing the exact route-bound action.')"
+progress_result="$(run_stop_hook "$tmp/stop-plugin-data" "$progress_event")"
+assert_stop_result "$progress_result" \
+  'value["status"] == "ALLOW" and "decision" not in value and value["disposition"] == "NONTERMINAL_YIELD" and value["active_audit_object"] is True' \
+  'valid nonterminal progress was imprisoned'
+
+snapshot_before="$(stop_snapshot)"
+duplicate_one="$(run_stop_hook "$tmp/stop-plugin-data" "$progress_event")"
+duplicate_two="$(run_stop_hook "$tmp/stop-plugin-data" "$progress_event")"
+snapshot_after="$(stop_snapshot)"
+[ "$duplicate_one" = "$duplicate_two" ] || {
+  printf 'turn-disposition.test: duplicate Stop delivery was not deterministic\n' >&2
+  exit 1
+}
+[ "$snapshot_before" = "$snapshot_after" ] || {
+  printf 'turn-disposition.test: duplicate Stop delivery changed refs/store/run state\n' >&2
+  exit 1
+}
+
+required_route_request="$tmp/stop-route-required.json"
+write_stop_route_request "$required_route_request" MAINTAINER_QUALIFICATION
+required_decision="$(run_stop_route decide --request "$required_route_request" --expected-record "$cheap_oid")"
+required_oid="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["record_oid"])' "$required_decision")"
+required_obligation="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["obligation_id"])' "$required_decision")"
+required_transaction="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["route_transaction_id"])' "$required_decision")"
+
+unsatisfied_result="$(run_stop_hook "$tmp/stop-plugin-data" "$(stop_event turn-unsatisfied false 'Waiting without a satisfied governed route.')")"
+assert_stop_result "$unsatisfied_result" \
+  'value["status"] == "BLOCK" and value["decision"] == "block" and value["disposition"] == "BLOCK"' \
+  'unsatisfied REQUIRED route advanced'
+
+required_attribution="$(python "$host_binding_core" --store "$stop_store" validate-event \
+  --host-id codex --host-session-id "$stop_session" --binding-generation G0001 \
+  --controller-id "$stop_controller" --claim-id "$stop_claim" --explicit-run-root "$stop_run_root" \
+  --repository-identity "$stop_repo_custody" --git-common-directory-identity "$stop_common_custody" \
+  --worktree-identity "$stop_repo_custody" --continuity-generation G0001 --continuity-receipt "$stop_receipt" \
+  --event-id host:HC-H7B-required --obligation-id "$required_obligation" \
+  --route-transaction-id "$required_transaction")"
+required_correlation="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["correlation_id"])' "$required_attribution")"
+route_packet="$tmp/stop-route-packet.json"
+child_return="$tmp/stop-child-return.json"
+governor_decision="$tmp/stop-governor-decision.json"
+python - "$route_packet" "$child_return" "$governor_decision" "$required_obligation" \
+  "$required_transaction" "$required_correlation" <<'PY'
+import hashlib,json,sys
+packet_path,return_path,decision_path,obligation,transaction,correlation=sys.argv[1:]
+def write(path,value):
+ raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
+ open(path,"wb").write(raw)
+ return "sha256:"+hashlib.sha256(raw).hexdigest()
+packet={
+ "schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":"audit-implement",
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:HC-H7B-required",
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1",
+   "event_id":"host:HC-H7B-required","host_correlation_id":correlation},
+  "body":"qualify the exact maintainer candidate once","kind":"one-shot-action",
+  "reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}},
+}
+packet_digest=write(packet_path,packet)
+returned={"schema":"implementaudit.child-return.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"packet_digest":packet_digest,"status":"RETURNED",
+ "payload":{"result":"bounded child analysis","requested_next_child":"audit-state"}}
+return_digest=write(return_path,returned)
+decision={"schema":"implementaudit.governor-route-decision.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
+ "reason":"governor reconciled the exact mapped child return"}
+write(decision_path,decision)
+PY
+
+opened="$(run_stop_route open --request "$required_route_request" --expected-record "$required_oid" \
+  --packet "$route_packet" 2>"$tmp/stop-open.visible")"
+open_oid="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
+returned="$(run_stop_route return --request "$required_route_request" --expected-record "$open_oid" \
+  --return "$child_return")"
+return_oid="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["record_oid"])' "$returned")"
+completed="$(run_stop_route complete --request "$required_route_request" --expected-record "$return_oid" \
+  --packet "$route_packet" --return "$child_return" --decision "$governor_decision")"
+python - "$completed" <<'PY'
+import json,sys
+value=json.loads(sys.argv[1])
+assert value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1
+PY
+
+required_progress_result="$(run_stop_hook "$tmp/stop-plugin-data" \
+  "$(stop_event turn-required-satisfied false 'Continuing after the exact governed route returned.')")"
+assert_stop_result "$required_progress_result" \
+  'value["status"] == "ALLOW" and value["disposition"] == "NONTERMINAL_YIELD" and "decision" not in value' \
+  'satisfied REQUIRED route did not reach H7A'
+
+unbound_data="$tmp/unbound-stop-plugin-data"
+unbound_result="$(run_stop_hook "$unbound_data" "$(stop_event unbound-turn false 'Ordinary unbound turn.')")"
+assert_stop_result "$unbound_result" \
+  'value["status"] == "UNBOUND" and value["disposition"] == "NO_ACTIVE_AUDIT_OBJECT" and "decision" not in value' \
+  'ordinary unbound session did not take zero-scan allow path'
+[ ! -e "$unbound_data" ] || {
+  printf 'turn-disposition.test: unbound Stop created PLUGIN_DATA state\n' >&2
+  exit 1
+}
+
+reentry_data="$tmp/reentry-stop-plugin-data"
+reentry_result="$(run_stop_hook "$reentry_data" "$(stop_event reentry-turn true 'Host forced-exit re-entry.')")"
+assert_stop_result "$reentry_result" \
+  'value["status"] == "REENTRY" and value["forced_exit_evidence"] is False and "decision" not in value' \
+  'Stop re-entry created an agent prison'
+[ ! -e "$reentry_data" ] || {
+  printf 'turn-disposition.test: Stop re-entry inspected or created PLUGIN_DATA state\n' >&2
+  exit 1
+}
+
+for hostile_stop in \
+  '{' \
+  '{"session_id":"stop-session","session_id":"stop-session","turn_id":"dup","hook_event_name":"Stop","stop_hook_active":false,"last_assistant_message":"duplicate"}' \
+  '{"session_id":"bad\\u000asession","turn_id":"bad","hook_event_name":"Stop","stop_hook_active":false,"last_assistant_message":"control"}' \
+  '{"session_id":"stop-session","turn_id":"wrong","hook_event_name":"SessionStart","stop_hook_active":false,"last_assistant_message":"foreign"}'; do
+  hostile_result="$(run_stop_hook "$tmp/stop-plugin-data" "$hostile_stop")"
+  assert_stop_result "$hostile_result" \
+    'value["status"] == "BLOCK" and value["decision"] == "block" and value["disposition"] == "BLOCK"' \
+    'malformed or foreign Stop input did not fail closed'
+done
+oversized_stop="$(python - <<'PY'
+import json
+print(json.dumps({"session_id":"stop-session","turn_id":"oversized","hook_event_name":"Stop",
+ "stop_hook_active":False,"last_assistant_message":"x"*70000}))
+PY
+)"
+oversized_result="$(run_stop_hook "$tmp/stop-plugin-data" "$oversized_stop")"
+assert_stop_result "$oversized_result" \
+  'value["status"] == "BLOCK" and value["decision"] == "block"' \
+  'oversized Stop input did not fail closed'
+
+python "$host_binding_core" --store "$stop_store" tombstone \
+  --owner-id stop-owner --host-id codex --host-session-id "$stop_session" \
+  --expected-generation G0001 --reason fixture-session-ended >/dev/null
+tombstoned_result="$(run_stop_hook "$tmp/stop-plugin-data" \
+  "$(stop_event tombstoned-turn false 'A tombstoned binding cannot stop an active object.')")"
+assert_stop_result "$tombstoned_result" \
+  'value["status"] == "BLOCK" and value["decision"] == "block" and value["disposition"] == "BLOCK"' \
+  'tombstoned binding did not fail closed'
+
+printf 'turn-disposition.test: ok (TY-1..TY-6 + binding + R0033 + strict decoding + HC-H7B Stop integration)\n'
