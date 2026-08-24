@@ -270,6 +270,12 @@ dependency, creates dispatch, authorizes source, substitutes for activation
 RED, or changes lifecycle. Omit the extra projection on the legacy empty path
 so its execution bytes remain identical.
 
+Preparation predecessor observations are closed over the target's dependencies
+and live holders. Qualified predecessors bind their exact graph-owned
+commit/tree/review identity; all others carry a mechanically derived unavailable
+reason. Activation recompiles current graph bytes instead of accepting stored
+predecessor values supplied again by the caller.
+
 Every source-bearing DONE cell must expose one exact qualified product and one
 current disposition through its existing result owner. Non-cell owner
 amendments remain under existing integration topology rather than entering the
@@ -279,6 +285,15 @@ superseded/rejected/deferred counts, integration debt, and a real potentially
 stranded count. A named future join is an owned deferral; zero stranded means
 the product-idle P0 is not triggered, not that the mechanical control is
 unnecessary.
+
+A governed product contract is not a per-cell opt-in. Its verified authority
+document classifies every DONE cell, exhaustively maps every qualified cell and
+non-cell owner to an exact product and one kind-specific disposition, and binds
+join, proposal, review, receipt, and future-consumer identities. The compiler
+requires and hashes the authoritative source bytes independently of graph
+shape. Missing/falsified classification or shaped-but-unbound evidence rejects;
+runtime debt/P0 is derived from the complete governed population. Only a graph
+with no product signal takes the byte-identical legacy path.
 
 A product-aware preference only orders otherwise equal work already admitted
 by current dependencies, writer/resource holds, qualification independence,

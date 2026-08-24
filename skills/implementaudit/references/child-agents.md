@@ -250,6 +250,14 @@ dispatch, authorizes source, substitutes for activation-time causal RED, or
 discharges independent review. A changed graph requires comparison; only a
 proved unchanged target slice may reuse its bounded section.
 
+The predecessor set is derived from the target dependencies plus any live hold
+owners, not chosen by the preparer. Each observation binds the exact qualified
+commit/tree/review identity available from its graph owner, or an explicit
+`NOT_DONE` / `NON_SOURCE_PRODUCT` unavailable state. Activation recompiles
+current graph bytes (and any governed product-authority bytes) and derives the
+current target, predecessor, and interface binding; caller-echoed stored values
+cannot satisfy revalidation.
+
 `PRODUCT_FRONTIER` consumes exact qualified product identities from the
 existing DONE-cell `result` owner and non-cell owner amendments from existing
 `integration_topology`. A source-bearing DONE result binds commit, tree,
@@ -259,6 +267,24 @@ Null, free-form, malformed, stale, ambiguous, multi-disposition, or unresolved
 owner/consumer/join identity rejects. Category counts and integration debt are
 deterministic; a real undisposed product is potentially stranded and requires
 governor/P0 disposition, while a named future join is not stranded.
+
+Once `integration_topology.product_contract` governs products, classification
+is mandatory: its authoritative census must cover every DONE cell and every
+DONE cell carries an explicit matching `source_bearing` boolean. The compiler
+requires the separately supplied authoritative source bytes and verifies their
+exact path-bound byte count, SHA-256, content, current receipt, and binding from
+the graph's existing `authority` owner. The verified document exhaustively
+binds cell and non-cell owners, product identities, kind-specific dispositions,
+named integration joins, composition authorizations, and future consumers.
+Omission, falsification, an unknown non-cell owner, composition into an
+unbound product, deferral to a non-join, or shaped-but-unbound review/receipt
+rejects. Runtime census and P0 are derived from that exhaustive disposition
+population; an undisposed governed product fails the same product gate rather
+than disappearing. A graph with no product signal remains on the exact legacy
+path and needs no authority document.
+Invoke governed compilation as
+`compile-work-graph.py WORK_GRAPH.json PRODUCT_AUTHORITY.json`; the one-argument
+form remains valid only for the no-product legacy path.
 
 A product-aware preference may break a tie only among cells already admitted
 to execution or preparation by the ordinary dependency, currentness, hold,

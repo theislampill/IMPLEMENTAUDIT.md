@@ -51,6 +51,85 @@ def signed_graph(value):
     return result
 
 
+AUTH_RECEIPT = (
+    "refs/implementaudit/continuity-receipts/v0333-release/G0130@" + "9" * 40
+)
+
+
+def refresh_product_authority(value):
+    contract = value["integration_topology"]["product_contract"]
+    document = {key: copy.deepcopy(item) for key, item in contract.items()
+                if key != "authority_sha256"}
+    authority_bytes = canonical(document)
+    source = value["authority"]["qualified_product_contract"]
+    source["bytes"] = len(authority_bytes)
+    source["sha256"] = hashlib.sha256(authority_bytes).hexdigest()
+    contract["authority_sha256"] = hashlib.sha256(canonical(source)).hexdigest()
+    return authority_bytes
+
+
+def compile_governed(value):
+    authority_bytes = refresh_product_authority(value)
+    return module.compile_frontier_projection(
+        canonical(signed_graph(value)), authority_bytes
+    )
+
+
+def expect_governed_reject(value, label, message_fragment):
+    authority_bytes = refresh_product_authority(value)
+    try:
+        module.compile_frontier_projection(
+            canonical(signed_graph(value)), authority_bytes
+        )
+    except module.WorkGraphError as exc:
+        if message_fragment not in str(exc):
+            raise SystemExit(f"{label}: wrong diagnostic: {exc}")
+    else:
+        raise SystemExit(f"{label}: invalid governed graph accepted")
+
+
+def bind_product_contract(
+    value,
+    *,
+    bindings,
+    dispositions,
+    non_cell_owners=None,
+    join_owners=None,
+    composition_authorizations=None,
+    future_consumers=None,
+):
+    source = {
+        "kind": "GOVERNOR_VERIFIED_PRODUCT_BINDINGS",
+        "path": "governor/product-authority.json",
+        "bytes": 4096,
+        "sha256": "e" * 64,
+        "receipt": AUTH_RECEIPT,
+    }
+    value["authority"] = {"qualified_product_contract": source}
+    topology = value.setdefault("integration_topology", {})
+    for cell in value["cells"]:
+        if cell["state"] == "DONE":
+            cell.setdefault("source_bearing", False)
+    topology["product_contract"] = {
+        "authority_sha256": hashlib.sha256(canonical(source)).hexdigest(),
+        "done_classification": {
+            cell["id"]: (
+                "SOURCE_PRODUCT" if cell["source_bearing"] else "NON_SOURCE"
+            )
+            for cell in value["cells"]
+            if cell["state"] == "DONE"
+        },
+        "non_cell_owners": sorted(non_cell_owners or []),
+        "join_owners": sorted(join_owners or []),
+        "product_bindings": bindings,
+        "disposition_bindings": dispositions,
+        "composition_authorizations": composition_authorizations or [],
+        "future_consumers": future_consumers or [],
+    }
+    refresh_product_authority(value)
+    return value
+
+
 base = {
     "schema": "implementaudit.work-graph.v1",
     "population": {"total_cells": 4},
@@ -200,8 +279,14 @@ prep_red["cells"][3]["preparation"] = {
         "receipt": "refs/implementaudit/continuity-receipts/v0333-release/G0130@"
         + "a" * 40,
         "predecessors": [
-            {"cell_id": "A", "state": "ACTIVE"},
-            {"cell_id": "R", "state": "READY"},
+            {
+                "cell_id": "A", "state": "ACTIVE",
+                "identity": {"kind": "UNAVAILABLE", "reason": "NOT_DONE"},
+            },
+            {
+                "cell_id": "R", "state": "READY",
+                "identity": {"kind": "UNAVAILABLE", "reason": "NOT_DONE"},
+            },
         ],
         "interface_assumptions": {"route_contract": "b" * 64},
         "inspected_paths": ["skills/implementaudit/references/child-agents.md"],
@@ -242,8 +327,18 @@ null_product["cells"][1]["owner"] = "R0038"
 null_product["cells"][2]["deps"] = ["R38-C06"]
 null_product["cells"][1]["source_bearing"] = True
 null_product["cells"][1]["result"] = None
+bind_product_contract(
+    null_product,
+    bindings=[{
+        "owner_kind": "CELL", "owner": "R38-C06",
+        "commit": "f" * 40, "tree": "a" * 40, "review_sha256": "b" * 64,
+    }],
+    dispositions=[{
+        "product_commit": "f" * 40, "kind": "CONSUMED", "target": "R",
+    }],
+)
 try:
-    module.compile_frontier_projection(canonical(signed_graph(null_product)))
+    compile_governed(null_product)
 except module.WorkGraphError:
     pass
 else:
@@ -259,8 +354,18 @@ stale_product["cells"][1]["result"] = (
     "/ tree 9377533dee410aacf8bdd789c1fe4cdbaf705d03 preserves rejected "
     "trajectory through 23b61db0; stale free-form product pointer"
 )
+bind_product_contract(
+    stale_product,
+    bindings=[{
+        "owner_kind": "CELL", "owner": "HC-H7A",
+        "commit": "0" * 40, "tree": "6" * 40, "review_sha256": "7" * 64,
+    }],
+    dispositions=[{
+        "product_commit": "0" * 40, "kind": "CONSUMED", "target": "R",
+    }],
+)
 try:
-    module.compile_frontier_projection(canonical(signed_graph(stale_product)))
+    compile_governed(stale_product)
 except module.WorkGraphError:
     pass
 else:
@@ -294,8 +399,14 @@ ready_decl["execution_unavailable"] = {
     "holders": ["A"],
 }
 ready_decl["record"]["predecessors"] = [
-    {"cell_id": "A", "state": "ACTIVE"},
-    {"cell_id": "D", "state": "DONE"},
+    {
+        "cell_id": "A", "state": "ACTIVE",
+        "identity": {"kind": "UNAVAILABLE", "reason": "NOT_DONE"},
+    },
+    {
+        "cell_id": "D", "state": "DONE",
+        "identity": {"kind": "UNAVAILABLE", "reason": "NON_SOURCE_PRODUCT"},
+    },
 ]
 ready_prep["cells"][2]["preparation"] = ready_decl
 ready_projection = module.compile_frontier_projection(canonical(signed_graph(ready_prep)))
@@ -303,6 +414,46 @@ if [item["cell_id"] for item in ready_projection["preparation_frontier"]] != ["R
     raise SystemExit("P02: READY live-hold preparation missing")
 if ready_projection["ready"] != ["R"]:
     raise SystemExit("P02: preparation consumed executable READY state")
+
+ready_source_predecessor = copy.deepcopy(ready_prep)
+ready_source_predecessor["cells"][1]["source_bearing"] = True
+ready_source_predecessor["cells"][1]["result"] = {
+    "product": {
+        "commit": "1" * 40, "tree": "2" * 40, "review_sha256": "3" * 64,
+    },
+    "disposition": {"kind": "CONSUMED", "target": "R"},
+}
+bind_product_contract(
+    ready_source_predecessor,
+    bindings=[{
+        "owner_kind": "CELL", "owner": "D", "commit": "1" * 40,
+        "tree": "2" * 40, "review_sha256": "3" * 64,
+    }],
+    dispositions=[{
+        "product_commit": "1" * 40, "kind": "CONSUMED", "target": "R",
+    }],
+)
+expect_governed_reject(
+    ready_source_predecessor,
+    "P04 unavailable identity substituted for qualified predecessor",
+    "predecessor identity mismatch",
+)
+ready_source_predecessor["cells"][2]["preparation"]["record"]["predecessors"][1][
+    "identity"
+] = {
+    "kind": "QUALIFIED_PRODUCT", "commit": "1" * 40,
+    "tree": "2" * 40, "review_sha256": "3" * 64,
+}
+compile_governed(ready_source_predecessor)
+foreign_product_identity = copy.deepcopy(ready_source_predecessor)
+foreign_product_identity["cells"][2]["preparation"]["record"]["predecessors"][1][
+    "identity"
+]["commit"] = "9" * 40
+expect_governed_reject(
+    foreign_product_identity,
+    "P06 foreign qualified predecessor commit",
+    "predecessor identity mismatch",
+)
 
 # P03/P04/P07: absence is the cheap path; incomplete, ineligible, stale,
 # effectful, fabricated, or activation-incomplete declarations fail closed.
@@ -346,6 +497,38 @@ stale_prep = copy.deepcopy(prep_red)
 stale_prep["cells"][3]["preparation"]["record"]["predecessors"][0]["state"] = "DONE"
 expect_reject(canonical(stale_prep), "P04 stale predecessor", "stale predecessor")
 
+missing_predecessor = copy.deepcopy(prep_red)
+missing_predecessor["cells"][3]["preparation"]["record"]["predecessors"].pop()
+expect_reject(
+    canonical(missing_predecessor),
+    "P04 missing actual predecessor",
+    "predecessor set mismatch",
+)
+
+foreign_predecessor = copy.deepcopy(prep_red)
+foreign_predecessor["cells"][3]["preparation"]["record"]["predecessors"] = [{
+    "cell_id": "D", "state": "DONE",
+    "identity": {"kind": "UNAVAILABLE", "reason": "NON_SOURCE_PRODUCT"},
+}]
+expect_reject(
+    canonical(foreign_predecessor),
+    "P04 unrelated foreign predecessor",
+    "predecessor set mismatch",
+)
+
+foreign_identity = copy.deepcopy(prep_red)
+foreign_identity["cells"][3]["preparation"]["record"]["predecessors"][0]["identity"] = {
+    "kind": "QUALIFIED_PRODUCT",
+    "commit": "9" * 40,
+    "tree": "8" * 40,
+    "review_sha256": "7" * 64,
+}
+expect_reject(
+    canonical(foreign_identity),
+    "P04 foreign predecessor identity",
+    "predecessor identity mismatch",
+)
+
 unresolved_assumption = copy.deepcopy(prep_red)
 unresolved_assumption["cells"][3]["preparation"]["record"]["interface_assumptions"] = {}
 expect_reject(canonical(unresolved_assumption), "P04 unresolved assumption", "assumptions required")
@@ -357,9 +540,7 @@ expect_reject(canonical(activation_gap), "P07 activation without causal RED", "a
 if not module.validate_preparation_activation_v1(
     prep_item,
     current_receipt=prep_item["receipt"],
-    current_target_binding_sha256=prep_item["target_binding_sha256"],
-    current_predecessors=prep_item["predecessors"],
-    current_interface_assumptions=prep_item["interface_assumptions"],
+    current_graph_bytes=canonical(signed_graph(prep_red)),
     causal_red_passed=True,
 ):
     raise SystemExit("P07: exact activation revalidation rejected")
@@ -367,20 +548,12 @@ for label, overrides, diagnostic in (
     ("P07 stale currentness", {"current_receipt":
         "refs/implementaudit/continuity-receipts/v0333-release/G0131@" + "a" * 40},
      "currentness"),
-    ("P07 target drift", {"current_target_binding_sha256": "0" * 64},
-     "target binding"),
-    ("P07 dependency-result drift", {"current_predecessors": []},
-     "dependency results"),
-    ("P07 assumption drift", {"current_interface_assumptions": {"route_contract": "0" * 64}},
-     "interface assumptions"),
     ("P07 causal RED missing", {"causal_red_passed": False},
      "causal RED"),
 ):
     arguments = {
         "current_receipt": prep_item["receipt"],
-        "current_target_binding_sha256": prep_item["target_binding_sha256"],
-        "current_predecessors": prep_item["predecessors"],
-        "current_interface_assumptions": prep_item["interface_assumptions"],
+        "current_graph_bytes": canonical(signed_graph(prep_red)),
         "causal_red_passed": True,
     }
     arguments.update(overrides)
@@ -391,6 +564,53 @@ for label, overrides, diagnostic in (
             raise SystemExit(f"{label}: wrong diagnostic: {exc}")
     else:
         raise SystemExit(f"{label}: invalid activation accepted")
+
+target_drift_activation = copy.deepcopy(prep_red)
+target_drift_activation["cells"][3]["preparation"]["record"]["inspected_paths"] = ["changed"]
+try:
+    module.validate_preparation_activation_v1(
+        prep_item,
+        current_receipt=prep_item["receipt"],
+        current_graph_bytes=canonical(signed_graph(target_drift_activation)),
+        causal_red_passed=True,
+    )
+except module.WorkGraphError as exc:
+    if "target binding" not in str(exc):
+        raise SystemExit(f"P07 target drift: wrong diagnostic: {exc}")
+else:
+    raise SystemExit("P07 target drift: invalid activation accepted")
+
+dependency_drift_activation = copy.deepcopy(prep_red)
+dependency_drift_activation["cells"][0]["state"] = "DONE"
+try:
+    module.validate_preparation_activation_v1(
+        prep_item,
+        current_receipt=prep_item["receipt"],
+        current_graph_bytes=canonical(signed_graph(dependency_drift_activation)),
+        causal_red_passed=True,
+    )
+except module.WorkGraphError as exc:
+    if "current graph revalidation failed" not in str(exc):
+        raise SystemExit(f"P07 dependency drift: wrong diagnostic: {exc}")
+else:
+    raise SystemExit("P07 dependency drift: invalid activation accepted")
+
+assumption_drift_activation = copy.deepcopy(prep_red)
+assumption_drift_activation["cells"][3]["preparation"]["record"]["interface_assumptions"] = {
+    "route_contract": "0" * 64
+}
+try:
+    module.validate_preparation_activation_v1(
+        prep_item,
+        current_receipt=prep_item["receipt"],
+        current_graph_bytes=canonical(signed_graph(assumption_drift_activation)),
+        causal_red_passed=True,
+    )
+except module.WorkGraphError as exc:
+    if "target binding" not in str(exc):
+        raise SystemExit(f"P07 assumption drift: wrong diagnostic: {exc}")
+else:
+    raise SystemExit("P07 assumption drift: invalid activation accepted")
 
 # P05: rank is lexicographic and stable-ID deterministic, never a score that
 # can admit an ineligible cell.
@@ -411,7 +631,10 @@ for cell_id, value, reuse, cost, risk in (
         {"id": cell_id, "state": "BLOCKED", "deps": ["A"], "preparation": declaration}
     )
     declaration["execution_unavailable"]["dependencies"] = ["A"]
-    declaration["record"]["predecessors"] = [{"cell_id": "A", "state": "ACTIVE"}]
+    declaration["record"]["predecessors"] = [{
+        "cell_id": "A", "state": "ACTIVE",
+        "identity": {"kind": "UNAVAILABLE", "reason": "NOT_DONE"},
+    }]
 rank_projection = module.compile_frontier_projection(canonical(signed_graph(rank_graph)))
 if [item["cell_id"] for item in rank_projection["preparation_frontier"]] != ["B2", "B1", "B"]:
     raise SystemExit("P05: preparation rank or stable tie-break is not deterministic")
@@ -446,22 +669,107 @@ def product_result(seed, kind, target):
 # Q03/Q06/Q10/Q12: cell and non-cell products emit once; product-aware order
 # only reorders already-READY work and never changes lifecycle population.
 product_graph = copy.deepcopy(base)
+product_graph["population"]["total_cells"] = 5
+product_graph["cells"].append(
+    {"id": "J", "class": "integration", "state": "BLOCKED", "deps": ["R"]}
+)
 product_graph["cells"][1]["source_bearing"] = True
-product_graph["cells"][1]["result"] = product_result("1", "COMPOSED", "R")
-product_graph["integration_topology"] = {
-    "qualified_products": [
-        {"owner": "R0033", "result": product_result("4", "COMPOSED", "R")}
-    ]
-}
-product_projection = module.compile_frontier_projection(canonical(signed_graph(product_graph)))
+product_graph["cells"][1]["result"] = product_result("1", "COMPOSED", "4" * 40)
+product_graph["integration_topology"] = {"qualified_products": [
+    {
+        "owner": "R0033",
+        "result": product_result("4", "EXPLICITLY_DEFERRED_TO_NAMED_JOIN", "J"),
+    }
+]}
+bind_product_contract(
+    product_graph,
+    bindings=[
+        {
+            "owner_kind": "CELL", "owner": "D", "commit": "1" * 40,
+            "tree": "2" * 40, "review_sha256": "3" * 64,
+        },
+        {
+            "owner_kind": "NON_CELL", "owner": "R0033", "commit": "4" * 40,
+            "tree": "5" * 40, "review_sha256": "6" * 64,
+        },
+    ],
+    dispositions=[
+        {"product_commit": "1" * 40, "kind": "COMPOSED", "target": "4" * 40},
+        {
+            "product_commit": "4" * 40,
+            "kind": "EXPLICITLY_DEFERRED_TO_NAMED_JOIN",
+            "target": "J",
+        },
+    ],
+    non_cell_owners=["R0033"],
+    join_owners=["J"],
+    future_consumers=[
+        {"product_commit": "1" * 40, "cell_id": "R"},
+        {"product_commit": "4" * 40, "cell_id": "R"},
+    ],
+)
+product_projection = compile_governed(product_graph)
 products = product_projection["product_frontier"]
-if products["qualified_products"] != 2 or products["counts"]["COMPOSED"] != 2:
+governed_raw = canonical(signed_graph(product_graph))
+try:
+    module.compile_frontier_projection(governed_raw)
+except module.WorkGraphError as exc:
+    if "authoritative source bytes required" not in str(exc):
+        raise SystemExit(f"Q05 missing authority source: wrong diagnostic: {exc}")
+else:
+    raise SystemExit("Q05: governed product compiled without authority source bytes")
+try:
+    module.compile_frontier_projection(governed_raw, b'{}')
+except module.WorkGraphError as exc:
+    if "authoritative source identity mismatch" not in str(exc):
+        raise SystemExit(f"Q05 foreign authority source: wrong diagnostic: {exc}")
+else:
+    raise SystemExit("Q05: foreign authority source bytes accepted")
+foreign_document_graph = copy.deepcopy(product_graph)
+foreign_document = json.loads(refresh_product_authority(foreign_document_graph))
+foreign_document["non_cell_owners"] = ["FOREIGN"]
+foreign_document_bytes = canonical(foreign_document)
+foreign_source = foreign_document_graph["authority"]["qualified_product_contract"]
+foreign_source["bytes"] = len(foreign_document_bytes)
+foreign_source["sha256"] = hashlib.sha256(foreign_document_bytes).hexdigest()
+foreign_document_graph["integration_topology"]["product_contract"][
+    "authority_sha256"
+] = hashlib.sha256(canonical(foreign_source)).hexdigest()
+try:
+    module.compile_frontier_projection(
+        canonical(signed_graph(foreign_document_graph)), foreign_document_bytes
+    )
+except module.WorkGraphError as exc:
+    if "authoritative source content mismatch" not in str(exc):
+        raise SystemExit(f"Q05 foreign authority content: wrong diagnostic: {exc}")
+else:
+    raise SystemExit("Q05: foreign authority content accepted")
+with tempfile.TemporaryDirectory() as authority_temp:
+    graph_path = pathlib.Path(authority_temp, "WORK_GRAPH.json")
+    authority_path = pathlib.Path(authority_temp, "PRODUCT_AUTHORITY.json")
+    authority_bytes = refresh_product_authority(product_graph)
+    graph_path.write_bytes(canonical(signed_graph(product_graph)))
+    authority_path.write_bytes(authority_bytes)
+    completed = subprocess.run(
+        [sys.executable, str(module_path), str(graph_path), str(authority_path)],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if completed.returncode != 0 or completed.stdout != canonical(product_projection):
+        raise SystemExit(
+            "Q05: governed CLI did not bind exact authority source: "
+            + completed.stderr.decode()
+        )
+if products["qualified_products"] != 2 or products["counts"]["COMPOSED"] != 1:
     raise SystemExit("Q03/Q06: qualified product emitted zero or multiple times")
 if products["current_products"] != 2 or products["integration_debt"] != 2:
     raise SystemExit("Q07/Q09: current product or integration debt count changed")
 if products["ready_preference"] != ["R"] or product_projection["ready"] != ["R"]:
     raise SystemExit("Q10: product preference changed execution eligibility")
-if product_projection["population"] != 4 or product_projection["counts"] != projection["counts"]:
+if product_projection["population"] != 5 or product_projection["counts"] != {
+    "DONE": 1, "ACTIVE": 1, "READY": 1, "BLOCKED": 2,
+}:
     raise SystemExit("Q06/Q12: product projection changed lifecycle population")
 
 # Q04/Q05: malformed, ambiguous, and unresolved product/disposition bindings
@@ -470,41 +778,77 @@ multi_disposition = copy.deepcopy(product_graph)
 multi_disposition["cells"][1]["result"]["second_disposition"] = {
     "kind": "INTEGRATED", "target": "R"
 }
-expect_reject(canonical(multi_disposition), "Q04 multiple dispositions", "one disposition")
+expect_governed_reject(multi_disposition, "Q04 multiple dispositions", "one disposition")
 
 zero_disposition = copy.deepcopy(product_graph)
 del zero_disposition["cells"][1]["result"]["disposition"]
-expect_reject(canonical(zero_disposition), "Q04 zero dispositions", "one disposition")
+expect_governed_reject(zero_disposition, "Q04 zero dispositions", "one disposition")
 
 duplicate_product = copy.deepcopy(product_graph)
 duplicate_product["integration_topology"]["qualified_products"][0]["result"]["product"] = copy.deepcopy(
     duplicate_product["cells"][1]["result"]["product"]
 )
-expect_reject(canonical(duplicate_product), "Q03 duplicate product", "more than once")
+duplicate_product["integration_topology"]["product_contract"]["product_bindings"][1][
+    "commit"
+] = "1" * 40
+expect_governed_reject(duplicate_product, "Q03 duplicate product", "more than once")
+
+omitted_done = copy.deepcopy(product_graph)
+omitted_done["population"]["total_cells"] = 6
+omitted_done["cells"].append({"id": "X", "state": "DONE", "deps": []})
+expect_governed_reject(
+    omitted_done,
+    "Q03 omitted DONE classification",
+    "cover every DONE cell",
+)
+
+falsified_source = copy.deepcopy(product_graph)
+falsified_source["cells"][1]["source_bearing"] = False
+expect_governed_reject(
+    falsified_source,
+    "Q03 falsified source classification",
+    "classification mismatch",
+)
+
+missing_product_contract = copy.deepcopy(product_graph)
+del missing_product_contract["integration_topology"]["product_contract"]
+expect_reject(
+    canonical(missing_product_contract),
+    "Q03 governed product without contract",
+    "contract required",
+)
 
 unknown_consumer = copy.deepcopy(product_graph)
-unknown_consumer["cells"][1]["result"]["disposition"]["target"] = "MISSING"
-expect_reject(canonical(unknown_consumer), "Q05 unknown consumer", "unknown target")
+unknown_consumer["cells"][1]["result"]["disposition"] = {
+    "kind": "CONSUMED", "target": "MISSING",
+}
+unknown_consumer["integration_topology"]["product_contract"]["disposition_bindings"][0] = {
+    "product_commit": "1" * 40, "kind": "CONSUMED", "target": "MISSING",
+}
+expect_governed_reject(unknown_consumer, "Q05 unknown consumer", "unknown consumer")
 
 unknown_product = copy.deepcopy(product_graph)
 unknown_product["cells"][1]["result"]["product"]["commit"] = "not-a-commit"
-expect_reject(canonical(unknown_product), "Q05 malformed product", "40-hex")
+expect_governed_reject(unknown_product, "Q05 malformed product", "40-hex")
 
 unknown_integration_head = copy.deepcopy(product_graph)
 unknown_integration_head["cells"][1]["result"] = product_result(
     "1", "INTEGRATED", "7" * 40
 )
-expect_reject(
-    canonical(unknown_integration_head),
+unknown_integration_head["integration_topology"]["product_contract"][
+    "disposition_bindings"
+][0] = {
+    "product_commit": "1" * 40, "kind": "INTEGRATED", "target": "7" * 40,
+}
+expect_governed_reject(
+    unknown_integration_head,
     "Q05 unknown integration head",
     "unknown integration head",
 )
 
 integrated_product = copy.deepcopy(unknown_integration_head)
 integrated_product["integration_topology"]["integration_heads"] = ["7" * 40]
-integrated_projection = module.compile_frontier_projection(
-    canonical(signed_graph(integrated_product))
-)
+integrated_projection = compile_governed(integrated_product)
 if integrated_projection["product_frontier"]["counts"]["INTEGRATED"] != 1:
     raise SystemExit("Q03/Q05: resolved integration head did not emit")
 
@@ -512,8 +856,13 @@ unknown_superseder = copy.deepcopy(product_graph)
 unknown_superseder["cells"][1]["result"] = product_result(
     "1", "SUPERSEDED", "9" * 40
 )
-expect_reject(
-    canonical(unknown_superseder),
+unknown_superseder["integration_topology"]["product_contract"][
+    "disposition_bindings"
+][0] = {
+    "product_commit": "1" * 40, "kind": "SUPERSEDED", "target": "9" * 40,
+}
+expect_governed_reject(
+    unknown_superseder,
     "Q05 unknown superseding product",
     "unknown product identity",
 )
@@ -527,22 +876,21 @@ composition_graph["integration_topology"]["composition_proposals"] = [
     {
         "owner": "R",
         "products": ["1" * 40, "4" * 40],
-        "qualification_review_sha256": "8" * 64,
-        "integration_authority":
-            "refs/implementaudit/continuity-receipts/v0333-release/G0130@"
-            + "9" * 40,
+        "qualification_review_sha256": "3" * 64,
+        "integration_authority": AUTH_RECEIPT,
     }
 ]
-composition_projection = module.compile_frontier_projection(
-    canonical(signed_graph(composition_graph))
-)
+composition_graph["integration_topology"]["product_contract"][
+    "composition_authorizations"
+] = copy.deepcopy(composition_graph["integration_topology"]["composition_proposals"])
+composition_projection = compile_governed(composition_graph)
 if [item["owner"] for item in composition_projection["product_frontier"]["composition_proposals"]] != ["R"]:
     raise SystemExit("Q08: admissible composition proposal was omitted")
 
 hold_blocked_composition = copy.deepcopy(composition_graph)
 hold_blocked_composition["serialization_groups"]["W_ROUTE"] = ["R", "A"]
-expect_reject(
-    canonical(hold_blocked_composition),
+expect_governed_reject(
+    hold_blocked_composition,
     "Q08 live-hold composition",
     "live hold conflict",
 )
@@ -551,8 +899,8 @@ unqualified_composition = copy.deepcopy(composition_graph)
 unqualified_composition["integration_topology"]["composition_proposals"][0][
     "qualification_review_sha256"
 ] = "not-a-review"
-expect_reject(
-    canonical(unqualified_composition),
+expect_governed_reject(
+    unqualified_composition,
     "Q08 unqualified composition",
     "64-hex",
 )
@@ -561,10 +909,30 @@ unauthorized_composition = copy.deepcopy(composition_graph)
 unauthorized_composition["integration_topology"]["composition_proposals"][0][
     "integration_authority"
 ] = "self-attested"
-expect_reject(
-    canonical(unauthorized_composition),
+expect_governed_reject(
+    unauthorized_composition,
     "Q08 unauthorized composition",
     "unresolved integration authority",
+)
+
+shaped_but_unbound_authority = copy.deepcopy(composition_graph)
+shaped_but_unbound_authority["integration_topology"]["composition_proposals"][0][
+    "integration_authority"
+] = "refs/implementaudit/continuity-receipts/fake/G9999@" + "9" * 40
+expect_governed_reject(
+    shaped_but_unbound_authority,
+    "Q08 shaped but unbound receipt",
+    "authoritative bindings",
+)
+
+shaped_but_unbound_review = copy.deepcopy(composition_graph)
+shaped_but_unbound_review["integration_topology"]["composition_proposals"][0][
+    "qualification_review_sha256"
+] = "8" * 64
+expect_governed_reject(
+    shaped_but_unbound_review,
+    "Q08 shaped but unbound review",
+    "authoritative bindings",
 )
 
 proposal_without_product = copy.deepcopy(base)
@@ -576,7 +944,41 @@ proposal_without_product["integration_topology"] = {
 expect_reject(
     canonical(proposal_without_product),
     "Q08 proposal without product",
-    "no qualified products",
+    "contract required",
+)
+
+unknown_non_cell_owner = copy.deepcopy(product_graph)
+unknown_non_cell_owner["integration_topology"]["qualified_products"][0][
+    "owner"
+] = "MISSING_OWNER"
+expect_governed_reject(
+    unknown_non_cell_owner,
+    "Q05 unknown non-cell owner",
+    "unknown authoritative owner",
+)
+
+ready_as_composition = copy.deepcopy(product_graph)
+ready_as_composition["cells"][1]["result"]["disposition"]["target"] = "R"
+ready_as_composition["integration_topology"]["product_contract"][
+    "disposition_bindings"
+][0]["target"] = "R"
+expect_governed_reject(
+    ready_as_composition,
+    "Q05 READY cell used as composition identity",
+    "unknown composition",
+)
+
+non_join_deferral = copy.deepcopy(product_graph)
+non_join_deferral["integration_topology"]["qualified_products"][0]["result"][
+    "disposition"
+]["target"] = "A"
+non_join_deferral["integration_topology"]["product_contract"][
+    "disposition_bindings"
+][1]["target"] = "A"
+expect_governed_reject(
+    non_join_deferral,
+    "Q05 non-join deferral target",
+    "unresolved named join",
 )
 
 # Q07: terminal ancestors remain inspectable but are excluded from the exact
@@ -588,9 +990,23 @@ terminal_products["integration_topology"]["qualified_products"].extend(
         {"owner": "BAD", "result": product_result("a", "REJECTED", "a" * 40)},
     ]
 )
-terminal_products_projection = module.compile_frontier_projection(
-    canonical(signed_graph(terminal_products))
-)["product_frontier"]
+terminal_contract = terminal_products["integration_topology"]["product_contract"]
+terminal_contract["non_cell_owners"] = ["BAD", "OLD", "R0033"]
+terminal_contract["product_bindings"].extend([
+    {
+        "owner_kind": "NON_CELL", "owner": "OLD", "commit": "7" * 40,
+        "tree": "8" * 40, "review_sha256": "9" * 64,
+    },
+    {
+        "owner_kind": "NON_CELL", "owner": "BAD", "commit": "a" * 40,
+        "tree": "b" * 40, "review_sha256": "c" * 64,
+    },
+])
+terminal_contract["disposition_bindings"].extend([
+    {"product_commit": "7" * 40, "kind": "SUPERSEDED", "target": "4" * 40},
+    {"product_commit": "a" * 40, "kind": "REJECTED", "target": "a" * 40},
+])
+terminal_products_projection = compile_governed(terminal_products)["product_frontier"]
 if terminal_products_projection["qualified_products"] != 4:
     raise SystemExit("Q07: terminal product history disappeared")
 if terminal_products_projection["current_products"] != 2:
@@ -600,24 +1016,22 @@ if terminal_products_projection["counts"]["SUPERSEDED"] != 1 or terminal_product
 
 # Q10: inventory changes only the stable order among already-READY cells.
 preference_graph = copy.deepcopy(product_graph)
-preference_graph["population"]["total_cells"] = 5
+preference_graph["population"]["total_cells"] = 6
 preference_graph["cells"].append(
     {"id": "R2", "state": "READY", "deps": ["D"]}
 )
-preference_graph["integration_topology"]["qualified_products"].append(
-    {"owner": "R0034", "result": product_result("7", "COMPOSED", "R2")}
+preference_graph["integration_topology"]["product_contract"]["future_consumers"].append(
+    {"product_commit": "4" * 40, "cell_id": "R2"}
 )
-preference_projection = module.compile_frontier_projection(
-    canonical(signed_graph(preference_graph))
-)
+preference_projection = compile_governed(preference_graph)
 if preference_projection["ready"] != ["R", "R2"]:
     raise SystemExit("Q10: product projection changed READY membership")
 if preference_projection["product_frontier"]["ready_preference"] != ["R", "R2"]:
     raise SystemExit("Q10: product-aware preference did not use current inventory")
 
 # Q07/Q09/Q11: terminal categories stay inspectable, current-product and debt
-# counts are deterministic, and the frozen historical/current censuses remain
-# separate zero-stranded controls.
+# counts are deterministic, and the frozen historical/prior-current/successor
+# censuses remain separate zero-stranded controls.
 summary_historical = module.summarize_product_dispositions_v1(
     ["CONSUMED"] + ["COMPOSED"] * 23 + ["INTEGRATED"] * 5
     + ["EXPLICITLY_DEFERRED_TO_NAMED_JOIN"]
@@ -638,6 +1052,17 @@ if summary_current != {
     "potentially_stranded": 0, "p0": "NOT_TRIGGERED",
 }:
     raise SystemExit("Q11: current 33/0/25/5/0/3/0 census changed")
+
+summary_successor = module.summarize_product_dispositions_v1(
+    ["CONSUMED"] + ["COMPOSED"] * 25 + ["INTEGRATED"] * 5
+    + ["EXPLICITLY_DEFERRED_TO_NAMED_JOIN"] * 3
+)
+if summary_successor != {
+    "total": 34, "consumed": 1, "composed": 25, "integrated": 5,
+    "superseded": 0, "rejected": 0, "deferred": 3,
+    "potentially_stranded": 0, "p0": "NOT_TRIGGERED",
+}:
+    raise SystemExit("Q11: successor 34/1/25/5/0/3/0 census changed")
 
 terminal_summary = module.summarize_product_dispositions_v1(
     ["COMPOSED", "SUPERSEDED", "REJECTED"]

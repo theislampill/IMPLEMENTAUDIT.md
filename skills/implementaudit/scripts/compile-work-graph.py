@@ -167,6 +167,15 @@ def _require_string_list(value: JSONValue, path: str) -> list[str]:
     return result
 
 
+def _require_string_array(value: JSONValue, path: str) -> list[str]:
+    if type(value) is not list:
+        raise WorkGraphError(f"{path}: array required")
+    result = [_require_string(item, path) for item in value]
+    if len(result) != len(set(result)):
+        raise WorkGraphError(f"{path}: duplicate value")
+    return result
+
+
 def _require_digest(value: JSONValue, path: str) -> str:
     result = _require_string(value, path)
     if not DIGEST_RE.fullmatch(result):
@@ -202,12 +211,261 @@ def _validate_product_result_v1(
     target = _require_string(disposition["target"], f"{path}.disposition.target")
     if kind not in PRODUCT_DISPOSITIONS:
         raise WorkGraphError(f"{path}.disposition: unknown disposition {kind}")
-    if kind in {"CONSUMED", "COMPOSED", "EXPLICITLY_DEFERRED_TO_NAMED_JOIN"}:
-        if target not in by_id:
-            raise WorkGraphError(f"{path}.disposition: unknown target {target}")
-    elif kind in {"SUPERSEDED", "REJECTED"}:
-        _require_commit(target, f"{path}.disposition.target")
     return result
+
+
+def _validate_product_contract_v1(
+    graph: dict[str, JSONValue],
+    cells: list[dict[str, JSONValue]],
+    by_id: dict[str, dict[str, JSONValue]],
+    product_authority_bytes: bytes | None = None,
+) -> dict[str, JSONValue] | None:
+    topology_value = graph.get("integration_topology")
+    topology = topology_value if type(topology_value) is dict else {}
+    contract_value = topology.get("product_contract")
+    product_signal = any("source_bearing" in cell for cell in cells) or any(
+        key in topology for key in ("qualified_products", "composition_proposals")
+    )
+    if contract_value is None:
+        if product_signal:
+            raise WorkGraphError("qualified product contract required for governed products")
+        return None
+    contract = _require_object(contract_value, "$.integration_topology.product_contract")
+    expected_contract = {
+        "authority_sha256",
+        "done_classification",
+        "non_cell_owners",
+        "join_owners",
+        "product_bindings",
+        "disposition_bindings",
+        "composition_authorizations",
+        "future_consumers",
+    }
+    if set(contract) != expected_contract:
+        raise WorkGraphError("qualified product contract: exact members required")
+
+    authority = _require_object(graph.get("authority"), "$.authority")
+    source = _require_object(
+        authority.get("qualified_product_contract"),
+        "$.authority.qualified_product_contract",
+    )
+    if set(source) != {"kind", "path", "bytes", "sha256", "receipt"}:
+        raise WorkGraphError("qualified product authority: exact source identity required")
+    if source["kind"] != "GOVERNOR_VERIFIED_PRODUCT_BINDINGS":
+        raise WorkGraphError("qualified product authority: governor-verified source required")
+    _require_string(source["path"], "qualified product authority path")
+    if type(source["bytes"]) is not int or source["bytes"] <= 0:
+        raise WorkGraphError("qualified product authority: positive byte count required")
+    _require_digest(source["sha256"], "qualified product authority sha256")
+    receipt = _require_string(source["receipt"], "qualified product authority receipt")
+    if not RECEIPT_RE.fullmatch(receipt):
+        raise WorkGraphError("qualified product authority: current receipt required")
+    authority_sha = _require_digest(
+        contract["authority_sha256"], "qualified product contract authority_sha256"
+    )
+    expected_authority_sha = hashlib.sha256(canonical_json_v1(source)).hexdigest()
+    if not hmac.compare_digest(authority_sha, expected_authority_sha):
+        raise WorkGraphError("qualified product contract: authority source binding mismatch")
+    if product_authority_bytes is None:
+        raise WorkGraphError("qualified product contract: authoritative source bytes required")
+    if len(product_authority_bytes) != source["bytes"] or not hmac.compare_digest(
+        hashlib.sha256(product_authority_bytes).hexdigest(), str(source["sha256"])
+    ):
+        raise WorkGraphError("qualified product contract: authoritative source identity mismatch")
+    authority_document = _require_object(
+        decode_strict_json_bytes(product_authority_bytes, str(source["path"])),
+        "qualified product authority document",
+    )
+    expected_document = dict(contract)
+    del expected_document["authority_sha256"]
+    if authority_document != expected_document:
+        raise WorkGraphError("qualified product contract: authoritative source content mismatch")
+
+    classification = _require_object(
+        contract["done_classification"], "qualified product done classification"
+    )
+    done_ids = {str(cell["id"]) for cell in cells if cell["state"] == "DONE"}
+    if set(classification) != done_ids:
+        raise WorkGraphError("qualified product classification must cover every DONE cell")
+    source_cells: set[str] = set()
+    for cell_id in sorted(done_ids):
+        category = classification[cell_id]
+        if category not in {"SOURCE_PRODUCT", "NON_SOURCE"}:
+            raise WorkGraphError(f"cell {cell_id}: invalid qualified product classification")
+        cell = by_id[cell_id]
+        if type(cell.get("source_bearing")) is not bool:
+            raise WorkGraphError(f"cell {cell_id}: explicit source_bearing classification required")
+        expected_source = category == "SOURCE_PRODUCT"
+        if cell["source_bearing"] is not expected_source:
+            raise WorkGraphError(f"cell {cell_id}: source_bearing classification mismatch")
+        if expected_source:
+            source_cells.add(cell_id)
+
+    non_cell_owners = _require_string_array(
+        contract["non_cell_owners"], "qualified product non-cell owners"
+    )
+    if non_cell_owners != sorted(non_cell_owners):
+        raise WorkGraphError("qualified product non-cell owners must be sorted")
+    join_owners = _require_string_array(
+        contract["join_owners"], "qualified product join owners"
+    )
+    if join_owners != sorted(join_owners):
+        raise WorkGraphError("qualified product join owners must be sorted")
+    for owner in join_owners:
+        if owner not in by_id or by_id[owner].get("class") != "integration":
+            raise WorkGraphError(f"qualified product contract: unresolved join owner {owner}")
+
+    bindings_value = contract["product_bindings"]
+    if type(bindings_value) is not list or not bindings_value:
+        raise WorkGraphError("qualified product bindings: non-empty array required")
+    bindings: dict[tuple[str, str], dict[str, JSONValue]] = {}
+    commits: dict[str, dict[str, JSONValue]] = {}
+    for index, value in enumerate(bindings_value):
+        binding = _require_object(value, f"qualified product binding {index}")
+        if set(binding) != {
+            "owner_kind", "owner", "commit", "tree", "review_sha256"
+        }:
+            raise WorkGraphError(f"qualified product binding {index}: exact members required")
+        owner_kind = _require_string(binding["owner_kind"], "product owner kind")
+        owner = _require_string(binding["owner"], "product owner")
+        if owner_kind not in {"CELL", "NON_CELL"}:
+            raise WorkGraphError(f"qualified product binding {index}: unknown owner kind")
+        if owner_kind == "CELL" and owner not in source_cells:
+            raise WorkGraphError(f"qualified product binding {index}: unknown source cell {owner}")
+        if owner_kind == "NON_CELL" and owner not in non_cell_owners:
+            raise WorkGraphError(f"qualified product binding {index}: unknown non-cell owner {owner}")
+        key = (owner_kind, owner)
+        if key in bindings:
+            raise WorkGraphError(f"duplicate qualified product owner: {owner_kind}/{owner}")
+        commit = _require_commit(binding["commit"], "qualified product binding commit")
+        _require_commit(binding["tree"], "qualified product binding tree")
+        _require_digest(binding["review_sha256"], "qualified product binding review")
+        if commit in commits:
+            raise WorkGraphError(f"qualified product emitted more than once: {commit}")
+        bindings[key] = binding
+        commits[commit] = binding
+    expected_owners = {("CELL", owner) for owner in source_cells} | {
+        ("NON_CELL", owner) for owner in non_cell_owners
+    }
+    if set(bindings) != expected_owners:
+        raise WorkGraphError("qualified product bindings do not cover authoritative owners")
+
+    dispositions_value = contract["disposition_bindings"]
+    if type(dispositions_value) is not list or len(dispositions_value) != len(commits):
+        raise WorkGraphError("qualified product dispositions must cover every product")
+    dispositions: dict[str, dict[str, JSONValue]] = {}
+    for index, value in enumerate(dispositions_value):
+        disposition = _require_object(value, f"product disposition binding {index}")
+        if set(disposition) != {"product_commit", "kind", "target"}:
+            raise WorkGraphError(f"product disposition binding {index}: exact members required")
+        product_commit = _require_commit(
+            disposition["product_commit"], "product disposition product_commit"
+        )
+        if product_commit not in commits or product_commit in dispositions:
+            raise WorkGraphError("product disposition: unknown or duplicate product")
+        kind = _require_string(disposition["kind"], "product disposition kind")
+        target = _require_string(disposition["target"], "product disposition target")
+        if kind not in PRODUCT_DISPOSITIONS:
+            raise WorkGraphError(f"product disposition: unknown disposition {kind}")
+        if kind == "CONSUMED" and target not in by_id:
+            raise WorkGraphError(f"product disposition: unknown consumer {target}")
+        if kind == "COMPOSED" and (target not in commits or target == product_commit):
+            raise WorkGraphError(f"product disposition: unknown composition {target}")
+        if kind in {"SUPERSEDED", "REJECTED"} and target not in commits:
+            raise WorkGraphError(f"product disposition: unknown product identity {target}")
+        if kind == "EXPLICITLY_DEFERRED_TO_NAMED_JOIN" and target not in join_owners:
+            raise WorkGraphError(f"product disposition: unresolved named join {target}")
+        if kind == "INTEGRATED":
+            _require_commit(target, "product disposition integration head")
+        dispositions[product_commit] = disposition
+
+    visiting_products: set[str] = set()
+    visited_products: set[str] = set()
+
+    def visit_product(commit: str) -> None:
+        if commit in visiting_products:
+            raise WorkGraphError(f"qualified product composition cycle includes {commit}")
+        if commit in visited_products:
+            return
+        visiting_products.add(commit)
+        disposition = dispositions[commit]
+        if disposition["kind"] == "COMPOSED":
+            visit_product(str(disposition["target"]))
+        visiting_products.remove(commit)
+        visited_products.add(commit)
+
+    for commit in sorted(commits):
+        visit_product(commit)
+    for commit, disposition in dispositions.items():
+        if disposition["kind"] == "COMPOSED":
+            target_disposition = dispositions[str(disposition["target"])]
+            if target_disposition["kind"] in {"SUPERSEDED", "REJECTED"}:
+                raise WorkGraphError(
+                    f"product disposition: composition target is not current {disposition['target']}"
+                )
+
+    authorizations_value = contract["composition_authorizations"]
+    if type(authorizations_value) is not list:
+        raise WorkGraphError("composition authorizations: array required")
+    authorizations: list[dict[str, JSONValue]] = []
+    reviews = {str(binding["review_sha256"]) for binding in bindings.values()}
+    for index, value in enumerate(authorizations_value):
+        item = _require_object(value, f"composition authorization {index}")
+        if set(item) != {
+            "owner", "products", "qualification_review_sha256", "integration_authority"
+        }:
+            raise WorkGraphError(f"composition authorization {index}: exact members required")
+        owner = _require_string(item["owner"], "composition authorization owner")
+        if owner not in by_id:
+            raise WorkGraphError(f"composition authorization {index}: unknown cell {owner}")
+        products = [
+            _require_commit(product, "composition authorization product")
+            for product in _require_string_list(
+                item["products"], "composition authorization products"
+            )
+        ]
+        if products != sorted(products) or any(product not in commits for product in products):
+            raise WorkGraphError(f"composition authorization {index}: unknown current product")
+        review = _require_digest(
+            item["qualification_review_sha256"], "composition authorization review"
+        )
+        if review not in reviews:
+            raise WorkGraphError(f"composition authorization {index}: unbound qualification review")
+        if item["integration_authority"] != receipt:
+            raise WorkGraphError(f"composition authorization {index}: unresolved integration authority")
+        if any(canonical_json_v1(item) == canonical_json_v1(prior) for prior in authorizations):
+            raise WorkGraphError("duplicate composition authorization")
+        authorizations.append(item)
+
+    consumers_value = contract["future_consumers"]
+    if type(consumers_value) is not list:
+        raise WorkGraphError("future consumers: array required")
+    future_consumers: list[dict[str, JSONValue]] = []
+    for index, value in enumerate(consumers_value):
+        item = _require_object(value, f"future consumer {index}")
+        if set(item) != {"product_commit", "cell_id"}:
+            raise WorkGraphError(f"future consumer {index}: exact members required")
+        product_commit = _require_commit(item["product_commit"], "future consumer product")
+        cell_id = _require_string(item["cell_id"], "future consumer cell")
+        if product_commit not in commits or cell_id not in by_id:
+            raise WorkGraphError(f"future consumer {index}: unresolved binding")
+        if dispositions[product_commit]["kind"] in {"SUPERSEDED", "REJECTED"}:
+            raise WorkGraphError(f"future consumer {index}: product is not current")
+        if any(canonical_json_v1(item) == canonical_json_v1(prior) for prior in future_consumers):
+            raise WorkGraphError("duplicate future consumer")
+        future_consumers.append(item)
+
+    return {
+        "authority": source,
+        "source_cells": sorted(source_cells),
+        "non_cell_owners": non_cell_owners,
+        "join_owners": join_owners,
+        "bindings": bindings,
+        "commits": commits,
+        "dispositions": dispositions,
+        "composition_authorizations": authorizations,
+        "future_consumers": future_consumers,
+    }
 
 
 def _validate_preparation_v1(
@@ -239,6 +497,7 @@ def _validate_preparation_v1(
         value["execution_unavailable"], f"cell {cell_id} execution_unavailable"
     )
     states = {name: str(item["state"]) for name, item in by_id.items()}
+    required_predecessors = {str(dep) for dep in cell["deps"]}  # type: ignore[union-attr]
     if cell["state"] == "BLOCKED":
         if set(unavailable) != {"kind", "dependencies"} or unavailable["kind"] != "UNMET_DEPENDENCIES":
             raise WorkGraphError(f"cell {cell_id}: blocked preparation needs dependencies")
@@ -263,6 +522,7 @@ def _validate_preparation_v1(
         )
         if holders != actual_holders or not holders:
             raise WorkGraphError(f"cell {cell_id}: preparation live-holder mismatch")
+        required_predecessors.update(holders)
     else:
         raise WorkGraphError(f"cell {cell_id}: state is not preparation-eligible")
 
@@ -304,9 +564,7 @@ def _validate_preparation_v1(
     seen: set[str] = set()
     for index, item in enumerate(predecessors):
         predecessor = _require_object(item, f"cell {cell_id} predecessor {index}")
-        if not {"cell_id", "state"} <= set(predecessor) or not set(predecessor) <= {
-            "cell_id", "state", "commit", "tree", "review_sha256", "interface_sha256"
-        }:
+        if set(predecessor) != {"cell_id", "state", "identity"}:
             raise WorkGraphError(f"cell {cell_id}: invalid predecessor observation")
         predecessor_id = _require_string(predecessor["cell_id"], f"cell {cell_id} predecessor")
         if predecessor_id in seen or predecessor_id not in by_id:
@@ -314,12 +572,42 @@ def _validate_preparation_v1(
         seen.add(predecessor_id)
         if predecessor["state"] != by_id[predecessor_id]["state"]:
             raise WorkGraphError(f"cell {cell_id}: stale predecessor state")
-        for name in ("commit", "tree"):
-            if name in predecessor:
-                _require_commit(predecessor[name], f"cell {cell_id} predecessor {name}")
-        for name in ("review_sha256", "interface_sha256"):
-            if name in predecessor:
-                _require_digest(predecessor[name], f"cell {cell_id} predecessor {name}")
+        identity = _require_object(
+            predecessor["identity"], f"cell {cell_id} predecessor identity"
+        )
+        predecessor_cell = by_id[predecessor_id]
+        if predecessor_cell["state"] == "DONE" and predecessor_cell.get("source_bearing") is True:
+            product_result = _validate_product_result_v1(
+                predecessor_cell.get("result"),
+                f"cell {predecessor_id} result",
+                by_id,
+            )
+            product = _require_object(product_result["product"], "predecessor product")
+            expected_identity: dict[str, JSONValue] = {
+                "kind": "QUALIFIED_PRODUCT",
+                "commit": product["commit"],
+                "tree": product["tree"],
+                "review_sha256": product["review_sha256"],
+            }
+        else:
+            expected_identity = {
+                "kind": "UNAVAILABLE",
+                "reason": (
+                    "NOT_DONE"
+                    if predecessor_cell["state"] != "DONE"
+                    else "NON_SOURCE_PRODUCT"
+                ),
+            }
+        if identity != expected_identity:
+            raise WorkGraphError(
+                f"cell {cell_id}: predecessor identity mismatch for {predecessor_id}"
+            )
+    if seen != required_predecessors:
+        missing = sorted(required_predecessors - seen)
+        extra = sorted(seen - required_predecessors)
+        raise WorkGraphError(
+            f"cell {cell_id}: predecessor set mismatch; missing={missing}; extra={extra}"
+        )
     assumptions = _require_object(
         record["interface_assumptions"], f"cell {cell_id} interface assumptions"
     )
@@ -356,7 +644,9 @@ def _validate_preparation_v1(
     return value
 
 
-def _validate_graph(graph: dict[str, JSONValue]) -> list[dict[str, JSONValue]]:
+def _validate_graph(
+    graph: dict[str, JSONValue], product_authority_bytes: bytes | None = None
+) -> list[dict[str, JSONValue]]:
     if graph.get("schema") != "implementaudit.work-graph.v1":
         raise WorkGraphError("WORK_GRAPH.json: unsupported schema")
 
@@ -447,13 +737,44 @@ def _validate_graph(graph: dict[str, JSONValue]) -> list[dict[str, JSONValue]]:
         cell_id = str(cell["id"])
         if "source_bearing" in cell and type(cell["source_bearing"]) is not bool:
             raise WorkGraphError(f"cell {cell_id}: source_bearing must be boolean")
-        if cell.get("source_bearing") is True:
-            if cell["state"] == "DONE":
-                _validate_product_result_v1(cell.get("result"), f"cell {cell_id} result", by_id)
-            elif "result" in cell:
-                raise WorkGraphError(f"cell {cell_id}: unqualified source result forbidden")
         if "preparation" in cell:
             _validate_preparation_v1(cell, by_id, groups)
+
+    product_contract = _validate_product_contract_v1(
+        graph, cells, by_id, product_authority_bytes
+    )
+    for cell in cells:
+        cell_id = str(cell["id"])
+        if cell.get("source_bearing") is True:
+            if cell["state"] != "DONE":
+                raise WorkGraphError(f"cell {cell_id}: unqualified source result forbidden")
+            result = _validate_product_result_v1(
+                cell.get("result"), f"cell {cell_id} result", by_id
+            )
+            if product_contract is None:
+                raise WorkGraphError("qualified product contract required for governed products")
+            bindings = product_contract["bindings"]
+            dispositions = product_contract["dispositions"]
+            assert type(bindings) is dict and type(dispositions) is dict
+            binding = bindings.get(("CELL", cell_id))
+            if type(binding) is not dict:
+                raise WorkGraphError(f"cell {cell_id}: authoritative product binding missing")
+            product = _require_object(result["product"], f"cell {cell_id} result.product")
+            if product != {
+                "commit": binding["commit"],
+                "tree": binding["tree"],
+                "review_sha256": binding["review_sha256"],
+            }:
+                raise WorkGraphError(f"cell {cell_id}: product identity disagrees with authority")
+            disposition = _require_object(
+                result["disposition"], f"cell {cell_id} result.disposition"
+            )
+            bound_disposition = dispositions.get(str(product["commit"]))
+            if type(bound_disposition) is not dict or disposition != {
+                "kind": bound_disposition["kind"],
+                "target": bound_disposition["target"],
+            }:
+                raise WorkGraphError(f"cell {cell_id}: product disposition disagrees with authority")
 
     frontier = graph.get("frontier")
     if frontier is not None:
@@ -599,10 +920,9 @@ def validate_preparation_activation_v1(
     record: dict[str, JSONValue],
     *,
     current_receipt: str,
-    current_target_binding_sha256: str,
-    current_predecessors: list[JSONValue],
-    current_interface_assumptions: dict[str, JSONValue],
+    current_graph_bytes: bytes,
     causal_red_passed: bool,
+    current_product_authority_bytes: bytes | None = None,
 ) -> bool:
     """Fail closed unless every activation-time invalidator is re-observed."""
     if record.get("schema") != "implementaudit.preparation-record.v1":
@@ -618,33 +938,56 @@ def validate_preparation_activation_v1(
         raise WorkGraphError("preparation activation: stale record digest")
     if not RECEIPT_RE.fullmatch(current_receipt) or current_receipt != record.get("receipt"):
         raise WorkGraphError("preparation activation: currentness revalidation failed")
-    target_binding = _require_digest(
-        record.get("target_binding_sha256"), "preparation activation target binding"
-    )
-    if not hmac.compare_digest(
-        target_binding,
-        _require_digest(
-            current_target_binding_sha256,
-            "preparation activation current target binding",
+    if type(causal_red_passed) is not bool or not causal_red_passed:
+        raise WorkGraphError("preparation activation: causal RED not revalidated")
+    try:
+        current_projection = compile_frontier_projection(
+            current_graph_bytes, current_product_authority_bytes
+        )
+    except WorkGraphError as exc:
+        raise WorkGraphError(
+            f"preparation activation: current graph revalidation failed: {exc}"
+        ) from exc
+    current_records = current_projection.get("preparation_frontier", [])
+    if type(current_records) is not list:
+        raise WorkGraphError("preparation activation: current preparation frontier missing")
+    current = next(
+        (
+            item
+            for item in current_records
+            if type(item) is dict and item.get("cell_id") == record.get("cell_id")
         ),
-    ):
+        None,
+    )
+    if current is None:
+        raise WorkGraphError("preparation activation: current preparation record missing")
+    if current.get("target_binding_sha256") != record.get("target_binding_sha256"):
         raise WorkGraphError("preparation activation: target binding changed")
-    if canonical_json_v1(current_predecessors) != canonical_json_v1(record.get("predecessors")):
+    if canonical_json_v1(current.get("predecessors")) != canonical_json_v1(
+        record.get("predecessors")
+    ):
         raise WorkGraphError("preparation activation: dependency results changed")
-    if canonical_json_v1(current_interface_assumptions) != canonical_json_v1(
+    if canonical_json_v1(current.get("interface_assumptions")) != canonical_json_v1(
         record.get("interface_assumptions")
     ):
         raise WorkGraphError("preparation activation: interface assumptions changed")
-    if type(causal_red_passed) is not bool or not causal_red_passed:
-        raise WorkGraphError("preparation activation: causal RED not revalidated")
     return True
 
 
 def compile_product_frontier_v1(
     graph: dict[str, JSONValue],
     cells: list[dict[str, JSONValue]],
+    product_authority_bytes: bytes | None = None,
 ) -> dict[str, JSONValue] | None:
     by_id = {str(cell["id"]): cell for cell in cells}
+    contract = _validate_product_contract_v1(
+        graph, cells, by_id, product_authority_bytes
+    )
+    if contract is None:
+        return None
+    bindings = contract["bindings"]
+    dispositions = contract["dispositions"]
+    assert type(bindings) is dict and type(dispositions) is dict
     entries: list[dict[str, JSONValue]] = []
     for cell in cells:
         if cell.get("source_bearing") is not True or cell["state"] != "DONE":
@@ -671,11 +1014,30 @@ def compile_product_frontier_v1(
             result = _validate_product_result_v1(
                 entry["result"], f"non-cell product {owner} result", by_id
             )
+            binding = bindings.get(("NON_CELL", owner))
+            if type(binding) is not dict:
+                raise WorkGraphError(f"non-cell product {owner}: unknown authoritative owner")
+            product = _require_object(result["product"], f"non-cell product {owner} product")
+            if product != {
+                "commit": binding["commit"],
+                "tree": binding["tree"],
+                "review_sha256": binding["review_sha256"],
+            }:
+                raise WorkGraphError(f"non-cell product {owner}: identity disagrees with authority")
+            disposition = _require_object(
+                result["disposition"], f"non-cell product {owner} disposition"
+            )
+            bound_disposition = dispositions.get(str(product["commit"]))
+            if type(bound_disposition) is not dict or disposition != {
+                "kind": bound_disposition["kind"],
+                "target": bound_disposition["target"],
+            }:
+                raise WorkGraphError(
+                    f"non-cell product {owner}: disposition disagrees with authority"
+                )
             entries.append({"owner_kind": "NON_CELL", "owner": owner, **result})
     if not entries:
-        if type(topology) is dict and "composition_proposals" in topology:
-            raise WorkGraphError("composition proposal: no qualified products")
-        return None
+        raise WorkGraphError("qualified product contract has no realised products")
 
     product_by_commit: dict[str, dict[str, JSONValue]] = {}
     for entry in entries:
@@ -684,6 +1046,8 @@ def compile_product_frontier_v1(
         if commit in product_by_commit:
             raise WorkGraphError(f"qualified product emitted more than once: {commit}")
         product_by_commit[commit] = entry
+    if set(product_by_commit) != set(contract["commits"]):  # type: ignore[arg-type]
+        raise WorkGraphError("qualified product runtime entries do not cover authority census")
 
     integration_heads: set[str] = set()
     if type(topology) is dict and "integration_heads" in topology:
@@ -716,9 +1080,13 @@ def compile_product_frontier_v1(
     for entry in entries:
         disposition = _require_object(entry["disposition"], "disposition")
         kind = str(disposition["kind"])
-        target = str(disposition["target"])
         counts[kind] += 1
-        target_counts[target] = target_counts.get(target, 0) + 1
+    future_consumers = contract["future_consumers"]
+    assert type(future_consumers) is list
+    for item in future_consumers:
+        assert type(item) is dict
+        cell_id = str(item["cell_id"])
+        target_counts[cell_id] = target_counts.get(cell_id, 0) + 1
 
     proposals: list[dict[str, JSONValue]] = []
     if type(topology) is dict and "composition_proposals" in topology:
@@ -766,6 +1134,15 @@ def compile_product_frontier_v1(
             )
             if not RECEIPT_RE.fullmatch(authority):
                 raise WorkGraphError(f"composition proposal {index}: unresolved integration authority")
+            authorizations = contract["composition_authorizations"]
+            assert type(authorizations) is list
+            if not any(
+                canonical_json_v1(proposal) == canonical_json_v1(item)
+                for item in authorizations
+            ):
+                raise WorkGraphError(
+                    f"composition proposal {index}: not present in authoritative bindings"
+                )
             cell = by_id[owner]
             if cell["state"] != "READY" or any(
                 states[str(dep)] != "DONE" for dep in cell["deps"]  # type: ignore[union-attr]
@@ -794,6 +1171,12 @@ def compile_product_frontier_v1(
     preparation_ids = [
         str(cell["id"]) for cell in cells if "preparation" in cell
     ]
+    summary = summarize_product_dispositions_v1(
+        [
+            str(_require_object(entry["disposition"], "disposition")["kind"])
+            for entry in entries
+        ]
+    )
     return {
         "qualified_products": len(entries),
         "current_products": len(entries) - counts["SUPERSEDED"] - counts["REJECTED"],
@@ -801,8 +1184,8 @@ def compile_product_frontier_v1(
             counts["COMPOSED"] + counts["EXPLICITLY_DEFERRED_TO_NAMED_JOIN"]
         ),
         "counts": counts,
-        "potentially_stranded": 0,
-        "p0_execution_planning_escalation": "NOT_TRIGGERED",
+        "potentially_stranded": summary["potentially_stranded"],
+        "p0_execution_planning_escalation": summary["p0"],
         "products": entries,
         "composition_proposals": proposals,
         "ready_preference": sorted(
@@ -842,10 +1225,12 @@ def summarize_product_dispositions_v1(
     }
 
 
-def compile_frontier_projection(graph_bytes: bytes) -> dict[str, JSONValue]:
+def compile_frontier_projection(
+    graph_bytes: bytes, product_authority_bytes: bytes | None = None
+) -> dict[str, JSONValue]:
     decoded = decode_strict_json_bytes(graph_bytes, "WORK_GRAPH.json")
     graph = _require_object(decoded, "WORK_GRAPH.json")
-    cells = _validate_graph(graph)
+    cells = _validate_graph(graph, product_authority_bytes)
     declared_total = _require_object(graph["population"], "$.population")[
         "total_cells"
     ]
@@ -871,7 +1256,7 @@ def compile_frontier_projection(graph_bytes: bytes) -> dict[str, JSONValue]:
     preparation = compile_preparation_frontier_v1(graph, cells, graph_bytes)
     if preparation:
         projection["preparation_frontier"] = preparation
-    products = compile_product_frontier_v1(graph, cells)
+    products = compile_product_frontier_v1(graph, cells, product_authority_bytes)
     if products is not None:
         projection["product_frontier"] = products
     projection["digest"] = hashlib.sha256(canonical_json_v1(projection)).hexdigest()
@@ -879,13 +1264,17 @@ def compile_frontier_projection(graph_bytes: bytes) -> dict[str, JSONValue]:
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) != 2:
-        print("usage: compile-work-graph.py WORK_GRAPH.json", file=sys.stderr)
+    if len(argv) not in {2, 3}:
+        print(
+            "usage: compile-work-graph.py WORK_GRAPH.json [PRODUCT_AUTHORITY.json]",
+            file=sys.stderr,
+        )
         return 2
     path = pathlib.Path(argv[1])
     try:
         raw = path.read_bytes()
-        projection = compile_frontier_projection(raw)
+        authority_bytes = pathlib.Path(argv[2]).read_bytes() if len(argv) == 3 else None
+        projection = compile_frontier_projection(raw, authority_bytes)
     except OSError as exc:
         print(f"compile-work-graph: {path}: {exc}", file=sys.stderr)
         return 2

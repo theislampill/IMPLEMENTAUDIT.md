@@ -132,6 +132,9 @@ for text in \
   "PRODUCT_FRONTIER" \
   "lifecycle_credit: NONE" \
   "product-aware preference" \
+  "authoritative source bytes" \
+  "cover every DONE cell" \
+  "Activation recompiles" \
   "TASK_CONTINUATION" \
   "NEW_TASK_DISPATCH" \
   "INDEPENDENT_REVIEW" \
