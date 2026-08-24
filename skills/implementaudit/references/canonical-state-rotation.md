@@ -60,7 +60,7 @@ retained descriptor/reopen identity for those three mutable inputs.
 
 ## Authority and phase boundary
 
-`skills/implementaudit/scripts/rotate-canonical-state.py` is the deterministic
+The packaged sibling `scripts/rotate-canonical-state.py` (source repo path `skills/implementaudit/scripts/rotate-canonical-state.py`) is the deterministic
 projection-draft and archive-object writer. In F2 it may:
 
 1. load a manifest-enumerated protected preimage from one run root;

@@ -710,6 +710,10 @@ bash tests/continuity-contract.test.sh
 bash tests/codex-compact-interlock.test.sh
 bash tests/host-session-binding.test.sh
 bash tests/route-obligation-contract.test.sh
+bash tests/canonical-state-rotation.test.sh
+bash tests/operational-evidence-contract.test.sh
+bash tests/subagent-provenance-sensor.test.sh
+bash tests/turn-disposition.test.sh
 bash tests/interruption-durability.test.sh
 bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh
