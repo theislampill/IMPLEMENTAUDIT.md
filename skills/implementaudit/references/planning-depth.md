@@ -262,6 +262,31 @@ graph construction, review, and currentness own that completeness. The
 projection is read-only evidence; it does not mint currentness, transition
 cells, or write lifecycle state.
 
+When the graph carries complete positive declarations, derive
+`PREPARATION_FRONTIER` and `PRODUCT_FRONTIER` beside—not in place of—the exact
+legacy execution projection. Preparation is effect-free, assumption-bound,
+selectively invalidated, and no-credit: preparation never satisfies a
+dependency, creates dispatch, authorizes source, substitutes for activation
+RED, or changes lifecycle. Omit the extra projection on the legacy empty path
+so its execution bytes remain identical.
+
+Every source-bearing DONE cell must expose one exact qualified product and one
+current disposition through its existing result owner. Non-cell owner
+amendments remain under existing integration topology rather than entering the
+cell population. Reject null, free-form, stale, multi-disposition, unknown, or
+unowned results. Report deterministic consumed/composed/integrated/
+superseded/rejected/deferred counts, integration debt, and a real potentially
+stranded count. A named future join is an owned deferral; zero stranded means
+the product-idle P0 is not triggered, not that the mechanical control is
+unnecessary.
+
+A product-aware preference only orders otherwise equal work already admitted
+by current dependencies, writer/resource holds, qualification independence,
+integration authority, and the execution or preparation gate. It cannot create READY,
+ACTIVE, DONE, JOIN, currentness, route, merge, lifecycle, package, release, or
+closure authority. Any newly safe composition remains a proposal for its
+existing integration owner, never a hidden graph edge or lifecycle transition.
+
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and
 retains escalation when risk changes. Omission for convenience or cost alone is

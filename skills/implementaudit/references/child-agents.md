@@ -227,6 +227,65 @@ Use deterministic tooling, not model estimates; ungrounded terms require
 reacquisition or serial execution.
 Completion reconciles; never infer other ACTIVE=0.
 
+#### Preparation and qualified-product projections
+
+The same canonical graph may opt into two advisory projections without
+changing the execution projection or lifecycle authority. `PREPARATION_FRONTIER`
+contains only positively declared, dependency-independent, effect-free work
+for a BLOCKED cell with exact unmet dependencies or a READY cell stopped by an
+exact live writer/resource hold. Missing or incomplete declarations, DONE,
+ACTIVE, unknown or stale state, final-composed-only work, external effects,
+fabricated predecessor identity, and unresolved authority fail closed. Rank by
+terminal/unlock value, expected reuse, lower cost, lower invalidation risk, and
+stable cell ID; eligibility is never hidden inside a numeric score.
+
+Each selected item carries an immutable
+`implementaudit.preparation-record.v1` binding the graph bytes and digest,
+current receipt, target/state, dependency or conflict, inspected predecessor
+identities, keyed interface assumptions, paths, allowed/forbidden work, rank,
+cost boundary, invalidators, and activation revalidation. It states
+`lifecycle_credit: NONE`, `implementation_evidence: NONE`, and
+`authority_minted: NONE`. Preparation never satisfies a dependency, creates
+dispatch, authorizes source, substitutes for activation-time causal RED, or
+discharges independent review. A changed graph requires comparison; only a
+proved unchanged target slice may reuse its bounded section.
+
+`PRODUCT_FRONTIER` consumes exact qualified product identities from the
+existing DONE-cell `result` owner and non-cell owner amendments from existing
+`integration_topology`. A source-bearing DONE result binds commit, tree,
+review digest, and exactly one current `CONSUMED`, `COMPOSED`, `INTEGRATED`,
+`SUPERSEDED`, `REJECTED`, or `EXPLICITLY_DEFERRED_TO_NAMED_JOIN` disposition.
+Null, free-form, malformed, stale, ambiguous, multi-disposition, or unresolved
+owner/consumer/join identity rejects. Category counts and integration debt are
+deterministic; a real undisposed product is potentially stranded and requires
+governor/P0 disposition, while a named future join is not stranded.
+
+A product-aware preference may break a tie only among cells already admitted
+to execution or preparation by the ordinary dependency, currentness, hold,
+qualification, and authority gates. It cannot create READY, ACTIVE, DONE,
+JOIN, currentness, route, merge, lifecycle, package, release, or closure
+authority. Existing graphs with neither positive declaration retain the exact
+legacy execution-projection bytes.
+
+#### Root-governor dispatch-context classifier
+
+Immediately before each host worker call, the root governor classifies the
+exact task/context binding. `TASK_CONTINUATION` requires the same governed task
+plus matching checkpoint, capsule, branch/worktree, scope, authority, and
+currentness; host compaction alone does not change that classification.
+`NEW_TASK_DISPATCH` requires fresh context creation with no prior assignment
+and a complete target-bound capsule. `INDEPENDENT_REVIEW` always requires a
+fresh reviewer context for every independent review attempt, including
+successor, rereview, replacement, or transient non-verdict replacement;
+packet reuse never implies context reuse.
+
+Any missing, stale, ambiguous, or contradictory identity returns
+`STOP_RECONCILE_DISPATCH_CONTEXT`. Any worker attempt to dispatch another
+worker or reviewer returns `STOP_CHILD_TO_CHILD_DISPATCH` to the root
+governor. An idle used context, agent name, campaign label, follow-up operation,
+or bare freshness self-attestation is not proof of a new context. The decision
+must precede the host call; after-the-fact claims cannot repair a false pass.
+
 Compile the bounded frontier projection from canonical `WORK_GRAPH.json` bytes
 with `scripts/compile-work-graph.py` before dispatch. The compiler validates the
 declared cell population against the supplied cells, dependency closure,

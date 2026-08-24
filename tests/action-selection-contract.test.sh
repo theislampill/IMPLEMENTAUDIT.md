@@ -1190,4 +1190,55 @@ availability_as_trust|REJECT_AVAILABILITY_PROXY
 label_or_instrument_as_whole_system_proof|REJECT_WHOLE_SYSTEM_PROXY
 EOF
 
+# 70. R0035 fresh-context dispatch classification is causal. Relabelling any
+# protected negative to permit used-context new-task work, same-context review,
+# a stale continuation, bare freshness, a partial capsule, or child dispatch
+# must make the official checker fail.
+while IFS='|' read -r case_id forbidden_result; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" \
+    "$case_id" "$forbidden_result" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+case_id, forbidden = sys.argv[2:]
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == case_id)
+case["expected"] = forbidden
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  expect_fail "dispatch-context false pass accepted: $case_id -> $forbidden_result"
+done <<'EOF'
+R35-D01-used-c07-followup-new-h6|NEW_TASK_DISPATCH
+R35-D02-same-h6-correction-continuation|NEW_TASK_DISPATCH
+R35-D03-current-compaction-continuation|NEW_TASK_DISPATCH
+R35-D04-stale-compaction-stops|TASK_CONTINUATION
+R35-D05-implementer-cannot-review|INDEPENDENT_REVIEW
+R35-D06-prior-reviewer-rereview-stops|INDEPENDENT_REVIEW
+R35-D07-fresh-reviewer-packet-reuse|TASK_CONTINUATION
+R35-D08-same-reviewer-transient-retry-stops|INDEPENDENT_REVIEW
+R35-D09-campaign-alias-not-task-identity|NEW_TASK_DISPATCH
+R35-D10-idle-used-context-not-fresh|NEW_TASK_DISPATCH
+R35-D11-bare-fresh-label-cannot-followup|NEW_TASK_DISPATCH
+R35-D12-fresh-partial-capsule-stops|NEW_TASK_DISPATCH
+R35-D13-label-match-scope-drift-stops|TASK_CONTINUATION
+R35-D14-child-dispatch-stops|NEW_TASK_DISPATCH
+R35-D15-root-fresh-new-task-pass|TASK_CONTINUATION
+R35-D16-existing-task-checkpoints-continue|NEW_TASK_DISPATCH
+EOF
+
+# 71. A fresh host call still fails closed when its target campaign binding is
+# contradictory; a complete capsule label cannot mask that mismatch.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R35-D15-root-fresh-new-task-pass")
+case["observations"]["campaign_match"] = False
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "fresh dispatch accepted a contradictory campaign binding"
+
 printf 'action-selection-contract.test: ok\n'

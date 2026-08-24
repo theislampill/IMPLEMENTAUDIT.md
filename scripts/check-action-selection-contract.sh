@@ -126,6 +126,35 @@ done
 compiler="skills/implementaudit/scripts/compile-work-graph.py"
 [ -f "$compiler" ] || fail "missing file: $compiler"
 
+# --- R0035 preparation, dispatch-context, and qualified-product frontiers ---
+for text in \
+  "PREPARATION_FRONTIER" \
+  "PRODUCT_FRONTIER" \
+  "lifecycle_credit: NONE" \
+  "product-aware preference" \
+  "TASK_CONTINUATION" \
+  "NEW_TASK_DISPATCH" \
+  "INDEPENDENT_REVIEW" \
+  "STOP_RECONCILE_DISPATCH_CONTEXT" \
+  "STOP_CHILD_TO_CHILD_DISPATCH" \
+  "root governor" \
+  "bare freshness" \
+  "qualified product"
+do
+  require "$child_ref" "$text"
+done
+for text in \
+  "PREPARATION_FRONTIER" \
+  "PRODUCT_FRONTIER" \
+  "preparation never satisfies" \
+  "product-aware preference" \
+  "cannot create READY" \
+  "zero stranded" \
+  "named future join"
+do
+  require "$depth_ref" "$text"
+done
+
 # --- engineering-value admission and retirement contract (#163 / R0022) ---
 for text in \
   "## Engineering-value admission and control lifecycle" \
@@ -413,6 +442,27 @@ required_ids.update({
     "R44-C144-bounded-degraded-operation",
     "R44-C145-risk-matrix-insufficient",
     "R34-C146-safe-stop-control-cheap-path",
+})
+required_ids.update({
+    f"R35-D{number:02d}-{suffix}"
+    for number, suffix in (
+        (1, "used-c07-followup-new-h6"),
+        (2, "same-h6-correction-continuation"),
+        (3, "current-compaction-continuation"),
+        (4, "stale-compaction-stops"),
+        (5, "implementer-cannot-review"),
+        (6, "prior-reviewer-rereview-stops"),
+        (7, "fresh-reviewer-packet-reuse"),
+        (8, "same-reviewer-transient-retry-stops"),
+        (9, "campaign-alias-not-task-identity"),
+        (10, "idle-used-context-not-fresh"),
+        (11, "bare-fresh-label-cannot-followup"),
+        (12, "fresh-partial-capsule-stops"),
+        (13, "label-match-scope-drift-stops"),
+        (14, "child-dispatch-stops"),
+        (15, "root-fresh-new-task-pass"),
+        (16, "existing-task-checkpoints-continue"),
+    )
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -716,6 +766,47 @@ def decide(case):
                 return "DELEGATE_LEAST_COST_SUFFICIENT"
             return "RETAIN_CAPABLE_ROUTE"
         return "DIRECT_CAPABLE_ROUTE"
+    if kind == "dispatch_context":
+        fields = "role host_operation root_governor target_task prior_task historical_other_assignment assignment_current checkpoint_match capsule_complete scope_match authority_current currentness_current context_unused freshness_self_attested campaign_match"
+        exact(o, fields)
+        booleans(o, "root_governor historical_other_assignment assignment_current checkpoint_match capsule_complete scope_match authority_current currentness_current context_unused freshness_self_attested campaign_match")
+        if o["role"] not in {"IMPLEMENTER", "INDEPENDENT_REVIEWER"}:
+            raise ValueError("dispatch role")
+        if o["host_operation"] not in {"FRESH_CREATE", "FOLLOW_UP"}:
+            raise ValueError("dispatch host operation")
+        if type(o["target_task"]) is not str or not o["target_task"]:
+            raise ValueError("dispatch target task")
+        if type(o["prior_task"]) is not str or not o["prior_task"]:
+            raise ValueError("dispatch prior task")
+        if not o["root_governor"]:
+            return "STOP_CHILD_TO_CHILD_DISPATCH"
+        if not all((
+                o["capsule_complete"], o["scope_match"],
+                o["authority_current"], o["currentness_current"],
+                o["checkpoint_match"], o["campaign_match"],
+        )):
+            return "STOP_RECONCILE_DISPATCH_CONTEXT"
+        if o["role"] == "INDEPENDENT_REVIEWER":
+            if (o["host_operation"] == "FRESH_CREATE"
+                    and o["context_unused"]
+                    and o["prior_task"] == "NONE"
+                    and not o["historical_other_assignment"]
+                    and not o["assignment_current"]):
+                return "INDEPENDENT_REVIEW"
+            return "STOP_RECONCILE_DISPATCH_CONTEXT"
+        if (o["host_operation"] == "FOLLOW_UP"
+                and not o["context_unused"]
+                and not o["historical_other_assignment"]
+                and o["assignment_current"]
+                and o["prior_task"] == o["target_task"]):
+            return "TASK_CONTINUATION"
+        if (o["host_operation"] == "FRESH_CREATE"
+                and o["context_unused"]
+                and o["prior_task"] == "NONE"
+                and not o["historical_other_assignment"]
+                and not o["assignment_current"]):
+            return "NEW_TASK_DISPATCH"
+        return "STOP_RECONCILE_DISPATCH_CONTEXT"
     if kind == "escalation":
         fields = "requested mutation_incomplete controlling_gate_intact supported_alternatives alternatives_indistinguishable expected_risk_material permanent_cost_material mechanically_resolvable"
         exact(o, fields)
