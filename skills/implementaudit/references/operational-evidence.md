@@ -293,9 +293,37 @@ filter digest and exact requested position. Their SHA-256 suffix is an integrity
 checksum, not authentication. A cursor-selected page is always nondecision; only
 an untruncated first page from filter start is decision-usable. Any row- or
 byte-bound overflow returns `OE_QUERY_REQUIRES_BOUNDED_REVIEW` and cannot support
-a negative, absence, closure or route-satisfaction conclusion. Diff/export
-remain C08 work; validation registration, helper reachability and package
-admission remain C11 work.
+a negative, absence, closure or route-satisfaction conclusion. Validation
+registration, helper reachability and package admission remain C11 work.
+
+## Canonical snapshot diff and explicit export
+
+`diff_snapshots()` compares two already materialized immutable payloads without
+selecting or changing `CURRENT`. It validates the exact payload schema, snapshot
+identity, six-family population, input-manifest digest, state vocabulary and
+unique record identities before comparison. Records are compared by stable
+`record:<id>` identity, never source-array order. Additions, removals and
+before/after changes are separate canonical arrays; aggregate, family,
+missing-or-omitted-state and input-manifest changes remain explicit. The
+receipt names both snapshot and manifest identities and has the
+`READ_ONLY_OBSERVATION` authority ceiling with an empty `establishes` array.
+
+`export_snapshot()` writes only a new file beneath a caller-explicit absolute
+owned root outside repository and run authority. The owned root and every
+destination parent must already be regular, non-link directories; cwd-relative,
+outside-root, reparse/alias and existing destinations refuse before mutation.
+Creation uses exclusive/no-follow semantics and verifies the new regular file.
+No fallback, overwrite, newest-run discovery or derived destination exists.
+
+Canonical JSON export is exactly `canonical_json_v1(snapshot)` and cannot be
+truncated. `table` and `graph` are inert canonical-JSON projections rather than
+executable markup or graph directives. They require finite positive row and
+byte bounds, order non-current facts before `CURRENT`, and always expose the
+complete state census, included/omitted counts, omitted-state census and
+missing-or-omitted-state population. A truncated projection reports
+`OE_EXPORT_REQUIRES_BOUNDED_REVIEW` and is nondecision. Diff/export uses only
+the Python standard library; it invokes no target content, subprocess, network,
+model, plugin, sidecar, database, index or ActiveGraph surface.
 
 ## Canonical evidence and failure collection
 

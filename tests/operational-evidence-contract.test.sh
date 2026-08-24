@@ -649,14 +649,720 @@ finally:
     evidence.subprocess.run = original_subprocess_run
 if effects:
     raise SystemExit(f"C07-R16 pure readers crossed an effect boundary: {effects}")
-for forbidden in ("diff_snapshots", "export_snapshot"):
-    if hasattr(evidence, forbidden):
-        raise SystemExit(f"C07-R17 crossed into C08 interface {forbidden}")
+for required in ("diff_snapshots", "export_snapshot"):
+    if not hasattr(evidence, required):
+        raise SystemExit(f"C08-DE00 required diff/export interface is absent: {required}")
 if any(action.dest in ("repository", "run_root", "snapshot_root", "manifest")
        for action in parser._actions):
     raise SystemExit("C07-R16 CLI accepted caller-supplied authority")
 PY
 }
+
+run_diff_export_contract() {
+"${py_cmd[@]}" - "$loader" "$fixtures/diff-export-cases.json" \
+  "skills/implementaudit/references/operational-evidence-schema.json" \
+  "$tmp/diff-export" <<'PY'
+import copy
+import hashlib
+import importlib.util
+import inspect
+import json
+import os
+import pathlib
+import sys
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+evidence = load("operational_evidence_diff_export", sys.argv[1])
+fixture = json.loads(pathlib.Path(sys.argv[2]).read_text(encoding="utf-8"))
+schema = json.loads(pathlib.Path(sys.argv[3]).read_text(encoding="utf-8"))
+tmp = pathlib.Path(sys.argv[4]).resolve()
+tmp.mkdir(parents=True)
+expected_ids = [f"DE{i:02d}" for i in range(1, 19)]
+if (fixture.get("schema") !=
+        "implementaudit.operational-evidence-diff-export-cases.v1" or
+        [row.get("id") for row in fixture.get("cases", [])] != expected_ids or
+        len({row.get("operation") for row in fixture["cases"]}) != 18 or
+        fixture.get("states") != list(evidence.STATES) or
+        fixture.get("formats") != ["json", "table", "graph"]):
+    raise SystemExit("C08 DE fixture does not bind the complete ordered matrix")
+missing = [name for name in fixture["required_interfaces"]
+           if not hasattr(evidence, name)]
+if missing:
+    raise SystemExit(f"C08-DE00 required diff/export interface is absent: {missing}")
+if schema.get("x-bounded-snapshot-diff-export") != {
+        "diff_schema": "implementaudit-operational-snapshot-diff.v1",
+        "export_schema": "implementaudit-operational-snapshot-export.v1",
+        "projection_schema": "implementaudit-operational-snapshot-projection.v1",
+        "payload_schema": "implementaudit-operational-snapshot-payload.v1",
+        "semantic_identity": "record_id_plus_explicit_snapshot_fields",
+        "canonical_json_export": "canonical_json_v1(snapshot)",
+        "projection_formats": ["table", "graph"],
+        "projection_encoding": "canonical_json_v1_inert_data",
+        "bounds": "finite_positive_rows_and_record_bytes",
+        "overflow": "OE_EXPORT_REQUIRES_BOUNDED_REVIEW",
+        "destination": "explicit_absolute_new_file_under_isolated_owned_root",
+        "authority_ceiling": "READ_ONLY_OBSERVATION_OR_EXPLICIT_TASK_OWNED_DESTINATION_ONLY",
+        "activegraph_authority": False, "publication": False,
+    }:
+    raise SystemExit("C08 diff/export schema contract is absent or widened")
+
+
+def currentness(state="CURRENT", invalidators=None):
+    if invalidators is None:
+        invalidators = [] if state == "CURRENT" else [f"FIXTURE_{state}"]
+    return {"state": state, "invalidators": list(invalidators)}
+
+
+def record(identifier, family="EVIDENCE", state="CURRENT", **extra):
+    value = {
+        "id": identifier, "sequence": 0, "record_type": "Evidence",
+        "claim_id": f"claim:{identifier}", "criterion_id": f"criterion:{identifier}",
+        "leg": "EFFECT", "result_class": "GREEN", "proxy": False,
+        "source_identity": f"source:{identifier}",
+        "native_owner_identity": f"owner:{family.lower()}",
+        "currentness": currentness(state), "controls": [],
+        "contrary_evidence": [], "family": family,
+        "authority_ceiling": "READ_ONLY_NATIVE_ARTIFACT_FACT",
+        "artifact_sha256": "1" * 64,
+    }
+    value.update(extra)
+    return value
+
+
+def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
+             manifest_digest=None):
+    records = copy.deepcopy(list(records or []))
+    release_types = sorted({
+        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+        "Release", "Asset", "PublicSurface"})
+    release_invalidators = [
+        f"MISSING_RELEASE_LAYER:{record_type}" for record_type in release_types]
+    release_invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
+    for sequence, row in enumerate(records):
+        row["sequence"] = sequence
+    if omitted is None:
+        omitted = [{
+            "kind": "OWNER_FACT_NON_CURRENT", "collector": "evidence_failure",
+            "owner": "R0038-C04", "family": row["family"],
+            "fact_path": f"evidence_records/{row['id']}", "record_id": row["id"],
+            "record_type": row["record_type"],
+            "native_owner_identity": row["native_owner_identity"],
+            "state": row["currentness"]["state"],
+            "invalidators": list(row["currentness"]["invalidators"]),
+        } for row in records if row["currentness"]["state"] != "CURRENT"]
+    omitted = list(omitted)
+    omitted.extend({
+        "kind": "RELEASE_INVALIDATOR", "collector": "release",
+        "owner": "R0038-C05", "state": "UNVERIFIED", "code": code}
+        for code in release_invalidators)
+    omitted.sort(key=evidence.canonical_json_v1)
+    aggregate = aggregate or ("DEGRADED" if omitted else "COMPLETE")
+
+    def semantic(value):
+        result = copy.deepcopy(value)
+        result["semantic_sha256"] = hashlib.sha256(
+            evidence.canonical_json_v1(result)).hexdigest()
+        return result
+
+    frontier = {"population": 1,
+                "counts": {"DONE": 1, "ACTIVE": 0, "READY": 0, "BLOCKED": 0},
+                "active": [], "ready": [], "blocked_summary": {},
+                "writer_holds": {}, "resource_holds": {}}
+    frontier["digest"] = hashlib.sha256(
+        evidence.canonical_json_v1(frontier)).hexdigest()
+    native_value = semantic({
+        "schema": evidence.NATIVE_CURRENT_SCHEMA,
+        "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT", "establishes": [],
+        "repository": {"root": "$REPOSITORY_ROOT", "git_common_dir": "$GIT_COMMON_DIR"},
+        "controller": {"id": "fixture-controller", "ref": "refs/controller",
+                       "record_oid": "1" * 40},
+        "claim": {"id": "fixture-claim", "run_id": "fixture-run",
+                  "run_root": ".IMPLEMENTAUDIT/runs/fixture-run"},
+        "continuity": {
+            "generation": "G0001", "source_epoch": "G0001",
+            "invalidation_ref": "refs/invalidation", "invalidation_oid": "2" * 40,
+            "boundary_kind": "manual-resume", "boundary_event_id": "fixture-event",
+            "pointer_ref": "refs/pointer", "pointer_oid": "3" * 40,
+            "pointer_digest": "2" * 64,
+            "receipt_schema": "implementaudit.continuity-receipt.v3",
+            "receipt_ref": "refs/receipt", "receipt_oid": "4" * 40,
+            "receipt": "refs/receipt@" + "4" * 40,
+            "marker_ref": "refs/marker", "marker_oid": "5" * 40,
+            "generation_manifest_oid": "6" * 40,
+            "generation_manifest_digest": "3" * 64,
+            "cold_high_water": "fixture-high-water", "degraded_state": "NONE"},
+        "hot": {"state_path": "STATE.md", "state_sha256": "2" * 64,
+                "roadmap_path": "ROADMAP.md", "roadmap_sha256": "3" * 64,
+                "work_graph_path": "WORK_GRAPH.json", "work_graph_sha256": "4" * 64,
+                "work_graph_compiler_sha256": "5" * 64},
+        "frontier": frontier,
+        "andon_state": "FIXTURE=ACTIVE",
+        "open_andons": ["FIXTURE"], "active_instructions": [{
+            "id": "I001", "reference": "fixture", "kind": "test",
+            "authority": "fixture", "subject": "fixture", "issued_epoch": "G0001",
+            "status": "active", "status_evidence": "fixture",
+            "supersedes_by": "-", "scope_end": "fixture"}],
+        "next_action": "bounded fixture observation", "route": {
+            "controller_id": "fixture-controller", "controller_record_oid": "1" * 40,
+            "ref": "refs/route", "record_oid": "7" * 40,
+            "record_identity": "fixture-route", "decision": "NOT_REQUIRED",
+            "classification": "none", "route_transaction_id": "fixture-transaction",
+            "obligation_id": None, "route_state": None},
+    })
+    repository_value = {
+        "schema": evidence.REPOSITORY_COLLECTION_SCHEMA,
+        "repository": {"commit": "3" * 40, "tree": "4" * 40,
+                       "worktree_state": "CLEAN", "input_file_set_sha256": "5" * 64},
+        "capabilities": [
+            {"capability": "file_facts", "state": "SUPPORTED",
+             "reason_code": "fixture"},
+            {"capability": "package_manifest", "state": "NOT_APPLICABLE",
+             "reason_code": "fixture"},
+            {"capability": "python_ast", "state": "NOT_APPLICABLE",
+             "reason_code": "fixture"},
+            {"capability": "validation_registry_entries",
+             "state": "NOT_APPLICABLE", "reason_code": "fixture"}],
+        "diagnostics": {"warnings": [], "errors": [], "skipped": [], "unknown": []},
+        "facts": [], "static_collector_invocations": [],
+    }
+    evidence_value = semantic({
+        "schema": evidence.EVIDENCE_FAILURE_COLLECTION_SCHEMA,
+        "families": ["EVIDENCE", "FAILURE"],
+        "source": {"path": "operational-evidence.json", "sha256": "6" * 64,
+                   "run_identity": "fixture-run", "artifact_identity": "fixture-artifact"},
+        "first_red_id": None, "first_red_state": "NOT_APPLICABLE",
+        "weakest_leg_id": records[0]["id"] if records else None,
+        "residual_ids": [],
+        "layer_census": {"ATTEMPT": 0, "RECEIPT": 0, "EFFECT": len(records),
+                         "RECOVERY": 0, "CLOSURE": 0},
+        "evidence_records": records, "failure_records": [], "establishes": [],
+    })
+    release_value = semantic({
+        "schema": evidence.RELEASE_COLLECTION_SCHEMA, "families": ["RELEASE"],
+        "repository": {"commit": "3" * 40, "tree": "4" * 40,
+                       "worktree_state": "CLEAN"},
+        "local_manifest_sha256": "7" * 64, "external_capture_sha256": "8" * 64,
+        "external_boundary": {
+            "capture_identity": "fixture-capture", "source_identity": "fixture-source",
+            "auth_state": "PRESENT", "rate_state": "AVAILABLE", "rate_remaining": 1,
+            "pagination_state": "COMPLETE", "pagination_pages": 1,
+            "object_drift": False, "captured_at": "2026-01-01T00:00:00Z",
+            "expires_at": "2027-01-01T00:00:00Z",
+            "evaluated_at": "2026-01-01T00:00:01Z"},
+        "omissions": [{
+            "record_type": record_type, "state": "UNKNOWN",
+            "invalidator": f"MISSING_RELEASE_LAYER:{record_type}"}
+            for record_type in release_types], "node_type_census": {
+            "Commit": 0, "Tree": 0, "Worktree": 0, "GeneratedArtifact": 0,
+            "Package": 0, "Install": 0, "Host": 0, "PullRequest": 0,
+            "Check": 0, "Merge": 0, "Tag": 0, "Release": 0,
+            "Asset": 0, "PublicSurface": 0}, "nodes": [],
+        "candidate": {"state": "UNVERIFIED",
+                      "invalidators": release_invalidators,
+                      "local_commit": "3" * 40, "public_commit": None},
+        "establishes": [],
+    })
+
+    def collection(owner, value):
+        return {"owner": owner, "state": "CURRENT", "value": value,
+                "sha256": hashlib.sha256(
+                    evidence.canonical_json_v1(value)).hexdigest()}
+
+    return {
+        "schema_version": "implementaudit-operational-snapshot-payload.v1",
+        "snapshot_id": "iasnap-v1-" + identifier * 64,
+        "aggregate": aggregate,
+        "families": list(evidence.FAMILIES),
+        "missing_or_omitted_state": list(omitted),
+        "collections": {
+            "native_current": collection("R0038-C03", native_value),
+            "repository": collection("R0038-C02", repository_value),
+            "evidence_failure": collection("R0038-C04", evidence_value),
+            "release": collection("R0038-C05", release_value),
+        },
+        "input_manifest_sha256": manifest_digest or identifier * 64,
+    }
+
+
+def canonical(value):
+    return evidence.canonical_json_v1(value)
+
+
+def refresh_collection(value, name):
+    collection = value["collections"][name]
+    semantic_value = collection["value"]
+    if "semantic_sha256" in semantic_value:
+        semantic_value.pop("semantic_sha256")
+        semantic_value["semantic_sha256"] = hashlib.sha256(
+            canonical(semantic_value)).hexdigest()
+    collection["sha256"] = hashlib.sha256(canonical(semantic_value)).hexdigest()
+
+
+def expect_error(code, action):
+    try:
+        action()
+    except evidence.OperationalEvidenceError as exc:
+        if exc.code != code:
+            raise SystemExit(f"expected {code}, observed {exc.code}")
+    else:
+        raise SystemExit(f"expected {code}, operation passed")
+
+
+observed = []
+base = snapshot("a", [record("one"), record("two")])
+
+# R4 causal controls are intentionally independent of the R3 generated model.
+# C1 records the genuine C04 producer's unique-list calls and then duplicates a
+# real retained failure reference with every dependent digest refreshed.  C2
+# attacks the native operation itself on both sides of the terminal rename;
+# neither cell is derived from the production phase-hook population.
+r4_causal_red = []
+producer_unique_paths = []
+original_string_list = evidence._string_list
+
+
+def observe_producer_unique(value, path, *, allowed=None, unique=True):
+    if unique:
+        producer_unique_paths.append(path)
+    return original_string_list(value, path, allowed=allowed, unique=unique)
+
+
+evidence._string_list = observe_producer_unique
+try:
+    producer_evidence = evidence.collect_evidence_failure(pathlib.Path(
+        "fixtures/operational-evidence/run-artifacts/positive"))
+finally:
+    evidence._string_list = original_string_list
+producer_operators = {
+    ("currentness.invalidators"
+     if path.endswith(".currentness.invalidators")
+     else path.rsplit(".", 1)[-1])
+    for path in producer_unique_paths}
+expected_producer_operators = {
+    "currentness.invalidators", "controls", "contrary_evidence",
+    "evidence_ids", "residual_ids"}
+if producer_operators != expected_producer_operators:
+    r4_causal_red.append(
+        "C08-R4-C1 producer unique-list census mismatch "
+        f"{sorted(producer_operators)}")
+
+producer_snapshot = copy.deepcopy(base)
+producer_collection = producer_snapshot["collections"]["evidence_failure"]
+producer_collection["value"] = producer_evidence
+producer_collection["sha256"] = hashlib.sha256(
+    canonical(producer_evidence)).hexdigest()
+duplicate_lineage = copy.deepcopy(producer_snapshot)
+failure = duplicate_lineage["collections"]["evidence_failure"]["value"][
+    "failure_records"][0]
+failure["evidence_ids"].append(failure["evidence_ids"][0])
+refresh_collection(duplicate_lineage, "evidence_failure")
+try:
+    evidence.diff_snapshots(producer_snapshot, duplicate_lineage)
+except evidence.OperationalEvidenceError as exc:
+    if exc.code != "OE_DIFF_SNAPSHOT_INVALID":
+        r4_causal_red.append(
+            f"C08-R4-C1 duplicate evidence_ids returned {exc.code}")
+else:
+    r4_causal_red.append(
+        "C08-R4-C1 duplicate evidence_ids returned success-shaped diff")
+
+if os.name == "nt":
+    original_publish = evidence._snapshot_atomic_no_replace_v1
+
+    late_root = tmp / "r4-late-edge"
+    late_root.mkdir()
+    late_destination = late_root / "snapshot.json"
+    late_alias = late_root / "late-alias"
+    late_edge_reached = False
+    late_link_created = False
+
+    def attack_late_edge(handle, target):
+        global late_edge_reached, late_link_created
+        late_edge_reached = True
+        stage = next(
+            path for path in late_root.iterdir()
+            if path != late_destination and
+            path.name.endswith(".implementaudit-stage"))
+        try:
+            os.link(stage, late_alias)
+            late_link_created = True
+        except OSError:
+            pass
+        return original_publish(handle, target)
+
+    evidence._snapshot_atomic_no_replace_v1 = attack_late_edge
+    late_receipt = None
+    late_error = None
+    try:
+        try:
+            late_receipt = evidence.export_snapshot(
+                producer_snapshot, late_destination, owned_root=late_root,
+                output_format="json")
+        except evidence.OperationalEvidenceError as exc:
+            late_error = exc
+    finally:
+        evidence._snapshot_atomic_no_replace_v1 = original_publish
+    if (late_link_created and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 late hard link crossed final-check/native-rename edge")
+    if (not late_edge_reached and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 unavailable hard-link custody did not fail typed")
+    if not late_edge_reached and any(late_root.iterdir()):
+        r4_causal_red.append(
+            "C08-R4-C2 capability refusal left a stage or destination")
+
+    post_root = tmp / "r4-post-edge"
+    post_root.mkdir()
+    post_destination = post_root / "snapshot.json"
+    post_alias = post_root / "post-alias"
+    post_edge_reached = False
+    post_link_created = False
+
+    def attack_post_edge(handle, target):
+        global post_edge_reached, post_link_created
+        post_edge_reached = True
+        result = original_publish(handle, target)
+        try:
+            os.link(target, post_alias)
+            post_link_created = True
+        except OSError:
+            pass
+        return result
+
+    evidence._snapshot_atomic_no_replace_v1 = attack_post_edge
+    post_receipt = None
+    post_error = None
+    try:
+        try:
+            post_receipt = evidence.export_snapshot(
+                producer_snapshot, post_destination, owned_root=post_root,
+                output_format="json")
+        except evidence.OperationalEvidenceError as exc:
+            post_error = exc
+    finally:
+        evidence._snapshot_atomic_no_replace_v1 = original_publish
+    if (post_link_created and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 post-publication live-handle hard link returned success")
+    if (not post_edge_reached and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        r4_causal_red.append(
+            "C08-R4-C2 unavailable post-publication custody did not fail typed")
+    if not post_edge_reached and any(post_root.iterdir()):
+        r4_causal_red.append(
+            "C08-R4-C2 post-publication capability refusal left an object")
+
+if r4_causal_red:
+    raise SystemExit("; ".join(r4_causal_red))
+
+# The real current-volume capability cell above remains unmocked.  The
+# remaining positive transaction controls exercise exact bytes, collision and
+# cleanup on the explicit no-hard-link-capability branch.
+if hasattr(evidence, "_snapshot_hardlink_publication_capable_v1"):
+    evidence._snapshot_hardlink_publication_capable_v1 = (
+        lambda _kernel, _handle: True)
+
+permuted = copy.deepcopy(base)
+permuted["collections"]["evidence_failure"]["value"]["evidence_records"].reverse()
+refresh_collection(permuted, "evidence_failure")
+first = evidence.diff_snapshots(base, permuted)
+second = evidence.diff_snapshots(permuted, base)
+if first["added"] or first["removed"] or first["changed"] or canonical(first) != canonical(second):
+    raise SystemExit("DE01 permutation did not yield one empty canonical diff")
+observed.append("DE01")
+
+added_snapshot = snapshot("b", [record("one"), record("two"),
+                                record("three")])
+added = evidence.diff_snapshots(base, added_snapshot)
+if ([row["identity"] for row in added["added"]] != ["record:three"] or
+        added["removed"] or added["changed"] or
+        added["before_snapshot_id"] != base["snapshot_id"] or
+        added["after_snapshot_id"] != added_snapshot["snapshot_id"]):
+    raise SystemExit("DE02 added record was not represented exactly once")
+observed.append("DE02")
+
+removed_snapshot = snapshot("c", [record("one")])
+removed = evidence.diff_snapshots(base, removed_snapshot)
+if [row["identity"] for row in removed["removed"]] != ["record:two"]:
+    raise SystemExit("DE03 removed record was normalized away")
+observed.append("DE03")
+
+changed_snapshot = snapshot("d", [record("one", claim_id="changed"),
+                                  record("two")])
+changed = evidence.diff_snapshots(base, changed_snapshot)
+if ([row["identity"] for row in changed["changed"]] != ["record:one"] or
+        changed["added"] or changed["removed"]):
+    raise SystemExit("DE04 semantic change became remove/add")
+observed.append("DE04")
+
+state_base = snapshot("a", [record("one"), record("two")])
+for state in fixture["states"][1:]:
+    state_snapshot = snapshot("e", [record("one"), record("two", state=state)])
+    try:
+        state_diff = evidence.diff_snapshots(state_base, state_snapshot)
+    except evidence.OperationalEvidenceError as exc:
+        raise SystemExit(
+            f"DE05 {state} snapshot failed {exc.code} at {exc.path}: "
+            f"{state_snapshot['missing_or_omitted_state']}") from exc
+    if ([row["identity"] for row in state_diff["changed"]] != [
+            "record:two", "snapshot:missing_or_omitted_state"] or
+            state_diff["changed"][0]["after"]["currentness"]["state"] != state):
+        raise SystemExit(f"DE05 lost explicit currentness transition to {state}")
+observed.append("DE05")
+
+identity_snapshot = snapshot(
+    "f", [record("one"), record("two", state="STALE")], aggregate="DEGRADED",
+    omitted=[{"family": "EVIDENCE", "kind": "OWNER_FACT_NON_CURRENT",
+              "collector": "evidence_failure", "owner": "R0038-C04",
+              "fact_path": "evidence_records/two", "record_id": "two",
+              "record_type": "Evidence", "native_owner_identity": "owner:evidence",
+              "state": "STALE", "invalidators": ["FIXTURE_STALE"]}],
+    manifest_digest="f" * 64)
+identity = evidence.diff_snapshots(base, identity_snapshot)
+if ([row["identity"] for row in identity["changed"]] != [
+        "record:two", "snapshot:missing_or_omitted_state"] or
+        identity["before_input_manifest_sha256"] ==
+        identity["after_input_manifest_sha256"]):
+    raise SystemExit("DE06 snapshot identity/currentness changes were hidden")
+observed.append("DE06")
+
+json_destination = tmp / "snapshot.json"
+json_receipt = evidence.export_snapshot(
+    base, json_destination, owned_root=tmp, output_format="json")
+if (json_destination.read_bytes() != canonical(base) or
+        json_receipt["output_sha256"] != hashlib.sha256(canonical(base)).hexdigest() or
+        json.loads(json_destination.read_text(encoding="utf-8")) != base):
+    raise SystemExit("DE07 JSON export diverged from canonical snapshot bytes")
+observed.append("DE07")
+
+ambient_before = canonical(evidence.diff_snapshots(base, changed_snapshot))
+old_cwd = pathlib.Path.cwd()
+old_locale = os.environ.get("LC_ALL")
+try:
+    os.chdir(tmp)
+    os.environ["LC_ALL"] = "C.invalid-hostile"
+    os.environ["IMPLEMENTAUDIT_DIFF_NOISE"] = "ignored"
+    ambient_after = canonical(evidence.diff_snapshots(base, changed_snapshot))
+finally:
+    os.chdir(old_cwd)
+    os.environ.pop("IMPLEMENTAUDIT_DIFF_NOISE", None)
+    if old_locale is None:
+        os.environ.pop("LC_ALL", None)
+    else:
+        os.environ["LC_ALL"] = old_locale
+if ambient_before != ambient_after:
+    raise SystemExit("DE08 diff bytes depend on ambient cwd/locale/environment")
+observed.append("DE08")
+
+mixed = snapshot("8", [record("one"), record("two", state="STALE")])
+for output_format in ("table", "graph"):
+    projection = json.loads(evidence.render_snapshot_projection_v1(
+        mixed, output_format=output_format, max_rows=100, max_bytes=100000))
+    if (projection["format"] != output_format or projection["truncated"] or
+            projection["included_count"] != 2 or projection["omitted_count"] != 0 or
+            projection["state_census"] != {"CURRENT": 1, "STALE": 1}):
+        raise SystemExit(f"DE09 {output_format} projection lost state coverage")
+observed.append("DE09")
+
+bounded = json.loads(evidence.render_snapshot_projection_v1(
+    mixed, output_format="table", max_rows=1, max_bytes=100000))
+if (not bounded["truncated"] or bounded["decision_usable"] or
+        bounded["included_count"] != 1 or bounded["omitted_count"] != 1 or
+        bounded["state_census"] != {"CURRENT": 1, "STALE": 1}):
+    raise SystemExit("DE10 bounded projection did not remain explicit nondecision")
+observed.append("DE10")
+
+hostile_text = "|\n\t\u001b[31m`<script>javascript:()</script> $(touch pwn) =1+1"
+hostile = snapshot("9", [record("hostile", claim_id=hostile_text)])
+hostile_projection = json.loads(evidence.render_snapshot_projection_v1(
+    hostile, output_format="graph", max_rows=10, max_bytes=100000))
+if hostile_projection["rows"][0]["record"]["claim_id"] != hostile_text:
+    raise SystemExit("DE11 hostile content was executed, removed, or normalized")
+observed.append("DE11")
+
+duplicate = snapshot("7", [record("dup"), record("dup")])
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(base, duplicate))
+invalid_schema = copy.deepcopy(base)
+invalid_schema["schema_version"] = "wrong"
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(invalid_schema, base))
+invalid_digest = copy.deepcopy(base)
+invalid_digest["input_manifest_sha256"] = "0" * 64
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(base, invalid_digest))
+
+foreign_record_type = copy.deepcopy(base)
+foreign_record_type["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["record_type"] = "Foreign"
+refresh_collection(foreign_record_type, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, foreign_record_type))
+
+current_with_invalidator = copy.deepcopy(base)
+current_with_invalidator["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["currentness"]["invalidators"] = ["FOREIGN"]
+refresh_collection(current_with_invalidator, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, current_with_invalidator))
+
+empty_collections = copy.deepcopy(base)
+empty_collections["collections"] = {}
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, empty_collections))
+
+foreign_currentness = copy.deepcopy(base)
+foreign_currentness["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["currentness"]["state"] = "FOREIGN"
+refresh_collection(foreign_currentness, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, foreign_currentness))
+
+foreign_omitted = copy.deepcopy(base)
+foreign_omitted["missing_or_omitted_state"] = [{"foreign": "value"}]
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, foreign_omitted))
+
+unknown_nested_member = copy.deepcopy(base)
+unknown_nested_member["collections"]["evidence_failure"]["value"][
+    "evidence_records"][0]["unknown"] = "foreign"
+refresh_collection(unknown_nested_member, "evidence_failure")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, unknown_nested_member))
+
+mixed_release_variant = copy.deepcopy(base)
+mixed_release_variant["collections"]["release"]["value"]["nodes"] = [{
+    "id": "git-commit", "record_type": "Commit", "family": "RELEASE",
+    "source_identity": "git:HEAD", "native_owner_identity": "git:repository",
+    "currentness": currentness(),
+    "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION", "layer": "LOCAL",
+    "object_identity": "3" * 40, "path": "foreign-mixed-variant",
+}]
+refresh_collection(mixed_release_variant, "release")
+expect_error("OE_DIFF_SNAPSHOT_INVALID", lambda: evidence.diff_snapshots(
+    base, mixed_release_variant))
+observed.append("DE12")
+
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, None, owned_root=tmp, output_format="json"))
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, pathlib.Path("relative.json"), owned_root=tmp, output_format="json"))
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, tmp.parent / "outside.json", owned_root=tmp, output_format="json"))
+if (tmp.parent / "outside.json").exists():
+    raise SystemExit("DE13 export wrote outside the explicit owned root")
+observed.append("DE13")
+
+occupied = tmp / "occupied.json"
+occupied.write_text("non-task-owned", encoding="utf-8")
+expect_error("OE_EXPORT_DESTINATION_EXISTS", lambda: evidence.export_snapshot(
+    base, occupied, owned_root=tmp, output_format="json"))
+if occupied.read_text(encoding="utf-8") != "non-task-owned":
+    raise SystemExit("DE14 export mutated an existing destination")
+
+alias_parent = tmp / "alias-parent"
+alias_parent.mkdir()
+alias_destination = alias_parent / ".." / "alias-destination.json"
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, alias_destination, owned_root=tmp, output_format="json"))
+if (tmp / "alias-destination.json").exists():
+    raise SystemExit("DE14 export accepted a non-canonical destination spelling")
+
+alias_root = alias_parent / ".."
+alias_root_destination = tmp / "alias-root-destination.json"
+expect_error("OE_EXPORT_DESTINATION_INVALID", lambda: evidence.export_snapshot(
+    base, alias_root_destination, owned_root=alias_root, output_format="json"))
+if alias_root_destination.exists():
+    raise SystemExit("DE14 export accepted a non-canonical owned-root spelling")
+
+replacement_destination = tmp / "replacement.json"
+replacement_alias = tmp / "replacement-stage-alias"
+original_stage_hook = evidence._snapshot_stage_v1
+
+
+def replace_at_final_check(phase):
+    if phase == "before-publish":
+        stage = next(path for path in tmp.iterdir()
+                     if path.name.endswith(".implementaudit-stage"))
+        os.link(stage, replacement_alias)
+
+
+evidence._snapshot_stage_v1 = replace_at_final_check
+try:
+    expect_error("OE_EXPORT_WRITE_FAILED", lambda: evidence.export_snapshot(
+        base, replacement_destination, owned_root=tmp, output_format="json"))
+finally:
+    evidence._snapshot_stage_v1 = original_stage_hook
+observed.append("DE14")
+
+noncurrent_first = json.loads(evidence.render_snapshot_projection_v1(
+    mixed, output_format="table", max_rows=1, max_bytes=100000))
+if (noncurrent_first["rows"][0]["record"]["currentness"]["state"] == "CURRENT" or
+        noncurrent_first["omitted_state_census"] != {"CURRENT": 1}):
+    raise SystemExit("DE15 bound preferentially hid non-current rows")
+observed.append("DE15")
+
+effects = []
+original_process = evidence.subprocess.run
+original_network = evidence.urllib.request.urlopen
+evidence.subprocess.run = lambda *_a, **_k: effects.append("PROCESS")
+evidence.urllib.request.urlopen = lambda *_a, **_k: effects.append("NETWORK")
+try:
+    evidence.diff_snapshots(hostile, base)
+    evidence.render_snapshot_projection_v1(
+        hostile, output_format="graph", max_rows=10, max_bytes=100000)
+finally:
+    evidence.subprocess.run = original_process
+    evidence.urllib.request.urlopen = original_network
+if effects:
+    raise SystemExit(f"DE16 command-looking data triggered effects: {effects}")
+observed.append("DE16")
+
+before_bytes = canonical(base)
+evidence.diff_snapshots(base, changed_snapshot)
+if canonical(base) != before_bytes:
+    raise SystemExit("DE17 diff mutated the immutable input snapshot")
+observed.append("DE17")
+
+source = inspect.getsource(evidence.diff_snapshots) + inspect.getsource(
+    evidence.export_snapshot) + inspect.getsource(evidence.render_snapshot_projection_v1)
+if any(name in source for name in ("ActiveGraph", "madge", "knip", "sqlite",
+                                    "urlopen(", "subprocess.", "pip install")):
+    raise SystemExit("DE18 core diff/export depends on optional or external tooling")
+observed.append("DE18")
+
+if observed != expected_ids:
+    raise SystemExit(f"C08 DE matrix skipped or reordered cases: {observed}")
+
+parser = evidence.build_cli_parser_v1()
+if parser.parse_args(["diff", "before.json", "after.json"]).command != "diff":
+    raise SystemExit("C08 diff CLI route is absent")
+export_args = parser.parse_args([
+    "export", "--destination", os.fspath(tmp / "cli.json"),
+    "--owned-root", os.fspath(tmp), "--format", "json"])
+if export_args.command != "export" or export_args.destination != (tmp / "cli.json"):
+    raise SystemExit("C08 export CLI route is absent or derived authority")
+PY
+}
+
+if [ "${1:-}" = "--diff-export-only" ]; then
+  run_diff_export_contract
+  printf 'operational-evidence-contract.test: diff/export ok\n'
+  exit 0
+fi
 
 if [ "${1:-}" = "--query-only" ]; then
   run_query_contract
@@ -1888,6 +2594,12 @@ original_material = snapshot_module._build_snapshot_material_v1(
     snapshot_native, original_collections, schema_raw, compiler_raw)
 variant_material = snapshot_module._build_snapshot_material_v1(
     variant_native, variant_collections, schema_raw, compiler_raw)
+materialized_payload = json.loads(original_material["payload_raw"].decode("utf-8"))
+materialized_diff = snapshot_module.diff_snapshots(
+    materialized_payload, copy.deepcopy(materialized_payload))
+if (materialized_diff["added"] or materialized_diff["removed"] or
+        materialized_diff["changed"]):
+    raise SystemExit("C08-R2 exact producer payload did not yield an empty diff")
 for key in ("snapshot_id", "input_raw", "payload_raw", "manifest_raw", "current_raw"):
     if original_material[key] != variant_material[key]:
         raise SystemExit(f"C06-R04 volatile absolute envelope changed {key}")
@@ -2052,6 +2764,563 @@ census_compiler_raw = (
 census_schema_raw = (
     census_repo / "skills/implementaudit/references/operational-evidence-schema.json"
 ).read_bytes()
+c08_r3_material = census_module._build_snapshot_material_v1(
+    census_native, census_collections, census_schema_raw, census_compiler_raw)
+c08_r3_payload = json.loads(c08_r3_material["payload_raw"].decode("utf-8"))
+c08_r3_positive = census_module.diff_snapshots(
+    c08_r3_payload, copy.deepcopy(c08_r3_payload))
+if (c08_r3_positive["added"] or c08_r3_positive["removed"] or
+        c08_r3_positive["changed"]):
+    correction_red_failures.append(
+        "C08-R3-C1 genuine producer payload did not yield an empty diff")
+
+
+def c08_r3_refresh_payload(payload, preserve_semantic=None):
+    """Refresh every enclosing producer digest after one hostile mutation."""
+    for name, collection in payload["collections"].items():
+        value = collection["value"]
+        if (collection["state"] == "CURRENT" and isinstance(value, dict) and
+                "semantic_sha256" in value and
+                preserve_semantic != (name, "semantic_sha256")):
+            semantic = {
+                key: item for key, item in value.items()
+                if key != "semantic_sha256"}
+            value["semantic_sha256"] = hashlib.sha256(
+                census_module.canonical_json_v1(semantic)).hexdigest()
+        collection["sha256"] = hashlib.sha256(
+            census_module.canonical_json_v1(value)).hexdigest()
+
+
+def c08_r3_value(payload, actual_path):
+    collection = payload["collections"][actual_path[0]]["value"]
+    value = collection
+    for part in actual_path[1:]:
+        value = value[part]
+    return value
+
+
+def c08_r3_parent(payload, actual_path):
+    parent = c08_r3_value(payload, actual_path[:-1])
+    return parent, actual_path[-1]
+
+
+def c08_r3_discriminator(value, index):
+    if isinstance(value, dict):
+        for key in ("record_type", "kind", "capability", "id"):
+            if isinstance(value.get(key), str) and value[key]:
+                return value[key]
+    return str(index)
+
+
+def c08_r3_schema_nodes():
+    """Select one genuine producer node for every named structural branch."""
+    nodes = {}
+
+    def visit(value, actual_path, display_path):
+        kind = type(value).__name__
+        nodes.setdefault((display_path, kind), (actual_path, value))
+        if isinstance(value, dict):
+            for key in sorted(value):
+                visit(value[key], actual_path + (key,), f"{display_path}.{key}")
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                discriminator = c08_r3_discriminator(item, index)
+                visit(item, actual_path + (index,),
+                      f"{display_path}[{discriminator}]")
+
+    for name in sorted(c08_r3_payload["collections"]):
+        visit(c08_r3_payload["collections"][name]["value"], (name,), name)
+    return list(nodes.values())
+
+
+def c08_r3_expect_invalid(label, payload):
+    try:
+        census_module.diff_snapshots(c08_r3_payload, payload)
+    except census_module.OperationalEvidenceError as exc:
+        if exc.code != "OE_DIFF_SNAPSHOT_INVALID":
+            correction_red_failures.append(
+                f"C08-R3-C1 {label} returned {exc.code}")
+    except Exception as exc:
+        correction_red_failures.append(
+            f"C08-R3-C1 {label} leaked {type(exc).__name__}")
+    else:
+        correction_red_failures.append(
+            f"C08-R3-C1 {label} returned success-shaped diff")
+
+
+# Generated closed-grammar matrix. Each operator is applied to one genuine
+# instance of every named producer branch/variant. Enclosing semantic and
+# collection digests are maliciously refreshed so an outer checksum cannot be
+# the discriminator.
+for actual_path, original in c08_r3_schema_nodes():
+    label = ".".join(str(part) for part in actual_path)
+    if isinstance(original, dict):
+        dynamic_map = actual_path[-2:] in (
+            ("frontier", "blocked_summary"),
+            ("frontier", "writer_holds"),
+            ("frontier", "resource_holds"))
+        mutated = copy.deepcopy(c08_r3_payload)
+        c08_r3_value(mutated, actual_path)["__foreign_branch__"] = {
+            "foreign": "member"}
+        c08_r3_refresh_payload(mutated)
+        c08_r3_expect_invalid(f"{label}:extra-key", mutated)
+        for key in (() if dynamic_map else sorted(original)):
+            mutated = copy.deepcopy(c08_r3_payload)
+            del c08_r3_value(mutated, actual_path)[key]
+            if key == "semantic_sha256":
+                c08_r3_refresh_payload(
+                    mutated, preserve_semantic=(actual_path[0], key))
+            else:
+                c08_r3_refresh_payload(mutated)
+            c08_r3_expect_invalid(f"{label}:missing-{key}", mutated)
+    elif isinstance(original, list):
+        mutated = copy.deepcopy(c08_r3_payload)
+        parent, key = c08_r3_parent(mutated, actual_path)
+        parent[key] = {"foreign": "array-type"}
+        c08_r3_refresh_payload(mutated)
+        c08_r3_expect_invalid(f"{label}:wrong-array-type", mutated)
+
+        mutated = copy.deepcopy(c08_r3_payload)
+        c08_r3_value(mutated, actual_path).append({"foreign": "array-member"})
+        c08_r3_refresh_payload(mutated)
+        c08_r3_expect_invalid(f"{label}:foreign-array-member", mutated)
+    else:
+        mutated = copy.deepcopy(c08_r3_payload)
+        parent, key = c08_r3_parent(mutated, actual_path)
+        if type(original) is bool:
+            parent[key] = 0
+        elif type(original) is int:
+            parent[key] = True
+        elif original is None:
+            parent[key] = "foreign-null"
+        elif type(original) is str:
+            parent[key] = {"foreign": "scalar-type"}
+        else:
+            parent[key] = {"foreign": "scalar-type"}
+        preserve = ((actual_path[0], "semantic_sha256")
+                    if actual_path[-1] == "semantic_sha256" else None)
+        c08_r3_refresh_payload(mutated, preserve_semantic=preserve)
+        c08_r3_expect_invalid(f"{label}:wrong-scalar-type", mutated)
+        if type(original) is str and original:
+            mutated = copy.deepcopy(c08_r3_payload)
+            parent, key = c08_r3_parent(mutated, actual_path)
+            parent[key] = ""
+            c08_r3_refresh_payload(mutated, preserve_semantic=preserve)
+            c08_r3_expect_invalid(f"{label}:empty-text", mutated)
+            if actual_path[-1] in {
+                    "state", "record_type", "family", "layer", "leg",
+                    "result_class", "cause_confidence", "recovery_state",
+                    "worktree_state", "file_type", "language", "auth_state",
+                    "rate_state", "pagination_state", "decision", "route_state"}:
+                mutated = copy.deepcopy(c08_r3_payload)
+                parent, key = c08_r3_parent(mutated, actual_path)
+                parent[key] = "__FOREIGN_ENUM__"
+                c08_r3_refresh_payload(mutated, preserve_semantic=preserve)
+                c08_r3_expect_invalid(f"{label}:foreign-enum", mutated)
+
+
+def c08_r3_named_mutation(label, action):
+    mutated = copy.deepcopy(c08_r3_payload)
+    action(mutated)
+    c08_r3_refresh_payload(mutated)
+    c08_r3_expect_invalid(label, mutated)
+
+
+def c08_r3_repo_foreign_fact(payload):
+    payload["collections"]["repository"]["value"]["facts"].append(
+        {"foreign": "member"})
+
+
+def c08_r3_native_foreign_repository_key(payload):
+    payload["collections"]["native_current"]["value"]["repository"][
+        "foreign"] = "member"
+
+
+def c08_r3_release_ill_typed_object(payload):
+    node = next(row for row in payload["collections"]["release"]["value"][
+        "nodes"] if row["record_type"] == "Commit")
+    node["object_identity"] = {"foreign": "object"}
+
+
+def c08_r3_duplicate_identity(payload):
+    records = payload["collections"]["evidence_failure"]["value"][
+        "evidence_records"]
+    records[1]["id"] = records[0]["id"]
+
+
+def c08_r3_duplicate_sequence(payload):
+    records = payload["collections"]["evidence_failure"]["value"][
+        "evidence_records"]
+    records[1]["sequence"] = records[0]["sequence"]
+
+
+def c08_r3_bad_layer_census(payload):
+    payload["collections"]["evidence_failure"]["value"]["layer_census"][
+        "EFFECT"] += 1
+
+
+def c08_r3_bad_release_census(payload):
+    payload["collections"]["release"]["value"]["node_type_census"][
+        "Commit"] += 1
+
+
+def c08_r3_bad_currentness(payload):
+    record = payload["collections"]["evidence_failure"]["value"][
+        "evidence_records"][0]
+    record["currentness"] = {"state": "CURRENT", "invalidators": ["FOREIGN"]}
+
+
+for label, action in (
+        ("repository-foreign-fact", c08_r3_repo_foreign_fact),
+        ("native-foreign-repository-key", c08_r3_native_foreign_repository_key),
+        ("release-ill-typed-object", c08_r3_release_ill_typed_object),
+        ("duplicate-record-identity", c08_r3_duplicate_identity),
+        ("duplicate-record-sequence", c08_r3_duplicate_sequence),
+        ("evidence-layer-census", c08_r3_bad_layer_census),
+        ("release-node-type-census", c08_r3_bad_release_census),
+        ("CURRENT-with-invalidator", c08_r3_bad_currentness)):
+    c08_r3_named_mutation(label, action)
+
+
+# Derive the unique-list operator population from genuine producer validation,
+# not from the C08 parser or its hand-selected field model.  Any new producer
+# unique-list call changes this census before it can silently escape the diff
+# grammar.
+c08_r4_unique_paths = []
+c08_r4_original_string_list = census_module._string_list
+
+
+def c08_r4_observe_unique_list(value, path, *, allowed=None, unique=True):
+    if unique and path.startswith("$run_artifact"):
+        c08_r4_unique_paths.append(path)
+    return c08_r4_original_string_list(
+        value, path, allowed=allowed, unique=unique)
+
+
+census_module._string_list = c08_r4_observe_unique_list
+try:
+    census_module._collect_snapshot_inputs_v1(census_native)
+finally:
+    census_module._string_list = c08_r4_original_string_list
+
+
+def c08_r4_unique_operator(path):
+    if path.endswith(".currentness.invalidators"):
+        return "currentness.invalidators"
+    return path.rsplit(".", 1)[-1]
+
+
+c08_r4_unique_operators = {
+    c08_r4_unique_operator(path) for path in c08_r4_unique_paths}
+c08_r4_expected_unique_operators = {
+    "currentness.invalidators", "controls", "contrary_evidence",
+    "evidence_ids", "residual_ids"}
+if c08_r4_unique_operators != c08_r4_expected_unique_operators:
+    correction_red_failures.append(
+        "C08-R4-C1 producer unique-list census differs: "
+        f"observed={sorted(c08_r4_unique_operators)} "
+        f"expected={sorted(c08_r4_expected_unique_operators)}")
+
+
+def c08_r4_duplicate_unique_operator(payload, operator):
+    evidence = payload["collections"]["evidence_failure"]["value"]
+    records = evidence["evidence_records"]
+    failures = evidence["failure_records"]
+    if operator == "controls":
+        records[0]["controls"] = ["PARITY_CONTROL", "PARITY_CONTROL"]
+    elif operator == "contrary_evidence":
+        records[0]["contrary_evidence"] = [records[0]["id"], records[0]["id"]]
+    elif operator == "evidence_ids":
+        reference = records[0]["id"]
+        failures[0]["evidence_ids"] = [reference, reference]
+    elif operator == "residual_ids":
+        residual = next(
+            row["id"] for row in failures if row["record_type"] == "Residual")
+        evidence["residual_ids"] = [residual, residual]
+    else:
+        populations = (records, failures,
+                       payload["collections"]["release"]["value"]["nodes"])
+        currentness = next(
+            row["currentness"] for population in populations for row in population)
+        currentness["invalidators"] = [
+            "PARITY_INVALIDATOR", "PARITY_INVALIDATOR"]
+
+
+for operator in sorted(c08_r4_expected_unique_operators):
+    c08_r3_named_mutation(
+        f"producer-unique-list:{operator}",
+        lambda payload, selected=operator:
+        c08_r4_duplicate_unique_operator(payload, selected))
+
+
+# The staged publication contract is finite and observable at named phases.
+# On the rejected destination-direct mechanism none of these phases exists;
+# the matrix must therefore RED before any production mechanism replacement.
+c08_r4_capability_check = getattr(
+    census_module, "_snapshot_hardlink_publication_capable_v1", None)
+if c08_r4_capability_check is not None:
+    census_module._snapshot_hardlink_publication_capable_v1 = (
+        lambda _kernel, _handle: True)
+c08_r3_export_root = CASE_ROOT / "c08-r3-export-matrix"
+c08_r3_export_root.mkdir()
+c08_r3_phases = (
+    "stage-created", "write-complete", "fsync-complete",
+    "readback-start", "readback-eof", "before-publish")
+c08_r3_topologies = (
+    "same-inode-same-size", "same-inode-size-change",
+    "unlink-recreate", "link-swap", "destination-occupation")
+for phase in c08_r3_phases:
+    for topology in c08_r3_topologies:
+        case_root = c08_r3_export_root / f"{phase}-{topology}"
+        case_root.mkdir()
+        destination = case_root / "snapshot.json"
+        alias = case_root / "stage-alias"
+        phase_seen = False
+        mutation_succeeded = False
+        mutation_excluded = False
+        original_stage = census_module._snapshot_stage_v1
+
+        def mutate_at_phase(observed_phase, *, expected=phase, kind=topology):
+            global phase_seen, mutation_succeeded, mutation_excluded
+            if observed_phase != expected:
+                return
+            phase_seen = True
+            stage_paths = [
+                path for path in case_root.iterdir()
+                if path not in (destination, alias)]
+            try:
+                if kind == "destination-occupation":
+                    destination.write_bytes(b"foreign-destination")
+                elif not stage_paths:
+                    return
+                elif kind == "same-inode-same-size":
+                    with stage_paths[0].open("r+b") as stream:
+                        observed = stream.read()
+                        stream.seek(0)
+                        stream.write(b"X" * len(observed) if observed else b"X")
+                        stream.flush()
+                        os.fsync(stream.fileno())
+                elif kind == "same-inode-size-change":
+                    with stage_paths[0].open("ab") as stream:
+                        stream.write(b"X")
+                        stream.flush()
+                        os.fsync(stream.fileno())
+                elif kind == "unlink-recreate":
+                    stage_paths[0].unlink()
+                    stage_paths[0].write_bytes(b"foreign-stage")
+                else:
+                    os.link(stage_paths[0], alias)
+                mutation_succeeded = True
+            except OSError:
+                mutation_excluded = True
+
+        census_module._snapshot_stage_v1 = mutate_at_phase
+        receipt = None
+        error = None
+        try:
+            try:
+                receipt = census_module.export_snapshot(
+                    c08_r3_payload, destination, owned_root=case_root,
+                    output_format="json")
+            except census_module.OperationalEvidenceError as exc:
+                error = exc
+        finally:
+            census_module._snapshot_stage_v1 = original_stage
+        label = f"{phase}/{topology}"
+        if not phase_seen:
+            correction_red_failures.append(
+                f"C08-R3-C2 {label} did not reach the staged transaction phase")
+        elif topology == "destination-occupation":
+            if (not mutation_succeeded or error is None or
+                    error.code != "OE_EXPORT_DESTINATION_EXISTS" or
+                    destination.read_bytes() != b"foreign-destination"):
+                correction_red_failures.append(
+                    f"C08-R3-C2 {label} overwrote or misclassified foreign occupancy")
+        elif mutation_succeeded:
+            if error is None or error.code != "OE_EXPORT_WRITE_FAILED" or receipt:
+                correction_red_failures.append(
+                    f"C08-R3-C2 {label} mutation returned success-shaped receipt")
+        elif mutation_excluded:
+            if (receipt is None or error is not None or
+                    destination.read_bytes() !=
+                    census_module.canonical_json_v1(c08_r3_payload)):
+                correction_red_failures.append(
+                    f"C08-R3-C2 {label} excluded mutation lost the positive export")
+
+if os.name == "nt":
+    if not hasattr(census_module, "_snapshot_atomic_no_replace_v1"):
+        correction_red_failures.append(
+            "C08-R3-C2 after-publication live-handle exclusion is absent")
+    else:
+        after_root = c08_r3_export_root / "after-publication"
+        after_root.mkdir()
+        after_destination = after_root / "snapshot.json"
+        original_publish = census_module._snapshot_atomic_no_replace_v1
+        after_attack_excluded = False
+
+        def publish_then_attack(handle, target):
+            global after_attack_excluded
+            result = original_publish(handle, target)
+            try:
+                with pathlib.Path(target).open("r+b") as stream:
+                    stream.write(b"X")
+                    stream.flush()
+                    os.fsync(stream.fileno())
+            except OSError:
+                after_attack_excluded = True
+            return result
+
+        census_module._snapshot_atomic_no_replace_v1 = publish_then_attack
+        try:
+            after_receipt = census_module.export_snapshot(
+                c08_r3_payload, after_destination, owned_root=after_root,
+                output_format="json")
+        finally:
+            census_module._snapshot_atomic_no_replace_v1 = original_publish
+        if (not after_attack_excluded or
+                after_destination.read_bytes() !=
+                census_module.canonical_json_v1(c08_r3_payload) or
+                after_receipt["output_sha256"] != hashlib.sha256(
+                    after_destination.read_bytes()).hexdigest()):
+            correction_red_failures.append(
+                "C08-R3-C2 post-publication write was not excluded by live handle")
+
+    if c08_r4_capability_check is not None:
+        census_module._snapshot_hardlink_publication_capable_v1 = (
+            c08_r4_capability_check)
+
+    # These two cells are derived from native operation edges, not the
+    # production hook population.  They reproduce hard-link creation between
+    # the final handle observation and FileRenameInfo, and immediately after
+    # the atomic rename while the transaction handle is still live.
+    late_root = c08_r3_export_root / "native-late-hardlink"
+    late_root.mkdir()
+    late_destination = late_root / "snapshot.json"
+    late_alias = late_root / "late-alias"
+    original_publish = census_module._snapshot_atomic_no_replace_v1
+    late_edge_reached = False
+    late_link_created = False
+
+    def attack_before_native_rename(handle, target):
+        global late_edge_reached, late_link_created
+        late_edge_reached = True
+        stage = next(
+            path for path in late_root.iterdir()
+            if path != late_destination and
+            path.name.endswith(".implementaudit-stage"))
+        try:
+            os.link(stage, late_alias)
+            late_link_created = True
+        except OSError:
+            pass
+        return original_publish(handle, target)
+
+    census_module._snapshot_atomic_no_replace_v1 = attack_before_native_rename
+    late_receipt = None
+    late_error = None
+    try:
+        try:
+            late_receipt = census_module.export_snapshot(
+                c08_r3_payload, late_destination, owned_root=late_root,
+                output_format="json")
+        except census_module.OperationalEvidenceError as exc:
+            late_error = exc
+    finally:
+        census_module._snapshot_atomic_no_replace_v1 = original_publish
+    if (late_link_created and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 after-final-check/before-native-rename hard link "
+            "returned success-shaped receipt")
+    if (not late_edge_reached and
+            (late_error is None or
+             late_error.code != "OE_EXPORT_WRITE_FAILED" or late_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 unavailable hard-link custody did not fail typed")
+    if not late_edge_reached and any(late_root.iterdir()):
+        correction_red_failures.append(
+            "C08-R4-C2 capability refusal left a stage or destination")
+
+    post_root = c08_r3_export_root / "native-post-publication-hardlink"
+    post_root.mkdir()
+    post_destination = post_root / "snapshot.json"
+    post_alias = post_root / "post-alias"
+    post_edge_reached = False
+    post_link_created = False
+
+    def publish_then_hardlink(handle, target):
+        global post_edge_reached, post_link_created
+        post_edge_reached = True
+        result = original_publish(handle, target)
+        try:
+            os.link(target, post_alias)
+            post_link_created = True
+        except OSError:
+            pass
+        return result
+
+    census_module._snapshot_atomic_no_replace_v1 = publish_then_hardlink
+    post_receipt = None
+    post_error = None
+    try:
+        try:
+            post_receipt = census_module.export_snapshot(
+                c08_r3_payload, post_destination, owned_root=post_root,
+                output_format="json")
+        except census_module.OperationalEvidenceError as exc:
+            post_error = exc
+    finally:
+        census_module._snapshot_atomic_no_replace_v1 = original_publish
+    if (post_link_created and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 post-publication live-handle hard link returned "
+            "success-shaped receipt")
+    if (not post_edge_reached and
+            (post_error is None or
+             post_error.code != "OE_EXPORT_WRITE_FAILED" or post_receipt)):
+        correction_red_failures.append(
+            "C08-R4-C2 unavailable post-publication custody did not fail typed")
+    if not post_edge_reached and any(post_root.iterdir()):
+        correction_red_failures.append(
+            "C08-R4-C2 post-publication capability refusal left an object")
+def refresh_release_candidate_invalidators(value):
+    boundary = value["external_boundary"]
+    boundary_currentness = census_module._external_boundary_currentness(
+        boundary["auth_state"], boundary["rate_state"],
+        boundary["pagination_state"], boundary["object_drift"],
+        boundary["expires_at"], boundary["evaluated_at"])
+    invalidators = list(boundary_currentness["invalidators"])
+    for row in value["nodes"]:
+        if row["layer"] != "EXTERNAL":
+            continue
+        for invalidator in row["currentness"]["invalidators"]:
+            if invalidator not in invalidators:
+                invalidators.append(invalidator)
+    required_types = {
+        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+        "Release", "Asset", "PublicSurface"}
+    observed_types = {row["record_type"] for row in value["nodes"]}
+    invalidators.extend(
+        f"MISSING_RELEASE_LAYER:{record_type}"
+        for record_type in sorted(required_types - observed_types))
+    public_nodes = [
+        row for row in value["nodes"]
+        if row["record_type"] == "PublicSurface"]
+    if len(public_nodes) != 1:
+        invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
+    elif public_nodes[0]["commit_identity"] != value["repository"]["commit"]:
+        invalidators.append("PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT")
+    if value["repository"]["worktree_state"] != "CLEAN":
+        invalidators.append("LOCAL_WORKTREE_DIRTY")
+    if not invalidators:
+        invalidators.append("NATIVE_CANDIDATE_QUALIFICATION_REQUIRED")
+    value["candidate"]["invalidators"] = invalidators
+
+
 census_targets = (
     ("evidence_failure", "evidence_records", "claim-effectiveness",
      "R0038-C04", "EVIDENCE", None, "fixture-evidence-owner"),
@@ -2062,8 +3331,8 @@ census_targets = (
     ("release", "nodes", "external-pr",
      "R0038-C05", "RELEASE", "EXTERNAL", "github:fixture/repository"),
 )
-admitted_non_current_states = (
-    "UNKNOWN", "UNVERIFIED", "STALE", "CONTRADICTORY", "PARSER_ERROR")
+admitted_non_current_states = tuple(
+    state for state in census_module.STATES if state != "CURRENT")
 for (collector, bucket, record_id, owner, family, layer,
      native_owner_identity) in census_targets:
     for state in admitted_non_current_states:
@@ -2073,6 +3342,12 @@ for (collector, bucket, record_id, owner, family, layer,
         invalidators = [f"HELD_OUT_{state}"]
         target["currentness"] = {
             "state": state, "invalidators": invalidators}
+        if collector == "release" and target.get("layer") == "EXTERNAL":
+            target["native_currentness"] = {
+                "state": state, "invalidators": invalidators}
+            target["currentness"] = census_module._compose_currentness(
+                target["native_currentness"], target["capture_currentness"])
+            refresh_release_candidate_invalidators(value)
         census_module._currentness(
             target["currentness"], f"$held_out.{collector}.{record_id}")
         semantic_value = {
@@ -2084,6 +3359,14 @@ for (collector, bucket, record_id, owner, family, layer,
             census_module.canonical_json_v1(value)).hexdigest()
         material = census_module._build_snapshot_material_v1(
             census_native, collections, census_schema_raw, census_compiler_raw)
+        held_out_payload = json.loads(material["payload_raw"].decode("utf-8"))
+        held_out_diff = census_module.diff_snapshots(
+            held_out_payload, copy.deepcopy(held_out_payload))
+        if (held_out_diff["added"] or held_out_diff["removed"] or
+                held_out_diff["changed"]):
+            correction_red_failures.append(
+                f"C08-R3-C1 valid {collector}/{record_id}/{state} "
+                "did not yield an empty diff")
         input_census = json.loads(material["input_raw"])[
             "missing_or_omitted_state"]
         payload_census = json.loads(material["payload_raw"])[
@@ -3804,5 +5087,6 @@ if any(fact.get("state") == "CURRENT" for fact in partial["facts"]):
 PY
 
 run_query_contract
+run_diff_export_contract
 
 printf 'operational-evidence-contract.test: ok\n'
