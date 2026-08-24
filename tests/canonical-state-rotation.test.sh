@@ -53,6 +53,7 @@ esac
 bash -n "$checker" || fail "checker syntax is invalid"
 if $live_genesis_only; then
   python - "$helper" "$tmp" <<'PY'
+import contextlib
 import copy
 import hashlib
 import importlib.util
@@ -341,10 +342,247 @@ expect_rotation_error(
     "stored equivalence without immutable event ref",
 )
 
+if not hasattr(rotation, "prepare_live_genesis_v1"):
+    print(
+        "CANONICAL_STATE_ROTATION_LIVE_GENESIS_TASK3_RED="
+        "NO_ARGUMENT_ASSEMBLER_NOT_IMPLEMENTED events=ABSENT effects=NONE",
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+
+pointer_ref = "refs/implementaudit/current-generations/" + controller_id
+marker_ref = "refs/implementaudit/current-generation-migrations/" + controller_id
+subprocess.run(["git", "-C", str(repo), "update-ref", "-d", pointer_ref], check=True)
+receipt_ref = "refs/implementaudit/continuity-receipts/" + controller_id + "/G0001"
+receipt_oid = hash_blob(repo, b"predecessor receipt\n")
+invalidation_ref = "refs/implementaudit/continuity-invalidations/" + controller_id
+invalidation_oid = hash_blob(repo, b"fresh invalidation\n")
+subprocess.run(["git", "-C", str(repo), "update-ref", receipt_ref, receipt_oid], check=True)
+subprocess.run(["git", "-C", str(repo), "update-ref", invalidation_ref, invalidation_oid], check=True)
+
+hot_bytes = {
+    "STATE": b"Current epoch: G0002\n",
+    "ROADMAP": b"Current roadmap epoch: G0002\n",
+    "WORK_GRAPH": b'{"active":[]}\n',
+}
+(run_root / "STATE.md").write_bytes(hot_bytes["STATE"])
+(run_root / "ROADMAP.md").write_bytes(hot_bytes["ROADMAP"])
+(run_root / "WORK_GRAPH.json").write_bytes(hot_bytes["WORK_GRAPH"])
+live_context = {
+    "repo_path": repo,
+    "run_root_path": run_root,
+    "controller_id": controller_id,
+    "claim_id": claim_id,
+    "run_id": run_id,
+    "generation_id": "G0002",
+    "source_epoch": "G0002",
+    "receipt_ref": receipt_ref,
+    "receipt_oid": receipt_oid,
+    "predecessor_receipt_token": receipt_ref + "@" + receipt_oid,
+    "receipt_state_digest": hashlib.sha256(hot_bytes["STATE"]).hexdigest(),
+    "receipt_roadmap_digest": hashlib.sha256(hot_bytes["ROADMAP"]).hexdigest(),
+    "expected_old_pointer_oid": None,
+    "migration_marker_oid": None,
+    "publication_guard_refs": tuple(sorted((
+        (controller_ref, controller_oid),
+        (receipt_ref, receipt_oid),
+        (marker_ref, rotation.ZERO_OID),
+        (invalidation_ref, invalidation_oid),
+    ))),
+}
+
+
+class FakeObservationSession:
+    def read_role_exact(self, role, *, reopen):
+        if role not in hot_bytes or type(reopen) is not bool:
+            raise rotation.RotationError("unexpected observation request")
+        return hot_bytes[role]
+
+
+@contextlib.contextmanager
+def fake_live_genesis_lease():
+    yield live_context, FakeObservationSession()
+
+
+def event_refs():
+    prefix = (rotation.EVENT_SEGMENT_PREFIX + "/" + run_id + "/G0002/")
+    output = subprocess.check_output(
+        ["git", "-C", str(repo), "for-each-ref",
+         "--format=%(refname) %(objectname)", prefix], text=True)
+    return dict(line.split(" ", 1) for line in output.splitlines() if line)
+
+
+def protected_refs():
+    output = subprocess.check_output(
+        ["git", "-C", str(repo), "for-each-ref",
+         "--format=%(refname) %(objectname)", "refs/implementaudit/"], text=True)
+    return dict(line.split(" ", 1) for line in output.splitlines()
+                if line and not line.startswith(rotation.EVENT_SEGMENT_PREFIX + "/"))
+
+
+original_lease = rotation.acquire_r0039_publication_writer_lease_v1
+original_publication_context = rotation.load_governed_publication_context_v1
+rotation.acquire_r0039_publication_writer_lease_v1 = fake_live_genesis_lease
+rotation.load_governed_publication_context_v1 = lambda: live_context
+protected_before_prepare = protected_refs()
+try:
+    try:
+        rotation.prepare_live_genesis_v1(repo=repo)
+    except TypeError:
+        pass
+    else:
+        raise SystemExit("live-genesis assembler accepted caller repository injection")
+
+    subprocess.run(["git", "-C", str(repo), "update-ref", "-d", expected_ref], check=True)
+    expect_rotation_error(
+        rotation, rotation.prepare_live_genesis_v1,
+        "live-genesis preparation without admitted classification")
+    if event_refs():
+        raise SystemExit("missing classification published an event ref")
+    subprocess.run(["git", "-C", str(repo), "update-ref", expected_ref, candidate_oid], check=True)
+
+    original_pure = rotation.verify_migration_population_v1
+    rotation.verify_migration_population_v1 = lambda *_args: (_ for _ in ()).throw(
+        rotation.RotationError("held-out pure population failure"))
+    try:
+        expect_rotation_error(
+            rotation, rotation.prepare_live_genesis_v1,
+            "live-genesis preparation after pure population failure")
+    finally:
+        rotation.verify_migration_population_v1 = original_pure
+    if event_refs():
+        raise SystemExit("pure population failure published an event ref")
+
+    original_run = rotation.subprocess.run
+    pivot_oid = hash_blob(repo, b"stale custody pivot\n")
+    guard_cases = (
+        (controller_ref, controller_oid, pivot_oid),
+        (receipt_ref, receipt_oid, pivot_oid),
+        (invalidation_ref, invalidation_oid, pivot_oid),
+        (archive_ref, archive_oid, pivot_oid),
+        (expected_ref, candidate_oid, pivot_oid),
+        (pointer_ref, rotation.ZERO_OID, pivot_oid),
+        (marker_ref, rotation.ZERO_OID, pivot_oid),
+    )
+    for guard_ref, before_oid, after_oid in guard_cases:
+        injected = {"done": False}
+
+        def pivoting_run(argv, *args, **kwargs):
+            stdin_bytes = kwargs.get("input", b"")
+            if (not injected["done"] and isinstance(stdin_bytes, bytes)
+                    and rotation.EVENT_SEGMENT_PREFIX.encode("ascii") in stdin_bytes
+                    and "update-ref" in [str(value) for value in argv]):
+                injected["done"] = True
+                if before_oid == rotation.ZERO_OID:
+                    original_run(
+                        ["git", "-C", str(repo), "update-ref", guard_ref, after_oid],
+                        check=True)
+                else:
+                    original_run(
+                        ["git", "-C", str(repo), "update-ref", guard_ref,
+                         after_oid, before_oid], check=True)
+            return original_run(argv, *args, **kwargs)
+
+        rotation.subprocess.run = pivoting_run
+        try:
+            expect_rotation_error(
+                rotation, rotation.prepare_live_genesis_v1,
+                "stale live-genesis event guard " + guard_ref)
+        finally:
+            rotation.subprocess.run = original_run
+            if before_oid == rotation.ZERO_OID:
+                original_run(
+                    ["git", "-C", str(repo), "update-ref", "-d", guard_ref],
+                    check=True)
+            else:
+                original_run(
+                    ["git", "-C", str(repo), "update-ref", guard_ref,
+                     before_oid, after_oid], check=True)
+        if not injected["done"] or event_refs():
+            raise SystemExit("stale guard was not fenced before event publication")
+
+    unknown = {"done": False}
+
+    def unknown_success_run(argv, *args, **kwargs):
+        completed = original_run(argv, *args, **kwargs)
+        stdin_bytes = kwargs.get("input", b"")
+        if (not unknown["done"] and isinstance(stdin_bytes, bytes)
+                and rotation.EVENT_SEGMENT_PREFIX.encode("ascii") in stdin_bytes
+                and "update-ref" in [str(value) for value in argv]):
+            unknown["done"] = True
+            return subprocess.CompletedProcess(
+                completed.args, 1, completed.stdout, completed.stderr)
+        return completed
+
+    rotation.subprocess.run = unknown_success_run
+    try:
+        preparation = rotation.prepare_live_genesis_v1()
+    finally:
+        rotation.subprocess.run = original_run
+    expected_keys = {
+        "schema", "controller_id", "claim_id", "run_id", "source_epoch",
+        "archive_ref", "archive_oid", "classification_ref", "classification_oid",
+        "event_count", "event_population_digest", "generation_manifest_oid",
+        "generation_manifest_digest", "candidate_pointer_oid", "authority_ceiling",
+    }
+    if (not unknown["done"] or set(preparation) != expected_keys
+            or preparation["schema"] != "implementaudit.live-genesis-preparation.v1"
+            or preparation["authority_ceiling"] != "R0039_CANDIDATE_ONLY"
+            or preparation["controller_id"] != controller_id
+            or preparation["claim_id"] != claim_id
+            or preparation["run_id"] != run_id
+            or preparation["source_epoch"] != "G0002"
+            or preparation["archive_ref"] != archive_ref
+            or preparation["archive_oid"] != archive_oid
+            or preparation["classification_ref"] != expected_ref
+            or preparation["classification_oid"] != candidate_oid
+            or preparation["event_count"] != len(records)):
+        raise SystemExit("live-genesis preparation receipt is not exact")
+    complete_refs = event_refs()
+    if len(complete_refs) != len(records):
+        raise SystemExit("live-genesis event population is incomplete")
+
+    retry = rotation.prepare_live_genesis_v1()
+    if retry != preparation or event_refs() != complete_refs:
+        raise SystemExit("exact live-genesis retry was not idempotent")
+
+    missing_ref, missing_oid = sorted(complete_refs.items())[-1]
+    subprocess.run(["git", "-C", str(repo), "update-ref", "-d", missing_ref], check=True)
+    expect_rotation_error(
+        rotation, rotation.prepare_live_genesis_v1,
+        "partial preexisting live-genesis event population")
+    if missing_ref in event_refs():
+        raise SystemExit("partial population was silently completed")
+    subprocess.run(["git", "-C", str(repo), "update-ref", missing_ref, missing_oid], check=True)
+
+    foreign_ref, exact_oid = sorted(complete_refs.items())[0]
+    subprocess.run(["git", "-C", str(repo), "update-ref", foreign_ref,
+                    pivot_oid, exact_oid], check=True)
+    expect_rotation_error(
+        rotation, rotation.prepare_live_genesis_v1,
+        "foreign preexisting live-genesis event population")
+    subprocess.run(["git", "-C", str(repo), "update-ref", foreign_ref,
+                    exact_oid, pivot_oid], check=True)
+
+    if protected_refs() != protected_before_prepare:
+        raise SystemExit("live-genesis assembler changed a protected non-event ref")
+    for forbidden_prefix in (
+            "refs/implementaudit/current-generations/",
+            "refs/implementaudit/current-generation-migrations/",
+            "refs/implementaudit/operational-evidence-snapshots/",
+            "refs/implementaudit/lifecycle/"):
+        if any(ref.startswith(forbidden_prefix) for ref in protected_refs()):
+            raise SystemExit("live-genesis assembler crossed its authority ceiling")
+finally:
+    rotation.acquire_r0039_publication_writer_lease_v1 = original_lease
+    rotation.load_governed_publication_context_v1 = original_publication_context
+
 print(
-    "CANONICAL_STATE_ROTATION_LIVE_GENESIS_TASK2_GREEN=PASS "
+    "CANONICAL_STATE_ROTATION_LIVE_GENESIS_GREEN=PASS "
     "interfaces=4 empty-derivation=ZERO_DUPLICATE_ONLY "
-    "classification=EXPECTED_ZERO_CAS_IDEMPOTENT pure-equivalence=BEFORE_STORED_REFS"
+    "classification=EXPECTED_ZERO_CAS_IDEMPOTENT pure-equivalence=BEFORE_STORED_REFS "
+    "assembler=NO_ARGUMENT event-cas=ATOMIC_COMPLETE_IDEMPOTENT "
+    "guards=7 unknown-effect=READBACK_RECONCILED authority=R0039_CANDIDATE_ONLY"
 )
 PY
   exit 0

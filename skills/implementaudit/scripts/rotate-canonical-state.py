@@ -1580,10 +1580,12 @@ def validate_event_output_v1(event: dict[str, object]) -> None:
         raise RotationError("OE_EVENT_ID_INVALID")
 
 
-def build_event_segment_v1(event: dict[str, object], *,
-                           source_evidence_id: str) -> tuple[dict[str, object], bytes]:
+def _build_event_segment_in_context_v1(
+        event: dict[str, object], *, source_evidence_id: str,
+        context: Mapping[str, object]) -> tuple[dict[str, object], bytes]:
     validate_event_request_v1(event)
-    context = load_governed_source_context_v1(source_evidence_id)
+    if not isinstance(context, Mapping):
+        raise RotationError("OE_SOURCE_EVIDENCE_CONTEXT_MISMATCH")
     expected = tuple(context.get(name) for name in (
         "run_id", "controller_id", "generation_id", "source_epoch"))
     if (event["run_id"], event["controller_id"], event["generation_id"],
@@ -1602,6 +1604,13 @@ def build_event_segment_v1(event: dict[str, object], *,
         canonical_json_v1(envelope)).hexdigest()
     validate_event_output_v1(envelope)
     return envelope, canonical_json_v1(envelope)
+
+
+def build_event_segment_v1(event: dict[str, object], *,
+                           source_evidence_id: str) -> tuple[dict[str, object], bytes]:
+    return _build_event_segment_in_context_v1(
+        event, source_evidence_id=source_evidence_id,
+        context=load_governed_source_context_v1(source_evidence_id))
 
 
 def allocate_candidate_sequences_v1(old_high_water: str, count: int) -> list[str]:
@@ -2963,6 +2972,280 @@ def acquire_r0039_publication_writer_lease_v1():
         os.close(descriptor)
         try: os.unlink(gate)
         except OSError: pass
+
+
+def _read_live_genesis_event_population_v1(
+        repo: Path, *, run_id: str, generation_id: str) -> dict[str, str]:
+    if (not isinstance(repo, Path) or type(run_id) is not str
+            or not TOKEN_ID.fullmatch(run_id) or type(generation_id) is not str
+            or not GENERATION_ID.fullmatch(generation_id)):
+        raise RotationError("live-genesis event population identity is invalid")
+    prefix = f"{EVENT_SEGMENT_PREFIX}/{run_id}/{generation_id}/"
+    lines = git(
+        repo, "for-each-ref", "--format=%(refname)%09%(objectname)", prefix
+    ).decode("utf-8", "strict").splitlines()
+    observed: dict[str, str] = {}
+    for line in lines:
+        fields = line.split("\t")
+        if (len(fields) != 2 or not fields[0].startswith(prefix)
+                or not GIT_OID.fullmatch(fields[1]) or fields[0] in observed):
+            raise RotationError("live-genesis event population is malformed")
+        observed[fields[0]] = fields[1]
+    return dict(sorted(observed.items()))
+
+
+def _require_live_genesis_guards_v1(
+        repo: Path, guards: tuple[tuple[str, str], ...]) -> None:
+    if tuple(sorted(guards)) != guards:
+        raise RotationError("live-genesis event guard ordering is invalid")
+    for ref, expected_oid in guards:
+        if (not ref.startswith("refs/implementaudit/")
+                or not GIT_OID.fullmatch(expected_oid)):
+            raise RotationError("live-genesis event guard identity is invalid")
+        state, observed_oid = read_exact_ref_state_v1(repo, ref)
+        if ((expected_oid == ZERO_OID and state != "ABSENT")
+                or (expected_oid != ZERO_OID
+                    and (state != "RESOLVED" or observed_oid != expected_oid))):
+            raise RotationError("live-genesis event custody is stale")
+
+
+def _live_genesis_event_transaction_v1(
+        *, repo: Path, event_population: Mapping[str, str],
+        guards: tuple[tuple[str, str], ...]
+        ) -> tuple[list[str], dict[str, str], bytes]:
+    if (not isinstance(repo, Path) or type(event_population) is not dict
+            or not event_population or dict(sorted(event_population.items())) != event_population
+            or tuple(sorted(guards)) != guards):
+        raise RotationError("live-genesis event transaction is invalid")
+    rows = [b"start\0"]
+    for ref, oid in guards:
+        if (not ref.startswith("refs/implementaudit/")
+                or not GIT_OID.fullmatch(oid)):
+            raise RotationError("live-genesis event guard identity is invalid")
+        rows.append(b"verify " + ref.encode("ascii") + b"\0"
+                    + oid.encode("ascii") + b"\0")
+    for ref, oid in event_population.items():
+        if (not ref.startswith(EVENT_SEGMENT_PREFIX + "/")
+                or not GIT_OID.fullmatch(oid)):
+            raise RotationError("live-genesis event transaction is invalid")
+        rows.append(b"update " + ref.encode("ascii") + b"\0"
+                    + oid.encode("ascii") + b"\0"
+                    + ZERO_OID.encode("ascii") + b"\0")
+    rows.extend((b"prepare\0", b"commit\0"))
+    executable = git_executable_v1()
+    environment = {
+        "PATH": os.path.dirname(executable), "LC_ALL": "C", "LANG": "C",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": PLATFORM_NULL_SINK_V1,
+        "GIT_TERMINAL_PROMPT": "0",
+    }
+    return ([executable, "-c", f"core.hooksPath={PLATFORM_NULL_SINK_V1}",
+             "update-ref", "--stdin", "-z"], environment, b"".join(rows))
+
+
+def prepare_live_genesis_v1() -> dict[str, object]:
+    """Prepare one fully equivalent genesis candidate from governed custody."""
+    with acquire_r0039_publication_writer_lease_v1() as (context, session):
+        required = {
+            "repo_path", "run_root_path", "controller_id", "claim_id", "run_id",
+            "generation_id", "source_epoch", "receipt_ref", "receipt_oid",
+            "predecessor_receipt_token", "receipt_state_digest",
+            "receipt_roadmap_digest", "expected_old_pointer_oid",
+            "migration_marker_oid", "publication_guard_refs",
+        }
+        if (type(context) is not dict or not required.issubset(context)
+                or context["expected_old_pointer_oid"] is not None
+                or context["migration_marker_oid"] is not None
+                or context["predecessor_receipt_token"]
+                != str(context["receipt_ref"]) + "@" + str(context["receipt_oid"])):
+            raise RotationError("live-genesis requires a fresh invalidated successor")
+        repo = Path(context["repo_path"])
+        run_root = Path(context["run_root_path"])
+        controller_id = str(context["controller_id"])
+        claim_id = str(context["claim_id"])
+        run_id = str(context["run_id"])
+        generation_id = str(context["generation_id"])
+        source_epoch = str(context["source_epoch"])
+        if (not CONTROLLER_ID.fullmatch(controller_id)
+                or not CLAIM_ID.fullmatch(claim_id) or not TOKEN_ID.fullmatch(run_id)
+                or not GENERATION_ID.fullmatch(generation_id)
+                or source_epoch != generation_id
+                or not same_path(run_root, repo / ".IMPLEMENTAUDIT" / "runs" / run_id)):
+            raise RotationError("live-genesis custody identity is invalid")
+
+        initial_hot = {
+            role: session.read_role_exact(role, reopen=False)
+            for role in ("STATE", "ROADMAP", "WORK_GRAPH")
+        }
+        hot_digests = {
+            role: hashlib.sha256(raw).hexdigest()
+            for role, raw in initial_hot.items()
+        }
+        if (hot_digests["STATE"] != context["receipt_state_digest"]
+                or hot_digests["ROADMAP"] != context["receipt_roadmap_digest"]):
+            raise RotationError("live-genesis hot custody disagrees")
+
+        archive_prefix = f"{ARCHIVE_PREFIX}/{controller_id}/"
+        archive_refs = [line for line in git(
+            repo, "for-each-ref", "--format=%(refname)", archive_prefix
+        ).decode("utf-8", "strict").splitlines() if line]
+        if len(archive_refs) != 1:
+            raise RotationError("live-genesis archive custody is invalid")
+        archive_ref = archive_refs[0]
+        archive_oid = read_optional_exact_ref_oid_v1(repo, archive_ref)
+        if archive_oid is None:
+            raise RotationError("live-genesis archive custody is invalid")
+        exact_archive_ref, _archive, archive_sources = (
+            _load_live_genesis_archive_sources_v1(
+                repo, controller_id=controller_id, archive_oid=archive_oid))
+        if exact_archive_ref != archive_ref:
+            raise RotationError("live-genesis archive custody is invalid")
+        classification_ref, classification_oid, classification, _classification_raw = (
+            load_live_genesis_classification_oid_v1(
+                repo, controller_id=controller_id, archive_oid=archive_oid))
+        records = enumerate_legacy_history_v1(
+            archive_sources["STATE.md"], archive_sources["ROADMAP.md"],
+            classification)
+        owner_manifest = load_exact_r0039_f2_archive_manifest_v1(
+            repo=repo, run_root=run_root, controller_id=controller_id,
+            claim_id=claim_id, run_id=run_id, source_epoch=source_epoch)
+        source_context = {**context, "owner_manifest": owner_manifest}
+        source_evidence_id = "iasrc-v1-r0039-archive-task5-migration"
+        sequences = allocate_candidate_sequences_v1(
+            "00000000000000000000", len(records))
+        events: list[dict[str, object]] = []
+        segment_bytes: list[bytes] = []
+        for record, sequence in zip(records, sequences, strict=True):
+            request = {
+                "schema_version": "implementaudit.history-event.v1",
+                "run_id": run_id, "controller_id": controller_id,
+                "generation_id": generation_id, "sequence": sequence,
+                "record_kind": record.record_kind,
+                "subject_id": record.stable_id, "source_epoch": source_epoch,
+                "transition": "MIGRATED",
+                "status": ("SATISFIED" if record.record_kind
+                           == "instruction.satisfied" else "CLOSED"),
+                "supersedes_event_id": None,
+                "payload": {
+                    "legacy_record_id": record.stable_id,
+                    "legacy_source_digest": record.source_digest,
+                },
+            }
+            event, raw = _build_event_segment_in_context_v1(
+                request, source_evidence_id=source_evidence_id,
+                context=source_context)
+            events.append(event)
+            segment_bytes.append(raw)
+        manifest, manifest_raw = build_generation_manifest_v1(None, events)
+        pure_receipt = verify_migration_population_v1(
+            records, segment_bytes, manifest)
+
+        event_population: dict[str, str] = {}
+        for event, raw in zip(events, segment_bytes, strict=True):
+            oid = git(repo, "hash-object", "-w", "--stdin",
+                      input_bytes=raw).decode("ascii", "strict").strip()
+            ref = _segment_ref_v1(
+                run_id, generation_id, str(event["sequence"]),
+                str(event["event_id"]))
+            if ref in event_population:
+                raise RotationError("live-genesis event population is not unique")
+            event_population[ref] = oid
+        event_population = dict(sorted(event_population.items()))
+
+        guard_map: dict[str, str] = {}
+        raw_guards = context["publication_guard_refs"]
+        if type(raw_guards) is not tuple:
+            raise RotationError("live-genesis event guards are invalid")
+        additions = (
+            *raw_guards,
+            (archive_ref, archive_oid),
+            (classification_ref, classification_oid),
+            (f"refs/implementaudit/current-generations/{controller_id}", ZERO_OID),
+            (f"refs/implementaudit/current-generation-migrations/{controller_id}",
+             ZERO_OID),
+        )
+        for row in additions:
+            if (type(row) is not tuple or len(row) != 2
+                    or row[0] in guard_map and guard_map[row[0]] != row[1]):
+                raise RotationError("live-genesis event guards are invalid")
+            guard_map[str(row[0])] = str(row[1])
+        guards = tuple(sorted(guard_map.items()))
+        _require_live_genesis_guards_v1(repo, guards)
+        observed = _read_live_genesis_event_population_v1(
+            repo, run_id=run_id, generation_id=generation_id)
+        if observed and observed != event_population:
+            raise RotationError("live-genesis event population is partial or foreign")
+        if not observed:
+            argv, environment, stdin_bytes = _live_genesis_event_transaction_v1(
+                repo=repo, event_population=event_population, guards=guards)
+            completed = subprocess.run(
+                argv, cwd=str(repo), env=environment, input=stdin_bytes,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+            observed = _read_live_genesis_event_population_v1(
+                repo, run_id=run_id, generation_id=generation_id)
+            if completed.returncode != 0:
+                if observed != event_population:
+                    raise RotationError("live-genesis event publication failed")
+                _require_live_genesis_guards_v1(repo, guards)
+        if observed != event_population:
+            raise RotationError("live-genesis event population readback disagrees")
+        _require_live_genesis_guards_v1(repo, guards)
+        stored_receipt = verify_migration_equivalence_v1(
+            records, segment_bytes, manifest, repo)
+        if stored_receipt != pure_receipt:
+            raise RotationError("live-genesis stored equivalence disagrees")
+
+        final_hot = {
+            role: session.read_role_exact(role, reopen=True)
+            for role in ("STATE", "ROADMAP", "WORK_GRAPH")
+        }
+        if final_hot != initial_hot:
+            raise RotationError("live-genesis hot custody changed")
+        manifest_oid = git(
+            repo, "hash-object", "-w", "--stdin",
+            input_bytes=manifest_raw).decode("ascii", "strict").strip()
+        loaded_manifest = load_canonical_generation_manifest_oid_v1(
+            repo, manifest_oid)
+        pointer, pointer_raw = build_generation_pointer_v1(
+            controller_id=controller_id, claim_id=claim_id, run_id=run_id,
+            generation_id=generation_id, source_epoch=source_epoch,
+            predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+            generation_manifest_oid=manifest_oid,
+            generation_manifest_digest=str(manifest["manifest_digest"]),
+            cold_high_water=str(manifest["high_water"]),
+            hot_state_digest=hot_digests["STATE"],
+            hot_roadmap_digest=hot_digests["ROADMAP"],
+            work_graph_path=EXPECTED_WORK_GRAPH_PATH,
+            work_graph_digest=hot_digests["WORK_GRAPH"],
+            degraded_state="NONE")
+        pointer_oid = git(
+            repo, "hash-object", "-w", "--stdin",
+            input_bytes=pointer_raw).decode("ascii", "strict").strip()
+        loaded_pointer = load_canonical_generation_pointer_oid_v1(
+            repo, pointer_oid)
+        verify_pointer_manifest_tuple_v1(
+            pointer=loaded_pointer, manifest=loaded_manifest,
+            manifest_oid=manifest_oid)
+        verify_generation_successor_tuple_v1(
+            pointer=loaded_pointer, manifest=loaded_manifest,
+            predecessor_oid=None, predecessor_pointer=None,
+            predecessor_manifest=None)
+        return {
+            "schema": "implementaudit.live-genesis-preparation.v1",
+            "controller_id": controller_id,
+            "claim_id": claim_id,
+            "run_id": run_id,
+            "source_epoch": source_epoch,
+            "archive_ref": archive_ref,
+            "archive_oid": archive_oid,
+            "classification_ref": classification_ref,
+            "classification_oid": classification_oid,
+            "event_count": stored_receipt.event_count,
+            "event_population_digest": stored_receipt.population_digest,
+            "generation_manifest_oid": manifest_oid,
+            "generation_manifest_digest": str(manifest["manifest_digest"]),
+            "candidate_pointer_oid": pointer_oid,
+            "authority_ceiling": "R0039_CANDIDATE_ONLY",
+        }
 
 
 def prepare_trusted_update_ref_transaction_v1(*, repo: Path, ref: str, new_oid: str,

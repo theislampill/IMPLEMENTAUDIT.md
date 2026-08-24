@@ -233,6 +233,34 @@ or aggregate counts alone are not equivalence. The population
 digest is SHA-256 over canonical JSON for the lexicographically sorted complete
 pair population.
 
+## Governed live-genesis preparation
+
+`prepare_live_genesis_v1()` accepts no arguments. Under the existing R0039
+writer lease it derives the exact controller, claim, run, fresh invalidated
+source epoch, immediate predecessor receipt, sole F2 archive, and admitted
+controller/archive-keyed classification. It enumerates every removed archive
+record, assigns the genesis sequence population contiguously after the zero
+high-water, builds canonical archive-sourced `MIGRATED` events and the canonical
+manifest, and calls `verify_migration_population_v1` before any event ref is
+discoverable.
+
+After the pure proof, one fixed-path `git update-ref --stdin -z` transaction
+creates the complete sorted event-ref population with expected-old-zero and
+guards the controller, invalidation, predecessor receipt, archive,
+classification, absent current-generation pointer, and absent permanent
+marker. An empty population is never published. A complete same-OID population
+is an idempotent retry; partial, extra, or different preexisting refs are STOP.
+An unknown transaction result proceeds only when exact complete readback and
+fresh guard equality both pass. Stored-ref equivalence is then reproved.
+
+The assembler rereads the retained hot STATE, ROADMAP, and WORK_GRAPH inputs,
+writes and verifies only the immutable manifest and candidate-pointer blobs,
+and returns `implementaudit.live-genesis-preparation.v1` with authority ceiling
+`R0039_CANDIDATE_ONLY`. It never updates the current-generation pointer,
+continuity receipt, migration marker, lifecycle, or R0038 snapshot. The
+existing governed activation order remains pointer, receipt v3, then permanent
+marker; a preparation receipt is not currentness or publication authority.
+
 `derive_hot_state_v1` and `derive_hot_roadmap_v1` accept only typed native
 current fields, the exact `WORK_GRAPH.json` digest/projection, and typed
 generation/archive/query custody. The single `NativeCurrent` schema includes
