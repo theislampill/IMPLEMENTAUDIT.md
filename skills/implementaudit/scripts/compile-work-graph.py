@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import os
 import pathlib
 import re
 import sys
@@ -1383,6 +1384,7 @@ def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
         "further_serialization_complexity_cost_material",
         "further_serialization_coupling_cost_material",
         "further_serialization_delay_cost_material",
+        "further_serialization_latent_failure_cost_material",
     }
     information = _proximal_object_v1(
         request["information"], f"{path}.information", information_fields,
@@ -1403,11 +1405,22 @@ def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
     impact_bounded = all(resilience[key] is True for key in (
         "blast_radius_bounded", "protected_non_targets_bounded",
     ))
-    information_value = all(information[key] is True for key in (
-        "delay_cost_material", "decision_relevant",
-        "live_fidelity_higher_than_simulation",
-        "diagnostic_information_value_material",
-    ))
+    defensive_cost_fields = (
+        "further_serialization_complexity_cost_material",
+        "further_serialization_coupling_cost_material",
+        "further_serialization_delay_cost_material",
+        "further_serialization_latent_failure_cost_material",
+    )
+    defensive_cost_basis = sorted(
+        key for key in defensive_cost_fields if information[key] is True
+    )
+    information_value = bool(defensive_cost_basis) and all(
+        information[key] is True for key in (
+            "delay_cost_material", "decision_relevant",
+            "live_fidelity_higher_than_simulation",
+            "diagnostic_information_value_material",
+        )
+    )
     actual_reasons = {
         "HARD_PREREQUISITE": relationships["hard_prerequisite"],
         "SHARED_WRITER_OR_RESOURCE": relationships["writer_or_resource_exclusion"],
@@ -1447,6 +1460,14 @@ def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
         mode, reason, lanes = "SERIAL_EXECUTION", "SHARED_WRITER_OR_RESOURCE", ["ACCEPTANCE"]
     elif not capacity["available"] or capacity["host_exclusion"]:
         mode, reason, lanes = "SERIAL_EXECUTION", "HOST_CAPACITY_OR_EXCLUSION", ["ACCEPTANCE"]
+    elif (relationships["acceptance_prerequisite"]
+          and relationships["informational_or_differential"]
+          and information_value):
+        mode, reason, lanes = (
+            "DIAGNOSTIC_PARALLEL_ACCEPTANCE",
+            "RISK_OF_DELAY_AND_INFORMATIONAL_DIFFERENTIAL",
+            ["ACCEPTANCE", "DIAGNOSTIC"],
+        )
     elif relationships["acceptance_prerequisite"] and information_value:
         mode, reason, lanes = (
             "DIAGNOSTIC_PARALLEL_ACCEPTANCE",
@@ -1456,6 +1477,11 @@ def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
     elif relationships["acceptance_prerequisite"]:
         mode, reason, lanes = (
             "SERIAL_EXECUTION", "CONSEQUENCE_CONTROL", ["ACCEPTANCE", "DIAGNOSTIC"]
+        )
+    elif relationships["informational_or_differential"]:
+        mode, reason, lanes = (
+            "ORDINARY_PARALLEL", "INFORMATIONAL_DIFFERENTIAL",
+            ["ACCEPTANCE", "DIAGNOSTIC"],
         )
     else:
         mode, reason, lanes = "ORDINARY_PARALLEL", "INDEPENDENT", ["ACCEPTANCE", "DIAGNOSTIC"]
@@ -1477,6 +1503,7 @@ def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
         "minimum_recoverability_gate": gate,
         "resilience_evidence_sha256": resilience["evidence_sha256"],
         "proportionality": information,
+        "defensive_cost_basis": defensive_cost_basis,
         "mode": mode,
         "reason": reason,
         "safety_strategy": strategy,
@@ -1490,8 +1517,8 @@ def _proximal_projection_v1(projection_bytes: bytes) -> dict[str, JSONValue]:
     fields = {
         "schema", "request_sha256", "candidate", "currentness",
         "minimum_recoverability_gate", "resilience_evidence_sha256",
-        "proportionality", "mode", "reason", "safety_strategy", "lanes",
-        "authority", "digest",
+        "proportionality", "defensive_cost_basis", "mode", "reason",
+        "safety_strategy", "lanes", "authority", "digest",
     }
     result = _proximal_object_v1(
         decode_strict_json_bytes(projection_bytes, path), path, fields,
@@ -1511,10 +1538,25 @@ def _proximal_projection_v1(projection_bytes: bytes) -> dict[str, JSONValue]:
             "ORDINARY_PARALLEL", "SERIAL_EXECUTION", "STOP_RECONCILE"}:
         raise WorkGraphError(f"{path}: unknown mode")
     lanes = _require_string_array(result["lanes"], f"{path}.lanes")
+    defensive_cost_basis = _require_string_array(
+        result["defensive_cost_basis"], f"{path}.defensive_cost_basis"
+    )
+    allowed_costs = {
+        "further_serialization_complexity_cost_material",
+        "further_serialization_coupling_cost_material",
+        "further_serialization_delay_cost_material",
+        "further_serialization_latent_failure_cost_material",
+    }
+    if (defensive_cost_basis != sorted(defensive_cost_basis)
+            or not set(defensive_cost_basis) <= allowed_costs):
+        raise WorkGraphError(f"{path}.defensive_cost_basis: invalid cost basis")
     valid_reasons = {
         "FULL_PREFLIGHT": {"IRREVERSIBLE_EFFECT_PRECONDITION", "CONSEQUENCE_CONTROL"},
-        "DIAGNOSTIC_PARALLEL_ACCEPTANCE": {"RISK_OF_DELAY_AND_VALUE_OF_INFORMATION"},
-        "ORDINARY_PARALLEL": {"INDEPENDENT"},
+        "DIAGNOSTIC_PARALLEL_ACCEPTANCE": {
+            "RISK_OF_DELAY_AND_VALUE_OF_INFORMATION",
+            "RISK_OF_DELAY_AND_INFORMATIONAL_DIFFERENTIAL",
+        },
+        "ORDINARY_PARALLEL": {"INDEPENDENT", "INFORMATIONAL_DIFFERENTIAL"},
         "SERIAL_EXECUTION": {
             "HARD_PREREQUISITE", "SHARED_WRITER_OR_RESOURCE",
             "HOST_CAPACITY_OR_EXCLUSION", "CONSEQUENCE_CONTROL",
@@ -1554,6 +1596,382 @@ def _proximal_projection_v1(projection_bytes: bytes) -> dict[str, JSONValue]:
     return result
 
 
+def _proximal_action_context_v1(
+    context_bytes: bytes,
+) -> dict[str, JSONValue]:
+    path = "proximal action-selection context"
+    result = _proximal_object_v1(
+        decode_strict_json_bytes(context_bytes, path), path,
+        {"schema", "decision_sha256", "applicable", "qualification"},
+        booleans={"applicable"}, digests={"decision_sha256"},
+    )
+    if result["schema"] != "implementaudit.proximal-action-selection-context.v1":
+        raise WorkGraphError(f"{path}: unsupported schema")
+    if result["applicable"]:
+        if result["qualification"] is None:
+            raise WorkGraphError(f"{path}: applicable decision requires qualification")
+        _proximal_qualification_request_v1(
+            result["qualification"], f"{path}.qualification"
+        )
+    elif result["qualification"] is not None:
+        raise WorkGraphError(f"{path}: NOT_REQUIRED cannot carry qualification")
+    return result
+
+
+def _rederive_proximal_projection_v1(
+    request_bytes: bytes, projection_bytes: bytes,
+) -> dict[str, JSONValue]:
+    expected = compile_proximal_schedule_v1(request_bytes)
+    projection = _proximal_projection_v1(projection_bytes)
+    if not hmac.compare_digest(
+            canonical_json_v1(expected), canonical_json_v1(projection)):
+        raise WorkGraphError(
+            "proximal scheduling projection: request/projection mismatch"
+        )
+    return projection
+
+
+def _proximal_evidence_applicability_v1(
+    value: JSONValue, path: str,
+) -> dict[str, JSONValue]:
+    digest_fields = {
+        "tested_product_input_sha256", "source_dependency_slice_sha256",
+        "test_fixture_sha256", "toolchain_environment_sha256",
+        "acceptance_contract_sha256",
+    }
+    result = _proximal_object_v1(
+        value, path, digest_fields | {"authority_effect_class"},
+        digests=digest_fields,
+    )
+    authority_effect_class = _require_string(
+        result["authority_effect_class"], f"{path}.authority_effect_class"
+    )
+    if authority_effect_class not in {
+            "BOUNDED_CORRECTION", "COMPONENT_ACCEPTANCE", "INSTALL_CUTOVER",
+            "IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER"}:
+        raise WorkGraphError(f"{path}.authority_effect_class: unknown class")
+    return result
+
+
+def _proximal_qualification_request_v1(
+    value: JSONValue, path: str,
+) -> dict[str, JSONValue]:
+    result = _proximal_object_v1(
+        value, path,
+        {
+            "change_set_sha256", "source_dependency_slice_sha256",
+            "affected_contracts", "applicability", "prior_evidence",
+            "semantic_invalidation_radius", "next_effect", "reversible",
+            "blast_radius_bounded", "object_class", "meaningful_join",
+            "workflow_requested_qualification",
+        },
+        booleans={"reversible", "blast_radius_bounded"},
+        digests={"change_set_sha256", "source_dependency_slice_sha256"},
+    )
+    contracts = _require_string_array(
+        result["affected_contracts"], f"{path}.affected_contracts"
+    )
+    if not contracts or contracts != sorted(set(contracts)):
+        raise WorkGraphError(f"{path}.affected_contracts: sorted unique population required")
+    applicability = _proximal_evidence_applicability_v1(
+        result["applicability"], f"{path}.applicability"
+    )
+    prior_value = result["prior_evidence"]
+    if type(prior_value) is not list:
+        raise WorkGraphError(f"{path}.prior_evidence: array required")
+    prior_evidence: list[dict[str, JSONValue]] = []
+    seen: set[str] = set()
+    for index, item in enumerate(prior_value):
+        evidence_path = f"{path}.prior_evidence[{index}]"
+        evidence = _proximal_object_v1(
+            item, evidence_path, {"evidence_sha256", "scope", "applicability"},
+            digests={"evidence_sha256"},
+        )
+        evidence_sha = str(evidence["evidence_sha256"])
+        scope = _require_string(evidence["scope"], f"{evidence_path}.scope")
+        if scope not in {
+                "CAUSAL_ADVERSARIAL_SLICE", "COMPONENT_ACCEPTANCE",
+                "WHOLE_PROJECTION_CUTOVER"}:
+            raise WorkGraphError(f"{evidence_path}.scope: unknown scope")
+        _proximal_evidence_applicability_v1(
+            evidence["applicability"], f"{evidence_path}.applicability"
+        )
+        if evidence_sha in seen:
+            raise WorkGraphError(f"{path}.prior_evidence: duplicate evidence identity")
+        seen.add(evidence_sha)
+        prior_evidence.append(evidence)
+    if [str(item["evidence_sha256"]) for item in prior_evidence] != sorted(seen):
+        raise WorkGraphError(f"{path}.prior_evidence: canonical evidence order required")
+
+    radius = _require_string(
+        result["semantic_invalidation_radius"],
+        f"{path}.semantic_invalidation_radius",
+    )
+    if radius not in {
+            "NONE", "LOCAL_SAME_OWNER_SLICE",
+            "SHARED_CURRENTNESS_AUTHORITY_SUBSTRATE", "WHOLE_PROJECTION",
+            "UNKNOWN"}:
+        raise WorkGraphError(f"{path}.semantic_invalidation_radius: unknown radius")
+    next_effect = _require_string(result["next_effect"], f"{path}.next_effect")
+    if next_effect not in {
+            "BOUNDED_CORRECTION", "COMPONENT_ACCEPTANCE", "INSTALL_CUTOVER",
+            "IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER"}:
+        raise WorkGraphError(f"{path}.next_effect: unknown effect")
+    object_class = _require_string(result["object_class"], f"{path}.object_class")
+    if object_class not in {
+            "INTERMEDIATE_COMPONENT", "MEANINGFUL_JOIN_FROZEN_PROJECTION"}:
+        raise WorkGraphError(f"{path}.object_class: unknown class")
+    join = _proximal_object_v1(
+        result["meaningful_join"], f"{path}.meaningful_join",
+        {"proximity", "available"}, booleans={"available"},
+    )
+    proximity = _require_string(join["proximity"], f"{path}.meaningful_join.proximity")
+    if proximity not in {"ABSENT", "FUTURE", "PROXIMAL", "AVAILABLE"}:
+        raise WorkGraphError(f"{path}.meaningful_join.proximity: unknown proximity")
+    if (proximity == "AVAILABLE") is not (join["available"] is True):
+        raise WorkGraphError(f"{path}.meaningful_join: availability mismatch")
+    requested = result["workflow_requested_qualification"]
+    if requested is not None:
+        requested = _require_string(requested, f"{path}.workflow_requested_qualification")
+        if requested not in {
+                "CORRECTION_QUALIFICATION", "COMPONENT_ACCEPTANCE",
+                "WHOLE_PROJECTION_CUTOVER_QUALIFICATION"}:
+            raise WorkGraphError(
+                f"{path}.workflow_requested_qualification: unknown mode"
+            )
+    result["applicability"] = applicability
+    result["prior_evidence"] = prior_evidence
+    return result
+
+
+def derive_proximal_qualification_v1(
+    value: JSONValue, path: str = "proximal qualification",
+) -> dict[str, JSONValue]:
+    """Derive exact evidence depth for the next action, never lifecycle credit."""
+    request = _proximal_qualification_request_v1(value, path)
+    applicability = request["applicability"]
+    prior = request["prior_evidence"]
+    retained = sorted(
+        str(item["evidence_sha256"])
+        for item in prior
+        if item["applicability"] == applicability
+    )
+    invalidated = sorted(
+        str(item["evidence_sha256"])
+        for item in prior
+        if item["applicability"] != applicability
+    )
+    retained_scopes = {
+        str(item["scope"])
+        for item in prior
+        if item["applicability"] == applicability
+    }
+    radius = str(request["semantic_invalidation_radius"])
+    next_effect = str(request["next_effect"])
+    object_class = str(request["object_class"])
+    join = request["meaningful_join"]
+    broad_reason: JSONValue = None
+    reuse_reason: JSONValue = None
+
+    if radius == "UNKNOWN":
+        mode, reason, required = (
+            "STOP_RECONCILE", "UNKNOWN_SEMANTIC_INVALIDATION_RADIUS", []
+        )
+    elif (next_effect == "INSTALL_CUTOVER"
+          and (object_class != "MEANINGFUL_JOIN_FROZEN_PROJECTION"
+               or join["available"] is not True)):
+        mode, reason, required = (
+            "STOP_RECONCILE", "CUTOVER_JOIN_OR_FREEZE_NOT_ESTABLISHED", []
+        )
+    elif next_effect in {
+            "INSTALL_CUTOVER",
+            "IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER",
+        } or radius == "WHOLE_PROJECTION":
+        mode, reason = (
+            "WHOLE_PROJECTION_CUTOVER_QUALIFICATION", "CUTOVER_FULL_PREFLIGHT"
+        )
+        required = ["CUTOVER_PREFLIGHT"]
+        if "WHOLE_PROJECTION_CUTOVER" not in retained_scopes:
+            required.append("WHOLE_PROJECTION_REVIEW")
+        required.sort()
+        broad_reason = "WHOLE_PROJECTION_OR_CUTOVER_AUTHORITY"
+    elif (request["reversible"] is not True
+          or request["blast_radius_bounded"] is not True):
+        mode, reason, required = (
+            "STOP_RECONCILE", "EFFECT_RECOVERY_OR_BLAST_RADIUS_UNPROVED", []
+        )
+    elif radius == "SHARED_CURRENTNESS_AUTHORITY_SUBSTRATE":
+        mode, reason = (
+            "COMPONENT_ACCEPTANCE", "SHARED_SUBSTRATE_DEPENDENCY_INVALIDATION"
+        )
+        required = ["DEPENDENCY_SLICE_REQUALIFICATION", "FRESH_COMPONENT_REVIEW"]
+        broad_reason = "SHARED_CURRENTNESS_AUTHORITY_SUBSTRATE"
+    elif radius == "LOCAL_SAME_OWNER_SLICE":
+        mode, reason = (
+            "CORRECTION_QUALIFICATION", "LOCAL_SAME_OWNER_SELECTIVE_INVALIDATION"
+        )
+        required = ["AFFECTED_CAUSAL_ADVERSARIAL_SLICE", "FRESH_COMPONENT_REVIEW"]
+    elif (object_class == "INTERMEDIATE_COMPONENT"
+          and join["available"] is True
+          and "COMPONENT_ACCEPTANCE" in retained_scopes):
+        mode, reason, required = (
+            "COMPONENT_ACCEPTANCE", "INTERMEDIATE_COMPONENT_TO_AVAILABLE_JOIN",
+            ["JOIN_COMPOSITION_EVIDENCE"],
+        )
+        reuse_reason = "EXACT_APPLICABILITY_TUPLE_UNCHANGED"
+    elif retained:
+        mode, reason, required = (
+            "COMPONENT_ACCEPTANCE", "UNCHANGED_APPLICABILITY_TUPLE_REUSE", []
+        )
+        reuse_reason = "EXACT_APPLICABILITY_TUPLE_UNCHANGED"
+    else:
+        mode, reason, required = (
+            "STOP_RECONCILE", "NO_CURRENT_APPLICABLE_EVIDENCE_OR_INVALIDATION", []
+        )
+
+    requested = request["workflow_requested_qualification"]
+    if (mode != "STOP_RECONCILE" and requested is not None
+            and requested != mode):
+        mode, reason, required = (
+            "STOP_RECONCILE", "WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY", []
+        )
+        broad_reason = None
+        reuse_reason = None
+
+    return {
+        "change_set_sha256": request["change_set_sha256"],
+        "source_dependency_slice_sha256": request["source_dependency_slice_sha256"],
+        "affected_contracts": request["affected_contracts"],
+        "applicability_sha256": hashlib.sha256(
+            canonical_json_v1(applicability)
+        ).hexdigest(),
+        "semantic_invalidation_radius": radius,
+        "next_effect": next_effect,
+        "object_class": object_class,
+        "meaningful_join": join,
+        "mode": mode,
+        "reason": reason,
+        "required_evidence": required,
+        "retained_evidence_sha256": retained,
+        "invalidated_evidence_sha256": invalidated,
+        "broad_rerun_reason": broad_reason,
+        "reuse_reason": reuse_reason,
+    }
+
+
+def issue_proximal_advance_v1(
+    context_bytes: bytes, request_bytes: bytes, projection_bytes: bytes,
+) -> dict[str, JSONValue]:
+    """Issue one no-lifecycle-authority token for an immediate decision."""
+    context = _proximal_action_context_v1(context_bytes)
+    if not context["applicable"]:
+        raise WorkGraphError("proximal advance: classification is not applicable")
+    qualification = derive_proximal_qualification_v1(
+        context["qualification"], "proximal action-selection context.qualification"
+    )
+    if qualification["mode"] == "STOP_RECONCILE":
+        raise WorkGraphError(
+            "proximal advance: qualification STOP_RECONCILE:"
+            f"{qualification['reason']} forbids continuation"
+        )
+    projection = _rederive_proximal_projection_v1(request_bytes, projection_bytes)
+    if projection["mode"] == "STOP_RECONCILE":
+        raise WorkGraphError("proximal advance: STOP projection forbids continuation")
+    return _proximal_digest_v1({
+        "schema": "implementaudit.proximal-advance-token.v1",
+        "scope": "ONE_IMMEDIATE_DECISION",
+        "decision_sha256": context["decision_sha256"],
+        "request_sha256": projection["request_sha256"],
+        "projection_digest": projection["digest"],
+        "candidate": projection["candidate"],
+        "currentness": projection["currentness"],
+        "minimum_recoverability_gate": projection["minimum_recoverability_gate"],
+        "mode": projection["mode"],
+        "reason": projection["reason"],
+        "lanes": projection["lanes"],
+        "qualification": qualification,
+        "authority": _proximal_no_authority_v1(),
+    })
+
+
+def compile_proximal_action_selection_v1(
+    context_bytes: bytes,
+    request_bytes: bytes | None,
+    projection_bytes: bytes | None,
+    token_bytes: bytes | None,
+) -> dict[str, JSONValue]:
+    """Enforce the governor's transient proximal action-selection boundary."""
+    context = _proximal_action_context_v1(context_bytes)
+    if not context["applicable"]:
+        if any(value is not None for value in (
+                request_bytes, projection_bytes, token_bytes)):
+            raise WorkGraphError(
+                "proximal action selection: NOT_REQUIRED carries no classifier inputs"
+            )
+        return _proximal_digest_v1({
+            "schema": "implementaudit.proximal-action-selection.v1",
+            "decision_sha256": context["decision_sha256"],
+            "applicable": False,
+            "decision": "NOT_REQUIRED",
+            "advance_allowed": True,
+            "qualification": None,
+            "authority": _proximal_no_authority_v1(),
+        })
+    if any(value is None for value in (
+            request_bytes, projection_bytes, token_bytes)):
+        raise WorkGraphError(
+            "proximal action selection: applicable decision requires request, "
+            "classification, and advance token"
+        )
+    assert request_bytes is not None
+    assert projection_bytes is not None
+    assert token_bytes is not None
+    projection = _rederive_proximal_projection_v1(request_bytes, projection_bytes)
+    expected_token = issue_proximal_advance_v1(
+        context_bytes, request_bytes, projection_bytes
+    )
+    if not hmac.compare_digest(canonical_json_v1(expected_token), token_bytes):
+        raise WorkGraphError(
+            "proximal action selection: advance token is stale, reused, or forged"
+        )
+    return _proximal_digest_v1({
+        "schema": "implementaudit.proximal-action-selection.v1",
+        "decision_sha256": context["decision_sha256"],
+        "applicable": True,
+        "decision": "PROXIMAL_CLASSIFICATION_SATISFIED",
+        "advance_allowed": True,
+        "request_sha256": projection["request_sha256"],
+        "projection_digest": projection["digest"],
+        "mode": projection["mode"],
+        "reason": projection["reason"],
+        "lanes": projection["lanes"],
+        "qualification": expected_token["qualification"],
+        "authority": _proximal_no_authority_v1(),
+    })
+
+
+def _consume_proximal_advance_v1(
+    token_path: pathlib.Path, token_digest: str,
+) -> None:
+    """Atomically make one exact CLI advance token non-replayable."""
+    marker = token_path.with_name(token_path.name + ".consumed")
+    try:
+        descriptor = os.open(
+            marker, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600
+        )
+        with os.fdopen(descriptor, "wb", closefd=True) as stream:
+            stream.write(token_digest.encode("ascii") + b"\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+    except FileExistsError as exc:
+        raise WorkGraphError("proximal action selection: advance token consumed") from exc
+    except OSError as exc:
+        # Unknown completion remains consumed and therefore fail-closed.
+        raise WorkGraphError(
+            f"proximal action selection: token consumption unavailable: {exc}"
+        ) from exc
+
+
 def _proximal_lane_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
     result = _proximal_object_v1(value, path, {"status", "evidence_sha256"})
     status = _require_string(result["status"], f"{path}.status")
@@ -1587,10 +2005,10 @@ def _proximal_contributors_v1(value: JSONValue, path: str) -> list[dict[str, JSO
 
 
 def reconcile_proximal_results_v1(
-    projection_bytes: bytes, results_bytes: bytes
+    request_bytes: bytes, projection_bytes: bytes, results_bytes: bytes
 ) -> dict[str, JSONValue]:
     """Reconcile distinct diagnostic/review evidence without merging authority."""
-    projection = _proximal_projection_v1(projection_bytes)
+    projection = _rederive_proximal_projection_v1(request_bytes, projection_bytes)
     path = "proximal reconciliation request"
     results = _proximal_object_v1(
         decode_strict_json_bytes(results_bytes, path), path,
@@ -1704,14 +2122,31 @@ def compile_frontier_projection(
 
 
 def main(argv: list[str]) -> int:
-    proximal_mode = argv[1] if len(argv) > 1 and argv[1].startswith("--proximal-") else None
-    expected = 3 if proximal_mode == "--proximal-schedule" else 4
-    if (proximal_mode is not None and len(argv) != expected) or (
+    proximal_mode = (
+        argv[1] if len(argv) > 1 and argv[1].startswith("--proximal-") else None
+    )
+    supported_modes = {
+        "--proximal-schedule": {3},
+        "--proximal-advance": {5},
+        "--proximal-action-selection": {3, 6},
+        "--proximal-reconcile": {5},
+    }
+    invalid_mode = proximal_mode is not None and proximal_mode not in supported_modes
+    invalid_arity = (
+        proximal_mode is not None
+        and not invalid_mode
+        and len(argv) not in supported_modes[proximal_mode]
+    )
+    if invalid_mode or invalid_arity or (
             proximal_mode is None and len(argv) not in {2, 3}):
         print(
             "usage: compile-work-graph.py WORK_GRAPH.json [PRODUCT_AUTHORITY.json]\n"
             "   or: compile-work-graph.py --proximal-schedule REQUEST.json\n"
-            "   or: compile-work-graph.py --proximal-reconcile PROJECTION.json RESULTS.json",
+            "   or: compile-work-graph.py --proximal-advance CONTEXT.json REQUEST.json PROJECTION.json\n"
+            "   or: compile-work-graph.py --proximal-action-selection CONTEXT.json "
+            "[REQUEST.json PROJECTION.json ADVANCE_TOKEN.json]\n"
+            "   or: compile-work-graph.py --proximal-reconcile REQUEST.json "
+            "PROJECTION.json RESULTS.json",
             file=sys.stderr,
         )
         return 2
@@ -1719,9 +2154,33 @@ def main(argv: list[str]) -> int:
     try:
         if proximal_mode == "--proximal-schedule":
             projection = compile_proximal_schedule_v1(path.read_bytes())
+        elif proximal_mode == "--proximal-advance":
+            projection = issue_proximal_advance_v1(
+                path.read_bytes(), pathlib.Path(argv[3]).read_bytes(),
+                pathlib.Path(argv[4]).read_bytes(),
+            )
+        elif proximal_mode == "--proximal-action-selection":
+            context_bytes = path.read_bytes()
+            token_path = None if len(argv) == 3 else pathlib.Path(argv[5])
+            inputs = (None, None, None) if token_path is None else (
+                pathlib.Path(argv[3]).read_bytes(),
+                pathlib.Path(argv[4]).read_bytes(),
+                token_path.read_bytes(),
+            )
+            projection = compile_proximal_action_selection_v1(
+                context_bytes, *inputs
+            )
+            if token_path is not None:
+                expected_token = issue_proximal_advance_v1(
+                    context_bytes, inputs[0], inputs[1]
+                )
+                _consume_proximal_advance_v1(
+                    token_path, str(expected_token["digest"])
+                )
         elif proximal_mode == "--proximal-reconcile":
             projection = reconcile_proximal_results_v1(
-                path.read_bytes(), pathlib.Path(argv[3]).read_bytes()
+                path.read_bytes(), pathlib.Path(argv[3]).read_bytes(),
+                pathlib.Path(argv[4]).read_bytes(),
             )
         else:
             raw = path.read_bytes()

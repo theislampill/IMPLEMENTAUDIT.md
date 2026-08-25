@@ -152,9 +152,19 @@ done
 for text in \
   "Proximal diagnostic frontier" \
   "--proximal-schedule" \
+  "--proximal-advance" \
+  "--proximal-action-selection" \
   "--proximal-reconcile" \
+  "advance token" \
+  "applicable decision" \
+  "one immediate decision only" \
   "EARLY_DETECTION_ACTIVE_DEFENSE" \
   "WORKFLOW_PSEUDO_DEPENDENCY" \
+  "WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY" \
+  "CORRECTION_QUALIFICATION" \
+  "COMPONENT_ACCEPTANCE" \
+  "WHOLE_PROJECTION_CUTOVER_QUALIFICATION" \
+  "required, retained, and invalidated evidence" \
   "acceptance prerequisite is not an execution prerequisite" \
   "unknown-completion containment" \
   "no lifecycle authority"
@@ -180,6 +190,9 @@ for text in \
   "PREVENTION_FULL_PREFLIGHT" \
   "EARLY_DETECTION_ACTIVE_DEFENSE" \
   "CONTAIN_AND_RECOVER" \
+  "Qualification depth is a separate output" \
+  "semantic invalidation radius" \
+  "every broad rerun or reuse" \
   "STOP_RECONCILE"
 do
   require "$depth_ref" "$text"
@@ -484,6 +497,21 @@ required_ids.update({
         (6, "missing-containment-stops"),
         (7, "low-fidelity-serializes"),
         (8, "independent-ordinary-parallel"),
+        (9, "not-applicable-cheap-path"),
+        (10, "applicable-classification-omitted"),
+        (11, "applicable-token-omitted"),
+        (12, "current-classification-and-token"),
+    )
+})
+required_ids.update({
+    f"R35-Q{number:02d}-{suffix}"
+    for number, suffix in (
+        (1, "local-parser-correction"),
+        (2, "shared-currentness-substrate"),
+        (3, "intermediate-component-to-join"),
+        (4, "frozen-projection-cutover"),
+        (5, "tiny-post-review-edit"),
+        (6, "unchanged-applicability-reuse"),
     )
 })
 required_ids.update({
@@ -701,6 +729,42 @@ def decide(case):
         if o["acceptance_pending"]:
             return "SERIAL_EXECUTION:CONSEQUENCE_CONTROL"
         return "ORDINARY_PARALLEL:INDEPENDENT"
+    if kind == "proximal_interlock":
+        fields = "applicable classification_current advance_token_current"
+        exact(o, fields)
+        booleans(o, fields)
+        if not o["applicable"]:
+            return "NOT_REQUIRED"
+        if not o["classification_current"]:
+            return "STOP_RECONCILE:PROXIMAL_CLASSIFICATION_REQUIRED"
+        if not o["advance_token_current"]:
+            return "STOP_RECONCILE:ADVANCE_TOKEN_REQUIRED"
+        return "PROCEED:PROXIMAL_CLASSIFICATION_SATISFIED"
+    if kind == "proximal_qualification":
+        fields = "semantic_radius next_effect object_class join_available tuple_unchanged workflow_depth_matches reversible blast_bounded"
+        exact(o, fields)
+        booleans(o, "join_available tuple_unchanged workflow_depth_matches reversible blast_bounded")
+        if not o["workflow_depth_matches"]:
+            return "STOP_RECONCILE:WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY"
+        if o["semantic_radius"] == "UNKNOWN":
+            return "STOP_RECONCILE:UNKNOWN_SEMANTIC_INVALIDATION_RADIUS"
+        if (o["next_effect"] in {
+                "INSTALL_CUTOVER",
+                "IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER",
+            } or o["semantic_radius"] == "WHOLE_PROJECTION"):
+            return "WHOLE_PROJECTION_CUTOVER_QUALIFICATION:CUTOVER_FULL_PREFLIGHT"
+        if not o["reversible"] or not o["blast_bounded"]:
+            return "STOP_RECONCILE:EFFECT_RECOVERY_OR_BLAST_RADIUS_UNPROVED"
+        if o["semantic_radius"] == "SHARED_CURRENTNESS_AUTHORITY_SUBSTRATE":
+            return "COMPONENT_ACCEPTANCE:SHARED_SUBSTRATE_DEPENDENCY_INVALIDATION"
+        if o["semantic_radius"] == "LOCAL_SAME_OWNER_SLICE":
+            return "CORRECTION_QUALIFICATION:LOCAL_SAME_OWNER_SELECTIVE_INVALIDATION"
+        if (o["object_class"] == "INTERMEDIATE_COMPONENT"
+                and o["join_available"] and o["tuple_unchanged"]):
+            return "COMPONENT_ACCEPTANCE:INTERMEDIATE_COMPONENT_TO_AVAILABLE_JOIN"
+        if o["tuple_unchanged"]:
+            return "COMPONENT_ACCEPTANCE:UNCHANGED_APPLICABILITY_TUPLE_REUSE"
+        return "STOP_RECONCILE:NO_CURRENT_APPLICABLE_EVIDENCE_OR_INVALIDATION"
     if kind == "frontier_accounting":
         fields = "work_units done_cells active_cells ready_cells blocked_cells unknown_cells host_capacity operator_ceiling state_evidence_current dependencies_current"
         exact(o, fields)

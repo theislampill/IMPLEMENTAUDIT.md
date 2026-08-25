@@ -314,9 +314,14 @@ At a frozen candidate boundary, classify dependency type rather than inferring
 it from workflow prose. Hard execution prerequisites and shared writer/resource
 exclusions block execution; acceptance prerequisites block lifecycle credit;
 informational/differential coupling changes interpretation but is not itself an
-edge. If workflow-local order proposes serialization, require the R0035
-proximal classifier or an explicit backed reason. Review-before-smoke wording
-alone cannot strengthen the authoritative DAG.
+edge. `INFORMATIONAL_DIFFERENTIAL` remains an explicit parallel topology, not
+`INDEPENDENT`. Every generic workflow action selection derives an exact
+applicability context. An applicable decision must execute the R0035 proximal
+classifier, bind its projection to an immediate-decision advance token, and pass
+`--proximal-action-selection` before ordinary continuation; absence, drift,
+forgery, or cross-decision token reuse stops. The explicit not-applicable path
+returns `NOT_REQUIRED`. Review-before-smoke wording alone cannot strengthen the
+authoritative DAG; workflow-local order is not an execution dependency.
 
 R0022 weighs both action risk and the risk or cost of delayed information. A
 bounded, recoverable, isolated, authority-free diagnostic may run beside fresh
@@ -328,9 +333,30 @@ complexity, coupling, latent-failure, and delay cost; more pre-flight is not
 intrinsically safer. The derived safety strategy is visibly one of
 `PREVENTION_FULL_PREFLIGHT`, `EARLY_DETECTION_ACTIVE_DEFENSE`,
 `CONTAIN_AND_RECOVER`, `ORDINARY_PARALLEL`, or `STOP_RECONCILE`.
+At least one material marginal defensive-cost basis is required to override
+acceptance-first serialization; the projection lists the exact contributing
+complexity, coupling, latent-failure, or feedback-delay fields. Those costs never
+override a failed safety, containment, currentness, or authority predicate.
+
+Qualification depth is a separate output of that same mandatory action
+selection, not a workflow default. Bind the exact change/dependency slice,
+affected contracts, evidence-applicability tuple, semantic invalidation radius,
+next effect, reversibility/blast radius, intermediate-versus-frozen-product
+class, and meaningful-JOIN availability. Derive only the causal/adversarial
+slice and fresh component review for a local correction; dependency-derived
+component evidence for a shared currentness/authority substrate; no terminal
+whole-product claim for an accepted intermediate moving toward JOIN; and
+whole-projection review plus full pre-flight for a frozen install/cutover or
+irreversible authority effect. A post-review edit is classified by applicability
+and semantic radius, never diff size. Exact unchanged tuples may be retained,
+and every broad rerun or reuse reports its evidence-backed reason. The one-use
+advance token binds this qualification result, so workflow-local prose cannot
+silently demand either stale reuse or global requalification.
 
 The diagnostic lane is evidence gathering, never acceptance. Reconcile both
-lanes against the same commit/tree/input/current receipt. Preserve independent
+lanes by supplying the original request plus projection and results so the
+projection is rederived against the same commit/tree/input/current receipt and
+minimum gate. Preserve independent
 controller/currentness, fixture-coverage, product, review, and containment
 contributors; disagreement raises the existing R0037 Andon, and R0038 drift
 invalidates stale evidence. A decisive early result may reprioritize the other

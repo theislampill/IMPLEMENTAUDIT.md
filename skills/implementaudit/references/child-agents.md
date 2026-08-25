@@ -301,13 +301,24 @@ legacy execution-projection bytes.
 #### Proximal diagnostic frontier
 
 R0035 also derives a transient proximal decision below whole-cell granularity;
-it does not add a cell or mutate `WORK_GRAPH.json`. Before generic implementation,
-TDD, review, package, install, routing, or host-effect prose serializes a frozen
-candidate's diagnostic behind review, invoke
-`compile-work-graph.py --proximal-schedule REQUEST.json`. Workflow-local order is
-not a graph edge: an acceptance prerequisite is not an execution prerequisite,
-and an informational relationship is not a hard prerequisite. An unbacked prose
-order returns `WORKFLOW_PSEUDO_DEPENDENCY`.
+it does not add a cell or mutate `WORK_GRAPH.json`. At every generic
+implementation, TDD, review, package, install, routing, or host-effect action
+selection, first derive whether the frozen-candidate boundary is applicable.
+For an applicable decision, run
+`compile-work-graph.py --proximal-schedule REQUEST.json`, then issue the exact
+decision-bound advance token with
+`compile-work-graph.py --proximal-advance CONTEXT.json REQUEST.json PROJECTION.json`.
+Ordinary execution must pass the existing governor action-selection interlock:
+`compile-work-graph.py --proximal-action-selection CONTEXT.json REQUEST.json PROJECTION.json ADVANCE_TOKEN.json`.
+An applicable decision without the current exact classification and advance
+token fails closed; a stale, mismatched, forged, or different-decision reused
+token also fails. The packaged action-selection entrypoint atomically records
+the token as consumed before emitting its result, so it authorizes one immediate decision only; unknown completion remains consumed and requires a new context,
+classification, and token. The explicit not-applicable cheap path invokes
+`compile-work-graph.py --proximal-action-selection CONTEXT.json` and returns
+`NOT_REQUIRED`. Workflow-local order is not a graph edge: an acceptance prerequisite is not an execution prerequisite, and an informational relationship
+is not a hard prerequisite. An unbacked prose order returns
+`WORKFLOW_PSEUDO_DEPENDENCY`.
 
 `DIAGNOSTIC_PARALLEL_ACCEPTANCE` is available only after exact commit/tree/input
 and current-receipt binding, a passed minimum recoverability gate, bounded blast
@@ -315,14 +326,31 @@ radius and protected non-targets, verified rollback/retreat, before/after
 observation, unknown-completion containment, isolated non-public/non-release
 effects, and a decision-relevant higher-fidelity live discriminator. The
 projection names `EARLY_DETECTION_ACTIVE_DEFENSE`, binds the resilience evidence
-and marginal delay/complexity/coupling inputs, and grants no lifecycle authority.
+and marginal delay/complexity/coupling/latent-failure inputs, and grants no lifecycle authority. `INFORMATIONAL_DIFFERENTIAL` remains visible and parallel;
+it is never relabelled `INDEPENDENT`.
 Hard prerequisites, shared writers/resources, host exclusion, irreversible or
 authoritative effects, stale identity, missing containment, or inadequate
 information value select an explicit serial, full-preflight, or stop reason.
 
+The same applicable action context carries a transient proportional
+qualification request. It binds the exact change and source/dependency slice,
+affected contracts, prior evidence/applicability tuples, semantic invalidation
+radius, next requested effect, reversibility/blast radius, object class, and
+meaningful-JOIN availability. The interlock derives
+`CORRECTION_QUALIFICATION`, `COMPONENT_ACCEPTANCE`,
+`WHOLE_PROJECTION_CUTOVER_QUALIFICATION`, or `STOP_RECONCILE`, and reports exact
+required, retained, and invalidated evidence plus every broad-rerun or reuse
+reason. That projection is part of the one-use advance token. A generic
+workflow cannot request a broader depth than the derived mode merely because
+its prose lists more review; a mismatch returns
+`WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY`. Exact unchanged applicability may
+reuse evidence. Shared currentness/authority substrate expands by its dependency
+slice, while final frozen installation/cutover and irreversible authority
+effects retain whole-projection pre-flight.
+
 Diagnostic and acceptance evidence remain separate. Reconcile their exact
 identity-bound results with
-`compile-work-graph.py --proximal-reconcile PROJECTION.json RESULTS.json`.
+`compile-work-graph.py --proximal-reconcile REQUEST.json PROJECTION.json RESULTS.json`.
 Diagnostic PASS plus review FAIL remains unaccepted; diagnostic FAIL plus review
 PASS raises the coverage/evaluator Andon; dual failures preserve controller,
 fixture, product, review, and containment contributors. Early rejection may stop

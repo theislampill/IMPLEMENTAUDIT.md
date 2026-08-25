@@ -1288,13 +1288,14 @@ proximal_request = {
         "further_serialization_complexity_cost_material": True,
         "further_serialization_coupling_cost_material": True,
         "further_serialization_delay_cost_material": True,
+        "further_serialization_latent_failure_cost_material": True,
     },
     "workflow_serialization_reason": None,
 }
 proximal = module.compile_proximal_schedule_v1(canonical(proximal_request))
 if proximal["mode"] != "DIAGNOSTIC_PARALLEL_ACCEPTANCE":
     raise SystemExit("R0035 proximal causal RED: safe diagnostic was serialized")
-if proximal["reason"] != "RISK_OF_DELAY_AND_VALUE_OF_INFORMATION":
+if proximal["reason"] != "RISK_OF_DELAY_AND_INFORMATIONAL_DIFFERENTIAL":
     raise SystemExit("R0035 proximal causal RED: decision reason was not explicit")
 if proximal["lanes"] != ["ACCEPTANCE", "DIAGNOSTIC"]:
     raise SystemExit("R0035 proximal causal RED: both lanes were not admitted")
@@ -1362,7 +1363,7 @@ def result(status_diagnostic, status_acceptance, *, diagnostic_contributor=None,
 
 def reconcile(payload):
     return module.reconcile_proximal_results_v1(
-        canonical(proximal), canonical(payload)
+        canonical(proximal_request), canonical(proximal), canonical(payload)
     )
 
 
@@ -1394,13 +1395,15 @@ if both_pass["disposition"] != "ELIGIBLE_FOR_LATER_REQUIRED_GATES":
 if set(both_pass["authority"].values()) != {"NONE"}:
     raise SystemExit("D04: reconciliation directly minted lifecycle authority")
 with tempfile.TemporaryDirectory() as cli_temp:
+    request_path = pathlib.Path(cli_temp) / "request.json"
     projection_path = pathlib.Path(cli_temp) / "projection.json"
     results_path = pathlib.Path(cli_temp) / "results.json"
+    request_path.write_bytes(canonical(proximal_request))
     projection_path.write_bytes(canonical(proximal))
     results_path.write_bytes(canonical(result("PASS", "PASS")))
     cli = subprocess.run(
         [sys.executable, str(module_path), "--proximal-reconcile",
-         str(projection_path), str(results_path)],
+         str(request_path), str(projection_path), str(results_path)],
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -1446,7 +1449,8 @@ forged_projection["digest"] = hashlib.sha256(canonical({
 })).hexdigest()
 try:
     module.reconcile_proximal_results_v1(
-        canonical(forged_projection), canonical(result("PASS", "PASS"))
+        canonical(proximal_request), canonical(forged_projection),
+        canonical(result("PASS", "PASS"))
     )
 except module.WorkGraphError:
     pass
@@ -1464,7 +1468,8 @@ forged_topology["digest"] = hashlib.sha256(canonical({
 })).hexdigest()
 try:
     module.reconcile_proximal_results_v1(
-        canonical(forged_topology), canonical(result("PASS", "PASS"))
+        canonical(proximal_request), canonical(forged_topology),
+        canonical(result("PASS", "PASS"))
     )
 except module.WorkGraphError:
     pass
@@ -1504,7 +1509,8 @@ if (critical["mode"], critical["reason"]) != (
     raise SystemExit("D09: consequence-critical effect escaped full pre-flight")
 try:
     module.reconcile_proximal_results_v1(
-        canonical(critical), canonical(result("PASS", "PASS"))
+        canonical(proximal_request), canonical(critical),
+        canonical(result("PASS", "PASS"))
     )
 except module.WorkGraphError:
     pass
@@ -1611,6 +1617,525 @@ no_information_value = schedule(lambda request: request["information"].update(
 ))
 if no_information_value["mode"] == "DIAGNOSTIC_PARALLEL_ACCEPTANCE":
     raise SystemExit("resilience: defensive complexity substituted for information value")
+
+# Review successor controls: the packaged governor action-selection boundary
+# must consume a current exact classification plus a decision-bound advance
+# token.  A helper that can simply be skipped is not an execution interlock.
+def evidence_applicability(seed="1", *, authority_effect_class="COMPONENT_ACCEPTANCE"):
+    return {
+        "tested_product_input_sha256": seed * 64,
+        "source_dependency_slice_sha256": seed * 64,
+        "test_fixture_sha256": seed * 64,
+        "toolchain_environment_sha256": seed * 64,
+        "acceptance_contract_sha256": seed * 64,
+        "authority_effect_class": authority_effect_class,
+    }
+
+
+def prior_evidence(seed, scope, applicability):
+    return {
+        "evidence_sha256": seed * 64,
+        "scope": scope,
+        "applicability": copy.deepcopy(applicability),
+    }
+
+
+current_applicability = evidence_applicability("1")
+qualification_request = {
+    "change_set_sha256": "7" * 64,
+    "source_dependency_slice_sha256": "8" * 64,
+    "affected_contracts": ["R0035_ACTION_SELECTION", "R0035_PROXIMAL_SCHEDULING"],
+    "applicability": copy.deepcopy(current_applicability),
+    "prior_evidence": [
+        prior_evidence("9", "COMPONENT_ACCEPTANCE", evidence_applicability("6")),
+    ],
+    "semantic_invalidation_radius": "LOCAL_SAME_OWNER_SLICE",
+    "next_effect": "BOUNDED_CORRECTION",
+    "reversible": True,
+    "blast_radius_bounded": True,
+    "object_class": "INTERMEDIATE_COMPONENT",
+    "meaningful_join": {"proximity": "PROXIMAL", "available": False},
+    "workflow_requested_qualification": None,
+}
+action_context = {
+    "schema": "implementaudit.proximal-action-selection-context.v1",
+    "decision_sha256": "b" * 64,
+    "applicable": True,
+    "qualification": qualification_request,
+}
+advance_token = module.issue_proximal_advance_v1(
+    canonical(action_context), canonical(proximal_request), canonical(proximal)
+)
+if advance_token["scope"] != "ONE_IMMEDIATE_DECISION":
+    raise SystemExit("review I1: advance token was not bounded to one immediate decision")
+governor_decision = module.compile_proximal_action_selection_v1(
+    canonical(action_context), canonical(proximal_request), canonical(proximal),
+    canonical(advance_token),
+)
+if (governor_decision["decision"], governor_decision["advance_allowed"]) != (
+        "PROXIMAL_CLASSIFICATION_SATISFIED", True):
+    raise SystemExit("review I1: exact classifier/token did not admit the immediate action")
+if set(governor_decision["authority"].values()) != {"NONE"}:
+    raise SystemExit("review I1: action-selection interlock minted lifecycle authority")
+
+qualification = governor_decision["qualification"]
+if (qualification["mode"], qualification["reason"]) != (
+        "CORRECTION_QUALIFICATION", "LOCAL_SAME_OWNER_SELECTIVE_INVALIDATION"):
+    raise SystemExit("qualification Q1: local correction did not select affected-slice depth")
+if qualification["required_evidence"] != [
+        "AFFECTED_CAUSAL_ADVERSARIAL_SLICE", "FRESH_COMPONENT_REVIEW"]:
+    raise SystemExit("qualification Q1: local correction required evidence is not exact")
+if qualification["retained_evidence_sha256"] or qualification[
+        "invalidated_evidence_sha256"] != ["9" * 64]:
+    raise SystemExit("qualification Q1: stale predecessor evidence was not selectively invalidated")
+if advance_token["qualification"] != qualification:
+    raise SystemExit("qualification Q1: advance token did not bind qualification depth")
+
+
+def qualify(mutator):
+    context = copy.deepcopy(action_context)
+    mutator(context["qualification"])
+    token = module.issue_proximal_advance_v1(
+        canonical(context), canonical(proximal_request), canonical(proximal)
+    )
+    decision = module.compile_proximal_action_selection_v1(
+        canonical(context), canonical(proximal_request), canonical(proximal),
+        canonical(token),
+    )
+    if token["qualification"] != decision["qualification"]:
+        raise SystemExit("qualification: token/decision depth mismatch")
+    return decision["qualification"]
+
+
+# Q2: a small shared currentness/authority substrate edit expands only to the
+# dependency-derived component slice; textual size cannot retain local proof.
+shared = qualify(lambda request: request.update(
+    semantic_invalidation_radius="SHARED_CURRENTNESS_AUTHORITY_SUBSTRATE",
+    next_effect="COMPONENT_ACCEPTANCE",
+))
+if (shared["mode"], shared["reason"], shared["broad_rerun_reason"]) != (
+        "COMPONENT_ACCEPTANCE", "SHARED_SUBSTRATE_DEPENDENCY_INVALIDATION",
+        "SHARED_CURRENTNESS_AUTHORITY_SUBSTRATE"):
+    raise SystemExit("qualification Q2: shared substrate did not broaden by dependency radius")
+if shared["required_evidence"] != [
+        "DEPENDENCY_SLICE_REQUALIFICATION", "FRESH_COMPONENT_REVIEW"]:
+    raise SystemExit("qualification Q2: shared substrate evidence depth is wrong")
+
+# Q3: an accepted intermediate component proceeds toward the available JOIN;
+# it cannot claim terminal whole-product fitness.
+def accepted_intermediate(request):
+    request.update(
+        semantic_invalidation_radius="NONE",
+        next_effect="COMPONENT_ACCEPTANCE",
+        prior_evidence=[prior_evidence(
+            "a", "COMPONENT_ACCEPTANCE", current_applicability
+        )],
+        meaningful_join={"proximity": "AVAILABLE", "available": True},
+    )
+
+
+intermediate = qualify(accepted_intermediate)
+if (intermediate["mode"], intermediate["reason"]) != (
+        "COMPONENT_ACCEPTANCE", "INTERMEDIATE_COMPONENT_TO_AVAILABLE_JOIN"):
+    raise SystemExit("qualification Q3: intermediate component was terminally certified")
+if intermediate["required_evidence"] != ["JOIN_COMPOSITION_EVIDENCE"]:
+    raise SystemExit("qualification Q3: available JOIN preparation was not selected")
+if intermediate["retained_evidence_sha256"] != ["a" * 64]:
+    raise SystemExit("qualification Q3: applicable component evidence was not retained")
+
+# Q4: the exact frozen meaningful projection before install/cutover retains the
+# heavyweight whole-projection review and full cutover pre-flight.
+def frozen_cutover(request):
+    request.update(
+        semantic_invalidation_radius="WHOLE_PROJECTION",
+        next_effect="INSTALL_CUTOVER",
+        object_class="MEANINGFUL_JOIN_FROZEN_PROJECTION",
+        meaningful_join={"proximity": "AVAILABLE", "available": True},
+    )
+
+
+cutover = qualify(frozen_cutover)
+if (cutover["mode"], cutover["reason"], cutover["broad_rerun_reason"]) != (
+        "WHOLE_PROJECTION_CUTOVER_QUALIFICATION", "CUTOVER_FULL_PREFLIGHT",
+        "WHOLE_PROJECTION_OR_CUTOVER_AUTHORITY"):
+    raise SystemExit("qualification Q4: frozen cutover projection escaped whole review")
+if cutover["required_evidence"] != [
+        "CUTOVER_PREFLIGHT", "WHOLE_PROJECTION_REVIEW"]:
+    raise SystemExit("qualification Q4: cutover evidence set is incomplete")
+
+irreversible = qualify(lambda request: request.update(
+    semantic_invalidation_radius="NONE",
+    next_effect="IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER",
+    reversible=False,
+    blast_radius_bounded=False,
+))
+if irreversible["mode"] != "WHOLE_PROJECTION_CUTOVER_QUALIFICATION":
+    raise SystemExit("qualification Q4: irreversible authority effect escaped full pre-flight")
+
+# Q5: a tiny post-review edit invalidates the old whole PASS from exact tuple
+# drift; its small diff does not preserve stale acceptance authority.
+def tiny_post_review_edit(request):
+    stale_tuple = evidence_applicability("1")
+    stale_tuple["tested_product_input_sha256"] = "f" * 64
+    request.update(
+        prior_evidence=[prior_evidence(
+            "b", "WHOLE_PROJECTION_CUTOVER", stale_tuple
+        )],
+        semantic_invalidation_radius="LOCAL_SAME_OWNER_SLICE",
+        next_effect="BOUNDED_CORRECTION",
+    )
+
+
+tiny_edit = qualify(tiny_post_review_edit)
+if tiny_edit["retained_evidence_sha256"] or tiny_edit[
+        "invalidated_evidence_sha256"] != ["b" * 64]:
+    raise SystemExit("qualification Q5: stale whole-review PASS survived a changed tuple")
+if tiny_edit["mode"] != "CORRECTION_QUALIFICATION":
+    raise SystemExit("qualification Q5: tiny edit forced premature whole-product rerun")
+
+# Q6: mechanically unchanged applicability reuses exact evidence rather than
+# demanding a ceremonial rerun while the meaningful JOIN remains future work.
+def unchanged_evidence(request):
+    request.update(
+        prior_evidence=[prior_evidence(
+            "c", "COMPONENT_ACCEPTANCE", current_applicability
+        )],
+        semantic_invalidation_radius="NONE",
+        next_effect="COMPONENT_ACCEPTANCE",
+        meaningful_join={"proximity": "FUTURE", "available": False},
+    )
+
+
+unchanged = qualify(unchanged_evidence)
+if (unchanged["mode"], unchanged["reason"], unchanged["reuse_reason"]) != (
+        "COMPONENT_ACCEPTANCE", "UNCHANGED_APPLICABILITY_TUPLE_REUSE",
+        "EXACT_APPLICABILITY_TUPLE_UNCHANGED"):
+    raise SystemExit("qualification Q6: unchanged evidence was rerun")
+if unchanged["required_evidence"] or unchanged[
+        "retained_evidence_sha256"] != ["c" * 64]:
+    raise SystemExit("qualification Q6: reusable evidence disposition is wrong")
+
+# Unknown applicability and workflow-requested overqualification both fail
+# closed.  Prose cannot silently strengthen the mechanically derived depth.
+unknown_context = copy.deepcopy(action_context)
+unknown_context["qualification"]["semantic_invalidation_radius"] = "UNKNOWN"
+unknown_qualification = module.derive_proximal_qualification_v1(
+    unknown_context["qualification"]
+)
+if (unknown_qualification["mode"], unknown_qualification["reason"]) != (
+        "STOP_RECONCILE", "UNKNOWN_SEMANTIC_INVALIDATION_RADIUS"):
+    raise SystemExit("qualification: unknown invalidation radius was not explained")
+try:
+    module.issue_proximal_advance_v1(
+        canonical(unknown_context), canonical(proximal_request), canonical(proximal)
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("qualification: unknown invalidation radius issued an advance token")
+
+broad_workflow = copy.deepcopy(action_context)
+broad_workflow["qualification"][
+    "workflow_requested_qualification"
+] = "WHOLE_PROJECTION_CUTOVER_QUALIFICATION"
+workflow_depth = module.derive_proximal_qualification_v1(
+    broad_workflow["qualification"]
+)
+if (workflow_depth["mode"], workflow_depth["reason"]) != (
+        "STOP_RECONCILE", "WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY"):
+    raise SystemExit("qualification: workflow overqualification was not explained")
+try:
+    module.issue_proximal_advance_v1(
+        canonical(broad_workflow), canonical(proximal_request), canonical(proximal)
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("qualification: workflow prose silently demanded a broad rerun")
+
+for omitted in ("request", "projection", "token"):
+    args = {
+        "request": canonical(proximal_request),
+        "projection": canonical(proximal),
+        "token": canonical(advance_token),
+    }
+    args[omitted] = None
+    try:
+        module.compile_proximal_action_selection_v1(
+            canonical(action_context), args["request"], args["projection"], args["token"]
+        )
+    except module.WorkGraphError:
+        pass
+    else:
+        raise SystemExit(f"review I1: applicable continuation omitted {omitted}")
+
+not_applicable_context = copy.deepcopy(action_context)
+not_applicable_context.update(
+    decision_sha256="c" * 64, applicable=False, qualification=None
+)
+not_required = module.compile_proximal_action_selection_v1(
+    canonical(not_applicable_context), None, None, None
+)
+if (not_required["decision"], not_required["advance_allowed"]) != ("NOT_REQUIRED", True):
+    raise SystemExit("review I1: no-proximal cheap path was not explicit")
+
+reused_context = copy.deepcopy(action_context)
+reused_context["decision_sha256"] = "d" * 64
+try:
+    module.compile_proximal_action_selection_v1(
+        canonical(reused_context), canonical(proximal_request), canonical(proximal),
+        canonical(advance_token),
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("review I1: advance token was reusable for another immediate decision")
+
+stale_request = copy.deepcopy(proximal_request)
+stale_request["currentness"]["receipt"] = (
+    "refs/implementaudit/continuity-receipts/v0333-release/G0131@" + "8" * 40
+)
+stale_projection = module.compile_proximal_schedule_v1(canonical(stale_request))
+try:
+    module.compile_proximal_action_selection_v1(
+        canonical(action_context), canonical(stale_request),
+        canonical(stale_projection), canonical(advance_token),
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("review I1: stale currentness reused an earlier advance token")
+
+forged_token = copy.deepcopy(advance_token)
+forged_token["projection_digest"] = "e" * 64
+forged_token["digest"] = hashlib.sha256(canonical({
+    key: value for key, value in forged_token.items() if key != "digest"
+})).hexdigest()
+try:
+    module.compile_proximal_action_selection_v1(
+        canonical(action_context), canonical(proximal_request), canonical(proximal),
+        canonical(forged_token),
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("review I1: self-rehashed forged advance token was accepted")
+
+forged_depth = copy.deepcopy(advance_token)
+forged_depth["qualification"]["mode"] = "WHOLE_PROJECTION_CUTOVER_QUALIFICATION"
+forged_depth["digest"] = hashlib.sha256(canonical({
+    key: value for key, value in forged_depth.items() if key != "digest"
+})).hexdigest()
+try:
+    module.compile_proximal_action_selection_v1(
+        canonical(action_context), canonical(proximal_request), canonical(proximal),
+        canonical(forged_depth),
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("qualification: self-rehashed forged depth was accepted")
+
+changed_qualification_context = copy.deepcopy(action_context)
+changed_qualification_context["qualification"]["change_set_sha256"] = "d" * 64
+try:
+    module.compile_proximal_action_selection_v1(
+        canonical(changed_qualification_context), canonical(proximal_request),
+        canonical(proximal), canonical(advance_token),
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("qualification: a changed source slice reused an earlier token")
+
+for field, value in (
+    ("next_effect", "UNKNOWN_EFFECT"),
+    ("object_class", "UNKNOWN_OBJECT"),
+    ("affected_contracts", []),
+):
+    malformed_context = copy.deepcopy(action_context)
+    malformed_context["qualification"][field] = value
+    try:
+        module.issue_proximal_advance_v1(
+            canonical(malformed_context), canonical(proximal_request), canonical(proximal)
+        )
+    except module.WorkGraphError:
+        pass
+    else:
+        raise SystemExit(f"qualification: malformed {field} did not fail closed")
+
+unfrozen_cutover_context = copy.deepcopy(action_context)
+frozen_cutover(unfrozen_cutover_context["qualification"])
+unfrozen_cutover_context["qualification"]["object_class"] = "INTERMEDIATE_COMPONENT"
+try:
+    module.issue_proximal_advance_v1(
+        canonical(unfrozen_cutover_context), canonical(proximal_request), canonical(proximal)
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("qualification: install/cutover proceeded without a frozen JOIN")
+
+stopped_projection = schedule(lambda request: request[
+    "minimum_recoverability_gate"
+].update(passed=False))
+try:
+    module.issue_proximal_advance_v1(
+        canonical(action_context), canonical({
+            **proximal_request,
+            "minimum_recoverability_gate": {
+                **proximal_request["minimum_recoverability_gate"], "passed": False,
+            },
+        }), canonical(stopped_projection),
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("review I1: STOP classification issued an advance token")
+
+# I2: reconciliation must rederive the exact projection from the authoritative
+# request bytes.  Rehashing a contradictory projection cannot make it current.
+for mutation, label in (
+    (lambda request: request["minimum_recoverability_gate"].update(passed=False),
+     "failed minimum gate"),
+    (lambda request: request["candidate"].update(identity_frozen=False),
+     "unfrozen identity"),
+    (lambda request: request["information"].update(decision_relevant=False),
+     "changed request bytes"),
+):
+    changed_request = copy.deepcopy(proximal_request)
+    mutation(changed_request)
+    try:
+        module.reconcile_proximal_results_v1(
+            canonical(changed_request), canonical(proximal),
+            canonical(result("PASS", "PASS")),
+        )
+    except module.WorkGraphError:
+        pass
+    else:
+        raise SystemExit(f"review I2: {label} reached later-gate eligibility")
+
+failed_gate_projection = copy.deepcopy(proximal)
+failed_gate_projection["minimum_recoverability_gate"]["passed"] = False
+failed_gate_projection["digest"] = hashlib.sha256(canonical({
+    key: value for key, value in failed_gate_projection.items() if key != "digest"
+})).hexdigest()
+try:
+    module.reconcile_proximal_results_v1(
+        canonical(proximal_request), canonical(failed_gate_projection),
+        canonical(result("PASS", "PASS")),
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("review I2: self-rehashed failed-gate projection was eligible")
+
+# I3: informational/differential coupling remains parallel but is never called
+# independent.  Acceptance-only, both, and neither remain distinguishable.
+informational_only = schedule(lambda request: request["relationships"].update(
+    acceptance_prerequisite=False, informational_or_differential=True
+))
+if (informational_only["mode"], informational_only["reason"]) != (
+        "ORDINARY_PARALLEL", "INFORMATIONAL_DIFFERENTIAL"):
+    raise SystemExit("review I3: informational-only topology was called independent")
+
+acceptance_only = schedule(lambda request: request["relationships"].update(
+    acceptance_prerequisite=True, informational_or_differential=False
+))
+if acceptance_only["reason"] != "RISK_OF_DELAY_AND_VALUE_OF_INFORMATION":
+    raise SystemExit("review I3: acceptance-only topology lost its reason")
+
+both_relationships = schedule(lambda request: request["relationships"].update(
+    acceptance_prerequisite=True, informational_or_differential=True
+))
+if both_relationships["reason"] != "RISK_OF_DELAY_AND_INFORMATIONAL_DIFFERENTIAL":
+    raise SystemExit("review I3: combined acceptance/informational topology collapsed")
+
+# I4: every defensive-cost family can independently provide the material
+# marginal-cost basis, while no claimed defensive cost remains serial.  These
+# inputs can never override the diagnostic safety predicates above.
+defensive_cost_fields = (
+    "further_serialization_complexity_cost_material",
+    "further_serialization_coupling_cost_material",
+    "further_serialization_delay_cost_material",
+    "further_serialization_latent_failure_cost_material",
+)
+no_defensive_cost = schedule(lambda request: request["information"].update({
+    field: False for field in defensive_cost_fields
+}))
+if (no_defensive_cost["mode"], no_defensive_cost["reason"]) != (
+        "SERIAL_EXECUTION", "CONSEQUENCE_CONTROL"):
+    raise SystemExit("review I4: absent defensive-cost basis remained ceremonial")
+for field in defensive_cost_fields:
+    one_cost = schedule(lambda request, field=field: request["information"].update({
+        key: key == field for key in defensive_cost_fields
+    }))
+    if one_cost["mode"] != "DIAGNOSTIC_PARALLEL_ACCEPTANCE":
+        raise SystemExit(f"review I4: {field} did not participate in the decision")
+    if one_cost["defensive_cost_basis"] != [field]:
+        raise SystemExit(f"review I4: {field} was not visible in the output basis")
+
+# M1 and the actual packaged generic action-selection entrypoint.  Applicable
+# continuation without classification/token must fail at executable dispatch;
+# an unknown proximal spelling must never fall through to graph compilation.
+with tempfile.TemporaryDirectory() as cli_temp:
+    cli_root = pathlib.Path(cli_temp)
+    context_path = cli_root / "action-context.json"
+    request_path = cli_root / "request.json"
+    projection_path = cli_root / "projection.json"
+    token_path = cli_root / "advance-token.json"
+    graph_path = cli_root / "work-graph.json"
+    context_path.write_bytes(canonical(action_context))
+    request_path.write_bytes(canonical(proximal_request))
+    projection_path.write_bytes(canonical(proximal))
+    token_path.write_bytes(canonical(advance_token))
+    graph_path.write_bytes(canonical(graph))
+    issued = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-advance",
+         str(context_path), str(request_path), str(projection_path)],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if issued.returncode != 0 or issued.stdout != canonical(advance_token):
+        raise SystemExit("review I1: packaged advance-token path did not execute")
+    omitted = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-action-selection",
+         str(context_path)], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if omitted.returncode == 0:
+        raise SystemExit("review I1: generic workflow continued without classification/token")
+    admitted = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-action-selection",
+         str(context_path), str(request_path), str(projection_path), str(token_path)],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if admitted.returncode != 0 or admitted.stdout != canonical(governor_decision):
+        raise SystemExit("review I1: packaged action-selection interlock did not execute")
+    replayed = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-action-selection",
+         str(context_path), str(request_path), str(projection_path), str(token_path)],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if replayed.returncode == 0 or replayed.stdout:
+        raise SystemExit("review I1: consumed advance token was reusable")
+    consumed_path = token_path.with_name(token_path.name + ".consumed")
+    if consumed_path.read_text(encoding="ascii") != advance_token["digest"] + "\n":
+        raise SystemExit("review I1: token consumption marker is missing or foreign")
+    not_context_path = cli_root / "not-applicable-context.json"
+    not_context_path.write_bytes(canonical(not_applicable_context))
+    no_proximal = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-action-selection",
+         str(not_context_path)],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if no_proximal.returncode != 0 or no_proximal.stdout != canonical(not_required):
+        raise SystemExit("review I1: packaged NOT_REQUIRED cheap path failed")
+    unknown = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-unknown",
+         str(graph_path), str(request_path)],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if unknown.returncode != 2 or unknown.stdout:
+        raise SystemExit("review M1: unknown proximal option fell through to graph compilation")
 
 contained_failure = result(
     "FAIL", "FAIL", diagnostic_contributor="CONTAINMENT"
