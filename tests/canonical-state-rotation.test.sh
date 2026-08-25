@@ -319,7 +319,9 @@ state_g3 = (
 (run_root / "STATE.md").write_bytes(state_g3)
 (run_root / "ROADMAP.md").write_bytes(b"Installed custody G0003 roadmap\n")
 
-cache_root = temp / "codex-home" / "plugins" / "cache" / "personal" / "implementaudit" / "0.4.0-test"
+cache_root = (
+    temp / "codex-home" / "plugins" / "cache" / "personal"
+    / "implementaudit" / "0.4.0+codex.20260825164238")
 installed_scripts = cache_root / "skills" / "implementaudit" / "scripts"
 installed_scripts.mkdir(parents=True)
 for source in (rotation_path, claim_path, binding_path, validator_path):
@@ -500,6 +502,15 @@ try:
 finally:
     binding_core.write_bytes(binding_helper_raw)
 
+for unsafe_version in ("0.4.0 codex", ".0.4.0-codex", "0.4.0@codex"):
+    unsafe_scripts = (
+        cache_root.parent / unsafe_version / "skills" / "implementaudit" / "scripts")
+    shutil.copytree(installed_scripts, unsafe_scripts)
+    expect_installed_rejection(
+        "unsafe cache version " + unsafe_version,
+        lambda unsafe_scripts=unsafe_scripts: run_installed_claim(
+            script=unsafe_scripts / "claim-run.sh"))
+
 foreign_layout = temp / "plugins" / "other" / "personal" / "implementaudit" / "0.4.0-test"
 foreign_scripts = foreign_layout / "skills" / "implementaudit" / "scripts"
 shutil.copytree(installed_scripts, foreign_scripts)
@@ -584,7 +595,7 @@ if protected_refs() != before:
 print("CANONICAL_STATE_ROTATION_INSTALLED_CUSTODY_GREEN=PASS "
       "locator=R003A_PREDECESSOR transition=G0002_TO_G0003 "
       "stable=STATE transition=PREDECESSOR output=EIGHT_FIELDS "
-      "negatives=17 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY")
+      "negatives=20 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY")
 PY
   $installed_custody_only && exit 0
 fi
@@ -1150,6 +1161,11 @@ hot_bytes = {
 (run_root / "STATE.md").write_bytes(hot_bytes["STATE"])
 (run_root / "ROADMAP.md").write_bytes(hot_bytes["ROADMAP"])
 (run_root / "WORK_GRAPH.json").write_bytes(hot_bytes["WORK_GRAPH"])
+live_custody_tuple = (
+    "implementaudit.publication-custody.v1", controller_id, controller_oid,
+    claim_id, repo.resolve().as_posix(), repo.resolve().as_posix(),
+    run_root.resolve().as_posix(), run_id,
+)
 live_context = {
     "repo_path": repo,
     "run_root_path": run_root,
@@ -1165,6 +1181,7 @@ live_context = {
     "receipt_roadmap_digest": hashlib.sha256(hot_bytes["ROADMAP"]).hexdigest(),
     "expected_old_pointer_oid": None,
     "migration_marker_oid": None,
+    "publication_custody_tuple": live_custody_tuple,
     "publication_guard_refs": tuple(sorted((
         (controller_ref, controller_oid),
         (receipt_ref, receipt_oid),
@@ -1204,8 +1221,10 @@ def protected_refs():
 
 original_lease = rotation.acquire_r0039_publication_writer_lease_v1
 original_publication_context = rotation.load_governed_publication_context_v1
+original_publication_tuple = rotation._publication_custody_tuple_v1
 rotation.acquire_r0039_publication_writer_lease_v1 = fake_live_genesis_lease
 rotation.load_governed_publication_context_v1 = lambda: live_context
+rotation._publication_custody_tuple_v1 = lambda: live_custody_tuple
 protected_before_prepare = protected_refs()
 try:
     try:
@@ -1358,6 +1377,7 @@ try:
 finally:
     rotation.acquire_r0039_publication_writer_lease_v1 = original_lease
     rotation.load_governed_publication_context_v1 = original_publication_context
+    rotation._publication_custody_tuple_v1 = original_publication_tuple
 
 print(
     "CANONICAL_STATE_ROTATION_LIVE_GENESIS_GREEN=PASS "

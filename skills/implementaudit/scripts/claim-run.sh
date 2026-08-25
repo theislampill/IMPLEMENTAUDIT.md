@@ -119,6 +119,10 @@ def safe_component(value):
     return re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", value) is not None
 
 
+def safe_version_component(value):
+    return re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+-]{0,127}", value) is not None
+
+
 def exact_text(value):
     return isinstance(value, str) and 0 < len(value) <= 1024 and all(ord(char) >= 32 for char in value)
 
@@ -210,7 +214,8 @@ except IndexError:
     stop()
 if (cache.name != "cache" or plugins.name != "plugins"
         or not all(safe_component(value) for value in (
-            marketplace.name, plugin.name, version_root.name))):
+            marketplace.name, plugin.name))
+        or not safe_version_component(version_root.name)):
     stop()
 for path in (plugins, cache, marketplace, plugin, version_root,
              version_root / "skills", version_root / "skills" / "implementaudit",
