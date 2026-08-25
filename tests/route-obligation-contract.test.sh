@@ -155,6 +155,9 @@ route() {
   (
     unset BASH_XTRACEFD
     cd "$tmp/repo"
+    if [ -n "${IMPLEMENTAUDIT_R0033_TEST_BARRIER:-}" ]; then
+      export IMPLEMENTAUDIT_R0033_TEST_BARRIER
+    fi
     "${py[@]}" "$active_core" "$@" --controller "$controller" --store "$tmp/host-store" \
       --host-id codex --host-session-id "$session" --binding-generation "$generation"
   )
@@ -1577,6 +1580,61 @@ PY
   fi
 
   if [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
+    # These canonical proxy records must traverse terminal `decide`, the only
+    # command that enables immutable historical custody.  The old package path
+    # is already absent, while the equal-byte current child remains available.
+    "${py[@]}" - "$tmp/repo" "$complete_record" "$tmp/${case_id,,}-terminal-tamper" <<'PY'
+import base64
+import copy
+import hashlib
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo, source_oid, output_prefix = sys.argv[1:]
+source = json.loads(subprocess.check_output(["git", "-C", repo, "cat-file", "blob", source_oid]))
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+
+def digest(raw):
+    return "sha256:" + hashlib.sha256(raw).hexdigest()
+
+def finish(name, value):
+    base = {key: member for key, member in value.items() if key != "record_identity"}
+    value["record_identity"] = digest(canonical(base))
+    Path(f"{output_prefix}-{name}.json").write_bytes(canonical(value) + b"\n")
+
+changed_bytes = copy.deepcopy(source)
+child = changed_bytes["lifecycle"]["delivery"]["child"]
+raw = base64.b64decode(child["bytes_b64"], validate=True) + b"\nM1 immutable child mutation"
+child["bytes_b64"] = base64.b64encode(raw).decode("ascii")
+child["digest"] = digest(raw)
+changed_bytes["child_source"]["digest"] = child["digest"]
+finish("bytes", changed_bytes)
+
+changed_digest = copy.deepcopy(source)
+changed_digest["lifecycle"]["delivery"]["child"]["digest"] = "sha256:" + "0" * 64
+finish("digest", changed_digest)
+
+changed_source = copy.deepcopy(source)
+foreign_identity = changed_source["child_source"]["identity"] + "-foreign"
+changed_source["child_source"]["identity"] = foreign_identity
+changed_source["lifecycle"]["delivery"]["child"]["identity"] = foreign_identity
+finish("source", changed_source)
+PY
+    for terminal_tamper in bytes digest source; do
+      proxy_oid="$(git -C "$tmp/repo" hash-object -w "$tmp/${case_id,,}-terminal-tamper-$terminal_tamper.json")"
+      git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" "$proxy_oid" "$complete_record"
+      expect_blocked "$case_id immutable terminal child $terminal_tamper tamper cannot re-enter" \
+        route "$controller" "$session" "$successor_generation" decide \
+          --request "$successor_request" --expected-record "$proxy_oid" >/dev/null
+      [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$proxy_oid" ] ||
+        fail "$case_id immutable terminal child $terminal_tamper tamper changed the route ref"
+      git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" "$complete_record" "$proxy_oid"
+    done
+
     "${py[@]}" - "$ROUTE_CORE" "$tmp/repo" "$complete_record" \
       "$successor_receipt" "$intermediate_receipt" "$controller" "$claim_local" "$run_name" <<'PY'
 import contextlib
@@ -1627,7 +1685,7 @@ def invoke(generation, receipt):
         current_receipt=receipt,
     )
 
-def expect_failure(label, generation, receipt):
+def expect_failure(label, generation, receipt, expected_error=None):
     output = io.StringIO()
     try:
         with contextlib.redirect_stdout(output):
@@ -1644,6 +1702,8 @@ def expect_failure(label, generation, receipt):
         raise AssertionError(f"{label}: failure was not one JSON object: {rendered!r}") from exc
     if result.get("status") != "UNAVAILABLE" or result.get("advance_allowed") is not False:
         raise AssertionError(f"{label}: failure was not fail-closed: {result!r}")
+    if expected_error is not None and result.get("error") != expected_error:
+        raise AssertionError(f"{label}: wrong predicate failed: {result!r}")
     if "Traceback" in rendered:
         raise AssertionError(f"{label}: traceback escaped")
 
@@ -1657,6 +1717,24 @@ intermediate_raw = git("cat-file", "blob", intermediate_oid)
 
 # Positive control: the exact live-equivalent two-rotation chain is accepted.
 invoke("G0003", current_token)
+
+# Compatibility control: the original exact-next rule accepts an exact
+# canonical one-generation v2 receipt without applying the v3-chain grammar.
+terminal_raw = git("cat-file", "blob", terminal_token.split("@")[1])
+terminal_fields = terminal_raw.rstrip(b"\n").decode("utf-8").split("\t")
+if len(terminal_fields) != 12 or terminal_fields[0] != "implementaudit.continuity-receipt.v2":
+    raise AssertionError("exact-next v2 positive control requires the canonical v2 terminal fixture")
+v2_fields = list(terminal_fields)
+v2_fields[9] = "manual-resume"
+v2_fields[10] = "G0002"
+v2_fields[11] = "exact-next-v2-positive-control"
+v2_raw = ("\t".join(v2_fields) + "\n").encode("utf-8")
+v2_oid = oid_for(v2_raw)
+update_ref(intermediate_ref, v2_oid, intermediate_oid)
+try:
+    invoke("G0002", f"{intermediate_ref}@{v2_oid}")
+finally:
+    update_ref(intermediate_ref, intermediate_oid, v2_oid)
 
 git("update-ref", "-d", intermediate_ref, intermediate_oid)
 try:
@@ -1679,9 +1757,14 @@ finally:
 
 malformed_oid = oid_for(intermediate_raw[:-1] + b"\r\n")
 update_ref(intermediate_ref, malformed_oid, intermediate_oid)
+malformed_current_fields = current_raw[:-1].decode("utf-8").split("\t")
+malformed_current_fields[17] = f"{intermediate_ref}@{malformed_oid}"
+malformed_current_oid = oid_for(("\t".join(malformed_current_fields) + "\n").encode("utf-8"))
+update_ref(current_ref, malformed_current_oid, current_oid)
 try:
-    expect_failure("noncanonical intermediate bytes", "G0002", f"{intermediate_ref}@{malformed_oid}")
+    expect_failure("noncanonical intermediate bytes", "G0003", f"{current_ref}@{malformed_current_oid}")
 finally:
+    update_ref(current_ref, current_oid, malformed_current_oid)
     update_ref(intermediate_ref, intermediate_oid, malformed_oid)
 
 current_fields = current_raw[:-1].decode("utf-8").split("\t")
@@ -1694,28 +1777,115 @@ try:
 finally:
     update_ref(current_ref, current_oid, noncontiguous_oid)
 
+terminal_ref, terminal_oid = terminal_token.split("@")
+fork_terminal_oid = oid_for(b"R0033 canonical fork terminal object\n")
+fork_terminal_token = f"{terminal_ref}@{fork_terminal_oid}"
 fork_fields = intermediate_raw[:-1].decode("utf-8").split("\t")
-fork_fields[16] = fork_fields[16] + "-fork"
+fork_fields[17] = fork_terminal_token
 fork_oid = oid_for(("\t".join(fork_fields) + "\n").encode("utf-8"))
+fork_current_fields = current_raw[:-1].decode("utf-8").split("\t")
+fork_current_fields[17] = f"{intermediate_ref}@{fork_oid}"
+fork_current_oid = oid_for(("\t".join(fork_current_fields) + "\n").encode("utf-8"))
+update_ref(terminal_ref, fork_terminal_oid, terminal_oid)
 update_ref(intermediate_ref, fork_oid, intermediate_oid)
+update_ref(current_ref, fork_current_oid, current_oid)
 try:
-    expect_failure("predecessor ref fork", "G0003", current_token)
+    expect_failure(
+        "predecessor field fork",
+        "G0003",
+        f"{current_ref}@{fork_current_oid}",
+        "continuity receipt chain does not reach the terminal route receipt",
+    )
 finally:
+    update_ref(current_ref, current_oid, fork_current_oid)
     update_ref(intermediate_ref, intermediate_oid, fork_oid)
+    update_ref(terminal_ref, terminal_oid, fork_terminal_oid)
 
 for field_index, label in ((1, "foreign controller"), (2, "foreign claim"), (3, "foreign run")):
     foreign_fields = intermediate_raw[:-1].decode("utf-8").split("\t")
     foreign_fields[field_index] += "-foreign"
     foreign_oid = oid_for(("\t".join(foreign_fields) + "\n").encode("utf-8"))
     update_ref(intermediate_ref, foreign_oid, intermediate_oid)
+    foreign_current_fields = current_raw[:-1].decode("utf-8").split("\t")
+    foreign_current_fields[17] = f"{intermediate_ref}@{foreign_oid}"
+    foreign_current_oid = oid_for(("\t".join(foreign_current_fields) + "\n").encode("utf-8"))
+    update_ref(current_ref, foreign_current_oid, current_oid)
     try:
-        expect_failure(label, "G0002", f"{intermediate_ref}@{foreign_oid}")
+        expect_failure(label, "G0003", f"{current_ref}@{foreign_current_oid}")
     finally:
+        update_ref(current_ref, current_oid, foreign_current_oid)
         update_ref(intermediate_ref, intermediate_oid, foreign_oid)
 
 expect_failure("same generation", terminal_generation, terminal_token)
 expect_failure("backward generation", "G0000", "refs/implementaudit/continuity-receipts/%s/G0000@%s" % (controller, "0" * 40))
 PY
+  fi
+
+  if [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
+    local race_core_backup="$tmp/${case_id,,}-route-core-before-race.py"
+    local race_barrier="$tmp/${case_id,,}-lineage-race" race_output="$tmp/${case_id,,}-lineage-race.out"
+    local terminal_receipt terminal_ref terminal_oid race_foreign_oid race_pid race_status race_result
+    cp "$ROUTE_CORE" "$race_core_backup"
+    "${py[@]}" - "$ROUTE_CORE" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+source = path.read_text(encoding="utf-8")
+needle = '''        completed = subprocess.run(
+            [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), new_oid, expected_oid],
+'''
+if source.count(needle) != 1:
+    raise SystemExit("R0033 lineage race fixture lost the unique route-decision CAS insertion point")
+barrier = '''        test_barrier = os.environ.get("IMPLEMENTAUDIT_R0033_TEST_BARRIER")
+        if test_barrier:
+            barrier_path = Path(test_barrier)
+            barrier_path.mkdir(parents=True, exist_ok=True)
+            (barrier_path / "validated").touch()
+            for _ in range(500):
+                if (barrier_path / "release").is_file():
+                    break
+                time.sleep(0.02)
+            else:
+                raise RuntimeError("R0033 lineage race barrier timed out")
+'''
+path.write_text(source.replace(needle, barrier + needle), encoding="utf-8", newline="\n")
+PY
+    mkdir "$race_barrier"
+    terminal_receipt="$(${py[@]} -c 'import json,sys; print(json.loads(sys.argv[1])["continuity_receipt"])' "$first_terminal_blob")"
+    terminal_ref="${terminal_receipt%@*}"
+    terminal_oid="${terminal_receipt##*@}"
+    race_foreign_oid="$(printf 'R0033 terminal lineage race replacement\n' | git -C "$tmp/repo" hash-object -w --stdin)"
+    set +e
+    IMPLEMENTAUDIT_R0033_TEST_BARRIER="$race_barrier" \
+      route "$controller" "$session" "$successor_generation" decide \
+        --request "$successor_request" --expected-record "$complete_record" >"$race_output" 2>&1 &
+    race_pid=$!
+    set -e
+    for _ in {1..500}; do
+      [ -f "$race_barrier/validated" ] && break
+      kill -0 "$race_pid" 2>/dev/null || break
+      sleep 0.02
+    done
+    [ -f "$race_barrier/validated" ] || {
+      wait "$race_pid" || true
+      mv "$race_core_backup" "$ROUTE_CORE"
+      fail "$case_id lineage race did not reach the validation-to-CAS barrier"
+    }
+    git -C "$tmp/repo" update-ref "$terminal_ref" "$race_foreign_oid" "$terminal_oid"
+    : > "$race_barrier/release"
+    set +e
+    wait "$race_pid"
+    race_status=$?
+    set -e
+    git -C "$tmp/repo" update-ref "$terminal_ref" "$terminal_oid" "$race_foreign_oid"
+    mv "$race_core_backup" "$ROUTE_CORE"
+    race_result="$(<"$race_output")"
+    [ "$race_status" -ne 0 ] ||
+      fail "$case_id lineage validation-to-CAS race returned advancement authority"
+    assert_json "$race_result" 'value["status"] == "UNAVAILABLE" and value["advance_allowed"] is False and value["enforcement_available"] is False'
+    [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$complete_record" ] ||
+      fail "$case_id lineage validation-to-CAS race was not exactly compensated"
   fi
 
   set +e
@@ -1825,30 +1995,42 @@ PY
     fail "$case_id second lifecycle mutated the first terminal record"
 }
 
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G01 ]; then
 run_governed_child_case G01 55555555555555555555555555555555 \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
   'rehydrate bounded current state after the exact stale-context boundary' \
   host-reported-compaction REQUIRED PACKAGE_RELOCATED
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G02 ]; then
 run_governed_child_case G02 66666666666666666666666666666666 \
   IMMUTABLE_INDEPENDENT_REVIEW audit-assess \
   'independently assess the exact immutable review packet' \
   new-session REQUIRED PACKAGE_RELOCATED
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G03 ]; then
 run_governed_child_case G03 77777777777777777777777777777777 \
   MAINTAINER_QUALIFICATION audit-implement \
   'qualify the exact maintainer candidate after verified release currentness' \
   handoff-resume REQUIRED PACKAGE_RELOCATED
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G04 ]; then
 run_governed_child_case G04 88888888888888888888888888888888 \
   NONTRIVIAL_ANDON_DIAGNOSIS audit-andon \
   'diagnose the established nontrivial Andon within its authority ceiling' \
   manual-resume REQUIRED PACKAGE_RELOCATED
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G05 ]; then
 run_governed_child_case G05 99999999999999999999999999999999 \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
   'rehydrate bounded current state after the exact stale-context boundary' \
   manual-resume NOT_REQUIRED PACKAGE_RELOCATED
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G06 ]; then
 run_governed_child_case G06 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
   'rehydrate bounded current state after the exact stale-context boundary' \
   host-reported-compaction REQUIRED PACKAGE_RELOCATED TWO_ROTATIONS
+fi
 
 # The pure R0033 owner validator remains usable for a read-only C03 projection
 # after event attribution is tombstoned, while every R0033 effect path refuses.

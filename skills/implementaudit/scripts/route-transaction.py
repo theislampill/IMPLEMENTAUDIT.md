@@ -2584,18 +2584,28 @@ def validate_terminal_continuity_chain(
     )
     candidate_generation = current_generation
     candidate_receipt = current_receipt
-    for _ in range(distance):
-        candidate_receipt = validated_v3_predecessor(
-            repo,
-            candidate_receipt,
-            controller=controller,
-            claim=claim,
-            run_identity=run_identity,
-            generation=candidate_generation,
+    if distance == 1:
+        current_ref, current_oid = split_continuity_token(
+            current_receipt, controller, current_generation, "current continuity receipt"
         )
-        candidate_generation = f"G{int(candidate_generation[1:], 16) - 1:04X}"
-    if candidate_generation != terminal_generation or candidate_receipt != terminal_receipt:
-        fail("continuity receipt chain does not reach the terminal route receipt", decision="REQUIRED")
+        if current_receipt == terminal_receipt:
+            fail("terminal route re-entry requires a distinct continuity receipt", decision="REQUIRED")
+        if canonical_ref_oid(repo, current_ref, "current continuity receipt") != current_oid:
+            fail("current continuity receipt token does not match its canonical ref", decision="REQUIRED")
+        git_blob_bytes(repo, current_oid, "current continuity receipt")
+    else:
+        for _ in range(distance):
+            candidate_receipt = validated_v3_predecessor(
+                repo,
+                candidate_receipt,
+                controller=controller,
+                claim=claim,
+                run_identity=run_identity,
+                generation=candidate_generation,
+            )
+            candidate_generation = f"G{int(candidate_generation[1:], 16) - 1:04X}"
+        if candidate_generation != terminal_generation or candidate_receipt != terminal_receipt:
+            fail("continuity receipt chain does not reach the terminal route receipt", decision="REQUIRED")
     if canonical_ref_oid(repo, terminal_ref, "terminal continuity receipt") != terminal_oid:
         fail("terminal continuity receipt token does not match its canonical ref", decision="REQUIRED")
     git_blob_bytes(repo, terminal_oid, "terminal continuity receipt")
@@ -2790,7 +2800,10 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
         if old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED"}:
             fail("an active H2B route lifecycle cannot be replaced", decision="REQUIRED")
-        if old and old["decision"] == "REQUIRED" and old.get("route_state") == "SATISFIED":
+        terminal_reentry = bool(
+            old and old["decision"] == "REQUIRED" and old.get("route_state") == "SATISFIED"
+        )
+        if terminal_reentry:
             require_terminal_route_reentry(repo, args, current, request, old_oid, old, decision)
         record_base: dict[str, Any] = {
             "schema": RECORD_SCHEMA,
@@ -2838,6 +2851,17 @@ def command_decide(args: argparse.Namespace) -> None:
             post_current = current_controller(repo, args.controller)
             post_eval = evaluate(repo, common, args, post_current, request)
             post_oid, _ = current_ref(repo, args.controller)
+            if terminal_reentry:
+                validate_terminal_continuity_chain(
+                    repo,
+                    controller=args.controller,
+                    claim=current["claim_id"],
+                    run_identity=Path(current["explicit_run_root"]).name,
+                    terminal_generation=old.get("continuity_generation"),
+                    terminal_receipt=old.get("continuity_receipt"),
+                    current_generation=current["continuity_generation"],
+                    current_receipt=current["continuity_receipt"],
+                )
             if post_current != current or post_eval[4] != fingerprint or post_oid != new_oid:
                 fail("route decision currentness changed during CAS", decision=decision)
         except SystemExit:
