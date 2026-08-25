@@ -96,7 +96,7 @@ publication_git_v1() {
 }
 
 resolve_fixed_posix_python_v1() {
-  local resolved="$1" readlink_cmd='' target dir base hop=0
+  local resolved="$1" readlink_cmd='' wrapped target dir base hop=0 LC_ALL=C
   for readlink_cmd in /usr/bin/readlink /bin/readlink; do
     [ -f "$readlink_cmd" ] && [ ! -L "$readlink_cmd" ] && [ -x "$readlink_cmd" ] && break
     readlink_cmd=''
@@ -105,8 +105,10 @@ resolve_fixed_posix_python_v1() {
   [ -e "$resolved" ] || [ -L "$resolved" ] || return 1
   while [ -L "$resolved" ]; do
     hop=$((hop + 1)); [ "$hop" -le 16 ] || return 1
-    target="$("$readlink_cmd" "$resolved")" || return 1
-    case "$target" in ''|*$'\n'*|*$'\r'*) return 1;; esac
+    wrapped="$({ "$readlink_cmd" "$resolved" && printf '\036'; })" || return 1
+    case "$wrapped" in *$'\036') wrapped="${wrapped%$'\036'}";; *) return 1;; esac
+    case "$wrapped" in *$'\n') target="${wrapped%$'\n'}";; *) return 1;; esac
+    case "$target" in ''|*[![:print:]]*) return 1;; esac
     case "$target" in
       /*) resolved="$target" ;;
       *) resolved="${resolved%/*}/$target" ;;

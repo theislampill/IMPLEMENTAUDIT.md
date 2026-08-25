@@ -21,6 +21,7 @@ candidate_evidence_ledger="$tmp/task6-candidate-evidence.ledger"
 live_genesis_only=false
 post_marker_recovery_only=false
 installed_custody_only=false
+posix_python_selector_only=false
 run_installed_custody=false
 
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
@@ -46,18 +47,105 @@ case "${1:-}" in
   --live-genesis-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; live_genesis_only=true; r15_target='' ;;
   --post-marker-recovery-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; post_marker_recovery_only=true; r15_target='' ;;
   --installed-custody-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; installed_custody_only=true; run_installed_custody=true; r15_target='' ;;
+  --posix-python-selector-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; posix_python_selector_only=true; r15_target='' ;;
   --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='null-sinks' ;;
   --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='observation-order' ;;
   --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='nonzero-readback' ;;
   --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='receipt-pivot' ;;
   --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='owner-env' ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--live-genesis-only|--post-marker-recovery-only|--installed-custody-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--live-genesis-only|--post-marker-recovery-only|--installed-custody-only|--posix-python-selector-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
+if $posix_python_selector_only; then
+  [ "$(uname -s)" != MINGW* ] && [ "$(uname -s)" != CYGWIN* ] \
+    || fail "POSIX selector control requires a POSIX host"
+  posix_python=''
+  for candidate in /usr/bin/python3 /usr/local/bin/python3; do
+    [ -x "$candidate" ] && { posix_python="$candidate"; break; }
+  done
+  [ -n "$posix_python" ] || fail "POSIX selector control has no fixed Python"
+  "$posix_python" -I -S - "$claim_helper" "$tmp" <<'PY'
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+
+claim_path, temp_text = sys.argv[1:]
+temp = Path(temp_text)
+source = Path(claim_path).read_text(encoding="utf-8")
+start = source.index("resolve_fixed_posix_python_v1() {")
+end = source.index("\n}\n\nfixed_posix_python_v1()", start) + 3
+resolver_path = temp / "exact-posix-python-resolver.sh"
+resolver_path.write_text(
+    "set -euo pipefail\n" + source[start:end], encoding="utf-8", newline="\n")
+
+
+def resolve(label, target):
+    selector = temp / ("selector-" + label)
+    os.symlink(target, os.fsencode(selector))
+    return subprocess.run([
+        "/bin/bash", "--noprofile", "--norc", "-c",
+        'source "$1"; resolve_fixed_posix_python_v1 "$2"',
+        "resolver", str(resolver_path), str(selector),
+    ], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+
+ordinary = resolve("ordinary", b"/usr/bin/python3")
+if ordinary.returncode != 0 or not ordinary.stdout.endswith(b"\n"):
+    raise SystemExit("ordinary POSIX Python symlink selector was rejected")
+ordinary_path = ordinary.stdout[:-1].decode("utf-8", "strict")
+if not os.path.samefile(ordinary_path, "/usr/bin/python3"):
+    raise SystemExit("ordinary POSIX selector resolved to the wrong executable")
+
+malformed = {
+    "TRAILING_LF": b"/usr/bin/python3\n",
+    "TRAILING_CR": b"/usr/bin/python3\r",
+    "INTERNAL_LF": b"/usr/bin/py\nthon3",
+    "MULTI_LINE": b"/usr/bin/python3\n/usr/bin/python3",
+    "MULTIPLE_TRAILING_LF": b"/usr/bin/python3\n\n",
+    "C0": b"/usr/bin/python3\x01",
+    "DEL": b"/usr/bin/python3\x7f",
+}
+for label, target in malformed.items():
+    result = resolve(label.lower(), target)
+    if result.returncode == 0 or result.stdout:
+        raise SystemExit(
+            "POSIX_SELECTOR_CAUSAL_RED=" + label + "_FALSE_ACCEPT "
+            + repr(result.stdout))
+
+for label, target in (("EMPTY", b""), ("NUL", b"/usr/bin/python3\0")):
+    try:
+        os.symlink(target, os.fsencode(temp / ("selector-" + label.lower())))
+    except (OSError, ValueError):
+        continue
+    raise SystemExit(label + " symlink target unexpectedly exists on POSIX")
+
+print(
+    "CANONICAL_STATE_ROTATION_POSIX_PYTHON_SELECTOR_GREEN=PASS "
+    "ordinary=VERSIONED_FIXED malformed=LF_CR_INTERNAL_MULTILINE_C0_DEL_REJECTED "
+    "empty-nul=FILESYSTEM_UNREPRESENTABLE")
+PY
+  exit $?
+fi
 if $run_installed_custody; then
-  python - "$helper" "$claim_helper" \
+  installed_fixture_python=()
+  case "${OSTYPE:-}" in
+    msys*|cygwin*|win32*)
+      [ -x /c/Windows/py.exe ] || fail "installed fixture has no fixed Windows Python"
+      installed_fixture_python=(/c/Windows/py.exe -3 -I -S) ;;
+    linux*|darwin*|freebsd*)
+      for candidate in /usr/bin/python3 /usr/local/bin/python3 \
+        /opt/homebrew/bin/python3 /opt/local/bin/python3; do
+        [ -x "$candidate" ] && { installed_fixture_python=("$candidate" -I -S); break; }
+      done
+      [ "${#installed_fixture_python[@]}" -gt 0 ] \
+        || fail "installed fixture has no fixed POSIX Python" ;;
+    *) fail "installed fixture platform is unsupported" ;;
+  esac
+  "${installed_fixture_python[@]}" - "$helper" "$claim_helper" \
     "$repo_root/skills/implementaudit/scripts/host-session-binding.py" \
     "$repo_root/skills/implementaudit/scripts/validate-run-root.sh" "$tmp" <<'PY'
 import hashlib
