@@ -73,6 +73,15 @@ import sys
 
 rotation_path, claim_path, binding_path, validator_path, temp_text = sys.argv[1:]
 temp = Path(temp_text)
+fixed_bash_candidates = (
+    (Path(r"C:\Program Files\Git\bin\bash.exe"),)
+    if os.name == "nt" else (Path("/bin/bash"), Path("/usr/bin/bash"))
+)
+fixed_bash = next((path for path in fixed_bash_candidates if path.is_file()), None)
+if fixed_bash is None:
+    raise SystemExit("installed custody fixture has no fixed platform Bash")
+platform_bash = (str(fixed_bash), "--noprofile", "--norc")
+platform_label = "WINDOWS" if os.name == "nt" else "POSIX"
 fixture_repo = temp / "installed-custody-repo"
 subprocess.run(["git", "init", "-q", str(fixture_repo)], check=True)
 source_scripts = fixture_repo / "skills" / "implementaudit" / "scripts"
@@ -280,7 +289,7 @@ git("update-ref", marker_ref, marker_oid)
 source_environment = dict(os.environ)
 source_environment["LC_ALL"] = "C"
 validator_probe = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+    *platform_bash,
     str(source_scripts / "validate-run-root.sh"), "--claim-only", run_text,
     "--repo-root", repo_text,
 ], cwd=str(fixture_repo), env=source_environment, stdout=subprocess.PIPE,
@@ -290,7 +299,7 @@ if validator_probe.returncode != 0:
         "source-checkout claim fixture is invalid: "
         f"stdout={validator_probe.stdout!r} stderr={validator_probe.stderr!r}")
 source_probe = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+    *platform_bash,
     str(source_scripts / "claim-run.sh"), "--publication-custody",
 ], cwd=str(fixture_repo), env=source_environment, stdout=subprocess.PIPE,
    stderr=subprocess.PIPE, check=False)
@@ -359,7 +368,7 @@ before = protected_refs()
 installed_environment = dict(os.environ)
 installed_environment["CODEX_SESSION_ID"] = session_id
 installed_probe = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+    *platform_bash,
     str(installed_scripts / "claim-run.sh"), "--publication-custody",
 ], cwd=str(temp), env=installed_environment, stdout=subprocess.PIPE,
    stderr=subprocess.PIPE, check=False)
@@ -380,6 +389,13 @@ binding_state_raw = binding_state_path.read_bytes()
 owner_state_path = store / "owner.json"
 owner_state_raw = owner_state_path.read_bytes()
 binding_helper_raw = binding_core.read_bytes()
+binding_lookup = subprocess.run([
+    sys.executable, "-I", "-S", str(binding_core), "--store", str(store),
+    "lookup", "--host-id", "codex", "--host-session-id", session_id,
+], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if binding_lookup.returncode != 0 or binding_lookup.stderr:
+    raise SystemExit("installed fixture could not retain exact bound lookup output")
+binding_lookup_raw = binding_lookup.stdout
 
 
 def run_installed_claim(*, session=session_id, script=None, extra_environment=None):
@@ -390,7 +406,7 @@ def run_installed_claim(*, session=session_id, script=None, extra_environment=No
         environment["CODEX_SESSION_ID"] = session
     environment.update(extra_environment or {})
     return subprocess.run([
-        r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+        *platform_bash,
         str(script or (installed_scripts / "claim-run.sh")),
         "--publication-custody",
     ], cwd=str(temp), env=environment, stdout=subprocess.PIPE,
@@ -521,6 +537,23 @@ try:
 finally:
     binding_core.write_bytes(binding_helper_raw)
 
+startup_sentinel = temp / "binding-helper-startup-customization-ran"
+binding_core.write_text(
+    "from pathlib import Path\n"
+    "import sys\n"
+    "if sys.flags.isolated or sys.flags.no_site:\n"
+    "    raise SystemExit(1)\n"
+    f"Path({str(startup_sentinel)!r}).write_text('ran', encoding='utf-8')\n"
+    f"sys.stdout.buffer.write({binding_lookup_raw!r})\n",
+    encoding="utf-8", newline="\n")
+try:
+    expect_installed_rejection(
+        "non-isolated binding-helper startup customization", run_installed_claim)
+finally:
+    binding_core.write_bytes(binding_helper_raw)
+if startup_sentinel.exists():
+    raise SystemExit("binding helper relaunched without isolated startup flags")
+
 for unsafe_version in ("0.4.0 codex", ".0.4.0-codex", "0.4.0@codex"):
     unsafe_scripts = (
         cache_root.parent / unsafe_version / "skills" / "implementaudit" / "scripts")
@@ -614,7 +647,8 @@ if protected_refs() != before:
 print("CANONICAL_STATE_ROTATION_INSTALLED_CUSTODY_GREEN=PASS "
       "locator=R003A_PREDECESSOR transition=G0002_TO_G0003 "
       "stable=STATE transition=PREDECESSOR output=EIGHT_FIELDS "
-      "negatives=21 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY")
+      "negatives=22 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY "
+      "platform=" + platform_label)
 PY
   $installed_custody_only && exit 0
 fi

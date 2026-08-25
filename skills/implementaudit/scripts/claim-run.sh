@@ -95,8 +95,56 @@ publication_git_v1() {
   return 1
 }
 
+resolve_fixed_posix_python_v1() {
+  local resolved="$1" readlink_cmd='' target dir base hop=0
+  for readlink_cmd in /usr/bin/readlink /bin/readlink; do
+    [ -f "$readlink_cmd" ] && [ ! -L "$readlink_cmd" ] && [ -x "$readlink_cmd" ] && break
+    readlink_cmd=''
+  done
+  [ -n "$readlink_cmd" ] || return 1
+  [ -e "$resolved" ] || [ -L "$resolved" ] || return 1
+  while [ -L "$resolved" ]; do
+    hop=$((hop + 1)); [ "$hop" -le 16 ] || return 1
+    target="$("$readlink_cmd" "$resolved")" || return 1
+    case "$target" in ''|*$'\n'*|*$'\r'*) return 1;; esac
+    case "$target" in
+      /*) resolved="$target" ;;
+      *) resolved="${resolved%/*}/$target" ;;
+    esac
+    dir="${resolved%/*}"; base="${resolved##*/}"
+    dir="$(cd -P -- "$dir" 2>/dev/null && pwd -P)" || return 1
+    resolved="$dir/$base"
+  done
+  [ -f "$resolved" ] && [ ! -L "$resolved" ] && [ -x "$resolved" ] || return 1
+  base="${resolved##*/}"
+  case "$base" in python3|python3.[0-9]|python3.[0-9][0-9]) ;; *) return 1;; esac
+  case "$resolved" in
+    /usr/bin/*|/usr/lib/*|/usr/libexec/*|/usr/local/*|/opt/homebrew/*|/opt/local/*)
+      printf '%s\n' "$resolved" ;;
+    *) return 1 ;;
+  esac
+}
+
+fixed_posix_python_v1() {
+  local selector resolved selectors=()
+  case "${OSTYPE:-}" in
+    darwin*) selectors=(/opt/homebrew/bin/python3 /usr/local/bin/python3
+                        /opt/local/bin/python3 /usr/bin/python3) ;;
+    freebsd*) selectors=(/usr/local/bin/python3 /usr/bin/python3
+                         /opt/local/bin/python3) ;;
+    *) selectors=(/usr/bin/python3 /usr/local/bin/python3
+                   /opt/homebrew/bin/python3 /opt/local/bin/python3) ;;
+  esac
+  for selector in "${selectors[@]}"; do
+    resolved="$(resolve_fixed_posix_python_v1 "$selector")" || continue
+    printf '%s\n' "$resolved"
+    return 0
+  done
+  return 1
+}
+
 installed_publication_binding_v1() {
-  local script_path="$1" candidate py=()
+  local script_path="$1" candidate expected_python='' py=()
   case "${OSTYPE:-}" in
     msys*|cygwin*|win32*)
       candidate='/c/Windows/py.exe'
@@ -104,17 +152,13 @@ installed_publication_binding_v1() {
       py=("$candidate" -3 -I -S)
       ;;
     linux*|darwin*|freebsd*)
-      for candidate in /usr/bin/python3 /usr/local/bin/python3; do
-        if [ -f "$candidate" ] && [ ! -L "$candidate" ] && [ -x "$candidate" ]; then
-          py=("$candidate" -I -S)
-          break
-        fi
-      done
-      [ "${#py[@]}" -gt 0 ] || return 1
+      candidate="$(fixed_posix_python_v1)" || return 1
+      expected_python="$candidate"
+      py=("$candidate" -I -S)
       ;;
     *) return 1 ;;
   esac
-  "${py[@]}" - "$script_path" "${CODEX_SESSION_ID:-}" <<'PY'
+  "${py[@]}" - "$script_path" "${CODEX_SESSION_ID:-}" "$expected_python" <<'PY'
 import json
 import os
 import re
@@ -126,6 +170,17 @@ from pathlib import Path
 
 def stop():
     raise SystemExit(1)
+
+
+script_raw, session_id, expected_python = sys.argv[1:]
+if not sys.flags.isolated or not sys.flags.no_site:
+    stop()
+if expected_python:
+    try:
+        if not os.path.samefile(sys.executable, expected_python):
+            stop()
+    except OSError:
+        stop()
 
 
 def safe_component(value):
@@ -211,7 +266,6 @@ def git(repo, *args):
         stop()
 
 
-script_raw, session_id = sys.argv[1:]
 if not exact_text(session_id):
     stop()
 script = canonical_existing(Path(script_raw), directory=False)
@@ -238,7 +292,7 @@ binding_core = canonical_existing(script.parent / "host-session-binding.py", dir
 data_root = plugins / "data" / marketplace.name / plugin.name
 store = canonical_existing(data_root / "host-session-binding-v1", directory=True)
 completed = subprocess.run(
-    [sys.executable, str(binding_core), "--store", str(store), "lookup",
+    [sys.executable, "-I", "-S", str(binding_core), "--store", str(store), "lookup",
      "--host-id", "codex", "--host-session-id", session_id],
     stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=fixed_environment(),
     check=False)
