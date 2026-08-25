@@ -58,7 +58,7 @@ esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
-if $posix_python_selector_only; then
+run_posix_python_selector_controls() {
   [ "$(uname -s)" != MINGW* ] && [ "$(uname -s)" != CYGWIN* ] \
     || fail "POSIX selector control requires a POSIX host"
   posix_python=''
@@ -128,6 +128,10 @@ print(
     "ordinary=VERSIONED_FIXED malformed=LF_CR_INTERNAL_MULTILINE_C0_DEL_REJECTED "
     "empty-nul=FILESYSTEM_UNREPRESENTABLE")
 PY
+  : >"$tmp/posix-python-selector-controls.ran"
+}
+if $posix_python_selector_only; then
+  run_posix_python_selector_controls
   exit $?
 fi
 if $run_installed_custody; then
@@ -738,6 +742,12 @@ print("CANONICAL_STATE_ROTATION_INSTALLED_CUSTODY_GREEN=PASS "
       "negatives=22 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY "
       "platform=" + platform_label)
 PY
+  case "${OSTYPE:-}" in
+    linux*|darwin*|freebsd*)
+      run_posix_python_selector_controls
+      [ -f "$tmp/posix-python-selector-controls.ran" ] \
+        || fail "canonical POSIX installed-custody route omitted selector controls" ;;
+  esac
   $installed_custody_only && exit 0
 fi
 if $post_marker_recovery_only; then
