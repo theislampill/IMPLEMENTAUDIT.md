@@ -23,6 +23,36 @@ fail() {
   exit 1
 }
 
+case "${R0033_CASE_FILTER:-}" in
+  '') ;;
+  G01|G02|G03|G04|G05|G06)
+    [ "${R0033_FILTER_MODE:-}" = NON_QUALIFYING ] ||
+      fail "R0033_CASE_FILTER requires explicit R0033_FILTER_MODE=NON_QUALIFYING" ;;
+  *) fail "R0033_CASE_FILTER is not one exact governed case" ;;
+esac
+
+emit_route_summary() {
+  if [ -n "${R0033_CASE_FILTER:-}" ]; then
+    printf 'route-obligation-contract.test: FILTERED_NON_QUALIFYING case=%s selected-case-only\n' \
+      "$R0033_CASE_FILTER"
+  else
+    printf 'route-obligation-contract.test: request-free current-result matrix GREEN\n'
+    printf 'route-obligation-contract.test: G01-G40 common governed-child matrix GREEN\n'
+    printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + all-four child-route matrix; first RED preserved)\n'
+  fi
+}
+
+if [ "${R0033_SUMMARY_CONTRACT_PROBE:-}" = filtered ]; then
+  [ -n "${R0033_CASE_FILTER:-}" ] || fail "filtered summary probe requires one exact case filter"
+  probe_summary="$(emit_route_summary)"
+  case "$probe_summary" in
+    *GREEN*|*61/61*|*all-four*)
+      fail "filtered summary probe emitted a full qualification receipt: $probe_summary" ;;
+  esac
+  printf '%s\n' "$probe_summary"
+  exit 0
+fi
+
 # Preserve the pre-H2A semantic control: current continuity plus equivalent
 # governor reasoning still advances when no canonical route decision exists.
 # Feature-file absence is not treated as the RED; the old continuity-only
@@ -2061,6 +2091,4 @@ set -e
 current_required_oid="$(git -C "$tmp/repo" rev-parse refs/implementaudit/route-decisions/controller-route)"
 assert_json "$pure_tombstoned" 'value["record_oid"] == "'"$current_required_oid"'" and value["controller_id"] == "controller-route"'
 
-printf 'route-obligation-contract.test: request-free current-result matrix GREEN\n'
-printf 'route-obligation-contract.test: G01-G40 common governed-child matrix GREEN\n'
-printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + all-four child-route matrix; first RED preserved)\n'
+emit_route_summary
