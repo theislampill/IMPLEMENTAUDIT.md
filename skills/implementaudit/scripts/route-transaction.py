@@ -555,7 +555,9 @@ def ref_name(controller: str) -> str:
     return f"refs/implementaudit/route-decisions/{controller}"
 
 
-def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any] | None]:
+def current_ref(
+    repo: Path, controller: str, *, allow_immutable_terminal_child: bool = False
+) -> tuple[str | None, dict[str, Any] | None]:
     ref = ref_name(controller)
     completed = subprocess.run(
         [str(trusted_host_executable(repo, "git")), "rev-parse", "--verify", ref],
@@ -616,14 +618,30 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
         child_raw = validate_bytes_identity(delivery["child"], "route lifecycle child", with_identity=True)
         packet_raw = validate_bytes_identity(delivery["packet"], "route lifecycle packet")
         mapped_child, _ = mapped_child_route(record)
-        exact_child_raw, exact_child_path = child_delivery_bytes(mapped_child)
-        exact_child = {"identity": str(exact_child_path), **bytes_identity(exact_child_raw)}
-        if delivery["child"] != exact_child or child_raw != exact_child_raw:
-            fail("route lifecycle child is not the exact mapped current child source")
-        if record.get("child_source") != {
-            "identity": exact_child["identity"], "digest": exact_child["digest"]
-        }:
-            fail("route lifecycle child is foreign to the bound route decision")
+        immutable_terminal_child = (
+            allow_immutable_terminal_child
+            and record.get("decision") == "REQUIRED"
+            and record.get("route_state") == "SATISFIED"
+            and lifecycle.get("state") == "SATISFIED"
+            and lifecycle.get("source_event_status") == "satisfied"
+        )
+        if immutable_terminal_child:
+            bound_child = exact_keys(
+                record.get("child_source"), {"identity", "digest"}, "bound route child source"
+            )
+            if delivery["child"].get("identity") != bound_child["identity"] or (
+                delivery["child"].get("digest") != bound_child["digest"]
+            ):
+                fail("route lifecycle child is foreign to the bound route decision")
+        else:
+            exact_child_raw, exact_child_path = child_delivery_bytes(mapped_child)
+            exact_child = {"identity": str(exact_child_path), **bytes_identity(exact_child_raw)}
+            if delivery["child"] != exact_child or child_raw != exact_child_raw:
+                fail("route lifecycle child is not the exact mapped current child source")
+            if record.get("child_source") != {
+                "identity": exact_child["identity"], "digest": exact_child["digest"]
+            }:
+                fail("route lifecycle child is foreign to the bound route decision")
         packet = route_packet_record(
             decoded_artifact(packet_raw, "route lifecycle packet"),
             record["obligation_id"],
@@ -2420,6 +2438,169 @@ def exact_generation_successor(predecessor: Any, successor: Any) -> bool:
     )
 
 
+def continuity_receipt_ref(controller: str, generation: str) -> str:
+    return f"refs/implementaudit/continuity-receipts/{controller}/{generation}"
+
+
+def canonical_ref_oid(repo: Path, ref: str, label: str) -> str:
+    """Resolve one exact ref without allowing decode failures to escape as tracebacks."""
+    completed = subprocess.run(
+        [str(trusted_host_executable(repo, "git")), "rev-parse", "--verify", ref],
+        cwd=repo,
+        env=sanitized_action_environment(),
+        capture_output=True,
+        check=False,
+    )
+    try:
+        oid = completed.stdout.rstrip(b"\n").decode("ascii", "strict")
+    except UnicodeDecodeError:
+        fail(f"{label} ref has non-ASCII output", decision="REQUIRED")
+    if completed.returncode or not OID_RE.fullmatch(oid):
+        fail(f"{label} ref is missing or unreadable", decision="REQUIRED")
+    return oid
+
+
+def split_continuity_token(
+    token: Any, controller: str, generation: str, label: str
+) -> tuple[str, str]:
+    expected_ref = continuity_receipt_ref(controller, generation)
+    if not isinstance(token, str) or token.count("@") != 1:
+        fail(f"{label} token is malformed", decision="REQUIRED")
+    ref, oid = token.split("@")
+    if ref != expected_ref or not OID_RE.fullmatch(oid):
+        fail(f"{label} token is foreign or noncanonical", decision="REQUIRED")
+    return ref, oid
+
+
+def validated_v3_predecessor(
+    repo: Path,
+    token: str,
+    *,
+    controller: str,
+    claim: str,
+    run_identity: str,
+    generation: str,
+) -> str:
+    """Validate one canonical immutable v3 receipt and return its exact predecessor token."""
+    ref, oid = split_continuity_token(token, controller, generation, "continuity receipt")
+    if canonical_ref_oid(repo, ref, "continuity receipt") != oid:
+        fail("continuity receipt token does not match its canonical ref", decision="REQUIRED")
+    raw = git_blob_bytes(repo, oid, "continuity receipt")
+    if (
+        not raw.endswith(b"\n")
+        or b"\n" in raw[:-1]
+        or b"\r" in raw
+        or any((value < 0x20 and value not in (0x09, 0x0A)) or value == 0x7F for value in raw)
+    ):
+        fail("continuity receipt bytes are not canonical", decision="REQUIRED")
+    fields_raw = raw[:-1].split(b"\t")
+    if len(fields_raw) != 18 or any(field == b"" for field in fields_raw):
+        fail("continuity receipt has a malformed field layout", decision="REQUIRED")
+    try:
+        fields = [field.decode("utf-8", "strict") for field in fields_raw]
+    except UnicodeDecodeError:
+        fail("continuity receipt is not strict UTF-8", decision="REQUIRED")
+    (
+        schema,
+        receipt_controller,
+        receipt_claim,
+        receipt_run,
+        receipt_generation,
+        invalidation_oid,
+        pointer_ref,
+        pointer_oid,
+        pointer_digest,
+        state_digest,
+        roadmap_digest,
+        graph_path,
+        graph_digest,
+        manifest_oid,
+        manifest_digest,
+        high_water,
+        next_action,
+        predecessor,
+    ) = fields
+    if schema != "implementaudit.continuity-receipt.v3":
+        fail("successor continuity receipt is not v3", decision="REQUIRED")
+    if (receipt_controller, receipt_claim, receipt_run, receipt_generation) != (
+        controller,
+        claim,
+        run_identity,
+        generation,
+    ):
+        fail("successor continuity receipt changed controller, claim, run, or generation", decision="REQUIRED")
+    if pointer_ref != f"refs/implementaudit/current-generations/{controller}":
+        fail("successor continuity receipt has a foreign generation pointer ref", decision="REQUIRED")
+    if not all(OID_RE.fullmatch(value) for value in (invalidation_oid, pointer_oid, manifest_oid)):
+        fail("successor continuity receipt has a malformed object identity", decision="REQUIRED")
+    if not all(
+        re.fullmatch(r"[0-9a-f]{64}", value)
+        for value in (
+            pointer_digest,
+            state_digest,
+            roadmap_digest,
+            graph_digest,
+            manifest_digest,
+        )
+    ):
+        fail("successor continuity receipt has a malformed digest", decision="REQUIRED")
+    if graph_path != "WORK_GRAPH.json" or not re.fullmatch(r"[0-9]{20}", high_water):
+        fail("successor continuity receipt has malformed graph or high-water metadata", decision="REQUIRED")
+    if not next_action:
+        fail("successor continuity receipt has no next action", decision="REQUIRED")
+    predecessor_generation = f"G{int(generation[1:], 16) - 1:04X}"
+    split_continuity_token(predecessor, controller, predecessor_generation, "continuity predecessor")
+    return predecessor
+
+
+def validate_terminal_continuity_chain(
+    repo: Path,
+    *,
+    controller: str,
+    claim: str,
+    run_identity: str,
+    terminal_generation: Any,
+    terminal_receipt: Any,
+    current_generation: Any,
+    current_receipt: Any,
+) -> None:
+    """Require a bounded contiguous canonical v3 chain back to the terminal receipt."""
+    if (
+        not isinstance(terminal_generation, str)
+        or not isinstance(current_generation, str)
+        or not CONTINUITY_RE.fullmatch(terminal_generation)
+        or not CONTINUITY_RE.fullmatch(current_generation)
+    ):
+        fail("terminal route re-entry has a malformed continuity generation", decision="REQUIRED")
+    terminal_ordinal = int(terminal_generation[1:], 16)
+    current_ordinal = int(current_generation[1:], 16)
+    distance = current_ordinal - terminal_ordinal
+    if distance <= 0:
+        fail("terminal route re-entry requires a strictly later continuity generation", decision="REQUIRED")
+    if distance > 64:
+        fail("terminal route re-entry continuity traversal exceeds its bound", decision="REQUIRED")
+    terminal_ref, terminal_oid = split_continuity_token(
+        terminal_receipt, controller, terminal_generation, "terminal continuity receipt"
+    )
+    candidate_generation = current_generation
+    candidate_receipt = current_receipt
+    for _ in range(distance):
+        candidate_receipt = validated_v3_predecessor(
+            repo,
+            candidate_receipt,
+            controller=controller,
+            claim=claim,
+            run_identity=run_identity,
+            generation=candidate_generation,
+        )
+        candidate_generation = f"G{int(candidate_generation[1:], 16) - 1:04X}"
+    if candidate_generation != terminal_generation or candidate_receipt != terminal_receipt:
+        fail("continuity receipt chain does not reach the terminal route receipt", decision="REQUIRED")
+    if canonical_ref_oid(repo, terminal_ref, "terminal continuity receipt") != terminal_oid:
+        fail("terminal continuity receipt token does not match its canonical ref", decision="REQUIRED")
+    git_blob_bytes(repo, terminal_oid, "terminal continuity receipt")
+
+
 def require_terminal_route_reentry(
     repo: Path,
     args: argparse.Namespace,
@@ -2429,7 +2610,7 @@ def require_terminal_route_reentry(
     old: dict[str, Any],
     decision: str,
 ) -> None:
-    """Admit only an exact next-boundary successor to a terminal one-shot route."""
+    """Admit only a verified later-boundary successor to a terminal one-shot route."""
     validate_canonical_route_record_bytes(repo, old_oid, old)
     candidate_request_from_record(old, require_current_inputs=False)
     lifecycle = old.get("lifecycle")
@@ -2441,6 +2622,15 @@ def require_terminal_route_reentry(
         or lifecycle.get("source_event_status") != "satisfied"
     ):
         fail("only an exact terminal one-shot route lifecycle can yield to a fresh boundary", decision="REQUIRED")
+    historical_child = validate_bytes_identity(
+        lifecycle.get("delivery", {}).get("child"),
+        "terminal route lifecycle child",
+        with_identity=True,
+    )
+    mapped_child, _ = mapped_child_route(old)
+    current_child, _ = child_delivery_bytes(mapped_child)
+    if current_child != historical_child:
+        fail("terminal route re-entry current child bytes changed", decision="REQUIRED")
     unchanged_owner = {
         "controller_id": args.controller,
         "claim_id": current["claim_id"],
@@ -2450,17 +2640,24 @@ def require_terminal_route_reentry(
     }
     if any(old.get(key) != value for key, value in unchanged_owner.items()):
         fail("terminal route re-entry changed controller, claim, run, host, or session identity", decision="REQUIRED")
+    validate_terminal_continuity_chain(
+        repo,
+        controller=args.controller,
+        claim=current["claim_id"],
+        run_identity=Path(current["explicit_run_root"]).name,
+        terminal_generation=old.get("continuity_generation"),
+        terminal_receipt=old.get("continuity_receipt"),
+        current_generation=current["continuity_generation"],
+        current_receipt=current["continuity_receipt"],
+    )
+    old_binding = old.get("host_binding_generation")
     if (
-        old.get("continuity_receipt") == current["continuity_receipt"]
-        or not exact_generation_successor(
-            old.get("continuity_generation"), current["continuity_generation"]
-        )
+        not isinstance(old_binding, str)
+        or not CONTINUITY_RE.fullmatch(old_binding)
+        or not CONTINUITY_RE.fullmatch(args.binding_generation)
+        or int(args.binding_generation[1:], 16) <= int(old_binding[1:], 16)
     ):
-        fail("terminal route re-entry requires the exact next continuity generation and receipt", decision="REQUIRED")
-    if not exact_generation_successor(
-        old.get("host_binding_generation"), args.binding_generation
-    ):
-        fail("terminal route re-entry requires the exact next host-binding generation", decision="REQUIRED")
+        fail("terminal route re-entry requires a strictly later host-binding generation", decision="REQUIRED")
     old_boundary = old.get("boundary")
     new_boundary = request["boundary"]
     if (
@@ -2540,7 +2737,7 @@ def command_decide(args: argparse.Namespace) -> None:
         decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
             repo, common, args, current, request
         )
-        old_oid, old = current_ref(repo, args.controller)
+        old_oid, old = current_ref(repo, args.controller, allow_immutable_terminal_child=True)
         expected = args.expected_record
         if expected == "none":
             if old_oid is not None:

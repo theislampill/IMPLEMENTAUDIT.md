@@ -150,11 +150,12 @@ expect_blocked() {
 
 route() {
   local controller="$1" session="$2" generation="$3"
+  local active_core="${ROUTE_CORE:-$core}"
   shift 3
   (
     unset BASH_XTRACEFD
     cd "$tmp/repo"
-    "${py[@]}" "$core" "$@" --controller "$controller" --store "$tmp/host-store" \
+    "${py[@]}" "$active_core" "$@" --controller "$controller" --store "$tmp/host-store" \
       --host-id codex --host-session-id "$session" --binding-generation "$generation"
   )
 }
@@ -343,6 +344,65 @@ PY
     | git -C "$tmp/repo" hash-object -w --stdin)"
   git -C "$tmp/repo" update-ref "$marker_ref" "$marker_oid" 0000000000000000000000000000000000000000
   [ "$(cd "$tmp/repo" && bash "$claim" --require-current-continuity "$controller")" = "$receipt" ] || fail "v3 fixture did not become current"
+  printf '%s\n' "$receipt"
+}
+
+promote_v3_next() {
+  local controller="$1" claim_local="$2" root="$3" run_name="$4" event="$5"
+  local boundary_kind="${6:-manual-resume}" current_epoch="${7:-G0002}" next_epoch="${8:-G0003}"
+  local invalidation invalidation_oid head tree state_sha road_sha graph_sha
+  local manifest_raw manifest_oid manifest_sha pointer_ref old_pointer_oid old_pointer_digest pointer_oid
+  local receipt marker_ref
+  invalidation="$(cd "$tmp/repo" && bash "$claim" --invalidate-continuity "$controller" --boundary "$boundary_kind" --event "$event")"
+  invalidation_oid="${invalidation##*@}"
+  head="$(git -C "$tmp/repo" rev-parse HEAD)"; tree="$(git -C "$tmp/repo" rev-parse 'HEAD^{tree}')"
+  "${py[@]}" - "$root/STATE.md" "$head" "$tree" "$boundary_kind" "$event" "$current_epoch" "$next_epoch" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); head,tree,boundary,event,current_epoch,next_epoch=sys.argv[2:]
+s=p.read_text(encoding="utf-8").replace(f"Current epoch: {current_epoch}",f"Current epoch: {next_epoch}")
+anchor_prefix=f"| {current_epoch} | "
+anchors=[line for line in s.splitlines() if line.startswith(anchor_prefix)]
+row=f"| {next_epoch} | {boundary} | 2026-08-20T00:10:00Z | {head} {tree} | yes | exact later successor route boundary {event} |"
+if len(anchors)!=1: raise SystemExit("v3 successor fixture lost its unique predecessor anchor")
+anchor=anchors[0]
+p.write_text(s.replace(anchor,anchor+"\n"+row),encoding="utf-8")
+PY
+  printf '\nExact later v3 route recovery reconciled.\n' >> "$root/ROADMAP.md"
+  state_sha="$(sha256sum "$root/STATE.md" | cut -d' ' -f1)"
+  road_sha="$(sha256sum "$root/ROADMAP.md" | cut -d' ' -f1)"
+  graph_sha="$(sha256sum "$root/WORK_GRAPH.json" | cut -d' ' -f1)"
+  manifest_raw='{"schema_version":"implementaudit.generation-manifest.fixture.v1","generation":"later"}'
+  manifest_oid="$(printf '%s' "$manifest_raw" | git -C "$tmp/repo" hash-object -w --stdin)"
+  manifest_sha="$(printf '%s' "$manifest_raw" | sha256sum | cut -d' ' -f1)"
+  pointer_ref="refs/implementaudit/current-generations/$controller"
+  marker_ref="refs/implementaudit/current-generation-migrations/$controller"
+  old_pointer_oid="$(git -C "$tmp/repo" rev-parse --verify "$pointer_ref")"
+  old_pointer_digest="$(git -C "$tmp/repo" cat-file blob "$old_pointer_oid" | "${py[@]}" -c 'import json,sys; print(json.load(sys.stdin)["pointer_digest"])')"
+  pointer_oid="$("${py[@]}" - "$controller" "$claim_local" "$run_name" "$next_epoch" \
+    "$old_pointer_oid" "$old_pointer_digest" "$manifest_oid" "$manifest_sha" \
+    "$state_sha" "$road_sha" "$graph_sha" <<'PY' \
+    | git -C "$tmp/repo" hash-object -w --stdin
+import hashlib,json,sys
+controller,claim,run,generation,previous_oid,previous_digest,manifest_oid,manifest_digest,state,road,graph=sys.argv[1:]
+body={
+ "schema_version":"implementaudit.state-generation-pointer.v1","controller_id":controller,
+ "claim_id":claim,"run_id":run,"generation_id":generation,"source_epoch":generation,
+ "predecessor_pointer_oid":previous_oid,"predecessor_pointer_digest":previous_digest,
+ "generation_manifest_oid":manifest_oid,"generation_manifest_digest":manifest_digest,
+ "cold_high_water":"00000000000000000002","hot_state_digest":state,"hot_roadmap_digest":road,
+ "work_graph_path":"WORK_GRAPH.json","work_graph_digest":graph,
+ "query_contract_version":"implementaudit.history-query.v1","degraded_state":"NONE",
+}
+canonical=lambda value: json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+body["pointer_digest"]=hashlib.sha256(canonical(body).encode()).hexdigest()
+print(canonical(body),end="")
+PY
+  )"
+  git -C "$tmp/repo" update-ref "$pointer_ref" "$pointer_oid" "$old_pointer_oid"
+  [ "$(git -C "$tmp/repo" rev-parse --verify "$marker_ref")" ] || fail "v3 successor fixture lost its permanent genesis marker"
+  receipt="$(cd "$tmp/repo" && bash "$claim" --resume-controller "$controller" --boundary "$boundary_kind" --epoch "$next_epoch")"
+  [ "$(cd "$tmp/repo" && bash "$claim" --require-current-continuity "$controller")" = "$receipt" ] || fail "later v3 fixture did not become current"
   printf '%s\n' "$receipt"
 }
 
@@ -1248,22 +1308,50 @@ run_governed_child_case() {
   local case_id="$1" claim_local="$2" reason="$3" child="$4" visible_reason="$5"
   local successor_boundary="$6" successor_event="${case_id,,}-successor-boundary"
   local successor_mode="${7:-REQUIRED}"
+  local package_mode="${8:-CURRENT_PACKAGE}"
+  local rotation_mode="${9:-ONE_ROTATION}" first_rotation_event="$successor_event"
   local controller="controller-${case_id,,}" session="session-${case_id,,}"
   local run_name="${case_id,,}-ABC123" request="$tmp/${case_id,,}-request.json"
   local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name" receipt decided required_record
+  local ROUTE_CORE="${ROUTE_CORE_OVERRIDE:-$core}"
+  local ACTIVE_CLAIM="${ROUTE_CLAIM_OVERRIDE:-$claim}"
+  local package_source="${ROUTE_PACKAGE_SOURCE:-$repo_root/skills}"
+  local package_root="$package_source" package_old_parent package_new_parent package_old package_new package_old_identity_json
   local obligation transaction attributed correlation target wrong_packet wrong_visible
   local wrong_output wrong_status packet returned_artifact decision_artifact opened open_record
   local open_visible returned_result return_record completed_result complete_record admitted
-  local terminal_again same_current_request successor_receipt successor_request successor_decided
+  local terminal_again same_current_request successor_receipt intermediate_receipt successor_request successor_decided
   local successor_required successor_obligation successor_transaction successor_attributed
   local successor_correlation successor_packet successor_return successor_decision successor_opened
   local successor_open_record successor_visible successor_returned successor_return_record
   local successor_completed successor_complete_record first_terminal_blob successor_required_blob successor_status
+  local successor_generation=G0002
+
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    package_old_parent="$tmp/${case_id,,}-package-old"
+    package_new_parent="$tmp/${case_id,,}-package-new"
+    mkdir -p "$package_old_parent" "$package_new_parent"
+    cp -R "$package_source" "$package_old_parent/"
+    cp -R "$package_source" "$package_new_parent/"
+    package_old="$package_old_parent/skills"
+    package_new="$package_new_parent/skills"
+    ROUTE_CORE="$package_old/implementaudit/scripts/route-transaction.py"
+    ACTIVE_CLAIM="$package_old/implementaudit/scripts/claim-run.sh"
+    package_root="$package_old"
+    package_old_identity_json="$("${py[@]}" -c 'import json,sys; from pathlib import Path; print(json.dumps(str(Path(sys.argv[1]).resolve())))' "$package_old/$child/SKILL.md")"
+  fi
 
   receipt="$(make_run "$controller" "$run_name" "$claim_local" exact-boundary-event)"
   bind_host "$session" "$controller" "$claim_local" "$root" "$receipt" "activation-${case_id,,}"
   write_request "$request" PURE_BOUNDED_READ_OR_VALIDATION "$reason"
-  decided="$(route "$controller" "$session" G0001 decide --request "$request" --expected-record none)"
+  set +e
+  decided="$(route "$controller" "$session" G0001 decide --request "$request" --expected-record none 2>&1)"
+  successor_status=$?
+  set -e
+  [ "$successor_status" -eq 0 ] || {
+    printf 'route-obligation-contract.test: %s initial relocated-package setup failed: %s\n' "$case_id" "$decided" >&2
+    exit 1
+  }
   assert_json "$decided" 'value["decision"] == "REQUIRED" and value["route_state"] == "UNSATISFIED"'
   required_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$decided")"
   obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$decided")"
@@ -1344,7 +1432,7 @@ PY
     --expected-record "$required_record" --packet "$packet" 2>"$open_visible")"
   assert_json "$opened" 'value["status"] == "CHILD_OPEN" and value["route_state"] == "OPEN"'
   open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
-  "${py[@]}" - "$opened" "$repo_root/skills/$child/SKILL.md" "$child" <<'PY'
+  "${py[@]}" - "$opened" "$package_root/$child/SKILL.md" "$child" <<'PY'
 import base64,json,sys
 from pathlib import Path
 value=json.loads(sys.argv[1]); expected=open(sys.argv[2],"rb").read()
@@ -1370,7 +1458,7 @@ PY
     --decision "$decision_artifact")"
   assert_json "$completed_result" 'value["status"] == "ROUTE_COMPLETE" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1'
   complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$completed_result")"
-  admitted="$(cd "$tmp/repo" && bash "$claim" --require-current-route "$controller" \
+  admitted="$(cd "$tmp/repo" && bash "$ACTIVE_CLAIM" --require-current-route "$controller" \
     --store "$tmp/host-store" --host-id codex --host-session-id "$session" \
     --binding-generation G0001)"
   assert_json "$admitted" 'value["decision"] == "REQUIRED" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
@@ -1394,8 +1482,27 @@ PY
   # must mint a fresh immutable REQUIRED/UNSATISFIED transaction whose direct
   # predecessor is the preserved first terminal record.
   first_terminal_blob="$(git -C "$tmp/repo" cat-file blob "$complete_record")"
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    assert_json "$first_terminal_blob" 'value["lifecycle"]["delivery"]["child"]["identity"] == '"$package_old_identity_json"
+  fi
+  if [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
+    first_rotation_event="${case_id,,}-intermediate-boundary"
+  fi
   successor_receipt="$(promote_to_v3 "$controller" "$claim_local" "$root" "$run_name" \
-    "$successor_event" "$successor_boundary")"
+    "$first_rotation_event" "$successor_boundary")"
+  intermediate_receipt="$successor_receipt"
+  if [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
+    host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+      --expected-generation G0001 --reason terminal-route-intermediate-rotation \
+      --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+      --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+      --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g2" \
+      --activation-receipt "activation-${case_id,,}-g2" --continuity-generation G0002 \
+      --continuity-receipt "$intermediate_receipt" >/dev/null
+    successor_receipt="$(promote_v3_next "$controller" "$claim_local" "$root" "$run_name" \
+      "$successor_event" "$successor_boundary" G0002 G0003)"
+    successor_generation=G0003
+  fi
   successor_request="$tmp/${case_id,,}-successor-request.json"
   if [ "$successor_mode" = "NOT_REQUIRED" ]; then
     mutate_request "$request" "$successor_request" \
@@ -1408,21 +1515,211 @@ PY
     route "$controller" "$session" G0001 decide --request "$successor_request" \
       --expected-record "$complete_record" >/dev/null
   expect_blocked "$case_id absent successor binding cannot replace terminal route" \
-    route "$controller" "$session" G0002 decide --request "$successor_request" \
+    route "$controller" "$session" "$successor_generation" decide --request "$successor_request" \
       --expected-record "$complete_record" >/dev/null
-  host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
-    --expected-generation G0001 --reason terminal-route-successor \
-    --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
-    --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
-    --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g2" \
-    --activation-receipt "activation-${case_id,,}-g2" --continuity-generation G0002 \
-    --continuity-receipt "$successor_receipt" >/dev/null
+  if [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
+    expect_blocked "$case_id intermediate binding cannot authorize the later continuity" \
+      route "$controller" "$session" G0002 decide --request "$successor_request" \
+        --expected-record "$complete_record" >/dev/null
+    host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+      --expected-generation G0002 --reason terminal-route-successor \
+      --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+      --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+      --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g3" \
+      --activation-receipt "activation-${case_id,,}-g3" --continuity-generation G0003 \
+      --continuity-receipt "$successor_receipt" >/dev/null
+  else
+    host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+      --expected-generation G0001 --reason terminal-route-successor \
+      --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+      --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+      --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g2" \
+      --activation-receipt "activation-${case_id,,}-g2" --continuity-generation G0002 \
+      --continuity-receipt "$successor_receipt" >/dev/null
+  fi
   expect_blocked "$case_id skipped binding generation cannot replace terminal route" \
-    route "$controller" "$session" G0003 decide --request "$successor_request" \
+    route "$controller" "$session" "G$(printf '%04X' "$((16#${successor_generation#G} + 1))")" decide --request "$successor_request" \
       --expected-record "$complete_record" >/dev/null
 
+  # Supported replacement keeps the exact child bytes at a distinct installed
+  # package root, while the predecessor's historical delivery path vanishes.
+  # The unchanged implementation must fail closed before successor child OPEN.
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    cmp -s "$package_old/$child/SKILL.md" "$package_new/$child/SKILL.md" ||
+      fail "$case_id replacement package changed the governed child bytes"
+    rm -rf -- "$package_old"
+    [ ! -e "$package_old/$child/SKILL.md" ] ||
+      fail "$case_id predecessor package path remained available after replacement"
+    ROUTE_CORE="$package_new/implementaudit/scripts/route-transaction.py"
+    ACTIVE_CLAIM="$package_new/implementaudit/scripts/claim-run.sh"
+    package_root="$package_new"
+  fi
+
+  expect_blocked "$case_id foreign current session binding cannot replace terminal route" \
+    route "$controller" "${session}-foreign" "$successor_generation" decide \
+      --request "$successor_request" --expected-record "$complete_record" >/dev/null
+  expect_blocked "$case_id stale route CAS cannot replace terminal route" \
+    route "$controller" "$session" "$successor_generation" decide \
+      --request "$successor_request" --expected-record "$required_record" >/dev/null
+
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    mv "$package_new/$child/SKILL.md" "$package_new/$child/SKILL.md.missing-heldout"
+    expect_blocked "$case_id missing current child cannot replace terminal route" \
+      route "$controller" "$session" "$successor_generation" decide \
+        --request "$successor_request" --expected-record "$complete_record" >/dev/null
+    mv "$package_new/$child/SKILL.md.missing-heldout" "$package_new/$child/SKILL.md"
+    cp "$package_new/$child/SKILL.md" "$package_new/$child/SKILL.md.changed-heldout"
+    printf '\nR0033 changed-child held-out\n' >> "$package_new/$child/SKILL.md"
+    expect_blocked "$case_id changed current child cannot replace terminal route" \
+      route "$controller" "$session" "$successor_generation" decide \
+        --request "$successor_request" --expected-record "$complete_record" >/dev/null
+    mv "$package_new/$child/SKILL.md.changed-heldout" "$package_new/$child/SKILL.md"
+  fi
+
+  if [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
+    "${py[@]}" - "$ROUTE_CORE" "$tmp/repo" "$complete_record" \
+      "$successor_receipt" "$intermediate_receipt" "$controller" "$claim_local" "$run_name" <<'PY'
+import contextlib
+import importlib.util
+import io
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+core_path, repo_arg, terminal_record_oid, current_token, intermediate_token, controller, claim, run_name = sys.argv[1:]
+repo = Path(repo_arg)
+spec = importlib.util.spec_from_file_location("route_transaction_r0033", core_path)
+module = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(module)
+
+def git(*args, data=None, check=True):
+    completed = subprocess.run(
+        ["git", "-C", str(repo), *args], input=data, capture_output=True, check=False
+    )
+    if check and completed.returncode:
+        raise AssertionError(completed.stderr.decode("utf-8", "replace"))
+    return completed.stdout
+
+def oid_for(data):
+    return git("hash-object", "-w", "--stdin", data=data).decode("ascii").strip()
+
+def ref_oid(ref):
+    return git("rev-parse", "--verify", ref).decode("ascii").strip()
+
+def update_ref(ref, oid, old=None):
+    args = ["update-ref", ref, oid]
+    if old is not None:
+        args.append(old)
+    git(*args)
+
+def invoke(generation, receipt):
+    module.validate_terminal_continuity_chain(
+        repo,
+        controller=controller,
+        claim=claim,
+        run_identity=run_name,
+        terminal_generation=terminal_generation,
+        terminal_receipt=terminal_token,
+        current_generation=generation,
+        current_receipt=receipt,
+    )
+
+def expect_failure(label, generation, receipt):
+    output = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(output):
+            invoke(generation, receipt)
+    except SystemExit as exc:
+        if exc.code != 2:
+            raise AssertionError(f"{label}: wrong exit {exc.code}")
+    else:
+        raise AssertionError(f"{label}: malformed lineage was accepted")
+    rendered = output.getvalue().strip()
+    try:
+        result = json.loads(rendered)
+    except json.JSONDecodeError as exc:
+        raise AssertionError(f"{label}: failure was not one JSON object: {rendered!r}") from exc
+    if result.get("status") != "UNAVAILABLE" or result.get("advance_allowed") is not False:
+        raise AssertionError(f"{label}: failure was not fail-closed: {result!r}")
+    if "Traceback" in rendered:
+        raise AssertionError(f"{label}: traceback escaped")
+
+terminal_record = json.loads(git("cat-file", "blob", terminal_record_oid))
+terminal_generation = terminal_record["continuity_generation"]
+terminal_token = terminal_record["continuity_receipt"]
+current_ref, current_oid = current_token.split("@")
+intermediate_ref, intermediate_oid = intermediate_token.split("@")
+current_raw = git("cat-file", "blob", current_oid)
+intermediate_raw = git("cat-file", "blob", intermediate_oid)
+
+# Positive control: the exact live-equivalent two-rotation chain is accepted.
+invoke("G0003", current_token)
+
+git("update-ref", "-d", intermediate_ref, intermediate_oid)
+try:
+    expect_failure("missing intermediate ref", "G0003", current_token)
+finally:
+    update_ref(intermediate_ref, intermediate_oid)
+
+objects_dir = Path(git("rev-parse", "--git-path", "objects").decode().strip())
+if not objects_dir.is_absolute():
+    objects_dir = repo / objects_dir
+loose_object = objects_dir / intermediate_oid[:2] / intermediate_oid[2:]
+held_object = loose_object.with_name(loose_object.name + ".r0033-heldout")
+if not loose_object.is_file():
+    raise AssertionError("missing-blob held-out requires the freshly written loose intermediate blob")
+os.replace(loose_object, held_object)
+try:
+    expect_failure("missing intermediate blob", "G0003", current_token)
+finally:
+    os.replace(held_object, loose_object)
+
+malformed_oid = oid_for(intermediate_raw[:-1] + b"\r\n")
+update_ref(intermediate_ref, malformed_oid, intermediate_oid)
+try:
+    expect_failure("noncanonical intermediate bytes", "G0002", f"{intermediate_ref}@{malformed_oid}")
+finally:
+    update_ref(intermediate_ref, intermediate_oid, malformed_oid)
+
+current_fields = current_raw[:-1].decode("utf-8").split("\t")
+current_fields[17] = terminal_token
+noncontiguous_raw = ("\t".join(current_fields) + "\n").encode("utf-8")
+noncontiguous_oid = oid_for(noncontiguous_raw)
+update_ref(current_ref, noncontiguous_oid, current_oid)
+try:
+    expect_failure("noncontiguous predecessor", "G0003", f"{current_ref}@{noncontiguous_oid}")
+finally:
+    update_ref(current_ref, current_oid, noncontiguous_oid)
+
+fork_fields = intermediate_raw[:-1].decode("utf-8").split("\t")
+fork_fields[16] = fork_fields[16] + "-fork"
+fork_oid = oid_for(("\t".join(fork_fields) + "\n").encode("utf-8"))
+update_ref(intermediate_ref, fork_oid, intermediate_oid)
+try:
+    expect_failure("predecessor ref fork", "G0003", current_token)
+finally:
+    update_ref(intermediate_ref, intermediate_oid, fork_oid)
+
+for field_index, label in ((1, "foreign controller"), (2, "foreign claim"), (3, "foreign run")):
+    foreign_fields = intermediate_raw[:-1].decode("utf-8").split("\t")
+    foreign_fields[field_index] += "-foreign"
+    foreign_oid = oid_for(("\t".join(foreign_fields) + "\n").encode("utf-8"))
+    update_ref(intermediate_ref, foreign_oid, intermediate_oid)
+    try:
+        expect_failure(label, "G0002", f"{intermediate_ref}@{foreign_oid}")
+    finally:
+        update_ref(intermediate_ref, intermediate_oid, foreign_oid)
+
+expect_failure("same generation", terminal_generation, terminal_token)
+expect_failure("backward generation", "G0000", "refs/implementaudit/continuity-receipts/%s/G0000@%s" % (controller, "0" * 40))
+PY
+  fi
+
   set +e
-  successor_decided="$(route "$controller" "$session" G0002 decide --request "$successor_request" \
+  successor_decided="$(route "$controller" "$session" "$successor_generation" decide --request "$successor_request" \
     --expected-record "$complete_record" 2>&1)"
   successor_status=$?
   set -e
@@ -1444,15 +1741,15 @@ PY
   successor_obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$successor_decided")"
   successor_transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$successor_decided")"
   successor_required_blob="$(git -C "$tmp/repo" cat-file blob "$successor_required")"
-  assert_json "$successor_required_blob" 'value["predecessor_record_oid"] == "'"$complete_record"'" and value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["continuity_generation"] == "G0002"'
+  assert_json "$successor_required_blob" 'value["predecessor_record_oid"] == "'"$complete_record"'" and value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["continuity_generation"] == "'"$successor_generation"'"'
   [ "$(git -C "$tmp/repo" cat-file blob "$complete_record")" = "$first_terminal_blob" ] ||
     fail "$case_id successor decision mutated the first terminal record"
 
   successor_attributed="$(host validate-event --host-id codex --host-session-id "$session" \
-    --binding-generation G0002 --controller-id "$controller" --claim-id "$claim_local" \
+    --binding-generation "$successor_generation" --controller-id "$controller" --claim-id "$claim_local" \
     --explicit-run-root "$root" --repository-identity "$repo_custody" \
     --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
-    --continuity-generation G0002 --continuity-receipt "$successor_receipt" \
+    --continuity-generation "$successor_generation" --continuity-receipt "$successor_receipt" \
     --event-id "host:$case_id:successor" --obligation-id "$successor_obligation" \
     --route-transaction-id "$successor_transaction")"
   successor_correlation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$successor_attributed")"
@@ -1488,11 +1785,11 @@ write(decision_path,decision)
 PY
 
   successor_visible="$tmp/${case_id,,}-successor-open.visible"
-  successor_opened="$(route "$controller" "$session" G0002 open --request "$successor_request" \
+  successor_opened="$(route "$controller" "$session" "$successor_generation" open --request "$successor_request" \
     --expected-record "$successor_required" --packet "$successor_packet" 2>"$successor_visible")"
   assert_json "$successor_opened" 'value["status"] == "CHILD_OPEN" and value["route_state"] == "OPEN"'
   successor_open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_opened")"
-  "${py[@]}" - "$successor_opened" "$repo_root/skills/$child/SKILL.md" <<'PY'
+  "${py[@]}" - "$successor_opened" "$package_root/$child/SKILL.md" <<'PY'
 import base64,json,sys
 value=json.loads(sys.argv[1])
 if base64.b64decode(value["delivery"]["child"]["bytes_b64"]) != open(sys.argv[2],"rb").read():
@@ -1505,24 +1802,24 @@ PY
   [ "${successor_visible_lines[0]}" = "CHILD_SKILL_ROUTE=$child" ] || fail "$case_id successor emitted the wrong child identity"
   [ "${successor_visible_lines[1]}" = "I'm using $child to $visible_reason." ] || fail "$case_id successor emitted the wrong bounded reason"
   expect_blocked "$case_id OPEN successor cannot be replaced" \
-    route "$controller" "$session" G0002 decide --request "$same_current_request" \
+    route "$controller" "$session" "$successor_generation" decide --request "$same_current_request" \
       --expected-record "$successor_open_record" >/dev/null
 
-  successor_returned="$(route "$controller" "$session" G0002 return --request "$successor_request" \
+  successor_returned="$(route "$controller" "$session" "$successor_generation" return --request "$successor_request" \
     --expected-record "$successor_open_record" --return "$successor_return")"
   assert_json "$successor_returned" 'value["status"] == "CHILD_RETURNED" and value["route_state"] == "RETURNED"'
   successor_return_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_returned")"
   expect_blocked "$case_id RETURNED successor cannot be replaced" \
-    route "$controller" "$session" G0002 decide --request "$same_current_request" \
+    route "$controller" "$session" "$successor_generation" decide --request "$same_current_request" \
       --expected-record "$successor_return_record" >/dev/null
-  successor_completed="$(route "$controller" "$session" G0002 complete --request "$successor_request" \
+  successor_completed="$(route "$controller" "$session" "$successor_generation" complete --request "$successor_request" \
     --expected-record "$successor_return_record" --packet "$successor_packet" \
     --return "$successor_return" --decision "$successor_decision")"
   assert_json "$successor_completed" 'value["status"] == "ROUTE_COMPLETE" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1'
   successor_complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_completed")"
-  admitted="$(cd "$tmp/repo" && bash "$claim" --require-current-route "$controller" \
+  admitted="$(cd "$tmp/repo" && bash "$ACTIVE_CLAIM" --require-current-route "$controller" \
     --store "$tmp/host-store" --host-id codex --host-session-id "$session" \
-    --binding-generation G0002)"
+    --binding-generation "$successor_generation")"
   assert_json "$admitted" 'value["record_oid"] == "'"$successor_complete_record"'" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
   [ "$(git -C "$tmp/repo" cat-file blob "$complete_record")" = "$first_terminal_blob" ] ||
     fail "$case_id second lifecycle mutated the first terminal record"
@@ -1531,23 +1828,27 @@ PY
 run_governed_child_case G01 55555555555555555555555555555555 \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
   'rehydrate bounded current state after the exact stale-context boundary' \
-  host-reported-compaction
+  host-reported-compaction REQUIRED PACKAGE_RELOCATED
 run_governed_child_case G02 66666666666666666666666666666666 \
   IMMUTABLE_INDEPENDENT_REVIEW audit-assess \
   'independently assess the exact immutable review packet' \
-  new-session
+  new-session REQUIRED PACKAGE_RELOCATED
 run_governed_child_case G03 77777777777777777777777777777777 \
   MAINTAINER_QUALIFICATION audit-implement \
   'qualify the exact maintainer candidate after verified release currentness' \
-  handoff-resume
+  handoff-resume REQUIRED PACKAGE_RELOCATED
 run_governed_child_case G04 88888888888888888888888888888888 \
   NONTRIVIAL_ANDON_DIAGNOSIS audit-andon \
   'diagnose the established nontrivial Andon within its authority ceiling' \
-  manual-resume
+  manual-resume REQUIRED PACKAGE_RELOCATED
 run_governed_child_case G05 99999999999999999999999999999999 \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
   'rehydrate bounded current state after the exact stale-context boundary' \
-  manual-resume NOT_REQUIRED
+  manual-resume NOT_REQUIRED PACKAGE_RELOCATED
+run_governed_child_case G06 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
+  STALE_CONTEXT_RECONSTRUCTION audit-state \
+  'rehydrate bounded current state after the exact stale-context boundary' \
+  host-reported-compaction REQUIRED PACKAGE_RELOCATED TWO_ROTATIONS
 
 # The pure R0033 owner validator remains usable for a read-only C03 projection
 # after event attribution is tombstoned, while every R0033 effect path refuses.
