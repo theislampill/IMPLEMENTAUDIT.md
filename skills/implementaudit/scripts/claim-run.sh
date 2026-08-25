@@ -96,11 +96,24 @@ publication_git_v1() {
 }
 
 installed_publication_binding_v1() {
-  local script_path="$1" py=()
-  if command -v python >/dev/null 2>&1; then py=(python)
-  elif command -v python3 >/dev/null 2>&1; then py=(python3)
-  elif command -v py >/dev/null 2>&1; then py=(py -3)
-  else return 1; fi
+  local script_path="$1" candidate py=()
+  case "${OSTYPE:-}" in
+    msys*|cygwin*|win32*)
+      candidate='/c/Windows/py.exe'
+      [ -f "$candidate" ] && [ ! -L "$candidate" ] && [ -x "$candidate" ] || return 1
+      py=("$candidate" -3 -I -S)
+      ;;
+    linux*|darwin*|freebsd*)
+      for candidate in /usr/bin/python3 /usr/local/bin/python3; do
+        if [ -f "$candidate" ] && [ ! -L "$candidate" ] && [ -x "$candidate" ]; then
+          py=("$candidate" -I -S)
+          break
+        fi
+      done
+      [ "${#py[@]}" -gt 0 ] || return 1
+      ;;
+    *) return 1 ;;
+  esac
   "${py[@]}" - "$script_path" "${CODEX_SESSION_ID:-}" <<'PY'
 import json
 import os

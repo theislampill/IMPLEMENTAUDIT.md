@@ -65,6 +65,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import sys
@@ -433,6 +434,24 @@ git("update-ref", invalidation_ref, g3_invalidation_oid, g2_invalidation_oid)
 expect_installed_rejection("missing session", lambda: run_installed_claim(session=None))
 expect_installed_rejection("malformed session", lambda: run_installed_claim(session="bad\nsession"))
 expect_installed_rejection("unbound session", lambda: run_installed_claim(session="unbound-session"))
+hostile_bin = temp / "hostile-python-bin"
+hostile_bin.mkdir()
+forged_binding = "\t".join((
+    repo_text, common.as_posix(), repo_text, run_text, controller, claim_id,
+    "G0002", g2_ref + "@" + g2_oid,
+))
+hostile_python = hostile_bin / "python"
+hostile_python.write_text(
+    "#!/bin/sh\nprintf '%s\\n' " + shlex.quote(forged_binding) + "\n",
+    encoding="utf-8", newline="\n")
+hostile_python.chmod(0o700)
+expect_installed_rejection(
+    "PATH-selected Python binding forgery",
+    lambda: run_installed_claim(
+        session="unbound-session",
+        extra_environment={
+            "PATH": str(hostile_bin) + os.pathsep + os.environ.get("PATH", ""),
+        }))
 selector_probe = run_installed_claim(extra_environment={
     "PLUGIN_DATA": str(temp / "foreign-plugin-data"),
     "IMPLEMENTAUDIT_REPO": str(temp / "foreign-repository"),
@@ -595,7 +614,7 @@ if protected_refs() != before:
 print("CANONICAL_STATE_ROTATION_INSTALLED_CUSTODY_GREEN=PASS "
       "locator=R003A_PREDECESSOR transition=G0002_TO_G0003 "
       "stable=STATE transition=PREDECESSOR output=EIGHT_FIELDS "
-      "negatives=20 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY")
+      "negatives=21 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY")
 PY
   $installed_custody_only && exit 0
 fi
