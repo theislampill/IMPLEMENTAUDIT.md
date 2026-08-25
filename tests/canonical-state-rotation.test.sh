@@ -58,20 +58,41 @@ esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
-test_fixed_posix_python_v1() {
-  local selector selectors=()
+test_fixed_posix_bash_v1() {
+  local candidate candidates=()
   case "${OSTYPE:-}" in
-    darwin*) selectors=(/opt/homebrew/bin/python3 /usr/local/bin/python3
-                        /opt/local/bin/python3 /usr/bin/python3) ;;
-    freebsd*) selectors=(/usr/local/bin/python3 /usr/bin/python3
-                         /opt/local/bin/python3) ;;
-    *) selectors=(/usr/bin/python3 /usr/local/bin/python3
-                   /opt/homebrew/bin/python3 /opt/local/bin/python3) ;;
+    darwin*) candidates=(/bin/bash /usr/bin/bash /opt/homebrew/bin/bash
+                         /usr/local/bin/bash /opt/local/bin/bash) ;;
+    freebsd*) candidates=(/usr/local/bin/bash /bin/bash /usr/bin/bash
+                          /opt/local/bin/bash) ;;
+    *) candidates=(/bin/bash /usr/bin/bash /usr/local/bin/bash) ;;
   esac
-  for selector in "${selectors[@]}"; do
-    [ -x "$selector" ] && { printf '%s\n' "$selector"; return 0; }
+  for candidate in "${candidates[@]}"; do
+    [ -f "$candidate" ] && [ -x "$candidate" ] \
+      && { printf '%s\n' "$candidate"; return 0; }
   done
   return 1
+}
+write_exact_posix_python_selection_v1() {
+  local destination="$1" line copying=false found_fixed=false
+  {
+    printf 'set -euo pipefail\n'
+    while IFS= read -r line; do
+      case "$line" in
+        'resolve_fixed_posix_python_v1() {'*) copying=true ;;
+        'fixed_posix_python_v1() {'*) found_fixed=true ;;
+        'installed_publication_binding_v1() {'*) break ;;
+      esac
+      $copying && printf '%s\n' "$line"
+    done <"$claim_helper"
+  } >"$destination"
+  $found_fixed || fail "could not extract exact production POSIX Python selector"
+}
+test_fixed_posix_python_v1() {
+  local fixed_bash="$1" selection_script="$tmp/exact-posix-python-selection.sh"
+  [ -f "$selection_script" ] || write_exact_posix_python_selection_v1 "$selection_script"
+  OSTYPE="${OSTYPE:-}" "$fixed_bash" --noprofile --norc -c \
+    'source "$1"; fixed_posix_python_v1' selector "$selection_script"
 }
 posix_python_selector_control_calls=0
 run_posix_python_selector_controls() {
@@ -80,17 +101,19 @@ run_posix_python_selector_controls() {
     || fail "POSIX selector controls ran more than once"
   [ "$(uname -s)" != MINGW* ] && [ "$(uname -s)" != CYGWIN* ] \
     || fail "POSIX selector control requires a POSIX host"
-  posix_python="$(test_fixed_posix_python_v1)" \
+  posix_bash="$(test_fixed_posix_bash_v1)" \
+    || fail "POSIX selector control has no fixed Bash"
+  posix_python="$(test_fixed_posix_python_v1 "$posix_bash")" \
     || fail "POSIX selector control has no fixed Python"
   "$posix_python" -I -S - "$claim_helper" "$tmp" "$posix_python" \
-    "${OSTYPE:-}" "${BASH_SOURCE[0]}" <<'PY'
+    "$posix_bash" "${OSTYPE:-}" "${BASH_SOURCE[0]}" <<'PY'
 import os
 from pathlib import Path
 import subprocess
 import sys
 
 
-claim_path, temp_text, selected_python, ostype, test_path = sys.argv[1:]
+claim_path, temp_text, selected_python, selected_bash, ostype, test_path = sys.argv[1:]
 temp = Path(temp_text)
 source = Path(claim_path).read_text(encoding="utf-8")
 test_source = Path(test_path).read_text(encoding="utf-8")
@@ -99,9 +122,9 @@ end = source.index("\n}\n\nfixed_posix_python_v1()", start) + 3
 fixed_end = source.index("\n}\n\ninstalled_publication_binding_v1()", end) + 3
 resolver_source = source[start:end]
 fixed_source = " ".join(source[end:fixed_end].split())
-test_fixed_start = test_source.index("test_fixed_posix_python_v1() {")
+test_fixed_start = test_source.index("test_fixed_posix_bash_v1() {")
 test_fixed_end = test_source.index(
-    "\n}\nposix_python_selector_control_calls=0", test_fixed_start) + 3
+    "\n}\nwrite_exact_posix_python_selection_v1()", test_fixed_start) + 3
 test_fixed_source = " ".join(test_source[test_fixed_start:test_fixed_end].split())
 resolver_path = temp / "exact-posix-python-resolver.sh"
 resolver_path.write_text(
@@ -118,24 +141,37 @@ selector_model = {
         "/usr/local/bin/python3", "/usr/bin/python3",
         "/opt/local/bin/python3"),
 }
+bash_model = {
+    "linux": ("/bin/bash", "/usr/bin/bash", "/usr/local/bin/bash"),
+    "darwin": (
+        "/bin/bash", "/usr/bin/bash", "/opt/homebrew/bin/bash",
+        "/usr/local/bin/bash", "/opt/local/bin/bash"),
+    "freebsd": (
+        "/usr/local/bin/bash", "/bin/bash", "/usr/bin/bash",
+        "/opt/local/bin/bash"),
+}
 platform_key = (
     "darwin" if ostype.startswith("darwin") else
     "freebsd" if ostype.startswith("freebsd") else "linux")
 
 
-def normalized_selector_clause(label, selectors):
-    return label + " selectors=(" + " ".join(selectors) + ") ;;"
+def normalized_clause(label, name, values):
+    return label + " " + name + "=(" + " ".join(values) + ") ;;"
 
 
 for label, selectors in (
         ("darwin*)", selector_model["darwin"]),
         ("freebsd*)", selector_model["freebsd"]),
         ("*)", selector_model["linux"])):
-    clause = normalized_selector_clause(label, selectors)
+    clause = normalized_clause(label, "selectors", selectors)
     if clause not in fixed_source:
         raise SystemExit("production POSIX selector order diverged from model: " + label)
-    if clause not in test_fixed_source:
-        raise SystemExit("test POSIX runner order diverged from model: " + label)
+for label, candidates in (
+        ("darwin*)", bash_model["darwin"]),
+        ("freebsd*)", bash_model["freebsd"]),
+        ("*)", bash_model["linux"])):
+    if normalized_clause(label, "candidates", candidates) not in test_fixed_source:
+        raise SystemExit("test POSIX Bash order diverged from model: " + label)
 for fragment in (
         "for readlink_cmd in /usr/bin/readlink /bin/readlink; do",
         '[ "$hop" -le 16 ]',
@@ -148,21 +184,53 @@ def first_available(order, available):
     return next((item for item in order if item in available), None)
 
 
-actual_available = {item for item in selector_model[platform_key]
-                    if os.access(item, os.X_OK)}
-if first_available(selector_model[platform_key], actual_available) != selected_python:
-    raise SystemExit("test runner did not use the platform's first fixed selector")
-if first_available(selector_model["darwin"], {"/opt/homebrew/bin/python3"}) \
-        != "/opt/homebrew/bin/python3":
-    raise SystemExit("Homebrew-only macOS selector model failed")
-if first_available(selector_model["freebsd"], {"/usr/local/bin/python3"}) \
-        != "/usr/local/bin/python3":
-    raise SystemExit("FreeBSD /usr/local selector model failed")
+actual_bash = {item for item in bash_model[platform_key]
+               if os.path.isfile(item) and os.access(item, os.X_OK)}
+if first_available(bash_model[platform_key], actual_bash) != selected_bash:
+    raise SystemExit("test runner did not use the platform's first fixed Bash")
+if not os.path.samefile(sys.executable, selected_python):
+    raise SystemExit("test runner did not use production's resolved Python identity")
+darwin_layout = (
+    first_available(bash_model["darwin"], {"/opt/homebrew/bin/bash"}),
+    first_available(selector_model["darwin"], {"/opt/homebrew/bin/python3"}),
+)
+if darwin_layout != ("/opt/homebrew/bin/bash", "/opt/homebrew/bin/python3"):
+    raise SystemExit("Homebrew-only macOS launch topology failed")
+freebsd_layout = (
+    first_available(bash_model["freebsd"], {"/usr/local/bin/bash"}),
+    first_available(selector_model["freebsd"], {"/usr/local/bin/python3"}),
+)
+if freebsd_layout != ("/usr/local/bin/bash", "/usr/local/bin/python3"):
+    raise SystemExit("FreeBSD /usr/local launch topology failed")
+
+
+def exercise_launch_topology(label, bash_relative, python_relative):
+    root = temp / ("layout-" + label)
+    bash_selector = root / bash_relative
+    python_selector = root / python_relative
+    bash_selector.parent.mkdir(parents=True, exist_ok=True)
+    python_selector.parent.mkdir(parents=True, exist_ok=True)
+    os.symlink(os.fsencode(selected_bash), os.fsencode(bash_selector))
+    os.symlink(os.fsencode(selected_python), os.fsencode(python_selector))
+    result = subprocess.run([
+        str(bash_selector), "--noprofile", "--norc", "-c",
+        'exec "$1" -I -S -c "$2"', "topology", str(python_selector),
+        "import sys; assert sys.flags.isolated and sys.flags.no_site; "
+        "print('FIXED_TOPOLOGY')",
+    ], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if result.returncode != 0 or result.stdout != b"FIXED_TOPOLOGY\n":
+        raise SystemExit(label + " fixed Bash/Python topology did not execute")
+
+
+exercise_launch_topology(
+    "homebrew", Path("opt/homebrew/bin/bash"), Path("opt/homebrew/bin/python3"))
+exercise_launch_topology(
+    "freebsd", Path("usr/local/bin/bash"), Path("usr/local/bin/python3"))
 
 
 def invoke(selector):
     return subprocess.run([
-        "/bin/bash", "--noprofile", "--norc", "-c",
+        selected_bash, "--noprofile", "--norc", "-c",
         'source "$1"; resolve_fixed_posix_python_v1 "$2"',
         "resolver", str(resolver_path), str(selector),
     ], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -215,6 +283,23 @@ escape = resolve("root-escape", os.fsencode(escape_target))
 if escape.returncode == 0 or escape.stdout:
     raise SystemExit("POSIX selector accepted a trusted-root escape")
 
+fallback_first = temp / "fallback-first-python3"
+fallback_second = temp / "fallback-second-python3"
+os.symlink(os.fsencode(escape_target), os.fsencode(fallback_first))
+os.symlink(selected_bytes, os.fsencode(fallback_second))
+if not os.access(fallback_first, os.X_OK) or not os.access(fallback_second, os.X_OK):
+    raise SystemExit("resolver fallback held-out selectors are not executable")
+fallback_result = None
+for fallback_selector in (fallback_first, fallback_second):
+    candidate_result = invoke(fallback_selector)
+    if candidate_result.returncode == 0:
+        fallback_result = candidate_result
+        break
+if (fallback_result is None or not fallback_result.stdout.endswith(b"\n")
+        or not os.path.samefile(
+            fallback_result.stdout[:-1].decode("utf-8", "strict"), selected_python)):
+    raise SystemExit("first-executable-invalid/later-valid resolver fallback failed")
+
 cycle = temp / "selector-cycle"
 os.symlink(os.fsencode(cycle), os.fsencode(cycle))
 cycle_result = invoke(cycle)
@@ -243,7 +328,8 @@ print(
     "model=LINUX_DARWIN_FREEBSD_FIXED_ORDER ordinary=VERSIONED_FIXED "
     "malformed=LF_CR_INTERNAL_MULTILINE_C0_TAB_DEL_HIGH_REJECTED "
     "escape-cycle=REJECTED hops=16_ACCEPT_17_REJECT "
-    "layouts=HOMEBREW_ONLY_MACOS_FREEBSD_USR_LOCAL "
+    "layouts=HOMEBREW_ONLY_MACOS_FREEBSD_USR_LOCAL_BASH_PYTHON "
+    "runner=PRODUCTION_RESOLVED fallback=FIRST_INVALID_LATER_VALID "
     "empty-nul=FILESYSTEM_UNREPRESENTABLE")
 PY
   printf '%s\n' "$posix_python_selector_control_calls" \
@@ -255,19 +341,23 @@ if $posix_python_selector_only; then
 fi
 if $run_installed_custody; then
   installed_fixture_python=()
+  installed_fixture_bash=''
   case "${OSTYPE:-}" in
     msys*|cygwin*|win32*)
       [ -x /c/Windows/py.exe ] || fail "installed fixture has no fixed Windows Python"
       installed_fixture_python=(/c/Windows/py.exe -3 -I -S) ;;
     linux*|darwin*|freebsd*)
-      candidate="$(test_fixed_posix_python_v1)" \
+      installed_fixture_bash="$(test_fixed_posix_bash_v1)" \
+        || fail "installed fixture has no fixed POSIX Bash"
+      candidate="$(test_fixed_posix_python_v1 "$installed_fixture_bash")" \
         || fail "installed fixture has no fixed POSIX Python"
       installed_fixture_python=("$candidate" -I -S) ;;
     *) fail "installed fixture platform is unsupported" ;;
   esac
   "${installed_fixture_python[@]}" - "$helper" "$claim_helper" \
     "$repo_root/skills/implementaudit/scripts/host-session-binding.py" \
-    "$repo_root/skills/implementaudit/scripts/validate-run-root.sh" "$tmp" <<'PY'
+    "$repo_root/skills/implementaudit/scripts/validate-run-root.sh" "$tmp" \
+    "$installed_fixture_bash" <<'PY'
 import hashlib
 import importlib.util
 import json
@@ -279,11 +369,11 @@ import subprocess
 import sys
 
 
-rotation_path, claim_path, binding_path, validator_path, temp_text = sys.argv[1:]
+rotation_path, claim_path, binding_path, validator_path, temp_text, posix_bash = sys.argv[1:]
 temp = Path(temp_text)
 fixed_bash_candidates = (
     (Path(r"C:\Program Files\Git\bin\bash.exe"),)
-    if os.name == "nt" else (Path("/bin/bash"), Path("/usr/bin/bash"))
+    if os.name == "nt" else (Path(posix_bash),)
 )
 fixed_bash = next((path for path in fixed_bash_candidates if path.is_file()), None)
 if fixed_bash is None:
