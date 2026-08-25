@@ -1563,6 +1563,7 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
         "positive-v3-predecessor", "predecessor-v3-invalidation",
         "predecessor-v3-pointer", "predecessor-v3-own-token",
     }
+    post_marker_successor = case == "positive-v3-predecessor"
     generation = "G0003" if case in v3_predecessor_cases else fixture["generation"]
     run_relative = pathlib.PurePosixPath(
         ".IMPLEMENTAUDIT", "runs", run_id).as_posix()
@@ -1683,6 +1684,35 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
     manifest_oid = object_id(repo, manifest_raw)
     manifest_digest = hashlib.sha256(manifest_raw).hexdigest()
 
+    genesis_pointer = None
+    genesis_pointer_oid = None
+    if post_marker_successor:
+        genesis_pointer_body = {
+            "schema_version": "implementaudit.state-generation-pointer.v1",
+            "controller_id": controller,
+            "claim_id": claim,
+            "run_id": run_id,
+            "generation_id": "G0002",
+            "predecessor_pointer_oid": None,
+            "predecessor_pointer_digest": None,
+            "generation_manifest_oid": manifest_oid,
+            "generation_manifest_digest": manifest_digest,
+            "cold_high_water": "00000000000000000001",
+            "hot_state_digest": state_digest,
+            "hot_roadmap_digest": roadmap_digest,
+            "work_graph_path": "WORK_GRAPH.json",
+            "work_graph_digest": graph_digest,
+            "query_contract_version": "implementaudit.history-query.v1",
+            "source_epoch": "G0002",
+            "degraded_state": "NONE",
+        }
+        genesis_pointer = {
+            **genesis_pointer_body,
+            "pointer_digest": hashlib.sha256(
+                canonical(genesis_pointer_body)).hexdigest(),
+        }
+        genesis_pointer_oid = object_id(repo, canonical(genesis_pointer))
+
     if case in v3_predecessor_cases:
         predecessor_epoch = "G0002"
         predecessor_ref = (
@@ -1697,11 +1727,16 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
         own_predecessor = (
             "not-a-predecessor-token" if case == "predecessor-v3-own-token"
             else f"refs/implementaudit/continuity-receipts/{controller}/G0001@{head}")
+        predecessor_pointer_oid = (
+            genesis_pointer_oid if post_marker_successor else head)
+        predecessor_pointer_digest = (
+            genesis_pointer["pointer_digest"] if post_marker_successor else ONE64)
         predecessor_raw = (
             "implementaudit.continuity-receipt.v3\t"
             f"{controller}\t{claim}\t{run_id}\t{predecessor_epoch}\t"
-            f"{predecessor_invalidation}\t{predecessor_pointer_ref}\t{head}\t"
-            f"{ONE64}\t{state_digest}\t{roadmap_digest}\tWORK_GRAPH.json\t"
+            f"{predecessor_invalidation}\t{predecessor_pointer_ref}\t"
+            f"{predecessor_pointer_oid}\t{predecessor_pointer_digest}\t"
+            f"{state_digest}\t{roadmap_digest}\tWORK_GRAPH.json\t"
             f"{graph_digest}\t{manifest_oid}\t{manifest_digest}\t"
             f"00000000000000000001\t{fixture['next_action']}\t"
             f"{own_predecessor}\n").encode()
@@ -1735,8 +1770,10 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
         "claim_id": pointer_claim,
         "run_id": pointer_run,
         "generation_id": generation,
-        "predecessor_pointer_oid": None,
-        "predecessor_pointer_digest": None,
+        "predecessor_pointer_oid": (
+            genesis_pointer_oid if post_marker_successor else None),
+        "predecessor_pointer_digest": (
+            genesis_pointer["pointer_digest"] if post_marker_successor else None),
         "generation_manifest_oid": manifest_oid,
         "generation_manifest_digest": manifest_digest,
         "cold_high_water": "00000000000000000001",
@@ -1779,11 +1816,14 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
     update_ref(repo, receipt_ref, receipt_oid)
     receipt = f"{receipt_ref}@{receipt_oid}"
 
+    marker_generation = "G0002" if post_marker_successor else generation
+    marker_receipt_ref = predecessor_ref if post_marker_successor else receipt_ref
+    marker_receipt_oid = predecessor_oid if post_marker_successor else receipt_oid
     marker_raw = (
         "implementaudit.current-generation-migration.v1\t"
-        f"{controller}\t{claim}\t{run_id}\t{generation}\t{pointer_ref}\t"
-        f"implementaudit.state-generation-pointer.v1\t{receipt_ref}\t"
-        f"{receipt_oid}\ttrue").encode()
+        f"{controller}\t{claim}\t{run_id}\t{marker_generation}\t{pointer_ref}\t"
+        f"implementaudit.state-generation-pointer.v1\t{marker_receipt_ref}\t"
+        f"{marker_receipt_oid}\ttrue").encode()
     marker_oid = object_id(repo, marker_raw)
     if case != "missing-marker":
         update_ref(
@@ -2093,16 +2133,169 @@ if v3_canonical.returncode:
         "canonical v3 predecessor fixture is invalid: " +
         (v3_canonical.stderr.strip() or "no validator diagnostic"))
 try:
-    v3_positive_module.collect_native_current()
+    v3_positive_record = v3_positive_module.collect_native_current()
 except v3_positive_module.OperationalEvidenceError as exc:
     raise SystemExit(
         f"bounded canonical v3 predecessor/no-history control failed: {exc.receipt()}")
+v3_marker_oid = git(
+    v3_positive_repo, "rev-parse", "--verify",
+    "refs/implementaudit/current-generation-migrations/controller-current"
+).decode().strip()
+v3_marker_fields = git(
+    v3_positive_repo, "cat-file", "blob", v3_marker_oid
+).decode("utf-8").split("\t")
+if (v3_positive_record["continuity"]["generation"] != "G0003" or
+        v3_marker_fields[4] != "G0002"):
+    raise SystemExit(
+        "R0038_POST_MARKER_SPLIT_RED="
+        f"current={v3_positive_record['continuity']['generation']};"
+        f"marker-genesis={v3_marker_fields[4]}")
+v3_current_pointer = json.loads(git(
+    v3_positive_repo, "cat-file", "blob",
+    v3_positive_record["continuity"]["pointer_oid"]))
+v3_genesis_receipt_fields = git(
+    v3_positive_repo, "cat-file", "blob", v3_marker_fields[8]
+).decode("utf-8").rstrip("\n").split("\t")
+if (v3_marker_fields[7] !=
+        "refs/implementaudit/continuity-receipts/controller-current/G0002" or
+        v3_current_pointer["predecessor_pointer_oid"] !=
+        v3_genesis_receipt_fields[7] or
+        v3_current_pointer["predecessor_pointer_digest"] !=
+        v3_genesis_receipt_fields[8]):
+    raise SystemExit(
+        "R0038 post-marker positive does not bind current G0003 to genesis G0002")
 older_ref = subprocess.run(
     ["git", "-C", str(v3_positive_repo), "show-ref", "--verify", "--hash",
      "refs/implementaudit/continuity-receipts/controller-current/G0001"],
     stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 if older_ref.returncode == 0:
     raise SystemExit("v3 no-history control unexpectedly resolved G0001")
+
+
+def replace_permanent_marker(repo, transform):
+    marker_ref = (
+        "refs/implementaudit/current-generation-migrations/controller-current")
+    marker_oid = git(repo, "rev-parse", "--verify", marker_ref).decode().strip()
+    marker_raw = git(repo, "cat-file", "blob", marker_oid)
+    replacement_oid = object_id(repo, transform(marker_raw))
+    update_ref(repo, marker_ref, replacement_oid)
+
+
+def expect_post_marker_rejection(label, serial, mutation, expected_path):
+    repo = prepare("positive-v3-predecessor", serial)
+    mutation(repo)
+    module = load_module(repo, serial)
+    try:
+        module.collect_native_current()
+    except module.OperationalEvidenceError as exc:
+        if exc.path != expected_path:
+            red_failures.append(
+                f"{label}: rejected at {exc.path}, expected {expected_path}")
+    else:
+        red_failures.append(f"{label}: malformed post-marker route was accepted")
+
+
+def malformed_marker_transform(kind):
+    def transform(raw):
+        fields = raw.split(b"\t")
+        if kind == "NUL":
+            return fields[0] + b"\0\t" + b"\t".join(fields[1:])
+        if kind == "C0":
+            return fields[0] + b"\x01\t" + b"\t".join(fields[1:])
+        if kind == "DEL":
+            return fields[0] + b"\x7f\t" + b"\t".join(fields[1:])
+        if kind == "LF":
+            return raw + b"\n"
+        if kind == "CRLF":
+            return raw + b"\r\n"
+        if kind == "ADJACENT_TAB":
+            return b"\t".join(fields[:2]) + b"\t\t" + b"\t".join(fields[2:])
+        if kind == "TRAILING_TAB":
+            return raw + b"\t"
+        if kind == "EXTRA_FIELD":
+            return raw + b"\textra"
+        if kind == "INVALID_UTF8":
+            return fields[0] + b"\xff\t" + b"\t".join(fields[1:])
+        raise AssertionError(kind)
+    return transform
+
+
+for serial, malformed_kind in enumerate((
+        "NUL", "C0", "DEL", "LF", "CRLF", "ADJACENT_TAB",
+        "TRAILING_TAB", "EXTRA_FIELD", "INVALID_UTF8"), 160):
+    expect_post_marker_rejection(
+        f"R0038-PM-{malformed_kind}", serial,
+        lambda repo, kind=malformed_kind: replace_permanent_marker(
+            repo, malformed_marker_transform(kind)),
+        "$native.marker")
+
+
+def stale_genesis_receipt(repo):
+    current_receipt_oid = git(
+        repo, "rev-parse", "--verify",
+        "refs/implementaudit/continuity-receipts/controller-current/G0003"
+    ).decode().strip()
+
+    def transform(raw):
+        fields = raw.decode("utf-8").split("\t")
+        fields[8] = current_receipt_oid
+        return "\t".join(fields).encode("utf-8")
+
+    replace_permanent_marker(repo, transform)
+
+
+def rebound_marker(repo):
+    current_receipt_ref = (
+        "refs/implementaudit/continuity-receipts/controller-current/G0003")
+    current_receipt_oid = git(
+        repo, "rev-parse", "--verify", current_receipt_ref).decode().strip()
+
+    def transform(raw):
+        fields = raw.decode("utf-8").split("\t")
+        fields[4] = "G0003"
+        fields[7] = current_receipt_ref
+        fields[8] = current_receipt_oid
+        return "\t".join(fields).encode("utf-8")
+
+    replace_permanent_marker(repo, transform)
+
+
+def mismatch_immediate_predecessor(repo):
+    pointer_ref = "refs/implementaudit/current-generations/controller-current"
+    pointer_oid = git(repo, "rev-parse", "--verify", pointer_ref).decode().strip()
+    pointer = json.loads(git(repo, "cat-file", "blob", pointer_oid))
+    pointer_body = dict(pointer)
+    pointer_body.pop("pointer_digest")
+    pointer_body["predecessor_pointer_oid"] = "f" * 40
+    pointer_body["predecessor_pointer_digest"] = "e" * 64
+    replacement_pointer = {
+        **pointer_body,
+        "pointer_digest": hashlib.sha256(canonical(pointer_body)).hexdigest(),
+    }
+    replacement_pointer_oid = object_id(repo, canonical(replacement_pointer))
+    update_ref(repo, pointer_ref, replacement_pointer_oid)
+    receipt_ref = (
+        "refs/implementaudit/continuity-receipts/controller-current/G0003")
+    receipt_oid = git(repo, "rev-parse", "--verify", receipt_ref).decode().strip()
+    receipt_fields = git(
+        repo, "cat-file", "blob", receipt_oid
+    ).decode("utf-8").rstrip("\n").split("\t")
+    receipt_fields[7] = replacement_pointer_oid
+    receipt_fields[8] = replacement_pointer["pointer_digest"]
+    replacement_receipt_oid = object_id(
+        repo, ("\t".join(receipt_fields) + "\n").encode("utf-8"))
+    update_ref(repo, receipt_ref, replacement_receipt_oid)
+
+
+expect_post_marker_rejection(
+    "R0038-PM-STALE-GENESIS-RECEIPT", 169,
+    stale_genesis_receipt, "$native.marker")
+expect_post_marker_rejection(
+    "R0038-PM-MARKER-REBOUND", 170,
+    rebound_marker, "$native.marker")
+expect_post_marker_rejection(
+    "R0038-PM-IMMEDIATE-PREDECESSOR-MISMATCH", 171,
+    mismatch_immediate_predecessor, "$native.pointer.predecessor")
 
 predecessor_race_repo = prepare("positive", 101)
 predecessor_race_module = load_module(predecessor_race_repo, 101)
