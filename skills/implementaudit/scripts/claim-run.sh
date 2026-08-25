@@ -443,16 +443,53 @@ print("\t".join("none" if value[name] is None else value[name] for name in order
 PY
   }
   load_generation_migration() {
+    local marker_parser=() validated_marker
     marker_state="$(generation_ref_state "$mref")" || return 1
     moid=''; mrecord=''; marker_terminal_lf=false
     [ "$marker_state" = RESOLVED ] || return 0
     moid="$(git rev-parse --verify "$mref" 2>/dev/null)" || { marker_state=BROKEN; return 0; }
     [ "$(git cat-file -t "$moid" 2>/dev/null)" = blob ] || { marker_state=MALFORMED; return 0; }
-    mrecord="$(git cat-file blob "$moid" && printf '\036')" || { marker_state=MALFORMED; return 0; }
-    case "$mrecord" in *$'\036') mrecord="${mrecord%$'\036'}";; *) marker_state=MALFORMED; return 0;; esac
-    case "$mrecord" in *$'\r'*) marker_state=MALFORMED; return 0;; esac
-    case "$mrecord" in *$'\n') marker_terminal_lf=true; mrecord="${mrecord%$'\n'}";; esac
-    case "$mrecord" in *$'\n'*) marker_state=MALFORMED;; esac
+    if [ "${pointer_format:-}" != JSON ]; then
+      # Preserve the frozen legacy TSV reader, including its single terminal
+      # LF convention.  Permanent JSON-generation markers take the strict
+      # byte-preserving path below.
+      mrecord="$(git cat-file blob "$moid" && printf '\036')" || { marker_state=MALFORMED; return 0; }
+      case "$mrecord" in *$'\036') mrecord="${mrecord%$'\036'}";; *) marker_state=MALFORMED; return 0;; esac
+      case "$mrecord" in *$'\r'*) marker_state=MALFORMED; return 0;; esac
+      case "$mrecord" in *$'\n') marker_terminal_lf=true; mrecord="${mrecord%$'\n'}";; esac
+      case "$mrecord" in *$'\n'*) marker_state=MALFORMED;; esac
+      return 0
+    fi
+    if command -v python >/dev/null 2>&1; then marker_parser=(python)
+    elif command -v python3 >/dev/null 2>&1; then marker_parser=(python3)
+    elif command -v py >/dev/null 2>&1; then marker_parser=(py -3)
+    else marker_state=MALFORMED; return 0; fi
+    # Validate the blob while it is still a byte stream.  In particular, Bash
+    # command substitution must never get an opportunity to erase NUL or
+    # terminal LF and thereby normalize an invalid marker into a valid one.
+    # A single terminal LF remains supported for the frozen legacy TSV route;
+    # the permanent JSON-generation marker requires the returned false flag.
+    validated_marker="$(git cat-file blob "$moid" | "${marker_parser[@]}" -c '
+import sys
+raw = sys.stdin.buffer.read()
+try:
+    raw.decode("utf-8", "strict")
+except UnicodeDecodeError:
+    raise SystemExit(1)
+if not raw or b"\r" in raw:
+    raise SystemExit(1)
+if any((byte < 0x20 and byte not in (0x09, 0x0a)) or byte == 0x7f
+       for byte in raw):
+    raise SystemExit(1)
+terminal_lf = raw.endswith(b"\n")
+if terminal_lf:
+    raw = raw[:-1]
+if not raw or b"\n" in raw:
+    raise SystemExit(1)
+sys.stdout.buffer.write((b"true" if terminal_lf else b"false") + b"\t" + raw)
+')" || { marker_state=MALFORMED; return 0; }
+    marker_terminal_lf="${validated_marker%%$'\t'*}"
+    mrecord="${validated_marker#*$'\t'}"
   }
   require_permanent_genesis_marker() {
     local ms mc mclaim mrun mepoch mpref mpschema mvref mvoid mterminal mextra
@@ -464,6 +501,8 @@ PY
     local marker_py=() genesis_predecessor_ref genesis_predecessor_oid
     [ "$marker_state" = RESOLVED ] &&
       [ "$marker_terminal_lf" = false ] || return 1
+    require_exact_tab_count "$mrecord" 9 || return 1
+    case "$mrecord" in $'\t'*|*$'\t'|*$'\t\t'*) return 1;; esac
     IFS=$'\t' read -r ms mc mclaim mrun mepoch mpref mpschema mvref mvoid \
       mterminal mextra <<< "$mrecord"
     [ -z "$mextra" ] &&

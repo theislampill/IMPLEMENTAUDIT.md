@@ -2549,6 +2549,26 @@ if len(transition_v3_fields) != 18:
     raise SystemExit("Task 6 positive v3 fixture field population drifted")
 v3_body = transition_v3_raw[:-1]
 v3_parts = v3_body.split(b"\t")
+transition_marker_raw = git(
+    owner_repo, "cat-file", "blob", transition_marker_oid)
+if (b"\n" in transition_marker_raw or b"\r" in transition_marker_raw
+        or transition_marker_raw.count(b"\t") != 9
+        or any(not field for field in transition_marker_raw.split(b"\t"))):
+    raise SystemExit("Task 6 positive marker fixture is not exact no-LF TSV")
+marker_fields = transition_marker_raw.split(b"\t")
+permanent_marker_malformed_cases = (
+    ("NUL", marker_fields[0] + b"\0" + b"\t" + b"\t".join(marker_fields[1:])),
+    ("C0", marker_fields[0] + b"\x01" + b"\t" + b"\t".join(marker_fields[1:])),
+    ("DEL", marker_fields[0] + b"\x7f" + b"\t" + b"\t".join(marker_fields[1:])),
+    ("LF", transition_marker_raw + b"\n"),
+    ("CRLF", transition_marker_raw + b"\r\n"),
+    ("ADJACENT_TAB", b"\t".join(marker_fields[:2]) + b"\t\t"
+     + b"\t".join(marker_fields[2:])),
+    ("TRAILING_TAB", transition_marker_raw + b"\t"),
+    ("EXTRA_FIELD", transition_marker_raw + b"\textra"),
+    ("INVALID_UTF8", marker_fields[0] + b"\xff" + b"\t"
+     + b"\t".join(marker_fields[1:])),
+)
 
 def install_marker_for(receipt_oid):
     raw = "\t".join((
@@ -2786,6 +2806,24 @@ if git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip() \
         != transition_marker_oid:
     raise SystemExit("Task 6 R2 successor publication changed the marker")
 
+marker_resume_acceptances = []
+for label, malformed_raw in permanent_marker_malformed_cases:
+    malformed_oid = blob(owner_repo, malformed_raw)
+    git(owner_repo, "update-ref", marker_ref, malformed_oid,
+        transition_marker_oid)
+    malformed_resume = claim_probe(
+        "--resume-controller", controller_id, "--boundary", "manual-resume",
+        "--epoch", "G0003")
+    if malformed_resume.returncode == 0:
+        marker_resume_acceptances.append(label)
+    git(owner_repo, "update-ref", "-d", g3_receipt_ref)
+    git(owner_repo, "update-ref", marker_ref, transition_marker_oid,
+        malformed_oid)
+if marker_resume_acceptances:
+    r2_review_red.append(
+        "I4_MALFORMED_PERMANENT_MARKER_RESUME_ACCEPTED="
+        + ",".join(marker_resume_acceptances))
+
 g3_resume = claim_probe(
     "--resume-controller", controller_id, "--boundary", "manual-resume",
     "--epoch", "G0003")
@@ -2805,15 +2843,19 @@ if (g3_verify.returncode != 0 or g3_verify.stdout.decode().strip() != g3_token
         != transition_marker_oid):
     raise SystemExit("Task 6 R2 marker-present successor route is not green")
 
-lf_marker_oid = blob(
-    owner_repo,
-    git(owner_repo, "cat-file", "blob", transition_marker_oid) + b"\n")
-git(owner_repo, "update-ref", marker_ref, lf_marker_oid,
-    transition_marker_oid)
-if claim_probe("--require-current-continuity", controller_id).returncode == 0:
-    r2_review_red.append("I2_LF_TERMINATED_PERMANENT_MARKER_ACCEPTED")
-git(owner_repo, "update-ref", marker_ref, transition_marker_oid,
-    lf_marker_oid)
+marker_current_acceptances = []
+for label, malformed_raw in permanent_marker_malformed_cases:
+    malformed_oid = blob(owner_repo, malformed_raw)
+    git(owner_repo, "update-ref", marker_ref, malformed_oid,
+        transition_marker_oid)
+    if claim_probe("--require-current-continuity", controller_id).returncode == 0:
+        marker_current_acceptances.append(label)
+    git(owner_repo, "update-ref", marker_ref, transition_marker_oid,
+        malformed_oid)
+if marker_current_acceptances:
+    r2_review_red.append(
+        "I4_MALFORMED_PERMANENT_MARKER_CURRENT_ACCEPTED="
+        + ",".join(marker_current_acceptances))
 
 # The permanent marker's genesis receipt/ref remains live custody.  Moving that
 # ref to even a valid current receipt must fail currentness; restoring the exact
