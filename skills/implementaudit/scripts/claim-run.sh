@@ -95,6 +95,283 @@ publication_git_v1() {
   return 1
 }
 
+installed_publication_binding_v1() {
+  local script_path="$1" py=()
+  if command -v python >/dev/null 2>&1; then py=(python)
+  elif command -v python3 >/dev/null 2>&1; then py=(python3)
+  elif command -v py >/dev/null 2>&1; then py=(py -3)
+  else return 1; fi
+  "${py[@]}" - "$script_path" "${CODEX_SESSION_ID:-}" <<'PY'
+import json
+import os
+import re
+import stat
+import subprocess
+import sys
+from pathlib import Path
+
+
+def stop():
+    raise SystemExit(1)
+
+
+def safe_component(value):
+    return re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", value) is not None
+
+
+def exact_text(value):
+    return isinstance(value, str) and 0 < len(value) <= 1024 and all(ord(char) >= 32 for char in value)
+
+
+def canonical_existing(path, *, directory):
+    try:
+        absolute = path.absolute()
+        resolved = path.resolve(strict=True)
+        info = os.lstat(absolute)
+    except (OSError, RuntimeError):
+        stop()
+    if os.path.normcase(str(absolute)) != os.path.normcase(str(resolved)):
+        stop()
+    expected = stat.S_ISDIR(info.st_mode) if directory else stat.S_ISREG(info.st_mode)
+    if (not expected or stat.S_ISLNK(info.st_mode)
+            or bool(getattr(info, "st_file_attributes", 0) & 0x400)):
+        stop()
+    if not directory and info.st_nlink != 1:
+        stop()
+    return resolved
+
+
+def fixed_git():
+    candidates = (
+        (Path(r"C:\Program Files\Git\cmd\git.exe"),
+         Path(r"C:\Program Files\Git\bin\git.exe"))
+        if os.name == "nt" else (Path("/usr/bin/git"), Path("/usr/local/bin/git"))
+    )
+    for candidate in candidates:
+        try:
+            info = os.lstat(candidate)
+        except OSError:
+            continue
+        if stat.S_ISREG(info.st_mode) and not stat.S_ISLNK(info.st_mode):
+            return str(candidate)
+    stop()
+
+
+def fixed_environment():
+    git_executable = Path(fixed_git())
+    python_directory = Path(sys.executable).resolve().parent
+    if os.name == "nt":
+        git_root = git_executable.parents[1]
+        path = os.pathsep.join(str(candidate) for candidate in (
+            python_directory, git_root / "cmd", git_root / "bin",
+            git_root / "usr" / "bin", git_root / "mingw64" / "bin",
+            Path(r"C:\Windows\System32"),
+        ))
+        environment = {
+            "SystemRoot": r"C:\Windows", "WINDIR": r"C:\Windows",
+        }
+    else:
+        path = os.pathsep.join((str(python_directory), "/usr/bin", "/bin",
+                                "/usr/local/bin"))
+        environment = {}
+    environment.update({
+        "PATH": path, "LC_ALL": "C", "LANG": "C",
+        "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_TERMINAL_PROMPT": "0",
+    })
+    return environment
+
+
+def git(repo, *args):
+    completed = subprocess.run(
+        [fixed_git(), "-C", str(repo), *args], stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE, env=fixed_environment(), check=False)
+    if completed.returncode != 0 or completed.stderr:
+        stop()
+    try:
+        return completed.stdout.decode("utf-8", "strict").strip()
+    except UnicodeDecodeError:
+        stop()
+
+
+script_raw, session_id = sys.argv[1:]
+if not exact_text(session_id):
+    stop()
+script = canonical_existing(Path(script_raw), directory=False)
+if script.name != "claim-run.sh" or script.parent.name != "scripts":
+    stop()
+try:
+    version_root = script.parents[3]
+    plugin = version_root.parent
+    marketplace = plugin.parent
+    cache = marketplace.parent
+    plugins = cache.parent
+except IndexError:
+    stop()
+if (cache.name != "cache" or plugins.name != "plugins"
+        or not all(safe_component(value) for value in (
+            marketplace.name, plugin.name, version_root.name))):
+    stop()
+for path in (plugins, cache, marketplace, plugin, version_root,
+             version_root / "skills", version_root / "skills" / "implementaudit",
+             script.parent):
+    canonical_existing(path, directory=True)
+binding_core = canonical_existing(script.parent / "host-session-binding.py", directory=False)
+data_root = plugins / "data" / marketplace.name / plugin.name
+store = canonical_existing(data_root / "host-session-binding-v1", directory=True)
+completed = subprocess.run(
+    [sys.executable, str(binding_core), "--store", str(store), "lookup",
+     "--host-id", "codex", "--host-session-id", session_id],
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=fixed_environment(),
+    check=False)
+if (completed.returncode != 0 or completed.stderr
+        or not completed.stdout.endswith(b"\n") or b"\n" in completed.stdout[:-1]):
+    stop()
+try:
+    result = json.loads(completed.stdout.decode("utf-8", "strict"))
+except (UnicodeDecodeError, json.JSONDecodeError):
+    stop()
+if (not isinstance(result, dict)
+        or set(result) != {"schema", "status", "binding", "host_activation_proven", "proof_layers"}
+        or result["schema"] != "implementaudit.host-session-binding-result.v1"
+        or result["status"] != "BOUND" or result["host_activation_proven"] is not False
+        or result["proof_layers"] != {
+            "source_core": "PRESENT", "package": "UNVERIFIED",
+            "install": "UNVERIFIED", "host_activation": "UNVERIFIED"}):
+    stop()
+binding = result["binding"]
+required = {
+    "schema", "host_id", "host_session_id", "controller_id", "claim_id",
+    "explicit_run_root", "repository_identity", "git_common_directory_identity",
+    "worktree_identity", "binding_generation", "activation_event_id",
+    "activation_receipt", "applicable_continuity_generation",
+    "applicable_continuity_receipt", "status", "predecessor_generation",
+    "supersession_or_tombstone_reason",
+}
+if (not isinstance(binding, dict) or set(binding) != required
+        or binding["schema"] != "implementaudit.host-session-binding.v1"
+        or binding["host_id"] != "codex" or binding["host_session_id"] != session_id
+        or binding["status"] != "ACTIVE"):
+    stop()
+for name in required - {"predecessor_generation", "supersession_or_tombstone_reason"}:
+    if not exact_text(binding[name]):
+        stop()
+repository = canonical_existing(Path(binding["repository_identity"]), directory=True)
+common = canonical_existing(Path(binding["git_common_directory_identity"]), directory=True)
+worktree = canonical_existing(Path(binding["worktree_identity"]), directory=True)
+run_root = canonical_existing(Path(binding["explicit_run_root"]), directory=True)
+if (repository != worktree or run_root.parent.parent.parent != repository):
+    stop()
+controller = binding["controller_id"]
+claim_id = binding["claim_id"]
+if (re.fullmatch(r"[a-z0-9][a-z0-9-]{0,47}", controller) is None
+        or re.fullmatch(r"[0-9a-f]{32}", claim_id) is None):
+    stop()
+generation = binding["applicable_continuity_generation"]
+match = re.fullmatch(r"G([0-9A-F]{4})", generation)
+if match is None or int(match.group(1), 16) < 1:
+    stop()
+receipt = binding["applicable_continuity_receipt"]
+receipt_match = re.fullmatch(
+    rf"(refs/implementaudit/continuity-receipts/{re.escape(controller)}/{generation})@([0-9a-f]{{40}})",
+    receipt)
+if receipt_match is None or git(repository, "rev-parse", "--verify", receipt_match.group(1)) != receipt_match.group(2):
+    stop()
+if git(repository, "cat-file", "-t", receipt_match.group(2)) != "blob":
+    stop()
+try:
+    state_lines = (run_root / "STATE.md").read_text(encoding="utf-8").splitlines()
+except (OSError, UnicodeError):
+    stop()
+epochs = [line.removeprefix("Current epoch: ") for line in state_lines
+          if line.startswith("Current epoch: ")]
+if len(epochs) != 1 or re.fullmatch(r"G[0-9A-F]{4}", epochs[0]) is None:
+    stop()
+live_generation = epochs[0]
+bound_ordinal = int(generation[1:], 16)
+live_ordinal = int(live_generation[1:], 16)
+if live_ordinal == bound_ordinal:
+    bash_candidates = (
+        (Path(r"C:\Program Files\Git\bin\bash.exe"),)
+        if os.name == "nt" else (Path("/bin/bash"), Path("/usr/bin/bash"))
+    )
+    bash = next((path for path in bash_candidates if path.is_file() and not path.is_symlink()), None)
+    if bash is None:
+        stop()
+    verified = subprocess.run(
+        [str(bash), "--noprofile", "--norc", str(script),
+         "--verify-resume-receipt", receipt], cwd=str(repository),
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=fixed_environment(),
+        check=False)
+    if verified.returncode != 0 or verified.stdout != (receipt + "\n").encode() or verified.stderr:
+        stop()
+elif live_ordinal == bound_ordinal + 1:
+    successor_ref = (
+        f"refs/implementaudit/continuity-receipts/{controller}/{live_generation}")
+    absent = subprocess.run(
+        [fixed_git(), "-C", str(repository), "rev-parse", "--verify", successor_ref],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=fixed_environment(),
+        check=False)
+    if absent.returncode == 0:
+        stop()
+    controller_ref = f"refs/implementaudit/controllers/{controller}"
+    controller_oid = git(repository, "rev-parse", "--verify", controller_ref)
+    invalidation_ref = f"refs/implementaudit/continuity-invalidations/{controller}"
+    invalidation_oid = git(repository, "rev-parse", "--verify", invalidation_ref)
+    try:
+        invalidation = subprocess.check_output(
+            [fixed_git(), "-C", str(repository), "cat-file", "blob", invalidation_oid],
+            stderr=subprocess.DEVNULL, env=fixed_environment()).decode(
+                "utf-8", "strict").rstrip("\n").split("\t")
+        raw_receipt = subprocess.check_output(
+            [fixed_git(), "-C", str(repository), "cat-file", "blob", receipt_match.group(2)],
+            stderr=subprocess.DEVNULL, env=fixed_environment())
+    except (OSError, subprocess.SubprocessError, UnicodeError):
+        stop()
+    if (len(invalidation) != 6
+            or invalidation[:4] != ["implementaudit.continuity-invalidation.v1",
+                                    controller, controller_oid, claim_id]
+            or invalidation[4] not in {"host-reported-compaction", "new-session",
+                                       "handoff-resume", "manual-resume",
+                                       "inferred-context-gap"}
+            or not invalidation[5]):
+        stop()
+    if (not raw_receipt.endswith(b"\n") or b"\n" in raw_receipt[:-1]
+            or b"\r" in raw_receipt or b"\0" in raw_receipt):
+        stop()
+    try:
+        fields = raw_receipt[:-1].decode("utf-8", "strict").split("\t")
+    except UnicodeDecodeError:
+        stop()
+    pointer_ref = f"refs/implementaudit/current-generations/{controller}"
+    pointer_oid = git(repository, "rev-parse", "--verify", pointer_ref)
+    if (len(fields) != 18
+            or fields[:5] != ["implementaudit.continuity-receipt.v3", controller,
+                              claim_id, run_root.name, generation]
+            or fields[5] == invalidation_oid or fields[6:8] != [pointer_ref, pointer_oid]):
+        stop()
+    try:
+        pointer_raw = subprocess.check_output(
+            [fixed_git(), "-C", str(repository), "cat-file", "blob", pointer_oid],
+            stderr=subprocess.DEVNULL, env=fixed_environment())
+        pointer = json.loads(pointer_raw.decode("utf-8", "strict"))
+    except (OSError, subprocess.SubprocessError, UnicodeError, json.JSONDecodeError):
+        stop()
+    if (not isinstance(pointer, dict) or pointer.get("controller_id") != controller
+            or pointer.get("claim_id") != claim_id or pointer.get("run_id") != run_root.name
+            or pointer.get("generation_id") != generation
+            or pointer.get("source_epoch") != generation
+            or pointer.get("pointer_digest") != fields[8]):
+        stop()
+else:
+    stop()
+print("\t".join((
+    repository.as_posix(), common.as_posix(), worktree.as_posix(),
+    run_root.as_posix(), controller, claim_id, generation, receipt,
+)))
+PY
+}
+
 update_invalidation_transaction_v1() {
   local repo="$1" ref="$2" new="$3" old="$4" git_cmd py=(); shift 4
   git_cmd="$(publication_git_v1)" || return 3
@@ -275,13 +552,34 @@ PY
 
 publication_custody_io() {
   # Read-only Task-4 boundary: repository authority is this installed owner's
-  # physical checkout, never the caller's cwd or a supplied path/ref.
-  local git_cmd owner_dir repo common refs ref c oid s rc rg root rr target_common run_rel
+  # physical checkout or its fixed R003A-bound installed-cache owner, never the
+  # caller's cwd or a supplied path/ref.
+  local git_cmd owner_dir owner_top owner_physical repo common refs ref c oid s rc rg root rr target_common run_rel selector
+  local installed_binding='' binding_repo='' binding_common='' binding_worktree='' binding_root=''
+  local binding_controller='' binding_claim='' binding_generation='' binding_receipt='' binding_extra=''
   local lines=() keys=(schema claim_id claimed_at_utc mode templates repo_root git_common_dir run_base run_root run_name)
+  for selector in "${!GIT_@}"; do unset "$selector"; done
   git_cmd="$(publication_git_v1)" || return 1
   owner_dir="$(cd "$(dirname "$0")/../../.." && pwd -P)" || return 1
-  repo="$("$git_cmd" -C "$owner_dir" rev-parse --path-format=absolute --show-toplevel)" || return 1
+  owner_top="$("$git_cmd" -C "$owner_dir" rev-parse --path-format=absolute --show-toplevel 2>/dev/null || true)"
+  if [ -n "$owner_top" ]; then
+    owner_physical="$(cd "$owner_top" && pwd -P)" || return 1
+  fi
+  if [ -n "$owner_top" ] && [ "$owner_physical" = "$owner_dir" ]; then
+    repo="$owner_top"
+  else
+    installed_binding="$(installed_publication_binding_v1 "$0")" || return 1
+    IFS=$'\t' read -r binding_repo binding_common binding_worktree binding_root \
+      binding_controller binding_claim binding_generation binding_receipt binding_extra \
+      <<< "$installed_binding"
+    [ -z "$binding_extra" ] && [ -n "$binding_receipt" ] || return 1
+    repo="$binding_repo"
+    [ "$("$git_cmd" -C "$repo" rev-parse --path-format=absolute --show-toplevel 2>/dev/null)" = "$binding_repo" ] || return 1
+  fi
   common="$("$git_cmd" -C "$repo" rev-parse --path-format=absolute --git-common-dir)" || return 1
+  if [ -n "$installed_binding" ]; then
+    [ "$repo:$common" = "$binding_worktree:$binding_common" ] || return 1
+  fi
   mapfile -t refs < <("$git_cmd" -C "$repo" for-each-ref --format='%(refname)' refs/implementaudit/controllers/)
   [ "${#refs[@]}" = 1 ] || return 1
   ref="${refs[0]}"; c="${ref##*/}"
@@ -292,6 +590,9 @@ publication_custody_io() {
   target_common="$("$git_cmd" -C "$rr" rev-parse --path-format=absolute --git-common-dir)" || return 1
   [ "$s:$rc" = "implementaudit.controller-current.v1:$c" ] &&
     [ "$target_common" = "$common" ] || return 1
+  if [ -n "$installed_binding" ]; then
+    [ "$c:$rg:$root" = "$binding_controller:$binding_claim:$binding_root" ] || return 1
+  fi
   bash "$(dirname "$0")/validate-run-root.sh" --claim-only "$root" --repo-root "$rr" >/dev/null 2>&1 || return 1
   mapfile -t lines < "$root/.claimed" || return 1
   [ "${#lines[@]}" = 10 ] || return 1

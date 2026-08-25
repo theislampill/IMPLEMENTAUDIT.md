@@ -20,6 +20,8 @@ candidate_evidence_ledger="$tmp/task6-candidate-evidence.ledger"
 : >"$candidate_evidence_ledger"
 live_genesis_only=false
 post_marker_recovery_only=false
+installed_custody_only=false
+run_installed_custody=false
 
 fail() { printf 'canonical-state-rotation.test: %s\n' "$*" >&2; exit 2; }
 record_candidate_evidence() {
@@ -34,7 +36,7 @@ record_candidate_evidence() {
 }
 
 case "${1:-}" in
-  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
+  '') f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; run_installed_custody=true; r15_target='' ;;
   --clarifications-only) f2_only=false; f3_only=false; clarifications_only=true; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
   --f2-only) f2_only=true; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
   --f3-only) f2_only=false; f3_only=true; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; r15_target='' ;;
@@ -43,16 +45,549 @@ case "${1:-}" in
   --migration-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=true; r15_target='' ;;
   --live-genesis-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; live_genesis_only=true; r15_target='' ;;
   --post-marker-recovery-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; post_marker_recovery_only=true; r15_target='' ;;
+  --installed-custody-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=false; migration_only=false; installed_custody_only=true; run_installed_custody=true; r15_target='' ;;
   --r15-null-sinks-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='null-sinks' ;;
   --r15-observation-order-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='observation-order' ;;
   --r15-nonzero-readback-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='nonzero-readback' ;;
   --r15-receipt-pivot-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='receipt-pivot' ;;
   --r15-owner-env-only) f2_only=false; f3_only=false; clarifications_only=false; event_bytes_only=false; sequence_cas_only=true; migration_only=false; r15_target='owner-env' ;;
-  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--live-genesis-only|--post-marker-recovery-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
+  *) fail "usage: canonical-state-rotation.test.sh [--clarifications-only|--f2-only|--f3-only|--event-bytes-only|--sequence-cas-only|--migration-only|--live-genesis-only|--post-marker-recovery-only|--installed-custody-only|--r15-null-sinks-only|--r15-observation-order-only|--r15-nonzero-readback-only|--r15-receipt-pivot-only|--r15-owner-env-only]" ;;
 esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
+if $run_installed_custody; then
+  python - "$helper" "$claim_helper" \
+    "$repo_root/skills/implementaudit/scripts/host-session-binding.py" \
+    "$repo_root/skills/implementaudit/scripts/validate-run-root.sh" "$tmp" <<'PY'
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+
+
+rotation_path, claim_path, binding_path, validator_path, temp_text = sys.argv[1:]
+temp = Path(temp_text)
+fixture_repo = temp / "installed-custody-repo"
+subprocess.run(["git", "init", "-q", str(fixture_repo)], check=True)
+source_scripts = fixture_repo / "skills" / "implementaudit" / "scripts"
+source_scripts.mkdir(parents=True)
+for source in (rotation_path, claim_path, binding_path, validator_path):
+    shutil.copy2(source, source_scripts / Path(source).name)
+
+run_id = "installed-custody-AbC123"
+run_root = fixture_repo / ".IMPLEMENTAUDIT" / "runs" / run_id
+run_root.mkdir(parents=True)
+controller = "installed-custody-controller"
+claim_id = "6" * 32
+state_g2 = (
+    "Current epoch: G0002\n"
+    "| Next action | retain installed predecessor custody |\n"
+).encode()
+roadmap_g2 = b"Installed custody predecessor roadmap\n"
+graph = b'{"active":["R0039"]}\n'
+for name, raw in {
+    "STATE.md": state_g2,
+    "ROADMAP.md": roadmap_g2,
+    "WORK_GRAPH.json": graph,
+    "PROTOCOL.md": b"fixture protocol\n",
+    "THINKING.md": b"fixture thinking\n",
+    "sidecars.md": b"fixture sidecars\n",
+    "tools.md": b"fixture tools\n",
+    "context.md": b"fixture context\n",
+}.items():
+    (run_root / name).write_bytes(raw)
+
+
+def git(*args, input_bytes=None):
+    completed = subprocess.run(
+        ["git", "-C", str(fixture_repo), *args], input=input_bytes,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    if completed.returncode != 0:
+        raise SystemExit("installed fixture git failed: " + completed.stderr.decode("utf-8", "replace"))
+    return completed.stdout.decode("ascii", "strict").strip()
+
+
+def blob(raw):
+    return git("hash-object", "-w", "--stdin", input_bytes=raw)
+
+
+common = Path(git("rev-parse", "--path-format=absolute", "--git-common-dir")).resolve()
+repo_text = fixture_repo.resolve().as_posix()
+run_text = run_root.resolve().as_posix()
+claim_raw = "\n".join((
+    "schema=implementaudit.run-claim.v2",
+    "claim_id=" + claim_id,
+    "claimed_at_utc=2026-08-25T19:00:00Z",
+    "mode=full",
+    "templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md",
+    "repo_root=" + repo_text,
+    "git_common_dir=" + common.as_posix(),
+    "run_base=.IMPLEMENTAUDIT/runs",
+    "run_root=.IMPLEMENTAUDIT/runs/" + run_id,
+    "run_name=" + run_id,
+)) + "\n"
+(run_root / ".claimed").write_text(claim_raw, encoding="utf-8", newline="\n")
+git("config", "user.name", "Installed Custody Fixture")
+git("config", "user.email", "installed-custody@example.invalid")
+git("add", "skills", ".IMPLEMENTAUDIT")
+git("commit", "-q", "-m", "installed custody fixture")
+head = git("rev-parse", "HEAD")
+tree = git("rev-parse", "HEAD^{tree}")
+state_g2 = (
+    "Current epoch: G0002\n"
+    "| Next action | retain installed predecessor custody |\n"
+    "| G0002 | manual-resume | 2026-08-25T19:00:00Z | "
+    f"repo at `{head}` / `{tree}` | yes | Installed custody predecessor |\n"
+).encode()
+(run_root / "STATE.md").write_bytes(state_g2)
+
+controller_ref = "refs/implementaudit/controllers/" + controller
+controller_raw = (
+    "implementaudit.controller-current.v1\t" + controller + "\t" + claim_id
+    + "\t" + run_text + "\n"
+).encode()
+controller_oid = blob(controller_raw)
+git("update-ref", controller_ref, controller_oid)
+
+g1_ref = "refs/implementaudit/continuity-receipts/" + controller + "/G0001"
+g1_raw = "\t".join((
+    "implementaudit.continuity-receipt.v2", controller, controller_oid, claim_id,
+    head, tree, "1" * 64, "2" * 64, "none", "manual-resume", "G0001",
+    "prepare installed predecessor",
+)).encode() + b"\n"
+g1_oid = blob(g1_raw)
+git("update-ref", g1_ref, g1_oid)
+
+invalidation_ref = "refs/implementaudit/continuity-invalidations/" + controller
+g2_invalidation_raw = "\t".join((
+    "implementaudit.continuity-invalidation.v1", controller, controller_oid,
+    claim_id, "manual-resume", "installed-custody-g2",
+)).encode() + b"\n"
+g2_invalidation_oid = blob(g2_invalidation_raw)
+git("update-ref", invalidation_ref, g2_invalidation_oid)
+
+spec = importlib.util.spec_from_file_location(
+    "installed_custody_rotation", source_scripts / "rotate-canonical-state.py")
+rotation = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(rotation)
+request = {
+    "schema_version": "implementaudit.history-event.v1",
+    "run_id": run_id,
+    "controller_id": controller,
+    "generation_id": "G0002",
+    "sequence": "00000000000000000001",
+    "record_kind": "finding.closed",
+    "subject_id": "installed-custody-genesis",
+    "source_epoch": "G0002",
+    "transition": "APPENDED",
+    "status": "CLOSED",
+    "supersedes_event_id": None,
+    "payload": {"fixture": "installed-custody"},
+}
+segment = dict(
+    request,
+    source_evidence_id="iasrc-v1-r0039-archive-installed-custody",
+    source_locator={
+        "kind": "repo-relative",
+        "root_identity": "sha256:" + "3" * 64,
+        "path": "fixture/installed-custody",
+        "host_identity": None,
+    },
+    source_digest="sha256:" + "4" * 64,
+    payload_digest=hashlib.sha256(rotation.canonical_json_v1(request["payload"])).hexdigest(),
+)
+segment["event_id"] = "iaevt-v1-" + hashlib.sha256(
+    rotation.canonical_json_v1(segment)).hexdigest()
+segment_raw = rotation.canonical_json_v1(segment)
+rotation.validate_event_output_v1(segment)
+segment_oid = blob(segment_raw)
+segment_ref = (
+    rotation.EVENT_SEGMENT_PREFIX + "/" + run_id
+    + "/G0002/00000000000000000001/" + segment["event_id"])
+git("update-ref", segment_ref, segment_oid)
+event_row = {
+    "sequence": segment["sequence"],
+    "event_id": segment["event_id"],
+    "segment_digest": "sha256:" + hashlib.sha256(segment_raw).hexdigest(),
+    "record_kind": segment["record_kind"],
+    "source_evidence_id": segment["source_evidence_id"],
+}
+manifest = {
+    "schema_version": "implementaudit.state-generation-manifest.v1",
+    "query_contract_version": "implementaudit.history-query.v1",
+    "controller_id": controller,
+    "claim_id": claim_id,
+    "run_id": run_id,
+    "generation_id": "G0002",
+    "source_epoch": "G0002",
+    "predecessor_manifest_digest": None,
+    "predecessor_high_water": "00000000000000000000",
+    "events": [event_row],
+    "record_class_counts": {"finding.closed": 1},
+    "population_digest": hashlib.sha256(
+        rotation.canonical_json_v1(rotation.manifest_population_rows_v1([event_row]))
+    ).hexdigest(),
+    "high_water": "00000000000000000001",
+}
+manifest["manifest_digest"] = hashlib.sha256(
+    rotation.canonical_json_v1(manifest)).hexdigest()
+rotation.verify_generation_manifest_v1(manifest)
+rotation.verify_manifest_segments_core_v1(fixture_repo, manifest)
+manifest_raw = rotation.canonical_json_v1(manifest)
+manifest_oid = blob(manifest_raw)
+pointer, pointer_raw = rotation.build_generation_pointer_v1(
+    controller_id=controller, claim_id=claim_id, run_id=run_id,
+    generation_id="G0002", source_epoch="G0002",
+    predecessor_pointer_oid=None, predecessor_pointer_digest=None,
+    generation_manifest_oid=manifest_oid,
+    generation_manifest_digest=manifest["manifest_digest"],
+    cold_high_water=manifest["high_water"],
+    hot_state_digest=hashlib.sha256(state_g2).hexdigest(),
+    hot_roadmap_digest=hashlib.sha256(roadmap_g2).hexdigest(),
+    work_graph_path="WORK_GRAPH.json",
+    work_graph_digest=hashlib.sha256(graph).hexdigest(), degraded_state="NONE")
+pointer_oid = blob(pointer_raw)
+pointer_ref = "refs/implementaudit/current-generations/" + controller
+git("update-ref", pointer_ref, pointer_oid)
+g2_ref = "refs/implementaudit/continuity-receipts/" + controller + "/G0002"
+g2_raw = "\t".join((
+    "implementaudit.continuity-receipt.v3", controller, claim_id, run_id,
+    "G0002", g2_invalidation_oid, pointer_ref, pointer_oid,
+    pointer["pointer_digest"], hashlib.sha256(state_g2).hexdigest(),
+    hashlib.sha256(roadmap_g2).hexdigest(), "WORK_GRAPH.json",
+    hashlib.sha256(graph).hexdigest(), manifest_oid, manifest["manifest_digest"],
+    manifest["high_water"], "retain installed predecessor custody",
+    g1_ref + "@" + g1_oid,
+)).encode() + b"\n"
+g2_oid = blob(g2_raw)
+git("update-ref", g2_ref, g2_oid)
+marker_ref = "refs/implementaudit/current-generation-migrations/" + controller
+marker_raw = "\t".join((
+    "implementaudit.current-generation-migration.v1", controller, claim_id,
+    run_id, "G0002", pointer_ref,
+    "implementaudit.state-generation-pointer.v1", g2_ref, g2_oid, "true",
+)).encode()
+marker_oid = blob(marker_raw)
+git("update-ref", marker_ref, marker_oid)
+
+source_environment = dict(os.environ)
+source_environment["LC_ALL"] = "C"
+validator_probe = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+    str(source_scripts / "validate-run-root.sh"), "--claim-only", run_text,
+    "--repo-root", repo_text,
+], cwd=str(fixture_repo), env=source_environment, stdout=subprocess.PIPE,
+   stderr=subprocess.PIPE, check=False)
+if validator_probe.returncode != 0:
+    raise SystemExit(
+        "source-checkout claim fixture is invalid: "
+        f"stdout={validator_probe.stdout!r} stderr={validator_probe.stderr!r}")
+source_probe = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+    str(source_scripts / "claim-run.sh"), "--publication-custody",
+], cwd=str(fixture_repo), env=source_environment, stdout=subprocess.PIPE,
+   stderr=subprocess.PIPE, check=False)
+expected_fields = (
+    "implementaudit.publication-custody.v1", controller, controller_oid,
+    claim_id, repo_text, common.as_posix(), run_text, run_id,
+)
+expected_output = "\t".join(expected_fields).encode() + b"\n"
+if source_probe.returncode != 0 or source_probe.stdout != expected_output:
+    raise SystemExit(
+        "source-checkout publication custody parity fixture failed: "
+        f"returncode={source_probe.returncode} stdout={source_probe.stdout!r} "
+        f"stderr={source_probe.stderr!r} expected={expected_output!r}")
+
+g3_invalidation_raw = "\t".join((
+    "implementaudit.continuity-invalidation.v1", controller, controller_oid,
+    claim_id, "manual-resume", "installed-custody-g3",
+)).encode() + b"\n"
+g3_invalidation_oid = blob(g3_invalidation_raw)
+git("update-ref", invalidation_ref, g3_invalidation_oid, g2_invalidation_oid)
+state_g3 = (
+    "Current epoch: G0003\n"
+    "| Next action | prepare installed G0003 successor |\n"
+    "| G0003 | manual-resume | 2026-08-25T19:01:00Z | "
+    f"repo at `{head}` / `{tree}` | yes | Installed custody transition |\n"
+).encode()
+(run_root / "STATE.md").write_bytes(state_g3)
+(run_root / "ROADMAP.md").write_bytes(b"Installed custody G0003 roadmap\n")
+
+cache_root = temp / "codex-home" / "plugins" / "cache" / "personal" / "implementaudit" / "0.4.0-test"
+installed_scripts = cache_root / "skills" / "implementaudit" / "scripts"
+installed_scripts.mkdir(parents=True)
+for source in (rotation_path, claim_path, binding_path, validator_path):
+    shutil.copy2(source, installed_scripts / Path(source).name)
+store = temp / "codex-home" / "plugins" / "data" / "personal" / "implementaudit" / "host-session-binding-v1"
+session_id = "0198-installed-custody-fixture"
+binding_core = installed_scripts / "host-session-binding.py"
+subprocess.run([
+    sys.executable, str(binding_core), "--store", str(store), "init",
+    "--owner-id", "installed-custody-owner",
+], check=True, stdout=subprocess.PIPE)
+bind = subprocess.run([
+    sys.executable, str(binding_core), "--store", str(store), "bind",
+    "--owner-id", "installed-custody-owner", "--host-id", "codex",
+    "--host-session-id", session_id, "--controller-id", controller,
+    "--claim-id", claim_id, "--explicit-run-root", str(run_root.resolve()),
+    "--repository-identity", str(fixture_repo.resolve()),
+    "--git-common-directory-identity", str(common),
+    "--worktree-identity", str(fixture_repo.resolve()),
+    "--activation-event-id", "installed-custody-activation",
+    "--activation-receipt", "0.4.0+codex.predecessor-package",
+    "--continuity-generation", "G0002",
+    "--continuity-receipt", g2_ref + "@" + g2_oid,
+], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+if bind.returncode != 0:
+    raise SystemExit("installed fixture binding failed: " + bind.stdout.decode("utf-8", "replace"))
+
+
+def protected_refs():
+    return git("for-each-ref", "--format=%(refname)%09%(objectname)", "refs/implementaudit/")
+
+
+before = protected_refs()
+installed_environment = dict(os.environ)
+installed_environment["CODEX_SESSION_ID"] = session_id
+installed_probe = subprocess.run([
+    r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+    str(installed_scripts / "claim-run.sh"), "--publication-custody",
+], cwd=str(temp), env=installed_environment, stdout=subprocess.PIPE,
+   stderr=subprocess.PIPE, check=False)
+after = protected_refs()
+if before != after:
+    raise SystemExit("installed publication custody rejection changed protected refs")
+if installed_probe.returncode != 0:
+    stderr = installed_probe.stderr.decode("utf-8", "replace").strip()
+    if "fatal: not a git repository" in stderr:
+        raise SystemExit(
+            "INSTALLED_PUBLICATION_CUSTODY_CAUSAL_RED=PHYSICAL_PACKAGE_IS_NOT_GIT_ROOT")
+    raise SystemExit("installed publication custody returned an untyped refusal: " + stderr)
+if installed_probe.stdout != expected_output:
+    raise SystemExit("installed publication custody changed the eight-field contract")
+
+binding_state_path = next(store.glob("bindings/*/*/binding.json"))
+binding_state_raw = binding_state_path.read_bytes()
+owner_state_path = store / "owner.json"
+owner_state_raw = owner_state_path.read_bytes()
+binding_helper_raw = binding_core.read_bytes()
+
+
+def run_installed_claim(*, session=session_id, script=None, extra_environment=None):
+    environment = dict(os.environ)
+    if session is None:
+        environment.pop("CODEX_SESSION_ID", None)
+    else:
+        environment["CODEX_SESSION_ID"] = session
+    environment.update(extra_environment or {})
+    return subprocess.run([
+        r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc",
+        str(script or (installed_scripts / "claim-run.sh")),
+        "--publication-custody",
+    ], cwd=str(temp), env=environment, stdout=subprocess.PIPE,
+       stderr=subprocess.PIPE, check=False)
+
+
+def expect_installed_rejection(label, action):
+    refs_before = protected_refs()
+    result = action()
+    if result.returncode == 0:
+        raise SystemExit("installed custody accepted " + label)
+    if result.stdout:
+        raise SystemExit("installed custody emitted output for " + label)
+    if protected_refs() != refs_before:
+        raise SystemExit("installed custody rejection changed protected refs: " + label)
+
+
+git("update-ref", invalidation_ref, g2_invalidation_oid, g3_invalidation_oid)
+(run_root / "STATE.md").write_bytes(state_g2)
+(run_root / "ROADMAP.md").write_bytes(roadmap_g2)
+stable_probe = run_installed_claim()
+if stable_probe.returncode != 0 or stable_probe.stdout != expected_output:
+    raise SystemExit(
+        "installed stable-current custody failed: "
+        f"stdout={stable_probe.stdout!r} stderr={stable_probe.stderr!r}")
+stable_selector_probe = run_installed_claim(extra_environment={
+    "GIT_DIR": str(temp / "foreign-git-directory"),
+    "GIT_WORK_TREE": str(temp / "foreign-git-worktree"),
+    "GIT_CONFIG_GLOBAL": str(temp / "foreign-git-config"),
+})
+if (stable_selector_probe.returncode != 0
+        or stable_selector_probe.stdout != expected_output):
+    raise SystemExit(
+        "caller Git environment selected stable publication custody: "
+        f"stdout={stable_selector_probe.stdout!r} "
+        f"stderr={stable_selector_probe.stderr!r}")
+(run_root / "STATE.md").write_bytes(state_g3)
+(run_root / "ROADMAP.md").write_bytes(b"Installed custody G0003 roadmap\n")
+git("update-ref", invalidation_ref, g3_invalidation_oid, g2_invalidation_oid)
+
+expect_installed_rejection("missing session", lambda: run_installed_claim(session=None))
+expect_installed_rejection("malformed session", lambda: run_installed_claim(session="bad\nsession"))
+expect_installed_rejection("unbound session", lambda: run_installed_claim(session="unbound-session"))
+selector_probe = run_installed_claim(extra_environment={
+    "PLUGIN_DATA": str(temp / "foreign-plugin-data"),
+    "IMPLEMENTAUDIT_REPO": str(temp / "foreign-repository"),
+    "IMPLEMENTAUDIT_CONTROLLER": "foreign-controller",
+})
+if selector_probe.returncode != 0 or selector_probe.stdout != expected_output:
+    raise SystemExit("caller environment selected installed publication custody")
+
+owner_mutations = {
+    "malformed store owner": b'{"schema":"foreign"}\n',
+    "disabled store owner": json.dumps({
+        "schema": "implementaudit.host-session-binding-store.v1",
+        "owner_id": "installed-custody-owner", "trusted": True, "enabled": False,
+    }, sort_keys=True).encode() + b"\n",
+}
+for label, raw in owner_mutations.items():
+    owner_state_path.write_bytes(raw)
+    try:
+        expect_installed_rejection(label, run_installed_claim)
+    finally:
+        owner_state_path.write_bytes(owner_state_raw)
+
+other_repo = temp / "foreign-repository"
+other_repo.mkdir()
+foreign_run = fixture_repo / ".IMPLEMENTAUDIT" / "runs" / "foreign-AbC123"
+foreign_run.mkdir()
+binding_mutations = {
+    "tombstoned binding": {"status": "TOMBSTONED",
+                           "supersession_or_tombstone_reason": "fixture tombstone"},
+    "foreign repository": {"repository_identity": str(other_repo.resolve())},
+    "foreign worktree": {"worktree_identity": str(temp.resolve())},
+    "foreign Git common directory": {
+        "git_common_directory_identity": str(fixture_repo.resolve())},
+    "foreign controller": {"controller_id": "foreign-controller"},
+    "foreign claim": {"claim_id": "7" * 32},
+    "foreign run root": {"explicit_run_root": str(foreign_run.resolve())},
+    "non-direct predecessor": {
+        "applicable_continuity_generation": "G0001",
+        "applicable_continuity_receipt": g1_ref + "@" + g1_oid,
+    },
+}
+for label, changes in binding_mutations.items():
+    state = json.loads(binding_state_raw)
+    state["records"][-1].update(changes)
+    binding_state_path.write_text(
+        json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    try:
+        expect_installed_rejection(label, run_installed_claim)
+    finally:
+        binding_state_path.write_bytes(binding_state_raw)
+
+git("update-ref", "-d", invalidation_ref, g3_invalidation_oid)
+try:
+    expect_installed_rejection("missing invalidation", run_installed_claim)
+finally:
+    git("update-ref", invalidation_ref, g3_invalidation_oid)
+malformed_invalidation_oid = blob(b"malformed invalidation\n")
+git("update-ref", invalidation_ref, malformed_invalidation_oid, g3_invalidation_oid)
+try:
+    expect_installed_rejection("malformed invalidation", run_installed_claim)
+finally:
+    git("update-ref", invalidation_ref, g3_invalidation_oid, malformed_invalidation_oid)
+
+binding_core.write_text("print('not-json')\n", encoding="utf-8")
+try:
+    expect_installed_rejection("package-relative binding helper drift", run_installed_claim)
+finally:
+    binding_core.write_bytes(binding_helper_raw)
+
+foreign_layout = temp / "plugins" / "other" / "personal" / "implementaudit" / "0.4.0-test"
+foreign_scripts = foreign_layout / "skills" / "implementaudit" / "scripts"
+shutil.copytree(installed_scripts, foreign_scripts)
+expect_installed_rejection(
+    "unrecognized cache layout",
+    lambda: run_installed_claim(script=foreign_scripts / "claim-run.sh"))
+alias_root = temp / "installed-cache-alias"
+try:
+    alias_root.symlink_to(cache_root, target_is_directory=True)
+except OSError:
+    junction = subprocess.run(
+        ["cmd", "/d", "/c", "mklink", "/J", str(alias_root), str(cache_root)],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    if junction.returncode != 0:
+        raise SystemExit("installed custody alias fixture is unavailable")
+expect_installed_rejection(
+    "aliased cache layout",
+    lambda: run_installed_claim(
+        script=alias_root / "skills" / "implementaudit" / "scripts" / "claim-run.sh"))
+
+installed_spec = importlib.util.spec_from_file_location(
+    "installed_cache_rotation", installed_scripts / "rotate-canonical-state.py")
+installed_rotation = importlib.util.module_from_spec(installed_spec)
+assert installed_spec.loader is not None
+installed_spec.loader.exec_module(installed_rotation)
+saved_session_id = os.environ.get("CODEX_SESSION_ID")
+os.environ["CODEX_SESSION_ID"] = session_id
+try:
+    preparation = installed_rotation.prepare_live_successor_v1()
+finally:
+    if saved_session_id is None:
+        os.environ.pop("CODEX_SESSION_ID", None)
+    else:
+        os.environ["CODEX_SESSION_ID"] = saved_session_id
+if (preparation.get("schema") != "implementaudit.live-successor-preparation.v1"
+        or preparation.get("source_epoch") != "G0003"
+        or preparation.get("predecessor_pointer_oid") != pointer_oid
+        or preparation.get("permanent_marker_oid") != marker_oid
+        or preparation.get("authority_ceiling") != "R0039_CANDIDATE_ONLY"):
+    raise SystemExit("installed no-argument successor preparation disagrees")
+if protected_refs() != before:
+    raise SystemExit("installed no-argument successor preparation changed protected refs")
+
+candidate_pointer_oid = str(preparation["candidate_pointer_oid"])
+original_verify = installed_rotation.verify_trusted_update_ref_transaction_v1
+drift_injected = {"value": False}
+
+
+def inject_binding_drift(cas):
+    original_verify(cas)
+    if not drift_injected["value"]:
+        state = json.loads(binding_state_raw)
+        state["records"][-1]["claim_id"] = "8" * 32
+        binding_state_path.write_text(
+            json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        drift_injected["value"] = True
+
+
+saved_session_id = os.environ.get("CODEX_SESSION_ID")
+os.environ["CODEX_SESSION_ID"] = session_id
+installed_rotation.verify_trusted_update_ref_transaction_v1 = inject_binding_drift
+try:
+    try:
+        installed_rotation.publish_generation_pointer_v1(
+            candidate_pointer_oid=candidate_pointer_oid)
+    except installed_rotation.RotationError as exc:
+        if str(exc) != "publication custody changed during the final fence":
+            raise SystemExit("final binding drift returned the wrong refusal: " + str(exc))
+    else:
+        raise SystemExit("final binding drift reached the protected ref effect")
+finally:
+    installed_rotation.verify_trusted_update_ref_transaction_v1 = original_verify
+    binding_state_path.write_bytes(binding_state_raw)
+    if saved_session_id is None:
+        os.environ.pop("CODEX_SESSION_ID", None)
+    else:
+        os.environ["CODEX_SESSION_ID"] = saved_session_id
+if not drift_injected["value"]:
+    raise SystemExit("final binding drift fixture did not cross the final fence")
+if protected_refs() != before:
+    raise SystemExit("final binding drift changed protected refs")
+print("CANONICAL_STATE_ROTATION_INSTALLED_CUSTODY_GREEN=PASS "
+      "locator=R003A_PREDECESSOR transition=G0002_TO_G0003 "
+      "stable=STATE transition=PREDECESSOR output=EIGHT_FIELDS "
+      "negatives=17 final-drift=STOP_BEFORE_EFFECT refs=READ_ONLY")
+PY
+  $installed_custody_only && exit 0
+fi
 if $post_marker_recovery_only; then
   python - "$helper" "$tmp" <<'PY'
 import hashlib
@@ -1449,7 +1984,7 @@ expected_physical_context_keys = {
     "generation_id", "source_epoch", "receipt_ref", "receipt_oid",
     "predecessor_receipt_token", "receipt_state_digest",
     "receipt_roadmap_digest", "expected_old_pointer_oid",
-    "migration_marker_oid", "publication_guard_refs",
+    "migration_marker_oid", "publication_custody_tuple", "publication_guard_refs",
 }
 
 def physical_observation():

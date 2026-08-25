@@ -2334,6 +2334,7 @@ def publish_live_genesis_classification_v1(
     if (type(candidate_classification_oid) is not str
             or not GIT_OID.fullmatch(candidate_classification_oid)):
         raise RotationError("candidate classification identity is invalid")
+    opened_custody = _publication_custody_tuple_v1()
     repo, controller_id, controller_oid, _claim_id, _run_root, _run_id = (
         _publication_custody_fields_v1())
     repo = require_repo(str(repo))
@@ -2385,6 +2386,7 @@ def publish_live_genesis_classification_v1(
     argv, environment, stdin_bytes = _classification_admission_transaction_v1(
         repo=repo, classification_ref=classification_ref,
         classification_oid=candidate_classification_oid, guards=guards)
+    _require_publication_custody_recheck_v1(opened_custody)
     completed = subprocess.run(
         argv, cwd=str(repo), env=environment, input=stdin_bytes,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
@@ -2521,39 +2523,56 @@ def _read_posix_descriptor_bytes_v1(descriptor: int) -> bytes:
 
 def publication_owner_repo_v1() -> Path:
     """Consume the claim-run physical-owner locator without a caller path."""
+    fields = _publication_custody_tuple_v1()
+    return require_repo(fields[4])
+
+
+def _publication_custody_environment_v1() -> dict[str, str]:
+    """Carry only the host-supplied session join beyond fixed Git inputs."""
+    environment = git_environment()
+    session_id = os.environ.get("CODEX_SESSION_ID")
+    if session_id is not None:
+        environment["CODEX_SESSION_ID"] = session_id
+    return environment
+
+
+def _publication_custody_tuple_v1() -> tuple[str, ...]:
+    """Read the unchanged no-argument eight-field custody contract exactly."""
     claim_helper = Path(__file__).with_name("claim-run.sh")
     executable_repo = claim_helper.parents[3]
-    runner = ([r"C:\Program Files\Git\bin\bash.exe"]
-              if os.name == "nt" else ["/bin/bash"])
-    completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                               cwd=str(executable_repo), env=git_environment(), check=False)
+    runner = ([r"C:\Program Files\Git\bin\bash.exe", "--noprofile", "--norc"]
+              if os.name == "nt" else ["/bin/bash", "--noprofile", "--norc"])
+    completed = subprocess.run(
+        [*runner, str(claim_helper), "--publication-custody"],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=str(executable_repo),
+        env=_publication_custody_environment_v1(), check=False)
     if completed.returncode != 0:
         raise RotationError("publication custody owner contract is unavailable")
-    fields = completed.stdout.decode("utf-8", "strict").rstrip("\n").split("\t")
+    if (completed.stderr or not completed.stdout.endswith(b"\n")
+            or b"\n" in completed.stdout[:-1]):
+        raise RotationError("publication custody owner contract is invalid")
+    try:
+        fields = tuple(completed.stdout[:-1].decode("utf-8", "strict").split("\t"))
+    except UnicodeDecodeError as exc:
+        raise RotationError("publication custody owner contract is invalid") from exc
     if len(fields) != 8 or fields[0] != "implementaudit.publication-custody.v1":
         raise RotationError("publication custody owner contract is invalid")
-    return require_repo(fields[4])
+    return fields
+
+
+def _require_publication_custody_recheck_v1(expected: object) -> None:
+    try:
+        observed = _publication_custody_tuple_v1()
+    except RotationError as exc:
+        raise RotationError("publication custody changed during the final fence") from exc
+    if type(expected) is not tuple or len(expected) != 8 or observed != expected:
+        raise RotationError("publication custody changed during the final fence")
 
 
 def _open_governed_publication_context_v1(
         ) -> tuple[dict[str, object], "PublicationObservationSessionV1"]:
     """Open receipt-bound custody and retain its mutable-file handles."""
-    claim_helper = Path(__file__).with_name("claim-run.sh")
-    executable_repo = claim_helper.parents[3]
-    runner = ([r"C:\Program Files\Git\bin\bash.exe"]
-              if os.name == "nt" else ["/bin/bash"])
-    completed = subprocess.run([*runner, str(claim_helper), "--publication-custody"],
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                               cwd=str(executable_repo), env=git_environment(), check=False)
-    if completed.returncode != 0:
-        raise RotationError("publication custody owner contract is unavailable")
-    try:
-        fields = completed.stdout.decode("utf-8", "strict").rstrip("\n").split("\t")
-    except UnicodeDecodeError as exc:
-        raise RotationError("publication custody owner contract is invalid") from exc
-    if len(fields) != 8 or fields[0] != "implementaudit.publication-custody.v1":
-        raise RotationError("publication custody owner contract is invalid")
+    fields = _publication_custody_tuple_v1()
     _, controller_id, controller_oid, claim_id, repo_text, common_text, run_root_text, run_id = fields
     if (not CONTROLLER_ID.fullmatch(controller_id) or not GIT_OID.fullmatch(controller_oid)
             or not CLAIM_ID.fullmatch(claim_id) or not TOKEN_ID.fullmatch(run_id)):
@@ -2705,6 +2724,7 @@ def _open_governed_publication_context_v1(
             "receipt_roadmap_digest": roadmap_digest,
             "expected_old_pointer_oid": current_oid,
             "migration_marker_oid": marker_oid,
+            "publication_custody_tuple": fields,
             "publication_guard_refs": tuple(sorted((
                 (f"refs/implementaudit/controllers/{controller_id}", controller_oid),
                 (receipt_ref, receipt_oid), (marker_ref, marker_oid or ZERO_OID),
@@ -2727,22 +2747,7 @@ def load_governed_publication_context_v1() -> dict[str, object]:
 
 
 def _publication_custody_fields_v1() -> tuple[Path, str, str, str, Path, str]:
-    claim_helper = Path(__file__).with_name("claim-run.sh")
-    executable_repo = claim_helper.parents[3]
-    runner = ([r"C:\Program Files\Git\bin\bash.exe"]
-              if os.name == "nt" else ["/bin/bash"])
-    completed = subprocess.run(
-        [*runner, str(claim_helper), "--publication-custody"],
-        cwd=str(executable_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        env=git_environment(), check=False)
-    if completed.returncode != 0:
-        raise RotationError("publication custody owner contract is unavailable")
-    try:
-        fields = completed.stdout.decode("utf-8", "strict").rstrip("\n").split("\t")
-    except UnicodeDecodeError as exc:
-        raise RotationError("publication custody owner contract is invalid") from exc
-    if len(fields) != 8 or fields[0] != "implementaudit.publication-custody.v1":
-        raise RotationError("publication custody owner contract is invalid")
+    fields = _publication_custody_tuple_v1()
     _, controller_id, controller_oid, claim_id, repo_text, _, run_root_text, run_id = fields
     repo = require_repo(repo_text)
     run_root = require_run_root(run_root_text, repo)
@@ -3151,7 +3156,8 @@ def prepare_live_genesis_v1() -> dict[str, object]:
             "generation_id", "source_epoch", "receipt_ref", "receipt_oid",
             "predecessor_receipt_token", "receipt_state_digest",
             "receipt_roadmap_digest", "expected_old_pointer_oid",
-            "migration_marker_oid", "publication_guard_refs",
+            "migration_marker_oid", "publication_custody_tuple",
+            "publication_guard_refs",
         }
         if (type(context) is not dict or not required.issubset(context)
                 or context["expected_old_pointer_oid"] is not None
@@ -3278,6 +3284,8 @@ def prepare_live_genesis_v1() -> dict[str, object]:
         if not observed:
             argv, environment, stdin_bytes = _live_genesis_event_transaction_v1(
                 repo=repo, event_population=event_population, guards=guards)
+            _require_publication_custody_recheck_v1(
+                context["publication_custody_tuple"])
             completed = subprocess.run(
                 argv, cwd=str(repo), env=environment, input=stdin_bytes,
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
@@ -3776,6 +3784,8 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
         verify_trusted_update_ref_transaction_v1(cas)
         if first != second or not frozen:
             raise RotationError("publication input changed during the final fence")
+        _require_publication_custody_recheck_v1(
+            context["publication_custody_tuple"])
         completed = subprocess.run(cas["argv"], cwd=cas["cwd"], env=cas["env"],
                                    input=cas["stdin_bytes"], stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, check=False)
@@ -3795,6 +3805,7 @@ def publish_generation_pointer_v1(*, candidate_pointer_oid: str) -> str:
 
 def publish_first_migration_marker_v1() -> str:
     """Publish the permanent marker only after the exact v3 receipt exists."""
+    opened_custody = _publication_custody_tuple_v1()
     repo, controller_id, controller_oid, claim_id, run_root, run_id = (
         _publication_custody_fields_v1())
     gate = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-path",
@@ -3863,6 +3874,7 @@ def publish_first_migration_marker_v1() -> str:
             repo=repo, ref=marker_ref, new_oid=marker_oid,
             old_oid=ZERO_OID, verify_refs=guards)
         verify_trusted_update_ref_transaction_v1(cas)
+        _require_publication_custody_recheck_v1(opened_custody)
         completed = subprocess.run(
             cas["argv"], cwd=cas["cwd"], env=cas["env"],
             input=cas["stdin_bytes"], stdout=subprocess.PIPE,
