@@ -1238,5 +1238,392 @@ sys.stdout.write(json.dumps(projection, sort_keys=True, separators=(",", ":")))
         "STATE A=DONE; WORK_GRAPH A=ACTIVE; adjacent-state mutant rejected"
     )
 
+# R0035 proximal diagnostic-frontier controls.  A pending acceptance review
+# must not become an execution prerequisite for a separately safe diagnostic.
+proximal_request = {
+    "schema": "implementaudit.proximal-scheduling-request.v1",
+    "candidate": {
+        "commit": "e8d29bc9fe59afcf8203846f44ddfab0842b5f4d",
+        "tree": "1" * 40,
+        "input_sha256": "2" * 64,
+        "identity_frozen": True,
+    },
+    "currentness": {"receipt": AUTH_RECEIPT, "current": True},
+    "minimum_recoverability_gate": {
+        "evidence_sha256": "3" * 64,
+        "passed": True,
+    },
+    "diagnostic": {
+        "bounded": True,
+        "recoverable": True,
+        "isolated": True,
+        "non_public": True,
+        "non_release_authoritative": True,
+        "non_lifecycle_authoritative": True,
+        "irreversible_effect_protected": True,
+        "authoritative_publication_protected": True,
+        "consequence_critical": False,
+    },
+    "resilience": {
+        "evidence_sha256": "a" * 64,
+        "blast_radius_bounded": True,
+        "protected_non_targets_bounded": True,
+        "rollback_verified": True,
+        "retreat_available": True,
+        "before_after_observable": True,
+        "unknown_completion_contained": True,
+    },
+    "relationships": {
+        "hard_prerequisite": False,
+        "writer_or_resource_exclusion": False,
+        "acceptance_prerequisite": True,
+        "informational_or_differential": True,
+    },
+    "capacity": {"available": True, "host_exclusion": False},
+    "information": {
+        "delay_cost_material": True,
+        "decision_relevant": True,
+        "live_fidelity_higher_than_simulation": True,
+        "diagnostic_information_value_material": True,
+        "further_serialization_complexity_cost_material": True,
+        "further_serialization_coupling_cost_material": True,
+        "further_serialization_delay_cost_material": True,
+    },
+    "workflow_serialization_reason": None,
+}
+proximal = module.compile_proximal_schedule_v1(canonical(proximal_request))
+if proximal["mode"] != "DIAGNOSTIC_PARALLEL_ACCEPTANCE":
+    raise SystemExit("R0035 proximal causal RED: safe diagnostic was serialized")
+if proximal["reason"] != "RISK_OF_DELAY_AND_VALUE_OF_INFORMATION":
+    raise SystemExit("R0035 proximal causal RED: decision reason was not explicit")
+if proximal["lanes"] != ["ACCEPTANCE", "DIAGNOSTIC"]:
+    raise SystemExit("R0035 proximal causal RED: both lanes were not admitted")
+if set(proximal["authority"].values()) != {"NONE"}:
+    raise SystemExit("R0035 proximal causal RED: diagnostic minted authority")
+expected_digest = hashlib.sha256(canonical({
+    key: value for key, value in proximal.items() if key != "digest"
+})).hexdigest()
+if proximal["digest"] != expected_digest:
+    raise SystemExit("R0035 proximal causal RED: projection digest is not canonical")
+if proximal["safety_strategy"] != "EARLY_DETECTION_ACTIVE_DEFENSE":
+    raise SystemExit("R0035 resilience RED: diagnostic strategy was not explicit")
+if proximal["resilience_evidence_sha256"] != "a" * 64:
+    raise SystemExit("R0035 resilience RED: defense evidence was not bound")
+
+with tempfile.TemporaryDirectory() as cli_temp:
+    request_path = pathlib.Path(cli_temp) / "proximal-request.json"
+    request_path.write_bytes(canonical(proximal_request))
+    cli = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-schedule", str(request_path)],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if cli.returncode != 0 or cli.stdout != canonical(proximal):
+        raise SystemExit(
+            "R0035 proximal CLI RED: packaged scheduler mode unavailable: "
+            + cli.stderr.decode("utf-8", "replace")
+        )
+
+
+def schedule(mutator=None):
+    request = copy.deepcopy(proximal_request)
+    if mutator is not None:
+        mutator(request)
+    return module.compile_proximal_schedule_v1(canonical(request))
+
+
+def result(status_diagnostic, status_acceptance, *, diagnostic_contributor=None,
+           material=True, candidate=None, currentness=None):
+    contributors = []
+    if diagnostic_contributor is not None:
+        contributors.append({
+            "kind": diagnostic_contributor,
+            "evidence_sha256": "6" * 64,
+        })
+    if status_acceptance == "FAIL":
+        contributors.append({"kind": "REVIEW", "evidence_sha256": "7" * 64})
+    return {
+        "schema": "implementaudit.proximal-reconciliation-request.v1",
+        "candidate": copy.deepcopy(candidate or proximal["candidate"]),
+        "currentness": copy.deepcopy(currentness or proximal["currentness"]),
+        "diagnostic": {
+            "status": status_diagnostic,
+            "evidence_sha256": "4" * 64 if status_diagnostic != "PENDING" else None,
+        },
+        "acceptance": {
+            "status": status_acceptance,
+            "evidence_sha256": "5" * 64 if status_acceptance != "PENDING" else None,
+        },
+        "contributors": contributors,
+        "remaining_information_value_material": material,
+    }
+
+
+def reconcile(payload):
+    return module.reconcile_proximal_results_v1(
+        canonical(proximal), canonical(payload)
+    )
+
+
+# D01/D02: the rejected e8d29bc9 candidate can fail diagnostically before the
+# acceptance lane completes, without discarding the unfinished lane's possible
+# information value.
+early_failure = reconcile(result(
+    "FAIL", "PENDING", diagnostic_contributor="FIXTURE_COVERAGE", material=True
+))
+if early_failure["disposition"] != "REJECT_CANDIDATE_REASSESS_ACCEPTANCE_LANE":
+    raise SystemExit("D02: early diagnostic failure waited for acceptance")
+if early_failure["remaining_lane"] != "CONTINUE_IF_INFORMATION_VALUE_MATERIAL":
+    raise SystemExit("D02: remaining review information value was discarded")
+
+# D03: a diagnostic may falsify the controller/state hypothesis while the
+# product remains correctly fail-closed.
+controller_failure = reconcile(result(
+    "FAIL", "PENDING", diagnostic_contributor="CONTROLLER_CURRENTNESS", material=False
+))
+if [item["kind"] for item in controller_failure["contributors"]] != ["CONTROLLER_CURRENTNESS"]:
+    raise SystemExit("D03: controller-hypothesis failure was collapsed")
+if controller_failure["remaining_lane"] != "STOP_SUPERSEDED_CLEANLY":
+    raise SystemExit("D03: low-value remaining work was not stoppable")
+
+# D04-D06: preserve distinct lane authorities and all disagreement outcomes.
+both_pass = reconcile(result("PASS", "PASS"))
+if both_pass["disposition"] != "ELIGIBLE_FOR_LATER_REQUIRED_GATES":
+    raise SystemExit("D04: dual PASS did not reach later-gate eligibility")
+if set(both_pass["authority"].values()) != {"NONE"}:
+    raise SystemExit("D04: reconciliation directly minted lifecycle authority")
+with tempfile.TemporaryDirectory() as cli_temp:
+    projection_path = pathlib.Path(cli_temp) / "projection.json"
+    results_path = pathlib.Path(cli_temp) / "results.json"
+    projection_path.write_bytes(canonical(proximal))
+    results_path.write_bytes(canonical(result("PASS", "PASS")))
+    cli = subprocess.run(
+        [sys.executable, str(module_path), "--proximal-reconcile",
+         str(projection_path), str(results_path)],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if cli.returncode != 0 or cli.stdout != canonical(both_pass):
+        raise SystemExit("D04: packaged reconciliation mode unavailable")
+
+coverage_andon = reconcile(result(
+    "FAIL", "PASS", diagnostic_contributor="FIXTURE_COVERAGE"
+))
+if coverage_andon["disposition"] != "STOP_COVERAGE_EVALUATOR_ANDON":
+    raise SystemExit("D05: review PASS plus diagnostic FAIL missed Andon")
+if coverage_andon["andon"] != "COVERAGE_EVALUATOR_DISAGREEMENT":
+    raise SystemExit("D05: coverage/evaluator Andon was not explicit")
+
+causal_only = reconcile(result("PASS", "FAIL"))
+if causal_only["disposition"] != "UNACCEPTED_CAUSAL_SUCCESS_RETAINED":
+    raise SystemExit("D06: diagnostic PASS erased review rejection")
+
+both_fail = reconcile(result(
+    "FAIL", "FAIL", diagnostic_contributor="PRODUCT"
+))
+if both_fail["disposition"] != "REJECT_RETAIN_BOTH_RECONCILE_CAUSALLY":
+    raise SystemExit("D06: dual failures were not both retained")
+
+# D07/D10: successor identity or currentness drift invalidates prior lane
+# evidence rather than silently qualifying an adjacent candidate.
+drift_candidate = copy.deepcopy(proximal["candidate"])
+drift_candidate["commit"] = "6" * 40
+if reconcile(result("PASS", "PASS", candidate=drift_candidate))["disposition"] != "STOP_RECONCILE_STALE_IDENTITY":
+    raise SystemExit("D07: changed successor inherited predecessor evidence")
+drift_currentness = copy.deepcopy(proximal["currentness"])
+drift_currentness["receipt"] = (
+    "refs/implementaudit/continuity-receipts/v0333-release/G0131@" + "8" * 40
+)
+if reconcile(result("PASS", "PASS", currentness=drift_currentness))["disposition"] != "STOP_RECONCILE_STALE_CURRENTNESS":
+    raise SystemExit("D10: stale currentness evidence was accepted")
+
+forged_projection = copy.deepcopy(proximal)
+forged_projection["authority"]["done"] = "GRANTED"
+forged_projection["digest"] = hashlib.sha256(canonical({
+    key: value for key, value in forged_projection.items() if key != "digest"
+})).hexdigest()
+try:
+    module.reconcile_proximal_results_v1(
+        canonical(forged_projection), canonical(result("PASS", "PASS"))
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("D04: forged diagnostic projection authority was accepted")
+
+forged_topology = copy.deepcopy(proximal)
+forged_topology.update(
+    mode="STOP_RECONCILE",
+    reason="CURRENTNESS_OR_IDENTITY",
+    safety_strategy="STOP_RECONCILE",
+)
+forged_topology["digest"] = hashlib.sha256(canonical({
+    key: value for key, value in forged_topology.items() if key != "digest"
+})).hexdigest()
+try:
+    module.reconcile_proximal_results_v1(
+        canonical(forged_topology), canonical(result("PASS", "PASS"))
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("D04: contradictory projection lanes were accepted")
+
+# D08/D09: real execution conflicts and consequence-critical effects retain
+# evidence-backed serialization/full pre-flight.
+writer = schedule(lambda request: request["relationships"].update(
+    writer_or_resource_exclusion=True
+))
+if (writer["mode"], writer["reason"]) != (
+        "SERIAL_EXECUTION", "SHARED_WRITER_OR_RESOURCE"):
+    raise SystemExit("D08: writer conflict did not serialize explicitly")
+
+hard = schedule(lambda request: request["relationships"].update(
+    hard_prerequisite=True
+))
+if (hard["mode"], hard["reason"]) != (
+        "SERIAL_EXECUTION", "HARD_PREREQUISITE"):
+    raise SystemExit("D08: hard prerequisite did not serialize explicitly")
+
+for field in (
+    "non_public", "non_release_authoritative", "non_lifecycle_authoritative",
+    "irreversible_effect_protected", "authoritative_publication_protected",
+):
+    full = schedule(lambda request, field=field: request["diagnostic"].update(
+        {field: False}
+    ))
+    if full["mode"] != "FULL_PREFLIGHT":
+        raise SystemExit(f"D09: {field} did not retain full pre-flight")
+critical = schedule(lambda request: request["diagnostic"].update(
+    consequence_critical=True
+))
+if (critical["mode"], critical["reason"]) != (
+        "FULL_PREFLIGHT", "CONSEQUENCE_CONTROL"):
+    raise SystemExit("D09: consequence-critical effect escaped full pre-flight")
+try:
+    module.reconcile_proximal_results_v1(
+        canonical(critical), canonical(result("PASS", "PASS"))
+    )
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("D09: non-admitted diagnostic evidence was reconciled")
+
+stale = schedule(lambda request: request["currentness"].update(current=False))
+if (stale["mode"], stale["reason"]) != (
+        "STOP_RECONCILE", "CURRENTNESS_OR_IDENTITY"):
+    raise SystemExit("D10: stale currentness did not stop")
+unfrozen = schedule(lambda request: request["candidate"].update(
+    identity_frozen=False
+))
+if unfrozen["mode"] != "STOP_RECONCILE":
+    raise SystemExit("D10: unfrozen identity did not stop")
+
+# D11/D12: prose order is not a dependency.  Unsupported or unbacked workflow
+# serialization is a visible pseudo-dependency, while legitimate capacity
+# exclusion and ordinary independence remain distinct explicit reasons.
+pseudo = schedule(lambda request: request.update(
+    workflow_serialization_reason="REVIEW_BEFORE_SMOKE"
+))
+if (pseudo["mode"], pseudo["reason"]) != (
+        "STOP_RECONCILE", "WORKFLOW_PSEUDO_DEPENDENCY"):
+    raise SystemExit("D11: generic workflow prose invented a hard edge")
+
+unbacked = schedule(lambda request: request.update(
+    workflow_serialization_reason="HARD_PREREQUISITE"
+))
+if unbacked["reason"] != "WORKFLOW_PSEUDO_DEPENDENCY":
+    raise SystemExit("D11: unbacked serialization reason was accepted")
+
+capacity = schedule(lambda request: request["capacity"].update(available=False))
+if (capacity["mode"], capacity["reason"]) != (
+        "SERIAL_EXECUTION", "HOST_CAPACITY_OR_EXCLUSION"):
+    raise SystemExit("D12: host exclusion reason was not explicit")
+
+ordinary = schedule(lambda request: request["relationships"].update(
+    acceptance_prerequisite=False, informational_or_differential=False
+))
+if (ordinary["mode"], ordinary["reason"]) != (
+        "ORDINARY_PARALLEL", "INDEPENDENT"):
+    raise SystemExit("D12: independent work did not retain ordinary parallel mode")
+
+gate_red = schedule(lambda request: request["minimum_recoverability_gate"].update(
+    passed=False
+))
+if (gate_red["mode"], gate_red["reason"]) != (
+        "STOP_RECONCILE", "MINIMUM_RECOVERABILITY_GATE"):
+    raise SystemExit("D12: failed minimum gate did not stop")
+
+# Resilience held-outs: controlled contact is admitted only when containment,
+# retreat, observation, fidelity, and bounded impact are all proved.
+for field in (
+    "rollback_verified", "retreat_available", "before_after_observable",
+    "unknown_completion_contained",
+):
+    held = schedule(lambda request, field=field: request["resilience"].update(
+        {field: False}
+    ))
+    if (held["mode"], held["reason"], held["safety_strategy"]) != (
+            "STOP_RECONCILE", "RESILIENCE_EVIDENCE_OR_CONTAINMENT",
+            "STOP_RECONCILE"):
+        raise SystemExit(f"resilience: missing {field} admitted diagnostic mode")
+
+for field in ("blast_radius_bounded", "protected_non_targets_bounded"):
+    held = schedule(lambda request, field=field: request["resilience"].update(
+        {field: False}
+    ))
+    if (held["mode"], held["safety_strategy"]) != (
+            "FULL_PREFLIGHT", "PREVENTION_FULL_PREFLIGHT"):
+        raise SystemExit(f"resilience: unbounded {field} escaped full pre-flight")
+
+low_fidelity = schedule(lambda request: request["information"].update(
+    live_fidelity_higher_than_simulation=False
+))
+if (low_fidelity["mode"], low_fidelity["reason"], low_fidelity["safety_strategy"]) != (
+        "SERIAL_EXECUTION", "CONSEQUENCE_CONTROL", "CONTAIN_AND_RECOVER"):
+    raise SystemExit("resilience: simulation-equivalent diagnostic was admitted")
+
+backed_consequence = schedule(lambda request: (
+    request["information"].update(live_fidelity_higher_than_simulation=False),
+    request.update(workflow_serialization_reason="CONSEQUENCE_CONTROL"),
+))
+if (backed_consequence["mode"], backed_consequence["reason"]) != (
+        "SERIAL_EXECUTION", "CONSEQUENCE_CONTROL"):
+    raise SystemExit("D12: backed consequence serialization was rejected")
+
+backed_impact = schedule(lambda request: (
+    request["resilience"].update(blast_radius_bounded=False),
+    request.update(
+        workflow_serialization_reason="IRREVERSIBLE_EFFECT_PRECONDITION"
+    ),
+))
+if (backed_impact["mode"], backed_impact["reason"]) != (
+        "FULL_PREFLIGHT", "IRREVERSIBLE_EFFECT_PRECONDITION"):
+    raise SystemExit("D12: backed blast-radius pre-flight was rejected")
+
+no_information_value = schedule(lambda request: request["information"].update(
+    diagnostic_information_value_material=False,
+    further_serialization_complexity_cost_material=True,
+    further_serialization_coupling_cost_material=True,
+    further_serialization_delay_cost_material=True,
+))
+if no_information_value["mode"] == "DIAGNOSTIC_PARALLEL_ACCEPTANCE":
+    raise SystemExit("resilience: defensive complexity substituted for information value")
+
+contained_failure = result(
+    "FAIL", "FAIL", diagnostic_contributor="CONTAINMENT"
+)
+contained_failure["contributors"].extend([
+    {"kind": "FIXTURE_COVERAGE", "evidence_sha256": "8" * 64},
+    {"kind": "CONTROLLER_CURRENTNESS", "evidence_sha256": "9" * 64},
+])
+preserved = reconcile(contained_failure)
+preserved_kinds = [item["kind"] for item in preserved["contributors"]]
+if len(preserved_kinds) != 4 or set(preserved_kinds) != {
+        "CONTAINMENT", "FIXTURE_COVERAGE", "CONTROLLER_CURRENTNESS", "REVIEW"}:
+    raise SystemExit("resilience: independent contributors were collapsed")
+
 print("work-graph-compiler.test: ok")
 PY

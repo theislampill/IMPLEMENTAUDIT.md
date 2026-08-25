@@ -298,6 +298,38 @@ JOIN, currentness, route, merge, lifecycle, package, release, or closure
 authority. Existing graphs with neither positive declaration retain the exact
 legacy execution-projection bytes.
 
+#### Proximal diagnostic frontier
+
+R0035 also derives a transient proximal decision below whole-cell granularity;
+it does not add a cell or mutate `WORK_GRAPH.json`. Before generic implementation,
+TDD, review, package, install, routing, or host-effect prose serializes a frozen
+candidate's diagnostic behind review, invoke
+`compile-work-graph.py --proximal-schedule REQUEST.json`. Workflow-local order is
+not a graph edge: an acceptance prerequisite is not an execution prerequisite,
+and an informational relationship is not a hard prerequisite. An unbacked prose
+order returns `WORKFLOW_PSEUDO_DEPENDENCY`.
+
+`DIAGNOSTIC_PARALLEL_ACCEPTANCE` is available only after exact commit/tree/input
+and current-receipt binding, a passed minimum recoverability gate, bounded blast
+radius and protected non-targets, verified rollback/retreat, before/after
+observation, unknown-completion containment, isolated non-public/non-release
+effects, and a decision-relevant higher-fidelity live discriminator. The
+projection names `EARLY_DETECTION_ACTIVE_DEFENSE`, binds the resilience evidence
+and marginal delay/complexity/coupling inputs, and grants no lifecycle authority.
+Hard prerequisites, shared writers/resources, host exclusion, irreversible or
+authoritative effects, stale identity, missing containment, or inadequate
+information value select an explicit serial, full-preflight, or stop reason.
+
+Diagnostic and acceptance evidence remain separate. Reconcile their exact
+identity-bound results with
+`compile-work-graph.py --proximal-reconcile PROJECTION.json RESULTS.json`.
+Diagnostic PASS plus review FAIL remains unaccepted; diagnostic FAIL plus review
+PASS raises the coverage/evaluator Andon; dual failures preserve controller,
+fixture, product, review, and containment contributors. Early rejection may stop
+or continue the other lane according to its remaining information value, but a
+diagnostic result itself has no DONE, merge, package, publication, release, or
+closure credit.
+
 #### Root-governor dispatch-context classifier
 
 Immediately before each host worker call, the root governor classifies the

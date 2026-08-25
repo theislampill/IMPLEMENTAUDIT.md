@@ -150,6 +150,18 @@ do
   require "$child_ref" "$text"
 done
 for text in \
+  "Proximal diagnostic frontier" \
+  "--proximal-schedule" \
+  "--proximal-reconcile" \
+  "EARLY_DETECTION_ACTIVE_DEFENSE" \
+  "WORKFLOW_PSEUDO_DEPENDENCY" \
+  "acceptance prerequisite is not an execution prerequisite" \
+  "unknown-completion containment" \
+  "no lifecycle authority"
+do
+  require "$child_ref" "$text"
+done
+for text in \
   "PREPARATION_FRONTIER" \
   "PRODUCT_FRONTIER" \
   "preparation never satisfies" \
@@ -157,6 +169,18 @@ for text in \
   "cannot create READY" \
   "zero stranded" \
   "named future join"
+do
+  require "$depth_ref" "$text"
+done
+for text in \
+  "Proximal diagnostic scheduling" \
+  "risk or cost of delayed information" \
+  "higher-fidelity live discriminator" \
+  "workflow-local order" \
+  "PREVENTION_FULL_PREFLIGHT" \
+  "EARLY_DETECTION_ACTIVE_DEFENSE" \
+  "CONTAIN_AND_RECOVER" \
+  "STOP_RECONCILE"
 do
   require "$depth_ref" "$text"
 done
@@ -450,6 +474,19 @@ required_ids.update({
     "R34-C146-safe-stop-control-cheap-path",
 })
 required_ids.update({
+    f"R35-P{number:02d}-{suffix}"
+    for number, suffix in (
+        (1, "acceptance-pending-diagnostic-admitted"),
+        (2, "writer-conflict-serializes"),
+        (3, "irreversible-retains-preflight"),
+        (4, "workflow-pseudo-dependency-stops"),
+        (5, "stale-currentness-stops"),
+        (6, "missing-containment-stops"),
+        (7, "low-fidelity-serializes"),
+        (8, "independent-ordinary-parallel"),
+    )
+})
+required_ids.update({
     f"R35-D{number:02d}-{suffix}"
     for number, suffix in (
         (1, "used-c07-followup-new-h6"),
@@ -641,6 +678,29 @@ def decide(case):
         if activatable and o["operator_ceiling"] > 0:
             return "ACTIVATE_BOUNDED"
         return "ACTIVATE_READY_CELLS" if activatable else "HOLD_FRONTIER"
+    if kind == "proximal_scheduling":
+        fields = "exact_identity currentness minimum_gate bounded_impact containment authority_isolated acceptance_pending hard_prerequisite writer_conflict irreversible high_fidelity information_value workflow_reason_backed"
+        exact(o, fields)
+        booleans(o, fields)
+        if not o["workflow_reason_backed"]:
+            return "STOP_RECONCILE:WORKFLOW_PSEUDO_DEPENDENCY"
+        if not o["exact_identity"] or not o["currentness"]:
+            return "STOP_RECONCILE:CURRENTNESS_OR_IDENTITY"
+        if not o["minimum_gate"]:
+            return "STOP_RECONCILE:MINIMUM_RECOVERABILITY_GATE"
+        if not o["containment"]:
+            return "STOP_RECONCILE:RESILIENCE_EVIDENCE_OR_CONTAINMENT"
+        if o["irreversible"] or not o["bounded_impact"] or not o["authority_isolated"]:
+            return "FULL_PREFLIGHT:IRREVERSIBLE_EFFECT_PRECONDITION"
+        if o["hard_prerequisite"]:
+            return "SERIAL_EXECUTION:HARD_PREREQUISITE"
+        if o["writer_conflict"]:
+            return "SERIAL_EXECUTION:SHARED_WRITER_OR_RESOURCE"
+        if o["acceptance_pending"] and o["high_fidelity"] and o["information_value"]:
+            return "DIAGNOSTIC_PARALLEL_ACCEPTANCE:RISK_OF_DELAY_AND_VALUE_OF_INFORMATION"
+        if o["acceptance_pending"]:
+            return "SERIAL_EXECUTION:CONSEQUENCE_CONTROL"
+        return "ORDINARY_PARALLEL:INDEPENDENT"
     if kind == "frontier_accounting":
         fields = "work_units done_cells active_cells ready_cells blocked_cells unknown_cells host_capacity operator_ceiling state_evidence_current dependencies_current"
         exact(o, fields)

@@ -308,6 +308,34 @@ ACTIVE, DONE, JOIN, currentness, route, merge, lifecycle, package, release, or
 closure authority. Any newly safe composition remains a proposal for its
 existing integration owner, never a hidden graph edge or lifecycle transition.
 
+### Proximal diagnostic scheduling
+
+At a frozen candidate boundary, classify dependency type rather than inferring
+it from workflow prose. Hard execution prerequisites and shared writer/resource
+exclusions block execution; acceptance prerequisites block lifecycle credit;
+informational/differential coupling changes interpretation but is not itself an
+edge. If workflow-local order proposes serialization, require the R0035
+proximal classifier or an explicit backed reason. Review-before-smoke wording
+alone cannot strengthen the authoritative DAG.
+
+R0022 weighs both action risk and the risk or cost of delayed information. A
+bounded, recoverable, isolated, authority-free diagnostic may run beside fresh
+acceptance review only when its exact identity/currentness and minimum gate are
+current; blast radius/non-targets, retreat, before/after evidence, and
+unknown-completion containment are proved; and a higher-fidelity live discriminator
+has material decision value. Also record the marginal defensive
+complexity, coupling, latent-failure, and delay cost; more pre-flight is not
+intrinsically safer. The derived safety strategy is visibly one of
+`PREVENTION_FULL_PREFLIGHT`, `EARLY_DETECTION_ACTIVE_DEFENSE`,
+`CONTAIN_AND_RECOVER`, `ORDINARY_PARALLEL`, or `STOP_RECONCILE`.
+
+The diagnostic lane is evidence gathering, never acceptance. Reconcile both
+lanes against the same commit/tree/input/current receipt. Preserve independent
+controller/currentness, fixture-coverage, product, review, and containment
+contributors; disagreement raises the existing R0037 Andon, and R0038 drift
+invalidates stale evidence. A decisive early result may reprioritize the other
+lane only after assessing its remaining information value.
+
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and
 retains escalation when risk changes. Omission for convenience or cost alone is

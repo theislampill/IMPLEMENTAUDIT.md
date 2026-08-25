@@ -49,6 +49,15 @@ PRODUCT_DISPOSITIONS = {
     "REJECTED",
     "EXPLICITLY_DEFERRED_TO_NAMED_JOIN",
 }
+PROXIMAL_SERIALIZATION_REASONS = {
+    "HARD_PREREQUISITE",
+    "SHARED_WRITER_OR_RESOURCE",
+    "CURRENTNESS_OR_IDENTITY",
+    "IRREVERSIBLE_EFFECT_PRECONDITION",
+    "CONSEQUENCE_CONTROL",
+    "HOST_CAPACITY_OR_EXCLUSION",
+}
+PROXIMAL_LANE_STATUSES = {"PASS", "FAIL", "PENDING"}
 
 
 class WorkGraphError(ValueError):
@@ -188,6 +197,19 @@ def _require_commit(value: JSONValue, path: str) -> str:
     if not COMMIT_RE.fullmatch(result):
         raise WorkGraphError(f"{path}: 40-hex identity required")
     return result
+
+
+def _require_bool(value: JSONValue, path: str) -> bool:
+    if type(value) is not bool:
+        raise WorkGraphError(f"{path}: boolean required")
+    return value
+
+
+def _require_exact_members(
+    value: dict[str, JSONValue], expected: set[str], path: str
+) -> None:
+    if set(value) != expected:
+        raise WorkGraphError(f"{path}: exact members required")
 
 
 def _validate_product_result_v1(
@@ -1259,6 +1281,390 @@ def summarize_product_dispositions_v1(
     }
 
 
+def _proximal_no_authority_v1() -> dict[str, JSONValue]:
+    return {key: "NONE" for key in (
+        "closure", "done", "lifecycle_credit", "merge", "package",
+        "publication", "release",
+    )}
+
+
+def _proximal_object_v1(
+    value: JSONValue, path: str, fields: set[str], *,
+    booleans: set[str] = frozenset(), digests: set[str] = frozenset(),
+) -> dict[str, JSONValue]:
+    result = _require_object(value, path)
+    _require_exact_members(result, fields, path)
+    for field in booleans:
+        _require_bool(result[field], f"{path}.{field}")
+    for field in digests:
+        _require_digest(result[field], f"{path}.{field}")
+    return result
+
+
+def _proximal_candidate_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
+    result = _proximal_object_v1(
+        value, path, {"commit", "tree", "input_sha256", "identity_frozen"},
+        booleans={"identity_frozen"}, digests={"input_sha256"},
+    )
+    _require_commit(result["commit"], f"{path}.commit")
+    _require_commit(result["tree"], f"{path}.tree")
+    return result
+
+
+def _proximal_currentness_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
+    result = _proximal_object_v1(
+        value, path, {"receipt", "current"}, booleans={"current"}
+    )
+    receipt = _require_string(result["receipt"], f"{path}.receipt")
+    if not RECEIPT_RE.fullmatch(receipt):
+        raise WorkGraphError(f"{path}.receipt: continuity receipt required")
+    return result
+
+
+def _proximal_digest_v1(value: dict[str, JSONValue]) -> dict[str, JSONValue]:
+    value["digest"] = hashlib.sha256(canonical_json_v1(value)).hexdigest()
+    return value
+
+
+def compile_proximal_schedule_v1(request_bytes: bytes) -> dict[str, JSONValue]:
+    """Compile one transient, exact-identity proximal scheduling decision."""
+    path = "proximal scheduling request"
+    request = _proximal_object_v1(
+        decode_strict_json_bytes(request_bytes, path), path,
+        {"schema", "candidate", "currentness", "minimum_recoverability_gate",
+         "diagnostic", "resilience", "relationships", "capacity", "information",
+         "workflow_serialization_reason"},
+    )
+    if request["schema"] != "implementaudit.proximal-scheduling-request.v1":
+        raise WorkGraphError(f"{path}: unsupported schema")
+    candidate = _proximal_candidate_v1(request["candidate"], f"{path}.candidate")
+    currentness = _proximal_currentness_v1(request["currentness"], f"{path}.currentness")
+    gate = _proximal_object_v1(
+        request["minimum_recoverability_gate"], f"{path}.minimum_recoverability_gate",
+        {"evidence_sha256", "passed"}, booleans={"passed"},
+        digests={"evidence_sha256"},
+    )
+    diagnostic_fields = {
+        "bounded", "recoverable", "isolated", "non_public",
+        "non_release_authoritative", "non_lifecycle_authoritative",
+        "irreversible_effect_protected", "authoritative_publication_protected",
+        "consequence_critical",
+    }
+    diagnostic = _proximal_object_v1(
+        request["diagnostic"], f"{path}.diagnostic", diagnostic_fields,
+        booleans=diagnostic_fields,
+    )
+    resilience_fields = {
+        "evidence_sha256", "blast_radius_bounded", "protected_non_targets_bounded",
+        "rollback_verified", "retreat_available", "before_after_observable",
+        "unknown_completion_contained",
+    }
+    resilience = _proximal_object_v1(
+        request["resilience"], f"{path}.resilience", resilience_fields,
+        booleans=resilience_fields - {"evidence_sha256"},
+        digests={"evidence_sha256"},
+    )
+    relationship_fields = {
+        "hard_prerequisite", "writer_or_resource_exclusion",
+        "acceptance_prerequisite", "informational_or_differential",
+    }
+    relationships = _proximal_object_v1(
+        request["relationships"], f"{path}.relationships", relationship_fields,
+        booleans=relationship_fields,
+    )
+    capacity = _proximal_object_v1(
+        request["capacity"], f"{path}.capacity", {"available", "host_exclusion"},
+        booleans={"available", "host_exclusion"},
+    )
+    information_fields = {
+        "delay_cost_material", "decision_relevant",
+        "live_fidelity_higher_than_simulation",
+        "diagnostic_information_value_material",
+        "further_serialization_complexity_cost_material",
+        "further_serialization_coupling_cost_material",
+        "further_serialization_delay_cost_material",
+    }
+    information = _proximal_object_v1(
+        request["information"], f"{path}.information", information_fields,
+        booleans=information_fields,
+    )
+
+    effect_protected = all(diagnostic[key] is True for key in (
+        "non_public", "non_release_authoritative", "non_lifecycle_authoritative",
+        "irreversible_effect_protected", "authoritative_publication_protected",
+    ))
+    safe_shape = all(diagnostic[key] is True for key in (
+        "bounded", "recoverable", "isolated",
+    ))
+    containment = all(resilience[key] is True for key in (
+        "rollback_verified", "retreat_available", "before_after_observable",
+        "unknown_completion_contained",
+    ))
+    impact_bounded = all(resilience[key] is True for key in (
+        "blast_radius_bounded", "protected_non_targets_bounded",
+    ))
+    information_value = all(information[key] is True for key in (
+        "delay_cost_material", "decision_relevant",
+        "live_fidelity_higher_than_simulation",
+        "diagnostic_information_value_material",
+    ))
+    actual_reasons = {
+        "HARD_PREREQUISITE": relationships["hard_prerequisite"],
+        "SHARED_WRITER_OR_RESOURCE": relationships["writer_or_resource_exclusion"],
+        "CURRENTNESS_OR_IDENTITY": (
+            not currentness["current"] or not candidate["identity_frozen"]),
+        "IRREVERSIBLE_EFFECT_PRECONDITION": (
+            not safe_shape or not effect_protected or not impact_bounded),
+        "CONSEQUENCE_CONTROL": (
+            diagnostic["consequence_critical"]
+            or (relationships["acceptance_prerequisite"] and not information_value)),
+        "HOST_CAPACITY_OR_EXCLUSION": (
+            not capacity["available"] or capacity["host_exclusion"]),
+    }
+    workflow_reason = request["workflow_serialization_reason"]
+    if workflow_reason is not None and type(workflow_reason) is not str:
+        raise WorkGraphError(f"{path}.workflow_serialization_reason: string or null required")
+    pseudo = workflow_reason is not None and (
+        workflow_reason not in PROXIMAL_SERIALIZATION_REASONS
+        or actual_reasons.get(str(workflow_reason)) is not True
+    )
+
+    if pseudo:
+        mode, reason, lanes = "STOP_RECONCILE", "WORKFLOW_PSEUDO_DEPENDENCY", []
+    elif actual_reasons["CURRENTNESS_OR_IDENTITY"]:
+        mode, reason, lanes = "STOP_RECONCILE", "CURRENTNESS_OR_IDENTITY", []
+    elif not gate["passed"]:
+        mode, reason, lanes = "STOP_RECONCILE", "MINIMUM_RECOVERABILITY_GATE", []
+    elif not containment:
+        mode, reason, lanes = "STOP_RECONCILE", "RESILIENCE_EVIDENCE_OR_CONTAINMENT", []
+    elif not safe_shape or not effect_protected or not impact_bounded:
+        mode, reason, lanes = "FULL_PREFLIGHT", "IRREVERSIBLE_EFFECT_PRECONDITION", ["ACCEPTANCE"]
+    elif diagnostic["consequence_critical"]:
+        mode, reason, lanes = "FULL_PREFLIGHT", "CONSEQUENCE_CONTROL", ["ACCEPTANCE"]
+    elif relationships["hard_prerequisite"]:
+        mode, reason, lanes = "SERIAL_EXECUTION", "HARD_PREREQUISITE", ["ACCEPTANCE"]
+    elif relationships["writer_or_resource_exclusion"]:
+        mode, reason, lanes = "SERIAL_EXECUTION", "SHARED_WRITER_OR_RESOURCE", ["ACCEPTANCE"]
+    elif not capacity["available"] or capacity["host_exclusion"]:
+        mode, reason, lanes = "SERIAL_EXECUTION", "HOST_CAPACITY_OR_EXCLUSION", ["ACCEPTANCE"]
+    elif relationships["acceptance_prerequisite"] and information_value:
+        mode, reason, lanes = (
+            "DIAGNOSTIC_PARALLEL_ACCEPTANCE",
+            "RISK_OF_DELAY_AND_VALUE_OF_INFORMATION",
+            ["ACCEPTANCE", "DIAGNOSTIC"],
+        )
+    elif relationships["acceptance_prerequisite"]:
+        mode, reason, lanes = (
+            "SERIAL_EXECUTION", "CONSEQUENCE_CONTROL", ["ACCEPTANCE", "DIAGNOSTIC"]
+        )
+    else:
+        mode, reason, lanes = "ORDINARY_PARALLEL", "INDEPENDENT", ["ACCEPTANCE", "DIAGNOSTIC"]
+
+    strategy = {
+        "FULL_PREFLIGHT": "PREVENTION_FULL_PREFLIGHT",
+        "DIAGNOSTIC_PARALLEL_ACCEPTANCE": "EARLY_DETECTION_ACTIVE_DEFENSE",
+        "ORDINARY_PARALLEL": "ORDINARY_PARALLEL",
+        "SERIAL_EXECUTION": "PREVENTION_FULL_PREFLIGHT",
+        "STOP_RECONCILE": "STOP_RECONCILE",
+    }[mode]
+    if mode == "SERIAL_EXECUTION" and reason == "CONSEQUENCE_CONTROL":
+        strategy = "CONTAIN_AND_RECOVER"
+    return _proximal_digest_v1({
+        "schema": "implementaudit.proximal-scheduling-projection.v1",
+        "request_sha256": hashlib.sha256(request_bytes).hexdigest(),
+        "candidate": candidate,
+        "currentness": currentness,
+        "minimum_recoverability_gate": gate,
+        "resilience_evidence_sha256": resilience["evidence_sha256"],
+        "proportionality": information,
+        "mode": mode,
+        "reason": reason,
+        "safety_strategy": strategy,
+        "lanes": lanes,
+        "authority": _proximal_no_authority_v1(),
+    })
+
+
+def _proximal_projection_v1(projection_bytes: bytes) -> dict[str, JSONValue]:
+    path = "proximal scheduling projection"
+    fields = {
+        "schema", "request_sha256", "candidate", "currentness",
+        "minimum_recoverability_gate", "resilience_evidence_sha256",
+        "proportionality", "mode", "reason", "safety_strategy", "lanes",
+        "authority", "digest",
+    }
+    result = _proximal_object_v1(
+        decode_strict_json_bytes(projection_bytes, path), path, fields,
+        digests={"request_sha256", "resilience_evidence_sha256", "digest"},
+    )
+    if result["schema"] != "implementaudit.proximal-scheduling-projection.v1":
+        raise WorkGraphError(f"{path}: unsupported schema")
+    _proximal_candidate_v1(result["candidate"], f"{path}.candidate")
+    _proximal_currentness_v1(result["currentness"], f"{path}.currentness")
+    if result["authority"] != _proximal_no_authority_v1():
+        raise WorkGraphError(f"{path}: diagnostic authority is forbidden")
+    mode = _require_string(result["mode"], f"{path}.mode")
+    reason = _require_string(result["reason"], f"{path}.reason")
+    strategy = _require_string(result["safety_strategy"], f"{path}.safety_strategy")
+    if mode not in {
+            "FULL_PREFLIGHT", "DIAGNOSTIC_PARALLEL_ACCEPTANCE",
+            "ORDINARY_PARALLEL", "SERIAL_EXECUTION", "STOP_RECONCILE"}:
+        raise WorkGraphError(f"{path}: unknown mode")
+    lanes = _require_string_array(result["lanes"], f"{path}.lanes")
+    valid_reasons = {
+        "FULL_PREFLIGHT": {"IRREVERSIBLE_EFFECT_PRECONDITION", "CONSEQUENCE_CONTROL"},
+        "DIAGNOSTIC_PARALLEL_ACCEPTANCE": {"RISK_OF_DELAY_AND_VALUE_OF_INFORMATION"},
+        "ORDINARY_PARALLEL": {"INDEPENDENT"},
+        "SERIAL_EXECUTION": {
+            "HARD_PREREQUISITE", "SHARED_WRITER_OR_RESOURCE",
+            "HOST_CAPACITY_OR_EXCLUSION", "CONSEQUENCE_CONTROL",
+        },
+        "STOP_RECONCILE": {
+            "WORKFLOW_PSEUDO_DEPENDENCY", "CURRENTNESS_OR_IDENTITY",
+            "MINIMUM_RECOVERABILITY_GATE", "RESILIENCE_EVIDENCE_OR_CONTAINMENT",
+        },
+    }
+    expected_strategy = {
+        "FULL_PREFLIGHT": "PREVENTION_FULL_PREFLIGHT",
+        "DIAGNOSTIC_PARALLEL_ACCEPTANCE": "EARLY_DETECTION_ACTIVE_DEFENSE",
+        "ORDINARY_PARALLEL": "ORDINARY_PARALLEL",
+        "SERIAL_EXECUTION": (
+            "CONTAIN_AND_RECOVER" if reason == "CONSEQUENCE_CONTROL"
+            else "PREVENTION_FULL_PREFLIGHT"
+        ),
+        "STOP_RECONCILE": "STOP_RECONCILE",
+    }[mode]
+    expected_lanes = {
+        "FULL_PREFLIGHT": ["ACCEPTANCE"],
+        "DIAGNOSTIC_PARALLEL_ACCEPTANCE": ["ACCEPTANCE", "DIAGNOSTIC"],
+        "ORDINARY_PARALLEL": ["ACCEPTANCE", "DIAGNOSTIC"],
+        "SERIAL_EXECUTION": (
+            ["ACCEPTANCE", "DIAGNOSTIC"] if reason == "CONSEQUENCE_CONTROL"
+            else ["ACCEPTANCE"]
+        ),
+        "STOP_RECONCILE": [],
+    }[mode]
+    if (reason not in valid_reasons[mode] or strategy != expected_strategy
+            or lanes != expected_lanes):
+        raise WorkGraphError(f"{path}: mode/reason/strategy/lanes mismatch")
+    unsigned = dict(result)
+    digest = str(unsigned.pop("digest"))
+    if not hmac.compare_digest(digest, hashlib.sha256(canonical_json_v1(unsigned)).hexdigest()):
+        raise WorkGraphError(f"{path}: stale digest")
+    return result
+
+
+def _proximal_lane_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
+    result = _proximal_object_v1(value, path, {"status", "evidence_sha256"})
+    status = _require_string(result["status"], f"{path}.status")
+    if status not in PROXIMAL_LANE_STATUSES:
+        raise WorkGraphError(f"{path}.status: invalid status")
+    if status == "PENDING":
+        if result["evidence_sha256"] is not None:
+            raise WorkGraphError(f"{path}: pending lane cannot carry evidence")
+    else:
+        _require_digest(result["evidence_sha256"], f"{path}.evidence_sha256")
+    return result
+
+
+def _proximal_contributors_v1(value: JSONValue, path: str) -> list[dict[str, JSONValue]]:
+    if type(value) is not list:
+        raise WorkGraphError(f"{path}: array required")
+    allowed = {"CONTROLLER_CURRENTNESS", "FIXTURE_COVERAGE", "PRODUCT", "REVIEW", "CONTAINMENT"}
+    result = []
+    seen = set()
+    for index, item in enumerate(value):
+        contributor = _proximal_object_v1(
+            item, f"{path}[{index}]", {"kind", "evidence_sha256"},
+            digests={"evidence_sha256"},
+        )
+        kind = _require_string(contributor["kind"], f"{path}[{index}].kind")
+        if kind not in allowed or kind in seen:
+            raise WorkGraphError(f"{path}: invalid or duplicate contributor")
+        seen.add(kind)
+        result.append(contributor)
+    return result
+
+
+def reconcile_proximal_results_v1(
+    projection_bytes: bytes, results_bytes: bytes
+) -> dict[str, JSONValue]:
+    """Reconcile distinct diagnostic/review evidence without merging authority."""
+    projection = _proximal_projection_v1(projection_bytes)
+    path = "proximal reconciliation request"
+    results = _proximal_object_v1(
+        decode_strict_json_bytes(results_bytes, path), path,
+        {"schema", "candidate", "currentness", "diagnostic", "acceptance",
+         "contributors", "remaining_information_value_material"},
+        booleans={"remaining_information_value_material"},
+    )
+    if results["schema"] != "implementaudit.proximal-reconciliation-request.v1":
+        raise WorkGraphError(f"{path}: unsupported schema")
+    candidate = _proximal_candidate_v1(results["candidate"], f"{path}.candidate")
+    currentness = _proximal_currentness_v1(results["currentness"], f"{path}.currentness")
+    diagnostic = _proximal_lane_v1(results["diagnostic"], f"{path}.diagnostic")
+    acceptance = _proximal_lane_v1(results["acceptance"], f"{path}.acceptance")
+    admitted_lanes = set(projection["lanes"])  # validated as a string array
+    if (diagnostic["status"] != "PENDING" and "DIAGNOSTIC" not in admitted_lanes
+            or acceptance["status"] != "PENDING" and "ACCEPTANCE" not in admitted_lanes):
+        raise WorkGraphError(f"{path}: evidence supplied for a non-admitted lane")
+    contributors = _proximal_contributors_v1(results["contributors"], f"{path}.contributors")
+    kinds = {str(item["kind"]) for item in contributors}
+    diagnostic_failed = diagnostic["status"] == "FAIL"
+    acceptance_failed = acceptance["status"] == "FAIL"
+    if diagnostic_failed != bool(kinds - {"REVIEW"}) or acceptance_failed != ("REVIEW" in kinds):
+        raise WorkGraphError(f"{path}: lane result/contributor mismatch")
+    if diagnostic["status"] == acceptance["status"] == "PENDING":
+        raise WorkGraphError(f"{path}: no lane evidence")
+
+    pair = (diagnostic["status"], acceptance["status"])
+    if candidate != projection["candidate"]:
+        disposition, andon, remaining = "STOP_RECONCILE_STALE_IDENTITY", "NONE", "NONE"
+    elif currentness != projection["currentness"] or not currentness["current"]:
+        disposition, andon, remaining = "STOP_RECONCILE_STALE_CURRENTNESS", "NONE", "NONE"
+    elif pair == ("PASS", "PASS"):
+        disposition, andon, remaining = "ELIGIBLE_FOR_LATER_REQUIRED_GATES", "NONE", "NONE"
+    elif pair == ("FAIL", "PASS"):
+        disposition, andon, remaining = (
+            "STOP_COVERAGE_EVALUATOR_ANDON",
+            "COVERAGE_EVALUATOR_DISAGREEMENT",
+            "NONE",
+        )
+    elif pair == ("PASS", "FAIL"):
+        disposition, andon, remaining = "UNACCEPTED_CAUSAL_SUCCESS_RETAINED", "NONE", "NONE"
+    elif pair == ("FAIL", "FAIL"):
+        disposition, andon, remaining = "REJECT_RETAIN_BOTH_RECONCILE_CAUSALLY", "NONE", "NONE"
+    elif pair == ("FAIL", "PENDING"):
+        disposition, andon = "REJECT_CANDIDATE_REASSESS_ACCEPTANCE_LANE", "NONE"
+        remaining = (
+            "CONTINUE_IF_INFORMATION_VALUE_MATERIAL"
+            if results["remaining_information_value_material"]
+            else "STOP_SUPERSEDED_CLEANLY"
+        )
+    elif pair == ("PENDING", "FAIL"):
+        disposition, andon = "UNACCEPTED_REASSESS_DIAGNOSTIC_LANE", "NONE"
+        remaining = (
+            "CONTINUE_IF_INFORMATION_VALUE_MATERIAL"
+            if results["remaining_information_value_material"]
+            else "STOP_SUPERSEDED_CLEANLY"
+        )
+    else:
+        disposition, andon, remaining = "WAIT_FOR_OTHER_LANE", "NONE", "NONE"
+    return _proximal_digest_v1({
+        "schema": "implementaudit.proximal-reconciliation.v1",
+        "projection_digest": projection["digest"],
+        "candidate": candidate,
+        "currentness": currentness,
+        "diagnostic": diagnostic,
+        "acceptance": acceptance,
+        "contributors": contributors,
+        "disposition": disposition,
+        "andon": andon,
+        "remaining_lane": remaining,
+        "authority": _proximal_no_authority_v1(),
+    })
+
+
 def compile_frontier_projection(
     graph_bytes: bytes, product_authority_bytes: bytes | None = None
 ) -> dict[str, JSONValue]:
@@ -1298,22 +1704,32 @@ def compile_frontier_projection(
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) not in {2, 3}:
+    proximal_mode = argv[1] if len(argv) > 1 and argv[1].startswith("--proximal-") else None
+    expected = 3 if proximal_mode == "--proximal-schedule" else 4
+    if (proximal_mode is not None and len(argv) != expected) or (
+            proximal_mode is None and len(argv) not in {2, 3}):
         print(
-            "usage: compile-work-graph.py WORK_GRAPH.json [PRODUCT_AUTHORITY.json]",
+            "usage: compile-work-graph.py WORK_GRAPH.json [PRODUCT_AUTHORITY.json]\n"
+            "   or: compile-work-graph.py --proximal-schedule REQUEST.json\n"
+            "   or: compile-work-graph.py --proximal-reconcile PROJECTION.json RESULTS.json",
             file=sys.stderr,
         )
         return 2
-    path = pathlib.Path(argv[1])
+    path = pathlib.Path(argv[2] if proximal_mode else argv[1])
     try:
-        raw = path.read_bytes()
-        authority_path = pathlib.Path(argv[2]) if len(argv) == 3 else None
-        authority_bytes = (
-            authority_path.read_bytes() if authority_path is not None else None
-        )
-        if authority_path is not None:
-            validate_product_authority_cli_path_v1(raw, path, authority_path)
-        projection = compile_frontier_projection(raw, authority_bytes)
+        if proximal_mode == "--proximal-schedule":
+            projection = compile_proximal_schedule_v1(path.read_bytes())
+        elif proximal_mode == "--proximal-reconcile":
+            projection = reconcile_proximal_results_v1(
+                path.read_bytes(), pathlib.Path(argv[3]).read_bytes()
+            )
+        else:
+            raw = path.read_bytes()
+            authority_path = pathlib.Path(argv[2]) if len(argv) == 3 else None
+            authority_bytes = authority_path.read_bytes() if authority_path else None
+            if authority_path is not None:
+                validate_product_authority_cli_path_v1(raw, path, authority_path)
+            projection = compile_frontier_projection(raw, authority_bytes)
     except OSError as exc:
         print(f"compile-work-graph: {path}: {exc}", file=sys.stderr)
         return 2
