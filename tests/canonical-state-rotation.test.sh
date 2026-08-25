@@ -58,34 +58,109 @@ esac
 
 [ -f "$checker" ] || fail "missing root checker: $checker"
 bash -n "$checker" || fail "checker syntax is invalid"
+test_fixed_posix_python_v1() {
+  local selector selectors=()
+  case "${OSTYPE:-}" in
+    darwin*) selectors=(/opt/homebrew/bin/python3 /usr/local/bin/python3
+                        /opt/local/bin/python3 /usr/bin/python3) ;;
+    freebsd*) selectors=(/usr/local/bin/python3 /usr/bin/python3
+                         /opt/local/bin/python3) ;;
+    *) selectors=(/usr/bin/python3 /usr/local/bin/python3
+                   /opt/homebrew/bin/python3 /opt/local/bin/python3) ;;
+  esac
+  for selector in "${selectors[@]}"; do
+    [ -x "$selector" ] && { printf '%s\n' "$selector"; return 0; }
+  done
+  return 1
+}
+posix_python_selector_control_calls=0
 run_posix_python_selector_controls() {
+  posix_python_selector_control_calls=$((posix_python_selector_control_calls + 1))
+  [ "$posix_python_selector_control_calls" -eq 1 ] \
+    || fail "POSIX selector controls ran more than once"
   [ "$(uname -s)" != MINGW* ] && [ "$(uname -s)" != CYGWIN* ] \
     || fail "POSIX selector control requires a POSIX host"
-  posix_python=''
-  for candidate in /usr/bin/python3 /usr/local/bin/python3; do
-    [ -x "$candidate" ] && { posix_python="$candidate"; break; }
-  done
-  [ -n "$posix_python" ] || fail "POSIX selector control has no fixed Python"
-  "$posix_python" -I -S - "$claim_helper" "$tmp" <<'PY'
+  posix_python="$(test_fixed_posix_python_v1)" \
+    || fail "POSIX selector control has no fixed Python"
+  "$posix_python" -I -S - "$claim_helper" "$tmp" "$posix_python" \
+    "${OSTYPE:-}" "${BASH_SOURCE[0]}" <<'PY'
 import os
 from pathlib import Path
 import subprocess
 import sys
 
 
-claim_path, temp_text = sys.argv[1:]
+claim_path, temp_text, selected_python, ostype, test_path = sys.argv[1:]
 temp = Path(temp_text)
 source = Path(claim_path).read_text(encoding="utf-8")
+test_source = Path(test_path).read_text(encoding="utf-8")
 start = source.index("resolve_fixed_posix_python_v1() {")
 end = source.index("\n}\n\nfixed_posix_python_v1()", start) + 3
+fixed_end = source.index("\n}\n\ninstalled_publication_binding_v1()", end) + 3
+resolver_source = source[start:end]
+fixed_source = " ".join(source[end:fixed_end].split())
+test_fixed_start = test_source.index("test_fixed_posix_python_v1() {")
+test_fixed_end = test_source.index(
+    "\n}\nposix_python_selector_control_calls=0", test_fixed_start) + 3
+test_fixed_source = " ".join(test_source[test_fixed_start:test_fixed_end].split())
 resolver_path = temp / "exact-posix-python-resolver.sh"
 resolver_path.write_text(
-    "set -euo pipefail\n" + source[start:end], encoding="utf-8", newline="\n")
+    "set -euo pipefail\n" + resolver_source, encoding="utf-8", newline="\n")
+
+selector_model = {
+    "linux": (
+        "/usr/bin/python3", "/usr/local/bin/python3",
+        "/opt/homebrew/bin/python3", "/opt/local/bin/python3"),
+    "darwin": (
+        "/opt/homebrew/bin/python3", "/usr/local/bin/python3",
+        "/opt/local/bin/python3", "/usr/bin/python3"),
+    "freebsd": (
+        "/usr/local/bin/python3", "/usr/bin/python3",
+        "/opt/local/bin/python3"),
+}
+platform_key = (
+    "darwin" if ostype.startswith("darwin") else
+    "freebsd" if ostype.startswith("freebsd") else "linux")
 
 
-def resolve(label, target):
-    selector = temp / ("selector-" + label)
-    os.symlink(target, os.fsencode(selector))
+def normalized_selector_clause(label, selectors):
+    return label + " selectors=(" + " ".join(selectors) + ") ;;"
+
+
+for label, selectors in (
+        ("darwin*)", selector_model["darwin"]),
+        ("freebsd*)", selector_model["freebsd"]),
+        ("*)", selector_model["linux"])):
+    clause = normalized_selector_clause(label, selectors)
+    if clause not in fixed_source:
+        raise SystemExit("production POSIX selector order diverged from model: " + label)
+    if clause not in test_fixed_source:
+        raise SystemExit("test POSIX runner order diverged from model: " + label)
+for fragment in (
+        "for readlink_cmd in /usr/bin/readlink /bin/readlink; do",
+        '[ "$hop" -le 16 ]',
+        "/usr/bin/*|/usr/lib/*|/usr/libexec/*|/usr/local/*|/opt/homebrew/*|/opt/local/*"):
+    if fragment not in resolver_source:
+        raise SystemExit("production POSIX resolver boundary diverged: " + fragment)
+
+
+def first_available(order, available):
+    return next((item for item in order if item in available), None)
+
+
+actual_available = {item for item in selector_model[platform_key]
+                    if os.access(item, os.X_OK)}
+if first_available(selector_model[platform_key], actual_available) != selected_python:
+    raise SystemExit("test runner did not use the platform's first fixed selector")
+if first_available(selector_model["darwin"], {"/opt/homebrew/bin/python3"}) \
+        != "/opt/homebrew/bin/python3":
+    raise SystemExit("Homebrew-only macOS selector model failed")
+if first_available(selector_model["freebsd"], {"/usr/local/bin/python3"}) \
+        != "/usr/local/bin/python3":
+    raise SystemExit("FreeBSD /usr/local selector model failed")
+
+
+def invoke(selector):
     return subprocess.run([
         "/bin/bash", "--noprofile", "--norc", "-c",
         'source "$1"; resolve_fixed_posix_python_v1 "$2"',
@@ -93,21 +168,31 @@ def resolve(label, target):
     ], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
-ordinary = resolve("ordinary", b"/usr/bin/python3")
+def resolve(label, target):
+    selector = temp / ("selector-" + label)
+    os.symlink(target, os.fsencode(selector))
+    return invoke(selector)
+
+
+selected_bytes = os.fsencode(selected_python)
+ordinary = resolve("ordinary", selected_bytes)
 if ordinary.returncode != 0 or not ordinary.stdout.endswith(b"\n"):
     raise SystemExit("ordinary POSIX Python symlink selector was rejected")
 ordinary_path = ordinary.stdout[:-1].decode("utf-8", "strict")
-if not os.path.samefile(ordinary_path, "/usr/bin/python3"):
+if not os.path.samefile(ordinary_path, selected_python):
     raise SystemExit("ordinary POSIX selector resolved to the wrong executable")
 
 malformed = {
-    "TRAILING_LF": b"/usr/bin/python3\n",
-    "TRAILING_CR": b"/usr/bin/python3\r",
-    "INTERNAL_LF": b"/usr/bin/py\nthon3",
-    "MULTI_LINE": b"/usr/bin/python3\n/usr/bin/python3",
-    "MULTIPLE_TRAILING_LF": b"/usr/bin/python3\n\n",
-    "C0": b"/usr/bin/python3\x01",
-    "DEL": b"/usr/bin/python3\x7f",
+    "TRAILING_LF": selected_bytes + b"\n",
+    "TRAILING_CR": selected_bytes + b"\r",
+    "INTERNAL_LF": selected_bytes[:len(selected_bytes) // 2] + b"\n"
+                   + selected_bytes[len(selected_bytes) // 2:],
+    "MULTI_LINE": selected_bytes + b"\n" + selected_bytes,
+    "MULTIPLE_TRAILING_LF": selected_bytes + b"\n\n",
+    "C0": selected_bytes + b"\x01",
+    "TAB": selected_bytes + b"\t",
+    "DEL": selected_bytes + b"\x7f",
+    "HIGH_BYTE": selected_bytes + b"\x80",
 }
 for label, target in malformed.items():
     result = resolve(label.lower(), target)
@@ -116,19 +201,53 @@ for label, target in malformed.items():
             "POSIX_SELECTOR_CAUSAL_RED=" + label + "_FALSE_ACCEPT "
             + repr(result.stdout))
 
-for label, target in (("EMPTY", b""), ("NUL", b"/usr/bin/python3\0")):
+for label, target in (("EMPTY", b""), ("NUL", selected_bytes + b"\0")):
     try:
         os.symlink(target, os.fsencode(temp / ("selector-" + label.lower())))
     except (OSError, ValueError):
         continue
     raise SystemExit(label + " symlink target unexpectedly exists on POSIX")
 
+escape_target = temp / "python3.12"
+escape_target.write_bytes(b"#!/bin/sh\nexit 0\n")
+escape_target.chmod(0o755)
+escape = resolve("root-escape", os.fsencode(escape_target))
+if escape.returncode == 0 or escape.stdout:
+    raise SystemExit("POSIX selector accepted a trusted-root escape")
+
+cycle = temp / "selector-cycle"
+os.symlink(os.fsencode(cycle), os.fsencode(cycle))
+cycle_result = invoke(cycle)
+if cycle_result.returncode == 0 or cycle_result.stdout:
+    raise SystemExit("POSIX selector accepted a symlink cycle")
+
+
+def hop_chain(label, count):
+    target = os.fsencode(ordinary_path)
+    for index in reversed(range(count)):
+        link = temp / (label + "-" + str(index))
+        os.symlink(target, os.fsencode(link))
+        target = os.fsencode(link)
+    return invoke(os.fsdecode(target))
+
+
+sixteen = hop_chain("hop16", 16)
+if sixteen.returncode != 0 or not sixteen.stdout.endswith(b"\n"):
+    raise SystemExit("POSIX selector rejected the 16-hop boundary")
+seventeen = hop_chain("hop17", 17)
+if seventeen.returncode == 0 or seventeen.stdout:
+    raise SystemExit("POSIX selector accepted 17 symlink hops")
+
 print(
     "CANONICAL_STATE_ROTATION_POSIX_PYTHON_SELECTOR_GREEN=PASS "
-    "ordinary=VERSIONED_FIXED malformed=LF_CR_INTERNAL_MULTILINE_C0_DEL_REJECTED "
+    "model=LINUX_DARWIN_FREEBSD_FIXED_ORDER ordinary=VERSIONED_FIXED "
+    "malformed=LF_CR_INTERNAL_MULTILINE_C0_TAB_DEL_HIGH_REJECTED "
+    "escape-cycle=REJECTED hops=16_ACCEPT_17_REJECT "
+    "layouts=HOMEBREW_ONLY_MACOS_FREEBSD_USR_LOCAL "
     "empty-nul=FILESYSTEM_UNREPRESENTABLE")
 PY
-  : >"$tmp/posix-python-selector-controls.ran"
+  printf '%s\n' "$posix_python_selector_control_calls" \
+    >"$tmp/posix-python-selector-controls.ran"
 }
 if $posix_python_selector_only; then
   run_posix_python_selector_controls
@@ -141,12 +260,9 @@ if $run_installed_custody; then
       [ -x /c/Windows/py.exe ] || fail "installed fixture has no fixed Windows Python"
       installed_fixture_python=(/c/Windows/py.exe -3 -I -S) ;;
     linux*|darwin*|freebsd*)
-      for candidate in /usr/bin/python3 /usr/local/bin/python3 \
-        /opt/homebrew/bin/python3 /opt/local/bin/python3; do
-        [ -x "$candidate" ] && { installed_fixture_python=("$candidate" -I -S); break; }
-      done
-      [ "${#installed_fixture_python[@]}" -gt 0 ] \
-        || fail "installed fixture has no fixed POSIX Python" ;;
+      candidate="$(test_fixed_posix_python_v1)" \
+        || fail "installed fixture has no fixed POSIX Python"
+      installed_fixture_python=("$candidate" -I -S) ;;
     *) fail "installed fixture platform is unsupported" ;;
   esac
   "${installed_fixture_python[@]}" - "$helper" "$claim_helper" \
@@ -745,8 +861,8 @@ PY
   case "${OSTYPE:-}" in
     linux*|darwin*|freebsd*)
       run_posix_python_selector_controls
-      [ -f "$tmp/posix-python-selector-controls.ran" ] \
-        || fail "canonical POSIX installed-custody route omitted selector controls" ;;
+      grep -Fxq '1' "$tmp/posix-python-selector-controls.ran" \
+        || fail "canonical POSIX installed-custody selector cardinality is not one" ;;
   esac
   $installed_custody_only && exit 0
 fi
