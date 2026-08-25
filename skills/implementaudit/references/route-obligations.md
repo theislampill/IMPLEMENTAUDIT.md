@@ -144,6 +144,18 @@ identity, accept a child return, reread post-return currentness, or complete the
 obligation. Those transitions belong to the H2B commands below. An active
 obligation cannot be downgraded or replaced.
 
+A terminal `REQUIRED/SATISFIED` one-shot lifecycle remains immutable, but it
+does not permanently cap its controller. `decide` may create a fresh successor
+only when the same controller, claim, run root, host and host session are bound
+to the exact next continuity and host-binding generations, the continuity
+receipt changed, and the predicate-complete request names a distinct current
+boundary event and digest. The new record points directly to the terminal
+record, owns no inherited child lifecycle bytes, and begins at `UNSATISFIED`
+when its decision is `REQUIRED`. The old terminal record and its packet, return
+and governor decision remain unchanged. Same-context or same-boundary replay,
+skipped or stale generations, standing-source state, noncurrent predicates,
+and `OPEN` or `RETURNED` lifecycles remain non-replaceable.
+
 ## Bounded history routing
 
 Routine route recovery consumes only verified current hot authority and reports

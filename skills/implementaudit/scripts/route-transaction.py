@@ -2410,6 +2410,70 @@ def emit_current_result(validated: dict[str, Any], *, mirror_claim: str) -> None
         raise SystemExit(3)
 
 
+def exact_generation_successor(predecessor: Any, successor: Any) -> bool:
+    return bool(
+        isinstance(predecessor, str)
+        and isinstance(successor, str)
+        and CONTINUITY_RE.fullmatch(predecessor)
+        and CONTINUITY_RE.fullmatch(successor)
+        and int(successor[1:], 16) == int(predecessor[1:], 16) + 1
+    )
+
+
+def require_terminal_route_reentry(
+    repo: Path,
+    args: argparse.Namespace,
+    current: dict[str, str],
+    request: dict[str, Any],
+    old_oid: str,
+    old: dict[str, Any],
+    decision: str,
+) -> None:
+    """Admit only an exact next-boundary successor to a terminal one-shot route."""
+    validate_canonical_route_record_bytes(repo, old_oid, old)
+    candidate_request_from_record(old, require_current_inputs=False)
+    lifecycle = old.get("lifecycle")
+    if (
+        old.get("decision") != "REQUIRED"
+        or old.get("route_state") != "SATISFIED"
+        or not isinstance(lifecycle, dict)
+        or lifecycle.get("state") != "SATISFIED"
+        or lifecycle.get("source_event_status") != "satisfied"
+    ):
+        fail("only an exact terminal one-shot route lifecycle can yield to a fresh boundary", decision="REQUIRED")
+    unchanged_owner = {
+        "controller_id": args.controller,
+        "claim_id": current["claim_id"],
+        "explicit_run_root": current["explicit_run_root"],
+        "host_id": args.host_id,
+        "host_session_id": args.host_session_id,
+    }
+    if any(old.get(key) != value for key, value in unchanged_owner.items()):
+        fail("terminal route re-entry changed controller, claim, run, host, or session identity", decision="REQUIRED")
+    if (
+        old.get("continuity_receipt") == current["continuity_receipt"]
+        or not exact_generation_successor(
+            old.get("continuity_generation"), current["continuity_generation"]
+        )
+    ):
+        fail("terminal route re-entry requires the exact next continuity generation and receipt", decision="REQUIRED")
+    if not exact_generation_successor(
+        old.get("host_binding_generation"), args.binding_generation
+    ):
+        fail("terminal route re-entry requires the exact next host-binding generation", decision="REQUIRED")
+    old_boundary = old.get("boundary")
+    new_boundary = request["boundary"]
+    if (
+        not isinstance(old_boundary, dict)
+        or old_boundary.get("event_id") == new_boundary["event_id"]
+        or old_boundary.get("digest") == new_boundary["digest"]
+    ):
+        fail("terminal route re-entry requires a distinct canonical boundary event and digest", decision="REQUIRED")
+    noncurrent, _ = request_observations(repo, current, request)
+    if noncurrent or decision not in {"NOT_REQUIRED", "REQUIRED"}:
+        fail("terminal route re-entry predicate is incomplete or noncurrent", decision="REQUIRED")
+
+
 def command_check(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
     request = read_request(args.request)
@@ -2527,8 +2591,10 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("an action-in-progress record has unknown completion and cannot be replaced in H2A")
         if old and old["decision"] == "REQUIRED" and old.get("route_state") == "UNSATISFIED":
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
-        if old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED", "SATISFIED"}:
-            fail("an H2B route lifecycle cannot be replaced without explicit reopen, target change, or invalidating evidence", decision="REQUIRED")
+        if old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED"}:
+            fail("an active H2B route lifecycle cannot be replaced", decision="REQUIRED")
+        if old and old["decision"] == "REQUIRED" and old.get("route_state") == "SATISFIED":
+            require_terminal_route_reentry(repo, args, current, request, old_oid, old, decision)
         record_base: dict[str, Any] = {
             "schema": RECORD_SCHEMA,
             "predicate_version": PREDICATE_VERSION,

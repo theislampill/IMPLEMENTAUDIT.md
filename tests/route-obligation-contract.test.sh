@@ -286,19 +286,22 @@ bind_host() {
 
 promote_to_v3() {
   local controller="$1" claim_local="$2" root="$3" run_name="$4" event="$5"
+  local boundary_kind="${6:-manual-resume}"
   local invalidation invalidation_oid head tree state_sha road_sha graph_sha
   local manifest_raw manifest_oid manifest_sha pointer_ref marker_ref pointer_oid receipt receipt_oid marker_oid
-  invalidation="$(cd "$tmp/repo" && bash "$claim" --invalidate-continuity "$controller" --boundary manual-resume --event "$event")"
+  invalidation="$(cd "$tmp/repo" && bash "$claim" --invalidate-continuity "$controller" --boundary "$boundary_kind" --event "$event")"
   invalidation_oid="${invalidation##*@}"
   head="$(git -C "$tmp/repo" rev-parse HEAD)"; tree="$(git -C "$tmp/repo" rev-parse 'HEAD^{tree}')"
-  "${py[@]}" - "$root/STATE.md" "$head" "$tree" <<'PY'
+  "${py[@]}" - "$root/STATE.md" "$head" "$tree" "$boundary_kind" "$event" <<'PY'
 import sys
 from pathlib import Path
-p=Path(sys.argv[1]); head,tree=sys.argv[2:]
+p=Path(sys.argv[1]); head,tree,boundary,event=sys.argv[2:]
 s=p.read_text(encoding="utf-8").replace("Current epoch: G0001","Current epoch: G0002")
-anchor=f"| G0001 | new-session | 2026-08-20T00:00:00Z | {head} {tree} | yes | exact H2A boundary |"
-row=f"| G0002 | manual-resume | 2026-08-20T00:05:00Z | {head} {tree} | yes | exact v3 route boundary |"
-if s.count(anchor)!=1: raise SystemExit("v3 fixture lost its G0001 anchor")
+anchor_prefix=f"| G0001 | new-session | 2026-08-20T00:00:00Z | {head} {tree} | yes | "
+anchors=[line for line in s.splitlines() if line.startswith(anchor_prefix)]
+row=f"| G0002 | {boundary} | 2026-08-20T00:05:00Z | {head} {tree} | yes | exact successor route boundary {event} |"
+if len(anchors)!=1: raise SystemExit("v3 fixture lost its unique G0001 anchor")
+anchor=anchors[0]
 p.write_text(s.replace(anchor,anchor+"\n"+row),encoding="utf-8")
 PY
   printf '\nExact v3 route recovery reconciled.\n' >> "$root/ROADMAP.md"
@@ -331,7 +334,7 @@ print(canonical(body),end="")
 PY
   )"
   git -C "$tmp/repo" update-ref "$pointer_ref" "$pointer_oid" 0000000000000000000000000000000000000000
-  receipt="$(cd "$tmp/repo" && bash "$claim" --resume-controller "$controller" --boundary manual-resume --epoch G0002)"
+  receipt="$(cd "$tmp/repo" && bash "$claim" --resume-controller "$controller" --boundary "$boundary_kind" --epoch G0002)"
   receipt_oid="${receipt##*@}"
   marker_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
     implementaudit.current-generation-migration.v1 "$controller" "$claim_local" "$run_name" G0002 \
@@ -1243,12 +1246,19 @@ assert_json "$judgement_decide" 'value["record_oid"] and value["decision"] == "R
 # reach final request-free admission only after the one governor decision.
 run_governed_child_case() {
   local case_id="$1" claim_local="$2" reason="$3" child="$4" visible_reason="$5"
+  local successor_boundary="$6" successor_event="${case_id,,}-successor-boundary"
+  local successor_mode="${7:-REQUIRED}"
   local controller="controller-${case_id,,}" session="session-${case_id,,}"
   local run_name="${case_id,,}-ABC123" request="$tmp/${case_id,,}-request.json"
   local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name" receipt decided required_record
   local obligation transaction attributed correlation target wrong_packet wrong_visible
   local wrong_output wrong_status packet returned_artifact decision_artifact opened open_record
   local open_visible returned_result return_record completed_result complete_record admitted
+  local terminal_again same_current_request successor_receipt successor_request successor_decided
+  local successor_required successor_obligation successor_transaction successor_attributed
+  local successor_correlation successor_packet successor_return successor_decision successor_opened
+  local successor_open_record successor_visible successor_returned successor_return_record
+  local successor_completed successor_complete_record first_terminal_blob successor_required_blob successor_status
 
   receipt="$(make_run "$controller" "$run_name" "$claim_local" exact-boundary-event)"
   bind_host "$session" "$controller" "$claim_local" "$root" "$receipt" "activation-${case_id,,}"
@@ -1366,20 +1376,178 @@ PY
   assert_json "$admitted" 'value["decision"] == "REQUIRED" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
   [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$complete_record" ] ||
     fail "$case_id final admission changed canonical route state"
+
+  # A terminal lifecycle is idempotent only for its exact current boundary.
+  # A distinct request in the same currentness cannot replace it.
+  terminal_again="$(route "$controller" "$session" G0001 decide --request "$request" \
+    --expected-record "$complete_record")"
+  assert_json "$terminal_again" 'value["idempotent"] is True and value["record_oid"] == "'"$complete_record"'" and value["route_state"] == "SATISFIED"'
+  same_current_request="$tmp/${case_id,,}-same-currentness.json"
+  mutate_request "$request" "$same_current_request" \
+    'value["boundary"]={"kind":"new-session","event_id":"same-currentness-'"${case_id,,}"'"}; value["boundary"]["digest"]=h(value["boundary"])'
+  expect_blocked "$case_id same currentness cannot replace terminal route" \
+    route "$controller" "$session" G0001 decide --request "$same_current_request" \
+      --expected-record "$complete_record" >/dev/null
+
+  # Rotate the same controller/claim/run/session through the exact next
+  # continuity and binding generation. The successor boundary is distinct and
+  # must mint a fresh immutable REQUIRED/UNSATISFIED transaction whose direct
+  # predecessor is the preserved first terminal record.
+  first_terminal_blob="$(git -C "$tmp/repo" cat-file blob "$complete_record")"
+  successor_receipt="$(promote_to_v3 "$controller" "$claim_local" "$root" "$run_name" \
+    "$successor_event" "$successor_boundary")"
+  successor_request="$tmp/${case_id,,}-successor-request.json"
+  if [ "$successor_mode" = "NOT_REQUIRED" ]; then
+    mutate_request "$request" "$successor_request" \
+      'value["boundary"]={"kind":"'"$successor_boundary"'","event_id":"'"$successor_event"'"}; value["boundary"]["digest"]=h(value["boundary"]); value["action"]={"identity":"action:successor-not-required","class":"PURE_BOUNDED_READ_OR_VALIDATION","argv":["route-read-snapshot"]}; value["action"]["digest"]=h(value["action"])'
+  else
+    mutate_request "$request" "$successor_request" \
+      'value["boundary"]={"kind":"'"$successor_boundary"'","event_id":"'"$successor_event"'"}; value["boundary"]["digest"]=h(value["boundary"])'
+  fi
+  expect_blocked "$case_id stale predecessor binding cannot replace terminal route" \
+    route "$controller" "$session" G0001 decide --request "$successor_request" \
+      --expected-record "$complete_record" >/dev/null
+  expect_blocked "$case_id absent successor binding cannot replace terminal route" \
+    route "$controller" "$session" G0002 decide --request "$successor_request" \
+      --expected-record "$complete_record" >/dev/null
+  host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+    --expected-generation G0001 --reason terminal-route-successor \
+    --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+    --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+    --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g2" \
+    --activation-receipt "activation-${case_id,,}-g2" --continuity-generation G0002 \
+    --continuity-receipt "$successor_receipt" >/dev/null
+  expect_blocked "$case_id skipped binding generation cannot replace terminal route" \
+    route "$controller" "$session" G0003 decide --request "$successor_request" \
+      --expected-record "$complete_record" >/dev/null
+
+  set +e
+  successor_decided="$(route "$controller" "$session" G0002 decide --request "$successor_request" \
+    --expected-record "$complete_record" 2>&1)"
+  successor_status=$?
+  set -e
+  if [ "$successor_status" -ne 0 ]; then
+    printf 'route-obligation-contract.test: terminal-route re-entry causal RED: %s\n' "$successor_decided" >&2
+    exit 1
+  fi
+  if [ "$successor_mode" = "NOT_REQUIRED" ]; then
+    assert_json "$successor_decided" 'value["decision"] == "NOT_REQUIRED" and value["obligation_id"] is None and value["route_state"] is None and value["predecessor_record_oid"] == "'"$complete_record"'"'
+    successor_required="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_decided")"
+    successor_required_blob="$(git -C "$tmp/repo" cat-file blob "$successor_required")"
+    assert_json "$successor_required_blob" 'value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["child_source"]["identity"] == "R0033:NOT_REQUIRED:NO_CHILD"'
+    [ "$(git -C "$tmp/repo" cat-file blob "$complete_record")" = "$first_terminal_blob" ] ||
+      fail "$case_id NOT_REQUIRED successor mutated the first terminal record"
+    return
+  fi
+  assert_json "$successor_decided" 'value["decision"] == "REQUIRED" and value["route_state"] == "UNSATISFIED" and value["predecessor_record_oid"] == "'"$complete_record"'" and not value.get("idempotent", False)'
+  successor_required="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_decided")"
+  successor_obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$successor_decided")"
+  successor_transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$successor_decided")"
+  successor_required_blob="$(git -C "$tmp/repo" cat-file blob "$successor_required")"
+  assert_json "$successor_required_blob" 'value["predecessor_record_oid"] == "'"$complete_record"'" and value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["continuity_generation"] == "G0002"'
+  [ "$(git -C "$tmp/repo" cat-file blob "$complete_record")" = "$first_terminal_blob" ] ||
+    fail "$case_id successor decision mutated the first terminal record"
+
+  successor_attributed="$(host validate-event --host-id codex --host-session-id "$session" \
+    --binding-generation G0002 --controller-id "$controller" --claim-id "$claim_local" \
+    --explicit-run-root "$root" --repository-identity "$repo_custody" \
+    --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
+    --continuity-generation G0002 --continuity-receipt "$successor_receipt" \
+    --event-id "host:$case_id:successor" --obligation-id "$successor_obligation" \
+    --route-transaction-id "$successor_transaction")"
+  successor_correlation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$successor_attributed")"
+  successor_packet="$tmp/${case_id,,}-successor-packet.json"
+  successor_return="$tmp/${case_id,,}-successor-return.json"
+  successor_decision="$tmp/${case_id,,}-successor-decision.json"
+  "${py[@]}" - "$successor_packet" "$successor_return" "$successor_decision" \
+    "$successor_obligation" "$successor_transaction" "$successor_correlation" "$case_id" "$child" <<'PY'
+import hashlib,json,sys
+packet_path,return_path,decision_path,obligation,transaction,correlation,event_id,target=sys.argv[1:]
+def write(path,value):
+ raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
+ open(path,"wb").write(raw)
+ return "sha256:"+hashlib.sha256(raw).hexdigest()
+packet={
+ "schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":target,
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:"+event_id+":successor",
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1","event_id":"host:"+event_id+":successor",
+   "host_correlation_id":correlation},"body":"perform the exact successor governed child once",
+  "kind":"one-shot-action","reactivation":{"reopen":False,"target_changed":False,
+   "invalidating_evidence":False}},
+}
+packet_digest=write(packet_path,packet)
+returned={"schema":"implementaudit.child-return.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"packet_digest":packet_digest,"status":"RETURNED",
+ "payload":{"result":"bounded successor child analysis"}}
+return_digest=write(return_path,returned)
+decision={"schema":"implementaudit.governor-route-decision.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
+ "reason":"governor reconciled the exact successor child return"}
+write(decision_path,decision)
+PY
+
+  successor_visible="$tmp/${case_id,,}-successor-open.visible"
+  successor_opened="$(route "$controller" "$session" G0002 open --request "$successor_request" \
+    --expected-record "$successor_required" --packet "$successor_packet" 2>"$successor_visible")"
+  assert_json "$successor_opened" 'value["status"] == "CHILD_OPEN" and value["route_state"] == "OPEN"'
+  successor_open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_opened")"
+  "${py[@]}" - "$successor_opened" "$repo_root/skills/$child/SKILL.md" <<'PY'
+import base64,json,sys
+value=json.loads(sys.argv[1])
+if base64.b64decode(value["delivery"]["child"]["bytes_b64"]) != open(sys.argv[2],"rb").read():
+ raise SystemExit("successor mapped child bytes were not delivered")
+PY
+  mapfile -t successor_visible_lines < "$successor_visible"
+  [ "${#successor_visible_lines[@]}" -eq 2 ] || fail "$case_id successor did not emit exactly one two-line route"
+  [ "${successor_visible_lines[0]: -1}" != $'\r' ] || successor_visible_lines[0]="${successor_visible_lines[0]%$'\r'}"
+  [ "${successor_visible_lines[1]: -1}" != $'\r' ] || successor_visible_lines[1]="${successor_visible_lines[1]%$'\r'}"
+  [ "${successor_visible_lines[0]}" = "CHILD_SKILL_ROUTE=$child" ] || fail "$case_id successor emitted the wrong child identity"
+  [ "${successor_visible_lines[1]}" = "I'm using $child to $visible_reason." ] || fail "$case_id successor emitted the wrong bounded reason"
+  expect_blocked "$case_id OPEN successor cannot be replaced" \
+    route "$controller" "$session" G0002 decide --request "$same_current_request" \
+      --expected-record "$successor_open_record" >/dev/null
+
+  successor_returned="$(route "$controller" "$session" G0002 return --request "$successor_request" \
+    --expected-record "$successor_open_record" --return "$successor_return")"
+  assert_json "$successor_returned" 'value["status"] == "CHILD_RETURNED" and value["route_state"] == "RETURNED"'
+  successor_return_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_returned")"
+  expect_blocked "$case_id RETURNED successor cannot be replaced" \
+    route "$controller" "$session" G0002 decide --request "$same_current_request" \
+      --expected-record "$successor_return_record" >/dev/null
+  successor_completed="$(route "$controller" "$session" G0002 complete --request "$successor_request" \
+    --expected-record "$successor_return_record" --packet "$successor_packet" \
+    --return "$successor_return" --decision "$successor_decision")"
+  assert_json "$successor_completed" 'value["status"] == "ROUTE_COMPLETE" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1'
+  successor_complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_completed")"
+  admitted="$(cd "$tmp/repo" && bash "$claim" --require-current-route "$controller" \
+    --store "$tmp/host-store" --host-id codex --host-session-id "$session" \
+    --binding-generation G0002)"
+  assert_json "$admitted" 'value["record_oid"] == "'"$successor_complete_record"'" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
+  [ "$(git -C "$tmp/repo" cat-file blob "$complete_record")" = "$first_terminal_blob" ] ||
+    fail "$case_id second lifecycle mutated the first terminal record"
 }
 
 run_governed_child_case G01 55555555555555555555555555555555 \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
-  'rehydrate bounded current state after the exact stale-context boundary'
+  'rehydrate bounded current state after the exact stale-context boundary' \
+  host-reported-compaction
 run_governed_child_case G02 66666666666666666666666666666666 \
   IMMUTABLE_INDEPENDENT_REVIEW audit-assess \
-  'independently assess the exact immutable review packet'
+  'independently assess the exact immutable review packet' \
+  new-session
 run_governed_child_case G03 77777777777777777777777777777777 \
   MAINTAINER_QUALIFICATION audit-implement \
-  'qualify the exact maintainer candidate after verified release currentness'
+  'qualify the exact maintainer candidate after verified release currentness' \
+  handoff-resume
 run_governed_child_case G04 88888888888888888888888888888888 \
   NONTRIVIAL_ANDON_DIAGNOSIS audit-andon \
-  'diagnose the established nontrivial Andon within its authority ceiling'
+  'diagnose the established nontrivial Andon within its authority ceiling' \
+  manual-resume
+run_governed_child_case G05 99999999999999999999999999999999 \
+  STALE_CONTEXT_RECONSTRUCTION audit-state \
+  'rehydrate bounded current state after the exact stale-context boundary' \
+  manual-resume NOT_REQUIRED
 
 # The pure R0033 owner validator remains usable for a read-only C03 projection
 # after event attribution is tombstoned, while every R0033 effect path refuses.
