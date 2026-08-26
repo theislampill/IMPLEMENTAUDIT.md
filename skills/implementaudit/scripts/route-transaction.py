@@ -556,7 +556,11 @@ def ref_name(controller: str) -> str:
 
 
 def current_ref(
-    repo: Path, controller: str, *, allow_immutable_terminal_child: bool = False
+    repo: Path,
+    controller: str,
+    *,
+    allow_immutable_terminal_child: bool = False,
+    allow_immutable_active_child: bool = False,
 ) -> tuple[str | None, dict[str, Any] | None]:
     ref = ref_name(controller)
     completed = subprocess.run(
@@ -625,7 +629,14 @@ def current_ref(
             and lifecycle.get("state") == "SATISFIED"
             and lifecycle.get("source_event_status") == "satisfied"
         )
-        if immutable_terminal_child:
+        immutable_active_child = (
+            allow_immutable_active_child
+            and record.get("decision") == "REQUIRED"
+            and record.get("route_state") in {"OPEN", "RETURNED"}
+            and lifecycle.get("state") == record.get("route_state")
+            and lifecycle.get("source_event_status") == "active"
+        )
+        if immutable_terminal_child or immutable_active_child:
             bound_child = exact_keys(
                 record.get("child_source"), {"identity", "digest"}, "bound route child source"
             )
@@ -2816,7 +2827,12 @@ def command_decide(args: argparse.Namespace) -> None:
         decision, classification, invalidators, evidence, fingerprint, transaction_id, obligation_id = evaluate(
             repo, common, args, current, request
         )
-        old_oid, old = current_ref(repo, args.controller, allow_immutable_terminal_child=True)
+        old_oid, old = current_ref(
+            repo,
+            args.controller,
+            allow_immutable_terminal_child=True,
+            allow_immutable_active_child=True,
+        )
         expected = args.expected_record
         if expected == "none":
             if old_oid is not None:
@@ -2826,6 +2842,13 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("route decision CAS expected record is stale", decision=old["decision"] if old else "PENDING")
         else:
             expected_oid = expected
+        active_recovery = bool(
+            old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED"}
+        )
+        if active_recovery:
+            require_active_route_recovery(
+                repo, args, current, request, old_oid, old, decision, classification
+            )
         current_context_matches = bool(
             old
             and old.get("claim_id") == current["claim_id"]
@@ -2867,13 +2890,6 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("an action-in-progress record has unknown completion and cannot be replaced in H2A")
         if old and old["decision"] == "REQUIRED" and old.get("route_state") == "UNSATISFIED":
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
-        active_recovery = bool(
-            old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED"}
-        )
-        if active_recovery:
-            require_active_route_recovery(
-                repo, args, current, request, old_oid, old, decision, classification
-            )
         terminal_reentry = bool(
             old and old["decision"] == "REQUIRED" and old.get("route_state") == "SATISFIED"
         )

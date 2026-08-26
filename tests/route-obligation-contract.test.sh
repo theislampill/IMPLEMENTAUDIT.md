@@ -2034,9 +2034,14 @@ PY
 # STALE_CONTEXT_RECONSTRUCTION transaction.
 run_active_compaction_recovery_case() {
   local case_id="$1" active_state="$2" claim_local="$3"
+  local package_mode="${4:-CURRENT_PACKAGE}"
   local controller="controller-${case_id,,}" session="session-${case_id,,}"
   local run_name="${case_id,,}-ABC123"
   local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name"
+  local ROUTE_CORE="${ROUTE_CORE_OVERRIDE:-$core}"
+  local ACTIVE_CLAIM="${ROUTE_CLAIM_OVERRIDE:-$claim}"
+  local package_source="${ROUTE_PACKAGE_SOURCE:-$repo_root/skills}"
+  local package_root="$package_source" package_old_parent package_new_parent package_old package_new
   local old_request="$tmp/${case_id,,}-old-request.json" recovery_request="$tmp/${case_id,,}-recovery-request.json"
   local wrong_reason_request="$tmp/${case_id,,}-wrong-reason-request.json"
   local malformed_request="$tmp/${case_id,,}-malformed-request.json"
@@ -2047,6 +2052,19 @@ run_active_compaction_recovery_case() {
   local recovery_attributed recovery_correlation recovery_packet="$tmp/${case_id,,}-recovery-packet.json"
   local recovery_return="$tmp/${case_id,,}-recovery-return.json" recovery_decision="$tmp/${case_id,,}-recovery-decision.json"
   local recovery_opened recovery_open_record recovery_returned recovery_return_record recovery_completed recovery_complete_record admitted
+
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    package_old_parent="$tmp/${case_id,,}-active-package-old"
+    package_new_parent="$tmp/${case_id,,}-active-package-new"
+    mkdir -p "$package_old_parent" "$package_new_parent"
+    cp -R "$package_source" "$package_old_parent/"
+    cp -R "$package_source" "$package_new_parent/"
+    package_old="$package_old_parent/skills"
+    package_new="$package_new_parent/skills"
+    ROUTE_CORE="$package_old/implementaudit/scripts/route-transaction.py"
+    ACTIVE_CLAIM="$package_old/implementaudit/scripts/claim-run.sh"
+    package_root="$package_old"
+  fi
 
   receipt="$(make_run "$controller" "$run_name" "$claim_local" "${case_id,,}-old-boundary")"
   bind_host "$session" "$controller" "$claim_local" "$root" "$receipt" "activation-${case_id,,}"
@@ -2103,8 +2121,33 @@ PY
   # work, even when it names the recovery reason.
   mutate_request "$old_request" "$recovery_request" \
     'value["action"]={"identity":"action:stale_context_reconstruction","class":"PURE_BOUNDED_READ_OR_VALIDATION","argv":["route-trigger","STALE_CONTEXT_RECONSTRUCTION"]}; value["action"]["digest"]=h(value["action"])'
+
+  # Model an exact cachebuster/install relocation after the active record was
+  # written. The historical audit-assess bytes are identical, but their old
+  # absolute identity no longer exists. Only the later-boundary recovery decide
+  # may read that immutable delivery; every ordinary path remains strict-current.
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    cmp -s "$package_old/audit-assess/SKILL.md" "$package_new/audit-assess/SKILL.md" ||
+      fail "$case_id relocated active child bytes changed"
+    rm -rf -- "$package_old"
+    [ ! -e "$package_old/audit-assess/SKILL.md" ] ||
+      fail "$case_id predecessor active package path remained available"
+    ROUTE_CORE="$package_new/implementaudit/scripts/route-transaction.py"
+    ACTIVE_CLAIM="$package_new/implementaudit/scripts/claim-run.sh"
+    package_root="$package_new"
+  fi
+
   expect_blocked "$case_id same-context active replacement" \
     route "$controller" "$session" G0001 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    expect_blocked "$case_id relocated active lifecycle cannot pass ordinary check" \
+      route "$controller" "$session" G0001 check --request "$old_request" >/dev/null
+    expect_blocked "$case_id relocated active lifecycle cannot pass ordinary open" \
+      route "$controller" "$session" G0001 open --request "$old_request" \
+        --expected-record "$active_record" --packet "$old_packet" >/dev/null
+    expect_blocked "$case_id relocated active lifecycle cannot pass ordinary admission" \
+      route "$controller" "$session" G0001 admit-current >/dev/null
+  fi
 
   successor_receipt="$(promote_to_v3 "$controller" "$claim_local" "$root" "$run_name" \
     "${case_id,,}-compact-boundary" host-reported-compaction)"
@@ -2142,6 +2185,73 @@ PY
   expect_blocked "$case_id stale observed inputs cannot recover active lifecycle" \
     route "$controller" "$session" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
   cp "$tmp/${case_id,,}-baseline" "$tmp/repo/baseline.txt"
+
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    # Historical custody is semantic, not permissive: every byte identity and
+    # the original required-record binding remain exact even though the path is
+    # no longer the current cache path.
+    "${py[@]}" - "$tmp/repo" "$active_record" "$tmp/${case_id,,}-active-tamper" <<'PY'
+import base64
+import copy
+import hashlib
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo, source_oid, output_prefix = sys.argv[1:]
+source = json.loads(subprocess.check_output(["git", "-C", repo, "cat-file", "blob", source_oid]))
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+
+def digest(raw):
+    return "sha256:" + hashlib.sha256(raw).hexdigest()
+
+def finish(name, value):
+    base = {key: member for key, member in value.items() if key != "record_identity"}
+    value["record_identity"] = digest(canonical(base))
+    Path(f"{output_prefix}-{name}.json").write_bytes(canonical(value) + b"\n")
+
+changed_bytes = copy.deepcopy(source)
+child = changed_bytes["lifecycle"]["delivery"]["child"]
+raw = base64.b64decode(child["bytes_b64"], validate=True) + b"\nM1 active historical mutation"
+child["bytes_b64"] = base64.b64encode(raw).decode("ascii")
+child["bytes"] = len(raw)
+child["digest"] = digest(raw)
+changed_bytes["child_source"]["digest"] = child["digest"]
+finish("bytes", changed_bytes)
+
+changed_digest = copy.deepcopy(source)
+changed_digest["lifecycle"]["delivery"]["child"]["digest"] = "sha256:" + "0" * 64
+finish("digest", changed_digest)
+
+missing_identity = copy.deepcopy(source)
+del missing_identity["lifecycle"]["delivery"]["child"]["identity"]
+finish("missing", missing_identity)
+
+foreign_identity = copy.deepcopy(source)
+foreign = foreign_identity["child_source"]["identity"] + "-foreign"
+foreign_identity["child_source"]["identity"] = foreign
+foreign_identity["lifecycle"]["delivery"]["child"]["identity"] = foreign
+finish("foreign", foreign_identity)
+
+malformed_identity = copy.deepcopy(source)
+malformed_identity["child_source"]["identity"] = ""
+malformed_identity["lifecycle"]["delivery"]["child"]["identity"] = ""
+finish("malformed", malformed_identity)
+PY
+    for active_tamper in bytes digest missing foreign malformed; do
+      proxy_oid="$(git -C "$tmp/repo" hash-object -w "$tmp/${case_id,,}-active-tamper-$active_tamper.json")"
+      git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" "$proxy_oid" "$active_record"
+      expect_blocked "$case_id active historical child $active_tamper tamper cannot recover" \
+        route "$controller" "$session" G0002 decide --request "$recovery_request" \
+          --expected-record "$proxy_oid" >/dev/null
+      [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$proxy_oid" ] ||
+        fail "$case_id active historical child $active_tamper tamper changed the route ref"
+      git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" "$active_record" "$proxy_oid"
+    done
+  fi
 
   set +e
   recovery_decided="$(route "$controller" "$session" G0002 decide --request "$recovery_request" \
@@ -2207,6 +2317,16 @@ write(decision_path,{"schema":"implementaudit.governor-route-decision.v1","oblig
 PY
   recovery_opened="$(route "$controller" "$session" G0002 open --request "$recovery_request" \
     --expected-record "$recovery_required" --packet "$recovery_packet" 2>"$tmp/${case_id,,}-recovery-open.visible")"
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+    "${py[@]}" - "$recovery_opened" "$package_root/audit-state/SKILL.md" <<'PY'
+import base64,json,sys
+from pathlib import Path
+value=json.loads(sys.argv[1]); delivery=value["delivery"]["child"]
+expected_path=Path(sys.argv[2]).resolve(); expected=expected_path.read_bytes()
+if Path(delivery["identity"]).resolve() != expected_path or base64.b64decode(delivery["bytes_b64"], validate=True) != expected:
+ raise SystemExit("fresh recovery did not load current installed audit-state bytes")
+PY
+  fi
   recovery_open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_opened")"
   recovery_returned="$(route "$controller" "$session" G0002 return --request "$recovery_request" \
     --expected-record "$recovery_open_record" --return "$recovery_return")"
@@ -2259,7 +2379,7 @@ run_governed_child_case G06 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
   host-reported-compaction REQUIRED PACKAGE_RELOCATED TWO_ROTATIONS
 fi
 if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G07 ]; then
-  run_active_compaction_recovery_case G07 OPEN bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  run_active_compaction_recovery_case G07 OPEN bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb PACKAGE_RELOCATED
 fi
 if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G08 ]; then
   run_active_compaction_recovery_case G08 RETURNED cccccccccccccccccccccccccccccccc

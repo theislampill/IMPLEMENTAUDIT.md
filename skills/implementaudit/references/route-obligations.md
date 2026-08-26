@@ -170,6 +170,10 @@ skipped/stale-generation, foreign owner/session, different-reason/child,
 malformed-provenance, noncurrent-input and old-lifecycle reuse attempts fail
 closed. Ordinary work stays blocked until the fresh audit-state return, one
 governor completion and post-return currentness all succeed.
+If an exact package relocation retired the old child path, only this recovery
+`decide` may validate the incomplete lifecycle against its immutable bound
+`child_source` and delivered bytes; all ordinary paths still require the
+current mapped child, and the fresh audit-state route loads only current bytes.
 
 ## Bounded history routing
 
