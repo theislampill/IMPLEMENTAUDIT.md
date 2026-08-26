@@ -19,6 +19,7 @@ RESULT_SCHEMA = "implementaudit.host-stop-interlock-result.v1"
 HOST_NAMESPACE = "codex"
 STORE_DIRECTORY = "host-session-binding-v1"
 MAX_INPUT_BYTES = 65536
+MAX_PROXIMAL_SELECTION_BYTES = 131072
 MAX_IDENTIFIER_BYTES = 1024
 MAX_IGNORED_TEXT = 4096
 REQUIRED_EVENT_KEYS = {
@@ -183,12 +184,15 @@ def owner_environment() -> dict[str, str]:
     return environment
 
 
-def run(command: list[str], *, cwd: str | None = None) -> subprocess.CompletedProcess[str]:
+def run(
+    command: list[str], *, cwd: str | None = None, input_text: str | None = None,
+) -> subprocess.CompletedProcess[str]:
     try:
         return subprocess.run(
             command,
             cwd=cwd,
             env=owner_environment(),
+            input=input_text,
             check=False,
             capture_output=True,
             text=True,
@@ -490,11 +494,13 @@ def consume_proximal_selection(
         "--continuity-receipt", binding["applicable_continuity_receipt"],
         "--event-id", stop_event_id(event, binding),
         "--turn-id", event["turn_id"],
-        "--selection-json", json.dumps(
-            selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False
-        ),
     ]
-    result = run(command)
+    canonical = json.dumps(
+        selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    )
+    if len(canonical.encode("utf-8")) > MAX_PROXIMAL_SELECTION_BYTES:
+        raise InterlockUnavailable("proximal action selection transport is oversized")
+    result = run(command, input_text=canonical)
     value = json_result(result, "proximal action consumption")
     if result.returncode != 0 or value.get("status") != "PROXIMAL_ACTION_CONSUMED":
         raise InterlockUnavailable("proximal action selection was not consumed")

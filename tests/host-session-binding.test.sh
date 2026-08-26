@@ -478,13 +478,24 @@ PY
 
 consume_selection() {
   local selection="$1" event="$2" turn="$3"
+  printf '%s' "$selection" | run_core consume-proximal-action \
+    --host-id codex --host-session-id session-b --binding-generation G0001 \
+    --controller-id controller-a --claim-id claim-b --explicit-run-root "$run_b" \
+    --repository-identity "$repository" --git-common-directory-identity "$common" \
+    --worktree-identity "$worktree" --continuity-generation G0001 \
+    --continuity-receipt continuity-receipt-session-b --event-id "$event" \
+    --turn-id "$turn"
+}
+
+consume_selection_file() {
+  local selection_path="$1" event="$2" turn="$3"
   run_core consume-proximal-action \
     --host-id codex --host-session-id session-b --binding-generation G0001 \
     --controller-id controller-a --claim-id claim-b --explicit-run-root "$run_b" \
     --repository-identity "$repository" --git-common-directory-identity "$common" \
     --worktree-identity "$worktree" --continuity-generation G0001 \
     --continuity-receipt continuity-receipt-session-b --event-id "$event" \
-    --turn-id "$turn" --selection-json "$selection"
+    --turn-id "$turn" < "$selection_path"
 }
 
 expect_consume_unavailable() {
@@ -544,6 +555,176 @@ printf '{' > "$uncertain_receipt"
 expect_consume_unavailable "unknown completion remains consumed" \
   "$selection_three" proximal-event-uncertain proximal-turn-uncertain
 
+# A valid compiler-scale REQUIRED selection must cross the real Stop adapter ->
+# binding-core boundary on Windows without being placed in the process command
+# line.  The pre-correction implementation fails before the child process can
+# launch when this canonical selection is passed as one argv value.
+adapter_consume_selection_file() {
+  local selection_path="$1" turn_id="$2"
+  "${py[@]}" - \
+    "$repo_root/skills/implementaudit/scripts/host-stop-interlock.py" \
+    "$core" "$store" "$repository" "$common" "$worktree" "$run_b" \
+    "$selection_path" "$turn_id" <<'PY'
+import importlib.util,json,sys
+from pathlib import Path
+
+(adapter_path,core_path,store,repository,common,worktree,run_root,
+ selection_path,turn_id)=sys.argv[1:]
+spec=importlib.util.spec_from_file_location("host_stop_interlock",adapter_path)
+module=importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(module)
+with open(selection_path,"r",encoding="utf-8") as handle:
+ selection=json.load(handle)
+event={
+ "session_id":"session-b","turn_id":turn_id,
+ "last_assistant_message":"Bounded selection stdin transport control.",
+}
+binding={
+ "binding_generation":"G0001","controller_id":"controller-a","claim_id":"claim-b",
+ "explicit_run_root":run_root,"repository_identity":repository,
+ "git_common_directory_identity":common,"worktree_identity":worktree,
+ "applicable_continuity_generation":"G0001",
+ "applicable_continuity_receipt":"continuity-receipt-session-b",
+}
+result=module.consume_proximal_selection(
+ Path(store),event,binding,Path(core_path),selection
+)
+print(json.dumps(result,sort_keys=True,separators=(",",":")))
+PY
+}
+
+large_selection_path="$tmp/large-proximal-selection.json"
+"${py[@]}" - "$large_selection_path" <<'PY'
+import hashlib,json,sys
+path=sys.argv[1]
+authority={key:"NONE" for key in (
+ "closure","done","lifecycle_credit","merge","package","publication","release"
+)}
+value={
+ "schema":"implementaudit.proximal-action-selection.v1",
+ "decision_sha256":"4"*64,
+ "applicable":True,
+ "decision":"PROXIMAL_CLASSIFICATION_SATISFIED",
+ "applicability_reason":"BOUNDED_ACTION_PAIR_PRESENT",
+ "advance_allowed":True,
+ "currentness":{"receipt":"continuity-receipt-session-b","current":True},
+ "request_sha256":"5"*64,
+ "projection_digest":"6"*64,
+ "mode":"COMPONENT_ACCEPTANCE",
+ "reason":"AFFECTED_COMPONENT_AUTHORITY_ONLY",
+ "lanes":["ACCEPTANCE_LANE","DIAGNOSTIC_LANE"],
+ "qualification":{
+  "affected_contracts":[f"contract-{index:04d}-"+("x"*35) for index in range(900)],
+  "authority":authority,
+ },
+ "authority":authority,
+}
+unsigned=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+value["digest"]=hashlib.sha256(unsigned.encode()).hexdigest()
+raw=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+if not 47000 < len(raw) < 65536:
+ raise SystemExit(f"invalid large-selection fixture length: {len(raw)}")
+open(path,"wb").write(raw)
+PY
+large_transport_result="$(adapter_consume_selection_file \
+  "$large_selection_path" proximal-turn-large)"
+assert_json "$large_transport_result" \
+  'value["status"] == "PROXIMAL_ACTION_CONSUMED" and value["idempotent"] is False and value["decision"] == "PROXIMAL_CLASSIFICATION_SATISFIED"'
+
+# The stdin transport has one fixed byte ceiling.  Its exact maximum is valid;
+# one additional byte, malformed bytes, and noncanonical-but-parseable bytes
+# all fail before custody.  No caller-selected file transport is available.
+max_selection_path="$tmp/max-proximal-selection.json"
+"${py[@]}" - "$max_selection_path" 131072 <<'PY'
+import hashlib,json,sys
+path,limit=sys.argv[1],int(sys.argv[2])
+authority={key:"NONE" for key in (
+ "closure","done","lifecycle_credit","merge","package","publication","release"
+)}
+def encode(reason):
+ value={
+  "schema":"implementaudit.proximal-action-selection.v1",
+  "decision_sha256":"7"*64,"applicable":True,
+  "decision":"PROXIMAL_CLASSIFICATION_SATISFIED",
+  "applicability_reason":"BOUNDED_ACTION_PAIR_PRESENT","advance_allowed":True,
+  "currentness":{"receipt":"continuity-receipt-session-b","current":True},
+  "request_sha256":"8"*64,"projection_digest":"9"*64,
+  "mode":"COMPONENT_ACCEPTANCE","reason":"AFFECTED_COMPONENT_AUTHORITY_ONLY",
+  "lanes":["ACCEPTANCE_LANE"],
+  "qualification":{"affected_contracts":[reason],"authority":authority},
+  "authority":authority,
+ }
+ unsigned=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+ value["digest"]=hashlib.sha256(unsigned.encode()).hexdigest()
+ return json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+base=encode("R")
+raw=encode("R"*(limit-len(base)+1))
+if len(raw) != limit:
+ raise SystemExit(f"maximum selection fixture is {len(raw)}, expected {limit}")
+open(path,"wb").write(raw)
+PY
+max_result="$(adapter_consume_selection_file \
+  "$max_selection_path" proximal-turn-max)"
+assert_json "$max_result" \
+  'value["status"] == "PROXIMAL_ACTION_CONSUMED" and value["idempotent"] is False and value["decision"] == "PROXIMAL_CLASSIFICATION_SATISFIED"'
+
+cp "$max_selection_path" "$tmp/oversized-proximal-selection.json"
+printf ' ' >> "$tmp/oversized-proximal-selection.json"
+set +e
+oversized_result="$(consume_selection_file "$tmp/oversized-proximal-selection.json" \
+  proximal-event-oversized proximal-turn-oversized 2>&1)"
+oversized_status=$?
+set -e
+[ "$oversized_status" -ne 0 ] || {
+  printf 'host-session-binding.test: oversized stdin selection unexpectedly passed\n' >&2
+  exit 1
+}
+assert_json "$oversized_result" \
+  'value["status"] == "UNAVAILABLE" and "oversized" in value["error"]'
+
+printf '{' > "$tmp/malformed-proximal-selection.json"
+set +e
+malformed_result="$(consume_selection_file "$tmp/malformed-proximal-selection.json" \
+  proximal-event-malformed proximal-turn-malformed 2>&1)"
+malformed_status=$?
+set -e
+[ "$malformed_status" -ne 0 ] || {
+  printf 'host-session-binding.test: malformed stdin selection unexpectedly passed\n' >&2
+  exit 1
+}
+assert_json "$malformed_result" \
+  'value["status"] == "UNAVAILABLE" and "malformed" in value["error"]'
+
+printf '%s ' "$selection_one" > "$tmp/noncanonical-proximal-selection.json"
+set +e
+noncanonical_result="$(consume_selection_file "$tmp/noncanonical-proximal-selection.json" \
+  proximal-event-noncanonical proximal-turn-noncanonical 2>&1)"
+noncanonical_status=$?
+set -e
+[ "$noncanonical_status" -ne 0 ] || {
+  printf 'host-session-binding.test: noncanonical stdin selection unexpectedly passed\n' >&2
+  exit 1
+}
+assert_json "$noncanonical_result" \
+  'value["status"] == "UNAVAILABLE" and "noncanonical" in value["error"]'
+
+set +e
+path_result="$(run_core consume-proximal-action \
+  --host-id codex --host-session-id session-b --binding-generation G0001 \
+  --controller-id controller-a --claim-id claim-b --explicit-run-root "$run_b" \
+  --repository-identity "$repository" --git-common-directory-identity "$common" \
+  --worktree-identity "$worktree" --continuity-generation G0001 \
+  --continuity-receipt continuity-receipt-session-b \
+  --event-id proximal-event-path --turn-id proximal-turn-path \
+  --selection-file "$max_selection_path" 2>&1 </dev/null)"
+path_status=$?
+set -e
+[ "$path_status" -ne 0 ] && [[ "$path_result" == *"unrecognized arguments: --selection-file"* ]] || {
+  printf 'host-session-binding.test: caller-selected selection path was not rejected\n' >&2
+  exit 1
+}
+
 # Case 11: SessionEnd tombstones attribution but never closes the governed object.
 run_marker_before="$(find "$run_a2" -maxdepth 1 -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)"
 tombstone="$(run_core tombstone --owner-id host-owner --host-id codex \
@@ -581,4 +762,4 @@ assert_json "$gc_two" 'value["status"] == "GC_COMPLETE" and value["removed_gener
 # Case 15: source, package, install and native activation proof stay distinct.
 assert_json "$lookup_b" 'value["host_activation_proven"] is False and value["proof_layers"] == {"source_core": "PRESENT", "package": "UNVERIFIED", "install": "UNVERIFIED", "host_activation": "UNVERIFIED"}'
 
-printf 'host-session-binding.test: ok (15/15 R003A + 5/5 R0035 custody cases)\n'
+printf 'host-session-binding.test: ok (15/15 R003A + 10/10 R0035 custody cases)\n'

@@ -25,6 +25,7 @@ BINDING_SCHEMA = "implementaudit.host-session-binding.v1"
 RESULT_SCHEMA = "implementaudit.host-session-binding-result.v1"
 GENERATION_RE = re.compile(r"G([0-9A-F]{4})")
 MAX_TEXT = 1024
+MAX_PROXIMAL_SELECTION_BYTES = 131072
 PROOF_LAYERS = {
     "source_core": "PRESENT",
     "package": "UNVERIFIED",
@@ -604,6 +605,18 @@ def _observed_binding(args: argparse.Namespace) -> dict[str, str]:
     }
 
 
+def _read_proximal_selection_stdin() -> str:
+    raw = sys.stdin.buffer.read(MAX_PROXIMAL_SELECTION_BYTES + 1)
+    if not raw:
+        fail("proximal action selection stdin is empty")
+    if len(raw) > MAX_PROXIMAL_SELECTION_BYTES:
+        fail("proximal action selection stdin is oversized")
+    try:
+        return raw.decode("utf-8")
+    except UnicodeError:
+        fail("proximal action selection stdin is malformed")
+
+
 def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
     def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         value = dict(pairs)
@@ -617,6 +630,11 @@ def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
         fail(f"proximal action selection is malformed: {exc}")
     if not isinstance(selection, dict):
         fail("proximal action selection is not an object")
+    canonical = json.dumps(
+        selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    )
+    if raw != canonical:
+        fail("proximal action selection is noncanonical")
     common = {
         "schema", "decision_sha256", "applicable", "decision",
         "applicability_reason", "advance_allowed", "currentness",
@@ -717,7 +735,7 @@ def command_consume_proximal_action(args: argparse.Namespace) -> None:
     session_id = exact_text(args.host_session_id, "host_session_id")
     event_id = exact_text(args.event_id, "event_id")
     turn_id = exact_text(args.turn_id, "turn_id")
-    selection = _canonical_proximal_selection(args.selection_json)
+    selection = _canonical_proximal_selection(_read_proximal_selection_stdin())
     observed = _observed_binding(args)
     store = Path(args.store).absolute()
     load_owner(store)
@@ -911,7 +929,6 @@ def parse_args() -> argparse.Namespace:
     proximal.add_argument("--continuity-receipt", required=True)
     proximal.add_argument("--event-id", required=True)
     proximal.add_argument("--turn-id", required=True)
-    proximal.add_argument("--selection-json", required=True)
     proximal.set_defaults(run=command_consume_proximal_action)
 
     tombstone = subparsers.add_parser("tombstone")

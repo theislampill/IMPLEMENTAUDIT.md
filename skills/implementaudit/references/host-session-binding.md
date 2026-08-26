@@ -69,14 +69,17 @@ correlation does not satisfy or consume either one.
 `consume-proximal-action` is the R0035 continuation-custody join. The installed
 Stop adapter, not target content, selects this operation and the fixed
 `PLUGIN_DATA/host-session-binding-v1` store. It supplies the exact current
-binding/event plus the deterministic compiler selection. Under the existing
-writer lock, the core first-creates an immutable receipt keyed by the canonical
-selection digest beneath the exact host/session binding. Byte-identical copied,
-renamed, or concurrent transports therefore have one identity; same-event
-redelivery is idempotent, another event is replay, and uncertain completion
-remains consumed. The receipt carries authority `NONE`: it proves one
-continuation decision was consumed, not DONE, merge, install, currentness,
-publication, cutover, or release.
+binding/event plus the deterministic compiler selection. The selection uses the
+operation's fixed canonical UTF-8 stdin channel, never argv or a caller-selected
+path/alias, and is bounded at 131072 bytes before parsing or custody. Empty,
+oversized, malformed, duplicate-member, or noncanonical stdin fails closed.
+Under the existing writer lock, the core first-creates an immutable receipt
+keyed by the canonical selection digest beneath the exact host/session binding.
+Byte-identical copied, renamed, or concurrent transports therefore have one
+identity; same-event redelivery is idempotent, another event is replay, and
+uncertain completion remains consumed. The receipt carries authority `NONE`:
+it proves one continuation decision was consumed, not DONE, merge, install,
+currentness, publication, cutover, or release.
 
 The Stop adapter evaluates the current route and turn disposition before this
 custody step. A blocked, unsatisfied, or unavailable turn cannot consume its
