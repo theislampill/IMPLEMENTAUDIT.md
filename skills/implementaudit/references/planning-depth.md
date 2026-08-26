@@ -315,12 +315,18 @@ it from workflow prose. Hard execution prerequisites and shared writer/resource
 exclusions block execution; acceptance prerequisites block lifecycle credit;
 informational/differential coupling changes interpretation but is not itself an
 edge. `INFORMATIONAL_DIFFERENTIAL` remains an explicit parallel topology, not
-`INDEPENDENT`. Every generic workflow action selection derives an exact
-applicability context. An applicable decision must execute the R0035 proximal
-classifier, bind its projection to an immediate-decision advance token, and pass
-`--proximal-action-selection` before ordinary continuation; absence, drift,
-forgery, or cross-decision token reuse stops. The explicit not-applicable path
-returns `NOT_REQUIRED`. Review-before-smoke wording alone cannot strengthen the
+`INDEPENDENT`. Every generic workflow action selection supplies one exact,
+bounded action/effect population; R0035 derives applicability from its count and
+target rather than accepting a caller boolean. An applicable decision must
+execute the R0035 proximal classifier and bind its projection to an
+immediate-decision advance token. The existing Stop continuation interlock then
+runs `--proximal-action-selection` from the fixed run-root R0035 artifacts and
+atomically consumes the canonical selection identity in the fixed external
+host-session store before ordinary continuation. Absence, partial transport,
+drift, forgery, copied/renamed/concurrent replay, or unknown completion stops.
+The explicit no-pair path returns
+`NOT_REQUIRED:FEWER_THAN_TWO_BOUNDED_ACTIONS`; absence of the population is not
+that cheap path. Review-before-smoke wording alone cannot strengthen the
 authoritative DAG; workflow-local order is not an execution dependency.
 
 R0022 weighs both action risk and the risk or cost of delayed information. A
@@ -349,9 +355,22 @@ whole-product claim for an accepted intermediate moving toward JOIN; and
 whole-projection review plus full pre-flight for a frozen install/cutover or
 irreversible authority effect. A post-review edit is classified by applicability
 and semantic radius, never diff size. Exact unchanged tuples may be retained,
-and every broad rerun or reuse reports its evidence-backed reason. The one-use
-advance token binds this qualification result, so workflow-local prose cannot
-silently demand either stale reuse or global requalification.
+and every broad rerun or reuse reports its evidence-backed reason. The advance
+token binds this qualification result; one-use authority belongs to the
+external host-session consumption receipt, never a sibling token marker.
+
+Project downstream qualification work backward without pulling its authority
+backward. A frozen exact input may make its long evidence gate runnable now,
+and a future whole review may prepare its invariant matrix, gate inventory,
+held-outs, harness, applicability map, and independent-review requirements now.
+The final whole verdict and identity-specific checks remain blocked until the
+actual integrated identity is frozen. Early evidence is explicitly
+`EVIDENCE_AVAILABLE_NOT_CONSUMABLE` with authority `NONE`. At the consuming
+JOIN, reread product/input, dependency slice, fixture, toolchain, contract,
+scope/effect, currentness, and final identity, then explain `REUSE`,
+`PARTIAL_RERUN`, or `DISCARD`. Preparation must not contain a review conclusion,
+preselect the independent reviewer, guess final bytes, substitute a mock as
+final, or perform an irreversible/public effect.
 
 The diagnostic lane is evidence gathering, never acceptance. Reconcile both
 lanes by supplying the original request plus projection and results so the

@@ -7,6 +7,7 @@ import argparse
 import contextlib
 import errno
 import hashlib
+import hmac
 import json
 import os
 import re
@@ -209,6 +210,29 @@ def atomic_json(path: Path, payload: dict[str, Any]) -> None:
         except OSError:
             pass
         raise
+
+
+def atomic_create_json(path: Path, payload: dict[str, Any]) -> None:
+    """Create one immutable receipt; an existing or uncertain write stays consumed."""
+    parent = ensure_safe_directory(path.parent, f"{path.name} parent")
+    target = parent / path.name
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(target, flags, 0o600)
+    except FileExistsError:
+        raise
+    except OSError as exc:
+        fail(f"immutable receipt cannot be created: {exc}")
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+    except OSError as exc:
+        # Never delete on uncertain completion. A visible partial receipt is a
+        # fail-closed consumed identity, not permission to retry elsewhere.
+        fail(f"immutable receipt write completion is unknown: {exc}")
 
 
 def read_json(path: Path, label: str) -> dict[str, Any]:
@@ -560,6 +584,193 @@ def command_validate_event(args: argparse.Namespace) -> None:
     emit(result)
 
 
+def _observed_binding(args: argparse.Namespace) -> dict[str, str]:
+    return {
+        "binding_generation": generation(args.binding_generation, "binding_generation"),
+        "controller_id": exact_text(args.controller_id, "controller_id"),
+        "claim_id": exact_text(args.claim_id, "claim_id"),
+        "explicit_run_root": safe_existing_directory(args.explicit_run_root, "explicit_run_root"),
+        "repository_identity": safe_existing_directory(args.repository_identity, "repository_identity"),
+        "git_common_directory_identity": safe_existing_directory(
+            args.git_common_directory_identity, "git_common_directory_identity"
+        ),
+        "worktree_identity": safe_existing_directory(args.worktree_identity, "worktree_identity"),
+        "applicable_continuity_generation": generation(
+            args.continuity_generation, "continuity_generation"
+        ),
+        "applicable_continuity_receipt": exact_text(
+            args.continuity_receipt, "continuity_receipt"
+        ),
+    }
+
+
+def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        value = dict(pairs)
+        if len(value) != len(pairs):
+            fail("proximal action selection contains a duplicate JSON member")
+        return value
+
+    try:
+        selection = json.loads(raw, object_pairs_hook=unique_object)
+    except json.JSONDecodeError as exc:
+        fail(f"proximal action selection is malformed: {exc}")
+    if not isinstance(selection, dict):
+        fail("proximal action selection is not an object")
+    common = {
+        "schema", "decision_sha256", "applicable", "decision",
+        "applicability_reason", "advance_allowed", "currentness",
+        "qualification", "authority", "digest",
+    }
+    required = common | {
+        "request_sha256", "projection_digest", "mode", "reason", "lanes",
+    }
+    expected = required if selection.get("applicable") is True else common
+    if set(selection) != expected:
+        fail("proximal action selection has the wrong shape")
+    if selection.get("schema") != "implementaudit.proximal-action-selection.v1":
+        fail("proximal action selection has a mixed-version schema")
+    for key in ("decision_sha256", "digest"):
+        value = selection.get(key)
+        if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+            fail(f"proximal action selection has an invalid {key}")
+    unsigned = dict(selection)
+    digest = unsigned.pop("digest")
+    expected_digest = hashlib.sha256(
+        json.dumps(unsigned, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    if not hmac.compare_digest(digest, expected_digest):
+        fail("proximal action selection has a stale digest")
+    currentness = selection.get("currentness")
+    if (not isinstance(currentness, dict)
+            or set(currentness) != {"receipt", "current"}
+            or not isinstance(currentness.get("receipt"), str)
+            or currentness.get("current") is not True):
+        fail("proximal action selection has invalid currentness")
+    authority = selection.get("authority")
+    authority_keys = {
+        "closure", "done", "lifecycle_credit", "merge", "package",
+        "publication", "release",
+    }
+    if (not isinstance(authority, dict) or set(authority) != authority_keys
+            or set(authority.values()) != {"NONE"}):
+        fail("proximal action selection exceeds evidence-only authority")
+    reason = selection.get("applicability_reason")
+    if not isinstance(reason, str) or not reason:
+        fail("proximal action selection lacks a derived applicability reason")
+    if selection.get("advance_allowed") is not True:
+        fail("proximal action selection does not permit the bounded advance")
+    if selection["applicable"] is True:
+        if (selection.get("decision") != "PROXIMAL_CLASSIFICATION_SATISFIED"
+                or not isinstance(selection.get("qualification"), dict)):
+            fail("required proximal action selection is unsatisfied")
+        for key in ("request_sha256", "projection_digest"):
+            value = selection.get(key)
+            if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+                fail(f"required proximal action selection has an invalid {key}")
+        lanes = selection.get("lanes")
+        if (selection.get("mode") in {None, "STOP_RECONCILE"}
+                or not isinstance(selection.get("reason"), str)
+                or not selection["reason"]
+                or not isinstance(lanes, list)
+                or not all(isinstance(item, str) for item in lanes)
+                or lanes != sorted(set(lanes))):
+            fail("required proximal action selection has an invalid projection")
+        qualification_authority = selection["qualification"].get("authority")
+        if (not isinstance(qualification_authority, dict)
+                or set(qualification_authority) != authority_keys
+                or set(qualification_authority.values()) != {"NONE"}):
+            fail("required proximal qualification exceeds evidence-only authority")
+    elif selection["applicable"] is False:
+        if (selection.get("decision") != "NOT_REQUIRED"
+                or selection.get("qualification") is not None):
+            fail("NOT_REQUIRED proximal action selection is contradictory")
+    else:
+        fail("proximal action selection applicability is not boolean")
+    return selection
+
+
+def proximal_receipt_path(
+    store: Path,
+    host_id: str,
+    host_session_id: str,
+    observed_binding: dict[str, str],
+    selection_digest: str,
+) -> Path:
+    binding = binding_key(host_id, host_session_id)
+    custody_identity = hashlib.sha256(json.dumps(
+        {
+            "host_id": host_id,
+            "host_session_id": host_session_id,
+            "binding": observed_binding,
+            "selection_digest": selection_digest,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")).hexdigest()
+    return store / "proximal-actions" / binding[:2] / binding / f"{custody_identity}.json"
+
+
+def command_consume_proximal_action(args: argparse.Namespace) -> None:
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    event_id = exact_text(args.event_id, "event_id")
+    turn_id = exact_text(args.turn_id, "turn_id")
+    selection = _canonical_proximal_selection(args.selection_json)
+    observed = _observed_binding(args)
+    store = Path(args.store).absolute()
+    load_owner(store)
+    receipt = {
+        "status": "CONSUMED",
+        "host_id": host_id,
+        "host_session_id": session_id,
+        "binding_generation": observed["binding_generation"],
+        "continuity_generation": observed["applicable_continuity_generation"],
+        "continuity_receipt": observed["applicable_continuity_receipt"],
+        "event_id": event_id,
+        "turn_id": turn_id,
+        "selection_digest": selection["digest"],
+        "decision_sha256": selection["decision_sha256"],
+    }
+    target = proximal_receipt_path(
+        store, host_id, session_id, observed, selection["digest"]
+    )
+    idempotent = False
+    with writer_lock(store):
+        _, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=True)
+        require_external_store(store, current)
+        for key, value in observed.items():
+            if current[key] != value:
+                fail(f"proximal action has stale or foreign {key}")
+        if selection["currentness"]["receipt"] != current[
+                "applicable_continuity_receipt"]:
+            fail("proximal action selection currentness is stale or foreign")
+        if os.path.lexists(target):
+            existing = read_json(target, "proximal action consumption receipt")
+            if existing != receipt:
+                fail("proximal action selection identity is already consumed")
+            idempotent = True
+        else:
+            try:
+                atomic_create_json(target, receipt)
+            except FileExistsError:
+                fail("proximal action selection identity is already consumed")
+    emit(proof_result(
+        status="PROXIMAL_ACTION_CONSUMED",
+        idempotent=idempotent,
+        binding_generation=current["binding_generation"],
+        selection_digest=selection["digest"],
+        decision=selection["decision"],
+        applicability_reason=selection["applicability_reason"],
+        authority={key: "NONE" for key in (
+            "closure", "done", "lifecycle_credit", "merge", "package",
+            "publication", "release",
+        )},
+    ))
+
+
 def command_tombstone(args: argparse.Namespace) -> None:
     store = Path(args.store).absolute()
     load_owner(store, exact_text(args.owner_id, "owner_id"))
@@ -685,6 +896,23 @@ def parse_args() -> argparse.Namespace:
     event.add_argument("--obligation-id")
     event.add_argument("--route-transaction-id")
     event.set_defaults(run=command_validate_event)
+
+    proximal = subparsers.add_parser("consume-proximal-action")
+    proximal.add_argument("--host-id", required=True)
+    proximal.add_argument("--host-session-id", required=True)
+    proximal.add_argument("--binding-generation", required=True)
+    proximal.add_argument("--controller-id", required=True)
+    proximal.add_argument("--claim-id", required=True)
+    proximal.add_argument("--explicit-run-root", required=True)
+    proximal.add_argument("--repository-identity", required=True)
+    proximal.add_argument("--git-common-directory-identity", required=True)
+    proximal.add_argument("--worktree-identity", required=True)
+    proximal.add_argument("--continuity-generation", required=True)
+    proximal.add_argument("--continuity-receipt", required=True)
+    proximal.add_argument("--event-id", required=True)
+    proximal.add_argument("--turn-id", required=True)
+    proximal.add_argument("--selection-json", required=True)
+    proximal.set_defaults(run=command_consume_proximal_action)
 
     tombstone = subparsers.add_parser("tombstone")
     tombstone.add_argument("--owner-id", required=True)

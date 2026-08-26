@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import re
+import stat
 import subprocess
 import sys
 import tempfile
@@ -36,6 +37,12 @@ PROOF_LAYERS = {
     "package": "UNVERIFIED",
     "install": "UNVERIFIED",
     "host_activation": "UNVERIFIED",
+}
+PROXIMAL_ARTIFACTS = {
+    "context": "R0035_ACTION_CONTEXT.json",
+    "request": "R0035_PROXIMAL_REQUEST.json",
+    "projection": "R0035_PROXIMAL_PROJECTION.json",
+    "token": "R0035_PROXIMAL_ADVANCE_TOKEN.json",
 }
 
 
@@ -211,14 +218,36 @@ def json_result(
     return value
 
 
-def owner_scripts() -> tuple[Path, Path, Path]:
+def canonical_compiler_result(
+    result: subprocess.CompletedProcess[str], label: str,
+) -> dict[str, Any]:
+    """Parse the compiler's established canonical no-LF JSON transport."""
+    if result.stderr or not result.stdout or "\n" in result.stdout or "\r" in result.stdout:
+        raise InterlockUnavailable(f"{label} returned an invalid result")
+    try:
+        value = json.loads(result.stdout, object_pairs_hook=unique_object)
+    except (TypeError, json.JSONDecodeError) as error:
+        raise InterlockUnavailable(f"{label} returned malformed JSON") from error
+    if not isinstance(value, dict):
+        raise InterlockUnavailable(f"{label} returned the wrong shape")
+    canonical = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    )
+    if result.stdout != canonical:
+        raise InterlockUnavailable(f"{label} returned noncanonical JSON")
+    return value
+
+
+def owner_scripts() -> tuple[Path, Path, Path, Path]:
     script_directory = Path(__file__).resolve().parent
     binding = script_directory / "host-session-binding.py"
     route = script_directory / "route-transaction.py"
     evaluator = script_directory / "evaluate-turn-disposition.py"
-    if not all(path.is_file() and not path.is_symlink() for path in (binding, route, evaluator)):
+    compiler = script_directory / "compile-work-graph.py"
+    if not all(path.is_file() and not path.is_symlink() for path in (
+            binding, route, evaluator, compiler)):
         raise InterlockUnavailable("installed owner scripts are unavailable")
-    return binding, route, evaluator
+    return binding, route, evaluator, compiler
 
 
 def lookup_binding(store: Path, session_id: str, binding_core: Path) -> dict[str, Any] | None:
@@ -385,6 +414,93 @@ def validate_event(
     return correlation, value
 
 
+def _fixed_run_artifact(run_root: str, name: str) -> Path:
+    root = Path(run_root)
+    candidate = root / name
+    try:
+        absolute = candidate.absolute()
+        resolved = candidate.resolve(strict=True)
+        info = os.lstat(absolute)
+    except (OSError, RuntimeError) as error:
+        raise InterlockUnavailable(
+            f"proximal action selection artifact {name} is unavailable"
+        ) from error
+    if (absolute != resolved or not stat.S_ISREG(info.st_mode)
+            or stat.S_ISLNK(info.st_mode)
+            or bool(getattr(info, "st_file_attributes", 0) & 0x400)
+            or info.st_nlink != 1 or info.st_size > MAX_INPUT_BYTES):
+        raise InterlockUnavailable(
+            f"proximal action selection artifact {name} is unsafe"
+        )
+    return resolved
+
+
+def current_proximal_selection(
+    binding: dict[str, Any], compiler: Path,
+) -> dict[str, Any]:
+    root = Path(binding["explicit_run_root"])
+    context = _fixed_run_artifact(
+        binding["explicit_run_root"], PROXIMAL_ARTIFACTS["context"]
+    )
+    companion_names = [
+        PROXIMAL_ARTIFACTS["request"], PROXIMAL_ARTIFACTS["projection"],
+        PROXIMAL_ARTIFACTS["token"],
+    ]
+    present = [os.path.lexists(root / name) for name in companion_names]
+    if any(present) and not all(present):
+        raise InterlockUnavailable("proximal action selection artifacts are a partial set")
+    command = [sys.executable, str(compiler), "--proximal-action-selection", str(context)]
+    if all(present):
+        command.extend(str(_fixed_run_artifact(binding["explicit_run_root"], name))
+                       for name in companion_names)
+    result = run(command, cwd=binding["repository_identity"])
+    value = canonical_compiler_result(result, "proximal action selection")
+    if result.returncode != 0 or value.get("schema") != "implementaudit.proximal-action-selection.v1":
+        raise InterlockUnavailable("proximal action selection is unavailable")
+    currentness = value.get("currentness")
+    if (not isinstance(currentness, dict)
+            or currentness.get("current") is not True
+            or currentness.get("receipt") != binding["applicable_continuity_receipt"]):
+        raise InterlockUnavailable("proximal action selection is stale or foreign")
+    reason = value.get("applicability_reason")
+    if not isinstance(reason, str) or not reason:
+        raise InterlockUnavailable("proximal action selection has no derived reason")
+    return value
+
+
+def consume_proximal_selection(
+    store: Path,
+    event: dict[str, Any],
+    binding: dict[str, Any],
+    binding_core: Path,
+    selection: dict[str, Any],
+) -> dict[str, Any]:
+    command = [
+        sys.executable, str(binding_core), "--store", str(store),
+        "consume-proximal-action", "--host-id", HOST_NAMESPACE,
+        "--host-session-id", event["session_id"],
+        "--binding-generation", binding["binding_generation"],
+        "--controller-id", binding["controller_id"],
+        "--claim-id", binding["claim_id"],
+        "--explicit-run-root", binding["explicit_run_root"],
+        "--repository-identity", binding["repository_identity"],
+        "--git-common-directory-identity", binding["git_common_directory_identity"],
+        "--worktree-identity", binding["worktree_identity"],
+        "--continuity-generation", binding["applicable_continuity_generation"],
+        "--continuity-receipt", binding["applicable_continuity_receipt"],
+        "--event-id", stop_event_id(event, binding),
+        "--turn-id", event["turn_id"],
+        "--selection-json", json.dumps(
+            selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+        ),
+    ]
+    result = run(command)
+    value = json_result(result, "proximal action consumption")
+    if result.returncode != 0 or value.get("status") != "PROXIMAL_ACTION_CONSUMED":
+        raise InterlockUnavailable("proximal action selection was not consumed")
+    return value
+
+
 def classify_claim(message: str) -> str:
     lines = set(message.splitlines())
     has_closure = bool(lines & CLOSURE_MARKERS)
@@ -430,6 +546,7 @@ def translate(
     disposition: dict[str, Any],
     binding_result: dict[str, Any],
     route: dict[str, Any],
+    proximal_result: dict[str, Any] | None,
 ) -> dict[str, Any]:
     if disposition.get("status") != "ALLOW":
         reason = disposition.get("reason")
@@ -442,6 +559,10 @@ def translate(
             "active_audit_object": disposition.get("active_audit_object"),
             "reason": reason,
         }
+    if proximal_result is None:
+        raise InterlockUnavailable(
+            "proximal action selection is unavailable for an allowed turn"
+        )
     return {
         "status": "ALLOW",
         "disposition": disposition["disposition"],
@@ -455,6 +576,9 @@ def translate(
         "route_record_oid": route["record_oid"],
         "obligation_id": route["obligation_id"],
         "route_transaction_id": route["route_transaction_id"],
+        "proximal_action_decision": proximal_result["decision"],
+        "proximal_action_reason": proximal_result["applicability_reason"],
+        "proximal_action_selection_digest": proximal_result["selection_digest"],
         "proof_layers": dict(PROOF_LAYERS),
     }
 
@@ -472,7 +596,7 @@ def main() -> int:
             )
             return 0
         store = plugin_store()
-        binding_core, route_core, evaluator = owner_scripts()
+        binding_core, route_core, evaluator, compiler = owner_scripts()
         binding = lookup_binding(store, event["session_id"], binding_core)
         if binding is None:
             emit(
@@ -487,7 +611,13 @@ def main() -> int:
         correlation, binding_result = validate_event(store, event, binding, route, binding_core)
         claim = classify_claim(event["last_assistant_message"])
         disposition = evaluate(evaluator, claim, correlation, binding_result, route)
-        emit(translate(disposition, binding_result, route))
+        proximal_result = None
+        if disposition.get("status") == "ALLOW":
+            selection = current_proximal_selection(binding, compiler)
+            proximal_result = consume_proximal_selection(
+                store, event, binding, binding_core, selection
+            )
+        emit(translate(disposition, binding_result, route, proximal_result))
     except (InterlockUnavailable, KeyError, TypeError, ValueError) as error:
         block(str(error))
     return 0

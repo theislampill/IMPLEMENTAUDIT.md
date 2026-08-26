@@ -1191,9 +1191,28 @@ assert value.get("host_activation_proven") is False
 assert "continue" not in value and "stopReason" not in value
 assert eval(sys.argv[2],{"__builtins__":{}},{"value":value})
 PY
-    printf 'turn-disposition.test: Stop result mismatch: %s\n' "$label" >&2
+    printf 'turn-disposition.test: Stop result mismatch: %s\n%s\n' "$label" "$payload" >&2
     exit 1
   }
+}
+
+write_stop_action_context() {
+  local seed="$1"
+  python - "$stop_run_shell/R0035_ACTION_CONTEXT.json" "$stop_receipt" "$seed" <<'PY'
+import json,sys
+path,receipt,seed=sys.argv[1:]
+value={
+ "schema":"implementaudit.proximal-action-selection-context.v1",
+ "currentness":{"receipt":receipt,"current":True},
+ "action_population":{
+  "target_action_sha256":seed*64,
+  "actions":[{"action_sha256":seed*64,"effect_class":"BOUNDED_CORRECTION"}],
+ },
+ "qualification":None,
+}
+with open(path,"w",encoding="utf-8",newline="\n") as handle:
+ json.dump(value,handle,sort_keys=True,separators=(",",":")); handle.write("\n")
+PY
 }
 
 stop_snapshot() {
@@ -1226,16 +1245,33 @@ value=json.loads(sys.argv[1])
 assert value["decision"] == "NOT_REQUIRED" and value["advance_allowed"] is False
 PY
 
+# R0035 action selection is now a mandatory executable continuation input.  An
+# active governed turn with no exact action population must block rather than
+# silently taking a caller-asserted NOT_REQUIRED path.
+missing_action_event="$(stop_event turn-missing-action false 'Attempted ordinary continuation without R0035 action selection.')"
+missing_action_result="$(run_stop_hook "$tmp/stop-plugin-data" "$missing_action_event")"
+assert_stop_result "$missing_action_result" \
+  'value["status"] == "BLOCK" and value["decision"] == "block" and "proximal action selection" in value["reason"]' \
+  'missing R0035 action population reached ordinary continuation'
+
+write_stop_action_context 1
+# The R0033 pure-read package binds the non-ignored worktree read set.  Make the
+# newly materialized fixed R0035 transport co-current before exercising Stop.
+cheap_decision="$(run_stop_route decide --request "$cheap_route_request" --expected-record "$cheap_oid")"
+cheap_oid="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["record_oid"])' "$cheap_decision")"
 false_terminal_event="$(stop_event turn-false-terminal false $'Status update.\nAUDIT_COMPLETE\nIMPLEMENTAUDIT_RUN_COMPLETE')"
 false_terminal_result="$(run_stop_hook "$tmp/stop-plugin-data" "$false_terminal_event")"
 assert_stop_result "$false_terminal_result" \
   'value["status"] == "BLOCK" and value["decision"] == "block" and value["disposition"] == "BLOCK" and "terminal closure" in value["reason"]' \
   'false terminal claim reached host Stop'
 
+write_stop_action_context 2
+cheap_decision="$(run_stop_route decide --request "$cheap_route_request" --expected-record "$cheap_oid")"
+cheap_oid="$(python -c 'import json,sys; print(json.loads(sys.argv[1])["record_oid"])' "$cheap_decision")"
 progress_event="$(stop_event turn-progress false 'Progress is durable; continuing the exact route-bound action.')"
 progress_result="$(run_stop_hook "$tmp/stop-plugin-data" "$progress_event")"
 assert_stop_result "$progress_result" \
-  'value["status"] == "ALLOW" and "decision" not in value and value["disposition"] == "NONTERMINAL_YIELD" and value["active_audit_object"] is True' \
+  'value["status"] == "ALLOW" and "decision" not in value and value["disposition"] == "NONTERMINAL_YIELD" and value["active_audit_object"] is True and value["proximal_action_decision"] == "NOT_REQUIRED" and value["proximal_action_reason"] == "FEWER_THAN_TWO_BOUNDED_ACTIONS"' \
   'valid nonterminal progress was imprisoned'
 
 snapshot_before="$(stop_snapshot)"
@@ -1250,7 +1286,13 @@ snapshot_after="$(stop_snapshot)"
   printf 'turn-disposition.test: duplicate Stop delivery changed refs/store/run state\n' >&2
   exit 1
 }
+copied_selection_result="$(run_stop_hook "$tmp/stop-plugin-data" \
+  "$(stop_event turn-progress-copy false 'Tried to reuse copied R0035 selection bytes.')")"
+assert_stop_result "$copied_selection_result" \
+  'value["status"] == "BLOCK" and value["decision"] == "block" and "consumed" in value["reason"]' \
+  'copied R0035 selection bytes authorized another turn'
 
+write_stop_action_context 3
 required_route_request="$tmp/stop-route-required.json"
 write_stop_route_request "$required_route_request" MAINTAINER_QUALIFICATION
 required_decision="$(run_stop_route decide --request "$required_route_request" --expected-record "$cheap_oid")"
@@ -1319,7 +1361,7 @@ PY
 required_progress_result="$(run_stop_hook "$tmp/stop-plugin-data" \
   "$(stop_event turn-required-satisfied false 'Continuing after the exact governed route returned.')")"
 assert_stop_result "$required_progress_result" \
-  'value["status"] == "ALLOW" and value["disposition"] == "NONTERMINAL_YIELD" and "decision" not in value' \
+  'value["status"] == "ALLOW" and value["disposition"] == "NONTERMINAL_YIELD" and "decision" not in value and value["proximal_action_decision"] == "NOT_REQUIRED"' \
   'satisfied REQUIRED route did not reach H7A'
 
 unbound_data="$tmp/unbound-stop-plugin-data"

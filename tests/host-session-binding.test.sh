@@ -448,6 +448,102 @@ expect_unavailable "stale route generation" validate_event G0001 controller-b cl
   "$run_a2" "$repository" "$worktree" G0002 continuity-receipt-session-a2 stale-route-event \
   --obligation-id obligation-4 --route-transaction-id route-transaction-4
 
+# R0035 joined custody: canonical selection identity is consumed in the fixed
+# external binding store, not beside a caller-selected token pathname.  Exact
+# duplicate delivery of one host event is idempotent; copied/renamed bytes for
+# a different event and unknown-completion retry remain consumed.
+make_selection() {
+  local seed="$1" receipt="$2"
+  "${py[@]}" - "$seed" "$receipt" <<'PY'
+import hashlib,json,sys
+seed,receipt=sys.argv[1:]
+value={
+ "schema":"implementaudit.proximal-action-selection.v1",
+ "decision_sha256":seed*64,
+ "applicable":False,
+ "decision":"NOT_REQUIRED",
+ "applicability_reason":"FEWER_THAN_TWO_BOUNDED_ACTIONS",
+ "advance_allowed":True,
+ "currentness":{"receipt":receipt,"current":True},
+ "qualification":None,
+ "authority":{key:"NONE" for key in (
+  "closure","done","lifecycle_credit","merge","package","publication","release"
+ )},
+}
+raw=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+value["digest"]=hashlib.sha256(raw).hexdigest()
+print(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False))
+PY
+}
+
+consume_selection() {
+  local selection="$1" event="$2" turn="$3"
+  run_core consume-proximal-action \
+    --host-id codex --host-session-id session-b --binding-generation G0001 \
+    --controller-id controller-a --claim-id claim-b --explicit-run-root "$run_b" \
+    --repository-identity "$repository" --git-common-directory-identity "$common" \
+    --worktree-identity "$worktree" --continuity-generation G0001 \
+    --continuity-receipt continuity-receipt-session-b --event-id "$event" \
+    --turn-id "$turn" --selection-json "$selection"
+}
+
+expect_consume_unavailable() {
+  local label="$1" selection="$2" event="$3" turn="$4" output status
+  set +e
+  output="$(consume_selection "$selection" "$event" "$turn" 2>&1)"
+  status=$?
+  set -e
+  [ "$status" -ne 0 ] || {
+    printf 'host-session-binding.test: unexpected proximal consume success: %s\n' "$label" >&2
+    exit 1
+  }
+  assert_json "$output" 'value["status"] == "UNAVAILABLE" and value["enforcement_available"] is False'
+}
+
+stale_selection="$(make_selection 0 stale-continuity-receipt)"
+expect_consume_unavailable "stale selection currentness" "$stale_selection" \
+  proximal-event-stale proximal-turn-stale
+
+selection_one="$(make_selection 1 continuity-receipt-session-b)"
+consumed_one="$(consume_selection "$selection_one" proximal-event-one proximal-turn-one)"
+assert_json "$consumed_one" 'value["status"] == "PROXIMAL_ACTION_CONSUMED" and value["idempotent"] is False'
+duplicate_consumption="$(consume_selection "$selection_one" proximal-event-one proximal-turn-one)"
+assert_json "$duplicate_consumption" 'value["status"] == "PROXIMAL_ACTION_CONSUMED" and value["idempotent"] is True'
+expect_consume_unavailable "copied selection replay under another event" \
+  "$selection_one" proximal-event-copy proximal-turn-copy
+
+selection_two="$(make_selection 2 continuity-receipt-session-b)"
+set +e
+consume_selection "$selection_two" proximal-event-concurrent-a proximal-turn-concurrent-a \
+  >"$tmp/concurrent-a.out" 2>&1 &
+pid_a=$!
+consume_selection "$selection_two" proximal-event-concurrent-b proximal-turn-concurrent-b \
+  >"$tmp/concurrent-b.out" 2>&1 &
+pid_b=$!
+wait "$pid_a"; status_a=$?
+wait "$pid_b"; status_b=$?
+set -e
+if [ "$((status_a + status_b))" -eq 0 ] || { [ "$status_a" -ne 0 ] && [ "$status_b" -ne 0 ]; }; then
+  printf 'host-session-binding.test: concurrent copied selections were not exactly one-use\n' >&2
+  exit 1
+fi
+winner="$tmp/concurrent-a.out"; loser="$tmp/concurrent-b.out"
+if [ "$status_a" -ne 0 ]; then winner="$tmp/concurrent-b.out"; loser="$tmp/concurrent-a.out"; fi
+assert_json "$(cat "$winner")" 'value["status"] == "PROXIMAL_ACTION_CONSUMED" and value["idempotent"] is False'
+assert_json "$(cat "$loser")" 'value["status"] == "UNAVAILABLE" and value["enforcement_available"] is False'
+
+selection_three="$(make_selection 3 continuity-receipt-session-b)"
+consume_selection "$selection_three" proximal-event-uncertain proximal-turn-uncertain >/dev/null
+uncertain_receipt="$(grep -rl '3333333333333333333333333333333333333333333333333333333333333333' \
+  "$store/proximal-actions")"
+[ -n "$uncertain_receipt" ] && [ "$(printf '%s\n' "$uncertain_receipt" | wc -l)" -eq 1 ] || {
+  printf 'host-session-binding.test: uncertain-completion receipt identity is ambiguous\n' >&2
+  exit 1
+}
+printf '{' > "$uncertain_receipt"
+expect_consume_unavailable "unknown completion remains consumed" \
+  "$selection_three" proximal-event-uncertain proximal-turn-uncertain
+
 # Case 11: SessionEnd tombstones attribution but never closes the governed object.
 run_marker_before="$(find "$run_a2" -maxdepth 1 -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)"
 tombstone="$(run_core tombstone --owner-id host-owner --host-id codex \
@@ -485,4 +581,4 @@ assert_json "$gc_two" 'value["status"] == "GC_COMPLETE" and value["removed_gener
 # Case 15: source, package, install and native activation proof stay distinct.
 assert_json "$lookup_b" 'value["host_activation_proven"] is False and value["proof_layers"] == {"source_core": "PRESENT", "package": "UNVERIFIED", "install": "UNVERIFIED", "host_activation": "UNVERIFIED"}'
 
-printf 'host-session-binding.test: ok (15/15 live R003A cases)\n'
+printf 'host-session-binding.test: ok (15/15 R003A + 5/5 R0035 custody cases)\n'

@@ -1640,10 +1640,12 @@ def prior_evidence(seed, scope, applicability):
     }
 
 
-current_applicability = evidence_applicability("1")
+current_applicability = evidence_applicability(
+    "1", authority_effect_class="BOUNDED_CORRECTION"
+)
 qualification_request = {
     "change_set_sha256": "7" * 64,
-    "source_dependency_slice_sha256": "8" * 64,
+    "source_dependency_slice_sha256": "1" * 64,
     "affected_contracts": ["R0035_ACTION_SELECTION", "R0035_PROXIMAL_SCHEDULING"],
     "applicability": copy.deepcopy(current_applicability),
     "prior_evidence": [
@@ -1656,11 +1658,32 @@ qualification_request = {
     "object_class": "INTERMEDIATE_COMPONENT",
     "meaningful_join": {"proximity": "PROXIMAL", "available": False},
     "workflow_requested_qualification": None,
+    "preparation": {
+        "exact_input_identity_frozen": True,
+        "exact_input_long_gate_requested": True,
+        "whole_review_preparation_requested": True,
+        "final_whole_identity_frozen": False,
+        "consuming_join_available": False,
+        "prepared_artifact": {
+            "contains_review_conclusion": False,
+            "preselects_independent_reviewer": False,
+            "guesses_final_identity": False,
+            "uses_mock_as_final": False,
+            "irreversible_or_public_effect": False,
+            "information_value_material": True,
+        },
+    },
 }
 action_context = {
     "schema": "implementaudit.proximal-action-selection-context.v1",
-    "decision_sha256": "b" * 64,
-    "applicable": True,
+    "currentness": copy.deepcopy(proximal_request["currentness"]),
+    "action_population": {
+        "target_action_sha256": "2" * 64,
+        "actions": [
+            {"action_sha256": "2" * 64, "effect_class": "BOUNDED_CORRECTION"},
+            {"action_sha256": "3" * 64, "effect_class": "BOUNDED_CORRECTION"},
+        ],
+    },
     "qualification": qualification_request,
 }
 advance_token = module.issue_proximal_advance_v1(
@@ -1675,6 +1698,8 @@ governor_decision = module.compile_proximal_action_selection_v1(
 if (governor_decision["decision"], governor_decision["advance_allowed"]) != (
         "PROXIMAL_CLASSIFICATION_SATISFIED", True):
     raise SystemExit("review I1: exact classifier/token did not admit the immediate action")
+if governor_decision["applicability_reason"] != "BOUNDED_ACTION_PAIR_PRESENT":
+    raise SystemExit("review I1: REQUIRED applicability was not mechanically explained")
 if set(governor_decision["authority"].values()) != {"NONE"}:
     raise SystemExit("review I1: action-selection interlock minted lifecycle authority")
 
@@ -1695,6 +1720,22 @@ if advance_token["qualification"] != qualification:
 def qualify(mutator):
     context = copy.deepcopy(action_context)
     mutator(context["qualification"])
+    effect = context["qualification"]["next_effect"]
+    context["qualification"]["applicability"][
+        "authority_effect_class"
+    ] = effect
+    for action in context["action_population"]["actions"]:
+        action["effect_class"] = effect
+    join_available = context["qualification"]["meaningful_join"]["available"]
+    context["qualification"]["preparation"][
+        "consuming_join_available"
+    ] = join_available
+    context["qualification"]["preparation"][
+        "final_whole_identity_frozen"
+    ] = (
+        context["qualification"]["object_class"]
+        == "MEANINGFUL_JOIN_FROZEN_PROJECTION" and join_available
+    )
     token = module.issue_proximal_advance_v1(
         canonical(context), canonical(proximal_request), canonical(proximal)
     )
@@ -1728,7 +1769,8 @@ def accepted_intermediate(request):
         semantic_invalidation_radius="NONE",
         next_effect="COMPONENT_ACCEPTANCE",
         prior_evidence=[prior_evidence(
-            "a", "COMPONENT_ACCEPTANCE", current_applicability
+            "a", "COMPONENT_ACCEPTANCE",
+            evidence_applicability("1", authority_effect_class="COMPONENT_ACCEPTANCE")
         )],
         meaningful_join={"proximity": "AVAILABLE", "available": True},
     )
@@ -1751,6 +1793,10 @@ def frozen_cutover(request):
         next_effect="INSTALL_CUTOVER",
         object_class="MEANINGFUL_JOIN_FROZEN_PROJECTION",
         meaningful_join={"proximity": "AVAILABLE", "available": True},
+    )
+    request["preparation"].update(
+        final_whole_identity_frozen=True,
+        consuming_join_available=True,
     )
 
 
@@ -1775,7 +1821,9 @@ if irreversible["mode"] != "WHOLE_PROJECTION_CUTOVER_QUALIFICATION":
 # Q5: a tiny post-review edit invalidates the old whole PASS from exact tuple
 # drift; its small diff does not preserve stale acceptance authority.
 def tiny_post_review_edit(request):
-    stale_tuple = evidence_applicability("1")
+    stale_tuple = evidence_applicability(
+        "1", authority_effect_class="INSTALL_CUTOVER"
+    )
     stale_tuple["tested_product_input_sha256"] = "f" * 64
     request.update(
         prior_evidence=[prior_evidence(
@@ -1798,7 +1846,8 @@ if tiny_edit["mode"] != "CORRECTION_QUALIFICATION":
 def unchanged_evidence(request):
     request.update(
         prior_evidence=[prior_evidence(
-            "c", "COMPONENT_ACCEPTANCE", current_applicability
+            "c", "COMPONENT_ACCEPTANCE",
+            evidence_applicability("1", authority_effect_class="COMPONENT_ACCEPTANCE")
         )],
         semantic_invalidation_radius="NONE",
         next_effect="COMPONENT_ACCEPTANCE",
@@ -1870,17 +1919,23 @@ for omitted in ("request", "projection", "token"):
         raise SystemExit(f"review I1: applicable continuation omitted {omitted}")
 
 not_applicable_context = copy.deepcopy(action_context)
-not_applicable_context.update(
-    decision_sha256="c" * 64, applicable=False, qualification=None
-)
+not_applicable_context["action_population"] = {
+    "target_action_sha256": "4" * 64,
+    "actions": [
+        {"action_sha256": "4" * 64, "effect_class": "BOUNDED_CORRECTION"},
+    ],
+}
+not_applicable_context["qualification"] = None
 not_required = module.compile_proximal_action_selection_v1(
     canonical(not_applicable_context), None, None, None
 )
 if (not_required["decision"], not_required["advance_allowed"]) != ("NOT_REQUIRED", True):
     raise SystemExit("review I1: no-proximal cheap path was not explicit")
+if not_required["applicability_reason"] != "FEWER_THAN_TWO_BOUNDED_ACTIONS":
+    raise SystemExit("review I1: NOT_REQUIRED lacked a mechanically derived reason")
 
 reused_context = copy.deepcopy(action_context)
-reused_context["decision_sha256"] = "d" * 64
+reused_context["action_population"]["actions"][1]["action_sha256"] = "d" * 64
 try:
     module.compile_proximal_action_selection_v1(
         canonical(reused_context), canonical(proximal_request), canonical(proximal),
@@ -1947,6 +2002,114 @@ except module.WorkGraphError:
     pass
 else:
     raise SystemExit("qualification: a changed source slice reused an earlier token")
+
+# Fresh-review I3: duplicated current scope/effect fields are one canonical
+# tuple.  Contradictions stop rather than selecting whichever copy is cheaper.
+for mutator, label in (
+    (lambda request: request.update(source_dependency_slice_sha256="e" * 64),
+     "source/dependency slice"),
+    (lambda request: request.update(next_effect="COMPONENT_ACCEPTANCE"),
+     "next effect/applicability authority"),
+):
+    contradictory = copy.deepcopy(action_context)
+    mutator(contradictory["qualification"])
+    try:
+        module.issue_proximal_advance_v1(
+            canonical(contradictory), canonical(proximal_request), canonical(proximal)
+        )
+    except module.WorkGraphError:
+        pass
+    else:
+        raise SystemExit(f"review I3: contradictory {label} was accepted")
+
+# A causal slice can remain useful evidence, but it cannot discharge component
+# acceptance or suppress the fresh component review.
+causal_only = copy.deepcopy(action_context)
+causal_only["qualification"].update(
+    semantic_invalidation_radius="NONE",
+    next_effect="COMPONENT_ACCEPTANCE",
+    applicability=evidence_applicability(
+        "1", authority_effect_class="COMPONENT_ACCEPTANCE"
+    ),
+    prior_evidence=[prior_evidence(
+        "e", "CAUSAL_ADVERSARIAL_SLICE",
+        evidence_applicability("1", authority_effect_class="COMPONENT_ACCEPTANCE"),
+    )],
+)
+causal_only["action_population"]["actions"] = [
+    {"action_sha256": "2" * 64, "effect_class": "COMPONENT_ACCEPTANCE"},
+    {"action_sha256": "3" * 64, "effect_class": "COMPONENT_ACCEPTANCE"},
+]
+causal_depth = module.derive_proximal_qualification_v1(
+    causal_only["qualification"]
+)
+if causal_depth["mode"] != "COMPONENT_ACCEPTANCE" or (
+        "FRESH_COMPONENT_REVIEW" not in causal_depth["required_evidence"]):
+    raise SystemExit("review I3: causal evidence discharged component acceptance")
+
+# Qualification preparation is executable before the future consuming JOIN,
+# but neither prepared nor buffered evidence gains authority.  Final identity
+# work remains blocked until the actual integrated product is frozen.
+preparation = qualification["preparation_frontier"]
+if preparation != {
+    "states": [
+        "EVIDENCE_AVAILABLE_NOT_CONSUMABLE",
+        "EXACT_INPUT_EVIDENCE_RUNNABLE_NOW",
+        "FINAL_WHOLE_IDENTITY_BLOCKED",
+        "WHOLE_REVIEW_PREPARATION_RUNNABLE_NOW",
+    ],
+    "authority": module._proximal_no_authority_v1(),
+    "reason": "SAFE_PREPARATION_BEFORE_CONSUMING_JOIN",
+}:
+    raise SystemExit("preparation A5-A6: exact-input/prepared/buffered states are not exact")
+
+dispositions = {item["evidence_sha256"]: item for item in qualification[
+    "evidence_dispositions"
+]}
+if dispositions["9" * 64]["disposition"] != "DISCARD":
+    raise SystemExit("preparation A7: stale buffered evidence was not discarded")
+if set(qualification["authority"].values()) != {"NONE"}:
+    raise SystemExit("preparation A5-A7: prepared evidence minted authority")
+
+# A dependency-only change preserves stable product/contract evidence but
+# names the affected slice for a partial rerun; an exact tuple is reusable.
+partial = copy.deepcopy(action_context)
+partial_prior = evidence_applicability(
+    "1", authority_effect_class="BOUNDED_CORRECTION"
+)
+partial_prior["source_dependency_slice_sha256"] = "a" * 64
+partial["qualification"]["prior_evidence"] = [
+    prior_evidence("f", "CAUSAL_ADVERSARIAL_SLICE", partial_prior)
+]
+partial_depth = module.derive_proximal_qualification_v1(partial["qualification"])
+partial_item = partial_depth["evidence_dispositions"][0]
+if (partial_item["disposition"], partial_item["reason"],
+        partial_item["changed_fields"]) != (
+        "PARTIAL_RERUN", "DEPENDENT_APPLICABILITY_SLICE_CHANGED",
+        ["source_dependency_slice_sha256"]):
+    raise SystemExit("preparation A7-A8: dependency-only drift did not select partial rerun")
+
+unsafe_preparation = copy.deepcopy(action_context)
+unsafe_preparation["qualification"]["preparation"]["prepared_artifact"][
+    "contains_review_conclusion"
+] = True
+try:
+    module.derive_proximal_qualification_v1(unsafe_preparation["qualification"])
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("preparation A9: author-supplied review conclusion was accepted")
+
+unfrozen_exact_gate = copy.deepcopy(action_context)
+unfrozen_exact_gate["qualification"]["preparation"][
+    "exact_input_identity_frozen"
+] = False
+try:
+    module.derive_proximal_qualification_v1(unfrozen_exact_gate["qualification"])
+except module.WorkGraphError:
+    pass
+else:
+    raise SystemExit("preparation A5: exact-input gate ran without frozen identity")
 
 for field, value in (
     ("next_effect", "UNKNOWN_EFFECT"),
@@ -2110,16 +2273,15 @@ with tempfile.TemporaryDirectory() as cli_temp:
     )
     if admitted.returncode != 0 or admitted.stdout != canonical(governor_decision):
         raise SystemExit("review I1: packaged action-selection interlock did not execute")
-    replayed = subprocess.run(
+    revalidated = subprocess.run(
         [sys.executable, str(module_path), "--proximal-action-selection",
          str(context_path), str(request_path), str(projection_path), str(token_path)],
         check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
-    if replayed.returncode == 0 or replayed.stdout:
-        raise SystemExit("review I1: consumed advance token was reusable")
-    consumed_path = token_path.with_name(token_path.name + ".consumed")
-    if consumed_path.read_text(encoding="ascii") != advance_token["digest"] + "\n":
-        raise SystemExit("review I1: token consumption marker is missing or foreign")
+    if revalidated.returncode != 0 or revalidated.stdout != canonical(governor_decision):
+        raise SystemExit("review I1: pure validator was not deterministic")
+    if token_path.with_name(token_path.name + ".consumed").exists():
+        raise SystemExit("review I2: compiler created pathname-local custody")
     not_context_path = cli_root / "not-applicable-context.json"
     not_context_path.write_bytes(canonical(not_applicable_context))
     no_proximal = subprocess.run(

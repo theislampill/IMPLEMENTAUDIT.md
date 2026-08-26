@@ -157,14 +157,19 @@ for text in \
   "--proximal-reconcile" \
   "advance token" \
   "applicable decision" \
-  "one immediate decision only" \
+  "fixed external host-session store" \
+  "FEWER_THAN_TWO_BOUNDED_ACTIONS" \
   "EARLY_DETECTION_ACTIVE_DEFENSE" \
   "WORKFLOW_PSEUDO_DEPENDENCY" \
   "WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY" \
   "CORRECTION_QUALIFICATION" \
   "COMPONENT_ACCEPTANCE" \
   "WHOLE_PROJECTION_CUTOVER_QUALIFICATION" \
-  "required, retained, and invalidated evidence" \
+  "EXACT_INPUT_EVIDENCE_RUNNABLE_NOW" \
+  "WHOLE_REVIEW_PREPARATION_RUNNABLE_NOW" \
+  "FINAL_WHOLE_IDENTITY_BLOCKED" \
+  "EVIDENCE_AVAILABLE_NOT_CONSUMABLE" \
+  "PARTIAL_RERUN" \
   "acceptance prerequisite is not an execution prerequisite" \
   "unknown-completion containment" \
   "no lifecycle authority"
@@ -497,10 +502,10 @@ required_ids.update({
         (6, "missing-containment-stops"),
         (7, "low-fidelity-serializes"),
         (8, "independent-ordinary-parallel"),
-        (9, "not-applicable-cheap-path"),
+        (9, "derived-not-required-cheap-path"),
         (10, "applicable-classification-omitted"),
-        (11, "applicable-token-omitted"),
-        (12, "current-classification-and-token"),
+        (11, "applicable-custody-omitted"),
+        (12, "current-classification-and-custody"),
     )
 })
 required_ids.update({
@@ -730,15 +735,19 @@ def decide(case):
             return "SERIAL_EXECUTION:CONSEQUENCE_CONTROL"
         return "ORDINARY_PARALLEL:INDEPENDENT"
     if kind == "proximal_interlock":
-        fields = "applicable classification_current advance_token_current"
+        fields = "action_population_current bounded_action_count classification_current external_custody_consumed"
         exact(o, fields)
-        booleans(o, fields)
-        if not o["applicable"]:
-            return "NOT_REQUIRED"
+        booleans(o, "action_population_current classification_current external_custody_consumed")
+        if type(o["bounded_action_count"]) is not int or not 1 <= o["bounded_action_count"] <= 64:
+            raise ValueError("bounded_action_count must be an integer in [1,64]")
+        if not o["action_population_current"]:
+            return "STOP_RECONCILE:ACTION_POPULATION_REQUIRED"
+        if o["bounded_action_count"] < 2:
+            return "NOT_REQUIRED:FEWER_THAN_TWO_BOUNDED_ACTIONS"
         if not o["classification_current"]:
             return "STOP_RECONCILE:PROXIMAL_CLASSIFICATION_REQUIRED"
-        if not o["advance_token_current"]:
-            return "STOP_RECONCILE:ADVANCE_TOKEN_REQUIRED"
+        if not o["external_custody_consumed"]:
+            return "STOP_RECONCILE:EXTERNAL_DECISION_CUSTODY_REQUIRED"
         return "PROCEED:PROXIMAL_CLASSIFICATION_SATISFIED"
     if kind == "proximal_qualification":
         fields = "semantic_radius next_effect object_class join_available tuple_unchanged workflow_depth_matches reversible blast_bounded"

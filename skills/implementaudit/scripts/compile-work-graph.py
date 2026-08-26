@@ -1602,20 +1602,81 @@ def _proximal_action_context_v1(
     path = "proximal action-selection context"
     result = _proximal_object_v1(
         decode_strict_json_bytes(context_bytes, path), path,
-        {"schema", "decision_sha256", "applicable", "qualification"},
-        booleans={"applicable"}, digests={"decision_sha256"},
+        {"schema", "currentness", "action_population", "qualification"},
     )
     if result["schema"] != "implementaudit.proximal-action-selection-context.v1":
         raise WorkGraphError(f"{path}: unsupported schema")
-    if result["applicable"]:
+    currentness = _proximal_currentness_v1(
+        result["currentness"], f"{path}.currentness"
+    )
+    population = _proximal_object_v1(
+        result["action_population"], f"{path}.action_population",
+        {"target_action_sha256", "actions"},
+        digests={"target_action_sha256"},
+    )
+    raw_actions = population["actions"]
+    if type(raw_actions) is not list or not raw_actions or len(raw_actions) > 64:
+        raise WorkGraphError(
+            f"{path}.action_population.actions: bounded non-empty array required"
+        )
+    actions: list[dict[str, JSONValue]] = []
+    allowed_effects = {
+        "BOUNDED_CORRECTION", "COMPONENT_ACCEPTANCE", "INSTALL_CUTOVER",
+        "IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER",
+    }
+    for index, item in enumerate(raw_actions):
+        action_path = f"{path}.action_population.actions[{index}]"
+        action = _proximal_object_v1(
+            item, action_path, {"action_sha256", "effect_class"},
+            digests={"action_sha256"},
+        )
+        effect = _require_string(action["effect_class"], f"{action_path}.effect_class")
+        if effect not in allowed_effects:
+            raise WorkGraphError(f"{action_path}.effect_class: unknown effect")
+        actions.append(action)
+    identities = [str(action["action_sha256"]) for action in actions]
+    if identities != sorted(set(identities)):
+        raise WorkGraphError(
+            f"{path}.action_population.actions: canonical unique order required"
+        )
+    target = str(population["target_action_sha256"])
+    if target not in identities:
+        raise WorkGraphError(
+            f"{path}.action_population.target_action_sha256: unknown action"
+        )
+    target_effect = str(actions[identities.index(target)]["effect_class"])
+    applicable = len(actions) >= 2
+    applicability_reason = (
+        "BOUNDED_ACTION_PAIR_PRESENT" if applicable
+        else "FEWER_THAN_TWO_BOUNDED_ACTIONS"
+    )
+    if applicable:
         if result["qualification"] is None:
             raise WorkGraphError(f"{path}: applicable decision requires qualification")
-        _proximal_qualification_request_v1(
+        qualification = _proximal_qualification_request_v1(
             result["qualification"], f"{path}.qualification"
         )
+        if qualification["next_effect"] != target_effect:
+            raise WorkGraphError(
+                f"{path}: target action effect and qualification effect disagree"
+            )
     elif result["qualification"] is not None:
         raise WorkGraphError(f"{path}: NOT_REQUIRED cannot carry qualification")
-    return result
+    canonical_input = {
+        "schema": result["schema"],
+        "currentness": currentness,
+        "action_population": {**population, "actions": actions},
+        "qualification": result["qualification"],
+    }
+    return {
+        **canonical_input,
+        "decision_sha256": hashlib.sha256(
+            canonical_json_v1(canonical_input)
+        ).hexdigest(),
+        "applicable": applicable,
+        "applicability_reason": applicability_reason,
+        "target_effect_class": target_effect,
+    }
 
 
 def _rederive_proximal_projection_v1(
@@ -1663,7 +1724,7 @@ def _proximal_qualification_request_v1(
             "affected_contracts", "applicability", "prior_evidence",
             "semantic_invalidation_radius", "next_effect", "reversible",
             "blast_radius_bounded", "object_class", "meaningful_join",
-            "workflow_requested_qualification",
+            "workflow_requested_qualification", "preparation",
         },
         booleans={"reversible", "blast_radius_bounded"},
         digests={"change_set_sha256", "source_dependency_slice_sha256"},
@@ -1717,6 +1778,13 @@ def _proximal_qualification_request_v1(
             "BOUNDED_CORRECTION", "COMPONENT_ACCEPTANCE", "INSTALL_CUTOVER",
             "IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER"}:
         raise WorkGraphError(f"{path}.next_effect: unknown effect")
+    if result["source_dependency_slice_sha256"] != applicability[
+            "source_dependency_slice_sha256"]:
+        raise WorkGraphError(
+            f"{path}: source/dependency slice copies disagree"
+        )
+    if next_effect != applicability["authority_effect_class"]:
+        raise WorkGraphError(f"{path}: next effect and authority/effect class disagree")
     object_class = _require_string(result["object_class"], f"{path}.object_class")
     if object_class not in {
             "INTERMEDIATE_COMPONENT", "MEANINGFUL_JOIN_FROZEN_PROJECTION"}:
@@ -1730,6 +1798,52 @@ def _proximal_qualification_request_v1(
         raise WorkGraphError(f"{path}.meaningful_join.proximity: unknown proximity")
     if (proximity == "AVAILABLE") is not (join["available"] is True):
         raise WorkGraphError(f"{path}.meaningful_join: availability mismatch")
+    preparation = _proximal_object_v1(
+        result["preparation"], f"{path}.preparation",
+        {
+            "exact_input_identity_frozen", "exact_input_long_gate_requested",
+            "whole_review_preparation_requested", "final_whole_identity_frozen",
+            "consuming_join_available", "prepared_artifact",
+        },
+        booleans={
+            "exact_input_identity_frozen", "exact_input_long_gate_requested",
+            "whole_review_preparation_requested", "final_whole_identity_frozen",
+            "consuming_join_available",
+        },
+    )
+    prepared_fields = {
+        "contains_review_conclusion", "preselects_independent_reviewer",
+        "guesses_final_identity", "uses_mock_as_final",
+        "irreversible_or_public_effect", "information_value_material",
+    }
+    prepared = _proximal_object_v1(
+        preparation["prepared_artifact"], f"{path}.preparation.prepared_artifact",
+        prepared_fields, booleans=prepared_fields,
+    )
+    if preparation["consuming_join_available"] is not join["available"]:
+        raise WorkGraphError(f"{path}: preparation/consuming JOIN availability mismatch")
+    expected_final_identity = (
+        object_class == "MEANINGFUL_JOIN_FROZEN_PROJECTION"
+        and join["available"] is True
+    )
+    if preparation["final_whole_identity_frozen"] is not expected_final_identity:
+        raise WorkGraphError(f"{path}: final whole identity state is contradictory")
+    forbidden_preparation = {
+        "contains_review_conclusion", "preselects_independent_reviewer",
+        "guesses_final_identity", "uses_mock_as_final",
+        "irreversible_or_public_effect",
+    }
+    if any(prepared[field] is True for field in forbidden_preparation):
+        raise WorkGraphError(f"{path}: unsafe or prejudging review preparation")
+    if (preparation["whole_review_preparation_requested"] is True
+            and prepared["information_value_material"] is not True):
+        raise WorkGraphError(f"{path}: review preparation lacks proportional value")
+    if (preparation["exact_input_long_gate_requested"] is True
+            and preparation["exact_input_identity_frozen"] is not True):
+        raise WorkGraphError(f"{path}: exact-input gate lacks a frozen identity")
+    if (preparation["final_whole_identity_frozen"] is True
+            and preparation["exact_input_identity_frozen"] is not True):
+        raise WorkGraphError(f"{path}: final whole identity is not an exact frozen input")
     requested = result["workflow_requested_qualification"]
     if requested is not None:
         requested = _require_string(requested, f"{path}.workflow_requested_qualification")
@@ -1741,7 +1855,71 @@ def _proximal_qualification_request_v1(
             )
     result["applicability"] = applicability
     result["prior_evidence"] = prior_evidence
+    preparation["prepared_artifact"] = prepared
+    result["preparation"] = preparation
     return result
+
+
+def _proximal_evidence_dispositions_v1(
+    prior: list[dict[str, JSONValue]], current: dict[str, JSONValue],
+) -> list[dict[str, JSONValue]]:
+    """Revalidate buffered evidence without turning it into authority."""
+    fields = [
+        "tested_product_input_sha256", "source_dependency_slice_sha256",
+        "test_fixture_sha256", "toolchain_environment_sha256",
+        "acceptance_contract_sha256", "authority_effect_class",
+    ]
+    dispositions: list[dict[str, JSONValue]] = []
+    for item in prior:
+        previous = item["applicability"]
+        changed = sorted(field for field in fields if previous[field] != current[field])
+        if not changed:
+            disposition, reason = "REUSE", "EXACT_APPLICABILITY_TUPLE_UNCHANGED"
+        elif set(changed) <= {
+                "source_dependency_slice_sha256", "test_fixture_sha256",
+                "toolchain_environment_sha256"} and all(
+                    previous[field] == current[field] for field in (
+                        "tested_product_input_sha256", "acceptance_contract_sha256",
+                        "authority_effect_class")):
+            disposition, reason = (
+                "PARTIAL_RERUN", "DEPENDENT_APPLICABILITY_SLICE_CHANGED"
+            )
+        else:
+            disposition, reason = "DISCARD", "EVIDENCE_APPLICABILITY_CHANGED"
+        dispositions.append({
+            "evidence_sha256": item["evidence_sha256"],
+            "scope": item["scope"],
+            "disposition": disposition,
+            "reason": reason,
+            "changed_fields": changed,
+            "authority": _proximal_no_authority_v1(),
+        })
+    return dispositions
+
+
+def _proximal_preparation_frontier_v1(
+    request: dict[str, JSONValue],
+) -> dict[str, JSONValue]:
+    preparation = request["preparation"]
+    states: list[str] = []
+    if (preparation["exact_input_identity_frozen"] is True
+            and preparation["exact_input_long_gate_requested"] is True):
+        states.append("EXACT_INPUT_EVIDENCE_RUNNABLE_NOW")
+    if preparation["whole_review_preparation_requested"] is True:
+        states.append("WHOLE_REVIEW_PREPARATION_RUNNABLE_NOW")
+    if preparation["final_whole_identity_frozen"] is not True:
+        states.append("FINAL_WHOLE_IDENTITY_BLOCKED")
+    if request["prior_evidence"] and preparation["consuming_join_available"] is not True:
+        states.append("EVIDENCE_AVAILABLE_NOT_CONSUMABLE")
+    return {
+        "states": sorted(states),
+        "authority": _proximal_no_authority_v1(),
+        "reason": (
+            "SAFE_PREPARATION_BEFORE_CONSUMING_JOIN"
+            if preparation["consuming_join_available"] is not True
+            else "CONSUMING_JOIN_AVAILABLE_FOR_FRESH_APPLICABILITY_CHECK"
+        ),
+    }
 
 
 def derive_proximal_qualification_v1(
@@ -1751,15 +1929,18 @@ def derive_proximal_qualification_v1(
     request = _proximal_qualification_request_v1(value, path)
     applicability = request["applicability"]
     prior = request["prior_evidence"]
+    dispositions = _proximal_evidence_dispositions_v1(prior, applicability)
     retained = sorted(
         str(item["evidence_sha256"])
-        for item in prior
-        if item["applicability"] == applicability
+        for item in dispositions if item["disposition"] == "REUSE"
     )
     invalidated = sorted(
         str(item["evidence_sha256"])
-        for item in prior
-        if item["applicability"] != applicability
+        for item in dispositions if item["disposition"] == "DISCARD"
+    )
+    partial_rerun = sorted(
+        str(item["evidence_sha256"])
+        for item in dispositions if item["disposition"] == "PARTIAL_RERUN"
     )
     retained_scopes = {
         str(item["scope"])
@@ -1820,9 +2001,18 @@ def derive_proximal_qualification_v1(
         )
         reuse_reason = "EXACT_APPLICABILITY_TUPLE_UNCHANGED"
     elif retained:
-        mode, reason, required = (
-            "COMPONENT_ACCEPTANCE", "UNCHANGED_APPLICABILITY_TUPLE_REUSE", []
-        )
+        if next_effect == "COMPONENT_ACCEPTANCE":
+            mode, reason = (
+                "COMPONENT_ACCEPTANCE", "UNCHANGED_APPLICABILITY_TUPLE_REUSE"
+            )
+            required = [] if "COMPONENT_ACCEPTANCE" in retained_scopes else [
+                "FRESH_COMPONENT_REVIEW"
+            ]
+        else:
+            mode, reason, required = (
+                "CORRECTION_QUALIFICATION",
+                "UNCHANGED_APPLICABILITY_TUPLE_REUSE", [],
+            )
         reuse_reason = "EXACT_APPLICABILITY_TUPLE_UNCHANGED"
     else:
         mode, reason, required = (
@@ -1854,6 +2044,10 @@ def derive_proximal_qualification_v1(
         "required_evidence": required,
         "retained_evidence_sha256": retained,
         "invalidated_evidence_sha256": invalidated,
+        "partial_rerun_evidence_sha256": partial_rerun,
+        "evidence_dispositions": dispositions,
+        "preparation_frontier": _proximal_preparation_frontier_v1(request),
+        "authority": _proximal_no_authority_v1(),
         "broad_rerun_reason": broad_reason,
         "reuse_reason": reuse_reason,
     }
@@ -1875,12 +2069,15 @@ def issue_proximal_advance_v1(
             f"{qualification['reason']} forbids continuation"
         )
     projection = _rederive_proximal_projection_v1(request_bytes, projection_bytes)
+    if context["currentness"] != projection["currentness"]:
+        raise WorkGraphError("proximal advance: context/projection currentness mismatch")
     if projection["mode"] == "STOP_RECONCILE":
         raise WorkGraphError("proximal advance: STOP projection forbids continuation")
     return _proximal_digest_v1({
         "schema": "implementaudit.proximal-advance-token.v1",
         "scope": "ONE_IMMEDIATE_DECISION",
         "decision_sha256": context["decision_sha256"],
+        "applicability_reason": context["applicability_reason"],
         "request_sha256": projection["request_sha256"],
         "projection_digest": projection["digest"],
         "candidate": projection["candidate"],
@@ -1913,7 +2110,9 @@ def compile_proximal_action_selection_v1(
             "decision_sha256": context["decision_sha256"],
             "applicable": False,
             "decision": "NOT_REQUIRED",
+            "applicability_reason": context["applicability_reason"],
             "advance_allowed": True,
+            "currentness": context["currentness"],
             "qualification": None,
             "authority": _proximal_no_authority_v1(),
         })
@@ -1939,7 +2138,9 @@ def compile_proximal_action_selection_v1(
         "decision_sha256": context["decision_sha256"],
         "applicable": True,
         "decision": "PROXIMAL_CLASSIFICATION_SATISFIED",
+        "applicability_reason": context["applicability_reason"],
         "advance_allowed": True,
+        "currentness": context["currentness"],
         "request_sha256": projection["request_sha256"],
         "projection_digest": projection["digest"],
         "mode": projection["mode"],
@@ -1948,28 +2149,6 @@ def compile_proximal_action_selection_v1(
         "qualification": expected_token["qualification"],
         "authority": _proximal_no_authority_v1(),
     })
-
-
-def _consume_proximal_advance_v1(
-    token_path: pathlib.Path, token_digest: str,
-) -> None:
-    """Atomically make one exact CLI advance token non-replayable."""
-    marker = token_path.with_name(token_path.name + ".consumed")
-    try:
-        descriptor = os.open(
-            marker, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600
-        )
-        with os.fdopen(descriptor, "wb", closefd=True) as stream:
-            stream.write(token_digest.encode("ascii") + b"\n")
-            stream.flush()
-            os.fsync(stream.fileno())
-    except FileExistsError as exc:
-        raise WorkGraphError("proximal action selection: advance token consumed") from exc
-    except OSError as exc:
-        # Unknown completion remains consumed and therefore fail-closed.
-        raise WorkGraphError(
-            f"proximal action selection: token consumption unavailable: {exc}"
-        ) from exc
 
 
 def _proximal_lane_v1(value: JSONValue, path: str) -> dict[str, JSONValue]:
@@ -2170,13 +2349,6 @@ def main(argv: list[str]) -> int:
             projection = compile_proximal_action_selection_v1(
                 context_bytes, *inputs
             )
-            if token_path is not None:
-                expected_token = issue_proximal_advance_v1(
-                    context_bytes, inputs[0], inputs[1]
-                )
-                _consume_proximal_advance_v1(
-                    token_path, str(expected_token["digest"])
-                )
         elif proximal_mode == "--proximal-reconcile":
             projection = reconcile_proximal_results_v1(
                 path.read_bytes(), pathlib.Path(argv[3]).read_bytes(),

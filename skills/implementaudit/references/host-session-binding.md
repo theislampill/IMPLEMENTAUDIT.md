@@ -66,6 +66,26 @@ event, turn, tool-use, agent, obligation and route-transaction identifiers.
 Route obligation and transaction IDs must be supplied together; successful
 correlation does not satisfy or consume either one.
 
+`consume-proximal-action` is the R0035 continuation-custody join. The installed
+Stop adapter, not target content, selects this operation and the fixed
+`PLUGIN_DATA/host-session-binding-v1` store. It supplies the exact current
+binding/event plus the deterministic compiler selection. Under the existing
+writer lock, the core first-creates an immutable receipt keyed by the canonical
+selection digest beneath the exact host/session binding. Byte-identical copied,
+renamed, or concurrent transports therefore have one identity; same-event
+redelivery is idempotent, another event is replay, and uncertain completion
+remains consumed. The receipt carries authority `NONE`: it proves one
+continuation decision was consumed, not DONE, merge, install, currentness,
+publication, cutover, or release.
+
+The Stop adapter evaluates the current route and turn disposition before this
+custody step. A blocked, unsatisfied, or unavailable turn cannot consume its
+selection merely by reaching Stop. Only an otherwise-`ALLOW` turn may consume
+the exact selection, and authoritative `ALLOW` is emitted only after that
+consumption succeeds. Thus disposition failure preserves the action for a
+later current event, while a consumed or unknown-completion action cannot be
+replayed under another event.
+
 Target prose, transcripts, child or subagent output, cwd, newest-run selection,
 and controller-singleton inference are never inputs to identity resolution.
 

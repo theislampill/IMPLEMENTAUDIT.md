@@ -303,20 +303,31 @@ legacy execution-projection bytes.
 R0035 also derives a transient proximal decision below whole-cell granularity;
 it does not add a cell or mutate `WORK_GRAPH.json`. At every generic
 implementation, TDD, review, package, install, routing, or host-effect action
-selection, first derive whether the frozen-candidate boundary is applicable.
-For an applicable decision, run
+selection, write the exact bounded action/effect population to the fixed
+`R0035_ACTION_CONTEXT.json` transport. The compiler derives `REQUIRED` when a
+bounded action pair exists and derives
+`NOT_REQUIRED:FEWER_THAN_TWO_BOUNDED_ACTIONS` only when the current population
+contains fewer than two actions. Missing or unknown
+population is never a cheap path. For a required decision, run
 `compile-work-graph.py --proximal-schedule REQUEST.json`, then issue the exact
 decision-bound advance token with
 `compile-work-graph.py --proximal-advance CONTEXT.json REQUEST.json PROJECTION.json`.
-Ordinary execution must pass the existing governor action-selection interlock:
+Write the request, projection, and token to the corresponding fixed
+`R0035_PROXIMAL_REQUEST.json`, `R0035_PROXIMAL_PROJECTION.json`, and
+`R0035_PROXIMAL_ADVANCE_TOKEN.json` transports. Ordinary execution passes the
+existing Stop continuation interlock, which invokes:
 `compile-work-graph.py --proximal-action-selection CONTEXT.json REQUEST.json PROJECTION.json ADVANCE_TOKEN.json`.
 An applicable decision without the current exact classification and advance
 token fails closed; a stale, mismatched, forged, or different-decision reused
-token also fails. The packaged action-selection entrypoint atomically records
-the token as consumed before emitting its result, so it authorizes one immediate decision only; unknown completion remains consumed and requires a new context,
-classification, and token. The explicit not-applicable cheap path invokes
-`compile-work-graph.py --proximal-action-selection CONTEXT.json` and returns
-`NOT_REQUIRED`. Workflow-local order is not a graph edge: an acceptance prerequisite is not an execution prerequisite, and an informational relationship
+token also fails. The compiler entrypoint is a pure deterministic validator;
+the installed Stop path atomically records the canonical selection digest under
+the exact current binding in the fixed external host-session store. Copied,
+renamed, alternate-path, and concurrent transports resolve to that same digest.
+Same-event redelivery is idempotent; another event and unknown completion remain
+consumed and require a new exact context/classification/token. The explicit
+no-pair cheap path invokes `compile-work-graph.py --proximal-action-selection
+CONTEXT.json` and returns reasoned `NOT_REQUIRED`. Workflow-local order is not a
+graph edge: an acceptance prerequisite is not an execution prerequisite, and an informational relationship
 is not a hard prerequisite. An unbacked prose order returns
 `WORKFLOW_PSEUDO_DEPENDENCY`.
 
@@ -339,14 +350,24 @@ radius, next requested effect, reversibility/blast radius, object class, and
 meaningful-JOIN availability. The interlock derives
 `CORRECTION_QUALIFICATION`, `COMPONENT_ACCEPTANCE`,
 `WHOLE_PROJECTION_CUTOVER_QUALIFICATION`, or `STOP_RECONCILE`, and reports exact
-required, retained, and invalidated evidence plus every broad-rerun or reuse
-reason. That projection is part of the one-use advance token. A generic
+required, retained, partial-rerun, and invalidated evidence plus every
+`REUSE`, `PARTIAL_RERUN`, `DISCARD`, broad-rerun, or reuse reason. That
+projection is part of the externally consumed advance identity. A generic
 workflow cannot request a broader depth than the derived mode merely because
 its prose lists more review; a mismatch returns
 `WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY`. Exact unchanged applicability may
 reuse evidence. Shared currentness/authority substrate expands by its dependency
 slice, while final frozen installation/cutover and irreversible authority
 effects retain whole-projection pre-flight.
+
+The same projection exposes four separate qualification-preparation states:
+`EXACT_INPUT_EVIDENCE_RUNNABLE_NOW`,
+`WHOLE_REVIEW_PREPARATION_RUNNABLE_NOW`, `FINAL_WHOLE_IDENTITY_BLOCKED`, and
+`EVIDENCE_AVAILABLE_NOT_CONSUMABLE`. Exact-input gates and conclusion-free
+future-review apparatus may run early with authority `NONE`; the real final
+identity and fresh independent whole-product reviewer remain required at the
+consuming JOIN. Every buffered result is rechecked against exact applicability
+before later reuse, partial rerun, or discard.
 
 Diagnostic and acceptance evidence remain separate. Reconcile their exact
 identity-bound results with
