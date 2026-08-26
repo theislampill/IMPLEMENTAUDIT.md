@@ -25,7 +25,7 @@ fail() {
 
 case "${R0033_CASE_FILTER:-}" in
   '') ;;
-  G01|G02|G03|G04|G05|G06|G07|G08)
+  G01|G02|G03|G04|G05|G06|G07|G08|G09)
     [ "${R0033_FILTER_MODE:-}" = NON_QUALIFYING ] ||
       fail "R0033_CASE_FILTER requires explicit R0033_FILTER_MODE=NON_QUALIFYING" ;;
   *) fail "R0033_CASE_FILTER is not one exact governed case" ;;
@@ -38,7 +38,7 @@ emit_route_summary() {
   else
     printf 'route-obligation-contract.test: request-free current-result matrix GREEN\n'
     printf 'route-obligation-contract.test: G01-G40 common governed-child matrix GREEN\n'
-    printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + active-boundary OPEN/RETURNED recovery + all-four child-route matrix; first RED preserved)\n'
+    printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + later-boundary UNSATISFIED/OPEN/RETURNED recovery + all-four child-route matrix; first RED preserved)\n'
   fi
 }
 
@@ -2026,12 +2026,12 @@ PY
     fail "$case_id second lifecycle mutated the first terminal record"
 }
 
-# G07/G08: a host-compaction successor may abandon an incomplete prior child
-# lifecycle only when the same governed object advances by exactly one
-# continuity generation and exactly one H0 binding generation. The immutable
-# OPEN/RETURNED record remains evidence, but none of its child bytes, return,
-# decision, transaction or obligation authority crosses into the fresh
-# STALE_CONTEXT_RECONSTRUCTION transaction.
+# G07-G09: a host-compaction successor may abandon an incomplete prior route
+# only when the same governed object advances through a complete bounded
+# contiguous continuity and H0 binding chain. The immutable
+# REQUIRED/UNSATISFIED, OPEN or RETURNED record remains evidence, but none of
+# its child bytes, return, decision, transaction or obligation authority crosses
+# into the fresh STALE_CONTEXT_RECONSTRUCTION transaction.
 run_active_compaction_recovery_case() {
   local case_id="$1" active_state="$2" claim_local="$3"
   local package_mode="${4:-CURRENT_PACKAGE}"
@@ -2108,17 +2108,24 @@ write(decision_path,{"schema":"implementaudit.governor-route-decision.v1","oblig
  "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
  "reason":"this pre-compaction decision must never complete the recovery route"})
 PY
-  opened="$(route "$controller" "$session" G0001 open --request "$old_request" \
-    --expected-record "$required_record" --packet "$old_packet" 2>"$tmp/${case_id,,}-old-open.visible")"
-  open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
-  active_record="$open_record"
-  if [ "$active_state" = RETURNED ]; then
-    returned="$(route "$controller" "$session" G0001 return --request "$old_request" \
-      --expected-record "$open_record" --return "$old_return")"
-    active_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$returned")"
+  active_record="$required_record"
+  if [ "$active_state" != UNSATISFIED ]; then
+    opened="$(route "$controller" "$session" G0001 open --request "$old_request" \
+      --expected-record "$required_record" --packet "$old_packet" 2>"$tmp/${case_id,,}-old-open.visible")"
+    open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
+    active_record="$open_record"
+    if [ "$active_state" = RETURNED ]; then
+      returned="$(route "$controller" "$session" G0001 return --request "$old_request" \
+        --expected-record "$open_record" --return "$old_return")"
+      active_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$returned")"
+    fi
   fi
   active_blob="$(git -C "$tmp/repo" cat-file blob "$active_record")"
-  assert_json "$active_blob" 'value["route_state"] == "'"$active_state"'" and value["lifecycle"]["state"] == "'"$active_state"'" and value["lifecycle"]["source_event_status"] == "active" and value["lifecycle"]["governor_decision_count"] == 0'
+  if [ "$active_state" = UNSATISFIED ]; then
+    assert_json "$active_blob" 'value["route_state"] == "UNSATISFIED" and value["child_lifecycle_owned"] is False and "lifecycle" not in value'
+  else
+    assert_json "$active_blob" 'value["route_state"] == "'"$active_state"'" and value["lifecycle"]["state"] == "'"$active_state"'" and value["lifecycle"]["source_event_status"] == "active" and value["lifecycle"]["governor_decision_count"] == 0'
+  fi
 
   # A distinct request in the same live context cannot discard active child
   # work, even when it names the recovery reason.
@@ -2274,7 +2281,7 @@ else:
  intermediate=next(record for record in value["records"] if record["binding_generation"] == "G0002")
  if mode == "foreign-receipt": intermediate["applicable_continuity_receipt"]="refs/implementaudit/continuity-receipts/foreign/G0002@"+"0"*40
  elif mode == "nonconsecutive-continuity": intermediate["applicable_continuity_generation"]="G0004"
- elif mode == "foreign-owner": intermediate["claim_id"]="d"*32
+ elif mode == "foreign-owner": intermediate["claim_id"]="e"*32
  else: raise SystemExit("unknown binding tamper")
 Path(target).write_text(json.dumps(value,sort_keys=True,indent=2)+"\n",encoding="utf-8")
 PY
@@ -2285,7 +2292,7 @@ PY
     done
   fi
 
-  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ] && [ "$active_state" != UNSATISFIED ]; then
     # Historical custody is semantic, not permissive: every byte identity and
     # the original required-record binding remain exact even though the path is
     # no longer the current cache path.
@@ -2482,6 +2489,9 @@ if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G07 ]; then
 fi
 if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G08 ]; then
   run_active_compaction_recovery_case G08 RETURNED cccccccccccccccccccccccccccccccc PACKAGE_RELOCATED FOUR_ROTATIONS
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G09 ]; then
+  run_active_compaction_recovery_case G09 UNSATISFIED dddddddddddddddddddddddddddddddd PACKAGE_RELOCATED FOUR_ROTATIONS
 fi
 
 # The pure R0033 owner validator remains usable for a read-only C03 projection

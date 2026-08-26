@@ -2720,18 +2720,24 @@ def require_active_route_recovery(
     obligation_id: str | None,
     transaction_id: str | None,
 ) -> None:
-    """Admit one exact contiguous stale-context successor to an incomplete H2B route."""
+    """Admit one exact contiguous stale-context successor to an incomplete route."""
     validate_canonical_route_record_bytes(repo, old_oid, old)
     candidate_request_from_record(old, require_current_inputs=False)
     lifecycle = old.get("lifecycle")
-    if (
-        old.get("decision") != "REQUIRED"
-        or old.get("route_state") not in {"OPEN", "RETURNED"}
-        or not isinstance(lifecycle, dict)
-        or lifecycle.get("state") != old.get("route_state")
-        or lifecycle.get("source_event_status") != "active"
-    ):
-        fail("only an exact active H2B route lifecycle can enter stale-context recovery", decision="REQUIRED")
+    route_state = old.get("route_state")
+    unsatisfied = (
+        route_state == "UNSATISFIED"
+        and lifecycle is None
+        and old.get("child_lifecycle_owned") is False
+    )
+    active_lifecycle = (
+        route_state in {"OPEN", "RETURNED"}
+        and isinstance(lifecycle, dict)
+        and lifecycle.get("state") == route_state
+        and lifecycle.get("source_event_status") == "active"
+    )
+    if old.get("decision") != "REQUIRED" or not (unsatisfied or active_lifecycle):
+        fail("only an exact incomplete REQUIRED route can enter stale-context recovery", decision="REQUIRED")
     unchanged_owner = {
         "controller_id": args.controller,
         "claim_id": current["claim_id"],
@@ -2874,8 +2880,18 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("route decision CAS expected record is stale", decision=old["decision"] if old else "PENDING")
         else:
             expected_oid = expected
+        current_context_matches = bool(
+            old
+            and old.get("claim_id") == current["claim_id"]
+            and old.get("explicit_run_root") == current["explicit_run_root"]
+            and old.get("continuity_receipt") == current["continuity_receipt"]
+            and old.get("host_binding_generation") == args.binding_generation
+        )
         active_recovery = bool(
-            old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED"}
+            old
+            and old["decision"] == "REQUIRED"
+            and old.get("route_state") in {"UNSATISFIED", "OPEN", "RETURNED"}
+            and (old.get("route_state") != "UNSATISFIED" or not current_context_matches)
         )
         if active_recovery:
             require_active_route_recovery(
@@ -2891,13 +2907,6 @@ def command_decide(args: argparse.Namespace) -> None:
                 obligation_id,
                 transaction_id,
             )
-        current_context_matches = bool(
-            old
-            and old.get("claim_id") == current["claim_id"]
-            and old.get("explicit_run_root") == current["explicit_run_root"]
-            and old.get("continuity_receipt") == current["continuity_receipt"]
-            and old.get("host_binding_generation") == args.binding_generation
-        )
         if old and current_context_matches and old.get("expiry_fingerprint") == fingerprint and old["decision"] == decision:
             satisfied = old.get("route_state") == "SATISFIED"
             emit(
@@ -2930,7 +2939,12 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("the exact action receipt was consumed or has unknown completion; it cannot be re-admitted")
         if old and old.get("decision") == "PENDING" and old.get("invalidators") == ["action-in-progress"]:
             fail("an action-in-progress record has unknown completion and cannot be replaced in H2A")
-        if old and old["decision"] == "REQUIRED" and old.get("route_state") == "UNSATISFIED":
+        if (
+            old
+            and old["decision"] == "REQUIRED"
+            and old.get("route_state") == "UNSATISFIED"
+            and not active_recovery
+        ):
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
         terminal_reentry = bool(
             old and old["decision"] == "REQUIRED" and old.get("route_state") == "SATISFIED"
