@@ -2035,6 +2035,7 @@ PY
 run_active_compaction_recovery_case() {
   local case_id="$1" active_state="$2" claim_local="$3"
   local package_mode="${4:-CURRENT_PACKAGE}"
+  local rotation_mode="${5:-ONE_ROTATION}" successor_generation=G0002
   local controller="controller-${case_id,,}" session="session-${case_id,,}"
   local run_name="${case_id,,}-ABC123"
   local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name"
@@ -2042,13 +2043,15 @@ run_active_compaction_recovery_case() {
   local ACTIVE_CLAIM="${ROUTE_CLAIM_OVERRIDE:-$claim}"
   local package_source="${ROUTE_PACKAGE_SOURCE:-$repo_root/skills}"
   local package_root="$package_source" package_old_parent package_new_parent package_old package_new
+  local first_recovery_event
+  local intermediate_ref intermediate_oid binding_state binding_backup binding_tamper
   local old_request="$tmp/${case_id,,}-old-request.json" recovery_request="$tmp/${case_id,,}-recovery-request.json"
   local wrong_reason_request="$tmp/${case_id,,}-wrong-reason-request.json"
   local malformed_request="$tmp/${case_id,,}-malformed-request.json"
   local receipt decided required_record obligation transaction attributed correlation
   local old_packet="$tmp/${case_id,,}-old-packet.json" old_return="$tmp/${case_id,,}-old-return.json"
   local old_decision="$tmp/${case_id,,}-old-decision.json" opened open_record returned active_record active_blob
-  local successor_receipt recovery_decided recovery_required recovery_obligation recovery_transaction
+  local successor_receipt intermediate_receipt recovery_decided recovery_required recovery_obligation recovery_transaction
   local recovery_attributed recovery_correlation recovery_packet="$tmp/${case_id,,}-recovery-packet.json"
   local recovery_return="$tmp/${case_id,,}-recovery-return.json" recovery_decision="$tmp/${case_id,,}-recovery-decision.json"
   local recovery_opened recovery_open_record recovery_returned recovery_return_record recovery_completed recovery_complete_record admitted
@@ -2149,11 +2152,13 @@ PY
       route "$controller" "$session" G0001 admit-current >/dev/null
   fi
 
+  first_recovery_event="${case_id,,}-compact-boundary"
+  if [ "$rotation_mode" != "ONE_ROTATION" ]; then
+    first_recovery_event="${case_id,,}-intermediate-compact-boundary"
+  fi
   successor_receipt="$(promote_to_v3 "$controller" "$claim_local" "$root" "$run_name" \
-    "${case_id,,}-compact-boundary" host-reported-compaction)"
-  mutate_request "$recovery_request" "$recovery_request.next" \
-    'value["boundary"]={"kind":"host-reported-compaction","event_id":"'"${case_id,,}"'-compact-boundary"}; value["boundary"]["digest"]=h(value["boundary"])'
-  mv "$recovery_request.next" "$recovery_request"
+    "$first_recovery_event" host-reported-compaction)"
+  intermediate_receipt="$successor_receipt"
   host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
     --expected-generation G0001 --reason active-route-compaction-successor \
     --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
@@ -2161,30 +2166,124 @@ PY
     --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g2" \
     --activation-receipt "activation-${case_id,,}-g2" --continuity-generation G0002 \
     --continuity-receipt "$successor_receipt" >/dev/null
+  if [ "$rotation_mode" != "ONE_ROTATION" ]; then
+    local second_recovery_event="${case_id,,}-compact-boundary"
+    if [ "$rotation_mode" = "THREE_ROTATIONS" ] || [ "$rotation_mode" = "FOUR_ROTATIONS" ]; then
+      second_recovery_event="${case_id,,}-second-intermediate-compact-boundary"
+    fi
+    successor_receipt="$(promote_v3_next "$controller" "$claim_local" "$root" "$run_name" \
+      "$second_recovery_event" host-reported-compaction G0002 G0003)"
+    host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+      --expected-generation G0002 --reason active-route-second-compaction-successor \
+      --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+      --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+      --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g3" \
+      --activation-receipt "activation-${case_id,,}-g3" --continuity-generation G0003 \
+      --continuity-receipt "$successor_receipt" >/dev/null
+    successor_generation=G0003
+  fi
+  if [ "$rotation_mode" = "THREE_ROTATIONS" ] || [ "$rotation_mode" = "FOUR_ROTATIONS" ]; then
+    local third_recovery_event="${case_id,,}-compact-boundary"
+    if [ "$rotation_mode" = "FOUR_ROTATIONS" ]; then
+      third_recovery_event="${case_id,,}-third-intermediate-compact-boundary"
+    fi
+    successor_receipt="$(promote_v3_next "$controller" "$claim_local" "$root" "$run_name" \
+      "$third_recovery_event" host-reported-compaction G0003 G0004)"
+    host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+      --expected-generation G0003 --reason active-route-third-compaction-successor \
+      --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+      --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+      --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g4" \
+      --activation-receipt "activation-${case_id,,}-g4" --continuity-generation G0004 \
+      --continuity-receipt "$successor_receipt" >/dev/null
+    successor_generation=G0004
+  fi
+  if [ "$rotation_mode" = "FOUR_ROTATIONS" ]; then
+    successor_receipt="$(promote_v3_next "$controller" "$claim_local" "$root" "$run_name" \
+      "${case_id,,}-compact-boundary" host-reported-compaction G0004 G0005)"
+    host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+      --expected-generation G0004 --reason active-route-fourth-compaction-successor \
+      --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+      --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+      --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g5" \
+      --activation-receipt "activation-${case_id,,}-g5" --continuity-generation G0005 \
+      --continuity-receipt "$successor_receipt" >/dev/null
+    successor_generation=G0005
+  fi
+  mutate_request "$recovery_request" "$recovery_request.next" \
+    'value["boundary"]={"kind":"host-reported-compaction","event_id":"'"${case_id,,}"'-compact-boundary"}; value["boundary"]["digest"]=h(value["boundary"])'
+  mv "$recovery_request.next" "$recovery_request"
 
   expect_blocked "$case_id stale binding generation cannot recover active lifecycle" \
     route "$controller" "$session" G0001 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
   expect_blocked "$case_id skipped binding generation cannot recover active lifecycle" \
-    route "$controller" "$session" G0003 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+    route "$controller" "$session" "G$(printf '%04X' "$((16#${successor_generation#G} + 1))")" decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+  if [ "$rotation_mode" != "ONE_ROTATION" ]; then
+    expect_blocked "$case_id intermediate binding cannot recover current active lifecycle" \
+      route "$controller" "$session" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+  fi
   expect_blocked "$case_id foreign session cannot recover active lifecycle" \
-    route "$controller" "${session}-foreign" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+    route "$controller" "${session}-foreign" "$successor_generation" decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
   expect_blocked "$case_id foreign controller cannot recover active lifecycle" \
-    route "${controller}-foreign" "$session" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+    route "${controller}-foreign" "$session" "$successor_generation" decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
 
   mutate_request "$recovery_request" "$wrong_reason_request" \
     'value["action"]={"identity":"action:immutable_independent_review","class":"PURE_BOUNDED_READ_OR_VALIDATION","argv":["route-trigger","IMMUTABLE_INDEPENDENT_REVIEW"]}; value["action"]["digest"]=h(value["action"])'
   expect_blocked "$case_id different reason and child cannot recover active lifecycle" \
-    route "$controller" "$session" G0002 decide --request "$wrong_reason_request" --expected-record "$active_record" >/dev/null
+    route "$controller" "$session" "$successor_generation" decide --request "$wrong_reason_request" --expected-record "$active_record" >/dev/null
   mutate_request "$recovery_request" "$malformed_request" \
     'value["boundary"]["digest"]="sha256:"+"0"*64'
   expect_blocked "$case_id malformed boundary provenance cannot recover active lifecycle" \
-    route "$controller" "$session" G0002 decide --request "$malformed_request" --expected-record "$active_record" >/dev/null
+    route "$controller" "$session" "$successor_generation" decide --request "$malformed_request" --expected-record "$active_record" >/dev/null
 
   cp "$tmp/repo/baseline.txt" "$tmp/${case_id,,}-baseline"
   printf 'stale recovery input\n' >> "$tmp/repo/baseline.txt"
   expect_blocked "$case_id stale observed inputs cannot recover active lifecycle" \
-    route "$controller" "$session" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+    route "$controller" "$session" "$successor_generation" decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
   cp "$tmp/${case_id,,}-baseline" "$tmp/repo/baseline.txt"
+
+  if [ "$rotation_mode" != "ONE_ROTATION" ]; then
+    intermediate_ref="${intermediate_receipt%@*}"
+    intermediate_oid="${intermediate_receipt##*@}"
+    git -C "$tmp/repo" update-ref -d "$intermediate_ref" "$intermediate_oid"
+    expect_blocked "$case_id missing intermediate continuity receipt cannot recover" \
+      route "$controller" "$session" "$successor_generation" decide \
+        --request "$recovery_request" --expected-record "$active_record" >/dev/null
+    git -C "$tmp/repo" update-ref "$intermediate_ref" "$intermediate_oid" \
+      0000000000000000000000000000000000000000
+
+    binding_state="$("${py[@]}" - "$tmp/host-store" "$session" <<'PY'
+import hashlib,sys
+from pathlib import Path
+store,session=sys.argv[1:]
+key=hashlib.sha256(("codex\0"+session).encode("utf-8")).hexdigest()
+print(Path(store)/"bindings"/key[:2]/key/"binding.json")
+PY
+)"
+    binding_backup="$tmp/${case_id,,}-binding-state.backup"
+    cp "$binding_state" "$binding_backup"
+    for binding_tamper in missing-intermediate foreign-receipt nonconsecutive-continuity foreign-owner; do
+      "${py[@]}" - "$binding_backup" "$binding_state" "$binding_tamper" <<'PY'
+import json,sys
+from pathlib import Path
+source,target,mode=sys.argv[1:]
+value=json.loads(Path(source).read_text(encoding="utf-8"))
+if mode == "missing-intermediate":
+ value["records"]=[record for record in value["records"] if record["binding_generation"] != "G0002"]
+else:
+ intermediate=next(record for record in value["records"] if record["binding_generation"] == "G0002")
+ if mode == "foreign-receipt": intermediate["applicable_continuity_receipt"]="refs/implementaudit/continuity-receipts/foreign/G0002@"+"0"*40
+ elif mode == "nonconsecutive-continuity": intermediate["applicable_continuity_generation"]="G0004"
+ elif mode == "foreign-owner": intermediate["claim_id"]="d"*32
+ else: raise SystemExit("unknown binding tamper")
+Path(target).write_text(json.dumps(value,sort_keys=True,indent=2)+"\n",encoding="utf-8")
+PY
+      expect_blocked "$case_id $binding_tamper binding lineage cannot recover" \
+        route "$controller" "$session" "$successor_generation" decide \
+          --request "$recovery_request" --expected-record "$active_record" >/dev/null
+      cp "$binding_backup" "$binding_state"
+    done
+  fi
 
   if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
     # Historical custody is semantic, not permissive: every byte identity and
@@ -2245,7 +2344,7 @@ PY
       proxy_oid="$(git -C "$tmp/repo" hash-object -w "$tmp/${case_id,,}-active-tamper-$active_tamper.json")"
       git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" "$proxy_oid" "$active_record"
       expect_blocked "$case_id active historical child $active_tamper tamper cannot recover" \
-        route "$controller" "$session" G0002 decide --request "$recovery_request" \
+        route "$controller" "$session" "$successor_generation" decide --request "$recovery_request" \
           --expected-record "$proxy_oid" >/dev/null
       [ "$(git -C "$tmp/repo" rev-parse "refs/implementaudit/route-decisions/$controller")" = "$proxy_oid" ] ||
         fail "$case_id active historical child $active_tamper tamper changed the route ref"
@@ -2254,7 +2353,7 @@ PY
   fi
 
   set +e
-  recovery_decided="$(route "$controller" "$session" G0002 decide --request "$recovery_request" \
+  recovery_decided="$(route "$controller" "$session" "$successor_generation" decide --request "$recovery_request" \
     --expected-record "$active_record" 2>&1)"
   recovery_status=$?
   set -e
@@ -2271,24 +2370,24 @@ PY
   [ "$recovery_obligation" != "$obligation" ] || fail "$case_id recovery inherited the old obligation identity"
   [ "$recovery_transaction" != "$transaction" ] || fail "$case_id recovery inherited the old transaction identity"
   recovery_blob="$(git -C "$tmp/repo" cat-file blob "$recovery_required")"
-  assert_json "$recovery_blob" 'value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["child_source"]["identity"].replace("\\", "/").endswith("/audit-state/SKILL.md") and value["continuity_generation"] == "G0002" and value["host_binding_generation"] == "G0002"'
+  assert_json "$recovery_blob" 'value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["child_source"]["identity"].replace("\\", "/").endswith("/audit-state/SKILL.md") and value["continuity_generation"] == "'"$successor_generation"'" and value["host_binding_generation"] == "'"$successor_generation"'"'
 
   # The abandoned record is immutable history only. Its return/completion bytes
   # cannot advance or satisfy the fresh recovery obligation.
   expect_blocked "$case_id old active record cannot accept a late return" \
-    route "$controller" "$session" G0002 return --request "$old_request" \
+    route "$controller" "$session" "$successor_generation" return --request "$old_request" \
       --expected-record "$active_record" --return "$old_return" >/dev/null
   expect_blocked "$case_id fresh obligation cannot reuse the old completion" \
-    route "$controller" "$session" G0002 complete --request "$recovery_request" \
+    route "$controller" "$session" "$successor_generation" complete --request "$recovery_request" \
       --expected-record "$recovery_required" --packet "$old_packet" --return "$old_return" --decision "$old_decision" >/dev/null
   expect_blocked "$case_id ordinary work remains blocked before recovery return" \
-    route "$controller" "$session" G0002 admit-current >/dev/null
+    route "$controller" "$session" "$successor_generation" admit-current >/dev/null
 
   recovery_attributed="$(host validate-event --host-id codex --host-session-id "$session" \
-    --binding-generation G0002 --controller-id "$controller" --claim-id "$claim_local" \
+    --binding-generation "$successor_generation" --controller-id "$controller" --claim-id "$claim_local" \
     --explicit-run-root "$root" --repository-identity "$repo_custody" \
     --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
-    --continuity-generation G0002 --continuity-receipt "$successor_receipt" \
+    --continuity-generation "$successor_generation" --continuity-receipt "$successor_receipt" \
     --event-id "host:$case_id:recovery" --obligation-id "$recovery_obligation" \
     --route-transaction-id "$recovery_transaction")"
   recovery_correlation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$recovery_attributed")"
@@ -2315,7 +2414,7 @@ write(decision_path,{"schema":"implementaudit.governor-route-decision.v1","oblig
  "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
  "reason":"governor accepted only the fresh audit-state return"})
 PY
-  recovery_opened="$(route "$controller" "$session" G0002 open --request "$recovery_request" \
+  recovery_opened="$(route "$controller" "$session" "$successor_generation" open --request "$recovery_request" \
     --expected-record "$recovery_required" --packet "$recovery_packet" 2>"$tmp/${case_id,,}-recovery-open.visible")"
   if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
     "${py[@]}" - "$recovery_opened" "$package_root/audit-state/SKILL.md" <<'PY'
@@ -2328,16 +2427,16 @@ if Path(delivery["identity"]).resolve() != expected_path or base64.b64decode(del
 PY
   fi
   recovery_open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_opened")"
-  recovery_returned="$(route "$controller" "$session" G0002 return --request "$recovery_request" \
+  recovery_returned="$(route "$controller" "$session" "$successor_generation" return --request "$recovery_request" \
     --expected-record "$recovery_open_record" --return "$recovery_return")"
   recovery_return_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_returned")"
   expect_blocked "$case_id child return cannot route directly to its requested child" \
-    route "$controller" "$session" G0002 admit-current >/dev/null
-  recovery_completed="$(route "$controller" "$session" G0002 complete --request "$recovery_request" \
+    route "$controller" "$session" "$successor_generation" admit-current >/dev/null
+  recovery_completed="$(route "$controller" "$session" "$successor_generation" complete --request "$recovery_request" \
     --expected-record "$recovery_return_record" --packet "$recovery_packet" \
     --return "$recovery_return" --decision "$recovery_decision")"
   recovery_complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_completed")"
-  admitted="$(route "$controller" "$session" G0002 admit-current)"
+  admitted="$(route "$controller" "$session" "$successor_generation" admit-current)"
   assert_json "$admitted" 'value["record_oid"] == "'"$recovery_complete_record"'" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1 and value["advance_allowed"] is True'
   [ "$(git -C "$tmp/repo" cat-file blob "$active_record")" = "$active_blob" ] || fail "$case_id recovery completion mutated the prior active record"
 }
@@ -2382,7 +2481,7 @@ if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G07 ]; then
   run_active_compaction_recovery_case G07 OPEN bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb PACKAGE_RELOCATED
 fi
 if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G08 ]; then
-  run_active_compaction_recovery_case G08 RETURNED cccccccccccccccccccccccccccccccc
+  run_active_compaction_recovery_case G08 RETURNED cccccccccccccccccccccccccccccccc PACKAGE_RELOCATED FOUR_ROTATIONS
 fi
 
 # The pure R0033 owner validator remains usable for a read-only C03 projection

@@ -1333,6 +1333,7 @@ def validate_binding(
     *,
     event_id: str | None = None,
     replay: bool = False,
+    expected_lineage: list[tuple[str, str, str]] | None = None,
 ) -> dict[str, Any]:
     def binding_failure(message: str) -> NoReturn:
         if replay:
@@ -1415,6 +1416,15 @@ def validate_binding(
     ]
     if obligation_id is not None and transaction_id is not None:
         command.extend(["--obligation-id", obligation_id, "--route-transaction-id", transaction_id])
+    for binding_generation, continuity_generation, continuity_receipt in expected_lineage or []:
+        command.extend(
+            [
+                "--expected-lineage-link",
+                binding_generation,
+                continuity_generation,
+                continuity_receipt,
+            ]
+        )
     attributed_raw = binding_run(command, "host event attribution")
     try:
         attributed = json.loads(attributed_raw)
@@ -2574,7 +2584,8 @@ def validate_terminal_continuity_chain(
     terminal_receipt: Any,
     current_generation: Any,
     current_receipt: Any,
-) -> None:
+    require_current_v3: bool = False,
+) -> list[tuple[str, str]]:
     """Require a bounded contiguous canonical v3 chain back to the terminal receipt."""
     if (
         not isinstance(terminal_generation, str)
@@ -2595,7 +2606,8 @@ def validate_terminal_continuity_chain(
     )
     candidate_generation = current_generation
     candidate_receipt = current_receipt
-    if distance == 1:
+    reverse_links = [(candidate_generation, candidate_receipt)]
+    if distance == 1 and not require_current_v3:
         current_ref, current_oid = split_continuity_token(
             current_receipt, controller, current_generation, "current continuity receipt"
         )
@@ -2604,6 +2616,7 @@ def validate_terminal_continuity_chain(
         if canonical_ref_oid(repo, current_ref, "current continuity receipt") != current_oid:
             fail("current continuity receipt token does not match its canonical ref", decision="REQUIRED")
         git_blob_bytes(repo, current_oid, "current continuity receipt")
+        reverse_links.append((terminal_generation, terminal_receipt))
     else:
         for _ in range(distance):
             candidate_receipt = validated_v3_predecessor(
@@ -2615,11 +2628,13 @@ def validate_terminal_continuity_chain(
                 generation=candidate_generation,
             )
             candidate_generation = f"G{int(candidate_generation[1:], 16) - 1:04X}"
+            reverse_links.append((candidate_generation, candidate_receipt))
         if candidate_generation != terminal_generation or candidate_receipt != terminal_receipt:
             fail("continuity receipt chain does not reach the terminal route receipt", decision="REQUIRED")
     if canonical_ref_oid(repo, terminal_ref, "terminal continuity receipt") != terminal_oid:
         fail("terminal continuity receipt token does not match its canonical ref", decision="REQUIRED")
     git_blob_bytes(repo, terminal_oid, "terminal continuity receipt")
+    return list(reversed(reverse_links))
 
 
 def require_terminal_route_reentry(
@@ -2694,6 +2709,7 @@ def require_terminal_route_reentry(
 
 def require_active_route_recovery(
     repo: Path,
+    common: str,
     args: argparse.Namespace,
     current: dict[str, str],
     request: dict[str, Any],
@@ -2701,8 +2717,10 @@ def require_active_route_recovery(
     old: dict[str, Any],
     decision: str,
     classification: str,
+    obligation_id: str | None,
+    transaction_id: str | None,
 ) -> None:
-    """Admit one immediate stale-context successor to an incomplete H2B route."""
+    """Admit one exact contiguous stale-context successor to an incomplete H2B route."""
     validate_canonical_route_record_bytes(repo, old_oid, old)
     candidate_request_from_record(old, require_current_inputs=False)
     lifecycle = old.get("lifecycle")
@@ -2723,26 +2741,40 @@ def require_active_route_recovery(
     }
     if any(old.get(key) != value for key, value in unchanged_owner.items()):
         fail("active route recovery changed controller, claim, run, host, or session identity", decision="REQUIRED")
-    if not exact_generation_successor(
-        old.get("continuity_generation"), current.get("continuity_generation")
-    ):
-        fail("active route recovery requires the exact next continuity generation", decision="REQUIRED")
-    if not exact_generation_successor(
-        old.get("host_binding_generation"), args.binding_generation
-    ):
-        fail("active route recovery requires the exact next host-binding generation", decision="REQUIRED")
-    if old.get("continuity_receipt") == current.get("continuity_receipt"):
-        fail("active route recovery requires a distinct continuity receipt", decision="REQUIRED")
-    predecessor_receipt = validated_v3_predecessor(
+    continuity_links = validate_terminal_continuity_chain(
         repo,
-        current["continuity_receipt"],
         controller=args.controller,
         claim=current["claim_id"],
         run_identity=Path(current["explicit_run_root"]).name,
-        generation=current["continuity_generation"],
+        terminal_generation=old.get("continuity_generation"),
+        terminal_receipt=old.get("continuity_receipt"),
+        current_generation=current["continuity_generation"],
+        current_receipt=current["continuity_receipt"],
+        require_current_v3=True,
     )
-    if predecessor_receipt != old.get("continuity_receipt"):
-        fail("active route recovery receipt does not directly succeed the stale lifecycle receipt", decision="REQUIRED")
+    old_binding = old.get("host_binding_generation")
+    if (
+        not isinstance(old_binding, str)
+        or not CONTINUITY_RE.fullmatch(old_binding)
+        or not CONTINUITY_RE.fullmatch(args.binding_generation)
+        or int(args.binding_generation[1:], 16) - int(old_binding[1:], 16) != len(continuity_links) - 1
+    ):
+        fail("active route recovery requires an exact matching host-binding generation chain", decision="REQUIRED")
+    binding_start = int(old_binding[1:], 16)
+    expected_lineage = [
+        (f"G{binding_start + index:04X}", continuity_generation, continuity_receipt)
+        for index, (continuity_generation, continuity_receipt) in enumerate(continuity_links)
+    ]
+    validate_binding(
+        repo,
+        common,
+        args,
+        current,
+        request,
+        obligation_id,
+        transaction_id,
+        expected_lineage=expected_lineage,
+    )
     old_boundary = old.get("boundary")
     new_boundary = request["boundary"]
     if (
@@ -2847,7 +2879,17 @@ def command_decide(args: argparse.Namespace) -> None:
         )
         if active_recovery:
             require_active_route_recovery(
-                repo, args, current, request, old_oid, old, decision, classification
+                repo,
+                common,
+                args,
+                current,
+                request,
+                old_oid,
+                old,
+                decision,
+                classification,
+                obligation_id,
+                transaction_id,
             )
         current_context_matches = bool(
             old
@@ -2954,7 +2996,17 @@ def command_decide(args: argparse.Namespace) -> None:
                 )
             if active_recovery:
                 require_active_route_recovery(
-                    repo, args, current, request, old_oid, old, decision, classification
+                    repo,
+                    common,
+                    args,
+                    current,
+                    request,
+                    old_oid,
+                    old,
+                    decision,
+                    classification,
+                    obligation_id,
+                    transaction_id,
                 )
             if post_current != current or post_eval[4] != fingerprint or post_oid != new_oid:
                 fail("route decision currentness changed during CAS", decision=decision)

@@ -375,6 +375,71 @@ def current_record(state: dict[str, Any], *, require_active: bool) -> dict[str, 
     return current
 
 
+def validate_expected_lineage(
+    state: dict[str, Any],
+    current: dict[str, Any],
+    observed: dict[str, str],
+    raw_links: list[list[str]],
+) -> None:
+    """Validate one caller-supplied contiguous historical binding/receipt slice."""
+    if not raw_links:
+        return
+    if len(raw_links) > 65:
+        fail("expected binding lineage exceeds its bound")
+    links: list[tuple[str, str, str]] = []
+    for raw_link in raw_links:
+        if len(raw_link) != 3:
+            fail("expected binding lineage link has the wrong shape")
+        binding_generation = generation(raw_link[0], "expected_lineage_binding_generation")
+        continuity_generation = generation(raw_link[1], "expected_lineage_continuity_generation")
+        receipt = exact_text(raw_link[2], "expected_lineage_continuity_receipt")
+        links.append((binding_generation, continuity_generation, receipt))
+    if len(links) < 2:
+        fail("expected binding lineage must contain distinct stale and current endpoints")
+    if links[-1] != (
+        observed["binding_generation"],
+        observed["applicable_continuity_generation"],
+        observed["applicable_continuity_receipt"],
+    ):
+        fail("expected binding lineage does not end at the current binding")
+    records_by_generation = {record["binding_generation"]: record for record in state["records"]}
+    invariant_keys = (
+        "controller_id",
+        "claim_id",
+        "explicit_run_root",
+        "repository_identity",
+        "git_common_directory_identity",
+        "worktree_identity",
+    )
+    previous_binding: str | None = None
+    previous_continuity: str | None = None
+    for index, (binding_generation, continuity_generation, receipt) in enumerate(links):
+        if previous_binding is not None:
+            if int(binding_generation[1:], 16) != int(previous_binding[1:], 16) + 1:
+                fail("expected binding lineage skips or aliases a binding generation")
+            if int(continuity_generation[1:], 16) != int(previous_continuity[1:], 16) + 1:
+                fail("expected binding lineage skips or aliases a continuity generation")
+        record = records_by_generation.get(binding_generation)
+        if record is None:
+            fail("expected binding lineage record is absent")
+        if any(record[key] != observed[key] for key in invariant_keys):
+            fail("expected binding lineage has foreign controller, claim, run, or custody identity")
+        if (
+            record["applicable_continuity_generation"] != continuity_generation
+            or record["applicable_continuity_receipt"] != receipt
+        ):
+            fail("expected binding lineage does not match its continuity receipt")
+        expected_status = "ACTIVE" if index == len(links) - 1 else "SUPERSEDED"
+        if record["status"] != expected_status:
+            fail("expected binding lineage has an invalid lifecycle status")
+        if previous_binding is not None and record["predecessor_generation"] != previous_binding:
+            fail("expected binding lineage has a broken predecessor link")
+        previous_binding = binding_generation
+        previous_continuity = continuity_generation
+    if records_by_generation[links[-1][0]] is not current:
+        fail("expected binding lineage does not identify the current record")
+
+
 def proof_result(**payload: Any) -> dict[str, Any]:
     return {
         "schema": RESULT_SCHEMA,
@@ -533,6 +598,7 @@ def command_validate_event(args: argparse.Namespace) -> None:
     for key, value in observed.items():
         if current[key] != value:
             fail(f"event has stale or foreign {key}")
+    validate_expected_lineage(state, current, observed, args.expected_lineage_link)
     obligation = args.obligation_id
     transaction = args.route_transaction_id
     if (obligation is None) != (transaction is None):
@@ -684,6 +750,13 @@ def parse_args() -> argparse.Namespace:
     event.add_argument("--agent-id")
     event.add_argument("--obligation-id")
     event.add_argument("--route-transaction-id")
+    event.add_argument(
+        "--expected-lineage-link",
+        nargs=3,
+        action="append",
+        default=[],
+        metavar=("BINDING_GENERATION", "CONTINUITY_GENERATION", "CONTINUITY_RECEIPT"),
+    )
     event.set_defaults(run=command_validate_event)
 
     tombstone = subparsers.add_parser("tombstone")
