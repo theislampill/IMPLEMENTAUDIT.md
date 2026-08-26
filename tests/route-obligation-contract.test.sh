@@ -25,7 +25,7 @@ fail() {
 
 case "${R0033_CASE_FILTER:-}" in
   '') ;;
-  G01|G02|G03|G04|G05|G06)
+  G01|G02|G03|G04|G05|G06|G07|G08)
     [ "${R0033_FILTER_MODE:-}" = NON_QUALIFYING ] ||
       fail "R0033_CASE_FILTER requires explicit R0033_FILTER_MODE=NON_QUALIFYING" ;;
   *) fail "R0033_CASE_FILTER is not one exact governed case" ;;
@@ -38,7 +38,7 @@ emit_route_summary() {
   else
     printf 'route-obligation-contract.test: request-free current-result matrix GREEN\n'
     printf 'route-obligation-contract.test: G01-G40 common governed-child matrix GREEN\n'
-    printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + all-four child-route matrix; first RED preserved)\n'
+    printf 'route-obligation-contract.test: ok (61/61 live H2A cases + HC-H2B route/return/completion/replay + active-boundary OPEN/RETURNED recovery + all-four child-route matrix; first RED preserved)\n'
   fi
 }
 
@@ -1412,6 +1412,7 @@ value={
    "host_correlation_id":correlation},"body":"cross-target refusal","kind":"one-shot-action",
   "reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}},
 }
+
 with open(path,"w",encoding="utf-8",newline="\n") as handle:
  json.dump(value,handle,sort_keys=True,separators=(",",":")); handle.write("\n")
 PY
@@ -2025,6 +2026,202 @@ PY
     fail "$case_id second lifecycle mutated the first terminal record"
 }
 
+# G07/G08: a host-compaction successor may abandon an incomplete prior child
+# lifecycle only when the same governed object advances by exactly one
+# continuity generation and exactly one H0 binding generation. The immutable
+# OPEN/RETURNED record remains evidence, but none of its child bytes, return,
+# decision, transaction or obligation authority crosses into the fresh
+# STALE_CONTEXT_RECONSTRUCTION transaction.
+run_active_compaction_recovery_case() {
+  local case_id="$1" active_state="$2" claim_local="$3"
+  local controller="controller-${case_id,,}" session="session-${case_id,,}"
+  local run_name="${case_id,,}-ABC123"
+  local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name"
+  local old_request="$tmp/${case_id,,}-old-request.json" recovery_request="$tmp/${case_id,,}-recovery-request.json"
+  local wrong_reason_request="$tmp/${case_id,,}-wrong-reason-request.json"
+  local malformed_request="$tmp/${case_id,,}-malformed-request.json"
+  local receipt decided required_record obligation transaction attributed correlation
+  local old_packet="$tmp/${case_id,,}-old-packet.json" old_return="$tmp/${case_id,,}-old-return.json"
+  local old_decision="$tmp/${case_id,,}-old-decision.json" opened open_record returned active_record active_blob
+  local successor_receipt recovery_decided recovery_required recovery_obligation recovery_transaction
+  local recovery_attributed recovery_correlation recovery_packet="$tmp/${case_id,,}-recovery-packet.json"
+  local recovery_return="$tmp/${case_id,,}-recovery-return.json" recovery_decision="$tmp/${case_id,,}-recovery-decision.json"
+  local recovery_opened recovery_open_record recovery_returned recovery_return_record recovery_completed recovery_complete_record admitted
+
+  receipt="$(make_run "$controller" "$run_name" "$claim_local" "${case_id,,}-old-boundary")"
+  bind_host "$session" "$controller" "$claim_local" "$root" "$receipt" "activation-${case_id,,}"
+  write_request "$old_request" PURE_BOUNDED_READ_OR_VALIDATION IMMUTABLE_INDEPENDENT_REVIEW
+  mutate_request "$old_request" "$old_request.next" \
+    'value["boundary"]={"kind":"new-session","event_id":"'"${case_id,,}"'-old-boundary"}; value["boundary"]["digest"]=h(value["boundary"])'
+  mv "$old_request.next" "$old_request"
+  decided="$(route "$controller" "$session" G0001 decide --request "$old_request" --expected-record none)"
+  required_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$decided")"
+  obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$decided")"
+  transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$decided")"
+  attributed="$(host validate-event --host-id codex --host-session-id "$session" \
+    --binding-generation G0001 --controller-id "$controller" --claim-id "$claim_local" \
+    --explicit-run-root "$root" --repository-identity "$repo_custody" \
+    --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
+    --continuity-generation G0001 --continuity-receipt "$receipt" \
+    --event-id "host:$case_id:old" --obligation-id "$obligation" --route-transaction-id "$transaction")"
+  correlation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$attributed")"
+  "${py[@]}" - "$old_packet" "$old_return" "$old_decision" "$obligation" "$transaction" "$correlation" "$case_id" <<'PY'
+import hashlib,json,sys
+packet_path,return_path,decision_path,obligation,transaction,correlation,event_id=sys.argv[1:]
+def write(path,value):
+ raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
+ open(path,"wb").write(raw)
+ return "sha256:"+hashlib.sha256(raw).hexdigest()
+packet={"schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":"audit-assess",
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:"+event_id+":old",
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1","event_id":"host:"+event_id+":old",
+   "host_correlation_id":correlation},"body":"perform the pre-compaction review once",
+  "kind":"one-shot-action","reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}}}
+packet_digest=write(packet_path,packet)
+returned={"schema":"implementaudit.child-return.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"packet_digest":packet_digest,"status":"RETURNED",
+ "payload":{"result":"pre-compaction review return must remain historical"}}
+return_digest=write(return_path,returned)
+write(decision_path,{"schema":"implementaudit.governor-route-decision.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
+ "reason":"this pre-compaction decision must never complete the recovery route"})
+PY
+  opened="$(route "$controller" "$session" G0001 open --request "$old_request" \
+    --expected-record "$required_record" --packet "$old_packet" 2>"$tmp/${case_id,,}-old-open.visible")"
+  open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$opened")"
+  active_record="$open_record"
+  if [ "$active_state" = RETURNED ]; then
+    returned="$(route "$controller" "$session" G0001 return --request "$old_request" \
+      --expected-record "$open_record" --return "$old_return")"
+    active_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$returned")"
+  fi
+  active_blob="$(git -C "$tmp/repo" cat-file blob "$active_record")"
+  assert_json "$active_blob" 'value["route_state"] == "'"$active_state"'" and value["lifecycle"]["state"] == "'"$active_state"'" and value["lifecycle"]["source_event_status"] == "active" and value["lifecycle"]["governor_decision_count"] == 0'
+
+  # A distinct request in the same live context cannot discard active child
+  # work, even when it names the recovery reason.
+  mutate_request "$old_request" "$recovery_request" \
+    'value["action"]={"identity":"action:stale_context_reconstruction","class":"PURE_BOUNDED_READ_OR_VALIDATION","argv":["route-trigger","STALE_CONTEXT_RECONSTRUCTION"]}; value["action"]["digest"]=h(value["action"])'
+  expect_blocked "$case_id same-context active replacement" \
+    route "$controller" "$session" G0001 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+
+  successor_receipt="$(promote_to_v3 "$controller" "$claim_local" "$root" "$run_name" \
+    "${case_id,,}-compact-boundary" host-reported-compaction)"
+  mutate_request "$recovery_request" "$recovery_request.next" \
+    'value["boundary"]={"kind":"host-reported-compaction","event_id":"'"${case_id,,}"'-compact-boundary"}; value["boundary"]["digest"]=h(value["boundary"])'
+  mv "$recovery_request.next" "$recovery_request"
+  host rebind --owner-id host-owner --host-id codex --host-session-id "$session" \
+    --expected-generation G0001 --reason active-route-compaction-successor \
+    --controller-id "$controller" --claim-id "$claim_local" --explicit-run-root "$root" \
+    --repository-identity "$tmp/repo" --git-common-directory-identity "$tmp/repo/.git" \
+    --worktree-identity "$tmp/repo" --activation-event-id "activation-${case_id,,}-g2" \
+    --activation-receipt "activation-${case_id,,}-g2" --continuity-generation G0002 \
+    --continuity-receipt "$successor_receipt" >/dev/null
+
+  expect_blocked "$case_id stale binding generation cannot recover active lifecycle" \
+    route "$controller" "$session" G0001 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+  expect_blocked "$case_id skipped binding generation cannot recover active lifecycle" \
+    route "$controller" "$session" G0003 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+  expect_blocked "$case_id foreign session cannot recover active lifecycle" \
+    route "$controller" "${session}-foreign" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+  expect_blocked "$case_id foreign controller cannot recover active lifecycle" \
+    route "${controller}-foreign" "$session" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+
+  mutate_request "$recovery_request" "$wrong_reason_request" \
+    'value["action"]={"identity":"action:immutable_independent_review","class":"PURE_BOUNDED_READ_OR_VALIDATION","argv":["route-trigger","IMMUTABLE_INDEPENDENT_REVIEW"]}; value["action"]["digest"]=h(value["action"])'
+  expect_blocked "$case_id different reason and child cannot recover active lifecycle" \
+    route "$controller" "$session" G0002 decide --request "$wrong_reason_request" --expected-record "$active_record" >/dev/null
+  mutate_request "$recovery_request" "$malformed_request" \
+    'value["boundary"]["digest"]="sha256:"+"0"*64'
+  expect_blocked "$case_id malformed boundary provenance cannot recover active lifecycle" \
+    route "$controller" "$session" G0002 decide --request "$malformed_request" --expected-record "$active_record" >/dev/null
+
+  cp "$tmp/repo/baseline.txt" "$tmp/${case_id,,}-baseline"
+  printf 'stale recovery input\n' >> "$tmp/repo/baseline.txt"
+  expect_blocked "$case_id stale observed inputs cannot recover active lifecycle" \
+    route "$controller" "$session" G0002 decide --request "$recovery_request" --expected-record "$active_record" >/dev/null
+  cp "$tmp/${case_id,,}-baseline" "$tmp/repo/baseline.txt"
+
+  set +e
+  recovery_decided="$(route "$controller" "$session" G0002 decide --request "$recovery_request" \
+    --expected-record "$active_record" 2>&1)"
+  recovery_status=$?
+  set -e
+  if [ "$recovery_status" -ne 0 ]; then
+    printf 'route-obligation-contract.test: active-route recovery causal RED (%s/%s): %s\n' \
+      "$case_id" "$active_state" "$recovery_decided" >&2
+    exit 1
+  fi
+  assert_json "$recovery_decided" 'value["decision"] == "REQUIRED" and value["route_state"] == "UNSATISFIED" and value["predecessor_record_oid"] == "'"$active_record"'"'
+  recovery_required="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_decided")"
+  recovery_obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$recovery_decided")"
+  recovery_transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$recovery_decided")"
+  [ "$(git -C "$tmp/repo" cat-file blob "$active_record")" = "$active_blob" ] || fail "$case_id recovery mutated the prior active record"
+  [ "$recovery_obligation" != "$obligation" ] || fail "$case_id recovery inherited the old obligation identity"
+  [ "$recovery_transaction" != "$transaction" ] || fail "$case_id recovery inherited the old transaction identity"
+  recovery_blob="$(git -C "$tmp/repo" cat-file blob "$recovery_required")"
+  assert_json "$recovery_blob" 'value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["child_source"]["identity"].replace("\\", "/").endswith("/audit-state/SKILL.md") and value["continuity_generation"] == "G0002" and value["host_binding_generation"] == "G0002"'
+
+  # The abandoned record is immutable history only. Its return/completion bytes
+  # cannot advance or satisfy the fresh recovery obligation.
+  expect_blocked "$case_id old active record cannot accept a late return" \
+    route "$controller" "$session" G0002 return --request "$old_request" \
+      --expected-record "$active_record" --return "$old_return" >/dev/null
+  expect_blocked "$case_id fresh obligation cannot reuse the old completion" \
+    route "$controller" "$session" G0002 complete --request "$recovery_request" \
+      --expected-record "$recovery_required" --packet "$old_packet" --return "$old_return" --decision "$old_decision" >/dev/null
+  expect_blocked "$case_id ordinary work remains blocked before recovery return" \
+    route "$controller" "$session" G0002 admit-current >/dev/null
+
+  recovery_attributed="$(host validate-event --host-id codex --host-session-id "$session" \
+    --binding-generation G0002 --controller-id "$controller" --claim-id "$claim_local" \
+    --explicit-run-root "$root" --repository-identity "$repo_custody" \
+    --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
+    --continuity-generation G0002 --continuity-receipt "$successor_receipt" \
+    --event-id "host:$case_id:recovery" --obligation-id "$recovery_obligation" \
+    --route-transaction-id "$recovery_transaction")"
+  recovery_correlation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["correlation_id"])' "$recovery_attributed")"
+  "${py[@]}" - "$recovery_packet" "$recovery_return" "$recovery_decision" \
+    "$recovery_obligation" "$recovery_transaction" "$recovery_correlation" "$case_id" <<'PY'
+import hashlib,json,sys
+packet_path,return_path,decision_path,obligation,transaction,correlation,event_id=sys.argv[1:]
+def write(path,value):
+ raw=(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)+"\n").encode()
+ open(path,"wb").write(raw)
+ return "sha256:"+hashlib.sha256(raw).hexdigest()
+packet={"schema":"implementaudit.route-packet.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"target_identity":"audit-state",
+ "source_event":{"schema":"implementaudit.source-event.v1","source_identity":"host:"+event_id+":recovery",
+  "provenance":{"schema":"implementaudit.source-event-provenance.v1","event_id":"host:"+event_id+":recovery",
+   "host_correlation_id":correlation},"body":"reconstruct only the fresh post-compaction state",
+  "kind":"one-shot-action","reactivation":{"reopen":False,"target_changed":False,"invalidating_evidence":False}}}
+packet_digest=write(packet_path,packet)
+returned={"schema":"implementaudit.child-return.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"packet_digest":packet_digest,"status":"RETURNED",
+ "payload":{"result":"fresh bounded audit-state return","requested_next_child":"audit-assess"}}
+return_digest=write(return_path,returned)
+write(decision_path,{"schema":"implementaudit.governor-route-decision.v1","obligation_id":obligation,
+ "route_transaction_id":transaction,"return_digest":return_digest,"outcome":"SATISFIED",
+ "reason":"governor accepted only the fresh audit-state return"})
+PY
+  recovery_opened="$(route "$controller" "$session" G0002 open --request "$recovery_request" \
+    --expected-record "$recovery_required" --packet "$recovery_packet" 2>"$tmp/${case_id,,}-recovery-open.visible")"
+  recovery_open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_opened")"
+  recovery_returned="$(route "$controller" "$session" G0002 return --request "$recovery_request" \
+    --expected-record "$recovery_open_record" --return "$recovery_return")"
+  recovery_return_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_returned")"
+  expect_blocked "$case_id child return cannot route directly to its requested child" \
+    route "$controller" "$session" G0002 admit-current >/dev/null
+  recovery_completed="$(route "$controller" "$session" G0002 complete --request "$recovery_request" \
+    --expected-record "$recovery_return_record" --packet "$recovery_packet" \
+    --return "$recovery_return" --decision "$recovery_decision")"
+  recovery_complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$recovery_completed")"
+  admitted="$(route "$controller" "$session" G0002 admit-current)"
+  assert_json "$admitted" 'value["record_oid"] == "'"$recovery_complete_record"'" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1 and value["advance_allowed"] is True'
+  [ "$(git -C "$tmp/repo" cat-file blob "$active_record")" = "$active_blob" ] || fail "$case_id recovery completion mutated the prior active record"
+}
+
 if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G01 ]; then
 run_governed_child_case G01 55555555555555555555555555555555 \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
@@ -2060,6 +2257,12 @@ run_governed_child_case G06 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
   'rehydrate bounded current state after the exact stale-context boundary' \
   host-reported-compaction REQUIRED PACKAGE_RELOCATED TWO_ROTATIONS
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G07 ]; then
+  run_active_compaction_recovery_case G07 OPEN bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+fi
+if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G08 ]; then
+  run_active_compaction_recovery_case G08 RETURNED cccccccccccccccccccccccccccccccc
 fi
 
 # The pure R0033 owner validator remains usable for a read-only C03 projection

@@ -197,6 +197,11 @@ duplicate row.
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs
 model judgement. It cannot mint the invalidation/receipt or authorise an effect.
+If that boundary made an earlier `OPEN` or `RETURNED` route stale, R0033 may
+supersede it only through the exact immediate continuity and H0 binding
+successor described in `route-obligations.md`. The old lifecycle remains an
+immutable incomplete record and grants no return, completion or satisfaction
+credit to the fresh audit-state transaction.
 When the governor then resolves and actually loads `audit-state`, the first
 permitted route narration must include `CHILD_SKILL_ROUTE=audit-state` and a
 plain-language reason for the selection. Do not emit that line for a

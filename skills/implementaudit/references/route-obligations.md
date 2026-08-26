@@ -153,8 +153,23 @@ boundary event and digest. The new record points directly to the terminal
 record, owns no inherited child lifecycle bytes, and begins at `UNSATISFIED`
 when its decision is `REQUIRED`. The old terminal record and its packet, return
 and governor decision remain unchanged. Same-context or same-boundary replay,
-skipped or stale generations, standing-source state, noncurrent predicates,
-and `OPEN` or `RETURNED` lifecycles remain non-replaceable.
+skipped or stale generations, standing-source state, and noncurrent predicates
+remain non-replaceable.
+
+One narrower recovery applies after an incomplete `OPEN` or `RETURNED` H2B
+lifecycle is made stale by a real context boundary. The same controller, claim,
+run, host and host session may create only the exact immediate continuity and
+host-binding successor, whose changed v3 receipt must name the stale route's
+receipt as its exact predecessor. The current request must carry a distinct
+canonical boundary event and digest, current inputs, and the mechanically
+required `STALE_CONTEXT_RECONSTRUCTION` reason mapped solely to `audit-state`.
+The new record points directly to the preserved incomplete record, starts a
+fresh `REQUIRED/UNSATISFIED` obligation, and inherits no child, packet, return,
+decision, transaction, obligation or satisfaction authority. Same-context,
+skipped/stale-generation, foreign owner/session, different-reason/child,
+malformed-provenance, noncurrent-input and old-lifecycle reuse attempts fail
+closed. Ordinary work stays blocked until the fresh audit-state return, one
+governor completion and post-return currentness all succeed.
 
 ## Bounded history routing
 

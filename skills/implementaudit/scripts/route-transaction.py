@@ -2681,6 +2681,75 @@ def require_terminal_route_reentry(
         fail("terminal route re-entry predicate is incomplete or noncurrent", decision="REQUIRED")
 
 
+def require_active_route_recovery(
+    repo: Path,
+    args: argparse.Namespace,
+    current: dict[str, str],
+    request: dict[str, Any],
+    old_oid: str,
+    old: dict[str, Any],
+    decision: str,
+    classification: str,
+) -> None:
+    """Admit one immediate stale-context successor to an incomplete H2B route."""
+    validate_canonical_route_record_bytes(repo, old_oid, old)
+    candidate_request_from_record(old, require_current_inputs=False)
+    lifecycle = old.get("lifecycle")
+    if (
+        old.get("decision") != "REQUIRED"
+        or old.get("route_state") not in {"OPEN", "RETURNED"}
+        or not isinstance(lifecycle, dict)
+        or lifecycle.get("state") != old.get("route_state")
+        or lifecycle.get("source_event_status") != "active"
+    ):
+        fail("only an exact active H2B route lifecycle can enter stale-context recovery", decision="REQUIRED")
+    unchanged_owner = {
+        "controller_id": args.controller,
+        "claim_id": current["claim_id"],
+        "explicit_run_root": current["explicit_run_root"],
+        "host_id": args.host_id,
+        "host_session_id": args.host_session_id,
+    }
+    if any(old.get(key) != value for key, value in unchanged_owner.items()):
+        fail("active route recovery changed controller, claim, run, host, or session identity", decision="REQUIRED")
+    if not exact_generation_successor(
+        old.get("continuity_generation"), current.get("continuity_generation")
+    ):
+        fail("active route recovery requires the exact next continuity generation", decision="REQUIRED")
+    if not exact_generation_successor(
+        old.get("host_binding_generation"), args.binding_generation
+    ):
+        fail("active route recovery requires the exact next host-binding generation", decision="REQUIRED")
+    if old.get("continuity_receipt") == current.get("continuity_receipt"):
+        fail("active route recovery requires a distinct continuity receipt", decision="REQUIRED")
+    predecessor_receipt = validated_v3_predecessor(
+        repo,
+        current["continuity_receipt"],
+        controller=args.controller,
+        claim=current["claim_id"],
+        run_identity=Path(current["explicit_run_root"]).name,
+        generation=current["continuity_generation"],
+    )
+    if predecessor_receipt != old.get("continuity_receipt"):
+        fail("active route recovery receipt does not directly succeed the stale lifecycle receipt", decision="REQUIRED")
+    old_boundary = old.get("boundary")
+    new_boundary = request["boundary"]
+    if (
+        not isinstance(old_boundary, dict)
+        or old_boundary.get("event_id") == new_boundary["event_id"]
+        or old_boundary.get("digest") == new_boundary["digest"]
+    ):
+        fail("active route recovery requires a distinct canonical boundary event and digest", decision="REQUIRED")
+    if mechanical_required_reason(request["action"]["argv"]) != "STALE_CONTEXT_RECONSTRUCTION":
+        fail("active route recovery requires STALE_CONTEXT_RECONSTRUCTION", decision="REQUIRED")
+    mapped_child, _ = CHILD_ROUTE_MAP["STALE_CONTEXT_RECONSTRUCTION"]
+    if mapped_child != "audit-state":
+        fail("active route recovery has no canonical audit-state mapping", decision="REQUIRED")
+    noncurrent, _ = request_observations(repo, current, request)
+    if noncurrent or decision != "REQUIRED" or classification != "MECHANICALLY_REQUIRED":
+        fail("active route recovery predicate is incomplete or noncurrent", decision="REQUIRED")
+
+
 def command_check(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
     request = read_request(args.request)
@@ -2798,8 +2867,13 @@ def command_decide(args: argparse.Namespace) -> None:
             fail("an action-in-progress record has unknown completion and cannot be replaced in H2A")
         if old and old["decision"] == "REQUIRED" and old.get("route_state") == "UNSATISFIED":
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
-        if old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED"}:
-            fail("an active H2B route lifecycle cannot be replaced", decision="REQUIRED")
+        active_recovery = bool(
+            old and old["decision"] == "REQUIRED" and old.get("route_state") in {"OPEN", "RETURNED"}
+        )
+        if active_recovery:
+            require_active_route_recovery(
+                repo, args, current, request, old_oid, old, decision, classification
+            )
         terminal_reentry = bool(
             old and old["decision"] == "REQUIRED" and old.get("route_state") == "SATISFIED"
         )
@@ -2861,6 +2935,10 @@ def command_decide(args: argparse.Namespace) -> None:
                     terminal_receipt=old.get("continuity_receipt"),
                     current_generation=current["continuity_generation"],
                     current_receipt=current["continuity_receipt"],
+                )
+            if active_recovery:
+                require_active_route_recovery(
+                    repo, args, current, request, old_oid, old, decision, classification
                 )
             if post_current != current or post_eval[4] != fingerprint or post_oid != new_oid:
                 fail("route decision currentness changed during CAS", decision=decision)
