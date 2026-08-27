@@ -617,6 +617,14 @@ def _read_proximal_selection_stdin() -> str:
         fail("proximal action selection stdin is malformed")
 
 
+def _reject_proximal_float(token: str) -> NoReturn:
+    fail(f"proximal action selection contains a forbidden float: {token}")
+
+
+def _reject_proximal_constant(token: str) -> NoReturn:
+    fail(f"proximal action selection contains a non-JSON numeric constant: {token}")
+
+
 def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
     def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         value = dict(pairs)
@@ -625,13 +633,19 @@ def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
         return value
 
     try:
-        selection = json.loads(raw, object_pairs_hook=unique_object)
+        selection = json.loads(
+            raw,
+            object_pairs_hook=unique_object,
+            parse_float=_reject_proximal_float,
+            parse_constant=_reject_proximal_constant,
+        )
     except json.JSONDecodeError as exc:
         fail(f"proximal action selection is malformed: {exc}")
     if not isinstance(selection, dict):
         fail("proximal action selection is not an object")
     canonical = json.dumps(
-        selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+        selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
     )
     if raw != canonical:
         fail("proximal action selection is noncanonical")
@@ -655,7 +669,10 @@ def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
     unsigned = dict(selection)
     digest = unsigned.pop("digest")
     expected_digest = hashlib.sha256(
-        json.dumps(unsigned, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+        json.dumps(
+            unsigned, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            allow_nan=False,
+        ).encode("utf-8")
     ).hexdigest()
     if not hmac.compare_digest(digest, expected_digest):
         fail("proximal action selection has a stale digest")

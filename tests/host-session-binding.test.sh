@@ -709,6 +709,77 @@ set -e
 assert_json "$noncanonical_result" \
   'value["status"] == "UNAVAILABLE" and "noncanonical" in value["error"]'
 
+# Python's default JSON decoder accepts NaN and infinities even though the
+# compiler identity grammar rejects every float/non-JSON constant.  Exercise
+# the real custody command at three nesting depths and prove rejection occurs
+# before any immutable receipt is created.
+"${py[@]}" - "$tmp" <<'PY'
+import hashlib,json,math,os,sys
+root=sys.argv[1]
+authority={key:"NONE" for key in (
+ "closure","done","lifecycle_credit","merge","package","publication","release"
+)}
+cases={
+ "nan":math.nan,"infinity":math.inf,"negative-infinity":-math.inf,
+ "finite-float":1.5,
+}
+for index,(name,constant) in enumerate(cases.items()):
+ qualification={"authority":authority}
+ if index == 0:
+  qualification["probe"]=constant
+ elif index == 1:
+  qualification["nested"]=[{"probe":constant}]
+ else:
+  qualification["nested"]=[{"deeper":[{"probe":constant}]}]
+ value={
+  "schema":"implementaudit.proximal-action-selection.v1",
+  "decision_sha256":("a","b","c","4")[index]*64,
+  "applicable":True,"decision":"PROXIMAL_CLASSIFICATION_SATISFIED",
+  "applicability_reason":"BOUNDED_ACTION_PAIR_PRESENT","advance_allowed":True,
+  "currentness":{"receipt":"continuity-receipt-session-b","current":True},
+  "request_sha256":("d","e","f","5")[index]*64,
+  "projection_digest":("1","2","3","6")[index]*64,
+  "mode":"COMPONENT_ACCEPTANCE","reason":"AFFECTED_COMPONENT_AUTHORITY_ONLY",
+  "lanes":["ACCEPTANCE_LANE"],"qualification":qualification,"authority":authority,
+ }
+ unsigned=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+ value["digest"]=hashlib.sha256(unsigned.encode()).hexdigest()
+ raw=json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+ token={
+  "nan":b"NaN","infinity":b"Infinity","negative-infinity":b"-Infinity",
+  "finite-float":b"1.5",
+ }[name]
+ if token not in raw:
+  raise SystemExit(f"missing non-JSON token in {name} fixture")
+ open(os.path.join(root,f"non-json-{name}.json"),"wb").write(raw)
+PY
+
+non_json_failures=0
+for constant_name in nan infinity negative-infinity finite-float; do
+  receipt_snapshot_before="$(find "$store/proximal-actions" -type f -print0 | \
+    sort -z | xargs -0 sha256sum | sha256sum)"
+  set +e
+  constant_result="$(consume_selection_file "$tmp/non-json-$constant_name.json" \
+    "proximal-event-$constant_name" "proximal-turn-$constant_name" 2>&1)"
+  constant_status=$?
+  set -e
+  receipt_snapshot_after="$(find "$store/proximal-actions" -type f -print0 | \
+    sort -z | xargs -0 sha256sum | sha256sum)"
+  if [ "$constant_status" -eq 0 ] || \
+      [ "$receipt_snapshot_before" != "$receipt_snapshot_after" ]; then
+    printf 'host-session-binding.test: NON_JSON_CONSTANT_RED=%s status=%s receipt-mutated=%s\n' \
+      "$constant_name" "$constant_status" \
+      "$([ "$receipt_snapshot_before" != "$receipt_snapshot_after" ] && printf YES || printf NO)" >&2
+    non_json_failures=$((non_json_failures + 1))
+    continue
+  fi
+  expected_error='non-JSON numeric constant'
+  [ "$constant_name" != finite-float ] || expected_error='forbidden float'
+  assert_json "$constant_result" \
+    "value[\"status\"] == \"UNAVAILABLE\" and \"$expected_error\" in value[\"error\"]"
+done
+[ "$non_json_failures" -eq 0 ] || exit 1
+
 set +e
 path_result="$(run_core consume-proximal-action \
   --host-id codex --host-session-id session-b --binding-generation G0001 \
@@ -762,4 +833,4 @@ assert_json "$gc_two" 'value["status"] == "GC_COMPLETE" and value["removed_gener
 # Case 15: source, package, install and native activation proof stay distinct.
 assert_json "$lookup_b" 'value["host_activation_proven"] is False and value["proof_layers"] == {"source_core": "PRESENT", "package": "UNVERIFIED", "install": "UNVERIFIED", "host_activation": "UNVERIFIED"}'
 
-printf 'host-session-binding.test: ok (15/15 R003A + 10/10 R0035 custody cases)\n'
+printf 'host-session-binding.test: ok (15/15 R003A + 14/14 R0035 custody cases)\n'
