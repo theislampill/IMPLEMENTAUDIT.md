@@ -15,11 +15,13 @@ import errno
 import hashlib
 import json
 import os
+import queue
 import re
 import shutil
 import stat
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 from typing import Any, Iterator, NoReturn
@@ -93,6 +95,13 @@ EXPIRES_ON = [
     "contradiction-or-invalidation",
     "scope-expansion",
 ]
+# Route history is semantically unbounded; these limits constrain one validation
+# attempt's resources without treating healthy predecessor depth as corruption.
+MAX_ROUTE_LINEAGE_RECORDS = 4096
+MAX_ROUTE_RECORD_BYTES = 1 * 1024 * 1024
+MAX_ROUTE_LINEAGE_BYTES = 64 * 1024 * 1024
+MAX_ROUTE_LINEAGE_ELAPSED_SECONDS = 30.0
+MAX_CAT_FILE_HEADER_BYTES = 256
 RECORD_KEYS = {
     "schema", "predicate_version", "controller_id", "claim_id", "explicit_run_root",
     "continuity_generation", "continuity_receipt", "host_id", "host_session_id",
@@ -555,6 +564,183 @@ def ref_name(controller: str) -> str:
     return f"refs/implementaudit/route-decisions/{controller}"
 
 
+class RouteObjectReader:
+    """One bounded, cached Git batch reader for a route-history validation."""
+
+    def __init__(self, repo: Path) -> None:
+        self.repo = repo
+        self.started = time.monotonic()
+        self.cache: dict[str, bytes] = {}
+        self.total_bytes = 0
+        self.process: subprocess.Popen[bytes] | None = None
+        self.io_requests: queue.Queue[Any] = queue.Queue()
+        self.io_worker: threading.Thread | None = None
+
+    def __enter__(self) -> "RouteObjectReader":
+        return self
+
+    def __exit__(self, *_: Any) -> None:
+        self.close()
+
+    def check_elapsed(self) -> None:
+        if time.monotonic() - self.started > MAX_ROUTE_LINEAGE_ELAPSED_SECONDS:
+            fail("route history resource budget exceeded: elapsed-work")
+
+    def remaining_elapsed(self) -> float:
+        remaining = MAX_ROUTE_LINEAGE_ELAPSED_SECONDS - (time.monotonic() - self.started)
+        if remaining <= 0:
+            fail("route history resource budget exceeded: elapsed-work")
+        return remaining
+
+    def start(self) -> None:
+        if self.process is not None:
+            return
+        self.process = subprocess.Popen(
+            [str(trusted_host_executable(self.repo, "git")), "cat-file", "--batch"],
+            cwd=self.repo,
+            env=sanitized_action_environment(),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        )
+        if self.process.stdin is None or self.process.stdout is None:
+            fail("route history batch reader has no exact input/output stream")
+
+        self.io_worker = threading.Thread(
+            target=self.io_loop,
+            name="implementaudit-route-object-reader",
+            daemon=True,
+        )
+        self.io_worker.start()
+
+    def io_loop(self) -> None:
+        while True:
+            request = self.io_requests.get()
+            if request is None:
+                return
+            operation, result = request
+            try:
+                result.put((True, operation()))
+            except BaseException as exc:
+                result.put((False, exc))
+
+    def deadline_io(self, operation: Any, label: str) -> Any:
+        self.check_elapsed()
+        timeout = self.remaining_elapsed()
+        result: queue.Queue[Any] = queue.Queue(maxsize=1)
+        self.io_requests.put_nowait((operation, result))
+        try:
+            succeeded, payload = result.get(timeout=timeout)
+        except queue.Empty:
+            self.abort()
+            fail("route history resource budget exceeded: elapsed-work")
+        if not succeeded:
+            self.abort()
+            if isinstance(payload, (OSError, ValueError)):
+                fail(f"{label} blob is unreadable")
+            raise payload
+        self.check_elapsed()
+        return payload
+
+    @staticmethod
+    def close_streams(process: Any) -> None:
+        for stream in (process.stdin, process.stdout):
+            if stream is not None:
+                with contextlib.suppress(OSError, ValueError):
+                    stream.close()
+
+    def shutdown(self, *, force: bool) -> None:
+        process = self.process
+        worker = self.io_worker
+        self.process = None
+        self.io_worker = None
+        if process is None:
+            return
+        if force:
+            with contextlib.suppress(OSError):
+                if process.poll() is None:
+                    process.kill()
+        self.io_requests.put_nowait(None)
+        if worker is not None:
+            worker.join(timeout=2)
+        if process.stdin is not None:
+            with contextlib.suppress(OSError, ValueError):
+                process.stdin.close()
+        try:
+            process.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            with contextlib.suppress(OSError):
+                process.kill()
+            with contextlib.suppress(OSError, subprocess.TimeoutExpired):
+                process.wait(timeout=2)
+        self.close_streams(process)
+
+    def abort(self) -> None:
+        self.shutdown(force=True)
+
+    def close(self) -> None:
+        self.shutdown(force=False)
+
+    def read_exact(self, stream: Any, size: int, label: str) -> bytes:
+        parts: list[bytes] = []
+        remaining = size
+        while remaining:
+            part = self.deadline_io(lambda: stream.read(remaining), label)
+            if not part:
+                self.abort()
+                fail(f"{label} blob is unreadable")
+            parts.append(part)
+            remaining -= len(part)
+        return b"".join(parts)
+
+    def read(self, oid: str, label: str) -> bytes:
+        self.check_elapsed()
+        if oid in self.cache:
+            return self.cache[oid]
+        if len(self.cache) >= MAX_ROUTE_LINEAGE_RECORDS:
+            fail("route history resource budget exceeded: record-count")
+        if not OID_RE.fullmatch(oid):
+            fail(f"{label} identity is malformed")
+        self.start()
+        assert self.process is not None and self.process.stdin is not None and self.process.stdout is not None
+
+        def send_request() -> None:
+            self.process.stdin.write(oid.encode("ascii") + b"\n")
+            self.process.stdin.flush()
+        self.deadline_io(send_request, label)
+        header = self.deadline_io(
+            lambda: self.process.stdout.readline(MAX_CAT_FILE_HEADER_BYTES + 1),
+            label,
+        )
+        if not header.endswith(b"\n") or len(header) > MAX_CAT_FILE_HEADER_BYTES:
+            self.abort()
+            fail(f"{label} blob is unreadable")
+        fields = header[:-1].split(b" ")
+        if len(fields) != 3 or fields[0] != oid.encode("ascii") or fields[1] != b"blob":
+            self.abort()
+            fail(f"{label} blob is unreadable")
+        try:
+            size = int(fields[2])
+        except ValueError:
+            self.abort()
+            fail(f"{label} blob is unreadable")
+        if size < 0 or size > MAX_ROUTE_RECORD_BYTES:
+            self.abort()
+            fail("route history resource budget exceeded: per-record-bytes")
+        if self.total_bytes + size > MAX_ROUTE_LINEAGE_BYTES:
+            self.abort()
+            fail("route history resource budget exceeded: cumulative-bytes")
+        raw = self.read_exact(self.process.stdout, size, label)
+        trailer = self.read_exact(self.process.stdout, 1, label)
+        if trailer != b"\n":
+            self.abort()
+            fail(f"{label} blob is unreadable")
+        self.cache[oid] = raw
+        self.total_bytes += size
+        self.check_elapsed()
+        return raw
+
+
 def current_ref(
     repo: Path,
     controller: str,
@@ -573,22 +759,27 @@ def current_ref(
     if completed.returncode:
         return None, None
     oid = completed.stdout.strip()
-    try:
-        record = json.loads(git(repo, "cat-file", "blob", oid), object_pairs_hook=unique_object)
-    except (json.JSONDecodeError, ValueError):
-        fail("current route record is malformed")
-    validate_route_record_semantics(
-        repo,
-        controller,
-        oid,
-        record,
-        allow_immutable_terminal_child=allow_immutable_terminal_child,
-        allow_immutable_active_child=allow_immutable_active_child,
-    )
+    with RouteObjectReader(repo) as object_reader:
+        record = decoded_artifact(
+            object_reader.read(oid, "current route record"), "current route record"
+        )
+        validate_route_record_semantics(
+            repo,
+            controller,
+            oid,
+            record,
+            allow_immutable_terminal_child=allow_immutable_terminal_child,
+            allow_immutable_active_child=allow_immutable_active_child,
+            object_reader=object_reader,
+        )
     return oid, record
 
 
-def git_blob_bytes(repo: Path, oid: str, label: str) -> bytes:
+def git_blob_bytes(
+    repo: Path, oid: str, label: str, *, object_reader: Any | None = None
+) -> bytes:
+    if object_reader is not None:
+        return object_reader.read(oid, label)
     completed = subprocess.run(
         [str(trusted_host_executable(repo, "git")), "cat-file", "blob", oid],
         cwd=repo,
@@ -602,9 +793,11 @@ def git_blob_bytes(repo: Path, oid: str, label: str) -> bytes:
 
 
 def validate_canonical_route_record_bytes(
-    repo: Path, oid: str, record: dict[str, Any]
+    repo: Path, oid: str, record: dict[str, Any], *, object_reader: Any | None = None
 ) -> None:
-    route_raw = git_blob_bytes(repo, oid, "current route record")
+    route_raw = git_blob_bytes(
+        repo, oid, "route record", object_reader=object_reader
+    )
     try:
         canonical_route_raw = json.dumps(
             record,
@@ -614,9 +807,9 @@ def validate_canonical_route_record_bytes(
             allow_nan=False,
         ).encode("utf-8") + b"\n"
     except (TypeError, ValueError):
-        fail("current route record cannot be encoded as canonical JSON")
+        fail("route record cannot be encoded as canonical JSON")
     if route_raw != canonical_route_raw:
-        fail("current route record bytes are not exact canonical JSON")
+        fail("route record bytes are not exact canonical JSON")
 
 
 def validate_route_record_semantics(
@@ -629,13 +822,87 @@ def validate_route_record_semantics(
     allow_immutable_active_child: bool = False,
     predecessor_seen: frozenset[str] = frozenset(),
     predecessor_depth: int = 0,
+    object_reader: Any | None = None,
 ) -> None:
-    """Validate one canonical record and its bounded historical authority."""
-    if predecessor_depth > 64:
-        fail("route record predecessor traversal exceeds its bound")
-    if oid in predecessor_seen:
-        fail("route record predecessor chain contains a cycle")
-    seen = predecessor_seen | {oid}
+    """Validate one canonical record and all historical authority iteratively."""
+    del predecessor_depth
+    if object_reader is None:
+        with RouteObjectReader(repo) as owned_reader:
+            validate_route_record_worklist(
+                repo,
+                controller,
+                oid,
+                record,
+                allow_immutable_terminal_child=allow_immutable_terminal_child,
+                allow_immutable_active_child=allow_immutable_active_child,
+                predecessor_seen=predecessor_seen,
+                object_reader=owned_reader,
+            )
+        return
+    validate_route_record_worklist(
+        repo,
+        controller,
+        oid,
+        record,
+        allow_immutable_terminal_child=allow_immutable_terminal_child,
+        allow_immutable_active_child=allow_immutable_active_child,
+        predecessor_seen=predecessor_seen,
+        object_reader=object_reader,
+    )
+
+
+def validate_route_record_worklist(
+    repo: Path,
+    controller: str,
+    oid: str,
+    record: dict[str, Any],
+    *,
+    allow_immutable_terminal_child: bool,
+    allow_immutable_active_child: bool,
+    predecessor_seen: frozenset[str],
+    object_reader: Any,
+) -> None:
+    worklist = [
+        (
+            oid,
+            record,
+            allow_immutable_terminal_child,
+            allow_immutable_active_child,
+        )
+    ]
+    seen = set(predecessor_seen)
+    while worklist:
+        if hasattr(object_reader, "check_elapsed"):
+            object_reader.check_elapsed()
+        current_oid, current, allow_terminal, allow_active = worklist.pop()
+        if current_oid in seen:
+            fail("route record predecessor chain contains a cycle")
+        seen.add(current_oid)
+        dependency = validate_route_record_local(
+            repo,
+            controller,
+            current_oid,
+            current,
+            allow_immutable_terminal_child=allow_terminal,
+            allow_immutable_active_child=allow_active,
+            predecessor_seen=frozenset(seen),
+            object_reader=object_reader,
+        )
+        if dependency is not None:
+            worklist.append(dependency)
+
+
+def validate_route_record_local(
+    repo: Path,
+    controller: str,
+    oid: str,
+    record: dict[str, Any],
+    *,
+    allow_immutable_terminal_child: bool,
+    allow_immutable_active_child: bool,
+    predecessor_seen: frozenset[str],
+    object_reader: Any,
+) -> tuple[str, dict[str, Any], bool, bool] | None:
     if (
         not isinstance(record, dict)
         or frozenset(record) not in {
@@ -669,7 +936,9 @@ def validate_route_record_semantics(
         {key: value for key, value in record.items() if key != "record_identity"}
     ):
         fail("current route record identity is invalid")
-    validate_canonical_route_record_bytes(repo, oid, record)
+    validate_canonical_route_record_bytes(
+        repo, oid, record, object_reader=object_reader
+    )
     if lifecycle_present:
         exact_keys(
             lifecycle,
@@ -773,58 +1042,47 @@ def validate_route_record_semantics(
             or lifecycle["governor_decision_count"] != 1
         ):
             fail("satisfied route lifecycle does not contain exactly one governor decision")
-        validate_required_route_record(
-            repo,
-            controller,
-            lifecycle["required_record_oid"],
-            record,
-            predecessor_seen=seen,
-            predecessor_depth=predecessor_depth,
+        required_oid = lifecycle["required_record_oid"]
+        required = decoded_artifact(
+            git_blob_bytes(
+                repo,
+                required_oid,
+                "required route record",
+                object_reader=object_reader,
+            ),
+            "required route record",
         )
-        validate_lifecycle_predecessor_chain(repo, oid, record, predecessor_seen=seen)
-        return
+        validate_required_route_record_relation(required, record)
+        validate_lifecycle_predecessor_chain(
+            repo,
+            oid,
+            record,
+            predecessor_seen=predecessor_seen,
+            object_reader=object_reader,
+        )
+        return required_oid, required, True, True
 
     predecessor_oid = record.get("predecessor_record_oid")
     if predecessor_oid is None:
-        return
+        return None
     if not isinstance(predecessor_oid, str) or not OID_RE.fullmatch(predecessor_oid):
         fail("route record predecessor identity is malformed")
     predecessor = decoded_artifact(
-        git_blob_bytes(repo, predecessor_oid, "route record predecessor"),
+        git_blob_bytes(
+            repo,
+            predecessor_oid,
+            "route record predecessor",
+            object_reader=object_reader,
+        ),
         "route record predecessor",
     )
-    validate_route_record_semantics(
-        repo,
-        controller,
-        predecessor_oid,
-        predecessor,
-        allow_immutable_terminal_child=True,
-        allow_immutable_active_child=True,
-        predecessor_seen=seen,
-        predecessor_depth=predecessor_depth + 1,
-    )
+    return predecessor_oid, predecessor, True, True
 
 
-def validate_required_route_record(
-    repo: Path,
-    controller: str,
-    required_oid: str,
+def validate_required_route_record_relation(
+    required: dict[str, Any],
     lifecycle_record: dict[str, Any],
-    *,
-    predecessor_seen: frozenset[str] = frozenset(),
-    predecessor_depth: int = 0,
 ) -> None:
-    required = decoded_artifact(git_blob_bytes(repo, required_oid, "required route record"), "required route record")
-    validate_route_record_semantics(
-        repo,
-        controller,
-        required_oid,
-        required,
-        allow_immutable_terminal_child=True,
-        allow_immutable_active_child=True,
-        predecessor_seen=predecessor_seen,
-        predecessor_depth=predecessor_depth + 1,
-    )
     if (
         required.get("decision") != "REQUIRED"
         or required.get("route_state") != "UNSATISFIED"
@@ -846,53 +1104,65 @@ def validate_lifecycle_predecessor_chain(
     record: dict[str, Any],
     *,
     predecessor_seen: frozenset[str] = frozenset(),
+    object_reader: Any | None = None,
 ) -> None:
-    lifecycle = record["lifecycle"]
-    state = lifecycle["state"]
-    if state == "OPEN":
-        if record.get("predecessor_record_oid") != lifecycle["required_record_oid"]:
-            fail("open route lifecycle does not directly succeed its required authority")
-        return
-    predecessor_oid = record.get("predecessor_record_oid")
-    if not isinstance(predecessor_oid, str) or not OID_RE.fullmatch(predecessor_oid):
-        fail("route lifecycle predecessor identity is malformed")
-    if predecessor_oid in predecessor_seen:
-        fail("route lifecycle predecessor chain contains a cycle")
-    predecessor = decoded_artifact(
-        git_blob_bytes(repo, predecessor_oid, "route lifecycle predecessor"),
-        "route lifecycle predecessor",
-    )
-    if set(predecessor) != set(record) or predecessor.get("record_identity") != digest_json(
-        {key: value for key, value in predecessor.items() if key != "record_identity"}
-    ):
-        fail("route lifecycle predecessor is not an exact canonical record")
-    invariant_keys = set(record) - {"record_identity", "predecessor_record_oid", "route_state", "lifecycle"}
-    if any(predecessor.get(key) != record.get(key) for key in invariant_keys):
-        fail("route lifecycle predecessor changed immutable route authority")
-    predecessor_lifecycle = predecessor.get("lifecycle")
-    if not isinstance(predecessor_lifecycle, dict):
-        fail("route lifecycle predecessor has no lifecycle authority")
-    expected_state = "OPEN" if state == "RETURNED" else "RETURNED" if state == "SATISFIED" else None
-    if expected_state is None or predecessor.get("route_state") != expected_state:
-        fail("route lifecycle predecessor skips a canonical state transition")
-    expected_lifecycle = {
-        **lifecycle,
-        "state": expected_state,
-        "governor_decision": None,
-        "governor_decision_count": 0,
-        "source_event_status": "active",
-    }
-    if expected_state == "OPEN":
-        expected_lifecycle["child_return"] = None
-    if predecessor_lifecycle != expected_lifecycle:
-        fail("route lifecycle predecessor evidence does not match its successor")
-    validate_canonical_route_record_bytes(repo, predecessor_oid, predecessor)
-    validate_lifecycle_predecessor_chain(
-        repo,
-        predecessor_oid,
-        predecessor,
-        predecessor_seen=predecessor_seen | {predecessor_oid},
-    )
+    del record_oid
+    seen = set(predecessor_seen)
+    current = record
+    while True:
+        lifecycle = current["lifecycle"]
+        state = lifecycle["state"]
+        if state == "OPEN":
+            if current.get("predecessor_record_oid") != lifecycle["required_record_oid"]:
+                fail("open route lifecycle does not directly succeed its required authority")
+            return
+        predecessor_oid = current.get("predecessor_record_oid")
+        if not isinstance(predecessor_oid, str) or not OID_RE.fullmatch(predecessor_oid):
+            fail("route lifecycle predecessor identity is malformed")
+        if predecessor_oid in seen:
+            fail("route lifecycle predecessor chain contains a cycle")
+        seen.add(predecessor_oid)
+        predecessor = decoded_artifact(
+            git_blob_bytes(
+                repo,
+                predecessor_oid,
+                "route lifecycle predecessor",
+                object_reader=object_reader,
+            ),
+            "route lifecycle predecessor",
+        )
+        if set(predecessor) != set(current) or predecessor.get("record_identity") != digest_json(
+            {key: value for key, value in predecessor.items() if key != "record_identity"}
+        ):
+            fail("route lifecycle predecessor is not an exact canonical record")
+        invariant_keys = set(current) - {
+            "record_identity", "predecessor_record_oid", "route_state", "lifecycle"
+        }
+        if any(predecessor.get(key) != current.get(key) for key in invariant_keys):
+            fail("route lifecycle predecessor changed immutable route authority")
+        predecessor_lifecycle = predecessor.get("lifecycle")
+        if not isinstance(predecessor_lifecycle, dict):
+            fail("route lifecycle predecessor has no lifecycle authority")
+        expected_state = (
+            "OPEN" if state == "RETURNED" else "RETURNED" if state == "SATISFIED" else None
+        )
+        if expected_state is None or predecessor.get("route_state") != expected_state:
+            fail("route lifecycle predecessor skips a canonical state transition")
+        expected_lifecycle = {
+            **lifecycle,
+            "state": expected_state,
+            "governor_decision": None,
+            "governor_decision_count": 0,
+            "source_event_status": "active",
+        }
+        if expected_state == "OPEN":
+            expected_lifecycle["child_return"] = None
+        if predecessor_lifecycle != expected_lifecycle:
+            fail("route lifecycle predecessor evidence does not match its successor")
+        validate_canonical_route_record_bytes(
+            repo, predecessor_oid, predecessor, object_reader=object_reader
+        )
+        current = predecessor
 
 
 def bash_script_path(path: Path) -> str:
