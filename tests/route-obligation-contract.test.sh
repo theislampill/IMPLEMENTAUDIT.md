@@ -2046,9 +2046,10 @@ run_active_compaction_recovery_case() {
   local first_recovery_event
   local intermediate_ref intermediate_oid binding_state binding_backup binding_tamper
   local old_request="$tmp/${case_id,,}-old-request.json" recovery_request="$tmp/${case_id,,}-recovery-request.json"
+  local predecessor_request="$tmp/${case_id,,}-predecessor-request.json"
   local wrong_reason_request="$tmp/${case_id,,}-wrong-reason-request.json"
   local malformed_request="$tmp/${case_id,,}-malformed-request.json"
-  local receipt decided required_record obligation transaction attributed correlation
+  local receipt predecessor_decided predecessor_record decided required_record obligation transaction attributed correlation
   local old_packet="$tmp/${case_id,,}-old-packet.json" old_return="$tmp/${case_id,,}-old-return.json"
   local old_decision="$tmp/${case_id,,}-old-decision.json" opened open_record returned active_record active_blob
   local successor_receipt intermediate_receipt recovery_decided recovery_required recovery_obligation recovery_transaction
@@ -2075,7 +2076,19 @@ run_active_compaction_recovery_case() {
   mutate_request "$old_request" "$old_request.next" \
     'value["boundary"]={"kind":"new-session","event_id":"'"${case_id,,}"'-old-boundary"}; value["boundary"]["digest"]=h(value["boundary"])'
   mv "$old_request.next" "$old_request"
-  decided="$(route "$controller" "$session" G0001 decide --request "$old_request" --expected-record none)"
+  predecessor_record=none
+  if [ "$active_state" = UNSATISFIED ]; then
+    write_request "$predecessor_request" PURE_BOUNDED_READ_OR_VALIDATION
+    mutate_request "$predecessor_request" "$predecessor_request.next" \
+      'value["boundary"]={"kind":"new-session","event_id":"'"${case_id,,}"'-old-boundary"}; value["boundary"]["digest"]=h(value["boundary"])'
+    mv "$predecessor_request.next" "$predecessor_request"
+    predecessor_decided="$(route "$controller" "$session" G0001 decide \
+      --request "$predecessor_request" --expected-record none)"
+    predecessor_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' \
+      "$predecessor_decided")"
+  fi
+  decided="$(route "$controller" "$session" G0001 decide --request "$old_request" \
+    --expected-record "$predecessor_record")"
   required_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$decided")"
   obligation="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["obligation_id"])' "$decided")"
   transaction="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["route_transaction_id"])' "$decided")"
@@ -2122,7 +2135,7 @@ PY
   fi
   active_blob="$(git -C "$tmp/repo" cat-file blob "$active_record")"
   if [ "$active_state" = UNSATISFIED ]; then
-    assert_json "$active_blob" 'value["route_state"] == "UNSATISFIED" and value["child_lifecycle_owned"] is False and "lifecycle" not in value'
+    assert_json "$active_blob" 'value["route_state"] == "UNSATISFIED" and value["child_lifecycle_owned"] is False and "lifecycle" not in value and value["predecessor_record_oid"] == "'"$predecessor_record"'"'
   else
     assert_json "$active_blob" 'value["route_state"] == "'"$active_state"'" and value["lifecycle"]["state"] == "'"$active_state"'" and value["lifecycle"]["source_event_status"] == "active" and value["lifecycle"]["governor_decision_count"] == 0'
   fi
@@ -2292,7 +2305,7 @@ PY
     done
   fi
 
-  if [ "$package_mode" = "PACKAGE_RELOCATED" ] && [ "$active_state" != UNSATISFIED ]; then
+  if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
     # Historical custody is semantic, not permissive: every byte identity and
     # the original required-record binding remain exact even though the path is
     # no longer the current cache path.
@@ -2318,6 +2331,110 @@ def finish(name, value):
     base = {key: member for key, member in value.items() if key != "record_identity"}
     value["record_identity"] = digest(canonical(base))
     Path(f"{output_prefix}-{name}.json").write_bytes(canonical(value) + b"\n")
+
+if source["route_state"] == "UNSATISFIED":
+    lifecycle_null = copy.deepcopy(source)
+    lifecycle_null["lifecycle"] = None
+    finish("lifecycle-null", lifecycle_null)
+
+    package = copy.deepcopy(source)
+    package["package"]["source_digests"]["route-transaction.py"] = "sha256:" + "0" * 64
+    finish("package", package)
+
+    child_source = copy.deepcopy(source)
+    child_source["child_source"] = {
+        "identity": source["child_source"]["identity"] + "-foreign",
+        "digest": "sha256:" + "1" * 64,
+    }
+    finish("child-source", child_source)
+
+    obligation = copy.deepcopy(source)
+    obligation["obligation_id"] = "sha256:" + "2" * 64
+    finish("obligation", obligation)
+
+    transaction = copy.deepcopy(source)
+    transaction["route_transaction_id"] = "sha256:" + "3" * 64
+    finish("transaction", transaction)
+
+    custody_rewrite = copy.deepcopy(source)
+    custody_rewrite["package"]["source_digests"]["route-transaction.py"] = "sha256:" + "4" * 64
+    custody_rewrite["child_source"] = {
+        "identity": source["child_source"]["identity"] + "-rewritten",
+        "digest": "sha256:" + "5" * 64,
+    }
+    custody_rewrite["obligation_id"] = "sha256:" + "6" * 64
+    custody_rewrite["route_transaction_id"] = "sha256:" + "7" * 64
+    finish("custody-rewrite", custody_rewrite)
+
+    predecessor = copy.deepcopy(source)
+    predecessor["predecessor_record_oid"] = "f" * 40
+    finish("predecessor", predecessor)
+
+    predecessor_source = copy.deepcopy(source)
+    predecessor_source["predecessor_record_oid"] = source_oid
+    finish("predecessor-source", predecessor_source)
+
+    # A non-null predecessor must be a complete canonical route record, not
+    # merely a self-consistent blob with terminal-looking lifecycle fields.
+    # Give this forged terminal predecessor otherwise adjacent continuity,
+    # binding, ownership, obligation, transaction and boundary semantics so
+    # only the incomplete lifecycle record discriminates it.
+    terminal_receipt_ref = (
+        f"refs/implementaudit/continuity-receipts/{source['controller_id']}/G0000"
+    )
+    terminal_receipt_raw = b"r0033-g09-terminal-predecessor\n"
+    terminal_receipt_oid = subprocess.check_output(
+        ["git", "-C", repo, "hash-object", "-w", "--stdin"],
+        input=terminal_receipt_raw,
+    ).decode("ascii").strip()
+    subprocess.run(
+        ["git", "-C", repo, "update-ref", terminal_receipt_ref, terminal_receipt_oid],
+        check=True,
+    )
+    terminal_predecessor = copy.deepcopy(source)
+    terminal_predecessor["continuity_generation"] = "G0000"
+    terminal_predecessor["continuity_receipt"] = (
+        f"{terminal_receipt_ref}@{terminal_receipt_oid}"
+    )
+    terminal_predecessor["host_binding_generation"] = "G0000"
+    terminal_predecessor["boundary"] = {
+        "kind": "new-session",
+        "event_id": "g09-terminal-predecessor",
+    }
+    terminal_predecessor["boundary"]["digest"] = digest(
+        canonical(terminal_predecessor["boundary"])
+    )
+    terminal_predecessor["obligation_id"] = "sha256:" + "8" * 64
+    terminal_predecessor["route_transaction_id"] = "sha256:" + "9" * 64
+    terminal_predecessor["route_state"] = "SATISFIED"
+    terminal_predecessor["child_lifecycle_owned"] = True
+    terminal_predecessor["lifecycle"] = {
+        "state": "SATISFIED",
+        "source_event_status": "satisfied",
+    }
+    terminal_predecessor_base = {
+        key: member for key, member in terminal_predecessor.items()
+        if key != "record_identity"
+    }
+    terminal_predecessor["record_identity"] = digest(
+        canonical(terminal_predecessor_base)
+    )
+    terminal_predecessor_oid = subprocess.check_output(
+        ["git", "-C", repo, "hash-object", "-w", "--stdin"],
+        input=canonical(terminal_predecessor) + b"\n",
+    ).decode("ascii").strip()
+    Path(f"{output_prefix}-predecessor-lifecycle-oid.txt").write_text(
+        terminal_predecessor_oid + "\n", encoding="ascii"
+    )
+    predecessor_lifecycle = copy.deepcopy(source)
+    predecessor_lifecycle["predecessor_record_oid"] = terminal_predecessor_oid
+    finish("predecessor-lifecycle", predecessor_lifecycle)
+
+    # The canonical route ref is the accepted selector. A coordinated
+    # out-of-band replacement of that authoritative ref needs an independent
+    # prior-route anchor, which continuity/H0 custody does not currently carry;
+    # this emergency test therefore makes no broader tamper-detection claim.
+    raise SystemExit(0)
 
 changed_bytes = copy.deepcopy(source)
 child = changed_bytes["lifecycle"]["delivery"]["child"]
@@ -2347,9 +2464,23 @@ malformed_identity["child_source"]["identity"] = ""
 malformed_identity["lifecycle"]["delivery"]["child"]["identity"] = ""
 finish("malformed", malformed_identity)
 PY
-    for active_tamper in bytes digest missing foreign malformed; do
+    if [ "$active_state" = UNSATISFIED ]; then
+      active_tampers="${R0033_UNSAT_REVIEW_TAMPER:-lifecycle-null package child-source obligation transaction custody-rewrite predecessor predecessor-source predecessor-lifecycle}"
+    else
+      active_tampers="bytes digest missing foreign malformed"
+    fi
+    for active_tamper in $active_tampers; do
       proxy_oid="$(git -C "$tmp/repo" hash-object -w "$tmp/${case_id,,}-active-tamper-$active_tamper.json")"
       git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" "$proxy_oid" "$active_record"
+      if [ "$active_tamper" = predecessor-lifecycle ]; then
+        malformed_predecessor_oid="$(cat "$tmp/${case_id,,}-active-tamper-predecessor-lifecycle-oid.txt")"
+        git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" \
+          "$malformed_predecessor_oid" "$proxy_oid"
+        expect_blocked "$case_id malformed lifecycle predecessor fails canonical current validation" \
+          route "$controller" "$session" "$successor_generation" check --request "$recovery_request" >/dev/null
+        git -C "$tmp/repo" update-ref "refs/implementaudit/route-decisions/$controller" \
+          "$proxy_oid" "$malformed_predecessor_oid"
+      fi
       expect_blocked "$case_id active historical child $active_tamper tamper cannot recover" \
         route "$controller" "$session" "$successor_generation" decide --request "$recovery_request" \
           --expected-record "$proxy_oid" >/dev/null

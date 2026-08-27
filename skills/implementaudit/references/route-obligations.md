@@ -142,7 +142,9 @@ blocked by another controller's obligation.
 `UNSATISFIED`. H2A `decide` does not open a child, admit child bytes or packet
 identity, accept a child return, reread post-return currentness, or complete the
 obligation. Those transitions belong to the H2B commands below. An active
-obligation cannot be downgraded or replaced.
+obligation cannot ordinarily be downgraded or replaced. The sole exception is
+the exact later-compaction stale-context recovery below; same-context and
+ordinary active-obligation replacement remain forbidden.
 
 A terminal `REQUIRED/SATISFIED` one-shot lifecycle remains immutable, but it
 does not permanently cap its controller. `decide` may create a fresh successor
@@ -156,20 +158,32 @@ and governor decision remain unchanged. Same-context or same-boundary replay,
 skipped or stale generations, standing-source state, and noncurrent predicates
 remain non-replaceable.
 
-One narrower recovery applies after an incomplete `OPEN` or `RETURNED` H2B
-lifecycle is made stale by a real context boundary. The same controller, claim,
-run, host and host session may create only the exact immediate continuity and
-host-binding successor, whose changed v3 receipt must name the stale route's
-receipt as its exact predecessor. The current request must carry a distinct
-canonical boundary event and digest, current inputs, and the mechanically
-required `STALE_CONTEXT_RECONSTRUCTION` reason mapped solely to `audit-state`.
-The new record points directly to the preserved incomplete record, starts a
-fresh `REQUIRED/UNSATISFIED` obligation, and inherits no child, packet, return,
-decision, transaction, obligation or satisfaction authority. Same-context,
-skipped/stale-generation, foreign owner/session, different-reason/child,
-malformed-provenance, noncurrent-input and old-lifecycle reuse attempts fail
-closed. Ordinary work stays blocked until the fresh audit-state return, one
-governor completion and post-return currentness all succeed.
+One narrower recovery applies after either a lifecycle-free
+`REQUIRED/UNSATISFIED` record or an incomplete `OPEN` or `RETURNED` H2B
+lifecycle is made stale by a real context boundary. A lifecycle-free record
+must have no `lifecycle` key, must not own child lifecycle authority, and must
+retain an exact self-consistent request, package, child-source, evidence,
+fingerprint, obligation, transaction and H0 correlation. A non-null predecessor
+must resolve to an exact same-controller route record and prove an allowed
+direct transition: ordinary non-required succession, terminal re-entry, or
+active stale-context recovery with the applicable decision, route-state,
+owner, obligation, transaction, boundary, continuity and binding semantics.
+
+The same controller, claim, run, host and host session may create only a fresh
+successor after a complete bounded contiguous v3 continuity and matching H0
+binding chain from the stale route to the current receipt. The current request
+must carry a distinct canonical boundary event and digest, current inputs, and
+the mechanically required `STALE_CONTEXT_RECONSTRUCTION` reason mapped solely
+to `audit-state`. The new record points directly to the preserved incomplete
+record, starts a fresh `REQUIRED/UNSATISFIED` obligation, and inherits no child,
+packet, return, decision, transaction, obligation or satisfaction authority.
+Same-context, skipped/stale-generation, foreign owner/session,
+different-reason/child, malformed or missing predecessor/provenance,
+noncurrent-input and old-lifecycle or old-credit reuse attempts fail closed.
+Ordinary work stays blocked until the fresh audit-state return, one governor
+completion and post-return currentness all succeed. This validates route
+lineage selected by the canonical route ref; it does not claim independent
+detection of a coordinated out-of-band replacement of that authoritative ref.
 If an exact package relocation retired the old child path, only this recovery
 `decide` may validate the incomplete lifecycle against its immutable bound
 `child_source` and delivered bytes; all ordinary paths still require the

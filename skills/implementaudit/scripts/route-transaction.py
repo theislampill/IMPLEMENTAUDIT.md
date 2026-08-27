@@ -577,6 +577,65 @@ def current_ref(
         record = json.loads(git(repo, "cat-file", "blob", oid), object_pairs_hook=unique_object)
     except (json.JSONDecodeError, ValueError):
         fail("current route record is malformed")
+    validate_route_record_semantics(
+        repo,
+        controller,
+        oid,
+        record,
+        allow_immutable_terminal_child=allow_immutable_terminal_child,
+        allow_immutable_active_child=allow_immutable_active_child,
+    )
+    return oid, record
+
+
+def git_blob_bytes(repo: Path, oid: str, label: str) -> bytes:
+    completed = subprocess.run(
+        [str(trusted_host_executable(repo, "git")), "cat-file", "blob", oid],
+        cwd=repo,
+        env=sanitized_action_environment(),
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode:
+        fail(f"{label} blob is unreadable")
+    return completed.stdout
+
+
+def validate_canonical_route_record_bytes(
+    repo: Path, oid: str, record: dict[str, Any]
+) -> None:
+    route_raw = git_blob_bytes(repo, oid, "current route record")
+    try:
+        canonical_route_raw = json.dumps(
+            record,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=True,
+            allow_nan=False,
+        ).encode("utf-8") + b"\n"
+    except (TypeError, ValueError):
+        fail("current route record cannot be encoded as canonical JSON")
+    if route_raw != canonical_route_raw:
+        fail("current route record bytes are not exact canonical JSON")
+
+
+def validate_route_record_semantics(
+    repo: Path,
+    controller: str,
+    oid: str,
+    record: dict[str, Any],
+    *,
+    allow_immutable_terminal_child: bool = False,
+    allow_immutable_active_child: bool = False,
+    predecessor_seen: frozenset[str] = frozenset(),
+    predecessor_depth: int = 0,
+) -> None:
+    """Validate one canonical record and its bounded historical authority."""
+    if predecessor_depth > 64:
+        fail("route record predecessor traversal exceeds its bound")
+    if oid in predecessor_seen:
+        fail("route record predecessor chain contains a cycle")
+    seen = predecessor_seen | {oid}
     if (
         not isinstance(record, dict)
         or frozenset(record) not in {
@@ -590,17 +649,18 @@ def current_ref(
         fail("current route record is malformed or mixed-version")
     if "history_query" in record and record["history_query"] != normalized_history_query(record):
         fail("current route record has a malformed history-query request")
+    lifecycle_present = "lifecycle" in record
     lifecycle = record.get("lifecycle")
     if (
         record.get("predicate_version") != PREDICATE_VERSION
         or record.get("controller_id") != controller
         or record.get("decision") not in DECISIONS
         or record.get("expires_on") != EXPIRES_ON
-        or record.get("child_lifecycle_owned") is not (lifecycle is not None)
+        or record.get("child_lifecycle_owned") is not lifecycle_present
     ):
         fail("current route record has foreign identity or invalid decision")
     if record["decision"] == "REQUIRED":
-        allowed_states = {"UNSATISFIED"} if lifecycle is None else {"OPEN", "RETURNED", "SATISFIED"}
+        allowed_states = {"UNSATISFIED"} if not lifecycle_present else {"OPEN", "RETURNED", "SATISFIED"}
         if record.get("route_state") not in allowed_states or not isinstance(record.get("obligation_id"), str):
             fail("current required route record has no unsatisfied obligation")
     elif record.get("route_state") is not None or record.get("obligation_id") is not None:
@@ -609,7 +669,8 @@ def current_ref(
         {key: value for key, value in record.items() if key != "record_identity"}
     ):
         fail("current route record identity is invalid")
-    if lifecycle is not None:
+    validate_canonical_route_record_bytes(repo, oid, record)
+    if lifecycle_present:
         exact_keys(
             lifecycle,
             {
@@ -712,57 +773,62 @@ def current_ref(
             or lifecycle["governor_decision_count"] != 1
         ):
             fail("satisfied route lifecycle does not contain exactly one governor decision")
-        validate_required_route_record(repo, controller, lifecycle["required_record_oid"], record)
-        validate_lifecycle_predecessor_chain(repo, record)
-    return oid, record
-
-
-def git_blob_bytes(repo: Path, oid: str, label: str) -> bytes:
-    completed = subprocess.run(
-        [str(trusted_host_executable(repo, "git")), "cat-file", "blob", oid],
-        cwd=repo,
-        env=sanitized_action_environment(),
-        capture_output=True,
-        check=False,
-    )
-    if completed.returncode:
-        fail(f"{label} blob is unreadable")
-    return completed.stdout
-
-
-def validate_canonical_route_record_bytes(
-    repo: Path, oid: str, record: dict[str, Any]
-) -> None:
-    route_raw = git_blob_bytes(repo, oid, "current route record")
-    try:
-        canonical_route_raw = json.dumps(
+        validate_required_route_record(
+            repo,
+            controller,
+            lifecycle["required_record_oid"],
             record,
-            sort_keys=True,
-            separators=(",", ":"),
-            ensure_ascii=True,
-            allow_nan=False,
-        ).encode("utf-8") + b"\n"
-    except (TypeError, ValueError):
-        fail("current route record cannot be encoded as canonical JSON")
-    if route_raw != canonical_route_raw:
-        fail("current route record bytes are not exact canonical JSON")
+            predecessor_seen=seen,
+            predecessor_depth=predecessor_depth,
+        )
+        validate_lifecycle_predecessor_chain(repo, oid, record, predecessor_seen=seen)
+        return
+
+    predecessor_oid = record.get("predecessor_record_oid")
+    if predecessor_oid is None:
+        return
+    if not isinstance(predecessor_oid, str) or not OID_RE.fullmatch(predecessor_oid):
+        fail("route record predecessor identity is malformed")
+    predecessor = decoded_artifact(
+        git_blob_bytes(repo, predecessor_oid, "route record predecessor"),
+        "route record predecessor",
+    )
+    validate_route_record_semantics(
+        repo,
+        controller,
+        predecessor_oid,
+        predecessor,
+        allow_immutable_terminal_child=True,
+        allow_immutable_active_child=True,
+        predecessor_seen=seen,
+        predecessor_depth=predecessor_depth + 1,
+    )
 
 
 def validate_required_route_record(
-    repo: Path, controller: str, required_oid: str, lifecycle_record: dict[str, Any]
+    repo: Path,
+    controller: str,
+    required_oid: str,
+    lifecycle_record: dict[str, Any],
+    *,
+    predecessor_seen: frozenset[str] = frozenset(),
+    predecessor_depth: int = 0,
 ) -> None:
     required = decoded_artifact(git_blob_bytes(repo, required_oid, "required route record"), "required route record")
-    if frozenset(required) not in {frozenset(RECORD_KEYS), frozenset(HISTORY_RECORD_KEYS)}:
-        fail("required route record is malformed or owns a lifecycle")
+    validate_route_record_semantics(
+        repo,
+        controller,
+        required_oid,
+        required,
+        allow_immutable_terminal_child=True,
+        allow_immutable_active_child=True,
+        predecessor_seen=predecessor_seen,
+        predecessor_depth=predecessor_depth + 1,
+    )
     if (
-        required.get("schema") != RECORD_SCHEMA
-        or required.get("predicate_version") != PREDICATE_VERSION
-        or required.get("controller_id") != controller
-        or required.get("decision") != "REQUIRED"
+        required.get("decision") != "REQUIRED"
         or required.get("route_state") != "UNSATISFIED"
         or required.get("child_lifecycle_owned") is not False
-        or required.get("record_identity")
-        != digest_json({key: value for key, value in required.items() if key != "record_identity"})
     ):
         fail("required route record is not an exact unsatisfied authority record")
     inherited = set(RECORD_KEYS) - {
@@ -774,7 +840,13 @@ def validate_required_route_record(
         fail("route lifecycle changed its required history-query authority")
 
 
-def validate_lifecycle_predecessor_chain(repo: Path, record: dict[str, Any]) -> None:
+def validate_lifecycle_predecessor_chain(
+    repo: Path,
+    record_oid: str,
+    record: dict[str, Any],
+    *,
+    predecessor_seen: frozenset[str] = frozenset(),
+) -> None:
     lifecycle = record["lifecycle"]
     state = lifecycle["state"]
     if state == "OPEN":
@@ -784,6 +856,8 @@ def validate_lifecycle_predecessor_chain(repo: Path, record: dict[str, Any]) -> 
     predecessor_oid = record.get("predecessor_record_oid")
     if not isinstance(predecessor_oid, str) or not OID_RE.fullmatch(predecessor_oid):
         fail("route lifecycle predecessor identity is malformed")
+    if predecessor_oid in predecessor_seen:
+        fail("route lifecycle predecessor chain contains a cycle")
     predecessor = decoded_artifact(
         git_blob_bytes(repo, predecessor_oid, "route lifecycle predecessor"),
         "route lifecycle predecessor",
@@ -812,7 +886,13 @@ def validate_lifecycle_predecessor_chain(repo: Path, record: dict[str, Any]) -> 
         expected_lifecycle["child_return"] = None
     if predecessor_lifecycle != expected_lifecycle:
         fail("route lifecycle predecessor evidence does not match its successor")
-    validate_lifecycle_predecessor_chain(repo, predecessor)
+    validate_canonical_route_record_bytes(repo, predecessor_oid, predecessor)
+    validate_lifecycle_predecessor_chain(
+        repo,
+        predecessor_oid,
+        predecessor,
+        predecessor_seen=predecessor_seen | {predecessor_oid},
+    )
 
 
 def bash_script_path(path: Path) -> str:
@@ -2637,6 +2717,255 @@ def validate_terminal_continuity_chain(
     return list(reversed(reverse_links))
 
 
+def validate_stale_unsatisfied_custody(
+    repo: Path,
+    common: str,
+    record_oid: str,
+    record: dict[str, Any],
+    retained_request: dict[str, Any],
+) -> None:
+    """Authenticate one lifecycle-free required record from retained exact semantics."""
+    predecessor_oid = record.get("predecessor_record_oid")
+    if predecessor_oid is not None:
+        if not isinstance(predecessor_oid, str) or not OID_RE.fullmatch(predecessor_oid):
+            fail("stale unsatisfied route predecessor identity is malformed", decision="REQUIRED")
+        predecessor = decoded_artifact(
+            git_blob_bytes(repo, predecessor_oid, "stale unsatisfied route predecessor"),
+            "stale unsatisfied route predecessor",
+        )
+        validate_route_record_semantics(
+            repo,
+            record["controller_id"],
+            predecessor_oid,
+            predecessor,
+            allow_immutable_terminal_child=True,
+            allow_immutable_active_child=True,
+            predecessor_seen=frozenset({record_oid}),
+            predecessor_depth=1,
+        )
+        lifecycle_present = "lifecycle" in predecessor
+        lifecycle = predecessor.get("lifecycle")
+
+        same_context = all(
+            predecessor.get(key) == record.get(key)
+            for key in (
+                "claim_id",
+                "explicit_run_root",
+                "continuity_generation",
+                "continuity_receipt",
+                "host_binding_generation",
+            )
+        )
+        if predecessor["decision"] != "REQUIRED":
+            if predecessor.get("decision") == "PENDING" and predecessor.get("invalidators") == [
+                "action-in-progress"
+            ]:
+                fail("stale unsatisfied route predecessor has unknown action completion", decision="REQUIRED")
+            if same_context and predecessor.get("expiry_fingerprint") == record.get("expiry_fingerprint"):
+                fail("stale unsatisfied route predecessor is an idempotent predicate alias", decision="REQUIRED")
+        else:
+            unchanged_owner = (
+                "controller_id",
+                "claim_id",
+                "explicit_run_root",
+                "host_id",
+                "host_session_id",
+            )
+            if any(predecessor.get(key) != record.get(key) for key in unchanged_owner):
+                fail("stale unsatisfied route predecessor changed route ownership", decision="REQUIRED")
+            if (
+                predecessor.get("obligation_id") == record.get("obligation_id")
+                or predecessor.get("route_transaction_id") == record.get("route_transaction_id")
+            ):
+                fail("stale unsatisfied route predecessor did not yield a fresh obligation", decision="REQUIRED")
+            predecessor_boundary = predecessor.get("boundary")
+            record_boundary = record.get("boundary")
+            if (
+                not isinstance(predecessor_boundary, dict)
+                or not isinstance(record_boundary, dict)
+                or predecessor_boundary.get("event_id") == record_boundary.get("event_id")
+                or predecessor_boundary.get("digest") == record_boundary.get("digest")
+            ):
+                fail("stale unsatisfied route predecessor did not cross a distinct boundary", decision="REQUIRED")
+            predecessor_state = predecessor.get("route_state")
+            continuity_links = validate_terminal_continuity_chain(
+                repo,
+                controller=record["controller_id"],
+                claim=record["claim_id"],
+                run_identity=Path(record["explicit_run_root"]).name,
+                terminal_generation=predecessor.get("continuity_generation"),
+                terminal_receipt=predecessor.get("continuity_receipt"),
+                current_generation=record.get("continuity_generation"),
+                current_receipt=record.get("continuity_receipt"),
+                require_current_v3=predecessor_state in {"UNSATISFIED", "OPEN", "RETURNED"},
+            )
+            predecessor_binding = predecessor.get("host_binding_generation")
+            record_binding = record.get("host_binding_generation")
+            if (
+                not isinstance(predecessor_binding, str)
+                or not isinstance(record_binding, str)
+                or not CONTINUITY_RE.fullmatch(predecessor_binding)
+                or not CONTINUITY_RE.fullmatch(record_binding)
+            ):
+                fail("stale unsatisfied route predecessor has malformed binding context", decision="REQUIRED")
+            binding_distance = int(record_binding[1:], 16) - int(predecessor_binding[1:], 16)
+            if predecessor_state in {"UNSATISFIED", "OPEN", "RETURNED"}:
+                if (
+                    mechanical_required_reason(record["action"]["argv"])
+                    != "STALE_CONTEXT_RECONSTRUCTION"
+                    or mapped_child_route(record)[0] != "audit-state"
+                    or binding_distance != len(continuity_links) - 1
+                ):
+                    fail("stale unsatisfied route predecessor is not an exact active recovery", decision="REQUIRED")
+            elif predecessor_state == "SATISFIED":
+                predecessor_lifecycle = predecessor.get("lifecycle")
+                if (
+                    not isinstance(predecessor_lifecycle, dict)
+                    or predecessor_lifecycle.get("state") != "SATISFIED"
+                    or predecessor_lifecycle.get("source_event_status") != "satisfied"
+                    or binding_distance <= 0
+                ):
+                    fail("stale unsatisfied route predecessor is not an exact terminal re-entry", decision="REQUIRED")
+            else:
+                fail("stale unsatisfied route predecessor has no allowed direct transition", decision="REQUIRED")
+
+    package = exact_keys(
+        record.get("package"),
+        {"head", "tree", "source_digests", "action_executable"},
+        "stale unsatisfied route package",
+    )
+    if package["head"] != git(repo, "rev-parse", "HEAD") or package["tree"] != git(
+        repo, "rev-parse", "HEAD^{tree}"
+    ):
+        fail("stale unsatisfied route package has foreign repository identity", decision="REQUIRED")
+    source_digests = exact_keys(
+        package["source_digests"],
+        {"SKILL.md", "route-obligations.md", "route-transaction.py", "claim-run.sh", "resolve-internal-skill.py"},
+        "stale unsatisfied route package source digests",
+    )
+    if any(not isinstance(value, str) or not HEX_RE.fullmatch(value) for value in source_digests.values()):
+        fail("stale unsatisfied route package source digest is malformed", decision="REQUIRED")
+    expected_executable = {
+        "requested": "route-trigger",
+        "resolved": "R0033:built-in",
+        "digest": digest_json(retained_request["action"]["argv"]),
+    }
+    if package["action_executable"] != expected_executable:
+        fail("stale unsatisfied route package action identity is foreign", decision="REQUIRED")
+
+    mapped_child, _ = mapped_child_route(record)
+    child_source = identity_record(record.get("child_source"), "stale unsatisfied route child source")
+    historical_child = Path(child_source["identity"])
+    current_child_raw, _ = child_delivery_bytes(mapped_child)
+    if (
+        not historical_child.is_absolute()
+        or historical_child.name != "SKILL.md"
+        or historical_child.parent.name != mapped_child
+        or child_source["digest"] != bytes_identity(current_child_raw)["digest"]
+    ):
+        fail("stale unsatisfied route child source has no exact historical custody", decision="REQUIRED")
+
+    evidence = exact_keys(
+        record.get("evidence"),
+        {"owner", "authority", "effect", "dependency"},
+        "stale unsatisfied route evidence",
+    )
+    owner = exact_keys(
+        evidence["owner"], {"controller_record_oid", "claim_id", "run_root"}, "stale route owner evidence"
+    )
+    authority = exact_keys(
+        evidence["authority"], {"continuity_generation", "continuity_receipt"}, "stale route authority evidence"
+    )
+    dependency = exact_keys(
+        evidence["dependency"], {"host_binding_generation", "host_correlation_id"}, "stale route dependency evidence"
+    )
+    expected_evidence = {
+        "owner": {
+            "controller_record_oid": owner["controller_record_oid"],
+            "claim_id": record.get("claim_id"),
+            "run_root": record.get("explicit_run_root"),
+        },
+        "authority": {
+            "continuity_generation": record.get("continuity_generation"),
+            "continuity_receipt": record.get("continuity_receipt"),
+        },
+        "effect": {
+            "action_identity": retained_request["action"]["identity"],
+            "action_digest": retained_request["action"]["digest"],
+            "derived_class": mechanical_action_class(retained_request["action"]["argv"]),
+        },
+        "dependency": {
+            "host_binding_generation": record.get("host_binding_generation"),
+            "host_correlation_id": record.get("host_correlation_id"),
+        },
+    }
+    if (
+        not isinstance(owner["controller_record_oid"], str)
+        or not OID_RE.fullmatch(owner["controller_record_oid"])
+        or evidence != expected_evidence
+        or authority != expected_evidence["authority"]
+        or dependency != expected_evidence["dependency"]
+    ):
+        fail("stale unsatisfied route retained evidence is foreign", decision="REQUIRED")
+
+    if any(item.get("status") != "CURRENT" for item in record["inputs"]):
+        fail("stale unsatisfied route did not retain a current input set", decision="REQUIRED")
+    identity_seed = {
+        "request": retained_request,
+        "controller_record_oid": owner["controller_record_oid"],
+        "claim_id": record["claim_id"],
+        "continuity_receipt": record["continuity_receipt"],
+        "host_binding_generation": record["host_binding_generation"],
+        "package": package,
+        "child_source": child_source,
+    }
+    expected_transaction = digest_json({"kind": "transaction", "seed": identity_seed})
+    expected_obligation = digest_json({"kind": "obligation", "seed": identity_seed})
+    mechanical_evidence = {
+        **expected_evidence,
+        "inputs": record["inputs"],
+        "package": package,
+        "child_source": child_source,
+    }
+    expected_fingerprint = digest_json({"request": retained_request, "mechanical_evidence": mechanical_evidence})
+    reason = mechanical_required_reason(retained_request["action"]["argv"])
+    if (
+        record.get("route_transaction_id") != expected_transaction
+        or record.get("obligation_id") != expected_obligation
+        or record.get("expiry_fingerprint") != expected_fingerprint
+        or record.get("decision") != "REQUIRED"
+        or record.get("classification") != "MECHANICALLY_REQUIRED"
+        or record.get("invalidators") != [reason]
+        or reason not in CHILD_ROUTE_MAP
+        or record.get("consumed_record_oid") is not None
+        or record.get("history_query") is not None
+    ):
+        fail("stale unsatisfied route no longer matches its retained predicate", decision="REQUIRED")
+
+    correlation = {
+        "host_id": record["host_id"],
+        "host_session_id": record["host_session_id"],
+        "binding_generation": record["host_binding_generation"],
+        "controller_id": record["controller_id"],
+        "claim_id": record["claim_id"],
+        "explicit_run_root": record["explicit_run_root"],
+        "repository_identity": str(repo),
+        "git_common_directory_identity": common,
+        "worktree_identity": str(repo),
+        "applicable_continuity_generation": record["continuity_generation"],
+        "applicable_continuity_receipt": record["continuity_receipt"],
+        "event_id": retained_request["boundary"]["event_id"],
+        "turn_id": None,
+        "tool_use_id": None,
+        "agent_id": None,
+        "obligation_id": expected_obligation,
+        "route_transaction_id": expected_transaction,
+    }
+    correlation_raw = json.dumps(correlation, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    if record.get("host_correlation_id") != f"sha256:{hashlib.sha256(correlation_raw).hexdigest()}":
+        fail("stale unsatisfied route lost its exact host-event custody", decision="REQUIRED")
+
+
 def require_terminal_route_reentry(
     repo: Path,
     args: argparse.Namespace,
@@ -2722,11 +3051,12 @@ def require_active_route_recovery(
 ) -> None:
     """Admit one exact contiguous stale-context successor to an incomplete route."""
     validate_canonical_route_record_bytes(repo, old_oid, old)
-    candidate_request_from_record(old, require_current_inputs=False)
+    retained_request = candidate_request_from_record(old, require_current_inputs=False)
     lifecycle = old.get("lifecycle")
     route_state = old.get("route_state")
     unsatisfied = (
         route_state == "UNSATISFIED"
+        and "lifecycle" not in old
         and lifecycle is None
         and old.get("child_lifecycle_owned") is False
     )
@@ -2747,6 +3077,8 @@ def require_active_route_recovery(
     }
     if any(old.get(key) != value for key, value in unchanged_owner.items()):
         fail("active route recovery changed controller, claim, run, host, or session identity", decision="REQUIRED")
+    if unsatisfied:
+        validate_stale_unsatisfied_custody(repo, common, old_oid, old, retained_request)
     continuity_links = validate_terminal_continuity_chain(
         repo,
         controller=args.controller,
