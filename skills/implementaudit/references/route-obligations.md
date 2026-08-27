@@ -148,15 +148,17 @@ ordinary active-obligation replacement remain forbidden.
 
 A terminal `REQUIRED/SATISFIED` one-shot lifecycle remains immutable, but it
 does not permanently cap its controller. `decide` may create a fresh successor
-only when the same controller, claim, run root, host and host session are bound
-to the exact next continuity and host-binding generations, the continuity
-receipt changed, and the predicate-complete request names a distinct current
-boundary event and digest. The new record points directly to the terminal
-record, owns no inherited child lifecycle bytes, and begins at `UNSATISFIED`
-when its decision is `REQUIRED`. The old terminal record and its packet, return
-and governor decision remain unchanged. Same-context or same-boundary replay,
-skipped or stale generations, standing-source state, and noncurrent predicates
-remain non-replaceable.
+only when the same controller, claim, run root and host are bound to the exact
+next continuity; same-session custody must use a strictly later binding, while
+fresh-session custody must use that distinct exact session's active local
+binding without comparing session-local generation ordinals. The continuity
+receipt must change, and the predicate-complete request must name a distinct
+current boundary event and digest. The new record points directly to the
+terminal record, owns no inherited child lifecycle bytes, and begins at
+`UNSATISFIED` when its decision is `REQUIRED`. The old terminal record and its
+packet, return and governor decision remain unchanged. Same-context or
+same-boundary replay, skipped or stale continuity, stale or foreign binding,
+standing-source state, and noncurrent predicates remain non-replaceable.
 
 One narrower recovery applies after either a lifecycle-free
 `REQUIRED/UNSATISFIED` record or an incomplete `OPEN` or `RETURNED` H2B

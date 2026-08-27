@@ -2769,7 +2769,6 @@ def validate_stale_unsatisfied_custody(
                 "claim_id",
                 "explicit_run_root",
                 "host_id",
-                "host_session_id",
             )
             if any(predecessor.get(key) != record.get(key) for key in unchanged_owner):
                 fail("stale unsatisfied route predecessor changed route ownership", decision="REQUIRED")
@@ -2811,6 +2810,8 @@ def validate_stale_unsatisfied_custody(
             binding_distance = int(record_binding[1:], 16) - int(predecessor_binding[1:], 16)
             if predecessor_state in {"UNSATISFIED", "OPEN", "RETURNED"}:
                 if (
+                    predecessor.get("host_session_id") != record.get("host_session_id")
+                    or
                     mechanical_required_reason(record["action"]["argv"])
                     != "STALE_CONTEXT_RECONSTRUCTION"
                     or mapped_child_route(record)[0] != "audit-state"
@@ -2823,9 +2824,9 @@ def validate_stale_unsatisfied_custody(
                     not isinstance(predecessor_lifecycle, dict)
                     or predecessor_lifecycle.get("state") != "SATISFIED"
                     or predecessor_lifecycle.get("source_event_status") != "satisfied"
-                    or binding_distance <= 0
                 ):
                     fail("stale unsatisfied route predecessor is not an exact terminal re-entry", decision="REQUIRED")
+                validate_terminal_owner_transition(predecessor, record)
             else:
                 fail("stale unsatisfied route predecessor has no allowed direct transition", decision="REQUIRED")
 
@@ -2966,6 +2967,41 @@ def validate_stale_unsatisfied_custody(
         fail("stale unsatisfied route lost its exact host-event custody", decision="REQUIRED")
 
 
+def validate_terminal_owner_transition(
+    predecessor: dict[str, Any],
+    successor: dict[str, Any],
+) -> None:
+    """Validate one terminal route owner across same- or fresh-session custody."""
+    unchanged_owner = (
+        "controller_id",
+        "claim_id",
+        "explicit_run_root",
+        "host_id",
+    )
+    if any(predecessor.get(key) != successor.get(key) for key in unchanged_owner):
+        fail("terminal route re-entry changed controller, claim, run, or host identity", decision="REQUIRED")
+    predecessor_session = exact_text(
+        predecessor.get("host_session_id"), "terminal route predecessor host session"
+    )
+    successor_session = exact_text(
+        successor.get("host_session_id"), "terminal route successor host session"
+    )
+    predecessor_binding = predecessor.get("host_binding_generation")
+    successor_binding = successor.get("host_binding_generation")
+    if (
+        not isinstance(predecessor_binding, str)
+        or not CONTINUITY_RE.fullmatch(predecessor_binding)
+        or not isinstance(successor_binding, str)
+        or not CONTINUITY_RE.fullmatch(successor_binding)
+    ):
+        fail("terminal route re-entry has malformed host-binding custody", decision="REQUIRED")
+    if predecessor_session == successor_session:
+        if int(successor_binding[1:], 16) <= int(predecessor_binding[1:], 16):
+            fail("terminal route re-entry requires a strictly later same-session host binding", decision="REQUIRED")
+    elif int(successor_binding[1:], 16) == 0:
+        fail("terminal route re-entry requires an active fresh-session host binding", decision="REQUIRED")
+
+
 def require_terminal_route_reentry(
     repo: Path,
     args: argparse.Namespace,
@@ -2996,15 +3032,15 @@ def require_terminal_route_reentry(
     current_child, _ = child_delivery_bytes(mapped_child)
     if current_child != historical_child:
         fail("terminal route re-entry current child bytes changed", decision="REQUIRED")
-    unchanged_owner = {
+    successor_owner = {
         "controller_id": args.controller,
         "claim_id": current["claim_id"],
         "explicit_run_root": current["explicit_run_root"],
         "host_id": args.host_id,
         "host_session_id": args.host_session_id,
+        "host_binding_generation": args.binding_generation,
     }
-    if any(old.get(key) != value for key, value in unchanged_owner.items()):
-        fail("terminal route re-entry changed controller, claim, run, host, or session identity", decision="REQUIRED")
+    validate_terminal_owner_transition(old, successor_owner)
     validate_terminal_continuity_chain(
         repo,
         controller=args.controller,
@@ -3015,14 +3051,6 @@ def require_terminal_route_reentry(
         current_generation=current["continuity_generation"],
         current_receipt=current["continuity_receipt"],
     )
-    old_binding = old.get("host_binding_generation")
-    if (
-        not isinstance(old_binding, str)
-        or not CONTINUITY_RE.fullmatch(old_binding)
-        or not CONTINUITY_RE.fullmatch(args.binding_generation)
-        or int(args.binding_generation[1:], 16) <= int(old_binding[1:], 16)
-    ):
-        fail("terminal route re-entry requires a strictly later host-binding generation", decision="REQUIRED")
     old_boundary = old.get("boundary")
     new_boundary = request["boundary"]
     if (

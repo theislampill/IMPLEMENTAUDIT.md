@@ -1343,7 +1343,9 @@ run_governed_child_case() {
   local successor_mode="${7:-REQUIRED}"
   local package_mode="${8:-CURRENT_PACKAGE}"
   local rotation_mode="${9:-ONE_ROTATION}" first_rotation_event="$successor_event"
+  local session_rotation_mode="${10:-SAME_SESSION}"
   local controller="controller-${case_id,,}" session="session-${case_id,,}"
+  local successor_session="$session" successor_binding_generation
   local run_name="${case_id,,}-ABC123" request="$tmp/${case_id,,}-request.json"
   local root="$repo_custody/.IMPLEMENTAUDIT/runs/$run_name" receipt decided required_record
   local ROUTE_CORE="${ROUTE_CORE_OVERRIDE:-$core}"
@@ -1511,10 +1513,11 @@ PY
     route "$controller" "$session" G0001 decide --request "$same_current_request" \
       --expected-record "$complete_record" >/dev/null
 
-  # Rotate the same controller/claim/run/session through the exact next
-  # continuity and binding generation. The successor boundary is distinct and
-  # must mint a fresh immutable REQUIRED/UNSATISFIED transaction whose direct
-  # predecessor is the preserved first terminal record.
+  # Rotate the same controller/claim/run through the exact next continuity.
+  # Same-session custody must advance its binding generation; fresh-session
+  # custody starts from that exact session's active local binding. The distinct
+  # successor boundary must mint a fresh immutable REQUIRED/UNSATISFIED
+  # transaction whose direct predecessor is the preserved terminal record.
   first_terminal_blob="$(git -C "$tmp/repo" cat-file blob "$complete_record")"
   if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
     assert_json "$first_terminal_blob" 'value["lifecycle"]["delivery"]["child"]["identity"] == '"$package_old_identity_json"
@@ -1548,10 +1551,19 @@ PY
   expect_blocked "$case_id stale predecessor binding cannot replace terminal route" \
     route "$controller" "$session" G0001 decide --request "$successor_request" \
       --expected-record "$complete_record" >/dev/null
+  if [ "$session_rotation_mode" = "FRESH_SESSION" ]; then
+    successor_session="${session}-successor"
+    successor_binding_generation=G0001
+  else
+    successor_binding_generation="$successor_generation"
+  fi
   expect_blocked "$case_id absent successor binding cannot replace terminal route" \
-    route "$controller" "$session" "$successor_generation" decide --request "$successor_request" \
+    route "$controller" "$successor_session" "$successor_binding_generation" decide --request "$successor_request" \
       --expected-record "$complete_record" >/dev/null
-  if [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
+  if [ "$session_rotation_mode" = "FRESH_SESSION" ]; then
+    bind_host "$successor_session" "$controller" "$claim_local" "$root" "$successor_receipt" \
+      "activation-${case_id,,}-fresh-session" "$successor_generation"
+  elif [ "$rotation_mode" = "TWO_ROTATIONS" ]; then
     expect_blocked "$case_id intermediate binding cannot authorize the later continuity" \
       route "$controller" "$session" G0002 decide --request "$successor_request" \
         --expected-record "$complete_record" >/dev/null
@@ -1572,7 +1584,7 @@ PY
       --continuity-receipt "$successor_receipt" >/dev/null
   fi
   expect_blocked "$case_id skipped binding generation cannot replace terminal route" \
-    route "$controller" "$session" "G$(printf '%04X' "$((16#${successor_generation#G} + 1))")" decide --request "$successor_request" \
+    route "$controller" "$successor_session" "G$(printf '%04X' "$((16#${successor_binding_generation#G} + 1))")" decide --request "$successor_request" \
       --expected-record "$complete_record" >/dev/null
 
   # Supported replacement keeps the exact child bytes at a distinct installed
@@ -1589,23 +1601,34 @@ PY
     package_root="$package_new"
   fi
 
+  if [ "$session_rotation_mode" = "FRESH_SESSION" ]; then
+    local foreign_bound_session="${successor_session}-foreign-bound" foreign_bound_lookup
+    bind_host "$foreign_bound_session" "${controller}-foreign" "$claim_local" "$root" \
+      "$successor_receipt" "activation-${case_id,,}-foreign-bound" "$successor_generation"
+    foreign_bound_lookup="$(host lookup --host-id codex --host-session-id "$foreign_bound_session")"
+    assert_json "$foreign_bound_lookup" \
+      'value["status"] == "BOUND" and value["binding"]["controller_id"] == "'"${controller}-foreign"'"'
+    expect_blocked "$case_id foreign-bound fresh session cannot replace terminal route" \
+      route "$controller" "$foreign_bound_session" G0001 decide \
+        --request "$successor_request" --expected-record "$complete_record" >/dev/null
+  fi
   expect_blocked "$case_id foreign current session binding cannot replace terminal route" \
-    route "$controller" "${session}-foreign" "$successor_generation" decide \
+    route "$controller" "${successor_session}-foreign" "$successor_binding_generation" decide \
       --request "$successor_request" --expected-record "$complete_record" >/dev/null
   expect_blocked "$case_id stale route CAS cannot replace terminal route" \
-    route "$controller" "$session" "$successor_generation" decide \
+    route "$controller" "$successor_session" "$successor_binding_generation" decide \
       --request "$successor_request" --expected-record "$required_record" >/dev/null
 
   if [ "$package_mode" = "PACKAGE_RELOCATED" ]; then
     mv "$package_new/$child/SKILL.md" "$package_new/$child/SKILL.md.missing-heldout"
     expect_blocked "$case_id missing current child cannot replace terminal route" \
-      route "$controller" "$session" "$successor_generation" decide \
+      route "$controller" "$successor_session" "$successor_binding_generation" decide \
         --request "$successor_request" --expected-record "$complete_record" >/dev/null
     mv "$package_new/$child/SKILL.md.missing-heldout" "$package_new/$child/SKILL.md"
     cp "$package_new/$child/SKILL.md" "$package_new/$child/SKILL.md.changed-heldout"
     printf '\nR0033 changed-child held-out\n' >> "$package_new/$child/SKILL.md"
     expect_blocked "$case_id changed current child cannot replace terminal route" \
-      route "$controller" "$session" "$successor_generation" decide \
+      route "$controller" "$successor_session" "$successor_binding_generation" decide \
         --request "$successor_request" --expected-record "$complete_record" >/dev/null
     mv "$package_new/$child/SKILL.md.changed-heldout" "$package_new/$child/SKILL.md"
   fi
@@ -1920,7 +1943,7 @@ PY
   fi
 
   set +e
-  successor_decided="$(route "$controller" "$session" "$successor_generation" decide --request "$successor_request" \
+  successor_decided="$(route "$controller" "$successor_session" "$successor_binding_generation" decide --request "$successor_request" \
     --expected-record "$complete_record" 2>&1)"
   successor_status=$?
   set -e
@@ -1946,8 +1969,8 @@ PY
   [ "$(git -C "$tmp/repo" cat-file blob "$complete_record")" = "$first_terminal_blob" ] ||
     fail "$case_id successor decision mutated the first terminal record"
 
-  successor_attributed="$(host validate-event --host-id codex --host-session-id "$session" \
-    --binding-generation "$successor_generation" --controller-id "$controller" --claim-id "$claim_local" \
+  successor_attributed="$(host validate-event --host-id codex --host-session-id "$successor_session" \
+    --binding-generation "$successor_binding_generation" --controller-id "$controller" --claim-id "$claim_local" \
     --explicit-run-root "$root" --repository-identity "$repo_custody" \
     --git-common-directory-identity "$common_custody" --worktree-identity "$repo_custody" \
     --continuity-generation "$successor_generation" --continuity-receipt "$successor_receipt" \
@@ -1986,7 +2009,7 @@ write(decision_path,decision)
 PY
 
   successor_visible="$tmp/${case_id,,}-successor-open.visible"
-  successor_opened="$(route "$controller" "$session" "$successor_generation" open --request "$successor_request" \
+  successor_opened="$(route "$controller" "$successor_session" "$successor_binding_generation" open --request "$successor_request" \
     --expected-record "$successor_required" --packet "$successor_packet" 2>"$successor_visible")"
   assert_json "$successor_opened" 'value["status"] == "CHILD_OPEN" and value["route_state"] == "OPEN"'
   successor_open_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_opened")"
@@ -2003,24 +2026,24 @@ PY
   [ "${successor_visible_lines[0]}" = "CHILD_SKILL_ROUTE=$child" ] || fail "$case_id successor emitted the wrong child identity"
   [ "${successor_visible_lines[1]}" = "I'm using $child to $visible_reason." ] || fail "$case_id successor emitted the wrong bounded reason"
   expect_blocked "$case_id OPEN successor cannot be replaced" \
-    route "$controller" "$session" "$successor_generation" decide --request "$same_current_request" \
+    route "$controller" "$successor_session" "$successor_binding_generation" decide --request "$same_current_request" \
       --expected-record "$successor_open_record" >/dev/null
 
-  successor_returned="$(route "$controller" "$session" "$successor_generation" return --request "$successor_request" \
+  successor_returned="$(route "$controller" "$successor_session" "$successor_binding_generation" return --request "$successor_request" \
     --expected-record "$successor_open_record" --return "$successor_return")"
   assert_json "$successor_returned" 'value["status"] == "CHILD_RETURNED" and value["route_state"] == "RETURNED"'
   successor_return_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_returned")"
   expect_blocked "$case_id RETURNED successor cannot be replaced" \
-    route "$controller" "$session" "$successor_generation" decide --request "$same_current_request" \
+    route "$controller" "$successor_session" "$successor_binding_generation" decide --request "$same_current_request" \
       --expected-record "$successor_return_record" >/dev/null
-  successor_completed="$(route "$controller" "$session" "$successor_generation" complete --request "$successor_request" \
+  successor_completed="$(route "$controller" "$successor_session" "$successor_binding_generation" complete --request "$successor_request" \
     --expected-record "$successor_return_record" --packet "$successor_packet" \
     --return "$successor_return" --decision "$successor_decision")"
   assert_json "$successor_completed" 'value["status"] == "ROUTE_COMPLETE" and value["route_state"] == "SATISFIED" and value["governor_decision_count"] == 1'
   successor_complete_record="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$successor_completed")"
   admitted="$(cd "$tmp/repo" && bash "$ACTIVE_CLAIM" --require-current-route "$controller" \
-    --store "$tmp/host-store" --host-id codex --host-session-id "$session" \
-    --binding-generation "$successor_generation")"
+    --store "$tmp/host-store" --host-id codex --host-session-id "$successor_session" \
+    --binding-generation "$successor_binding_generation")"
   assert_json "$admitted" 'value["record_oid"] == "'"$successor_complete_record"'" and value["route_state"] == "SATISFIED" and value["advance_allowed"] is True'
   [ "$(git -C "$tmp/repo" cat-file blob "$complete_record")" = "$first_terminal_blob" ] ||
     fail "$case_id second lifecycle mutated the first terminal record"
@@ -2583,7 +2606,7 @@ if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G01 ]; then
 run_governed_child_case G01 55555555555555555555555555555555 \
   STALE_CONTEXT_RECONSTRUCTION audit-state \
   'rehydrate bounded current state after the exact stale-context boundary' \
-  host-reported-compaction REQUIRED PACKAGE_RELOCATED
+  host-reported-compaction REQUIRED PACKAGE_RELOCATED ONE_ROTATION FRESH_SESSION
 fi
 if [ -z "${R0033_CASE_FILTER:-}" ] || [ "$R0033_CASE_FILTER" = G02 ]; then
 run_governed_child_case G02 66666666666666666666666666666666 \
