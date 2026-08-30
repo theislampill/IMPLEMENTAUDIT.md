@@ -183,6 +183,18 @@ class RegistryTests(unittest.TestCase):
             errors = engine.validate_registry(registry, root)
         self.assertIn("duplicate check id: script.alpha", errors)
 
+    def test_rejects_checkpoint_filename_collision(self):
+        """Different IDs must not map to one checkpoint or evidence filename."""
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = self.valid_registry(root)
+            registry["checks"][1]["id"] = "script/a"
+            registry["checks"][2]["id"] = "script-a"
+            registry["checks"][2]["dependencies"] = []
+            errors = engine.validate_registry(registry, root)
+        self.assertIn("checkpoint filename collision: script-a", errors)
+
     def test_rejects_unknown_dependency(self):
         """An unresolvable edge must fail before any command executes."""
         engine = load_engine()
@@ -544,6 +556,28 @@ class CheckpointTests(unittest.TestCase):
             self.assertEqual(resumed.checks_executed, ["A", "B"])
             self.assertIn("dependency_fingerprints_changed", resumed.invalidation_reasons["B"])
 
+    def test_changed_generated_prerequisite_artifact_invalidates_checkpoint(self):
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            implementation, relevant, log = self.make_root(root)
+            artifact = root / "generated" / "artifact.json"
+            artifact.parent.mkdir()
+            artifact.write_text('{"value":1}\n', encoding="utf-8")
+            check = self.make_check(0, "A", implementation, relevant, log)
+            check["output_contract"] = {
+                "mode": "explicit",
+                "paths": [str(artifact)],
+            }
+            self.run_engine(engine, root, [check], mode="FRESH", output_name="fresh")
+            artifact.write_text('{"value":2}\n', encoding="utf-8")
+            resumed = self.run_engine(
+                engine, root, [check], mode="RESUME", output_name="resumed"
+            )
+
+            self.assertEqual(resumed.checks_executed, ["A"])
+            self.assertIn("generated_artifacts_changed", resumed.invalidation_reasons["A"])
+
     def test_implementation_change_invalidates_checkpoint(self):
         engine = load_engine()
         with tempfile.TemporaryDirectory() as tmp:
@@ -590,12 +624,31 @@ class CheckpointTests(unittest.TestCase):
             check = self.make_check(0, "A", implementation, relevant, log)
             check["checkpoint_policy"] = {"mode": "disabled"}
             self.run_engine(engine, root, [check], mode="FRESH", output_name="fresh")
+            self.assertFalse((root / "checkpoints" / "A.json").exists())
             resumed = self.run_engine(
                 engine, root, [check], mode="RESUME", output_name="resumed"
             )
 
             self.assertEqual(resumed.checks_executed, ["A"])
             self.assertIn("checkpoint_reuse_not_admitted", resumed.invalidation_reasons["A"])
+
+    def test_keep_going_without_checkpoint_store_skips_fingerprint_work(self):
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            implementation, relevant, log = self.make_root(root)
+            check = self.make_check(0, "A", implementation, relevant, log)
+            with mock.patch.object(
+                engine,
+                "_input_manifest",
+                side_effect=AssertionError("checkpoint fingerprint should be dormant"),
+            ):
+                report = engine.run_shadow(
+                    {"checks": [check]},
+                    engine.RunOptions(root, root / "evidence", 5, "KEEP_GOING"),
+                )
+
+            self.assertEqual(report.pass_checks, ["A"])
 
     def test_corrupt_and_incomplete_checkpoints_fail_closed(self):
         engine = load_engine()
@@ -612,6 +665,29 @@ class CheckpointTests(unittest.TestCase):
                 self.assertEqual(resumed.checks_executed, ["A"])
                 self.assertEqual(resumed.checkpoints_reused, [])
                 self.assertTrue(resumed.invalidation_reasons["A"])
+
+    def test_malformed_result_and_tampered_fingerprint_fail_closed(self):
+        engine = load_engine()
+        mutations = (
+            lambda payload: payload.update({"result": "PASS"}),
+            lambda payload: payload.update({"result_fingerprint": "0" * 64}),
+        )
+        for mutate in mutations:
+            with self.subTest(mutate=mutate), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                implementation, relevant, log = self.make_root(root)
+                checks = [self.make_check(0, "A", implementation, relevant, log)]
+                self.run_engine(engine, root, checks, mode="FRESH", output_name="fresh")
+                checkpoint = root / "checkpoints" / "A.json"
+                payload = json.loads(checkpoint.read_text(encoding="utf-8"))
+                mutate(payload)
+                checkpoint.write_text(json.dumps(payload), encoding="utf-8")
+                resumed = self.run_engine(
+                    engine, root, checks, mode="RESUME", output_name="resumed"
+                )
+
+                self.assertEqual(resumed.checks_executed, ["A"])
+                self.assertEqual(resumed.checkpoints_reused, [])
 
     def test_material_environment_change_invalidates_checkpoint(self):
         engine = load_engine()
@@ -754,6 +830,33 @@ class CliTests(unittest.TestCase):
         self.assertEqual(payload["authority"], "NONE")
         self.assertEqual(payload["check_count"], 105)
         self.assertEqual(payload["command_check_count"], 104)
+        self.assertEqual(payload["checkpoint_enabled_count"], 0)
+
+    def test_resume_cli_requires_explicit_checkpoint_directory(self):
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(ENGINE_PATH),
+                "run",
+                "--repo-root",
+                str(ROOT),
+                "--registry",
+                str(ROOT / "scripts" / "verify-package-shadow-registry.json"),
+                "--output-dir",
+                str(ROOT / ".verify-package-shadow-test-output"),
+                "--resume",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 2)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "INFRASTRUCTURE_ERROR")
+        self.assertIn("--checkpoint-dir", payload["errors"][0])
 
     def test_run_cli_writes_non_authoritative_failure_frontier(self):
         """The command-line product must persist typed frontier evidence."""

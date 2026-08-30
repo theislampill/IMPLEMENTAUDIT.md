@@ -225,6 +225,9 @@ def materialize_registry(config: dict[str, Any], repo_root: Path) -> dict[str, A
         "input_contract": composite.get(
             "input_contract", {"mode": "tracked_tree"}
         ),
+        "output_contract": composite.get(
+            "output_contract", {"mode": "explicit", "paths": []}
+        ),
         "material_tools": composite.get("material_tools", ["bash"]),
         "environment": composite.get("environment", []),
         "checkpoint_policy": composite.get(
@@ -251,6 +254,9 @@ def materialize_registry(config: dict[str, Any], repo_root: Path) -> dict[str, A
             ),
             "input_contract": override.pop(
                 "input_contract", {"mode": "tracked_tree"}
+            ),
+            "output_contract": override.pop(
+                "output_contract", {"mode": "explicit", "paths": []}
             ),
             "material_tools": override.pop("material_tools", [argv[0]]),
             "environment": override.pop("environment", []),
@@ -309,6 +315,7 @@ def validate_registry(registry: dict[str, Any], repo_root: Path) -> list[str]:
 
     ids: list[str] = []
     id_set: set[str] = set()
+    evidence_names: dict[str, str] = {}
     for check in checks:
         if not isinstance(check, dict):
             errors.append("every check must be an object")
@@ -321,6 +328,11 @@ def validate_registry(registry: dict[str, Any], repo_root: Path) -> list[str]:
             errors.append(f"duplicate check id: {check_id}")
         ids.append(check_id)
         id_set.add(check_id)
+        evidence_name = _evidence_name(check_id)
+        if evidence_name in evidence_names and evidence_names[evidence_name] != check_id:
+            errors.append(f"checkpoint filename collision: {evidence_name}")
+        else:
+            evidence_names[evidence_name] = check_id
 
     orders = [check.get("order") for check in checks if isinstance(check, dict)]
     if orders != list(range(len(checks))):
@@ -591,6 +603,7 @@ def _load_checkpoint(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
         "checkpoint_policy",
         "implementation_manifest",
         "input_manifest",
+        "output_manifest",
         "dependency_fingerprints",
         "environment",
         "tools",
@@ -600,6 +613,11 @@ def _load_checkpoint(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
         "result_fingerprint",
     }
     if not required.issubset(payload):
+        return None, ["checkpoint_incomplete"]
+    result = payload.get("result")
+    if not isinstance(result, dict) or not isinstance(result.get("status"), str):
+        return None, ["checkpoint_incomplete"]
+    if not isinstance(payload.get("result_fingerprint"), str):
         return None, ["checkpoint_incomplete"]
     return payload, []
 
@@ -658,6 +676,10 @@ def _current_checkpoint_identity(
         "environment": environment,
         "implementation_manifest": manifest_cache[implementation_key],
         "input_manifest": manifest_cache[input_key],
+        "output_manifest": _input_manifest(
+            check.get("output_contract", {"mode": "explicit", "paths": []}),
+            options.repo_root,
+        ),
         "tools": tools,
     }
 
@@ -676,6 +698,7 @@ def _checkpoint_reuse_decision(
         ("checkpoint_policy", "checkpoint_policy_changed"),
         ("implementation_manifest", "implementation_manifest_changed"),
         ("input_manifest", "input_manifest_changed"),
+        ("output_manifest", "generated_artifacts_changed"),
         ("dependency_fingerprints", "dependency_fingerprints_changed"),
         ("environment", "environment_changed"),
         ("tools", "tool_identity_changed"),
@@ -687,6 +710,8 @@ def _checkpoint_reuse_decision(
             reasons.append(reason)
     if stored.get("result", {}).get("status") != PASS:
         reasons.append("stored_result_not_pass")
+    if stored.get("result_fingerprint") != _result_fingerprint(current, PASS):
+        reasons.append("checkpoint_result_fingerprint_invalid")
     if current.get("checkpoint_policy") != {"mode": "exact_declared_inputs"}:
         reasons.append("checkpoint_reuse_not_admitted")
     if current.get("applicability") != {"mode": "always"}:
@@ -695,6 +720,8 @@ def _checkpoint_reuse_decision(
         reasons.append("input_applicability_not_proven")
     if not current.get("implementation_manifest", {}).get("reusable", False):
         reasons.append("implementation_applicability_not_proven")
+    if not current.get("output_manifest", {}).get("reusable", False):
+        reasons.append("output_applicability_not_proven")
     if any(not item.get("reusable", False) for item in current.get("tools", [])):
         reasons.append("tool_applicability_not_proven")
     return not reasons, list(dict.fromkeys(reasons))
@@ -702,6 +729,21 @@ def _checkpoint_reuse_decision(
 
 def _result_fingerprint(current: dict[str, Any], status: str) -> str:
     return _sha256_json({"identity": current, "status": status})
+
+
+def _runtime_result_fingerprint(
+    current: dict[str, Any] | None, check_id: str, status: str
+) -> str:
+    if current is not None:
+        return _result_fingerprint(current, status)
+    return _sha256_json(
+        {
+            "authority": "NONE",
+            "check_id": check_id,
+            "engine_semantics": ENGINE_SEMANTICS,
+            "status": status,
+        }
+    )
 
 
 def _store_checkpoint(
@@ -724,7 +766,16 @@ def _store_checkpoint(
 def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
     """Execute a validated check population without fail-fast serial discovery."""
     options.output_dir.mkdir(parents=True, exist_ok=True)
-    if options.checkpoint_dir is not None:
+    checkpoint_enabled_ids = {
+        str(check["id"])
+        for check in registry["checks"]
+        if check.get("checkpoint_policy")
+        == {"mode": "exact_declared_inputs"}
+    }
+    checkpointing_active = (
+        options.checkpoint_dir is not None and bool(checkpoint_enabled_ids)
+    )
+    if checkpointing_active and options.checkpoint_dir is not None:
         options.checkpoint_dir.mkdir(parents=True, exist_ok=True)
     records: list[CheckRecord] = []
     by_id: dict[str, CheckRecord] = {}
@@ -758,22 +809,30 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
             dependency: by_id[dependency].result_fingerprint
             for dependency in check.get("dependencies", [])
         }
-        checkpoint_started = time.monotonic()
-        current_checkpoint = _current_checkpoint_identity(
-            check,
-            options,
-            dependency_fingerprints,
-            manifest_cache,
-            tool_cache,
-        )
-        if options.mode == "RESUME" and options.checkpoint_dir is not None:
+        current_checkpoint: dict[str, Any] | None = None
+        if checkpointing_active:
+            checkpoint_started = time.monotonic()
+            current_checkpoint = _current_checkpoint_identity(
+                check,
+                options,
+                dependency_fingerprints,
+                manifest_cache,
+                tool_cache,
+            )
+            checkpoint_validation_seconds += time.monotonic() - checkpoint_started
+        if options.mode == "RESUME" and check_id not in checkpoint_enabled_ids:
+            invalidation_reasons[check_id] = ["checkpoint_reuse_not_admitted"]
+        elif (
+            options.mode == "RESUME"
+            and options.checkpoint_dir is not None
+            and current_checkpoint is not None
+        ):
             stored, load_reasons = _load_checkpoint(
                 _checkpoint_path(options.checkpoint_dir, check_id)
             )
             reusable, reasons = _checkpoint_reuse_decision(
                 stored, current_checkpoint, load_reasons
             )
-            checkpoint_validation_seconds += time.monotonic() - checkpoint_started
             if reusable and stored is not None:
                 record = CheckRecord(
                     check_id=check_id,
@@ -789,8 +848,6 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 checkpoints_reused.append(check_id)
                 continue
             invalidation_reasons[check_id] = reasons
-        else:
-            checkpoint_validation_seconds += time.monotonic() - checkpoint_started
 
         missing_tools = [
             str(tool)
@@ -804,8 +861,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 status=INFRASTRUCTURE_ERROR,
                 detail="missing material tool(s): " + ", ".join(missing_tools),
                 execution_source="NOT_EXECUTED",
-                result_fingerprint=_result_fingerprint(
-                    current_checkpoint, INFRASTRUCTURE_ERROR
+                result_fingerprint=_runtime_result_fingerprint(
+                    current_checkpoint, check_id, INFRASTRUCTURE_ERROR
                 ),
             )
             records.append(record)
@@ -828,8 +885,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                     status=INFRASTRUCTURE_ERROR,
                     detail=f"canonical prefix extraction failed: {exc}",
                     execution_source="NOT_EXECUTED",
-                    result_fingerprint=_result_fingerprint(
-                        current_checkpoint, INFRASTRUCTURE_ERROR
+                    result_fingerprint=_runtime_result_fingerprint(
+                        current_checkpoint, check_id, INFRASTRUCTURE_ERROR
                     ),
                 )
                 records.append(record)
@@ -843,8 +900,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                     status=INFRASTRUCTURE_ERROR,
                     detail="missing material tool(s): bash",
                     execution_source="NOT_EXECUTED",
-                    result_fingerprint=_result_fingerprint(
-                        current_checkpoint, INFRASTRUCTURE_ERROR
+                    result_fingerprint=_runtime_result_fingerprint(
+                        current_checkpoint, check_id, INFRASTRUCTURE_ERROR
                     ),
                 )
                 records.append(record)
@@ -869,8 +926,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 status=INFRASTRUCTURE_ERROR,
                 detail="check has no executable argv",
                 execution_source="NOT_EXECUTED",
-                result_fingerprint=_result_fingerprint(
-                    current_checkpoint, INFRASTRUCTURE_ERROR
+                result_fingerprint=_runtime_result_fingerprint(
+                    current_checkpoint, check_id, INFRASTRUCTURE_ERROR
                 ),
             )
             records.append(record)
@@ -915,7 +972,9 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 exit_code=completed.returncode,
                 stdout_path=str(stdout_path),
                 stderr_path=str(stderr_path),
-                result_fingerprint=_result_fingerprint(current_checkpoint, status),
+                result_fingerprint=_runtime_result_fingerprint(
+                    current_checkpoint, check_id, status
+                ),
             )
         except subprocess.TimeoutExpired as exc:
             duration = time.monotonic() - started
@@ -939,8 +998,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 detail=f"timeout after {options.timeout_seconds} seconds",
                 stdout_path=str(stdout_path),
                 stderr_path=str(stderr_path),
-                result_fingerprint=_result_fingerprint(
-                    current_checkpoint, INFRASTRUCTURE_ERROR
+                result_fingerprint=_runtime_result_fingerprint(
+                    current_checkpoint, check_id, INFRASTRUCTURE_ERROR
                 ),
             )
         except OSError as exc:
@@ -950,8 +1009,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 status=INFRASTRUCTURE_ERROR,
                 duration_seconds=time.monotonic() - started,
                 detail=f"process start failed: {exc}",
-                result_fingerprint=_result_fingerprint(
-                    current_checkpoint, INFRASTRUCTURE_ERROR
+                result_fingerprint=_runtime_result_fingerprint(
+                    current_checkpoint, check_id, INFRASTRUCTURE_ERROR
                 ),
             )
         finally:
@@ -959,7 +1018,20 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 temporary.cleanup()
         records.append(record)
         by_id[check_id] = record
-        if options.checkpoint_dir is not None:
+        if (
+            options.checkpoint_dir is not None
+            and current_checkpoint is not None
+            and check_id in checkpoint_enabled_ids
+        ):
+            current_checkpoint["output_manifest"] = _input_manifest(
+                check.get(
+                    "output_contract", {"mode": "explicit", "paths": []}
+                ),
+                options.repo_root,
+            )
+            record.result_fingerprint = _runtime_result_fingerprint(
+                current_checkpoint, check_id, record.status
+            )
             _store_checkpoint(options.checkpoint_dir, current_checkpoint, record)
     return RunReport(
         mode=options.mode,
@@ -1045,6 +1117,12 @@ def main(argv: list[str] | None = None) -> int:
             "authority": "NONE",
             "canonical_sha256": compact.get("canonical", {}).get("sha256"),
             "check_count": len(registry.get("checks", [])),
+            "checkpoint_enabled_count": sum(
+                1
+                for check in registry.get("checks", [])
+                if check.get("checkpoint_policy")
+                == {"mode": "exact_declared_inputs"}
+            ),
             "command_check_count": sum(
                 1
                 for check in registry.get("checks", [])
@@ -1056,6 +1134,19 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, indent=2, sort_keys=True))
         return 0 if not errors else 2
     if args.command == "run":
+        if args.resume and args.checkpoint_dir is None:
+            print(
+                json.dumps(
+                    {
+                        "authority": "NONE",
+                        "errors": ["--resume requires --checkpoint-dir"],
+                        "status": "INFRASTRUCTURE_ERROR",
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            return 2
         try:
             compact = _load_compact_registry(args.registry)
             registry = materialize_registry(compact, args.repo_root)

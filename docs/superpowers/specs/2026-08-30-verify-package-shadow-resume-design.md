@@ -109,10 +109,11 @@ infrastructure errors, multiple failures in one pass, and oracle non-suppression
 Only PASS is reusable. Each checkpoint record binds:
 
 - schema and engine-semantics version;
-- registry digest and check ID;
+- exact check-registry entry and check ID;
 - exact argv and implementation-source digest;
 - canonical candidate identity where the check declares it material;
 - declared input manifest with path kind, mode, size, and SHA-256/tree digest;
+- declared generated prerequisite artifact manifest and digests;
 - dependency PASS fingerprints;
 - applicability fingerprint;
 - allowlisted material environment values;
@@ -120,12 +121,15 @@ Only PASS is reusable. Each checkpoint record binds:
 - execution-mode semantics;
 - complete terminal record and canonical JSON fingerprint.
 
-Reuse occurs only when the current recomputed fingerprint exactly equals the
-stored PASS fingerprint. Corrupt, incomplete, unknown, or incompatible state
-reruns. A changed dependency PASS invalidates descendants. A changed unrelated
-file preserves a checkpoint only for a reviewed explicit input contract.
-Unaudited checks use a conservative tracked-tree contract, preserving soundness
-at the cost of reuse.
+Reuse is disabled unless the check has an explicit reviewed
+`exact_declared_inputs` checkpoint policy. For admitted checks, reuse occurs
+only when the current recomputed fingerprint exactly equals the stored PASS
+fingerprint. Corrupt, incomplete, unknown, or incompatible state reruns. A
+changed dependency PASS or declared generated artifact invalidates descendants.
+A changed unrelated file preserves a checkpoint only for a reviewed explicit
+input contract. The current real registry deliberately admits zero checks until
+their per-check input/tool/environment contracts receive a separate review;
+this preserves soundness at the cost of immediate real-package resume coverage.
 
 Checkpoint files are written atomically to a caller-selected directory and are
 not tracked. The report explains each reuse or invalidation decision.
