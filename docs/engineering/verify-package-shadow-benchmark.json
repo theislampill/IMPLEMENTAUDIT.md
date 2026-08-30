@@ -8,17 +8,17 @@
   "checks_executed_keep_going": 7,
   "checks_executed_resumed": 2,
   "delay_seconds_per_passing_check": 0.08,
-  "fresh_full_run_time_seconds": 1.155562200001441,
+  "fresh_full_run_time_seconds": 1.25197099999059,
   "host": {
     "platform": "Windows-10-10.0.26200-SP0",
     "python": "3.11.9"
   },
-  "keep_going_discovery_time_seconds": 0.7930094000039389,
-  "measured_speedup_fresh_over_resume": 3.4609566401749405,
+  "keep_going_discovery_time_seconds": 0.8441263000131585,
+  "measured_speedup_fresh_over_resume": 3.123553108885382,
   "primary_failures_discovered_keep_going": 3,
   "representative_real_subset": {
     "authority": "NONE",
-    "checkpoint_validation_overhead_seconds": 0.046999999991385266,
+    "checkpoint_validation_overhead_seconds": 0.04700000000593718,
     "checkpoints_reused": 2,
     "checks": [
       "script.generate-readme-diagrams",
@@ -27,12 +27,12 @@
     "checks_executed_fresh": 2,
     "checks_executed_resumed": 0,
     "fresh_primary_failures": [],
-    "fresh_time_seconds": 0.39229530000011437,
-    "measured_speedup_fresh_over_resume": 6.580236912244863,
+    "fresh_time_seconds": 0.4998920000070939,
+    "measured_speedup_fresh_over_resume": 7.8975997172107855,
     "resume_primary_failures": [],
-    "resume_time_seconds": 0.05961719999322668
+    "resume_time_seconds": 0.06329669999831822
   },
-  "resumed_run_time_seconds": 0.3338852000015322,
+  "resumed_run_time_seconds": 0.4008163000107743,
   "schema": "implementaudit.verify-package-shadow.benchmark.v1",
   "trial_records": [
     {
@@ -43,10 +43,23 @@
       "checks_executed_fresh": 8,
       "checks_executed_keep_going": 7,
       "checks_executed_resumed": 2,
-      "fresh_full_run_time_seconds": 1.1459239999967394,
-      "keep_going_discovery_time_seconds": 0.8398140000062995,
+      "fresh_full_run_time_seconds": 1.25197099999059,
+      "keep_going_discovery_time_seconds": 0.831916099996306,
       "primary_failures_discovered_keep_going": 3,
-      "resumed_run_time_seconds": 0.33510099998966325
+      "resumed_run_time_seconds": 0.37031840000418015
+    },
+    {
+      "blocked_checks_keep_going": 1,
+      "checkpoint_validation_overhead_seconds": 0.062000000005355105,
+      "checkpoints_invalidated": 2,
+      "checkpoints_reused": 6,
+      "checks_executed_fresh": 8,
+      "checks_executed_keep_going": 7,
+      "checks_executed_resumed": 2,
+      "fresh_full_run_time_seconds": 1.2219125000119675,
+      "keep_going_discovery_time_seconds": 0.8964526999916416,
+      "primary_failures_discovered_keep_going": 3,
+      "resumed_run_time_seconds": 0.4749912000115728
     },
     {
       "blocked_checks_keep_going": 1,
@@ -56,23 +69,10 @@
       "checks_executed_fresh": 8,
       "checks_executed_keep_going": 7,
       "checks_executed_resumed": 2,
-      "fresh_full_run_time_seconds": 1.155562200001441,
-      "keep_going_discovery_time_seconds": 0.7930094000039389,
+      "fresh_full_run_time_seconds": 1.287002199998824,
+      "keep_going_discovery_time_seconds": 0.8441263000131585,
       "primary_failures_discovered_keep_going": 3,
-      "resumed_run_time_seconds": 0.3315861000010045
-    },
-    {
-      "blocked_checks_keep_going": 1,
-      "checkpoint_validation_overhead_seconds": 0.031000000002677552,
-      "checkpoints_invalidated": 2,
-      "checkpoints_reused": 6,
-      "checks_executed_fresh": 8,
-      "checks_executed_keep_going": 7,
-      "checks_executed_resumed": 2,
-      "fresh_full_run_time_seconds": 1.1581639999931213,
-      "keep_going_discovery_time_seconds": 0.7604467000055593,
-      "primary_failures_discovered_keep_going": 3,
-      "resumed_run_time_seconds": 0.3338852000015322
+      "resumed_run_time_seconds": 0.4008163000107743
     }
   ],
   "trials": 3

@@ -764,6 +764,14 @@ class CheckpointTests(unittest.TestCase):
                 resumed.invalidation_reasons["A"],
             )
 
+    def test_symlink_manifest_kind_is_fail_closed_even_without_host_privilege(self):
+        engine = load_engine()
+        self.assertFalse(
+            engine._manifest_entries_reusable(
+                [{"kind": "symlink", "path": "input-link"}]
+            )
+        )
+
     def test_unadmitted_checkpoint_policy_never_reuses(self):
         engine = load_engine()
         with tempfile.TemporaryDirectory() as tmp:
