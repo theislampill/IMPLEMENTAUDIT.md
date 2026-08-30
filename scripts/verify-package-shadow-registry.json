@@ -1,0 +1,30 @@
+{
+  "authority": "NONE",
+  "canonical": {
+    "command_population_sha256": "8629927f926372cdaac32ec1b53d502790feb359110e90a69b65d69510c58af2",
+    "first_command": "scripts/generate-readme-diagrams.sh",
+    "path": "scripts/verify-package.sh",
+    "sha256": "d00bb5f59203dda30de1289af259a7d9dc792d4a81e54276c45770a90fc1fb4e"
+  },
+  "composite": {
+    "id": "canonical.inline-preflight",
+    "input_contract": {
+      "mode": "tracked_tree"
+    },
+    "material_tools": [
+      "bash"
+    ]
+  },
+  "overrides": {
+    "script.verify-readme-diagrams-rendered": {
+      "dependencies": [
+        "script.generate-readme-diagrams"
+      ],
+      "environment": [
+        "GITHUB_ACTIONS",
+        "GITHUB_BASE_REF"
+      ]
+    }
+  },
+  "schema": "implementaudit.verify-package-shadow.registry.v1"
+}
