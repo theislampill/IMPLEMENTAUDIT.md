@@ -17,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ENGINE_PATH = ROOT / "scripts" / "verify-package-shadow.py"
+BENCHMARK_PATH = ROOT / "scripts" / "benchmark-verify-package-shadow.py"
 FIXTURES = ROOT / "tests" / "fixtures" / "verify-package-shadow"
 
 
@@ -991,6 +992,138 @@ class CliTests(unittest.TestCase):
             ["canonical.inline-preflight", "script.alpha", "script.bravo", "test.charlie"],
         )
         self.assertEqual(report["checks_executed"], [])
+
+
+class OracleIntegrationTests(unittest.TestCase):
+    def run_candidate(self, *, failing: bool):
+        engine = load_engine()
+        bash = engine.resolve_tool("bash")
+        if bash is None:
+            self.skipTest("Git Bash is unavailable")
+        registry_tests = RegistryTests()
+        temporary = tempfile.TemporaryDirectory()
+        root = Path(temporary.name)
+        compact = registry_tests.valid_compact_registry(root)
+        (root / "scripts" / "alpha.sh").write_text(
+            (
+                "#!/usr/bin/env bash\nprintf 'alpha fail\\n'\nexit 1\n"
+                if failing
+                else "#!/usr/bin/env bash\nprintf 'alpha pass\\n'\n"
+            ),
+            encoding="utf-8",
+        )
+        (root / "scripts" / "bravo.sh").write_text(
+            "#!/usr/bin/env bash\nprintf 'bravo pass\\n'\n", encoding="utf-8"
+        )
+        (root / "tests").mkdir()
+        (root / "tests" / "charlie.test.sh").write_text(
+            (
+                "#!/usr/bin/env bash\nprintf 'charlie fail\\n'\nexit 1\n"
+                if failing
+                else "#!/usr/bin/env bash\nprintf 'charlie pass\\n'\n"
+            ),
+            encoding="utf-8",
+        )
+        canonical = subprocess.run(
+            [bash, str(root / "scripts" / "verify-package.sh")],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+        )
+        registry = engine.materialize_registry(compact, root)
+        shadow = engine.run_shadow(
+            registry,
+            engine.RunOptions(root, root / "shadow-evidence", 5, "KEEP_GOING"),
+        )
+        return temporary, engine, canonical, shadow
+
+    def test_clean_and_failing_fixture_agree_with_fail_fast_oracle(self):
+        clean_tmp, engine, canonical_clean, shadow_clean = self.run_candidate(
+            failing=False
+        )
+        try:
+            self.assertEqual(canonical_clean.returncode, 0, canonical_clean.stderr)
+            self.assertEqual(shadow_clean.primary_failures, [])
+            self.assertEqual(
+                engine.semantic_oracle_comparison([], shadow_clean)["result"], "PASS"
+            )
+        finally:
+            clean_tmp.cleanup()
+
+        fail_tmp, engine, canonical_fail, shadow_fail = self.run_candidate(failing=True)
+        try:
+            self.assertNotEqual(canonical_fail.returncode, 0)
+            self.assertIn("alpha fail", canonical_fail.stdout)
+            self.assertNotIn("charlie fail", canonical_fail.stdout)
+            self.assertEqual(
+                shadow_fail.primary_failures, ["script.alpha", "test.charlie"]
+            )
+            comparison = engine.semantic_oracle_comparison(
+                ["script.alpha"], shadow_fail
+            )
+            self.assertEqual(comparison["result"], "PASS")
+            self.assertEqual(comparison["suppressed_failures"], [])
+            self.assertEqual(
+                comparison["additional_shadow_failures"], ["test.charlie"]
+            )
+        finally:
+            fail_tmp.cleanup()
+
+
+class BenchmarkTests(unittest.TestCase):
+    def test_benchmark_reports_work_and_timing_reduction_schema(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "benchmark.json"
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(BENCHMARK_PATH),
+                    "--output",
+                    str(output),
+                    "--trials",
+                    "1",
+                    "--delay-seconds",
+                    "0.01",
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            payload = json.loads(output.read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            payload["schema"], "implementaudit.verify-package-shadow.benchmark.v1"
+        )
+        self.assertEqual(payload["authority"], "NONE")
+        self.assertEqual(payload["trials"], 1)
+        self.assertEqual(payload["checks_executed_fresh"], 8)
+        self.assertEqual(payload["checks_executed_resumed"], 2)
+        self.assertEqual(payload["checkpoints_reused"], 6)
+        self.assertEqual(payload["checkpoints_invalidated"], 2)
+        self.assertEqual(payload["primary_failures_discovered_keep_going"], 3)
+        self.assertEqual(payload["blocked_checks_keep_going"], 1)
+        self.assertGreater(payload["fresh_full_run_time_seconds"], 0)
+        self.assertGreater(payload["keep_going_discovery_time_seconds"], 0)
+        self.assertGreater(payload["resumed_run_time_seconds"], 0)
+        self.assertGreaterEqual(payload["checkpoint_validation_overhead_seconds"], 0)
+        self.assertGreater(payload["measured_speedup_fresh_over_resume"], 0)
+        real = payload["representative_real_subset"]
+        self.assertEqual(
+            real["checks"],
+            ["script.generate-readme-diagrams", "script.check-readme-toc"],
+        )
+        self.assertEqual(real["fresh_primary_failures"], [])
+        self.assertEqual(real["resume_primary_failures"], [])
+        self.assertEqual(real["checks_executed_fresh"], 2)
+        self.assertEqual(real["checks_executed_resumed"], 0)
+        self.assertEqual(real["checkpoints_reused"], 2)
 
 
 if __name__ == "__main__":
