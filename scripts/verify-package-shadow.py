@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 import re
+import signal
 import shlex
 import shutil
 import subprocess
@@ -24,8 +25,8 @@ FAIL = "FAIL"
 BLOCKED = "BLOCKED_BY_FAILED_DEPENDENCY"
 NOT_APPLICABLE = "SKIPPED_NOT_APPLICABLE"
 INFRASTRUCTURE_ERROR = "INFRASTRUCTURE_ERROR"
-CHECKPOINT_SCHEMA = "implementaudit.verify-package-shadow.checkpoint.v1"
-ENGINE_SEMANTICS = "implementaudit.verify-package-shadow.keep-going.v1"
+CHECKPOINT_SCHEMA = "implementaudit.verify-package-shadow.checkpoint.v2"
+ENGINE_SEMANTICS = "implementaudit.verify-package-shadow.keep-going.v2"
 
 
 class RunOptions:
@@ -100,6 +101,8 @@ class RunReport:
         checkpoints_reused: list[str] | None = None,
         invalidation_reasons: dict[str, list[str]] | None = None,
         checkpoint_validation_seconds: float = 0.0,
+        registry_sha256: str = "",
+        canonical_verifier_sha256: str | None = None,
     ) -> None:
         self.mode = mode
         self.checks = sorted(checks, key=lambda item: item.order)
@@ -112,6 +115,8 @@ class RunReport:
             c.check_id for c in self.checks if c.execution_source == "EXECUTED"
         ]
         self.checkpoint_validation_seconds = checkpoint_validation_seconds
+        self.registry_sha256 = registry_sha256
+        self.canonical_verifier_sha256 = canonical_verifier_sha256
         self.pass_checks = [c.check_id for c in self.checks if c.status == PASS]
         self.primary_failures = [c.check_id for c in self.checks if c.status == FAIL]
         self.blocked_checks = [c.check_id for c in self.checks if c.status == BLOCKED]
@@ -142,13 +147,17 @@ class RunReport:
             "checkpoints_invalidated": list(self.checkpoints_invalidated),
             "checkpoints_reused": list(self.checkpoints_reused),
             "complete_safe_failure_frontier": self.complete_safe_failure_frontier,
+            "canonical_verifier_sha256": self.canonical_verifier_sha256,
+            "engine_semantics": ENGINE_SEMANTICS,
             "earliest_failure": self.earliest_failure,
             "infrastructure_errors": list(self.infrastructure_errors),
             "invalidation_reasons": dict(self.invalidation_reasons),
             "mode": self.mode,
             "pass_checks": list(self.pass_checks),
             "primary_failures": list(self.primary_failures),
+            "registry_sha256": self.registry_sha256,
             "run_id": self.run_id,
+            "schema": "implementaudit.verify-package-shadow.report.v1",
             "skipped_not_applicable": list(self.skipped_not_applicable),
         }
 
@@ -271,6 +280,7 @@ def materialize_registry(config: dict[str, Any], repo_root: Path) -> dict[str, A
         "schema": config.get("schema"),
         "authority": config.get("authority"),
         "canonical": canonical,
+        "execution_environment": config.get("execution_environment", {}),
         "checks": checks,
     }
 
@@ -391,6 +401,23 @@ def validate_registry(registry: dict[str, Any], repo_root: Path) -> list[str]:
         ]
         if registered != extracted:
             errors.append("canonical command population mismatch")
+        first_line = next(
+            (
+                line
+                for line, argv in extract_canonical_commands(
+                    canonical_text, first_command=first_command
+                )
+                if len(argv) >= 2 and argv[1] == first_command
+            ),
+            len(canonical_text.splitlines()) + 1,
+        )
+        static_exports: dict[str, str] = {}
+        for line in canonical_text.splitlines()[: first_line - 1]:
+            match = re.fullmatch(r"export ([A-Za-z_][A-Za-z0-9_]*)=([^\s]+)", line)
+            if match:
+                static_exports[match.group(1)] = match.group(2)
+        if registry.get("execution_environment", {}) != static_exports:
+            errors.append("canonical execution environment mismatch")
 
     return errors
 
@@ -431,8 +458,6 @@ def build_canonical_prefix(text: str, *, first_command: str) -> str:
     boundary_line = commands[0][0]
     lines = text.splitlines()[: boundary_line - 1]
     root_bindings = [index for index, line in enumerate(lines) if line.startswith("repo_root=")]
-    if root_bindings != [next(iter(root_bindings), -1)]:
-        raise ValueError("canonical prefix must contain exactly one repo_root binding")
     if len(root_bindings) != 1:
         raise ValueError("canonical prefix must contain exactly one repo_root binding")
     lines[root_bindings[0]] = 'repo_root="$(pwd -P)"'
@@ -453,27 +478,37 @@ def _path_entry(path: Path, repo_root: Path) -> dict[str, Any]:
         display = path.relative_to(repo_root).as_posix()
     except ValueError:
         display = str(path.resolve())
-    if path.is_symlink():
-        stat = path.lstat()
-        return {
-            "kind": "symlink",
-            "mode": stat.st_mode & 0o777,
-            "path": display,
-            "target": os.readlink(path),
-        }
-    if path.is_file():
-        data = path.read_bytes()
-        stat = path.stat()
-        return {
-            "bytes": len(data),
-            "kind": "file",
-            "mode": stat.st_mode & 0o777,
-            "path": display,
-            "sha256": hashlib.sha256(data).hexdigest(),
-        }
-    if path.is_dir():
-        return {"kind": "directory", "path": display}
-    return {"kind": "missing", "path": display}
+    try:
+        if path.is_symlink():
+            stat = path.lstat()
+            return {
+                "kind": "symlink",
+                "mode": stat.st_mode & 0o777,
+                "path": display,
+                "target": os.readlink(path),
+            }
+        if path.is_file():
+            data = path.read_bytes()
+            stat = path.stat()
+            return {
+                "bytes": len(data),
+                "kind": "file",
+                "mode": stat.st_mode & 0o777,
+                "path": display,
+                "sha256": hashlib.sha256(data).hexdigest(),
+            }
+        if path.is_dir():
+            return {"kind": "directory", "path": display}
+        return {"kind": "missing", "path": display}
+    except OSError as exc:
+        return {"detail": str(exc), "kind": "unreadable", "path": display}
+
+
+def _manifest_entries_reusable(entries: list[dict[str, Any]]) -> bool:
+    return not any(
+        entry.get("kind") in {"invalid-pattern", "symlink", "unreadable"}
+        for entry in entries
+    )
 
 
 def _explicit_manifest(paths: list[Any], repo_root: Path) -> dict[str, Any]:
@@ -494,20 +529,38 @@ def _explicit_manifest(paths: list[Any], repo_root: Path) -> dict[str, Any]:
         for path in matches:
             entries.append(_path_entry(path, repo_root))
             if path.is_dir() and not path.is_symlink():
-                entries.extend(
-                    _path_entry(descendant, repo_root)
-                    for descendant in sorted(path.rglob("*"))
-                )
+                try:
+                    descendants = sorted(path.rglob("*"))
+                except OSError as exc:
+                    entries.append(
+                        {
+                            "detail": str(exc),
+                            "kind": "unreadable",
+                            "path": str(path),
+                        }
+                    )
+                else:
+                    entries.extend(
+                        _path_entry(descendant, repo_root)
+                        for descendant in descendants
+                    )
     return {"mode": "explicit", "entries": entries}
 
 
 def _tracked_tree_manifest(repo_root: Path) -> dict[str, Any]:
-    completed = subprocess.run(
-        ["git", "ls-files", "-z"],
-        cwd=repo_root,
-        capture_output=True,
-        check=False,
-    )
+    try:
+        completed = subprocess.run(
+            ["git", "ls-files", "-z"],
+            cwd=repo_root,
+            capture_output=True,
+            check=False,
+        )
+    except OSError as exc:
+        return {
+            "mode": "tracked_tree",
+            "error": str(exc),
+            "reusable": False,
+        }
     if completed.returncode != 0:
         return {
             "mode": "tracked_tree",
@@ -519,10 +572,11 @@ def _tracked_tree_manifest(repo_root: Path) -> dict[str, Any]:
         for raw in completed.stdout.split(b"\0")
         if raw
     ]
+    entries = [_path_entry(path, repo_root) for path in paths]
     return {
         "mode": "tracked_tree",
-        "entries": [_path_entry(path, repo_root) for path in paths],
-        "reusable": True,
+        "entries": entries,
+        "reusable": _manifest_entries_reusable(entries),
     }
 
 
@@ -532,9 +586,7 @@ def _input_manifest(contract: Any, repo_root: Path) -> dict[str, Any]:
     mode = contract.get("mode")
     if mode == "explicit" and isinstance(contract.get("paths", []), list):
         manifest = _explicit_manifest(contract.get("paths", []), repo_root)
-        manifest["reusable"] = not any(
-            entry.get("kind") == "invalid-pattern" for entry in manifest["entries"]
-        )
+        manifest["reusable"] = _manifest_entries_reusable(manifest["entries"])
         return manifest
     if mode == "tracked_tree":
         return _tracked_tree_manifest(repo_root)
@@ -586,6 +638,10 @@ def _checkpoint_path(checkpoint_dir: Path, check_id: str) -> Path:
     return checkpoint_dir / f"{_evidence_name(check_id)}.json"
 
 
+def _checkpoint_sidecar_path(checkpoint_path: Path, stream: str) -> Path:
+    return checkpoint_path.with_name(f"{checkpoint_path.stem}.{stream}.txt")
+
+
 def _load_checkpoint(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
     if not path.is_file():
         return None, ["checkpoint_missing"]
@@ -609,6 +665,7 @@ def _load_checkpoint(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
         "tools",
         "applicability",
         "engine_semantics",
+        "evidence",
         "result",
         "result_fingerprint",
     }
@@ -619,6 +676,31 @@ def _load_checkpoint(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
         return None, ["checkpoint_incomplete"]
     if not isinstance(payload.get("result_fingerprint"), str):
         return None, ["checkpoint_incomplete"]
+    evidence = payload.get("evidence")
+    if not isinstance(evidence, dict):
+        return None, ["checkpoint_incomplete"]
+    evidence_paths: dict[str, str] = {}
+    for stream in ("stdout", "stderr"):
+        metadata = evidence.get(stream)
+        sidecar = _checkpoint_sidecar_path(path, stream)
+        if (
+            not isinstance(metadata, dict)
+            or metadata.get("file") != sidecar.name
+            or not isinstance(metadata.get("bytes"), int)
+            or not isinstance(metadata.get("sha256"), str)
+        ):
+            return None, ["checkpoint_evidence_invalid"]
+        try:
+            data = sidecar.read_bytes()
+        except OSError:
+            return None, ["checkpoint_evidence_invalid"]
+        if (
+            len(data) != metadata["bytes"]
+            or hashlib.sha256(data).hexdigest() != metadata["sha256"]
+        ):
+            return None, ["checkpoint_evidence_invalid"]
+        evidence_paths[stream] = str(sidecar)
+    payload["_evidence_paths"] = evidence_paths
     return payload, []
 
 
@@ -628,6 +710,7 @@ def _current_checkpoint_identity(
     dependency_fingerprints: dict[str, str],
     manifest_cache: dict[str, dict[str, Any]],
     tool_cache: dict[str, dict[str, Any]],
+    execution_environment: dict[str, str],
 ) -> dict[str, Any]:
     input_contract = check.get("input_contract", {"mode": "tracked_tree"})
     input_key = json.dumps(input_contract, sort_keys=True)
@@ -651,10 +734,14 @@ def _current_checkpoint_identity(
             tool_cache[tool] = _tool_identity(tool, options.repo_root)
         tools.append(tool_cache[tool])
     process_environment = os.environ.copy()
+    process_environment.update(execution_environment)
     process_environment.update(options.environment)
     environment = {
-        str(name): process_environment.get(str(name), "__UNSET__")
-        for name in check.get("environment", [])
+        "canonical": dict(sorted(execution_environment.items())),
+        "check_allowlist": {
+            str(name): process_environment.get(str(name), "__UNSET__")
+            for name in check.get("environment", [])
+        },
     }
     applicability = check.get("applicability", {"mode": "always"})
     checkpoint_policy = check.get("checkpoint_policy", {"mode": "disabled"})
@@ -710,6 +797,10 @@ def _checkpoint_reuse_decision(
             reasons.append(reason)
     if stored.get("result", {}).get("status") != PASS:
         reasons.append("stored_result_not_pass")
+    if stored.get("result", {}).get("status") == PASS and stored.get("result", {}).get(
+        "exit_code"
+    ) != 0:
+        reasons.append("stored_pass_exit_code_invalid")
     if stored.get("result_fingerprint") != _result_fingerprint(current, PASS):
         reasons.append("checkpoint_result_fingerprint_invalid")
     if current.get("checkpoint_policy") != {"mode": "exact_declared_inputs"}:
@@ -751,16 +842,94 @@ def _store_checkpoint(
     current: dict[str, Any],
     record: CheckRecord,
 ) -> None:
+    checkpoint_path = _checkpoint_path(checkpoint_dir, record.check_id)
+    evidence: dict[str, dict[str, Any]] = {}
+    for stream, raw_path in (
+        ("stdout", record.stdout_path),
+        ("stderr", record.stderr_path),
+    ):
+        try:
+            data = Path(raw_path).read_bytes() if raw_path else b""
+        except OSError:
+            data = b""
+        sidecar = _checkpoint_sidecar_path(checkpoint_path, stream)
+        _write_bytes_atomic(sidecar, data)
+        evidence[stream] = {
+            "bytes": len(data),
+            "file": sidecar.name,
+            "sha256": hashlib.sha256(data).hexdigest(),
+        }
     payload = {
         "schema": CHECKPOINT_SCHEMA,
         **current,
+        "evidence": evidence,
         "result": {
             "exit_code": record.exit_code,
             "status": record.status,
         },
         "result_fingerprint": record.result_fingerprint,
     }
-    _write_json_atomic(_checkpoint_path(checkpoint_dir, record.check_id), payload)
+    _write_json_atomic(checkpoint_path, payload)
+
+
+def _terminate_process_tree(process: subprocess.Popen[str]) -> None:
+    if process.poll() is not None:
+        return
+    if os.name == "nt":
+        completed = subprocess.run(
+            ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+        )
+        if completed.returncode != 0 and process.poll() is None:
+            process.kill()
+    else:
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+
+
+def _run_with_tree_timeout(
+    argv: list[str],
+    *,
+    cwd: Path,
+    env: dict[str, str],
+    timeout: float,
+) -> subprocess.CompletedProcess[str]:
+    process = subprocess.Popen(
+        argv,
+        cwd=cwd,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        creationflags=(
+            subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
+        ),
+        start_new_session=os.name != "nt",
+    )
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        _terminate_process_tree(process)
+        try:
+            stdout, stderr = process.communicate(timeout=5)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            stdout, stderr = process.communicate()
+        raise subprocess.TimeoutExpired(
+            argv,
+            timeout,
+            output=stdout or exc.output,
+            stderr=stderr or exc.stderr,
+        ) from None
+    return subprocess.CompletedProcess(argv, process.returncode, stdout, stderr)
 
 
 def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
@@ -775,6 +944,12 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
     checkpointing_active = (
         options.checkpoint_dir is not None and bool(checkpoint_enabled_ids)
     )
+    execution_environment = registry.get("execution_environment", {})
+    if not isinstance(execution_environment, dict) or not all(
+        isinstance(key, str) and isinstance(value, str)
+        for key, value in execution_environment.items()
+    ):
+        execution_environment = {}
     if checkpointing_active and options.checkpoint_dir is not None:
         options.checkpoint_dir.mkdir(parents=True, exist_ok=True)
     records: list[CheckRecord] = []
@@ -818,6 +993,7 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                 dependency_fingerprints,
                 manifest_cache,
                 tool_cache,
+                execution_environment,
             )
             checkpoint_validation_seconds += time.monotonic() - checkpoint_started
         if options.mode == "RESUME" and check_id not in checkpoint_enabled_ids:
@@ -842,6 +1018,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
                     detail="exact applicable PASS checkpoint reused",
                     execution_source="CHECKPOINT_REUSED",
                     result_fingerprint=str(stored["result_fingerprint"]),
+                    stdout_path=str(stored["_evidence_paths"]["stdout"]),
+                    stderr_path=str(stored["_evidence_paths"]["stderr"]),
                 )
                 records.append(record)
                 by_id[check_id] = record
@@ -940,17 +1118,13 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
         started = time.monotonic()
         try:
             process_environment = os.environ.copy()
+            process_environment.update(execution_environment)
             process_environment.update(options.environment)
-            completed = subprocess.run(
+            completed = _run_with_tree_timeout(
                 argv,
                 cwd=options.repo_root,
                 env=process_environment,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
                 timeout=options.timeout_seconds,
-                check=False,
             )
             duration = time.monotonic() - started
             stdout_path.write_text(completed.stdout, encoding="utf-8", newline="\n")
@@ -1040,6 +1214,8 @@ def run_shadow(registry: dict[str, Any], options: RunOptions) -> RunReport:
         checkpoints_reused=checkpoints_reused,
         invalidation_reasons=invalidation_reasons,
         checkpoint_validation_seconds=checkpoint_validation_seconds,
+        registry_sha256=_sha256_json(registry),
+        canonical_verifier_sha256=registry.get("canonical", {}).get("sha256"),
     )
 
 
@@ -1076,6 +1252,16 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
             encoding="utf-8",
             newline="\n",
         )
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _write_bytes_atomic(path: Path, data: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + f".{uuid.uuid4().hex}.tmp")
+    try:
+        temporary.write_bytes(data)
         os.replace(temporary, path)
     finally:
         temporary.unlink(missing_ok=True)

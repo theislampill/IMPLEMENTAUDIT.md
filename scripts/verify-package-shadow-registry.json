@@ -15,15 +15,16 @@
       "bash"
     ]
   },
+  "execution_environment": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
   "overrides": {
     "script.verify-readme-diagrams-rendered": {
-      "dependencies": [
-        "script.generate-readme-diagrams"
-      ],
       "environment": [
         "GITHUB_ACTIONS",
         "GITHUB_BASE_REF"
-      ]
+      ],
+      "not_applicable_output": "verify-readme-diagrams-rendered: NOT_APPLICABLE (no diagram projection change)"
     }
   },
   "schema": "implementaudit.verify-package-shadow.registry.v1"

@@ -28,13 +28,11 @@ all 78 `tests/*.test.sh` files are invoked exactly once and CI invokes the
 canonical verifier exactly once.
 
 The current list order is not a dependency graph. Most tests create and clean
-their own temporary fixtures and do not consume prior check output. The
-rendered README diagram check has a real generated-parity prerequisite because
-it invokes and requires `generate-readme-diagrams.sh --check` before rendering.
-Required inputs and material tools are prerequisites of the checks that use
-them, not controller-wide serialisation edges. Fixed `/tmp` names and process
-fixtures make parallel execution unsafe without a separate resource analysis,
-so the first shadow scheduler is serial, deterministic, and keep-going.
+their own temporary fixtures and do not consume prior check output. Required
+inputs and material tools are prerequisites of the checks that use them, not
+controller-wide serialisation edges. Fixed `/tmp` names and process fixtures
+make parallel execution unsafe without a separate resource analysis, so the
+first shadow scheduler is serial, deterministic, and keep-going.
 
 ## Strangler boundary
 
@@ -61,16 +59,20 @@ applicability contract, material tools, implementation sources, and input
 contract. A dependency edge is admitted only when a downstream result cannot
 be trustworthy without an upstream PASS.
 
-Initial hard result edge:
+Initial hard result edges:
 
 ```text
-script.generate-readme-diagrams
-  -> script.verify-readme-diagrams-rendered
+NONE
 ```
 
-All other initial command nodes are independent unless their own declared
-contract proves otherwise. Shared inputs, duplicated coverage, or later list
-position are not result dependencies.
+The only initially plausible edge was generated-diagram parity before rendered
+diagram verification. It is deliberately rejected: the rendered verifier
+invokes `generate-readme-diagrams.sh --check` itself before any rendering, so it
+does not consume a result or artifact produced by the separately scheduled
+check and can produce trustworthy evidence without that earlier PASS. Shared
+inputs, duplicated coverage, or later list position are not result
+dependencies. The synthetic test registry retains a real B -> C edge to prove
+`BLOCKED_BY_FAILED_DEPENDENCY` behaviour.
 
 The composite inline preflight may fail without suppressing independent command
 nodes. A missing material tool is classified before process execution as an

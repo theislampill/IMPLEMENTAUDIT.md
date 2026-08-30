@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 import sys
 import unittest
+import time
 from unittest import mock
 from pathlib import Path
 
@@ -138,6 +139,22 @@ class RegistryTests(unittest.TestCase):
             )
             self.assertEqual(engine.validate_registry(registry, root), [])
 
+    def test_live_dependency_graph_does_not_promote_shared_logic_to_an_edge(self):
+        """A downstream check that reruns its own preflight is not result-dependent."""
+        engine = load_engine()
+        compact = json.loads(
+            (ROOT / "scripts" / "verify-package-shadow-registry.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        registry = engine.materialize_registry(compact, ROOT)
+        edges = {
+            check["id"]: check["dependencies"]
+            for check in registry["checks"]
+            if check["dependencies"]
+        }
+        self.assertEqual(edges, {})
+
     def test_rejects_changed_canonical_digest(self):
         """A stale registry must not run against changed canonical bytes."""
         engine = load_engine()
@@ -149,6 +166,25 @@ class RegistryTests(unittest.TestCase):
             )
             errors = engine.validate_registry(registry, root)
         self.assertIn("canonical verifier digest mismatch", errors)
+
+    def test_rejects_canonical_export_environment_drift(self):
+        """Discrete checks must inherit the same static canonical exports."""
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = self.valid_registry(root)
+            canonical = root / "scripts" / "verify-package.sh"
+            text = canonical.read_text(encoding="utf-8").replace(
+                "set -euo pipefail\n",
+                "set -euo pipefail\nexport SHADOW_CANONICAL_ENV=exact\n",
+            )
+            canonical.write_text(text, encoding="utf-8")
+            registry["canonical"]["sha256"] = hashlib.sha256(
+                canonical.read_bytes()
+            ).hexdigest()
+            registry["execution_environment"] = {}
+            errors = engine.validate_registry(registry, root)
+        self.assertIn("canonical execution environment mismatch", errors)
 
     def test_rejects_missing_canonical_command(self):
         """Omitting a canonical command must invalidate the shadow registry."""
@@ -306,6 +342,14 @@ class SchedulerTests(unittest.TestCase):
             payload = report.to_json_dict()
 
         self.assertEqual(payload["mode"], "KEEP_GOING")
+        self.assertEqual(
+            payload["schema"], "implementaudit.verify-package-shadow.report.v1"
+        )
+        self.assertEqual(
+            payload["engine_semantics"],
+            "implementaudit.verify-package-shadow.keep-going.v2",
+        )
+        self.assertEqual(len(payload["registry_sha256"]), 64)
         self.assertEqual(payload["pass_checks"], ["first"])
         self.assertEqual(payload["primary_failures"], ["second"])
         self.assertEqual(payload["earliest_failure"], "second")
@@ -358,6 +402,23 @@ class SchedulerTests(unittest.TestCase):
         self.assertEqual(report.infrastructure_errors, ["slow"])
         self.assertIn("timeout after", report.checks[0].detail)
 
+    def test_timeout_terminates_descendant_process_tree(self):
+        """A timed-out verifier must not leave a child that mutates later."""
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            sentinel = root / "leaked.txt"
+            check = self.make_check(0, "tree", "spawn-child", root / "log")
+            check["argv"].extend(["--sentinel", str(sentinel)])
+            report = engine.run_shadow(
+                {"checks": [check]},
+                engine.RunOptions(root, root / "evidence", 0.05, "KEEP_GOING"),
+            )
+            time.sleep(0.4)
+            leaked = sentinel.exists()
+        self.assertEqual(report.infrastructure_errors, ["tree"])
+        self.assertFalse(leaked)
+
     def test_not_applicable_is_distinct_from_pass(self):
         """A progressive check that does not trigger must not claim PASS."""
         engine = load_engine()
@@ -371,6 +432,59 @@ class SchedulerTests(unittest.TestCase):
             )
         self.assertEqual(report.skipped_not_applicable, ["conditional"])
         self.assertEqual(report.pass_checks, [])
+
+    def test_real_progressive_check_is_typed_not_applicable(self):
+        """The current rendered-diagram progressive gate must not claim PASS."""
+        engine = load_engine()
+        compact = json.loads(
+            (ROOT / "scripts" / "verify-package-shadow-registry.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        registry = engine.materialize_registry(compact, ROOT)
+        check = next(
+            item
+            for item in registry["checks"]
+            if item["id"] == "script.verify-readme-diagrams-rendered"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            report = engine.run_shadow(
+                {"checks": [check], "execution_environment": registry["execution_environment"]},
+                engine.RunOptions(ROOT, Path(tmp), 30, "KEEP_GOING"),
+            )
+        self.assertEqual(
+            report.skipped_not_applicable,
+            ["script.verify-readme-diagrams-rendered"],
+        )
+        self.assertEqual(report.pass_checks, [])
+
+    def test_discrete_check_inherits_digest_bound_canonical_environment(self):
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            check = {
+                "id": "environment",
+                "kind": "command",
+                "order": 0,
+                "argv": [
+                    sys.executable,
+                    "-c",
+                    (
+                        "import os,sys; "
+                        "sys.exit(0 if os.environ.get('SHADOW_CANONICAL_ENV') == 'exact' else 1)"
+                    ),
+                ],
+                "dependencies": [],
+                "material_tools": [sys.executable],
+            }
+            report = engine.run_shadow(
+                {
+                    "checks": [check],
+                    "execution_environment": {"SHADOW_CANONICAL_ENV": "exact"},
+                },
+                engine.RunOptions(root, root / "evidence", 5, "KEEP_GOING"),
+            )
+        self.assertEqual(report.pass_checks, ["environment"])
 
     def test_composite_prefix_executes_exact_inline_region_only(self):
         """The approved legacy composite must stop before discrete commands."""
@@ -522,6 +636,11 @@ class CheckpointTests(unittest.TestCase):
             self.assertEqual(resumed.checkpoints_reused, ["A"])
             self.assertEqual(resumed.checks_executed, [])
             self.assertEqual(resumed.checks[0].execution_source, "CHECKPOINT_REUSED")
+            self.assertIn(
+                "A: pass",
+                Path(resumed.checks[0].stdout_path).read_text(encoding="utf-8"),
+            )
+            self.assertTrue(Path(resumed.checks[0].stderr_path).is_file())
 
     def test_relevant_change_invalidates_but_unrelated_change_preserves(self):
         engine = load_engine()
@@ -617,6 +736,34 @@ class CheckpointTests(unittest.TestCase):
             self.assertEqual(resumed.checks_executed, ["A"])
             self.assertIn("input_manifest_changed", resumed.invalidation_reasons["A"])
 
+    def test_symlink_input_is_not_reused_without_target_content_contract(self):
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            implementation, relevant, log = self.make_root(root)
+            target = root / "outside-target.txt"
+            target.write_text("v1\n", encoding="utf-8")
+            link = root / "input-link.txt"
+            try:
+                link.symlink_to(target)
+            except OSError as exc:
+                self.skipTest(f"symlink creation unavailable: {exc}")
+            check = self.make_check(0, "A", implementation, relevant, log)
+            check["input_contract"] = {
+                "mode": "explicit",
+                "paths": [str(link)],
+            }
+            self.run_engine(engine, root, [check], mode="FRESH", output_name="fresh")
+            resumed = self.run_engine(
+                engine, root, [check], mode="RESUME", output_name="resumed"
+            )
+
+            self.assertEqual(resumed.checks_executed, ["A"])
+            self.assertIn(
+                "input_applicability_not_proven",
+                resumed.invalidation_reasons["A"],
+            )
+
     def test_unadmitted_checkpoint_policy_never_reuses(self):
         engine = load_engine()
         with tempfile.TemporaryDirectory() as tmp:
@@ -689,6 +836,23 @@ class CheckpointTests(unittest.TestCase):
 
                 self.assertEqual(resumed.checks_executed, ["A"])
                 self.assertEqual(resumed.checkpoints_reused, [])
+
+    def test_tampered_checkpoint_evidence_sidecar_fails_closed(self):
+        engine = load_engine()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            implementation, relevant, log = self.make_root(root)
+            checks = [self.make_check(0, "A", implementation, relevant, log)]
+            self.run_engine(engine, root, checks, mode="FRESH", output_name="fresh")
+            sidecar = root / "checkpoints" / "A.stdout.txt"
+            sidecar.write_text("tampered\n", encoding="utf-8")
+            resumed = self.run_engine(
+                engine, root, checks, mode="RESUME", output_name="resumed"
+            )
+
+            self.assertEqual(resumed.checks_executed, ["A"])
+            self.assertEqual(resumed.checkpoints_reused, [])
+            self.assertIn("checkpoint_evidence_invalid", resumed.invalidation_reasons["A"])
 
     def test_material_environment_change_invalidates_checkpoint(self):
         engine = load_engine()
