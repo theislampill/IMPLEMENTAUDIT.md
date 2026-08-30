@@ -1,0 +1,49 @@
+{
+  "schema": "implementaudit.r30-j0-lookahead-capsule.v1",
+  "status": "NONAUTHORITATIVE_PREPARATION_ONLY",
+  "authority": "NONE",
+  "repository": "C:/workspace/ai/improveimplementaudit/IMPLEMENTAUDIT-v041-r30-j0",
+  "branch": "thread6/cell-r30-j0",
+  "head": "1aa07353e7ac38f024ea82400eae3f6a662126e4",
+  "tree": "1a9cbcae05501012090903350be9ea5842b6766b",
+  "clean": true,
+  "observed_hbase_base": {
+    "repository": "C:/workspace/ai/improveimplementaudit/IMPLEMENTAUDIT-v041-thread6-hbase-full-join",
+    "head": "36fde3c825470e3de7b446023bd3f6d8bee0a092",
+    "merge_base_with_r30_j0": "ac33e93d645048bcbd6213864ec8e363c1577e45"
+  },
+  "prepared_tip_commits": [
+    {
+      "commit": "16ab96e2ef76230a8d2df85308a82be2b80a3888",
+      "tree": "26b4903e2de65430c8d751555a55d0f5a139ce62",
+      "subject": "chore(r0030): compose distributed runtime join"
+    },
+    {
+      "commit": "1aa07353e7ac38f024ea82400eae3f6a662126e4",
+      "tree": "1a9cbcae05501012090903350be9ea5842b6766b",
+      "subject": "chore(r0030): register distributed runtime join"
+    }
+  ],
+  "claims": {
+    "prepared_tip_commit_count": 2,
+    "unique_semantic_commits_relative_to_current_hbase": "NOT_PROVED_BY_NAIVE_GIT_RANGE",
+    "authoritative_12_path_overlap_packet_required": true,
+    "selective_consumption_authority": false,
+    "integration_executed": false,
+    "tests_executed": false
+  },
+  "safe_use": [
+    "rehash the clean R30-J0 tip and prepared commits after HBASE qualification",
+    "locate and validate the authoritative 12-path overlap packet",
+    "derive semantic invalidation radius against the exact frozen final HBASE candidate",
+    "preserve unaffected HBASE evidence before any integration"
+  ],
+  "blocked_until_post_hbase_authority": [
+    "consume R30-J0 into the authoritative candidate",
+    "claim the two prepared tip commits are the only semantic delta",
+    "freeze or qualify final J-HBASE",
+    "grant C Strangler-Fig fanout authority"
+  ],
+  "writer_effect_scope": "NONE_READ_ONLY_CENSUS",
+  "no_integration_or_test_execution": true
+}

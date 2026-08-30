@@ -1,0 +1,18 @@
+{
+  "authority_ceiling": "NONE",
+  "entry_point": "UNSET",
+  "files": {
+    "THREAD6_11_LAUNCH_PROMPT.md": {
+      "bytes": 1636,
+      "sha256": "55df76741f72aeac83b6b353895d0ef32a9b123f2b8f69c24996dcb7c1d4d593"
+    },
+    "THREAD6_11_SUCCESSOR_PACKET.json": {
+      "bytes": 8921,
+      "sha256": "943f12685abc87bc2f0864e99cd495e83fec9ea277bbdbae58c7f148a213425c"
+    }
+  },
+  "packet_content_sha256": "0f8234020568e162aebddd6998ccd49822e5c8485c9c619840ee4f61b8e3e2ca",
+  "packet_mode": "PROVISIONAL_NONAUTHORITATIVE",
+  "schema": "implementaudit.thread6-successor-package-manifest.v1",
+  "thread6_11_created": false
+}

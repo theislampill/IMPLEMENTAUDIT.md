@@ -1,0 +1,42 @@
+# Thread6.11 startup packet — staged, not self-authorizing
+
+This packet does not create Thread6.11 and confers no campaign authority.
+Thread6.10 must first verify and publish a final handoff under its own authority.
+
+PACKET_MODE=PROVISIONAL_NONAUTHORITATIVE
+SUCCESSOR_ENTRY_POINT=UNSET
+PACKET_CONTENT_SHA256=0f8234020568e162aebddd6998ccd49822e5c8485c9c619840ee4f61b8e3e2ca
+
+CONTROLLER=v0333-release
+CLAIM=10bd7bc5098af00d26b1c319683a64f5
+RUN=v041-thread5-autodag-TmDJfs
+CURRENT_PHASE=C
+TERMINAL_OBJECTIVE=COMPLETE_REMAINING_A_TO_F_PRECUTOVER_PATH_AND_PROVE_HEALTHY_THREAD7_TAKEOVER
+
+On authorized launch, load the exact installed /implementaudit governor first,
+then mechanically verify this package, the final Thread6.10 handoff, and all
+current authority identities before any substantive reconstruction.
+
+CONTINUITY_RECEIPT=UNSET_PENDING_GOVERNOR_REFRESH
+GENERATION_POINTER=UNSET_PENDING_GOVERNOR_REFRESH
+HOST_BINDING=UNSET_PENDING_GOVERNOR_REFRESH
+CURRENT_ROUTE=UNSET_PENDING_GOVERNOR_REFRESH
+NEXT_TYPED_EDGE=G023B_MINIMUM_RADIUS_FIXTURE_SEAM_CONTROLS_PLUS_SUPERVISOR_CAPABILITY_REPAIR_REREVIEW_THEN_PACKAGE
+
+Hydrate only the compact evidence index and exact frontier. Do not hydrate
+broad transcripts, replay accepted work, or infer authority from this packet.
+
+## Explicit do-not-replay inventory
+
+- CAMPAIGN_PHASE_A
+- CAMPAIGN_PHASE_B
+- ACCEPTED_ENGINEERING_PRODUCTS
+- ACCEPTED_REVIEWS_AND_QUALIFICATION
+- PRIOR_HBASE_ATTEMPTS_BEYOND_TERMINAL_FACTS
+- BROAD_STATE_ROADMAP_HISTORY
+- WORKER_TRANSCRIPTS
+- REPAIRED_PACKAGE_FAILURES
+
+THREAD6_9_REMAINS_PAUSED=YES
+THREAD6_11_CREATED_BY_THIS_PACKET=NO
+HBASE_STATUS=HELD_NOT_QUALIFIED

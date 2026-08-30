@@ -1,0 +1,181 @@
+{
+  "authority": {
+    "continuity_receipt": "UNSET_PENDING_GOVERNOR_REFRESH",
+    "current_route": "UNSET_PENDING_GOVERNOR_REFRESH",
+    "generation_pointer": "UNSET_PENDING_GOVERNOR_REFRESH",
+    "host_binding": "UNSET_PENDING_GOVERNOR_REFRESH",
+    "source_ref": "UNSET_PENDING_GOVERNOR_REFRESH"
+  },
+  "authority_ceiling": "NONE",
+  "campaign": {
+    "claim": "10bd7bc5098af00d26b1c319683a64f5",
+    "controller": "v0333-release",
+    "current_phase": "C",
+    "run": "v041-thread5-autodag-TmDJfs"
+  },
+  "campaign_authority": false,
+  "candidate": {
+    "branch": "thread6/hbase-full-r0033-r0035",
+    "clean": false,
+    "head": "36fde3c825470e3de7b446023bd3f6d8bee0a092",
+    "identity_class": "OBSERVED_DIRTY_WORKTREE_NOT_FROZEN_CANDIDATE",
+    "repository": "C:/workspace/ai/improveimplementaudit/IMPLEMENTAUDIT-v041-thread6-hbase-full-join",
+    "staged_diff_sha256": "ebb1311a6e7a0c10905ef0b3d3b0efb83c6af94f2aadae20dcdd97fd618fb28f",
+    "status_bytes": 3632,
+    "status_porcelain_v2_z_sha256": "deacdc055ce4bb3f124ae60bddaf9c600edbc9b0e987c5b7e1cc9cb6204e88af",
+    "tree": "5f2ea07222852c4d4f8f448d9782a3ab79b56f38",
+    "unstaged_diff_sha256": "0057dabef3f584469617ee8d2f1563e61b16231cb5ae28bd0b476cc05de36ebe"
+  },
+  "canonical_verify": {
+    "status": "HELD_NOT_RUN_AFTER_G023B",
+    "terminal_evidence_ref": "UNSET"
+  },
+  "corrections": [
+    {
+      "authority": "NONE",
+      "exact_return_identity": "UNSET_PENDING_ACTIVE_WORKER_RETURN",
+      "id": "active-recovery-fixture-materialization",
+      "status": "ACTIVE_WRITER_OWNED_REFRESH_REQUIRED",
+      "target": "tests/route-obligation-contract.test.sh"
+    },
+    {
+      "authority": "NONE",
+      "id": "successor-supervisor-postprocessor-isolation",
+      "last_scoped_rereview_target_sha256": "95bfb8f4aac2e49e8e45f422866ac5d14744ac5ae175c0f3647d7e30b59d1046",
+      "open_radius": [
+        "same-identity filesystem capability isolation",
+        "descendant process-tree termination and reaping"
+      ],
+      "status": "FINDINGS_OPEN_REFRESH_AFTER_ANY_ACTIVE_REPAIR",
+      "target": "background/g0238-successor-supervisor-repair-01/successor-supervisor.ps1"
+    }
+  ],
+  "do_not_replay": [
+    "CAMPAIGN_PHASE_A",
+    "CAMPAIGN_PHASE_B",
+    "ACCEPTED_ENGINEERING_PRODUCTS",
+    "ACCEPTED_REVIEWS_AND_QUALIFICATION",
+    "PRIOR_HBASE_ATTEMPTS_BEYOND_TERMINAL_FACTS",
+    "BROAD_STATE_ROADMAP_HISTORY",
+    "WORKER_TRANSCRIPTS",
+    "REPAIRED_PACKAGE_FAILURES"
+  ],
+  "entry_point": "UNSET",
+  "evidence_index": [
+    {
+      "bytes": 7857,
+      "id": "athrug-north-star",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\AthruGNorthStar.md",
+      "role": "STANDING_INTERIM_POLICY_EXACT_READBACK",
+      "sha256": "f1efcc86ce8cbf9caa8669b210c053f6e5a73d6b86696f05ed615accbde215d4"
+    },
+    {
+      "bytes": 12011,
+      "id": "g023b-audit-state-return",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\reviews\\r0033-g023b-post-compaction-audit-state-child-return.json",
+      "role": "BUFFERED_CHILD_SKILL_RETURN",
+      "sha256": "e441ba7e196162f41683203fde10bb4d1c38078e715ea841d455c2585d86d713"
+    },
+    {
+      "bytes": 1365,
+      "id": "g023b-governor-decision",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\reviews\\r0033-g023b-post-compaction-audit-state-governor-decision.json",
+      "role": "OBSERVED_GOVERNOR_DECISION_REQUIRES_FINAL_LIVE_REFRESH",
+      "sha256": "e14488099a1427c6185646bc4301cab5368934732f474c7efd89e5d941f97662"
+    },
+    {
+      "bytes": 3335,
+      "id": "g023b-supervisor-rereview",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\reviews\\g023b-supervisor-postprocessor-isolation-scoped-rereview.json",
+      "role": "NONAUTHORITATIVE_SCOPED_REREVIEW_WITH_FINDINGS",
+      "sha256": "a6c891684de925ad0a4cc44dea7efa98abd859977e9e19befb929c6869aa02d1"
+    },
+    {
+      "bytes": 2254,
+      "id": "g023a-fixture-correction",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\reviews\\g023a-active-recovery-audit-state-selector-correction-child-task.json",
+      "role": "NONAUTHORITATIVE_PARTIAL_CORRECTION_RESULT",
+      "sha256": "ed3adb56baad20260fb548f61a533313259f84819638e859c97017acbf56e7bb"
+    },
+    {
+      "bytes": 4577,
+      "id": "g023a-fixture-timeout-diagnosis",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread6-hbase-full-join\\reviews\\g023a-fixture-focused-test-timeout-diagnosis.json",
+      "role": "NONAUTHORITATIVE_BOUNDED_DIAGNOSIS",
+      "sha256": "c9f16e72d552b80a858b1f6ef4778b662b0414fe26d4a562cda26a6642877cdc"
+    },
+    {
+      "bytes": 8955,
+      "id": "g023a-supervisor-correction",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\reviews\\g023a-supervisor-postprocessor-isolation-correction-child-task.json",
+      "role": "NONAUTHORITATIVE_CORRECTION_AND_CONTROL_RESULT",
+      "sha256": "682e63c9a52662f2df173d09a433c1b3afedfffd5c7e290918e6db670dfad371"
+    },
+    {
+      "bytes": 3944,
+      "id": "g0238-shadow-preflight",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\reviews\\g0238-shadow-keepgoing-scan-child-task.json",
+      "role": "NONAUTHORITATIVE_RESOURCE_BLOCKED_DISCOVERY_RESULT",
+      "sha256": "5792d3dedea615b6b8ee27b195242fc75501f63ce844445c2058821500a33d8f"
+    },
+    {
+      "bytes": 2155,
+      "id": "thread6-10-goal-baseline",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\handoffs\\THREAD6_10_CONTINUING_GOAL_RECEIPT_G01D8.md",
+      "role": "HISTORICAL_GOAL_BASELINE_NEEDS_LIVE_GOAL_READBACK",
+      "sha256": "eae63fd52f6616e44fda1e31cc82746cf4ff106bd1b33cae1d575ddfe960bfc0"
+    },
+    {
+      "bytes": 7525,
+      "id": "thread6-coordination-ledger-baseline",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-v041-thread5-controller\\.IMPLEMENTAUDIT\\runs\\v041-thread5-autodag-TmDJfs\\handoffs\\THREAD6_COORDINATION_LEDGER.md",
+      "role": "HISTORICAL_THREAD6_9_PAUSE_BASELINE_NEEDS_LIVE_READBACK",
+      "sha256": "59f15ea1f64bd35ce6a21bebbe9afde7de27de789e614b69291400a6dd0ec597"
+    },
+    {
+      "bytes": 2056,
+      "id": "r30-j0-lookahead-capsule",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\IMPLEMENTAUDIT-thread6-11-successor-staging\\tools\\thread6-successor-staging\\R30_J0_LOOKAHEAD_CAPSULE.json",
+      "role": "NONAUTHORITATIVE_POST_HBASE_PREPARATION",
+      "sha256": "d8836542531e27b016984a3998be0b3464238d65294c1fbee6afa66be2f4d1a6"
+    }
+  ],
+  "frontier": {
+    "next_typed_edge": "G023B_MINIMUM_RADIUS_FIXTURE_SEAM_CONTROLS_PLUS_SUPERVISOR_CAPABILITY_REPAIR_REREVIEW_THEN_PACKAGE",
+    "summary": "G023B audit-state decision is SATISFIED in observed durable evidence. Fixture acceptance remains bounded to its focused opt-in seam and controls. Supervisor scoped rereview retains capability-isolation and process-tree-cleanup findings. Package, shadow, canonical verifier, HBASE, Thread7 and release authority remain held. This staging lane does not decide whether the succession circuit breaker fired."
+  },
+  "goal": {
+    "a_to_g_native_closure_before_thread7": true,
+    "governor": "/implementaudit",
+    "status": "active",
+    "terminal_objective": "COMPLETE_REMAINING_A_TO_F_PRECUTOVER_PATH_AND_PROVE_HEALTHY_THREAD7_TAKEOVER",
+    "thread6_10_is_thread7": false
+  },
+  "hbase": {
+    "result_ref": "UNSET",
+    "status": "HELD_NOT_QUALIFIED"
+  },
+  "hbase_authority": false,
+  "packet_content_sha256": "0f8234020568e162aebddd6998ccd49822e5c8485c9c619840ee4f61b8e3e2ca",
+  "packet_mode": "PROVISIONAL_NONAUTHORITATIVE",
+  "release_authority": false,
+  "schema": "implementaudit.thread6-successor-packet.v1",
+  "shadow": {
+    "authority": "NONE",
+    "branch": "experiment/verify-package-shadow-resume",
+    "execution_occurred": false,
+    "head": "2b8c0bee8d0235374cb361d1e234d998b3f4d4e1",
+    "registry_created": false,
+    "status": "BLOCKED_FIXED_TMP_RESOURCE_CONFLICT_32",
+    "tree": "f0f3587087bd471ec35ec7f296487f8632d3c0a0"
+  },
+  "source_snapshot_schema": "implementaudit.thread6-successor-snapshot.v1",
+  "thread6_11_created": false,
+  "thread6_9": {
+    "status": "PAUSED"
+  },
+  "trigger": {
+    "evidence_ref": "UNSET",
+    "status": "NOT_EVIDENCED_BY_THREAD6_10_IN_THIS_STAGING_PACKET"
+  }
+}
