@@ -1,0 +1,71 @@
+{
+  "schema": "implementaudit.triad-relation-policy.v1",
+  "status": "PROPOSED_FOR_GOVERNOR_RECONCILIATION",
+  "population": 34052,
+  "counts": {
+    "GUARDED_CONVERGENCE_NO_AUTOMATIC_REALISATION": 26942,
+    "RETAIN_CONDITIONAL_ALTERNATIVE": 248,
+    "RETAIN_DISTINCT_SCOPE": 1075,
+    "GUARDED_SEMANTIC_OR_EVIDENCE_BRIDGE": 1383,
+    "PROVENANCE_DEPENDENCY": 4393,
+    "RETAIN_UNRESOLVED_DISCRIMINATOR": 11
+  },
+  "classification_by_inherited_type": {
+    "PROVENANCE_DEPENDENCY": [
+      "SHARES_SOURCE_ANCESTRY",
+      "SHARES_EVIDENCE_DEPENDENCY"
+    ],
+    "RETAIN_DISTINCT_SCOPE": [
+      "ANALOGOUS_NOT_EQUIVALENT",
+      "INTENTIONAL_ASYMMETRY",
+      "SHARES_MECHANISM_DIFFERENT_BEARER",
+      "SHARES_FAILURE_DIFFERENT_MECHANISM"
+    ],
+    "RETAIN_CONDITIONAL_ALTERNATIVE": [
+      "ALTERNATIVE_TO",
+      "CREATES_TENSION_WITH",
+      "RESOLVES_OR_BOUNDS_TENSION_WITH"
+    ],
+    "RETAIN_UNRESOLVED_DISCRIMINATOR": [
+      "UNRESOLVED"
+    ],
+    "GUARDED_CONVERGENCE_NO_AUTOMATIC_REALISATION": [
+      "MANY_TO_ONE_CONVERGENCE_MEMBER",
+      "ONE_TO_MANY_REALISATION_MEMBER",
+      "COMPLEMENTS",
+      "REINFORCES"
+    ],
+    "GUARDED_SEMANTIC_OR_EVIDENCE_BRIDGE": [
+      "CONSTRAINS",
+      "PROVIDES_PRECONDITION_FOR",
+      "CONSUMES_OUTPUT_OF",
+      "SUPPLIES_SCOPE_FOR",
+      "SUPPLIES_INPUT_FOR",
+      "SUPPLIES_EVIDENCE_FOR",
+      "SUPPLIES_AUTHORITY_CONSTRAINT_FOR",
+      "SUPPLIES_EXECUTION_CONTEXT_FOR",
+      "IMPLEMENTS_OR_REALISES",
+      "INVALIDATES_ASSUMPTION_OF",
+      "SUPPLIES_INTERACTION_SEMANTICS_FOR",
+      "SUPPLIES_EVENT_INTERPRETATION_FOR",
+      "SUPPLIES_SEMANTICS_FOR",
+      "ENABLES",
+      "HANDOFFS_TO",
+      "SUPPLIES_OBSERVATION_FOR",
+      "ENACTS_OR_COORDINATES",
+      "EXPLAINS_OR_CONTEXTUALISES_DEVIATION",
+      "DETECTS_DEVIATION_FROM",
+      "SUPPLIES_DELEGATION_CONSTRAINT_FOR",
+      "SUPPLIES_ORGANISATIONAL_CONTEXT_FOR",
+      "REQUIRES_CAPABILITY_OF",
+      "GENERALISES",
+      "SUPPLIES_IMPLEMENTATION_CORRESPONDENCE_FOR",
+      "OBSERVES_EFFECT_OF",
+      "RECONFIGURES"
+    ]
+  },
+  "interpretation": "Mechanical accounting, not independent re-review of 34052 full arguments. Endpoint criterion, trigger, inherited negative status and the full digest-bound relation guard remain in force. No type-level relation establishes a target instance or execution dependency. Concrete higher composition is adjudicated in COMPOSITION_FINDINGS.json; contexts in CONTEXT_DISPOSITIONS.json.",
+  "source_index": "RELATION_INDEX.jsonl",
+  "bridge_count": 317,
+  "review_boundary": "Review the projection rule and all explicit bridge semantics; do not claim every repeated generated pair separately adds independent evidence."
+}

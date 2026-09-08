@@ -1,0 +1,235 @@
+{
+  "schema": "implementaudit.triad-athruk-implications.v1",
+  "status": "PROPOSED_FOR_GOVERNOR_RECONCILIATION",
+  "frozen_north_star_sha256": "a259f599c7c3b8c58415255cb29128d6591f4fb8d3d03c265851a73c03b902c0",
+  "families": [
+    {
+      "letter": "A",
+      "concern": "Dependency typing",
+      "composition_cases": [
+        "TC01",
+        "TC08"
+      ],
+      "frontier_cells": [
+        "G-DISPATCH"
+      ],
+      "implication": "Conceptual, evidence and co-change relations do not become hard dispatch edges. A concrete receiving prerequisite must be identified before blocking unrelated work.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC01": "Conceptual, evidence and co-change relations do not become hard dispatch edges. A concrete receiving prerequisite must be identified before blocking unrelated work.",
+        "TC08": "Conceptual, evidence and co-change relations do not become hard dispatch edges. A concrete receiving prerequisite must be identified before blocking unrelated work."
+      }
+    },
+    {
+      "letter": "B",
+      "concern": "Scoped qualification and meaningful JOIN",
+      "composition_cases": [
+        "TC01",
+        "TC07"
+      ],
+      "frontier_cells": [
+        "CAM-Q1",
+        "R39-F9"
+      ],
+      "implication": "Component and pairwise passes cannot establish whole-system feasibility or progress; qualify exact supported joint configurations and interaction premises.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC01": "Component and pairwise passes cannot establish whole-system feasibility or progress; qualify exact supported joint configurations and interaction premises.",
+        "TC07": "Component and pairwise passes cannot establish whole-system feasibility or progress; qualify exact supported joint configurations and interaction premises."
+      }
+    },
+    {
+      "letter": "C",
+      "concern": "Transaction concurrency",
+      "composition_cases": [
+        "TC03"
+      ],
+      "frontier_cells": [
+        "EH-3",
+        "G-DISPATCH"
+      ],
+      "implication": "Independent route transactions can collide on one logical external delivery. Admission must account for shared effect identity and unknown pending outcomes.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC03": "Independent route transactions can collide on one logical external delivery. Admission must account for shared effect identity and unknown pending outcomes."
+      }
+    },
+    {
+      "letter": "D",
+      "concern": "Actual holon lifecycle",
+      "composition_cases": [
+        "TC02",
+        "TC06"
+      ],
+      "frontier_cells": [
+        "GHK-AUTH/RECOVERY",
+        "HC-E1"
+      ],
+      "implication": "Role declarations and installations do not prove principal containment, lifecycle ownership, or successor takeover. Preserve the native authority-NONE proof gap.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC02": "Role declarations and installations do not prove principal containment, lifecycle ownership, or successor takeover. Preserve the native authority-NONE proof gap.",
+        "TC06": "Role declarations and installations do not prove principal containment, lifecycle ownership, or successor takeover. Preserve the native authority-NONE proof gap."
+      }
+    },
+    {
+      "letter": "E",
+      "concern": "Bounded recovery context",
+      "composition_cases": [
+        "TC02",
+        "TC11"
+      ],
+      "frontier_cells": [
+        "GHK-AUTH/RECOVERY"
+      ],
+      "implication": "Recovery needs a coherent decision-relative account of definition, instance, principal and effects. Reuse accepted evidence only inside unchanged assumptions.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC02": "Recovery needs a coherent decision-relative account of definition, instance, principal and effects. Reuse accepted evidence only inside unchanged assumptions.",
+        "TC11": "Recovery needs a coherent decision-relative account of definition, instance, principal and effects. Reuse accepted evidence only inside unchanged assumptions."
+      }
+    },
+    {
+      "letter": "F",
+      "concern": "Diagnosis ownership",
+      "composition_cases": [
+        "TC04",
+        "TC12"
+      ],
+      "frontier_cells": [
+        "F-TRIGGER"
+      ],
+      "implication": "Observed deviation can mean an obsolete rule, legitimate change, harmful behavior or defective observation. Diagnose the cause before choosing the owner to revise.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC04": "Observed deviation can mean an obsolete rule, legitimate change, harmful behavior or defective observation. Diagnose the cause before choosing the owner to revise.",
+        "TC12": "Observed deviation can mean an obsolete rule, legitimate change, harmful behavior or defective observation. Diagnose the cause before choosing the owner to revise."
+      }
+    },
+    {
+      "letter": "G",
+      "concern": "Execution offload",
+      "composition_cases": [
+        "TC03",
+        "TC07",
+        "TC08"
+      ],
+      "frontier_cells": [
+        "G-DISPATCH"
+      ],
+      "implication": "Keep safe independent analysis moving. Distinguish actual blocked acceptance from informational coupling; progress guarantees need real resource and environment assumptions.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC03": "Keep safe independent analysis moving. Distinguish actual blocked acceptance from informational coupling; progress guarantees need real resource and environment assumptions.",
+        "TC07": "Keep safe independent analysis moving. Distinguish actual blocked acceptance from informational coupling; progress guarantees need real resource and environment assumptions.",
+        "TC08": "Keep safe independent analysis moving. Distinguish actual blocked acceptance from informational coupling; progress guarantees need real resource and environment assumptions."
+      }
+    },
+    {
+      "letter": "H",
+      "concern": "Latest boundary and guarded effects",
+      "composition_cases": [
+        "TC02",
+        "TC11",
+        "TC12"
+      ],
+      "frontier_cells": [
+        "GHK-AUTH/RECOVERY",
+        "R39-F9"
+      ],
+      "implication": "Equal bytes and predecessor evidence do not carry current permission. A successor change must pass its governing predecessor admission boundary.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC02": "Equal bytes and predecessor evidence do not carry current permission. A successor change must pass its governing predecessor admission boundary.",
+        "TC11": "Equal bytes and predecessor evidence do not carry current permission. A successor change must pass its governing predecessor admission boundary.",
+        "TC12": "Equal bytes and predecessor evidence do not carry current permission. A successor change must pass its governing predecessor admission boundary."
+      }
+    },
+    {
+      "letter": "I",
+      "concern": "Decision-relative evidence transfer",
+      "composition_cases": [
+        "TC02",
+        "TC09",
+        "TC11"
+      ],
+      "frontier_cells": [
+        "EH-1",
+        "EH-2",
+        "R39-F9"
+      ],
+      "implication": "Transfer only claims whose material scope, semantics and evidence envelope remain valid; repeated source ancestry adds no independent corroboration.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC02": "Transfer only claims whose material scope, semantics and evidence envelope remain valid; repeated source ancestry adds no independent corroboration.",
+        "TC09": "Transfer only claims whose material scope, semantics and evidence envelope remain valid; repeated source ancestry adds no independent corroboration.",
+        "TC11": "Transfer only claims whose material scope, semantics and evidence envelope remain valid; repeated source ancestry adds no independent corroboration."
+      }
+    },
+    {
+      "letter": "J",
+      "concern": "Cost and goal progress",
+      "composition_cases": [
+        "TC04",
+        "TC07",
+        "TC10"
+      ],
+      "frontier_cells": [
+        "B-P1",
+        "B-F1",
+        "B-F2"
+      ],
+      "implication": "Measure received outcomes and justified cost against a credible cheaper option. Elapsed time, effort and occupancy differ; case mix can reverse aggregate comparisons.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC04": "Measure received outcomes and justified cost against a credible cheaper option. Elapsed time, effort and occupancy differ; case mix can reverse aggregate comparisons.",
+        "TC07": "Measure received outcomes and justified cost against a credible cheaper option. Elapsed time, effort and occupancy differ; case mix can reverse aggregate comparisons.",
+        "TC10": "Measure received outcomes and justified cost against a credible cheaper option. Elapsed time, effort and occupancy differ; case mix can reverse aggregate comparisons."
+      }
+    },
+    {
+      "letter": "K",
+      "concern": "Invocation and effect custody",
+      "composition_cases": [
+        "TC02",
+        "TC03",
+        "TC05",
+        "TC06"
+      ],
+      "frontier_cells": [
+        "EH-3",
+        "GHK-AUTH/RECOVERY"
+      ],
+      "implication": "Bind actual invocation, logical delivery, recipient acceptance and recovery evidence. Local rollback or ending admission cannot erase external effects or descendants.",
+      "classification": "STRENGTHENS_EXISTING_DEFECT_FAMILY",
+      "new_gate": false,
+      "closure_credit": 0,
+      "composition_case_bridge_rationale": {
+        "TC02": "Bind actual invocation, logical delivery, recipient acceptance and recovery evidence. Local rollback or ending admission cannot erase external effects or descendants.",
+        "TC03": "Bind actual invocation, logical delivery, recipient acceptance and recovery evidence. Local rollback or ending admission cannot erase external effects or descendants.",
+        "TC05": "Bind actual invocation, logical delivery, recipient acceptance and recovery evidence. Local rollback or ending admission cannot erase external effects or descendants.",
+        "TC06": "Bind actual invocation, logical delivery, recipient acceptance and recovery evidence. Local rollback or ending admission cannot erase external effects or descendants."
+      }
+    }
+  ]
+}

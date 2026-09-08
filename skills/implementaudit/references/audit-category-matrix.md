@@ -47,6 +47,12 @@ native controls:
 
 ## Default Category Pass
 
+When a consequential claim crosses product/configuration, workflow/instance,
+actor/authority, or observation boundaries, use `composed-evidence.md` to
+specialize the existing finding, evidence-transfer, and meaningful-JOIN checks.
+Load it only for a material cross-boundary question. It adds no command, phase,
+controller, mandatory modeling framework, or independent acceptance authority.
+
 Unless the input narrows scope, audit each material repo surface through this
 matrix and record omitted categories as `deferred`, `out of scope`, or
 `unverified` with reason:

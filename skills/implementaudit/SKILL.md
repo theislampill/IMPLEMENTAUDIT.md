@@ -197,7 +197,7 @@ Load references only when the current gate needs them:
 - `references/sidecars.md`: optional Graphify/ActiveGraph and tooling bounds.
 - `references/lean-operating-discipline.md`: PDCA, Andon, Hansei, 5 Whys,
   Poka-yoke, and no arbitrary try/revision caps.
-- `references/audit-category-matrix.md`: native audit-category routing.
+- `references/audit-category-matrix.md`, `references/composed-evidence.md`.
 - `references/audit-playbook.md`: detailed audit heuristics.
 - `references/plan-lifecycle.md`: self-contained plans, execution, and review.
 - `references/issue-ready-work-orders.md`: issue synthesis and reconciliation.

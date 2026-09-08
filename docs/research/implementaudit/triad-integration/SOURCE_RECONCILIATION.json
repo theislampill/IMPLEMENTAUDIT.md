@@ -1,0 +1,117 @@
+{
+  "schema": "implementaudit.triad-source-reconciliation.v1",
+  "status": "PROPOSED_FOR_GOVERNOR_RECONCILIATION",
+  "base_commit": "57b48140f1266cbd3f6316718463409a134f1969",
+  "paths": [
+    {
+      "path": "skills/implementaudit/SKILL.md",
+      "clean_base": {
+        "bytes": 21994,
+        "sha256": "325cb0f7be5c89aa300d859b27b69f109dbcab65c29511dc69317c5315fa58b7"
+      },
+      "accepted_unapplied_source": {
+        "bytes": 21949,
+        "sha256": "f46875c50c945d8e50465eec0740247e5c1c7c43bbdbba83fd0d84ef6953a050"
+      },
+      "integration_postimage": {
+        "bytes": 21998,
+        "sha256": "1b24424396b9943f81a074d8a4e071cef44f24e8d54f3e02a09041ac3a0745e2"
+      },
+      "reconciliation": "This branch changes only the Reference Load Map. The accepted stricter compaction replacement remains unapplied. At the later authorized EH-3 JOIN, retain that accepted replacement and add both reference links, then recheck governor semantics and reserve.",
+      "invalidation_radius": "Changed reference routing and composed decision/evidence guidance; recheck package inventory/bootstrap and affected final acceptance. No automatic invalidation of unrelated historical controller receipts.",
+      "no_wholesale_eh3_import": true
+    },
+    {
+      "path": "skills/implementaudit/references/audit-category-matrix.md",
+      "clean_base": {
+        "bytes": 14156,
+        "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79"
+      },
+      "accepted_unapplied_source": {
+        "bytes": 14156,
+        "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79"
+      },
+      "integration_postimage": {
+        "bytes": 14547,
+        "sha256": "e3fc01f1394a40dfce6a9b1fdee722d4275cd474283e4454d6a03ade363fbba9"
+      },
+      "reconciliation": "Retain this additive reference/routing delta; compare against accepted source and controller postimages before owner admission.",
+      "invalidation_radius": "Changed reference routing and composed decision/evidence guidance; recheck package inventory/bootstrap and affected final acceptance. No automatic invalidation of unrelated historical controller receipts.",
+      "no_wholesale_eh3_import": true
+    },
+    {
+      "path": "skills/implementaudit/references/composed-evidence.md",
+      "clean_base": null,
+      "accepted_unapplied_source": null,
+      "integration_postimage": {
+        "bytes": 6848,
+        "sha256": "3f9125db96e6bddff4d2cc6173d0d65452523353993cdcc47775f1ef4981b22f"
+      },
+      "reconciliation": "Retain this additive reference/routing delta; compare against accepted source and controller postimages before owner admission.",
+      "invalidation_radius": "Changed reference routing and composed decision/evidence guidance; recheck package inventory/bootstrap and affected final acceptance. No automatic invalidation of unrelated historical controller receipts.",
+      "no_wholesale_eh3_import": true
+    },
+    {
+      "path": "fixtures/semantic-preservation/cases.json",
+      "clean_base": {
+        "bytes": 25902,
+        "sha256": "c9b707fe1adafd97bca9aa555ac9c931ee0685b2ec079b0bf501ac86f262ffb8"
+      },
+      "accepted_unapplied_source": {
+        "bytes": 25902,
+        "sha256": "562ecee050a7d41304d3fed1c30f1f38e9154f7fce6b30019447b227d3b38ec7"
+      },
+      "integration_postimage": {
+        "bytes": 25902,
+        "sha256": "e6df3a6a885f5600a34a375d28031745d68a897d835a4ce9ceda0171066361f2"
+      },
+      "reconciliation": "Rebind only WORKTREE SKILL digest pins after the final governed SKILL JOIN. Preserve accepted fixture changes, all predicates, protected anchors and negative expectations. This branch changes fourteen digest strings only.",
+      "invalidation_radius": "Exact SKILL identity pins and their semantic-preservation fixture results; no weakening or historical proof upgrade.",
+      "no_wholesale_eh3_import": true
+    }
+  ],
+  "controller_dirty_postimages": "Nine frozen postimages remain evidence only; no automatic overwrite or import.",
+  "owner_join": "Thread1/Thread7 must freshly bind its own controller and accepted source, compare all three versions, perform its authorized source convergence, then rederive affected package and qualification cells. This task grants no controller or release authority.",
+  "preexisting_clean_base_conflict": {
+    "subject": "SKILL host-reported compaction description and Runtime Loop",
+    "classification": "FROZEN_CLEAN_BASE_VERSUS_ACCEPTED_UNAPPLIED_SOURCE_DIVERGENCE_NOT_INTRODUCED_BY_TRIAD",
+    "evidence": "git diff 57b48140f1266cbd3f6316718463409a134f1969 -- skills/implementaudit/SKILL.md changes only the Reference Load Map bullet. The older substantive STATE/ROADMAP wording is present in the frozen base. Accepted EH-3 source already contains the stricter mechanical-currentness and isolated audit-state OPEN sequence.",
+    "required_join": "Retain the accepted stricter compaction replacement, add the composed-evidence load-map link, and recheck final semantics and bootstrap budget. Do not use this isolated branch as a current governor/release candidate before that governed convergence.",
+    "no_reimplementation_or_replay": true
+  },
+  "postimage_state": "The four source/fixture postimages are intended additions/modifications in the staged integration delta, bound by the final review manifest and complete staged diff. Commit, remote publication and governor admission remain separate receipts.",
+  "preexisting_identity_convergence_gap": {
+    "frozen_clean_registry_allocated_max": 55,
+    "accepted_baseline_and_accepted_source_allocated_max": 58,
+    "untouched_base_identity_scan_exit": 1,
+    "untouched_base_identity_scan_failures": 13,
+    "required_join": "Use the existing accepted identity registry/resolver/test and maintained-plan convergence through the authorized EH-3 owner. This triad delta neither allocates new Rockstars nor silently imports accepted pending source. Re-run the canonical package gate after that convergence.",
+    "research_identity_boundary": "Canonical R0038-R003A references are exact accepted-baseline identities. Historical GitHub titles preserve literal legacy aliases as snapshot evidence, not maintained current aliases."
+  },
+  "accepted_identity_prerequisite_evidence": [
+    {
+      "path": "skills/implementaudit/references/identity-namespaces.json",
+      "bytes": 1265,
+      "sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb",
+      "role": "ACCEPTED_SOURCE_EVIDENCE_NOT_APPLIED_EH3"
+    },
+    {
+      "path": "skills/implementaudit/scripts/resolve-durable-identity.py",
+      "bytes": 6787,
+      "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203",
+      "role": "ACCEPTED_SOURCE_EVIDENCE_NOT_APPLIED_EH3"
+    },
+    {
+      "path": "tests/durable-identity-contract.test.sh",
+      "bytes": 5302,
+      "sha256": "abd4f0754ce40762b9e89df9cce033b7db9adfafcc6aa954ab7fa6b785eb4060",
+      "role": "ACCEPTED_SOURCE_EVIDENCE_NOT_APPLIED_EH3"
+    },
+    {
+      "path": "scripts/check-durable-identities.py",
+      "bytes": 5034,
+      "sha256": "83aa4c374785ffdfa182a2a7d78dc73552f3322420dfca9f810d37a45a99ab8f",
+      "role": "ACCEPTED_SOURCE_EVIDENCE_NOT_APPLIED_EH3"
+    }
+  ]
+}
