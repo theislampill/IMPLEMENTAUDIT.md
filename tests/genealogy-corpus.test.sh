@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+fail() {
+  printf 'genealogy-corpus.test: %s\n' "$*" >&2
+  exit 1
+}
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CHECKER="$ROOT/scripts/check-genealogy-corpus.py"
 HISTORICAL_CHECKER="$ROOT/scripts/check-historical-absorption-baseline.py"
@@ -171,7 +176,8 @@ esac
 
 authored_whitespace="$(git check-attr whitespace -- docs/research/genealogy/README.md)"
 case "$authored_whitespace" in
-  *'whitespace: unspecified') ;;
+  # CRLF custody recognition retains the same default whitespace checks.
+  *'whitespace: unspecified'|*'whitespace: blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol') ;;
   *) fail "authored genealogy documentation lost normal whitespace enforcement" ;;
 esac
 
