@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import hashlib
+from genealogy_triad import compute_triad_models
 import json
 import re
 import shutil
@@ -52,7 +53,7 @@ def load_source_lock(root: Path) -> dict[str, Any]:
 
 def safe_member_path(name: str) -> PurePosixPath:
     member = PurePosixPath(name)
-    if not name or member.is_absolute() or ".." in member.parts or "\\" in name:
+    if not name or member.is_absolute() or ".." in member.parts or "\\" in name or ":" in name:
         raise CorpusError(f"unsafe ZIP member path: {name!r}")
     return member
 
@@ -83,19 +84,22 @@ def parse_json_property_ledger(data: bytes, root_key: str, member_sha256: str) -
     for ordinal, record in enumerate(records, start=1):
         if not isinstance(record, dict):
             raise CorpusError(f"JSON property row {ordinal} is not an object")
-        property_id = first_present(record, "PROPERTY_ID", "property_id")
-        property_name = first_present(record, "PROPERTY_NAME", "property_name")
-        if not isinstance(property_id, str) or not isinstance(property_name, str):
+        property_id = first_present(record, "PROPERTY_ID", "property_id", "CANONICAL_PROPERTY_ID")
+        property_name = first_present(record, "PROPERTY_NAME", "property_name", "CANONICAL_NAME")
+        if not isinstance(property_id, str) or not isinstance(property_name, str) or "NOT_PRESENT_IN_SOURCE_SCHEMA" in (property_id, property_name):
             raise CorpusError(f"JSON property row {ordinal} lacks string ID/name")
         rows.append(
             {
                 "source_property_id": property_id,
                 "property_name": property_name,
-                "current_status": first_present(record, "CURRENT_STATUS", "current_status"),
+                "current_status": first_present(record, "CURRENT_STATUS", "current_status", "CANONICAL_DISPOSITION"),
                 "mature_or_evolved_form": first_present(
-                    record, "MATURE_OR_EVOLVED_FORM", "mature_or_evolved_form"
+                    record, "MATURE_OR_EVOLVED_FORM", "mature_or_evolved_form", "EVOLVED_FORM"
                 ),
-                "evidence_strength": first_present(record, "EVIDENCE_STRENGTH", "evidence_strength"),
+                "evidence_strength": first_present(
+                    record, "EVIDENCE_STRENGTH", "evidence_strength",
+                    "EVIDENCE_STRENGTH_PARTITIONS", "EVIDENCE_STRENGTH_PARTITION",
+                ),
                 "source_ordinal": ordinal,
                 "source_locator": {
                     "format": "json",
@@ -232,11 +236,17 @@ def _declared_digest_fields(value: Any, prefix: str = "") -> list[dict[str, Any]
 
 
 def _lineage_directory(root: Path, lineage: dict[str, Any]) -> Path:
+    for key in ("trifecta", "lineage_slug"):
+        if len(safe_member_path(lineage[key]).parts) != 1:
+            raise CorpusError("lineage directory component is not a single safe name")
     return root / "docs" / "research" / "genealogy" / lineage["trifecta"] / lineage["lineage_slug"]
 
 
 def _validate_packet(root: Path, lineage: dict[str, Any]) -> tuple[bytes, zipfile.ZipFile]:
+    safe_member_path(lineage["packet_path"])
     packet = root / lineage["packet_path"]
+    if not packet.resolve().is_relative_to(root.resolve()):
+        raise CorpusError("packet path escaped root")
     if not packet.is_file():
         raise CorpusError(f"missing packet: {lineage['packet_path']}")
     data = packet.read_bytes()
@@ -383,6 +393,8 @@ def compute_models(root: Path, require_extracted: bool = True) -> dict[str, Any]
         raise CorpusError(f"property population mismatch: expected {expected['properties']}, observed {len(properties)}")
     bare_counts = Counter(row["source_property_id"] for row in properties)
 
+    triad_models, triad_files = compute_triad_models(root, lock)
+    corpus_files.extend(triad_files)
     source_lock_data = (root / SOURCE_LOCK).read_bytes()
     corpus_manifest = {
         "schema": "implementaudit-engineering-genealogy-corpus-manifest-v1",
@@ -420,6 +432,7 @@ def compute_models(root: Path, require_extracted: bool = True) -> dict[str, Any]
     }
     return {
         "lock": lock,
+        "triad_models": triad_models,
         "lineage_manifests": lineage_manifests,
         "corpus_manifest": corpus_manifest,
         "property_index": property_index,
@@ -433,8 +446,12 @@ def build_corpus(root: Path) -> dict[str, Any]:
     for lineage in lock["lineages"]:
         lineage_dir = _lineage_directory(root, lineage)
         corpus_dir = lineage_dir / "corpus"
+        resolved = corpus_dir.resolve()
+        permitted = (root / "docs/research/genealogy").resolve()
+        if not resolved.is_relative_to(permitted) or resolved == permitted or resolved.name != "corpus":
+            raise CorpusError("refuse corpus deletion outside declared genealogy subtree")
         if corpus_dir.exists():
-            shutil.rmtree(corpus_dir)
+            shutil.rmtree(resolved)
         corpus_dir.mkdir(parents=True)
         _, archive = _validate_packet(root, lineage)
         with archive:
@@ -447,6 +464,8 @@ def build_corpus(root: Path) -> dict[str, Any]:
                 destination.write_bytes(archive.read(info.filename))
     models = compute_models(root, require_extracted=True)
     for path, manifest in models["lineage_manifests"].items():
+        write_json(path, manifest)
+    for path, manifest in models["triad_models"].items():
         write_json(path, manifest)
     write_json(root / CORPUS_MANIFEST, models["corpus_manifest"])
     write_json(root / PROPERTY_INDEX, models["property_index"])
@@ -472,8 +491,9 @@ def _validate_actual_property_index(root: Path, errors: list[str]) -> None:
     keys = [row.get("global_property_key") for row in rows if isinstance(row, dict)]
     if len(keys) != len(set(keys)):
         errors.append("duplicate global property key")
-    if len(rows) != 658:
-        errors.append(f"property population mismatch: expected 658, observed {len(rows)}")
+    expected_count = load_source_lock(root)["expected"]["properties"]
+    if len(rows) != expected_count:
+        errors.append(f"property population mismatch: expected {expected_count}, observed {len(rows)}")
     for row in rows:
         if not isinstance(row, dict):
             errors.append("property index contains a non-object row")
@@ -505,6 +525,8 @@ def _validate_public_projection_paths(root: Path, errors: list[str]) -> None:
     ]
     genealogy = root / "docs" / "research" / "genealogy"
     candidates.extend(genealogy.glob("*/*/LINEAGE_MANIFEST.json"))
+    candidates.extend(genealogy.glob("*/TRIFECTA_MANIFEST.json"))
+    candidates.append(genealogy / "ARCHIVE_OCCURRENCE_INDEX.json")
     candidates.extend(genealogy.glob("README.md"))
     candidates.extend(genealogy.glob("*/README.md"))
     candidates.extend(genealogy.glob("*/*/README.md"))
@@ -549,7 +571,7 @@ def check_corpus(root: Path, package: Path | None = None) -> list[str]:
             root / "docs/research/genealogy/method/templates/EVOLVED_LINEAGE_DEPTH_REOPEN_PROMPT_TEMPLATE.md",
             root / "docs/research/genealogy/method/templates/EVOLVED_TRIFECTA_SYNTHESIS_PROMPT_TEMPLATE.md",
         ]
-        required_docs.extend(root / f"docs/research/genealogy/{trifecta}/README.md" for trifecta in ("law", "css", "ssd", "drf"))
+        required_docs.extend(root / f"docs/research/genealogy/{trifecta}/README.md" for trifecta in sorted({r["trifecta"] for r in lock["lineages"]}))
         required_docs.extend(path / "README.md" for path in expected_dirs)
         for path in required_docs:
             if not path.is_file():
@@ -577,6 +599,7 @@ def check_corpus(root: Path, package: Path | None = None) -> list[str]:
     comparisons.update(
         {path.relative_to(root): value for path, value in expected["lineage_manifests"].items()}
     )
+    comparisons.update({path.relative_to(root): value for path, value in expected["triad_models"].items()})
     for relative, value in comparisons.items():
         path = root / relative
         if not path.is_file():

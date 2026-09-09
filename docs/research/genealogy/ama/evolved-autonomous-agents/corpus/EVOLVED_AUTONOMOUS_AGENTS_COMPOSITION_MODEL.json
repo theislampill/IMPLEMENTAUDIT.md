@@ -1,0 +1,2503 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_AUTONOMOUS_AGENTS",
+  "research_cutoff": "2026-09-06",
+  "revision": "EAA-2026-09-06-r1",
+  "system_summary": "A task-relative situated agent preserves an adequate relation between observations, current goals, delegated scope, resource-bounded decisions, real action and established effects. Architecture, learning, reflection and human interaction are guarded alternatives, not a mandatory serial pipeline. The integrated account is an analytical synthesis, not an empirically validated new academic school.",
+  "relation_direction": "FROM REQUIRES TO means the FROM property depends on TO under the guard. Other types read FROM acts on/enables/constrains/provides evidence for TO. Negative and duplicate nodes record interpretative constraints, not active runtime components.",
+  "nodes": [
+    {
+      "NODE_ID": "EAA-N01",
+      "NAME": "Situated task and authority context",
+      "PROPERTY_IDS": [
+        "EAA-001",
+        "EAA-002",
+        "EAA-004",
+        "EAA-010",
+        "EAA-043"
+      ],
+      "OBJECTS": [
+        "agent/environment boundary",
+        "delegated task",
+        "protected conditions",
+        "legitimate participants"
+      ],
+      "ACTORS": [
+        "delegator",
+        "agent",
+        "affected participant"
+      ],
+      "ROLE": "Criteria and inputs constrain what action can mean; they do not themselves execute anything.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N02",
+      "NAME": "Observation and state estimation",
+      "PROPERTY_IDS": [
+        "EAA-005",
+        "EAA-006",
+        "EAA-007",
+        "EAA-008",
+        "EAA-009"
+      ],
+      "OBJECTS": [
+        "observations",
+        "source/validity cues",
+        "task-relevant state estimate"
+      ],
+      "ACTORS": [
+        "sensor or tool",
+        "state estimator"
+      ],
+      "ROLE": "Maintains distinctions needed for action and can select information gathering or non-action.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N03",
+      "NAME": "Practical reasoning and commitment",
+      "PROPERTY_IDS": [
+        "EAA-010",
+        "EAA-011",
+        "EAA-012",
+        "EAA-013",
+        "EAA-014",
+        "EAA-015"
+      ],
+      "OBJECTS": [
+        "goal conditions",
+        "adopted intentions",
+        "plan recipes",
+        "conflicts"
+      ],
+      "ACTORS": [
+        "agent goal manager",
+        "delegator for task changes"
+      ],
+      "ROLE": "Retains, revises or releases pursuit within its legitimate scope.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N04",
+      "NAME": "Conditional architecture choice",
+      "PROPERTY_IDS": [
+        "EAA-016",
+        "EAA-017",
+        "EAA-018",
+        "EAA-019",
+        "EAA-020"
+      ],
+      "OBJECTS": [
+        "policy",
+        "plan library",
+        "search model",
+        "layer interfaces"
+      ],
+      "ACTORS": [
+        "designer",
+        "runtime selector where warranted"
+      ],
+      "ROLE": "Alternatives, not all mandatory modules. A designer’s choice need not be a runtime adaptive controller.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N05",
+      "NAME": "Monitored consequential execution",
+      "PROPERTY_IDS": [
+        "EAA-021",
+        "EAA-022",
+        "EAA-023",
+        "EAA-024",
+        "EAA-025",
+        "EAA-067",
+        "EAA-069"
+      ],
+      "OBJECTS": [
+        "capability invocation",
+        "in-flight effect",
+        "completion evidence",
+        "repair proposal"
+      ],
+      "ACTORS": [
+        "executor",
+        "actuator/tool",
+        "planner"
+      ],
+      "ROLE": "Changes real objects or relationships through available tools or physical actions, observing what actually occurred.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N06",
+      "NAME": "Resource-sensitive decision scheduling",
+      "PROPERTY_IDS": [
+        "EAA-026",
+        "EAA-027",
+        "EAA-028"
+      ],
+      "OBJECTS": [
+        "remaining time/resources",
+        "available decision",
+        "cost estimates"
+      ],
+      "ACTORS": [
+        "scheduler or simple fixed budget rule"
+      ],
+      "ROLE": "Constrains deliberation, action, retries and assistance; exact metareasoning is optional.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N07",
+      "NAME": "Bounded persistent learning and memory",
+      "PROPERTY_IDS": [
+        "EAA-029",
+        "EAA-030",
+        "EAA-031",
+        "EAA-032",
+        "EAA-033",
+        "EAA-034",
+        "EAA-035",
+        "EAA-062",
+        "EAA-070"
+      ],
+      "OBJECTS": [
+        "execution state",
+        "memory",
+        "policy/model/skill",
+        "revision criterion"
+      ],
+      "ACTORS": [
+        "learning process",
+        "authorised reviewer"
+      ],
+      "ROLE": "Optional persistence with explicit change and evaluation boundaries; open-ended assurance is unresolved.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N08",
+      "NAME": "Communication and human interaction",
+      "PROPERTY_IDS": [
+        "EAA-036",
+        "EAA-037",
+        "EAA-038",
+        "EAA-039",
+        "EAA-040",
+        "EAA-041",
+        "EAA-042",
+        "EAA-043",
+        "EAA-044"
+      ],
+      "OBJECTS": [
+        "message",
+        "acceptance",
+        "transfer request",
+        "revocation",
+        "handover state"
+      ],
+      "ACTORS": [
+        "sender",
+        "recipient",
+        "delegator",
+        "human/agent decision participant"
+      ],
+      "ROLE": "Exchanges information, negotiates task meaning and changes actual control only when the operational handoff occurs.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N09",
+      "NAME": "Evaluation and scoped assurance",
+      "PROPERTY_IDS": [
+        "EAA-045",
+        "EAA-046",
+        "EAA-047",
+        "EAA-048",
+        "EAA-049",
+        "EAA-050",
+        "EAA-051"
+      ],
+      "OBJECTS": [
+        "task outcome",
+        "policy compliance",
+        "trial evidence",
+        "formal assumptions",
+        "target transfer claim"
+      ],
+      "ACTORS": [
+        "evaluator",
+        "assurance consumer"
+      ],
+      "ROLE": "Separately assesses outcome, repeated dependability and transfer; it does not authorise use merely by scoring it.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N10",
+      "NAME": "Contemporary language-model branch",
+      "PROPERTY_IDS": [
+        "EAA-052",
+        "EAA-053",
+        "EAA-054",
+        "EAA-055",
+        "EAA-066"
+      ],
+      "OBJECTS": [
+        "model-generated proposal",
+        "untrusted tool text",
+        "text memory",
+        "versioned interfaces"
+      ],
+      "ACTORS": [
+        "LLM-based selector",
+        "executor",
+        "evaluator"
+      ],
+      "ROLE": "Optional implementation translation, constrained by the same task/effect duties plus input-integrity and version-change limits.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    },
+    {
+      "NODE_ID": "EAA-N11",
+      "NAME": "Failure-attributed feedback and revision",
+      "PROPERTY_IDS": [
+        "EAA-068"
+      ],
+      "OBJECTS": [
+        "failure hypotheses",
+        "discriminating observation",
+        "bounded change proposal"
+      ],
+      "ACTORS": [
+        "agent or human reviewer"
+      ],
+      "ROLE": "Analytical construct: separates observation, action, goal, oracle and model failures so repair need not change the wrong mechanism.",
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_NOT_EMPIRICALLY_VALIDATED_AS_A_WHOLE"
+    },
+    {
+      "NODE_ID": "EAA-N12",
+      "NAME": "Rejected inference and duplicate register",
+      "PROPERTY_IDS": [
+        "EAA-056",
+        "EAA-057",
+        "EAA-058",
+        "EAA-059",
+        "EAA-060",
+        "EAA-061",
+        "EAA-063",
+        "EAA-064",
+        "EAA-065"
+      ],
+      "OBJECTS": [
+        "overgeneralised claims",
+        "ceremonial labels",
+        "duplicate discovery"
+      ],
+      "ACTORS": [
+        "researcher",
+        "later reviewer"
+      ],
+      "ROLE": "These are constraints on interpretation and denominator preservation, not mandatory runtime components.",
+      "EVIDENCE_STATUS": "ANALYTICAL_ORGANISATION_OF_SOURCE_GROUNDED_PROPERTIES"
+    }
+  ],
+  "relations": [
+    {
+      "RELATION_ID": "EAA-R001",
+      "FROM_PROPERTY_IDS": [
+        "EAA-002"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-001"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "Autonomy claims need comparison.",
+      "SHARED_ASSUMPTIONS": "A declared task and boundary.",
+      "INCOMPATIBLE_ASSUMPTIONS": "One-dimensional ranking versus task-relative powers.",
+      "COMPOSITION_MECHANISM": "Autonomy dimensions qualify the boundary without replacing plural definitions.",
+      "NEW_FAILURE_OR_COST": "Descriptive overhead or false numerical precision.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S001",
+        "EAA-S003",
+        "EAA-S017"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R002",
+      "FROM_PROPERTY_IDS": [
+        "EAA-003"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-018",
+        "EAA-053",
+        "EAA-063"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Mental-state or architecture claims are made.",
+      "SHARED_ASSUMPTIONS": "A distinction between explanatory vocabulary and implementation.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Prompt labels or logical predicates treated as executable conformance.",
+      "COMPOSITION_MECHANISM": "Demand state/transition/consumer evidence for claimed BDI semantics; language-model feedback alone is not proof.",
+      "NEW_FAILURE_OR_COST": "Specification cost and possible over-formalisation.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S009",
+        "EAA-S010",
+        "EAA-S030"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R003",
+      "FROM_PROPERTY_IDS": [
+        "EAA-004"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-021",
+        "EAA-022",
+        "EAA-024",
+        "EAA-053"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Capabilities or repair affect delegated tasks.",
+      "SHARED_ASSUMPTIONS": "Capability and permission can be separately described.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Available tool or high affordance score taken as unlimited authority.",
+      "COMPOSITION_MECHANISM": "Use delegated scope in selecting and dispatching actions, including generated repairs.",
+      "NEW_FAILURE_OR_COST": "Blocking useful but unauthorised action; scope interpretation cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S019",
+        "EAA-S043",
+        "EAA-S044",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R004",
+      "FROM_PROPERTY_IDS": [
+        "EAA-007"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-005"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A stateful or belief-based architecture is selected.",
+      "SHARED_ASSUMPTIONS": "Observations can update a task-relevant estimate.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Normalisation/internal consistency taken as world truth.",
+      "COMPOSITION_MECHANISM": "Keep latent state, observation and estimate distinct in updating the model.",
+      "NEW_FAILURE_OR_COST": "Model and provenance maintenance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S012",
+        "EAA-S021"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_ESTABLISHED_MECHANISM_WITH_TRANSFER_LIMITS",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R005",
+      "FROM_PROPERTY_IDS": [
+        "EAA-006"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-022",
+        "EAA-067"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Material conditions can change before dispatch.",
+      "SHARED_ASSUMPTIONS": "Decision dependencies can be identified.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Old observations assumed valid indefinitely.",
+      "COMPOSITION_MECHANISM": "Invalidate or refresh the decision basis before executing under changed state.",
+      "NEW_FAILURE_OR_COST": "Additional sensing and race windows.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S015",
+        "EAA-S016",
+        "EAA-S022"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R006",
+      "FROM_PROPERTY_IDS": [
+        "EAA-008"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-007",
+        "EAA-010"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A query is proposed to resolve uncertainty.",
+      "SHARED_ASSUMPTIONS": "A possible answer could change the chosen action or confidence boundary.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Information gathering valuable regardless of decision.",
+      "COMPOSITION_MECHANISM": "Evaluate information against goal-relevant distinctions in the current estimate.",
+      "NEW_FAILURE_OR_COST": "Query latency and attention cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S012",
+        "EAA-S014",
+        "EAA-S019"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R007",
+      "FROM_PROPERTY_IDS": [
+        "EAA-008",
+        "EAA-037"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-028"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "Uncertainty can be resolved by sensing or asking.",
+      "SHARED_ASSUMPTIONS": "Queries and questions are candidate actions with cost.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Human time or tool access treated as free.",
+      "COMPOSITION_MECHANISM": "Metareasoning selects whether to acquire information, act or defer.",
+      "NEW_FAILURE_OR_COST": "Metalevel estimation may cost more than it saves.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S014",
+        "EAA-S019"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R008",
+      "FROM_PROPERTY_IDS": [
+        "EAA-009"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-024",
+        "EAA-038",
+        "EAA-040"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "Continuation lacks adequate grounds or authority.",
+      "SHARED_ASSUMPTIONS": "At least one feasible non-action, holding or assistance choice exists.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Generic no-op assumed safe in every environment.",
+      "COMPOSITION_MECHANISM": "Choose abstention, repair, handoff or stop according to consequence and feasibility.",
+      "NEW_FAILURE_OR_COST": "Delay or unsafe waiting.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S019",
+        "EAA-S020",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R009",
+      "FROM_PROPERTY_IDS": [
+        "EAA-011"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-010"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "A condition must persist rather than merely be achieved once.",
+      "SHARED_ASSUMPTIONS": "Task horizon and maintenance predicate are meaningful.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Restoration equated with ending the obligation.",
+      "COMPOSITION_MECHANISM": "Keep the goal active after temporary restoration and select predictive or reactive upkeep.",
+      "NEW_FAILURE_OR_COST": "Monitoring and false preventive action.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S051"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_ESTABLISHED_MECHANISM_WITH_TRANSFER_LIMITS",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R010",
+      "FROM_PROPERTY_IDS": [
+        "EAA-012"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-013",
+        "EAA-019"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Parallel intentions or layers can interfere.",
+      "SHARED_ASSUMPTIONS": "Material conditions/effects/resources are summarised adequately.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Individually feasible actions assumed mutually compatible.",
+      "COMPOSITION_MECHANISM": "Protect shared conditions through applicable conflict checks or cheaper isolation/serialisation.",
+      "NEW_FAILURE_OR_COST": "Conservative blocking and summary maintenance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S006",
+        "EAA-S054",
+        "EAA-S046"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R011",
+      "FROM_PROPERTY_IDS": [
+        "EAA-013"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-014",
+        "EAA-015"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A persistent intention is retained.",
+      "SHARED_ASSUMPTIONS": "Relevance, progress and feasibility can be assessed adequately.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Commitment equated with never reconsidering or abandoning.",
+      "COMPOSITION_MECHANISM": "Reconsider and terminate under the adopted commitment strategy, with budget-sensitive checks.",
+      "NEW_FAILURE_OR_COST": "Thrashing or obsolete pursuit from bad triggers.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S006",
+        "EAA-S009",
+        "EAA-S015",
+        "EAA-S052"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R012",
+      "FROM_PROPERTY_IDS": [
+        "EAA-014"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-028"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "Further planning competes with timely execution.",
+      "SHARED_ASSUMPTIONS": "Reconsideration has measurable or estimable cost.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A fixed universal reflection frequency is optimal.",
+      "COMPOSITION_MECHANISM": "Schedule commitment review as a bounded computation decision.",
+      "NEW_FAILURE_OR_COST": "Poor value estimates and missed action windows.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S006",
+        "EAA-S014",
+        "EAA-S015"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R013",
+      "FROM_PROPERTY_IDS": [
+        "EAA-015"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-036",
+        "EAA-038"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "A material delegated goal is abandoned or suspended.",
+      "SHARED_ASSUMPTIONS": "There is a legitimate recipient who needs to know non-fulfilment.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Silence or a sent message treated as accepted handback.",
+      "COMPOSITION_MECHANISM": "Report grounds and unresolved effects; distinguish notice from actual control transfer.",
+      "NEW_FAILURE_OR_COST": "Attention burden and unresponsive recipient.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S020",
+        "EAA-S028",
+        "EAA-S051"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R014",
+      "FROM_PROPERTY_IDS": [
+        "EAA-016"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-017",
+        "EAA-018"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "Direct observations permit an adequate policy.",
+      "SHARED_ASSUMPTIONS": "The task and resource comparison are shared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "More planning automatically means better architecture.",
+      "COMPOSITION_MECHANISM": "Select reaction instead of deliberation/library machinery where it meets the goal.",
+      "NEW_FAILURE_OR_COST": "Limited foresight or omitted hidden state.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S005",
+        "EAA-S012",
+        "EAA-S046"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R015",
+      "FROM_PROPERTY_IDS": [
+        "EAA-017"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-018"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "A structured multi-step task needs anticipation.",
+      "SHARED_ASSUMPTIONS": "Goal and effect semantics are adequate.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Generative search and library interpretation assumed identical.",
+      "COMPOSITION_MECHANISM": "Choose model-based search or applicable plan-library control according to variation, coverage and cost.",
+      "NEW_FAILURE_OR_COST": "Library gaps versus search/model expense.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S009",
+        "EAA-S011",
+        "EAA-S045"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R016",
+      "FROM_PROPERTY_IDS": [
+        "EAA-019"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-016",
+        "EAA-017",
+        "EAA-018"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Multiple decision time-scales have demonstrated value.",
+      "SHARED_ASSUMPTIONS": "Interfaces reconcile state, priorities and execution meaning.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Independently adequate modules assumed jointly adequate.",
+      "COMPOSITION_MECHANISM": "Combine selected branches with explicit sequencing/arbitration and feedback, not a compulsory ladder.",
+      "NEW_FAILURE_OR_COST": "Coordination cost, races and timing mismatch.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S046",
+        "EAA-S022"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R017",
+      "FROM_PROPERTY_IDS": [
+        "EAA-020"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-016",
+        "EAA-017",
+        "EAA-018",
+        "EAA-019",
+        "EAA-053",
+        "EAA-054"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "An architecture or new module is selected.",
+      "SHARED_ASSUMPTIONS": "Comparable tasks, constraints and material resources.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Architecture richness itself counts as success.",
+      "COMPOSITION_MECHANISM": "Retain only the additional freedom or machinery that earns its cost against an adequate baseline.",
+      "NEW_FAILURE_OR_COST": "Underengineering rare cases or overfitting a benchmark.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S005",
+        "EAA-S035",
+        "EAA-S036",
+        "EAA-S046"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R018",
+      "FROM_PROPERTY_IDS": [
+        "EAA-021"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-017",
+        "EAA-018",
+        "EAA-053"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Plans select executable skills or tools.",
+      "SHARED_ASSUMPTIONS": "Action identities and applicability map to real interfaces.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Fluent descriptions treated as executable capabilities.",
+      "COMPOSITION_MECHANISM": "Ground plan actions in a known capability vocabulary and context-sensitive affordances.",
+      "NEW_FAILURE_OR_COST": "Skill maintenance and false feasibility estimates.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S011",
+        "EAA-S045",
+        "EAA-S049",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R019",
+      "FROM_PROPERTY_IDS": [
+        "EAA-022"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-006",
+        "EAA-021"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Dispatch can cause a consequential effect.",
+      "SHARED_ASSUMPTIONS": "Material scope and current conditions can be checked.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Plan-time approval or skill existence sufficient for all later action.",
+      "COMPOSITION_MECHANISM": "Check relevant permission, capability and state at the operative boundary.",
+      "NEW_FAILURE_OR_COST": "False blocking, stale checks and check-to-use races.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S016",
+        "EAA-S019",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R020",
+      "FROM_PROPERTY_IDS": [
+        "EAA-023"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-010",
+        "EAA-045"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "An action or task is claimed complete.",
+      "SHARED_ASSUMPTIONS": "The observation/return contract covers the desired effect.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Issuance or acknowledgement treated as actual fulfilment.",
+      "COMPOSITION_MECHANISM": "Effect evidence supports task-instance success and feeds evaluation, while uncovered policy criteria remain separate.",
+      "NEW_FAILURE_OR_COST": "Observation cost or false completion from an incomplete oracle.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S022",
+        "EAA-S032",
+        "EAA-S033"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R021",
+      "FROM_PROPERTY_IDS": [
+        "EAA-023"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-005",
+        "EAA-013",
+        "EAA-024"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "Execution returns or an effect is observed.",
+      "SHARED_ASSUMPTIONS": "The update reflects what the observation actually establishes.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Expected effect substituted for observed effect.",
+      "COMPOSITION_MECHANISM": "Update state/progress and select continuation, intention release or repair.",
+      "NEW_FAILURE_OR_COST": "Misleading feedback can propagate into multiple components.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S016",
+        "EAA-S022",
+        "EAA-S031"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R022",
+      "FROM_PROPERTY_IDS": [
+        "EAA-024"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-022",
+        "EAA-023",
+        "EAA-026",
+        "EAA-069"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A failed or changed plan is repaired.",
+      "SHARED_ASSUMPTIONS": "Alternatives are bounded, executable and within the task.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Repair automatically authorises goal changes or unlimited retries.",
+      "COMPOSITION_MECHANISM": "Re-enter condition/effect checks under remaining resources and preserve goal/scope.",
+      "NEW_FAILURE_OR_COST": "Repeated side effects and prolonged failure.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S016",
+        "EAA-S020",
+        "EAA-S031",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R023",
+      "FROM_PROPERTY_IDS": [
+        "EAA-025"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-024",
+        "EAA-040"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "An effect may be irreversible or already occur without acknowledgement.",
+      "SHARED_ASSUMPTIONS": "Effect and interruption semantics are known sufficiently.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Retry/undo/stop always restores the pre-action state.",
+      "COMPOSITION_MECHANISM": "Restrict retries and interruption to what the actual action semantics justify; report irrecoverable effects.",
+      "NEW_FAILURE_OR_COST": "Conservative delay and incomplete compensation.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S022",
+        "EAA-S043",
+        "EAA-S044"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R024",
+      "FROM_PROPERTY_IDS": [
+        "EAA-026"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-008",
+        "EAA-014",
+        "EAA-024",
+        "EAA-027",
+        "EAA-028",
+        "EAA-037",
+        "EAA-054"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Actions and deliberation share finite resources.",
+      "SHARED_ASSUMPTIONS": "Material costs and deadlines are included.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Reasoning, sensing, help or retries are free.",
+      "COMPOSITION_MECHANISM": "Use the operative envelope to bound cognition and external action alike.",
+      "NEW_FAILURE_OR_COST": "Metering and premature stopping.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S013",
+        "EAA-S014",
+        "EAA-S019",
+        "EAA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R025",
+      "FROM_PROPERTY_IDS": [
+        "EAA-027"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-016",
+        "EAA-028"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "A deadline permits incremental improvement but requires a usable response.",
+      "SHARED_ASSUMPTIONS": "Intermediate answer/fallback is available and interruption is real.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Any algorithm labelled anytime is timely or safe to interrupt.",
+      "COMPOSITION_MECHANISM": "Improve while useful time remains and fall back to an adequate available action.",
+      "NEW_FAILURE_OR_COST": "Lower-quality early decisions and scheduling overhead.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S014",
+        "EAA-S046"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R026",
+      "FROM_PROPERTY_IDS": [
+        "EAA-029"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-030",
+        "EAA-032",
+        "EAA-054",
+        "EAA-070"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A change is described as learning or self-revision.",
+      "SHARED_ASSUMPTIONS": "Persistence and behavioural effect of the change are identifiable.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Ordinary state update, text memory and utility self-change treated as one mechanism.",
+      "COMPOSITION_MECHANISM": "Apply the appropriate evaluation and authority boundary for the actual change type.",
+      "NEW_FAILURE_OR_COST": "Tracking burden and missed indirect behavioural effects.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S027",
+        "EAA-S031",
+        "EAA-S053"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R027",
+      "FROM_PROPERTY_IDS": [
+        "EAA-030"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-031",
+        "EAA-054"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Stored experience informs later decisions.",
+      "SHARED_ASSUMPTIONS": "Memory has source and evidential status, not only relevance.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Self-generated narrative treated as verified experience.",
+      "COMPOSITION_MECHANISM": "Retrieve and revise from warranted observations or qualified interpretations.",
+      "NEW_FAILURE_OR_COST": "Stale/private/false memory can still contaminate decisions.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S028",
+        "EAA-S031",
+        "EAA-S044",
+        "EAA-S050"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R028",
+      "FROM_PROPERTY_IDS": [
+        "EAA-031"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-026",
+        "EAA-043"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A persistent memory store is justified.",
+      "SHARED_ASSUMPTIONS": "Retention has a relevant consumer and resource/privacy constraints.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Unlimited memory is inherently beneficial.",
+      "COMPOSITION_MECHANISM": "Select and retire stored material according to purpose, validity and costs.",
+      "NEW_FAILURE_OR_COST": "Loss of rare useful evidence or excessive retention.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S031",
+        "EAA-S043",
+        "EAA-S044",
+        "EAA-S050"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R029",
+      "FROM_PROPERTY_IDS": [
+        "EAA-032"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-029",
+        "EAA-035",
+        "EAA-045"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A persistent learned component changes.",
+      "SHARED_ASSUMPTIONS": "Old/new task conditions and acceptable continuity are defined.",
+      "INCOMPATIBLE_ASSUMPTIONS": "New task gain implies overall improvement.",
+      "COMPOSITION_MECHANISM": "Evaluate retained competence and changed behaviour against adequate oracles and transfer cases.",
+      "NEW_FAILURE_OR_COST": "Regression testing and reduced plasticity.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S025",
+        "EAA-S026",
+        "EAA-S031"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R030",
+      "FROM_PROPERTY_IDS": [
+        "EAA-033"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-034",
+        "EAA-049"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Learning explores consequential actions.",
+      "SHARED_ASSUMPTIONS": "Protected constraints are defined independently of reward.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Eventual convergence or lower cost equals safe exploration.",
+      "COMPOSITION_MECHANISM": "Constrain or protect exploration and measure residual violations before transfer.",
+      "NEW_FAILURE_OR_COST": "Reduced learning and simulator mismatch.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S024",
+        "EAA-S027",
+        "EAA-S038"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R031",
+      "FROM_PROPERTY_IDS": [
+        "EAA-034"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-010",
+        "EAA-045",
+        "EAA-060"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A proxy, score or reward supports a fulfilment claim.",
+      "SHARED_ASSUMPTIONS": "The intended outcome and measured proxy are distinguishable.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Optimisation success sufficient for every task obligation.",
+      "COMPOSITION_MECHANISM": "Use discriminating tests where metric success and intended fulfilment diverge; reject the universal sufficiency claim.",
+      "NEW_FAILURE_OR_COST": "Incomplete objectives and adversarial test burden.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S025",
+        "EAA-S033"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R032",
+      "FROM_PROPERTY_IDS": [
+        "EAA-035"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-055",
+        "EAA-066"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "Use changes model, environment or embodiment.",
+      "SHARED_ASSUMPTIONS": "The tested shift is material to the target claim.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Unchanged labels imply unchanged performance.",
+      "COMPOSITION_MECHANISM": "Targeted shifted-condition tests support only the corresponding transfer and continuity claim.",
+      "NEW_FAILURE_OR_COST": "Coverage gaps and expensive target validation.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S025",
+        "EAA-S035",
+        "EAA-S036",
+        "EAA-S048"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R033",
+      "FROM_PROPERTY_IDS": [
+        "EAA-036"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-037",
+        "EAA-038",
+        "EAA-039"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Coordination depends on another actor understanding or taking control.",
+      "SHARED_ASSUMPTIONS": "Message receipt and acceptance have meaningful semantics.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Sending a message guarantees agreement or action.",
+      "COMPOSITION_MECHANISM": "Exchange the task-relevant information and establish only the commitment actually acknowledged.",
+      "NEW_FAILURE_OR_COST": "Communication delay and interpretation failure.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S020",
+        "EAA-S028",
+        "EAA-S047"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R034",
+      "FROM_PROPERTY_IDS": [
+        "EAA-037"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-008",
+        "EAA-039"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Initiative or clarification changes who decides.",
+      "SHARED_ASSUMPTIONS": "The task, information value and human readiness are known enough.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Silence confers authority or asking is always helpful.",
+      "COMPOSITION_MECHANISM": "Choose advice/ask/act according to consequence, scope and response feasibility.",
+      "NEW_FAILURE_OR_COST": "Attention burden and missed opportunities.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S019",
+        "EAA-S020",
+        "EAA-S044"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R035",
+      "FROM_PROPERTY_IDS": [
+        "EAA-038"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-036",
+        "EAA-039",
+        "EAA-040"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Control is transferred.",
+      "SHARED_ASSUMPTIONS": "Recipient, readiness and actual operational control are established.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Nominal human presence is adequate oversight.",
+      "COMPOSITION_MECHANISM": "Connect request, response, context and in-flight action handling with a non-response path.",
+      "NEW_FAILURE_OR_COST": "Handoff latency or abandoned control.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S020",
+        "EAA-S021",
+        "EAA-S023"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R036",
+      "FROM_PROPERTY_IDS": [
+        "EAA-040"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-013",
+        "EAA-022",
+        "EAA-067"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Task authority is withdrawn or action interrupted.",
+      "SHARED_ASSUMPTIONS": "The revocation reaches active execution and goal state.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Stopping a conversation stops all queued effects.",
+      "COMPOSITION_MECHANISM": "Invalidate future actions and reconsider commitments while accurately handling irreversible effects.",
+      "NEW_FAILURE_OR_COST": "Partial states, cancellation races and residual effects.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S019",
+        "EAA-S022",
+        "EAA-S043"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R037",
+      "FROM_PROPERTY_IDS": [
+        "EAA-041"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-040"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "The interrupted agent learns from action outcomes.",
+      "SHARED_ASSUMPTIONS": "Operational interruption exists and the learning theorem conditions hold.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A stop button alone supplies interruption-neutral learning.",
+      "COMPOSITION_MECHANISM": "Add the specific learning update/incentive condition without replacing physical interruption semantics.",
+      "NEW_FAILURE_OR_COST": "Exploration assumptions and algorithm-specific implementation burden.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S024"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_ESTABLISHED_FORMAL_RESULT_WITH_ASSUMPTIONS",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R038",
+      "FROM_PROPERTY_IDS": [
+        "EAA-042"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-040",
+        "EAA-041"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "The concern is willingness to permit human intervention.",
+      "SHARED_ASSUMPTIONS": "The game and private information model are explicit.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Objective uncertainty guarantees all forms of deference.",
+      "COMPOSITION_MECHANISM": "Analyse the conditional incentive mechanism separately from enforced revocation and interruptibility-neutral learning.",
+      "NEW_FAILURE_OR_COST": "Misestimated information and unjustified assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S040",
+        "EAA-S041",
+        "EAA-S024"
+      ],
+      "EVIDENCE_STATUS": "FORMAL_ALTERNATIVES_NOT_ESTABLISHED_EQUIVALENT",
+      "UNRESOLVED_OBLIGATION": "A unified practical guarantee is not supplied; the partially observable counterexample must remain visible."
+    },
+    {
+      "RELATION_ID": "EAA-R039",
+      "FROM_PROPERTY_IDS": [
+        "EAA-043"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-030",
+        "EAA-031",
+        "EAA-037",
+        "EAA-038",
+        "EAA-044"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Agent action or information handling affects people.",
+      "SHARED_ASSUMPTIONS": "Participants, legitimate purposes and consequences can be identified.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Agent task score wholly determines acceptable means.",
+      "COMPOSITION_MECHANISM": "Keep privacy, meaningful control and affected-party interests operative in scope, memory and communication choices.",
+      "NEW_FAILURE_OR_COST": "Normative conflict and attention/coordination cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S021",
+        "EAA-S043",
+        "EAA-S047"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R040",
+      "FROM_PROPERTY_IDS": [
+        "EAA-044"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-037",
+        "EAA-039"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "A person must decide, correct or take over.",
+      "SHARED_ASSUMPTIONS": "Information is faithful and useful for that recipient’s decision.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Long rationales or human likeness establish comprehension.",
+      "COMPOSITION_MECHANISM": "Provide action-relevant evidence, limits and options rather than a persuasive internal story.",
+      "NEW_FAILURE_OR_COST": "False reassurance and information overload.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S043",
+        "EAA-S044",
+        "EAA-S047"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R041",
+      "FROM_PROPERTY_IDS": [
+        "EAA-045"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-023",
+        "EAA-034",
+        "EAA-046",
+        "EAA-054"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Outcome evidence is used to claim success, compare runs or revise behaviour.",
+      "SHARED_ASSUMPTIONS": "The oracle covers the actual claim, including relevant process constraints.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The same generated assertion can certify itself.",
+      "COMPOSITION_MECHANISM": "Use adequate tests/observations and expose omissions before feeding the result into learning or reporting.",
+      "NEW_FAILURE_OR_COST": "Wrong oracles can couple failure across the system.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S031",
+        "EAA-S032",
+        "EAA-S033"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R042",
+      "FROM_PROPERTY_IDS": [
+        "EAA-046"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-047",
+        "EAA-048",
+        "EAA-064"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "Reliability or comparative performance is claimed.",
+      "SHARED_ASSUMPTIONS": "Trial units, versions, repetitions and costs are explicit.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Best-of-many, all-of-many and single-run success are equivalent.",
+      "COMPOSITION_MECHANISM": "Make aggregation and dependence visible for comparison and reject unsupported deployment inference.",
+      "NEW_FAILURE_OR_COST": "Replication expense and inaccessible historical model versions.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S033",
+        "EAA-S035",
+        "EAA-S036",
+        "EAA-S048"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R043",
+      "FROM_PROPERTY_IDS": [
+        "EAA-047",
+        "EAA-048"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-020"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "Architecture choices need comparative justification.",
+      "SHARED_ASSUMPTIONS": "Task coverage, information and material costs are comparable.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Extra retries or human support mistaken for architectural benefit.",
+      "COMPOSITION_MECHANISM": "Use the cost/quality frontier and whole-task burden to select the adequate branch.",
+      "NEW_FAILURE_OR_COST": "Benchmark overfitting and difficult cost valuation.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S035",
+        "EAA-S036",
+        "EAA-S019"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R044",
+      "FROM_PROPERTY_IDS": [
+        "EAA-049"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-035",
+        "EAA-045",
+        "EAA-050"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Adverse conditions or new environments require evidence.",
+      "SHARED_ASSUMPTIONS": "Tests are contained and linked to actual failure hypotheses.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Sandbox success certifies uncontrolled deployment.",
+      "COMPOSITION_MECHANISM": "Exercise faults, shifts and assumptions without silently imposing costs on third parties.",
+      "NEW_FAILURE_OR_COST": "Fidelity gaps and false confidence.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S022",
+        "EAA-S034",
+        "EAA-S038",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R045",
+      "FROM_PROPERTY_IDS": [
+        "EAA-050"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-051"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A formal claim depends on monitorable changing assumptions.",
+      "SHARED_ASSUMPTIONS": "Monitored conditions correspond to the proof’s environmental assumptions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Detecting some deviations proves every environmental assumption.",
+      "COMPOSITION_MECHANISM": "Use observed violations to limit the claim and trigger an appropriate runtime response.",
+      "NEW_FAILURE_OR_COST": "Nuisance alarms, blind spots and monitor-model mismatch.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S042"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_ESTABLISHED_MECHANISM_WITH_TRANSFER_LIMITS",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R046",
+      "FROM_PROPERTY_IDS": [
+        "EAA-051"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-007",
+        "EAA-018",
+        "EAA-027",
+        "EAA-041",
+        "EAA-042",
+        "EAA-050",
+        "EAA-070"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A formal or model-relative property is claimed in practice.",
+      "SHARED_ASSUMPTIONS": "The model, implementation relation and environment are separately examined.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Proof strength is equivalent to field validity.",
+      "COMPOSITION_MECHANISM": "Keep guarantees conditional and identify unfulfilled abstraction or environmental obligations.",
+      "NEW_FAILURE_OR_COST": "Verification and validation cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S009",
+        "EAA-S012",
+        "EAA-S014",
+        "EAA-S024",
+        "EAA-S027",
+        "EAA-S041",
+        "EAA-S042",
+        "EAA-S053"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R047",
+      "FROM_PROPERTY_IDS": [
+        "EAA-052"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-005",
+        "EAA-021",
+        "EAA-022",
+        "EAA-053",
+        "EAA-054"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "An LLM consumes externally controlled language and can act.",
+      "SHARED_ASSUMPTIONS": "Source content and task authority can be distinguished.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Persuasive tool text can legitimise new instructions.",
+      "COMPOSITION_MECHANISM": "Treat text as untrusted input and enforce consequential capability/scope boundaries independent of its claimed authority.",
+      "NEW_FAILURE_OR_COST": "False blocking and residual attack surface.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S034"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R048",
+      "FROM_PROPERTY_IDS": [
+        "EAA-053"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-021",
+        "EAA-023",
+        "EAA-026",
+        "EAA-045",
+        "EAA-052"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Language-model decisions choose real tool actions.",
+      "SHARED_ASSUMPTIONS": "Capabilities, feedback, budgets, oracle and trust boundaries are meaningful.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A reasoning trace itself supplies these controls.",
+      "COMPOSITION_MECHANISM": "Interleave actual action/observation under grounded constraints; select simpler workflows when adequate.",
+      "NEW_FAILURE_OR_COST": "Long trajectories multiply cost and exposure to bad observations.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S030",
+        "EAA-S031",
+        "EAA-S034",
+        "EAA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R049",
+      "FROM_PROPERTY_IDS": [
+        "EAA-054"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-023",
+        "EAA-026",
+        "EAA-030",
+        "EAA-045"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Reflection is used for another attempt.",
+      "SHARED_ASSUMPTIONS": "Actual feedback is adequate and the next attempt can test the proposed lesson.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Generated self-critique guarantees improvement.",
+      "COMPOSITION_MECHANISM": "Bound reflection by task evidence, memory validity and resources.",
+      "NEW_FAILURE_OR_COST": "Reinforcing wrong feedback and costly retries.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S031",
+        "EAA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R050",
+      "FROM_PROPERTY_IDS": [
+        "EAA-054",
+        "EAA-028"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-061"
+      ],
+      "RELATION_TYPE": "SUPERSEDES",
+      "CONTEXT_OR_GUARD": "Continuous reflection is proposed without a benefit discriminator.",
+      "SHARED_ASSUMPTIONS": "Feedback validity and marginal reasoning value are necessary.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Always-on reflection is an unconditional mature property.",
+      "COMPOSITION_MECHANISM": "Replace the universal ritual with bounded evidence-anchored review and a stopping rule.",
+      "NEW_FAILURE_OR_COST": "Under-reflection remains possible if value is underestimated.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S014",
+        "EAA-S031",
+        "EAA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R051",
+      "FROM_PROPERTY_IDS": [
+        "EAA-055"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-035",
+        "EAA-045",
+        "EAA-050",
+        "EAA-067"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "A material configuration changes.",
+      "SHARED_ASSUMPTIONS": "Previous claims can be linked to affected semantics.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A stable product name preserves all prior evidence.",
+      "COMPOSITION_MECHANISM": "Reassess affected assumptions, outcomes and compositional coherence without unnecessarily repeating unaffected tests.",
+      "NEW_FAILURE_OR_COST": "Impact-analysis gaps and regression cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S035",
+        "EAA-S036",
+        "EAA-S042"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R052",
+      "FROM_PROPERTY_IDS": [
+        "EAA-003",
+        "EAA-045"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-056",
+        "EAA-063",
+        "EAA-064"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Anthropomorphic, architectural or benchmark claims exceed what was established.",
+      "SHARED_ASSUMPTIONS": "Predicates and evidence targets are kept distinct.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Labels, believability or scores stand in for stronger guarantees.",
+      "COMPOSITION_MECHANISM": "Limit the claim and preserve negative/ceremonial candidates rather than adopting them as controls.",
+      "NEW_FAILURE_OR_COST": "Loss of persuasive simplicity, but no added operative capability is claimed.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S010",
+        "EAA-S043",
+        "EAA-S050",
+        "EAA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R053",
+      "FROM_PROPERTY_IDS": [
+        "EAA-020",
+        "EAA-004",
+        "EAA-014"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-057",
+        "EAA-058",
+        "EAA-059"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A universal autonomy or architecture rule is proposed.",
+      "SHARED_ASSUMPTIONS": "Task needs and conditional evidence govern selection.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Maximal freedom or one representational stance always wins.",
+      "COMPOSITION_MECHANISM": "Reject the universal claims while retaining appropriate conditional branches.",
+      "NEW_FAILURE_OR_COST": "Selection effort and residual task uncertainty.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S005",
+        "EAA-S012",
+        "EAA-S015",
+        "EAA-S019",
+        "EAA-S036",
+        "EAA-S046"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R054",
+      "FROM_PROPERTY_IDS": [
+        "EAA-023"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-065"
+      ],
+      "RELATION_TYPE": "SUPERSEDES",
+      "CONTEXT_OR_GUARD": "The candidate concerns task-instance completion evidence.",
+      "SHARED_ASSUMPTIONS": "Both entries denote the same effect-establishment mechanism in this scope.",
+      "INCOMPATIBLE_ASSUMPTIONS": "One discovered phrase must create one new control.",
+      "COMPOSITION_MECHANISM": "Canonicalise the operative mechanism at EAA-023; retain EAA-065 in the denominator as a duplicate.",
+      "NEW_FAILURE_OR_COST": "No operative cost; ignoring the relation would duplicate checks and counts.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S022",
+        "EAA-S032",
+        "EAA-S033"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_DUPLICATE_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "Population-level oracle validation is distinct and remains EAA-045."
+    },
+    {
+      "RELATION_ID": "EAA-R055",
+      "FROM_PROPERTY_IDS": [
+        "EAA-066"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-021",
+        "EAA-022",
+        "EAA-023",
+        "EAA-025",
+        "EAA-027",
+        "EAA-039",
+        "EAA-049"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Moving a mechanism to physical or materially different environments.",
+      "SHARED_ASSUMPTIONS": "Only genuinely preserved assumptions support reuse.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Symbolic/tool feasibility equivalent to physical effect or reversibility.",
+      "COMPOSITION_MECHANISM": "Re-establish changed sensing, timing, execution and human-response conditions in protected tests.",
+      "NEW_FAILURE_OR_COST": "Hardware/target validation burden and residual unknowns.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S022",
+        "EAA-S045",
+        "EAA-S049",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R056",
+      "FROM_PROPERTY_IDS": [
+        "EAA-067"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-006",
+        "EAA-010",
+        "EAA-013",
+        "EAA-019",
+        "EAA-022",
+        "EAA-040"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Multiple asynchronous components contribute to action justification.",
+      "SHARED_ASSUMPTIONS": "Relevant dependencies can be made compatible at the action boundary.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Individually valid facts necessarily form a jointly valid basis.",
+      "COMPOSITION_MECHANISM": "Tie the current-enough state, goal and authority to the same action decision; refresh or invalidate after material changes.",
+      "NEW_FAILURE_OR_COST": "Serialisation, cancellation and liveness cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S022",
+        "EAA-S016",
+        "EAA-S019",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R057",
+      "FROM_PROPERTY_IDS": [
+        "EAA-068"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-005",
+        "EAA-023",
+        "EAA-024",
+        "EAA-034",
+        "EAA-045",
+        "EAA-050"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Failure prompts a revision proposal.",
+      "SHARED_ASSUMPTIONS": "Evidence can discriminate at least some candidate causes.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Every failure is an action-selection error repairable by more reflection.",
+      "COMPOSITION_MECHANISM": "Diagnose at the level justified by evidence, then test a bounded relevant change or hand back.",
+      "NEW_FAILURE_OR_COST": "Diagnosis cost and false attribution.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S022",
+        "EAA-S025",
+        "EAA-S031",
+        "EAA-S042"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R058",
+      "FROM_PROPERTY_IDS": [
+        "EAA-069"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-010",
+        "EAA-013",
+        "EAA-024",
+        "EAA-036"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A repair changes means, entities or goal conditions.",
+      "SHARED_ASSUMPTIONS": "Task invariants and authorised alternatives are identifiable.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Making a plan executable can redefine the requested outcome.",
+      "COMPOSITION_MECHANISM": "Allow repairs within scope; communicate genuine task changes for the appropriate decision.",
+      "NEW_FAILURE_OR_COST": "Overconstraint and clarification delay.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S006",
+        "EAA-S019",
+        "EAA-S033",
+        "EAA-S039"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    },
+    {
+      "RELATION_ID": "EAA-R059",
+      "FROM_PROPERTY_IDS": [
+        "EAA-070"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-062"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "Explicit formal self-modification is the object of study.",
+      "SHARED_ASSUMPTIONS": "The predecessor utility and future-policy consequences can be modelled.",
+      "INCOMPATIBLE_ASSUMPTIONS": "One narrow value-preservation theorem resolves general safe self-revision.",
+      "COMPOSITION_MECHANISM": "Preserve the narrow theorem while marking practical/general assurance unresolved.",
+      "NEW_FAILURE_OR_COST": "Ideal-model assumptions and possible utility rigidity.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S053"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_ESTABLISHED_FORMAL_RESULT_WITH_ASSUMPTIONS",
+      "UNRESOLVED_OBLIGATION": "Acceptability of initial utility, approximate prediction and corrigibility remain outside the guarantee."
+    },
+    {
+      "RELATION_ID": "EAA-R060",
+      "FROM_PROPERTY_IDS": [
+        "EAA-070"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-032",
+        "EAA-042",
+        "EAA-043"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The preserved initial criterion is mistaken or legitimate values/authority should change.",
+      "SHARED_ASSUMPTIONS": "Continuity and responsiveness can refer to different acceptable targets.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Utility stability inherently entails safe corrigibility.",
+      "COMPOSITION_MECHANISM": "Require a justified criterion and explicit authority for changing it; no unsupported unification is imposed.",
+      "NEW_FAILURE_OR_COST": "Rigidity, goal drift or loss of safe learning.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S025",
+        "EAA-S026",
+        "EAA-S041",
+        "EAA-S043",
+        "EAA-S053"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_TENSION_GROUNDED_IN_FORMAL_LIMITS",
+      "UNRESOLVED_OBLIGATION": "No general resolution for open-ended self-revision is established in this corpus."
+    },
+    {
+      "RELATION_ID": "EAA-R061",
+      "FROM_PROPERTY_IDS": [
+        "EAA-016",
+        "EAA-019"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-053"
+      ],
+      "RELATION_TYPE": "SHARES_ANCESTRY_WITH",
+      "CONTEXT_OR_GUARD": "Comparing perception/action feedback across generations.",
+      "SHARED_ASSUMPTIONS": "All concern world-coupled action, but mechanisms differ.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Similar loop vocabulary proves direct historical derivation or BDI conformance.",
+      "COMPOSITION_MECHANISM": "Record common AI agent/control ancestry; use source-specific citations for any stronger transmission claim.",
+      "NEW_FAILURE_OR_COST": "False genealogy if analogy is inflated.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S001",
+        "EAA-S004",
+        "EAA-S016",
+        "EAA-S030"
+      ],
+      "EVIDENCE_STATUS": "HISTORICAL_COMPARISON_NOT_DIRECT_INFLUENCE",
+      "UNRESOLVED_OBLIGATION": "No direct influence edge from each early architecture to ReAct is claimed."
+    },
+    {
+      "RELATION_ID": "EAA-R062",
+      "FROM_PROPERTY_IDS": [
+        "EAA-051"
+      ],
+      "TO_PROPERTY_IDS": [
+        "EAA-042",
+        "EAA-070"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A formal result conflicts with desired practical behaviour.",
+      "SHARED_ASSUMPTIONS": "The model and deployment claim are separately assessed.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A counterexample outside assumptions disproves the theorem, or a proof validates those assumptions.",
+      "COMPOSITION_MECHANISM": "Adjudicate theorem validity and practical applicability separately; preserve contested and unresolved conclusions.",
+      "NEW_FAILURE_OR_COST": "Analytical complexity and limited external validation.",
+      "EVIDENCE_SOURCE_IDS": [
+        "EAA-S041",
+        "EAA-S053"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_COMPOSITION_SUPPORTED_BY_SOURCES",
+      "UNRESOLVED_OBLIGATION": "No general effectiveness guarantee; application must establish the stated guard and assumptions."
+    }
+  ],
+  "alternative_configurations": [
+    {
+      "CONFIGURATION_ID": "EAA-A01",
+      "NAME": "Minimal bounded situated controller",
+      "REQUIRED_PROPERTY_IDS": [
+        "EAA-001",
+        "EAA-004",
+        "EAA-005",
+        "EAA-010",
+        "EAA-016",
+        "EAA-021",
+        "EAA-023",
+        "EAA-026"
+      ],
+      "CONDITIONAL_PROPERTY_IDS": [
+        "EAA-006",
+        "EAA-009",
+        "EAA-022",
+        "EAA-025",
+        "EAA-040",
+        "EAA-045"
+      ],
+      "SELECTION_GUARD": "A directly observed state supports an adequate action policy; task and authority are bounded; existing executor contracts can establish effects.",
+      "OMIT": [
+        "separate belief distribution when current observations suffice",
+        "search or BDI when a direct policy suffices",
+        "persistent memory and learning without a relevant future use",
+        "runtime metareasoner where a fixed budget is adequate"
+      ],
+      "RETIREMENT": "Retire additional controls when their failure class or consumer disappears; maintain accurate scope/effect claims.",
+      "LIMIT": "Fails when hidden state, horizon, task variation or consequences exceed the assumed simple controller."
+    },
+    {
+      "CONFIGURATION_ID": "EAA-A02",
+      "NAME": "Stateful deliberative or BDI agent",
+      "REQUIRED_PROPERTY_IDS": [
+        "EAA-001",
+        "EAA-004",
+        "EAA-005",
+        "EAA-007",
+        "EAA-010",
+        "EAA-013",
+        "EAA-021",
+        "EAA-022",
+        "EAA-023",
+        "EAA-026"
+      ],
+      "ALTERNATIVE_PROPERTY_SETS": [
+        [
+          "EAA-017"
+        ],
+        [
+          "EAA-018"
+        ]
+      ],
+      "CONDITIONAL_PROPERTY_IDS": [
+        "EAA-008",
+        "EAA-011",
+        "EAA-012",
+        "EAA-014",
+        "EAA-015",
+        "EAA-024",
+        "EAA-027",
+        "EAA-028"
+      ],
+      "SELECTION_GUARD": "Look-ahead, partial observability or recurring context-sensitive plans earn their model/library cost.",
+      "OMIT": [
+        "continuous reflection",
+        "full state model without demonstrated need",
+        "both search and BDI unless their composition is justified"
+      ],
+      "RETIREMENT": "Replace with a direct or fixed policy where it is demonstrably adequate and cheaper.",
+      "LIMIT": "Model/library errors, deliberation expense and stale-state risks require monitored execution."
+    },
+    {
+      "CONFIGURATION_ID": "EAA-A03",
+      "NAME": "Hybrid embodied controller",
+      "REQUIRED_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-005",
+        "EAA-019",
+        "EAA-021",
+        "EAA-022",
+        "EAA-023",
+        "EAA-026",
+        "EAA-066",
+        "EAA-067"
+      ],
+      "CONDITIONAL_PROPERTY_IDS": [
+        "EAA-007",
+        "EAA-012",
+        "EAA-016",
+        "EAA-017",
+        "EAA-018",
+        "EAA-024",
+        "EAA-025",
+        "EAA-027",
+        "EAA-039",
+        "EAA-040",
+        "EAA-049",
+        "EAA-050"
+      ],
+      "SELECTION_GUARD": "Fast control and slower sequencing/planning both have demonstrated value, with feasible timing and coherent interfaces.",
+      "OMIT": [
+        "unneeded tiers",
+        "central modelling of directly available environmental distinctions"
+      ],
+      "RETIREMENT": "Remove a layer when its unique function is no longer needed and the simpler interface meets the task.",
+      "LIMIT": "Not a universal robot architecture; continuous/discrete timing and physical effects need local validation."
+    },
+    {
+      "CONFIGURATION_ID": "EAA-A04",
+      "NAME": "Mixed-initiative adaptive assistant",
+      "REQUIRED_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-010",
+        "EAA-023",
+        "EAA-026",
+        "EAA-036",
+        "EAA-037",
+        "EAA-038",
+        "EAA-039",
+        "EAA-043"
+      ],
+      "CONDITIONAL_PROPERTY_IDS": [
+        "EAA-029",
+        "EAA-030",
+        "EAA-031",
+        "EAA-032",
+        "EAA-035",
+        "EAA-040",
+        "EAA-044"
+      ],
+      "SELECTION_GUARD": "Humans have useful missing information or authority; response probability/time and control semantics are meaningful.",
+      "OMIT": [
+        "learning where shared stable rules suffice",
+        "repeated confirmations with no changed decision",
+        "handoff that cannot be received in time"
+      ],
+      "RETIREMENT": "Return to direct manipulation or fixed delegation where adaptive assistance adds no net value.",
+      "LIMIT": "No human-rescue assumption; privacy, user control and external-party costs remain material."
+    },
+    {
+      "CONFIGURATION_ID": "EAA-A05",
+      "NAME": "Bounded language-model tool user",
+      "REQUIRED_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-005",
+        "EAA-010",
+        "EAA-021",
+        "EAA-022",
+        "EAA-023",
+        "EAA-026",
+        "EAA-045",
+        "EAA-052",
+        "EAA-055"
+      ],
+      "ALTERNATIVE_PROPERTY_SETS": [
+        [
+          "EAA-053"
+        ],
+        [
+          "fixed workflow baseline using existing tools"
+        ]
+      ],
+      "CONDITIONAL_PROPERTY_IDS": [
+        "EAA-007",
+        "EAA-024",
+        "EAA-025",
+        "EAA-030",
+        "EAA-031",
+        "EAA-035",
+        "EAA-037",
+        "EAA-038",
+        "EAA-040",
+        "EAA-046",
+        "EAA-047",
+        "EAA-048",
+        "EAA-054",
+        "EAA-067",
+        "EAA-069"
+      ],
+      "SELECTION_GUARD": "Language-conditioned task variation justifies the model; dynamic action selection is retained only if it earns its cost.",
+      "OMIT": [
+        "reflective memory without reliable feedback",
+        "BDI claims based only on prompting",
+        "unbounded autonomous retries"
+      ],
+      "RETIREMENT": "Use a fixed workflow or direct tool where it supplies adequate outcomes more cheaply and predictably.",
+      "LIMIT": "Tool injection, long-horizon instability, oracle gaps and version changes remain live concerns."
+    },
+    {
+      "CONFIGURATION_ID": "EAA-A06",
+      "NAME": "Protected learning branch",
+      "REQUIRED_PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-029",
+        "EAA-033",
+        "EAA-034",
+        "EAA-035",
+        "EAA-045",
+        "EAA-049"
+      ],
+      "CONDITIONAL_PROPERTY_IDS": [
+        "EAA-024",
+        "EAA-026",
+        "EAA-030",
+        "EAA-031",
+        "EAA-032",
+        "EAA-041",
+        "EAA-070"
+      ],
+      "SELECTION_GUARD": "A real need for persistent improvement exists and exploration/change can be bounded and evaluated.",
+      "OMIT": [
+        "live unsafe exploration for its own sake",
+        "automatic utility revision",
+        "open-ended self-assurance claim"
+      ],
+      "RETIREMENT": "Freeze or replace learned behaviour when improvement does not outweigh regression, cost or safety uncertainty.",
+      "LIMIT": "EAA-062 remains unresolved; a formal predecessor-utility condition does not establish acceptable initial values or general corrigibility."
+    }
+  ],
+  "external_interfaces": [
+    {
+      "INTERFACE": "Task and authority",
+      "PARTICIPANTS": [
+        "delegator",
+        "agent",
+        "affected parties"
+      ],
+      "EXCHANGED": "Goal meaning, constraints, scope, changes and revocation.",
+      "PROPERTY_IDS": [
+        "EAA-001",
+        "EAA-004",
+        "EAA-010",
+        "EAA-036",
+        "EAA-040",
+        "EAA-043",
+        "EAA-069"
+      ],
+      "LIMIT": "Capability, task assignment and accepted scope are distinct; analysis cannot grant new authority."
+    },
+    {
+      "INTERFACE": "Sensors and tools",
+      "PARTICIPANTS": [
+        "environment",
+        "sensor/tool",
+        "agent/executor"
+      ],
+      "EXCHANGED": "Fallible observations, executable commands, acknowledgements and effect evidence.",
+      "PROPERTY_IDS": [
+        "EAA-005",
+        "EAA-006",
+        "EAA-021",
+        "EAA-022",
+        "EAA-023",
+        "EAA-025",
+        "EAA-052"
+      ],
+      "LIMIT": "Untrusted text is data; acknowledgement may not establish external effect."
+    },
+    {
+      "INTERFACE": "Assistance and control transfer",
+      "PARTICIPANTS": [
+        "agent",
+        "human or other agent recipient"
+      ],
+      "EXCHANGED": "Decision request, context, response, acceptance, takeover and non-response outcome.",
+      "PROPERTY_IDS": [
+        "EAA-036",
+        "EAA-037",
+        "EAA-038",
+        "EAA-039",
+        "EAA-040",
+        "EAA-044"
+      ],
+      "LIMIT": "Sending a request does not establish comprehension or control transfer."
+    },
+    {
+      "INTERFACE": "Evaluation and persistent revision",
+      "PARTICIPANTS": [
+        "executor/learner",
+        "evaluator",
+        "authorised reviewer"
+      ],
+      "EXCHANGED": "Outcomes, adverse cases, change proposal, prior criterion and bounded evaluation.",
+      "PROPERTY_IDS": [
+        "EAA-029",
+        "EAA-032",
+        "EAA-034",
+        "EAA-035",
+        "EAA-045",
+        "EAA-055",
+        "EAA-062",
+        "EAA-068",
+        "EAA-070"
+      ],
+      "LIMIT": "A successor cannot establish broad acceptability solely by its own changed score; narrow theory does not supply general self-assurance."
+    }
+  ],
+  "revision_boundaries": [
+    {
+      "CHANGE_TYPE": "Execution-state or plan update",
+      "ALLOWED_SCOPE": "Within task, current authority and actual capabilities; preserve goal invariants.",
+      "PROPERTY_IDS": [
+        "EAA-024",
+        "EAA-029",
+        "EAA-067",
+        "EAA-069"
+      ]
+    },
+    {
+      "CHANGE_TYPE": "Persistent experience/model/policy/skill update",
+      "ALLOWED_SCOPE": "Justified learning boundary with provenance, protected exploration and retained/new behaviour evaluation.",
+      "PROPERTY_IDS": [
+        "EAA-029",
+        "EAA-030",
+        "EAA-031",
+        "EAA-032",
+        "EAA-033",
+        "EAA-034",
+        "EAA-035",
+        "EAA-045"
+      ]
+    },
+    {
+      "CHANGE_TYPE": "Goal or delegated-scope revision",
+      "ALLOWED_SCOPE": "Requires a legitimate task/authority decision; better reward or easier execution is not sufficient.",
+      "PROPERTY_IDS": [
+        "EAA-004",
+        "EAA-010",
+        "EAA-036",
+        "EAA-040",
+        "EAA-043",
+        "EAA-069"
+      ]
+    },
+    {
+      "CHANGE_TYPE": "Utility or revision-rule self-modification",
+      "ALLOWED_SCOPE": "Only narrow model-specific theory is supported; preserve predecessor-criterion assumptions and explicit unresolved general assurance.",
+      "PROPERTY_IDS": [
+        "EAA-042",
+        "EAA-062",
+        "EAA-070"
+      ]
+    }
+  ],
+  "unresolved_composition_obligations": [
+    {
+      "ID": "EAA-U01",
+      "ISSUE": "Task-specific architecture and acceptable staleness selection require new evidence; no universal timing or cost threshold is established.",
+      "PROPERTY_IDS": [
+        "EAA-006",
+        "EAA-014",
+        "EAA-019",
+        "EAA-020",
+        "EAA-028",
+        "EAA-067"
+      ],
+      "STATUS": "EXAMINED_TARGET_DEPENDENT"
+    },
+    {
+      "ID": "EAA-U02",
+      "ISSUE": "Observation/oracle incompleteness can leave irreversible outcomes unresolved; no general monitor repairs unobserved effects.",
+      "PROPERTY_IDS": [
+        "EAA-023",
+        "EAA-025",
+        "EAA-045",
+        "EAA-050"
+      ],
+      "STATUS": "EXAMINED_EVIDENCE_LIMIT"
+    },
+    {
+      "ID": "EAA-U03",
+      "ISSUE": "Human readiness, response and private information can defeat an assumed handoff or deference benefit.",
+      "PROPERTY_IDS": [
+        "EAA-038",
+        "EAA-039",
+        "EAA-042"
+      ],
+      "STATUS": "EXAMINED_CONTESTED_BOUNDARY"
+    },
+    {
+      "ID": "EAA-U04",
+      "ISSUE": "Utility continuity, legitimate value change, corrigibility and open-ended self-revision are not jointly assured by the inspected models.",
+      "PROPERTY_IDS": [
+        "EAA-032",
+        "EAA-034",
+        "EAA-042",
+        "EAA-062",
+        "EAA-070"
+      ],
+      "STATUS": "EXAMINED_UNRESOLVED"
+    },
+    {
+      "ID": "EAA-U05",
+      "ISSUE": "The complete composed system is analytically tested, not experimentally validated as one integrated architecture.",
+      "PROPERTY_IDS": [
+        "EAA-067",
+        "EAA-068",
+        "EAA-069"
+      ],
+      "STATUS": "EXPLICIT_SYNTHESIS_EVIDENCE_LIMIT"
+    }
+  ],
+  "domain_case_tests": [
+    {
+      "TEST_ID": "EAA-TEST01",
+      "TYPE": "ANALYTICAL_DISCRIMINATING_CASE",
+      "NAME": "Successful answer without successful action",
+      "SETUP": "A booking assistant gives the correct confirmation wording, but no reservation exists in the external system.",
+      "EXPECTED": "EAA-023 and EAA-045 reject established booking success; wording alone is not effect evidence.",
+      "PROPERTIES": [
+        "EAA-010",
+        "EAA-023",
+        "EAA-045"
+      ],
+      "SOURCES": [
+        "EAA-S032",
+        "EAA-S033"
+      ],
+      "FALSIFIER": "The system marks completion solely from generated wording or checks only that the message contains the right string.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST02",
+      "TYPE": "ANALYTICAL_DISCRIMINATING_CASE",
+      "NAME": "Correct plan on stale state",
+      "SETUP": "A route is valid when planned; the destination becomes unavailable while the planner computes.",
+      "EXPECTED": "Refresh/check the relevant condition; revise means within scope or ask about a genuine destination change.",
+      "PROPERTIES": [
+        "EAA-006",
+        "EAA-022",
+        "EAA-024",
+        "EAA-067",
+        "EAA-069"
+      ],
+      "SOURCES": [
+        "EAA-S015",
+        "EAA-S022",
+        "EAA-S039"
+      ],
+      "FALSIFIER": "The old plan remains executable solely because its earlier proof was correct.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST03",
+      "TYPE": "ANALYTICAL_DISCRIMINATING_CASE",
+      "NAME": "Replanning consumes the action window",
+      "SETUP": "A controller can act adequately now, but repeatedly computes a marginally better plan until the deadline expires.",
+      "EXPECTED": "Use EAA-026–028 to act or fall back; more reasoning is not success.",
+      "PROPERTIES": [
+        "EAA-014",
+        "EAA-020",
+        "EAA-026",
+        "EAA-027",
+        "EAA-028"
+      ],
+      "SOURCES": [
+        "EAA-S014",
+        "EAA-S015"
+      ],
+      "FALSIFIER": "Only plan quality is measured and missed deadlines are ignored.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST04",
+      "TYPE": "ANALYTICAL_DISCRIMINATING_CASE",
+      "NAME": "Persistent obsolete goal",
+      "SETUP": "The user withdraws a task while a long-running agent continues to execute queued steps.",
+      "EXPECTED": "Revocation affects both future dispatch and active commitment; disclose any already irreversible effects.",
+      "PROPERTIES": [
+        "EAA-004",
+        "EAA-013",
+        "EAA-015",
+        "EAA-025",
+        "EAA-040",
+        "EAA-067"
+      ],
+      "SOURCES": [
+        "EAA-S019",
+        "EAA-S043",
+        "EAA-S052"
+      ],
+      "FALSIFIER": "The conversation acknowledges the withdrawal but execution continues as before.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST05",
+      "TYPE": "ANALYTICAL_DISCRIMINATING_CASE",
+      "NAME": "Apparently successful action with unobserved failure",
+      "SETUP": "A tool acknowledges receipt, but the intended external update fails; alternatively the effect succeeds and the acknowledgement is lost.",
+      "EXPECTED": "Keep outcomes unresolved until adequate evidence; do not blindly retry an irreversible action.",
+      "PROPERTIES": [
+        "EAA-023",
+        "EAA-024",
+        "EAA-025",
+        "EAA-045"
+      ],
+      "SOURCES": [
+        "EAA-S022",
+        "EAA-S033"
+      ],
+      "FALSIFIER": "Receipt is equated with effect, or absence of acknowledgement with absence of effect.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST06",
+      "TYPE": "ANALYTICAL_DISCRIMINATING_CASE",
+      "NAME": "Simple reaction outperforms a sophisticated planner",
+      "SETUP": "A stable local task has sufficient visible cues and tight response time; a planner adds latency without useful look-ahead.",
+      "EXPECTED": "Select the reactive or fixed branch, omitting unneeded modules and retaining only adequate execution evidence.",
+      "PROPERTIES": [
+        "EAA-016",
+        "EAA-020",
+        "EAA-027",
+        "EAA-047",
+        "EAA-058"
+      ],
+      "SOURCES": [
+        "EAA-S005",
+        "EAA-S015",
+        "EAA-S035",
+        "EAA-S046"
+      ],
+      "FALSIFIER": "The richer architecture is retained solely because it has more modules or autonomy.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST07",
+      "TYPE": "ANALYTICAL_CHANGED_ASSUMPTION_CASE",
+      "NAME": "Hidden state defeats pure reaction",
+      "SETUP": "Identical current observations follow two different histories requiring different actions.",
+      "EXPECTED": "Reject the universal reactive claim and add adequate history/state or information gathering.",
+      "PROPERTIES": [
+        "EAA-005",
+        "EAA-007",
+        "EAA-008",
+        "EAA-017",
+        "EAA-059"
+      ],
+      "SOURCES": [
+        "EAA-S012"
+      ],
+      "FALSIFIER": "The reactive architecture remains privileged regardless of observed failure under aliasing.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST08",
+      "TYPE": "ANALYTICAL_CONFLICT_CASE",
+      "NAME": "A helpful repair changes the task",
+      "SETUP": "The requested destination is unavailable; the model substitutes another destination and reports success.",
+      "EXPECTED": "Block the task-changing substitution unless it is an established authorised equivalent; negotiate a new goal separately.",
+      "PROPERTIES": [
+        "EAA-004",
+        "EAA-010",
+        "EAA-024",
+        "EAA-034",
+        "EAA-069"
+      ],
+      "SOURCES": [
+        "EAA-S033",
+        "EAA-S039"
+      ],
+      "FALSIFIER": "Feasibility or a better metric score is allowed to redefine the request.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST09",
+      "TYPE": "ANALYTICAL_FAILED_OBSERVATION_CASE",
+      "NAME": "Wrong self-test becomes memory",
+      "SETUP": "A generated test mistakenly passes a bad action, and reflection records a confident lesson from it.",
+      "EXPECTED": "EAA-030/045/054 preserve evaluator fallibility and test the revision against adequate external evidence.",
+      "PROPERTIES": [
+        "EAA-030",
+        "EAA-034",
+        "EAA-045",
+        "EAA-054",
+        "EAA-068"
+      ],
+      "SOURCES": [
+        "EAA-S031"
+      ],
+      "FALSIFIER": "The agent treats its own reflection as independent evidence for the original success.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST10",
+      "TYPE": "ANALYTICAL_NON_TRIGGER_CASE",
+      "NAME": "Atomic harmless fixed operation",
+      "SETUP": "A fixed operation has adequate typed inputs, established authority and a trustworthy atomic effect-return contract.",
+      "EXPECTED": "Do not add a second verifier, persistent memory, planner or reflective loop without a new failure class.",
+      "PROPERTIES": [
+        "EAA-020",
+        "EAA-023",
+        "EAA-025",
+        "EAA-031",
+        "EAA-054",
+        "EAA-065"
+      ],
+      "SOURCES": [
+        "EAA-S035",
+        "EAA-S036",
+        "EAA-S046"
+      ],
+      "FALSIFIER": "Every ledger entry is mechanically translated into a new module or owner.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST11",
+      "TYPE": "PUBLISHED_FAILURE_USED_AS_COMPOSITION_PROBE",
+      "NAME": "Electric Elves unanswered control transfer",
+      "SETUP": "The reported assistant could wait indefinitely or make inappropriate decisions after a fixed timeout.",
+      "EXPECTED": "Non-response and decision consequences must be part of control transfer; merely asking a human is insufficient.",
+      "PROPERTIES": [
+        "EAA-036",
+        "EAA-038",
+        "EAA-039"
+      ],
+      "SOURCES": [
+        "EAA-S020",
+        "EAA-S021"
+      ],
+      "FALSIFIER": "The composed model has no operational branch after an unanswered request.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST12",
+      "TYPE": "PUBLISHED_FAILURE_USED_AS_COMPOSITION_PROBE",
+      "NAME": "DS1 asynchronous execution race",
+      "SETUP": "A race in an unprotected critical section stopped the first experiment despite extensive testing; later remaining objectives were completed by a separate run.",
+      "EXPECTED": "Distinguish local component correctness, integration evidence, observed mission progress and unsent patch status.",
+      "PROPERTIES": [
+        "EAA-019",
+        "EAA-023",
+        "EAA-049",
+        "EAA-050",
+        "EAA-051",
+        "EAA-067"
+      ],
+      "SOURCES": [
+        "EAA-S022"
+      ],
+      "FALSIFIER": "The architecture is described as failure-free or the later success silently erases the first interruption.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST13",
+      "TYPE": "ANALYTICAL_ADVERSARIAL_INPUT_CASE",
+      "NAME": "Tool result impersonates the delegator",
+      "SETUP": "A retrieved document tells the model to disregard the original task and send data elsewhere.",
+      "EXPECTED": "Treat the text as untrusted observation; do not let it expand authority or establish a new legitimate goal.",
+      "PROPERTIES": [
+        "EAA-004",
+        "EAA-005",
+        "EAA-043",
+        "EAA-052",
+        "EAA-053"
+      ],
+      "SOURCES": [
+        "EAA-S034"
+      ],
+      "FALSIFIER": "A convincing claim of authority inside retrieved data is accepted as actual authorisation.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    },
+    {
+      "TEST_ID": "EAA-TEST14",
+      "TYPE": "ANALYTICAL_SELF_REVISION_BOUNDARY_CASE",
+      "NAME": "A perfectly preserved wrong objective",
+      "SETUP": "A formal self-modifying agent preserves its initial utility, but that utility omits a legitimate user constraint.",
+      "EXPECTED": "Count utility preservation only as the narrow theorem property; it does not establish acceptable task fulfilment or corrigibility.",
+      "PROPERTIES": [
+        "EAA-034",
+        "EAA-042",
+        "EAA-062",
+        "EAA-070"
+      ],
+      "SOURCES": [
+        "EAA-S025",
+        "EAA-S041",
+        "EAA-S053"
+      ],
+      "FALSIFIER": "Stability of the utility is called general safety or authorises the agent to ignore legitimate correction.",
+      "ASSESSMENT": "Analytical walkthrough of the declared relation model supports the derived judgement. This does not empirically validate an implemented system.",
+      "EMPIRICAL_VALIDATION_OF_COMPOSED_SYSTEM": false
+    }
+  ],
+  "authority_boundary": "This external research does not establish adoption, authorise target mutation or perform a cross-tradition synthesis."
+}

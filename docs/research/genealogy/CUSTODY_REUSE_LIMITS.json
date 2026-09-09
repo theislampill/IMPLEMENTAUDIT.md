@@ -1,0 +1,900 @@
+{
+  "concrete_limit": "ESPLE evidence explicitly states that original field-study feature counts were withheld for confidentiality. The authored records retain that limit; withheld external data is not present or claimed supplied. Other matches concern generic confidentiality hazards, privacy tradeoffs, source archival access and FACT-framework terminology. No external paper, standard full text or Office/PDF attachment was fetched or added.",
+  "content_kinds": {
+    "json": 156,
+    "md": 86,
+    "nested_archive": 13,
+    "py": 11
+  },
+  "counts": {
+    "concrete_member_withholding_exceptions_identified": 0,
+    "credential_pattern_matches": 0,
+    "distinct_flag_contexts_reviewed": 22,
+    "external_document_containers": 0,
+    "personal_local_path_pattern_matches": 0,
+    "private_key_pattern_matches": 0,
+    "recursive_member_occurrences": 266,
+    "restriction_term_flagged_occurrences": 37
+  },
+  "dispositions": [
+    {
+      "archive_chain": [],
+      "bytes": 12310609,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SSS_CONSTITUENT_PROPERTY_REGISTER.json",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "9fabf1645d6f9b9e9442cf9c0fb4761d6c87b552951607d8331286c1d6dedd3c",
+      "snippet": [
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        }\n      ],\n      \"omission_retirement_condition\": \"Reopen the boundary when required assumptions diverge; dissolve",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n            ]\n          }\n        ],\n        \"DOMAIN_MODEL_IDS\": [\n          \"ESPLE-DM-01\"\n        ]\n      },\n      \"sss_cross_lineage",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        }\n      ],\n      \"omission_retirement_condition\": \"Stop analysing details with no current or expected product cons",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n            ]\n          }\n        ],\n        \"DOMAIN_MODEL_IDS\": [\n          \"ESPLE-DM-01\"\n        ]\n      },\n      \"sss_cross_lineage",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        },\n        {\n          \"SOURCE_ID\": \"ESPLE-S045\",\n          \"CLAIM_LOCATOR_IDS\": [\n            \"ESPLE-S045-L01\",\n ",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n            ]\n          },\n          {\n            \"SOURCE_ID\": \"ESPLE-S045\",\n            \"CLAIM_LOCATOR_IDS\": [\n              \"ESPLE-"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 953592,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SSS_SHARED_SOURCE_IDENTITY_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "bffeab521b4583e6132d0de5c37dcd8362877819e3ac1242200e339c49197384",
+      "snippet": [
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n        ],\n        \"DEPENDENCE_CLUSTER_IDS\": [\n          \"BOSCH_PS_EC_REVAMP2\"\n        ],\n        \"EVIDENCE_ROLES\": [\n          \"FIELD"
+      ]
+    },
+    {
+      "archive_chain": [
+        "frozen_inputs/ESME.zip"
+      ],
+      "bytes": 778306,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_CRITICAL_AND_CASE_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "41023314ba7d9fba47f6370fec6f74c00fbaf959f9e1369a14dbb46e73f30e30",
+      "snippet": [
+        "   \"NEW_FAILURE_OR_COST\": \"Archived source may not build; retention itself has access and confidentiality constraints.\",\n        \"EVIDENCE_SOURCE_IDS\": [\n          \"ESME-S054\",\n          \"ESME-S046\"\n        ],\n        \"EVIDENCE_STATUS\": \"SOUR"
+      ]
+    },
+    {
+      "archive_chain": [
+        "frozen_inputs/ESME.zip",
+        "inputs/PACKET_B.zip"
+      ],
+      "bytes": 457591,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "598cc3daefde603999f1bd97db30677fdee604cc0a859730d70c0c28ee280995",
+      "snippet": [
+        "\n\n**New failure or cost.** Archived source may not build; retention itself has access and confidentiality constraints.\n\n**Unresolved obligation.** The later system must supply evidence that the guard and prerequisites actually hold.\n\n[ESME-S0"
+      ]
+    },
+    {
+      "archive_chain": [
+        "frozen_inputs/ESME.zip",
+        "inputs/PACKET_B.zip"
+      ],
+      "bytes": 97546,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_COMPOSITION_MODEL.json",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "31a72f79db27e99c8484c5f3daaf77c59e374632469faf3cc571eb89f85f9153",
+      "snippet": [
+        "   \"NEW_FAILURE_OR_COST\": \"Archived source may not build; retention itself has access and confidentiality constraints.\",\n      \"EVIDENCE_SOURCE_IDS\": [\n        \"ESME-S054\",\n        \"ESME-S046\"\n      ],\n      \"EVIDENCE_STATUS\": \"SOURCE_GROUNDE"
+      ]
+    },
+    {
+      "archive_chain": [
+        "frozen_inputs/ESPLE.zip"
+      ],
+      "bytes": 241790,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "987256686de9c32670a41b7881ad36b8239f7a8acbcbf9e877893d96c378d7b3",
+      "snippet": [
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\n\n### ESPLE-S042\n\nA Taxonomy of Variability Realization Techniques. Mikael Svahnberg; Jilles van Gurp; Jan Bosch. **Date:** 2005. **Vers"
+      ]
+    },
+    {
+      "archive_chain": [
+        "frozen_inputs/ESPLE.zip"
+      ],
+      "bytes": 1172693,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+      "snippet": [
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        }\n      ],\n      \"DOMAIN_MODEL_IDS\": [\n        \"ESPLE-DM-01\"\n      ]\n    },\n    {\n      \"PROPERTY_ID\": \"ESPLE-002\"",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        }\n      ],\n      \"DOMAIN_MODEL_IDS\": [\n        \"ESPLE-DM-01\"\n      ]\n    },\n    {\n      \"PROPERTY_ID\": \"ESPLE-003\"",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        },\n        {\n          \"SOURCE_ID\": \"ESPLE-S045\",\n          \"CLAIM_LOCATOR_IDS\": [\n            \"ESPLE-S045-L01\",\n ",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        }\n      ],\n      \"DOMAIN_MODEL_IDS\": [\n        \"ESPLE-DM-02\"\n      ]\n    },\n    {\n      \"PROPERTY_ID\": \"ESPLE-005\"",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        }\n      ],\n      \"DOMAIN_MODEL_IDS\": [\n        \"ESPLE-DM-02\"\n      ]\n    },\n    {\n      \"PROPERTY_ID\": \"ESPLE-006\"",
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n          ]\n        },\n        {\n          \"SOURCE_ID\": \"ESPLE-S013\",\n          \"CLAIM_LOCATOR_IDS\": [\n            \"ESPLE-S013-L01\",\n "
+      ]
+    },
+    {
+      "archive_chain": [
+        "frozen_inputs/ESPLE.zip"
+      ],
+      "bytes": 111369,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+      "outer_packet": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "ad2ce62e0ff0d341dddda637c348465ec5c1912f9b37a4f5837366938f88cfec",
+      "snippet": [
+        "del extraction does not establish all domain obligations; raw feature counts withheld for confidentiality.\"\n      ],\n      \"DEPENDENCE_CLUSTER_IDS\": [\n        \"BOSCH_PS_EC_REVAMP2\"\n      ],\n      \"EVIDENCE_ROLES\": [\n        \"FIELD_OR_DEPLOYME"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 23558,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BWP_ANALYTICAL_COUNTEREXAMPLES.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "d7f9fb519b22e4846a23de4a9762ea0e0eca1bcce94c9978c9f48ff92f19dc68",
+      "snippet": [
+        "ays compensation_completed; neither parcel has been retrieved. A second variant is a sent confidential message: deleting its local record does not remove knowledge already received.\",\n      \"locally_satisfied_properties_or_restricted_checks\":"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 6083032,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "73f30ec8b6654c03528422664366f5a89d390607a44a59060b2851e0f6ed02bb",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"TRANSFER_TEST\": \"How much qualified review remains necessary, and does its cost erase the apparent saving?\"\n     ",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"costs_failure_modes\": \"Hallucinated steps or authority, plausible omissions, benchmark leakage, automation bias and",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"criticism\": \"S033 evaluates modelling tasks in a bounded benchmark; S034 is a manifesto. Neither demonstrates safe ",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"MECHANISM\": \"Use generated process artefacts as drafts that require independent checking of syntax, domain meanin",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"IMPORTANT_CRITICISMS\": \"S033 evaluates modelling tasks in a bounded benchmark; S034 is a manifesto. Neither demon",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n          \"OMISSION_OR_RETIREMENT_CONDITION\": \"Omit when the stated trigger is absent, an existing/cheaper mechanism suppl"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 272039,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BWP_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "167abd3882b3541491e2fd489a3809b3f25f4759b05dc8a395404c1b2802fb48",
+      "snippet": [
+        "ays compensation_completed; neither parcel has been retrieved. A second variant is a sent confidential message: deleting its local record does not remove knowledge already received.\n\n**Locally satisfied predicates / restricted checks:** [EWM:"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 2067781,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BWP_INTER_CROSSWALK_INTAKE.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "e54ea9729c5dfeda249238d48cd4d7f39b0d25e1bf45e5f5dddd7f9e82405a1f",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"TRANSFER_TEST\": \"How much qualified review remains necessary, and does its cost erase the apparent saving?\"\n     ",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"criticism\": \"S033 evaluates modelling tasks in a bounded benchmark; S034 is a manifesto. Neither demonstrates safe ",
+        "\n          \"ASSESSMENT\": \"Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns.\",\n          \"SOURCE_IDS\": [\n            \"EPM-S017\",\n            \"EPM-S012\",\n            \"EPM-S045\"\n          "
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 642791,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BWP_SOURCE_REGISTER.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "a7ddbc57ec82a941b9a786aa66a8397136b6099a2d73f0c336a4618ada1bd127",
+      "snippet": [
+        " \"2026-09-06\",\n      \"locators\": [\n        \"FACT framework\",\n        \"Fairness, accuracy, confidentiality and transparency sections\",\n        \"Examples and research challenges\"\n      ],\n      \"evidence_limits\": \"Framework and illustrative exa",
+        "\",\n        \"CLAIM_LOCATORS\": [\n          \"FACT framework\",\n          \"Fairness, accuracy, confidentiality and transparency sections\",\n          \"Examples and research challenges\"\n        ],\n        \"INSPECTED_CLAIM_SUMMARY\": \"Responsible use ",
+        "D_CLAIM_SUMMARY\": \"Responsible use requires separate consideration of fairness, accuracy, confidentiality and transparency; a visible model is not automatically understandable or harmless.\",\n        \"EVIDENCE_LIMITS\": \"Framework and illustrat",
+        "  \"LOCATOR_INDEX\": {\n          \"1\": \"FACT framework\",\n          \"2\": \"Fairness, accuracy, confidentiality and transparency sections\",\n          \"3\": \"Examples and research challenges\"\n        }\n      },\n      \"original_file\": \"inputs/EPM/EVOL"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 32432,
+      "content_kind": "py",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "analysis/analysis_content.py",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "7b00afe0cd33b9493499e42ada79b56c4c6b736d4e57a9b5af96de84b8618f4f",
+      "snippet": [
+        "ays compensation_completed; neither parcel has been retrieved. A second variant is a sent confidential message: deleting its local record does not remove knowledge already received.',\n [('W:34','Cancellation follows its declared local scope a"
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 322958,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; EBPM-053: Self-authorisation, goal misspecification, cascading external effects, unverifiable improvement and loss of meani"
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 1072094,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"MECHANISM\": \"Use generated process artefacts as drafts that require independent checking of syntax, domain meaning,",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"IMPORTANT_CRITICISMS\": \"S033 evaluates modelling tasks in a bounded benchmark; S034 is a manifesto. Neither demonst",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"OMISSION_OR_RETIREMENT_CONDITION\": \"Omit when the stated trigger is absent, an existing/cheaper mechanism supplie",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"TRANSFER_TEST\": \"How much qualified review remains necessary, and does its cost erase the apparent saving?\"\n     ",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"What observation would warrant revision or an evidence-insufficient judgement? How much qualified review remains "
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 508989,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\n\n**Trigger.** A generative model is used to elicit, draft, explain or revise a process representation.\n\n**Non-trigger and ch",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; omission or retirement condition: Omit when the stated trigger is absent, an existing/cheaper mechanism supplies the requir",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\n\nWhat observation would warrant revision or an evidence-insufficient judgement? How much qualified review remains necessary,"
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 286670,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\n\n**Assumptions.** required assumptions: Adequate source information, qualified review, protected data handling and an explic",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; transfer test: How much qualified review remains necessary, and does its cost erase the apparent saving?\n\n**Conflict Ids.**"
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 428485,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"ASSUMPTIONS\": {\n        \"REQUIRED_ASSUMPTIONS\": \"Adequate source information, qualified review, protected data hand",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"TRANSFER_TEST\": \"How much qualified review remains necessary, and does its cost erase the apparent saving?\"\n     "
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_PROCESS_MINING_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 256626,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead",
+      "snippet": [
+        " already encountered shared accounts. Responsible-use work adds fairness, accountability, confidentiality and transparency concerns, but that framework is not a controlled trial showing that a particular institutional safeguard works everywhe",
+        "eat model accepts it or choose a different protocol/no release. **Why it discriminates:** Confidential processing and confidential output are separate predicates. **Limit:** The protocol trade-off is documented in S033; the acceptance decisio",
+        "se a different protocol/no release. **Why it discriminates:** Confidential processing and confidential output are separate predicates. **Limit:** The protocol trade-off is documented in S033; the acceptance decision is an analytical hypotheti",
+        "XT_CLAIM_RELEVANT_SECTIONS, 2026-09-06.\n\n**Locator:** FACT framework; Fairness, accuracy, confidentiality and transparency sections; Examples and research challenges. **Inspected claim:** Responsible use requires separate consideration of fai",
+        "Inspected claim:** Responsible use requires separate consideration of fairness, accuracy, confidentiality and transparency; a visible model is not automatically understandable or harmless. **Limit:** Framework and illustrative examples, not a"
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_PROCESS_MINING_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 1053080,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019",
+      "snippet": [
+        "    \"HISTORICAL_ORIGIN\": \"Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns.\",\n      \"LINEAGE_CLASS\": \"NATIVE_PROCESS_MINING_CONTRIBUTION_OR_REFINEMENT\",\n      \"ORIGINAL_FORM\": \"Organisa",
+        ",\n      \"ORIGINAL_FORM\": \"Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns. The reconstructed initial problem is: Selective event capture produces apparently objective rankings or surve",
+        "\n          \"ASSESSMENT\": \"Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns.\",\n          \"SOURCE_IDS\": [\n            \"EPM-S017\",\n            \"EPM-S012\",\n            \"EPM-S045\"\n          "
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_PROCESS_MINING_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 221420,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7",
+      "snippet": [
+        "CTIONS\",\n      \"CLAIM_LOCATORS\": [\n        \"FACT framework\",\n        \"Fairness, accuracy, confidentiality and transparency sections\",\n        \"Examples and research challenges\"\n      ],\n      \"INSPECTED_CLAIM_SUMMARY\": \"Responsible use requir",
+        "D_CLAIM_SUMMARY\": \"Responsible use requires separate consideration of fairness, accuracy, confidentiality and transparency; a visible model is not automatically understandable or harmless.\",\n      \"EVIDENCE_LIMITS\": \"Framework and illustrativ",
+        "      \"LOCATOR_INDEX\": {\n        \"1\": \"FACT framework\",\n        \"2\": \"Fairness, accuracy, confidentiality and transparency sections\",\n        \"3\": \"Examples and research challenges\"\n      }\n    },\n    {\n      \"SOURCE_ID\": \"EPM-S018\",\n      \"T"
+      ]
+    },
+    {
+      "archive_chain": [
+        "input_archives/EVOLVED_PROCESS_MINING_FROZEN_PACKET(2).zip"
+      ],
+      "bytes": 607307,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db",
+      "snippet": [
+        "l accepts it or choose a different protocol/no release.\",\n      \"DISCRIMINATING_REASON\": \"Confidential processing and confidential output are separate predicates.\",\n      \"EVIDENCE_STATUS\": \"ANALYTICAL_PROBE_NOT_AN_EMPIRICAL_VALIDATION\",\n    ",
+        "ferent protocol/no release.\",\n      \"DISCRIMINATING_REASON\": \"Confidential processing and confidential output are separate predicates.\",\n      \"EVIDENCE_STATUS\": \"ANALYTICAL_PROBE_NOT_AN_EMPIRICAL_VALIDATION\",\n      \"LIMIT\": \"The protocol tra"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 508989,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\n\n**Trigger.** A generative model is used to elicit, draft, explain or revise a process representation.\n\n**Non-trigger and ch",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; omission or retirement condition: Omit when the stated trigger is absent, an existing/cheaper mechanism supplies the requir",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\n\nWhat observation would warrant revision or an evidence-insufficient judgement? How much qualified review remains necessary,"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 428485,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"ASSUMPTIONS\": {\n        \"REQUIRED_ASSUMPTIONS\": \"Adequate source information, qualified review, protected data hand",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"TRANSFER_TEST\": \"How much qualified review remains necessary, and does its cost erase the apparent saving?\"\n     "
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 322958,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; EBPM-053: Self-authorisation, goal misspecification, cascading external effects, unverifiable improvement and loss of meani"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 1072094,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"MECHANISM\": \"Use generated process artefacts as drafts that require independent checking of syntax, domain meaning,",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n      \"IMPORTANT_CRITICISMS\": \"S033 evaluates modelling tasks in a bounded benchmark; S034 is a manifesto. Neither demonst",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"OMISSION_OR_RETIREMENT_CONDITION\": \"Omit when the stated trigger is absent, an existing/cheaper mechanism supplie",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"TRANSFER_TEST\": \"How much qualified review remains necessary, and does its cost erase the apparent saving?\"\n     ",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\",\n        \"What observation would warrant revision or an evidence-insufficient judgement? How much qualified review remains "
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 286670,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b",
+      "snippet": [
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.\n\n**Assumptions.** required assumptions: Adequate source information, qualified review, protected data handling and an explic",
+        "lucinated steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; transfer test: How much qualified review remains necessary, and does its cost erase the apparent saving?\n\n**Conflict Ids.**"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 607307,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db",
+      "snippet": [
+        "l accepts it or choose a different protocol/no release.\",\n      \"DISCRIMINATING_REASON\": \"Confidential processing and confidential output are separate predicates.\",\n      \"EVIDENCE_STATUS\": \"ANALYTICAL_PROBE_NOT_AN_EMPIRICAL_VALIDATION\",\n    ",
+        "ferent protocol/no release.\",\n      \"DISCRIMINATING_REASON\": \"Confidential processing and confidential output are separate predicates.\",\n      \"EVIDENCE_STATUS\": \"ANALYTICAL_PROBE_NOT_AN_EMPIRICAL_VALIDATION\",\n      \"LIMIT\": \"The protocol tra"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 256626,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead",
+      "snippet": [
+        " already encountered shared accounts. Responsible-use work adds fairness, accountability, confidentiality and transparency concerns, but that framework is not a controlled trial showing that a particular institutional safeguard works everywhe",
+        "eat model accepts it or choose a different protocol/no release. **Why it discriminates:** Confidential processing and confidential output are separate predicates. **Limit:** The protocol trade-off is documented in S033; the acceptance decisio",
+        "se a different protocol/no release. **Why it discriminates:** Confidential processing and confidential output are separate predicates. **Limit:** The protocol trade-off is documented in S033; the acceptance decision is an analytical hypotheti",
+        "XT_CLAIM_RELEVANT_SECTIONS, 2026-09-06.\n\n**Locator:** FACT framework; Fairness, accuracy, confidentiality and transparency sections; Examples and research challenges. **Inspected claim:** Responsible use requires separate consideration of fai",
+        "Inspected claim:** Responsible use requires separate consideration of fairness, accuracy, confidentiality and transparency; a visible model is not automatically understandable or harmless. **Limit:** Framework and illustrative examples, not a"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 1053080,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019",
+      "snippet": [
+        "    \"HISTORICAL_ORIGIN\": \"Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns.\",\n      \"LINEAGE_CLASS\": \"NATIVE_PROCESS_MINING_CONTRIBUTION_OR_REFINEMENT\",\n      \"ORIGINAL_FORM\": \"Organisa",
+        ",\n      \"ORIGINAL_FORM\": \"Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns. The reconstructed initial problem is: Selective event capture produces apparently objective rankings or surve",
+        "\n          \"ASSESSMENT\": \"Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns.\",\n          \"SOURCE_IDS\": [\n            \"EPM-S017\",\n            \"EPM-S012\",\n            \"EPM-S045\"\n          "
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 221420,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "outer_packet": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7",
+      "snippet": [
+        "CTIONS\",\n      \"CLAIM_LOCATORS\": [\n        \"FACT framework\",\n        \"Fairness, accuracy, confidentiality and transparency sections\",\n        \"Examples and research challenges\"\n      ],\n      \"INSPECTED_CLAIM_SUMMARY\": \"Responsible use requir",
+        "D_CLAIM_SUMMARY\": \"Responsible use requires separate consideration of fairness, accuracy, confidentiality and transparency; a visible model is not automatically understandable or harmless.\",\n      \"EVIDENCE_LIMITS\": \"Framework and illustrativ",
+        "      \"LOCATOR_INDEX\": {\n        \"1\": \"FACT framework\",\n        \"2\": \"Fairness, accuracy, confidentiality and transparency sections\",\n        \"3\": \"Examples and research challenges\"\n      }\n    },\n    {\n      \"SOURCE_ID\": \"EPM-S018\",\n      \"T"
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 2954408,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_AMA_CONSTITUENT_CONTEXT_INDEX.json",
+      "outer_packet": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "0360b8b0f7fe6dd6f395813a7a193d3f676f1cf8852d9f9cb6a09ea0722e4269",
+      "snippet": [
+        "     \"EMAS-026\",\n              \"EMAS-045\"\n            ],\n            \"PROTECTED_VALUES\": \"Confidentiality and verifiable interaction.\",\n            \"CONTEXT_FAVOURING_A\": \"Private utility or sensitive state has a real protection requirement.\""
+      ]
+    },
+    {
+      "archive_chain": [],
+      "bytes": 17870487,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_AMA_CONSTITUENT_PROPERTY_REGISTER.json",
+      "outer_packet": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "f192b636e93bde19b4b27f88c3e71ac725caa121925c38b16681edd2a1a2ae82",
+      "snippet": [
+        "EXPECTED_ENGINEERING_PAYOFF\": {\n          \"CLAIM\": \"Avoids equating decentralisation with confidentiality.\",\n          \"STATUS\": \"CONDITIONAL_EXPECTATION_NOT_UNIVERSAL_EMPIRICAL_EFFECT\"\n        },\n        \"DECISION_OR_CONSUMER\": \"Participant "
+      ]
+    },
+    {
+      "archive_chain": [
+        "constituents/EMAS.zip"
+      ],
+      "bytes": 236479,
+      "content_kind": "md",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_REPORT.md",
+      "outer_packet": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "0fb1b697bb036ab63bda37b9327e5e7b17e70bba548313bc5c23abd560ab9ffb",
+      "snippet": [
+        "023; EMAS-S046]\n\n### EMAS-T002 — Privacy versus shared information\n\n**Protected values:** Confidentiality and verifiable interaction. Properties: EMAS-008; EMAS-018; EMAS-026; EMAS-045.\n\n**Discriminator:** Private utility or sensitive state h"
+      ]
+    },
+    {
+      "archive_chain": [
+        "constituents/EMAS.zip"
+      ],
+      "bytes": 949484,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json",
+      "outer_packet": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "3a7ab2f6938ed69f31bbeac2dc574c3b6e189e300482ebcc904fb7151c86ae98",
+      "snippet": [
+        " \"EXPECTED_ENGINEERING_PAYOFF\": {\n        \"CLAIM\": \"Avoids equating decentralisation with confidentiality.\",\n        \"STATUS\": \"CONDITIONAL_EXPECTATION_NOT_UNIVERSAL_EMPIRICAL_EFFECT\"\n      },\n      \"DECISION_OR_CONSUMER\": \"Participant and pr"
+      ]
+    },
+    {
+      "archive_chain": [
+        "constituents/EMAS.zip"
+      ],
+      "bytes": 549161,
+      "content_kind": "json",
+      "flags": [
+        "REDISTRIBUTION_RESTRICTION_TEXT"
+      ],
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_COMPOSITION_MODEL.json",
+      "outer_packet": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+      "producer_disposition": "RETAIN_EXACT_AUTHORED_MEMBER",
+      "reason": "Matched confidentiality terms describe source-access limits, threat models, evidence criticism or analytical examples; no member-level restriction on redistribution of this authored research was identified.",
+      "sha256": "ca78b821b4a21e220d0f5c9e4c3a3cec11e10c2d1a8680edb56a4c2e8dc6b10f",
+      "snippet": [
+        "   \"EMAS-018\",\n        \"EMAS-026\",\n        \"EMAS-045\"\n      ],\n      \"PROTECTED_VALUES\": \"Confidentiality and verifiable interaction.\",\n      \"CONTEXT_FAVOURING_A\": \"Private utility or sensitive state has a real protection requirement.\",\n    "
+      ]
+    }
+  ],
+  "proof_limit": "This bounded content/type/pattern inspection is not an exhaustive secret detector or legal rights clearance. Bibliographic access does not grant redistribution rights over referenced external works. Do not infer that source counts are independent studies.",
+  "publication_disposition": "Prepare complete authored corpus for independent review and separately authorized immutable publication. If a concrete restricted member is identified, record its exact hash, restriction and faithful lawful replacement route individually; do not silently redact frozen bytes or withhold the rest of the authored corpus.",
+  "reviewed_distinct_contexts": [
+    {
+      "member_occurrences": 111,
+      "members": [
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_REPORT.md",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+        "EVOLVED_SSS_CONSTITUENT_PROPERTY_REGISTER.json",
+        "EVOLVED_SSS_SHARED_SOURCE_IDENTITY_LEDGER.json"
+      ],
+      "passage": "tion does not establish all domain obligations; raw feature counts withheld for confidentiality."
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_CRITICAL_AND_CASE_LEDGER.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_COMPOSITION_MODEL.json"
+      ],
+      "passage": "Archived source may not build; retention itself has access and confidentiality constraints."
+    },
+    {
+      "member_occurrences": 1,
+      "members": [
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_REPORT.md"
+      ],
+      "passage": "ilure or cost.** Archived source may not build; retention itself has access and confidentiality constraints."
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_BWP_ANALYTICAL_COUNTEREXAMPLES.json",
+        "EVOLVED_BWP_FROZEN_REPORT.md"
+      ],
+      "passage": "sation_completed; neither parcel has been retrieved. A second variant is a sent confidential message: deleting its local record does not remove knowledge already received."
+    },
+    {
+      "member_occurrences": 30,
+      "members": [
+        "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+        "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+        "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+        "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+        "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+        "EVOLVED_BWP_INTER_CROSSWALK_INTAKE.json",
+        "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+        "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+        "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+        "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md"
+      ],
+      "passage": "steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure."
+    },
+    {
+      "member_occurrences": 8,
+      "members": [
+        "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+        "EVOLVED_BWP_INTER_CROSSWALK_INTAKE.json",
+        "EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json"
+      ],
+      "passage": "Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns."
+    },
+    {
+      "member_occurrences": 3,
+      "members": [
+        "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+        "EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json"
+      ],
+      "passage": "Organisational mining intersects with fairness, accountability, confidentiality and transparency concerns. The reconstructed initial problem is: Selective event capture produces apparently objective ranking"
+    },
+    {
+      "member_occurrences": 7,
+      "members": [
+        "EVOLVED_BWP_SOURCE_REGISTER.json",
+        "EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json"
+      ],
+      "passage": "Fairness, accuracy, confidentiality and transparency sections"
+    },
+    {
+      "member_occurrences": 3,
+      "members": [
+        "EVOLVED_BWP_SOURCE_REGISTER.json",
+        "EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json"
+      ],
+      "passage": "Responsible use requires separate consideration of fairness, accuracy, confidentiality and transparency; a visible model is not automatically understandable or harmless."
+    },
+    {
+      "member_occurrences": 1,
+      "members": [
+        "analysis/analysis_content.py"
+      ],
+      "passage": "sation_completed; neither parcel has been retrieved. A second variant is a sent confidential message: deleting its local record does not remove knowledge already received.',"
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+        "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md"
+      ],
+      "passage": "steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; EBPM-053: Self-authorisation, goal misspecification, cascading external effects, unverifiable improvement and los"
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+        "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md"
+      ],
+      "passage": "steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; omission or retirement condition: Omit when the stated trigger is absent, an existing/cheaper mechanism supplies "
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+        "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md"
+      ],
+      "passage": "steps or authority, plausible omissions, benchmark leakage, automation bias and confidential-data exposure.; transfer test: How much qualified review remains necessary, and does its cost erase the apparent saving?"
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md"
+      ],
+      "passage": "ncountered shared accounts. Responsible-use work adds fairness, accountability, confidentiality and transparency concerns, but that framework is not a controlled trial showing that a particular institutional safeguard work"
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md"
+      ],
+      "passage": "accepts it or choose a different protocol/no release. **Why it discriminates:** Confidential processing and confidential output are separate predicates. **Limit:** The protocol trade-off is documented in S033; the acceptan"
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md"
+      ],
+      "passage": "rent protocol/no release. **Why it discriminates:** Confidential processing and confidential output are separate predicates. **Limit:** The protocol trade-off is documented in S033; the acceptance decision is an analytical"
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md"
+      ],
+      "passage": "**Locator:** FACT framework; Fairness, accuracy, confidentiality and transparency sections; Examples and research challenges. **Inspected claim:** Responsible use requires separate considerat"
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md"
+      ],
+      "passage": "claim:** Responsible use requires separate consideration of fairness, accuracy, confidentiality and transparency; a visible model is not automatically understandable or harmless. **Limit:** Framework and illustrative examp"
+    },
+    {
+      "member_occurrences": 4,
+      "members": [
+        "EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+        "inputs/EPM/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json"
+      ],
+      "passage": "Confidential processing and confidential output are separate predicates."
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_AMA_CONSTITUENT_CONTEXT_INDEX.json",
+        "EVOLVED_MULTI_AGENT_SYSTEMS_COMPOSITION_MODEL.json"
+      ],
+      "passage": "Confidentiality and verifiable interaction."
+    },
+    {
+      "member_occurrences": 2,
+      "members": [
+        "EVOLVED_AMA_CONSTITUENT_PROPERTY_REGISTER.json",
+        "EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json"
+      ],
+      "passage": "Avoids equating decentralisation with confidentiality."
+    },
+    {
+      "member_occurrences": 1,
+      "members": [
+        "EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_REPORT.md"
+      ],
+      "passage": "**Protected values:** Confidentiality and verifiable interaction. Properties: EMAS-008; EMAS-018; EMAS-026; EMAS-045."
+    }
+  ],
+  "schema": "engineering-genealogy-custody-reuse-limits-v1",
+  "scope": "All 266 non-directory member occurrences recursively inside the exact SSS/BWP/AMA outer packets, including nested A/B archives. Existing LAW/CSS/SSD/DRF content is preserved without new rights adjudication."
+}

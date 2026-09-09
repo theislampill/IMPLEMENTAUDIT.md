@@ -1,0 +1,305 @@
+{
+  "schema_version": "1.0",
+  "lineage_id": "EAOSE",
+  "revision": "EAOSE-CANONICAL-R1-2026-09-07",
+  "research_cutoff": "2026-09-07",
+  "state": "FROZEN",
+  "analytical_label_status": "Evolved AOSE is this reconciliation-derived within-tradition synthesis, not a claim of a universally accepted named methodology.",
+  "scope": "Independent reconciliation of the two identified AOSE frozen observations; no sibling or target work.",
+  "input_revisions_and_custody": {
+    "A": {
+      "revision": "EAOSE-R1-2026-09-07",
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_PACKET(1)(1).zip",
+      "bytes": 469408,
+      "sha256": "18307c9d436757eb102ba73da31e00ce78bd08596ee7437bba4a7750810f4b87",
+      "archive_integrity": "PASS",
+      "members": [
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_MANIFEST.json"
+      ],
+      "payload_checks": [
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+          "bytes": 255752,
+          "sha256": "ac5bd3b508ab9a8adc2363cb50616c60312f668f3e33922ba82c2fab931ef51d",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+          "bytes": 2275585,
+          "sha256": "29e15064a00ae060970ab808832993863fcad6785d789c01b7fdecf507cd8a24",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+          "bytes": 229711,
+          "sha256": "5d68da3eeda55f82e5507c462210e7cd981b41a9988047186d5de1a5606e7a97",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+          "bytes": 228899,
+          "sha256": "8ea0b3f9ec0a9c4a5fe15105613061ca8158e15e5e52a4072a941a8f2b75731f",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "bytes": 18155,
+          "sha256": "1220006fcf415c07f8956dd8c4d317852fb5a14388a70b67085d0f9135bd677a",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+          "bytes": 38123,
+          "sha256": "4b6cbb9ebbf768053830e4dc004dcdd8adbe43507cd06177dc507ea2a31f24cf",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+          "bytes": 169690,
+          "sha256": "909d8d293e369f00ced0ed90dbadd333362799a653f3f17b023b780e07525dd3",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+          "bytes": 202127,
+          "sha256": "7230af46ad7dcf19bdedb7715557d871c54450fa183622d1c2f7d13f48667431",
+          "result": "PASS"
+        }
+      ],
+      "property_rows": 113,
+      "source_rows": 90
+    },
+    "B": {
+      "revision": "EAOSE-2026-09-07-R1",
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_PACKET(2).zip",
+      "bytes": 409921,
+      "sha256": "6338c0582fc2dcd521a0325a5b73f16a2eb412ef9332f43819a9572c63ec1bce",
+      "archive_integrity": "PASS",
+      "members": [
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_MANIFEST.json"
+      ],
+      "payload_checks": [
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+          "bytes": 412199,
+          "sha256": "4216927097dfcf80993f8aee7c611be6a1c558eb81a75a3b7f2dbbc3ce2753ac",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+          "bytes": 1885723,
+          "sha256": "f0dd88e0d759d91f24c03157caea834ff69e306798a692fd2a7dbf8a23bcca1e",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+          "bytes": 127226,
+          "sha256": "9af51de867d4d5a9e0e1c3e32714d6fc88aabc2b0f8eb098d02c77e5e928ebf0",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+          "bytes": 474365,
+          "sha256": "132410a0982e8643640df7b85b2cb6d9b895fcd16aaf1bca3c919e6004226dac",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "bytes": 11440,
+          "sha256": "742a6bc299a3848dd96c455b2bab8a953c3b7d97250aece2aa8a7392b56938ba",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+          "bytes": 277887,
+          "sha256": "45235101cba63225c9f0a54c92b76caddadcb4dcb217cc5e4bdd10362dbcd441",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+          "bytes": 427241,
+          "sha256": "ce25b404ab82d3d49cc1b2d5215561d23d442316b7841a33db7d0f07785129b6",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+          "bytes": 88883,
+          "sha256": "de116361487ee50d555ab7f828494db6d8af13639d45dd8901399af0f159de94",
+          "result": "PASS"
+        }
+      ],
+      "property_rows": 83,
+      "source_rows": 62
+    }
+  },
+  "counts": {
+    "properties": 132,
+    "examined": 132,
+    "sources": 124,
+    "input_properties": 196,
+    "input_sources": 152,
+    "dispositions": {
+      "ASSUMPTION_SENSITIVE": 17,
+      "CEREMONY_NOT_GENERAL_PROPERTY": 4,
+      "CONTESTED": 2,
+      "CONTEXT_DEPENDENT": 26,
+      "DOMAIN_SPECIFIC": 2,
+      "NO_GENERAL_PROPERTY": 1,
+      "REJECTED_OR_DISFAVOURED": 20,
+      "RETAINED_IN_EVOLVED_FORM": 35,
+      "STRONGLY_RETAINED": 18,
+      "SUPERSEDED_BY_STRONGER_FORM": 2,
+      "UNRESOLVED": 2,
+      "USEFUL_BUT_EASILY_BUREAUCRATISED": 1,
+      "USEFUL_BUT_EASILY_GAMED": 2
+    },
+    "examination": {
+      "EXAMINED_WITH_EVIDENCE_LIMIT": 71,
+      "EXAMINED": 61
+    },
+    "relations": 95,
+    "configurations": 10,
+    "criticisms": 28,
+    "tensions": 16,
+    "cases": 40,
+    "induced": 0,
+    "unresolved": 2,
+    "contested": 2
+  },
+  "input_accounting": {
+    "packet_a_properties": "113/113",
+    "packet_b_properties": "83/83",
+    "total_properties": "196/196",
+    "packet_a_sources": "90/90",
+    "packet_b_sources": "62/62",
+    "total_sources": "152/152",
+    "orphan_property_rows": 0,
+    "orphan_source_rows": 0
+  },
+  "mandatory_families_examined": 10,
+  "uncompleted_mandatory_families": 0,
+  "composition_induced_property_count": 0,
+  "whole_method_benefit_question": "UNRESOLVED: two distinct intervention-scoped claims, EAOSE-C119 and EAOSE-C120.",
+  "archival_66_qualification_preserved": true,
+  "verification_payload": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_VERIFICATION.json",
+  "freeze_custody_boundary": "Final enclosing archive bytes/hash and post-close CRC, exact-member, payload-hash and fresh extraction/readback checks are in the external package receipt. Payload inventory excludes this manifest itself and the enclosing ZIP to avoid circular hashing.",
+  "payload_count": 20,
+  "payloads": [
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_AUDIT_INTAKE.md",
+      "bytes": 536787,
+      "sha256": "1c481e0eeb0ddd31d62b521e070a082392d097ffe6c0d142dfc75519c3a8e029"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_COMPLETENESS_REVIEW.md",
+      "bytes": 4200,
+      "sha256": "ba2fd1dd317babae4002904fd0d4edef90a047694c3d2aee40170dbca5e9eadc"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_COMPOSITION_MODEL.json",
+      "bytes": 837331,
+      "sha256": "578c5f849ebacabdfe0a8e9624a7f68114c5bd78052ca1413b0e9c95681d4f3b"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_CRITICAL_EVIDENCE.json",
+      "bytes": 893404,
+      "sha256": "f9547b406c5b0e29e5e0b7676360484286e0c9648dacbecec25fdce5d9828fd0"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_FRESH_VERIFICATION.json",
+      "bytes": 5110,
+      "sha256": "24d9f905972e79d4fb3e41e5662d38008182600f8f86649d7b300b4a539144e3"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_FROZEN_REPORT.md",
+      "bytes": 217342,
+      "sha256": "3d20b25cafc8bba9384af41a6b217964bbe25dd0d4a099c1ac0bf54e62c4d6b9"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_INPUT_VERIFICATION.json",
+      "bytes": 6563,
+      "sha256": "0f01ff64f8bddf8718cd09137139a0bb1b42cad002ed9f17763637e27236c425"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_PROPERTY_LEDGER.json",
+      "bytes": 11620182,
+      "sha256": "44a92b022f65fcd2905679a4d41adc7067f258bf304818cb8897620d0db02343"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 5744,
+      "sha256": "6eb6e34e0830466072d6280f3fcbe752d26a8798b2d21a9d1c00da921d808cc5"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_RESEARCH_COVERAGE.json",
+      "bytes": 703288,
+      "sha256": "e6fd3b332e84ab543d2cb00dc0b65d1270bf88e8f5c4d3ef4ae72b457d6434b0"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_SOURCE_TABLE.json",
+      "bytes": 816460,
+      "sha256": "1fc500c2a08c7a1343f94b1d6513a122bdb49e2eea64e9015a65686005156721"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_SYNTHESIS_INTAKE.md",
+      "bytes": 1004166,
+      "sha256": "880677edd1ecf568c661841567b51e9fa0c41dcea772aeeee3d22b4347e3e3bf"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_VERIFICATION.json",
+      "bytes": 29056,
+      "sha256": "721602ef00023bf28809bffd022f494e18d155659a31443707599c8d976a8608"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_INDUCED_RECONCILIATION.json",
+      "bytes": 295739,
+      "sha256": "34494fb8354285098a5ebf94e69de372191a69f22e599bbf134fd78d43d38f18"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RECONCILIATION_LEDGER.json",
+      "bytes": 7085254,
+      "sha256": "d34a5578e5659ad8bf048acc69a73571cebb494e503fbf405aaf673307587727"
+    },
+    {
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_RECONCILIATION_LEDGER.json",
+      "bytes": 444655,
+      "sha256": "60fa45aaf0fa2ab92f8e4d60f60992c0474d379fa6339cde55692a1532bf7fdd"
+    },
+    {
+      "filename": "START_HERE.md",
+      "bytes": 1491,
+      "sha256": "68bb60e25d4104fc0abb007d661dcc5cbefa83ea57e0d951f9152f93109d240f"
+    },
+    {
+      "filename": "inputs/PACKET_A.zip",
+      "bytes": 469408,
+      "sha256": "18307c9d436757eb102ba73da31e00ce78bd08596ee7437bba4a7750810f4b87"
+    },
+    {
+      "filename": "inputs/PACKET_B.zip",
+      "bytes": 409921,
+      "sha256": "6338c0582fc2dcd521a0325a5b73f16a2eb412ef9332f43819a9572c63ec1bce"
+    },
+    {
+      "filename": "verify_packet.py",
+      "bytes": 18728,
+      "sha256": "8f55136e4c49db4709cfb56a4d47891acaa3c22cca1ca7d08589e15a73bd65ef"
+    }
+  ]
+}

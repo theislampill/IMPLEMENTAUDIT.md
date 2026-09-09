@@ -1,0 +1,116 @@
+{
+  "embedded_manifest": {
+    "bytes": 7282,
+    "declared_digest_fields": [
+      {
+        "field": "payload_inventory[0].sha256",
+        "value": "414992206148f02ec425260693f0e57c956719b7142b91b1e36996a0dc677671"
+      },
+      {
+        "field": "payload_inventory[1].sha256",
+        "value": "c6f6df8aba685c2da1da109022532bf0e0cdbfcd49b59189d983c23aea213033"
+      },
+      {
+        "field": "payload_inventory[2].sha256",
+        "value": "65dcb9ab6ab12da4fe167933e3e57a52ed63a6433885ea93e227ce4cfc4581eb"
+      },
+      {
+        "field": "payload_inventory[3].sha256",
+        "value": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274"
+      },
+      {
+        "field": "payload_inventory[4].sha256",
+        "value": "bac8aad14208a31b50a6cf32fd84bc67d227330241b983cfdd151e7da7ba5fea"
+      },
+      {
+        "field": "payload_inventory[5].sha256",
+        "value": "54ce3f1ba95024582bd21ba907267ff456f5d2cb44c60a247bbec7df456eb6fc"
+      },
+      {
+        "field": "payload_inventory[6].sha256",
+        "value": "2effa898057f3a41fbc6dfa405c455c4ed2e18cc85e5077de037fa7262040101"
+      },
+      {
+        "field": "payload_inventory[7].sha256",
+        "value": "459b69d26c1062861d86a3b76db9a919cbde47756c367e9ff283b7b8f4d580e8"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_MANIFEST.json",
+    "sha256": "0345df8915184db77e9d7163a4120e989e95d562d26bbbd426eccbb75b08da2b",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_SOFTWARE_ARCHITECTURE",
+  "lineage_name": "Evolved Software Architecture",
+  "members": [
+    {
+      "bytes": 315040,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_AUDIT_INTAKE.md",
+      "sha256": "414992206148f02ec425260693f0e57c956719b7142b91b1e36996a0dc677671"
+    },
+    {
+      "bytes": 82429,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_COMPOSITION_MODEL.json",
+      "sha256": "c6f6df8aba685c2da1da109022532bf0e0cdbfcd49b59189d983c23aea213033"
+    },
+    {
+      "bytes": 205368,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_REPORT.md",
+      "sha256": "65dcb9ab6ab12da4fe167933e3e57a52ed63a6433885ea93e227ce4cfc4581eb"
+    },
+    {
+      "bytes": 969783,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+      "sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274"
+    },
+    {
+      "bytes": 16150,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "bac8aad14208a31b50a6cf32fd84bc67d227330241b983cfdd151e7da7ba5fea"
+    },
+    {
+      "bytes": 190851,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_RESEARCH_COVERAGE.json",
+      "sha256": "54ce3f1ba95024582bd21ba907267ff456f5d2cb44c60a247bbec7df456eb6fc"
+    },
+    {
+      "bytes": 124133,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_SOURCE_TABLE.json",
+      "sha256": "2effa898057f3a41fbc6dfa405c455c4ed2e18cc85e5077de037fa7262040101"
+    },
+    {
+      "bytes": 137321,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_SYNTHESIS_INTAKE.md",
+      "sha256": "459b69d26c1062861d86a3b76db9a919cbde47756c367e9ff283b7b8f4d580e8"
+    },
+    {
+      "bytes": 7282,
+      "member": "EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_MANIFEST.json",
+      "sha256": "0345df8915184db77e9d7163a4120e989e95d562d26bbbd426eccbb75b08da2b"
+    }
+  ],
+  "packet": {
+    "bytes": 306979,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/sss/evolved-software-architecture/packet/EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_PACKET.zip",
+    "sha256": "26ec0f2bf1c016d7772b9f041aa34c5cbe463762f62e63c6ece486a762e135e0"
+  },
+  "property_ledger": {
+    "bytes": 969783,
+    "member": "EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "properties": 68,
+    "root": "properties",
+    "sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "sss"
+}

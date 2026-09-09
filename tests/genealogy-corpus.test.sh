@@ -8,6 +8,30 @@ HISTORICAL_CHECKER="$ROOT/scripts/check-historical-absorption-baseline.py"
 python "$CHECKER" --root "$ROOT"
 python "$HISTORICAL_CHECKER" --root "$ROOT"
 
+# Original evidence fields must survive even if generator and index regress together.
+python -B - "$ROOT" <<'PY'
+import json, pathlib, sys
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(pathlib.Path(sys.argv[1]) / "scripts"))
+from genealogy_corpus import parse_json_property_ledger
+partitions = {"theoretical": {"strength": "bounded", "limits": ["analytical", "not field qualification"]}, "comparative": None, "replication": False, "studies": 0}
+cases = [
+    ({"EVIDENCE_STRENGTH_PARTITIONS": partitions}, partitions),
+    ({"EVIDENCE_STRENGTH_PARTITION": partitions}, partitions),
+    ({"EVIDENCE_STRENGTH_PARTITIONS": {}, "EVIDENCE_STRENGTH_PARTITION": partitions}, {}),
+    ({"EVIDENCE_STRENGTH_PARTITION": None}, None),
+    ({"EVIDENCE_STRENGTH": "legacy", "EVIDENCE_STRENGTH_PARTITIONS": partitions}, "legacy"),
+    ({"evidence_strength": None, "EVIDENCE_STRENGTH_PARTITION": partitions}, None),
+    ({"evidence_strength": False}, False),
+    ({}, "NOT_PRESENT_IN_SOURCE_SCHEMA"),
+]
+for index, (fields, expected) in enumerate(cases):
+    record = {"PROPERTY_ID": "fixture-evidence", "PROPERTY_NAME": "Evidence fields", **fields}
+    result = parse_json_property_ledger(json.dumps({"properties": [record]}).encode(), "properties", "0" * 64)[0]["evidence_strength"]
+    assert json.dumps(result, sort_keys=True) == json.dumps(expected, sort_keys=True), f"evidence preservation case {index}: {result!r} != {expected!r}"
+print("genealogy evidence-partition preservation: PASS")
+PY
+
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 

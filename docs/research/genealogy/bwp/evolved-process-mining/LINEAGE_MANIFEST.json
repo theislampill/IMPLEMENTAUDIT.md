@@ -1,0 +1,120 @@
+{
+  "embedded_manifest": {
+    "bytes": 12229,
+    "declared_digest_fields": [
+      {
+        "field": "verification.validator_sha256",
+        "value": "4149b47d7d4d5382f58eb833f2e3b84f0085dae2ce38fc031743e6d7e471b8a1"
+      },
+      {
+        "field": "payload_inventory[0].sha256",
+        "value": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead"
+      },
+      {
+        "field": "payload_inventory[1].sha256",
+        "value": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019"
+      },
+      {
+        "field": "payload_inventory[2].sha256",
+        "value": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7"
+      },
+      {
+        "field": "payload_inventory[3].sha256",
+        "value": "22e9729be518c77dfa2089f068d99829c4788a0a76786817c27c5280ef186e69"
+      },
+      {
+        "field": "payload_inventory[4].sha256",
+        "value": "1b2eb4438c6fb62dd60e244d1004b1e1bd0f12c0e352d387cb8410d434dcbf07"
+      },
+      {
+        "field": "payload_inventory[5].sha256",
+        "value": "e32a42cc2557debc4bc883193eb8c06d999b5ef16a1dfc2d568119b261b7e007"
+      },
+      {
+        "field": "payload_inventory[6].sha256",
+        "value": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db"
+      },
+      {
+        "field": "payload_inventory[7].sha256",
+        "value": "78fd3dcf3b9d2b343bbbc736b056955ae73dd6e7fb560c794f8f54a7608ad84c"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+    "sha256": "0a733f6a496c567044e8ec324038d57c5f0f7af5803413f0ae8b415b7c5a3677",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_PROCESS_MINING",
+  "lineage_name": "Evolved Process Mining",
+  "members": [
+    {
+      "bytes": 256626,
+      "member": "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead"
+    },
+    {
+      "bytes": 1053080,
+      "member": "EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019"
+    },
+    {
+      "bytes": 221420,
+      "member": "EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7"
+    },
+    {
+      "bytes": 287614,
+      "member": "EVOLVED_PROCESS_MINING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_AUDIT_INTAKE.md",
+      "sha256": "22e9729be518c77dfa2089f068d99829c4788a0a76786817c27c5280ef186e69"
+    },
+    {
+      "bytes": 10676,
+      "member": "EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "1b2eb4438c6fb62dd60e244d1004b1e1bd0f12c0e352d387cb8410d434dcbf07"
+    },
+    {
+      "bytes": 18001,
+      "member": "EVOLVED_PROCESS_MINING_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_SYNTHESIS_INTAKE.md",
+      "sha256": "e32a42cc2557debc4bc883193eb8c06d999b5ef16a1dfc2d568119b261b7e007"
+    },
+    {
+      "bytes": 607307,
+      "member": "EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db"
+    },
+    {
+      "bytes": 34847,
+      "member": "EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json",
+      "sha256": "78fd3dcf3b9d2b343bbbc736b056955ae73dd6e7fb560c794f8f54a7608ad84c"
+    },
+    {
+      "bytes": 12229,
+      "member": "EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+      "sha256": "0a733f6a496c567044e8ec324038d57c5f0f7af5803413f0ae8b415b7c5a3677"
+    }
+  ],
+  "packet": {
+    "bytes": 378624,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/bwp/evolved-process-mining/packet/EVOLVED_PROCESS_MINING_FROZEN_PACKET.zip",
+    "sha256": "94e2d898e5ea6f15bcd913b8c13c7b83e3dc477879e3f20375520a50cbcf9858"
+  },
+  "property_ledger": {
+    "bytes": 1053080,
+    "member": "EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+    "properties": 84,
+    "root": "properties",
+    "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "bwp"
+}

@@ -1,0 +1,116 @@
+{
+  "embedded_manifest": {
+    "bytes": 22271,
+    "declared_digest_fields": [
+      {
+        "field": "payload_inventory[0].sha256",
+        "value": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b"
+      },
+      {
+        "field": "payload_inventory[1].sha256",
+        "value": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3"
+      },
+      {
+        "field": "payload_inventory[2].sha256",
+        "value": "268c84bb082ccafb2ca4f99cade4099e5b8d48214dc9cc9820f26bd441b00440"
+      },
+      {
+        "field": "payload_inventory[3].sha256",
+        "value": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544"
+      },
+      {
+        "field": "payload_inventory[4].sha256",
+        "value": "b65e032f83fa7fa313d73b73e1da3e584e3f0aeac9cee31e4f565a507d67a7e1"
+      },
+      {
+        "field": "payload_inventory[5].sha256",
+        "value": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b"
+      },
+      {
+        "field": "payload_inventory[6].sha256",
+        "value": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281"
+      },
+      {
+        "field": "payload_inventory[7].sha256",
+        "value": "ab80dfb7efe31880c9ddc5439dce3ed63c10bfef41e701bc74958d425c0c9c20"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+    "sha256": "5f6286ef670308609381bc22fad3bc9da8cc9fb1bc0823b9aa4954c3dc741643",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+  "lineage_name": "Evolved Business Process Management",
+  "members": [
+    {
+      "bytes": 322958,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b"
+    },
+    {
+      "bytes": 1072094,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3"
+    },
+    {
+      "bytes": 132848,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+      "sha256": "268c84bb082ccafb2ca4f99cade4099e5b8d48214dc9cc9820f26bd441b00440"
+    },
+    {
+      "bytes": 508989,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+      "sha256": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544"
+    },
+    {
+      "bytes": 22872,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "b65e032f83fa7fa313d73b73e1da3e584e3f0aeac9cee31e4f565a507d67a7e1"
+    },
+    {
+      "bytes": 286670,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "sha256": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b"
+    },
+    {
+      "bytes": 428485,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281"
+    },
+    {
+      "bytes": 35897,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "sha256": "ab80dfb7efe31880c9ddc5439dce3ed63c10bfef41e701bc74958d425c0c9c20"
+    },
+    {
+      "bytes": 22271,
+      "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+      "sha256": "5f6286ef670308609381bc22fad3bc9da8cc9fb1bc0823b9aa4954c3dc741643"
+    }
+  ],
+  "packet": {
+    "bytes": 431686,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/bwp/evolved-business-process-management/packet/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET.zip",
+    "sha256": "94f96cf38e32d373d5962f23f86e33513cc865dcaa899716797771cc76d3df49"
+  },
+  "property_ledger": {
+    "bytes": 1072094,
+    "member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+    "properties": 73,
+    "root": "properties",
+    "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "bwp"
+}

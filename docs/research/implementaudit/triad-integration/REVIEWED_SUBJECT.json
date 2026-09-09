@@ -1,0 +1,174 @@
+{
+  "base_commit": "57b48140f1266cbd3f6316718463409a134f1969",
+  "files": [
+    {
+      "bytes": 11447,
+      "path": "docs/research/implementaudit/triad-integration/ATHRUK_IMPLICATIONS.json",
+      "sha256": "675e5f96735b65a376681842c915f86f6c077eae6abc1af523b1dc2b1cf79e7d",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "9832fd190c9d5deab0602b9f46930cacc0d68f56"
+    },
+    {
+      "bytes": 8143,
+      "path": "docs/research/implementaudit/triad-integration/BASELINE_SCOPE.json",
+      "sha256": "c75c013cd90870b11add3e84d7ab950abd8bf8ed78bc6c243f439e541209e299",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "1d13ba522a034de874d4532e11dc6ec76d0a8aac"
+    },
+    {
+      "bytes": 2887,
+      "path": "docs/research/implementaudit/triad-integration/BASELINE_VALIDATION_LIMIT.json",
+      "sha256": "f5f02252b83d705fea4756e8898e7b4f61243cd625c1451d8725c2f08f51d309",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "1fbf1970200170b05deb70cf222011ffe3f1072c"
+    },
+    {
+      "bytes": 22814,
+      "path": "docs/research/implementaudit/triad-integration/COMPOSITION_FINDINGS.json",
+      "sha256": "7f6930b34a88553bf6cac0b4d1f1ab1a8eb2a0847220be80bf1952f4e4a1af47",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "e2c2eb857a3aeb4f21f0563d7631c594d43251c3"
+    },
+    {
+      "bytes": 515654,
+      "path": "docs/research/implementaudit/triad-integration/CONTEXT_DISPOSITIONS.json",
+      "sha256": "07cb5f7bebb6afd1af33e41ecacf39ef7023569a6cbb9b03626f57ca9a16edbf",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "2dc498ce665578a9f891ccc3fcfa1025ccdd6a34"
+    },
+    {
+      "bytes": 89318,
+      "path": "docs/research/implementaudit/triad-integration/CONTEXT_INDEX.json",
+      "sha256": "46a4b2f86a8e8119da7281482aff4f67b59e28d2eee25b5190d60983e9aea1dc",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "d454add8ca2b07af248fa6068984412b9da0197e"
+    },
+    {
+      "bytes": 2209426,
+      "path": "docs/research/implementaudit/triad-integration/DISPOSITIONS.json",
+      "sha256": "616584f2e13d41fd8afb116f2b81b035d2f4600a13814f7523ebff4010a05dab",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "5e94bd9c4f899aa3cbc11fe7da8698620f379e8d"
+    },
+    {
+      "bytes": 572582,
+      "path": "docs/research/implementaudit/triad-integration/EXPLICIT_BRIDGE_DISPOSITIONS.json",
+      "sha256": "6eabe63aaa09e92f5be6b3e9b132c4ae3f0c74837c4d509d43fe0b1c5180860b",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "76b21707165b2a5caf7fd3baae57f7a19c5ba10a"
+    },
+    {
+      "bytes": 46918,
+      "path": "docs/research/implementaudit/triad-integration/FRONTIER_IMPLICATIONS.json",
+      "sha256": "2cc1ac69e4d625c7cf43ef53de56e9218ecfae8d3261987cbf4ccf5af4b9f226",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "db743232e583f8b6a4234a7dc66c99d596c4e411"
+    },
+    {
+      "bytes": 41871,
+      "path": "docs/research/implementaudit/triad-integration/ISSUE_ADJUDICATION.json",
+      "sha256": "3aee7df2e578fa3a0fefdd8c8b0554d9133a85edbe9903cd308d06706368644c",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "78b33a4919b1a9df550b68259bcf27dd0098b46c"
+    },
+    {
+      "bytes": 864257,
+      "path": "docs/research/implementaudit/triad-integration/PROPERTY_INDEX.json",
+      "sha256": "32aaa95e84b2abfb93cafa899e5e79ccdc5f5240cd185c92b89f4ce44021c902",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "fb917a9ca7f991241418a8f86878378eb06555e3"
+    },
+    {
+      "bytes": 7908,
+      "path": "docs/research/implementaudit/triad-integration/README.md",
+      "sha256": "2014a350252ae614be9e97de180716eaad375c494a8a77b270460f3342bc9a85",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "f6d021de93ad427063460b23d20a84d3812d4409"
+    },
+    {
+      "bytes": 6771524,
+      "path": "docs/research/implementaudit/triad-integration/RELATION_DISPOSITIONS.jsonl",
+      "sha256": "ef054e36ba1da867b0592dd129037e5401c796d423f5c51983c9551d4ae64a71",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "74a2b7ced2db34f3cc597fec1453b178d15dbdbe"
+    },
+    {
+      "bytes": 11255976,
+      "path": "docs/research/implementaudit/triad-integration/RELATION_INDEX.jsonl",
+      "sha256": "ccef68b30b86fcc648331380a092b6bc0faea900c8ba605c6286d7373c74b0d1",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "6db505c469a77ffea570da6d0f38df94fe52b695"
+    },
+    {
+      "bytes": 2689,
+      "path": "docs/research/implementaudit/triad-integration/RELATION_POLICY.json",
+      "sha256": "5cce89a7b84eb2e3e1b96d7b2784dbcb84ec47fef4c71bd02a62a205454e7bfb",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "2e1d564bd94f8e515140f0e44bf4e79b4ae7a458"
+    },
+    {
+      "bytes": 25909,
+      "path": "docs/research/implementaudit/triad-integration/SOURCE_LOCK.json",
+      "sha256": "5b713ec86bc51f6351c3dee19d51b3bb1a14802360d0ee1646e19bb84c9b585f",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "898a2a6c48254a5753c43dee345275dae4042181"
+    },
+    {
+      "bytes": 7232,
+      "path": "docs/research/implementaudit/triad-integration/SOURCE_RECONCILIATION.json",
+      "sha256": "37b1c0a5778b999392b973481f0078348c7cee0bfa5d28f39f36fce654731140",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "ed3277f4ea42b649beabee7c836a5b123c7f3b24"
+    },
+    {
+      "bytes": 7003,
+      "path": "docs/research/implementaudit/triad-integration/analytical_cases.py",
+      "sha256": "a2ee1ae29924de061631276289b1151050443c159ed5cde66e6e84c1a9b3c5e7",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "eac29a7b5cbf6c2f3cebba1ded4a4097a06c11d7"
+    },
+    {
+      "bytes": 7795,
+      "path": "docs/research/implementaudit/triad-integration/build_intake.py",
+      "sha256": "aca647944ddec4abe1ed7189ab0b31f4f937aef49280f600f8375f46ff434208",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "330c529b93befac09274c450369975268a46055e"
+    },
+    {
+      "bytes": 6600,
+      "path": "docs/research/implementaudit/triad-integration/validate_research.py",
+      "sha256": "d66908fcc34284c102b14c895e97344b3ef242f093fd464b6197e14722d6dbe2",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "e6cb460cc4aa2653360b4c0b53c77d07278f3df9"
+    },
+    {
+      "bytes": 25902,
+      "path": "fixtures/semantic-preservation/cases.json",
+      "sha256": "e6df3a6a885f5600a34a375d28031745d68a897d835a4ce9ceda0171066361f2",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "6479a91ed5388cdd5874bac39039059f3a3f5390"
+    },
+    {
+      "bytes": 21998,
+      "path": "skills/implementaudit/SKILL.md",
+      "sha256": "1b24424396b9943f81a074d8a4e071cef44f24e8d54f3e02a09041ac3a0745e2",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "0f5798eadea2cda71de76c34e30eab6b337e15b3"
+    },
+    {
+      "bytes": 14547,
+      "path": "skills/implementaudit/references/audit-category-matrix.md",
+      "sha256": "e3fc01f1394a40dfce6a9b1fdee722d4275cd474283e4454d6a03ade363fbba9",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "1eef418576746b591dd38594aed0ffb14f0e2006"
+    },
+    {
+      "bytes": 6848,
+      "path": "skills/implementaudit/references/composed-evidence.md",
+      "sha256": "3f9125db96e6bddff4d2cc6173d0d65452523353993cdcc47775f1ef4981b22f",
+      "staged_bytes_equal": true,
+      "staged_git_blob": "12e165e249e2d8b97e158b56c1bceff95132269f"
+    }
+  ],
+  "schema": "implementaudit.triad-final-review-subject.v1"
+}

@@ -1,0 +1,440 @@
+{
+  "schema": "implementaudit.triad-composition-findings.v1",
+  "search_scope": "Twelve explicit target-relevant hypotheses spanning SSS, BWP and AMA. Not an exhaustive proof that no further property can emerge.",
+  "properties_admitted_in_this_candidate_search": 0,
+  "findings": [
+    {
+      "id": "TC01",
+      "title": "Joint feasibility across product, workflow and actor constraints",
+      "parents": [
+        "ESME:ESME-C104",
+        "ESPLE:ESPLE-027",
+        "EWM:EWM-005",
+        "EAOSE:EAOSE-C086"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Three Boolean pairwise inequality constraints each have solutions in pairs, but their three-way conjunction has none.",
+      "analytical_case": "analytical_cases.py#TC01",
+      "novelty_adjudication": "The existing reachable-joint-state and compositional-premise criteria already reject the unsupported global inference. The higher-order witness is new to this target crosswalk; a new state tuple does not establish a new normative property.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "A meaningful JOIN must inspect the supported joint configuration and interaction obligations, not count component passes.",
+      "existing_rockstars": [
+        "R0035",
+        "R002D"
+      ],
+      "frozen_frontier_cells": [
+        "G-DISPATCH",
+        "CAM-Q1"
+      ],
+      "athruk": [
+        "A",
+        "B"
+      ],
+      "semantic_invalidation_radius": "Joint configuration, workflow definition and actor interaction assumptions; retain unaffected component observations.",
+      "cheap_or_non_trigger_path": "Use the already adequate atomic composition contract for a single simple operation.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC02",
+      "title": "Common decision identity across derivation, work instance and grant",
+      "parents": [
+        "ESME:ESME-C102",
+        "ESPLE:ESPLE-021",
+        "EPM:EPM-084",
+        "EAOSE:EAOSE-C006"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Equal artifact bytes coexist with changed workflow semantics and action grant.",
+      "analytical_case": "analytical_cases.py#TC02",
+      "novelty_adjudication": "Cross-stage coherence and validity-preserving handoff already require compatible meanings and authority. Adding the concrete tuple is target instantiation, not proof that a digest establishes authorization.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Bind only decision-relevant product/configuration, definition/instance, observation and principal/grant dimensions; reject an unsupported join of separately valid records.",
+      "existing_rockstars": [
+        "R003A",
+        "R0039",
+        "R0030"
+      ],
+      "frozen_frontier_cells": [
+        "EH-3",
+        "GHK-AUTH/RECOVERY",
+        "R39-F9"
+      ],
+      "athruk": [
+        "D",
+        "E",
+        "H",
+        "I",
+        "K"
+      ],
+      "semantic_invalidation_radius": "Only claims/actions depending on changed semantic or grant dimensions; preserve historical evidence at its original decision.",
+      "cheap_or_non_trigger_path": "One existing atomic request/effect contract may bind all necessary dimensions without extra machinery.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC03",
+      "title": "Transaction independence does not establish delivery independence",
+      "parents": [
+        "ESA:ESA-011",
+        "EWM:EWM-022",
+        "EAOSE:EAOSE-C042",
+        "EAOSE:EAOSE-C100"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Two distinct route IDs address the same order and send operation.",
+      "analytical_case": "analytical_cases.py#TC03",
+      "novelty_adjudication": "The inherited message/effect correlation and demonstrated-containment criteria already distinguish route identity from an external effect.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Conflict and retry admission must account for logical delivery and pending/unknown effects across transactions, not only path or route uniqueness.",
+      "existing_rockstars": [
+        "R0030",
+        "R0035",
+        "R003A"
+      ],
+      "frozen_frontier_cells": [
+        "EH-3",
+        "G-DISPATCH"
+      ],
+      "athruk": [
+        "C",
+        "G",
+        "K"
+      ],
+      "semantic_invalidation_radius": "Shared effect identities and affected recipients; independent read-only research remains available.",
+      "cheap_or_non_trigger_path": "Keep unrelated effect identities concurrent when current authority/resource constraints permit.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC04",
+      "title": "Observation meaning cannot silently become acceptance",
+      "parents": [
+        "ESA:ESA-003",
+        "EPM:EPM-054",
+        "EPM:EPM-084",
+        "EWM:EWM-077",
+        "EAA:EAA-005"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "The same done token denotes performed under one definition and accepted under another.",
+      "analytical_case": "analytical_cases.py#TC04",
+      "novelty_adjudication": "The analytical handoff and explicit acceptance-transition criteria already forbid semantic promotion. The example supplies a concrete projection failure, not new authority.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Preserve definition/version, observed event meaning, uncertain mappings and the receiving acceptance predicate in projections and successor capsules.",
+      "existing_rockstars": [
+        "R0038",
+        "R0039"
+      ],
+      "frozen_frontier_cells": [
+        "R38-C11",
+        "R38-C12",
+        "R38-C13",
+        "R38-C14",
+        "CAM-I1"
+      ],
+      "athruk": [
+        "F",
+        "J"
+      ],
+      "semantic_invalidation_radius": "Affected event/projection interpretations and downstream decisions; raw event history remains evidence.",
+      "cheap_or_non_trigger_path": "Do not introduce a mining engine or universal event ontology when a small typed record suffices.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC05",
+      "title": "Recovery across software state, workflow remedy and recipient effect",
+      "parents": [
+        "ESME:ESME-C049",
+        "EWM:EWM-036",
+        "EWM:EWM-037",
+        "EAOSE:EAOSE-C039"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Local rollback restores a value while an already received notification persists.",
+      "analytical_case": "analytical_cases.py#TC05",
+      "novelty_adjudication": "Returnability and compensation criteria already preserve unremedied external consequences. A constructed rollback example is not a product recovery test.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Specify rollback, compensation, forward repair and accepted residual loss separately; reconcile exact external effects before retry or closure.",
+      "existing_rockstars": [
+        "R0030",
+        "R002C"
+      ],
+      "frozen_frontier_cells": [
+        "EH-3",
+        "EH-1",
+        "EH-2",
+        "GHK-AUTH/RECOVERY"
+      ],
+      "athruk": [
+        "K"
+      ],
+      "semantic_invalidation_radius": "Changed targets, externally affected recipients and claimed recovery guarantees.",
+      "cheap_or_non_trigger_path": "A reversible local-only operation may use a direct preimage restore.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC06",
+      "title": "Retirement requires supported-product and in-flight-work accounting",
+      "parents": [
+        "ESME:ESME-C058",
+        "ESPLE:ESPLE-061",
+        "EWM:EWM-014",
+        "EWM:EWM-075",
+        "EAOSE:EAOSE-C068"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "No new admissions remain, but an old deployed consumer still relies on the mechanism.",
+      "analytical_case": "analytical_cases.py#TC06",
+      "novelty_adjudication": "Support-aware retirement, descendant disposition and live-obligation preservation already cover the combined consumer.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Retire a helper, worker, workflow version or control only when remaining supported consumers and obligations are discharged or explicitly transferred.",
+      "existing_rockstars": [
+        "R0035",
+        "R0037",
+        "R0039"
+      ],
+      "frozen_frontier_cells": [
+        "EH-2",
+        "CAM-T1"
+      ],
+      "athruk": [
+        "D",
+        "K"
+      ],
+      "semantic_invalidation_radius": "Retired component consumers, pending descendants, historical version support and recovery dependencies.",
+      "cheap_or_non_trigger_path": "Preserve an adequate old version or reclassify the control when replacement adds no value.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC07",
+      "title": "Local progress assumptions can form a global wait cycle",
+      "parents": [
+        "ESA:ESA-068",
+        "ESME:ESME-C104",
+        "EWM:EWM-011",
+        "EAOSE:EAOSE-C086",
+        "EAOSE:EAOSE-C130"
+      ],
+      "classification": "UNRESOLVED_DISCRIMINATOR",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Each local machine can finish if its peer has progressed; together neither first action is enabled.",
+      "analytical_case": "analytical_cases.py#TC07",
+      "novelty_adjudication": "No common refinement/fairness/environment model establishes a global liveness theorem. The joint-obligation criterion remains applicable; a stronger universal progress claim is unresolved.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Separate reachable exit, soundness, deadlock freedom and inevitable completion; document real dependencies, resource assumptions and a progress/recovery path at the selected JOIN.",
+      "existing_rockstars": [
+        "R0035",
+        "R0037"
+      ],
+      "frozen_frontier_cells": [
+        "F-TRIGGER",
+        "G-DISPATCH",
+        "GHK-AUTH/RECOVERY"
+      ],
+      "athruk": [
+        "B",
+        "G",
+        "J"
+      ],
+      "semantic_invalidation_radius": "Only progress claims and decisions depending on the circular assumption; local tests keep their original limited scope.",
+      "cheap_or_non_trigger_path": "An acyclic bounded case with a proved predecessor can use ordinary dependency scheduling.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC08",
+      "title": "Mined relation and execution prerequisite remain different",
+      "parents": [
+        "ESA:ESA-010",
+        "ESME:ESME-C024",
+        "EPM:EPM-084",
+        "EAOSE:EAOSE-C130"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Identical historical co-change sets coexist with no live prerequisite; an actual dependency changes the ready set.",
+      "analytical_case": "analytical_cases.py#TC08",
+      "novelty_adjudication": "Dependency typing and validity-preserving interpretation already prohibit converting correlation into execution authority.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Keep informational, diagnostic, execution and acceptance relations typed, including relations imported from research or logs.",
+      "existing_rockstars": [
+        "R0035"
+      ],
+      "frozen_frontier_cells": [
+        "G-DISPATCH",
+        "B-P1"
+      ],
+      "athruk": [
+        "A",
+        "G"
+      ],
+      "semantic_invalidation_radius": "Only scheduling edges justified by changed dependency evidence; no global serialization from shared eventual product.",
+      "cheap_or_non_trigger_path": "Proceed with disjoint safe work while buffering acceptance that genuinely depends on another result.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC09",
+      "title": "Source and observation reuse across all three research families",
+      "parents": [
+        "ESME:ESME-C103",
+        "EPM:EPM-072",
+        "EAOSE:EAOSE-C118"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Three reports share one originating observation.",
+      "analytical_case": "analytical_cases.py#TC09",
+      "novelty_adjudication": "Evidence-independence accounting already preserves common cause. The number of named fields, packets, agents or relations is not an independent-study denominator.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Record originating work/version/data/model where it matters; retain local claim scopes and source-access limits through aggregation.",
+      "existing_rockstars": [
+        "R0022",
+        "R0038"
+      ],
+      "frozen_frontier_cells": [
+        "B-P4B",
+        "CAM-Q1",
+        "R38-C14"
+      ],
+      "athruk": [
+        "I"
+      ],
+      "semantic_invalidation_radius": "Claims of corroboration, uncertainty reduction and generality using the reused source.",
+      "cheap_or_non_trigger_path": "Use one sufficient observation when independence would not change the decision.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC10",
+      "title": "Adaptive workflow and agent-policy changes alter evaluation populations",
+      "parents": [
+        "ESPLE:ESPLE-023",
+        "EBPM:EBPM-022",
+        "EPM:EPM-043",
+        "EPM:EPM-064",
+        "EMAS:EMAS-072",
+        "EAOSE:EAOSE-C124"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "Aggregate success rises from 54% to 76% while both case classes worsen because the case mix changes.",
+      "analytical_case": "analytical_cases.py#TC10",
+      "novelty_adjudication": "The inherited population, causal-identification and regime-transfer criteria already defeat this inference. No measured triad benefit is claimed.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Bind configuration/definition/policy version, case mix, observation selection and comparison unit before asserting improvement; use matched or otherwise justified comparisons.",
+      "existing_rockstars": [
+        "R0022",
+        "R0038",
+        "R0035"
+      ],
+      "frozen_frontier_cells": [
+        "B-P4B",
+        "CAM-Q1",
+        "R38-C14"
+      ],
+      "athruk": [
+        "J"
+      ],
+      "semantic_invalidation_radius": "Changed evaluation populations, policies, observers and downstream improvement claims.",
+      "cheap_or_non_trigger_path": "Retain no-change or evidence-insufficient when a worthwhile comparison is unavailable.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC11",
+      "title": "Later boundaries supersede use without erasing earlier evidence",
+      "parents": [
+        "ESME:ESME-C103",
+        "EPM:EPM-054",
+        "EWM:EWM-076",
+        "EAOSE:EAOSE-C072"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "A valid review for generation 4 remains historical evidence but does not match generation 5.",
+      "analytical_case": "analytical_cases.py#TC11",
+      "novelty_adjudication": "Assumption-indexed invalidation and coherent recovery already require successor applicability. A new boundary is not retrospective falsification of the original verdict.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Retain the original verdict and identity, then derive the affected reuse/invalidation radius for the latest boundary and actual successor decision.",
+      "existing_rockstars": [
+        "R0039",
+        "R003A"
+      ],
+      "frozen_frontier_cells": [
+        "EH-1",
+        "EH-2",
+        "GHK-AUTH/RECOVERY",
+        "R39-F9"
+      ],
+      "athruk": [
+        "E",
+        "H",
+        "I"
+      ],
+      "semantic_invalidation_radius": "Only authority and evidence affected by the newer event; no replay of unrelated accepted ancestry.",
+      "cheap_or_non_trigger_path": "Reuse mechanically and semantically unaffected evidence at its existing scope.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    },
+    {
+      "id": "TC12",
+      "title": "Self-revision cannot provide its own sole admission criterion",
+      "parents": [
+        "ESA:ESA-063",
+        "ESME:ESME-C102",
+        "EPM:EPM-031",
+        "EPM:EPM-059",
+        "EAA:EAA-070",
+        "EAOSE:EAOSE-C072"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "review_status": "SUBJECT_TO_REVIEW_STATUS_RECORD",
+      "analysis_kind": "CROSS_TRIFECTA_COMPOSITION",
+      "witness": "A successor validator accepts an action that its governing predecessor rejects.",
+      "analytical_case": "analytical_cases.py#TC12",
+      "novelty_adjudication": "Predecessor-governed revision and justified-reference criteria already reject circular self-authorization. The narrow formal self-modification theorem is not generalized assurance.",
+      "new_normative_property_admitted": false,
+      "target_requirement": "Evaluate changed control criteria, event meaning and permission boundaries under admitted predecessor authority, with explicit old/new obligations and post-change evidence.",
+      "existing_rockstars": [
+        "R0033",
+        "R0037",
+        "R0039"
+      ],
+      "frozen_frontier_cells": [
+        "EH-3",
+        "F-TRIGGER",
+        "GHK-AUTH/RECOVERY"
+      ],
+      "athruk": [
+        "F",
+        "H"
+      ],
+      "semantic_invalidation_radius": "Changed validators, policies, dependent evidence and action grants; earlier valid decisions remain retained.",
+      "cheap_or_non_trigger_path": "Leave the existing control unchanged when the proposed revision lacks warranted benefit or authority.",
+      "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.",
+      "athruk_basis": "Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof."
+    }
+  ]
+}

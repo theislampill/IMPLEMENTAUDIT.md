@@ -1,0 +1,221 @@
+{
+  "schema": "implementaudit.triad-public-review-coverage.v1",
+  "subject_manifest_sha256": "d687399ab7d281ece2d5b028ee720c83cecdd27e1e26496065b1cc412272ff67",
+  "property_count": 747,
+  "context_count": 268,
+  "explicit_bridge_count": 317,
+  "coverage_verified": "Exact key-set equality, no missing or duplicate keys in the corresponding full-row/context lanes. Repeated TC mentions from other lanes do not add coverage.",
+  "lanes": [
+    {
+      "lane": "AMA-contexts-a",
+      "input_sha256": "dec1d8f4141a0ee6ee8aa16d02189d004e9749c5ba4717bf7c5219448dba217b",
+      "result_sha256": "56497abba3e2188304f3618c0d3f1697f40bbce795ffca6f7af0766344208cb9",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "AMA-contexts-b",
+      "input_sha256": "0688bfb2ab33e64d94668eb557d61ab4dc3eeb17a1b52e679b4656eb5fd48f32",
+      "result_sha256": "d24eb2178aa45f7aad0000738a9219137de657ca7bf334fda743fa594a85099d",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "BWP-contexts",
+      "input_sha256": "5b84b3da39dd3fed76eeb3b732e47a58481dd8a26181757d05137a12e37d465f",
+      "result_sha256": "0eb23cf00ac81ab936e90dfdaae71f187671795fd3421e72d3bf10ec0cd787a0",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAA-1-a",
+      "input_sha256": "4fbb289fcc557e1f5571e0868033b11c33508d1765d61e819be0c641060f4398",
+      "result_sha256": "d36dd98ec2f49805df6516b32072f924f113489d7e6af53eec035c75ffd74498",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAA-1-b",
+      "input_sha256": "da3693e37cd1660d2089ddc290b2c7a0a2c4ca9ae8818ad7079419d2bfa65deb",
+      "result_sha256": "d549654fa03df05170e96e2271efd0ffe3e435a72e4112bbb0fc40b40463c869",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAA-2",
+      "input_sha256": "6e169e1628c0e381cc07cd584e04d8ac88a0580e67bd0c037911357db675f4cf",
+      "result_sha256": "1d26b05cffedf1793cf65c177f99d21bdf110e0d77270d9729d0b22653000e1f",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAOSE-1-a",
+      "input_sha256": "e537c61243e4cbe49b3e735e59b5f32076d592dded8a8fb01b18f2d4f6310013",
+      "result_sha256": "fe595e8352c69e6921323a606b670f8a755887c2ebefff9658731ab358b07b3b",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAOSE-1-b",
+      "input_sha256": "b46f3c0125f747f2027db3d94ff42a71887d6713cc4eba4b26d05d968b37311e",
+      "result_sha256": "f91be5a0b705b00a12bb6a157cb311532252d9ac920af8e04441033f8d8f289f",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAOSE-2-a",
+      "input_sha256": "fc7e14b2ecacb50f483da7e5e1c333b473ae90fff9421e040ba7e184f46a376b",
+      "result_sha256": "60bdc02866b6a3427edd4a1d37f43c52518a068f8d34299c16a896e87f6964a2",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAOSE-2-b",
+      "input_sha256": "0ffa784c8da4e0cde534eeed2f0d656d6aaa48e8ac9f0562f04623e5aa09590f",
+      "result_sha256": "e925011725a6d83441287c9f960968089bc4eaf0beec396c6df45e9853861888",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EAOSE-3",
+      "input_sha256": "9fccf1e2b36bc945f03fcba33a4c6698dee4dbbe3895d5693d601ade2ea776a9",
+      "result_sha256": "6df84dfa4be7278a8d81dee0cacbdb1765d197496e23d22c93205c3bec038043",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EBPM-1",
+      "input_sha256": "450efc798e5472b8d434cddba90f74eac86065bd97dd5296b55436441f2cc392",
+      "result_sha256": "a15ae654930e0c32d53a599bed13fd7556e43b339631f34761ac54e8919d3c48",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EBPM-2",
+      "input_sha256": "b343565ef4245e8793d1361954501124861950ed653b278f11fb87a9fb3d126d",
+      "result_sha256": "78d52f7ca5c34a7f87171259c633e684143749de14ef2a52da43148f25b9f40e",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EMAS-1",
+      "input_sha256": "f52a970d259149510d51f883e3e4038b29582e3e57893725161d5514bce144cd",
+      "result_sha256": "9c18d96fb70ff8fad926a728098a502e1875a84c11f9d1318983fb21a9bca9f6",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EMAS-2",
+      "input_sha256": "e53b2a103f9504ac6483669b2cef81f35d8259bed1c74f66dc789ef3671b7c19",
+      "result_sha256": "8ef6d77d7319764a8853a3308123711b6700a61b82ef14c090d891f27edad396",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EPM-1",
+      "input_sha256": "2b2cb3e9d55ed12fc58407e538544dca32009593bfc4d865428c3088c1df9a71",
+      "result_sha256": "86370b9337b529b1e8d4b1e56d707dc604a3f5a110a32c8eb698d26c5c0b4331",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EPM-2",
+      "input_sha256": "5f3fb6f06f1dd071e459d0d948e0bae0b4594fea5463832ead0bcf8a7db87425",
+      "result_sha256": "7d0020459b978eb5265aba8c6eecefc0352794771c3efeffd6f54b2404820262",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESA-1",
+      "input_sha256": "255d9aa174c5384b566f8ddea7d7246f95562ab479506055005fc7be5881ab1f",
+      "result_sha256": "d986cb46f53332d5ee455022f85ef794eed6462f867c54bfdcdcb1165af3973c",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESA-2",
+      "input_sha256": "380c9c8ec26cbbdad2c752d8e2394f0e05e8b624b364f6ea68e4dda47fe830fa",
+      "result_sha256": "59359ff2a379f0d5084f588d0e4985678587d8f21a6b081b9a1807c7b913d179",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESME-1-a",
+      "input_sha256": "1671e4ce01aa7a29c686702b98d658a50f3b5d296100b65e974a803fa2bf41d0",
+      "result_sha256": "2f64ffc9c4fabd7bbc34489452f6f6ede73cf88bc587d8c2679b3d96a7ecefc5",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESME-1-b",
+      "input_sha256": "3309736319a4569d8db7f4a91a2022fe68c3acb0b0025338f3997d126b4a0473",
+      "result_sha256": "cec6dfdee365ce7ba118cec2d1938ae1cbcad03ac3423bd5032f3d0cd1682128",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESME-2",
+      "input_sha256": "30a621ea315cd3f09bb038a3dc58eca7649bb3537c30fb7d78aa2d7d3733538a",
+      "result_sha256": "a36b70fd449cd9e6868b71944d426d244c8f10394caea63217c4c5a4dc7b7919",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESPLE-1-a",
+      "input_sha256": "f72cdfc0d177a8cdc1f0288f9b3ad5c0bf3a4dc001e3783ad742620ca64c65ce",
+      "result_sha256": "151deac500cfecceed7ca5743665d27a2bacbdd4ce70a3105759b74eec697b68",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESPLE-1-b",
+      "input_sha256": "af4dddbc3ccf60ccbc7f4602cbe4b20667047ee814fb6ead8fd850570c9a7a2e",
+      "result_sha256": "76d4fd61b1a175f483d638f098ca0ce5973d85210b3b03f11074d14fe2ea8350",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "ESPLE-2",
+      "input_sha256": "bbe33a2b9154ce11ea63bef283b335fd2b19da5df2e5846f3c28e34ff04a8d89",
+      "result_sha256": "77b14482a541c3bc8a24aeeb79d68c2c8dccc18468e9b15e6abde41a59ef3567",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EWM-1",
+      "input_sha256": "23b6c809c3371accffdaa5ac1ceb3ec60b313148b3ac7ddf297bd3f4a3cbbc03",
+      "result_sha256": "5179d3f3a11695b16da948b30fab4cc23ce2879571482d4aebb7d3a494f22f7f",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "EWM-2",
+      "input_sha256": "09d33c0df09db69250bbcab7c03ef1bc3e2c493c4373acd88bec0f8d17ed73ca",
+      "result_sha256": "05d207bfe92b47a0bb81a099a270ac1db3f6ce82f996696a167ef7ad65cebd15",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "integration",
+      "input_sha256": "216e02f4bad3b10b426ed8fad898667dbfb41f8c7e82842140397032b76d877d",
+      "result_sha256": "56619f544ec728524d28e4172015f2590380b796a7b0d458c6797838f56b49f9",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "SSS-contexts-a",
+      "input_sha256": "4447636169ea496a1b65d691ccc6ee965c779773be5acfd9b67f2a8d554b6599",
+      "result_sha256": "e45876f210e83b650cc6465dc8dabbf42a1a2a81102d971d98d2a1cf76fc4d42",
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+      "observed_tool_calls": 0
+    },
+    {
+      "lane": "SSS-contexts-b",
+      "input_sha256": "666b19bc6240ec13426a92801371d5d44bf26dfba1a6445e2a07b0dae33e06b9",
+      "result_sha256": "955070321e45a603e38f5f8ab03a940d947ed93439641f11fecd121c21db144e",
+      "scope_verdict": "REVISE",
+      "observed_tool_calls": 0
+    }
+  ],
+  "pre_final_revisions": "All material revision findings were repaired or explicitly reconciled as preexisting frozen-base divergence, then reviewed against the final staged subject. These initial verdicts are not promoted to final acceptance."
+}

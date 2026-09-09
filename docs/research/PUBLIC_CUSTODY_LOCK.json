@@ -1,0 +1,1502 @@
+{
+  "authority_boundary": "Content identity only. This lock does not assert publication, target adoption, implementation or release.",
+  "files": [
+    {
+      "bytes": 97430,
+      "path": "docs/research/genealogy/ARCHIVE_OCCURRENCE_INDEX.json",
+      "sha256": "147117fe720cece37b225a7e9ee1a0ce3861845aa89fd961e3c8528e5f120f0f"
+    },
+    {
+      "bytes": 70644,
+      "path": "docs/research/genealogy/CORPUS_MANIFEST.json",
+      "sha256": "3b924991d8bf81b4eb9fdb39cf1dd2e57398aa612a449cde53e82abac56a13a2"
+    },
+    {
+      "bytes": 48135,
+      "path": "docs/research/genealogy/CORPUS_SOURCE_LOCK.json",
+      "sha256": "dbff42652b791ab88dc949332f9accf89f78fedc2603548179f0432e2edd806e"
+    },
+    {
+      "bytes": 63356,
+      "path": "docs/research/genealogy/CUSTODY_REUSE_LIMITS.json",
+      "sha256": "5a9d4e89b06327aa39643298ec152476508950bbe74408c6cd1d8601e32fead5"
+    },
+    {
+      "bytes": 4354971,
+      "path": "docs/research/genealogy/PROPERTY_MASTER_INDEX.json",
+      "sha256": "03483356fd8e92118498530b815f0321a6159b9f6bf0a911a6819d5d35985fd0"
+    },
+    {
+      "bytes": 3706,
+      "path": "docs/research/genealogy/README.md",
+      "sha256": "99a044541e1521419624fd0da2707871a566faa322c670ad48aab42af352ae50"
+    },
+    {
+      "bytes": 5333,
+      "path": "docs/research/genealogy/REPLICATION_GUIDE.md",
+      "sha256": "9492fc13bc7bddcb00579ce9c00ec065600607f1fa75789b179d9148ec62956d"
+    },
+    {
+      "bytes": 1931,
+      "path": "docs/research/genealogy/RESEARCH_METHOD.md",
+      "sha256": "7809462fc7997777d66bbf787d68b82e9283e9ed646b9de4e2cf821773869546"
+    },
+    {
+      "bytes": 1130,
+      "path": "docs/research/genealogy/ama/README.md",
+      "sha256": "bcb8c615d913ca2dd1c3884ac988a918258c9db55ac6b669c1f0482011b5081c"
+    },
+    {
+      "bytes": 7024,
+      "path": "docs/research/genealogy/ama/TRIFECTA_MANIFEST.json",
+      "sha256": "586f0fc16ef6808e4632ef5b351aaf4adca224f0c295e405ec8d6773b8000969"
+    },
+    {
+      "bytes": 14880,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "e6307ae81ddb30a293e0eac41846e6cd0fc1de3e95f6cd46456214012b60b16d"
+    },
+    {
+      "bytes": 681,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/README.md",
+      "sha256": "7ec486a120f985084e8144e11d0039a8c0fa92b3e8a69f9bdbf98bf376774ad7"
+    },
+    {
+      "bytes": 536787,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_AUDIT_INTAKE.md",
+      "sha256": "1c481e0eeb0ddd31d62b521e070a082392d097ffe6c0d142dfc75519c3a8e029"
+    },
+    {
+      "bytes": 4200,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_COMPLETENESS_REVIEW.md",
+      "sha256": "ba2fd1dd317babae4002904fd0d4edef90a047694c3d2aee40170dbca5e9eadc"
+    },
+    {
+      "bytes": 837331,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_COMPOSITION_MODEL.json",
+      "sha256": "578c5f849ebacabdfe0a8e9624a7f68114c5bd78052ca1413b0e9c95681d4f3b"
+    },
+    {
+      "bytes": 893404,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_CRITICAL_EVIDENCE.json",
+      "sha256": "f9547b406c5b0e29e5e0b7676360484286e0c9648dacbecec25fdce5d9828fd0"
+    },
+    {
+      "bytes": 5110,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_FRESH_VERIFICATION.json",
+      "sha256": "24d9f905972e79d4fb3e41e5662d38008182600f8f86649d7b300b4a539144e3"
+    },
+    {
+      "bytes": 12641,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_FROZEN_MANIFEST.json",
+      "sha256": "ec1756234c44d4c44548e068d40e217e1011f24aed6716939100058c837d0f3a"
+    },
+    {
+      "bytes": 217342,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_FROZEN_REPORT.md",
+      "sha256": "3d20b25cafc8bba9384af41a6b217964bbe25dd0d4a099c1ac0bf54e62c4d6b9"
+    },
+    {
+      "bytes": 6563,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_INPUT_VERIFICATION.json",
+      "sha256": "0f01ff64f8bddf8718cd09137139a0bb1b42cad002ed9f17763637e27236c425"
+    },
+    {
+      "bytes": 11620182,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_PROPERTY_LEDGER.json",
+      "sha256": "44a92b022f65fcd2905679a4d41adc7067f258bf304818cb8897620d0db02343"
+    },
+    {
+      "bytes": 5744,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "6eb6e34e0830466072d6280f3fcbe752d26a8798b2d21a9d1c00da921d808cc5"
+    },
+    {
+      "bytes": 703288,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_RESEARCH_COVERAGE.json",
+      "sha256": "e6fd3b332e84ab543d2cb00dc0b65d1270bf88e8f5c4d3ef4ae72b457d6434b0"
+    },
+    {
+      "bytes": 816460,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_SOURCE_TABLE.json",
+      "sha256": "1fc500c2a08c7a1343f94b1d6513a122bdb49e2eea64e9015a65686005156721"
+    },
+    {
+      "bytes": 1004166,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_SYNTHESIS_INTAKE.md",
+      "sha256": "880677edd1ecf568c661841567b51e9fa0c41dcea772aeeee3d22b4347e3e3bf"
+    },
+    {
+      "bytes": 29056,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_VERIFICATION.json",
+      "sha256": "721602ef00023bf28809bffd022f494e18d155659a31443707599c8d976a8608"
+    },
+    {
+      "bytes": 295739,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_INDUCED_RECONCILIATION.json",
+      "sha256": "34494fb8354285098a5ebf94e69de372191a69f22e599bbf134fd78d43d38f18"
+    },
+    {
+      "bytes": 7085254,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RECONCILIATION_LEDGER.json",
+      "sha256": "d34a5578e5659ad8bf048acc69a73571cebb494e503fbf405aaf673307587727"
+    },
+    {
+      "bytes": 444655,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_RECONCILIATION_LEDGER.json",
+      "sha256": "60fa45aaf0fa2ab92f8e4d60f60992c0474d379fa6339cde55692a1532bf7fdd"
+    },
+    {
+      "bytes": 1491,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/START_HERE.md",
+      "sha256": "68bb60e25d4104fc0abb007d661dcc5cbefa83ea57e0d951f9152f93109d240f"
+    },
+    {
+      "bytes": 469408,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/inputs/PACKET_A.zip",
+      "sha256": "18307c9d436757eb102ba73da31e00ce78bd08596ee7437bba4a7750810f4b87"
+    },
+    {
+      "bytes": 409921,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/inputs/PACKET_B.zip",
+      "sha256": "6338c0582fc2dcd521a0325a5b73f16a2eb412ef9332f43819a9572c63ec1bce"
+    },
+    {
+      "bytes": 18728,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/corpus/verify_packet.py",
+      "sha256": "8f55136e4c49db4709cfb56a4d47891acaa3c22cca1ca7d08589e15a73bd65ef"
+    },
+    {
+      "bytes": 3728163,
+      "path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/packet/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "17cf10e5bedfe8a52d0a85c81c318294a0d80e5ca8ad8f868e12b7a116b34b9a"
+    },
+    {
+      "bytes": 5095,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/LINEAGE_MANIFEST.json",
+      "sha256": "bb84680ede1b71ab4c589741a2dc0deae5514f2570068901a95acabb2f9ee67c"
+    },
+    {
+      "bytes": 632,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/README.md",
+      "sha256": "c119d948904ff31479b96f1f201a9c6373d56130f441907d1ba57877d773253c"
+    },
+    {
+      "bytes": 461457,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_AUDIT_INTAKE.md",
+      "sha256": "2648936d940defadfc2a1765e2bb0f91a90e52a969ef305dc25cdf9b2840227c"
+    },
+    {
+      "bytes": 97057,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_COMPOSITION_MODEL.json",
+      "sha256": "a0c6ee0f81f1b8947287240902367ca7c2683bf36558f5f4e2f00a1decc0a84c"
+    },
+    {
+      "bytes": 14262,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_FROZEN_MANIFEST.json",
+      "sha256": "60ee322e067d821bb608adb068ff17c085b707f37bad62ad70430ad60c0581f2"
+    },
+    {
+      "bytes": 357659,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_FROZEN_REPORT.md",
+      "sha256": "f28c1980e2fc39a22906a9033c777fcbccfbb4565f06dd347102da65ce204ca8"
+    },
+    {
+      "bytes": 1319756,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_PROPERTY_LEDGER.json",
+      "sha256": "f3e41e27ef00d6de747ad51d321ae8e0b0498623344f93649a99b1ad5cc286c9"
+    },
+    {
+      "bytes": 10781,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "5593cfe0bc1e4d5858636a7a16ea1b6b1b8a9765cef06bde4b470e6aff3c9c12"
+    },
+    {
+      "bytes": 44647,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_RESEARCH_COVERAGE.json",
+      "sha256": "1fb127d78d76becb00bec0fcda803fd83c2a54cd67e2711a99a166f37ee2b6a5"
+    },
+    {
+      "bytes": 217395,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_SOURCE_TABLE.json",
+      "sha256": "333f161ada6d11c33c610500fc9ff21b985e58eb18f334dee11ec34833de453f"
+    },
+    {
+      "bytes": 173264,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_SYNTHESIS_INTAKE.md",
+      "sha256": "fe0617e77505d5a0a3f1cedb57997f8e300c082ce0fa12b2980f659fb3b303b0"
+    },
+    {
+      "bytes": 412040,
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/packet/EVOLVED_AUTONOMOUS_AGENTS_FROZEN_PACKET.zip",
+      "sha256": "009b37693541d387a2d65c281815731a05423b31fae298a9c6c99ad069e87769"
+    },
+    {
+      "bytes": 5223,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/LINEAGE_MANIFEST.json",
+      "sha256": "cf32e7039686a14be8599647d2f57a80e424cd459fe4df452aef0571e8f734ba"
+    },
+    {
+      "bytes": 637,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/README.md",
+      "sha256": "4c8e5a217497b5ae0cb0b3d30524684467a31a2ed69a1daaa39409917c8eb061"
+    },
+    {
+      "bytes": 407334,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_AUDIT_INTAKE.md",
+      "sha256": "989f43d73308d6763006cf8ce7d628a51b0d989736f49cd148371686aeb0fc24"
+    },
+    {
+      "bytes": 549161,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_COMPOSITION_MODEL.json",
+      "sha256": "ca78b821b4a21e220d0f5c9e4c3a3cec11e10c2d1a8680edb56a4c2e8dc6b10f"
+    },
+    {
+      "bytes": 12889,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_MANIFEST.json",
+      "sha256": "9b45d73024bf16ca00caee16b00991cc8fbf0da9423240212c180759979b2ac8"
+    },
+    {
+      "bytes": 236479,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_REPORT.md",
+      "sha256": "0fb1b697bb036ab63bda37b9327e5e7b17e70bba548313bc5c23abd560ab9ffb"
+    },
+    {
+      "bytes": 949484,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json",
+      "sha256": "3a7ab2f6938ed69f31bbeac2dc574c3b6e189e300482ebcc904fb7151c86ae98"
+    },
+    {
+      "bytes": 9822,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "bbb41cd8515cd2c0eac1da26fc73d657902794e994683aa8a2f80c538dffb2b9"
+    },
+    {
+      "bytes": 135256,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_RESEARCH_COVERAGE.json",
+      "sha256": "dfb0e4715195ef330033e85ef25fbf999c97182ba2f4a0644ab65eaefd6ea72d"
+    },
+    {
+      "bytes": 94354,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_SOURCE_TABLE.json",
+      "sha256": "6dd22f2d278354349b35a031f50beea41c178d33fb23f574f1267f56f933da93"
+    },
+    {
+      "bytes": 146759,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_SYNTHESIS_INTAKE.md",
+      "sha256": "4882eab337c511680f4a2368f0f4a920f5829c8f487c89365376eb47ac116cd5"
+    },
+    {
+      "bytes": 370502,
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/packet/EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_PACKET.zip",
+      "sha256": "84af391ed2c82514f0e22ff671a0945945dec608ffccfde485e2302374bab227"
+    },
+    {
+      "bytes": 10534831,
+      "path": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+      "sha256": "1c9654ab3017ecccdd3b24810b20ac23a5b51a5c19c1a488b64a2684dade026f"
+    },
+    {
+      "bytes": 1130,
+      "path": "docs/research/genealogy/bwp/README.md",
+      "sha256": "2c2ecff6b946c6879d6edfe67ae884631943c35cff0ccfdb58757bb244b7f751"
+    },
+    {
+      "bytes": 12664,
+      "path": "docs/research/genealogy/bwp/TRIFECTA_MANIFEST.json",
+      "sha256": "323cca999046258c178b4173b358afca8fe6a2a4e88d3a913b171ec4ee17baee"
+    },
+    {
+      "bytes": 5490,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/LINEAGE_MANIFEST.json",
+      "sha256": "d2f62753e14b0d851c8c10275cec1841155abca676c1d694685464d6248c02fe"
+    },
+    {
+      "bytes": 703,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/README.md",
+      "sha256": "0731b40e9d40d8f1b990f3d34727705c7e4c12e0c783d64f3cc3fae9fb4dac33"
+    },
+    {
+      "bytes": 508989,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+      "sha256": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544"
+    },
+    {
+      "bytes": 428485,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281"
+    },
+    {
+      "bytes": 22271,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+      "sha256": "5f6286ef670308609381bc22fad3bc9da8cc9fb1bc0823b9aa4954c3dc741643"
+    },
+    {
+      "bytes": 322958,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b"
+    },
+    {
+      "bytes": 1072094,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3"
+    },
+    {
+      "bytes": 22872,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "b65e032f83fa7fa313d73b73e1da3e584e3f0aeac9cee31e4f565a507d67a7e1"
+    },
+    {
+      "bytes": 35897,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "sha256": "ab80dfb7efe31880c9ddc5439dce3ed63c10bfef41e701bc74958d425c0c9c20"
+    },
+    {
+      "bytes": 132848,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+      "sha256": "268c84bb082ccafb2ca4f99cade4099e5b8d48214dc9cc9820f26bd441b00440"
+    },
+    {
+      "bytes": 286670,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/corpus/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "sha256": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b"
+    },
+    {
+      "bytes": 431686,
+      "path": "docs/research/genealogy/bwp/evolved-business-process-management/packet/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET.zip",
+      "sha256": "94f96cf38e32d373d5962f23f86e33513cc865dcaa899716797771cc76d3df49"
+    },
+    {
+      "bytes": 5211,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/LINEAGE_MANIFEST.json",
+      "sha256": "fb57c9979a5bea605a172b341e83940371503fdab61fd32bfa7ec46eca54ead9"
+    },
+    {
+      "bytes": 664,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/README.md",
+      "sha256": "b7dc034f3e5f153dc8b6f54000061d14ef9afeef80680f564a97f09e750e4ffa"
+    },
+    {
+      "bytes": 287614,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_AUDIT_INTAKE.md",
+      "sha256": "22e9729be518c77dfa2089f068d99829c4788a0a76786817c27c5280ef186e69"
+    },
+    {
+      "bytes": 607307,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db"
+    },
+    {
+      "bytes": 12229,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+      "sha256": "0a733f6a496c567044e8ec324038d57c5f0f7af5803413f0ae8b415b7c5a3677"
+    },
+    {
+      "bytes": 256626,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead"
+    },
+    {
+      "bytes": 1053080,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019"
+    },
+    {
+      "bytes": 10676,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "1b2eb4438c6fb62dd60e244d1004b1e1bd0f12c0e352d387cb8410d434dcbf07"
+    },
+    {
+      "bytes": 34847,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json",
+      "sha256": "78fd3dcf3b9d2b343bbbc736b056955ae73dd6e7fb560c794f8f54a7608ad84c"
+    },
+    {
+      "bytes": 221420,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7"
+    },
+    {
+      "bytes": 18001,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/corpus/EVOLVED_PROCESS_MINING_SYNTHESIS_INTAKE.md",
+      "sha256": "e32a42cc2557debc4bc883193eb8c06d999b5ef16a1dfc2d568119b261b7e007"
+    },
+    {
+      "bytes": 378624,
+      "path": "docs/research/genealogy/bwp/evolved-process-mining/packet/EVOLVED_PROCESS_MINING_FROZEN_PACKET.zip",
+      "sha256": "94e2d898e5ea6f15bcd913b8c13c7b83e3dc477879e3f20375520a50cbcf9858"
+    },
+    {
+      "bytes": 5224,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/LINEAGE_MANIFEST.json",
+      "sha256": "894c78a01697d7b9ab530af15e30ea83f02f36e48bed59d0d95c3b411937826a"
+    },
+    {
+      "bytes": 679,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/README.md",
+      "sha256": "7f97df40d595155451dd45a3b758927f8b251423fcd1897f16e8176486ec309e"
+    },
+    {
+      "bytes": 246937,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_AUDIT_INTAKE.md",
+      "sha256": "4a507781337d04f512ad5031df8c58ef2d74f10f0e797c79b707a3c9ca210e01"
+    },
+    {
+      "bytes": 806187,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json",
+      "sha256": "ba6121eb3a9ee8e322b635472528f8819952264776b04ac238593bfd61b86137"
+    },
+    {
+      "bytes": 14605,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+      "sha256": "69dd419cb5ebf3eae661042660f936783ff92e7d930369e0faa849e3d568401f"
+    },
+    {
+      "bytes": 269451,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md",
+      "sha256": "6fb3f75e6352cb2d90fcee79b3fcc28d7984cf262fa69b64afab9377729d69a2"
+    },
+    {
+      "bytes": 1095256,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+      "sha256": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c"
+    },
+    {
+      "bytes": 11107,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "53b6d58f31c4702bb6047195e30aa354b3b9fb86fd4890cfce332fde5ebdf4fb"
+    },
+    {
+      "bytes": 54652,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "sha256": "1ebf8485e4da80919052476e08d9b5fddf4839f61ecebd9074e2e581a34479f2"
+    },
+    {
+      "bytes": 86047,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json",
+      "sha256": "e3d40e2befea3dfcec003d532905171d4d6283148a7612ac69ab1002b905d36c"
+    },
+    {
+      "bytes": 17148,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "sha256": "20e50d58d3208da1d5c72271faabfae911b975e6840b5fa6bb3b679ad6f9b481"
+    },
+    {
+      "bytes": 373995,
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/packet/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_PACKET.zip",
+      "sha256": "e477651fe3629f33e98ddc04f51d33c4907c8fd659a7d518ba11e0544239e818"
+    },
+    {
+      "bytes": 5322062,
+      "path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "sha256": "6e3c95f7c81e5bbac67880f6ff58d360112e706d3469edbd8da425cb61233214"
+    },
+    {
+      "bytes": 300,
+      "path": "docs/research/genealogy/css/README.md",
+      "sha256": "314a45edbc820f0a83f547980835eee316f701a5c6aac270bc0b457732e5fc5b"
+    },
+    {
+      "bytes": 5055,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "91943c74d5edc212bddde53d8b7ecb464eaf49cce7821cbcfbf9a4c9fff3c336"
+    },
+    {
+      "bytes": 486,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/README.md",
+      "sha256": "33a52f3bab9852a5a3faafd3181c5b4ad766bb9d51b3588fd0a20ca73d5388dc"
+    },
+    {
+      "bytes": 371847,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "69d11f96b23ef392b9698cf1cdfaa8a7549d5c730d7abacf51b7785a4704f740"
+    },
+    {
+      "bytes": 3676,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "4d35ef76b2b59d2945118fc0e15ba6a76501f6ad2de764eb5b41ebe408575721"
+    },
+    {
+      "bytes": 1160592,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "e1a366ba2ba585b78abcb8e5d26f2bf91ddc5bf74ebb9b05b078c1caeed0daca"
+    },
+    {
+      "bytes": 613718,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "b036e57b18548047a27ed90201cb37c55ccea7b0aae67f43103d0dbc3a8e1606"
+    },
+    {
+      "bytes": 21050,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "aaff035ecbe3605cd577edce1c5a0e9db0decefe267373c976e54b6c71057cb2"
+    },
+    {
+      "bytes": 110335,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "75be8e817b3b128f3aa8ea41f1818772a84ac3ae421f265abd3de7f34e53c1eb"
+    },
+    {
+      "bytes": 2282388,
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/packet/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "3de33648e6261d1e827f63ffa72f028892e6e19755f34fdf77beb0e3dcb9801e"
+    },
+    {
+      "bytes": 4819,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "19a6c41903509bf65e1fee96049742d6825d3ba0a8dd9f36f759da73e0c2ba3e"
+    },
+    {
+      "bytes": 498,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/README.md",
+      "sha256": "295884fbee2a49e822bef1472098952a2ff661e6077b6e9baf851bd0eda489dc"
+    },
+    {
+      "bytes": 263027,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "1b242a2f0642a9e3f89f9006a6eb48e3c6c8812c18ad4385f24a8ca920075cca"
+    },
+    {
+      "bytes": 3639,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "3ec6a5e8e44e9577989ca2a82dd1723173c55af0db27e84ddde516350e5b83be"
+    },
+    {
+      "bytes": 526917,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "e76f75acfbafb1d1c7c21c82753d6ae0c8b9e3acd06bf7c76e7efb4766be716d"
+    },
+    {
+      "bytes": 386050,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "a214527c1859133d2745e9c97e63b021ff09f50cba3f8f5a4d026e5d20ee7de9"
+    },
+    {
+      "bytes": 14023,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "774d29a07abb1a0d590be397deca56d2648eba78a4ead778dcad8f8b12a064e5"
+    },
+    {
+      "bytes": 107390,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "128ac878b92d9335d617ae10aabd79ee9d9029d411101e09472219c9a3c40606"
+    },
+    {
+      "bytes": 316068,
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/packet/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "fc6df294675249d3241bb3ec6c08eec062d90c60c859479731e7cfdef1925d2d"
+    },
+    {
+      "bytes": 3708,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/LINEAGE_MANIFEST.json",
+      "sha256": "c3df4c13579e5770cd5e0ac1726bb02bb49fb553fffc825e03c9eb63480b8a60"
+    },
+    {
+      "bytes": 500,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/README.md",
+      "sha256": "ed1b82e808d3ac8211711178407c74a1faeee13d4cdce7d3b5e8635347aeb603"
+    },
+    {
+      "bytes": 428105,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_AUDIT_INTAKE.md",
+      "sha256": "d8acc4c4127ffcaf263c72fc2d6a17e8a107d8229f5a1b30c9d58cd1247fee93"
+    },
+    {
+      "bytes": 3064,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json",
+      "sha256": "dc305d8f60ac60a9a3c04970eb2ad537e906df33cce3cd6de58cc01f2a42784d"
+    },
+    {
+      "bytes": 1404068,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_FROZEN_REPORT.md",
+      "sha256": "58f941bcf9e658b8f509d45ee60b4fa93496c461334c80bb29fb83d9f1eb154c"
+    },
+    {
+      "bytes": 608184,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
+      "sha256": "39f7209226bee0ebd65dbc028b021824529d9a90aec8013ab9e369ef77146626"
+    },
+    {
+      "bytes": 17283,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "441a5254a87a2fe30a8fe1212d16588402c8a1a201e42b1618af20daafa3e24b"
+    },
+    {
+      "bytes": 122212,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_SOURCE_TABLE.json",
+      "sha256": "e6022f29cacd735aa1e1fdd1da6405ad42fcf72808efb9d6184b1e6f306e1d0e"
+    },
+    {
+      "bytes": 390794,
+      "path": "docs/research/genealogy/css/evolved-systems-safety/packet/EVOLVED_SYSTEMS_SAFETY_FROZEN_PACKET.zip",
+      "sha256": "e2d25171f56d20ec2b3f4b190d83b7173ae16834786882d4644a683fd14dbca9"
+    },
+    {
+      "bytes": 320,
+      "path": "docs/research/genealogy/drf/README.md",
+      "sha256": "8eb527c1a55732eaa7d47f8a22569aa96effbbbbc60224161ddd84597b16c4e4"
+    },
+    {
+      "bytes": 4351,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "e44b5c049f1d09c97e6cf920ff2fb4fd29ee70808dd5f3211ee35b4c6db12ef4"
+    },
+    {
+      "bytes": 522,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/README.md",
+      "sha256": "bb8b7001655fb5334ab16dd61864736e656aee88fd7ad505b2546bebb40393b5"
+    },
+    {
+      "bytes": 286167,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "19e11a56d629f4a9f94444cc9be7ab4b3f0db4dbe768fa8d1ca03bde73241c9a"
+    },
+    {
+      "bytes": 4206,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "5457def3428735337f11efd88da865275b1060459e4a275ad1a12ddf48ed66a0"
+    },
+    {
+      "bytes": 727682,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "a1abf4c35cf846fc743107d4f8a5469df7aff6679159e9cec2efb4232933ee12"
+    },
+    {
+      "bytes": 510298,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+    },
+    {
+      "bytes": 17252,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "5b3fff014187949e0a76e8d93b004458babf6a51175ba7a95b7c25e85b22b81b"
+    },
+    {
+      "bytes": 105252,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "02b63db467a8f6d19262cbb16c20de899a09248f546cc35d1e9900226ff85e31"
+    },
+    {
+      "bytes": 261109,
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/packet/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "5cb8b437d2091c243313a07c9de77a69fdcc07c1ca01adcd876464e72c1f72b9"
+    },
+    {
+      "bytes": 4585,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "b02fde9eb7eb9ca17bb3e0cbe18fa37a0049627516a57ada1de41ff3d02e168a"
+    },
+    {
+      "bytes": 614,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/README.md",
+      "sha256": "bf32e7f7f159349c9a976a72b9bc35b54260ff3717df390051c72d0efa305c16"
+    },
+    {
+      "bytes": 646116,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "3061c1e5c7090a12b60bf0858e644a303d128e1e59d2fc6eae722fd8f285de86"
+    },
+    {
+      "bytes": 3631,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "b68b31b6f18b45e75c43bbb452dd1d9dbe3e2a80654f4d8c27833155f1d8e0b5"
+    },
+    {
+      "bytes": 484610,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "6f45bf9a15366820916327d617183d9c4b8c9d5c18309cdb2f8bd22b9b24f687"
+    },
+    {
+      "bytes": 466039,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12"
+    },
+    {
+      "bytes": 18551,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "233530d8f4dbef2de02593b0082d7d8cfc10044c32f4a356c9fabde500132d3d"
+    },
+    {
+      "bytes": 139910,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "e030f4580b647ab27c4932d8352e26060c74cfa02384c702bf1437c1aa1b0794"
+    },
+    {
+      "bytes": 359797,
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/packet/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "2d6901f8d244bf4b71302099158fe9a27c957bdc4836781d4d40df83fcebb875"
+    },
+    {
+      "bytes": 4938,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "70b807a47dabfa5566305a1a99e62895950b22b9a047c64f660cb37c1da9600b"
+    },
+    {
+      "bytes": 540,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/README.md",
+      "sha256": "146ba2f0b60dd00049833494ca0e1489713633d1b9cd05dc366515175f673c04"
+    },
+    {
+      "bytes": 339623,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "1ce795d9dffb28eece7f97df9484484e9466d372025bf363c192f0d3db3ad3c3"
+    },
+    {
+      "bytes": 5101,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "314c035c1064bfef28d112a3249fff2ddadfb87765973cb86418e648eef97334"
+    },
+    {
+      "bytes": 1191942,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "902715c7b5dec645ede1bb6e899f045bde3d8c46a3cb987e8fc49b6f5823d3b2"
+    },
+    {
+      "bytes": 599311,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2"
+    },
+    {
+      "bytes": 28910,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "c650657428d6297eb6711f643f20388a4c8b3779416e8dbc9d0ae57368235cde"
+    },
+    {
+      "bytes": 90702,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "4a17c8b2e36b1b8228d0cc4002e69fc12a67ad77f78eceed5cade5ee55226f4a"
+    },
+    {
+      "bytes": 343118,
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "bd38d2079a1d33768d49533e959971973a11dd6562ccfd950f4b6138667f1422"
+    },
+    {
+      "bytes": 316,
+      "path": "docs/research/genealogy/law/README.md",
+      "sha256": "e6ad0185e3b6def855dbe1656cd1beb5f357d5f20de7b70808595c87e6e4a9b0"
+    },
+    {
+      "bytes": 1367,
+      "path": "docs/research/genealogy/law/evolved-agile/LINEAGE_MANIFEST.json",
+      "sha256": "bb1f151ccfac6b92b0111e1c97996e43f601e9979fca4067703b27bdea9d0cda"
+    },
+    {
+      "bytes": 497,
+      "path": "docs/research/genealogy/law/evolved-agile/README.md",
+      "sha256": "4e6b4436fb0be3290b720b852e8a671f9a12053208e0d4c2c63dac183782b021"
+    },
+    {
+      "bytes": 158201,
+      "path": "docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_FROZEN_REPORT.md",
+      "sha256": "d3380082a7981ec1ccfdf411ac0a77cdb5e82dac7357937872c0bf9a759617c4"
+    },
+    {
+      "bytes": 96057,
+      "path": "docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+      "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219"
+    },
+    {
+      "bytes": 73438,
+      "path": "docs/research/genealogy/law/evolved-agile/packet/EVOLVED_AGILE_FROZEN_PACKET.zip",
+      "sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0"
+    },
+    {
+      "bytes": 1347,
+      "path": "docs/research/genealogy/law/evolved-lean/LINEAGE_MANIFEST.json",
+      "sha256": "7fcf903edd99d53b48fca6c9c3314f6afd46e5929a77799942d707a2626cae23"
+    },
+    {
+      "bytes": 534,
+      "path": "docs/research/genealogy/law/evolved-lean/README.md",
+      "sha256": "4b5363bdbf7ee4b7eae10c38c32e2d594feedadece3b585c906310334947168d"
+    },
+    {
+      "bytes": 401879,
+      "path": "docs/research/genealogy/law/evolved-lean/corpus/EVOLVED_LEAN_FROZEN_REPORT.md",
+      "sha256": "b0edffb7d09971ae5bf1f4b2c6c4cabd968d016563504597553d66aa7db1ccf0"
+    },
+    {
+      "bytes": 435938,
+      "path": "docs/research/genealogy/law/evolved-lean/corpus/EVOLVED_LEAN_PROPERTY_LEDGER.json",
+      "sha256": "5d82d354bbd0dc0bfbc2dd2020f15556dfc5fee964a5d61e68be06abe5eb6d3a"
+    },
+    {
+      "bytes": 222053,
+      "path": "docs/research/genealogy/law/evolved-lean/packet/EVOLVED_LEAN_FROZEN_PACKET.zip",
+      "sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a"
+    },
+    {
+      "bytes": 3446,
+      "path": "docs/research/genealogy/law/evolved-waterfall/LINEAGE_MANIFEST.json",
+      "sha256": "50439f7e4bf257e12226d0fbe23dc43e0cf065406a042bd95f8649d93d8c74b0"
+    },
+    {
+      "bytes": 456,
+      "path": "docs/research/genealogy/law/evolved-waterfall/README.md",
+      "sha256": "40fe5924e5a4d9d8754e10454fe0ec92175c3d0d5c923554e2ffafcfeabb2805"
+    },
+    {
+      "bytes": 63348,
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_AUDIT_INTAKE.yaml",
+      "sha256": "ef885b8f6f9489aded13f1498056aaa8ae83cdef622ec79ef4202d13566aae81"
+    },
+    {
+      "bytes": 309891,
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_FROZEN_REPORT.md",
+      "sha256": "f76ff4c710c1328e1ee528bc49f202ff6e0ee39d5fa5166a8f44010c9bfbc3ac"
+    },
+    {
+      "bytes": 244805,
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER.yaml",
+      "sha256": "e569164cb5b987d80b23944b8cf6a8a8e0128903a6071ae8212ed9dad2a4a4b4"
+    },
+    {
+      "bytes": 130173,
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
+      "sha256": "4e3d1cc8b5101b246d15f05b8d434a81b8902fa07a9bf85e873629d8fdf287ea"
+    },
+    {
+      "bytes": 51003,
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_SOURCE_REGISTER.json",
+      "sha256": "e3b97fbe9da9e58cd03f90e1112e2167562c2de1c129ae6f4a3d4650fd117be0"
+    },
+    {
+      "bytes": 1140,
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/MANIFEST.json",
+      "sha256": "9a7e1994c3ddc6d700fed6aa945f42319298ea832cff8e233d7f05eafb155866"
+    },
+    {
+      "bytes": 227035,
+      "path": "docs/research/genealogy/law/evolved-waterfall/packet/EVOLVED_WATERFALL_FROZEN_PACKET.zip",
+      "sha256": "2c8165bf872bd42a724069be51b69feb213cce62095acad80461924285dea2a6"
+    },
+    {
+      "bytes": 1337,
+      "path": "docs/research/genealogy/method/SOURCE_PROMPT_MANIFEST.json",
+      "sha256": "57b10a0cf1771a0d4e24d98ea0b24eed3f897bc1f0757c41aa01b502077b8a0d"
+    },
+    {
+      "bytes": 43633,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "sha256": "e4018df499b2e3c4f5ef8d89ba6f872d46e02af23aa168bb85ed899d91c890e8"
+    },
+    {
+      "bytes": 1004,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DRF_PRO_RESEARCH_PROMPTS_MANIFEST.json",
+      "sha256": "80ad4e7b42e37142f63c939c4f7d89eec6e3347b1de5a971ffc1987c14f61490"
+    },
+    {
+      "bytes": 44184,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "sha256": "96a6ad7ed54124d90abe553bdf80e9db60f321abf2d5a9f57f619c19a511f812"
+    },
+    {
+      "bytes": 43074,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "sha256": "491a8402fc1553f7cd8643c9b560b872101db4b25280b6471966f60a5dc2bf30"
+    },
+    {
+      "bytes": 787,
+      "path": "docs/research/genealogy/method/templates/EVOLVED_LINEAGE_DEPTH_REOPEN_PROMPT_TEMPLATE.md",
+      "sha256": "16c7a2543aa40ed472056add2c0fa942173765f15eacf25c55c311698b223e5f"
+    },
+    {
+      "bytes": 1289,
+      "path": "docs/research/genealogy/method/templates/EVOLVED_LINEAGE_RESEARCH_PROMPT_TEMPLATE.md",
+      "sha256": "36b1e6959f9d220a547b5f7de2eb639a5a50dbd768796b6a1cf911594414c76d"
+    },
+    {
+      "bytes": 1004,
+      "path": "docs/research/genealogy/method/templates/EVOLVED_TRIFECTA_SYNTHESIS_PROMPT_TEMPLATE.md",
+      "sha256": "fd16c6d1208f404efa08def5d303c5c36709b59f834525d266ad524d9b4d895a"
+    },
+    {
+      "bytes": 317,
+      "path": "docs/research/genealogy/ssd/README.md",
+      "sha256": "e6e07adc2f5407ec96a80cef7b0fd4a985c4224f696b340a2c88afa65f3d78a6"
+    },
+    {
+      "bytes": 5840,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "1fab75da37a4949a56f1e0eb7b37f79aa6968deb18e69017d7108def301d381f"
+    },
+    {
+      "bytes": 528,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/README.md",
+      "sha256": "bce5d4e67ca761e12f5946e82a1a6168d02ecf11d2f8087b24dd47265934fbfb"
+    },
+    {
+      "bytes": 342113,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "f77cfeba65655c1d40a1ab45554ebb81581c509deca2d4e0d776f53941c548ef"
+    },
+    {
+      "bytes": 4423,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "60f3a5620e9bfdee02d71829bcc037ab93608a53417a6bd791119dedc4420e64"
+    },
+    {
+      "bytes": 1216577,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "b612b68155dcd3bcb89766c373dcb839926af5c0496128ce104f6ad2d3734fa0"
+    },
+    {
+      "bytes": 486400,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "2aec48f14cf99d12163d5909fc5597239eba300a0bdab2ac1fcf39c85d726b34"
+    },
+    {
+      "bytes": 17022,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "e3bfd147f9ae344a3846a81ea53d65034366b56e1d66beb096e2a32f0b3bbafb"
+    },
+    {
+      "bytes": 139341,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "f869fe814ccc4521fd8856fec72c6d87a2d49e5badec0758d5caf8ee5b0ecaf2"
+    },
+    {
+      "bytes": 325417,
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/packet/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "52d9b73908e00be450c388b18d4a8f64d1243db50a0d49a5397300a702f51ac4"
+    },
+    {
+      "bytes": 4039,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "877384c974a7fefb489df7971e0bf94069be4cd85b2569230aea11c627ba33a4"
+    },
+    {
+      "bytes": 481,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/README.md",
+      "sha256": "2c54245a130ee791486caef798ea3da1892303333fd34c12e001be513e5d0752"
+    },
+    {
+      "bytes": 937318,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "e1005b3f561ee2f3664f7a5595ea6c1ed9e4d53c8788fe838c200a64d2a1e38e"
+    },
+    {
+      "bytes": 3370,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "0be6c2da3fed03ded42ff61fc6d5862d189d50fd86837c57b43ef904af6ba131"
+    },
+    {
+      "bytes": 2402747,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "e33bc3de14fad2f2f0cc5e5af487cce5f15d349c85362af1382f570044fcc6a1"
+    },
+    {
+      "bytes": 1297956,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "831e36b474b22dd3cb2cfbcff4f34bf3a83fc47ac7e342d276800ecc65e4dcd1"
+    },
+    {
+      "bytes": 32090,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "2e3d133f5c16516514ee5a7c7959f1812b0f011c56da2ff24589a8861c0af2f4"
+    },
+    {
+      "bytes": 132329,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "53ed5fb82639ac369c35a011ca2a3f85b6d74ad609f49fc102745d5c2908483a"
+    },
+    {
+      "bytes": 453084,
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/packet/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "cf5987e21dcad3b5a52bf57e0301c37369d39c34d3dd6b26be3a230d50f3046e"
+    },
+    {
+      "bytes": 3999,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "9a9932fee0607752bc517497c229f6637ddd18752a951b656072246126096b60"
+    },
+    {
+      "bytes": 551,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/README.md",
+      "sha256": "39e0b9ce815c7256bf517606e21ff99ea982337414e36db18cfcc400d5054d74"
+    },
+    {
+      "bytes": 300201,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "0975c8ad9bdab63ebcd6a5986c4dc8258d37e04d8f7f80bbdf6845e28aad15b0"
+    },
+    {
+      "bytes": 2272,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "5753153224b8c0bf389d3743f79febadeeb946f06fe8e2b2d4edd7ac0f34db10"
+    },
+    {
+      "bytes": 1019984,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "b19883e97231b3d09ac4bbcfe5dd8010138ea1d06d069beee7a1c6cb38e900b5"
+    },
+    {
+      "bytes": 314631,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "52286c3b6e8c993ba6c0d62844b384f789550b46514e63856ec79ea71cd86b3a"
+    },
+    {
+      "bytes": 29541,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "83159cc7735ca14a54c1d9318cc712866a759e281f85804950af0779a440f112"
+    },
+    {
+      "bytes": 128512,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "53ef5ecb4667a06747fdb93b304f261eb5136212798578b62648141947432ef4"
+    },
+    {
+      "bytes": 420747,
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/packet/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "8344c8083e2812163166869feaacbaf072447c12301082bcb4594786bbf3f5f3"
+    },
+    {
+      "bytes": 1130,
+      "path": "docs/research/genealogy/sss/README.md",
+      "sha256": "df87e33bff8e9a5ab51f2529c5479aa159e07f483b17ba83bebc905826ecfd85"
+    },
+    {
+      "bytes": 6331,
+      "path": "docs/research/genealogy/sss/TRIFECTA_MANIFEST.json",
+      "sha256": "1716bffa5fe257d7a05a899ae6e63a9fd5ebd81855e36d7d0d6fd268faed1de5"
+    },
+    {
+      "bytes": 5288,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/LINEAGE_MANIFEST.json",
+      "sha256": "4bed06ae2b537e19cf1b836e35986d22a681327ac16cc437c9c25099fddac49a"
+    },
+    {
+      "bytes": 641,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/README.md",
+      "sha256": "b9cb56497fc8cd51cafdaf1b828574fe0d434c2b64f4119a4cec9fdb2a594eef"
+    },
+    {
+      "bytes": 315040,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_AUDIT_INTAKE.md",
+      "sha256": "414992206148f02ec425260693f0e57c956719b7142b91b1e36996a0dc677671"
+    },
+    {
+      "bytes": 82429,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_COMPOSITION_MODEL.json",
+      "sha256": "c6f6df8aba685c2da1da109022532bf0e0cdbfcd49b59189d983c23aea213033"
+    },
+    {
+      "bytes": 7282,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_MANIFEST.json",
+      "sha256": "0345df8915184db77e9d7163a4120e989e95d562d26bbbd426eccbb75b08da2b"
+    },
+    {
+      "bytes": 205368,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_REPORT.md",
+      "sha256": "65dcb9ab6ab12da4fe167933e3e57a52ed63a6433885ea93e227ce4cfc4581eb"
+    },
+    {
+      "bytes": 969783,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+      "sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274"
+    },
+    {
+      "bytes": 16150,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "bac8aad14208a31b50a6cf32fd84bc67d227330241b983cfdd151e7da7ba5fea"
+    },
+    {
+      "bytes": 190851,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_RESEARCH_COVERAGE.json",
+      "sha256": "54ce3f1ba95024582bd21ba907267ff456f5d2cb44c60a247bbec7df456eb6fc"
+    },
+    {
+      "bytes": 124133,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_SOURCE_TABLE.json",
+      "sha256": "2effa898057f3a41fbc6dfa405c455c4ed2e18cc85e5077de037fa7262040101"
+    },
+    {
+      "bytes": 137321,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_SYNTHESIS_INTAKE.md",
+      "sha256": "459b69d26c1062861d86a3b76db9a919cbde47756c367e9ff283b7b8f4d580e8"
+    },
+    {
+      "bytes": 306979,
+      "path": "docs/research/genealogy/sss/evolved-software-architecture/packet/EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_PACKET.zip",
+      "sha256": "26ec0f2bf1c016d7772b9f041aa34c5cbe463762f62e63c6ece486a762e135e0"
+    },
+    {
+      "bytes": 11584,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/LINEAGE_MANIFEST.json",
+      "sha256": "5bb041b18cce8aa15ba03343214606cf67a8432d4b8f1bcd18de48fdfa354506"
+    },
+    {
+      "bytes": 679,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/README.md",
+      "sha256": "491a1eb929ce861858e1d0480b12f9b078055945eba8f711f55a72f17c58538c"
+    },
+    {
+      "bytes": 470110,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_AUDIT_INTAKE.md",
+      "sha256": "4850521bdc3e3303ea47d9ab36a40fa9f627bfcbed59417ce6599407d9e268b6"
+    },
+    {
+      "bytes": 209612,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_COMPOSITION_MODEL.json",
+      "sha256": "a6f0e91bd22809c94c12e34016d26f98b6ec7d963e507a70f9c66de66a18000b"
+    },
+    {
+      "bytes": 778306,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_CRITICAL_AND_CASE_LEDGER.json",
+      "sha256": "41023314ba7d9fba47f6370fec6f74c00fbaf959f9e1369a14dbb46e73f30e30"
+    },
+    {
+      "bytes": 9967,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_MANIFEST.json",
+      "sha256": "dbde68fc09678f633261c98bebfabe308048817f2b9f1ec32bc1b43f9dd0e133"
+    },
+    {
+      "bytes": 70333,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_REPORT.md",
+      "sha256": "da57dddc67cf112abf945a99de952ef79e8db4acb51622d7698e50d414717777"
+    },
+    {
+      "bytes": 131187,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_GENEALOGY_RECONCILIATION.json",
+      "sha256": "96cb252cfad032fac6cc9670e4c9ab465fe40690d3a0ae9a29feeaba91fdf132"
+    },
+    {
+      "bytes": 6059346,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+      "sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a"
+    },
+    {
+      "bytes": 9984,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "6c8ba9c6dbd5a2960c811623b9231c688b40cdcffbd0a9c3c43a487b6fb35abd"
+    },
+    {
+      "bytes": 71826,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_RESEARCH_COVERAGE.json",
+      "sha256": "d8fb6d34803cf6f6f93d271b62626e33ccbb2e8873343e9d23aaf7c149d42fb2"
+    },
+    {
+      "bytes": 488432,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SOURCE_TABLE.json",
+      "sha256": "3ce71e85f89b992330dce243b6de5a168820c6fc957f98421114ef50fe150a02"
+    },
+    {
+      "bytes": 1840231,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.json",
+      "sha256": "1e95a93ebd463df023fee99a7e5ffde527057878dfa3cfb0e0aba4154d79a1a4"
+    },
+    {
+      "bytes": 721054,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.md",
+      "sha256": "9dc2f73e3883e5593154775c46c7c296ae939d986b36c866df3af386b76135c5"
+    },
+    {
+      "bytes": 7877,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_VERIFICATION.json",
+      "sha256": "486c9f4755cceda622978507b67d69d4fed464b9832412655b5b2c2a4a074ac6"
+    },
+    {
+      "bytes": 9789204,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_RECONCILIATION_LEDGER.json",
+      "sha256": "e42c48abd9367d26fa9ac2430b7f5fe79dd4a37568645a476cc516065e0e1b7a"
+    },
+    {
+      "bytes": 672137,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SOURCE_RECONCILIATION_LEDGER.json",
+      "sha256": "2f84d067d9910ea42dde9285b1df639af118a9b3d5b4cce867a8480faead2c58"
+    },
+    {
+      "bytes": 1217,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/START_HERE.md",
+      "sha256": "7d136c256948e22b5a7a8b01c50683cc57fad9251b17d5249499f3aafb318dd1"
+    },
+    {
+      "bytes": 26747,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/VERIFY_CANONICAL_PACKET.py",
+      "sha256": "195adabee5bc8e9f55f01e5c16e0c9b1670ab3f69acf8042047d8e1b7842a2dc"
+    },
+    {
+      "bytes": 34294,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/inputs/CONTROLLING_RECONCILIATION_PROMPT.md",
+      "sha256": "08be56edd8401da275b52515d95eb1cb4b3f878d61a09167cb606cf758c21e1f"
+    },
+    {
+      "bytes": 462887,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/inputs/PACKET_A.zip",
+      "sha256": "164c683b37e50e24ec374180de0112c1f763f8412b1a2d0705c268ae853134e0"
+    },
+    {
+      "bytes": 412381,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/inputs/PACKET_B.zip",
+      "sha256": "89d8623c470239d8237018010e59426610481e27d7e89beb5309be2a02dd7a60"
+    },
+    {
+      "bytes": 3727653,
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/packet/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_PACKET.zip",
+      "sha256": "9c5653e02d680aea0bb40904fe29251c46e279b281bc53f142613d3ab9a40468"
+    },
+    {
+      "bytes": 5624,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/LINEAGE_MANIFEST.json",
+      "sha256": "1ff46d411a9bc7770a06d83b7d727d276e40b448010d412b6098f8d2248ab5eb"
+    },
+    {
+      "bytes": 667,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/README.md",
+      "sha256": "6a059f3acc93207556da67b491a6544c37b9641b79229f56de0fc31c5398d478"
+    },
+    {
+      "bytes": 225839,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "578b23a49a86b5945b144dee8bf62d23a32372db95e6a9c63affc49abf17ea03"
+    },
+    {
+      "bytes": 146005,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_COMPOSITION_MODEL.json",
+      "sha256": "10ba3605e763d61759ee68fff56747bfc9619e93e0f65195a5267a917cc3e71e"
+    },
+    {
+      "bytes": 16556,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "7de7ce437080117d01fd59630b07ace3dbf3f7ef67da2d425b934503b65d5ae6"
+    },
+    {
+      "bytes": 241790,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "987256686de9c32670a41b7881ad36b8239f7a8acbcbf9e877893d96c378d7b3"
+    },
+    {
+      "bytes": 1172693,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e"
+    },
+    {
+      "bytes": 10369,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "478ac25588e345cebf827ca58e0668472fb4c496a6d654bd459ee84b100c1344"
+    },
+    {
+      "bytes": 39495,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_RESEARCH_COVERAGE.json",
+      "sha256": "7c1a74ce5eed1400e5aa877366158ec4c861f9cd58445ce47a0b1a17e3758991"
+    },
+    {
+      "bytes": 111369,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "ad2ce62e0ff0d341dddda637c348465ec5c1912f9b37a4f5837366938f88cfec"
+    },
+    {
+      "bytes": 180088,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SYNTHESIS_INTAKE.md",
+      "sha256": "104a8b486e97daa1c399fd5246abde8e408939aa2e99c8c72071050e22c12b4e"
+    },
+    {
+      "bytes": 352196,
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/packet/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "814c571bd10724eb197b3a8c15a007338b5774bdfc23147342957231295c3188"
+    },
+    {
+      "bytes": 11344299,
+      "path": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "sha256": "920a87ca2a24a792d419ae30a70ced530377e73911f910f06b992c87d8765f31"
+    },
+    {
+      "bytes": 1090010,
+      "path": "docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json",
+      "sha256": "e13b607f907ed6a3e8908b7a42023804823932094f40e9d824cbc59904abb0fb"
+    },
+    {
+      "bytes": 2578,
+      "path": "docs/research/implementaudit/historical-absorption-baseline/README.md",
+      "sha256": "15f95b4c62ee2a393ba9e9a3e9c1474e21fb8eb70a6c9f1ce263ece09375844b"
+    },
+    {
+      "bytes": 769,
+      "path": "docs/research/implementaudit/historical-absorption-baseline/SOURCE_IDENTITY.json",
+      "sha256": "2e3abec017f879979e412896425b17c100c292e552b921f63b3f4fb664435064"
+    },
+    {
+      "bytes": 11447,
+      "path": "docs/research/implementaudit/triad-integration/ATHRUK_IMPLICATIONS.json",
+      "sha256": "675e5f96735b65a376681842c915f86f6c077eae6abc1af523b1dc2b1cf79e7d"
+    },
+    {
+      "bytes": 8143,
+      "path": "docs/research/implementaudit/triad-integration/BASELINE_SCOPE.json",
+      "sha256": "c75c013cd90870b11add3e84d7ab950abd8bf8ed78bc6c243f439e541209e299"
+    },
+    {
+      "bytes": 2887,
+      "path": "docs/research/implementaudit/triad-integration/BASELINE_VALIDATION_LIMIT.json",
+      "sha256": "f5f02252b83d705fea4756e8898e7b4f61243cd625c1451d8725c2f08f51d309"
+    },
+    {
+      "bytes": 22814,
+      "path": "docs/research/implementaudit/triad-integration/COMPOSITION_FINDINGS.json",
+      "sha256": "7f6930b34a88553bf6cac0b4d1f1ab1a8eb2a0847220be80bf1952f4e4a1af47"
+    },
+    {
+      "bytes": 515654,
+      "path": "docs/research/implementaudit/triad-integration/CONTEXT_DISPOSITIONS.json",
+      "sha256": "07cb5f7bebb6afd1af33e41ecacf39ef7023569a6cbb9b03626f57ca9a16edbf"
+    },
+    {
+      "bytes": 89318,
+      "path": "docs/research/implementaudit/triad-integration/CONTEXT_INDEX.json",
+      "sha256": "46a4b2f86a8e8119da7281482aff4f67b59e28d2eee25b5190d60983e9aea1dc"
+    },
+    {
+      "bytes": 2209426,
+      "path": "docs/research/implementaudit/triad-integration/DISPOSITIONS.json",
+      "sha256": "616584f2e13d41fd8afb116f2b81b035d2f4600a13814f7523ebff4010a05dab"
+    },
+    {
+      "bytes": 572582,
+      "path": "docs/research/implementaudit/triad-integration/EXPLICIT_BRIDGE_DISPOSITIONS.json",
+      "sha256": "6eabe63aaa09e92f5be6b3e9b132c4ae3f0c74837c4d509d43fe0b1c5180860b"
+    },
+    {
+      "bytes": 46918,
+      "path": "docs/research/implementaudit/triad-integration/FRONTIER_IMPLICATIONS.json",
+      "sha256": "2cc1ac69e4d625c7cf43ef53de56e9218ecfae8d3261987cbf4ccf5af4b9f226"
+    },
+    {
+      "bytes": 41871,
+      "path": "docs/research/implementaudit/triad-integration/ISSUE_ADJUDICATION.json",
+      "sha256": "3aee7df2e578fa3a0fefdd8c8b0554d9133a85edbe9903cd308d06706368644c"
+    },
+    {
+      "bytes": 864257,
+      "path": "docs/research/implementaudit/triad-integration/PROPERTY_INDEX.json",
+      "sha256": "32aaa95e84b2abfb93cafa899e5e79ccdc5f5240cd185c92b89f4ce44021c902"
+    },
+    {
+      "bytes": 9038,
+      "path": "docs/research/implementaudit/triad-integration/README.md",
+      "sha256": "6fecd6cd87a4222ead1544ec8fcdccd64a3caa145d0aca58493f8827d35cd8ba"
+    },
+    {
+      "bytes": 6771524,
+      "path": "docs/research/implementaudit/triad-integration/RELATION_DISPOSITIONS.jsonl",
+      "sha256": "ef054e36ba1da867b0592dd129037e5401c796d423f5c51983c9551d4ae64a71"
+    },
+    {
+      "bytes": 11255976,
+      "path": "docs/research/implementaudit/triad-integration/RELATION_INDEX.jsonl",
+      "sha256": "ccef68b30b86fcc648331380a092b6bc0faea900c8ba605c6286d7373c74b0d1"
+    },
+    {
+      "bytes": 2689,
+      "path": "docs/research/implementaudit/triad-integration/RELATION_POLICY.json",
+      "sha256": "5cce89a7b84eb2e3e1b96d7b2784dbcb84ec47fef4c71bd02a62a205454e7bfb"
+    },
+    {
+      "bytes": 7430,
+      "path": "docs/research/implementaudit/triad-integration/REVIEWED_SUBJECT.json",
+      "sha256": "f4c2a199743d5da4207f7f52a26745b0b5a60c59afd958056036d5feb86effd5"
+    },
+    {
+      "bytes": 9481,
+      "path": "docs/research/implementaudit/triad-integration/REVIEW_COVERAGE.json",
+      "sha256": "2d36d07977bffad3b724e345ce5ba3e93fa59e0804d406f3694d2a2a4ca86615"
+    },
+    {
+      "bytes": 3939,
+      "path": "docs/research/implementaudit/triad-integration/REVIEW_STATUS.json",
+      "sha256": "d90831b85e934c74f0f70b380dd7bb0b454062e9344be075c05c464a3a429159"
+    },
+    {
+      "bytes": 25909,
+      "path": "docs/research/implementaudit/triad-integration/SOURCE_LOCK.json",
+      "sha256": "5b713ec86bc51f6351c3dee19d51b3bb1a14802360d0ee1646e19bb84c9b585f"
+    },
+    {
+      "bytes": 7232,
+      "path": "docs/research/implementaudit/triad-integration/SOURCE_RECONCILIATION.json",
+      "sha256": "37b1c0a5778b999392b973481f0078348c7cee0bfa5d28f39f36fce654731140"
+    },
+    {
+      "bytes": 7003,
+      "path": "docs/research/implementaudit/triad-integration/analytical_cases.py",
+      "sha256": "a2ee1ae29924de061631276289b1151050443c159ed5cde66e6e84c1a9b3c5e7"
+    },
+    {
+      "bytes": 7795,
+      "path": "docs/research/implementaudit/triad-integration/build_intake.py",
+      "sha256": "aca647944ddec4abe1ed7189ab0b31f4f937aef49280f600f8375f46ff434208"
+    },
+    {
+      "bytes": 2739,
+      "path": "docs/research/implementaudit/triad-integration/reviews/BASELINE_QUALIFICATION_REVIEW.json",
+      "sha256": "98c7bc4f3a541d455413837d688b82371ae28ed9332a7fb9ae8bc8c7ed70556e"
+    },
+    {
+      "bytes": 6349,
+      "path": "docs/research/implementaudit/triad-integration/reviews/FINAL_SEMANTIC_REPAIRS_AND_ISSUES.json",
+      "sha256": "c2916ef5dbb6e1b9b91ceddc532673e20517b7daa48c520bcd89a37f92ff5742"
+    },
+    {
+      "bytes": 2433,
+      "path": "docs/research/implementaudit/triad-integration/reviews/FINAL_SOURCE_AND_VALIDATION.json",
+      "sha256": "ca33d146c33c64a71088e4705dcf5be2585b79db4862e59b61c1caba194ba5b6"
+    },
+    {
+      "bytes": 7115,
+      "path": "docs/research/implementaudit/triad-integration/reviews/INITIAL_REVIEWED_SUBJECT.json",
+      "sha256": "03d95813ade854c68f58313c2d6efd76d5b52e6508bc178eab9719e1d2a34119"
+    },
+    {
+      "bytes": 6600,
+      "path": "docs/research/implementaudit/triad-integration/validate_research.py",
+      "sha256": "d66908fcc34284c102b14c895e97344b3ef242f093fd464b6197e14722d6dbe2"
+    },
+    {
+      "bytes": 820,
+      "path": "scripts/build-genealogy-corpus.py",
+      "sha256": "1889b93335f8563f9749eda3b5846e5c96b2434f3bd77947fa9051046e48e6da"
+    },
+    {
+      "bytes": 849,
+      "path": "scripts/build-historical-absorption-baseline.py",
+      "sha256": "a2d57c18d6b2f1a32327ad31c37fd9fbe1d8d04aa2b193b59f95cf4bd70b5bdd"
+    },
+    {
+      "bytes": 1843,
+      "path": "scripts/build-public-custody-lock.py",
+      "sha256": "2eab48df3faf60a332e3a98652032f69b2b9dd6e5d76be52fed8f9b3806db05c"
+    },
+    {
+      "bytes": 843,
+      "path": "scripts/check-genealogy-corpus.py",
+      "sha256": "04bfcb3441fd508e25ca9be5cc62f18df3bba691c05317699d001ca9f5bbf50e"
+    },
+    {
+      "bytes": 649,
+      "path": "scripts/check-historical-absorption-baseline.py",
+      "sha256": "f87c7c205260a8976fd0e7775e0554f519cf1d1397cc2f7e8848c28655d5d32f"
+    },
+    {
+      "bytes": 28283,
+      "path": "scripts/genealogy_corpus.py",
+      "sha256": "72000c495a9a06b0a418ad3dbbb1f6d6e40f8079079d8ae8e02617f09cc68c76"
+    },
+    {
+      "bytes": 7103,
+      "path": "scripts/genealogy_triad.py",
+      "sha256": "8017efd1f3ea1f9135f5c0d02ef80dcceaa7a2134470e0fba8ee9cbff3705d1e"
+    },
+    {
+      "bytes": 17169,
+      "path": "scripts/historical_absorption.py",
+      "sha256": "5cd15caeadf14857e1f067eee4024a737afd06eeb8b4499d469897de41dab3b5"
+    },
+    {
+      "bytes": 7586,
+      "path": "scripts/resolve-genealogy.py",
+      "sha256": "771cd7554820980b65579324442d6172cb649ee90d309408f1ff95d733ea19f3"
+    }
+  ],
+  "publication_binding": "After authorized publication, bind this exact lock digest to the verified full immutable commit and origin. No commit is invented in this content lock.",
+  "schema": "research-public-custody-lock-v1"
+}

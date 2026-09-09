@@ -1,0 +1,2925 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+  "revision": "ESPLE-2026-09-06-r1",
+  "research_cutoff": "2026-09-06",
+  "system_summary": "A conditional system for deciding, producing, assuring and evolving related products through warranted commonality, controlled variability and feedback. The coupled loops are constrained by product obligations, evidence boundaries, legitimate authority and lifecycle economics; technique branches are alternatives, not a forced serial pipeline.",
+  "nodes": [
+    {
+      "NODE_ID": "ESPLE-DM-01",
+      "NAME": "Warranted family scoping",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-002",
+        "ESPLE-003",
+        "ESPLE-036",
+        "ESPLE-037",
+        "ESPLE-038",
+        "ESPLE-059"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S003",
+        "ESPLE-S005",
+        "ESPLE-S007",
+        "ESPLE-S012",
+        "ESPLE-S026",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "Let P be candidate products, N(p) their needs and A(p) their domain assumptions. A scope S is a selected subset with explicit exclusions, expected demand and candidate common assets. Similarity of names or files is evidence to investigate, not the membership predicate.",
+      "OPERATION": "Compare products and counterexamples; identify which assumptions can be common and which require variation. Estimate the burden of the resulting family and compare an adequate non-family alternative. A contradiction may split S, keep a product local or reject the family proposal. Scope can be revised from product feedback."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-02",
+      "NAME": "Domain/application feedback and decision responsibility",
+      "PROPERTY_IDS": [
+        "ESPLE-004",
+        "ESPLE-005",
+        "ESPLE-006",
+        "ESPLE-007",
+        "ESPLE-039",
+        "ESPLE-040"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S013",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "Domain state contains assets, constraints and production knowledge; application state contains requested/realised products, local differences and observations. Responsibility for these states may be held by the same people.",
+      "OPERATION": "Product requests and failures flow to asset maintainers with baseline context. Maintainers may revise a core asset or model, decline generalisation, retain an exception or reopen scope. New core releases return constraints and evidence to products. Work can proceed concurrently on compatible baselines; conflicts require a decision rather than an automatic merge."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-03",
+      "NAME": "Feature and constraint semantics",
+      "PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-009",
+        "ESPLE-010",
+        "ESPLE-011",
+        "ESPLE-012",
+        "ESPLE-030",
+        "ESPLE-046"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S014",
+        "ESPLE-S015",
+        "ESPLE-S023",
+        "ESPLE-S032",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "For Boolean features F and encoded constraints φ, Cφ = {c in {0,1}^F | φ(c)}. Richer models replace Boolean valuations with typed domains. Domain-valid choices Cdomain need not equal Cφ. A feature interpretation links selections to stakeholder meaning.",
+      "OPERATION": "Check satisfiability, forced/dead options and conflicts; explain actionable repairs; validate accepted and rejected combinations against domain evidence. Translation or model evolution uses explicit feature correspondence rather than names alone."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-04",
+      "NAME": "Variability realisation and binding",
+      "PROPERTY_IDS": [
+        "ESPLE-013",
+        "ESPLE-014",
+        "ESPLE-015",
+        "ESPLE-016",
+        "ESPLE-017",
+        "ESPLE-054",
+        "ESPLE-055"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S018",
+        "ESPLE-S030",
+        "ESPLE-S041",
+        "ESPLE-S042"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "M is a possibly many-to-many relation between features, artefact fragments and variation points. Each variation point has a resolution stage. A product transformation D consumes asset versions, configuration and relevant tool/environment inputs.",
+      "OPERATION": "Choose conditional selection, parameters, modules, plugins/inheritance, aspects, deltas or generators according to the variation. Deltas require applicable ordered transformations; annotated systems require faithful presence conditions. Late binding carries additional runtime state and transition obligations."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-05",
+      "NAME": "Asset and derivation provenance",
+      "PROPERTY_IDS": [
+        "ESPLE-018",
+        "ESPLE-019",
+        "ESPLE-020",
+        "ESPLE-021",
+        "ESPLE-022",
+        "ESPLE-056"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S021",
+        "ESPLE-S033",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "A product identity includes relevant model/configuration, core assets, generator/build/dependency versions, consequential environment inputs and the resulting artefact identity. The needed equivalence relation may be semantic, structural or byte-level.",
+      "OPERATION": "Execute a version-related production plan, record or retain the inputs needed for the declared reconstruction claim and validate output at the relevant level. Reference architectures supply enforceable obligations only where the real process checks or constrains conformance."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-06",
+      "NAME": "Configuration-space assurance",
+      "PROPERTY_IDS": [
+        "ESPLE-023",
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-026",
+        "ESPLE-027",
+        "ESPLE-028",
+        "ESPLE-029",
+        "ESPLE-052",
+        "ESPLE-053"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S022",
+        "ESPLE-S040",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "The relevant space is Ω = configurations × ordinary inputs × environments × baselines, restricted by actual obligations. An analysis or test covers a declared subset or property of Ω. A model check, a parser and a behavioural test have different objects.",
+      "OPERATION": "Select product-based, feature/compositional, family-based or hybrid analysis. Reuse results only with checked premises. Sampling trades execution cost against omitted cases; known interactions can justify risk-directed additions. Shared failures interrupt the normal derivation path and trigger impact analysis."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-07",
+      "NAME": "Family evolution, migration and retirement",
+      "PROPERTY_IDS": [
+        "ESPLE-030",
+        "ESPLE-031",
+        "ESPLE-032",
+        "ESPLE-033",
+        "ESPLE-034",
+        "ESPLE-035",
+        "ESPLE-058",
+        "ESPLE-061"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S025",
+        "ESPLE-S037",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "At baseline k the family has model φk, assets Ak, supported product identities Pk and evidence Ek. A migration m maps old products/selections to new ones with explicit feature correspondence and intent. Legacy admission to new products is distinct from support of old ones.",
+      "OPERATION": "Classify model differences, identify shared-asset impact, select migration or parallel support, update tests and accept actual products. Extracted constraints can repair a stale model only after domain reconciliation. Retirement may first forbid new selection while preserving older baselines."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-08",
+      "NAME": "Organisational economics and external constraints",
+      "PROPERTY_IDS": [
+        "ESPLE-036",
+        "ESPLE-037",
+        "ESPLE-038",
+        "ESPLE-039",
+        "ESPLE-040",
+        "ESPLE-041",
+        "ESPLE-042",
+        "ESPLE-049",
+        "ESPLE-057",
+        "ESPLE-059"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028",
+        "ESPLE-S029",
+        "ESPLE-S041",
+        "ESPLE-S044"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "For an explicit horizon compare SPL cost = organisational transition + core assets + product derivation + assurance + coordination + support/migration/exit with equivalent-outcome alternatives. These are cost categories, not measured universal coefficients. Authority and external obligations constrain admissible alternatives before cost ranking.",
+      "OPERATION": "Use scenarios and observed product experience to revisit investment, team capacity, exceptions and scope. Negotiate with external participants where there is no internal authority. A shared specification ecosystem is not automatically one product-production organisation."
+    },
+    {
+      "NODE_ID": "ESPLE-DM-09",
+      "NAME": "Dynamic configuration transitions and learned proposals",
+      "PROPERTY_IDS": [
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045",
+        "ESPLE-046",
+        "ESPLE-047",
+        "ESPLE-048",
+        "ESPLE-060",
+        "ESPLE-062"
+      ],
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S032",
+        "ESPLE-S034",
+        "ESPLE-S038",
+        "ESPLE-S043",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "STATE": "A dynamic state is (c,s,e): feature selection, operational state and relevant environment. Edges represent feasible actions with guards, effects and controllability. A learned proposal is an input to checking, not an edge that is automatically authorised.",
+      "OPERATION": "Observe context, propose a permitted target, check a feasible safe path, execute authorised actions and observe the result. A safe offline phase or actual atomic transfer can justify transitions otherwise unsafe, but cannot be assumed. Model/tool changes require re-establishing the guarantees they affect."
+    }
+  ],
+  "relations": [
+    {
+      "RELATION_ID": "ESPLE-R001",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-001"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-002",
+        "ESPLE-036",
+        "ESPLE-037"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Before committing to a shared production scope.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "The scope decision consumes evidence of actual commonality and a comparison with adequate alternatives.",
+      "NEW_FAILURE_OR_COST": "Scoping can delay useful local work; forecasts can still be wrong.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S003",
+        "ESPLE-S005",
+        "ESPLE-S007",
+        "ESPLE-S012",
+        "ESPLE-S026"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R002",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-002"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-010"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "Domain observations are representative enough to challenge proposed features.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Examples, expert explanations and contrary products inform semantic definitions and missing constraints, not just a feature tree.",
+      "NEW_FAILURE_OR_COST": "Historical products can bias future scope.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R003",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-036",
+        "ESPLE-038"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-003",
+        "ESPLE-061"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "Observed demand, costs or support obligations change.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Reassess the family boundary, admit only justified variation and retire options whose support obligations can be discharged.",
+      "NEW_FAILURE_OR_COST": "Measurement overhead and premature removal of low-frequency but important options.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S007",
+        "ESPLE-S012",
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R004",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-004"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-005",
+        "ESPLE-006"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Domain and product responsibilities exist, even in the same person.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Product observations reach asset decision-makers; exceptions can remain local with explicit loss of inherited guarantees.",
+      "NEW_FAILURE_OR_COST": "Coordination bottlenecks or uncontrolled divergence.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S026",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R005",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-005"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-002",
+        "ESPLE-003",
+        "ESPLE-010",
+        "ESPLE-032"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "A derived product exposes an absent requirement, defect or incompatible assumption.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Route concrete product evidence back to domain knowledge and core-change decisions rather than automatically generalising the local repair.",
+      "NEW_FAILURE_OR_COST": "Over-generalisation can spread product-specific assumptions.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S009",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R006",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-007"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-004",
+        "ESPLE-018",
+        "ESPLE-020"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "Select proactive, reactive, extractive or mixed adoption according to uncertainty and existing assets.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "The strategy changes which assets and production capability are established first; the coupled responsibilities remain.",
+      "NEW_FAILURE_OR_COST": "Over-investment, delayed capability or extraction debt.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S007",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S025",
+        "ESPLE-S026"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R007",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-009",
+        "ESPLE-011",
+        "ESPLE-012"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-008"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Formal or assisted configuration claims concern product needs.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Feature meanings and value domains make diagnostic and explanation results interpretable; richer types are introduced only when needed.",
+      "NEW_FAILURE_OR_COST": "A formally precise encoding can conceal semantic disagreement.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S014",
+        "ESPLE-S015",
+        "ESPLE-S032"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R008",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-009"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-010"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A solver reports satisfiable, dead, false-optional or void configurations.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Treat the result as a statement about encoded constraints; domain adequacy remains a separate check.",
+      "NEW_FAILURE_OR_COST": "False assurance if omitted constraints are forgotten.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S014",
+        "ESPLE-S015",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R009",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-012"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-046"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Models need interchange across tools.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Typed features and language levels supply representational distinctions that a transfer must preserve.",
+      "NEW_FAILURE_OR_COST": "Unequal tool support can silently lose semantics.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S032"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R010",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-013"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-015",
+        "ESPLE-016",
+        "ESPLE-017",
+        "ESPLE-043",
+        "ESPLE-044"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Choosing when variability is bound.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Binding time changes admissible realisation mechanisms and determines whether runtime transition obligations arise.",
+      "NEW_FAILURE_OR_COST": "Late binding adds footprint and transition cost; early binding adds rebuild or redeployment cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S017",
+        "ESPLE-S018",
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S042",
+        "ESPLE-S043"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R011",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-014"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-017",
+        "ESPLE-021",
+        "ESPLE-029",
+        "ESPLE-032"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A change or result must be traced to selected features and actual assets.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Mappings connect domain choices to generator/build layers and change impact; they are maintained only at consequential boundaries.",
+      "NEW_FAILURE_OR_COST": "Stale mappings can be more misleading than an explicit evidence gap.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S017",
+        "ESPLE-S021",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R012",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-015"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-016"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "A product can be realised through annotations, components or feature modules instead of deltas.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Choose the realisation whose evolution and composition obligations are manageable; deltas support removal and modification but introduce ordering and applicability constraints.",
+      "NEW_FAILURE_OR_COST": "Hybrids can multiply mappings and make interactions opaque.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S017",
+        "ESPLE-S018",
+        "ESPLE-S042"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R013",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-018",
+        "ESPLE-019"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-020"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Shared requirements, architecture, code, tests and documentation support intended products.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "A production plan identifies how these assets are selected, adapted and combined while preserving family invariants.",
+      "NEW_FAILURE_OR_COST": "A reference architecture can remain merely advisory unless derivation actually consumes it.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S011"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R014",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-020"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-021",
+        "ESPLE-022"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A derivation result is claimed to correspond to an intended family baseline.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Identify relevant configuration, assets, tools and dependencies; define the equivalence under which a repeat derivation is judged.",
+      "NEW_FAILURE_OR_COST": "Recording irrelevant environment details wastes effort; omitting relevant ones breaks attribution.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S011",
+        "ESPLE-S021"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R015",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-017",
+        "ESPLE-021",
+        "ESPLE-022"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-028"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A generated or composed product is ready for acceptance.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Realisation checks and provenance support acceptance but do not replace product-specific behavioural observations.",
+      "NEW_FAILURE_OR_COST": "A reproducibly wrong product remains wrong.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S019",
+        "ESPLE-S021"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R016",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-023"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-009",
+        "ESPLE-017",
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-026",
+        "ESPLE-027",
+        "ESPLE-028",
+        "ESPLE-029"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Any claim of validity or correctness is communicated.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Distinguish model consistency, derivation correctness, configuration coverage, input/environment coverage and product acceptance.",
+      "NEW_FAILURE_OR_COST": "More explicit assurance boundaries can expose inconvenient unsupported claims.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S015",
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S040"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R017",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-024"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-025",
+        "ESPLE-026",
+        "ESPLE-027",
+        "ESPLE-028"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "A family assurance plan needs a choice of analysis strategy.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Interaction hypotheses and risk determine whether sampling, shared family analysis, compositional reasoning or direct product checks are adequate.",
+      "NEW_FAILURE_OR_COST": "No strategy necessarily dominates across languages, defects and environments.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R018",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-025"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-026",
+        "ESPLE-027"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "Exhaustive or symbolic analysis is too costly or unsupported.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Choose bounded configuration sampling for an explicitly narrower claim; combine with analysis where it covers different failure classes.",
+      "NEW_FAILURE_OR_COST": "Untested higher-order interactions remain possible.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R019",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-026"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-028"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A family result applies to the product representation and underlying analysis.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Project conditional results to the derived configuration and retain language, build and analysis assumptions.",
+      "NEW_FAILURE_OR_COST": "Warnings are not confirmed defects and model coverage is not total behavioural coverage.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S019",
+        "ESPLE-S022",
+        "ESPLE-S040"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R020",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-027"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-019",
+        "ESPLE-028"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Local feature or component contracts are used to justify composition.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Check assumptions and interference at composition boundaries; product obligations may exceed local contracts.",
+      "NEW_FAILURE_OR_COST": "Contract incompleteness or invalid environmental assumptions can defeat the composition argument.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S018",
+        "ESPLE-S019"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R021",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-029"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-009",
+        "ESPLE-017",
+        "ESPLE-026"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Variability spans build files, preprocessor rules, dependencies or non-code assets.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Reconcile configuration layers so the represented family agrees with the actually built family.",
+      "NEW_FAILURE_OR_COST": "Extraction and model-maintenance costs; unresolved macro and generator behaviour.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S020",
+        "ESPLE-S022",
+        "ESPLE-S040",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R022",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-028"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-005",
+        "ESPLE-010",
+        "ESPLE-024",
+        "ESPLE-032"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "A product observation fails or contradicts a family assumption.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "A concrete configuration/baseline failure updates domain constraints, assurance strategy or shared assets; acceptance is withheld rather than inferred from process completion.",
+      "NEW_FAILURE_OR_COST": "A local failure may be misattributed to a common asset.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S009",
+        "ESPLE-S021",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R023",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-030"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-031",
+        "ESPLE-033",
+        "ESPLE-035"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "A feature model changes.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Classify represented configuration-set effects and identify affected products and tests before migration; behavioural compatibility needs additional evidence.",
+      "NEW_FAILURE_OR_COST": "Name matching and set equivalence can hide semantic changes.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S037",
+        "ESPLE-S039"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R024",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-031"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-021",
+        "ESPLE-028"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A supported product is migrated across model or asset changes.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Preserve the product intention and identify the destination baseline, then verify the resulting product rather than merely find any satisfying assignment.",
+      "NEW_FAILURE_OR_COST": "Optimisation can choose a technically valid but unacceptable replacement.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S037"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R025",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-032"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-006",
+        "ESPLE-033",
+        "ESPLE-034",
+        "ESPLE-035"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "A shared change affects supported variants.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Impact analysis may use a common repair, differentiated backports, preserved baselines or an explicit exception; tests and recovered lineage are updated accordingly.",
+      "NEW_FAILURE_OR_COST": "Multiple supported baselines and exception support consume capacity.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S025",
+        "ESPLE-S026",
+        "ESPLE-S037",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R026",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-033"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-003",
+        "ESPLE-061"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "New-product simplification intersects with legacy obligations.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "An option may leave the new-product scope while retained baselines continue to serve supported products; retirement requires an explicit support decision.",
+      "NEW_FAILURE_OR_COST": "Legacy support can erase anticipated simplification savings.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R027",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-034"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-002",
+        "ESPLE-010",
+        "ESPLE-014",
+        "ESPLE-030"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A family is extracted or reconciled from diverged products.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Recovered differences and dependencies become hypotheses reviewed against domain intent, rather than a claim that observed variants are the complete domain.",
+      "NEW_FAILURE_OR_COST": "Incomplete artefact extraction and accidental constraints.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S025",
+        "ESPLE-S026",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R028",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-035"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-028"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "Product-space changes alter existing test configurations.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Repair, retain or regenerate test selections according to preserved obligations and actual coverage; syntactic distance is only one cost proxy.",
+      "NEW_FAILURE_OR_COST": "Efficient model mutation coverage may not predict behavioural defect detection.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S037"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R029",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-037"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-007"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "A non-product-line approach meets obligations at lower credible lifecycle cost.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Independent products, selective reuse or clone-and-own are selectable outcomes, not failures to adopt the tradition.",
+      "NEW_FAILURE_OR_COST": "Local savings can hide future propagation debt.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S010",
+        "ESPLE-S012",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R030",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-039"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-003",
+        "ESPLE-006",
+        "ESPLE-032",
+        "ESPLE-033",
+        "ESPLE-061"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A decision changes the shared family or product obligations.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "An authorised party with affected product participation decides admission, exceptions, repair, support or retirement; analysis alone is not authority.",
+      "NEW_FAILURE_OR_COST": "Central bottlenecks, veto deadlocks or unrepresented stakeholders.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S013",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R031",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-040"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-004",
+        "ESPLE-005",
+        "ESPLE-039"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "People must maintain and contribute to shared assets.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Capability, incentives and accessible decision paths make the feedback and change responsibilities operational.",
+      "NEW_FAILURE_OR_COST": "Training and shared-team overhead can exceed avoided duplication.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R032",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-041"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-019",
+        "ESPLE-039",
+        "ESPLE-046"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Family assets cross independent organisations or communities.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Separate common-core ownership from interoperable independent implementations, supplier interfaces and negotiated compatibility.",
+      "NEW_FAILURE_OR_COST": "Distributed authority can produce protocol drift without a central repair power.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S029",
+        "ESPLE-S044"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R033",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-042"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-003",
+        "ESPLE-020",
+        "ESPLE-028",
+        "ESPLE-032"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "External licence, security, contractual or mission obligations are actually specified.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Treat the obligations as inputs to scope, derivation, acceptance and impact decisions; do not manufacture their legal content from product-line models.",
+      "NEW_FAILURE_OR_COST": "A common asset can amplify exposure; an organisational model does not confer external permission.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S013",
+        "ESPLE-S029",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R034",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-043"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-044"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Permitted configurations can change during operation.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Context-to-feature mapping must be accompanied by a safe transition relation and actual observation/control assumptions.",
+      "NEW_FAILURE_OR_COST": "Sensor errors, unmodelled actions or unobservable states can defeat the guarantee.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S030",
+        "ESPLE-S031"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R035",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-044"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-009"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "Both endpoint configurations satisfy static constraints.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Require a permitted path through intermediate states or a genuinely atomic transition; endpoint validity alone is insufficient.",
+      "NEW_FAILURE_OR_COST": "Extra transition states or quiescence can interrupt service.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S030",
+        "ESPLE-S031"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R036",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-045"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-044"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A supervisory-control model satisfies its assumptions.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Synthesis restricts controllable actions to meet modelled safety and nonblocking requirements; deployment still needs model/plant correspondence.",
+      "NEW_FAILURE_OR_COST": "State-space explosion, uncontrollable unsafe actions and abstraction error.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S031"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R037",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-047"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-017",
+        "ESPLE-028",
+        "ESPLE-030",
+        "ESPLE-031",
+        "ESPLE-035"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "Learned assistance proposes a configuration, model edit, migration or test repair.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Treat generated outputs as candidate changes and validate them with the same semantic, realisation and acceptance boundaries.",
+      "NEW_FAILURE_OR_COST": "Plausible but unsupported proposals and unstable model behaviour.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S034",
+        "ESPLE-S036",
+        "ESPLE-S037",
+        "ESPLE-S038"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R038",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-017",
+        "ESPLE-021",
+        "ESPLE-022",
+        "ESPLE-028",
+        "ESPLE-036"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-048"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Regeneration is proposed as a replacement for maintained family assets.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "A regeneration replacement must preserve relevant realisation, identity, repeatable obligations, acceptance and lifecycle adequacy; current examples leave that stronger claim unresolved. These boundaries do not reject regeneration by definition.",
+      "NEW_FAILURE_OR_COST": "Loss of accumulated assurance and repeated revalidation cost.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S034",
+        "ESPLE-S038"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Longitudinal comparison against a competent maintained-family baseline remains unresolved."
+    },
+    {
+      "RELATION_ID": "ESPLE-R039",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-049"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-036"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "A fixed product count is asserted as a universal investment threshold.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Reject the general threshold because startup, per-product cost, uncertainty and horizon vary.",
+      "NEW_FAILURE_OR_COST": "A convenient benchmark can hide an uneconomic programme.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S012",
+        "ESPLE-S026",
+        "ESPLE-S027"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R040",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-050"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-007",
+        "ESPLE-037"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Complete upfront modelling is asserted as mandatory.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Reactive, extractive and non-product-line branches provide documented alternatives.",
+      "NEW_FAILURE_OR_COST": "Over-investment and delayed learning.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S007",
+        "ESPLE-S010",
+        "ESPLE-S026"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R041",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-051"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-010",
+        "ESPLE-014"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The presence of a feature diagram is offered as evidence of control.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Require a maintained semantic consumer and a realised connection to product decisions; a diagram alone is ceremony.",
+      "NEW_FAILURE_OR_COST": "False assurance and maintenance overhead.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S015",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R042",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-052"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-009",
+        "ESPLE-017",
+        "ESPLE-023",
+        "ESPLE-028"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Satisfiability is equated with product correctness.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Reject the inference across representation and behaviour boundaries.",
+      "NEW_FAILURE_OR_COST": "Invalid products pass a misplaced gate.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S015",
+        "ESPLE-S019",
+        "ESPLE-S021"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R043",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-053"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-024",
+        "ESPLE-025"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Pairwise coverage is equated with absence of all interaction faults.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Retain pairwise sampling as bounded evidence and reject the general completeness claim.",
+      "NEW_FAILURE_OR_COST": "Higher-order defects remain unseen.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S020",
+        "ESPLE-S021"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R044",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-054"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-013",
+        "ESPLE-044"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Later binding is assumed to improve every family.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Account for transition, footprint and operational costs alongside flexibility.",
+      "NEW_FAILURE_OR_COST": "Unnecessary runtime state space.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S017",
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R045",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-055"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-014",
+        "ESPLE-015"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "A universal one-feature/one-module mapping is demanded.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Allow many-to-many realisation with checked interactions; modularity is a technique, not feature identity.",
+      "NEW_FAILURE_OR_COST": "Artificial splitting or obscured cross-cutting behaviour.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S018"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R046",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-056"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-020",
+        "ESPLE-022"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Full automation is treated as the definition of a product line.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "A controlled manual production process can be adequate; a feature-based automation standard has a narrower scope.",
+      "NEW_FAILURE_OR_COST": "Automation investment without sufficient reuse.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S008",
+        "ESPLE-S011",
+        "ESPLE-S033"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R047",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-057"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-037"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Cloning is ruled out regardless of circumstances.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Keep a lifecycle comparison and observed support burden rather than a moral ranking of reuse methods.",
+      "NEW_FAILURE_OR_COST": "Ignoring either near-term autonomy or later propagation debt.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R048",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-058"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-030",
+        "ESPLE-031",
+        "ESPLE-035"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Unchanged names or equal configuration sets are taken as behavioural compatibility.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Add semantics and product-obligation checks; set-level equivalence remains useful at its own level.",
+      "NEW_FAILURE_OR_COST": "Silent behavioural change despite a stable model.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S037"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R049",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-059"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-003",
+        "ESPLE-036",
+        "ESPLE-061"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Possible configuration count is used as a progress metric.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Use count to describe a represented space, not realised utility; include demand, support and assurance burden.",
+      "NEW_FAILURE_OR_COST": "Combinatorial growth can reward useless options.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S012",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R050",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-060"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-039",
+        "ESPLE-042",
+        "ESPLE-047"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "A formal or learned recommendation is treated as permission to act.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Separate evidence about an option from legitimate authority, capability and observed consequence.",
+      "NEW_FAILURE_OR_COST": "Unauthorised or ineffective changes.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S009",
+        "ESPLE-S013",
+        "ESPLE-S029",
+        "ESPLE-S031"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R051",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-061"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-003"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "An existing variation point has lost its consumer or imposes unjustified burden.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Retirement revises admission assumptions after checking support and migration, rather than continuously expanding the family.",
+      "NEW_FAILURE_OR_COST": "Premature retirement and lost legacy knowledge.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R052",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-062"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-013",
+        "ESPLE-023",
+        "ESPLE-061"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Fixed feature selection is used to infer context-independent behaviour.",
+      "SHARED_ASSUMPTIONS": "The family scope, product obligations and represented artefacts are declared.",
+      "INCOMPATIBLE_ASSUMPTIONS": "No claim that one model or technique covers omitted products, environments or obligations.",
+      "COMPOSITION_MECHANISM": "Restrict null configurability to the binding distinction and continue ordinary input, state and environmental analysis.",
+      "NEW_FAILURE_OR_COST": "False assurance from conflating configuration and execution.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: guarded composition of cited mechanisms, not a published proof of this entire system.",
+      "UNRESOLVED_OBLIGATION": "Check the relation against the actual family and its production environment."
+    },
+    {
+      "RELATION_ID": "ESPLE-R053",
+      "FROM_PROPERTY_IDS": [
+        "ESPLE-021",
+        "ESPLE-028"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESPLE-005",
+        "ESPLE-032"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "A product observation is returned to those responsible for shared assets or a proposed shared change.",
+      "SHARED_ASSUMPTIONS": "The observation can be associated with the relevant product baseline and configuration, and the recipient has a defined decision responsibility.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A report alone is not authority to change every product, nor evidence that a repair occurred.",
+      "COMPOSITION_MECHANISM": "Transmit the concrete result, expected obligation and baseline/configuration identity so the recipient can distinguish domain error, realisation error, local exception and shared defect.",
+      "NEW_FAILURE_OR_COST": "Missing provenance or an unresponsive recipient makes feedback inert; collecting irrelevant details can waste effort.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit communication link reconstructed from coupled product/domain work and production identity.",
+      "UNRESOLVED_OBLIGATION": "A later family must establish actual recipients, response capacity and the minimum diagnostic context."
+    }
+  ],
+  "alternative_configurations": [
+    {
+      "CONFIGURATION_ID": "ESPLE-ALT-01",
+      "NAME": "Small stable family with mostly manual derivation",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-002",
+        "ESPLE-004",
+        "ESPLE-008",
+        "ESPLE-013",
+        "ESPLE-018",
+        "ESPLE-020",
+        "ESPLE-021",
+        "ESPLE-023",
+        "ESPLE-028",
+        "ESPLE-036",
+        "ESPLE-039"
+      ],
+      "SELECTION": "Repeated related products, modest variation, stable obligations and a credible cost case.",
+      "MECHANISM": "Reviewed commonality and decision table; ordinary shared modules; versioned product configuration; repeatable production instruction; product acceptance and feedback.",
+      "OMIT": "Do not require a dedicated platform team, SAT solver, feature language, automatic generator or runtime supervisor.",
+      "RETIRE": "Return to selective reuse or independent products if support and coordination cease to earn their cost."
+    },
+    {
+      "CONFIGURATION_ID": "ESPLE-ALT-02",
+      "NAME": "Large static or generated family",
+      "PROPERTY_IDS": [
+        "ESPLE-009",
+        "ESPLE-010",
+        "ESPLE-012",
+        "ESPLE-014",
+        "ESPLE-017",
+        "ESPLE-020",
+        "ESPLE-021",
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-026",
+        "ESPLE-027",
+        "ESPLE-029",
+        "ESPLE-030",
+        "ESPLE-031",
+        "ESPLE-035",
+        "ESPLE-046"
+      ],
+      "SELECTION": "Configuration complexity or repeated production makes formal diagnostics, generation or shared analysis worthwhile.",
+      "MECHANISM": "Choose complementary diagnostics, analysis and sampling under a common model/realisation/acceptance boundary.",
+      "OMIT": "No obligation to use all three analysis strategies; unsupported or low-value techniques are excluded.",
+      "RETIRE": "Remove a specialised tool when supported products and analysis needs no longer justify it."
+    },
+    {
+      "CONFIGURATION_ID": "ESPLE-ALT-03",
+      "NAME": "Extractive or incrementally consolidated portfolio",
+      "PROPERTY_IDS": [
+        "ESPLE-002",
+        "ESPLE-005",
+        "ESPLE-006",
+        "ESPLE-007",
+        "ESPLE-014",
+        "ESPLE-032",
+        "ESPLE-033",
+        "ESPLE-034",
+        "ESPLE-037",
+        "ESPLE-039"
+      ],
+      "SELECTION": "Existing variants have useful commonality but cannot immediately move to one maintained core.",
+      "MECHANISM": "Recover differences and provenance; review with domain experts; consolidate selectively while keeping justified exceptions and supported baselines.",
+      "OMIT": "Do not require immediate eradication of every clone or a complete future feature model.",
+      "RETIRE": "Stop consolidation where expected savings do not exceed semantic recovery and migration burden."
+    },
+    {
+      "CONFIGURATION_ID": "ESPLE-ALT-04",
+      "NAME": "Dynamic product line",
+      "PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-009",
+        "ESPLE-013",
+        "ESPLE-021",
+        "ESPLE-023",
+        "ESPLE-028",
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045"
+      ],
+      "SELECTION": "Runtime variation responds to a specified operational need rather than generic flexibility.",
+      "MECHANISM": "Permitted states plus context observations and a transition protocol; supervisory synthesis only when its model and control assumptions fit.",
+      "OMIT": "Do not infer safe transitions from valid endpoints, and do not require dynamic machinery for static families.",
+      "RETIRE": "Prefer earlier binding when runtime benefit disappears or operational assurance cannot be justified."
+    },
+    {
+      "CONFIGURATION_ID": "ESPLE-ALT-05",
+      "NAME": "Inter-organisational or community arrangement",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-019",
+        "ESPLE-021",
+        "ESPLE-028",
+        "ESPLE-039",
+        "ESPLE-041",
+        "ESPLE-042",
+        "ESPLE-046"
+      ],
+      "SELECTION": "Independent owners share compatibility or platform interests but lack a single common-core authority.",
+      "MECHANISM": "Explicit interfaces, contribution/compatibility expectations and independently accountable product acceptance.",
+      "OMIT": "Do not assume this is identical to one organisation deriving all products from one core.",
+      "RETIRE": "Reduce shared coordination where no interoperability or shared-asset obligation remains."
+    },
+    {
+      "CONFIGURATION_ID": "ESPLE-ALT-06",
+      "NAME": "Adequate non-product-line alternative",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-007",
+        "ESPLE-036",
+        "ESPLE-037",
+        "ESPLE-038"
+      ],
+      "SELECTION": "Incidental similarity, weak demand, incompatible assumptions or a lower-cost adequate cloning/selective-reuse route.",
+      "MECHANISM": "Maintain independent products or a small shared utility; retain enough change and support knowledge for actual obligations.",
+      "OMIT": "The family programme itself may be omitted without a presumed engineering deficiency.",
+      "RETIRE": "Reconsider if observed propagation cost or recurrent demand changes the comparison."
+    }
+  ],
+  "external_interfaces": [
+    {
+      "INTERFACE_ID": "ESPLE-X01",
+      "PARTY": "Domain and product stakeholders",
+      "INPUT": "Needs, actual product differences, domain assumptions and support commitments.",
+      "OUTPUT": "Scope and feature decisions with reasons, exclusions and contrary cases.",
+      "AUTHORITY": "Stakeholder evidence informs decisions; representation in an affected decision is not automatic authority over other products."
+    },
+    {
+      "INTERFACE_ID": "ESPLE-X02",
+      "PARTY": "Asset producers and product teams",
+      "INPUT": "Baseline/configuration identity and concrete failures or requested variation.",
+      "OUTPUT": "Usable shared assets, production guidance, differentiated repair or a declared exception.",
+      "AUTHORITY": "Core and product changes are decided by the parties responsible for their obligations, which may be the same people."
+    },
+    {
+      "INTERFACE_ID": "ESPLE-X03",
+      "PARTY": "External suppliers, licensors, customers and regulators where applicable",
+      "INPUT": "Actually specified obligations and component/interface constraints.",
+      "OUTPUT": "Traceable acceptance evidence and identified incompatibilities.",
+      "AUTHORITY": "No source model supplies legal permission, contractual terms or regulatory approval."
+    },
+    {
+      "INTERFACE_ID": "ESPLE-X04",
+      "PARTY": "Operating environment in a dynamic family",
+      "INPUT": "Observable context and plant state within the sensing model.",
+      "OUTPUT": "Permitted reconfiguration actions and verified or explicitly unestablished consequences.",
+      "AUTHORITY": "Control depends on actual available actuators, observability and specified safety requirements."
+    },
+    {
+      "INTERFACE_ID": "ESPLE-X05",
+      "PARTY": "Later independent research lanes",
+      "INPUT": "Separately frozen architecture and maintenance/evolution findings, not consulted here.",
+      "OUTPUT": "Stable global property keys, sources, scope and guarded composition relations.",
+      "AUTHORITY": "Export does not authorise adoption or a target-specific mutation."
+    }
+  ],
+  "revision_boundaries": {
+    "TRIGGERS": "Changed demand, contradictory domain evidence, failed product observation, stale model, shared repair, support change or loss of economic adequacy.",
+    "ACTORS": "Responsible domain, product, asset and portfolio participants; external obligations constrain their powers.",
+    "CHANGE_BOUNDARY": "A revised model or production policy is a candidate change. Preserve supported baseline identity and product obligations while checking the new realisation.",
+    "SELF_REVISION_LIMIT": "The established tradition supports feedback and planned evolution, not a model that authorises its own deployment. This packet’s synthesis is not self-modifying or self-authorising.",
+    "CONTINUITY": "Retain or explicitly migrate supported products; archive the predecessor meaning and comparison when it remains necessary for support."
+  },
+  "unresolved_composition_obligations": [
+    {
+      "ID": "ESPLE-U01",
+      "STATUS": "UNRESOLVED_EXAMINED",
+      "QUESTION": "Which shared-asset and support cost assumptions make a specific family worthwhile?",
+      "REASON": "No universal empirical threshold; this requires future target evidence, not more asserted precision."
+    },
+    {
+      "ID": "ESPLE-U02",
+      "STATUS": "UNRESOLVED_EXAMINED",
+      "QUESTION": "Can regeneration preserve accumulated assurance and reduce total lifecycle burden versus a competent maintained family?",
+      "PROPERTY_IDS": [
+        "ESPLE-048"
+      ],
+      "REASON": "Current inspected exploratory evidence does not establish the replacement claim."
+    },
+    {
+      "ID": "ESPLE-U03",
+      "STATUS": "UNRESOLVED_EXAMINED",
+      "QUESTION": "Which finite observation and control model adequately covers a particular dynamic family’s real transitions?",
+      "PROPERTY_IDS": [
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045"
+      ],
+      "REASON": "Formal results are conditional on environment and plant correspondence."
+    },
+    {
+      "ID": "ESPLE-U04",
+      "STATUS": "UNRESOLVED_EXAMINED",
+      "QUESTION": "How should independently owned models and implementations reconcile changed semantics without a central derivation authority?",
+      "PROPERTY_IDS": [
+        "ESPLE-030",
+        "ESPLE-039",
+        "ESPLE-041",
+        "ESPLE-046"
+      ],
+      "REASON": "Documented alternative governance arrangements do not establish one universally effective reconciliation mechanism."
+    }
+  ],
+  "domain_models": [
+    {
+      "MODEL_ID": "ESPLE-DM-01",
+      "NAME": "Warranted family scoping",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-002",
+        "ESPLE-003",
+        "ESPLE-036",
+        "ESPLE-037",
+        "ESPLE-038",
+        "ESPLE-059"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S003",
+        "ESPLE-S005",
+        "ESPLE-S007",
+        "ESPLE-S012",
+        "ESPLE-S026",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Determine whether and where joint product production is technically meaningful and economically worth considering.",
+      "OBJECTS_AND_STATE": "Let P be candidate products, N(p) their needs and A(p) their domain assumptions. A scope S is a selected subset with explicit exclusions, expected demand and candidate common assets. Similarity of names or files is evidence to investigate, not the membership predicate.",
+      "OPERATION_AND_DECISIONS": "Compare products and counterexamples; identify which assumptions can be common and which require variation. Estimate the burden of the resulting family and compare an adequate non-family alternative. A contradiction may split S, keep a product local or reject the family proposal. Scope can be revised from product feedback.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "The decision records included/excluded products, common assumptions, intended variation and what demand or contradiction would reopen it. Economic adequacy is a separate judgement, not proved by the existence of S.",
+      "LIMITS_AND_CHEAP_FORM": "A small comparison table and direct expert review can be enough. No similarity threshold or universal break-even count is inferred."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-02",
+      "NAME": "Domain/application feedback and decision responsibility",
+      "PROPERTY_IDS": [
+        "ESPLE-004",
+        "ESPLE-005",
+        "ESPLE-006",
+        "ESPLE-007",
+        "ESPLE-039",
+        "ESPLE-040"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S013",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Keep reusable capability development connected to actual product production without forcing a serial lifecycle.",
+      "OBJECTS_AND_STATE": "Domain state contains assets, constraints and production knowledge; application state contains requested/realised products, local differences and observations. Responsibility for these states may be held by the same people.",
+      "OPERATION_AND_DECISIONS": "Product requests and failures flow to asset maintainers with baseline context. Maintainers may revise a core asset or model, decline generalisation, retain an exception or reopen scope. New core releases return constraints and evidence to products. Work can proceed concurrently on compatible baselines; conflicts require a decision rather than an automatic merge.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "Every consequential feedback item has a consumer and a disposition; product builders can identify the baseline and limits they inherit. Observing a problem, being able/authorised to change it and establishing the result are separate steps.",
+      "LIMITS_AND_CHEAP_FORM": "Use direct coordination in a small family. No new team, meeting ritual or autonomous controller follows from the model."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-03",
+      "NAME": "Feature and constraint semantics",
+      "PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-009",
+        "ESPLE-010",
+        "ESPLE-011",
+        "ESPLE-012",
+        "ESPLE-030",
+        "ESPLE-046"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S014",
+        "ESPLE-S015",
+        "ESPLE-S023",
+        "ESPLE-S032",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Describe permitted selections and the meaning needed to use them in product decisions.",
+      "OBJECTS_AND_STATE": "For Boolean features F and encoded constraints φ, Cφ = {c in {0,1}^F | φ(c)}. Richer models replace Boolean valuations with typed domains. Domain-valid choices Cdomain need not equal Cφ. A feature interpretation links selections to stakeholder meaning.",
+      "OPERATION_AND_DECISIONS": "Check satisfiability, forced/dead options and conflicts; explain actionable repairs; validate accepted and rejected combinations against domain evidence. Translation or model evolution uses explicit feature correspondence rather than names alone.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "A SAT witness establishes membership of Cφ, not membership of Cdomain without adequacy evidence and not correctness of an implementation. An anomaly is a diagnostic to interpret, not automatically an error.",
+      "LIMITS_AND_CHEAP_FORM": "Use explicit enumeration or a decision table when small. Arithmetic, cardinality and typed extensions are optional but must not be discarded silently by tools."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-04",
+      "NAME": "Variability realisation and binding",
+      "PROPERTY_IDS": [
+        "ESPLE-013",
+        "ESPLE-014",
+        "ESPLE-015",
+        "ESPLE-016",
+        "ESPLE-017",
+        "ESPLE-054",
+        "ESPLE-055"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S018",
+        "ESPLE-S030",
+        "ESPLE-S041",
+        "ESPLE-S042"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Relate domain selections to actual artefacts and determine when unresolved choices become fixed.",
+      "OBJECTS_AND_STATE": "M is a possibly many-to-many relation between features, artefact fragments and variation points. Each variation point has a resolution stage. A product transformation D consumes asset versions, configuration and relevant tool/environment inputs.",
+      "OPERATION_AND_DECISIONS": "Choose conditional selection, parameters, modules, plugins/inheritance, aspects, deltas or generators according to the variation. Deltas require applicable ordered transformations; annotated systems require faithful presence conditions. Late binding carries additional runtime state and transition obligations.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "A realisation check establishes R(D(A,c,t,e), c): that the produced artefacts realise the intended selection. Successful generation or compilation alone does not establish R or required behaviour.",
+      "LIMITS_AND_CHEAP_FORM": "This equation is an analytical schema, not a universal deterministic generator theorem. A reviewed manual derivation may implement D adequately."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-05",
+      "NAME": "Asset and derivation provenance",
+      "PROPERTY_IDS": [
+        "ESPLE-018",
+        "ESPLE-019",
+        "ESPLE-020",
+        "ESPLE-021",
+        "ESPLE-022",
+        "ESPLE-056"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S021",
+        "ESPLE-S033",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Make a produced product supportable and keep evidence attached to the baseline that actually generated it.",
+      "OBJECTS_AND_STATE": "A product identity includes relevant model/configuration, core assets, generator/build/dependency versions, consequential environment inputs and the resulting artefact identity. The needed equivalence relation may be semantic, structural or byte-level.",
+      "OPERATION_AND_DECISIONS": "Execute a version-related production plan, record or retain the inputs needed for the declared reconstruction claim and validate output at the relevant level. Reference architectures supply enforceable obligations only where the real process checks or constrains conformance.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "A second builder can reproduce the needed result or explain differences; a failure report can be located in configuration and baseline space. Hash identity cannot establish semantic adequacy.",
+      "LIMITS_AND_CHEAP_FORM": "No universal requirement for byte-for-byte builds or full automation. Retention is scoped to support and assurance needs."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-06",
+      "NAME": "Configuration-space assurance",
+      "PROPERTY_IDS": [
+        "ESPLE-023",
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-026",
+        "ESPLE-027",
+        "ESPLE-028",
+        "ESPLE-029",
+        "ESPLE-052",
+        "ESPLE-053"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S022",
+        "ESPLE-S040",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Choose and compose evidence without confusing configuration coverage with product correctness.",
+      "OBJECTS_AND_STATE": "The relevant space is Ω = configurations × ordinary inputs × environments × baselines, restricted by actual obligations. An analysis or test covers a declared subset or property of Ω. A model check, a parser and a behavioural test have different objects.",
+      "OPERATION_AND_DECISIONS": "Select product-based, feature/compositional, family-based or hybrid analysis. Reuse results only with checked premises. Sampling trades execution cost against omitted cases; known interactions can justify risk-directed additions. Shared failures interrupt the normal derivation path and trigger impact analysis.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "Each claim names what is quantified, its oracle and the product identities to which it applies. Conditional static warnings remain warnings unless confirmed; complete configuration coverage does not mean all behaviours were checked.",
+      "LIMITS_AND_CHEAP_FORM": "The smallest adequate form can be all supported products plus targeted tests. Family-wide symbolic work is optional and may lose to ordinary analysis for small families."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-07",
+      "NAME": "Family evolution, migration and retirement",
+      "PROPERTY_IDS": [
+        "ESPLE-030",
+        "ESPLE-031",
+        "ESPLE-032",
+        "ESPLE-033",
+        "ESPLE-034",
+        "ESPLE-035",
+        "ESPLE-058",
+        "ESPLE-061"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S025",
+        "ESPLE-S037",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Preserve or explicitly revise supported product obligations through changes in models, assets and production.",
+      "OBJECTS_AND_STATE": "At baseline k the family has model φk, assets Ak, supported product identities Pk and evidence Ek. A migration m maps old products/selections to new ones with explicit feature correspondence and intent. Legacy admission to new products is distinct from support of old ones.",
+      "OPERATION_AND_DECISIONS": "Classify model differences, identify shared-asset impact, select migration or parallel support, update tests and accept actual products. Extracted constraints can repair a stale model only after domain reconciliation. Retirement may first forbid new selection while preserving older baselines.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "A migrated product meets the intended preserved obligations or records accepted changes. Ek is not automatically evidence for baseline k+1. Configuration-distance minimisation is not a proof of minimal labour or unchanged behaviour.",
+      "LIMITS_AND_CHEAP_FORM": "Manual migration or a supported old baseline can be adequate. No compulsory simultaneous release or eventual reintegration of every exception."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-08",
+      "NAME": "Organisational economics and external constraints",
+      "PROPERTY_IDS": [
+        "ESPLE-036",
+        "ESPLE-037",
+        "ESPLE-038",
+        "ESPLE-039",
+        "ESPLE-040",
+        "ESPLE-041",
+        "ESPLE-042",
+        "ESPLE-049",
+        "ESPLE-057",
+        "ESPLE-059"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028",
+        "ESPLE-S029",
+        "ESPLE-S041",
+        "ESPLE-S044"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Choose a feasible production arrangement while accounting for the parties who bear its costs and obligations.",
+      "OBJECTS_AND_STATE": "For an explicit horizon compare SPL cost = organisational transition + core assets + product derivation + assurance + coordination + support/migration/exit with equivalent-outcome alternatives. These are cost categories, not measured universal coefficients. Authority and external obligations constrain admissible alternatives before cost ranking.",
+      "OPERATION_AND_DECISIONS": "Use scenarios and observed product experience to revisit investment, team capacity, exceptions and scope. Negotiate with external participants where there is no internal authority. A shared specification ecosystem is not automatically one product-production organisation.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "The decision identifies cost bearers, demand assumptions, omitted costs and conditions that reverse preference. No claimed causal benefit follows merely from adopting a standard or successful organisation.",
+      "LIMITS_AND_CHEAP_FORM": "A coarse comparison can be sufficient; no universal ROI, break-even count or required governance structure is asserted."
+    },
+    {
+      "MODEL_ID": "ESPLE-DM-09",
+      "NAME": "Dynamic configuration transitions and learned proposals",
+      "PROPERTY_IDS": [
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045",
+        "ESPLE-046",
+        "ESPLE-047",
+        "ESPLE-048",
+        "ESPLE-060",
+        "ESPLE-062"
+      ],
+      "SOURCE_IDS": [
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S032",
+        "ESPLE-S034",
+        "ESPLE-S038",
+        "ESPLE-S043",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: relational reconstruction grounded in the cited mechanisms; not a newly proved or academically standard unified model.",
+      "PURPOSE": "Keep runtime or learned changes inside justified configuration, transition, authority and evidence boundaries.",
+      "OBJECTS_AND_STATE": "A dynamic state is (c,s,e): feature selection, operational state and relevant environment. Edges represent feasible actions with guards, effects and controllability. A learned proposal is an input to checking, not an edge that is automatically authorised.",
+      "OPERATION_AND_DECISIONS": "Observe context, propose a permitted target, check a feasible safe path, execute authorised actions and observe the result. A safe offline phase or actual atomic transfer can justify transitions otherwise unsafe, but cannot be assumed. Model/tool changes require re-establishing the guarantees they affect.",
+      "OBSERVATIONS_AND_POSTCONDITIONS": "Safe endpoints do not prove safe edges. Supervisory nonblocking is reachability of marked states, not inevitable completion. Issuing a command does not establish its effect. Fixed features do not imply fixed environmental behaviour.",
+      "LIMITS_AND_CHEAP_FORM": "Choose static/deployment binding, deterministic migration or advisory-only output when richer operation is not warranted. Physical safety and learned-output generalisation remain assumption-bound."
+    }
+  ],
+  "genealogy": {
+    "nodes": [
+      {
+        "NODE_ID": "ESPLE-G01",
+        "DATE": "1968 conference / 1969 report",
+        "NAME": "Component production and reuse",
+        "PROBLEM": "Programming repeatedly recreates similar facilities.",
+        "MECHANISM": "Families of components with controlled differences and industrialised production.",
+        "CONTRIBUTION": "A precursor problem framing for systematic reuse.",
+        "LIMITS_AND_RECEPTION": "Does not supply the later domain/application engineering lifecycle; transcript is from 1998.",
+        "SOURCE_IDS": [
+          "ESPLE-S001"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G02",
+        "DATE": "1976; related extension in 1979",
+        "NAME": "Program families and design for change",
+        "PROBLEM": "Separate programs conceal common design knowledge and impede change.",
+        "MECHANISM": "Reason about related programs; isolate design decisions and support extension/contraction.",
+        "CONTRIBUTION": "Family as a design unit, not just a code-reuse inventory.",
+        "LIMITS_AND_RECEPTION": "1976 full text not obtained; the 1979 primary paper supplies inspected mechanisms. No unsupported direct McIlroy-to-Parnas influence edge.",
+        "SOURCE_IDS": [
+          "ESPLE-S002",
+          "ESPLE-S003"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G03",
+        "DATE": "1990; 1992 retrospective",
+        "NAME": "Domain analysis and FODA",
+        "PROBLEM": "Potentially reusable domain knowledge is implicit in individual systems.",
+        "MECHANISM": "Context, feature, structure and behaviour analysis using existing systems and experts.",
+        "CONTRIBUTION": "Feature modelling plus rules and rationale in a broader domain analysis.",
+        "LIMITS_AND_RECEPTION": "FODA is a feasibility report and excludes some economic/legal matters; Neighbors retrospective is abstract-only.",
+        "SOURCE_IDS": [
+          "ESPLE-S004",
+          "ESPLE-S005"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G04",
+        "DATE": "2000 inspected case paper",
+        "NAME": "FAST and industrial generative families",
+        "PROBLEM": "Repeated domain-specific production needs a systematic derivation route.",
+        "MECHANISM": "Commonality analysis, application modelling language, generator and product feedback.",
+        "CONTRIBUTION": "An operative generative branch with a production mechanism.",
+        "LIMITS_AND_RECEPTION": "Lucent-related experience is one programme, not dozens of independent causal replications.",
+        "SOURCE_IDS": [
+          "ESPLE-S006"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G05",
+        "DATE": "1999",
+        "NAME": "PuLSE",
+        "PROBLEM": "Overlarge or inflexible domain-engineering programmes can be impractical.",
+        "MECHANISM": "Product-focused scope and customisable, incrementally applicable components of the method.",
+        "CONTRIBUTION": "A documented response to impractical scope and adoption burden.",
+        "LIMITS_AND_RECEPTION": "Tailoring is not evidence that every tailored programme becomes economic.",
+        "SOURCE_IDS": [
+          "ESPLE-S007"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G06",
+        "DATE": "2001/2002; 2002; 2005; 2010",
+        "NAME": "Industrial core-assets, production and management school",
+        "PROBLEM": "Reusable assets alone do not organise repeatable product delivery.",
+        "MECHANISM": "Coupled core-asset development, product development and management; production plans and economics.",
+        "CONTRIBUTION": "Makes organisational and production responsibilities explicit.",
+        "LIMITS_AND_RECEPTION": "Book access is publisher excerpts; detailed production/economic reports and negative experience were inspected separately.",
+        "SOURCE_IDS": [
+          "ESPLE-S008",
+          "ESPLE-S011",
+          "ESPLE-S012",
+          "ESPLE-S013"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G07",
+        "DATE": "2001 workshop / 2002 proceedings; 2005 framework",
+        "NAME": "Adoption routes and domain/application engineering",
+        "PROBLEM": "Upfront investment and the separation of reuse work from products impede adoption.",
+        "MECHANISM": "Proactive, reactive and extractive routes; domain and application engineering with feedback.",
+        "CONTRIBUTION": "Separates reusable-family and product-specific responsibilities without making them once-only phases.",
+        "LIMITS_AND_RECEPTION": "Framework chapter draws explicitly on earlier industrial and ITEA work; adoption claims are not universal returns.",
+        "SOURCE_IDS": [
+          "ESPLE-S009",
+          "ESPLE-S010"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G08",
+        "DATE": "2004; 2009 overview",
+        "NAME": "AHEAD and feature-oriented development",
+        "PROBLEM": "Features cut across artefacts and must be composed systematically.",
+        "MECHANISM": "Step-wise refinement and feature-oriented composition, contrasted with annotations and other realisations.",
+        "CONTRIBUTION": "Links feature selection to multi-artefact production.",
+        "LIMITS_AND_RECEPTION": "Algebraic composition does not establish arbitrary product behaviour or force one feature into one module.",
+        "SOURCE_IDS": [
+          "ESPLE-S016",
+          "ESPLE-S017"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G09",
+        "DATE": "2005; 2010 review",
+        "NAME": "Constraint-based feature analysis",
+        "PROBLEM": "Selections and dependencies make manual configuration inconsistent.",
+        "MECHANISM": "Propositional and richer feature encodings with satisfiability and diagnostic queries.",
+        "CONTRIBUTION": "Precise represented configuration sets and automated assistance.",
+        "LIMITS_AND_RECEPTION": "Encoded consistency is not domain completeness or implementation correctness.",
+        "SOURCE_IDS": [
+          "ESPLE-S014",
+          "ESPLE-S015"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G10",
+        "DATE": "2010",
+        "NAME": "Delta-oriented programming",
+        "PROBLEM": "Additive feature refinements do not conveniently express every variant.",
+        "MECHANISM": "Core program plus applicable additions, removals and modifications in constrained orders.",
+        "CONTRIBUTION": "An alternative realisation supporting negative and changing variation.",
+        "LIMITS_AND_RECEPTION": "Ordering, applicability and interference remain obligations; not the universal successor to FOP.",
+        "SOURCE_IDS": [
+          "ESPLE-S018"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G11",
+        "DATE": "2011–2019",
+        "NAME": "Family assurance and configurable-system analysis",
+        "PROBLEM": "Independent analysis of every variant duplicates work or is infeasible.",
+        "MECHANISM": "Variability-aware parsing/analysis, sampling, compositional and product strategies.",
+        "CONTRIBUTION": "Shares computations or limits sampled configurations with explicit coverage.",
+        "LIMITS_AND_RECEPTION": "Analysis assumptions, unconfirmed warnings and higher-order faults limit general claims.",
+        "SOURCE_IDS": [
+          "ESPLE-S019",
+          "ESPLE-S020",
+          "ESPLE-S021",
+          "ESPLE-S022",
+          "ESPLE-S040"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G12",
+        "DATE": "2009–2026",
+        "NAME": "Configuration and family evolution",
+        "PROBLEM": "Models, products and tests change at different rates.",
+        "MECHANISM": "Classify model edits, migrate configurations, recover variation and repair test selections.",
+        "CONTRIBUTION": "Continuity becomes a separate engineering obligation.",
+        "LIMITS_AND_RECEPTION": "Configuration-set preservation is not behavioural preservation; 2025 evolution-plan full proof was not accessible.",
+        "SOURCE_IDS": [
+          "ESPLE-S023",
+          "ESPLE-S024",
+          "ESPLE-S025",
+          "ESPLE-S037",
+          "ESPLE-S039",
+          "ESPLE-S041"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G13",
+        "DATE": "2008",
+        "NAME": "Dynamic and model-driven product lines",
+        "PROBLEM": "A deployed family member may need context-dependent change.",
+        "MECHANISM": "Map context and requirements to run-time variability, with modelling and middleware support.",
+        "CONTRIBUTION": "Moves permitted product variation into operation.",
+        "LIMITS_AND_RECEPTION": "Static feature validity does not supply transition safety; 2008 overview access limited, model-driven paper inspected.",
+        "SOURCE_IDS": [
+          "ESPLE-S030",
+          "ESPLE-S043"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G14",
+        "DATE": "2023 journal; earlier versions identified in paper",
+        "NAME": "Supervisory-control import into dynamic configuration",
+        "PROBLEM": "Valid endpoints can be joined by invalid or blocking transitions.",
+        "MECHANISM": "Discrete-event supervisory synthesis over feature configuration and behaviour.",
+        "CONTRIBUTION": "Formal control of modelled safety/nonblocking under stated control assumptions.",
+        "LIMITS_AND_RECEPTION": "Body Comfort System is an industrial-origin benchmark, not evidence of vehicle deployment or physical completeness.",
+        "SOURCE_IDS": [
+          "ESPLE-S031"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G15",
+        "DATE": "2009",
+        "NAME": "Software ecosystems beyond a single product-line organisation",
+        "PROBLEM": "Independent organisations or implementers cannot always share one core authority.",
+        "MECHANISM": "Platform interfaces, governance and independently developed interoperable implementations.",
+        "CONTRIBUTION": "Broadens the ownership/coordination question while preserving important distinctions from classical SPLE.",
+        "LIMITS_AND_RECEPTION": "Participant-observer examples do not establish comparative governance effectiveness; biological analogy is not documentary engineering ancestry.",
+        "SOURCE_IDS": [
+          "ESPLE-S029"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G16",
+        "DATE": "2018 initiative; 2025 work; 2021 scoped standard",
+        "NAME": "Variability interchange and feature-based industrial guidance",
+        "PROBLEM": "Tools and organisations use incompatible representations and production conventions.",
+        "MECHANISM": "UVL language levels and tool interchange; scoped feature-based product-line guidance.",
+        "CONTRIBUTION": "Interoperability is a distinct concern from adding more variability.",
+        "LIMITS_AND_RECEPTION": "Only ISO public scope inspected; language availability and specification do not prove adoption or economic benefit.",
+        "SOURCE_IDS": [
+          "ESPLE-S032",
+          "ESPLE-S033"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G17",
+        "DATE": "2025–2026",
+        "NAME": "Learned assistance, regeneration and variability reduction",
+        "PROBLEM": "Migration/model maintenance and broad configuration spaces can be burdensome.",
+        "MECHANISM": "Learned change proposals, exploratory regeneration, and smaller or earlier-bound variability.",
+        "CONTRIBUTION": "New alternatives and sharper questions about where variability resides and what must be revalidated.",
+        "LIMITS_AND_RECEPTION": "Current exploratory work is not a mature replacement consensus; LLM co-evolution metadata alone supports no performance claim.",
+        "SOURCE_IDS": [
+          "ESPLE-S034",
+          "ESPLE-S036",
+          "ESPLE-S038",
+          "ESPLE-S045"
+        ]
+      },
+      {
+        "NODE_ID": "ESPLE-G18",
+        "DATE": "2026",
+        "NAME": "Community-driven variability",
+        "PROBLEM": "Independent implementers share compatibility concerns without necessarily sharing a core asset or central product derivation.",
+        "MECHANISM": "Interoperability-oriented independent implementations, proposals and community coordination.",
+        "CONTRIBUTION": "A documented contemporary distinction from centrally managed common-core production.",
+        "LIMITS_AND_RECEPTION": "Fourteen selected ecosystems and proxy-based taxonomy do not prove superior governance or adoption rates.",
+        "SOURCE_IDS": [
+          "ESPLE-S044"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "EDGE_ID": "ESPLE-GE01",
+        "FROM_NODE": "ESPLE-G01",
+        "TO_NODE": "ESPLE-G02",
+        "EDGE_TYPE": "UNRESOLVED_RELATIONSHIP",
+        "SOURCE_IDS": [
+          "ESPLE-S001",
+          "ESPLE-S002",
+          "ESPLE-S003"
+        ],
+        "DOCUMENTARY_BASIS": "Both concern related reusable programs; inspected evidence is insufficient to assert direct transmission between these exact works."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE02",
+        "FROM_NODE": "ESPLE-G02",
+        "TO_NODE": "ESPLE-G03",
+        "EDGE_TYPE": "SHARED_ANCESTRY",
+        "SOURCE_IDS": [
+          "ESPLE-S003",
+          "ESPLE-S005"
+        ],
+        "DOCUMENTARY_BASIS": "Domain analysis and program-family design share the problem of reusable knowledge; this edge does not assert derivation of FODA from one paper alone."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE03",
+        "FROM_NODE": "ESPLE-G03",
+        "TO_NODE": "ESPLE-G05",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "ESPLE-S007"
+        ],
+        "DOCUMENTARY_BASIS": "PuLSE explicitly responds to limitations of large, insufficiently product-focused domain-engineering approaches."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE04",
+        "FROM_NODE": "ESPLE-G04",
+        "TO_NODE": "ESPLE-G07",
+        "EDGE_TYPE": "DOCUMENTED_INFLUENCE",
+        "SOURCE_IDS": [
+          "ESPLE-S009"
+        ],
+        "DOCUMENTARY_BASIS": "Pohl et al. chapter 2 explicitly identifies Weiss and Lai and industrial initiatives among framework antecedents; this is framework-level, not a claim that every operation originated in FAST."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE05",
+        "FROM_NODE": "ESPLE-G06",
+        "TO_NODE": "ESPLE-G07",
+        "EDGE_TYPE": "SHARED_ANCESTRY",
+        "SOURCE_IDS": [
+          "ESPLE-S008",
+          "ESPLE-S009",
+          "ESPLE-S011"
+        ],
+        "DOCUMENTARY_BASIS": "Related industrial product-line practice informs both; different representations preserve coupled product/core responsibilities."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE06",
+        "FROM_NODE": "ESPLE-G03",
+        "TO_NODE": "ESPLE-G09",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESPLE-S014",
+          "ESPLE-S015"
+        ],
+        "DOCUMENTARY_BASIS": "Feature-model analysis papers explicitly formalise and analyse feature-model constraints associated with the FODA lineage."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE07",
+        "FROM_NODE": "ESPLE-G08",
+        "TO_NODE": "ESPLE-G10",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "ESPLE-S018"
+        ],
+        "DOCUMENTARY_BASIS": "Delta-oriented programming explicitly addresses expressiveness limitations of additive feature-oriented programming."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE08",
+        "FROM_NODE": "ESPLE-G08",
+        "TO_NODE": "ESPLE-G11",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESPLE-S017",
+          "ESPLE-S019"
+        ],
+        "DOCUMENTARY_BASIS": "Family assurance investigates how feature-oriented and other variability realisations can be analysed without only enumerating products."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE09",
+        "FROM_NODE": "ESPLE-G09",
+        "TO_NODE": "ESPLE-G12",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESPLE-S023",
+          "ESPLE-S024",
+          "ESPLE-S037"
+        ],
+        "DOCUMENTARY_BASIS": "Configuration-set semantics become the basis for classifying edits and adapting configurations/tests."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE10",
+        "FROM_NODE": "ESPLE-G03",
+        "TO_NODE": "ESPLE-G12",
+        "EDGE_TYPE": "DOMAIN_TRANSLATION",
+        "SOURCE_IDS": [
+          "ESPLE-S025",
+          "ESPLE-S041"
+        ],
+        "DOCUMENTARY_BASIS": "Extraction and feature modelling are applied to existing cloned or industrial variants, subject to missing-domain-knowledge limits."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE11",
+        "FROM_NODE": "ESPLE-G09",
+        "TO_NODE": "ESPLE-G13",
+        "EDGE_TYPE": "DOMAIN_TRANSLATION",
+        "SOURCE_IDS": [
+          "ESPLE-S030",
+          "ESPLE-S043"
+        ],
+        "DOCUMENTARY_BASIS": "Feature selection is applied to runtime adaptation; transition behaviour adds obligations beyond static configuration."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE12",
+        "FROM_NODE": "ESPLE-G13",
+        "TO_NODE": "ESPLE-G14",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "SOURCE_IDS": [
+          "ESPLE-S031"
+        ],
+        "DOCUMENTARY_BASIS": "The paper explicitly combines product-line dynamic reconfiguration with discrete-event supervisory control and identifies prior approaches it extends."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE13",
+        "FROM_NODE": "ESPLE-G06",
+        "TO_NODE": "ESPLE-G15",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESPLE-S029"
+        ],
+        "DOCUMENTARY_BASIS": "Bosch explicitly argues for organisational expansion from product lines to ecosystems; the later community taxonomy describes a distinct coordination arrangement."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE14",
+        "FROM_NODE": "ESPLE-G15",
+        "TO_NODE": "ESPLE-G18",
+        "EDGE_TYPE": "DOMAIN_TRANSLATION",
+        "SOURCE_IDS": [
+          "ESPLE-S044"
+        ],
+        "DOCUMENTARY_BASIS": "The 2026 paper explicitly contrasts independently developed interoperable implementations with classical common-core product-line arrangements. This edge records the documented comparison, not an assertion of direct derivation from Bosch alone."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE15",
+        "FROM_NODE": "ESPLE-G09",
+        "TO_NODE": "ESPLE-G16",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESPLE-S032"
+        ],
+        "DOCUMENTARY_BASIS": "UVL explicitly addresses fragmentation in feature modelling and documents the MODEVAR initiative and language levels."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE16",
+        "FROM_NODE": "ESPLE-G12",
+        "TO_NODE": "ESPLE-G17",
+        "EDGE_TYPE": "HYBRIDISATION",
+        "SOURCE_IDS": [
+          "ESPLE-S034",
+          "ESPLE-S036",
+          "ESPLE-S038"
+        ],
+        "DOCUMENTARY_BASIS": "Learned tools are proposed for evolution/derivation tasks; inspected evidence varies from metadata to exploratory evaluations, so replacement benefit is not established."
+      },
+      {
+        "EDGE_ID": "ESPLE-GE17",
+        "FROM_NODE": "ESPLE-G08",
+        "TO_NODE": "ESPLE-G17",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "ESPLE-S034",
+          "ESPLE-S045"
+        ],
+        "DOCUMENTARY_BASIS": "New proposals question maintained configuration machinery; this study retains reduction as conditional and regeneration superiority as unresolved."
+      }
+    ]
+  },
+  "discriminating_cases": [
+    {
+      "CASE_ID": "ESPLE-CASE-01",
+      "NAME": "Three similar products with incompatible assumptions",
+      "EVIDENCE_STATUS": "ANALYTICAL_TEST_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-002",
+        "ESPLE-003",
+        "ESPLE-019",
+        "ESPLE-037"
+      ],
+      "GIVEN": "A batch collector tolerates reordering, a controller requires bounded response, and an offline recorder must survive disconnection. All share a serialisation library.",
+      "SYSTEM_RESPONSE": "Do not infer one production family or one scheduler from the library. Test whether a narrow common layer plus explicit variations can meet all assumptions at acceptable cost; split scope if not.",
+      "DISCRIMINATING_OBSERVATION": "A proposed invariant that requires permanent connectivity is contradicted by the recorder. Sharing serialisation remains possible.",
+      "LIMITS": "This does not prove that the three products can never form a family under a different architecture.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-02",
+      "NAME": "Valid feature model, defective generator",
+      "EVIDENCE_STATUS": "ANALYTICAL_TEST_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-009",
+        "ESPLE-017",
+        "ESPLE-021",
+        "ESPLE-023",
+        "ESPLE-028",
+        "ESPLE-052"
+      ],
+      "GIVEN": "The model requires exactly one of A or B; configuration A=true,B=false is valid, but the generator emits B.",
+      "SYSTEM_RESPONSE": "Pass encoded consistency, fail the intended realisation relation and withhold product acceptance. Retain configuration and generator identity for diagnosis.",
+      "DISCRIMINATING_OBSERVATION": "The emitted capability disagrees with the selected feature despite successful compilation.",
+      "LIMITS": "The toy oracle checks a simple mapping, not arbitrary product behaviour.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-03",
+      "NAME": "Shared security repair breaks a supported variant",
+      "EVIDENCE_STATUS": "ANALYTICAL_TEST_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-006",
+        "ESPLE-021",
+        "ESPLE-028",
+        "ESPLE-032",
+        "ESPLE-033",
+        "ESPLE-039",
+        "ESPLE-042"
+      ],
+      "GIVEN": "A common security repair exceeds the memory budget of one still-supported product.",
+      "SYSTEM_RESPONSE": "Do not claim family-wide completion. Assess differentiated backport, a supportable baseline or an explicit product exception with the relevant decision authority.",
+      "DISCRIMINATING_OBSERVATION": "The repaired high-resource products pass, but the low-resource product fails its acceptance obligation; this result interrupts blanket propagation.",
+      "LIMITS": "No specific vulnerability, legal requirement or acceptable security exception is invented.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-04",
+      "NAME": "Pairwise coverage misses a three-way fault",
+      "EVIDENCE_STATUS": "EXECUTED_LOGICAL_CHECK_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-053"
+      ],
+      "GIVEN": "For three unconstrained Boolean features, sample 000,011,101,110. A fault activates only at 111.",
+      "SYSTEM_RESPONSE": "Recognise complete pairwise assignment coverage but no general interaction-correctness guarantee. Add a higher-order test when the risk or interaction hypothesis warrants it.",
+      "DISCRIMINATING_OBSERVATION": "The executable check confirms all 2-variable assignments occur and 111 is absent.",
+      "LIMITS": "This counterexample disproves the universal completeness inference; it does not show pairwise testing is useless.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-05",
+      "NAME": "Safe endpoints, unsafe transition",
+      "EVIDENCE_STATUS": "EXECUTED_LOGICAL_CHECK_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045",
+        "ESPLE-054"
+      ],
+      "GIVEN": "Exactly one provider must be active. Endpoints (1,0) and (0,1) are safe; the platform only changes one Boolean variable at a time.",
+      "SYSTEM_RESPONSE": "No safe path exists under those actions. Require a genuinely atomic transfer, a separately specified safe quiescent protocol, or reject the transition.",
+      "DISCRIMINATING_OBSERVATION": "Enumerating the one-bit graph shows both intermediate states (0,0) and (1,1) violate the invariant.",
+      "LIMITS": "An atomic or quiescent mechanism cannot be assumed merely to make the model work.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-06",
+      "NAME": "Small portfolio where cloning is adequate",
+      "EVIDENCE_STATUS": "EXECUTED_ARITHMETIC_SCENARIO_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-007",
+        "ESPLE-036",
+        "ESPLE-037",
+        "ESPLE-049",
+        "ESPLE-057"
+      ],
+      "GIVEN": "Hypothetical equivalent obligations: a two-product clone-and-own route costs 60 effort units over the decision horizon; establishing and operating the family costs 120. Estimates already include the stated support work.",
+      "SYSTEM_RESPONSE": "Select the lower-cost adequate alternative and revisit the decision if demand, propagation or support assumptions change.",
+      "DISCRIMINATING_OBSERVATION": "60 < 120 under the declared scenario; no product-count threshold is inferred.",
+      "LIMITS": "The values are invented to test the decision rule, not estimates from an industrial study.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-07",
+      "NAME": "A favourable modest static family",
+      "EVIDENCE_STATUS": "ANALYTICAL_TEST_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-004",
+        "ESPLE-008",
+        "ESPLE-013",
+        "ESPLE-018",
+        "ESPLE-020",
+        "ESPLE-021",
+        "ESPLE-028",
+        "ESPLE-036"
+      ],
+      "GIVEN": "Several metering products share stable measurement semantics and differ in a declared display and communication option. A maintained library and deployment-time parameter file realise those differences.",
+      "SYSTEM_RESPONSE": "Use a small decision table, versioned assets/configuration, a repeatable derivation instruction and appropriate product checks. No runtime supervisor or feature DSL is required.",
+      "DISCRIMINATING_OBSERVATION": "Derived products satisfy their declared measurement and interface obligations; actual saved work can be compared with maintained alternatives.",
+      "LIMITS": "Technical coherence in this invented example is not empirical proof of return on investment.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-08",
+      "NAME": "The actuator command is not the observed transition",
+      "EVIDENCE_STATUS": "ANALYTICAL_TEST_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-023",
+        "ESPLE-028",
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045",
+        "ESPLE-060"
+      ],
+      "GIVEN": "A controller issues a reconfiguration command, but the state observer is stale and the physical action may have failed.",
+      "SYSTEM_RESPONSE": "Do not equate a decision, permission or issued command with achieved state. Use warranted feedback or enter the explicitly designed failure response.",
+      "DISCRIMINATING_OBSERVATION": "Independent current state evidence is missing, so the transition postcondition is not established.",
+      "LIMITS": "The study does not prescribe a universal safe fallback for every plant.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-09",
+      "NAME": "A changed assurance assumption",
+      "EVIDENCE_STATUS": "ANALYTICAL_TEST_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESPLE-021",
+        "ESPLE-023",
+        "ESPLE-026",
+        "ESPLE-029",
+        "ESPLE-032"
+      ],
+      "GIVEN": "A family-analysis result assumed a particular build constraint, but a generator upgrade changes which module is included.",
+      "SYSTEM_RESPONSE": "Invalidate or narrow the inherited result until model/implementation correspondence is re-established; do not carry the old guarantee solely because feature names match.",
+      "DISCRIMINATING_OBSERVATION": "The represented configuration no longer matches the built product.",
+      "LIMITS": "This is an analytical obligation derived from assurance boundaries, not a reported incident.",
+      "SOURCE_IDS": []
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-10",
+      "NAME": "Industrial global model becomes stale",
+      "EVIDENCE_STATUS": "PUBLISHED_FIELD_OBSERVATION",
+      "PROPERTY_IDS": [
+        "ESPLE-002",
+        "ESPLE-010",
+        "ESPLE-014",
+        "ESPLE-034",
+        "ESPLE-039"
+      ],
+      "GIVEN": "The Bosch PS-EC report describes formerly used high-level feature models becoming outdated and falling out of use, and studies dependencies across seven selected projects.",
+      "SYSTEM_RESPONSE": "Retain maintainable, subsystem-aligned models with domain review and cross-boundary consistency, rather than demand one comprehensive central model.",
+      "DISCRIMINATING_OBSERVATION": "The report documents maintenance and extraction limits; it does not establish a controlled ROI comparison for the proposed model organisation.",
+      "LIMITS": "One family and purposive project selection; not a universal failure rate.",
+      "SOURCE_IDS": [
+        "ESPLE-S041"
+      ]
+    },
+    {
+      "CASE_ID": "ESPLE-CASE-11",
+      "NAME": "Configuration-dependent generator failures",
+      "EVIDENCE_STATUS": "PUBLISHED_CONFIGURABLE_SYSTEM_STUDY",
+      "PROPERTY_IDS": [
+        "ESPLE-017",
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-028"
+      ],
+      "GIVEN": "The historical JHipster study reports 9,376 failed configurations out of 26,256 in Results §6.1, with a minor denominator discrepancy elsewhere.",
+      "SYSTEM_RESPONSE": "Treat feature/configuration validity and generated-product outcomes separately; use the reported fault interactions to judge sampling limits in that version.",
+      "DISCRIMINATING_OBSERVATION": "The study reports six faults including a higher-order interaction, not a general defect rate for all configurable generators.",
+      "LIMITS": "One historical version; infrastructure/configuration conditions and the paper denominator discrepancy are retained.",
+      "SOURCE_IDS": [
+        "ESPLE-S021"
+      ]
+    }
+  ],
+  "executed_logical_checks": {
+    "pairwise_all_assignments_covered": true,
+    "three_way_fault_configuration_sampled": false,
+    "safe_path_under_single_bit_changes": false,
+    "hypothetical_clone_cost_less_than_spl_cost": true,
+    "classification": "LOGICAL_AND_ARITHMETIC_CHECKS_ONLY; not validation of industrial effectiveness"
+  },
+  "tensions": [
+    {
+      "TENSION_ID": "ESPLE-T01",
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-002",
+        "ESPLE-003",
+        "ESPLE-019",
+        "ESPLE-037"
+      ],
+      "PROTECTED_VALUES": [
+        "Reuse",
+        "Low coupling and domain fit"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Stable shared assumptions and recurrent product demand justify a common asset.",
+      "CONTEXT_FAVOURING_SECOND": "Incompatible operational assumptions or incidental code similarity favour separate products or smaller common libraries.",
+      "SUPPORTED_HYBRID": "A narrow shared layer plus distinct product architectures.",
+      "HYBRID_FAILURE": "A supposedly small shared abstraction accumulates all product exceptions and becomes the original monolith.",
+      "UNCERTAINTY": "Future demand and coordination costs require observation, not a similarity threshold.",
+      "SOURCE_IDS": [
+        "ESPLE-S002",
+        "ESPLE-S003",
+        "ESPLE-S005",
+        "ESPLE-S006",
+        "ESPLE-S007",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S017",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028",
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T02",
+      "PROPERTY_IDS": [
+        "ESPLE-004",
+        "ESPLE-005",
+        "ESPLE-006",
+        "ESPLE-032",
+        "ESPLE-039"
+      ],
+      "PROTECTED_VALUES": [
+        "Standardisation",
+        "Product autonomy"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Shared safety/interface assumptions require coordinated core decisions.",
+      "CONTEXT_FAVOURING_SECOND": "A local obligation has little reuse and shared generalisation would disrupt other supported products.",
+      "SUPPORTED_HYBRID": "Explicit product exception on an identified baseline with shared-fix visibility.",
+      "HYBRID_FAILURE": "Every local difference becomes permanent undocumented drift, or every exception is forced back into the core.",
+      "UNCERTAINTY": "No universal threshold says when an exception should become a new family.",
+      "SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S011",
+        "ESPLE-S013",
+        "ESPLE-S021",
+        "ESPLE-S026",
+        "ESPLE-S028",
+        "ESPLE-S041",
+        "ESPLE-S044"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T03",
+      "PROPERTY_IDS": [
+        "ESPLE-007",
+        "ESPLE-036",
+        "ESPLE-038",
+        "ESPLE-049",
+        "ESPLE-050"
+      ],
+      "PROTECTED_VALUES": [
+        "Anticipatory investment",
+        "Responsiveness under uncertainty"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Known high reuse and expensive later redesign justify proactive assets.",
+      "CONTEXT_FAVOURING_SECOND": "Demand is uncertain or working variants already exist; reactive or extractive routes limit sunk cost.",
+      "SUPPORTED_HYBRID": "Stage investment around demonstrable commonality while retaining product delivery.",
+      "HYBRID_FAILURE": "A nominally incremental plan still mandates a full future platform before useful products.",
+      "UNCERTAINTY": "Scenario estimates should be updated from actual derivation and support costs.",
+      "SOURCE_IDS": [
+        "ESPLE-S007",
+        "ESPLE-S010",
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T04",
+      "PROPERTY_IDS": [
+        "ESPLE-003",
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-059",
+        "ESPLE-061"
+      ],
+      "PROTECTED_VALUES": [
+        "Product variety",
+        "Assurability and supportability"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Valuable differentiated products justify additional variants and checks.",
+      "CONTEXT_FAVOURING_SECOND": "Unused options and unmanageable interaction costs favour restriction or retirement.",
+      "SUPPORTED_HYBRID": "Admit new variation only with a product case and coverage/support plan; retain old support separately.",
+      "HYBRID_FAILURE": "A metric rewards raw configurations while test and support budgets stay fixed.",
+      "UNCERTAINTY": "Rare demand and high-consequence variants can defeat frequency-only retirement.",
+      "SOURCE_IDS": [
+        "ESPLE-S007",
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S015",
+        "ESPLE-S017",
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S037",
+        "ESPLE-S040",
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T05",
+      "PROPERTY_IDS": [
+        "ESPLE-023",
+        "ESPLE-025",
+        "ESPLE-026",
+        "ESPLE-027",
+        "ESPLE-028"
+      ],
+      "PROTECTED_VALUES": [
+        "Shared assurance efficiency",
+        "Product-specific validity"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Many products share analyzable structure and premises can be checked.",
+      "CONTEXT_FAVOURING_SECOND": "A product has unique environment, integration or unrepresented behaviour.",
+      "SUPPORTED_HYBRID": "Family or compositional analysis plus product checks for residual obligations.",
+      "HYBRID_FAILURE": "Shared proof is used to skip checks of premises, or every product repeats all work despite valid reusable evidence.",
+      "UNCERTAINTY": "The cheapest adequate assurance mix depends on actual properties, not labels.",
+      "SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S009",
+        "ESPLE-S014",
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S022",
+        "ESPLE-S031",
+        "ESPLE-S037",
+        "ESPLE-S040",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T06",
+      "PROPERTY_IDS": [
+        "ESPLE-013",
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045",
+        "ESPLE-054"
+      ],
+      "PROTECTED_VALUES": [
+        "Runtime flexibility",
+        "Transition safety and simplicity"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "The needed context changes faster than safe offline selection can respond.",
+      "CONTEXT_FAVOURING_SECOND": "Runtime change is rare, unnecessary or cannot be safely enacted with available controls.",
+      "SUPPORTED_HYBRID": "Static hardware/resource choices with bounded dynamic choices in an analysed safe envelope.",
+      "HYBRID_FAILURE": "Endpoint validity masks unsafe intermediate states or assumed atomicity.",
+      "UNCERTAINTY": "Physical timing and observation limits may invalidate a modelled safe path.",
+      "SOURCE_IDS": [
+        "ESPLE-S017",
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S042",
+        "ESPLE-S043",
+        "ESPLE-S045"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T07",
+      "PROPERTY_IDS": [
+        "ESPLE-010",
+        "ESPLE-012",
+        "ESPLE-034"
+      ],
+      "PROTECTED_VALUES": [
+        "Automated recovery",
+        "Domain fidelity"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Implementation constraints and relevant artefact semantics are recoverable.",
+      "CONTEXT_FAVOURING_SECOND": "Domain rules or customer obligations are absent from implementation and require human input.",
+      "SUPPORTED_HYBRID": "Extract candidate constraints with provenance, then reconcile with domain knowledge.",
+      "HYBRID_FAILURE": "Extracted historical products are treated as the entire valid domain or expert additions destroy implementation consistency.",
+      "UNCERTAINTY": "No extraction method establishes the value of every historical difference.",
+      "SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S015",
+        "ESPLE-S025",
+        "ESPLE-S032",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T08",
+      "PROPERTY_IDS": [
+        "ESPLE-030",
+        "ESPLE-031",
+        "ESPLE-035"
+      ],
+      "PROTECTED_VALUES": [
+        "Regression continuity",
+        "Attention to new products"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Old obligations persist and existing tests are expensive to recreate.",
+      "CONTEXT_FAVOURING_SECOND": "The model admits materially new configurations or fresh generation is cheaper than repair.",
+      "SUPPORTED_HYBRID": "Preserve valid regression configurations and add targeted novelty coverage.",
+      "HYBRID_FAILURE": "Configuration similarity is mistaken for low oracle-repair cost or change-specific tests abandon old obligations.",
+      "UNCERTAINTY": "The current mutation study does not establish universal human-effort rankings.",
+      "SOURCE_IDS": [
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S021",
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S037",
+        "ESPLE-S039",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T09",
+      "PROPERTY_IDS": [
+        "ESPLE-039",
+        "ESPLE-041",
+        "ESPLE-046"
+      ],
+      "PROTECTED_VALUES": [
+        "Shared compatibility",
+        "Independent participation"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "Internal assets have accountable decision rights or negotiated interface obligations.",
+      "CONTEXT_FAVOURING_SECOND": "Independent ecosystem participants cannot be directed by one production organisation.",
+      "SUPPORTED_HYBRID": "Share specifications and bounded compatibility evidence without forcing shared implementation ownership.",
+      "HYBRID_FAILURE": "A common syntax is treated as authority over external products or as proof of actual interoperability.",
+      "UNCERTAINTY": "Community taxonomy is not evidence that one governance pattern improves outcomes.",
+      "SOURCE_IDS": [
+        "ESPLE-S008",
+        "ESPLE-S011",
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S029",
+        "ESPLE-S032",
+        "ESPLE-S033",
+        "ESPLE-S041",
+        "ESPLE-S044"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    },
+    {
+      "TENSION_ID": "ESPLE-T10",
+      "PROPERTY_IDS": [
+        "ESPLE-017",
+        "ESPLE-021",
+        "ESPLE-022",
+        "ESPLE-047",
+        "ESPLE-048"
+      ],
+      "PROTECTED_VALUES": [
+        "Cheap generated change",
+        "Continuity of assurance and intent"
+      ],
+      "CONTEXT_FAVOURING_FIRST": "A bounded learned suggestion can be independently checked at acceptable cost.",
+      "CONTEXT_FAVOURING_SECOND": "Validation or repeated regeneration exceeds the cost of maintaining conventional assets.",
+      "SUPPORTED_HYBRID": "Learned proposal plus deterministic checks and authorised review.",
+      "HYBRID_FAILURE": "The generator judges its own output or changes model versions without renewed validation.",
+      "UNCERTAINTY": "Lifecycle superiority of regeneration remains unresolved in the inspected corpus.",
+      "SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S011",
+        "ESPLE-S016",
+        "ESPLE-S019",
+        "ESPLE-S021",
+        "ESPLE-S034",
+        "ESPLE-S036",
+        "ESPLE-S038",
+        "ESPLE-S041"
+      ],
+      "EVIDENCE_STATUS": "RESEARCHER_INTERPRETATION: explicit discriminators and hybrid risks synthesised from the linked property evidence, not a head-to-head empirical test of every hybrid."
+    }
+  ],
+  "relation_semantics": {
+    "REQUIRES": "FROM cannot establish its stated bounded claim without TO, under the guard; this does not mandate either technique outside that guard.",
+    "CONSTRAINS": "FROM restricts the interpretation or admissible operation of TO; it need not be a temporal predecessor.",
+    "ENABLES": "FROM makes TO feasible or informative without proving its consequence.",
+    "PROVIDES_EVIDENCE_FOR": "FROM supplies bounded evidence to TO, not an unconditional guarantee.",
+    "COMMUNICATES_TO": "Results from FROM are delivered to a responsible consumer of TO; delivery, authority and achieved outcome remain distinct.",
+    "ACTS_THROUGH": "FROM is made operative through the selected TO mechanisms.",
+    "FEEDBACK_TO": "Observations or changed assumptions in FROM can revise TO.",
+    "ALTERNATIVE_TO": "Guarded alternative approaches, not necessarily alternatives to their common evaluation criterion.",
+    "CONFLICTS_WITH": "The overclaim or assumption in FROM cannot be combined unqualified with TO under the guard.",
+    "REFINES": "FROM adds a narrower or stronger obligation to the distinction in TO.",
+    "UNUSED_TYPES": "SUPERSEDES and SHARES_ANCESTRY_WITH are available vocabulary, but no property-level universal replacement or additional ancestry edge is asserted merely to populate a type; genealogy has its own documentary edge classification."
+  }
+}

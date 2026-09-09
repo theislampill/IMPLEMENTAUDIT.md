@@ -1,0 +1,1952 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_SOFTWARE_ARCHITECTURE",
+  "research_cutoff": "2026-09-06",
+  "system_summary": {
+    "NAME": "EVOLVED_SOFTWARE_ARCHITECTURE_COMPOSED_SYSTEM",
+    "STATUS": "WITHIN_TRADITION_ANALYTICAL_SYNTHESIS; not a recognised academic school or empirically validated whole-system intervention",
+    "PURPOSE": "Make consequential software structures understandable, evaluable, changeable and accountable to actual concerns without imposing unnecessary architecture machinery.",
+    "ENVIRONMENT": "Software, its users/maintainers/operators, organisational authority, external services and constraints, and changing operating conditions.",
+    "OBJECTS_AND_STATE": "Concerns, real responsibilities/interfaces/deployments, descriptions, evidence, decisions/assumptions, conformance findings, transition states and optional adaptation policies remain distinguishable.",
+    "OPERATION": "Actors implement, deploy, configure, migrate or retire real mechanisms. Analysis and communication alone do not enact those changes.",
+    "CONTROL_FLOW": "Non-serial: analysis/synthesis/evaluation interleave; independent local work can proceed concurrently; contradictions reopen the affected decision; authority/constraint failures can interrupt a proposed action.",
+    "MINIMAL_CORE": "A consequence-bound concern, a feasible alternative/choice, adequate interface and quality reasoning, legitimate ability to act, and a check of the real consequence. Existing ordinary work can supply these functions.",
+    "EVIDENCE_LIMIT": "The composition is reasoned from examined mechanisms and adversarial cases. No study has compared this exact assembled system against alternatives."
+  },
+  "relation_semantics": {
+    "REQUIRES": "FROM needs the TO condition/mechanism under the guard; not a global sequencing rule.",
+    "ENABLES": "FROM supplies a capability or input TO can use.",
+    "CONSTRAINS": "FROM limits admissible use of TO.",
+    "PROVIDES_EVIDENCE_FOR": "FROM contributes evidence to TO without automatically proving it.",
+    "COMMUNICATES_TO": "FROM carries information or commitments to the consumer in TO.",
+    "ACTS_THROUGH": "FROM is realised through the mechanisms named in TO.",
+    "FEEDBACK_TO": "Observations/findings at FROM can reopen or revise TO.",
+    "ALTERNATIVE_TO": "Guarded selection/substitution, not simultaneous mandatory use.",
+    "CONFLICTS_WITH": "Incompatible claims/assumptions; rejected candidates are not requirements.",
+    "REFINES": "FROM narrows or adds conditions to TO.",
+    "SUPERSEDES": "FROM replaces the specified candidate meaning in TO while preserving the denominator.",
+    "SHARES_ANCESTRY_WITH": "Bounded common design ancestry, not necessarily a verified direct influence."
+  },
+  "nodes": [
+    {
+      "NODE_ID": "ESA-N01",
+      "NAME": "Concern and decision context",
+      "PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-002",
+        "ESA-004",
+        "ESA-005",
+        "ESA-014",
+        "ESA-015"
+      ],
+      "ACTOR_AND_ACTIVITY": "Participants identify consequential commitments and who can accept trade-offs.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N02",
+      "NAME": "Consequential structure and interfaces",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-010",
+        "ESA-011",
+        "ESA-012",
+        "ESA-013",
+        "ESA-025",
+        "ESA-061",
+        "ESA-065",
+        "ESA-066",
+        "ESA-068"
+      ],
+      "ACTOR_AND_ACTIVITY": "Designers/implementers allocate responsibilities and realise interactions.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N03",
+      "NAME": "Quality and alternative reasoning",
+      "PROPERTY_IDS": [
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-026",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030",
+        "ESA-055",
+        "ESA-062",
+        "ESA-067"
+      ],
+      "ACTOR_AND_ACTIVITY": "Evaluators and stakeholders compare feasible options and examine consequences.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N04",
+      "NAME": "Description and evidence correspondence",
+      "PROPERTY_IDS": [
+        "ESA-003",
+        "ESA-020",
+        "ESA-021",
+        "ESA-022",
+        "ESA-024"
+      ],
+      "ACTOR_AND_ACTIVITY": "Authors/analysts communicate selected views and validate their links to the real system.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N05",
+      "NAME": "Decision knowledge and coordination",
+      "PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-034",
+        "ESA-035",
+        "ESA-064"
+      ],
+      "ACTOR_AND_ACTIVITY": "Teams/successors exchange rationale, constraints and changing assumptions.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N06",
+      "NAME": "Conformance and feedback adjudication",
+      "PROPERTY_IDS": [
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-045"
+      ],
+      "ACTOR_AND_ACTIVITY": "Findings become contextual decisions about implementation, model or baseline.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N07",
+      "NAME": "Evolution and configurations",
+      "PROPERTY_IDS": [
+        "ESA-043",
+        "ESA-044",
+        "ESA-049",
+        "ESA-050",
+        "ESA-051",
+        "ESA-052",
+        "ESA-053"
+      ],
+      "ACTOR_AND_ACTIVITY": "Engineers change actual structures and manage transition consequences.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N08",
+      "NAME": "Optional bounded automation",
+      "PROPERTY_IDS": [
+        "ESA-046",
+        "ESA-047",
+        "ESA-054",
+        "ESA-063"
+      ],
+      "ACTOR_AND_ACTIVITY": "Delegated controllers execute limited changes; assistance produces checked candidates.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N09",
+      "NAME": "Proportionality",
+      "PROPERTY_IDS": [
+        "ESA-056"
+      ],
+      "ACTOR_AND_ACTIVITY": "Participants select or retire machinery according to its protected function and cost.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    },
+    {
+      "NODE_ID": "ESA-N10",
+      "NAME": "Rejected and unsettled claims",
+      "PROPERTY_IDS": [
+        "ESA-006",
+        "ESA-019",
+        "ESA-023",
+        "ESA-031",
+        "ESA-036",
+        "ESA-037",
+        "ESA-041",
+        "ESA-042",
+        "ESA-048",
+        "ESA-057",
+        "ESA-058",
+        "ESA-059",
+        "ESA-060"
+      ],
+      "ACTOR_AND_ACTIVITY": "Negative constraints and an unresolved research boundary; not operative requirements.",
+      "EVIDENCE_STATUS": "ANALYTICAL_GROUPING_OF_EXAMINED_PROPERTIES; not a new software component or mandatory organisational role."
+    }
+  ],
+  "relations": [
+    {
+      "RELATION_ID": "ESA-REL001",
+      "FROM_PROPERTY_IDS": [
+        "ESA-001"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-014"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Significance is claimed because of stakeholder/quality consequences.",
+      "SHARED_ASSUMPTIONS": "Consequences can be connected to real concerns.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Importance determined solely by rank, file size or template.",
+      "COMPOSITION_MECHANISM": "The significance judgement needs concern-specific evidence or a scenario, not a global label.",
+      "NEW_FAILURE_OR_COST": "Elicitation overhead can exceed the value of a local choice.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S010",
+        "ESA-S017"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Establish actual consequence reach in a later system."
+    },
+    {
+      "RELATION_ID": "ESA-REL002",
+      "FROM_PROPERTY_IDS": [
+        "ESA-002"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-005",
+        "ESA-014",
+        "ESA-015"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "Several parties have consequential concerns.",
+      "SHARED_ASSUMPTIONS": "Affected participants or credible representatives can provide relevant conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Workshop attendance or majority preference proves complete coverage.",
+      "COMPOSITION_MECHANISM": "Concerns inform who must decide and which quality cases need examination.",
+      "NEW_FAILURE_OR_COST": "Missing or powerless participants may be hidden by apparent agreement.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S017",
+        "ESA-S020",
+        "ESA-S035"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Identify missing perspectives and actual decision authority."
+    },
+    {
+      "RELATION_ID": "ESA-REL003",
+      "FROM_PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-015"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-016",
+        "ESA-017",
+        "ESA-026",
+        "ESA-028"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "A quality claim must discriminate between designs.",
+      "SHARED_ASSUMPTIONS": "Scenario meaning and relevant population are explicit.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A precise but unrepresentative scenario is sufficient.",
+      "COMPOSITION_MECHANISM": "Scenarios make tactic effects and alternative trade-offs assessable.",
+      "NEW_FAILURE_OR_COST": "Overspecified examples can anchor design too early.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S017",
+        "ESA-S020"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Validate the selected scenario population and response measures."
+    },
+    {
+      "RELATION_ID": "ESA-REL004",
+      "FROM_PROPERTY_IDS": [
+        "ESA-005"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-035",
+        "ESA-044",
+        "ESA-046",
+        "ESA-063"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Architectural actions change shared commitments or delegated control.",
+      "SHARED_ASSUMPTIONS": "Authority and capability exist independently of the evidence producer.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Identifying a risk or generating a recommendation automatically permits action.",
+      "COMPOSITION_MECHANISM": "Only actually authorised changes proceed through the relevant participants or bounded effectors.",
+      "NEW_FAILURE_OR_COST": "Approval latency or overcentralisation can obstruct harmless local work.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S035",
+        "ESA-S053"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "A real system must supply the legitimate mandate; this packet grants none."
+    },
+    {
+      "RELATION_ID": "ESA-REL005",
+      "FROM_PROPERTY_IDS": [
+        "ESA-003"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-021",
+        "ESA-024",
+        "ESA-038",
+        "ESA-046"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A representation supports a claim about real software.",
+      "SHARED_ASSUMPTIONS": "Model, belief and implementation are distinguishable.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A model property is automatically an implementation property.",
+      "COMPOSITION_MECHANISM": "Every representation-dependent conclusion carries a correspondence and observation scope.",
+      "NEW_FAILURE_OR_COST": "Maintaining mappings adds cost and may itself drift.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S011",
+        "ESA-S014",
+        "ESA-S045",
+        "ESA-S053"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Establish correspondence only to the degree needed for the actual decision."
+    },
+    {
+      "RELATION_ID": "ESA-REL006",
+      "FROM_PROPERTY_IDS": [
+        "ESA-007"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-010"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A boundary is claimed to localise a likely change.",
+      "SHARED_ASSUMPTIONS": "Clients depend only on stated stable obligations.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Syntactic separation proves semantic independence.",
+      "COMPOSITION_MECHANISM": "Hidden choices remain local only when interface assumptions and relevant dependency kinds are adequate.",
+      "NEW_FAILURE_OR_COST": "Too much contract detail can expose or freeze the hidden decision.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S026"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Test representative change and interaction cases."
+    },
+    {
+      "RELATION_ID": "ESA-REL007",
+      "FROM_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-009"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-011",
+        "ESA-025",
+        "ESA-050",
+        "ESA-066"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Parts communicate or are reused/distributed.",
+      "SHARED_ASSUMPTIONS": "The actual interaction and external effects are understood.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Endpoint matching or style naming is sufficient compatibility.",
+      "COMPOSITION_MECHANISM": "Semantic contracts and connector mechanisms supply the basis for judging meaningful composition.",
+      "NEW_FAILURE_OR_COST": "Contract maintenance and adapters add coordination/translation costs.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S004",
+        "ESA-S026",
+        "ESA-S035"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Discover relevant hidden state, resource and failure assumptions."
+    },
+    {
+      "RELATION_ID": "ESA-REL008",
+      "FROM_PROPERTY_IDS": [
+        "ESA-010",
+        "ESA-024"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-012",
+        "ESA-034",
+        "ESA-038"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "Boundary, work coordination or conformance depends on a relation.",
+      "SHARED_ASSUMPTIONS": "Extraction is typed and scoped to the relation being inferred.",
+      "INCOMPATIBLE_ASSUMPTIONS": "All graphs represent correctness or work dependence.",
+      "COMPOSITION_MECHANISM": "Recovered dependency evidence informs placement, coordination and rule checks without deciding them by itself.",
+      "NEW_FAILURE_OR_COST": "False or missing edges can misdirect organisational or code changes.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S006",
+        "ESA-S031",
+        "ESA-S045"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Validate the extracted relation against the consumer’s question."
+    },
+    {
+      "RELATION_ID": "ESA-REL009",
+      "FROM_PROPERTY_IDS": [
+        "ESA-012"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-050",
+        "ESA-051"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "A decomposition can be separately deployed or remain local.",
+      "SHARED_ASSUMPTIONS": "Both alternatives are assessed on shared concerns and costs.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Distribution is the default endpoint of modular maturity.",
+      "COMPOSITION_MECHANISM": "Coordination-aware placement selects a distributed or local configuration rather than mandating both.",
+      "NEW_FAILURE_OR_COST": "A wrong independence forecast can make either arrangement costly.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S037",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Compare actual release, scaling, fault and semantic needs."
+    },
+    {
+      "RELATION_ID": "ESA-REL010",
+      "FROM_PROPERTY_IDS": [
+        "ESA-004"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-035",
+        "ESA-061"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Independent teams/models share a conceptual obligation.",
+      "SHARED_ASSUMPTIONS": "Only the genuinely shared semantics need common treatment.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Conceptual integrity means uniform technology or central approval of every choice.",
+      "COMPOSITION_MECHANISM": "Local autonomy and translations must preserve the shared invariant or expose a changed contract.",
+      "NEW_FAILURE_OR_COST": "Excess shared vocabulary can suppress legitimate domain differences.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S010",
+        "ESA-S033",
+        "ESA-S035"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Determine which meanings are truly common to affected consumers."
+    },
+    {
+      "RELATION_ID": "ESA-REL011",
+      "FROM_PROPERTY_IDS": [
+        "ESA-061"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-012",
+        "ESA-013"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Domain meanings diverge or variants require different models.",
+      "SHARED_ASSUMPTIONS": "Context boundaries identify where semantic rules hold.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Bounded context equals process, team or deployment boundary.",
+      "COMPOSITION_MECHANISM": "Context maps reveal where a shared model or explicit translation is required.",
+      "NEW_FAILURE_OR_COST": "Translation and shared-kernel coordination may overwhelm reuse savings.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S006",
+        "ESA-S026",
+        "ESA-S033"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Validate boundary examples and permitted variations."
+    },
+    {
+      "RELATION_ID": "ESA-REL012",
+      "FROM_PROPERTY_IDS": [
+        "ESA-013"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-049",
+        "ESA-008",
+        "ESA-017"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A family architecture is proposed.",
+      "SHARED_ASSUMPTIONS": "Required variants and shared assumptions are credible.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Speculative reuse warrants every variation point.",
+      "COMPOSITION_MECHANISM": "Family support depends on justified flexibility, compatible interfaces and quality validity of combinations.",
+      "NEW_FAILURE_OR_COST": "Combinatorial variation and cross-variant quality changes add work.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S006",
+        "ESA-S026",
+        "ESA-S066"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "A later family study must establish actual members, combinations and economics."
+    },
+    {
+      "RELATION_ID": "ESA-REL013",
+      "FROM_PROPERTY_IDS": [
+        "ESA-016"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-017",
+        "ESA-018"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A tactic’s quality payoff is claimed.",
+      "SHARED_ASSUMPTIONS": "Its causal model has a declared envelope.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A tactic name or improved local parameter guarantees overall quality.",
+      "COMPOSITION_MECHANISM": "Competing consequences constrain the tactic and observations test its predicted response.",
+      "NEW_FAILURE_OR_COST": "Additional measurement may be expensive or distort behaviour.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Calibrate the model and account for competing/external costs."
+    },
+    {
+      "RELATION_ID": "ESA-REL014",
+      "FROM_PROPERTY_IDS": [
+        "ESA-017"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-029",
+        "ESA-047",
+        "ESA-055"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Economic, adaptive or sustainability optimisation selects a change.",
+      "SHARED_ASSUMPTIONS": "Hard constraints are distinguished from negotiable preferences.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Any objective can be compensated by enough benefit elsewhere.",
+      "COMPOSITION_MECHANISM": "Optimisation remains inside acceptable cross-quality and external obligations.",
+      "NEW_FAILURE_OR_COST": "Conflicting non-negotiable obligations may make all options infeasible.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Resolve genuine stakeholder conflict outside an arbitrary weighted sum."
+    },
+    {
+      "RELATION_ID": "ESA-REL015",
+      "FROM_PROPERTY_IDS": [
+        "ESA-018"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-015",
+        "ESA-016",
+        "ESA-030",
+        "ESA-045",
+        "ESA-047"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "Actual behaviour contradicts or qualifies a prediction or signal.",
+      "SHARED_ASSUMPTIONS": "Measurements have a stated scope and reliability.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Prior model approval overrides new observation.",
+      "COMPOSITION_MECHANISM": "Observed behaviour reopens scenarios, models, tests and allowed changes rather than merely adding a report.",
+      "NEW_FAILURE_OR_COST": "Repeated noisy observations may cause churn or unstable policies.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S020",
+        "ESA-S054",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Distinguish actual contradiction from invalid instrumentation."
+    },
+    {
+      "RELATION_ID": "ESA-REL016",
+      "FROM_PROPERTY_IDS": [
+        "ESA-020"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-021",
+        "ESA-032"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "Different consumers need selected architectural views.",
+      "SHARED_ASSUMPTIONS": "Each view serves an identified question and refers to known entities.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Every audience needs the same full description.",
+      "COMPOSITION_MECHANISM": "Concern-selected views carry structures and reasons to implementers/evaluators with relevant correspondence links.",
+      "NEW_FAILURE_OR_COST": "More views multiply update and interpretation work.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S011",
+        "ESA-S029"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Demonstrate that intended consumers interpret the view adequately."
+    },
+    {
+      "RELATION_ID": "ESA-REL017",
+      "FROM_PROPERTY_IDS": [
+        "ESA-021"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-022",
+        "ESA-038",
+        "ESA-046"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A formal, conformance or runtime model is relied upon.",
+      "SHARED_ASSUMPTIONS": "The mapping refers to the relation or behaviour in the claim.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Model consistency alone supplies real-world validation.",
+      "COMPOSITION_MECHANISM": "Correspondence checks support, but do not complete, the move from model conclusions to actual software.",
+      "NEW_FAILURE_OR_COST": "Mappings can become a second stale system.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S014",
+        "ESA-S015",
+        "ESA-S045",
+        "ESA-S053"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Close the required refinement and observation gaps."
+    },
+    {
+      "RELATION_ID": "ESA-REL018",
+      "FROM_PROPERTY_IDS": [
+        "ESA-022"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-030"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "A specific architectural uncertainty can be analysed or experimentally explored.",
+      "SHARED_ASSUMPTIONS": "The chosen method addresses the same consequential question.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Formal analysis and prototypes are interchangeable for every property.",
+      "COMPOSITION_MECHANISM": "Use a formal model for tractable semantic guarantees, an experiment for behaviour with weak models, or a targeted combination.",
+      "NEW_FAILURE_OR_COST": "Two methods can duplicate cost or share the same mistaken assumptions.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S015",
+        "ESA-S016",
+        "ESA-S020"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Choose evidence that can actually discriminate the alternatives."
+    },
+    {
+      "RELATION_ID": "ESA-REL019",
+      "FROM_PROPERTY_IDS": [
+        "ESA-068"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-022",
+        "ESA-008",
+        "ESA-009"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "The selected formalism is Wright/CSP architectural connection.",
+      "SHARED_ASSUMPTIONS": "Conservative deadlock-free connector and compatible ports satisfy the theorem conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Port compatibility by itself implies deadlock freedom.",
+      "COMPOSITION_MECHANISM": "The formal theorem narrows admissible connector reasoning and exposes the non-conservative-glue failure.",
+      "NEW_FAILURE_OR_COST": "Checking all conditions and realisation mapping adds specialist work.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S015"
+      ],
+      "EVIDENCE_STATUS": "BOUNDED_FORMAL_RESULT_PLUS_EXPLICIT_IMPLEMENTATION_LIMIT",
+      "UNRESOLVED_OBLIGATION": "Implementation refinement remains separate from the model theorem."
+    },
+    {
+      "RELATION_ID": "ESA-REL020",
+      "FROM_PROPERTY_IDS": [
+        "ESA-024"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-003",
+        "ESA-021",
+        "ESA-038",
+        "ESA-044"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "Descriptions are absent or suspect and a change is planned.",
+      "SHARED_ASSUMPTIONS": "Recovered claims are labelled by their evidence and uncertainty.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Inferred structure reveals original intent without history.",
+      "COMPOSITION_MECHANISM": "Triangulated recovery supplies a current structural basis for comparison and migration.",
+      "NEW_FAILURE_OR_COST": "Extraction, tracing and human interpretation can be costly or incomplete.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S026",
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S063"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Resolve decision-critical unknowns without claiming complete recovery."
+    },
+    {
+      "RELATION_ID": "ESA-REL021",
+      "FROM_PROPERTY_IDS": [
+        "ESA-026"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030",
+        "ESA-067"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A method is being chosen for an architectural decision.",
+      "SHARED_ASSUMPTIONS": "Feasible alternatives and no-change are compared on common conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Completing a named method is itself the objective.",
+      "COMPOSITION_MECHANISM": "Select the least costly evidence-producing design/evaluation branch adequate to the question.",
+      "NEW_FAILURE_OR_COST": "Premature method choice can exclude a better alternative.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S019",
+        "ESA-S020",
+        "ESA-S022",
+        "ESA-S024",
+        "ESA-S025"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Confirm added analysis can change the decision or protect a material risk."
+    },
+    {
+      "RELATION_ID": "ESA-REL022",
+      "FROM_PROPERTY_IDS": [
+        "ESA-027"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-028"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "Change impact is the main concern versus interacting qualities.",
+      "SHARED_ASSUMPTIONS": "Scenario reasoning supports both, but their questions differ.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Every change review must become a full multi-quality workshop.",
+      "COMPOSITION_MECHANISM": "Use a SAAM-like change walkthrough for a narrow modification question, ATAM-like review for interacting quality risks.",
+      "NEW_FAILURE_OR_COST": "A too-narrow choice can miss cross-quality consequences.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S019",
+        "ESA-S020",
+        "ESA-S023"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Check whether the actual decision requires the broader branch."
+    },
+    {
+      "RELATION_ID": "ESA-REL023",
+      "FROM_PROPERTY_IDS": [
+        "ESA-028"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-029",
+        "ESA-032",
+        "ESA-033"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A structured review has found risks and sensitivity points.",
+      "SHARED_ASSUMPTIONS": "Findings remain conditional on their scenarios/assumptions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A review is a quality certificate or objective monetary valuation.",
+      "COMPOSITION_MECHANISM": "Risk and trade-off information informs investment and preserves reopening conditions in decision knowledge.",
+      "NEW_FAILURE_OR_COST": "Unprioritised lists can overwhelm consumers and become ceremonial records.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S022",
+        "ESA-S029"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Validate findings and connect them to an actual decision."
+    },
+    {
+      "RELATION_ID": "ESA-REL024",
+      "FROM_PROPERTY_IDS": [
+        "ESA-029"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-026",
+        "ESA-017"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "Cost or utility uncertainty changes option ranking or feasibility.",
+      "SHARED_ASSUMPTIONS": "Economic quantities are plausible and dependencies handled.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A single numerical ranking permanently settles architecture.",
+      "COMPOSITION_MECHANISM": "Sensitivity can trigger new alternatives, revised priorities or abandonment of an uneconomic change.",
+      "NEW_FAILURE_OR_COST": "False precision may make uncertainty less visible.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S022"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Seek evidence where plausible assumptions reverse the decision."
+    },
+    {
+      "RELATION_ID": "ESA-REL025",
+      "FROM_PROPERTY_IDS": [
+        "ESA-030"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-016",
+        "ESA-026",
+        "ESA-067"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A prototype or analysis resolves a concrete uncertainty.",
+      "SHARED_ASSUMPTIONS": "Its omitted behaviour and operating envelope are explicit.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Prototype feasibility proves production fitness.",
+      "COMPOSITION_MECHANISM": "Results refine tactic choice, architectural alternatives and requirement allocation.",
+      "NEW_FAILURE_OR_COST": "Experimental scaffolding can be mistaken for production capability.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S008",
+        "ESA-S016",
+        "ESA-S024",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Validate transfer to the intended implementation and environment."
+    },
+    {
+      "RELATION_ID": "ESA-REL026",
+      "FROM_PROPERTY_IDS": [
+        "ESA-067"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-016",
+        "ESA-017"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "Deliberate driver-based decomposition is useful.",
+      "SHARED_ASSUMPTIONS": "Prioritised drivers can guide but not fully predetermine design.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Eight completed steps prove the resulting architecture.",
+      "COMPOSITION_MECHANISM": "ADD realises design through responsibility allocation, interfaces, interactions and quality reasoning.",
+      "NEW_FAILURE_OR_COST": "Recursive decomposition can overproduce structure or paperwork.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S024",
+        "ESA-S025"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Evaluate the actual allocation rather than its procedural completeness."
+    },
+    {
+      "RELATION_ID": "ESA-REL027",
+      "FROM_PROPERTY_IDS": [
+        "ESA-067"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-026",
+        "ESA-030"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "Child-element analysis or testing exposes a parent-level problem.",
+      "SHARED_ASSUMPTIONS": "Design analysis, synthesis and evaluation can interleave.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Requirements and top-level choices are immutable after the first pass.",
+      "COMPOSITION_MECHANISM": "New local evidence reopens drivers, alternatives or experiments at the necessary level.",
+      "NEW_FAILURE_OR_COST": "Unbounded redesign can prevent convergence if no decision relevance is applied.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S024",
+        "ESA-S025"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Limit reopening to evidence that changes a consequential choice."
+    },
+    {
+      "RELATION_ID": "ESA-REL028",
+      "FROM_PROPERTY_IDS": [
+        "ESA-032"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-033",
+        "ESA-035",
+        "ESA-044"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "Later actors must continue, coordinate or revise non-obvious work.",
+      "SHARED_ASSUMPTIONS": "Retained context can be retrieved and interpreted.",
+      "INCOMPATIBLE_ASSUMPTIONS": "More documents automatically mean better shared knowledge.",
+      "COMPOSITION_MECHANISM": "Rationale transfers constraints and trade-offs to successors without requiring the original architect’s presence.",
+      "NEW_FAILURE_OR_COST": "Stale notes and unindexed archives can increase confusion.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S029"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Test a real later consumer’s question and update cost."
+    },
+    {
+      "RELATION_ID": "ESA-REL029",
+      "FROM_PROPERTY_IDS": [
+        "ESA-033"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-026",
+        "ESA-038",
+        "ESA-045",
+        "ESA-049"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "A decision’s assumption or consumer changes.",
+      "SHARED_ASSUMPTIONS": "Status and dependencies identify affected obligations.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Historical authorisation makes a decision permanently valid.",
+      "COMPOSITION_MECHANISM": "Ageing/reopening revises significance, alternatives, conformance and future-flexibility investments.",
+      "NEW_FAILURE_OR_COST": "Automatic expiry can create empty repeated review.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S029"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Identify which changed assumption is decision-relevant."
+    },
+    {
+      "RELATION_ID": "ESA-REL030",
+      "FROM_PROPERTY_IDS": [
+        "ESA-034"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-035",
+        "ESA-012"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "Technical/work dependencies cross independent teams.",
+      "SHARED_ASSUMPTIONS": "Relevant communication can be changed without assuming deterministic mirroring.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Reorganisation alone guarantees modular software.",
+      "COMPOSITION_MECHANISM": "Adequate coordination supports local autonomy and informs boundary adjustments.",
+      "NEW_FAILURE_OR_COST": "Too much communication defeats independent work and creates bottlenecks.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Establish the local causal bottleneck, not just correlation."
+    },
+    {
+      "RELATION_ID": "ESA-REL031",
+      "FROM_PROPERTY_IDS": [
+        "ESA-035"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-017",
+        "ESA-038"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Local decisions can affect shared consumers.",
+      "SHARED_ASSUMPTIONS": "Shared obligations are explicit and still valid.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Autonomy removes the need to preserve common invariants.",
+      "COMPOSITION_MECHANISM": "Teams need interface, quality and justified constraint information to decide safely within bounds.",
+      "NEW_FAILURE_OR_COST": "Overbroad shared rules can make autonomy nominal.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S010",
+        "ESA-S033",
+        "ESA-S035"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Show that retained global constraints protect actual shared consequences."
+    },
+    {
+      "RELATION_ID": "ESA-REL032",
+      "FROM_PROPERTY_IDS": [
+        "ESA-038"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-039"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "An extracted/observed deviation is found.",
+      "SHARED_ASSUMPTIONS": "Finding includes rule, mapping, actual relation and protected concern.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A deviation is automatically harmful or automatically acceptable evolution.",
+      "COMPOSITION_MECHANISM": "Conformance supplies a question for adjudication rather than an unquestionable repair instruction.",
+      "NEW_FAILURE_OR_COST": "Adjudication can become a slow exception queue.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S048"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Resolve current baseline relevance and actual consequence."
+    },
+    {
+      "RELATION_ID": "ESA-REL033",
+      "FROM_PROPERTY_IDS": [
+        "ESA-039"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-033",
+        "ESA-038",
+        "ESA-044",
+        "ESA-045"
+      ],
+      "RELATION_TYPE": "FEEDBACK_TO",
+      "CONTEXT_OR_GUARD": "Evidence supports revision of the code, rule, model or transition.",
+      "SHARED_ASSUMPTIONS": "The correct object of repair is identified and change is authorised.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Only implementation may change; the baseline cannot be wrong.",
+      "COMPOSITION_MECHANISM": "Adjudication updates the decision/rule or execution and then checks the actual resulting state.",
+      "NEW_FAILURE_OR_COST": "An unjustified exception can erase a useful control.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S029",
+        "ESA-S045"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Recheck the retained obligation after either baseline or implementation revision."
+    },
+    {
+      "RELATION_ID": "ESA-REL034",
+      "FROM_PROPERTY_IDS": [
+        "ESA-040"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-038",
+        "ESA-043"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A smell/classifier produces a potentially relevant signal.",
+      "SHARED_ASSUMPTIONS": "Indicator semantics and errors are understood.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A score is itself architectural harm or debt interest.",
+      "COMPOSITION_MECHANISM": "A signal prioritises recovery, conformance inspection or debt diagnosis without substituting for it.",
+      "NEW_FAILURE_OR_COST": "Proxy optimisation can relocate complexity or flood review with noise.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S046",
+        "ESA-S047",
+        "ESA-S048"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Calibrate operational precision and establish the causal consequence."
+    },
+    {
+      "RELATION_ID": "ESA-REL035",
+      "FROM_PROPERTY_IDS": [
+        "ESA-043"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-026",
+        "ESA-044",
+        "ESA-049"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "A structural compromise has observed or credible future burden.",
+      "SHARED_ASSUMPTIONS": "Debt is separated from ordinary imperfection and predictions are labelled.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Every debt-labelled item must be repaid immediately.",
+      "COMPOSITION_MECHANISM": "Evidence of burden informs repair timing, migration alternatives and investment in flexibility.",
+      "NEW_FAILURE_OR_COST": "Overstated interest can crowd out more valuable work.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S056"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Compare remediation with retaining the compromise under uncertainty."
+    },
+    {
+      "RELATION_ID": "ESA-REL036",
+      "FROM_PROPERTY_IDS": [
+        "ESA-044"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-017",
+        "ESA-018",
+        "ESA-033"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Old/new structures coexist or an irreversible transition is planned.",
+      "SHARED_ASSUMPTIONS": "Compatibility and current commitments apply to intermediate states.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Only the final design matters or rollback is always possible.",
+      "COMPOSITION_MECHANISM": "Migration needs contracts, accepted trade-offs, observations and updated decision knowledge for each relevant transition.",
+      "NEW_FAILURE_OR_COST": "Temporary bridges, dual writes and long coexistence add risk.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S026",
+        "ESA-S040",
+        "ESA-S051",
+        "ESA-S060"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Verify transition-state safety and retire obsolete compatibility mechanisms."
+    },
+    {
+      "RELATION_ID": "ESA-REL037",
+      "FROM_PROPERTY_IDS": [
+        "ESA-045"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-018",
+        "ESA-033",
+        "ESA-039"
+      ],
+      "RELATION_TYPE": "COMMUNICATES_TO",
+      "CONTEXT_OR_GUARD": "A maintained check finds deterioration or a changed assumption.",
+      "SHARED_ASSUMPTIONS": "The check measures a concern and someone can adjudicate the signal.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Green or red status automatically decides overall acceptability.",
+      "COMPOSITION_MECHANISM": "Continuous feedback triggers observation review, decision reopening or justified exception handling.",
+      "NEW_FAILURE_OR_COST": "Automation can speed up incorrect judgements as well as useful detection.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S043",
+        "ESA-S044",
+        "ESA-S054"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Verify that the signal still predicts the concern."
+    },
+    {
+      "RELATION_ID": "ESA-REL038",
+      "FROM_PROPERTY_IDS": [
+        "ESA-046"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-047",
+        "ESA-018",
+        "ESA-021"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Architecture-based runtime adaptation is enabled.",
+      "SHARED_ASSUMPTIONS": "Model/effectors/observations correspond and actions have an admissible envelope.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Local objective improvement is sufficient global assurance.",
+      "COMPOSITION_MECHANISM": "The runtime loop needs constrained decisions, observed effects and maintained model-to-system correspondence.",
+      "NEW_FAILURE_OR_COST": "Monitoring and control overhead; oscillation and stale-model risks.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S051",
+        "ESA-S052",
+        "ESA-S053",
+        "ESA-S054"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Establish the envelope and detect invalid observation/action channels."
+    },
+    {
+      "RELATION_ID": "ESA-REL039",
+      "FROM_PROPERTY_IDS": [
+        "ESA-047"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-046",
+        "ESA-063"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Adaptation or controller revision changes the real system.",
+      "SHARED_ASSUMPTIONS": "External/system constraints remain independently justified.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The optimiser may relax a constraint because doing so raises its score.",
+      "COMPOSITION_MECHANISM": "Allowed transitions and revision rules remain bounded by consequences that the controller cannot self-authorise away.",
+      "NEW_FAILURE_OR_COST": "An overly narrow envelope may prevent useful adaptation.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S052",
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Provide an authorised path to revise genuine obsolete constraints."
+    },
+    {
+      "RELATION_ID": "ESA-REL040",
+      "FROM_PROPERTY_IDS": [
+        "ESA-063"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-018",
+        "ESA-021",
+        "ESA-033",
+        "ESA-047"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Observation model, policy or assurance basis is revised.",
+      "SHARED_ASSUMPTIONS": "Continuity can be checked under a valid prior acceptance basis.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The successor policy’s own score is enough to warrant its revision.",
+      "COMPOSITION_MECHANISM": "Validate changed sensing/deciding/acting assumptions and preserve traceable authority/constraint continuity.",
+      "NEW_FAILURE_OR_COST": "Meta-checking can recurse without limit if no bounded stopping rule is chosen.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S055"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "The literature does not supply unrestricted recursive self-revision; choose a bounded human-accountable process."
+    },
+    {
+      "RELATION_ID": "ESA-REL041",
+      "FROM_PROPERTY_IDS": [
+        "ESA-049"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-013",
+        "ESA-025",
+        "ESA-050",
+        "ESA-051"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "Architecture machinery is justified by future optionality.",
+      "SHARED_ASSUMPTIONS": "Credible change hypotheses and present costs are examined.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Future-proofing warrants unlimited abstraction or distribution.",
+      "COMPOSITION_MECHANISM": "Flexibility investment selects which seams, variants and deployment options are worth maintaining.",
+      "NEW_FAILURE_OR_COST": "Wrong forecasts can under- or over-invest.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S010",
+        "ESA-S037"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Review actual change evidence and retirement opportunities."
+    },
+    {
+      "RELATION_ID": "ESA-REL042",
+      "FROM_PROPERTY_IDS": [
+        "ESA-050"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-051"
+      ],
+      "RELATION_TYPE": "ALTERNATIVE_TO",
+      "CONTEXT_OR_GUARD": "A service boundary may or may not require independent operation.",
+      "SHARED_ASSUMPTIONS": "Comparison includes data, failure, coordination and release costs.",
+      "INCOMPATIBLE_ASSUMPTIONS": "One alternative is universally more mature.",
+      "COMPOSITION_MECHANISM": "Independent deployments and a coherent local deployment substitute according to actual needs.",
+      "NEW_FAILURE_OR_COST": "Migration between configurations can itself be costly.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S036",
+        "ESA-S037",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Test which independence is actually exercised and beneficial."
+    },
+    {
+      "RELATION_ID": "ESA-REL043",
+      "FROM_PROPERTY_IDS": [
+        "ESA-052"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-009",
+        "ESA-017",
+        "ESA-018"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "Provider-managed execution/services are used.",
+      "SHARED_ASSUMPTIONS": "Platform-version semantics and external dependency boundaries are known.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Serverless removes operational dependencies or always reduces cost.",
+      "COMPOSITION_MECHANISM": "Provider contracts and workload evidence re-enter normal architecture reasoning rather than bypass it.",
+      "NEW_FAILURE_OR_COST": "Provider opacity and rapid change can weaken evidence.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S035",
+        "ESA-S057",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Obtain current platform-specific measurements and contract evidence in a later target."
+    },
+    {
+      "RELATION_ID": "ESA-REL044",
+      "FROM_PROPERTY_IDS": [
+        "ESA-053"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-010",
+        "ESA-015",
+        "ESA-018",
+        "ESA-033"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "Learned components affect system outcomes.",
+      "SHARED_ASSUMPTIONS": "Data/model/population changes can alter effective behaviour.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A stable code signature guarantees a stable behavioural contract.",
+      "COMPOSITION_MECHANISM": "Add data, consumer and feedback dependencies to interface/evidence/reopening obligations.",
+      "NEW_FAILURE_OR_COST": "Monitoring and model/data governance expand the coordination surface.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S056"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Identify target-specific distribution shift, feedback and downstream consumers."
+    },
+    {
+      "RELATION_ID": "ESA-REL045",
+      "FROM_PROPERTY_IDS": [
+        "ESA-054"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-026",
+        "ESA-028",
+        "ESA-032"
+      ],
+      "RELATION_TYPE": "PROVIDES_EVIDENCE_FOR",
+      "CONTEXT_OR_GUARD": "AI assistance proposes architectural facts/options/risks.",
+      "SHARED_ASSUMPTIONS": "Outputs are independently checked and their provenance retained.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Model fluency or self-reported metrics are evidence of correctness.",
+      "COMPOSITION_MECHANISM": "Verified suggestions may contribute to recovery, evaluation and documentation; unverified suggestions remain candidates.",
+      "NEW_FAILURE_OR_COST": "Validation may cost more than the assisted work saved.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S047",
+        "ESA-S059",
+        "ESA-S062",
+        "ESA-S063"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Measure correctness and total effort in the actual task, not benchmark reputation."
+    },
+    {
+      "RELATION_ID": "ESA-REL046",
+      "FROM_PROPERTY_IDS": [
+        "ESA-055"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-017",
+        "ESA-018",
+        "ESA-029"
+      ],
+      "RELATION_TYPE": "REQUIRES",
+      "CONTEXT_OR_GUARD": "A sustainability claim informs architectural choice.",
+      "SHARED_ASSUMPTIONS": "Impact measure and accounting boundary match the claimed concern.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Operational energy equals lifecycle carbon or social sustainability.",
+      "COMPOSITION_MECHANISM": "Sustainability adds explicit scenarios and cost/constraint analysis with observed, bounded effects.",
+      "NEW_FAILURE_OR_COST": "Broader accounting can be expensive and still omit externalities.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S058",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Establish the relevant lifecycle and stakeholder boundary."
+    },
+    {
+      "RELATION_ID": "ESA-REL047",
+      "FROM_PROPERTY_IDS": [
+        "ESA-056"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-022",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-032",
+        "ESA-038",
+        "ESA-045",
+        "ESA-046",
+        "ESA-067"
+      ],
+      "RELATION_TYPE": "CONSTRAINS",
+      "CONTEXT_OR_GUARD": "A method/control/artefact is proposed or retained.",
+      "SHARED_ASSUMPTIONS": "Protected concern and consumer justify the burden.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Maximum formality or complete template presence equals maturity.",
+      "COMPOSITION_MECHANISM": "Select, substitute, omit or retire techniques while preserving the function they actually serve.",
+      "NEW_FAILURE_OR_COST": "Oversimplification can remove a necessary mechanism as well as ceremony.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S009",
+        "ESA-S010",
+        "ESA-S017",
+        "ESA-S041"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Demonstrate adequate risk/decision coverage for the cheaper configuration."
+    },
+    {
+      "RELATION_ID": "ESA-REL048",
+      "FROM_PROPERTY_IDS": [
+        "ESA-062"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-016",
+        "ESA-007",
+        "ESA-009"
+      ],
+      "RELATION_TYPE": "ENABLES",
+      "CONTEXT_OR_GUARD": "A user scenario has a substantive architectural implication.",
+      "SHARED_ASSUMPTIONS": "Task response depends on backend/state/control structure.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Usability is only visual presentation or every usability item is architectural.",
+      "COMPOSITION_MECHANISM": "Interaction concerns can reopen tactic, responsibility and connector choices.",
+      "NEW_FAILURE_OR_COST": "Architectural change may add complexity without improving real user outcomes.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S018"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Obtain appropriate task/user evidence for the selected scenario."
+    },
+    {
+      "RELATION_ID": "ESA-REL049",
+      "FROM_PROPERTY_IDS": [
+        "ESA-064"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033"
+      ],
+      "RELATION_TYPE": "REFINES",
+      "CONTEXT_OR_GUARD": "Rationale is reconstructed after a non-linear design process.",
+      "SHARED_ASSUMPTIONS": "Present justification and historical truth are different claims.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A tidy explanation proves that the process actually happened that way.",
+      "COMPOSITION_MECHANISM": "Mark reconstructed explanation separately and preserve evidenced history/status.",
+      "NEW_FAILURE_OR_COST": "Retrospective rationalisation can conceal counterevidence.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S029"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Check explanation against the design and historical assertions against records."
+    },
+    {
+      "RELATION_ID": "ESA-REL050",
+      "FROM_PROPERTY_IDS": [
+        "ESA-065"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-009",
+        "ESA-017"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "REST’s distributed-hypermedia context is appropriate.",
+      "SHARED_ASSUMPTIONS": "Its interacting constraints and interface semantics are actually followed.",
+      "INCOMPATIBLE_ASSUMPTIONS": "HTTP or JSON alone establishes the style.",
+      "COMPOSITION_MECHANISM": "The style changes interaction, cacheability and visible semantics with explicit efficiency trade-offs.",
+      "NEW_FAILURE_OR_COST": "Uniformity or caching can be costly or inappropriate outside scope.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S034"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Validate style constraints and the quality claim under the chosen workload."
+    },
+    {
+      "RELATION_ID": "ESA-REL051",
+      "FROM_PROPERTY_IDS": [
+        "ESA-066"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-005",
+        "ESA-008",
+        "ESA-009",
+        "ESA-018"
+      ],
+      "RELATION_TYPE": "ACTS_THROUGH",
+      "CONTEXT_OR_GUARD": "A consumer relies on another participant’s service capability.",
+      "SHARED_ASSUMPTIONS": "Visibility, allowed interaction and meaningful effects are distinct.",
+      "INCOMPATIBLE_ASSUMPTIONS": "A reachable endpoint or successful message guarantees the requested effect.",
+      "COMPOSITION_MECHANISM": "Service semantics couple discoverability/access, action contracts and observations of consequences.",
+      "NEW_FAILURE_OR_COST": "Policy and semantic negotiation add costs not visible in an API signature.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S035",
+        "ESA-S026"
+      ],
+      "EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_COMPOSITION",
+      "UNRESOLVED_OBLIGATION": "Verify actual authority and effect conditions for the service relationship."
+    },
+    {
+      "RELATION_ID": "ESA-REL052",
+      "FROM_PROPERTY_IDS": [
+        "ESA-006"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-001"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "An unrestricted importance label is replaced by a discriminating consequence test.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S010"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL053",
+      "FROM_PROPERTY_IDS": [
+        "ESA-019"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-017"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Independent maximisation conflicts with observed/analysed quality trade-offs.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL054",
+      "FROM_PROPERTY_IDS": [
+        "ESA-023"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-020"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Mandatory five-view completion contradicts concern-based tailoring.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S003"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL055",
+      "FROM_PROPERTY_IDS": [
+        "ESA-031"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-018",
+        "ESA-028"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Review completion cannot replace operating evidence.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S023"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL056",
+      "FROM_PROPERTY_IDS": [
+        "ESA-036"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-034"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Deterministic mirroring overstates contingent communication mechanisms.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL057",
+      "FROM_PROPERTY_IDS": [
+        "ESA-037"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-056"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Documentation volume is not a consumer-oriented knowledge mechanism.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S029"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL058",
+      "FROM_PROPERTY_IDS": [
+        "ESA-041"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-064"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Recovered relations do not establish historical intent.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S045"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL059",
+      "FROM_PROPERTY_IDS": [
+        "ESA-042"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-039"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Unconditional historical conformance blocks justified revision.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S045",
+        "ESA-S048"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL060",
+      "FROM_PROPERTY_IDS": [
+        "ESA-048"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-047",
+        "ESA-063"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Local score self-authorisation violates independent constraints and observation duties.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S054",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL061",
+      "FROM_PROPERTY_IDS": [
+        "ESA-058"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-056",
+        "ESA-067"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Emergence does not remove consequential architecture; it changes timing and method.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S008",
+        "ESA-S010",
+        "ESA-S025"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL062",
+      "FROM_PROPERTY_IDS": [
+        "ESA-059"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-003",
+        "ESA-018",
+        "ESA-021"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "The rejected candidate is asserted as a general obligation.",
+      "SHARED_ASSUMPTIONS": "The narrower retained mechanism is used within its own conditions.",
+      "INCOMPATIBLE_ASSUMPTIONS": "The rejected unconditional premise.",
+      "COMPOSITION_MECHANISM": "Description conformity and realised quality are different claims.",
+      "NEW_FAILURE_OR_COST": "Confusing the rejected row with an extra requirement would add ceremony or false assurance.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S011",
+        "ESA-S045"
+      ],
+      "EVIDENCE_STATUS": "ADVERSARIAL_ANALYTICAL_ADJUDICATION",
+      "UNRESOLVED_OBLIGATION": "No extra target control follows from the rejected candidate."
+    },
+    {
+      "RELATION_ID": "ESA-REL063",
+      "FROM_PROPERTY_IDS": [
+        "ESA-065",
+        "ESA-066"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-057"
+      ],
+      "RELATION_TYPE": "SUPERSEDES",
+      "CONTEXT_OR_GUARD": "The original service/REST umbrella is encountered.",
+      "SHARED_ASSUMPTIONS": "Distinct scopes and semantics are preserved.",
+      "INCOMPATIBLE_ASSUMPTIONS": "REST and service-oriented architecture are interchangeable labels.",
+      "COMPOSITION_MECHANISM": "Two differentiated records replace one broad candidate without deleting its history.",
+      "NEW_FAILURE_OR_COST": "Double-counting the umbrella would inflate the retained mechanism denominator.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S034",
+        "ESA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_CANDIDATE_SPLIT",
+      "UNRESOLVED_OBLIGATION": "Later integration must preserve the supersession link."
+    },
+    {
+      "RELATION_ID": "ESA-REL064",
+      "FROM_PROPERTY_IDS": [
+        "ESA-060"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-054",
+        "ESA-046"
+      ],
+      "RELATION_TYPE": "CONFLICTS_WITH",
+      "CONTEXT_OR_GUARD": "Bounded assistance/controller results are promoted to open-ended autonomy.",
+      "SHARED_ASSUMPTIONS": "Evidence supports only its actual task and delegated envelope.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Success on artefacts or a fixed controller establishes general autonomous architecting.",
+      "COMPOSITION_MECHANISM": "Keep the broader claim unresolved; do not infer either established capability or impossibility.",
+      "NEW_FAILURE_OR_COST": "Overclaiming can delegate consequences to an unvalidated process.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S053",
+        "ESA-S059",
+        "ESA-S062",
+        "ESA-S063"
+      ],
+      "EVIDENCE_STATUS": "EXAMINED_UNRESOLVED_BOUNDARY",
+      "UNRESOLVED_OBLIGATION": "Representative end-to-end evidence under changed requirements remains needed."
+    },
+    {
+      "RELATION_ID": "ESA-REL065",
+      "FROM_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-013"
+      ],
+      "TO_PROPERTY_IDS": [
+        "ESA-061"
+      ],
+      "RELATION_TYPE": "SHARES_ANCESTRY_WITH",
+      "CONTEXT_OR_GUARD": "Comparing boundaries used for family variation and semantic models.",
+      "SHARED_ASSUMPTIONS": "All concern separation of obligations, but their objects differ.",
+      "INCOMPATIBLE_ASSUMPTIONS": "Similar boundary vocabulary proves direct intellectual descent or semantic equivalence.",
+      "COMPOSITION_MECHANISM": "Preserve related decomposition concerns for reconciliation without merging them as identical mechanisms.",
+      "NEW_FAILURE_OR_COST": "Premature merging erases different variation, semantic and cost assumptions.",
+      "EVIDENCE_SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S033"
+      ],
+      "EVIDENCE_STATUS": "BOUNDED_HISTORICAL_INTERPRETATION",
+      "UNRESOLVED_OBLIGATION": "This is a conceptual shared-design ancestry claim, not proof of a particular documented influence."
+    }
+  ],
+  "alternative_configurations": [
+    {
+      "CONFIGURATION_ID": "ESA-CFG01",
+      "NAME": "Small stable one-team application",
+      "GUARD": "Few consequential interfaces, shared current understanding, low change exposure.",
+      "SELECTED_FUNCTIONS": [
+        "ESA-001",
+        "ESA-002",
+        "ESA-007",
+        "ESA-008",
+        "ESA-014",
+        "ESA-017",
+        "ESA-018",
+        "ESA-026",
+        "ESA-056"
+      ],
+      "FORM": "Direct conversation, simple local design, one relevant alternative/quality check, and a short rationale only for a non-obvious durable choice.",
+      "OMISSIONS": "No automatic ATAM event, ADL, multi-view package, service split, debt programme or adaptation controller. Ordinary engineering can supply the functions.",
+      "ESCALATION_TRIGGER": "Growing consequence reach, turnover, unobserved risk or recurring cross-boundary change.",
+      "RETIREMENT": "Remove a control when its protected concern or consumer disappears without undermining another obligation."
+    },
+    {
+      "CONFIGURATION_ID": "ESA-CFG02",
+      "NAME": "Long-lived multi-team product",
+      "GUARD": "Cross-team semantic/quality obligations, turnover and significant change.",
+      "SELECTED_FUNCTIONS": [
+        "ESA-002",
+        "ESA-004",
+        "ESA-005",
+        "ESA-008",
+        "ESA-010",
+        "ESA-012",
+        "ESA-014",
+        "ESA-015",
+        "ESA-017",
+        "ESA-020",
+        "ESA-021",
+        "ESA-024",
+        "ESA-026",
+        "ESA-028",
+        "ESA-032",
+        "ESA-033",
+        "ESA-034",
+        "ESA-035",
+        "ESA-038",
+        "ESA-039",
+        "ESA-043",
+        "ESA-044",
+        "ESA-045",
+        "ESA-056"
+      ],
+      "FORM": "Selected shared contracts and views, retrievable decisions, contextual conformance and proportionate evaluations; local design proceeds concurrently inside shared constraints.",
+      "OMISSIONS": "No forced one-team-per-component mapping, universal documentation set or full review for every edit.",
+      "ESCALATION_TRIGGER": "A concrete high-consequence interaction may justify focused formal analysis or a migration experiment.",
+      "RETIREMENT": "Collapse coordination/description layers that no longer protect active cross-team obligations."
+    },
+    {
+      "CONFIGURATION_ID": "ESA-CFG03",
+      "NAME": "High-consequence modelled interaction",
+      "GUARD": "A tractable formal property is material and its realisation can be checked.",
+      "SELECTED_FUNCTIONS": [
+        "ESA-003",
+        "ESA-008",
+        "ESA-009",
+        "ESA-014",
+        "ESA-015",
+        "ESA-017",
+        "ESA-018",
+        "ESA-021",
+        "ESA-022",
+        "ESA-026",
+        "ESA-030",
+        "ESA-038",
+        "ESA-056",
+        "ESA-068"
+      ],
+      "FORM": "Focused formal analysis with explicit theorem conditions plus empirical/correspondence checks for the environment.",
+      "OMISSIONS": "No claim that the whole system is verified or that formal proof supplies stakeholder authority.",
+      "ESCALATION_TRIGGER": "Model mismatch, new interaction or a consequence outside the chosen semantics.",
+      "RETIREMENT": "Use a cheaper model/test when the formally protected interaction no longer exists or its consequence is no longer material."
+    },
+    {
+      "CONFIGURATION_ID": "ESA-CFG04",
+      "NAME": "Bounded runtime adaptation",
+      "GUARD": "Changing operation justifies automated reconfiguration and a valid action/evidence envelope exists.",
+      "SELECTED_FUNCTIONS": [
+        "ESA-003",
+        "ESA-005",
+        "ESA-008",
+        "ESA-014",
+        "ESA-017",
+        "ESA-018",
+        "ESA-021",
+        "ESA-033",
+        "ESA-045",
+        "ESA-046",
+        "ESA-047",
+        "ESA-056",
+        "ESA-063"
+      ],
+      "FORM": "Valid observations and model translations feed a constrained decision mechanism; effectors change the system; subsequent observations test the outcome; engineers retain policy-revision accountability.",
+      "OMISSIONS": "No open-ended self-authorisation or automatic revision of external constraints.",
+      "ESCALATION_TRIGGER": "Lost observation validity, unavailable effectors, interacting-controller risk or a needed action outside delegation.",
+      "RETIREMENT": "Prefer stable configuration/operator procedure if variability or net benefit disappears."
+    },
+    {
+      "CONFIGURATION_ID": "ESA-CFG05",
+      "NAME": "Family or heterogeneous domain composition",
+      "GUARD": "Real variants or multiple semantic contexts require shared and distinct obligations.",
+      "SELECTED_FUNCTIONS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-010",
+        "ESA-012",
+        "ESA-013",
+        "ESA-017",
+        "ESA-026",
+        "ESA-033",
+        "ESA-035",
+        "ESA-044",
+        "ESA-049",
+        "ESA-056",
+        "ESA-061"
+      ],
+      "FORM": "Explicit commonality/variation and model-context boundaries with tested translation and valid combination conditions.",
+      "OMISSIONS": "No conclusion about unread product-line economics or mandatory microservice deployment.",
+      "ESCALATION_TRIGGER": "New variant/context invalidates an interface or shared quality assumption.",
+      "RETIREMENT": "Remove unused variation points and translations after consumers disappear."
+    }
+  ],
+  "external_interfaces": [
+    {
+      "INTERFACE_ID": "ESA-X01",
+      "NAME": "Software maintenance and evolution inquiry",
+      "INPUTS": "Observed changes, effort, failures, compatibility and migration evidence from a later independent maintenance study.",
+      "OUTPUTS": "Architecture constraints, decision assumptions, typed dependency hypotheses, transition obligations and uncertainty.",
+      "BOUNDARY": "Reconciliation questions only; no sibling conclusions are inferred.",
+      "PROPERTY_IDS": [
+        "ESA-010",
+        "ESA-024",
+        "ESA-033",
+        "ESA-038",
+        "ESA-039",
+        "ESA-043",
+        "ESA-044",
+        "ESA-049"
+      ]
+    },
+    {
+      "INTERFACE_ID": "ESA-X02",
+      "NAME": "Software product-line inquiry",
+      "INPUTS": "Validated family scope, variants, common assets and production/economic requirements from a later independent study.",
+      "OUTPUTS": "Commonality/variation constraints, semantic interface assumptions and per-configuration quality obligations.",
+      "BOUNDARY": "Architecture findings do not settle product-line economics or whole-lane synthesis.",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-013",
+        "ESA-017",
+        "ESA-049",
+        "ESA-061"
+      ]
+    },
+    {
+      "INTERFACE_ID": "ESA-X03",
+      "NAME": "External authority and accountability",
+      "INPUTS": "Actual stakeholder commitments, organisational delegation, provider contracts and applicable external constraints.",
+      "OUTPUTS": "Options, risks, proposed changes and observations of their consequences.",
+      "BOUNDARY": "Neither a model, review nor this research grants authority or establishes legal compliance.",
+      "PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-005",
+        "ESA-017",
+        "ESA-035",
+        "ESA-047",
+        "ESA-066"
+      ]
+    }
+  ],
+  "revision_boundaries": {
+    "REOPENING_TRIGGERS": "Changed concerns, failed observations, invalid mappings, new interfaces/variants, obsolete rationale or changed operating assumptions.",
+    "PERMITTED_REVISION": "Revise the affected structure, description, decision, baseline or bounded policy according to actual authority and evidence.",
+    "CONTINUITY": "Keep prior versus current claims distinguishable; assess transition-state obligations and post-change effects.",
+    "NO_SELF_AUTHORITY": "A successor policy or generated score cannot, solely by declaring itself improved, grant a new mandate or erase a hard constraint.",
+    "PROPORTIONALITY": "Revision can simplify or retire a control; it need not add machinery."
+  },
+  "unresolved_composition_obligations": [
+    {
+      "OBLIGATION_ID": "ESA-UCO01",
+      "STATUS": "EXAMINED_UNRESOLVED",
+      "QUESTION": "How much evaluation/documentation produces net benefit in a particular system?",
+      "REASON": "Available evidence does not establish universal thresholds; target consequence and cost evidence is needed."
+    },
+    {
+      "OBLIGATION_ID": "ESA-UCO02",
+      "STATUS": "EXAMINED_UNRESOLVED",
+      "QUESTION": "How can scenario/model adequacy be established economically for open environments?",
+      "REASON": "Selection and observation can miss consequential states; the composition exposes rather than eliminates that limit."
+    },
+    {
+      "OBLIGATION_ID": "ESA-UCO03",
+      "STATUS": "EXAMINED_UNRESOLVED",
+      "QUESTION": "How should conflicting legitimate stakeholder obligations be resolved?",
+      "REASON": "Architecture can expose alternatives and consequences; it does not supply universal political/organisational authority."
+    },
+    {
+      "OBLIGATION_ID": "ESA-UCO04",
+      "STATUS": "EXAMINED_UNRESOLVED",
+      "QUESTION": "When does open-ended architectural autonomy remain reliable through changing requirements?",
+      "REASON": "ESA-060 is unresolved; bounded assistance/controller evidence cannot establish the broader claim."
+    }
+  ]
+}

@@ -1,0 +1,3871 @@
+{
+  "schema_version": "ESME_CANONICAL_RECONCILIATION_1.0",
+  "lineage_id": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+  "revision": "ESME-CANONICAL-R1-2026-09-06",
+  "research_cutoff": "2026-09-06",
+  "state": "FROZEN",
+  "basis": "Reconciliation of the two identified frozen corpora; no third literature review.",
+  "canonical_genealogy_nodes": [
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG001",
+      "NAME": "Maintenance scope, purpose and activity classifications",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G01",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G01",
+            "DATE": "1976 and earlier study programme",
+            "SCHOOL": "Purpose classifications",
+            "PROBLEM": "Understand what maintenance work is for.",
+            "MECHANISM": "Classify intention; successors distinguish activity and multiple dimensions.",
+            "CONTRIBUTION": "Maintenance is broader than corrective repair.",
+            "LIMITS": "Original Swanson inaccessible; origin is mediated, not invented direct reading.",
+            "RECEPTION": "Refined rather than simply replaced by later taxonomies and standards.",
+            "SOURCE_IDS": [
+              "ESME-S003",
+              "ESME-S004",
+              "ESME-S005",
+              "ESME-S006",
+              "ESME-S007",
+              "ESME-S001",
+              "ESME-S041"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-001",
+              "ESME-002",
+              "ESME-003",
+              "ESME-005",
+              "ESME-006"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS003",
+            "ESME-CS004",
+            "ESME-CS005",
+            "ESME-CS006",
+            "ESME-CS007",
+            "ESME-CS001",
+            "ESME-CS041"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C001",
+            "ESME-C002",
+            "ESME-C003",
+            "ESME-C004",
+            "ESME-C006",
+            "ESME-C007"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G001",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G001",
+            "DATE": "1976; guidance 1983; later editions 2014–2024",
+            "TITLE": "Maintenance scope and classification",
+            "PROBLEM": "Different reasons for changing already-existing software were conflated.",
+            "MECHANISM": "Purpose classifications and maintenance-management guidance.",
+            "CONTRIBUTION": "Separates motives and preparation/support/disposal responsibilities.",
+            "LIMITS": "1976 is an inspected historical anchor, not a claim that maintenance began then; Swanson’s original body unavailable.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Refined taxonomies and standards persist; classification reliability remains contested.",
+            "SOURCE_IDS": [
+              "ESME-S001",
+              "ESME-S002",
+              "ESME-S003",
+              "ESME-S004",
+              "ESME-S005",
+              "ESME-S006",
+              "ESME-S007"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-001",
+              "ESME-002",
+              "ESME-003",
+              "ESME-004",
+              "ESME-071"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS001",
+            "ESME-CS069",
+            "ESME-CS070",
+            "ESME-CS003",
+            "ESME-CS006",
+            "ESME-CS004",
+            "ESME-CS071"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C001",
+            "ESME-C002",
+            "ESME-C005",
+            "ESME-C004",
+            "ESME-C101"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS003",
+        "ESME-CS004",
+        "ESME-CS005",
+        "ESME-CS006",
+        "ESME-CS007",
+        "ESME-CS001",
+        "ESME-CS041",
+        "ESME-CS069",
+        "ESME-CS070",
+        "ESME-CS071"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C001",
+        "ESME-C002",
+        "ESME-C003",
+        "ESME-C004",
+        "ESME-C006",
+        "ESME-C007",
+        "ESME-C005",
+        "ESME-C101"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG002",
+      "NAME": "Empirical software evolution and feedback",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G02",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G02",
+            "DATE": "1976–1997",
+            "SCHOOL": "Empirical evolution and feedback",
+            "PROBLEM": "Explain long-lived large-system change in an environment.",
+            "MECHANISM": "Longitudinal observations, S/P/E scope and feedback hypotheses.",
+            "CONTRIBUTION": "Connect usefulness, growth, complexity, effort and familiarity.",
+            "LIMITS": "Particular populations and measurement choices; causal claims not universally validated.",
+            "RECEPTION": "OSS studies motivate narrower generalisation, not abandonment of all feedback inquiry.",
+            "SOURCE_IDS": [
+              "ESME-S008",
+              "ESME-S009",
+              "ESME-S010",
+              "ESME-S011",
+              "ESME-S012"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-007",
+              "ESME-008",
+              "ESME-009",
+              "ESME-010",
+              "ESME-011"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS008",
+            "ESME-CS009",
+            "ESME-CS010",
+            "ESME-CS011",
+            "ESME-CS012"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C008",
+            "ESME-C009",
+            "ESME-C010",
+            "ESME-C011",
+            "ESME-C012"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G002",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G002",
+            "DATE": "1976–1996/1997",
+            "TITLE": "Empirical evolution and feedback programme",
+            "PROBLEM": "Large long-lived software exhibited recurring growth, effort and complexity patterns.",
+            "MECHANISM": "Longitudinal measurement, S/P/E distinctions and conditional laws.",
+            "CONTRIBUTION": "Treats development and maintenance as evolving systems embedded in environments.",
+            "LIMITS": "OS/360-based origins and later conceptual extensions do not establish universal laws.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Linux, glibc and reviews test scope, metrics and interpretations.",
+            "SOURCE_IDS": [
+              "ESME-S008",
+              "ESME-S009",
+              "ESME-S010",
+              "ESME-S011",
+              "ESME-S029",
+              "ESME-S060",
+              "ESME-S061"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-005",
+              "ESME-006",
+              "ESME-007",
+              "ESME-008",
+              "ESME-009",
+              "ESME-010"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS008",
+            "ESME-CS009",
+            "ESME-CS010",
+            "ESME-CS011",
+            "ESME-CS079",
+            "ESME-CS100",
+            "ESME-CS101"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C081",
+            "ESME-C008",
+            "ESME-C010",
+            "ESME-C034",
+            "ESME-C011",
+            "ESME-C009"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS008",
+        "ESME-CS009",
+        "ESME-CS010",
+        "ESME-CS011",
+        "ESME-CS012",
+        "ESME-CS079",
+        "ESME-CS100",
+        "ESME-CS101"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C008",
+        "ESME-C009",
+        "ESME-C010",
+        "ESME-C011",
+        "ESME-C012",
+        "ESME-C081",
+        "ESME-C034"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG003",
+      "NAME": "Slicing and dependence analysis",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G03",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G03",
+            "DATE": "1984–1990 and successors",
+            "SCHOOL": "Slicing and dependency-based comprehension",
+            "PROBLEM": "Find code relevant to a concrete observation.",
+            "MECHANISM": "Static criterion-relative conservative analysis and execution-specific dynamic dependence.",
+            "CONTRIBUTION": "Reduce irrelevant material while stating what observation is preserved.",
+            "LIMITS": "Minimality/semantics and trace coverage; no automatic normative intent.",
+            "RECEPTION": "Used as an ingredient in analysis, recovery and testing rather than a whole maintenance process.",
+            "SOURCE_IDS": [
+              "ESME-S015",
+              "ESME-S043",
+              "ESME-S044"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-012",
+              "ESME-013",
+              "ESME-014",
+              "ESME-020",
+              "ESME-021"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS015",
+            "ESME-CS044",
+            "ESME-CS045"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C013",
+            "ESME-C014",
+            "ESME-C015",
+            "ESME-C021",
+            "ESME-C022"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G003",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G003",
+            "DATE": "1981; cognitive synthesis 1995; field questions 2006",
+            "TITLE": "Slicing and program comprehension",
+            "PROBLEM": "Maintainers need relevant understanding of unfamiliar behaviour.",
+            "MECHANISM": "Criterion-relative analysis plus interacting cognitive and question-driven inquiry.",
+            "CONTRIBUTION": "Different evidence modes and task-bounded recovery of meaning.",
+            "LIMITS": "No exhaustive general understanding or universally minimal slice.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Later tools and question studies refine practical inquiry without one canonical workflow.",
+            "SOURCE_IDS": [
+              "ESME-S013",
+              "ESME-S014",
+              "ESME-S015"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-011",
+              "ESME-012",
+              "ESME-013",
+              "ESME-015",
+              "ESME-016"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS072",
+            "ESME-CS073",
+            "ESME-CS017"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C013",
+            "ESME-C021",
+            "ESME-C014",
+            "ESME-C015",
+            "ESME-C016",
+            "ESME-C070",
+            "ESME-C019"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS015",
+        "ESME-CS044",
+        "ESME-CS045",
+        "ESME-CS072",
+        "ESME-CS073",
+        "ESME-CS017"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C013",
+        "ESME-C014",
+        "ESME-C015",
+        "ESME-C021",
+        "ESME-C022",
+        "ESME-C016",
+        "ESME-C070",
+        "ESME-C019"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG004",
+      "NAME": "Human comprehension and theory building",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G04",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G04",
+            "DATE": "1985; empirical extensions 2006–2018",
+            "SCHOOL": "Human understanding and theory building",
+            "PROBLEM": "Explain why source/document transfer may not transfer modification ability.",
+            "MECHANISM": "Domain explanations, programmer questions and observations of real work.",
+            "CONTRIBUTION": "Knowledge is practical and socially sustained, not simply stored text.",
+            "LIMITS": "Selected cases and work classifications; no universal comprehension percentage.",
+            "RECEPTION": "Continues in comprehension, onboarding and maintainership research.",
+            "SOURCE_IDS": [
+              "ESME-S016",
+              "ESME-S017",
+              "ESME-S018",
+              "ESME-S059"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-012",
+              "ESME-015",
+              "ESME-016",
+              "ESME-018",
+              "ESME-019",
+              "ESME-063",
+              "ESME-064"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS016",
+            "ESME-CS017",
+            "ESME-CS018",
+            "ESME-CS060"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C013",
+            "ESME-C016",
+            "ESME-C017",
+            "ESME-C019",
+            "ESME-C020",
+            "ESME-C070",
+            "ESME-C004"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G003",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G003",
+            "DATE": "1981; cognitive synthesis 1995; field questions 2006",
+            "TITLE": "Slicing and program comprehension",
+            "PROBLEM": "Maintainers need relevant understanding of unfamiliar behaviour.",
+            "MECHANISM": "Criterion-relative analysis plus interacting cognitive and question-driven inquiry.",
+            "CONTRIBUTION": "Different evidence modes and task-bounded recovery of meaning.",
+            "LIMITS": "No exhaustive general understanding or universally minimal slice.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Later tools and question studies refine practical inquiry without one canonical workflow.",
+            "SOURCE_IDS": [
+              "ESME-S013",
+              "ESME-S014",
+              "ESME-S015"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-011",
+              "ESME-012",
+              "ESME-013",
+              "ESME-015",
+              "ESME-016"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS072",
+            "ESME-CS073",
+            "ESME-CS017"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C013",
+            "ESME-C021",
+            "ESME-C014",
+            "ESME-C015",
+            "ESME-C016",
+            "ESME-C070",
+            "ESME-C019"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS016",
+        "ESME-CS017",
+        "ESME-CS018",
+        "ESME-CS060",
+        "ESME-CS072",
+        "ESME-CS073"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C013",
+        "ESME-C016",
+        "ESME-C017",
+        "ESME-C019",
+        "ESME-C020",
+        "ESME-C070",
+        "ESME-C004",
+        "ESME-C021",
+        "ESME-C014",
+        "ESME-C015"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG005",
+      "NAME": "Reverse engineering and design recovery",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G05",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G05",
+            "DATE": "1990–1998",
+            "SCHOOL": "Reverse engineering, recovery and re-engineering",
+            "PROBLEM": "Recover usable abstractions and distinguish knowledge production from alteration.",
+            "MECHANISM": "Redocumentation, design recovery, restructuring and multi-view fusion.",
+            "CONTRIBUTION": "Explicit separation of observations, models and changes to the subject.",
+            "LIMITS": "Interpretation and lost intent; recovered view not necessarily complete.",
+            "RECEPTION": "Architectural recovery provides a documented intersection with architecture research.",
+            "SOURCE_IDS": [
+              "ESME-S014",
+              "ESME-S044"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-015",
+              "ESME-016",
+              "ESME-017",
+              "ESME-020"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS014",
+            "ESME-CS045"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C016",
+            "ESME-C017",
+            "ESME-C018",
+            "ESME-C021"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G005",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G005",
+            "DATE": "1990",
+            "TITLE": "Reverse engineering and re-engineering taxonomy",
+            "PROBLEM": "Recovery, redocumentation and transformation were terminologically conflated.",
+            "MECHANISM": "Explicit definitions by abstraction and whether artefacts are altered.",
+            "CONTRIBUTION": "Separates analysis output from operative change.",
+            "LIMITS": "Taxonomy clarifies activities; terminology remains plural in practice.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Migration and recovery work reuse these distinctions without becoming one technique.",
+            "SOURCE_IDS": [
+              "ESME-S012",
+              "ESME-S031"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-012",
+              "ESME-014",
+              "ESME-015"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS014",
+            "ESME-CS029"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C021",
+            "ESME-C018",
+            "ESME-C016",
+            "ESME-C070"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS014",
+        "ESME-CS045",
+        "ESME-CS029"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C016",
+        "ESME-C017",
+        "ESME-C018",
+        "ESME-C021",
+        "ESME-C070"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG006",
+      "NAME": "Refactoring and transformation validation",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G06",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G06",
+            "DATE": "1992–2007 and successors",
+            "SCHOOL": "Refactoring and transformation validation",
+            "PROBLEM": "Change structure without unintended observable change and make later work easier.",
+            "MECHANISM": "Rule/precondition reasoning, tools and independent engine checks.",
+            "CONTRIBUTION": "Separates structural transformation from functionality changes.",
+            "LIMITS": "Observer exclusions, clients and implementation errors; structural metrics not guaranteed payoff.",
+            "RECEPTION": "API studies and negative metric/tool results force conditional rather than categorical claims.",
+            "SOURCE_IDS": [
+              "ESME-S021",
+              "ESME-S022",
+              "ESME-S023",
+              "ESME-S045"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-028",
+              "ESME-029",
+              "ESME-030",
+              "ESME-031",
+              "ESME-032",
+              "ESME-033"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS021",
+            "ESME-CS022",
+            "ESME-CS023",
+            "ESME-CS046"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C030",
+            "ESME-C031",
+            "ESME-C032",
+            "ESME-C034",
+            "ESME-C035",
+            "ESME-C036"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G006",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G006",
+            "DATE": "1992; industrial and empirical studies 2012–2022",
+            "TITLE": "Refactoring",
+            "PROBLEM": "Change-friendly structure without unintended behavioural difference.",
+            "MECHANISM": "Preconditioned transformations and later catalogue/tool practice.",
+            "CONTRIBUTION": "Makes preservation assumptions and future-change benefits examinable.",
+            "LIMITS": "No general guarantee from tool branding; empirical metric results are not task benefit.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Broad industrial uses coexist with strict definitions; differentiated replication narrows bug claims.",
+            "SOURCE_IDS": [
+              "ESME-S018",
+              "ESME-S020",
+              "ESME-S021",
+              "ESME-S022"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-023",
+              "ESME-024",
+              "ESME-025",
+              "ESME-026",
+              "ESME-027",
+              "ESME-028"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS022",
+            "ESME-CS076",
+            "ESME-CS077",
+            "ESME-CS078"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C030",
+            "ESME-C031",
+            "ESME-C033",
+            "ESME-C038",
+            "ESME-C034",
+            "ESME-C069"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS021",
+        "ESME-CS022",
+        "ESME-CS023",
+        "ESME-CS046",
+        "ESME-CS076",
+        "ESME-CS077",
+        "ESME-CS078"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C030",
+        "ESME-C031",
+        "ESME-C032",
+        "ESME-C034",
+        "ESME-C035",
+        "ESME-C036",
+        "ESME-C033",
+        "ESME-C038",
+        "ESME-C069"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG007",
+      "NAME": "Configuration and revision management",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G07",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G07",
+            "DATE": "Established earlier; 2000 roadmap and 2004 mining study inspected",
+            "SCHOOL": "Configuration, change history and propagation",
+            "PROBLEM": "Control multiple configurations and coordinated edits; identify related change sites.",
+            "MECHANISM": "Version/configuration spaces, workspaces, change sets and empirical co-change.",
+            "CONTRIBUTION": "A maintenance baseline can be more than one source tree.",
+            "LIMITS": "Text merge and correlation do not imply semantic compatibility.",
+            "RECEPTION": "Build/semantic conflict research and ecosystem studies extend the object population.",
+            "SOURCE_IDS": [
+              "ESME-S019",
+              "ESME-S020",
+              "ESME-S024",
+              "ESME-S033",
+              "ESME-S040",
+              "ESME-S066"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-004",
+              "ESME-021",
+              "ESME-022",
+              "ESME-023",
+              "ESME-024",
+              "ESME-025",
+              "ESME-026",
+              "ESME-027",
+              "ESME-092"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS019",
+            "ESME-CS020",
+            "ESME-CS024",
+            "ESME-CS033",
+            "ESME-CS040",
+            "ESME-CS067"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C005",
+            "ESME-C022",
+            "ESME-C023",
+            "ESME-C024",
+            "ESME-C025",
+            "ESME-C026",
+            "ESME-C027",
+            "ESME-C028",
+            "ESME-C029"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G004",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G004",
+            "DATE": "1985 antecedent; later archived RCS revision of uncertain date",
+            "TITLE": "Configuration management",
+            "PROBLEM": "Multiple versions and shared development require controlled identity and history.",
+            "MECHANISM": "Revision storage, identification and configuration control.",
+            "CONTRIBUTION": "Recoverable baseline and ancestry for maintenance.",
+            "LIMITS": "The inspected RCS text is a later archived revision; not all modern build/data state is captured by text versions.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Guide treatment and reproducible-build definitions broaden relevant identity.",
+            "SOURCE_IDS": [
+              "ESME-S002",
+              "ESME-S030",
+              "ESME-S046"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-003",
+              "ESME-036"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS069",
+            "ESME-CS080",
+            "ESME-CS088"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C005",
+            "ESME-C046"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS019",
+        "ESME-CS020",
+        "ESME-CS024",
+        "ESME-CS033",
+        "ESME-CS040",
+        "ESME-CS067",
+        "ESME-CS069",
+        "ESME-CS080",
+        "ESME-CS088"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C005",
+        "ESME-C022",
+        "ESME-C023",
+        "ESME-C024",
+        "ESME-C025",
+        "ESME-C026",
+        "ESME-C027",
+        "ESME-C028",
+        "ESME-C029",
+        "ESME-C046"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG008",
+      "NAME": "Change impact and historical coupling",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G07",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G07",
+            "DATE": "Established earlier; 2000 roadmap and 2004 mining study inspected",
+            "SCHOOL": "Configuration, change history and propagation",
+            "PROBLEM": "Control multiple configurations and coordinated edits; identify related change sites.",
+            "MECHANISM": "Version/configuration spaces, workspaces, change sets and empirical co-change.",
+            "CONTRIBUTION": "A maintenance baseline can be more than one source tree.",
+            "LIMITS": "Text merge and correlation do not imply semantic compatibility.",
+            "RECEPTION": "Build/semantic conflict research and ecosystem studies extend the object population.",
+            "SOURCE_IDS": [
+              "ESME-S019",
+              "ESME-S020",
+              "ESME-S024",
+              "ESME-S033",
+              "ESME-S040",
+              "ESME-S066"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-004",
+              "ESME-021",
+              "ESME-022",
+              "ESME-023",
+              "ESME-024",
+              "ESME-025",
+              "ESME-026",
+              "ESME-027",
+              "ESME-092"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS019",
+            "ESME-CS020",
+            "ESME-CS024",
+            "ESME-CS033",
+            "ESME-CS040",
+            "ESME-CS067"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C005",
+            "ESME-C022",
+            "ESME-C023",
+            "ESME-C024",
+            "ESME-C025",
+            "ESME-C026",
+            "ESME-C027",
+            "ESME-C028",
+            "ESME-C029"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G008",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G008",
+            "DATE": "1996 synthesis; 2004/2005 repository mining",
+            "TITLE": "Change impact and historical coupling",
+            "PROBLEM": "Changes propagate through relationships not obvious from the edited text.",
+            "MECHANISM": "Dependency analysis, traceability and mined co-change recommendations.",
+            "CONTRIBUTION": "Supplies candidate impact boundaries and overlooked companion work.",
+            "LIMITS": "Historical correlation is not a necessary semantic dependency.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Semantic-conflict and ecosystem research add evidence types and expose limits.",
+            "SOURCE_IDS": [
+              "ESME-S016",
+              "ESME-S017",
+              "ESME-S041",
+              "ESME-S044"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-017",
+              "ESME-018",
+              "ESME-019",
+              "ESME-020",
+              "ESME-021",
+              "ESME-022"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS074",
+            "ESME-CS075",
+            "ESME-CS033",
+            "ESME-CS086"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C022",
+            "ESME-C025",
+            "ESME-C023",
+            "ESME-C075",
+            "ESME-C028",
+            "ESME-C090"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS019",
+        "ESME-CS020",
+        "ESME-CS024",
+        "ESME-CS033",
+        "ESME-CS040",
+        "ESME-CS067",
+        "ESME-CS074",
+        "ESME-CS075",
+        "ESME-CS086"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C005",
+        "ESME-C022",
+        "ESME-C023",
+        "ESME-C024",
+        "ESME-C025",
+        "ESME-C026",
+        "ESME-C027",
+        "ESME-C028",
+        "ESME-C029",
+        "ESME-C075",
+        "ESME-C090"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG009",
+      "NAME": "Regression evidence and partial oracles",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G08",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G08",
+            "DATE": "1997–2019",
+            "SCHOOL": "Regression evidence and oracle research",
+            "PROBLEM": "Check unwanted change under finite test/inspection budgets.",
+            "MECHANISM": "Suite-relative selection, prioritisation, mutation, differential and other oracle information.",
+            "CONTRIBUTION": "Different techniques protect different aspects of evidence production.",
+            "LIMITS": "Incomplete oracles, seeded/selected datasets and actual harness/tool defects.",
+            "RECEPTION": "Adverse APR and LLM patch studies make evidence limits more visible.",
+            "SOURCE_IDS": [
+              "ESME-S024",
+              "ESME-S025",
+              "ESME-S026",
+              "ESME-S046",
+              "ESME-S047",
+              "ESME-S048",
+              "ESME-S063"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-034",
+              "ESME-035",
+              "ESME-036",
+              "ESME-037",
+              "ESME-038",
+              "ESME-039",
+              "ESME-040",
+              "ESME-077",
+              "ESME-079",
+              "ESME-091"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS024",
+            "ESME-CS025",
+            "ESME-CS026",
+            "ESME-CS047",
+            "ESME-CS048",
+            "ESME-CS049",
+            "ESME-CS064"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C037",
+            "ESME-C038",
+            "ESME-C040",
+            "ESME-C041",
+            "ESME-C042",
+            "ESME-C043",
+            "ESME-C044",
+            "ESME-C045",
+            "ESME-C084",
+            "ESME-C086",
+            "ESME-C097"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G009",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G009",
+            "DATE": "1998; 1999; 2001; 2014–2017",
+            "TITLE": "Regression evidence and partial oracles",
+            "PROBLEM": "Testing is costly and expected outcomes are often incomplete.",
+            "MECHANISM": "Selection, prioritisation, metamorphic relations, mutation and differential comparison.",
+            "CONTRIBUTION": "Separates which observations, when they occur and what they warrant.",
+            "LIMITS": "Each method has a model, cost and oracle boundary; none proves general correctness.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Repair studies and CI optimisation make these limits newly consequential.",
+            "SOURCE_IDS": [
+              "ESME-S023",
+              "ESME-S051",
+              "ESME-S062",
+              "ESME-S063",
+              "ESME-S064",
+              "ESME-S066"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-029",
+              "ESME-030",
+              "ESME-031",
+              "ESME-032",
+              "ESME-033",
+              "ESME-034",
+              "ESME-035"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS047",
+            "ESME-CS025",
+            "ESME-CS049",
+            "ESME-CS102",
+            "ESME-CS103",
+            "ESME-CS105"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C039",
+            "ESME-C037",
+            "ESME-C043",
+            "ESME-C044",
+            "ESME-C042",
+            "ESME-C040",
+            "ESME-C041"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS024",
+        "ESME-CS025",
+        "ESME-CS026",
+        "ESME-CS047",
+        "ESME-CS048",
+        "ESME-CS049",
+        "ESME-CS064",
+        "ESME-CS102",
+        "ESME-CS103",
+        "ESME-CS105"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C037",
+        "ESME-C038",
+        "ESME-C040",
+        "ESME-C041",
+        "ESME-C042",
+        "ESME-C043",
+        "ESME-C044",
+        "ESME-C045",
+        "ESME-C084",
+        "ESME-C086",
+        "ESME-C097",
+        "ESME-C039"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG010",
+      "NAME": "Migration and lifecycle alternatives",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G09",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G09",
+            "DATE": "1999–2024 inspected accounts",
+            "SCHOOL": "Legacy migration and staged lifecycle alternatives",
+            "PROBLEM": "Continue value while changing platform, structure, data or support stage.",
+            "MECHANISM": "Wrapping/gateways, incremental or atomic replacement, servicing, phaseout and closedown.",
+            "CONTRIBUTION": "Old/new coexistence and domain/data recovery are first-class problems.",
+            "LIMITS": "Success selection, dual maintenance and uncertain comparative economics.",
+            "RECEPTION": "Strangler terminology popularises a conditional incremental branch, not a universal successor methodology.",
+            "SOURCE_IDS": [
+              "ESME-S013",
+              "ESME-S029",
+              "ESME-S030",
+              "ESME-S031",
+              "ESME-S049",
+              "ESME-S055"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-045",
+              "ESME-046",
+              "ESME-047",
+              "ESME-048",
+              "ESME-049",
+              "ESME-050",
+              "ESME-051",
+              "ESME-052",
+              "ESME-053",
+              "ESME-054",
+              "ESME-055",
+              "ESME-071",
+              "ESME-075"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS013",
+            "ESME-CS029",
+            "ESME-CS030",
+            "ESME-CS031",
+            "ESME-CS050",
+            "ESME-CS056"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C050",
+            "ESME-C051",
+            "ESME-C052",
+            "ESME-C053",
+            "ESME-C054",
+            "ESME-C055",
+            "ESME-C056",
+            "ESME-C057",
+            "ESME-C058",
+            "ESME-C059",
+            "ESME-C060",
+            "ESME-C061",
+            "ESME-C078",
+            "ESME-C082"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G010",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G010",
+            "DATE": "1999 review; 2004 original account; 2009 schema prototype; 2024 refinements",
+            "TITLE": "Legacy migration and modernisation",
+            "PROBLEM": "Useful systems need adaptation without discarding embedded obligations.",
+            "MECHANISM": "Wrapping, incremental displacement, quiescent cutover and schema mappings.",
+            "CONTRIBUTION": "Preserves rival migration strategies and transition-state obligations.",
+            "LIMITS": "Selected cases and prototypes do not establish universal strategy superiority.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Strangler accounts refine incremental displacement; incidents expose recovery gaps.",
+            "SOURCE_IDS": [
+              "ESME-S031",
+              "ESME-S035",
+              "ESME-S036",
+              "ESME-S037",
+              "ESME-S038",
+              "ESME-S039",
+              "ESME-S053"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-039",
+              "ESME-040",
+              "ESME-041",
+              "ESME-042",
+              "ESME-043",
+              "ESME-044",
+              "ESME-045",
+              "ESME-046",
+              "ESME-047",
+              "ESME-048"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS029",
+            "ESME-CS030",
+            "ESME-CS031",
+            "ESME-CS082",
+            "ESME-CS063",
+            "ESME-CS083",
+            "ESME-CS093"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C057",
+            "ESME-C048",
+            "ESME-C049",
+            "ESME-C052",
+            "ESME-C053",
+            "ESME-C054",
+            "ESME-C055",
+            "ESME-C056",
+            "ESME-C058",
+            "ESME-C060"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS013",
+        "ESME-CS029",
+        "ESME-CS030",
+        "ESME-CS031",
+        "ESME-CS050",
+        "ESME-CS056",
+        "ESME-CS082",
+        "ESME-CS063",
+        "ESME-CS083",
+        "ESME-CS093"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C050",
+        "ESME-C051",
+        "ESME-C052",
+        "ESME-C053",
+        "ESME-C054",
+        "ESME-C055",
+        "ESME-C056",
+        "ESME-C057",
+        "ESME-C058",
+        "ESME-C059",
+        "ESME-C060",
+        "ESME-C061",
+        "ESME-C078",
+        "ESME-C082",
+        "ESME-C048",
+        "ESME-C049"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG011",
+      "NAME": "Technical-debt and maintenance economics",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G10",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G10",
+            "DATE": "1992–2025",
+            "SCHOOL": "Technical-debt economics and social responsibility",
+            "PROBLEM": "Communicate present trade-offs that affect future change effort.",
+            "MECHANISM": "Debt metaphor, item/cause/consequence definitions, value-based prioritisation and field inquiry.",
+            "CONTRIBUTION": "Future costs can be contingent, shifted and worth accepting.",
+            "LIMITS": "Metaphor inflation, self-report, uncertain causality and metric gaming.",
+            "RECEPTION": "2025 manifesto explicitly challenges single metrics and heavyweight bookkeeping.",
+            "SOURCE_IDS": [
+              "ESME-S027",
+              "ESME-S028",
+              "ESME-S057",
+              "ESME-S058"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-056",
+              "ESME-057",
+              "ESME-058",
+              "ESME-059",
+              "ESME-060",
+              "ESME-061",
+              "ESME-062"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS027",
+            "ESME-CS028",
+            "ESME-CS058",
+            "ESME-CS059"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C062",
+            "ESME-C063",
+            "ESME-C064",
+            "ESME-C065",
+            "ESME-C066",
+            "ESME-C067",
+            "ESME-C068"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G007",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G007",
+            "DATE": "1992; 2016; 2024 seminar/2025 publication",
+            "TITLE": "Technical debt",
+            "PROBLEM": "Expedient delivery and incomplete understanding can impose later work.",
+            "MECHANISM": "Debt metaphor, later definitions and contingent investment models.",
+            "CONTRIBUTION": "Makes delayed costs and changing options explicit.",
+            "LIMITS": "Not all bad code is debt; no universally validated interest measure.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Productivity replication and reframing agenda retain uncertainty and decision context.",
+            "SOURCE_IDS": [
+              "ESME-S019",
+              "ESME-S032",
+              "ESME-S048",
+              "ESME-S049"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-049",
+              "ESME-050",
+              "ESME-051",
+              "ESME-052",
+              "ESME-053",
+              "ESME-054"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS027",
+            "ESME-CS058",
+            "ESME-CS090",
+            "ESME-CS059"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C062",
+            "ESME-C064",
+            "ESME-C066",
+            "ESME-C034",
+            "ESME-C035",
+            "ESME-C067"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS027",
+        "ESME-CS028",
+        "ESME-CS058",
+        "ESME-CS059",
+        "ESME-CS090"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C062",
+        "ESME-C063",
+        "ESME-C064",
+        "ESME-C065",
+        "ESME-C066",
+        "ESME-C067",
+        "ESME-C068",
+        "ESME-C034",
+        "ESME-C035"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG012",
+      "NAME": "Release, data and operational continuity",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G11",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G11",
+            "DATE": "2013–2025 inspected accounts",
+            "SCHOOL": "Operational release and data continuity",
+            "PROBLEM": "Make change safe enough under live traffic, configuration and persistent effects.",
+            "MECHANISM": "Reproducible artefacts, schema transitions, canaries and tested recovery.",
+            "CONTRIBUTION": "Safe endpoints and source reversion do not establish safe transitions.",
+            "LIMITS": "Industrial assumptions, nonrepresentative traffic and irreversible effects.",
+            "RECEPTION": "Failure postmortems and packaging research expose missing readiness/observation.",
+            "SOURCE_IDS": [
+              "ESME-S049",
+              "ESME-S050",
+              "ESME-S051",
+              "ESME-S052",
+              "ESME-S062"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-041",
+              "ESME-042",
+              "ESME-043",
+              "ESME-044",
+              "ESME-050",
+              "ESME-051",
+              "ESME-055"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS050",
+            "ESME-CS051",
+            "ESME-CS052",
+            "ESME-CS053",
+            "ESME-CS063"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C046",
+            "ESME-C047",
+            "ESME-C048",
+            "ESME-C049",
+            "ESME-C055",
+            "ESME-C056",
+            "ESME-C057",
+            "ESME-C061"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G010",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G010",
+            "DATE": "1999 review; 2004 original account; 2009 schema prototype; 2024 refinements",
+            "TITLE": "Legacy migration and modernisation",
+            "PROBLEM": "Useful systems need adaptation without discarding embedded obligations.",
+            "MECHANISM": "Wrapping, incremental displacement, quiescent cutover and schema mappings.",
+            "CONTRIBUTION": "Preserves rival migration strategies and transition-state obligations.",
+            "LIMITS": "Selected cases and prototypes do not establish universal strategy superiority.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Strangler accounts refine incremental displacement; incidents expose recovery gaps.",
+            "SOURCE_IDS": [
+              "ESME-S031",
+              "ESME-S035",
+              "ESME-S036",
+              "ESME-S037",
+              "ESME-S038",
+              "ESME-S039",
+              "ESME-S053"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-039",
+              "ESME-040",
+              "ESME-041",
+              "ESME-042",
+              "ESME-043",
+              "ESME-044",
+              "ESME-045",
+              "ESME-046",
+              "ESME-047",
+              "ESME-048"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS029",
+            "ESME-CS030",
+            "ESME-CS031",
+            "ESME-CS082",
+            "ESME-CS063",
+            "ESME-CS083",
+            "ESME-CS093"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C057",
+            "ESME-C048",
+            "ESME-C049",
+            "ESME-C052",
+            "ESME-C053",
+            "ESME-C054",
+            "ESME-C055",
+            "ESME-C056",
+            "ESME-C058",
+            "ESME-C060"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS050",
+        "ESME-CS051",
+        "ESME-CS052",
+        "ESME-CS053",
+        "ESME-CS063",
+        "ESME-CS029",
+        "ESME-CS030",
+        "ESME-CS031",
+        "ESME-CS082",
+        "ESME-CS083",
+        "ESME-CS093"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C046",
+        "ESME-C047",
+        "ESME-C048",
+        "ESME-C049",
+        "ESME-C055",
+        "ESME-C056",
+        "ESME-C057",
+        "ESME-C061",
+        "ESME-C052",
+        "ESME-C053",
+        "ESME-C054",
+        "ESME-C058",
+        "ESME-C060"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG013",
+      "NAME": "Human, ecosystem and preservation continuity",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G12",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G12",
+            "DATE": "2016–2025 inspected accounts",
+            "SCHOOL": "Ecosystem, maintainership and preservation",
+            "PROBLEM": "Sustain actual capability and end obligations responsibly.",
+            "MECHANISM": "Human succession, support boundaries, dependency communication and purpose-bounded archival/retirement.",
+            "CONTRIBUTION": "Popularity, names and stored files are distinct from living support.",
+            "LIMITS": "Proxy/perception evidence, unknown consumers and institution-specific retention duties.",
+            "RECEPTION": "Protocol standards improve signalling without proving successful consumer transitions.",
+            "SOURCE_IDS": [
+              "ESME-S032",
+              "ESME-S033",
+              "ESME-S053",
+              "ESME-S054",
+              "ESME-S055",
+              "ESME-S056",
+              "ESME-S059",
+              "ESME-S060"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-063",
+              "ESME-064",
+              "ESME-065",
+              "ESME-066",
+              "ESME-067",
+              "ESME-068",
+              "ESME-069",
+              "ESME-070",
+              "ESME-071",
+              "ESME-072",
+              "ESME-073",
+              "ESME-074"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS032",
+            "ESME-CS033",
+            "ESME-CS054",
+            "ESME-CS055",
+            "ESME-CS056",
+            "ESME-CS057",
+            "ESME-CS060",
+            "ESME-CS061"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C070",
+            "ESME-C004",
+            "ESME-C071",
+            "ESME-C072",
+            "ESME-C073",
+            "ESME-C074",
+            "ESME-C076",
+            "ESME-C077",
+            "ESME-C078",
+            "ESME-C079",
+            "ESME-C080",
+            "ESME-C081"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G012",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G012",
+            "DATE": "2016–2023",
+            "TITLE": "Human and ecosystem continuity",
+            "PROBLEM": "Long-lived dependencies and knowledge can become unsupported.",
+            "MECHANISM": "Knowledge-loss models, maintainer interviews and dependency-network studies.",
+            "CONTRIBUTION": "Distinguishes project activity, support capacity and actual downstream obligations.",
+            "LIMITS": "Proxies, selection and resource constraints limit prediction and remedy.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Responses include no-change, funding, forks, replacement and retirement rather than one universal practice.",
+            "SOURCE_IDS": [
+              "ESME-S040",
+              "ESME-S041",
+              "ESME-S043",
+              "ESME-S047",
+              "ESME-S054"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-005",
+              "ESME-055",
+              "ESME-056",
+              "ESME-057",
+              "ESME-058",
+              "ESME-059",
+              "ESME-060"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS084",
+            "ESME-CS033",
+            "ESME-CS085",
+            "ESME-CS089",
+            "ESME-CS094"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C081",
+            "ESME-C072",
+            "ESME-C004",
+            "ESME-C076",
+            "ESME-C074",
+            "ESME-C079",
+            "ESME-C078"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS032",
+        "ESME-CS033",
+        "ESME-CS054",
+        "ESME-CS055",
+        "ESME-CS056",
+        "ESME-CS057",
+        "ESME-CS060",
+        "ESME-CS061",
+        "ESME-CS084",
+        "ESME-CS085",
+        "ESME-CS089",
+        "ESME-CS094"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C070",
+        "ESME-C004",
+        "ESME-C071",
+        "ESME-C072",
+        "ESME-C073",
+        "ESME-C074",
+        "ESME-C076",
+        "ESME-C077",
+        "ESME-C078",
+        "ESME-C079",
+        "ESME-C080",
+        "ESME-C081"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG014",
+      "NAME": "Search-based and other automated repair",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G13",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G13",
+            "DATE": "2015–2026 inspected classical and current work",
+            "SCHOOL": "Automated repair and repository-scale assistance",
+            "PROBLEM": "Produce useful change candidates without confusing selection proxies with correctness or productivity.",
+            "MECHANISM": "Generate-and-validate repair, repository issue solving and specialised conflict transformation.",
+            "CONTRIBUTION": "Automation enlarges candidate search and reveals new evaluation burdens.",
+            "LIMITS": "Oracle weakness, contamination, intent mismatch, model ageing and hidden human work.",
+            "RECEPTION": "Current adverse studies refine evaluation rather than warrant universal automation or universal rejection.",
+            "SOURCE_IDS": [
+              "ESME-S034",
+              "ESME-S035",
+              "ESME-S036",
+              "ESME-S037",
+              "ESME-S038",
+              "ESME-S039",
+              "ESME-S040",
+              "ESME-S063",
+              "ESME-S064",
+              "ESME-S065",
+              "ESME-S066"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-076",
+              "ESME-077",
+              "ESME-078",
+              "ESME-079",
+              "ESME-080",
+              "ESME-081",
+              "ESME-082",
+              "ESME-083",
+              "ESME-087",
+              "ESME-088",
+              "ESME-089",
+              "ESME-090"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS034",
+            "ESME-CS035",
+            "ESME-CS036",
+            "ESME-CS037",
+            "ESME-CS038",
+            "ESME-CS039",
+            "ESME-CS040",
+            "ESME-CS064",
+            "ESME-CS065",
+            "ESME-CS066",
+            "ESME-CS067"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C083",
+            "ESME-C084",
+            "ESME-C085",
+            "ESME-C086",
+            "ESME-C087",
+            "ESME-C088",
+            "ESME-C089",
+            "ESME-C090",
+            "ESME-C094",
+            "ESME-C095",
+            "ESME-C006",
+            "ESME-C096"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G011",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G011",
+            "DATE": "2009 origins documented through 2010 primary account; 2015 criticism; 2018 deployment; 2025 retrospective",
+            "TITLE": "Automated program repair",
+            "PROBLEM": "Fault localisation and patch search are labour-intensive.",
+            "MECHANISM": "Test-guided program variation and validation; later candidate/review workflows.",
+            "CONTRIBUTION": "Demonstrates useful bounded automation and forces scrutiny of patch quality.",
+            "LIMITS": "Tests are partial; selected examples and particular search spaces do not establish general repair.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "LLM generation broadens candidates while oracle, cost and authority questions survive.",
+            "SOURCE_IDS": [
+              "ESME-S024",
+              "ESME-S052",
+              "ESME-S055",
+              "ESME-S065",
+              "ESME-S067"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-061",
+              "ESME-062",
+              "ESME-063",
+              "ESME-064",
+              "ESME-068",
+              "ESME-069"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS034",
+            "ESME-CS092",
+            "ESME-CS095",
+            "ESME-CS104",
+            "ESME-CS106"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C083",
+            "ESME-C085",
+            "ESME-C087",
+            "ESME-C094",
+            "ESME-C099",
+            "ESME-C100"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS034",
+        "ESME-CS035",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS038",
+        "ESME-CS039",
+        "ESME-CS040",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS066",
+        "ESME-CS067",
+        "ESME-CS092",
+        "ESME-CS095",
+        "ESME-CS104",
+        "ESME-CS106"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C083",
+        "ESME-C084",
+        "ESME-C085",
+        "ESME-C086",
+        "ESME-C087",
+        "ESME-C088",
+        "ESME-C089",
+        "ESME-C090",
+        "ESME-C094",
+        "ESME-C095",
+        "ESME-C006",
+        "ESME-C096",
+        "ESME-C099",
+        "ESME-C100"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG015",
+      "NAME": "LLM-assisted maintenance and evaluation",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G13",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G13",
+            "DATE": "2015–2026 inspected classical and current work",
+            "SCHOOL": "Automated repair and repository-scale assistance",
+            "PROBLEM": "Produce useful change candidates without confusing selection proxies with correctness or productivity.",
+            "MECHANISM": "Generate-and-validate repair, repository issue solving and specialised conflict transformation.",
+            "CONTRIBUTION": "Automation enlarges candidate search and reveals new evaluation burdens.",
+            "LIMITS": "Oracle weakness, contamination, intent mismatch, model ageing and hidden human work.",
+            "RECEPTION": "Current adverse studies refine evaluation rather than warrant universal automation or universal rejection.",
+            "SOURCE_IDS": [
+              "ESME-S034",
+              "ESME-S035",
+              "ESME-S036",
+              "ESME-S037",
+              "ESME-S038",
+              "ESME-S039",
+              "ESME-S040",
+              "ESME-S063",
+              "ESME-S064",
+              "ESME-S065",
+              "ESME-S066"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-076",
+              "ESME-077",
+              "ESME-078",
+              "ESME-079",
+              "ESME-080",
+              "ESME-081",
+              "ESME-082",
+              "ESME-083",
+              "ESME-087",
+              "ESME-088",
+              "ESME-089",
+              "ESME-090"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS034",
+            "ESME-CS035",
+            "ESME-CS036",
+            "ESME-CS037",
+            "ESME-CS038",
+            "ESME-CS039",
+            "ESME-CS040",
+            "ESME-CS064",
+            "ESME-CS065",
+            "ESME-CS066",
+            "ESME-CS067"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C083",
+            "ESME-C084",
+            "ESME-C085",
+            "ESME-C086",
+            "ESME-C087",
+            "ESME-C088",
+            "ESME-C089",
+            "ESME-C090",
+            "ESME-C094",
+            "ESME-C095",
+            "ESME-C006",
+            "ESME-C096"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G014",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G014",
+            "DATE": "2024–2026",
+            "TITLE": "LLM-assisted maintenance and evaluation revision",
+            "PROBLEM": "Rapidly improving generation outpaces trustworthy evaluation and cost accounting.",
+            "MECHANISM": "Human-task experiments, benchmark audits and platform-specific efficiency studies.",
+            "CONTRIBUTION": "Separates generation speed, plausible repair, correctness and total work.",
+            "LIMITS": "Current estimates face selection, leakage, changing tools and limited long-term observation.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "No general pro- or anti-automation conclusion survives; narrow effective configurations remain viable.",
+            "SOURCE_IDS": [
+              "ESME-S025",
+              "ESME-S026",
+              "ESME-S027",
+              "ESME-S033",
+              "ESME-S034",
+              "ESME-S052",
+              "ESME-S057",
+              "ESME-S067"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-061",
+              "ESME-062",
+              "ESME-063",
+              "ESME-064",
+              "ESME-068",
+              "ESME-069"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS036",
+            "ESME-CS064",
+            "ESME-CS066",
+            "ESME-CS037",
+            "ESME-CS081",
+            "ESME-CS092",
+            "ESME-CS097",
+            "ESME-CS106"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C083",
+            "ESME-C085",
+            "ESME-C087",
+            "ESME-C094",
+            "ESME-C099",
+            "ESME-C100"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS034",
+        "ESME-CS035",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS038",
+        "ESME-CS039",
+        "ESME-CS040",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS066",
+        "ESME-CS067",
+        "ESME-CS081",
+        "ESME-CS092",
+        "ESME-CS097",
+        "ESME-CS106"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C083",
+        "ESME-C084",
+        "ESME-C085",
+        "ESME-C086",
+        "ESME-C087",
+        "ESME-C088",
+        "ESME-C089",
+        "ESME-C090",
+        "ESME-C094",
+        "ESME-C095",
+        "ESME-C006",
+        "ESME-C096",
+        "ESME-C099",
+        "ESME-C100"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG016",
+      "NAME": "Learned systems and non-code evolution",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G14",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G14",
+            "DATE": "2015 and current translations",
+            "SCHOOL": "Evolution of learned and non-code systems",
+            "PROBLEM": "Understand changed behaviour when data, feedback, pipelines or configuration change.",
+            "MECHANISM": "Documented debt import and artefact/dependency expansion.",
+            "CONTRIBUTION": "The maintenance object is not confined to program statements.",
+            "LIMITS": "Patterns are not universal quantified laws or a complete ML governance method.",
+            "RECEPTION": "Requires rechecking traditional evidence/observer assumptions rather than simply renaming them.",
+            "SOURCE_IDS": [
+              "ESME-S005",
+              "ESME-S024",
+              "ESME-S041",
+              "ESME-S061"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-003",
+              "ESME-084",
+              "ESME-085",
+              "ESME-086"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS005",
+            "ESME-CS024",
+            "ESME-CS041",
+            "ESME-CS062"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C003",
+            "ESME-C004",
+            "ESME-C091",
+            "ESME-C092",
+            "ESME-C093"
+          ]
+        },
+        {
+          "INPUT_NODE_KEY": "B:ESME-G013",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G013",
+            "DATE": "2015; 2026",
+            "TITLE": "Learned and non-code artefact evolution",
+            "PROBLEM": "Code-only maintenance misses data feedback and executable policy.",
+            "MECHANISM": "ML-debt analysis and empirical policy-as-code maintenance study.",
+            "CONTRIBUTION": "Includes consequential data, configuration, model and policy consumers.",
+            "LIMITS": "Industrial concepts and observational commit data do not establish universal benefit or enforcement.",
+            "RECEPTION_OR_LATER_DEVELOPMENT": "Current frontier requires task-specific oracles and real consumer/effect evidence.",
+            "SOURCE_IDS": [
+              "ESME-S042",
+              "ESME-S056"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-018",
+              "ESME-065",
+              "ESME-066"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS062",
+            "ESME-CS096"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C025",
+            "ESME-C091",
+            "ESME-C092",
+            "ESME-C093"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS005",
+        "ESME-CS024",
+        "ESME-CS041",
+        "ESME-CS062",
+        "ESME-CS096"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C003",
+        "ESME-C004",
+        "ESME-C091",
+        "ESME-C092",
+        "ESME-C093",
+        "ESME-C025"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    },
+    {
+      "CANONICAL_GENEALOGY_NODE_ID": "ESME-CG017",
+      "NAME": "Canonical analytical composition, not a historical school",
+      "INPUT_NODES": [
+        {
+          "INPUT_NODE_KEY": "A:ESME-G15",
+          "FROZEN_ORIGINAL_RECORD": {
+            "NODE_ID": "ESME-G15",
+            "DATE": "2026-09-06",
+            "SCHOOL": "This packet’s within-tradition analytical composition",
+            "PROBLEM": "Make surviving criteria and operating mechanisms cooperate without mandatory union.",
+            "MECHANISM": "Guarded alternatives, feedback and six explicit composition-induced constraints.",
+            "CONTRIBUTION": "A synthesis-ready decision/continuity system rather than a property catalogue.",
+            "LIMITS": "Not an established school or empirically validated compound intervention.",
+            "RECEPTION": "No adoption or downstream validation claimed.",
+            "SOURCE_IDS": [
+              "ESME-S001",
+              "ESME-S019",
+              "ESME-S022",
+              "ESME-S025",
+              "ESME-S029",
+              "ESME-S041",
+              "ESME-S049",
+              "ESME-S051",
+              "ESME-S058",
+              "ESME-S063",
+              "ESME-S064"
+            ],
+            "PROPERTY_IDS": [
+              "ESME-093",
+              "ESME-094",
+              "ESME-095",
+              "ESME-096",
+              "ESME-097",
+              "ESME-098"
+            ]
+          },
+          "CANONICAL_SOURCE_IDS": [
+            "ESME-CS001",
+            "ESME-CS019",
+            "ESME-CS022",
+            "ESME-CS025",
+            "ESME-CS029",
+            "ESME-CS041",
+            "ESME-CS050",
+            "ESME-CS052",
+            "ESME-CS059",
+            "ESME-CS064",
+            "ESME-CS065"
+          ],
+          "CANONICAL_PROPERTY_IDS": [
+            "ESME-C102",
+            "ESME-C103",
+            "ESME-C049",
+            "ESME-C058",
+            "ESME-C105",
+            "ESME-C098"
+          ]
+        }
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS001",
+        "ESME-CS019",
+        "ESME-CS022",
+        "ESME-CS025",
+        "ESME-CS029",
+        "ESME-CS041",
+        "ESME-CS050",
+        "ESME-CS052",
+        "ESME-CS059",
+        "ESME-CS064",
+        "ESME-CS065"
+      ],
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C102",
+        "ESME-C103",
+        "ESME-C049",
+        "ESME-C058",
+        "ESME-C105",
+        "ESME-C098"
+      ],
+      "PROJECTION_RULE": "A bundled original node contributes only the named thematic facet. Its original breadth and dates are retained, not asserted identically for every projection. The final analytical node is this reconciliation, not a source-documented school."
+    }
+  ],
+  "original_node_reconciliation": [
+    {
+      "INPUT_NODE_KEY": "A:ESME-G01",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG001"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G001",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG001"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G02",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G002",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G03",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG003"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G003",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG003",
+        "ESME-CG004"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G04",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG004"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G05",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G005",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G06",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG006"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G006",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG006"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G07",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG007",
+        "ESME-CG008"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G004",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG007"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G008",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG008"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G08",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG009"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G009",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG009"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G09",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG010"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G010",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG010",
+        "ESME-CG012"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G10",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G007",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G11",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG012"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G12",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG013"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G012",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG013"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G13",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG014",
+        "ESME-CG015"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G011",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG014"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G014",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG015"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G14",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG016"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "B:ESME-G013",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG016"
+      ]
+    },
+    {
+      "INPUT_NODE_KEY": "A:ESME-G15",
+      "CANONICAL_NODE_IDS": [
+        "ESME-CG017"
+      ]
+    }
+  ],
+  "genealogy_edge_evidence_adjudications": [
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE001",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG001"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG001"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS004",
+        "ESME-CS005",
+        "ESME-CS007",
+        "ESME-CS001",
+        "ESME-CS041"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE001",
+        "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "ESME-S004",
+          "ESME-S005",
+          "ESME-S007",
+          "ESME-S001",
+          "ESME-S041"
+        ],
+        "WARRANT": "Later authors explicitly discuss inadequacies of prior purpose/activity classifications; the standard adds/refines categories.",
+        "LIMIT": "Not a simple replacement chain or a universal winner; original Swanson access is mediated.",
+        "FROM_NODE_IDS": [
+          "ESME-G01"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G01"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE002",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS008",
+        "ESME-CS009",
+        "ESME-CS010"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE002",
+        "RELATION_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESME-S008",
+          "ESME-S009",
+          "ESME-S010"
+        ],
+        "WARRANT": "Lehman revisits the same empirical/explanatory programme and explicitly broadens feedback framing.",
+        "LIMIT": "Reformulations share ancestry and data; not independent replications.",
+        "FROM_NODE_IDS": [
+          "ESME-G02"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G02"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE003",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS011",
+        "ESME-CS012"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE003",
+        "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "ESME-S011",
+          "ESME-S012"
+        ],
+        "WARRANT": "OSS studies explicitly engage earlier evolution expectations with different samples and measures.",
+        "LIMIT": "A different growth curve does not refute every law or identify a new universal one.",
+        "FROM_NODE_IDS": [
+          "ESME-G02"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G02"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE004",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG003"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG003"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS015",
+        "ESME-CS044"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE004",
+        "RELATION_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESME-S015",
+          "ESME-S043"
+        ],
+        "WARRANT": "Dynamic slicing explicitly cites Weiser and changes the quantification from possible executions to a particular execution.",
+        "LIMIT": "Neither method subsumes all useful guarantees of the other.",
+        "FROM_NODE_IDS": [
+          "ESME-G03"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G03"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE005",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [
+        "HARDWARE_REVERSE_ENGINEERING_PRECURSOR"
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS014"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE005",
+        "RELATION_TYPE": "DOCUMENTED_IMPORT",
+        "SOURCE_IDS": [
+          "ESME-S014"
+        ],
+        "WARRANT": "Chikofsky and Cross explicitly relate software reverse engineering to hardware practice while distinguishing purposes.",
+        "LIMIT": "The precursor is contextual, not a separately studied engineering corpus.",
+        "FROM_NODE_IDS": [
+          "HARDWARE_REVERSE_ENGINEERING_PRECURSOR"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G05"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE006",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS014",
+        "ESME-CS045"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE006",
+        "RELATION_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESME-S014",
+          "ESME-S044"
+        ],
+        "WARRANT": "DALI continues recovery through static/dynamic/build views and explicit fusion.",
+        "LIMIT": "A documented task continuity, not proof that every detail is derived from one taxonomy paper.",
+        "FROM_NODE_IDS": [
+          "ESME-G05"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G05"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE007",
+      "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG004"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS014",
+        "ESME-CS016",
+        "ESME-CS045"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE007",
+        "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+        "SOURCE_IDS": [
+          "ESME-S014",
+          "ESME-S016",
+          "ESME-S044"
+        ],
+        "WARRANT": "Theory-building and design recovery both require interpretation beyond source text.",
+        "LIMIT": "No direct Naur-to-DALI influence is established here; similarity alone is not transmission.",
+        "FROM_NODE_IDS": [
+          "ESME-G04"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G05"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE008",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG006"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG006"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS021",
+        "ESME-CS022",
+        "ESME-CS023",
+        "ESME-CS046"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE008",
+        "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "ESME-S021",
+          "ESME-S022",
+          "ESME-S023",
+          "ESME-S045"
+        ],
+        "WARRANT": "API, metric and engine work qualify preservation, applicability and benefit claims.",
+        "LIMIT": "These are different objections; a buggy engine does not refute a theorem whose premises it violates.",
+        "FROM_NODE_IDS": [
+          "ESME-G06"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G06"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE009",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG007",
+        "ESME-CG008"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG007",
+        "ESME-CG008"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS019",
+        "ESME-CS020",
+        "ESME-CS040",
+        "ESME-CS067"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE009",
+        "RELATION_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESME-S019",
+          "ESME-S020",
+          "ESME-S040",
+          "ESME-S066"
+        ],
+        "WARRANT": "History-based recommendation and conflict techniques explicitly work on version histories/merges.",
+        "LIMIT": "The 2000 roadmap is not claimed as the historical inventor of configuration management.",
+        "FROM_NODE_IDS": [
+          "ESME-G07"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G07"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE010",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG003"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG007",
+        "ESME-CG008"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS040",
+        "ESME-CS044"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE010",
+        "RELATION_TYPE": "DOCUMENTED_IMPORT",
+        "SOURCE_IDS": [
+          "ESME-S040",
+          "ESME-S043"
+        ],
+        "WARRANT": "BuCoR explicitly uses control/data-dependence analysis in extracting transformations.",
+        "LIMIT": "This supports an analysis-method import, not a claim that all impact methods descend from dynamic slicing.",
+        "FROM_NODE_IDS": [
+          "ESME-G03"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G07"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE011",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG009"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG014",
+        "ESME-CG015"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS025",
+        "ESME-CS034",
+        "ESME-CS064",
+        "ESME-CS065"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE011",
+        "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "ESME-S025",
+          "ESME-S034",
+          "ESME-S063",
+          "ESME-S064"
+        ],
+        "WARRANT": "APR and issue-solving criticisms explicitly concern test-oracle and harness inadequacy; S063 cites earlier weak-suite research.",
+        "LIMIT": "Later task populations and models differ; criticisms do not imply identical error rates.",
+        "FROM_NODE_IDS": [
+          "ESME-G08"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G13"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE012",
+      "RELATION_TYPE": "UNRESOLVED_RELATIONSHIP",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG010"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG010"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS029",
+        "ESME-CS030",
+        "ESME-CS031"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE012",
+        "RELATION_TYPE": "UNRESOLVED_RELATIONSHIP",
+        "SOURCE_IDS": [
+          "ESME-S029",
+          "ESME-S030",
+          "ESME-S031"
+        ],
+        "WARRANT": "The inspected gateway and strangler accounts address similar incremental replacement/coexistence problems. This establishes a comparison, not common documentary ancestry or independent invention.",
+        "LIMIT": "Direct transmission from Chicken Little to the 2004 naming is not established; no exclusive origin claimed.",
+        "FROM_NODE_IDS": [
+          "ESME-G09"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G09"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE013",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [
+        "FINANCIAL_DEBT_METAPHOR"
+      ],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS027"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE013",
+        "RELATION_TYPE": "DOCUMENTED_IMPORT",
+        "SOURCE_IDS": [
+          "ESME-S027"
+        ],
+        "WARRANT": "Cunningham explicitly uses debt to explain expedient implementation and later consolidation.",
+        "LIMIT": "Metaphor does not import a mathematically calibrated balance-sheet liability or imply deliberate recklessness.",
+        "FROM_NODE_IDS": [
+          "FINANCIAL_DEBT_METAPHOR"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G10"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE014",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS028",
+        "ESME-CS058",
+        "ESME-CS059"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE014",
+        "RELATION_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "ESME-S028",
+          "ESME-S057",
+          "ESME-S058"
+        ],
+        "WARRANT": "2016 definitions and 2025 reframing explicitly share definitions; field studies operationalise developer burden.",
+        "LIMIT": "Reported costs are not universal principal/interest measures.",
+        "FROM_NODE_IDS": [
+          "ESME-G10"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G10"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE015",
+      "RELATION_TYPE": "DOMAIN_TRANSLATION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG016"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS062"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE015",
+        "RELATION_TYPE": "DOMAIN_TRANSLATION",
+        "SOURCE_IDS": [
+          "ESME-S061"
+        ],
+        "WARRANT": "The ML systems paper explicitly invokes software technical debt and extends its objects to learned-system dependencies.",
+        "LIMIT": "No universal CACE law or full ML governance method is implied.",
+        "FROM_NODE_IDS": [
+          "ESME-G10"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G14"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE016",
+      "RELATION_TYPE": "SHARED_ANCESTRY",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG007",
+        "ESME-CG008"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG012"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS019",
+        "ESME-CS051",
+        "ESME-CS053"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE016",
+        "RELATION_TYPE": "SHARED_ANCESTRY",
+        "SOURCE_IDS": [
+          "ESME-S019",
+          "ESME-S050",
+          "ESME-S052"
+        ],
+        "WARRANT": "Release engineering relies on configuration/version/build relations already central to SCM.",
+        "LIMIT": "No exclusive founding influence from the inspected roadmap is asserted.",
+        "FROM_NODE_IDS": [
+          "ESME-G07"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G11"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE017",
+      "RELATION_TYPE": "HYBRIDISATION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG010"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG012"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS029",
+        "ESME-CS050",
+        "ESME-CS052"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE017",
+        "RELATION_TYPE": "HYBRIDISATION",
+        "SOURCE_IDS": [
+          "ESME-S029",
+          "ESME-S049",
+          "ESME-S051"
+        ],
+        "WARRANT": "Migration problems interact with database transition and operational exposure mechanisms.",
+        "LIMIT": "Their combination in this packet is partly analytical; not every migration uses canaries or F1.",
+        "FROM_NODE_IDS": [
+          "ESME-G09"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G11"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE018",
+      "RELATION_TYPE": "UNRESOLVED_RELATIONSHIP",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG004"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG013"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS016",
+        "ESME-CS032",
+        "ESME-CS060"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE018",
+        "RELATION_TYPE": "UNRESOLVED_RELATIONSHIP",
+        "SOURCE_IDS": [
+          "ESME-S016",
+          "ESME-S032",
+          "ESME-S059"
+        ],
+        "WARRANT": "Human knowledge and maintainership studies address related capability/transfer problems.",
+        "LIMIT": "Direct documentary influence from Naur to the specific truck-factor study is not established.",
+        "FROM_NODE_IDS": [
+          "ESME-G04"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G12"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE019",
+      "RELATION_TYPE": "ONLY_ANALOGOUS",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG012"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG013"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS054",
+        "ESME-CS055",
+        "ESME-CS056",
+        "ESME-CS057"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE019",
+        "RELATION_TYPE": "ONLY_ANALOGOUS",
+        "SOURCE_IDS": [
+          "ESME-S053",
+          "ESME-S054",
+          "ESME-S055",
+          "ESME-S056"
+        ],
+        "WARRANT": "This study compares support-transition and preservation obligations. The inspected sources do not establish that one school historically derived from the other.",
+        "LIMIT": "Same vocabulary, especially deprecation, is not semantic identity.",
+        "FROM_NODE_IDS": [
+          "ESME-G11"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G12"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "A:ESME-GE020",
+      "RELATION_TYPE": "ANALYTICAL_COMPOSITION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG001",
+        "ESME-CG002",
+        "ESME-CG003",
+        "ESME-CG004",
+        "ESME-CG005",
+        "ESME-CG006",
+        "ESME-CG007",
+        "ESME-CG008",
+        "ESME-CG009",
+        "ESME-CG010",
+        "ESME-CG011",
+        "ESME-CG012",
+        "ESME-CG013",
+        "ESME-CG014",
+        "ESME-CG015",
+        "ESME-CG016"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG017"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS001",
+        "ESME-CS019",
+        "ESME-CS022",
+        "ESME-CS025",
+        "ESME-CS029",
+        "ESME-CS041",
+        "ESME-CS050",
+        "ESME-CS052",
+        "ESME-CS059",
+        "ESME-CS064",
+        "ESME-CS065"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE020",
+        "RELATION_TYPE": "ANALYTICAL_COMPOSITION",
+        "SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S019",
+          "ESME-S022",
+          "ESME-S025",
+          "ESME-S029",
+          "ESME-S041",
+          "ESME-S049",
+          "ESME-S051",
+          "ESME-S058",
+          "ESME-S063",
+          "ESME-S064"
+        ],
+        "WARRANT": "This study selects and couples surviving mechanisms, retaining conflicts and domain limits.",
+        "LIMIT": "Added edge type explicitly means present researcher synthesis, not a documented historical school or influence claim.",
+        "FROM_NODE_IDS": [
+          "ESME-G01",
+          "ESME-G02",
+          "ESME-G03",
+          "ESME-G04",
+          "ESME-G05",
+          "ESME-G06",
+          "ESME-G07",
+          "ESME-G08",
+          "ESME-G09",
+          "ESME-G10",
+          "ESME-G11",
+          "ESME-G12",
+          "ESME-G13",
+          "ESME-G14"
+        ],
+        "TO_NODE_IDS": [
+          "ESME-G15"
+        ]
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE001",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG001"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG001"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS069",
+        "ESME-CS006",
+        "ESME-CS004"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE001",
+        "FROM_NODE_ID": "ESME-G001",
+        "TO_NODE_ID": "ESME-G001",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "DOCUMENTARY_BASIS": "Later guidance and Chapin’s abstract explicitly organise/refine maintenance classifications.",
+        "SOURCE_IDS": [
+          "ESME-S002",
+          "ESME-S005",
+          "ESME-S006"
+        ],
+        "LIMIT": "No unread class-level reconstruction of the inaccessible originals."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE002",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS011",
+        "ESME-CS079",
+        "ESME-CS100",
+        "ESME-CS101"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE002",
+        "FROM_NODE_ID": "ESME-G002",
+        "TO_NODE_ID": "ESME-G002",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "DOCUMENTARY_BASIS": "Linux/glibc studies and the review explicitly test or reinterpret Lehman’s laws.",
+        "SOURCE_IDS": [
+          "ESME-S011",
+          "ESME-S029",
+          "ESME-S060",
+          "ESME-S061"
+        ],
+        "LIMIT": "Same Linux population and review reuse are not independent replications."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE003",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG003",
+        "ESME-CG004"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG008"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS072",
+        "ESME-CS074"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE003",
+        "FROM_NODE_ID": "ESME-G003",
+        "TO_NODE_ID": "ESME-G008",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "DOCUMENTARY_BASIS": "Impact analysis uses program-dependence/slicing concepts discussed in the inspected introduction and methods.",
+        "SOURCE_IDS": [
+          "ESME-S013",
+          "ESME-S016"
+        ],
+        "LIMIT": "Does not imply all impact tools derive from a single slicing algorithm."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE004",
+      "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG003",
+        "ESME-CG004"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS014",
+        "ESME-CS072",
+        "ESME-CS073"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE004",
+        "FROM_NODE_ID": "ESME-G003",
+        "TO_NODE_ID": "ESME-G005",
+        "EDGE_TYPE": "CONVERGENT_DEVELOPMENT",
+        "DOCUMENTARY_BASIS": "Both address recovering information from existing programs at different levels.",
+        "SOURCE_IDS": [
+          "ESME-S012",
+          "ESME-S013",
+          "ESME-S014"
+        ],
+        "LIMIT": "This relationship is conceptual convergence, not a claimed personal transmission."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE005",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG007"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG008"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS075"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE005",
+        "FROM_NODE_ID": "ESME-G004",
+        "TO_NODE_ID": "ESME-G008",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "DOCUMENTARY_BASIS": "ROSE uses revision histories as the empirical input for mined co-change.",
+        "SOURCE_IDS": [
+          "ESME-S017"
+        ],
+        "LIMIT": "Use of version histories does not imply RCS specifically caused ROSE."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE006",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG005"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG010",
+        "ESME-CG012"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS014",
+        "ESME-CS029"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE006",
+        "FROM_NODE_ID": "ESME-G005",
+        "TO_NODE_ID": "ESME-G010",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "DOCUMENTARY_BASIS": "The legacy-migration review uses reverse/re-engineering categories in classifying options.",
+        "SOURCE_IDS": [
+          "ESME-S012",
+          "ESME-S031"
+        ],
+        "LIMIT": "The review is not the original source of all migration methods it describes."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE007",
+      "RELATION_TYPE": "SHARED_ANCESTRY",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG006"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS022",
+        "ESME-CS027"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE007",
+        "FROM_NODE_ID": "ESME-G006",
+        "TO_NODE_ID": "ESME-G007",
+        "EDGE_TYPE": "SHARED_ANCESTRY",
+        "DOCUMENTARY_BASIS": "Both arise in change-intensive object-oriented development and address future change burden.",
+        "SOURCE_IDS": [
+          "ESME-S018",
+          "ESME-S019"
+        ],
+        "LIMIT": "No claim that one 1992 work directly caused the other."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE008",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG006"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG006"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS076",
+        "ESME-CS077",
+        "ESME-CS078"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE008",
+        "FROM_NODE_ID": "ESME-G006",
+        "TO_NODE_ID": "ESME-G006",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "DOCUMENTARY_BASIS": "Industrial/metric studies and the differentiated replication directly examine refactoring meanings and outcomes.",
+        "SOURCE_IDS": [
+          "ESME-S020",
+          "ESME-S021",
+          "ESME-S022"
+        ],
+        "LIMIT": "Mixed evidence does not yield a universal causal benefit or harm."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE009",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS090",
+        "ESME-CS059"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE009",
+        "FROM_NODE_ID": "ESME-G007",
+        "TO_NODE_ID": "ESME-G007",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "DOCUMENTARY_BASIS": "2016 definitions and the 2025 reframing explicitly revisit technical debt.",
+        "SOURCE_IDS": [
+          "ESME-S048",
+          "ESME-S049"
+        ],
+        "LIMIT": "Seminar agreement and agenda are not comparative validation."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE010",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG011"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG016"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS062"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE010",
+        "FROM_NODE_ID": "ESME-G007",
+        "TO_NODE_ID": "ESME-G013",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "DOCUMENTARY_BASIS": "Hidden Technical Debt in Machine Learning Systems explicitly applies the debt concept to ML-system mechanisms.",
+        "SOURCE_IDS": [
+          "ESME-S042"
+        ],
+        "LIMIT": "Deterministic equivalence does not transfer automatically to learned outcomes."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE011",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG009"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG014"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS104"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE011",
+        "FROM_NODE_ID": "ESME-G009",
+        "TO_NODE_ID": "ESME-G011",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "DOCUMENTARY_BASIS": "The GenProg primary account uses test cases as fitness and acceptance evidence.",
+        "SOURCE_IDS": [
+          "ESME-S065"
+        ],
+        "LIMIT": "Test use is not complete specification satisfaction."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE012",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG014"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG014"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS034",
+        "ESME-CS106"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE012",
+        "FROM_NODE_ID": "ESME-G011",
+        "TO_NODE_ID": "ESME-G011",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "DOCUMENTARY_BASIS": "Repair-quality analysis and the original-author retrospective explicitly address partial oracles and overfitting.",
+        "SOURCE_IDS": [
+          "ESME-S024",
+          "ESME-S067"
+        ],
+        "LIMIT": "The retrospective is an author response, not independent confirmation of deployment quality."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE013",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG014"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG015"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS106"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE013",
+        "FROM_NODE_ID": "ESME-G011",
+        "TO_NODE_ID": "ESME-G014",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "DOCUMENTARY_BASIS": "The original-author retrospective discusses later machine-learning/synthesis approaches in the repair research programme.",
+        "SOURCE_IDS": [
+          "ESME-S067"
+        ],
+        "LIMIT": "This is not documentary proof that every code-assistant product descends causally from GenProg."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE014",
+      "RELATION_TYPE": "DOCUMENTED_INFLUENCE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG009"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG009"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS103"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE014",
+        "FROM_NODE_ID": "ESME-G009",
+        "TO_NODE_ID": "ESME-G009",
+        "EDGE_TYPE": "DOCUMENTED_INFLUENCE",
+        "DOCUMENTARY_BASIS": "Kästner explicitly identifies exposure to differential-testing work and earlier suggestions in his development account.",
+        "SOURCE_IDS": [
+          "ESME-S064"
+        ],
+        "LIMIT": "Underlying cited papers not separately read; the edge establishes this author’s reported influence only."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE015",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG010",
+        "ESME-CG012"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG010",
+        "ESME-CG012"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS030",
+        "ESME-CS031",
+        "ESME-CS082"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE015",
+        "FROM_NODE_ID": "ESME-G010",
+        "TO_NODE_ID": "ESME-G010",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "DOCUMENTARY_BASIS": "Fowler’s revised account and mobile migration article explicitly develop strangler-fig application practice.",
+        "SOURCE_IDS": [
+          "ESME-S035",
+          "ESME-S036",
+          "ESME-S037"
+        ],
+        "LIMIT": "Separate editions/cases are not independent replications of comparative superiority."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE016",
+      "RELATION_TYPE": "DOMAIN_TRANSLATION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG008"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG013"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS033"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE016",
+        "FROM_NODE_ID": "ESME-G008",
+        "TO_NODE_ID": "ESME-G012",
+        "EDGE_TYPE": "DOMAIN_TRANSLATION",
+        "DOCUMENTARY_BASIS": "Dependency evidence is studied at package-ecosystem scale rather than only within one system.",
+        "SOURCE_IDS": [
+          "ESME-S041"
+        ],
+        "LIMIT": "Translation is analytical; graph edges do not directly measure runtime failure."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE017",
+      "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG013"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG016"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS062",
+        "ESME-CS085",
+        "ESME-CS096"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE017",
+        "FROM_NODE_ID": "ESME-G012",
+        "TO_NODE_ID": "ESME-G013",
+        "EDGE_TYPE": "CONVERGENT_DEVELOPMENT",
+        "DOCUMENTARY_BASIS": "Both require identifying consumers beyond direct code edits.",
+        "SOURCE_IDS": [
+          "ESME-S042",
+          "ESME-S043",
+          "ESME-S056"
+        ],
+        "LIMIT": "No unsupported influence edge from identical vocabulary."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE018",
+      "RELATION_TYPE": "ONLY_ANALOGOUS",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG002"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG014"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS008",
+        "ESME-CS009",
+        "ESME-CS104",
+        "ESME-CS106"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE018",
+        "FROM_NODE_ID": "ESME-G002",
+        "TO_NODE_ID": "ESME-G011",
+        "EDGE_TYPE": "ONLY_ANALOGOUS",
+        "DOCUMENTARY_BASIS": "Both use the word evolution, but Lehman’s longitudinal software evolution and genetic-programming search concern different mechanisms.",
+        "SOURCE_IDS": [
+          "ESME-S008",
+          "ESME-S009",
+          "ESME-S065",
+          "ESME-S067"
+        ],
+        "LIMIT": "Biological/search analogy is not evidence of a shared law or direct intellectual derivation."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE019",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG008"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG008"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS086"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE019",
+        "FROM_NODE_ID": "ESME-G008",
+        "TO_NODE_ID": "ESME-G008",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "DOCUMENTARY_BASIS": "Semantic conflict analysis addresses interactions of concurrently changed versions using dependence/flow evidence.",
+        "SOURCE_IDS": [
+          "ESME-S044"
+        ],
+        "LIMIT": "References establish a research relationship, not a complete automatic intent oracle."
+      }
+    },
+    {
+      "INPUT_EDGE_KEY": "B:ESME-GE020",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "FROM_CANONICAL_NODE_IDS": [
+        "ESME-CG009"
+      ],
+      "TO_CANONICAL_NODE_IDS": [
+        "ESME-CG015"
+      ],
+      "EXTERNAL_CONTEXT_REFERENTS": [],
+      "CANONICAL_SOURCE_IDS": [
+        "ESME-CS064",
+        "ESME-CS066",
+        "ESME-CS097",
+        "ESME-CS106"
+      ],
+      "ADJUDICATION": "Preserve the documented scope and limit. A many-topic projection is not an assertion of every possible influence edge. Convergence, analogy and unresolved transmission remain explicitly non-causal; no new historical link is inferred.",
+      "FROZEN_ORIGINAL_RECORD": {
+        "EDGE_ID": "ESME-GE020",
+        "FROM_NODE_ID": "ESME-G009",
+        "TO_NODE_ID": "ESME-G014",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "DOCUMENTARY_BASIS": "LLM patch and benchmark studies continue to confront partial oracles and tests-versus-correctness.",
+        "SOURCE_IDS": [
+          "ESME-S026",
+          "ESME-S027",
+          "ESME-S057",
+          "ESME-S067"
+        ],
+        "LIMIT": "Shared benchmark data and interested authorship are retained as validity limits."
+      }
+    }
+  ],
+  "input_node_counts": {
+    "A": 15,
+    "B": 14,
+    "TOTAL": 29
+  },
+  "input_edge_counts": {
+    "A": 20,
+    "B": 20,
+    "TOTAL": 40
+  },
+  "canonical_thematic_node_count": 17,
+  "original_evolution_under_criticism_A": [
+    {
+      "BRANCH": "Purpose taxonomy",
+      "TRANSITION": "REFINED",
+      "PROPERTY_IDS": [
+        "ESME-001",
+        "ESME-002",
+        "ESME-006"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Purpose/activity distinctions and 2022 additive terminology replace false four-category exhaustiveness.",
+      "SOURCE_IDS": [
+        "ESME-S001",
+        "ESME-S004",
+        "ESME-S005",
+        "ESME-S007",
+        "ESME-S041"
+      ]
+    },
+    {
+      "BRANCH": "Evolution laws",
+      "TRANSITION": "NARROWED",
+      "PROPERTY_IDS": [
+        "ESME-007",
+        "ESME-008",
+        "ESME-009",
+        "ESME-010",
+        "ESME-011"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Preserve environment/feedback questions; reject universal growth and invariant-rate prescriptions.",
+      "SOURCE_IDS": [
+        "ESME-S008",
+        "ESME-S009",
+        "ESME-S010",
+        "ESME-S011",
+        "ESME-S012"
+      ]
+    },
+    {
+      "BRANCH": "Comprehension and recovery",
+      "TRANSITION": "REFINED",
+      "PROPERTY_IDS": [
+        "ESME-012",
+        "ESME-015",
+        "ESME-016",
+        "ESME-018",
+        "ESME-019",
+        "ESME-020"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Question-led sufficient understanding and view interpretation replace exhaustive-document proxies.",
+      "SOURCE_IDS": [
+        "ESME-S014",
+        "ESME-S016",
+        "ESME-S017",
+        "ESME-S018",
+        "ESME-S044"
+      ]
+    },
+    {
+      "BRANCH": "Static/dynamic slicing",
+      "TRANSITION": "DOMAIN_SPECIFIC",
+      "PROPERTY_IDS": [
+        "ESME-013",
+        "ESME-014"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Distinct model and execution scopes remain alternatives, not a universal stronger combined oracle.",
+      "SOURCE_IDS": [
+        "ESME-S015",
+        "ESME-S043"
+      ]
+    },
+    {
+      "BRANCH": "History-based impact",
+      "TRANSITION": "NARROWED",
+      "PROPERTY_IDS": [
+        "ESME-021",
+        "ESME-022",
+        "ESME-023",
+        "ESME-024"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Historical recommendations guide inquiry; semantic and non-code dependencies determine actual obligations.",
+      "SOURCE_IDS": [
+        "ESME-S020",
+        "ESME-S024"
+      ]
+    },
+    {
+      "BRANCH": "Refactoring validity",
+      "TRANSITION": "PRESERVED",
+      "PROPERTY_IDS": [
+        "ESME-028",
+        "ESME-029",
+        "ESME-030"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Keep observer-relative rules and preconditions; separately validate actual engines rather than abandoning the model.",
+      "SOURCE_IDS": [
+        "ESME-S021",
+        "ESME-S022",
+        "ESME-S045"
+      ]
+    },
+    {
+      "BRANCH": "Refactoring payoff",
+      "TRANSITION": "NARROWED",
+      "PROPERTY_IDS": [
+        "ESME-031",
+        "ESME-032",
+        "ESME-033",
+        "ESME-062"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Future-work benefit needs a scenario/outcome; catalogue or metric improvement alone is not benefit.",
+      "SOURCE_IDS": [
+        "ESME-S023",
+        "ESME-S057",
+        "ESME-S058"
+      ]
+    },
+    {
+      "BRANCH": "Regression techniques",
+      "TRANSITION": "REFINED",
+      "PROPERTY_IDS": [
+        "ESME-034",
+        "ESME-035",
+        "ESME-036",
+        "ESME-037",
+        "ESME-038",
+        "ESME-039",
+        "ESME-040"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Keep suite/ordering/fault-model scopes distinct and require justified oracles.",
+      "SOURCE_IDS": [
+        "ESME-S024",
+        "ESME-S025",
+        "ESME-S026",
+        "ESME-S046",
+        "ESME-S047",
+        "ESME-S048"
+      ]
+    },
+    {
+      "BRANCH": "Release continuity",
+      "TRANSITION": "HYBRIDISED",
+      "PROPERTY_IDS": [
+        "ESME-041",
+        "ESME-042",
+        "ESME-043",
+        "ESME-044",
+        "ESME-055"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Combine artefact identity, representative exposure and effect-level recovery without equating their guarantees.",
+      "SOURCE_IDS": [
+        "ESME-S049",
+        "ESME-S050",
+        "ESME-S051",
+        "ESME-S052",
+        "ESME-S062"
+      ]
+    },
+    {
+      "BRANCH": "Migration strategies",
+      "TRANSITION": "DOMAIN_SPECIFIC",
+      "PROPERTY_IDS": [
+        "ESME-045",
+        "ESME-046",
+        "ESME-047",
+        "ESME-048",
+        "ESME-049",
+        "ESME-050",
+        "ESME-051",
+        "ESME-052",
+        "ESME-053",
+        "ESME-054"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Incremental and atomic alternatives persist; coexistence invariants and exit conditions discriminate.",
+      "SOURCE_IDS": [
+        "ESME-S013",
+        "ESME-S029",
+        "ESME-S030",
+        "ESME-S031",
+        "ESME-S049"
+      ]
+    },
+    {
+      "BRANCH": "Debt metaphor and practice",
+      "TRANSITION": "REFINED",
+      "PROPERTY_IDS": [
+        "ESME-056",
+        "ESME-057",
+        "ESME-058",
+        "ESME-059",
+        "ESME-060"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Liability, cost bearers and decision value replace an undifferentiated inventory of undesirable work.",
+      "SOURCE_IDS": [
+        "ESME-S027",
+        "ESME-S028",
+        "ESME-S057",
+        "ESME-S058"
+      ]
+    },
+    {
+      "BRANCH": "Zero-debt optimisation",
+      "TRANSITION": "REJECTED",
+      "PROPERTY_IDS": [
+        "ESME-061",
+        "ESME-062"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Repayment and metric targets are not ends independent of current value and support horizon.",
+      "SOURCE_IDS": [
+        "ESME-S057",
+        "ESME-S058"
+      ]
+    },
+    {
+      "BRANCH": "Human continuity proxies",
+      "TRANSITION": "REFINED",
+      "PROPERTY_IDS": [
+        "ESME-063",
+        "ESME-064",
+        "ESME-065",
+        "ESME-066",
+        "ESME-067",
+        "ESME-068",
+        "ESME-069",
+        "ESME-073"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Practical capability and consumer action qualify authorship, popularity and notification proxies.",
+      "SOURCE_IDS": [
+        "ESME-S016",
+        "ESME-S032",
+        "ESME-S033",
+        "ESME-S059",
+        "ESME-S060"
+      ]
+    },
+    {
+      "BRANCH": "Servicing irreversibility",
+      "TRANSITION": "STILL_CONTESTED",
+      "PROPERTY_IDS": [
+        "ESME-075"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "A stage-model diagnosis is retained as a warning, not a theorem forbidding economic knowledge recovery.",
+      "SOURCE_IDS": [
+        "ESME-S013",
+        "ESME-S014",
+        "ESME-S016",
+        "ESME-S044"
+      ]
+    },
+    {
+      "BRANCH": "Generated program repair",
+      "TRANSITION": "REFINED",
+      "PROPERTY_IDS": [
+        "ESME-076",
+        "ESME-077",
+        "ESME-078",
+        "ESME-079",
+        "ESME-080",
+        "ESME-081",
+        "ESME-087",
+        "ESME-090"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Patches remain candidates; harness, benchmark, objective alignment and total human work constrain evaluation.",
+      "SOURCE_IDS": [
+        "ESME-S034",
+        "ESME-S035",
+        "ESME-S036",
+        "ESME-S037",
+        "ESME-S063",
+        "ESME-S064",
+        "ESME-S065"
+      ]
+    },
+    {
+      "BRANCH": "Learned-software maintenance",
+      "TRANSITION": "DOMAIN_SPECIFIC",
+      "PROPERTY_IDS": [
+        "ESME-084",
+        "ESME-085",
+        "ESME-086"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Data/configuration/feedback dependencies extend relevant artefacts but do not transfer deterministic guarantees automatically.",
+      "SOURCE_IDS": [
+        "ESME-S061"
+      ]
+    },
+    {
+      "BRANCH": "Long-term AI maintainability",
+      "TRANSITION": "STILL_CONTESTED",
+      "PROPERTY_IDS": [
+        "ESME-088"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Examined evidence does not establish a general multi-release net improvement or universal harm.",
+      "SOURCE_IDS": [
+        "ESME-S036",
+        "ESME-S037",
+        "ESME-S038",
+        "ESME-S063",
+        "ESME-S064"
+      ]
+    },
+    {
+      "BRANCH": "Present within-tradition composition",
+      "TRANSITION": "REFINED",
+      "PROPERTY_IDS": [
+        "ESME-093",
+        "ESME-094",
+        "ESME-095",
+        "ESME-096",
+        "ESME-097",
+        "ESME-098"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTION": "Analytical coupling adds mismatch, staleness, exit and circularity controls; not claimed historical maturation or validated superiority.",
+      "SOURCE_IDS": [
+        "ESME-S019",
+        "ESME-S025",
+        "ESME-S029",
+        "ESME-S049",
+        "ESME-S051",
+        "ESME-S058",
+        "ESME-S062",
+        "ESME-S063",
+        "ESME-S064"
+      ]
+    }
+  ],
+  "input_external_context_nodes_A": [
+    {
+      "NODE_ID": "HARDWARE_REVERSE_ENGINEERING_PRECURSOR",
+      "NAME": "Reverse engineering outside software",
+      "STATUS": "EXTERNAL_CONTEXT_NOT_A_STUDIED_SIBLING_CORPUS",
+      "SOURCE_IDS": [
+        "ESME-S014"
+      ],
+      "LIMIT": "Only the terminology comparison documented in the software taxonomy is used; no complete hardware genealogy is claimed."
+    },
+    {
+      "NODE_ID": "FINANCIAL_DEBT_METAPHOR",
+      "NAME": "Financial debt as an explicitly borrowed metaphor",
+      "STATUS": "EXTERNAL_METAPHOR_NOT_A_FINANCIAL_MODEL",
+      "SOURCE_IDS": [
+        "ESME-S027"
+      ],
+      "LIMIT": "Cunningham’s metaphor does not establish calibrated principal, interest, option pricing or legal liability."
+    }
+  ],
+  "historical_influence_rule": "Only the recorded documentary basis warrants an influence/import/extension. An inspected later historical account is not direct original access; identical vocabulary or analogous problems establish neither common ancestry nor independent invention.",
+  "evidence_boundary": "The frozen records and their claim/access accounts were inspected here. The underlying articles, PDFs and web pages were not re-accessed in this reconciliation; their original access is inherited, not independently certified. Custody and internal consistency do not establish scholarly truth."
+}

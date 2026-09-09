@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from genealogy_corpus import check_corpus
+from genealogy_corpus import check_corpus, load_source_lock
 
 
 def main() -> int:
@@ -19,7 +19,8 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}")
         return 1
-    print("TRIFECTAS=4/4 LINEAGES=12/12 PROPERTIES=658/658 CORPUS=PASS")
+    c = load_source_lock(args.root)["expected"]
+    print(f"TRIFECTAS={c['trifectas']} LINEAGES={c['lineages']} PROPERTIES={c['properties']} CORPUS=PASS")
     return 0
 
 

@@ -1,0 +1,22 @@
+{
+  "schema": "implementaudit.triad-baseline-validation-limit.v1",
+  "status": "PACKAGE_GATE_FAILED_PENDING_SOURCE_CONVERGENCE",
+  "base_commit": "57b48140f1266cbd3f6316718463409a134f1969",
+  "untouched_base_reproduction": {
+    "command": "python scripts/check-durable-identities.py",
+    "exit_code": 1,
+    "clean_probe": true,
+    "output_sha256": "171a62bc0a6883ce110eca865f60a6a132ddd8be0d8fc30f3da1f0ec67af8691",
+    "historical_output": "docs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:7: unallocated Rockstar presented as current R003A\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:35: unallocated Rockstar presented as current R003A\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:36: unallocated Rockstar presented as current R003A\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:48: unallocated Rockstar presented as current R0038\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:61: unallocated Rockstar presented as current R0038\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:63: unallocated Rockstar presented as current R0039\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:76: unallocated Rockstar presented as current R0039\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:123: unallocated Rockstar presented as current R0038\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:130: stale maintained Rockstar R39\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:131: stale maintained Rockstar R39\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:145: unallocated Rockstar presented as current R0039\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:145: unallocated Rockstar presented as current R0038\r\ndocs/superpowers/plans/2026-08-20-v041-thread5-autodag.md:154: unallocated Rockstar presented as current R0039\r\n"
+  },
+  "canonical_suite_failure": "tests/durable-identity-contract.test.sh: maintained scan sees a registry capped at R0037 while frozen baseline/plan references include R0038-R003A. Triad research adds exact accepted-baseline references to that existing mismatch.",
+  "triad_repair": "Historical GitHub title fields are explicitly snapshot evidence, preserving their literal legacy aliases without presenting those aliases as maintained current identities.",
+  "not_performed": [
+    "No identity allocation",
+    "No accepted EH-3 prerequisite replay",
+    "No controller/currentness mutation",
+    "No gate exemption or weakened assertion"
+  ],
+  "remaining_checks": "Recorded separately in final validation/handoff evidence; completion of other checks cannot override this failed gate.",
+  "receiver_requirement": "Perform the already-owned accepted source convergence and rebind affected triad/fixture postimages, then rerun the canonical gate. This draft is not package or release readiness."
+}

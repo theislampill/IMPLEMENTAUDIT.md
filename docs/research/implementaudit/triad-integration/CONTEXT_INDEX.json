@@ -1,0 +1,2146 @@
+[
+  {
+    "id": "SSS-K001",
+    "kind": "clusters",
+    "name": "Consequential scope and legitimate product intent",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/0",
+    "source_row_sha256": "bce2bbf36448eea11482374b02411190bb550ac8dc8572df9f39ed9685817d42",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K002",
+    "kind": "clusters",
+    "name": "Identity across descriptions, interventions and derivations",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/1",
+    "source_row_sha256": "8f3a0ea835e1c3092fab3ec4d27eb45eebb15fe002717aa42cfb7fbf0c2bc53c",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K003",
+    "kind": "clusters",
+    "name": "Semantic obligations across interfaces",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/2",
+    "source_row_sha256": "3c7d940f7e7dc1b1e5d80a3dded4941b7f8ba44bcbeabb8f0314034698a46c14",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K004",
+    "kind": "clusters",
+    "name": "Typed cross-boundary impact",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/3",
+    "source_row_sha256": "7ad12a7f0aa03ebd8653d90060457263726bc8b01b693c3642c611c0b7d43d8c",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K005",
+    "kind": "clusters",
+    "name": "Warranted commonality and anticipatory flexibility",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/4",
+    "source_row_sha256": "c59fa666943899913f4d91a7e253d05d0897366d437047ba95390cd19034ea72",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K006",
+    "kind": "clusters",
+    "name": "Quality criteria and selected populations",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/5",
+    "source_row_sha256": "cb9998c9c01290f1a02b75e3dfe90a92596f118b24b906830df5681201390c52",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K007",
+    "kind": "clusters",
+    "name": "Model, tool and actual-product assurance layers",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/6",
+    "source_row_sha256": "e96270a4c9b88e152b2b15142e5887443c6f3d89e2b125c4fbdeb9449d683b5f",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K008",
+    "kind": "clusters",
+    "name": "Useful rationale and reconstructible knowledge",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/7",
+    "source_row_sha256": "a577097500e39a6c6ca430249951f6519bdfb74296f0e6fd07ad16fe74c6e8c6",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K009",
+    "kind": "clusters",
+    "name": "Authority is not evidence or tooling",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/8",
+    "source_row_sha256": "ba339cdd5b5af1c13e47bda04eb3ec89674212b9958c2450d9b61bcab131752d",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K010",
+    "kind": "clusters",
+    "name": "Practical capacity and coordination",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/9",
+    "source_row_sha256": "261b3f8ec4f8264d2188c7b80929658d47c3f35acd9cb0d73ab3c6590b8a8dd5",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K011",
+    "kind": "clusters",
+    "name": "Lifecycle alternatives, cost bearers and uncertainty",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/10",
+    "source_row_sha256": "549f838393e2dd27ef3956af27f6642814262a90f81e0d16cd5d1dcce815fda4",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K012",
+    "kind": "clusters",
+    "name": "Preservation and deliberate revision",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/11",
+    "source_row_sha256": "22faa818866ac77883a701d17e512139a1f38c5d49af06a48f1b2f9a026f4054",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K013",
+    "kind": "clusters",
+    "name": "Migration, coexistence and reachable states",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/12",
+    "source_row_sha256": "e716fb2596be6ebbff2939baaa6253b21a5b6dcd599ebc488a311220eaa55270",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K014",
+    "kind": "clusters",
+    "name": "Observation, feedback and revision",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/13",
+    "source_row_sha256": "8d77674a46ce886fc5a6d89e34d8fccbf3cca19b9c97fb959c039ccc30ca67b1",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K015",
+    "kind": "clusters",
+    "name": "Selective evidence applicability and invalidation",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/14",
+    "source_row_sha256": "89a4c87d33d5cbdeb5dee15a23905c75b22b132db933873a11aa747a850adcc9",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K016",
+    "kind": "clusters",
+    "name": "Structural intervention versus actual benefit",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/15",
+    "source_row_sha256": "bf5f1ce7b403f8ef07381eef14318cceffa3d5f0a1354d5ad2b49ac7cfad7aba",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K017",
+    "kind": "clusters",
+    "name": "Reusable local proofs and composition premises",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/16",
+    "source_row_sha256": "1d856fb6364d095442068936e9e9eec15f7e03c4429c9380828229c5215c4fa3",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K018",
+    "kind": "clusters",
+    "name": "Sampling, regression selection and oracle limits",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/17",
+    "source_row_sha256": "9931b0311bffb043e0f14af5ec4a41f549c4cc03dad7e2bf6e91ffd36b168ebc",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K019",
+    "kind": "clusters",
+    "name": "Concurrent change and joint interaction",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/18",
+    "source_row_sha256": "35a67878a632d5641f11b43901d213fb03bbbade2d9463242b53bc4565684175",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K020",
+    "kind": "clusters",
+    "name": "Runtime change, recovery and action envelopes",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/19",
+    "source_row_sha256": "cfc8f878853f45ec4539b8c8ad518e6052ed2cccab04e7f91a2480df9f019dec",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K021",
+    "kind": "clusters",
+    "name": "Shared-asset responsibility and product autonomy",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/20",
+    "source_row_sha256": "0746e0383647417deec974861e492bc8bb71c8dc883df226c611b8ff215dae98",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K022",
+    "kind": "clusters",
+    "name": "Consumer-directed communication",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/21",
+    "source_row_sha256": "26f0006e111c75eb63b3fb46cc708c9f00bd13350f565ac7a4142c9fdbad4f8d",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K023",
+    "kind": "clusters",
+    "name": "Completion, support-aware retirement and historical retention",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/22",
+    "source_row_sha256": "1dbf4292364b16bd5d83674dffaf893135fea4560a8dae4f628d18904d892716",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K024",
+    "kind": "clusters",
+    "name": "Bounded automation versus lifecycle replacement",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/23",
+    "source_row_sha256": "772e0389254fd4b0456bb40c79d6ed7a401b5a078e74e459b77a8d57ed9ea2ea",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K025",
+    "kind": "clusters",
+    "name": "Learned, generated and environmental dependencies",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/24",
+    "source_row_sha256": "0275ca4b014b243c7e50ecd925016d91e11709c33a6323cebef5e3c85a1eca22",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K026",
+    "kind": "clusters",
+    "name": "Resource constraints and costly flexibility",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/25",
+    "source_row_sha256": "9b2a42ae7238a64ce9c63b6627189e3b47a08ba8d6c79100accd1627a4cef294",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K027",
+    "kind": "clusters",
+    "name": "Classification and labels without universal mandates",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/26",
+    "source_row_sha256": "9e747fa7709f0422966c7d065bc5bd00708703232ef137f966096acd08955c42",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K028",
+    "kind": "clusters",
+    "name": "Legitimate local, unchanged and non-family alternatives",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/27",
+    "source_row_sha256": "8d0c627021ee664dc9a75e180bd8a7b6ea7b5c2a285e55d95844d09ea7e42f67",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K029",
+    "kind": "clusters",
+    "name": "Semantic translation and model evolution",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/28",
+    "source_row_sha256": "fd6c677c063406cb1b51396908c49abff378ecc7ac8ccb36880fc72c78ae88ba",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K030",
+    "kind": "clusters",
+    "name": "Stability under justified evolution",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/29",
+    "source_row_sha256": "d97811f89d790c635633208cb48e6d0472e96a552ee0dff494c9a32de9034f28",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K031",
+    "kind": "clusters",
+    "name": "Causal liabilities and prospective payoff",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/30",
+    "source_row_sha256": "a4271ba0946b24e877066819cb88d44c59661b3540ad71dbf67f4c6c82ddb913",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K032",
+    "kind": "clusters",
+    "name": "Proportionate knowledge and control forms",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/31",
+    "source_row_sha256": "dfd84858a07301ac54c84bf38a2da65d61671ca0cad726a9fdfe3eddd0550a05",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K033",
+    "kind": "clusters",
+    "name": "Evidence populations and limits of generalisation",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/32",
+    "source_row_sha256": "46a47386a9c63a6f0e36a6b8e11093a47bcf2a16faba0212698788f996649323",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-K034",
+    "kind": "clusters",
+    "name": "Driver refinement across design and product construction",
+    "source_pointer": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/33",
+    "source_row_sha256": "64b6c6e6812afba7e236fa4dd61b1d3afe1a9ffd7e48c05e988e99110c5f4012",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T001",
+    "kind": "tensions",
+    "name": "Architectural stability versus authorised adaptation",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/0",
+    "source_row_sha256": "a51ea93694c773532431225b83a7b88e00cbcf4e50e6969ee554211cbf44cefb",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T002",
+    "kind": "tensions",
+    "name": "Family consistency versus product autonomy",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/1",
+    "source_row_sha256": "415886f6e928c4c8428c694236d86f1530ed3bf67ce36a9b330b8490b66bfb55",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T003",
+    "kind": "tensions",
+    "name": "Broad reconstruction versus change-specific understanding",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/2",
+    "source_row_sha256": "080193b680921cde61c00f36865b61941aabd7b6983545fc93252c4c5239c561",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T004",
+    "kind": "tensions",
+    "name": "Reuse investment versus selective reuse or cloning",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/3",
+    "source_row_sha256": "82e6291d33f30d2f91dd77b21e317a5c0e762585c071ee29893f5e4350e4b545",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T005",
+    "kind": "tensions",
+    "name": "Backwards compatibility versus deliberate breaking change",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/4",
+    "source_row_sha256": "1309012ff338f1e3637971aa39a98c8350b9cf8886e5ac1dd89bed8ec8099962",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T006",
+    "kind": "tensions",
+    "name": "Commonality versus product-specific quality limits",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/5",
+    "source_row_sha256": "53ea6f898c6abf41bd88b9c67d984f7e567d91c574091bb150efda037ddd2060",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T007",
+    "kind": "tensions",
+    "name": "Shared documentation conventions versus concern-driven omission",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/6",
+    "source_row_sha256": "12f171c56a6856d85e7d03b7f837fa525cb67512e593b5744d32b8d0f6836b2c",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T008",
+    "kind": "tensions",
+    "name": "Formal coverage versus proportionate assurance",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/7",
+    "source_row_sha256": "544b1d902c4fa51a45ea9e4d957d50174542e34acefdfa4c8ecc2cdef3eff461",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T009",
+    "kind": "tensions",
+    "name": "Characterised behaviour versus intended change",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/8",
+    "source_row_sha256": "57aed5cf5d37dd351c4932eff46a5a2ecf4441dadcf0940bbe0d6f65a1f5c904",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T010",
+    "kind": "tensions",
+    "name": "Runtime flexibility versus transition and recovery assurance",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/9",
+    "source_row_sha256": "dc993ccc6c823e57558549c7469bcd7e6bb0912b450250a5e6552ebd1aeb81ce",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T011",
+    "kind": "tensions",
+    "name": "Automation speed versus acceptance and total cost",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/10",
+    "source_row_sha256": "65582bf5b4f29aa8fc767dc06100c36d01ef986a7fc72ebfe6947c3c677bf7ea",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T012",
+    "kind": "tensions",
+    "name": "Individually justified controls versus combined burden",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/11",
+    "source_row_sha256": "8a42c7f72a1ddd943dc44c65d7298657520cb85fdd5a9f981a1625df1a75617e",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T013",
+    "kind": "tensions",
+    "name": "Synchronous shared propagation versus independent releases",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/12",
+    "source_row_sha256": "9d7c2315bac24fef72fbe118eff6263b195cfedc6fea2bde62c1228b808892a9",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T014",
+    "kind": "tensions",
+    "name": "Local formal guarantees versus global progress",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/13",
+    "source_row_sha256": "15aa5d42bd171112d10006bc6ad65c831232ea16886c9528c710c5c95a4876b8",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T015",
+    "kind": "tensions",
+    "name": "Termination versus enduring support and preservation",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/14",
+    "source_row_sha256": "0507c516e3042bd0fc1a63fe56a30f8690dc1394f64e0eb120813b64c31e9d82",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-T016",
+    "kind": "tensions",
+    "name": "Counterexample challenge versus finite inquiry capacity",
+    "source_pointer": "EVOLVED_SSS_TENSION_LEDGER.json#/tensions/15",
+    "source_row_sha256": "87d8c56f84e760b8f23853a82a7f7d4d4e1b2b2fda4321801f3615b18f0f2ad9",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG001",
+    "kind": "configurations",
+    "name": "Small stable single product",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/0",
+    "source_row_sha256": "0fc2f7ce953a18346794a04e17ea534394c3872105d49cca12a009fd086c13d8",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG002",
+    "kind": "configurations",
+    "name": "Continuing modular single-product maintenance",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/1",
+    "source_row_sha256": "d3694b793169197ad59d578d5c9a7c46df1a916de84bc96f4471fd1b627707df",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG003",
+    "kind": "configurations",
+    "name": "Selective reuse or traceable clone-and-own",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/2",
+    "source_row_sha256": "62baf9b2779c63738e68c32cde07ea2c7ee3b79d07e5be2a0a9b094eaa83ff65",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG004",
+    "kind": "configurations",
+    "name": "Managed static or generated family",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/3",
+    "source_row_sha256": "85f8dabb8d725280539c52748df9d4121b32289489a4ab0c4d7ca8827bd7e45f",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG005",
+    "kind": "configurations",
+    "name": "Incremental portfolio consolidation or architectural migration",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/4",
+    "source_row_sha256": "77dc3794c754906f62ae538bfc75fbacf7e32700fbe640ca83b6ef06234d6272",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG006",
+    "kind": "configurations",
+    "name": "Decentralised family or independently owned ecosystem",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/5",
+    "source_row_sha256": "12566e9eaff31678341f696db0000fa357b2cb5381ba48d1b016ea6af47b02a5",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG007",
+    "kind": "configurations",
+    "name": "Restricted servicing with supported older baselines",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/6",
+    "source_row_sha256": "3e5fdfd801eb1fb4ffe8bde311c8cc386c2ade89fcff3d162ca70954d7e0f9e6",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG008",
+    "kind": "configurations",
+    "name": "Retirement, consolidation and purpose-specific preservation",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/7",
+    "source_row_sha256": "9611aa012a0c091d301e94ba73aa014aac7645091fb08aee6a3019e78524f97f",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG009",
+    "kind": "configurations",
+    "name": "Bounded runtime-variable family",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/8",
+    "source_row_sha256": "b8887f54cf30416c5f1409a51b615d353df3de04083b495fb80f25bd47077861",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG010",
+    "kind": "configurations",
+    "name": "High-assurance architectural or family subset",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/9",
+    "source_row_sha256": "387b01035ec47385c344ea68d507f40cc89b3f40cb8dfcc436292cc35ed78191",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-CFG011",
+    "kind": "configurations",
+    "name": "Bounded emergency or staged live intervention",
+    "source_pointer": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json#/configurations/10",
+    "source_row_sha256": "75679e8bfef4ff0d422818a2e72917c60ef6d11ae8cee4d2e3c407486b9ac148",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X001",
+    "kind": "rejected_candidates",
+    "name": "Configuration-indexed architectural evidence",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/0",
+    "source_row_sha256": "1f1997dd4c2522f466ec736829d86a8dbad63811aa2dcd50c05da6708c2b9537",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X002",
+    "kind": "rejected_candidates",
+    "name": "Cross-boundary dependency-path closure",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/1",
+    "source_row_sha256": "3122a6a29729f30f3fe89d44537d607151d028534594abfc69eabe71b0b72b63",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X003",
+    "kind": "rejected_candidates",
+    "name": "Variant-indexed lifecycle trade-off adequacy",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/2",
+    "source_row_sha256": "963a9eb34dac5982b10420e74fead97789e497a42171a7dddabcd96652ee9ed4",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X004",
+    "kind": "rejected_candidates",
+    "name": "Architecture-family migration joint-state continuity",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/3",
+    "source_row_sha256": "32d0e44b7bcde0fa71cb08988fb98e7798b4adc7078bd11b27440d3b703203ad",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X005",
+    "kind": "rejected_candidates",
+    "name": "Generation-aware multi-index evidence invalidation",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/4",
+    "source_row_sha256": "2d971be44fac989ed8470afd08ffed35e1a14739563f565b47308e0ac2b265d6",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X006",
+    "kind": "rejected_candidates",
+    "name": "Recovery-preserving dynamic family reconfiguration",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/5",
+    "source_row_sha256": "76d59eb85c316d9f0e778c38d4b01e605c2146afa949463171926eea4e0e2e6b",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X007",
+    "kind": "rejected_candidates",
+    "name": "Cross-lineage shared-asset authority coherence",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/6",
+    "source_row_sha256": "9cc5a7b90110024f708234027947bb1a90834ff5fc80c46caad56d99ec8fe6ba",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X008",
+    "kind": "rejected_candidates",
+    "name": "Cross-lineage scaffold termination witness",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/7",
+    "source_row_sha256": "e5191318cc517d81426d20254b6d93655f63d60d990f5d30f50080caf5fa71b4",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X009",
+    "kind": "rejected_candidates",
+    "name": "Autonomous cross-stage lifecycle stewardship",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/8",
+    "source_row_sha256": "7bb78a60160bcda7f4d791733113a3c5a4c200d8f2711414643e64987bf1a217",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X010",
+    "kind": "rejected_candidates",
+    "name": "Whole-SSS control economy",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/9",
+    "source_row_sha256": "3267857345adb0b8c246b4266d73c4dcee0ac0f00495a7b653187dac5c30e8ac",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X011",
+    "kind": "rejected_candidates",
+    "name": "Global compatibility beyond pairwise agreement",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/10",
+    "source_row_sha256": "8b18ff60c8e89ea01b05852bd8a0ba0bd4bc4305578805e2e453b03cbe01b46a",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X012",
+    "kind": "rejected_candidates",
+    "name": "Composition of local liveness guarantees",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/11",
+    "source_row_sha256": "4ea0df6efe24377359cc32c66e93f935dab52097ee2a3e9ab6097b1718a7a449",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X013",
+    "kind": "rejected_candidates",
+    "name": "Independent corroboration of the composed system",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/12",
+    "source_row_sha256": "3f97881dd72e62603b5718e9d3ef01fd32dc35aedbc5e862dc84d179a9fdf174",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "SSS-X014",
+    "kind": "rejected_candidates",
+    "name": "Non-circular revision of the composed method",
+    "source_pointer": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/13",
+    "source_row_sha256": "cb5e82ba952c21e372d1ac07a74016e5365999510ce8afbaa1e3902695ce7456",
+    "trifecta": "SSS"
+  },
+  {
+    "id": "BWP-K001",
+    "kind": "clusters",
+    "name": "Purpose, consequential consumer and non-use",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/0",
+    "source_row_sha256": "6793b341868a0633b0da7c3ffe839790d175beadbff8a80210e2d6ca9c1f24da",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K002",
+    "kind": "clusters",
+    "name": "Consequence boundary and displaced burden",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/1",
+    "source_row_sha256": "03aaac91c3d81bfccedf2f726298b76f76261e48274f573e1609577803300713",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K003",
+    "kind": "clusters",
+    "name": "Process, instance, case and object identity",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/2",
+    "source_row_sha256": "ebf457edbdadf7c537d9560faaedd3694fd256bdf7d2247324ed5f07191ba735",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K004",
+    "kind": "clusters",
+    "name": "Representation selected for its use",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/3",
+    "source_row_sha256": "287b1aeb329680d951e2c39699a2186397eafbe0953fab5a6145f50abc50f6ff",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K005",
+    "kind": "clusters",
+    "name": "Performed work and observation omissions",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/4",
+    "source_row_sha256": "37f802e2b9c40ab0053f2671a615e461e78cd0909b6cbb884a0e77f28ff6fab8",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K006",
+    "kind": "clusters",
+    "name": "Participant challenge and disagreement",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/5",
+    "source_row_sha256": "51198bc88cde60179f707751166cc8c21dd9916e18b99cd78f2e43dd0058d1f2",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K007",
+    "kind": "clusters",
+    "name": "Model, engine and analytical truth separation",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/6",
+    "source_row_sha256": "786640a744e3a262e0a0a67565910e10255e155623d4225c7d85dfc5478d7600",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K008",
+    "kind": "clusters",
+    "name": "Execution, data, decisions and guards",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/7",
+    "source_row_sha256": "1b4c36ff4ae5edea61036452807a7f3f3faf1de1477ef37d71e74d3e4c816486",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K009",
+    "kind": "clusters",
+    "name": "Concurrency, synchronisation and partial order",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/8",
+    "source_row_sha256": "d9f1488ccb67e8a00301cd304c64769cb1f45fbfca61a79f3af13f7e5a2d0658",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K010",
+    "kind": "clusters",
+    "name": "Loops and non-DAG behaviour",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/9",
+    "source_row_sha256": "37a71a6f7d56accb0ea9c5b0949746ae26d6a16ebe6bf35e28494d9a25bf862e",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K011",
+    "kind": "clusters",
+    "name": "Formal guarantees and their quantifiers",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/10",
+    "source_row_sha256": "881a690340d6f3471b0f0b14da0b5ce2145f87dd4f698b38a2418ce3a7f16f04",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K012",
+    "kind": "clusters",
+    "name": "Capacity, case mix and delays",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/11",
+    "source_row_sha256": "3d5b60d0f6d21bd8d9b24a645328e1a986ae77bc58e86c492872510b11b043b6",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K013",
+    "kind": "clusters",
+    "name": "Elapsed duration versus effort",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/12",
+    "source_row_sha256": "d5aeb0942abc7d3e4f77ba1de93c6b98798eaae3265aa559493b129e7fa8c25e",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K014",
+    "kind": "clusters",
+    "name": "Eligibility, authority, competence and availability",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/13",
+    "source_row_sha256": "d2455f41c43f001652b5181371539eee1c4e94ea6e8505349e4602e853aaa49d",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K015",
+    "kind": "clusters",
+    "name": "Discretion, exceptions and case support",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/14",
+    "source_row_sha256": "51de017e84c7d9ac447f401d409c45875a01f893d93de59be8f2b07b8f4dbab4",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K016",
+    "kind": "clusters",
+    "name": "Workaround and conformance interpretation",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/15",
+    "source_row_sha256": "ef7760a90f1805ddd7b30cfb749c825fbe884d9fe144a438f4f06d833164b11a",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K017",
+    "kind": "clusters",
+    "name": "Interrupts, cancellation and uncertain completion",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/16",
+    "source_row_sha256": "1ecf7cc5f936fd4106b880c4558d1a18bb1e26010fe3610943d99e628fe4e3be",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K018",
+    "kind": "clusters",
+    "name": "Compensation, retries and real external effects",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/17",
+    "source_row_sha256": "d48e782e545e676e7c8c215de06f54b0f7f501f958fed7bef7b25dc7e7b22851",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K019",
+    "kind": "clusters",
+    "name": "Closure, commitments and acceptance",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/18",
+    "source_row_sha256": "fef757cbcb670b215702cd40a87068f56b3cb95569c42f59d038096f1ac320e9",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K020",
+    "kind": "clusters",
+    "name": "Partner interfaces and distributed compatibility",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/19",
+    "source_row_sha256": "667aa4661f269733bb7df7a1a0fcc53b4bb12b8689aa0d6f05fb09462e94874c",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K021",
+    "kind": "clusters",
+    "name": "Version, migration and historical applicability",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/20",
+    "source_row_sha256": "e464379718c8e7396ba80679f0b26bc0f1ac5bd83bf69f4ac4f2679df9391e1a",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K022",
+    "kind": "clusters",
+    "name": "Drift and normative-reference continuity",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/21",
+    "source_row_sha256": "9df5a7508b8403778b54229f758053cab71e1cadd8815dc856e435036ebb19d5",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K023",
+    "kind": "clusters",
+    "name": "Prediction, simulation and causal restraint",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/22",
+    "source_row_sha256": "7dd40335ddcf68a7ae034869496970f0368ac3636563673caafb5d9f92cd1a62",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K024",
+    "kind": "clusters",
+    "name": "Recommendation, action and achieved effect",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/23",
+    "source_row_sha256": "e4070ecbfd74de32ac8c0f3a45b5fbb997fb64d030912d87d79bb025286a8e50",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K025",
+    "kind": "clusters",
+    "name": "Intervention evaluation under a changed regime",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/24",
+    "source_row_sha256": "1298440c05a67b0d6ab0feea6160f459ac08f6c39c4a918835d32db5898f24ed",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K026",
+    "kind": "clusters",
+    "name": "Proportionate mechanisms and control retirement",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/25",
+    "source_row_sha256": "581414092c51bc1bfa967d2e68a15292c7f76b0aeda9dad320cce0dc8795406d",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K027",
+    "kind": "clusters",
+    "name": "Privacy, fairness and contestable visibility",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/26",
+    "source_row_sha256": "29320988d2ce5e8edc4fa91c3b96376c00b6af8677b29383e17617e0686da00b",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K028",
+    "kind": "clusters",
+    "name": "Reproducibility versus truth and retention",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/27",
+    "source_row_sha256": "64dea29d8d33682f94d7b61d09887d0bc7d52588de21bd7b7803c546d15c6058",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K029",
+    "kind": "clusters",
+    "name": "Technology assistance and autonomy boundaries",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/28",
+    "source_row_sha256": "c8462853a1d2a4679874e834b5181aa0057e7ea9dafe38163c454eeca0e1fdbf",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K030",
+    "kind": "clusters",
+    "name": "Metric plurality and anti-proxy judgement",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/29",
+    "source_row_sha256": "3990337c4f792a6fd19f30eb9749c3db2a67a9f941206c2e2e04ac21f294ccac",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K031",
+    "kind": "clusters",
+    "name": "Selective technical methods and domain boundaries",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/30",
+    "source_row_sha256": "dec9bc0515fe5ff8526dbb1cce483f4771116b0b2b871ca7b9793716e0e5f6bc",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K032",
+    "kind": "clusters",
+    "name": "Cross-boundary semantic handoff",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/31",
+    "source_row_sha256": "fdfad49db1959ab17b8f32275a18620e7d3561de7a39efea5c8572ef8b19fc44",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K033",
+    "kind": "clusters",
+    "name": "Organisational structure versus work relations",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/32",
+    "source_row_sha256": "aaf06b3371e902fe0286e7b43a76ca23b705891128b6a105f9898e469531846d",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K034",
+    "kind": "clusters",
+    "name": "Meaningful evidence for a process decision",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/33",
+    "source_row_sha256": "90fc15b6057455ea52de4be42c8cc8092ee019373ae9b0f91a226abc0e8330d5",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K035",
+    "kind": "clusters",
+    "name": "Outcome-respecting closure",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/34",
+    "source_row_sha256": "d66288e3085bd8305f52fcb08d2197ea48d1e5d04ef369bf288b6b828d68ca77",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K036",
+    "kind": "clusters",
+    "name": "Versioned change with reusable evidence",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/35",
+    "source_row_sha256": "feea7a5403fbd01ef9605f6e731810afc4ae3c66e7135b0f89675733bee96431",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K037",
+    "kind": "clusters",
+    "name": "Legitimate disposition of a deviation",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/36",
+    "source_row_sha256": "8a2781572b75ec561b8b97bb19ee307cf384c2489ee34d795993eaa1be4820c5",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K038",
+    "kind": "clusters",
+    "name": "Enactable, evaluable recommendation",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/37",
+    "source_row_sha256": "12753e7db89c1974255889e323d432fc827acfa7d1be3f2e05e11c9385214d72",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K039",
+    "kind": "clusters",
+    "name": "Effect-aware recovery observation",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/38",
+    "source_row_sha256": "648c162793489021695c2e32a49f3b97bf2ed4d2ce945bf5fa156009d527f38c",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K040",
+    "kind": "clusters",
+    "name": "Intervention comparison after workflow change",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/39",
+    "source_row_sha256": "6c4ea05442b367c15e967ceb7865d86191b1d1fece94817eefcaa511838d6543",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-K041",
+    "kind": "clusters",
+    "name": "Proportionate, protected visibility",
+    "source_pointer": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/40",
+    "source_row_sha256": "525484fc1fbefb6e6504bfc86e862acb8e2e2ad5edd21e01f3ea55e1867b2f24",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T001",
+    "kind": "tensions",
+    "name": "Normative design versus observed workaround",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/0",
+    "source_row_sha256": "dc7e95e9d2cf2c6e857215e02ee5d3230e270422e97c72ccce75ee82e7da0b80",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T002",
+    "kind": "tensions",
+    "name": "Semantic stability versus process evolution",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/1",
+    "source_row_sha256": "b36b74a32216bb9880d075dfcb7ed8ca4e684e0ca2cb40c13c2d876ee2036682",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T003",
+    "kind": "tensions",
+    "name": "Control and standardisation versus discretion",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/2",
+    "source_row_sha256": "9f4bb4626269384c0ddad100eaa0bfd902b087235cff6e0ad9cd0a5ca48aa4c2",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T004",
+    "kind": "tensions",
+    "name": "Simple models versus analytical fidelity",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/3",
+    "source_row_sha256": "3e67935721df9146b75f07da55d7e133092587289cace364dd1dba4c8aa40f62",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T005",
+    "kind": "tensions",
+    "name": "Case-centric versus object-centric identity",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/4",
+    "source_row_sha256": "6501a75059cb4b2c2cbcb62a71b020541d80a24498367058bcd3adf05a36d2f5",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T006",
+    "kind": "tensions",
+    "name": "Conformance versus legitimate deviation",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/5",
+    "source_row_sha256": "2ddfddb3fb817dc68ba04ec66b08d3fce6a9105480f0eabd07656062fd87c9d2",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T007",
+    "kind": "tensions",
+    "name": "Automation versus human judgement",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/6",
+    "source_row_sha256": "b15ad006e8d975fdfb0a904ffef61ffac1f48fb1eba8ec2613c58445cc50caa9",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T008",
+    "kind": "tensions",
+    "name": "Enabled execution versus authorised execution",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/7",
+    "source_row_sha256": "f9e5a53cd04bfea393ac36de18a1c507815f6195f51eaaa7e327227c97db46e2",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T009",
+    "kind": "tensions",
+    "name": "Formal soundness versus business acceptance",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/8",
+    "source_row_sha256": "ddb8b251d816dda26521b2907256e0b342874a7eee2bb9a1beb73a5043789461",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T010",
+    "kind": "tensions",
+    "name": "Optimisation versus displaced burden",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/9",
+    "source_row_sha256": "304fc1a68d263ad6aef4ccb036983be2ac896ab344b0b855e7947c67a3cf835c",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T011",
+    "kind": "tensions",
+    "name": "Prediction versus causal intervention benefit",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/10",
+    "source_row_sha256": "b8dd31315ba964a98b9751ab98d9bdc775dfc94e552b6a3b5c1132c8289351a5",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T012",
+    "kind": "tensions",
+    "name": "Reusable models versus local semantics",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/11",
+    "source_row_sha256": "858d01e85b3c2af3f4a4706ac89eb785326657bf2f3f019b8f7274186c26ec6d",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T013",
+    "kind": "tensions",
+    "name": "Adaptation flexibility versus recovery continuity",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/12",
+    "source_row_sha256": "838137dec23fb8a7555801c63485a93e08375c6342d2262816b4952d1cccae4b",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T014",
+    "kind": "tensions",
+    "name": "Visibility versus privacy and fairness",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/13",
+    "source_row_sha256": "1a69c7e837a1e907924bf0f59d851141c4fc27f8169fede406f933885b5ce71b",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T015",
+    "kind": "tensions",
+    "name": "Reproducibility versus minimisation",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/14",
+    "source_row_sha256": "55dc6a180d6a1264dfdcbdae0e06765472c066b8aa24e436dc75d375fc179db9",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T016",
+    "kind": "tensions",
+    "name": "Improvement machinery versus control accumulation",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/15",
+    "source_row_sha256": "140d4aabe3859f60df46a983aec5fb0f04df5bdd260b33328804293a11632d56",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-T017",
+    "kind": "tensions",
+    "name": "Pairwise compatibility versus a defensible global claim",
+    "source_pointer": "EVOLVED_BWP_TENSION_LEDGER.json#/tensions/16",
+    "source_row_sha256": "8f26c3a5f59338157b3aa0471ff315697f8afe6f49f38b7dccb2da91ea8822aa",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG001",
+    "kind": "configurations",
+    "name": "Concise manual coordination",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/0",
+    "source_row_sha256": "226cf2179734a718730359927f73c5e650c74f043467e04cce3d7abc3b75cd40",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG002",
+    "kind": "configurations",
+    "name": "Purpose-fit representation with manual work",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/1",
+    "source_row_sha256": "d017cea634cd95c3a365b5783579c80d63af59e824f2954054affa99964886b7",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG003",
+    "kind": "configurations",
+    "name": "Workflow coordination without mining",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/2",
+    "source_row_sha256": "cd3e8824a0409261c8f5552600ca2d0ec3e5b0d3149995219c2b21b6ec2fb6f1",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG004",
+    "kind": "configurations",
+    "name": "Mining for observation without automated enactment",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/3",
+    "source_row_sha256": "af08800344e4b210ace5a3bac84885bdb01c5c4eee532e00e18b074a7be53865",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG005",
+    "kind": "configurations",
+    "name": "Narrow workflow–mining interface",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/4",
+    "source_row_sha256": "0716fcdef042a33fd8cf8928c2a458cdfcb38b64d163f87cb43188f8799ecbd7",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG006",
+    "kind": "configurations",
+    "name": "Full but selectively populated BWP composition",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/5",
+    "source_row_sha256": "cda5b2d9a363513d1fbb4c2754b349fbb28576180800aa21e08fb34e9c371a6c",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG007",
+    "kind": "configurations",
+    "name": "Adaptive/case-centred support",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/6",
+    "source_row_sha256": "687c80ff5e2a09d19d653b1271238cdd41d04d88133d69a10a891dee34d8c0be",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG008",
+    "kind": "configurations",
+    "name": "Object-centric analytical configuration",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/7",
+    "source_row_sha256": "f3e330392a1b1ce2f251f06a0a7aa1d3d9ae1810a1838837b82caa6632c34a1b",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG009",
+    "kind": "configurations",
+    "name": "Pinned coexistence or state-sensitive migration",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/8",
+    "source_row_sha256": "e21b30262cf80762ba97190f0514c54da26812745af997a8d8c3620d0506bbe3",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG010",
+    "kind": "configurations",
+    "name": "High-assurance executable subset",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/9",
+    "source_row_sha256": "06021e3b060f4034547daeff7deeaf7fa6f3cf217be3b9dcd2d540a3e4ba4e34",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG011",
+    "kind": "configurations",
+    "name": "Bounded intervention evaluation without workflow automation",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/10",
+    "source_row_sha256": "8d0f89c73f9758abb872903ee8a7f98d83a0c320b8ed14738ad2aecaf7fcba7b",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-CFG012",
+    "kind": "configurations",
+    "name": "Analytical non-use or retirement",
+    "source_pointer": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json#/configurations/11",
+    "source_row_sha256": "7034c3b51a29feae5f3077a27fb234610236a3e6f5ff13a52be9e8386d5953ad",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC001",
+    "kind": "rejected_candidates",
+    "name": "Process intent × enactment × event evidence",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/0",
+    "source_row_sha256": "76066ee0514c8888085c4d2d27082e52f43c2d1c448cb33bf03f194a623b0c93",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC002",
+    "kind": "rejected_candidates",
+    "name": "Enabled × authorised × capable × effective",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/1",
+    "source_row_sha256": "ca0509589b185e46578fed0443aec505b70db8f660db179c4bca489ccacf3073",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC003",
+    "kind": "rejected_candidates",
+    "name": "Soundness × acceptance × observed completion",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/2",
+    "source_row_sha256": "3db140fd4d9be453b0665db760c7bb977a9f58c3e14d093e68b21adcdc01cc6b",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC004",
+    "kind": "rejected_candidates",
+    "name": "Revision × migration × historical-log interpretation",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/3",
+    "source_row_sha256": "f7e354920ee761e6622bd874c790650d8bf39edcfe49bcbe51f341e63835b626",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC005",
+    "kind": "rejected_candidates",
+    "name": "Deviations and legitimate adaptation",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/4",
+    "source_row_sha256": "9a5d2acc9abca0c62c895ee5228caf92c93f5b8d7a92858af81420bebffbea42",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC006",
+    "kind": "rejected_candidates",
+    "name": "Case × object × instance identity",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/5",
+    "source_row_sha256": "722c4a8033d270e035fc8200cd961c1d7933c2bc2427e05211d5bd83b08bf4c5",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC007",
+    "kind": "rejected_candidates",
+    "name": "Prescription × feasibility × authority",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/6",
+    "source_row_sha256": "4db135370c9c9fddb8d7af048f89cf3bbd16b9180a7df605502e8b3239a3980e",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC008",
+    "kind": "rejected_candidates",
+    "name": "Improvement attribution after implementation",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/7",
+    "source_row_sha256": "f686784ef84140df1b65694d29d3c30bf205239f9d1d2b6d7d07be5e35064aa5",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC009",
+    "kind": "rejected_candidates",
+    "name": "Recovery × observation of real effects",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/8",
+    "source_row_sha256": "70cd880d1e5bdbea733c73a41de609d766925fd59ada24abbd2a4260a23cb75d",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC010",
+    "kind": "rejected_candidates",
+    "name": "Autonomous revision and optimisation",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/9",
+    "source_row_sha256": "1384e29a3d7a0cd977c881297696892171decbb607a92f26f343d5e9883f6c2a",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC011",
+    "kind": "rejected_candidates",
+    "name": "Mutual currentness of representations",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/10",
+    "source_row_sha256": "0698b306887f0734f3e6a0850954fa306579121a9e62ad7a3d5389b8441559b4",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC012",
+    "kind": "rejected_candidates",
+    "name": "Collective control accumulation",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/11",
+    "source_row_sha256": "dccaf33b50611f91c7e51a990096a690a7bdbca8569e2609557c1f2deb53de9b",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC013",
+    "kind": "rejected_candidates",
+    "name": "Privacy × execution identity × governance",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/12",
+    "source_row_sha256": "baa2260de93f0f483dbc5dd1a1a7af4fcf6030b81faea918c823453e061886ba",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC014",
+    "kind": "rejected_candidates",
+    "name": "Higher-order local consistency",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/13",
+    "source_row_sha256": "fc6c2082992f592dd1d125d282472f567c8890016fb2e114b57c94b6026e2dbb",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC015",
+    "kind": "rejected_candidates",
+    "name": "Cross-lineage corroboration independence",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/14",
+    "source_row_sha256": "94f6498d53c2401572ee9bb24b74e07ba06bf2512a09fb4976bcda6dccaa88ea",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "BWP-EC016",
+    "kind": "rejected_candidates",
+    "name": "Non-serial, interruptible, optional BWP operating form",
+    "source_pointer": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/15",
+    "source_row_sha256": "de36e77999b90b37ed75a2801e5a0309d72f75f894a85d253cf1e74423e0c030",
+    "trifecta": "BWP"
+  },
+  {
+    "id": "AMA-K001",
+    "kind": "clusters",
+    "name": "Boundaries and justified agency abstraction",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/0",
+    "source_row_sha256": "ec76bb66accf3a02f910a5cc85cff3e69f44c5f821cac8080996d82d5d796361",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K002",
+    "kind": "clusters",
+    "name": "Operational mental-state and architecture semantics",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/1",
+    "source_row_sha256": "60d4547aae0867ce94241b6128b62c789bbd48ab365e72be5e6544c0f99d5463",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K003",
+    "kind": "clusters",
+    "name": "Authority, delegation, capability and dispatch",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/2",
+    "source_row_sha256": "3065f8eb10330e611f27edf5cf0d52997f126b9504a76bc8ec91bb5f4af4ec70",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K004",
+    "kind": "clusters",
+    "name": "Goals, intentions and lifecycle responsibility",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/3",
+    "source_row_sha256": "e91bdc46174371d5e29f1ef0480bd97fff674f677123d5b71dbe9979529ab1c5",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K005",
+    "kind": "clusters",
+    "name": "Observation, uncertainty and distributed knowledge",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/4",
+    "source_row_sha256": "3f2c3597e89be0b4c1660d766b868c3776d1e58c78a75417853af2a5ba368bde",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K006",
+    "kind": "clusters",
+    "name": "Concurrency, temporal validity and coherent decision bases",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/5",
+    "source_row_sha256": "806a296001c66746b6c886c6f1e872977e3704651f4e5697bfaa9c233de31e97",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K007",
+    "kind": "clusters",
+    "name": "Communication meaning, identity and causal information",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/6",
+    "source_row_sha256": "233789060352b37d8deab23089e86e7b021c7cf793d61eecfb3ed4f78d47108a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K008",
+    "kind": "clusters",
+    "name": "Public commitments and obligation continuity",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/7",
+    "source_row_sha256": "c49d8efb650249285c01b1e62e6a96ca71c0a92a47af6a01e44f90c2edb9c7c2",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K009",
+    "kind": "clusters",
+    "name": "Task allocation and dependency-directed coordination",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/8",
+    "source_row_sha256": "973178dfbf958848f50d9a70920bdd0e03e9d7de9263252be843694d3c64afad",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K010",
+    "kind": "clusters",
+    "name": "Teams, roles and organisations",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/9",
+    "source_row_sha256": "6e38e0a3444c796bc0c8f3e1731f87443e745aaf3440897c1d0da5cb11c27dd9",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K011",
+    "kind": "clusters",
+    "name": "Strategic interaction and incentive limitations",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/10",
+    "source_row_sha256": "b58c5b5a6216b6804620063774b30381122dc4cbfa1d109ce2a5c4b037f90ac2",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K012",
+    "kind": "clusters",
+    "name": "Local success versus global accepted consequences",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/11",
+    "source_row_sha256": "40e1b33310175b435b7f80bdb57314873bf396c767900fa6806a7a12c5493663",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K013",
+    "kind": "clusters",
+    "name": "Norms, enforcement and external legitimacy",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/12",
+    "source_row_sha256": "aebaba0e67407b6d344c68b64668a1ea5d3b6d001048739b03a8489b7f94c4ed",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K014",
+    "kind": "clusters",
+    "name": "Mixed human–agent authority and intervention",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/13",
+    "source_row_sha256": "545d2e7ff32c032ad9bb4841894157e158a935706181915f6349c859a31028ee",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K015",
+    "kind": "clusters",
+    "name": "Cross-level failure attribution",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/14",
+    "source_row_sha256": "ad91ac76e5f0d09eba0239c8e6e770cb1bcc4f2ec55c4c57c22690b701203f2f",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K016",
+    "kind": "clusters",
+    "name": "Repair, uncertain effects and recovery",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/15",
+    "source_row_sha256": "0d4dda003ad3692131124568e658874852cf8d5d2d5fbec780461023f4393f0c",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K017",
+    "kind": "clusters",
+    "name": "Adaptation, regime change and revalidation",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/16",
+    "source_row_sha256": "cde6250f846d2205b4ea8470a2e16317e66b55ccc427e6b3240088d260b429c7",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K018",
+    "kind": "clusters",
+    "name": "Consequential evidence and acceptance consumers",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/17",
+    "source_row_sha256": "bb6c111a441893cded495adaa24f4b8fc3c059dba0e48b8cf03a52512614c0c1",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K019",
+    "kind": "clusters",
+    "name": "Assumption-bounded formal assurance",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/18",
+    "source_row_sha256": "3bd3ce970cad8d20649ff2465e3dc3c2812aa6ee0e3888586d8d01d0971fe269",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K020",
+    "kind": "clusters",
+    "name": "Deployment, runtime monitoring and fallback",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/19",
+    "source_row_sha256": "6f3ed820a9ef84784985004871dc8013d102988b1d792ee0f5daa1cf16b38d5f",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K021",
+    "kind": "clusters",
+    "name": "Evaluation units, reproducibility and source independence",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/20",
+    "source_row_sha256": "54cf94611b5e9259473e1fc2660fd5df31d8ff9876247e96c3877dab13e595fd",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K022",
+    "kind": "clusters",
+    "name": "Proportionate architecture, coordination and cost",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/21",
+    "source_row_sha256": "fffa8807b57c6f513b5babd68071a655fe317835668a93bcafc142bfe26377e2",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K023",
+    "kind": "clusters",
+    "name": "Learning, reward, partner change and transfer",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/22",
+    "source_row_sha256": "3ad31f2f5bd01dc0f1a2bcc59df6dca35f8b7275cc78e05ddd7b78b10668d1df",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K024",
+    "kind": "clusters",
+    "name": "Memory, provenance and retention",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/23",
+    "source_row_sha256": "0c5643b8ed3599619f5b6a3caebd9b5fedc20fa8ec3d0b0257ec83b1ef109320",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K025",
+    "kind": "clusters",
+    "name": "Bounded generative-agent compositions",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/24",
+    "source_row_sha256": "dd92b84a2cbab91fa1196d7be0ee4ef8a92516424db306076e7ad7642a5b0e46",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K026",
+    "kind": "clusters",
+    "name": "Privacy, security and untrusted communication",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/25",
+    "source_row_sha256": "067ef90fa6c2c297e5d78b3ceed0ce8de946d0bb107b71b7aa6afdfdc3f5d8bb",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K027",
+    "kind": "clusters",
+    "name": "Method assembly, lifecycle coverage and live consumers",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/26",
+    "source_row_sha256": "4944c8c3788b1ed4f4b9ab467149c9f8637e3e85aef69db6724751f33455e656",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K028",
+    "kind": "clusters",
+    "name": "Reuse, historical identity and semantic translation",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/27",
+    "source_row_sha256": "bdc97518e415df8258ce2d751ddf6d8303366d74dd5837e7036e630b3a24090d",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K029",
+    "kind": "clusters",
+    "name": "Self-revision and predecessor-governed evaluation",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/28",
+    "source_row_sha256": "9360a251d40f6e0dbd916fd6ab338b2aa527df3538db78e2117c9a3e13a917d5",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K030",
+    "kind": "clusters",
+    "name": "Resource-bounded reasoning and responsiveness",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/29",
+    "source_row_sha256": "50290b692dd9b7115e8e721a50f0e4abbbd9a2d9e91cac1ce629405767d8dfc1",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K031",
+    "kind": "clusters",
+    "name": "Distributed decision procedures and their restricted conclusions",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/30",
+    "source_row_sha256": "7564c953db55db7717818c10b6cf4a8822bb39998ef13594af91fdaeb8bdb400",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-K032",
+    "kind": "clusters",
+    "name": "Evidence ceilings and unresolved whole-system benefit",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/clusters/31",
+    "source_row_sha256": "b5c2b6399baf23a08ce19f6c91640332317541e4b8c5e22433b722ba637642de",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B001",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Do not justify one consequential dispatch or acceptance by unrelated goal, scope, commitment, capability or effect records; the material bindings and claim-specific evidence must be compatible.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/0",
+    "source_row_sha256": "5efea55262de82d14b68911b916f759f3770bdf28d3958959f39a556d5bed10a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B002",
+    "kind": "one_to_many_composition_bundles",
+    "name": "A private change of intention must not silently discharge, orphan or transfer a public obligation or persisting organisational responsibility.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/1",
+    "source_row_sha256": "e0f492f29788464d2e96ff696d9af3ccf0167de4abb6dc31c37c873de6825c4c",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B003",
+    "kind": "one_to_many_composition_bundles",
+    "name": "A legitimate request, selected worker and role assignment must not be accepted as fulfilment unless the actual actor has the required capability and current permission, and performance is separately evidenced.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/2",
+    "source_row_sha256": "275aa6eac0985dc7a199a81ae69e93a3ee834546a908faadbb543e292b6a26dc",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B004",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Assess the required collective external outcome and joint feasibility separately from individual goal correctness, cooperation or local improvements.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/3",
+    "source_row_sha256": "926bd1f412d89afdd30bba526cd5403567b9eddd1e09e53e9525ae4b25c1499a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B005",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Keep justified private-state architecture distinct from the public compliance judgement; do not require an open observer to establish inaccessible sincerity.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/4",
+    "source_row_sha256": "17e638ba17322fe587f5299fcd4b66f1e1fd4843f27accf10dcc97af66b33f1c",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B006",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Do not infer eventual real-world fulfilment or accepted effect from a legal protocol-completion path, message acceptance or local interpreter conformance.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/5",
+    "source_row_sha256": "5a035654b50fb1423e9becfbfce080a64bf6a58ee51f1392e9eb02ea56b65511",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B007",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Evidence needed by a consequential acceptance or intervention must be available in usable form to an authorised actor capable of making that decision in time, or the claim remains open.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/6",
+    "source_row_sha256": "4712db8547459d21d58bd800b948ca8e4e73cbfb92538bb158ab691ba7b0f997",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B008",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Diagnose a failure at the trace-supported individual, interaction, organisational, requirement, implementation or observation level before selecting an authorised repair.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/7",
+    "source_row_sha256": "14ed91d4559a4f3d3caabf3f035097d69b97bda7984f5fdd8d3cf5ca467ec1aa",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B009",
+    "kind": "one_to_many_composition_bundles",
+    "name": "A local repair may not be accepted as an adequate collective revision while invalidating material dependencies, live obligations or relied-on assurance without valid change and revalidation.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/8",
+    "source_row_sha256": "b3452331df7ef8736e9a9b83772b06ecff91212d71e8027d524427459fe6551b",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B010",
+    "kind": "one_to_many_composition_bundles",
+    "name": "A regime transition must not carry an invalidated guarantee or orphaned obligation into a destination merely because that destination is structurally valid.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/9",
+    "source_row_sha256": "039eb5c83c46b4c2df6f9c768b8b81d9279ade8bb0363c576f380f99187adc41",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B011",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Choose a sufficiently capable, legitimate and cost-justified configuration, retaining conventional and smaller branches and removing machinery whose function disappears.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/10",
+    "source_row_sha256": "c360fdf2b07586f2d3f859d5b8459154bd8c4b39c478bda92588d1a487bfadf6",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B012",
+    "kind": "one_to_many_composition_bundles",
+    "name": "A human approval, refusal, override, escalation or delegation must have the intended actual authority and feasible effect, with non-response and irreversible consequences distinguished.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/11",
+    "source_row_sha256": "d10199367e34dd068a710aa4e048f33c08c805f70abada85313f0f906952a495",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B013",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Alleged strengthening: coupled reflection, collective adaptation and engineering method revision guarantee preserved justified objectives/authority and continual improvement across open-ended future changes.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/12",
+    "source_row_sha256": "1e05b1af31c4bb476de0a9146cf9a8573709daf684f38fad6c154559f121d4e7",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B014",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Generated roles, plans, protocols or lessons must have bounded operational interpretation, authority, provenance, responsiveness and claim-appropriate repeated evaluation before stronger effects are credited.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/13",
+    "source_row_sha256": "4c353859c04e4463b4b754108fc54ce7c82de5e8cb67661fb3e780b5dbfc9d82",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B015",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Do not infer a globally compatible configuration or acceptance warrant solely from separately satisfiable pairwise projections.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/14",
+    "source_row_sha256": "558cb275250cd8c7e77cb3de27b91e9a398e9d608e360433057a20b45dcc8310",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-B016",
+    "kind": "one_to_many_composition_bundles",
+    "name": "Individually useful reasoning, coordination and assurance must still fit the actual whole-task/lifecycle cost and obligation envelope; excess machinery may be simplified or retired.",
+    "source_pointer": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json#/one_to_many_composition_bundles/15",
+    "source_row_sha256": "8b836dd5e78e5ec2ff8d692fd87fc6f7a96b47fd9c4304934103b1bc70a8c4d2",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T001",
+    "kind": "tensions",
+    "name": "Autonomy versus legitimate authority",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/0",
+    "source_row_sha256": "55e093b6ed5a8703d7aae66aeaf0a9419748712e8967bfe1bfe6884ddffb2f9a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T002",
+    "kind": "tensions",
+    "name": "Local goal optimisation versus public and organisational obligations",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/1",
+    "source_row_sha256": "67b8062eeede1eff743c3f916526bd367eaeee0f9b2168ac6974ed48a8846255",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T003",
+    "kind": "tensions",
+    "name": "Private intentional architecture versus publicly inspectable compliance",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/2",
+    "source_row_sha256": "380421c735471e26bbc7ea58729953edeadab6c779b9a13e770e6aec994cc654",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T004",
+    "kind": "tensions",
+    "name": "Decentralised control versus coordinated feasibility",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/3",
+    "source_row_sha256": "bc8a15b1afc3c6f2c58cd88cefb53279d79fd681c35919f47bda307d9cbadb5d",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T005",
+    "kind": "tensions",
+    "name": "Communication richness versus consequential cost",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/4",
+    "source_row_sha256": "d94d473be099933a7d304f1cfcf08cc08f7c661cb1abd1435e1b7241763003b3",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T006",
+    "kind": "tensions",
+    "name": "Fast local response versus organisation-wide consistency",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/5",
+    "source_row_sha256": "d1efd0b33fcb7938716452f2eb3f69d51ddc07515931be830b67a550e77debad",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T007",
+    "kind": "tensions",
+    "name": "Intention persistence versus reconsideration cost and relevance",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/6",
+    "source_row_sha256": "15d5683c7ed7c4cc3593696b264b6dd66f38b2f3eb3b024fd3169b6145021453",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T008",
+    "kind": "tensions",
+    "name": "Flexible repair versus protocol and binding conformance",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/7",
+    "source_row_sha256": "4d2e57e5b718c4d5ce399c45ead4cf49c25b99194b4088a4f4c81c575d2d805b",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T009",
+    "kind": "tensions",
+    "name": "Adaptive improvement versus continuity of evidence",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/8",
+    "source_row_sha256": "e33015712ebbacfaa485be732b62580a05154244ceeb86c4ae1033636c93c5c1",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T010",
+    "kind": "tensions",
+    "name": "Self-revision versus predecessor-governed acceptance",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/9",
+    "source_row_sha256": "6e2bcb945d6f159eafcb611f08b4415182b56f20d325bfb38eeef502e24e5125",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T011",
+    "kind": "tensions",
+    "name": "Role reassignment versus outstanding obligation preservation",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/10",
+    "source_row_sha256": "51807938b6a01fcd2ceff4fff42a4615160dbe6cbf8aa164fb20f33de00ca09d",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T012",
+    "kind": "tensions",
+    "name": "Specialisation versus substitution and replacement",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/11",
+    "source_row_sha256": "cae0411f86617d2ad2457b9552f3ab83166e21d134610af24cbef4407b19f2dc",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T013",
+    "kind": "tensions",
+    "name": "Agent count versus total coordination and assurance burden",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/12",
+    "source_row_sha256": "b34328e7b1318c352ae3dfecb0b65613d1247a4f6f6ea2b83949639acf533314",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T014",
+    "kind": "tensions",
+    "name": "Delegation versus verification and trust cost",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/13",
+    "source_row_sha256": "9bc365c7c4e40fa20de505b5c49afc544448e110a52149e460ff4e0391016648",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T015",
+    "kind": "tensions",
+    "name": "Cooperation assumptions versus strategic or adversarial behaviour",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/14",
+    "source_row_sha256": "c79144b8c88eacd306f87ee618ec31762756df5aafc892f128a4b78a45dd1684",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T016",
+    "kind": "tensions",
+    "name": "Human override versus useful agent independence",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/15",
+    "source_row_sha256": "775fac55ff1bc3a7b04cbfece5a753d151f7c4d98eb5ad7ed847ef0290f7fe47",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T017",
+    "kind": "tensions",
+    "name": "Higher assurance versus open-ended generative behaviour",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/16",
+    "source_row_sha256": "0de635dc185c4efdde2654301bce4754304771b725e0bfddd9a002c753b7d9d5",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T018",
+    "kind": "tensions",
+    "name": "Legal protocol completion versus actual willingness and execution",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/17",
+    "source_row_sha256": "128192f87ce86602e259ffb64e1c3f5264664a4e2ef0566a6d432527b0d3300c",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T019",
+    "kind": "tensions",
+    "name": "Implementation abstraction versus operating-environment validity",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/18",
+    "source_row_sha256": "f8abb5ce48bb42f29865fccb28ac14c69aeb8e5d8e0dbf4fa9d6b9e50dd462e2",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T020",
+    "kind": "tensions",
+    "name": "Resilience versus fault-model boundaries",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/19",
+    "source_row_sha256": "3fe641a05baf15113940b9e735d1b25483bedb20f93c6b37a496861b6caf56a8",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T021",
+    "kind": "tensions",
+    "name": "Evidence reachability versus privacy and bounded disclosure",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/20",
+    "source_row_sha256": "4a8d9b4f7ed39620a93eec4c05215726ee2628e8543ba82a25ffbb16965db29c",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T022",
+    "kind": "tensions",
+    "name": "Cross-lineage convergence versus false independent corroboration",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/21",
+    "source_row_sha256": "b096ab60ec0b18ed8b40e714c9846458ca3e850fcf070a587d2627b04f76163a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T023",
+    "kind": "tensions",
+    "name": "Risk-sensitive assurance versus control machinery cost",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/22",
+    "source_row_sha256": "bfbb917c51bccb393c83ecbe8c1b385402b7fbf6851eca3403936ab039537089",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-T024",
+    "kind": "tensions",
+    "name": "Useful lifecycle composition versus unsupported whole-method benefit",
+    "source_pointer": "EVOLVED_AMA_TENSION_LEDGER.json#/tensions/23",
+    "source_row_sha256": "5cd961c345afaeefc61ce489bd49faf005b6d0c0399d30c2d99043058dc9eec4",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG001",
+    "kind": "configurations",
+    "name": "Conventional non-agent implementation",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/0",
+    "source_row_sha256": "f8a929c952ffd54bd5258f5aa8f26d864c3313b7b50554fd671395ba6b0afe63",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG002",
+    "kind": "configurations",
+    "name": "Agent-oriented analysis with conventional execution",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/1",
+    "source_row_sha256": "a7c608b85a8b20953a5c80a86a6226cdc260ceef1142f08d7463546f8093f07a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG003",
+    "kind": "configurations",
+    "name": "Single bounded reactive agent",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/2",
+    "source_row_sha256": "4d9cebf8c217cd04e563ca5cab16b1e26ee6b05106fcd6c3414b0b629923be6a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG004",
+    "kind": "configurations",
+    "name": "Single deliberative or BDI plan-library agent",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/3",
+    "source_row_sha256": "2b66d1585b1050191d88dc73334cb0761daf4f29d50f7ae5480e933433061ac6",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG005",
+    "kind": "configurations",
+    "name": "Reactive–deliberative or symbolic–learned hybrid",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/4",
+    "source_row_sha256": "ef65d4e68d5130d1f4d241c35538de5c6b7ea3e6a1a9cfe0bfdd98c1e442ce93",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG006",
+    "kind": "configurations",
+    "name": "Direct cooperative multi-agent team",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/5",
+    "source_row_sha256": "1a4d7bd0f230efdf11b496d95a5da6efda4c890b865535b0412ae9ddf9148bbe",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG007",
+    "kind": "configurations",
+    "name": "Public-commitment interaction among opaque principals",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/6",
+    "source_row_sha256": "7602cddfcb767ed2d3ba4059fa4be91a4d139b9d89434baf5780a3c2a4746201",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG008",
+    "kind": "configurations",
+    "name": "Role- and organisation-based collective",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/7",
+    "source_row_sha256": "9ee1339d3b5d7230ad9578982041c115aea80997349e1b020487a077bed326b4",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG009",
+    "kind": "configurations",
+    "name": "Adaptive or reconfigurable multi-agent organisation",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/8",
+    "source_row_sha256": "1ab7f48eb9e6cba31da2b7c43b2b861662bc96608856458bf5772c0882db4cad",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG010",
+    "kind": "configurations",
+    "name": "Mixed human–agent collaborative system",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/9",
+    "source_row_sha256": "61824cfeb1132a6b1e05654a7ca4c2ada98c926bbaacd5469818b3dc0f4c0538",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG011",
+    "kind": "configurations",
+    "name": "Higher-assurance bounded agent subset",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/10",
+    "source_row_sha256": "9d1d0419d91d2a7246aac590c69e1cfca30fd0c89ab3bc847ca7810bc3be3af8",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG012",
+    "kind": "configurations",
+    "name": "Bounded generative or LLM-agent configuration",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/11",
+    "source_row_sha256": "960a10b49ecba5396f807749e223dcda6c6d9b6cee39f06f8ffc06f3b8b6c4fe",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG013",
+    "kind": "configurations",
+    "name": "Strategic allocation among independent participants",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/12",
+    "source_row_sha256": "5c1dde852f8fa833813d26c8ce6fe537f71f621a879a46dc24daaa65c2897778",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG014",
+    "kind": "configurations",
+    "name": "Distributed constraint or optimisation configuration",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/13",
+    "source_row_sha256": "21c79342af6a30280674ee0f5dbe16872917a05f8e37a8da60b027569915f01c",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-CFG015",
+    "kind": "configurations",
+    "name": "Argumentation or collective-choice decision support",
+    "source_pointer": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json#/configurations/14",
+    "source_row_sha256": "fa600a3779a66e50fc0780feec38047d121eef9ec2d3e0bfa85d4a10514ca1d2",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N001",
+    "kind": "rejected_candidates",
+    "name": "Consequential goal–authority–obligation–effect join",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/0",
+    "source_row_sha256": "89d380e2d0979ce70a9e123100a31eac47f3f918cc6856b9cad9ab104fd5df8f",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N002",
+    "kind": "rejected_candidates",
+    "name": "Cross-level intention and obligation continuity",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/1",
+    "source_row_sha256": "33d8ce114fa44906f639e9cc307f103df176f859d6f774d94cadab03a4680860",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N003",
+    "kind": "rejected_candidates",
+    "name": "Delegation realised by an authorised capable executor",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/2",
+    "source_row_sha256": "cabacf94ad2e1ecb2cbabe5671ceadac01de28f79395435b7e0aad23a0a3b6e5",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N004",
+    "kind": "rejected_candidates",
+    "name": "Global sufficiency beyond local agency success",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/3",
+    "source_row_sha256": "2f854d75a7a05e3be2b03dc2a862c76338687a764eace82a3d01bc56436e57f8",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N005",
+    "kind": "rejected_candidates",
+    "name": "Public compliance without forced private-state inspection",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/4",
+    "source_row_sha256": "2af76471beb4e9d204c1f34dc0fb1c05a9eeb19c7c38ea6a8c4f46a75739d49c",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N006",
+    "kind": "rejected_candidates",
+    "name": "Protocol possibility to actual fulfilment closure",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/5",
+    "source_row_sha256": "6b7c31ba3e00ea1cd5e81a8a85da1b848b726e60ae55efa4fbf27d2e222cc6bb",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N007",
+    "kind": "rejected_candidates",
+    "name": "Epistemic reachability of acceptance evidence",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/6",
+    "source_row_sha256": "39fe623b6481714670a786b4aa389280a0d5a46dcf01684a4adc1bd13808d7d9",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N008",
+    "kind": "rejected_candidates",
+    "name": "Cross-level failure-attributed repair",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/7",
+    "source_row_sha256": "8c32c07713c768ff5a4323b6dfe26091bd46af9b4f85ca21881239d2545912bf",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N009",
+    "kind": "rejected_candidates",
+    "name": "Cross-level task and assurance preserving repair",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/8",
+    "source_row_sha256": "8ae13f22e2b59ffae278eb9264a92191466070564e6a41da32ef5e31b3e7672b",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N010",
+    "kind": "rejected_candidates",
+    "name": "Cross-lineage regime handoff",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/9",
+    "source_row_sha256": "b342dc37a7f4dd62bec8de4a7278544e29e978852f2be51e19748b902745c0eb",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N011",
+    "kind": "rejected_candidates",
+    "name": "Smallest adequate agency/coordination architecture",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/10",
+    "source_row_sha256": "b19c0f1a8ccaeff8cec2b3b6c17ef7304ccb2a26db9168ef721834202f9c670e",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N012",
+    "kind": "rejected_candidates",
+    "name": "Effective mixed human-agent decision authority",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/11",
+    "source_row_sha256": "1fef4bcaf91e79eea5f150fa42b2ca6eeb1ed2a1690afafb4e57842039ce4332",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N013",
+    "kind": "rejected_candidates",
+    "name": "General self-revision assurance from three-level change controls",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/12",
+    "source_row_sha256": "98a8c0237009e425c8f8b540cc5971c40b7b9cd14f2e9bbd4a3325f52b5a6f4d",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N014",
+    "kind": "rejected_candidates",
+    "name": "Generative multi-agent operational closure",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/13",
+    "source_row_sha256": "0bb0ea2f82a943b7f00db3289d4eab70b0f1b670ef11fef602ca5f83b1243d9a",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N015",
+    "kind": "rejected_candidates",
+    "name": "Global compatibility beyond pairwise consistency",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/14",
+    "source_row_sha256": "689673f00be873fb6e88985142439eef2088c6e76c91a4cda9e6808bd131f9c3",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N016",
+    "kind": "rejected_candidates",
+    "name": "Composed control-cost and retirement envelope",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/15",
+    "source_row_sha256": "ada44c7d0fd77568317f33312ac1c75379433820571bdf0fcbca9731332b631b",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N017",
+    "kind": "rejected_candidates",
+    "name": "Pairwise action/conversation binding coherence",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/16",
+    "source_row_sha256": "83142f8ddb464d91f3b4c5b90965e309cad8d6fea5d068d4caad74dc23102828",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N018",
+    "kind": "rejected_candidates",
+    "name": "Pairwise source independence across analysis and collective evidence",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/17",
+    "source_row_sha256": "029b5909c2cd6648b9d0ca8f87fc46ec3050846386e24923a96c601f33d77d47",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N019",
+    "kind": "rejected_candidates",
+    "name": "Pairwise ideal self-modification theorem to engineering method assurance",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/18",
+    "source_row_sha256": "0fca8271a9110b0f5a4f0c0c150e86a75d8ed29f7896742261f983b506c14d9d",
+    "trifecta": "AMA"
+  },
+  {
+    "id": "AMA-N020",
+    "kind": "rejected_candidates",
+    "name": "Pairwise obligation-aware retirement of collective machinery",
+    "source_pointer": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json#/rejected_candidates/19",
+    "source_row_sha256": "a3d7b7e81b80cd709574e1d088b7ac711ec8d78a2e13dcd50b77b5e541dd651b",
+    "trifecta": "AMA"
+  }
+]

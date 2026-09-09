@@ -1,0 +1,672 @@
+{
+  "schema": "implementaudit.triad-issue-adjudication.v1",
+  "status": "PROPOSED_FOR_GOVERNOR_RECONCILIATION",
+  "frozen_total": 58,
+  "frozen_closed": 44,
+  "frozen_open": 14,
+  "new_issue_identities_admitted": 0,
+  "new_issue_rationale": "All material triad implications fit existing open carriers. General research uncertainty and optional mechanisms alone do not justify a distinct new issue.",
+  "all_open_issues_snapshot": "At the separately recorded live pre-effect snapshot, all 14 open GitHub issues were these 14 Rockstars; no non-Rockstar open issue was omitted. Recheck before mutation.",
+  "rows": [
+    {
+      "identity": "R0001",
+      "issue": 74,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0001 (legacy R01) — Lossless verification-evidence capture: whole-capture idiom, exit-status integrity, and `coverage` as a declared evidence property"
+    },
+    {
+      "identity": "R0002",
+      "issue": 75,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0002 (legacy R02) — Verification-window freeze: no mutation of a surface a live verification is reading"
+    },
+    {
+      "identity": "R0003",
+      "issue": 76,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0003 (legacy R03) — Mutation integrity: landed-postconditions, generated-artifact detection before edit, declared-duplication parity, and the pin chain"
+    },
+    {
+      "identity": "R0004",
+      "issue": 77,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0004 (legacy R04) — Re-spec impact set: enumerate carriers before propagating a named change, and carry invariants forward when replacing a file"
+    },
+    {
+      "identity": "R0005",
+      "issue": 78,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0005 (legacy R05) — Deferral, blocker, and supersession surfacing: make deferral a write, retire superseded plans and steers, and carry non-verdicts forward"
+    },
+    {
+      "identity": "R0006",
+      "issue": 79,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0006 (legacy R06) — Census discipline: denominators on completeness claims, parity-vs-coverage, a discrimination witness for N-of-N, two-method dead-file census, and dismissed observations"
+    },
+    {
+      "identity": "R0007",
+      "issue": 80,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0007 (legacy R07) — Environment-quirk memoization: give closed #13's lesson-lift decision a mechanical trigger"
+    },
+    {
+      "identity": "R0008",
+      "issue": 81,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0008 (legacy R08) — Background-run wait and quota contract: poll budget, report cadence, transport ceiling, advisory resets, kill authority"
+    },
+    {
+      "identity": "R0009",
+      "issue": 82,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0009 (legacy R09) — Interruption durability: PENDING_TERMINAL, survivor inventory, incremental child verdicts, pre-declared resources"
+    },
+    {
+      "identity": "R000A",
+      "issue": 83,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R000A (legacy R10) — Unit independence, batch sizing, and ceremony proportionality"
+    },
+    {
+      "identity": "R000B",
+      "issue": 84,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R000B (legacy R11) — Scarce-resource launch rehearsal: prove the launch path against a stub before spending an irreversible resource"
+    },
+    {
+      "identity": "R000C",
+      "issue": 85,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R000C (legacy R12) — Acceptance-predicate and instrument discipline: paired controls, prompt independence, instrument parity, instrument liveness"
+    },
+    {
+      "identity": "R000D",
+      "issue": 86,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R000D (legacy R13) — Review integrity and transport: reviewer-independence attestation, and content-deterministic reviewer failure must not be answered by respawn"
+    },
+    {
+      "identity": "R000E",
+      "issue": 87,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R000E (legacy R14) — Execution identity and anchor calibration: bind the executing model, scope the anchor to declared surfaces, re-anchor at closure, and declare equivalent-configuration attempts"
+    },
+    {
+      "identity": "R000F",
+      "issue": 88,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R000F (legacy R15) — External-state claims, label identity, and snapshot freshness: a mutating command's own output is not a success surface"
+    },
+    {
+      "identity": "R0010",
+      "issue": 89,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0010 (legacy R16) — Package/release identity gate: re-publication under an existing version is a distinct gate requiring a superseded-digest record"
+    },
+    {
+      "identity": "R0011",
+      "issue": 90,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0011 (legacy R17) — Run-root self-enforcement and micro-run mode: make the contract cheap enough to instantiate, and make the validator fire without being remembered"
+    },
+    {
+      "identity": "R0012",
+      "issue": 91,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0012 (legacy R18) — Mechanical second-order recurrence trigger: give #7's governing-rule judgment a deterministic firing condition"
+    },
+    {
+      "identity": "R0013",
+      "issue": 92,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0013 (legacy R19) — Countermeasure scope and verification proportionality: declare a countermeasure's blast radius before applying it, and state what a repeat verification retires before running it"
+    },
+    {
+      "identity": "R0014",
+      "issue": 93,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0014 (legacy R20) — Retrospective / meta-inspection lane: bind the transcript-corpus audit object and ship the playbook the skill currently makes every campaign re-invent"
+    },
+    {
+      "identity": "R0015",
+      "issue": 94,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0015 (legacy R21) — Governed external publication: specify the authorized side of the publication gate the skill already promises"
+    },
+    {
+      "identity": "R0016",
+      "issue": 95,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0016 (legacy R22) — Self-qualification of meta-inspections: an audit-of-audits is an audit object, and the recursion terminates there"
+    },
+    {
+      "identity": "R0017",
+      "issue": 96,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0017 (legacy R23) — Close out the v0.3.2.0 corrected re-release record: the repo's own terminal-success surfaces currently assert falsehoods"
+    },
+    {
+      "identity": "R0018",
+      "issue": 98,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0018 (legacy R24) — Commit-message information contract: the one ledger that always survives carries what changed, why, and its anchor"
+    },
+    {
+      "identity": "R0019",
+      "issue": 99,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0019 (legacy R25) — Code-hygiene audit arm: type-strength and error-handling pressures; census + instrument binding for hygiene heuristics"
+    },
+    {
+      "identity": "R001A",
+      "issue": 100,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R001A (legacy R26) — Eval-harness error-handling and hygiene census: classify all 85 broad catches, fix the ones that hide errors, and dispose of the rest on the record"
+    },
+    {
+      "identity": "R001B",
+      "issue": 101,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R001B (legacy R27) — Sidecar concept: narrow to evidenced capabilities; make the staleness guarantee real; disclose the LLM surface"
+    },
+    {
+      "identity": "R001C",
+      "issue": 117,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R001C (legacy R28) — Optional local audit observability sidecar: deterministic live projection of the audit object"
+    },
+    {
+      "identity": "R001D",
+      "issue": 155,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R001D (legacy R29) — Public capability-projection completeness - release dogfood must derive and disposition material README/docs topics, not merely prove parity or reject stale claims"
+    },
+    {
+      "identity": "R001E",
+      "issue": 157,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "THREAD3_THREAD9_POST_RECONCILIATION_RELEASE_TAIL",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "The new composed-evidence reference is linked through both the native category matrix and direct SKILL Reference Load Map. This adds a reference route, not a helper dispatch implementation; existing R38-C11/R38-C12 reachability and hostile-bank obligations remain.",
+      "composition_cases": [],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R001E (legacy R30) — Shipped-helper reachability and applicability - every packaged checker must have a tested dispatch path or an explicit advisory boundary"
+    },
+    {
+      "identity": "R001F",
+      "issue": 158,
+      "frozen_state": "OPEN",
+      "frozen_status": "SOURCE_READY",
+      "frozen_owner": "CAM_I1_TRACKER_OWNER",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "The 747 property decisions, retained negative/duplicate statuses and explicit existing-owner implications supply a concrete multi-issue reconciliation input. No new work-order mechanism or issue closure is inferred; preserve the frozen SOURCE_READY status pending CAM-I1.",
+      "composition_cases": [],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R001F (legacy R31) — Executor-ready issue work orders - ship the material-finding and multi-issue reconciliation method currently stranded in R-series tracker precedent"
+    },
+    {
+      "identity": "R0020",
+      "issue": 160,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0020 (legacy R32) — State-space convergence after repeated same-family false passes: repair the model before patching another example"
+    },
+    {
+      "identity": "R0021",
+      "issue": 161,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "B4_RELEASE_TAIL",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "The added load-map link leaves the isolated frozen-base SKILL at 21998 bytes under its 22000-byte cap. Passing that local cap does not prove semantic reserve or final accepted-source/package caps. Reconcile the accepted SKILL replacement and retain B-P4B.",
+      "composition_cases": [],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0021 (legacy R33) — Semantic-preservation closure for package-budget optimisation: byte savings must not erase governed behaviour"
+    },
+    {
+      "identity": "R0022",
+      "issue": 163,
+      "frozen_state": "OPEN",
+      "frozen_status": "QUALIFICATION_PENDING",
+      "frozen_owner": "RELEASE_QUALIFICATION",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Manual coordination, conventional code, bounded analysis, non-use and retirement remain legitimate. Retire controls only after pending descendants, old supported products and transferred obligations are discharged; compare total received benefit and lifecycle cost.",
+      "composition_cases": [
+        "TC09",
+        "TC10"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0022 (legacy R34) — Engineering-value admission and control retirement: preserve warranted gates while omitting zero-payoff process work"
+    },
+    {
+      "identity": "R0023",
+      "issue": 164,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0023 (legacy R35) — Proxy resistance for evaluator mutation: measurement changes require independent justification against the underlying property"
+    },
+    {
+      "identity": "R0024",
+      "issue": 167,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0024 (legacy R36) — Observation-bound mutation integrity - partial or stale observations must not authorise destructive writes beyond established state"
+    },
+    {
+      "identity": "R0025",
+      "issue": 186,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0025 (legacy R37) — Evolved-Lean property integration — crosswalk surviving Lean/TPS engineering properties into native IMPLEMENTAUDIT controls without importing ceremony"
+    },
+    {
+      "identity": "R0026",
+      "issue": 187,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0026 (legacy R38) — Evolved-Agile property integration — crosswalk surviving adaptive/iterative engineering properties into native IMPLEMENTAUDIT controls without importing ceremony"
+    },
+    {
+      "identity": "R0027",
+      "issue": 188,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0027 (legacy R39) — Evolved-Waterfall property integration — crosswalk surviving plan-driven/systems-assurance properties into native IMPLEMENTAUDIT controls without importing ceremony"
+    },
+    {
+      "identity": "R0028",
+      "issue": 189,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0028 (legacy R40) — Conditional planner/executor epistemic separation — freeze adjudication when same-root mutation makes self-confirmation unsafe"
+    },
+    {
+      "identity": "R0029",
+      "issue": 190,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0029 (legacy R41) — Capability-fit delegation and scarce-reasoning amortisation — compile judgment into durable executable work without degrading correctness"
+    },
+    {
+      "identity": "R002A",
+      "issue": 194,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R002A (legacy R42) — Evolved Cognitive Systems Engineering — joint cognitive work, decision-state legibility, authority/capability alignment, handoff/re-entry, attention, coordination, adaptation and cognitive fit"
+    },
+    {
+      "identity": "R002B",
+      "issue": 195,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R002B (legacy R43) — Evolved Statistical Engineering — measurement fitness, variation and discrimination, experimentation/stopping discipline, evaluator validity, proxy resistance and evidence-efficient decisions"
+    },
+    {
+      "identity": "R002C",
+      "issue": 196,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "GHK_RECOVERY_AUTHORITY_ENGINEERING",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Joint configuration/workflow/actor safety cannot be inferred from local passes. Preserve recipient consequences, unknown effects, compensation and residual-loss accounting; do not treat an empty admission queue as retirement proof.",
+      "composition_cases": [
+        "TC05"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R002C (legacy R44) — Evolved Systems Safety — unacceptable-loss reasoning, hazardous-state and control constraints, assurance, containment, recovery, and consequence-proportional engineering"
+    },
+    {
+      "identity": "R002D",
+      "issue": 197,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "NATIVE_INTEGRATION",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Meaningful JOIN must check compatible product/configuration, work definition/instance, actor constraints and observation semantics. Pairwise satisfiability is insufficient for the global combination; assumptions and evidence transfer remain claim-specific.",
+      "composition_cases": [
+        "TC01"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R002D (legacy R45) — Evolved Systems Engineering — current intent, architecture, interfaces, configuration, integration, V&V, model credibility and lifecycle coherence"
+    },
+    {
+      "identity": "R002E",
+      "issue": 198,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "AUTHENTICATED_EFFECT_ADMISSION",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "A capability, role label, assignment or generated instruction does not establish a current legitimate grant. Preserve actual principal, revocation and receiving action boundary; mental-state prompt ceremony and opaque partner assumptions add no authority.",
+      "composition_cases": [],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R002E (legacy R46) — Evolved Systems Security Engineering — trust boundaries, adversarial resilience, secure architecture, assurance, recovery, and lifecycle trustworthiness"
+    },
+    {
+      "identity": "R002F",
+      "issue": 199,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R002F (legacy R47) — Evolved Decision & Operations Engineering — decision framing, alternatives, constrained resources, capacity and backpressure, uncertainty, scheduling, value of information, robustness, and adaptive decisions"
+    },
+    {
+      "identity": "R0030",
+      "issue": 200,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "EH3_TRANSACTION_QUALIFIED_SINK",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Distinct route IDs can collide on one logical delivery. Fenced admission and retry must account for pending/unknown external effects across transactions; local rollback differs from compensation and accepted residual loss.",
+      "composition_cases": [
+        "TC02",
+        "TC03",
+        "TC05"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0030 (legacy R48) — Evolved Distributed Systems Engineering — bounded partial-failure, fenced effects, admission and recovery closure"
+    },
+    {
+      "identity": "R0031",
+      "issue": 201,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0031 (legacy R49) — Evolved Reliability & Maintainability Engineering — required function, failure propagation, common cause, diagnostic coverage, graceful degradation, repair, restoration, maintainability, and configuration-bound evidence"
+    },
+    {
+      "identity": "R0032",
+      "issue": 202,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0032 (legacy R50) — Evolved Formal Methods and Verification Engineering — precise specifications, invariants and temporal properties, abstraction/refinement, compositional contracts, mechanical checking, proof/toolchain trust and proof currentness"
+    },
+    {
+      "identity": "R0033",
+      "issue": 207,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "IMPLEMENTAUDIT_PRIMARY_CONTROL",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Ordinary analytical review under CLI read-only shell/patch policy does not qualify the native authority-NONE child route, full tool/effect containment, or holon lifecycle. Keep that existing proof/engineering gap explicit; no prompt-only containment credit.",
+      "composition_cases": [
+        "TC12"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0033 (legacy R51) — Governed composable internal cognition — four-child population and state-derived progressive disclosure"
+    },
+    {
+      "identity": "R0034",
+      "issue": 208,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0034 (legacy R52) — Atomic composed IMPLEMENTAUDIT plugin — one dual-host product and generated standalone compatibility projection"
+    },
+    {
+      "identity": "R0035",
+      "issue": 209,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "AUTO_DAG_AUTO_LOOM",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Conceptual relations, co-change and shared eventual products are not hard execution edges. Preserve safe unrelated work while buffering actual dependent acceptance; meaningful JOIN and progress claims need joint state, resources and peer/environment assumptions.",
+      "composition_cases": [
+        "TC01",
+        "TC03",
+        "TC06",
+        "TC07",
+        "TC08",
+        "TC10"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0035 (legacy R53) — Dependency-correct work-conserving DAG execution — closed frontier, required JOIN, currentness and single-writer authority"
+    },
+    {
+      "identity": "R0036",
+      "issue": 210,
+      "frozen_state": "CLOSED",
+      "triad_disposition": "RETAIN_FROZEN_CLOSURE_NO_REOPENING_ADMITTED",
+      "reason": "The bounded triad delta does not establish a distinct new defect against this frozen closed identity. Its historical closure is retained, not independently re-audited or upgraded.",
+      "github_action": "NONE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0036 (legacy R54) — Governed bounded specialist-agent orchestration — scoped lanes, parent custody, complete coverage, normalization and serial fresh-context fallback"
+    },
+    {
+      "identity": "R0037",
+      "issue": 211,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "NESTED_CONTROL_INTEGRATION",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "A deviation may expose harmful behavior, an obsolete expectation, authorized improvement or defective observation. Route the counterexample to its responsible requirement/model/protocol/plan owner; a successor validator cannot admit itself.",
+      "composition_cases": [
+        "TC06",
+        "TC07",
+        "TC12"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0037 (legacy R55) — Nested L1-L5 control integration — planner, run, phase, Andon and audit-fix convergence across v0.4 composition"
+    },
+    {
+      "identity": "R0038",
+      "issue": 214,
+      "frozen_state": "OPEN",
+      "frozen_status": "PARTIALLY_SATISFIED",
+      "frozen_owner": "OPERATIONAL_EVIDENCE_PROJECTION",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Preserve event definition/version, instance/object and explicit/inferred meanings. Performed is not accepted; elapsed time, effort and occupancy differ. Case-mix shifts and reused observations cannot establish causal or independent improvement.",
+      "composition_cases": [
+        "TC04",
+        "TC09",
+        "TC10"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0038 — Deterministic operational evidence substrate: current-state compilation and zero-token CODE, OWNERSHIP, EXECUTION, EVIDENCE, FAILURE and RELEASE projections"
+    },
+    {
+      "identity": "R0039",
+      "issue": 215,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "CONTINUITY_ADJUDICATION",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Equal bytes do not preserve decision applicability across changed meanings or grants. Keep historical verdicts at their original scope and invalidate only affected current use; recovery must account for coherent versions, descendants and pending effects.",
+      "composition_cases": [
+        "TC02",
+        "TC04",
+        "TC06",
+        "TC11",
+        "TC12"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R0039 — Deterministic canonical current-state rotation with lossless archival and rehydration equivalence"
+    },
+    {
+      "identity": "R003A",
+      "issue": 216,
+      "frozen_state": "OPEN",
+      "frozen_status": "ENGINEERING_REQUIRED",
+      "frozen_owner": "HOST_EFFECT_AUTHENTICATION",
+      "triad_disposition": "AMEND_EXISTING_CARRIER_WITH_BOUNDED_IMPLICATION",
+      "implication": "Bind the actual principal/grant, invocation, logical delivery and recipient acceptance at the latest boundary. The triad source delta does not repair or qualify the existing authenticated host-effect admission gap.",
+      "composition_cases": [
+        "TC02",
+        "TC03",
+        "TC11"
+      ],
+      "github_action": "APPEND_REVIEWED_INTEGRATION_NOTE_WITHOUT_CLOSURE",
+      "state_change": false,
+      "historical_github_title_at_pre_effect_snapshot": "R003A — Host-session to governed-object binding — exact session/controller/claim/run attribution, generation fencing, correlation, isolation and retirement"
+    }
+  ]
+}

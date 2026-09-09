@@ -1,0 +1,116 @@
+{
+  "embedded_manifest": {
+    "bytes": 12889,
+    "declared_digest_fields": [
+      {
+        "field": "payload_inventory[0].sha256",
+        "value": "0fb1b697bb036ab63bda37b9327e5e7b17e70bba548313bc5c23abd560ab9ffb"
+      },
+      {
+        "field": "payload_inventory[1].sha256",
+        "value": "3a7ab2f6938ed69f31bbeac2dc574c3b6e189e300482ebcc904fb7151c86ae98"
+      },
+      {
+        "field": "payload_inventory[2].sha256",
+        "value": "6dd22f2d278354349b35a031f50beea41c178d33fb23f574f1267f56f933da93"
+      },
+      {
+        "field": "payload_inventory[3].sha256",
+        "value": "989f43d73308d6763006cf8ce7d628a51b0d989736f49cd148371686aeb0fc24"
+      },
+      {
+        "field": "payload_inventory[4].sha256",
+        "value": "bbb41cd8515cd2c0eac1da26fc73d657902794e994683aa8a2f80c538dffb2b9"
+      },
+      {
+        "field": "payload_inventory[5].sha256",
+        "value": "4882eab337c511680f4a2368f0f4a920f5829c8f487c89365376eb47ac116cd5"
+      },
+      {
+        "field": "payload_inventory[6].sha256",
+        "value": "ca78b821b4a21e220d0f5c9e4c3a3cec11e10c2d1a8680edb56a4c2e8dc6b10f"
+      },
+      {
+        "field": "payload_inventory[7].sha256",
+        "value": "dfb0e4715195ef330033e85ef25fbf999c97182ba2f4a0644ab65eaefd6ea72d"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_MANIFEST.json",
+    "sha256": "9b45d73024bf16ca00caee16b00991cc8fbf0da9423240212c180759979b2ac8",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_MULTI_AGENT_SYSTEMS",
+  "lineage_name": "Evolved Multi Agent Systems",
+  "members": [
+    {
+      "bytes": 236479,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_REPORT.md",
+      "sha256": "0fb1b697bb036ab63bda37b9327e5e7b17e70bba548313bc5c23abd560ab9ffb"
+    },
+    {
+      "bytes": 949484,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json",
+      "sha256": "3a7ab2f6938ed69f31bbeac2dc574c3b6e189e300482ebcc904fb7151c86ae98"
+    },
+    {
+      "bytes": 94354,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_SOURCE_TABLE.json",
+      "sha256": "6dd22f2d278354349b35a031f50beea41c178d33fb23f574f1267f56f933da93"
+    },
+    {
+      "bytes": 407334,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_AUDIT_INTAKE.md",
+      "sha256": "989f43d73308d6763006cf8ce7d628a51b0d989736f49cd148371686aeb0fc24"
+    },
+    {
+      "bytes": 9822,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "bbb41cd8515cd2c0eac1da26fc73d657902794e994683aa8a2f80c538dffb2b9"
+    },
+    {
+      "bytes": 146759,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_SYNTHESIS_INTAKE.md",
+      "sha256": "4882eab337c511680f4a2368f0f4a920f5829c8f487c89365376eb47ac116cd5"
+    },
+    {
+      "bytes": 549161,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_COMPOSITION_MODEL.json",
+      "sha256": "ca78b821b4a21e220d0f5c9e4c3a3cec11e10c2d1a8680edb56a4c2e8dc6b10f"
+    },
+    {
+      "bytes": 135256,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_RESEARCH_COVERAGE.json",
+      "sha256": "dfb0e4715195ef330033e85ef25fbf999c97182ba2f4a0644ab65eaefd6ea72d"
+    },
+    {
+      "bytes": 12889,
+      "member": "EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/corpus/EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_MANIFEST.json",
+      "sha256": "9b45d73024bf16ca00caee16b00991cc8fbf0da9423240212c180759979b2ac8"
+    }
+  ],
+  "packet": {
+    "bytes": 370502,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/ama/evolved-multi-agent-systems/packet/EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_PACKET.zip",
+    "sha256": "84af391ed2c82514f0e22ff671a0945945dec608ffccfde485e2302374bab227"
+  },
+  "property_ledger": {
+    "bytes": 949484,
+    "member": "EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json",
+    "properties": 76,
+    "root": "properties",
+    "sha256": "3a7ab2f6938ed69f31bbeac2dc574c3b6e189e300482ebcc904fb7151c86ae98"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "ama"
+}

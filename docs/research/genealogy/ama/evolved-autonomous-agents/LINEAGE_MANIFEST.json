@@ -1,0 +1,116 @@
+{
+  "embedded_manifest": {
+    "bytes": 14262,
+    "declared_digest_fields": [
+      {
+        "field": "inventory[0].sha256",
+        "value": "f28c1980e2fc39a22906a9033c777fcbccfbb4565f06dd347102da65ce204ca8"
+      },
+      {
+        "field": "inventory[1].sha256",
+        "value": "f3e41e27ef00d6de747ad51d321ae8e0b0498623344f93649a99b1ad5cc286c9"
+      },
+      {
+        "field": "inventory[2].sha256",
+        "value": "333f161ada6d11c33c610500fc9ff21b985e58eb18f334dee11ec34833de453f"
+      },
+      {
+        "field": "inventory[3].sha256",
+        "value": "2648936d940defadfc2a1765e2bb0f91a90e52a969ef305dc25cdf9b2840227c"
+      },
+      {
+        "field": "inventory[4].sha256",
+        "value": "5593cfe0bc1e4d5858636a7a16ea1b6b1b8a9765cef06bde4b470e6aff3c9c12"
+      },
+      {
+        "field": "inventory[5].sha256",
+        "value": "fe0617e77505d5a0a3f1cedb57997f8e300c082ce0fa12b2980f659fb3b303b0"
+      },
+      {
+        "field": "inventory[6].sha256",
+        "value": "a0c6ee0f81f1b8947287240902367ca7c2683bf36558f5f4e2f00a1decc0a84c"
+      },
+      {
+        "field": "inventory[7].sha256",
+        "value": "1fb127d78d76becb00bec0fcda803fd83c2a54cd67e2711a99a166f37ee2b6a5"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_AUTONOMOUS_AGENTS_FROZEN_MANIFEST.json",
+    "sha256": "60ee322e067d821bb608adb068ff17c085b707f37bad62ad70430ad60c0581f2",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_AUTONOMOUS_AGENTS",
+  "lineage_name": "Evolved Autonomous Agents",
+  "members": [
+    {
+      "bytes": 357659,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_FROZEN_REPORT.md",
+      "sha256": "f28c1980e2fc39a22906a9033c777fcbccfbb4565f06dd347102da65ce204ca8"
+    },
+    {
+      "bytes": 1319756,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_PROPERTY_LEDGER.json",
+      "sha256": "f3e41e27ef00d6de747ad51d321ae8e0b0498623344f93649a99b1ad5cc286c9"
+    },
+    {
+      "bytes": 217395,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_SOURCE_TABLE.json",
+      "sha256": "333f161ada6d11c33c610500fc9ff21b985e58eb18f334dee11ec34833de453f"
+    },
+    {
+      "bytes": 461457,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_AUDIT_INTAKE.md",
+      "sha256": "2648936d940defadfc2a1765e2bb0f91a90e52a969ef305dc25cdf9b2840227c"
+    },
+    {
+      "bytes": 10781,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "5593cfe0bc1e4d5858636a7a16ea1b6b1b8a9765cef06bde4b470e6aff3c9c12"
+    },
+    {
+      "bytes": 173264,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_SYNTHESIS_INTAKE.md",
+      "sha256": "fe0617e77505d5a0a3f1cedb57997f8e300c082ce0fa12b2980f659fb3b303b0"
+    },
+    {
+      "bytes": 97057,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_COMPOSITION_MODEL.json",
+      "sha256": "a0c6ee0f81f1b8947287240902367ca7c2683bf36558f5f4e2f00a1decc0a84c"
+    },
+    {
+      "bytes": 44647,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_RESEARCH_COVERAGE.json",
+      "sha256": "1fb127d78d76becb00bec0fcda803fd83c2a54cd67e2711a99a166f37ee2b6a5"
+    },
+    {
+      "bytes": 14262,
+      "member": "EVOLVED_AUTONOMOUS_AGENTS_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/ama/evolved-autonomous-agents/corpus/EVOLVED_AUTONOMOUS_AGENTS_FROZEN_MANIFEST.json",
+      "sha256": "60ee322e067d821bb608adb068ff17c085b707f37bad62ad70430ad60c0581f2"
+    }
+  ],
+  "packet": {
+    "bytes": 412040,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/ama/evolved-autonomous-agents/packet/EVOLVED_AUTONOMOUS_AGENTS_FROZEN_PACKET.zip",
+    "sha256": "009b37693541d387a2d65c281815731a05423b31fae298a9c6c99ad069e87769"
+  },
+  "property_ledger": {
+    "bytes": 1319756,
+    "member": "EVOLVED_AUTONOMOUS_AGENTS_PROPERTY_LEDGER.json",
+    "properties": 70,
+    "root": "properties",
+    "sha256": "f3e41e27ef00d6de747ad51d321ae8e0b0498623344f93649a99b1ad5cc286c9"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "ama"
+}

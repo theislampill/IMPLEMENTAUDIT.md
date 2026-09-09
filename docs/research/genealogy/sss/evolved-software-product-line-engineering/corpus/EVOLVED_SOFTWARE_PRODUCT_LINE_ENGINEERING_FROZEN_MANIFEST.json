@@ -1,0 +1,488 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+  "analytical_label_status": "RESEARCHER_SYNTHESIS_NOT_A_CLAIMED_ACADEMIC_SCHOOL",
+  "revision": "ESPLE-2026-09-06-r1",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "state": "FROZEN",
+  "scope": "An independent criticism-tested reconstruction of Software Product Line Engineering as systematic engineering of related products through warranted commonality, managed variability, reusable assets and a defined derivation approach. Covers the ten mandated domain families, named historical/adoption/realisation/dynamic branches, and relevant evidence through 2026-09-06.",
+  "scope_boundaries": [
+    "Not an exhaustive census of every publication, vendor, industry or national research programme. Saturation concerns the explicit questions and registered candidate mechanisms.",
+    "No requester repositories, prior Evolved packets, sibling corpora or target-specific designs were consulted.",
+    "Adjacent architecture, maintenance, control, ecosystems and learned-tool work is imported only with its source/transfer boundaries; no cross-trifecta synthesis is claimed.",
+    "No legal advice or invented standard clauses: external obligations are inputs and ISO evidence is limited to public scope.",
+    "No universal effect sizes, product-count thresholds, unqualified family proofs or claims of current industrial adoption from conference programmes."
+  ],
+  "population_total": 62,
+  "population_examined": 62,
+  "property_coverage": "62/62",
+  "disposition_counts": {
+    "STRONGLY_RETAINED": 9,
+    "RETAINED_IN_EVOLVED_FORM": 18,
+    "CONTEXT_DEPENDENT": 12,
+    "USEFUL_BUT_EASILY_BUREAUCRATISED": 1,
+    "DOMAIN_SPECIFIC": 4,
+    "ASSUMPTION_SENSITIVE": 4,
+    "UNRESOLVED": 1,
+    "REJECTED_OR_DISFAVOURED": 9,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 1,
+    "NO_GENERAL_PROPERTY": 2,
+    "USEFUL_BUT_EASILY_GAMED": 1
+  },
+  "examination_counts": {
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 25,
+    "EXAMINED": 37
+  },
+  "unresolved_property_count": 1,
+  "unresolved_property_ids": [
+    "ESPLE-048"
+  ],
+  "unresolved_composition_obligation_count": 4,
+  "mandatory_family_count": 10,
+  "uncompleted_mandatory_families": 0,
+  "source_count": 45,
+  "composition_relation_count": 53,
+  "domain_model_count": 9,
+  "criticism_count": 23,
+  "internal_tension_count": 10,
+  "intakes": {
+    "AUDIT": "COMPLETE",
+    "PUBLIC_DOCUMENTATION": "COMPLETE",
+    "SYNTHESIS": "COMPLETE"
+  },
+  "sibling_corpora_consulted": false,
+  "cross_trifecta_synthesis_performed": false,
+  "evidence_limits": [
+    "Bounded scope, not an exhaustive publication census.",
+    "Access limitations on specified original and current works; no uninspected methods, proof or outcomes imported.",
+    "Empirical settings and dependence constrain transfer; no universal break-even number, causal adoption benefit or general family-correctness guarantee.",
+    "One regeneration replacement candidate remains unresolved.",
+    "Analytical composition and constructed case checks are not empirical validation of the whole system."
+  ],
+  "substantive_acceptance_gates": {
+    "SCOPE_AND_GENEALOGY": {
+      "STATE": "PASS",
+      "EVIDENCE": "10 examined families; 18 genealogy nodes and 17 classified edges; actual access limits retained."
+    },
+    "CRITICISM_AND_EVOLUTION": {
+      "STATE": "PASS",
+      "EVIDENCE": "23 criticism records, per-property objections, retained adverse dispositions and explicit mechanism changes."
+    },
+    "CURRENT_SEARCH": {
+      "STATE": "PASS",
+      "EVIDENCE": "2025/2026 sources, contemporary alternatives, later-version access limit and future-event date separation."
+    },
+    "DOMAIN_MODELS": {
+      "STATE": "PASS",
+      "EVIDENCE": "Nine developed models plus ten-field domain profiles in every property."
+    },
+    "FULL_DENOMINATOR": {
+      "STATE": "PASS",
+      "EVIDENCE": "62 stable IDs; 62 examined; dispositions sum to 62, including one unresolved."
+    },
+    "CEREMONY_AND_CHEAP_PATHS": {
+      "STATE": "PASS",
+      "EVIDENCE": "62 ceremony records with consumers, alternatives, costs and retirement conditions."
+    },
+    "EVIDENCE_PARTITIONS": {
+      "STATE": "PASS",
+      "EVIDENCE": "45 source records; separate access, theory, empirical, field, dependence and transfer information; no overall confidence percentage."
+    },
+    "TENSIONS_AND_COMPOSITION": {
+      "STATE": "PASS",
+      "EVIDENCE": "10 tensions; 53 guarded relations; six alternatives; explicit feedback/communication/authority and eleven discriminating cases."
+    },
+    "INTAKES": {
+      "STATE": "PASS",
+      "EVIDENCE": "Complete audit population, public factual-claim intake and 62 globally keyed synthesis exports."
+    },
+    "INDEPENDENCE": {
+      "STATE": "PASS",
+      "EVIDENCE": "Only external scholarly/issuing-body sources; no sibling corpus, target repository or cross-trifecta synthesis used."
+    }
+  },
+  "substantive_gate_interpretation": "Authorial evidence/coverage judgement based on inspected sources and the stated scope, not independent external peer review. Automated tests attest structure, reconciliation and custody only.",
+  "checks": {
+    "exact_eight_payload_paths": {
+      "STATUS": "PASS",
+      "DETAIL": [
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_REPORT.md",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_AUDIT_INTAKE.md",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SYNTHESIS_INTAKE.md",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_COMPOSITION_MODEL.json",
+        "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_RESEARCH_COVERAGE.json"
+      ]
+    },
+    "PROPERTY_LEDGER_metadata": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "SOURCE_TABLE_metadata": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "COMPOSITION_MODEL_metadata": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "RESEARCH_COVERAGE_metadata": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "unique_contiguous_property_ids": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "unique_source_ids": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "unique_relation_ids": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_property_required_fields": {
+      "STATUS": "PASS",
+      "DETAIL": 37
+    },
+    "all_domain_profile_fields": {
+      "STATUS": "PASS",
+      "DETAIL": 10
+    },
+    "property_specific_domain_bindings": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_property_mechanisms_distinct": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "property_status_values": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_candidates_examined": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "disposition_totals_reconciled": {
+      "STATUS": "PASS",
+      "DETAIL": {
+        "STRONGLY_RETAINED": 9,
+        "RETAINED_IN_EVOLVED_FORM": 18,
+        "CONTEXT_DEPENDENT": 12,
+        "USEFUL_BUT_EASILY_BUREAUCRATISED": 1,
+        "DOMAIN_SPECIFIC": 4,
+        "ASSUMPTION_SENSITIVE": 4,
+        "UNRESOLVED": 1,
+        "REJECTED_OR_DISFAVOURED": 9,
+        "CEREMONY_NOT_GENERAL_PROPERTY": 1,
+        "NO_GENERAL_PROPERTY": 2,
+        "USEFUL_BUT_EASILY_GAMED": 1
+      }
+    },
+    "examination_totals_reconciled": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_source_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "property_relation_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "property_criticism_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "property_tension_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "property_empirical_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "property_domain_model_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "source_backlinks_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "intentional_context_only_sources_explained": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "source_schema_and_locators": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "claim_locator_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "source_dependence_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "composition_relation_schema": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "composition_references_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "composition_evidence_status_explicit": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "nine_developed_domain_models": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "six_alternative_configurations": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "revision_and_external_interfaces": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "analytical_cases_distinguished": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "logical_counterexamples_verified": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "no_solver_mandate_from_feature_semantics": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "no_universal_supervisor_mandate": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "alternatives_do_not_remove_economic_comparison": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "regeneration_not_rejected_by_definition": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "plural_genealogy_references": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "genealogy_no_self_influence_edges": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "ten_mandatory_families": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_mandatory_families_examined": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "family_denominator_reconciled": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "no_uncompleted_burdens": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "search_access_and_saturation_present": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "exact_report_headings_in_order": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "full_report_and_audit_denominators": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "report_substantive_narrative_and_composition": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "complete_ceremony_ledger": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "complete_criticism_tension_registers": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "public_intake_no_target_reference": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "public_claims_outline_limits": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "one_machine_readable_synthesis_export": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "synthesis_export_metadata": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "unique_complete_global_keys": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "synthesis_statuses_match": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "sibling_and_cross_synthesis_boundaries": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "synthesis_exports_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "no_accidental_target_or_stale_lineage": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "no_stale_relation_count": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "no_wrong_property_prefix": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "no_placeholder_markers": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_literal_property_ids_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_literal_source_ids_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_literal_relation_ids_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_literal_criticism_ids_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "all_literal_model_ids_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "local_document_links_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    },
+    "json_pointer_record_links_resolve": {
+      "STATUS": "PASS",
+      "DETAIL": null
+    }
+  },
+  "normalisation_log": {
+    "stage": "PRE_FREEZE",
+    "change": "Replaced unescaped intra-word ASCII apostrophes with typographic apostrophes in document-generation string literals; no judgement, source or count changed."
+  },
+  "pre_freeze_substantive_review": {
+    "STATE": "PRE_FREEZE_SUBSTANTIVE_REVIEW",
+    "REVISION": "ESPLE-2026-09-06-r1",
+    "FINDINGS_AND_CORRECTIONS": [
+      {
+        "FINDING": "R007 pointed from semantic definition to optional analysis tools, contrary to the intended prerequisite.",
+        "CORRECTION": "Reversed so diagnostics/explanations/richer models require explicit feature semantics, not vice versa."
+      },
+      {
+        "FINDING": "R034 could make supervisory synthesis mandatory for all dynamic families.",
+        "CORRECTION": "Runtime mapping requires transition safety; supervisory control remains a domain-specific way to provide evidence."
+      },
+      {
+        "FINDING": "R029 made an alternative development route look like an alternative to economic evaluation itself.",
+        "CORRECTION": "Non-product-line production is alternative to a product-line adoption route, while both remain subject to economics."
+      },
+      {
+        "FINDING": "R038 could suggest that regeneration inherently conflicts with all assurance obligations.",
+        "CORRECTION": "Assurance and lifecycle obligations constrain the replacement hypothesis; empirical superiority remains unresolved."
+      },
+      {
+        "FINDING": "Communication was narrated but not explicitly typed in the composition.",
+        "CORRECTION": "Added R053 with concrete result, identity, recipient and authority limits."
+      },
+      {
+        "FINDING": "Theoretical strength for composition mechanisms could be read as a universal proof.",
+        "CORRECTION": "Narrowed ESPLE-016/027 theory partitions and distinguished analytical counterexamples from source theorems."
+      }
+    ],
+    "DENOMINATOR_OR_DISPOSITION_CHANGE": false,
+    "FROZEN_JUDGEMENTS_PREVIOUSLY_EXISTED": false
+  },
+  "inventory": [
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_REPORT.md",
+      "bytes": 241790,
+      "sha256": "987256686de9c32670a41b7881ad36b8239f7a8acbcbf9e877893d96c378d7b3"
+    },
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+      "bytes": 1172693,
+      "sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e"
+    },
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+      "bytes": 111369,
+      "sha256": "ad2ce62e0ff0d341dddda637c348465ec5c1912f9b37a4f5837366938f88cfec"
+    },
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_AUDIT_INTAKE.md",
+      "bytes": 225839,
+      "sha256": "578b23a49a86b5945b144dee8bf62d23a32372db95e6a9c63affc49abf17ea03"
+    },
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 10369,
+      "sha256": "478ac25588e345cebf827ca58e0668472fb4c496a6d654bd459ee84b100c1344"
+    },
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SYNTHESIS_INTAKE.md",
+      "bytes": 180088,
+      "sha256": "104a8b486e97daa1c399fd5246abde8e408939aa2e99c8c72071050e22c12b4e"
+    },
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_COMPOSITION_MODEL.json",
+      "bytes": 146005,
+      "sha256": "10ba3605e763d61759ee68fff56747bfc9619e93e0f65195a5267a917cc3e71e"
+    },
+    {
+      "relative_filename": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_RESEARCH_COVERAGE.json",
+      "bytes": 39495,
+      "sha256": "7c1a74ce5eed1400e5aa877366158ec4c861f9cd58445ce47a0b1a17e3758991"
+    }
+  ],
+  "hash_policy": "Exact-byte SHA-256 for the eight payloads only. This manifest does not inventory itself or the enclosing ZIP. Archive hash is reported externally."
+}

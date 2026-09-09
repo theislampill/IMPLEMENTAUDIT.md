@@ -1,0 +1,912 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "revision": "ESPLE-2026-09-06-r1",
+  "scope_statement": "An independent criticism-tested reconstruction of Software Product Line Engineering as systematic engineering of related products through warranted commonality, managed variability, reusable assets and a defined derivation approach. Covers the ten mandated domain families, named historical/adoption/realisation/dynamic branches, and relevant evidence through 2026-09-06.",
+  "scope_boundaries": [
+    "Not an exhaustive census of every publication, vendor, industry or national research programme. Saturation concerns the explicit questions and registered candidate mechanisms.",
+    "No requester repositories, prior Evolved packets, sibling corpora or target-specific designs were consulted.",
+    "Adjacent architecture, maintenance, control, ecosystems and learned-tool work is imported only with its source/transfer boundaries; no cross-trifecta synthesis is claimed.",
+    "No legal advice or invented standard clauses: external obligations are inputs and ISO evidence is limited to public scope.",
+    "No universal effect sizes, product-count thresholds, unqualified family proofs or claims of current industrial adoption from conference programmes."
+  ],
+  "families": [
+    {
+      "FAMILY_ID": "P1",
+      "NAME": "Product-family scope and evidence of commonality",
+      "QUESTIONS": [
+        "Which shared assumptions warrant this family, and which plausible product would invalidate them?",
+        "Is the evidence for commonality independent of superficial implementation similarity?",
+        "What useful product possibility justifies the incremental variability burden?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q08",
+        "Q12"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S002",
+        "ESPLE-S003",
+        "ESPLE-S005",
+        "ESPLE-S006",
+        "ESPLE-S007",
+        "ESPLE-S009",
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-001",
+        "ESPLE-002",
+        "ESPLE-003"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C01",
+        "ESPLE-C17",
+        "ESPLE-C18",
+        "ESPLE-C19",
+        "ESPLE-C20"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S045"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P2",
+      "NAME": "Domain engineering and application engineering",
+      "QUESTIONS": [
+        "How are shared capabilities and product-specific realisation distinguished without blocking feedback?",
+        "What happens to a product discovery that contradicts an assumption in a shared asset?",
+        "Can a justified exception remain supportable without pretending it is the unchanged family baseline?",
+        "Which adoption route fits the actual starting assets and uncertainty rather than an idealised greenfield programme?",
+        "Which specific dependency requires this work before a product can be derived safely and economically?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q02",
+        "Q03",
+        "Q08"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S007",
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S011",
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028",
+        "ESPLE-S041"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-004",
+        "ESPLE-005",
+        "ESPLE-006",
+        "ESPLE-007",
+        "ESPLE-050"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C02",
+        "ESPLE-C03",
+        "ESPLE-C11",
+        "ESPLE-C12",
+        "ESPLE-C19",
+        "ESPLE-C23"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S028"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P3",
+      "NAME": "Features, variability models and constraints",
+      "QUESTIONS": [
+        "What does selecting this feature commit the resulting product to provide?",
+        "What exactly has been checked, and which valid or invalid configurations demonstrate that the result matches intent?",
+        "What prevents a solver-approved configuration from violating an obligation that the model does not encode?",
+        "Does the explanation help the intended person make a valid decision, rather than merely display solver internals?",
+        "Which real decision requires each extra modelling construct, and which tool preserves its meaning?",
+        "What decision or derivation would fail without this model, and is its content actually used?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q01",
+        "Q02",
+        "Q04",
+        "Q08",
+        "Q11"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S009",
+        "ESPLE-S014",
+        "ESPLE-S015",
+        "ESPLE-S032",
+        "ESPLE-S041"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-008",
+        "ESPLE-009",
+        "ESPLE-010",
+        "ESPLE-011",
+        "ESPLE-012",
+        "ESPLE-051"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C04",
+        "ESPLE-C05",
+        "ESPLE-C15",
+        "ESPLE-C20"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S032"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P4",
+      "NAME": "Variability realisation and binding time",
+      "QUESTIONS": [
+        "What information arrives late enough to justify retaining this variation point until that stage?",
+        "Which consequential decision would become unreliable without this trace, and has it been exercised after change?",
+        "Why is this realisation technique adequate for this variation, and where do its interactions become visible?",
+        "Which removal or replacement need makes delta composition preferable, and how are ordering conflicts detected?",
+        "What evidence checks that the generator realises the intended product, rather than just producing compilable files?",
+        "Which necessary decision cannot be made adequately at an earlier binding time?",
+        "Does this mapping reflect actual realisation, including shared and crosscutting behaviour?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q01",
+        "Q02",
+        "Q05",
+        "Q06",
+        "Q08",
+        "Q10",
+        "Q12",
+        "Q14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S006",
+        "ESPLE-S009",
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S018",
+        "ESPLE-S019",
+        "ESPLE-S021",
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S041",
+        "ESPLE-S042",
+        "ESPLE-S043",
+        "ESPLE-S045"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-013",
+        "ESPLE-014",
+        "ESPLE-015",
+        "ESPLE-016",
+        "ESPLE-017",
+        "ESPLE-054",
+        "ESPLE-055"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C04",
+        "ESPLE-C06",
+        "ESPLE-C07",
+        "ESPLE-C13",
+        "ESPLE-C20",
+        "ESPLE-C21"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S031",
+          "ESPLE-S045"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P5",
+      "NAME": "Core assets, reference architectures and product derivation",
+      "QUESTIONS": [
+        "Which reusable non-code assets materially support products, and which are merely maintained because a template expects them?",
+        "Which family invariants are necessary, and what makes them true of the products actually built?",
+        "Can the intended product be built from declared inputs without undocumented decisions that affect its meaning?",
+        "Can an observed product and its assurance evidence be bound to the same configuration and production baseline?",
+        "What notion of sameness does the product obligation require, and has repeated derivation actually demonstrated it?",
+        "Which concrete derivation obligation requires automation rather than an adequate manual or mixed method?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q05",
+        "Q06",
+        "Q08",
+        "Q11"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S003",
+        "ESPLE-S005",
+        "ESPLE-S006",
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S013",
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S021",
+        "ESPLE-S033",
+        "ESPLE-S041"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-018",
+        "ESPLE-019",
+        "ESPLE-020",
+        "ESPLE-021",
+        "ESPLE-022",
+        "ESPLE-056"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C07",
+        "ESPLE-C15",
+        "ESPLE-C22"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [],
+        "ASSESSMENT": "Historical mechanisms were compared against the current frontier search; no later inspected work justified changing this family into a novel obligation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P6",
+      "NAME": "Feature interaction and verification across a family",
+      "QUESTIONS": [
+        "Which conclusion follows from this evidence, and which additional premise would be needed for the stronger conclusion being asserted?",
+        "Which feature combinations can change one another's behaviour, and how does the chosen evidence address them?",
+        "Why is this sample adequate for the claim and budget, and which failures could it systematically miss?",
+        "Which computation is safely shared across variants, and what establishes equivalence to the intended per-product result?",
+        "What premises make the local guarantees compose, and where are those premises established?",
+        "What establishes that this particular product, rather than an abstract valid configuration, satisfies its obligations?",
+        "Which configuration layers can change the analysed artefacts, and are they represented in this result?",
+        "Where is the evidence that connects this satisfiable model to the correctness of the actual derived product?",
+        "What excludes a fault that depends on a combination or condition absent from this pairwise sample?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q02",
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q08",
+        "Q10",
+        "Q12"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S009",
+        "ESPLE-S014",
+        "ESPLE-S015",
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S018",
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S022",
+        "ESPLE-S031",
+        "ESPLE-S037",
+        "ESPLE-S040",
+        "ESPLE-S041"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-023",
+        "ESPLE-024",
+        "ESPLE-025",
+        "ESPLE-026",
+        "ESPLE-027",
+        "ESPLE-028",
+        "ESPLE-029",
+        "ESPLE-052",
+        "ESPLE-053"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C05",
+        "ESPLE-C07",
+        "ESPLE-C08",
+        "ESPLE-C09",
+        "ESPLE-C19"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S031",
+          "ESPLE-S037"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P7",
+      "NAME": "Family evolution and configuration migration",
+      "QUESTIONS": [
+        "Which products become possible or impossible after the edit, under what mapping of feature meanings?",
+        "Which user or mission intent is preserved by the proposed migration, beyond making the new feature formula satisfiable?",
+        "Which supported variants can this shared change affect, and how are conflicting obligations resolved?",
+        "How does each supported product remain buildable and maintainable while shared assets and other products evolve?",
+        "Which recovered relations describe implementation accidents, and which constrain legitimate future products?",
+        "Does the revised test set protect regression obligations, new configurations or both, and is that the intended objective?",
+        "What besides names or model membership establishes that the supported product's meaning is preserved?",
+        "Can this variability be removed from new production without losing a still-supported product obligation?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q02",
+        "Q03",
+        "Q06",
+        "Q07",
+        "Q08",
+        "Q12"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S007",
+        "ESPLE-S009",
+        "ESPLE-S010",
+        "ESPLE-S011",
+        "ESPLE-S013",
+        "ESPLE-S021",
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S025",
+        "ESPLE-S028",
+        "ESPLE-S037",
+        "ESPLE-S039",
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-030",
+        "ESPLE-031",
+        "ESPLE-032",
+        "ESPLE-033",
+        "ESPLE-034",
+        "ESPLE-035",
+        "ESPLE-058",
+        "ESPLE-061"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C05",
+        "ESPLE-C10",
+        "ESPLE-C17",
+        "ESPLE-C21",
+        "ESPLE-C23"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S028",
+          "ESPLE-S037",
+          "ESPLE-S039",
+          "ESPLE-S045"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P8",
+      "NAME": "Adoption strategies, economics and alternatives",
+      "QUESTIONS": [
+        "Under which plausible assumptions does the product-line investment cease to be preferable?",
+        "What would adequate development look like without a product line, and why is the proposed family approach preferable now?",
+        "Would this shared production arrangement still be selected based on its remaining costs and expected value?",
+        "Which assumptions make this product count a break-even point here, rather than an illustrative number elsewhere?",
+        "What evidence makes clone-and-own inadequate here, rather than merely less aligned with the preferred methodology?",
+        "What decision changes because of this number, and does the count measure value or merely possible combinations?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q02",
+        "Q03",
+        "Q04",
+        "Q06",
+        "Q08",
+        "Q12"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S007",
+        "ESPLE-S010",
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S015",
+        "ESPLE-S021",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028",
+        "ESPLE-S041",
+        "ESPLE-S045"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-036",
+        "ESPLE-037",
+        "ESPLE-038",
+        "ESPLE-049",
+        "ESPLE-057",
+        "ESPLE-059"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C01",
+        "ESPLE-C02",
+        "ESPLE-C03",
+        "ESPLE-C11",
+        "ESPLE-C17",
+        "ESPLE-C19"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S028",
+          "ESPLE-S045"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P9",
+      "NAME": "Organisations, governance and ecosystems",
+      "QUESTIONS": [
+        "Who may change shared assets, and how are affected product obligations represented in that decision?",
+        "Are the people expected to sustain common assets both able and resourced to do so?",
+        "Which participants and artefacts are actually within the production authority, and which require an external compatibility agreement?",
+        "Which external obligations constrain this product or asset, and what evidence establishes their applicability and fulfilment?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q08",
+        "Q09",
+        "Q11",
+        "Q12"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S005",
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S011",
+        "ESPLE-S012",
+        "ESPLE-S013",
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028",
+        "ESPLE-S029",
+        "ESPLE-S033",
+        "ESPLE-S041",
+        "ESPLE-S044"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-039",
+        "ESPLE-040",
+        "ESPLE-041",
+        "ESPLE-042"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C11",
+        "ESPLE-C12",
+        "ESPLE-C18",
+        "ESPLE-C23"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S028",
+          "ESPLE-S044"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    },
+    {
+      "FAMILY_ID": "P10",
+      "NAME": "Dynamic product lines and modern derivatives",
+      "QUESTIONS": [
+        "What observed context justifies each runtime configuration change, and how is the actual resulting state established?",
+        "Can the system move between these configurations safely, given the intermediate states it can actually traverse?",
+        "Which model assumptions make the supervisory guarantee apply to the real product and its available controls?",
+        "What meaning must survive this interchange, and what checks show that it does?",
+        "What independent evidence distinguishes a plausible generated variant from an acceptable one?",
+        "Does regeneration preserve family obligations and reduce total lifecycle burden under a credible repeated-change comparison?",
+        "Who authorises this action, can the implementation actually perform it, and what observation establishes its effect?",
+        "What establishes behaviour under changing inputs and environments, beyond the absence of selectable features?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q09",
+        "Q10",
+        "Q11",
+        "Q12",
+        "Q13",
+        "Q14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S032",
+        "ESPLE-S033",
+        "ESPLE-S034",
+        "ESPLE-S036",
+        "ESPLE-S038",
+        "ESPLE-S043",
+        "ESPLE-S044",
+        "ESPLE-S045"
+      ],
+      "PROPERTY_IDS": [
+        "ESPLE-043",
+        "ESPLE-044",
+        "ESPLE-045",
+        "ESPLE-046",
+        "ESPLE-047",
+        "ESPLE-048",
+        "ESPLE-060",
+        "ESPLE-062"
+      ],
+      "CRITICISM_IDS": [
+        "ESPLE-C09",
+        "ESPLE-C13",
+        "ESPLE-C14",
+        "ESPLE-C15",
+        "ESPLE-C16",
+        "ESPLE-C19",
+        "ESPLE-C20",
+        "ESPLE-C21"
+      ],
+      "RECENCY_COVERAGE": {
+        "CURRENT_RELEVANT_SOURCES": [
+          "ESPLE-S031",
+          "ESPLE-S032",
+          "ESPLE-S034",
+          "ESPLE-S036",
+          "ESPLE-S038",
+          "ESPLE-S044",
+          "ESPLE-S045"
+        ],
+        "ASSESSMENT": "Current sources were checked for changed mechanisms, evidence or limits, alongside the historical foundation."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The stated source access, setting, model and transfer limits remain; the family questions and all registered candidates were examined.",
+      "DISPOSITION": "Covered within the declared scope; uncertain comparative benefit and open research questions are not treated as unresearched work."
+    }
+  ],
+  "search_log": [
+    {
+      "SEARCH_ID": "Q01",
+      "SEARCH_TERMS": "McIlroy mass produced software components Parnas program families 1976 1979 FODA original report domain analysis Neighbors",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Recover primary history, distinguish publication/deposit dates and avoid an invented linear ancestry.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S001",
+        "ESPLE-S002",
+        "ESPLE-S003",
+        "ESPLE-S004",
+        "ESPLE-S005"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q02",
+      "SEARCH_TERMS": "FAST software product lines case study PuLSE 1999 methodology domain engineering application engineering Pohl chapter",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Reconstruct competing production/adoption mechanisms and the domain/application feedback relation.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S006",
+        "ESPLE-S007",
+        "ESPLE-S008",
+        "ESPLE-S009",
+        "ESPLE-S010"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q03",
+      "SEARCH_TERMS": "SEI software product line production plan SIMPLE economics failures clearing the way success",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Inspect operative production, cost model and adverse industrial guidance rather than repeat benefit slogans.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S011",
+        "ESPLE-S012",
+        "ESPLE-S013"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q04",
+      "SEARCH_TERMS": "feature models grammars propositional formulas automated analysis dead false optional feature models",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Establish encoded model semantics, diagnostics and their adequacy boundary.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S014",
+        "ESPLE-S015"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q05",
+      "SEARCH_TERMS": "AHEAD feature oriented software development delta oriented programming variability realization taxonomy",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Compare realisation branches and binding-time/expressiveness trade-offs.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S016",
+        "ESPLE-S017",
+        "ESPLE-S018",
+        "ESPLE-S042"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q06",
+      "SEARCH_TERMS": "software product line analysis strategies configuration sampling higher order interactions JHipster TypeChef variability aware static analysis",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Distinguish family/product/compositional evidence and obtain negative configuration-space results.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S019",
+        "ESPLE-S020",
+        "ESPLE-S021",
+        "ESPLE-S022",
+        "ESPLE-S040"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q07",
+      "SEARCH_TERMS": "reasoning edits feature models configuration migration evolution clone own Simulink feature model tests changed",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Trace semantics, migration and test co-evolution including 2025/2026 evidence.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S023",
+        "ESPLE-S024",
+        "ESPLE-S025",
+        "ESPLE-S037",
+        "ESPLE-S039"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q08",
+      "SEARCH_TERMS": "industrial cloning software product lines clone own performance BSH variability debt failure reverse engineering Bosch",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Challenge adoption orthodoxy using industrial alternatives, selected comparisons and stale-model evidence.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S026",
+        "ESPLE-S027",
+        "ESPLE-S028",
+        "ESPLE-S041"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q09",
+      "SEARCH_TERMS": "software product lines software ecosystems governance community driven variability 2026",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Distinguish shared-core ownership from independently implemented interoperable ecosystems.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S029",
+        "ESPLE-S044"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q10",
+      "SEARCH_TERMS": "dynamic software product lines context transition safety supervisory control nonblocking",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Recover runtime mechanisms, their control-theory import and endpoint-versus-transition obligations.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S030",
+        "ESPLE-S031",
+        "ESPLE-S043"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q11",
+      "SEARCH_TERMS": "UVL Universal Variability Language ISO IEC 26580 feature based product line engineering",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Inspect interchange semantics and public standard scope without inventing inaccessible clauses.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S032",
+        "ESPLE-S033"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q12",
+      "SEARCH_TERMS": "SPLC 2025 2026 variability LLM co evolution configuration regeneration null variability small configurable",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Current frontier search; distinguish forthcoming conference, published issue dates, preprints and access limits.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S034",
+        "ESPLE-S035",
+        "ESPLE-S036",
+        "ESPLE-S037",
+        "ESPLE-S038",
+        "ESPLE-S039",
+        "ESPLE-S044",
+        "ESPLE-S045"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q13",
+      "SEARCH_TERMS": "Where Did the Variability Go From Vibe Coding to Product Lines by Regeneration HAL version 2",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Check later version: July HAL record found, access blocked; do not treat inspected June v1 as a silently current final edition.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S034"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    },
+    {
+      "SEARCH_ID": "Q14",
+      "SEARCH_TERMS": "variability realization taxonomy full text dynamic software product lines 2008 full text Neighbors domain analysis original",
+      "DATE": "2026-09-06",
+      "PURPOSE": "Lawful full-text recovery attempts remained limited; detailed mechanisms rely on other inspected primary works.",
+      "RESULT_SOURCE_IDS": [
+        "ESPLE-S004",
+        "ESPLE-S042",
+        "ESPLE-S043"
+      ],
+      "RECORD_TYPE": "Faithful grouped query terms from performed discovery/refinement; not a claimed systematic-review database protocol or a verbatim tool log."
+    }
+  ],
+  "access_limits": [
+    {
+      "SOURCE_ID": "ESPLE-S002",
+      "ACCESS_LEVEL": "BIBLIOGRAPHIC_AND_ABSTRACT_LIMIT",
+      "LIMITS": [
+        "Publisher page did not expose full text; author-upload download failed.",
+        "Detailed reconstruction instead uses the separately identified 1979 original and explicit reception in later inspected work; no unread theorem is attributed to this paper."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S004",
+      "ACCESS_LEVEL": "ABSTRACT_ONLY",
+      "LIMITS": [
+        "Full text not exposed by the author-work record.",
+        "1991 SBES precursor located but not retrieved; no assertion that the conference and journal versions are identical.",
+        "The 1980 domain-analysis ancestry is documented in FODA, not inferred from the 2011 upload date."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S008",
+      "ACCESS_LEVEL": "PUBLISHER_EXCERPTS",
+      "LIMITS": [
+        "Not full-book access.",
+        "Publication/copyright/citation-year differences are recorded, not treated as different schools.",
+        "Publisher benefit descriptions do not independently verify industrial effect sizes."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S028",
+      "ACCESS_LEVEL": "AUTHOR_INSTITUTION_ABSTRACT_ONLY",
+      "LIMITS": [
+        "Full article unavailable through attempted publisher/author routes.",
+        "No unreported participant counts, measures, causal effect or debt interest rate inferred.",
+        "Earlier review, 2023 study and 2024 report may share evidence; not counted as independent replication."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S033",
+      "ACCESS_LEVEL": "PUBLIC_SCOPE_ONLY",
+      "LIMITS": [
+        "Full normative clauses not inspected; no clause-level compliance obligations invented.",
+        "Issuing-body benefit language is not independent effectiveness evidence.",
+        "Later draft temporal-management standard is a discovery lead, not treated as adopted normative text."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S036",
+      "ACCESS_LEVEL": "METADATA_AND_ACCESS_LIMIT",
+      "LIMITS": [
+        "HAL document blocked by access protection and ACM full text not returned.",
+        "No method accuracy or outcome claimed from the title/search snippet."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S039",
+      "ACCESS_LEVEL": "AUTHOR_ABSTRACT_ONLY",
+      "LIMITS": [
+        "Formal proof and detailed benchmark not inspected; only the stated problem and result scope are reported.",
+        "2023 conference antecedent and 2025 extension are not counted as independent replications."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S042",
+      "ACCESS_LEVEL": "ABSTRACT_ONLY",
+      "LIMITS": [
+        "Author-hosted PDF failed twice; no taxonomy details inferred from later citing snippets.",
+        "Detailed realisation comparisons in this packet instead use inspected FOSD, delta, FAST and Bosch sources."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S043",
+      "ACCESS_LEVEL": "ABSTRACT_ONLY",
+      "LIMITS": [
+        "Original full text not exposed; operational reconstruction relies on separate full Bencomo and Thuijsman/Reniers texts.",
+        "Host shows May; volume 41(4) corresponds to April issue; year is unambiguous."
+      ],
+      "DISPOSITION": "Inspected only at the stated level. Unavailable content supplies no methodological detail, effect size or proof in this packet."
+    },
+    {
+      "SOURCE_ID": "ESPLE-S034",
+      "ACCESS_LEVEL": "LATER_VERSION_ACCESS_BLOCKED",
+      "LIMITS": [
+        "June 2026 arXiv v1 inspected; later July HAL v2 located but unavailable. No claim that the inspected version is the final or only current version."
+      ],
+      "DISPOSITION": "Replacement superiority remains UNRESOLVED; later unavailable content is not assumed to confirm or refute it."
+    }
+  ],
+  "saturation_rationale": {
+    "RULE": "Continue searching when evidence could alter a candidate, prerequisite, genealogy relation, criticism or composition judgement; stop equivalent retrieval when it no longer changes those decisions.",
+    "DECISION_CHANGING_FINDINGS": [
+      "Industrial clone-and-own evidence prevented an unconditional product-line adoption claim.",
+      "Bosch stale-model and heterogeneous-dependency evidence narrowed modelling and extraction claims.",
+      "Configuration sampling and JHipster evidence separated encoded validity, derivation and product behaviour.",
+      "Feature/test evolution and dynamic-control work added distinct continuity and transition obligations.",
+      "2026 regeneration and small-configurability work produced an unresolved replacement candidate and a separately rejected broad behavioural inference.",
+      "Support-aware retirement was separated from initial variability admission rather than hidden in one broad slogan."
+    ],
+    "STOPPING_JUDGEMENT": "The registered mechanisms and their principal rival approaches, failure modes, selection conditions and evidence boundaries have dispositions; later equivalent search themes did not require another mechanism or a changed primary judgement. This is a bounded expert synthesis, not a claim of statistical literature completeness.",
+    "RESIDUAL_UNCERTAINTY": "Open questions are explicitly examined and retained in properties, evidence records and composition obligations; inaccessible source content is not counted as read."
+  },
+  "uncompleted_burdens": [],
+  "uncompleted_burdens_explanation": "No mandatory family or registered candidate remains NOT_EXAMINED. Access limitations and unsettled research questions are separately recorded rather than concealed as completion.",
+  "population_total": 62,
+  "population_examined": 62,
+  "source_count": 45,
+  "logical_case_checks": {
+    "pairwise_all_assignments_covered": true,
+    "three_way_fault_configuration_sampled": false,
+    "safe_path_under_single_bit_changes": false,
+    "hypothetical_clone_cost_less_than_spl_cost": true,
+    "classification": "LOGICAL_AND_ARITHMETIC_CHECKS_ONLY; not validation of industrial effectiveness"
+  }
+}

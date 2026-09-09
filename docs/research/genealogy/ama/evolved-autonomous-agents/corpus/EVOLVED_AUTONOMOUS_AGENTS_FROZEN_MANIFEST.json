@@ -1,0 +1,370 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_AUTONOMOUS_AGENTS",
+  "lineage_title": "Evolved Autonomous Agents",
+  "analytical_label_status": "RESEARCHER_SYNTHESIS_OF_ESTABLISHED_AUTONOMOUS_AGENTS_TRADITION_NOT_A_CLAIM_OF_A_NAMED_ACADEMIC_SCHOOL",
+  "revision": "EAA-2026-09-06-r1",
+  "research_cutoff": "2026-09-06",
+  "research_run_date_basis": "2026-09-06",
+  "state": "FROZEN",
+  "freeze_meaning": "Stable, examined evidence and judgements within the declared scope. Does not imply universal certainty, an empirically validated integrated architecture, target adoption, or completed cross-tradition synthesis.",
+  "scope_statement": "Independent bounded tradition study of situated autonomous agents: definitions, observation, goals, architectures, execution, metareasoning, learning, interaction, assurance and contemporary translations; all ten declared families examined.",
+  "scope_boundaries": [
+    "Not an exhaustive census of every AI, robotics, control-theory or philosophy publication. Inspected precursors ground the relevant problems; no unique-origin claim is invented.",
+    "Full strategic/collective multi-agent theory and the complete AOSE development lifecycle are adjacent, not reconstructed in this lane. Genuine source-supported overlaps are preserved.",
+    "Consciousness, personhood and moral responsibility are not inferred from engineering agency or believability; no general metaphysical theory is claimed.",
+    "No target repository, prior Evolved output or sibling corpus was inspected. No adoption, target mutation or cross-trifecta synthesis is authorised.",
+    "Selected source sections and access limits are declared. The original inaccessible intention article is not used to supply uninspected theorem details.",
+    "Current-year search includes actual 2026 papers; simulations, extended abstracts, preprints and updated older-task evaluations are not treated as independent deployed replications."
+  ],
+  "population_total": 70,
+  "population_examined": 70,
+  "property_ids": [
+    "EAA-001",
+    "EAA-002",
+    "EAA-003",
+    "EAA-004",
+    "EAA-005",
+    "EAA-006",
+    "EAA-007",
+    "EAA-008",
+    "EAA-009",
+    "EAA-010",
+    "EAA-011",
+    "EAA-012",
+    "EAA-013",
+    "EAA-014",
+    "EAA-015",
+    "EAA-016",
+    "EAA-017",
+    "EAA-018",
+    "EAA-019",
+    "EAA-020",
+    "EAA-021",
+    "EAA-022",
+    "EAA-023",
+    "EAA-024",
+    "EAA-025",
+    "EAA-026",
+    "EAA-027",
+    "EAA-028",
+    "EAA-029",
+    "EAA-030",
+    "EAA-031",
+    "EAA-032",
+    "EAA-033",
+    "EAA-034",
+    "EAA-035",
+    "EAA-036",
+    "EAA-037",
+    "EAA-038",
+    "EAA-039",
+    "EAA-040",
+    "EAA-041",
+    "EAA-042",
+    "EAA-043",
+    "EAA-044",
+    "EAA-045",
+    "EAA-046",
+    "EAA-047",
+    "EAA-048",
+    "EAA-049",
+    "EAA-050",
+    "EAA-051",
+    "EAA-052",
+    "EAA-053",
+    "EAA-054",
+    "EAA-055",
+    "EAA-056",
+    "EAA-057",
+    "EAA-058",
+    "EAA-059",
+    "EAA-060",
+    "EAA-061",
+    "EAA-062",
+    "EAA-063",
+    "EAA-064",
+    "EAA-065",
+    "EAA-066",
+    "EAA-067",
+    "EAA-068",
+    "EAA-069",
+    "EAA-070"
+  ],
+  "examination_counts": {
+    "EXAMINED": 55,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 15
+  },
+  "disposition_counts": {
+    "STRONGLY_RETAINED": 13,
+    "RETAINED_IN_EVOLVED_FORM": 25,
+    "CONTEXT_DEPENDENT": 17,
+    "ASSUMPTION_SENSITIVE": 4,
+    "USEFUL_BUT_EASILY_GAMED": 0,
+    "USEFUL_BUT_EASILY_BUREAUCRATISED": 0,
+    "DOMAIN_SPECIFIC": 0,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "DUPLICATE_CANDIDATE": 1,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 1,
+    "NO_GENERAL_PROPERTY": 2,
+    "REJECTED_OR_DISFAVOURED": 4,
+    "CONTESTED": 1,
+    "UNRESOLVED": 1
+  },
+  "affirmative_conditional_population": 59,
+  "affirmative_population_is_not_a_mandatory_control_count": true,
+  "unresolved_count": 1,
+  "unresolved_property_ids": [
+    "EAA-062"
+  ],
+  "contested_count": 1,
+  "contested_property_ids": [
+    "EAA-042"
+  ],
+  "duplicate_property_ids": [
+    "EAA-065"
+  ],
+  "mandatory_families_total": 10,
+  "mandatory_families_examined": 10,
+  "uncompleted_mandatory_families": 0,
+  "uncompleted_burdens": [],
+  "source_work_version_count": 54,
+  "source_access_limits": [
+    {
+      "SOURCE_ID": "EAA-S004",
+      "ACCESS_LEVEL": "SELECTED_PAGES_VISUAL",
+      "LIMITS": [
+        "Inspected memo is not the exact 1986 IEEE edition; scanned PDF, selected pages only."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S006",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_SECTIONS",
+      "LIMITS": [
+        "Copy cites later work despite identifying the 1988 article; precise manuscript revision is undated. Figure 1 missing in this copy."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S007",
+      "ACCESS_LEVEL": "ABSTRACT_AND_METADATA_ONLY",
+      "LIMITS": [
+        "Original full text inaccessible after several searches; no uninspected theorem or internal page locator attributed."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S018",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "LIMITS": [
+        "Lawful linked course copy inaccessible; not used to support uninspected methods or outcomes."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S021",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_SECTIONS",
+      "LIMITS": [
+        "Exact inspected manuscript is six pages; later publication date 2008 must not be silently substituted. Same case population as EAA-S020.",
+        "Publication year of this exact copy is not established; reported deployment June–December 2000 is distinguished from publication."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S029",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "LIMITS": [
+        "Publisher and repository full text inaccessible in this run. No internal theorem, page claim or effectiveness result attributed."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S037",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "LIMITS": [
+        "Proofs and experimental detail deferred to a longer version; not counted as empirical or replicated support."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S039",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_SECTIONS",
+      "LIMITS": [
+        "Recent preprint, not independent replication. Main 20-scenario air–ground comparison uses Gazebo/PX4 SITL/ROS2 simulation; separate selected humanoid/quadruped demonstrations do not turn those trials into physical field deployment. Eight fault scenarios are deliberately unrecoverable; zero observed false dispatch does not establish zero population risk."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S051",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_SECTIONS",
+      "LIMITS": [
+        "Author manuscript accepted in 2012, distinct from 2014 issue and later upload. Simulated rover/resource model; quantitative figures not used without visual inspection."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S052",
+      "ACCESS_LEVEL": "SELECTED_PAGES_VISUAL",
+      "LIMITS": [
+        "Filename 487 is not the report number. Perfect introspection and consistency are modelling assumptions. Joint-agency theory not exhaustively analysed in this single-agent lane."
+      ]
+    },
+    {
+      "SOURCE_ID": "EAA-S053",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_SECTIONS",
+      "LIMITS": [
+        "Full proofs referred to a separate technical report, not independently verified here. Perfect rationality/prediction and modification-independent utility/belief assumptions are strong. Reward/percept tampering, corrigibility and continued value learning remain distinct concerns."
+      ]
+    }
+  ],
+  "evidence_limits": [
+    "EAA-062 broad self-revision assurance remains researched unresolved.",
+    "EAA-042 deference remains contested under different information assumptions.",
+    "Three metadata/abstract-only sources and other exact-edition limits remain explicit.",
+    "No independent comparative validation of the entire evolved composition; no general field prevalence or universal payoff estimates."
+  ],
+  "evidence_partition_policy": "Historical, theoretical, comparative, field, replication, contrary, transfer and researcher-synthesis evidence remain distinct; no aggregate confidence percentage.",
+  "composition": {
+    "state": "COMPLETE_WITH_EXAMINED_LIMITS",
+    "node_count": 12,
+    "relation_count": 62,
+    "alternative_configuration_count": 6,
+    "case_walkthrough_count": 14,
+    "unresolved_or_target_dependent_obligations": [
+      {
+        "ID": "EAA-U01",
+        "ISSUE": "Task-specific architecture and acceptable staleness selection require new evidence; no universal timing or cost threshold is established.",
+        "PROPERTY_IDS": [
+          "EAA-006",
+          "EAA-014",
+          "EAA-019",
+          "EAA-020",
+          "EAA-028",
+          "EAA-067"
+        ],
+        "STATUS": "EXAMINED_TARGET_DEPENDENT"
+      },
+      {
+        "ID": "EAA-U02",
+        "ISSUE": "Observation/oracle incompleteness can leave irreversible outcomes unresolved; no general monitor repairs unobserved effects.",
+        "PROPERTY_IDS": [
+          "EAA-023",
+          "EAA-025",
+          "EAA-045",
+          "EAA-050"
+        ],
+        "STATUS": "EXAMINED_EVIDENCE_LIMIT"
+      },
+      {
+        "ID": "EAA-U03",
+        "ISSUE": "Human readiness, response and private information can defeat an assumed handoff or deference benefit.",
+        "PROPERTY_IDS": [
+          "EAA-038",
+          "EAA-039",
+          "EAA-042"
+        ],
+        "STATUS": "EXAMINED_CONTESTED_BOUNDARY"
+      },
+      {
+        "ID": "EAA-U04",
+        "ISSUE": "Utility continuity, legitimate value change, corrigibility and open-ended self-revision are not jointly assured by the inspected models.",
+        "PROPERTY_IDS": [
+          "EAA-032",
+          "EAA-034",
+          "EAA-042",
+          "EAA-062",
+          "EAA-070"
+        ],
+        "STATUS": "EXAMINED_UNRESOLVED"
+      },
+      {
+        "ID": "EAA-U05",
+        "ISSUE": "The complete composed system is analytically tested, not experimentally validated as one integrated architecture.",
+        "PROPERTY_IDS": [
+          "EAA-067",
+          "EAA-068",
+          "EAA-069"
+        ],
+        "STATUS": "EXPLICIT_SYNTHESIS_EVIDENCE_LIMIT"
+      }
+    ],
+    "integrated_empirical_validation": "NOT_CLAIMED"
+  },
+  "intakes": {
+    "audit": "COMPLETE",
+    "public_documentation": "COMPLETE",
+    "later_synthesis": "COMPLETE"
+  },
+  "SIBLING_CORPORA_CONSULTED": "NO",
+  "CROSS_TRIFECTA_SYNTHESIS_PERFORMED": "NO",
+  "EXTERNAL_RESEARCH_READY_FOR_LATER_SYNTHESIS_AND_CROSSWALK": "YES",
+  "checks": {
+    "payload_validation": "PASS",
+    "individual_internal_schema_count_reference_link_checks": 1984,
+    "json_parse": "PASS",
+    "mandatory_property_and_domain_fields": "PASS",
+    "unique_ids_and_resolvable_references": "PASS",
+    "population_disposition_and_examination_reconciliation": "PASS",
+    "all_ten_mandatory_families_examined": "PASS",
+    "required_report_sections_and_order": "PASS",
+    "complete_audit_and_synthesis_property_exports": "PASS",
+    "independence_and_target_specific_conclusion_scan": "PASS",
+    "source_and_substantive_self_review": "COMPLETED_WITH_RECORDED_ACCESS_AND_EVIDENCE_LIMITS",
+    "verification_limits": "Internal consistency and source readback do not independently prove all literature claims or validate the composed system experimentally.",
+    "archive_reopen_protocol": "After closing the ZIP, verify CRC, exact nine-member inventory, parse the embedded manifest/JSON, and recalculate each payload byte count and SHA-256. The final result and enclosing ZIP hash are reported externally to avoid circular hashing."
+  },
+  "normalisation_and_finalisation_log": [
+    {
+      "stage": "PRE_FREEZE",
+      "change": "UTF-8, LF line endings and indented valid JSON serialisation. No frozen judgement existed before final consistency checks."
+    },
+    {
+      "stage": "PRE_FREEZE",
+      "change": "Expanded the SayCan source record from abbreviated attribution to the complete inspected 45-author list; substantive findings and candidate dispositions unchanged."
+    },
+    {
+      "stage": "VALIDATOR_CORRECTION",
+      "change": "The reference checker was corrected to recognise the five composition obligation records declared with the key ID. No payload data or judgement changed for this validator correction."
+    },
+    {
+      "stage": "FREEZE",
+      "change": "Eight final payloads inventoried by exact bytes below; any later substantive change requires a new revision and new hashes."
+    }
+  ],
+  "inventory": [
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_FROZEN_REPORT.md",
+      "bytes": 357659,
+      "sha256": "f28c1980e2fc39a22906a9033c777fcbccfbb4565f06dd347102da65ce204ca8"
+    },
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_PROPERTY_LEDGER.json",
+      "bytes": 1319756,
+      "sha256": "f3e41e27ef00d6de747ad51d321ae8e0b0498623344f93649a99b1ad5cc286c9"
+    },
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_SOURCE_TABLE.json",
+      "bytes": 217395,
+      "sha256": "333f161ada6d11c33c610500fc9ff21b985e58eb18f334dee11ec34833de453f"
+    },
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_AUDIT_INTAKE.md",
+      "bytes": 461457,
+      "sha256": "2648936d940defadfc2a1765e2bb0f91a90e52a969ef305dc25cdf9b2840227c"
+    },
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 10781,
+      "sha256": "5593cfe0bc1e4d5858636a7a16ea1b6b1b8a9765cef06bde4b470e6aff3c9c12"
+    },
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_SYNTHESIS_INTAKE.md",
+      "bytes": 173264,
+      "sha256": "fe0617e77505d5a0a3f1cedb57997f8e300c082ce0fa12b2980f659fb3b303b0"
+    },
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_COMPOSITION_MODEL.json",
+      "bytes": 97057,
+      "sha256": "a0c6ee0f81f1b8947287240902367ca7c2683bf36558f5f4e2f00a1decc0a84c"
+    },
+    {
+      "filename": "EVOLVED_AUTONOMOUS_AGENTS_RESEARCH_COVERAGE.json",
+      "bytes": 44647,
+      "sha256": "1fb127d78d76becb00bec0fcda803fd83c2a54cd67e2711a99a166f37ee2b6a5"
+    }
+  ],
+  "inventory_policy": "Exactly the eight payloads are inventoried. This manifest and the enclosing ZIP are deliberately excluded from this inventory.",
+  "excluded_material": "No bulk copyrighted sources, requester repositories, credentials, private logs, working scripts or unrelated artefacts are included."
+}
