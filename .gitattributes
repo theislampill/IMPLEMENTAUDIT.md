@@ -1,3 +1,26 @@
 *.sh text eol=lf
 docs/research/genealogy/**/corpus/** whitespace=-trailing-space
 docs/research/genealogy/method/source-prompts/** whitespace=-trailing-space
+
+# Preserve exact custody CRLF bytes while retaining default whitespace checks.
+docs/research/genealogy/CORPUS_SOURCE_LOCK.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/CUSTODY_REUSE_LIMITS.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/REPLICATION_GUIDE.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/ama/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/ama/evolved-autonomous-agents/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/ama/evolved-multi-agent-systems/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/bwp/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/bwp/evolved-business-process-management/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/bwp/evolved-process-mining/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/bwp/evolved-workflow-management/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/sss/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/sss/evolved-software-architecture/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/genealogy/sss/evolved-software-product-line-engineering/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/research/implementaudit/triad-integration/README.md whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/build-genealogy-corpus.py whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/check-genealogy-corpus.py whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/genealogy_corpus.py whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+scripts/historical_absorption.py whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
