@@ -1,0 +1,1252 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_WORKFLOW_MANAGEMENT",
+  "revision": "EWM-R1-2026-09-06",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "date_basis": "Declared research/access cut-off is 2026-09-06 in the requester’s America/New_York day; later UTC filesystem timestamps and archival download stamps are not publication evidence.",
+  "scope_statement": "Independent bounded-completeness study of established Workflow Management: representation, coordination and enactment of control/data/resource/interaction semantics, human and external work, exception, recovery, change and evidence. Evolved names a criticism-tested analytical synthesis, not an academic school.",
+  "scope_boundaries": [
+    "No requester repository, prior Evolved packet or sibling corpus was inspected. No target-specific adoption, architecture mutation or release judgement.",
+    "Business-process organisational management and process-mining inference are documented interfaces, not substituted for the lane’s enactment question.",
+    "Not a census of every commercial engine, publication, legal regime or scientific domain; product evidence is edition/implementation-specific.",
+    "Formal guarantees are confined to stated model classes; social authority, physical effects, fairness and scientific truth are not inferred from model state.",
+    "No bulk copyrighted source texts, credentials, private logs or unrelated material included in the packet."
+  ],
+  "families": [
+    {
+      "FAMILY_ID": "W1",
+      "NAME": "Definitions, instances and executable semantics",
+      "QUESTIONS": "What does an engine or human procedure enact; which state and completion claims are actually consumed?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH01",
+        "EWM-SEARCH03",
+        "EWM-SEARCH05",
+        "EWM-SEARCH06"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S001",
+        "EWM-S002",
+        "EWM-S004",
+        "EWM-S006",
+        "EWM-S007",
+        "EWM-S009",
+        "EWM-S014",
+        "EWM-S015",
+        "EWM-S016",
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S019",
+        "EWM-S023",
+        "EWM-S025",
+        "EWM-S026",
+        "EWM-S027",
+        "EWM-S033",
+        "EWM-S034",
+        "EWM-S041",
+        "EWM-S045",
+        "EWM-S051"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-001",
+        "EWM-002",
+        "EWM-003",
+        "EWM-004",
+        "EWM-005"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C001",
+        "EWM-C002",
+        "EWM-C007",
+        "EWM-C009",
+        "EWM-C011",
+        "EWM-C017",
+        "EWM-C025",
+        "EWM-C026"
+      ],
+      "RECENCY_COVERAGE": [
+        "Historical dates distinguished from archive upload, printing and digitisation dates.",
+        "2003–2006 original programme and later standards/criticism, not a current engine scorecard.",
+        "BPMN 2.0.2 January 2014, BPEL 2.0 April 2007 and CMMN 1.1 December 2016 are the inspected editions; no unverified new edition is asserted.",
+        "Original 1992/1996/1997 work and 2019 assignment formulation; no modern personnel-law claims made."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM01",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W2",
+      "NAME": "Control-flow patterns, concurrency and synchronisation",
+      "QUESTIONS": "Which activations may arrive, repeat, interleave, cancel or terminate; how are joins and progress interpreted?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH02",
+        "EWM-SEARCH03",
+        "EWM-SEARCH04",
+        "EWM-SEARCH05",
+        "EWM-SEARCH14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S006",
+        "EWM-S007",
+        "EWM-S008",
+        "EWM-S013",
+        "EWM-S014",
+        "EWM-S015",
+        "EWM-S016",
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S019",
+        "EWM-S023",
+        "EWM-S024",
+        "EWM-S026",
+        "EWM-S032",
+        "EWM-S033",
+        "EWM-S035",
+        "EWM-S042",
+        "EWM-S045",
+        "EWM-S051"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-006",
+        "EWM-007",
+        "EWM-008",
+        "EWM-009",
+        "EWM-010",
+        "EWM-011",
+        "EWM-012",
+        "EWM-013",
+        "EWM-014",
+        "EWM-064",
+        "EWM-070"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C003",
+        "EWM-C004",
+        "EWM-C006",
+        "EWM-C007",
+        "EWM-C010",
+        "EWM-C011",
+        "EWM-C013",
+        "EWM-C016",
+        "EWM-C024"
+      ],
+      "RECENCY_COVERAGE": [
+        "Historical foundations; later model/implementation bridge tested through 2016 engine evidence and current execution documentation.",
+        "2003–2006 original programme and later standards/criticism, not a current engine scorecard.",
+        "2011–2012 controversy; 2016 historical engine comparison not extrapolated to 2026 products.",
+        "BPMN 2.0.2 January 2014, BPEL 2.0 April 2007 and CMMN 1.1 December 2016 are the inspected editions; no unverified new edition is asserted.",
+        "Final research decisions integrate original, critical and 2023–2026 evidence; source-location recheck corrected the longitudinal-study figure page and retained both positive adjusted outcomes and organisational cancellation causes. No source-count quota used."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM02",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W3",
+      "NAME": "Soundness, correctness and their limits",
+      "QUESTIONS": "Which precise formal predicate/model is checked; what does it not establish about implementation, data, resources, time or effects?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH02",
+        "EWM-SEARCH04",
+        "EWM-SEARCH05",
+        "EWM-SEARCH09"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S004",
+        "EWM-S005",
+        "EWM-S007",
+        "EWM-S008",
+        "EWM-S013",
+        "EWM-S015",
+        "EWM-S017",
+        "EWM-S023",
+        "EWM-S024",
+        "EWM-S025",
+        "EWM-S027",
+        "EWM-S032",
+        "EWM-S033",
+        "EWM-S034",
+        "EWM-S040",
+        "EWM-S049",
+        "EWM-S051"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-015",
+        "EWM-016",
+        "EWM-017",
+        "EWM-018",
+        "EWM-019",
+        "EWM-066"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C003",
+        "EWM-C005",
+        "EWM-C006",
+        "EWM-C008",
+        "EWM-C013",
+        "EWM-C021",
+        "EWM-C024",
+        "EWM-C026"
+      ],
+      "RECENCY_COVERAGE": [
+        "Historical foundations; later model/implementation bridge tested through 2016 engine evidence and current execution documentation.",
+        "2011–2012 controversy; 2016 historical engine comparison not extrapolated to 2026 products.",
+        "BPMN 2.0.2 January 2014, BPEL 2.0 April 2007 and CMMN 1.1 December 2016 are the inspected editions; no unverified new edition is asserted.",
+        "Historical mechanisms coupled to live 2026 version/replay constraints; no universal comparative flexibility ranking."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM03",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W4",
+      "NAME": "Data, case identity and information availability",
+      "QUESTIONS": "How are data scope, binding, freshness, case/message/object correlation and coupled object lifecycles made valid?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH03",
+        "EWM-SEARCH05",
+        "EWM-SEARCH08",
+        "EWM-SEARCH09",
+        "EWM-SEARCH13"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S007",
+        "EWM-S014",
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S019",
+        "EWM-S021",
+        "EWM-S022",
+        "EWM-S026",
+        "EWM-S030",
+        "EWM-S034",
+        "EWM-S038",
+        "EWM-S039",
+        "EWM-S045",
+        "EWM-S046"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-020",
+        "EWM-021",
+        "EWM-022",
+        "EWM-023",
+        "EWM-024"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C007",
+        "EWM-C012",
+        "EWM-C015",
+        "EWM-C023"
+      ],
+      "RECENCY_COVERAGE": [
+        "2003–2006 original programme and later standards/criticism, not a current engine scorecard.",
+        "BPMN 2.0.2 January 2014, BPEL 2.0 April 2007 and CMMN 1.1 December 2016 are the inspected editions; no unverified new edition is asserted.",
+        "2000–2007 original formulations retained as semantic evidence, not present adoption claims.",
+        "Historical mechanisms coupled to live 2026 version/replay constraints; no universal comparative flexibility ranking.",
+        "2026-06 and 2026-08-05 work precedes declared 2026-09-06 cutoff; no forthcoming replication assumed."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM04",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W5",
+      "NAME": "Resources, roles and human work items",
+      "QUESTIONS": "Who may, can and does undertake work; how do lifecycle, capacity, delegation, duty constraints and acceptance differ?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH03",
+        "EWM-SEARCH06",
+        "EWM-SEARCH11"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S007",
+        "EWM-S009",
+        "EWM-S010",
+        "EWM-S011",
+        "EWM-S015",
+        "EWM-S016",
+        "EWM-S019",
+        "EWM-S025",
+        "EWM-S026",
+        "EWM-S034",
+        "EWM-S040",
+        "EWM-S041",
+        "EWM-S045",
+        "EWM-S049",
+        "EWM-S050"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-025",
+        "EWM-026",
+        "EWM-027",
+        "EWM-028",
+        "EWM-029",
+        "EWM-030",
+        "EWM-031"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C001",
+        "EWM-C002",
+        "EWM-C005",
+        "EWM-C008",
+        "EWM-C009",
+        "EWM-C017",
+        "EWM-C020",
+        "EWM-C021"
+      ],
+      "RECENCY_COVERAGE": [
+        "2003–2006 original programme and later standards/criticism, not a current engine scorecard.",
+        "Original 1992/1996/1997 work and 2019 assignment formulation; no modern personnel-law claims made.",
+        "1998 event specification; 2001–2012 deployment programme published 2016; connected to recent scientific fault observations without treating them as replication."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM05",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W6",
+      "NAME": "Exceptions, interrupts, cancellation and compensation",
+      "QUESTIONS": "What is detected, interrupted or cancelled; what uncertainty, compensation and residual obligations survive?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH03",
+        "EWM-SEARCH07",
+        "EWM-SEARCH10",
+        "EWM-SEARCH14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S003",
+        "EWM-S008",
+        "EWM-S009",
+        "EWM-S016",
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S019",
+        "EWM-S020",
+        "EWM-S021",
+        "EWM-S026",
+        "EWM-S029",
+        "EWM-S034",
+        "EWM-S036",
+        "EWM-S037",
+        "EWM-S041",
+        "EWM-S044",
+        "EWM-S050",
+        "EWM-S051"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-032",
+        "EWM-033",
+        "EWM-034",
+        "EWM-035",
+        "EWM-036",
+        "EWM-037",
+        "EWM-069",
+        "EWM-075"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C001",
+        "EWM-C006",
+        "EWM-C010",
+        "EWM-C011",
+        "EWM-C015",
+        "EWM-C017",
+        "EWM-C018"
+      ],
+      "RECENCY_COVERAGE": [
+        "2003–2006 original programme and later standards/criticism, not a current engine scorecard.",
+        "1987 foundations through live documentation inspected at 2026-09-06.",
+        "2023 systems paper, 2024 specified preprint version, live pages inspected in 2026; no current benchmark superiority inferred.",
+        "Final research decisions integrate original, critical and 2023–2026 evidence; source-location recheck corrected the longitudinal-study figure page and retained both positive adjusted outcomes and organisational cancellation causes. No source-count quota used."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM06",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W7",
+      "NAME": "Orchestration, choreography and external interaction",
+      "QUESTIONS": "How do local and global behaviours, messages and commitments fit across autonomous participants?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH05",
+        "EWM-SEARCH06",
+        "EWM-SEARCH08"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S002",
+        "EWM-S003",
+        "EWM-S004",
+        "EWM-S007",
+        "EWM-S009",
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S023",
+        "EWM-S026",
+        "EWM-S033",
+        "EWM-S034",
+        "EWM-S038",
+        "EWM-S045",
+        "EWM-S050"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-038",
+        "EWM-039",
+        "EWM-040",
+        "EWM-041",
+        "EWM-077"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C001",
+        "EWM-C005",
+        "EWM-C009",
+        "EWM-C012",
+        "EWM-C013"
+      ],
+      "RECENCY_COVERAGE": [
+        "BPMN 2.0.2 January 2014, BPEL 2.0 April 2007 and CMMN 1.1 December 2016 are the inspected editions; no unverified new edition is asserted.",
+        "Original 1992/1996/1997 work and 2019 assignment formulation; no modern personnel-law claims made.",
+        "2000–2007 original formulations retained as semantic evidence, not present adoption claims."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM07",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W8",
+      "NAME": "Persistence, recovery and long-lived execution",
+      "QUESTIONS": "What state survives failures; how do attempts, external effects, retention and version compatibility support recovery?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH07",
+        "EWM-SEARCH10",
+        "EWM-SEARCH13",
+        "EWM-SEARCH14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S002",
+        "EWM-S018",
+        "EWM-S020",
+        "EWM-S021",
+        "EWM-S026",
+        "EWM-S027",
+        "EWM-S028",
+        "EWM-S029",
+        "EWM-S030",
+        "EWM-S033",
+        "EWM-S041",
+        "EWM-S044",
+        "EWM-S045"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-042",
+        "EWM-043",
+        "EWM-044",
+        "EWM-045",
+        "EWM-046",
+        "EWM-047",
+        "EWM-065",
+        "EWM-072",
+        "EWM-076"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C010",
+        "EWM-C013",
+        "EWM-C014",
+        "EWM-C015",
+        "EWM-C019",
+        "EWM-C023",
+        "EWM-C025"
+      ],
+      "RECENCY_COVERAGE": [
+        "1987 foundations through live documentation inspected at 2026-09-06.",
+        "2023 systems paper, 2024 specified preprint version, live pages inspected in 2026; no current benchmark superiority inferred.",
+        "2026-06 and 2026-08-05 work precedes declared 2026-09-06 cutoff; no forthcoming replication assumed.",
+        "Final research decisions integrate original, critical and 2023–2026 evidence; source-location recheck corrected the longitudinal-study figure page and retained both positive adjusted outcomes and organisational cancellation causes. No source-count quota used."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM08",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W9",
+      "NAME": "Workflow change, flexibility and case management",
+      "QUESTIONS": "Which forms of flexibility are justified, and when are changed definitions and live states jointly valid?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH05",
+        "EWM-SEARCH09",
+        "EWM-SEARCH10",
+        "EWM-SEARCH13"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S009",
+        "EWM-S016",
+        "EWM-S019",
+        "EWM-S021",
+        "EWM-S022",
+        "EWM-S024",
+        "EWM-S025",
+        "EWM-S028",
+        "EWM-S030",
+        "EWM-S032",
+        "EWM-S034",
+        "EWM-S035",
+        "EWM-S036",
+        "EWM-S037",
+        "EWM-S039"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-048",
+        "EWM-049",
+        "EWM-050",
+        "EWM-051",
+        "EWM-052",
+        "EWM-053",
+        "EWM-054",
+        "EWM-067"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C001",
+        "EWM-C003",
+        "EWM-C009",
+        "EWM-C015",
+        "EWM-C016",
+        "EWM-C017",
+        "EWM-C018",
+        "EWM-C026"
+      ],
+      "RECENCY_COVERAGE": [
+        "BPMN 2.0.2 January 2014, BPEL 2.0 April 2007 and CMMN 1.1 December 2016 are the inspected editions; no unverified new edition is asserted.",
+        "Historical mechanisms coupled to live 2026 version/replay constraints; no universal comparative flexibility ranking.",
+        "2023 systems paper, 2024 specified preprint version, live pages inspected in 2026; no current benchmark superiority inferred.",
+        "2026-06 and 2026-08-05 work precedes declared 2026-09-06 cutoff; no forthcoming replication assumed."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM09",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    },
+    {
+      "FAMILY_ID": "W10",
+      "NAME": "Observability, conformance and modern derivatives",
+      "QUESTIONS": "What do observations and modern descendants establish, what remains outside logs, and what practical benefits are actually supported?",
+      "PERFORMED_SEARCH_IDS": [
+        "EWM-SEARCH04",
+        "EWM-SEARCH11",
+        "EWM-SEARCH12",
+        "EWM-SEARCH13",
+        "EWM-SEARCH14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S009",
+        "EWM-S017",
+        "EWM-S023",
+        "EWM-S025",
+        "EWM-S027",
+        "EWM-S028",
+        "EWM-S030",
+        "EWM-S031",
+        "EWM-S033",
+        "EWM-S034",
+        "EWM-S041",
+        "EWM-S042",
+        "EWM-S043",
+        "EWM-S044",
+        "EWM-S045",
+        "EWM-S047",
+        "EWM-S048",
+        "EWM-S049",
+        "EWM-S050"
+      ],
+      "PROPERTY_IDS": [
+        "EWM-055",
+        "EWM-056",
+        "EWM-057",
+        "EWM-058",
+        "EWM-059",
+        "EWM-060",
+        "EWM-061",
+        "EWM-062",
+        "EWM-063",
+        "EWM-068",
+        "EWM-071",
+        "EWM-073",
+        "EWM-074"
+      ],
+      "CRITICISM_IDS": [
+        "EWM-C001",
+        "EWM-C002",
+        "EWM-C009",
+        "EWM-C013",
+        "EWM-C019",
+        "EWM-C020",
+        "EWM-C021",
+        "EWM-C022",
+        "EWM-C023",
+        "EWM-C025",
+        "EWM-C026"
+      ],
+      "RECENCY_COVERAGE": [
+        "2011–2012 controversy; 2016 historical engine comparison not extrapolated to 2026 products.",
+        "1998 event specification; 2001–2012 deployment programme published 2016; connected to recent scientific fault observations without treating them as replication.",
+        "2023–2025 inspected recent sources plus 2023/2024 access-limited leads; the 2025 data-flow result with HTTP 429 is not substantive evidence.",
+        "2026-06 and 2026-08-05 work precedes declared 2026-09-06 cutoff; no forthcoming replication assumed.",
+        "Final research decisions integrate original, critical and 2023–2026 evidence; source-location recheck corrected the longitudinal-study figure page and retained both positive adjusted outcomes and organisational cancellation causes. No source-count quota used."
+      ],
+      "DOMAIN_MODEL_ID": "EWM-DM10",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Questions examined; candidates have individual retained, conditional, adverse or unresolved judgements. Access limits and absence of independent effectiveness evidence are preserved, not converted to favourable claims."
+    }
+  ],
+  "additional_mandatory_obligations": [
+    {
+      "OBLIGATION": "Plural genealogy including office/CSCW, transactions, language-action, Petri nets, patterns, standards, adaptive/declarative/case, scientific and durable descendants",
+      "STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE": "20 genealogy nodes and 26 typed edges; early originals and some critique/decay papers have explicit access limits."
+    },
+    {
+      "OBLIGATION": "Criticism, adverse evidence and evolution that can change dispositions",
+      "STATUS": "EXAMINED",
+      "EVIDENCE": "26 criticism/evolution entries, 10 tensions and nine adversely disposed overclaims plus one unresolved frontier claim."
+    },
+    {
+      "OBLIGATION": "Current-year and preceding two-to-five-year research",
+      "STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE": "Inspected 2023, 2024, 2025 and 2026 works plus current documentation; access-limited 2023/2024 leads are not silently counted as full evidence."
+    },
+    {
+      "OBLIGATION": "Within-tradition relational composition and discriminating probes",
+      "STATUS": "EXAMINED",
+      "EVIDENCE": "63 guarded relations, 8 configurations, 5 external interfaces, 3 revision boundaries and 13 explicitly analytical probes."
+    },
+    {
+      "OBLIGATION": "Complete property population, domain profiles and ceremony alternatives",
+      "STATUS": "EXAMINED",
+      "EVIDENCE": "77 examined candidates, 10 resolvable domain profiles/models and 67 per-retained-mechanism ceremony-stripping records; no quota and no hidden rejected rows."
+    },
+    {
+      "OBLIGATION": "Audit, public-documentation and later-synthesis intakes",
+      "STATUS": "EXAMINED",
+      "EVIDENCE": "Separate payloads and all 77 globally keyed exports; no sibling findings or target adoption inferred."
+    }
+  ],
+  "genealogical_branch_register": [
+    {
+      "NODE_ID": "EWM-G01",
+      "NAME": "Office information systems, document routing and heterogeneous precursors",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "SOURCE_IDS": [
+        "EWM-S001",
+        "EWM-S002",
+        "EWM-S012"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G02",
+      "NAME": "Situated and cooperative-work criticism",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "SOURCE_IDS": [
+        "EWM-S009",
+        "EWM-S010",
+        "EWM-S011",
+        "EWM-S034"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G03",
+      "NAME": "Long-lived transactions and Sagas",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S020",
+        "EWM-S016"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G04",
+      "NAME": "ActionWorkflow and the language-action branch",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S050"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G05",
+      "NAME": "WfMC Workflow Reference Model",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S001",
+        "EWM-S002",
+        "EWM-S003"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G06",
+      "NAME": "Workflow nets, Woflan and soundness variants",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S004",
+        "EWM-S005",
+        "EWM-S007",
+        "EWM-S008"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G07",
+      "NAME": "Workflow control-flow patterns",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S006",
+        "EWM-S023",
+        "EWM-S024",
+        "EWM-S032",
+        "EWM-S051"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G08",
+      "NAME": "Data, resource and exception perspectives",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S014",
+        "EWM-S015",
+        "EWM-S016"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G09",
+      "NAME": "YAWL",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S013",
+        "EWM-S037",
+        "EWM-S051"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G10",
+      "NAME": "ADEPTflex and adaptive running-instance change",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S021",
+        "EWM-S036"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G11",
+      "NAME": "Inter-organisational workflows",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S038",
+        "EWM-S018"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G12",
+      "NAME": "Business artifacts and data-centric operational specification",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S039",
+        "EWM-S022"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G13",
+      "NAME": "Case handling",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S022",
+        "EWM-S019"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G14",
+      "NAME": "Worklets",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S037"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G15",
+      "NAME": "Declarative constraint-based workflows",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S035",
+        "EWM-S036"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G16",
+      "NAME": "Executable service and process/case standards",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S019",
+        "EWM-S033"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G17",
+      "NAME": "Execution observations and practical evaluation",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S045",
+        "EWM-S043",
+        "EWM-S025"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G18",
+      "NAME": "Scientific workflow translation",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "SOURCE_IDS": [
+        "EWM-S041",
+        "EWM-S042",
+        "EWM-S047",
+        "EWM-S048",
+        "EWM-S049"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G19",
+      "NAME": "Durable execution and cloud orchestration",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S020",
+        "EWM-S026",
+        "EWM-S027",
+        "EWM-S028",
+        "EWM-S029",
+        "EWM-S044"
+      ]
+    },
+    {
+      "NODE_ID": "EWM-G20",
+      "NAME": "Low-code, agent/workflow hybrids and semantic-environment proposals",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "SOURCE_IDS": [
+        "EWM-S030",
+        "EWM-S031"
+      ]
+    }
+  ],
+  "search_log": [
+    {
+      "SEARCH_ID": "EWM-SEARCH01",
+      "TOPIC": "Office origins and reference model",
+      "PERFORMED_SEARCH_DESCRIPTION": "Searched original WfMC reference model, Hollingsworth editions, office information systems, practical action and cooperative-work originals; followed author/issuing-body archives and lawful institutional copies.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S001",
+        "EWM-S002",
+        "EWM-S003",
+        "EWM-S010",
+        "EWM-S011",
+        "EWM-S012"
+      ],
+      "DECISION_CHANGE": "Separated 1994 draft from 1995 release and retrospective ancestry from direct original evidence.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Looked for situated-work/print-shop critique and reference-model retrospective limitations.",
+      "RECENCY_COVERAGE": "Historical dates distinguished from archive upload, printing and digitisation dates.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH02",
+      "TOPIC": "Workflow-net correctness",
+      "PERFORMED_SEARCH_DESCRIPTION": "Searched original verification of workflow nets, Woflan, soundness classification and reset-arc cancellation/decidability; opened author full texts and inspected relevant figures.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S004",
+        "EWM-S005",
+        "EWM-S007",
+        "EWM-S008",
+        "EWM-S013"
+      ],
+      "DECISION_CHANGE": "Bounded option-to-complete claims and separated net variants, engine correspondence and environmental progress.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Searched deadlock, cancellation, state-space and undecidability limitations rather than only successful checking.",
+      "RECENCY_COVERAGE": "Historical foundations; later model/implementation bridge tested through 2016 engine evidence and current execution documentation.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH03",
+      "TOPIC": "Control/data/resource/exception patterns",
+      "PERFORMED_SEARCH_DESCRIPTION": "Located published Workflow Patterns and revised control-flow, data, resource and exception works; followed institutional author records and full PDFs.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S006",
+        "EWM-S013",
+        "EWM-S014",
+        "EWM-S015",
+        "EWM-S016",
+        "EWM-S051"
+      ],
+      "DECISION_CHANGE": "Expanded beyond serial/DAG work; retained activation-aware joins, multiple-instance/recursion semantics and multi-perspective readiness. Corrected revised catalogue total to 43.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Examined non-local joins, data extraction/update limits, exception detection assumptions and unqualified recursion progress wording.",
+      "RECENCY_COVERAGE": "2003–2006 original programme and later standards/criticism, not a current engine scorecard.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH04",
+      "TOPIC": "Pattern criticism and implementation regressions",
+      "PERFORMED_SEARCH_DESCRIPTION": "Searched Börger original critique, lawful copies and authors’ response/rejoinder; located BPMN engine conformance/evolution tests.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S023",
+        "EWM-S024",
+        "EWM-S032",
+        "EWM-S033"
+      ],
+      "DECISION_CHANGE": "Rejected feature-count/brand sufficiency and preserved unresolved access-bounded technical disagreement.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Strong critic given direct representation; challenged defenders’ popularity arguments and benchmark market-success inference.",
+      "RECENCY_COVERAGE": "2011–2012 controversy; 2016 historical engine comparison not extrapolated to 2026 products.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH05",
+      "TOPIC": "Executable standards and case lifecycles",
+      "PERFORMED_SEARCH_DESCRIPTION": "Opened issuing-body BPMN, OASIS BPEL and CMMN specification editions; inspected execution, event, correlation and case-completion sections and screenshots.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S019"
+      ],
+      "DECISION_CHANGE": "Distinguished correlation, interruption, orchestration and discretionary case semantics. CMMN terminal lifecycle is not all-child-success.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Inspected acknowledged underspecification and semantic portability limits; compared model/engine evidence.",
+      "RECENCY_COVERAGE": "BPMN 2.0.2 January 2014, BPEL 2.0 April 2007 and CMMN 1.1 December 2016 are the inspected editions; no unverified new edition is asserted.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH06",
+      "TOPIC": "Situated work, human resources and commitments",
+      "PERFORMED_SEARCH_DESCRIPTION": "Searched and opened Freeflow, Bardram’s activity-theory account, work-item/resource papers, WSP assignment formulation and ActionWorkflow original.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S009",
+        "EWM-S015",
+        "EWM-S034",
+        "EWM-S040",
+        "EWM-S050"
+      ],
+      "DECISION_CHANGE": "Added late-discovered commitment/acceptance candidate EWM-077; kept authority, availability and physical effect distinct from model/worklist states.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Examined rigid prescription, role/assignment feasibility, hidden work and limits of completion declarations.",
+      "RECENCY_COVERAGE": "Original 1992/1996/1997 work and 2019 assignment formulation; no modern personnel-law claims made.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH07",
+      "TOPIC": "Exceptions, long-lived effects and compensation",
+      "PERFORMED_SEARCH_DESCRIPTION": "Located original Sagas, workflow exception patterns, scoped standard handlers and current activity execution documentation.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S016",
+        "EWM-S017",
+        "EWM-S018",
+        "EWM-S020",
+        "EWM-S026"
+      ],
+      "DECISION_CHANGE": "Rejected timeout-equals-failure and compensation-as-world-inverse; composition-induced closure EWM-075 captures residual obligations.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Inspected compensation bugs/failure, cooperative cancellation, detection limits and irreversible effects.",
+      "RECENCY_COVERAGE": "1987 foundations through live documentation inspected at 2026-09-06.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH08",
+      "TOPIC": "Inter-organisational and data-centric coordination",
+      "PERFORMED_SEARCH_DESCRIPTION": "Searched inter-organisational workflow soundness/compatibility, message correlation, business artifacts and case handling.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S018",
+        "EWM-S022",
+        "EWM-S038",
+        "EWM-S039",
+        "EWM-S050"
+      ],
+      "DECISION_CHANGE": "Separated local from global correctness and object/case identity from interaction agreement.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Investigated protocol mismatch, private participant constraints and lack of authority from a central view.",
+      "RECENCY_COVERAGE": "2000–2007 original formulations retained as semantic evidence, not present adoption claims.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH09",
+      "TOPIC": "Dynamic change and flexibility",
+      "PERFORMED_SEARCH_DESCRIPTION": "Located ADEPTflex lawful full text, declarative workflow consistency, flexibility taxonomy and worklets; inspected state/data migration and verification examples.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S021",
+        "EWM-S022",
+        "EWM-S035",
+        "EWM-S036",
+        "EWM-S037",
+        "EWM-S019"
+      ],
+      "DECISION_CHANGE": "Replaced sound-target-only migration and distinguished four flexibility mechanisms and conditional alternatives.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Searched unsafe migration, contradictory constraints, dead activities, rigidity and rule-selection burden.",
+      "RECENCY_COVERAGE": "Historical mechanisms coupled to live 2026 version/replay constraints; no universal comparative flexibility ranking.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH10",
+      "TOPIC": "Durable/cloud execution and external effects",
+      "PERFORMED_SEARCH_DESCRIPTION": "Opened current Temporal/Microsoft execution constraints, ExoFlow original and DSE preprint; inspected recovery, determinism, exactly-once boundary and limitation sections.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S026",
+        "EWM-S027",
+        "EWM-S028",
+        "EWM-S029",
+        "EWM-S044"
+      ],
+      "DECISION_CHANGE": "Retained valid scoped guarantees while rejecting unqualified external exactly-once; added continuity composition EWM-076.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Looked for replay incompatibility, nondeterministic I/O, coarse annotations, rollback and transaction limits.",
+      "RECENCY_COVERAGE": "2023 systems paper, 2024 specified preprint version, live pages inspected in 2026; no current benchmark superiority inferred.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH11",
+      "TOPIC": "Execution logs, conformance and deployment outcomes",
+      "PERFORMED_SEARCH_DESCRIPTION": "Opened WfMC audit specification, original conformance paper and longitudinal effectiveness study; inspected methods, attrition and before/after figures.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S025",
+        "EWM-S043",
+        "EWM-S045"
+      ],
+      "DECISION_CHANGE": "Rejected complete-log-as-world-truth and universal automation benefit; separated intended, enacted and analysable process denominators.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Searched abandoned deployments, null/mixed results, logging/model limits, selection and simulation threats.",
+      "RECENCY_COVERAGE": "1998 event specification; 2001–2012 deployment programme published 2016; connected to recent scientific fault observations without treating them as replication.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH12",
+      "TOPIC": "Scientific workflows and negative evidence",
+      "PERFORMED_SEARCH_DESCRIPTION": "Searched scientific workflow execution, reuse/reproducibility, breakage/decay and distributed failure studies; opened Taverna, Yevis and the 2025 PanDA presentation; attempted original breakage papers and recent data-flow analysis.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S041",
+        "EWM-S042",
+        "EWM-S046",
+        "EWM-S047",
+        "EWM-S048",
+        "EWM-S049"
+      ],
+      "DECISION_CHANGE": "Preserved output-oracle/environment limits and scientific loops/streaming; fault rates remain scoped to the inspected observation boundary.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Taverna decay original and 2024 successor full text were sought but unavailable. The 2025 presentation was read, not substituted silently for inaccessible proceedings methods.",
+      "RECENCY_COVERAGE": "2023–2025 inspected recent sources plus 2023/2024 access-limited leads; the 2025 data-flow result with HTTP 429 is not substantive evidence.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH13",
+      "TOPIC": "Agent/workflow and low-code current frontier",
+      "PERFORMED_SEARCH_DESCRIPTION": "Searched current-year durable AI semantics and agentic/low-code workflow research; opened June and August 2026 preprints, methods, controlled system evaluation and limitations.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S030",
+        "EWM-S031"
+      ],
+      "DECISION_CHANGE": "Created EWM-073 as assumption-sensitive and EWM-074 as examined unresolved; controlled prototype evidence favours static pinning for closed dependency sets and online extension for demonstrated late discovery, without establishing general safety.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Inspected selection, hidden/custom actions, static-versus-runtime inference and off-repository control limits.",
+      "RECENCY_COVERAGE": "2026-06 and 2026-08-05 work precedes declared 2026-09-06 cutoff; no forthcoming replication assumed.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    },
+    {
+      "SEARCH_ID": "EWM-SEARCH14",
+      "TOPIC": "Targeted saturation and composition challenge",
+      "PERFORMED_SEARCH_DESCRIPTION": "Revisited revised patterns, ActionWorkflow, CMMN, scientific fault slides and boundary cases where the synthesis might change rather than repeating general overview searches.",
+      "INSPECTED_SOURCE_IDS": [
+        "EWM-S019",
+        "EWM-S049",
+        "EWM-S050",
+        "EWM-S051",
+        "EWM-S007",
+        "EWM-S021",
+        "EWM-S044"
+      ],
+      "DECISION_CHANGE": "Explicitly challenged recursion termination prose, checked diagram union visually, retained commitment semantics and tested cancellation/recovery/migration closure.",
+      "NEGATIVE_OR_RIVAL_SEARCH": "Candidate EWM-074 remains unresolved and nine other overclaims retain adverse dispositions; no favourable-retention requirement.",
+      "RECENCY_COVERAGE": "Final research decisions integrate original, critical and 2023–2026 evidence; source-location recheck corrected the longitudinal-study figure page and retained both positive adjusted outcomes and organisational cancellation causes. No source-count quota used.",
+      "RECORDING_METHOD": "Topical reconstruction from actual browser acquisition and durable inspection notes; not represented as a verbatim exhaustive query transcript."
+    }
+  ],
+  "access_limits": [
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL01",
+      "SOURCE_ID": "EWM-S010",
+      "LIMIT": "METADATA_ONLY",
+      "ACTUAL_INSPECTION": [
+        {
+          "LOCATOR_ID": "EWM-S010-L01",
+          "LOCATOR": "Publisher bibliographic record; reception inspected in EWM-S009",
+          "INSPECTED_CONTENT": "Existence, authorship and subject of the critical workplace study.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "RESEARCH_RESPONSE": "Sought lawful author/institutional/publisher copies; did not bypass restrictions or infer omitted methods. Inspected related primary work supplies only its own support.",
+      "EFFECT_ON_JUDGEMENT": "Full text unavailable through attempted publisher and institutional routes. No site-level methods, sample or outcomes inferred from metadata."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL02",
+      "SOURCE_ID": "EWM-S011",
+      "LIMIT": "METADATA_ONLY",
+      "ACTUAL_INSPECTION": [
+        {
+          "LOCATOR_ID": "EWM-S011-L01",
+          "LOCATOR": "Bibliographic record; subsequent reception in EWM-S009 and EWM-S034",
+          "INSPECTED_CONTENT": "Historical critical lineage, not reconstructed original argument.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "RESEARCH_RESPONSE": "Sought lawful author/institutional/publisher copies; did not bypass restrictions or infer omitted methods. Inspected related primary work supplies only its own support.",
+      "EFFECT_ON_JUDGEMENT": "Original full text unavailable. Claims about situated planning here are grounded in directly inspected later primary work, not attributed as quotations from this paper."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL03",
+      "SOURCE_ID": "EWM-S012",
+      "LIMIT": "METADATA_ONLY",
+      "ACTUAL_INSPECTION": [
+        {
+          "LOCATOR_ID": "EWM-S012-L01",
+          "LOCATOR": "Bibliographic record",
+          "INSPECTED_CONTENT": "Office information systems were an established subject before WfMC.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "RESEARCH_RESPONSE": "Sought lawful author/institutional/publisher copies; did not bypass restrictions or infer omitted methods. Inspected related primary work supplies only its own support.",
+      "EFFECT_ON_JUDGEMENT": "Original text unavailable; no assertion that this paper or one earlier thesis founded all workflow management."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL04",
+      "SOURCE_ID": "EWM-S032",
+      "LIMIT": "ABSTRACT_AND_METADATA_ONLY",
+      "ACTUAL_INSPECTION": [
+        {
+          "LOCATOR_ID": "EWM-S032-L01",
+          "LOCATOR": "Publisher abstract and publication history",
+          "INSPECTED_CONTENT": "Abstract identifies precision and faithfulness objections to the compared approaches.",
+          "EVIDENCE_ROLES": [
+            "CRITICISM_OR_NEGATIVE_EVIDENCE",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "RESEARCH_RESPONSE": "Sought lawful author/institutional/publisher copies; did not bypass restrictions or infer omitted methods. Inspected related primary work supplies only its own support.",
+      "EFFECT_ON_JUDGEMENT": "Paywalled full text not obtained. Detailed technical objections/six criteria not reconstructed from abstracts; dispute remains partly unresolved."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL05",
+      "SOURCE_ID": "EWM-S046",
+      "LIMIT": "METADATA_ONLY",
+      "ACTUAL_INSPECTION": [
+        {
+          "LOCATOR_ID": "EWM-S046-L01",
+          "LOCATOR": "Author publication list, 2023 entry",
+          "INSPECTED_CONTENT": "Existence of a recent data/control verification line.",
+          "EVIDENCE_ROLES": [
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "RESEARCH_RESPONSE": "Sought lawful author/institutional/publisher copies; did not bypass restrictions or infer omitted methods. Inspected related primary work supplies only its own support.",
+      "EFFECT_ON_JUDGEMENT": "Publisher PDF fetch failed repeatedly. No proof, algorithm, empirical result or performance claim extracted. 2024 extended item is a separate unexamined lead, not independent evidence."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL06",
+      "SOURCE_ID": "EWM-S047",
+      "LIMIT": "ABSTRACT_AND_METADATA_ONLY",
+      "ACTUAL_INSPECTION": [
+        {
+          "LOCATOR_ID": "EWM-S047-L01",
+          "LOCATOR": "Institutional record, abstract and bibliography",
+          "INSPECTED_CONTENT": "Authors report study of decay in myExperiment/Taverna workflows and propose preserving auxiliary resources.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "RESEARCH_RESPONSE": "Sought lawful author/institutional/publisher copies; did not bypass restrictions or infer omitted methods. Inspected related primary work supplies only its own support.",
+      "EFFECT_ON_JUDGEMENT": "Full methods/results unavailable from attempted institutional PDF; no sample denominator or rate used. Abstract transfer claim is not adopted as demonstrated generality."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL07",
+      "SOURCE_ID": "EWM-S048",
+      "LIMIT": "METADATA_ONLY",
+      "ACTUAL_INSPECTION": [
+        {
+          "LOCATOR_ID": "EWM-S048-L01",
+          "LOCATOR": "Research Session 5; HAL record hal-04689501",
+          "INSPECTED_CONTENT": "A 2024 continuation of scientific-workflow decay research exists.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "RESEARCH_RESPONSE": "Sought lawful author/institutional/publisher copies; did not bypass restrictions or infer omitted methods. Inspected related primary work supplies only its own support.",
+      "EFFECT_ON_JUDGEMENT": "HAL access protection and publisher fetch limit prevented reading methods/results; name discrepancy preserved, no invented rate or replication conclusion."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL08",
+      "SOURCE_ID": "EWM-S049",
+      "LIMIT": "PRESENTATION_NOT_FULL_PROCEEDINGS_METHODS",
+      "RESEARCH_RESPONSE": "Read all slide text and selected screenshots; did not treat the separate inaccessible article as read.",
+      "EFFECT_ON_JUDGEMENT": "No exact observation-window reconstruction or broad frequency generalisation; one field programme only."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL09",
+      "SOURCE_ID": "EWM-S031",
+      "LIMIT": "EXACT_FINAL_TEMPLATE_DENOMINATOR_NOT_LOCATED",
+      "RESEARCH_RESPONSE": "Reported the supported more-than-6,000 scope rather than inventing a precise count.",
+      "EFFECT_ON_JUDGEMENT": "No precise rate or general runtime outcome inferred from static templates."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL10",
+      "SOURCE_ID": null,
+      "LIMIT": "RECENT_DATA_FLOW_LEAD_HTTP_429",
+      "URL": "https://www.mdpi.com/2076-3417/15/5/2629",
+      "RESEARCH_RESPONSE": "This acquisition did not yield inspected substantive text. It is not assigned an evidentiary SOURCE_ID.",
+      "EFFECT_ON_JUDGEMENT": "No result from this lead is used; W4 is supported by independently inspected original data/workflow and migration sources."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL11",
+      "SOURCE_ID": "EWM-S024",
+      "LIMIT": "REJOINDER_DATE_INCONSISTENCY",
+      "RESEARCH_RESPONSE": "Recorded contextual 2012 dating and the slide’s inconsistent response year rather than silently harmonising.",
+      "EFFECT_ON_JUDGEMENT": "Argument text is accessible; precise slide chronology is not used to establish a priority claim."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EWM-AL12",
+      "SOURCE_ID": null,
+      "LIMIT": "LIVE_DOCUMENTATION_NOT_IMMUTABLE_RELEASE_SNAPSHOT",
+      "SOURCE_IDS": [
+        "EWM-S026",
+        "EWM-S027",
+        "EWM-S028"
+      ],
+      "RESEARCH_RESPONSE": "Record access date and inspected page semantics; no exact SDK release or full historical page capture is claimed.",
+      "EFFECT_ON_JUDGEMENT": "Implementation-specific semantics require rechecking for a later target/version."
+    }
+  ],
+  "saturation_rationale": {
+    "BASIS": "Decision saturation within the declared scope, not a fixed number of sources, properties, search rounds or time budget.",
+    "WHAT_CHANGED_LATE": [
+      "The revised control-flow report changed the count/assumption treatment and triggered an explicit recursion-progress counterexample.",
+      "ActionWorkflow added commitment/acceptance candidate EWM-077 rather than being discarded after the initial register.",
+      "CMMN terminal-state semantics prevented all-child-success from being silently built into closure.",
+      "2025 field slides sharpened observation/denominator limits; 2026 static studies remained insufficient for a general autonomous-safety claim.",
+      "Composition created EWM-075 and EWM-076 with explicitly analytical status."
+    ],
+    "WHY_STOP_HERE": "Every mandatory domain and named major branch has inspected support or a disclosed evidence-limit disposition. Further equivalent overviews do not alter the current mechanisms or selection guards. The unresolved general optimisation claim requires materially different prospective/independent evidence, not more repetitions of the same preprints; inaccessible originals remain visible limits rather than hidden gaps.",
+    "NOT_CLAIMED": "Exhaustive bibliographic coverage, universal empirical saturation, certainty about unobserved systems or a completely settled critical literature.",
+    "FUTURE_REOPEN_TRIGGERS": [
+      "New counterexample to a retained scoped mechanism or composition guard.",
+      "Lawful access to the original critique or missing empirical methods that changes an adjudication.",
+      "Independent prospective evidence for agentic safety/benefit or flexibility selection.",
+      "Materially changed execution/standard version used by a later target."
+    ]
+  },
+  "uncompleted_burdens": [],
+  "uncompleted_burdens_explanation": "No mandatory family or registered candidate is left NOT_EXAMINED. Open questions and source access limits are examined uncertainty and are listed separately; they are not represented as completed empirical proof.",
+  "mandatory_family_count": 10,
+  "mandatory_families_examined": 10,
+  "mandatory_families_uncompleted": 0,
+  "property_population_total": 77,
+  "property_population_examined": 77,
+  "source_count": 51,
+  "unresolved_property_ids": [
+    "EWM-074"
+  ],
+  "independence_policy": "Common author programmes, datasets, experimental systems and industrial programmes are labelled in SOURCE_TABLE.INDEPENDENCE_CLUSTER and the evidence cards. A citation or edition is not an independent replication."
+}

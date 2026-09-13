@@ -1,0 +1,2656 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_SOFTWARE_ARCHITECTURE",
+  "research_cutoff": "2026-09-06",
+  "sources": [
+    {
+      "SOURCE_ID": "ESA-S001",
+      "TITLE": "On the Criteria To Be Used in Decomposing Systems into Modules",
+      "AUTHORS_OR_ORGANISATION": "David L. Parnas",
+      "DATE": "1972-12",
+      "VERSION_OR_EDITION": "CACM 15(12), 1053–1058",
+      "URL_OR_DOI": [
+        "https://wstomv.win.tue.nl/edu/2ip30/references/criteria_for_modularization.pdf",
+        "https://doi.org/10.1145/361598.361623"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "pp. 1053–1058: KWIC alternatives; criteria; efficiency; hierarchical structure",
+          "SUPPORTED_CLAIM": "Responsibility assignments hide design decisions expected to change; modular decomposition differs from processing order and program hierarchy.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-012",
+        "ESA-049",
+        "ESA-050",
+        "ESA-051"
+      ],
+      "EVIDENCE_LIMITS": "Small worked comparison, not a controlled industrial causal study; the author exposes an ordering assumption in his own example.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-001",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Two decompositions of the KWIC problem",
+        "COMPARISON": "Processing-step versus information-hiding responsibility allocation",
+        "SETTING": "Illustrative program design",
+        "MEASURES": "Qualitative change, comprehensibility and independent development consequences",
+        "OUTCOME": "Mechanism illustration, not an estimated average benefit",
+        "VALIDITY_THREATS": "Small constructed example; anticipated changes and interface completeness determine results"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S002",
+      "TITLE": "Foundations for the Study of Software Architecture",
+      "AUTHORS_OR_ORGANISATION": "Dewayne E. Perry; Alexander L. Wolf",
+      "DATE": "1992-10",
+      "VERSION_OR_EDITION": "Software Engineering Notes 17(4), 40–52",
+      "URL_OR_DOI": [
+        "https://webhome.csc.uvic.ca/~hausi/480/papers/perry.pdf",
+        "https://doi.org/10.1145/141874.141884"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§2.2–3.3, especially elements/form/rationale, multiple views and evolution",
+          "SUPPORTED_CLAIM": "Architecture is reconstructed through elements, form and rationale; drift and erosion are distinguished rather than equated with every change.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-003",
+        "ESA-006",
+        "ESA-009",
+        "ESA-038",
+        "ESA-039",
+        "ESA-042"
+      ],
+      "EVIDENCE_LIMITS": "A foundational research programme with illustrative analogies; not a validated universal taxonomy or economic comparison.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-002",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S003",
+      "TITLE": "Architectural Blueprints—The ‘4+1’ View Model of Software Architecture",
+      "AUTHORS_OR_ORGANISATION": "Philippe Kruchten",
+      "DATE": "1995-11",
+      "VERSION_OR_EDITION": "IEEE Software 12(6), 42–50; author copy deposited in 2020",
+      "URL_OR_DOI": [
+        "https://arxiv.org/pdf/2006.04975"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Logical/process/development/physical views; scenarios; pp. 11–14 of author copy, correspondence and tailoring",
+          "SUPPORTED_CLAIM": "Views serve different concerns and scenarios integrate them; irrelevant views may be omitted.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-021",
+        "ESA-023",
+        "ESA-056"
+      ],
+      "EVIDENCE_LIMITS": "Author experience and worked architectures, not comparative evidence that five views are always necessary; 2020 is the deposit date.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-003",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S004",
+      "TITLE": "An Introduction to Software Architecture",
+      "AUTHORS_OR_ORGANISATION": "David Garlan; Mary Shaw",
+      "DATE": "1994-01",
+      "VERSION_OR_EDITION": "CMU/SEI-94-TR-021 / CMU-CS-94-166; related 1993 chapter",
+      "URL_OR_DOI": [
+        "https://www.cse.msu.edu/~cse870/Materials/Design/intro_softarch-Garlan-Shaw.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§3 styles, associated advantages/disadvantages; heterogeneous architectures and examples",
+          "SUPPORTED_CLAIM": "Styles constrain components, connectors and composition; different styles protect different properties and can be combined.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-009",
+        "ESA-025"
+      ],
+      "EVIDENCE_LIMITS": "Examples explain mechanisms, not independent replications or a requirement for stylistic purity.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-004",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S005",
+      "TITLE": "The structure of the ‘THE’-multiprogramming system",
+      "AUTHORS_OR_ORGANISATION": "Edsger W. Dijkstra",
+      "DATE": "1968-05",
+      "VERSION_OR_EDITION": "CACM 11(5), 341–346; 2006 transcription of EWD196",
+      "URL_OR_DOI": [
+        "https://www.cs.utexas.edu/~EWD/transcriptions/EWD01xx/EWD196.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_HISTORICAL_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Hierarchy of abstract machines; system construction and concluding qualifications",
+          "SUPPORTED_CLAIM": "Layered abstractions support staged construction and reasoning in the reported operating-system project.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-010"
+      ],
+      "EVIDENCE_LIMITS": "Small specialised team; acknowledged unfinished tests and peripheral-device difficulties. The author’s confidence is not independent verification.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-005",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "One multiprogramming-system project",
+        "SAMPLE": "Six part-time contributors as described by the author",
+        "COMPARISON": "None controlled",
+        "OUTCOME": "First-person design and construction account",
+        "VALIDITY_THREATS": "Selected experience; testing and transfer limits acknowledged"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S006",
+      "TITLE": "Designing Software for Ease of Extension and Contraction",
+      "AUTHORS_OR_ORGANISATION": "David L. Parnas",
+      "DATE": "1979-03",
+      "VERSION_OR_EDITION": "IEEE TSE SE-5(2), 128–138",
+      "URL_OR_DOI": [
+        "https://www.dre.vanderbilt.edu/~schmidt/PDF/family.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§IV-D uses relation; hierarchical subsets; concluding limits",
+          "SUPPORTED_CLAIM": "Semantic uses relations differ from invocation, and useful family subsets depend on requirements and abstraction choices.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-010",
+        "ESA-013",
+        "ESA-049"
+      ],
+      "EVIDENCE_LIMITS": "The proposed relation assumes knowledge of correctness dependencies; acyclicity alone is not evidence of valuable product variants.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-006",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S007",
+      "TITLE": "Mass Produced Software Components",
+      "AUTHORS_OR_ORGANISATION": "M. Douglas McIlroy",
+      "DATE": "1968-10",
+      "VERSION_OR_EDITION": "1968 NATO conference contribution; report published 1969, §8.2 pp. 138–155; author transcription 1998-10-15",
+      "URL_OR_DOI": [
+        "https://www.cs.dartmouth.edu/~doug/components.txt"
+      ],
+      "SOURCE_CLASS": "PRIMARY_HISTORICAL_POSITION_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "PARTIAL_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Author transcription front matter, abstract and opening proposal",
+          "SUPPORTED_CLAIM": "Component families and disciplined reusable production were explicit early ambitions, including quality and cost concerns.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-013"
+      ],
+      "EVIDENCE_LIMITS": "Opening and provenance inspected; no claim that the industrial vision was achieved. Physical-component analogy is not empirical validation.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-007",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S008",
+      "TITLE": "No Silver Bullet—Essence and Accidents of Software Engineering",
+      "AUTHORS_OR_ORGANISATION": "Frederick P. Brooks, Jr.",
+      "DATE": "1986-09",
+      "VERSION_OR_EDITION": "UNC Technical Report TR86-020; not the later magazine edition",
+      "URL_OR_DOI": [
+        "https://www.cs.unc.edu/techreports/86-020.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_POSITION_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Complexity/conformity/changeability/invisibility; §§5.2–5.3 requirements refinement, prototyping and growing software",
+          "SUPPORTED_CLAIM": "Software’s design burdens are not removed by one technique; iterative clarification and incremental growth are compatible with architectural reasoning.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-030",
+        "ESA-049",
+        "ESA-053",
+        "ESA-058"
+      ],
+      "EVIDENCE_LIMITS": "Time-bounded forecast and experienced argument, not a permanent impossibility theorem. The 1975 book was not inspected.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-008",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S009",
+      "TITLE": "A Rational Design Process: How and Why to Fake It",
+      "AUTHORS_OR_ORGANISATION": "David L. Parnas; Paul C. Clements",
+      "DATE": "1986-02",
+      "VERSION_OR_EDITION": "IEEE TSE 12(2)",
+      "URL_OR_DOI": [
+        "https://www.cs.tufts.edu/~nr/cs257/archive/david-parnas/fake-it.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§II real design difficulties; §III rational process; documentation discussion",
+          "SUPPORTED_CLAIM": "A rational explanation can be reconstructed for understanding even when discovery was non-linear.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-037",
+        "ESA-056",
+        "ESA-064"
+      ],
+      "EVIDENCE_LIMITS": "Normative argument, not permission to falsify history or evidence; documentation benefit is not measured by quantity.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-009",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S010",
+      "TITLE": "Who Needs an Architect?",
+      "AUTHORS_OR_ORGANISATION": "Martin Fowler",
+      "DATE": "2003-07",
+      "VERSION_OR_EDITION": "IEEE Software 20(4), July/August, pp. 2–4",
+      "URL_OR_DOI": [
+        "https://martinfowler.com/ieeeSoftware/whoNeedsArchitect.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_ARGUMENT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Entire three-page essay: competing definitions, architect roles and cost of change",
+          "SUPPORTED_CLAIM": "Architectural significance varies with consequences and expertise; architects can enable change rather than centralise every decision.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-004",
+        "ESA-006",
+        "ESA-020",
+        "ESA-026",
+        "ESA-035",
+        "ESA-049",
+        "ESA-056",
+        "ESA-058",
+        "ESA-067"
+      ],
+      "EVIDENCE_LIMITS": "Reasoned practitioner essay; “important” and “hard to change” are contested formulations, not universal definitions.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-010",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S011",
+      "TITLE": "ISO/IEC/IEEE 42010:2022, Software, systems and enterprise—Architecture description",
+      "AUTHORS_OR_ORGANISATION": "ISO; IEC; IEEE",
+      "DATE": "2022-11",
+      "VERSION_OR_EDITION": "Second edition",
+      "URL_OR_DOI": [
+        "https://www.iso.org/standard/74393.html",
+        "https://webstore.ansi.org/preview-pages/iso/preview_iso%2Biec%2Bieee%2B42010-2022.pdf"
+      ],
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "PUBLIC_ABSTRACT_AND_PREVIEW_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Official abstract; preview foreword, introduction and scope",
+          "SUPPORTED_CLAIM": "The standard concerns architecture descriptions; second-edition changes include entity-of-interest and revised description concepts.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-003",
+        "ESA-020",
+        "ESA-021",
+        "ESA-059"
+      ],
+      "EVIDENCE_LIMITS": "Normative clauses outside the preview were not inspected; no clause-by-clause compliance or quality certification is asserted. Catalogue checked at cut-off.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-011",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S012",
+      "TITLE": "ISO/IEC/IEEE 42010:2011, Systems and software engineering—Architecture description",
+      "AUTHORS_OR_ORGANISATION": "ISO; IEC; IEEE",
+      "DATE": "2011",
+      "VERSION_OR_EDITION": "First joint ISO/IEC/IEEE edition",
+      "URL_OR_DOI": [
+        "https://www.iso.org/standard/50508.html"
+      ],
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "PUBLIC_ABSTRACT_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Official title, scope and edition/supersession metadata",
+          "SUPPORTED_CLAIM": "2011 is a distinct predecessor edition of the architecture-description standard.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-059"
+      ],
+      "EVIDENCE_LIMITS": "Normative text not inspected; metadata supports history and stated scope only.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-012",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S013",
+      "TITLE": "ISO/IEC/IEEE 42010 Update",
+      "AUTHORS_OR_ORGANISATION": "Richard Martin",
+      "DATE": "2022-01-30",
+      "VERSION_OR_EDITION": "INCOSE International Workshop working-group presentation; pre-publication account",
+      "URL_OR_DOI": [
+        "https://www.omgwiki.org/MBSE/lib/exe/fetch.php?media=mbse:incose_mbse_iw_2022:iw2022_iso_iec_ieee_42010_update.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_STANDARDS_DEVELOPMENT_ACCOUNT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SLIDES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Slides 3–5: history, scope and then-proposed revision",
+          "SUPPORTED_CLAIM": "Working-group history links IEEE 1471 and the 2011 and developing 2022 editions.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-020"
+      ],
+      "EVIDENCE_LIMITS": "Draft-development account is not final normative wording; used for genealogy only.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-013",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S014",
+      "TITLE": "A Classification and Comparison Framework for Software Architecture Description Languages",
+      "AUTHORS_OR_ORGANISATION": "Nenad Medvidovic; Richard N. Taylor",
+      "DATE": "2000-01",
+      "VERSION_OR_EDITION": "IEEE TSE 26(1), 70–93",
+      "URL_OR_DOI": [
+        "https://ics.uci.edu/~taylor/documents/2000-ADLs-TSE.pdf",
+        "https://doi.org/10.1109/32.825767"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Taxonomy of components, connectors and configurations; capabilities and comparison",
+          "SUPPORTED_CLAIM": "ADLs are differentiated by semantic and analytical capabilities, not simply by graphical appearance.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-022",
+        "ESA-024",
+        "ESA-025"
+      ],
+      "EVIDENCE_LIMITS": "Classification of research languages is not industrial effectiveness evidence. Its historical tool capabilities are not current-version claims.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-014",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S015",
+      "TITLE": "A Formal Basis for Architectural Connection",
+      "AUTHORS_OR_ORGANISATION": "Robert Allen; David Garlan",
+      "DATE": "1998-06",
+      "VERSION_OR_EDITION": "Author revision of the July 1997 TOSEM work; revision kept distinct",
+      "URL_OR_DOI": [
+        "https://www.cs.cmu.edu/afs/cs/project/able/ftp/wright-tosem97-revision/wright-tosem97-revision.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_FORMAL_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§4 ports/roles/glue; §8 compatibility counterexample and Theorem 1; §9 analysis tools",
+          "SUPPORTED_CLAIM": "Compatibility alone does not preserve connector deadlock freedom; conservatism and deadlock-free connector assumptions matter.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-009",
+        "ESA-022",
+        "ESA-047",
+        "ESA-068"
+      ],
+      "EVIDENCE_LIMITS": "Guarantee is inside the CSP model; implementation correspondence and environmental assumptions require separate evidence. Finite-state checks face model-size limits.",
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-015",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "MODEL": "CSP processes; component ports, connector roles and glue; failures semantics",
+        "GUARANTEE": "Theorem 1 preserves deadlock freedom for an instantiated connector under its stated conditions",
+        "ASSUMPTIONS": "Connector is conservative and deadlock-free; attached ports satisfy the compatibility relation",
+        "COUNTEREXAMPLE": "Compatible ports alone can introduce a deadlocking behaviour with non-conservative glue",
+        "IMPLEMENTATION_OBLIGATION": "Establish that actual interactions refine the model; theorem does not verify this automatically"
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S016",
+      "TITLE": "Illuminating the Fundamental Contributors to Software Architecture Quality",
+      "AUTHORS_OR_ORGANISATION": "Felix Bachmann; Len Bass; Mark Klein",
+      "DATE": "2002-08",
+      "VERSION_OR_EDITION": "CMU/SEI-2002-TR-025",
+      "URL_OR_DOI": [
+        "https://www.sei.cmu.edu/documents/689/2002_005_001_14063.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§3.1–3.5 scenarios and quality models; §§4.1–4.3 tactic reasoning",
+          "SUPPORTED_CLAIM": "Tactics affect parameters of quality models, and measurable scenarios give those effects a context.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-019",
+        "ESA-030",
+        "ESA-067"
+      ],
+      "EVIDENCE_LIMITS": "Causal modelling guidance, not guarantees that every tactic improves a deployed system; affected-module counts are proxies for modification effort.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-016",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S017",
+      "TITLE": "Quality Attribute Workshops (QAWs), Third Edition",
+      "AUTHORS_OR_ORGANISATION": "Mario Barbacci; Robert Ellison; Anthony Lattanze; Judith Stafford; Charles Weinstock; William Wood",
+      "DATE": "2003-08",
+      "VERSION_OR_EDITION": "Third edition; report cover date, distinct from later web posting",
+      "URL_OR_DOI": [
+        "https://people.computing.clemson.edu/~johnmc/courses/cpsc875/resources/qaw.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§3.5–3.8 generation, prioritisation and six-part refinement; scope of third edition",
+          "SUPPORTED_CLAIM": "Stakeholders generate and refine prioritised quality scenarios before detailed architecture is available.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-005",
+        "ESA-014",
+        "ESA-015",
+        "ESA-056",
+        "ESA-062"
+      ],
+      "EVIDENCE_LIMITS": "Workshop voting and time limits can omit minority or rare conditions; agreement does not validate operating quality. Third edition narrows the method’s purpose.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-017",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S018",
+      "TITLE": "Linking Usability to Software Architecture Patterns through General Scenarios",
+      "AUTHORS_OR_ORGANISATION": "Len Bass; Bonnie E. John",
+      "DATE": "2003",
+      "VERSION_OR_EDITION": "Journal of Systems and Software author preprint",
+      "URL_OR_DOI": [
+        "https://www.cs.cmu.edu/~bej/usa/publications/JSS-U&SA.pdf",
+        "https://doi.org/10.1016/S0164-1212(02)00076-6"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Introduction; scenario construction and affinity analysis; architectural implications",
+          "SUPPORTED_CLAIM": "Some usability concerns affect architectural mechanisms beyond separating interface code from application logic.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-062"
+      ],
+      "EVIDENCE_LIMITS": "Scenario/pattern construction, not representative user-outcome comparison; scenarios without substantive architectural consequences were removed. Preprint contains production placeholders.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-018",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S019",
+      "TITLE": "SAAM: A Method for Analyzing the Properties of Software Architectures",
+      "AUTHORS_OR_ORGANISATION": "Rick Kazman; Len Bass; Gregory Abowd; Mike Webb",
+      "DATE": "1994",
+      "VERSION_OR_EDITION": "ICSE 1994, pp. 81–90; later SEI-hosted copy",
+      "URL_OR_DOI": [
+        "https://www.sei.cmu.edu/documents/150/2007_019_001_29297.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Scenario-based comparison, functional partitioning, change interaction and Serpent example",
+          "SUPPORTED_CLAIM": "Change scenarios expose the architectural consequences of modifications and competing decompositions.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-026",
+        "ESA-027"
+      ],
+      "EVIDENCE_LIMITS": "Example-based demonstration; 2007 in the URL is not the original publication date. No downstream causal benefit estimate.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-019",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S020",
+      "TITLE": "ATAM: Method for Architecture Evaluation",
+      "AUTHORS_OR_ORGANISATION": "Rick Kazman; Mark Klein; Paul Clements",
+      "DATE": "2000-08",
+      "VERSION_OR_EDITION": "CMU/SEI-2000-TR-004",
+      "URL_OR_DOI": [
+        "https://www.sei.cmu.edu/documents/629/2000_005_001_13706.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§7 risks, non-risks, sensitivity and trade-off points; §8 method steps",
+          "SUPPORTED_CLAIM": "ATAM identifies assumption-bound architectural risks and trade-offs; a non-risk must be reconsidered when assumptions change.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-005",
+        "ESA-015",
+        "ESA-017",
+        "ESA-018",
+        "ESA-019",
+        "ESA-026",
+        "ESA-028",
+        "ESA-030",
+        "ESA-031",
+        "ESA-033",
+        "ESA-039",
+        "ESA-045",
+        "ESA-059"
+      ],
+      "EVIDENCE_LIMITS": "Structured review does not establish complete scenario coverage, operating correctness or universal return on evaluation cost.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "SEI-ATAM-PROGRAMME",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S021",
+      "TITLE": "A Study of Architecture Risk Themes",
+      "AUTHORS_OR_ORGANISATION": "Len Bass; Robert Nord; William Wood; David Zubrow",
+      "DATE": "2006-09",
+      "VERSION_OR_EDITION": "CMU/SEI-2006-TR-012",
+      "URL_OR_DOI": [
+        "https://www.sei.cmu.edu/documents/771/2006_005_001_14783.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Study population, coding of themes, results and limitations",
+          "SUPPORTED_CLAIM": "Risk themes often concern omissions; associations with business goals or domains were not demonstrated in this dataset.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-015",
+        "ESA-028",
+        "ESA-031"
+      ],
+      "EVIDENCE_LIMITS": "Outputs of evaluations, not observed future failure rates or a causal comparison of ATAM with no review. Related later publication shares evidence.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "SEI-ATAM-PROGRAMME",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "ATAM evaluation reports and coded risk themes",
+        "SAMPLE": "18 reports from 2000–2005; 99 risk themes; 12 defence, two other government, four commercial",
+        "COMPARISON": "Theme distributions and proposed associations, not randomised review treatments",
+        "MEASURES": "Themes classified as omissions/commissions and by other categories",
+        "OUTCOME": "Omissions more common; no demonstrated association of themes with domain/business goals",
+        "VALIDITY_THREATS": "Selected accessible reports; coding and programme dependence; no downstream outcome counterfactual"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S022",
+      "TITLE": "Using Economic Considerations to Choose Amongst Architecture Design Alternatives",
+      "AUTHORS_OR_ORGANISATION": "Jai Asundi; Rick Kazman; Mark Klein",
+      "DATE": "2001-12",
+      "VERSION_OR_EDITION": "CMU/SEI-2001-TR-035",
+      "URL_OR_DOI": [
+        "https://www.sei.cmu.edu/documents/670/2001_005_001_13916.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§4 utility/cost ranges, sensitivity and dependencies; additive-utility appendix",
+          "SUPPORTED_CLAIM": "Economic selection depends on elicited utility, uncertain costs and interactions between strategies.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-017",
+        "ESA-019",
+        "ESA-026",
+        "ESA-029"
+      ],
+      "EVIDENCE_LIMITS": "Stakeholder utility is not objective money or social welfare; additive assumptions and infeasible combinations must be examined. Case results are not used as independent benefit estimates.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "INDEPENDENCE_CLUSTER": "SEI-ATAM-PROGRAMME",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S023",
+      "TITLE": "Evaluating Software Architecture Evaluation Methods: An Internal Replication",
+      "AUTHORS_OR_ORGANISATION": "Silvia Abrahão; Emilio Insfran",
+      "DATE": "2017",
+      "VERSION_OR_EDITION": "EASE 2017, pp. 144–153",
+      "URL_OR_DOI": [
+        "https://www.researchgate.net/publication/316701760_Evaluating_Software_Architecture_Evaluation_Methods_An_Internal_Replication",
+        "https://doi.org/10.1145/3084226.3084253"
+      ],
+      "SOURCE_CLASS": "PRIMARY_CONTROLLED_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_AUTHOR_UPLOAD",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Experiment design, participant selection, outcomes and threats to validity",
+          "SUPPORTED_CLAIM": "The comparison favoured QuaDAI on some measures but did not demonstrate efficiency or ease-of-use superiority.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-015",
+        "ESA-027",
+        "ESA-028",
+        "ESA-031"
+      ],
+      "EVIDENCE_LIMITS": "Sixteen inexperienced practitioner-students, short tasks and author reference solutions; same materials/researchers as earlier student experiments, hence internal replication only.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "ABRAHAO-INSFRAN-EVALUATION-SERIES",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Practitioner performing an architecture-evaluation task",
+        "SAMPLE": "16 convenience-sampled professional master’s students in Paraguay",
+        "COMPARISON": "QuaDAI versus ATAM in controlled tasks",
+        "MEASURES": "Distance from reference solution, efficiency, perceived usefulness/ease and intention",
+        "OUTCOME": "Some quality/perception advantages; no detected efficiency/ease advantage",
+        "UNCERTAINTY": "Small sample; not a precise null-effect estimate",
+        "VALIDITY_THREATS": "Training/treatment bundle; reference-solution judgement; no longitudinal deployment; internal replication"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S024",
+      "TITLE": "Attribute-Driven Design (ADD), Version 2.0",
+      "AUTHORS_OR_ORGANISATION": "Rob Wojcik; Felix Bachmann; Len Bass; Paul Clements; Paulo Merson; Robert Nord; Bill Wood",
+      "DATE": "2006-11",
+      "VERSION_OR_EDITION": "CMU/SEI-2006-TR-023",
+      "URL_OR_DOI": [
+        "https://www.sei.cmu.edu/documents/775/2006_005_001_14795.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_METHOD_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§3 inputs/outputs; §4 eight steps, architectural drivers, allocation and interfaces",
+          "SUPPORTED_CLAIM": "Prioritised drivers guide recursive design, interface definition and verification/refinement of child requirements.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-016",
+        "ESA-030",
+        "ESA-067"
+      ],
+      "EVIDENCE_LIMITS": "Prescribed method revised in response to learning difficulties; not a controlled effectiveness comparison or mandatory recursion depth.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-024",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S025",
+      "TITLE": "A General Model of Software Architecture Design Derived from Five Industrial Approaches",
+      "AUTHORS_OR_ORGANISATION": "Christine Hofmeister; Philippe Kruchten; Robert L. Nord; Henk Obbink; Alexander Ran; Pierre America",
+      "DATE": "2007",
+      "VERSION_OR_EDITION": "JSS 80, 106–126; online 2006-07-05",
+      "URL_OR_DOI": [
+        "https://courses.ece.ubc.ca/417/public/Hofmeister.pdf",
+        "https://doi.org/10.1016/j.jss.2006.05.024"
+      ],
+      "SOURCE_CLASS": "PRIMARY_COMPARATIVE_METHOD_SYNTHESIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§1 five approaches; §3 analysis/synthesis/evaluation and their interleaving",
+          "SUPPORTED_CLAIM": "A common account permits interleaved analysis, synthesis and evaluation rather than a predictable one-pass sequence.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-067"
+      ],
+      "EVIDENCE_LIMITS": "Method authors synthesise selected approaches; no independent randomised comparison. The general design model explicitly draws on Gero’s FBS work.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "HISTORICAL_PROVENANCE",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-025",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S026",
+      "TITLE": "Architectural Mismatch: Why Reuse Is So Hard",
+      "AUTHORS_OR_ORGANISATION": "David Garlan; Robert Allen; John Ockerbloom",
+      "DATE": "1995-11",
+      "VERSION_OR_EDITION": "IEEE Software 12(6), 17–26; journal version",
+      "URL_OR_DOI": [
+        "https://john.cs.olemiss.edu/~hcc/csci658/notes/localcopy/ArchitecturalMismatch.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EXPERIENCE_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Aesop integration account; assumptions about components, connectors, topology and construction",
+          "SUPPORTED_CLAIM": "Apparently compatible reusable parts can disagree about control, data and surrounding structure.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-003",
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-010",
+        "ESA-011",
+        "ESA-012",
+        "ESA-016",
+        "ESA-021",
+        "ESA-024",
+        "ESA-025",
+        "ESA-038",
+        "ESA-041",
+        "ESA-044",
+        "ESA-050",
+        "ESA-057",
+        "ESA-058",
+        "ESA-061",
+        "ESA-065",
+        "ESA-066"
+      ],
+      "EVIDENCE_LIMITS": "One industrial/research construction programme; the distinct ICSE paper and later retrospective are not additional independent failures.",
+      "EVIDENCE_ROLES": [
+        "INCIDENT_OR_FAILURE_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "AESOP-MISMATCH",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Integration of reusable software in the Aesop environment",
+        "COMPARISON": "Expected reuse versus encountered integration work",
+        "MEASURES": "Qualitative obstacles, implicit assumptions and required adaptation",
+        "OUTCOME": "Nominal interface compatibility failed to expose architectural assumptions",
+        "VALIDITY_THREATS": "Selected first-person case; no prevalence or average cost estimate"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S027",
+      "TITLE": "A Survey on Architecture Design Rationale",
+      "AUTHORS_OR_ORGANISATION": "Antony Tang; Muhammad Ali Babar; Ian Gorton; Jun Han",
+      "DATE": "2005-05-31",
+      "VERSION_OR_EDITION": "SUTICT-TR2005.02 / SUT.CeCSES-TR008; inspected report, not 2006 journal version",
+      "URL_OR_DOI": [
+        "https://www.researchgate.net/publication/222665704_A_survey_of_architecture_design_rationale"
+      ],
+      "SOURCE_CLASS": "PRIMARY_SURVEY_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_AUTHOR_UPLOAD",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Report title page; survey findings and validity limitations",
+          "SUPPORTED_CLAIM": "Practitioners report rationale’s value and obstacles to recording and using it.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-037",
+        "ESA-041",
+        "ESA-064"
+      ],
+      "EVIDENCE_LIMITS": "Landing page names the later 2006 article; actual inspected full text is the 2005 report. Self-reported value is not measured causal maintenance benefit.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "TANG-RATIONALE-SURVEY",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Survey respondent",
+        "SAMPLE": "81 valid responses",
+        "COMPARISON": "Reported practices and perceptions; no intervention/control groups",
+        "MEASURES": "Perceived rationale importance, use and barriers",
+        "OUTCOME": "Benefits valued but capture/use constrained",
+        "VALIDITY_THREATS": "Selection, recall and desirability biases; no causal outcome estimate"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S028",
+      "TITLE": "Software Architecture as a Set of Architectural Design Decisions",
+      "AUTHORS_OR_ORGANISATION": "Anton Jansen; Jan Bosch",
+      "DATE": "2005",
+      "VERSION_OR_EDITION": "WICSA 2005 contribution; institutional publication record carries 2006 metadata",
+      "URL_OR_DOI": [
+        "https://research.rug.nl/en/publications/software-architecture-as-a-set-of-architectural-design-decisions/"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_METADATA_AND_ABSTRACT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "ABSTRACT_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Institutional abstract and bibliographic record",
+          "SUPPORTED_CLAIM": "Architecture can be analysed as connected design decisions; loss of decision knowledge motivates the approach.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-032"
+      ],
+      "EVIDENCE_LIMITS": "Full Archium methods and evaluation not inspected. Date ambiguity is preserved rather than inventing an edition reconciliation.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-028",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S029",
+      "TITLE": "Documenting Architecture Decisions",
+      "AUTHORS_OR_ORGANISATION": "Michael Nygard",
+      "DATE": "2011-11-15",
+      "VERSION_OR_EDITION": "Original practitioner article",
+      "URL_OR_DOI": [
+        "https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_METHOD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Whole article: context, decision, status, consequences and supersession",
+          "SUPPORTED_CLAIM": "Short records preserve significant decisions and their changing status for later readers.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-037",
+        "ESA-064"
+      ],
+      "EVIDENCE_LIMITS": "Small-team practice report, not a causal trial. A compulsory alternatives field is an analytical extension here, not attributed to the original template.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-029",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S030",
+      "TITLE": "How Do Committees Invent?",
+      "AUTHORS_OR_ORGANISATION": "Melvin E. Conway",
+      "DATE": "1968-04",
+      "VERSION_OR_EDITION": "Datamation article; author web transcription includes a much later preface",
+      "URL_OR_DOI": [
+        "https://www.melconway.com/research/committees.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_HISTORICAL_ARGUMENT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Original article’s communication argument, design interfaces and organisational incentives; preface distinguished",
+          "SUPPORTED_CLAIM": "Organisation and design interaction can constrain each other through communication requirements.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-005",
+        "ESA-034",
+        "ESA-035",
+        "ESA-036"
+      ],
+      "EVIDENCE_LIMITS": "Not a deterministic empirical law; communication networks are not identical to organisation charts and the argument has assumptions.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-030",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S031",
+      "TITLE": "Socio-technical Congruence: A Framework for Assessing the Impact of Technical and Work Dependencies on Software Development Productivity",
+      "AUTHORS_OR_ORGANISATION": "Marcelo Cataldo; James D. Herbsleb; Kathleen M. Carley",
+      "DATE": "2008",
+      "VERSION_OR_EDITION": "ESEM 2008",
+      "URL_OR_DOI": [
+        "https://herbsleb.org/web-pubs/pdfs/cataldo-socio-2008.pdf",
+        "https://doi.org/10.1145/1414004.1414008"
+      ],
+      "SOURCE_CLASS": "PRIMARY_OBSERVATIONAL_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Research setting, dependency/congruence measures, regression results and validity discussion",
+          "SUPPORTED_CLAIM": "Coordination aligned with work dependencies is associated with shorter modification-request resolution in the studied organisation.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-005",
+        "ESA-010",
+        "ESA-012",
+        "ESA-034",
+        "ESA-035",
+        "ESA-036"
+      ],
+      "EVIDENCE_LIMITS": "Association, not experimentally identified causal effect; recorded coordination omits channels and logical dependencies are constructed from changes.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "CATALDO-SINGLE-ORGANISATION",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Multi-team modification request",
+        "SAMPLE": "2,375 requests; 114 developers, eight teams, three sites, four releases over 39 months in one company",
+        "COMPARISON": "Different observed congruence levels in statistical models",
+        "MEASURES": "Resolution time; work/dependency and recorded coordination measures",
+        "OUTCOME": "Reported association consistent with coordination benefit",
+        "VALIDITY_THREATS": "Confounding, missing communication channels, one organisation and proxy construction"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S032",
+      "TITLE": "Exploring the Duality between Product and Organizational Architectures: A Test of the “Mirroring” Hypothesis",
+      "AUTHORS_OR_ORGANISATION": "Alan MacCormack; John Rusnak; Carliss Baldwin",
+      "DATE": "2011",
+      "VERSION_OR_EDITION": "HBS working paper 08-039; inspected cover copyrights 2007, 2008, 2011",
+      "URL_OR_DOI": [
+        "https://www.hbs.edu/ris/Publication%20Files/08-039_1861e507-1dc1-4602-85b8-90d71559d85b.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_OBSERVATIONAL_WORKING_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Matched-product selection, dependency-structure analysis and limitations",
+          "SUPPORTED_CLAIM": "Matched product comparisons connect development organisation with measured dependency structure.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-034",
+        "ESA-036"
+      ],
+      "EVIDENCE_LIMITS": "Five matched product families; overlapping operating-system comparisons are not extra independent pairs. C call-graph propagation proxies and selection prevent deterministic causal inference.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "MIRRORING-MATCHED-PRODUCTS",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Matched product family",
+        "SAMPLE": "Five families comparing open and commercial development settings",
+        "COMPARISON": "Matched functional domains, differing organisational modes",
+        "MEASURES": "C static dependency matrices and propagation-cost measures",
+        "OUTCOME": "Associations supporting a bounded mirroring hypothesis",
+        "VALIDITY_THREATS": "Successful/source-available project selection, imperfect matching, proxy outcomes; no random assignment"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S033",
+      "TITLE": "Domain-Driven Design Reference: Definitions and Pattern Summaries",
+      "AUTHORS_OR_ORGANISATION": "Eric Evans",
+      "DATE": "2015-03",
+      "VERSION_OR_EDITION": "Reference booklet, not the original 2003 monograph",
+      "URL_OR_DOI": [
+        "https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_AUTHOR_REFERENCE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Bounded Context and Context Map, printed pp. 28–29; strategic-design relationships",
+          "SUPPORTED_CLAIM": "A domain model has a bounded context; relations between models and teams require explicit mapping.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-035",
+        "ESA-061"
+      ],
+      "EVIDENCE_LIMITS": "2016 URL upload is not publication date. Domain semantic boundaries do not imply one deployable microservice per context. Outcome effectiveness not tested here.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-033",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S034",
+      "TITLE": "Architectural Styles and the Design of Network-based Software Architectures, Chapter 5: Representational State Transfer",
+      "AUTHORS_OR_ORGANISATION": "Roy Thomas Fielding",
+      "DATE": "2000",
+      "VERSION_OR_EDITION": "Doctoral dissertation, chapter 5",
+      "URL_OR_DOI": [
+        "https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm"
+      ],
+      "SOURCE_CLASS": "PRIMARY_DOCTORAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_CHAPTER",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§5.1 derivation of constraints; §5.2 architectural elements",
+          "SUPPORTED_CLAIM": "REST derives a specialised distributed-hypermedia style from interacting constraints rather than a service branding label.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-025",
+        "ESA-057",
+        "ESA-065"
+      ],
+      "EVIDENCE_LIMITS": "Argument is scoped to its architectural context; uniform-interface and stateless-interaction trade-offs are not requirements for every application. Chapter inspection does not cover the whole dissertation.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-034",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S035",
+      "TITLE": "Reference Model for Service Oriented Architecture 1.0",
+      "AUTHORS_OR_ORGANISATION": "OASIS SOA Reference Model Technical Committee",
+      "DATE": "2006-10-12",
+      "VERSION_OR_EDITION": "OASIS Standard, version 1.0",
+      "URL_OR_DOI": [
+        "https://docs.oasis-open.org/soa-rm/v1.0/soa-rm.pdf"
+      ],
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§3.2 visibility and interaction; action/process models and real-world effects; service descriptions",
+          "SUPPORTED_CLAIM": "Visibility, interaction and consequences distinguish a service relationship from a mere named endpoint.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-005",
+        "ESA-008",
+        "ESA-011",
+        "ESA-052",
+        "ESA-057",
+        "ESA-061",
+        "ESA-066"
+      ],
+      "EVIDENCE_LIMITS": "Reference-model definitions are not comparative evidence. Visibility and willingness do not automatically authorise every action or establish that the promised consequence occurs.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-035",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S036",
+      "TITLE": "Microservices",
+      "AUTHORS_OR_ORGANISATION": "James Lewis; Martin Fowler",
+      "DATE": "2014-03",
+      "VERSION_OR_EDITION": "Original architectural-style practitioner article",
+      "URL_OR_DOI": [
+        "https://martinfowler.com/articles/microservices.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_DESCRIPTION",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Characteristics, decentralised governance, operational implications and evolutionary design",
+          "SUPPORTED_CLAIM": "Microservice practice combines independently deployable services with operational and organisational responsibilities.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-035",
+        "ESA-050",
+        "ESA-051"
+      ],
+      "EVIDENCE_LIMITS": "Popularisation, not proof of first invention or universal advantage. Reported practices are not an independent effectiveness trial.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-036",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S037",
+      "TITLE": "Monolith First",
+      "AUTHORS_OR_ORGANISATION": "Martin Fowler",
+      "DATE": "2015-06",
+      "VERSION_OR_EDITION": "Practitioner essay",
+      "URL_OR_DOI": [
+        "https://martinfowler.com/bliki/MonolithFirst.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_ARGUMENT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Boundary discovery, microservice premium and qualifications/counterpositions",
+          "SUPPORTED_CLAIM": "A simpler initial deployment may allow domain and boundary learning before costly distribution.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-012",
+        "ESA-025",
+        "ESA-026",
+        "ESA-049",
+        "ESA-050",
+        "ESA-051",
+        "ESA-056"
+      ],
+      "EVIDENCE_LIMITS": "Experienced judgement, not a universal causal law; circumstances favouring services from the start are not ruled out.",
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-037",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S038",
+      "TITLE": "Deconstructing the Monolith: Designing Software that Maximizes Developer Productivity",
+      "AUTHORS_OR_ORGANISATION": "Kirsten Westeinde; Shopify Engineering",
+      "DATE": "2019-02-21",
+      "VERSION_OR_EDITION": "Historical engineering account",
+      "URL_OR_DOI": [
+        "https://shopify.engineering/deconstructing-monolith-designing-software-maximizes-developer-productivity"
+      ],
+      "SOURCE_CLASS": "PRIMARY_FIELD_ACCOUNT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Modular-monolith approach and motivation",
+          "SUPPORTED_CLAIM": "Modularisation inside a monolith is a documented alternative to distributing every component.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-051"
+      ],
+      "EVIDENCE_LIMITS": "Company-authored account; no controlled productivity effect is inferred from the title or selected experience. Not a claim about Shopify’s current architecture.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-038",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S039",
+      "TITLE": "Introducing istiod: simplifying the control plane",
+      "AUTHORS_OR_ORGANISATION": "Istio project authors",
+      "DATE": "2020",
+      "VERSION_OR_EDITION": "Istio 1.5 control-plane consolidation account",
+      "URL_OR_DOI": [
+        "https://istio.io/latest/blog/2020/istiod/"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PROJECT_FIELD_ACCOUNT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Reasons for consolidation and retained separation from the Envoy data plane",
+          "SUPPORTED_CLAIM": "Shared scaling, release, language and administrative needs weakened the case for separate control-plane services.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-012",
+        "ESA-025",
+        "ESA-026",
+        "ESA-035",
+        "ESA-049",
+        "ESA-050",
+        "ESA-051",
+        "ESA-056"
+      ],
+      "EVIDENCE_LIMITS": "Historical version-specific account, not an independent cost comparison or proof that all microservices should merge.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-039",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S040",
+      "TITLE": "Strangler Fig Application",
+      "AUTHORS_OR_ORGANISATION": "Martin Fowler",
+      "DATE": "2024-08-22",
+      "VERSION_OR_EDITION": "Substantially revised article with 2004 original-post ancestry",
+      "URL_OR_DOI": [
+        "https://martinfowler.com/bliki/StranglerFigApplication.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_METHOD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Incremental replacement argument and revision note",
+          "SUPPORTED_CLAIM": "Replacement can proceed by progressively redirecting behaviour while old and new parts coexist.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-044"
+      ],
+      "EVIDENCE_LIMITS": "Current text is a 2024 revision, not verbatim 2004 evidence. Coexistence, data compatibility and retirement costs are not eliminated by the metaphor.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-040",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S041",
+      "TITLE": "Big Ball of Mud",
+      "AUTHORS_OR_ORGANISATION": "Brian Foote; Joseph Yoder",
+      "DATE": "1997",
+      "VERSION_OR_EDITION": "PLoP 1997 ancestry; 2000 book version; web document last modified 2012-11-21",
+      "URL_OR_DOI": [
+        "https://www.laputan.org/mud/mud.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PATTERN_AND_CRITICISM_ESSAY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Introduction and forces; throwaway code, piecemeal growth, keeping it working",
+          "SUPPORTED_CLAIM": "Expediency and organisational conditions can rationally explain structures that violate tidy architectural ideals.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-037",
+        "ESA-039",
+        "ESA-042",
+        "ESA-049",
+        "ESA-056",
+        "ESA-058",
+        "ESA-067"
+      ],
+      "EVIDENCE_LIMITS": "Pattern argument and collected experience, not a measured prevalence survey. Describing a force does not prove an unstructured design is optimal.",
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-041",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S042",
+      "TITLE": "Don’t Let Architecture Astronauts Scare You",
+      "AUTHORS_OR_ORGANISATION": "Joel Spolsky",
+      "DATE": "2001-04-21",
+      "VERSION_OR_EDITION": "Practitioner polemic",
+      "URL_OR_DOI": [
+        "https://www.joelonsoftware.com/2001/04/21/dont-let-architecture-astronauts-scare-you/"
+      ],
+      "SOURCE_CLASS": "PRIMARY_CRITICAL_ESSAY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Whole essay on abstraction detached from concrete user problems",
+          "SUPPORTED_CLAIM": "Architectural rhetoric can evade the useful problem rather than solve it.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-056"
+      ],
+      "EVIDENCE_LIMITS": "Polemical criticism, not an industrial comparison or evidence that all abstraction is waste.",
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-042",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S043",
+      "TITLE": "Architectural Fitness Functions / Fitness Function Katas",
+      "AUTHORS_OR_ORGANISATION": "Neal Ford; Rebecca Parsons; Patrick Kua and companion-site contributors",
+      "DATE": "UNDATED",
+      "VERSION_OR_EDITION": "Author companion site, inspected snapshot 2026-09-06",
+      "URL_OR_DOI": [
+        "https://evolutionaryarchitecture.com/ffkatas/index.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_AUTHOR_GUIDANCE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Definition, evolution-computing analogy and interacting-characteristic examples",
+          "SUPPORTED_CLAIM": "Fitness functions assess architectural characteristics and can expose conflicting changes.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-045"
+      ],
+      "EVIDENCE_LIMITS": "Book ancestry is attributed, not a claim that all editions were read; the web page supplies no causal comparative evidence. Analogy is not a biological guarantee.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-043",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S044",
+      "TITLE": "Fitness Function-Driven Development",
+      "AUTHORS_OR_ORGANISATION": "Paula Paul; Rosemary Wang",
+      "DATE": "2019-01-11",
+      "VERSION_OR_EDITION": "Thoughtworks practitioner article",
+      "URL_OR_DOI": [
+        "https://www.thoughtworks.com/en-us/insights/articles/fitness-function-driven-development"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_GUIDANCE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Fitness functions, feedback, examples and revisiting goals",
+          "SUPPORTED_CLAIM": "Continuous checks can expose architecture-relevant changes earlier when the tests remain aligned with intended qualities.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-045"
+      ],
+      "EVIDENCE_LIMITS": "Vendor guidance; illustrative thresholds and approval counts are not general engineering requirements. Automated proxies can be misleading.",
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-044",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S045",
+      "TITLE": "Software Reflexion Models: Bridging the Gap between Source and High-Level Models",
+      "AUTHORS_OR_ORGANISATION": "Gail C. Murphy; David Notkin; Kevin Sullivan",
+      "DATE": "1995-10",
+      "VERSION_OR_EDITION": "FSE 1995, pp. 18–28",
+      "URL_OR_DOI": [
+        "https://www.cs.ubc.ca/~murphy/papers/rm/reflexion_model_fse95.pdf",
+        "https://doi.org/10.1145/222132.222136"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Reflexion construction, mapping and interpretation; §6 formalisation and case examples",
+          "SUPPORTED_CLAIM": "Mapped source relations are compared with a high-level model to expose convergences, divergences and absences for human interpretation.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-003",
+        "ESA-010",
+        "ESA-021",
+        "ESA-024",
+        "ESA-038",
+        "ESA-039",
+        "ESA-041",
+        "ESA-042"
+      ],
+      "EVIDENCE_LIMITS": "Formal comparison is relative to chosen mapping and relation extraction; case scale is not proof of semantic completeness.",
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-045",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "MODEL": "Sets/relations mapping extracted source entities to a high-level model",
+        "GUARANTEE": "Defined comparison classifies mapped relationships relative to the supplied baseline",
+        "ASSUMPTIONS": "Extraction and mapping have declared meanings and coverage",
+        "IMPLEMENTATION_OBLIGATION": "Validate mapping, dependency kind and high-level intent; comparison alone cannot reconstruct rationale"
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S046",
+      "TITLE": "Symptoms of Architecture Erosion in Code Reviews: A Study of Two OpenStack Projects",
+      "AUTHORS_OR_ORGANISATION": "Ruiyin Li; Mohamed Soliman; Peng Liang; Paris Avgeriou",
+      "DATE": "2022-01",
+      "VERSION_OR_EDITION": "arXiv:2201.01184 author manuscript",
+      "URL_OR_DOI": [
+        "https://arxiv.org/pdf/2201.01184"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Study selection/coding; symptoms, responses and limitations",
+          "SUPPORTED_CLAIM": "Review discussions reveal erosion symptoms and different responses, not just automatic correction.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-042"
+      ],
+      "EVIDENCE_LIMITS": "Comment selection cannot estimate the true prevalence of harmful erosion; overlaps with later erosion-classifier datasets must not be counted as independent replication.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "LI-EROSION-REVIEWS",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Code-review comment and discussion thread",
+        "SAMPLE": "21,274 inspected candidate comments; 502 relevant comments in 472 threads across Nova and Neutron",
+        "COMPARISON": "Qualitative classifications and responses, not architectural interventions",
+        "MEASURES": "Discussed symptoms and handling",
+        "OUTCOME": "Reported violations can be addressed, deferred or left unresolved",
+        "VALIDITY_THREATS": "Search/coding selection, comments not architecture ground truth, shared project history"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S047",
+      "TITLE": "Towards Automated Identification of Violation Symptoms of Architecture Erosion",
+      "AUTHORS_OR_ORGANISATION": "Ruiyin Li and co-authors",
+      "DATE": "2025-08-22",
+      "VERSION_OR_EDITION": "arXiv:2306.08616v5; original preprint 2023",
+      "URL_OR_DOI": [
+        "https://arxiv.org/html/2306.08616v5"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Dataset construction; classifiers/LLM combinations; evaluation and limitations",
+          "SUPPORTED_CLAIM": "Text classifiers may help locate review comments about violations, but detection requires validation beyond benchmark scores.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-040"
+      ],
+      "EVIDENCE_LIMITS": "Four-project comments from 2014–2020, not a 2025 production cohort; balanced training/test sample changes base rates and shares prior study material.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "LI-EROSION-REVIEWS",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Labelled review comment",
+        "SAMPLE": "21,583 screened; 606 positives plus 606 sampled negatives, across Nova, Neutron, Qt Base and Qt Creator",
+        "COMPARISON": "ML/DL/LLM classifiers and combinations on labelled data",
+        "MEASURES": "Text-classification performance",
+        "OUTCOME": "Candidate assistance for symptom discovery; not validation of architectural harm",
+        "VALIDITY_THREATS": "Artificial balance, annotator definitions, project/period dependence and shared ancestry with earlier datasets"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S048",
+      "TITLE": "Impact of Architectural Smells on Software Performance: an Exploratory Study",
+      "AUTHORS_OR_ORGANISATION": "Francesca Arcelli Fontana; Matteo Camilli; Davide Rendina; Andrei Gabriel Taraboi; Catia Trubiani",
+      "DATE": "2023",
+      "VERSION_OR_EDITION": "EASE author preprint; stale generic proceedings footer not treated as publication date",
+      "URL_OR_DOI": [
+        "https://cs.gssi.it/catia.trubiani/download/2023-EASE-Impact-of-Architectural-Smells-on-Software-Performance-preprint.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Refactoring/setup; performance results; threats to validity",
+          "SUPPORTED_CLAIM": "Selected smell-removing refactorings can affect performance, with heterogeneous and null effects.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-018",
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-042"
+      ],
+      "EVIDENCE_LIMITS": "Two systems and selected method timings do not establish that every smell is harmful or that removal improves whole-application throughput.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-048",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Selected refactored system variant and measured method",
+        "SAMPLE": "OpenMRS and TeaStore; 20 end-to-end runs per evaluated variant",
+        "COMPARISON": "Before/after selected God Class and Cyclic Dependency refactorings",
+        "MEASURES": "Execution times under synthetic workloads",
+        "OUTCOME": "Improvements in selected measurements, not uniform across all methods",
+        "VALIDITY_THREATS": "Two systems, refactoring bundle, workload/hardware specificity, no universal proxy validity"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S049",
+      "TITLE": "The WyCash Portfolio Management System",
+      "AUTHORS_OR_ORGANISATION": "Ward Cunningham",
+      "DATE": "1992-03-26",
+      "VERSION_OR_EDITION": "OOPSLA 1992 experience-report text",
+      "URL_OR_DOI": [
+        "https://c2.com/doc/oopsla92.html"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EXPERIENCE_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Entire experience account, incremental growth and debt metaphor",
+          "SUPPORTED_CLAIM": "The debt metaphor concerns the need to consolidate understanding as software grows, not a universal label for imperfection.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-043"
+      ],
+      "EVIDENCE_LIMITS": "One first-person development account; no quantified principal/interest model or general causal estimate.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-049",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S050",
+      "TITLE": "Architecture Technical Debt: Understanding Causes and a Qualitative Model",
+      "AUTHORS_OR_ORGANISATION": "Antonio Martini; Jan Bosch; Michel Chaudron",
+      "DATE": "2014",
+      "VERSION_OR_EDITION": "SEAA 2014, pp. 85–92",
+      "URL_OR_DOI": [
+        "https://www.researchgate.net/publication/265822240_Architecture_Technical_Debt_Understanding_Causes_and_a_Qualitative_Model"
+      ],
+      "SOURCE_CLASS": "PRIMARY_QUALITATIVE_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_AUTHOR_UPLOAD_TARGETED",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Research approach; causal/qualitative model; reported limitations",
+          "SUPPORTED_CLAIM": "Architecture debt arises through interacting organisational and technical pressures and requires diagnosis rather than indiscriminate clean-up.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-043",
+        "ESA-044"
+      ],
+      "EVIDENCE_LIMITS": "Seven sites in five large Scandinavian companies; qualitative accounts do not supply monetary interest rates. Later reports may extend the same programme.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "MARTINI-ARCHITECTURE-DEBT",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Company/site accounts and focus-group material",
+        "SAMPLE": "Seven sites, five companies, roughly one year and over 30 hours of focus groups",
+        "COMPARISON": "Cross-case qualitative analysis",
+        "MEASURES": "Reported causes and consequences",
+        "OUTCOME": "A qualitative model, not causal identification of each relationship",
+        "VALIDITY_THREATS": "Large-firm/regional selection, recall and interpretation; shared research programme"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S051",
+      "TITLE": "Architecture-Based Runtime Software Evolution",
+      "AUTHORS_OR_ORGANISATION": "Peyman Oreizy; Nenad Medvidovic; Richard N. Taylor",
+      "DATE": "1998-04",
+      "VERSION_OR_EDITION": "ICSE 1998, pp. 177–186",
+      "URL_OR_DOI": [
+        "https://www.ics.uci.edu/~peymano/papers/ICSE98.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Architectural runtime model, change specification and implementation approach",
+          "SUPPORTED_CLAIM": "Architecture-level representations and explicit connectors can support changes while a system runs.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-044",
+        "ESA-046"
+      ],
+      "EVIDENCE_LIMITS": "Prototype and proposed change machinery, not proof that arbitrary runtime changes are safe or worthwhile.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "OREIZY-RUNTIME-PROGRAMME",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S052",
+      "TITLE": "An Architecture-Based Approach to Self-Adaptive Software",
+      "AUTHORS_OR_ORGANISATION": "Peyman Oreizy; Michael M. Gorlick; Richard N. Taylor; Dennis Heimbigner; Gregory Johnson; Nenad Medvidovic; Alex Quilici; David S. Rosenblum; Alexander L. Wolf",
+      "DATE": "1999-05",
+      "VERSION_OR_EDITION": "IEEE Intelligent Systems 14(3), 54–62",
+      "URL_OR_DOI": [
+        "https://ics.uci.edu/~peymano/papers/ieee-is99.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Adaptation spectrum; observation/assessment/change; costs and scenario",
+          "SUPPORTED_CLAIM": "Adaptation requires observations, decisions and executable changes, with explicit costs and environmental limits.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-063"
+      ],
+      "EVIDENCE_LIMITS": "The UAV scenario is illustrative, not evidence of an operational deployment. Mechanism proposal is not a general assurance result.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INDEPENDENCE_CLUSTER": "OREIZY-RUNTIME-PROGRAMME",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S053",
+      "TITLE": "Rainbow: Architecture-Based Self-Adaptation with Reusable Infrastructure",
+      "AUTHORS_OR_ORGANISATION": "Shang-Wen Cheng; An-Cheng Huang; David Garlan; Bradley Schmerl; Peter Steenkiste",
+      "DATE": "2004",
+      "VERSION_OR_EDITION": "ICAC 2004 author full text; distinct from the Computer article of similar title",
+      "URL_OR_DOI": [
+        "https://www.researchgate.net/publication/2956204_Rainbow_architecture-based_self-adaptation_with_reusable_infrastructure"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_AUTHOR_UPLOAD_TARGETED",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "ICAC title/authors/footer; §2 probes, gauges, model, strategy and effectors; §3 case introduction",
+          "SUPPORTED_CLAIM": "Reusable infrastructure must be specialised with system knowledge and translations between runtime observations/actions and architecture.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-063"
+      ],
+      "EVIDENCE_LIMITS": "Host-page metadata resembles the Computer article; only the inspected ICAC text is used. Case feasibility is not universal autonomous operation.",
+      "EVIDENCE_ROLES": [
+        "IMPLEMENTATION_SEMANTICS",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "RAINBOW-PROGRAMME",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S054",
+      "TITLE": "Robustness Evaluation of the Rainbow Framework for Self-Adaptation",
+      "AUTHORS_OR_ORGANISATION": "Javier Cámara; Rogério de Lemos; Nuno Laranjeiro; Rafael Ventura; Marco Vieira",
+      "DATE": "2014",
+      "VERSION_OR_EDITION": "SAC 2014",
+      "URL_OR_DOI": [
+        "https://www-users.york.ac.uk/~jcm567/files/SAC2014.pdf",
+        "https://doi.org/10.1145/2554850.2554935"
+      ],
+      "SOURCE_CLASS": "PRIMARY_FAULT_INJECTION_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Experimental setup; probe-input mutation; failure classification and results",
+          "SUPPORTED_CLAIM": "Malformed or unexpected observations can silently corrupt architectural adaptation state.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-011",
+        "ESA-018",
+        "ESA-030",
+        "ESA-031",
+        "ESA-045",
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-059",
+        "ESA-063"
+      ],
+      "EVIDENCE_LIMITS": "Injected-test proportions are not deployment failure frequencies; two applications share the same framework and constrained test environments.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "INCIDENT_OR_FAILURE_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "RAINBOW-PROGRAMME",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Injected probe-input robustness test",
+        "SAMPLE": "Znn research web application and DCAS test deployment; separately customised Rainbow instances",
+        "COMPARISON": "Mutated/invalid inputs and resulting handling",
+        "MEASURES": "Crashes, accepted invalid updates, silent/stale architectural state",
+        "OUTCOME": "Many detected problems were silent state/model problems rather than immediate crashes",
+        "VALIDITY_THREATS": "Artificial fault model, specific configurations, no operational frequency denominator"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S055",
+      "TITLE": "Self-Adaptation in Industry: A Survey",
+      "AUTHORS_OR_ORGANISATION": "Danny Weyns; Ilias Gerostathopoulos and co-authors",
+      "DATE": "2023",
+      "VERSION_OR_EDITION": "TAAS author manuscript hosted by a co-author",
+      "URL_OR_DOI": [
+        "https://iliasger.github.io/pubs/2023-TAAS-SASinINDUSTRY.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_INDUSTRY_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Recruitment and demographics; practitioner responses; threats to validity",
+          "SUPPORTED_CLAIM": "Industrial self-adaptation includes bounded resource/configuration changes and faces assurance and trust concerns.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-046",
+        "ESA-047",
+        "ESA-063"
+      ],
+      "EVIDENCE_LIMITS": "Non-probabilistic recruitment and survey framing constrain representativeness; author-manuscript template volume data are not treated as final issue metadata.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-055",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Practitioner response",
+        "SAMPLE": "184 valid responses in 21 countries; 100 with self-adaptive-system engineering experience",
+        "COMPARISON": "Reported practices/experience groups, not deployment interventions",
+        "MEASURES": "Applications, mechanisms, challenges and perceptions",
+        "OUTCOME": "Evidence of practice diversity and persistent assurance concerns",
+        "VALIDITY_THREATS": "Network recruitment, nonresponse/selection, framing and self-report; not a causal benefit trial"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S056",
+      "TITLE": "Hidden Technical Debt in Machine Learning Systems",
+      "AUTHORS_OR_ORGANISATION": "D. Sculley; Gary Holt; Daniel Golovin; Eugene Davydov; Todd Phillips; Dietmar Ebner; Vinay Chaudhary; Michael Young; Jean-François Crespo; Dan Dennison",
+      "DATE": "2015",
+      "VERSION_OR_EDITION": "NIPS 2015, pp. 2503–2511",
+      "URL_OR_DOI": [
+        "https://papers.neurips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems.pdf"
+      ],
+      "SOURCE_CLASS": "PRIMARY_ENGINEERING_EXPERIENCE_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§1–4 entanglement, data dependencies, undeclared consumers and feedback loops",
+          "SUPPORTED_CLAIM": "Learned behaviour creates consequential data and feedback dependencies beyond ordinary code interfaces.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-011",
+        "ESA-043",
+        "ESA-048",
+        "ESA-053",
+        "ESA-058"
+      ],
+      "EVIDENCE_LIMITS": "Experienced engineering analysis, not controlled ML-versus-non-ML architecture comparison; no universal debt frequency or cost estimate.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-056",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S057",
+      "TITLE": "Cloud Programming Simplified: A Berkeley View on Serverless Computing",
+      "AUTHORS_OR_ORGANISATION": "Eric Jonas and co-authors",
+      "DATE": "2019-02-09",
+      "VERSION_OR_EDITION": "arXiv:1902.03383v1",
+      "URL_OR_DOI": [
+        "https://arxiv.org/pdf/1902.03383"
+      ],
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_VISION_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Definitions; §§3.3–3.4 communication/storage/coordination; challenges and predictions",
+          "SUPPORTED_CLAIM": "Serverless changes resource and service boundaries while leaving storage, communication and coordination constraints.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-052"
+      ],
+      "EVIDENCE_LIMITS": "2019 provider behaviour and predictions are historical, not current limits/prices or proof that serverless is superior.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-057",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S058",
+      "TITLE": "Injecting Sustainability in Software Architecture: A Rapid Review",
+      "AUTHORS_OR_ORGANISATION": "Markus Funke; Patricia Lago",
+      "DATE": "2025-11-27",
+      "VERSION_OR_EDITION": "arXiv:2512.00106v1; later workshop template not final publication evidence",
+      "URL_OR_DOI": [
+        "https://arxiv.org/html/2512.00106v1"
+      ],
+      "SOURCE_CLASS": "SCHOLARLY_SECONDARY_REVIEW_WITH_FOCUS_GROUP",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Rapid-review protocol, practitioner focus group, findings and threats",
+          "SUPPORTED_CLAIM": "Sustainability introduces measurement, decision and coordination concerns not exhausted by a single energy metric.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-055"
+      ],
+      "EVIDENCE_LIMITS": "Rapid-review search and screening constraints; practitioner opinions are not carbon-impact measurements. Secondary evidence is not counted as independent replication of included work.",
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-058",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Review sources and practitioner discussion",
+        "COMPARISON": "No controlled architectural intervention",
+        "MEASURES": "Reported concepts, gaps and practitioner perspectives",
+        "OUTCOME": "Research organisation and qualitative priorities",
+        "VALIDITY_THREATS": "Rapid-review scope, reviewer/search selection, secondary-source dependence and focus-group transfer limits"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S059",
+      "TITLE": "Towards Supporting Quality Architecture Evaluation with LLM Tools",
+      "AUTHORS_OR_ORGANISATION": "Rafael Capilla and co-authors",
+      "DATE": "2026-03-30",
+      "VERSION_OR_EDITION": "arXiv:2603.28914v1",
+      "URL_OR_DOI": [
+        "https://arxiv.org/html/2603.28914v1"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Study setup, risk comparison, results and threats",
+          "SUPPORTED_CLAIM": "LLM support can propose architecture-evaluation material, but its usefulness depends on context and human validation.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-054",
+        "ESA-060"
+      ],
+      "EVIDENCE_LIMITS": "Undergraduate course, author reference judgements and small selected group population; neither industrial replication nor autonomous approval evidence.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-059",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Student-group architecture evaluation",
+        "SAMPLE": "Nine groups, seven retained for analysis after two exclusions",
+        "COMPARISON": "LLM-assisted material against expert reference judgements",
+        "MEASURES": "Risk identification/quality and reported effort indicators",
+        "OUTCOME": "Exploratory support possibilities with context-sensitive limitations",
+        "VALIDITY_THREATS": "Educational sample, exclusions, reference bias, tool/prompt dependence and no production follow-up"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S060",
+      "TITLE": "Insights on Microservice Architecture Through the Eyes of Industry Practitioners",
+      "AUTHORS_OR_ORGANISATION": "Vinicius L. Nogueira; Fernando S. Felizardo; Aline M. M. M. Amaral; Wesley K. G. Assunção; Thelma E. Colanzi",
+      "DATE": "2024-08-19",
+      "VERSION_OR_EDITION": "arXiv:2408.10434v1",
+      "URL_OR_DOI": [
+        "https://arxiv.org/html/2408.10434v1"
+      ],
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§III methods; §IV data/coordination challenges; §VI threats",
+          "SUPPORTED_CLAIM": "Practitioners describe deployment/scaling motivations alongside data-consistency, testing and coordination burdens.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-012",
+        "ESA-015",
+        "ESA-035",
+        "ESA-044",
+        "ESA-050",
+        "ESA-061"
+      ],
+      "EVIDENCE_LIMITS": "53 microservice users include 35 from a prior survey plus 18 new users; two new questions have only 18 answers. Motivation is not measured achieved benefit.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "NOGUEIRA-MICROSERVICES-SURVEY",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Practitioner survey response",
+        "SAMPLE": "53 microservice users, 41 from Brazil; 35 reused and 18 new",
+        "COMPARISON": "Self-reported motivations and practices; no architectural control group",
+        "MEASURES": "Questionnaire responses and thematic coding",
+        "OUTCOME": "Diverse motivations and continuing data/operation costs",
+        "VALIDITY_THREATS": "Convenience/social recruitment, geography, closed-question framing and shared prior dataset"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S061",
+      "TITLE": "EcoFaaS: Rethinking the Design of Serverless Environments for Energy Efficiency",
+      "AUTHORS_OR_ORGANISATION": "Jovan Stojkovic; Nikoleta Iliakopoulou; Tianyin Xu; Hubertus Franke; Josep Torrellas",
+      "DATE": "2024",
+      "VERSION_OR_EDITION": "ISCA 2024 author paper",
+      "URL_OR_DOI": [
+        "https://tianyin.github.io/pub/ecofaas.pdf",
+        "https://doi.org/10.1109/ISCA59077.2024.00042"
+      ],
+      "SOURCE_CLASS": "PRIMARY_SYSTEMS_EXPERIMENT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§V–VIII; Table I and Figures 13–18 visually inspected",
+          "SUPPORTED_CLAIM": "Energy-aware core pools and end-to-end latency budgets improve selected energy/tail measures while intentionally increasing mean latency relative to the full-frequency baseline.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-019",
+        "ESA-026",
+        "ESA-029",
+        "ESA-030",
+        "ESA-047",
+        "ESA-048",
+        "ESA-052",
+        "ESA-055",
+        "ESA-063"
+      ],
+      "EVIDENCE_LIMITS": "Five-to-twenty Haswell servers and selected benchmarks; measured package/DRAM energy is not whole-lifecycle carbon. Results are mainly shown for OpenWhisk, with KNative described as similar.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "IMPLEMENTATION_SEMANTICS",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-061",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Benchmark/application run and server cluster",
+        "SAMPLE": "12 standalone/workflow benchmarks; clusters of 5–20 servers; Azure-pattern and synthetic loads",
+        "COMPARISON": "Baseline, Baseline+PowerCtrl and EcoFaaS",
+        "MEASURES": "Package/DRAM energy, mean/tail latency, throughput under specified SLO",
+        "OUTCOME": "Energy savings and favourable tail trade-offs; mean latency increases versus full-frequency baseline",
+        "ASSUMPTIONS": "Application SLO set to five times unloaded warm latency in the reported evaluation",
+        "VALIDITY_THREATS": "Selected hardware, benchmarks and SLO; component bundle; energy boundary excludes lifecycle and wider services"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S062",
+      "TITLE": "An Empirical Evaluation of Large Language Models Applying Software Architectural Patterns",
+      "AUTHORS_OR_ORGANISATION": "Christos Hadjichristofi; Michail Tsilimigkounakis; Georgios Sotiropoulos; Vassilios Vescoukis",
+      "DATE": "2026-05-27",
+      "VERSION_OR_EDITION": "AI 7(6), 195; publisher full text mirrored on ResearchGate",
+      "URL_OR_DOI": [
+        "https://www.researchgate.net/publication/405351366_An_Empirical_Evaluation_of_Large_Language_Models_Applying_Software_Architectural_Patterns",
+        "https://doi.org/10.3390/ai7060195"
+      ],
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "PUBLISHED_ARTICLE_FULL_TEXT_VIA_AUTHOR_UPLOAD",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§3 design; §4 architectural/metric findings; §5 threats",
+          "SUPPORTED_CLAIM": "Generated diagrams and self-reported architectural metrics require separate validation; the latter can disagree with the generated structure.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-045",
+        "ESA-054",
+        "ESA-060"
+      ],
+      "EVIDENCE_LIMITS": "Each configuration was run once; four author evaluators; structural outputs are not running systems. Published 27 May, not the later hosting/upload date.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-062",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Model × prompt × retrieval configuration output",
+        "SAMPLE": "Two experimental phases and multiple local/hosted model configurations; one execution per configuration",
+        "COMPARISON": "Requirement forms, model configurations, requested patterns and retrieval settings",
+        "MEASURES": "Author-rated structural quality and independently calculated versus self-reported metrics",
+        "OUTCOME": "Variable structural adherence; unreliable self-reported metrics in many configurations",
+        "VALIDITY_THREATS": "No repeated-run variance estimate, subjective/reference judgements, selected tasks/models and no deployment outcomes"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      },
+      "ACCESS_ROUTE_QUALIFICATION": "The published 2026 article text was inspected through the listed ResearchGate author-upload page; the DOI identifies the published work, not an assertion that the publisher website supplied the read."
+    },
+    {
+      "SOURCE_ID": "ESA-S063",
+      "TITLE": "From Monolith to Microservices: A Comparative Evaluation of Decomposition Frameworks",
+      "AUTHORS_OR_ORGANISATION": "Mineth Weerasinghe; Himindu Kularathne; Methmini Madhushika; Danuka Lakshan; Nisansa de Silva; Adeesha Wijayasiri; Srinath Perera",
+      "DATE": "2026-01-30",
+      "VERSION_OR_EDITION": "arXiv:2601.23141v1",
+      "URL_OR_DOI": [
+        "https://arxiv.org/html/2601.23141v1"
+      ],
+      "SOURCE_CLASS": "PRIMARY_COMPARATIVE_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Study design and benchmark/metric comparison; limitations implicit in reproduced versus reported results",
+          "SUPPORTED_CLAIM": "Automated boundary proposals can be compared on structural proxies, which do not establish operational independence.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-054",
+        "ESA-060"
+      ],
+      "EVIDENCE_LIMITS": "Mixes reproduced outputs with published results; shared benchmark families and metrics are not independent industrial deployments.",
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-063",
+      "EMPIRICAL_DETAILS": {
+        "UNIT": "Decomposition framework output on a benchmark",
+        "SAMPLE": "JPetStore, AcmeAir, DayTrader and Plants benchmark families",
+        "COMPARISON": "Available replicated outputs plus results reported by earlier studies",
+        "MEASURES": "Structural modularity, interface/coupling and size-balance proxies",
+        "OUTCOME": "Relative proxy performance, not demonstrated migration value",
+        "VALIDITY_THREATS": "Heterogeneous provenance, benchmark reuse, missing runtime/organisational costs and proxy validity"
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S064",
+      "TITLE": "On the Design and Development of Program Families",
+      "AUTHORS_OR_ORGANISATION": "David L. Parnas",
+      "DATE": "1976",
+      "VERSION_OR_EDITION": "Historical work identified through later collected reprint metadata",
+      "URL_OR_DOI": [
+        "https://link.springer.com/chapter/10.1007/978-1-4612-6315-9_25"
+      ],
+      "SOURCE_CLASS": "PRIMARY_WORK_BIBLIOGRAPHIC_RECORD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Title/date and reprint identification",
+          "SUPPORTED_CLAIM": "Program-family research predates the 1979 extension/contraction paper.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-013"
+      ],
+      "EVIDENCE_LIMITS": "Full original text not inspected. Substantive family mechanisms in this packet rely on ESA-S006, not an invented reading of this work.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-064",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S065",
+      "TITLE": "IEEE 1471-2000: Recommended Practice for Architectural Description of Software-Intensive Systems",
+      "AUTHORS_OR_ORGANISATION": "IEEE",
+      "DATE": "2000",
+      "VERSION_OR_EDITION": "Original IEEE recommended practice",
+      "URL_OR_DOI": [
+        "https://standards.ieee.org/standard/1471-2000.html"
+      ],
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "PUBLIC_ABSTRACT_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Official description of conceptual framework and architectural descriptions",
+          "SUPPORTED_CLAIM": "The original standard formalises architecture-description concepts and content.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-059"
+      ],
+      "EVIDENCE_LIMITS": "Normative clauses inaccessible in this run; scope and historical identity only. No assumed conformance checklist.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-065",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    },
+    {
+      "SOURCE_ID": "ESA-S066",
+      "TITLE": "Software Product Lines Collection",
+      "AUTHORS_OR_ORGANISATION": "Carnegie Mellon University Software Engineering Institute",
+      "DATE": "UNDATED",
+      "VERSION_OR_EDITION": "Institutional collection snapshot at 2026-09-06",
+      "URL_OR_DOI": [
+        "https://www.sei.cmu.edu/library/software-product-lines-collection/"
+      ],
+      "SOURCE_CLASS": "PRIMARY_INSTITUTIONAL_CATALOGUE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "COLLECTION_DESCRIPTIONS_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Entries for architecture reconstruction (2001), product-line architecture views/evolution (2007), and service/product-line intersections (2008–2010)",
+          "SUPPORTED_CLAIM": "The institutional programme explicitly connects product lines with architectural reconstruction, descriptions and service variation.",
+          "INSPECTION": "The identified text was opened and inspected; no claims are taken from an inaccessible continuation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "ESA-013"
+      ],
+      "EVIDENCE_LIMITS": "Underlying case reports were not all read; collection descriptions establish documented intersections and discovery leads, not benefits or the contents of uninspected methods.",
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INDEPENDENCE_CLUSTER": "WORK-066",
+      "EMPIRICAL_DETAILS": {
+        "APPLICABILITY": "No empirical comparison is claimed from this source; examples, guidance, definitions or arguments are not treated as effect estimates."
+      },
+      "FORMAL_DETAILS": {
+        "APPLICABILITY": "No mathematical guarantee is claimed from this source."
+      }
+    }
+  ]
+}

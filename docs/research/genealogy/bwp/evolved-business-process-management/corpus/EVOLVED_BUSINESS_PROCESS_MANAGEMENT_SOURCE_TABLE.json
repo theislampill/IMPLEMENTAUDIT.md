@@ -1,0 +1,2582 @@
+{
+  "schema_version": "1.0",
+  "lineage_id": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+  "research_cutoff": "2026-09-06",
+  "sources": [
+    {
+      "SOURCE_ID": "S001",
+      "TITLE": "Reengineering Work: Don’t Automate, Obliterate",
+      "AUTHORS_OR_ORGANISATION": [
+        "Michael Hammer"
+      ],
+      "DATE": "1990-07/08",
+      "VERSION_OR_EDITION": "Harvard Business Review 68(4), 104–112; institutional scan",
+      "URL_OR_DOI": "https://folk.idi.ntnu.no/thomasos/paper/hammer_reengineering.pdf",
+      "SOURCE_CLASS": "PRIMARY_PRACTICE_ARGUMENT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_PASSAGES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S001-L1",
+          "LOCATOR": "Opening argument and Mutual Benefit Life case, PDF pp. 1–3",
+          "CLAIM": "Radical reconsideration of fragmented work rather than merely automating existing tasks; case-manager illustration."
+        },
+        {
+          "LOCATOR_ID": "S001-L2",
+          "LOCATOR": "Later principles and departmental measures, PDF pp. 4–8",
+          "CLAIM": "Outcome organisation, information use and limits of local measures."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-001",
+        "EBPM-020",
+        "EBPM-027",
+        "EBPM-030",
+        "EBPM-055"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Author-reported cases, not a controlled comparison or a population failure-rate study."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "An early, influential radical-redesign formulation. Reported successes motivate mechanisms but do not identify general causal effect sizes.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Author-reported organisational redesign cases",
+        "SAMPLE": "Selected cases, including Mutual Benefit Life; no representative sampling denominator established.",
+        "SETTING_AND_DATES": "Practice article, 1990.",
+        "COMPARISON": "Illustrative before/after or proposed redesign accounts, not a controlled population comparison.",
+        "MEASURES": "Case-specific work organisation and reported performance.",
+        "OUTCOME": "Motivates outcome organisation and case continuity.",
+        "UNCERTAINTY": "No general effect size or failure rate inferred.",
+        "MATERIAL_VALIDITY_THREATS": "Selection, advocacy and concurrent organisational change.",
+        "DEPENDENCE_AND_REPLICATION": "Later retellings of these cases are not independent replications."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S002",
+      "TITLE": "The New Industrial Engineering: Information Technology and Business Process Redesign",
+      "AUTHORS_OR_ORGANISATION": [
+        "Thomas H. Davenport",
+        "James E. Short"
+      ],
+      "DATE": "1990-06",
+      "VERSION_OR_EDITION": "MIT CISR WP 213 / Sloan WP 3190-90; cover identifies Summer 1990 Sloan Management Review article",
+      "URL_OR_DOI": "https://archive.org/stream/newindustrialeng00dave/newindustrialeng00dave_djvu.txt",
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_AND_CASE_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TRANSCRIPTION_SELECTED_PASSAGES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S002-L1",
+          "LOCATOR": "Cover; abstract; opening discussion of Taylor",
+          "CLAIM": "Work identity/date; 19-company inquiry and five detailed cases; explicit critical engagement with industrial engineering."
+        },
+        {
+          "LOCATOR_ID": "S002-L2",
+          "LOCATOR": "Business processes definition; five steps; interorganisational processes sections",
+          "CLAIM": "Customer/outcome and cross-boundary unit, baseline/select/prototype methods, and network scope."
+        },
+        {
+          "LOCATOR_ID": "S002-L3",
+          "LOCATOR": "Prototype/pilot discussion; Rank Xerox case conclusion",
+          "CLAIM": "Stakeholder involvement and staged introduction; other simultaneous changes obstruct single-cause attribution."
+        },
+        {
+          "LOCATOR_ID": "S002-L4",
+          "LOCATOR": "A Brief History of Process Thinking; redesign objectives; notes 9–18",
+          "CLAIM": "Explicit quality-movement antecedents, multiple objectives, work-life quality and learning/empowerment are already present in the 1990 account; cited earlier works were not independently read here."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-001",
+        "EBPM-002",
+        "EBPM-003",
+        "EBPM-004",
+        "EBPM-005",
+        "EBPM-006",
+        "EBPM-017",
+        "EBPM-018",
+        "EBPM-020",
+        "EBPM-022",
+        "EBPM-023",
+        "EBPM-030",
+        "EBPM-040",
+        "EBPM-042",
+        "EBPM-046",
+        "EBPM-048",
+        "EBPM-055",
+        "EBPM-066",
+        "EBPM-067",
+        "EBPM-068",
+        "EBPM-069"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Institutional scan transcription contains OCR artefacts; no new OCR was run. Working-paper text, not a claim that the journal layout was read. Selected cases and multiple concurrent changes limit causality."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "The coupling of IT opportunities and process redesign is explicit. The account is not a claim that IT alone changes organisations or that all processes merit radical reconstruction.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Companies and detailed process-redesign cases",
+        "SAMPLE": "19 companies examined; five detailed cases.",
+        "SETTING_AND_DATES": "MIT/Sloan working-paper programme, June 1990.",
+        "COMPARISON": "Case-based current/redesigned work; no random assignment.",
+        "MEASURES": "Time, cost, quality, work-life/learning objectives, reported case results.",
+        "OUTCOME": "Supports a concrete cross-boundary/IT-redesign formulation, with explicit multiple-objective and concurrent-change qualifications.",
+        "UNCERTAINTY": "No universal causal effect is estimated here.",
+        "MATERIAL_VALIDITY_THREATS": "Selected cases, reported outcomes and simultaneous changes.",
+        "DEPENDENCE_AND_REPLICATION": "Examples shared with other early BPR accounts are not treated as new independent trials."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S003",
+      "TITLE": "Business Process Management: A Survey",
+      "AUTHORS_OR_ORGANISATION": [
+        "W.M.P. van der Aalst",
+        "A.H.M. ter Hofstede",
+        "Mathias Weske"
+      ],
+      "DATE": "2003",
+      "VERSION_OR_EDITION": "LNCS 2678, 1–12",
+      "URL_OR_DOI": "https://cliplab.org/Projects/S-CUBE/papers/aalst03:bpm_survey.pdf",
+      "SOURCE_CLASS": "SCHOLARLY_CONCEPTUAL_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_PASSAGES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S003-L1",
+          "LOCATOR": "Introduction and historical discussion, PDF pp. 1–3",
+          "CLAIM": "Information-systems/workflow lineage and process-aware support."
+        },
+        {
+          "LOCATOR_ID": "S003-L2",
+          "LOCATOR": "BPM lifecycle and system scope, PDF pp. 3–6",
+          "CLAIM": "Modelling, enactment and diagnosis are related but distinct concerns."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [],
+      "EVIDENCE_LIMITS": [
+        "A retrospective survey and scope proposal, not an original 1970s historical document or a controlled effectiveness study."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INSPECTED_OBSERVATION": "A technical BPM conception extends workflow concerns. It does not establish an exclusive origin for organisational BPM.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "NO_DIRECT_PROPERTY_LINK_REASON": "Used for explicit history, field definition and genealogy/composition context rather than a separately attributed candidate mechanism.",
+      "SUPPORT_SCOPE_NOTE": "Used for field history, source correction, conference/date boundary or bibliographic scope rather than an individual candidate mechanism."
+    },
+    {
+      "SOURCE_ID": "S004",
+      "TITLE": "Business Process Management: A Comprehensive Survey",
+      "AUTHORS_OR_ORGANISATION": [
+        "W.M.P. van der Aalst"
+      ],
+      "DATE": "2013-02-12",
+      "VERSION_OR_EDITION": "ISRN Software Engineering, article 507984; DOI 10.1155/2013/507984",
+      "URL_OR_DOI": "https://onlinelibrary.wiley.com/doi/10.1155/2013/507984",
+      "SOURCE_CLASS": "SCHOLARLY_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S004-L1",
+          "LOCATOR": "Introduction and BPM overview",
+          "CLAIM": "Interdisciplinary scope and separation of modelling, analysis, implementation and diagnosis."
+        },
+        {
+          "LOCATOR_ID": "S004-L2",
+          "LOCATOR": "Performance analysis / simulation discussion",
+          "CLAIM": "Queueing, Markov-chain and simulation techniques; mismatch between convenient models and human work."
+        },
+        {
+          "LOCATOR_ID": "S004-L3",
+          "LOCATOR": "BPM history/overview and process-modelling language discussion: office information systems, formal/conceptual/execution languages, EPC and modelling purposes",
+          "CLAIM": "Retrospective office/workflow ancestry; representations have different communication, training, analytical and execution purposes. Historical tool limitations reported in 2013 are not asserted as current 2026 limitations."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-019",
+        "EBPM-044",
+        "EBPM-045",
+        "EBPM-051",
+        "EBPM-059",
+        "EBPM-061",
+        "EBPM-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Survey-level evidence organises a field; underlying experiments are not counted as newly inspected independent replications."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "HISTORICAL_PROVENANCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "The survey supports a plural technical toolbox and documents analytic imports. Its taxonomy is not evidence of the payoff of every tool in a new setting.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S005",
+      "TITLE": "Ten Principles of Good Business Process Management",
+      "AUTHORS_OR_ORGANISATION": [
+        "Jan vom Brocke",
+        "Theresa Schmiedel",
+        "Jan Recker",
+        "Peter Trkman",
+        "Willem Mertens",
+        "Stijn Viaene"
+      ],
+      "DATE": "2014",
+      "VERSION_OR_EDITION": "Business Process Management Journal 20(4), 530–548",
+      "URL_OR_DOI": "https://lirias.kuleuven.be/retrieve/c62d2d2a-4763-4e24-be1a-fe9d58425245",
+      "SOURCE_CLASS": "PRIMARY_EXPERT_SYNTHESIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S005-L1",
+          "LOCATOR": "Research design and validation, PDF pp. 4–7",
+          "CLAIM": "Expert-led development and practitioner feedback, not an outcome experiment."
+        },
+        {
+          "LOCATOR_ID": "S005-L2",
+          "LOCATOR": "Ten principles, main discussion",
+          "CLAIM": "Context, continuity, enablement, holism, institutionalisation, involvement, joint understanding, purpose, simplicity and technology appropriation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-001",
+        "EBPM-004",
+        "EBPM-005",
+        "EBPM-007",
+        "EBPM-010",
+        "EBPM-030",
+        "EBPM-032",
+        "EBPM-035",
+        "EBPM-039",
+        "EBPM-040",
+        "EBPM-044",
+        "EBPM-046",
+        "EBPM-055",
+        "EBPM-061",
+        "EBPM-067",
+        "EBPM-068",
+        "EBPM-070",
+        "EBPM-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Twenty expert participants and feedback from forty practitioners do not constitute sixty independent outcome trials. Normative principles require local operationalisation."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "RESEARCHER_INTERPRETATION",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "This account is deliberately broader than software or diagrams, and opposes generic maximal machinery. It is expert/practitioner-grounded guidance rather than a validated universal package.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Expert/practitioner judgements on BPM principles",
+        "SAMPLE": "20 experts and 40 practitioner feedback participants.",
+        "SETTING_AND_DATES": "Principle-development study, published 2014.",
+        "COMPARISON": "Conceptual development and validation of relevance, not intervention versus control.",
+        "MEASURES": "Principle relevance and formulation.",
+        "OUTCOME": "Supports a contextual, non-tool-reducible account.",
+        "UNCERTAINTY": "No effect-size claim for organisational outcomes.",
+        "MATERIAL_VALIDITY_THREATS": "Expert selection and perceived usefulness differ from demonstrated benefit.",
+        "DEPENDENCE_AND_REPLICATION": "The two stages are related parts of one programme, not 60 outcome replications."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S006",
+      "TITLE": "Fundamentals of Business Process Management",
+      "AUTHORS_OR_ORGANISATION": [
+        "Marlon Dumas",
+        "Marcello La Rosa",
+        "Jan Mendling",
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2018",
+      "VERSION_OR_EDITION": "Second edition; DOI 10.1007/978-3-662-56509-4",
+      "URL_OR_DOI": "https://link.springer.com/book/10.1007/978-3-662-56509-4",
+      "SOURCE_CLASS": "SCHOLARLY_TEXTBOOK",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "PUBLISHER_RECORD_AND_CONTENTS_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S006-L1",
+          "LOCATOR": "Publisher book overview and table of contents",
+          "CLAIM": "Lifecycle-oriented pedagogical organisation and enterprise BPM capabilities chapter."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-047"
+      ],
+      "EVIDENCE_LIMITS": [
+        "The full book was not accessible/read. Detailed mechanisms in this packet rely on separately inspected primary work; chapter 5 abstract has separate source S048."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INSPECTED_OBSERVATION": "Used to check scope, terminology and edition, not to substitute an unread textbook for primary evidence.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S007",
+      "TITLE": "Fundamentals of Business Process Management: Errata",
+      "AUTHORS_OR_ORGANISATION": [
+        "Authors of Fundamentals of Business Process Management"
+      ],
+      "DATE": "undated; inspected 2026-09-06",
+      "VERSION_OR_EDITION": "Live companion errata for second edition",
+      "URL_OR_DOI": "https://fundamentals-of-bpm.org/errata/",
+      "SOURCE_CLASS": "PRIMARY_CORRECTION_RECORD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_PAGE_SELECTED_ITEMS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S007-L1",
+          "LOCATOR": "Chapter 5, Figure 5.15b; chapter 7 corrections",
+          "CLAIM": "Gateway and quantitative corrections demonstrate that authoritative teaching artefacts remain revisable."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-011"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Publication dates of individual corrections are not uniformly specified. Corrections are not a failure-frequency estimate."
+      ],
+      "EVIDENCE_ROLES": [
+        "INCIDENT_OR_FAILURE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Syntax and calculations can require correction even in a respected textbook; presence of a standard-looking diagram is not its validation.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S008",
+      "TITLE": "Business process architectures: overview, comparison and framework",
+      "AUTHORS_OR_ORGANISATION": [
+        "Remco Dijkman",
+        "Irene Vanderfeesten",
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2014-06-26 online; 2016 issue",
+      "VERSION_OR_EDITION": "Enterprise Information Systems; DOI 10.1080/17517575.2014.928951",
+      "URL_OR_DOI": "https://pure.tue.nl/ws/files/8727921/17517575.2014.pdf",
+      "SOURCE_CLASS": "PRIMARY_FRAMEWORK_AND_COMPARISON",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S008-L1",
+          "LOCATOR": "Overview of approaches and reference-model discussion",
+          "CLAIM": "Multiple approaches to identifying and relating processes; adaptation rather than copying a reference architecture."
+        },
+        {
+          "LOCATOR_ID": "S008-L2",
+          "LOCATOR": "Discussion of object models and process relations",
+          "CLAIM": "An object or organisational decomposition does not by itself supply a process architecture."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-004",
+        "EBPM-005",
+        "EBPM-067"
+      ],
+      "EVIDENCE_LIMITS": [
+        "A comparison/framework contribution is not a randomised evaluation of architecture choices or proof of a universal best decomposition."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Process architecture concerns identification and relationships between processes, not simply the reporting hierarchy.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S009",
+      "TITLE": "Seven Process Modeling Guidelines (7PMG)",
+      "AUTHORS_OR_ORGANISATION": [
+        "Jan Mendling",
+        "Hajo A. Reijers",
+        "W.M.P. van der Aalst"
+      ],
+      "DATE": "2010",
+      "VERSION_OR_EDITION": "Information and Software Technology 52(2), 127–136; DOI 10.1016/j.infsof.2009.08.004",
+      "URL_OR_DOI": "https://hreijers.win.tue.nl/H.A.%20Reijers%20Bestanden/preist.pdf",
+      "SOURCE_CLASS": "PRIMARY_GUIDELINE_SYNTHESIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S009-L1",
+          "LOCATOR": "Sections 3.1–3.3, author PDF pp. 6–11",
+          "CLAIM": "Guidelines connect model size, routing structure and labels to quality; decomposition threshold is a heuristic."
+        },
+        {
+          "LOCATOR_ID": "S009-L2",
+          "LOCATOR": "Empirical foundations and example discussion",
+          "CLAIM": "Underlying studies and a worked example support different claims, not a single guideline-package trial."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-010",
+        "EBPM-011",
+        "EBPM-012",
+        "EBPM-013",
+        "EBPM-063"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Cited student and industrial model datasets are not independently reanalysed here. A 50-element heuristic is not a notation-independent theorem."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Useful model-quality heuristics require preservation of meaning and a task-specific comprehension check. Source recommendations are narrower than a universal complexity law.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S010",
+      "TITLE": "An Experiment to Analyze the Use of Process Modeling Guidelines to Create High-Quality Process Models",
+      "AUTHORS_OR_ORGANISATION": [
+        "Diego Torales Avila",
+        "Raphael Piegas Cigana",
+        "Marcelo Fantinato",
+        "Hajo A. Reijers",
+        "Jan Mendling",
+        "Lucineia Heloisa Thom"
+      ],
+      "DATE": "2019",
+      "VERSION_OR_EDITION": "DEXA 2019, LNCS 11707, 129–139; DOI 10.1007/978-3-030-27618-8_10",
+      "URL_OR_DOI": "https://research-portal.uu.nl/ws/files/115522503/Avila2019_Chapter_AnExperimentToAnalyzeTheUseOfP.pdf",
+      "SOURCE_CLASS": "PRIMARY_EXPERIMENT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_METHODS_RESULTS_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S010-L1",
+          "LOCATOR": "Sections 3.3–3.5; PDF pp. 6–8",
+          "CLAIM": "Two executions: 13 and 8 students, 42 models; task order and prior familiarity constrain interpretation."
+        },
+        {
+          "LOCATOR_ID": "S010-L2",
+          "LOCATOR": "Sections 4.2–4.3, printed p. 137 (PDF p. 10); conclusion, printed p. 138 (PDF p. 11)",
+          "CLAIM": "No statistically significant effects on tested model issues and perceived difficulty/understandability; authors highlight small-sample power."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-010",
+        "EBPM-011",
+        "EBPM-012",
+        "EBPM-013",
+        "EBPM-052",
+        "EBPM-063",
+        "EBPM-070"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Twenty-one students from one course setting; eight models excluded from the model-issues analysis. No-significance is not evidence of equivalence or universal uselessness."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "The result narrows confidence in guideline application as a sufficient quality mechanism. It does not refute all constituent guidelines.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Students and models in two task executions",
+        "SAMPLE": "13 plus 8 students in two executions; 42 models collected, eight excluded from the H2 model-issues analysis because of serious syntax errors after incomplete tasks.",
+        "SETTING_AND_DATES": "Brazilian educational setting, published 2019.",
+        "COMPARISON": "Guideline-supported task followed the task without guidelines; prior familiarity and order are material.",
+        "MEASURES": "Tested model issues and perceived difficulty/understandability.",
+        "OUTCOME": "No statistically significant benefit on the tested outcomes.",
+        "UNCERTAINTY": "Small sample and power limits; null significance is not equivalence or proof of no possible benefit.",
+        "MATERIAL_VALIDITY_THREATS": "Guideline condition always second; student population; all subjects had prior 7PMG familiarity; excluding eight unfinished/syntactically invalid models limits the model-issues comparison.",
+        "DEPENDENCE_AND_REPLICATION": "Two executions in the same educational programme are not independent representative field replications."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S011",
+      "TITLE": "Business Process Model and Notation (BPMN)",
+      "AUTHORS_OR_ORGANISATION": [
+        "Object Management Group"
+      ],
+      "DATE": "2013-12",
+      "VERSION_OR_EDITION": "Version 2.0.2, formal/13-12-09",
+      "URL_OR_DOI": "https://www.omg.org/spec/BPMN/2.0.2/PDF",
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "NORMATIVE_TEXT_SELECTED_CLAUSES_AND_SCREENSHOTS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S011-L1",
+          "LOCATOR": "Sections 1.1 and 2.1, printed p. 1 / PDF p. 30",
+          "CLAIM": "Scope and distinct conformance classes; modelling conformance is not execution conformance."
+        },
+        {
+          "LOCATOR_ID": "S011-L2",
+          "LOCATOR": "Section 13.1, printed p. 425 / PDF p. 454",
+          "CLAIM": "Execution semantics scope and non-operational elements that execution engines may ignore."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-003",
+        "EBPM-010",
+        "EBPM-011",
+        "EBPM-014",
+        "EBPM-015",
+        "EBPM-042",
+        "EBPM-043",
+        "EBPM-049",
+        "EBPM-057"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Only cited clauses and relevant explanatory text were examined, not all 532 pages. No implementation was tested. The specification supplies no organisational-benefit guarantee."
+      ],
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "INSPECTED_OBSERVATION": "Normative modelling and execution obligations must be distinguished. A compliant diagram does not establish that people, external systems or real outcomes conform.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S012",
+      "TITLE": "Case Management Model and Notation (CMMN)",
+      "AUTHORS_OR_ORGANISATION": [
+        "Object Management Group"
+      ],
+      "DATE": "2016-12",
+      "VERSION_OR_EDITION": "Version 1.1, formal/2016-12-01",
+      "URL_OR_DOI": "https://www.omg.org/spec/CMMN/1.1/PDF",
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "NORMATIVE_TEXT_SELECTED_CLAUSES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S012-L1",
+          "LOCATOR": "Cover; sections 4.1–4.2, printed pp. 6–7",
+          "CLAIM": "Case management identity and case-worker planning/discretion."
+        },
+        {
+          "LOCATOR_ID": "S012-L2",
+          "LOCATOR": "Section 5.4.9.2, printed p. 41",
+          "CLAIM": "Discretionary items and applicability within a modelled case."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-014",
+        "EBPM-016",
+        "EBPM-036",
+        "EBPM-043",
+        "EBPM-054",
+        "EBPM-057"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Parsed search title was misleading; cover identifies CMMN correctly. Specification, not observed benefit or permission to override external obligations."
+      ],
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "INSPECTED_OBSERVATION": "CMMN explicitly represents case planning and discretion; the model does not itself establish professional competence or authority.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S013",
+      "TITLE": "Decision Model and Notation (DMN) version 1.5 specification record",
+      "AUTHORS_OR_ORGANISATION": [
+        "Object Management Group"
+      ],
+      "DATE": "2024-08 adoption",
+      "VERSION_OR_EDITION": "Version 1.5; formal/24-01-01",
+      "URL_OR_DOI": "https://www.omg.org/spec/DMN/1.5",
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD_RECORD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "VERSION_RECORD_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S013-L1",
+          "LOCATOR": "Normative documents and formal-version history",
+          "CLAIM": "Identity of DMN 1.5 and formal adoption date; a separate decision-modelling specification exists."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-015"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Normative PDF failed both direct and link-following retrieval. No unread DMN clause or execution detail is asserted. Root-family beta labels are not treated as adopted versions."
+      ],
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ],
+      "INSPECTED_OBSERVATION": "Version identity is established; detailed DMN semantics remain an access limit, not evidence against decision modelling.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S014",
+      "TITLE": "Knowledge-intensive Processes: Characteristics, Requirements and Analysis of Contemporary Approaches",
+      "AUTHORS_OR_ORGANISATION": [
+        "Claudio Di Ciccio",
+        "Andrea Marrella",
+        "Alessandro Russo"
+      ],
+      "DATE": "2015",
+      "VERSION_OR_EDITION": "Journal on Data Semantics 4(1), 29–57; DOI 10.1007/s13740-014-0038-4; author preprint",
+      "URL_OR_DOI": "https://www.diciccio.net/claudio/preprints/DiCiccio-etal-JoDS2015-KiPs.pdf",
+      "SOURCE_CLASS": "SCHOLARLY_CONCEPTUAL_ANALYSIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S014-L1",
+          "LOCATOR": "Section 2.1, author PDF p. 4",
+          "CLAIM": "Knowledge workers, autonomy, data and evolving knowledge in process characterisation."
+        },
+        {
+          "LOCATOR_ID": "S014-L2",
+          "LOCATOR": "Scenarios and requirements, PDF pp. 6–10",
+          "CLAIM": "Disaster response, healthcare and research cases motivate alternatives; structured and discretionary work can coexist."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-003",
+        "EBPM-008",
+        "EBPM-010",
+        "EBPM-016",
+        "EBPM-036",
+        "EBPM-054",
+        "EBPM-070",
+        "EBPM-073"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Illustrative scenarios and approach analysis do not establish a comparative causal effect or show all professional work lacks structure."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Knowledge intensity challenges complete advance sequencing, without abolishing goals, constraints or repeatable sub-processes.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S015",
+      "TITLE": "Best practices in business process redesign: validation of a redesign framework",
+      "AUTHORS_OR_ORGANISATION": [
+        "Selma Limam Mansar",
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2005",
+      "VERSION_OR_EDITION": "Computers in Industry 56(5), 457–471; DOI 10.1016/j.compind.2005.01.001",
+      "URL_OR_DOI": "https://hreijers.win.tue.nl/H.A.%20Reijers%20Bestanden/Mansar_2005_Computers-in-Industry.pdf",
+      "SOURCE_CLASS": "PRIMARY_FRAMEWORK_AND_FIELD_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S015-L1",
+          "LOCATOR": "Framework development, case validation and survey sections",
+          "CLAIM": "Technical redesign heuristics situated in a process framework and examined through two Dutch cases and practitioner inquiry."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-023",
+        "EBPM-024",
+        "EBPM-025",
+        "EBPM-026",
+        "EBPM-027",
+        "EBPM-028",
+        "EBPM-029",
+        "EBPM-064",
+        "EBPM-065"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Shares the 2003/2004 practitioner programme with S016. Technical redesign is not a complete organisational change method."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "A structured set of possible redesign moves is supported, not the unconditional optimality of each move.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S016",
+      "TITLE": "Best practices in business process redesign: use and impact",
+      "AUTHORS_OR_ORGANISATION": [
+        "Selma Limam Mansar",
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2007",
+      "VERSION_OR_EDITION": "Business Process Management Journal 13(2), 193–213",
+      "URL_OR_DOI": "https://hreijers.win.tue.nl/H.A.%20Reijers%20Bestanden/impact.PDF",
+      "SOURCE_CLASS": "PRIMARY_PRACTITIONER_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_METHODS_RESULTS_AND_OBJECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S016-L1",
+          "LOCATOR": "Framework, methods and time/cost/quality/flexibility discussion, PDF pp. 3–8",
+          "CLAIM": "Practitioner assessments of conditional redesign mechanisms."
+        },
+        {
+          "LOCATOR_ID": "S016-L2",
+          "LOCATOR": "Table IV, PDF p. 10 (zero-based page 9), printed p. 202; following objections, PDF p. 11, printed p. 203; screenshots inspected",
+          "CLAIM": "Twenty-five practitioner ratings; objections include segregation of duties, training and governance barriers to task aggregation or empowerment."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-017",
+        "EBPM-018",
+        "EBPM-020",
+        "EBPM-023",
+        "EBPM-024",
+        "EBPM-025",
+        "EBPM-026",
+        "EBPM-027",
+        "EBPM-028",
+        "EBPM-029",
+        "EBPM-064",
+        "EBPM-065",
+        "EBPM-066"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Invited/contact-based sample; perceptions, not random assignment or direct measurements of every outcome. Same programme as S015; table invitation/response counts must not be conflated."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Redesign heuristics produce trade-offs. The article itself preserves reasons not to aggregate tasks or minimise participants indiscriminately.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Practitioner reports and ratings of redesign heuristics",
+        "SAMPLE": "25 respondents.",
+        "SETTING_AND_DATES": "Dutch/UK practitioner survey, published 2007.",
+        "COMPARISON": "Reported use and perceived impact, not experimentally assigned redesigns.",
+        "MEASURES": "Quality, time, operational cost and flexibility; implementation cost excluded from the cost rating.",
+        "OUTCOME": "Heuristics are used and viewed favourably in some settings; comments expose segregation, training and governance constraints.",
+        "UNCERTAINTY": "No transferable causal effect sizes inferred.",
+        "MATERIAL_VALIDITY_THREATS": "Experienced-practitioner selection, self-report, retrospective attribution and omitted implementation cost.",
+        "DEPENDENCE_AND_REPLICATION": "Extends the authors’ earlier framework; invitation counts are not response counts or independent studies."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S017",
+      "TITLE": "Business Process Simulation Revisited",
+      "AUTHORS_OR_ORGANISATION": [
+        "W.M.P. van der Aalst"
+      ],
+      "DATE": "2010",
+      "VERSION_OR_EDITION": "Primary research paper; author copy",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p597.pdf",
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_CRITIQUE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S017-L1",
+          "LOCATOR": "Problem analysis and simulation assumptions discussion",
+          "CLAIM": "Resource behaviour and model/reality gaps undermine naive process simulation."
+        },
+        {
+          "LOCATOR_ID": "S017-L2",
+          "LOCATOR": "Integration with operational data discussion",
+          "CLAIM": "Simulation needs better connection to actual process state and observations."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-018",
+        "EBPM-019",
+        "EBPM-021",
+        "EBPM-026",
+        "EBPM-059",
+        "EBPM-069"
+      ],
+      "EVIDENCE_LIMITS": [
+        "No general prevalence estimate of simulation failure is supplied. Proposed integration does not remove model assumptions."
+      ],
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Simulation is a conditional investigative device rather than a substitute for observing human work.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S018",
+      "TITLE": "Short-term business process simulation: current-state initialization and uncertainty quantification",
+      "AUTHORS_OR_ORGANISATION": [
+        "Maksym Avramenko",
+        "David Chapela-Campa",
+        "Marlon Dumas",
+        "Fredrik Milani"
+      ],
+      "DATE": "2026-05-26",
+      "VERSION_OR_EDITION": "Process Science 3, article 12; DOI 10.1007/s44311-026-00045-9",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s44311-026-00045-9",
+      "SOURCE_CLASS": "PRIMARY_BENCHMARK_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_METHODS_EVALUATION_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S018-L1",
+          "LOCATOR": "Current-state initialisation and uncertainty sections",
+          "CLAIM": "Ongoing cases and uncertainty matter for short-term forecasts."
+        },
+        {
+          "LOCATOR_ID": "S018-L2",
+          "LOCATOR": "Section 6 evaluation and limitations",
+          "CLAIM": "Two synthetic models and four real-life logs; warm-up baseline, uncertainty calibration/coverage trade-offs, and complete-consistent event-data assumptions."
+        },
+        {
+          "LOCATOR_ID": "S018-L3",
+          "LOCATOR": "Real-life evaluation of short-term simulation accuracy; real-life uncertainty evaluation; Limitations and validity",
+          "CLAIM": "Four real-life accuracy logs, three uncertainty logs; warm-up is better on BPIC17 remaining-time distance; fine activity-level intervals can lose coverage. No what-if intervention validity is established."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-009",
+        "EBPM-019",
+        "EBPM-021",
+        "EBPM-022",
+        "EBPM-045",
+        "EBPM-051",
+        "EBPM-059",
+        "EBPM-062"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Retrospective log/synthetic benchmarks, not a deployed controlled intervention. Reused BPI datasets are not independent populations. Aleatoric modelling does not resolve all epistemic/drift uncertainty."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "State-aware forecasting can improve benchmark predictions, but sharper intervals can sacrifice coverage. Assumptions about timestamps, case identity and model scope remain material.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Synthetic configurations and retrospective event logs",
+        "SAMPLE": "Two synthetic processes with three workload patterns each; four real-life logs for accuracy, three for uncertainty.",
+        "SETTING_AND_DATES": "2026 article extending 2025 work; BPIC12, BPIC17, WORK_O and P2PFIN.",
+        "COMPARISON": "Current-state versus warmed-up initialisation; state-conditional versus state-independent error intervals.",
+        "MEASURES": "Ongoing-case difference, n-gram distance, remaining-cycle-time distance, interval coverage and width.",
+        "OUTCOME": "Benefits depend on metric and dataset; warm-up performs better on BPIC17 remaining-time distance; more detailed intervals may under-cover.",
+        "UNCERTAINTY": "No real intervention/what-if validity is demonstrated; data completeness and model scope are assumptions.",
+        "MATERIAL_VALIDITY_THREATS": "Retrospective reuse, omitted data attributes/constructs, unexplained delays, distribution shift and tuning.",
+        "DEPENDENCE_AND_REPLICATION": "BPI logs and earlier method papers are shared ancestry, not new independent organisational deployments."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S019",
+      "TITLE": "The WHY in Business Processes: Discovery of Causal Execution Dependencies",
+      "AUTHORS_OR_ORGANISATION": [
+        "Fabiana Fournier",
+        "Lior Limonad",
+        "Inna Skarbovsky",
+        "Yuval David"
+      ],
+      "DATE": "2025-01-12",
+      "VERSION_OR_EDITION": "KI 39, 197–219; DOI 10.1007/s13218-024-00883-4",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s13218-024-00883-4",
+      "SOURCE_CLASS": "PRIMARY_METHOD_AND_EVALUATION",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_SELECTED_METHODS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S019-L1",
+          "LOCATOR": "Sections 2.2–2.3 and causal-model assumptions",
+          "CLAIM": "Execution order and correlation are not causation; causal-discovery models require substantive assumptions, including treatment of common causes."
+        },
+        {
+          "LOCATOR_ID": "S019-L2",
+          "LOCATOR": "Evaluation overview",
+          "CLAIM": "Synthetic and real-data illustrations support bounded causal-dependency discovery claims."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-022",
+        "EBPM-051"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Detailed effect-size replication was not performed. Observational identification relies on causal-model assumptions; the paper does not licence arbitrary unconfoundedness claims."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "A technical approach to causal dependencies informs diagnosis; this packet retains causal restraint rather than exporting a universal causal oracle.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Synthetic and open benchmark process data",
+        "SAMPLE": "One synthesised dataset and two open benchmark datasets.",
+        "SETTING_AND_DATES": "Technical study published January 2025.",
+        "COMPARISON": "Associational discovery views compared with causal execution dependencies using LiNGAM and selected process-mining implementations.",
+        "MEASURES": "Causal-pattern identification and discrepancy between ordering and causal views.",
+        "OUTCOME": "Demonstrates why temporal order need not identify causal dependency under the investigated settings.",
+        "UNCERTAINTY": "No general causal identification or organisational intervention-effect guarantee.",
+        "MATERIAL_VALIDITY_THREATS": "Causal-model assumptions, omitted variables, benchmark transfer and model/implementation correspondence.",
+        "DEPENDENCE_AND_REPLICATION": "Benchmarks reused by process-mining research are not independent process populations."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S020",
+      "TITLE": "Process Owners in the Wild: Findings from a Multi-method Descriptive Study",
+      "AUTHORS_OR_ORGANISATION": [
+        "Hajo A. Reijers",
+        "Roel L.J. Peeters"
+      ],
+      "DATE": "2010",
+      "VERSION_OR_EDITION": "ER-POIS 2010; CEUR Vol. 603",
+      "URL_OR_DOI": "https://ceur-ws.org/Vol-603/ER-POIS10_Paper1.pdf",
+      "SOURCE_CLASS": "PRIMARY_DESCRIPTIVE_FIELD_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_METHODS_AND_CASES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S020-L1",
+          "LOCATOR": "Survey sampling and case selection",
+          "CLAIM": "Final analytical survey sample of 22 organisations; two organisational case studies after substantial selection."
+        },
+        {
+          "LOCATOR_ID": "S020-L2",
+          "LOCATOR": "Case A and cross-case discussion, PDF pp. 7–9",
+          "CLAIM": "Formal title, budgets, actual influence and chain meetings differ; formal authority alone does not capture performance of the role."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-031",
+        "EBPM-060",
+        "EBPM-068"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Dutch contact/conference sample and small cases; not a universal frequency or causal estimate of ownership benefits."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Effective process ownership involves practical influence, resources and communication, not a label on an organisation chart.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Organisations and process-owner cases",
+        "SAMPLE": "22 organisations in the final survey analysis; two case studies.",
+        "SETTING_AND_DATES": "Dutch contact/conference-derived sample, published 2010.",
+        "COMPARISON": "Descriptive multi-method inquiry; no assigned governance intervention.",
+        "MEASURES": "Role characteristics, formal authority, practical influence, resources and interactions.",
+        "OUTCOME": "Actual process ownership differs from nominal appointment.",
+        "UNCERTAINTY": "No population prevalence or causal benefit estimate.",
+        "MATERIAL_VALIDITY_THREATS": "Sample selection, small cases and informant perspectives.",
+        "DEPENDENCE_AND_REPLICATION": "Survey/case phases are related parts of one inquiry."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S021",
+      "TITLE": "Conceptualizing Business Process Management Governance: Towards a Context-aware Understanding",
+      "AUTHORS_OR_ORGANISATION": [
+        "Dechert",
+        "Friedrich",
+        "Kreuzer",
+        "Marcus",
+        "Ritter",
+        "Röglinger"
+      ],
+      "DATE": "2026-04-20",
+      "VERSION_OR_EDITION": "Schmalenbach Journal of Business Research 78, article 2; DOI 10.1007/s41471-026-00241-0",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s41471-026-00241-0",
+      "SOURCE_CLASS": "PRIMARY_TAXONOMY_DESIGN_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_METHODS_AND_EVALUATION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S021-L1",
+          "LOCATOR": "Taxonomy development and research design",
+          "CLAIM": "Twenty-one interviews in eighteen organisations inform governance configurations."
+        },
+        {
+          "LOCATOR_ID": "S021-L2",
+          "LOCATOR": "Evaluation and discussion",
+          "CLAIM": "Classification, expert evaluation and illustrations examine contextual differentiation, not causal superiority of one design."
+        },
+        {
+          "LOCATOR_ID": "S021-L3",
+          "LOCATOR": "§§3.1, 3.2 and 7",
+          "CLAIM": "21 development interviews in 18 organisations; 14 classifications; ten evaluation interviews in nine organisations, five previously participating; three further case interviews; 34 interviews across stages are not independent populations."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-028",
+        "EBPM-031",
+        "EBPM-033",
+        "EBPM-060",
+        "EBPM-070"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Interview, classification and evaluation stages are not additive independent outcome samples. No universal central-versus-decentralised winner is established."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Governance varies with context; a taxonomy improves differentiation but does not show that every taxonomy dimension needs a new office or control.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "BPM governance configurations and expert accounts",
+        "SAMPLE": "21 development interviews in 18 organisations; 14 classifications; ten evaluation interviews in nine organisations; three further case interviews.",
+        "SETTING_AND_DATES": "2026 taxonomy study; 34 interviews across all stages.",
+        "COMPARISON": "Taxonomy development, classification agreement and usefulness evaluation, not governance outcome experiment.",
+        "MEASURES": "Classification/applicability and context-dependent governance descriptions.",
+        "OUTCOME": "Differentiates centralisation/decentralisation and standardisation/flexibilisation choices.",
+        "UNCERTAINTY": "No universally superior configuration identified.",
+        "MATERIAL_VALIDITY_THREATS": "Professional-network/purposive sampling; only explicit BPM governance, not shadow BPM; perception-based usefulness.",
+        "DEPENDENCE_AND_REPLICATION": "Five of nine evaluation organisations participated earlier; stages and illustrative cases cannot be added as independent populations."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S022",
+      "TITLE": "Business process maturity models: A systematic literature review",
+      "AUTHORS_OR_ORGANISATION": [
+        "Ayca Tarhan",
+        "Oktay Turetken",
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2016",
+      "VERSION_OR_EDITION": "Information and Software Technology 75, 122–134; DOI 10.1016/j.infsof.2016.01.010",
+      "URL_OR_DOI": "https://www.researchgate.net/publication/293250305_Business_Process_Maturity_Models_A_Systematic_Literature_Review",
+      "SOURCE_CLASS": "SYSTEMATIC_REVIEW",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "AUTHOR_FULL_TEXT_SELECTED_METHODS_AND_RESULTS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S022-L1",
+          "LOCATOR": "Selection and review findings",
+          "CLAIM": "Sixty-one selected studies from the 1990–2014 search frame; limited empirical validation/usefulness evidence for many maturity models."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-034",
+        "EBPM-056"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Review evidence is not an original evaluation of each model and does not establish absence of all later evidence. Updated by S023 and tested against S040."
+      ],
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INSPECTED_OBSERVATION": "Maturity scores cannot simply be substituted for observed benefit; models differ in construct validity and practical guidance.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Published maturity-model studies",
+        "SAMPLE": "61 selected studies in a 1990–2014 search frame.",
+        "SETTING_AND_DATES": "Review published 2016.",
+        "COMPARISON": "Comparison of reported development, validation and application evidence.",
+        "MEASURES": "Coverage, empirical validation and usefulness evidence.",
+        "OUTCOME": "Many models have limited validation and prescriptive support.",
+        "UNCERTAINTY": "A historical review is not evidence that no later validation exists.",
+        "MATERIAL_VALIDITY_THREATS": "Publication/search selection and heterogeneity of reviewed constructs.",
+        "DEPENDENCE_AND_REPLICATION": "Underlying studies are not independently replicated by the review; S023 updates the criticism."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S023",
+      "TITLE": "Capability and maturity models in business process management",
+      "AUTHORS_OR_ORGANISATION": [
+        "Oktay Turetken",
+        "Amy Van Looy"
+      ],
+      "DATE": "2024-08-13",
+      "VERSION_OR_EDITION": "Handbook on Business Process Management and Digital Transformation, chapter 12, 303–331; DOI 10.4337/9781802206098.00022",
+      "URL_OR_DOI": "https://pure.tue.nl/ws/files/337821112/AuthorCopy-Chapter_12-Capability_and_Maturity_Models_in_BPM.pdf",
+      "SOURCE_CLASS": "SCHOLARLY_CRITICAL_SYNTHESIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "AUTHOR_COPY_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S023-L1",
+          "LOCATOR": "Capability-model descriptions and configuration discussion, author pp. 17–21",
+          "CLAIM": "Different maturation paths and model-specific evidence."
+        },
+        {
+          "LOCATOR_ID": "S023-L2",
+          "LOCATOR": "Section 8, author pp. 21–23; conclusion",
+          "CLAIM": "Weak prescriptions, theoretical gaps, sparse performance validation, and single-informant appraisal bias."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-004",
+        "EBPM-033",
+        "EBPM-034",
+        "EBPM-046",
+        "EBPM-056",
+        "EBPM-070"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Synthesis source: underlying studies are not all independently inspected. A 2026 file-download label is not the publication year. The cited 403-person programme may overlap S031; independence is not assumed."
+      ],
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INSPECTED_OBSERVATION": "Recent scholarship retains the diagnostic value of capability models while questioning a universal improvement ladder and unsupported performance inferences.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S024",
+      "TITLE": "Business Process Management Culture in Public Administration and Its Determinants",
+      "AUTHORS_OR_ORGANISATION": [
+        "Ingo Kregel",
+        "Bettina Distel",
+        "André Coners"
+      ],
+      "DATE": "2021-08-26 online; 2022-04 issue",
+      "VERSION_OR_EDITION": "Business & Information Systems Engineering 64, 201–221; DOI 10.1007/s12599-021-00713-z",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s12599-021-00713-z",
+      "SOURCE_CLASS": "PRIMARY_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_METHODS_RESULTS_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S024-L1",
+          "LOCATOR": "Research design and sample",
+          "CLAIM": "Survey of German municipal administration employees, with 733 completed responses."
+        },
+        {
+          "LOCATOR_ID": "S024-L2",
+          "LOCATOR": "Results and discussion",
+          "CLAIM": "Differentiated BPM cultural dimensions and contextual determinants."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-035",
+        "EBPM-039"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Employee perceptions and cross-sectional relationships do not show that introducing a culture programme causes better public-service outcomes."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "INSPECTED_OBSERVATION": "Culture and incentives are substantive organisational conditions, but a culture scale is not a substitute for participation or service evaluation.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Public-administration employees and perceived culture",
+        "SAMPLE": "733 respondents.",
+        "SETTING_AND_DATES": "German municipal administration; online 2021, issue 2022.",
+        "COMPARISON": "Cross-sectional relationships between BPM-supportive culture and public-administration characteristics.",
+        "MEASURES": "Perceived cultural/organisational constructs.",
+        "OUTCOME": "Provides contextual evidence relevant to culture and involvement.",
+        "UNCERTAINTY": "Association does not identify the effect of introducing a culture programme.",
+        "MATERIAL_VALIDITY_THREATS": "Self-report, common-method effects and national/sector transfer.",
+        "DEPENDENCE_AND_REPLICATION": "No independent replication claimed."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S025",
+      "TITLE": "Leveraging Workarounds for a Problem-Focused Improvement of Business Processes",
+      "AUTHORS_OR_ORGANISATION": [
+        "Nesi Outmazgin",
+        "Pnina Soffer",
+        "Irit Hadar"
+      ],
+      "DATE": "2026-02-12 online; 2026-08 issue",
+      "VERSION_OR_EDITION": "Business & Information Systems Engineering 68, 761–790; DOI 10.1007/s12599-026-00985-3",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s12599-026-00985-3",
+      "SOURCE_CLASS": "PRIMARY_DESIGN_SCIENCE_AND_CASE_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_METHODS_CASES_AND_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S025-L1",
+          "LOCATOR": "Sections 3–4, research design and cases",
+          "CLAIM": "Three development cases plus a fourth demonstration; one case builds on the authors’ 2020 work."
+        },
+        {
+          "LOCATOR_ID": "S025-L2",
+          "LOCATOR": "Sections 5.1 and 5.3; section 6.1",
+          "CLAIM": "Discovery combines accounts/observation and goals; follow-up available for cases 1, 3 and 4, not case 2; transfer/skill limits."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-006",
+        "EBPM-007",
+        "EBPM-008",
+        "EBPM-009",
+        "EBPM-020",
+        "EBPM-037",
+        "EBPM-045",
+        "EBPM-047",
+        "EBPM-062",
+        "EBPM-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Small selected cases with motivated management, no randomised counterfactual. Follow-up and prior-case reuse must not be counted as independent replications."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Recurring workarounds can reveal goal/process misalignment. Neither every workaround nor every formal rule is vindicated; investigation can result in redesign, constraint repair or rejection of a workaround.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Recurring workarounds and organisational settings",
+        "SAMPLE": "Three development settings plus a fourth full-cycle demonstration.",
+        "SETTING_AND_DATES": "2026 design-science article drawing on earlier case work.",
+        "COMPARISON": "Problem/goal analysis and improvement-cycle demonstration, not randomised alternatives.",
+        "MEASURES": "Workaround misalignment categories and targeted improvement reasoning.",
+        "OUTCOME": "Supports systematic investigation of the causes rather than automatic adoption of a workaround.",
+        "UNCERTAINTY": "Case-specific feasibility, not a prevalence or general causal benefit estimate.",
+        "MATERIAL_VALIDITY_THREATS": "Selected cases, management interest and limited counterfactual evidence.",
+        "DEPENDENCE_AND_REPLICATION": "Prior 2020/2023 work and related cases form a programme; repeated description is not independent replication."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S026",
+      "TITLE": "Children’s services in the iron cage of performance management: street-level bureaucracy and the spectre of Švejkism",
+      "AUTHORS_OR_ORGANISATION": [
+        "David Wastell",
+        "Sue White",
+        "Karen Broadhurst",
+        "Sue Peckover",
+        "Andrew Pithouse"
+      ],
+      "DATE": "2010",
+      "VERSION_OR_EDITION": "International Journal of Social Welfare 19(3), 310–320; DOI 10.1111/j.1468-2397.2009.00716.x",
+      "URL_OR_DOI": "https://research.manchester.ac.uk/en/publications/childrens-services-in-the-iron-cage-of-performance-management-str/",
+      "SOURCE_CLASS": "PRIMARY_ETHNOGRAPHIC_CRITIQUE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "ABSTRACT_AND_INSTITUTIONAL_RECORD_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S026-L1",
+          "LOCATOR": "Abstract and bibliographic record",
+          "CLAIM": "Critical account of formalised performance/IT control in UK social work and professional responses."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-017",
+        "EBPM-027",
+        "EBPM-035",
+        "EBPM-036",
+        "EBPM-037",
+        "EBPM-038",
+        "EBPM-039",
+        "EBPM-047",
+        "EBPM-054",
+        "EBPM-066"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Institutional full-text retrieval failed. No sample size, detailed causal account or uninspected passage is attributed. Adjacent public-service research is not a trial of all BPM."
+      ],
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Used as a bounded warning about the effects of performance-oriented formalisation on discretion, not as an estimate of prevalence.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S027",
+      "TITLE": "The effectiveness of workflow management systems: A longitudinal study",
+      "AUTHORS_OR_ORGANISATION": [
+        "Hajo A. Reijers",
+        "Irene Vanderfeesten",
+        "W.M.P. van der Aalst"
+      ],
+      "DATE": "2015-11-14 online; 2016 issue",
+      "VERSION_OR_EDITION": "International Journal of Information Management 36(1), 126–141; DOI 10.1016/j.ijinfomgt.2015.08.003",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p866.pdf",
+      "SOURCE_CLASS": "PRIMARY_LONGITUDINAL_DEPLOYMENT_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_METHODS_RESULTS_AND_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S027-L1",
+          "LOCATOR": "Study design and Table 1, PDF pp. 2–5",
+          "CLAIM": "2001–2012 programme: 25 targeted processes in ten Dutch organisations; seven processes in five organisations implemented."
+        },
+        {
+          "LOCATOR_ID": "S027-L2",
+          "LOCATOR": "Ex-ante/ex-post results and simulation validation, PDF pp. 4–8",
+          "CLAIM": "Raw lead times improved in five successful processes and worsened in two; modelled counterfactuals and data limitations qualify attribution."
+        },
+        {
+          "LOCATOR_ID": "S027-L3",
+          "LOCATOR": "Discussion of stopped implementations",
+          "CLAIM": "Budget, management and organisational changes are part of the adoption denominator."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-014",
+        "EBPM-018",
+        "EBPM-019",
+        "EBPM-021",
+        "EBPM-022",
+        "EBPM-023",
+        "EBPM-026",
+        "EBPM-030",
+        "EBPM-031",
+        "EBPM-040",
+        "EBPM-041",
+        "EBPM-042",
+        "EBPM-043",
+        "EBPM-044",
+        "EBPM-046",
+        "EBPM-055",
+        "EBPM-057",
+        "EBPM-058",
+        "EBPM-059",
+        "EBPM-060",
+        "EBPM-061",
+        "EBPM-068",
+        "EBPM-069",
+        "EBPM-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Selected old-technology cohort, survivor analyses, simulation assumptions and no randomisation. Earlier 2005 results are the same programme, not an independent replication."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "EMPIRICAL_COMPARISON",
+        "INCIDENT_OR_FAILURE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Successful workflow enactment can matter, but the full deployment denominator is much larger than the successful-case denominator. Benefit is neither automatic nor uniform.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Intended and implemented workflow-supported processes",
+        "SAMPLE": "25 intended processes in ten organisations; seven implemented processes in five organisations.",
+        "SETTING_AND_DATES": "Dutch programme 2001–2012; online 2015, issue 2016.",
+        "COMPARISON": "Ex-ante/ex-post observations and modelled counterfactuals; non-implemented cases retained in the implementation account.",
+        "MEASURES": "Lead time, work/service time and related process performance.",
+        "OUTCOME": "Five of seven implemented processes had lower raw lead time; two had higher raw lead time.",
+        "UNCERTAINTY": "Only a subset of successful-process simulation models could be validated; no randomisation or universal outcome estimate.",
+        "MATERIAL_VALIDITY_THREATS": "Survivor selection, changing volume/case mix, concurrent change, historical technology and incomplete data.",
+        "DEPENDENCE_AND_REPLICATION": "Earlier 2005 findings belong to the same programme."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S028",
+      "TITLE": "Modeling inter-organizational business process governance in the age of collaborative networks",
+      "AUTHORS_OR_ORGANISATION": [
+        "V. Ribeiro",
+        "João Barata",
+        "Paulo Rupino da Cunha"
+      ],
+      "DATE": "2024-10-04",
+      "VERSION_OR_EDITION": "Electronic Markets 34, article 51; DOI 10.1007/s12525-024-00730-2",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s12525-024-00730-2",
+      "SOURCE_CLASS": "PRIMARY_DESIGN_SCIENCE_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_METHODS_AND_EVALUATION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S028-L1",
+          "LOCATOR": "Research method and two design iterations",
+          "CLAIM": "Logistics/port settings develop an interorganisational governance modelling extension."
+        },
+        {
+          "LOCATOR_ID": "S028-L2",
+          "LOCATOR": "Evaluation and discussion",
+          "CLAIM": "Expert/practitioner appraisal examines modelling utility, not measured improvement of an entire network."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-002",
+        "EBPM-042",
+        "EBPM-048",
+        "EBPM-049",
+        "EBPM-069"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Illustrative cases, snowball expert selection and perceived usability are not causal network-outcome evidence. Representation cannot create contractual or decision authority."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Interorganisational design must represent shared/private responsibilities and data. Agreement and actual enforcement remain outside a notation’s powers.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Governance-modelling artefacts, cases and expert evaluations",
+        "SAMPLE": "Two design/evaluation iterations in the reported logistics/port setting; no representative network population denominator.",
+        "SETTING_AND_DATES": "2024 design-science article.",
+        "COMPARISON": "Artefact development and perceived utility/applicability, not controlled network performance.",
+        "MEASURES": "Governance representation and expert usability/applicability.",
+        "OUTCOME": "Makes shared/private responsibilities and coordination explicit.",
+        "UNCERTAINTY": "Does not establish causal cross-network benefit.",
+        "MATERIAL_VALIDITY_THREATS": "Illustrative cases, snowball experts and representational evaluation.",
+        "DEPENDENCE_AND_REPLICATION": "Iterations of one design programme, not independent replications."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S029",
+      "TITLE": "Robotic Process Automation",
+      "AUTHORS_OR_ORGANISATION": [
+        "W.M.P. van der Aalst",
+        "Martin Bichler",
+        "Armin Heinzl"
+      ],
+      "DATE": "2018",
+      "VERSION_OR_EDITION": "Business & Information Systems Engineering 60, 269–272; DOI 10.1007/s12599-018-0542-4",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s12599-018-0542-4",
+      "SOURCE_CLASS": "PRIMARY_EDITORIAL_CONCEPTUALISATION",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S029-L1",
+          "LOCATOR": "RPA definition, positioning and research challenges",
+          "CLAIM": "User-interface-oriented automation and its relation to process/workflow technologies."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-041",
+        "EBPM-058"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Editorial/conceptual positioning, not an independent vendor comparison or measured return-on-investment trial."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Automating interface interactions is one intervention form, not evidence that the underlying business decision or process is sound.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S030",
+      "TITLE": "Responsible AI-Based Business Process Management and Improvement",
+      "AUTHORS_OR_ORGANISATION": [
+        "Galena Pisoni",
+        "Michael Moloney"
+      ],
+      "DATE": "2024-05-21",
+      "VERSION_OR_EDITION": "Digital Society 3, article 23; DOI 10.1007/s44206-024-00105-2",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s44206-024-00105-2",
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_AND_NORMATIVE_PROPOSAL",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S030-L1",
+          "LOCATOR": "Introduction and proposed information-system design",
+          "CLAIM": "Responsible process improvement needs intelligible information, human actors and attention to fairness/privacy and conflicting values."
+        },
+        {
+          "LOCATOR_ID": "S030-L2",
+          "LOCATOR": "Challenges and research questions",
+          "CLAIM": "Design and governance challenges remain open."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-001",
+        "EBPM-002",
+        "EBPM-007",
+        "EBPM-015",
+        "EBPM-017",
+        "EBPM-023",
+        "EBPM-024",
+        "EBPM-029",
+        "EBPM-032",
+        "EBPM-036",
+        "EBPM-038",
+        "EBPM-039",
+        "EBPM-048",
+        "EBPM-049",
+        "EBPM-050",
+        "EBPM-053",
+        "EBPM-054",
+        "EBPM-064",
+        "EBPM-065",
+        "EBPM-066",
+        "EBPM-069"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Explicitly hypothesised design and research agenda, not an evaluated safety system, a legal opinion or a claim of compliance."
+      ],
+      "EVIDENCE_ROLES": [
+        "RESEARCHER_INTERPRETATION",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Responsibility concerns are process-design issues, not an optional afterthought to a throughput objective. The proposed architecture is not evidence that such aims are achieved.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S031",
+      "TITLE": "An empirical study on Green BPM adoption: Contextual factors and performance",
+      "AUTHORS_OR_ORGANISATION": [
+        "Dries Couckuyt",
+        "Amy Van Looy"
+      ],
+      "DATE": "2020-07-08 online; 2021 issue",
+      "VERSION_OR_EDITION": "Journal of Software: Evolution and Process 33(3); DOI 10.1002/smr.2299",
+      "URL_OR_DOI": "https://www.researchgate.net/publication/342808580_An_empirical_study_on_Green_BPM_adoption_Contextual_factors_and_performance",
+      "SOURCE_CLASS": "PRIMARY_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "AUTHOR_FULL_TEXT_METHODS_RESULTS_AND_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S031-L1",
+          "LOCATOR": "Methods and survey sample",
+          "CLAIM": "403 high-level respondents in the US, UK, Australia and India; context/adoption/performance survey."
+        },
+        {
+          "LOCATOR_ID": "S031-L2",
+          "LOCATOR": "Section 7.4, limitations",
+          "CLAIM": "Self-report, potential common-method/managerial bias, and sector/setting transfer limits."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-002",
+        "EBPM-017",
+        "EBPM-022",
+        "EBPM-050",
+        "EBPM-066",
+        "EBPM-069"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Association is not a measured emissions reduction or intervention effect. Possible overlap with later 403-person capability research is flagged, not counted as independent."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Green BPM adoption correlates with contextual and reported-performance constructs, but those constructs must not be relabelled as directly observed environmental outcomes.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Senior respondents reporting organisational Green BPM",
+        "SAMPLE": "403 high-level respondents.",
+        "SETTING_AND_DATES": "US, UK, Australia and India; online 2020, issue 2021.",
+        "COMPARISON": "Cross-sectional context/adoption/performance associations.",
+        "MEASURES": "Self-reported adoption, contextual and performance constructs.",
+        "OUTCOME": "Supports examining context and sustainability-related process capability.",
+        "UNCERTAINTY": "Not a direct emissions reduction or causal intervention estimate.",
+        "MATERIAL_VALIDITY_THREATS": "Self-report, common-method bias, respondent perspective and sector/country transfer.",
+        "DEPENDENCE_AND_REPLICATION": "Possible overlap with later 403-respondent capability research is flagged; independence is not assumed."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S032",
+      "TITLE": "Green BPM Solutions for Sustainable Business Processes",
+      "AUTHORS_OR_ORGANISATION": [
+        "Finn Klessascheck"
+      ],
+      "DATE": "2025",
+      "VERSION_OR_EDITION": "BPM 2025 Doctoral Consortium paper",
+      "URL_OR_DOI": "https://finnklessascheck.de/publications/klessascheck2025greenbpm.pdf",
+      "SOURCE_CLASS": "DOCTORAL_RESEARCH_AGENDA",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_INTRODUCTION_AND_OUTLOOK",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S032-L1",
+          "LOCATOR": "Research problem and proposed studies",
+          "CLAIM": "Green BPM methods and measurement motivate an ongoing research programme."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-050"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Doctoral programme/prototypes are not completed controlled operational evaluations or a consensus standard."
+      ],
+      "EVIDENCE_ROLES": [
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Current sustainability research is a frontier with evidence and measurement burdens, not a proven universal optimisation recipe.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S033",
+      "TITLE": "Evaluating large language models on business process modeling: framework, benchmark, and self-improvement analysis",
+      "AUTHORS_OR_ORGANISATION": [
+        "Humam Kourani",
+        "Alessandro Berti",
+        "Daniel Schuster",
+        "W.M.P. van der Aalst"
+      ],
+      "DATE": "2025-09-02 online; 2026 issue",
+      "VERSION_OR_EDITION": "Software and Systems Modeling 25, 1151–1186; DOI 10.1007/s10270-025-01318-w",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s10270-025-01318-w",
+      "SOURCE_CLASS": "PRIMARY_BENCHMARK_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_BENCHMARK_AND_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S033-L1",
+          "LOCATOR": "Framework and evaluation design",
+          "CLAIM": "Sixteen LLMs, twenty process descriptions and reference models/logs; generated control-flow artefacts and feedback."
+        },
+        {
+          "LOCATOR_ID": "S033-L2",
+          "LOCATOR": "Section 8 limitations",
+          "CLAIM": "Restricted activities/labels, simulated traces, black-box models and limited self-improvement comparisons bound transfer."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-015",
+        "EBPM-052"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Reference/simulated-log conformance is not actual business-process discovery or outcome improvement. Extends earlier work; a 2026 issue is not a new independent experiment."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "IMPLEMENTATION_SEMANTICS",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "AI-assisted model creation can be benchmarked, but success against a supplied reference does not establish omitted work, domain validity or authority to execute the output.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "LLMs on process-modelling tasks",
+        "SAMPLE": "16 LLMs and 20 process descriptions with reference artefacts.",
+        "SETTING_AND_DATES": "Online 2025, issue 2026; extension of earlier work.",
+        "COMPARISON": "Generated models and selected feedback/self-improvement variants against supplied reference models/logs.",
+        "MEASURES": "Bounded modelling/conformance and control-flow measures.",
+        "OUTCOME": "AI assistance can be evaluated on specified modelling tasks.",
+        "UNCERTAINTY": "No inference to actual organisation discovery, omitted work or safe autonomous execution.",
+        "MATERIAL_VALIDITY_THREATS": "Restricted tasks/labels, simulated traces, black-box models and limited self-improvement comparisons.",
+        "DEPENDENCE_AND_REPLICATION": "Earlier papers and the expanded article are related benchmark work, not independent field experiments."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S034",
+      "TITLE": "Agentic Business Process Management: A Research Manifesto",
+      "AUTHORS_OR_ORGANISATION": [
+        "Diego Calvanese",
+        "Angelo Casciani",
+        "Giuseppe De Giacomo",
+        "Marlon Dumas",
+        "Fabiana Fournier",
+        "Timotheus Kampik",
+        "Emanuele La Malfa",
+        "Lior Limonad",
+        "Andrea Marrella",
+        "Andreas Metzger",
+        "Marco Montali",
+        "Daniel Amyot",
+        "Peter Fettke",
+        "Artem Polyvyanyy",
+        "Stefanie Rinderle-Ma",
+        "Sebastian Sardiña",
+        "Niek Tax",
+        "Barbara Weber"
+      ],
+      "DATE": "2026-04-12",
+      "VERSION_OR_EDITION": "arXiv:2603.18916v3; first submission 2026-03-19",
+      "URL_OR_DOI": "https://arxiv.org/html/2603.18916v3",
+      "SOURCE_CLASS": "PRIMARY_RESEARCH_MANIFESTO_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S034-L1",
+          "LOCATOR": "Sections 2–3",
+          "CLAIM": "Proposed agent/process-frame architecture and framed autonomy, explainability, conversational actionability and self-modification."
+        },
+        {
+          "LOCATOR_ID": "S034-L2",
+          "LOCATOR": "Section 4, especially M1 and cross-cutting challenges",
+          "CLAIM": "Governance, evaluation, liability and engineering remain research questions."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-052",
+        "EBPM-053"
+      ],
+      "EVIDENCE_LIMITS": [
+        "A manifesto is an agenda, not a validated autonomous deployment or proof that a system can safely authorise its own changes."
+      ],
+      "EVIDENCE_ROLES": [
+        "RESEARCHER_INTERPRETATION",
+        "UNVERIFIED_LEAD"
+      ],
+      "INSPECTED_OBSERVATION": "The contemporary agentic proposal supplies a research problem. This packet leaves autonomous process self-revision unresolved, rather than smuggling an agenda into the retained core.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S035",
+      "TITLE": "Process Mining Manifesto",
+      "AUTHORS_OR_ORGANISATION": [
+        "IEEE Task Force on Process Mining; W.M.P. van der Aalst and co-authors"
+      ],
+      "DATE": "2011 initiative; 2012 publication",
+      "VERSION_OR_EDITION": "BPM 2011 Workshops publication, LNBIP 99; task-force PDF",
+      "URL_OR_DOI": "https://www.tf-pm.org/upload/1580737614108.pdf",
+      "SOURCE_CLASS": "PRIMARY_COMMUNITY_MANIFESTO",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_GUIDING_PRINCIPLES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S035-L1",
+          "LOCATOR": "Introduction, process-mining types and guiding principles",
+          "CLAIM": "Discovery, conformance and enhancement use event data; event provenance/quality and purposes matter."
+        },
+        {
+          "LOCATOR_ID": "S035-L2",
+          "LOCATOR": "Challenges and event-data discussion",
+          "CLAIM": "Logs are selected records requiring interpretation, not exhaustive work histories."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-006",
+        "EBPM-009",
+        "EBPM-038",
+        "EBPM-045",
+        "EBPM-047",
+        "EBPM-049",
+        "EBPM-051",
+        "EBPM-062"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Community guidance, not a representative empirical test. The adjacent field’s Evolved corpus was not consulted."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "HISTORICAL_PROVENANCE",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Event-based methods enrich BPM evidence; they do not make unlogged work disappear or eliminate discovery validation.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S036",
+      "TITLE": "A Five-Level Framework for Research on Process Mining",
+      "AUTHORS_OR_ORGANISATION": [
+        "Jan vom Brocke",
+        "Mieke Jans",
+        "Jan Mendling",
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2021-09-07",
+      "VERSION_OR_EDITION": "Business & Information Systems Engineering 63, 483–490; DOI 10.1007/s12599-021-00718-8",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s12599-021-00718-8",
+      "SOURCE_CLASS": "PRIMARY_EDITORIAL_FRAMEWORK",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S036-L1",
+          "LOCATOR": "Sections 3.1–3.5",
+          "CLAIM": "Technical, individual, group, organisational and ecosystem levels of research."
+        },
+        {
+          "LOCATOR_ID": "S036-L2",
+          "LOCATOR": "Sections 3.3–3.4",
+          "CLAIM": "Shared meaning, effective use and mechanisms connecting analysis to organisational consequences."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-044",
+        "EBPM-051",
+        "EBPM-061",
+        "EBPM-068"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Conceptual framework and research agenda, not a demonstrated automatic causal chain."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "Technical quality, use, collective action and organisational impact are different objects of evidence. A good algorithm alone does not establish benefit.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S037",
+      "TITLE": "Business Process Management: The evolution of a discipline",
+      "AUTHORS_OR_ORGANISATION": [
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2021",
+      "VERSION_OR_EDITION": "Computers in Industry 126, 103404; DOI 10.1016/j.compind.2021.103404",
+      "URL_OR_DOI": "https://www.researchgate.net/publication/348911081_Business_Process_Management_The_evolution_of_a_discipline",
+      "SOURCE_CLASS": "SCHOLARLY_RETROSPECTIVE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "AUTHOR_FULL_TEXT_SELECTED_INTRODUCTION_AND_THEMES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S037-L1",
+          "LOCATOR": "Introduction and scope of review",
+          "CLAIM": "Management-philosophy and technology perspectives; forty-year view through Computers in Industry publications."
+        },
+        {
+          "LOCATOR_ID": "S037-L2",
+          "LOCATOR": "Research themes and outlook",
+          "CLAIM": "Multiple coexisting technical themes and continuing evolution."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [],
+      "EVIDENCE_LIMITS": [
+        "Journal-centred retrospective, not a complete census of all organisational/critical scholarship or documentary proof of every ancestry edge."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INSPECTED_OBSERVATION": "A useful plural retrospective, not a basis for a single progress narrative or invented founding date.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "NO_DIRECT_PROPERTY_LINK_REASON": "Used as a retrospective field overview and history/recency orientation, not as independent direct support for a particular extracted mechanism.",
+      "SUPPORT_SCOPE_NOTE": "Used for field history, source correction, conference/date boundary or bibliographic scope rather than an individual candidate mechanism."
+    },
+    {
+      "SOURCE_ID": "S038",
+      "TITLE": "A critical examination of the business process re-engineering phenomenon",
+      "AUTHORS_OR_ORGANISATION": [
+        "Stefano Biazzo"
+      ],
+      "DATE": "1998-09-01",
+      "VERSION_OR_EDITION": "International Journal of Operations & Production Management 18(9/10), 1000–1016; DOI 10.1108/01443579810225586",
+      "URL_OR_DOI": "https://www.emerald.com/ijopm/article/18/9-10/1000/139153/A-critical-examination-of-the-business-process-re",
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_CRITICISM",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "ABSTRACT_AND_RECORD_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S038-L1",
+          "LOCATOR": "Publisher abstract immediately following bibliographic details",
+          "CLAIM": "Criticism of reconstructed BPR novelty, managerial fashion and an oversimplified view of organisational change."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-030",
+        "EBPM-055"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Full text not accessible. The detailed argument and underlying evidence are not reconstructed from the abstract. No universal BPR failure percentage is claimed."
+      ],
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INSPECTED_OBSERVATION": "The existence and thrust of this criticism are established; its full evidential argument remains an explicit access limit.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S039",
+      "TITLE": "International Conference on Business Process Management: conference series and upcoming event",
+      "AUTHORS_OR_ORGANISATION": [
+        "BPM conference series organisers"
+      ],
+      "DATE": "live record inspected 2026-09-06",
+      "VERSION_OR_EDITION": "Official conference-series website",
+      "URL_OR_DOI": "https://bpm-conference.org/",
+      "SOURCE_CLASS": "PRIMARY_EVENT_RECORD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "LIVE_PAGE",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S039-L1",
+          "LOCATOR": "Conference series description and 2026 event notice",
+          "CLAIM": "Academic series identity; 2026 Toronto event scheduled for 28 September–2 October, after the research cutoff."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [],
+      "EVIDENCE_LIMITS": [
+        "Event listing establishes dates/identity, not research results. Future proceedings or outcomes are not treated as completed evidence."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INSPECTED_OBSERVATION": "The official series anchors disciplinary identity; the upcoming conference is not an already completed 2026 experiment.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "NO_DIRECT_PROPERTY_LINK_REASON": "Used only to establish the advertised conference-series event and its future status at the cut-off; no property benefit is inferred.",
+      "SUPPORT_SCOPE_NOTE": "Used for field history, source correction, conference/date boundary or bibliographic scope rather than an individual candidate mechanism."
+    },
+    {
+      "SOURCE_ID": "S040",
+      "TITLE": "Assessing the role of BPM maturity in advancing ESG performance: evidence from Poland",
+      "AUTHORS_OR_ORGANISATION": [
+        "Justyna Berniak-Woźny",
+        "Piotr Sliż",
+        "Marek Szelągowski"
+      ],
+      "DATE": "2026-04-03",
+      "VERSION_OR_EDITION": "Earlycite, 1–21; DOI 10.1108/IJPPM-08-2025-0809",
+      "URL_OR_DOI": "https://www.emerald.com/ijppm/article/doi/10.1108/IJPPM-08-2025-0809/1355793/Assessing-the-role-of-BPM-maturity-in-advancing",
+      "SOURCE_CLASS": "PRIMARY_SURVEY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "STRUCTURED_ABSTRACT_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S040-L1",
+          "LOCATOR": "Structured abstract: design, findings and limitations",
+          "CLAIM": "287 Polish organisations; maturity and ESG-practice/reporting relationships; explicit cross-sectional and national-sample limitations."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-017",
+        "EBPM-022",
+        "EBPM-032",
+        "EBPM-034",
+        "EBPM-050",
+        "EBPM-056",
+        "EBPM-066"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Full text inaccessible; instruments, coefficients and detailed confounding controls not inspected. Reporting readiness is not direct environmental impact. August 14 is the 2025 received date, not the publication date."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Recent positive associations prevent dismissing all maturity evidence, but do not establish that maturity interventions cause environmental gains.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Enterprises reporting BPM maturity and ESG readiness",
+        "SAMPLE": "287 enterprises.",
+        "SETTING_AND_DATES": "Poland; publication 3 April 2026; structured abstract only.",
+        "COMPARISON": "Cross-sectional quantitative association.",
+        "MEASURES": "Maturity, process excellence and ESG reporting readiness as reported in abstract.",
+        "OUTCOME": "Positive associations reported.",
+        "UNCERTAINTY": "Instruments, coefficients and detailed controls not inspected; no causal or environmental-impact claim.",
+        "MATERIAL_VALIDITY_THREATS": "National setting, self-report and confounding; access limit prevents deeper methodological appraisal.",
+        "DEPENDENCE_AND_REPLICATION": "No independent replication inferred from topical similarity to prior surveys."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S041",
+      "TITLE": "Process Descriptions as Organisational Accounting Devices: The Dual Use of Workflow Technologies",
+      "AUTHORS_OR_ORGANISATION": [
+        "Paul Dourish"
+      ],
+      "DATE": "2001",
+      "VERSION_OR_EDITION": "GROUP 2001, 52–60; DOI 10.1145/500286.500297",
+      "URL_OR_DOI": "https://msuconman.pbworks.com/f/dourish.dualuseworkflow.pdf",
+      "SOURCE_CLASS": "PRIMARY_THEORETICAL_REANALYSIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS_AND_SCREENSHOT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S041-L1",
+          "LOCATOR": "Section 3 and 3.1, printed pp. 54–55",
+          "CLAIM": "PF2 print-shop example: workarounds sustain work while process records support contractual accountability."
+        },
+        {
+          "LOCATOR_ID": "S041-L2",
+          "LOCATOR": "Discussion and conclusion, printed pp. 57–59",
+          "CLAIM": "Representation can be an organisational accounting device rather than a faithful execution prescription."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-002",
+        "EBPM-003",
+        "EBPM-006",
+        "EBPM-007",
+        "EBPM-008",
+        "EBPM-009",
+        "EBPM-010",
+        "EBPM-014",
+        "EBPM-016",
+        "EBPM-020",
+        "EBPM-035",
+        "EBPM-037",
+        "EBPM-038",
+        "EBPM-039",
+        "EBPM-040",
+        "EBPM-041",
+        "EBPM-042",
+        "EBPM-043",
+        "EBPM-044",
+        "EBPM-047",
+        "EBPM-057",
+        "EBPM-058",
+        "EBPM-061",
+        "EBPM-062",
+        "EBPM-068",
+        "EBPM-069",
+        "EBPM-070",
+        "EBPM-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Explicit reanalysis of Bowers, Button and Sharrock’s 1995 Establishment Printers fieldwork, not an independent new field study. Original 1995 archive retrieval failed."
+      ],
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "RESEARCHER_INTERPRETATION",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "INSPECTED_OBSERVATION": "Formal representation can obstruct situated work yet have a real external consumer. Ceremony stripping must test the representation’s actual role before deleting it.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Process descriptions and a print-shop workflow case",
+        "SAMPLE": "One underlying PF2 case reanalysed conceptually; original Bowers/Button/Sharrock 1995 text was not retrieved.",
+        "SETTING_AND_DATES": "Dourish 2001.",
+        "COMPARISON": "Dual interpretation of descriptions as enactment prescriptions and organisational accounts.",
+        "MEASURES": "Fit to actual coordination and contractual accounting use.",
+        "OUTCOME": "A formal description may fail as an execution account yet retain a real accountability consumer.",
+        "UNCERTAINTY": "No frequency estimate or original-case reanalysis from raw data.",
+        "MATERIAL_VALIDITY_THREATS": "Conceptual reanalysis and access to the earlier empirical source limited.",
+        "DEPENDENCE_AND_REPLICATION": "Same PF2 case, not a new independent empirical replication."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S042",
+      "TITLE": "Declarative workflows: Balancing between flexibility and support",
+      "AUTHORS_OR_ORGANISATION": [
+        "W.M.P. van der Aalst",
+        "Maja Pesic",
+        "Helen Schonenberg"
+      ],
+      "DATE": "2009-03-10",
+      "VERSION_OR_EDITION": "Computer Science – Research and Development 23, 99–113; DOI 10.1007/s00450-009-0057-9",
+      "URL_OR_DOI": "https://link.springer.com/content/pdf/10.1007/s00450-009-0057-9.pdf",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_METHOD_AND_PROTOTYPE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_SELECTED_SECTIONS_AND_SCREENSHOT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S042-L1",
+          "LOCATOR": "Sections 4–5, printed pp. 103–107",
+          "CLAIM": "Mandatory/optional constraints, defer/change/deviate, and history compatibility for instance change."
+        },
+        {
+          "LOCATOR_ID": "S042-L2",
+          "LOCATOR": "Section 6.1.1, printed pp. 107–108",
+          "CLAIM": "Automata-based conflict/dead-activity checking under encoded temporal constraints."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-016",
+        "EBPM-036",
+        "EBPM-054",
+        "EBPM-073"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Prototype/formal mechanism and examples, not a representative operational comparison. Guarantees concern the encoded trace model, not unmodelled consequences or professional legitimacy."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Constraint-based support preserves alternatives without making inconsistency disappear. Formal admissibility and real-world acceptability remain separate.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S043",
+      "TITLE": "The Six Core Elements of Business Process Management",
+      "AUTHORS_OR_ORGANISATION": [
+        "Michael Rosemann",
+        "Jan vom Brocke"
+      ],
+      "DATE": "2010",
+      "VERSION_OR_EDITION": "Handbook on Business Process Management 1, 107–122; DOI 10.1007/978-3-642-00416-2_5",
+      "URL_OR_DOI": "https://www.researchgate.net/publication/226852950_The_Six_Core_Elements_of_Business_Process_Management",
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_FRAMEWORK",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "AUTHOR_FULL_TEXT_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S043-L1",
+          "LOCATOR": "Sections 1–2, printed pp. 107–110",
+          "CLAIM": "Organisational capability beyond lifecycle tasks; maturity-model basis and variable standardisation."
+        },
+        {
+          "LOCATOR_ID": "S043-L2",
+          "LOCATOR": "Core-elements overview",
+          "CLAIM": "Strategic alignment, governance, methods, IT, people and culture."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-031",
+        "EBPM-032",
+        "EBPM-033",
+        "EBPM-034",
+        "EBPM-035",
+        "EBPM-040",
+        "EBPM-056",
+        "EBPM-060"
+      ],
+      "EVIDENCE_LIMITS": [
+        "The inspected chapter is the 2010 edition, uploaded in 2014; not the materially distinct 2015 edition. Six elements organise inquiry, not a demonstrated sufficient causal recipe."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "HISTORICAL_PROVENANCE",
+        "RESEARCHER_INTERPRETATION"
+      ],
+      "INSPECTED_OBSERVATION": "The organisational school does not reduce BPM to process modelling or software. Its framework permits context-specific configurations.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S044",
+      "TITLE": "Improving the Developer Experience with a Low-Code Process Modelling Language",
+      "AUTHORS_OR_ORGANISATION": [
+        "Henrique Henriques",
+        "Hugo Lourenço",
+        "Vasco Amaral",
+        "Miguel Goulão"
+      ],
+      "DATE": "2025-08-08 deposit",
+      "VERSION_OR_EDITION": "arXiv:2508.06299v1; deposit date does not identify experiment date",
+      "URL_OR_DOI": "https://arxiv.org/html/2508.06299v1",
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_METHODS_RESULTS_LIMITATIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S044-L1",
+          "LOCATOR": "Section 4 usability evaluation and Tables 2–4",
+          "CLAIM": "Sixteen developers with original BPT and nine with proposed syntax; tested understanding, SUS and TLX differ."
+        },
+        {
+          "LOCATOR_ID": "S044-L2",
+          "LOCATOR": "Sections 5.3 and 7",
+          "CLAIM": "Single-platform employees and three diagrams limit transfer; business-manager perspective absent."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-012",
+        "EBPM-013",
+        "EBPM-063",
+        "EBPM-072"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Do not equate 2025 deposit with a newly run 2025 experiment; exact experiment date is unreported in inspected sections. Cohorts are not an independent randomised field intervention; one employer/platform."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "This is bounded positive evidence for user-tested notation redesign, not universal evidence that any low-code or simpler notation improves process outcomes.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Developers answering process-model comprehension/usability tasks",
+        "SAMPLE": "16 developers with original BPT and 9 with proposed form; three diagrams.",
+        "SETTING_AND_DATES": "Single-platform/employer context; deposited August 2025, exact experiment date not established.",
+        "COMPARISON": "Original and redesigned language cohorts.",
+        "MEASURES": "Task correctness, SUS usability and NASA-TLX workload.",
+        "OUTCOME": "Bounded positive findings for the redesigned syntax.",
+        "UNCERTAINTY": "No representative business-manager or deployment-effect claim.",
+        "MATERIAL_VALIDITY_THREATS": "Small non-representative cohorts, task specificity and employer/platform dependence.",
+        "DEPENDENCE_AND_REPLICATION": "Deposit date does not establish a new experiment; no independent replication claimed."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S045",
+      "TITLE": "Low-Code Platform",
+      "AUTHORS_OR_ORGANISATION": [
+        "Alexander C. Bock",
+        "Ulrich Frank"
+      ],
+      "DATE": "2021-11-15",
+      "VERSION_OR_EDITION": "Business & Information Systems Engineering 63, 733–740; DOI 10.1007/s12599-021-00726-8",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s12599-021-00726-8",
+      "SOURCE_CLASS": "PRIMARY_EXPLORATORY_TECHNOLOGY_ANALYSIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_HTML_SELECTED_SECTIONS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S045-L1",
+          "LOCATOR": "Sections 1–3.2",
+          "CLAIM": "Ten-platform exploratory analysis: heterogeneous tools, model/UI/data integration, role features and occasional workflow engines."
+        },
+        {
+          "LOCATOR_ID": "S045-L2",
+          "LOCATOR": "Historical positioning and criticism, sections 2–3.1",
+          "CLAIM": "Rebranding and inflated novelty/productivity claims require discrimination."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-041",
+        "EBPM-058",
+        "EBPM-072"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Selected 2021 platforms, not current product specifications or market-wide representativeness. Underlying separate technical report is not another independent study here."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "IMPLEMENTATION_SEMANTICS",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "Low-code is a heterogeneous delivery category with inherited techniques; reducing hand-coding does not remove modelling, integration or governance obligations.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Low-code platforms",
+        "SAMPLE": "Ten selected platforms.",
+        "SETTING_AND_DATES": "Exploratory conceptual/technology analysis, 2021.",
+        "COMPARISON": "Cross-platform examination of concepts and capabilities.",
+        "MEASURES": "Language/model, interaction, persistence and integration features.",
+        "OUTCOME": "Shows substantial continuity with existing modelling and development techniques.",
+        "UNCERTAINTY": "Not a comparative economic-effectiveness or current-version product benchmark.",
+        "MATERIAL_VALIDITY_THREATS": "Exploratory selection and moving products.",
+        "DEPENDENCE_AND_REPLICATION": "Shared technical ancestry is not independent innovation evidence."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S046",
+      "TITLE": "Establishing a Low-Code/No-Code-Enabled Citizen Development Strategy",
+      "AUTHORS_OR_ORGANISATION": [
+        "Björn Binzer",
+        "Edona Elshan",
+        "Daniel Fürstenau",
+        "Till J. Winkler"
+      ],
+      "DATE": "2024-09",
+      "VERSION_OR_EDITION": "MIS Quarterly Executive 23(3), 253–273; DOI 10.17705/2msqe.00097",
+      "URL_OR_DOI": "https://www.researchgate.net/publication/384040958_Establishing_a_Low-CodeNo-Code-Enabled_Citizen_Development_Strategy",
+      "SOURCE_CLASS": "PRIMARY_MULTI_CASE_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "AUTHOR_TEXT_PARTIALLY_READABLE",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S046-L1",
+          "LOCATOR": "Step 3, Establish Rules and Policies; Enable/Embed discussion",
+          "CLAIM": "Citizen development depends on governance, training/support and communication, not just access to a platform."
+        },
+        {
+          "LOCATOR_ID": "S046-L2",
+          "LOCATOR": "Appendix A, Research Methodology; Appendix B",
+          "CLAIM": "Twenty-four organisations, interviews May 2022–September 2023; multiple architecture/hub/workforce configurations."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-072"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Font encoding corrupts portions of the author-copy extraction; only readable text/clear tables support claims. Institutional PDF failed. Selected cases, no causal superiority established. Interview count is not used because the extracted numeric text is corrupted."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "RESEARCHER_INTERPRETATION",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "INSPECTED_OBSERVATION": "The cases justify examining citizen-developer support and change boundaries. They do not prescribe the same hub, training programme or platform portfolio everywhere.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Organisational citizen-development programmes",
+        "SAMPLE": "24 organisations; exact interview count not used because extracted numerals are corrupted.",
+        "SETTING_AND_DATES": "Interviews May 2022–September 2023; published 2024.",
+        "COMPARISON": "Multiple-case strategy analysis, not randomised governance choices.",
+        "MEASURES": "Roles, support, policies and implementation experience.",
+        "OUTCOME": "Supports examining enablement, scope and coordination arrangements.",
+        "UNCERTAINTY": "Readable author-copy passages support claims; inaccessible PDF and font corruption constrain detail.",
+        "MATERIAL_VALIDITY_THREATS": "Selected organisations, interview perspective and limited causal attribution.",
+        "DEPENDENCE_AND_REPLICATION": "Case-derived stages/practices are one programme, not independent trials of each recommendation."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S047",
+      "TITLE": "Making Citizen Development Work Across Low-Code Maturity Levels",
+      "AUTHORS_OR_ORGANISATION": [
+        "Rebecca Alguera Kleine",
+        "Felix Lorenz",
+        "Thomas Clauß"
+      ],
+      "DATE": "2026-06",
+      "VERSION_OR_EDITION": "MIS Quarterly Executive 25(2), article 4",
+      "URL_OR_DOI": "https://aisel.aisnet.org/misqe/vol25/iss2/4/",
+      "SOURCE_CLASS": "PRIMARY_MULTI_CASE_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "PUBLISHER_ABSTRACT_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S047-L1",
+          "LOCATOR": "Abstract and recommended citation",
+          "CLAIM": "Thirty-six interviews in two firms; a maturity framework and changing champion roles are proposed."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-072"
+      ],
+      "EVIDENCE_LIMITS": [
+        "PDF direct and click retrieval failed. No uninspected effect estimate, coding method or full maturity-stage prescription is imported."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INSPECTED_OBSERVATION": "Current low-code research continues to treat organisational support as a substantive problem, not an automatic consequence of visual tooling.",
+      "EMPIRICAL_DESIGN": {
+        "UNIT_OF_ANALYSIS": "Citizen-development programmes and interviews",
+        "SAMPLE": "36 interviews in two firms, as stated by publisher abstract.",
+        "SETTING_AND_DATES": "June 2026; abstract-only access.",
+        "COMPARISON": "Maturity-context comparison described by authors.",
+        "MEASURES": "Organisational arrangements and enabling roles.",
+        "OUTCOME": "Current evidence keeps support and organisational adaptation in view.",
+        "UNCERTAINTY": "Full coding, instruments and outcome evidence not inspected.",
+        "MATERIAL_VALIDITY_THREATS": "Access limit and two-firm transfer limits.",
+        "DEPENDENCE_AND_REPLICATION": "Not treated as validation of a universal stage ladder or independent replication of every earlier low-code finding."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    },
+    {
+      "SOURCE_ID": "S048",
+      "TITLE": "Process Discovery",
+      "AUTHORS_OR_ORGANISATION": [
+        "Marlon Dumas",
+        "Marcello La Rosa",
+        "Jan Mendling",
+        "Hajo A. Reijers"
+      ],
+      "DATE": "2018-03-24",
+      "VERSION_OR_EDITION": "Fundamentals of Business Process Management, second edition, chapter 5, 159–212; DOI 10.1007/978-3-662-56509-4_5",
+      "URL_OR_DOI": "https://link.springer.com/chapter/10.1007/978-3-662-56509-4_5",
+      "SOURCE_CLASS": "SCHOLARLY_TEXTBOOK_CHAPTER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "ABSTRACT_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "S048-L1",
+          "LOCATOR": "Publisher chapter abstract",
+          "CLAIM": "Discovery involves gathering process information and checking model quality, including accuracy beyond syntactic validity."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EBPM-006",
+        "EBPM-007",
+        "EBPM-008",
+        "EBPM-011"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Full chapter not read. Detailed discovery mechanisms rely additionally on S002, S025, S035 and S041. Not an independent empirical study."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "INSPECTED_OBSERVATION": "The pedagogical discovery distinction is retained without inventing uninspected chapter-specific procedures.",
+      "EMPIRICAL_DESIGN": {
+        "APPLICABILITY": "NOT_AN_ORIGINAL_EMPIRICAL_OUTCOME_STUDY_USED_HERE",
+        "REASON": "This work is used for history, concepts, specifications, formal reasoning, a review or an agenda. No independent outcome sample is inferred from that role."
+      },
+      "LOCATOR_POLICY": "Only the listed inspected sections/records support source-derived claims; analytical refinements are labelled in the property ledger and report.",
+      "SUPPORT_SCOPE_NOTE": "Supports examination, history, mechanism, criticism or a stated limit of these candidates; a rejected proposition is not thereby endorsed."
+    }
+  ],
+  "evidence_dependence_register": [
+    {
+      "GROUP": "EARLY_BPR_CASES",
+      "SOURCE_IDS": [
+        "S001",
+        "S002"
+      ],
+      "RELATION": "Potential common industrial examples; no additive independent success count."
+    },
+    {
+      "GROUP": "REDESIGN_FRAMEWORK",
+      "SOURCE_IDS": [
+        "S015",
+        "S016"
+      ],
+      "RELATION": "Later practitioner inquiry develops earlier authors’ framework."
+    },
+    {
+      "GROUP": "WORKFLOW_LONGITUDINAL",
+      "SOURCE_IDS": [
+        "S027"
+      ],
+      "RELATION": "Earlier 2005 report and 2016 article share one 2001–2012 programme."
+    },
+    {
+      "GROUP": "WORKAROUND_PROGRAMME",
+      "SOURCE_IDS": [
+        "S025"
+      ],
+      "RELATION": "Builds on earlier goal/misalignment work and related cases; not all fresh replications."
+    },
+    {
+      "GROUP": "PF2",
+      "SOURCE_IDS": [
+        "S041"
+      ],
+      "RELATION": "2001 conceptual reanalysis of the earlier 1995 empirical case; earlier text inaccessible."
+    },
+    {
+      "GROUP": "BPI_BENCHMARKS",
+      "SOURCE_IDS": [
+        "S018",
+        "S019"
+      ],
+      "RELATION": "Public benchmark reuse limits independence; no pooled population effect computed."
+    },
+    {
+      "GROUP": "LLM_BENCHMARK_EXTENSION",
+      "SOURCE_IDS": [
+        "S033"
+      ],
+      "RELATION": "Earlier benchmark work and online/issue editions are not separate experiments."
+    },
+    {
+      "GROUP": "GOVERNANCE_TAXONOMY_STAGES",
+      "SOURCE_IDS": [
+        "S021"
+      ],
+      "RELATION": "Development, classification and evaluation share organisations and respondents."
+    },
+    {
+      "GROUP": "GREEN_AND_CAPABILITY_SURVEYS",
+      "SOURCE_IDS": [
+        "S023",
+        "S031"
+      ],
+      "RELATION": "Possible shared 403-respondent research ancestry; not assumed independent."
+    },
+    {
+      "GROUP": "TEXTBOOK_AND_CHAPTER",
+      "SOURCE_IDS": [
+        "S006",
+        "S007",
+        "S048"
+      ],
+      "RELATION": "Publisher record, errata and chapter belong to the same textbook lineage; not independent validation."
+    }
+  ],
+  "empirical_study_summary_count": 22,
+  "revision": "EBPM-R1-2026-09-06"
+}

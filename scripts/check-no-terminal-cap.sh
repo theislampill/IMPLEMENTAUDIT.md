@@ -68,18 +68,19 @@ FORBIDDEN = [
     "max-3",
     "max retry",
     "max retries",
-    "retry cap",
     "retry limit",
     "revision limit",
     "round limit",
     "capped round",
     "capped rounds",
-    "try cap",
-    "attempt cap",
     "failure_probe",
     "failure_escalate",
     "failure_handoff",
 ]
+
+# Match cap as a noun (including its plural), not the prefix of capability.
+# Preserve literal spaces within phrases; punctuation/underscores delimit words.
+CAP_PHRASE = r"(?<![^\W_])(?:retry|try|attempt) caps?(?![^\W_])"
 
 # Reject counted/capped strike policies without banning a proper noun or an
 # ordinary English use of "strike". The architecture forbids finite-count
@@ -144,6 +145,9 @@ for path in paths:
         for term in FORBIDDEN:
             if term in lowered and not any(context in lowered for context in NEGATED_CONTEXT):
                 violations.append(f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: {term!r}")
+        cap_phrase = re.search(CAP_PHRASE, lowered)
+        if cap_phrase and not any(context in lowered for context in NEGATED_CONTEXT):
+            violations.append(f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: {cap_phrase.group()!r}")
         counted_strike_policy = re.search(COUNTED_STRIKE, lowered) and re.search(
             STRIKE_POLICY_CONTEXT, lowered
         )

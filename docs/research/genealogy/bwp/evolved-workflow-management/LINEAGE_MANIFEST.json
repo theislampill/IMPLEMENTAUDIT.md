@@ -1,0 +1,116 @@
+{
+  "embedded_manifest": {
+    "bytes": 14605,
+    "declared_digest_fields": [
+      {
+        "field": "payload_inventory[0].sha256",
+        "value": "6fb3f75e6352cb2d90fcee79b3fcc28d7984cf262fa69b64afab9377729d69a2"
+      },
+      {
+        "field": "payload_inventory[1].sha256",
+        "value": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c"
+      },
+      {
+        "field": "payload_inventory[2].sha256",
+        "value": "e3d40e2befea3dfcec003d532905171d4d6283148a7612ac69ab1002b905d36c"
+      },
+      {
+        "field": "payload_inventory[3].sha256",
+        "value": "4a507781337d04f512ad5031df8c58ef2d74f10f0e797c79b707a3c9ca210e01"
+      },
+      {
+        "field": "payload_inventory[4].sha256",
+        "value": "53b6d58f31c4702bb6047195e30aa354b3b9fb86fd4890cfce332fde5ebdf4fb"
+      },
+      {
+        "field": "payload_inventory[5].sha256",
+        "value": "20e50d58d3208da1d5c72271faabfae911b975e6840b5fa6bb3b679ad6f9b481"
+      },
+      {
+        "field": "payload_inventory[6].sha256",
+        "value": "ba6121eb3a9ee8e322b635472528f8819952264776b04ac238593bfd61b86137"
+      },
+      {
+        "field": "payload_inventory[7].sha256",
+        "value": "1ebf8485e4da80919052476e08d9b5fddf4839f61ecebd9074e2e581a34479f2"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+    "sha256": "69dd419cb5ebf3eae661042660f936783ff92e7d930369e0faa849e3d568401f",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_WORKFLOW_MANAGEMENT",
+  "lineage_name": "Evolved Workflow Management",
+  "members": [
+    {
+      "bytes": 269451,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md",
+      "sha256": "6fb3f75e6352cb2d90fcee79b3fcc28d7984cf262fa69b64afab9377729d69a2"
+    },
+    {
+      "bytes": 1095256,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+      "sha256": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c"
+    },
+    {
+      "bytes": 86047,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json",
+      "sha256": "e3d40e2befea3dfcec003d532905171d4d6283148a7612ac69ab1002b905d36c"
+    },
+    {
+      "bytes": 246937,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_AUDIT_INTAKE.md",
+      "sha256": "4a507781337d04f512ad5031df8c58ef2d74f10f0e797c79b707a3c9ca210e01"
+    },
+    {
+      "bytes": 11107,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "53b6d58f31c4702bb6047195e30aa354b3b9fb86fd4890cfce332fde5ebdf4fb"
+    },
+    {
+      "bytes": 17148,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "sha256": "20e50d58d3208da1d5c72271faabfae911b975e6840b5fa6bb3b679ad6f9b481"
+    },
+    {
+      "bytes": 806187,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json",
+      "sha256": "ba6121eb3a9ee8e322b635472528f8819952264776b04ac238593bfd61b86137"
+    },
+    {
+      "bytes": 54652,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "sha256": "1ebf8485e4da80919052476e08d9b5fddf4839f61ecebd9074e2e581a34479f2"
+    },
+    {
+      "bytes": 14605,
+      "member": "EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/bwp/evolved-workflow-management/corpus/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+      "sha256": "69dd419cb5ebf3eae661042660f936783ff92e7d930369e0faa849e3d568401f"
+    }
+  ],
+  "packet": {
+    "bytes": 373995,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/bwp/evolved-workflow-management/packet/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_PACKET.zip",
+    "sha256": "e477651fe3629f33e98ddc04f51d33c4907c8fd659a7d518ba11e0544239e818"
+  },
+  "property_ledger": {
+    "bytes": 1095256,
+    "member": "EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+    "properties": 77,
+    "root": "properties",
+    "sha256": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "bwp"
+}

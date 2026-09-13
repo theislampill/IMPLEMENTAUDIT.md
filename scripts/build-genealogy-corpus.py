@@ -15,10 +15,11 @@ def main() -> int:
     args = parser.parse_args()
     models = build_corpus(args.root)
     counts = models["corpus_manifest"]["counts"]
+    expected = models["lock"]["expected"]
     print(
-        f"TRIFECTAS={counts['trifectas']}/4 "
-        f"LINEAGES={counts['lineages']}/12 "
-        f"PROPERTIES={counts['properties']}/658"
+        f"TRIFECTAS={counts['trifectas']}/{expected['trifectas']} "
+        f"LINEAGES={counts['lineages']}/{expected['lineages']} "
+        f"PROPERTIES={counts['properties']}/{expected['properties']}"
     )
     return 0
 

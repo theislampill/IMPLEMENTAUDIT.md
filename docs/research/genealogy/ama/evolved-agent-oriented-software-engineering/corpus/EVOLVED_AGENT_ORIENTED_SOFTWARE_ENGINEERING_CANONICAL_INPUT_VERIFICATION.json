@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING",
+  "revision": "EAOSE-CANONICAL-R1-2026-09-07",
+  "research_cutoff": "2026-09-07",
+  "inputs": {
+    "A": {
+      "revision": "EAOSE-R1-2026-09-07",
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_PACKET(1)(1).zip",
+      "bytes": 469408,
+      "sha256": "18307c9d436757eb102ba73da31e00ce78bd08596ee7437bba4a7750810f4b87",
+      "archive_integrity": "PASS",
+      "members": [
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_MANIFEST.json"
+      ],
+      "payload_checks": [
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+          "bytes": 255752,
+          "sha256": "ac5bd3b508ab9a8adc2363cb50616c60312f668f3e33922ba82c2fab931ef51d",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+          "bytes": 2275585,
+          "sha256": "29e15064a00ae060970ab808832993863fcad6785d789c01b7fdecf507cd8a24",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+          "bytes": 229711,
+          "sha256": "5d68da3eeda55f82e5507c462210e7cd981b41a9988047186d5de1a5606e7a97",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+          "bytes": 228899,
+          "sha256": "8ea0b3f9ec0a9c4a5fe15105613061ca8158e15e5e52a4072a941a8f2b75731f",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "bytes": 18155,
+          "sha256": "1220006fcf415c07f8956dd8c4d317852fb5a14388a70b67085d0f9135bd677a",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+          "bytes": 38123,
+          "sha256": "4b6cbb9ebbf768053830e4dc004dcdd8adbe43507cd06177dc507ea2a31f24cf",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+          "bytes": 169690,
+          "sha256": "909d8d293e369f00ced0ed90dbadd333362799a653f3f17b023b780e07525dd3",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+          "bytes": 202127,
+          "sha256": "7230af46ad7dcf19bdedb7715557d871c54450fa183622d1c2f7d13f48667431",
+          "result": "PASS"
+        }
+      ],
+      "property_rows": 113,
+      "source_rows": 90
+    },
+    "B": {
+      "revision": "EAOSE-2026-09-07-R1",
+      "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_PACKET(2).zip",
+      "bytes": 409921,
+      "sha256": "6338c0582fc2dcd521a0325a5b73f16a2eb412ef9332f43819a9572c63ec1bce",
+      "archive_integrity": "PASS",
+      "members": [
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+        "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_MANIFEST.json"
+      ],
+      "payload_checks": [
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_REPORT.md",
+          "bytes": 412199,
+          "sha256": "4216927097dfcf80993f8aee7c611be6a1c558eb81a75a3b7f2dbbc3ce2753ac",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PROPERTY_LEDGER.json",
+          "bytes": 1885723,
+          "sha256": "f0dd88e0d759d91f24c03157caea834ff69e306798a692fd2a7dbf8a23bcca1e",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SOURCE_TABLE.json",
+          "bytes": 127226,
+          "sha256": "9af51de867d4d5a9e0e1c3e32714d6fc88aabc2b0f8eb098d02c77e5e928ebf0",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_AUDIT_INTAKE.md",
+          "bytes": 474365,
+          "sha256": "132410a0982e8643640df7b85b2cb6d9b895fcd16aaf1bca3c919e6004226dac",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "bytes": 11440,
+          "sha256": "742a6bc299a3848dd96c455b2bab8a953c3b7d97250aece2aa8a7392b56938ba",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_SYNTHESIS_INTAKE.md",
+          "bytes": 277887,
+          "sha256": "45235101cba63225c9f0a54c92b76caddadcb4dcb217cc5e4bdd10362dbcd441",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_COMPOSITION_MODEL.json",
+          "bytes": 427241,
+          "sha256": "ce25b404ab82d3d49cc1b2d5215561d23d442316b7841a33db7d0f07785129b6",
+          "result": "PASS"
+        },
+        {
+          "filename": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_RESEARCH_COVERAGE.json",
+          "bytes": 88883,
+          "sha256": "de116361487ee50d555ab7f828494db6d8af13639d45dd8901399af0f159de94",
+          "result": "PASS"
+        }
+      ],
+      "property_rows": 83,
+      "source_rows": 62
+    }
+  },
+  "immutable_input_policy": "Original enclosing archives are unmodified; all corrections are canonical decisions with original versions retained."
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "implementaudit.operational-evidence-query-cases.v1",
+  "causal_cases": [
+    "C07-R0001", "C07-R0002", "C07-R0003", "C07-R0004", "C07-R0005", "C07-R0006",
+    "C07-R0007", "C07-R0008", "C07-R0009", "C07-R000A", "C07-R000B", "C07-R000C",
+    "C07-R000D", "C07-R000E", "C07-R000F", "C07-R0010", "C07-R0011", "C07-R0012"
+  ],
+  "held_out_cases": ["C07-H01", "C07-H02", "C07-H03", "C07-H04"],
+  "families": ["CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE"],
+  "cursor_cases": [
+    {"id": "QC01-valid", "expect": "ACCEPT"},
+    {"id": "QC02-wrong-version", "expect": "REJECT"},
+    {"id": "QC03-wrong-generation", "expect": "REJECT"},
+    {"id": "QC04-wrong-manifest", "expect": "REJECT"},
+    {"id": "QC05-wrong-filters", "expect": "REJECT"},
+    {"id": "QC06-stale-position", "expect": "REJECT"},
+    {"id": "QC07-malformed-digest", "expect": "REJECT"},
+    {"id": "QC08-recomputed-skip-is-nondecision", "expect": "NONDECISION"}
+  ]
+}

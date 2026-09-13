@@ -1,0 +1,98 @@
+{
+  "schema": "implementaudit-external-release-capture-v1",
+  "capture_identity": "fixture-external-capture-1",
+  "source_identity": "github:theislampill/IMPLEMENTAUDIT.md",
+  "auth_state": "PRESENT",
+  "rate": {"state": "AVAILABLE", "remaining": 4999, "reset_at": "2026-08-20T03:00:00Z"},
+  "pagination": {"state": "COMPLETE", "pages": 1},
+  "object_drift": false,
+  "captured_at": "2026-08-20T02:30:00Z",
+  "expires_at": "2026-08-20T03:30:00Z",
+  "evaluated_at": "2026-08-20T02:31:00Z",
+  "records": [
+    {
+      "id": "external-pr",
+      "record_type": "PullRequest",
+      "stable_id": "PR_kwDOFixture",
+      "commit_identity": "0000000000000000000000000000000000000000",
+      "source_identity": "github-pr:fixture/1",
+      "native_owner_identity": "github:fixture/repository",
+      "updated_at": "2026-08-20T02:20:00Z",
+      "etag": "fixture-pr-etag",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000001",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "external-check",
+      "record_type": "Check",
+      "stable_id": "check-run:fixture-1",
+      "commit_identity": "0000000000000000000000000000000000000000",
+      "source_identity": "github-check:fixture/1",
+      "native_owner_identity": "github:fixture/repository",
+      "updated_at": "2026-08-20T02:21:00Z",
+      "etag": "fixture-check-etag",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000002",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "external-merge",
+      "record_type": "Merge",
+      "stable_id": "merge:fixture-1",
+      "commit_identity": "0000000000000000000000000000000000000000",
+      "source_identity": "github-merge:fixture/1",
+      "native_owner_identity": "github:fixture/repository",
+      "updated_at": "2026-08-20T02:22:00Z",
+      "etag": "fixture-merge-etag",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000003",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "external-tag",
+      "record_type": "Tag",
+      "stable_id": "refs/tags/v0.4.0.0",
+      "commit_identity": "0000000000000000000000000000000000000000",
+      "source_identity": "github-tag:v0.4.0.0",
+      "native_owner_identity": "github:fixture/repository",
+      "updated_at": "2026-08-20T02:23:00Z",
+      "etag": "fixture-tag-etag",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000004",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "external-release",
+      "record_type": "Release",
+      "stable_id": "release:fixture-v0.4.0.0",
+      "commit_identity": "0000000000000000000000000000000000000000",
+      "source_identity": "github-release:v0.4.0.0",
+      "native_owner_identity": "github:fixture/repository",
+      "updated_at": "2026-08-20T02:24:00Z",
+      "etag": "fixture-release-etag",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000005",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "external-asset",
+      "record_type": "Asset",
+      "stable_id": "asset:fixture-plugin",
+      "commit_identity": "0000000000000000000000000000000000000000",
+      "source_identity": "github-asset:fixture-plugin",
+      "native_owner_identity": "github:fixture/repository",
+      "updated_at": "2026-08-20T02:25:00Z",
+      "etag": "fixture-asset-etag",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000006",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "external-public",
+      "record_type": "PublicSurface",
+      "stable_id": "public:fixture-v0.4.0.0",
+      "commit_identity": "0000000000000000000000000000000000000000",
+      "source_identity": "public-readback:fixture-v0.4.0.0",
+      "native_owner_identity": "github:fixture/repository",
+      "updated_at": "2026-08-20T02:26:00Z",
+      "etag": "fixture-public-etag",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000007",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    }
+  ]
+}

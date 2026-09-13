@@ -1326,8 +1326,8 @@ with zipfile.ZipFile(asset) as zf:
             )
 
         package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text())
-        if package.get("runtime_version") != "0.4.0":
-            raise SystemExit("expected package runtime version 0.4.0")
+        if package.get("runtime_version") != "0.4.1":
+            raise SystemExit("expected package runtime version 0.4.1")
         expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
         expected_internal = [
             {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},

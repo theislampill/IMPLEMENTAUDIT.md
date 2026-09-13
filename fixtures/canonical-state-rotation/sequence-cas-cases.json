@@ -1,0 +1,73 @@
+{
+  "schema": "implementaudit.canonical-state-rotation-sequence-cas-cases.v1",
+  "publisher_ids": [
+    "wrong-live",
+    "stored-controller",
+    "stored-source-epoch",
+    "winner",
+    "loser",
+    "guard-controller",
+    "guard-invalidation",
+    "guard-receipt",
+    "guard-marker",
+    "mutation-STATE-in-place",
+    "mutation-STATE-replacement",
+    "mutation-STATE-write-restore",
+    "mutation-ROADMAP-in-place",
+    "mutation-ROADMAP-replacement",
+    "mutation-ROADMAP-write-restore",
+    "mutation-WORK_GRAPH-in-place",
+    "mutation-WORK_GRAPH-replacement",
+    "mutation-WORK_GRAPH-write-restore",
+    "immutable-path",
+    "immutable-object",
+    "lease-held",
+    "final-trace",
+    "unknown-effect",
+    "hostile-hooks-env"
+  ],
+  "claim_record_mismatch_keys": [
+    "schema",
+    "claim_id",
+    "claimed_at_utc",
+    "mode",
+    "templates",
+    "repo_root",
+    "git_common_dir",
+    "run_base",
+    "run_root",
+    "run_name"
+  ],
+  "r15_round1_subcases": [
+    "receipt-pre-fence-pivot",
+    "cross-platform-owner-environment"
+  ],
+  "cases": [
+    {"id": "SC01-single-winner", "expect": "WINNER"},
+    {"id": "SC02-loser-not-queryable", "expect": "NOT_QUERYABLE"},
+    {"id": "SC03-loser-not-current", "expect": "NOT_CURRENT"},
+    {"id": "SC04-retry-reallocates", "expect": "RETRY_REALLOCATED"},
+    {"id": "SC05-winner-data-preserved", "expect": "PRESERVED"},
+    {"id": "SC06-reused-predecessor-sequence", "expect": "REJECT"},
+    {"id": "SC07-noncontiguous-gap", "expect": "REJECT"},
+    {"id": "SC08-wrong-predecessor-high-water", "expect": "REJECT"},
+    {"id": "SC09-other-predecessor-manifest", "expect": "REJECT"},
+    {
+      "id": "SC10-pointer-manifest-type-confusion",
+      "expect": "REJECT",
+      "subcases": [
+        "manifest-as-pointer",
+        "noncanonical-pointer-bytes",
+        "noncanonical-manifest-bytes",
+        "manifest-oid",
+        "manifest-digest",
+        "controller-id",
+        "claim-id",
+        "run-id",
+        "generation-id",
+        "source-epoch",
+        "cold-high-water"
+      ]
+    }
+  ]
+}

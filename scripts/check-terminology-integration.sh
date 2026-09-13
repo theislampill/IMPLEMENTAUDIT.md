@@ -221,7 +221,7 @@ scan_paths.extend(
 )
 
 term_pattern = re.compile(
-    r"\b(VOC|CTQ|SIPOC|FMEA(?:-lite)?|Strangler|Anti-Corruption|ACL|"
+    r"\b(VOC|CTQ|SIPOC|FMEA(?:-lite)?|Strangler|Anti-Corruption|"
     r"Bounded Context|Ubiquitous Language|STRIDE|trust boundary|SOLID|GRASP|"
     r"Control Plan|C4)\b",
     re.IGNORECASE,

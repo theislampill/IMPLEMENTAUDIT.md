@@ -1,0 +1,3953 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_SOFTWARE_ARCHITECTURE",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "scope_statement": "Independent, source-grounded reconstruction of software architecture’s structures, interaction/quality reasoning, descriptions, decisions, evaluation, conformance and revision, including documented contemporary translations and criticism. The population is the registered candidate set after examination, not every proposition in every publication.",
+  "scope_boundaries": [
+    "No requester repositories, prior Evolved packets or sibling research consulted.",
+    "Architecture intersects but does not annex enterprise, hardware, systems or organisational architecture.",
+    "Program families and maintenance are studied only where they establish architecture mechanisms, history or interface obligations; sibling conclusions are not supplied.",
+    "This is an explicit bounded interpretive study, not an exhaustive systematic bibliometric review or a meta-analysis.",
+    "Normative clauses not read, current vendor prices/quotas not checked, and inaccessible monographs/editions do not support detailed claims.",
+    "External legal/compliance authority is not inferred from architectural methods."
+  ],
+  "families": [
+    {
+      "FAMILY_ID": "A1",
+      "QUESTIONS": [
+        "What makes a decision architecturally significant?",
+        "Whose concerns affect a choice, and who can accept its consequences?",
+        "How are architecture, description and belief distinguished?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q01"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S010",
+        "ESA-S011",
+        "ESA-S017",
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S045",
+        "ESA-S026",
+        "ESA-S008",
+        "ESA-S025",
+        "ESA-S041",
+        "ESA-S039",
+        "ESA-S035",
+        "ESA-S030",
+        "ESA-S031"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-002",
+        "ESA-003",
+        "ESA-004",
+        "ESA-005",
+        "ESA-006"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR001",
+        "ESA-CR004",
+        "ESA-CR010"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S011"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A2",
+      "QUESTIONS": [
+        "Which decomposition hides likely changes or protects invariants?",
+        "Which semantic/shared-state assumptions cross a nominal interface?",
+        "When do family/semantic boundaries differ from deployments?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q02",
+        "ESA-Q03"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S026",
+        "ESA-S015",
+        "ESA-S035",
+        "ESA-S002",
+        "ESA-S004",
+        "ESA-S045",
+        "ESA-S031",
+        "ESA-S005",
+        "ESA-S056",
+        "ESA-S054",
+        "ESA-S039",
+        "ESA-S037",
+        "ESA-S060",
+        "ESA-S064",
+        "ESA-S007",
+        "ESA-S066",
+        "ESA-S033"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-010",
+        "ESA-011",
+        "ESA-012",
+        "ESA-013",
+        "ESA-061"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR002",
+        "ESA-CR003",
+        "ESA-CR014",
+        "ESA-CR016"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S060"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A3",
+      "QUESTIONS": [
+        "Are quality scenarios measurable and representative?",
+        "Which tactics influence which model parameters?",
+        "What trade-offs and omitted conditions can invalidate the result?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q04"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S017",
+        "ESA-S061",
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S023",
+        "ESA-S060",
+        "ESA-S024",
+        "ESA-S026",
+        "ESA-S022",
+        "ESA-S054",
+        "ESA-S048",
+        "ESA-S018"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-015",
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-019",
+        "ESA-062"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR004",
+        "ESA-CR005",
+        "ESA-CR019"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S061",
+          "ESA-S060",
+          "ESA-S048"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A4",
+      "QUESTIONS": [
+        "Which views and semantics serve a real concern?",
+        "What establishes cross-view and model/implementation correspondence?",
+        "What do ADL theorems and reconstruction actually guarantee?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q05"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S011",
+        "ESA-S014",
+        "ESA-S012",
+        "ESA-S013",
+        "ESA-S010",
+        "ESA-S045",
+        "ESA-S026",
+        "ESA-S015",
+        "ESA-S047",
+        "ESA-S046",
+        "ESA-S063",
+        "ESA-S004",
+        "ESA-S034",
+        "ESA-S037",
+        "ESA-S039"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-021",
+        "ESA-022",
+        "ESA-023",
+        "ESA-024",
+        "ESA-025",
+        "ESA-068"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR002",
+        "ESA-CR006",
+        "ESA-CR007",
+        "ESA-CR011",
+        "ESA-CR017"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S011",
+          "ESA-S013",
+          "ESA-S047",
+          "ESA-S046",
+          "ESA-S063"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A5",
+      "QUESTIONS": [
+        "How are alternatives selected and evaluated?",
+        "What do SAAM/ATAM/CBAM and recursive design actually do?",
+        "What do field and comparative studies fail to establish?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q06",
+        "ESA-Q07"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S019",
+        "ESA-S020",
+        "ESA-S022",
+        "ESA-S010",
+        "ESA-S037",
+        "ESA-S039",
+        "ESA-S061",
+        "ESA-S023",
+        "ESA-S021",
+        "ESA-S016",
+        "ESA-S024",
+        "ESA-S008",
+        "ESA-S054",
+        "ESA-S025",
+        "ESA-S041"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-026",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030",
+        "ESA-031",
+        "ESA-067"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR004",
+        "ESA-CR008",
+        "ESA-CR018",
+        "ESA-CR020"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S061"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A6",
+      "QUESTIONS": [
+        "Which rationale helps later actors?",
+        "When does documentation/central governance add costs?",
+        "What supports or limits socio-technical congruence and mirroring?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q08",
+        "ESA-Q09"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S028",
+        "ESA-S029",
+        "ESA-S020",
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032",
+        "ESA-S010",
+        "ESA-S033",
+        "ESA-S036",
+        "ESA-S039",
+        "ESA-S060",
+        "ESA-S041"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-034",
+        "ESA-035",
+        "ESA-036",
+        "ESA-037",
+        "ESA-064"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR006",
+        "ESA-CR009",
+        "ESA-CR010"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S060"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A7",
+      "QUESTIONS": [
+        "How are justified baselines and recovered structures compared?",
+        "When is deviation harmful rather than authorised evolution?",
+        "What are smell/classifier validity and false-positive limits?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q10"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S002",
+        "ESA-S026",
+        "ESA-S048",
+        "ESA-S046",
+        "ESA-S020",
+        "ESA-S041",
+        "ESA-S047",
+        "ESA-S027"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-041",
+        "ESA-042"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR011",
+        "ESA-CR017"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S048",
+          "ESA-S046",
+          "ESA-S047"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A8",
+      "QUESTIONS": [
+        "What makes architecture debt rather than imperfection?",
+        "How do migration, fitness checks and runtime changes preserve obligations?",
+        "How can observation/policy failures invalidate adaptation?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q11",
+        "ESA-Q12"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S056",
+        "ESA-S040",
+        "ESA-S051",
+        "ESA-S026",
+        "ESA-S060",
+        "ESA-S043",
+        "ESA-S044",
+        "ESA-S020",
+        "ESA-S054",
+        "ESA-S062",
+        "ESA-S052",
+        "ESA-S053",
+        "ESA-S055",
+        "ESA-S015",
+        "ESA-S061",
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S008",
+        "ESA-S010",
+        "ESA-S037",
+        "ESA-S041",
+        "ESA-S039"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-043",
+        "ESA-044",
+        "ESA-045",
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-049",
+        "ESA-063"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR003",
+        "ESA-CR012",
+        "ESA-CR013",
+        "ESA-CR014",
+        "ESA-CR016",
+        "ESA-CR020"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S040",
+          "ESA-S060",
+          "ESA-S062",
+          "ESA-S055",
+          "ESA-S061"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    },
+    {
+      "FAMILY_ID": "A9",
+      "QUESTIONS": [
+        "When do services, monoliths, REST, SOA and serverless fit their problem?",
+        "What changes with learned components, LLM assistance and sustainability?",
+        "Which modern claims are counterexamples, conditional mechanisms or unresolved?"
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "ESA-Q13",
+        "ESA-Q14",
+        "ESA-Q15",
+        "ESA-Q16",
+        "ESA-Q17"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S036",
+        "ESA-S001",
+        "ESA-S026",
+        "ESA-S037",
+        "ESA-S039",
+        "ESA-S060",
+        "ESA-S038",
+        "ESA-S057",
+        "ESA-S035",
+        "ESA-S061",
+        "ESA-S056",
+        "ESA-S008",
+        "ESA-S059",
+        "ESA-S062",
+        "ESA-S063",
+        "ESA-S058",
+        "ESA-S003",
+        "ESA-S009",
+        "ESA-S010",
+        "ESA-S017",
+        "ESA-S041",
+        "ESA-S042",
+        "ESA-S034",
+        "ESA-S011",
+        "ESA-S012",
+        "ESA-S065",
+        "ESA-S020",
+        "ESA-S054"
+      ],
+      "PROPERTY_IDS": [
+        "ESA-050",
+        "ESA-051",
+        "ESA-052",
+        "ESA-053",
+        "ESA-054",
+        "ESA-055",
+        "ESA-056",
+        "ESA-057",
+        "ESA-058",
+        "ESA-059",
+        "ESA-060",
+        "ESA-065",
+        "ESA-066"
+      ],
+      "CRITICISM_IDS": [
+        "ESA-CR001",
+        "ESA-CR003",
+        "ESA-CR005",
+        "ESA-CR006",
+        "ESA-CR015",
+        "ESA-CR016",
+        "ESA-CR017",
+        "ESA-CR018",
+        "ESA-CR020"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "ESA-S060",
+          "ESA-S061",
+          "ESA-S059",
+          "ESA-S062",
+          "ESA-S063",
+          "ESA-S058",
+          "ESA-S011"
+        ],
+        "JUDGEMENT": "Historical mechanisms traced into recent descendants or criticism. Recent sources are not substituted for original historical evidence.",
+        "CURRENT_SEARCH_LINKS": [
+          "ESA-Q13",
+          "ESA-Q14",
+          "ESA-Q15",
+          "ESA-Q16",
+          "ESA-Q17"
+        ]
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "All registered candidates and mandatory questions examined; remaining uncertainty is recorded, not treated as an unperformed search."
+    }
+  ],
+  "search_log": [
+    {
+      "SEARCH_ID": "ESA-Q01",
+      "DATE": "2026-09-06",
+      "FAMILY": "A1",
+      "QUERY_CLUSTER": "Perry Wolf 1992 foundations software architecture; Fowler Who Needs an Architect; ISO IEC IEEE 42010 2022 2011 IEEE 1471",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S010",
+        "ESA-S011",
+        "ESA-S012",
+        "ESA-S013",
+        "ESA-S065"
+      ],
+      "DECISION_EFFECT": "Distinguished definitions, authority and description from operating quality; access-limited clause claims excluded."
+    },
+    {
+      "SEARCH_ID": "ESA-Q02",
+      "DATE": "2026-09-06",
+      "FAMILY": "A2",
+      "QUERY_CLUSTER": "Parnas criteria decomposing systems modules 1972; designing software ease extension contraction 1979; architectural mismatch assumptions",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S026",
+        "ESA-S064",
+        "ESA-S066"
+      ],
+      "DECISION_EFFECT": "Retained semantic/change boundaries, not more modules or services; examined family ancestry and catalogued access limits."
+    },
+    {
+      "SEARCH_ID": "ESA-Q03",
+      "DATE": "2026-09-06",
+      "FAMILY": "A2",
+      "QUERY_CLUSTER": "domain driven design bounded context context map Evans reference; microservices boundaries shared database",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S033",
+        "ESA-S036",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060"
+      ],
+      "DECISION_EFFECT": "Separated semantic, module and deployment boundaries; retained modular monolith and consolidation alternatives."
+    },
+    {
+      "SEARCH_ID": "ESA-Q04",
+      "DATE": "2026-09-06",
+      "FAMILY": "A3",
+      "QUERY_CLUSTER": "quality attribute workshops third edition 2003; software architecture tactics 2002; usability architecture Bass John",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S017",
+        "ESA-S018"
+      ],
+      "DECISION_EFFECT": "Coupled scenarios to measures/consumers and included architecturally significant usability."
+    },
+    {
+      "SEARCH_ID": "ESA-Q05",
+      "DATE": "2026-09-06",
+      "FAMILY": "A4",
+      "QUERY_CLUSTER": "Kruchten 4+1 view model 1995; Medvidovic Taylor ADL classification; Wright architectural connection compatibility conservative deadlock",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S014",
+        "ESA-S015"
+      ],
+      "DECISION_EFFECT": "Rejected mandatory view completeness; added separate well-formedness-dependent formal candidate ESA-068."
+    },
+    {
+      "SEARCH_ID": "ESA-Q06",
+      "DATE": "2026-09-06",
+      "FAMILY": "A5",
+      "QUERY_CLUSTER": "SAAM architecture analysis 1994; ATAM method architecture evaluation 2000; CBAM cost benefit architecture 2001",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S019",
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S022"
+      ],
+      "DECISION_EFFECT": "Separated risk elicitation, assumed utility and operating effectiveness; refused quality certification inference."
+    },
+    {
+      "SEARCH_ID": "ESA-Q07",
+      "DATE": "2026-09-06",
+      "FAMILY": "A5",
+      "QUERY_CLUSTER": "software architecture evaluation empirical comparison ATAM QuaDAI practitioners replication 2017; attribute driven design 2006 general model architecture design 2007",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S023",
+        "ESA-S024",
+        "ESA-S025"
+      ],
+      "DECISION_EFFECT": "Recorded small non-independent comparison and null efficiency/ease findings; added driver-based design without forcing a serial pipeline."
+    },
+    {
+      "SEARCH_ID": "ESA-Q08",
+      "DATE": "2026-09-06",
+      "FAMILY": "A6",
+      "QUERY_CLUSTER": "architectural design rationale survey Tang Babar Gorton Han; Jansen Bosch architectural design decisions; Michael Nygard architecture decision records",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S027",
+        "ESA-S028",
+        "ESA-S029",
+        "ESA-S009"
+      ],
+      "DECISION_EFFECT": "Identified actual report edition, abstract-only access, consumer-oriented records and honest rationalisation."
+    },
+    {
+      "SEARCH_ID": "ESA-Q09",
+      "DATE": "2026-09-06",
+      "FAMILY": "A6",
+      "QUERY_CLUSTER": "Conway 1968 committees; socio technical congruence Cataldo Herbsleb Carley; MacCormack Rusnak Baldwin mirroring",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "DECISION_EFFECT": "Examined actual samples/confounding and rejected deterministic organisational mirroring."
+    },
+    {
+      "SEARCH_ID": "ESA-Q10",
+      "DATE": "2026-09-06",
+      "FAMILY": "A7",
+      "QUERY_CLUSTER": "software reflexion models Murphy Notkin Sullivan 1995; architectural erosion code review Li Soliman; architectural smells performance empirical study",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S047",
+        "ESA-S048"
+      ],
+      "DECISION_EFFECT": "Mapped conformance to justified baselines and distinguished selected performance effects from smell proxies; preserved dataset overlap."
+    },
+    {
+      "SEARCH_ID": "ESA-Q11",
+      "DATE": "2026-09-06",
+      "FAMILY": "A8",
+      "QUERY_CLUSTER": "architectural technical debt Martini Bosch Chaudron 2014; Cunningham WyCash debt; Strangler Fig migration; architecture fitness functions",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S040",
+        "ESA-S043",
+        "ESA-S044"
+      ],
+      "DECISION_EFFECT": "Separated hypothesised/observed costs; made migration/fitness rules conditional and revisable."
+    },
+    {
+      "SEARCH_ID": "ESA-Q12",
+      "DATE": "2026-09-06",
+      "FAMILY": "A8",
+      "QUERY_CLUSTER": "Oreizy runtime architecture evolution self adaptive; Rainbow architecture robustness 2014; self adaptation industry survey 2023",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S051",
+        "ESA-S052",
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S055"
+      ],
+      "DECISION_EFFECT": "Read actual ICAC edition and negative observation tests; separated model changes, authority, actuation and effects."
+    },
+    {
+      "SEARCH_ID": "ESA-Q13",
+      "DATE": "2026-09-06",
+      "FAMILY": "A9",
+      "QUERY_CLUSTER": "REST Fielding dissertation chapter 5; OASIS service oriented architecture reference model 1.0 2006",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S034",
+        "ESA-S035"
+      ],
+      "DECISION_EFFECT": "Split mixed ESA-057 into domain-specific REST and service-interaction candidates without erasing denominator."
+    },
+    {
+      "SEARCH_ID": "ESA-Q14",
+      "DATE": "2026-09-06",
+      "FAMILY": "A9",
+      "QUERY_CLUSTER": "microservices reversal modular monolith Istio istiod Shopify; microservices practitioner survey 2024 decomposition 2026",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S036",
+        "ESA-S037",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060",
+        "ESA-S063"
+      ],
+      "DECISION_EFFECT": "Recorded contrary field cases and modern measurement/benchmark limits rather than selecting a fashionable universal style."
+    },
+    {
+      "SEARCH_ID": "ESA-Q15",
+      "DATE": "2026-09-06",
+      "FAMILY": "A9",
+      "QUERY_CLUSTER": "serverless Berkeley view 2019; EcoFaaS 2024 energy latency; sustainable software architecture review 2025",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S057",
+        "ESA-S058",
+        "ESA-S061"
+      ],
+      "DECISION_EFFECT": "Kept provider claims historical and sustainability measures boundary-bound, with explicit mean-latency trade-off."
+    },
+    {
+      "SEARCH_ID": "ESA-Q16",
+      "DATE": "2026-09-06",
+      "FAMILY": "A9",
+      "QUERY_CLUSTER": "hidden technical debt machine learning systems 2015; LLM ATAM 2026; AI software architecture pattern selection 2026",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S056",
+        "ESA-S059",
+        "ESA-S062"
+      ],
+      "DECISION_EFFECT": "Recorded data/feedback dependencies and narrow contemporary assistance evaluations; autonomous architecting remains unresolved."
+    },
+    {
+      "SEARCH_ID": "ESA-Q17",
+      "DATE": "2026-09-06",
+      "FAMILY": "A9",
+      "QUERY_CLUSTER": "software architecture criticism big ball of mud ivory tower architecture astronauts monolith first",
+      "LOG_PRECISION": "Representative terms and decision-oriented grouping of searches actually performed; not an exhaustive raw browser request transcript.",
+      "INSPECTED_SOURCE_IDS": [
+        "ESA-S008",
+        "ESA-S010",
+        "ESA-S037",
+        "ESA-S041",
+        "ESA-S042"
+      ],
+      "DECISION_EFFECT": "Gave cost/overdesign criticism power to narrow retained mechanisms and reject ceremony claims."
+    }
+  ],
+  "access_limits": [
+    {
+      "SOURCE_ID": "ESA-S011",
+      "ACCESS_LEVEL": "PUBLIC_ABSTRACT_AND_PREVIEW_ONLY",
+      "LIMIT": "Normative clauses outside the preview were not inspected; no clause-by-clause compliance or quality certification is asserted. Catalogue checked at cut-off."
+    },
+    {
+      "SOURCE_ID": "ESA-S012",
+      "ACCESS_LEVEL": "PUBLIC_ABSTRACT_ONLY",
+      "LIMIT": "Normative text not inspected; metadata supports history and stated scope only."
+    },
+    {
+      "SOURCE_ID": "ESA-S028",
+      "ACCESS_LEVEL": "ABSTRACT_ONLY",
+      "LIMIT": "Full Archium methods and evaluation not inspected. Date ambiguity is preserved rather than inventing an edition reconciliation."
+    },
+    {
+      "SOURCE_ID": "ESA-S064",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "LIMIT": "Full original text not inspected. Substantive family mechanisms in this packet rely on ESA-S006, not an invented reading of this work."
+    },
+    {
+      "SOURCE_ID": "ESA-S065",
+      "ACCESS_LEVEL": "PUBLIC_ABSTRACT_ONLY",
+      "LIMIT": "Normative clauses inaccessible in this run; scope and historical identity only. No assumed conformance checklist."
+    },
+    {
+      "SOURCE_ID": null,
+      "WORK_OR_CLASS": "Brooks 1975 and Evans 2003 original monographs; evolutionary-architecture book",
+      "LIMIT": "Full books were not inspected. Claims use the identified author texts/references/guidance actually accessed; no detailed book passages or original priority claims are invented.",
+      "DISPOSITION": "Historical/edition access limit, not an unexamined mandatory family."
+    },
+    {
+      "SOURCE_ID": null,
+      "WORK_OR_CLASS": "Additional recent ADL and 2026 architecture-smell leads",
+      "LIMIT": "Some candidate full-text routes were inaccessible. They are not counted as inspected works or used as negative evidence; accessible original/formal and recent empirical material supplies the bounded examination.",
+      "DISPOSITION": "No claim that inaccessible texts corroborate or contradict this packet."
+    }
+  ],
+  "saturation_rationale": {
+    "BASIS": "Decision-oriented evidence saturation within the declared scope: all A1–A9 questions and all 68 candidates received sources, criticism, cheap-path/trigger and disposition examination.",
+    "EVIDENCE_CHANGED_JUDGEMENTS": [
+      "Architecture-as-all-important-decisions, mandatory 4+1, standards-as-quality-certificate, review-as-guarantee, deterministic mirroring, zero drift, local-metric self-authorisation and emergence-without-reasoning were not retained as general properties.",
+      "The mixed service/REST candidate was superseded and split; recursive driver-based design and a distinct conditional Wright theorem were added after inspection.",
+      "Current LLM evidence narrowed assistance and left open-ended autonomy unresolved; current energy evidence retained measurement-bound and constraint-bound sustainability rather than universal green styles."
+    ],
+    "STOPPING_JUDGEMENT": "Further equivalent searches were not expected to change the registered mechanism, prerequisite, genealogy distinction or composition guard. New unseen evidence could revise a later revision; this freeze does not claim every publication was retrieved.",
+    "NOT_A_QUOTA": "Neither 66 sources nor 68 candidates was prescribed as a target. They are the achieved examined corpus.",
+    "UNRESOLVED_NOT_UNEXAMINED": "ESA-060 and four composition questions were researched but remain unsettled; no mandatory family or registered candidate remains NOT_EXAMINED."
+  },
+  "uncompleted_burdens": [],
+  "uncompleted_burdens_explanation": "No unperformed task remains inside the declared scope. Access limits and examined open questions are separately enumerated and constrain claims.",
+  "population_total": 68,
+  "population_examined": 68,
+  "source_work_count": 66,
+  "genealogy_nodes": [
+    {
+      "NODE_ID": "ESA-G01",
+      "SCHOOL_OR_BRANCH": "Structured abstraction and layered responsibility",
+      "DATE_OR_PERIOD": "1968; inspected later transcription",
+      "SOURCE_IDS": [
+        "ESA-S005"
+      ],
+      "PROBLEM_SITUATION": "Reason about concurrent system behaviour and make implementation manageable.",
+      "MECHANISM": "A hierarchy of levels and carefully delimited abstractions organise a small multiprogramming system.",
+      "CONTRIBUTION": "An early concrete account of organising software through abstraction rather than a later architecture-description notation.",
+      "LIMITS": "One author-reported system and partial testing; not evidence that all modern layers yield reliability.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Later architecture discussions share abstraction concerns; direct influence on every branch is not inferred.",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-010"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G02",
+      "SCHOOL_OR_BRANCH": "Information hiding, uses relations and program families",
+      "DATE_OR_PERIOD": "1972; 1976 bibliographic anchor; 1979",
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S064"
+      ],
+      "PROBLEM_SITUATION": "Processing-step decomposition exposes design choices and makes anticipated changes propagate.",
+      "MECHANISM": "Assign responsibilities around hidden decisions; distinguish uses from calls and plan feasible family extension/contraction.",
+      "CONTRIBUTION": "A semantic criterion for decomposition and an architectural family/change account.",
+      "LIMITS": "Change hypotheses can be wrong; the KWIC illustration is not an industrial causal estimate. The 1976 item was inspected as metadata only.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "The 1979 paper extends the author’s earlier decomposition concern and exposes limits in simple hierarchical accounts.",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-010",
+        "ESA-013",
+        "ESA-049"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G03",
+      "SCHOOL_OR_BRANCH": "Conceptual integrity and realistic design explanation",
+      "DATE_OR_PERIOD": "1986 inspected texts; 1975 book an uninspected historical lead",
+      "SOURCE_IDS": [
+        "ESA-S008",
+        "ESA-S009",
+        "ESA-S010"
+      ],
+      "PROBLEM_SITUATION": "Incoherent concepts and an idealised sequential account make design hard to communicate or maintain.",
+      "MECHANISM": "Seek conceptual coherence and preserve a rationalised explanation while accepting iteration and discovery.",
+      "CONTRIBUTION": "Integrity is a system-level concern; explanatory order need not match the actual path of invention.",
+      "LIMITS": "The 1975 monograph was not read in this run. Neither coherence nor retrospective rationalisation licenses one-person control or false provenance.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Fowler’s later architect-role discussion challenges detached central authority without dispensing with significant design decisions.",
+      "PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-032",
+        "ESA-056",
+        "ESA-064"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G04",
+      "SCHOOL_OR_BRANCH": "Software architecture as a distinct research object: structures, styles and connectors",
+      "DATE_OR_PERIOD": "1992–1994",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S004"
+      ],
+      "PROBLEM_SITUATION": "Programming-level accounts do not sufficiently describe consequential overall organisation.",
+      "MECHANISM": "Describe elements, form and rationale; classify recurring component-and-connector organisations and combinations.",
+      "CONTRIBUTION": "A plural research programme for system structures, interactions and quality consequences.",
+      "LIMITS": "Styles overlap and combine; categorisation is not proof of a best architecture.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "View-based descriptions, formal languages and quality evaluation develop related but non-identical answers.",
+      "PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-003",
+        "ESA-009",
+        "ESA-025"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G05",
+      "SCHOOL_OR_BRANCH": "Multiple views and concern-selected representation",
+      "DATE_OR_PERIOD": "1995 onwards",
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S014",
+        "ESA-S011"
+      ],
+      "PROBLEM_SITUATION": "A single structural drawing cannot serve every stakeholder and design question.",
+      "MECHANISM": "Use views with distinct concerns and semantics; scenarios expose their interaction; keep correspondences explicit.",
+      "CONTRIBUTION": "4+1 is a worked view scheme, not a claim that all five artefacts are necessary everywhere.",
+      "LIMITS": "Views can disagree, become stale or omit runtime/configuration relations.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Description standardisation generalises concern/viewpoint vocabulary without validating design effectiveness.",
+      "PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-021",
+        "ESA-023",
+        "ESA-024"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G06",
+      "SCHOOL_OR_BRANCH": "ADLs and formal connector reasoning",
+      "DATE_OR_PERIOD": "1990s; 1997 paper/1998 inspected revision; 2000 taxonomy",
+      "SOURCE_IDS": [
+        "ESA-S014",
+        "ESA-S015"
+      ],
+      "PROBLEM_SITUATION": "Informal interaction arrows omit assumptions needed to reason about composition.",
+      "MECHANISM": "Give components/connectors semantic models and check compatibility under well-formedness conditions.",
+      "CONTRIBUTION": "Wright supplies a conditional deadlock result and a counterexample to compatibility alone.",
+      "LIMITS": "CSP model assumptions and implementation correspondence remain obligations; taxonomy completeness is historical, not a claim about every current tool.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Formal capability survives as a selective branch; no evidence warrants universal ADL adoption.",
+      "PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-009",
+        "ESA-022",
+        "ESA-068"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G07",
+      "SCHOOL_OR_BRANCH": "Scenario-based quality evaluation and economic reasoning",
+      "DATE_OR_PERIOD": "SAAM 1994; ATAM 2000; CBAM 2001; QAW 2003; subsequent evaluations",
+      "SOURCE_IDS": [
+        "ESA-S019",
+        "ESA-S020",
+        "ESA-S022",
+        "ESA-S017",
+        "ESA-S021",
+        "ESA-S023"
+      ],
+      "PROBLEM_SITUATION": "Quality slogans and a preferred design conceal trade-offs, risks and alternatives.",
+      "MECHANISM": "Elicit scenarios; explore sensitivity and trade-offs; estimate utility/cost under assumptions.",
+      "CONTRIBUTION": "Structured evaluation can make quality reasoning and stakeholder differences explicit.",
+      "LIMITS": "Selected scenarios may miss decisive conditions; risk reports are not downstream controlled outcomes; comparative evidence is small and mixed.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Evaluation evolves into lighter or more specialised alternatives and uncertain economic models rather than a quality certificate.",
+      "PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-015",
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-026",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030",
+        "ESA-031"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G08",
+      "SCHOOL_OR_BRANCH": "Architectural decisions, rationale and compact records",
+      "DATE_OR_PERIOD": "2005 inspected report; 2005 decision-paper abstract; 2011 ADR article",
+      "SOURCE_IDS": [
+        "ESA-S027",
+        "ESA-S028",
+        "ESA-S029"
+      ],
+      "PROBLEM_SITUATION": "Later actors see structures but cannot recover why alternatives were rejected.",
+      "MECHANISM": "Preserve context, decision status and consequences; maintain supersession and links where useful.",
+      "CONTRIBUTION": "Decision knowledge supplements structural descriptions and can aid handover/reconsideration.",
+      "LIMITS": "Survey perceptions do not prove benefit; the Archium paper was abstract-only and does not support detailed tool claims.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Concise records reduce ceremony but still require a real consumer and ageing/reopening discipline.",
+      "PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-037",
+        "ESA-064"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G09",
+      "SCHOOL_OR_BRANCH": "Conformance, reconstruction, erosion and smell analysis",
+      "DATE_OR_PERIOD": "1995; 2022–2025",
+      "SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S047",
+        "ESA-S048"
+      ],
+      "PROBLEM_SITUATION": "The implemented dependency structure can diverge from intended design without being recognised.",
+      "MECHANISM": "Map extracted relations to a high-level model; inspect convergence/divergence; investigate risks and context.",
+      "CONTRIBUTION": "Conformance is relative to mappings and rules, not a judgement that old intent is always correct.",
+      "LIMITS": "Extraction omits semantics; smell/performance effects vary; code-review comments measure discussion rather than prevalence of harmful erosion.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Modern classifiers and smell studies add evidence channels while preserving baseline and observation validity obligations.",
+      "PROPERTY_IDS": [
+        "ESA-021",
+        "ESA-024",
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-041",
+        "ESA-042"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G10",
+      "SCHOOL_OR_BRANCH": "Socio-technical coordination and mirroring",
+      "DATE_OR_PERIOD": "1968; empirical studies 2008 and inspected 2011 working-paper revision",
+      "SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "PROBLEM_SITUATION": "The people who must coordinate may not match the consequential dependencies in their work.",
+      "MECHANISM": "Compare task/software dependencies with observed communication; investigate organisational/design relationships.",
+      "CONTRIBUTION": "An architectural intersection with work coordination rather than an org-chart design algorithm.",
+      "LIMITS": "Single-organisation and matched-product studies are observational and confounded; deterministic causal readings are unsupported.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Bounded coordination hypotheses survive; simplistic organisational mirroring is rejected.",
+      "PROPERTY_IDS": [
+        "ESA-005",
+        "ESA-012",
+        "ESA-034",
+        "ESA-035",
+        "ESA-036"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G11",
+      "SCHOOL_OR_BRANCH": "Architecture-based runtime change and self-adaptation",
+      "DATE_OR_PERIOD": "1998–1999; Rainbow 2004; robustness 2014; industrial survey 2023",
+      "SOURCE_IDS": [
+        "ESA-S051",
+        "ESA-S052",
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S055"
+      ],
+      "PROBLEM_SITUATION": "Static descriptions cannot guide or explain structural changes during operation.",
+      "MECHANISM": "Connect probes, models, policies and effectors; constrain changes and evaluate effects.",
+      "CONTRIBUTION": "Architecture becomes an operative runtime abstraction, not merely documentation.",
+      "LIMITS": "Model-state corruption and silent observation failures can defeat decisions; prototypes/surveys are not general autonomy evidence.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Robustness experiments sharpen observation obligations, while industry survey results broaden reported settings without estimating causal benefit.",
+      "PROPERTY_IDS": [
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-063"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G12",
+      "SCHOOL_OR_BRANCH": "Reusable components, software families and architectural mismatch",
+      "DATE_OR_PERIOD": "1968 event/1969 report; 1995 case; institutional collection inspected 2026",
+      "SOURCE_IDS": [
+        "ESA-S007",
+        "ESA-S026",
+        "ESA-S066"
+      ],
+      "PROBLEM_SITUATION": "Reuse and interchangeability promise leverage, but compatible-looking parts carry hidden assumptions.",
+      "MECHANISM": "Component reuse must reconcile control, data, state and platform assumptions; family architecture preserves commonality/variation.",
+      "CONTRIBUTION": "McIlroy’s opening supplies an early aspiration; Aesop provides a concrete negative integration experience.",
+      "LIMITS": "The McIlroy opening and collection entry descriptions do not support uninspected implementation details or economic outcomes. Aesop publications share one programme.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "The mismatch critique narrows naive component substitution rather than refuting all reuse.",
+      "PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-011",
+        "ESA-013",
+        "ESA-025"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G13",
+      "SCHOOL_OR_BRANCH": "Domain-driven design intersection: bounded semantic models",
+      "DATE_OR_PERIOD": "2003 book as historical lead; inspected author reference dated 2015",
+      "SOURCE_IDS": [
+        "ESA-S033",
+        "ESA-S036"
+      ],
+      "PROBLEM_SITUATION": "Different business contexts require different meanings for apparently shared terms.",
+      "MECHANISM": "Bound a model’s applicability and map explicit relationships/translations between contexts.",
+      "CONTRIBUTION": "A semantic boundary is distinct from a code module or deployment boundary.",
+      "LIMITS": "The original book was not read; bounded contexts are not automatically services and translations have costs.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Microservice guidance explicitly uses bounded-context ideas, but that does not justify one service per context.",
+      "PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-008",
+        "ESA-012",
+        "ESA-035",
+        "ESA-050",
+        "ESA-061"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G14",
+      "SCHOOL_OR_BRANCH": "REST as a constrained hypermedia architectural style",
+      "DATE_OR_PERIOD": "2000 dissertation",
+      "SOURCE_IDS": [
+        "ESA-S034"
+      ],
+      "PROBLEM_SITUATION": "Distributed hypermedia needs evolvability, scalability and interactions among independently developed participants.",
+      "MECHANISM": "Combine client/server, stateless interaction, cacheability, uniform interface, layering and optional code-on-demand.",
+      "CONTRIBUTION": "Uniform-interface constraints include resource identification, representations, self-descriptive messages and hypermedia application state.",
+      "LIMITS": "A generic interface sacrifices some application-specific efficiency; REST is not every HTTP service and statelessness does not remove persistent resource state.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "The domain-specific constraint set remains distinguishable from generic service orientation.",
+      "PROPERTY_IDS": [
+        "ESA-009",
+        "ESA-017",
+        "ESA-025",
+        "ESA-057",
+        "ESA-065"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G15",
+      "SCHOOL_OR_BRANCH": "Service-oriented reference modelling",
+      "DATE_OR_PERIOD": "OASIS Reference Model 1.0, 2006",
+      "SOURCE_IDS": [
+        "ESA-S035"
+      ],
+      "PROBLEM_SITUATION": "Services cross ownership and access boundaries and need a common conceptual account.",
+      "MECHANISM": "Relate visibility, interaction, service descriptions, execution context and real-world effects.",
+      "CONTRIBUTION": "Awareness, willingness and reachability are not interchangeable with authorisation or successful effect.",
+      "LIMITS": "A reference model does not prescribe one stack or establish service economics.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Service concepts overlap later microservice discourse, but a single unambiguous genealogy is not established.",
+      "PROPERTY_IDS": [
+        "ESA-005",
+        "ESA-008",
+        "ESA-011",
+        "ESA-057",
+        "ESA-066"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G16",
+      "SCHOOL_OR_BRANCH": "Microservices, modular monoliths and consolidation",
+      "DATE_OR_PERIOD": "2014 account; 2015 caution; 2019 and 2020 field cases; 2024–2026 research",
+      "SOURCE_IDS": [
+        "ESA-S036",
+        "ESA-S037",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060",
+        "ESA-S063"
+      ],
+      "PROBLEM_SITUATION": "Large products may need differentiated deployment and team change, but distributed boundaries introduce operational coordination.",
+      "MECHANISM": "Select deployment boundaries according to genuine independence needs; preserve modularity or consolidate when boundaries supply little benefit.",
+      "CONTRIBUTION": "Shopify and Istio show that purposeful internal modules or consolidation can be legitimate outcomes.",
+      "LIMITS": "These are context-specific author/project accounts, not randomised comparisons. Benchmark decomposition metrics are not operating outcomes.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Maturity need not mean more services: Istio consolidated its control plane while retaining separate proxies.",
+      "PROPERTY_IDS": [
+        "ESA-011",
+        "ESA-012",
+        "ESA-025",
+        "ESA-044",
+        "ESA-050",
+        "ESA-051",
+        "ESA-056"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G17",
+      "SCHOOL_OR_BRANCH": "Architectural debt, incremental migration and continuous evaluation",
+      "DATE_OR_PERIOD": "1992 debt account; 2014 architecture-debt field study; 2019 guidance; 2024 revised migration essay",
+      "SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S040",
+        "ESA-S043",
+        "ESA-S044"
+      ],
+      "PROBLEM_SITUATION": "Expedient choices and changing conditions can accumulate costs that a one-off design description conceals.",
+      "MECHANISM": "Distinguish debt consequences, migrate through viable intermediate states and monitor selected architecture-related conditions.",
+      "CONTRIBUTION": "Architecture evaluation and revision can be continuous, and simplification can be an improvement.",
+      "LIMITS": "Debt metaphors are not monetary measurements; fitness functions are selected proxies; migration adds coexistence costs.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "The mature form couples observations to revisable decisions rather than preserving every old rule or buying every future option.",
+      "PROPERTY_IDS": [
+        "ESA-033",
+        "ESA-038",
+        "ESA-039",
+        "ESA-043",
+        "ESA-044",
+        "ESA-045",
+        "ESA-049",
+        "ESA-056"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G18",
+      "SCHOOL_OR_BRANCH": "Architecture for learned components",
+      "DATE_OR_PERIOD": "2015 engineering account and current continuation",
+      "SOURCE_IDS": [
+        "ESA-S056",
+        "ESA-S062"
+      ],
+      "PROBLEM_SITUATION": "Data, feedback and undeclared consumers cross ordinary software boundaries.",
+      "MECHANISM": "Treat data/configuration/feedback obligations as architectural dependencies and evaluate system behaviour, not code alone.",
+      "CONTRIBUTION": "A documented domain translation of dependency, interface and debt reasoning.",
+      "LIMITS": "The 2015 account is practitioner evidence, not a controlled architecture intervention; generated structural proposals do not validate learned-system behaviour.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Current LLM work expands assistance but does not remove hidden coupling or validation burdens.",
+      "PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-010",
+        "ESA-011",
+        "ESA-053",
+        "ESA-054",
+        "ESA-060"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G19",
+      "SCHOOL_OR_BRANCH": "Serverless and provider-managed architectural boundaries",
+      "DATE_OR_PERIOD": "2019 Berkeley report; 2024 energy-control study",
+      "SOURCE_IDS": [
+        "ESA-S057",
+        "ESA-S061"
+      ],
+      "PROBLEM_SITUATION": "Invocation-managed platforms shift state, timing, resource and administrative assumptions.",
+      "MECHANISM": "Design around provider execution boundaries and measure actual workload/cold-start/resource consequences.",
+      "CONTRIBUTION": "Serverless is an architectural translation with distinctive constraints, not an automatic simplification or sustainability guarantee.",
+      "LIMITS": "The 2019 service descriptions are historical; no current price, quota or provider feature is inferred.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "EcoFaaS tests a specific energy/latency trade-off under stated platform and SLO assumptions.",
+      "PROPERTY_IDS": [
+        "ESA-017",
+        "ESA-018",
+        "ESA-052",
+        "ESA-055"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G20",
+      "SCHOOL_OR_BRANCH": "Sustainability as an architecture concern",
+      "DATE_OR_PERIOD": "2024 comparative experiment; 2025 rapid meta-review",
+      "SOURCE_IDS": [
+        "ESA-S061",
+        "ESA-S058"
+      ],
+      "PROBLEM_SITUATION": "Energy and resource use can be obscured by architecture proxies or isolated efficiency claims.",
+      "MECHANISM": "Declare measurement boundary and workload, then consider energy with latency, reliability and other constraints.",
+      "CONTRIBUTION": "Architecture can contribute to sustainability while requiring broader lifecycle/context evidence.",
+      "LIMITS": "Measured package/DRAM energy is not whole-lifecycle carbon; a rapid review and focus group do not prove universal prescriptions.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "The field supports a bounded concern and exposes evidence gaps rather than establishing one universally green architecture.",
+      "PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-017",
+        "ESA-018",
+        "ESA-055"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G21",
+      "SCHOOL_OR_BRANCH": "LLM-based architectural assistance and autonomous-architecting claims",
+      "DATE_OR_PERIOD": "2026 studies through the 2026-09-06 cut-off",
+      "SOURCE_IDS": [
+        "ESA-S059",
+        "ESA-S062",
+        "ESA-S063"
+      ],
+      "PROBLEM_SITUATION": "Generating alternatives and evaluating architectural material is costly; tools promise automation.",
+      "MECHANISM": "Compare generated analyses/proposals with independent criteria and real-system evidence where available.",
+      "CONTRIBUTION": "Current work provides evidence about assistance and structural proposal tasks.",
+      "LIMITS": "Small educational cases, one-run configurations and benchmark metrics do not establish dependable open-ended architecting.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Assistance remains assumption-sensitive; autonomous architecting under changing requirements remains an examined unresolved candidate.",
+      "PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-040",
+        "ESA-050",
+        "ESA-054",
+        "ESA-060"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G22",
+      "SCHOOL_OR_BRANCH": "Driver-based recursive design and interleaved design/evaluation",
+      "DATE_OR_PERIOD": "ADD v2.0 2006; general model 2007, online 2006",
+      "SOURCE_IDS": [
+        "ESA-S024",
+        "ESA-S025",
+        "ESA-S016"
+      ],
+      "PROBLEM_SITUATION": "A list of desirable qualities does not choose responsibilities, interfaces or useful decompositions.",
+      "MECHANISM": "Choose drivers, select design concepts, decompose, allocate responsibilities and evaluate; iterate or recurse where uncertainty requires it.",
+      "CONTRIBUTION": "Makes architectural synthesis operative while allowing analysis, synthesis and evaluation to interleave.",
+      "LIMITS": "Method-author synthesis and guidance are not independent comparative proof; recursion can become premature design expansion.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Small work can use direct alternatives and checks; the fuller method is selected when driver conflicts or scope justify it.",
+      "PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-016",
+        "ESA-017",
+        "ESA-026",
+        "ESA-030",
+        "ESA-056",
+        "ESA-067"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G23",
+      "SCHOOL_OR_BRANCH": "IEEE 1471 architecture-description recommendation",
+      "DATE_OR_PERIOD": "2000-10-09 publication",
+      "SOURCE_IDS": [
+        "ESA-S065",
+        "ESA-S013"
+      ],
+      "PROBLEM_SITUATION": "Architecture descriptions need a common conceptual vocabulary and concern/viewpoint organisation.",
+      "MECHANISM": "Standardise recommendations for describing software-intensive-system architecture.",
+      "CONTRIBUTION": "A description standard, not a quality certification.",
+      "LIMITS": "Only official abstract and later history were inspected; no normative-clause claim is made.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Replaced by ISO/IEC/IEEE 42010:2011 within the architecture-description scope.",
+      "PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-059"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G24",
+      "SCHOOL_OR_BRANCH": "ISO/IEC/IEEE 42010 first edition",
+      "DATE_OR_PERIOD": "2011",
+      "SOURCE_IDS": [
+        "ESA-S012",
+        "ESA-S013"
+      ],
+      "PROBLEM_SITUATION": "Continue harmonised architecture-description concepts.",
+      "MECHANISM": "Specify an architecture-description framework rather than choosing a design for the user.",
+      "CONTRIBUTION": "An identifiable edition must be distinguished from its predecessors and successor.",
+      "LIMITS": "Official abstract/metadata only; no clause-level comparison or compliance checklist is derived.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "The 2022 second edition is a distinct inspected bibliographic and introductory object.",
+      "PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-059"
+      ]
+    },
+    {
+      "NODE_ID": "ESA-G25",
+      "SCHOOL_OR_BRANCH": "ISO/IEC/IEEE 42010 second edition",
+      "DATE_OR_PERIOD": "2022",
+      "SOURCE_IDS": [
+        "ESA-S011"
+      ],
+      "PROBLEM_SITUATION": "Update the architecture-description conceptual framework.",
+      "MECHANISM": "Relate entities, architecture, descriptions and stakeholder concerns within the standard’s stated scope.",
+      "CONTRIBUTION": "Maintains the distinction between architecture and architecture description.",
+      "LIMITS": "Only official abstract and introductory preview were inspected; full normative clauses are an explicit access limit.",
+      "RECEPTION_OR_LATER_DEVELOPMENT": "Current standardisation evidence establishes description scope, not adoption or causal engineering superiority.",
+      "PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-003",
+        "ESA-020",
+        "ESA-059"
+      ]
+    }
+  ],
+  "genealogy_edges": [
+    {
+      "EDGE_ID": "ESA-GE01",
+      "FROM_NODE_ID": "ESA-G01",
+      "TO_NODE_ID": "ESA-G02",
+      "RELATION_TYPE": "ONLY_ANALOGOUS",
+      "SOURCE_IDS": [
+        "ESA-S005",
+        "ESA-S001",
+        "ESA-S006"
+      ],
+      "RELATIONSHIP": "Both use abstraction, but processing hierarchy and hiding likely changes are different mechanisms; direct transmission is not established by this inspection.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE02",
+      "FROM_NODE_ID": "ESA-G02",
+      "TO_NODE_ID": "ESA-G12",
+      "RELATION_TYPE": "SHARED_ANCESTRY",
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S066"
+      ],
+      "RELATIONSHIP": "Program-family architecture and modular design share responsibility/commonality concerns; the collection documents later intersections, not a universal line of descent.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE03",
+      "FROM_NODE_ID": "ESA-G03",
+      "TO_NODE_ID": "ESA-G08",
+      "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+      "SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S029"
+      ],
+      "RELATIONSHIP": "Rationalised design explanation and decision records address lost design knowledge through different forms; no exclusive direct derivation is claimed.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE04",
+      "FROM_NODE_ID": "ESA-G04",
+      "TO_NODE_ID": "ESA-G05",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S003"
+      ],
+      "RELATIONSHIP": "Kruchten explicitly relates the 4+1 account to the elements/form/rationale architecture account and supplies multiple views.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE05",
+      "FROM_NODE_ID": "ESA-G04",
+      "TO_NODE_ID": "ESA-G06",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "SOURCE_IDS": [
+        "ESA-S004",
+        "ESA-S014",
+        "ESA-S015"
+      ],
+      "RELATIONSHIP": "Architectural language and connector work supplies semantics and analysis for component-and-connector organisations.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE06",
+      "FROM_NODE_ID": "ESA-G12",
+      "TO_NODE_ID": "ESA-G06",
+      "RELATION_TYPE": "CRITICISM_AND_RESPONSE",
+      "SOURCE_IDS": [
+        "ESA-S026",
+        "ESA-S015"
+      ],
+      "RELATIONSHIP": "Mismatch exposes assumptions that formal interaction reasoning can address in a bounded model.",
+      "EVIDENCE_LIMIT": "This is a source-grounded problem/response relationship, not a claim that the entire Wright design was caused by the Aesop experience."
+    },
+    {
+      "EDGE_ID": "ESA-GE07",
+      "FROM_NODE_ID": "ESA-G04",
+      "TO_NODE_ID": "ESA-G07",
+      "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S019",
+        "ESA-S020"
+      ],
+      "RELATIONSHIP": "Structural accounts and scenario evaluations develop complementary architecture questions; a sole founding lineage is not inferred.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE08",
+      "FROM_NODE_ID": "ESA-G07",
+      "TO_NODE_ID": "ESA-G22",
+      "RELATION_TYPE": "DOCUMENTED_INFLUENCE",
+      "SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S024",
+        "ESA-S025"
+      ],
+      "RELATIONSHIP": "ADD explicitly organises design around architectural drivers and quality reasoning; the general model includes evaluation in design.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE09",
+      "FROM_NODE_ID": "ESA-G22",
+      "TO_NODE_ID": "ESA-G07",
+      "RELATION_TYPE": "HYBRIDISATION",
+      "SOURCE_IDS": [
+        "ESA-S025"
+      ],
+      "RELATIONSHIP": "The general design model interleaves architectural analysis, synthesis and evaluation rather than insisting on a once-only sequence.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE10",
+      "FROM_NODE_ID": "ESA-G05",
+      "TO_NODE_ID": "ESA-G23",
+      "RELATION_TYPE": "SHARED_ANCESTRY",
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S065",
+        "ESA-S013"
+      ],
+      "RELATIONSHIP": "View/concern practices and architecture-description standardisation share an explicit descriptive problem; exclusive derivation from 4+1 is not asserted.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE11",
+      "FROM_NODE_ID": "ESA-G23",
+      "TO_NODE_ID": "ESA-G24",
+      "RELATION_TYPE": "REPLACEMENT_WITHIN_A_SCOPE",
+      "SOURCE_IDS": [
+        "ESA-S065",
+        "ESA-S012",
+        "ESA-S013"
+      ],
+      "RELATIONSHIP": "The first 42010 edition supersedes IEEE 1471 for architecture description.",
+      "EVIDENCE_LIMIT": "Bibliographic/scope relation only; unread clauses cannot establish which normative duties changed."
+    },
+    {
+      "EDGE_ID": "ESA-GE12",
+      "FROM_NODE_ID": "ESA-G24",
+      "TO_NODE_ID": "ESA-G25",
+      "RELATION_TYPE": "EXPLICIT_EXTENSION",
+      "SOURCE_IDS": [
+        "ESA-S011",
+        "ESA-S012",
+        "ESA-S013"
+      ],
+      "RELATIONSHIP": "The 2022 second edition succeeds the 2011 edition.",
+      "EVIDENCE_LIMIT": "Edition history and introductory scope only, not a clause-by-clause assessment."
+    },
+    {
+      "EDGE_ID": "ESA-GE13",
+      "FROM_NODE_ID": "ESA-G05",
+      "TO_NODE_ID": "ESA-G09",
+      "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S045"
+      ],
+      "RELATIONSHIP": "Multiple descriptions and model/source comparison address different sides of correspondence.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE14",
+      "FROM_NODE_ID": "ESA-G10",
+      "TO_NODE_ID": "ESA-G16",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S036",
+        "ESA-S060"
+      ],
+      "RELATIONSHIP": "Microservice discussion explicitly connects service ownership and team organisation; empirical coordination findings remain conditional.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE15",
+      "FROM_NODE_ID": "ESA-G13",
+      "TO_NODE_ID": "ESA-G16",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "SOURCE_IDS": [
+        "ESA-S033",
+        "ESA-S036"
+      ],
+      "RELATIONSHIP": "Microservice guidance explicitly uses bounded-context ideas from domain-driven design.",
+      "EVIDENCE_LIMIT": "The inspected 2015 author reference explains the concept; it is not asserted to have caused a 2014 essay. The original 2003 book was not read."
+    },
+    {
+      "EDGE_ID": "ESA-GE16",
+      "FROM_NODE_ID": "ESA-G15",
+      "TO_NODE_ID": "ESA-G16",
+      "RELATION_TYPE": "UNRESOLVED_RELATIONSHIP",
+      "SOURCE_IDS": [
+        "ESA-S035",
+        "ESA-S036"
+      ],
+      "RELATIONSHIP": "Microservices are often related to service orientation, but the examined accounts do not settle a single uncontested derivation or equivalence.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE17",
+      "FROM_NODE_ID": "ESA-G14",
+      "TO_NODE_ID": "ESA-G15",
+      "RELATION_TYPE": "ONLY_ANALOGOUS",
+      "SOURCE_IDS": [
+        "ESA-S034",
+        "ESA-S035"
+      ],
+      "RELATIONSHIP": "Both concern distributed interactions; REST’s specific style constraints are not the SOA reference model.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE18",
+      "FROM_NODE_ID": "ESA-G02",
+      "TO_NODE_ID": "ESA-G17",
+      "RELATION_TYPE": "DOMAIN_TRANSLATION",
+      "SOURCE_IDS": [
+        "ESA-S006",
+        "ESA-S040",
+        "ESA-S049",
+        "ESA-S050"
+      ],
+      "RELATIONSHIP": "Change-oriented structures contribute to later migration/debt decisions, while debt measures and transition mechanisms add different obligations.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE19",
+      "FROM_NODE_ID": "ESA-G09",
+      "TO_NODE_ID": "ESA-G17",
+      "RELATION_TYPE": "HYBRIDISATION",
+      "SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S043",
+        "ESA-S044"
+      ],
+      "RELATIONSHIP": "Continuous architectural checks can carry mapped conformance conditions, provided the baseline and metrics are revisable.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE20",
+      "FROM_NODE_ID": "ESA-G11",
+      "TO_NODE_ID": "ESA-G17",
+      "RELATION_TYPE": "CONVERGENT_DEVELOPMENT",
+      "SOURCE_IDS": [
+        "ESA-S051",
+        "ESA-S052",
+        "ESA-S043"
+      ],
+      "RELATIONSHIP": "Runtime adaptation and evolutionary-architecture checks both revisit architecture, but one changes runtime state and the other need not do so.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE21",
+      "FROM_NODE_ID": "ESA-G17",
+      "TO_NODE_ID": "ESA-G18",
+      "RELATION_TYPE": "DOCUMENTED_IMPORT",
+      "SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S056"
+      ],
+      "RELATIONSHIP": "The ML engineering account explicitly applies technical-debt reasoning to data, feedback and system dependencies.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE22",
+      "FROM_NODE_ID": "ESA-G19",
+      "TO_NODE_ID": "ESA-G20",
+      "RELATION_TYPE": "DOMAIN_TRANSLATION",
+      "SOURCE_IDS": [
+        "ESA-S057",
+        "ESA-S061",
+        "ESA-S058"
+      ],
+      "RELATIONSHIP": "Serverless resource management supplies a concrete setting for energy/latency architectural trade-offs, not a universal sustainability result.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE23",
+      "FROM_NODE_ID": "ESA-G07",
+      "TO_NODE_ID": "ESA-G21",
+      "RELATION_TYPE": "DOMAIN_TRANSLATION",
+      "SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S059"
+      ],
+      "RELATIONSHIP": "A 2026 study applies LLM assistance to ATAM-related work; the original method’s evidence limits remain and new validation limits appear.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE24",
+      "FROM_NODE_ID": "ESA-G16",
+      "TO_NODE_ID": "ESA-G21",
+      "RELATION_TYPE": "DOMAIN_TRANSLATION",
+      "SOURCE_IDS": [
+        "ESA-S036",
+        "ESA-S062",
+        "ESA-S063"
+      ],
+      "RELATIONSHIP": "Recent generated pattern/decomposition studies examine modern architecture tasks but measure narrower outcomes than operating independence.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    },
+    {
+      "EDGE_ID": "ESA-GE25",
+      "FROM_NODE_ID": "ESA-G11",
+      "TO_NODE_ID": "ESA-G21",
+      "RELATION_TYPE": "ONLY_ANALOGOUS",
+      "SOURCE_IDS": [
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S062"
+      ],
+      "RELATIONSHIP": "A bounded architectural controller and an open-ended architecting assistant both decide over models, but their guarantees, observations and authority differ.",
+      "EVIDENCE_LIMIT": "The edge supports only the stated relationship; similarity does not prove exclusive ancestry."
+    }
+  ],
+  "timeline": [
+    {
+      "TIMELINE_ID": "ESA-TL01",
+      "DATE_OR_PERIOD": "1968; inspected later transcription",
+      "EVENT_OR_DEVELOPMENT": "Structured abstraction and layered responsibility",
+      "SOURCE_IDS": [
+        "ESA-S005"
+      ],
+      "DATING_QUALIFICATION": "One author-reported system and partial testing; not evidence that all modern layers yield reliability."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL02",
+      "DATE_OR_PERIOD": "1968; empirical studies 2008 and inspected 2011 working-paper revision",
+      "EVENT_OR_DEVELOPMENT": "Socio-technical coordination and mirroring",
+      "SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "DATING_QUALIFICATION": "Single-organisation and matched-product studies are observational and confounded; deterministic causal readings are unsupported."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL03",
+      "DATE_OR_PERIOD": "1968 event/1969 report; 1995 case; institutional collection inspected 2026",
+      "EVENT_OR_DEVELOPMENT": "Reusable components, software families and architectural mismatch",
+      "SOURCE_IDS": [
+        "ESA-S007",
+        "ESA-S026",
+        "ESA-S066"
+      ],
+      "DATING_QUALIFICATION": "The McIlroy opening and collection entry descriptions do not support uninspected implementation details or economic outcomes. Aesop publications share one programme."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL04",
+      "DATE_OR_PERIOD": "1972; 1976 bibliographic anchor; 1979",
+      "EVENT_OR_DEVELOPMENT": "Information hiding, uses relations and program families",
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S064"
+      ],
+      "DATING_QUALIFICATION": "Change hypotheses can be wrong; the KWIC illustration is not an industrial causal estimate. The 1976 item was inspected as metadata only."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL05",
+      "DATE_OR_PERIOD": "1986 inspected texts; 1975 book an uninspected historical lead",
+      "EVENT_OR_DEVELOPMENT": "Conceptual integrity and realistic design explanation",
+      "SOURCE_IDS": [
+        "ESA-S008",
+        "ESA-S009",
+        "ESA-S010"
+      ],
+      "DATING_QUALIFICATION": "The 1975 monograph was not read in this run. Neither coherence nor retrospective rationalisation licenses one-person control or false provenance."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL06",
+      "DATE_OR_PERIOD": "1992–1994",
+      "EVENT_OR_DEVELOPMENT": "Software architecture as a distinct research object: structures, styles and connectors",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S004"
+      ],
+      "DATING_QUALIFICATION": "Styles overlap and combine; categorisation is not proof of a best architecture."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL07",
+      "DATE_OR_PERIOD": "1992 debt account; 2014 architecture-debt field study; 2019 guidance; 2024 revised migration essay",
+      "EVENT_OR_DEVELOPMENT": "Architectural debt, incremental migration and continuous evaluation",
+      "SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S040",
+        "ESA-S043",
+        "ESA-S044"
+      ],
+      "DATING_QUALIFICATION": "Debt metaphors are not monetary measurements; fitness functions are selected proxies; migration adds coexistence costs."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL08",
+      "DATE_OR_PERIOD": "SAAM 1994; ATAM 2000; CBAM 2001; QAW 2003; subsequent evaluations",
+      "EVENT_OR_DEVELOPMENT": "Scenario-based quality evaluation and economic reasoning",
+      "SOURCE_IDS": [
+        "ESA-S019",
+        "ESA-S020",
+        "ESA-S022",
+        "ESA-S017",
+        "ESA-S021",
+        "ESA-S023"
+      ],
+      "DATING_QUALIFICATION": "Selected scenarios may miss decisive conditions; risk reports are not downstream controlled outcomes; comparative evidence is small and mixed."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL09",
+      "DATE_OR_PERIOD": "1995 onwards",
+      "EVENT_OR_DEVELOPMENT": "Multiple views and concern-selected representation",
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S014",
+        "ESA-S011"
+      ],
+      "DATING_QUALIFICATION": "Views can disagree, become stale or omit runtime/configuration relations."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL10",
+      "DATE_OR_PERIOD": "1995; 2022–2025",
+      "EVENT_OR_DEVELOPMENT": "Conformance, reconstruction, erosion and smell analysis",
+      "SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S047",
+        "ESA-S048"
+      ],
+      "DATING_QUALIFICATION": "Extraction omits semantics; smell/performance effects vary; code-review comments measure discussion rather than prevalence of harmful erosion."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL11",
+      "DATE_OR_PERIOD": "1990s; 1997 paper/1998 inspected revision; 2000 taxonomy",
+      "EVENT_OR_DEVELOPMENT": "ADLs and formal connector reasoning",
+      "SOURCE_IDS": [
+        "ESA-S014",
+        "ESA-S015"
+      ],
+      "DATING_QUALIFICATION": "CSP model assumptions and implementation correspondence remain obligations; taxonomy completeness is historical, not a claim about every current tool."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL12",
+      "DATE_OR_PERIOD": "1998–1999; Rainbow 2004; robustness 2014; industrial survey 2023",
+      "EVENT_OR_DEVELOPMENT": "Architecture-based runtime change and self-adaptation",
+      "SOURCE_IDS": [
+        "ESA-S051",
+        "ESA-S052",
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S055"
+      ],
+      "DATING_QUALIFICATION": "Model-state corruption and silent observation failures can defeat decisions; prototypes/surveys are not general autonomy evidence."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL13",
+      "DATE_OR_PERIOD": "2000 dissertation",
+      "EVENT_OR_DEVELOPMENT": "REST as a constrained hypermedia architectural style",
+      "SOURCE_IDS": [
+        "ESA-S034"
+      ],
+      "DATING_QUALIFICATION": "A generic interface sacrifices some application-specific efficiency; REST is not every HTTP service and statelessness does not remove persistent resource state."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL14",
+      "DATE_OR_PERIOD": "2000-10-09 publication",
+      "EVENT_OR_DEVELOPMENT": "IEEE 1471 architecture-description recommendation",
+      "SOURCE_IDS": [
+        "ESA-S065",
+        "ESA-S013"
+      ],
+      "DATING_QUALIFICATION": "Only official abstract and later history were inspected; no normative-clause claim is made."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL15",
+      "DATE_OR_PERIOD": "2003 book as historical lead; inspected author reference dated 2015",
+      "EVENT_OR_DEVELOPMENT": "Domain-driven design intersection: bounded semantic models",
+      "SOURCE_IDS": [
+        "ESA-S033",
+        "ESA-S036"
+      ],
+      "DATING_QUALIFICATION": "The original book was not read; bounded contexts are not automatically services and translations have costs."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL16",
+      "DATE_OR_PERIOD": "2005 inspected report; 2005 decision-paper abstract; 2011 ADR article",
+      "EVENT_OR_DEVELOPMENT": "Architectural decisions, rationale and compact records",
+      "SOURCE_IDS": [
+        "ESA-S027",
+        "ESA-S028",
+        "ESA-S029"
+      ],
+      "DATING_QUALIFICATION": "Survey perceptions do not prove benefit; the Archium paper was abstract-only and does not support detailed tool claims."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL17",
+      "DATE_OR_PERIOD": "OASIS Reference Model 1.0, 2006",
+      "EVENT_OR_DEVELOPMENT": "Service-oriented reference modelling",
+      "SOURCE_IDS": [
+        "ESA-S035"
+      ],
+      "DATING_QUALIFICATION": "A reference model does not prescribe one stack or establish service economics."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL18",
+      "DATE_OR_PERIOD": "ADD v2.0 2006; general model 2007, online 2006",
+      "EVENT_OR_DEVELOPMENT": "Driver-based recursive design and interleaved design/evaluation",
+      "SOURCE_IDS": [
+        "ESA-S024",
+        "ESA-S025",
+        "ESA-S016"
+      ],
+      "DATING_QUALIFICATION": "Method-author synthesis and guidance are not independent comparative proof; recursion can become premature design expansion."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL19",
+      "DATE_OR_PERIOD": "2011",
+      "EVENT_OR_DEVELOPMENT": "ISO/IEC/IEEE 42010 first edition",
+      "SOURCE_IDS": [
+        "ESA-S012",
+        "ESA-S013"
+      ],
+      "DATING_QUALIFICATION": "Official abstract/metadata only; no clause-level comparison or compliance checklist is derived."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL20",
+      "DATE_OR_PERIOD": "2014 account; 2015 caution; 2019 and 2020 field cases; 2024–2026 research",
+      "EVENT_OR_DEVELOPMENT": "Microservices, modular monoliths and consolidation",
+      "SOURCE_IDS": [
+        "ESA-S036",
+        "ESA-S037",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060",
+        "ESA-S063"
+      ],
+      "DATING_QUALIFICATION": "These are context-specific author/project accounts, not randomised comparisons. Benchmark decomposition metrics are not operating outcomes."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL21",
+      "DATE_OR_PERIOD": "2015 engineering account and current continuation",
+      "EVENT_OR_DEVELOPMENT": "Architecture for learned components",
+      "SOURCE_IDS": [
+        "ESA-S056",
+        "ESA-S062"
+      ],
+      "DATING_QUALIFICATION": "The 2015 account is practitioner evidence, not a controlled architecture intervention; generated structural proposals do not validate learned-system behaviour."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL22",
+      "DATE_OR_PERIOD": "2019 Berkeley report; 2024 energy-control study",
+      "EVENT_OR_DEVELOPMENT": "Serverless and provider-managed architectural boundaries",
+      "SOURCE_IDS": [
+        "ESA-S057",
+        "ESA-S061"
+      ],
+      "DATING_QUALIFICATION": "The 2019 service descriptions are historical; no current price, quota or provider feature is inferred."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL23",
+      "DATE_OR_PERIOD": "2022",
+      "EVENT_OR_DEVELOPMENT": "ISO/IEC/IEEE 42010 second edition",
+      "SOURCE_IDS": [
+        "ESA-S011"
+      ],
+      "DATING_QUALIFICATION": "Only official abstract and introductory preview were inspected; full normative clauses are an explicit access limit."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL24",
+      "DATE_OR_PERIOD": "2024 comparative experiment; 2025 rapid meta-review",
+      "EVENT_OR_DEVELOPMENT": "Sustainability as an architecture concern",
+      "SOURCE_IDS": [
+        "ESA-S061",
+        "ESA-S058"
+      ],
+      "DATING_QUALIFICATION": "Measured package/DRAM energy is not whole-lifecycle carbon; a rapid review and focus group do not prove universal prescriptions."
+    },
+    {
+      "TIMELINE_ID": "ESA-TL25",
+      "DATE_OR_PERIOD": "2026 studies through the 2026-09-06 cut-off",
+      "EVENT_OR_DEVELOPMENT": "LLM-based architectural assistance and autonomous-architecting claims",
+      "SOURCE_IDS": [
+        "ESA-S059",
+        "ESA-S062",
+        "ESA-S063"
+      ],
+      "DATING_QUALIFICATION": "Small educational cases, one-run configurations and benchmark metrics do not establish dependable open-ended architecting."
+    }
+  ],
+  "domain_models": [
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM01",
+      "TITLE": "Architectural significance and concerns",
+      "PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-002",
+        "ESA-003",
+        "ESA-004",
+        "ESA-005",
+        "ESA-006",
+        "ESA-056"
+      ],
+      "OBJECTS_AND_STATE": "A software system, its environment, stakeholder concerns, candidate choices, affected obligations and the evidence believed to support them.",
+      "RELATIONAL_ACCOUNT": "A choice is significant relative to the reach of its consequences, not a fixed file size or job role. Concerns attach to choices through scenarios/constraints. An authorised decision and an implemented result remain separate state changes.",
+      "OPERATION_AND_COMMUNICATION": "Users, maintainers, operators and sponsors supply concerns; designers explain consequences; actual authorised participants accept trade-offs; implementers change real artefacts.",
+      "VALIDITY_AND_OBSERVATION": "Trace a claimed concern through a selected choice to an observation. Agreement shows coordination, not successful operation.",
+      "MINIMAL_CONFIGURATION": "A short conversation, a few explicit constraints and a check of the real effect can be coherent for one team.",
+      "DISCRIMINATING_EXAMPLE": "Analytical: choosing a colour token is normally local, but a colour-encoding decision becomes architectural when every alarm channel and accessibility commitment depends on it.",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S010",
+        "ESA-S011",
+        "ESA-S017",
+        "ESA-S020",
+        "ESA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    },
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM02",
+      "TITLE": "Decomposition and interface contracts",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-010",
+        "ESA-011",
+        "ESA-012",
+        "ESA-013",
+        "ESA-025",
+        "ESA-061",
+        "ESA-065",
+        "ESA-066",
+        "ESA-068"
+      ],
+      "OBJECTS_AND_STATE": "Responsibilities, hidden decisions, model meanings, interfaces, connectors, shared resources and typed dependencies.",
+      "RELATIONAL_ACCOUNT": "Information hiding partitions knowledge; connector semantics govern interaction; containment constrains propagation. A module boundary, domain context, deployment boundary and team boundary are related but non-identical partitions.",
+      "OPERATION_AND_COMMUNICATION": "Producers and consumers negotiate meaningful obligations, implement or adapt interfaces, and exercise change/failure cases across them.",
+      "VALIDITY_AND_OBSERVATION": "An import graph establishes only its extracted relation. Correctness dependence, shared state and external effects require additional evidence. Wright provides a conditional formal branch, not automatic semantic closure.",
+      "MINIMAL_CONFIGURATION": "A direct local interface with explicit meaning and a few integration cases; no network boundary is required.",
+      "DISCRIMINATING_EXAMPLE": "Analytical: two services with separate repositories share a global database trigger; their apparent isolation fails when one change alters the other’s invariant.",
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S015",
+        "ESA-S026",
+        "ESA-S033",
+        "ESA-S034",
+        "ESA-S035"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    },
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM03",
+      "TITLE": "Quality-attribute trade-offs",
+      "PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-015",
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-019",
+        "ESA-055",
+        "ESA-062"
+      ],
+      "OBJECTS_AND_STATE": "Concern-specific scenarios, response measures, constraints, preferences, mechanisms and environmental assumptions.",
+      "RELATIONAL_ACCOUNT": "A tactic changes a quality model parameter, not an abstract quality in isolation. The system response depends on interaction with other tactics and workload. Hard limits restrict acceptable options before preference comparison.",
+      "OPERATION_AND_COMMUNICATION": "Stakeholders define acceptable responses; designers propose interventions; evaluators construct models/tests; operators supply observations.",
+      "VALIDITY_AND_OBSERVATION": "Use workload, fault and population scope and a declared accounting boundary. The same functional answer can be unacceptable because of latency, information disclosure or resource use.",
+      "MINIMAL_CONFIGURATION": "One concrete scenario and competing-cost check are sufficient for a narrow reversible decision.",
+      "DISCRIMINATING_EXAMPLE": "Published: EcoFaaS’s chosen energy/tail-latency benefits coexist with worse mean latency versus its full-frequency baseline; its energy boundary is package/DRAM, not total carbon.",
+      "SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S017",
+        "ESA-S018",
+        "ESA-S020",
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    },
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM04",
+      "TITLE": "Views and correspondence",
+      "PROPERTY_IDS": [
+        "ESA-003",
+        "ESA-020",
+        "ESA-021",
+        "ESA-022",
+        "ESA-023",
+        "ESA-024",
+        "ESA-041",
+        "ESA-059"
+      ],
+      "OBJECTS_AND_STATE": "Views of structure, interaction, deployment/development organisation, their viewpoint rules and mappings to realised artefacts.",
+      "RELATIONAL_ACCOUNT": "A view selects facts for a concern. Correspondences connect elements/relations across views and to implementation; consistency among views is weaker than truth about implementation. Recovery produces hypotheses with provenance.",
+      "OPERATION_AND_COMMUNICATION": "Different consumers ask different questions. Authors map shared elements and explain differences; analysts inspect source, configuration or traces to check relevant claims.",
+      "VALIDITY_AND_OBSERVATION": "Formal semantics can establish a model property; relation extraction and implementation refinement have separate obligations. A sampled trace cannot certify every possible runtime path.",
+      "MINIMAL_CONFIGURATION": "Use the least number of views that answer the concern, with explicit labels and a manual correspondence check.",
+      "DISCRIMINATING_EXAMPLE": "Analytical: a logical service view is consistent with a deployment drawing but both omit a production sidecar that changes network and failure behaviour.",
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S011",
+        "ESA-S014",
+        "ESA-S015",
+        "ESA-S045"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    },
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM05",
+      "TITLE": "Alternative evaluation",
+      "PROPERTY_IDS": [
+        "ESA-015",
+        "ESA-017",
+        "ESA-026",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030",
+        "ESA-031",
+        "ESA-067"
+      ],
+      "OBJECTS_AND_STATE": "Feasible alternatives including no change, architectural drivers, scenarios, assumptions, risk/sensitivity findings and costs.",
+      "RELATIONAL_ACCOUNT": "SAAM emphasises changes; ATAM exposes multi-quality risks; CBAM examines utility/cost under assumptions; prototypes and formal models supply different evidence. They can substitute or complement, not automatically all execute.",
+      "OPERATION_AND_COMMUNICATION": "Analysis, design synthesis and evaluation interleave: a risk may change requirements, an experiment may reveal a new option, and a local design may proceed while another uncertainty is studied.",
+      "VALIDITY_AND_OBSERVATION": "Method outputs are not outcomes. Compare alternatives under equivalent conditions and preserve exclusions, weak baselines and uncertainty.",
+      "MINIMAL_CONFIGURATION": "A focused alternative-and-risk conversation with one discriminating experiment can be enough.",
+      "DISCRIMINATING_EXAMPLE": "Analytical: a successful review is followed by a workload dominated by an omitted write path; the previous non-risk is reopened, not defended by the review’s approval.",
+      "SOURCE_IDS": [
+        "ESA-S019",
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S022",
+        "ESA-S023",
+        "ESA-S024",
+        "ESA-S025"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    },
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM06",
+      "TITLE": "Decision knowledge and coordination",
+      "PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-005",
+        "ESA-032",
+        "ESA-033",
+        "ESA-034",
+        "ESA-035",
+        "ESA-036",
+        "ESA-037",
+        "ESA-064"
+      ],
+      "OBJECTS_AND_STATE": "Current decisions, rationale, assumptions, status/history and the people whose work or commitments depend on them.",
+      "RELATIONAL_ACCOUNT": "Decision dependencies make knowledge transfer useful. Communication requirements follow relevant technical/work coupling, but neither a record nor an organisation chart mechanically produces coherent design.",
+      "OPERATION_AND_COMMUNICATION": "Teams exchange decisions and exceptions; later actors retrieve rationale; authorised participants revise it when assumptions fail. Reconstructed explanation remains separate from documentary history.",
+      "VALIDITY_AND_OBSERVATION": "Check a real later question and a real cross-team dependency. Surveys and observational congruence are not universal causal evidence.",
+      "MINIMAL_CONFIGURATION": "One shared explanation and a short retained note for a non-obvious decision; no board or permanent extra role is inherent.",
+      "DISCRIMINATING_EXAMPLE": "Analytical: a successor can explain why an interface was chosen but discovers a critical workload assumption no longer holds; the old record guides revision rather than preventing it.",
+      "SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S010",
+        "ESA-S027",
+        "ESA-S028",
+        "ESA-S029",
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    },
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM07",
+      "TITLE": "Conformance and reconstruction",
+      "PROPERTY_IDS": [
+        "ESA-010",
+        "ESA-021",
+        "ESA-024",
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-041",
+        "ESA-042",
+        "ESA-045"
+      ],
+      "OBJECTS_AND_STATE": "Baseline constraints, extracted/observed relations, mappings, deviations, evidence and adjudicated dispositions.",
+      "RELATIONAL_ACCOUNT": "A conformance result relates one mapping and dependency kind to one baseline. A smell is a candidate risk signal. The target of correction may be code, configuration, description, rule or an unsupported inference.",
+      "OPERATION_AND_COMMUNICATION": "Analysts report findings; maintainers explain context; authorised reviewers evaluate consequences and change the right artefact. Rechecking establishes whether the actual disposition took effect.",
+      "VALIDITY_AND_OBSERVATION": "Positive and negative cases expose missed edges and false alarms. Harm requires a current invariant/quality/burden argument, not mere divergence.",
+      "MINIMAL_CONFIGURATION": "A focused dependency assertion or manual relation comparison with a retained reason for the rule.",
+      "DISCRIMINATING_EXAMPLE": "Analytical: an approved caching improvement violates an old layering rule; if current freshness and security constraints remain satisfied, revise the rule rather than revert for a green count.",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S047",
+        "ESA-S048"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    },
+    {
+      "DOMAIN_MODEL_ID": "ESA-DM08",
+      "TITLE": "Architecture evolution and revision",
+      "PROPERTY_IDS": [
+        "ESA-013",
+        "ESA-033",
+        "ESA-043",
+        "ESA-044",
+        "ESA-045",
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-049",
+        "ESA-050",
+        "ESA-051",
+        "ESA-052",
+        "ESA-053",
+        "ESA-054",
+        "ESA-055",
+        "ESA-056",
+        "ESA-060",
+        "ESA-063"
+      ],
+      "OBJECTS_AND_STATE": "Current architecture, plausible future variants, transition/coexistence states, debt claims, change evidence and optional runtime controllers.",
+      "RELATIONAL_ACCOUNT": "Change may alter structure, knowledge, baseline or policy. A transition must preserve selected continuity obligations; new evidence can reopen earlier decisions. Runtime adaptation adds a model/action feedback loop whose own assumptions need review.",
+      "OPERATION_AND_COMMUNICATION": "Engineers implement and migrate; operators observe actual effects; delegated controllers may execute specified actions. External stakeholders or commitments constrain what those actors may optimise.",
+      "VALIDITY_AND_OBSERVATION": "Tests must cover transition states and post-change consequences. The controller cannot validate itself merely by increasing its score or changing its objective.",
+      "MINIMAL_CONFIGURATION": "Direct reviewed change followed by a relevant observation; richer migration/automation only where continuity or operating variability warrants it.",
+      "DISCRIMINATING_EXAMPLE": "Analytical: autoscaling reduces latency but exceeds an external resource cap; the transition is not accepted as overall success even though its local metric improved.",
+      "SOURCE_IDS": [
+        "ESA-S020",
+        "ESA-S040",
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S051",
+        "ESA-S052",
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S055",
+        "ESA-S056",
+        "ESA-S061"
+      ],
+      "EVIDENCE_STATUS": "ANALYTICAL_RECONSTRUCTION_GROUNDED_IN_NAMED_SOURCES; not an independently validated unified formalism."
+    }
+  ],
+  "criticism_ledger": [
+    {
+      "CRITICISM_ID": "ESA-CR001",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-004",
+        "ESA-006",
+        "ESA-056"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S010",
+        "ESA-S042"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "“Architecture is important decisions” can become circular and give architects unlimited jurisdiction.",
+      "EVIDENCE": "Foundational definitions differ; Fowler presents contextual definitions and competing architect roles, while Spolsky criticises detached generalisation.",
+      "RESPONSE_OR_DERIVATIVE": "Use consequence-bound significance and a named consumer rather than rank or diagram altitude.",
+      "LATER_FINDINGS": "ESA-006 has no general operational property; ESA-001 survives in a bounded form; conceptual integrity does not require central approval.",
+      "PRESENT_JUDGEMENT": "ESA-006 has no general operational property; ESA-001 survives in a bounded form; conceptual integrity does not require central approval.",
+      "RESIDUAL_UNCERTAINTY": "No universal threshold separates architecture from detailed design.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR002",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-010",
+        "ESA-011",
+        "ESA-025"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S026"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "A component boundary or matching signature does not expose its control, state or environmental assumptions.",
+      "EVIDENCE": "Parnas identifies a flaw in his illustrative boundary; the Aesop experience reports integration failures from architectural assumptions.",
+      "RESPONSE_OR_DERIVATIVE": "Combine information hiding with explicit semantic assumptions and appropriate dependency kinds.",
+      "LATER_FINDINGS": "Retain decomposition; reject nominal isolation and style-name compatibility as sufficient evidence.",
+      "PRESENT_JUDGEMENT": "Retain decomposition; reject nominal isolation and style-name compatibility as sufficient evidence.",
+      "RESIDUAL_UNCERTAINTY": "Which assumptions to expose economically depends on credible changes and failures.",
+      "EVOLUTION_CLASS": "REFINED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR003",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-012",
+        "ESA-049",
+        "ESA-050",
+        "ESA-051",
+        "ESA-056"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S037",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "More independently deployed components can increase coordination without yielding useful independence.",
+      "EVIDENCE": "Istio’s 1.5 control-plane consolidation and Shopify’s modular-monolith account are positive alternatives; practitioner survey reports data and testing burdens.",
+      "RESPONSE_OR_DERIVATIVE": "Select or consolidate boundaries by actual scale, release, trust and change needs.",
+      "LATER_FINDINGS": "Both microservices and local modularity remain conditional alternatives, not sequential maturity levels.",
+      "PRESENT_JUDGEMENT": "Both microservices and local modularity remain conditional alternatives, not sequential maturity levels.",
+      "RESIDUAL_UNCERTAINTY": "Company accounts are selected, self-reported and not controlled economic comparisons.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR004",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-014",
+        "ESA-015",
+        "ESA-028",
+        "ESA-031"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S017",
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S023"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "A well-run workshop can select the wrong population of scenarios or omit costly concerns.",
+      "EVIDENCE": "QAW prioritisation is time-bounded; the risk-theme study found many omissions; controlled method comparison has narrow tasks.",
+      "RESPONSE_OR_DERIVATIVE": "Challenge scenario selection, preserve dissent and separate review outputs from operating evidence.",
+      "LATER_FINDINGS": "ESA-031 is rejected; scenario methods remain valuable but do not provide coverage by ceremony.",
+      "PRESENT_JUDGEMENT": "ESA-031 is rejected; scenario methods remain valuable but do not provide coverage by ceremony.",
+      "RESIDUAL_UNCERTAINTY": "Reliable low-cost discovery of rare or unknown scenarios remains difficult.",
+      "EVOLUTION_CLASS": "REFINED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR005",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-019",
+        "ESA-055"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Quality objectives interact and apparent improvements can hide costs outside the chosen metric.",
+      "EVIDENCE": "Tactic/utility models have assumptions; EcoFaaS improves selected energy/tail responses while increasing mean latency versus one baseline.",
+      "RESPONSE_OR_DERIVATIVE": "Declare hard constraints, measurement boundaries and accepted sacrifices.",
+      "LATER_FINDINGS": "ESA-019 is rejected; ESA-017 is retained as a core constraint on every optimisation claim.",
+      "PRESENT_JUDGEMENT": "ESA-019 is rejected; ESA-017 is retained as a core constraint on every optimisation claim.",
+      "RESIDUAL_UNCERTAINTY": "Complete externality accounting and stable stakeholder utility are not generally available.",
+      "EVOLUTION_CLASS": "REJECTED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR006",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-021",
+        "ESA-023",
+        "ESA-037",
+        "ESA-059"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S011",
+        "ESA-S045"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "A complete-looking architecture description can be redundant, stale or consistently false.",
+      "EVIDENCE": "Kruchten explicitly permits omission of irrelevant views; standards concern descriptions; reflexion requires mappings.",
+      "RESPONSE_OR_DERIVATIVE": "Choose concern-specific views and verify decision-relevant correspondence.",
+      "LATER_FINDINGS": "Mandatory 4+1 completion and description conformance as quality certification are rejected.",
+      "PRESENT_JUDGEMENT": "Mandatory 4+1 completion and description conformance as quality certification are rejected.",
+      "RESIDUAL_UNCERTAINTY": "The cheapest sufficient representation and update mechanism vary by consumer and change rate.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR007",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-022",
+        "ESA-068"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S015"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Port compatibility alone does not preserve the deadlock property people may infer from it.",
+      "EVIDENCE": "Wright’s author revision provides a non-conservative-glue counterexample and a theorem with additional conditions.",
+      "RESPONSE_OR_DERIVATIVE": "Require the theorem’s conservatism/deadlock-freedom conditions and separate realisation correspondence.",
+      "LATER_FINDINGS": "Retain the formal result only inside its exact model and assumptions.",
+      "PRESENT_JUDGEMENT": "Retain the formal result only inside its exact model and assumptions.",
+      "RESIDUAL_UNCERTAINTY": "Obtaining an adequate real-system abstraction can dominate the cost of proof.",
+      "EVOLUTION_CLASS": "REFINED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR008",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-026",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S021",
+        "ESA-S022",
+        "ESA-S023"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Method structure, adoption and risk discovery do not independently establish predictive or economic superiority.",
+      "EVIDENCE": "The internal replication uses 16 practitioner-students and finds no efficiency/ease advantage; ATAM risk reports are not downstream outcome trials.",
+      "RESPONSE_OR_DERIVATIVE": "Use a review proportional to the decision and test the consequences it predicts.",
+      "LATER_FINDINGS": "No universal full-method obligation is retained; formal economic modelling remains assumption-sensitive.",
+      "PRESENT_JUDGEMENT": "No universal full-method obligation is retained; formal economic modelling remains assumption-sensitive.",
+      "RESIDUAL_UNCERTAINTY": "Independent longitudinal studies with credible counterfactuals are limited in the inspected evidence.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR009",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-037",
+        "ESA-064"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S029"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Decision records may be unread, stale or retroactive justifications.",
+      "EVIDENCE": "Rationale survey respondents report barriers; rational reconstruction differs from actual history.",
+      "RESPONSE_OR_DERIVATIVE": "Capture only decision-relevant context, mark status/reopening conditions and distinguish reconstructed explanation.",
+      "LATER_FINDINGS": "Knowledge preservation survives; documentation volume does not.",
+      "PRESENT_JUDGEMENT": "Knowledge preservation survives; documentation volume does not.",
+      "RESIDUAL_UNCERTAINTY": "The total cost/benefit of documentation across turnover and distributed teams is not causally estimated here.",
+      "EVOLUTION_CLASS": "REFINED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR010",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-005",
+        "ESA-034",
+        "ESA-035",
+        "ESA-036"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "A deterministic Conway slogan confuses communication with hierarchy and association with cause.",
+      "EVIDENCE": "Single-firm congruence and matched-product mirroring studies have selected populations, proxies and confounding.",
+      "RESPONSE_OR_DERIVATIVE": "Investigate the actual dependency and coordination mechanism before changing teams or architecture.",
+      "LATER_FINDINGS": "ESA-036 is rejected; coordination remains assumption-sensitive, not an inevitable organisational law.",
+      "PRESENT_JUDGEMENT": "ESA-036 is rejected; coordination remains assumption-sensitive, not an inevitable organisational law.",
+      "RESIDUAL_UNCERTAINTY": "Which coordination intervention causes benefit in a new setting requires new evidence.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR011",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-041",
+        "ESA-042"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S047",
+        "ESA-S048"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Recovered structure and deviation counts do not establish harmful erosion or historical intent.",
+      "EVIDENCE": "Reflexion is mapping-relative; review labels capture discussions; smell refactoring has heterogeneous effects.",
+      "RESPONSE_OR_DERIVATIVE": "Validate relations, connect deviations to current concerns and adjudicate baseline versus implementation.",
+      "LATER_FINDINGS": "Zero historical deviations and reconstructed-intent substitution are rejected; smell scores are defeasible triage.",
+      "PRESENT_JUDGEMENT": "Zero historical deviations and reconstructed-intent substitution are rejected; smell scores are defeasible triage.",
+      "RESIDUAL_UNCERTAINTY": "Ground-truth erosion and operational detector calibration remain unsettled.",
+      "EVOLUTION_CLASS": "REFINED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR012",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-043",
+        "ESA-044",
+        "ESA-049"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S056"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "“Debt” can become a moral category for disliked design, with fictitious interest and compelled repayment.",
+      "EVIDENCE": "The original metaphor and qualitative architecture-debt studies do not supply universal monetary rates.",
+      "RESPONSE_OR_DERIVATIVE": "Identify a compromise, specific causal burden, time horizon and feasible remedy/no-remedy alternative.",
+      "LATER_FINDINGS": "Retain burden-based architecture debt; no general duty to repay every imperfection.",
+      "PRESENT_JUDGEMENT": "Retain burden-based architecture debt; no general duty to repay every imperfection.",
+      "RESIDUAL_UNCERTAINTY": "Future interest and remediation cost are often uncertain or confounded with ordinary growth.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR013",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-045",
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-063"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S055"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "A self-adaptive system can silently lose a trustworthy model and still appear to be controlling correctly.",
+      "EVIDENCE": "Rainbow fault-injection tests reveal silent invalid/stale state; industrial survey reports assurance and trust concerns.",
+      "RESPONSE_OR_DERIVATIVE": "Validate observation and action translation, constrain changes and evaluate actual post-change state; assess controller revisions separately.",
+      "LATER_FINDINGS": "Local metric self-authorisation is rejected; adaptation and its self-revision remain conditional.",
+      "PRESENT_JUDGEMENT": "Local metric self-authorisation is rejected; adaptation and its self-revision remain conditional.",
+      "RESIDUAL_UNCERTAINTY": "The inspected evidence does not justify unrestricted changing objectives or recursive self-authorisation.",
+      "EVOLUTION_CLASS": "REFINED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR014",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-013",
+        "ESA-049",
+        "ESA-061"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S006",
+        "ESA-S026",
+        "ESA-S033"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Reusable families and semantic contexts can introduce incompatible variation and expensive translation.",
+      "EVIDENCE": "Family-design mechanisms rely on useful subsets; mismatch exposes hidden assumptions; bounded contexts explicitly have relationships.",
+      "RESPONSE_OR_DERIVATIVE": "Limit family scope, test combinations and select shared meaning versus translation deliberately.",
+      "LATER_FINDINGS": "Family mechanisms remain domain-specific; one context does not imply one service or one team.",
+      "PRESENT_JUDGEMENT": "Family mechanisms remain domain-specific; one context does not imply one service or one team.",
+      "RESIDUAL_UNCERTAINTY": "Economics of family selection belong to later product-line inquiry, not a conclusion supplied by this lane.",
+      "EVOLUTION_CLASS": "DOMAIN_SPECIFIC",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR015",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-052",
+        "ESA-055"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S057",
+        "ESA-S058",
+        "ESA-S061"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Serverless and “green” labels can move rather than remove cost and resource consumption.",
+      "EVIDENCE": "2019 serverless analysis identifies storage/communication issues; EcoFaaS uses a narrow energy boundary and chosen SLO.",
+      "RESPONSE_OR_DERIVATIVE": "Use actual provider contracts and workload/lifecycle boundaries; compare feasible deployment alternatives.",
+      "LATER_FINDINGS": "No inherent cost, latency or sustainability superiority is retained.",
+      "PRESENT_JUDGEMENT": "No inherent cost, latency or sustainability superiority is retained.",
+      "RESIDUAL_UNCERTAINTY": "Lifecycle carbon, rebound and provider-hidden effects require additional target evidence.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR016",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-011",
+        "ESA-043",
+        "ESA-053"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S056"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Learned components can change behaviour through data and feedback without any source-level interface change.",
+      "EVIDENCE": "ML engineering experience identifies entanglement, undeclared consumers and feedback loops.",
+      "RESPONSE_OR_DERIVATIVE": "Expand architectural dependencies and evaluation to data/model/population context.",
+      "LATER_FINDINGS": "Deterministic-interface reasoning is not transferred unchanged to learned components.",
+      "PRESENT_JUDGEMENT": "Deterministic-interface reasoning is not transferred unchanged to learned components.",
+      "RESIDUAL_UNCERTAINTY": "Unknown consumers and feedback may be difficult to detect; deployment benefit is not quantified here.",
+      "EVOLUTION_CLASS": "DOMAIN_SPECIFIC",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR017",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-040",
+        "ESA-054",
+        "ESA-060"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S047",
+        "ESA-S059",
+        "ESA-S062",
+        "ESA-S063"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Automated text, diagram and clustering success can be mistaken for validated architecture or trustworthy metrics.",
+      "EVIDENCE": "2026 studies use bounded tasks, author or proxy judgements and sometimes one run per configuration; self-reported metrics can be wrong.",
+      "RESPONSE_OR_DERIVATIVE": "Independently check generated semantics and evidence; use AI to propose rather than self-certify.",
+      "LATER_FINDINGS": "Assistance is assumption-sensitive; open-ended autonomous architecting remains unresolved, not proved impossible.",
+      "PRESENT_JUDGEMENT": "Assistance is assumption-sensitive; open-ended autonomous architecting remains unresolved, not proved impossible.",
+      "RESIDUAL_UNCERTAINTY": "Representative longitudinal autonomy, total verification cost and changing requirements remain open.",
+      "EVOLUTION_CLASS": "STILL_CONTESTED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR018",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-056",
+        "ESA-058",
+        "ESA-067"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S008",
+        "ESA-S010",
+        "ESA-S017",
+        "ESA-S041",
+        "ESA-S042"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Elaborate architectural process may burden a stable small system more than it protects it.",
+      "EVIDENCE": "Original methods include tailoring; practitioner critiques document the forces favouring expediency and simpler forms.",
+      "RESPONSE_OR_DERIVATIVE": "Use the smallest coherent concern–decision–realisation–feedback arrangement, adding technique only for a demonstrated need.",
+      "LATER_FINDINGS": "Reject both maximal ceremony and “emergence means no reasoning”; ADD remains a selectable method.",
+      "PRESENT_JUDGEMENT": "Reject both maximal ceremony and “emergence means no reasoning”; ADD remains a selectable method.",
+      "RESIDUAL_UNCERTAINTY": "Evidence does not provide a universal small-team threshold or control-retirement formula.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR019",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-062",
+        "ESA-014",
+        "ESA-016"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S018"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Usability cannot always be repaired in the presentation layer, but not every usability scenario has architectural consequences.",
+      "EVIDENCE": "The usability/architecture scenario construction explicitly removed scenarios without substantive architectural implications.",
+      "RESPONSE_OR_DERIVATIVE": "Trace a user task to the state/control mechanism before moving responsibility across layers.",
+      "LATER_FINDINGS": "Retain architectural consideration for consequential user interactions without turning the scenario catalogue into mandatory features.",
+      "PRESENT_JUDGEMENT": "Retain architectural consideration for consequential user interactions without turning the scenario catalogue into mandatory features.",
+      "RESIDUAL_UNCERTAINTY": "Architectural support is necessary in some cases but does not itself demonstrate usability for a population.",
+      "EVOLUTION_CLASS": "REFINED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "CRITICISM_ID": "ESA-CR020",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-029",
+        "ESA-047",
+        "ESA-055"
+      ],
+      "SOURCE_IDS": [
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "LOCATOR_REFERENCE": "CLAIM_LOCATORS in the named source records; exact criticism is paraphrased below.",
+      "STRONGEST_OBJECTION": "Weighted optimisation can conceal external obligations and stakeholder inequality.",
+      "EVIDENCE": "CBAM’s additive utility assumptions and EcoFaaS’s chosen latency/energy boundary delimit their valid interpretations.",
+      "RESPONSE_OR_DERIVATIVE": "Treat hard constraints separately and disclose whose cost/benefit is measured; analytical extension, not a theorem supplied by either method.",
+      "LATER_FINDINGS": "No automatic scalarisation of all concerns; the composed system preserves vetoing constraints where legitimately specified.",
+      "PRESENT_JUDGEMENT": "No automatic scalarisation of all concerns; the composed system preserves vetoing constraints where legitimately specified.",
+      "RESIDUAL_UNCERTAINTY": "Resolving conflicting legitimate stakeholder constraints may require decisions outside software architecture.",
+      "EVOLUTION_CLASS": "NARROWED",
+      "ANALYTICAL_STATUS": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    }
+  ],
+  "ceremony_stripping_ledger": [
+    {
+      "CEREMONY_ID": "ESA-CS01",
+      "ARTEFACT_RITUAL_OR_BRAND": "Architecture board, charter or grand vision document",
+      "PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-002",
+        "ESA-003",
+        "ESA-004",
+        "ESA-005",
+        "ESA-035",
+        "ESA-056"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Consequential concerns, coherent meanings and legitimate decisions must not disappear behind rank or rhetoric.",
+      "CONSUMER": "People making and bearing the trade-off.",
+      "PREREQUISITES": "A real cross-boundary consequence and actual authority.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "Direct discussion, a few constraints and a traceable choice using existing roles.",
+      "FULLER_FORM_TRIGGER": "Conflicting commitments, turnover, many independent teams or a consequential unresolved decision.",
+      "COST_OF_SIMPLIFICATION": "A short form may lose durable context or omit less-visible stakeholders.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "No material unresolved consequence, existing communication is adequate, or the extra board merely duplicates authority.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS02",
+      "ARTEFACT_RITUAL_OR_BRAND": "Component diagrams, abstraction frameworks and boundary workshops",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-010",
+        "ESA-011",
+        "ESA-012",
+        "ESA-025",
+        "ESA-061"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Hide the right decisions and preserve interface/invariant semantics; arrows and process boundaries do not demonstrate independence.",
+      "CONSUMER": "Both sides of an interface and maintainers making changes.",
+      "PREREQUISITES": "Plausible change/fault hypotheses and knowledge of shared state.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A local module, direct call, explicit example and focused integration/change test.",
+      "FULLER_FORM_TRIGGER": "Independent deployment, multiple semantic domains, fault containment or repeated costly propagation.",
+      "COST_OF_SIMPLIFICATION": "Less explicit modelling can conceal non-local assumptions as teams or interactions multiply.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Retire boundaries that add translation/coordination without protecting a relevant obligation.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS03",
+      "ARTEFACT_RITUAL_OR_BRAND": "Platform reuse framework and exhaustive variability catalogue",
+      "PROPERTY_IDS": [
+        "ESA-013",
+        "ESA-049"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Commonality and legitimate variations must be clear without buying every imaginable future.",
+      "CONSUMER": "Family designers and actual variant consumers.",
+      "PREREQUISITES": "Credible family scope and future-change evidence.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "One straightforward product or a small explicit variation point.",
+      "FULLER_FORM_TRIGGER": "Several required variants and consequential shared-asset or configuration interactions.",
+      "COST_OF_SIMPLIFICATION": "A cheap form may duplicate work or make later shared-asset changes harder.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "No credible variant demand, or maintaining flexibility costs more than observed/expected benefit.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS04",
+      "ARTEFACT_RITUAL_OR_BRAND": "Quality workshop, utility tree and tactics catalogue",
+      "PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-015",
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-062"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Consequential scenarios and trade-offs need measurable responses and representative conditions.",
+      "CONSUMER": "Users/operators/designers/evaluators of affected qualities.",
+      "PREREQUISITES": "Access to actual workload/fault assumptions and representation of affected interests.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A few concrete examples, hard limits and an observed/prototyped response.",
+      "FULLER_FORM_TRIGGER": "Conflicting qualities, rare consequential states, broad stakeholder disagreement or poorly understood mechanisms.",
+      "COST_OF_SIMPLIFICATION": "Some scenario diversity or causal explanation may be lost; retain rare hard constraints even when votes are few.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "No consequential uncertainty remains or the catalogue/workshop produces unused labels instead of decisions.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS05",
+      "ARTEFACT_RITUAL_OR_BRAND": "4+1 documents and view repositories",
+      "PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-021",
+        "ESA-024"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Views must answer concerns and correspond to each other and realisation.",
+      "CONSUMER": "The person deciding from a particular view.",
+      "PREREQUISITES": "Declared notation/relations, observation scope and update responsibility in existing work.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A single adequate sketch plus targeted code/configuration/execution inspection.",
+      "FULLER_FORM_TRIGGER": "Multiple concerns need genuinely different perspectives or changing systems make omissions costly.",
+      "COST_OF_SIMPLIFICATION": "Implicit views may not expose contradictions to new participants.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Omit or retire a view with no consumer; never preserve a stale view merely to complete a set.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS06",
+      "ARTEFACT_RITUAL_OR_BRAND": "ADL, connector specification and model-checking run",
+      "PROPERTY_IDS": [
+        "ESA-022",
+        "ESA-068"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Check precisely stated interaction properties under valid model and well-formedness assumptions.",
+      "CONSUMER": "Designers/verifiers deciding whether composition is safe in the examined sense.",
+      "PREREQUISITES": "Faithful model, applicable theorem/check, trained users and implementation correspondence.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A simpler contract/review or focused test when its residual risk is acceptable.",
+      "FULLER_FORM_TRIGGER": "High-consequence interaction uncertainty or repeatable formal checks justify modelling cost.",
+      "COST_OF_SIMPLIFICATION": "The cheaper alternative usually loses exhaustive coverage within the formal model.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "No relevant analysed property, stale semantics, missing implementation mapping or cost exceeding the supported assurance benefit.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS07",
+      "ARTEFACT_RITUAL_OR_BRAND": "ATAM/SAAM event, scorecard and economic spreadsheet",
+      "PROPERTY_IDS": [
+        "ESA-026",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Compare feasible alternatives and expose risks without claiming a certificate.",
+      "CONSUMER": "Those choosing design trade-offs and accepting uncertainty.",
+      "PREREQUISITES": "Real alternatives, adequate scenarios and available expertise.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "Focused review or prototype of the decisive uncertainty, including no change.",
+      "FULLER_FORM_TRIGGER": "Many interacting qualities, large consequences or uncertain investments demand broader structured evaluation.",
+      "COST_OF_SIMPLIFICATION": "A lightweight review may miss interactions or make assumptions harder to challenge.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "The full method adds no decision value, or assumptions have changed so much that repeating a scorecard would mislead.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS08",
+      "ARTEFACT_RITUAL_OR_BRAND": "ADR template, rationale database and design history",
+      "PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-064"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Later actors need recoverable reasons and status, not fictitious linear history.",
+      "CONSUMER": "Decision inheritors, reviewers and maintainers.",
+      "PREREQUISITES": "A future consumer and access to the actual context/options/consequences.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A concise note attached to existing work or direct stable shared understanding.",
+      "FULLER_FORM_TRIGGER": "Turnover, distributed decisions, costly reversals or repeatedly rediscovered rationale.",
+      "COST_OF_SIMPLIFICATION": "Very short notes can omit rejected alternatives or evidence needed to reopen.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Retire obsolete prescriptions but preserve supersession where history matters; omit records for local reversible trivia.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS09",
+      "ARTEFACT_RITUAL_OR_BRAND": "Org-chart redesign and dependency/communication dashboard",
+      "PROPERTY_IDS": [
+        "ESA-034"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Coordinate consequential dependencies without treating correlations as an organisational law.",
+      "CONSUMER": "People doing interdependent work and those authorised to change coordination.",
+      "PREREQUISITES": "Appropriate dependency definitions and sufficiently complete communication observations.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A direct cross-team conversation or task-specific liaison using existing roles.",
+      "FULLER_FORM_TRIGGER": "Persistent coordination delays or mismatches with material design consequences.",
+      "COST_OF_SIMPLIFICATION": "Local remedies may not expose repeated systemic coordination costs.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "The dashboard’s proxies no longer reflect work or reorganisation costs dominate the demonstrated problem.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS10",
+      "ARTEFACT_RITUAL_OR_BRAND": "Architecture test gates, smell scores and deviation backlogs",
+      "PROPERTY_IDS": [
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-045"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "A current justified baseline and informative findings should guide improvement, not preserve obsolete rules.",
+      "CONSUMER": "Engineers who can interpret a finding and choose repair, exception or baseline revision.",
+      "PREREQUISITES": "Mappings, evidence of affected concern and an authorised rule revision path.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "Inspect the specific dependency/change and record a reasoned exception or fix.",
+      "FULLER_FORM_TRIGGER": "Repeated harmful classes or broad scope make reliable automated checks economical.",
+      "COST_OF_SIMPLIFICATION": "Manual checking may miss regressions and offer less continuous coverage.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Retire a test when its protected concern disappears, proxy fails or the baseline is superseded; a zero score is not a goal by itself.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS11",
+      "ARTEFACT_RITUAL_OR_BRAND": "Debt register, migration programme and future-proofing roadmap",
+      "PROPERTY_IDS": [
+        "ESA-043",
+        "ESA-044"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Explain actual or hypothesised cost and preserve intermediate operating obligations.",
+      "CONSUMER": "Those prioritising change and operating during coexistence.",
+      "PREREQUISITES": "A cost/impact hypothesis, compatibility constraints and feasible transition slices.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "Leave harmless imperfection alone or perform a small direct improvement.",
+      "FULLER_FORM_TRIGGER": "Observed recurring cost, required incompatible change or high-risk replacement needs staged work.",
+      "COST_OF_SIMPLIFICATION": "A simple form can understate coexistence cost or future interest; a large programme can create them.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Retire debt items disproved by observed changes and migration scaffolding after compatibility consumers disappear.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS12",
+      "ARTEFACT_RITUAL_OR_BRAND": "Runtime architecture model and self-adaptation controller",
+      "PROPERTY_IDS": [
+        "ESA-046",
+        "ESA-047",
+        "ESA-063"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Observed state, allowable action and post-change constraints must remain aligned.",
+      "CONSUMER": "Operators and bounded control mechanisms acting under real authority.",
+      "PREREQUISITES": "Trustworthy probes, model mapping, actuator semantics, policy constraints and recovery paths.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "Manual operation or a simpler fixed controller where change is slow or uncertainty manageable.",
+      "FULLER_FORM_TRIGGER": "Rapid recurring adaptation needs with tractable policy/observation boundaries.",
+      "COST_OF_SIMPLIFICATION": "Manual control can miss timing requirements; a simplified controller may cover fewer states.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Disable or fall back when state correspondence, policy validity or actuator effects cannot be established; retire needless autonomy.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS13",
+      "ARTEFACT_RITUAL_OR_BRAND": "Microservice platform and monolith purity campaigns",
+      "PROPERTY_IDS": [
+        "ESA-050",
+        "ESA-051"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Deployment architecture should match actual change/operating needs and costs.",
+      "CONSUMER": "Teams deploying, operating and changing the software.",
+      "PREREQUISITES": "Evidence about scaling, failure, releases, ownership and shared data.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A modular single deployment or selective consolidation.",
+      "FULLER_FORM_TRIGGER": "Demonstrated independent change/scaling or failure requirements justify distribution.",
+      "COST_OF_SIMPLIFICATION": "Consolidation can lose real deployment/failure independence; splitting can add overhead without obtaining it.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Remove boundaries with no protected independence; do not consolidate a boundary that still enforces a required separation.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS14",
+      "ARTEFACT_RITUAL_OR_BRAND": "Serverless-first platform mandate",
+      "PROPERTY_IDS": [
+        "ESA-052"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Provider execution/resource assumptions must support the workload and constraints.",
+      "CONSUMER": "Implementers/operators and budget/quality decision makers.",
+      "PREREQUISITES": "Version-specific provider evidence, invocation/state model and workload measurements.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "An ordinary process/service when it meets the same needs with less uncertainty.",
+      "FULLER_FORM_TRIGGER": "Elastic invocation or administrative requirements outweigh platform-specific costs and restrictions.",
+      "COST_OF_SIMPLIFICATION": "A simpler platform can lose managed elasticity or administrative benefits.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Reconsider when workload, quotas, latency, state or exit costs invalidate the premise; no current provider claim is frozen here.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS15",
+      "ARTEFACT_RITUAL_OR_BRAND": "ML architecture map and AI architect assistant",
+      "PROPERTY_IDS": [
+        "ESA-053",
+        "ESA-054"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Data/feedback coupling and generated architectural claims require independently grounded evidence.",
+      "CONSUMER": "Engineers deciding and operating learned-system changes.",
+      "PREREQUISITES": "Known data/configuration consumers, representative evaluation and human accountability for generated work.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "Direct code/data inspection or ordinary unaided reasoning on the small consequential question.",
+      "FULLER_FORM_TRIGGER": "Complex data interactions or costly proposal analysis justify additional assistance and validation.",
+      "COST_OF_SIMPLIFICATION": "Less modelling can miss feedback; less automation may slow exploration but can avoid hallucinated certainty.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Discard unsupported generated claims; retire tools whose verification cost exceeds their demonstrated assistance value.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS16",
+      "ARTEFACT_RITUAL_OR_BRAND": "Green architecture badge and energy dashboard",
+      "PROPERTY_IDS": [
+        "ESA-055"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Measured energy/resource effects must use a declared boundary and respect other constraints.",
+      "CONSUMER": "People choosing workload/platform/design changes and affected quality consumers.",
+      "PREREQUISITES": "Workload, measurement boundary, uncertainty and non-negotiable response limits.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A focused measurement of the actual dominant resource question.",
+      "FULLER_FORM_TRIGGER": "Material energy/resource consequences or competing design options justify broader lifecycle investigation.",
+      "COST_OF_SIMPLIFICATION": "Narrow measurement can miss embodied/operational effects elsewhere; broader estimates may increase uncertainty.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Retire a misleading proxy or a control whose remaining resource consequence is immaterial; never infer lifecycle carbon from CPU counters alone.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS17",
+      "ARTEFACT_RITUAL_OR_BRAND": "RESTful/SOA certification by naming",
+      "PROPERTY_IDS": [
+        "ESA-065",
+        "ESA-066"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Actual interaction constraints and service effects must be distinguished from generic API labels.",
+      "CONSUMER": "Producers, consumers and service owners.",
+      "PREREQUISITES": "A relevant hypermedia or service-reference context and explicit semantics.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "An ordinary well-specified local interface when the fuller style/model is unnecessary.",
+      "FULLER_FORM_TRIGGER": "Independent hypermedia evolution or cross-ownership service interactions make the specific constraints useful.",
+      "COST_OF_SIMPLIFICATION": "Omitting constraints may lose the properties the chosen style was intended to support.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Drop the label rather than claim constraints not implemented; omit a domain-specific style outside its problem setting.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    },
+    {
+      "CEREMONY_ID": "ESA-CS18",
+      "ARTEFACT_RITUAL_OR_BRAND": "Recursive ADD decomposition tree",
+      "PROPERTY_IDS": [
+        "ESA-067"
+      ],
+      "PROTECTED_PROPERTY_AND_FAILURE": "Architectural drivers must lead to considered design choices and evaluation, not endless tree expansion.",
+      "CONSUMER": "Designers allocating responsibilities and evaluators of driver satisfaction.",
+      "PREREQUISITES": "Real drivers and uncertainty that can be reduced by decomposition/alternative analysis.",
+      "MINIMAL_ADEQUATE_ALTERNATIVE": "A direct design choice, one or two alternatives and a focused check.",
+      "FULLER_FORM_TRIGGER": "Large scope, interacting drivers or repeated decisions justify systematic recursion.",
+      "COST_OF_SIMPLIFICATION": "Too little structure can hide unresolved allocations; too much freezes guesses as design.",
+      "OMISSION_OR_RETIREMENT_CONDITION": "Stop recursion when additional detail no longer changes a consequential decision; ordinary detailed design can continue separately.",
+      "EVIDENCE_STATUS": "ANALYTICAL_FUNCTIONAL_RECONSTRUCTION; source support and individual cheap paths are resolved through the linked property records."
+    }
+  ],
+  "internal_tensions": [
+    {
+      "TENSION_ID": "ESA-T001",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-005",
+        "ESA-034",
+        "ESA-035",
+        "ESA-061"
+      ],
+      "PROTECTED_VALUES": [
+        "Conceptual integrity",
+        "Local autonomy"
+      ],
+      "COSTS": "Central bottlenecks versus semantic incompatibility.",
+      "CONTEXT_FAVOURING_FIRST": "Shared users/invariants require a common meaning across decisions.",
+      "CONTEXT_FAVOURING_SECOND": "Decisions are local, reversible and do not alter others’ obligations.",
+      "SUPPORTED_HYBRID": "Share essential contracts and permit independent implementations or explicit translations.",
+      "HYBRID_FAILURE": "A supposedly local exception changes a shared invariant, or shared rules expand to stylistic micromanagement.",
+      "DISCRIMINATOR": "Can this choice change an external consumer’s required behaviour or meaning? If yes, negotiate that consequence; otherwise leave it local.",
+      "SOURCE_IDS": [
+        "ESA-S010",
+        "ESA-S031",
+        "ESA-S033"
+      ],
+      "UNCERTAINTY": "Which semantics truly need common ownership is often contested."
+    },
+    {
+      "TENSION_ID": "ESA-T002",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-016",
+        "ESA-049"
+      ],
+      "PROTECTED_VALUES": [
+        "Abstraction and information hiding",
+        "Transparency and directness"
+      ],
+      "COSTS": "Indirection and runtime overhead versus propagated change and exposed implementation knowledge.",
+      "CONTEXT_FAVOURING_FIRST": "A credible recurring change can be insulated by a stable semantic contract.",
+      "CONTEXT_FAVOURING_SECOND": "The direct mechanism is stable, cheap to change and clearer for its consumers.",
+      "SUPPORTED_HYBRID": "Expose relevant behaviour/diagnostics while hiding the varying implementation choice.",
+      "HYBRID_FAILURE": "An interface hides information the consumer needs for correctness or diagnosis, or abstraction predicts the wrong changes.",
+      "DISCRIMINATOR": "Try the likely change and a realistic diagnosis/performance case; compare affected obligations and overhead.",
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S026"
+      ],
+      "UNCERTAINTY": "Future change frequency and debugging cost cannot always be predicted."
+    },
+    {
+      "TENSION_ID": "ESA-T003",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-013",
+        "ESA-044",
+        "ESA-049",
+        "ESA-051"
+      ],
+      "PROTECTED_VALUES": [
+        "Future modifiability",
+        "Present simplicity"
+      ],
+      "COSTS": "Paid flexibility premium versus potentially expensive later migration.",
+      "CONTEXT_FAVOURING_FIRST": "Repeated credible variants or changes have high rework costs.",
+      "CONTEXT_FAVOURING_SECOND": "Future variants are speculative and later correction remains cheap.",
+      "SUPPORTED_HYBRID": "Implement stable seams for plausible changes while deferring unused generality.",
+      "HYBRID_FAILURE": "Seams leak semantics or temporary flexibility becomes a permanent platform without consumers.",
+      "DISCRIMINATOR": "What evidence makes this change likely, and which break-even assumptions would reverse the investment?",
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S006",
+        "ESA-S010",
+        "ESA-S037"
+      ],
+      "UNCERTAINTY": "Neither blanket anticipation nor blanket deferral dominates every domain."
+    },
+    {
+      "TENSION_ID": "ESA-T004",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-022",
+        "ESA-027",
+        "ESA-028",
+        "ESA-030",
+        "ESA-056",
+        "ESA-068"
+      ],
+      "PROTECTED_VALUES": [
+        "Stronger evaluation",
+        "Decision latency and modelling cost"
+      ],
+      "COSTS": "Slow review, stale models and opportunity cost versus undetected consequential errors.",
+      "CONTEXT_FAVOURING_FIRST": "Failure consequences are high, model assumptions tractable and stronger evidence can change the decision.",
+      "CONTEXT_FAVOURING_SECOND": "A small reversible choice is already understood and extra analysis adds little information.",
+      "SUPPORTED_HYBRID": "Analyse the risky interaction formally and evaluate the remaining design with focused scenarios/prototypes.",
+      "HYBRID_FAILURE": "The formal island ignores the actual failure boundary or a rushed lightweight review omits a critical scenario.",
+      "DISCRIMINATOR": "Will the added method discriminate feasible options or protect an otherwise unexamined severe consequence?",
+      "SOURCE_IDS": [
+        "ESA-S015",
+        "ESA-S020",
+        "ESA-S023"
+      ],
+      "UNCERTAINTY": "There is no validated universal effort threshold."
+    },
+    {
+      "TENSION_ID": "ESA-T005",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-033",
+        "ESA-038",
+        "ESA-039",
+        "ESA-042",
+        "ESA-045"
+      ],
+      "PROTECTED_VALUES": [
+        "Conformance and continuity",
+        "Justified evolution"
+      ],
+      "COSTS": "Unreviewed erosion versus entrenching obsolete constraints.",
+      "CONTEXT_FAVOURING_FIRST": "The baseline still protects a current invariant or external commitment.",
+      "CONTEXT_FAVOURING_SECOND": "The baseline’s rationale no longer holds and an alternative preserves or improves current obligations.",
+      "SUPPORTED_HYBRID": "Adjudicate deviations and revise implementation or baseline with explicit rationale.",
+      "HYBRID_FAILURE": "Convenient exception names hide harm, or perfect conformance is rewarded despite worsening outcomes.",
+      "DISCRIMINATOR": "Which currently valid concern would this deviation harm, and what evidence supports that link?",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S020",
+        "ESA-S045",
+        "ESA-S048"
+      ],
+      "UNCERTAINTY": "Unknown long-term consequences may keep the deviation unresolved."
+    },
+    {
+      "TENSION_ID": "ESA-T006",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-008",
+        "ESA-011",
+        "ESA-012",
+        "ESA-017",
+        "ESA-035",
+        "ESA-050",
+        "ESA-061"
+      ],
+      "PROTECTED_VALUES": [
+        "Flexible boundaries",
+        "Cross-boundary invariant preservation"
+      ],
+      "COSTS": "Coordination/transaction cost versus inconsistent state or meaning.",
+      "CONTEXT_FAVOURING_FIRST": "A shared invariant genuinely requires coordinated action across participants.",
+      "CONTEXT_FAVOURING_SECOND": "Local changes can be decoupled without violating the consumer’s obligations.",
+      "SUPPORTED_HYBRID": "Use the weakest coordination sufficient for the actual invariant, with explicit compensations only when acceptable.",
+      "HYBRID_FAILURE": "Compensation cannot undo an external effect; eventual consistency is used for a constraint that requires immediate validity.",
+      "DISCRIMINATOR": "Can a temporarily inconsistent or irreversible state be accepted by the actual affected consumer?",
+      "SOURCE_IDS": [
+        "ESA-S026",
+        "ESA-S035",
+        "ESA-S036",
+        "ESA-S060"
+      ],
+      "UNCERTAINTY": "Invariant ownership and acceptable inconsistency require contextual authority."
+    },
+    {
+      "TENSION_ID": "ESA-T007",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-018",
+        "ESA-024",
+        "ESA-040",
+        "ESA-045",
+        "ESA-054"
+      ],
+      "PROTECTED_VALUES": [
+        "Fast automated feedback",
+        "Evidence validity and interpretability"
+      ],
+      "COSTS": "Cheap signal and scale versus false positives, self-reported metrics and missing paths.",
+      "CONTEXT_FAVOURING_FIRST": "The indicator is calibrated and can prioritise a large repeated problem.",
+      "CONTEXT_FAVOURING_SECOND": "The target is small or the proxy is too disconnected from the consequence.",
+      "SUPPORTED_HYBRID": "Automate candidate detection and independently adjudicate high-consequence conclusions.",
+      "HYBRID_FAILURE": "Human review rubber-stamps a score, or verification cost exceeds saved effort.",
+      "DISCRIMINATOR": "Does the signal predict the actual concern on positive, negative and changed-condition cases, and at what total cost?",
+      "SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S047",
+        "ESA-S048",
+        "ESA-S062"
+      ],
+      "UNCERTAINTY": "Ground-truth datasets and natural operational base rates can be missing."
+    },
+    {
+      "TENSION_ID": "ESA-T008",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-017",
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-055",
+        "ESA-063"
+      ],
+      "PROTECTED_VALUES": [
+        "Adaptive performance/efficiency",
+        "Stable external obligations and assurance"
+      ],
+      "COSTS": "Adaptation overhead and controller risk versus lost opportunity under changing demand.",
+      "CONTEXT_FAVOURING_FIRST": "Conditions vary and bounded actions preserve explicitly checked constraints.",
+      "CONTEXT_FAVOURING_SECOND": "Observations/actions are unreliable or the safe static arrangement is adequate.",
+      "SUPPORTED_HYBRID": "Constrain objectives, monitor post-change effects and permit reviewed policy updates.",
+      "HYBRID_FAILURE": "A local gain breaks an external limit or the controller edits away its own evidence requirement.",
+      "DISCRIMINATOR": "Is the realised transition inside a currently justified acceptance envelope, not merely better on its objective?",
+      "SOURCE_IDS": [
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S061"
+      ],
+      "UNCERTAINTY": "Multiple interacting controllers and changing objectives remain difficult."
+    },
+    {
+      "TENSION_ID": "ESA-T009",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-037",
+        "ESA-056",
+        "ESA-064"
+      ],
+      "PROTECTED_VALUES": [
+        "Durable knowledge",
+        "Documentation and governance cost"
+      ],
+      "COSTS": "Turnover/reconstruction burden versus obsolete or unread records.",
+      "CONTEXT_FAVOURING_FIRST": "Non-obvious decisions must survive handovers or distributed coordination.",
+      "CONTEXT_FAVOURING_SECOND": "One stable team shares sufficient context for local reversible decisions.",
+      "SUPPORTED_HYBRID": "Short linked records for consequential decisions with clear status and retirement criteria.",
+      "HYBRID_FAILURE": "Many short records become an unindexed archive or reconstructed stories masquerade as contemporary history.",
+      "DISCRIMINATOR": "Can a plausible later consumer answer the consequential question without rediscovery, and what does upkeep cost?",
+      "SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S029"
+      ],
+      "UNCERTAINTY": "Causal return on record keeping varies and is poorly estimated."
+    },
+    {
+      "TENSION_ID": "ESA-T010",
+      "AFFECTED_PROPERTY_IDS": [
+        "ESA-013",
+        "ESA-025",
+        "ESA-050",
+        "ESA-051",
+        "ESA-061",
+        "ESA-065",
+        "ESA-066"
+      ],
+      "PROTECTED_VALUES": [
+        "Reuse and generality",
+        "Domain fit and specialised efficiency"
+      ],
+      "COSTS": "Translation/variation-management cost versus repeated independent implementation.",
+      "CONTEXT_FAVOURING_FIRST": "Related contexts share stable obligations and the reuse mechanism preserves them.",
+      "CONTEXT_FAVOURING_SECOND": "Semantics or operating qualities differ enough that adaptation defeats the saving.",
+      "SUPPORTED_HYBRID": "Share compatible mechanisms while keeping distinct semantic models and explicit adapters.",
+      "HYBRID_FAILURE": "A universal framework silently assumes a common control model or feature combination that does not exist.",
+      "DISCRIMINATOR": "Which exact assumptions are shared, and what must be translated or ruled out for the intended composition?",
+      "SOURCE_IDS": [
+        "ESA-S006",
+        "ESA-S026",
+        "ESA-S033",
+        "ESA-S034",
+        "ESA-S035"
+      ],
+      "UNCERTAINTY": "Cross-family benefits require product/maintenance evidence beyond this lane."
+    }
+  ],
+  "evolution_under_criticism": [
+    {
+      "EVOLUTION_ID": "ESA-EV01",
+      "CRITICISM_ID": "ESA-CR001",
+      "PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-004",
+        "ESA-006",
+        "ESA-056"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "“Architecture is important decisions” can become circular and give architects unlimited jurisdiction.",
+      "RESPONSE": "Use consequence-bound significance and a named consumer rather than rank or diagram altitude.",
+      "PRESENT_FORM": "ESA-006 has no general operational property; ESA-001 survives in a bounded form; conceptual integrity does not require central approval.",
+      "RESIDUAL_UNCERTAINTY": "No universal threshold separates architecture from detailed design.",
+      "SOURCE_IDS": [
+        "ESA-S002",
+        "ESA-S010",
+        "ESA-S042"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV02",
+      "CRITICISM_ID": "ESA-CR002",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-009",
+        "ESA-010",
+        "ESA-011",
+        "ESA-025"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "PRESSURE": "A component boundary or matching signature does not expose its control, state or environmental assumptions.",
+      "RESPONSE": "Combine information hiding with explicit semantic assumptions and appropriate dependency kinds.",
+      "PRESENT_FORM": "Retain decomposition; reject nominal isolation and style-name compatibility as sufficient evidence.",
+      "RESIDUAL_UNCERTAINTY": "Which assumptions to expose economically depends on credible changes and failures.",
+      "SOURCE_IDS": [
+        "ESA-S001",
+        "ESA-S026"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV03",
+      "CRITICISM_ID": "ESA-CR003",
+      "PROPERTY_IDS": [
+        "ESA-012",
+        "ESA-049",
+        "ESA-050",
+        "ESA-051",
+        "ESA-056"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "More independently deployed components can increase coordination without yielding useful independence.",
+      "RESPONSE": "Select or consolidate boundaries by actual scale, release, trust and change needs.",
+      "PRESENT_FORM": "Both microservices and local modularity remain conditional alternatives, not sequential maturity levels.",
+      "RESIDUAL_UNCERTAINTY": "Company accounts are selected, self-reported and not controlled economic comparisons.",
+      "SOURCE_IDS": [
+        "ESA-S037",
+        "ESA-S038",
+        "ESA-S039",
+        "ESA-S060"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV04",
+      "CRITICISM_ID": "ESA-CR004",
+      "PROPERTY_IDS": [
+        "ESA-002",
+        "ESA-014",
+        "ESA-015",
+        "ESA-028",
+        "ESA-031"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "PRESSURE": "A well-run workshop can select the wrong population of scenarios or omit costly concerns.",
+      "RESPONSE": "Challenge scenario selection, preserve dissent and separate review outputs from operating evidence.",
+      "PRESENT_FORM": "ESA-031 is rejected; scenario methods remain valuable but do not provide coverage by ceremony.",
+      "RESIDUAL_UNCERTAINTY": "Reliable low-cost discovery of rare or unknown scenarios remains difficult.",
+      "SOURCE_IDS": [
+        "ESA-S017",
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S023"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV05",
+      "CRITICISM_ID": "ESA-CR005",
+      "PROPERTY_IDS": [
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-019",
+        "ESA-055"
+      ],
+      "TRANSITION_CLASS": "REJECTED",
+      "PRESSURE": "Quality objectives interact and apparent improvements can hide costs outside the chosen metric.",
+      "RESPONSE": "Declare hard constraints, measurement boundaries and accepted sacrifices.",
+      "PRESENT_FORM": "ESA-019 is rejected; ESA-017 is retained as a core constraint on every optimisation claim.",
+      "RESIDUAL_UNCERTAINTY": "Complete externality accounting and stable stakeholder utility are not generally available.",
+      "SOURCE_IDS": [
+        "ESA-S016",
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV06",
+      "CRITICISM_ID": "ESA-CR006",
+      "PROPERTY_IDS": [
+        "ESA-020",
+        "ESA-021",
+        "ESA-023",
+        "ESA-037",
+        "ESA-059"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "A complete-looking architecture description can be redundant, stale or consistently false.",
+      "RESPONSE": "Choose concern-specific views and verify decision-relevant correspondence.",
+      "PRESENT_FORM": "Mandatory 4+1 completion and description conformance as quality certification are rejected.",
+      "RESIDUAL_UNCERTAINTY": "The cheapest sufficient representation and update mechanism vary by consumer and change rate.",
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S011",
+        "ESA-S045"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV07",
+      "CRITICISM_ID": "ESA-CR007",
+      "PROPERTY_IDS": [
+        "ESA-022",
+        "ESA-068"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "PRESSURE": "Port compatibility alone does not preserve the deadlock property people may infer from it.",
+      "RESPONSE": "Require the theorem’s conservatism/deadlock-freedom conditions and separate realisation correspondence.",
+      "PRESENT_FORM": "Retain the formal result only inside its exact model and assumptions.",
+      "RESIDUAL_UNCERTAINTY": "Obtaining an adequate real-system abstraction can dominate the cost of proof.",
+      "SOURCE_IDS": [
+        "ESA-S015"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV08",
+      "CRITICISM_ID": "ESA-CR008",
+      "PROPERTY_IDS": [
+        "ESA-026",
+        "ESA-027",
+        "ESA-028",
+        "ESA-029",
+        "ESA-030"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "Method structure, adoption and risk discovery do not independently establish predictive or economic superiority.",
+      "RESPONSE": "Use a review proportional to the decision and test the consequences it predicts.",
+      "PRESENT_FORM": "No universal full-method obligation is retained; formal economic modelling remains assumption-sensitive.",
+      "RESIDUAL_UNCERTAINTY": "Independent longitudinal studies with credible counterfactuals are limited in the inspected evidence.",
+      "SOURCE_IDS": [
+        "ESA-S021",
+        "ESA-S022",
+        "ESA-S023"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV09",
+      "CRITICISM_ID": "ESA-CR009",
+      "PROPERTY_IDS": [
+        "ESA-032",
+        "ESA-033",
+        "ESA-037",
+        "ESA-064"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "PRESSURE": "Decision records may be unread, stale or retroactive justifications.",
+      "RESPONSE": "Capture only decision-relevant context, mark status/reopening conditions and distinguish reconstructed explanation.",
+      "PRESENT_FORM": "Knowledge preservation survives; documentation volume does not.",
+      "RESIDUAL_UNCERTAINTY": "The total cost/benefit of documentation across turnover and distributed teams is not causally estimated here.",
+      "SOURCE_IDS": [
+        "ESA-S009",
+        "ESA-S027",
+        "ESA-S029"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV10",
+      "CRITICISM_ID": "ESA-CR010",
+      "PROPERTY_IDS": [
+        "ESA-004",
+        "ESA-005",
+        "ESA-034",
+        "ESA-035",
+        "ESA-036"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "A deterministic Conway slogan confuses communication with hierarchy and association with cause.",
+      "RESPONSE": "Investigate the actual dependency and coordination mechanism before changing teams or architecture.",
+      "PRESENT_FORM": "ESA-036 is rejected; coordination remains assumption-sensitive, not an inevitable organisational law.",
+      "RESIDUAL_UNCERTAINTY": "Which coordination intervention causes benefit in a new setting requires new evidence.",
+      "SOURCE_IDS": [
+        "ESA-S030",
+        "ESA-S031",
+        "ESA-S032"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV11",
+      "CRITICISM_ID": "ESA-CR011",
+      "PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-038",
+        "ESA-039",
+        "ESA-040",
+        "ESA-041",
+        "ESA-042"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "PRESSURE": "Recovered structure and deviation counts do not establish harmful erosion or historical intent.",
+      "RESPONSE": "Validate relations, connect deviations to current concerns and adjudicate baseline versus implementation.",
+      "PRESENT_FORM": "Zero historical deviations and reconstructed-intent substitution are rejected; smell scores are defeasible triage.",
+      "RESIDUAL_UNCERTAINTY": "Ground-truth erosion and operational detector calibration remain unsettled.",
+      "SOURCE_IDS": [
+        "ESA-S045",
+        "ESA-S046",
+        "ESA-S047",
+        "ESA-S048"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV12",
+      "CRITICISM_ID": "ESA-CR012",
+      "PROPERTY_IDS": [
+        "ESA-043",
+        "ESA-044",
+        "ESA-049"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "“Debt” can become a moral category for disliked design, with fictitious interest and compelled repayment.",
+      "RESPONSE": "Identify a compromise, specific causal burden, time horizon and feasible remedy/no-remedy alternative.",
+      "PRESENT_FORM": "Retain burden-based architecture debt; no general duty to repay every imperfection.",
+      "RESIDUAL_UNCERTAINTY": "Future interest and remediation cost are often uncertain or confounded with ordinary growth.",
+      "SOURCE_IDS": [
+        "ESA-S049",
+        "ESA-S050",
+        "ESA-S056"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV13",
+      "CRITICISM_ID": "ESA-CR013",
+      "PROPERTY_IDS": [
+        "ESA-045",
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-063"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "PRESSURE": "A self-adaptive system can silently lose a trustworthy model and still appear to be controlling correctly.",
+      "RESPONSE": "Validate observation and action translation, constrain changes and evaluate actual post-change state; assess controller revisions separately.",
+      "PRESENT_FORM": "Local metric self-authorisation is rejected; adaptation and its self-revision remain conditional.",
+      "RESIDUAL_UNCERTAINTY": "The inspected evidence does not justify unrestricted changing objectives or recursive self-authorisation.",
+      "SOURCE_IDS": [
+        "ESA-S053",
+        "ESA-S054",
+        "ESA-S055"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV14",
+      "CRITICISM_ID": "ESA-CR014",
+      "PROPERTY_IDS": [
+        "ESA-013",
+        "ESA-049",
+        "ESA-061"
+      ],
+      "TRANSITION_CLASS": "DOMAIN_SPECIFIC",
+      "PRESSURE": "Reusable families and semantic contexts can introduce incompatible variation and expensive translation.",
+      "RESPONSE": "Limit family scope, test combinations and select shared meaning versus translation deliberately.",
+      "PRESENT_FORM": "Family mechanisms remain domain-specific; one context does not imply one service or one team.",
+      "RESIDUAL_UNCERTAINTY": "Economics of family selection belong to later product-line inquiry, not a conclusion supplied by this lane.",
+      "SOURCE_IDS": [
+        "ESA-S006",
+        "ESA-S026",
+        "ESA-S033"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV15",
+      "CRITICISM_ID": "ESA-CR015",
+      "PROPERTY_IDS": [
+        "ESA-052",
+        "ESA-055"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "Serverless and “green” labels can move rather than remove cost and resource consumption.",
+      "RESPONSE": "Use actual provider contracts and workload/lifecycle boundaries; compare feasible deployment alternatives.",
+      "PRESENT_FORM": "No inherent cost, latency or sustainability superiority is retained.",
+      "RESIDUAL_UNCERTAINTY": "Lifecycle carbon, rebound and provider-hidden effects require additional target evidence.",
+      "SOURCE_IDS": [
+        "ESA-S057",
+        "ESA-S058",
+        "ESA-S061"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV16",
+      "CRITICISM_ID": "ESA-CR016",
+      "PROPERTY_IDS": [
+        "ESA-011",
+        "ESA-043",
+        "ESA-053"
+      ],
+      "TRANSITION_CLASS": "DOMAIN_SPECIFIC",
+      "PRESSURE": "Learned components can change behaviour through data and feedback without any source-level interface change.",
+      "RESPONSE": "Expand architectural dependencies and evaluation to data/model/population context.",
+      "PRESENT_FORM": "Deterministic-interface reasoning is not transferred unchanged to learned components.",
+      "RESIDUAL_UNCERTAINTY": "Unknown consumers and feedback may be difficult to detect; deployment benefit is not quantified here.",
+      "SOURCE_IDS": [
+        "ESA-S056"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV17",
+      "CRITICISM_ID": "ESA-CR017",
+      "PROPERTY_IDS": [
+        "ESA-024",
+        "ESA-040",
+        "ESA-054",
+        "ESA-060"
+      ],
+      "TRANSITION_CLASS": "STILL_CONTESTED",
+      "PRESSURE": "Automated text, diagram and clustering success can be mistaken for validated architecture or trustworthy metrics.",
+      "RESPONSE": "Independently check generated semantics and evidence; use AI to propose rather than self-certify.",
+      "PRESENT_FORM": "Assistance is assumption-sensitive; open-ended autonomous architecting remains unresolved, not proved impossible.",
+      "RESIDUAL_UNCERTAINTY": "Representative longitudinal autonomy, total verification cost and changing requirements remain open.",
+      "SOURCE_IDS": [
+        "ESA-S047",
+        "ESA-S059",
+        "ESA-S062",
+        "ESA-S063"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV18",
+      "CRITICISM_ID": "ESA-CR018",
+      "PROPERTY_IDS": [
+        "ESA-056",
+        "ESA-058",
+        "ESA-067"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "Elaborate architectural process may burden a stable small system more than it protects it.",
+      "RESPONSE": "Use the smallest coherent concern–decision–realisation–feedback arrangement, adding technique only for a demonstrated need.",
+      "PRESENT_FORM": "Reject both maximal ceremony and “emergence means no reasoning”; ADD remains a selectable method.",
+      "RESIDUAL_UNCERTAINTY": "Evidence does not provide a universal small-team threshold or control-retirement formula.",
+      "SOURCE_IDS": [
+        "ESA-S003",
+        "ESA-S008",
+        "ESA-S010",
+        "ESA-S017",
+        "ESA-S041",
+        "ESA-S042"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV19",
+      "CRITICISM_ID": "ESA-CR019",
+      "PROPERTY_IDS": [
+        "ESA-062",
+        "ESA-014",
+        "ESA-016"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "PRESSURE": "Usability cannot always be repaired in the presentation layer, but not every usability scenario has architectural consequences.",
+      "RESPONSE": "Trace a user task to the state/control mechanism before moving responsibility across layers.",
+      "PRESENT_FORM": "Retain architectural consideration for consequential user interactions without turning the scenario catalogue into mandatory features.",
+      "RESIDUAL_UNCERTAINTY": "Architectural support is necessary in some cases but does not itself demonstrate usability for a population.",
+      "SOURCE_IDS": [
+        "ESA-S018"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    },
+    {
+      "EVOLUTION_ID": "ESA-EV20",
+      "CRITICISM_ID": "ESA-CR020",
+      "PROPERTY_IDS": [
+        "ESA-029",
+        "ESA-047",
+        "ESA-055"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "PRESSURE": "Weighted optimisation can conceal external obligations and stakeholder inequality.",
+      "RESPONSE": "Treat hard constraints separately and disclose whose cost/benefit is measured; analytical extension, not a theorem supplied by either method.",
+      "PRESENT_FORM": "No automatic scalarisation of all concerns; the composed system preserves vetoing constraints where legitimately specified.",
+      "RESIDUAL_UNCERTAINTY": "Resolving conflicting legitimate stakeholder constraints may require decisions outside software architecture.",
+      "SOURCE_IDS": [
+        "ESA-S022",
+        "ESA-S061"
+      ],
+      "HISTORICAL_CAUSALITY_LIMIT": "Sourced objection/evidence distinguished from this packet’s present synthesis; not every proposed response is an empirically validated intervention."
+    }
+  ],
+  "analytical_case_tests": [
+    {
+      "CASE_ID": "ESA-CASE01",
+      "TITLE": "One-team stable application versus long-lived multi-team product",
+      "STATUS": "ANALYTICAL_DISCRIMINATING_CASE_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESA-001",
+        "ESA-002",
+        "ESA-007",
+        "ESA-032",
+        "ESA-035",
+        "ESA-056"
+      ],
+      "SITUATION": "Two systems have comparable functionality; one has stable shared understanding and cheap local change, the other many teams, turnover and cross-boundary commitments.",
+      "SELECTED_ACTION_OR_NON_ACTION": "The small team uses ordinary code review plus a few consequential checks. The multi-team product preserves interface obligations, decisions and correspondence where consumers need them.",
+      "REQUIRED_OBSERVATION": "Whether consequential decisions are actually understood and whether changes violate another consumer’s commitments.",
+      "COMPOSED_SYSTEM_VERDICT": "No mandatory architecture office, multi-view package or ADR per edit. More coordination is warranted only where the second context creates a real dependency.",
+      "WHAT_WOULD_DEFEAT_THE_VERDICT": "The supposedly simple application acquires a critical external contract, or the multi-team artefacts have no demonstrable consumer."
+    },
+    {
+      "CASE_ID": "ESA-CASE02",
+      "TITLE": "Identical functional output, different operating qualities",
+      "STATUS": "ANALYTICAL_DISCRIMINATING_CASE_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESA-014",
+        "ESA-016",
+        "ESA-017",
+        "ESA-018",
+        "ESA-030"
+      ],
+      "SITUATION": "Two implementations return the same answers, but one times out under the required load and another consumes an unacceptable resource budget.",
+      "SELECTED_ACTION_OR_NON_ACTION": "Evaluate the declared response measures under the relevant load and resource boundary; choose a feasible trade-off rather than output equivalence alone.",
+      "REQUIRED_OBSERVATION": "Latency distribution, throughput/failure behaviour and the actual resource measure under stated conditions.",
+      "COMPOSED_SYSTEM_VERDICT": "Functional equivalence is insufficient for the architecture choice. The relevant quality constraints can discriminate.",
+      "WHAT_WOULD_DEFEAT_THE_VERDICT": "The load or resource boundary is unrepresentative, or neither implementation can satisfy the external constraint."
+    },
+    {
+      "CASE_ID": "ESA-CASE03",
+      "TITLE": "Authorised improvement violates an obsolete rule",
+      "STATUS": "ANALYTICAL_DISCRIMINATING_CASE_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESA-021",
+        "ESA-033",
+        "ESA-038",
+        "ESA-039",
+        "ESA-042",
+        "ESA-045"
+      ],
+      "SITUATION": "An old layering rule forbids a new dependency; a reviewed replacement preserves the protected invariant with lower cost.",
+      "SELECTED_ACTION_OR_NON_ACTION": "Investigate the finding, confirm authority and real effect, then supersede the rule/mapping rather than force the old structure.",
+      "REQUIRED_OBSERVATION": "The invariant still holds; obsolete consumers are absent; the new relation is represented accurately.",
+      "COMPOSED_SYSTEM_VERDICT": "Deviation is not automatically erosion. Conformance supplies a finding, not a veto over justified evolution.",
+      "WHAT_WOULD_DEFEAT_THE_VERDICT": "The old rule protected an overlooked security or failure boundary, or the proposed change was not actually authorised."
+    },
+    {
+      "CASE_ID": "ESA-CASE04",
+      "TITLE": "Apparently isolated component with hidden shared state",
+      "STATUS": "ANALYTICAL_DISCRIMINATING_CASE_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESA-007",
+        "ESA-008",
+        "ESA-010",
+        "ESA-011",
+        "ESA-050",
+        "ESA-051"
+      ],
+      "SITUATION": "Two separately deployed services share a mutable table and are forced to release together whenever its interpretation changes.",
+      "SELECTED_ACTION_OR_NON_ACTION": "Inspect semantic/data dependencies. Either enforce the needed independence or accept a coordinated unit rather than count deployments as isolation.",
+      "REQUIRED_OBSERVATION": "A representative schema/semantic change and fault demonstrate the actual propagation boundary.",
+      "COMPOSED_SYSTEM_VERDICT": "Naming and process separation do not establish operational independence. A modular monolith or explicit shared contract may dominate.",
+      "WHAT_WOULD_DEFEAT_THE_VERDICT": "A genuine independent scaling/failure constraint makes consolidation unacceptable; stronger data contracts may instead be justified."
+    },
+    {
+      "CASE_ID": "ESA-CASE05",
+      "TITLE": "Successful review, unrepresentative workload",
+      "STATUS": "ANALYTICAL_DISCRIMINATING_CASE_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESA-015",
+        "ESA-018",
+        "ESA-028",
+        "ESA-030",
+        "ESA-031"
+      ],
+      "SITUATION": "An architecture review finds no major risks for a small steady workload; production has bursty traffic and a previously omitted failure mode.",
+      "SELECTED_ACTION_OR_NON_ACTION": "Treat the new evidence as a reason to reopen scenarios and the affected choice, not as proof the review procedure was faithfully predictive.",
+      "REQUIRED_OBSERVATION": "Production-relevant load/fault observations, with the earlier assumptions retained for comparison.",
+      "COMPOSED_SYSTEM_VERDICT": "The review’s coordination/risk-discovery result can remain real while its operational prediction is invalid outside scope.",
+      "WHAT_WOULD_DEFEAT_THE_VERDICT": "The supposed production observation is itself sampled or misattributed; causal contribution requires separating changed architecture from unrelated interventions."
+    },
+    {
+      "CASE_ID": "ESA-CASE06",
+      "TITLE": "Runtime adaptation improves a metric and violates an external constraint",
+      "STATUS": "ANALYTICAL_DISCRIMINATING_CASE_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESA-017",
+        "ESA-046",
+        "ESA-047",
+        "ESA-048",
+        "ESA-055",
+        "ESA-063"
+      ],
+      "SITUATION": "A controller saves energy by consolidating work but exceeds a non-negotiable response-time or separation constraint.",
+      "SELECTED_ACTION_OR_NON_ACTION": "Exclude the action from admissible policies, restore an acceptable state and examine the policy/model observation boundary.",
+      "REQUIRED_OBSERVATION": "Both energy and the external constraint after the actual change, not the controller’s own score.",
+      "COMPOSED_SYSTEM_VERDICT": "Local improvement neither authorises the change nor establishes whole-system improvement.",
+      "WHAT_WOULD_DEFEAT_THE_VERDICT": "The external constraint was actually negotiable under the authorised trade-off and the new response is within that agreed range."
+    },
+    {
+      "CASE_ID": "ESA-CASE07",
+      "TITLE": "Failed observation creates a fictitious successful adaptation",
+      "STATUS": "ANALYTICAL_DISCRIMINATING_CASE_NOT_EMPIRICAL_VALIDATION",
+      "PROPERTY_IDS": [
+        "ESA-003",
+        "ESA-021",
+        "ESA-024",
+        "ESA-046",
+        "ESA-047",
+        "ESA-063"
+      ],
+      "SITUATION": "A stale probe reports a healthy node after the actuator has failed to move work.",
+      "SELECTED_ACTION_OR_NON_ACTION": "Suspend the unsupported claim, use independent state evidence or a safe fallback, and repair the observation/actuation mapping.",
+      "REQUIRED_OBSERVATION": "Real deployment and request behaviour establish whether the action happened and whether constraints hold.",
+      "COMPOSED_SYSTEM_VERDICT": "A model transition is not a real transition. The composed account fails closed on the claim, not by pretending all operation can stop without cost.",
+      "WHAT_WOULD_DEFEAT_THE_VERDICT": "A bounded degraded mode is unavailable; the residual operating risk then requires explicit accountable judgement rather than fictional assurance."
+    }
+  ],
+  "published_case_tests": [
+    {
+      "CASE_ID": "ESA-PCASE01",
+      "SOURCE_IDS": [
+        "ESA-S026"
+      ],
+      "CASE": "Aesop architectural mismatch",
+      "SUPPORTED_INFERENCE": "Nominally reusable parts can impose incompatible control/data assumptions.",
+      "LIMIT": "One programme; its several publications are not independent replications."
+    },
+    {
+      "CASE_ID": "ESA-PCASE02",
+      "SOURCE_IDS": [
+        "ESA-S039"
+      ],
+      "CASE": "Istio control-plane consolidation",
+      "SUPPORTED_INFERENCE": "Shared deployment/scaling/administration can make separate services costly without producing intended independence.",
+      "LIMIT": "Specific control plane; data-plane proxies remained separate; not universal anti-microservices evidence."
+    },
+    {
+      "CASE_ID": "ESA-PCASE03",
+      "SOURCE_IDS": [
+        "ESA-S038"
+      ],
+      "CASE": "Shopify modular monolith",
+      "SUPPORTED_INFERENCE": "Deliberate architectural componentisation need not require independent deployment units.",
+      "LIMIT": "Historical project account; does not prove an inevitable size-based architecture progression."
+    },
+    {
+      "CASE_ID": "ESA-PCASE04",
+      "SOURCE_IDS": [
+        "ESA-S054"
+      ],
+      "CASE": "Rainbow robustness tests",
+      "SUPPORTED_INFERENCE": "Faults in observed architectural state can lead to silent failures in tested adaptation systems.",
+      "LIMIT": "Injected tests in Znn/DCAS; not production failure frequencies."
+    },
+    {
+      "CASE_ID": "ESA-PCASE05",
+      "SOURCE_IDS": [
+        "ESA-S061"
+      ],
+      "CASE": "EcoFaaS energy/latency experiment",
+      "SUPPORTED_INFERENCE": "Resource-control benefits must be read alongside the chosen SLO and latency trade-off; mean latency can worsen while reported energy/tail metrics improve.",
+      "LIMIT": "Specific hardware, workloads and measurement boundary; not whole-lifecycle carbon or every serverless deployment."
+    }
+  ],
+  "independence_notes": {
+    "RULE": "Multiple publications/editions, reused datasets and programmes are not statistically independent evidence.",
+    "SHARED_CLUSTERS": {
+      "LI-EROSION-REVIEWS": [
+        "ESA-S046",
+        "ESA-S047"
+      ],
+      "OREIZY-RUNTIME-PROGRAMME": [
+        "ESA-S051",
+        "ESA-S052"
+      ],
+      "RAINBOW-PROGRAMME": [
+        "ESA-S053",
+        "ESA-S054"
+      ],
+      "SEI-ATAM-PROGRAMME": [
+        "ESA-S020",
+        "ESA-S021",
+        "ESA-S022"
+      ]
+    },
+    "ADDITIONAL_OVERLAP": "The 2024 microservice survey reused 35 of 53 participant responses; its new-question denominator can be 18. Decomposition benchmarks recur across publications and combine reported and reproduced results. Source tables retain these limits."
+  },
+  "pre_freeze_corrections": {
+    "substantive_reference_corrections": [
+      "Removed unrelated ISO source from ESA-050; substituted the inspected information-hiding source.",
+      "Separated provisional ESA-057 into ESA-065 REST and ESA-066 SOA reference-model constraints.",
+      "Added ESA-067 recursive driver-based design and ESA-068 the well-formedness-dependent Wright result.",
+      "Source bibliographic inspection corrected the actual editions of the Tang report, Rainbow ICAC paper, mirroring working paper, erosion authors and dated institutional entries before freeze.",
+      "Clarified ESA-S062 access route: published article text inspected via the author-upload page, not a claim of direct publisher-site access. No property disposition changed."
+    ],
+    "syntax_only_normalisation": [
+      "UTF-8 JSON with two-space indentation and final newline; stable source/property identifiers."
+    ]
+  }
+}

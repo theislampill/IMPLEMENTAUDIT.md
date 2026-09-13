@@ -142,10 +142,13 @@ assert meta["package_identity"]["generated_projections"] == {
     "standalone_compatibility": {"artifact": "IMPLEMENTAUDIT.skill", "layout": "flattened-skill"},
 }
 assert meta["release_url"] == site["release"]["url"]
-assert meta["release_publication_state"] == "published"
-assert site["release"]["milestone"] == "v0.4.0.0"
-assert site["release"]["manifest_version"] == "0.4.0"
-assert site["release"]["audit_ledger_url"].endswith("/v0.4.0.0-release-report.md")
+assert meta["release_publication_state"] == site["release"]["publication_state"]
+assert site["release"]["milestone"] == meta["package_identity"]["release_family"]
+assert site["release"]["manifest_version"] == meta["package_identity"]["runtime_version"]
+if site["release"]["publication_state"] == "candidate":
+    assert site["release"]["audit_ledger_url"].endswith("/docs/audits/INDEX.md")
+else:
+    assert site["release"]["audit_ledger_url"].endswith("/" + site["release"]["milestone"] + "-release-report.md")
 audit_trail_source = Path("docs/portal/pages/audit-trail.html").read_text(encoding="utf-8")
 assert "39bf3006df81a12d3c2a32e956cab00c3b3384d9" in audit_trail_source
 assert "e7a733be10338a398d0112454088ae3dc2b56f60" in audit_trail_source
@@ -175,6 +178,8 @@ required = {
     "package/implementaudit-package.json",
 }
 assert required.issubset(set(meta["source_files_used"]))
+release_label = {"candidate": "Candidate release", "published": "Release"}[site["release"]["publication_state"]]
+other_label = "Release" if release_label == "Candidate release" else "Candidate release"
 for page_id in ordered:
     page = site["pages"][page_id]
     rel = page["path"].strip("/")
@@ -184,11 +189,11 @@ for page_id in ordered:
     assert 'class="page-context"' not in text
     assert 'class="page-proof-strip"' in text
     assert text.find('class="page-proof-strip"') > text.find("<footer>")
-    assert "<dt>Release</dt>" in text
-    assert "<dt>Candidate release</dt>" not in text
+    assert f"<dt>{release_label}</dt>" in text
+    assert f"<dt>{other_label}</dt>" not in text
 overview = (out / "index.html").read_text(encoding="utf-8")
-assert "<em>Release</em>" in overview
-assert "<em>Candidate release</em>" not in overview
+assert f"<em>{release_label}</em>" in overview
+assert f"<em>{other_label}</em>" not in overview
 PY
 then
   ok "metadata, site nav, and page shell agree"
@@ -291,40 +296,54 @@ from pathlib import Path
 
 site = json.loads(Path("docs/portal/site.json").read_text(encoding="utf-8"))
 release = site["release"]
-assert release["publication_state"] == "published"
-status = release["status"].lower()
-assert "published" in status and "independently read back" in status
-for stale in ("candidate public identity", "prepublication", "remain pending"):
-    assert stale not in status, stale
+if release["publication_state"] == "candidate":
+    status = release["status"].lower()
+    assert all(token in status for token in (
+        "candidate", "source checkout only", "no tag", "no release", "no publication", "no provenance"
+    ))
+    assert release["url"] == ""
+    assert release["audit_ledger_url"].endswith("/docs/audits/INDEX.md")
+    index = Path("docs/audits/INDEX.md").read_text(encoding="utf-8")
+    assert release["milestone"] in index and release["manifest_version"] in index
+    overview = Path("docs/portal/pages/overview.html").read_text(encoding="utf-8")
+    assert "<em>Candidate release</em>" in overview and release["milestone"] in overview
+    assert "/releases/tag/" + release["milestone"] not in overview
+    assert "/releases/download/" + release["milestone"] not in overview
+else:
+    assert release["publication_state"] == "published"
+    status = release["status"].lower()
+    assert "published" in status and "independently read back" in status
+    for stale in ("candidate public identity", "prepublication", "remain pending"):
+        assert stale not in status, stale
 
-for path, forbidden in {
-    "README.md": (
-        "candidate public identity is `v0.4.0.0`",
-        "Current project milestone: prepublication `v0.4.0.0` candidate",
-        "Only after v0.4.0.0 is published and independently read back",
-        "future tagged `v0.4.0.0` asset",
-    ),
-    "CHANGELOG.md": (
-        "No changes are currently assigned beyond the v0.4.0.0 candidate.",
-        "This source entry is a prepublication candidate",
-        "Final artifact bytes, SHA-256 values, native-host results, hosted checks, and public readbacks remain pending",
-    ),
-    "docs/portal/pages/overview.html": (
-        "v0.4.0.0 candidate",
-        "Candidate release",
-    ),
-    "docs/portal/pages/installation.html": (
-        "candidate release routes, not evidence that a public release already exists",
-        "release-page, checksum, and fresh-download digests remain pending",
-    ),
-    "docs/portal/pages/audit-trail.html": (
-        "Prepublication <code>v0.4.0.0</code> candidate",
-        "v0.4.0.0 final-main Pages qualification and public readback remain pending",
-    ),
-}.items():
-    text = Path(path).read_text(encoding="utf-8")
-    for stale in forbidden:
-        assert stale not in text, f"{path}: {stale}"
+    for path, forbidden in {
+        "README.md": (
+            "candidate public identity is `v0.4.0.0`",
+            "Current project milestone: prepublication `v0.4.0.0` candidate",
+            "Only after v0.4.0.0 is published and independently read back",
+            "future tagged `v0.4.0.0` asset",
+        ),
+        "CHANGELOG.md": (
+            "No changes are currently assigned beyond the v0.4.0.0 candidate.",
+            "This source entry is a prepublication candidate",
+            "Final artifact bytes, SHA-256 values, native-host results, hosted checks, and public readbacks remain pending",
+        ),
+        "docs/portal/pages/overview.html": (
+            "v0.4.0.0 candidate",
+            "Candidate release",
+        ),
+        "docs/portal/pages/installation.html": (
+            "candidate release routes, not evidence that a public release already exists",
+            "release-page, checksum, and fresh-download digests remain pending",
+        ),
+        "docs/portal/pages/audit-trail.html": (
+            "Prepublication <code>v0.4.0.0</code> candidate",
+            "v0.4.0.0 final-main Pages qualification and public readback remain pending",
+        ),
+    }.items():
+        text = Path(path).read_text(encoding="utf-8")
+        for stale in forbidden:
+            assert stale not in text, f"{path}: {stale}"
 PY
 then
   ok "maintained v0.4 public owners reject stale candidate and pending-publication truth"
@@ -362,15 +381,24 @@ for rel in rel_sources:
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
 
-site["release"]["milestone"] = "v0.4.0.0"
-site["release"]["manifest_version"] = "0.4.0"
+site["release"]["milestone"] = "v0.4.1.0"
+site["release"]["manifest_version"] = "0.4.1"
 site["release"]["publication_state"] = "published"
-site["release"]["status"] = "v0.4.0.0 is published and independently read back"
+site["release"]["url"] = "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.4.1.0"
+site["release"]["status"] = "v0.4.1.0 is published and independently read back"
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.4.0.0-release-report.md"
+    "docs/audits/archive/v0.4.1.0-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+fixture_overview = fixture_root / "docs" / "portal" / "pages" / "overview.html"
+fixture_html = fixture_overview.read_text(encoding="utf-8")
+fixture_html = fixture_html.replace("<em>Candidate release</em>", "<em>Release</em>")
+fixture_html = fixture_html.replace(
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/INDEX.md",
+    site["release"]["audit_ledger_url"],
+)
+fixture_overview.write_text(fixture_html, encoding="utf-8")
 valid = subprocess.run(
     [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
     text=True,
@@ -379,7 +407,7 @@ valid = subprocess.run(
 )
 assert valid.returncode == 0, valid.stderr
 metadata = json.loads((fixture_root / "dist" / "docs-portal" / "docs-metadata.json").read_text(encoding="utf-8"))
-assert metadata["project_milestone"] == "v0.4.0.0", metadata["project_milestone"]
+assert metadata["project_milestone"] == "v0.4.1.0", metadata["project_milestone"]
 assert metadata["package_identity"]["required_skills"] == [
     "implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"
 ]
@@ -431,7 +459,7 @@ assert claude_extension_check.returncode == 0, claude_extension_check.stderr
 shutil.copy2(source_root / ".claude-plugin" / "plugin.json", claude_path)
 
 published_status = site["release"]["status"]
-site["release"]["status"] = "v0.4.0.0 is the candidate public identity"
+site["release"]["status"] = "v0.4.1.0 is the candidate public identity"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 wrong_publication_status = run_build()
 assert wrong_publication_status.returncode != 0
@@ -456,7 +484,9 @@ assert contract_drift.returncode != 0
 assert "package contract runtime version" in contract_drift.stderr
 shutil.copy2(source_root / "package" / "implementaudit-package.json", contract_path)
 
-site["release"]["milestone"] = "v0.4.1.0"
+valid_milestone = site["release"]["milestone"]
+site["release"]["milestone"] = "v0.5.0.0"
+assert site["release"]["milestone"] != valid_milestone, "wrong-family mutation must change the valid fixture"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 wrong_family = subprocess.run(
     [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
@@ -465,9 +495,9 @@ wrong_family = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert wrong_family.returncode != 0
-assert "does not belong to runtime family 0.4.0" in wrong_family.stderr
+assert "does not belong to runtime family 0.4.1" in wrong_family.stderr
 
-site["release"]["milestone"] = "v0.4.0.0"
+site["release"]["milestone"] = "v0.4.1.0"
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
     "docs/audits/archive/v0.3.3.3-release-report.md"
@@ -479,8 +509,8 @@ stale_ledger = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
 )
-assert stale_ledger.returncode != 0, "generator accepted a v0.3.3.3 audit ledger for v0.4.0.0"
-assert "must name a non-placeholder v0.4.0.0 markdown ledger" in stale_ledger.stderr
+assert stale_ledger.returncode != 0, "generator accepted a v0.3.3.3 audit ledger for v0.4.1.0"
+assert "must name a non-placeholder v0.4.1.0 markdown ledger" in stale_ledger.stderr
 
 site["release"]["audit_ledger_url"] = "unknown"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
@@ -491,11 +521,11 @@ placeholder_ledger = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert placeholder_ledger.returncode != 0, "generator accepted a placeholder audit ledger"
-assert "must name a non-placeholder v0.4.0.0 markdown ledger" in placeholder_ledger.stderr
+assert "must name a non-placeholder v0.4.1.0 markdown ledger" in placeholder_ledger.stderr
 
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/placeholder-v0.4.0.0-TBD.md"
+    "docs/audits/archive/placeholder-v0.4.1.0-TBD.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 exact_tag_placeholder_ledger = subprocess.run(
@@ -505,13 +535,13 @@ exact_tag_placeholder_ledger = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert exact_tag_placeholder_ledger.returncode != 0, (
-    "generator accepted placeholder-v0.4.0.0-TBD.md instead of the canonical ledger basename"
+    "generator accepted placeholder-v0.4.1.0-TBD.md instead of the canonical ledger basename"
 )
-assert "must name a non-placeholder v0.4.0.0 markdown ledger" in exact_tag_placeholder_ledger.stderr
+assert "must name a non-placeholder v0.4.1.0 markdown ledger" in exact_tag_placeholder_ledger.stderr
 
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.4.0.00-release-report.md"
+    "docs/audits/archive/v0.4.1.00-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 prefix_collision_ledger = subprocess.run(
@@ -520,8 +550,8 @@ prefix_collision_ledger = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
 )
-assert prefix_collision_ledger.returncode != 0, "generator accepted a v0.4.0.00 ledger for v0.4.0.0"
-assert "must name a non-placeholder v0.4.0.0 markdown ledger" in prefix_collision_ledger.stderr
+assert prefix_collision_ledger.returncode != 0, "generator accepted a v0.4.1.00 ledger for v0.4.1.0"
+assert "must name a non-placeholder v0.4.1.0 markdown ledger" in prefix_collision_ledger.stderr
 PY
 then
   ok "explicit portal milestone and matching non-placeholder ledger control release metadata"
@@ -763,14 +793,17 @@ from pathlib import Path
 root = Path(sys.argv[1])
 for path in root.rglob("*.html"):
     text = path.read_text(encoding="utf-8")
-    text = text.replace("<dt>Release</dt>", "<dt>Candidate release</dt>")
-    text = text.replace("<em>Release</em>", "<em>Candidate release</em>")
+    actual = "Candidate release" if "<dt>Candidate release</dt>" in text else "Release"
+    wrong = "Release" if actual == "Candidate release" else "Candidate release"
+    assert f"<dt>{actual}</dt>" in text
+    text = text.replace(f"<dt>{actual}</dt>", f"<dt>{wrong}</dt>")
+    text = text.replace(f"<em>{actual}</em>", f"<em>{wrong}</em>")
     path.write_text(text, encoding="utf-8")
 PY
 if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_release_label" >/dev/null 2>&1; then
-  fail_check "check-docs-portal.py accepted a candidate label for published output"
+  fail_check "check-docs-portal.py accepted the opposite publication-state label"
 else
-  ok "check-docs-portal.py rejects a candidate label for published output"
+  ok "check-docs-portal.py rejects the opposite publication-state label"
 fi
 
 cp -R "$out" "$bad_overview_release"
@@ -1108,24 +1141,143 @@ else
   ok "build-docs-portal.py refuses unsafe output directories"
 fi
 
+set +e
+claim_baseline_output="$(bash scripts/check-public-claim-boundaries.sh 2>&1)"
+claim_baseline_status=$?
+set -e
+
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
 import sys
 from pathlib import Path
 
 Path(sys.argv[1]).write_text("Local installs do not " + "auto-" + "update.\n", encoding="utf-8")
 PY
-if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+set +e
+negative_claim_output="$(bash scripts/check-public-claim-boundaries.sh 2>&1)"
+negative_claim_status=$?
+set -e
+if [ "$negative_claim_status" -eq "$claim_baseline_status" ] &&
+   [ "$negative_claim_output" = "$claim_baseline_output" ]; then
   ok "check-public-claim-boundaries.sh allows negative local install update context"
 else
   fail_check "check-public-claim-boundaries.sh rejected negative local install update context"
+  printf '%s\n' "$negative_claim_output" >&2
 fi
 
 if grep -Fq 'S³E held-out source mutation false-passed' \
      scripts/check-public-claim-boundaries.sh &&
-   bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+   [ "$negative_claim_status" -eq "$claim_baseline_status" ] &&
+   [ "$negative_claim_output" = "$claim_baseline_output" ]; then
   ok "public-claim acceptance guards S³E title/no-mode/cheap-path held-outs"
 else
   fail_check "public-claim acceptance lacks S³E source-coupled held-outs"
+fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "auto-" + "install and network modes are refused\n",
+    encoding="utf-8",
+)
+PY
+set +e
+coordinated_refusal_output="$(bash scripts/check-public-claim-boundaries.sh 2>&1)"
+coordinated_refusal_status=$?
+set -e
+if [ "$coordinated_refusal_status" -eq "$negative_claim_status" ] &&
+   [ "$coordinated_refusal_output" = "$negative_claim_output" ]; then
+  ok "check-public-claim-boundaries.sh allows coordinated automatic-installation refusal context"
+else
+  fail_check "check-public-claim-boundaries.sh rejected coordinated automatic-installation refusal context"
+fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "auto-" + "install and network modes are refused; "
+    "this package can auto-" + "install from the host.\n",
+    encoding="utf-8",
+)
+PY
+set +e
+coordinated_then_affirmative_output="$(bash scripts/check-public-claim-boundaries.sh 2>&1)"
+coordinated_then_affirmative_status=$?
+set -e
+auto_install_reason="auto-in""stall claim requires a tested installer/updater mechanism: auto-in""stall"
+if [ "$coordinated_then_affirmative_status" -ne 0 ] && grep -Fq \
+  "$auto_install_reason" \
+  <<<"$coordinated_then_affirmative_output"; then
+  ok "check-public-claim-boundaries.sh rejects affirmative automatic-installation after coordinated refusal"
+else
+  fail_check "check-public-claim-boundaries.sh accepted affirmative automatic-installation after coordinated refusal"
+fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "This package can auto-" + "install from the host; "
+    "auto-" + "install and network modes are refused.\n",
+    encoding="utf-8",
+)
+PY
+set +e
+affirmative_then_coordinated_output="$(bash scripts/check-public-claim-boundaries.sh 2>&1)"
+affirmative_then_coordinated_status=$?
+set -e
+if [ "$affirmative_then_coordinated_status" -ne 0 ] && grep -Fq \
+  "$auto_install_reason" \
+  <<<"$affirmative_then_coordinated_output"; then
+  ok "check-public-claim-boundaries.sh rejects affirmative automatic-installation before coordinated refusal"
+else
+  fail_check "check-public-claim-boundaries.sh accepted affirmative automatic-installation before coordinated refusal"
+fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "This package can auto-" + "install from the host.\n",
+    encoding="utf-8",
+)
+PY
+set +e
+auto_install_output="$(bash scripts/check-public-claim-boundaries.sh 2>&1)"
+auto_install_status=$?
+set -e
+if [ "$auto_install_status" -ne 0 ] && grep -Fq \
+  "$auto_install_reason" \
+  <<<"$auto_install_output"; then
+  ok "check-public-claim-boundaries.sh rejects affirmative automatic-installation claims"
+else
+  fail_check "check-public-claim-boundaries.sh accepted an affirmative automatic-installation claim"
+fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "This package can auto-" + "install; unrelated network modes are refused.\n",
+    encoding="utf-8",
+)
+PY
+set +e
+auto_install_output="$(bash scripts/check-public-claim-boundaries.sh 2>&1)"
+auto_install_status=$?
+set -e
+if [ "$auto_install_status" -ne 0 ] && grep -Fq \
+  "$auto_install_reason" \
+  <<<"$auto_install_output"; then
+  ok "check-public-claim-boundaries.sh rejects mixed-polarity automatic-installation claims"
+else
+  fail_check "check-public-claim-boundaries.sh accepted a mixed-polarity automatic-installation claim"
 fi
 
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'

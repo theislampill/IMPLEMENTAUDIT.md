@@ -1,0 +1,230 @@
+{
+  "schema_version": "ESME_CANONICAL_FREEZE_1.0",
+  "lineage_id": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+  "revision": "ESME-CANONICAL-R1-2026-09-06",
+  "research_cutoff": "2026-09-06",
+  "state": "FROZEN",
+  "analytical_label_status": "RECONCILED_ANALYTICAL_SYNTHESIS_NOT_AN_ESTABLISHED_HISTORICAL_SCHOOL",
+  "canonical_property_population_total": 105,
+  "canonical_property_population_examined": 105,
+  "canonical_source_population_total": 106,
+  "disposition_counts": {
+    "STRONGLY_RETAINED": 16,
+    "RETAINED_IN_EVOLVED_FORM": 25,
+    "CONTEXT_DEPENDENT": 20,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "REJECTED_OR_DISFAVOURED": 16,
+    "ASSUMPTION_SENSITIVE": 15,
+    "USEFUL_BUT_EASILY_BUREAUCRATISED": 2,
+    "USEFUL_BUT_EASILY_GAMED": 2,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 2,
+    "DOMAIN_SPECIFIC": 3,
+    "CONTESTED": 1,
+    "UNRESOLVED": 2
+  },
+  "examination_counts": {
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 48,
+    "EXAMINED": 57
+  },
+  "evidence_limit_category_counts": {
+    "INHERITED_PROPERTY_EXAMINATION_LIMIT": 47,
+    "ANALYTICAL_SPECIALISATION_ANTECEDENTS_ONLY": 2,
+    "UNSETTLED_SUBSTANTIVE_CLAIM": 3,
+    "ANALYTICAL_COMPOUND_NOT_INDEPENDENTLY_VALIDATED": 5
+  },
+  "conditionally_crosswalk_worthy_count": 83,
+  "composition_relation_count": 83,
+  "alternative_configuration_count": 11,
+  "composition_induced_property_count": 4,
+  "reconciliation_induced_composition_property_count": 0,
+  "absorbed_induced_specialisation_count": 3,
+  "criticism_count": 30,
+  "internal_tension_count": 11,
+  "case_test_count": 14,
+  "analytical_case_count": 11,
+  "published_case_reanalysis_count": 3,
+  "ceremony_group_count": 19,
+  "unresolved_primary_disposition_count": 2,
+  "contested_primary_disposition_count": 1,
+  "unresolved_composition_question_count": 6,
+  "unresolved_semantic_mapping_count": 0,
+  "source_work_identity_with_unpinned_revision_count": 3,
+  "mandatory_family_count": 10,
+  "uncompleted_mandatory_families": 0,
+  "input_property_accounting": {
+    "A": "98/98",
+    "B": "74/74",
+    "TOTAL": "172/172",
+    "ORPHANS": 0
+  },
+  "input_source_accounting": {
+    "A": "67/67",
+    "B": "67/67",
+    "TOTAL": "134/134",
+    "ORPHANS": 0
+  },
+  "input_packets": [
+    {
+      "packet": "A",
+      "archive_path": "/mnt/data/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_PACKET(1)(2).zip",
+      "bytes": 462887,
+      "sha256": "164c683b37e50e24ec374180de0112c1f763f8412b1a2d0705c268ae853134e0",
+      "revision": "ESME-R2-2026-09-06",
+      "crc": "PASS",
+      "payload_checks": 8,
+      "manifest_correspondence": "PASS",
+      "members": [
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_AUDIT_INTAKE.md",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_COMPOSITION_MODEL.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_MANIFEST.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_REPORT.md",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_PROPERTY_LEDGER.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_RESEARCH_COVERAGE.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SOURCE_TABLE.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SYNTHESIS_INTAKE.md"
+      ]
+    },
+    {
+      "packet": "B",
+      "archive_path": "/mnt/data/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_PACKET(3).zip",
+      "bytes": 412381,
+      "sha256": "89d8623c470239d8237018010e59426610481e27d7e89beb5309be2a02dd7a60",
+      "revision": "ESME-2026-09-06-r1",
+      "crc": "PASS",
+      "payload_checks": 8,
+      "manifest_correspondence": "PASS",
+      "members": [
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_REPORT.md",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_PROPERTY_LEDGER.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SOURCE_TABLE.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_AUDIT_INTAKE.md",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SYNTHESIS_INTAKE.md",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_COMPOSITION_MODEL.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_RESEARCH_COVERAGE.json",
+        "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_MANIFEST.json"
+      ]
+    }
+  ],
+  "deliverable_status": {
+    "report": "COMPLETE",
+    "property_ledger": "COMPLETE",
+    "source_reconciliation": "COMPLETE",
+    "property_reconciliation": "COMPLETE",
+    "composition": "COMPLETE",
+    "mandatory_family_reconciliation": "COMPLETE",
+    "audit_intake": "COMPLETE",
+    "public_documentation_intake": "COMPLETE",
+    "later_synthesis_intake": "COMPLETE"
+  },
+  "independence": {
+    "sibling_corpora_consulted": false,
+    "sss_synthesis_performed": false,
+    "cross_trifecta_synthesis_performed": false,
+    "implementaudit_crosswalk_performed": false,
+    "target_adoption_performed": false,
+    "real_authority_supplied_by_this_packet": false
+  },
+  "evidence_boundary": "The frozen records and their claim/access accounts were inspected here. The underlying articles, PDFs and web pages were not re-accessed in this reconciliation; their original access is inherited, not independently certified. Custody and internal consistency do not establish scholarly truth.",
+  "freeze_meaning": "A stable adjudicated research state. Integrity and reference verification do not certify independent scholarly truth, empirical whole-system benefit or target adoption.",
+  "verification_protocol": "Read-only standalone verifier checks exact original-record conservation, canonical IDs and references, counters, all intake entries and all required source/property mappings. The final ZIP is closed, reopened, CRC-tested, membership/bytes/hashes checked, then freshly verified again. Enclosing-ZIP receipts are external to avoid self-reference.",
+  "payload_inventory": [
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_AUDIT_INTAKE.md",
+      "bytes": 470110,
+      "sha256": "4850521bdc3e3303ea47d9ab36a40fa9f627bfcbed59417ce6599407d9e268b6"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_COMPOSITION_MODEL.json",
+      "bytes": 209612,
+      "sha256": "a6f0e91bd22809c94c12e34016d26f98b6ec7d963e507a70f9c66de66a18000b"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_CRITICAL_AND_CASE_LEDGER.json",
+      "bytes": 778306,
+      "sha256": "41023314ba7d9fba47f6370fec6f74c00fbaf959f9e1369a14dbb46e73f30e30"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_REPORT.md",
+      "bytes": 70333,
+      "sha256": "da57dddc67cf112abf945a99de952ef79e8db4acb51622d7698e50d414717777"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_GENEALOGY_RECONCILIATION.json",
+      "bytes": 131187,
+      "sha256": "96cb252cfad032fac6cc9670e4c9ab465fe40690d3a0ae9a29feeaba91fdf132"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+      "bytes": 6059346,
+      "sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 9984,
+      "sha256": "6c8ba9c6dbd5a2960c811623b9231c688b40cdcffbd0a9c3c43a487b6fb35abd"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_RESEARCH_COVERAGE.json",
+      "bytes": 71826,
+      "sha256": "d8fb6d34803cf6f6f93d271b62626e33ccbb2e8873343e9d23aaf7c149d42fb2"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SOURCE_TABLE.json",
+      "bytes": 488432,
+      "sha256": "3ce71e85f89b992330dce243b6de5a168820c6fc957f98421114ef50fe150a02"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.json",
+      "bytes": 1840231,
+      "sha256": "1e95a93ebd463df023fee99a7e5ffde527057878dfa3cfb0e0aba4154d79a1a4"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.md",
+      "bytes": 721054,
+      "sha256": "9dc2f73e3883e5593154775c46c7c296ae939d986b36c866df3af386b76135c5"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_VERIFICATION.json",
+      "bytes": 7877,
+      "sha256": "486c9f4755cceda622978507b67d69d4fed464b9832412655b5b2c2a4a074ac6"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_RECONCILIATION_LEDGER.json",
+      "bytes": 9789204,
+      "sha256": "e42c48abd9367d26fa9ac2430b7f5fe79dd4a37568645a476cc516065e0e1b7a"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SOURCE_RECONCILIATION_LEDGER.json",
+      "bytes": 672137,
+      "sha256": "2f84d067d9910ea42dde9285b1df639af118a9b3d5b4cce867a8480faead2c58"
+    },
+    {
+      "filename": "START_HERE.md",
+      "bytes": 1217,
+      "sha256": "7d136c256948e22b5a7a8b01c50683cc57fad9251b17d5249499f3aafb318dd1"
+    },
+    {
+      "filename": "VERIFY_CANONICAL_PACKET.py",
+      "bytes": 26747,
+      "sha256": "195adabee5bc8e9f55f01e5c16e0c9b1670ab3f69acf8042047d8e1b7842a2dc"
+    },
+    {
+      "filename": "inputs/CONTROLLING_RECONCILIATION_PROMPT.md",
+      "bytes": 34294,
+      "sha256": "08be56edd8401da275b52515d95eb1cb4b3f878d61a09167cb606cf758c21e1f"
+    },
+    {
+      "filename": "inputs/PACKET_A.zip",
+      "bytes": 462887,
+      "sha256": "164c683b37e50e24ec374180de0112c1f763f8412b1a2d0705c268ae853134e0"
+    },
+    {
+      "filename": "inputs/PACKET_B.zip",
+      "bytes": 412381,
+      "sha256": "89d8623c470239d8237018010e59426610481e27d7e89beb5309be2a02dd7a60"
+    }
+  ],
+  "hash_policy": "Every file except this manifest is inventoried. The manifest does not hash itself or the enclosing ZIP. The external archive receipt carries exact final ZIP bytes and SHA-256."
+}

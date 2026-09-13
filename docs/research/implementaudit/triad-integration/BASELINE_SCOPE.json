@@ -1,0 +1,228 @@
+{
+  "schema": "implementaudit.triad-baseline-scope.v1",
+  "baseline_identity": {
+    "bytes": 13811,
+    "sha256": "85cdf80d8394fd683957a200542f21849c91de28ebc22d132e4d301550e33695"
+  },
+  "handoff_identity": {
+    "bytes": 6947,
+    "sha256": "1200e531d171bfc249dd97dccaa17c38cc22678cbb342b7d7fd91c238194065b"
+  },
+  "base_commit": "57b48140f1266cbd3f6316718463409a134f1969",
+  "base_tree": "4e5f6ce2467c7c0535408a5c3745a0365b94f5c3",
+  "source_layer_boundary": "Clean integration branch differs from nine frozen controller postimages; 1246 accepted source files remain evidence awaiting EH3 application.",
+  "release_frontier": {
+    "required_remaining": 26,
+    "conditional_remaining": "B-F3",
+    "planning_range": "26-27",
+    "required_cells_in_ordered_ledger": [
+      "EH-3",
+      "EH-1",
+      "EH-2",
+      "GHK-AUTH/RECOVERY",
+      "F-TRIGGER",
+      "G-DISPATCH",
+      "B-P1",
+      "R38-C11",
+      "PKG-VERSION",
+      "B-P4B",
+      "R38-C12",
+      "R38-C13",
+      "J-PKG-A",
+      "HOT-RVW",
+      "J-PKG",
+      "HC-E1",
+      "R39-F9",
+      "B-F1",
+      "B-F2",
+      "CAM-Q1",
+      "CAM-M1",
+      "CAM-R1",
+      "CAM-P1",
+      "R38-C14",
+      "CAM-I1",
+      "CAM-T1"
+    ],
+    "conditional_cell": "B-F3",
+    "deferred_or_optional_rows": [
+      "HC-H5",
+      "R30-P53",
+      "R38-OPTIONAL-ROWS",
+      "B-P6-SOURCE-DELTA"
+    ],
+    "mic": "DEFERRED_NONCRITICAL_NO_REACTIVATION",
+    "current_critical_path_hypothesis": "AUTHENTICATED_EFFECT_ADMISSION_THEN_EH3_BATCH_SINK_APPLICATION",
+    "latest_current_frontier": {
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g02ac-release-tail-partial-effects-at-boundary.json",
+      "bytes": 8279,
+      "sha256": "dab34f9c328494b5144eacc3e3275c1d03b1dd4f4dd8a7d0f9825474cb74d355"
+    },
+    "auto_loom_orientation": {
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g029b-left-justified-partial-join-schedule.md",
+      "bytes": 21273,
+      "sha256": "50728ae7d2fc6635aab2d42bea16b140e93295c862108cda4e2e3cdeb2b981c7",
+      "authority": "NON_AUTHORITATIVE_SCHEDULING_EVIDENCE"
+    }
+  },
+  "open_rockstars": [
+    {
+      "identity": "R001E",
+      "issue": 157,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "THREAD3_THREAD9_POST_RECONCILIATION_RELEASE_TAIL"
+    },
+    {
+      "identity": "R001F",
+      "issue": 158,
+      "status": "SOURCE_READY",
+      "owner": "CAM_I1_TRACKER_OWNER"
+    },
+    {
+      "identity": "R0021",
+      "issue": 161,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "B4_RELEASE_TAIL"
+    },
+    {
+      "identity": "R0022",
+      "issue": 163,
+      "status": "QUALIFICATION_PENDING",
+      "owner": "RELEASE_QUALIFICATION"
+    },
+    {
+      "identity": "R002C",
+      "issue": 196,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "GHK_RECOVERY_AUTHORITY_ENGINEERING"
+    },
+    {
+      "identity": "R002D",
+      "issue": 197,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "NATIVE_INTEGRATION"
+    },
+    {
+      "identity": "R002E",
+      "issue": 198,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "AUTHENTICATED_EFFECT_ADMISSION"
+    },
+    {
+      "identity": "R0030",
+      "issue": 200,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "EH3_TRANSACTION_QUALIFIED_SINK"
+    },
+    {
+      "identity": "R0033",
+      "issue": 207,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "IMPLEMENTAUDIT_PRIMARY_CONTROL"
+    },
+    {
+      "identity": "R0035",
+      "issue": 209,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "AUTO_DAG_AUTO_LOOM"
+    },
+    {
+      "identity": "R0037",
+      "issue": 211,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "NESTED_CONTROL_INTEGRATION"
+    },
+    {
+      "identity": "R0038",
+      "issue": 214,
+      "status": "PARTIALLY_SATISFIED",
+      "owner": "OPERATIONAL_EVIDENCE_PROJECTION"
+    },
+    {
+      "identity": "R0039",
+      "issue": 215,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "CONTINUITY_ADJUDICATION"
+    },
+    {
+      "identity": "R003A",
+      "issue": 216,
+      "status": "ENGINEERING_REQUIRED",
+      "owner": "HOST_EFFECT_AUTHENTICATION"
+    }
+  ],
+  "accepted_ancestry": [
+    {
+      "identity": "THREAD7_HEALTHY_TAKEOVER",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/THREAD7_HEALTHY_TAKEOVER_RECEIPT_G0299.json",
+      "bytes": 9235,
+      "sha256": "27983001a4729f3ee0eb14d06e0554e89e1a87acdd21ac89a58139e013210ce7"
+    },
+    {
+      "identity": "THREAD6_12_TAKEOVER_READBACK",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/THREAD6_12_HEALTHY_TAKEOVER_READBACK_G0299.json",
+      "bytes": 5459,
+      "sha256": "86882490bea1202509d3d86b68d8693ca989af5ab48634faaa3bbf399cd73c54"
+    },
+    {
+      "identity": "EH3_ACCEPTED_POPULATION_PACKET",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g029b-eh3-source-convergence-packet.md",
+      "bytes": 12184,
+      "sha256": "99ef397b62b271585c5a0a99e0b60d19fdfde56cfaa3343aaae83f9aea5cbd03"
+    },
+    {
+      "identity": "EH3_ACCEPTED_POPULATION_MANIFEST",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g029b-eh3-source-convergence-manifest.json",
+      "bytes": 1827198,
+      "sha256": "d1f05011e41a0e3e4110e5ad327a9a21159957841c2273baea8aa78cf292b6f8"
+    },
+    {
+      "identity": "EH3_TRANSITION_DIGEST_INSTRUMENT",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g029d-eh3-transition-digest-instrument.json",
+      "bytes": 1730,
+      "sha256": "8489aa71bc5a501db59847f3c02f065ad450293f2884330540cde3acacaa4979"
+    },
+    {
+      "identity": "EH3_PROTECTED_MERGE_FREEZE",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g02a2-eh3-protected-merge-freeze.json",
+      "bytes": 3035,
+      "sha256": "cb1ea79785a585ed01ba8c5a708cbee29528d3d9e44ddbb700623f64cebc8a8a"
+    },
+    {
+      "identity": "FOCUSED_K_SOURCE_REVIEW",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g029b-k-unknown-option-audit-assess-child-return.json",
+      "bytes": 9542,
+      "sha256": "7af979e0abf9f184b7c3fe3c6921009e8ed82f5e799d42e42e62f839f491ecd6",
+      "proof_limit": "FOCUSED_SOURCE_DELTA_ONLY"
+    },
+    {
+      "identity": "FOCUSED_K_GOVERNOR_DECISION",
+      "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/reviews/g029b-k-unknown-option-audit-assess-governor-decision.json",
+      "bytes": 998,
+      "sha256": "a9c26ab1ddcf04762124cf679d96a6dd766673643b6e655e0365f1557b509fb3"
+    }
+  ],
+  "open_dogfood_findings": [
+    "B-P1 builder-derived suffix-agnostic equality and two resolver dispositions",
+    "EH-3 authenticated transaction-scoped ADD/REPLACE/PROTECTED_MERGE/RETAIN sink and bootstrap self-row",
+    "executable capability versus admitted effect authority and sibling canonical sinks",
+    "erroneous invalidation adjudication with history preserved and newer-boundary recovery",
+    "host-owned non-forgeable principal and authenticated effect admission",
+    "IMPLEMENTAUDIT primary-control precedence and holon-local compaction recovery",
+    "holonic delegation/governor-context feedback loop and context-aware placement",
+    "cross-transaction logical-delivery identity and actual host-child concurrency proof",
+    "F producer and G dispatch integration against the supported host contract",
+    "all exact-candidate package, installed-host, security, public-readback, tracker and terminal evidence named by the 26+1 frontier"
+  ],
+  "north_star": {
+    "path": ".IMPLEMENTAUDIT/runs/v041-thread5-autodag-TmDJfs/AthruKNorthStar.md",
+    "bytes": 27805,
+    "sha256": "a259f599c7c3b8c58415255cb29128d6591f4fb8d3d03c265851a73c03b902c0",
+    "role": "V041_RELEASE_NORTH_STAR_TARGET_CLAIMS_NOT_AUTOMATIC_CLOSURE"
+  },
+  "proof_limit": "Step-A status fidelity is accepted. This does not close or qualify the mechanically enforced authority-NONE audit-assess route, any product mechanism, any AthruK letter, or any release cell.",
+  "controller_mutation_authority": false,
+  "release_cell_closure": 0,
+  "new_campaign": false,
+  "new_run": false,
+  "new_controller_root": false
+}

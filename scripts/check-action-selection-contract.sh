@@ -8,6 +8,7 @@ set -euo pipefail
 # and never gate depth on an activation keyword.
 #
 # Usage: check-action-selection-contract.sh [--repo-root <dir>]
+#        [--distributed-runtime-fixture <path>]
 
 fail() {
   printf 'check-action-selection-contract: %s\n' "$*" >&2
@@ -15,10 +16,24 @@ fail() {
 }
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-if [ "${1:-}" = "--repo-root" ]; then
-  [ "$#" -ge 2 ] || fail "--repo-root requires a directory argument"
-  repo_root="$2"
-fi
+distributed_runtime_fixture=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --repo-root)
+      [ "$#" -ge 2 ] || fail "--repo-root requires a directory argument"
+      repo_root="$2"
+      shift 2
+      ;;
+    --distributed-runtime-fixture)
+      [ "$#" -ge 2 ] || fail "--distributed-runtime-fixture requires a path argument"
+      distributed_runtime_fixture="$2"
+      shift 2
+      ;;
+    *)
+      fail "unknown argument: $1"
+      ;;
+  esac
+done
 cd "$repo_root"
 
 require() {
@@ -28,7 +43,9 @@ require() {
   grep -Fqi -e "$text" "$file" || fail "missing in $file: $text"
 }
 
-if command -v python >/dev/null 2>&1; then
+if [ -n "${PYTHON_BIN:-}" ]; then
+  py_cmd=("$PYTHON_BIN")
+elif command -v python >/dev/null 2>&1; then
   py_cmd=(python)
 elif command -v python3 >/dev/null 2>&1; then
   py_cmd=(python3)
@@ -96,10 +113,118 @@ for text in \
   "free = max(0, capacity - ACTIVE)" \
   "dispatch = min(READY, free)" \
   "Use deterministic tooling, not model estimates" \
+  "Compile the bounded frontier projection" \
+  'canonical `WORK_GRAPH.json` bytes' \
+  "declared writer/resource hold index" \
+  "honest no-hold graph declares" \
+  "cannot attest undeclared relationships" \
+  "upstream graph construction, review, and currentness" \
+  "Narrative STATE/ROADMAP prose" \
+  "never compiler input" \
   "An unchanged reminder or status" \
   "Missing context stops the lane"
 do
   require "$child_ref" "$text"
+done
+
+for text in \
+  "derive the bounded ready-cell projection" \
+  "compile-work-graph.py" \
+  "stale counts/digests" \
+  "absent or malformed declared" \
+  "writer/resource hold index" \
+  'Empty `{}` truthfully means' \
+  "does not attest undeclared relationships" \
+  "instead of reconstructing authority from narrative STATE"
+do
+  require "$depth_ref" "$text"
+done
+
+compiler="skills/implementaudit/scripts/compile-work-graph.py"
+[ -f "$compiler" ] || fail "missing file: $compiler"
+
+# --- R0035 preparation, dispatch-context, and qualified-product frontiers ---
+for text in \
+  "PREPARATION_FRONTIER" \
+  "PRODUCT_FRONTIER" \
+  "lifecycle_credit: NONE" \
+  "product-aware preference" \
+  "authoritative source bytes" \
+  "actual supplied authority path" \
+  "governed two-argument input" \
+  "cover every DONE cell" \
+  "Activation recompiles" \
+  "exact graph binding" \
+  "TASK_CONTINUATION" \
+  "NEW_TASK_DISPATCH" \
+  "INDEPENDENT_REVIEW" \
+  "STOP_RECONCILE_DISPATCH_CONTEXT" \
+  "STOP_CHILD_TO_CHILD_DISPATCH" \
+  "root governor" \
+  "bare freshness" \
+  "qualified product"
+do
+  require "$child_ref" "$text"
+done
+for text in \
+  "Proximal diagnostic frontier" \
+  "--proximal-schedule" \
+  "--proximal-advance" \
+  "--proximal-action-selection" \
+  "--proximal-reconcile" \
+  "advance token" \
+  "applicable decision" \
+  "fixed external host-session store" \
+  "FEWER_THAN_TWO_BOUNDED_ACTIONS" \
+  "EARLY_DETECTION_ACTIVE_DEFENSE" \
+  "WORKFLOW_PSEUDO_DEPENDENCY" \
+  "WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY" \
+  "CORRECTION_QUALIFICATION" \
+  "COMPONENT_ACCEPTANCE" \
+  "WHOLE_PROJECTION_CUTOVER_QUALIFICATION" \
+  "EXACT_INPUT_EVIDENCE_RUNNABLE_NOW" \
+  "WHOLE_REVIEW_PREPARATION_RUNNABLE_NOW" \
+  "FINAL_WHOLE_IDENTITY_BLOCKED" \
+  "EVIDENCE_AVAILABLE_NOT_CONSUMABLE" \
+  "PARTIAL_RERUN" \
+  "acceptance prerequisite is not an execution prerequisite" \
+  "unknown-completion containment" \
+  "no lifecycle authority"
+do
+  require "$child_ref" "$text"
+done
+for text in \
+  "PREPARATION_FRONTIER" \
+  "PRODUCT_FRONTIER" \
+  "preparation never satisfies" \
+  "product-aware preference" \
+  "cannot create READY" \
+  "zero stranded" \
+  "named future join"
+do
+  require "$depth_ref" "$text"
+done
+for text in \
+  "Proximal diagnostic scheduling" \
+  "risk or cost of delayed information" \
+  "higher-fidelity live discriminator" \
+  "workflow-local order" \
+  "PREVENTION_FULL_PREFLIGHT" \
+  "EARLY_DETECTION_ACTIVE_DEFENSE" \
+  "CONTAIN_AND_RECOVER" \
+  "Qualification depth is a separate output" \
+  "semantic invalidation radius" \
+  "every broad rerun or reuse" \
+  "STOP_RECONCILE" \
+  "Native A/B/G preparation consumers" \
+  "MAY_AFFECT" \
+  "exact semantic/write/test/package radius" \
+  "sole governor retains join" \
+  "controller-wide serialization" \
+  "minimum of host capacity and operator ceiling" \
+  "paired closed requester/action vocabulary"
+do
+  require "$depth_ref" "$text"
 done
 
 # --- engineering-value admission and retirement contract (#163 / R0022) ---
@@ -115,6 +240,10 @@ for text in \
   "Temporary option value is retained" \
   "No universal rule makes shorter feedback" \
   "higher utilisation, more slack, or less slack correct" \
+  "Material retry, recovery, or redispatch admission is conjunctive" \
+  "Host/free executor slots and queue depth are" \
+  "untriggered local work remains the serial cheap path" \
+  'CHEAP_PATH` requires canonical `NOT_STARTED' \
   "conditional planner/executor separation" \
   "least-cost" \
   "sufficiently capable route" \
@@ -166,6 +295,18 @@ for text in \
 do
   require "$lean_ref" "$text"
 done
+for text in \
+  "semantic eligibility" \
+  "deadline and queue-age policy" \
+  "downstream capacity" \
+  "recovery headroom" \
+  "Free host slots or queue depth alone never" \
+  "serial cheap path" \
+  'cheap path requires canonical `NOT_STARTED' \
+  "contradictory records refuse"
+do
+  require "$lean_ref" "$text"
+done
 
 child_ref="skills/implementaudit/references/child-agents.md"
 for text in \
@@ -187,6 +328,18 @@ for text in \
 do
   require "$child_ref" "$text"
 done
+for text in \
+  "establish semantic retry eligibility" \
+  "deadline/queue-age" \
+  "downstream capacity" \
+  "recovery headroom" \
+  "cannot authorise retry, recovery, or redispatch" \
+  "local cheap path stays serial" \
+  'requires canonical `NOT_STARTED' \
+  "requested work, deadline, queue-age, downstream, and recovery fields"
+do
+  require "$child_ref" "$text"
+done
 
 skill_ref="skills/implementaudit/SKILL.md"
 for text in \
@@ -199,12 +352,59 @@ do
   require "$skill_ref" "$text"
 done
 
-"${py_cmd[@]}" - "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+# --- conditional native security profile (R002E) ---
+security_ref="skills/implementaudit/references/audit-playbook.md"
+for text in \
+  "### Conditional systems-security profile" \
+  "protected consequence and unacceptable state" \
+  "bounded adversary and explicit exclusions" \
+  "trust/identity boundary and authority/privilege boundary" \
+  "configuration, dependency, build, artifact, and deployment" \
+  "provenance; stale or missing identity" \
+  "assurance evidence and its limits" \
+  "detection, containment, revocation, recovery, and trust re-establishment" \
+  "Authentication is not authorization" \
+  "restored availability is not restored trust" \
+  "scanner" \
+  "penetration-test result" \
+  "SBOM" \
+  "signature" \
+  "CVSS score" \
+  "certificate" \
+  "encryption label" \
+  "zero-trust slogan" \
+  "whole-system security proof" \
+  "domain and effectiveness claims remain" \
+  "unverified until their required representative context exists"
+do
+  require "$security_ref" "$text"
+done
+
+for text in \
+  "### Conditional systems-security selection" \
+  "material protected consequence" \
+  "or untrusted capability" \
+  "changed trust, privilege, or delegation boundary" \
+  "consequential security authority" \
+  "provenance-dependent claim" \
+  "adaptive-adversary or common-mode risk" \
+  "weak detection or recovery" \
+  "consequential security, privacy, safety, availability, or usability decision" \
+  "Low-exposure reversible work inside a current proven envelope" \
+  "separate security mode, workflow, or planning artifact"
+do
+  require "$depth_ref" "$text"
+done
+
+"${py_cmd[@]}" - \
+  "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" \
+  "$distributed_runtime_fixture" <<'PY'
 import json
 import sys
 from pathlib import Path
 
 path = Path(sys.argv[1])
+distributed_path = Path(sys.argv[2]) if sys.argv[2] else None
 try:
     payload = json.loads(path.read_text(encoding="utf-8"))
 except (OSError, UnicodeError, json.JSONDecodeError) as exc:
@@ -345,6 +545,66 @@ required_ids.update({
     "R44-C144-bounded-degraded-operation",
     "R44-C145-risk-matrix-insufficient",
     "R34-C146-safe-stop-control-cheap-path",
+    "R48-C147-host-slots-not-downstream-capacity",
+    "R48-C148-queue-depth-not-retry-authority",
+    "R48-C149-local-retry-cheap-path-stays-serial",
+    "R48-C150-contradictory-cheap-retry-refused",
+    "R48-A151-may-affect-prepares-not-precedes",
+    "R48-A152-unknown-impact-blocks-only-affected",
+    "R48-B153-package-radius-reaches-install-only",
+    "R48-B154-harness-radius-stays-proof-only",
+    "R48-G155-mechanical-owner-stays-governor",
+    "R48-G156-ordinary-owner-is-child-task",
+    "R48-G157-child-dispatch-stops",
+})
+required_ids.update({
+    f"R35-P{number:02d}-{suffix}"
+    for number, suffix in (
+        (1, "acceptance-pending-diagnostic-admitted"),
+        (2, "writer-conflict-serializes"),
+        (3, "irreversible-retains-preflight"),
+        (4, "workflow-pseudo-dependency-stops"),
+        (5, "stale-currentness-stops"),
+        (6, "missing-containment-stops"),
+        (7, "low-fidelity-serializes"),
+        (8, "independent-ordinary-parallel"),
+        (9, "derived-not-required-cheap-path"),
+        (10, "applicable-classification-omitted"),
+        (11, "applicable-custody-omitted"),
+        (12, "current-classification-and-custody"),
+    )
+})
+required_ids.update({
+    f"R35-Q{number:02d}-{suffix}"
+    for number, suffix in (
+        (1, "local-parser-correction"),
+        (2, "shared-currentness-substrate"),
+        (3, "intermediate-component-to-join"),
+        (4, "frozen-projection-cutover"),
+        (5, "tiny-post-review-edit"),
+        (6, "unchanged-applicability-reuse"),
+    )
+})
+required_ids.update({
+    f"R35-D{number:02d}-{suffix}"
+    for number, suffix in (
+        (1, "used-c07-followup-new-h6"),
+        (2, "same-h6-correction-continuation"),
+        (3, "current-compaction-continuation"),
+        (4, "stale-compaction-stops"),
+        (5, "implementer-cannot-review"),
+        (6, "prior-reviewer-rereview-stops"),
+        (7, "fresh-reviewer-packet-reuse"),
+        (8, "same-reviewer-transient-retry-stops"),
+        (9, "campaign-alias-not-task-identity"),
+        (10, "idle-used-context-not-fresh"),
+        (11, "bare-fresh-label-cannot-followup"),
+        (12, "fresh-partial-capsule-stops"),
+        (13, "label-match-scope-drift-stops"),
+        (14, "child-dispatch-stops"),
+        (15, "root-fresh-new-task-pass"),
+        (16, "existing-task-checkpoints-continue"),
+    )
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -386,9 +646,86 @@ def booleans(observations, names):
     if any(type(observations[name]) is not bool for name in names.split()):
         raise ValueError("boolean observation type")
 
+def decide_distributed_retry(observations):
+    required = set("distributed_trigger cheap_local_operation semantic_retry_eligible effect_state deadline_remaining_ms queue_age_ms max_queue_age_ms requested_units downstream_available_units recovery_available_units".split())
+    optional = {"host_free_slots", "queue_depth"}
+    if not required.issubset(observations) or not set(observations).issubset(required | optional):
+        raise ValueError("distributed retry observation members")
+    booleans(observations, "distributed_trigger cheap_local_operation semantic_retry_eligible")
+    effect_states = {
+        "NOT_STARTED", "IN_FLIGHT", "UNKNOWN", "COMMITTED_VERIFIED",
+        "FAILED_NO_EFFECT", "COMPENSATION_PENDING", "COMPENSATED_VERIFIED",
+        "MANUAL_RECONCILIATION",
+    }
+    if observations["effect_state"] not in effect_states:
+        raise ValueError("distributed retry effect state")
+    numeric = required - {"distributed_trigger", "cheap_local_operation", "semantic_retry_eligible", "effect_state"}
+    if any(type(observations[name]) is not int or observations[name] < 0 for name in numeric):
+        raise ValueError("distributed retry numeric observation type")
+    if any(type(observations[name]) is not int or observations[name] < 0 for name in optional & set(observations)):
+        raise ValueError("distributed retry proxy observation type")
+    cheap_path = all((
+        not observations["distributed_trigger"],
+        observations["cheap_local_operation"],
+        not observations["semantic_retry_eligible"],
+        observations["effect_state"] == "NOT_STARTED",
+        observations["deadline_remaining_ms"] == 0,
+        observations["queue_age_ms"] == 0,
+        observations["max_queue_age_ms"] == 0,
+        observations["requested_units"] == 0,
+        observations["downstream_available_units"] == 0,
+        observations["recovery_available_units"] == 0,
+    ))
+    if cheap_path:
+        return "CHEAP_PATH"
+    admitted = all((
+        observations["distributed_trigger"],
+        not observations["cheap_local_operation"],
+        observations["semantic_retry_eligible"],
+        observations["effect_state"] == "FAILED_NO_EFFECT",
+        observations["deadline_remaining_ms"] > 0,
+        observations["queue_age_ms"] >= 0,
+        observations["max_queue_age_ms"] >= 0,
+        observations["queue_age_ms"] <= observations["max_queue_age_ms"],
+        observations["requested_units"] > 0,
+        observations["downstream_available_units"] >= observations["requested_units"],
+        observations["recovery_available_units"] >= observations["requested_units"],
+    ))
+    return "ADMIT" if admitted else "REFUSE"
+
+def decide_native_dependency(observations):
+    exact(observations, "relation")
+    return {
+        "MAY_AFFECT": "LEARNING_READY_JOIN_DEFERRED",
+        "UNKNOWN_AFFECTED": "BLOCK_AFFECTED_ONLY",
+    }[observations["relation"]]
+
+def decide_native_invalidation(observations):
+    exact(observations, "change")
+    return {
+        "PACKAGE_MEMBERSHIP": "PACKAGE_INSTALL_ONLY",
+        "HARNESS": "HARNESS_PROOF_ONLY",
+    }[observations["change"]]
+
+def decide_native_owner(observations):
+    exact(observations, "work")
+    return {
+        "MECHANICAL": "GOVERNOR_MECHANICAL",
+        "ORDINARY": "CHILD_TASK",
+        "CHILD_DISPATCH": "STOP_CHILD_TO_CHILD_DISPATCH",
+    }[observations["work"]]
+
 def decide(case):
     kind = case["kind"]
     o = case["observations"]
+    if kind == "distributed_retry_admission":
+        return decide_distributed_retry(o)
+    if kind == "native_dependency":
+        return decide_native_dependency(o)
+    if kind == "native_invalidation":
+        return decide_native_invalidation(o)
+    if kind == "native_owner":
+        return decide_native_owner(o)
     if kind == "depth":
         exact(o, "activation process_heavy_or_disputed")
         booleans(o, "activation process_heavy_or_disputed")
@@ -517,6 +854,69 @@ def decide(case):
         if activatable and o["operator_ceiling"] > 0:
             return "ACTIVATE_BOUNDED"
         return "ACTIVATE_READY_CELLS" if activatable else "HOLD_FRONTIER"
+    if kind == "proximal_scheduling":
+        fields = "exact_identity currentness minimum_gate bounded_impact containment authority_isolated acceptance_pending hard_prerequisite writer_conflict irreversible high_fidelity information_value workflow_reason_backed"
+        exact(o, fields)
+        booleans(o, fields)
+        if not o["workflow_reason_backed"]:
+            return "STOP_RECONCILE:WORKFLOW_PSEUDO_DEPENDENCY"
+        if not o["exact_identity"] or not o["currentness"]:
+            return "STOP_RECONCILE:CURRENTNESS_OR_IDENTITY"
+        if not o["minimum_gate"]:
+            return "STOP_RECONCILE:MINIMUM_RECOVERABILITY_GATE"
+        if not o["containment"]:
+            return "STOP_RECONCILE:RESILIENCE_EVIDENCE_OR_CONTAINMENT"
+        if o["irreversible"] or not o["bounded_impact"] or not o["authority_isolated"]:
+            return "FULL_PREFLIGHT:IRREVERSIBLE_EFFECT_PRECONDITION"
+        if o["hard_prerequisite"]:
+            return "SERIAL_EXECUTION:HARD_PREREQUISITE"
+        if o["writer_conflict"]:
+            return "SERIAL_EXECUTION:SHARED_WRITER_OR_RESOURCE"
+        if o["acceptance_pending"] and o["high_fidelity"] and o["information_value"]:
+            return "DIAGNOSTIC_PARALLEL_ACCEPTANCE:RISK_OF_DELAY_AND_VALUE_OF_INFORMATION"
+        if o["acceptance_pending"]:
+            return "SERIAL_EXECUTION:CONSEQUENCE_CONTROL"
+        return "ORDINARY_PARALLEL:INDEPENDENT"
+    if kind == "proximal_interlock":
+        fields = "action_population_current bounded_action_count classification_current external_custody_consumed"
+        exact(o, fields)
+        booleans(o, "action_population_current classification_current external_custody_consumed")
+        if type(o["bounded_action_count"]) is not int or not 1 <= o["bounded_action_count"] <= 64:
+            raise ValueError("bounded_action_count must be an integer in [1,64]")
+        if not o["action_population_current"]:
+            return "STOP_RECONCILE:ACTION_POPULATION_REQUIRED"
+        if o["bounded_action_count"] < 2:
+            return "NOT_REQUIRED:FEWER_THAN_TWO_BOUNDED_ACTIONS"
+        if not o["classification_current"]:
+            return "STOP_RECONCILE:PROXIMAL_CLASSIFICATION_REQUIRED"
+        if not o["external_custody_consumed"]:
+            return "STOP_RECONCILE:EXTERNAL_DECISION_CUSTODY_REQUIRED"
+        return "PROCEED:PROXIMAL_CLASSIFICATION_SATISFIED"
+    if kind == "proximal_qualification":
+        fields = "semantic_radius next_effect object_class join_available tuple_unchanged workflow_depth_matches reversible blast_bounded"
+        exact(o, fields)
+        booleans(o, "join_available tuple_unchanged workflow_depth_matches reversible blast_bounded")
+        if not o["workflow_depth_matches"]:
+            return "STOP_RECONCILE:WORKFLOW_QUALIFICATION_PSEUDO_DEPENDENCY"
+        if o["semantic_radius"] == "UNKNOWN":
+            return "STOP_RECONCILE:UNKNOWN_SEMANTIC_INVALIDATION_RADIUS"
+        if (o["next_effect"] in {
+                "INSTALL_CUTOVER",
+                "IRREVERSIBLE_HIGH_CONSEQUENCE_AUTHORITY_TRANSFER",
+            } or o["semantic_radius"] == "WHOLE_PROJECTION"):
+            return "WHOLE_PROJECTION_CUTOVER_QUALIFICATION:CUTOVER_FULL_PREFLIGHT"
+        if not o["reversible"] or not o["blast_bounded"]:
+            return "STOP_RECONCILE:EFFECT_RECOVERY_OR_BLAST_RADIUS_UNPROVED"
+        if o["semantic_radius"] == "SHARED_CURRENTNESS_AUTHORITY_SUBSTRATE":
+            return "COMPONENT_ACCEPTANCE:SHARED_SUBSTRATE_DEPENDENCY_INVALIDATION"
+        if o["semantic_radius"] == "LOCAL_SAME_OWNER_SLICE":
+            return "CORRECTION_QUALIFICATION:LOCAL_SAME_OWNER_SELECTIVE_INVALIDATION"
+        if (o["object_class"] == "INTERMEDIATE_COMPONENT"
+                and o["join_available"] and o["tuple_unchanged"]):
+            return "COMPONENT_ACCEPTANCE:INTERMEDIATE_COMPONENT_TO_AVAILABLE_JOIN"
+        if o["tuple_unchanged"]:
+            return "COMPONENT_ACCEPTANCE:UNCHANGED_APPLICABILITY_TUPLE_REUSE"
+        return "STOP_RECONCILE:NO_CURRENT_APPLICABLE_EVIDENCE_OR_INVALIDATION"
     if kind == "frontier_accounting":
         fields = "work_units done_cells active_cells ready_cells blocked_cells unknown_cells host_capacity operator_ceiling state_evidence_current dependencies_current"
         exact(o, fields)
@@ -648,6 +1048,47 @@ def decide(case):
                 return "DELEGATE_LEAST_COST_SUFFICIENT"
             return "RETAIN_CAPABLE_ROUTE"
         return "DIRECT_CAPABLE_ROUTE"
+    if kind == "dispatch_context":
+        fields = "role host_operation root_governor target_task prior_task historical_other_assignment assignment_current checkpoint_match capsule_complete scope_match authority_current currentness_current context_unused freshness_self_attested campaign_match"
+        exact(o, fields)
+        booleans(o, "root_governor historical_other_assignment assignment_current checkpoint_match capsule_complete scope_match authority_current currentness_current context_unused freshness_self_attested campaign_match")
+        if o["role"] not in {"IMPLEMENTER", "INDEPENDENT_REVIEWER"}:
+            raise ValueError("dispatch role")
+        if o["host_operation"] not in {"FRESH_CREATE", "FOLLOW_UP"}:
+            raise ValueError("dispatch host operation")
+        if type(o["target_task"]) is not str or not o["target_task"]:
+            raise ValueError("dispatch target task")
+        if type(o["prior_task"]) is not str or not o["prior_task"]:
+            raise ValueError("dispatch prior task")
+        if not o["root_governor"]:
+            return "STOP_CHILD_TO_CHILD_DISPATCH"
+        if not all((
+                o["capsule_complete"], o["scope_match"],
+                o["authority_current"], o["currentness_current"],
+                o["checkpoint_match"], o["campaign_match"],
+        )):
+            return "STOP_RECONCILE_DISPATCH_CONTEXT"
+        if o["role"] == "INDEPENDENT_REVIEWER":
+            if (o["host_operation"] == "FRESH_CREATE"
+                    and o["context_unused"]
+                    and o["prior_task"] == "NONE"
+                    and not o["historical_other_assignment"]
+                    and not o["assignment_current"]):
+                return "INDEPENDENT_REVIEW"
+            return "STOP_RECONCILE_DISPATCH_CONTEXT"
+        if (o["host_operation"] == "FOLLOW_UP"
+                and not o["context_unused"]
+                and not o["historical_other_assignment"]
+                and o["assignment_current"]
+                and o["prior_task"] == o["target_task"]):
+            return "TASK_CONTINUATION"
+        if (o["host_operation"] == "FRESH_CREATE"
+                and o["context_unused"]
+                and o["prior_task"] == "NONE"
+                and not o["historical_other_assignment"]
+                and not o["assignment_current"]):
+            return "NEW_TASK_DISPATCH"
+        return "STOP_RECONCILE_DISPATCH_CONTEXT"
     if kind == "escalation":
         fields = "requested mutation_incomplete controlling_gate_intact supported_alternatives alternatives_indistinguishable expected_risk_material permanent_cost_material mechanically_resolvable"
         exact(o, fields)
@@ -719,6 +1160,36 @@ for case in cases:
 if failures:
     raise SystemExit("\n".join(failures))
 sys.stdout.write(f"engineering-value controls: {len(cases)}/{len(cases)}\n")
+
+if distributed_path is not None:
+    try:
+        distributed = json.loads(distributed_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"distributed-runtime admission fixture unreadable: {exc}")
+    if (set(distributed) != {"schema", "cell", "cases"}
+            or distributed["schema"] != "implementaudit.distributed-runtime.admission-cases.v1"
+            or distributed["cell"] != "D48-C04"
+            or not isinstance(distributed["cases"], list)):
+        raise SystemExit("D48-C04 distributed-runtime admission fixture schema mismatch")
+    distributed_failures = []
+    distributed_ids = []
+    for case in distributed["cases"]:
+        try:
+            if set(case) != {"id", "observations", "expected"}:
+                raise ValueError("case members")
+            if type(case["id"]) is not str or type(case["expected"]) is not str or not isinstance(case["observations"], dict):
+                raise ValueError("case types")
+            distributed_ids.append(case["id"])
+            actual = decide_distributed_retry(case["observations"])
+            if actual != case["expected"]:
+                distributed_failures.append(f"{case['id']}: expected {case['expected']}, observed {actual}")
+        except (KeyError, TypeError, ValueError) as exc:
+            distributed_failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
+    if len(distributed_ids) != 6 or len(distributed_ids) != len(set(distributed_ids)):
+        distributed_failures.append("D48-C04 admission fixture population is incomplete or duplicated")
+    if distributed_failures:
+        raise SystemExit("\n".join(distributed_failures))
+    sys.stdout.write(f"D48-C04=PASS cases={len(distributed_ids)}/{len(distributed_ids)}\n")
 
 verifier_path = Path("fixtures/audit-action-selection/verifier-plan-cases.json")
 try:
@@ -798,6 +1269,104 @@ for case in verifier_cases:
 if verifier_failures:
     raise SystemExit("\n".join(verifier_failures))
 sys.stdout.write(f"verifier-plan controls: {len(verifier_cases)}/{len(verifier_cases)}\n")
+
+security_path = Path("fixtures/audit-action-selection/security-profile-cases.json")
+try:
+    security_payload = json.loads(security_path.read_text(encoding="utf-8"))
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"security-profile fixture unreadable: {exc}")
+if set(security_payload) != {
+        "schema_version", "kind", "proof_layer_partition",
+        "domain_effectiveness_status", "cases"}:
+    raise SystemExit("security-profile fixture schema")
+if (security_payload["schema_version"] != 1
+        or security_payload["kind"] != "conditional-native-security-profile"):
+    raise SystemExit("security-profile fixture identity")
+expected_partition = {
+    "source_static": 31,
+    "deterministic_fixture": 18,
+    "package_provenance_reachability": 4,
+    "external_domain_unverified": 6,
+    "bounded_behavioural_deferred": 1,
+}
+if security_payload["proof_layer_partition"] != expected_partition:
+    raise SystemExit("security-profile proof-layer partition")
+if security_payload["domain_effectiveness_status"] != "UNVERIFIED":
+    raise SystemExit("security-profile domain/effectiveness boundary")
+security_cases = security_payload["cases"]
+required_security_ids = {
+    "R002E-S01-material-profile-selected",
+    "R002E-S02-low-exposure-cheap-path",
+    "R002E-S03-stale-provenance-blocked",
+    "R002E-S04-authentication-is-not-authorization",
+    "R002E-S05-availability-is-not-trust-restoration",
+    "R002E-S06-label-only-proof-rejected",
+    "R002E-S07-no-trigger-no-profile",
+    "R002E-S08-unbounded-adversary-held",
+    "R002E-S09-missing-assurance-evidence-held",
+}
+security_ids = [case.get("id") for case in security_cases if isinstance(case, dict)]
+if len(security_ids) != len(set(security_ids)) or set(security_ids) != required_security_ids:
+    raise SystemExit("security-profile fixture population is incomplete or duplicated")
+
+security_fields = """material_protected_consequence exposed_or_untrusted_capability
+trust_or_privilege_boundary_change consequential_security_authority
+provenance_dependent_claim adaptive_or_common_mode_risk weak_detection_or_recovery
+consequential_security_privacy_safety_availability_usability_decision low_exposure
+reversible inside_current_proven_envelope protected_consequence_named
+unacceptable_state_named adversary_bounded exclusions_explicit trust_identity_boundary
+authority_privilege_boundary provenance_current assurance_evidence assurance_limits
+detection_containment_revocation recovery trust_reestablishment
+plausible_abuse_or_trust_check current_identity rollback authentication_as_authorization
+availability_as_trust label_or_instrument_as_whole_system_proof""".split()
+security_trigger_fields = security_fields[:8]
+full_profile_fields = """protected_consequence_named unacceptable_state_named
+adversary_bounded exclusions_explicit trust_identity_boundary authority_privilege_boundary
+provenance_current assurance_evidence assurance_limits detection_containment_revocation recovery
+trust_reestablishment""".split()
+
+def decide_security_profile(observations):
+    exact(observations, " ".join(security_fields))
+    booleans(observations, " ".join(security_fields))
+    triggered = any(observations[name] for name in security_trigger_fields)
+    if triggered:
+        if not observations["provenance_current"]:
+            return "BLOCK_STALE_PROVENANCE"
+        if observations["authentication_as_authorization"]:
+            return "REJECT_AUTHENTICATION_PROXY"
+        if observations["availability_as_trust"]:
+            return "REJECT_AVAILABILITY_PROXY"
+        if observations["label_or_instrument_as_whole_system_proof"]:
+            return "REJECT_WHOLE_SYSTEM_PROXY"
+        if not all(observations[name] for name in full_profile_fields):
+            return "HOLD_INCOMPLETE_PROFILE"
+        return "SELECT_NATIVE_SECURITY_PROFILE"
+    cheap_path = all(observations[name] for name in (
+        "low_exposure", "reversible", "inside_current_proven_envelope"))
+    if cheap_path:
+        cheap_complete = all(observations[name] for name in (
+            "protected_consequence_named", "plausible_abuse_or_trust_check",
+            "current_identity", "rollback"))
+        return "SECURITY_CHEAP_PATH" if cheap_complete else "HOLD_INCOMPLETE_CHEAP_PATH"
+    return "NO_SECURITY_PROFILE"
+
+security_failures = []
+for case in security_cases:
+    try:
+        if set(case) != {"id", "observations", "expected"}:
+            raise ValueError("case members")
+        if (not isinstance(case["observations"], dict)
+                or not all(type(value) is bool for value in case["observations"].values())):
+            raise ValueError("observation types")
+        actual = decide_security_profile(case["observations"])
+        if actual != case["expected"]:
+            security_failures.append(
+                f"{case['id']}: expected {case['expected']}, observed {actual}")
+    except (KeyError, TypeError, ValueError) as exc:
+        security_failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
+if security_failures:
+    raise SystemExit("\n".join(security_failures))
+sys.stdout.write(f"security-profile controls: {len(security_cases)}/{len(security_cases)}\n")
 PY
 
 # --- bootloader: Stage 1 derives and records the action set ---

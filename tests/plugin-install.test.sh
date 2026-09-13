@@ -286,7 +286,7 @@ elif mode == "stale-child":
 elif mode == "mixed-version":
     info, data = rows[changed_member]
     changed = re.sub(
-        rb'(?m)^(\s+version:\s*["\']?)0\.4\.0(["\']?\s*)$',
+        rb'(?m)^(\s+version:\s*["\']?)0\.4\.1(["\']?\s*)$',
         rb'\g<1>0.3.9\g<2>',
         data,
         count=1,
@@ -297,7 +297,7 @@ elif mode == "mixed-version":
 elif mode == "extra-child":
     rows["skills/invented/SKILL.md"] = (
         None,
-        b"---\nname: invented\nmetadata:\n  version: \"0.4.0\"\n---\n",
+        b"---\nname: invented\nmetadata:\n  version: \"0.4.1\"\n---\n",
     )
 elif mode == "forged-source-binding":
     inventory_info, inventory_data = rows["IMPLEMENTAUDIT_INVENTORY.json"]
@@ -357,7 +357,7 @@ assert_no_default_home_install() {
 bad_sentinel_root="$(mktemp -d "$tmp_parent/bad-sentinel-root.XXXXXX")"
 mkdir "$bad_sentinel_root/.implementaudit-isolated-host-root"
 expect_install_failure "non-regular host-root sentinel" \
-  install_plugin codex "$bad_sentinel_root" "$asset" "$checksums" --version 0.4.0
+  install_plugin codex "$bad_sentinel_root" "$asset" "$checksums" --version 0.4.1
 [ ! -e "$bad_sentinel_root/plugins/implementaudit" ] \
   || fail "sentinel rejection created a plugin target"
 
@@ -367,7 +367,7 @@ aliased_root="$(new_host_root)"
 alias_target="$(mktemp -d "$tmp_parent/aliased-plugins-target.XXXXXX")"
 if make_directory_alias "$alias_target" "$aliased_root/plugins" 2>/dev/null; then
   expect_install_failure "aliased plugins transaction root" \
-    install_plugin codex "$aliased_root" "$asset" "$checksums" --version 0.4.0
+    install_plugin codex "$aliased_root" "$asset" "$checksums" --version 0.4.1
   [ ! -e "$alias_target/implementaudit" ] \
     || fail "aliased plugins root escaped the isolated host"
 fi
@@ -377,14 +377,14 @@ fi
 for host in codex claude; do
   root="$(new_host_root)"
   output="$tmp_parent/clean-$host.out"
-  install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.0 >"$output"
+  install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.1 >"$output"
   grep -Eiq 'staged[- ]copy' "$output" \
     || fail "$host install did not identify its result as staged-copy proof"
   target="$root/plugins/implementaudit"
   assert_exact_archive_tree "$asset" "$target"
   assert_four_skill_identity "$target"
   before="$(tree_digest "$target")"
-  install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.0 \
+  install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.1 \
     >"$tmp_parent/idempotent-$host.out"
   after="$(tree_digest "$target")"
   [ "$after" = "$before" ] || fail "$host same-version reinstall was not idempotent"
@@ -395,7 +395,7 @@ stale_checksum="$tmp_parent/STALE-CHECKSUMS.txt"
 printf 'sha256  %064d  IMPLEMENTAUDIT.plugin.zip\n' 0 > "$stale_checksum"
 root="$(new_host_root)"
 expect_install_failure "stale checksum" \
-  install_plugin codex "$root" "$asset" "$stale_checksum" --version 0.4.0
+  install_plugin codex "$root" "$asset" "$stale_checksum" --version 0.4.1
 [ ! -e "$root/plugins/implementaudit" ] || fail "stale checksum created a plugin target"
 
 for mutation in missing-child extra-child changed-child-hash stale-child mixed-version forged-source-binding; do
@@ -406,7 +406,7 @@ for mutation in missing-child extra-child changed-child-hash stale-child mixed-v
   write_checksum "$mutated_asset" "$mutated_checksums"
   root="$(new_host_root)"
   expect_install_failure "$mutation archive" \
-    install_plugin codex "$root" "$mutated_asset" "$mutated_checksums" --version 0.4.0
+    install_plugin codex "$root" "$mutated_asset" "$mutated_checksums" --version 0.4.1
   [ ! -e "$root/plugins/implementaudit" ] \
     || fail "$mutation archive created a plugin target"
 done
@@ -418,7 +418,7 @@ mkdir -p "$standalone"
 printf '%s\n' 'standalone predecessor' > "$standalone/SKILL.md"
 standalone_before="$(tree_digest "$standalone")"
 expect_install_failure "ambiguous standalone co-install" \
-  install_plugin claude "$root" "$asset" "$checksums" --version 0.4.0
+  install_plugin claude "$root" "$asset" "$checksums" --version 0.4.1
 [ "$(tree_digest "$standalone")" = "$standalone_before" ] \
   || fail "co-install rejection changed the standalone predecessor"
 [ ! -e "$root/plugins/implementaudit" ] \
@@ -432,45 +432,45 @@ mkdir -p "$target/nested"
 printf '%s\n' 'stale partial predecessor' > "$target/nested/witness.txt"
 partial_before="$(tree_digest "$target")"
 expect_install_failure "stale partial target" \
-  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0
+  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.1
 [ "$(tree_digest "$target")" = "$partial_before" ] \
   || fail "rejected stale partial target was not preserved exactly"
 
 # Fabricate a self-consistent installed predecessor inventory at a later version
 # to exercise the downgrade decision without accepting a second release asset.
 root="$(new_host_root)"
-install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0 \
+install_plugin codex "$root" "$asset" "$checksums" --version 0.4.1 \
   >"$tmp_parent/downgrade-setup.out"
 target="$root/plugins/implementaudit"
 rewrite_valid_predecessor "$target" 0.5.0
 downgrade_before="$(tree_digest "$target")"
 expect_install_failure "unauthorized downgrade" \
-  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0
+  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.1
 [ "$(tree_digest "$target")" = "$downgrade_before" ] \
   || fail "unauthorized downgrade changed its predecessor"
 
 # The same runtime label with a different source identity is not an idempotent
 # reinstall and must not silently replace the current exact package.
 root="$(new_host_root)"
-install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0 \
+install_plugin codex "$root" "$asset" "$checksums" --version 0.4.1 \
   >"$tmp_parent/same-label-setup.out"
 target="$root/plugins/implementaudit"
-rewrite_valid_predecessor "$target" 0.4.0 "" ffffffffffffffffffffffffffffffffffffffff
+rewrite_valid_predecessor "$target" 0.4.1 "" ffffffffffffffffffffffffffffffffffffffff
 same_label_before="$(tree_digest "$target")"
 expect_install_failure "same-label changed source" \
-  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0
+  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.1
 [ "$(tree_digest "$target")" = "$same_label_before" ] \
   || fail "same-label rejection changed its predecessor"
 
 for fault in before-swap during-swap remove-staged-member; do
   root="$(new_host_root)"
-  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0 \
+  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.1 \
     >"$tmp_parent/fault-setup-$fault.out"
   target="$root/plugins/implementaudit"
   rewrite_valid_predecessor "$target" 0.3.9 "$fault predecessor witness"
   predecessor="$(tree_digest "$target")"
   if IMPLEMENTAUDIT_INSTALL_FAULT="$fault" \
-    install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0 \
+    install_plugin codex "$root" "$asset" "$checksums" --version 0.4.1 \
       >"$tmp_parent/fault-$fault.out" 2>&1; then
     fail "fault injection $fault unexpectedly passed"
   fi

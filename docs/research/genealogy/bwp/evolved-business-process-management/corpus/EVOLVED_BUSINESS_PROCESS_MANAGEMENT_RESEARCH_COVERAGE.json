@@ -1,0 +1,867 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+  "research_cutoff": "2026-09-06",
+  "revision": "EBPM-R1-2026-09-06",
+  "scope_statement": "Independent, plural and criticism-tested BPM study covering B1–B10 and within-tradition composition. The field is treated as organisational and socio-technical as well as analytical and executable.",
+  "scope_boundaries": [
+    "No requester repositories, sibling Evolved corpora, runtime designs or target-specific adoption claims were consulted.",
+    "Workflow and process mining are examined at documented BPM interfaces; complete algorithmic, formal and implementation histories of those fields are outside this lane.",
+    "Industrial/quality antecedents are traced through explicit founding-source discussion, not a claimed complete independent history of every antecedent school.",
+    "Business analysis, enterprise architecture and project management are distinguished at the problem/unit/decision boundary; their complete professional standards are not reconstructed.",
+    "No jurisdiction-specific legal compliance or sector-specific clinical/safety procedure is prescribed.",
+    "No effect-size meta-analysis, population prevalence estimate or complete database-indexed literature census is claimed. The denominator is the examined analytical candidate population.",
+    "Live products are not benchmarked as current commercial recommendations. Standards versions are distinct from implementation adoption.",
+    "Publication/deposit/issue/event dates are distinguished; the future 2026 BPM conference is not completed empirical evidence."
+  ],
+  "families": [
+    {
+      "FAMILY_ID": "B1",
+      "NAME": "Process identity and purposes",
+      "QUESTIONS": [
+        "What received result makes this work a meaningful unit of intervention, and where does responsibility end?",
+        "Not all work has one stable repeated case. Open-ended inquiry may be managed through goals and responsibilities without heavy process standardisation. Expanding the boundary indefinitely is also a cost."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q01",
+        "Q02",
+        "Q12"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S001",
+        "S002",
+        "S005",
+        "S008",
+        "S021",
+        "S028",
+        "S030",
+        "S040"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-001",
+        "EBPM-002",
+        "EBPM-003",
+        "EBPM-004",
+        "EBPM-005",
+        "EBPM-032",
+        "EBPM-048",
+        "EBPM-067",
+        "EBPM-069"
+      ],
+      "CRITICISM_IDS": [
+        "C017",
+        "C018",
+        "C022"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S021",
+          "S028",
+          "S030",
+          "S040"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "Not all work has one stable repeated case. Open-ended inquiry may be managed through goals and responsibilities without heavy process standardisation. Expanding the boundary indefinitely is also a cost.",
+      "DOMAIN_MODEL_ID": "B1",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    },
+    {
+      "FAMILY_ID": "B2",
+      "NAME": "Discovery evidence and performed work",
+      "QUESTIONS": [
+        "Which aspects of actual work are warranted by which observations, and what remains unknown?",
+        "No channel is automatically ground truth. The inspected textbook discovery chapter was abstract-only, so detailed methodological claims here rely on primary cases and the other inspected sources."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q03",
+        "Q13"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S002",
+        "S025",
+        "S033",
+        "S035",
+        "S041",
+        "S048"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-006",
+        "EBPM-007",
+        "EBPM-008",
+        "EBPM-009",
+        "EBPM-037",
+        "EBPM-047",
+        "EBPM-062"
+      ],
+      "CRITICISM_IDS": [
+        "C002",
+        "C013",
+        "C016"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S025",
+          "S033"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "No channel is automatically ground truth. The inspected textbook discovery chapter was abstract-only, so detailed methodological claims here rely on primary cases and the other inspected sources.",
+      "DOMAIN_MODEL_ID": "B2",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    },
+    {
+      "FAMILY_ID": "B3",
+      "NAME": "Representation and communication",
+      "QUESTIONS": [
+        "What must these users distinguish, and which representation supports that purpose at acceptable cost?",
+        "The 7PMG null-result experiment does not prove guidelines useless, but defeats automatic sufficiency. Declarative satisfiability does not validate omitted obligations. DMN 1.5 was verified at version-record level only; detailed clause compliance is not claimed."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q13",
+        "Q14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S004",
+        "S009",
+        "S010",
+        "S011",
+        "S012",
+        "S013",
+        "S014",
+        "S033",
+        "S042",
+        "S044"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-010",
+        "EBPM-011",
+        "EBPM-012",
+        "EBPM-013",
+        "EBPM-014",
+        "EBPM-015",
+        "EBPM-016",
+        "EBPM-052",
+        "EBPM-057",
+        "EBPM-063",
+        "EBPM-073"
+      ],
+      "CRITICISM_IDS": [
+        "C003",
+        "C004",
+        "C005",
+        "C019",
+        "C020",
+        "C021"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S013",
+          "S033",
+          "S044"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The 7PMG null-result experiment does not prove guidelines useless, but defeats automatic sufficiency. Declarative satisfiability does not validate omitted obligations. DMN 1.5 was verified at version-record level only; detailed clause compliance is not claimed.",
+      "DOMAIN_MODEL_ID": "B3",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    },
+    {
+      "FAMILY_ID": "B4",
+      "NAME": "Performance and causal analysis",
+      "QUESTIONS": [
+        "Which mechanism produces the observed outcome, and how much can the available evidence justify changing it?",
+        "High utilisation is not a universal objective. The inspected causal-discovery method uses a specific model and benchmark setting; real interventions need their own assumption checks and comparisons."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q07",
+        "Q08"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S015",
+        "S016",
+        "S017",
+        "S018",
+        "S019",
+        "S027"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-017",
+        "EBPM-018",
+        "EBPM-019",
+        "EBPM-020",
+        "EBPM-021",
+        "EBPM-022",
+        "EBPM-039",
+        "EBPM-059",
+        "EBPM-066"
+      ],
+      "CRITICISM_IDS": [
+        "C006",
+        "C007",
+        "C008",
+        "C012",
+        "C018"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S018",
+          "S019"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "High utilisation is not a universal objective. The inspected causal-discovery method uses a specific model and benchmark setting; real interventions need their own assumption checks and comparisons.",
+      "DOMAIN_MODEL_ID": "B4",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    },
+    {
+      "FAMILY_ID": "B5",
+      "NAME": "Redesign and alternatives",
+      "QUESTIONS": [
+        "Which intervention changes the actual failure mechanism at acceptable transition and ongoing cost?",
+        "Elimination can remove a control; parallelisation adds synchronisation; pooling creates queues and larger failure domains; segmentation can disadvantage hard cases. Radical and incremental change remain alternatives."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q01",
+        "Q07",
+        "Q11"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S001",
+        "S002",
+        "S015",
+        "S016",
+        "S025",
+        "S027",
+        "S030"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-023",
+        "EBPM-024",
+        "EBPM-025",
+        "EBPM-026",
+        "EBPM-027",
+        "EBPM-028",
+        "EBPM-029",
+        "EBPM-030",
+        "EBPM-055",
+        "EBPM-064",
+        "EBPM-065"
+      ],
+      "CRITICISM_IDS": [
+        "C001",
+        "C008",
+        "C009"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S025",
+          "S030"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "Elimination can remove a control; parallelisation adds synchronisation; pooling creates queues and larger failure domains; segmentation can disadvantage hard cases. Radical and incremental change remain alternatives.",
+      "DOMAIN_MODEL_ID": "B5",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    },
+    {
+      "FAMILY_ID": "B6",
+      "NAME": "Organisational governance and capability",
+      "QUESTIONS": [
+        "Who can make consequential process decisions, with what competence, resources and accountability?",
+        "The six-element framework describes strategic alignment, governance, methods, IT, people and culture; it does not prove that all must grow through identical stages. Central, local and federated arrangements have different failure modes."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q09",
+        "Q10",
+        "Q14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S005",
+        "S020",
+        "S021",
+        "S022",
+        "S023",
+        "S024",
+        "S040",
+        "S043"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-031",
+        "EBPM-032",
+        "EBPM-033",
+        "EBPM-034",
+        "EBPM-035",
+        "EBPM-056",
+        "EBPM-060",
+        "EBPM-070",
+        "EBPM-068"
+      ],
+      "CRITICISM_IDS": [
+        "C010",
+        "C011",
+        "C012",
+        "C022"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S021",
+          "S023",
+          "S024",
+          "S040"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The six-element framework describes strategic alignment, governance, methods, IT, people and culture; it does not prove that all must grow through identical stages. Central, local and federated arrangements have different failure modes.",
+      "DOMAIN_MODEL_ID": "B6",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level.",
+      "COMPOSITION_COVERAGE_NOTE": "EBPM-068 was examined as a cross-cutting analytical composition candidate; this family link identifies its authority/feedback relevance without changing its COMPOSITION origin."
+    },
+    {
+      "FAMILY_ID": "B7",
+      "NAME": "Human discretion, exceptions and responsibility",
+      "QUESTIONS": [
+        "When should a person follow, vary, challenge or stop the ordinary process, and who judges that departure?",
+        "Neither universal conformance nor universal celebration of workarounds is retained. Visibility can enable accountability and also surveillance. The social-work criticism is abstract-only, limiting claims about its detailed empirical design."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q03",
+        "Q06",
+        "Q10"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S012",
+        "S014",
+        "S025",
+        "S026",
+        "S030",
+        "S041",
+        "S042"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-035",
+        "EBPM-036",
+        "EBPM-037",
+        "EBPM-038",
+        "EBPM-039",
+        "EBPM-054"
+      ],
+      "CRITICISM_IDS": [
+        "C005",
+        "C006",
+        "C012",
+        "C013",
+        "C015",
+        "C018",
+        "C021"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S025",
+          "S030"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "Neither universal conformance nor universal celebration of workarounds is retained. Visibility can enable accountability and also surveillance. The social-work criticism is abstract-only, limiting claims about its detailed empirical design.",
+      "DOMAIN_MODEL_ID": "B7",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    },
+    {
+      "FAMILY_ID": "B8",
+      "NAME": "Enactment, automation and external effects",
+      "QUESTIONS": [
+        "How does a design become functioning work, and what remains the organisation’s responsibility outside software?",
+        "BPM-level composition identifies recovery obligations without supplying the full workflow-engine algorithmic lane. Low-code usability evidence is not proof of non-specialist competence or safe deployment."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q05",
+        "Q11",
+        "Q14"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S002",
+        "S011",
+        "S012",
+        "S027",
+        "S029",
+        "S044",
+        "S045",
+        "S046",
+        "S047"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-014",
+        "EBPM-040",
+        "EBPM-041",
+        "EBPM-042",
+        "EBPM-043",
+        "EBPM-058",
+        "EBPM-072"
+      ],
+      "CRITICISM_IDS": [
+        "C004",
+        "C014",
+        "C015",
+        "C020"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S044",
+          "S045",
+          "S046",
+          "S047"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "BPM-level composition identifies recovery obligations without supplying the full workflow-engine algorithmic lane. Low-code usability evidence is not proof of non-specialist competence or safe deployment.",
+      "DOMAIN_MODEL_ID": "B8",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    },
+    {
+      "FAMILY_ID": "B9",
+      "NAME": "Monitoring, adaptation and differentiated revision",
+      "QUESTIONS": [
+        "What observations can change which decisions, and how are descriptions, work and outcomes kept distinct?",
+        "Feedback does not prove convergence or self-authorisation. A dashboard with no capable consumer is not an adaptive process, while indiscriminate alerts can consume the capacity needed to act."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q03",
+        "Q08",
+        "Q11",
+        "Q13"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S004",
+        "S005",
+        "S018",
+        "S025",
+        "S027",
+        "S035",
+        "S036",
+        "S041"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-044",
+        "EBPM-045",
+        "EBPM-046",
+        "EBPM-047",
+        "EBPM-061",
+        "EBPM-071",
+        "EBPM-068"
+      ],
+      "CRITICISM_IDS": [
+        "C002",
+        "C007",
+        "C013",
+        "C014",
+        "C016",
+        "C022"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S018",
+          "S025",
+          "S036"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "Feedback does not prove convergence or self-authorisation. A dashboard with no capable consumer is not an adaptive process, while indiscriminate alerts can consume the capacity needed to act.",
+      "DOMAIN_MODEL_ID": "B9",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level.",
+      "COMPOSITION_COVERAGE_NOTE": "EBPM-068 was examined as a cross-cutting analytical composition candidate; this family link identifies its authority/feedback relevance without changing its COMPOSITION origin."
+    },
+    {
+      "FAMILY_ID": "B10",
+      "NAME": "Cross-organisational and contemporary consequences",
+      "QUESTIONS": [
+        "How can process coordination and innovation remain accountable across autonomous actors and new technical capabilities?",
+        "The 2026 agentic manifesto is an agenda, not operational assurance. Sustainability readiness is not measured environmental benefit. The September 28–October 2, 2026 conference is future relative to the cut-off and is not treated as completed evidence."
+      ],
+      "PERFORMED_SEARCH_IDS": [
+        "Q12",
+        "Q13",
+        "Q14",
+        "Q15"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "S018",
+        "S019",
+        "S028",
+        "S030",
+        "S031",
+        "S032",
+        "S033",
+        "S034",
+        "S036",
+        "S039",
+        "S040"
+      ],
+      "PROPERTY_IDS": [
+        "EBPM-048",
+        "EBPM-049",
+        "EBPM-050",
+        "EBPM-051",
+        "EBPM-052",
+        "EBPM-053",
+        "EBPM-069"
+      ],
+      "CRITICISM_IDS": [
+        "C007",
+        "C008",
+        "C017",
+        "C018",
+        "C019",
+        "C022"
+      ],
+      "RECENCY_COVERAGE": {
+        "SOURCE_IDS": [
+          "S018",
+          "S019",
+          "S028",
+          "S030",
+          "S032",
+          "S033",
+          "S034",
+          "S039",
+          "S040"
+        ],
+        "CUTOFF": "2026-09-06",
+        "NOTE": "Current work is used for the part of this family it actually addresses; historical concepts are not assumed invalid merely because their source is old."
+      },
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "EVIDENCE_LIMIT": "The 2026 agentic manifesto is an agenda, not operational assurance. Sustainability readiness is not measured environmental benefit. The September 28–October 2, 2026 conference is future relative to the cut-off and is not treated as completed evidence.",
+      "DOMAIN_MODEL_ID": "B10",
+      "DISPOSITION": "Examined within the stated BPM scope; retained, conditional, rejected and unresolved conclusions are recorded at property level."
+    }
+  ],
+  "search_log": [
+    {
+      "SEARCH_ID": "Q01",
+      "ROUTE": "Founding formulations and plural history",
+      "NORMALISED_SEARCH_TERMS": "Hammer reengineering work 1990; Davenport Short new industrial engineering; BPM history workflow survey",
+      "OPENED_SOURCE_IDS": [
+        "S001",
+        "S002",
+        "S003",
+        "S004",
+        "S037",
+        "S038"
+      ],
+      "DECISION_EFFECT": "Established parallel redesign, systems and organisational accounts; rejected a simple linear BPR-to-BPM succession.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q02",
+      "ROUTE": "Process identity and architecture",
+      "NORMALISED_SEARCH_TERMS": "business process architecture identification Dijkman Vanderfeesten Reijers; end-to-end process boundaries",
+      "OPENED_SOURCE_IDS": [
+        "S002",
+        "S008",
+        "S028"
+      ],
+      "DECISION_EFFECT": "Distinguished work/dependency architecture from reporting hierarchy and partner authority.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q03",
+      "ROUTE": "Discovery and work-as-performed criticism",
+      "NORMALISED_SEARCH_TERMS": "process discovery interviews observation; workarounds BPM; Dourish process descriptions",
+      "OPENED_SOURCE_IDS": [
+        "S025",
+        "S026",
+        "S035",
+        "S041",
+        "S048"
+      ],
+      "DECISION_EFFECT": "Added triangulation and omitted-work feedback; preserved accounting functions despite execution mismatch.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q04",
+      "ROUTE": "Model quality and negative results",
+      "NORMALISED_SEARCH_TERMS": "seven process modelling guidelines experiment no significant; model comprehension low code",
+      "OPENED_SOURCE_IDS": [
+        "S009",
+        "S010",
+        "S044"
+      ],
+      "DECISION_EFFECT": "Narrowed complexity recommendations and superseded the universal fifty-element claim.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q05",
+      "ROUTE": "Normative representation boundaries",
+      "NORMALISED_SEARCH_TERMS": "OMG BPMN 2.0.2 specification; CMMN 1.1; DMN 1.5",
+      "OPENED_SOURCE_IDS": [
+        "S011",
+        "S012",
+        "S013"
+      ],
+      "DECISION_EFFECT": "Verified specification identities and selected execution/case clauses; DMN detailed text remains an access limit.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q06",
+      "ROUTE": "Knowledge work and declarative alternatives",
+      "NORMALISED_SEARCH_TERMS": "knowledge intensive processes Di Ciccio Marrella Russo; declarative workflows flexibility constraints",
+      "OPENED_SOURCE_IDS": [
+        "S014",
+        "S042"
+      ],
+      "DECISION_EFFECT": "Separated representation selection from formal consistency/history checking, adding EBPM-073.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q07",
+      "ROUTE": "Redesign mechanisms and objections",
+      "NORMALISED_SEARCH_TERMS": "Mansar Reijers best practices redesign impact segregation duties survey",
+      "OPENED_SOURCE_IDS": [
+        "S015",
+        "S016"
+      ],
+      "DECISION_EFFECT": "Preserved distinct heuristic prerequisites, practical contrary comments and 25-respondent denominator.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q08",
+      "ROUTE": "Quantitative and causal inference limits",
+      "NORMALISED_SEARCH_TERMS": "business process simulation revisited; short-term simulation current state 2026; causal execution dependencies",
+      "OPENED_SOURCE_IDS": [
+        "S017",
+        "S018",
+        "S019"
+      ],
+      "DECISION_EFFECT": "Retained assumption-sensitive forecasting and causal restraint; included contemporary contrary benchmark results.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q09",
+      "ROUTE": "Governance ownership and maturity criticism",
+      "NORMALISED_SEARCH_TERMS": "process owners in the wild; BPM governance context 2026; maturity model validation criticism",
+      "OPENED_SOURCE_IDS": [
+        "S020",
+        "S021",
+        "S022",
+        "S023",
+        "S040",
+        "S043"
+      ],
+      "DECISION_EFFECT": "Separated actual authority from titles and diagnostic capability from outcome scores.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q10",
+      "ROUTE": "Culture human consequences and responsible BPM",
+      "NORMALISED_SEARCH_TERMS": "BPM public administration culture; social work formalism; responsible artificial intelligence BPM",
+      "OPENED_SOURCE_IDS": [
+        "S024",
+        "S026",
+        "S030"
+      ],
+      "DECISION_EFFECT": "Included meaningful participation, human discretion, visibility and fairness; normative and empirical roles kept separate.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q11",
+      "ROUTE": "Deployment failure and automation",
+      "NORMALISED_SEARCH_TERMS": "workflow management systems longitudinal study implementation failures; robotic process automation limits",
+      "OPENED_SOURCE_IDS": [
+        "S027",
+        "S029"
+      ],
+      "DECISION_EFFECT": "Retained complete implementation denominator and mixed outcomes; rejected automatic benefit.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q12",
+      "ROUTE": "Network and sustainability evidence",
+      "NORMALISED_SEARCH_TERMS": "interorganizational BPM governance port logistics; Green BPM empirical; BPM ESG readiness 2026",
+      "OPENED_SOURCE_IDS": [
+        "S028",
+        "S031",
+        "S032",
+        "S040"
+      ],
+      "DECISION_EFFECT": "Separated representation/reporting-readiness evidence from network/environmental outcomes.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q13",
+      "ROUTE": "Current intelligence and generative/agentic BPM",
+      "NORMALISED_SEARCH_TERMS": "process mining five levels; LLM business process modeling benchmark; agentic BPM manifesto 2026",
+      "OPENED_SOURCE_IDS": [
+        "S018",
+        "S019",
+        "S033",
+        "S034",
+        "S035",
+        "S036"
+      ],
+      "DECISION_EFFECT": "Assistance remains bounded; autonomous process self-revision unresolved rather than accepted from an agenda.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q14",
+      "ROUTE": "Low-code mechanism and transfer",
+      "NORMALISED_SEARCH_TERMS": "low code process modelling language developer experience; citizen development strategy; maturity 2026",
+      "OPENED_SOURCE_IDS": [
+        "S044",
+        "S045",
+        "S046",
+        "S047"
+      ],
+      "DECISION_EFFECT": "Added EBPM-072 for competence/support/authority prerequisites rather than merging it into generic automation.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q15",
+      "ROUTE": "Current field and source corrections",
+      "NORMALISED_SEARCH_TERMS": "BPM conference 2026; Fundamentals BPM second edition errata; publisher metadata checks",
+      "OPENED_SOURCE_IDS": [
+        "S006",
+        "S007",
+        "S039"
+      ],
+      "DECISION_EFFECT": "Separated publication, deposit, issue and future-event dates; corrections and access limits recorded.",
+      "DATE": "2026-09-06"
+    },
+    {
+      "SEARCH_ID": "Q16",
+      "ROUTE": "Final claim-level verification",
+      "NORMALISED_SEARCH_TERMS": "Publisher author names for short-term simulation, causal dependencies and workarounds; original quality-movement passage; survey Table IV screenshots",
+      "OPENED_SOURCE_IDS": [
+        "S002",
+        "S016",
+        "S018",
+        "S019",
+        "S021",
+        "S025"
+      ],
+      "DECISION_EFFECT": "Corrected author metadata before freeze, verified quality/work-life concerns already in 1990, checked sample and repeated-stage counts.",
+      "DATE": "2026-09-06"
+    }
+  ],
+  "search_log_policy": "Routes summarise executed web inquiries and opened-source trails. They are normalised descriptions, not a verbatim query transcript or a fabricated database hit/screening count.",
+  "access_limits": [
+    {
+      "SOURCE_ID": "S006",
+      "ACCESS_LEVEL": "PUBLISHER_RECORD_AND_CONTENTS_ONLY",
+      "LIMITS": [
+        "The full book was not accessible/read. Detailed mechanisms in this packet rely on separately inspected primary work; chapter 5 abstract has separate source S048."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    },
+    {
+      "SOURCE_ID": "S013",
+      "ACCESS_LEVEL": "VERSION_RECORD_ONLY",
+      "LIMITS": [
+        "Normative PDF failed both direct and link-following retrieval. No unread DMN clause or execution detail is asserted. Root-family beta labels are not treated as adopted versions."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    },
+    {
+      "SOURCE_ID": "S026",
+      "ACCESS_LEVEL": "ABSTRACT_AND_INSTITUTIONAL_RECORD_ONLY",
+      "LIMITS": [
+        "Institutional full-text retrieval failed. No sample size, detailed causal account or uninspected passage is attributed. Adjacent public-service research is not a trial of all BPM."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    },
+    {
+      "SOURCE_ID": "S038",
+      "ACCESS_LEVEL": "ABSTRACT_AND_RECORD_ONLY",
+      "LIMITS": [
+        "Full text not accessible. The detailed argument and underlying evidence are not reconstructed from the abstract. No universal BPR failure percentage is claimed."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    },
+    {
+      "SOURCE_ID": "S040",
+      "ACCESS_LEVEL": "STRUCTURED_ABSTRACT_ONLY",
+      "LIMITS": [
+        "Full text inaccessible; instruments, coefficients and detailed confounding controls not inspected. Reporting readiness is not direct environmental impact. August 14 is the 2025 received date, not the publication date."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    },
+    {
+      "SOURCE_ID": "S046",
+      "ACCESS_LEVEL": "AUTHOR_TEXT_PARTIALLY_READABLE",
+      "LIMITS": [
+        "Font encoding corrupts portions of the author-copy extraction; only readable text/clear tables support claims. Institutional PDF failed. Selected cases, no causal superiority established. Interview count is not used because the extracted numeric text is corrupted."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    },
+    {
+      "SOURCE_ID": "S047",
+      "ACCESS_LEVEL": "PUBLISHER_ABSTRACT_ONLY",
+      "LIMITS": [
+        "PDF direct and click retrieval failed. No uninspected effect estimate, coding method or full maturity-stage prescription is imported."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    },
+    {
+      "SOURCE_ID": "S048",
+      "ACCESS_LEVEL": "ABSTRACT_ONLY",
+      "LIMITS": [
+        "Full chapter not read. Detailed discovery mechanisms rely additionally on S002, S025, S035 and S041. Not an independent empirical study."
+      ],
+      "DISPOSITION": "Use only inspected content; do not infer inaccessible methods or results."
+    }
+  ],
+  "access_recovery": "Lawful author/institutional and publisher alternatives were sought for load-bearing sources. Textbook/chapter, DMN, social-work criticism, BPR criticism and selected 2026 full texts remained limited; this limits claims, not the existence of the questions. Original PF2 case access failed and the reanalysis is identified as such.",
+  "saturation_rationale": {
+    "CRITERION": "Decision saturation within declared scope, not a fixed source, property or search-round target.",
+    "OBSERVED_CLOSURE": "All ten required families have explicit models, candidate dispositions, criticism and recency checks. The last substantive expansions separated citizen-development authority/support and declarative consistency from broader existing candidates; later checks refined author metadata, sample dependence, source locators and contrary-result limits without exposing another distinct uncovered BPM mechanism in this scope.",
+    "NEGATIVE_EVIDENCE_EFFECT": "Null modelling results, non-implementation and mixed workflow outcomes, maturity validity criticism, dual-use work accounts and current simulation counter-results materially narrowed or rejected claims rather than being dismissed as improper BPM.",
+    "REMAINING_UNCERTAINTY": "Representative comparative outcomes of the exact composition, value conflicts and autonomous process revision remain open. Access-limited specific claims are bounded explicitly rather than invented.",
+    "NOT_A_CLAIM": "This is not proof that no future publication, new context or deeper specialist study can add a candidate or revise a judgement."
+  },
+  "uncompleted_burdens": [],
+  "uncompleted_burdens_note": "No mandatory family or registered candidate remains unexamined. Open research and source-access limits are examined uncertainties, listed separately; they are not silently represented as completed full-text reading.",
+  "candidate_population_total": 73,
+  "candidate_population_examined": 73,
+  "candidate_expansion_notes": [
+    "EBPM-072 added after low-code inquiry exposed distinct citizen-developer competence, support and delivery-authority prerequisites.",
+    "EBPM-073 split from the declarative branch of EBPM-016: choosing a representation and checking formal constraint consistency have different triggers, evidence and obligations."
+  ],
+  "source_count": 48,
+  "criticism_count": 22,
+  "composition_relation_count": 67,
+  "substantive_pre_freeze_corrections": [
+    "Corrected S018 first author to Maksym Avramenko, S019 final author to Yuval David and S025 first author to Nesi Outmazgin from publisher records.",
+    "Verified S016 Table IV on zero-based PDF page 9 and practical objections on page 10; corrected page locators.",
+    "Kept S040 publication 3 April 2026 distinct from its 2025 received date.",
+    "Retained 2025 low-code deposit date separately from an unestablished experiment date.",
+    "Explicitly separated S018 four real-life accuracy datasets from its three uncertainty datasets and retained contrary results.",
+    "No post-freeze substantive change is authorised under this revision without regeneration and refreshed hashes.",
+    "Final direct recheck of S010 preserved 42 collected versus 34 non-excluded models for H2, corrected the exclusion explanation and the PDF/printed-page locator; the null result was not treated as equivalence.",
+    "Qualified office-information-system ancestry as retrospective S004 evidence; made both poles of each tension’s costs explicit.",
+    "Consistency validation added the already-examined cross-cutting EBPM-068 to B6/B9 coverage/model links; no candidate or disposition changed. The validator was corrected to accept the schema-permitted nested hypothesis/causal-limit profile field and check both substantive leaves."
+  ],
+  "independence": {
+    "SIBLING_CORPORA_CONSULTED": false,
+    "CROSS_TRIFECTA_SYNTHESIS_PERFORMED": false,
+    "TARGET_REPOSITORIES_CONSULTED": false
+  }
+}

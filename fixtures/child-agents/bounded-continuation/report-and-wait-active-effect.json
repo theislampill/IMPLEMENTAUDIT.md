@@ -1,0 +1,7 @@
+{
+  "observation_patch": {
+    "effect_status": "PENDING"
+  },
+  "expected_classifier": "REPORT_AND_WAIT",
+  "expected_contradiction": "EFFECT_NOT_CLEAR"
+}

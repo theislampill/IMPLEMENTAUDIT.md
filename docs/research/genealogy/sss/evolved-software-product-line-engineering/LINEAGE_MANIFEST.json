@@ -1,0 +1,116 @@
+{
+  "embedded_manifest": {
+    "bytes": 16556,
+    "declared_digest_fields": [
+      {
+        "field": "inventory[0].sha256",
+        "value": "987256686de9c32670a41b7881ad36b8239f7a8acbcbf9e877893d96c378d7b3"
+      },
+      {
+        "field": "inventory[1].sha256",
+        "value": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e"
+      },
+      {
+        "field": "inventory[2].sha256",
+        "value": "ad2ce62e0ff0d341dddda637c348465ec5c1912f9b37a4f5837366938f88cfec"
+      },
+      {
+        "field": "inventory[3].sha256",
+        "value": "578b23a49a86b5945b144dee8bf62d23a32372db95e6a9c63affc49abf17ea03"
+      },
+      {
+        "field": "inventory[4].sha256",
+        "value": "478ac25588e345cebf827ca58e0668472fb4c496a6d654bd459ee84b100c1344"
+      },
+      {
+        "field": "inventory[5].sha256",
+        "value": "104a8b486e97daa1c399fd5246abde8e408939aa2e99c8c72071050e22c12b4e"
+      },
+      {
+        "field": "inventory[6].sha256",
+        "value": "10ba3605e763d61759ee68fff56747bfc9619e93e0f65195a5267a917cc3e71e"
+      },
+      {
+        "field": "inventory[7].sha256",
+        "value": "7c1a74ce5eed1400e5aa877366158ec4c861f9cd58445ce47a0b1a17e3758991"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "7de7ce437080117d01fd59630b07ace3dbf3f7ef67da2d425b934503b65d5ae6",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+  "lineage_name": "Evolved Software Product Line Engineering",
+  "members": [
+    {
+      "bytes": 241790,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "987256686de9c32670a41b7881ad36b8239f7a8acbcbf9e877893d96c378d7b3"
+    },
+    {
+      "bytes": 1172693,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e"
+    },
+    {
+      "bytes": 111369,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "ad2ce62e0ff0d341dddda637c348465ec5c1912f9b37a4f5837366938f88cfec"
+    },
+    {
+      "bytes": 225839,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "578b23a49a86b5945b144dee8bf62d23a32372db95e6a9c63affc49abf17ea03"
+    },
+    {
+      "bytes": 10369,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "478ac25588e345cebf827ca58e0668472fb4c496a6d654bd459ee84b100c1344"
+    },
+    {
+      "bytes": 180088,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_SYNTHESIS_INTAKE.md",
+      "sha256": "104a8b486e97daa1c399fd5246abde8e408939aa2e99c8c72071050e22c12b4e"
+    },
+    {
+      "bytes": 146005,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_COMPOSITION_MODEL.json",
+      "sha256": "10ba3605e763d61759ee68fff56747bfc9619e93e0f65195a5267a917cc3e71e"
+    },
+    {
+      "bytes": 39495,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_RESEARCH_COVERAGE.json",
+      "sha256": "7c1a74ce5eed1400e5aa877366158ec4c861f9cd58445ce47a0b1a17e3758991"
+    },
+    {
+      "bytes": 16556,
+      "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "7de7ce437080117d01fd59630b07ace3dbf3f7ef67da2d425b934503b65d5ae6"
+    }
+  ],
+  "packet": {
+    "bytes": 352196,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/packet/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "814c571bd10724eb197b3a8c15a007338b5774bdfc23147342957231295c3188"
+  },
+  "property_ledger": {
+    "bytes": 1172693,
+    "member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 62,
+    "root": "properties",
+    "sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "sss"
+}

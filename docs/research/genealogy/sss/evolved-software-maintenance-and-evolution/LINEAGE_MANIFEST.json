@@ -1,0 +1,234 @@
+{
+  "embedded_manifest": {
+    "bytes": 9967,
+    "declared_digest_fields": [
+      {
+        "field": "input_packets[0].sha256",
+        "value": "164c683b37e50e24ec374180de0112c1f763f8412b1a2d0705c268ae853134e0"
+      },
+      {
+        "field": "input_packets[1].sha256",
+        "value": "89d8623c470239d8237018010e59426610481e27d7e89beb5309be2a02dd7a60"
+      },
+      {
+        "field": "payload_inventory[0].sha256",
+        "value": "4850521bdc3e3303ea47d9ab36a40fa9f627bfcbed59417ce6599407d9e268b6"
+      },
+      {
+        "field": "payload_inventory[1].sha256",
+        "value": "a6f0e91bd22809c94c12e34016d26f98b6ec7d963e507a70f9c66de66a18000b"
+      },
+      {
+        "field": "payload_inventory[2].sha256",
+        "value": "41023314ba7d9fba47f6370fec6f74c00fbaf959f9e1369a14dbb46e73f30e30"
+      },
+      {
+        "field": "payload_inventory[3].sha256",
+        "value": "da57dddc67cf112abf945a99de952ef79e8db4acb51622d7698e50d414717777"
+      },
+      {
+        "field": "payload_inventory[4].sha256",
+        "value": "96cb252cfad032fac6cc9670e4c9ab465fe40690d3a0ae9a29feeaba91fdf132"
+      },
+      {
+        "field": "payload_inventory[5].sha256",
+        "value": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a"
+      },
+      {
+        "field": "payload_inventory[6].sha256",
+        "value": "6c8ba9c6dbd5a2960c811623b9231c688b40cdcffbd0a9c3c43a487b6fb35abd"
+      },
+      {
+        "field": "payload_inventory[7].sha256",
+        "value": "d8fb6d34803cf6f6f93d271b62626e33ccbb2e8873343e9d23aaf7c149d42fb2"
+      },
+      {
+        "field": "payload_inventory[8].sha256",
+        "value": "3ce71e85f89b992330dce243b6de5a168820c6fc957f98421114ef50fe150a02"
+      },
+      {
+        "field": "payload_inventory[9].sha256",
+        "value": "1e95a93ebd463df023fee99a7e5ffde527057878dfa3cfb0e0aba4154d79a1a4"
+      },
+      {
+        "field": "payload_inventory[10].sha256",
+        "value": "9dc2f73e3883e5593154775c46c7c296ae939d986b36c866df3af386b76135c5"
+      },
+      {
+        "field": "payload_inventory[11].sha256",
+        "value": "486c9f4755cceda622978507b67d69d4fed464b9832412655b5b2c2a4a074ac6"
+      },
+      {
+        "field": "payload_inventory[12].sha256",
+        "value": "e42c48abd9367d26fa9ac2430b7f5fe79dd4a37568645a476cc516065e0e1b7a"
+      },
+      {
+        "field": "payload_inventory[13].sha256",
+        "value": "2f84d067d9910ea42dde9285b1df639af118a9b3d5b4cce867a8480faead2c58"
+      },
+      {
+        "field": "payload_inventory[14].sha256",
+        "value": "7d136c256948e22b5a7a8b01c50683cc57fad9251b17d5249499f3aafb318dd1"
+      },
+      {
+        "field": "payload_inventory[15].sha256",
+        "value": "195adabee5bc8e9f55f01e5c16e0c9b1670ab3f69acf8042047d8e1b7842a2dc"
+      },
+      {
+        "field": "payload_inventory[16].sha256",
+        "value": "08be56edd8401da275b52515d95eb1cb4b3f878d61a09167cb606cf758c21e1f"
+      },
+      {
+        "field": "payload_inventory[17].sha256",
+        "value": "164c683b37e50e24ec374180de0112c1f763f8412b1a2d0705c268ae853134e0"
+      },
+      {
+        "field": "payload_inventory[18].sha256",
+        "value": "89d8623c470239d8237018010e59426610481e27d7e89beb5309be2a02dd7a60"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_MANIFEST.json",
+    "sha256": "dbde68fc09678f633261c98bebfabe308048817f2b9f1ec32bc1b43f9dd0e133",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+  "lineage_name": "Evolved Software Maintenance And Evolution",
+  "members": [
+    {
+      "bytes": 470110,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_AUDIT_INTAKE.md",
+      "sha256": "4850521bdc3e3303ea47d9ab36a40fa9f627bfcbed59417ce6599407d9e268b6"
+    },
+    {
+      "bytes": 209612,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_COMPOSITION_MODEL.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_COMPOSITION_MODEL.json",
+      "sha256": "a6f0e91bd22809c94c12e34016d26f98b6ec7d963e507a70f9c66de66a18000b"
+    },
+    {
+      "bytes": 778306,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_CRITICAL_AND_CASE_LEDGER.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_CRITICAL_AND_CASE_LEDGER.json",
+      "sha256": "41023314ba7d9fba47f6370fec6f74c00fbaf959f9e1369a14dbb46e73f30e30"
+    },
+    {
+      "bytes": 9967,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_MANIFEST.json",
+      "sha256": "dbde68fc09678f633261c98bebfabe308048817f2b9f1ec32bc1b43f9dd0e133"
+    },
+    {
+      "bytes": 70333,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_REPORT.md",
+      "sha256": "da57dddc67cf112abf945a99de952ef79e8db4acb51622d7698e50d414717777"
+    },
+    {
+      "bytes": 131187,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_GENEALOGY_RECONCILIATION.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_GENEALOGY_RECONCILIATION.json",
+      "sha256": "96cb252cfad032fac6cc9670e4c9ab465fe40690d3a0ae9a29feeaba91fdf132"
+    },
+    {
+      "bytes": 6059346,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+      "sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a"
+    },
+    {
+      "bytes": 9984,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "6c8ba9c6dbd5a2960c811623b9231c688b40cdcffbd0a9c3c43a487b6fb35abd"
+    },
+    {
+      "bytes": 71826,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_RESEARCH_COVERAGE.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_RESEARCH_COVERAGE.json",
+      "sha256": "d8fb6d34803cf6f6f93d271b62626e33ccbb2e8873343e9d23aaf7c149d42fb2"
+    },
+    {
+      "bytes": 488432,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SOURCE_TABLE.json",
+      "sha256": "3ce71e85f89b992330dce243b6de5a168820c6fc957f98421114ef50fe150a02"
+    },
+    {
+      "bytes": 1840231,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.json",
+      "sha256": "1e95a93ebd463df023fee99a7e5ffde527057878dfa3cfb0e0aba4154d79a1a4"
+    },
+    {
+      "bytes": 721054,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_SYNTHESIS_INTAKE.md",
+      "sha256": "9dc2f73e3883e5593154775c46c7c296ae939d986b36c866df3af386b76135c5"
+    },
+    {
+      "bytes": 7877,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_VERIFICATION.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_VERIFICATION.json",
+      "sha256": "486c9f4755cceda622978507b67d69d4fed464b9832412655b5b2c2a4a074ac6"
+    },
+    {
+      "bytes": 9789204,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_RECONCILIATION_LEDGER.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_RECONCILIATION_LEDGER.json",
+      "sha256": "e42c48abd9367d26fa9ac2430b7f5fe79dd4a37568645a476cc516065e0e1b7a"
+    },
+    {
+      "bytes": 672137,
+      "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SOURCE_RECONCILIATION_LEDGER.json",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_SOURCE_RECONCILIATION_LEDGER.json",
+      "sha256": "2f84d067d9910ea42dde9285b1df639af118a9b3d5b4cce867a8480faead2c58"
+    },
+    {
+      "bytes": 1217,
+      "member": "START_HERE.md",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/START_HERE.md",
+      "sha256": "7d136c256948e22b5a7a8b01c50683cc57fad9251b17d5249499f3aafb318dd1"
+    },
+    {
+      "bytes": 26747,
+      "member": "VERIFY_CANONICAL_PACKET.py",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/VERIFY_CANONICAL_PACKET.py",
+      "sha256": "195adabee5bc8e9f55f01e5c16e0c9b1670ab3f69acf8042047d8e1b7842a2dc"
+    },
+    {
+      "bytes": 34294,
+      "member": "inputs/CONTROLLING_RECONCILIATION_PROMPT.md",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/inputs/CONTROLLING_RECONCILIATION_PROMPT.md",
+      "sha256": "08be56edd8401da275b52515d95eb1cb4b3f878d61a09167cb606cf758c21e1f"
+    },
+    {
+      "bytes": 462887,
+      "member": "inputs/PACKET_A.zip",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/inputs/PACKET_A.zip",
+      "sha256": "164c683b37e50e24ec374180de0112c1f763f8412b1a2d0705c268ae853134e0"
+    },
+    {
+      "bytes": 412381,
+      "member": "inputs/PACKET_B.zip",
+      "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/inputs/PACKET_B.zip",
+      "sha256": "89d8623c470239d8237018010e59426610481e27d7e89beb5309be2a02dd7a60"
+    }
+  ],
+  "packet": {
+    "bytes": 3727653,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/packet/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_PACKET.zip",
+    "sha256": "9c5653e02d680aea0bb40904fe29251c46e279b281bc53f142613d3ab9a40468"
+  },
+  "property_ledger": {
+    "bytes": 6059346,
+    "member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "properties": 105,
+    "root": "properties",
+    "sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "sss"
+}

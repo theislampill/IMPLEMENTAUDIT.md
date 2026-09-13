@@ -1,0 +1,768 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_PROCESS_MINING",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "revision": "EPM-R1-2026-09-06",
+  "scope_statement": "Independent study of process mining as event data linked to explicit process representations through discovery, conformance, enhancement, organisational/performance analysis, temporal monitoring and related predictive/prescriptive methods; includes responsible use and current object-centric, uncertain, federated and language-assisted frontiers.",
+  "scope_boundaries": [
+    "No requester repositories, runtime designs, previous Evolved packets or sibling outputs used.",
+    "No exhaustive census of every publication, commercial product, algorithm variant or industrial deployment.",
+    "No normative legal compliance assessment or medical advice; authority/privacy/fairness are analytical boundaries and research concerns.",
+    "Original formal-modelling precursors are examined through their explicit use in primary mining papers; some 1998 originals, the full IEEE standard and the monograph have stated access limits.",
+    "Current evidence means accessible by 2026-09-06; future issue dates, preprints, conference/journal versions and repeated datasets remain distinct.",
+    "The Evolved composition and its analytical probes are not represented as an independently validated academic school or tested organisational implementation."
+  ],
+  "families": [
+    {
+      "FAMILY_ID": "PM1",
+      "QUESTIONS": "Event identity, database extraction, lifecycle, timestamp imperfections, event-log data quality and source recording practice",
+      "REQUIRED_MODEL_ID": "EPM-DM01",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q001"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S001",
+        "EPM-S014",
+        "EPM-S015",
+        "EPM-S024",
+        "EPM-S039",
+        "EPM-S045"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-001",
+        "EPM-002",
+        "EPM-003",
+        "EPM-004",
+        "EPM-005",
+        "EPM-006",
+        "EPM-007",
+        "EPM-008",
+        "EPM-009",
+        "EPM-010",
+        "EPM-011"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C001",
+        "EPM-C002",
+        "EPM-C003"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Separated syntax, provenance and semantics; retained question-relative adequacy and loss-aware repair.",
+      "EVIDENCE_LIMIT": "Claims remain bounded by the source-specific access, sample and scope limitations recorded in the source table."
+    },
+    {
+      "FAMILY_ID": "PM2",
+      "QUESTIONS": "Case notion, convergence/divergence, object-centric Petri nets, OCEL 2.0, object soundness and 2026 dynamic identity relations",
+      "REQUIRED_MODEL_ID": "EPM-DM02",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q002"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S014",
+        "EPM-S024",
+        "EPM-S026",
+        "EPM-S035",
+        "EPM-S043",
+        "EPM-S044",
+        "EPM-S050"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-012",
+        "EPM-013",
+        "EPM-014",
+        "EPM-015",
+        "EPM-016",
+        "EPM-017",
+        "EPM-018"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C004",
+        "EPM-C005"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Object-centric methods retained conditionally; incompatible soundness notions and broad uncertain-object transfer remain explicit.",
+      "EVIDENCE_LIMIT": "Current external validity, exact formalism compatibility and broad deployed effects are not settled; this is examined uncertainty, not an unexamined family."
+    },
+    {
+      "FAMILY_ID": "PM3",
+      "QUESTIONS": "Early workflow/software-process discovery, alpha/alpha++, heuristics, inductive, regions/ILP, genetic, declarative/MINERful, fuzzy and local models",
+      "REQUIRED_MODEL_ID": "EPM-DM03",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q003"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S002",
+        "EPM-S003",
+        "EPM-S004",
+        "EPM-S005",
+        "EPM-S006",
+        "EPM-S007",
+        "EPM-S008",
+        "EPM-S011",
+        "EPM-S013",
+        "EPM-S031",
+        "EPM-S038",
+        "EPM-S041",
+        "EPM-S042",
+        "EPM-S049"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-019",
+        "EPM-020",
+        "EPM-021",
+        "EPM-022",
+        "EPM-023",
+        "EPM-024",
+        "EPM-025",
+        "EPM-026",
+        "EPM-027",
+        "EPM-028",
+        "EPM-029",
+        "EPM-030"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C006",
+        "EPM-C007",
+        "EPM-C008",
+        "EPM-C009",
+        "EPM-C010"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Plural genealogy and guarded alternatives; unrestricted alpha default superseded rather than erasing its original theorem.",
+      "EVIDENCE_LIMIT": "Claims remain bounded by the source-specific access, sample and scope limitations recorded in the source table."
+    },
+    {
+      "FAMILY_ID": "PM4",
+      "QUESTIONS": "Token replay, optimal alignments, multi-perspective checking, uncertain-event conformance, model repair and normative limits",
+      "REQUIRED_MODEL_ID": "EPM-DM04",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q004"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S009",
+        "EPM-S010",
+        "EPM-S017",
+        "EPM-S025",
+        "EPM-S046",
+        "EPM-S047"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-031",
+        "EPM-032",
+        "EPM-033",
+        "EPM-034",
+        "EPM-035",
+        "EPM-036",
+        "EPM-037",
+        "EPM-038"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C011",
+        "EPM-C012",
+        "EPM-C013"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Separated reference authority, cost-relative comparison, rival causes and authorised repair.",
+      "EVIDENCE_LIMIT": "Claims remain bounded by the source-specific access, sample and scope limitations recorded in the source table."
+    },
+    {
+      "FAMILY_ID": "PM5",
+      "QUESTIONS": "Fitness/precision/generalisation/simplicity, axiomatic criticism, discovery benchmarks, guarantees and experiment methodology 2024–2025",
+      "REQUIRED_MODEL_ID": "EPM-DM05",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q005",
+        "EPM-Q012"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S018",
+        "EPM-S019",
+        "EPM-S020",
+        "EPM-S053",
+        "EPM-S056"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-039",
+        "EPM-040",
+        "EPM-041",
+        "EPM-042",
+        "EPM-043",
+        "EPM-044",
+        "EPM-045"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C003",
+        "EPM-C014",
+        "EPM-C015",
+        "EPM-C016"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "No universal aggregate ranking; checklist completion and model stability do not establish validity.",
+      "EVIDENCE_LIMIT": "Claims remain bounded by the source-specific access, sample and scope limitations recorded in the source table."
+    },
+    {
+      "FAMILY_ID": "PM6",
+      "QUESTIONS": "Performance intervals, bottlenecks, social-network/resource semantics, fine-grained context, object-aware timing and industrial evidence",
+      "REQUIRED_MODEL_ID": "EPM-DM06",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q006"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S012",
+        "EPM-S016",
+        "EPM-S032",
+        "EPM-S039",
+        "EPM-S045",
+        "EPM-S048",
+        "EPM-S050"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-046",
+        "EPM-047",
+        "EPM-048",
+        "EPM-049",
+        "EPM-050",
+        "EPM-051",
+        "EPM-052",
+        "EPM-053"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C004",
+        "EPM-C017",
+        "EPM-C018",
+        "EPM-C019",
+        "EPM-C024"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Separated delay from effort, account from person and agreed action from measured effect.",
+      "EVIDENCE_LIMIT": "Claims remain bounded by the source-specific access, sample and scope limitations recorded in the source table."
+    },
+    {
+      "FAMILY_ID": "PM7",
+      "QUESTIONS": "Concept drift, streaming discovery/conformance, detector benchmarks and logging/schema change",
+      "REQUIRED_MODEL_ID": "EPM-DM07",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q007"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S021",
+        "EPM-S034",
+        "EPM-S037",
+        "EPM-S039",
+        "EPM-S045",
+        "EPM-S052"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-054",
+        "EPM-055",
+        "EPM-056",
+        "EPM-057",
+        "EPM-058",
+        "EPM-059"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C011",
+        "EPM-C020",
+        "EPM-C021"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Drift alarms trigger rival-cause inquiry; adaptive description cannot automatically revise authorised expectations.",
+      "EVIDENCE_LIMIT": "Claims remain bounded by the source-specific access, sample and scope limitations recorded in the source table."
+    },
+    {
+      "FAMILY_ID": "PM8",
+      "QUESTIONS": "Predictive monitoring benchmarks, leakage/censoring, remaining/outcome prediction, prescriptive resource constraints, causal intervention 2026, calibration/conformal methods",
+      "REQUIRED_MODEL_ID": "EPM-DM08",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q008",
+        "EPM-Q013"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S022",
+        "EPM-S023",
+        "EPM-S027",
+        "EPM-S028",
+        "EPM-S030",
+        "EPM-S057",
+        "EPM-S058"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-060",
+        "EPM-061",
+        "EPM-062",
+        "EPM-063",
+        "EPM-064",
+        "EPM-065",
+        "EPM-066",
+        "EPM-067",
+        "EPM-068"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C003",
+        "EPM-C019",
+        "EPM-C022",
+        "EPM-C023",
+        "EPM-C024"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Prediction-time contract, causal boundary and feedback re-evaluation retained; broad deployed causal benefit unresolved.",
+      "EVIDENCE_LIMIT": "Current external validity, exact formalism compatibility and broad deployed effects are not settled; this is examined uncertainty, not an unexamined family."
+    },
+    {
+      "FAMILY_ID": "PM9",
+      "QUESTIONS": "Reproducibility, domain validation, negative benchmark results, private-data limits, repeated datasets and experimental design",
+      "REQUIRED_MODEL_ID": "EPM-DM09",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q009"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S016",
+        "EPM-S019",
+        "EPM-S021",
+        "EPM-S022",
+        "EPM-S023",
+        "EPM-S036",
+        "EPM-S053",
+        "EPM-S056"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-069",
+        "EPM-070",
+        "EPM-071",
+        "EPM-072",
+        "EPM-073",
+        "EPM-074",
+        "EPM-084"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C002",
+        "EPM-C007",
+        "EPM-C010",
+        "EPM-C016",
+        "EPM-C025",
+        "EPM-C029"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Executable custody and sensitivity retained without auditability-as-correctness; dependence groups identified.",
+      "EVIDENCE_LIMIT": "Claims remain bounded by the source-specific access, sample and scope limitations recorded in the source table."
+    },
+    {
+      "FAMILY_ID": "PM10",
+      "QUESTIONS": "Responsible/privacy/fairness mining, federated discovery 2025, object-centric research manifesto 2026, LLM benchmark and text-to-OCEL 2025–2026",
+      "REQUIRED_MODEL_ID": "EPM-DM10",
+      "PERFORMED_SEARCH_IDS": [
+        "EPM-Q010",
+        "EPM-Q011"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S017",
+        "EPM-S026",
+        "EPM-S029",
+        "EPM-S033",
+        "EPM-S040",
+        "EPM-S043",
+        "EPM-S044",
+        "EPM-S054",
+        "EPM-S055"
+      ],
+      "PROPERTY_IDS": [
+        "EPM-075",
+        "EPM-076",
+        "EPM-077",
+        "EPM-078",
+        "EPM-079",
+        "EPM-080",
+        "EPM-081",
+        "EPM-082",
+        "EPM-083"
+      ],
+      "CRITICISM_IDS": [
+        "EPM-C005",
+        "EPM-C013",
+        "EPM-C018",
+        "EPM-C019",
+        "EPM-C026",
+        "EPM-C027",
+        "EPM-C028"
+      ],
+      "RECENCY_COVERAGE": "Current 2024–2026 evidence is included where it changes this family’s methods or limitations; foundational work remains version-specific. See source dates and linked cross-family relations.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Threat boundaries, checked assistance, text hypothesis status and non-use retained; autonomous authority and universal return rejected.",
+      "EVIDENCE_LIMIT": "Current external validity, exact formalism compatibility and broad deployed effects are not settled; this is examined uncertainty, not an unexamined family."
+    }
+  ],
+  "additional_required_dimensions": {
+    "HISTORY_AND_GENEALOGY": "EXAMINED_WITH_EVIDENCE_LIMIT: 20 dated plural nodes and 22 classified edges; early abstract-only and precursor limits preserved.",
+    "CRITICISM_AND_EVOLUTION": "EXAMINED: 29 criticism records with transitions and changed dispositions.",
+    "CEREMONY_AND_RETIREMENT": "EXAMINED: every retained mechanism has a cheap/non-trigger path and retirement conditions.",
+    "INTERNAL_TENSIONS": "EXAMINED: 12 tensions with discriminators, costs and hybrid failures.",
+    "COMPOSITION": "EXAMINED: guarded relations, configurations, external actors and feedback; EPM-084 added as a distinct composition-induced property.",
+    "INTAKES": "COMPLETE: audit, public documentation and later-synthesis interfaces include the full denominator or explicit references and non-obligations."
+  },
+  "search_log": [
+    {
+      "SEARCH_ID": "EPM-Q001",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM1",
+      "TERMS_AND_QUESTIONS": "Event identity, database extraction, lifecycle, timestamp imperfections, event-log data quality and source recording practice",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S001",
+        "EPM-S014",
+        "EPM-S015",
+        "EPM-S024",
+        "EPM-S039",
+        "EPM-S045"
+      ],
+      "DECISION_EFFECT": "Separated syntax, provenance and semantics; retained question-relative adequacy and loss-aware repair."
+    },
+    {
+      "SEARCH_ID": "EPM-Q002",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM2",
+      "TERMS_AND_QUESTIONS": "Case notion, convergence/divergence, object-centric Petri nets, OCEL 2.0, object soundness and 2026 dynamic identity relations",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S014",
+        "EPM-S024",
+        "EPM-S026",
+        "EPM-S035",
+        "EPM-S043",
+        "EPM-S044",
+        "EPM-S050"
+      ],
+      "DECISION_EFFECT": "Object-centric methods retained conditionally; incompatible soundness notions and broad uncertain-object transfer remain explicit."
+    },
+    {
+      "SEARCH_ID": "EPM-Q003",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM3",
+      "TERMS_AND_QUESTIONS": "Early workflow/software-process discovery, alpha/alpha++, heuristics, inductive, regions/ILP, genetic, declarative/MINERful, fuzzy and local models",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S002",
+        "EPM-S003",
+        "EPM-S004",
+        "EPM-S005",
+        "EPM-S006",
+        "EPM-S007",
+        "EPM-S008",
+        "EPM-S011",
+        "EPM-S013",
+        "EPM-S031",
+        "EPM-S038",
+        "EPM-S041",
+        "EPM-S042",
+        "EPM-S049"
+      ],
+      "DECISION_EFFECT": "Plural genealogy and guarded alternatives; unrestricted alpha default superseded rather than erasing its original theorem."
+    },
+    {
+      "SEARCH_ID": "EPM-Q004",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM4",
+      "TERMS_AND_QUESTIONS": "Token replay, optimal alignments, multi-perspective checking, uncertain-event conformance, model repair and normative limits",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S009",
+        "EPM-S010",
+        "EPM-S017",
+        "EPM-S025",
+        "EPM-S046",
+        "EPM-S047"
+      ],
+      "DECISION_EFFECT": "Separated reference authority, cost-relative comparison, rival causes and authorised repair."
+    },
+    {
+      "SEARCH_ID": "EPM-Q005",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM5",
+      "TERMS_AND_QUESTIONS": "Fitness/precision/generalisation/simplicity, axiomatic criticism, discovery benchmarks, guarantees and experiment methodology 2024–2025",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S018",
+        "EPM-S019",
+        "EPM-S020",
+        "EPM-S053",
+        "EPM-S056"
+      ],
+      "DECISION_EFFECT": "No universal aggregate ranking; checklist completion and model stability do not establish validity."
+    },
+    {
+      "SEARCH_ID": "EPM-Q006",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM6",
+      "TERMS_AND_QUESTIONS": "Performance intervals, bottlenecks, social-network/resource semantics, fine-grained context, object-aware timing and industrial evidence",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S012",
+        "EPM-S016",
+        "EPM-S032",
+        "EPM-S039",
+        "EPM-S045",
+        "EPM-S048",
+        "EPM-S050"
+      ],
+      "DECISION_EFFECT": "Separated delay from effort, account from person and agreed action from measured effect."
+    },
+    {
+      "SEARCH_ID": "EPM-Q007",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM7",
+      "TERMS_AND_QUESTIONS": "Concept drift, streaming discovery/conformance, detector benchmarks and logging/schema change",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S021",
+        "EPM-S034",
+        "EPM-S037",
+        "EPM-S039",
+        "EPM-S045",
+        "EPM-S052"
+      ],
+      "DECISION_EFFECT": "Drift alarms trigger rival-cause inquiry; adaptive description cannot automatically revise authorised expectations."
+    },
+    {
+      "SEARCH_ID": "EPM-Q008",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM8",
+      "TERMS_AND_QUESTIONS": "Predictive monitoring benchmarks, leakage/censoring, remaining/outcome prediction, prescriptive resource constraints, causal intervention 2026, calibration/conformal methods",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S022",
+        "EPM-S023",
+        "EPM-S027",
+        "EPM-S028",
+        "EPM-S030",
+        "EPM-S057",
+        "EPM-S058"
+      ],
+      "DECISION_EFFECT": "Prediction-time contract, causal boundary and feedback re-evaluation retained; broad deployed causal benefit unresolved."
+    },
+    {
+      "SEARCH_ID": "EPM-Q009",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM9",
+      "TERMS_AND_QUESTIONS": "Reproducibility, domain validation, negative benchmark results, private-data limits, repeated datasets and experimental design",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S016",
+        "EPM-S019",
+        "EPM-S021",
+        "EPM-S022",
+        "EPM-S023",
+        "EPM-S036",
+        "EPM-S053",
+        "EPM-S056"
+      ],
+      "DECISION_EFFECT": "Executable custody and sensitivity retained without auditability-as-correctness; dependence groups identified."
+    },
+    {
+      "SEARCH_ID": "EPM-Q010",
+      "DATE": "2026-09-06",
+      "TYPE": "RECONSTRUCTED_THEMATIC_ACQUISITION_LOG_NOT_A_VERBATIM_BROWSER_TRANSCRIPT",
+      "FAMILY": "PM10",
+      "TERMS_AND_QUESTIONS": "Responsible/privacy/fairness mining, federated discovery 2025, object-centric research manifesto 2026, LLM benchmark and text-to-OCEL 2025–2026",
+      "PERFORMED_ACTIONS": "Web searches, primary-work opening, backward/forward tracing, author/institutional copies where available, and PDF page screenshots for material figures/tables. Search snippets were used as leads, not as evidence for omitted details.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S017",
+        "EPM-S026",
+        "EPM-S029",
+        "EPM-S033",
+        "EPM-S040",
+        "EPM-S043",
+        "EPM-S044",
+        "EPM-S054",
+        "EPM-S055"
+      ],
+      "DECISION_EFFECT": "Threat boundaries, checked assistance, text hypothesis status and non-use retained; autonomous authority and universal return rejected."
+    },
+    {
+      "SEARCH_ID": "EPM-Q011",
+      "DATE": "2026-09-06",
+      "TYPE": "DECISION_CHANGING_FOLLOW_UP",
+      "FAMILY": "PM10",
+      "TERMS_AND_QUESTIONS": "Full 2026 journal extension of From Words to Workflows / Process mining between the lines",
+      "PERFORMED_ACTIONS": "Publisher access failed; lawful institutional full text opened and method, evaluation and limitation sections inspected; relevant table screenshot examined.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S054",
+        "EPM-S055"
+      ],
+      "DECISION_EFFECT": "Text extraction was retained as an assumption-sensitive method rather than left as an unread frontier lead; conference/journal dependence and absent fully operational deployment recorded."
+    },
+    {
+      "SEARCH_ID": "EPM-Q012",
+      "DATE": "2026-09-06",
+      "TYPE": "DECISION_CHANGING_FOLLOW_UP",
+      "FAMILY": "PM5",
+      "TERMS_AND_QUESTIONS": "On Process Discovery Experimentation methodology and noise comparison",
+      "PERFORMED_ACTIONS": "Author/institutional full text and checklist/example sections opened; diagram/table pages inspected.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S056"
+      ],
+      "DECISION_EFFECT": "Strengthened criticism of aggregate rankings, missing measures, stability-as-validity and ceremonial checklist completion."
+    },
+    {
+      "SEARCH_ID": "EPM-Q013",
+      "DATE": "2026-09-06",
+      "TYPE": "DECISION_CHANGING_FOLLOW_UP",
+      "FAMILY": "PM8",
+      "TERMS_AND_QUESTIONS": "Predictive process monitoring probability calibration conformal prediction; Conformal prediction beyond exchangeability Barber Candes Ramdas Tibshirani 2023 Annals Statistics",
+      "PERFORMED_ACTIONS": "2025 author full text and external primary statistical paper opened; model/data/evaluation limitations and exchangeability theorem inspected.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S057",
+        "EPM-S058"
+      ],
+      "DECISION_EFFECT": "EPM-062 limited to explicit uncertainty targets and assumptions; corrected the possible conflation of base probability calibration with conformal marginal coverage."
+    },
+    {
+      "SEARCH_ID": "EPM-Q014",
+      "DATE": "2026-09-06",
+      "TYPE": "WITHIN_TRADITION_COMPOSITION_REVIEW",
+      "FAMILY": "CROSS_CUTTING",
+      "TERMS_AND_QUESTIONS": "Do individually valid components preserve their units, semantics and validity conditions when connected?",
+      "PERFORMED_ACTIONS": "Cross-examined inspected extraction, temporal, conformance, object and methodology sources; no repository or sibling corpus consulted.",
+      "INSPECTED_SOURCE_IDS": [
+        "EPM-S014",
+        "EPM-S022",
+        "EPM-S026",
+        "EPM-S046",
+        "EPM-S050",
+        "EPM-S056"
+      ],
+      "DECISION_EFFECT": "Added EPM-084 with a distinct handoff trigger and operating invariant; explicitly analytical and not field-validated as a whole."
+    }
+  ],
+  "access_limits": [
+    {
+      "SOURCE_OR_LEAD": "EPM-S003",
+      "STATUS": "ABSTRACT_AND_METADATA_ONLY",
+      "LIMIT": "Historical problem formulation and publication identity inspected; no omitted methods/theorems/experiments inferred."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S004",
+      "STATUS": "ABSTRACT_AND_METADATA_ONLY",
+      "LIMIT": "Historical probabilistic/algorithmic AS-IS discovery identity only; no detailed result claims."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S015",
+      "STATUS": "OFFICIAL_SCOPE_AND_METADATA_ONLY",
+      "LIMIT": "IEEE 1849-2023 exact standard identity and scope verified; full normative text not inspected and no unseen clause obligations invented."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S051",
+      "STATUS": "METADATA_AND_CONTENTS_ONLY",
+      "LIMIT": "2016 second-edition monograph supplies contextual organisation; detailed mechanisms grounded in inspected primary papers, not an implied full monograph reading."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S054",
+      "STATUS": "ABSTRACT_AND_METADATA_ONLY_WITH_FULL_EXTENSION_AVAILABLE",
+      "LIMIT": "Conference identity and high-level contribution bounded; full 2026 journal extension S055 supplies inspected method/evaluation, not retroactively all 2025 details."
+    },
+    {
+      "SOURCE_OR_LEAD": "Suriadi et al. event-log imperfection pattern literature",
+      "STATUS": "FULL_COPY_ACCESS_LIMIT",
+      "LIMIT": "A sought full copy was inaccessible. Timestamp-quality and digital-hospital primary studies S039/S045 supply directly inspected evidence; no unseen pattern taxonomy or number is asserted."
+    },
+    {
+      "SOURCE_OR_LEAD": "2026 object-centric event-data imperfection lead",
+      "STATUS": "INACCESSIBLE_FULL_TEXT_LEAD_NOT_USED_FOR_FINDINGS",
+      "LIMIT": "No detailed claims extracted from inaccessible publisher text. Current object semantics and uncertainty are covered by S026/S043/S044 and primary uncertainty/performance work."
+    },
+    {
+      "SOURCE_OR_LEAD": "2023 extended All That Glitters journal version",
+      "STATUS": "INACCESSIBLE_VERSION",
+      "LIMIT": "The accessible 2020 v1 S053 is preserved as a materially distinct inspected version; journal additions are not attributed to it."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S055",
+      "STATUS": "RESOLVED_VIA_INSTITUTIONAL_FULL_TEXT",
+      "LIMIT": "Publisher route was unavailable; the lawful institutional PDF was inspected and supplied actual claim locators."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S057",
+      "STATUS": "RESOLVED_VIA_AUTHOR_FULL_TEXT",
+      "LIMIT": "Publisher route failed; author-uploaded full text inspected. The retrospective clinical paper is research evidence, not medical advice."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S026",
+      "STATUS": "ACCESSIBLE_MANUSCRIPT_WITH_FUTURE_ISSUE_DATE",
+      "LIMIT": "Available manuscript and 2026 DOI inspected by the cut-off; the nominal 1 October 2026 issue date is not treated as an event already occurring or evidence of replication."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S027 and EPM-S028",
+      "STATUS": "PREPRINT_STATUS_LIMIT",
+      "LIMIT": "Exact accessible versions examined; S028 is under review and not represented as a completed peer-reviewed publication or independent field replication."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S043",
+      "STATUS": "FORMAL_CLAIM_NOT_CERTIFIED",
+      "LIMIT": "An ambiguity in the inspected preprint’s proof/decidability presentation prevents certifying that contested point. Only explicitly scoped model semantics are used."
+    },
+    {
+      "SOURCE_OR_LEAD": "EPM-S048 figures",
+      "STATUS": "PARTIAL_SCREENSHOT_LIMIT",
+      "LIMIT": "A requested figure rendering did not succeed; claims used here are grounded in readable text, not inferred from the unavailable graphic."
+    },
+    {
+      "SOURCE_OR_LEAD": "Current conference coverage",
+      "STATUS": "DATE_BOUNDARY",
+      "LIMIT": "Current research includes accessible 2025 conference and 2026 journal/preprint evidence. Future 2026 proceedings are not assumed to exist or counted as inspected."
+    }
+  ],
+  "saturation_rationale": {
+    "BASIS": "Decision saturation within the declared questions, not a fixed source count, property count or number of search rounds.",
+    "OBSERVED_CLOSURE": "Every mandatory family has inspected evidence, criticism, a developed domain model, candidate dispositions and current-state limits. Further searches were used where they could change a judgement: full text-to-event research, experimental methodology and calibration theory did change the records.",
+    "WHAT_CHANGED_LATE": [
+      "S055 narrowed text-extraction transfer while supporting a concrete mechanism.",
+      "S056 strengthened the distinction between methodology/checklist presence and valid experimental reasoning.",
+      "S057/S058 narrowed uncertainty claims and separated probability calibration from marginal coverage.",
+      "Composition exposed EPM-084, increasing the denominator from 83 to 84 without renumbering."
+    ],
+    "STOPPING_JUDGEMENT": "The remaining burdens concern missing independent external validation, inaccessible exact editions or unresolved semantic compatibility, rather than unread mandatory families. Repeating equivalent discovery queries would not by itself resolve those evidence gaps.",
+    "NOT_CLAIMED": "This is not a PRISMA-style exhaustive literature census, statistical meta-analysis or proof that no further relevant study exists."
+  },
+  "uncompleted_burdens": [],
+  "uncompleted_burdens_explanation": "No mandatory family or registered candidate is NOT_EXAMINED. Examined unresolved records and access/transfer limits are retained and do not imply universal closure.",
+  "population_total": 84,
+  "population_examined": 84,
+  "source_total": 58,
+  "disposition_counts": {
+    "ASSUMPTION_SENSITIVE": 14,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 1,
+    "CONTEXT_DEPENDENT": 15,
+    "DOMAIN_SPECIFIC": 1,
+    "DUPLICATE_CANDIDATE": 1,
+    "NO_GENERAL_PROPERTY": 4,
+    "REJECTED_OR_DISFAVOURED": 5,
+    "RETAINED_IN_EVOLVED_FORM": 11,
+    "STRONGLY_RETAINED": 28,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "UNRESOLVED": 2,
+    "USEFUL_BUT_EASILY_GAMED": 1
+  },
+  "examination_counts": {
+    "EXAMINED": 74,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 10
+  },
+  "source_independence_statement": "Separate papers or publication years are not assumed to be independent; empirical units and dependence groups resolve in SOURCE_TABLE.json.",
+  "sibling_corpora_consulted": false,
+  "cross_trifecta_synthesis_performed": false
+}

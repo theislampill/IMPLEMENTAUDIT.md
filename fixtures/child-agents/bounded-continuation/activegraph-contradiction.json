@@ -1,0 +1,12 @@
+{
+  "activegraph": {
+    "state": "DONE",
+    "digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "same_state_different_digest": {
+    "state": "ACTIVE",
+    "digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "expected_classifier": "FRESH_CONTEXT_RESUME",
+  "expected_contradiction": "ACTIVEGRAPH_WORK_GRAPH_CONTRADICTION"
+}

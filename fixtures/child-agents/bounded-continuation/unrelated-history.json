@@ -1,0 +1,5 @@
+{
+  "unrelated_history_counts": [0, 100, 1000],
+  "forbidden_observation_keys": ["transcript", "expected_frontier"],
+  "max_packet_bytes": 32768
+}

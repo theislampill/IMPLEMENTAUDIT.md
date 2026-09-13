@@ -1,0 +1,81 @@
+{
+  "schema": "implementaudit.native-a-g.fixture.v1",
+  "slice": "A_DEPENDENCY_TYPING",
+  "authority_ceiling": "PREPARATION_PRODUCT_EVIDENCE_ONLY",
+  "canonical_credit_granted": false,
+  "native_consumer_required": true,
+  "purpose": "Discriminate semantic predecessors, conflicts, joins, uncertainty, and host capacity without turning MAY_AFFECT into MUST_FINISH_FIRST.",
+  "cases": [
+    {
+      "id": "A01_MAY_AFFECT_IS_NOT_PREDECESSOR",
+      "coverage": "positive",
+      "input": {
+        "edge": "MAY_AFFECT_DISPOSITION",
+        "shared_writer": false,
+        "shared_effect": false,
+        "authority_consequence_now": false
+      },
+      "expected": {
+        "learning_ready": true,
+        "authority_deferred_to_join": true,
+        "semantic_predecessor": false
+      }
+    },
+    {
+      "id": "A02_SHARED_WRITER_SERIALIZES_ONLY_CONFLICT",
+      "coverage": "boundary",
+      "input": {
+        "writer_effects": {
+          "writer_left": ["path:shared"],
+          "writer_right": ["path:shared"],
+          "reader_disjoint": ["path:other"]
+        }
+      },
+      "expected": {
+        "serialize": ["writer_left", "writer_right"],
+        "unrelated_ready": ["reader_disjoint"],
+        "global_barrier": false
+      }
+    },
+    {
+      "id": "A03_UNKNOWN_EDGE_BLOCKS_ONLY_AFFECTED_WORK",
+      "coverage": "negative",
+      "input": {
+        "unknown_impact": ["unknown_consumer"],
+        "proved_disjoint": ["independent_reader"]
+      },
+      "expected": {
+        "blocked": ["unknown_consumer"],
+        "ready": ["independent_reader"],
+        "global_barrier": false
+      }
+    },
+    {
+      "id": "A04_MANDATORY_JOIN_REMAINS_REQUIRED",
+      "coverage": "negative",
+      "input": {
+        "independent_preparation_complete": true,
+        "governed_acceptance_complete": false,
+        "declared_join": "A_G_JOIN"
+      },
+      "expected": {
+        "join_required": true,
+        "early_acceptance": false,
+        "preparation_reusable": true
+      }
+    },
+    {
+      "id": "A05_CAPACITY_LIMIT_IS_NOT_SEMANTIC_EDGE",
+      "coverage": "boundary",
+      "input": {
+        "host_capacity": 1,
+        "ready_disjoint_transactions": 2
+      },
+      "expected": {
+        "resource_queue": true,
+        "semantic_dependency_created": false,
+        "preserve_both_ready_nodes": true
+      }
+    }
+  ]
+}

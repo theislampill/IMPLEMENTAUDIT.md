@@ -1,0 +1,2957 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_MULTI_AGENT_SYSTEMS",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "revision": "EMAS-R1",
+  "scope_statement": "A plural, independent MAS tradition study spanning distributed problem solving, formal/public communication, task and team coordination, strategic interaction, organisations/norms, distributed reasoning, learning, robustness and contemporary human/LLM-agent translation. Completeness is bounded to the examined domain families and 76 registered candidate claims, not all publications or a claim of field-wide consensus.",
+  "scope_boundaries": [
+    "No requester repositories, runtime designs, earlier Evolved packets or sibling corpora were consulted. Static prompt provenance is not evidence.",
+    "Distributed systems results enter only where a MAS source explicitly uses or motivates them; there is no general distributed-systems audit or blanket Byzantine terminology.",
+    "Robotics/control, AI logic, economics and organisational engineering are examined at documented MAS intersections, not as independently complete sibling traditions.",
+    "No catalogue of current software products, all FIPA implementations, all voting/mechanism variants, every MARL algorithm or every AAMAS paper is claimed.",
+    "Current evidence includes selected 2025–2026 research, current-year source discovery and version verification through the cut-off; proceedings indexing is not paper-level inspection.",
+    "LLM results are not the definition of MAS. Formal model properties, simulated behaviour, field trials, implementation and causal benefit are kept distinct.",
+    "An examined unresolved access/version question is not silently recast as disproof; selected whole-system transfer remains unvalidated."
+  ],
+  "families": [
+    {
+      "FAMILY_ID": "MAS1",
+      "NAME": "System boundaries, agency and interdependence",
+      "QUESTIONS": [
+        "When is a distributed decision boundary necessary, and what rights/information make a simpler comparison fair?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q001",
+        "EMAS-Q002",
+        "EMAS-Q017",
+        "EMAS-Q018"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S001",
+        "EMAS-S004",
+        "EMAS-S005",
+        "EMAS-S006",
+        "EMAS-S023",
+        "EMAS-S037",
+        "EMAS-S041"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-002",
+        "EMAS-003",
+        "EMAS-004",
+        "EMAS-005",
+        "EMAS-006",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K001",
+        "EMAS-K018",
+        "EMAS-K021"
+      ],
+      "RECENCY_COVERAGE": "2026 simpler-baseline, specialist and open coordination evidence examined.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS2",
+      "NAME": "Communication languages, meaning and protocols",
+      "QUESTIONS": [
+        "Which public or private semantic object does a message establish; which exact protocol/version and transport assumptions apply?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q002",
+        "EMAS-Q003",
+        "EMAS-Q004",
+        "EMAS-Q005",
+        "EMAS-Q006",
+        "EMAS-Q020",
+        "EMAS-Q021"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S012",
+        "EMAS-S013",
+        "EMAS-S014",
+        "EMAS-S016",
+        "EMAS-S017",
+        "EMAS-S044",
+        "EMAS-S055",
+        "EMAS-S056"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [
+        "EMAS-S015",
+        "EMAS-S053"
+      ],
+      "PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-008",
+        "EMAS-009",
+        "EMAS-010",
+        "EMAS-011",
+        "EMAS-012",
+        "EMAS-013",
+        "EMAS-014",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K002",
+        "EMAS-K003",
+        "EMAS-K004"
+      ],
+      "RECENCY_COVERAGE": "2025 implementation translation examined; current final FIPA texts/conformance remain unavailable.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS3",
+      "NAME": "Coordination, allocation and dependencies",
+      "QUESTIONS": [
+        "How do assignment, acceptance, bundles, resource timing and completed work differ?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q001",
+        "EMAS-Q005",
+        "EMAS-Q006",
+        "EMAS-Q007",
+        "EMAS-Q017"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S004",
+        "EMAS-S006",
+        "EMAS-S043",
+        "EMAS-S045",
+        "EMAS-S046",
+        "EMAS-S041"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-015",
+        "EMAS-016",
+        "EMAS-017",
+        "EMAS-018",
+        "EMAS-019",
+        "EMAS-020",
+        "EMAS-021",
+        "EMAS-022",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K001",
+        "EMAS-K005",
+        "EMAS-K007",
+        "EMAS-K023"
+      ],
+      "RECENCY_COVERAGE": "2026 specialist bottlenecks and coordination settings examined.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS4",
+      "NAME": "Teamwork and commitments",
+      "QUESTIONS": [
+        "What makes a joint undertaking persist, how are partial plans/commitments repaired, and how much communication is justified?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q003",
+        "EMAS-Q004",
+        "EMAS-Q006",
+        "EMAS-Q007",
+        "EMAS-Q018",
+        "EMAS-Q020"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S007",
+        "EMAS-S008",
+        "EMAS-S009",
+        "EMAS-S010",
+        "EMAS-S011",
+        "EMAS-S016",
+        "EMAS-S044",
+        "EMAS-S047",
+        "EMAS-S054"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-023",
+        "EMAS-024",
+        "EMAS-025",
+        "EMAS-026",
+        "EMAS-027",
+        "EMAS-028",
+        "EMAS-029",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K006",
+        "EMAS-K007",
+        "EMAS-K019",
+        "EMAS-K024"
+      ],
+      "RECENCY_COVERAGE": "2025 BSPL implementation and 2026 communication/human-agent studies examined.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS5",
+      "NAME": "Strategic interaction and mechanism design",
+      "QUESTIONS": [
+        "What incentive, information, participation and contract-search assumptions support each strategic claim?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q007",
+        "EMAS-Q008",
+        "EMAS-Q017"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S023",
+        "EMAS-S024",
+        "EMAS-S025",
+        "EMAS-S040",
+        "EMAS-S045",
+        "EMAS-S046"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-032",
+        "EMAS-033",
+        "EMAS-034",
+        "EMAS-035",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K005",
+        "EMAS-K008",
+        "EMAS-K009"
+      ],
+      "RECENCY_COVERAGE": "2026 restricted pricing meta-game and algorithmic-collusion evidence examined.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS6",
+      "NAME": "Organisations, roles and norms",
+      "QUESTIONS": [
+        "How do roles, missions, obligations, detection/enforcement and revision connect to actual institutional powers?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q009",
+        "EMAS-Q010",
+        "EMAS-Q014",
+        "EMAS-Q017",
+        "EMAS-Q019"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S018",
+        "EMAS-S019",
+        "EMAS-S020",
+        "EMAS-S021",
+        "EMAS-S022",
+        "EMAS-S039",
+        "EMAS-S050",
+        "EMAS-S052"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-036",
+        "EMAS-037",
+        "EMAS-038",
+        "EMAS-039",
+        "EMAS-040",
+        "EMAS-041",
+        "EMAS-042",
+        "EMAS-076",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K010",
+        "EMAS-K011",
+        "EMAS-K022"
+      ],
+      "RECENCY_COVERAGE": "2026 norm formation and norm-aware BDI examined; dynamic-norm scale remains limited.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS7",
+      "NAME": "Distributed reasoning and collective decisions",
+      "QUESTIONS": [
+        "What does exact optimisation, privacy, argument acceptance, voting or agreement guarantee—and what remains an input/evidence obligation?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q008",
+        "EMAS-Q011",
+        "EMAS-Q012",
+        "EMAS-Q019",
+        "EMAS-Q021"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S023",
+        "EMAS-S025",
+        "EMAS-S026",
+        "EMAS-S027",
+        "EMAS-S028",
+        "EMAS-S029",
+        "EMAS-S030",
+        "EMAS-S031",
+        "EMAS-S037",
+        "EMAS-S051",
+        "EMAS-S055",
+        "EMAS-S056"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-043",
+        "EMAS-044",
+        "EMAS-045",
+        "EMAS-046",
+        "EMAS-047",
+        "EMAS-048",
+        "EMAS-049",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K012",
+        "EMAS-K013",
+        "EMAS-K016"
+      ],
+      "RECENCY_COVERAGE": "2026 fault-tolerant DCOP and reasoning-budget arguments examined.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS8",
+      "NAME": "Learning, adaptation and emergence",
+      "QUESTIONS": [
+        "How do information, representation, rewards and changing partners affect the collective claim?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q013",
+        "EMAS-Q017",
+        "EMAS-Q018",
+        "EMAS-Q019"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S032",
+        "EMAS-S033",
+        "EMAS-S034",
+        "EMAS-S035",
+        "EMAS-S038",
+        "EMAS-S039",
+        "EMAS-S040"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-050",
+        "EMAS-051",
+        "EMAS-052",
+        "EMAS-053",
+        "EMAS-054",
+        "EMAS-055",
+        "EMAS-056",
+        "EMAS-057",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K009",
+        "EMAS-K014",
+        "EMAS-K015",
+        "EMAS-K020"
+      ],
+      "RECENCY_COVERAGE": "2025 benchmarks and 2026 long-horizon coordination/norm/collusion evidence examined.",
+      "EXAMINATION_STATUS": "EXAMINED",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS9",
+      "NAME": "Robustness, openness and collective failure",
+      "QUESTIONS": [
+        "Which faults, shared dependencies and abandoned obligations are actually handled; does useful progress continue?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q006",
+        "EMAS-Q015",
+        "EMAS-Q016",
+        "EMAS-Q019",
+        "EMAS-Q021"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S009",
+        "EMAS-S016",
+        "EMAS-S043",
+        "EMAS-S044",
+        "EMAS-S049",
+        "EMAS-S051",
+        "EMAS-S055",
+        "EMAS-S056"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-058",
+        "EMAS-059",
+        "EMAS-060",
+        "EMAS-061",
+        "EMAS-062",
+        "EMAS-063",
+        "EMAS-064",
+        "EMAS-075",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K003",
+        "EMAS-K004",
+        "EMAS-K007",
+        "EMAS-K016",
+        "EMAS-K019",
+        "EMAS-K021",
+        "EMAS-K023"
+      ],
+      "RECENCY_COVERAGE": "2026 FT-DCOP examined with main-paper/supplement limit; arbitrary open-world failure coverage not established.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    },
+    {
+      "FAMILY_ID": "MAS10",
+      "NAME": "Evaluation and contemporary translation",
+      "QUESTIONS": [
+        "Are comparisons budget-credible, outcomes end-to-end, people genuinely empowered, and programme/replication units honest?"
+      ],
+      "SEARCH_IDS": [
+        "EMAS-Q013",
+        "EMAS-Q014",
+        "EMAS-Q016",
+        "EMAS-Q017",
+        "EMAS-Q018",
+        "EMAS-Q020"
+      ],
+      "INSPECTED_SOURCE_IDS": [
+        "EMAS-S022",
+        "EMAS-S035",
+        "EMAS-S036",
+        "EMAS-S037",
+        "EMAS-S038",
+        "EMAS-S039",
+        "EMAS-S040",
+        "EMAS-S041",
+        "EMAS-S042",
+        "EMAS-S043",
+        "EMAS-S048",
+        "EMAS-S054"
+      ],
+      "UNAVAILABLE_SOURCE_IDS": [],
+      "PROPERTY_IDS": [
+        "EMAS-065",
+        "EMAS-066",
+        "EMAS-067",
+        "EMAS-068",
+        "EMAS-069",
+        "EMAS-070",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "CRITICISM_IDS": [
+        "EMAS-K015",
+        "EMAS-K017",
+        "EMAS-K018",
+        "EMAS-K020",
+        "EMAS-K023",
+        "EMAS-K024"
+      ],
+      "RECENCY_COVERAGE": "2026 research and extended-abstract tracks, preprints through June 2026 and current-year searches examined; no claim of indexing every publication by the cut-off.",
+      "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+      "DISPOSITION": "Examined native mechanisms, alternatives, criticism, operations and transfer boundaries; remaining limitations are identified rather than treated as unread work."
+    }
+  ],
+  "search_log": [
+    {
+      "SEARCH_ID": "EMAS-Q001",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Multi-agent systems foundations Wooldridge Jennings 1995; IFAAMAS history; AAMAS 2026 proceedings",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S001",
+        "EMAS-S002",
+        "EMAS-S003"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Established the boundary, plural community and current primary-paper discovery route."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q002",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Contract Net Smith original 1980 distributed AI Smith Davis frameworks cooperation",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S004",
+        "EMAS-S005"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Verified original date and separated task connection from work performance."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q003",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Durfee Lesser partial global planning coordination communication overhead original",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S006"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Added partial plans, stale-view failures and a cheaper/non-trigger path."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q004",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Cohen Levesque joint intentions acting together; Grosz Kraus SharedPlans; Tambe STEAM COM-MTDP",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S007",
+        "EMAS-S008",
+        "EMAS-S009",
+        "EMAS-S010",
+        "EMAS-S011"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Reconstructed competing teamwork semantics and their operational/communication limits."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q005",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "KQML original Finin; FIPA communicative act library SC00037J XC00037H current specification",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S012",
+        "EMAS-S014",
+        "EMAS-S015",
+        "EMAS-S053"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Inspected exact historical specimen; did not infer inaccessible final/current equivalence."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q006",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Singh agent communication critique public social commitments; BSPL information protocols liveness alignment",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S013",
+        "EMAS-S016",
+        "EMAS-S017",
+        "EMAS-S044"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Separated public obligations, local information and model-level versus actual liveness."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q007",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Sandholm marginal cost Contract Net TRACONET; Lesser task allocation contract types decommitment",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S045",
+        "EMAS-S046"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Refined bargaining prerequisites and contract-neighbourhood limitations."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q008",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Shoham Leyton-Brown foundations; Myerson Satterthwaite bilateral trade original; Gibbard manipulation original",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S023",
+        "EMAS-S024",
+        "EMAS-S025"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Traced imported results to primary formulations and retained assumptions."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q009",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Gaia original author copy; MOISE structural functional deontic organisation; cooperative reorganisation",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S018",
+        "EMAS-S019",
+        "EMAS-S050"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Established the organisation/engineering intersection without reading sibling outputs."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q010",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Normative multi-agent programs regimentation enforcement observable actions norm enforceability",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S020",
+        "EMAS-S021"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Made norm detection, effectiveness and external authority distinct."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q011",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Distributed constraint satisfaction Yokoo; ADOPT DPOP original; privacy preserving DCOP; survey",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S026",
+        "EMAS-S027",
+        "EMAS-S028",
+        "EMAS-S029",
+        "EMAS-S030"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Examined exact/approximate quality, message costs and threat-specific privacy."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q012",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Dung 1995 acceptability argumentation semantics; collective decision truth manipulation",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S031",
+        "EMAS-S025"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Rejected agreement/acceptability as a general truth warrant."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q013",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "MADDPG QMIX original CTDE nonstationarity; Other Play cross play; MARL benchmarking 2025",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S032",
+        "EMAS-S033",
+        "EMAS-S034",
+        "EMAS-S035"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Preserved execution information contracts, representation limits and partner-dependent evaluation."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q014",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "ARMOR LAX original deployment; human-agent disaster response trials; human AI collaboration ethics",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S042",
+        "EMAS-S043",
+        "EMAS-S022"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Separated operational use, staged field trials, human decision rights and causal claims."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q015",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Con-man attack trust reputation MAS original; agent failure recovery teamwork",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S049",
+        "EMAS-S009",
+        "EMAS-S043",
+        "EMAS-S044"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Retained risk-limited trust and bounded abandoned-work recovery, not generic trust safety."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q016",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Multi-agent LLM debate original 2023; why multi-agent LLM systems fail 2025 MAST; equal token budgets 2026",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S048",
+        "EMAS-S036",
+        "EMAS-S037"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Recorded positive and negative findings; independently challenged the negative paper’s theoretical strictness claim."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q017",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "AAMAS 2026 norm formation common pool LLM; algorithmic collusion test time; too many specialists",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S039",
+        "EMAS-S040",
+        "EMAS-S041"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Added current mixed-motive and adverse-emergence evidence; rejected universal specialisation benefits."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q018",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Open ended multi-agent coordination benchmark alem 2026 communication memory ablations",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S038"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Kept genuine resource/timing coordination separate from answer debate and preserved a counterweight to communication-overhead criticism."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q019",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "AAMAS 2026 Byzantine fault tolerance distributed constraint optimisation; engineering norm aware BDI",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S051",
+        "EMAS-S052"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Added distinct late candidates EMAS-075 and EMAS-076 rather than forcing them into generic robustness/norm labels."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q020",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "AAMAS 2026 human-agent collaboration XAI support hierarchical reinforcement learning",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S054"
+      ],
+      "ACTION": "Search primary/institutional copies, open identified sections, follow origin/criticism references and record access/version limits.",
+      "DECISION_EFFECT": "Current null result refined communication and human-participation candidates; did not split an equivalent mechanism into a new property."
+    },
+    {
+      "SEARCH_ID": "EMAS-Q021",
+      "DATE": "2026-09-06",
+      "QUERY_OR_DISCOVERY_THEME": "Amgoud Maudet Parsons modelling dialogues argumentation 2000 original; McBurney Parsons Dialogue Games in Multi-Agent Systems; verify explicit Dung import and private/public protocol limits",
+      "LOG_TYPE": "NORMALISED_RECORD_OF_PERFORMED_WEB_SEARCH_AND_SOURCE_FOLLOWING_NOT_A_VERBATIM_ENGINE_LOG",
+      "SOURCE_IDS": [
+        "EMAS-S031",
+        "EMAS-S055",
+        "EMAS-S056"
+      ],
+      "ACTION": "Read primary author manuscript, journal critique sections and relevant page images; check alleged influence rather than infer from similar vocabulary.",
+      "DECISION_EFFECT": "Replaced an unsupported Dung-to-foundations-manuscript edge with the express 2000 adaptation; refined EMAS-046 and its operative coupling without counting a synonym or protocol example as a new independent candidate."
+    }
+  ],
+  "access_limits": [
+    {
+      "ACCESS_LIMIT_ID": "EMAS-A01",
+      "SOURCE_IDS": [
+        "EMAS-S015",
+        "EMAS-S053"
+      ],
+      "WORK_OR_VERSION": "FIPA SC00037J communicative acts and SC00029H Contract Net final-profile leads",
+      "ATTEMPT": "Official HTTP/HTTPS and available lawful mirrors attempted; no readable exact final/current text obtained.",
+      "CONSEQUENCE": "Retain separate unavailable source rows; EMAS-013 UNRESOLVED. The readable XC00037H experimental specimen does not stand in for either final work."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EMAS-A02",
+      "SOURCE_IDS": [
+        "EMAS-S018"
+      ],
+      "WORK_OR_VERSION": "Gaia Southampton discovery record",
+      "ATTEMPT": "Institutional discovery link did not yield the needed text; lawful Oxford author PDF was read.",
+      "CONSEQUENCE": "Substantive original-paper coverage recovered; no dependency on repository or sibling output."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EMAS-A03",
+      "SOURCE_IDS": [
+        "EMAS-S007",
+        "EMAS-S023",
+        "EMAS-S032"
+      ],
+      "WORK_OR_VERSION": "Cohen–Levesque 1991 Teamwork; Littman 1994 Markov games original",
+      "ATTEMPT": "Publisher/lead records and lawful-copy searches did not yield the full needed original text.",
+      "CONSEQUENCE": "Do not invent their methods. Joint teamwork examined through 1990/1996/1997 primary works; multi-agent learning through primary later models and explicit imported foundations. Earlier exact origins remain limited."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EMAS-A04",
+      "SOURCE_IDS": [
+        "EMAS-S021"
+      ],
+      "WORK_OR_VERSION": "Norm enforceability PDF page image",
+      "ATTEMPT": "Primary text was readable; one screenshot retrieval failed.",
+      "CONSEQUENCE": "No numerical or figure-derived claim depends on that unavailable image."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EMAS-A05",
+      "SOURCE_IDS": [
+        "EMAS-S051"
+      ],
+      "WORK_OR_VERSION": "FT-DCOP supplementary proof",
+      "ATTEMPT": "Main paper including theorem statement, construction, main argument and experiments inspected; supplemental impossibility proof not independently checked.",
+      "CONSEQUENCE": "Theory/inspection partition explicitly limited; no machine-checked proof claim."
+    },
+    {
+      "ACCESS_LIMIT_ID": "EMAS-A06",
+      "SOURCE_IDS": [],
+      "WORK_OR_VERSION": "Unsuccessful secondary leads on agent-death recovery, human crowd influence and later protocol comparisons",
+      "ATTEMPT": "Lawful primary-copy attempts included inaccessible/captcha or empty-viewer results.",
+      "CONSEQUENCE": "Those unread studies are not substantive evidence and their apparent findings were not used. Required families are covered through the identified readable sources."
+    }
+  ],
+  "source_access_counts": {
+    "FULL_TEXT_TARGETED_INSPECTION": 52,
+    "FULL_PAGE": 1,
+    "INDEX_AND_CONTENTS": 1,
+    "UNAVAILABLE": 2
+  },
+  "source_count": 56,
+  "population_total": 76,
+  "population_examined": 76,
+  "candidate_boundary_rationale": "Candidates were split when triggers, mechanisms or assumptions differ (for example task completion versus collective outcome; generic fault modelling versus replicated DCOP; norm enforcement versus norm-aware planning). Synonyms were not multiplied. Late sources added EMAS-075/076, while the human-explanation null result revised existing EMAS-028/068. No fixed property count was used as a discovery ceiling. Final argument-dialogue sources refined the existing reasoning criterion and its protocol/termination coupling, rather than creating a property for each published protocol.",
+  "saturation_rationale": {
+    "STANDARD": "Decision-relevant saturation inside the declared scope, not bibliographic exhaustiveness or a time/source quota.",
+    "EVIDENCE": "Each mandatory family has inspected founding or authoritative formulations, an operative mechanism, critical/limiting evidence, a contemporary connection and a candidate/composition disposition. Current searches changed the denominator and weakened convenient pro- and anti-MAS narratives before closure.",
+    "STOPPING_JUDGEMENT": "Further repeated discovery themes were producing alternative examples of already represented mechanisms, not a new identified property, changed prerequisite or missing mandatory branch. Specific inaccessible versions and wider field transfer remain explicitly examined limits rather than invented closure.",
+    "REOPEN_CONDITIONS": [
+      "Readable final/current FIPA profiles and conformance evidence",
+      "A materially different failure or protocol model",
+      "Independent comparative field evidence that changes configuration selection",
+      "A counterexample to a retained formal/analytical claim",
+      "Evidence that a genealogy edge reflects derivation rather than shared ancestry or analogy"
+    ],
+    "UNCERTAINTY": "Saturation is the researcher’s bounded coverage judgement; it is not a proof that no omitted publication could change a conclusion."
+  },
+  "uncompleted_burdens": [],
+  "uncompleted_burdens_explanation": "No registered candidate or mandatory family remains NOT_EXAMINED. Unresolved version/evidence/transfer questions are retained above and in the composition model, not represented as unfinished reading.",
+  "timeline": [
+    {
+      "DATE": "1973; 1983",
+      "NODE_ID": "EMAS-G001",
+      "EVENT": "Economic and social-choice antecedents",
+      "SOURCE_IDS": [
+        "EMAS-S024",
+        "EMAS-S025"
+      ]
+    },
+    {
+      "DATE": "1980; 1981",
+      "NODE_ID": "EMAS-G002",
+      "EVENT": "Distributed problem solving and Contract Net",
+      "SOURCE_IDS": [
+        "EMAS-S004",
+        "EMAS-S005"
+      ]
+    },
+    {
+      "DATE": "1987",
+      "NODE_ID": "EMAS-G003",
+      "EVENT": "Partial Global Planning / Durfee–Lesser",
+      "SOURCE_IDS": [
+        "EMAS-S006"
+      ]
+    },
+    {
+      "DATE": "1990",
+      "NODE_ID": "EMAS-G004",
+      "EVENT": "Common-knowledge limits",
+      "SOURCE_IDS": [
+        "EMAS-S047"
+      ]
+    },
+    {
+      "DATE": "1990; 1993",
+      "NODE_ID": "EMAS-G005",
+      "EVENT": "Joint intentions, commitments and conventions",
+      "SOURCE_IDS": [
+        "EMAS-S007",
+        "EMAS-S011"
+      ]
+    },
+    {
+      "DATE": "1996",
+      "NODE_ID": "EMAS-G006",
+      "EVENT": "SharedPlans",
+      "SOURCE_IDS": [
+        "EMAS-S008"
+      ]
+    },
+    {
+      "DATE": "1997; 2002",
+      "NODE_ID": "EMAS-G007",
+      "EVENT": "STEAM and COM-MTDP",
+      "SOURCE_IDS": [
+        "EMAS-S009",
+        "EMAS-S010"
+      ]
+    },
+    {
+      "DATE": "1994; 2001 inspected version",
+      "NODE_ID": "EMAS-G008",
+      "EVENT": "KQML and FIPA communicative acts",
+      "SOURCE_IDS": [
+        "EMAS-S012",
+        "EMAS-S014"
+      ]
+    },
+    {
+      "DATE": "1998; 2009",
+      "NODE_ID": "EMAS-G009",
+      "EVENT": "Public commitments and alignment",
+      "SOURCE_IDS": [
+        "EMAS-S013",
+        "EMAS-S044"
+      ]
+    },
+    {
+      "DATE": "2012; 2025",
+      "NODE_ID": "EMAS-G010",
+      "EVENT": "Information protocols and BSPL implementation",
+      "SOURCE_IDS": [
+        "EMAS-S016",
+        "EMAS-S017"
+      ]
+    },
+    {
+      "DATE": "1993; 1995",
+      "NODE_ID": "EMAS-G011",
+      "EVENT": "Economic task exchange and contract structures",
+      "SOURCE_IDS": [
+        "EMAS-S045",
+        "EMAS-S046"
+      ]
+    },
+    {
+      "DATE": "2000",
+      "NODE_ID": "EMAS-G012",
+      "EVENT": "Gaia organisation/engineering intersection",
+      "SOURCE_IDS": [
+        "EMAS-S018"
+      ]
+    },
+    {
+      "DATE": "2002; 2004",
+      "NODE_ID": "EMAS-G013",
+      "EVENT": "MOISE+ and cooperative reorganisation",
+      "SOURCE_IDS": [
+        "EMAS-S019",
+        "EMAS-S050"
+      ]
+    },
+    {
+      "DATE": "2008; 2011 publication of COIN 2010 work",
+      "NODE_ID": "EMAS-G014",
+      "EVENT": "Normative programs and enforceability",
+      "SOURCE_IDS": [
+        "EMAS-S020",
+        "EMAS-S021"
+      ]
+    },
+    {
+      "DATE": "1998; 2005; 2014; 2018",
+      "NODE_ID": "EMAS-G015",
+      "EVENT": "Distributed constraint satisfaction/optimisation",
+      "SOURCE_IDS": [
+        "EMAS-S026",
+        "EMAS-S027",
+        "EMAS-S028",
+        "EMAS-S029",
+        "EMAS-S030"
+      ]
+    },
+    {
+      "DATE": "1995",
+      "NODE_ID": "EMAS-G016",
+      "EVENT": "Abstract argumentation",
+      "SOURCE_IDS": [
+        "EMAS-S031"
+      ]
+    },
+    {
+      "DATE": "2009/2010 inspected manuscript",
+      "NODE_ID": "EMAS-G017",
+      "EVENT": "Consolidated MAS foundations",
+      "SOURCE_IDS": [
+        "EMAS-S023"
+      ]
+    },
+    {
+      "DATE": "2017; 2018; 2020",
+      "NODE_ID": "EMAS-G018",
+      "EVENT": "Deep MARL, CTDE, factorisation and Other-Play",
+      "SOURCE_IDS": [
+        "EMAS-S032",
+        "EMAS-S033",
+        "EMAS-S034"
+      ]
+    },
+    {
+      "DATE": "2008 report of 2007 deployment; 2016; 2022",
+      "NODE_ID": "EMAS-G019",
+      "EVENT": "Strategic decision aids and human-agent collectives",
+      "SOURCE_IDS": [
+        "EMAS-S042",
+        "EMAS-S043",
+        "EMAS-S022"
+      ]
+    },
+    {
+      "DATE": "2009",
+      "NODE_ID": "EMAS-G020",
+      "EVENT": "Trust under strategic manipulation",
+      "SOURCE_IDS": [
+        "EMAS-S049"
+      ]
+    },
+    {
+      "DATE": "2023 inspected preprint; 2025; 2026",
+      "NODE_ID": "EMAS-G021",
+      "EVENT": "Language-model collective translation",
+      "SOURCE_IDS": [
+        "EMAS-S048",
+        "EMAS-S036",
+        "EMAS-S037",
+        "EMAS-S038"
+      ]
+    },
+    {
+      "DATE": "2026",
+      "NODE_ID": "EMAS-G022",
+      "EVENT": "Norm formation, collusion and specialist bottlenecks",
+      "SOURCE_IDS": [
+        "EMAS-S039",
+        "EMAS-S040",
+        "EMAS-S041"
+      ]
+    },
+    {
+      "DATE": "2026",
+      "NODE_ID": "EMAS-G023",
+      "EVENT": "Fault-tolerant DCOP and norm-aware BDI",
+      "SOURCE_IDS": [
+        "EMAS-S051",
+        "EMAS-S052"
+      ]
+    },
+    {
+      "DATE": "2026",
+      "NODE_ID": "EMAS-G024",
+      "EVENT": "Triggered explanations in human-agent collaboration",
+      "SOURCE_IDS": [
+        "EMAS-S054"
+      ]
+    },
+    {
+      "DATE": "2000; 2002",
+      "NODE_ID": "EMAS-G025",
+      "EVENT": "Argumentation-based inter-agent dialogue and protocol critique",
+      "SOURCE_IDS": [
+        "EMAS-S055",
+        "EMAS-S056"
+      ]
+    }
+  ],
+  "genealogy": {
+    "nodes": [
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G001",
+        "DATE": "1973; 1983",
+        "SCHOOL_OR_WORK": "Economic and social-choice antecedents",
+        "SOURCE_IDS": [
+          "EMAS-S024",
+          "EMAS-S025"
+        ],
+        "PROBLEM": "Strategic reports and incompatible allocative desiderata.",
+        "MECHANISM": "Restricted mechanism/choice models with explicit impossibility results.",
+        "CONTRIBUTION": "Results imported into MAS reasoning, not invented by MAS.",
+        "LIMITS": "Different domain, participation or randomisation assumptions change applicability.",
+        "RECEPTION_OR_LATER_RELATION": "Systematic treatment in the inspected MAS foundations manuscript; native allocation work requires additional engineering assumptions."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G002",
+        "DATE": "1980; 1981",
+        "SCHOOL_OR_WORK": "Distributed problem solving and Contract Net",
+        "SOURCE_IDS": [
+          "EMAS-S004",
+          "EMAS-S005"
+        ],
+        "PROBLEM": "Loosely coupled processors must find suitable recipients for distributed tasks and share results.",
+        "MECHANISM": "Task announcements, bids, awards; task-sharing/result-sharing distinction.",
+        "CONTRIBUTION": "A canonical high-level distributed control protocol and decomposition vocabulary.",
+        "LIMITS": "Not proof of task completion, truthful reporting or universal optimality. The 1977 predecessor is mentioned but not independently read.",
+        "RECEPTION_OR_LATER_RELATION": "Later marginal-cost and contract-type work changes allocative mechanisms; not a single linear replacement."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G003",
+        "DATE": "1987",
+        "SCHOOL_OR_WORK": "Partial Global Planning / Durfee–Lesser",
+        "SOURCE_IDS": [
+          "EMAS-S006"
+        ],
+        "PROBLEM": "Concurrent local plans interact under incomplete information.",
+        "MECHANISM": "Selected local plans, partial global views and continuing activity coordination.",
+        "CONTRIBUTION": "Interleaves planning, communication and execution rather than requiring one complete prior plan.",
+        "LIMITS": "Original meta-organisation and vehicle-monitoring simulation constrain generality; stale plans can cause failures.",
+        "RECEPTION_OR_LATER_RELATION": "Its explicit coordination costs remain relevant to later teamwork and modern multi-agent claims; direct influence is not inferred solely from similar terms."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G004",
+        "DATE": "1990",
+        "SCHOOL_OR_WORK": "Common-knowledge limits",
+        "SOURCE_IDS": [
+          "EMAS-S047"
+        ],
+        "PROBLEM": "What agents can know jointly with uncertain communication.",
+        "MECHANISM": "Epistemic models distinguish shared knowledge levels and their attainable conditions.",
+        "CONTRIBUTION": "A formal boundary on idealised coordination requirements.",
+        "LIMITS": "Not a theorem against all cooperation or all asynchronous protocols.",
+        "RECEPTION_OR_LATER_RELATION": "Helps discriminate ideal semantics from practical notification requirements; does not replace teamwork theories."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G005",
+        "DATE": "1990; 1993",
+        "SCHOOL_OR_WORK": "Joint intentions, commitments and conventions",
+        "SOURCE_IDS": [
+          "EMAS-S007",
+          "EMAS-S011"
+        ],
+        "PROBLEM": "Parallel intentions do not explain persistence and repair of a joint undertaking.",
+        "MECHANISM": "Joint persistent goals; commitment and reconsideration/notification conventions.",
+        "CONTRIBUTION": "Joint activity includes duties about changed feasibility and goal status.",
+        "LIMITS": "Ideal mental-state assumptions; centrality is a school’s thesis, not field consensus.",
+        "RECEPTION_OR_LATER_RELATION": "STEAM operationalises selected ideas; social-commitment work chooses a different public semantic object."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G006",
+        "DATE": "1996",
+        "SCHOOL_OR_WORK": "SharedPlans",
+        "SOURCE_IDS": [
+          "EMAS-S008"
+        ],
+        "PROBLEM": "A team can act before recipes and allocations are fully settled.",
+        "MECHANISM": "Partial shared plans, intentions towards others and reconciliation.",
+        "CONTRIBUTION": "Represents incomplete collaborative planning without collapsing it into one aggregate intention.",
+        "LIMITS": "Does not by itself provide continuous monitoring of external action.",
+        "RECEPTION_OR_LATER_RELATION": "Explicitly drawn upon, alongside joint intentions, in STEAM; remains an alternative explanatory account."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G007",
+        "DATE": "1997; 2002",
+        "SCHOOL_OR_WORK": "STEAM and COM-MTDP",
+        "SOURCE_IDS": [
+          "EMAS-S009",
+          "EMAS-S010"
+        ],
+        "PROBLEM": "Formal teamwork must be operational and communication has a cost.",
+        "MECHANISM": "Team monitoring/repair, selective communication and decision-theoretic analysis.",
+        "CONTRIBUTION": "Turns team commitments into action-relevant monitoring and notification choices.",
+        "LIMITS": "Simulation/application programmes and finite decision models do not establish universal superiority.",
+        "RECEPTION_OR_LATER_RELATION": "Refines rather than eliminates the theoretical distinction between intention, communication and observed success."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G008",
+        "DATE": "1994; 2001 inspected version",
+        "SCHOOL_OR_WORK": "KQML and FIPA communicative acts",
+        "SOURCE_IDS": [
+          "EMAS-S012",
+          "EMAS-S014"
+        ],
+        "PROBLEM": "Heterogeneous agents need a language/protocol for knowledge and action requests.",
+        "MECHANISM": "Performatives, content separation and specified communicative-act semantics.",
+        "CONTRIBUTION": "Makes communication layers and intended effects explicit.",
+        "LIMITS": "The inspected FIPA specimen is experimental XC00037H dated 2001-08-10, not the inaccessible later final texts.",
+        "RECEPTION_OR_LATER_RELATION": "Singh’s critique disputes private mental-state foundations for open systems; standardisation does not settle the dispute."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G009",
+        "DATE": "1998; 2009",
+        "SCHOOL_OR_WORK": "Public commitments and alignment",
+        "SOURCE_IDS": [
+          "EMAS-S013",
+          "EMAS-S044"
+        ],
+        "PROBLEM": "Opaque agents cannot publicly verify one another’s private beliefs.",
+        "MECHANISM": "Social obligations and lifecycle rules; alignment under specified transport and local-observation conditions.",
+        "CONTRIBUTION": "Public interaction can be specified without assuming shared implementation internals.",
+        "LIMITS": "Alignment at quiescence under the paper’s assumptions is neither instant omniscience nor fulfilled external work.",
+        "RECEPTION_OR_LATER_RELATION": "Continues a distinct social-semantic approach; not a universally stronger replacement for inspectable mental-state models."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G010",
+        "DATE": "2012; 2025",
+        "SCHOOL_OR_WORK": "Information protocols and BSPL implementation",
+        "SOURCE_IDS": [
+          "EMAS-S016",
+          "EMAS-S017"
+        ],
+        "PROBLEM": "Rigid control-flow descriptions poorly capture distributed enactment.",
+        "MECHANISM": "Information causality, keys/bindings and legal local message steps.",
+        "CONTRIBUTION": "Permits flexible interaction while analysing enactability and model-level completion possibility.",
+        "LIMITS": "Protocol liveness has a precise weaker meaning than eventual work completion; later implementation is short-form evidence.",
+        "RECEPTION_OR_LATER_RELATION": "The 2025 SARL work explicitly translates the BSPL mechanism into an implementation environment."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G011",
+        "DATE": "1993; 1995",
+        "SCHOOL_OR_WORK": "Economic task exchange and contract structures",
+        "SOURCE_IDS": [
+          "EMAS-S045",
+          "EMAS-S046"
+        ],
+        "PROBLEM": "Task bundles, costs and incomplete deliberation complicate naive bidding.",
+        "MECHANISM": "Marginal-cost exchange; decommitment and richer contract neighbourhoods.",
+        "CONTRIBUTION": "Bridges distributed control with economic and bounded-rational decision assumptions.",
+        "LIMITS": "Cost/pricing regimes do not automatically establish honesty, social welfare or arbitrary resource externalities.",
+        "RECEPTION_OR_LATER_RELATION": "Preserves several branches: central allocation, cooperative estimates, strategic mechanisms and limited search."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G012",
+        "DATE": "2000",
+        "SCHOOL_OR_WORK": "Gaia organisation/engineering intersection",
+        "SOURCE_IDS": [
+          "EMAS-S018"
+        ],
+        "PROBLEM": "Analysis and design need roles, permissions and interaction responsibilities.",
+        "MECHANISM": "Role/protocol models and documented adaptation of object-oriented methodological ideas.",
+        "CONTRIBUTION": "Documents an intersection of MAS organisational concepts with agent-oriented engineering.",
+        "LIMITS": "Original scope restricts changing abilities/services and open strategic participation.",
+        "RECEPTION_OR_LATER_RELATION": "Useful genealogy for a later AOSE comparison, not a substitute for independently studying that tradition."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G013",
+        "DATE": "2002; 2004",
+        "SCHOOL_OR_WORK": "MOISE+ and cooperative reorganisation",
+        "SOURCE_IDS": [
+          "EMAS-S019",
+          "EMAS-S050"
+        ],
+        "PROBLEM": "Organisation must connect structural roles to goals and obligations, and sometimes change.",
+        "MECHANISM": "Structural, functional and deontic models; monitored design/select/implement revision.",
+        "CONTRIBUTION": "Makes different organisational dimensions and revision responsibilities explicit.",
+        "LIMITS": "Early examples are simulated; reorganisation cannot repair every failed goal or environment.",
+        "RECEPTION_OR_LATER_RELATION": "Later normative and plan-integration work addresses enforcement and operational gaps without proving general self-government."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G014",
+        "DATE": "2008; 2011 publication of COIN 2010 work",
+        "SCHOOL_OR_WORK": "Normative programs and enforceability",
+        "SOURCE_IDS": [
+          "EMAS-S020",
+          "EMAS-S021"
+        ],
+        "PROBLEM": "A declared obligation can be violated and the event may not be observable.",
+        "MECHANISM": "Institutional state, norm monitoring, prevention, sanctions and grievance-based handling.",
+        "CONTRIBUTION": "Separates normative specification from enforceable operational effects.",
+        "LIMITS": "Formal guarantees assume observable/modelled actions; computational authority is not external jurisdiction.",
+        "RECEPTION_OR_LATER_RELATION": "Norm-aware BDI is a different 2026 branch: planning with norms rather than merely imposing controls."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G015",
+        "DATE": "1998; 2005; 2014; 2018",
+        "SCHOOL_OR_WORK": "Distributed constraint satisfaction/optimisation",
+        "SOURCE_IDS": [
+          "EMAS-S026",
+          "EMAS-S027",
+          "EMAS-S028",
+          "EMAS-S029",
+          "EMAS-S030"
+        ],
+        "PROBLEM": "Distributed agents must choose consistent or low-cost assignments.",
+        "MECHANISM": "Asynchronous search, bounds, pseudo-tree dynamic programming and privacy-preserving protocol variants.",
+        "CONTRIBUTION": "Provides precise feasibility/quality/computation trade-offs.",
+        "LIMITS": "Transport, graph width, leakage and model correctness constrain guarantees.",
+        "RECEPTION_OR_LATER_RELATION": "A 2026 fault-tolerant extension addresses a specific corruption model; it is not generic consensus."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G016",
+        "DATE": "1995",
+        "SCHOOL_OR_WORK": "Abstract argumentation",
+        "SOURCE_IDS": [
+          "EMAS-S031"
+        ],
+        "PROBLEM": "Conflicting arguments require semantics for acceptability.",
+        "MECHANISM": "Argument/attack structures and admissible, preferred, stable and grounded semantics.",
+        "CONTRIBUTION": "AI/non-monotonic-logic contribution reused in MAS deliberation.",
+        "LIMITS": "Graph acceptance does not independently warrant the truth of premises; some semantics can have no extension.",
+        "RECEPTION_OR_LATER_RELATION": "A documented interdisciplinary import, not evidence that all social agreement is factual knowledge."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G017",
+        "DATE": "2009/2010 inspected manuscript",
+        "SCHOOL_OR_WORK": "Consolidated MAS foundations",
+        "SOURCE_IDS": [
+          "EMAS-S023"
+        ],
+        "PROBLEM": "A plural field needs a systematic conceptual and mathematical account.",
+        "MECHANISM": "Distributed problem solving, strategic games, social choice and mechanism design presented with distinct assumptions.",
+        "CONTRIBUTION": "Documents the coexistence of computational and economic approaches.",
+        "LIMITS": "The inspected revision is an uncorrected manuscript, not every later corrected edition.",
+        "RECEPTION_OR_LATER_RELATION": "A taxonomy/definition source; original theorems were sought separately for load-bearing impossibility claims."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G018",
+        "DATE": "2017; 2018; 2020",
+        "SCHOOL_OR_WORK": "Deep MARL, CTDE, factorisation and Other-Play",
+        "SOURCE_IDS": [
+          "EMAS-S032",
+          "EMAS-S033",
+          "EMAS-S034"
+        ],
+        "PROBLEM": "Learning agents face non-stationarity, credit assignment and conventions that do not transfer.",
+        "MECHANISM": "Centralised training/local execution, monotonic value mixing, symmetry-based cross-play preparation.",
+        "CONTRIBUTION": "Makes learning and partner dependence explicit operational design objects.",
+        "LIMITS": "Controlled games, representation classes and known symmetries limit claims.",
+        "RECEPTION_OR_LATER_RELATION": "2025 benchmarking and 2026 coordination environments test generalisation and cost without establishing universal open-world competence."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G019",
+        "DATE": "2008 report of 2007 deployment; 2016; 2022",
+        "SCHOOL_OR_WORK": "Strategic decision aids and human-agent collectives",
+        "SOURCE_IDS": [
+          "EMAS-S042",
+          "EMAS-S043",
+          "EMAS-S022"
+        ],
+        "PROBLEM": "People and algorithms must combine recommendations, information and real action.",
+        "MECHANISM": "Human-constrained security schedules; mixed-initiative task assignment and participant control.",
+        "CONTRIBUTION": "Shows different forms of applied MAS and external participation.",
+        "LIMITS": "An airport deployment report and staged disaster trials are different evidence kinds; neither proves the full field’s causal effectiveness.",
+        "RECEPTION_OR_LATER_RELATION": "Current human-agent experiments ask when explanations aid collaboration; human involvement is not automatically useful or ceremonial."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G020",
+        "DATE": "2009",
+        "SCHOOL_OR_WORK": "Trust under strategic manipulation",
+        "SOURCE_IDS": [
+          "EMAS-S049"
+        ],
+        "PROBLEM": "Participants can rebuild good reputation and then defect again.",
+        "MECHANISM": "Explicit con-man histories and modified direct-trust dynamics.",
+        "CONTRIBUTION": "Negative evidence against unqualified reputation-based safety.",
+        "LIMITS": "Simplified two-agent histories; first defection is not prevented.",
+        "RECEPTION_OR_LATER_RELATION": "Supports bounded exposure and threat-specific evidence, not elimination of trust as a useful heuristic."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G021",
+        "DATE": "2023 inspected preprint; 2025; 2026",
+        "SCHOOL_OR_WORK": "Language-model collective translation",
+        "SOURCE_IDS": [
+          "EMAS-S048",
+          "EMAS-S036",
+          "EMAS-S037",
+          "EMAS-S038"
+        ],
+        "PROBLEM": "Language agents can exchange reasoning but incur costs and coupled failures.",
+        "MECHANISM": "Debate, trace analysis, equal-budget comparisons and long-horizon coordination benchmarks.",
+        "CONTRIBUTION": "Positive component evidence and increasingly discriminating negative comparisons.",
+        "LIMITS": "Shared sources, judges, models and unmatched training/inference budgets restrict independence and generality.",
+        "RECEPTION_OR_LATER_RELATION": "Retain actual mechanisms; neither a universal MAS benefit nor universal single-agent superiority is warranted."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G022",
+        "DATE": "2026",
+        "SCHOOL_OR_WORK": "Norm formation, collusion and specialist bottlenecks",
+        "SOURCE_IDS": [
+          "EMAS-S039",
+          "EMAS-S040",
+          "EMAS-S041"
+        ],
+        "PROBLEM": "Stable cooperation, strategic adaptation and specialisation can have adverse collective effects.",
+        "MECHANISM": "Controlled common-pool norms, finite pricing meta-games and kitchen collaboration simulation.",
+        "CONTRIBUTION": "Recent tests differentiate behavioural stability from social value and expose coordination costs.",
+        "LIMITS": "Simulated populations, finite strategies and short-form reports limit transfer.",
+        "RECEPTION_OR_LATER_RELATION": "Requires explicit normative criteria and task-specific alternatives rather than a progress narrative."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G023",
+        "DATE": "2026",
+        "SCHOOL_OR_WORK": "Fault-tolerant DCOP and norm-aware BDI",
+        "SOURCE_IDS": [
+          "EMAS-S051",
+          "EMAS-S052"
+        ],
+        "PROBLEM": "Existing mechanisms need robustness or normative action integration.",
+        "MECHANISM": "Replicated Max-Sum messages under a fault/knowledge model; norm-related plan alternatives.",
+        "CONTRIBUTION": "Two specific extensions with different objects and guarantees.",
+        "LIMITS": "Approximate optimisation remains approximate; running-example norm awareness is not universal compliance.",
+        "RECEPTION_OR_LATER_RELATION": "Retained as domain-specific additions, not compulsory new layers for every MAS."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G024",
+        "DATE": "2026",
+        "SCHOOL_OR_WORK": "Triggered explanations in human-agent collaboration",
+        "SOURCE_IDS": [
+          "EMAS-S054"
+        ],
+        "PROBLEM": "Useful team transparency competes with attention and action speed.",
+        "MECHANISM": "Hierarchical policy subtask explanations compared across text/audio/control conditions.",
+        "CONTRIBUTION": "Adds a current null result and recipient-specific communication question.",
+        "LIMITS": "Small experienced convenience sample and one layout; no significant difference is not equivalence.",
+        "RECEPTION_OR_LATER_RELATION": "Refines selective communication and human participation rather than creating a universal explanation requirement."
+      },
+      {
+        "GENEALOGY_NODE_ID": "EMAS-G025",
+        "DATE": "2000; 2002",
+        "SCHOOL_OR_WORK": "Argumentation-based inter-agent dialogue and protocol critique",
+        "SOURCE_IDS": [
+          "EMAS-S055",
+          "EMAS-S056"
+        ],
+        "PROBLEM": "Agents must exchange and challenge reasons, not merely calculate acceptability privately.",
+        "MECHANISM": "Preference-sensitive argument generation plus dialogue moves, public stores and private rationality preconditions.",
+        "CONTRIBUTION": "Documents an explicit Dung-inspired MAS adaptation and a criticism-led distinction between trace legality, private conformance and termination.",
+        "LIMITS": "Basic model is two-party, omits retraction and relies on relevance/useful-stopping assumptions; it is not a general negotiation or truth guarantee.",
+        "RECEPTION_OR_LATER_RELATION": "The 2002 analysis distinguishes commitment meanings and the open protocol-design obligations. No current-day research frontier is inferred from its historical claims."
+      }
+    ],
+    "edges": [
+      {
+        "EDGE_ID": "EMAS-GE001",
+        "FROM_NODE_ID": "EMAS-G002",
+        "TO_NODE_ID": "EMAS-G011",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "EMAS-S045",
+          "EMAS-S046"
+        ],
+        "DOCUMENTARY_BASIS": "The later papers explicitly analyse/implement Contract Net and change cost/contract assumptions.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE002",
+        "FROM_NODE_ID": "EMAS-G002",
+        "TO_NODE_ID": "EMAS-G003",
+        "EDGE_TYPE": "SHARED_ANCESTRY",
+        "SOURCE_IDS": [
+          "EMAS-S005",
+          "EMAS-S006"
+        ],
+        "DOCUMENTARY_BASIS": "Both address distributed problem-solving control; PGP targets interleaving local plans rather than merely task connection.",
+        "ATTRIBUTION_LIMIT": "No exact derivation of PGP from one Contract Net implementation is asserted."
+      },
+      {
+        "EDGE_ID": "EMAS-GE003",
+        "FROM_NODE_ID": "EMAS-G005",
+        "TO_NODE_ID": "EMAS-G007",
+        "EDGE_TYPE": "DOCUMENTED_INFLUENCE",
+        "SOURCE_IDS": [
+          "EMAS-S009"
+        ],
+        "DOCUMENTARY_BASIS": "STEAM explicitly builds its team model using joint-intention ideas.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE004",
+        "FROM_NODE_ID": "EMAS-G006",
+        "TO_NODE_ID": "EMAS-G007",
+        "EDGE_TYPE": "HYBRIDISATION",
+        "SOURCE_IDS": [
+          "EMAS-S009"
+        ],
+        "DOCUMENTARY_BASIS": "STEAM explicitly combines selected SharedPlans concepts with joint intentions.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE005",
+        "FROM_NODE_ID": "EMAS-G007",
+        "TO_NODE_ID": "EMAS-G007",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "EMAS-S009",
+          "EMAS-S010"
+        ],
+        "DOCUMENTARY_BASIS": "COM-MTDP analyses teamwork prescriptions, including communication costs, within the same programme.",
+        "ATTRIBUTION_LIMIT": "A self-edge denotes development within this grouped school, not circular provenance."
+      },
+      {
+        "EDGE_ID": "EMAS-GE006",
+        "FROM_NODE_ID": "EMAS-G004",
+        "TO_NODE_ID": "EMAS-G005",
+        "EDGE_TYPE": "SHARED_ANCESTRY",
+        "SOURCE_IDS": [
+          "EMAS-S007",
+          "EMAS-S047"
+        ],
+        "DOCUMENTARY_BASIS": "Both analyse knowledge conditions for coordinated action.",
+        "ATTRIBUTION_LIMIT": "A direct influence edge is not inferred merely from temporal proximity."
+      },
+      {
+        "EDGE_ID": "EMAS-GE007",
+        "FROM_NODE_ID": "EMAS-G008",
+        "TO_NODE_ID": "EMAS-G009",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "EMAS-S013"
+        ],
+        "DOCUMENTARY_BASIS": "Singh explicitly criticises ACL semantic principles and argues for public social commitments.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE008",
+        "FROM_NODE_ID": "EMAS-G009",
+        "TO_NODE_ID": "EMAS-G010",
+        "EDGE_TYPE": "CONVERGENT_DEVELOPMENT",
+        "SOURCE_IDS": [
+          "EMAS-S013",
+          "EMAS-S016",
+          "EMAS-S044"
+        ],
+        "DOCUMENTARY_BASIS": "Public commitments and information protocols both address open distributed enactment with observable interaction.",
+        "ATTRIBUTION_LIMIT": "Their semantic objects differ; an exact derivation is not claimed."
+      },
+      {
+        "EDGE_ID": "EMAS-GE009",
+        "FROM_NODE_ID": "EMAS-G010",
+        "TO_NODE_ID": "EMAS-G010",
+        "EDGE_TYPE": "DOMAIN_TRANSLATION",
+        "SOURCE_IDS": [
+          "EMAS-S016",
+          "EMAS-S017"
+        ],
+        "DOCUMENTARY_BASIS": "The 2025 implementation paper explicitly applies BSPL in SARL.",
+        "ATTRIBUTION_LIMIT": "Implementation demonstration is not independent effectiveness replication."
+      },
+      {
+        "EDGE_ID": "EMAS-GE010",
+        "FROM_NODE_ID": "EMAS-G001",
+        "TO_NODE_ID": "EMAS-G011",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "SOURCE_IDS": [
+          "EMAS-S045",
+          "EMAS-S046"
+        ],
+        "DOCUMENTARY_BASIS": "Economic marginal-cost, contracting and bounded-rational considerations are explicit in task exchange.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE011",
+        "FROM_NODE_ID": "EMAS-G001",
+        "TO_NODE_ID": "EMAS-G017",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "SOURCE_IDS": [
+          "EMAS-S023",
+          "EMAS-S024",
+          "EMAS-S025"
+        ],
+        "DOCUMENTARY_BASIS": "The foundations manuscript discusses imported economic and social-choice results; original theorem sources inspected.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE012",
+        "FROM_NODE_ID": "EMAS-G012",
+        "TO_NODE_ID": "EMAS-G013",
+        "EDGE_TYPE": "CONVERGENT_DEVELOPMENT",
+        "SOURCE_IDS": [
+          "EMAS-S018",
+          "EMAS-S019"
+        ],
+        "DOCUMENTARY_BASIS": "Both organise agents through roles and interactions but use different structural/functional constructs.",
+        "ATTRIBUTION_LIMIT": "Conceptual overlap is not proof of direct derivation or semantic equivalence."
+      },
+      {
+        "EDGE_ID": "EMAS-GE013",
+        "FROM_NODE_ID": "EMAS-G013",
+        "TO_NODE_ID": "EMAS-G013",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "EMAS-S019",
+          "EMAS-S050"
+        ],
+        "DOCUMENTARY_BASIS": "The 2004 reorganisation paper explicitly extends the organisational programme to organisation change.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE014",
+        "FROM_NODE_ID": "EMAS-G013",
+        "TO_NODE_ID": "EMAS-G014",
+        "EDGE_TYPE": "CRITICISM_AND_RESPONSE",
+        "SOURCE_IDS": [
+          "EMAS-S020",
+          "EMAS-S021"
+        ],
+        "DOCUMENTARY_BASIS": "Normative-program and enforceability analyses discuss operational limitations in organisational/normative approaches.",
+        "ATTRIBUTION_LIMIT": "Criticism applies to the identified versions, not every future descendant."
+      },
+      {
+        "EDGE_ID": "EMAS-GE015",
+        "FROM_NODE_ID": "EMAS-G014",
+        "TO_NODE_ID": "EMAS-G023",
+        "EDGE_TYPE": "HYBRIDISATION",
+        "SOURCE_IDS": [
+          "EMAS-S052"
+        ],
+        "DOCUMENTARY_BASIS": "Norm-aware BDI explicitly adds norm-related steps/alternatives to goal-plan reasoning.",
+        "ATTRIBUTION_LIMIT": "It does not prove that enforcement and autonomous deliberation are interchangeable."
+      },
+      {
+        "EDGE_ID": "EMAS-GE016",
+        "FROM_NODE_ID": "EMAS-G015",
+        "TO_NODE_ID": "EMAS-G023",
+        "EDGE_TYPE": "EXPLICIT_EXTENSION",
+        "SOURCE_IDS": [
+          "EMAS-S051"
+        ],
+        "DOCUMENTARY_BASIS": "FT-DCOP explicitly extends distributed optimisation to a bounded corruption and replicated-computation model.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE017",
+        "FROM_NODE_ID": "EMAS-G016",
+        "TO_NODE_ID": "EMAS-G025",
+        "EDGE_TYPE": "DOCUMENTED_IMPORT",
+        "SOURCE_IDS": [
+          "EMAS-S031",
+          "EMAS-S055"
+        ],
+        "DOCUMENTARY_BASIS": "EMAS-S055 §2 explicitly states that its argumentation model is inspired by Dung and goes further by treating preferences; §§4–5 adapt it to agent dialogue.",
+        "ATTRIBUTION_LIMIT": "This is a documented specific adaptation, not evidence of a Dung-derived chapter in EMAS-S023. Additional philosophical precursors mentioned by the authors are not separately claimed as fully inspected."
+      },
+      {
+        "EDGE_ID": "EMAS-GE018",
+        "FROM_NODE_ID": "EMAS-G018",
+        "TO_NODE_ID": "EMAS-G021",
+        "EDGE_TYPE": "DOMAIN_TRANSLATION",
+        "SOURCE_IDS": [
+          "EMAS-S038"
+        ],
+        "DOCUMENTARY_BASIS": "The alem work tests language agents alongside MARL references in coordination environments.",
+        "ATTRIBUTION_LIMIT": "Language-model agents and trained MARL agents have different training and information budgets."
+      },
+      {
+        "EDGE_ID": "EMAS-GE019",
+        "FROM_NODE_ID": "EMAS-G018",
+        "TO_NODE_ID": "EMAS-G024",
+        "EDGE_TYPE": "HYBRIDISATION",
+        "SOURCE_IDS": [
+          "EMAS-S054"
+        ],
+        "DOCUMENTARY_BASIS": "A learned hierarchical policy is coupled to human-facing explanations in a teamwork experiment.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE020",
+        "FROM_NODE_ID": "EMAS-G019",
+        "TO_NODE_ID": "EMAS-G024",
+        "EDGE_TYPE": "CONVERGENT_DEVELOPMENT",
+        "SOURCE_IDS": [
+          "EMAS-S022",
+          "EMAS-S043",
+          "EMAS-S054"
+        ],
+        "DOCUMENTARY_BASIS": "Human control and useful communication recur across different human-agent settings.",
+        "ATTRIBUTION_LIMIT": "Different studies/populations are not replications of one intervention."
+      },
+      {
+        "EDGE_ID": "EMAS-GE021",
+        "FROM_NODE_ID": "EMAS-G021",
+        "TO_NODE_ID": "EMAS-G022",
+        "EDGE_TYPE": "DOMAIN_TRANSLATION",
+        "SOURCE_IDS": [
+          "EMAS-S039",
+          "EMAS-S040"
+        ],
+        "DOCUMENTARY_BASIS": "Classical strategic and normative interaction questions are tested with language-agent populations.",
+        "ATTRIBUTION_LIMIT": "No causal effectiveness or universal superiority follows from this relationship."
+      },
+      {
+        "EDGE_ID": "EMAS-GE022",
+        "FROM_NODE_ID": "EMAS-G011",
+        "TO_NODE_ID": "EMAS-G022",
+        "EDGE_TYPE": "ONLY_ANALOGOUS",
+        "SOURCE_IDS": [
+          "EMAS-S041",
+          "EMAS-S045"
+        ],
+        "DOCUMENTARY_BASIS": "Both expose costs of specialisation/allocation, but the 2026 kitchen simulation is not a new Contract Net implementation.",
+        "ATTRIBUTION_LIMIT": "Resembling a task-allocation problem does not establish inherited protocol guarantees."
+      },
+      {
+        "EDGE_ID": "EMAS-GE023",
+        "FROM_NODE_ID": "EMAS-G017",
+        "TO_NODE_ID": "EMAS-G021",
+        "EDGE_TYPE": "ONLY_ANALOGOUS",
+        "SOURCE_IDS": [
+          "EMAS-S023",
+          "EMAS-S036",
+          "EMAS-S048"
+        ],
+        "DOCUMENTARY_BASIS": "Terms such as agent, debate and society resemble classical vocabulary but require mechanism-level validation.",
+        "ATTRIBUTION_LIMIT": "No direct academic inheritance is assumed for an arbitrary LLM framework."
+      },
+      {
+        "EDGE_ID": "EMAS-GE024",
+        "FROM_NODE_ID": "EMAS-G008",
+        "TO_NODE_ID": "EMAS-G008",
+        "EDGE_TYPE": "UNRESOLVED_RELATIONSHIP",
+        "SOURCE_IDS": [
+          "EMAS-S014",
+          "EMAS-S015",
+          "EMAS-S053"
+        ],
+        "DOCUMENTARY_BASIS": "The historical experimental library and inaccessible final profiles are distinct version records.",
+        "ATTRIBUTION_LIMIT": "Current equivalence, conformance and use are not certified."
+      },
+      {
+        "EDGE_ID": "EMAS-GE025",
+        "FROM_NODE_ID": "EMAS-G020",
+        "TO_NODE_ID": "EMAS-G022",
+        "EDGE_TYPE": "CONVERGENT_DEVELOPMENT",
+        "SOURCE_IDS": [
+          "EMAS-S049",
+          "EMAS-S040"
+        ],
+        "DOCUMENTARY_BASIS": "Both study strategic adaptation that exploits an interaction history.",
+        "ATTRIBUTION_LIMIT": "Con-man trust models and pricing meta-games are not the same attack model."
+      }
+    ],
+    "EDGE_CLASSIFICATION_RULE": "Documented influence/import/extension requires the cited source’s account; shared ancestry, convergence and analogy are used when direct derivation is not supported."
+  },
+  "evolution_under_criticism": [
+    {
+      "EVOLUTION_ID": "EMAS-E001",
+      "ORIGINAL_BRANCH": "Generic task connection",
+      "PROPERTY_IDS": [
+        "EMAS-015",
+        "EMAS-016",
+        "EMAS-017",
+        "EMAS-021",
+        "EMAS-035"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "CRITICISM_IDS": [
+        "EMAS-K005",
+        "EMAS-K007"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Marginal-cost evaluation, task-bundle contracts and conditional decommitment extend task connection. Keeping an award distinct from fulfilment is an analytical safeguard, not a claim that Smith equated the two.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Allocation/search and actual fulfilment remain distinct.",
+      "SOURCE_IDS": [
+        "EMAS-S004",
+        "EMAS-S045",
+        "EMAS-S046"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E002",
+      "ORIGINAL_BRANCH": "Distributed problem solving with expensive coordination",
+      "PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-018",
+        "EMAS-019",
+        "EMAS-028",
+        "EMAS-073"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "CRITICISM_IDS": [
+        "EMAS-K001",
+        "EMAS-K019"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Use partial plan information or remove dependencies when full coordination is wasteful.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Coordination is selected by actual interdependence and cost, not added for its own sake.",
+      "SOURCE_IDS": [
+        "EMAS-S006",
+        "EMAS-S041"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E003",
+      "ORIGINAL_BRANCH": "Joint-intention and SharedPlans accounts",
+      "PROPERTY_IDS": [
+        "EMAS-023",
+        "EMAS-024",
+        "EMAS-027",
+        "EMAS-028"
+      ],
+      "TRANSITION_CLASS": "HYBRIDISED",
+      "CRITICISM_IDS": [
+        "EMAS-K006",
+        "EMAS-K007"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Operational monitoring, repair and communication-cost analysis supplement selected formal ideas.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "No full plan or unlimited common-belief requirement for every team; semantics remain conditional.",
+      "SOURCE_IDS": [
+        "EMAS-S007",
+        "EMAS-S008",
+        "EMAS-S009",
+        "EMAS-S010"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E004",
+      "ORIGINAL_BRANCH": "Private semantic tests for open ACLs",
+      "PROPERTY_IDS": [
+        "EMAS-008",
+        "EMAS-009",
+        "EMAS-025",
+        "EMAS-026"
+      ],
+      "TRANSITION_CLASS": "STILL_CONTESTED",
+      "CRITICISM_IDS": [
+        "EMAS-K002",
+        "EMAS-K003"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Public social obligations and local information enactments replace inaccessible sincerity as public evidence in the open branch.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Closed mental-state models remain useful; neither publicness nor intention implies external truth.",
+      "SOURCE_IDS": [
+        "EMAS-S013",
+        "EMAS-S014",
+        "EMAS-S016",
+        "EMAS-S044"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E005",
+      "ORIGINAL_BRANCH": "Version/brand equals interoperability",
+      "PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-013",
+        "EMAS-014",
+        "EMAS-063"
+      ],
+      "TRANSITION_CLASS": "REJECTED",
+      "CRITICISM_IDS": [
+        "EMAS-K004"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Require exact semantic and implementation profiles instead of inferring them from historic standards.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Final/current FIPA equivalence remains unresolved in this packet.",
+      "SOURCE_IDS": [
+        "EMAS-S014",
+        "EMAS-S015",
+        "EMAS-S053"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_NARROWING",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The original-branch label names a proposition tested in this study, not an assertion that the cited authors or the field unanimously advocated it. The sources supply the mechanism, counterevidence or bounded result used for adjudication."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E006",
+      "ORIGINAL_BRANCH": "Unqualified incentive/welfare promise",
+      "PROPERTY_IDS": [
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-032",
+        "EMAS-033",
+        "EMAS-034"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "CRITICISM_IDS": [
+        "EMAS-K008",
+        "EMAS-K009"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Declare mechanism assumptions and incompatible desiderata; test undesirable equilibria separately.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Strategic stability is not a normative endorsement.",
+      "SOURCE_IDS": [
+        "EMAS-S023",
+        "EMAS-S024",
+        "EMAS-S025",
+        "EMAS-S040"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_NARROWING",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The original-branch label names a proposition tested in this study, not an assertion that the cited authors or the field unanimously advocated it. The sources supply the mechanism, counterevidence or bounded result used for adjudication."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E007",
+      "ORIGINAL_BRANCH": "Organisation as structure or norm text",
+      "PROPERTY_IDS": [
+        "EMAS-036",
+        "EMAS-037",
+        "EMAS-038",
+        "EMAS-039",
+        "EMAS-042"
+      ],
+      "TRANSITION_CLASS": "GENERALISED",
+      "CRITICISM_IDS": [
+        "EMAS-K010"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Relate roles to goals, obligations, observability and actual enforcement alternatives.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "More dimensions are not automatically better; computational authority remains bounded.",
+      "SOURCE_IDS": [
+        "EMAS-S018",
+        "EMAS-S019",
+        "EMAS-S020",
+        "EMAS-S021"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E008",
+      "ORIGINAL_BRANCH": "Fixed organisations",
+      "PROPERTY_IDS": [
+        "EMAS-040",
+        "EMAS-063",
+        "EMAS-072",
+        "EMAS-074"
+      ],
+      "TRANSITION_CLASS": "DOMAIN_SPECIFIC",
+      "CRITICISM_IDS": [
+        "EMAS-K011"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "A monitored, selected and implemented reorganisation can respond to bounded changes.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Reorganisation does not fix impossible goals or self-authorise new powers.",
+      "SOURCE_IDS": [
+        "EMAS-S050"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E009",
+      "ORIGINAL_BRANCH": "Distributed optimisation as automatically scalable/private",
+      "PROPERTY_IDS": [
+        "EMAS-043",
+        "EMAS-044",
+        "EMAS-045"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "CRITICISM_IDS": [
+        "EMAS-K012"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Select algorithm/quality according to structural complexity and protocol-specific privacy.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Exact model quality may be too expensive or based on a wrong objective.",
+      "SOURCE_IDS": [
+        "EMAS-S026",
+        "EMAS-S027",
+        "EMAS-S028",
+        "EMAS-S029",
+        "EMAS-S030"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_NARROWING",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The original-branch label names a proposition tested in this study, not an assertion that the cited authors or the field unanimously advocated it. The sources supply the mechanism, counterevidence or bounded result used for adjudication."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E010",
+      "ORIGINAL_BRANCH": "Unqualified decentralised fault tolerance",
+      "PROPERTY_IDS": [
+        "EMAS-005",
+        "EMAS-058",
+        "EMAS-062",
+        "EMAS-075"
+      ],
+      "TRANSITION_CLASS": "DOMAIN_SPECIFIC",
+      "CRITICISM_IDS": [
+        "EMAS-K021"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Use per-knowledge-group replication under an explicit corruption model.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Underlying approximation remains and common incorrect knowledge is not repaired.",
+      "SOURCE_IDS": [
+        "EMAS-S051"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E011",
+      "ORIGINAL_BRANCH": "Self-play and local reward improvement",
+      "PROPERTY_IDS": [
+        "EMAS-050",
+        "EMAS-051",
+        "EMAS-052",
+        "EMAS-053",
+        "EMAS-054",
+        "EMAS-056"
+      ],
+      "TRANSITION_CLASS": "REFINED",
+      "CRITICISM_IDS": [
+        "EMAS-K014",
+        "EMAS-K015"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Respect decentralised information restrictions and test partner change/collective trajectories.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Controlled training results do not establish general open-population coordination.",
+      "SOURCE_IDS": [
+        "EMAS-S032",
+        "EMAS-S033",
+        "EMAS-S034",
+        "EMAS-S035"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E012",
+      "ORIGINAL_BRANCH": "Emergent norm equals beneficial institution",
+      "PROPERTY_IDS": [
+        "EMAS-033",
+        "EMAS-037",
+        "EMAS-055"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "CRITICISM_IDS": [
+        "EMAS-K009",
+        "EMAS-K010"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Separate behavioural persistence, explicit rules, sanctions and independent legitimacy.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Simulated social learning can stabilise unwanted patterns.",
+      "SOURCE_IDS": [
+        "EMAS-S020",
+        "EMAS-S039",
+        "EMAS-S040"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_NARROWING",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The original-branch label names a proposition tested in this study, not an assertion that the cited authors or the field unanimously advocated it. The sources supply the mechanism, counterevidence or bounded result used for adjudication."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E013",
+      "ORIGINAL_BRANCH": "Reputation as safety certificate",
+      "PROPERTY_IDS": [
+        "EMAS-048",
+        "EMAS-058",
+        "EMAS-060"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "CRITICISM_IDS": [
+        "EMAS-K016"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Model strategic history manipulation and limit future exposure.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "The first con and out-of-model strategies remain possible.",
+      "SOURCE_IDS": [
+        "EMAS-S049"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_NARROWING",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The original-branch label names a proposition tested in this study, not an assertion that the cited authors or the field unanimously advocated it. The sources supply the mechanism, counterevidence or bounded result used for adjudication."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E014",
+      "ORIGINAL_BRANCH": "Universal multi-agent LLM superiority or its inverse",
+      "PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-006",
+        "EMAS-065",
+        "EMAS-066",
+        "EMAS-067",
+        "EMAS-069"
+      ],
+      "TRANSITION_CLASS": "STILL_CONTESTED",
+      "CRITICISM_IDS": [
+        "EMAS-K017",
+        "EMAS-K018",
+        "EMAS-K019",
+        "EMAS-K020"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Use stronger budget comparators, interaction traces and genuine coordination tasks; reject overly broad arguments on both sides.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Task-specific gains coexist with costs and shared-error failure.",
+      "SOURCE_IDS": [
+        "EMAS-S036",
+        "EMAS-S037",
+        "EMAS-S038",
+        "EMAS-S041",
+        "EMAS-S048"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_NARROWING",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The original-branch label names a proposition tested in this study, not an assertion that the cited authors or the field unanimously advocated it. The sources supply the mechanism, counterevidence or bounded result used for adjudication."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E015",
+      "ORIGINAL_BRANCH": "Narration equals useful human oversight",
+      "PROPERTY_IDS": [
+        "EMAS-028",
+        "EMAS-068"
+      ],
+      "TRANSITION_CLASS": "NARROWED",
+      "CRITICISM_IDS": [
+        "EMAS-K024"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Evaluate triggered explanations with actual users and distinguish non-significance from equivalence.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Attention, expertise, modality and real powers remain material.",
+      "SOURCE_IDS": [
+        "EMAS-S022",
+        "EMAS-S043",
+        "EMAS-S054"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "SOURCE_GROUNDED_ANALYTICAL_NARROWING",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The original-branch label names a proposition tested in this study, not an assertion that the cited authors or the field unanimously advocated it. The sources supply the mechanism, counterevidence or bounded result used for adjudication."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E016",
+      "ORIGINAL_BRANCH": "Norm-awareness added to plans",
+      "PROPERTY_IDS": [
+        "EMAS-037",
+        "EMAS-038",
+        "EMAS-076"
+      ],
+      "TRANSITION_CLASS": "HYBRIDISED",
+      "CRITICISM_IDS": [
+        "EMAS-K022"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Represent compliance, violation consequences and non-applicability in BDI plan choices.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "Running-example support does not establish scale, dynamic norms or legitimacy.",
+      "SOURCE_IDS": [
+        "EMAS-S052"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "DOCUMENTED_COMPONENT_DEVELOPMENT_WITH_RESEARCHER_SYNTHESIS",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "The cited work establishes the identified mechanism or explicit extension/criticism; the selection rule and wider engineering limit are this study’s adjudication. A shorthand overgeneralisation is not attributed as the original authors’ own claim."
+    },
+    {
+      "EVOLUTION_ID": "EMAS-E017",
+      "ORIGINAL_BRANCH": "Independent component correctness",
+      "PROPERTY_IDS": [
+        "EMAS-016",
+        "EMAS-026",
+        "EMAS-061",
+        "EMAS-069",
+        "EMAS-071",
+        "EMAS-072",
+        "EMAS-073",
+        "EMAS-074"
+      ],
+      "TRANSITION_CLASS": "GENERALISED",
+      "CRITICISM_IDS": [
+        "EMAS-K003",
+        "EMAS-K023"
+      ],
+      "CHANGED_MECHANISM_OR_ASSUMPTIONS": "Analytical composition adds consequence closure, assumption handoff, minimum adequacy and dependency-coupled revision.",
+      "SURVIVING_FORM_AND_RESIDUAL_LIMIT": "These four additions are this study’s synthesis, not a newly proven historical school.",
+      "SOURCE_IDS": [
+        "EMAS-S016",
+        "EMAS-S020",
+        "EMAS-S043",
+        "EMAS-S044",
+        "EMAS-S050"
+      ],
+      "TRANSITION_EVIDENCE_STATUS": "RESEARCHER_COMPOSITION",
+      "HISTORICAL_ATTRIBUTION_BOUNDARY": "This transition belongs to the present synthesis, not to a documented historical school or a validated new architecture."
+    }
+  ],
+  "empirical_evidence_register": [
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP001",
+      "SOURCE_IDS": [
+        "EMAS-S006"
+      ],
+      "UNITS": "Simulated coordination runs and node plans",
+      "COMPARISON": "Coordination/communication organisations and less coordinated alternatives",
+      "SAMPLE_OR_DENOMINATOR": "Four-node difficult vehicle-monitoring scenario; no numerical effect is extracted here",
+      "SETTING": "Distributed vehicle-monitoring testbed",
+      "MEASURES": "Solution behaviour and coordination costs",
+      "OUTCOME": "Useful in some interdependent cases, with overhead/stale-view failure boundaries",
+      "UNCERTAINTY": "Not a representative task-population estimate",
+      "MATERIAL_VALIDITY_THREATS": "Original meta-organisation, simulated environment and scenario selection",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP002",
+      "SOURCE_IDS": [
+        "EMAS-S045"
+      ],
+      "UNITS": "Task reallocations and routing instances",
+      "COMPARISON": "Marginal-cost task exchange and candidate allocations",
+      "SAMPLE_OR_DENOMINATOR": "Application/routing instances discussed; no general field sample claimed",
+      "SETTING": "TRACONET implementation",
+      "MEASURES": "Allocation costs and feasibility",
+      "OUTCOME": "Demonstrates model-driven exchange, not universal optimum or truthful bidding",
+      "UNCERTAINTY": "No population-wide causal effect extracted",
+      "MATERIAL_VALIDITY_THREATS": "Cost model, contract neighbourhood and routing heuristics constrain transfer",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP003",
+      "SOURCE_IDS": [
+        "EMAS-S026"
+      ],
+      "UNITS": "Synthetic distributed CSP instances",
+      "COMPARISON": "Asynchronous search variants",
+      "SAMPLE_OR_DENOMINATOR": "Reported 100 trials in experimental settings; not independent deployments",
+      "SETTING": "n-queens and random networks",
+      "MEASURES": "Calculation cycles and search behaviour",
+      "OUTCOME": "Comparative algorithm behaviour depends on problem setting",
+      "UNCERTAINTY": "No converted wall-clock speedup claimed",
+      "MATERIAL_VALIDITY_THREATS": "Communication cost is excluded from calculation-cycle measures",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP004",
+      "SOURCE_IDS": [
+        "EMAS-S027",
+        "EMAS-S028"
+      ],
+      "UNITS": "Finite DCOP instances",
+      "COMPARISON": "Distributed search/dynamic programming alternatives",
+      "SAMPLE_OR_DENOMINATOR": "Algorithm-specific experimental instances; this packet relies primarily on formal/complexity results, not a pooled effect",
+      "SETTING": "Controlled optimisation problems",
+      "MEASURES": "Objective quality, search/messages/memory",
+      "OUTCOME": "Different structural trade-offs, not one universally cheapest method",
+      "UNCERTAINTY": "No meta-analytic effect or invented combined denominator",
+      "MATERIAL_VALIDITY_THREATS": "Different instance generators, complexity metrics and implementations",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP005",
+      "SOURCE_IDS": [
+        "EMAS-S032",
+        "EMAS-S033"
+      ],
+      "UNITS": "Training runs in controlled games",
+      "COMPARISON": "Actor-critic/value-factorised methods and stated baselines",
+      "SAMPLE_OR_DENOMINATOR": "Source-specific tasks; no pooled sample or current-state score quoted",
+      "SETTING": "Particle environments and cooperative game benchmarks",
+      "MEASURES": "Return and modelled collective performance",
+      "OUTCOME": "Supports bounded learning mechanisms; not arbitrary open strategic competence",
+      "UNCERTAINTY": "Method-specific stochasticity and tasks limit extrapolation",
+      "MATERIAL_VALIDITY_THREATS": "Shared benchmark ancestry; training/execution information and reward design",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP006",
+      "SOURCE_IDS": [
+        "EMAS-S034"
+      ],
+      "UNITS": "Learned policies paired with other policies/people in game settings",
+      "COMPARISON": "Other-Play versus self-play/alternative preparation",
+      "SAMPLE_OR_DENOMINATOR": "Known-symmetry game experiments; no representative population claim",
+      "SETTING": "Hanabi and coordination tasks",
+      "MEASURES": "Cross-play coordination",
+      "OUTCOME": "Conventions can be made more compatible under known symmetries",
+      "UNCERTAINTY": "Preliminary human comparison is limited",
+      "MATERIAL_VALIDITY_THREATS": "Known symmetry group and selected games; not arbitrary partner adaptation",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP007",
+      "SOURCE_IDS": [
+        "EMAS-S035"
+      ],
+      "UNITS": "Algorithm–task–seed experiments",
+      "COMPARISON": "Eleven cooperative MARL algorithms",
+      "SAMPLE_OR_DENOMINATOR": "Five seeds; 100 test episodes at a checkpoint",
+      "SETTING": "Complex fully cooperative benchmarks",
+      "MEASURES": "Selected-policy returns and reported 75% intervals",
+      "OUTCOME": "Rankings and success vary substantially by task/configuration",
+      "UNCERTAINTY": "Limited seeds/tuning and checkpoint selection",
+      "MATERIAL_VALIDITY_THREATS": "Shared code/testbed lineage; not strategic or deployment evidence",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP008",
+      "SOURCE_IDS": [
+        "EMAS-S036"
+      ],
+      "UNITS": "Framework task traces and coded failure patterns",
+      "COMPARISON": "Failure patterns across seven frameworks and selected interventions",
+      "SAMPLE_OR_DENOMINATOR": "1,642 analysed traces; grounded-theory manual set 150 traces from five frameworks with six experts",
+      "SETTING": "Selected LLM-agent tasks/frameworks",
+      "MEASURES": "Fourteen failure modes in three categories",
+      "OUTCOME": "Interaction/termination failures are material, not only individual model mistakes",
+      "UNCERTAINTY": "Scaling uses automated assistance; agreement estimates do not make all traces manually or independently labelled",
+      "MATERIAL_VALIDITY_THREATS": "Selection, correlated framework/model ancestry and judge dependence; not production failure frequency",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP009",
+      "SOURCE_IDS": [
+        "EMAS-S037"
+      ],
+      "UNITS": "Question–architecture–model runs",
+      "COMPARISON": "Single-agent and multi-agent designs under thinking-token controls",
+      "SAMPLE_OR_DENOMINATOR": "FRAMES and MuSiQue four-hop with selected model families; task counts are not extrapolated here",
+      "SETTING": "Multi-hop factual reasoning",
+      "MEASURES": "Answer accuracy and bootstrap uncertainty under budget/context variations",
+      "OUTCOME": "Single-agent designs are strong comparators; selected exceptions and budget caveats remain",
+      "UNCERTAINTY": "Thinking budgets imperfectly match total compute/cost; no universal effect inferred",
+      "MATERIAL_VALIDITY_THREATS": "LLM judge, task selection, shared inputs and the overbroad theoretical strictness argument",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP010",
+      "SOURCE_IDS": [
+        "EMAS-S038"
+      ],
+      "UNITS": "Team–environment–seed episodes",
+      "COMPARISON": "Thirteen LLMs; four trained MARL references; harness and team ablations",
+      "SAMPLE_OR_DENOMINATOR": "20 seeds/difficulty open-weight, 10 closed; training/inference budgets explicitly differ",
+      "SETTING": "Procedural Craftax-derived alem environment",
+      "MEASURES": "Separate base and coordination rewards",
+      "OUTCOME": "Base task competence and coordination separate; selected communication ablations impair coordination",
+      "UNCERTAINTY": "95% stratified bootstrap; limited closed-model seed budget",
+      "MATERIAL_VALIDITY_THREATS": "Zero-shot versus billion-step training is not a matched-compute comparison; one constructed environment",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP011",
+      "SOURCE_IDS": [
+        "EMAS-S039"
+      ],
+      "UNITS": "Simulated ten-agent common-pool groups",
+      "COMPARISON": "LLM social learning/norm formation with rule-based comparisons",
+      "SAMPLE_OR_DENOMINATOR": "Ten interacting agents in the studied model; no real institution sample",
+      "SETTING": "Common-pool resource game",
+      "MEASURES": "Resource survival, cooperation and utility measures",
+      "OUTCOME": "Supports context-specific norm/convention effects",
+      "UNCERTAINTY": "Model-specific payoff and removal/intervention conditions",
+      "MATERIAL_VALIDITY_THREATS": "Context adaptation is not necessarily model-weight learning; simulated voting does not confer legitimacy",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP012",
+      "SOURCE_IDS": [
+        "EMAS-S040"
+      ],
+      "UNITS": "Repeated pricing games and restricted meta-strategies",
+      "COMPARISON": "Selected LLM meta-strategies and Q-learning variants",
+      "SAMPLE_OR_DENOMINATOR": "Finite strategy library; LLM analysis restricts model/history/price/horizon choices; no market sample",
+      "SETTING": "Two-player pricing with logit demand",
+      "MEASURES": "Payoffs, empirical meta-game equilibria and collusive behaviour",
+      "OUTCOME": "Adverse stable outcomes can occur in the stated setting",
+      "UNCERTAINTY": "Restricted meta-game and cost-information assumptions",
+      "MATERIAL_VALIDITY_THREATS": "Not an exhaustive strategy search or evidence of actual market incidence",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP013",
+      "SOURCE_IDS": [
+        "EMAS-S041"
+      ],
+      "UNITS": "Rule-based kitchen-agent simulations",
+      "COMPARISON": "Team size/specialisation and communication constraints",
+      "SAMPLE_OR_DENOMINATOR": "Reported configurations, not a human or production LLM sample",
+      "SETTING": "Serial steak versus more parallel soup tasks",
+      "MEASURES": "Completion and coordination bottlenecks",
+      "OUTCOME": "More specialisation/coalition activity can become inefficient",
+      "UNCERTAINTY": "Three-page extended abstract gives limited replication detail",
+      "MATERIAL_VALIDITY_THREATS": "Task structure and simulated behaviour; not a generic headcount threshold",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP014",
+      "SOURCE_IDS": [
+        "EMAS-S042"
+      ],
+      "UNITS": "Operational decision-support programme",
+      "COMPARISON": "No independent counterfactual impact comparison established by this demo",
+      "SAMPLE_OR_DENOMINATOR": "One airport programme; deployed from August 2007",
+      "SETTING": "LAX security checkpoint/canine scheduling",
+      "MEASURES": "Use of strategic scheduling with human constraints",
+      "OUTCOME": "Demonstrates implementation and operational use",
+      "UNCERTAINTY": "Cannot identify attacks prevented or universal causal benefit",
+      "MATERIAL_VALIDITY_THREATS": "Single programme, strategic-model assumptions and absence of the relevant outcome counterfactual",
+      "EVIDENCE_ROLE": "FIELD_OR_DEPLOYMENT_EVIDENCE",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP015",
+      "SOURCE_IDS": [
+        "EMAS-S043"
+      ],
+      "UNITS": "Human-agent outdoor exercise participants",
+      "COMPARISON": "Reported system versions, task decisions and practitioner feedback",
+      "SAMPLE_OR_DENOMINATOR": "Four trials, 40 participants, predominantly university students/staff",
+      "SETTING": "Staged disaster-response exercises",
+      "MEASURES": "Task acceptance/completion and participant/practitioner feedback",
+      "OUTCOME": "Human choices and connectivity matter to end-to-end operation",
+      "UNCERTAINTY": "Small programme and evolving versions",
+      "MATERIAL_VALIDITY_THREATS": "Staged trials, training, participant selection; not a real-disaster deployment",
+      "EVIDENCE_ROLE": "FIELD_OR_DEPLOYMENT_EVIDENCE",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established.",
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "EVIDENCE_SUBKIND": "STAGED_FIELD_TRIAL"
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP016",
+      "SOURCE_IDS": [
+        "EMAS-S049"
+      ],
+      "UNITS": "Two-agent interaction histories",
+      "COMPARISON": "Direct trust/reputation methods under con cycles",
+      "SAMPLE_OR_DENOMINATOR": "400 interactions and five selected con-cycle parameters",
+      "SETTING": "Synthetic trust interaction",
+      "MEASURES": "Defection/trust recovery behaviour",
+      "OUTCOME": "Historical good conduct can be manipulated; first con is not prevented",
+      "UNCERTAINTY": "Simplified threat/noise model",
+      "MATERIAL_VALIDITY_THREATS": "Direct components are not whole reputation frameworks; no open deployment",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP017",
+      "SOURCE_IDS": [
+        "EMAS-S051"
+      ],
+      "UNITS": "Random graph-colouring instances with faults",
+      "COMPARISON": "Repl-Max-Sum and the studied comparison variants",
+      "SAMPLE_OR_DENOMINATOR": "50 graphs at each n=12,24,36,48; average degree 3; three-colourable instances",
+      "SETTING": "Synthetic FT-DCOP experiment",
+      "MEASURES": "Utility/robustness and message behaviour",
+      "OUTCOME": "Evidence concerns fault-model-specific preservation, not improved global optimality",
+      "UNCERTAINTY": "Main argument inspected; supplementary impossibility proof not reconstructed",
+      "MATERIAL_VALIDITY_THREATS": "Replica/knowledge/round model and synthetic instances; no arbitrary MAS threat coverage",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP018",
+      "SOURCE_IDS": [
+        "EMAS-S052"
+      ],
+      "UNITS": "Norm-aware BDI running example",
+      "COMPARISON": "Operational choices with augmented plans",
+      "SAMPLE_OR_DENOMINATOR": "One presented running example; no comparative evaluation sample",
+      "SETTING": "Existing BDI platform implementation",
+      "MEASURES": "Represented compliance/violation/non-applicability choices",
+      "OUTCOME": "Implementation feasibility, not established deployment effect",
+      "UNCERTAINTY": "Extended-abstract scale and evaluation limit",
+      "MATERIAL_VALIDITY_THREATS": "Larger populations, overhead, dynamic norms and value validity remain open",
+      "EVIDENCE_ROLE": "IMPLEMENTATION_SEMANTICS",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    },
+    {
+      "EVIDENCE_RECORD_ID": "EMAS-EMP019",
+      "SOURCE_IDS": [
+        "EMAS-S054"
+      ],
+      "UNITS": "Human participants in short collaborative game sessions",
+      "COMPARISON": "Control versus text versus audio explanations",
+      "SAMPLE_OR_DENOMINATOR": "38 analysed of 41 recruits; groups 14/14/10; four 80-second sessions",
+      "SETTING": "One Overcooked layout, experienced convenience sample",
+      "MEASURES": "Scores, workload, subjective collaboration and exploratory adaptation",
+      "OUTCOME": "No statistically significant performance benefit established",
+      "UNCERTAINTY": "Limited power; non-significance is not equivalence or no effect",
+      "MATERIAL_VALIDITY_THREATS": "One layout, expertise imbalance/generalisation and exploratory interpretation",
+      "EVIDENCE_ROLE": "EMPIRICAL_COMPARISON",
+      "REPLICATION_STATUS": "No independent replication of the entire evolved property established."
+    }
+  ],
+  "formal_result_register": [
+    {
+      "FORMAL_RECORD_ID": "EMAS-F001",
+      "SOURCE_IDS": [
+        "EMAS-S007",
+        "EMAS-S008"
+      ],
+      "MODEL": "Logical joint intention / SharedPlans",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Precisely distinguishes joint persistence or partial collaborative plans from coincident individual goals.",
+      "MATERIAL_ASSUMPTIONS": "Chosen mental-state operators, agents and persistence/recipe conditions.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Establish that implementation states/observations satisfy the semantics; add external monitoring when needed.",
+      "INSPECTION_AND_LIMIT": "Selected definitions/arguments read; no blanket assertion that all real teamwork instantiates them."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F002",
+      "SOURCE_IDS": [
+        "EMAS-S047"
+      ],
+      "MODEL": "Knowledge in distributed communication",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Shows limits on attaining ideal shared knowledge under stated communication uncertainty.",
+      "MATERIAL_ASSUMPTIONS": "Specific channel, timing and knowledge model.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Do not substitute a practical confidence heuristic for a formal common-knowledge claim.",
+      "INSPECTION_AND_LIMIT": "Bounded impossibility, not a theorem against all cooperative action."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F003",
+      "SOURCE_IDS": [
+        "EMAS-S016"
+      ],
+      "MODEL": "BSPL information protocols",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Enactability and existence of legal completions under the exact liveness definition.",
+      "MATERIAL_ASSUMPTIONS": "Information bindings, local knowledge and protocol constraints.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Implement keys/causality and distinguish available completion from actual willing execution.",
+      "INSPECTION_AND_LIMIT": "Selected proof/example inspected; no eventual-work guarantee inferred."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F004",
+      "SOURCE_IDS": [
+        "EMAS-S044"
+      ],
+      "MODEL": "Conditional commitments and local observations",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Alignment at quiescence under the specified lifecycle/rule conditions.",
+      "MATERIAL_ASSUMPTIONS": "Point-to-point messages, serial local observations, reliable transport and FIFO per pair in the inspected account.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Respect delivery/order assumptions and event interpretations; preserve commitments through delegation.",
+      "INSPECTION_AND_LIMIT": "Model guarantee does not prove external task truth, instant shared state or arbitrary loss tolerance."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F005",
+      "SOURCE_IDS": [
+        "EMAS-S024"
+      ],
+      "MODEL": "Bilateral private-value trade",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Certain combinations of incentive, participation, budget and full efficiency requirements cannot all be achieved.",
+      "MATERIAL_ASSUMPTIONS": "Independent private values with relevant overlapping support, interim participation and the stated mechanism class.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Verify the real market lies within the model before importing the impossibility.",
+      "INSPECTION_AND_LIMIT": "Original formulation and result inspected; no universal impossibility for other domains or subsidy regimes."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F006",
+      "SOURCE_IDS": [
+        "EMAS-S025"
+      ],
+      "MODEL": "Deterministic voting/choice",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Unrestricted strategyproof onto choice among at least three outcomes faces dictatorship.",
+      "MATERIAL_ASSUMPTIONS": "Unrestricted preference domain and stated deterministic mechanism assumptions.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Identify outcome set, preference restrictions and strategic model.",
+      "INSPECTION_AND_LIMIT": "Domain changes and other mechanism classes are not covered by the unqualified slogan."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F007",
+      "SOURCE_IDS": [
+        "EMAS-S020"
+      ],
+      "MODEL": "Normative multi-agent programs",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Models obligations, violations and institutional transitions formally.",
+      "MATERIAL_ASSUMPTIONS": "Observable actions and model-determined effects within the institutional environment.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Connect external events to the model and establish actual powers independently.",
+      "INSPECTION_AND_LIMIT": "No external legal legitimacy or observability of off-platform action follows."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F008",
+      "SOURCE_IDS": [
+        "EMAS-S026"
+      ],
+      "MODEL": "Distributed CSP search",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Completeness/correct search behaviour under the selected finite-domain and message assumptions.",
+      "MATERIAL_ASSUMPTIONS": "Known participants and finite-delay reliable FIFO communication as specified.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Implementation transport and local state must respect the algorithm model.",
+      "INSPECTION_AND_LIMIT": "Calculation-cycle experiments do not include all real communication cost."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F009",
+      "SOURCE_IDS": [
+        "EMAS-S027",
+        "EMAS-S028"
+      ],
+      "MODEL": "Finite DCOP search and dynamic programming",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "ADOPT quality bounds; DPOP optimisation with graph-structural message complexity.",
+      "MATERIAL_ASSUMPTIONS": "Correct objective decomposition, finite domains and algorithm-specific communication/ordering.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Supply correct costs and a feasible substrate; translate chosen assignments to actions separately.",
+      "INSPECTION_AND_LIMIT": "Optimal model result is not model validity, privacy or practical cheapness."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F010",
+      "SOURCE_IDS": [
+        "EMAS-S029"
+      ],
+      "MODEL": "Privacy-aware DCOP interaction",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Privacy/leakage claims belong to specific definitions and protocols.",
+      "MATERIAL_ASSUMPTIONS": "Declared adversary/security notion and protocol restrictions.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Assess implementation disclosures and inference rather than inferring privacy from distribution.",
+      "INSPECTION_AND_LIMIT": "No uninspected arbitrary-malicious/collusion guarantee is claimed."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F011",
+      "SOURCE_IDS": [
+        "EMAS-S031"
+      ],
+      "MODEL": "Abstract argumentation graph",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Defines several acceptability semantics; stable extensions need not exist.",
+      "MATERIAL_ASSUMPTIONS": "Supplied arguments and attack relation plus the selected semantics.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Ground inputs and avoid equating extension membership with truth.",
+      "INSPECTION_AND_LIMIT": "Formal semantics do not provide an independent evidential oracle."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F012",
+      "SOURCE_IDS": [
+        "EMAS-S033"
+      ],
+      "MODEL": "Monotonic joint-value mixing",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Local argmax selections agree with the represented monotonic joint-value maximisation.",
+      "MATERIAL_ASSUMPTIONS": "Monotonic factorisation and the specified local information/functions.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Respect representability and distinguish learned approximation from the real optimal value.",
+      "INSPECTION_AND_LIMIT": "Not all joint value functions are representable and training is not globally guaranteed."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F013",
+      "SOURCE_IDS": [
+        "EMAS-S051"
+      ],
+      "MODEL": "FT-DCOP and replicated Max-Sum",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Necessary knowledge coverage and fault-model-specific reproduction of underlying messages.",
+      "MATERIAL_ASSUMPTIONS": "Per-relevant-group knowledge/replicas, at most k faults, 2k+1 construction and synchronous message-passing and round discipline.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Correct utility knowledge, identity/sequence binding and replication at relevant computations.",
+      "INSPECTION_AND_LIMIT": "Main-paper reasoning inspected; supplementary impossibility proof not independently checked. Approximation remains approximation."
+    },
+    {
+      "FORMAL_RECORD_ID": "EMAS-F014",
+      "SOURCE_IDS": [
+        "EMAS-S037"
+      ],
+      "MODEL": "Information channel from full context C to messages M",
+      "GUARANTEE_OR_FORMAL_DISTINCTION": "Weak Bayes-risk dominance is recoverable by emulation; strict information loss does not imply strict classification-error loss.",
+      "MATERIAL_ASSUMPTIONS": "M is generated from C and predictors are unrestricted Bayes-optimal for the weak comparison.",
+      "MODEL_TO_IMPLEMENTATION_OBLIGATIONS": "Do not transfer the unrestricted-information result to finite LLMs without resource/model analysis.",
+      "INSPECTION_AND_LIMIT": "The packet supplies its own explicit strictness counterexample; no published correction is claimed."
+    }
+  ],
+  "source_dependence_groups": [
+    {
+      "GROUP": "ABSTRACT_ARGUMENTATION",
+      "SOURCE_IDS": [
+        "EMAS-S031"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "AGENCY_1995",
+      "SOURCE_IDS": [
+        "EMAS-S001"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "ALEM_CRAFTAX",
+      "SOURCE_IDS": [
+        "EMAS-S038"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "ARGUMENT_DIALOGUE_AMGOUD_PARSONS",
+      "SOURCE_IDS": [
+        "EMAS-S055",
+        "EMAS-S056"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "ARMOR_LAX_PROGRAMME",
+      "SOURCE_IDS": [
+        "EMAS-S042"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "BSPL",
+      "SOURCE_IDS": [
+        "EMAS-S016"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "BSPL_SARL",
+      "SOURCE_IDS": [
+        "EMAS-S017"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "CON_RESISTANT_TRUST",
+      "SOURCE_IDS": [
+        "EMAS-S049"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "DCOP_SURVEY",
+      "SOURCE_IDS": [
+        "EMAS-S030"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "DISTRIBUTED_CONSTRAINTS",
+      "SOURCE_IDS": [
+        "EMAS-S026",
+        "EMAS-S027",
+        "EMAS-S028"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "DISTRIBUTED_KNOWLEDGE",
+      "SOURCE_IDS": [
+        "EMAS-S047"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "DVMT_PGP",
+      "SOURCE_IDS": [
+        "EMAS-S006"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "ECONOMIC_IMPORTS",
+      "SOURCE_IDS": [
+        "EMAS-S024"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "ELECTRONIC_INSTITUTIONS",
+      "SOURCE_IDS": [
+        "EMAS-S021"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "EPYMARL_BENCHMARKS",
+      "SOURCE_IDS": [
+        "EMAS-S035"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "EQUAL_THINKING_BUDGET",
+      "SOURCE_IDS": [
+        "EMAS-S037"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "FIPA_VERSIONS",
+      "SOURCE_IDS": [
+        "EMAS-S014",
+        "EMAS-S015",
+        "EMAS-S053"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "FT_DCOP_2026",
+      "SOURCE_IDS": [
+        "EMAS-S051"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "GAIA",
+      "SOURCE_IDS": [
+        "EMAS-S018"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "HACER_ORCHID",
+      "SOURCE_IDS": [
+        "EMAS-S043"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "HIERARCHICAL_HAT_XAI_2026",
+      "SOURCE_IDS": [
+        "EMAS-S054"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "HUMAN_AGENT_TEAMS",
+      "SOURCE_IDS": [
+        "EMAS-S022"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "IFAAMAS",
+      "SOURCE_IDS": [
+        "EMAS-S002",
+        "EMAS-S003"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "JENNINGS_COMMITMENTS",
+      "SOURCE_IDS": [
+        "EMAS-S011"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "JOINT_INTENTIONS",
+      "SOURCE_IDS": [
+        "EMAS-S007"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "KITCHEN_SPECIALISATION",
+      "SOURCE_IDS": [
+        "EMAS-S041"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "KQML",
+      "SOURCE_IDS": [
+        "EMAS-S012"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "LLM_COMMON_POOL",
+      "SOURCE_IDS": [
+        "EMAS-S039"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "LLM_DEBATE_2023",
+      "SOURCE_IDS": [
+        "EMAS-S048"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "MARL_CENTRALISED_TRAINING",
+      "SOURCE_IDS": [
+        "EMAS-S032"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "MAST_SELECTED_FRAMEWORKS",
+      "SOURCE_IDS": [
+        "EMAS-S036"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "MAS_FOUNDATIONS",
+      "SOURCE_IDS": [
+        "EMAS-S023"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "MOISE",
+      "SOURCE_IDS": [
+        "EMAS-S019",
+        "EMAS-S050"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "NORMATIVE_PROGRAMMING",
+      "SOURCE_IDS": [
+        "EMAS-S020"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "NORM_BDI_2026",
+      "SOURCE_IDS": [
+        "EMAS-S052"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "PRIVATE_DCOP",
+      "SOURCE_IDS": [
+        "EMAS-S029"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "QMIX_SMAC",
+      "SOURCE_IDS": [
+        "EMAS-S033"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "SHAREDPLANS",
+      "SOURCE_IDS": [
+        "EMAS-S008"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "SMITH_DAVIS_CNP",
+      "SOURCE_IDS": [
+        "EMAS-S004",
+        "EMAS-S005"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "SOCIAL_CHOICE_IMPORTS",
+      "SOURCE_IDS": [
+        "EMAS-S025"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "SOCIAL_COMMITMENTS",
+      "SOURCE_IDS": [
+        "EMAS-S013",
+        "EMAS-S044"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "STEAM_COMMTDP",
+      "SOURCE_IDS": [
+        "EMAS-S009",
+        "EMAS-S010"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "TESTTIME_PRICING",
+      "SOURCE_IDS": [
+        "EMAS-S040"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "TRACONET_NEGOTIATION",
+      "SOURCE_IDS": [
+        "EMAS-S045",
+        "EMAS-S046"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    },
+    {
+      "GROUP": "ZERO_SHOT_HANABI",
+      "SOURCE_IDS": [
+        "EMAS-S034"
+      ],
+      "INTERPRETATION": "Shared programme, conceptual or implementation ancestry. This group label is not a quantitative correlation estimate; separate records are not automatically independent replications."
+    }
+  ],
+  "prefreeze_revision_log": [
+    "All changes occurred before first freeze EMAS-R1; there was no earlier frozen packet whose judgements were silently changed.",
+    "Verified/corrected source dates, author lists, exact titles and experimental-versus-final FIPA identity from readable primary covers/text; DOI/deposit/file-name dates were not substituted for publication dates.",
+    "Added distinct candidates EMAS-075/076 after current primary research; retained all earlier IDs and unfavourable candidates.",
+    "Added EMAS-S054 and refined existing communication/human-participation candidates; did not manufacture a new candidate for an already represented trigger.",
+    "Classified Dung argumentation as an interdisciplinary import; retained strictness criticism EMAS-K018 as researcher analysis, not a published correction.",
+    "Machine serialisation uses UTF-8, two-space JSON indentation and final newline. Such syntax normalisation does not change the frozen substantive judgement.",
+    "A final genealogy check found no support for the draft Dung-to-foundations-manuscript edge. Read EMAS-S055/056 and replaced that edge with the express 2000 MAS dialogue adaptation. Refined EMAS-046, criticism EMAS-K013 and new relation EMAS-REL-061; the complete candidate denominator remains 76 because this is the operating-method coupling of an already registered criterion, not a distinct universally prescribed control.",
+    "Final primary-cover check completed the EMAS-S043 author list and December 2016 date; tightened the EMAS-075 fault-model wording to synchronous message passing. Normalised the staged-field-trial evidence-role label without altering its evidence status.",
+    "Final adjudication made every evolution transition’s historical-versus-analytical status explicit, so tested overgeneralisations are not falsely attributed to original authors. Export fields with no dedicated pairwise alternative edge received a reasoned absence note. A verification false positive inside the legitimate DOI JZVR6522 was corrected by matching whole target-code tokens, not by changing the citation."
+  ],
+  "sibling_corpora_consulted": false,
+  "cross_trifecta_synthesis_performed": false
+}

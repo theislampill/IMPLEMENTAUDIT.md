@@ -98,8 +98,8 @@ for skill_file in skill_files:
     frontmatter = text.split("---\n", 2)[1]
     if not re.search(rf"(?m)^name:\s*{re.escape(name)}\s*$", frontmatter):
         raise SystemExit(f"{skill_file} frontmatter name must be {name}")
-    if not re.search(r'(?m)^\s*version:\s*["\']?0\.4\.0["\']?\s*$', frontmatter):
-        raise SystemExit(f"{skill_file} metadata.version must be 0.4.0")
+    if not re.search(r'(?m)^\s*version:\s*["\']?0\.4\.1["\']?\s*$', frontmatter):
+        raise SystemExit(f"{skill_file} metadata.version must be 0.4.1")
 
 for child in ("audit-state", "audit-assess", "audit-implement", "audit-andon"):
     child_root = root / "skills" / child
@@ -170,10 +170,19 @@ for token in [
         raise SystemExit(f"scripts/build-release-asset.sh missing layout token: {token}")
 
 skill_text = (root / "skills/implementaudit/SKILL.md").read_text(encoding="utf-8")
-for token in [
+legacy_layout = all(token in skill_text for token in (
     "Source checkout layout is conventional and name-matched",
-    "skills/implementaudit/SKILL.md",
     "Release archives flatten that directory only as a build artifact",
+))
+compact_layout = (
+    "Source: `skills/implementaudit/SKILL.md` beside `references/`, `scripts/`, "
+    "`templates/`. Release flattening is a build projection; installed paths are "
+    "`SKILL.md`, `references/`, `scripts/`, `templates/` under the active skill directory."
+)
+if not legacy_layout and compact_layout not in " ".join(skill_text.split()):
+    raise SystemExit("skills/implementaudit/SKILL.md missing complete source/release layout clause")
+for token in [
+    "skills/implementaudit/SKILL.md",
     "references/routing.md",
     "scripts/claim-run.sh",
     "templates/PROTOCOL.md",

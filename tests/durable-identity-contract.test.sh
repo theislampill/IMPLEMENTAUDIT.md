@@ -111,6 +111,70 @@ PY
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
+
+# Current changelog selection must inspect the maintained sections, while
+# archived release sections keep their original identities. Exercise main();
+# only the Git membership boundary is replaced by the declared fixture file.
+"${py_cmd[@]}" - "$checker" "$tmp" <<'PY'
+import contextlib
+import importlib.util
+import io
+import json
+import sys
+from pathlib import Path
+from unittest.mock import patch
+
+checker = Path(sys.argv[1]).resolve()
+scratch = Path(sys.argv[2]).resolve() / "current-changelog"
+scratch.mkdir()
+spec = importlib.util.spec_from_file_location("current_identity_checker", checker)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+family = json.loads((checker.parent.parent / "package/implementaudit-package.json").read_text())["release_family"]
+history = "\n## [v0.4.0.0] - 2026-08-16\n\nCurrent owner R001C.\n\n## [v0.3.3.3] - 2026-08-11\n\nHistorical owner R28.\n"
+bad_history = "\n## [v0.4.0.0] - 2026-08-16\n\nCurrent owner R28 and RFFFF.\nCurrent epoch: e61\n\n## [v0.3.3.3] - 2026-08-11\n\nHistorical owner R28.\n"
+valid_current = "## [Unreleased]\n\nCurrent owner R001C.\n"
+cases = [
+    ("unreleased_legacy", "## [Unreleased]\n\nCurrent owner R28.\n" + history, 1, "stale maintained Rockstar R28"),
+    ("current_release_legacy", valid_current + f"\n## [{family}] - 2026-09-11\n\nCurrent owner R28.\n" + history, 1, "stale maintained Rockstar R28"),
+    ("unreleased_unallocated", "## [Unreleased]\n\nCurrent owner RFFFF.\n" + history, 1, "unallocated Rockstar presented as current RFFFF"),
+    ("current_release_unallocated", f"## [{family}]\n\nCurrent owner RFFFF.\n" + history, 1, "unallocated Rockstar presented as current RFFFF"),
+    ("current_generation", "## [Unreleased]\n\nCurrent epoch: e61\n" + history, 1, "stale maintained continuity generation"),
+    ("current_subsection", "## [Unreleased]\n\n### Changed\n\nCurrent owner R28.\n" + history, 1, "stale maintained Rockstar R28"),
+    ("fenced_heading_does_not_end_current", "## [Unreleased]\n\n```text\n## [v0.3.3.3]\n```\n\nCurrent owner R28.\n" + history, 1, "stale maintained Rockstar R28"),
+    ("comment_heading_does_not_end_current", "## [Unreleased]\n\n<!--\n## [v0.3.3.3]\n-->\n\nCurrent owner R28.\n" + history, 1, "stale maintained Rockstar R28"),
+    ("inline_heading_comment_retains_current_body", "## [Unreleased] <!-- current source -->\n\nCurrent owner R28.\n" + history, 1, "stale maintained Rockstar R28"),
+    ("valid_inline_heading_comment", "## [Unreleased] <!-- current source -->\n\nCurrent owner R001C.\n" + bad_history, 0, ""),
+    ("current_release_heading_suffix_retains_body", valid_current + f"\n## [{family}] - source candidate\n\nCurrent owner R28.\n" + history, 1, "stale maintained Rockstar R28"),
+    ("valid_current_release_heading_suffix", valid_current + f"\n## [{family}] - source candidate\n\nCurrent owner R001C.\n" + bad_history, 0, ""),
+    ("valid_current_and_history", valid_current + f"\n## [{family}]\n\nCurrent owner R001C.\n" + bad_history, 0, ""),
+    ("explicit_current_exceptions", "## [Unreleased]\n\nLegacy alias R28 maps to R001C.\nHistorical epoch e61.\nRFFFF is unallocated.\n" + bad_history, 0, ""),
+    ("current_release_without_unreleased", f"## [{family}]\n\nCurrent owner R001C.\n" + bad_history, 0, ""),
+    ("missing_current_section", "## [v0.3.3.3]\n\nHistorical owner R28.\n", 1, "no maintained changelog section"),
+    ("duplicate_unreleased", valid_current + "\n" + valid_current + history, 1, "duplicate maintained changelog section"),
+    ("duplicate_current_release", f"## [{family}]\n\nCurrent owner R001C.\n\n## [{family}]\n\nCurrent owner R001C.\n" + history, 1, "duplicate maintained changelog section"),
+]
+results = []
+for label, text, expected, diagnostic in cases:
+    root = scratch / label
+    root.mkdir()
+    path = root / "CHANGELOG.md"
+    raw = ("# Changelog\n\n" + text).encode("utf-8")
+    path.write_bytes(raw)
+    stdout, stderr = io.StringIO(), io.StringIO()
+    with patch.object(module, "tracked_files", return_value=["CHANGELOG.md"]), \
+            patch.object(sys, "argv", [str(checker), "--scan-root", str(root)]), \
+            contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+        observed = module.main()
+    assert path.read_bytes() == raw, label + ": checker mutated historical input"
+    passed = observed == expected and diagnostic in stderr.getvalue()
+    results.append({"case": label, "expected_exit": expected, "actual_exit": observed,
+                    "stderr": stderr.getvalue(), "passed": passed})
+print(json.dumps({"current_changelog_controls": results}, sort_keys=True))
+if not all(row["passed"] for row in results):
+    raise SystemExit("current changelog selection controls failed")
+PY
+
 git -C "$tmp" init -q
 git -C "$tmp" config user.email identity-test@example.invalid
 git -C "$tmp" config user.name identity-test

@@ -51,13 +51,52 @@ def tracked_files(root: Path) -> list[str]:
     return [item.decode("utf-8") for item in result.stdout.split(b"\0") if item]
 
 
-def active_changelog(text: str) -> str:
-    match = re.search(r"(?m)^## \[v0\.4\.0\.0\].*$", text)
-    if not match:
-        return ""
-    next_heading = re.search(r"(?m)^## \[v", text[match.end() :])
-    end = match.end() + next_heading.start() if next_heading else len(text)
-    return text[match.start() : end]
+def active_changelog(text: str, current_family: str) -> str:
+    """Select canonical maintained sections from the independent package owner."""
+    lines = text.splitlines(keepends=True)
+    headings = []
+    fence = None
+    comment = False
+    for number, line in enumerate(lines):
+        value = line.rstrip("\r\n")
+        if fence is not None:
+            if re.fullmatch(r" {0,3}" + re.escape(fence[0]) + "{" + str(fence[1]) + r",}[ \t]*", value):
+                fence = None
+            continue
+        if comment:
+            comment = "-->" not in value
+            continue
+        opening = re.match(r" {0,3}(`{3,}|~{3,})", value)
+        if opening:
+            fence = (opening.group(1)[0], len(opening.group(1)))
+            continue
+        if "<!--" in value:
+            value, tail = value.split("<!--", 1)
+            comment = "-->" not in tail
+            value = value.rstrip()
+        heading = re.fullmatch(r" {0,3}##[ \t]+(.+?)[ \t]*", value)
+        if heading:
+            title = re.match(r"\[([^\]]+)\](?:[ \t]|$)", heading.group(1))
+            headings.append((number, title.group(1) if title else None))
+    maintained = {"Unreleased", current_family}
+    seen = set()
+    selected = []
+    for index, (start, name) in enumerate(headings):
+        if name not in maintained:
+            continue
+        if name in seen:
+            raise ValueError("duplicate maintained changelog section: " + name)
+        seen.add(name)
+        end = headings[index + 1][0] if index + 1 < len(headings) else len(lines)
+        selected.append((start, end))
+    if not selected:
+        raise ValueError("no maintained changelog section: expected [Unreleased] or [" + current_family + "]")
+    # Blank historical text without changing diagnostic line numbers or bytes
+    # on disk. Existing per-line legacy/unallocated exceptions remain below.
+    masked = [line[len(line.rstrip("\r\n")):] for line in lines]
+    for start, end in selected:
+        masked[start:end] = lines[start:end]
+    return "".join(masked)
 
 
 def explicitly_legacy(line: str) -> bool:
@@ -77,6 +116,13 @@ def main() -> int:
         allocated_max = registry["namespaces"]["R"]["allocated_ordinal_max"]
     except (OSError, UnicodeError, json.JSONDecodeError, KeyError, TypeError) as exc:
         raise SystemExit(f"check-durable-identities: invalid registry: {exc}") from exc
+    try:
+        contract = json.loads((source_root / "package/implementaudit-package.json").read_text(encoding="utf-8"))
+        current_family = contract["release_family"]
+        if not isinstance(current_family, str) or not re.fullmatch(r"v\d+\.\d+\.\d+\.\d+", current_family):
+            raise ValueError("release_family must be a four-component public identity")
+    except (OSError, UnicodeError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+        raise SystemExit(f"check-durable-identities: invalid current package identity: {exc}") from exc
 
     failures: list[str] = []
     for rel in tracked_files(root):
@@ -90,7 +136,11 @@ def main() -> int:
             text = path.read_text(encoding="utf-8")
         except (OSError, UnicodeError):
             continue
-        scan_text = active_changelog(text) if normalized == "CHANGELOG.md" else text
+        try:
+            scan_text = active_changelog(text, current_family) if normalized == "CHANGELOG.md" else text
+        except ValueError as exc:
+            failures.append(f"{normalized}: {exc}")
+            continue
         for number, line in enumerate(scan_text.splitlines(), 1):
             if not explicitly_legacy(line):
                 for match in LEGACY_ROCKSTAR.finditer(line):

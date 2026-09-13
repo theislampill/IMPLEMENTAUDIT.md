@@ -1,0 +1,621 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+  "analytical_label_status": "RESEARCHER_ANALYTICAL_SYNTHESIS_NOT_AN_ESTABLISHED_ACADEMIC_SCHOOL_NAME",
+  "established_subject": "Business Process Management",
+  "revision": "EBPM-R1-2026-09-06",
+  "research_cutoff": "2026-09-06",
+  "state": "FROZEN",
+  "freeze_meaning": "Stable bounded evidence, full candidate accounting and adjudicated judgements. Not universal certainty, representative effectiveness of every property, or empirical validation of the exact composition.",
+  "scope": "Independent, plural and criticism-tested BPM study covering B1–B10 and within-tradition composition. The field is treated as organisational and socio-technical as well as analytical and executable.",
+  "scope_boundaries": [
+    "No requester repositories, sibling Evolved corpora, runtime designs or target-specific adoption claims were consulted.",
+    "Workflow and process mining are examined at documented BPM interfaces; complete algorithmic, formal and implementation histories of those fields are outside this lane.",
+    "Industrial/quality antecedents are traced through explicit founding-source discussion, not a claimed complete independent history of every antecedent school.",
+    "Business analysis, enterprise architecture and project management are distinguished at the problem/unit/decision boundary; their complete professional standards are not reconstructed.",
+    "No jurisdiction-specific legal compliance or sector-specific clinical/safety procedure is prescribed.",
+    "No effect-size meta-analysis, population prevalence estimate or complete database-indexed literature census is claimed. The denominator is the examined analytical candidate population.",
+    "Live products are not benchmarked as current commercial recommendations. Standards versions are distinct from implementation adoption.",
+    "Publication/deposit/issue/event dates are distinguished; the future 2026 BPM conference is not completed empirical evidence."
+  ],
+  "population_total": 73,
+  "population_examined": 73,
+  "property_coverage": "73/73",
+  "examination_counts": {
+    "EXAMINED": 53,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 20
+  },
+  "disposition_counts": {
+    "ASSUMPTION_SENSITIVE": 5,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 3,
+    "CONTEXT_DEPENDENT": 17,
+    "DOMAIN_SPECIFIC": 2,
+    "NO_GENERAL_PROPERTY": 4,
+    "REJECTED_OR_DISFAVOURED": 6,
+    "RETAINED_IN_EVOLVED_FORM": 22,
+    "STRONGLY_RETAINED": 9,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "UNRESOLVED": 1,
+    "USEFUL_BUT_EASILY_BUREAUCRATISED": 1,
+    "USEFUL_BUT_EASILY_GAMED": 2
+  },
+  "crosswalk_worthy_total": 58,
+  "nonretained_total": 14,
+  "unresolved_count": 1,
+  "unresolved_property_ids": [
+    "EBPM-053"
+  ],
+  "source_count": 48,
+  "empirical_or_design_study_summaries": 22,
+  "source_independence_note": "Source and study-summary counts are not counts of independent causal effectiveness experiments. Shared programmes, cases and benchmark logs remain identified.",
+  "mandatory_families_total": 10,
+  "uncompleted_mandatory_families": 0,
+  "uncompleted_burdens": [],
+  "composition": {
+    "state": "COMPLETE",
+    "property_nodes": 73,
+    "relations": 67,
+    "alternative_configurations": 5,
+    "composition_induced_property_ids": [
+      "EBPM-068",
+      "EBPM-069",
+      "EBPM-070",
+      "EBPM-071"
+    ],
+    "domain_models": 10,
+    "genealogy_nodes": 20,
+    "genealogy_edges": 21,
+    "criticism_entries": 22,
+    "internal_tensions": 9,
+    "analytical_tests": 9,
+    "published_study_or_case_examinations": 5,
+    "unresolved_composition_obligations": 5,
+    "validation_boundary": "Exact composed system is analytical, not directly field-validated as a whole."
+  },
+  "intakes": {
+    "audit": "COMPLETE",
+    "public_documentation": "COMPLETE",
+    "later_synthesis": "COMPLETE"
+  },
+  "independence": {
+    "sibling_corpora_consulted": false,
+    "cross_trifecta_synthesis_performed": false,
+    "requester_repositories_inspected": false,
+    "target_specific_adoption_or_mutation_authorised": false
+  },
+  "evidence_limits": [
+    "No universal BPM benefit, BPR failure rate, maturity-to-outcome causal effect or autonomous-revision guarantee is established.",
+    "Formal guarantees are bounded by encoded constraints, model semantics and history assumptions; those assumptions are not proven true of real work.",
+    "Field and design evidence is context-bound; failed adoption, selection, confounding, self-report and common datasets are retained.",
+    "S006 and S048 were inspected at publisher contents/abstract level, not as a fully read textbook; S013 is a specification record, not inspected DMN normative clauses.",
+    "S026, S038, S040 and S047 have abstract-only access limits; omitted methods and effects are not invented.",
+    "Pre-1990 quality ancestry and early office-system roots include explicitly indirect or retrospective evidence; priority beyond the inspected sources is not asserted.",
+    "S034 is a 2026 research manifesto, and S039 describes an event still future at the cut-off; neither is evidence of completed operational replication.",
+    "Competing legitimate interests and the external validity of the exact analytical composition remain examined open questions."
+  ],
+  "substantive_review_record": [
+    {
+      "gate": "SCOPE_AND_GENEALOGY",
+      "status": "PASS_WITH_DISCLOSED_LIMITS",
+      "evidence": "Ten developed domain models; twenty dated genealogy nodes and twenty-one classified relationships, with indirect historical sources labelled."
+    },
+    {
+      "gate": "CRITICISM_AND_EVOLUTION",
+      "status": "PASS",
+      "evidence": "Twenty-two criticism entries change retention or conditions; non-implementation, null results, model/work discrepancies, maturity and current analytical counter-results remain visible."
+    },
+    {
+      "gate": "CURRENT_RESEARCH",
+      "status": "PASS_WITH_DISCLOSED_LIMITS",
+      "evidence": "Current 2026 sources inspected alongside 2021–2025 evidence; agendas, editions, issue/deposit dates and future events distinguished."
+    },
+    {
+      "gate": "DENOMINATOR_AND_DISPOSITIONS",
+      "status": "PASS",
+      "evidence": "73 stable IDs and primary dispositions; 58 conditional candidates,14 nonretained,1 unresolved; zero NOT_EXAMINED records."
+    },
+    {
+      "gate": "CEREMONY_AND_CHEAP_PATHS",
+      "status": "PASS",
+      "evidence": "Ten artefact categories plus per-property consumers, prerequisites, cheaper alternatives and retirement conditions."
+    },
+    {
+      "gate": "EVIDENCE_AND_TRANSFER",
+      "status": "PASS_WITH_DISCLOSED_LIMITS",
+      "evidence": "Exact source records, claim locators, seven separate per-property evidence partitions, study design details and dependence register."
+    },
+    {
+      "gate": "TENSIONS_AND_COMPOSITION",
+      "status": "PASS_ANALYTICAL_NOT_EMPIRICAL_VALIDATION",
+      "evidence": "Nine costed tensions with discriminators,67 guarded relations,five alternatives,four revision boundaries and fourteen labelled tests."
+    },
+    {
+      "gate": "ALL_INTAKES",
+      "status": "PASS",
+      "evidence": "Audit includes full58conditional dossiers and15other dispositions; public intake distinguishes facts from analysis; synthesis exports all73global keys and unanswered sibling questions."
+    },
+    {
+      "gate": "BOUNDARY_AND_INDEPENDENCE",
+      "status": "PASS",
+      "evidence": "No requester repository or sibling corpus was used; no target-specific adoption finding or mutation authority is claimed."
+    }
+  ],
+  "automated_consistency_verification": {
+    "lineage_id": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+    "revision": "EBPM-R1-2026-09-06",
+    "research_cutoff": "2026-09-06",
+    "checks": [
+      {
+        "check": "exact eight payloads present",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "UTF8 EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "ledger required top-level fields",
+        "status": "PASS",
+        "detail": "set()"
+      },
+      {
+        "check": "ledger lineage/cutoff/revision",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "sources required top-level fields",
+        "status": "PASS",
+        "detail": "set()"
+      },
+      {
+        "check": "sources lineage/cutoff/revision",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "composition required top-level fields",
+        "status": "PASS",
+        "detail": "set()"
+      },
+      {
+        "check": "composition lineage/cutoff/revision",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "coverage required top-level fields",
+        "status": "PASS",
+        "detail": "set()"
+      },
+      {
+        "check": "coverage lineage/cutoff/revision",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "stable unique full candidate sequence",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "48 unique sources",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "67 unique composition relations",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "all 73 nodes represented",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "22 criticisms and 9 tensions",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "all mandatory property fields",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "all 730 domain-profile fields substantive",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "all per-property ceremony alternatives/retirement",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "seven distinct evidence partitions each",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "all dispositions valid",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "all candidates examined",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "disposition counts reconcile",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "examination counts reconcile",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "population totals reconcile",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "58 conditional /14 nonretained /1 unresolved",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "unresolved exact candidate",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "global keys unique and exact",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "source fields and access limits",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "claim locator IDs unique",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "source locators correctly namespaced",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "sources without property links explained",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "complete nonempty relation records",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "relations have guards and epistemic statuses",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "all properties composition-linked",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "composition bidirectional link integrity",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "all structured source/property/relation/locator/tension/search references resolve",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "ten mandatory families exact",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "mandatory families examined with search/criticism/recency",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "zero uncompleted burdens",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "all candidates mapped to a family",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "ten developed domain models",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "five guarded alternatives",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "four revision boundaries",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "all 73 complete exports",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "14 tests provenance separated",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "tension costs and discriminators explicit",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "20 genealogy nodes and21classified edges",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "all17report sections in required order",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "report complete ID inventory",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "report freeze identity",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "audit complete ID inventory",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "audit freeze identity",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "synthesis complete ID inventory",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "synthesis freeze identity",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "audit all58positive and15other dossiers",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "audit neutral outcomes available",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "public no requester target name",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "public factual claims/limits/outline",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "intakes independence flags",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "no false fulltext claims for known record-only sources",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json no wrong lineage/prefix/template residue",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "no unknown IDs in prose",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "relative document links resolve",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "document JSON pointers resolve",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "check": "sourceS010exclusion corrected",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "S010printed/PDFlocatorcorrect",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "check": "S016printed/PDFlocatorcorrect",
+        "status": "PASS",
+        "detail": ""
+      }
+    ],
+    "total_checks": 81,
+    "passed": 81,
+    "failed": 0,
+    "qualification": "Structural and consistency validation does not prove source truth or field effectiveness. Substantive judgements and access limits are documented in the payloads."
+  },
+  "normalisation_and_correction_log": {
+    "syntax_only_normalisation": "JSON serialised as UTF-8 with explicit fields and deterministic indentation; Markdown generated from the same frozen records. No source quotes, source binaries or private logs are bundled.",
+    "pre_freeze_corrections": [
+      "Corrected S018 first author to Maksym Avramenko, S019 final author to Yuval David and S025 first author to Nesi Outmazgin from publisher records.",
+      "Verified S016 Table IV on zero-based PDF page 9 and practical objections on page 10; corrected page locators.",
+      "Kept S040 publication 3 April 2026 distinct from its 2025 received date.",
+      "Retained 2025 low-code deposit date separately from an unestablished experiment date.",
+      "Explicitly separated S018 four real-life accuracy datasets from its three uncertainty datasets and retained contrary results.",
+      "No post-freeze substantive change is authorised under this revision without regeneration and refreshed hashes.",
+      "Final direct recheck of S010 preserved 42 collected versus 34 non-excluded models for H2, corrected the exclusion explanation and the PDF/printed-page locator; the null result was not treated as equivalence.",
+      "Qualified office-information-system ancestry as retrospective S004 evidence; made both poles of each tension’s costs explicit.",
+      "Consistency validation added the already-examined cross-cutting EBPM-068 to B6/B9 coverage/model links; no candidate or disposition changed. The validator was corrected to accept the schema-permitted nested hypothesis/causal-limit profile field and check both substantive leaves."
+    ],
+    "post_freeze_judgement_changes": "NONE. Any later substantive correction requires a new revision and refreshed manifest/archive hashes."
+  },
+  "payload_inventory": [
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "bytes": 322958,
+      "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b"
+    },
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "bytes": 1072094,
+      "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3"
+    },
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+      "bytes": 132848,
+      "sha256": "268c84bb082ccafb2ca4f99cade4099e5b8d48214dc9cc9820f26bd441b00440"
+    },
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+      "bytes": 508989,
+      "sha256": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544"
+    },
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 22872,
+      "sha256": "b65e032f83fa7fa313d73b73e1da3e584e3f0aeac9cee31e4f565a507d67a7e1"
+    },
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "bytes": 286670,
+      "sha256": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b"
+    },
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "bytes": 428485,
+      "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281"
+    },
+    {
+      "relative_filename": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "bytes": 35897,
+      "sha256": "ab80dfb7efe31880c9ddc5439dce3ed63c10bfef41e701bc74958d425c0c9c20"
+    }
+  ],
+  "inventory_policy": "The inventory covers these eight payloads only, not this manifest or the enclosing ZIP. The external receipt records the final ZIP byte count and SHA-256 after close/reopen verification.",
+  "payload_count": 8,
+  "archive_expected_member_count": 9,
+  "external_research_ready_for_later_synthesis_and_crosswalk": true,
+  "readiness_meaning": "Complete bounded independent research and a verified handoff, not downstream acceptance or operational authorisation."
+}

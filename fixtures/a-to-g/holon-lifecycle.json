@@ -1,0 +1,71 @@
+{
+  "schema": "implementaudit.native-a-g.fixture.v1",
+  "slice": "D_VISIBLE_HOLON_LIFECYCLE",
+  "authority_ceiling": "PREPARATION_PRODUCT_EVIDENCE_ONLY",
+  "canonical_credit_granted": false,
+  "native_consumer_required": true,
+  "purpose": "Require visible, identity-bound specialist execution and deny credit for ceremonial or stale lifecycle evidence.",
+  "cases": [
+    {
+      "id": "D01_ALL_FOUR_HOLONS_REQUIRE_VISIBLE_LIFECYCLE",
+      "coverage": "positive",
+      "input": {
+        "holons": ["audit-state", "audit-assess", "audit-implement", "audit-andon"]
+      },
+      "expected": {
+        "required_sequence": ["OPEN", "LOAD", "USE", "RETURN", "DISPOSE", "RECONCILE"],
+        "identity_bound": true
+      }
+    },
+    {
+      "id": "D02_CEREMONIAL_SKILL_READ_GETS_ZERO_CREDIT",
+      "coverage": "negative",
+      "input": {
+        "skill_read": true,
+        "cognition_visible": false,
+        "return_present": false
+      },
+      "expected": {
+        "child_credit": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "D03_MISMATCHED_INSTALLED_IDENTITY_FAILS",
+      "coverage": "negative",
+      "input": {
+        "requested": "audit-assess@digest-a",
+        "loaded": "audit-assess@digest-b"
+      },
+      "expected": {
+        "accepted": false,
+        "decision": "IDENTITY_MISMATCH"
+      }
+    },
+    {
+      "id": "D04_NOT_REQUIRED_ROUTES_NO_CHILD",
+      "coverage": "boundary",
+      "input": {
+        "route_decision": "NOT_REQUIRED"
+      },
+      "expected": {
+        "children_opened": 0,
+        "ceremonial_route": false
+      }
+    },
+    {
+      "id": "D05_PRECOMPACTION_RETURN_REQUIRES_REBIND",
+      "coverage": "boundary",
+      "input": {
+        "return_epoch": "G100",
+        "current_epoch": "G101",
+        "reconciled_before_boundary": false
+      },
+      "expected": {
+        "status": "HISTORICAL_BUFFERED",
+        "fresh_rebind_required": true,
+        "automatic_credit": false
+      }
+    }
+  ]
+}

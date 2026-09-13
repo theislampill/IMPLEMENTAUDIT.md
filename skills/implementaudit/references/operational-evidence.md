@@ -1,0 +1,459 @@
+# Operational Evidence Carrier
+
+This reference owns the strict carrier boundary for R0038. Its C02 collector is
+limited to read-only repository, Git, file, package-declaration and registry-file
+facts plus positive Python-AST relations. It does not collect later-cell native
+run/evidence/release owners, query, export, publish, schedule, mutate, refresh,
+watch, serve a UI, call a model, or establish authority. Native repository,
+Git, planning, controller, execution, evidence, failure, package, install, host,
+CI, release, external and public owners remain authoritative.
+
+## Canonical record
+
+`operational-evidence-schema.json` defines
+`implementaudit-operational-evidence-v1`. Every record preserves exactly one of
+the frozen `CODE`, `OWNERSHIP`, `EXECUTION`, `EVIDENCE`, `FAILURE`, or `RELEASE`
+families and binds a native owner, source identity, source layer, evidence
+layer, and primary currentness state. The loader rejects a source/evidence
+layer mismatch; a relation may connect entities from different native layers,
+but its own evidence leg cannot silently borrow another layer's authority.
+
+The primary fact states are `CURRENT`, `UNKNOWN`, `UNSUPPORTED`, `STALE`,
+`UNVERIFIED`, `CONTRADICTORY`, `PARSER_ERROR`, and `INVALID`. A `CURRENT` record
+cannot retain an invalidator. A `STALE` record must name at least one
+invalidator. `COMPLETE` requires one required `CURRENT` entity in every frozen
+family. Non-complete aggregates name their affected families explicitly, so
+unsupported, missing, or invalid input never degrades to a silent empty result.
+
+## Byte contracts
+
+`canonical_json_v1` is UTF-8 without BOM, recursively sorted object keys,
+declared array order, no insignificant whitespace, strict JSON scalars, and no
+implicit Unicode or line-ending rewrite inside ordinary strings.
+
+For immutable event identity shared with R0039, strict JSON scalars exclude
+floats and limit integers to signed 64-bit values. The carrier therefore emits
+the same no-terminal-LF `canonical_json_v1` bytes for an admissible value; only
+the typed source-locator path contract applies NFC normalization.
+
+Source text payloads have one separate, explicit normalization before canonical
+JSON serialization:
+
+1. replace CRLF with LF;
+2. replace remaining CR with LF;
+3. remove every trailing LF;
+4. perform no other whitespace or Unicode normalization;
+5. encode as UTF-8 without BOM and verify `payload_sha256` over those bytes.
+
+This is the trailing-LF-removed convention used by the R0038 live-object
+re-anchor. A one-trailing-LF digest is not a competing content fact and is not
+accepted as the canonical payload digest.
+
+The packaged carrier is `scripts/operational-evidence.py`. `validate` returns a
+typed validation receipt and `canonicalize` returns the canonical record bytes.
+Unsupported schema versions and invalid inputs return one machine-readable
+`implementaudit-operational-evidence-error-v1` object on standard error with a
+stable error code; they never return an empty model. C01 does not register this
+carrier as a shipped helper or public route. That later admission remains C11's
+owner boundary.
+
+## Explicit invocation and receiving boundary
+
+`scripts/operational-evidence.py` is a **standalone-diagnostic** entrypoint
+under this reference's R0038 owner. It has no automatic or default invocation:
+the governor or operator selects a concrete evidence question, binds the
+verified interpreter, helper/schema bytes and input scope, then chooses an
+existing mode below. Merely loading this reference executes nothing. The
+R001E full executable-member census remains the package-wide classification
+owner; a reference link or a source fixture is not its installed-runtime proof.
+
+| Existing mode | Trigger and receiver | Evidence and effect boundary |
+|---|---|---|
+| `validate INPUT` | Explicit request to inspect one existing canonical record | Read that file and the helper's schema; return the typed structural-validation receipt |
+| `canonicalize INPUT` | Explicit request for canonical bytes of that same record | Read input/schema; return bytes on stdout; no implicit destination or native discovery |
+| `diff BEFORE AFTER` | Compare two explicitly selected immutable snapshot payloads | Read both payloads; preserve additions, removals and changed facts; no `CURRENT` selection |
+| `status` | Inspect an already selected snapshot in an admitted native repository context | Reacquire native currentness and `CURRENT`; missing/stale custody refuses rather than rebuilding |
+| `query --family FAMILY --max-rows N --max-bytes N [--current-only]` | Answer a bounded family question about that selected snapshot | Same native receiver; preserve incomplete/nondecision state and explicit row/byte bounds |
+| `why RECORD_ID` | Inspect retained explanation for a named record in that snapshot | Same native receiver; reported lineage is not a new causal conclusion |
+| `export --destination DEST --owned-root OWNED [--format FORMAT] [--max-rows N --max-bytes N]` | Explicit request for a new export at a declared task-owned destination | Same native receiver plus separately scoped file effect; no overwrite, fallback, authority change or implicit refresh |
+
+The export formats are `json`, `table` and `graph`; the existing export rules
+below define their bounds. For the two record modes, bind
+`IMPLEMENTAUDIT_SKILL_DIR` to the selected
+governor directory and `RECORD` to the chosen input file. `python` below denotes
+the verified interpreter, not a fallback selected after a failed prerequisite.
+
+<!-- operational-evidence-explicit-record-commands:start -->
+```bash
+python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" validate "$RECORD"
+python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" canonicalize "$RECORD"
+```
+<!-- operational-evidence-explicit-record-commands:end -->
+
+Structural validation is not currentness, truth, admission, readiness,
+acceptance, release or closure. An optional diagnostic that was not requested
+creates no missing automatic-enforcement claim. An unsupported native context
+does not fall back to another repository, run or installed home.
+
+There is no `build` or `refresh` CLI command. The existing internal
+`publish_current_snapshot()` producer is the separate C06 output writer:
+its selected owner and effect authority must be bound before a library call.
+The producer calls `_collect_snapshot_inputs_v1()`, which invokes the existing
+repository, evidence/failure and release collectors, while the producer and
+the current snapshot reader call `collect_native_current()`. These library relationships
+do not automatically run from a reference load or a record validation.
+`query_history_v1()` and `run_external_readonly()` also remain their documented
+library interfaces; a CLI name, hidden refresh or new external authority must
+not be inferred for either. Native-context, snapshot publication, installed
+invocation and full R001E census qualification retain their own receiving gates.
+
+## Bounded repository and static collection
+
+`collect_repository` uses fixed, read-only local Git commands to bind the exact
+commit, tree, worktree state and tracked input-file-set digest. Every call
+disables system/global configuration, environment-supplied helpers, repository
+fsmonitor, hooks, credential/SSH helpers, external diff and ext transports; it
+never executes target-configured Git helpers. It hashes working-tree bytes
+without following tracked symlinks. An exact pre/post fence compares commit,
+tree, tracked-path population, status bytes, file type/length and every file or
+symlink-target hash; any mid-scan change is a typed refusal and no mixed
+`CURRENT` snapshot is returned. The same exact fence runs again after bounded
+AST/package processing, immediately before facts can be returned, so a change
+after the second file read is also refused. The complete result is sorted,
+canonicalized and decoded into its return object before a third and truly final
+physical fence. After that bound observation the prebuilt object is returned
+directly: no later sorting, digest, parsing, filesystem, Git or callback-capable
+work occurs. `CURRENT` is stable at that observation boundary; a later physical
+change is an explicit invalidator, not a continuous-state guarantee. Every
+readable tracked file stays an exact file fact; an unreadable or missing tracked
+path produces a non-empty `STALE` observation and degrades the file capability
+to `PARTIAL`.
+Known package JSON contributes only present, positively declared shared roots.
+The shell validation registry remains an exact file/hash fact; C02 does not
+parse shell or infer registry entries.
+
+Python collection uses the standard-library AST only. It never imports a target
+module. A resolved local static import may produce a positive import and
+reverse-dependent fact bound to the Python implementation/version, stdlib AST
+module digest, fixed invocation/output schema, parser, input path and input
+digest.
+Computed imports stay `UNKNOWN`; syntax/UTF-8 failures remain non-empty
+`PARSER_ERROR` observations; imports outside the declared local module map stay
+typed `UNSUPPORTED` observations rather than missing edges; unsupported
+languages remain file facts. Source edges and cycles never become work
+dependencies, work-DAG cycles, `READY`, `JOIN`, deletion or
+obligation-omission decisions.
+
+`normalize_static_receipt` accepts only the versioned, data-only, offline
+`implementaudit-static-receipt-v1` envelope. It binds collector/version/package,
+invocation/output schema, parser/config/trust, target commit/tree/worktree,
+input-set, scope completeness, diagnostics, polarity and currentness into every
+normalized fact together with the native repository owner and a fixed
+read-only structural-fact authority ceiling. Target-code execution,
+auto-install and network modes are refused. Absence facts require a complete
+supported scope; physical changes or named invalidators invalidate `CURRENT`,
+and `STALE` must name its invalidator. Unsupported, missing-tool, crash/timeout
+and parser-error outcomes synthesize typed non-empty observations.
+C02 has no independent/native qualification owner or trust anchor. Therefore an
+external receipt can never obtain `CURRENT` from a caller-issued qualification,
+even when its caller-generated digest and positive/negative/unsupported/
+parser-error/repeatability results are internally consistent. Every requested
+external `CURRENT` is refused as `OE_STATIC_QUALIFICATION_REQUIRED` until a
+separately governed later owner exists. Non-current external receipts require
+qualification absence; a caller-supplied qualification is untrusted data, not
+authority, and cannot be promoted by C02. A non-current envelope also demotes
+any caller-declared `CURRENT` fact to the envelope's non-current state.
+`normalize_static_receipts` requires one exact target snapshot, retains
+overlapping provenance separately and marks opposing edge/absence claims
+`CONTRADICTORY` instead of merging them.
+
+C02 refuses every caller-supplied work-node mapping and never creates one.
+Governed mapping envelopes and their native-owner joins belong to their later
+owner; no current C02 output may be consumed directly by R0035. The normalizer
+never invokes R0035. The APIs are C02 substrate, not CLI commands, default
+preflight, helper registration, package admission, or a public route; those
+remain in their assigned downstream cells.
+
+## Native-current controller facts
+
+`collect_native_current()` is the C03 no-argument, read-only boundary. It
+derives the repository, bound run root, sole controller, claim and fixed
+`STATE.md`, `ROADMAP.md` and `WORK_GRAPH.json` paths from native Git/controller
+custody. It accepts no caller controller, claim, run, epoch, receipt, route,
+graph, source root, snapshot root or alternate path. The returned
+`implementaudit-native-current-facts-v1` record has the
+`READ_ONLY_NATIVE_CURRENT_FACT` ceiling and an empty `establishes` population.
+
+The reader requires one exact canonical current generation pointer/receipt v3
+join plus the permanent migration marker's immutable genesis join. It binds
+both joins to the same controller/claim/run, validates the marker's original
+generation pointer and receipt independently, and binds the current source
+epoch, pointer and manifest identities, hot STATE/ROADMAP digests,
+`WORK_GRAPH.json` path/digest, next action and predecessor receipt. It invokes
+the canonical read-only R0011 currentness validator from a private byte-bound
+materialization. The child loads both already-read `claim-run.sh` and
+`validate-run-root.sh` payloads, verifies their exact SHA-256 identities, and
+executes only those loaded bytes; the completed child reports the same exact
+identity pair. Its inherited environment is an exact platform/Git allowlist,
+with Python safe-path/user-site hardening and no inherited Python loader or
+module override. The mutable source paths are never invoked after observation,
+and both source identities stay in the final file fence. Cleanup removes only
+the two exact materialized members and their directory; refusal is a typed
+fail-closed result that names the exact residue and requires manual
+reconciliation, never blind deletion. R0011 validates every typed field of
+the immediate v2/v3 predecessor and its exact `G(n-1)` relation, and checks the
+bounded structural `G(n-2)@OID` token without reading older history.
+The current R0033 route ref must contain exact canonical record bytes and agree
+with the owner-native pure R0033 predicate over native controller, claim, run,
+continuity, retained host-dependency identity, boundary, next-action, scope,
+action, evidence, observed current inputs, package, child-source, expiry,
+classification, history and lifecycle facts. The pure predicate independently
+reacquires current controller/continuity custody and finally fences the exact
+controller-ref/route-ref identity pair. It performs no live R003A store lookup,
+attributes no current host event or effect, and emits no host/session identity;
+a tombstoned authoring session therefore does not invalidate an otherwise
+current read-only route fact. A self-hash alone does not make a route record current. Missing,
+duplicate, malformed, unknown, contradictory, stale or foreign facts are typed
+refusals; a legacy v1/v2 receipt is not promoted to the C03 fact record.
+
+ACTIVE, READY, blocked summaries and declared writer/resource holds come only
+from the canonical HC-H4 `compile_frontier_projection` implementation. The
+reader executes the already-read compiler bytes, reports their digest and
+fences the same path after execution and again before return; path re-import
+cannot substitute different projection bytes. Adjacent STATE narrative cannot
+override that projection. STATE contributes only its bounded current epoch,
+explicit open-Andon population, active instruction rows and exact next action;
+the pointer and receipt must bind the same hot bytes and values. The physical
+file/ref fence includes the predecessor and route refs plus the compiler and
+both R0011/R0033 validator-source identities. After that fence, the reader runs
+the complete canonical R0033 semantic predicate again as its final target-
+sensitive observation and requires the same route identity. That owner recheck,
+not a locally enumerated subset, re-observes request inputs, executing-package
+sources, audit-state child source, the whole-worktree population and relevant
+Git metadata, reacquires current controller custody and ends with the exact
+route/controller ref-pair fence before the prebuilt deterministic fact object
+is returned. It
+does not invoke lifecycle helpers, mint or change refs, repair state, set
+READY/JOIN, create a snapshot or output root, query history, use network, or
+inspect an ActiveGraph mirror. C06 remains the sole later snapshot
+compiler/publication owner.
+
+## Immutable current snapshot publication
+
+`publish_current_snapshot()` is the C06 no-argument producer. It accepts no
+repository, run root, output root, controller, claim, branch, pointer, receipt,
+epoch, snapshot ID, manifest, locator or digest. The carrier derives the sole
+controller and bound run from `collect_native_current()`, then derives the only
+effect root as
+`<bound-run-root>/operational-evidence/snapshots`. Its receipt is an R0038
+output-root observation with an empty `establishes` population; it creates no
+controller, route, currentness, lifecycle, release or closure authority.
+
+One writer lock in the carrier's native Git common custody is held before the
+first native-current observation and remains held through final `CURRENT` and
+immutable-member readback. While holding it, C06 calls the accepted C02-C05
+collectors. C02 repository collection is required. A typed absent C04 or C05
+owner artifact becomes an explicit `UNKNOWN` collector row and a `DEGRADED`
+missing/omitted-state entry rather than a fabricated empty or current fact.
+Malformed, stale-custody or contradictory owner input remains invalid and
+refuses publication rather than being laundered through that absence path.
+Repository diagnostics and every C05 candidate invalidator are also retained
+in that census. An invalid required native/repository input refuses publication
+before an output directory is created; `INVALID` never advances `CURRENT`.
+
+The compiler binds exact compiler and schema bytes, the portable native-current
+semantic record, controller/claim/run/source epoch/current pointer, hot STATE,
+ROADMAP and WORK_GRAPH digests, canonical R0033 route identity and every
+collector result/digest in
+`implementaudit-operational-snapshot-input.v1`. Absolute checkout, Git-common,
+run-root, temporary-directory, clock and process spellings are excluded from
+semantic bytes; their native custody is preserved by the bound controller,
+claim, run and current tuple. Immediately before any output effect the carrier
+rereads compiler/schema, reacquires the complete C03 result, reruns every
+collector and requires exact equality. It separately requires the old
+`CURRENT` bytes to remain unchanged through that fence.
+
+The snapshot ID is exactly
+`iasnap-v1-<sha256(canonical input-manifest bytes)>`. A snapshot directory
+contains canonical no-terminal-LF `input-manifest.json`, `snapshot.json` and
+`manifest.json`. The first two carry the deterministic input and full
+complete-or-degraded projection. The R39-frozen owner manifest has exactly:
+
+```text
+schema_version controller_id claim_id run_id source_epoch
+source_pointer_oid source_evidence_entries
+```
+
+Each unique source entry is
+`iasrc-v1-r0038-snapshot-<snapshot-digest>[-label]`, binds the exact
+`snapshot.json` digest and uses the fixed run-root-relative locator beneath the
+same immutable snapshot directory. An existing same-identity directory is
+reused only after exact population and byte readback; it is never overwritten.
+A create-once temporary directory is verified before rename. Private temporary
+cleanup removes only the three exact task-owned members and refuses unknown or
+link/reparse residue.
+
+`CURRENT` is canonical no-terminal-LF JSON with exactly `schema_version`,
+`snapshot_id`, `manifest_sha256` and `source_pointer_oid`. Before replacement,
+C06 rechecks the prior selection. It writes a durable temporary sibling and
+uses atomic replacement last. Post-selection readback verifies `CURRENT`, its
+manifest, the complete source-entry population and every selected source
+digest. A failure before replacement leaves the old complete selection or no
+selection; an interruption after replacement is reported as
+`OE_SNAPSHOT_PUBLICATION_UNKNOWN_EFFECT`, and the new selection must still be
+independently read back before retry. An unselected immutable directory is
+residue, not discovery authority: readers follow only valid canonical
+`CURRENT`. Stored snapshot identities remain immutable and can be reread after
+a later selection without creating new R0039 archives.
+
+## Deterministic read-only status, query and why
+
+`status`, `query` and `why` are C07 readers. They accept no repository, run
+root, snapshot root, controller, claim, pointer, manifest locator or other
+caller-supplied authority path. The CLI derives the bound run through the C03
+native-current reader, follows only the validated snapshot `CURRENT`, and
+returns canonical JSON under the `READ_ONLY_OBSERVATION` authority ceiling with
+an empty `establishes` population. These commands do not publish a snapshot,
+change `CURRENT`, mint route/currentness/lifecycle authority, inspect an
+ActiveGraph mirror, use network or invoke a model.
+
+`evaluate_currentness()` reports a separate state census for each of the six
+frozen families and retains the snapshot's explicit missing-or-omitted-state
+population. `query_family()` orders records by stable logical identity, retains
+native owner/source identity and exact invalidators, and may filter to
+`CURRENT` only when it also reports the omitted-state census. Non-current facts
+are observations, never normalized to success. `explain_history_why_v1()`
+follows only retained relation endpoints in deterministic order, retains
+declared contrary evidence, reports a missing identity as `UNKNOWN`, and
+refuses a reachable cycle rather than inventing a cause.
+
+`query_history_v1()` accepts at least one non-empty normalized filter plus
+finite positive row and byte bounds. Its history authority is only the verified
+current R0027 generation manifest and that manifest's digest-linked predecessor
+chain. Manifest metadata is used to avoid hydrating unrelated immutable
+segments; every referenced segment is checked against its digest, canonical
+event identity, generation, controller and run before it is returned. The exact
+HC-H2B `implementaudit.history-query-request.v1` form is accepted only for one
+canonical `iaevt-v1-<64-lowercase-hex>` identity and is normalized to an exact
+event-ID filter. Executing that read does not satisfy, clear or promote the
+R0033 route obligation.
+
+Rows use canonical sequence/event order. Results state the requested position,
+observed coverage, row and byte bounds, truncation and next cursor. Cursor
+payloads bind query contract, current generation, current manifest, normalized
+filter digest and exact requested position. Their SHA-256 suffix is an integrity
+checksum, not authentication. A cursor-selected page is always nondecision; only
+an untruncated first page from filter start is decision-usable. Any row- or
+byte-bound overflow returns `OE_QUERY_REQUIRES_BOUNDED_REVIEW` and cannot support
+a negative, absence, closure or route-satisfaction conclusion. Validation
+registration, helper reachability and package admission remain C11 work.
+
+## Canonical snapshot diff and explicit export
+
+`diff_snapshots()` compares two already materialized immutable payloads without
+selecting or changing `CURRENT`. It validates the exact payload schema, snapshot
+identity, six-family population, input-manifest digest, state vocabulary and
+unique record identities before comparison. Records are compared by stable
+`record:<id>` identity, never source-array order. Additions, removals and
+before/after changes are separate canonical arrays; aggregate, family,
+missing-or-omitted-state and input-manifest changes remain explicit. The
+receipt names both snapshot and manifest identities and has the
+`READ_ONLY_OBSERVATION` authority ceiling with an empty `establishes` array.
+
+`export_snapshot()` writes only a new file beneath a caller-explicit absolute
+owned root outside repository and run authority. The owned root and every
+destination parent must already be regular, non-link directories; cwd-relative,
+outside-root, reparse/alias and existing destinations refuse before mutation.
+Creation uses exclusive/no-follow semantics and verifies the new regular file.
+No fallback, overwrite, newest-run discovery or derived destination exists.
+
+Canonical JSON export is exactly `canonical_json_v1(snapshot)` and cannot be
+truncated. `table` and `graph` are inert canonical-JSON projections rather than
+executable markup or graph directives. They require finite positive row and
+byte bounds, order non-current facts before `CURRENT`, and always expose the
+complete state census, included/omitted counts, omitted-state census and
+missing-or-omitted-state population. A truncated projection reports
+`OE_EXPORT_REQUIRES_BOUNDED_REVIEW` and is nondecision. Diff/export uses only
+the Python standard library; it invokes no target content, subprocess, network,
+model, plugin, sidecar, database, index or ActiveGraph surface.
+
+## Canonical evidence and failure collection
+
+`collect_evidence_failure` is the C04 read-only boundary. It accepts one fixed,
+regular, bounded canonical run artifact named `operational-evidence.json`; it
+does not scan or interpret STATE, ROADMAP, transcripts, reports, logs or nearby
+prose. The strict `implementaudit-run-evidence-v1` input binds the run/artifact
+identity and exact artifact SHA-256, then retains separate Claim, Criterion,
+Evidence, Check and Review records across `ATTEMPT`, `RECEIPT`, `EFFECT`,
+`RECOVERY` and `CLOSURE` legs. Receipt is distinct from attempt; either may be a
+proxy, but neither can become effect, recovery or closure. Producer/check
+success, a green proxy and a nonverdict review remain observations in their
+declared legs; none establishes effect, recovery, PASS or closure.
+
+The same canonical artifact retains Andon, Residual, Containment,
+Countermeasure, Rerun and Recovery records as immutable FAILURE lineage. When a
+non-proxy RED exists, the collector validates and preserves the earliest RED
+and a declared non-proxy RED weakest leg. A population with no RED uses JSON
+`null` for `first_red_id` and returns `first_red_state: NOT_APPLICABLE`; it does
+not fabricate a RED and may retain a non-proxy green weakest observation.
+Contrary evidence, open residual identities, cause confidence and direct
+recovery evidence remain exact. Any FAILURE row that declares
+`recovery_state: OBSERVED`, regardless of its record type, requires current,
+non-proxy GREEN `RECOVERY` evidence. Recovery does not erase the Andon, first
+RED, contrary evidence or residual. An unknown cause remains `UNKNOWN`; C04
+does not guess it or create finite retry, strike-count or stopping semantics.
+
+Every collected row has the `READ_ONLY_NATIVE_ARTIFACT_FACT` authority ceiling,
+and the collection's `establishes` population is always empty. The collector
+never edits evidence, infers closure, invokes a model, executes target content,
+uses network or reads a noncanonical fallback. It builds canonical output before
+checking the final path type and performing a byte-for-byte source reread as the
+last target-sensitive operation. It directly returns the prebuilt object when
+the bytes remain exact; a changed artifact is refused rather than returned as
+mixed evidence. Later snapshot compilation/query/publication and native closure
+decisions remain in their assigned downstream owners.
+
+## Local and frozen external RELEASE collection
+
+`collect_release` is the C05 read-only RELEASE boundary. It reuses the hardened
+local repository collector for exact commit, tree and worktree observations,
+then reads only two fixed tracked owner artifacts: `release-local.json` and
+`external-capture.json`. The local manifest binds generated artifact, package,
+install and host records to exact working-tree paths and SHA-256 bytes. The
+frozen capture retains separate PullRequest, Check, Merge, Tag, Release, Asset
+and PublicSurface records with stable IDs, commit identity, update time, ETag,
+payload digest, native owner and currentness. Every emitted node remains a
+`READ_ONLY_NATIVE_OBSERVATION`; the collection's `establishes` population is
+empty.
+
+Authentication absence, rate exhaustion, incomplete pagination, object drift
+and capture expiry remain explicit invalidators. They conservatively demote the
+external population to `UNVERIFIED`, `UNKNOWN` or `STALE`; they never become an
+empty or successful external layer. Calendar-valid timestamps must satisfy
+`captured_at < expires_at` and `evaluated_at >= captured_at`; equality at the
+expiry boundary is stale. Native object currentness and capture-boundary
+currentness are retained separately and composed without deleting either set
+of invalidators. Missing required RELEASE types are represented as typed
+`UNKNOWN` omissions and `MISSING_RELEASE_LAYER:<type>` candidate invalidators,
+including missing Asset or Install facts. A public predecessor whose commit
+differs from local HEAD keeps the candidate `UNVERIFIED`. Even an exact match
+requires later native candidate qualification and cannot establish merge,
+release, publication, PASS or closure in C05. Local/frozen artifacts are
+fingerprinted through the repository collector before and after compilation;
+changed local bytes or a mixed scan are refused rather than normalized away.
+
+`run_external_readonly` is the explicit refresh boundary, not a frozen query.
+It accepts one exact data-only request with no method field, maps a small fixed
+operation/path allowlist to one GitHub API `GET`, supplies fixed accept/version
+headers and uses its internal concrete GET-only client. It exposes no POST,
+PUT, PATCH, DELETE, GraphQL, shell, credential, pagination loop, retry or
+file-write verb. A caller-injected transport is explicitly untrusted: it can
+exercise response parsing but cannot substantiate GET/no-write or `CURRENT`.
+Case-insensitive response-header collisions and negative rate-remaining values
+are refused. The returned in-memory capture records status, ETag, response
+digest, rate, pagination, auth declaration, drift, expiry and semantic digest
+under the `READ_ONLY_EXTERNAL_CAPTURE` ceiling and an empty `establishes`
+population.
+The frozen collector never invokes this runner, a model or network. Refresh
+scheduling, cache publication, query, package admission, registry/helper
+routing and public release actions remain with C06-C14 owners.

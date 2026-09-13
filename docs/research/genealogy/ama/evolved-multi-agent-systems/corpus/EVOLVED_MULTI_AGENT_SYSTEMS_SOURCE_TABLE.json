@@ -1,0 +1,1998 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_MULTI_AGENT_SYSTEMS",
+  "research_cutoff": "2026-09-06",
+  "source_count": 56,
+  "sources": [
+    {
+      "SOURCE_ID": "EMAS-S001",
+      "TITLE": "Intelligent Agents: Theory and Practice",
+      "AUTHORS_OR_ORGANISATION": "Michael Wooldridge; Nicholas R. Jennings",
+      "DATE": "1995-06",
+      "VERSION_OR_EDITION": "Knowledge Engineering Review 10(2); author HTML",
+      "URL_OR_DOI": "https://www.cs.ox.ac.uk/people/michael.wooldridge/pubs/ker95/ker95-html.html",
+      "DOI": "10.1017/S0269888900008122",
+      "SOURCE_CLASS": "FOUNDATIONAL_REVIEW",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Opening; weak and strong notions of agency; Social aspects of agency subsections",
+          "CLAIM": "Agency has plural definitions; autonomy and interaction need not entail human-like mental attributes."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-002",
+        "EMAS-005"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Historical conceptual organisation, not an empirical test of the superiority of agent decomposition."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "DEPENDENCE_GROUP": "AGENCY_1995",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S002",
+      "TITLE": "International Foundation for Autonomous Agents and Multiagent Systems: About",
+      "AUTHORS_OR_ORGANISATION": "IFAAMAS",
+      "DATE": "undated; accessed 2026-09-06",
+      "VERSION_OR_EDITION": "Live community page",
+      "URL_OR_DOI": "https://ifaamas.org/",
+      "DOI": null,
+      "SOURCE_CLASS": "ISSUING_BODY_HISTORY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_PAGE",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "About IFAAMAS / AAMAS history",
+          "CLAIM": "AAMAS began in 2002 through the merger of AGENTS, ICMAS and ATAL."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-070"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Institutional provenance establishes community history, not methodological consensus."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "IFAAMAS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S003",
+      "TITLE": "Proceedings of the 25th International Conference on Autonomous Agents and Multiagent Systems",
+      "AUTHORS_OR_ORGANISATION": "Christopher Amato; Louise Dennis; Viviana Mascardi; John Thangarajah (editors); IFAAMAS",
+      "DATE": "2026-05-25/2026-05-29",
+      "VERSION_OR_EDITION": "AAMAS 2026; ISBN 979-8-4007-2317-9",
+      "URL_OR_DOI": "https://aamas.csc.liv.ac.uk/Proceedings/aamas2026/",
+      "DOI": null,
+      "SOURCE_CLASS": "PUBLISHER_PROCEEDINGS_INDEX",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "INDEX_AND_CONTENTS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Publisher index; complete contents page",
+          "CLAIM": "Proceedings contain distinct research, extended-abstract and other tracks; selected 2026 works were subsequently opened individually."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [],
+      "EVIDENCE_LIMITS": [
+        "Index is discovery and bibliographic evidence only. Unread papers are not substantive evidence."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY"
+      ],
+      "DEPENDENCE_GROUP": "IFAAMAS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S004",
+      "TITLE": "The Contract Net Protocol: High-Level Communication and Control in a Distributed Problem Solver",
+      "AUTHORS_OR_ORGANISATION": "Reid G. Smith",
+      "DATE": "1980-12",
+      "VERSION_OR_EDITION": "IEEE Transactions on Computers C-29(12), 1104–1113; author copy",
+      "URL_OR_DOI": "https://www.reidgsmith.com/The_Contract_Net_Protocol_Dec-1980.pdf",
+      "DOI": "10.1109/TC.1980.1675516",
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "pp. 1104–1113: introduction, protocol and task-connection discussion; first-page image",
+          "CLAIM": "Task announcement, bidding and award distribute task connection under specified lower-level communication assumptions."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-005",
+        "EMAS-006",
+        "EMAS-015",
+        "EMAS-016",
+        "EMAS-022"
+      ],
+      "EVIDENCE_LIMITS": [
+        "A contract award is not an empirical certificate of task performance. December 1980 verified on the paper, not conflicting 1981 catalogue metadata. Earlier 1977 formulation is contextual ancestry, not separately inspected here."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "SMITH_DAVIS_CNP",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S005",
+      "TITLE": "Frameworks for Cooperation in Distributed Problem Solving",
+      "AUTHORS_OR_ORGANISATION": "Reid G. Smith; Randall Davis",
+      "DATE": "1981-01",
+      "VERSION_OR_EDITION": "IEEE Transactions on Systems, Man, and Cybernetics; author copy",
+      "URL_OR_DOI": "https://www.reidgsmith.com/Frameworks_for_Cooperation_in_Distributed_Problem_Solving_Jan-1981.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Opening and task-sharing/result-sharing sections",
+          "CLAIM": "Distinguishes distributing work from exchanging intermediate results."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [],
+      "EVIDENCE_LIMITS": [
+        "Same research programme as the Contract Net work, not an independent replication or deployment-frequency estimate."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "SMITH_DAVIS_CNP",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S006",
+      "TITLE": "Using Partial Global Plans to Coordinate Distributed Problem Solvers",
+      "AUTHORS_OR_ORGANISATION": "Edmund H. Durfee; Victor R. Lesser",
+      "DATE": "1987",
+      "VERSION_OR_EDITION": "IJCAI-87, pp. 875–883",
+      "URL_OR_DOI": "https://www.ijcai.org/Proceedings/87-2/Papers/065.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§II–IV; Figure 1; experimental discussion pp. 881–882",
+          "CLAIM": "Partial global plans coordinate interleaved planning and execution; communication organisation and stale views affect costs and results."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-018",
+        "EMAS-019",
+        "EMAS-020",
+        "EMAS-022",
+        "EMAS-028",
+        "EMAS-061",
+        "EMAS-062",
+        "EMAS-064",
+        "EMAS-073"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Distributed vehicle-monitoring simulation, four-node difficult scenario; original meta-organisation is specified in advance. No numerical effect extracted from its results table. Simpler situations can lose from coordination overhead."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "DVMT_PGP",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S007",
+      "TITLE": "On Acting Together",
+      "AUTHORS_OR_ORGANISATION": "Hector J. Levesque; Philip R. Cohen; José H. T. Nunes",
+      "DATE": "1990",
+      "VERSION_OR_EDITION": "AAAI-90 primary paper",
+      "URL_OR_DOI": "https://cse-robotics.engr.tamu.edu/dshell/cs631/papers/Levesque-AAAI90.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Joint persistent goals and joint intention definitions; concluding discussion",
+          "CLAIM": "Joint action requires persistence and communication about achievement, impossibility or irrelevance, not merely parallel individual intentions."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-009",
+        "EMAS-023",
+        "EMAS-029"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Formal mental-state account under idealised knowledge assumptions; distinct from the 1991 Nous Teamwork article."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "DEPENDENCE_GROUP": "JOINT_INTENTIONS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S008",
+      "TITLE": "Collaborative Plans for Complex Group Action",
+      "AUTHORS_OR_ORGANISATION": "Barbara J. Grosz; Sarit Kraus",
+      "DATE": "1996",
+      "VERSION_OR_EDITION": "Artificial Intelligence 86(2), 269–357",
+      "URL_OR_DOI": "https://jmvidal.cse.sc.edu/library/grosz96a.pdf",
+      "DOI": "10.1016/0004-3702(95)00103-4",
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§4.3; §6 partial/full SharedPlans; pp. 307, 334–336",
+          "CLAIM": "Partial recipes, intentions towards others and reconciliation support collaboration without a fully elaborated plan at every moment."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-024",
+        "EMAS-027",
+        "EMAS-029"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Formal account does not itself supply continuous action monitoring; resource conflicts can remain unrecognised. No general deployment-effect claim."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "DEPENDENCE_GROUP": "SHAREDPLANS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S009",
+      "TITLE": "Towards Flexible Teamwork",
+      "AUTHORS_OR_ORGANISATION": "Milind Tambe",
+      "DATE": "1997",
+      "VERSION_OR_EDITION": "Journal of Artificial Intelligence Research 7, 83–124; arXiv cs/9709101",
+      "URL_OR_DOI": "https://arxiv.org/pdf/cs/9709101",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "STEAM architecture; §4 decision-theoretic communication; teamwork monitoring and repair discussion",
+          "CLAIM": "Operational teamwork combines joint intentions with selected SharedPlans ideas and communication-cost-sensitive decisions."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-023",
+        "EMAS-024",
+        "EMAS-027",
+        "EMAS-028",
+        "EMAS-059",
+        "EMAS-064"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Simulation/application programme evidence is not a controlled general comparison with all coordination alternatives. Empirical scope not expanded to modern LLM teams."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "STEAM_COMMTDP",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S010",
+      "TITLE": "Team Coordination among Distributed Agents: Analyzing Key Teamwork Theories and Models",
+      "AUTHORS_OR_ORGANISATION": "David V. Pynadath; Milind Tambe",
+      "DATE": "2002",
+      "VERSION_OR_EDITION": "AAAI Spring Symposium technical paper",
+      "URL_OR_DOI": "https://cdn.aaai.org/Symposia/Spring/2002/SS-02-04/SS02-04-013.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "COM-MTDP formulation and communication analysis",
+          "CLAIM": "Teamwork prescriptions can be evaluated against explicit uncertainty and communication costs instead of treating maximal mutual belief as cost-free."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-023",
+        "EMAS-024",
+        "EMAS-027",
+        "EMAS-028",
+        "EMAS-029",
+        "EMAS-064",
+        "EMAS-073"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Finite decision model and controlled settings; does not settle all semantic accounts of collective intention."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "STEAM_COMMTDP",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S011",
+      "TITLE": "Commitments and conventions: The foundation of coordination in multi-agent systems",
+      "AUTHORS_OR_ORGANISATION": "Nicholas R. Jennings",
+      "DATE": "1993",
+      "VERSION_OR_EDITION": "Knowledge Engineering Review 8(3), 223–250; publisher PDF",
+      "URL_OR_DOI": "https://maxapress.com/data/article/ker/preview/pdf/S0269888900000205.pdf",
+      "DOI": "10.1017/S0269888900000205",
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Commitment/convention distinction; conclusions pp. 246–247",
+          "CLAIM": "Commitments support predictability while conventions govern reconsideration and notification."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-023",
+        "EMAS-027"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Claim of centrality is the author’s theoretical position, not universal consensus. Enforcement and autonomy trade-offs remain acknowledged problems."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "JENNINGS_COMMITMENTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S012",
+      "TITLE": "KQML—A Language and Protocol for Knowledge and Information Exchange",
+      "AUTHORS_OR_ORGANISATION": "Tim Finin; Rich Fritzson; Don McKay; Robin McEntire",
+      "DATE": "1994",
+      "VERSION_OR_EDITION": "AAAI workshop WS-94-02 paper; not the distinct CIKM edition",
+      "URL_OR_DOI": "https://cdn.aaai.org/Workshops/1994/WS-94-02/WS94-02-007.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Opening; language architecture and example performatives",
+          "CLAIM": "Content-language separation and performatives facilitate knowledge interchange without determining the truth of supplied content."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-010",
+        "EMAS-014",
+        "EMAS-066"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Original experiments/prototypes do not establish contemporary deployment or universally shared semantics. A polluted institutional DOI for the distinct CIKM record was not reused."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "KQML",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S013",
+      "TITLE": "Agent Communication Languages: Rethinking the Principles",
+      "AUTHORS_OR_ORGANISATION": "Munindar P. Singh",
+      "DATE": "1998-12",
+      "VERSION_OR_EDITION": "Computer 31(12), 40–47; author PDF",
+      "URL_OR_DOI": "https://www.csc2.ncsu.edu/faculty/mpsingh/papers/mas/computer-acl-98.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_CRITICISM",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "pp. 40–47; especially p. 44 public versus private semantics",
+          "CLAIM": "Opaque private mental states are an inadequate public compliance basis for open heterogeneous interaction; social commitments offer an alternative."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-008",
+        "EMAS-009",
+        "EMAS-012",
+        "EMAS-013",
+        "EMAS-014",
+        "EMAS-025",
+        "EMAS-048",
+        "EMAS-063",
+        "EMAS-066",
+        "EMAS-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Does not invalidate mental-state semantics for all closed, inspectable implementations. Conceptual critique, not a comparative trial."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "DEPENDENCE_GROUP": "SOCIAL_COMMITMENTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S014",
+      "TITLE": "FIPA Communicative Act Library Specification",
+      "AUTHORS_OR_ORGANISATION": "Foundation for Intelligent Physical Agents",
+      "DATE": "2001-08-10",
+      "VERSION_OR_EDITION": "XC00037H; EXPERIMENTAL; approved 2001-01-29; copyright 2000",
+      "URL_OR_DOI": "https://jmvidal.cse.sc.edu/library/XC00037H.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "SPECIFICATION_ACADEMIC_MIRROR",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Cover and foreword; §§2–3; Inform and Request entries; informative semantic annex",
+          "CLAIM": "Specifies communicative acts with preconditions and intended rational effects; membership itself does not mandate implementation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-008",
+        "EMAS-009",
+        "EMAS-012",
+        "EMAS-013",
+        "EMAS-014"
+      ],
+      "EVIDENCE_LIMITS": [
+        "This is explicitly the 2001 experimental version, NOT SC00037J. Copyright 2000 is not its status date. Current implementation prevalence and final-version identity are not established by this mirror."
+      ],
+      "EVIDENCE_ROLES": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT",
+        "IMPLEMENTATION_SEMANTICS",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "FIPA_VERSIONS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S015",
+      "TITLE": "FIPA Communicative Act Library Specification (SC00037J retrieval lead)",
+      "AUTHORS_OR_ORGANISATION": "Foundation for Intelligent Physical Agents",
+      "DATE": "2002 (lead; final cover not inspected)",
+      "VERSION_OR_EDITION": "Purported SC00037J standard version; current issuer access unavailable",
+      "URL_OR_DOI": "http://www.fipa.org/specs/fipa00037/SC00037J.html",
+      "DOI": null,
+      "SOURCE_CLASS": "UNVERIFIED_VERSION_LEAD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "UNAVAILABLE",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "No accessible final-version text; official HTML/PDF retrieval attempts and alternate mirror attempts",
+          "CLAIM": "No substantive final-version claim is supported. This record preserves an access limit rather than silently substituting XC00037H."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-013"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Official endpoint and lawful alternate retrievals failed. Access failure proves neither withdrawal nor continuing universal implementation."
+      ],
+      "EVIDENCE_ROLES": [
+        "UNVERIFIED_LEAD"
+      ],
+      "DEPENDENCE_GROUP": "FIPA_VERSIONS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S016",
+      "TITLE": "Semantics and Verification of Information-Based Protocols",
+      "AUTHORS_OR_ORGANISATION": "Munindar P. Singh",
+      "DATE": "2012",
+      "VERSION_OR_EDITION": "AAMAS 2012 primary paper",
+      "URL_OR_DOI": "https://www.csc2.ncsu.edu/faculty/mpsingh/papers/mas/AAMAS-12-BSPL.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Protocol/information definitions; §3.5 enactability and liveness; PurchaseNoShip example",
+          "CLAIM": "Information causality and key integrity permit decentralised protocol reasoning; enactability is weaker than liveness."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-010",
+        "EMAS-011",
+        "EMAS-012",
+        "EMAS-061",
+        "EMAS-066",
+        "EMAS-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Liveness here means a completion is possible from each reachable enactment; it does not force an unwilling participant to act or prove delivery of a physical good."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "BSPL",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S017",
+      "TITLE": "Interaction Protocols in an Imperative Agent-Oriented Programming Language: the case of BSPL and SARL",
+      "AUTHORS_OR_ORGANISATION": "Matteo Baldoni; Cristina Baroglio; Stéphane Galland; Roberto Micalizio; Fatma Outay; Stefano Tedeschi",
+      "DATE": "2025-05",
+      "VERSION_OR_EDITION": "AAMAS 2025 extended abstract, 2426–2427",
+      "URL_OR_DOI": "https://www.ifaamas.org/Proceedings/aamas2025/pdfs/p2426.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_EXTENDED_ABSTRACT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Both pages: translation and implementation approach",
+          "CLAIM": "Demonstrates a contemporary protocol/programming-language intersection."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [],
+      "EVIDENCE_LIMITS": [
+        "Two-page implementation proposal; no independent comparative effectiveness or comprehensive verification evidence."
+      ],
+      "EVIDENCE_ROLES": [
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "BSPL_SARL",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S018",
+      "TITLE": "The Gaia Methodology for Agent-Oriented Analysis and Design",
+      "AUTHORS_OR_ORGANISATION": "Michael Wooldridge; Nicholas R. Jennings; David Kinny",
+      "DATE": "2000",
+      "VERSION_OR_EDITION": "Autonomous Agents and Multi-Agent Systems 3, 285–312; author manuscript",
+      "URL_OR_DOI": "https://www.cs.ox.ac.uk/people/michael.wooldridge/pubs/jaamas2000b.pdf",
+      "DOI": "10.1023/A:1010071910869",
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§1 scope; role/interaction models; conclusion",
+          "CLAIM": "Roles relate responsibilities, permissions and protocols; original Gaia targets a restricted organisational setting."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-004",
+        "EMAS-036",
+        "EMAS-039",
+        "EMAS-042"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Original static capabilities/service assumptions cannot be relabelled a guarantee for open evolving populations. Author manuscript pagination differs from journal. Engineering-method details belong to the adjacent discipline, not this lane’s findings about its whole history."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "GAIA",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S019",
+      "TITLE": "MOISE+: towards a structural, functional, and deontic model for MAS organization",
+      "AUTHORS_OR_ORGANISATION": "Jomi Fred Hübner; Jaime Simão Sichman; Olivier Boissier",
+      "DATE": "2002",
+      "VERSION_OR_EDITION": "AAMAS 2002 short paper, 501–502",
+      "URL_OR_DOI": "https://www.researchgate.net/publication/221456372_MOISE_Towards_a_Structural_Functional_and_Deontic_model_for_MAS_organization",
+      "DOI": "10.1145/544741.544858",
+      "SOURCE_CLASS": "PRIMARY_AUTHOR_POSTED_TEXT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Author-posted paper text: structural, functional and deontic specifications; soccer example",
+          "CLAIM": "Links roles, missions and goals, rather than using role labels alone."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-036",
+        "EMAS-039",
+        "EMAS-040",
+        "EMAS-042",
+        "EMAS-063"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Two-page version distinct from longer SBIA paper. Only original author text inspected; unrelated material appended by the host excluded. Illustrative soccer example is not validation of organisational superiority."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "DEFINITION_OR_TAXONOMY",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "MOISE",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S020",
+      "TITLE": "Normative Multi-Agent Programs and Their Logics",
+      "AUTHORS_OR_ORGANISATION": "Mehdi Dastani; Davide Grossi; John-Jules Ch. Meyer; Nick Tinnemeier",
+      "DATE": "2008",
+      "VERSION_OR_EDITION": "Dagstuhl Seminar Proceedings 08361.9",
+      "URL_OR_DOI": "https://drops.dagstuhl.de/storage/16dagstuhl-seminar-proceedings/dsp-vol08361/DagSemProc.08361.9/DagSemProc.08361.9.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§2–4; one-based PDF pp. 3–5 assumptions and operational semantics",
+          "CLAIM": "Distinguishes norm declaration, monitored violation, regimentation and sanctions; connects brute and institutional facts."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-004",
+        "EMAS-036",
+        "EMAS-037",
+        "EMAS-038",
+        "EMAS-039",
+        "EMAS-041",
+        "EMAS-042",
+        "EMAS-071",
+        "EMAS-076"
+      ],
+      "EVIDENCE_LIMITS": [
+        "The model assumes actions observable and effects determined by the norm artefact. A simulated fine does not establish legal power over real people. Criticism of other frameworks is scoped to versions discussed."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "NORMATIVE_PROGRAMMING",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S021",
+      "TITLE": "Norm Enforceability in Electronic Institutions?",
+      "AUTHORS_OR_ORGANISATION": "Natalia Criado; Estefania Argente; Antonio Garrido; Juan A. Gimeno; Francesc Igual; Vicente Botti; Pablo Noriega; Adriana Giret",
+      "DATE": "2011 (published volume); COIN 2010 event",
+      "VERSION_OR_EDITION": "Author/institutional manuscript corresponding to LNCS 6541, 250–267",
+      "URL_OR_DOI": "https://www.iiia.csic.es/media/filer_public/b1/d3/b1d3d503-7cad-44c8-97dc-f3e4e8bfb547/4547.pdf",
+      "DOI": "10.1007/978-3-642-21268-0_14",
+      "SOURCE_CLASS": "PRIMARY_CRITICISM",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§1–3; mWater example and grievance scene; publisher bibliographic record",
+          "CLAIM": "Off-platform or unobservable conduct defeats purely mediated norm enforcement; dispute procedures address a distinct problem."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-004",
+        "EMAS-008",
+        "EMAS-012",
+        "EMAS-025",
+        "EMAS-026",
+        "EMAS-037",
+        "EMAS-038",
+        "EMAS-040",
+        "EMAS-041",
+        "EMAS-063",
+        "EMAS-068",
+        "EMAS-071",
+        "EMAS-076"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Constructed regulated water-market scenario, not evidence of real-world judicial enforcement. The 2010 event and 2011 publication dates are distinct. PDF visual-rendering attempt failed; text sections were readable."
+      ],
+      "EVIDENCE_ROLES": [
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "ELECTRONIC_INSTITUTIONS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S022",
+      "TITLE": "Multi-Agent Systems: Technical & Ethical Challenges of Functioning in a Mixed Group",
+      "AUTHORS_OR_ORGANISATION": "Ya’akov Gal; Barbara J. Grosz",
+      "DATE": "2022",
+      "VERSION_OR_EDITION": "Daedalus 151(2), author/publisher PDF",
+      "URL_OR_DOI": "https://www.amacad.org/sites/default/files/publication/downloads/Daedalus_Sp22_08_Gal&Grosz.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "SCHOLARLY_PERSPECTIVE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Mixed-group technical and ethical challenges discussion",
+          "CLAIM": "Human and software participation raises asymmetries of knowledge, responsibility and expectations not captured by a shared utility alone."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-004",
+        "EMAS-033",
+        "EMAS-040",
+        "EMAS-041",
+        "EMAS-055",
+        "EMAS-057",
+        "EMAS-068"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Agenda and conceptual argument, not empirical certification of a specific authority allocation."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "HUMAN_AGENT_TEAMS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S023",
+      "TITLE": "Multiagent Systems: Algorithmic, Game-Theoretic, and Logical Foundations",
+      "AUTHORS_OR_ORGANISATION": "Yoav Shoham; Kevin Leyton-Brown",
+      "DATE": "2009; manuscript revision also ©2010",
+      "VERSION_OR_EDITION": "Uncorrected manuscript Revision 1.1, not a silently substituted later edition",
+      "URL_OR_DOI": "https://www.masfoundations.org/mas.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "SCHOLARLY_MONOGRAPH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Game/solution concept definitions; repeated games; social choice and mechanism-design chapters",
+          "CLAIM": "Provides distinctions among utility, equilibrium, welfare, information, voting and mechanism design."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-002",
+        "EMAS-003",
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-032",
+        "EMAS-033",
+        "EMAS-034",
+        "EMAS-035",
+        "EMAS-047",
+        "EMAS-049",
+        "EMAS-055",
+        "EMAS-057",
+        "EMAS-065",
+        "EMAS-072"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Only relevant concepts and sections inspected, not a complete line-by-line reading of the 532-page volume. Primary impossibility results traced to S024 and S025."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "DEPENDENCE_GROUP": "MAS_FOUNDATIONS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S024",
+      "TITLE": "Efficient Mechanisms for Bilateral Trading",
+      "AUTHORS_OR_ORGANISATION": "Roger B. Myerson; Mark A. Satterthwaite",
+      "DATE": "1983",
+      "VERSION_OR_EDITION": "Journal of Economic Theory 29(2), 265–281",
+      "URL_OR_DOI": "https://www.cs.princeton.edu/courses/archive/spr08/cos444/papers/myerson_satterthwaite83.pdf",
+      "DOI": "10.1016/0022-0531(83)90048-0",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§2 model, theorem and efficiency corollary; p. 268 definitions",
+          "CLAIM": "Under the specified overlapping independent private-value bilateral-trade assumptions, incentive compatibility, interim participation and budget requirements obstruct full ex-post efficiency."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-003",
+        "EMAS-017",
+        "EMAS-021",
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-032",
+        "EMAS-033"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Does not establish an impossibility for every market, domain restriction, subsidy regime or informational setting. No MAS deployment claim."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "ECONOMIC_IMPORTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S025",
+      "TITLE": "Manipulation of Voting Schemes: A General Result",
+      "AUTHORS_OR_ORGANISATION": "Allan Gibbard",
+      "DATE": "1973",
+      "VERSION_OR_EDITION": "Econometrica 41(4), 587–601",
+      "URL_OR_DOI": "https://rohitvaish.in/data/Papers/%5BGibbard%5D%20Manipulation%20of%20Voting%20Schemes%20-%20A%20General%20Result.pdf",
+      "DOI": "10.2307/1914083",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Voting-scheme definitions and main theorem; opening model",
+          "CLAIM": "Strategy-proof deterministic unrestricted-domain choice with at least three achievable outcomes faces dictatorship restrictions."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-047"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Restricted preference domains, randomisation and different choice objects require their own analysis. The result is about choice incentives, not truth of factual propositions."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "SOCIAL_CHOICE_IMPORTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S026",
+      "TITLE": "The Distributed Constraint Satisfaction Problem: Formalization and Algorithms",
+      "AUTHORS_OR_ORGANISATION": "Makoto Yokoo; Edmund H. Durfee; Toru Ishida; Kazuhiro Kuwabara",
+      "DATE": "1998-09/1998-10",
+      "VERSION_OR_EDITION": "IEEE Transactions on Knowledge and Data Engineering 10(5), 673–685",
+      "URL_OR_DOI": "https://jmvidal.cse.sc.edu/library/yokoo98a.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§2 communication assumptions; asynchronous backtracking/weak-commitment search; experimental metric footnote",
+          "CLAIM": "Distributed consistency algorithms require explicit ownership, message and search assumptions."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-043"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Known addresses, finite delay and ordered reliable pairwise communication are material assumptions; calculation-cycle metric omits communication cost. Simulated n-queens/random networks are not organisational deployments."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "DISTRIBUTED_CONSTRAINTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S027",
+      "TITLE": "ADOPT: Asynchronous Distributed Constraint Optimization with Quality Guarantees",
+      "AUTHORS_OR_ORGANISATION": "Pragnesh Jay Modi; Wei-Min Shen; Milind Tambe; Makoto Yokoo",
+      "DATE": "2005",
+      "VERSION_OR_EDITION": "Artificial Intelligence 161, 149–180",
+      "URL_OR_DOI": "https://robots.isi.edu/prl/modi2005adopt-asynchronous-distributed-constraint.pdf",
+      "DOI": "10.1016/j.artint.2004.09.003",
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Algorithm and lower/upper-bound quality guarantees; formulation and conclusions",
+          "CLAIM": "Asynchronous distributed search achieves bounded or exact objective quality within its finite DCOP model."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-044"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Polynomial space does not imply cheap runtime, communication or robustness to strategic false costs. DOI registration year 2004 is not article publication year."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "DISTRIBUTED_CONSTRAINTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S028",
+      "TITLE": "A Scalable Method for Multiagent Constraint Optimization",
+      "AUTHORS_OR_ORGANISATION": "Adrian Petcu; Boi Faltings",
+      "DATE": "2005",
+      "VERSION_OR_EDITION": "IJCAI-05 DPOP primary paper",
+      "URL_OR_DOI": "https://www.ijcai.org/Proceedings/05/Papers/0445.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Pseudotree/UTIL/VALUE algorithm; Theorem 1",
+          "CLAIM": "Dynamic programming exploits problem structure, with message size exponential in induced pseudotree width."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-020",
+        "EMAS-044",
+        "EMAS-045"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Scalable in a specified structural regime, not a universal scalability result; privacy is not automatic."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "DISTRIBUTED_CONSTRAINTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S029",
+      "TITLE": "A Privacy-Preserving Algorithm for DCOP",
+      "AUTHORS_OR_ORGANISATION": "Tal Grinshpoun; Tamir Tassa",
+      "DATE": "2014",
+      "VERSION_OR_EDITION": "AAMAS 2014 primary paper",
+      "URL_OR_DOI": "https://www.openu.ac.il/Lists/MediaServer_Documents/PersonalSites/TamirTassa/dcops_aamas.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§2–5 privacy definition, secure subprotocols and costs",
+          "CLAIM": "Privacy requires limiting what protocol observations reveal; distributed placement alone does not provide it."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-045"
+      ],
+      "EVIDENCE_LIMITS": [
+        "The protocols explicitly discuss non-perfect disclosure and security assumptions. No blanket guarantee against arbitrary colluding malicious agents is inferred."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "PRIVATE_DCOP",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S030",
+      "TITLE": "Distributed Constraint Optimization Problems and Applications: A Survey",
+      "AUTHORS_OR_ORGANISATION": "Ferdinando Fioretto; Enrico Pontelli; William Yeoh",
+      "DATE": "2018",
+      "VERSION_OR_EDITION": "JAIR 61, 623–698; journal version, not 2016 preprint",
+      "URL_OR_DOI": "https://www.jair.org/index.php/jair/article/download/11185/26392/20715",
+      "DOI": null,
+      "SOURCE_CLASS": "SCHOLARLY_REVIEW",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Taxonomy of classical, dynamic and probabilistic DCOPs; algorithm trade-offs",
+          "CLAIM": "Organises objective, privacy and dynamism variants; primary algorithm claims traced separately."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-044",
+        "EMAS-045"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Review breadth does not amount to a new independent experiment for every cited application."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "DCOP_SURVEY",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S031",
+      "TITLE": "On the acceptability of arguments and its fundamental role in nonmonotonic reasoning, logic programming and n-person games",
+      "AUTHORS_OR_ORGANISATION": "Phan Minh Dung",
+      "DATE": "1995",
+      "VERSION_OR_EDITION": "Artificial Intelligence 77, 321–357",
+      "URL_OR_DOI": "https://jmvidal.cse.sc.edu/library/dung95a.pdf",
+      "DOI": "10.1016/0004-3702(94)00041-X",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§2, pp. 325–330: admissible, preferred, stable and grounded extensions",
+          "CLAIM": "Argument acceptance depends on an attack framework and semantics; stable extensions need not exist."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-046",
+        "EMAS-049"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Abstract arguments and attack relations do not establish underlying factual truth or evidence quality. Social examples are illustrative."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "ABSTRACT_ARGUMENTATION",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S032",
+      "TITLE": "Multi-Agent Actor-Critic for Mixed Cooperative–Competitive Environments",
+      "AUTHORS_OR_ORGANISATION": "Ryan Lowe; Yi Wu; Aviv Tamar; Jean Harb; Pieter Abbeel; Igor Mordatch",
+      "DATE": "2017",
+      "VERSION_OR_EDITION": "NeurIPS 2017 (MADDPG)",
+      "URL_OR_DOI": "https://papers.neurips.cc/paper/7217-multi-agent-actor-critic-for-mixed-cooperative-competitive-environments.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Centralised critic/decentralised actor formulation; mixed cooperative-competitive particle tasks",
+          "CLAIM": "Joint training information can stabilise learning without being an execution-time observation entitlement."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-050",
+        "EMAS-051",
+        "EMAS-052",
+        "EMAS-056",
+        "EMAS-074"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Small simulated domains; does not show robustness to arbitrary strategic deployment populations. Shared environment lineage is not independent replication."
+      ],
+      "EVIDENCE_ROLES": [
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "MARL_CENTRALISED_TRAINING",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S033",
+      "TITLE": "QMIX: Monotonic Value Function Factorisation for Deep Multi-Agent Reinforcement Learning",
+      "AUTHORS_OR_ORGANISATION": "Tabish Rashid; Mikayel Samvelyan; Christian Schroeder de Witt; Gregory Farquhar; Jakob Foerster; Shimon Whiteson",
+      "DATE": "2018",
+      "VERSION_OR_EDITION": "ICML / PMLR 80, 4295–4304",
+      "URL_OR_DOI": "https://proceedings.mlr.press/v80/rashid18a/rashid18a.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Monotonic mixing condition and decentralised argmax; experimental sections",
+          "CLAIM": "Restricted monotonic factorisation couples local value selection to a joint value representation."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-051",
+        "EMAS-052",
+        "EMAS-053",
+        "EMAS-056"
+      ],
+      "EVIDENCE_LIMITS": [
+        "The consistency condition does not imply representability of arbitrary joint values or convergence to the globally optimal policy. Original 2018 version only."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "QMIX_SMAC",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S034",
+      "TITLE": "“Other-Play” for Zero-Shot Coordination",
+      "AUTHORS_OR_ORGANISATION": "Hengyuan Hu; Adam Lerer; Alex Peysakhovich; Jakob Foerster",
+      "DATE": "2020",
+      "VERSION_OR_EDITION": "ICML / PMLR 119, 4399–4410",
+      "URL_OR_DOI": "https://proceedings.mlr.press/v119/hu20a/hu20a.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Symmetry-randomised objective; cross-play and Hanabi experiments; §7 failed alternative approaches",
+          "CLAIM": "Self-play conventions can fail with unseen partners; symmetry-aware training targets a narrower partner-generalisation problem."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-050",
+        "EMAS-051",
+        "EMAS-054",
+        "EMAS-074"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Requires identified task symmetries. Preliminary human results and simulated card-game transfer are not universal mixed-team validation."
+      ],
+      "EVIDENCE_ROLES": [
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "ZERO_SHOT_HANABI",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S035",
+      "TITLE": "An Extended Benchmarking of Multi-Agent Reinforcement Learning Algorithms in Complex Fully Cooperative Tasks",
+      "AUTHORS_OR_ORGANISATION": "George Papadopoulos; Andreas Kontogiannis; Foteini Papadopoulou; Chaido Poulianou; Ioannis Koumentis; George Vouros",
+      "DATE": "2025-05",
+      "VERSION_OR_EDITION": "AAMAS 2025, pp. 1613–1622",
+      "URL_OR_DOI": "https://www.ifaamas.org/Proceedings/aamas2025/pdfs/p1613.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§4–5; experimental protocol; Tables 4–9 and associated discussion",
+          "CLAIM": "Algorithm rankings vary across complex cooperative tasks and training configurations."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-050",
+        "EMAS-051",
+        "EMAS-052",
+        "EMAS-053",
+        "EMAS-054",
+        "EMAS-056",
+        "EMAS-057",
+        "EMAS-065",
+        "EMAS-067",
+        "EMAS-074"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Eleven algorithms, five seeds, 100 test episodes per checkpoint; reported selected-policy returns and 75% intervals. Limited tuning and selection convention constrain comparisons; no strategic open-world validation."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "EPYMARL_BENCHMARKS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S036",
+      "TITLE": "Why Do Multi-Agent LLM Systems Fail?",
+      "AUTHORS_OR_ORGANISATION": "Mert Cemri; Melissa Z. Pan; Shuyi Yang; Lakshya A Agrawal; Bhavya Chopra; Rishabh Tiwari; Kurt Keutzer; Aditya Parameswaran; Dan Klein; Kannan Ramchandran; Matei Zaharia; Joseph E. Gonzalez; Ion Stoica",
+      "DATE": "2025-10-26",
+      "VERSION_OR_EDITION": "arXiv:2503.13657v3; original March 2025; v3 inspected",
+      "URL_OR_DOI": "https://arxiv.org/html/2503.13657v3",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§3–5; taxonomy development and annotation details; appendices on scaling/limitations",
+          "CLAIM": "Failure analysis separates system specification, inter-agent misalignment and task verification rather than blaming only base-model capability."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-010",
+        "EMAS-012",
+        "EMAS-014",
+        "EMAS-016",
+        "EMAS-042",
+        "EMAS-048",
+        "EMAS-049",
+        "EMAS-058",
+        "EMAS-059",
+        "EMAS-061",
+        "EMAS-066",
+        "EMAS-067",
+        "EMAS-069",
+        "EMAS-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "1,642 collected traces across seven frameworks differ from 150 manually grounded-theory traces across five frameworks. Judge-assisted scaling, selected tasks and common model/tool ancestry limit independence and causal claims."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "MAST_SELECTED_FRAMEWORKS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S037",
+      "TITLE": "Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets",
+      "AUTHORS_OR_ORGANISATION": "Dat Tran; Douwe Kiela",
+      "DATE": "2026-04-02",
+      "VERSION_OR_EDITION": "arXiv:2604.02460v1",
+      "URL_OR_DOI": "https://arxiv.org/html/2604.02460v1",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§3–5; Table 1; context-degradation argument and budget caveats",
+          "CLAIM": "Budget matching materially changes comparisons; single-agent systems are a strong default in the studied multihop setting, with low-budget exceptions."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-006",
+        "EMAS-048",
+        "EMAS-049",
+        "EMAS-065",
+        "EMAS-067",
+        "EMAS-070",
+        "EMAS-073"
+      ],
+      "EVIDENCE_LIMITS": [
+        "FRAMES and MuSiQue 4-hop with selected model families are not all tasks. Bootstrap uncertainty and imperfect token controls matter. Researcher audit: Fano lower bounds alone do not order actual risks, and strict mutual-information loss need not strictly increase classification error. The broad title is not accepted as a universal theorem."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "DEPENDENCE_GROUP": "EQUAL_THINKING_BUDGET",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S038",
+      "TITLE": "Benchmarking Open-Ended Multi-Agent Coordination in Language Agents",
+      "AUTHORS_OR_ORGANISATION": "Kale-ab Abebe Tessera; Andras Szecsenyi; Cameron Barker; Alexander Rutherford; Davide Paglieri; Aidan Scannell; Henry Gouk; Elliot J. Crowley; Tim Rocktäschel; Amos Storkey",
+      "DATE": "2026-06-06",
+      "VERSION_OR_EDITION": "arXiv:2606.08340v1; alem benchmark",
+      "URL_OR_DOI": "https://arxiv.org/html/2606.08340v1",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§3–4; evaluation protocol; reward decomposition and environment interface",
+          "CLAIM": "Separates base competence from time-, resource- and partner-dependent coordination in a Craftax-derived environment."
+        },
+        {
+          "LOCATOR": "§4.2.2 communication ablation, body paragraphs; §4.1 evaluation protocol",
+          "CLAIM": "Removing communication reduced coordination in two selected models on the hard setting; this is a task-specific counterweight to communication-overhead findings, not a universal demand for more messages."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-002",
+        "EMAS-020",
+        "EMAS-028",
+        "EMAS-054",
+        "EMAS-064",
+        "EMAS-065",
+        "EMAS-066",
+        "EMAS-067",
+        "EMAS-069",
+        "EMAS-074"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Thirteen language models; 20 seeds per difficulty for open-weight and 10 for closed models; four trained MARL references. One-billion-step MARL training versus zero-shot LLMs is not a matched-compute effectiveness comparison."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "ALEM_CRAFTAX",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S039",
+      "TITLE": "The Role of Social Learning and Collective Norm Formation in Fostering Cooperation in LLM Multi-Agent Systems",
+      "AUTHORS_OR_ORGANISATION": "Prateek Gupta; Qiankun Zhong; Hiromu Yakura; Thomas Eisenmann; Iyad Rahwan",
+      "DATE": "2026-05",
+      "VERSION_OR_EDITION": "AAMAS 2026 research paper, pp. 1238–1246",
+      "URL_OR_DOI": "https://aamas.csc.liv.ac.uk/Proceedings/aamas2026/pdfs/CZDC3237.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§3–4 common-pool-resource model, adaptation/norm procedures and measures",
+          "CLAIM": "Collective rule-making and social learning are investigated under an explicit shared-resource survival/payoff model."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-052",
+        "EMAS-055",
+        "EMAS-056",
+        "EMAS-057"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Ten-agent controlled simulation and prompting/adaptation, not evidence of weight learning or legitimate human institution-building. Survival and extraction measures depend on the resource model."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "LLM_COMMON_POOL",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S040",
+      "TITLE": "Algorithmic Collusion at Test Time: A Meta-game Design and Evaluation",
+      "AUTHORS_OR_ORGANISATION": "Yuhong Luo; Daniel Schoepflin; Xintong Wang",
+      "DATE": "2026-05",
+      "VERSION_OR_EDITION": "AAMAS 2026 research paper; DOI SVWG7670",
+      "URL_OR_DOI": "https://aamas.csc.liv.ac.uk/Proceedings/aamas2026/pdfs/SVWG7670.pdf",
+      "DOI": "10.65109/SVWG7670",
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§3–4: meta-game construction; §4.3 LLM pricing; Table 3",
+          "CLAIM": "Collusive test-time behaviour depends on selected initial strategies, adaptation, opponents and horizon, not training-pair performance alone."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-002",
+        "EMAS-003",
+        "EMAS-017",
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-033",
+        "EMAS-034",
+        "EMAS-047",
+        "EMAS-050",
+        "EMAS-052",
+        "EMAS-054",
+        "EMAS-055",
+        "EMAS-056",
+        "EMAS-072",
+        "EMAS-074"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Two-player discretised pricing simulation. Tabular pretraining: 500 games/1,000 policies; LLM comparison selects six GPT5-mini meta-strategies, 40 base-game samples, 50 rounds, four prices. Known cost types in meta-analysis and restricted strategy set limit transfer."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ],
+      "DEPENDENCE_GROUP": "TESTTIME_PRICING",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S041",
+      "TITLE": "Too Many Specialists: Emergent Inefficiencies and Bottlenecks for Multi-agent Ad-hoc Collaboration",
+      "AUTHORS_OR_ORGANISATION": "Benjamin Panny; Shashank Mehrotra; Zahra Zahedi; Teruhisa Misu; Kumar Akash",
+      "DATE": "2026-05",
+      "VERSION_OR_EDITION": "AAMAS 2026 EXTENDED ABSTRACT, 3609–3611",
+      "URL_OR_DOI": "https://aamas.csc.liv.ac.uk/Proceedings/aamas2026/pdfs/CYXP1261.pdf",
+      "DOI": "10.65109/CYXP1261",
+      "SOURCE_CLASS": "PRIMARY_EXTENDED_ABSTRACT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "All three pages; Figure 1 and task/trait definitions",
+          "CLAIM": "Specialisation and communication can create bottlenecks; task parallelism changes whether larger teams help."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-006",
+        "EMAS-015",
+        "EMAS-019",
+        "EMAS-022",
+        "EMAS-028",
+        "EMAS-057",
+        "EMAS-064",
+        "EMAS-065",
+        "EMAS-073"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Rule-based kitchen agent simulation, not a production LLM or human organisation study. Three-page report lacks a full replication protocol; communication restrictions can sometimes reduce redundant coalition formation."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "KITCHEN_SPECIALISATION",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S042",
+      "TITLE": "ARMOR Security for Los Angeles International Airport",
+      "AUTHORS_OR_ORGANISATION": "James Pita; Manish Jain; Fernando Ordóñez; Christopher Portway; Milind Tambe; Craig Western; Praveen Paruchuri; Sarit Kraus",
+      "DATE": "2008",
+      "VERSION_OR_EDITION": "AAAI-08 demonstration paper, 1884–1885",
+      "URL_OR_DOI": "https://cdn.aaai.org/AAAI/2008/AAAI08-331.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_FIELD_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Both pages: deployment date, security-game approach and human constraints",
+          "CLAIM": "Reports operational use from August 2007 of mixed-initiative strategic randomisation for airport security."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-004",
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-033",
+        "EMAS-041",
+        "EMAS-057",
+        "EMAS-068",
+        "EMAS-070"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Two-page programme report; no controlled counterfactual identifying attacks prevented or proof that decentralisation caused benefit. Distinct longer AAMAS publication not silently substituted."
+      ],
+      "EVIDENCE_ROLES": [
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "ARMOR_LAX_PROGRAMME",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S043",
+      "TITLE": "A Disaster Response System based on Human-Agent Collectives",
+      "AUTHORS_OR_ORGANISATION": "Sarvapali D. Ramchurn; Trung Dong Huynh; Feng Wu; Yuki Ikuno; Jack Flann; Luc Moreau; Joel E. Fischer; Wenchao Jiang; Tom Rodden; Edwin Simpson; Steven Reece; Stephen Roberts; Nicholas R. Jennings",
+      "DATE": "2016-12",
+      "VERSION_OR_EDITION": "JAIR 57, 661–708; PDF filename contains 2017",
+      "URL_OR_DOI": "https://www.robots.ox.ac.uk/~sjrob/Pubs/jair_disaster_response_2017.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_FIELD_AND_EMPIRICAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Mixed-initiative allocation and replanning; field trials; expert feedback; one-based PDF pp. 33, 40–41",
+          "CLAIM": "Human-agent task allocation was evaluated in organised outdoor trials and through practitioner feedback."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-004",
+        "EMAS-016",
+        "EMAS-020",
+        "EMAS-027",
+        "EMAS-041",
+        "EMAS-048",
+        "EMAS-057",
+        "EMAS-059",
+        "EMAS-061",
+        "EMAS-062",
+        "EMAS-068",
+        "EMAS-069",
+        "EMAS-070",
+        "EMAS-071"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Four trials/40 participants, predominantly university students and staff, not operational disaster deployments. Training and connectivity influence validity. Expert concerns include information access and network dependence."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "FIELD_OR_DEPLOYMENT_EVIDENCE",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "HACER_ORCHID",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S044",
+      "TITLE": "Multiagent Commitment Alignment",
+      "AUTHORS_OR_ORGANISATION": "Amit K. Chopra; Munindar P. Singh",
+      "DATE": "2009",
+      "VERSION_OR_EDITION": "AAMAS 2009 author manuscript",
+      "URL_OR_DOI": "https://www.lancaster.ac.uk/staff/chopraak/pdfs/alignment-2009.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_FORMAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Assumptions A1–A4; quiescence/valid observations; integrity rules R1–R8; Theorem 1",
+          "CLAIM": "Message obligations and local commitment semantics can align distributed views, including delegated commitments."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-008",
+        "EMAS-010",
+        "EMAS-011",
+        "EMAS-016",
+        "EMAS-021",
+        "EMAS-025",
+        "EMAS-026",
+        "EMAS-059",
+        "EMAS-063",
+        "EMAS-071",
+        "EMAS-072"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Guarantee depends on observation/channel and behavioural integrity assumptions; quiescent alignment is not instantaneous omniscience, enforced honesty or task fulfilment."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "SOCIAL_COMMITMENTS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S045",
+      "TITLE": "An Implementation of the Contract Net Protocol Based on Marginal Cost Calculations",
+      "AUTHORS_OR_ORGANISATION": "Tuomas Sandholm",
+      "DATE": "1993",
+      "VERSION_OR_EDITION": "AAAI-93, 256–262",
+      "URL_OR_DOI": "https://cdn.aaai.org/AAAI/1993/AAAI93-039.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Introduction; bidding/award marginal-cost model; task clustering and TRACONET tests",
+          "CLAIM": "Makes bidding/award computation explicit and accounts for interacting task bundles, outstanding bids and congestion."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-001",
+        "EMAS-006",
+        "EMAS-015",
+        "EMAS-017",
+        "EMAS-019",
+        "EMAS-020",
+        "EMAS-022",
+        "EMAS-073"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Routing tests use real data but are not a demonstrated general truthfulness mechanism or a causal study of all commercial markets. The paper permits competitive as well as cooperative agents; later strategic objections must not be erased."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON"
+      ],
+      "DEPENDENCE_GROUP": "TRACONET_NEGOTIATION",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S046",
+      "TITLE": "Issues in Automated Negotiation and Electronic Commerce: Extending the Contract Net Framework",
+      "AUTHORS_OR_ORGANISATION": "Tuomas Sandholm; Victor R. Lesser",
+      "DATE": "1995",
+      "VERSION_OR_EDITION": "ICMAS-95, 328–335; original concept paper, not later reprint",
+      "URL_OR_DOI": "https://cdn.aaai.org/ICMAS/1995/ICMAS95-044.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§1–5: conditional decommitment penalties, costly reasoning, task linkage and multiagent contracts",
+          "CLAIM": "Bounded-rational self-interest changes commitment, information and negotiation-cost assumptions; richer contracts can escape some local traps."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-003",
+        "EMAS-015",
+        "EMAS-017",
+        "EMAS-020",
+        "EMAS-021",
+        "EMAS-022",
+        "EMAS-030",
+        "EMAS-031",
+        "EMAS-034",
+        "EMAS-035"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Restricts domains so one agent’s task cost is independent of others’ resource use. Rich contract search, penalty enforcement and strategic information remain substantive costs."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "TRACONET_NEGOTIATION",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S047",
+      "TITLE": "Knowledge and Common Knowledge in a Distributed Environment",
+      "AUTHORS_OR_ORGANISATION": "Joseph Y. Halpern; Yoram Moses",
+      "DATE": "1990",
+      "VERSION_OR_EDITION": "Journal of the ACM 37(3), 549–587; not the 2000 arXiv deposit date",
+      "URL_OR_DOI": "https://groups.csail.mit.edu/tds/papers/Halpern/JACM90.pdf",
+      "DOI": "10.1145/79147.79161",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Communication/knowledge model; coordinated attack and common-knowledge limitations",
+          "CLAIM": "Uncertain communication constrains attainable knowledge for coordinated action."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-005",
+        "EMAS-011",
+        "EMAS-018",
+        "EMAS-026",
+        "EMAS-028",
+        "EMAS-029",
+        "EMAS-058",
+        "EMAS-059",
+        "EMAS-061",
+        "EMAS-062",
+        "EMAS-064"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Model-dependent impossibility; weaker coordination objectives or different delivery assumptions must be analysed separately. Imported distributed-computing result, not a claim every MAS requires common knowledge."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "DISTRIBUTED_KNOWLEDGE",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S048",
+      "TITLE": "Improving Factuality and Reasoning in Language Models through Multiagent Debate",
+      "AUTHORS_OR_ORGANISATION": "Yilun Du; Shuang Li; Antonio Torralba; Joshua B. Tenenbaum; Igor Mordatch",
+      "DATE": "2023-05-23",
+      "VERSION_OR_EDITION": "arXiv:2305.14325v1; not the later conference version",
+      "URL_OR_DOI": "https://arxiv.org/pdf/2305.14325v1",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PREPRINT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Debate procedure and evaluation sections; self-consistency comparison",
+          "CLAIM": "Iterated model exchanges improved selected reasoning/factuality tasks under the studied comparison."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-048",
+        "EMAS-049",
+        "EMAS-065",
+        "EMAS-066"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Positive result does not establish new independent evidence, a general strategic protocol, or dominance under all matched budgets. Version and models differ from 2026 studies."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "LLM_DEBATE_2023",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S049",
+      "TITLE": "Towards Con-resistant Trust Models for Distributed Agent Systems",
+      "AUTHORS_OR_ORGANISATION": "Amirali Salehi-Abari; Tony White",
+      "DATE": "2009",
+      "VERSION_OR_EDITION": "IJCAI-09 primary paper",
+      "URL_OR_DOI": "https://www.cs.toronto.edu/~abari/papers/SalehiAbariWhiteIJCAI09.pdf",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_CRITICISM_AND_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Direct-trust attack model; §3 revised update rule; experimental setup",
+          "CLAIM": "Alternating cooperation and defection can exploit reputation recovery; harsher remembered penalties change the risk."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-034",
+        "EMAS-058",
+        "EMAS-060"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Tests isolate direct-trust components of larger frameworks, with two agents/400 interactions and specified attack cycles. Does not prevent the first con or establish whole-framework failure frequencies."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "CON_RESISTANT_TRUST",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S050",
+      "TITLE": "Using the Moise+ for a Cooperative Framework of MAS Reorganisation",
+      "AUTHORS_OR_ORGANISATION": "Jomi Fred Hübner; Jaime Simão Sichman; Olivier Boissier",
+      "DATE": "2004",
+      "VERSION_OR_EDITION": "SBIA 2004; author-posted text",
+      "URL_OR_DOI": "https://www.researchgate.net/publication/220974542_Using_the_mathcalM_oise_for_a_Cooperative_Framework_of_MAS_Reorganisation",
+      "DOI": null,
+      "SOURCE_CLASS": "PRIMARY_AUTHOR_POSTED_TEXT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "Original paper text: reorganisation phases and controlled organisational change",
+          "CLAIM": "Explicitly organises monitoring, design, selection and implementation of organisational change."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-040",
+        "EMAS-072",
+        "EMAS-074"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Cooperative reorganisation model and prototype examples; does not self-authorise real institutional rule changes. Host-related papers are not part of this source."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "MOISE",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S051",
+      "TITLE": "Byzantine Fault Tolerance in Distributed Constraint Optimization Problems",
+      "AUTHORS_OR_ORGANISATION": "Koji Noshiro; Koji Hasebe",
+      "DATE": "2026-05",
+      "VERSION_OR_EDITION": "AAMAS 2026 research paper, 1183–1191",
+      "URL_OR_DOI": "https://aamas.csc.liv.ac.uk/Proceedings/aamas2026/pdfs/JZVR6522.pdf",
+      "DOI": "10.65109/JZVR6522",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_AND_EMPIRICAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "FT-DCOP model; Theorem 4.2; §5 replication and Proposition 5.1; §6 evaluation",
+          "CLAIM": "Fault-tolerant optimisation requires knowledge/replica assumptions; Repl-Max-Sum aims to preserve fault-free Max-Sum behaviour, not make approximate Max-Sum universally optimal."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-002",
+        "EMAS-005",
+        "EMAS-043",
+        "EMAS-044",
+        "EMAS-058",
+        "EMAS-062",
+        "EMAS-072",
+        "EMAS-075"
+      ],
+      "EVIDENCE_LIMITS": [
+        "At most k faulty replicas per relevant set and at least 2k+1 knowledge/replica coverage are material; communication multiplication is O(k²) per original message. Main paper inspected; supplementary impossibility proof not independently checked. Synthetic experiments do not certify arbitrary Byzantine MAS."
+      ],
+      "EVIDENCE_ROLES": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_SEMANTICS",
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "FT_DCOP_2026",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S052",
+      "TITLE": "Engineering Norm-aware BDI Agents",
+      "AUTHORS_OR_ORGANISATION": "Michael Winikoff; Frank Dignum; Sebastian Rodriguez; John Thangarajah",
+      "DATE": "2026-05",
+      "VERSION_OR_EDITION": "AAMAS 2026 EXTENDED ABSTRACT, 3307–3309",
+      "URL_OR_DOI": "https://aamas.csc.liv.ac.uk/Proceedings/aamas2026/pdfs/SEJS3352.pdf",
+      "DOI": "10.65109/SEJS3352",
+      "SOURCE_CLASS": "PRIMARY_EXTENDED_ABSTRACT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§§2–4; goal-plan-tree figures; implementation/evaluation paragraph",
+          "CLAIM": "Norm-to-goal-plan translation distinguishes compliance steps, deliberate violation and non-applicability in an existing BDI language."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-076"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Running-example Jason implementation; larger-system runtime overhead and dynamic-norm work remain future work. Three-page example is not comparative deployment evidence."
+      ],
+      "EVIDENCE_ROLES": [
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "NORM_BDI_2026",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S053",
+      "TITLE": "FIPA Contract Net Interaction Protocol Specification (SC00029H retrieval lead)",
+      "AUTHORS_OR_ORGANISATION": "Foundation for Intelligent Physical Agents",
+      "DATE": "2002 (lead; final cover not inspected)",
+      "VERSION_OR_EDITION": "Purported SC00029H version; current issuer access unavailable",
+      "URL_OR_DOI": "http://www.fipa.org/specs/fipa00029/SC00029H.html",
+      "DOI": null,
+      "SOURCE_CLASS": "UNVERIFIED_VERSION_LEAD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "UNAVAILABLE",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "No accessible specification text; issuer and mirror retrieval attempts",
+          "CLAIM": "No final-version implementation or current universal-status claim is supported."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-013"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Preserved separately from the communicative-act specification because these are distinct works. Contract Net mechanism reconstructed from S004/S045/S046, not this inaccessible text."
+      ],
+      "EVIDENCE_ROLES": [
+        "UNVERIFIED_LEAD"
+      ],
+      "DEPENDENCE_GROUP": "FIPA_VERSIONS",
+      "INSPECTION_NOTE": "Only the identified sections and claims, not every cited reference, were inspected. PDF page numbers are zero-based only when explicitly labelled; otherwise they are printed pages or one-based PDF pages."
+    },
+    {
+      "SOURCE_ID": "EMAS-S054",
+      "TITLE": "Evaluating XAI Support From A Hierarchical Reinforcement Learning Policy in Human-Agent Collaboration",
+      "AUTHORS_OR_ORGANISATION": "Mateus Levi Simões Fernandes; Alberto Sardinha",
+      "DATE": "2026-05",
+      "VERSION_OR_EDITION": "AAMAS 2026 extended abstract, 3259–3261; study ethics approval dated 2025-06-11",
+      "URL_OR_DOI": "https://aamas.csc.liv.ac.uk/Proceedings/aamas2026/pdfs/HDMG2174.pdf",
+      "DOI": "10.65109/HDMG2174",
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_RESEARCH_EXTENDED_ABSTRACT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§2 methodology and §3 preliminary findings, pp. 3259–3260; Figure 2 page image inspected",
+          "CLAIM": "Triggered status explanations were compared with no explanation in a human–agent Overcooked task; the study did not establish a performance benefit."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-028",
+        "EMAS-057",
+        "EMAS-065",
+        "EMAS-067",
+        "EMAS-068"
+      ],
+      "EVIDENCE_LIMITS": [
+        "38 analysed participants from 41 convenience recruits; control/text/audio groups 14/14/10, four 80-second sessions on one layout, gaming-experienced sample. Underpowered and non-significant results do not establish equivalence or no benefit in all populations. Exploratory adaptation patterns are not confirmed effects."
+      ],
+      "EVIDENCE_ROLES": [
+        "EMPIRICAL_COMPARISON",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "IMPLEMENTATION_SEMANTICS"
+      ],
+      "DEPENDENCE_GROUP": "HIERARCHICAL_HAT_XAI_2026",
+      "INSPECTION_NOTE": "The three-page primary extended abstract was read, with the results page visually checked. Cited predecessor studies were not counted as inspected evidence."
+    },
+    {
+      "SOURCE_ID": "EMAS-S055",
+      "TITLE": "Modelling dialogues using argumentation",
+      "AUTHORS_OR_ORGANISATION": "Leila Amgoud; Nicolas Maudet; Simon Parsons",
+      "DATE": "2000",
+      "VERSION_OR_EDITION": "ICMAS 2000, pp. 31–38; inspected author manuscript paginated 1–8",
+      "URL_OR_DOI": "https://www.sci.brooklyn.cuny.edu/~parsons/publications/conferences/icmas00.pdf",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_RESEARCH",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§2, manuscript pp.1–2",
+          "CLAIM": "Explicitly states inspiration from Dung, adds preferences, and defines acceptable arguments."
+        },
+        {
+          "LOCATOR": "§§3–4, manuscript pp.2–6; p.4 and p.6 images inspected",
+          "CLAIM": "Couples argument reasoning to assertion, acceptance, challenge and question moves and public commitment-store updates. Private rationality preconditions remain."
+        },
+        {
+          "LOCATOR": "End of §4.3, manuscript p.6; §5 and conclusion, pp.6–8",
+          "CLAIM": "The syntax alone permits repeated or infinite exchanges; relevance and useful stopping are assumptions left for fuller formalisation. Negotiation/deliberation and multiparty extension are not fully furnished by the basic model."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-008",
+        "EMAS-009",
+        "EMAS-010",
+        "EMAS-025",
+        "EMAS-046",
+        "EMAS-049",
+        "EMAS-061"
+      ],
+      "EVIDENCE_LIMITS": [
+        "The basic model is two-party, assumes static agreed preference strata and omits retraction. Selected definitions, protocol rules and stated proof results were inspected; predecessor proofs cited elsewhere were not independently checked. No comparative or deployment-effect evidence. Public dialogue commitments are not automatically promises about external task completion."
+      ],
+      "EVIDENCE_ROLES": [
+        "HISTORICAL_PROVENANCE",
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE"
+      ],
+      "DEPENDENCE_GROUP": "ARGUMENT_DIALOGUE_AMGOUD_PARSONS",
+      "INSPECTION_NOTE": "Actual body §§2–6, relevant definitions/moves, limitations and reference list inspected. ICMAS venue pagination additionally confirmed in EMAS-S056 references. The printed p.6 sentence about truth contains an apparent omitted negation; no quotation or guarantee is inferred from that sentence."
+    },
+    {
+      "SOURCE_ID": "EMAS-S056",
+      "TITLE": "Dialogue Games in Multi-Agent Systems",
+      "AUTHORS_OR_ORGANISATION": "Peter McBurney; Simon Parsons",
+      "DATE": "2002",
+      "VERSION_OR_EDITION": "Informal Logic 22(3), pp.257–274; issue date as printed, not digitisation date",
+      "URL_OR_DOI": "https://informallogic.ca/index.php/informal_logic/article/view/2592/2033",
+      "SOURCE_CLASS": "SCHOLARLY_SYNTHESIS_AND_PRIMARY_METHODOLOGICAL_CRITICISM",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_TARGETED_INSPECTION",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR": "§4, pp.261–262; §5, pp.263–264",
+          "CLAIM": "Separates dialogue rule types and kinds of commitment; documents the two-party protocol, absent withdrawal and extensions needed for negotiation."
+        },
+        {
+          "LOCATOR": "§6.1, pp.265–267",
+          "CLAIM": "Distinguishes public from private axiomatic semantics and the difficulty of checking an opaque participant’s internal conformance."
+        },
+        {
+          "LOCATOR": "§§6.2–6.3, pp.267–269",
+          "CLAIM": "Treats termination, complexity, automatability and protocol equivalence as distinct questions. The review’s 2002 research-frontier statements are not present-day status claims."
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EMAS-007",
+        "EMAS-008",
+        "EMAS-009",
+        "EMAS-010",
+        "EMAS-025",
+        "EMAS-046",
+        "EMAS-049",
+        "EMAS-061"
+      ],
+      "EVIDENCE_LIMITS": [
+        "Used for its authors’ methodological distinctions and criticism; origin claims are traced to the inspected EMAS-S055 and EMAS-S031 rather than accepting a review as proof of all cited work. No independent empirical replication. Author overlap with EMAS-S055 is explicit."
+      ],
+      "EVIDENCE_ROLES": [
+        "DEFINITION_OR_TAXONOMY",
+        "CRITICISM_OR_NEGATIVE_EVIDENCE",
+        "HISTORICAL_PROVENANCE"
+      ],
+      "DEPENDENCE_GROUP": "ARGUMENT_DIALOGUE_AMGOUD_PARSONS",
+      "INSPECTION_NOTE": "Cover, §§4–6 and pertinent references inspected. Does not establish current protocol superiority, contemporary implementation status or the complete primary history of philosophical dialogue games."
+    }
+  ]
+}

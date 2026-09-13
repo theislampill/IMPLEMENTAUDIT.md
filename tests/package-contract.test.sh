@@ -4,6 +4,11 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+# Prospective source announcements and semantic-preservation negative controls.
+python tests/pre-use-announcement-contract.py --repo-root "$repo_root"
+
+python tests/auto-loom-semantics-regression.py --repo-root "$repo_root"
+
 fail() {
   printf 'package-contract.test: %s\n' "$*" >&2
   exit 1
@@ -33,7 +38,7 @@ make_fixture() {
       "name: $skill" \
       'description: Package-contract fixture.' \
       'metadata:' \
-      '  version: "0.4.0"' \
+      '  version: "0.4.1"' \
       '---' \
       >"$target/skills/$skill/SKILL.md"
   done
@@ -149,7 +154,7 @@ import sys
 
 path = pathlib.Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
-path.write_text(text.replace('version: "0.4.0"', 'version: "9.9.9"'), encoding="utf-8")
+path.write_text(text.replace('version: "0.4.1"', 'version: "9.9.9"'), encoding="utf-8")
 PY
 expect_reject independent-version "$independent_version" "audit-assess runtime version"
 

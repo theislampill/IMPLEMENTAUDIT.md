@@ -175,7 +175,7 @@ Boundary fixtures (expected classification + rationale):
 | Patch written into a generated bundle instead of its source owner | `generated-artifact-mismatch` | wrong layer of a generator relationship |
 | Run declared "fully resolved" while two ledger rows are risk-accepted and one is transferred | `false-closure` | closure accounting collapsed non-resolved states |
 | A claim cites a passing test that does not cover the claimed behavior | `evidence-mismatch` | one claim, unsupporting evidence |
-| Authorized reviewer returns no verdict (transient channel failure: rate limit, 5xx, or interruption) | `transport-infrastructure` | review-channel failure; preserve non-verdict and reissue to the same reviewer identity |
+| Authorized reviewer returns no verdict (transient channel failure: rate limit, 5xx, or interruption) | `transport-infrastructure` | review-channel failure; preserve non-verdict and reissue the allowed packet to a fresh reviewer context |
 | Authorized reviewer returns no verdict (content-deterministic refusal: provider policy or schema rejection caused by packet text) | `transport-infrastructure` | review-channel failure; preserve non-verdict, record the origin, and do not reissue an unaltered packet — alter scope or wording first |
 
 Same-class recurrence — not a try count — is what drives escalation. The log
@@ -261,50 +261,141 @@ IMPLEMENTAUDIT_CONTINUITY_SAVED
 Neither marker is a completion or handoff signal; both may appear in
 transcripts that later reach AUDIT_COMPLETE or an audited handoff.
 
+## Host-turn disposition
+
+A host turn may end only as no active audit object, valid terminal closure,
+valid audited handoff, or valid nonterminal yield. These are disposition
+classes, not lifecycle states. `scripts/evaluate-turn-disposition.py` consumes
+the exact current R003A attribution result, its correlation inputs, the current
+R0033 check result, and the bound run root. Stale, ambiguous, foreign, or
+malformed attribution and `PENDING` or `REQUIRED/UNSATISFIED` route state block.
+
+A nonterminal yield retains one existing STATE status (`open`,
+`READY_TO_DISPATCH`, `IN_PHASE`, `PAUSED`, `BLOCKED`, or `INTERRUPTED`) and
+durable continuation evidence. It emits no terminal or handoff marker. Bare
+abandonment is therefore invalid, while progress, a question, or a bounded
+wait with a recorded Next action remains allowable. No-active-object is the
+only path that omits binding, route, and run-root reads. Source classification
+is not actual host activation evidence; HC-H7B or another separately qualified
+adapter remains responsible for host translation and firing claims.
+
 Context-epoch continuity (#35) deliberately introduces NO new marker: a
 continuity boundary is recorded as a new epoch row in STATE.md `## Context
 epochs and instruction applicability` (provenance exactly one of
 `host-reported-compaction` / `new-session` / `handoff-resume` /
-`manual-resume` / `inferred-context-gap`), and post-boundary reconciliation
-precedes any repository mutation (PROTOCOL.md §Continuity boundaries;
-`references/continuity.md`). A transcript that mutates the repository
-after a host-reported compaction without a reconciliation record, or that
-re-executes a one-shot instruction whose status is `satisfied`, violates
-this contract even though every marker is well-ordered.
+`manual-resume` / `inferred-context-gap`). Reconciliation precedes affected
+authority-sensitive repository effects (PROTOCOL.md §Continuity boundaries;
+`references/continuity.md`). An affected mutation without its currentness or
+reconciliation, or replay of a `satisfied` one-shot, violates this contract even
+when markers are ordered. Preserve the exact existing invalidation occurrence;
+this wording does not require another event for the same boundary.
 
-The first substantive post-boundary assistant message must be the verified
-continuity receipt/current-frontier report. Waiting on or terminating an
-already-running pre-boundary process is containment, not permission to start a
-new command. Ordinary task narration, a new check, an audit-artifact write, a
-package build or a commit before fresh invalidation, receipt verification and
-currentness is a continuity violation. A remembered standing constraint remains
-binding but does not become the active frontier without live-state evidence.
+The first substantive recovered-frontier assistant message is the verified
+continuity receipt/current-frontier report. Waiting on or terminating a process
+whose authority or inputs depend on that recovery is containment, not restored
+authority. A new affected command, check, state write, package effect or commit
+before required recovery/currentness is a violation. Separately admitted
+unchanged-input sibling preparation may continue only on its own already-valid
+scope, authority and containment basis under `continuity.md`; unknown
+independence blocks that task. This exception permits no pre-OPEN substantive
+STATE/ROADMAP/WORK_GRAPH reconstruction, canonical effect, borrowed currentness
+or acceptance. Buffer its products and revalidate them at the consuming JOIN.
+P0 recovery priority is not a global compute mutex. A remembered standing
+constraint remains binding but cannot become the frontier from stale context.
 
 ## Child-skill routing observability
 
-A governed child route is user-visible only after the exact package gate,
-resolver selection, and actual child load have occurred. The route narration
-uses both lines:
+Pre-action selection is required separately by `child-agents.md` before actual
+load. It uses CHILD_SKILL_SELECTED and never claims verified LOAD or a
+CHILD_SKILL_ROUTE; the verified route narration below still waits for real LOAD.
 
-```text
+### Generic full-skill LOAD
+
+This generic form is for independently required compaction or direct cognition
+outside actual native delivery, when no native READY tuple exists. Actual full
+selected skill LOAD and prospective visible parent acknowledgement are required
+before bounded use. It grants no native delivery, host-stage, currentness, epoch,
+recovery, lifecycle, mutation, release or closure authority and cannot release
+actual native USE. Missing currentness, epoch or native qualification does not
+block the independently required bounded entry.
+
+```ini
+CHILD_TASK=<id>
 CHILD_SKILL_ROUTE=<selected-child>
-I'm using <selected-child> to <bounded reason for this route>.
+LOAD=VERIFIED
 ```
+
+I'm using the `<CHILD_TASK>` holon with the `<CHILD_SKILL_ROUTE>` skill to <bounded reason for this route>.
+
+### Actual native delivery
+
+This native form applies only to actual native delivery after independently
+verified full selected skill LOAD. WORKER_TASK and LOAD_READY_SHA256 must bind
+the true native worker and complete READY record. The generic form never
+satisfies native readiness, liveness, ACK, same-worker USE or host-stage proof.
+All existing native qualification, admission and result-authority gates remain
+required in this context.
+
+A governed child route is user-visible only after the exact package gate,
+resolver selection, and actual full child load have occurred. Follow the event form
+in `child-agents.md`: one literal `ini` block, then its bounded named sentence.
+The verified route event is separate from the earlier OPEN/LOAD=UNVERIFIED event:
+
+```ini
+CHILD_TASK=<id>
+CHILD_SKILL_ROUTE=<selected-child>
+LOAD=VERIFIED
+WORKER_TASK=<actual worker>
+LOAD_READY_SHA256=<full READY digest>
+```
+
+I'm using the `<CHILD_TASK>` holon with the `<CHILD_SKILL_ROUTE>` skill to <bounded reason for this route>.
 
 The selected child is exactly one of `audit-state`, `audit-assess`,
 `audit-implement`, or `audit-andon`, and the announced identity must equal the
 resolved and loaded child. Child files merely being packaged or discoverable,
 or governor reasoning producing similar words or conclusions, is not a route.
-Those governor-only cases emit no child announcement. An actual child load
+Those governor-only cases emit no selected-child announcement. Exact current
+`NOT_REQUIRED` instead emits the explicit no-child projection:
+
+```ini
+PARENT_HOLON=<parent>
+CONSUMING_FRONTIER=<exact frontier>
+CHILD_SKILL_ROUTE=NOT_REQUIRED
+```
+
+The `<PARENT_HOLON>` parent uses no internal child at `<CONSUMING_FRONTIER>` because the exact current R0033 route is NOT_REQUIRED.
+
+That branch performs no resolver, load, OPEN, return or completion. An actual child load
 without the announcement, an announcement without a load, a mismatched child,
 duplicate child announcements, or a retroactive announcement is a routing
 observability failure; none creates authority or closure.
 
-For a real continuity boundary, the verified receipt precedes the
-`audit-state` load. Its route line appears in the first narration permitted
-after that receipt; it never displaces or precedes the receipt/currentness
-gate. The other children follow the same actual-load/visible-route bijection
-when their own governor gates genuinely select them.
+The visible identity-bound lifecycle is exactly `OPEN` → `LOAD` → `USE` →
+`RETURN` → `DISPOSE` → `RECONCILE` for all four governed holons. RETURN and
+DISPOSE do not create canonical credit: only the governor's one exact
+reconciliation plus post-return currentness completes the sequence. Every
+stage remains bound to the same child, obligation and route transaction.
+OPEN/RETURN/RECONCILE route state must not be used to infer LOAD, USE or
+DISPOSE: those three stages require exact immutable host-owned receipts,
+independently resolved to the current host/session, child, packet, obligation
+and route transaction. Child-supplied hashes do not suffice, and the
+transcript/result must name every missing stage as `unverified`.
+
+For ordinary continuity boundaries, the verified receipt precedes the
+`audit-state` load and its first permitted route narration. For explicitly
+selected source-qualified v3 recovery and its prospective v4 successor only,
+the ordinary receipt/currentness clauses in this transcript use the exact
+native/custody substitution in `continuity.md` and `route-obligations.md`,
+including required post-return revalidation. Preserve v4's additional qualified
+attempt-evidence and child-admission requirements before hot reads; a version
+label does not admit a route. Actual OPEN and verified LOAD permit only the
+bounded recovery announcement, not ordinary currentness, next-task effects or
+recovery acceptance. The separate state/publication/receipt/H0 owners must
+still establish ordinary currentness before ordinary re-entry. The actual-LOAD,
+matching parent announcement and acknowledged same-worker USE-release contract
+remains unchanged. Other audit-* children retain their ordinary currentness
+gates; no old execution or late announcement gains retrospective credit.
 
 Verification inside a child may report an already-known cheap deterministic failure;
 after return, the governor may handle that result without another model child.
@@ -314,6 +405,81 @@ governor, the governor re-derives current state, and only then may it select and
 fresh `audit-andon` route. If that diagnosis warrants another bounded repair,
 `audit-andon` returns to the governor before a fresh `audit-implement` route. A direct
 child-to-child transition is a routing failure.
+
+The host event supplies exactly one closed
+`implementaudit.host-abnormality-classification.v1` record bound to that Stop
+event. It classifies the turn as `NONE`, `MECHANICAL` or `SUBSTANTIVE`; Stop
+does not lexically infer semantic completeness from assistant prose. The
+packaged standard Stop hook currently has no trusted producer for the record,
+so an ordinary installed Stop event remains `UNCLASSIFIED` and
+non-authorizing. `NONE`
+and deterministic stop, containment, preservation, rehash or known
+countermeasure execution remain cheap. `SUBSTANTIVE` is admitted only after a
+fresh reconciled `audit-andon` route. Missing, mixed-shaped, stale, foreign or
+unsupported classification is non-authorizing, as is `SUBSTANTIVE` without the
+current identity-bound lifecycle. A governed child requester always returns to
+the governor and is rejected by the live dispatch gate.
+
+### Isolated qualification presentation
+
+Separately authorized transport qualification uses the exact source-owned
+`ISOLATED_QUALIFICATION` purpose, a null `selected_child`, and a stable
+`logical_task`. It is not a governed route, skill invocation, OPEN, assessment,
+adoption or currentness result. Its actual READY carries that same purpose and
+the existing exact source, worker/PID/birth, LOAD and raw-prefix identities.
+
+The shared/native formatter emits an `ini` qualification block with those
+identities and the full READY digest, followed by one bounded named sentence.
+It emits no `CHILD_SKILL_ROUTE` or skill-USE declaration. The bound isolated
+parent consumer verifies the actual parent row and ACK in that mode only;
+normal governed presentation cannot release isolated USE, and qualification
+presentation cannot satisfy governed admission. Missing or inconsistent mode
+bindings refuse. Discriminators and explicit CLI calls grant no effect authority.
+Normal governed marker, route/currentness, source and admission requirements
+remain unchanged. Future evidence must come from actual execution.
+
+### LOAD visibility before USE
+
+The governed dispatch consumer must hold substantive USE until verified actual
+LOAD has reached the parent governor, the governor has emitted the one matching
+announcement above in its own assistant transcript, and the supported transport
+has acknowledged that exact presentation before releasing the same worker.
+Bind this ordering in the existing task/route custody: parent identity, worker
+and process/context identity, executing package and selected-child source,
+OPEN, packet, obligation, transaction, applicable host/session generation,
+LOAD evidence locator/digest, and the actual parent-message locator/digest.
+The acknowledgement is presentation sequencing, never admission, currentness,
+a host-stage receipt or a new lifecycle state. A typed claim or echoed marker
+does not establish the parent's actual message or its timing.
+
+Use a qualified LOAD-only phase or supported equivalent that exposes exact
+source/delivery witnesses, relays their independently verified LOAD evidence
+promptly, and withholds substantive input use pending acknowledgement. Where
+the route requires host-owned LOAD receipt resolution, perform that existing
+stage-owner check; a raw prefix is not a receipt. Readiness is nonterminal
+transport evidence, not the child's semantic RETURN. USE and DISPOSE remain
+unverified. A second transport turn may continue the same fresh isolated task
+only with unchanged bound identity and applicable gates; it is not a second
+child, fresh route or permission to reuse an older worker context.
+
+If the selected channel cannot hold USE, or the exact child's loaded contract
+cannot honor this phase, hold that automated governed path as unsupported.
+Do not deliver an immediate full-cognition prompt and rely on later polling.
+Timeout, parent loss, uncertain acknowledgement, a conflicting duplicate or
+identity drift requires exact partial-effect reconciliation and containment.
+An exact transport replay may resolve idempotently; it may never emit a second
+announcement or launch USE twice. USE before announcement/acknowledgement is
+an observability failure even if execution, later receipts or RETURN succeed;
+preserve the facts without backdating, replay or retrospective credit.
+
+R0033 presentation/lifecycle and R0036 dispatch/custody acceptance must bind the
+actual consumer to seven controls: hidden, noLOAD, wrongID, duplicate and
+retroactive refuse; correct ordered same-worker release passes this boundary;
+ordinarynoannouncement passes without a selected audit-* marker. Ordinary work
+retains its existing task visibility and any genuinely current NOT_REQUIRED
+projection. No new specialist trigger or ordinary-task acknowledgement gate
+is created. Source clauses, fixtures and helper checks do not establish these
+actual host/model/parent-presentation controls or semantic acceptance.
 
 ## Final audit markers
 

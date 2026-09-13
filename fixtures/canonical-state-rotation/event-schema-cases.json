@@ -1,0 +1,39 @@
+{
+  "schema": "implementaudit.history-event-schema-cases.v1",
+  "enums": {
+    "record_kind": [
+      "andon.closed",
+      "artifact.historical",
+      "epoch.closed",
+      "finding.closed",
+      "instruction.satisfied",
+      "phase.completed",
+      "recovery.record",
+      "residual.terminal",
+      "transition.closed"
+    ],
+    "status": ["CLOSED", "EXPIRED", "PRESERVED", "SATISFIED", "SUPERSEDED"],
+    "transition": ["APPENDED", "CORRECTED", "MIGRATED", "SUPERSEDED"]
+  },
+  "valid_event": {
+    "schema_version": "implementaudit.history-event.v1",
+    "run_id": "run-1",
+    "controller_id": "controller-1",
+    "generation_id": "G0001",
+    "sequence": "00000000000000000001",
+    "record_kind": "finding.closed",
+    "subject_id": "subject-1",
+    "source_epoch": "G0001",
+    "transition": "MIGRATED",
+    "status": "CLOSED",
+    "supersedes_event_id": null,
+    "payload": {"answer": true}
+  },
+  "rejections": [
+    {"id": "ES01-caller-source-fields", "patch": {"source_locator": {}}, "code": "OE_EVENT_REQUEST_KEYS_NOT_EXACT"},
+    {"id": "ES02-record-kind-alias", "patch": {"record_kind": "FINDING.CLOSED"}, "code": "OE_EVENT_RECORD_KIND_INVALID"},
+    {"id": "ES03-transition-case", "patch": {"transition": "migrated"}, "code": "OE_EVENT_TRANSITION_INVALID"},
+    {"id": "ES04-status-unknown", "patch": {"status": "OPEN"}, "code": "OE_EVENT_STATUS_INVALID"},
+    {"id": "ES05-float-payload", "patch": {"payload": {"bad": 1.5}}, "code": "OE_EVENT_PAYLOAD_INVALID"}
+  ]
+}

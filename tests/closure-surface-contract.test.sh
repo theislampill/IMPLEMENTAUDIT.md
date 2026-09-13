@@ -488,6 +488,8 @@ printf '%s' "$flat" | grep -qi 'second independent run' \
   || fail "PROTOCOL missing cross-run residual routing rule"
 printf '%s' "$state_flat" | grep -qi 'durable tracker' \
   || fail "STATE missing cross-run residual owner guidance"
+grep -Fq '`owner-refusal:<source>`' "$state_template" \
+  || fail "STATE missing code-delimited cross-run owner-refusal marker"
 bash "$scorer" --residual-routing "$fx/residual-first.md" >/dev/null 2>&1 \
   || fail "first residual occurrence must remain legal without tracker ceremony"
 if bash "$scorer" --residual-routing "$fx/residual-repeat-a.md" \

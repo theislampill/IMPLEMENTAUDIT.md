@@ -1,0 +1,32 @@
+{
+  "schema": "implementaudit.canonical-state-rotation-f3-reader-matrix.v1",
+  "controller": "reader-controller",
+  "pointer_ref": "refs/implementaudit/current-generations/reader-controller",
+  "marker_ref": "refs/implementaudit/current-generation-migrations/reader-controller",
+  "cases": [
+    {"id":"L01","marker":"absent","pointer":"absent","receipt":"exact-v2","owner_mutation":"none","expected":"LEGACY_COMPATIBILITY"},
+    {"id":"L02","marker":"absent","pointer":"absent","receipt":"absent","owner_mutation":"none","expected":"STOP"},
+    {"id":"L03","marker":"absent","pointer":"absent","receipt":"exact-v1","owner_mutation":"none","expected":"STOP"},
+    {"id":"L04","marker":"absent","pointer":"absent","receipt":"invalidated-v2","owner_mutation":"none","expected":"STOP"},
+    {"id":"L05","marker":"absent","pointer":"absent","receipt":"mismatched-v2","owner_mutation":"none","expected":"STOP"},
+    {"id":"P01","marker":"absent","pointer":"valid","receipt":"exact-v3","owner_mutation":"none","expected":"FIRST_MIGRATION_INCOMPLETE"},
+    {"id":"P02","marker":"absent","pointer":"valid","receipt":"absent","owner_mutation":"none","expected":"STOP"},
+    {"id":"P03","marker":"absent","pointer":"valid","receipt":"exact-v2","owner_mutation":"none","expected":"STOP"},
+    {"id":"P04","marker":"absent","pointer":"valid","receipt":"stale-v3","owner_mutation":"none","expected":"STOP"},
+    {"id":"P05","marker":"absent","pointer":"valid","receipt":"mismatched-v3","owner_mutation":"none","expected":"STOP"},
+    {"id":"C01","marker":"valid","pointer":"valid","receipt":"exact-v3","owner_mutation":"none","expected":"POINTER_CURRENT"},
+    {"id":"C02","marker":"valid","pointer":"valid","receipt":"absent","owner_mutation":"none","expected":"STOP"},
+    {"id":"C03","marker":"valid","pointer":"valid","receipt":"exact-v2","owner_mutation":"none","expected":"STOP"},
+    {"id":"C04","marker":"valid","pointer":"valid","receipt":"stale-v3","owner_mutation":"none","expected":"STOP"},
+    {"id":"C05","marker":"valid","pointer":"valid","receipt":"mismatched-v3","owner_mutation":"none","expected":"STOP"},
+    {"id":"M01","marker":"valid","pointer":"absent","receipt":"exact-v2","owner_mutation":"none","expected":"STOP_NO_ROOT_FALLBACK"},
+    {"id":"M02","marker":"valid","pointer":"malformed","receipt":"exact-v3","owner_mutation":"none","expected":"STOP_NO_ROOT_FALLBACK"},
+    {"id":"M03","marker":"malformed","pointer":"valid","receipt":"exact-v3","owner_mutation":"none","expected":"STOP"},
+    {"id":"M04","marker":"valid","pointer":"valid","receipt":"exact-v3","owner_mutation":"controller","expected":"STOP"},
+    {"id":"M05","marker":"valid","pointer":"valid","receipt":"exact-v3","owner_mutation":"claim","expected":"STOP"},
+    {"id":"M06","marker":"valid","pointer":"valid","receipt":"exact-v3","owner_mutation":"run","expected":"STOP"},
+    {"id":"M07","marker":"valid","pointer":"valid","receipt":"exact-v3","owner_mutation":"pointer-schema","expected":"STOP"},
+    {"id":"M08","marker":"valid","pointer":"valid","receipt":"exact-v3","owner_mutation":"marker-schema","expected":"STOP"},
+    {"id":"M09","marker":"valid","pointer":"valid","receipt":"exact-v3","owner_mutation":"receipt-schema","expected":"STOP"}
+  ]
+}

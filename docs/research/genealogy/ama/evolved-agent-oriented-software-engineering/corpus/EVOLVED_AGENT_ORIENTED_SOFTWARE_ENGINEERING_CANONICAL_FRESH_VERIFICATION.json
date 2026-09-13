@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING",
+  "revision": "EAOSE-CANONICAL-R1-2026-09-07",
+  "research_cutoff": "2026-09-07",
+  "scope": "Only specific frozen-input material conflicts; no third field campaign.",
+  "cases": [
+    {
+      "id": "FV01",
+      "reason": "Disputed shared-work identity: A shorthand title versus B complete OPEN chapter title.",
+      "inputs": [
+        "A:012",
+        "B:017"
+      ],
+      "urls": [
+        "https://lia.disi.unibo.it/~ao/pubs/pdf/volumes/eumas2006/Republications/15.pdf"
+      ],
+      "locators": [
+        "PDF p.1 title/author/reprint notice",
+        "PDF p.13 Appendix B abridgement"
+      ],
+      "result": "Same work; canonical title corrected. Appendix omits detailed task descriptions for copyright reasons.",
+      "limit": "Names/outline are accessible, omitted fragment recipes are not reconstructed.",
+      "method": "Primary PDF text and first/appendix page rendering",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "FV02",
+      "reason": "Disputed ADELFE title/authors and materially different possible reading of local-cooperation adequacy.",
+      "inputs": [
+        "A:040",
+        "B:040"
+      ],
+      "urls": [
+        "https://lia.disi.unibo.it/corsi/2007-2008/SMA-LS/papers/9/bernon2004a.pdf"
+      ],
+      "locators": [
+        "PDF p.1 bibliographic identity",
+        "pp.313–315 theorem wording, local cooperation and methodological assertion"
+      ],
+      "result": "Correct title/authors are the B identity. The stated existence/equivalent-function result does not by itself establish every locally cooperative design meets a chosen external requirement.",
+      "limit": "The cited underlying theorem/proof is not freshly reconstructed; general certificate remains contested rather than claiming the theorem is false.",
+      "method": "Primary PDF text and pp.1,3,5 rendering",
+      "status": "RESOLVED_IDENTITY_INTERPRETATION_BOUNDED"
+    },
+    {
+      "id": "FV03",
+      "reason": "Same arXiv identifier but conflicting DevOps title and risk of treating proposal as empirical evaluation.",
+      "inputs": [
+        "A:032",
+        "B:029"
+      ],
+      "urls": [
+        "https://arxiv.org/abs/2108.08117",
+        "https://arxiv.org/html/2108.08117v1"
+      ],
+      "locators": [
+        "Title/authors/version metadata",
+        "Development/operation integration argument"
+      ],
+      "result": "Developer Operations and Engineering Multi-Agent Systems, Kampik/Amaral/Hübner, v1 2021-08-18; same source. Integration proposal, not a controlled benefit study.",
+      "limit": "No operational experiment or whole-method result is inferred.",
+      "method": "Primary arXiv metadata and HTML",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "FV04",
+      "reason": "Prometheus workshop author-copy identity versus DOI proceedings edition: avoid unjustified exact-edition merge.",
+      "inputs": [
+        "A:006",
+        "B:007"
+      ],
+      "urls": [
+        "https://michaelwinikoff.com/wp-content/uploads/2019/05/aamas02-aose-ws.pdf",
+        "https://link.springer.com/chapter/10.1007/3-540-36540-0_14"
+      ],
+      "locators": [
+        "Author PDF p.1",
+        "Publisher publication date/volume/pages"
+      ],
+      "result": "2002 workshop manuscript and 2003 proceedings chapter (LNCS2585 pp.174–185). Keep two edition/citation records with shared ancestry.",
+      "limit": "B says author PDF without a recoverable copy URL/version. Its claims remain author-copy attestations; no byte identity of editions is certified.",
+      "method": "Author PDF first-page rendering plus official publisher metadata",
+      "status": "RESOLVED_BIBLIOGRAPHIC_EDITIONS_COPY_LIMIT_PRESERVED"
+    },
+    {
+      "id": "FV05",
+      "reason": "B-083 absent as a distinct A candidate; verify sourced status, latency mechanism and empirical ceiling rather than mislabel emergence.",
+      "inputs": [
+        "B:056"
+      ],
+      "urls": [
+        "https://journals.sagepub.com/doi/10.3233/FAIA251223",
+        "https://cris.unibo.it/handle/11585/514068/browse?authority=journal49310&etal=-1&filter_value_display=&order=ASC&rpp=20&sort_by=1&starts_with=B&type=relationSerie"
+      ],
+      "locators": [
+        "§3.2 Concurrency and PGP",
+        "§5 setup",
+        "§6 future work",
+        "Institutional 2025 bibliographic record and publisher 2026 online page date"
+      ],
+      "result": "Primary text recommends suspending only the intention awaiting generation. This is sourced design guidance. The reported grid-world plan experiment is not a test of deadline guarantees or whole AOSE methodology.",
+      "limit": "DOI open and institutional PDF download each failed once; publisher full HTML provided readable target sections. No latency experiment or hard-real-time proof is inferred. 2025 proceedings/copyright and 2026 online-host date remain distinct.",
+      "method": "Bounded failed fetches followed by readable primary publisher HTML and institutional metadata",
+      "status": "RESOLVED_TARGET_CLAIM"
+    }
+  ]
+}

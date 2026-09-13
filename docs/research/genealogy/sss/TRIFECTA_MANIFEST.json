@@ -1,0 +1,178 @@
+{
+  "authority_boundary": "Neutral custody; retained analytical guards and evidence limits do not establish target applicability, runtime behavior, currentness or release.",
+  "counts": {
+    "complete_pairs": 17866,
+    "directional_relations_including_unresolved": 6832,
+    "outer_members": 30,
+    "pair_statuses": {
+      "MATERIAL_RELATION": 3539,
+      "NO_MATERIAL_RELATION": 14320,
+      "UNRESOLVED_RELATION": 7
+    },
+    "recursive_member_occurrences": 86,
+    "relation_rows_with_source_guards": 6832,
+    "selected_properties": 235
+  },
+  "identity_note": "Embedded content/normalized digests keep their source scope. Exact raw ZIP digests above do not reinterpret them.",
+  "members": [
+    {
+      "bytes": 46667,
+      "member": "CONTROLLING_SYNTHESIS_PROMPT.md",
+      "sha256": "8265807a435fda98858c4a10979cc8ebc0e2c4ce4e32eeb1c86e02d814a0cee6"
+    },
+    {
+      "bytes": 2348,
+      "member": "EVOLVED_SSS_ACCOUNTING.json",
+      "sha256": "2376891ec8d21072114da1d0f01b0fafa6d23a3fe990d843015bc7902e83b09f"
+    },
+    {
+      "bytes": 14996,
+      "member": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json",
+      "sha256": "1680855a9a73e09ee1c5d32961039effd718027b3dfb812a7bd4ae90ea038c86"
+    },
+    {
+      "bytes": 12596,
+      "member": "EVOLVED_SSS_ANALYTICAL_COUNTEREXAMPLES.json",
+      "sha256": "ea01fa373fd65d9e464900c76bf47284e4ea6e47369d6fb63cabf369680502fc"
+    },
+    {
+      "bytes": 12617,
+      "member": "EVOLVED_SSS_COMPLETENESS_AND_REVERSE_CONSISTENCY_REVIEW.md",
+      "sha256": "7e83edfa27ce9838cd7acf6db4ffd226321a6377da90597c7e97842906b6aff1"
+    },
+    {
+      "bytes": 231843,
+      "member": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json",
+      "sha256": "fab707cce5f3ac51bca000292c353360da254e9869ec43a64e42ddfb6c1ac913"
+    },
+    {
+      "bytes": 33378,
+      "member": "EVOLVED_SSS_COMPOSITION_MODEL.json",
+      "sha256": "beafd8f5449e464b9f6deceeef14021be8a4445b6a6050fec695107dedd7b301"
+    },
+    {
+      "bytes": 12310609,
+      "member": "EVOLVED_SSS_CONSTITUENT_PROPERTY_REGISTER.json",
+      "sha256": "9fabf1645d6f9b9e9442cf9c0fb4761d6c87b552951607d8331286c1d6dedd3c"
+    },
+    {
+      "bytes": 880225,
+      "member": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json",
+      "sha256": "3ebcd89722ad25eb74cb19bf3f0ee82192eb92b155fef96adbbafaf46d757d01"
+    },
+    {
+      "bytes": 64511752,
+      "member": "EVOLVED_SSS_DIRECTIONAL_RELATION_LEDGER.json",
+      "sha256": "cfb014c89161241f8c99f2d5758be89ee3ea91f7e27994cd06219d83cffce83f"
+    },
+    {
+      "bytes": 10514,
+      "member": "EVOLVED_SSS_FROZEN_MANIFEST.json",
+      "sha256": "99944c728bd8adfd309e449b96de122169dd1883d6a5b7d396701039733237dc"
+    },
+    {
+      "bytes": 123073,
+      "member": "EVOLVED_SSS_FROZEN_REPORT.md",
+      "sha256": "76f3bb2bbfb1bfd28039fc86053b026513fd25fd3942a6b9ac12f5631dec0c99"
+    },
+    {
+      "bytes": 1098451,
+      "member": "EVOLVED_SSS_INHERITED_BOUNDARY_LEDGER.json",
+      "sha256": "9a7236c472b7053600a7c484f403dc53537cb7f26bbb8b914edc9c24e1a89985"
+    },
+    {
+      "bytes": 8324,
+      "member": "EVOLVED_SSS_INPUT_VERIFICATION.json",
+      "sha256": "dfabf867484ccdf69e335db66870c09f7126a8bf940d2b0ca65be504d6fc751b"
+    },
+    {
+      "bytes": 2925489,
+      "member": "EVOLVED_SSS_INTER_CROSSWALK_INTAKE.json",
+      "sha256": "8a5015e8943d323b48a9cb53e4743de7558ebd21210be7b4351c255eb58043af"
+    },
+    {
+      "bytes": 649782,
+      "member": "EVOLVED_SSS_INTER_CROSSWALK_INTAKE.md",
+      "sha256": "8ec926085e21e90ab6ce008e01f36892366f863b1dd532e896a77d3acf4c86ca"
+    },
+    {
+      "bytes": 20587250,
+      "member": "EVOLVED_SSS_INTRA_CROSSWALK_MATRIX.json",
+      "sha256": "d927cd593d675ca7271ca3dd7080b89d89d39c94629e074ab31ff5620fb57a69"
+    },
+    {
+      "bytes": 8089,
+      "member": "EVOLVED_SSS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "a28e681944097653e3fb715cd08b52e98284da6e014e803c627de439c8103b2e"
+    },
+    {
+      "bytes": 80128,
+      "member": "EVOLVED_SSS_SEMANTIC_ADJUDICATION_RULES.json",
+      "sha256": "2d6a85d6ce3ebe3659282fa5868d8e51d24976149d16ac490236634096ffb9ef"
+    },
+    {
+      "bytes": 16797,
+      "member": "EVOLVED_SSS_SEMANTIC_ADVERSARIAL_REVIEW.json",
+      "sha256": "0cf896daa2e4730f2a77e467060571348478c3b7ff2296c1fc3ef3efbb54999a"
+    },
+    {
+      "bytes": 953592,
+      "member": "EVOLVED_SSS_SHARED_SOURCE_IDENTITY_LEDGER.json",
+      "sha256": "bffeab521b4583e6132d0de5c37dcd8362877819e3ac1242200e339c49197384"
+    },
+    {
+      "bytes": 102460,
+      "member": "EVOLVED_SSS_TENSION_LEDGER.json",
+      "sha256": "4a3ae3368e24e298028f16980b683be7aa97eb6d519e30d8ee71d8efcb29d407"
+    },
+    {
+      "bytes": 11488,
+      "member": "EVOLVED_SSS_VERIFICATION_RECEIPT.json",
+      "sha256": "f9880dc8d691e51162738b7a1eecd74d7e054fcab89d775101dba6c49773f704"
+    },
+    {
+      "bytes": 2107,
+      "member": "START_HERE.md",
+      "sha256": "ed86211b39ea9c549dc49578ecb6e1d7d7c81700163aec4987f14badc599d190"
+    },
+    {
+      "bytes": 71064,
+      "member": "analysis/adjudications.py",
+      "sha256": "5aa2fb8b63bf4e56fb1a38c2dcfa803968afb987df85cd2ffcd6aad1a0e2fca4"
+    },
+    {
+      "bytes": 10195,
+      "member": "analysis/finite_counterexamples.py",
+      "sha256": "77eb67fb7ad8f9c57f25fb7cd57dd2f50e71d1ce61ab73e33d53c41fa8af58ea"
+    },
+    {
+      "bytes": 26773,
+      "member": "analysis/verify_sss.py",
+      "sha256": "f2e8887af8c98fc007cb35ef233c98be98c50591e6ec1e071d103e978cb2778f"
+    },
+    {
+      "bytes": 306979,
+      "member": "frozen_inputs/ESA.zip",
+      "sha256": "26ec0f2bf1c016d7772b9f041aa34c5cbe463762f62e63c6ece486a762e135e0"
+    },
+    {
+      "bytes": 3727653,
+      "member": "frozen_inputs/ESME.zip",
+      "sha256": "9c5653e02d680aea0bb40904fe29251c46e279b281bc53f142613d3ab9a40468"
+    },
+    {
+      "bytes": 352196,
+      "member": "frozen_inputs/ESPLE.zip",
+      "sha256": "814c571bd10724eb197b3a8c15a007338b5774bdfc23147342957231295c3188"
+    }
+  ],
+  "packet": {
+    "bytes": 11344299,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+    "sha256": "920a87ca2a24a792d419ae30a70ced530377e73911f910f06b992c87d8765f31"
+  },
+  "schema": "engineering-genealogy-trifecta-manifest-v1",
+  "storage": "EXACT_COMPRESSED_PACKET_MEMBERS",
+  "trifecta": "sss"
+}

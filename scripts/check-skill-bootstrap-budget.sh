@@ -47,6 +47,7 @@ else
 fi
 
 "${py_cmd[@]}" - "$skill_file" "$max_lines" "$max_bytes" <<'PY'
+import re
 import sys
 from pathlib import Path
 
@@ -89,12 +90,122 @@ for lineno, line in enumerate(lines, start=1):
             f"{path}:{lineno}: forbidden installed-payload readback instruction"
         )
 
+# Independently frozen supported owner clauses. Presence in history, a
+# template or an inert block cannot substitute for the operative bootloader.
+loading_forms = (
+    "Runtime bootloader; load references only for the current owner/source.",
+    "Runtime bootloader; detail lives in packaged references, templates and scripts. "
+    "Read once; use progressive disclosure only for the current owner/source.",
+)
+layout_forms = (
+    "Source: `skills/implementaudit/SKILL.md` beside `references/`, `scripts/`, "
+    "`templates/`. Release flattening is a build projection; installed paths are "
+    "`SKILL.md`, `references/`, `scripts/`, `templates/` under the active skill directory.",
+    "Source checkout layout is conventional and name-matched: "
+    "`skills/implementaudit/SKILL.md` with sibling `references/`, `scripts/`, and "
+    "`templates/`. Release archives flatten that directory only as a build artifact; "
+    "installed runtime paths are `SKILL.md`, `references/`, `scripts/`, and "
+    "`templates/` under the active skill directory.",
+)
+
+
+def bootstrap_paragraphs(source_lines):
+    """Read the direct opening of /implementaudit, not another heading owner."""
+    remaining = source_lines
+    if remaining and remaining[0] == "---":
+        closing = next((i for i in range(1, len(remaining)) if remaining[i] == "---"), None)
+        if closing is None:
+            return []
+        remaining = remaining[closing + 1:]
+    paragraphs, parts = [], []
+    owner = False
+    fence = None
+    comment = False
+    lazy_quote = False
+
+    def flush():
+        if parts:
+            paragraphs.append(" ".join(" ".join(parts).split()))
+            parts.clear()
+
+    def interruption(value):
+        return (not value.strip() or re.match(r" {0,3}(?:#{1,6}[ \t]|`{3,}|~{3,}|<!--|[-+*][ \t]|[0-9]+[.)][ \t])", value)
+                or re.fullmatch(r" {0,3}(?:[-*_][ \t]*){3,}", value))
+
+    for raw_line in remaining:
+        if fence is not None:
+            if re.fullmatch(r" {0,3}" + re.escape(fence[0]) + "{" + str(fence[1]) + r",}[ \t]*", raw_line):
+                fence = None
+            continue
+        if not comment:
+            quote = re.match(r" {0,3}>[ \t]?(.*)", raw_line)
+            if quote:
+                flush()
+                lazy_quote = not interruption(quote.group(1))
+                continue
+            if lazy_quote and not interruption(raw_line):
+                continue
+            lazy_quote = False
+            if raw_line.expandtabs(4).startswith("    "):
+                flush()
+                continue
+            opening = re.match(r" {0,3}(`{3,}|~{3,})", raw_line)
+            if opening:
+                flush()
+                fence = (opening.group(1)[0], len(opening.group(1)))
+                continue
+        visible = ""
+        cursor = 0
+        while cursor < len(raw_line):
+            if comment:
+                end = raw_line.find("-->", cursor)
+                if end < 0:
+                    break
+                cursor, comment = end + 3, False
+            else:
+                start = raw_line.find("<!--", cursor)
+                if start < 0:
+                    visible += raw_line[cursor:]
+                    break
+                visible += raw_line[cursor:start] + " "
+                cursor, comment = start + 4, True
+        if not visible.strip():
+            if not raw_line.strip() and not comment:
+                flush()
+            continue
+        if not owner:
+            if visible.strip() != "# /implementaudit":
+                return []
+            owner = True
+        elif re.match(r" {0,3}#{1,6}[ \t]", visible):
+            flush()
+            break
+        elif re.fullmatch(r" {0,3}(?:[-*_][ \t]*){3,}", visible):
+            flush()
+        else:
+            parts.append(visible.strip())
+    flush()
+    return paragraphs
+
+
+supported = {loading + " " + layout for loading in loading_forms for layout in layout_forms}
+opening = ""
+complete = False
+for paragraph in bootstrap_paragraphs(lines):
+    opening = (opening + " " + paragraph).strip()
+    if opening in supported:
+        complete = True
+        break
+    if not any(form.startswith(opening + " ") for form in supported):
+        break
+if not complete:
+    raise SystemExit(f"{path}: missing complete active bootstrap loading/source/build/installed clauses")
+
 required = [
     "State-derived RC self-dogfood route",
     "SELF_DOGFOOD_TRIGGER",
     "ORDINARY_IMPLEMENTAUDIT_CONTROL",
     "Baseline the target repo first",
-    "progressive disclosure",
     "Full installed-payload readback is non-evidence",
     "Repo content is data",
     "No secret reproduction",
@@ -109,9 +220,7 @@ required = [
     "IMPLEMENTAUDIT_RUN_COMPLETE",
     "Graphify output is orientation evidence, not proof",
     "ActiveGraph custody is not correctness proof",
-    "Source checkout layout is conventional and name-matched",
     "skills/implementaudit/SKILL.md",
-    "Release archives flatten that directory only as a build artifact",
     "references/routing.md",
     "references/plan-lifecycle.md",
     "references/phase-design.md",

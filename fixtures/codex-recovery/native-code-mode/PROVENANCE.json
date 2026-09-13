@@ -1,0 +1,51 @@
+{
+  "schema": "implementaudit.native-code-mode-test-fixtures.v1",
+  "scope": "Portable F1/F2/F3 and independently bound synthetic context source regressions, not native qualification",
+  "source_commit": "b5bffd3ec4db487e7e3dec59663875b0ef7b72ca",
+  "schema_export": {
+    "version": "0.154.0-alpha.6.2",
+    "executable_bytes": 297858352,
+    "executable_sha256": "081e4de4be8e38fac6ed4d95e3b1a0b9f6d31c090ddc36e1696b349fe406f575",
+    "full_export_members": 426,
+    "retained_schema_members": 3,
+    "private_data_included": false,
+    "compiled_source_equivalence_claimed": false
+  },
+  "selection_reason": "NotificationPolicy uses the exact 81-method public enum and its local definitions. The separately generated raw-response schemas are retained for internal-event diagnostics and strict legacy fixtures; schema availability does not make those internal fields a supported public plugin contract. Other exported schemas are not needed for this fixture.",
+  "files": [
+    {
+      "path": "ServerNotification.json",
+      "bytes": 203001,
+      "sha256": "eb4317b57ce7cad32d6ab8a5b7d39eb765c8fb8f67acbc808dd6e55959411c93",
+      "kind": "EXACT_PUBLIC_NATIVE_SCHEMA"
+    },
+    {
+      "path": "RawResponseItemCompletedNotification.json",
+      "bytes": 32472,
+      "sha256": "808fe739fc46130292a0a8c1969ff4e63dff856fc241ff78ce207a8eb1a67f46",
+      "kind": "EXACT_GENERATED_INTERNAL_EVENT_SCHEMA"
+    },
+    {
+      "path": "RawResponseCompletedNotification.json",
+      "bytes": 1998,
+      "sha256": "aba140e87952c900f96e0308a8849d3e313d985de1f1aa2b77f193884a76357c",
+      "kind": "EXACT_GENERATED_INTERNAL_EVENT_SCHEMA"
+    },
+    {
+      "path": "synthetic.json",
+      "bytes": 1866,
+      "sha256": "82e7bcc78b213dc801ae8d8a2544301e788a7bf03595f2f4dc6000820dfd6dc0",
+      "kind": "SYNTHETIC_PUBLIC_FIXTURE"
+    }
+  ],
+  "fixture_paths_are_repository_relative": true,
+  "requires_existing_dependency": "jsonschema; fail if unavailable",
+  "runtime_or_model_effect": false,
+  "synthetic_context_provenance": {
+    "origin": "Authored disabled toy producer and separate LOAD/USE resolved state; never copied from observed frames",
+    "omission": "One complete synthetic producer population; ABSENT LOAD and UNCHANGED USE receipts plus explicit phase omission proofs",
+    "actual_native_producer_state": "UNRESOLVED; toy omission does not describe native permission, model, AGENTS or extension producers",
+    "scope": "OFFLINE_SYNTHETIC; native input path must reject it",
+    "new_schema_owner": "skills/implementaudit/templates/native-context-input.schema.json; source-owned input schema, not a fourth native export"
+  }
+}
