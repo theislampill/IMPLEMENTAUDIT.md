@@ -1,1 +1,9 @@
 zopfli==0.2.3.post1
+
+# Existing native schema validation dependency; explicit closure for CI --no-deps.
+jsonschema==4.26.0
+attrs==26.1.0
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==2026.6.3
+typing-extensions==4.16.0; python_version < "3.13"

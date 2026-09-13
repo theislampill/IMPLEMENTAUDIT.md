@@ -1,0 +1,10 @@
+{
+  "observation_patch": {
+    "receiver": {
+      "context_id": "r39-f4-predecessor",
+      "interrupted_cognition": true,
+      "headroom_sufficient": true
+    }
+  },
+  "expected_classifier": "SAME_CONTEXT_RESUME"
+}

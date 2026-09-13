@@ -1,0 +1,1035 @@
+{
+  "schema": "implementaudit.q14-structural-synthetic-fixture.v1",
+  "proof_scope": "STRUCTURAL_SYNTHETIC_FIXTURE_ONLY",
+  "semantic_receiver_execution": "NOT_RUN",
+  "independent_semantic_evaluation": "NOT_RUN",
+  "source_procedure": {
+    "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+    "sha256": "bcc4c8a93d181f779689eb3a5749d923612df878d26f89fa1176f88b9eb752fe",
+    "lines": [
+      74,
+      135
+    ]
+  },
+  "receiver_context": {
+    "audit_object_id": "parent-1",
+    "origin": "Independent fixture input from cases.json:R31-F25; not response identity",
+    "entitled_actions": [
+      "investigate",
+      "reacquire"
+    ],
+    "forbidden_effects": [
+      "publication",
+      "allocation",
+      "implementation",
+      "closure",
+      "new-object",
+      "new-goal",
+      "new-run-root",
+      "new-mode"
+    ],
+    "live_custody": "NOT_ESTABLISHED"
+  },
+  "scenarios": {
+    "material": {
+      "path": "fixtures/issue-ready-work-orders/q14/stimulus-01.md",
+      "bytes": 2637,
+      "sha256": "c90e0f28d77dc1519c26c2f4fa571666b27de35fa113ef4c7420244ab5a6669b"
+    },
+    "cheap": {
+      "path": "fixtures/issue-ready-work-orders/q14/stimulus-02.md",
+      "bytes": 1053,
+      "sha256": "cdc55ae2409c9154ee800e2a42f558f2346f9e1c9a82b982288cd6da1601e054"
+    },
+    "no-residual": {
+      "path": "fixtures/issue-ready-work-orders/q14/stimulus-03.md",
+      "bytes": 1845,
+      "sha256": "3bd2ad94936731f18486a20eeff58e37a8d948d8c2248bb789aa913583e96a69"
+    },
+    "compact-sufficient": {
+      "path": "fixtures/issue-ready-work-orders/q14/stimulus-04.md",
+      "bytes": 2682,
+      "sha256": "f2a05b99bfe3e6d9e059a2403e0bfb1d1bce42b7a1bb171366970e411560ec62"
+    },
+    "content-unavailable": {
+      "path": "fixtures/issue-ready-work-orders/q14/stimulus-05.md",
+      "bytes": 1039,
+      "sha256": "1bd6954aba58ed09d7ba1eeb8d29b9d0c73f30c627dd79c1b56d7c59712711c2"
+    },
+    "transfer-no-readback": {
+      "path": "fixtures/issue-ready-work-orders/q14/stimulus-06.md",
+      "bytes": 3146,
+      "sha256": "962fde1877eddd5bc0a3d24be7ad7d7f6009b07ef1f6b63be082eb3c41c17aa7"
+    }
+  },
+  "synthetic_projections": {
+    "material": {
+      "provenance": "HAND_AUTHORED_SYNTHETIC_FIXTURE_PROJECTION",
+      "semantic_evidence": "NOT_OBSERVED",
+      "scenario_sha256": "c90e0f28d77dc1519c26c2f4fa571666b27de35fa113ef4c7420244ab5a6669b",
+      "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
+      "source_procedure_sha256": "bcc4c8a93d181f779689eb3a5749d923612df878d26f89fa1176f88b9eb752fe",
+      "source_procedure_lines": [
+        74,
+        135
+      ],
+      "quoted_anchors": [
+        "The current slice accepts identification of the owners and file boundaries; it does not accept the migration, compatibility, rollback behaviour or sample evidence.",
+        "The accessible C-C summary retains neither this outstanding decision, the sample-content limit, nor the receiving owner's authority boundary."
+      ],
+      "facts": {
+        "accessible_corpus": "scenario-body",
+        "accepted_scope": [
+          "owner-file-identification"
+        ],
+        "residual_scope": [
+          "migration",
+          "compatibility",
+          "rollback",
+          "sample-evidence"
+        ],
+        "required_distinctions": [
+          "residual-scope",
+          "sample-access",
+          "consumer-entitlement",
+          "next-action",
+          "horizon",
+          "readback"
+        ],
+        "surviving_distinctions": [],
+        "sample_access": "unavailable",
+        "first_missing_input": "E-C sample content",
+        "sample_storage_locator": "unknown",
+        "consumer": "scripts/migrate-store.py owner",
+        "next_action": "reacquire",
+        "horizon": "unknown",
+        "receiver_readback": "absent",
+        "acceptance_basis": "partial-identification-only"
+      }
+    },
+    "cheap": {
+      "provenance": "HAND_AUTHORED_SYNTHETIC_FIXTURE_PROJECTION",
+      "semantic_evidence": "NOT_OBSERVED",
+      "scenario_sha256": "cdc55ae2409c9154ee800e2a42f558f2346f9e1c9a82b982288cd6da1601e054",
+      "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
+      "source_procedure_sha256": "bcc4c8a93d181f779689eb3a5749d923612df878d26f89fa1176f88b9eb752fe",
+      "source_procedure_lines": [
+        74,
+        135
+      ],
+      "quoted_anchors": [
+        "No unresolved material obligation or later consumer decision belongs to this task.",
+        "this exercise itself supplies no edit or test result."
+      ],
+      "facts": {
+        "accessible_corpus": "scenario-body",
+        "accepted_scope": [],
+        "residual_scope": [],
+        "required_distinctions": [],
+        "surviving_distinctions": [],
+        "sample_access": "not-applicable",
+        "first_missing_input": null,
+        "sample_storage_locator": "unknown",
+        "consumer": "comment owner",
+        "next_action": "describe-one-line-step",
+        "horizon": "unknown",
+        "receiver_readback": "absent",
+        "acceptance_basis": "no-edit-or-check-result"
+      }
+    },
+    "no-residual": {
+      "provenance": "HAND_AUTHORED_SYNTHETIC_FIXTURE_PROJECTION",
+      "semantic_evidence": "NOT_OBSERVED",
+      "scenario_sha256": "3bd2ad94936731f18486a20eeff58e37a8d948d8c2248bb789aa913583e96a69",
+      "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
+      "source_procedure_sha256": "bcc4c8a93d181f779689eb3a5749d923612df878d26f89fa1176f88b9eb752fe",
+      "source_procedure_lines": [
+        74,
+        135
+      ],
+      "quoted_anchors": [
+        "This certificate is a stipulated premise of this synthetic case only; it is not an observation about repository execution.",
+        "No future decision is lost by ending this task."
+      ],
+      "facts": {
+        "accessible_corpus": "scenario-body",
+        "accepted_scope": [
+          "owner-file-identification",
+          "migration",
+          "compatibility",
+          "rollback",
+          "sample-evidence"
+        ],
+        "residual_scope": [],
+        "required_distinctions": [],
+        "surviving_distinctions": [],
+        "sample_access": "counterfactual-certificate",
+        "first_missing_input": null,
+        "sample_storage_locator": "unknown",
+        "consumer": "scripts/migrate-store.py owner",
+        "next_action": "none",
+        "horizon": "unknown",
+        "receiver_readback": "absent",
+        "acceptance_basis": "synthetic-counterfactual-only"
+      }
+    },
+    "compact-sufficient": {
+      "provenance": "HAND_AUTHORED_SYNTHETIC_FIXTURE_PROJECTION",
+      "semantic_evidence": "NOT_OBSERVED",
+      "scenario_sha256": "f2a05b99bfe3e6d9e059a2403e0bfb1d1bce42b7a1bb171366970e411560ec62",
+      "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
+      "source_procedure_sha256": "bcc4c8a93d181f779689eb3a5749d923612df878d26f89fa1176f88b9eb752fe",
+      "source_procedure_lines": [
+        74,
+        135
+      ],
+      "quoted_anchors": [
+        "The record gives the next owner the same action-changing distinctions as the task data above.",
+        "No current executable migration cell is ready."
+      ],
+      "facts": {
+        "accessible_corpus": "scenario-body",
+        "accepted_scope": [
+          "owner-file-identification"
+        ],
+        "residual_scope": [
+          "migration",
+          "compatibility",
+          "rollback",
+          "sample-evidence"
+        ],
+        "required_distinctions": [
+          "residual-scope",
+          "sample-access",
+          "consumer-entitlement",
+          "next-action",
+          "horizon",
+          "readback"
+        ],
+        "surviving_distinctions": [
+          "residual-scope",
+          "sample-access",
+          "consumer-entitlement",
+          "next-action",
+          "horizon",
+          "readback"
+        ],
+        "sample_access": "unavailable",
+        "first_missing_input": "E-C sample content",
+        "sample_storage_locator": "unknown",
+        "consumer": "scripts/migrate-store.py owner",
+        "next_action": "reacquire",
+        "horizon": "unknown",
+        "receiver_readback": "absent",
+        "acceptance_basis": "partial-identification-only"
+      }
+    },
+    "content-unavailable": {
+      "provenance": "HAND_AUTHORED_SYNTHETIC_FIXTURE_PROJECTION",
+      "semantic_evidence": "NOT_OBSERVED",
+      "scenario_sha256": "1bd6954aba58ed09d7ba1eeb8d29b9d0c73f30c627dd79c1b56d7c59712711c2",
+      "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
+      "source_procedure_sha256": "bcc4c8a93d181f779689eb3a5749d923612df878d26f89fa1176f88b9eb752fe",
+      "source_procedure_lines": [
+        74,
+        135
+      ],
+      "quoted_anchors": [
+        "Their content paths cannot be opened in this event.",
+        "You have not received their bodies, accepted scope, residual, sample locator or authority record."
+      ],
+      "facts": {
+        "accessible_corpus": "hash-only-missing-bodies",
+        "accepted_scope": null,
+        "residual_scope": null,
+        "required_distinctions": null,
+        "surviving_distinctions": null,
+        "sample_access": "unknown",
+        "first_missing_input": "source description and deferred decision record bodies",
+        "sample_storage_locator": "unknown",
+        "consumer": "unknown",
+        "next_action": "reacquire",
+        "horizon": "unknown",
+        "receiver_readback": "absent",
+        "acceptance_basis": "unknown"
+      }
+    },
+    "transfer-no-readback": {
+      "provenance": "HAND_AUTHORED_SYNTHETIC_FIXTURE_PROJECTION",
+      "semantic_evidence": "NOT_OBSERVED",
+      "scenario_sha256": "962fde1877eddd5bc0a3d24be7ad7d7f6009b07ef1f6b63be082eb3c41c17aa7",
+      "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
+      "source_procedure_sha256": "bcc4c8a93d181f779689eb3a5749d923612df878d26f89fa1176f88b9eb752fe",
+      "source_procedure_lines": [
+        74,
+        135
+      ],
+      "quoted_anchors": [
+        "The current slice accepts identification of the owners and file boundaries; it does not accept the migration, compatibility, rollback behaviour or sample evidence.",
+        "No independent receiver has opened it or shown that its content retains"
+      ],
+      "facts": {
+        "accessible_corpus": "scenario-body",
+        "accepted_scope": [
+          "owner-file-identification"
+        ],
+        "residual_scope": [
+          "migration",
+          "compatibility",
+          "rollback",
+          "sample-evidence"
+        ],
+        "required_distinctions": [
+          "residual-scope",
+          "sample-access",
+          "consumer-entitlement",
+          "next-action",
+          "horizon",
+          "readback"
+        ],
+        "surviving_distinctions": [],
+        "sample_access": "unavailable",
+        "first_missing_input": "E-C sample content",
+        "sample_storage_locator": "unknown",
+        "consumer": "scripts/migrate-store.py owner",
+        "next_action": "reacquire",
+        "horizon": "unknown",
+        "receiver_readback": "absent",
+        "acceptance_basis": "partial-identification-only"
+      }
+    }
+  },
+  "q14_cases": [
+    {
+      "id": "E-MATERIAL-NOPUB",
+      "scenario": "material",
+      "output": {
+        "id": "E-MATERIAL-NOPUB",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": false,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "PASS",
+      "variants": []
+    },
+    {
+      "id": "P-EMBEDDED-PUB",
+      "scenario": null,
+      "output": {
+        "id": "R31-F25",
+        "publication_intent": true,
+        "embedded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "native_spine": true,
+        "separate_mode": false,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": false
+      },
+      "expected": "PASS",
+      "variants": []
+    },
+    {
+      "id": "P-TRIVIAL-NOPUB",
+      "scenario": "cheap",
+      "output": {
+        "id": "R31-F26",
+        "publication_intent": false,
+        "work_order_route_loaded": false,
+        "extra_audit_object": false,
+        "embedded": false,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": false
+      },
+      "expected": "PASS",
+      "variants": []
+    },
+    {
+      "id": "N-NONMATERIAL-EXCEPTION",
+      "scenario": "no-residual",
+      "output": {
+        "id": "N-NONMATERIAL-EXCEPTION",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": false,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "Use the compact-sufficient input instead of the no-residual input",
+          "scenario": "compact-sufficient",
+          "output": {
+            "id": "N-NONMATERIAL-EXCEPTION",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        }
+      ]
+    },
+    {
+      "id": "N-INHERITED-IDENTITY",
+      "scenario": "material",
+      "output": {
+        "id": "N-INHERITED-IDENTITY",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "other-object"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": false,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "missing list",
+          "scenario": "material",
+          "output": {
+            "id": "N-INHERITED-IDENTITY",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": null,
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        },
+        {
+          "name": "empty list",
+          "scenario": "material",
+          "output": {
+            "id": "N-INHERITED-IDENTITY",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        },
+        {
+          "name": "multiple distinct identities",
+          "scenario": "material",
+          "output": {
+            "id": "N-INHERITED-IDENTITY",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1",
+              "other-object"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        },
+        {
+          "name": "duplicate identity",
+          "scenario": "material",
+          "output": {
+            "id": "N-INHERITED-IDENTITY",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1",
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        },
+        {
+          "name": "missing inherited_from",
+          "scenario": "material",
+          "output": {
+            "id": "N-INHERITED-IDENTITY",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "other-object"
+            ],
+            "inherited_from": null,
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        },
+        {
+          "name": "wrong inherited_from",
+          "scenario": "material",
+          "output": {
+            "id": "N-INHERITED-IDENTITY",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "other-object"
+            ],
+            "inherited_from": "other-object",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        },
+        {
+          "name": "self-consistent false identity",
+          "scenario": "material",
+          "output": {
+            "id": "N-INHERITED-IDENTITY",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "other-object"
+            ],
+            "inherited_from": "other-object",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        }
+      ]
+    },
+    {
+      "id": "N-EXTRA-OBJECT",
+      "scenario": "material",
+      "output": {
+        "id": "N-EXTRA-OBJECT",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": true,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": false,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "required false state absent",
+          "scenario": "material",
+          "output": {
+            "id": "N-EXTRA-OBJECT",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": null,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        }
+      ]
+    },
+    {
+      "id": "N-NESTED-GOAL",
+      "scenario": "material",
+      "output": {
+        "id": "N-NESTED-GOAL",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": false,
+        "nested_goal": true,
+        "second_run_root": false,
+        "separate_mode": false,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "required false state absent",
+          "scenario": "material",
+          "output": {
+            "id": "N-NESTED-GOAL",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": null,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        }
+      ]
+    },
+    {
+      "id": "N-SECOND-ROOT",
+      "scenario": "material",
+      "output": {
+        "id": "N-SECOND-ROOT",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": true,
+        "separate_mode": false,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "required false state absent",
+          "scenario": "material",
+          "output": {
+            "id": "N-SECOND-ROOT",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": null,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        }
+      ]
+    },
+    {
+      "id": "N-SEPARATE-MODE",
+      "scenario": "material",
+      "output": {
+        "id": "N-SEPARATE-MODE",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": true,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "required false state absent",
+          "scenario": "material",
+          "output": {
+            "id": "N-SEPARATE-MODE",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": null,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        }
+      ]
+    },
+    {
+      "id": "N-NATIVE-SPINE",
+      "scenario": "material",
+      "output": {
+        "id": "N-NATIVE-SPINE",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": false,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": false,
+        "public_effect": "none",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "native spine absent",
+          "scenario": "material",
+          "output": {
+            "id": "N-NATIVE-SPINE",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": null,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        }
+      ]
+    },
+    {
+      "id": "N-UNAUTH-PUBLIC",
+      "scenario": "material",
+      "output": {
+        "id": "N-UNAUTH-PUBLIC",
+        "embedded": true,
+        "publication_intent": false,
+        "work_order_route_loaded": true,
+        "audit_object_ids": [
+          "parent-1"
+        ],
+        "inherited_from": "parent-1",
+        "native_spine": true,
+        "extra_audit_object": false,
+        "nested_goal": false,
+        "second_run_root": false,
+        "separate_mode": false,
+        "public_effect": "unauthorized issue create",
+        "r29": "not-applicable",
+        "r29_evidence": {
+          "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+          "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+        },
+        "durable_id_allocation": false,
+        "implementation_authority": false
+      },
+      "expected": "FAIL",
+      "variants": [
+        {
+          "name": "allocate durable identity",
+          "scenario": "material",
+          "output": {
+            "id": "N-UNAUTH-PUBLIC",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": true,
+            "implementation_authority": false
+          },
+          "expected": "FAIL"
+        },
+        {
+          "name": "claim implementation authority",
+          "scenario": "material",
+          "output": {
+            "id": "N-UNAUTH-PUBLIC",
+            "embedded": true,
+            "publication_intent": false,
+            "work_order_route_loaded": true,
+            "audit_object_ids": [
+              "parent-1"
+            ],
+            "inherited_from": "parent-1",
+            "native_spine": true,
+            "extra_audit_object": false,
+            "nested_goal": false,
+            "second_run_root": false,
+            "separate_mode": false,
+            "public_effect": "none",
+            "r29": "not-applicable",
+            "r29_evidence": {
+              "owner_source": "fixtures/issue-ready-work-orders/model-cell-input.md:F-C",
+              "reason": "Internal stored-fixture migration; this proposed event has no public or release effect."
+            },
+            "durable_id_allocation": false,
+            "implementation_authority": true
+          },
+          "expected": "FAIL"
+        }
+      ]
+    }
+  ],
+  "boundary_expectations": {
+    "material": "EXTEND_INHERITED",
+    "cheap": "KEEP_COMPACT",
+    "no-residual": "KEEP_CLOSED_COUNTERFACTUAL",
+    "compact-sufficient": "KEEP_COMPACT",
+    "content-unavailable": "REACQUIRE_UNKNOWN",
+    "transfer-no-readback": "EXTEND_INHERITED"
+  },
+  "boundary_note": "REACQUIRE_UNKNOWN withholds reconstruction and retirement; it is not a universal no-load conclusion. All projections are synthetic and cannot count as independently evaluated source-procedure evidence."
+}

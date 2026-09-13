@@ -244,11 +244,12 @@ whole-repo sweep.
 
 ## Helper dispatch (#157)
 
-Gate derives source repo `scripts/*.sh`; presence/tests/self-use/wildcards are
-not dispatch. Fields `H|C|T|O|K|A|N` mean helper/class/trigger/owner/caller/
+Gate derives executable `scripts/**` member paths and modes from both canonical
+package-owner projections; presence/tests/self-use/wildcards are
+not dispatch. Fields `H|C|T|O|K|A|N` mean full scripts/member-path/class/trigger/owner/caller/
 args/no-event. Classes `A/R/O/S/I`: automatic/required/optional/standalone/
-internal; owners `P/R/C/S/V`: PROTOCOL/this/child-agents/SKILL/validator.
-R runs `bash <skill-dir>/scripts/<H> <A>` and blocks T; A/I need K; O/S never gate.
+internal. A role override is explicit only where a package projection changes activation; it cannot add a member. Python callers use a source function fragment and api:/cli:/module evidence; hooks bind both native command forms. Unknown edges refuse. These source checks are not fired-event or installed-runtime proof. Owners `P/R/C/S/V`: PROTOCOL/this/child-agents/SKILL/validator.
+Shell R runs `bash <skill-dir>/<H> <A>` and blocks T; A/I need K; O/S never gate.
 One audit object; no event, no sweep. Phased Stage 0 runs `detect-env.sh`; run
 `validate-audit-spec.sh <spec>` for a spec and `detect-stack.sh` only for standalone diagnosis.
 
@@ -279,25 +280,60 @@ helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reaso
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
 
-helper-route: check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
-helper-route: apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
-helper-route: check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
-helper-route: check-duplication-parity.sh|R|duplication-set|R|-|<manifest>|no-set
-helper-route: check-evidence-anchor.sh|R|scope|P|-|--artifact ... --tree ...|disjoint
-helper-route: check-handoff-packet.sh|R|handoff-packet|P|-|<p> --repo-root <r>|same-session
-helper-route: check-lesson-lift.sh|R|final-record|P|-|<c> --repo-root <r>|closure
-helper-route: check-respec-impact-set.sh|A|impact-set|V|V|impact-set|no-impact
-helper-route: claim-run.sh|R|run-root|S|-|<task>|initialize
-helper-route: custody-append.sh|O|authorised-mirror|P|-|<store> <run> <event> <type> <json>|absent
-helper-route: detect-env.sh|R|Stage-0|R|-|none|phased
-helper-route: detect-stack.sh|S|stack-diagnosis|R|-|none|not-auto
-helper-route: lane-survivor-inventory.sh|O|interrupted-lane|C|-|<root> --expect <path>|unrelated
-helper-route: map-pin-chain.sh|R|artefact-edit|R|-|<path> [--expect-hops N]|no-completeness
-helper-route: repo-state.sh|R|Smoke/final|R|-|changed-files <baseline>|read-only
-helper-route: summarize-repo.sh|S|repo/owner-diagnosis|R|-|[--generated-owner <path>]|targeted-default
-helper-route: validate-audit-spec.sh|R|audit-spec|R|-|<spec>|no-spec
-helper-route: validate-phase.sh|R|phase|P|-|<phase>|exit-code
-helper-route: validate-run-root.sh|R|run-root|S|-|<root>|invalid
+helper-route: scripts/check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
+helper-route: scripts/apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
+helper-route: scripts/check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
+helper-route: scripts/check-duplication-parity.sh|R|duplication-set|R|-|<manifest>|no-set
+helper-route: scripts/check-evidence-anchor.sh|R|scope|P|-|--artifact ... --tree ...|disjoint
+helper-route: scripts/check-handoff-packet.sh|R|handoff-packet|P|-|<p> --repo-root <r>|same-session
+helper-route: scripts/check-lesson-lift.sh|R|final-record|P|-|<c> --repo-root <r>|closure
+helper-route: scripts/check-respec-impact-set.sh|A|impact-set|V|V|impact-set|no-impact
+helper-route: scripts/claim-run.sh|R|run-root|S|-|<task>|initialize
+helper-route: scripts/custody-append.sh|O|authorised-mirror|P#optional-custody-mirror|-|<store> <run> <event> <type> <json>|absent
+helper-route: scripts/detect-env.sh|R|Stage-0|R|-|none|phased
+helper-route: scripts/detect-stack.sh|S|stack-diagnosis|R#standalone-repository-diagnostics|-|none|not-auto
+helper-route: scripts/lane-survivor-inventory.sh|O|interrupted-lane|C#optional-interrupted-lane-inventory|-|<root> --expect <path>|unrelated
+helper-route: scripts/map-pin-chain.sh|R|artefact-edit|R|-|<path> [--expect-hops N]|no-completeness
+helper-route: scripts/repo-state.sh|R|Smoke/final|R|-|changed-files <baseline>|read-only
+helper-route: scripts/summarize-repo.sh|S|repo/owner-diagnosis|R#standalone-repository-diagnostics|-|[--generated-owner <path>]|targeted-default
+helper-route: scripts/validate-audit-spec.sh|R|audit-spec|R|-|<spec>|no-spec
+helper-route: scripts/validate-phase.sh|R|phase|P|-|<phase>|exit-code
+helper-route: scripts/validate-run-root.sh|R|run-root|S|-|<root>|invalid
+
+helper-route: scripts/child-load-visibility.py|I|selected-load|scripts/child-parent-visibility.py#encode|scripts/child-parent-visibility.py#encode|api:encode|indirect-only
+helper-route: scripts/child-parent-visibility.py|R|selected-governed-child|C#bounded-child-visibility-commands|-|launch --context <context.json> --context-sha256 <sha256> --execute-admitted-capture|no-launch-without-admission
+helper-route: scripts/codex-compact-interlock.py|A|SessionStart-compact|hooks/hooks.json|hooks/hooks.json|hook:SessionStart:^compact$|unbound-no-invalidation
+helper-route: scripts/codex-native-desktop-binding.py|I|selected-desktop-binding|scripts/codex-recovery-native-reader.py#desktop_parent_binding|scripts/codex-recovery-native-reader.py#desktop_parent_binding|api:observe_parent|no-host-credit
+helper-route: scripts/codex-recovery-config-transition.py|I|selected-config-successor|scripts/codex-recovery-native-reader.py#validate_observation_successor|scripts/codex-recovery-native-reader.py#validate_observation_successor|api:validate_config_transition|no-config-authority
+helper-route: scripts/codex-recovery-native-reader.py|I|selected-recovery-observer|scripts/route-transaction.py#recovery_native_observer_module_v1|scripts/route-transaction.py#recovery_native_observer_module_v1|module|no-native-credit
+helper-route: scripts/codex-recovery-prompt-input.py|A|UserPromptSubmit|hooks/hooks.json|hooks/hooks.json|hook:UserPromptSubmit|no-route-credit
+helper-route: scripts/codex-recovery-source-transition.py|I|selected-source-successor|scripts/codex-recovery-native-reader.py#validate_observation_successor|scripts/codex-recovery-native-reader.py#validate_observation_successor|api:validate_source_transition|no-install-authority
+helper-route: scripts/compaction-audit-pending.py|I|bound-compaction-signal|scripts/codex-compact-interlock.py#main|scripts/codex-compact-interlock.py#main|api:record_signal|no-child-acceptance
+helper-route: scripts/compaction-result-observation.py|I|pending-observation-consumption|scripts/compaction-audit-pending.py#operate|scripts/compaction-audit-pending.py#operate|api:fixed_policy|no-producer-authentication
+helper-route: scripts/compaction-result-profile.py|I|fixed-policy-consumption|scripts/compaction-result-observation.py#fixed_policy|scripts/compaction-result-observation.py#fixed_policy|api:POLICY|no-episode-admission
+helper-route: scripts/compile-work-graph.py|R|governed-compilation|C#governed-compiler-command|-|<graph.json> <product-authority.json>|no-dispatch-authority
+helper-route: scripts/evaluate-turn-disposition.py|R|host-turn-disposition|P#governed-host-turn-disposition|-|--request <json>|no-active-audit-object
+helper-route: scripts/host-session-binding.py|A|pending-owner-binding|scripts/compaction-audit-pending.py#record_signal|scripts/compaction-audit-pending.py#record_signal|api:writer_lock|no-attribution-from-presence
+helper-route: scripts/host-stop-interlock.py|A|Stop|hooks/hooks.json|hooks/hooks.json|hook:Stop|no-terminal-credit
+helper-route: scripts/native-capture-adapter/canary_protocol.py|I|selected-capture-protocol|scripts/native-capture-adapter/capture.py#capture|scripts/native-capture-adapter/capture.py#capture|api:CanaryProtocol|no-native-observation
+helper-route: scripts/native-capture-adapter/capture.py|I|admitted-provider-capture|scripts/native-worker-capture.py#package|scripts/native-worker-capture.py#package|module|no-launch-from-presence
+helper-route: scripts/native-capture-adapter/load_visibility.py|I|selected-staged-capture|scripts/native-capture-adapter/capture.py#capture|scripts/native-capture-adapter/capture.py#capture|api:staged_turns|no-load-ack-use-credit
+helper-route: scripts/native-capture-adapter/notification_policy.py|I|selected-notification-consumption|scripts/native-capture-adapter/capture.py#capture|scripts/native-capture-adapter/capture.py#capture|api:NotificationPolicy|no-hook-authentication
+helper-route: scripts/native-capture-adapter/process_owner.py|I|selected-process-owner|scripts/native-capture-adapter/capture.py#preflight|scripts/native-capture-adapter/capture.py#preflight|module|no-process-creation
+helper-route: scripts/native-capture-adapter/worker_profile.py|I|selected-worker-profile|scripts/native-capture-adapter/worker_runtime.py#preflight|scripts/native-capture-adapter/worker_runtime.py#preflight|api:prepare|no-runtime-acceptance
+helper-route: scripts/native-capture-adapter/worker_runtime.py|I|selected-capture-preflight|scripts/native-capture-adapter/capture.py#preflight|scripts/native-capture-adapter/capture.py#preflight|api:preflight|no-launch-authority
+helper-route: scripts/native-worker-capture.py|I|selected-parent-provider|scripts/child-parent-visibility.py#selected_capture|scripts/child-parent-visibility.py#selected_capture|module|ordinary-path-unchanged
+helper-route: scripts/operational-evidence.py|S|explicit-record-question|references/operational-evidence.md#explicit-invocation-and-receiving-boundary|-|validate $RECORD|not-auto
+helper-route: scripts/resolve-durable-identity.py|S|identity-diagnosis|R#durable-identity-diagnostic|-|--canonical <identity>|no-allocation
+helper-route: scripts/resolve-internal-skill.py|I|mapped-child-delivery|scripts/route-transaction.py#child_delivery_bytes|scripts/route-transaction.py#child_delivery_bytes|cli:--governor --child|no-load-use-credit
+helper-route: scripts/rotate-canonical-state.py|I|selected-history-contract|scripts/operational-evidence.py#_load_r39_query_contract_v1|scripts/operational-evidence.py#_load_r39_query_contract_v1|module|no-canonical-publication
+helper-route: scripts/route-transaction.py|A|claim-current-route|scripts/claim-run.sh|scripts/claim-run.sh|cli:admit-current|no-child-execution-credit
+helper-route: scripts/subagent-provenance-sensor.py|R|bounded-worker-continuation|C#bounded-worker-continuation|-|build --input bounded-source.json > bounded-packet-build.json|no-dispatch
+helper-route: scripts/validate-audit-implement-return.py|R|audit-implement-return|skills/audit-implement/SKILL.md#canonical-return-envelope-consumer|-|--input <return.json> --expect-audit-object <audit-object> --expect-proposition-domain <domain> --expect-proposition <proposition> --expect-evidence-id <evidence-id> --expect-evidence-sha256 <sha256> --expect-evidence-kind <kind>|no-authority
+
+helper-role: standalone_compatibility|scripts/codex-compact-interlock.py|I|standalone-compatibility|references/host-session-binding.md#standalone-hook-compatibility|hooks/hooks.json|dormant:SessionStart:^compact$|no-host-activation
+helper-role: standalone_compatibility|scripts/codex-recovery-prompt-input.py|I|standalone-compatibility|references/host-session-binding.md#standalone-hook-compatibility|hooks/hooks.json|dormant:UserPromptSubmit|no-host-activation
+helper-role: standalone_compatibility|scripts/host-stop-interlock.py|I|standalone-compatibility|references/host-session-binding.md#standalone-hook-compatibility|hooks/hooks.json|dormant:Stop|no-host-activation
 
 ## Pin-chain map (#76)
 
@@ -463,3 +499,24 @@ generation, when the owner authorized build but not commit, or when the change
 is a deferred owner decision.
 
 Rule phrase: when validation is red.
+
+## Standalone repository diagnostics
+
+For stack-diagnosis, the standalone-diagnostic command is
+`bash <skill-dir>/scripts/detect-stack.sh`. It is not automatic.
+
+For repo/owner-diagnosis, the standalone-diagnostic command is
+`bash <skill-dir>/scripts/summarize-repo.sh [--generated-owner <path>]`.
+Its targeted default is an explicitly selected repository question, not automatic enforcement.
+
+## Durable identity diagnostic
+
+For an explicit identity-diagnosis, invoke the standalone-diagnostic
+`python -B <skill-dir>/scripts/resolve-durable-identity.py --canonical <identity>`.
+This resolves canonical or historical spelling only: no allocation, reservation,
+currentness, publication or automatic enforcement follows. To inspect the source-owned
+allocated range, use
+`python -B <skill-dir>/scripts/resolve-durable-identity.py --require-allocated <identity>`.
+The existing --legacy, --ordinal, --format and --validate modes keep the same
+read-only diagnostic boundary. Formatting a name never allocates it; allocation
+remains with the existing issue-ready-work-orders and identity-namespaces owners.

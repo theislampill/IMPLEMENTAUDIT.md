@@ -1,0 +1,482 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Independent native context source/input contract v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "native-context-input-v1"
+    },
+    "origin": {
+      "const": "INDEPENDENT_SOURCE_INPUT"
+    },
+    "source_commit": {
+      "const": "b5bffd3ec4db487e7e3dec59663875b0ef7b72ca"
+    },
+    "basis_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_pins": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Pin"
+      },
+      "minItems": 1,
+      "maxItems": 512
+    },
+    "input_pins": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Pin"
+      },
+      "minItems": 1,
+      "maxItems": 512
+    },
+    "scope": {
+      "enum": [
+        "SOURCE_INPUT",
+        "OFFLINE_SYNTHETIC"
+      ]
+    },
+    "status": {
+      "enum": [
+        "COMPLETE",
+        "UNRESOLVED"
+      ]
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0,
+      "maxItems": 512
+    },
+    "population_proof": {
+      "$ref": "#/definitions/Pin"
+    },
+    "producers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Producer"
+      },
+      "minItems": 1,
+      "maxItems": 128
+    },
+    "phases": {
+      "type": "object",
+      "properties": {
+        "LOAD": {
+          "type": "object",
+          "properties": {
+            "wire": {
+              "$ref": "#/definitions/Wire"
+            },
+            "empty_prefix_proof": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Pin"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "wire",
+            "empty_prefix_proof"
+          ],
+          "additionalProperties": false
+        },
+        "USE": {
+          "type": "object",
+          "properties": {
+            "wire": {
+              "$ref": "#/definitions/Wire"
+            },
+            "empty_prefix_proof": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Pin"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "wire",
+            "empty_prefix_proof"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "LOAD",
+        "USE"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "origin",
+    "source_commit",
+    "basis_sha256",
+    "source_pins",
+    "input_pins",
+    "scope",
+    "status",
+    "unresolved",
+    "population_proof",
+    "producers",
+    "phases"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "Pin": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "Wire": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "enum": [
+            "opaque_nonempty",
+            "absent_or_null",
+            "absent",
+            "null"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "absent_or_null"
+          ]
+        },
+        "turn_id": {
+          "enum": [
+            "required_active",
+            "optional_active"
+          ]
+        },
+        "create_time": {
+          "type": "object",
+          "properties": {
+            "required": {
+              "type": "boolean"
+            },
+            "minimum": {
+              "type": "number",
+              "minimum": 0
+            },
+            "maximum": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "required",
+            "minimum",
+            "maximum"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "phase",
+        "turn_id",
+        "create_time"
+      ],
+      "additionalProperties": false
+    },
+    "Producer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+        },
+        "family": {
+          "enum": [
+            "WORLD_STATE",
+            "INITIAL_ONLY",
+            "TURN_CONTEXT"
+          ]
+        },
+        "source_pin": {
+          "$ref": "#/definitions/Pin"
+        },
+        "role": {
+          "enum": [
+            "user",
+            "developer"
+          ]
+        },
+        "content_item_kind": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+(?:[.][a-z0-9_]+)+$",
+          "not": {
+            "const": "user.text"
+          }
+        },
+        "initial_slot": {
+          "enum": [
+            "developer_aggregate",
+            "developer_standalone",
+            "mode_standalone",
+            "user_aggregate",
+            "after_user_standalone"
+          ]
+        },
+        "initial_order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "delta_order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "standalone": {
+          "type": "boolean"
+        },
+        "receipts": {
+          "type": "object",
+          "properties": {
+            "LOAD": {
+              "$ref": "#/definitions/Pin"
+            },
+            "USE": {
+              "$ref": "#/definitions/Pin"
+            }
+          },
+          "required": [
+            "LOAD",
+            "USE"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "family",
+        "source_pin",
+        "role",
+        "content_item_kind",
+        "initial_slot",
+        "initial_order",
+        "delta_order",
+        "standalone",
+        "receipts"
+      ],
+      "additionalProperties": false
+    },
+    "PopulationProof": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "native-context-population-v1"
+        },
+        "origin": {
+          "const": "INDEPENDENT_SOURCE_INPUT"
+        },
+        "source_commit": {
+          "const": "b5bffd3ec4db487e7e3dec59663875b0ef7b72ca"
+        },
+        "basis_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_pins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Pin"
+          },
+          "minItems": 1,
+          "maxItems": 512
+        },
+        "input_pins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Pin"
+          },
+          "minItems": 1,
+          "maxItems": 512
+        },
+        "producer_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "unresolved": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0,
+          "maxItems": 512
+        }
+      },
+      "required": [
+        "schema",
+        "origin",
+        "source_commit",
+        "basis_sha256",
+        "source_pins",
+        "input_pins",
+        "producer_ids",
+        "unresolved"
+      ],
+      "additionalProperties": false
+    },
+    "ProducerReceipt": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "native-context-producer-v1"
+        },
+        "origin": {
+          "const": "INDEPENDENT_SOURCE_INPUT"
+        },
+        "producer_id": {
+          "type": "string"
+        },
+        "phase": {
+          "enum": [
+            "LOAD",
+            "USE"
+          ]
+        },
+        "source_pin": {
+          "$ref": "#/definitions/Pin"
+        },
+        "basis_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "input_pins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Pin"
+          },
+          "minItems": 1,
+          "maxItems": 512
+        },
+        "previous_state_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {},
+        "branch": {
+          "enum": [
+            "PRESENT",
+            "ABSENT",
+            "CHANGED",
+            "REMOVED",
+            "NO_RENDERED_DIFF",
+            "UNCHANGED",
+            "INITIAL_ONLY",
+            "REEMITTED"
+          ]
+        },
+        "fragment": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Pin"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "origin",
+        "producer_id",
+        "phase",
+        "source_pin",
+        "basis_sha256",
+        "input_pins",
+        "previous_state_sha256",
+        "state",
+        "branch",
+        "fragment"
+      ],
+      "additionalProperties": false
+    },
+    "EmptyPrefixProof": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "native-context-empty-v1"
+        },
+        "origin": {
+          "const": "INDEPENDENT_SOURCE_INPUT"
+        },
+        "phase": {
+          "enum": [
+            "LOAD",
+            "USE"
+          ]
+        },
+        "basis_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "producer_receipts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Pin"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        }
+      },
+      "required": [
+        "schema",
+        "origin",
+        "phase",
+        "basis_sha256",
+        "producer_receipts"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "description": "Structural schema only. worker_profile.context_contract_from_input additionally verifies all pins, complete producer inventory, exact request/profile basis, independent origin, phase/state/branch relations, grouping, UTF-8 body custody, and empty-branch proofs. Rendering semantics require separately established producer inputs; unresolved production values prevent admission."
+}

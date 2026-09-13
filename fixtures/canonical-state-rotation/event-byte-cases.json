@@ -1,0 +1,25 @@
+{
+  "schema": "implementaudit.canonical-state-rotation-event-byte-cases.v1",
+  "cases": [
+    {"id": "EB01-key-order", "expect": "ACCEPT"},
+    {"id": "EB02-no-terminal-lf", "expect": "ACCEPT"},
+    {"id": "EB03-utf8-no-bom", "expect": "ACCEPT"},
+    {"id": "EB04-unicode-preserved", "expect": "ACCEPT"},
+    {"id": "EB05-float-rejected", "expect": "REJECT"},
+    {"id": "EB06-int64-boundary", "expect": "ACCEPT"},
+    {"id": "EB07-windows-posix-path-converges", "expect": "ACCEPT"},
+    {"id": "EB08-case-remains-semantic", "expect": "ACCEPT"},
+    {"id": "EB09-host-bound-requires-host-identity", "expect": "REJECT"},
+    {"id": "EB10-posix-literal-backslash-distinct", "expect": "ACCEPT"},
+    {"id": "EB11-caller-source-fields-rejected", "expect": "REJECT"},
+    {"id": "EB12-posix-trailing-backslash-is-data", "expect": "ACCEPT"},
+    {"id": "EB13-owner-manifest-context-mismatch", "expect": "REJECT"},
+    {"id": "EB14-event-extra-key-rejected", "expect": "REJECT"},
+    {"id": "EB15-event-missing-key-rejected", "expect": "REJECT"},
+    {"id": "EB16-self-hashed-source-absent-owner-manifest", "expect": "REJECT"},
+    {"id": "EB17-wrong-owner-manifest-ref", "expect": "REJECT"},
+    {"id": "EB18-wrong-owner-run-controller", "expect": "REJECT"},
+    {"id": "EB19-unknown-source-evidence-id", "expect": "REJECT"},
+    {"id": "EB20-stored-source-evidence-revalidated", "expect": "ACCEPT"}
+  ]
+}

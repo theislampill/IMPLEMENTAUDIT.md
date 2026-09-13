@@ -258,6 +258,31 @@ handoff, or explicit Plan Closure without advancing as completed. Check for
 mid-run interruption (see §"Mid-run interruption" below) before continuing to
 phase N+1.
 
+## Governed host-turn disposition
+
+Ending one host turn is not audit-object termination. A caller first obtains
+the exact current R003A event-attribution result and R0033 `check` result, then
+passes those complete result objects and their correlation inputs to
+`python -B <skill-dir>/scripts/evaluate-turn-disposition.py --request <json>`. The evaluator accepts
+exactly one disposition:
+
+- `NO_ACTIVE_AUDIT_OBJECT`: the only zero-object cheap path; binding, route,
+  and run-root inputs are absent and no run-root validator is executed;
+- `TERMINAL_CLOSURE`: STATE is `DONE` / `terminal verified closure`, with
+  `AUDIT_COMPLETE` immediately before final `IMPLEMENTAUDIT_RUN_COMPLETE`;
+- `AUDITED_HANDOFF`: STATE is `BLOCKED`, carries durable handoff evidence, and
+  ends in exactly one valid handoff marker without a completion marker; or
+- `NONTERMINAL_YIELD`: the existing `open`, `READY_TO_DISPATCH`, `IN_PHASE`,
+  `PAUSED`, `BLOCKED`, or `INTERRUPTED` state has the evidence required by
+  `validate-run-root.sh --nonterminal-yield` and no terminal/handoff marker.
+
+Every active-object path requires a current, exact attributed binding and a
+current R0033 result. `PENDING`, `REQUIRED/UNSATISFIED`, stale, ambiguous, or
+foreign evidence blocks. A valid yield creates no marker or lifecycle state.
+The evaluator is source-core evidence only: it neither activates a host hook
+nor proves package, install, native host firing, closure, or handoff beyond the
+validated input surface.
+
 ## Mid-run interruption
 
 A mid-run interruption is any user message that arrives while a phase is in
@@ -362,10 +387,12 @@ continuation with no packet does not trigger this gate.
 ### Continuity boundaries and context epochs
 
 A compacted or reconstructed summary is an observation of history, not
-current-state authority. After ANY continuity boundary — provenance exactly
+current-state authority. After a continuity boundary — provenance exactly
 one of `host-reported-compaction` / `new-session` / `handoff-resume` /
 `manual-resume` / `inferred-context-gap`; never a fabricated compaction —
-no repository mutation happens until reconciliation runs:
+fence the affected authority-sensitive execution edge until its required
+reconciliation/currentness. The following markers have that affected-edge
+scope; they are not a global compute mutex:
 
 ```text
 POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT
@@ -374,15 +401,37 @@ PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY
 STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE
 ```
 
+`references/continuity.md` owns the applicable recovery variant and admission
+gates. The numbered ordinary reconciliation recipe below applies only when
+that owner permits its state-reading/writing path. For genuine compaction,
+perform only the admitted mechanical recovery sequence before isolated
+audit-state OPEN; no substantive STATE/ROADMAP/WORK_GRAPH reconstruction or
+identity/epoch writes are permitted by this template beforehand. In the
+explicit v3 variant, preserve the original invalidation and require genuine
+native occurrence, predecessor custody and source pins; the ordinary receipt
+recipe cannot substitute for those gates. Recovery completion does not itself
+grant ordinary effects: the state owner must publish receipt/H0 lineage and
+prove currentness before affected reentry.
+
+An independently admitted, unchanged-input preparation sibling may continue
+only under its own already-valid scope/authority, writer/resource isolation and
+containment basis as specified in `references/continuity.md`. Unknown
+independence blocks that task. A new preparation task cannot borrow stale
+currentness or reconstruct the protected frontier to justify admission. Keep
+its return non-authoritative and revalidate it at the consuming JOIN. All
+canonical state writes below still require the applicable state-owner gate.
+
 1. establish the unique active run root and current repository identity with
    `claim-run.sh --current-controller`
    (ambiguous/multiple roots => audited handoff; no root => truthful
    intake, no fabricated recovery);
-2. immediately call `claim-run.sh --invalidate-continuity` with the real
-   boundary and event so every older receipt is stale before routing work;
-3. contain an already-running pre-boundary process by waiting or terminating
-   only. Do not start replacement work or promote its output before live-state
-   reconciliation;
+2. use `claim-run.sh --invalidate-continuity` with the real boundary and event
+   before affected routing. Preserve an already recorded exact invalidation;
+   inspect existing partial effects before retry rather than mint another event;
+3. contain a pre-boundary process whose inputs, authority or effects depend on
+   the failed recovery edge by waiting or terminating. Inspect process/output
+   custody before replacement or promotion; the independently admitted sibling
+   exception above supplies no missing authority;
 4. reread current STATE.md, ROADMAP.md, process/command state, and the
    relevant terminal evidence from disk. Each bound live durable-state file
    must be read in its own completed host action before the first mutation.
@@ -406,9 +455,39 @@ STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE
    `claim-run.sh --resume-controller`, independently run
    `--verify-resume-receipt`, then run `--require-current-continuity`;
 10. make the verified continuity receipt, controller/epoch, exact frontier and
-    discrepancies the first substantive post-boundary message. Only then may
-    ordinary narration, new execution or effects resume. When continuity cannot
-    be established, hand off rather than speculate.
+    discrepancies the first substantive recovered-frontier message. Only then
+    may affected ordinary narration, execution or effects resume. If that edge
+    cannot recover, preserve its exact blocker and repair/producer obligation;
+    continue separately admissible sibling work without inventing currentness
+    or converting the local edge into a campaign-wide terminal disposition.
+
+For a protected mutation, write the phase/step fence under
+`mutation-fences/phase-<phase>-step-<step>.json` and route the effect through the
+cooperating `apply-observed-mutation.sh` sink. The sink derives current
+generation from the mechanically verified current receipt and, for receipt v3,
+its exact pointer/receipt join; the caller cannot supply a replacement
+generation authority. It fingerprints the authorized target path plus preimage
+identity, then records distinct operation, attempt, effect-plan, controller,
+generation and target identities in authority, journal and result records.
+Controller bind, R0039 pointer/marker publication, and the protected sink use
+one create-exclusive absolute
+`<git-common-dir>/implementaudit-r0039-publication.lock`, including across
+linked worktrees. The sink and bind wait; R0039 remains fail-fast busy.
+Read-only claim routes do not reacquire the lease, and a divergent legacy
+worktree-local lease is version skew that fails closed.
+`require_generation_fence` checks the bindings before transaction setup. Lock
+order is common lease, local namespace gate, sorted target locks, final
+authority/target revalidation, then first effect. The sink holds the common
+lease through the protected effect, rollback/recovery, durable result, target
+lock release and local-gate release, then releases it last. Controller bind
+holds through expected-old controller CAS; R0039 holds through pointer/marker
+CAS and readback. Stale/wrong generation, wrong controller, pointer/receipt
+drift, wrong target or preimage leaves the protected target unchanged; a
+final-boundary rejection records only transaction/control effects. If the sink
+cannot reject and report the fence, record `UNKNOWN` /
+`MANUAL_RECONCILIATION`, prohibit retry and make no terminal closure claim.
+This contract covers governed cooperating writers only; direct/raw Git and
+other non-cooperating writers remain outside it.
 
 At phase start and after each continuity boundary, record one canonical
 execution-identity row in STATE.md:
@@ -1165,3 +1244,11 @@ Print `AUDIT_HANDOFF` (instead of `AUDIT_COMPLETE`) when:
   is terminally closed.
 - Do not print `IMPLEMENTAUDIT_RUN_COMPLETE` if `ANDON_HANDOFF` or
   `AUDIT_HANDOFF` appeared in the transcript.
+
+## Optional custody mirror
+
+For an authorised-mirror request, the optional-advisory command is
+`bash <skill-dir>/scripts/custody-append.sh <store> <run> <event> <type> <json>`.
+It uses only the separately authorized mirror store and event. An absent mirror
+adds no automatic enforcement or closure condition; this command does not grant
+permission for a write.

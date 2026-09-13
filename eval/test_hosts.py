@@ -1080,6 +1080,28 @@ def main():
               and not os.path.isfile(os.path.join(
                   tmp, "custody", "r-h39c", "process-started.json")))
 
+        # 39d. a payload directory nested inside an ancestor Git repository
+        # is not itself an attested product checkout. Git may resolve HEAD
+        # from the ancestor, but exact checkout-root identity must reject it
+        # before any host process starts.
+        nested39 = os.path.join(canon39, "nested39")
+        os.makedirs(os.path.join(nested39, "skills", "implementaudit"))
+        open(os.path.join(nested39, "skills", "implementaudit", "SKILL.md"),
+             "w").write("nested payload body" + chr(10))
+        counter39d = os.path.join(tmp, "spawn-counter-h39d")
+        a39d = make_adapter(
+            tmp, "ok-codex", counter=counter39d, checkout=nested39,
+            home=os.path.join(tmp, "codex-home-h39d"))
+        a39d.formal = True
+        a39d.product_expected_rev = head39
+        r39d = run(a39d, tmp, "r-h39d")
+        check("H39d ancestor-git-identity-INVALID-before-spawn",
+              r39d.kind == "invalid"
+              and "git identity" in str(r39d.detail)
+              and not os.path.exists(counter39d)
+              and not os.path.isfile(os.path.join(
+                  tmp, "custody", "r-h39d", "process-started.json")))
+
         # 40. a process-started.json rewritten with NON-UTF-8 garbage
         # (jail-less Config-O tamper + hard-killed wrapper) must still be
         # terminally classified — never a perpetual reconcile-error that

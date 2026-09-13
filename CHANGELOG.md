@@ -15,6 +15,10 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Current normal source targets runtime `0.4.1` and release family `v0.4.1.0`
+  as an unpublished candidate. This unreleased entry grants no new tag, release,
+  public artifact, installed/native qualification or provenance. Previously
+  published `v0.4.0.0` evidence remains bound to its original identities.
 - Current Codex source-plugin metadata may carry Codex-owned interface fields
   while the Claude manifest remains strict-schema compatible. Both manifests
   must preserve equal shared package semantics: name, version, description,

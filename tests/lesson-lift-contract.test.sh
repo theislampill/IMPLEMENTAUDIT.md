@@ -102,6 +102,7 @@ AUDIT_COMPLETE'
 # --- #80 host-error memoization controls -----------------------------------
 quirk_root="$tmp/quirk-repo"
 mkdir -p "$quirk_root/.IMPLEMENTAUDIT"
+git -C "$quirk_root" init -q
 
 quirk_pass() {
   local label="$1" fixture="$2"

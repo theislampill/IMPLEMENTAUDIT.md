@@ -33,6 +33,15 @@ else
   fail "python, python3, or py -3 is required"
 fi
 
+# Q14 is a separate synthetic fixture population under this existing owner.
+if [ "$#" -gt 1 ] || { [ "$#" -eq 1 ] && [ "$1" != "--q14-only" ]; }; then
+  fail "usage: $0 [--q14-only]"
+fi
+"${py_cmd[@]}" tests/issue-ready-work-orders-q14.py
+if [ "${1:-}" = "--q14-only" ]; then
+  exit 0
+fi
+
 "${py_cmd[@]}" - "$cases" <<'PY'
 import hashlib
 import itertools
@@ -206,7 +215,38 @@ def pair_action_valid(signature, action, collision_control=None, grouped=False):
         return False
     return True
 
-def verdict(case):
+def q14_output_contract(case, inherited_object_id):
+    # Independent fixture context supplies identity; matching self-reports do not.
+    return (
+        nonempty_string(inherited_object_id)
+        and case.get("audit_object_ids") == [inherited_object_id]
+        and case.get("inherited_from") == inherited_object_id
+        and case.get("embedded") is True
+        and case.get("publication_intent") is False
+        and case.get("work_order_route_loaded") is True
+        and case.get("native_spine") is True
+        and case.get("public_effect") == "none"
+        and all(case.get(key) is False for key in (
+            "extra_audit_object", "nested_goal", "second_run_root", "separate_mode",
+            "durable_id_allocation", "implementation_authority",
+        ))
+    )
+
+def verdict(case, continuation=None):
+    # This optional argument is produced only by the Q14 synthetic binding test.
+    # It is not actual independently evaluated source-procedure evidence.
+    if continuation is not None and (
+        continuation.get("valid") is not True
+        or continuation.get("proof_scope") != "STRUCTURAL_SYNTHETIC_FIXTURE_ONLY"
+        or continuation.get("semantic_evidence") != "NOT_OBSERVED"
+    ):
+        return "FAIL"
+    inherited_continuation = (
+        continuation is not None
+        and continuation.get("disposition") == "EXTEND_INHERITED"
+    )
+    if inherited_continuation and not q14_output_contract(case, continuation.get("inherited_object_id")):
+        return "FAIL"
     finding = case.get("finding")
     if finding is not None:
         draft = case.get("draft", {})
@@ -253,7 +293,7 @@ def verdict(case):
             return "FAIL"
         if case["signed_hash"] != case["filed_hash"] and case.get("renewed_signoff") is not True:
             return "FAIL"
-    if case.get("publication_intent") is True:
+    if case.get("publication_intent") is True or inherited_continuation:
         audit_object_ids = case.get("audit_object_ids")
         if not nonempty_unique_strings(audit_object_ids) or len(audit_object_ids) != 1:
             return "FAIL"
@@ -262,12 +302,12 @@ def verdict(case):
         if case.get("extra_audit_object") is not False:
             return "FAIL"
     if case.get("embedded") is True:
-        if case.get("publication_intent") is not True:
+        if case.get("publication_intent") is not True and not inherited_continuation:
             return "FAIL"
         if case.get("nested_goal") is not False or case.get("second_run_root") is not False:
             return "FAIL"
     if case.get("publication_intent") is False:
-        if case.get("work_order_route_loaded") is not False or case.get("extra_audit_object") is not False:
+        if case.get("work_order_route_loaded") is not (True if inherited_continuation else False) or case.get("extra_audit_object") is not False:
             return "FAIL"
         if any(case.get(key) is True for key in ("nested_goal", "second_run_root", "separate_mode")):
             return "FAIL"

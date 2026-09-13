@@ -109,6 +109,20 @@ negative_context = (
     "rejected",
     "remains an owner decision",
 )
+auto_install_refusal_re = re.compile(
+    r"\bauto-install and network modes are refused\b"
+)
+
+
+def has_negative_claim_context(phrase, line, occurrence_start):
+    if any(context in line for context in negative_context):
+        return True
+    if phrase != "auto-install":
+        return False
+    return any(
+        match.start() <= occurrence_start < match.end()
+        for match in auto_install_refusal_re.finditer(line)
+    )
 
 if Path("LICENSE").exists():
     unsupported_claims = [
@@ -307,7 +321,10 @@ for path in Path(".").rglob("*"):
 
     for phrase, reason in unsupported_claims:
         for line_no, line in enumerate(lowered.splitlines(), start=1):
-            if phrase in line and not any(context in line for context in negative_context):
+            if any(
+                not has_negative_claim_context(phrase, line, match.start())
+                for match in re.finditer(re.escape(phrase), line)
+            ):
                 failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 
     check_proof_wording(path, text)

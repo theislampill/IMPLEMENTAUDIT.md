@@ -7,6 +7,7 @@ import argparse
 import contextlib
 import errno
 import hashlib
+import hmac
 import json
 import os
 import re
@@ -22,8 +23,10 @@ STORE_SCHEMA = "implementaudit.host-session-binding-store.v1"
 STATE_SCHEMA = "implementaudit.host-session-binding-state.v1"
 BINDING_SCHEMA = "implementaudit.host-session-binding.v1"
 RESULT_SCHEMA = "implementaudit.host-session-binding-result.v1"
+HOLON_STAGE_RECEIPT_SCHEMA = "implementaudit.host-holon-stage-receipt.v1"
 GENERATION_RE = re.compile(r"G([0-9A-F]{4})")
 MAX_TEXT = 1024
+MAX_PROXIMAL_SELECTION_BYTES = 131072
 PROOF_LAYERS = {
     "source_core": "PRESENT",
     "package": "UNVERIFIED",
@@ -211,6 +214,29 @@ def atomic_json(path: Path, payload: dict[str, Any]) -> None:
         raise
 
 
+def atomic_create_json(path: Path, payload: dict[str, Any]) -> None:
+    """Create one immutable receipt; an existing or uncertain write stays consumed."""
+    parent = ensure_safe_directory(path.parent, f"{path.name} parent")
+    target = parent / path.name
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(target, flags, 0o600)
+    except FileExistsError:
+        raise
+    except OSError as exc:
+        fail(f"immutable receipt cannot be created: {exc}")
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+    except OSError as exc:
+        # Never delete on uncertain completion. A visible partial receipt is a
+        # fail-closed consumed identity, not permission to retry elsewhere.
+        fail(f"immutable receipt write completion is unknown: {exc}")
+
+
 def read_json(path: Path, label: str) -> dict[str, Any]:
     try:
         absolute = path.absolute()
@@ -375,6 +401,71 @@ def current_record(state: dict[str, Any], *, require_active: bool) -> dict[str, 
     return current
 
 
+def validate_expected_lineage(
+    state: dict[str, Any],
+    current: dict[str, Any],
+    observed: dict[str, str],
+    raw_links: list[list[str]],
+) -> None:
+    """Validate one caller-supplied contiguous historical binding/receipt slice."""
+    if not raw_links:
+        return
+    if len(raw_links) > 65:
+        fail("expected binding lineage exceeds its bound")
+    links: list[tuple[str, str, str]] = []
+    for raw_link in raw_links:
+        if len(raw_link) != 3:
+            fail("expected binding lineage link has the wrong shape")
+        binding_generation = generation(raw_link[0], "expected_lineage_binding_generation")
+        continuity_generation = generation(raw_link[1], "expected_lineage_continuity_generation")
+        receipt = exact_text(raw_link[2], "expected_lineage_continuity_receipt")
+        links.append((binding_generation, continuity_generation, receipt))
+    if len(links) < 2:
+        fail("expected binding lineage must contain distinct stale and current endpoints")
+    if links[-1] != (
+        observed["binding_generation"],
+        observed["applicable_continuity_generation"],
+        observed["applicable_continuity_receipt"],
+    ):
+        fail("expected binding lineage does not end at the current binding")
+    records_by_generation = {record["binding_generation"]: record for record in state["records"]}
+    invariant_keys = (
+        "controller_id",
+        "claim_id",
+        "explicit_run_root",
+        "repository_identity",
+        "git_common_directory_identity",
+        "worktree_identity",
+    )
+    previous_binding: str | None = None
+    previous_continuity: str | None = None
+    for index, (binding_generation, continuity_generation, receipt) in enumerate(links):
+        if previous_binding is not None:
+            if int(binding_generation[1:], 16) != int(previous_binding[1:], 16) + 1:
+                fail("expected binding lineage skips or aliases a binding generation")
+            if int(continuity_generation[1:], 16) != int(previous_continuity[1:], 16) + 1:
+                fail("expected binding lineage skips or aliases a continuity generation")
+        record = records_by_generation.get(binding_generation)
+        if record is None:
+            fail("expected binding lineage record is absent")
+        if any(record[key] != observed[key] for key in invariant_keys):
+            fail("expected binding lineage has foreign controller, claim, run, or custody identity")
+        if (
+            record["applicable_continuity_generation"] != continuity_generation
+            or record["applicable_continuity_receipt"] != receipt
+        ):
+            fail("expected binding lineage does not match its continuity receipt")
+        expected_status = "ACTIVE" if index == len(links) - 1 else "SUPERSEDED"
+        if record["status"] != expected_status:
+            fail("expected binding lineage has an invalid lifecycle status")
+        if previous_binding is not None and record["predecessor_generation"] != previous_binding:
+            fail("expected binding lineage has a broken predecessor link")
+        previous_binding = binding_generation
+        previous_continuity = continuity_generation
+    if records_by_generation[links[-1][0]] is not current:
+        fail("expected binding lineage does not identify the current record")
+
+
 def proof_result(**payload: Any) -> dict[str, Any]:
     return {
         "schema": RESULT_SCHEMA,
@@ -533,6 +624,7 @@ def command_validate_event(args: argparse.Namespace) -> None:
     for key, value in observed.items():
         if current[key] != value:
             fail(f"event has stale or foreign {key}")
+    validate_expected_lineage(state, current, observed, args.expected_lineage_link)
     obligation = args.obligation_id
     transaction = args.route_transaction_id
     if (obligation is None) != (transaction is None):
@@ -558,6 +650,290 @@ def command_validate_event(args: argparse.Namespace) -> None:
         result["obligation_id"] = obligation
         result["route_transaction_id"] = transaction
     emit(result)
+
+
+def _observed_binding(args: argparse.Namespace) -> dict[str, str]:
+    return {
+        "binding_generation": generation(args.binding_generation, "binding_generation"),
+        "controller_id": exact_text(args.controller_id, "controller_id"),
+        "claim_id": exact_text(args.claim_id, "claim_id"),
+        "explicit_run_root": safe_existing_directory(args.explicit_run_root, "explicit_run_root"),
+        "repository_identity": safe_existing_directory(args.repository_identity, "repository_identity"),
+        "git_common_directory_identity": safe_existing_directory(
+            args.git_common_directory_identity, "git_common_directory_identity"
+        ),
+        "worktree_identity": safe_existing_directory(args.worktree_identity, "worktree_identity"),
+        "applicable_continuity_generation": generation(
+            args.continuity_generation, "continuity_generation"
+        ),
+        "applicable_continuity_receipt": exact_text(
+            args.continuity_receipt, "continuity_receipt"
+        ),
+    }
+
+
+def _read_proximal_selection_stdin() -> str:
+    raw = sys.stdin.buffer.read(MAX_PROXIMAL_SELECTION_BYTES + 1)
+    if not raw:
+        fail("proximal action selection stdin is empty")
+    if len(raw) > MAX_PROXIMAL_SELECTION_BYTES:
+        fail("proximal action selection stdin is oversized")
+    try:
+        return raw.decode("utf-8")
+    except UnicodeError:
+        fail("proximal action selection stdin is malformed")
+
+
+def _reject_proximal_float(token: str) -> NoReturn:
+    fail(f"proximal action selection contains a forbidden float: {token}")
+
+
+def _reject_proximal_constant(token: str) -> NoReturn:
+    fail(f"proximal action selection contains a non-JSON numeric constant: {token}")
+
+
+def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        value = dict(pairs)
+        if len(value) != len(pairs):
+            fail("proximal action selection contains a duplicate JSON member")
+        return value
+
+    try:
+        selection = json.loads(
+            raw,
+            object_pairs_hook=unique_object,
+            parse_float=_reject_proximal_float,
+            parse_constant=_reject_proximal_constant,
+        )
+    except json.JSONDecodeError as exc:
+        fail(f"proximal action selection is malformed: {exc}")
+    if not isinstance(selection, dict):
+        fail("proximal action selection is not an object")
+    canonical = json.dumps(
+        selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    )
+    if raw != canonical:
+        fail("proximal action selection is noncanonical")
+    common = {
+        "schema", "decision_sha256", "applicable", "decision",
+        "applicability_reason", "advance_allowed", "currentness",
+        "qualification", "authority", "digest",
+    }
+    required = common | {
+        "request_sha256", "projection_digest", "mode", "reason", "lanes",
+    }
+    expected = required if selection.get("applicable") is True else common
+    if set(selection) != expected:
+        fail("proximal action selection has the wrong shape")
+    if selection.get("schema") != "implementaudit.proximal-action-selection.v1":
+        fail("proximal action selection has a mixed-version schema")
+    for key in ("decision_sha256", "digest"):
+        value = selection.get(key)
+        if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+            fail(f"proximal action selection has an invalid {key}")
+    unsigned = dict(selection)
+    digest = unsigned.pop("digest")
+    expected_digest = hashlib.sha256(
+        json.dumps(
+            unsigned, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            allow_nan=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    if not hmac.compare_digest(digest, expected_digest):
+        fail("proximal action selection has a stale digest")
+    currentness = selection.get("currentness")
+    if (not isinstance(currentness, dict)
+            or set(currentness) != {"receipt", "current"}
+            or not isinstance(currentness.get("receipt"), str)
+            or currentness.get("current") is not True):
+        fail("proximal action selection has invalid currentness")
+    authority = selection.get("authority")
+    authority_keys = {
+        "closure", "done", "lifecycle_credit", "merge", "package",
+        "publication", "release",
+    }
+    if (not isinstance(authority, dict) or set(authority) != authority_keys
+            or set(authority.values()) != {"NONE"}):
+        fail("proximal action selection exceeds evidence-only authority")
+    reason = selection.get("applicability_reason")
+    if not isinstance(reason, str) or not reason:
+        fail("proximal action selection lacks a derived applicability reason")
+    if selection.get("advance_allowed") is not True:
+        fail("proximal action selection does not permit the bounded advance")
+    if selection["applicable"] is True:
+        if (selection.get("decision") != "PROXIMAL_CLASSIFICATION_SATISFIED"
+                or not isinstance(selection.get("qualification"), dict)):
+            fail("required proximal action selection is unsatisfied")
+        for key in ("request_sha256", "projection_digest"):
+            value = selection.get(key)
+            if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+                fail(f"required proximal action selection has an invalid {key}")
+        lanes = selection.get("lanes")
+        if (selection.get("mode") in {None, "STOP_RECONCILE"}
+                or not isinstance(selection.get("reason"), str)
+                or not selection["reason"]
+                or not isinstance(lanes, list)
+                or not all(isinstance(item, str) for item in lanes)
+                or lanes != sorted(set(lanes))):
+            fail("required proximal action selection has an invalid projection")
+        qualification_authority = selection["qualification"].get("authority")
+        if (not isinstance(qualification_authority, dict)
+                or set(qualification_authority) != authority_keys
+                or set(qualification_authority.values()) != {"NONE"}):
+            fail("required proximal qualification exceeds evidence-only authority")
+    elif selection["applicable"] is False:
+        if (selection.get("decision") != "NOT_REQUIRED"
+                or selection.get("qualification") is not None):
+            fail("NOT_REQUIRED proximal action selection is contradictory")
+    else:
+        fail("proximal action selection applicability is not boolean")
+    return selection
+
+
+def proximal_receipt_path(
+    store: Path,
+    host_id: str,
+    host_session_id: str,
+    observed_binding: dict[str, str],
+    selection_digest: str,
+) -> Path:
+    binding = binding_key(host_id, host_session_id)
+    custody_identity = hashlib.sha256(json.dumps(
+        {
+            "host_id": host_id,
+            "host_session_id": host_session_id,
+            "binding": observed_binding,
+            "selection_digest": selection_digest,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")).hexdigest()
+    return store / "proximal-actions" / binding[:2] / binding / f"{custody_identity}.json"
+
+
+def holon_stage_receipt_path(store: Path, receipt_identity: str) -> Path:
+    match = re.fullmatch(r"sha256:([0-9a-f]{64})", receipt_identity)
+    if match is None:
+        fail("holon stage receipt identity is malformed")
+    digest = match.group(1)
+    return store / "holon-stage-receipts" / digest[:2] / f"{digest}.json"
+
+
+def command_record_holon_stage(args: argparse.Namespace) -> None:
+    """Create one immutable host-owned receipt for an observed holon stage."""
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    binding_generation = generation(args.binding_generation, "binding_generation")
+    store = Path(args.store).absolute()
+    owner = load_owner(store, exact_text(args.owner_id, "owner_id"))
+    selected_child = exact_text(args.selected_child, "selected_child")
+    if selected_child not in {"audit-state", "audit-assess", "audit-implement", "audit-andon"}:
+        fail("holon stage receipt selected child is not canonical")
+    stage = exact_text(args.stage, "stage")
+    if stage not in {"LOAD", "USE", "DISPOSE"}:
+        fail("holon stage receipt stage is not canonical")
+    identities = {
+        "packet_digest": exact_text(args.packet_digest, "packet_digest"),
+        "obligation_id": exact_text(args.obligation_id, "obligation_id"),
+        "route_transaction_id": exact_text(args.route_transaction_id, "route_transaction_id"),
+    }
+    if any(re.fullmatch(r"sha256:[0-9a-f]{64}", value) is None for value in identities.values()):
+        fail("holon stage receipt route identity is malformed")
+    body = {
+        "schema": HOLON_STAGE_RECEIPT_SCHEMA,
+        "owner_id": owner["owner_id"],
+        "host_id": host_id,
+        "host_session_id": session_id,
+        "binding_generation": binding_generation,
+        "selected_child": selected_child,
+        **identities,
+        "stage": stage,
+        "event_id": exact_text(args.event_id, "event_id"),
+    }
+    digest = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    receipt = {**body, "receipt_identity": f"sha256:{digest}"}
+    target = holon_stage_receipt_path(store, receipt["receipt_identity"])
+    with writer_lock(store):
+        _, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=True)
+        require_external_store(store, current)
+        if current["binding_generation"] != binding_generation:
+            fail("holon stage receipt has stale or foreign binding generation")
+        if os.path.lexists(target):
+            fail("holon stage receipt identity is already consumed")
+        try:
+            atomic_create_json(target, receipt)
+        except FileExistsError:
+            fail("holon stage receipt identity is already consumed")
+    emit(proof_result(
+        status="HOLON_STAGE_RECORDED",
+        binding_generation=binding_generation,
+        receipt=receipt,
+    ))
+
+
+def command_consume_proximal_action(args: argparse.Namespace) -> None:
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    event_id = exact_text(args.event_id, "event_id")
+    turn_id = exact_text(args.turn_id, "turn_id")
+    selection = _canonical_proximal_selection(_read_proximal_selection_stdin())
+    observed = _observed_binding(args)
+    store = Path(args.store).absolute()
+    load_owner(store)
+    receipt = {
+        "status": "CONSUMED",
+        "host_id": host_id,
+        "host_session_id": session_id,
+        "binding_generation": observed["binding_generation"],
+        "continuity_generation": observed["applicable_continuity_generation"],
+        "continuity_receipt": observed["applicable_continuity_receipt"],
+        "event_id": event_id,
+        "turn_id": turn_id,
+        "selection_digest": selection["digest"],
+        "decision_sha256": selection["decision_sha256"],
+    }
+    target = proximal_receipt_path(
+        store, host_id, session_id, observed, selection["digest"]
+    )
+    idempotent = False
+    with writer_lock(store):
+        _, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=True)
+        require_external_store(store, current)
+        for key, value in observed.items():
+            if current[key] != value:
+                fail(f"proximal action has stale or foreign {key}")
+        if selection["currentness"]["receipt"] != current[
+                "applicable_continuity_receipt"]:
+            fail("proximal action selection currentness is stale or foreign")
+        if os.path.lexists(target):
+            existing = read_json(target, "proximal action consumption receipt")
+            if existing != receipt:
+                fail("proximal action selection identity is already consumed")
+            idempotent = True
+        else:
+            try:
+                atomic_create_json(target, receipt)
+            except FileExistsError:
+                fail("proximal action selection identity is already consumed")
+    emit(proof_result(
+        status="PROXIMAL_ACTION_CONSUMED",
+        idempotent=idempotent,
+        binding_generation=current["binding_generation"],
+        selection_digest=selection["digest"],
+        decision=selection["decision"],
+        applicability_reason=selection["applicability_reason"],
+        authority={key: "NONE" for key in (
+            "closure", "done", "lifecycle_credit", "merge", "package",
+            "publication", "release",
+        )},
+    ))
 
 
 def command_tombstone(args: argparse.Namespace) -> None:
@@ -684,7 +1060,43 @@ def parse_args() -> argparse.Namespace:
     event.add_argument("--agent-id")
     event.add_argument("--obligation-id")
     event.add_argument("--route-transaction-id")
+    event.add_argument(
+        "--expected-lineage-link",
+        nargs=3,
+        action="append",
+        default=[],
+        metavar=("BINDING_GENERATION", "CONTINUITY_GENERATION", "CONTINUITY_RECEIPT"),
+    )
     event.set_defaults(run=command_validate_event)
+
+    proximal = subparsers.add_parser("consume-proximal-action")
+    proximal.add_argument("--host-id", required=True)
+    proximal.add_argument("--host-session-id", required=True)
+    proximal.add_argument("--binding-generation", required=True)
+    proximal.add_argument("--controller-id", required=True)
+    proximal.add_argument("--claim-id", required=True)
+    proximal.add_argument("--explicit-run-root", required=True)
+    proximal.add_argument("--repository-identity", required=True)
+    proximal.add_argument("--git-common-directory-identity", required=True)
+    proximal.add_argument("--worktree-identity", required=True)
+    proximal.add_argument("--continuity-generation", required=True)
+    proximal.add_argument("--continuity-receipt", required=True)
+    proximal.add_argument("--event-id", required=True)
+    proximal.add_argument("--turn-id", required=True)
+    proximal.set_defaults(run=command_consume_proximal_action)
+
+    holon_stage = subparsers.add_parser("record-holon-stage")
+    holon_stage.add_argument("--owner-id", required=True)
+    holon_stage.add_argument("--host-id", required=True)
+    holon_stage.add_argument("--host-session-id", required=True)
+    holon_stage.add_argument("--binding-generation", required=True)
+    holon_stage.add_argument("--selected-child", required=True)
+    holon_stage.add_argument("--packet-digest", required=True)
+    holon_stage.add_argument("--obligation-id", required=True)
+    holon_stage.add_argument("--route-transaction-id", required=True)
+    holon_stage.add_argument("--stage", required=True)
+    holon_stage.add_argument("--event-id", required=True)
+    holon_stage.set_defaults(run=command_record_holon_stage)
 
     tombstone = subparsers.add_parser("tombstone")
     tombstone.add_argument("--owner-id", required=True)

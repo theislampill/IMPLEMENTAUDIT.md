@@ -1,0 +1,45 @@
+{
+  "subagent_observations": [
+    {
+      "observation_id": "host-observation-01",
+      "event_kind": "SubagentStart",
+      "agent_id": "agent-a",
+      "task_id": "task-a",
+      "lane_id": "lane-a",
+      "status": "STARTED"
+    },
+    {
+      "observation_id": "host-observation-02",
+      "event_kind": "SubagentStop",
+      "agent_id": "agent-b",
+      "task_id": "task-b",
+      "lane_id": "lane-b",
+      "status": "PARTIAL"
+    },
+    {
+      "observation_id": "host-observation-03",
+      "event_kind": "SubagentStop",
+      "agent_id": "agent-c",
+      "task_id": "task-c",
+      "lane_id": "lane-c",
+      "status": "FAILED"
+    },
+    {
+      "observation_id": "host-observation-04",
+      "event_kind": "SubagentStop",
+      "agent_id": "agent-d",
+      "task_id": "task-d",
+      "lane_id": "lane-d",
+      "status": "CANCELLED"
+    },
+    {
+      "observation_id": "host-observation-05",
+      "event_kind": "SubagentStop",
+      "agent_id": "agent-e",
+      "task_id": "task-e",
+      "lane_id": "lane-e",
+      "status": "SUCCESS_RETURNED"
+    }
+  ],
+  "expected_classifier": "FRESH_CONTEXT_RESUME"
+}

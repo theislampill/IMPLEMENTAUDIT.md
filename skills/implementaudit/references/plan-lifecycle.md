@@ -199,6 +199,25 @@ pair to STATE identity; substituted unbound identity cannot issue PASS. A
 missing, partial, contradictory, or self-review attestation leaves the
 independent gate open; legacy records without the prospective row remain valid.
 
+The legacy `cold-review:` row remains valid unchanged. A convergence-countable
+prospective record extends that same row owner with immutable report and packet
+bindings:
+
+```text
+cold-review: disposition: <PASS|GAP-REVISE|BLOCKED|OWNER DECISION> | attestation: <safe-run-root-relative-path> | attestation_sha256: <64 lowercase hex> | packet: <safe-run-root-relative-path> | packet_sha256: <64 lowercase hex> | base_sha: <40 lowercase hex> | head_sha: <40 lowercase hex>
+```
+
+The validator recomputes both digests and applies the existing final-report,
+reviewer-attestation, model-identity, context-separation, disposition, and Git
+ancestry checks. Runtime-artifact status, notes, filenames, headings, and
+terminal-looking prose are custody or narrative only; they cannot assign the
+review type or result. The two-review convergence trigger consumes only valid
+prospective `GAP-REVISE` rows cross-linked from Andon evidence, and requires
+distinct occurrences, report digests, packet digests, and reviewed head commits
+within one failure family and normalized owner/source. Legacy rows do not enter
+that trigger, and malformed prospective rows fail validation rather than being
+silently ignored.
+
 ## Execute / Dispatch / Review
 
 Execution semantics are audit-governed:
@@ -429,8 +448,10 @@ policy, body policy, duplicate check, and readback evidence.
 
 ## Issue-Ready Preparation
 
-Before the authorised gate, apply `issue-ready-work-orders.md` to each material
-finding selected for publication. Bind stable draft IDs and hashes, then
+At material plan, qualification, migration, Andon or deferral reconciliation,
+apply the continuation sufficiency test in `issue-ready-work-orders.md` even
+without publication intent. Before the authorised gate, also apply it to each
+material finding selected for publication. Bind stable draft IDs and hashes, then
 reconcile every unordered pair (or a justified equivalent complete grouping),
 shared owner, dependency, filing order, and implementation/PR topology. Reread
 each draft after the sibling set stabilises. This preparation remains inside

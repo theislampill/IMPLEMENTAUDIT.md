@@ -1,0 +1,76 @@
+{
+  "scope": "SYNTHETIC_SOURCE_TEST_ONLY_NO_NATIVE_OR_HOST_STATE",
+  "settings": {
+    "cwd": "C:\\bounded\\cwd",
+    "approvalPolicy": "never",
+    "approvalsReviewer": "user",
+    "activePermissionProfile": {
+      "id": "worker_load",
+      "extends": null
+    },
+    "sandboxPolicy": {
+      "type": "readOnly",
+      "networkAccess": false
+    },
+    "model": "gpt-6-astra",
+    "modelProvider": "openai",
+    "serviceTier": "default",
+    "effort": "low",
+    "summary": null,
+    "collaborationMode": {
+      "mode": "default",
+      "settings": {
+        "model": "gpt-6-astra",
+        "reasoning_effort": "low",
+        "developer_instructions": null
+      }
+    },
+    "multiAgentMode": "explicitRequestOnly",
+    "personality": "pragmatic"
+  },
+  "wrapper_result": {
+    "chunk_id": "synthetic-fixture",
+    "wall_time_seconds": 0.1,
+    "exit_code": 0,
+    "original_token_count": 7,
+    "output": "synthetic public output\n"
+  },
+  "admitted_public_methods": [
+    "thread/settings/updated",
+    "turn/started",
+    "turn/completed",
+    "item/started",
+    "item/completed",
+    "item/agentMessage/delta"
+  ],
+  "context_fixture": {
+    "scope": "OFFLINE_SYNTHETIC",
+    "source_rule": "Emit only when enabled is true",
+    "producer": {
+      "id": "synthetic_disabled_permissions",
+      "family": "WORLD_STATE",
+      "role": "developer",
+      "content_item_kind": "permissions.instructions",
+      "initial_slot": "developer_aggregate",
+      "initial_order": 0,
+      "delta_order": 0,
+      "standalone": false
+    },
+    "load_state": {
+      "enabled": false
+    },
+    "use_state": {
+      "enabled": false
+    },
+    "wire": {
+      "id": "opaque_nonempty",
+      "phase": "absent_or_null",
+      "turn_id": "required_active",
+      "create_time": {
+        "required": true,
+        "minimum": 0,
+        "maximum": 60
+      }
+    }
+  }
+}

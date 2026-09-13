@@ -27,7 +27,7 @@ install_codex() {
     --asset "$asset" \
     --checksum "$checksums" \
     --codex-home "$install_home" \
-    --version 0.4.0 \
+    --version 0.4.1 \
     "$@"
 }
 
@@ -305,7 +305,7 @@ same_version_home="$tmp_parent/same version changed identity home"
 install_codex "$same_version_home" >"$tmp_parent/same-version-setup.out"
 same_version_target="$same_version_home/skills/implementaudit"
 rewrite_valid_predecessor \
-  "$same_version_target" 0.4.0 "" ffffffffffffffffffffffffffffffffffffffff
+  "$same_version_target" 0.4.1 "" ffffffffffffffffffffffffffffffffffffffff
 same_version_before="$(tree_digest "$same_version_target")"
 expect_install_failure "same-version changed identity" install_codex "$same_version_home"
 [ "$(tree_digest "$same_version_target")" = "$same_version_before" ] \
@@ -355,7 +355,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$checksums" \
   --codex-home "$ambiguous_home" \
-  --version 0.4.0 >/dev/null 2>&1; then
+  --version 0.4.1 >/dev/null 2>&1; then
   printf 'release-asset-install.test: ambiguous plugin plus standalone unexpectedly passed\n' >&2
   exit 1
 fi
@@ -384,7 +384,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$stale" \
   --codex-home "$tmp_parent/stale codex home" \
-  --version 0.4.0 >/dev/null 2>&1; then
+  --version 0.4.1 >/dev/null 2>&1; then
   printf 'release-asset-install.test: stale checksum unexpectedly passed\n' >&2
   exit 1
 fi
@@ -414,7 +414,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$overbroad" \
   --checksum "$overbroad_checksums" \
   --codex-home "$tmp_parent/overbroad codex home" \
-  --version 0.4.0 >/dev/null 2>&1; then
+  --version 0.4.1 >/dev/null 2>&1; then
   printf 'release-asset-install.test: overbroad archive unexpectedly passed\n' >&2
   exit 1
 fi
@@ -444,7 +444,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$sidecar" \
   --checksum "$sidecar_checksums" \
   --codex-home "$tmp_parent/sidecar codex home" \
-  --version 0.4.0 >/dev/null 2>&1; then
+  --version 0.4.1 >/dev/null 2>&1; then
   printf 'release-asset-install.test: sidecar artifact unexpectedly passed\n' >&2
   exit 1
 fi

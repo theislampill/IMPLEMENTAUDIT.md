@@ -1,0 +1,109 @@
+{
+  "source": {
+    "schema": "implementaudit.bounded-continuation-source.v1",
+    "controller": {
+      "controller_id": "v0333-release",
+      "claim_id": "10bd7bc5098af00d26b1c319683a64f5",
+      "run_id": "v041-thread5-autodag-TmDJfs",
+      "receipt_ref": "refs/implementaudit/continuity-receipts/v0333-release/G0125@8e9a29fbdcf7c311665c77c9172061e04d14162d"
+    },
+    "target": {
+      "repository_id": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "git_common_id": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "worktree_id": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "cell_id": "R39-F4",
+      "base_commit": "4444444444444444444444444444444444444444",
+      "base_tree": "5555555555555555555555555555555555555555",
+      "head_commit": "6666666666666666666666666666666666666666",
+      "head_tree": "7777777777777777777777777777777777777777"
+    },
+    "graph": {
+      "digest": "8888888888888888888888888888888888888888888888888888888888888888",
+      "state": "ACTIVE",
+      "dependencies": ["R39-F3", "R38-C05", "HOT-P0"],
+      "writer_holds": ["W_CONTINUITY_REFS"],
+      "resource_holds": []
+    },
+    "authority": {
+      "authorized_files": [
+        "skills/implementaudit/references/canonical-state-rotation.md",
+        "skills/implementaudit/scripts/rotate-canonical-state.py",
+        "tests/canonical-state-rotation.test.sh"
+      ],
+      "authorized_effects": ["EDIT_SOURCE", "RUN_TESTS", "LOCAL_COMMIT"]
+    },
+    "process": {
+      "context_id": "r39-f4-predecessor",
+      "result_disposition": "IN_PROGRESS",
+      "active_constraints": [
+        "NO_LIFECYCLE_AUTHORITY",
+        "PARENT_GOVERNOR_CANONICAL_WRITER"
+      ],
+      "instruction_events": [
+        {
+          "event_id": "iaevt-v1-9999999999999999999999999999999999999999999999999999999999999999",
+          "event_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "disposition": "CONSUMED"
+        }
+      ]
+    },
+    "evidence": {
+      "pointers": ["run-root://reviews/task-3-review.md#result"],
+      "focused_tests": ["bash tests/canonical-state-rotation.test.sh"],
+      "unresolved_evidence_id": null
+    },
+    "continuation": {
+      "next_action": "preserve the accepted checkpoint and implement the bounded correction",
+      "stop_conditions": [
+        "current receipt changes",
+        "authorized path ceiling changes",
+        "writer hold is lost"
+      ],
+      "return_schema": "implementaudit.worker-return.v1"
+    }
+  },
+  "observation": {
+    "schema": "implementaudit.bounded-continuation-observation.v1",
+    "controller": {
+      "controller_id": "v0333-release",
+      "claim_id": "10bd7bc5098af00d26b1c319683a64f5",
+      "run_id": "v041-thread5-autodag-TmDJfs",
+      "receipt_ref": "refs/implementaudit/continuity-receipts/v0333-release/G0125@8e9a29fbdcf7c311665c77c9172061e04d14162d"
+    },
+    "target": {
+      "repository_id": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "git_common_id": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "worktree_id": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "cell_id": "R39-F4",
+      "base_commit": "4444444444444444444444444444444444444444",
+      "base_tree": "5555555555555555555555555555555555555555",
+      "head_commit": "6666666666666666666666666666666666666666",
+      "head_tree": "7777777777777777777777777777777777777777"
+    },
+    "graph": {
+      "digest": "8888888888888888888888888888888888888888888888888888888888888888",
+      "state": "ACTIVE",
+      "dependencies": ["R39-F3", "R38-C05", "HOT-P0"],
+      "writer_holds": ["W_CONTINUITY_REFS"],
+      "resource_holds": []
+    },
+    "currentness": "CURRENT",
+    "effect_status": "CLEAR",
+    "receiver": {
+      "context_id": "fresh-r39-f4-worker",
+      "interrupted_cognition": false,
+      "headroom_sufficient": true
+    },
+    "instruction_events": [
+      {
+        "event_id": "iaevt-v1-9999999999999999999999999999999999999999999999999999999999999999",
+        "event_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "disposition": "CONSUMED"
+      }
+    ],
+    "subagent_observations": [],
+    "activegraph": null,
+    "query_result": null
+  },
+  "expected_classifier": "FRESH_CONTEXT_RESUME"
+}

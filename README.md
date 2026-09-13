@@ -94,7 +94,8 @@ Each action requires separate explicit authorisation.
 ## Quick start
 
 1. Choose the installation route in [Install notes](#install-notes). The
-   published public identity is `v0.4.0.0`; its host-facing runtime is `0.4.0`.
+   current source is an unpublished `v0.4.1.0` candidate for runtime `0.4.1`.
+   The previously published identity is `v0.4.0.0`, runtime `0.4.0`.
    **State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) names
    one native state-synthesis substrate, not selectable lineage modes.
    The public release assets passed byte-for-byte download/readback; a checkout
@@ -962,14 +963,17 @@ without the corresponding host or public evidence.
 
 ## Version and release notes
 
-Current project milestone: published `v0.4.0.0`; plugin/runtime version `0.4.0`.
+Current project milestone: unpublished `v0.4.1.0` candidate; plugin/runtime version `0.4.1`.
+Candidate status is recorded in the
+[audit evidence index](docs/audits/INDEX.md). No candidate tag, release, public
+artifact, native-host result or provenance is claimed.
 
 The canonical title is **State Synthesis Substrate Engineering:
 Evolved-SSDDRFCSS**. The protected compact label is **S³E** wherever used. The
 four-component public milestone maps to the three-component runtime family.
-The annotated tag, GitHub Release, three exact assets and Pages deployment are
-published and independently read back; source composition alone would not have
-established those effects.
+For the previously published `v0.4.0.0`, the annotated tag, GitHub Release,
+three exact assets and Pages deployment have their recorded independent
+readback. Those historical effects do not qualify the `v0.4.1.0` candidate.
 
 The prior `v0.3.3.3` tag and release remain append-only historical evidence.
 Qualification and authorised publication evidence belongs in the
@@ -1170,7 +1174,11 @@ staged plugin copy, and standalone temporary-install paths. None of those alone
 proves native host discovery, invocation, passive update, universal host
 support, marketplace verification, or public GitHub release download.
 
-**Release/contract alignment:** the published public identity is `v0.4.0.0`,
+**Candidate/source alignment:** current source targets runtime `0.4.1` and
+release family `v0.4.1.0`; this candidate is unpublished and requires its own
+source, package, installed/native and public qualification.
+
+**Published-release alignment:** the published public identity is `v0.4.0.0`,
 with plugin/runtime version `0.4.0`. Fresh public download/readback reproduced
 the frozen exact-tree asset bytes, inventories and SHA-256 values recorded in
 the release report. That does not establish native host loading or provenance.
@@ -1253,7 +1261,7 @@ bash scripts/install-plugin-from-release.sh \
   --checksum dist/CHECKSUMS.txt \
   --host codex \
   --host-root "<isolated-host-root>" \
-  --version 0.4.0
+  --version 0.4.1
 ```
 
 Repeat with `--host claude` for the separate staged Claude projection check.
@@ -1284,8 +1292,11 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.4.0
+  --version 0.4.1
 ```
+
+Run the published-asset command below from a `v0.4.0.0` checkout using its
+version-matched installer; the current candidate installer targets `0.4.1`.
 
 The published v0.4.0.0 public-tag command below installs the independently
 read-back standalone release asset. Use the local route above only when you
@@ -1327,7 +1338,8 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-Install the independently read-back `v0.4.0.0` release asset with:
+From a `v0.4.0.0` checkout using its version-matched installer, install the
+independently read-back `v0.4.0.0` release asset with:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
@@ -1498,8 +1510,8 @@ The repository's
 explains Evolved-LAW, Evolved-CSS, Evolved-SSD and Evolved-DRF at property level.
 The [repository genealogy corpus](docs/research/genealogy/README.md) is retained
 in the v0.4.0.0 source tree as exact research memory, remains excluded from both
-runtime package projections, and does not activate the deferred v0.4.1
-reabsorption campaign.
+runtime package projections, and does not authorize or qualify the separate
+v0.4.1 reabsorption work.
 The integrated research route reports 658/658 property disposition accounting, not 658 source
 changes. It preserves rejected, unresolved and owner-decision evidence and adds
 no nine runtimes, lineage selector, methodology mode, or universal-effectiveness

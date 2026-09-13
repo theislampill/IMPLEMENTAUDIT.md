@@ -1,0 +1,97 @@
+{
+  "schema": "implementaudit.native-a-g.fixture.v1",
+  "slice": "G_THIN_GOVERNOR_EXECUTION_OWNER",
+  "authority_ceiling": "PREPARATION_PRODUCT_EVIDENCE_ONLY",
+  "canonical_credit_granted": false,
+  "native_consumer_required": true,
+  "purpose": "Assign mechanics, ordinary execution, specialist cognition, and uncertainty to the correct owner without laundering work through post-hoc review.",
+  "cases": [
+    {
+      "id": "G01_IDENTITY_HASH_CURRENTNESS_IS_GOVERNOR_MECHANICAL",
+      "coverage": "positive",
+      "input": {
+        "work": ["identity", "hash", "currentness", "receipt_reconciliation"],
+        "substantive_cognition": false
+      },
+      "expected": {
+        "owner": "GOVERNOR_MECHANICAL",
+        "child_required": false
+      }
+    },
+    {
+      "id": "G02_MATERIAL_ORDINARY_INVESTIGATION_ROUTES_CHILD_TASK",
+      "coverage": "positive",
+      "input": {
+        "work": "bounded ordinary investigation",
+        "specialist_holon_required": false,
+        "substantive_cognition": true
+      },
+      "expected": {
+        "owner": "CHILD_TASK",
+        "governor_execution": false
+      }
+    },
+    {
+      "id": "G03_SPECIALIST_ABNORMALITY_ROUTES_AUDIT_ANDON",
+      "coverage": "positive",
+      "input": {
+        "work": "new causal abnormality diagnosis",
+        "specialist_holon": "audit-andon"
+      },
+      "expected": {
+        "owner": "CHILD_SKILL:audit-andon",
+        "governor_execution": false
+      }
+    },
+    {
+      "id": "G04_UNKNOWN_OR_CONTRADICTORY_INPUT_BLOCKS",
+      "coverage": "negative",
+      "input": {
+        "identity_known": false,
+        "evidence_contradictory": true
+      },
+      "expected": {
+        "owner": "BLOCK",
+        "invented_authority": false
+      }
+    },
+    {
+      "id": "G05_POSTHOC_REVIEWER_LAUNDERING_GETS_ZERO_CREDIT",
+      "coverage": "negative",
+      "input": {
+        "governor_performed_substantive_work": true,
+        "reviewer_added_afterward": true
+      },
+      "expected": {
+        "child_credit": false,
+        "work_owner_correct": false,
+        "review_does_not_retroactively_cure": true
+      }
+    },
+    {
+      "id": "G06_DISJOINT_TASKS_MAY_RUN_CONCURRENTLY",
+      "coverage": "boundary",
+      "input": {
+        "tasks": ["task-a", "task-b"],
+        "effect_intersection": [],
+        "capacity_available": true
+      },
+      "expected": {
+        "concurrent": true,
+        "global_barrier": false
+      }
+    },
+    {
+      "id": "G07_CHILD_TO_CHILD_DISPATCH_STOPS",
+      "coverage": "boundary",
+      "input": {
+        "requester_role": "CHILD",
+        "requested_action": "DISPATCH_CHILD"
+      },
+      "expected": {
+        "decision": "STOP_CHILD_TO_CHILD_DISPATCH",
+        "return_to_governor": true
+      }
+    }
+  ]
+}

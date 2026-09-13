@@ -18,8 +18,8 @@ fail() { printf 'evidence-anchoring: %s\n' "$*" >&2; exit 1; }
 
 # Package-version attribution must survive all generated layouts. The helper
 # resolves generated package identity, not an archive-local host manifest.
-[ "$(bash "$de" --package-version)" = "0.4.0" ] \
-  || fail "source package version did not resolve to 0.4.0"
+[ "$(bash "$de" --package-version)" = "0.4.1" ] \
+  || fail "source package version did not resolve to 0.4.1"
 
 mkdir -p "$tmp/standalone" "$tmp/plugin/skills/implementaudit" \
   "$tmp/plugin/package" "$tmp/missing"
@@ -27,9 +27,9 @@ cp "$repo_root/package/implementaudit-package.json" \
   "$tmp/standalone/IMPLEMENTAUDIT_PACKAGE.json"
 cp "$repo_root/package/implementaudit-package.json" \
   "$tmp/plugin/IMPLEMENTAUDIT_PACKAGE.json"
-[ "$(bash "$de" --package-version "$tmp/standalone")" = "0.4.0" ] \
+[ "$(bash "$de" --package-version "$tmp/standalone")" = "0.4.1" ] \
   || fail "standalone package version did not resolve"
-[ "$(bash "$de" --package-version "$tmp/plugin/skills/implementaudit")" = "0.4.0" ] \
+[ "$(bash "$de" --package-version "$tmp/plugin/skills/implementaudit")" = "0.4.1" ] \
   || fail "canonical plugin package version did not resolve"
 [ "$(bash "$de" --package-version "$tmp/missing")" = "unknown" ] \
   || fail "missing package identity must resolve to unknown"

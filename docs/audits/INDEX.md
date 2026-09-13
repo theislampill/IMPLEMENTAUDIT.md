@@ -3,6 +3,22 @@
 This is a compact map to repo-local evidence. It is not a release log,
 provenance manifest, marketplace claim, or raw transcript dump.
 
+## v0.4.1.0 candidate status
+
+The current source target is runtime `0.4.1`, release family `v0.4.1.0`.
+This is an unpublished candidate: source checkout only; no tag, no release,
+no publication, and no provenance are claimed for it. Normal candidate metadata
+is separate from private recovery activation/cachebuster identities.
+
+Final source selection, adopted source identity, complete generated plugin and
+standalone artifacts, checksums, installed/native behavior, hosted validation,
+and public release/readback require their own evidence. No candidate artifact
+size, digest, installation result or public URL is inferred from this entry.
+
+The published `v0.4.0.0` report and immutable tag/assets below retain their
+original scope. This maintained index records candidate status without creating
+or relabeling a final release report.
+
 Active audit root:
 
 - `docs/audits/INDEX.md` - this map.

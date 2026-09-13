@@ -1,0 +1,13 @@
+{
+  "observation_patch": {
+    "graph": {
+      "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "state": "ACTIVE",
+      "dependencies": ["R39-F3", "R38-C05", "HOT-P0"],
+      "writer_holds": ["W_CONTINUITY_REFS"],
+      "resource_holds": []
+    }
+  },
+  "expected_classifier": "REPORT_AND_WAIT",
+  "expected_contradiction": "GRAPH_PROJECTION_MISMATCH"
+}

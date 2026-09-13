@@ -1,0 +1,41 @@
+{
+  "schema": "implementaudit-local-release-v1",
+  "records": [
+    {
+      "id": "generated-plugin",
+      "record_type": "GeneratedArtifact",
+      "path": "artifacts/generated.txt",
+      "sha256": "a69d90eb3600d1c731f623533b5b49911cd71df64c3445c17cc0f8d5e93b6c1c",
+      "source_identity": "fixture-generator:plugin",
+      "native_owner_identity": "fixture-generated-owner",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "package-plugin",
+      "record_type": "Package",
+      "path": "artifacts/package.json",
+      "sha256": "454fc457654b9789320b08923b423fba9e7088a381bba5d542f608a425c88f8b",
+      "source_identity": "fixture-package-manifest:plugin",
+      "native_owner_identity": "fixture-package-owner",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "install-plugin",
+      "record_type": "Install",
+      "path": "artifacts/install-receipt.json",
+      "sha256": "d552f80289a794447b474a813b7f5c43e3b733e8b427adba3c6521f806dd7a2d",
+      "source_identity": "fixture-install-receipt:plugin",
+      "native_owner_identity": "fixture-install-owner",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    },
+    {
+      "id": "host-plugin",
+      "record_type": "Host",
+      "path": "artifacts/host-receipt.json",
+      "sha256": "78e31eb347679d9aadba7de0e50e799f5bb9930d8c664a7a6701df1113ad3c2c",
+      "source_identity": "fixture-host-receipt:plugin",
+      "native_owner_identity": "fixture-host-owner",
+      "currentness": {"state": "CURRENT", "invalidators": []}
+    }
+  ]
+}

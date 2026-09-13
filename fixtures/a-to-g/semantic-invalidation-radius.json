@@ -1,0 +1,76 @@
+{
+  "schema": "implementaudit.native-a-g.fixture.v1",
+  "slice": "B_SEMANTIC_INVALIDATION_RADIUS",
+  "authority_ceiling": "PREPARATION_PRODUCT_EVIDENCE_ONLY",
+  "canonical_credit_granted": false,
+  "native_consumer_required": true,
+  "purpose": "Require evidence invalidation to follow proved semantic, write, test, and package effects rather than chronology or global replay.",
+  "cases": [
+    {
+      "id": "B01_LOCAL_CHANGE_PRESERVES_DISJOINT_EVIDENCE",
+      "coverage": "positive",
+      "input": {
+        "changed_paths": ["src/local-owner"],
+        "proved_consumers": ["owner_test", "direct_consumer"],
+        "proved_disjoint": ["disjoint_review", "disjoint_runtime_test"]
+      },
+      "expected": {
+        "invalidated": ["owner_test", "direct_consumer"],
+        "preserved": ["disjoint_review", "disjoint_runtime_test"],
+        "global_replay": false
+      }
+    },
+    {
+      "id": "B02_PACKAGE_INVENTORY_CHANGE_EXPANDS_TO_INSTALL",
+      "coverage": "boundary",
+      "input": {
+        "changed_paths": ["package/member"],
+        "declared_effect": "PACKAGE_MEMBERSHIP"
+      },
+      "expected": {
+        "invalidated": ["package_inventory", "package_boundary", "install_projection"],
+        "preserved": ["unrelated_source_semantics"]
+      }
+    },
+    {
+      "id": "B03_UNKNOWN_IMPACT_BLOCKS_ONLY_AFFECTED_EVIDENCE",
+      "coverage": "negative",
+      "input": {
+        "unknown_consumers": ["affected_evidence"],
+        "proved_disjoint": ["independent_evidence"]
+      },
+      "expected": {
+        "blocked": ["affected_evidence"],
+        "preserved": ["independent_evidence"],
+        "global_replay": false
+      }
+    },
+    {
+      "id": "B04_HARNESS_ONLY_CHANGE_INVALIDATES_PROOF_NOT_RUNTIME",
+      "coverage": "boundary",
+      "input": {
+        "changed_paths": ["tests/harness"],
+        "proved_runtime_effect": false,
+        "proved_schema_effect": false
+      },
+      "expected": {
+        "invalidated": ["harness_result", "review_of_harness_result"],
+        "preserved": ["runtime_semantics", "source_review"]
+      }
+    },
+    {
+      "id": "B05_LATER_DISJOINT_CHANGE_PRESERVES_PRIOR_CREDIT",
+      "coverage": "positive",
+      "input": {
+        "prior_radius": ["slice:b"],
+        "later_radius": ["slice:g"],
+        "intersection": []
+      },
+      "expected": {
+        "prior_credit_preserved": true,
+        "rebind_identity_only": true,
+        "retest_prior_radius": false
+      }
+    }
+  ]
+}

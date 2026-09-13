@@ -2,7 +2,7 @@
 name: audit-assess
 description: Internal independent/adversarial assessment routed by the /implementaudit governor for an immutable digest-bound packet; returns findings without readiness or closure authority.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 
 # audit-assess
@@ -25,6 +25,9 @@ STATE_MUTATION_OWNERSHIP=NONE
 RELEASE_OWNERSHIP=NONE
 CLOSURE_OWNERSHIP=NONE
 CAN_ESTABLISH_AUDIT_COMPLETE=NO
+VISIBLE_LIFECYCLE=OPEN,LOAD,USE,RETURN,DISPOSE,RECONCILE
+VISIBLE_IDENTITY_BINDING=REQUIRED
+CHILD_CREDIT_BEFORE_RECONCILE=NONE
 ```
 
 Accept a route only when the governor envelope identifies this child, proves
@@ -33,6 +36,13 @@ object and authority ceiling, and supplies the immutable packet digest,
 requested claims, evidence/read boundary, disposition vocabulary, and a proved
 fresh-context independence contract. A prose summary or self-review context is
 insufficient; refuse and return to `/implementaudit`.
+
+When returning, name exact ordered LOAD/USE/DISPOSE receipt identities bound to
+this child, packet, obligation and transaction. They grant no lifecycle credit
+until the governor independently resolves their exact immutable bytes through
+the current host-owned store and revalidates owner, host/session and binding
+generation. Arbitrary or unresolvable hashes leave those stages explicitly
+unverified.
 
 Within the packet only, adversarially test each claim for missing semantic
 owners, omitted counterexamples, correlated evidence, unsupported identity or

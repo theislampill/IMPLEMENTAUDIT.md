@@ -1,12 +1,12 @@
 {
   "release": {
-    "milestone": "v0.4.0.0",
-    "manifest_version": "0.4.0",
-    "publication_state": "published",
-    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.4.0.0",
-    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.4.0.0-release-report.md",
-    "status": "v0.4.0.0 is published and independently read back for runtime 0.4.0. The canonical release projection is one atomic dual-host IMPLEMENTAUDIT.plugin.zip package; IMPLEMENTAUDIT.skill is a generated standalone compatibility projection. Tag, GitHub Release, three assets, hosted validation, Pages, public downloads and isolated package installs passed their recorded gates. Current main documentation and marketplace source installation may advance without rewriting the immutable release tag or assets; native running-host and provenance evidence remain separate",
-    "checksum_boundary": "the published plugin and standalone compatibility asset bytes and SHA-256 values are bound by CHECKSUMS.txt and independent public-download readback. A digest is artefact-integrity evidence, not a signature, attestation, SBOM or proof of provenance"
+    "milestone": "v0.4.1.0",
+    "manifest_version": "0.4.1",
+    "publication_state": "candidate",
+    "url": "",
+    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/INDEX.md",
+    "status": "v0.4.1.0 is an unpublished candidate for runtime 0.4.1; source checkout only. No tag, no release, no publication, and no provenance are claimed for this candidate. Source, package, installed, native-host, hosted, and public evidence remain separately qualified. Previously published v0.4.0.0 artifacts and their release report retain their original identities and evidence.",
+    "checksum_boundary": "No v0.4.1.0 artifact checksum or public-download readback is established by candidate metadata. Published v0.4.0.0 checksums retain their recorded artifact-integrity scope; a digest is not a signature, attestation, SBOM or proof of provenance."
   },
   "semantic_sources": [
     "README.md",

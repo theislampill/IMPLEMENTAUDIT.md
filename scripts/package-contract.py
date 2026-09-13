@@ -172,8 +172,8 @@ def validate_contract(root: Path) -> dict[str, Any]:
     require_equal("package_name", contract.get("package_name"), "implementaudit")
     require_equal("publisher", contract.get("publisher"), EXPECTED_PUBLISHER)
     require_equal("marketplace", contract.get("marketplace"), EXPECTED_MARKETPLACE)
-    require_equal("runtime_version", contract.get("runtime_version"), "0.4.0")
-    require_equal("release_family", contract.get("release_family"), "v0.4.0.0")
+    require_equal("runtime_version", contract.get("runtime_version"), "0.4.1")
+    require_equal("release_family", contract.get("release_family"), "v0.4.1.0")
     require_equal("public_governor", contract.get("public_governor"), "implementaudit")
     require_equal("public_entrypoint", contract.get("public_entrypoint"), "/implementaudit")
     require_equal("required_skills", contract.get("required_skills"), EXPECTED_REQUIRED_SKILLS)
@@ -472,6 +472,11 @@ def artifact_payload_entries(
     child_entries = internal_skill_entries(root)
     package_data = normalized_bytes(root / CONTRACT_PATH)
     if role == "canonical_plugin":
+        hook_relative = "hooks/hooks.json"
+        tracked = set(git_output(root, "ls-files", "--", hook_relative).splitlines())
+        hook_path = root / hook_relative
+        if hook_relative not in tracked or hook_path.is_symlink() or not hook_path.is_file():
+            raise ContractError("canonical plugin hook must be one tracked regular file")
         entries: list[tuple[str, bytes, int]] = [
             (
                 ".codex-plugin/plugin.json",
@@ -488,6 +493,7 @@ def artifact_payload_entries(
                 normalized_bytes(root / ".claude-plugin/marketplace.json"),
                 0o644,
             ),
+            (hook_relative, normalized_bytes(hook_path), 0o644),
             (PACKAGE_NAME, package_data, 0o644),
         ]
         entries.extend(

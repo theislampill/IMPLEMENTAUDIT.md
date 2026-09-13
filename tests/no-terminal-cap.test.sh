@@ -20,6 +20,19 @@ Hansei may follow any strike, regression, or evidence mismatch.
 EOF
 bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-proper-noun"
 
+# 1b. A cap noun must not match the prefix of capability or another word.
+#     This includes the native reader's real custody-refusal diagnostic.
+mkdir -p "$tmp/good-capability/skills/implementaudit/scripts"
+cat >"$tmp/good-capability/skills/implementaudit/scripts/reader.py" <<'EOF'
+raise Refusal('attempt capability descriptor shape/custody differs')
+Attempt capabilities describe available operations.
+Retry capability and retry capabilities remain available.
+Try capability and try capabilities as ordinary vocabulary.
+attempt_capability retry-capabilities try_capabilities
+The attempt capsule contains the retry capstone.
+EOF
+bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-capability"
+
 # 2. The live repo must pass the gate.
 bash scripts/check-no-terminal-cap.sh
 
@@ -115,6 +128,45 @@ for term in "max retries" "retry limit" "revision limit" "round limit" "capped r
     exit 1
   fi
 done
+
+# 5b. Cap nouns stay forbidden in singular/plural and delimited forms.
+#     A checker crash is not evidence that forbidden wording was detected.
+cap_case=0
+while IFS= read -r wording; do
+  cap_case=$((cap_case + 1))
+  dir="$tmp/bad-cap-boundary-$cap_case"
+  mkdir -p "$dir/skills/implementaudit/references"
+  printf '%s\n' "$wording" >"$dir/skills/implementaudit/references/policy.md"
+  cap_status=0
+  bash scripts/check-no-terminal-cap.sh --scan-root "$dir" >"$tmp/cap-output" 2>&1 || cap_status=$?
+  if [ "$cap_status" -ne 1 ] || ! grep -Fq 'disallowed public-claim terminal-cap wording:' "$tmp/cap-output"; then
+    printf 'no-terminal-cap.test: expected cap wording refusal: %s\n' "$wording" >&2
+    cat "$tmp/cap-output" >&2
+    exit 1
+  fi
+done <<'EOF'
+attempt cap
+attempt caps
+retry cap
+retry caps
+try cap
+try caps
+Stop at the ATTEMPT CAPS.
+Enforce the `attempt cap`.
+Stop at the attempt cap.
+Stop at the attempt caps.
+Stop at the retry cap.
+Stop at the retry caps.
+Stop at the try cap.
+Stop at the try caps.
+Enforce policy_attempt cap_limit.
+Enforce policy_attempt caps_limit.
+Enforce policy_retry cap_limit.
+Enforce policy_retry caps_limit.
+Enforce policy_try cap_limit.
+Enforce policy_try caps_limit.
+Enforce (attempt cap), then hand off.
+EOF
 
 # 6. Explicit denials of caps must remain valid runtime wording.
 mkdir -p "$tmp/good-denial/skills/implementaudit/templates"

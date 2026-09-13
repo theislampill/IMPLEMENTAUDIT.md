@@ -565,6 +565,17 @@ class _BaseAdapter:
                         "product checkout unattestable (empty payload "
                         "tree) — INVALID before spawn")
                 try:
+                    git_root = subprocess.run(
+                        ["git", "-C", self.product_checkout, "rev-parse",
+                         "--show-toplevel"], capture_output=True, text=True,
+                        timeout=30, check=True).stdout.strip()
+                    canonical_checkout = os.path.normcase(os.path.realpath(
+                        os.path.abspath(self.product_checkout)))
+                    canonical_git_root = os.path.normcase(os.path.realpath(
+                        os.path.abspath(git_root)))
+                    if canonical_git_root != canonical_checkout:
+                        raise ValueError(
+                            "product checkout is not the exact Git root")
                     att_commit = subprocess.run(
                         ["git", "-C", self.product_checkout, "rev-parse",
                          "HEAD"], capture_output=True, text=True,

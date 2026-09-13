@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://implementaudit.local/schema/operational-evidence-v1.json",
+  "x-implementaudit-schema": "implementaudit-operational-evidence-schema-v1",
+  "x-canonicalisation": {
+    "identity": "canonical_json_v1",
+    "encoding": "UTF-8",
+    "bom": false,
+    "object_keys": "recursive_lexicographic",
+    "array_order": "declared_semantic_order",
+    "insignificant_whitespace": false,
+    "string_rewriting": false
+  },
+  "x-payload-normalisation": {
+    "identity": "canonical_payload_text_v1",
+    "line_endings": "CRLF_and_CR_to_LF",
+    "trailing_lf": "remove_all",
+    "other_whitespace": "preserve",
+    "unicode": "preserve"
+  },
+  "x-native-current-facts": {
+    "schema": "implementaudit-native-current-facts-v1",
+    "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
+    "fixed_hot_paths": ["STATE.md", "ROADMAP.md", "WORK_GRAPH.json"],
+    "currentness_chain": [
+      "controller",
+      "claim",
+      "generation_pointer",
+      "receipt_v3",
+      "immediate_predecessor",
+      "migration_marker",
+      "route_record"
+    ],
+    "predecessor_predicate": "canonical_R0011_read_only_currentness_and_exact_immediate_v2_v3",
+    "predecessor_validator_execution": {
+      "mode": "child_loaded_byte_bound_private_materialization",
+      "closure": ["claim-run.sh", "validate-run-root.sh"],
+      "child_binding": "completed_child_reports_exact_sha256_pair",
+      "environment": "exact_allowlist_without_inherited_python_loader_or_module_overrides",
+      "cleanup": "exact_members_or_typed_residue_with_manual_reconciliation"
+    },
+    "route_predicate": "canonical_R0033_pure_read_only_currentness",
+    "route_semantic_fence": "canonical_R0033_recheck_with_fresh_controller_and_final_route_controller_ref_pair",
+    "graph_projection": "implementaudit.work-graph.v1",
+    "graph_compiler_execution": "byte_bound_and_finally_fenced",
+    "publication": false,
+    "activegraph_authority": false
+  },
+  "x-bounded-history-query": {
+    "schema": "implementaudit.operational-evidence-query.v1",
+    "cursor_schema": "implementaudit.history-query-cursor.v1",
+    "history_contract": "implementaudit.history-query.v1",
+    "authority_ceiling": "READ_ONLY_OBSERVATION",
+    "cursor_integrity": "sha256_checksum_not_authentication",
+    "cursor_pages": "never_decision_usable",
+    "decision_page": "untruncated_first_page_from_filter_start_only",
+    "overflow": "OE_QUERY_REQUIRES_BOUNDED_REVIEW",
+    "history_discovery": "verified_current_pointer_manifest_predecessor_chain_only",
+    "activegraph_authority": false,
+    "publication": false
+  },
+  "x-bounded-snapshot-diff-export": {
+    "diff_schema": "implementaudit-operational-snapshot-diff.v1",
+    "export_schema": "implementaudit-operational-snapshot-export.v1",
+    "projection_schema": "implementaudit-operational-snapshot-projection.v1",
+    "payload_schema": "implementaudit-operational-snapshot-payload.v1",
+    "semantic_identity": "record_id_plus_explicit_snapshot_fields",
+    "canonical_json_export": "canonical_json_v1(snapshot)",
+    "projection_formats": ["table", "graph"],
+    "projection_encoding": "canonical_json_v1_inert_data",
+    "bounds": "finite_positive_rows_and_record_bytes",
+    "overflow": "OE_EXPORT_REQUIRES_BOUNDED_REVIEW",
+    "destination": "explicit_absolute_new_file_under_isolated_owned_root",
+    "authority_ceiling": "READ_ONLY_OBSERVATION_OR_EXPLICIT_TASK_OWNED_DESTINATION_ONLY",
+    "activegraph_authority": false,
+    "publication": false
+  },
+  "x-immutable-snapshot-publication": {
+    "schema": "IA-OPERATIONAL-SNAPSHOT-v1",
+    "input_schema": "implementaudit-operational-snapshot-input.v1",
+    "payload_schema": "implementaudit-operational-snapshot-payload.v1",
+    "current_schema": "implementaudit.operational-snapshot-current.v1",
+    "snapshot_id": "iasnap-v1-<canonical_input_manifest_sha256>",
+    "output_root": "<native-bound-run-root>/operational-evidence/snapshots",
+    "writer": "single_output_root_writer_before_native_derivation_through_readback",
+    "manifest_keys": ["schema_version", "controller_id", "claim_id", "run_id", "source_epoch", "source_pointer_oid", "source_evidence_entries"],
+    "current_keys": ["schema_version", "snapshot_id", "manifest_sha256", "source_pointer_oid"],
+    "publication": "immutable_materialization_then_atomic_CURRENT_replace",
+    "input_fence": "compiler_schema_native_route_graph_collectors_and_prior_CURRENT",
+    "volatile_envelope": "excluded_from_semantic_identity",
+    "invalid": "never_advances_CURRENT",
+    "degraded": "retains_complete_missing_or_omitted_state",
+    "authority_ceiling": "R0038_OUTPUT_ROOT_ONLY"
+  },
+  "title": "IMPLEMENTAUDIT operational evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "aggregate",
+    "families",
+    "affected_families",
+    "capability_declarations",
+    "currentness_predicates",
+    "entities",
+    "relations",
+    "payload_records"
+  ],
+  "properties": {
+    "schema": {"const": "implementaudit-operational-evidence-v1"},
+    "aggregate": {"enum": ["COMPLETE", "DEGRADED", "STALE", "INVALID", "SUPERSEDED"]},
+    "families": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "CODE"},
+        {"const": "OWNERSHIP"},
+        {"const": "EXECUTION"},
+        {"const": "EVIDENCE"},
+        {"const": "FAILURE"},
+        {"const": "RELEASE"}
+      ],
+      "items": false,
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "affected_families": {"type": "array", "items": {"$ref": "#/$defs/family"}, "uniqueItems": true},
+    "capability_declarations": {"type": "array", "items": {"$ref": "#/$defs/capability"}},
+    "currentness_predicates": {"type": "array", "items": {"$ref": "#/$defs/predicate"}},
+    "entities": {"type": "array", "items": {"$ref": "#/$defs/entity"}},
+    "relations": {"type": "array", "items": {"$ref": "#/$defs/relation"}},
+    "payload_records": {"type": "array", "items": {"$ref": "#/$defs/payload"}}
+  },
+  "$defs": {
+    "family": {"enum": ["CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE"]},
+    "state": {"enum": ["CURRENT", "UNKNOWN", "UNSUPPORTED", "STALE", "UNVERIFIED", "CONTRADICTORY", "PARSER_ERROR", "INVALID"]},
+    "layer": {"enum": ["repository", "git", "planning", "controller", "execution", "evidence", "failure", "package", "install", "host", "ci", "release", "external", "public"]},
+    "source_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "layer"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "layer": {"$ref": "#/$defs/layer"}
+      }
+    },
+    "currentness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "invalidators"],
+      "properties": {
+        "state": {"$ref": "#/$defs/state"},
+        "invalidators": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "supported", "reason_code"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "supported": {"type": "boolean"},
+        "reason_code": {"type": "string", "minLength": 1}
+      }
+    },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "predicate", "input_sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "predicate": {"type": "string", "minLength": 1},
+        "input_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "record_type", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "required"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "record_type": {"enum": ["Repository", "Commit", "Tree", "Worktree", "File", "Symbol", "Package", "GeneratedArtifact", "Controller", "CustodyClaim", "Receipt", "Run", "Phase", "WorkItem", "Writer", "Resource", "Claim", "Criterion", "Evidence", "Check", "Review", "Andon", "Residual", "Countermeasure", "Issue", "PullRequest", "WorkflowRun", "Release", "Tag", "Asset", "Install", "PublicSurface"]},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "required": {"type": "boolean"}
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "relation_type", "source_entity_id", "target_entity_id", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "confidence", "inference_rule"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "relation_type": {"enum": ["OWNS", "WRITES", "GENERATES", "PACKAGES", "INSTALLS", "CONSUMES", "DEPENDS_ON", "BLOCKS", "READY_WHEN", "SERIALISES_WITH", "JOINS", "CLAIMS", "EVIDENCES", "CONTRADICTS", "INVALIDATES", "SUPERSEDES", "FAILED_AT", "CONTAINED_BY", "REPAIRED_BY", "VERIFIED_BY", "RECOVERED_TO", "QUALIFIES", "MERGES_TO", "TAGS", "PUBLISHES", "READ_BACK_AS"]},
+        "source_entity_id": {"type": "string", "minLength": 1},
+        "target_entity_id": {"type": "string", "minLength": 1},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "confidence": {"enum": ["mechanical", "declared", "inferred"]},
+        "inference_rule": {"type": ["string", "null"]}
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "native_owner_identity", "source_identity", "evidence_layer", "currentness", "media_type", "payload", "payload_sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "family": {"$ref": "#/$defs/family"},
+        "native_owner_identity": {"type": "string", "minLength": 1},
+        "source_identity": {"$ref": "#/$defs/source_identity"},
+        "evidence_layer": {"$ref": "#/$defs/layer"},
+        "currentness": {"$ref": "#/$defs/currentness"},
+        "media_type": {"type": "string", "minLength": 1},
+        "payload": {"type": "string"},
+        "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}
