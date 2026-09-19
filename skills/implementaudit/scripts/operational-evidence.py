@@ -27,6 +27,55 @@ import urllib.error
 import urllib.request
 from collections import Counter
 
+# The controller's existing source identity transitively binds this new owner.
+# Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
+_QUERY_POLICY_MODULE_SHA256 = '52d4d1fa89bee7e36eb3bb634051f8ca252a2cb7fa4a64a4b77aae1ef158da66'
+_QUERY_POLICY_MODULE_BYTES = 8647
+def _load_query_policy_module():
+    import hashlib as _hashlib
+    import os as _os
+    import stat as _stat
+    import sys as _sys
+    import types as _types
+    _path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'operational_query_policy.py')
+    _fd = None
+    try:
+        _before = _os.lstat(_path)
+        if (_stat.S_ISLNK(_before.st_mode) or not _stat.S_ISREG(_before.st_mode)
+                or getattr(_before, "st_file_attributes", 0) & 0x400):
+            raise ImportError("operational_query_policy.py: source is not a non-aliased regular file")
+        _flags = _os.O_RDONLY | getattr(_os, "O_BINARY", 0) | getattr(_os, "O_NONBLOCK", 0) | getattr(_os, "O_NOFOLLOW", 0)
+        _fd = _os.open(_path, _flags)
+        _info = _os.fstat(_fd)
+        if (not _stat.S_ISREG(_info.st_mode) or (_before.st_dev, _before.st_ino) != (_info.st_dev, _info.st_ino)):
+            raise ImportError("operational_query_policy.py: source identity changed while opening")
+        with _os.fdopen(_fd, "rb") as _stream:
+            _fd = None
+            _source = _stream.read(_QUERY_POLICY_MODULE_BYTES + 1)
+    except OSError as _exc:
+        raise ImportError("operational_query_policy.py: source unavailable") from _exc
+    finally:
+        if _fd is not None:
+            _os.close(_fd)
+    if len(_source) != _QUERY_POLICY_MODULE_BYTES or _hashlib.sha256(_source).hexdigest() != _QUERY_POLICY_MODULE_SHA256:
+        raise ImportError("operational_query_policy.py: source identity mismatch")
+    _module = _types.ModuleType(__name__ + ".query_policy_module")
+    _module.__file__ = _path
+    # Register before execution for annotations/introspection; undo a failed load.
+    _previous = _sys.modules.get(_module.__name__)
+    _sys.modules[_module.__name__] = _module
+    try:
+        exec(compile(_source, _path, "exec"), _module.__dict__)
+    except BaseException:
+        if _previous is None:
+            _sys.modules.pop(_module.__name__, None)
+        else:
+            _sys.modules[_module.__name__] = _previous
+        raise
+    return _module
+_query_policy_module = _load_query_policy_module()
+
+
 
 RECORD_SCHEMA = "implementaudit-operational-evidence-v1"
 VALIDATION_SCHEMA = "implementaudit-operational-evidence-validation-v1"
@@ -4870,168 +4919,25 @@ def _load_diff_snapshot_file_v1(path: pathlib.Path, label: str) -> dict:
     return _validate_diff_snapshot_v1(value, label)
 
 
+_snapshot_query_policy = _query_policy_module.SnapshotQueryPolicy(
+    families=FAMILIES, states=STATES, snapshot_schema=SNAPSHOT_PAYLOAD_SCHEMA,
+    status_schema=QUERY_STATUS_SCHEMA, result_schema=QUERY_RESULT_SCHEMA,
+    why_schema=QUERY_WHY_SCHEMA, canonical_json=canonical_json_v1, error=_error)
+
 def _snapshot_query_records_v1(snapshot: object) -> list[dict]:
-    """Return record-shaped snapshot members with stable logical paths."""
-    if type(snapshot) is not dict or snapshot.get("schema_version") != (
-            SNAPSHOT_PAYLOAD_SCHEMA):
-        _error("OE_QUERY_SNAPSHOT_INVALID", "$snapshot",
-               "query input is not an R0038 snapshot payload")
-    if tuple(snapshot.get("families", ())) != FAMILIES:
-        _error("OE_QUERY_SNAPSHOT_INVALID", "$.families",
-               "snapshot does not retain the six frozen families")
-    collections = snapshot.get("collections")
-    if type(collections) is not dict:
-        _error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
-               "snapshot collections must be an object")
-    records = []
-    identities = set()
-
-    def visit(value):
-        if type(value) is dict:
-            currentness = value.get("currentness")
-            if (type(value.get("id")) is str and value.get("family") in FAMILIES and
-                    type(currentness) is dict and
-                    currentness.get("state") in STATES and
-                    type(currentness.get("invalidators")) is list):
-                identity = value["id"]
-                if identity in identities:
-                    _error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
-                           f"duplicate record identity: {identity}")
-                identities.add(identity)
-                records.append({
-                    "path": f"record:{identity}",
-                    "record": json.loads(canonical_json_v1(value).decode("utf-8")),
-                })
-                return
-            for key in sorted(value):
-                visit(value[key])
-        elif type(value) is list:
-            for row in value:
-                visit(row)
-
-    visit(collections)
-    return sorted(records, key=lambda row: (
-        row["record"]["family"], row["record"]["id"],
-        canonical_json_v1(row["record"])))
+    return _snapshot_query_policy._snapshot_query_records_v1(snapshot)
 
 
 def evaluate_currentness(snapshot: dict) -> dict:
-    """Report currentness without turning absence or degradation into success."""
-    census = {family: Counter() for family in FAMILIES}
-    for row in _snapshot_query_records_v1(snapshot):
-        record = row["record"]
-        census[record["family"]][record["currentness"]["state"]] += 1
-    omitted = snapshot.get("missing_or_omitted_state", [])
-    if type(omitted) is not list:
-        _error("OE_QUERY_SNAPSHOT_INVALID", "$.missing_or_omitted_state",
-               "omitted-state census must be an array")
-    return {
-        "schema": QUERY_STATUS_SCHEMA,
-        "snapshot_id": snapshot.get("snapshot_id"),
-        "aggregate": snapshot.get("aggregate"),
-        "families": list(FAMILIES),
-        "family_state_census": {
-            family: dict(sorted(census[family].items())) for family in FAMILIES},
-        "missing_or_omitted_state": sorted(
-            json.loads(canonical_json_v1(omitted).decode("utf-8")),
-            key=canonical_json_v1),
-        "authority_ceiling": "READ_ONLY_OBSERVATION",
-        "establishes": [],
-    }
+    return _snapshot_query_policy.evaluate_currentness(snapshot)
 
 
-def query_family(snapshot: dict, family: str, current_only: bool = False) -> dict:
-    """Return one deterministic family view and an explicit omission census."""
-    if family not in FAMILIES:
-        _error("OE_QUERY_FILTER_INVALID", "$.family", "unsupported family")
-    if type(current_only) is not bool:
-        _error("OE_QUERY_FILTER_INVALID", "$.current_only", "must be boolean")
-    rows = [
-        row for row in _snapshot_query_records_v1(snapshot)
-        if row["record"]["family"] == family]
-    omitted = Counter()
-    if current_only:
-        retained = []
-        for row in rows:
-            state = row["record"]["currentness"]["state"]
-            if state == "CURRENT":
-                retained.append(row)
-            else:
-                omitted[state] += 1
-        rows = retained
-    return {
-        "schema": QUERY_RESULT_SCHEMA,
-        "snapshot_id": snapshot.get("snapshot_id"),
-        "family": family,
-        "current_only": current_only,
-        "rows": rows,
-        "omitted_state_census": dict(sorted(omitted.items())),
-        "missing_or_omitted_state": sorted(
-            json.loads(canonical_json_v1(
-                snapshot.get("missing_or_omitted_state", [])).decode("utf-8")),
-            key=canonical_json_v1),
-        "authority_ceiling": "READ_ONLY_OBSERVATION",
-        "establishes": [],
-    }
+def query_family(snapshot: dict, family: str, current_only: bool=False) -> dict:
+    return _snapshot_query_policy.query_family(snapshot, family, current_only)
 
 
 def explain_history_why_v1(snapshot: dict, record_id: str) -> dict:
-    """Explain retained relation lineage; never infer an absent cause."""
-    if type(record_id) is not str or not record_id:
-        _error("OE_QUERY_FILTER_INVALID", "$.record_id",
-               "record identity must be non-empty text")
-    records = [row["record"] for row in _snapshot_query_records_v1(snapshot)]
-    by_id = {row["id"]: row for row in records}
-    if record_id not in by_id:
-        return {
-            "schema": QUERY_WHY_SCHEMA, "record_id": record_id,
-            "status": "UNKNOWN", "chain": [], "relations": [],
-            "contrary_evidence": [],
-            "authority_ceiling": "READ_ONLY_OBSERVATION", "establishes": []}
-    outgoing = {}
-    for relation in records:
-        if not {"relation_type", "source_entity_id", "target_entity_id"} <= set(
-                relation):
-            continue
-        outgoing.setdefault(relation["source_entity_id"], []).append(relation)
-    for rows in outgoing.values():
-        rows.sort(key=lambda row: (
-            row["target_entity_id"], row["relation_type"], row["id"]))
-    order = []
-    retained_relations = []
-    active = set()
-    complete = set()
-
-    def visit(identity):
-        if identity in active:
-            _error("OE_WHY_CYCLE", "$.relations",
-                   "why lineage contains a reachable cycle")
-        if identity in complete:
-            return
-        active.add(identity)
-        record = by_id.get(identity)
-        if record is not None:
-            order.append(record)
-        for relation in outgoing.get(identity, []):
-            target = relation["target_entity_id"]
-            if target not in by_id:
-                _error("OE_QUERY_SNAPSHOT_INVALID", "$.relations",
-                       "why relation endpoint is absent")
-            retained_relations.append(relation)
-            visit(target)
-        active.remove(identity)
-        complete.add(identity)
-
-    visit(record_id)
-    contrary = sorted({
-        item for row in order
-        for item in row.get("contrary_evidence", [])
-        if type(item) is str and item})
-    return {
-        "schema": QUERY_WHY_SCHEMA, "record_id": record_id,
-        "status": "FOUND", "chain": order,
-        "relations": retained_relations, "contrary_evidence": contrary,
-        "authority_ceiling": "READ_ONLY_OBSERVATION", "establishes": []}
+    return _snapshot_query_policy.explain_history_why_v1(snapshot, record_id)
 
 
 def normalize_history_filters_v1(filters: object) -> dict:

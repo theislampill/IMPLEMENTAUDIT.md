@@ -299,8 +299,11 @@ def unknown():
     return SourceValue("unknown")
 
 class PythonEdges:
-    def __init__(self, payload):
+    def __init__(self, payload, entry_argv=None):
         self.payload = payload
+        # Only the bounded shell here-document reader supplies known argv.
+        # Ordinary Python source inspection never invents command arguments.
+        self.entry_argv = entry_argv
         self.modules = {}
         self.loader_functions = set()
         self.loaded = set()
@@ -407,7 +410,9 @@ class PythonEdges:
             left, right = self.value(node.left, env, source), self.value(node.right, env, source)
             if isinstance(node.op, ast.Div) and isinstance(left, PurePosixPath) and isinstance(right, str):
                 return left / right
-            if isinstance(node.op, ast.Add) and isinstance(left, str) and isinstance(right, str):
+            if isinstance(node.op, ast.Add) and (
+                    isinstance(left, str) and isinstance(right, str) or
+                    type(left) is int and type(right) is int):
                 return left + right
             return unknown()
         if isinstance(node, ast.IfExp):
@@ -442,7 +447,11 @@ class PythonEdges:
                 return SourceValue("path-method", (obj, node.attr))
             if isinstance(obj, SourceValue):
                 if obj.kind == "symbol":
+                    if obj.value == "sys" and node.attr == "argv" and self.entry_argv is not None:
+                        return list(self.entry_argv)
                     return SourceValue("symbol", obj.value + "." + node.attr)
+                if obj.kind == "binary-stream" and node.attr == "read":
+                    return SourceValue("buffer-read", obj.value)
                 if obj.kind == "spec" and node.attr == "loader":
                     return SourceValue("loader", obj.value)
                 if obj.kind == "loader" and node.attr == "exec_module":
@@ -489,6 +498,15 @@ class PythonEdges:
                     return SourceValue("buffer",target) if target else unknown()
                 if method in {"as_posix","__str__"}: return path
                 return unknown()
+            if fn.kind == "buffer-read":
+                # A literal bounded binary read must be able to contain the
+                # complete selected source; text/partial/unknown reads do not
+                # establish this buffer-to-compile edge. This is static
+                # reachability, not proof that a live custody guard passed.
+                if (len(args) == 1 and type(args[0]) is int
+                        and len(self.payload[fn.value]) <= args[0] <= 10000000):
+                    return SourceValue("buffer", fn.value)
+                return unknown()
             if fn.kind == "list-method":
                 obj,method=fn.value
                 if method == "append" and args and len(obj)<128: obj.append(args[0])
@@ -511,6 +529,24 @@ class PythonEdges:
                 return args[0] if args and isinstance(args[0],PurePosixPath) else unknown()
             if name in {"str","os.fspath"} and args:
                 return args[0] if isinstance(args[0],(str,PurePosixPath)) else unknown()
+            if name in {"os.path.abspath", "os.path.dirname"} and len(args) == 1:
+                if isinstance(args[0], PurePosixPath):
+                    return args[0] if name.endswith("abspath") else args[0].parent
+                return unknown()
+            if name == "os.path.join" and args and isinstance(args[0], PurePosixPath):
+                path = args[0]
+                for part in args[1:]:
+                    if not isinstance(part, str):
+                        return unknown()
+                    path = path / part
+                return path
+            if name == "os.open" and len(args) >= 2:
+                target = self.canonical(args[0])
+                return SourceValue("descriptor", target) if target else unknown()
+            if name == "os.fdopen" and len(args) == 2 and args[1] == "rb":
+                if isinstance(args[0], SourceValue) and args[0].kind == "descriptor":
+                    return SourceValue("binary-stream", args[0].value)
+                return unknown()
             if name == "importlib.util.spec_from_file_location" and len(args)>=2:
                 target=self.canonical(args[1])
                 return SourceValue("spec",target) if target else unknown()
@@ -799,6 +835,136 @@ def shell_python_route(helper, mode, content):
             return True
     return False
 
+def shell_python_module_route(helper, content, payload, caller):
+    """Recognise a literal script-relative argv + executed Python buffer load.
+
+    Other here-documents are skipped as data. Matching a filename, a comment,
+    or a quoted program body is insufficient. Unsupported shell syntax fails
+    closed; this is not a general shell evaluator or a runtime authority check.
+    """
+    import shlex
+    path_prefix = '"$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/'
+    header = re.compile(r'^\s*"\$\{([A-Za-z_][A-Za-z0-9_]*)\[@\]\}"\s+-\s+'
+                        + re.escape(path_prefix + helper + '"')
+                        + r'(?:\s+"\$[A-Za-z_][A-Za-z0-9_]*")*\s+<<\x27([A-Za-z_][A-Za-z0-9_]*)\x27\s*$')
+    heredoc = re.compile(r'<<(-?)\s*([\x27\"]?)([A-Za-z_][A-Za-z0-9_]*)\2')
+    lines = content.splitlines()
+    executable_lines, candidates = [], []
+    index = 0
+    while index < len(lines):
+        line = shell_code(lines[index])
+        index += 1
+        executable_lines.append(line)
+        documents = list(heredoc.finditer(line))
+        if not documents:
+            continue
+        # Multiple pending or tab-stripped bodies are outside this adapter.
+        if len(documents) != 1 or documents[0].group(1):
+            return False
+        marker = documents[0].group(3)
+        body = []
+        while index < len(lines) and lines[index] != marker:
+            body.append(lines[index])
+            index += 1
+        if index == len(lines):
+            return False
+        index += 1
+        selected = header.fullmatch(line)
+        if selected:
+            candidates.append((selected.group(1), "\n".join(body)))
+    code = "\n".join(executable_lines)
+    # Preserve command boundaries before quote removal: a quoted ";" or
+    # "unset py_cmd" argument is data, not another shell command. This is
+    # a finite word adapter, not Bash expansion, alias or control-flow analysis.
+    token = re.compile(r'''([ \t\r]+)|([;&|()\n]+)|((?:[^ \t\r\n;&|()'"\\]+|'[^']*'|"(?:\\.|[^"\\])*"|\\.)+)''')
+    commands, offset = [[]], 0
+    logical_code = code.replace('\\\n', '')
+    while offset < len(logical_code):
+        match = token.match(logical_code, offset)
+        if match is None:
+            return False
+        offset = match.end()
+        if match.group(2):
+            commands.append([])
+        elif match.group(3):
+            try:
+                words = shlex.split(match.group(3), comments=False, posix=True)
+            except ValueError:
+                return False
+            if len(words) != 1:
+                return False
+            commands[-1].append(words[0])
+
+    def unset_may_change(variable):
+        for command in commands:
+            words = list(command)
+            while words and words[0] in {'if', 'elif', 'then', 'else', 'while', 'until', 'do', '!', '{', '}'}:
+                words.pop(0)
+            # Leading scalar assignments prefix a command, not its name.
+            # Do not evaluate their values or skip assignments among a
+            # command/builtin wrapper's operands.
+            while words and re.match(r'^[A-Za-z_][A-Za-z0-9_]*\+?=', words[0]):
+                words.pop(0)
+            while words and words[0] in {'command', 'builtin'}:
+                wrapper = words.pop(0)
+                while words and words[0].startswith('-'):
+                    option = words.pop(0)
+                    if option == '--':
+                        break
+                    if wrapper != 'command' or len(option) == 1 or set(option[1:]) - {'p', 'v', 'V'}:
+                        return True
+                    if set(option[1:]) & {'v', 'V'}:
+                        words = []  # Lookup only; it does not invoke unset.
+                        break
+            if not words or words.pop(0) != 'unset':
+                continue
+            options = set()
+            while words and words[0].startswith('-'):
+                option = words.pop(0)
+                if option == '--':
+                    break
+                if len(option) == 1 or set(option[1:]) - {'f', 'n', 'v'}:
+                    return True
+                options.update(option[1:])
+            if options == {'f'}:
+                continue  # Function-only unset cannot remove the array.
+            if 'f' in options:
+                return True  # Incompatible function/variable option modes.
+            for operand in words:
+                literal = re.fullmatch(r'([A-Za-z_][A-Za-z0-9_]*)(?:\[(?:[0-9]+|[@*])\])?', operand)
+                # Dynamic names/subscripts and unsupported options cannot
+                # establish that the selected interpreter survives.
+                if literal is None or literal.group(1) == variable:
+                    return True
+        return False
+
+    target = posixpath.normpath((PurePosixPath(caller).parent / helper).as_posix())
+    if target not in payload:
+        return False
+    for variable, body in candidates:
+        # Follow the existing finite interpreter-selection array, including
+        # its initially empty state. Never assume an arbitrary array is Python.
+        assignments = re.findall(r'\b' + re.escape(variable) + r'=\(([^)]*)\)', code)
+        if not assignments or not any(assignments) or any(
+                value not in {"", "python", "python3", "py -3"} for value in assignments):
+            continue
+        # Do not overlook other Bash writes to the selected interpreter.
+        # These forms invalidate the finite array-selection proof even when
+        # an earlier assignment happened to name Python.
+        remaining = re.sub(r'\b' + re.escape(variable) + r'=\([^)]*\)', '', code)
+        if (re.search(r'\b' + re.escape(variable) + r'(?:\[[^]\n]*\])?\+?=', remaining)
+                or unset_may_change(variable)):
+            continue
+        synthetic = caller + ".stdin.py"
+        source_payload = dict(payload)
+        source_payload[synthetic] = body.encode("utf-8")
+        engine = PythonEdges(source_payload, entry_argv=["-", PurePosixPath(target)])
+        # Module top-level execution alone: do not credit uncalled functions.
+        engine.module(synthetic)
+        if target in engine.loaded:
+            return True
+    return False
+
 def validate_one(helper, row, role):
     if row["class"] not in class_names:
         raise SystemExit(f"check-helper-reachability: invalid applicability class {row['class']} for {helper}")
@@ -863,7 +1029,10 @@ def validate_one(helper, row, role):
                 raise SystemExit(f"check-helper-reachability: Python caller edge unresolved: {helper}: {row['caller']}")
         elif caller.endswith(".sh"):
             if helper.endswith(".py"):
-                valid=row["arguments"].startswith("cli:") and shell_python_route(helper,row["arguments"].removeprefix("cli:"),caller_content)
+                if row["arguments"] == "module":
+                    valid=shell_python_module_route(helper,caller_content,role_python_payloads[role],caller)
+                else:
+                    valid=row["arguments"].startswith("cli:") and shell_python_route(helper,row["arguments"].removeprefix("cli:"),caller_content)
             else:
                 valid=caller_invokes(helper,caller_content)
             if not valid:

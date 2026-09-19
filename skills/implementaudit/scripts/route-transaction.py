@@ -28,11 +28,60 @@ import time
 from pathlib import Path
 from typing import Any, Iterator, NoReturn
 
+# The controller's existing source identity transitively binds this new owner.
+# Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
+_ROUTE_REQUEST_POLICY_SHA256 = 'ea69123930803e428630b51565b6c7f58d079262f3feda34d95c31f0fdd6375f'
+_ROUTE_REQUEST_POLICY_BYTES = 5191
+def _load_route_request_policy():
+    import hashlib as _hashlib
+    import os as _os
+    import stat as _stat
+    import sys as _sys
+    import types as _types
+    _path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'route_request_policy.py')
+    _fd = None
+    try:
+        _before = _os.lstat(_path)
+        if (_stat.S_ISLNK(_before.st_mode) or not _stat.S_ISREG(_before.st_mode)
+                or getattr(_before, "st_file_attributes", 0) & 0x400):
+            raise ImportError("route_request_policy.py: source is not a non-aliased regular file")
+        _flags = _os.O_RDONLY | getattr(_os, "O_BINARY", 0) | getattr(_os, "O_NONBLOCK", 0) | getattr(_os, "O_NOFOLLOW", 0)
+        _fd = _os.open(_path, _flags)
+        _info = _os.fstat(_fd)
+        if (not _stat.S_ISREG(_info.st_mode) or (_before.st_dev, _before.st_ino) != (_info.st_dev, _info.st_ino)):
+            raise ImportError("route_request_policy.py: source identity changed while opening")
+        with _os.fdopen(_fd, "rb") as _stream:
+            _fd = None
+            _source = _stream.read(_ROUTE_REQUEST_POLICY_BYTES + 1)
+    except OSError as _exc:
+        raise ImportError("route_request_policy.py: source unavailable") from _exc
+    finally:
+        if _fd is not None:
+            _os.close(_fd)
+    if len(_source) != _ROUTE_REQUEST_POLICY_BYTES or _hashlib.sha256(_source).hexdigest() != _ROUTE_REQUEST_POLICY_SHA256:
+        raise ImportError("route_request_policy.py: source identity mismatch")
+    _module = _types.ModuleType(__name__ + ".route_request_policy")
+    _module.__file__ = _path
+    # Register before execution for annotations/introspection; undo a failed load.
+    _previous = _sys.modules.get(_module.__name__)
+    _sys.modules[_module.__name__] = _module
+    try:
+        exec(compile(_source, _path, "exec"), _module.__dict__)
+    except BaseException:
+        if _previous is None:
+            _sys.modules.pop(_module.__name__, None)
+        else:
+            _sys.modules[_module.__name__] = _previous
+        raise
+    return _module
+_route_request_policy = _load_route_request_policy()
+
+
 
 RESULT_SCHEMA = "implementaudit.route-transaction-result.v1"
-REQUEST_SCHEMA = "implementaudit.route-decision-request.v1"
+REQUEST_SCHEMA = _route_request_policy.REQUEST_SCHEMA
 RECORD_SCHEMA = "implementaudit.route-decision.v1"
-PREDICATE_VERSION = "R0033.route-predicate.v1"
+PREDICATE_VERSION = _route_request_policy.PREDICATE_VERSION
 PACKET_SCHEMA = "implementaudit.route-packet.v1"
 SOURCE_EVENT_SCHEMA = "implementaudit.source-event.v1"
 SOURCE_EVENT_PROVENANCE_SCHEMA = "implementaudit.source-event-provenance.v1"
@@ -129,7 +178,7 @@ HOLON_LIFECYCLE_SEQUENCE = ("OPEN", "LOAD", "USE", "RETURN", "DISPOSE", "RECONCI
 CONTINUITY_RE = re.compile(r"G[0-9A-F]{4}")
 CONTROLLER_RE = re.compile(r"[a-z0-9][a-z0-9-]{0,47}")
 OID_RE = re.compile(r"[0-9a-f]{40}(?:[0-9a-f]{24})?")
-HEX_RE = re.compile(r"sha256:[0-9a-f]{64}")
+HEX_RE = _route_request_policy.HEX_RE
 EVENT_ID_RE = re.compile(r"iaevt-v1-[0-9a-f]{64}")
 ZERO_OID = "0" * 40
 EXPIRES_ON = [
@@ -251,30 +300,28 @@ def digest_json(value: Any) -> str:
 
 
 def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
-    value = dict(pairs)
-    if len(value) != len(pairs):
-        raise ValueError("duplicate JSON member")
-    return value
+    return _route_request_policy.unique_object(pairs)
 
 
 def exact_text(value: Any, label: str) -> str:
-    if not isinstance(value, str) or not value or len(value) > 1024 or any(ord(char) < 32 for char in value):
-        fail(f"{label} is empty, oversized, or contains a control character")
-    return value
+    try:
+        return _route_request_policy.exact_text(value, label)
+    except _route_request_policy.RequestRefusal as exc:
+        fail(exc.message, decision=exc.decision)
 
 
 def exact_keys(value: Any, keys: set[str], label: str) -> dict[str, Any]:
-    if not isinstance(value, dict) or set(value) != keys:
-        fail(f"{label} has the wrong shape")
-    return value
+    try:
+        return _route_request_policy.exact_keys(value, keys, label)
+    except _route_request_policy.RequestRefusal as exc:
+        fail(exc.message, decision=exc.decision)
 
 
 def identity_record(value: Any, label: str) -> dict[str, str]:
-    record = exact_keys(value, {"identity", "digest"}, label)
-    exact_text(record["identity"], f"{label}.identity")
-    if not isinstance(record["digest"], str) or not HEX_RE.fullmatch(record["digest"]):
-        fail(f"{label}.digest is not a canonical sha256 identity")
-    return record
+    try:
+        return _route_request_policy.identity_record(value, label)
+    except _route_request_policy.RequestRefusal as exc:
+        fail(exc.message, decision=exc.decision)
 
 
 def logical_task_name(value: Any, *reserved: str) -> str:
@@ -297,13 +344,10 @@ def open_logical_task(record: dict[str, Any]) -> str:
 
 
 def validate_presentation(value: Any) -> dict[str, str]:
-    """Existing request/record custody for an actual no-child presentation."""
-    presentation = exact_keys(value, {"parent_holon", "consuming_frontier"}, "route presentation")
-    for key, text in presentation.items():
-        if (not isinstance(text, str) or not 0 < len(text) <= 240 or text != text.strip()
-                or "`" in text or any(ord(char) < 32 or ord(char) == 127 for char in text)):
-            fail("route presentation has malformed " + key)
-    return presentation
+    try:
+        return _route_request_policy.validate_presentation(value)
+    except _route_request_policy.RequestRefusal as exc:
+        fail(exc.message, decision=exc.decision)
 
 
 def no_child_notice(presentation: Any) -> str:
@@ -323,7 +367,7 @@ def read_request(path: str) -> dict[str, Any]:
         if not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode) or info.st_size > 1_000_000:
             fail("request is not a safe regular file")
         request = json.loads(target.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
-    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError, RecursionError) as exc:
         fail(f"request is unreadable or malformed: {exc}")
     validated = validate_request(request)
     argv = validated["action"]["argv"]
@@ -338,51 +382,10 @@ def read_request(path: str) -> dict[str, Any]:
 
 
 def validate_request(request: Any) -> dict[str, Any]:
-    """Validate one already-observed canonical R0033 request value."""
-    keys = {
-        "schema",
-        "predicate_version",
-        "boundary",
-        "scope",
-        "action",
-        "inputs",
-    }
-    if isinstance(request, dict) and "presentation" in request:
-        keys.add("presentation")
-        validate_presentation(request["presentation"])
-    exact_keys(request, keys, "request")
-    if request["schema"] != REQUEST_SCHEMA or request["predicate_version"] != PREDICATE_VERSION:
-        fail("request schema or predicate version is stale")
-    boundary = exact_keys(request["boundary"], {"kind", "event_id", "digest"}, "boundary")
-    exact_text(boundary["kind"], "boundary.kind")
-    exact_text(boundary["event_id"], "boundary.event_id")
-    if not HEX_RE.fullmatch(boundary.get("digest", "")):
-        fail("boundary identity is malformed")
-    identity_record(request["scope"], "scope")
-    action = exact_keys(request["action"], {"identity", "digest", "class", "argv"}, "action")
-    exact_text(action["identity"], "action.identity")
-    exact_text(action["class"], "action.class")
-    if not HEX_RE.fullmatch(action.get("digest", "")):
-        fail("action identity is malformed")
-    if (
-        not isinstance(action["argv"], list)
-        or not action["argv"]
-        or len(action["argv"]) > 64
-        or any(not isinstance(item, str) or not item or len(item) > 4096 for item in action["argv"])
-    ):
-        fail("action argv is empty, oversized, or malformed")
-    if not isinstance(request["inputs"], list) or not request["inputs"]:
-        fail("inputs must be a non-empty complete identity set")
-    identities: list[str] = []
-    for index, item in enumerate(request["inputs"]):
-        record = exact_keys(item, {"identity", "path", "digest"}, f"inputs[{index}]")
-        identities.append(exact_text(record["identity"], f"inputs[{index}].identity"))
-        exact_text(record["path"], f"inputs[{index}].path")
-        if not isinstance(record["digest"], str) or not HEX_RE.fullmatch(record["digest"]):
-            fail(f"inputs[{index}].digest is not canonical")
-    if identities != sorted(identities) or len(identities) != len(set(identities)):
-        fail("inputs are not uniquely ordered by identity")
-    return request
+    try:
+        return _route_request_policy.validate_request(request)
+    except _route_request_policy.RequestRefusal as exc:
+        fail(exc.message, decision=exc.decision)
 
 
 def read_exact_artifact(path: str, label: str) -> tuple[bytes, dict[str, Any]]:
@@ -395,7 +398,7 @@ def read_exact_artifact(path: str, label: str) -> tuple[bytes, dict[str, Any]]:
             fail(f"{label} is not a safe bounded regular file")
         raw = target.read_bytes()
         value = json.loads(raw.decode("utf-8", "strict"), object_pairs_hook=unique_object)
-    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError, RecursionError) as exc:
         fail(f"{label} is unreadable or malformed: {exc}")
     if not isinstance(value, dict):
         fail(f"{label} is not a JSON object")
@@ -492,12 +495,9 @@ def read_replay_source_event(path: str) -> dict[str, Any]:
 
 def decoded_artifact(raw: bytes, label: str) -> dict[str, Any]:
     try:
-        value = json.loads(raw.decode("utf-8", "strict"), object_pairs_hook=unique_object)
-    except (UnicodeError, json.JSONDecodeError, ValueError) as exc:
-        fail(f"{label} bytes are malformed: {exc}")
-    if not isinstance(value, dict):
-        fail(f"{label} bytes are not a JSON object")
-    return value
+        return _route_request_policy.decoded_artifact(raw, label)
+    except _route_request_policy.RequestRefusal as exc:
+        fail(exc.message, decision=exc.decision)
 
 
 def route_packet_record(

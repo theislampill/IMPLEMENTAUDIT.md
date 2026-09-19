@@ -385,7 +385,8 @@ fixture_repo = temp / "installed-custody-repo"
 subprocess.run(["git", "init", "-q", str(fixture_repo)], check=True)
 source_scripts = fixture_repo / "skills" / "implementaudit" / "scripts"
 source_scripts.mkdir(parents=True)
-for source in (rotation_path, claim_path, binding_path, validator_path):
+for source in (rotation_path, claim_path, binding_path, validator_path,
+               Path(rotation_path).with_name("canonical_hot_projection.py")):
     shutil.copy2(source, source_scripts / Path(source).name)
 
 run_id = "installed-custody-AbC123"
@@ -633,7 +634,8 @@ cache_root = (
     / "implementaudit" / "0.4.0+codex.20260825164238")
 installed_scripts = cache_root / "skills" / "implementaudit" / "scripts"
 installed_scripts.mkdir(parents=True)
-for source in (rotation_path, claim_path, binding_path, validator_path):
+for source in (rotation_path, claim_path, binding_path, validator_path,
+               Path(rotation_path).with_name("canonical_hot_projection.py")):
     shutil.copy2(source, installed_scripts / Path(source).name)
 store = temp / "codex-home" / "plugins" / "data" / "personal" / "implementaudit" / "host-session-binding-v1"
 session_id = "0198-installed-custody-fixture"
@@ -2634,7 +2636,8 @@ subprocess.run(["git", "init", "-q", str(owner_repo)], check=True)
 owner_scripts = owner_repo / "skills" / "implementaudit" / "scripts"
 owner_scripts.mkdir(parents=True)
 source_scripts = Path(sys.argv[1]).parent
-for name in ("rotate-canonical-state.py", "claim-run.sh", "validate-run-root.sh"):
+for name in ("rotate-canonical-state.py", "canonical_hot_projection.py",
+             "claim-run.sh", "validate-run-root.sh"):
     shutil.copy2(source_scripts / name, owner_scripts / name)
 run_name = "task4-AbC123"
 run_root = owner_repo / ".IMPLEMENTAUDIT" / "runs" / run_name

@@ -148,11 +148,13 @@ def decode_strict_json_bytes(raw: bytes, source: str) -> JSONValue:
             parse_int=_decode_int,
             parse_constant=_reject_constant,
         )
+        validate_identity_json_v1(value)
     except WorkGraphError:
         raise
     except json.JSONDecodeError as exc:
         raise WorkGraphError(f"{source}: invalid JSON: {exc.msg}") from exc
-    validate_identity_json_v1(value)
+    except (ValueError, RecursionError) as exc:
+        raise WorkGraphError(f"{source}: JSON parser or validation limit exceeded") from exc
     return value
 
 

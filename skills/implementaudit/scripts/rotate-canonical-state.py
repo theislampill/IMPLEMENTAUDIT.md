@@ -28,6 +28,55 @@ import zlib
 from pathlib import Path
 from typing import Any, Mapping, NamedTuple, Sequence
 
+# The controller's existing source identity transitively binds this new owner.
+# Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
+_HOT_PROJECTION_MODULE_SHA256 = '0c5fb125e59b3493c2f3c9baf6a7704ccb2b5fc486f9363a028055f3d6cfad7c'
+_HOT_PROJECTION_MODULE_BYTES = 12058
+def _load_hot_projection_module():
+    import hashlib as _hashlib
+    import os as _os
+    import stat as _stat
+    import sys as _sys
+    import types as _types
+    _path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'canonical_hot_projection.py')
+    _fd = None
+    try:
+        _before = _os.lstat(_path)
+        if (_stat.S_ISLNK(_before.st_mode) or not _stat.S_ISREG(_before.st_mode)
+                or getattr(_before, "st_file_attributes", 0) & 0x400):
+            raise ImportError("canonical_hot_projection.py: source is not a non-aliased regular file")
+        _flags = _os.O_RDONLY | getattr(_os, "O_BINARY", 0) | getattr(_os, "O_NONBLOCK", 0) | getattr(_os, "O_NOFOLLOW", 0)
+        _fd = _os.open(_path, _flags)
+        _info = _os.fstat(_fd)
+        if (not _stat.S_ISREG(_info.st_mode) or (_before.st_dev, _before.st_ino) != (_info.st_dev, _info.st_ino)):
+            raise ImportError("canonical_hot_projection.py: source identity changed while opening")
+        with _os.fdopen(_fd, "rb") as _stream:
+            _fd = None
+            _source = _stream.read(_HOT_PROJECTION_MODULE_BYTES + 1)
+    except OSError as _exc:
+        raise ImportError("canonical_hot_projection.py: source unavailable") from _exc
+    finally:
+        if _fd is not None:
+            _os.close(_fd)
+    if len(_source) != _HOT_PROJECTION_MODULE_BYTES or _hashlib.sha256(_source).hexdigest() != _HOT_PROJECTION_MODULE_SHA256:
+        raise ImportError("canonical_hot_projection.py: source identity mismatch")
+    _module = _types.ModuleType(__name__ + ".hot_projection_module")
+    _module.__file__ = _path
+    # Register before execution for annotations/introspection; undo a failed load.
+    _previous = _sys.modules.get(_module.__name__)
+    _sys.modules[_module.__name__] = _module
+    try:
+        exec(compile(_source, _path, "exec"), _module.__dict__)
+    except BaseException:
+        if _previous is None:
+            _sys.modules.pop(_module.__name__, None)
+        else:
+            _sys.modules[_module.__name__] = _previous
+        raise
+    return _module
+_hot_projection_module = _load_hot_projection_module()
+
+
 
 ZERO_OID = "0" * 40
 ARCHIVE_PREFIX = "refs/implementaudit/state-archives"
@@ -861,9 +910,7 @@ def verify_migration_equivalence_v1(
 
 
 def _hot_value_v1(value: object) -> str:
-    if (type(value) is not str or not value or any(char in value for char in "\r\n|")):
-        raise RotationError("hot projection field is invalid")
-    return value
+    return _hot_projection._hot_value_v1(value)
 
 
 def _validate_native_current_fields_v1(fields: Mapping[str, object]) -> None:
@@ -934,191 +981,32 @@ def _validate_hot_dependencies_v1(graph: GraphProjection,
         raise RotationError("hot custody pointer is invalid")
 
 
+_hot_projection = _hot_projection_module.HotProjectionRenderer(
+    error_type=RotationError, validate_fields=_validate_native_current_fields_v1,
+    validate_dependencies=_validate_hot_dependencies_v1)
+
 def _render_lines_v1(lines: Sequence[str]) -> bytes:
-    raw = ("\n".join(lines).rstrip() + "\n").encode("utf-8")
-    if len(raw) > 4096:
-        raise RotationError("hot projection exceeds v1 byte bound")
-    return raw
+    return _hot_projection._render_lines_v1(lines)
 
 
-STATE_HOT_SECTIONS_V1 = (
-    "# IMPLEMENTAUDIT State", "## Current phase", "## Audit object state",
-    "## Runtime artifacts", "## Ledger", "## Andon log",
-    "## Occurrence resolution and residuals", "## Execution identity",
-    "## Context epochs and instruction applicability", "## AGENTS_UPDATE_DECISION",
-    "## CONTINUITY_DECISION", "## Local git trace", "## Run terminal disposition",
-)
-ROADMAP_HOT_SECTIONS_V1 = (
-    "# IMPLEMENTAUDIT Roadmap", "## Goal", "## Audit object",
-    "## Action selection", "## Baseline ref", "## Run root",
-    "## Planning evidence", "## Phases", "## Execution index (projection)",
-    "## Scope boundaries", "## Scope-creep register",
-)
+STATE_HOT_SECTIONS_V1 = _hot_projection_module.STATE_HOT_SECTIONS_V1
+ROADMAP_HOT_SECTIONS_V1 = _hot_projection_module.ROADMAP_HOT_SECTIONS_V1
 
 
 def _markdown_headings_v1(raw: bytes) -> tuple[str, ...]:
-    try:
-        lines = raw.decode("utf-8", "strict").splitlines()
-    except UnicodeDecodeError as exc:
-        raise RotationError("hot template is not UTF-8") from exc
-    return tuple(line for line in lines
-                 if line.startswith("# ") or line.startswith("## "))
+    return _hot_projection._markdown_headings_v1(raw)
 
 
-def verify_hot_renderer_template_parity_v1(
-        state_template: bytes, roadmap_template: bytes,
-        state_rendered: bytes, roadmap_rendered: bytes) -> None:
-    populations = (
-        (state_template, state_rendered, STATE_HOT_SECTIONS_V1),
-        (roadmap_template, roadmap_rendered, ROADMAP_HOT_SECTIONS_V1),
-    )
-    for template, rendered, expected in populations:
-        if (type(template) is not bytes or type(rendered) is not bytes
-                or _markdown_headings_v1(template) != expected
-                or _markdown_headings_v1(rendered) != expected):
-            raise RotationError("hot renderer and canonical template sections disagree")
+def verify_hot_renderer_template_parity_v1(state_template: bytes, roadmap_template: bytes, state_rendered: bytes, roadmap_rendered: bytes) -> None:
+    return _hot_projection.verify_hot_renderer_template_parity_v1(state_template, roadmap_template, state_rendered, roadmap_rendered)
 
 
-def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjection,
-                             custody: CustodyPointer) -> bytes:
-    _validate_native_current_fields_v1(fields)
-    _validate_hot_dependencies_v1(graph, custody)
-    lines = [
-        "# IMPLEMENTAUDIT State", "",
-        "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`", "",
-        "Bounded current/open projection; closed detail is immutable query history.", "",
-        "## Current phase", "", "| Field | Value |", "|---|---|",
-        f"| Run root | `{_hot_value_v1(fields['implementaudit_base'])}/{_hot_value_v1(fields['run_id'])}` |",
-        f"| Phase | {_hot_value_v1(fields['phase'])} |",
-        f"| Status | {_hot_value_v1(fields['status'])} |",
-        f"| Audit object state | {_hot_value_v1(fields['audit_object_state'])} |",
-        f"| Route | {_hot_value_v1(fields['route'])} |",
-        f"| Owner/source | {_hot_value_v1(fields['owner_source'])} |",
-        f"| Baseline ref | `{_hot_value_v1(fields['baseline_ref'])}` |",
-        f"| Last check | {_hot_value_v1(fields['last_check'])} |",
-        f"| Next action | {_hot_value_v1(fields['next_action'])} |", "",
-        "## Audit object state", "",
-        f"Audit object source: {_hot_value_v1(fields['audit_object_source'])}", "",
-        f"Latest auditing operation: {_hot_value_v1(fields['latest_auditing_operation'])}", "",
-        f"Terminal closure condition: {_hot_value_v1(fields['terminal_closure_condition'])}", "",
-        f"Handoff state: {_hot_value_v1(fields['handoff_state'])}", "",
-        "## Runtime artifacts", "", "| Artifact | Status | Notes |", "|---|---|---|",
-    ]
-    for artifact in fields["runtime_artifacts"]:
-        lines.append(f"| `{artifact.path}` | {artifact.status} | {artifact.notes} |")
-    lines.extend([
-        "", "## Ledger", "",
-        "| # | Finding | Priority | Action | Status | Evidence | Depends on | Follow-up |",
-        "|---|---|---:|---|---|---|---|---|",
-    ])
-    for finding in fields["open_ledger"]:
-        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % finding)
-    lines.extend([
-        "", "## Andon log", "",
-        "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
-        "|---|---|---|---|---|---|---|---|",
-    ])
-    for andon in fields["open_andons"]:
-        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % andon)
-    lines.extend([
-        "", "## Occurrence resolution and residuals", "",
-        f"Occurrence resolution: {_hot_value_v1(fields['occurrence_resolution'])}", "",
-        "| Residual | Consequential | Disposition | Owner / policy ref | Evidence |",
-        "|---|---|---|---|---|",
-    ])
-    for residual in fields["open_residuals"]:
-        lines.append("| %s | %s | %s | %s | %s |" % residual)
-    lines.extend([
-        "", "## Execution identity", "",
-        f"Current execution identity: {_hot_value_v1(fields['execution_identity'])}", "",
-        "", "## Context epochs and instruction applicability", "",
-        f"Current epoch: {_hot_value_v1(fields['current_epoch'])}", "",
-        f"Canonical projection generation: {_hot_value_v1(fields['current_epoch'])}", "",
-        f"Current-generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`", "",
-        "Migration marker: not published by migration-only projection", "",
-        "Current continuity receipt: query on demand", "",
-        "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |",
-        "|---|---|---|---|---|---|",
-        f"| {_hot_value_v1(fields['current_epoch'])} | handoff-resume | current | `{graph.work_graph_path}` at `{graph.work_graph_digest}` | yes | current hot projection |",
-        "", "| Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |",
-        "|---|---|---|---|---|---|---|---|---|---|",
-    ])
-    for instruction in fields["active_instructions"]:
-        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % instruction)
-    agents = fields["agents_update_decision"]
-    continuity = fields["continuity_decision_record"]
-    lines.extend([
-        "", f"Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`", "",
-        f"History query: `{custody.history_query}`", "",
-        "## AGENTS_UPDATE_DECISION", "",
-        f"Status: {agents.status}", "", f"Reason: {agents.reason}", "",
-        f"Scope: {agents.target}", "", f"Evidence location: {agents.evidence}", "",
-        "## CONTINUITY_DECISION", "",
-        f"Status: {continuity.status}", "", f"Reason: {continuity.reason}", "",
-        f"Destination: {continuity.target}", "", f"Evidence boundary: {continuity.evidence}", "",
-        "", "## Local git trace", "", "Commit authorized: no", "",
-        "Push authorized: no", "", "Tag/release/publication/provenance authorized: no",
-        "", "## Run terminal disposition", "",
-        "Current open state only; closed history remains in immutable events and exact archives.",
-    ])
-    return _render_lines_v1(lines)
+def render_state_template_v1(fields: Mapping[str, object], graph: GraphProjection, custody: CustodyPointer) -> bytes:
+    return _hot_projection.render_state_template_v1(fields, graph, custody)
 
 
-def render_roadmap_template_v1(fields: Mapping[str, object], graph: GraphProjection,
-                               custody: CustodyPointer) -> bytes:
-    _validate_native_current_fields_v1(fields)
-    _validate_hot_dependencies_v1(graph, custody)
-    lines = [
-        "# IMPLEMENTAUDIT Roadmap", "",
-        "Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md`", "",
-        "## Goal", "", _hot_value_v1(fields["next_action"]), "",
-        "## Audit object", "",
-        f"Audit object source: {_hot_value_v1(fields['audit_object_source'])}", "",
-        f"Terminal closure condition: {_hot_value_v1(fields['terminal_closure_condition'])}", "",
-        f"Current auditing operation: {_hot_value_v1(fields['latest_auditing_operation'])}", "",
-        "## Action selection", "", "Selected current actions:",
-    ]
-    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["action_selected"])
-    lines.extend(["", "Omitted current actions:"])
-    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["action_omitted"])
-    lines.extend([
-        "", f"Depth rationale: {_hot_value_v1(fields['action_depth_rationale'])}", "",
-        "## Baseline ref", "", f"`{_hot_value_v1(fields['baseline_ref'])}`", "",
-        "## Run root", "",
-        f"IMPLEMENTAUDIT_BASE: {_hot_value_v1(fields['implementaudit_base'])}", "",
-        f"IMPLEMENTAUDIT_RUN_ROOT: {_hot_value_v1(fields['implementaudit_base'])}/{_hot_value_v1(fields['run_id'])}", "",
-        f"IMPLEMENTAUDIT_BASELINE_REF: {_hot_value_v1(fields['baseline_ref'])}", "",
-        f"Canonical projection generation: {_hot_value_v1(fields['current_epoch'])}", "",
-        f"Current-generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`", "",
-        "Migration marker: not published by migration-only projection", "",
-        "Current continuity receipt: query on demand", "",
-        "## Planning evidence", "", "Current pointers only:",
-    ])
-    lines.extend(f"- {_hot_value_v1(row)}" for row in fields["planning_evidence"])
-    lines.extend([
-        f"- Exact archive: `{custody.archive_ref}` at `{custody.archive_digest}`",
-        f"- History query: `{custody.history_query}`",
-        "", "## Phases", "",
-        "| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |",
-        "|---|---|---|---|---|---|---|---|",
-    ])
-    for index, node in enumerate(graph.active_nodes, 1):
-        lines.append(f"| {index} | {_hot_value_v1(node)} | {_hot_value_v1(fields['controller_id'])} | - | captured | pending | not applicable | {_hot_value_v1(fields['status'])} |")
-    lines.extend([
-        "", "## Execution index (projection)", "",
-        f"- Current graph: `{graph.work_graph_path}` at `{graph.work_graph_digest}`",
-        f"- Generation pointer: `{custody.current_generation_ref}@{custody.pointer_oid}`",
-        f"- Generation manifest digest: `{custody.manifest_digest}`",
-        "", "## Scope boundaries", "",
-    ])
-    lines.extend(f"- {_hot_value_v1(row.subject)}"
-                 for row in fields["active_instructions"])
-    lines.extend(["", "## Scope-creep register", "",
-                  "| # | Issue | Location | Recommendation | Status |",
-                  "|---|---|---|---|---|"])
-    for row in fields["open_scope_creep"]:
-        lines.append("| %s | %s | %s | %s | %s |" % row)
-    return _render_lines_v1(lines)
+def render_roadmap_template_v1(fields: Mapping[str, object], graph: GraphProjection, custody: CustodyPointer) -> bytes:
+    return _hot_projection.render_roadmap_template_v1(fields, graph, custody)
 
 
 def derive_hot_state_v1(native: NativeCurrent, graph: GraphProjection,
@@ -2038,10 +1926,10 @@ def _read_bounded_regular_bytes_v1(path: Path, root: Path, error: str) -> bytes:
 def _decode_exact_canonical_json_v1(raw: bytes, error: str) -> dict[str, object]:
     try:
         value = json.loads(raw.decode("utf-8", "strict"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        if type(value) is not dict or canonical_json_v1(value) != raw:
+            raise RotationError(error)
+    except (UnicodeError, ValueError, RecursionError) as exc:
         raise RotationError(error) from exc
-    if type(value) is not dict or canonical_json_v1(value) != raw:
-        raise RotationError(error)
     return value
 
 

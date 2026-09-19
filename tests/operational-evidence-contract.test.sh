@@ -1593,6 +1593,11 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
     shutil.copyfile(LOADER, script)
     shutil.copyfile(COMPILER, compiler)
     shutil.copyfile(ROUTE, route)
+    # The checked-buffer parents require their exact sibling policy sources.
+    # Keep the fixture population complete; do not bypass their source pins.
+    policy_names = ("operational_query_policy.py", "route_request_policy.py")
+    for name in policy_names:
+        shutil.copyfile(LOADER.parent / name, script.parent / name)
     shutil.copyfile(CLAIM, claim)
     shutil.copyfile(VALIDATE_RUN_ROOT, validate_run_root)
     shutil.copyfile(ROUTE_REFERENCE, route_reference)
@@ -1612,7 +1617,8 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
         str(claim.relative_to(repo)), str(validate_run_root.relative_to(repo)),
         str(route_reference.relative_to(repo)),
         str(schema.relative_to(repo)),
-        str(governor.relative_to(repo)), str(audit_state.relative_to(repo)))
+        str(governor.relative_to(repo)), str(audit_state.relative_to(repo)),
+        *(str((script.parent / name).relative_to(repo)) for name in policy_names))
     if include_c05:
         git(repo, "add", "release-local.json", "external-capture.json", "artifacts")
     git(repo, "commit", "--quiet", "-m", "fixture")

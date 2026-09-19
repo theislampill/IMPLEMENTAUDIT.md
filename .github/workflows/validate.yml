@@ -15,11 +15,18 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Set up release Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
       - name: Install validation dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --yes ripgrep
-          python -m pip install --disable-pip-version-check --no-deps --requirement requirements-release.txt
+          release_python="$(python -c 'import sys; print(sys.executable)')"
+          printf 'PYTHON_BIN=%s\n' "$release_python" >> "$GITHUB_ENV"
+          "$release_python" -m pip install --disable-pip-version-check --no-deps --requirement requirements-release.txt
           rg --version
 
       - name: Validate whitespace
