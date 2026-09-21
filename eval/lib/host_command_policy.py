@@ -265,43 +265,129 @@ class HostCommandPolicy:
         return text, False
 
     @staticmethod
+    def _shell_tokens(text, dialect="posix"):
+        """Retain word/operator and IO-number identity in the finite grammar.
+
+        This is lexical bookkeeping, not expansion or a general shell parser.
+        The existing syntax gate still refuses unsupported constructs. shlex
+        decodes each already bounded word; quoted operators remain argv data,
+        and only unquoted digits adjacent to a redirection are descriptors.
+        """
+        tokens = []
+        index = 0
+        punctuation = ";&|<>"
+        while index < len(text):
+            if text[index].isspace():
+                index += 1
+                continue
+            if text[index] == "#":
+                break  # A comment starts only at the beginning of a word.
+            start = index
+            if text[index] in punctuation:
+                while index < len(text) and text[index] in punctuation:
+                    index += 1
+                tokens.append((text[start:index], "operator"))
+                continue
+            quote = None
+            while index < len(text):
+                char = text[index]
+                if quote:
+                    if char == quote:
+                        quote = None
+                    elif quote == '"' and char == "\\":
+                        index += 1
+                elif char in ("'", '"'):
+                    quote = char
+                elif char == "\\":
+                    index += 1
+                elif char.isspace() or char in punctuation:
+                    break
+                index += 1
+            if quote or index > len(text):
+                return None
+            raw = text[start:index]
+            if dialect != "posix":
+                # Do not borrow POSIX escape/quote concatenation semantics for
+                # native Windows records. Only plain words or one complete
+                # quoted word are supported; other spellings require a native
+                # grammar/receipt and remain explicit refusals in this leaf.
+                if any(char in raw for char in "\\`^$%!"):
+                    return None
+                if dialect == "cmd" and "'" in raw:
+                    return None
+                if any(char in raw for char in "\"'"):
+                    if (raw[0] not in ("'", '"') or
+                            len(raw) < 2 or raw[-1] != raw[0] or
+                            raw[0] in raw[1:-1]):
+                        return None
+            try:
+                words = shlex.split(raw, posix=True, comments=False)
+            except ValueError:
+                return None
+            if len(words) != 1:
+                return None
+            kind = "fd" if (re.fullmatch(r"[0-9]+", raw) and
+                            text[index:index + 1] in ("<", ">")) else "word"
+            tokens.append((words[0], kind))
+        return tokens
+
+    @staticmethod
     def _split_redirections(tokens):
-        """Return argv, stdin paths, output paths, or an error marker."""
+        """Return argv, the effective stdin path, write paths, or an error.
+
+        Shell redirections apply left-to-right. Earlier opens are not content
+        reads after fd 0 is replaced. Unsupported fd duplication fails closed.
+        """
         argv = []
         inputs = []
         outputs = []
         index = 0
         redirs = {"<", ">", ">>", "<>", ">&", "<&", "<<<", "<<"}
         while index < len(tokens):
-            token = tokens[index]
+            token, kind = tokens[index]
             fd = None
-            if (index + 1 < len(tokens) and token.isdigit() and
-                    tokens[index + 1] in redirs):
+            if kind == "fd":
+                if (index + 1 >= len(tokens) or
+                        tokens[index + 1][1] != "operator" or
+                        tokens[index + 1][0] not in redirs):
+                    return None, None, None
                 fd = int(token)
                 index += 1
-                token = tokens[index]
-            if token not in redirs:
+                token, kind = tokens[index]
+            if kind == "word":
                 argv.append(token)
                 index += 1
                 continue
-            if index + 1 >= len(tokens):
+            if token not in redirs or index + 1 >= len(tokens):
                 return None, None, None
-            operand = tokens[index + 1]
+            operand, operand_kind = tokens[index + 1]
+            if operand_kind != "word":
+                return None, None, None
             index += 2
             if token in (">&", "<&"):
                 if operand != "-" and not operand.isdigit():
                     return None, None, None
+                destination = fd if fd is not None else (0 if token == "<&" else 1)
+                if destination == 0:
+                    if operand == "-":
+                        inputs = []
+                    elif operand != "0":
+                        return None, None, None  # No model of other fd contents.
                 continue
             if token in ("<<<", "<<"):
-                # Here strings/documents carry literal data, not a file path.
+                # Here strings/documents replace stdin with literal data.
+                if fd in (None, 0):
+                    inputs = []
                 continue
             if token in ("<", "<>"):
                 if fd in (None, 0):
-                    inputs.append(operand)
+                    inputs = [operand]
                 if token == "<>" and fd in (None, 0, 1):
                     outputs.append(operand)
             elif token in (">", ">>"):
                 outputs.append(operand)
+                if fd == 0:
+                    inputs = []
         return argv, inputs, outputs
 
     @classmethod
@@ -311,7 +397,8 @@ class HostCommandPolicy:
         if any(mark in operand for mark in ("$", "`", "*", "?", "[", "]")):
             return "ambiguous" if cls._target_mentioned(operand, expected) \
                 else "other"
-        observed = cls._canonical_trace_path(operand.rstrip(","), repo)
+        # Operands are execution identities, not prose with punctuation.
+        observed = cls._canonical_trace_path(operand, repo)
         wanted = cls._canonical_trace_path(expected, repo)
         if observed and wanted and observed == wanted:
             return "exact"
@@ -340,6 +427,58 @@ class HostCommandPolicy:
         return bool(observed and wanted and
                     (wanted == observed or wanted.startswith(observed + "/")))
 
+    @staticmethod
+    def _grep_short_options(token):
+        """Expand a finite grep cluster without interpreting option data as flags.
+
+        -e/-f/-m take the rest of the token (or the next argv element). Other
+        argument-taking or unknown clustered options remain unsupported.
+        """
+        options = []
+        for index, flag in enumerate(token[1:], 1):
+            if flag in "efm":
+                options.append("-" + flag)
+                if token[index + 1:]:
+                    options.append(token[index + 1:])
+                return options
+            if flag not in "EFGPivwxyznHhbcLlqosIRZaUVur":
+                return None
+            options.append("-" + flag)
+        return options
+
+    @staticmethod
+    def _reader_inputs(operands, stdin_paths, implicit=False):
+        """Resolve stdin only for a command's supported input-operand role."""
+        if implicit and not operands:
+            return list(stdin_paths)
+        paths = []
+        for operand in operands:
+            paths.extend(stdin_paths if operand == "-" else [operand])
+        return paths
+
+    @staticmethod
+    def _sed_consumption(programs, external_program):
+        """Finite script effects, not a sed interpreter or script-file reader.
+
+        Empty programmes and unaddressed/numeric-addressed p, d and = drain
+        inputs. Literal q/Q can stop on the first nonempty input, so only the
+        first operand is guaranteed to be attempted. Everything else is
+        unmodelled, including programme files whose bytes are not in the record.
+        """
+        if external_program:
+            return "unknown"
+        effect = "all"
+        for program in programs:
+            for command in program.split(";"):
+                command = command.strip()
+                if command in ("q", "Q"):
+                    effect = "first"
+                elif command and re.fullmatch(
+                        r"(?:(?:[0-9]+|\$)(?:,(?:[0-9]+|\$))?)?[pd=]",
+                        command) is None:
+                    return "unknown"
+        return effect
+
     @classmethod
     def _reader_effect(cls, name, args, stdin_paths, expected, repo, output,
                        shell_dialect):
@@ -356,9 +495,12 @@ class HostCommandPolicy:
                 cls._target_mentioned(token, expected)
                 for token in args) else "not"
 
-        direct = list(stdin_paths)
+        # A redirected fd is only an open input, not proof of consumption.
+        # Each reader below supplies its own file and pattern-input roles.
+        direct = []
         scopes = []
         terminal_no_read = False
+        uncertain_read = False
         reader = name in ("cat", "sed", "head", "tail", "get-content",
                           "type", "rg", "grep")
         if not reader:
@@ -374,92 +516,196 @@ class HostCommandPolicy:
             return "ambiguous" if any(
                 cls._target_mentioned(token, expected)
                 for token in args + stdin_paths) else "not"
-        if any(arg in ("--help", "--version") for arg in args):
-            return "not"
-
-        if name in ("cat", "type"):
-            direct.extend(arg for arg in args if arg == "-" or
-                          not arg.startswith("-"))
+        if name == "cat":
+            operands = []
+            options_ended = False
+            for arg in args:
+                if not options_ended and arg == "--":
+                    options_ended = True
+                elif not options_ended and arg in ("--help", "--version"):
+                    return "not"
+                elif not options_ended and arg.startswith("-") and arg != "-":
+                    if arg in ("--show-all", "--number-nonblank", "--show-ends",
+                               "--number", "--squeeze-blank", "--show-tabs",
+                               "--show-nonprinting"):
+                        continue
+                    if arg.startswith("--") or any(flag not in "AbeEnstTuv" for flag in arg[1:]):
+                        return "ambiguous"
+                else:
+                    operands.append(arg)
+            direct.extend(cls._reader_inputs(operands, stdin_paths, implicit=True))
+        elif name == "type":
+            # cmd TYPE has no POSIX stdin/option grammar. A help invocation
+            # and unmodelled multiple-file/errorlevel behaviour prove no read.
+            if any(arg.lower() == "/?" for arg in args):
+                return "not"
+            if (len(args) != 1 or args[0].startswith("/") or
+                    any(mark in args[0] for mark in (",", "+"))):
+                return "ambiguous"
+            direct.extend(args)  # '-' is a literal filename, not stdin.
         elif name in ("head", "tail"):
+            operands = []
             index = 0
             while index < len(args):
                 arg = args[index]
-                if arg in ("-n", "--lines"):
+                count = None
+                if arg == "--":
+                    operands.extend(args[index + 1:])
+                    break
+                if arg in ("--help", "--version"):
+                    return "not"
+                if arg in ("-n", "--lines", "-c", "--bytes"):
                     if index + 1 >= len(args):
                         return "ambiguous"
-                    terminal_no_read = args[index + 1] == "0"
+                    count = args[index + 1]
                     index += 2
-                elif arg.startswith("--lines="):
-                    terminal_no_read = arg.split("=", 1)[1] == "0"
+                elif arg.startswith(("--lines=", "--bytes=")):
+                    count = arg.split("=", 1)[1]
                     index += 1
-                elif arg.startswith("-") and arg[1:].isdigit():
-                    terminal_no_read = int(arg[1:]) == 0
+                elif arg.startswith(("-n", "-c")) and len(arg) > 2:
+                    count = arg[2:]
                     index += 1
+                elif re.fullmatch(r"-[0-9]+", arg):
+                    count = arg[1:]
+                    index += 1
+                elif arg in ("-q", "--quiet", "--silent", "-v", "--verbose",
+                             "-z", "--zero-terminated"):
+                    index += 1
+                elif arg.startswith("-") and arg != "-":
+                    # Unknown/abbreviated options may select a no-read mode.
+                    # Do not infer their semantics from a later filename.
+                    return "ambiguous"
                 else:
-                    direct.append(arg)
+                    operands.append(arg)
                     index += 1
+                if count is not None:
+                    match = re.fullmatch(r"([+-]?)([0-9]+)(?:[bBkKMGTPEZYRQ](?:i?B)?)?", count)
+                    if match is None:
+                        return "ambiguous"
+                    sign, digits = match.groups()
+                    # Options are applied in order. head -n -0 means all but
+                    # zero; tail -n +0 means from the start, not zero output.
+                    terminal_no_read = (not digits.strip("0") and not (
+                        (name == "head" and sign == "-") or
+                        (name == "tail" and sign == "+")))
+            direct.extend(cls._reader_inputs(operands, stdin_paths, implicit=True))
         elif name == "get-content":
+            # Only single literal-path content acquisition is modelled here.
+            # Filters, streams, wildcards, parameter abbreviations and arrays
+            # can select/skip other inputs; do not silently ignore switches.
             index = 0
+            seen = set()
             while index < len(args):
                 arg = args[index]
                 lower = arg.lower()
+                if lower == "-?":
+                    return "not"
                 if lower in ("-delimiter", "-totalcount", "-tail",
-                             "-readcount", "-encoding", "-filter",
-                             "-include", "-exclude"):
-                    if index + 1 >= len(args):
+                             "-readcount", "-encoding", "-literalpath", "-path"):
+                    if index + 1 >= len(args) or lower in seen:
                         return "ambiguous"
+                    seen.add(lower)
+                    value = args[index + 1]
+                    if lower in ("-totalcount", "-tail", "-readcount"):
+                        if re.fullmatch(r"[0-9]+", value) is None:
+                            return "ambiguous"
+                        if lower != "-readcount":
+                            terminal_no_read = not value.strip("0")
+                    elif lower in ("-literalpath", "-path"):
+                        direct.append(value)
                     index += 2
-                elif lower in ("-literalpath", "-path"):
-                    if index + 1 >= len(args):
+                elif lower in ("-raw", "-asbytestream", "-force"):
+                    if lower in seen:
                         return "ambiguous"
-                    direct.extend(args[index + 1].split(","))
-                    index += 2
+                    seen.add(lower)
+                    index += 1
                 elif arg.startswith("-"):
-                    index += 1
+                    return "ambiguous"
                 else:
-                    direct.extend(arg.split(","))
+                    direct.append(arg)
                     index += 1
+            if (("-tail" in seen and "-totalcount" in seen) or
+                    len(direct) != 1 or "," in direct[0]):
+                return "ambiguous"
         elif name == "sed":
             index = 0
             saw_program = False
+            options_ended = False
+            programs = []
+            external_program = False
             while index < len(args):
                 arg = args[index]
                 if arg == "--":
+                    options_ended = True
                     index += 1
                     break
+                if arg in ("--help", "--version"):
+                    return "not"
                 if arg in ("-e", "--expression"):
                     if index + 1 >= len(args):
                         return "ambiguous"
+                    programs.append(args[index + 1])
                     saw_program = True
                     index += 2
                 elif arg.startswith("-e") and len(arg) > 2:
+                    programs.append(arg[2:])
                     saw_program = True
                     index += 1
                 elif arg in ("-f", "--file"):
                     if index + 1 >= len(args):
                         return "ambiguous"
-                    direct.append(args[index + 1])
-                    saw_program = True
+                    direct.extend(cls._reader_inputs([args[index + 1]], stdin_paths))
+                    external_program = saw_program = True
                     index += 2
                 elif arg.startswith("-f") and len(arg) > 2:
-                    direct.append(arg[2:])
-                    saw_program = True
+                    direct.extend(cls._reader_inputs([arg[2:]], stdin_paths))
+                    external_program = saw_program = True
                     index += 1
-                elif arg.startswith("-"):
+                elif arg in ("-n", "--quiet", "--silent", "-E", "-r",
+                             "--regexp-extended", "-s", "--separate", "-u",
+                             "--unbuffered", "-z", "--null-data", "--posix"):
                     index += 1
+                elif arg.startswith("-") and arg != "-":
+                    return "ambiguous"
                 elif not saw_program:
+                    programs.append(arg)
                     saw_program = True
                     index += 1
                 else:
                     break
-            direct.extend(args[index:])
+            remaining = args[index:]
+            if not saw_program:
+                if not remaining:
+                    return "not"
+                programs.append(remaining[0])
+                remaining = remaining[1:]
+            if not options_ended and any(arg.startswith("-") and arg != "-" for arg in remaining):
+                return "ambiguous"
+            operands = remaining or ["-"]
+            consumption = cls._sed_consumption(programs, external_program)
+            if consumption == "all":
+                direct.extend(cls._reader_inputs(operands, stdin_paths))
+            else:
+                # Preserve operand positions *before* resolving '-' to stdin.
+                # An unbound/closed first stdin is not permission to promote a
+                # later filename to the guaranteed-first-input position.
+                if consumption == "first":
+                    direct.extend(cls._reader_inputs(operands[:1], stdin_paths))
+                    operands = operands[1:]
+                uncertain_read = any(
+                    cls._token_path_state(path, expected, repo) != "other"
+                    for path in cls._reader_inputs(operands, stdin_paths))
         else:  # grep / rg
-            if name == "rg" and "--files" in args[:args.index("--")
-                                                   if "--" in args
-                                                   else len(args)]:
-                return "not"
+            args = list(args)  # Cluster expansion must not mutate caller argv.
             index = 0
             pattern_supplied = False
+            pattern_files = []
+            external_patterns = False
+            literal_patterns = []
+            invert_match = False
+            zero_matches = False
+            quiet = False
+            options_ended = False
             output_identity_safe = True
             unsafe_output_modes = {
                 "--no-filename", "-I", "--replace", "-r", "--json",
@@ -470,66 +716,153 @@ class HostCommandPolicy:
             unsafe_output_options_with_value = {
                 "--label", "--path-separator", "--field-match-separator",
                 "--field-context-separator"}
+            # The two tools assign different meanings to flags such as -r
+            # and -h. Unknown/abbreviated options are not evidence of reads.
+            grep_flags = {"-" + flag for flag in "EFGPivwxyznHhbcLlqosIRZaUur"} | {
+                "--basic-regexp", "--extended-regexp", "--fixed-strings", "--perl-regexp",
+                "--ignore-case", "--word-regexp", "--line-regexp", "--invert-match",
+                "--line-number", "--with-filename", "--no-filename", "--byte-offset",
+                "--count", "--files-with-matches", "--files-without-match", "--only-matching",
+                "--no-messages", "--recursive", "--dereference-recursive", "--text",
+                "--binary", "--unix-byte-offsets", "--null", "--null-data", "--line-buffered"}
+            rg_flags = {"-F", "-i", "-s", "-S", "-w", "-x", "-v", "-n", "-N",
+                        "-H", "-I", "-c", "-l", "-o", "-0", "-a", "-z", "-L",
+                        "--fixed-strings", "--ignore-case", "--case-sensitive", "--smart-case",
+                        "--word-regexp", "--line-regexp", "--invert-match", "--line-number",
+                        "--no-line-number", "--with-filename", "--no-filename", "--text",
+                        "--search-zip", "--follow", "--json", "--vimgrep", "--count",
+                        "--count-matches", "--files-with-matches", "--files-without-match",
+                        "--only-matching", "--passthru", "--heading", "--no-heading",
+                        "--null", "--null-data", "--stats"}
             while index < len(args):
                 arg = args[index]
                 if arg == "--":
+                    options_ended = True
                     index += 1
                     break
-                if arg in ("-e", "--regexp"):
+                if (name == "grep" and arg.startswith("-") and
+                        not arg.startswith("--") and len(arg) > 2):
+                    expanded = cls._grep_short_options(arg)
+                    if expanded is None:
+                        return "ambiguous"
+                    args[index:index + 1] = expanded
+                    arg = args[index]
+                if arg in ("--help", "--version", "-V") or (name == "rg" and arg in ("-h", "--files")):
+                    return "not"
+                if arg in ("-m", "--max-count") or arg.startswith("--max-count=") or (
+                        arg.startswith("-m") and len(arg) > 2):
+                    if arg in ("-m", "--max-count"):
+                        if index + 1 >= len(args):
+                            return "ambiguous"
+                        count = args[index + 1]
+                        index += 2
+                    else:
+                        count = arg.split("=", 1)[1] if arg.startswith("--") else arg[2:]
+                        index += 1
+                    if re.fullmatch(r"[0-9]+", count) is None:
+                        return "ambiguous"
+                    zero_matches = not count.strip("0")
+                elif arg in ("-q", "--quiet", "--silent"):
+                    quiet = True
+                    output_identity_safe = False
+                    index += 1
+                elif arg.startswith("--max-"):
+                    return "ambiguous"  # No abbreviation/unknown limit semantics.
+                elif arg in ("-e", "--regexp"):
                     if index + 1 >= len(args):
                         return "ambiguous"
+                    literal_patterns.append(args[index + 1])
                     pattern_supplied = True
                     index += 2
                 elif arg.startswith("-e") and len(arg) > 2:
+                    literal_patterns.append(arg[2:])
                     pattern_supplied = True
                     index += 1
                 elif arg in ("-f", "--file"):
                     if index + 1 >= len(args):
                         return "ambiguous"
-                    direct.append(args[index + 1])
-                    pattern_supplied = True
+                    pattern_files.extend(cls._reader_inputs([args[index + 1]], stdin_paths))
+                    external_patterns = pattern_supplied = True
                     index += 2
                 elif arg.startswith("-f") and len(arg) > 2:
-                    direct.append(arg[2:])
-                    pattern_supplied = True
+                    pattern_files.extend(cls._reader_inputs([arg[2:]], stdin_paths))
+                    external_patterns = pattern_supplied = True
                     index += 1
-                elif arg in ("-g", "--glob", "--type", "--type-add"):
+                elif name == "rg" and arg in ("-g", "--glob", "--type", "--type-add"):
                     if index + 1 >= len(args):
                         return "ambiguous"
                     index += 2
-                elif arg in ("--replace", "-r"):
+                elif name == "rg" and arg in ("--replace", "-r"):
                     output_identity_safe = False
                     if index + 1 >= len(args):
                         return "ambiguous"
                     index += 2
-                elif arg.startswith("--replace=") or (
-                        arg.startswith("-r") and len(arg) > 2):
+                elif name == "rg" and (arg.startswith("--replace=") or (
+                        arg.startswith("-r") and len(arg) > 2)):
                     output_identity_safe = False
                     index += 1
-                elif arg in unsafe_output_options_with_value:
+                elif arg in ({"--label"} if name == "grep" else unsafe_output_options_with_value):
                     output_identity_safe = False
                     if index + 1 >= len(args):
                         return "ambiguous"
                     index += 2
                 elif any(arg.startswith(option + "=")
-                         for option in unsafe_output_options_with_value):
+                         for option in ({"--label"} if name == "grep" else unsafe_output_options_with_value)):
                     output_identity_safe = False
                     index += 1
-                elif arg in unsafe_output_modes or (
-                        arg.startswith("-") and not arg.startswith("--") and
-                        any(flag in arg[1:] for flag in ("I", "l", "o"))):
-                    output_identity_safe = False
+                elif arg in (grep_flags if name == "grep" else rg_flags):
+                    if arg in ("-v", "--invert-match"):
+                        invert_match = True
+                    if arg in unsafe_output_modes:
+                        output_identity_safe = False
                     index += 1
-                elif arg.startswith("-"):
-                    index += 1
+                elif arg.startswith("-") and arg != "-":
+                    return "ambiguous"
                 else:
                     break
             remaining = args[index:]
+            if not options_ended and any(arg.startswith("-") and arg != "-" for arg in remaining):
+                # GNU option permutation is outside this finite adapter. A
+                # later limit must not silently become a filename/read proof.
+                return "ambiguous"
             if not pattern_supplied:
                 if not remaining:
                     return "not"
+                literal_patterns.append(remaining[0])
                 remaining = remaining[1:]
-            for operand in remaining:
+            # No named search operands selects stdin; pattern-file stdin is
+            # a separate, earlier consumption even when searching is disabled.
+            direct = list(pattern_files)
+            if not remaining and stdin_paths:
+                remaining = ["-"]
+            if zero_matches:
+                # Pattern files are still opened to compile expressions, but
+                # a zero match limit provides no search-input/STDIN read proof.
+                direct = pattern_files
+                remaining = []
+            if not zero_matches and (external_patterns or (
+                    name == "grep" and invert_match and "" in literal_patterns)):
+                # Empty pattern files can return no-match without even opening
+                # the search inputs. GNU grep also short-circuits an inverted
+                # empty literal pattern. The record does not bind pattern-file
+                # contents, so do not infer consumption from exit 0/1 or output.
+                # Pattern-file reads themselves precede this search decision.
+                uncertain_read = any(
+                    cls._token_path_state(path, expected, repo) != "other" or
+                    cls._scope_contains_target(path, expected, repo)
+                    for path in cls._reader_inputs(remaining, stdin_paths))
+                remaining = []
+            if quiet and not zero_matches:
+                # A successful quiet search can stop before opening later
+                # operands (even after an earlier error). Pattern-file reads
+                # remain distinct; they precede the search itself.
+                if len(remaining) > 1:
+                    uncertain_read = any(
+                        cls._token_path_state(operand, expected, repo) != "other"
+                        or cls._scope_contains_target(operand, expected, repo)
+                        for operand in cls._reader_inputs(remaining, stdin_paths))
+                    remaining = []
+            for operand in cls._reader_inputs(remaining, stdin_paths):
                 state = cls._token_path_state(operand, expected, repo)
                 if state == "exact":
                     direct.append(operand)
@@ -545,7 +878,7 @@ class HostCommandPolicy:
                   for path in direct]
         if "exact" in states or scopes:
             return "read"
-        if "ambiguous" in states:
+        if "ambiguous" in states or uncertain_read:
             return "ambiguous"
         return "not"
 
@@ -563,39 +896,36 @@ class HostCommandPolicy:
         replaced = cls._replace_process_substitutions(text)
         if replaced is None or cls._unsupported_unquoted_syntax(replaced):
             return None
-        try:
-            lexer = shlex.shlex(
-                replaced, posix=True, punctuation_chars=";&|<>")
-            lexer.whitespace_split = True
-            lexer.commenters = "#"
-            tokens = list(lexer)
-        except ValueError:
+        tokens = cls._shell_tokens(replaced, profile.get("shell_dialect"))
+        if tokens is None:
             return None
         if not tokens:
-            return []
+            return [], []
         separators = {"|", "|&", "&&", "||", ";"}
         unsupported = {"&", ";;", ";&", ";;&"}
         if profile.get("shell_dialect") != "posix" and any(
-                token in separators | unsupported |
+                kind == "operator" and token in separators | unsupported |
                 {"<", ">", ">>", "<>", ">&", "<&", "<<<", "<<"}
-                for token in tokens):
+                for token, kind in tokens):
             return None
-        if (tokens[0] in separators | unsupported or
-                tokens[-1] in separators | unsupported):
+        if ((tokens[0][1] == "operator" and
+             tokens[0][0] in separators | unsupported) or
+                (tokens[-1][1] == "operator" and
+                 tokens[-1][0] in separators | unsupported)):
             return None
         pipelines = []
         connectors = []
         stages = []
         stage = []
-        for token in tokens + [";"]:
-            if token in unsupported:
+        for token, kind in tokens + [(";", "operator")]:
+            if kind == "operator" and token in unsupported:
                 return None
-            if token in ("|", "|&"):
+            if kind == "operator" and token in ("|", "|&"):
                 if not stage:
                     return None
                 stages.append(stage)
                 stage = []
-            elif token in ("&&", "||", ";"):
+            elif kind == "operator" and token in ("&&", "||", ";"):
                 if not stage:
                     return None
                 stages.append(stage)
@@ -605,7 +935,7 @@ class HostCommandPolicy:
                 if token != ";" or len(pipelines) > 0:
                     connectors.append(token)
             else:
-                stage.append(token)
+                stage.append((token, kind))
         # The synthetic trailing ';' adds one connector too many.
         connectors = connectors[:max(0, len(pipelines) - 1)]
         parsed = []
@@ -757,23 +1087,18 @@ class HostCommandPolicy:
         replaced = cls._replace_process_substitutions(command)
         if replaced is None or cls._unsupported_unquoted_syntax(replaced):
             return []
-        try:
-            lexer = shlex.shlex(
-                replaced, posix=True, punctuation_chars=";&|<>")
-            lexer.whitespace_split = True
-            lexer.commenters = "#"
-            tokens = list(lexer)
-        except ValueError:
+        tokens = cls._shell_tokens(replaced, record.get("shell_dialect", "posix"))
+        if tokens is None:
             return []
         paths = []
         stage = []
-        for token in tokens + [";"]:
-            if token in ("|", "|&", "&&", "||", ";"):
+        for token, kind in tokens + [(";", "operator")]:
+            if kind == "operator" and token in ("|", "|&", "&&", "||", ";"):
                 if stage:
                     _argv, _inputs, outputs = cls._split_redirections(stage)
                     if outputs is not None:
                         paths.extend(outputs)
                 stage = []
             else:
-                stage.append(token)
+                stage.append((token, kind))
         return paths

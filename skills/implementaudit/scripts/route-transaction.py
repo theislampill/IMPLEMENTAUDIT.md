@@ -2483,7 +2483,7 @@ def reconcile_retained_recovery_input_v1(
     return {**candidate, "custody_revalidated": True, "custody_record_identity": custody["record_identity"]}
 
 
-RECOVERY_NATIVE_READER_DIGEST = 'sha256:2ddbeb9efc6f957b3cad0aca34723e74703b427485af112facc616b30f8f5cff'
+RECOVERY_NATIVE_READER_DIGEST = 'sha256:e74693e1c44623de7215d6b7ff1c3e33ba08d4a3d52a3046936c10ad5c275ec5'
 
 
 def recovery_native_observer_module_v1() -> Any:
@@ -5830,6 +5830,14 @@ def validate_stale_unsatisfied_custody(
         "package": package,
         "child_source": child_source,
     }
+    # Current route creation includes the capsule field even when it is null.
+    # Only exact immutable allowlisted legacy objects retain the pre-capsule
+    # seed; this is not a fallback for an arbitrary historical route.
+    if not preserved_unopenable:
+        recovery_capsule = post_compaction_recovery_capsule(repo, retained_request)
+        identity_seed["recovery_capsule_digest"] = (
+            recovery_capsule["capsule_digest"] if recovery_capsule else None
+        )
     expected_transaction = digest_json({"kind": "transaction", "seed": identity_seed})
     expected_obligation = digest_json({"kind": "obligation", "seed": identity_seed})
     mechanical_evidence = {

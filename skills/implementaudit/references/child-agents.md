@@ -755,9 +755,9 @@ evidence without replay or authority widening. Currentness, source-only credit,
 runtime qualification, admission, release and closure remain distinct.
 
 For source acceptance, the repo-only read-only consumer
-`scripts/check-auto-loom-coverage.py --facts FACTS.json --projection PROJECTION.json`
+`scripts/check-auto-loom-coverage.py --facts FACTS.json --projection PROJECTION.json` (source repo only)
 compares separately bound known ancestry/edge facts with the proposed coverage;
-`tests/auto-loom-semantics-regression.py` exercises it through the maintained
+`tests/auto-loom-semantics-regression.py` (source repo only) exercises it through the maintained
 package-contract test entry. Facts bind campaign/event/state, existing parent
 links, applicable edges and their actual gate states, owners, future consumers,
 next actions and reconsideration triggers, known projection names and original

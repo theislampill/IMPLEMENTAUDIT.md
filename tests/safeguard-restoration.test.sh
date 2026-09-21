@@ -46,3 +46,12 @@ grep -F "source-only checker reference lacks label" "$tmp/source-label.out" >/de
 }
 
 printf 'safeguard-restoration.test: ok\n'
+
+# A real shipped helper is not a source-only checker; a forged row remains refused.
+printf '%s\n' 'helper-route: scripts/check-evidence-anchor.sh|R|scope|P|-|x|y' >"$tmp/runtime-route.md"
+bash scripts/check-safeguard-restoration.sh --source-label-file "$tmp/runtime-route.md"
+printf '%s\n' 'helper-route: scripts/check-nonexistent.sh|R|scope|P|-|x|y' >"$tmp/forged-route.md"
+if bash scripts/check-safeguard-restoration.sh --source-label-file "$tmp/forged-route.md" >"$tmp/forged-route.out" 2>&1; then
+  printf '%s\n' 'safeguard-restoration.test: forged runtime row passed' >&2; exit 1
+fi
+grep -F 'source-only checker reference lacks label' "$tmp/forged-route.out" >/dev/null

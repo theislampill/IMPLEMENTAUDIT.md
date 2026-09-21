@@ -15,6 +15,29 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Further shadow integration repairs retain recovery-capsule identity in stale
+  route verification, rebind the exact reviewed helper digest, restore operative
+  progressive-disclosure checks and distinguish packaged helper routes from
+  source-only tooling. Maintained continuity, trigger, reachability and semantic
+  fixtures now bind the current source contract. A byte-pinned vendor error
+  description is distinguished from terminal-cap policy without a blanket
+  exemption. These are unaccepted shadow proposals, not release qualification.
+
+- Independent pre-Codex shadow review hardens implicit loop/getopts writes,
+  interspersed builtin redirections and interpreter-function shadowing in the
+  bounded source recogniser. Snapshot queries preserve list/tuple family inputs,
+  refuse mapping-shaped family censuses, traverse deep collection containers
+  iteratively and refuse cyclic or excessively deep canonical values without
+  uncaught recursion errors. These corrections require fresh independent final
+  review and do not change campaign admission, package policy or host authority.
+
+- External shadow hardening refuses zero-output reader credit, malformed query
+  censuses and unresolved reusable-workflow effects; preserves deep lineage and
+  GitHub branch-filter boundaries; and rejects aliased package source paths.
+  Interpreter-array mutation recognition, including arithmetic execution, and
+  native-current source rechecks are hardened. Portable fixtures and cleanup controls are corrected without granting
+  stock-host, currentness, package-budget or release qualification.
+
 - Current normal source targets runtime `0.4.1` and release family `v0.4.1.0`
   as an unpublished candidate. This unreleased entry grants no new tag, release,
   public artifact, installed/native qualification or provenance. Previously

@@ -7,6 +7,7 @@ cd "$repo_root"
 python tests/ci-python-contract.py --repo-root "$repo_root"
 python tests/input-refusal-boundaries.py --source "$repo_root"
 python tests/fission-integration-contract.py --source "$repo_root"
+python tests/package-source-path-contract.py
 
 # Prospective source announcements and semantic-preservation negative controls.
 python tests/pre-use-announcement-contract.py --repo-root "$repo_root"

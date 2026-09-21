@@ -33,6 +33,25 @@ The attempt capsule contains the retry capstone.
 EOF
 bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-capability"
 
+# A byte-pinned external host schema is observation data, not our retry policy.
+# The exemption must fail on any changed fixture or the same words in policy.
+vendor='fixtures/codex-recovery/native-code-mode/ServerNotification.json'
+mkdir -p "$tmp/vendor-good/$(dirname "$vendor")"
+cp "$vendor" "$tmp/vendor-good/$vendor"
+bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/vendor-good"
+cp -r "$tmp/vendor-good" "$tmp/vendor-changed"
+printf '\n' >> "$tmp/vendor-changed/$vendor"
+if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/vendor-changed" >"$tmp/vendor-result" 2>&1; then
+  printf 'no-terminal-cap.test: changed vendor identity bypassed guard\n' >&2; exit 1
+fi
+grep -Fq 'disallowed public-claim terminal-cap wording:' "$tmp/vendor-result"
+mkdir -p "$tmp/vendor-wording/skills/implementaudit/references"
+printf '%s\n' 'Reached the retry limit for responses.' > "$tmp/vendor-wording/skills/implementaudit/references/policy.md"
+if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/vendor-wording" >"$tmp/vendor-result" 2>&1; then
+  printf 'no-terminal-cap.test: vendor wording waived active policy\n' >&2; exit 1
+fi
+grep -Fq 'disallowed public-claim terminal-cap wording:' "$tmp/vendor-result"
+
 # 2. The live repo must pass the gate.
 bash scripts/check-no-terminal-cap.sh
 

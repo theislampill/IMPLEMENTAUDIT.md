@@ -876,28 +876,85 @@ def shell_python_module_route(helper, content, payload, caller):
     # Preserve command boundaries before quote removal: a quoted ";" or
     # "unset py_cmd" argument is data, not another shell command. This is
     # a finite word adapter, not Bash expansion, alias or control-flow analysis.
-    token = re.compile(r'''([ \t\r]+)|([;&|()\n]+)|((?:[^ \t\r\n;&|()'"\\]+|'[^']*'|"(?:\\.|[^"\\])*"|\\.)+)''')
-    commands, offset = [[]], 0
+    # Keep redirections separate from quoted words and command boundaries.
+    # A redirect may precede the builtin or occur between any two operands;
+    # stopping at it can hide the destination of a subsequent read/printf.
+    token = re.compile(r"""(?P<space>[ \t\r]+)|(?P<redirect>(?:[0-9]+|\{[A-Za-z_][A-Za-z0-9_]*\})?(?:<<<|<<-|<<|<>|>>|>&|<&|>|<)|&>>?)|(?P<operator>[;&|()\n]+)|(?P<word>(?:[^ \t\r\n;&|()<>'"\\]+|'[^']*'|"(?:\\.|[^"\\])*"|\\.)+)""")
+    commands, offset, arithmetic, function_names = [[]], 0, [], []
     logical_code = code.replace('\\\n', '')
     while offset < len(logical_code):
         match = token.match(logical_code, offset)
         if match is None:
             return False
         offset = match.end()
-        if match.group(2):
+        if match.group("operator"):
+            operators = match.group("operator")
+            if commands[-1] and ("()" in operators or re.match(
+                    r"\(\s*\)", logical_code[match.start("operator") :])):
+                function_names.append(commands[-1][-1][0])
+            # Arithmetic commands can mutate arrays even without an equals
+            # assignment; evaluating that language is outside this adapter.
+            if '((' in operators:
+                start = match.start('operator') + operators.index('((') + 2
+                end = logical_code.find('))', start)
+                if end < 0:
+                    return False
+                arithmetic.append((logical_code[start:end], start))
             commands.append([])
-        elif match.group(3):
+        elif match.group("redirect"):
+            commands[-1].append((match.group("redirect"), True))
+        elif match.group("word"):
+            # Arithmetic expansion is active inside double quotes, but not
+            # inside single quotes or behind an escaped dollar sign.
+            raw_word = match.group("word")
+            quote, cursor = None, 0
+            while cursor < len(raw_word):
+                char = raw_word[cursor]
+                if char == "\\" and quote != "'":
+                    cursor += 2
+                    continue
+                if char in {"'", '"'}:
+                    if quote is None:
+                        quote = char
+                    elif quote == char:
+                        quote = None
+                if quote != "'" and raw_word.startswith('$((', cursor):
+                    end = raw_word.find('))', cursor + 3)
+                    if end < 0:
+                        return False
+                    arithmetic.append((raw_word[cursor + 3:end], match.start("word") + cursor))
+                cursor += 1
             try:
-                words = shlex.split(match.group(3), comments=False, posix=True)
+                words = shlex.split(raw_word, comments=False, posix=True)
             except ValueError:
                 return False
             if len(words) != 1:
                 return False
-            commands[-1].append(words[0])
+            commands[-1].append((words[0], False))
 
-    def unset_may_change(variable):
+    def interpreter_may_change(variable):
         for command in commands:
-            words = list(command)
+            # A loop terminator is syntax, not a variable-writing builtin.
+            # Its process-substitution body is tokenised as separate commands
+            # and still inspected; a `done < <(...)` must not taint every name.
+            if command and command[0] == ('done', False):
+                continue
+            words = []
+            index = 0
+            while index < len(command):
+                word, redirect = command[index]
+                index += 1
+                if not redirect:
+                    words.append(word)
+                    continue
+                # Descriptor allocation writes a shell variable. Other
+                # redirections consume precisely one word, not the remaining
+                # builtin operands. The here-doc bodies were already bounded.
+                if word.startswith("{"):
+                    return True  # Dynamic descriptor ownership is unmodelled.
+                if index == len(command) or command[index][1]:
+                    return True
+                index += 1
             while words and words[0] in {'if', 'elif', 'then', 'else', 'while', 'until', 'do', '!', '{', '}'}:
                 words.pop(0)
             # Leading scalar assignments prefix a command, not its name.
@@ -916,7 +973,108 @@ def shell_python_module_route(helper, content, payload, caller):
                     if set(option[1:]) & {'v', 'V'}:
                         words = []  # Lookup only; it does not invoke unset.
                         break
-            if not words or words.pop(0) != 'unset':
+            if not words:
+                continue
+            name = words.pop(0)
+            if name == "function" and words and words[0] in {
+                    "python", "python3", "py", "command", "builtin"}:
+                return True
+            # These execute opaque caller-context code or introduce aliases.
+            # Treat them as unresolved, not as inert data or a proven survivor.
+            if words and name in {'eval', 'source', '.', 'trap', 'alias', 'enable', 'let'}:
+                return True
+
+            def changes(destination):
+                literal = re.fullmatch(r'([A-Za-z_][A-Za-z0-9_]*)(?:\[(?:[0-9]+|[@*])\])?', destination)
+                return literal is None or literal.group(1) == variable
+
+            if name in {'for', 'select'}:
+                if not words or changes(words[0]):
+                    return True
+                continue
+            if name == 'getopts':
+                if words and words[0] == '--':
+                    words.pop(0)
+                if (len(words) < 2 or changes(words[1])
+                        or variable in {'OPTIND', 'OPTARG'}):
+                    return True
+                continue
+            if name in {'declare', 'typeset', 'local'}:
+                if words and words[0] == '-p':
+                    lookup = []
+                    for operand in words[1:]:
+                        if re.match(r'^[0-9]*[<>]', operand):
+                            break
+                        if operand != '--':
+                            lookup.append(operand)
+                    if all(re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', item) for item in lookup):
+                        continue  # Exact print-only declaration, not a write.
+                while words and words[0].startswith(('-', '+')):
+                    option = words.pop(0)
+                    if option == '--':
+                        break
+                    if 'n' in option[1:]:
+                        return True  # Namerefs can retarget a later unrelated write.
+                if any(changes(word.split('=', 1)[0]) for word in words):
+                    return True
+                continue
+            if name == 'printf':
+                if words and words[0] == '-v':
+                    if len(words) < 2 or changes(words[1]):
+                        return True
+                elif words and words[0].startswith('-v'):
+                    if changes(words[0][2:]):
+                        return True
+                continue
+            if name in {'read', 'mapfile', 'readarray'}:
+                # Parse only the bounded builtin option/variable grammar. The
+                # selected array can be emptied even on EOF; read's nonzero
+                # status does not prove that its destination stayed unchanged.
+                takes_value = set('adinNptu') if name == 'read' else set('dnOsuCc')
+                switches = set('eErs') if name == 'read' else {'t'}
+                destinations = []
+                array_destination = None
+                position = 0
+                while position < len(words):
+                    word = words[position]
+                    position += 1
+                    if re.match(r'^[0-9]*[<>]', word):
+                        break  # Redirection operands are not variable names.
+                    if word == '--':
+                        for destination in words[position:]:
+                            if re.match(r'^[0-9]*[<>]', destination):
+                                break
+                            destinations.append(destination)
+                        break
+                    if not word.startswith('-') or word == '-':
+                        destinations.append(word)
+                        continue
+                    flags = word[1:]
+                    while flags:
+                        flag, flags = flags[0], flags[1:]
+                        if flag in takes_value:
+                            if flags:
+                                value, flags = flags, ''
+                            elif position < len(words):
+                                value = words[position]
+                                position += 1
+                            else:
+                                return True
+                            if flag == 'a' and name == 'read':
+                                array_destination = value
+                            if flag == 'C' and name != 'read':
+                                return True  # mapfile callback is opaque code.
+                        elif flag not in switches:
+                            return True
+                destinations = [word for word in destinations if not re.match(r'^[0-9]*[<>]', word)]
+                if array_destination is not None:
+                    destinations = [array_destination]
+                elif not destinations:
+                    destinations = ['REPLY' if name == 'read' else 'MAPFILE']
+                if any(changes(destination) for destination in destinations):
+                    return True
+                continue
+            if name != 'unset':
                 continue
             options = set()
             while words and words[0].startswith('-'):
@@ -938,9 +1096,33 @@ def shell_python_module_route(helper, content, payload, caller):
                     return True
         return False
 
+    if (any(name in {'python', 'python3', 'py', 'command', 'builtin'}
+            for name in function_names)
+            or len(function_names) != len(set(function_names))):
+        return False
     target = posixpath.normpath((PurePosixPath(caller).parent / helper).as_posix())
     if target not in payload:
         return False
+    # Retain only the caller's bounded, literal-seeded additive counters.
+    # All other arithmetic requires an evaluator and therefore cannot establish
+    # this source edge. In particular, variable values are not assumed numeric.
+    for expression, position in arithmetic:
+        if re.fullmatch(r'\s*[0-9]+(?:\s*\+\s*[0-9]+)*\s*', expression):
+            continue
+        match = re.fullmatch(r'\s*([A-Za-z_][A-Za-z0-9_]*)\s*\+\s*1\s*', expression)
+        if match is None:
+            return False
+        counter = match.group(1)
+        seed = re.compile(r'(?m)^\s*' + re.escape(counter) + r'=[0-9]+[ \t]*$')
+        seeds = list(seed.finditer(logical_code))
+        if len(seeds) != 1 or seeds[0].end() > position or interpreter_may_change(counter):
+            return False
+        other = seed.sub('', logical_code)
+        other = re.sub(r'\b' + re.escape(counter) + r'=\$\(\(\s*' +
+                       re.escape(counter) + r'\s*\+\s*1\s*\)\)', '', other)
+        if re.search(r'\b' + re.escape(counter) + r'(?:\[[^]\n]*\])?\+?=', other):
+            return False
+
     for variable, body in candidates:
         # Follow the existing finite interpreter-selection array, including
         # its initially empty state. Never assume an arbitrary array is Python.
@@ -953,7 +1135,7 @@ def shell_python_module_route(helper, content, payload, caller):
         # an earlier assignment happened to name Python.
         remaining = re.sub(r'\b' + re.escape(variable) + r'=\([^)]*\)', '', code)
         if (re.search(r'\b' + re.escape(variable) + r'(?:\[[^]\n]*\])?\+?=', remaining)
-                or unset_may_change(variable)):
+                or interpreter_may_change(variable)):
             continue
         synthetic = caller + ".stdin.py"
         source_payload = dict(payload)

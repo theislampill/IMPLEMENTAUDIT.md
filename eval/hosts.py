@@ -77,8 +77,8 @@ import reposnapshot  # noqa: E402
 # The existing adapter receipt hashes this file. Bind the new implementation
 # dependency here, and execute exactly the verified bytes (no check/import race).
 # A policy change must update this pin in the same reviewed source change.
-_HOST_COMMAND_POLICY_SHA256 = "036fb611c3f439b37eaeed202253341ecfeb16f3b4b045932e33cd2d1b1533fc"
-_HOST_COMMAND_POLICY_BYTES = 33052
+_HOST_COMMAND_POLICY_SHA256 = 'e44ad93fc648db0ffd5baab492c50cdcfd0a0c97f60f87f24ebd3d80952cdeac'
+_HOST_COMMAND_POLICY_BYTES = 50486
 
 
 def _load_host_command_policy():

@@ -1,9 +1,13 @@
-zopfli==0.2.3.post1
+# Build-only codec compatibility. Exact resolved versions belong in each
+# qualification/build receipt; 0.2.3.post1 remains a historical replay pin.
+zopfli>=0.4.2,<0.5
 
 # Existing native schema validation dependency; explicit closure for CI --no-deps.
 jsonschema==4.26.0
 attrs==26.1.0
 jsonschema-specifications==2025.9.1
 referencing==0.37.0
-rpds-py==2026.6.3
+# jsonschema requires >=0.25.0; this also satisfies referencing >=0.7.0.
+# Do not turn a newest-version observation into an untested exact requirement.
+rpds-py>=0.25.0
 typing-extensions==4.16.0; python_version < "3.13"

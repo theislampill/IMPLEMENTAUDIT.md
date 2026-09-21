@@ -27,14 +27,14 @@ class SnapshotQueryPolicy:
                 self._snapshot_schema):
             self._error("OE_QUERY_SNAPSHOT_INVALID", "$snapshot",
                    "query input is not an R0038 snapshot payload")
-        try:
-            observed_families = tuple(snapshot.get("families", ()))
-        except TypeError:
+        observed_families = snapshot.get("families")
+        if (type(observed_families) not in (list, tuple)
+                or tuple(observed_families) != self._families):
             self._error("OE_QUERY_SNAPSHOT_INVALID", "$.families",
-                        "snapshot does not retain the six frozen families")
-        if observed_families != self._families:
-            self._error("OE_QUERY_SNAPSHOT_INVALID", "$.families",
-                   "snapshot does not retain the six frozen families")
+                        "snapshot must retain the six frozen families as a sequence")
+        if type(snapshot.get("missing_or_omitted_state", [])) is not list:
+            self._error("OE_QUERY_SNAPSHOT_INVALID", "$.missing_or_omitted_state",
+                        "omitted-state census must be an array")
         collections = snapshot.get("collections")
         if type(collections) is not dict:
             self._error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
@@ -42,30 +42,49 @@ class SnapshotQueryPolicy:
         records = []
         identities = set()
 
-        def visit(value):
+        # Walk containers iteratively as well as relation lineage. Container
+        # depth is not relation depth and must not consume Python call frames.
+        # Active-path identity detects non-JSON cycles without rejecting a
+        # shared inert container encountered on two independent paths.
+        active_containers = set()
+        stack = [(collections, False)]
+        while stack:
+            value, leaving = stack.pop()
+            if type(value) not in (dict, list):
+                continue
+            identity = id(value)
+            if leaving:
+                active_containers.remove(identity)
+                continue
+            if identity in active_containers:
+                self._error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
+                            "snapshot collections contain a container cycle")
             if type(value) is dict:
                 currentness = value.get("currentness")
                 if (type(value.get("id")) is str and value.get("family") in self._families and
                         type(currentness) is dict and
                         currentness.get("state") in self._states and
                         type(currentness.get("invalidators")) is list):
-                    identity = value["id"]
-                    if identity in identities:
+                    record_id = value["id"]
+                    if record_id in identities:
                         self._error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
-                               f"duplicate record identity: {identity}")
-                    identities.add(identity)
+                                    f"duplicate record identity: {record_id}")
+                    identities.add(record_id)
                     records.append({
-                        "path": f"record:{identity}",
+                        "path": f"record:{record_id}",
                         "record": json.loads(self._canonical_json(value).decode("utf-8")),
                     })
-                    return
-                for key in sorted(value):
-                    visit(value[key])
-            elif type(value) is list:
-                for row in value:
-                    visit(row)
+                    continue
+                if any(type(key) is not str for key in value):
+                    self._error("OE_QUERY_SNAPSHOT_INVALID", "$.collections",
+                                "collection object keys must be text")
+                children = [value[key] for key in sorted(value)]
+            else:
+                children = value
+            active_containers.add(identity)
+            stack.append((value, True))
+            stack.extend((child, False) for child in reversed(children))
 
-        visit(collections)
         return sorted(records, key=lambda row: (
             row["record"]["family"], row["record"]["id"],
             self._canonical_json(row["record"])))
@@ -146,6 +165,10 @@ class SnapshotQueryPolicy:
             if not {"relation_type", "source_entity_id", "target_entity_id"} <= set(
                     relation):
                 continue
+            for field in ("relation_type", "source_entity_id", "target_entity_id"):
+                if type(relation[field]) is not str or not relation[field]:
+                    self._error("OE_QUERY_SNAPSHOT_INVALID", "$.relations." + field,
+                                "why relation fields must be non-empty text")
             outgoing.setdefault(relation["source_entity_id"], []).append(relation)
         for rows in outgoing.values():
             rows.sort(key=lambda row: (
@@ -155,27 +178,38 @@ class SnapshotQueryPolicy:
         active = set()
         complete = set()
 
-        def visit(identity):
-            if identity in active:
+        # An explicit DFS stack preserves the recursive order without making
+        # valid retained lineage depend on Python's interpreter recursion limit.
+        active.add(record_id)
+        order.append(by_id[record_id])
+        stack = [(record_id, iter(outgoing.get(record_id, [])))]
+        while stack:
+            identity, relations = stack[-1]
+            relation = next(relations, None)
+            if relation is None:
+                active.remove(identity)
+                complete.add(identity)
+                stack.pop()
+                continue
+            target = relation["target_entity_id"]
+            if target not in by_id:
+                self._error("OE_QUERY_SNAPSHOT_INVALID", "$.relations",
+                            "why relation endpoint is absent")
+            retained_relations.append(relation)
+            if target in active:
                 self._error("OE_WHY_CYCLE", "$.relations",
-                       "why lineage contains a reachable cycle")
-            if identity in complete:
-                return
-            active.add(identity)
-            record = by_id.get(identity)
-            if record is not None:
-                order.append(record)
-            for relation in outgoing.get(identity, []):
-                target = relation["target_entity_id"]
-                if target not in by_id:
-                    self._error("OE_QUERY_SNAPSHOT_INVALID", "$.relations",
-                           "why relation endpoint is absent")
-                retained_relations.append(relation)
-                visit(target)
-            active.remove(identity)
-            complete.add(identity)
+                            "why lineage contains a reachable cycle")
+            if target in complete:
+                continue
+            active.add(target)
+            order.append(by_id[target])
+            stack.append((target, iter(outgoing.get(target, []))))
 
-        visit(record_id)
+        for row in order:
+            evidence = row.get("contrary_evidence", [])
+            if type(evidence) is not list or any(type(item) is not str or not item for item in evidence):
+                self._error("OE_QUERY_SNAPSHOT_INVALID", "$.contrary_evidence",
+                            "contrary evidence must be an array of non-empty identities")
         contrary = sorted({
             item for row in order
             for item in row.get("contrary_evidence", [])

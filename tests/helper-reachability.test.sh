@@ -398,7 +398,7 @@ def syntax_replace(root,rel,name,old,new,branch=None):
     scope=functions[0]
     if branch is not None:
         expected=ast.dump(ast.parse(branch,mode="eval").body,include_attributes=False)
-        branches=[node for node in scope.body if isinstance(node,ast.If) and ast.dump(node.test,include_attributes=False)==expected]
+        branches=[node for node in scope.body if isinstance(node,ast.If) and ast.dump(node.test,include_attributes=False)==expected and any(isinstance(child,ast.Return) for child in ast.walk(node))]
         assert len(branches)==1,(rel,name,"branch population")
         scope=branches[0]
     expected=ast.parse(old).body[0]

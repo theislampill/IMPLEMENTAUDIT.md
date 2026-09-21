@@ -1962,6 +1962,9 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
         "host_binding_generation": host_binding_generation,
         "package": package,
         "child_source": child_source,
+        # Ordinary manual-resume fixtures have no recovery capsule. The
+        # explicit null is part of the current R0033 transaction identity.
+        "recovery_capsule_digest": None,
     }
     route_transaction_id = route_module.digest_json(
         {"kind": "transaction", "seed": identity_seed})
@@ -2798,6 +2801,12 @@ semantic = record.get("semantic_sha256")
 without_semantic = {key: value for key, value in record.items() if key != "semantic_sha256"}
 if semantic != hashlib.sha256(positive_module.canonical_json_v1(without_semantic)).hexdigest():
     raise SystemExit("native-current semantic digest mismatch")
+
+# Explicit read-only qualification stops before the Windows staged publisher.
+# Existing full/native-current scopes retain every publication control below.
+if MODE == "--native-readonly-only":
+    print("native-readonly: PASS; NCR and frontier/ref/file checks; publication not executed")
+    raise SystemExit(0)
 
 snapshot_repo = prepare("positive", 200)
 snapshot_module = load_module(snapshot_repo, 200)
@@ -3858,6 +3867,11 @@ fi
 
 if [ "${1:-}" = "--native-current-only" ]; then
   printf 'operational-evidence-contract.test: native-current ok\n'
+  exit 0
+fi
+
+if [ "${1:-}" = "--native-readonly-only" ]; then
+  printf 'operational-evidence-contract.test: native read-only fixture scope ok\n'
   exit 0
 fi
 

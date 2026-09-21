@@ -5,7 +5,6 @@ Restricted maintained-form YAML interpretation is preserved, not promoted to a
 general YAML verifier. No network, Git mutation or workflow execution occurs.
 """
 from __future__ import annotations
-import fnmatch
 import pathlib
 import re
 import sys
@@ -31,7 +30,14 @@ def uncomment(line):
 
 def scalar(value):
     value = value.strip()
-    if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+    if value.startswith('"'):
+        # This maintained-form parser has no YAML escape decoder. Treat an
+        # escaped double-quoted scalar as unsupported, never a non-match.
+        if (len(value) < 2 or not value.endswith('"') or
+                "\\" in value or '"' in value[1:-1]):
+            die("unsupported escaped or malformed double-quoted YAML scalar")
+        return value[1:-1]
+    if len(value) >= 2 and value[0] == value[-1] == "'":
         return value[1:-1]
     return value
 
@@ -42,8 +48,14 @@ key_pattern = re.compile(r'(?:(?:"([^"]*)")|(?:\'([^\']*)\')|([A-Za-z0-9_-]+))\s
 def mapping_entry(text):
     match = key_pattern.fullmatch(text)
     if not match:
+        if text.startswith('"'):
+            die("unsupported escaped or malformed double-quoted YAML mapping key")
         return None
     key = next(group for group in match.groups()[:3] if group is not None)
+    if match.group(1) is not None:
+        # Keys select obligations just as values do. Preserve the shared
+        # maintained-form refusal before comparing any identity-bearing key.
+        key = scalar('"' + key + '"')
     return key, match.group(4)
 
 
@@ -101,12 +113,79 @@ def inline_list(value, label):
     return [scalar(value)] if value else []
 
 
+def branch_pattern_regex(pattern):
+    """Translate the documented branch-filter grammar, not filesystem fnmatch.
+
+    In particular '*' cannot cross '/', and '?' / '+' qualify the preceding
+    character or alphanumeric class. Unsupported forms are explicit refusals.
+    """
+    atoms = []
+    can_quantify = False
+    index = 0
+    while index < len(pattern):
+        char = pattern[index]
+        index += 1
+        if char == "\\":
+            if index == len(pattern):
+                die("unsupported branch-filter glob: dangling escape")
+            atoms.append(re.escape(pattern[index]))
+            index += 1
+            can_quantify = True
+        elif char == '*':
+            count = 1
+            while index < len(pattern) and pattern[index] == '*':
+                count += 1
+                index += 1
+            if count > 2:
+                die("unsupported branch-filter glob: repeated wildcard")
+            if count == 2 and index < len(pattern) and pattern[index] == '/':
+                atoms.append('(?:.*/)?')
+                index += 1
+            else:
+                atoms.append('.*' if count == 2 else '[^/]*')
+            can_quantify = False
+        elif char in '?+':
+            if not can_quantify:
+                die("unsupported branch-filter glob: misplaced quantifier")
+            atoms[-1] = '(?:' + atoms[-1] + ')' + char
+            can_quantify = False
+        elif char == '[':
+            close = pattern.find(']', index)
+            if close < 0 or close == index:
+                die("unsupported branch-filter glob: empty or unterminated class")
+            body = pattern[index:close]
+            cursor = 0
+            while cursor < len(body):
+                first = body[cursor]
+                if not re.fullmatch('[A-Za-z0-9]', first):
+                    die("unsupported branch-filter glob: non-alphanumeric class")
+                cursor += 1
+                if cursor < len(body) and body[cursor] == '-':
+                    if cursor + 1 >= len(body):
+                        die("unsupported branch-filter glob: incomplete range")
+                    last = body[cursor + 1]
+                    if not any(first in group and last in group and first <= last
+                               for group in ('abcdefghijklmnopqrstuvwxyz',
+                                             'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '0123456789')):
+                        die("unsupported branch-filter glob: invalid range")
+                    cursor += 2
+            atoms.append('[' + body + ']')
+            index = close + 1
+            can_quantify = True
+        elif char == ']':
+            die("unsupported branch-filter glob: unmatched class terminator")
+        else:
+            atoms.append(re.escape(char))
+            can_quantify = True
+    return ''.join(atoms)
+
+
 def pattern_matches(patterns, branch):
     matched = False
     for pattern in patterns:
         negative = pattern.startswith("!")
         candidate = pattern[1:] if negative else pattern
-        if fnmatch.fnmatchcase(branch, candidate):
+        if re.fullmatch(branch_pattern_regex(candidate), branch) is not None:
             matched = not negative
     return matched
 
@@ -242,6 +321,10 @@ def step_uses(nodes, path):
             die(f"inline job mapping cannot be statically resolved: {path}:{job}")
         job_block = child_block(jobs_block, job_index, job_indent)
         properties = direct_mapping(job_block, f"job {job}")
+        if "uses" in properties:
+            # A reusable workflow can itself deploy. Without its exact callee
+            # bytes/closure, a workflow-run-only plan is not a complete bound.
+            die(f"reusable workflow effects cannot be statically resolved: {path}:{job}")
         if "steps" not in properties:
             continue
         steps_value, steps_index, steps_indent = properties["steps"]

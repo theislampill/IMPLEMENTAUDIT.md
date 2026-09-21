@@ -29,8 +29,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = '52d4d1fa89bee7e36eb3bb634051f8ca252a2cb7fa4a64a4b77aae1ef158da66'
-_QUERY_POLICY_MODULE_BYTES = 8647
+_QUERY_POLICY_MODULE_SHA256 = 'eae11b0cc3138ed34d382c10d7d0a7720d04fc4e67174b61eb29b956aa0b1c8b'
+_QUERY_POLICY_MODULE_BYTES = 10880
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os
@@ -278,8 +278,8 @@ def validate_identity_json_v1(value, path="$"):
 
 def canonical_json_v1(value) -> bytes:
     """UTF-8 JSON, sorted object keys, declared array order, no whitespace."""
-    validate_identity_json_v1(value)
     try:
+        validate_identity_json_v1(value)
         return json.dumps(
             value, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
             allow_nan=False).encode("utf-8")
@@ -1458,7 +1458,10 @@ def collect_native_current():
            for ref, oid in ref_fence.items()):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.refs",
                "native-current ref changed during observation")
-    if any(_native_file(path, "$native.final_file_fence") != raw
+    # Reuse the opening route-source bound; the route owner is larger than
+    # the default hot-file bound. Equality below still refuses every change.
+    if any(_native_file(path, "$native.final_file_fence",
+                        512 * 1024 if path == route_validator_path else 256 * 1024) != raw
            for path, raw in file_fence.items()):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.hot",
                "native-current file changed during observation")

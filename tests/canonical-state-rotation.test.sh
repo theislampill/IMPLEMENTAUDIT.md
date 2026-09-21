@@ -1379,9 +1379,13 @@ for bad_controller, bad_archive in (("bad/ref", archive_oid),
         "invalid classification ref component",
     )
 
-original_custody = rotation._publication_custody_fields_v1
-rotation._publication_custody_fields_v1 = lambda: (
-    repo, controller_id, controller_oid, claim_id, run_root, run_id)
+# Bind the actual owner boundary, including the final exact-tuple recheck.
+# Patching only decoded fields accidentally consulted the executing checkout.
+original_custody = rotation._publication_custody_tuple_v1
+fixture_custody = (
+    "implementaudit.publication-custody.v1", controller_id, controller_oid,
+    claim_id, str(repo), str(repo / ".git"), str(run_root), run_id)
+rotation._publication_custody_tuple_v1 = lambda: fixture_custody
 try:
     published_oid = rotation.publish_live_genesis_classification_v1(
         candidate_classification_oid=candidate_oid)
@@ -1430,7 +1434,7 @@ try:
         "classification admission with current pointer",
     )
 finally:
-    rotation._publication_custody_fields_v1 = original_custody
+    rotation._publication_custody_tuple_v1 = original_custody
 
 source = records[0]
 payload = {

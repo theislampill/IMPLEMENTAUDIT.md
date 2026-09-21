@@ -48,9 +48,9 @@ Run invariants:
 
 ## State-derived RC self-dogfood route
 `SELF_DOGFOOD_TRIGGER` applies only to the exact IMPLEMENTAUDIT RC/self-release candidate.
-Baseline the target repo first, then load the RC self-dogfood evidence
-contract in `references/transcript-contract.md`; it progressively discloses the
-bounded runner reference, broker, typed event schema, and independent corroboration.
+Baseline the target repo first. For progressive disclosure, load
+`references/transcript-contract.md`: it progressively discloses the bounded
+runner reference, broker, typed event schema and independent corroboration.
 It is not a user-selected mode. Full installed-payload readback is non-evidence.
 
 `ORDINARY_IMPLEMENTAUDIT_CONTROL` uses only the Execution Spine: do not load or activate the dogfood reference, broker, or event schema.
@@ -190,7 +190,7 @@ Load references only when the current gate needs them:
 - `references/plan-lifecycle.md`: self-contained plans, execution, and review.
 - `references/issue-ready-work-orders.md`: material issue synthesis and durable
   continuation when a compact carrier would lose a decision-changing frontier.
-- `references/child-agents.md`: `AUTO_LOOM_SCOPE=FULL_RECURSIVE_CAMPAIGN_HOLARCHY`.
+- For scheduling/dispatch/resource ceilings, read `references/child-agents.md`: `AUTO_LOOM_SCOPE=FULL_RECURSIVE_CAMPAIGN_HOLARCHY`.
 - `references/terminology-integration.md`: thin terminology precedence.
   Use FMEA-lite fields when risk is material, STRIDE/trust-boundary notes when
   a material security surface exists, SOLID/GRASP generic-advice guard, and a

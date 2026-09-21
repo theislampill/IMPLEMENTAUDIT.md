@@ -7,7 +7,7 @@ projections, including Python libraries and unknown executable types. A literal
 
 The historical 18-shell and later 19-shell receipts remain true at their exact
 source/package identities. The current controls preserve the five existing mode
-rows, the independently rooted R11 wrapper/mediator/stub probe, the one-object
+rows, the independently rooted R0011 wrapper/mediator/stub probe, the one-object
 boundary and the no-event path.
 
 | Discriminator | Expected |
@@ -33,4 +33,4 @@ These fixtures qualify the source census and bounded owned consumers. They do
 not establish installed, enabled, trusted or fired hooks, native LOAD/ACK/USE,
 currentness, package budgets, publication or recurrence prevention. The later
 build section of R000B-R001E-review-heldouts.test.sh retains its separate owner
-and is not included in a source-only R11 slice.
+and is not included in a source-only R0011 slice.

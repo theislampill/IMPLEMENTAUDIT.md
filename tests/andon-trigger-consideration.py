@@ -14,7 +14,7 @@ OBLIGATIONS = {
     "all-four-at-boundary": "At a material decision or boundary, including a returned new constraint, explicitly consider audit-state, audit-assess, audit-implement and audit-andon.",
     "need-admission-entry-evidence": "Keep cognition need, ordinary admission, explicit direct Andon entry and actual route evidence separate in the existing task or route record; currentness=false is not an all-child no-need result.",
     "cold-roles": "Independent cold source review is not admitted audit-assess; isolated source preparation is not maintainer audit-implement qualification.",
-    "genuine-recovery": "Compaction observation alone is not genuine admitted state recovery.",
+    "genuine-recovery": "Completed compaction/resumption independently requires POST_COMPACTION_RECONCILIATION; its execution does not establish admitted native recovery or currentness.",
     "substantive-versus-cheap": "A substantive abnormality, a defeated countermeasure or changed routing behaviour requires fresh governor consideration; an already-bound cheap known failure bypasses diagnostic rerouting.",
     "unknown-dispositions": "Use scoped NOT_TRIGGERED or UNKNOWN dispositions; unknown hidden use is not NO.",
     "historical-defects": "Missed consideration, a missed visible witness and unknown historical use remain distinct, with no retroactive credit.",

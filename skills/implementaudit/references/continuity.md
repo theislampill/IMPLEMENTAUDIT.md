@@ -476,7 +476,7 @@ governor compaction; genuine root-event provenance and proved dependency radius
 still govern boundary and invalidation decisions. Missing required observations
 leave the selected claim unqualified. Keep proposed measurements and structural
 fixture assurance separate from an actual qualified episode; the E fixture
-(`fixtures/a-to-g/post-compaction-isolation.json`) retains this distinction.
+(`fixtures/a-to-g/post-compaction-isolation.json`, source repo only) retains this distinction.
 This adds no restart or pre-OPEN gate. Reuse sufficient unchanged evidence under
 `planning-depth.md`'s Engineering-value admission and control lifecycle.
 

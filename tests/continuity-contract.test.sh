@@ -69,23 +69,22 @@ for surface in "$ref" "$proto"; do
   grep -q 'IDENTITY_UNBOUND' "$surface" || fail "$surface missing identity-unbound consequence"
 done
 grep -q "references/continuity.md" skills/implementaudit/SKILL.md || fail "SKILL.md load map missing continuity reference"
-# The bootloader itself must carry the load-bearing runtime instruction —
-# the B3 post-change r1 wave proved reference-only placement does not
-# reach a resuming executor (all four candidate missions failed).
+# v0.4.1 supersedes the old pre-announcement governor reconstruction with an
+# independently mandatory visible audit-state entry. References retain the
+# ordinary native controller-command route; the thin governor names that route
+# without duplicating its entire command catalogue.
 skill="skills/implementaudit/SKILL.md"
-for tok in host-reported-compaction new-session handoff-resume \
-           manual-resume inferred-context-gap; do
-  grep -q "$tok" "$skill" || fail "SKILL.md runtime loop missing provenance token: $tok"
+for tok in host-reported-compaction new-session handoff-resume manual-resume inferred-context-gap; do
+  grep -q "$tok" "$ref" || fail "continuity route missing provenance token: $tok"
 done
-grep -qi "live state wins" "$skill" || fail "SKILL.md runtime loop missing live-state-wins rule"
-grep -qi "Target already satisfied at" "$skill" || fail "SKILL.md runtime loop missing refusal sentence"
-grep -qi "epoch row" "$skill" || fail "SKILL.md runtime loop missing epoch-row recording"
+for wording in 'live state wins' 'Target already satisfied at' 'epoch row'; do
+  grep -qi "$wording" "$ref" || fail "continuity route missing preserved rule: $wording"
+done
 route_ok() {
   grep -q -- '--current-controller' "$1" && grep -q -- '--resume-controller' "$1" &&
-    grep -q -- '--current-controller' "$2" && grep -q -- '--resume-controller' "$2" &&
-    grep -q -- '--supersede-claim' "$2" && grep -q -- '--verify-resume-receipt' "$2"
+    grep -q -- '--supersede-claim' "$1" && grep -q -- '--verify-resume-receipt' "$1"
 }
-route_ok "$skill" "$ref" || fail "runtime route omits controller discovery, transfer, or receipt verification"
+route_ok "$ref" || fail "native route omits controller discovery, transfer, or receipt verification"
 for literal in \
   'pointer -> receipt v3 -> permanent marker' \
   'pointer OID/digest' \
@@ -97,59 +96,56 @@ for literal in \
 done
 contains_normalized "$skill" 'pointer -> receipt v3 -> permanent marker' ||
   fail 'SKILL.md runtime loop omits the exact Task 6 publication order'
-contains_normalized "$skill" 'without historical hydration' ||
-  fail 'SKILL.md runtime loop omits bounded v3 recovery'
+contains_normalized "$ref" 'Recovery never hydrates wholesale history' ||
+  fail 'continuity route omits bounded recovery'
 
-# e61 ecological RED: after an automatic compaction the model retained a true
-# standing README constraint but promoted it into the active work cell, then
-# launched checks and committed before a fresh host-compaction invalidation and
-# receipt. The bootloader must carry the complete ordered entry fence; a deep
-# reference or cooperating mutation helper is not enough for first-turn routing.
-"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md discovery description missing pre-load continuity fence"
-import sys
+# Check the current bootloader and discriminate deletion, obsolete sequencing,
+# and inert-history false positives. This is finite source-contract protection,
+# not proof that any native child actually ran.
+"${py_cmd[@]}" - "$skill" <<'PYCODE' || fail "current compaction bootloader contract failed"
+import re,runpy,sys
 from pathlib import Path
-
-text = Path(sys.argv[1]).read_text(encoding="utf-8")
-frontmatter = text.split("---", 2)[1]
-description_lines = [
-    line for line in frontmatter.splitlines() if line.startswith("description:")
-]
-if len(description_lines) != 1:
-    raise SystemExit(1)
-description_value = description_lines[0].split(":", 1)[1].strip()
-if not (description_value.startswith('"') and description_value.endswith('"')):
-    raise SystemExit(1)
-required = (
-    "execute audit-governed work to closure or handoff",
-    "activate for /implementaudit and audit closure",
-    "host-reported compaction",
-    "before any response or repo inspection",
-    "through bash",
-    "--current-controller",
-    "separate command",
-    "--invalidate-continuity <controller>",
-    "--boundary host-reported-compaction",
-    "--event <opaque-event>",
-    "state.md then roadmap.md",
-    "--resume-controller <controller> --boundary host-reported-compaction --epoch <next-epoch>",
-    "--verify-resume-receipt <receipt>",
-    "--require-current-continuity <controller>",
-    "no response until the verified receipt",
-    "only then emit the first message",
-    "verified receipt",
+reader=runpy.run_path('tests/pre-use-announcement-contract.py')
+text=Path(sys.argv[1]).read_text(encoding='utf8')
+required=(
+ 'STOP new state-dependent governor decisions until reconciliation.',
+ 'completed compaction plus governor resumption independently requires audit-state.',
+ 'Missing currentness/continuity/epoch/native admission limits results, never this route.',
+ 'hook pending -> visible OPEN/LOAD -> isolated USE -> successful RETURN/JOIN.',
+ 'Keep independent lawful children running;',
+ 'no governor STATE/ROADMAP/WORK_GRAPH pre-reconstruction.',
+ 'Actual observation scope/cutoff governs later coverage;',
+ 'dispatch/RETURN leave pending.',
+ 'never substantively reads STATE/ROADMAP/WORK_GRAPH before OPEN.',
+ 'then prove post-return currentness before the exact typed edge.',
+ 'No ordinary authority: the state owner publishes receipt/H0 lineage.',
+ 'Each native owner action stays separate.',
 )
-if any(item.lower() not in frontmatter.lower() for item in required):
-    raise SystemExit(1)
-description = description_value[1:-1].lower()
-if not description.startswith("host-reported compaction stop"):
-    raise SystemExit("compaction stop is not the first catalog-visible instruction")
-if "use only the host-supplied skill path" not in description:
-    raise SystemExit("description does not permit bounded skill loading")
-if "do not search or inspect the target first" not in description:
-    raise SystemExit("description does not forbid pre-custody target orientation")
-if description.index("--current-controller") > description.index("execute audit-governed work"):
-    raise SystemExit("ordinary activation precedes the compaction fence")
-PY
+def check(t):
+ fm=t.split('---',2)[1]
+ descriptions=[x for x in fm.splitlines() if x.startswith('description:')]
+ assert len(descriptions)==1
+ desc=descriptions[0].lower()
+ assert 'completed compaction/resume requires audit-state regardless of currentness/epoch' in desc
+ assert 'references/continuity.md' in desc and 'before dispatch' in desc and 'references/child-agents.md' in desc
+ active=' '.join(' '.join(reader['procedural_prose_parts'](reader['section'](t,'Runtime Loop'))).split())
+ for phrase in required:assert phrase in active,phrase
+ assert 'no response until the verified receipt' not in desc
+check(text)
+for phrase in required:
+ pattern=r'\s+'.join(re.escape(x) for x in phrase.split())
+ changed,count=re.subn(pattern,'REMOVED_CURRENT_OBLIGATION',text)
+ assert count==1,(phrase,count)
+ for alternative in (changed,changed+'\n<!-- '+phrase+' -->\n'):
+  try:check(alternative)
+  except (AssertionError,ValueError):pass
+  else:raise AssertionError('ineffective finite negative control: '+phrase)
+old=text.replace('Completed compaction/resume requires audit-state regardless of currentness/epoch.', 'Host-reported compaction stop: no response until the verified receipt.')
+try:check(old)
+except AssertionError:pass
+else:raise AssertionError('obsolete pre-announcement sequencing admitted')
+print('current compaction bootloader: 1 positive, 25 negative controls PASS')
+PYCODE
 for surface in "$skill" "$ref" "$proto"; do
   for literal in \
     'POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT' \
@@ -160,31 +156,6 @@ for surface in "$skill" "$ref" "$proto"; do
       fail "$surface missing post-compaction frontier fence: $literal"
   done
 done
-for tok in --invalidate-continuity --verify-resume-receipt --require-current-continuity; do
-  grep -q -- "$tok" "$skill" || fail "SKILL.md bootloader missing ordered continuity command: $tok"
-done
-"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md post-boundary command order is not reconstructible"
-import sys
-from pathlib import Path
-
-text = Path(sys.argv[1]).read_text(encoding="utf-8")
-start = text.index("0. Continuity boundary (when resuming):")
-end = text.index("\n1. Safety read:", start)
-section = text[start:end]
-ordered = (
-    "--current-controller",
-    "--invalidate-continuity",
-    "STATE.md",
-    "ROADMAP.md",
-    "--resume-controller",
-    "--verify-resume-receipt",
-    "--require-current-continuity",
-    "POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT",
-)
-positions = [section.index(item) for item in ordered]
-if positions != sorted(positions) or len(set(positions)) != len(positions):
-    raise SystemExit(1)
-PY
 for tok in --invalidate-continuity --require-current-continuity; do
   grep -q -- "$tok" "$ref" || fail "reference missing host-neutral currentness route: $tok"
   grep -q -- "$tok" skills/implementaudit/scripts/claim-run.sh || fail "claim helper missing host-neutral currentness route: $tok"
@@ -209,12 +180,12 @@ contains_normalized "$ref" "generic no-native-hook fallback" ||
   fail "reference missing generic no-native-hook fallback"
 contains_normalized "$ref" "native host signal is a trigger, never continuity authority" ||
   fail "reference promotes or omits the optional host-signal boundary"
-cp "$skill" "$tmp/mutant-skill.md"; cp "$ref" "$tmp/mutant-continuity.md"
-sed -i 's/--current-controller/--lost-controller/' "$tmp/mutant-skill.md"
-route_ok "$tmp/mutant-skill.md" "$tmp/mutant-continuity.md" && fail "source-removal mutant retained a green continuity route"
-cp "$skill" "$tmp/mutant-skill.md"; sed -i 's/--supersede-claim/--lost-predecessor/' "$tmp/mutant-continuity.md"
-route_ok "$tmp/mutant-skill.md" "$tmp/mutant-continuity.md" && fail "transfer-removal mutant retained a green continuity route"
-for surface in "$skill" "$ref" "$proto"; do
+cp "$ref" "$tmp/mutant-continuity.md"
+sed -i 's/--current-controller/--lost-controller/' "$tmp/mutant-continuity.md"
+route_ok "$tmp/mutant-continuity.md" && fail "source-removal mutant retained a green continuity route"
+cp "$ref" "$tmp/mutant-continuity.md"; sed -i 's/--supersede-claim/--lost-predecessor/' "$tmp/mutant-continuity.md"
+route_ok "$tmp/mutant-continuity.md" && fail "transfer-removal mutant retained a green continuity route"
+for surface in "$ref" "$proto"; do
   contains_normalized "$surface" "own completed host action" ||
     fail "$surface missing separately attributable durable-state read rule"
   contains_normalized "$surface" "must not use ';', '&&', pipelines, multi-stage shell composition, or batching" ||

@@ -40,15 +40,15 @@ NATIVE_BINDING_PATHS = frozenset((
     "skills/implementaudit/references/codex-recovery-observer-profile.json"))
 METADATA_PATHS = frozenset((".codex-plugin/plugin.json",))
 # Exact reviewed regression support; complete source/review bindings still apply.
-TEST_SUPPORT_PATHS = frozenset(("tests/route-obligation-contract.test.sh",
-    "scripts/verify-package.sh", "tests/claim-run-unknown-option.test.sh",
-    "tests/codex-recovery/test_initial_epoch.py",
-    "tests/codex-recovery/test_affected_helper.py",
-    "tests/codex-recovery/test_native_launch_diagnostics.py",
-    "tests/codex-recovery/test_isolated_qualification_relay.py",
-    "tests/codex-recovery/test_mcp_cli_overrides.py",
-    "tests/codex-recovery/test_effective_config.py",
-    "tests/codex-recovery/test_native_load_contract.py"))
+TEST_SUPPORT_PATHS = frozenset(("tests/route-obligation-contract.test.sh",  # source repo only: exact regression-support identity
+    "scripts/verify-package.sh", "tests/claim-run-unknown-option.test.sh",  # source repo only: exact regression-support identity
+    "tests/codex-recovery/test_initial_epoch.py",  # source repo only: exact regression-support identity
+    "tests/codex-recovery/test_affected_helper.py",  # source repo only: exact regression-support identity
+    "tests/codex-recovery/test_native_launch_diagnostics.py",  # source repo only: exact regression-support identity
+    "tests/codex-recovery/test_isolated_qualification_relay.py",  # source repo only: exact regression-support identity
+    "tests/codex-recovery/test_mcp_cli_overrides.py",  # source repo only: exact regression-support identity
+    "tests/codex-recovery/test_effective_config.py",  # source repo only: exact regression-support identity
+    "tests/codex-recovery/test_native_load_contract.py"))  # source repo only: exact regression-support identity
 
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":")).encode()

@@ -54,8 +54,8 @@ import sys
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_CLOSURE_EFFECTS_SHA256 = 'd46c8b43844e0988bf58bbe8a51fadcedf4326d672f64a30d29855bf8d4a6bff'
-_CLOSURE_EFFECTS_BYTES = 15245
+_CLOSURE_EFFECTS_SHA256 = '3e2c08a23449ac19acb6fd09fdbeeec06683532516d3d33df17bd799e047a1c7'
+_CLOSURE_EFFECTS_BYTES = 19076
 def _load_closure_effects():
     import hashlib as _hashlib
     import os as _os

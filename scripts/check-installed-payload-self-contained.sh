@@ -45,7 +45,7 @@ if not skills.is_dir():
     raise SystemExit("skills/ directory is required")
 
 repo_only_pattern = re.compile(
-    r"(fixtures/[\w./-]+|tests/[\w./-]+|scripts/check-[\w./-]+|skills/implementaudit/scripts/[\w./-]+)"
+    r"(?<![\w./-])(fixtures/[\w./-]+|tests/[\w./-]+|scripts/check-[\w./-]+|skills/implementaudit/scripts/[\w./-]+)"
 )
 
 violations: list[str] = []
@@ -58,7 +58,19 @@ for path in sorted(skills.rglob("*")):
         continue
     for lineno, line in enumerate(lines, 1):
         normalized_line = line.replace("\\", "/")
-        if not repo_only_pattern.search(normalized_line):
+        matches = list(repo_only_pattern.finditer(normalized_line))
+        # The typed helper registry owns skill-relative runtime paths. The
+        # package producer includes these regular skill members; a top-level
+        # checker with the same spelling is not the registry's namespace.
+        if normalized_line.startswith("helper-route: "):
+            runtime = (skills / "implementaudit").resolve()
+            def runtime_member(token: str) -> bool:
+                target = runtime / token
+                return (token.startswith("scripts/") and ".." not in Path(token).parts
+                        and target.is_file() and not target.is_symlink()
+                        and target.resolve().is_relative_to(runtime))
+            matches = [m for m in matches if not runtime_member(m.group())]
+        if not matches:
             continue
         lower = line.lower()
         if "skills/implementaudit/scripts/" in normalized_line:

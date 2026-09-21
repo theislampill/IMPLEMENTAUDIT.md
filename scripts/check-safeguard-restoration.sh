@@ -236,7 +236,19 @@ def check_source_only_labels(paths: list[Path]) -> None:
     for path in paths:
         text = read(path)
         for lineno, line in enumerate(text.splitlines(), 1):
-            if not pattern.search(line):
+            matches = list(pattern.finditer(line))
+            if line.startswith("helper-route: "):
+                # These records use the installed skill namespace, not the
+                # source-repository scripts directory. Unknown members are
+                # still source-only/unsupported and require an explicit label.
+                runtime = Path("skills/implementaudit").resolve()
+                def runtime_member(token: str) -> bool:
+                    target = runtime / token
+                    return ("*" not in token and ".." not in Path(token).parts
+                            and target.is_file() and not target.is_symlink()
+                            and target.resolve().is_relative_to(runtime))
+                matches = [m for m in matches if not runtime_member(m.group())]
+            if not matches:
                 continue
             lower = line.lower()
             if "source repo only" not in lower and "not shipped in runtime payload" not in lower:

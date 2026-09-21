@@ -710,7 +710,7 @@ def recovery_hook_binding(plugin_root, plugin_id, hook):
 # Exact optional successor comparison. This remains a consumer, never an event
 # producer or a replacement for native observation and physical H0 readback.
 CONFIG_TRANSITION_DIGEST = '8bdac47c22a66d0177d183ae51ece1bfb5ed3dd8fac2b43712d74bbfba553406'
-SOURCE_TRANSITION_DIGEST = '15226d355a4d8a7ead2474125d9fb5039727f7724980a1121f0dedc8737e2ecc'
+SOURCE_TRANSITION_DIGEST = '9221583d38ae80f040559bbd7b3c7dbaf09061e4ac0d639b032cc8428c9776eb'
 
 
 def load_transition_helper(name, expected):

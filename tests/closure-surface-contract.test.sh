@@ -470,6 +470,9 @@ cleanup_full() {
   if [ -n "${tmp:-}" ]; then
     rm -rf "$tmp"
   fi
+  if [ -n "${effect_tmp:-}" ]; then
+    rm -rf "$effect_tmp"
+  fi
 }
 trap cleanup_full EXIT
 v0400_release_asset_set_controls "$v0400_asset_tmp"

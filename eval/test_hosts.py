@@ -1561,8 +1561,9 @@ def main():
                       "read_before_write") is False)
 
             # Common execution wrappers preserve the actual command position.
-            # They must recognize cat/Get-Content without treating find's
-            # unrelated `-type` option as a reader command.
+            # Supported readers retain command position; multi-path PowerShell
+            # arrays remain outside the finite grammar. This refusal is not
+            # a claim that every such native command fails to read its inputs.
             wrapped_results44h = []
             for event in wrapped_readers44:
                 adapter44h = (powershell43 if "Get-Content" in event
@@ -1573,7 +1574,7 @@ def main():
                     adapter44h._run_host_checks(fx44, repo43).get(
                         "read_before_write"))
             check("H44h wrapped-reader-command-position",
-                  wrapped_results44h == [False, True, True, True, True]
+                  wrapped_results44h == [False, True, True, True, False]
                   and find_only44d.get("read_before_write") is False)
         except (AttributeError, framework.AdapterError):
             check("H44d content-read-not-file-listing", False)
@@ -1962,12 +1963,15 @@ def main():
              S45, "fail-closed", 0),
             ("D13-empty-xargs", "printf '' | xargs -E cat printf " +
              S45 + " " + R002D, S45, "not-content-read", 0),
+            # External patterns/programmes are unbound command inputs. The
+            # adapter intentionally refuses this unsupported evidence scope;
+            # full-preimage evaluators have a distinct stronger contract.
             ("grep-f-R", "grep -f " + S45 + " " + R002D,
-             R002D, "content-read", 0),
+             R002D, "fail-closed", 0),
             ("sed-f-R", "sed -f " + S45 + " " + R002D,
-             R002D, "content-read", 0),
+             R002D, "fail-closed", 0),
             ("get-content-literal", "Get-Content -LiteralPath " + S45 +
-             "," + R002D, R002D, "content-read", 0),
+             "," + R002D, R002D, "fail-closed", 0),
             ("get-content-delimiter", "Get-Content notes.txt -Delimiter " +
              S45, S45, "not-content-read", 0),
             ("tail-zero", "tail -n 0 " + S45,

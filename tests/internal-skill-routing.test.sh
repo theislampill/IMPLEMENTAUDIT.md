@@ -1758,6 +1758,7 @@ def fixture(role='standalone'):
     source = root / 'skills/implementaudit'
     entries = [(name, (source / name).read_bytes(), 0o644) for name in
         ('SKILL.md', 'scripts/resolve-internal-skill.py', 'scripts/route-transaction.py',
+         'scripts/route_request_policy.py',
          'scripts/claim-run.sh', 'references/route-obligations.md')]
     if role == 'standalone':
         entries += projected + [('IMPLEMENTAUDIT_PACKAGE.json', contract_raw, 0o644)]
