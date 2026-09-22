@@ -56,23 +56,42 @@ class ObserverGateTests(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit):
             with route.namespace_gate(str(missing),create=False):self.fail('absent guard yielded')
         self.assertEqual(snapshot(self.root),before)
-    def test_observe_current_deletion_after_open_is_typed_and_nonmutating(self):
+    def test_reader_accepts_valid_gate_and_preserves_pinned_inode(self):
+        with route.namespace_gate(str(self.common)):pass
+        gate=self.common/'implementaudit-locks/route-obligations.gate';before=snapshot(self.root);pinned=gate.lstat()
+        with route.namespace_gate(str(self.common),create=False):pass
+        current=gate.lstat()
+        self.assertTrue(os.path.samestat(pinned,current))
+        self.assertEqual(snapshot(self.root),before)
+    def test_observe_current_missing_post_open_path_is_typed_and_nonmutating(self):
         with route.namespace_gate(str(self.common)):pass
         gate=self.common/'implementaudit-locks/route-obligations.gate';before=snapshot(self.root)
-        original_open=route.os.open;triggered={'value':False}
-        def open_then_delete(path,*args,**kwargs):
+        original_open=route.os.open;original_lstat=route.os.lstat;triggered={'value':False};missing={'value':False}
+        def open_then_disappear(path,*args,**kwargs):
             descriptor=original_open(path,*args,**kwargs)
             if pathlib.Path(path)==gate and not triggered['value']:
-                triggered['value']=True;gate.unlink()
+                triggered['value']=True
+                if os.name!='nt':gate.unlink()
             return descriptor
+        def lstat_after_open(path,*args,**kwargs):
+            if pathlib.Path(path)==gate and triggered['value']:
+                if os.name=='nt':
+                    missing['value']=True
+                    raise FileNotFoundError(errno.ENOENT,'injected post-open path disappearance',os.fspath(path))
+                try:return original_lstat(path,*args,**kwargs)
+                except FileNotFoundError:
+                    missing['value']=True
+                    raise
+            return original_lstat(path,*args,**kwargs)
         stdout=io.StringIO();stderr=io.StringIO()
         try:
-            with patch.object(route.os,'open',side_effect=open_then_delete),patch.object(route,'repo_context',return_value=(self.root,'',str(self.common))),patch.object(route,'current_ref',return_value=(None,None)),contextlib.redirect_stdout(stdout),contextlib.redirect_stderr(stderr),self.assertRaises(SystemExit):
+            with patch.object(route.os,'open',side_effect=open_then_disappear),patch.object(route.os,'lstat',side_effect=lstat_after_open),patch.object(route,'repo_context',return_value=(self.root,'',str(self.common))),patch.object(route,'current_ref',return_value=(None,None)),contextlib.redirect_stdout(stdout),contextlib.redirect_stderr(stderr),self.assertRaises(SystemExit):
                 route.command_observe_current(argparse.Namespace(controller='inert-test'))
         finally:
-            gate.write_bytes(b'\0');gate.chmod(0o600)
+            if os.name!='nt':gate.write_bytes(b'\0');gate.chmod(0o600)
         payload=json.loads(stdout.getvalue().strip().splitlines()[-1])
         self.assertTrue(triggered['value'])
+        self.assertTrue(missing['value'])
         self.assertEqual(payload['schema'],route.RESULT_SCHEMA)
         self.assertEqual(payload['status'],'UNAVAILABLE')
         self.assertFalse(payload['advance_allowed'])
