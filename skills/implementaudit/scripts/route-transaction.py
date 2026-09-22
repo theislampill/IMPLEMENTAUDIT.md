@@ -4146,8 +4146,16 @@ def namespace_gate(common: str, *, create: bool = True) -> Iterator[None]:
         raise
     locked = False
     try:
-        opened = os.fstat(descriptor)
-        current = os.lstat(gate)
+        try:
+            opened = os.fstat(descriptor)
+            current = os.lstat(gate)
+        except OSError as exc:
+            if not create:
+                fail(
+                    "route observation gate is unavailable or unsafe "
+                    f"({type(exc).__name__})"
+                )
+            raise
         unsafe = lambda item: (
             not stat.S_ISREG(item.st_mode)
             or stat.S_ISLNK(item.st_mode)

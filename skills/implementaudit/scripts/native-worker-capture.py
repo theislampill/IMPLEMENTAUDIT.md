@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parent
 ADAPTER = ROOT / 'native-capture-adapter'
 CAP = 1048576
 MEMBERS = {'canary_protocol.py': '768f7823665cc154b30e6103eb5f7d77efd02e68c5afa4def61cd39f7a1579c4', 'capture.py': 'bd064f6425f43568ad5aef8ffb6222f2293672f94ec093774eed448f2a201cc4', 'load_visibility.py': 'e62cf0cadd02f6cac8989590b878bc8eb3db90791e7f60b1ee325d5776cb8f17', 'notification_policy.py': 'b89f6d184d3c90223ff06725d62d55679134b9dbb336af3d299f5fe97b7fdb7f', 'process_owner.py': '392c5db668fbef4eff4c66f51676cf066bfbfe3def28039cbc09bfec98430949', 'worker_profile.py': '0b1bc8d879f128df59200d4f22167d063e1f56c802cc7088113267417e9f8b82', 'worker_runtime.py': '2c2546705213e76f6148305eeb56c5b8ca93623bbb30cd8e5ca40e967fd2b873'}
-ROUTE_SHA256 = '70334d014a04192ffbb1aab3e1208dd526382462044bb6e987d3565f573f9465'
+ROUTE_SHA256 = '2f2546757c1a13f909b33ec9ad401435740977f46620a2c6e2fe1f944bf8e7a5'
 
 
 def require(value, why):

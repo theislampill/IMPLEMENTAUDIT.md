@@ -3,7 +3,7 @@ A regression to creating a lock namespace in observe-current fails the first tes
 The canonical-record backend is deliberately replaced only where noted; these
 checks do NOT substitute for the complete route-obligation contract.
 """
-import argparse, contextlib, errno, hashlib, importlib.util, io, os, pathlib, shutil, stat, subprocess, sys, tempfile, unittest
+import argparse, contextlib, errno, hashlib, importlib.util, io, json, os, pathlib, shutil, stat, subprocess, sys, tempfile, unittest
 from unittest.mock import patch
 parser=argparse.ArgumentParser();parser.add_argument('--source',type=pathlib.Path,required=True);parser.add_argument('--output-root',type=pathlib.Path)
 a,rest=parser.parse_known_args();sys.argv=[sys.argv[0],*rest]
@@ -55,6 +55,28 @@ class ObserverGateTests(unittest.TestCase):
         missing=self.root/'absent';before=snapshot(self.root)
         with contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit):
             with route.namespace_gate(str(missing),create=False):self.fail('absent guard yielded')
+        self.assertEqual(snapshot(self.root),before)
+    def test_observe_current_deletion_after_open_is_typed_and_nonmutating(self):
+        with route.namespace_gate(str(self.common)):pass
+        gate=self.common/'implementaudit-locks/route-obligations.gate';before=snapshot(self.root)
+        original_open=route.os.open;triggered={'value':False}
+        def open_then_delete(path,*args,**kwargs):
+            descriptor=original_open(path,*args,**kwargs)
+            if pathlib.Path(path)==gate and not triggered['value']:
+                triggered['value']=True;gate.unlink()
+            return descriptor
+        stdout=io.StringIO();stderr=io.StringIO()
+        try:
+            with patch.object(route.os,'open',side_effect=open_then_delete),patch.object(route,'repo_context',return_value=(self.root,'',str(self.common))),patch.object(route,'current_ref',return_value=(None,None)),contextlib.redirect_stdout(stdout),contextlib.redirect_stderr(stderr),self.assertRaises(SystemExit):
+                route.command_observe_current(argparse.Namespace(controller='inert-test'))
+        finally:
+            gate.write_bytes(b'\0');gate.chmod(0o600)
+        payload=json.loads(stdout.getvalue().strip().splitlines()[-1])
+        self.assertTrue(triggered['value'])
+        self.assertEqual(payload['schema'],route.RESULT_SCHEMA)
+        self.assertEqual(payload['status'],'UNAVAILABLE')
+        self.assertFalse(payload['advance_allowed'])
+        self.assertIn('FileNotFoundError',payload['error'])
         self.assertEqual(snapshot(self.root),before)
     def test_reader_serialises_with_existing_writer_lock(self):
         with route.namespace_gate(str(self.common)):pass
