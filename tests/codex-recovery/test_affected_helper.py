@@ -19,8 +19,8 @@ OLD = r"\\.\pipe\codex-computer-use-11111111-1111-4111-8111-111111111111"
 NEW = r"\\.\pipe\codex-computer-use-22222222-2222-4222-8222-222222222222"
 USER = "C:/fixture/codex/config.toml"
 SYSTEM = "C:/fixture/system/config.toml"
-ASAR = '2bd5b96a48232f3ccf3df6be50965920699ea3a1b4512dcdd770e209fd1f009e'
-MEMBER = 'b55be874a9b5a262c09a7945df38cec9b0ce8f14bd584ef73d6feca301ed90b4'
+ASAR = 'b8aeb817cd1ee6ef50efe8a97985d3be41de89688a5addfe0a444e1e52348096'
+MEMBER = 'c71bf3ffecef5fd390b4cd16d120d39dce30d30bffe3c563c8c74c1b691da018'
 
 
 def sha(raw):
@@ -353,11 +353,12 @@ class NativeObserverLoaderControls(unittest.TestCase):
 
 class NativeTargetBindingControls(unittest.TestCase):
     """Cold source controls for one exact proposed tuple, never native proof."""
-    BINARY = '081e4de4be8e38fac6ed4d95e3b1a0b9f6d31c090ddc36e1696b349fe406f575'
+    BINARY = 'bc45017e8239dc150258f69309ced9df6bbcdf5b8e4f346decf780ac0999e226'
+    PREDECESSOR_BINARY = '081e4de4be8e38fac6ed4d95e3b1a0b9f6d31c090ddc36e1696b349fe406f575'
     OLD_BINARY = '3d6ca7085c932b62ef4ee4877e92f15b050fb94b2eb8e6c10a346a06248c6004'
     EARLIER_BINARY = 'ccdc9eb9dd71fbcfb03ad42c4eca2b0d6ff6fbd32ebe9416550e6244561e559b'
-    CURRENT_ASAR = '2bd5b96a48232f3ccf3df6be50965920699ea3a1b4512dcdd770e209fd1f009e'
-    CURRENT_MEMBER = 'b55be874a9b5a262c09a7945df38cec9b0ce8f14bd584ef73d6feca301ed90b4'
+    CURRENT_ASAR = 'b8aeb817cd1ee6ef50efe8a97985d3be41de89688a5addfe0a444e1e52348096'
+    CURRENT_MEMBER = 'c71bf3ffecef5fd390b4cd16d120d39dce30d30bffe3c563c8c74c1b691da018'
 
     def setUp(self):
         def load(name):
@@ -376,14 +377,14 @@ class NativeTargetBindingControls(unittest.TestCase):
             plugin_root='C:/synthetic/plugin', plugin_id='implementaudit@fixture', task='synthetic-task')
 
     def parent_fixture(self):
-        root = r'C:\Program Files\WindowsApps\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0'
+        root = r'C:\Program Files\WindowsApps\OpenAI.Codex_26.915.4065.0_x64__2p2nqsd0c76g0'
         exe, asar = root + r'\app\ChatGPT.exe', root + r'\app\resources\app.asar'
         return {'path': exe, 'source_binding': {'resolved_executable_path': exe,
-            'package_root': root, 'package_version': '26.908.4834.0',
+            'package_root': root, 'package_version': '26.915.4065.0',
             'derived_asar_path': asar, 'executable': {'path': exe,
-                'sha256': 'ca98461fd573f8b9912f48080b0f40f3b44788d1074493f4285e68169503fc23'},
+                'sha256': '0d27aef4010466bd8d2a95f6483938cfdb8926f6668ecc1182facec9b85b75d2'},
             'asar': {'path': asar, 'sha256': self.CURRENT_ASAR},
-            'executable_version': {'file': '152.0.7977.83', 'product': '152.0.7977.83'}}}
+            'executable_version': {'file': '153.0.8010.48', 'product': '153.0.8010.48'}}}
 
     def test_selected_binary_reaches_the_exact_read_only_request_boundary(self):
         # Restoring the stale digest must fail before the supported requests.
@@ -409,7 +410,8 @@ class NativeTargetBindingControls(unittest.TestCase):
 
     def test_old_and_unselected_binary_fail_before_any_request(self):
         observer = self.observer()
-        for digest in (self.OLD_BINARY, self.EARLIER_BINARY, '0' * 64, self.BINARY[:-1] + '0'):
+        for digest in (self.PREDECESSOR_BINARY, self.OLD_BINARY, self.EARLIER_BINARY,
+                       '0' * 64, self.BINARY[:-1] + '0'):
             with self.subTest(digest=digest), \
                  patch.object(self.reader, 'file_observation', return_value={'sha256': digest}), \
                  patch.object(observer, '_read_native', side_effect=AssertionError('native request reached')):
@@ -474,11 +476,16 @@ class NativeTargetBindingControls(unittest.TestCase):
         self.assertEqual(evidence['field'], FIELD)
 
     def test_historical_or_mixed_producer_cannot_authorize_current_relation(self):
+        predecessor_asar = '2bd5b96a48232f3ccf3df6be50965920699ea3a1b4512dcdd770e209fd1f009e'
+        predecessor_member = 'b55be874a9b5a262c09a7945df38cec9b0ce8f14bd584ef73d6feca301ed90b4'
         old_asar = '3b8e61c9b7afefeda3166f251270724a138af15eb947b7c3907691a695bce66c'
         old_member = '9b958b85fea7d13c2f05b08600c0cb7fbbbf2b0b39bccdf2501f5f1002c94fa1'
         prior_asar = '5d9b0399491060b2756fca70c2e5cca746fa8eb38372b7ad8f236dc69bda0bc6'
         prior_member = '471f06dfcda15de10196f701504244c6f412d7ed401c155efc56a427a89a3195'
-        for asar, member in ((old_asar, old_member), (old_asar, self.CURRENT_MEMBER),
+        for asar, member in ((predecessor_asar, predecessor_member),
+                             (predecessor_asar, self.CURRENT_MEMBER),
+                             (self.CURRENT_ASAR, predecessor_member),
+                             (old_asar, old_member), (old_asar, self.CURRENT_MEMBER),
                              (self.CURRENT_ASAR, old_member), (self.CURRENT_ASAR, '0' * 64),
                              (prior_asar, prior_member), (prior_asar, self.CURRENT_MEMBER),
                              (self.CURRENT_ASAR, prior_member)):
@@ -494,5 +501,69 @@ class NativeTargetBindingControls(unittest.TestCase):
                 args = fixture(); args[3]['producer'] = producer
                 with self.assertRaises(self.config.ConfigTransitionRefusal):
                     self.config.validate_config_transition(*args)
+
+    def snapshot_fixture(self):
+        # repo is canonical H0/route custody. The legacy controller_cwd name is
+        # the second observed context, here the actual outer task cwd.
+        observer = self.reader.NativeRecoveryObserver(binary='C:/synthetic/current/codex.exe',
+            home='C:/synthetic/home', repo='C:/synthetic/outer/controller',
+            controller_cwd='C:/synthetic/outer', plugin_root='C:/synthetic/plugin',
+            plugin_id='implementaudit@fixture', task='synthetic-task')
+        contexts = [str(observer.repo), str(observer.controller_cwd)]
+        rows = [{'method':'config/read', 'params':{'cwd':cwd,'includeLayers':True},
+                 'result':{'feature':True}} for cwd in contexts]
+        hook = {'eventName':'userPromptSubmit','enabled':True,'pluginId':observer.plugin_id,
+                'trustStatus':'trusted','sourcePath':str(observer.plugin_root/'hooks/hooks.json')}
+        rows.append({'method':'hooks/list','params':{'cwds':contexts},'result':{'data':[
+            {'cwd':cwd,'errors':[],'warnings':[],'hooks':[copy.deepcopy(hook)]} for cwd in contexts]}})
+        rows.append({'method':'thread/read','params':{'threadId':observer.task,'includeTurns':False},
+                     'result':{'thread':{'id':observer.task,'sessionId':'synthetic-session',
+                         'path':'synthetic-native-path','cwd':contexts[1]}}})
+        frontier = {'session_id':'synthetic-session','native_session_cwd':contexts[1]}
+        return observer, rows, frontier
+
+    def run_snapshot(self, observer, rows, frontier):
+        with patch.object(self.reader,'file_observation',return_value={'sha256':self.BINARY}), \
+             patch.object(observer,'_read_native',return_value=(rows,{'failure':None,'process_terminated':True})), \
+             patch.object(self.reader,'filter_config',side_effect=lambda value:value), \
+             patch.object(self.reader,'recovery_hook_binding',return_value={'synthetic':True}), \
+             patch.object(self.reader,'stream_frontier',return_value=frontier):
+            return observer.native_snapshot()
+
+    def test_outer_task_context_and_distinct_session_bind_to_canonical_repo(self):
+        observer, rows, frontier = self.snapshot_fixture()
+        value = self.run_snapshot(observer, rows, frontier)
+        self.assertEqual(value['parameters']['repo'],str(observer.repo))
+        self.assertEqual(value['native_thread']['cwd'],str(observer.controller_cwd))
+        self.assertEqual(value['frontier']['session_id'],'synthetic-session')
+        self.assertNotEqual(value['native_thread']['id'],value['frontier']['session_id'])
+
+    def test_missing_or_mismatched_api_session_refuses(self):
+        for session in (None, '', 7, 'foreign-session'):
+            with self.subTest(session=session):
+                observer, rows, frontier = self.snapshot_fixture()
+                rows[-1]['result']['thread']['sessionId'] = session
+                with self.assertRaisesRegex(self.reader.Refusal,'API task/session identity'):
+                    self.run_snapshot(observer, rows, frontier)
+
+    def test_duplicate_or_foreign_hook_context_refuses(self):
+        for cwd in ('duplicate','C:/foreign'):
+            with self.subTest(cwd=cwd):
+                observer, rows, frontier = self.snapshot_fixture()
+                rows[2]['result']['data'][1]['cwd'] = str(observer.repo) if cwd=='duplicate' else cwd
+                with self.assertRaisesRegex(self.reader.Refusal,'hook configuration contexts'):
+                    self.run_snapshot(observer, rows, frontier)
+
+    def test_response_order_params_and_population_are_bound(self):
+        for mutation in ('reorder','missing','extra','foreign-cwd','turn-hydration'):
+            with self.subTest(mutation=mutation):
+                observer, rows, frontier = self.snapshot_fixture()
+                if mutation=='reorder': rows[0],rows[1]=rows[1],rows[0]
+                elif mutation=='missing': rows.pop()
+                elif mutation=='extra': rows.append(copy.deepcopy(rows[0]))
+                elif mutation=='foreign-cwd': rows[0]['params']['cwd']='C:/foreign'
+                else: rows[-1]['params']['includeTurns']=True
+                with self.assertRaisesRegex(self.reader.Refusal,'native observation response binding'):
+                    self.run_snapshot(observer, rows, frontier)
 
 if __name__ == "__main__":unittest.main(verbosity=2)

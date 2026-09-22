@@ -5,9 +5,9 @@ source-pinned native API and current sources are reread on every consumption.
 """
 import argparse, ctypes, datetime, hashlib, importlib.util, json, os, pathlib, queue, subprocess, sys, threading, time
 
-EXPECTED_BINARY = '081e4de4be8e38fac6ed4d95e3b1a0b9f6d31c090ddc36e1696b349fe406f575'
-EXPECTED_DESKTOP_PACKAGE = 'OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0'
-EXPECTED_ASAR = '2bd5b96a48232f3ccf3df6be50965920699ea3a1b4512dcdd770e209fd1f009e'
+EXPECTED_BINARY = 'bc45017e8239dc150258f69309ced9df6bbcdf5b8e4f346decf780ac0999e226'
+EXPECTED_DESKTOP_PACKAGE = 'OpenAI.Codex_26.915.4065.0_x64__2p2nqsd0c76g0'
+EXPECTED_ASAR = 'b8aeb817cd1ee6ef50efe8a97985d3be41de89688a5addfe0a444e1e52348096'
 FEATURE = "retain_client_developer_messages"
 LIMIT = 8 * 1024 * 1024
 EXPECTED_RECOVERY_INPUT_ADAPTER_SHA256 = "ab5782898381268f6149359dc8be0fb05e3938d465275ce962448aa9da0d7754"
@@ -407,6 +407,8 @@ def stream_frontier(value, session_root, task, previous=None, *, retain_suffix=T
         raise Refusal('native saved prefix changed')
     meta=strict_json(first)
     payload=meta.get('payload') if isinstance(meta,dict) else None
+    # cli_version records creation of this retained task, not the executable
+    # producing a new suffix. A host rebind must not rewrite that history.
     if (meta.get('type')!='session_meta' or type(meta.get('ordinal')) is not int or meta['ordinal']!=0
             or not isinstance(payload,dict) or payload.get('id')!=task
             or payload.get('cli_version')!='0.153.4' or not isinstance(payload.get('session_id'),str)):
@@ -651,7 +653,7 @@ def desktop_parent_binding(owner):
     if not isinstance(parent,dict) or not parent.get('path'): raise Refusal('native parent unavailable')
     path=pathlib.Path(__file__).with_name('codex-native-desktop-binding.py')
     raw=path.read_bytes()
-    if digest(raw)!='3f66a37603609186fbd6b27e0926a0801ccf7b2b87f37a32c0f40e01431ebbf5':
+    if digest(raw)!='aa7736e395eeecceb847f2f3b3cd45a4673a3c07f32ba641e5b0c19d2f82b03e':
         raise Refusal('desktop observation helper source differs')
     spec=importlib.util.spec_from_file_location('_native_desktop_binding',path)
     helper=importlib.util.module_from_spec(spec);exec(compile(raw,str(path),'exec'),helper.__dict__)
@@ -709,7 +711,7 @@ def recovery_hook_binding(plugin_root, plugin_id, hook):
 
 # Exact optional successor comparison. This remains a consumer, never an event
 # producer or a replacement for native observation and physical H0 readback.
-CONFIG_TRANSITION_DIGEST = '8bdac47c22a66d0177d183ae51ece1bfb5ed3dd8fac2b43712d74bbfba553406'
+CONFIG_TRANSITION_DIGEST = 'f7d35402be7d119aff5a3c80b9e76d17b3c17c8ef35da911ca4d88a2516071ab'
 SOURCE_TRANSITION_DIGEST = '9221583d38ae80f040559bbd7b3c7dbaf09061e4ac0d639b032cc8428c9776eb'
 
 
@@ -1617,6 +1619,10 @@ class NativeRecoveryObserver:
     """Portable real observer. Epoch evidence is data under explicit owner custody."""
     def __init__(self, *, binary, home, repo, controller_cwd, plugin_root, plugin_id, task, epoch_directory=None, observation_successor_spec=None, observation_successor_sha256=None):
         self.binary=pathlib.Path(binary).resolve();self.home=pathlib.Path(home).resolve()
+        # repo is the canonical repository required by the route/H0 consumer.
+        # controller_cwd is the legacy name for the second explicitly selected
+        # config context; when task cwd is outer, callers name that outer path.
+        # Neither argument changes task cwd or selects/rebinds an H0 subject.
         self.repo=pathlib.Path(repo).resolve();self.controller_cwd=pathlib.Path(controller_cwd).resolve()
         self.plugin_root=pathlib.Path(plugin_root).resolve();self.plugin_id=plugin_id;self.task=task
         self.epoch_directory=epoch_directory
@@ -1715,6 +1721,12 @@ class NativeRecoveryObserver:
         rows,protocol=self._read_native(methods)
         if protocol['failure'] or not protocol['process_terminated'] or any('error' in r for r in rows):
             raise Refusal('native observation failed')
+        if (not isinstance(rows,list) or len(rows)!=len(methods)
+                or any(not isinstance(row,dict) or row.get('method')!=method[0]
+                       or canonical(row.get('params'))!=canonical(method[1])
+                       or not isinstance(row.get('result'),dict)
+                       for row,method in zip(rows,methods))):
+            raise Refusal('native observation response binding differs')
         configs=[];hooks=None;thread=None
         for row in rows:
             value=row['result']
@@ -1724,6 +1736,10 @@ class NativeRecoveryObserver:
         if len(configs)!=2 or any(c['feature'] is not True for c in configs): raise Refusal('feature is not explicitly true')
         if not isinstance(hooks,list) or len(hooks)!=len(set((str(self.repo),str(self.controller_cwd)))):
             raise Refusal('native hooks readback is incomplete')
+        if (any(not isinstance(entry,dict) or not isinstance(entry.get('cwd'),str)
+                or not pathlib.Path(entry['cwd']).is_absolute() for entry in hooks)
+                or {pathlib.Path(entry['cwd']).resolve() for entry in hooks}!={self.repo,self.controller_cwd}):
+            raise Refusal('native hook configuration contexts differ')
         bindings=[]
         for entry in hooks:
             if entry.get('errors') or entry.get('warnings'): raise Refusal('native hook discovery is uncertain')
@@ -1736,10 +1752,16 @@ class NativeRecoveryObserver:
             bindings.append(recovery_hook_binding(self.plugin_root,self.plugin_id,hook))
         if not isinstance(thread,dict) or thread.get('id')!=self.task or not thread.get('path'):
             raise Refusal('API returned another task or no native path')
+        if not isinstance(thread.get('sessionId'),str) or not thread['sessionId']:
+            raise Refusal('API task/session identity is unavailable')
         if (not isinstance(thread.get('cwd'),str)
                 or pathlib.Path(thread['cwd']).resolve() not in {self.repo,self.controller_cwd}):
             raise Refusal('native task cwd is outside the observed configuration contexts')
         frontier=stream_frontier(thread['path'],self.home/'sessions',self.task,previous,retain_suffix=False)
+        # Thread.id and sessionId have distinct standard meanings. The physical
+        # prefix already carries the session used for the later H0 lookup.
+        if frontier['session_id']!=thread['sessionId']:
+            raise Refusal('API task/session identity differs from physical metadata')
         if (not isinstance(frontier['native_session_cwd'],str)
                 or pathlib.Path(frontier['native_session_cwd']).resolve()!=pathlib.Path(thread['cwd']).resolve()):
             raise Refusal('native session cwd differs from the API task context')

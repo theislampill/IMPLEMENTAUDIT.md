@@ -14,7 +14,11 @@ import tomllib
 FEATURE = "retain_client_developer_messages"
 FIELD = "mcp_servers.node_repl.env.SKY_CUA_NATIVE_PIPE_DIRECTORY"
 FIELD_PARTS = tuple(FIELD.split("."))
-PRODUCER = {'asar_sha256': '2bd5b96a48232f3ccf3df6be50965920699ea3a1b4512dcdd770e209fd1f009e', 'member_sha256': 'b55be874a9b5a262c09a7945df38cec9b0ce8f14bd584ef73d6feca301ed90b4'}
+# Exact shipped main-LM8MUIFp.js: UUID pipe construction feeds the Windows
+# node_repl environment, then config/batchWrite replaces the server config.
+# This producer binding does not exempt those whole-server edits: the inverse
+# checks below still require that only the one measured pipe value changed.
+PRODUCER = {'asar_sha256': 'b8aeb817cd1ee6ef50efe8a97985d3be41de89688a5addfe0a444e1e52348096', 'member_sha256': 'c71bf3ffecef5fd390b4cd16d120d39dce30d30bffe3c563c8c74c1b691da018'}
 PIPE_PATTERN = re.compile(
     r"\\\\\.\\pipe\\codex-computer-use-"
     r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\Z"

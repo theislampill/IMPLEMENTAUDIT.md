@@ -1,12 +1,12 @@
 """Bind the actual Windows parent executable to the reviewed physical package."""
 import hashlib, ntpath, pathlib, re, subprocess, json
-PACKAGE = pathlib.Path(r'C:\Program Files\WindowsApps\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0')
-PACKAGE_VERSION='26.908.4834.0'
+PACKAGE = pathlib.Path(r'C:\Program Files\WindowsApps\OpenAI.Codex_26.915.4065.0_x64__2p2nqsd0c76g0')
+PACKAGE_VERSION='26.915.4065.0'
 EXE=PACKAGE/'app/ChatGPT.exe'
 ASAR=EXE.parent/'resources/app.asar'
-EXE_SHA256='ca98461fd573f8b9912f48080b0f40f3b44788d1074493f4285e68169503fc23'
-ASAR_SHA256='2bd5b96a48232f3ccf3df6be50965920699ea3a1b4512dcdd770e209fd1f009e'
-EXE_VERSION='152.0.7977.83'
+EXE_SHA256='0d27aef4010466bd8d2a95f6483938cfdb8926f6668ecc1182facec9b85b75d2'
+ASAR_SHA256='b8aeb817cd1ee6ef50efe8a97985d3be41de89688a5addfe0a444e1e52348096'
+EXE_VERSION='153.0.8010.48'
 def norm(path): return ntpath.normcase(ntpath.normpath(str(path)))
 def file_id(path):
     b=path.read_bytes()

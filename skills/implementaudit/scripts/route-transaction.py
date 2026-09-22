@@ -2483,7 +2483,7 @@ def reconcile_retained_recovery_input_v1(
     return {**candidate, "custody_revalidated": True, "custody_record_identity": custody["record_identity"]}
 
 
-RECOVERY_NATIVE_READER_DIGEST = 'sha256:e74693e1c44623de7215d6b7ff1c3e33ba08d4a3d52a3046936c10ad5c275ec5'
+RECOVERY_NATIVE_READER_DIGEST = 'sha256:5f91ee98c17592b20e282154b9faa7c2ef9169bffe7635ccb9ebecd7601b50fa'
 
 
 def recovery_native_observer_module_v1() -> Any:
