@@ -4100,21 +4100,37 @@ def validate_source_event_binding(
 
 
 @contextlib.contextmanager
-def namespace_gate(common: str) -> Iterator[None]:
+def namespace_gate(common: str, *, create: bool = True) -> Iterator[None]:
     common_root = Path(common).resolve()
     directory = common_root / "implementaudit-locks"
+    namespace_identities = {}
     for candidate in (common_root, directory):
-        if os.path.lexists(candidate):
+        try:
             info = os.lstat(candidate)
+        except FileNotFoundError:
+            continue
+        else:
             if (
                 not stat.S_ISDIR(info.st_mode)
                 or stat.S_ISLNK(info.st_mode)
                 or bool(getattr(info, "st_file_attributes", 0) & 0x400)
             ):
                 fail("governed-writer namespace custody is aliased or unsafe")
-    directory.mkdir(parents=True, exist_ok=True)
+            namespace_identities[candidate] = info
+    # Observation must not manufacture writer custody. Both readers and writers
+    # retain the same existing exclusive lock when it is present.
+    if create:
+        directory.mkdir(parents=True, exist_ok=True)
+    elif not directory.is_dir():
+        fail("route observation namespace is unavailable; writer custody is required")
+    for candidate in (common_root, directory):
+        if candidate not in namespace_identities:
+            try:
+                namespace_identities[candidate] = os.lstat(candidate)
+            except OSError:
+                fail("governed-writer namespace custody is unavailable")
     gate = directory / "route-obligations.gate"
-    if not gate.exists():
+    if create and not gate.exists():
         try:
             descriptor = os.open(gate, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
             os.write(descriptor, b"\0")
@@ -4122,7 +4138,12 @@ def namespace_gate(common: str) -> Iterator[None]:
         except FileExistsError:
             pass
     flags = os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
-    descriptor = os.open(gate, flags)
+    try:
+        descriptor = os.open(gate, flags)
+    except OSError:
+        if not create:
+            fail("route observation gate is unavailable or unsafe")
+        raise
     locked = False
     try:
         opened = os.fstat(descriptor)
@@ -4154,6 +4175,15 @@ def namespace_gate(common: str) -> Iterator[None]:
 
             fcntl.flock(descriptor, fcntl.LOCK_EX)
             locked = True
+        try:
+            namespace_current = all(
+                os.path.samestat(expected, os.lstat(candidate))
+                for candidate, expected in namespace_identities.items()
+            )
+        except OSError:
+            namespace_current = False
+        if not namespace_current:
+            fail("governed-writer namespace custody changed")
         yield
     finally:
         if locked and os.name == "nt":
@@ -6109,7 +6139,7 @@ def command_check(args: argparse.Namespace) -> None:
 
 def command_observe_current(args: argparse.Namespace) -> None:
     repo, _, common = repo_context()
-    with namespace_gate(common):
+    with namespace_gate(common, create=False):
         oid, record = current_ref(repo, args.controller)
         if oid is None or record is None:
             fail("canonical route decision is absent")

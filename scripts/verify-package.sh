@@ -315,6 +315,7 @@ require_file skills/implementaudit/references/host-session-binding.md
 require_file skills/implementaudit/scripts/host-session-binding.py
 require_file tests/route-obligation-contract.test.sh
 require_file tests/route-history-capacity.test.sh
+require_file tests/route-observation-gate.test.sh
 require_file skills/implementaudit/references/route-obligations.md
 require_file skills/implementaudit/scripts/route-transaction.py
 require_file skills/implementaudit/scripts/codex-recovery-prompt-input.py
@@ -853,6 +854,7 @@ bash tests/compaction-hold-persistent-refusal.test.sh
 bash tests/host-session-binding.test.sh
 bash tests/route-obligation-contract.test.sh
 bash tests/route-history-capacity.test.sh
+bash tests/route-observation-gate.test.sh
 bash tests/canonical-state-rotation.test.sh
 bash tests/operational-evidence-contract.test.sh
 bash tests/subagent-provenance-sensor.test.sh
