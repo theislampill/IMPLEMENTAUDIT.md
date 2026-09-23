@@ -68,6 +68,13 @@ def payloads():
             for p in (ROOT / PREFIX).rglob('*.py')}
 
 
+def bash_argv(*args):
+    bash = shutil.which('bash')
+    if bash is None:
+        raise AssertionError('Bash must be available on PATH for shell controls')
+    return [str(Path(bash).resolve()), *args]
+
+
 class RetainedSeedControls(unittest.TestCase):
     def seed(self, function, capsule, legacy=False):
         tree=ast.parse((ROOT / PREFIX / 'route-transaction.py').read_text())
@@ -199,8 +206,8 @@ class FissionIntegrationTests(unittest.TestCase):
                     neighbour.write_text('must survive')
                     script = match.group(0) + '\ntrap cleanup_full EXIT\nexit "$4"\n'
                     script = 'v0400_asset_tmp="$1"; tmp="$2"; effect_tmp="$3"\n' + script
-                    completed = subprocess.run(['bash', '-c', script, 'cleanup-control',
-                        *map(str, roots), str(code)], capture_output=True)
+                    completed = subprocess.run(bash_argv('-c', script, 'cleanup-control',
+                        *map(str, roots), str(code)), capture_output=True)
                     self.assertEqual(completed.returncode, code, completed.stderr)
                     self.assertTrue(all(not root.exists() for root in roots))
                     self.assertEqual(neighbour.read_text(), 'must survive')
@@ -215,8 +222,8 @@ class FissionIntegrationTests(unittest.TestCase):
                 ('for py_cmd in false; do :; done', 'false'),
                 ('getopts x py_cmd -x', 'x')):
             with self.subTest(statement=statement):
-                actual = subprocess.run(['bash', '--noprofile', '--norc', '-c',
-                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]-UNSET}"'],
+                actual = subprocess.run(bash_argv('--noprofile', '--norc', '-c',
+                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]-UNSET}"'),
                     capture_output=True, text=True, timeout=5, check=True)
                 self.assertEqual(actual.stdout, expected)
                 self.assertFalse(fn('closure_automatic_effects.py',
@@ -238,8 +245,8 @@ class FissionIntegrationTests(unittest.TestCase):
                 ('mapfile </dev/null -t py_cmd', 'UNSET'),
                 ('unset >/dev/null py_cmd', 'UNSET')):
             with self.subTest(statement=statement):
-                actual = subprocess.run(['bash', '--noprofile', '--norc', '-c',
-                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]-UNSET}"'],
+                actual = subprocess.run(bash_argv('--noprofile', '--norc', '-c',
+                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]-UNSET}"'),
                     capture_output=True, text=True, timeout=5, check=True)
                 self.assertEqual(actual.stdout, expected)
                 self.assertFalse(fn('closure_automatic_effects.py',
@@ -254,8 +261,8 @@ class FissionIntegrationTests(unittest.TestCase):
         for statement in ('python() { :; }', 'function python { :; }',
                           'function python () { :; }', 'python ( ) { :; }'):
             with self.subTest(statement=statement):
-                actual = subprocess.run(['bash', '--noprofile', '--norc', '-c',
-                    statement + '; type -t python'], capture_output=True, text=True,
+                actual = subprocess.run(bash_argv('--noprofile', '--norc', '-c',
+                    statement + '; type -t python'), capture_output=True, text=True,
                     timeout=5, check=True)
                 self.assertEqual(actual.stdout.strip(), 'function')
                 self.assertFalse(fn('closure_automatic_effects.py',
@@ -277,8 +284,8 @@ class FissionIntegrationTests(unittest.TestCase):
                 'other_function() { :; }', "message='python ( ) { :; }'",
                 'command -v python >/dev/null 2>&1'):
             with self.subTest(statement=statement):
-                actual = subprocess.run(['bash', '--noprofile', '--norc', '-c',
-                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]-UNSET}"'],
+                actual = subprocess.run(bash_argv('--noprofile', '--norc', '-c',
+                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]-UNSET}"'),
                     capture_output=True, text=True, timeout=5, check=True)
                 self.assertEqual(actual.stdout, 'python')
                 self.assertTrue(fn('closure_automatic_effects.py',
@@ -477,8 +484,8 @@ class FissionIntegrationTests(unittest.TestCase):
                           "operand='py_cmd[0]++'; : \"$((operand))\"",
                           "operand='py_cmd[0]++'; : \"$((operand + 1))\""):
             with self.subTest(statement=statement):
-                actual = subprocess.run(['bash', '--noprofile', '--norc', '-c',
-                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]}"'],
+                actual = subprocess.run(bash_argv('--noprofile', '--norc', '-c',
+                    'py_cmd=(python); ' + statement + '; printf "%s" "${py_cmd[0]}"'),
                     capture_output=True, text=True, check=True)
                 self.assertEqual(actual.stdout, '1', 'Arithmetic witness did not change the interpreter')
                 mutation = text.replace(header, '  ' + statement + '\n' + header)
@@ -497,8 +504,8 @@ class FissionIntegrationTests(unittest.TestCase):
                           "printf '%s' '(( py_cmd[0]++ ))' >/dev/null",
                           'printf "%s" "\\$((py_cmd[0]++))" >/dev/null'):
             with self.subTest(statement=statement):
-                actual = subprocess.run(['bash', '--noprofile', '--norc', '-c',
-                    'py_cmd=(python); ' + statement + '\nprintf "%s" "${py_cmd[0]}"'],
+                actual = subprocess.run(bash_argv('--noprofile', '--norc', '-c',
+                    'py_cmd=(python); ' + statement + '\nprintf "%s" "${py_cmd[0]}"'),
                     capture_output=True, text=True, check=True)
                 self.assertEqual(actual.stdout, 'python', 'Positive neighbour changed the interpreter')
                 mutation = text.replace(header, '  ' + statement + '\n' + header)

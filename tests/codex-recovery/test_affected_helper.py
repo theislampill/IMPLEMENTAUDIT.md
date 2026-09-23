@@ -27,6 +27,14 @@ def sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
+def load_source_module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
 def jsha(value):
     return sha(json.dumps(value, sort_keys=True, separators=(",", ":")).encode())
 
@@ -309,6 +317,34 @@ class OriginInverseControls(unittest.TestCase):
         args[3]['current_native_results_sha256'] = '0' * 64
         with self.assertRaises(self.mod.ConfigTransitionRefusal):
             self.mod.derive_previous_material(args[0], args[1][0], args[2][0], args[3])
+
+class ChildParentVisibilityLoaderControls(unittest.TestCase):
+    """Exercise the outer selected_capture wrapper, separate from MEMBERS."""
+    def setUp(self):
+        self.scripts = MODULE.parent
+        self.parent_path = self.scripts / 'child-parent-visibility.py'
+        self.parent = load_source_module(self.parent_path, 'child_parent_visibility_loader_controls')
+
+    def test_selected_capture_loads_the_exact_adjacent_worker_and_shared_module(self):
+        capture = self.parent.selected_capture()
+        worker_path = self.scripts / 'native-worker-capture.py'
+        self.assertEqual(Path(capture.__file__).resolve(), worker_path.resolve())
+        self.assertEqual(sha(worker_path.read_bytes()), self.parent.CAPTURE_SOURCE_SHA256)
+        shared_path = self.scripts / 'child-load-visibility.py'
+        self.assertIsNotNone(self.parent._shared)
+        self.assertEqual(Path(self.parent._shared.__file__).resolve(), shared_path.resolve())
+        self.assertEqual(sha(shared_path.read_bytes()), self.parent.SHARED_SOURCE_SHA256)
+
+    def test_selected_capture_refuses_a_wrong_outer_worker_hash(self):
+        with patch.object(self.parent, 'CAPTURE_SOURCE_SHA256', '0' * 64):
+            with self.assertRaisesRegex(ValueError, 'Selected package dependency changed'):
+                self.parent.selected_capture()
+
+    def test_parent_wrapper_refuses_a_wrong_shared_module_hash(self):
+        with patch.object(self.parent, 'SHARED_SOURCE_SHA256', '0' * 64):
+            with self.assertRaisesRegex(ValueError, 'Shared visibility source differs'):
+                self.parent.shared()
+
 
 class NativeObserverLoaderControls(unittest.TestCase):
     """Exercise the real adjacent-source loader without creating an observer."""

@@ -76,7 +76,7 @@ def check(workflow: str, verifier: str) -> None:
     # around an otherwise byte-identical selection/guard. This is intentionally
     # conservative: earlier verifier edits require explicit contract rebinding.
     prefix = verifier[:verifier.index(guard) + len(guard)]
-    if hashlib.sha256(prefix.encode('utf-8')).hexdigest() != '31c5ecea777bfce1610c8db240d79392e63e1949f40cf9f4cd5c8d71fea26c36':
+    if hashlib.sha256(prefix.encode('utf-8')).hexdigest() != '5f9f4a80d5b265c8c642ef160aa4c47fbf2b93b81b46532f71edb4eae8bcd382':
         raise ValueError('verifier prefix changed; guard execution must be re-reviewed')
     # Keep the known top-level selection/guard adjacency. This is a finite
     # maintained-shell-layout check, not a general Bash execution proof.
