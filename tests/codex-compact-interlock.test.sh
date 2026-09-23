@@ -204,10 +204,11 @@ hostile="$tmp/hostile-cwd"
 mkdir -p "$hostile/.IMPLEMENTAUDIT/runs/newest"
 printf 'controller_id=foreign\nclaim_id=foreign\n' > "$hostile/.IMPLEMENTAUDIT/runs/newest/STATE.md"
 
-# The actual Windows manifest transport must reach the adapter before the
-# adapter can harden its own child environment. Codex selects commandWindows on
-# Windows and runs it through cmd.exe. A hostile bare `python3.cmd` on PATH is
-# the causal held-out: selecting it would produce no hook decision at all.
+# The commandWindows manifest is checked above on every platform. This held-out
+# specifically exercises native cmd.exe -> Windows PowerShell dispatch with a
+# hostile python3.cmd on PATH; POSIX cannot execute that transport. Keep every
+# assertion in the held-out on platforms that provide both native helpers.
+if command -v cmd.exe >/dev/null 2>&1 && command -v cygpath >/dev/null 2>&1; then
 hostile_bin="$tmp/hostile-bin"
 manifest_data="$tmp/manifest-plugin-data"
 mkdir -p "$hostile_bin"
@@ -241,6 +242,12 @@ assert_result "$manifest_output" \
 [ ! -e "$surrogate_selected" ] \
   || fail 'HC-H1 RED: commandWindows selected ambient python3.cmd'
 [ ! -e "$manifest_data" ] || fail 'manifest held-out created absent binding state'
+else
+  case "$OSTYPE" in
+    linux*) printf 'codex-compact-interlock.test: UNQUALIFIED_ON_LINUX Windows manifest transport held-out requires cmd.exe and cygpath\n' ;;
+    *) printf 'codex-compact-interlock.test: SKIP Windows manifest transport held-out (requires cmd.exe and cygpath)\n' ;;
+  esac
+fi
 
 # Non-compact SessionStart values are strict no-ops and must not inspect or
 # create PLUGIN_DATA state.
