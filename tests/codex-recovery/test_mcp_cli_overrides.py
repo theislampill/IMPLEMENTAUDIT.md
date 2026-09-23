@@ -6,6 +6,7 @@ native schemas are also checked by the caller-bundle preflight.
 """
 import argparse
 import copy
+from contextlib import nullcontext
 import ctypes
 import hashlib
 import importlib.util
@@ -15,12 +16,35 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 PROFILE = WORK = None
 
 def pin(path):
     raw = path.read_bytes()
     return {'path': str(path.resolve()), 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+
+def fixture_literal(path):
+    absolute = str(path.resolve())
+    return absolute if sys.platform == 'win32' else '/' + absolute
+
+def fixture_pin(path):
+    record = pin(path)
+    record['path'] = fixture_literal(path)
+    return record
+
+def portable_fixture_pin(profile, root):
+    """Keep real byte pins while preserving a synthetic dual-absolute path spelling."""
+    if sys.platform == 'win32':
+        return nullcontext()
+    original = profile.pin
+    root = root.resolve()
+    def pinned(value):
+        if isinstance(value, str) and value.startswith('//') and Path(value).resolve().is_relative_to(root):
+            raw = Path(value).read_bytes()
+            return {'path': value, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+        return original(value)
+    return patch.object(profile, 'pin', pinned)
 
 def bind_synthetic_context(profile, binding, root):
     """Use the existing independent source fixture, never observed frames or home config."""
@@ -39,7 +63,7 @@ def synthetic_binding(profile, root):
     def file(relative):
         path = root / relative; path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(('SYNTHETIC_ONLY ' + relative).encode())
-        return pin(path)
+        return fixture_pin(path)
     native = file('native/codex.exe')
     code_mode_host = file('native/codex-code-mode-host.exe')
     python = file('runtime/python.exe')
@@ -51,7 +75,7 @@ def synthetic_binding(profile, root):
     quote = lambda value: "'" + value.replace("'", "''") + "'"
     command = '& ' + quote(python['path']) + ' -I -S -B ' + quote(loader['path'])
     binding = {'native': native, 'code_mode_host': code_mode_host, 'python': python, 'powershell': powershell,
-        'python_root': str(root / 'runtime'), 'cwd': str(root),
+        'python_root': fixture_literal(root / 'runtime'), 'cwd': fixture_literal(root),
         'load_pins': loads, 'loader': loader, 'use_pins': [use], 'excluded_paths': [denied['path']],
         'disabled_skill_paths': [], 'mcp_names': ['cua_repl', 'https-mcp-tafsir-net-mcp', 'node_repl'],
         'model': 'gpt-6-astra', 'provider': 'openai', 'effort': 'low',
@@ -305,8 +329,9 @@ def main():
             raise AssertionError('MCP override tests prohibit native/process/network effects')
     sys.addaudithook(forbid)
     stream = io.StringIO()
-    result = unittest.TextTestRunner(stream=stream, verbosity=2).run(
-        unittest.defaultTestLoader.loadTestsFromTestCase(McpCliOverrideTests))
+    with portable_fixture_pin(PROFILE, WORK):
+        result = unittest.TextTestRunner(stream=stream, verbosity=2).run(
+            unittest.defaultTestLoader.loadTestsFromTestCase(McpCliOverrideTests))
     (WORK / 'TEST.log').write_text(stream.getvalue(), encoding='utf8')
     record = {'source': pin(path), 'test_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'tests': result.testsRun, 'failures': len(result.failures), 'errors': len(result.errors),

@@ -10,7 +10,7 @@ import re
 import shlex
 import sys
 import unittest
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 SOURCE = WORK = INPUTS = PLAN = FRAMES = SENT = PROFILE = PROTOCOL = VISIBILITY = None
 
@@ -66,8 +66,10 @@ class NativeLoadContractTests(unittest.TestCase):
                 self.fail('Malformed wrapper JSON')
         meta, arguments = [decode(raw) for raw in match.groups()]
         expected_meta = {'yield_time_ms': 30000, 'max_output_tokens': 40000}
-        expected_arguments = {'cmd': binding['load_command'], 'shell': binding['powershell']['path'],
-            'login': False, 'workdir': binding['cwd'], 'max_output_tokens': 35000, 'yield_time_ms': 10000}
+        expected_arguments = {'cmd': binding['load_command'],
+            'shell': str(PureWindowsPath(binding['powershell']['path'])),
+            'login': False, 'workdir': str(PureWindowsPath(binding['cwd'])),
+            'max_output_tokens': 35000, 'yield_time_ms': 10000}
         for actual, expected in ((meta, expected_meta), (arguments, expected_arguments)):
             self.assertIs(type(actual), dict)
             self.assertEqual(set(actual), set(expected), 'Exact wrapper JSON fields required')
@@ -382,7 +384,10 @@ def main():
         if event in ('subprocess.Popen','os.system','os.spawn','ctypes.dlopen','os.putenv','os.unsetenv') or event.startswith('socket.'):
             raise AssertionError('Source controls forbid native/process/network/environment effects')
     sys.addaudithook(forbid)
-    log=io.StringIO();result=unittest.TextTestRunner(stream=log,verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(NativeLoadContractTests))
+    fixture=load(SOURCE/'tests/codex-recovery/test_mcp_cli_overrides.py','portable_load_fixture')
+    log=io.StringIO()
+    with fixture.portable_fixture_pin(PROFILE,WORK):
+        result=unittest.TextTestRunner(stream=log,verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(NativeLoadContractTests))
     write(WORK/'TEST.log',log.getvalue().encode())
     report={'tests':result.testsRun,'failures':len(result.failures),'errors':len(result.errors),
         'synthetic_suffixes_are_not_actual_native04_observations':True,'native_executed':False,
