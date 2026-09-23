@@ -2480,7 +2480,59 @@ PY
   printf 'observation-bound-mutation-integrity: PASS R0024 state family\n'
 }
 
+# A readable batch description is data, not an effect credential.  This catches
+# any parser or admission change that lets caller-supplied JSON cross the target
+# mutation boundary before a host-authenticated effect adapter is present.
+eh3_batch_readable_admission_is_not_authority() {
+  local admission stdout stderr actual
+  setup
+  prepare_authority replace target -
+  admission="$tmp/eh3-readable-batch-admission.json"
+  stdout="$tmp/eh3-readable-batch.out"
+  stderr="$tmp/eh3-readable-batch.err"
+  "$python_bin" - "$admission" <<'PY'
+import json,sys
+from pathlib import Path
+Path(sys.argv[1]).write_text(json.dumps({
+  'schema':'implementaudit.eh3-batch-admission.v1',
+  'transaction_id':'sha256:'+'1'*64,
+  'controller_id':'v0333-release',
+  'operations':[{
+    'action':'REPLACE',
+    'path':'target',
+    'preimage_sha256':'36bbe50ed96841d10443bcb670d6554f0a34b36f8d61a1ae0be6f6f4c45c7c4',
+    'postimage_sha256':'a253ff09c5a8678e1fd1962b2c329245e139e45f9cc6ced4e5d7ad42c4108fc0'
+  }]
+},sort_keys=True,separators=(',',':')),encoding='utf-8')
+PY
+  set +e
+  bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" \
+    --phase "$prepared_phase" --step "$prepared_step" \
+    --batch-admission "$admission" >"$stdout" 2>"$stderr"
+  actual=$?
+  set -e
+  [ "$actual" -eq 77 ] || fail "EH3 readable batch admission exit=$actual expected=77 stderr=$(<"$stderr")"
+  assert_hex EH3-readable-batch-target "$fixture_repo/target" 4142434445
+  "$python_bin" - "$stdout" <<'PY' || fail 'EH3 readable batch admission did not return the typed no-effect contract'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
+if r != {
+  'schema':'implementaudit.observation_bound_batch_mutation.v1',
+  'status':'UNSUPPORTED_OWNER_DECISION',
+  'reason_code':'AUTHENTICATED_EFFECT_ADMISSION_UNAVAILABLE',
+  'authority_established':False,
+  'publication_performed':False,
+  'actual_target_effects':[],
+  'retry_permitted':False,
+  'terminal_closure_claim':'NOT_ASSERTED'
+}: raise SystemExit(f'unexpected batch no-effect result: {r!r}')
+PY
+  printf 'EH3_BATCH_READABLE_ADMISSION_NO_AUTHORITY=PASS\n'
+}
+
 case "${1:-}" in
+  --eh3-batch-readable-admission-heldout) fixture_self_check; eh3_batch_readable_admission_is_not_authority; exit 0;;
   --post-compaction-marker-deletion-heldout) post_compaction_marker_deletion_heldout; printf 'HOST_NEUTRAL_CONTINUITY_MARKER_DELETION_HELDOUT=PASS\n'; exit 0;;
   --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;

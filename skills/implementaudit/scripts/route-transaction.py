@@ -223,7 +223,7 @@ AUDIT_STATE_FRONTIER_RETURN_SCHEMA = "implementaudit.audit-state-minimum-frontie
 RECOVERY_CAPSULE_SCHEMA = "implementaudit.post-compaction-recovery.v2"
 TRANSACTION_ADMISSION_SCHEMA = "implementaudit.route-transaction-admission.v1"
 RECOVERY_CUSTODY_SCHEMA = "implementaudit.route-recovery-custody.v1"
-RECOVERY_INPUT_ADAPTER_DIGEST = "sha256:ab5782898381268f6149359dc8be0fb05e3938d465275ce962448aa9da0d7754"
+RECOVERY_INPUT_ADAPTER_DIGEST = "sha256:df167ed219882d48a11b2d0ed67ae769cbe272385924cad9accf987e4e99aac8"
 RETAINED_RECOVERY_INPUT_SCHEMA = "implementaudit.retained-recovery-input-candidate.v1"
 RETAINED_NATIVE_VERSION = "0.153.4"
 MAX_RETAINED_NATIVE_ROW_BYTES = 131072
@@ -2483,7 +2483,7 @@ def reconcile_retained_recovery_input_v1(
     return {**candidate, "custody_revalidated": True, "custody_record_identity": custody["record_identity"]}
 
 
-RECOVERY_NATIVE_READER_DIGEST = 'sha256:5f91ee98c17592b20e282154b9faa7c2ef9169bffe7635ccb9ebecd7601b50fa'
+RECOVERY_NATIVE_READER_DIGEST = 'sha256:e13e4991fb2768b3059632c5377914198f3a60c2ac7f0e1d1fcfb37a7f2550d8'
 
 
 def recovery_native_observer_module_v1() -> Any:

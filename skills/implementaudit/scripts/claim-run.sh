@@ -662,6 +662,239 @@ except (OSError, UnicodeError, ValueError):
 PY
 }
 
+repair_current_continuity_transaction_v1() {
+  local repo="$1" git_cmd py=() common_lease legacy_lease; shift
+  git_cmd="$(publication_git_v1)" || return 3
+  if command -v python >/dev/null 2>&1; then py=(python)
+  elif command -v python3 >/dev/null 2>&1; then py=(python3)
+  elif command -v py >/dev/null 2>&1; then py=(py -3)
+  else return 3; fi
+  common_lease="$("$git_cmd" -C "$repo" rev-parse --path-format=absolute --git-common-dir)" || return 3
+  common_lease="${common_lease%/}/implementaudit-r0039-publication.lock"
+  legacy_lease="$("$git_cmd" -C "$repo" rev-parse --path-format=absolute --git-path implementaudit-r0039-publication.lock)" || return 3
+  "${py[@]}" - "$gate" "$git_cmd" "$repo" "$common_lease" "$legacy_lease" "$@" <<'PY'
+import errno
+import os
+import re
+import stat
+import subprocess
+import sys
+import time
+
+(
+    gate, git_executable, repo, common, legacy,
+    controller_ref, controller_oid,
+    pointer_ref, pointer_oid,
+    marker_ref, marker_oid,
+    predecessor_ref, predecessor_oid,
+    successor_ref,
+    receipt_ref, repaired_receipt_oid, legacy_receipt_oid,
+    invalidation_ref, repaired_invalidation_oid, causal_invalidation_oid,
+    legacy_anchor_ref, causal_anchor_ref,
+) = sys.argv[1:]
+zero = "0" * 40
+oid_re = re.compile(r"[0-9a-f]{40}")
+ref_re = re.compile(r"refs/[A-Za-z0-9._/-]+")
+
+
+def unknown():
+    raise SystemExit(3)
+
+
+def unsafe(info):
+    return (
+        not stat.S_ISREG(info.st_mode)
+        or stat.S_ISLNK(info.st_mode)
+        or bool(getattr(info, "st_file_attributes", 0) & 0x400)
+        or info.st_nlink != 1
+        or info.st_size != 1
+    )
+
+
+def common_unsafe(info):
+    return (
+        not stat.S_ISREG(info.st_mode)
+        or stat.S_ISLNK(info.st_mode)
+        or bool(getattr(info, "st_file_attributes", 0) & 0x400)
+        or info.st_nlink != 1
+        or info.st_size != 0
+    )
+
+
+guards = (
+    (controller_ref, controller_oid),
+    (pointer_ref, pointer_oid),
+    (marker_ref, marker_oid),
+    (predecessor_ref, predecessor_oid),
+    (successor_ref, zero),
+)
+updates = (
+    (receipt_ref, repaired_receipt_oid, legacy_receipt_oid),
+    (invalidation_ref, repaired_invalidation_oid, causal_invalidation_oid),
+    (legacy_anchor_ref, legacy_receipt_oid, zero),
+    (causal_anchor_ref, causal_invalidation_oid, zero),
+)
+all_refs = [ref for ref, *_ in (*guards, *updates)]
+all_oids = [oid for _, *oids in (*guards, *updates) for oid in oids]
+if (
+    any(ref_re.fullmatch(ref) is None for ref in all_refs)
+    or len(set(all_refs)) != len(all_refs)
+    or any(oid_re.fullmatch(oid) is None for oid in all_oids)
+):
+    unknown()
+
+payload = bytearray(b"start\0")
+for ref, oid in sorted(guards):
+    payload.extend(f"verify {ref}".encode("ascii") + b"\0")
+    payload.extend(oid.encode("ascii") + b"\0")
+for ref, new, old in sorted(updates):
+    payload.extend(f"update {ref}".encode("ascii") + b"\0")
+    payload.extend(new.encode("ascii") + b"\0" + old.encode("ascii") + b"\0")
+payload.extend(b"prepare\0commit\0")
+
+environment = {
+    "PATH": os.path.dirname(git_executable),
+    "LC_ALL": "C",
+    "LANG": "C",
+    "GIT_CONFIG_NOSYSTEM": "1",
+    "GIT_CONFIG_GLOBAL": os.devnull,
+    "GIT_TERMINAL_PROMPT": "0",
+}
+base_command = [
+    git_executable, "-C", repo, "-c", f"core.hooksPath={os.devnull}",
+]
+
+
+def read_ref(ref):
+    try:
+        result = subprocess.run(
+            base_command + ["for-each-ref", "--format=%(objectname) %(refname)", ref],
+            check=False, capture_output=True, env=environment, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0 or result.stderr or b"\0" in result.stdout:
+        return None
+    rows = result.stdout.decode("ascii", errors="strict").splitlines()
+    if not rows:
+        return zero
+    if len(rows) != 1:
+        return None
+    try:
+        observed_oid, observed_ref = rows[0].split(" ", 1)
+    except ValueError:
+        return None
+    if observed_ref != ref or oid_re.fullmatch(observed_oid) is None:
+        return None
+    return observed_oid
+
+
+common_fd = None
+common_opened = None
+try:
+    if not common or not legacy:
+        unknown()
+    while True:
+        try:
+            common_fd = os.open(
+                common,
+                os.O_CREAT | os.O_EXCL | os.O_RDWR | getattr(os, "O_BINARY", 0),
+                0o600,
+            )
+            break
+        except OSError as error:
+            if error.errno not in {errno.EACCES, errno.EAGAIN, errno.EEXIST}:
+                raise
+            time.sleep(0.05)
+    common_opened = os.fstat(common_fd)
+    common_current = os.lstat(common)
+    if common_unsafe(common_opened) or common_unsafe(common_current) or (
+        common_current.st_dev, common_current.st_ino,
+    ) != (common_opened.st_dev, common_opened.st_ino):
+        unknown()
+    if (os.path.normcase(os.path.abspath(legacy))
+            != os.path.normcase(os.path.abspath(common))
+            and os.path.lexists(legacy)):
+        unknown()
+    before = os.lstat(gate)
+    if unsafe(before):
+        unknown()
+    descriptor = os.open(
+        gate,
+        os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0),
+    )
+    try:
+        opened = os.fstat(descriptor)
+        if os.name == "nt":
+            import msvcrt
+            while True:
+                try:
+                    os.lseek(descriptor, 0, os.SEEK_SET)
+                    msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
+                    break
+                except OSError as error:
+                    if error.errno not in {errno.EACCES, errno.EAGAIN, errno.EDEADLK}:
+                        raise
+                    time.sleep(0.05)
+        else:
+            import fcntl
+            fcntl.flock(descriptor, fcntl.LOCK_EX)
+        current = os.lstat(gate)
+        if unsafe(current) or (current.st_dev, current.st_ino) != (
+            opened.st_dev, opened.st_ino,
+        ):
+            unknown()
+        try:
+            transaction = subprocess.run(
+                base_command + ["update-ref", "--stdin", "-z"],
+                input=bytes(payload), check=False, capture_output=True,
+                env=environment, timeout=30)
+        except (OSError, subprocess.SubprocessError):
+            transaction = None
+        repaired = {
+            receipt_ref: repaired_receipt_oid,
+            invalidation_ref: repaired_invalidation_oid,
+            legacy_anchor_ref: legacy_receipt_oid,
+            causal_anchor_ref: causal_invalidation_oid,
+        }
+        prestate = {
+            receipt_ref: legacy_receipt_oid,
+            invalidation_ref: causal_invalidation_oid,
+            legacy_anchor_ref: zero,
+            causal_anchor_ref: zero,
+        }
+        observed = {ref: read_ref(ref) for ref in repaired}
+        if observed == repaired:
+            raise SystemExit(0)
+        if any(value is None for value in observed.values()):
+            unknown()
+        if observed == prestate and (transaction is None or transaction.returncode != 0):
+            raise SystemExit(2)
+        unknown()
+    finally:
+        try:
+            if os.name == "nt":
+                os.lseek(descriptor, 0, os.SEEK_SET)
+                msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(descriptor, fcntl.LOCK_UN)
+        finally:
+            os.close(descriptor)
+except SystemExit:
+    raise
+except (OSError, UnicodeError, ValueError):
+    unknown()
+finally:
+    if common_fd is not None:
+        os.close(common_fd)
+        current = os.lstat(common)
+        if common_unsafe(current) or (current.st_dev, current.st_ino) != (
+            common_opened.st_dev, common_opened.st_ino,
+        ):
+            unknown()
+        os.unlink(common)
+PY
+}
+
 publication_custody_io() {
   local purpose="${1:-publication}"
   case "$purpose" in publication|recovery-observation) ;; *) return 1;; esac
@@ -764,7 +997,7 @@ controller_io() {
     [ "$ioid" = none ] && return 0
     IFS=$'\t' read -r is ic io irg ib ie <<< "$(git cat-file blob "$ioid")"
     [ "$is:$ic:$io:$irg" = "implementaudit.continuity-invalidation.v1:$c:$oid:$rg" ] &&
-      case "$ib" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap) true;; *) false;; esac &&
+      case "$ib" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap|same-recovery-repair) true;; *) false;; esac &&
       [ -n "$ie" ]
   }
   generation_ref_state() {
@@ -1040,6 +1273,32 @@ sys.stdout.buffer.write(raw[:-1])
 ')" || return 1
     exact_receipt_record="$wrapped"
   }
+  load_exact_repair_input_record() {
+    local target_oid="$1" expected_prefix="$2" expected_tabs="$3" wrapped py=()
+    if command -v python >/dev/null 2>&1; then py=(python)
+    elif command -v python3 >/dev/null 2>&1; then py=(python3)
+    elif command -v py >/dev/null 2>&1; then py=(py -3)
+    else return 1; fi
+    wrapped="$(git cat-file blob "$target_oid" | "${py[@]}" -c '
+import sys
+prefix = sys.argv[1].encode("ascii") + b"\t"
+tabs = int(sys.argv[2])
+raw = sys.stdin.buffer.read()
+if (not raw.startswith(prefix) or not raw.endswith(b"\n")
+        or b"\n" in raw[:-1] or b"\r" in raw
+        or raw.count(b"\t") != tabs
+        or any(value < 0x20 and value not in (0x09, 0x0A) or value == 0x7F
+               for value in raw)
+        or any(field == b"" for field in raw[:-1].split(b"\t"))):
+    raise SystemExit(1)
+try:
+    raw[:-1].decode("utf-8", "strict")
+except UnicodeDecodeError:
+    raise SystemExit(1)
+sys.stdout.buffer.write(raw[:-1])
+' "$expected_prefix" "$expected_tabs")" || return 1
+    repair_input_record="$wrapped"
+  }
   require_exact_tab_count() {
     local rest="$1" expected="$2" observed=0
     while [[ "$rest" == *$'\t'* ]]; do
@@ -1240,6 +1499,173 @@ sys.stdout.buffer.write(raw[:-1])
         *) printf 'claim-run.sh: CONTINUITY_INVALIDATION_EFFECT_UNKNOWN\n' >&2; return 1 ;;
       esac
       printf '%s@%s\n' "$iref" "$new" ;;
+    repair)
+      [ "$#" = 6 ] || return 1
+      local expected_controller="$1" expected_pointer="$2" expected_marker="$3"
+      local expected_legacy="$4" expected_invalidation="$5" expected_predecessor="$6"
+      local pref="refs/implementaudit/current-generations/$c"
+      local mref="refs/implementaudit/current-generation-migrations/$c"
+      local iref="refs/implementaudit/continuity-invalidations/$c"
+      local state road h t sh rh pointer_state marker_state marker_terminal_lf pointer_format
+      local poid moid precord mrecord live_epoch live_next run_identity
+      local jps jpc jpclaim jprun jpgen jpepoch jpprevious_oid jpprevious_digest
+      local jpmanifest_oid jpmanifest_digest jphigh jpstate jproad jpgraph_path
+      local jpgraph_digest jpquery jpdegraded jpdigest jpextra
+      local ppointer_oid='' ppointer_digest=''
+      local predecessor_ref predecessor_oid predecessor_epoch predecessor_ordinal
+      local successor_ref successor_state successor_epoch
+      local legacy_ref legacy_oid legacy_record ls lc lowner lclaim lh lt lsh lrh
+      local linvalidation lboundary lepoch lnext lextra
+      local old_invalidation_oid old_invalidation_record os oc oo org ob oe oextra
+      local repair_event repair_invalidation_record repaired_invalidation_oid
+      local repair_receipt_record repaired_receipt_oid
+      local legacy_anchor_ref causal_anchor_ref legacy_anchor_state causal_anchor_state
+      local legacy_anchor_oid causal_anchor_oid current_receipt_oid current_invalidation_oid
+      local transaction_status poststate
+      local zero=0000000000000000000000000000000000000000
+
+      load || return 1
+      [ "$repo" = "$rr" ] || return 1
+      [ "$expected_controller" = "$ref@$oid" ] || return 1
+      for token in "$expected_pointer" "$expected_marker" "$expected_legacy" \
+        "$expected_invalidation" "$expected_predecessor"; do
+        case "$token" in *@*) [[ "${token##*@}" =~ ^[0-9a-f]{40}$ ]] || return 1;;
+          *) return 1;; esac
+      done
+
+      state="$root/STATE.md"; road="$root/ROADMAP.md"
+      h="$(git rev-parse HEAD)" || return 1
+      t="$(git rev-parse 'HEAD^{tree}')" || return 1
+      sh="$(sha256sum "$state" | cut -d' ' -f1)" || return 1
+      rh="$(sha256sum "$road" | cut -d' ' -f1)" || return 1
+      load_current_generation || return 1
+      [ "$pointer_state:$pointer_format" = RESOLVED:JSON ] || return 1
+      [ "$expected_pointer" = "$pref@$poid" ] || return 1
+      load_generation_migration || return 1
+      [ "$marker_state" = RESOLVED ] || return 1
+      [ "$expected_marker" = "$mref@$moid" ] || return 1
+      load_live_generation_state || return 1
+      load_json_pointer_live_bundle || return 1
+
+      [[ "$jpepoch" =~ ^G([0-9A-F]{4})$ ]] || return 1
+      predecessor_ordinal=$((16#${BASH_REMATCH[1]}))
+      [ "$predecessor_ordinal" -gt 1 ] && [ "$predecessor_ordinal" -lt 65535 ] || return 1
+      printf -v predecessor_epoch 'G%04X' "$((predecessor_ordinal - 1))"
+      predecessor_ref="refs/implementaudit/continuity-receipts/$c/$predecessor_epoch"
+      predecessor_oid="$(git rev-parse --verify "$predecessor_ref" 2>/dev/null)" || return 1
+      [ "$expected_predecessor" = "$predecessor_ref@$predecessor_oid" ] || return 1
+      load_generation_predecessor "$expected_predecessor" || return 1
+      require_permanent_genesis_marker || return 1
+
+      printf -v successor_epoch 'G%04X' "$((predecessor_ordinal + 1))"
+      successor_ref="refs/implementaudit/continuity-receipts/$c/$successor_epoch"
+      successor_state="$(generation_ref_state "$successor_ref")" || return 1
+      [ "$successor_state" = ABSENT ] || return 1
+
+      legacy_ref="refs/implementaudit/continuity-receipts/$c/$jpepoch"
+      [ "${expected_legacy%@*}" = "$legacy_ref" ] || return 1
+      legacy_oid="${expected_legacy##*@}"
+      [ "$(git cat-file -t "$legacy_oid" 2>/dev/null)" = blob ] || return 1
+      load_exact_repair_input_record "$legacy_oid" \
+        implementaudit.continuity-receipt.v2 11 || return 1
+      legacy_record="$repair_input_record"
+
+      [ "${expected_invalidation%@*}" = "$iref" ] || return 1
+      old_invalidation_oid="${expected_invalidation##*@}"
+      [ "$(git cat-file -t "$old_invalidation_oid" 2>/dev/null)" = blob ] || return 1
+      load_exact_repair_input_record "$old_invalidation_oid" \
+        implementaudit.continuity-invalidation.v1 5 || return 1
+      old_invalidation_record="$repair_input_record"
+      IFS=$'\t' read -r os oc oo org ob oe oextra <<< "$old_invalidation_record"
+      [ -z "$oextra" ] &&
+        [ "$os:$oc:$oo:$org" = \
+          "implementaudit.continuity-invalidation.v1:$c:$oid:$rg" ] || return 1
+      case "$ob" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap) ;;
+        *) return 1;; esac
+      [ -n "$oe" ] || return 1
+
+      IFS=$'\t' read -r ls lc lowner lclaim lh lt lsh lrh linvalidation \
+        lboundary lepoch lnext lextra <<< "$legacy_record"
+      [ -z "$lextra" ] &&
+        [ "$ls:$lc:$lowner:$lclaim" = \
+          "implementaudit.continuity-receipt.v2:$c:$oid:$rg" ] &&
+        [ "$lh:$lt:$lsh:$lrh" = "$h:$t:$sh:$rh" ] &&
+        [ "$linvalidation:$lboundary:$lepoch:$lnext" = \
+          "$old_invalidation_oid:$ob:$jpepoch:$live_next" ] || return 1
+
+      repair_event="r0011-same-recovery-repair:$old_invalidation_oid:$legacy_oid"
+      repair_invalidation_record="$(printf \
+        'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\tsame-recovery-repair\t%s' \
+        "$c" "$oid" "$rg" "$repair_event")"
+      repaired_invalidation_oid="$(printf '%s\n' "$repair_invalidation_record" \
+        | git hash-object --stdin)" || return 1
+      repair_receipt_record="$(printf \
+        'implementaudit.continuity-receipt.v3\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
+        "$c" "$rg" "$run_identity" "$jpepoch" "$repaired_invalidation_oid" \
+        "$pref" "$poid" "$jpdigest" "$jpstate" "$jproad" "$jpgraph_path" \
+        "$jpgraph_digest" "$jpmanifest_oid" "$jpmanifest_digest" "$jphigh" \
+        "$live_next" "$expected_predecessor")"
+      repaired_receipt_oid="$(printf '%s\n' "$repair_receipt_record" \
+        | git hash-object --stdin)" || return 1
+
+      legacy_anchor_ref="refs/implementaudit/continuity-repair-evidence/$c/$jpepoch/legacy-receipt"
+      causal_anchor_ref="refs/implementaudit/continuity-repair-evidence/$c/$jpepoch/causal-invalidation"
+      legacy_anchor_state="$(generation_ref_state "$legacy_anchor_ref")" || return 1
+      causal_anchor_state="$(generation_ref_state "$causal_anchor_ref")" || return 1
+      case "$legacy_anchor_state" in
+        RESOLVED) legacy_anchor_oid="$(git rev-parse --verify "$legacy_anchor_ref" 2>/dev/null)" || return 1;;
+        ABSENT) legacy_anchor_oid="$zero";;
+        *) return 1;;
+      esac
+      case "$causal_anchor_state" in
+        RESOLVED) causal_anchor_oid="$(git rev-parse --verify "$causal_anchor_ref" 2>/dev/null)" || return 1;;
+        ABSENT) causal_anchor_oid="$zero";;
+        *) return 1;;
+      esac
+      current_receipt_oid="$(git rev-parse --verify "$legacy_ref" 2>/dev/null)" || return 1
+      current_invalidation_oid="$(git rev-parse --verify "$iref" 2>/dev/null)" || return 1
+
+      if [ "$current_receipt_oid:$current_invalidation_oid:$legacy_anchor_oid:$causal_anchor_oid" = \
+        "$repaired_receipt_oid:$repaired_invalidation_oid:$legacy_oid:$old_invalidation_oid" ]; then
+        load_invalidation || return 1
+        [ "$is:$ic:$io:$irg:$ib:$ie" = \
+          "implementaudit.continuity-invalidation.v1:$c:$oid:$rg:same-recovery-repair:$repair_event" ] \
+          || return 1
+        load_final_v3_receipt "$legacy_ref@$repaired_receipt_oid" || return 1
+        [ "$v3_token" = "$legacy_ref@$repaired_receipt_oid" ] || return 1
+        printf 'ALREADY_REPAIRED\n'
+        return
+      fi
+
+      [ "$current_receipt_oid:$current_invalidation_oid:$legacy_anchor_oid:$causal_anchor_oid" = \
+        "$legacy_oid:$old_invalidation_oid:$zero:$zero" ] || return 1
+      [ "$(printf '%s\n' "$repair_invalidation_record" | git hash-object -w --stdin)" = \
+        "$repaired_invalidation_oid" ] || return 1
+      [ "$(printf '%s\n' "$repair_receipt_record" | git hash-object -w --stdin)" = \
+        "$repaired_receipt_oid" ] || return 1
+      repair_current_continuity_transaction_v1 "$repo" \
+        "$ref" "$oid" "$pref" "$poid" "$mref" "$moid" \
+        "$predecessor_ref" "$predecessor_oid" "$successor_ref" \
+        "$legacy_ref" "$repaired_receipt_oid" "$legacy_oid" \
+        "$iref" "$repaired_invalidation_oid" "$old_invalidation_oid" \
+        "$legacy_anchor_ref" "$causal_anchor_ref"
+      transaction_status=$?
+      case "$transaction_status" in
+        0)
+          poststate="$(controller_io repair "$c" "$expected_controller" \
+            "$expected_pointer" "$expected_marker" "$expected_legacy" \
+            "$expected_invalidation" "$expected_predecessor")" || {
+              printf 'claim-run.sh: CONTINUITY_REPAIR_EFFECT_UNKNOWN\n' >&2
+              return 1
+            }
+          [ "$poststate" = ALREADY_REPAIRED ] || {
+            printf 'claim-run.sh: CONTINUITY_REPAIR_EFFECT_UNKNOWN\n' >&2
+            return 1
+          }
+          printf 'REPAIRED\n' ;;
+        2) printf 'claim-run.sh: CONTINUITY_REPAIR_CAS_LOST\n' >&2; return 1 ;;
+        *) printf 'claim-run.sh: CONTINUITY_REPAIR_EFFECT_UNKNOWN\n' >&2; return 1 ;;
+      esac ;;
     resume|verify|require)
       load || return; [ "$repo" = "$rr" ] || return 1
       local state="$root/STATE.md" road="$root/ROADMAP.md" token rref roid h t sh rh iref ioid is ic io irg ib ie
@@ -1441,6 +1867,8 @@ sys.stdout.buffer.write(raw[:-1])
 }
 
 controller='' supersede='' deferred='' boundary='' event=''
+expected_controller='' expected_pointer='' expected_marker=''
+expected_legacy_receipt='' expected_invalidation='' expected_predecessor=''
 case "${1:-}" in
   --publication-custody) publication_custody_io; exit $? ;;
   --recovery-custody) [ "$#" -eq 1 ] || exit 1; publication_custody_io recovery-observation; exit $? ;;
@@ -1465,6 +1893,23 @@ case "${1:-}" in
   --invalidate-continuity)
     controller="${2:-}"; shift 2; deferred=invalidate; expected_current=''
     while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --event) event="${2:-}"; shift 2;; --expected-current) expected_current="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown invalidation argument: %s\n' "$1" >&2; exit 1;; esac; done ;;
+  --repair-current-continuity-v3)
+    controller="${2:-}"; shift 2; deferred=repair
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --expected-controller) [ -z "$expected_controller" ] || exit 1; expected_controller="${2:-}"; shift 2;;
+        --expected-pointer) [ -z "$expected_pointer" ] || exit 1; expected_pointer="${2:-}"; shift 2;;
+        --expected-marker) [ -z "$expected_marker" ] || exit 1; expected_marker="${2:-}"; shift 2;;
+        --expected-legacy-receipt) [ -z "$expected_legacy_receipt" ] || exit 1; expected_legacy_receipt="${2:-}"; shift 2;;
+        --expected-invalidation) [ -z "$expected_invalidation" ] || exit 1; expected_invalidation="${2:-}"; shift 2;;
+        --expected-predecessor) [ -z "$expected_predecessor" ] || exit 1; expected_predecessor="${2:-}"; shift 2;;
+        *) printf 'claim-run.sh: unknown repair argument: %s\n' "$1" >&2; exit 1;;
+      esac
+    done
+    [ -n "$controller" ] && [ -n "$expected_controller" ] &&
+      [ -n "$expected_pointer" ] && [ -n "$expected_marker" ] &&
+      [ -n "$expected_legacy_receipt" ] && [ -n "$expected_invalidation" ] &&
+      [ -n "$expected_predecessor" ] || exit 1 ;;
   --controller)
     controller="${2:-}"; shift 2
     if [ "${1:-}" = --supersede-claim ]; then supersede="${2:-}"; shift 2; fi ;;
@@ -1516,6 +1961,12 @@ fi
 
 if [ "$deferred" = invalidate ]; then
   controller_io invalidate "$controller" "$boundary" "$event" "$expected_current"; exit $?
+fi
+if [ "$deferred" = repair ]; then
+  controller_io repair "$controller" "$expected_controller" "$expected_pointer" \
+    "$expected_marker" "$expected_legacy_receipt" "$expected_invalidation" \
+    "$expected_predecessor"
+  exit $?
 fi
 
 mkdir -p "$base" || {

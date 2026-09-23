@@ -5,8 +5,11 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
+import tempfile
 import tomllib
 import unittest
 from unittest.mock import patch
@@ -344,6 +347,59 @@ class ChildParentVisibilityLoaderControls(unittest.TestCase):
         with patch.object(self.parent, 'SHARED_SOURCE_SHA256', '0' * 64):
             with self.assertRaisesRegex(ValueError, 'Shared visibility source differs'):
                 self.parent.shared()
+
+
+class PromptInputOwnerLoaderControls(unittest.TestCase):
+    """Exercise the actual adjacent owner loader in an isolated plugin layout."""
+    OWNER_FILES = ('codex-recovery-prompt-input.py', 'rotate-canonical-state.py',
+                   'claim-run.sh', 'host-session-binding.py', 'validate-run-root.sh',
+                   'canonical_hot_projection.py')
+
+    def run_owner_loader(self, temporary, *, change_owner=False):
+        plugins = Path(temporary) / 'plugins'
+        root = plugins / 'cache' / 'marketplace' / 'plugin' / '0.4.1'
+        scripts = root / 'skills' / 'implementaudit' / 'scripts'
+        scripts.mkdir(parents=True)
+        data = plugins / 'data' / 'marketplace' / 'plugin'
+        (data / 'host-session-binding-v1').mkdir(parents=True)
+        for name in self.OWNER_FILES:
+            (scripts / name).write_bytes((MODULE.parent / name).read_bytes())
+        if change_owner:
+            owner = scripts / 'rotate-canonical-state.py'
+            owner.write_bytes(owner.read_bytes() + b'\n# changed owner body\n')
+        probe = '''import pathlib, sys
+path = pathlib.Path(sys.argv[1])
+scope = {'__file__': str(path), '__name__': '_owner_loader_control'}
+exec(compile(path.read_bytes(), str(path), 'exec'), scope)
+try:
+    owner, scripts, store = scope['load_owner']()
+except scope['InputUnavailable'] as exc:
+    print('REFUSED:' + str(exc))
+    raise SystemExit(7)
+if not callable(owner.observe_recovery_subject_v1):
+    raise SystemExit('owner entry absent')
+print('OWNER_LOAD_OK')
+'''
+        environment = dict(os.environ, PLUGIN_ROOT=str(root), PLUGIN_DATA=str(data),
+                           PYTHONDONTWRITEBYTECODE='1', PYTHONNOUSERSITE='1')
+        return subprocess.run([sys.executable, '-I', '-S', '-B', '-c', probe,
+                               str(scripts / 'codex-recovery-prompt-input.py')],
+                              cwd=temporary, env=environment, capture_output=True,
+                              text=True, timeout=30, check=False)
+
+    def test_actual_adjacent_current_owner_loads(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            result = self.run_owner_loader(temporary)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(result.stdout.strip(), 'OWNER_LOAD_OK')
+        self.assertEqual(result.stderr, '')
+
+    def test_changed_adjacent_owner_refuses(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            result = self.run_owner_loader(temporary, change_owner=True)
+        self.assertEqual(result.returncode, 7, result.stderr + result.stdout)
+        self.assertEqual(result.stdout.strip(), 'REFUSED:frozen owner source digest differs')
+        self.assertEqual(result.stderr, '')
 
 
 class NativeObserverLoaderControls(unittest.TestCase):

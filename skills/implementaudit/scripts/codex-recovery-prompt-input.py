@@ -14,7 +14,7 @@ import types
 
 MAX_INPUT = 65536
 MAX_OUTPUT = 32768
-FROZEN_OWNER_DIGESTS = {'claim-run.sh': '3e3b14c86160b49809ced51b75fb4f18b442e3c64057cbb6a48857e84e612d9c', 'host-session-binding.py': '62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890', 'rotate-canonical-state.py': '2762e2be53ea47e2385b96884ca49408bb011f6f081c32a278d04a221b2e0519', 'validate-run-root.sh': 'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'}
+FROZEN_OWNER_DIGESTS = {'claim-run.sh': '07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7', 'host-session-binding.py': '62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890', 'rotate-canonical-state.py': 'd0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460', 'validate-run-root.sh': 'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'}
 
 
 class InputUnavailable(RuntimeError):

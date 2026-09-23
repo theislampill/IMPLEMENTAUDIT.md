@@ -262,6 +262,7 @@ parser.add_argument("--candidate")
 parser.add_argument("--offset")
 parser.add_argument("--region")
 parser.add_argument("--replacement")
+parser.add_argument("--batch-admission")
 try:
     args, unknown = parser.parse_known_args(ARGV)
 except SystemExit:
@@ -345,6 +346,22 @@ try:
 except json.JSONDecodeError:
     sys.stderr.write("apply-observed-mutation: phase authority emitted invalid JSON\n")
     raise SystemExit(64)
+
+# A readable admission document cannot authenticate the executing principal or
+# confer effect authority.  Keep the batch seam explicit and fail closed until
+# the native host adapter can supply an unforgeable transaction/effect grant.
+if args.batch_admission is not None:
+    print(json.dumps({
+        "schema": "implementaudit.observation_bound_batch_mutation.v1",
+        "status": "UNSUPPORTED_OWNER_DECISION",
+        "reason_code": "AUTHENTICATED_EFFECT_ADMISSION_UNAVAILABLE",
+        "authority_established": False,
+        "publication_performed": False,
+        "actual_target_effects": [],
+        "retry_permitted": False,
+        "terminal_closure_claim": "NOT_ASSERTED",
+    }, separators=(",", ":"), ensure_ascii=False))
+    raise SystemExit(EXITS["UNSUPPORTED_OWNER_DECISION"])
 
 claim_bytes = (RUN / ".claimed").read_bytes()
 claim_rows = claim_bytes.decode("utf-8").splitlines()

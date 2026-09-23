@@ -11,7 +11,7 @@ import os
 import sys
 from pathlib import Path
 
-CAPTURE_SOURCE_SHA256 = '30e1515620e6c2cde0fd7afe075dfff3dc0deb8d91fba3106449a7e64ad03ed0'
+CAPTURE_SOURCE_SHA256 = '0e7f2abfdd8b9e6185611856945e1169b733b7e4f7efd8f42351a5ccc719455c'
 SHARED_SOURCE_SHA256 = 'b7ab2c5e850a7c6664882d5cb5b74400208da8e7ad57a73bf035f02bd0586e13'
 _shared = None
 
