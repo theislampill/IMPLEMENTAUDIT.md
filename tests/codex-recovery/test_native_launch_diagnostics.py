@@ -118,6 +118,7 @@ class Harness:
             raise self.launch_error
         assert kwargs['cwd'] == str(WORK)
         assert kwargs['env'] == {'TEST_ENV': CANARY}
+        assert kwargs['creationflags'] == subprocess.CREATE_NO_WINDOW
         return self.process
 
     def thread(self, **kwargs):
@@ -144,6 +145,9 @@ class Harness:
         self.patches = [patch.object(READER.subprocess, 'Popen', self.popen),
                         patch.object(READER.subprocess, 'run', self.run),
                         patch.object(READER.threading, 'Thread', self.thread)]
+        if not hasattr(READER.subprocess, 'CREATE_NO_WINDOW'):
+            self.patches.append(patch.object(READER.subprocess, 'CREATE_NO_WINDOW',
+                                             0x08000000, create=True))
         for value in self.patches:
             value.start()
         return self
@@ -393,6 +397,7 @@ class LaunchDiagnosticsTests(unittest.TestCase):
         processes = []
         launches = []
         def popen(args, **kwargs):
+            assert kwargs['creationflags'] == subprocess.CREATE_NO_WINDOW
             launches.append(args)
             process = ProcessFixture([{'id': 1, 'result': {}},
                 {'id': 2, 'result': copy.deepcopy(result)}, {'id': 3, 'result': copy.deepcopy(result)}],
