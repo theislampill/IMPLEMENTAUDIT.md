@@ -298,7 +298,7 @@ assert_no_transaction_residue "$claude_skills_dir"
 same_version_target="$tmp_parent/same version changed identity/skills/implementaudit"
 install_claude "$same_version_target" >"$tmp_parent/same-version-setup.out"
 rewrite_valid_predecessor \
-  "$same_version_target" 0.4.0 "" ffffffffffffffffffffffffffffffffffffffff
+  "$same_version_target" 0.4.1 "" ffffffffffffffffffffffffffffffffffffffff
 same_version_before="$(tree_digest "$same_version_target")"
 expect_install_failure \
   "same-version changed identity" install_claude "$same_version_target"

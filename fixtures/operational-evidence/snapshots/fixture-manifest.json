@@ -1,0 +1,8 @@
+{
+  "schema": "implementaudit-operational-snapshot-fixtures-v1",
+  "causal_cases": ["C06-R0001", "C06-R0002", "C06-R0003", "C06-R0004", "C06-R0005", "C06-R0006", "C06-R0007", "C06-R0008", "C06-R0009", "C06-R000A", "C06-R000B", "C06-R000C", "C06-R000D", "C06-R000E", "C06-R000F"],
+  "held_out_cases": ["C06-H01", "C06-H02", "C06-H03", "C06-H04"],
+  "fault_stages": ["before-temp-creation", "after-temp-creation", "before-input-manifest.json", "after-manifest.json", "after-manifest-reread", "before-current-temp", "after-current-temp", "before-current-replace", "after-current-replace"],
+  "allowed_effect_root": "<native-bound-run-root>/operational-evidence/snapshots",
+  "forbidden_authority_inputs": ["repository", "run_root", "output_root", "controller", "claim", "branch", "pointer", "receipt", "epoch", "snapshot_id", "manifest", "locator", "digest"]
+}

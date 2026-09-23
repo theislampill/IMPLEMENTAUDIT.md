@@ -1,0 +1,197 @@
+{
+  "authority_boundary": "Neutral custody; retained analytical guards and evidence limits do not establish target applicability, runtime behavior, currentness or release.",
+  "counts": {
+    "complete_pairs": 24592,
+    "directional_relations_including_unresolved": 20152,
+    "outer_members": 34,
+    "pair_statuses": {
+      "MATERIAL_RELATION": 9178,
+      "NO_MATERIAL_RELATION": 15414
+    },
+    "recursive_member_occurrences": 91,
+    "relation_rows_with_source_guards": 20152,
+    "selected_properties": 278
+  },
+  "identity_note": "Embedded content/normalized digests keep their source scope. Exact raw ZIP digests above do not reinterpret them.",
+  "members": [
+    {
+      "bytes": 67717,
+      "member": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json",
+      "sha256": "8661e6c50fb1a4e11ab426d51b644769f2cd42839bdabb10cffbd4a3a47d53f7"
+    },
+    {
+      "bytes": 132142,
+      "member": "EVOLVED_AMA_ANALYTICAL_COUNTEREXAMPLES.json",
+      "sha256": "40100a0af5e26fd87ebe23f2013da3fa0f97e8f663ae7edb0722fd35db884385"
+    },
+    {
+      "bytes": 3339,
+      "member": "EVOLVED_AMA_ANALYTICAL_TEST_RESULTS.json",
+      "sha256": "f38a3a0a56e8e062dc403ec38756153f2888d6ba2f890effa46d5aced3913ded"
+    },
+    {
+      "bytes": 128370,
+      "member": "EVOLVED_AMA_CLAIM_EVIDENCE_LEDGER.json",
+      "sha256": "508297cb6f064bf17b5617b4ac1696715601e79f86ec821b52464f05d22749a6"
+    },
+    {
+      "bytes": 9549,
+      "member": "EVOLVED_AMA_COMPLETENESS_AND_REVERSE_CONSISTENCY_REVIEW.md",
+      "sha256": "0d81a0817d153d5af38ae7e1cb6d4867233e7cfb8459417a307b68d1a5f94cbf"
+    },
+    {
+      "bytes": 338829,
+      "member": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json",
+      "sha256": "cf08e52c45384794aa5d181dfd043863fbe7faf59367c56187dc56e1a1317f79"
+    },
+    {
+      "bytes": 91522,
+      "member": "EVOLVED_AMA_COMPOSITION_MODEL.json",
+      "sha256": "3b3f895704af5f8d1b7125211f5258101f06495a04eee771a682c9cdcf21ddb3"
+    },
+    {
+      "bytes": 63026,
+      "member": "EVOLVED_AMA_COMPOSITION_QUESTION_ADJUDICATION.json",
+      "sha256": "22d0a9377e7b7a1418be4df76c6df01bc165c0aed2fb2fdf82a501e011c11df4"
+    },
+    {
+      "bytes": 2954408,
+      "member": "EVOLVED_AMA_CONSTITUENT_CONTEXT_INDEX.json",
+      "sha256": "0360b8b0f7fe6dd6f395813a7a193d3f676f1cf8852d9f9cb6a09ea0722e4269"
+    },
+    {
+      "bytes": 17870487,
+      "member": "EVOLVED_AMA_CONSTITUENT_PROPERTY_REGISTER.json",
+      "sha256": "f192b636e93bde19b4b27f88c3e71ac725caa121925c38b16681edd2a1a2ae82"
+    },
+    {
+      "bytes": 1566372,
+      "member": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json",
+      "sha256": "9492314581675238e874c77d0bf1fc7ac0e6952bcf81a6dfbaf9dd57464255b3"
+    },
+    {
+      "bytes": 4026,
+      "member": "EVOLVED_AMA_COUNTS.json",
+      "sha256": "04c0511931602a8e35faafafd0c238a42f66301dea308b8286e0ccf1289c9d6e"
+    },
+    {
+      "bytes": 104012636,
+      "member": "EVOLVED_AMA_DIRECTIONAL_RELATION_LEDGER.json",
+      "sha256": "dced059f2eff583aee3e548bdce2c427e7bb35e3f516fd50d3d95b34d431d03e"
+    },
+    {
+      "bytes": 13258,
+      "member": "EVOLVED_AMA_FROZEN_MANIFEST.json",
+      "sha256": "3266c5c1f9087eea260bb5df69f029694d1428fca159fb9b82a1b54a3a9c29ca"
+    },
+    {
+      "bytes": 65879,
+      "member": "EVOLVED_AMA_FROZEN_REPORT.md",
+      "sha256": "e0a32f00a95d58c445d8c1c8e3c593a2343da32e5fc17c5102e408107d2117ed"
+    },
+    {
+      "bytes": 13894,
+      "member": "EVOLVED_AMA_INPUT_VERIFICATION.json",
+      "sha256": "011ec22c84545e8fe0cdbdbeabdc94f48c5c1bcfe469d26ae42f46cf8f7f1b58"
+    },
+    {
+      "bytes": 3646338,
+      "member": "EVOLVED_AMA_INTER_CROSSWALK_INTAKE.json",
+      "sha256": "d50163d0f1dc30fa8866f45ead11bd1d2f0594142674273580c2136f85b25123"
+    },
+    {
+      "bytes": 33683,
+      "member": "EVOLVED_AMA_INTER_CROSSWALK_INTAKE.md",
+      "sha256": "d2c9f466f85087c3cb10d4f7ef2c9009689e0c716dc9116d29823dbf06b0a8ea"
+    },
+    {
+      "bytes": 15241160,
+      "member": "EVOLVED_AMA_INTRA_CROSSWALK_MATRIX.json",
+      "sha256": "a554a60411861527fa3f7f806a16f51e62848f95e5257349749ae8f5132622c4"
+    },
+    {
+      "bytes": 4005,
+      "member": "EVOLVED_AMA_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "b22bc51672a1b7bf372436b3803690e679864fc84b699d85bb35314832a897df"
+    },
+    {
+      "bytes": 26787,
+      "member": "EVOLVED_AMA_READONLY_REVIEW_RESULT.json",
+      "sha256": "f023f7affe097cce670e9c062ba6d031ecd347b1149b68282bfece2f583530fa"
+    },
+    {
+      "bytes": 15961,
+      "member": "EVOLVED_AMA_REQUIREMENTS_COMPLETION_AUDIT.json",
+      "sha256": "e24f6bd5526653854cc8cc18436a63a2c0f6a0f263550463601223276118f0e4"
+    },
+    {
+      "bytes": 1912977,
+      "member": "EVOLVED_AMA_SEMANTIC_PROFILES_AND_RULES.json",
+      "sha256": "973f5d8a2013410dbfcfd903eb3955972c11f9f5fe347cf24ddebece282a6803"
+    },
+    {
+      "bytes": 203371,
+      "member": "EVOLVED_AMA_SHARED_SOURCE_IDENTITY_LEDGER.json",
+      "sha256": "aa818ed256753ebb2bd36cdbc0bc0325f0bc54502a122aa7e024ade352216122"
+    },
+    {
+      "bytes": 1384349,
+      "member": "EVOLVED_AMA_SOURCE_REGISTER.json",
+      "sha256": "e29939c382b26790701d3a691e1c0a12ad2ed0aa4b9f45553b29cc3882f18346"
+    },
+    {
+      "bytes": 49394,
+      "member": "EVOLVED_AMA_SYNTHESIS_PROMPT.md",
+      "sha256": "43c902a9df357da81716d7d62a0a86053d433962452dafe89d7a22796df222a4"
+    },
+    {
+      "bytes": 82434,
+      "member": "EVOLVED_AMA_TENSION_LEDGER.json",
+      "sha256": "df966e9b4e0db017b0ac758a07d1fce7d1c4c7a3ef774fca1ec57e4cea7f1a88"
+    },
+    {
+      "bytes": 8252,
+      "member": "EVOLVED_AMA_VERIFICATION_RECEIPT.json",
+      "sha256": "26c998f7906e3a55a93b4f34566bf7d751b289e387c45f2f611307ba0bc270f6"
+    },
+    {
+      "bytes": 2512,
+      "member": "EVOLVED_AMA_VERIFIER_NEGATIVE_CONTROLS.json",
+      "sha256": "d28edc7ab678a2ed6a7f18ea99f1dee58d835d0907d7834e846c0fd6f8f7d5c9"
+    },
+    {
+      "bytes": 1825,
+      "member": "START_HERE.md",
+      "sha256": "5007505c4b5fb83d38b7e04423dbc4d7db403fb6d8706c75daf78addb9034f46"
+    },
+    {
+      "bytes": 412040,
+      "member": "constituents/EAA.zip",
+      "sha256": "009b37693541d387a2d65c281815731a05423b31fae298a9c6c99ad069e87769"
+    },
+    {
+      "bytes": 3728163,
+      "member": "constituents/EAOSE.zip",
+      "sha256": "17cf10e5bedfe8a52d0a85c81c318294a0d80e5ca8ad8f868e12b7a116b34b9a"
+    },
+    {
+      "bytes": 370502,
+      "member": "constituents/EMAS.zip",
+      "sha256": "84af391ed2c82514f0e22ff671a0945945dec608ffccfde485e2302374bab227"
+    },
+    {
+      "bytes": 38548,
+      "member": "verify_ama.py",
+      "sha256": "ab967a2378feaab7fd1f63db4ddad71ad414415906e92144ee7940b11064e7b2"
+    }
+  ],
+  "packet": {
+    "bytes": 10534831,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+    "sha256": "1c9654ab3017ecccdd3b24810b20ac23a5b51a5c19c1a488b64a2684dade026f"
+  },
+  "schema": "engineering-genealogy-trifecta-manifest-v1",
+  "storage": "EXACT_COMPRESSED_PACKET_MEMBERS",
+  "trifecta": "ama"
+}

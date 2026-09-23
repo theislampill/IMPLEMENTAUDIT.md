@@ -1869,8 +1869,24 @@ def _sed_plan(args, stdin_paths):
         paths = [stdin_paths[-1]]
     if not programs and not configs:
         return None
+    # Full output equal to a target preimage is not a causal read proof: a
+    # quit programme can emit an equal-content decoy before that target opens.
+    # External/unknown programmes can also conceal writes. Preserve the
+    # finite draining grammar and only the first guaranteed operand for q/Q.
+    unknown = bool(configs)
+    first_only = False
+    for program in programs:
+        for part in program.split(";"):
+            part = part.strip()
+            if part in ("q", "Q"):
+                first_only = True
+            elif part and re.fullmatch(
+                    r"(?:(?:[0-9]+|\$)(?:,(?:[0-9]+|\$))?)?[pd=]", part) is None:
+                unknown = True
+    if first_only:
+        paths = paths[:1]
     return {"paths": paths, "config_paths": configs, "zero": False,
-            "terminal": False, "unsafe": False}
+            "terminal": False, "unsafe": unknown}
 
 
 def _head_tail_plan(args, stdin_paths):

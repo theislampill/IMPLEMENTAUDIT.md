@@ -1,189 +1,1048 @@
 {
-  "schema": "implementaudit-engineering-genealogy-source-lock-v1",
   "authority_boundary": "Exact frozen packet and source-prompt occurrences are research authority; generated manifests and indexes are projections.",
   "expected": {
-    "trifectas": 4,
-    "lineages": 12,
-    "properties": 658
+    "lineages": 21,
+    "properties": 1405,
+    "trifectas": 7
+  },
+  "historical_selection": {
+    "counting": "658 prior selected lineage-scoped properties + 747 newly retained selected properties. Ancestral packet/member occurrences remain separate and do not inflate selected properties or source independence.",
+    "new_selected_properties": 747,
+    "prior_expected": {
+      "lineages": 12,
+      "properties": 658,
+      "trifectas": 4
+    },
+    "prior_lineages_preserved_exactly": true,
+    "prior_source_lock_sha256": "0d5db29538642ea24bb5a4365c605c74d9a789d2dfef7a461302ad0ef3c23f21"
   },
   "lineages": [
     {
-      "trifecta": "law",
-      "lineage_slug": "evolved-lean",
+      "embedded_manifest_member": null,
       "lineage_id": "EVOLVED_LEAN",
       "lineage_name": "Evolved Lean",
-      "property_count": 40,
-      "packet_path": "docs/research/genealogy/law/evolved-lean/packet/EVOLVED_LEAN_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-lean",
       "packet_bytes": 222053,
+      "packet_path": "docs/research/genealogy/law/evolved-lean/packet/EVOLVED_LEAN_FROZEN_PACKET.zip",
       "packet_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+      "property_count": 40,
       "property_ledger_member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
       "property_root": "EVOLVED_LEAN_PROPERTY_LEDGER",
-      "embedded_manifest_member": null
+      "trifecta": "law"
     },
     {
-      "trifecta": "law",
-      "lineage_slug": "evolved-agile",
+      "embedded_manifest_member": null,
       "lineage_id": "EVOLVED_AGILE",
       "lineage_name": "Evolved Agile",
-      "property_count": 28,
-      "packet_path": "docs/research/genealogy/law/evolved-agile/packet/EVOLVED_AGILE_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-agile",
       "packet_bytes": 73438,
+      "packet_path": "docs/research/genealogy/law/evolved-agile/packet/EVOLVED_AGILE_FROZEN_PACKET.zip",
       "packet_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+      "property_count": 28,
       "property_ledger_member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
       "property_root": "EVOLVED_AGILE_PROPERTY_LEDGER.properties",
-      "embedded_manifest_member": null
+      "trifecta": "law"
     },
     {
-      "trifecta": "law",
-      "lineage_slug": "evolved-waterfall",
+      "embedded_manifest_member": "MANIFEST.json",
       "lineage_id": "EVOLVED_WATERFALL",
       "lineage_name": "Evolved Waterfall",
-      "property_count": 38,
-      "packet_path": "docs/research/genealogy/law/evolved-waterfall/packet/EVOLVED_WATERFALL_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-waterfall",
       "packet_bytes": 227035,
+      "packet_path": "docs/research/genealogy/law/evolved-waterfall/packet/EVOLVED_WATERFALL_FROZEN_PACKET.zip",
       "packet_sha256": "2c8165bf872bd42a724069be51b69feb213cce62095acad80461924285dea2a6",
+      "property_count": 38,
       "property_ledger_member": "EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
       "property_root": "properties",
-      "embedded_manifest_member": "MANIFEST.json"
+      "trifecta": "law"
     },
     {
-      "trifecta": "css",
-      "lineage_slug": "evolved-cognitive-systems-engineering",
+      "embedded_manifest_member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING",
       "lineage_name": "Evolved Cognitive Systems Engineering",
-      "property_count": 62,
-      "packet_path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/packet/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-cognitive-systems-engineering",
       "packet_bytes": 2282388,
+      "packet_path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/packet/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "3de33648e6261d1e827f63ffa72f028892e6e19755f34fdf77beb0e3dcb9801e",
+      "property_count": 62,
       "property_ledger_member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "PROPERTIES",
-      "embedded_manifest_member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "css"
     },
     {
-      "trifecta": "css",
-      "lineage_slug": "evolved-statistical-engineering",
+      "embedded_manifest_member": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_STATISTICAL_ENGINEERING",
       "lineage_name": "Evolved Statistical Engineering",
-      "property_count": 65,
-      "packet_path": "docs/research/genealogy/css/evolved-statistical-engineering/packet/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-statistical-engineering",
       "packet_bytes": 316068,
+      "packet_path": "docs/research/genealogy/css/evolved-statistical-engineering/packet/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "fc6df294675249d3241bb3ec6c08eec062d90c60c859479731e7cfdef1925d2d",
+      "property_count": 65,
       "property_ledger_member": "EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "properties",
-      "embedded_manifest_member": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "css"
     },
     {
-      "trifecta": "css",
-      "lineage_slug": "evolved-systems-safety",
+      "embedded_manifest_member": "EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_SYSTEMS_SAFETY",
       "lineage_name": "Evolved Systems Safety",
-      "property_count": 68,
-      "packet_path": "docs/research/genealogy/css/evolved-systems-safety/packet/EVOLVED_SYSTEMS_SAFETY_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-systems-safety",
       "packet_bytes": 390794,
+      "packet_path": "docs/research/genealogy/css/evolved-systems-safety/packet/EVOLVED_SYSTEMS_SAFETY_FROZEN_PACKET.zip",
       "packet_sha256": "e2d25171f56d20ec2b3f4b190d83b7173ae16834786882d4644a683fd14dbca9",
+      "property_count": 68,
       "property_ledger_member": "EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
       "property_root": "PROPERTIES",
-      "embedded_manifest_member": "EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json"
+      "trifecta": "css"
     },
     {
-      "trifecta": "ssd",
-      "lineage_slug": "evolved-systems-engineering",
+      "embedded_manifest_member": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_SYSTEMS_ENGINEERING",
       "lineage_name": "Evolved Systems Engineering",
-      "property_count": 72,
-      "packet_path": "docs/research/genealogy/ssd/evolved-systems-engineering/packet/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-systems-engineering",
       "packet_bytes": 453084,
+      "packet_path": "docs/research/genealogy/ssd/evolved-systems-engineering/packet/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "cf5987e21dcad3b5a52bf57e0301c37369d39c34d3dd6b26be3a230d50f3046e",
+      "property_count": 72,
       "property_ledger_member": "EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "PROPERTIES",
-      "embedded_manifest_member": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "ssd"
     },
     {
-      "trifecta": "ssd",
-      "lineage_slug": "evolved-systems-security-engineering",
+      "embedded_manifest_member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING",
       "lineage_name": "Evolved Systems Security Engineering",
-      "property_count": 60,
-      "packet_path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/packet/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-systems-security-engineering",
       "packet_bytes": 420747,
+      "packet_path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/packet/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "8344c8083e2812163166869feaacbaf072447c12301082bcb4594786bbf3f5f3",
+      "property_count": 60,
       "property_ledger_member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "properties",
-      "embedded_manifest_member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "ssd"
     },
     {
-      "trifecta": "ssd",
-      "lineage_slug": "evolved-decision-and-operations-engineering",
+      "embedded_manifest_member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING",
       "lineage_name": "Evolved Decision and Operations Engineering",
-      "property_count": 66,
-      "packet_path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/packet/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-decision-and-operations-engineering",
       "packet_bytes": 325417,
+      "packet_path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/packet/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "52d9b73908e00be450c388b18d4a8f64d1243db50a0d49a5397300a702f51ac4",
+      "property_count": 66,
       "property_ledger_member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "properties",
-      "embedded_manifest_member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "ssd"
     },
     {
-      "trifecta": "drf",
-      "lineage_slug": "evolved-distributed-systems-engineering",
+      "embedded_manifest_member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING",
       "lineage_name": "Evolved Distributed Systems Engineering",
-      "property_count": 54,
-      "packet_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/packet/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-distributed-systems-engineering",
       "packet_bytes": 261109,
+      "packet_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/packet/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "5cb8b437d2091c243313a07c9de77a69fdcc07c1ca01adcd876464e72c1f72b9",
+      "property_count": 54,
       "property_ledger_member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "PROPERTIES",
-      "embedded_manifest_member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "drf"
     },
     {
-      "trifecta": "drf",
-      "lineage_slug": "evolved-reliability-and-maintainability-engineering",
+      "embedded_manifest_member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING",
       "lineage_name": "Evolved Reliability and Maintainability Engineering",
-      "property_count": 55,
-      "packet_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-reliability-and-maintainability-engineering",
       "packet_bytes": 343118,
+      "packet_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "bd38d2079a1d33768d49533e959971973a11dd6562ccfd950f4b6138667f1422",
+      "property_count": 55,
       "property_ledger_member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "properties",
-      "embedded_manifest_member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "drf"
     },
     {
-      "trifecta": "drf",
-      "lineage_slug": "evolved-formal-methods-and-verification-engineering",
+      "embedded_manifest_member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json",
       "lineage_id": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING",
       "lineage_name": "Evolved Formal Methods and Verification Engineering",
-      "property_count": 50,
-      "packet_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/packet/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_PACKET.zip",
+      "lineage_slug": "evolved-formal-methods-and-verification-engineering",
       "packet_bytes": 359797,
+      "packet_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/packet/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_PACKET.zip",
       "packet_sha256": "2d6901f8d244bf4b71302099158fe9a27c957bdc4836781d4d40df83fcebb875",
+      "property_count": 50,
       "property_ledger_member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
       "property_root": "properties",
-      "embedded_manifest_member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json"
+      "trifecta": "drf"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_SOFTWARE_ARCHITECTURE",
+      "lineage_name": "Evolved Software Architecture",
+      "lineage_slug": "evolved-software-architecture",
+      "packet_bytes": 306979,
+      "packet_path": "docs/research/genealogy/sss/evolved-software-architecture/packet/EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_PACKET.zip",
+      "packet_sha256": "26ec0f2bf1c016d7772b9f041aa34c5cbe463762f62e63c6ece486a762e135e0",
+      "property_count": 68,
+      "property_ledger_member": "EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "frozen_inputs/ESA.zip",
+        "outer_packet_path": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+        "sha256": "26ec0f2bf1c016d7772b9f041aa34c5cbe463762f62e63c6ece486a762e135e0"
+      },
+      "triad_alias": "ESA",
+      "trifecta": "sss"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+      "lineage_name": "Evolved Software Maintenance And Evolution",
+      "lineage_slug": "evolved-software-maintenance-and-evolution",
+      "packet_bytes": 3727653,
+      "packet_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/packet/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_FROZEN_PACKET.zip",
+      "packet_sha256": "9c5653e02d680aea0bb40904fe29251c46e279b281bc53f142613d3ab9a40468",
+      "property_count": 105,
+      "property_ledger_member": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "frozen_inputs/ESME.zip",
+        "outer_packet_path": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+        "sha256": "9c5653e02d680aea0bb40904fe29251c46e279b281bc53f142613d3ab9a40468"
+      },
+      "triad_alias": "ESME",
+      "trifecta": "sss"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING",
+      "lineage_name": "Evolved Software Product Line Engineering",
+      "lineage_slug": "evolved-software-product-line-engineering",
+      "packet_bytes": 352196,
+      "packet_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/packet/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_sha256": "814c571bd10724eb197b3a8c15a007338b5774bdfc23147342957231295c3188",
+      "property_count": 62,
+      "property_ledger_member": "EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "frozen_inputs/ESPLE.zip",
+        "outer_packet_path": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+        "sha256": "814c571bd10724eb197b3a8c15a007338b5774bdfc23147342957231295c3188"
+      },
+      "triad_alias": "ESPLE",
+      "trifecta": "sss"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+      "lineage_name": "Evolved Business Process Management",
+      "lineage_slug": "evolved-business-process-management",
+      "packet_bytes": 431686,
+      "packet_path": "docs/research/genealogy/bwp/evolved-business-process-management/packet/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET.zip",
+      "packet_sha256": "94f96cf38e32d373d5962f23f86e33513cc865dcaa899716797771cc76d3df49",
+      "property_count": 73,
+      "property_ledger_member": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip",
+        "outer_packet_path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+        "sha256": "94f96cf38e32d373d5962f23f86e33513cc865dcaa899716797771cc76d3df49"
+      },
+      "triad_alias": "EBPM",
+      "trifecta": "bwp"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_PROCESS_MINING",
+      "lineage_name": "Evolved Process Mining",
+      "lineage_slug": "evolved-process-mining",
+      "packet_bytes": 378624,
+      "packet_path": "docs/research/genealogy/bwp/evolved-process-mining/packet/EVOLVED_PROCESS_MINING_FROZEN_PACKET.zip",
+      "packet_sha256": "94e2d898e5ea6f15bcd913b8c13c7b83e3dc477879e3f20375520a50cbcf9858",
+      "property_count": 84,
+      "property_ledger_member": "EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "input_archives/EVOLVED_PROCESS_MINING_FROZEN_PACKET(2).zip",
+        "outer_packet_path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+        "sha256": "94e2d898e5ea6f15bcd913b8c13c7b83e3dc477879e3f20375520a50cbcf9858"
+      },
+      "triad_alias": "EPM",
+      "trifecta": "bwp"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_WORKFLOW_MANAGEMENT",
+      "lineage_name": "Evolved Workflow Management",
+      "lineage_slug": "evolved-workflow-management",
+      "packet_bytes": 373995,
+      "packet_path": "docs/research/genealogy/bwp/evolved-workflow-management/packet/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_PACKET.zip",
+      "packet_sha256": "e477651fe3629f33e98ddc04f51d33c4907c8fd659a7d518ba11e0544239e818",
+      "property_count": 77,
+      "property_ledger_member": "EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "input_archives/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_PACKET(2).zip",
+        "outer_packet_path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+        "sha256": "e477651fe3629f33e98ddc04f51d33c4907c8fd659a7d518ba11e0544239e818"
+      },
+      "triad_alias": "EWM",
+      "trifecta": "bwp"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_AUTONOMOUS_AGENTS_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_AUTONOMOUS_AGENTS",
+      "lineage_name": "Evolved Autonomous Agents",
+      "lineage_slug": "evolved-autonomous-agents",
+      "packet_bytes": 412040,
+      "packet_path": "docs/research/genealogy/ama/evolved-autonomous-agents/packet/EVOLVED_AUTONOMOUS_AGENTS_FROZEN_PACKET.zip",
+      "packet_sha256": "009b37693541d387a2d65c281815731a05423b31fae298a9c6c99ad069e87769",
+      "property_count": 70,
+      "property_ledger_member": "EVOLVED_AUTONOMOUS_AGENTS_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "constituents/EAA.zip",
+        "outer_packet_path": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+        "sha256": "009b37693541d387a2d65c281815731a05423b31fae298a9c6c99ad069e87769"
+      },
+      "triad_alias": "EAA",
+      "trifecta": "ama"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING",
+      "lineage_name": "Evolved Agent Oriented Software Engineering",
+      "lineage_slug": "evolved-agent-oriented-software-engineering",
+      "packet_bytes": 3728163,
+      "packet_path": "docs/research/genealogy/ama/evolved-agent-oriented-software-engineering/packet/EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_sha256": "17cf10e5bedfe8a52d0a85c81c318294a0d80e5ca8ad8f868e12b7a116b34b9a",
+      "property_count": 132,
+      "property_ledger_member": "EVOLVED_AGENT_ORIENTED_SOFTWARE_ENGINEERING_CANONICAL_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "constituents/EAOSE.zip",
+        "outer_packet_path": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+        "sha256": "17cf10e5bedfe8a52d0a85c81c318294a0d80e5ca8ad8f868e12b7a116b34b9a"
+      },
+      "triad_alias": "EAOSE",
+      "trifecta": "ama"
+    },
+    {
+      "embedded_manifest_member": "EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_MANIFEST.json",
+      "lineage_id": "EVOLVED_MULTI_AGENT_SYSTEMS",
+      "lineage_name": "Evolved Multi Agent Systems",
+      "lineage_slug": "evolved-multi-agent-systems",
+      "packet_bytes": 370502,
+      "packet_path": "docs/research/genealogy/ama/evolved-multi-agent-systems/packet/EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_PACKET.zip",
+      "packet_sha256": "84af391ed2c82514f0e22ff671a0945945dec608ffccfde485e2302374bab227",
+      "property_count": 76,
+      "property_ledger_member": "EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "source_occurrence": {
+        "member": "constituents/EMAS.zip",
+        "outer_packet_path": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+        "sha256": "84af391ed2c82514f0e22ff671a0945945dec608ffccfde485e2302374bab227"
+      },
+      "triad_alias": "EMAS",
+      "trifecta": "ama"
     }
   ],
+  "schema": "implementaudit-engineering-genealogy-source-lock-v1",
   "source_prompts": [
     {
-      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PRO_RESEARCH_PROMPT.md",
       "bytes": 43633,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PRO_RESEARCH_PROMPT.md",
       "sha256": "e4018df499b2e3c4f5ef8d89ba6f872d46e02af23aa168bb85ed899d91c890e8"
     },
     {
-      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PRO_RESEARCH_PROMPT.md",
       "bytes": 43074,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PRO_RESEARCH_PROMPT.md",
       "sha256": "491a8402fc1553f7cd8643c9b560b872101db4b25280b6471966f60a5dc2bf30"
     },
     {
-      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PRO_RESEARCH_PROMPT.md",
       "bytes": 44184,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PRO_RESEARCH_PROMPT.md",
       "sha256": "96a6ad7ed54124d90abe553bdf80e9db60f321abf2d5a9f57f619c19a511f812"
     },
     {
-      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DRF_PRO_RESEARCH_PROMPTS_MANIFEST.json",
       "bytes": 1004,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DRF_PRO_RESEARCH_PROMPTS_MANIFEST.json",
       "sha256": "80ad4e7b42e37142f63c939c4f7d89eec6e3347b1de5a971ffc1987c14f61490"
+    }
+  ],
+  "trifecta_packets": [
+    {
+      "display_ordinal": 5,
+      "embedded_manifest_member": "EVOLVED_SSS_FROZEN_MANIFEST.json",
+      "members": [
+        {
+          "bytes": 46667,
+          "member": "CONTROLLING_SYNTHESIS_PROMPT.md",
+          "sha256": "8265807a435fda98858c4a10979cc8ebc0e2c4ce4e32eeb1c86e02d814a0cee6"
+        },
+        {
+          "bytes": 2348,
+          "member": "EVOLVED_SSS_ACCOUNTING.json",
+          "sha256": "2376891ec8d21072114da1d0f01b0fafa6d23a3fe990d843015bc7902e83b09f"
+        },
+        {
+          "bytes": 14996,
+          "member": "EVOLVED_SSS_ALTERNATIVE_CONFIGURATIONS.json",
+          "sha256": "1680855a9a73e09ee1c5d32961039effd718027b3dfb812a7bd4ae90ea038c86"
+        },
+        {
+          "bytes": 12596,
+          "member": "EVOLVED_SSS_ANALYTICAL_COUNTEREXAMPLES.json",
+          "sha256": "ea01fa373fd65d9e464900c76bf47284e4ea6e47369d6fb63cabf369680502fc"
+        },
+        {
+          "bytes": 12617,
+          "member": "EVOLVED_SSS_COMPLETENESS_AND_REVERSE_CONSISTENCY_REVIEW.md",
+          "sha256": "7e83edfa27ce9838cd7acf6db4ffd226321a6377da90597c7e97842906b6aff1"
+        },
+        {
+          "bytes": 231843,
+          "member": "EVOLVED_SSS_COMPOSITION_INDUCED_PROPERTY_LEDGER.json",
+          "sha256": "fab707cce5f3ac51bca000292c353360da254e9869ec43a64e42ddfb6c1ac913"
+        },
+        {
+          "bytes": 33378,
+          "member": "EVOLVED_SSS_COMPOSITION_MODEL.json",
+          "sha256": "beafd8f5449e464b9f6deceeef14021be8a4445b6a6050fec695107dedd7b301"
+        },
+        {
+          "bytes": 12310609,
+          "member": "EVOLVED_SSS_CONSTITUENT_PROPERTY_REGISTER.json",
+          "sha256": "9fabf1645d6f9b9e9442cf9c0fb4761d6c87b552951607d8331286c1d6dedd3c"
+        },
+        {
+          "bytes": 880225,
+          "member": "EVOLVED_SSS_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json",
+          "sha256": "3ebcd89722ad25eb74cb19bf3f0ee82192eb92b155fef96adbbafaf46d757d01"
+        },
+        {
+          "bytes": 64511752,
+          "member": "EVOLVED_SSS_DIRECTIONAL_RELATION_LEDGER.json",
+          "sha256": "cfb014c89161241f8c99f2d5758be89ee3ea91f7e27994cd06219d83cffce83f"
+        },
+        {
+          "bytes": 10514,
+          "member": "EVOLVED_SSS_FROZEN_MANIFEST.json",
+          "sha256": "99944c728bd8adfd309e449b96de122169dd1883d6a5b7d396701039733237dc"
+        },
+        {
+          "bytes": 123073,
+          "member": "EVOLVED_SSS_FROZEN_REPORT.md",
+          "sha256": "76f3bb2bbfb1bfd28039fc86053b026513fd25fd3942a6b9ac12f5631dec0c99"
+        },
+        {
+          "bytes": 1098451,
+          "member": "EVOLVED_SSS_INHERITED_BOUNDARY_LEDGER.json",
+          "sha256": "9a7236c472b7053600a7c484f403dc53537cb7f26bbb8b914edc9c24e1a89985"
+        },
+        {
+          "bytes": 8324,
+          "member": "EVOLVED_SSS_INPUT_VERIFICATION.json",
+          "sha256": "dfabf867484ccdf69e335db66870c09f7126a8bf940d2b0ca65be504d6fc751b"
+        },
+        {
+          "bytes": 2925489,
+          "member": "EVOLVED_SSS_INTER_CROSSWALK_INTAKE.json",
+          "sha256": "8a5015e8943d323b48a9cb53e4743de7558ebd21210be7b4351c255eb58043af"
+        },
+        {
+          "bytes": 649782,
+          "member": "EVOLVED_SSS_INTER_CROSSWALK_INTAKE.md",
+          "sha256": "8ec926085e21e90ab6ce008e01f36892366f863b1dd532e896a77d3acf4c86ca"
+        },
+        {
+          "bytes": 20587250,
+          "member": "EVOLVED_SSS_INTRA_CROSSWALK_MATRIX.json",
+          "sha256": "d927cd593d675ca7271ca3dd7080b89d89d39c94629e074ab31ff5620fb57a69"
+        },
+        {
+          "bytes": 8089,
+          "member": "EVOLVED_SSS_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "sha256": "a28e681944097653e3fb715cd08b52e98284da6e014e803c627de439c8103b2e"
+        },
+        {
+          "bytes": 80128,
+          "member": "EVOLVED_SSS_SEMANTIC_ADJUDICATION_RULES.json",
+          "sha256": "2d6a85d6ce3ebe3659282fa5868d8e51d24976149d16ac490236634096ffb9ef"
+        },
+        {
+          "bytes": 16797,
+          "member": "EVOLVED_SSS_SEMANTIC_ADVERSARIAL_REVIEW.json",
+          "sha256": "0cf896daa2e4730f2a77e467060571348478c3b7ff2296c1fc3ef3efbb54999a"
+        },
+        {
+          "bytes": 953592,
+          "member": "EVOLVED_SSS_SHARED_SOURCE_IDENTITY_LEDGER.json",
+          "sha256": "bffeab521b4583e6132d0de5c37dcd8362877819e3ac1242200e339c49197384"
+        },
+        {
+          "bytes": 102460,
+          "member": "EVOLVED_SSS_TENSION_LEDGER.json",
+          "sha256": "4a3ae3368e24e298028f16980b683be7aa97eb6d519e30d8ee71d8efcb29d407"
+        },
+        {
+          "bytes": 11488,
+          "member": "EVOLVED_SSS_VERIFICATION_RECEIPT.json",
+          "sha256": "f9880dc8d691e51162738b7a1eecd74d7e054fcab89d775101dba6c49773f704"
+        },
+        {
+          "bytes": 2107,
+          "member": "START_HERE.md",
+          "sha256": "ed86211b39ea9c549dc49578ecb6e1d7d7c81700163aec4987f14badc599d190"
+        },
+        {
+          "bytes": 71064,
+          "member": "analysis/adjudications.py",
+          "sha256": "5aa2fb8b63bf4e56fb1a38c2dcfa803968afb987df85cd2ffcd6aad1a0e2fca4"
+        },
+        {
+          "bytes": 10195,
+          "member": "analysis/finite_counterexamples.py",
+          "sha256": "77eb67fb7ad8f9c57f25fb7cd57dd2f50e71d1ce61ab73e33d53c41fa8af58ea"
+        },
+        {
+          "bytes": 26773,
+          "member": "analysis/verify_sss.py",
+          "sha256": "f2e8887af8c98fc007cb35ef233c98be98c50591e6ec1e071d103e978cb2778f"
+        },
+        {
+          "bytes": 306979,
+          "member": "frozen_inputs/ESA.zip",
+          "sha256": "26ec0f2bf1c016d7772b9f041aa34c5cbe463762f62e63c6ece486a762e135e0"
+        },
+        {
+          "bytes": 3727653,
+          "member": "frozen_inputs/ESME.zip",
+          "sha256": "9c5653e02d680aea0bb40904fe29251c46e279b281bc53f142613d3ab9a40468"
+        },
+        {
+          "bytes": 352196,
+          "member": "frozen_inputs/ESPLE.zip",
+          "sha256": "814c571bd10724eb197b3a8c15a007338b5774bdfc23147342957231295c3188"
+        }
+      ],
+      "packet_bytes": 11344299,
+      "packet_path": "docs/research/genealogy/sss/packet/EVOLVED_SSS_FROZEN_PACKET.zip",
+      "packet_sha256": "920a87ca2a24a792d419ae30a70ced530377e73911f910f06b992c87d8765f31",
+      "pair_matrix_member": "EVOLVED_SSS_INTRA_CROSSWALK_MATRIX.json",
+      "property_count": 235,
+      "property_register_member": "EVOLVED_SSS_CONSTITUENT_PROPERTY_REGISTER.json",
+      "relations_member": "EVOLVED_SSS_DIRECTIONAL_RELATION_LEDGER.json",
+      "storage": "EXACT_COMPRESSED_PACKET_MEMBERS",
+      "trifecta": "sss"
+    },
+    {
+      "display_ordinal": 6,
+      "embedded_manifest_member": "EVOLVED_BWP_FROZEN_MANIFEST.json",
+      "members": [
+        {
+          "bytes": 15576,
+          "member": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json",
+          "sha256": "68f13c9350a956a95797cdcb31e9558fc7174f9bb7d81fc920d241e92de4960c"
+        },
+        {
+          "bytes": 23558,
+          "member": "EVOLVED_BWP_ANALYTICAL_COUNTEREXAMPLES.json",
+          "sha256": "d7f9fb519b22e4846a23de4a9762ea0e0eca1bcce94c9978c9f48ff92f19dc68"
+        },
+        {
+          "bytes": 2203,
+          "member": "EVOLVED_BWP_AUTOMATED_READBACK_REVIEW.json",
+          "sha256": "b2e4f52df350cad3554271be8dc6934269a8982bc1d95d0d2bbfe418e26cc538"
+        },
+        {
+          "bytes": 14918,
+          "member": "EVOLVED_BWP_COMPLETENESS_AND_REVERSE_CONSISTENCY_REVIEW.md",
+          "sha256": "edbc03a93c896a904933c63e97ad69a545adb392e7a7d7f1834071708c1c3dba"
+        },
+        {
+          "bytes": 179764,
+          "member": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json",
+          "sha256": "0693f35c7573052ede56de41d0bf71c42dced47be92e5114de15c8e5577649d3"
+        },
+        {
+          "bytes": 46869,
+          "member": "EVOLVED_BWP_COMPOSITION_MODEL.json",
+          "sha256": "f72822788afbaf275419ecbcf30d27f07d1ec53d69707337850c2d26522b2a69"
+        },
+        {
+          "bytes": 6083032,
+          "member": "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+          "sha256": "73f30ec8b6654c03528422664366f5a89d390607a44a59060b2851e0f6ed02bb"
+        },
+        {
+          "bytes": 699607,
+          "member": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json",
+          "sha256": "37d829369e6adafddf4b149e0b84ce5eb4c2f882bcce6eeace18b0a56d40f53f"
+        },
+        {
+          "bytes": 2085,
+          "member": "EVOLVED_BWP_COUNTS.json",
+          "sha256": "ca936b86d511061c4c13cfa82d5d86b4245486322deddfab93096c097bb1461c"
+        },
+        {
+          "bytes": 48408634,
+          "member": "EVOLVED_BWP_DIRECTIONAL_RELATION_LEDGER.json",
+          "sha256": "39c54e85979c11c0f615da087929d16439bfaf9fe4079f69e3a8611663ecddec"
+        },
+        {
+          "bytes": 1900,
+          "member": "EVOLVED_BWP_EXECUTED_ANALYTICAL_FIXTURES.json",
+          "sha256": "008524b56538f5163f641dd5ed6013dca0e4ddfe3d4d8cbad7d21727ff52b970"
+        },
+        {
+          "bytes": 39293,
+          "member": "EVOLVED_BWP_EXECUTION_PROMPT.md",
+          "sha256": "444b3066d02bdd02051e0a4d8fc9e68d2f146e510b67d7a24c9fbbedd891d889"
+        },
+        {
+          "bytes": 20747,
+          "member": "EVOLVED_BWP_FROZEN_MANIFEST.json",
+          "sha256": "4851fd0d2c4871e1b9960ff0f13c4e5be85c8a05a9ec25e283281de831fa6ab8"
+        },
+        {
+          "bytes": 272039,
+          "member": "EVOLVED_BWP_FROZEN_REPORT.md",
+          "sha256": "167abd3882b3541491e2fd489a3809b3f25f4759b05dc8a395404c1b2802fb48"
+        },
+        {
+          "bytes": 7859,
+          "member": "EVOLVED_BWP_INPUT_VERIFICATION.json",
+          "sha256": "8e7a4145b2e0085f375115dfa5a9b43e0e20bb4a4a872eb8f02f358e5900becd"
+        },
+        {
+          "bytes": 2067781,
+          "member": "EVOLVED_BWP_INTER_CROSSWALK_INTAKE.json",
+          "sha256": "e54ea9729c5dfeda249238d48cd4d7f39b0d25e1bf45e5f5dddd7f9e82405a1f"
+        },
+        {
+          "bytes": 531494,
+          "member": "EVOLVED_BWP_INTER_CROSSWALK_INTAKE.md",
+          "sha256": "fde4bbb0d67c1c11e71409087be8c4b5ca8750a0a6cf9649b83ff42f35543cfa"
+        },
+        {
+          "bytes": 13883799,
+          "member": "EVOLVED_BWP_INTRA_CROSSWALK_MATRIX.json",
+          "sha256": "4b32db053cadeba8dc2842d9c4993ad0dcd9e1b9646d44cb43a7f7f251cabe1f"
+        },
+        {
+          "bytes": 2479,
+          "member": "EVOLVED_BWP_PREFREEZE_REPAIR_LOG.json",
+          "sha256": "acbf9e3ee4d1a46cdd550767f6538c3fd214bf24a7c4dac0c479fb45c3aeb22e"
+        },
+        {
+          "bytes": 5524,
+          "member": "EVOLVED_BWP_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "sha256": "8075e31b856404daa9b7a32e1ad71345b7cfafa04789f99de4da88a9c35382ff"
+        },
+        {
+          "bytes": 40088,
+          "member": "EVOLVED_BWP_REQUIRED_QUESTIONS_ADJUDICATION.json",
+          "sha256": "8c64cabacae9788062d9377e38908d1b49a61971d4a1b1ccbcf1785c83dba13a"
+        },
+        {
+          "bytes": 10747,
+          "member": "EVOLVED_BWP_SEMANTIC_REVIEW.json",
+          "sha256": "c3a48a5aff7f4198402b3ff68b5e054d66781097c56875de9bac42bc1f8c8dd5"
+        },
+        {
+          "bytes": 30202,
+          "member": "EVOLVED_BWP_SHARED_SOURCE_IDENTITY_LEDGER.json",
+          "sha256": "0d6fdbc716cb122e4e764dd25c7ec8d16cd6914cbfef26fdb613e8cef0e3dfd1"
+        },
+        {
+          "bytes": 642791,
+          "member": "EVOLVED_BWP_SOURCE_REGISTER.json",
+          "sha256": "a7ddbc57ec82a941b9a786aa66a8397136b6099a2d73f0c336a4618ada1bd127"
+        },
+        {
+          "bytes": 49096,
+          "member": "EVOLVED_BWP_TENSION_LEDGER.json",
+          "sha256": "9fcb42c961c6412d21593ff6657a8c7fe0bf0c94372529d2ee406de765344382"
+        },
+        {
+          "bytes": 4961,
+          "member": "EVOLVED_BWP_VERIFICATION_RECEIPT.json",
+          "sha256": "4dacf2575a8665e877e6a070b13ee0a5f010fa84f4bf35b349b86f1e49adec70"
+        },
+        {
+          "bytes": 1820,
+          "member": "START_HERE.md",
+          "sha256": "dd4ea38e1a1efbcc11846889c672c223798e8f5c0989449edb6075ef5539d6a2"
+        },
+        {
+          "bytes": 32432,
+          "member": "analysis/analysis_content.py",
+          "sha256": "7b00afe0cd33b9493499e42ada79b56c4c6b736d4e57a9b5af96de84b8618f4f"
+        },
+        {
+          "bytes": 7443,
+          "member": "analysis/bearers.py",
+          "sha256": "e21a9b106563d0a89a5d7f47d9f987d5eaaede212de73b9b089d715625a44356"
+        },
+        {
+          "bytes": 6166,
+          "member": "analysis/model_bearers.py",
+          "sha256": "288f232f0c4db389ed4d4958f266bbbc795d1984bb728c63f941e6503b84b958"
+        },
+        {
+          "bytes": 28998,
+          "member": "analysis/synthesis_spec.py",
+          "sha256": "2239a6a9bef47fb9940684633f2969cf8e8b8b675d254187f3930eca665a0c0a"
+        },
+        {
+          "bytes": 431686,
+          "member": "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip",
+          "sha256": "94f96cf38e32d373d5962f23f86e33513cc865dcaa899716797771cc76d3df49"
+        },
+        {
+          "bytes": 378624,
+          "member": "input_archives/EVOLVED_PROCESS_MINING_FROZEN_PACKET(2).zip",
+          "sha256": "94e2d898e5ea6f15bcd913b8c13c7b83e3dc477879e3f20375520a50cbcf9858"
+        },
+        {
+          "bytes": 373995,
+          "member": "input_archives/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_PACKET(2).zip",
+          "sha256": "e477651fe3629f33e98ddc04f51d33c4907c8fd659a7d518ba11e0544239e818"
+        },
+        {
+          "bytes": 508989,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+          "sha256": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544"
+        },
+        {
+          "bytes": 428485,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+          "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281"
+        },
+        {
+          "bytes": 22271,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+          "sha256": "5f6286ef670308609381bc22fad3bc9da8cc9fb1bc0823b9aa4954c3dc741643"
+        },
+        {
+          "bytes": 322958,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+          "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b"
+        },
+        {
+          "bytes": 1072094,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+          "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3"
+        },
+        {
+          "bytes": 22872,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "sha256": "b65e032f83fa7fa313d73b73e1da3e584e3f0aeac9cee31e4f565a507d67a7e1"
+        },
+        {
+          "bytes": 35897,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+          "sha256": "ab80dfb7efe31880c9ddc5439dce3ed63c10bfef41e701bc74958d425c0c9c20"
+        },
+        {
+          "bytes": 132848,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+          "sha256": "268c84bb082ccafb2ca4f99cade4099e5b8d48214dc9cc9820f26bd441b00440"
+        },
+        {
+          "bytes": 286670,
+          "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+          "sha256": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b"
+        },
+        {
+          "bytes": 287614,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_AUDIT_INTAKE.md",
+          "sha256": "22e9729be518c77dfa2089f068d99829c4788a0a76786817c27c5280ef186e69"
+        },
+        {
+          "bytes": 607307,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+          "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db"
+        },
+        {
+          "bytes": 12229,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+          "sha256": "0a733f6a496c567044e8ec324038d57c5f0f7af5803413f0ae8b415b7c5a3677"
+        },
+        {
+          "bytes": 256626,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+          "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead"
+        },
+        {
+          "bytes": 1053080,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+          "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019"
+        },
+        {
+          "bytes": 10676,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "sha256": "1b2eb4438c6fb62dd60e244d1004b1e1bd0f12c0e352d387cb8410d434dcbf07"
+        },
+        {
+          "bytes": 34847,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json",
+          "sha256": "78fd3dcf3b9d2b343bbbc736b056955ae73dd6e7fb560c794f8f54a7608ad84c"
+        },
+        {
+          "bytes": 221420,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+          "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7"
+        },
+        {
+          "bytes": 18001,
+          "member": "inputs/EPM/EVOLVED_PROCESS_MINING_SYNTHESIS_INTAKE.md",
+          "sha256": "e32a42cc2557debc4bc883193eb8c06d999b5ef16a1dfc2d568119b261b7e007"
+        },
+        {
+          "bytes": 246937,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_AUDIT_INTAKE.md",
+          "sha256": "4a507781337d04f512ad5031df8c58ef2d74f10f0e797c79b707a3c9ca210e01"
+        },
+        {
+          "bytes": 806187,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json",
+          "sha256": "ba6121eb3a9ee8e322b635472528f8819952264776b04ac238593bfd61b86137"
+        },
+        {
+          "bytes": 14605,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+          "sha256": "69dd419cb5ebf3eae661042660f936783ff92e7d930369e0faa849e3d568401f"
+        },
+        {
+          "bytes": 269451,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md",
+          "sha256": "6fb3f75e6352cb2d90fcee79b3fcc28d7984cf262fa69b64afab9377729d69a2"
+        },
+        {
+          "bytes": 1095256,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+          "sha256": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c"
+        },
+        {
+          "bytes": 11107,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "sha256": "53b6d58f31c4702bb6047195e30aa354b3b9fb86fd4890cfce332fde5ebdf4fb"
+        },
+        {
+          "bytes": 54652,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json",
+          "sha256": "1ebf8485e4da80919052476e08d9b5fddf4839f61ecebd9074e2e581a34479f2"
+        },
+        {
+          "bytes": 86047,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json",
+          "sha256": "e3d40e2befea3dfcec003d532905171d4d6283148a7612ac69ab1002b905d36c"
+        },
+        {
+          "bytes": 17148,
+          "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_SYNTHESIS_INTAKE.md",
+          "sha256": "20e50d58d3208da1d5c72271faabfae911b975e6840b5fa6bb3b679ad6f9b481"
+        },
+        {
+          "bytes": 16662,
+          "member": "verification/independent_verify.py",
+          "sha256": "60d72e750b9946c47d2aca09b0d592310ecccf07bdebd97986ac2d8641dddd3d"
+        }
+      ],
+      "packet_bytes": 5322062,
+      "packet_path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+      "packet_sha256": "6e3c95f7c81e5bbac67880f6ff58d360112e706d3469edbd8da425cb61233214",
+      "pair_matrix_member": "EVOLVED_BWP_INTRA_CROSSWALK_MATRIX.json",
+      "property_count": 234,
+      "property_register_member": "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+      "relations_member": "EVOLVED_BWP_DIRECTIONAL_RELATION_LEDGER.json",
+      "storage": "EXACT_COMPRESSED_PACKET_MEMBERS",
+      "trifecta": "bwp"
+    },
+    {
+      "display_ordinal": 7,
+      "embedded_manifest_member": "EVOLVED_AMA_FROZEN_MANIFEST.json",
+      "members": [
+        {
+          "bytes": 67717,
+          "member": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json",
+          "sha256": "8661e6c50fb1a4e11ab426d51b644769f2cd42839bdabb10cffbd4a3a47d53f7"
+        },
+        {
+          "bytes": 132142,
+          "member": "EVOLVED_AMA_ANALYTICAL_COUNTEREXAMPLES.json",
+          "sha256": "40100a0af5e26fd87ebe23f2013da3fa0f97e8f663ae7edb0722fd35db884385"
+        },
+        {
+          "bytes": 3339,
+          "member": "EVOLVED_AMA_ANALYTICAL_TEST_RESULTS.json",
+          "sha256": "f38a3a0a56e8e062dc403ec38756153f2888d6ba2f890effa46d5aced3913ded"
+        },
+        {
+          "bytes": 128370,
+          "member": "EVOLVED_AMA_CLAIM_EVIDENCE_LEDGER.json",
+          "sha256": "508297cb6f064bf17b5617b4ac1696715601e79f86ec821b52464f05d22749a6"
+        },
+        {
+          "bytes": 9549,
+          "member": "EVOLVED_AMA_COMPLETENESS_AND_REVERSE_CONSISTENCY_REVIEW.md",
+          "sha256": "0d81a0817d153d5af38ae7e1cb6d4867233e7cfb8459417a307b68d1a5f94cbf"
+        },
+        {
+          "bytes": 338829,
+          "member": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json",
+          "sha256": "cf08e52c45384794aa5d181dfd043863fbe7faf59367c56187dc56e1a1317f79"
+        },
+        {
+          "bytes": 91522,
+          "member": "EVOLVED_AMA_COMPOSITION_MODEL.json",
+          "sha256": "3b3f895704af5f8d1b7125211f5258101f06495a04eee771a682c9cdcf21ddb3"
+        },
+        {
+          "bytes": 63026,
+          "member": "EVOLVED_AMA_COMPOSITION_QUESTION_ADJUDICATION.json",
+          "sha256": "22d0a9377e7b7a1418be4df76c6df01bc165c0aed2fb2fdf82a501e011c11df4"
+        },
+        {
+          "bytes": 2954408,
+          "member": "EVOLVED_AMA_CONSTITUENT_CONTEXT_INDEX.json",
+          "sha256": "0360b8b0f7fe6dd6f395813a7a193d3f676f1cf8852d9f9cb6a09ea0722e4269"
+        },
+        {
+          "bytes": 17870487,
+          "member": "EVOLVED_AMA_CONSTITUENT_PROPERTY_REGISTER.json",
+          "sha256": "f192b636e93bde19b4b27f88c3e71ac725caa121925c38b16681edd2a1a2ae82"
+        },
+        {
+          "bytes": 1566372,
+          "member": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json",
+          "sha256": "9492314581675238e874c77d0bf1fc7ac0e6952bcf81a6dfbaf9dd57464255b3"
+        },
+        {
+          "bytes": 4026,
+          "member": "EVOLVED_AMA_COUNTS.json",
+          "sha256": "04c0511931602a8e35faafafd0c238a42f66301dea308b8286e0ccf1289c9d6e"
+        },
+        {
+          "bytes": 104012636,
+          "member": "EVOLVED_AMA_DIRECTIONAL_RELATION_LEDGER.json",
+          "sha256": "dced059f2eff583aee3e548bdce2c427e7bb35e3f516fd50d3d95b34d431d03e"
+        },
+        {
+          "bytes": 13258,
+          "member": "EVOLVED_AMA_FROZEN_MANIFEST.json",
+          "sha256": "3266c5c1f9087eea260bb5df69f029694d1428fca159fb9b82a1b54a3a9c29ca"
+        },
+        {
+          "bytes": 65879,
+          "member": "EVOLVED_AMA_FROZEN_REPORT.md",
+          "sha256": "e0a32f00a95d58c445d8c1c8e3c593a2343da32e5fc17c5102e408107d2117ed"
+        },
+        {
+          "bytes": 13894,
+          "member": "EVOLVED_AMA_INPUT_VERIFICATION.json",
+          "sha256": "011ec22c84545e8fe0cdbdbeabdc94f48c5c1bcfe469d26ae42f46cf8f7f1b58"
+        },
+        {
+          "bytes": 3646338,
+          "member": "EVOLVED_AMA_INTER_CROSSWALK_INTAKE.json",
+          "sha256": "d50163d0f1dc30fa8866f45ead11bd1d2f0594142674273580c2136f85b25123"
+        },
+        {
+          "bytes": 33683,
+          "member": "EVOLVED_AMA_INTER_CROSSWALK_INTAKE.md",
+          "sha256": "d2c9f466f85087c3cb10d4f7ef2c9009689e0c716dc9116d29823dbf06b0a8ea"
+        },
+        {
+          "bytes": 15241160,
+          "member": "EVOLVED_AMA_INTRA_CROSSWALK_MATRIX.json",
+          "sha256": "a554a60411861527fa3f7f806a16f51e62848f95e5257349749ae8f5132622c4"
+        },
+        {
+          "bytes": 4005,
+          "member": "EVOLVED_AMA_PUBLIC_DOCUMENTATION_INTAKE.md",
+          "sha256": "b22bc51672a1b7bf372436b3803690e679864fc84b699d85bb35314832a897df"
+        },
+        {
+          "bytes": 26787,
+          "member": "EVOLVED_AMA_READONLY_REVIEW_RESULT.json",
+          "sha256": "f023f7affe097cce670e9c062ba6d031ecd347b1149b68282bfece2f583530fa"
+        },
+        {
+          "bytes": 15961,
+          "member": "EVOLVED_AMA_REQUIREMENTS_COMPLETION_AUDIT.json",
+          "sha256": "e24f6bd5526653854cc8cc18436a63a2c0f6a0f263550463601223276118f0e4"
+        },
+        {
+          "bytes": 1912977,
+          "member": "EVOLVED_AMA_SEMANTIC_PROFILES_AND_RULES.json",
+          "sha256": "973f5d8a2013410dbfcfd903eb3955972c11f9f5fe347cf24ddebece282a6803"
+        },
+        {
+          "bytes": 203371,
+          "member": "EVOLVED_AMA_SHARED_SOURCE_IDENTITY_LEDGER.json",
+          "sha256": "aa818ed256753ebb2bd36cdbc0bc0325f0bc54502a122aa7e024ade352216122"
+        },
+        {
+          "bytes": 1384349,
+          "member": "EVOLVED_AMA_SOURCE_REGISTER.json",
+          "sha256": "e29939c382b26790701d3a691e1c0a12ad2ed0aa4b9f45553b29cc3882f18346"
+        },
+        {
+          "bytes": 49394,
+          "member": "EVOLVED_AMA_SYNTHESIS_PROMPT.md",
+          "sha256": "43c902a9df357da81716d7d62a0a86053d433962452dafe89d7a22796df222a4"
+        },
+        {
+          "bytes": 82434,
+          "member": "EVOLVED_AMA_TENSION_LEDGER.json",
+          "sha256": "df966e9b4e0db017b0ac758a07d1fce7d1c4c7a3ef774fca1ec57e4cea7f1a88"
+        },
+        {
+          "bytes": 8252,
+          "member": "EVOLVED_AMA_VERIFICATION_RECEIPT.json",
+          "sha256": "26c998f7906e3a55a93b4f34566bf7d751b289e387c45f2f611307ba0bc270f6"
+        },
+        {
+          "bytes": 2512,
+          "member": "EVOLVED_AMA_VERIFIER_NEGATIVE_CONTROLS.json",
+          "sha256": "d28edc7ab678a2ed6a7f18ea99f1dee58d835d0907d7834e846c0fd6f8f7d5c9"
+        },
+        {
+          "bytes": 1825,
+          "member": "START_HERE.md",
+          "sha256": "5007505c4b5fb83d38b7e04423dbc4d7db403fb6d8706c75daf78addb9034f46"
+        },
+        {
+          "bytes": 412040,
+          "member": "constituents/EAA.zip",
+          "sha256": "009b37693541d387a2d65c281815731a05423b31fae298a9c6c99ad069e87769"
+        },
+        {
+          "bytes": 3728163,
+          "member": "constituents/EAOSE.zip",
+          "sha256": "17cf10e5bedfe8a52d0a85c81c318294a0d80e5ca8ad8f868e12b7a116b34b9a"
+        },
+        {
+          "bytes": 370502,
+          "member": "constituents/EMAS.zip",
+          "sha256": "84af391ed2c82514f0e22ff671a0945945dec608ffccfde485e2302374bab227"
+        },
+        {
+          "bytes": 38548,
+          "member": "verify_ama.py",
+          "sha256": "ab967a2378feaab7fd1f63db4ddad71ad414415906e92144ee7940b11064e7b2"
+        }
+      ],
+      "packet_bytes": 10534831,
+      "packet_path": "docs/research/genealogy/ama/packet/EVOLVED_AMA_FROZEN_PACKET.zip",
+      "packet_sha256": "1c9654ab3017ecccdd3b24810b20ac23a5b51a5c19c1a488b64a2684dade026f",
+      "pair_matrix_member": "EVOLVED_AMA_INTRA_CROSSWALK_MATRIX.json",
+      "property_count": 278,
+      "property_register_member": "EVOLVED_AMA_CONSTITUENT_PROPERTY_REGISTER.json",
+      "relations_member": "EVOLVED_AMA_DIRECTIONAL_RELATION_LEDGER.json",
+      "storage": "EXACT_COMPRESSED_PACKET_MEMBERS",
+      "trifecta": "ama"
     }
   ]
 }

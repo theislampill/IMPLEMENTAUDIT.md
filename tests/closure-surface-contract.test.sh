@@ -470,6 +470,9 @@ cleanup_full() {
   if [ -n "${tmp:-}" ]; then
     rm -rf "$tmp"
   fi
+  if [ -n "${effect_tmp:-}" ]; then
+    rm -rf "$effect_tmp"
+  fi
 }
 trap cleanup_full EXIT
 v0400_release_asset_set_controls "$v0400_asset_tmp"
@@ -488,6 +491,8 @@ printf '%s' "$flat" | grep -qi 'second independent run' \
   || fail "PROTOCOL missing cross-run residual routing rule"
 printf '%s' "$state_flat" | grep -qi 'durable tracker' \
   || fail "STATE missing cross-run residual owner guidance"
+grep -Fq '`owner-refusal:<source>`' "$state_template" \
+  || fail "STATE missing code-delimited cross-run owner-refusal marker"
 bash "$scorer" --residual-routing "$fx/residual-first.md" >/dev/null 2>&1 \
   || fail "first residual occurrence must remain legal without tracker ceremony"
 if bash "$scorer" --residual-routing "$fx/residual-repeat-a.md" \

@@ -13,6 +13,20 @@ fail() {
   exit 1
 }
 
+# R0035 dispatch-context amendment: every independent review attempt uses a
+# fresh reviewer context. Packet identity may survive a transient non-verdict,
+# but the prior working context may not be followed up.
+grep -Fq "fresh reviewer context for every independent review attempt" \
+  skills/implementaudit/references/child-agents.md \
+  || fail "independent-review fresh-context rule missing"
+grep -Fq "reissue the allowed packet to a fresh reviewer context" \
+  skills/implementaudit/references/transcript-contract.md \
+  || fail "transient-review fresh-context replacement rule missing"
+if grep -Fq "reissue to the same reviewer identity" \
+  skills/implementaudit/references/transcript-contract.md; then
+  fail "same-context reviewer retry remains admitted"
+fi
+
 # 1. Positive: live repo passes.
 bash scripts/check-cold-review-contract.sh \
   || fail "checker fails on the live repo"

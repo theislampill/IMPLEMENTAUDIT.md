@@ -512,10 +512,14 @@ for text in \
   "content-deterministic refusal" \
   "do not reissue an unaltered packet" \
   "transient channel failure" \
-  "reissue to the same reviewer identity"
+  "reissue the allowed packet to a fresh reviewer context"
 do
   require "skills/implementaudit/references/transcript-contract.md" "$text"
 done
+if grep -Fq "reissue to the same reviewer identity" \
+  "skills/implementaudit/references/transcript-contract.md"; then
+  fail "transient independent review incorrectly reuses reviewer identity"
+fi
 
 for positive in \
   issue-86-attested-pass.md \

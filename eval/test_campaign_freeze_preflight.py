@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import pathlib
+import re
 import shutil
 import subprocess
 import sys
@@ -301,7 +302,11 @@ def production_fixture(base):
     base = pathlib.Path(base)
     repo = pathlib.Path(__file__).resolve().parent.parent
     clone_source = repo
-    if os.name == "posix" and (repo / ".git").is_file():
+    gitfile = repo / ".git"
+    gitfile_text = gitfile.read_text(encoding="utf-8").strip() if gitfile.is_file() else ""
+    # Only a Windows-owned gitdir needs WSL translation. Native linked
+    # worktrees are cloneable directly, regardless of checkout directory name.
+    if os.name == "posix" and re.match(r"gitdir: [A-Za-z]:[/\\]", gitfile_text):
         primary = repo.parent / "IMPLEMENTAUDIT"
         assert (primary / ".git").is_dir(), primary
         gitdir_value = (repo / ".git").read_text(

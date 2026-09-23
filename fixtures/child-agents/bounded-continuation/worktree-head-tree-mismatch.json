@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {"path": "target.repository_id", "value": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"path": "target.git_common_id", "value": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+    {"path": "target.worktree_id", "value": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+    {"path": "target.cell_id", "value": "R39-F5"},
+    {"path": "target.base_commit", "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"path": "target.base_tree", "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+    {"path": "target.head_commit", "value": "cccccccccccccccccccccccccccccccccccccccc"},
+    {"path": "target.head_tree", "value": "dddddddddddddddddddddddddddddddddddddddd"}
+  ],
+  "expected_classifier": "REPORT_AND_WAIT",
+  "expected_contradiction": "TARGET_IDENTITY_MISMATCH"
+}

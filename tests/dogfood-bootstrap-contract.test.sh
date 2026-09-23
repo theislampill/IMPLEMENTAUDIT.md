@@ -7,6 +7,8 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
+python tests/test-output-isolation.py --repo-root "$repo_root"
+
 bash scripts/check-dogfood-bootstrap-contract.sh
 
 python - <<'PY'
@@ -830,9 +832,9 @@ fi
 
 if ! bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/positive/host-activation-before-baseline-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-host-activation.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-host-activation.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: qualified host activation before runner baseline was rejected\n' >&2
-  cat /tmp/dogfood-bootstrap-host-activation.out >&2
+  cat "$tmp/dogfood-bootstrap-host-activation.out" >&2
   exit 1
 fi
 
@@ -963,79 +965,79 @@ BAD
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --skill-file "$tmp/skill-missing-bootstrap.md" \
-  >/tmp/dogfood-bootstrap.out 2>&1; then
+  >"$tmp/dogfood-bootstrap.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: missing bootstrap unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "missing ## State-derived RC self-dogfood route" /tmp/dogfood-bootstrap.out >/dev/null || {
+grep -F "missing ## State-derived RC self-dogfood route" "$tmp/dogfood-bootstrap.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected missing-bootstrap diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap.out >&2
+  cat "$tmp/dogfood-bootstrap.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/installed-readback-before-baseline-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-transcript.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-transcript.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: readback-before-baseline transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "installed skill readback occurred before baseline" /tmp/dogfood-bootstrap-transcript.out >/dev/null || {
+grep -F "installed skill readback occurred before baseline" "$tmp/dogfood-bootstrap-transcript.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected transcript-order diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-transcript.out >&2
+  cat "$tmp/dogfood-bootstrap-transcript.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/chunking-readback-before-baseline-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-chunking.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-chunking.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: chunking-readback transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "installed skill readback occurred before baseline" /tmp/dogfood-bootstrap-chunking.out >/dev/null || {
+grep -F "installed skill readback occurred before baseline" "$tmp/dogfood-bootstrap-chunking.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected chunking-readback diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-chunking.out >&2
+  cat "$tmp/dogfood-bootstrap-chunking.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/real-home-readback-before-temp-home-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-real-home.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-real-home.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: real-home-readback transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" /tmp/dogfood-bootstrap-real-home.out >/dev/null || {
+grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" "$tmp/dogfood-bootstrap-real-home.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected real-home contamination diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-real-home.out >&2
+  cat "$tmp/dogfood-bootstrap-real-home.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/real-home-readback-generic-user-before-temp-home-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-real-home-generic.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-real-home-generic.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: generic-user real-home transcript unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" /tmp/dogfood-bootstrap-real-home-generic.out >/dev/null || {
+grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" "$tmp/dogfood-bootstrap-real-home-generic.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected generic-user real-home contamination diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-real-home-generic.out >&2
+  cat "$tmp/dogfood-bootstrap-real-home-generic.out" >&2
   exit 1
 }
 
 if bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/negative/real-home-host-activation-generic-user-transcript.jsonl \
-  >/tmp/dogfood-bootstrap-real-home-host.out 2>&1; then
+  >"$tmp/dogfood-bootstrap-real-home-host.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: generic-user real-home host activation unexpectedly passed\n' >&2
   exit 1
 fi
 
-grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" /tmp/dogfood-bootstrap-real-home-host.out >/dev/null || {
+grep -F "real-home skill readback occurred before structured temp-home installation or activation evidence" "$tmp/dogfood-bootstrap-real-home-host.out" >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected real-home host-activation diagnostic\n' >&2
-  cat /tmp/dogfood-bootstrap-real-home-host.out >&2
+  cat "$tmp/dogfood-bootstrap-real-home-host.out" >&2
   exit 1
 }
 

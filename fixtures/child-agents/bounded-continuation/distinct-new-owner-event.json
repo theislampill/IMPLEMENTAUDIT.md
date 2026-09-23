@@ -1,0 +1,11 @@
+{
+  "new_event": {
+    "event_id": "iaevt-v1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "event_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "disposition": "NEW"
+  },
+  "expected_classifier": "FRESH_CONTEXT_RESUME",
+  "expected_admitted": [
+    "iaevt-v1-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  ]
+}

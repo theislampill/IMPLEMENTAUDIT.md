@@ -1,0 +1,55 @@
+{
+  "schema": "implementaudit.triad-review-status.v1",
+  "status": "ANALYTICAL_DELTA_REVIEWED_FOR_RECONCILIATION_WITH_FAILED_PACKAGE_GATE",
+  "reviewed_subject_manifest": "REVIEWED_SUBJECT.json",
+  "reviewed_subject_sha256": "f4c2a199743d5da4207f7f52a26745b0b5a60c59afd958056036d5feb86effd5",
+  "coverage": "REVIEW_COVERAGE.json",
+  "final_reviews": [
+    {
+      "lane": "source-and-validation",
+      "input_sha256": "6cab0a168bc51b59c42b3a4c3678f2f597a3b6d6982c40022416096f2be17603",
+      "original_result_sha256": "ca33d146c33c64a71088e4705dcf5be2585b79db4862e59b61c1caba194ba5b6",
+      "published_review_path": "reviews/FINAL_SOURCE_AND_VALIDATION.json",
+      "published_review_sha256": "ca33d146c33c64a71088e4705dcf5be2585b79db4862e59b61c1caba194ba5b6",
+      "events_sha256": "7fb955bc9a01cf65cd96978344bdfb204373f06550d4bc01cfd2c79c3cbfa298",
+      "observed_tool_calls": 0,
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA"
+    },
+    {
+      "lane": "semantic-repairs-and-issues",
+      "input_sha256": "4fd14ee917a4d912df8d894e02f039c2044ff537535def10a9e8eb98411fe430",
+      "original_result_sha256": "c2916ef5dbb6e1b9b91ceddc532673e20517b7daa48c520bcd89a37f92ff5742",
+      "published_review_path": "reviews/FINAL_SEMANTIC_REPAIRS_AND_ISSUES.json",
+      "published_review_sha256": "c2916ef5dbb6e1b9b91ceddc532673e20517b7daa48c520bcd89a37f92ff5742",
+      "events_sha256": "0ace86213878d0ebe846962f41cae52f0701754284d4feb3d47d026639094b67",
+      "observed_tool_calls": 0,
+      "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA"
+    }
+  ],
+  "independence": "Fresh ordinary CLI reviewer processes received frozen inline evidence and did not author the reviewed delta. Parent verified input custody and exact returned key sets. No reviewer independently rehashed the filesystem.",
+  "containment": "CLI read-only shell/patch policy was externally probed; apps and nested agents disabled; zero worker tool calls observed in accepted review traces. This is not universal tool/effect containment.",
+  "native_authority_none_route": "UNPROVED_NO_NATIVE_GATE_CREDIT",
+  "runtime_or_installed_qualification": false,
+  "governor_or_release_admission": false,
+  "issue_closure_credit": 0,
+  "remaining_owner_boundaries": [
+    "EH-3 accepted source/current controller reconciliation, including stricter compaction source and refreshed fixture pins",
+    "Final B-P4B semantic reserve and package caps",
+    "All frozen required/conditional/deferred frontier and dogfood qualifications remain unchanged"
+  ],
+  "scope_limit": "Full-row analytical target mapping and bounded final delta review; not a new independent review of every repeated generated directional pair or external scholarly source, and not a universal absence-of-novelty proof.",
+  "prior_subject_manifest": "reviews/INITIAL_REVIEWED_SUBJECT.json",
+  "prior_subject_sha256": "03d95813ade854c68f58313c2d6efd76d5b52e6508bc178eab9719e1d2a34119",
+  "supplemental_review": {
+    "path": "reviews/BASELINE_QUALIFICATION_REVIEW.json",
+    "input_sha256": "34e44f92c8298854285baa5fb220efffc3907b7061a0596fdb61b2fae1f6e5e8",
+    "original_result_sha256": "98c7bc4f3a541d455413837d688b82371ae28ed9332a7fb9ae8bc8c7ed70556e",
+    "published_result_sha256": "98c7bc4f3a541d455413837d688b82371ae28ed9332a7fb9ae8bc8c7ed70556e",
+    "events_sha256": "076d5e1b076767e8dd51de6c18861ea818f39e2202752ed1a79c1e521133d237",
+    "scope_verdict": "ACCEPTABLE_BOUNDED_DELTA",
+    "observed_tool_calls": 0
+  },
+  "package_gate": "FAILED_DURABLE_IDENTITY_SOURCE_CONVERGENCE_REQUIRED",
+  "package_limit_record": "BASELINE_VALIDATION_LIMIT.json",
+  "evidence_transfer": "Prior full-row/context and final repair review remain valid for unchanged semantic content. The supplemental reviewer covers the changed README, source reconciliation, historical issue-title field label and new baseline validation qualification against the updated subject. Runtime source and fixture postimages did not change."
+}

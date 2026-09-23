@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_SOFTWARE_ARCHITECTURE",
+  "analytical_label_status": "RESEARCHER_SYNTHESIS_NOT_AN_ESTABLISHED_ACADEMIC_SCHOOL",
+  "revision": "ESA-2026-09-06-r1",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "state": "FROZEN",
+  "scope": "Independent, source-grounded reconstruction of software architecture’s structures, interaction/quality reasoning, descriptions, decisions, evaluation, conformance and revision, including documented contemporary translations and criticism. The population is the registered candidate set after examination, not every proposition in every publication.",
+  "scope_boundaries": [
+    "No requester repositories, prior Evolved packets or sibling research consulted.",
+    "Architecture intersects but does not annex enterprise, hardware, systems or organisational architecture.",
+    "Program families and maintenance are studied only where they establish architecture mechanisms, history or interface obligations; sibling conclusions are not supplied.",
+    "This is an explicit bounded interpretive study, not an exhaustive systematic bibliometric review or a meta-analysis.",
+    "Normative clauses not read, current vendor prices/quotas not checked, and inaccessible monographs/editions do not support detailed claims.",
+    "External legal/compliance authority is not inferred from architectural methods."
+  ],
+  "population_total": 68,
+  "population_examined": 68,
+  "property_coverage": "68/68",
+  "disposition_counts": {
+    "ASSUMPTION_SENSITIVE": 8,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 2,
+    "CONTEXT_DEPENDENT": 13,
+    "DOMAIN_SPECIFIC": 8,
+    "NO_GENERAL_PROPERTY": 1,
+    "REJECTED_OR_DISFAVOURED": 8,
+    "RETAINED_IN_EVOLVED_FORM": 15,
+    "STRONGLY_RETAINED": 9,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "UNRESOLVED": 1,
+    "USEFUL_BUT_EASILY_GAMED": 2
+  },
+  "examination_counts": {
+    "EXAMINED": 41,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 27
+  },
+  "crosswalk_worthy_candidates": 55,
+  "non_retained_superseded_or_unresolved_candidates": 13,
+  "unresolved_candidate_count": 1,
+  "unresolved_candidate_ids": [
+    "ESA-060"
+  ],
+  "unresolved_composition_obligation_count": 4,
+  "mandatory_families_examined": 9,
+  "uncompleted_mandatory_families": 0,
+  "source_work_count": 66,
+  "composition_relation_count": 65,
+  "genealogy_node_count": 25,
+  "genealogy_edge_count": 25,
+  "criticism_entry_count": 20,
+  "ceremony_entry_count": 18,
+  "internal_tension_count": 10,
+  "intake_status": {
+    "AUDIT_INTAKE": "COMPLETE",
+    "PUBLIC_DOCUMENTATION_INTAKE": "COMPLETE",
+    "WITHIN_TRADITION_COMPOSITION": "COMPLETE",
+    "SYNTHESIS_INTAKE": "COMPLETE"
+  },
+  "independence": {
+    "SIBLING_CORPORA_CONSULTED": false,
+    "CROSS_TRIFECTA_SYNTHESIS_PERFORMED": false,
+    "REQUESTER_REPOSITORIES_CONSULTED": false,
+    "TARGET_ADOPTION_OR_MUTATION_AUTHORISED": false
+  },
+  "evidence_limits": [
+    "The evolved label and complete composition are analytical, not a recognised school or an independently validated intervention.",
+    "All candidates/families were examined, but access limits and unsettled questions remain; full normative standard clauses and selected original monographs were not read.",
+    "Source counts are not counts of independent studies. Shared programmes, benchmark reuse and survey/dataset overlap are recorded.",
+    "Formal guarantees are model-relative. Comparative, field and historical evidence have distinct roles; no pooled confidence or universal effect estimate is claimed.",
+    "ESA-060 and four composition obligations remain examined and unresolved."
+  ],
+  "checks": {
+    "payload_checks": "PAYLOAD_CHECKS_PASSED",
+    "mechanical_checks_run": 1246,
+    "mechanical_checks_passed": 1246,
+    "mechanical_checks_failed": 0,
+    "substantive_review": "Source/edition/access distinctions, empirical denominators, formal assumptions, criticism-changing dispositions, domain models, non-serial composition, alternative configurations, all intakes and analytical/published cases reviewed before freeze. This is the authoring run’s adversarial review, not an independent external reviewer.",
+    "check_limit": "Checks establish consistency, required structure and link integrity. Substantive source reading and judgement are research work, not proved by schema validation.",
+    "archive_verification_protocol": "After manifest inclusion: close and reopen ZIP, test CRC/integrity, require exactly the eight payloads plus this manifest, recalculate all payload exact-byte sizes/SHA-256, and verify a fresh extraction. Results are published in the external verification receipt."
+  },
+  "normalisation_and_pre_freeze_changes": {
+    "substantive_reference_corrections": [
+      "Removed unrelated ISO source from ESA-050; substituted the inspected information-hiding source.",
+      "Separated provisional ESA-057 into ESA-065 REST and ESA-066 SOA reference-model constraints.",
+      "Added ESA-067 recursive driver-based design and ESA-068 the well-formedness-dependent Wright result.",
+      "Source bibliographic inspection corrected the actual editions of the Tang report, Rainbow ICAC paper, mirroring working paper, erosion authors and dated institutional entries before freeze.",
+      "Clarified ESA-S062 access route: published article text inspected via the author-upload page, not a claim of direct publisher-site access. No property disposition changed."
+    ],
+    "syntax_only_normalisation": [
+      "UTF-8 JSON with two-space indentation and final newline; stable source/property identifiers."
+    ]
+  },
+  "hash_scope": "The inventory contains exactly the eight payload files. It excludes this manifest and the enclosing archive to avoid circular hashes.",
+  "payload_inventory": [
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_AUDIT_INTAKE.md",
+      "bytes": 315040,
+      "sha256": "414992206148f02ec425260693f0e57c956719b7142b91b1e36996a0dc677671"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_COMPOSITION_MODEL.json",
+      "bytes": 82429,
+      "sha256": "c6f6df8aba685c2da1da109022532bf0e0cdbfcd49b59189d983c23aea213033"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_FROZEN_REPORT.md",
+      "bytes": 205368,
+      "sha256": "65dcb9ab6ab12da4fe167933e3e57a52ed63a6433885ea93e227ce4cfc4581eb"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+      "bytes": 969783,
+      "sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 16150,
+      "sha256": "bac8aad14208a31b50a6cf32fd84bc67d227330241b983cfdd151e7da7ba5fea"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_RESEARCH_COVERAGE.json",
+      "bytes": 190851,
+      "sha256": "54ce3f1ba95024582bd21ba907267ff456f5d2cb44c60a247bbec7df456eb6fc"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_SOURCE_TABLE.json",
+      "bytes": 124133,
+      "sha256": "2effa898057f3a41fbc6dfa405c455c4ed2e18cc85e5077de037fa7262040101"
+    },
+    {
+      "filename": "EVOLVED_SOFTWARE_ARCHITECTURE_SYNTHESIS_INTAKE.md",
+      "bytes": 137321,
+      "sha256": "459b69d26c1062861d86a3b76db9a919cbde47756c367e9ff283b7b8f4d580e8"
+    }
+  ]
+}

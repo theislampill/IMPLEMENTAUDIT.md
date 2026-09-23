@@ -306,6 +306,22 @@ require_file fixtures/sidecar-contract/footprint-default.md
 require_file fixtures/sidecar-contract/external-validity.md
 require_file tests/andon-class-contract.test.sh
 require_file tests/continuity-contract.test.sh
+require_file tests/codex-compact-interlock.test.sh
+require_file tests/host-session-binding.test.sh
+require_file fixtures/host-session-binding/disabled-owner.json
+require_file fixtures/host-session-binding/untrusted-owner.json
+require_file fixtures/host-session-binding/malformed-binding.json
+require_file skills/implementaudit/references/host-session-binding.md
+require_file skills/implementaudit/scripts/host-session-binding.py
+require_file tests/route-obligation-contract.test.sh
+require_file tests/route-history-capacity.test.sh
+require_file tests/route-observation-gate.test.sh
+require_file skills/implementaudit/references/route-obligations.md
+require_file skills/implementaudit/scripts/route-transaction.py
+require_file skills/implementaudit/scripts/codex-recovery-prompt-input.py
+require_file skills/implementaudit/scripts/codex-recovery-native-reader.py
+require_file skills/implementaudit/scripts/codex-native-desktop-binding.py
+require_file skills/implementaudit/references/codex-recovery-observer-profile.json
 require_file tests/interruption-durability.test.sh
 require_file tests/lesson-lift-contract.test.sh
 require_file tests/handoff-packet-contract.test.sh
@@ -342,6 +358,7 @@ require_file tests/audit-retention.test.sh
 require_file tests/agents-bootstrap-budget.test.sh
 require_file tests/added-lines-clean.test.sh
 require_file tests/claim-run.test.sh
+require_file tests/claim-run-unknown-option.test.sh
 require_file tests/continuity.test.sh
 require_file tests/phase-validation.test.sh
 require_file tests/acceptance-instrument-discipline.test.sh
@@ -361,6 +378,7 @@ require_file tests/package-shape-claims.test.sh
 require_file tests/package-contract.test.sh
 require_file tests/internal-skill-topology.test.sh
 require_file tests/internal-skill-routing.test.sh
+require_file tests/post-compaction-contract.py
 require_file tests/terminology-integration.test.sh
 require_file tests/read-only-plans-lane.test.sh
 require_file tests/source-evidence-pack-runnable.test.sh
@@ -373,6 +391,19 @@ require_file tests/e2e-mini-audit-loop.test.sh
 require_file tests/skill-bootstrap-budget.test.sh
 require_file tests/source-evidence-pack.test.sh
 require_file tests/action-selection-contract.test.sh
+require_file fixtures/a-to-g/dependency-types.json
+require_file fixtures/a-to-g/semantic-invalidation-radius.json
+require_file fixtures/a-to-g/transaction-concurrency.json
+require_file fixtures/a-to-g/holon-lifecycle.json
+require_file fixtures/a-to-g/post-compaction-isolation.json
+require_file fixtures/a-to-g/andon-trigger-routing.json
+require_file fixtures/a-to-g/execution-owner.json
+require_file tests/a-to-g-a-fixture.test.sh
+require_file tests/a-to-g-b-fixture.test.sh
+require_file tests/a-to-g-c-fixture.test.sh
+require_file tests/a-to-g-df-fixture.test.sh
+require_file tests/a-to-g-e-fixture.test.sh
+require_file tests/a-to-g-g-fixture.test.sh
 require_file tests/fanout-coverage-contract.test.sh
 require_file tests/cold-review-contract.test.sh
 require_file tests/claim-boundary-proof-levels.test.sh
@@ -444,6 +475,13 @@ else
   fail "python, python3, or py -3 is required for JSON validation"
 fi
 
+native_a_g_python="${PYTHON_BIN:-}"
+if [ -z "$native_a_g_python" ]; then
+  native_a_g_python="$("${py_cmd[@]}" -c 'import pathlib, sys; print(pathlib.Path(sys.executable).as_posix())')"
+fi
+"$native_a_g_python" -c 'import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 11) else 1)' \
+  || fail "native A-G fixture controls require an explicit Python 3.11 executable"
+
 "${py_cmd[@]}" -m json.tool .claude-plugin/plugin.json >/dev/null
 "${py_cmd[@]}" -m json.tool .claude-plugin/marketplace.json >/dev/null
 
@@ -502,8 +540,8 @@ if plugin.get("skills") != "./skills/":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.4.0":
-    raise SystemExit("plugin version must be 0.4.0 for the v0.4.0 runtime family")
+if plugin.get("version") != "0.4.1":
+    raise SystemExit("plugin version must be 0.4.1 for the v0.4.1 runtime family")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -539,42 +577,9 @@ for line in claim_lines:
         )
 PY
 
-# Shipped-payload path integrity: files under skills/ ship to consumers who do
-# not receive fixtures/, tests/, or the repo-side check-* scripts. Any line in
-# the payload referencing such a path must carry a "source repo" label so
-# installed agents know the path is repo-side, not a dangling instruction.
-"${py_cmd[@]}" - <<'PY'
-import re
-import sys
-from pathlib import Path
-
-# Bare skills/implementaudit/scripts/ paths resolve nowhere for installed consumers
-# (the archive flattens skills/implementaudit/); helpers resolve via
-# "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/... instead.
-pattern = re.compile(r"(fixtures/[\w.-]+|tests/[\w.-]+|scripts/check-[\w.-]+|skills/implementaudit/scripts/)")
-violations = []
-for path in sorted(Path("skills").rglob("*")):
-    if not path.is_file():
-        continue
-    try:
-        lines = path.read_text(encoding="utf-8").splitlines()
-    except UnicodeDecodeError:
-        continue
-    for lineno, line in enumerate(lines, 1):
-        if pattern.search(line) and "source repo" not in line.lower():
-            violations.append(
-                f"{path.as_posix()}:{lineno}: repo-only path reference without "
-                f"'source repo' label: {line.strip()[:90]}"
-            )
-        if "skills/implementaudit/scripts/" in line and "installed payload" in line.lower():
-            violations.append(
-                f"{path.as_posix()}:{lineno}: installed payload must not use "
-                f"source repo skills/scripts path: {line.strip()[:90]}"
-            )
-if violations:
-    sys.stderr.write("\n".join(violations) + "\n")
-    raise SystemExit(1)
-PY
+# Shipped-payload path integrity: use the maintained scanner so canonical
+# verification and focused controls share identical namespace/path semantics.
+bash scripts/check-installed-payload-self-contained.sh
 
 for marker in \
   Self-critique: \
@@ -603,6 +608,151 @@ grep -R "AUDIT_HANDOFF.*conditional\|AUDIT_HANDOFF.*handoff path" -in skills AGE
 grep -R "AGENTS_UPDATE_DECISION" -n skills/implementaudit/templates/phase-goal.txt skills/implementaudit/templates/STATE.md >/dev/null || fail "AGENTS_UPDATE_DECISION template coverage is missing"
 grep -R "Stage 0 - Context/tool/repo-state detection" -n skills/implementaudit/SKILL.md >/dev/null || fail "native Stage 0 planner contract is missing from skills/implementaudit/SKILL.md"
 grep -R "Stage 6.ii - Pre-flight smoke" -n skills/implementaudit/SKILL.md >/dev/null || fail "native Stage 6.ii planner contract is missing from skills/implementaudit/SKILL.md"
+if grep -F "Read STATE.md then ROADMAP.md" skills/implementaudit/SKILL.md >/dev/null; then
+  fail "host-compaction bootstrap must not governor-read STATE/ROADMAP before audit-state OPEN"
+fi
+grep -F "implementaudit.post-compaction-recovery.v2" skills/implementaudit/SKILL.md >/dev/null || fail "host-compaction v2 recovery capsule is missing from the governor bootloader"
+grep -F "OPEN_AUDIT_STATE" skills/implementaudit/SKILL.md >/dev/null || fail "host-compaction audit-state OPEN is missing from the governor bootloader"
+grep -F "compile-work-graph.py --native-a-g" skills/implementaudit/references/child-agents.md >/dev/null || fail "native A-G compiler join is missing from child-agents.md"
+grep -F "admit-transaction" skills/implementaudit/references/child-agents.md >/dev/null || fail "native A-G transaction admission join is missing from child-agents.md"
+grep -F "implementaudit.holon-execution-evidence.v1" skills/implementaudit/references/child-agents.md >/dev/null || fail "native A-G lifecycle evidence ceiling is missing from child-agents.md"
+"$native_a_g_python" - <<'PY' || fail "native S3 semantic/order contract is missing or its negative controls false-green"
+from pathlib import Path
+import re
+
+skill = Path("skills/implementaudit/SKILL.md").read_text(encoding="utf-8")
+children = Path("skills/implementaudit/references/child-agents.md").read_text(encoding="utf-8")
+
+def bounded(text, start, end=None):
+    begin = text.index(start)
+    finish = text.find(end, begin + len(start)) if end else len(text)
+    if finish < 0:
+        finish = len(text)
+    return text[begin:finish]
+
+def ordered(text, markers):
+    cursor = 0
+    for marker in markers:
+        position = text.find(marker, cursor)
+        if position < 0:
+            return False
+        cursor = position + len(marker)
+    return True
+
+def swap_once(text, left, right):
+    left_at = text.index(left)
+    right_at = text.index(right, left_at + len(left))
+    return (
+        text[:left_at]
+        + right
+        + text[left_at + len(left):right_at]
+        + left
+        + text[right_at + len(right):]
+    )
+
+def inject_before_once(text, boundary, addition):
+    at = text.index(boundary)
+    return text[:at] + addition + text[at:]
+
+def contradicts(text, patterns):
+    return any(re.search(pattern, text, re.IGNORECASE | re.DOTALL) for pattern in patterns)
+
+def valid(skill_text, child_text):
+    runtime = bounded(skill_text, "## Runtime Loop")
+    join = bounded(child_text, "#### Native A-G governor join", "#### Preparation and qualified-product projections")
+    dispatch = bounded(child_text, "#### Root-governor dispatch-context classifier", "Compile the bounded frontier projection")
+    return (
+        ordered(runtime, [
+            "NATIVE_AUTHORITATIVE_RECOVERY",
+            "Genuine host-reported-compaction",
+            "MECHANICAL_CURRENTNESS",
+            "never substantively reads STATE/ROADMAP/WORK_GRAPH before OPEN",
+            "fresh host worker context",
+            "OPEN_AUDIT_STATE",
+            "minimum frontier",
+            "RETURN",
+            "DISPOSE",
+            "RECONCILE",
+            "post-return currentness",
+            "exact typed edge",
+        ])
+        and ordered(join, [
+            "implementaudit.native-a-g.request.v1",
+            "dependency, write",
+            "effect",
+            "compile-work-graph.py --native-a-g",
+            "typed writer/dependency keys",
+            "typed effect keys",
+            "admit-transaction",
+            "disjoint transactions",
+            "MAX_CHILD_PER_ROUTE_TRANSACTION_1",
+            "controller-wide",
+            "implementaudit.holon-execution-evidence.v1",
+            "RETURN is buffered evidence only",
+            "fresh host worker context",
+            "same or any previously used context",
+            "route transaction identity",
+        ])
+        and not contradicts(join, [
+            r"same or any previously used context.{0,96}(?:eligible|permitted|allowed)",
+            r"admit-transaction.{0,96}(?:accepts|admits).{0,96}typed effect keys",
+            r"MAX_CHILD_PER_ROUTE_TRANSACTION_1.{0,96}controller-wide child maximum",
+            r"RETURN is buffered evidence only.{0,128}(?:creates|grants).{0,96}canonical credit",
+        ])
+        and "post-compaction audit-state is NEW_TASK_DISPATCH" in dispatch
+        and "fresh context" in dispatch
+    )
+
+if not valid(skill, children):
+    raise SystemExit(1)
+
+negative_cases = [
+    (skill.replace("fresh host worker context", "host worker context"), children),
+    (skill.replace("OPEN_AUDIT_STATE", "AUDIT_STATE_OPEN_REMOVED"), children),
+    (skill, children.replace("typed effect keys", "effect facts")),
+    (skill, children.replace("MAX_CHILD_PER_ROUTE_TRANSACTION_1", "MAX_CHILD_REMOVED")),
+    (skill, children.replace("implementaudit.holon-execution-evidence.v1", "holon evidence")),
+    (skill, children.replace("same or any previously used context", "ambiguous context")),
+    (
+        swap_once(skill, "fresh host worker context", "OPEN_AUDIT_STATE"),
+        children,
+    ),
+    (
+        skill,
+        inject_before_once(
+            children,
+            "#### Preparation and qualified-product projections",
+            "The same or any previously used context remains eligible for OPEN.\n\n",
+        ),
+    ),
+    (
+        skill,
+        inject_before_once(
+            children,
+            "#### Preparation and qualified-product projections",
+            "The admit-transaction command accepts typed effect keys as admission facts.\n\n",
+        ),
+    ),
+    (
+        skill,
+        inject_before_once(
+            children,
+            "#### Preparation and qualified-product projections",
+            "MAX_CHILD_PER_ROUTE_TRANSACTION_1 is a controller-wide child maximum.\n\n",
+        ),
+    ),
+    (
+        skill,
+        inject_before_once(
+            children,
+            "#### Preparation and qualified-product projections",
+            "RETURN is buffered evidence only but creates canonical credit before RECONCILE.\n\n",
+        ),
+    ),
+]
+if any(valid(candidate_skill, candidate_children) for candidate_skill, candidate_children in negative_cases):
+    raise SystemExit(1)
+PY
 grep -R "<run-root>/THINKING.md" -n skills/implementaudit/templates/THINKING.md skills/implementaudit/templates/PROTOCOL.md skills/implementaudit/templates/phase-goal.txt >/dev/null || fail "THINKING runtime artifact coverage is missing"
 grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
 grep -R "install-claude-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Claude install path is not documented/validated"
@@ -696,7 +846,19 @@ bash scripts/check-terminology-integration.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/lean-discipline.test.sh
 bash tests/andon-class-contract.test.sh
+bash tests/distributed-runtime-contract.test.sh
 bash tests/continuity-contract.test.sh
+bash tests/codex-compact-interlock.test.sh
+bash tests/compaction-result-member-preflight.test.sh
+bash tests/compaction-hold-persistent-refusal.test.sh
+bash tests/host-session-binding.test.sh
+bash tests/route-obligation-contract.test.sh
+bash tests/route-history-capacity.test.sh
+bash tests/route-observation-gate.test.sh
+bash tests/canonical-state-rotation.test.sh
+bash tests/operational-evidence-contract.test.sh
+bash tests/subagent-provenance-sensor.test.sh
+bash tests/turn-disposition.test.sh
 bash tests/interruption-durability.test.sh
 bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh
@@ -729,6 +891,7 @@ bash tests/audit-retention.test.sh
 bash tests/agents-bootstrap-budget.test.sh
 bash tests/added-lines-clean.test.sh
 bash tests/claim-run.test.sh
+bash tests/claim-run-unknown-option.test.sh
 bash tests/continuity.test.sh
 bash tests/phase-validation.test.sh
 bash tests/acceptance-instrument-discipline.test.sh
@@ -757,6 +920,19 @@ bash tests/e2e-mini-audit-loop.test.sh
 bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
 bash tests/action-selection-contract.test.sh
+bash tests/work-graph-compiler.test.sh
+PYTHON_BIN="$native_a_g_python" \
+  bash tests/a-to-g-a-fixture.test.sh
+PYTHON_BIN="$native_a_g_python" \
+  bash tests/a-to-g-b-fixture.test.sh
+PYTHON_BIN="$native_a_g_python" \
+  bash tests/a-to-g-c-fixture.test.sh
+PYTHON_BIN="$native_a_g_python" \
+  bash tests/a-to-g-df-fixture.test.sh
+PYTHON_BIN="$native_a_g_python" \
+  bash tests/a-to-g-e-fixture.test.sh
+PYTHON_BIN="$native_a_g_python" \
+  bash tests/a-to-g-g-fixture.test.sh
 bash tests/fanout-coverage-contract.test.sh
 bash tests/cold-review-contract.test.sh
 bash tests/claim-boundary-proof-levels.test.sh

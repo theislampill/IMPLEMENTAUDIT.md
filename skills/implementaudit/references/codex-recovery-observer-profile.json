@@ -1,0 +1,29 @@
+{
+  "schema": "implementaudit.recovery-observer-profile.v1",
+  "plugin_id": "implementaudit@implementaudit-thread7-rc",
+  "plugin_version": "0.4.0+codex.20260909234441",
+  "plugin_root_relative_to_codex_home": "plugins/cache/implementaudit-thread7-rc/implementaudit/0.4.0+codex.20260909234441",
+  "observer_relative_path": "scripts/codex-recovery-native-reader.py",
+  "route_owner_relative_path": "scripts/route-transaction.py",
+  "desktop_binding_relative_path": "scripts/codex-native-desktop-binding.py",
+  "native_binary_sha256": "ccdc9eb9dd71fbcfb03ad42c4eca2b0d6ff6fbd32ebe9416550e6244561e559b",
+  "native_version": "0.153.4",
+  "required_runtime_locators": [
+    "binary",
+    "home",
+    "repo",
+    "controller_cwd",
+    "task",
+    "epoch_directory"
+  ],
+  "factory": "create_recovery_native_observer_v1",
+  "read_callable": "read_retained_recovery_input_v1",
+  "supported_external_commands": [
+    "watch-restart",
+    "read"
+  ],
+  "launch_requirement": "External Windows PowerShell outside the desktop process tree",
+  "authority": "NONE",
+  "note": "Retained private recovery locator example (stored plugin version 0.4.0+codex.20260909234441), outside the current normal 0.4.1 release profile role. It is not a current installation, executing-runtime, or qualification record. Do not automatically select its stored paths or binary as current inputs; callers must supply an exact owner-selected tuple to the existing observer interface. repo must equal the canonical repository checked by the route/H0 consumer. controller_cwd is the legacy spelling for the second explicit config context; for an outer task cwd and nested canonical repository, name the nested repository as repo and the actual outer task cwd as controller_cwd. This does not change task cwd or H0 mapping. Current source bindings require a separately qualified fresh epoch; this historical tuple cannot be replayed or transferred. Source locators alone grant no startup, admission, currentness, epoch, or native qualification.",
+  "relative_path_base": "governor skill directory containing SKILL.md"
+}

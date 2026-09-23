@@ -1,0 +1,2465 @@
+{
+  "schema_version": "ESME_CANONICAL_RECONCILIATION_1.0",
+  "lineage_id": "EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION",
+  "revision": "ESME-CANONICAL-R1-2026-09-06",
+  "research_cutoff": "2026-09-06",
+  "state": "FROZEN",
+  "basis": "Reconciliation of the two identified frozen corpora; no third literature review.",
+  "mandatory_family_total": 10,
+  "mandatory_families_uncompleted": 0,
+  "families": [
+    {
+      "FAMILY_ID": "M1",
+      "NAME": "Maintenance definitions, intent, classification and readiness",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C001",
+        "ESME-C002",
+        "ESME-C003",
+        "ESME-C004",
+        "ESME-C005",
+        "ESME-C006",
+        "ESME-C007",
+        "ESME-C038",
+        "ESME-C081",
+        "ESME-C094",
+        "ESME-C097",
+        "ESME-C098",
+        "ESME-C101",
+        "ESME-C102"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C001",
+        "ESME-C002",
+        "ESME-C003",
+        "ESME-C004",
+        "ESME-C005",
+        "ESME-C006",
+        "ESME-C038",
+        "ESME-C081",
+        "ESME-C094",
+        "ESME-C098",
+        "ESME-C102"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C007",
+        "ESME-C097",
+        "ESME-C101"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [],
+      "CRITICISM_IDS": [
+        "ESME-CC029",
+        "ESME-CC030",
+        "ESME-CC001",
+        "ESME-CC002",
+        "ESME-CC004",
+        "ESME-CC019",
+        "ESME-CC015",
+        "ESME-CC008",
+        "ESME-CC012",
+        "ESME-CC024",
+        "ESME-CC023",
+        "ESME-CC028"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT001",
+        "ESME-CT002",
+        "ESME-CT007",
+        "ESME-CT008",
+        "ESME-CT005",
+        "ESME-CT003",
+        "ESME-CT004",
+        "ESME-CT011"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE001",
+        "ESME-CASE005",
+        "ESME-CASE007",
+        "ESME-CASE009",
+        "ESME-CASE004",
+        "ESME-CASE003",
+        "ESME-CASE010",
+        "ESME-CASE012",
+        "ESME-CASE002",
+        "ESME-CASE008",
+        "ESME-CASE006",
+        "ESME-CASE014",
+        "ESME-CASE011",
+        "ESME-CASE013"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS001",
+        "ESME-CS004",
+        "ESME-CS041",
+        "ESME-CS025",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS069",
+        "ESME-CS006",
+        "ESME-CS083",
+        "ESME-CS005",
+        "ESME-CS007",
+        "ESME-CS003",
+        "ESME-CS071",
+        "ESME-CS024",
+        "ESME-CS062",
+        "ESME-CS013",
+        "ESME-CS016",
+        "ESME-CS032",
+        "ESME-CS060",
+        "ESME-CS070",
+        "ESME-CS089",
+        "ESME-CS073",
+        "ESME-CS017",
+        "ESME-CS085",
+        "ESME-CS019",
+        "ESME-CS051",
+        "ESME-CS053",
+        "ESME-CS063",
+        "ESME-CS080",
+        "ESME-CS088",
+        "ESME-CS034",
+        "ESME-CS026",
+        "ESME-CS022",
+        "ESME-CS047",
+        "ESME-CS099",
+        "ESME-CS009",
+        "ESME-CS056",
+        "ESME-CS059",
+        "ESME-CS008",
+        "ESME-CS029",
+        "ESME-CS084",
+        "ESME-CS010",
+        "ESME-CS091",
+        "ESME-CS101",
+        "ESME-CS035",
+        "ESME-CS095",
+        "ESME-CS092",
+        "ESME-CS106",
+        "ESME-CS079",
+        "ESME-CS102",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS098",
+        "ESME-CS074"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M2",
+      "NAME": "Software evolution, changing environments and empirical scope",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C008",
+        "ESME-C009",
+        "ESME-C010",
+        "ESME-C011",
+        "ESME-C012",
+        "ESME-C034",
+        "ESME-C081",
+        "ESME-C082"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C008",
+        "ESME-C010",
+        "ESME-C011",
+        "ESME-C034",
+        "ESME-C081"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C009",
+        "ESME-C012"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [
+        "ESME-C082"
+      ],
+      "CRITICISM_IDS": [
+        "ESME-CC003",
+        "ESME-CC004",
+        "ESME-CC019",
+        "ESME-CC011",
+        "ESME-CC018",
+        "ESME-CC029",
+        "ESME-CC030",
+        "ESME-CC021"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT002",
+        "ESME-CT003",
+        "ESME-CT006"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE005",
+        "ESME-CASE006",
+        "ESME-CASE014",
+        "ESME-CASE004"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS008",
+        "ESME-CS009",
+        "ESME-CS010",
+        "ESME-CS011",
+        "ESME-CS012",
+        "ESME-CS079",
+        "ESME-CS100",
+        "ESME-CS101",
+        "ESME-CS013",
+        "ESME-CS007",
+        "ESME-CS016",
+        "ESME-CS018",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS073",
+        "ESME-CS089",
+        "ESME-CS085",
+        "ESME-CS022",
+        "ESME-CS027",
+        "ESME-CS059",
+        "ESME-CS023",
+        "ESME-CS058",
+        "ESME-CS091",
+        "ESME-CS076",
+        "ESME-CS078",
+        "ESME-CS077",
+        "ESME-CS090",
+        "ESME-CS056",
+        "ESME-CS029",
+        "ESME-CS084",
+        "ESME-CS014",
+        "ESME-CS045"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M3",
+      "NAME": "Comprehension, recovery and usable knowledge",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C004",
+        "ESME-C011",
+        "ESME-C013",
+        "ESME-C014",
+        "ESME-C015",
+        "ESME-C016",
+        "ESME-C017",
+        "ESME-C018",
+        "ESME-C019",
+        "ESME-C020",
+        "ESME-C021",
+        "ESME-C070"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C004",
+        "ESME-C011",
+        "ESME-C013",
+        "ESME-C014",
+        "ESME-C015",
+        "ESME-C016",
+        "ESME-C017",
+        "ESME-C018",
+        "ESME-C020",
+        "ESME-C021",
+        "ESME-C070"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C019"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [],
+      "CRITICISM_IDS": [
+        "ESME-CC004",
+        "ESME-CC019",
+        "ESME-CC029",
+        "ESME-CC003",
+        "ESME-CC005",
+        "ESME-CC008",
+        "ESME-CC006"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT002",
+        "ESME-CT007",
+        "ESME-CT008"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE004",
+        "ESME-CASE001",
+        "ESME-CASE007"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS001",
+        "ESME-CS006",
+        "ESME-CS041",
+        "ESME-CS024",
+        "ESME-CS062",
+        "ESME-CS013",
+        "ESME-CS016",
+        "ESME-CS032",
+        "ESME-CS060",
+        "ESME-CS069",
+        "ESME-CS070",
+        "ESME-CS089",
+        "ESME-CS073",
+        "ESME-CS017",
+        "ESME-CS085",
+        "ESME-CS010",
+        "ESME-CS018",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS008",
+        "ESME-CS014",
+        "ESME-CS015",
+        "ESME-CS044",
+        "ESME-CS025",
+        "ESME-CS072",
+        "ESME-CS045",
+        "ESME-CS059",
+        "ESME-CS077",
+        "ESME-CS020",
+        "ESME-CS086",
+        "ESME-CS019"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M4",
+      "NAME": "Configuration/dependency/change-impact and compatibility obligations",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C005",
+        "ESME-C022",
+        "ESME-C023",
+        "ESME-C024",
+        "ESME-C025",
+        "ESME-C026",
+        "ESME-C027",
+        "ESME-C028",
+        "ESME-C029",
+        "ESME-C074",
+        "ESME-C075",
+        "ESME-C076",
+        "ESME-C090",
+        "ESME-C102",
+        "ESME-C104"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C005",
+        "ESME-C022",
+        "ESME-C023",
+        "ESME-C025",
+        "ESME-C026",
+        "ESME-C028",
+        "ESME-C029",
+        "ESME-C074",
+        "ESME-C075",
+        "ESME-C076",
+        "ESME-C090",
+        "ESME-C102",
+        "ESME-C104"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C024",
+        "ESME-C027"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [],
+      "CRITICISM_IDS": [
+        "ESME-CC015",
+        "ESME-CC006",
+        "ESME-CC027",
+        "ESME-CC008",
+        "ESME-CC009",
+        "ESME-CC007",
+        "ESME-CC019",
+        "ESME-CC029",
+        "ESME-CC030",
+        "ESME-CC025",
+        "ESME-CC026",
+        "ESME-CC028",
+        "ESME-CC017"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT008",
+        "ESME-CT003",
+        "ESME-CT010",
+        "ESME-CT001",
+        "ESME-CT007",
+        "ESME-CT011",
+        "ESME-CT009"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE003",
+        "ESME-CASE007",
+        "ESME-CASE009",
+        "ESME-CASE010",
+        "ESME-CASE012",
+        "ESME-CASE001",
+        "ESME-CASE002",
+        "ESME-CASE005",
+        "ESME-CASE004",
+        "ESME-CASE011"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS019",
+        "ESME-CS041",
+        "ESME-CS051",
+        "ESME-CS053",
+        "ESME-CS063",
+        "ESME-CS069",
+        "ESME-CS080",
+        "ESME-CS088",
+        "ESME-CS020",
+        "ESME-CS021",
+        "ESME-CS024",
+        "ESME-CS062",
+        "ESME-CS074",
+        "ESME-CS072",
+        "ESME-CS075",
+        "ESME-CS086",
+        "ESME-CS025",
+        "ESME-CS045",
+        "ESME-CS093",
+        "ESME-CS033",
+        "ESME-CS050",
+        "ESME-CS068",
+        "ESME-CS055",
+        "ESME-CS087",
+        "ESME-CS085",
+        "ESME-CS040",
+        "ESME-CS067",
+        "ESME-CS005",
+        "ESME-CS061",
+        "ESME-CS084",
+        "ESME-CS054",
+        "ESME-CS001",
+        "ESME-CS022",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS095",
+        "ESME-CS034",
+        "ESME-CS092",
+        "ESME-CS029"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M5",
+      "NAME": "Restructuring, refactoring and transformation",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C018",
+        "ESME-C030",
+        "ESME-C031",
+        "ESME-C032",
+        "ESME-C033",
+        "ESME-C034",
+        "ESME-C035",
+        "ESME-C036",
+        "ESME-C038",
+        "ESME-C068",
+        "ESME-C069"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C018",
+        "ESME-C030",
+        "ESME-C031",
+        "ESME-C032",
+        "ESME-C033",
+        "ESME-C034",
+        "ESME-C035",
+        "ESME-C038"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C036",
+        "ESME-C068",
+        "ESME-C069"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [],
+      "CRITICISM_IDS": [
+        "ESME-CC008",
+        "ESME-CC009",
+        "ESME-CC010",
+        "ESME-CC004",
+        "ESME-CC011",
+        "ESME-CC018",
+        "ESME-CC019",
+        "ESME-CC012",
+        "ESME-CC024",
+        "ESME-CC029",
+        "ESME-CC030"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT001",
+        "ESME-CT004",
+        "ESME-CT002",
+        "ESME-CT003",
+        "ESME-CT006",
+        "ESME-CT005"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE001",
+        "ESME-CASE002",
+        "ESME-CASE005",
+        "ESME-CASE009",
+        "ESME-CASE010",
+        "ESME-CASE014",
+        "ESME-CASE007",
+        "ESME-CASE008"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS014",
+        "ESME-CS077",
+        "ESME-CS022",
+        "ESME-CS021",
+        "ESME-CS023",
+        "ESME-CS046",
+        "ESME-CS025",
+        "ESME-CS087",
+        "ESME-CS076",
+        "ESME-CS078",
+        "ESME-CS024",
+        "ESME-CS034",
+        "ESME-CS092",
+        "ESME-CS027",
+        "ESME-CS059",
+        "ESME-CS058",
+        "ESME-CS008",
+        "ESME-CS091",
+        "ESME-CS100",
+        "ESME-CS090",
+        "ESME-CS041",
+        "ESME-CS026",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS069",
+        "ESME-CS047",
+        "ESME-CS099"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M6",
+      "NAME": "Preservation, regression, build, release and recovery evidence",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C005",
+        "ESME-C006",
+        "ESME-C026",
+        "ESME-C027",
+        "ESME-C028",
+        "ESME-C029",
+        "ESME-C033",
+        "ESME-C037",
+        "ESME-C038",
+        "ESME-C039",
+        "ESME-C040",
+        "ESME-C041",
+        "ESME-C042",
+        "ESME-C043",
+        "ESME-C044",
+        "ESME-C045",
+        "ESME-C046",
+        "ESME-C047",
+        "ESME-C048",
+        "ESME-C049",
+        "ESME-C057",
+        "ESME-C061",
+        "ESME-C083",
+        "ESME-C084",
+        "ESME-C086",
+        "ESME-C088",
+        "ESME-C097",
+        "ESME-C098",
+        "ESME-C102",
+        "ESME-C103",
+        "ESME-C104"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C005",
+        "ESME-C006",
+        "ESME-C026",
+        "ESME-C028",
+        "ESME-C029",
+        "ESME-C033",
+        "ESME-C037",
+        "ESME-C038",
+        "ESME-C039",
+        "ESME-C040",
+        "ESME-C041",
+        "ESME-C042",
+        "ESME-C043",
+        "ESME-C044",
+        "ESME-C046",
+        "ESME-C047",
+        "ESME-C048",
+        "ESME-C049",
+        "ESME-C057",
+        "ESME-C083",
+        "ESME-C084",
+        "ESME-C086",
+        "ESME-C088",
+        "ESME-C098",
+        "ESME-C102",
+        "ESME-C103",
+        "ESME-C104"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C027",
+        "ESME-C045",
+        "ESME-C061",
+        "ESME-C097"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [],
+      "CRITICISM_IDS": [
+        "ESME-CC015",
+        "ESME-CC029",
+        "ESME-CC030",
+        "ESME-CC008",
+        "ESME-CC009",
+        "ESME-CC007",
+        "ESME-CC012",
+        "ESME-CC024",
+        "ESME-CC013",
+        "ESME-CC014",
+        "ESME-CC017",
+        "ESME-CC028",
+        "ESME-CC022",
+        "ESME-CC023",
+        "ESME-CC025",
+        "ESME-CC026"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT008",
+        "ESME-CT001",
+        "ESME-CT007",
+        "ESME-CT004",
+        "ESME-CT005",
+        "ESME-CT010",
+        "ESME-CT009",
+        "ESME-CT011"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE003",
+        "ESME-CASE007",
+        "ESME-CASE009",
+        "ESME-CASE010",
+        "ESME-CASE012",
+        "ESME-CASE001",
+        "ESME-CASE002",
+        "ESME-CASE005",
+        "ESME-CASE008",
+        "ESME-CASE013",
+        "ESME-CASE011"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS019",
+        "ESME-CS041",
+        "ESME-CS051",
+        "ESME-CS053",
+        "ESME-CS063",
+        "ESME-CS069",
+        "ESME-CS080",
+        "ESME-CS088",
+        "ESME-CS001",
+        "ESME-CS034",
+        "ESME-CS021",
+        "ESME-CS050",
+        "ESME-CS068",
+        "ESME-CS055",
+        "ESME-CS087",
+        "ESME-CS025",
+        "ESME-CS085",
+        "ESME-CS040",
+        "ESME-CS067",
+        "ESME-CS086",
+        "ESME-CS005",
+        "ESME-CS024",
+        "ESME-CS022",
+        "ESME-CS076",
+        "ESME-CS092",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS099",
+        "ESME-CS026",
+        "ESME-CS047",
+        "ESME-CS048",
+        "ESME-CS105",
+        "ESME-CS098",
+        "ESME-CS049",
+        "ESME-CS046",
+        "ESME-CS103",
+        "ESME-CS102",
+        "ESME-CS084",
+        "ESME-CS052",
+        "ESME-CS030",
+        "ESME-CS031",
+        "ESME-CS082",
+        "ESME-CS029",
+        "ESME-CS093",
+        "ESME-CS035",
+        "ESME-CS104",
+        "ESME-CS095",
+        "ESME-CS066",
+        "ESME-CS106",
+        "ESME-CS038",
+        "ESME-CS039",
+        "ESME-CS037",
+        "ESME-CS004",
+        "ESME-CS079",
+        "ESME-CS059",
+        "ESME-CS036",
+        "ESME-CS074"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M7",
+      "NAME": "Migration, replacement, coexistence, servicing and retirement",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C049",
+        "ESME-C050",
+        "ESME-C051",
+        "ESME-C052",
+        "ESME-C053",
+        "ESME-C054",
+        "ESME-C055",
+        "ESME-C056",
+        "ESME-C057",
+        "ESME-C058",
+        "ESME-C059",
+        "ESME-C060",
+        "ESME-C061",
+        "ESME-C078",
+        "ESME-C081",
+        "ESME-C082",
+        "ESME-C104"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C049",
+        "ESME-C050",
+        "ESME-C051",
+        "ESME-C052",
+        "ESME-C053",
+        "ESME-C054",
+        "ESME-C055",
+        "ESME-C056",
+        "ESME-C057",
+        "ESME-C058",
+        "ESME-C078",
+        "ESME-C081",
+        "ESME-C104"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C059",
+        "ESME-C060",
+        "ESME-C061"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [
+        "ESME-C082"
+      ],
+      "CRITICISM_IDS": [
+        "ESME-CC015",
+        "ESME-CC017",
+        "ESME-CC028",
+        "ESME-CC029",
+        "ESME-CC030",
+        "ESME-CC016",
+        "ESME-CC009",
+        "ESME-CC019",
+        "ESME-CC020",
+        "ESME-CC021",
+        "ESME-CC007"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT005",
+        "ESME-CT003",
+        "ESME-CT009",
+        "ESME-CT007",
+        "ESME-CT008"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE003",
+        "ESME-CASE008",
+        "ESME-CASE012",
+        "ESME-CASE007",
+        "ESME-CASE006",
+        "ESME-CASE001",
+        "ESME-CASE004",
+        "ESME-CASE014",
+        "ESME-CASE010"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS041",
+        "ESME-CS050",
+        "ESME-CS052",
+        "ESME-CS063",
+        "ESME-CS019",
+        "ESME-CS029",
+        "ESME-CS093",
+        "ESME-CS001",
+        "ESME-CS013",
+        "ESME-CS023",
+        "ESME-CS059",
+        "ESME-CS031",
+        "ESME-CS056",
+        "ESME-CS030",
+        "ESME-CS083",
+        "ESME-CS084",
+        "ESME-CS082",
+        "ESME-CS068",
+        "ESME-CS087",
+        "ESME-CS085",
+        "ESME-CS055",
+        "ESME-CS091",
+        "ESME-CS054",
+        "ESME-CS057",
+        "ESME-CS069",
+        "ESME-CS094",
+        "ESME-CS009",
+        "ESME-CS008",
+        "ESME-CS010",
+        "ESME-CS101",
+        "ESME-CS014",
+        "ESME-CS016",
+        "ESME-CS045",
+        "ESME-CS086"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M8",
+      "NAME": "Maintainability, debt and contingent economics",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C034",
+        "ESME-C035",
+        "ESME-C062",
+        "ESME-C063",
+        "ESME-C064",
+        "ESME-C065",
+        "ESME-C066",
+        "ESME-C067",
+        "ESME-C068",
+        "ESME-C069",
+        "ESME-C087",
+        "ESME-C089",
+        "ESME-C095",
+        "ESME-C105"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C034",
+        "ESME-C035",
+        "ESME-C062",
+        "ESME-C063",
+        "ESME-C064",
+        "ESME-C065",
+        "ESME-C066",
+        "ESME-C087",
+        "ESME-C089",
+        "ESME-C105"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C067",
+        "ESME-C068",
+        "ESME-C069"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [
+        "ESME-C095"
+      ],
+      "CRITICISM_IDS": [
+        "ESME-CC004",
+        "ESME-CC011",
+        "ESME-CC018",
+        "ESME-CC019",
+        "ESME-CC022",
+        "ESME-CC023",
+        "ESME-CC026",
+        "ESME-CC025",
+        "ESME-CC014",
+        "ESME-CC028"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT002",
+        "ESME-CT003",
+        "ESME-CT006",
+        "ESME-CT004",
+        "ESME-CT011"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE005",
+        "ESME-CASE014",
+        "ESME-CASE006",
+        "ESME-CASE004",
+        "ESME-CASE008",
+        "ESME-CASE013",
+        "ESME-CASE007",
+        "ESME-CASE011"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS022",
+        "ESME-CS027",
+        "ESME-CS059",
+        "ESME-CS023",
+        "ESME-CS058",
+        "ESME-CS008",
+        "ESME-CS091",
+        "ESME-CS076",
+        "ESME-CS078",
+        "ESME-CS100",
+        "ESME-CS077",
+        "ESME-CS090",
+        "ESME-CS028",
+        "ESME-CS062",
+        "ESME-CS013",
+        "ESME-CS056",
+        "ESME-CS060",
+        "ESME-CS061",
+        "ESME-CS085",
+        "ESME-CS084",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS039",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS081",
+        "ESME-CS092",
+        "ESME-CS097",
+        "ESME-CS035",
+        "ESME-CS038",
+        "ESME-CS025",
+        "ESME-CS052",
+        "ESME-CS029",
+        "ESME-CS098"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M9",
+      "NAME": "Human, organisational, dependency and ecosystem continuity",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C004",
+        "ESME-C006",
+        "ESME-C011",
+        "ESME-C017",
+        "ESME-C029",
+        "ESME-C058",
+        "ESME-C066",
+        "ESME-C070",
+        "ESME-C071",
+        "ESME-C072",
+        "ESME-C073",
+        "ESME-C074",
+        "ESME-C075",
+        "ESME-C076",
+        "ESME-C077",
+        "ESME-C078",
+        "ESME-C079",
+        "ESME-C080",
+        "ESME-C081",
+        "ESME-C082",
+        "ESME-C094",
+        "ESME-C101",
+        "ESME-C105"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C004",
+        "ESME-C006",
+        "ESME-C011",
+        "ESME-C017",
+        "ESME-C029",
+        "ESME-C058",
+        "ESME-C066",
+        "ESME-C070",
+        "ESME-C071",
+        "ESME-C072",
+        "ESME-C073",
+        "ESME-C074",
+        "ESME-C075",
+        "ESME-C076",
+        "ESME-C077",
+        "ESME-C078",
+        "ESME-C079",
+        "ESME-C081",
+        "ESME-C094",
+        "ESME-C105"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C080",
+        "ESME-C101"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [
+        "ESME-C082"
+      ],
+      "CRITICISM_IDS": [
+        "ESME-CC004",
+        "ESME-CC019",
+        "ESME-CC029",
+        "ESME-CC030",
+        "ESME-CC003",
+        "ESME-CC016",
+        "ESME-CC017",
+        "ESME-CC028",
+        "ESME-CC018",
+        "ESME-CC006",
+        "ESME-CC009",
+        "ESME-CC020",
+        "ESME-CC015",
+        "ESME-CC021",
+        "ESME-CC023",
+        "ESME-CC002",
+        "ESME-CC014"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT002",
+        "ESME-CT007",
+        "ESME-CT008",
+        "ESME-CT003",
+        "ESME-CT006",
+        "ESME-CT001",
+        "ESME-CT004",
+        "ESME-CT011"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE004",
+        "ESME-CASE005",
+        "ESME-CASE001",
+        "ESME-CASE007",
+        "ESME-CASE006",
+        "ESME-CASE014",
+        "ESME-CASE009",
+        "ESME-CASE011",
+        "ESME-CASE013"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS001",
+        "ESME-CS006",
+        "ESME-CS041",
+        "ESME-CS024",
+        "ESME-CS062",
+        "ESME-CS013",
+        "ESME-CS016",
+        "ESME-CS032",
+        "ESME-CS060",
+        "ESME-CS069",
+        "ESME-CS070",
+        "ESME-CS089",
+        "ESME-CS073",
+        "ESME-CS017",
+        "ESME-CS085",
+        "ESME-CS034",
+        "ESME-CS063",
+        "ESME-CS010",
+        "ESME-CS018",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS008",
+        "ESME-CS014",
+        "ESME-CS059",
+        "ESME-CS019",
+        "ESME-CS005",
+        "ESME-CS050",
+        "ESME-CS029",
+        "ESME-CS031",
+        "ESME-CS056",
+        "ESME-CS055",
+        "ESME-CS030",
+        "ESME-CS082",
+        "ESME-CS028",
+        "ESME-CS061",
+        "ESME-CS090",
+        "ESME-CS058",
+        "ESME-CS084",
+        "ESME-CS033",
+        "ESME-CS074",
+        "ESME-CS087",
+        "ESME-CS021",
+        "ESME-CS054",
+        "ESME-CS057",
+        "ESME-CS094",
+        "ESME-CS053",
+        "ESME-CS080",
+        "ESME-CS088",
+        "ESME-CS009",
+        "ESME-CS091",
+        "ESME-CS101",
+        "ESME-CS045",
+        "ESME-CS035",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS095",
+        "ESME-CS092",
+        "ESME-CS106",
+        "ESME-CS071",
+        "ESME-CS083",
+        "ESME-CS025",
+        "ESME-CS052",
+        "ESME-CS023",
+        "ESME-CS078",
+        "ESME-CS098"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    },
+    {
+      "FAMILY_ID": "M10",
+      "NAME": "Automation, AI assistance, learned systems and non-code artefacts",
+      "STATUS": "EXAMINED_RECONCILED",
+      "CANONICAL_PROPERTY_IDS": [
+        "ESME-C003",
+        "ESME-C025",
+        "ESME-C083",
+        "ESME-C084",
+        "ESME-C085",
+        "ESME-C086",
+        "ESME-C087",
+        "ESME-C088",
+        "ESME-C089",
+        "ESME-C090",
+        "ESME-C091",
+        "ESME-C092",
+        "ESME-C093",
+        "ESME-C094",
+        "ESME-C095",
+        "ESME-C096",
+        "ESME-C098",
+        "ESME-C099",
+        "ESME-C100",
+        "ESME-C103"
+      ],
+      "FAVOURABLE_CONDITIONAL_ROWS": [
+        "ESME-C003",
+        "ESME-C025",
+        "ESME-C083",
+        "ESME-C084",
+        "ESME-C085",
+        "ESME-C086",
+        "ESME-C087",
+        "ESME-C088",
+        "ESME-C089",
+        "ESME-C090",
+        "ESME-C091",
+        "ESME-C092",
+        "ESME-C093",
+        "ESME-C094",
+        "ESME-C098",
+        "ESME-C103"
+      ],
+      "NEGATIVE_SUPERSEDED_CEREMONY_ROWS": [
+        "ESME-C096",
+        "ESME-C099"
+      ],
+      "UNRESOLVED_OR_CONTESTED_ROWS": [
+        "ESME-C095",
+        "ESME-C100"
+      ],
+      "CRITICISM_IDS": [
+        "ESME-CC006",
+        "ESME-CC027",
+        "ESME-CC012",
+        "ESME-CC024",
+        "ESME-CC013",
+        "ESME-CC014",
+        "ESME-CC022",
+        "ESME-CC023",
+        "ESME-CC026",
+        "ESME-CC025",
+        "ESME-CC007",
+        "ESME-CC029",
+        "ESME-CC028",
+        "ESME-CC030"
+      ],
+      "TENSION_IDS": [
+        "ESME-CT010",
+        "ESME-CT004",
+        "ESME-CT001",
+        "ESME-CT011"
+      ],
+      "CASE_IDS": [
+        "ESME-CASE002",
+        "ESME-CASE009",
+        "ESME-CASE013",
+        "ESME-CASE008",
+        "ESME-CASE010",
+        "ESME-CASE005",
+        "ESME-CASE011",
+        "ESME-CASE001",
+        "ESME-CASE012"
+      ],
+      "SOURCE_IDS": [
+        "ESME-CS001",
+        "ESME-CS006",
+        "ESME-CS041",
+        "ESME-CS024",
+        "ESME-CS062",
+        "ESME-CS019",
+        "ESME-CS045",
+        "ESME-CS053",
+        "ESME-CS074",
+        "ESME-CS093",
+        "ESME-CS033",
+        "ESME-CS086",
+        "ESME-CS034",
+        "ESME-CS035",
+        "ESME-CS064",
+        "ESME-CS065",
+        "ESME-CS104",
+        "ESME-CS095",
+        "ESME-CS066",
+        "ESME-CS092",
+        "ESME-CS106",
+        "ESME-CS097",
+        "ESME-CS036",
+        "ESME-CS037",
+        "ESME-CS039",
+        "ESME-CS081",
+        "ESME-CS038",
+        "ESME-CS046",
+        "ESME-CS040",
+        "ESME-CS067",
+        "ESME-CS025",
+        "ESME-CS005",
+        "ESME-CS009",
+        "ESME-CS010",
+        "ESME-CS063",
+        "ESME-CS069",
+        "ESME-CS080",
+        "ESME-CS096",
+        "ESME-CS022",
+        "ESME-CS004",
+        "ESME-CS079",
+        "ESME-CS059",
+        "ESME-CS102",
+        "ESME-CS098",
+        "ESME-CS050",
+        "ESME-CS052"
+      ],
+      "COMPLETENESS_MEANING": "All input findings in this mandatory family are accounted, including negative/critical and open material where present. This is not a claim of exhaustive world literature or a required unresolved row in every family."
+    }
+  ],
+  "original_family_partitions": {
+    "A": [
+      {
+        "FAMILY_ID": "M1",
+        "NAME": "Nature, scope and classification of change",
+        "QUESTIONS": [
+          "What changes, why, and who can authorise the new objective?",
+          "How do historical purpose categories differ from activity and current standard categories?",
+          "Which non-code/readiness work belongs to maintenance?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M1"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S003",
+          "ESME-S004",
+          "ESME-S005",
+          "ESME-S006",
+          "ESME-S007",
+          "ESME-S019",
+          "ESME-S024",
+          "ESME-S025",
+          "ESME-S034",
+          "ESME-S041",
+          "ESME-S050",
+          "ESME-S052",
+          "ESME-S061",
+          "ESME-S062",
+          "ESME-S063",
+          "ESME-S064"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-001",
+          "ESME-002",
+          "ESME-003",
+          "ESME-004",
+          "ESME-005",
+          "ESME-006"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C001",
+          "ESME-C022"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S001",
+            "ESME-S041",
+            "ESME-S064"
+          ],
+          "account": "2022 current maintenance edition, v4.0a visible 2025 guide and 2026 objective/oracle evidence; no newer edition inferred."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S003",
+          "ESME-S007"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M2",
+        "NAME": "Evolution regularities and feedback",
+        "QUESTIONS": [
+          "What are the S/P/E and population assumptions of evolution regularities?",
+          "How do release stream, metrics and organisational context affect findings?",
+          "When does stable useful software not need expansion?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M2"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S007",
+          "ESME-S008",
+          "ESME-S009",
+          "ESME-S010",
+          "ESME-S011",
+          "ESME-S012",
+          "ESME-S013",
+          "ESME-S016",
+          "ESME-S018",
+          "ESME-S036",
+          "ESME-S037"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-007",
+          "ESME-008",
+          "ESME-009",
+          "ESME-010",
+          "ESME-011"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C002"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S037",
+            "ESME-S058",
+            "ESME-S061"
+          ],
+          "account": "Historical-law claims checked against population critiques and contemporary changing-workflow/context evidence; no new universal 2026 law claimed."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S007"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M3",
+        "NAME": "Comprehension and recovery",
+        "QUESTIONS": [
+          "Which question does each static, dynamic, historical or human method answer?",
+          "How are reverse engineering, redocumentation, restructuring and re-engineering distinct?",
+          "How much understanding is enough for the particular decision?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M3"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S014",
+          "ESME-S015",
+          "ESME-S016",
+          "ESME-S017",
+          "ESME-S018",
+          "ESME-S020",
+          "ESME-S025",
+          "ESME-S041",
+          "ESME-S043",
+          "ESME-S044",
+          "ESME-S058"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-012",
+          "ESME-013",
+          "ESME-014",
+          "ESME-015",
+          "ESME-016",
+          "ESME-017",
+          "ESME-018",
+          "ESME-019",
+          "ESME-020"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C003",
+          "ESME-C004"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S041",
+            "ESME-S059",
+            "ESME-S066"
+          ],
+          "account": "Recent maintenance/community and semantic-observation work supplements directly inspected historical methods; no new generally superior comprehension method established."
+        },
+        "EXAMINATION_STATUS": "EXAMINED",
+        "ACCESS_LIMIT_SOURCE_IDS": [],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M4",
+        "NAME": "Impact analysis and propagation",
+        "QUESTIONS": [
+          "Which dependency kinds and supported configurations can propagate a change?",
+          "What can co-change, API labels and clean merges establish?",
+          "How is a local boundary challenged and revised?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M4"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S005",
+          "ESME-S019",
+          "ESME-S020",
+          "ESME-S021",
+          "ESME-S024",
+          "ESME-S040",
+          "ESME-S041",
+          "ESME-S044",
+          "ESME-S049",
+          "ESME-S052",
+          "ESME-S054",
+          "ESME-S061",
+          "ESME-S066",
+          "ESME-S067"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-021",
+          "ESME-022",
+          "ESME-023",
+          "ESME-024",
+          "ESME-025",
+          "ESME-026",
+          "ESME-027",
+          "ESME-092"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C005",
+          "ESME-C006"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S040",
+            "ESME-S041",
+            "ESME-S052",
+            "ESME-S054",
+            "ESME-S066"
+          ],
+          "account": "2024 semantic merge, 2025 packaging/deprecation and MSR 2026 build conflicts address current propagation objects."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S049"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M5",
+        "NAME": "Preservation and transformation",
+        "QUESTIONS": [
+          "Which observer and language assumptions define preservation?",
+          "Are transformation rules and actual engines validated separately?",
+          "Does structural change reduce an identified future task cost?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M5"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S014",
+          "ESME-S021",
+          "ESME-S022",
+          "ESME-S023",
+          "ESME-S024",
+          "ESME-S027",
+          "ESME-S041",
+          "ESME-S045",
+          "ESME-S057",
+          "ESME-S058"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-028",
+          "ESME-029",
+          "ESME-030",
+          "ESME-031",
+          "ESME-032",
+          "ESME-033"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C006",
+          "ESME-C007",
+          "ESME-C008"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S038",
+            "ESME-S039",
+            "ESME-S063"
+          ],
+          "account": "2026 transformation/repair evaluation highlights version-bound guarantees; classic formal/tool/metric criticisms remain relevant and are not replaced by hype."
+        },
+        "EXAMINATION_STATUS": "EXAMINED",
+        "ACCESS_LIMIT_SOURCE_IDS": [],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M6",
+        "NAME": "Regression and release evidence",
+        "QUESTIONS": [
+          "How do new and preserved obligations obtain independent warrants?",
+          "What are selection, priority, mutation and differential-oracle limits?",
+          "Can release, recovery and mixed-version consequences actually be observed?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M6"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S019",
+          "ESME-S022",
+          "ESME-S024",
+          "ESME-S025",
+          "ESME-S026",
+          "ESME-S034",
+          "ESME-S041",
+          "ESME-S045",
+          "ESME-S046",
+          "ESME-S047",
+          "ESME-S048",
+          "ESME-S049",
+          "ESME-S050",
+          "ESME-S051",
+          "ESME-S052",
+          "ESME-S062",
+          "ESME-S063",
+          "ESME-S064",
+          "ESME-S066"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-034",
+          "ESME-035",
+          "ESME-036",
+          "ESME-037",
+          "ESME-038",
+          "ESME-039",
+          "ESME-040",
+          "ESME-041",
+          "ESME-042",
+          "ESME-043",
+          "ESME-044",
+          "ESME-091"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C009",
+          "ESME-C010",
+          "ESME-C011",
+          "ESME-C022"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S041",
+            "ESME-S052",
+            "ESME-S063",
+            "ESME-S064"
+          ],
+          "account": "2025 packaging and 2026 patch/oracle studies broaden regression and evidence-production limits."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S026",
+          "ESME-S047",
+          "ESME-S049"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M7",
+        "NAME": "Migration, coexistence and replacement",
+        "QUESTIONS": [
+          "When do local repair, wrapping, rehosting/replatforming, incremental or atomic replacement dominate?",
+          "How are data meaning, coexistence and irreversible steps handled?",
+          "What proves transfer and closes duplicate operation?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M7"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S013",
+          "ESME-S019",
+          "ESME-S023",
+          "ESME-S029",
+          "ESME-S030",
+          "ESME-S031",
+          "ESME-S041",
+          "ESME-S049",
+          "ESME-S051",
+          "ESME-S055",
+          "ESME-S058",
+          "ESME-S062",
+          "ESME-S067"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-045",
+          "ESME-046",
+          "ESME-047",
+          "ESME-048",
+          "ESME-049",
+          "ESME-050",
+          "ESME-051",
+          "ESME-052",
+          "ESME-053",
+          "ESME-054",
+          "ESME-055"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C011",
+          "ESME-C012",
+          "ESME-C013"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S031",
+            "ESME-S041",
+            "ESME-S052",
+            "ESME-S054"
+          ],
+          "account": "2024 migration-pattern revision and 2025 guide/packaging/deprecation evidence update operative context; no invented recent comparative migration trial."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S049"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M8",
+        "NAME": "Debt, prioritisation and lifecycle economics",
+        "QUESTIONS": [
+          "What is a contingent change-cost liability rather than an ordinary defect or feature request?",
+          "What do empirical debt costs and metrics actually measure?",
+          "When is repayment, deferral or retirement justified, and who bears the cost?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M8"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S013",
+          "ESME-S023",
+          "ESME-S027",
+          "ESME-S028",
+          "ESME-S055",
+          "ESME-S057",
+          "ESME-S058",
+          "ESME-S059",
+          "ESME-S060"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-056",
+          "ESME-057",
+          "ESME-058",
+          "ESME-059",
+          "ESME-060",
+          "ESME-061",
+          "ESME-062"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C008",
+          "ESME-C014"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S057",
+            "ESME-S058",
+            "ESME-S036",
+            "ESME-S037"
+          ],
+          "account": "2019 field/replication evidence plus 2025 debt reframing and 2025–2026 workflow cost studies; the manifesto is not an empirical trial."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S059"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M9",
+        "NAME": "Human, ecosystem and retirement continuity",
+        "QUESTIONS": [
+          "What establishes willing competent maintainer/successor capacity?",
+          "How do dependency updates and deprecation reach actual consumers?",
+          "How do end of support, shutdown, archival identity and runnable preservation differ?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M9"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S008",
+          "ESME-S009",
+          "ESME-S013",
+          "ESME-S014",
+          "ESME-S016",
+          "ESME-S019",
+          "ESME-S021",
+          "ESME-S024",
+          "ESME-S029",
+          "ESME-S032",
+          "ESME-S033",
+          "ESME-S036",
+          "ESME-S037",
+          "ESME-S041",
+          "ESME-S044",
+          "ESME-S052",
+          "ESME-S053",
+          "ESME-S054",
+          "ESME-S055",
+          "ESME-S056",
+          "ESME-S058",
+          "ESME-S059",
+          "ESME-S060",
+          "ESME-S062"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-063",
+          "ESME-064",
+          "ESME-065",
+          "ESME-066",
+          "ESME-067",
+          "ESME-068",
+          "ESME-069",
+          "ESME-070",
+          "ESME-071",
+          "ESME-072",
+          "ESME-073",
+          "ESME-074",
+          "ESME-075"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C003",
+          "ESME-C015",
+          "ESME-C016",
+          "ESME-C017",
+          "ESME-C022"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S054",
+            "ESME-S059",
+            "ESME-S060"
+          ],
+          "account": "2021 maintainer evidence, 2025 support/vulnerability study and deprecation standard; archival guidance remains version/date limited."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S059"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      },
+      {
+        "FAMILY_ID": "M10",
+        "NAME": "Contemporary automation and adverse evidence",
+        "QUESTIONS": [
+          "What do generated repair, build/semantic conflict and current model studies establish?",
+          "How do harness defects, contamination and PR-issue mismatch affect conclusions?",
+          "Does automation reduce total work or merely relocate it; what remains unknown long term?"
+        ],
+        "PERFORMED_SEARCHES": [
+          "ESME-SEARCH-M10"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S005",
+          "ESME-S009",
+          "ESME-S010",
+          "ESME-S024",
+          "ESME-S025",
+          "ESME-S034",
+          "ESME-S035",
+          "ESME-S036",
+          "ESME-S037",
+          "ESME-S038",
+          "ESME-S039",
+          "ESME-S040",
+          "ESME-S041",
+          "ESME-S045",
+          "ESME-S052",
+          "ESME-S061",
+          "ESME-S062",
+          "ESME-S063",
+          "ESME-S064",
+          "ESME-S065",
+          "ESME-S066"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-076",
+          "ESME-077",
+          "ESME-078",
+          "ESME-079",
+          "ESME-080",
+          "ESME-081",
+          "ESME-082",
+          "ESME-083",
+          "ESME-084",
+          "ESME-085",
+          "ESME-086",
+          "ESME-087",
+          "ESME-088",
+          "ESME-089",
+          "ESME-090"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C009",
+          "ESME-C010",
+          "ESME-C018",
+          "ESME-C019",
+          "ESME-C020",
+          "ESME-C022"
+        ],
+        "RECENCY_COVERAGE": {
+          "source_ids": [
+            "ESME-S035",
+            "ESME-S036",
+            "ESME-S037",
+            "ESME-S038",
+            "ESME-S039",
+            "ESME-S040",
+            "ESME-S063",
+            "ESME-S064",
+            "ESME-S065",
+            "ESME-S066"
+          ],
+          "account": "2024–2026 work through August 2026 inspected; ICSME 14–18 September remains future at cut-off."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "ACCESS_LIMIT_SOURCE_IDS": [
+          "ESME-S001"
+        ],
+        "DISPOSITION": "All stated questions examined; limitations affect claim strength and applicability rather than being silently filled. No mandatory family remains NOT_EXAMINED."
+      }
+    ],
+    "B": [
+      {
+        "FAMILY_ID": "M1",
+        "TITLE": "Change classification and legitimate objective",
+        "QUESTIONS": "A change is represented as a baseline B, a proposed difference Δ, a set of purposes C, intended changed obligations I and surviving obligations P. C is a set, not necessarily one mutually exclusive label. Acceptance needs an authorised interpretation of I and P; classification alone supplies neither.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q001",
+          "ESME-Q002",
+          "ESME-Q003",
+          "ESME-Q004",
+          "ESME-Q005"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S002",
+          "ESME-S003",
+          "ESME-S004",
+          "ESME-S005",
+          "ESME-S006",
+          "ESME-S007",
+          "ESME-S010",
+          "ESME-S030",
+          "ESME-S031",
+          "ESME-S038",
+          "ESME-S039",
+          "ESME-S040",
+          "ESME-S046",
+          "ESME-S047",
+          "ESME-S050",
+          "ESME-S051",
+          "ESME-S061"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-001",
+          "ESME-002",
+          "ESME-003",
+          "ESME-004",
+          "ESME-005",
+          "ESME-071"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C001",
+          "ESME-C024"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S001",
+            "ESME-S003"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "This is an analytical decision model, not a proof that stakeholder agreement produces a beneficial objective. Swanson and Chapin body-access limits preclude detailed original-taxonomy claims.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M2",
+        "TITLE": "Evolution feedback and scope",
+        "QUESTIONS": "Observe a trajectory X(t) = (usefulness, demand, artefact size/structure, effort, familiarity, environment) under declared measures. A law is a scoped claim about some components of X, not an instruction to maximise size. Total complexity and mean complexity per function are different observables.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q006",
+          "ESME-Q007",
+          "ESME-Q008",
+          "ESME-Q009",
+          "ESME-Q010",
+          "ESME-Q011"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S008",
+          "ESME-S009",
+          "ESME-S010",
+          "ESME-S011",
+          "ESME-S014",
+          "ESME-S020",
+          "ESME-S022",
+          "ESME-S029",
+          "ESME-S032",
+          "ESME-S043",
+          "ESME-S047",
+          "ESME-S050",
+          "ESME-S060",
+          "ESME-S061"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-006",
+          "ESME-007",
+          "ESME-008",
+          "ESME-009",
+          "ESME-010"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C002"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S022",
+            "ESME-S043"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED",
+        "EVIDENCE_LIMIT": "Longitudinal associations do not identify causal feedback. E-type classification, stage, aggregation, organisational factors and conditional clauses affect interpretation.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M3",
+        "TITLE": "Question-bounded comprehension and recovery",
+        "QUESTIONS": "Let Q be the questions needed for the proposed change and H the maintainer’s provisional explanation. Static structure, traces, history and human testimony provide different evidence E. Inquiry updates H and may expand Q when a counterexample reveals an omitted consequence.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q012",
+          "ESME-Q013",
+          "ESME-Q014",
+          "ESME-Q015"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S012",
+          "ESME-S013",
+          "ESME-S014",
+          "ESME-S015",
+          "ESME-S021",
+          "ESME-S043",
+          "ESME-S044",
+          "ESME-S047",
+          "ESME-S051"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-011",
+          "ESME-012",
+          "ESME-013",
+          "ESME-014",
+          "ESME-015",
+          "ESME-016"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C003",
+          "ESME-C004"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S043",
+            "ESME-S044"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "Agreement among incomplete views is not complete understanding. A slice preserves a criterion under its model, not arbitrary external behaviour.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M4",
+        "TITLE": "Impact propagation and boundary challenge",
+        "QUESTIONS": "Represent artefacts/consumers as nodes and typed dependencies as guarded edges. The candidate impact set is reachability from a change through relevant edges, plus explicitly uncertain effects. Static, dynamic and historical edges carry different evidential meanings.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q016",
+          "ESME-Q017",
+          "ESME-Q018",
+          "ESME-Q019"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S013",
+          "ESME-S016",
+          "ESME-S017",
+          "ESME-S041",
+          "ESME-S042",
+          "ESME-S043",
+          "ESME-S044",
+          "ESME-S045",
+          "ESME-S051",
+          "ESME-S053"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-017",
+          "ESME-018",
+          "ESME-019",
+          "ESME-020",
+          "ESME-021",
+          "ESME-022"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C005",
+          "ESME-C006"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S043",
+            "ESME-S044",
+            "ESME-S045"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "Graphs can omit undeclared consumers or over-approximate possible behaviour. Absence of a detected edge is not proof of independence.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M5",
+        "TITLE": "Observer-relative preservation and transformation",
+        "QUESTIONS": "For a declared environment set E and observer O, a preserving transformation seeks O(B,e)=O(B′,e) for the required observations and e in E. Intended changes are separately specified. This equation defines the obligation; it is not a generally decidable equivalence procedure.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q020",
+          "ESME-Q021",
+          "ESME-Q022",
+          "ESME-Q023"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S002",
+          "ESME-S012",
+          "ESME-S018",
+          "ESME-S019",
+          "ESME-S020",
+          "ESME-S021",
+          "ESME-S022",
+          "ESME-S023",
+          "ESME-S024",
+          "ESME-S045",
+          "ESME-S051",
+          "ESME-S052",
+          "ESME-S059"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-023",
+          "ESME-024",
+          "ESME-025",
+          "ESME-026",
+          "ESME-027",
+          "ESME-028"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C007",
+          "ESME-C008"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S022",
+            "ESME-S045",
+            "ESME-S052",
+            "ESME-S059"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "A proof or catalogue rule only covers its semantics. Timing, resource use, reflection, persistence and external integrations can introduce observers outside a tool’s model.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M6",
+        "TITLE": "Regression evidence and release continuity",
+        "QUESTIONS": "An obligation set P combines independently justified intended differences and preserved behaviour. Tests/analyses provide partial evidence about P for a versioned candidate. Selection changes what is observed; prioritisation changes when; neither manufactures an oracle.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q024",
+          "ESME-Q025",
+          "ESME-Q026",
+          "ESME-Q027",
+          "ESME-Q028",
+          "ESME-Q029",
+          "ESME-Q030",
+          "ESME-Q031",
+          "ESME-Q032",
+          "ESME-Q033",
+          "ESME-Q034"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S002",
+          "ESME-S023",
+          "ESME-S024",
+          "ESME-S026",
+          "ESME-S030",
+          "ESME-S031",
+          "ESME-S035",
+          "ESME-S036",
+          "ESME-S037",
+          "ESME-S038",
+          "ESME-S040",
+          "ESME-S043",
+          "ESME-S045",
+          "ESME-S046",
+          "ESME-S051",
+          "ESME-S052",
+          "ESME-S053",
+          "ESME-S058",
+          "ESME-S059",
+          "ESME-S062",
+          "ESME-S063",
+          "ESME-S064",
+          "ESME-S066"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-029",
+          "ESME-030",
+          "ESME-031",
+          "ESME-032",
+          "ESME-033",
+          "ESME-034",
+          "ESME-035",
+          "ESME-036",
+          "ESME-037",
+          "ESME-038",
+          "ESME-039",
+          "ESME-040",
+          "ESME-041",
+          "ESME-070"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C009",
+          "ESME-C010",
+          "ESME-C011",
+          "ESME-C012",
+          "ESME-C013"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S026",
+            "ESME-S036",
+            "ESME-S037",
+            "ESME-S043",
+            "ESME-S045",
+            "ESME-S052",
+            "ESME-S059"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "Passing tests need not imply correct intent or adequate coverage. Reproducibility establishes identity, and staged exposure limits some consequences, but neither guarantees correctness.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M7",
+        "TITLE": "Migration, coexistence and replacement",
+        "QUESTIONS": "Migration changes both implementation and the relation between old state So and new state Sn. A mapping μ and phase-dependent authority A determine which writes and queries are valid. Correct endpoints do not imply correct reachable joint states (So,Sn,A,version combinations).",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q035",
+          "ESME-Q036",
+          "ESME-Q037",
+          "ESME-Q038",
+          "ESME-Q039",
+          "ESME-Q040"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S031",
+          "ESME-S035",
+          "ESME-S036",
+          "ESME-S037",
+          "ESME-S038",
+          "ESME-S039",
+          "ESME-S040",
+          "ESME-S050",
+          "ESME-S053"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-042",
+          "ESME-043",
+          "ESME-044",
+          "ESME-045",
+          "ESME-046",
+          "ESME-047",
+          "ESME-048"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C014",
+          "ESME-C015"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S036",
+            "ESME-S037"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "Incremental migration reduces some concentration risks but creates gateway and dual-state costs. A non-injective data transformation has no full inverse without retained information; this analytical fact does not establish a target’s exact recovery design.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M8",
+        "TITLE": "Contingent debt and lifecycle economics",
+        "QUESTIONS": "A debt candidate identifies a choice d, a future change class k, possible added cost I(d,k,t), remediation cost R and remaining horizon H. Compare scenarios of future work and opportunity cost; the metaphor supplies no universal interest rate or reliable numeric optimum.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q041",
+          "ESME-Q042",
+          "ESME-Q043",
+          "ESME-Q044"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S019",
+          "ESME-S020",
+          "ESME-S022",
+          "ESME-S032",
+          "ESME-S040",
+          "ESME-S042",
+          "ESME-S043",
+          "ESME-S048",
+          "ESME-S049",
+          "ESME-S060"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-049",
+          "ESME-050",
+          "ESME-051",
+          "ESME-052",
+          "ESME-053",
+          "ESME-054"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C008",
+          "ESME-C016"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S022",
+            "ESME-S043",
+            "ESME-S049"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "Self-reported wasted time and structural metrics are evidence with validity limits, not guaranteed recoverable savings. A future change that never occurs may never incur the hypothesised interest.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M9",
+        "TITLE": "Human/ecosystem continuity, deprecation and retirement",
+        "QUESTIONS": "Continuity is the relation among obligations, consumers, willing competent maintainers, resources and accessible artefacts. Activity is an imperfect indicator: a project can be finished, abandoned while still needed, or technically active but unsustainably supported.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q045",
+          "ESME-Q046",
+          "ESME-Q047",
+          "ESME-Q048",
+          "ESME-Q049",
+          "ESME-Q050"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S001",
+          "ESME-S002",
+          "ESME-S014",
+          "ESME-S015",
+          "ESME-S030",
+          "ESME-S040",
+          "ESME-S041",
+          "ESME-S043",
+          "ESME-S045",
+          "ESME-S046",
+          "ESME-S047",
+          "ESME-S054"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-055",
+          "ESME-056",
+          "ESME-057",
+          "ESME-058",
+          "ESME-059",
+          "ESME-060"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C003",
+          "ESME-C013",
+          "ESME-C017"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S001",
+            "ESME-S043",
+            "ESME-S045",
+            "ESME-S054"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "Knowledge cannot be reduced to a repository database, and an owner label does not create willingness or capacity. Hidden consumers and indefinite obligations can prevent simple retirement.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      },
+      {
+        "FAMILY_ID": "M10",
+        "TITLE": "Contemporary automation and evolving artefacts",
+        "QUESTIONS": "Automation is a candidate-producing or evidence-producing participant in maintenance, not a source of authority. Evaluate task provenance, tool/version, generated patch, oracle, human review, deployment and delayed consequences as distinct stages of evidence and action, not a mandatory serial implementation.",
+        "PERFORMED_SEARCH_IDS": [
+          "ESME-Q051",
+          "ESME-Q052",
+          "ESME-Q053",
+          "ESME-Q054",
+          "ESME-Q055",
+          "ESME-Q056",
+          "ESME-Q057",
+          "ESME-Q058",
+          "ESME-Q059",
+          "ESME-Q060",
+          "ESME-Q061"
+        ],
+        "INSPECTED_SOURCE_IDS": [
+          "ESME-S002",
+          "ESME-S006",
+          "ESME-S024",
+          "ESME-S025",
+          "ESME-S026",
+          "ESME-S027",
+          "ESME-S028",
+          "ESME-S029",
+          "ESME-S030",
+          "ESME-S033",
+          "ESME-S034",
+          "ESME-S042",
+          "ESME-S049",
+          "ESME-S051",
+          "ESME-S052",
+          "ESME-S055",
+          "ESME-S056",
+          "ESME-S057",
+          "ESME-S058",
+          "ESME-S063",
+          "ESME-S065",
+          "ESME-S067"
+        ],
+        "PROPERTY_IDS": [
+          "ESME-061",
+          "ESME-062",
+          "ESME-063",
+          "ESME-064",
+          "ESME-065",
+          "ESME-066",
+          "ESME-067",
+          "ESME-068",
+          "ESME-069"
+        ],
+        "CRITICISM_IDS": [
+          "ESME-C018",
+          "ESME-C019",
+          "ESME-C020",
+          "ESME-C021",
+          "ESME-C022",
+          "ESME-C023",
+          "ESME-C024"
+        ],
+        "RECENCY_COVERAGE": {
+          "SOURCE_IDS": [
+            "ESME-S025",
+            "ESME-S026",
+            "ESME-S027",
+            "ESME-S028",
+            "ESME-S033",
+            "ESME-S034",
+            "ESME-S049",
+            "ESME-S052",
+            "ESME-S056",
+            "ESME-S057",
+            "ESME-S067"
+          ],
+          "NOTE": "Current evidence was searched; stable foundational mechanisms are not replaced by newer tutorials. Current-year findings are concentrated in M10 and inform the cross-family composition."
+        },
+        "EXAMINATION_STATUS": "EXAMINED_WITH_EVIDENCE_LIMIT",
+        "EVIDENCE_LIMIT": "Benchmarks may leak, mix feature requests with bugs, use weak tests or exclude difficult projects. Current evidence through September 2026 does not justify a timeless universal pro- or anti-automation verdict.",
+        "COVERAGE_JUDGEMENT": "The mandatory questions were investigated and adjudicated within the declared scope. Unsettled generality is not unresearched work."
+      }
+    ]
+  },
+  "family_partition_adjudication": "Semantic scope governs; multi-family membership preserves B costed-complexity in evolution/economics and A refactoring/debt framing, readiness and continuity, configuration/compatibility/release, and non-code scope versus operative effects. No source family is silently replaced.",
+  "property_rows_accounted": {
+    "A": "98/98",
+    "B": "74/74",
+    "TOTAL": "172/172"
+  },
+  "source_rows_accounted": {
+    "A": "67/67",
+    "B": "67/67",
+    "TOTAL": "134/134"
+  },
+  "disposition_counts": {
+    "STRONGLY_RETAINED": 16,
+    "RETAINED_IN_EVOLVED_FORM": 25,
+    "CONTEXT_DEPENDENT": 20,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "REJECTED_OR_DISFAVOURED": 16,
+    "ASSUMPTION_SENSITIVE": 15,
+    "USEFUL_BUT_EASILY_BUREAUCRATISED": 2,
+    "USEFUL_BUT_EASILY_GAMED": 2,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 2,
+    "DOMAIN_SPECIFIC": 3,
+    "CONTESTED": 1,
+    "UNRESOLVED": 2
+  },
+  "examination_counts": {
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 48,
+    "EXAMINED": 57
+  },
+  "evidence_limit_category_counts": {
+    "INHERITED_PROPERTY_EXAMINATION_LIMIT": 47,
+    "ANALYTICAL_SPECIALISATION_ANTECEDENTS_ONLY": 2,
+    "UNSETTLED_SUBSTANTIVE_CLAIM": 3,
+    "ANALYTICAL_COMPOUND_NOT_INDEPENDENTLY_VALIDATED": 5
+  },
+  "ancillary_input_counts": {
+    "criticisms": 46,
+    "tensions": 19,
+    "case_tests": 20,
+    "ceremonies": 90,
+    "composition_relations": 114,
+    "configurations": 16,
+    "open_composition_questions": 7
+  },
+  "canonical_counts": {
+    "canonical_nodes": 105,
+    "relations": 83,
+    "alternative_configurations": 11,
+    "composition_induced_survivors": 4,
+    "absorbed_induced_specialisations": 3,
+    "criticisms": 30,
+    "tensions": 11,
+    "case_tests": 14,
+    "analytical_cases": 11,
+    "published_case_reanalyses": 3,
+    "properties": 105,
+    "sources": 106,
+    "ceremony_groups": 19,
+    "open_composition_questions": 6
+  },
+  "external_research": {
+    "count": 0,
+    "reason": "No material dispute required fresh primary access to reach a bounded reconciliation; differences in access/edition and unsettled empirical claims remain explicit rather than being filled from general knowledge."
+  },
+  "boundaries": {
+    "sibling_corpora_consulted": false,
+    "sss_synthesis_performed": false,
+    "cross_trifecta_synthesis_performed": false,
+    "implementaudit_crosswalk_performed": false,
+    "target_adoption_performed": false,
+    "real_authority_supplied_by_this_packet": false
+  },
+  "uncompleted_burdens": [],
+  "evidence_boundary": "The frozen records and their claim/access accounts were inspected here. The underlying articles, PDFs and web pages were not re-accessed in this reconciliation; their original access is inherited, not independently certified. Custody and internal consistency do not establish scholarly truth."
+}

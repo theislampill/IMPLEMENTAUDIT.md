@@ -2,7 +2,7 @@
 name: audit-andon
 description: bounded abnormality-response cognition used by /implementaudit L4 or an explicit cord-pull; returns diagnosis and countermeasure recommendations without control or mutation authority.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 
 # audit-andon
@@ -30,6 +30,10 @@ RELEASE_OWNERSHIP=NONE
 CLOSURE_OWNERSHIP=NONE
 RXX_OWNERSHIP=NONE
 CAN_ESTABLISH_AUDIT_COMPLETE=NO
+VISIBLE_LIFECYCLE=OPEN,LOAD,USE,RETURN,DISPOSE,RECONCILE
+VISIBLE_IDENTITY_BINDING=REQUIRED
+CHILD_CREDIT_BEFORE_RECONCILE=NONE
+GOVERNED_ABNORMALITY_CLASSIFICATION=HOST_STRUCTURED_EVENT_BOUND
 ```
 
 For a governed route, accept only an exact governor envelope that proves the
@@ -37,6 +41,22 @@ complete executing package and unambiguous precedence, binds the current Andon,
 audit object, currentness and authority ceiling, and identifies what bounded
 diagnostic judgement can change the response. Cheap mechanical Andons bypass
 this skill. Return the result to L4/governor for every authoritative action.
+The host-owned `implementaudit.host-abnormality-classification.v1` event record
+is mandatory for governed abnormality cognition and must be bound to the exact
+Stop event. `SUBSTANTIVE` requires this fresh reconciled route; absent,
+malformed, stale or foreign classification is non-authorizing. `NONE` and
+`MECHANICAL` preserve the cheap path without ceremonial routing. The Stop owner
+must provide the trusted semantic record; the packaged standard Stop hook has
+no such producer and therefore remains `UNCLASSIFIED`/non-authorizing. A
+parallel hook, prose inference or route-shape inference is not a producer.
+does not infer semantic completeness from a lexical phrase list. A governed
+child requester cannot dispatch this skill directly; it returns to the governor
+first.
+
+When returning, name exact ordered LOAD/USE/DISPOSE receipt identities bound to
+this child, packet, obligation and transaction. They remain unverified until
+the governor independently resolves their immutable bytes through the current
+host-owned store.
 
 For direct entry, require an actual observed abnormality, the caller and its
 authority ceiling, available facts, requested containment/diagnosis scope, and

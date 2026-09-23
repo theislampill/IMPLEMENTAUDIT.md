@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "r0022-verifier-plan-selection",
+  "cases": [
+    {
+      "id": "R0022-V01-owner-omitted-under-scoped",
+      "observations": {
+        "change_identity": true,
+        "semantic_owner": false,
+        "effect": true,
+        "consumer": true,
+        "evidence_layer": true,
+        "residual_risk": true,
+        "rollback": true,
+        "omission_equivalent_protection": true,
+        "omission_owner_current": true,
+        "generated_impact": false,
+        "package_impact": false,
+        "public_or_external_impact": false,
+        "registry_changed": false,
+        "package_or_release_ambiguous": false,
+        "stale_projection": false,
+        "unknown_owner_or_relation": false,
+        "transitive_consumer": false,
+        "local_reversible": true
+      },
+      "expected": "ESCALATE_CONSERVATIVELY"
+    },
+    {"id":"R0022-V02-consumer-omitted-under-scoped","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":false,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":true},"expected":"ESCALATE_CONSERVATIVELY"},
+    {"id":"R0022-V03-effect-omitted-under-scoped","observations":{"change_identity":true,"semantic_owner":true,"effect":false,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":true},"expected":"ESCALATE_CONSERVATIVELY"},
+    {"id":"R0022-V04-trivial-local-cheap-path","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":true},"expected":"SERIAL_CHEAP_PATH"},
+    {"id":"R0022-V05-docs-only-verifier-plan","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":false},"expected":"VERIFY_AFFECTED_OWNER"},
+    {"id":"R0022-V06-generated-consumer-verifier-plan","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":true,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":false},"expected":"VERIFY_SOURCE_AND_GENERATED_CONSUMER"},
+    {"id":"R0022-V07-transitive-consumer-verifier-plan","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":true,"local_reversible":false},"expected":"VERIFY_TRANSITIVE_CONSUMER"},
+    {"id":"R0022-V08-package-consumer-verifier-plan","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":true,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":false},"expected":"VERIFY_PACKAGE_CONSUMER"},
+    {"id":"R0022-V09-public-consumer-verifier-plan","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":true,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":false},"expected":"VERIFY_PUBLIC_OR_EXTERNAL_CONSUMER"},
+    {"id":"R0022-V10-external-consumer-verifier-plan","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":true,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":false},"expected":"VERIFY_PUBLIC_OR_EXTERNAL_CONSUMER"},
+    {"id":"R0022-V11-unknown-relation-only-escalates","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":true,"transitive_consumer":false,"local_reversible":true},"expected":"ESCALATE_CONSERVATIVELY"},
+    {"id":"R0022-V12-registry-change-only-escalates","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":true,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":true},"expected":"ESCALATE_CONSERVATIVELY"},
+    {"id":"R0022-V13-package-or-release-ambiguity-only-escalates","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":true,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":true},"expected":"ESCALATE_CONSERVATIVELY"},
+    {"id":"R0022-V14-stale-projection-only-escalates","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":false,"package_impact":false,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":true,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":true},"expected":"ESCALATE_CONSERVATIVELY"},
+    {"id":"R0022-V15-generated-package-composed-verifier-plan","observations":{"change_identity":true,"semantic_owner":true,"effect":true,"consumer":true,"evidence_layer":true,"residual_risk":true,"rollback":true,"omission_equivalent_protection":true,"omission_owner_current":true,"generated_impact":true,"package_impact":true,"public_or_external_impact":false,"registry_changed":false,"package_or_release_ambiguous":false,"stale_projection":false,"unknown_owner_or_relation":false,"transitive_consumer":false,"local_reversible":false},"expected":"VERIFY_COMPOSED_AFFECTED_CONSUMERS"}
+  ]
+}

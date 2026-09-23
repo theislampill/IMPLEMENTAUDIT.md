@@ -1,0 +1,9 @@
+{
+  "cases": [
+    {"path": "controller.controller_id", "value": "foreign-controller"},
+    {"path": "controller.claim_id", "value": "foreign-claim"},
+    {"path": "controller.run_id", "value": "foreign-run"}
+  ],
+  "expected_classifier": "REPORT_AND_WAIT",
+  "expected_contradiction": "CONTROLLER_IDENTITY_MISMATCH"
+}

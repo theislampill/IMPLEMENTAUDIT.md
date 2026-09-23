@@ -176,16 +176,22 @@ seed_candidate() {
   mkdir -p "$candidate/scripts" "$candidate/package" "$candidate/tests" "$candidate/fixtures/scarce-resource-rehearsal" "$candidate/fixtures/run-root-example/phases"
   cp -R skills "$candidate/skills"
   cp scripts/package-contract.py "$candidate/scripts/package-contract.py"
+  cp -R .codex-plugin "$candidate/"
+  cp -R .claude-plugin "$candidate/"
+  cp -R hooks "$candidate/"
   cp package/implementaudit-package.json "$candidate/package/implementaudit-package.json"
   cp tests/scarce-resource-rehearsal-contract.test.sh "$candidate/tests/"
   cp fixtures/scarce-resource-rehearsal/cases.json "$candidate/fixtures/scarce-resource-rehearsal/"
   cp fixtures/run-root-example/phases/phase-1.md "$candidate/fixtures/run-root-example/phases/"
+  git -C "$candidate" init --quiet
+  git -C "$candidate" -c core.longpaths=true -c core.autocrlf=false add --all
   printf '%s\n' "$candidate"
 }
 seed_probe_authority() {
   local authority="$tmp/$1"
   mkdir -p "$authority/scripts" "$authority/tests"
   cp "$reachability" "$authority/scripts/check-helper-reachability.sh"
+  cp scripts/package-contract.py "$authority/scripts/package-contract.py"
   cp tests/scarce-resource-rehearsal-contract.test.sh \
     "$authority/tests/scarce-resource-rehearsal-contract.test.sh"
   printf '%s\n' "$authority"

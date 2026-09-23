@@ -1,0 +1,6 @@
+{
+  "enabled": false,
+  "owner_id": "host-owner",
+  "schema": "implementaudit.host-session-binding-store.v1",
+  "trusted": true
+}

@@ -1,0 +1,7 @@
+{
+  "expected_classifier": "FRESH_CONTEXT_RESUME",
+  "expected_consumed": [
+    "iaevt-v1-9999999999999999999999999999999999999999999999999999999999999999"
+  ],
+  "expected_admitted": []
+}

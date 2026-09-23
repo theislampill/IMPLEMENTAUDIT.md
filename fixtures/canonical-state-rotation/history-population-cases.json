@@ -1,0 +1,251 @@
+{
+  "schema": "implementaudit.history-population-cases.v1",
+  "frozen_template_commit": "0d91ecca8f5bc86a8c4e32c57137fcfb1e0a17d5",
+  "frozen_template_sha256": {
+    "STATE.md": "848e3de85aa3df714d65f034cb42337bc0e935505239aea3fdf9479cff9acef4",
+    "ROADMAP.md": "f99168751c000e44e6336fd68b5acce063215dcd4826042327562255d4fb3fea"
+  },
+  "materialized_migration_preimages": {
+    "derivation_operation": "inject-explicit-classification-records-v1",
+    "population_digest": "975d8ba7c8a267c3cc7d547796c2b281518f5137be023e26d864cdf128de0f2b",
+    "sources": {
+      "STATE.md": {
+        "encoding": "zlib+base64",
+        "byte_count": 10010,
+        "sha256": "8c4e0a126e06de53475dad26fc5da6f63c5d0cbc6ad63fdd74eb2eff98f53ad7",
+        "bytes": "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"
+      },
+      "ROADMAP.md": {
+        "encoding": "zlib+base64",
+        "byte_count": 3273,
+        "sha256": "dcae0c9fa95fde8c6fba11e6550c4485a75b370ed1063d6081386c6faea750a1",
+        "bytes": "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"
+      }
+    }
+  },
+  "expected_source_record_counts": {
+    "STATE.md": 28,
+    "ROADMAP.md": 21
+  },
+  "expected_class_counts": {
+    "HOT_CURRENT": 27,
+    "HOT_POINTER": 11,
+    "COLD_HISTORY": 7,
+    "ON_DEMAND_EVIDENCE": 2,
+    "DUPLICATE_DERIVABLE": 2
+  },
+  "expected_removed_class_counts": {
+    "COLD_HISTORY": 7,
+    "ON_DEMAND_EVIDENCE": 2
+  },
+  "expected_removed_rows": [
+    {
+      "source_name": "STATE.md",
+      "heading": "## Ledger",
+      "record_kind": "finding.closed",
+      "source_line": "| 2 | Closed historical finding | P2 | fixed | validated-resolved | immutable-event | - | none |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Andon log",
+      "record_kind": "andon.closed",
+      "source_line": "| 2 | o2 | archive | evidence-mismatch | prior archive mismatch | corrected manifest | exact readback | resolved |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Occurrence resolution and residuals",
+      "record_kind": "residual.terminal",
+      "source_line": "| closed migration residual | yes | validated-resolved | R0039 | immutable-event |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Context epochs and instruction applicability",
+      "record_kind": "epoch.closed",
+      "source_line": "| G0001 | new-session | 2000-01-01T00:00:00Z | archived-preimage | yes | prior epoch |"
+    },
+    {
+      "source_name": "STATE.md",
+      "heading": "## Context epochs and instruction applicability",
+      "record_kind": "instruction.satisfied",
+      "source_line": "| i2 | event:satisfied | one-shot-action | owner | capture baseline | G0001 | satisfied | immutable-event | - | completed |"
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Action selection",
+      "record_kind": "transition.closed",
+      "source_line": "Completed action-selection evidence: historical deep-route choice."
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Planning evidence",
+      "record_kind": "artifact.historical",
+      "source_line": "Completed planning evidence: historical cold-review packet."
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Phases",
+      "record_kind": "phase.completed",
+      "source_line": "| 0 | archive preimages | R0039 | - | pass | pass | PASS | DONE |"
+    },
+    {
+      "source_name": "ROADMAP.md",
+      "heading": "## Scope-creep register",
+      "record_kind": "finding.closed",
+      "source_line": "| 2 | resolved scope creep | archive | excluded | resolved |"
+    }
+  ],
+  "negative_cases": [
+    "unknown-section",
+    "unmatched-row",
+    "overlapping-rule",
+    "removed-without-event",
+    "duplicate-source-record",
+    "duplicate-destination-event",
+    "unstored-event",
+    "unmanifested-event",
+    "arbitrary-derivation",
+    "unresolved-derivation",
+    "wrong-owner-derivation",
+    "wrong-digest-derivation",
+    "byte-divergent-derivation",
+    "hidden-history-derivation",
+    "hot-section-omission"
+  ],
+  "native_current": {
+    "controller_id": "migration-controller",
+    "run_id": "hot-state-migration-fixture",
+    "phase": "R39-F6",
+    "status": "open",
+    "audit_object_state": "open",
+    "next_action": "verify immutable migration population",
+    "current_epoch": "G0002",
+    "route": "governor-only",
+    "owner_source": "R0039",
+    "baseline_ref": "0d91ecca8f5bc86a8c4e32c57137fcfb1e0a17d5",
+    "last_check": "four correction REDs captured",
+    "audit_object_source": "task-5-review at 5755690b",
+    "latest_auditing_operation": "bounded Task-5 correction",
+    "terminal_closure_condition": "all Task-5 gates pass",
+    "handoff_state": "none",
+    "runtime_artifacts": [
+      {
+        "path": "hot-state-migration-fixture/STATE.md",
+        "status": "open",
+        "notes": "current projection"
+      }
+    ],
+    "open_ledger": [
+      {
+        "number": "1",
+        "finding": "canonical event equivalence",
+        "priority": "P1",
+        "action": "verify stored lookup",
+        "status": "open",
+        "evidence": "migration-only",
+        "depends_on": "Task-4 core",
+        "follow_up": "independent rereview"
+      }
+    ],
+    "occurrence_resolution": "partially-resolved",
+    "open_residuals": [
+      {
+        "residual": "independent rereview pending",
+        "consequential": "yes",
+        "disposition": "owner-assigned",
+        "owner": "controller",
+        "evidence": "post-commit packet"
+      }
+    ],
+    "execution_identity": "model-identity fixture claims bound",
+    "agents_update_decision": {
+      "status": "not warranted",
+      "reason": "bounded fixture correction",
+      "target": "none",
+      "evidence": "seven-path scope"
+    },
+    "continuity_decision_record": {
+      "status": "deferred",
+      "reason": "controller-owned",
+      "target": "controller state",
+      "evidence": "G00EF"
+    },
+    "action_selected": [
+      "classify materialized preimages",
+      "verify stored canonical events"
+    ],
+    "action_omitted": [
+      "Task-6 source routing is out of scope"
+    ],
+    "action_depth_rationale": "correct four verified findings only",
+    "implementaudit_base": ".IMPLEMENTAUDIT/runs",
+    "planning_evidence": [
+      "task-5-review.md",
+      "WORK_GRAPH.json at a37bf1b0"
+    ],
+    "open_scope_creep": [
+      {
+        "number": "1",
+        "issue": "Task-6 publication request",
+        "location": "outside Task-5",
+        "recommendation": "defer",
+        "status": "open"
+      }
+    ],
+    "open_andons": [
+      {
+        "number": "1",
+        "occurrence": "o1",
+        "phase": "migration",
+        "abnormality_class": "failed-criterion",
+        "abnormality": "open population gap",
+        "countermeasure": "enumerate exact rows",
+        "rerun_evidence": "pending",
+        "outcome": "open (rerun pending)"
+      }
+    ],
+    "active_instructions": [
+      {
+        "instruction_id": "i1",
+        "reference": "event:active",
+        "kind": "standing-constraint",
+        "authority": "owner",
+        "subject": "preserve archives",
+        "issued_epoch": "G0002",
+        "status": "active",
+        "status_evidence": "current-state",
+        "supersedes_by": "-",
+        "scope_end": "task end"
+      }
+    ]
+  },
+  "graph_projection": {
+    "work_graph_path": "WORK_GRAPH.json",
+    "work_graph_digest": "a37bf1b0fdc26f7f945a49e9447ab74015aac576bd0a22e45c41fda83b9ee9cc",
+    "active_nodes": [
+      "R39-F6"
+    ]
+  },
+  "custody_pointer": {
+    "current_generation_ref": "refs/implementaudit/current-generations/migration-controller",
+    "pointer_oid": "1111111111111111111111111111111111111111",
+    "manifest_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+    "archive_ref": "refs/implementaudit/state-archives/migration-controller/g0001",
+    "archive_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+    "history_query": "implementaudit history query --generation G0002"
+  },
+  "hot_projection_limits": {
+    "STATE.md": 4096,
+    "ROADMAP.md": 4096
+  },
+  "forbidden_closed_history": [
+    "Closed historical finding",
+    "prior archive mismatch",
+    "closed migration residual",
+    "prior epoch",
+    "capture baseline",
+    "historical deep-route choice",
+    "historical cold-review packet",
+    "archive preimages",
+    "resolved scope creep"
+  ]
+}

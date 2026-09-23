@@ -1,0 +1,1321 @@
+{
+  "schema": "implementaudit.native-a-g.fixture.v1",
+  "slice": "F_ANDON_COGNITION_OWNERSHIP",
+  "authority_ceiling": "PREPARATION_PRODUCT_EVIDENCE_ONLY",
+  "canonical_credit_granted": false,
+  "native_consumer_required": true,
+  "purpose": "Separate deterministic governor mechanics from substantive abnormality cognition and forbid child-owned routing.",
+  "cases": [
+    {
+      "id": "F01_SUBSTANTIVE_ABNORMALITY_ROUTES_AUDIT_ANDON",
+      "coverage": "positive",
+      "input": {
+        "abnormality": "NEW_OR_UNRESOLVED_CAUSAL_MECHANISM",
+        "deterministic_mechanical_resolution": false
+      },
+      "expected": {
+        "route": "audit-andon",
+        "governor_diagnosis": false
+      }
+    },
+    {
+      "id": "F02_DETERMINISTIC_MECHANICAL_MISMATCH_STAYS_GOVERNOR_MECHANICAL",
+      "coverage": "boundary",
+      "input": {
+        "abnormality": "KNOWN_DIGEST_MISMATCH",
+        "exact_countermeasure": "REHASH_AND_COMPARE",
+        "new_causal_reasoning": false
+      },
+      "expected": {
+        "route": "NONE",
+        "owner": "GOVERNOR_MECHANICAL",
+        "ceremonial_child": false
+      }
+    },
+    {
+      "id": "F03_GOVERNOR_DIAGNOSIS_BEFORE_OPEN_REJECTED",
+      "coverage": "negative",
+      "input": {
+        "substantive_diagnosis_present": true,
+        "audit_andon_opened": false
+      },
+      "expected": {
+        "accepted": false,
+        "decision": "ROUTE_FIRST"
+      }
+    },
+    {
+      "id": "F04_CHILD_TO_CHILD_ROUTING_FORBIDDEN",
+      "coverage": "negative",
+      "input": {
+        "requester": "audit-assess-child",
+        "requested_child": "audit-andon-child"
+      },
+      "expected": {
+        "decision": "STOP_CHILD_TO_CHILD_DISPATCH",
+        "return_to_governor": true
+      }
+    },
+    {
+      "id": "F05_NEW_CAUSAL_MECHANISM_REQUIRES_AUDIT_ANDON",
+      "coverage": "positive",
+      "input": {
+        "known_countermeasure_falsified": true,
+        "new_causal_mechanism_required": true
+      },
+      "expected": {
+        "route": "audit-andon",
+        "authority_ceiling": "NONE"
+      }
+    }
+  ],
+  "four_child_consideration": {
+    "evidence_kind": "SYNTHETIC_DECISION_PROJECTION",
+    "canonical_credit_granted": false,
+    "host_model_conformance": "UNQUALIFIED",
+    "scope": "Test-owned source/fixture discriminator only; no production classifier, child loading, route transaction or v3/v4 recovery execution.",
+    "cases": [
+      {
+        "id": "C01_COLD_EXPLICIT_DIRECT",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": true,
+          "entry_mode": "DIRECT_ANDON",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": "audit-andon",
+          "decision": "DIRECT_BOUNDED_COGNITION",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C02_COLD_WITHOUT_CORD_PULL",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": false,
+          "entry_mode": "DIRECT_ANDON",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": null,
+          "decision": "REFUSE_DIRECT_ENTRY",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C03_NORMAL_COLD_WITHOUT_OPEN",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": true,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": null,
+          "decision": "REFUSE_GOVERNED_ENTRY",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C04_NORMAL_CURRENT_WITHOUT_OPEN",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": true,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": null,
+          "decision": "REFUSE_GOVERNED_ENTRY",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C05_NORMAL_PREREQUISITES_PRESENT",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": true,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": true,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "SATISFIED_IN_FIXTURE"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": "audit-andon",
+          "decision": "GOVERNED_PREREQUISITES_SATISFIED",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C06_COLD_REVIEW_LABEL_WITHOUT_INDEPENDENCE",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": true,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "NONE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": true,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-assess"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "NOT_TRIGGERED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": null,
+          "decision": "REFUSE_GOVERNED_ENTRY",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C07_IMMUTABLE_INDEPENDENT_REVIEW",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": true,
+          "independence_satisfied": true,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "NONE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": true,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-assess"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "NOT_TRIGGERED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "SATISFIED_IN_FIXTURE",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": "audit-assess",
+          "decision": "GOVERNED_PREREQUISITES_SATISFIED",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C08_SOURCE_PREPARATION_IS_NOT_QUALIFICATION",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": false,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": true,
+          "release_currentness": true,
+          "abnormality": "NONE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": true,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-implement"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "NOT_TRIGGERED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "NOT_TRIGGERED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": null,
+          "decision": "REFUSE_UNWARRANTED_SELECTION",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C09_MAINTAINER_REALIZED_QUALIFICATION",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": false,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "MAINTAINER_QUALIFICATION",
+          "exact_realized_candidate": true,
+          "release_currentness": true,
+          "abnormality": "NONE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": true,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-implement"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "NOT_TRIGGERED",
+            "audit-implement": "WARRANTED",
+            "audit-andon": "NOT_TRIGGERED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "SATISFIED_IN_FIXTURE",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": "audit-implement",
+          "decision": "GOVERNED_PREREQUISITES_SATISFIED",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C10_COMPACTION_OBSERVATION_ALONE",
+        "input": {
+          "recovery_need": true,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": true,
+          "assessment_need": false,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "NONE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": true,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-state"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "NOT_TRIGGERED",
+            "audit-assess": "NOT_TRIGGERED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "NOT_TRIGGERED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": null,
+          "decision": "REFUSE_UNWARRANTED_SELECTION",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C11_GENUINE_ADMITTED_RECOVERY",
+        "input": {
+          "recovery_need": true,
+          "genuine_recovery_boundary": true,
+          "state_gate_satisfied": true,
+          "assessment_need": false,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "NONE",
+          "returned_new_constraint": false,
+          "currentness": true,
+          "normal_open": true,
+          "host_receipt_gate_satisfied": true,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-state"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "WARRANTED",
+            "audit-assess": "NOT_TRIGGERED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "NOT_TRIGGERED"
+          },
+          "ordinary_admission": {
+            "audit-state": "SATISFIED_IN_FIXTURE",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": "audit-state",
+          "decision": "GOVERNED_PREREQUISITES_SATISFIED",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C12_KNOWN_CHEAP_BYPASS",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": false,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "KNOWN_CHEAP",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": true,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "NOT_TRIGGERED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "NOT_TRIGGERED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": null,
+          "decision": "NO_SELECTION",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": true,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C13_NEW_CONSTRAINT_DEFEATS_CHEAP_HANDLING",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": false,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "KNOWN_CHEAP",
+          "returned_new_constraint": true,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": false,
+          "entry_mode": "NORMAL",
+          "requester": "GOVERNOR",
+          "selection": [],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": true,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "NOT_TRIGGERED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "NOT_REQUESTED",
+          "selected_child": null,
+          "decision": "NO_SELECTION",
+          "governor_reconsideration": true,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": true,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C14_RETURN_TO_GOVERNOR_NO_CHILD_DISPATCH",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": true,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": true,
+          "entry_mode": "DIRECT_ANDON",
+          "requester": "CHILD",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": true,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": null,
+          "decision": "STOP_CHILD_TO_CHILD_DISPATCH",
+          "governor_reconsideration": true,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": true,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C15_ANNOUNCEMENT_RETURN_ACCEPTANCE_NOT_USE",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": null,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": true,
+          "entry_mode": "DIRECT_ANDON",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": true,
+          "returned": true,
+          "accepted": true,
+          "joined": true
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": "audit-andon",
+          "decision": "DIRECT_BOUNDED_COGNITION",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": true,
+            "returned": true,
+            "accepted": true,
+            "joined": true
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C16_HIDDEN_USE_IS_NOT_MISSING_LOAD",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": null,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": true,
+          "entry_mode": "DIRECT_ANDON",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "OBSERVED_HIDDEN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": true,
+          "returned": true,
+          "accepted": true,
+          "joined": true
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": "audit-andon",
+          "decision": "DIRECT_BOUNDED_COGNITION",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "OBSERVED_HIDDEN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": true,
+            "returned": true,
+            "accepted": true,
+            "joined": true
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C17_ACTUAL_DIRECT_USE_SEPARATE_FROM_CREDIT",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": null,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": true,
+          "entry_mode": "DIRECT_ANDON",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "OBSERVED_DIRECT"
+          },
+          "announcement": true,
+          "returned": true,
+          "accepted": true,
+          "joined": true
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": "audit-andon",
+          "decision": "DIRECT_BOUNDED_COGNITION",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "OBSERVED_DIRECT"
+          },
+          "evidence_facts": {
+            "announcement": true,
+            "returned": true,
+            "accepted": true,
+            "joined": true
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      },
+      {
+        "id": "C18_AT_MOST_ONE_EXACT_CHILD",
+        "input": {
+          "recovery_need": null,
+          "genuine_recovery_boundary": false,
+          "state_gate_satisfied": false,
+          "assessment_need": true,
+          "immutable_packet": false,
+          "independence_satisfied": false,
+          "work_kind": "SOURCE_PREPARATION",
+          "exact_realized_candidate": false,
+          "release_currentness": false,
+          "abnormality": "SUBSTANTIVE",
+          "returned_new_constraint": false,
+          "currentness": false,
+          "normal_open": false,
+          "host_receipt_gate_satisfied": false,
+          "explicit_cord_pull": true,
+          "entry_mode": "DIRECT_ANDON",
+          "requester": "GOVERNOR",
+          "selection": [
+            "audit-andon",
+            "audit-assess"
+          ],
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "announcement": false,
+          "returned": false,
+          "accepted": false,
+          "joined": false
+        },
+        "expected": {
+          "cognition": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "WARRANTED",
+            "audit-implement": "NOT_TRIGGERED",
+            "audit-andon": "WARRANTED"
+          },
+          "ordinary_admission": {
+            "audit-state": "UNADMITTED",
+            "audit-assess": "UNADMITTED",
+            "audit-implement": "UNADMITTED",
+            "audit-andon": "UNADMITTED"
+          },
+          "direct_entry": "WARRANTED",
+          "selected_child": null,
+          "decision": "REJECT_MULTIPLE_CHILDREN",
+          "governor_reconsideration": false,
+          "actual_route_evidence": {
+            "audit-state": "UNKNOWN",
+            "audit-assess": "UNKNOWN",
+            "audit-implement": "UNKNOWN",
+            "audit-andon": "UNKNOWN"
+          },
+          "evidence_facts": {
+            "announcement": false,
+            "returned": false,
+            "accepted": false,
+            "joined": false
+          },
+          "normal_route_credit": false,
+          "canonical_credit": false
+        }
+      }
+    ],
+    "paired_controls": [
+      [
+        1,
+        2
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        15,
+        17
+      ],
+      [
+        1,
+        18
+      ]
+    ]
+  }
+}

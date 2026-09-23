@@ -14,6 +14,7 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 helper="skills/implementaudit/scripts/validate-run-root.sh"
+mutation_helper="skills/implementaudit/scripts/apply-observed-mutation.sh"
 ref="skills/implementaudit/references/continuity.md"
 proto="skills/implementaudit/templates/PROTOCOL.md"
 state_t="skills/implementaudit/templates/STATE.md"
@@ -51,7 +52,10 @@ grep -qi "observation of history" "$ref" || fail "reference missing summary-is-o
 grep -qi "Target already satisfied at" "$ref" || fail "reference missing refusal sentence"
 grep -qi "Target already satisfied at" "$proto" || fail "PROTOCOL missing refusal sentence"
 grep -qi "uninterrupted turn crosses no boundary" "$proto" || fail "PROTOCOL missing no-extra-ceremony rule"
-grep -qi "never a fabricated compaction" "$state_t" || fail "STATE template missing honest-provenance rule"
+contains_normalized "$state_t" "Partial or mixed migrated state is STOP" ||
+  fail "STATE template missing mixed-generation stop rule"
+contains_normalized "$state_t" "Only the current epoch stays hot; prior epochs remain immutable query records" ||
+  fail "STATE template missing bounded-history rule"
 grep -qi "Context epochs and instruction applicability" "$state_t" || fail "STATE template missing epoch section"
 grep -qi "NO new marker" "$tc" || fail "transcript contract missing no-new-marker rule"
 contains_normalized "$ref" "run-authored steer and advisory outputs" ||
@@ -59,80 +63,89 @@ contains_normalized "$ref" "run-authored steer and advisory outputs" ||
 contains_normalized "$ref" "precision-critical owner vocabulary" ||
   fail "reference missing immediate vocabulary preservation rule"
 grep -Fqi 'supersedes:' "$ref" || fail "reference missing steer precedence header"
-for surface in "$ref" "$proto" "$state_t"; do
+for surface in "$ref" "$proto"; do
   grep -q 'requested_model' "$surface" || fail "$surface missing canonical requested_model field"
   grep -q 'actual_model' "$surface" || fail "$surface missing canonical actual_model field"
   grep -q 'IDENTITY_UNBOUND' "$surface" || fail "$surface missing identity-unbound consequence"
 done
 grep -q "references/continuity.md" skills/implementaudit/SKILL.md || fail "SKILL.md load map missing continuity reference"
-# The bootloader itself must carry the load-bearing runtime instruction —
-# the B3 post-change r1 wave proved reference-only placement does not
-# reach a resuming executor (all four candidate missions failed).
+# v0.4.1 supersedes the old pre-announcement governor reconstruction with an
+# independently mandatory visible audit-state entry. References retain the
+# ordinary native controller-command route; the thin governor names that route
+# without duplicating its entire command catalogue.
 skill="skills/implementaudit/SKILL.md"
-for tok in host-reported-compaction new-session handoff-resume \
-           manual-resume inferred-context-gap; do
-  grep -q "$tok" "$skill" || fail "SKILL.md runtime loop missing provenance token: $tok"
+for tok in host-reported-compaction new-session handoff-resume manual-resume inferred-context-gap; do
+  grep -q "$tok" "$ref" || fail "continuity route missing provenance token: $tok"
 done
-grep -qi "live state wins" "$skill" || fail "SKILL.md runtime loop missing live-state-wins rule"
-grep -qi "Target already satisfied at" "$skill" || fail "SKILL.md runtime loop missing refusal sentence"
-grep -qi "epoch row" "$skill" || fail "SKILL.md runtime loop missing epoch-row recording"
+for wording in 'live state wins' 'Target already satisfied at' 'epoch row'; do
+  grep -qi "$wording" "$ref" || fail "continuity route missing preserved rule: $wording"
+done
 route_ok() {
   grep -q -- '--current-controller' "$1" && grep -q -- '--resume-controller' "$1" &&
-    grep -q -- '--current-controller' "$2" && grep -q -- '--resume-controller' "$2" &&
-    grep -q -- '--supersede-claim' "$2" && grep -q -- '--verify-resume-receipt' "$2"
+    grep -q -- '--supersede-claim' "$1" && grep -q -- '--verify-resume-receipt' "$1"
 }
-route_ok "$skill" "$ref" || fail "runtime route omits controller discovery, transfer, or receipt verification"
+route_ok "$ref" || fail "native route omits controller discovery, transfer, or receipt verification"
+for literal in \
+  'pointer -> receipt v3 -> permanent marker' \
+  'pointer OID/digest' \
+  'WORK_GRAPH path/digest' \
+  'generation manifest OID/digest' \
+  'cold high-water' \
+  'historical event segments are not read'; do
+  contains_normalized "$ref" "$literal" || fail "continuity reference missing Task 6 contract: $literal"
+done
+contains_normalized "$skill" 'pointer -> receipt v3 -> permanent marker' ||
+  fail 'SKILL.md runtime loop omits the exact Task 6 publication order'
+contains_normalized "$ref" 'Recovery never hydrates wholesale history' ||
+  fail 'continuity route omits bounded recovery'
 
-# e61 ecological RED: after an automatic compaction the model retained a true
-# standing README constraint but promoted it into the active work cell, then
-# launched checks and committed before a fresh host-compaction invalidation and
-# receipt. The bootloader must carry the complete ordered entry fence; a deep
-# reference or cooperating mutation helper is not enough for first-turn routing.
-"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md discovery description missing pre-load continuity fence"
-import sys
+# Check the current bootloader and discriminate deletion, obsolete sequencing,
+# and inert-history false positives. This is finite source-contract protection,
+# not proof that any native child actually ran.
+"${py_cmd[@]}" - "$skill" <<'PYCODE' || fail "current compaction bootloader contract failed"
+import re,runpy,sys
 from pathlib import Path
-
-text = Path(sys.argv[1]).read_text(encoding="utf-8")
-frontmatter = text.split("---", 2)[1]
-description_lines = [
-    line for line in frontmatter.splitlines() if line.startswith("description:")
-]
-if len(description_lines) != 1:
-    raise SystemExit(1)
-description_value = description_lines[0].split(":", 1)[1].strip()
-if not (description_value.startswith('"') and description_value.endswith('"')):
-    raise SystemExit(1)
-required = (
-    "execute audit-governed work to closure or handoff",
-    "activate for /implementaudit and audit closure",
-    "host-reported compaction",
-    "before any response or repo inspection",
-    "through bash",
-    "--current-controller",
-    "separate command",
-    "--invalidate-continuity <controller>",
-    "--boundary host-reported-compaction",
-    "--event <opaque-event>",
-    "state.md then roadmap.md",
-    "--resume-controller <controller> --boundary host-reported-compaction --epoch <next-epoch>",
-    "--verify-resume-receipt <receipt>",
-    "--require-current-continuity <controller>",
-    "no response until the verified receipt",
-    "only then emit the first message",
-    "verified receipt",
+reader=runpy.run_path('tests/pre-use-announcement-contract.py')
+text=Path(sys.argv[1]).read_text(encoding='utf8')
+required=(
+ 'STOP new state-dependent governor decisions until reconciliation.',
+ 'completed compaction plus governor resumption independently requires audit-state.',
+ 'Missing currentness/continuity/epoch/native admission limits results, never this route.',
+ 'hook pending -> visible OPEN/LOAD -> isolated USE -> successful RETURN/JOIN.',
+ 'Keep independent lawful children running;',
+ 'no governor STATE/ROADMAP/WORK_GRAPH pre-reconstruction.',
+ 'Actual observation scope/cutoff governs later coverage;',
+ 'dispatch/RETURN leave pending.',
+ 'never substantively reads STATE/ROADMAP/WORK_GRAPH before OPEN.',
+ 'then prove post-return currentness before the exact typed edge.',
+ 'No ordinary authority: the state owner publishes receipt/H0 lineage.',
+ 'Each native owner action stays separate.',
 )
-if any(item.lower() not in frontmatter.lower() for item in required):
-    raise SystemExit(1)
-description = description_value[1:-1].lower()
-if not description.startswith("host-reported compaction stop"):
-    raise SystemExit("compaction stop is not the first catalog-visible instruction")
-if "use only the host-supplied skill path" not in description:
-    raise SystemExit("description does not permit bounded skill loading")
-if "do not search or inspect the target first" not in description:
-    raise SystemExit("description does not forbid pre-custody target orientation")
-if description.index("--current-controller") > description.index("execute audit-governed work"):
-    raise SystemExit("ordinary activation precedes the compaction fence")
-PY
+def check(t):
+ fm=t.split('---',2)[1]
+ descriptions=[x for x in fm.splitlines() if x.startswith('description:')]
+ assert len(descriptions)==1
+ desc=descriptions[0].lower()
+ assert 'completed compaction/resume requires audit-state regardless of currentness/epoch' in desc
+ assert 'references/continuity.md' in desc and 'before dispatch' in desc and 'references/child-agents.md' in desc
+ active=' '.join(' '.join(reader['procedural_prose_parts'](reader['section'](t,'Runtime Loop'))).split())
+ for phrase in required:assert phrase in active,phrase
+ assert 'no response until the verified receipt' not in desc
+check(text)
+for phrase in required:
+ pattern=r'\s+'.join(re.escape(x) for x in phrase.split())
+ changed,count=re.subn(pattern,'REMOVED_CURRENT_OBLIGATION',text)
+ assert count==1,(phrase,count)
+ for alternative in (changed,changed+'\n<!-- '+phrase+' -->\n'):
+  try:check(alternative)
+  except (AssertionError,ValueError):pass
+  else:raise AssertionError('ineffective finite negative control: '+phrase)
+old=text.replace('Completed compaction/resume requires audit-state regardless of currentness/epoch.', 'Host-reported compaction stop: no response until the verified receipt.')
+try:check(old)
+except AssertionError:pass
+else:raise AssertionError('obsolete pre-announcement sequencing admitted')
+print('current compaction bootloader: 1 positive, 25 negative controls PASS')
+PYCODE
 for surface in "$skill" "$ref" "$proto"; do
   for literal in \
     'POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT' \
@@ -143,45 +156,36 @@ for surface in "$skill" "$ref" "$proto"; do
       fail "$surface missing post-compaction frontier fence: $literal"
   done
 done
-for tok in --invalidate-continuity --verify-resume-receipt --require-current-continuity; do
-  grep -q -- "$tok" "$skill" || fail "SKILL.md bootloader missing ordered continuity command: $tok"
-done
-"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md post-boundary command order is not reconstructible"
-import sys
-from pathlib import Path
-
-text = Path(sys.argv[1]).read_text(encoding="utf-8")
-start = text.index("0. Continuity boundary (when resuming):")
-end = text.index("\n1. Safety read:", start)
-section = text[start:end]
-ordered = (
-    "--current-controller",
-    "--invalidate-continuity",
-    "STATE.md",
-    "ROADMAP.md",
-    "--resume-controller",
-    "--verify-resume-receipt",
-    "--require-current-continuity",
-    "POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT",
-)
-positions = [section.index(item) for item in ordered]
-if positions != sorted(positions) or len(set(positions)) != len(positions):
-    raise SystemExit(1)
-PY
 for tok in --invalidate-continuity --require-current-continuity; do
   grep -q -- "$tok" "$ref" || fail "reference missing host-neutral currentness route: $tok"
   grep -q -- "$tok" skills/implementaudit/scripts/claim-run.sh || fail "claim helper missing host-neutral currentness route: $tok"
 done
+if ! "${py_cmd[@]}" - skills/implementaudit/scripts/claim-run.sh <<'PY'
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+start = text.index("  --require-current-route)")
+end = text.index("  --invalidate-continuity)", start)
+section = text[start:end]
+if "route-transaction.py\" admit-current" not in section:
+    raise SystemExit("effect-bearing route gate does not use request-free admit-current")
+if "route-transaction.py\" check" in section:
+    raise SystemExit("effect-bearing route gate still accepts caller-supplied check authority")
+PY
+then
+  fail "claim helper does not separate raw continuity from request-free route admission"
+fi
 contains_normalized "$ref" "generic no-native-hook fallback" ||
   fail "reference missing generic no-native-hook fallback"
 contains_normalized "$ref" "native host signal is a trigger, never continuity authority" ||
   fail "reference promotes or omits the optional host-signal boundary"
-cp "$skill" "$tmp/mutant-skill.md"; cp "$ref" "$tmp/mutant-continuity.md"
-sed -i 's/--current-controller/--lost-controller/' "$tmp/mutant-skill.md"
-route_ok "$tmp/mutant-skill.md" "$tmp/mutant-continuity.md" && fail "source-removal mutant retained a green continuity route"
-cp "$skill" "$tmp/mutant-skill.md"; sed -i 's/--supersede-claim/--lost-predecessor/' "$tmp/mutant-continuity.md"
-route_ok "$tmp/mutant-skill.md" "$tmp/mutant-continuity.md" && fail "transfer-removal mutant retained a green continuity route"
-for surface in "$skill" "$ref" "$proto"; do
+cp "$ref" "$tmp/mutant-continuity.md"
+sed -i 's/--current-controller/--lost-controller/' "$tmp/mutant-continuity.md"
+route_ok "$tmp/mutant-continuity.md" && fail "source-removal mutant retained a green continuity route"
+cp "$ref" "$tmp/mutant-continuity.md"; sed -i 's/--supersede-claim/--lost-predecessor/' "$tmp/mutant-continuity.md"
+route_ok "$tmp/mutant-continuity.md" && fail "transfer-removal mutant retained a green continuity route"
+for surface in "$ref" "$proto"; do
   contains_normalized "$surface" "own completed host action" ||
     fail "$surface missing separately attributable durable-state read rule"
   contains_normalized "$surface" "must not use ';', '&&', pipelines, multi-stage shell composition, or batching" ||
@@ -375,10 +379,117 @@ current_receipt="$(cd "$successor_repo" && bash "$claim_helper" \
 [ "$current_receipt" = "$receipt" ] \
   || fail "current continuity gate did not return the active receipt"
 
+# HC-H1 causal RED: hold the real governed-writer gate until the invalidator
+# has prepared its exact candidate object, then transfer the controller ref.
+# A one-ref CAS publishes stale authority here; the corrected transaction must
+# verify the controller/currentness read set atomically with the invalidation.
+h1_gate="$successor_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate"
+h1_ready="$tmp/h1-lock-ready"
+h1_release="$tmp/h1-lock-release"
+h1_status="$tmp/h1-invalidation-status"
+h1_output="$tmp/h1-invalidation-output"
+h1_error="$tmp/h1-invalidation-error"
+h1_controller_ref='refs/implementaudit/controllers/release-v0333'
+h1_controller_oid="$(git -C "$successor_repo" rev-parse --verify "$h1_controller_ref")"
+h1_alternate_oid="$(printf 'implementaudit.controller-current.v1\trelease-v0333\t%s\t%s\n' \
+  "$initial_claim" "$initial_root" | git -C "$successor_repo" hash-object -w --stdin)"
+h1_event='hc-h1-controller-transfer-barrier'
+h1_candidate_oid="$(printf 'implementaudit.continuity-invalidation.v1\trelease-v0333\t%s\t%s\tinferred-context-gap\t%s\n' \
+  "$h1_controller_oid" "$successor_claim" "$h1_event" \
+  | git -C "$successor_repo" hash-object --stdin)"
+
+"${py_cmd[@]}" - "$h1_gate" "$h1_ready" "$h1_release" <<'PY' &
+import errno
+import os
+import sys
+import time
+
+gate, ready, release = sys.argv[1:]
+descriptor = os.open(gate, os.O_RDWR | getattr(os, "O_BINARY", 0))
+try:
+    if os.name == "nt":
+        import msvcrt
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_LOCK, 1)
+    else:
+        import fcntl
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+    with open(ready, "xb") as marker:
+        marker.write(b"ready\n")
+    while not os.path.exists(release):
+        time.sleep(0.01)
+finally:
+    if os.name == "nt":
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+    else:
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
+    os.close(descriptor)
+PY
+h1_holder=$!
+for _ in {1..500}; do
+  [ -f "$h1_ready" ] && break
+  sleep 0.01
+done
+[ -f "$h1_ready" ] || fail 'HC-H1 lock holder did not establish the causal barrier'
+
+(
+  set +e
+  cd "$successor_repo" || exit 99
+  bash "$claim_helper" --invalidate-continuity release-v0333 \
+    --boundary inferred-context-gap --event "$h1_event" \
+    >"$h1_output" 2>"$h1_error"
+  printf '%s\n' "$?" >"$h1_status"
+) &
+h1_invalidator=$!
+for _ in {1..1000}; do
+  git -C "$successor_repo" cat-file -e "$h1_candidate_oid^{blob}" 2>/dev/null && break
+  sleep 0.01
+done
+git -C "$successor_repo" cat-file -e "$h1_candidate_oid^{blob}" 2>/dev/null \
+  || fail 'HC-H1 invalidator did not reach the post-observation publication barrier'
+git -C "$successor_repo" update-ref "$h1_controller_ref" \
+  "$h1_alternate_oid" "$h1_controller_oid"
+: > "$h1_release"
+wait "$h1_holder"
+wait "$h1_invalidator"
+[ -f "$h1_status" ] || fail 'HC-H1 invalidator did not report a terminal outcome'
+[ "$(cat "$h1_status")" -ne 0 ] \
+  || fail 'HC-H1 RED: stale controller observation published an invalidation'
+if git -C "$successor_repo" rev-parse --verify \
+    refs/implementaudit/continuity-invalidations/release-v0333 >/dev/null 2>&1; then
+  fail 'HC-H1 guard loss left a visible invalidation'
+fi
+[ "$(git -C "$successor_repo" rev-parse --verify "$h1_controller_ref")" = \
+    "$h1_alternate_oid" ] \
+  || fail 'HC-H1 invalidation disturbed the winning controller transfer'
+git -C "$successor_repo" update-ref "$h1_controller_ref" \
+  "$h1_controller_oid" "$h1_alternate_oid"
+
+# Root-v2 selection is current only while its exact successor receipt remains
+# absent.  A pre-existing successor cannot be silently ignored by invalidation.
+h1_root_successor_ref='refs/implementaudit/continuity-receipts/release-v0333/G0003'
+h1_root_successor_oid="$(printf 'not-a-current-receipt\n' \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+git -C "$successor_repo" update-ref "$h1_root_successor_ref" \
+  "$h1_root_successor_oid" 0000000000000000000000000000000000000000
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --invalidate-continuity release-v0333 --boundary inferred-context-gap \
+    --event hc-h1-root-successor-present --expected-current "$receipt") \
+    >/dev/null 2>&1; then
+  fail 'HC-H1 root-v2 invalidation ignored a present successor receipt'
+fi
+if git -C "$successor_repo" rev-parse --verify \
+    refs/implementaudit/continuity-invalidations/release-v0333 >/dev/null 2>&1; then
+  fail 'HC-H1 root-successor rejection left a visible invalidation'
+fi
+git -C "$successor_repo" update-ref -d "$h1_root_successor_ref" \
+  "$h1_root_successor_oid"
+
 invalidation="$(cd "$successor_repo" && bash "$claim_helper" \
   --invalidate-continuity release-v0333 --boundary inferred-context-gap \
-  --event generic-no-native-hook-e3 2>/dev/null)" \
-  || fail "host-neutral continuity invalidation command is absent"
+  --event generic-no-native-hook-e3 2>"$tmp/h1-positive.err")" \
+  || fail "host-neutral continuity invalidation command is absent: $(cat "$tmp/h1-positive.err")"
 case "$invalidation" in
   refs/implementaudit/continuity-invalidations/release-v0333@[0-9a-f][0-9a-f]*) :;;
   *) fail "continuity invalidation is not a ref-bound token: $invalidation";;
@@ -461,6 +572,336 @@ if (cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v03
     --boundary host-reported-compaction --epoch G0002) >/dev/null 2>&1; then
   fail "a second writer claimed the same continuity epoch"
 fi
+
+# Task 6: once the canonical JSON pointer is current, R0011 alone mints and
+# verifies the exact receipt v3.  Pointer-without-receipt and
+# receipt-without-marker never become current; a marker cannot select the old
+# root route.  Routine currentness remains bounded even when a cold segment is
+# corrupt, while an explicit history read observes that corruption.
+invalidation_e4="$(cd "$successor_repo" && bash "$claim_helper" \
+  --invalidate-continuity release-v0333 --boundary manual-resume \
+  --event task6-bounded-generation-e4 2>/dev/null)" \
+  || fail 'Task 6 fixture could not mint its fresh invalidation'
+invalidation_e4_oid="${invalidation_e4##*@}"
+"${py_cmd[@]}" - "$successor_root/STATE.md" "$successor_head" "$successor_tree" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); head,tree=sys.argv[2:]
+s=p.read_text(encoding="utf-8")
+s=s.replace("Current epoch: G0003", "Current epoch: G0004")
+s=s.replace("| Next action | continue only after generic continuity recovery |",
+            "| Next action | resume through bounded generation currentness |")
+anchor=(f"| G0003 | inferred-context-gap | 2026-08-12T13:05:00Z | "
+        f"repo at `{head}` / `{tree}` | yes | generic fallback reconciliation complete |")
+row=(f"| G0004 | manual-resume | 2026-08-12T13:10:00Z | "
+     f"repo at `{head}` / `{tree}` | yes | bounded generation fixture complete |")
+if s.count(anchor) != 1:
+    raise SystemExit("Task 6 fixture lost the G0003 anchor")
+p.write_text(s.replace(anchor,anchor+"\n"+row),encoding="utf-8")
+PY
+printf '\nTask 6 bounded generation recovery reconciled.\n' >>"$successor_root/ROADMAP.md"
+printf '%s' '{"schema":"implementaudit.work-graph.fixture.v1"}' >"$successor_root/WORK_GRAPH.json"
+task6_run_rel="${successor_root#$successor_repo/}"
+mkdir -p "$successor_root/phases" "$successor_root/mutation-fences" \
+  "$successor_repo/artifacts"
+"${py_cmd[@]}" - "$repo_root/fixtures/phase-validation/valid-full-spec.md" \
+  "$successor_root" "$task6_run_rel" "$successor_repo" <<'PY'
+import json,sys
+from pathlib import Path
+template,run_root,run_rel,repo=map(Path,sys.argv[1:])
+for phase,source in ((1,"protected-current"),(2,"protected-pointer-drift")):
+    text=template.read_text(encoding="utf-8")
+    text=text.replace("Phase: 1 of 3",f"Phase: {phase} of 2")
+    text=text.replace("Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1",f"Run root: {run_rel.as_posix()}")
+    text=text.replace("Baseline ref: abc123def456","Baseline ref: HEAD")
+    text=text.replace("Owner/source: src/routes/settings.ts","Owner/source: issue:#200 D48-C02")
+    needle="- Step 1: Create the settings route — target: src/routes/settings.ts (registerSettingsRoutes); change: add GET /api/settings handler behind requireAuth from src/middleware/auth.ts; verify: npm run build; expected: exit 0 with no errors"
+    authority=json.dumps({"operation":"replace","source":source,"destination":None},separators=(",",":"))
+    text=text.replace(needle,needle+"\n  mutation-authority: "+authority)
+    scope=json.dumps({"in":[source],"out":["README.md"]},separators=(",",":"))
+    text=text.replace("In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts","In scope: D48-C02 pointer-aware protected mutation fixture\nMutation scope: "+scope)
+    (run_root/"phases"/f"phase-{phase}.md").write_text(text,encoding="utf-8",newline="\n")
+for name in ("protected-current","protected-pointer-drift"):
+    (repo/name).write_bytes(b"ORIGINAL\n")
+(repo/"artifacts"/"candidate-current.bin").write_bytes(b"CURRENT\n")
+(repo/"artifacts"/"candidate-drift.bin").write_bytes(b"DRIFT\n")
+PY
+printf '%s\n' \
+  '| 1 | D48-C02 pointer-aware current protected mutation |' \
+  '| 2 | D48-C02 pointer/receipt drift refusal |' \
+  >>"$successor_root/ROADMAP.md"
+sed -i '/^| 1 |  |  | - |  |  |  | open |$/d' "$successor_root/ROADMAP.md"
+task6_state_sha="$(sha256sum "$successor_root/STATE.md" | cut -d' ' -f1)"
+task6_road_sha="$(sha256sum "$successor_root/ROADMAP.md" | cut -d' ' -f1)"
+task6_graph_sha="$(sha256sum "$successor_root/WORK_GRAPH.json" | cut -d' ' -f1)"
+task6_manifest_raw='{"schema_version":"implementaudit.generation-manifest.fixture.v1"}'
+task6_manifest_oid="$(printf '%s' "$task6_manifest_raw" | git -C "$successor_repo" hash-object -w --stdin)"
+task6_manifest_sha="$(printf '%s' "$task6_manifest_raw" | sha256sum | cut -d' ' -f1)"
+task6_run_id="$(basename "$successor_root")"
+task6_pointer_ref='refs/implementaudit/current-generations/release-v0333'
+task6_marker_ref='refs/implementaudit/current-generation-migrations/release-v0333'
+task6_v3_ref='refs/implementaudit/continuity-receipts/release-v0333/G0004'
+task6_pointer_oid="$("${py_cmd[@]}" - "$successor_claim" "$task6_run_id" \
+  "$task6_manifest_oid" "$task6_manifest_sha" "$task6_state_sha" "$task6_road_sha" \
+  "$task6_graph_sha" <<'PY' | git -C "$successor_repo" hash-object -w --stdin
+import hashlib,json,sys
+claim,run,manifest_oid,manifest_digest,state,road,graph=sys.argv[1:]
+body={
+ "schema_version":"implementaudit.state-generation-pointer.v1",
+ "controller_id":"release-v0333","claim_id":claim,"run_id":run,
+ "generation_id":"G0004","source_epoch":"G0004",
+ "predecessor_pointer_oid":None,"predecessor_pointer_digest":None,
+ "generation_manifest_oid":manifest_oid,"generation_manifest_digest":manifest_digest,
+ "cold_high_water":"00000000000000000001",
+ "hot_state_digest":state,"hot_roadmap_digest":road,
+ "work_graph_path":"WORK_GRAPH.json","work_graph_digest":graph,
+ "query_contract_version":"implementaudit.history-query.v1",
+ "degraded_state":"NONE",
+}
+canonical=lambda value: json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False)
+body["pointer_digest"]=hashlib.sha256(canonical(body).encode()).hexdigest()
+print(canonical(body),end="")
+PY
+)"
+git -C "$successor_repo" update-ref "$task6_pointer_ref" "$task6_pointer_oid" \
+  0000000000000000000000000000000000000000
+
+set +e
+pointer_only="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333 2>&1)"
+pointer_only_rc=$?
+set -e
+[ "$pointer_only_rc" -ne 0 ] || fail 'Task 6 pointer without receipt became current'
+grep -Fq FIRST_MIGRATION_INCOMPLETE <<<"$pointer_only" &&
+  fail 'Task 6 pointer without receipt was misclassified as receipt without marker'
+
+premature_marker_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
+  implementaudit.current-generation-migration.v1 release-v0333 "$successor_claim" \
+  "$task6_run_id" G0004 "$task6_pointer_ref" implementaudit.state-generation-pointer.v1 \
+  "$task6_v3_ref" 7777777777777777777777777777777777777777 true \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+git -C "$successor_repo" update-ref "$task6_marker_ref" "$premature_marker_oid" \
+  0000000000000000000000000000000000000000
+set +e
+premature_marker="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333 2>&1)"
+premature_marker_rc=$?
+set -e
+[ "$premature_marker_rc" -ne 0 ] || fail 'Task 6 marker before receipt became current'
+grep -Fq STOP_NO_ROOT_FALLBACK <<<"$premature_marker" ||
+  fail 'Task 6 marker before receipt did not forbid root fallback'
+git -C "$successor_repo" update-ref -d "$task6_marker_ref" "$premature_marker_oid"
+
+task6_v3="$(cd "$successor_repo" && bash "$claim_helper" --resume-controller \
+  release-v0333 --boundary manual-resume --epoch G0004)" \
+  || fail 'Task 6 R0011 path did not mint receipt v3'
+(cd "$successor_repo" && bash "$claim_helper" --verify-resume-receipt "$task6_v3") >/dev/null \
+  || fail 'Task 6 R0011 path did not reread and verify receipt v3'
+set +e
+pre_marker="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333 2>&1)"
+pre_marker_rc=$?
+set -e
+[ "$pre_marker_rc" -ne 0 ] || fail 'Task 6 receipt v3 without marker became current'
+grep -Fq FIRST_MIGRATION_INCOMPLETE <<<"$pre_marker" ||
+  fail 'Task 6 receipt v3 without marker lost its exact stop outcome'
+task6_v3_oid="${task6_v3##*@}"
+task6_marker_oid="$(printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
+  implementaudit.current-generation-migration.v1 release-v0333 "$successor_claim" \
+  "$task6_run_id" G0004 "$task6_pointer_ref" implementaudit.state-generation-pointer.v1 \
+  "$task6_v3_ref" "$task6_v3_oid" true \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+git -C "$successor_repo" update-ref "$task6_marker_ref" "$task6_marker_oid" \
+  0000000000000000000000000000000000000000
+task6_current="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333)" \
+  || fail 'Task 6 complete pointer/v3/marker route was not current'
+[ "$task6_current" = "$task6_v3" ] || fail 'Task 6 complete route returned the wrong receipt'
+
+"${py_cmd[@]}" - "$successor_root" "$task6_current" "$receipt_e3" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+root,current,stale=sys.argv[1:]
+root=Path(root)
+for phase,source,receipt in (
+    (1,"protected-current",current),
+    (2,"protected-pointer-drift",stale),
+):
+    target=root.parents[2]/source
+    payload={
+      "schema":"implementaudit.protected-mutation-fence.v1",
+      "phase":phase,"step":1,"source_path":source,
+      "protected_target":{"sha256":hashlib.sha256(target.read_bytes()).hexdigest(),"byte_length":len(target.read_bytes())},
+      "controller_generation":"G0004","authority_generation":"G0004",
+      "protected_generation":"G0004","verified_resume_receipt":receipt,
+      "sink_capability":"REJECT_AND_REPORT","controller_id":"release-v0333",
+    }
+    (root/"mutation-fences"/f"phase-{phase}-step-1.json").write_text(
+        json.dumps(payload,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8",newline="\n")
+PY
+task6_mutation_out="$tmp/task6-protected-current.out"
+bash "$mutation_helper" --repo-root "$successor_repo" --run-root "$successor_root" \
+  --phase 1 --step 1 --preimage "$successor_repo/protected-current" \
+  --candidate "$successor_repo/artifacts/candidate-current.bin" >"$task6_mutation_out" \
+  || fail 'Task 6 pointer/v3 current generation did not reach the cooperating sink'
+"${py_cmd[@]}" - "$task6_mutation_out" "$successor_root" "$task6_pointer_ref" \
+  "$task6_pointer_oid" "$task6_v3_ref" "$task6_v3_oid" <<'PY' \
+  || fail 'Task 6 protected mutation did not bind the pointer/v3 generation'
+import json,sys
+from pathlib import Path
+out,root,pref,poid,rref,roid=sys.argv[1:]
+result=json.loads(Path(out).read_text(encoding="utf-8"))
+generation=result.get("identity_bindings",{}).get("generation",{})
+if result.get("status")!="COMMITTED" or generation!={
+ "generation_id":"G0004","receipt_schema":"implementaudit.continuity-receipt.v3",
+ "receipt_ref":rref,"receipt_oid":roid,"pointer_ref":pref,"pointer_oid":poid,
+ "pointer_digest":generation.get("pointer_digest"),
+}: raise SystemExit(result)
+if not isinstance(generation["pointer_digest"],str) or len(generation["pointer_digest"])!=64: raise SystemExit(generation)
+transaction=result["transaction_id"]
+authority=json.loads((Path(root)/"mutation-transactions"/transaction/"authority.json").read_text(encoding="utf-8"))
+durable=json.loads((Path(root)/"mutation-transactions"/transaction/"result.json").read_text(encoding="utf-8"))
+if authority.get("identity_bindings")!=result["identity_bindings"] or durable!=result: raise SystemExit("durable binding drift")
+PY
+[ "$(od -An -tx1 -v "$successor_repo/protected-current" | tr -d ' \n')" = 43555252454e540a ] \
+  || fail 'Task 6 current protected mutation did not publish exact candidate bytes'
+task6_drift_out="$tmp/task6-protected-pointer-drift.out"
+set +e
+bash "$mutation_helper" --repo-root "$successor_repo" --run-root "$successor_root" \
+  --phase 2 --step 1 --preimage "$successor_repo/protected-pointer-drift" \
+  --candidate "$successor_repo/artifacts/candidate-drift.bin" >"$task6_drift_out" 2>"$tmp/task6-protected-pointer-drift.err"
+task6_drift_rc=$?
+set -e
+[ "$task6_drift_rc" -eq 64 ] || fail "Task 6 pointer/receipt drift exit=$task6_drift_rc expected=64"
+"${py_cmd[@]}" - "$task6_drift_out" "$successor_root" <<'PY' \
+  || fail 'Task 6 pointer/receipt drift did not reject before effect'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+if r.get("status")!="REJECTED_NO_MUTATION" or r.get("reason_code")!="POINTER_RECEIPT_DRIFT": raise SystemExit(r)
+if r.get("transaction_id") is not None or r.get("actual_effect_set")!=[]: raise SystemExit(r)
+claim=r["claim_id"]
+if (Path(sys.argv[2])/"mutation-transactions"/f"{claim}-p2-s1").exists(): raise SystemExit("transaction created")
+PY
+[ "$(od -An -tx1 -v "$successor_repo/protected-pointer-drift" | tr -d ' \n')" = 4f524947494e414c0a ] \
+  || fail 'Task 6 pointer/receipt drift changed the protected target'
+printf '%s\n' 'D48_C02_POINTER_V3_FENCE=PASS current=COMMITTED drift=REJECTED_NO_MUTATION'
+
+# The v3 invalidator must guard every authority/currentness ref in the same
+# transaction.  The candidate-object observation is the causal barrier: each
+# competing write happens after validation but before the real update-ref
+# transaction can acquire the writer gate.
+h1_v3_controller_ref='refs/implementaudit/controllers/release-v0333'
+h1_v3_controller_oid="$(git -C "$successor_repo" rev-parse --verify "$h1_v3_controller_ref")"
+h1_v3_invalidation_ref='refs/implementaudit/continuity-invalidations/release-v0333'
+h1_v3_invalidation_oid="$(git -C "$successor_repo" rev-parse --verify "$h1_v3_invalidation_ref")"
+h1_v3_guard_race() {
+  local label="$1" target_ref="$2" target_old="$3" target_new="$4"
+  local event="hc-h1-v3-$label" candidate_oid ready release status output error holder invalidator
+  ready="$tmp/h1-v3-$label-ready"; release="$tmp/h1-v3-$label-release"
+  status="$tmp/h1-v3-$label-status"; output="$tmp/h1-v3-$label-output"; error="$tmp/h1-v3-$label-error"
+  candidate_oid="$(printf 'implementaudit.continuity-invalidation.v1\trelease-v0333\t%s\t%s\tmanual-resume\t%s\n' \
+    "$h1_v3_controller_oid" "$successor_claim" "$event" \
+    | git -C "$successor_repo" hash-object --stdin)"
+  "${py_cmd[@]}" - "$h1_gate" "$ready" "$release" <<'PY' &
+import os
+import sys
+import time
+
+gate, ready, release = sys.argv[1:]
+descriptor = os.open(gate, os.O_RDWR | getattr(os, "O_BINARY", 0))
+try:
+    if os.name == "nt":
+        import msvcrt
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_LOCK, 1)
+    else:
+        import fcntl
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+    with open(ready, "xb") as marker:
+        marker.write(b"ready\n")
+    while not os.path.exists(release):
+        time.sleep(0.01)
+finally:
+    if os.name == "nt":
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+    else:
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
+    os.close(descriptor)
+PY
+  holder=$!
+  for _ in {1..500}; do [ -f "$ready" ] && break; sleep 0.01; done
+  [ -f "$ready" ] || fail "HC-H1 $label lock holder did not establish the barrier"
+  (
+    set +e
+    cd "$successor_repo" || exit 99
+    bash "$claim_helper" --invalidate-continuity release-v0333 \
+      --boundary manual-resume --event "$event" --expected-current "$task6_v3" \
+      >"$output" 2>"$error"
+    printf '%s\n' "$?" >"$status"
+  ) &
+  invalidator=$!
+  for _ in {1..1000}; do
+    git -C "$successor_repo" cat-file -e "$candidate_oid^{blob}" 2>/dev/null && break
+    sleep 0.01
+  done
+  git -C "$successor_repo" cat-file -e "$candidate_oid^{blob}" 2>/dev/null \
+    || fail "HC-H1 $label invalidator did not reach the publication barrier"
+  git -C "$successor_repo" update-ref "$target_ref" "$target_new" "$target_old"
+  : > "$release"
+  wait "$holder"; wait "$invalidator"
+  [ -f "$status" ] && [ "$(cat "$status")" -ne 0 ] \
+    || fail "HC-H1 $label drift published an invalidation"
+  [ "$(git -C "$successor_repo" rev-parse --verify "$target_ref")" = "$target_new" ] \
+    || fail "HC-H1 $label invalidation overwrote the competing writer"
+  git -C "$successor_repo" update-ref "$target_ref" "$target_old" "$target_new"
+  [ "$(git -C "$successor_repo" rev-parse --verify "$h1_v3_invalidation_ref")" = \
+      "$h1_v3_invalidation_oid" ] \
+    || fail "HC-H1 $label race changed the restored invalidation fence"
+  [ "$(cd "$successor_repo" && bash "$claim_helper" --require-current-continuity release-v0333)" = \
+      "$task6_v3" ] || fail "HC-H1 $label race did not restore exact v3 currentness"
+}
+
+h1_guard_foreign_oid="$(printf 'hc-h1-guard-drift\n' \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+h1_v3_guard_race pointer "$task6_pointer_ref" "$task6_pointer_oid" "$h1_guard_foreign_oid"
+h1_v3_guard_race marker "$task6_marker_ref" "$task6_marker_oid" "$h1_guard_foreign_oid"
+h1_v3_guard_race receipt "$task6_v3_ref" "$task6_v3_oid" "$h1_guard_foreign_oid"
+h1_v3_competing_invalidation_oid="$(printf 'implementaudit.continuity-invalidation.v1\trelease-v0333\t%s\t%s\tmanual-resume\tcompeting-writer\n' \
+  "$h1_v3_controller_oid" "$successor_claim" \
+  | git -C "$successor_repo" hash-object -w --stdin)"
+h1_v3_guard_race invalidation "$h1_v3_invalidation_ref" \
+  "$h1_v3_invalidation_oid" "$h1_v3_competing_invalidation_oid"
+
+task6_event_id="iaevt-v1-$(printf 'a%.0s' {1..64})"
+task6_event_ref="refs/implementaudit/state-event-segments/$task6_run_id/G0004/00000000000000000001/$task6_event_id"
+task6_corrupt_oid="$(printf 'not-json' | git -C "$successor_repo" hash-object -w --stdin)"
+git -C "$successor_repo" update-ref "$task6_event_ref" "$task6_corrupt_oid"
+bounded_current="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333)" \
+  || fail 'routine v3 currentness hydrated a corrupt historical segment'
+[ "$bounded_current" = "$task6_v3" ] || fail 'bounded v3 recovery returned the wrong receipt'
+if ! "${py_cmd[@]}" - "$repo_root/skills/implementaudit/scripts/rotate-canonical-state.py" \
+    "$successor_repo" "$task6_run_id" "$task6_event_id" <<'PY'
+import importlib.util,json,sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location("continuity_task6_rotation",sys.argv[1])
+module=importlib.util.module_from_spec(spec); sys.modules[spec.name]=module
+assert spec.loader is not None; spec.loader.exec_module(module)
+raw=module.load_exact_segment_bytes_v1(
+    Path(sys.argv[2]),sys.argv[3],"G0004","00000000000000000001",sys.argv[4])
+try:
+    json.loads(raw.decode("utf-8","strict"))
+except json.JSONDecodeError:
+    raise SystemExit(0)
+raise SystemExit(1)
+PY
+then
+  fail 'explicit history query did not isolate corrupt segment failure'
+fi
+printf '%s\n' \
+  'CONTINUITY_TASK6_GREEN=PASS order=POINTER_RECEIPT_V3_MARKER bounded-current=NO_HISTORY_READ explicit-history=CORRUPT_STOP'
 
 # Multiple controller records are an audited ambiguity, never a guessed root.
 (cd "$successor_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
@@ -597,12 +1038,14 @@ PY
 
 # An unchanged historical state/receipt pair remains exactly verifiable. New
 # receipt minting canonicalises aliases, but verification never rewrites legacy
-# evidence in place.
-positive_claim="$(sed -n 's/^claim_id=//p' "$positive_root/.claimed")"
-positive_owner="$(git -C "$positive_repo" rev-parse refs/implementaudit/controllers/positive-n06)"
-positive_head="$(git -C "$positive_repo" rev-parse HEAD)"
-positive_tree="$(git -C "$positive_repo" rev-parse 'HEAD^{tree}')"
-"${py_cmd[@]}" - "$positive_root/STATE.md" <<'PY'
+# evidence in place. IMPLEMENTAUDIT_GUARDED_REPAIR_ONLY skips only this
+# legacy-v1 fixture; earlier Task 6 controls can stop before repair cases.
+if [ "${IMPLEMENTAUDIT_GUARDED_REPAIR_ONLY:-0}" != 1 ]; then
+  positive_claim="$(sed -n 's/^claim_id=//p' "$positive_root/.claimed")"
+  positive_owner="$(git -C "$positive_repo" rev-parse refs/implementaudit/controllers/positive-n06)"
+  positive_head="$(git -C "$positive_repo" rev-parse HEAD)"
+  positive_tree="$(git -C "$positive_repo" rev-parse 'HEAD^{tree}')"
+  "${py_cmd[@]}" - "$positive_root/STATE.md" <<'PY'
 import sys
 from pathlib import Path
 p=Path(sys.argv[1]); s=p.read_text(encoding="utf-8")
@@ -610,18 +1053,366 @@ s=s.replace("Current epoch: G0001", "Current epoch: e1")  # legacy spelling comp
 s=s.replace("| G0001 | host-reported-compaction |", "| e1 | host-reported-compaction |")
 p.write_text(s,encoding="utf-8")
 PY
-positive_state_sha="$(sha256sum "$positive_root/STATE.md" | cut -d' ' -f1)"
-positive_road_sha="$(sha256sum "$positive_root/ROADMAP.md" | cut -d' ' -f1)"
-legacy_record="$(printf 'implementaudit.continuity-receipt.v1\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
-  positive-n06 "$positive_owner" "$positive_claim" "$positive_head" "$positive_tree" \
-  "$positive_state_sha" "$positive_road_sha" host-reported-compaction e1 legacy-currentness)"
-legacy_oid="$(printf '%s' "$legacy_record" | git -C "$positive_repo" hash-object -w --stdin)"
-legacy_ref=refs/implementaudit/continuity-receipts/positive-n06/e1 # legacy spelling compatibility fixture
-git -C "$positive_repo" update-ref "$legacy_ref" "$legacy_oid"
-(cd "$positive_repo" && bash "$claim_helper" --verify-resume-receipt "$legacy_ref@$legacy_oid") >/dev/null \
-  || fail "unchanged legacy continuity receipt no longer verifies"
-(cd "$positive_repo" && bash "$claim_helper" --require-current-continuity positive-n06) >/dev/null \
-  || fail "unchanged legacy continuity state no longer rehydrates"
+  positive_state_sha="$(sha256sum "$positive_root/STATE.md" | cut -d' ' -f1)"
+  positive_road_sha="$(sha256sum "$positive_root/ROADMAP.md" | cut -d' ' -f1)"
+  legacy_record="$(printf 'implementaudit.continuity-receipt.v1\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
+    positive-n06 "$positive_owner" "$positive_claim" "$positive_head" "$positive_tree" \
+    "$positive_state_sha" "$positive_road_sha" host-reported-compaction e1 legacy-currentness)"
+  legacy_oid="$(printf '%s' "$legacy_record" | git -C "$positive_repo" hash-object -w --stdin)"
+  legacy_ref=refs/implementaudit/continuity-receipts/positive-n06/e1 # legacy spelling compatibility fixture
+  git -C "$positive_repo" update-ref "$legacy_ref" "$legacy_oid"
+  (cd "$positive_repo" && bash "$claim_helper" --verify-resume-receipt "$legacy_ref@$legacy_oid") >/dev/null \
+    || fail "unchanged legacy continuity receipt no longer verifies"
+  if (cd "$positive_repo" && bash "$claim_helper" \
+      --require-current-continuity positive-n06) >/dev/null 2>&1; then
+    fail "legacy v1 receipt became a current recovery route"
+  fi
+fi
+
+# R0011 guarded repair: one deliberately narrow recovery primitive may replace
+# an exact legacy-v2 receipt that was minted for a generation already owned by
+# the canonical pointer/marker route.  Every fixture below is an isolated Git
+# repository; this test never exercises the operator against campaign refs.
+repair_fixture() {
+  local name="$1"
+  rf_repo="$tmp/repair-$name"
+  rf_controller="repair-$name"
+  mkdir -p "$rf_repo"
+  git -C "$rf_repo" init -q
+  git -C "$rf_repo" config user.name 'continuity repair fixture'
+  git -C "$rf_repo" config user.email 'continuity-repair@example.invalid'
+  printf 'repair fixture\n' > "$rf_repo/product.txt"
+  git -C "$rf_repo" add product.txt
+  git -C "$rf_repo" commit -qm 'repair fixture'
+  rf_rel="$(cd "$rf_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
+    bash "$claim_helper" --controller "$rf_controller" 'guarded continuity repair' 2>/dev/null)" \
+    || fail "repair fixture $name could not claim a controller"
+  rf_root="$rf_repo/$rf_rel"
+  for f in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+    cp "$repo_root/skills/implementaudit/templates/$f" "$rf_root/$f"
+  done
+  IFS=$'\t' read -r rf_controller_token rf_pointer_token rf_marker_token \
+    rf_legacy_token rf_invalidation_token rf_predecessor_token \
+    < <("${py_cmd[@]}" - "$rf_repo" "$rf_root" "$rf_rel" "$rf_controller" <<'PY'
+import hashlib
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+root = Path(sys.argv[2])
+run_rel = sys.argv[3]
+controller = sys.argv[4]
+run_id = root.name
+
+
+def git(*args, data=None):
+    completed = subprocess.run(
+        ["git", "-C", str(repo), *args], input=data,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+    return completed.stdout.decode("ascii").strip()
+
+
+def blob(data):
+    return git("hash-object", "-w", "--stdin", data=data)
+
+
+def update(ref, oid):
+    git("update-ref", ref, oid)
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def pointer(generation, predecessor_oid, predecessor_digest, state_digest,
+            roadmap_digest, graph_digest, manifest_oid, manifest_digest, high_water):
+    body = {
+        "schema_version": "implementaudit.state-generation-pointer.v1",
+        "controller_id": controller,
+        "claim_id": claim,
+        "run_id": run_id,
+        "generation_id": generation,
+        "predecessor_pointer_oid": predecessor_oid,
+        "predecessor_pointer_digest": predecessor_digest,
+        "generation_manifest_oid": manifest_oid,
+        "generation_manifest_digest": manifest_digest,
+        "cold_high_water": high_water,
+        "hot_state_digest": state_digest,
+        "hot_roadmap_digest": roadmap_digest,
+        "work_graph_path": "WORK_GRAPH.json",
+        "work_graph_digest": graph_digest,
+        "query_contract_version": "implementaudit.history-query.v1",
+        "source_epoch": generation,
+        "degraded_state": "NONE",
+    }
+    digest = hashlib.sha256(canonical(body).encode()).hexdigest()
+    value = dict(body, pointer_digest=digest)
+    return blob(canonical(value).encode()), digest
+
+
+controller_ref = f"refs/implementaudit/controllers/{controller}"
+controller_oid = git("rev-parse", "--verify", controller_ref)
+claim = (root / ".claimed").read_text(encoding="utf-8").split("claim_id=", 1)[1].splitlines()[0]
+head = git("rev-parse", "HEAD")
+tree = git("rev-parse", "HEAD^{tree}")
+
+state_path = root / "STATE.md"
+state = state_path.read_text(encoding="utf-8")
+state = state.replace("| Run root |  |", f"| Run root | `{run_rel}` |")
+state = state.replace("| Next action |  |", "| Next action | resume guarded repair verification |")
+state = state.replace("Current epoch: G0001", "Current epoch: G0004")
+anchor = "| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|"
+row = f"| G0004 | host-reported-compaction | 2026-08-28T12:00:00Z | repo at `{head}` / `{tree}` | yes | exact legacy-v2 failure fixture |"
+state_path.write_text(state.replace(anchor, anchor + "\n" + row), encoding="utf-8")
+(root / "WORK_GRAPH.json").write_text("{}\n", encoding="utf-8")
+state_digest = hashlib.sha256(state_path.read_bytes()).hexdigest()
+roadmap_digest = hashlib.sha256((root / "ROADMAP.md").read_bytes()).hexdigest()
+graph_digest = hashlib.sha256((root / "WORK_GRAPH.json").read_bytes()).hexdigest()
+
+manifest_raw = b"guarded-repair-manifest\n"
+manifest_oid = blob(manifest_raw)
+manifest_digest = hashlib.sha256(manifest_raw).hexdigest()
+base_receipt_oid = blob(b"preserved-base-receipt\n")
+genesis_invalidation_oid = blob(b"preserved-genesis-invalidation\n")
+genesis_pointer_oid, genesis_pointer_digest = pointer(
+    "G0002", None, None, state_digest, roadmap_digest, graph_digest,
+    manifest_oid, manifest_digest, "00000000000000000001")
+pointer_ref = f"refs/implementaudit/current-generations/{controller}"
+genesis_ref = f"refs/implementaudit/continuity-receipts/{controller}/G0002"
+genesis_record = "\t".join((
+    "implementaudit.continuity-receipt.v3", controller, claim, run_id, "G0002",
+    genesis_invalidation_oid, pointer_ref, genesis_pointer_oid,
+    genesis_pointer_digest, state_digest, roadmap_digest, "WORK_GRAPH.json",
+    graph_digest, manifest_oid, manifest_digest, "00000000000000000001",
+    "preserved genesis currentness",
+    f"refs/implementaudit/continuity-receipts/{controller}/G0001@{base_receipt_oid}",
+)) + "\n"
+genesis_receipt_oid = blob(genesis_record.encode())
+update(genesis_ref, genesis_receipt_oid)
+
+predecessor_pointer_oid, predecessor_pointer_digest = pointer(
+    "G0003", genesis_pointer_oid, genesis_pointer_digest, state_digest,
+    roadmap_digest, graph_digest, manifest_oid, manifest_digest,
+    "00000000000000000002")
+predecessor_ref = f"refs/implementaudit/continuity-receipts/{controller}/G0003"
+predecessor_record = "\t".join((
+    "implementaudit.continuity-receipt.v3", controller, claim, run_id, "G0003",
+    genesis_invalidation_oid, pointer_ref, predecessor_pointer_oid,
+    predecessor_pointer_digest, state_digest, roadmap_digest, "WORK_GRAPH.json",
+    graph_digest, manifest_oid, manifest_digest, "00000000000000000002",
+    "preserved adjacent predecessor", f"{genesis_ref}@{genesis_receipt_oid}",
+)) + "\n"
+predecessor_oid = blob(predecessor_record.encode())
+update(predecessor_ref, predecessor_oid)
+
+current_pointer_oid, current_pointer_digest = pointer(
+    "G0004", predecessor_pointer_oid, predecessor_pointer_digest, state_digest,
+    roadmap_digest, graph_digest, manifest_oid, manifest_digest,
+    "00000000000000000003")
+update(pointer_ref, current_pointer_oid)
+
+marker_ref = f"refs/implementaudit/current-generation-migrations/{controller}"
+marker_record = "\t".join((
+    "implementaudit.current-generation-migration.v1", controller, claim, run_id,
+    "G0002", pointer_ref, "implementaudit.state-generation-pointer.v1",
+    genesis_ref, genesis_receipt_oid, "true",
+))
+marker_oid = blob(marker_record.encode())
+update(marker_ref, marker_oid)
+
+invalidation_ref = f"refs/implementaudit/continuity-invalidations/{controller}"
+invalidation_record = "\t".join((
+    "implementaudit.continuity-invalidation.v1", controller, controller_oid,
+    claim, "host-reported-compaction", "preserved-g0004-failure",
+)) + "\n"
+invalidation_oid = blob(invalidation_record.encode())
+update(invalidation_ref, invalidation_oid)
+
+legacy_ref = f"refs/implementaudit/continuity-receipts/{controller}/G0004"
+legacy_record = "\t".join((
+    "implementaudit.continuity-receipt.v2", controller, controller_oid, claim,
+    head, tree, state_digest, roadmap_digest, invalidation_oid,
+    "host-reported-compaction", "G0004", "resume guarded repair verification",
+)) + "\n"
+legacy_oid = blob(legacy_record.encode())
+update(legacy_ref, legacy_oid)
+
+tokens = (
+    f"{controller_ref}@{controller_oid}", f"{pointer_ref}@{current_pointer_oid}",
+    f"{marker_ref}@{marker_oid}", f"{legacy_ref}@{legacy_oid}",
+    f"{invalidation_ref}@{invalidation_oid}", f"{predecessor_ref}@{predecessor_oid}",
+)
+sys.stdout.buffer.write(("\t".join(tokens) + "\n").encode("ascii"))
+PY
+  ) || fail "repair fixture $name could not build canonical refs"
+}
+
+run_repair() {
+  (
+    cd "$rf_repo"
+    bash "$claim_helper" --repair-current-continuity-v3 "$rf_controller" \
+      --expected-controller "$rf_controller_token" \
+      --expected-pointer "$rf_pointer_token" \
+      --expected-marker "$rf_marker_token" \
+      --expected-legacy-receipt "$rf_legacy_token" \
+      --expected-invalidation "$rf_invalidation_token" \
+      --expected-predecessor "$rf_predecessor_token"
+  )
+}
+
+repair_ref_snapshot() {
+  git -C "$rf_repo" for-each-ref --format='%(objectname) %(refname)' refs/implementaudit/ | sort
+}
+
+expect_repair_refusal() {
+  local description="$1" before after
+  before="$(repair_ref_snapshot)"
+  if run_repair >/dev/null 2>&1; then
+    fail "$description was accepted"
+  fi
+  after="$(repair_ref_snapshot)"
+  [ "$after" = "$before" ] || fail "$description changed refs after refusal"
+}
+
+repair_test_count=0
+
+# 1. Positive effect, exact evidence preservation, and unchanged pointer/marker.
+repair_fixture positive
+rf_pointer_before="$(git -C "$rf_repo" rev-parse "${rf_pointer_token%@*}")"
+rf_marker_before="$(git -C "$rf_repo" rev-parse "${rf_marker_token%@*}")"
+rf_legacy_oid="${rf_legacy_token##*@}"
+rf_old_invalidation_oid="${rf_invalidation_token##*@}"
+rf_result="$(run_repair)" || fail "guarded continuity repair positive case failed"
+[ "$rf_result" = REPAIRED ] || fail "guarded continuity repair did not return REPAIRED"
+rf_current_ref="${rf_legacy_token%@*}"
+rf_current_oid="$(git -C "$rf_repo" rev-parse "$rf_current_ref")"
+[ "$rf_current_oid" != "$rf_legacy_oid" ] || fail "repair retained the legacy receipt as current"
+[ "$(git -C "$rf_repo" rev-parse "${rf_pointer_token%@*}")" = "$rf_pointer_before" ] \
+  || fail "repair changed the current-generation pointer"
+[ "$(git -C "$rf_repo" rev-parse "${rf_marker_token%@*}")" = "$rf_marker_before" ] \
+  || fail "repair changed the permanent migration marker"
+rf_legacy_anchor="refs/implementaudit/continuity-repair-evidence/$rf_controller/G0004/legacy-receipt"
+rf_invalidation_anchor="refs/implementaudit/continuity-repair-evidence/$rf_controller/G0004/causal-invalidation"
+[ "$(git -C "$rf_repo" rev-parse "$rf_legacy_anchor")" = "$rf_legacy_oid" ] \
+  || fail "repair did not preserve the exact legacy receipt object"
+[ "$(git -C "$rf_repo" rev-parse "$rf_invalidation_anchor")" = "$rf_old_invalidation_oid" ] \
+  || fail "repair did not preserve the exact causal invalidation object"
+rf_new_invalidation_oid="$(git -C "$rf_repo" rev-parse "${rf_invalidation_token%@*}")"
+rf_expected_event="r0011-same-recovery-repair:$rf_old_invalidation_oid:$rf_legacy_oid"
+"${py_cmd[@]}" - "$rf_repo" "$rf_current_oid" "$rf_new_invalidation_oid" \
+  "$rf_controller" "$rf_expected_event" "$rf_pointer_token" "$rf_predecessor_token" <<'PY' \
+  || fail "repair output objects are not canonical v3/same-recovery-repair records"
+import subprocess, sys
+repo, receipt_oid, invalidation_oid, controller, event, pointer, predecessor = sys.argv[1:]
+def blob(oid):
+    return subprocess.run(["git", "-C", repo, "cat-file", "blob", oid], check=True,
+                          stdout=subprocess.PIPE).stdout
+receipt = blob(receipt_oid)
+assert receipt.endswith(b"\n") and b"\n" not in receipt[:-1] and receipt.count(b"\t") == 17
+fields = receipt[:-1].decode("utf-8").split("\t")
+assert fields[0] == "implementaudit.continuity-receipt.v3"
+assert fields[1] == controller and fields[4] == "G0004"
+assert fields[5] == invalidation_oid and fields[6] + "@" + fields[7] == pointer
+assert fields[17] == predecessor
+invalidation = blob(invalidation_oid)
+assert invalidation.endswith(b"\n") and invalidation.count(b"\t") == 5
+invalid_fields = invalidation[:-1].decode("utf-8").split("\t")
+assert invalid_fields[0] == "implementaudit.continuity-invalidation.v1"
+assert invalid_fields[1] == controller and invalid_fields[4] == "same-recovery-repair"
+assert invalid_fields[5] == event
+PY
+(cd "$rf_repo" && bash "$claim_helper" --require-current-continuity "$rf_controller") >/dev/null \
+  || fail "normal v3 currentness machinery rejected the repaired fixture"
+repair_test_count=$((repair_test_count + 1))
+
+# 2. Exact repaired poststate is idempotent and survives attempt/readback ambiguity.
+rf_poststate_before="$(repair_ref_snapshot)"
+[ "$(run_repair)" = ALREADY_REPAIRED ] || fail "exact repair poststate was not recognised"
+[ "$(repair_ref_snapshot)" = "$rf_poststate_before" ] || fail "idempotent rerun changed refs"
+repair_test_count=$((repair_test_count + 1))
+
+# 3. Any wrong caller guard token refuses without effect.
+repair_fixture wrong-token
+rf_pointer_token="${rf_pointer_token%@*}@0000000000000000000000000000000000000000"
+expect_repair_refusal "wrong expected pointer token"
+repair_test_count=$((repair_test_count + 1))
+
+# 4. Hot STATE drift away from the pointer-bound digest refuses.
+repair_fixture hot-drift
+printf '\ndrift after expected-token capture\n' >> "$rf_root/STATE.md"
+expect_repair_refusal "pointer/hot-state drift"
+repair_test_count=$((repair_test_count + 1))
+
+# 5. A pre-existing evidence anchor is foreign state, never overwritten.
+repair_fixture foreign-anchor
+rf_foreign_oid="$(printf 'foreign anchor\n' | git -C "$rf_repo" hash-object -w --stdin)"
+git -C "$rf_repo" update-ref \
+  "refs/implementaudit/continuity-repair-evidence/$rf_controller/G0004/legacy-receipt" \
+  "$rf_foreign_oid"
+expect_repair_refusal "foreign repair evidence anchor"
+repair_test_count=$((repair_test_count + 1))
+
+# 6. An already-v3 but non-repair current receipt is outside this primitive.
+repair_fixture current-v3
+git -C "$rf_repo" update-ref "${rf_legacy_token%@*}" \
+  "${rf_predecessor_token##*@}" "${rf_legacy_token##*@}"
+expect_repair_refusal "non-repair v3 current receipt"
+repair_test_count=$((repair_test_count + 1))
+
+# 7. A legacy-v1 current receipt is outside this primitive.
+repair_fixture current-v1
+rf_v1_oid="$(printf 'implementaudit.continuity-receipt.v1\t%s\t%s\n' \
+  "$rf_controller" "${rf_controller_token##*@}" | git -C "$rf_repo" hash-object -w --stdin)"
+git -C "$rf_repo" update-ref "${rf_legacy_token%@*}" "$rf_v1_oid" "${rf_legacy_token##*@}"
+expect_repair_refusal "legacy-v1 current receipt"
+repair_test_count=$((repair_test_count + 1))
+
+# 8. The permanent marker is mandatory; root fallback cannot authorize repair.
+repair_fixture no-marker
+git -C "$rf_repo" update-ref -d "${rf_marker_token%@*}" "${rf_marker_token##*@}"
+expect_repair_refusal "missing permanent migration marker"
+repair_test_count=$((repair_test_count + 1))
+
+# 9. The supplied predecessor must be the valid adjacent generation.
+repair_fixture nonadjacent
+rf_predecessor_token="refs/implementaudit/continuity-receipts/$rf_controller/G0002@$(git -C "$rf_repo" rev-parse "refs/implementaudit/continuity-receipts/$rf_controller/G0002")"
+expect_repair_refusal "nonadjacent predecessor token"
+repair_test_count=$((repair_test_count + 1))
+
+# 10. A successor receipt proves the recovery frontier already moved.
+repair_fixture successor-present
+rf_successor_ref="refs/implementaudit/continuity-receipts/$rf_controller/G0005"
+rf_successor_oid="$(printf 'foreign successor\n' | git -C "$rf_repo" hash-object -w --stdin)"
+git -C "$rf_repo" update-ref "$rf_successor_ref" "$rf_successor_oid"
+expect_repair_refusal "present successor receipt"
+repair_test_count=$((repair_test_count + 1))
+
+# 11. A D/F namespace conflict makes transaction preparation fail; none of the
+# four intended ref updates may escape the failed atomic transaction.
+repair_fixture atomic-zero-effect
+rf_blocking_ref="refs/implementaudit/continuity-repair-evidence/$rf_controller/G0004"
+rf_blocking_oid="$(printf 'blocking namespace ref\n' | git -C "$rf_repo" hash-object -w --stdin)"
+git -C "$rf_repo" update-ref "$rf_blocking_ref" "$rf_blocking_oid"
+expect_repair_refusal "atomic repair namespace conflict"
+[ "$(git -C "$rf_repo" rev-parse "${rf_legacy_token%@*}")" = "${rf_legacy_token##*@}" ] \
+  || fail "failed repair transaction changed the current receipt"
+[ "$(git -C "$rf_repo" rev-parse "${rf_invalidation_token%@*}")" = "${rf_invalidation_token##*@}" ] \
+  || fail "failed repair transaction changed the invalidation"
+repair_test_count=$((repair_test_count + 1))
+
+# 12. A mixed/foreign near-poststate is not mistaken for idempotent success.
+repair_fixture mixed-poststate
+[ "$(run_repair)" = REPAIRED ] || fail "mixed-poststate fixture could not establish repair"
+rf_foreign_oid="$(printf 'foreign poststate anchor\n' | git -C "$rf_repo" hash-object -w --stdin)"
+git -C "$rf_repo" update-ref \
+  "refs/implementaudit/continuity-repair-evidence/$rf_controller/G0004/causal-invalidation" \
+  "$rf_foreign_oid" "${rf_invalidation_token##*@}"
+expect_repair_refusal "mixed repair poststate"
+repair_test_count=$((repair_test_count + 1))
+
+[ "$repair_test_count" -eq 12 ] || fail "guarded repair test denominator drifted"
 
 # Ordinary bounded claims remain the no-registry cheap path.
 cheap_rel="$(cd "$positive_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
@@ -629,4 +1420,4 @@ cheap_rel="$(cd "$positive_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
 [ -f "$positive_repo/$cheap_rel/.claimed" ] || fail "ordinary claim cheap path regressed"
 [ ! -e "$positive_repo/$cheap_rel/.controller" ] || fail 'ordinary cheap path acquired controller ceremony'
 
-printf 'continuity-contract.test: ok (surfaces + validator: legacy pass, honest-provenance, kind/status tokens, terminal-status evidence)\n'
+printf 'continuity-contract.test: ok (guarded repair cases: %s; surfaces + validator: legacy pass, honest-provenance, kind/status tokens, terminal-status evidence)\n' "$repair_test_count"

@@ -47,6 +47,12 @@ native controls:
 
 ## Default Category Pass
 
+When a consequential claim crosses product/configuration, workflow/instance,
+actor/authority, or observation boundaries, use `composed-evidence.md` to
+specialize the existing finding, evidence-transfer, and meaningful-JOIN checks.
+Load it only for a material cross-boundary question. It adds no command, phase,
+controller, mandatory modeling framework, or independent acceptance authority.
+
 Unless the input narrows scope, audit each material repo surface through this
 matrix and record omitted categories as `deferred`, `out of scope`, or
 `unverified` with reason:
@@ -176,9 +182,10 @@ If a field cannot be filled from live evidence, mark it `unverified`,
 `deferred`, or `OWNER DECISION` with reason. Do not invent evidence to satisfy
 the format.
 
-When a finding is selected for issue publication, record its materiality. A
-material finding expands through `issue-ready-work-orders.md` before the
-authorised publication gate; a trivial finding may remain concise with its
+When a finding is selected for issue publication, record its materiality. Also
+apply the continuation sufficiency test in `issue-ready-work-orders.md` when a
+material residual could outlive its carrier, even without publication intent. A
+material publication finding expands before the authorised publication gate; a trivial finding may remain concise with its
 evidence, fix, verification, rollback, and materiality disposition intact.
 
 ## Prioritization And Vetting Contract

@@ -434,7 +434,8 @@ PY
 fi
 
 check_recurrence_decision() {
-  local ledger="$1" findings invalid_lines missing_classes
+  local ledger="$1" findings invalid_lines missing_classes trajectory_missing
+  local -a recurrence_py
   findings="$(awk -F'|' '
     function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
     function owner_source(v) {
@@ -491,6 +492,215 @@ check_recurrence_decision() {
   missing_classes="$(printf '%s\n' "$findings" | awk -F'\t' '$1 == "missing" { print $2 }' | tr '\n' ' ')"
   if [ -n "$missing_classes" ]; then
     err "Andon class(es) $missing_classes reached 3 distinct linked occurrences with the last 2 repairs on one owner/source; add a following Mechanism-replacement decision:"
+  fi
+
+  trajectory_missing=""
+  if grep -q '^cold-review:' "$ledger"; then
+    recurrence_py=()
+    if command -v python >/dev/null 2>&1; then recurrence_py=(python)
+    elif command -v python3 >/dev/null 2>&1; then recurrence_py=(python3)
+    elif command -v py >/dev/null 2>&1; then recurrence_py=(py -3)
+    else
+      err "python, python3, or py -3 is required for digest-bound recurrence validation"
+    fi
+    if [ "${#recurrence_py[@]}" -gt 0 ]; then
+      if ! trajectory_missing="$("${recurrence_py[@]}" - "$ledger" <<'PY'
+import hashlib
+import re
+import subprocess
+import sys
+from collections import defaultdict
+from pathlib import Path, PurePosixPath
+
+ledger_path = Path(sys.argv[1]).resolve()
+run_root = ledger_path.parent
+try:
+    lines = ledger_path.read_text(encoding="utf-8").splitlines()
+except (OSError, UnicodeError):
+    raise SystemExit(0)
+
+
+def trim(value):
+    return value.strip(" \t")
+
+
+def table_rows(section):
+    active = False
+    for line_number, line in enumerate(lines, 1):
+        if line == section:
+            active = True
+            continue
+        if active and line.startswith("## "):
+            active = False
+        if not active or not line.startswith("|") or not line.endswith("|"):
+            continue
+        cells = [trim(cell) for cell in line.split("|")[1:-1]]
+        yield line_number, cells
+
+
+def contained_bytes(relative, declared_digest):
+    normalized = relative.replace("\\", "/")
+    pure = PurePosixPath(normalized)
+    if (not normalized or pure.is_absolute() or normalized != str(pure)
+            or any(part in ("", ".", "..") for part in pure.parts)
+            or pure.parts[0] == ".git"
+            or re.match(r"^[A-Za-z]:", normalized)):
+        return None
+    lexical = run_root.joinpath(*pure.parts)
+    try:
+        resolved = lexical.resolve(strict=True)
+        resolved.relative_to(run_root)
+    except (OSError, ValueError):
+        return None
+    if not lexical.is_file() or lexical.is_symlink():
+        return None
+    try:
+        payload = resolved.read_bytes()
+    except OSError:
+        return None
+    digest = hashlib.sha256(payload).hexdigest()
+    if digest != declared_digest:
+        return None
+    return resolved, payload
+
+
+prospective_re = re.compile(
+    r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
+    r"\| attestation: ([A-Za-z0-9._/-]+) "
+    r"\| attestation_sha256: ([0-9a-f]{64}) "
+    r"\| packet: ([A-Za-z0-9._/-]+) "
+    r"\| packet_sha256: ([0-9a-f]{64}) "
+    r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
+)
+attestation_keys = (
+    "reviewer_identity", "requested_model", "actual_model",
+    "authoring_context_reuse", "other_reviewer_output_seen",
+    "base_sha", "head_sha",
+)
+
+
+def qualified_review(line):
+    match = prospective_re.fullmatch(line)
+    if not match or match.group(1) != "GAP-REVISE":
+        return None
+    disposition, report_rel, report_digest, packet_rel, packet_digest, base, head = match.groups()
+    report_bound = contained_bytes(report_rel, report_digest)
+    packet_bound = contained_bytes(packet_rel, packet_digest)
+    if not report_bound or not packet_bound:
+        return None
+    try:
+        report = report_bound[0].read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError):
+        return None
+    if report.count("Report state: FINAL") != 1 or report.count("Reviewer attestation:") != 1:
+        return None
+    header = report.index("Reviewer attestation:")
+    block = report[header + 1:header + 1 + len(attestation_keys)]
+    if len(block) != len(attestation_keys):
+        return None
+    values = {}
+    for index, key in enumerate(attestation_keys):
+        prefix = f"- {key}:"
+        exact = [item for item in report if item.startswith(prefix)]
+        if len(exact) != 1 or block[index] != exact[0]:
+            return None
+        values[key] = exact[0].split(":", 1)[1].strip()
+    if (values["authoring_context_reuse"] != "no"
+            or values["base_sha"] != base or values["head_sha"] != head):
+        return None
+    nonempty = [item for item in report if item.strip()]
+    if not nonempty or nonempty[-1] != disposition:
+        return None
+    terminal = [item for item in report if item in {"PASS", "GAP-REVISE", "BLOCKED", "OWNER DECISION"}]
+    if terminal != [disposition]:
+        return None
+    for prefix in ("Verdict:", "Disposition:", "cold-review-disposition:"):
+        for item in report:
+            if item.startswith(prefix) and item.split(":", 1)[1].strip() != disposition:
+                return None
+    def git(*args):
+        return subprocess.run(
+            ["git", "-C", str(run_root), *args],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            check=False,
+        )
+    for sha in (base, head):
+        resolved = git("cat-file", "-t", sha)
+        if resolved.returncode != 0 or resolved.stdout.strip() != "commit":
+            return None
+    if base == head or git("merge-base", "--is-ancestor", base, head).returncode != 0:
+        return None
+    return report_rel, report_digest, packet_digest, head
+
+
+qualified = {}
+for line in lines:
+    identity = qualified_review(line)
+    if identity:
+        qualified[identity[0]] = identity
+
+
+def owner_source(value):
+    match = re.search(r"owner/source\s*=\s*([^\s;,)]+)", value)
+    if not match:
+        return ""
+    owner = match.group(1).replace("\\", "/")
+    while owner.startswith("./"):
+        owner = owner[2:]
+    return owner
+
+
+groups = defaultdict(dict)
+for line_number, cells in table_rows("## Andon log"):
+    if len(cells) != 8 or not re.fullmatch(r"[0-9]+", cells[0]):
+        continue
+    review_match = re.fullmatch(r"`([^`]+)`", cells[6])
+    if not review_match:
+        continue
+    identity = qualified.get(review_match.group(1))
+    occurrence = cells[1]
+    owner = owner_source(cells[5])
+    family = cells[3]
+    if identity and occurrence and owner and family:
+        groups[(family, owner)].setdefault((*identity[1:], occurrence), line_number)
+
+decision_pattern = re.compile(
+    r"^Mechanism-replacement decision:\s*"
+    r"(?:replace-mechanism|continue|escalate-to-convergence-mode)\s*"
+    r"\([^()]*[A-Za-z0-9][^()]*\)\s*$"
+)
+decisions = [number for number, line in enumerate(lines, 1) if decision_pattern.fullmatch(line)]
+audit_complete = next(
+    (number for number, line in enumerate(lines, 1) if line.strip() == "AUDIT_COMPLETE"),
+    0,
+)
+for (family, owner), entries_by_key in sorted(groups.items()):
+    entries = [(*key, line_number) for key, line_number in entries_by_key.items()]
+    trigger_lines = [
+        max(left[4], right[4])
+        for index, left in enumerate(entries)
+        for right in entries[index + 1:]
+        if (left[0] != right[0] and left[1] != right[1]
+            and left[2] != right[2] and left[3] != right[3])
+    ]
+    if not trigger_lines:
+        continue
+    trigger_line = min(trigger_lines)
+    if not any(number > trigger_line and (not audit_complete or number < audit_complete)
+               for number in decisions):
+        print(f"{family}\t{owner}")
+PY
+)"; then
+        err "digest-bound recurrence evidence could not be parsed"
+        trajectory_missing=""
+      fi
+    fi
+  fi
+  if [ -n "$trajectory_missing" ]; then
+    while IFS=$'\t' read -r family owner; do
+      [ -n "$family" ] || continue
+      err "Andon family '$family' has 2 distinct digest-bound GAP-REVISE reviews on owner/source '$owner'; add a following Mechanism-replacement decision:"
+    done <<< "$trajectory_missing"
   fi
 }
 
@@ -681,6 +891,12 @@ if [ "${1:-}" = "--micro" ]; then
 elif [ "${1:-}" = "--ledger" ]; then
   mode=ledger
   shift
+elif [ "${1:-}" = "--nonterminal-yield" ]; then
+  mode=nonterminal-yield
+  shift
+elif [ "${1:-}" = "--audited-handoff" ]; then
+  mode=audited-handoff
+  shift
 fi
 run_root="${1:-}"
 if [ -z "$run_root" ]; then
@@ -688,6 +904,10 @@ if [ -z "$run_root" ]; then
     printf 'usage: validate-run-root.sh --micro <run-root>\n' >&2
   elif [ "$mode" = ledger ]; then
     printf 'usage: validate-run-root.sh --ledger <markdown-ledger>\n' >&2
+  elif [ "$mode" = nonterminal-yield ]; then
+    printf 'usage: validate-run-root.sh --nonterminal-yield <run-root>\n' >&2
+  elif [ "$mode" = audited-handoff ]; then
+    printf 'usage: validate-run-root.sh --audited-handoff <run-root>\n' >&2
   else
     printf 'usage: validate-run-root.sh <run-root>\n' >&2
   fi
@@ -731,48 +951,213 @@ fi
 if [ "$mode" = micro ]; then
   [ -f "$run_root/STATE.md" ] || err "missing required artifact: STATE.md"
 else
+  status_line="$(grep -E '^\| Status \|' "$run_root/STATE.md" | head -1 || true)"
+  status_value="$(printf '%s' "$status_line" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')"
   root_done=no
-  if grep -Eq '^\|[[:space:]]*Status[[:space:]]*\|[[:space:]]*DONE[[:space:]]*\|' \
-    "$run_root/STATE.md" 2>/dev/null; then
-    root_done=yes
-  fi
+  [ "$status_value" = DONE ] && root_done=yes
   template_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../templates" && pwd)"
   for f in STATE.md PROTOCOL.md; do
     if [ ! -f "$run_root/$f" ]; then err "missing required artifact: $f"
     elif ! has_non_whitespace "$run_root/$f"; then err "required artifact is blank: $f"; fi
   done
   for f in ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-    artifact_status="$(awk -F'|' -v artifact="<run-root>/$f" '
-      function trim(v) { gsub(/^[ \t`]+|[ \t`]+$/, "", v); return v }
-      trim($2) == artifact { print tolower(trim($3)); exit }
-    ' "$run_root/STATE.md" 2>/dev/null)"
     if [ ! -f "$run_root/$f" ]; then err "missing planning artifact: $f (required for dispatched phase runs)"
     elif ! has_non_whitespace "$run_root/$f"; then err "planning artifact is blank: $f"; fi
-    if [ "$root_done" = yes ] && [ "$artifact_status" = complete ] &&
-       [ -f "$run_root/$f" ] &&
+    if [ "$root_done" = yes ] && [ -f "$run_root/$f" ] &&
        cmp -s "$run_root/$f" "$template_dir/$f"; then
       err "planning artifact remains an unfilled template at DONE: $f"
     fi
   done
 fi
 
-if [ "$mode" = full ] && [ -d "$run_root/phases" ]; then
+if { [ "$mode" = full ] || [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; } && [ -d "$run_root/phases" ]; then
   while IFS= read -r phase; do check_done_phase_captures "$phase"; done \
     < <(find "$run_root/phases" -type f -name 'phase-*.md' -print | sort)
 fi
 
 state="$run_root/STATE.md"
 if [ -f "$state" ]; then
-  if [ "$mode" = full ]; then
-    status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
+  if [ "$mode" = full ] || [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; then
     if [ -z "$status_line" ]; then
       err "STATE.md has no '| Status |' row in the Current phase table"
     else
-      status_value="$(printf '%s' "$status_line" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')"
       case "$status_value" in
         open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE) : ;;
         *) err "STATE.md Status '$status_value' is not a contract token (open / READY_TO_DISPATCH / IN_PHASE / PAUSED / BLOCKED / INTERRUPTED / DONE)" ;;
       esac
+    fi
+  fi
+
+  if [ "$mode" = nonterminal-yield ] || [ "$mode" = audited-handoff ]; then
+    state_field() {
+      awk -F'|' -v wanted="$1" '
+        function trim(value) { gsub(/^[ \t`]+|[ \t`]+$/, "", value); return value }
+        /^\|/ && trim($2) == wanted { print trim($3) }
+      ' "$state"
+    }
+    require_state_field() {
+      local field="$1" value count
+      value="$(state_field "$field")"
+      count="$(printf '%s\n' "$value" | awk 'NF { n++ } END { print n + 0 }')"
+      if [ "$count" -ne 1 ] || [ -z "$value" ] || [ "$value" = none ] || [ "$value" = pending ]; then
+        err "STATE.md nonterminal yield requires one nonempty '$field' value"
+      fi
+    }
+
+    if [ "$mode" = audited-handoff ]; then
+      [ "$status_value" = BLOCKED ] \
+        || err "STATE.md audited handoff requires Status 'BLOCKED'"
+    else
+      case "$status_value" in
+        open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED) : ;;
+        *) err "STATE.md Status '$status_value' cannot represent a nonterminal yield" ;;
+      esac
+    fi
+    audit_object_state="$(state_field 'Audit object state')"
+    [ "$audit_object_state" = open ] \
+      || err "STATE.md nonterminal yield requires Audit object state 'open'"
+    for field in 'Phase' 'Route' 'Owner/source' 'Last check' 'Next action'; do
+      require_state_field "$field"
+    done
+    phase_value="$(state_field 'Phase')"
+    if [ "$mode" = nonterminal-yield ] && grep -Eq '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF)$' "$state"; then
+      err "STATE.md nonterminal yield cannot carry a terminal or handoff marker"
+    fi
+    if [ "$status_value" = BLOCKED ] || [ "$status_value" = INTERRUPTED ]; then
+      open_andon="$(awk -F'|' -v current_phase="$phase_value" '
+        function trim(value) { gsub(/^[ \t]+|[ \t]+$/, "", value); return value }
+        function blank(value) { return value ~ /^[ \t]*$/ }
+        function table_like(value, normalized, pipes) {
+          normalized=value
+          sub(/^[ \t]+/, "", normalized)
+          pipes=gsub(/\|/, "|", normalized)
+          return substr(normalized, 1, 1) == "|" || pipes >= 2
+        }
+        function normalize(value, first, last, previous) {
+          value=trim(value)
+          do {
+            previous=value
+            first=substr(value, 1, 1); last=substr(value, length(value), 1)
+            if ((first == "`" && last == "`") || (first == "*" && last == "*") \
+                || (first == "_" && last == "_") || (first == "\"" && last == "\"") \
+                || (first == "\047" && last == "\047") || (first == "[" && last == "]") \
+                || (first == "<" && last == ">")) {
+              value=trim(substr(value, 2, length(value) - 2))
+            }
+          } while (value != previous && length(value) >= 2)
+          return tolower(value)
+        }
+        function substantive(value, normalized) {
+          normalized=normalize(value)
+          return normalized != "" && normalized != "-" && normalized != "none" && normalized != "pending" \
+            && normalized != "n/a" && normalized != "na" && normalized != "not applicable" \
+            && normalized != "tbd" && normalized != "todo" && normalized != "unknown"
+        }
+        function canonical_class(value) {
+          return value == "failed-criterion" || value == "regression" || value == "hung-command" \
+            || value == "substituted-command" || value == "owner-unclear" \
+            || value == "generated-artifact-mismatch" || value == "stale-sidecar" \
+            || value == "policy-conflict" || value == "impossible-criterion" \
+            || value == "evidence-mismatch" || value == "transport-infrastructure" \
+            || value == "misplacement" || value == "false-closure"
+        }
+        function outcome_state(value, normalized) {
+          normalized=normalize(value)
+          if (normalized == "open (rerun pending)" \
+              || normalized ~ /^escalated \(cites #[0-9]+\)$/ \
+              || normalized == "blocked (handoff condition)") return "active"
+          if (normalized ~ /^(resolved|closed|done)$/ \
+              || normalized ~ /^(resolved|closed|done) [^ ].*$/ \
+              || normalized ~ /^(resolved|closed|done)\([^()]+\)$/) return "terminal"
+          return "invalid"
+        }
+        function semantic_andon_heading(value, normalized) {
+          normalized=value
+          if (normalized !~ /^ {0,3}##[ \t]+/) return 0
+          sub(/^ {0,3}##[ \t]+/, "", normalized)
+          normalized=tolower(normalized)
+          sub(/[ \t]+#+[ \t]*$/, "", normalized)
+          normalized=trim(normalized)
+          return normalized ~ /^andon[ \t]+log$/
+        }
+        semantic_andon_heading($0) {
+          semantic_section_count++
+          if ($0 != "## Andon log") malformed=1
+        }
+        $0 == "## Andon log" {
+          section_count++
+          if (in_andon) malformed=1
+          in_andon=1
+          stage="preamble"
+          next
+        }
+        in_andon && /^## / {
+          if (stage == "expect-separator") malformed=1
+          in_andon=0
+          stage=""
+          next
+        }
+        in_andon {
+          if ($0 == "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |") {
+            if (stage != "preamble" || header_count != 0) malformed=1
+            header_count++
+            stage="expect-separator"
+            next
+          }
+          if ($0 == "|---|---|---|---|---|---|---|---|") {
+            if (stage != "expect-separator" || separator_count != 0) malformed=1
+            separator_count++
+            stage="body"
+            next
+          }
+          if (stage == "expect-separator") {
+            malformed=1
+            next
+          }
+          if (stage == "preamble" || stage == "after-body") {
+            if (table_like($0)) malformed=1
+            next
+          }
+          if (stage != "body") {
+            malformed=1
+            next
+          }
+          if (blank($0)) {
+            stage="after-body"
+            next
+          }
+          if (substr($0, 1, 1) != "|" || substr($0, length($0), 1) != "|" || NF != 10) {
+            malformed=1
+            next
+          }
+          row_id=trim($2)
+          if (row_id !~ /^[0-9]+$/) { malformed=1; next }
+          occ=trim($3); phase=trim($4); class=trim($5); abnormality=trim($6)
+          countermeasure=trim($7); rerun=trim($8); outcome=trim($9)
+          state=outcome_state(outcome)
+          valid=substantive(occ) && substantive(phase) && canonical_class(class) \
+            && substantive(abnormality) && substantive(countermeasure) && substantive(rerun) \
+            && substantive(outcome) && state != "invalid"
+          if (!valid) {
+            malformed=1
+          } else {
+            key=tolower(normalize(occ)) SUBSEP tolower(class)
+            if (key in seen) duplicate=1
+            seen[key]=1
+            current=(normalize(phase) == normalize(current_phase))
+            if (state == "active" && !current) malformed=1
+            if (current && state == "active") open=1
+          }
+        }
+        END {
+          if (in_andon && stage == "expect-separator") malformed=1
+          if (semantic_section_count != 1 || section_count != 1 \
+              || header_count != 1 || separator_count != 1) malformed=1
+          print open && !malformed && !duplicate ? "yes" : "no"
+        }
+      ' "$state")"
+      [ "$open_andon" = yes ] \
+        || err "STATE.md $status_value nonterminal yield requires an unresolved Andon row"
     fi
   fi
 
@@ -803,8 +1188,6 @@ if [ -f "$state" ]; then
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
-  check_recurrence_decision "$state"
-
   if [ "$mode" = micro ]; then
     terminal_line="$(awk 'NF { last=$0 } END { print last }' "$state")"
     case "$terminal_line" in
@@ -948,6 +1331,7 @@ if [ -f "$state" ] && grep -qi '^[[:space:]]*cold-review[[:space:]]*:' "$state";
   if [ "${#cold_py[@]}" -gt 0 ]; then
     cold_error=""
     if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" <<'PY'
+import hashlib
 import pathlib
 import re
 import subprocess
@@ -968,9 +1352,17 @@ exact = [line for line in lines if line.startswith("cold-review:")]
 if len(near) != len(exact):
     die("STATE.md cold-review rows must use exact lowercase column-zero grammar")
 
-row_re = re.compile(
+legacy_row_re = re.compile(
     r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
     r"\| attestation: ([A-Za-z0-9._/-]+) "
+    r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
+)
+prospective_row_re = re.compile(
+    r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
+    r"\| attestation: ([A-Za-z0-9._/-]+) "
+    r"\| attestation_sha256: ([0-9a-f]{64}) "
+    r"\| packet: ([A-Za-z0-9._/-]+) "
+    r"\| packet_sha256: ([0-9a-f]{64}) "
     r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
 )
 keys = (
@@ -980,13 +1372,24 @@ keys = (
 )
 
 for line in exact:
-    match = row_re.fullmatch(line)
+    prospective = prospective_row_re.fullmatch(line)
+    match = prospective or legacy_row_re.fullmatch(line)
     if not match:
         die("STATE.md cold-review row must use exact disposition and attestation grammar")
     disposition = match.group(1)
     rel = match.group(2)
-    declared_base = match.group(3)
-    declared_head = match.group(4)
+    if prospective:
+        declared_attestation_sha = match.group(3)
+        packet_rel = match.group(4)
+        declared_packet_sha = match.group(5)
+        declared_base = match.group(6)
+        declared_head = match.group(7)
+    else:
+        declared_attestation_sha = None
+        packet_rel = None
+        declared_packet_sha = None
+        declared_base = match.group(3)
+        declared_head = match.group(4)
     pure = pathlib.PurePosixPath(rel)
     if pure.is_absolute() or ".." in pure.parts or "." in pure.parts or ":" in rel or "\\" in rel:
         die("cold-review attestation path must be safe and run-root-relative")
@@ -998,6 +1401,24 @@ for line in exact:
         die("cold-review attestation escapes the run root")
     if not artifact_path.is_file() or artifact_path.is_symlink():
         die("cold-review attestation must resolve to a regular non-symlink file")
+    artifact_bytes = artifact.read_bytes()
+    if declared_attestation_sha is not None:
+        if hashlib.sha256(artifact_bytes).hexdigest() != declared_attestation_sha:
+            die("cold-review attestation SHA-256 must match the contained report bytes")
+        packet_pure = pathlib.PurePosixPath(packet_rel)
+        if (packet_pure.is_absolute() or ".." in packet_pure.parts or "." in packet_pure.parts
+                or ":" in packet_rel or "\\" in packet_rel):
+            die("cold-review packet path must be safe and run-root-relative")
+        packet_path = root / pathlib.Path(*packet_pure.parts)
+        packet = packet_path.resolve()
+        try:
+            packet.relative_to(root)
+        except ValueError:
+            die("cold-review packet escapes the run root")
+        if not packet_path.is_file() or packet_path.is_symlink():
+            die("cold-review packet must resolve to a regular non-symlink file")
+        if hashlib.sha256(packet.read_bytes()).hexdigest() != declared_packet_sha:
+            die("cold-review packet SHA-256 must match the contained packet bytes")
     report = artifact.read_text(encoding="utf-8").splitlines()
     if report.count("Reviewer attestation:") != 1:
         die("cold-review artifact requires exactly one Reviewer attestation header")
@@ -1100,6 +1521,10 @@ PY
     fi
   fi
 fi
+
+# Cold-review grammar and owner bindings are validated before the recurrence
+# consumer can count any prospective GAP-REVISE record.
+check_recurrence_decision "$state"
 
 # The repository-side #86 successor/non-verdict parser is mandatory whenever a
 # live record root carries those prospective rows. Direct Markdown files are

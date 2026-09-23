@@ -1,0 +1,374 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_WORKFLOW_MANAGEMENT",
+  "analytical_label_status": "Researcher criticism-tested within-tradition synthesis; not an established school name.",
+  "revision": "EWM-R1-2026-09-06",
+  "research_cutoff": "2026-09-06",
+  "state": "FROZEN",
+  "scope": "Independent bounded-completeness study of established Workflow Management: representation, coordination and enactment of control/data/resource/interaction semantics, human and external work, exception, recovery, change and evidence. Evolved names a criticism-tested analytical synthesis, not an academic school.",
+  "scope_boundaries": [
+    "No requester repository, prior Evolved packet or sibling corpus was inspected. No target-specific adoption, architecture mutation or release judgement.",
+    "Business-process organisational management and process-mining inference are documented interfaces, not substituted for the lane’s enactment question.",
+    "Not a census of every commercial engine, publication, legal regime or scientific domain; product evidence is edition/implementation-specific.",
+    "Formal guarantees are confined to stated model classes; social authority, physical effects, fairness and scientific truth are not inferred from model state.",
+    "No bulk copyrighted source texts, credentials, private logs or unrelated material included in the packet."
+  ],
+  "population_total": 77,
+  "population_examined": 77,
+  "examination_counts": {
+    "EXAMINED": 65,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 12
+  },
+  "disposition_counts": {
+    "STRONGLY_RETAINED": 14,
+    "RETAINED_IN_EVOLVED_FORM": 19,
+    "CONTEXT_DEPENDENT": 21,
+    "ASSUMPTION_SENSITIVE": 9,
+    "USEFUL_BUT_EASILY_GAMED": 1,
+    "USEFUL_BUT_EASILY_BUREAUCRATISED": 0,
+    "DOMAIN_SPECIFIC": 3,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "DUPLICATE_CANDIDATE": 0,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 1,
+    "NO_GENERAL_PROPERTY": 3,
+    "REJECTED_OR_DISFAVOURED": 4,
+    "CONTESTED": 0,
+    "UNRESOLVED": 1
+  },
+  "unresolved_count": 1,
+  "unresolved_property_ids": [
+    "EWM-074"
+  ],
+  "mandatory_families_total": 10,
+  "mandatory_families_uncompleted": 0,
+  "source_count": 51,
+  "source_access_limits_summary": "Seven metadata/abstract-limited records; 2025 field presentation distinct from inaccessible proceedings; recent preprints/static analyses and live docs retain explicit limits.",
+  "evidence_limits": [
+    "No single proved semantics composes all retained control/data/resource/human/external-effect mechanisms.",
+    "External action may remain unobservable or irreversible.",
+    "General safe autonomous workflow optimisation is not established.",
+    "Comparative benefit and participant burden of hybrid flexibility are not generally quantified.",
+    "A complete technical adjudication of the original Börger critique is limited by access."
+  ],
+  "sibling_corpora_consulted": false,
+  "cross_trifecta_synthesis_performed": false,
+  "intakes": {
+    "AUDIT": "COMPLETE",
+    "PUBLIC_DOCUMENTATION": "COMPLETE",
+    "SYNTHESIS": "COMPLETE",
+    "WITHIN_TRADITION_COMPOSITION": "COMPLETE_WITH_EXPLICIT_UNRESOLVED_OBLIGATIONS"
+  },
+  "checks": {
+    "mechanical": {
+      "exact_payloads_exist": {
+        "passed": true,
+        "detail": "['EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md', 'EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json', 'EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json', 'EVOLVED_WORKFLOW_MANAGEMENT_AUDIT_INTAKE.md', 'EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md', 'EVOLVED_WORKFLOW_MANAGEMENT_SYNTHESIS_INTAKE.md', 'EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json', 'EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json']"
+      },
+      "unique_sequential_population": {
+        "passed": true,
+        "detail": ""
+      },
+      "property_required_fields": {
+        "passed": true,
+        "detail": ""
+      },
+      "substantive_common_values": {
+        "passed": true,
+        "detail": ""
+      },
+      "domain_fields_and_resolvable_profiles": {
+        "passed": true,
+        "detail": ""
+      },
+      "property_specific_domain_applications": {
+        "passed": true,
+        "detail": ""
+      },
+      "dispositions_valid": {
+        "passed": true,
+        "detail": ""
+      },
+      "disposition_counts_reconcile": {
+        "passed": true,
+        "detail": "Counter({'CONTEXT_DEPENDENT': 21, 'RETAINED_IN_EVOLVED_FORM': 19, 'STRONGLY_RETAINED': 14, 'ASSUMPTION_SENSITIVE': 9, 'REJECTED_OR_DISFAVOURED': 4, 'DOMAIN_SPECIFIC': 3, 'NO_GENERAL_PROPERTY': 3, 'USEFUL_BUT_EASILY_GAMED': 1, 'CEREMONY_NOT_GENERAL_PROPERTY': 1, 'SUPERSEDED_BY_STRONGER_FORM': 1, 'UNRESOLVED': 1})"
+      },
+      "all_candidates_examined": {
+        "passed": true,
+        "detail": "Counter({'EXAMINED': 65, 'EXAMINED_WITH_EVIDENCE_LIMIT': 12})"
+      },
+      "examination_counts_reconcile": {
+        "passed": true,
+        "detail": ""
+      },
+      "source_required_fields": {
+        "passed": true,
+        "detail": ""
+      },
+      "source_unique_and_count": {
+        "passed": true,
+        "detail": ""
+      },
+      "source_locators_unique": {
+        "passed": true,
+        "detail": ""
+      },
+      "source_access_and_limits": {
+        "passed": true,
+        "detail": ""
+      },
+      "source_reverse_index": {
+        "passed": true,
+        "detail": ""
+      },
+      "source_empty_support_explained": {
+        "passed": true,
+        "detail": ""
+      },
+      "property_source_references": {
+        "passed": true,
+        "detail": ""
+      },
+      "evidence_partitions_separate": {
+        "passed": true,
+        "detail": ""
+      },
+      "property_relation_indices_exact": {
+        "passed": true,
+        "detail": ""
+      },
+      "every_candidate_in_relational_account": {
+        "passed": true,
+        "detail": "[]"
+      },
+      "model_required_fields": {
+        "passed": true,
+        "detail": ""
+      },
+      "relations_fields_unique_and_complete": {
+        "passed": true,
+        "detail": ""
+      },
+      "relation_references": {
+        "passed": true,
+        "detail": ""
+      },
+      "relation_types_defined": {
+        "passed": true,
+        "detail": ""
+      },
+      "model_nodes_match_population": {
+        "passed": true,
+        "detail": ""
+      },
+      "all_exports_unique_complete": {
+        "passed": true,
+        "detail": ""
+      },
+      "global_key_format": {
+        "passed": true,
+        "detail": ""
+      },
+      "composition_induced_explicit": {
+        "passed": true,
+        "detail": ""
+      },
+      "analytical_tests_labeled": {
+        "passed": true,
+        "detail": ""
+      },
+      "configuration_interface_revision_counts": {
+        "passed": true,
+        "detail": ""
+      },
+      "criticism_tension_counts": {
+        "passed": true,
+        "detail": ""
+      },
+      "criticism_references": {
+        "passed": true,
+        "detail": ""
+      },
+      "property_criticism_tension_references": {
+        "passed": true,
+        "detail": ""
+      },
+      "tension_discriminators_substantive": {
+        "passed": true,
+        "detail": ""
+      },
+      "genealogy_nodes_edges": {
+        "passed": true,
+        "detail": ""
+      },
+      "genealogy_references_types": {
+        "passed": true,
+        "detail": ""
+      },
+      "genealogy_examined": {
+        "passed": true,
+        "detail": ""
+      },
+      "evolution_transitions_valid": {
+        "passed": true,
+        "detail": ""
+      },
+      "all_retained_mechanisms_have_ceremony_analysis": {
+        "passed": true,
+        "detail": ""
+      },
+      "ceremony_fields_complete": {
+        "passed": true,
+        "detail": ""
+      },
+      "coverage_required_fields": {
+        "passed": true,
+        "detail": ""
+      },
+      "mandatory_family_population": {
+        "passed": true,
+        "detail": ""
+      },
+      "mandatory_families_no_uncompleted": {
+        "passed": true,
+        "detail": ""
+      },
+      "coverage_property_references": {
+        "passed": true,
+        "detail": ""
+      },
+      "coverage_search_source_references": {
+        "passed": true,
+        "detail": ""
+      },
+      "unresolved_count_and_id": {
+        "passed": true,
+        "detail": ""
+      },
+      "cutoff_revision_consistency": {
+        "passed": true,
+        "detail": ""
+      },
+      "all_machine_property_tokens_resolve": {
+        "passed": true,
+        "detail": ""
+      },
+      "all_machine_source_tokens_resolve": {
+        "passed": true,
+        "detail": ""
+      },
+      "all_machine_relation_tokens_resolve": {
+        "passed": true,
+        "detail": ""
+      },
+      "all_machine_model_tokens_resolve": {
+        "passed": true,
+        "detail": ""
+      },
+      "report_required_sections_order": {
+        "passed": true,
+        "detail": ""
+      },
+      "report_complete_denominator": {
+        "passed": true,
+        "detail": ""
+      },
+      "audit_complete_denominator": {
+        "passed": true,
+        "detail": ""
+      },
+      "synthesis_complete_export_index": {
+        "passed": true,
+        "detail": ""
+      },
+      "public_intake_boundary": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_target_specific_payload": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_wrong_lineage_prefix": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_editorial_placeholders": {
+        "passed": true,
+        "detail": ""
+      },
+      "document_internal_filename_links": {
+        "passed": true,
+        "detail": ""
+      },
+      "no_hidden_work_files_in_payload_list": {
+        "passed": true,
+        "detail": ""
+      }
+    },
+    "semantic_review": {
+      "SCOPE_AND_GENEALOGY": "PASS: W1–W10, twenty dated plural nodes and typed influence/convergence/import/translation/analogy edges; access-bounded early originals are disclosed.",
+      "CRITICISM_EQUAL_OPPORTUNITY": "PASS: twenty-six critical/evolution entries change dispositions and mechanisms; no popularity-based resolution of the access-limited original dispute.",
+      "CURRENT_SEARCH": "PASS_WITH_LIMITS: inspected 2023–2026 works/current docs; preprints, static samples and 2025 slides remain bounded.",
+      "ALL_CANDIDATES_ADJUDICATED": "PASS: complete 77-ID population, adverse/conditional outcomes preserved; one examined unresolved claim.",
+      "DOMAIN_MODELS": "PASS: ten substantive models and ten resolvable fields for every candidate, with property-specific applications.",
+      "CEREMONY_AND_RETIREMENT": "PASS: all 67 retained/conditional candidates have cheaper/no-intervention and retirement accounts; no one-tool/owner-per-property prescription.",
+      "EVIDENCE_AND_INDEPENDENCE": "PASS_WITH_LIMITS: separate partitions, source locators/access levels, eight empirical/case and eight formal cards; no invented independent replications.",
+      "TENSIONS_AND_ADVERSARIAL_TESTS": "PASS: ten discriminated tensions and thirteen labelled analytical cases; these do not establish empirical validation.",
+      "COMPOSITION": "PASS_WITH_OPEN_OBLIGATIONS: sixty-three guarded relations and alternative configurations; EWM-075/076 labelled analytical; no universal joint theorem.",
+      "INTAKES": "PASS: complete neutral audit entries, public claims/limits and all 77 globally keyed exports with sibling boundary.",
+      "INDEPENDENCE_AND_AUTHORITY": "PASS: no requester repository or sibling corpus consulted; no target adoption/mutation authorised.",
+      "SUBSTANTIVE_NUMERICAL_REVIEW": "PASS: 20+23 revised patterns=43; nested 10/25→5/7→5 effectiveness denominator; current preprint exposure 4/54 within 100; static >6000 does not become an invented exact N.",
+      "FORMAL_AND_STANDARD_BOUNDARIES": "PASS: possible completion differs from inevitable termination; CMMN terminal Failed is not success; ExoFlow scoped exactly-once is neither universal nor denied universally."
+    },
+    "SEMANTIC_CHECK_LIMIT": "These are researcher judgements after reading and adversarial analysis, not independent review or empirical validation.",
+    "PACKAGING_PROTOCOL": "Eight inventoried payloads plus this manifest. The external verification receipt records archive reopen and exact-byte checks; this manifest does not hash itself or the enclosing ZIP."
+  },
+  "normalisation_log": [
+    "Pre-freeze syntax/format normalisation: UTF-8 JSON with two-space indentation and final newline; Markdown final newline.",
+    "Pre-freeze editorial correction: duplicated word in domain-model limit removed. No already-frozen judgement was changed.",
+    "Final pre-freeze substantive review: corrected EWM-S025 figure locator to printed p.132 / zero-based PDF page 6; preserved favourable implementation outcomes and organisational causes of abandonment.",
+    "Final pre-freeze substantive review: added EWM-S030 section 5.2 controlled-prototype evidence and closed-world pinning versus late-discovery discriminator; strong visible-effect/serialisability limits preserved. Candidate denominator and primary dispositions unchanged."
+  ],
+  "payload_inventory": [
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md",
+      "bytes": 269451,
+      "sha256": "6fb3f75e6352cb2d90fcee79b3fcc28d7984cf262fa69b64afab9377729d69a2"
+    },
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+      "bytes": 1095256,
+      "sha256": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c"
+    },
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json",
+      "bytes": 86047,
+      "sha256": "e3d40e2befea3dfcec003d532905171d4d6283148a7612ac69ab1002b905d36c"
+    },
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_AUDIT_INTAKE.md",
+      "bytes": 246937,
+      "sha256": "4a507781337d04f512ad5031df8c58ef2d74f10f0e797c79b707a3c9ca210e01"
+    },
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 11107,
+      "sha256": "53b6d58f31c4702bb6047195e30aa354b3b9fb86fd4890cfce332fde5ebdf4fb"
+    },
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "bytes": 17148,
+      "sha256": "20e50d58d3208da1d5c72271faabfae911b975e6840b5fa6bb3b679ad6f9b481"
+    },
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json",
+      "bytes": 806187,
+      "sha256": "ba6121eb3a9ee8e322b635472528f8819952264776b04ac238593bfd61b86137"
+    },
+    {
+      "filename": "EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "bytes": 54652,
+      "sha256": "1ebf8485e4da80919052476e08d9b5fddf4839f61ecebd9074e2e581a34479f2"
+    }
+  ]
+}

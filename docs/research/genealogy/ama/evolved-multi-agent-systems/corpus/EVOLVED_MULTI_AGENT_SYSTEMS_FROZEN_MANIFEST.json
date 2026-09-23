@@ -1,0 +1,215 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_MULTI_AGENT_SYSTEMS",
+  "analytical_label": "Evolved Multi-Agent Systems",
+  "analytical_label_status": "RESEARCHER_SYNTHESIS_OF_ESTABLISHED_MULTI_AGENT_SYSTEMS_NOT_A_CLAIM_OF_A_NAMED_ACADEMIC_SCHOOL",
+  "revision": "EMAS-R1",
+  "research_cutoff": "2026-09-06",
+  "run_date": "2026-09-06",
+  "state": "FROZEN",
+  "scope_statement": "A plural, independent MAS tradition study spanning distributed problem solving, formal/public communication, task and team coordination, strategic interaction, organisations/norms, distributed reasoning, learning, robustness and contemporary human/LLM-agent translation. Completeness is bounded to the examined domain families and 76 registered candidate claims, not all publications or a claim of field-wide consensus.",
+  "scope_boundaries": [
+    "No requester repositories, runtime designs, earlier Evolved packets or sibling corpora were consulted. Static prompt provenance is not evidence.",
+    "Distributed systems results enter only where a MAS source explicitly uses or motivates them; there is no general distributed-systems audit or blanket Byzantine terminology.",
+    "Robotics/control, AI logic, economics and organisational engineering are examined at documented MAS intersections, not as independently complete sibling traditions.",
+    "No catalogue of current software products, all FIPA implementations, all voting/mechanism variants, every MARL algorithm or every AAMAS paper is claimed.",
+    "Current evidence includes selected 2025–2026 research, current-year source discovery and version verification through the cut-off; proceedings indexing is not paper-level inspection.",
+    "LLM results are not the definition of MAS. Formal model properties, simulated behaviour, field trials, implementation and causal benefit are kept distinct.",
+    "An examined unresolved access/version question is not silently recast as disproof; selected whole-system transfer remains unvalidated."
+  ],
+  "population_total": 76,
+  "population_examined": 76,
+  "property_examination_counts": {
+    "EXAMINED": 62,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 14
+  },
+  "disposition_counts": {
+    "RETAINED_IN_EVOLVED_FORM": 28,
+    "STRONGLY_RETAINED": 16,
+    "REJECTED_OR_DISFAVOURED": 7,
+    "ASSUMPTION_SENSITIVE": 8,
+    "CONTEXT_DEPENDENT": 10,
+    "UNRESOLVED": 1,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 2,
+    "DOMAIN_SPECIFIC": 3,
+    "USEFUL_BUT_EASILY_GAMED": 1
+  },
+  "unresolved_property_count": 1,
+  "unresolved_property_ids": [
+    "EMAS-013"
+  ],
+  "examined_composition_or_transfer_obligations": 5,
+  "mandatory_families_total": 10,
+  "mandatory_families_examined": 10,
+  "uncompleted_mandatory_families": 0,
+  "family_examination_counts": {
+    "EXAMINED": 5,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 5
+  },
+  "source_count": 56,
+  "source_access_counts": {
+    "FULL_TEXT_TARGETED_INSPECTION": 52,
+    "FULL_PAGE": 1,
+    "INDEX_AND_CONTENTS": 1,
+    "UNAVAILABLE": 2
+  },
+  "evidence_limits": [
+    "Completeness is bounded to the ten examined mandatory domain families and 76 registered candidates, not every publication or a field-wide consensus.",
+    "The 56 source records include 52 targeted full-text inspections, one institutional history page, one proceedings index/contents and two unavailable exact-version FIPA leads. Targeted inspection is not full reading or independent re-proving of every page and appendix.",
+    "EMAS-013 remains UNRESOLVED for current FIPA profile/implementation equivalence. The inspected experimental XC00037H specimen is not substituted for inaccessible final profiles.",
+    "Formal guarantees remain confined to their models. In particular, protocol completion possibility is not eventual work, and fault-tolerant replication does not strengthen an approximate optimiser into an exact one.",
+    "Field/deployment reports, staged trials, benchmark comparisons, implementation examples and 2026 preprints are distinct evidence. Shared programmes, authors, datasets, frameworks and models do not establish independent replication.",
+    "The four composition-induced properties and whole composed system are researcher synthesis. Fifteen discriminating cases include twelve analytical tests and three published component cases; none establishes end-to-end empirical validation of the whole synthesis.",
+    "The counterexample to strict information-loss/classification-error ordering is researcher analysis, not a published correction of EMAS-S037.",
+    "Sibling corpora and requester repositories were not consulted. No cross-trifecta synthesis, target-native crosswalk, adoption or mutation is established."
+  ],
+  "substantive_acceptance_gates": [
+    {
+      "gate": "SCOPE_AND_GENEALOGY",
+      "status": "PASS",
+      "basis": "Ten examined families, 25 dated nodes and 25 classified genealogy edges; attribution and access limits explicit."
+    },
+    {
+      "gate": "CRITICISM_AND_EVOLUTION",
+      "status": "PASS",
+      "basis": "24 criticism records and 17 transitions distinguish documented developments from analytical narrowing."
+    },
+    {
+      "gate": "CURRENT_SEARCH",
+      "status": "PASS",
+      "basis": "Selected 2025–2026 primary research and exact-version checks included; search scope and date limits recorded."
+    },
+    {
+      "gate": "DOMAIN_MODELS",
+      "status": "PASS",
+      "basis": "Ten developed models and all ten domain-profile dimensions on every candidate, with internally resolvable references."
+    },
+    {
+      "gate": "FULL_DENOMINATOR_AND_DISPOSITIONS",
+      "status": "PASS",
+      "basis": "76 stable candidate IDs, 76 examined, all primary dispositions reconciled, including one unresolved and nine rejected/ceremonial candidates."
+    },
+    {
+      "gate": "CEREMONY_AND_CHEAPER_ALTERNATIVES",
+      "status": "PASS",
+      "basis": "12 focused ceremony records and 76 candidate-specific minimum/consumer/retirement entries."
+    },
+    {
+      "gate": "EVIDENCE_PARTITIONS",
+      "status": "PASS",
+      "basis": "Separate provenance, theory, comparison, field, replication, contrary and transfer partitions; 19 empirical/field/implementation records and 14 formal records."
+    },
+    {
+      "gate": "TENSIONS_AND_ADVERSARIAL_REVIEW",
+      "status": "PASS",
+      "basis": "Ten selection tensions, negative/null findings and a criticism of an anti-MAS argument alter or restrict judgements."
+    },
+    {
+      "gate": "WITHIN_TRADITION_COMPOSITION",
+      "status": "PASS",
+      "basis": "Twelve analytical nodes, 61 guarded relations, six alternative configurations, external/revision boundaries and five explicit composition/transfer obligations."
+    },
+    {
+      "gate": "AUDIT_INTAKE",
+      "status": "PASS",
+      "basis": "All 76 IDs accounted for; 66 conditional candidates developed and ten negative/ceremonial/unresolved guards enumerated."
+    },
+    {
+      "gate": "PUBLIC_DOCUMENTATION_INTAKE",
+      "status": "PASS",
+      "basis": "Independent introduction, citation-ready claims, limits and page outline; no requester-system name."
+    },
+    {
+      "gate": "SYNTHESIS_INTAKE",
+      "status": "PASS",
+      "basis": "76 globally keyed exports, documented intersections and questions for unread lanes; no cross-trifecta conclusion."
+    },
+    {
+      "gate": "PAYLOAD_SCHEMA_COUNTS_REFERENCES",
+      "status": "PASS",
+      "basis": "8348 fresh structural, field, count, ID, pointer and consistency checks passed."
+    }
+  ],
+  "review_boundary": "The substantive review and adversarial adjudication were performed in this research execution. Automated checks establish structural and referential consistency, not scientific truth or independent peer review.",
+  "checks": {
+    "payload_validation": "PASS",
+    "checks_executed": 8348,
+    "checks_passed": 8348,
+    "resolved_json_pointers": 988,
+    "json_strict_parse": "PASS",
+    "unique_ids": "PASS",
+    "complete_candidate_denominator": "PASS",
+    "bidirectional_references": "PASS",
+    "ordered_required_report_sections": "PASS",
+    "intake_population_consistency": "PASS",
+    "independence_and_target_boundary": "PASS"
+  },
+  "intake_status": {
+    "audit": "COMPLETE",
+    "public_documentation": "COMPLETE",
+    "within_tradition_composition": "COMPLETE",
+    "synthesis": "COMPLETE"
+  },
+  "sibling_corpora_consulted": false,
+  "cross_trifecta_synthesis_performed": false,
+  "requester_repositories_inspected": false,
+  "external_research_ready_for_later_synthesis_and_crosswalk": true,
+  "readiness_boundary": "Ready as a bounded external research corpus, not an adoption decision or proof of whole-system effectiveness.",
+  "payload_inventory": [
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_FROZEN_REPORT.md",
+      "bytes": 236479,
+      "sha256": "0fb1b697bb036ab63bda37b9327e5e7b17e70bba548313bc5c23abd560ab9ffb"
+    },
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_PROPERTY_LEDGER.json",
+      "bytes": 949484,
+      "sha256": "3a7ab2f6938ed69f31bbeac2dc574c3b6e189e300482ebcc904fb7151c86ae98"
+    },
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_SOURCE_TABLE.json",
+      "bytes": 94354,
+      "sha256": "6dd22f2d278354349b35a031f50beea41c178d33fb23f574f1267f56f933da93"
+    },
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_AUDIT_INTAKE.md",
+      "bytes": 407334,
+      "sha256": "989f43d73308d6763006cf8ce7d628a51b0d989736f49cd148371686aeb0fc24"
+    },
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 9822,
+      "sha256": "bbb41cd8515cd2c0eac1da26fc73d657902794e994683aa8a2f80c538dffb2b9"
+    },
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_SYNTHESIS_INTAKE.md",
+      "bytes": 146759,
+      "sha256": "4882eab337c511680f4a2368f0f4a920f5829c8f487c89365376eb47ac116cd5"
+    },
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_COMPOSITION_MODEL.json",
+      "bytes": 549161,
+      "sha256": "ca78b821b4a21e220d0f5c9e4c3a3cec11e10c2d1a8680edb56a4c2e8dc6b10f"
+    },
+    {
+      "filename": "EVOLVED_MULTI_AGENT_SYSTEMS_RESEARCH_COVERAGE.json",
+      "bytes": 135256,
+      "sha256": "dfb0e4715195ef330033e85ef25fbf999c97182ba2f4a0644ab65eaefd6ea72d"
+    }
+  ],
+  "payload_count": 8,
+  "archive_membership_rule": "Exactly these eight payloads plus this manifest; no bulk copyrighted sources, repository files, credentials or private execution logs.",
+  "hash_policy": "SHA-256 over exact payload bytes. This manifest inventories neither itself nor the enclosing ZIP. The final ZIP hash/size and reopen result are recorded externally.",
+  "archive_verification_policy": "The publication receipt is issued only after the ZIP has been closed, freshly reopened, CRC-tested, checked for exact membership and compared byte-for-byte and by SHA-256 with this manifest.",
+  "prefreeze_revision_log": [
+    "All changes occurred before first freeze EMAS-R1; there was no earlier frozen packet whose judgements were silently changed.",
+    "Verified/corrected source dates, author lists, exact titles and experimental-versus-final FIPA identity from readable primary covers/text; DOI/deposit/file-name dates were not substituted for publication dates.",
+    "Added distinct candidates EMAS-075/076 after current primary research; retained all earlier IDs and unfavourable candidates.",
+    "Added EMAS-S054 and refined existing communication/human-participation candidates; did not manufacture a new candidate for an already represented trigger.",
+    "Classified Dung argumentation as an interdisciplinary import; retained strictness criticism EMAS-K018 as researcher analysis, not a published correction.",
+    "Machine serialisation uses UTF-8, two-space JSON indentation and final newline. Such syntax normalisation does not change the frozen substantive judgement.",
+    "A final genealogy check found no support for the draft Dung-to-foundations-manuscript edge. Read EMAS-S055/056 and replaced that edge with the express 2000 MAS dialogue adaptation. Refined EMAS-046, criticism EMAS-K013 and new relation EMAS-REL-061; the complete candidate denominator remains 76 because this is the operating-method coupling of an already registered criterion, not a distinct universally prescribed control.",
+    "Final primary-cover check completed the EMAS-S043 author list and December 2016 date; tightened the EMAS-075 fault-model wording to synchronous message passing. Normalised the staged-field-trial evidence-role label without altering its evidence status.",
+    "Final adjudication made every evolution transition’s historical-versus-analytical status explicit, so tested overgeneralisations are not falsely attributed to original authors. Export fields with no dedicated pairwise alternative edge received a reasoned absence note. A verification false positive inside the legitimate DOI JZVR6522 was corrected by matching whole target-code tokens, not by changing the citation."
+  ]
+}

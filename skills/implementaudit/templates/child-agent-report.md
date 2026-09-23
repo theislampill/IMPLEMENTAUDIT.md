@@ -2,6 +2,46 @@
 
 Role:
 
+Ordinary child-task custody (when this report carries an ordinary task):
+
+- task_identity / parent_holon / parent_cell_or_transaction:
+- task_kind: ORDINARY
+- purpose / why_now / next_consumer:
+- required_inputs: <exact locators and material versions/digests>
+- authority_ceiling / read_scope / write_scope / external_effect_scope:
+- resource_worktree_writer_constraints: <including already-active conflicts>
+- expected_return_contract:
+- worker_task_identity / observed_execution_status: <selected | started | running | terminal | unknown>
+- status_evidence: <actual host/process evidence; no inferred stages>
+- output_evidence_locators_and_digests:
+- observed_side_effects:
+- disposal_cleanup_status: <observed disposition | unknown | not applicable, with reason>
+- governor_reconciliation: <pending | exact decision/evidence locator>
+- authority_earned / authority_not_earned:
+- next_consumer / first_missing_input:
+
+- visible_projection: PARENT_HOLON / CHILD_TASK / HOLON_PATH / CHILD_TASK_KIND / PURPOSE / AUTHORITY / STATUS / ACCEPTED / JOINED / CONSUMING_PARENT / CONSUMING_FRONTIER / RESULT / PARENT_COMPLETE
+- parent_child_task: <exact task identity when nested; otherwise not applicable>
+- continuation_when_residual: <absorption state; residual; first missing
+  discriminator; evidence limit; entitled owner/consumer; trigger; accessible
+  source locator; next lawful action and prerequisites; known future
+  version/horizon or explicit unknown; declared decision family; justified
+  unchanged meaning or explicit transfer relation; distinguishable remaining
+  possibilities and admission permitted by all or deferred; existing R0023
+  predecessor-governed warrant if evaluator revised, inline or through a
+  resolving existing reference under planning-depth.md decision-relative admission>
+- continuation_transfer: <receiving carrier and exact readback, or pending;
+  retain predecessor reference until decision distinctions and content survive>
+
+Populate dispatch fields before the host call, then record meaningful observed
+events and returns. Reuse the existing lane/context-capsule identity; this is
+not a separate registry. Do not emit CHILD_SKILL_ROUTE for an ordinary task.
+Tool completion, timeout or exit is not a verdict. Inspect partial effects and
+worker custody before replacement; another ID cannot create a duplicate live
+delivery. Output remains evidence until the governor reconciles it. For audit-*
+tasks, bind the existing exact route/holon execution record instead; these
+ordinary fields do not discharge OPEN or LOAD/USE/DISPOSE.
+
 Reviewer attestation:
 - reviewer_identity: <host-visible reviewer or task identity>
 - requested_model: <requested model>

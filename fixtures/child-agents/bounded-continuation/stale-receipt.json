@@ -1,0 +1,13 @@
+{
+  "observation_patch": {
+    "controller": {
+      "controller_id": "v0333-release",
+      "claim_id": "10bd7bc5098af00d26b1c319683a64f5",
+      "run_id": "v041-thread5-autodag-TmDJfs",
+      "receipt_ref": "refs/implementaudit/continuity-receipts/v0333-release/G0124@1111111111111111111111111111111111111111"
+    },
+    "currentness": "STALE"
+  },
+  "expected_classifier": "REPORT_AND_WAIT",
+  "expected_contradiction": "CONTINUITY_NOT_CURRENT"
+}

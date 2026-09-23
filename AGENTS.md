@@ -91,6 +91,7 @@ The canonical plugin projection preserves the plugin-root topology:
 .codex-plugin/plugin.json
 .claude-plugin/plugin.json
 .claude-plugin/marketplace.json
+hooks/hooks.json
 IMPLEMENTAUDIT_PACKAGE.json
 IMPLEMENTAUDIT_INVENTORY.json
 skills/implementaudit/SKILL.md
@@ -109,7 +110,7 @@ projection, not the canonical package topology. It flattens only
 `skills/implementaudit/` to archive root as `SKILL.md`, `references/`,
 `scripts/`, and `templates/`, adds deterministic internal-procedure projections
 for the four children, and carries package and inventory metadata; it does not
-carry plugin manifests, a nested `skills/` directory, or independently
+carry plugin manifests, plugin hooks, a nested `skills/` directory, or independently
 discoverable child packages. Root documentation,
 root scripts, fixtures, tests, CI config, audit ledgers, and maintenance docs
 are repo-only unless a future owner decision proves otherwise.

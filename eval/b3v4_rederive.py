@@ -2133,8 +2133,16 @@ def _sed_plan(args, stdin_paths):
         paths = [stdin_paths[-1]]
     if not programs and not configs:
         return None
-    return {"paths": paths, "config_paths": configs, "zero": False,
-            "terminal": False, "unsafe": False}
+    # Independently rederive a finite consumption boundary. Exact output
+    # equality alone cannot attribute bytes from a decoy to a later operand.
+    commands = [piece.strip() for script in programs for piece in script.split(";")]
+    bounded = not configs and all(
+        not command or command in {"q", "Q"} or re.fullmatch(
+            r"(?:(?:[0-9]+|\$)(?:,(?:[0-9]+|\$))?)?[pd=]", command)
+        for command in commands)
+    guaranteed = paths[:1] if any(command in {"q", "Q"} for command in commands) else paths
+    return {"paths": guaranteed, "config_paths": configs, "zero": False,
+            "terminal": False, "unsafe": not bounded}
 
 
 def _head_tail_plan(args, stdin_paths):

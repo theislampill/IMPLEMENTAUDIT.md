@@ -12,8 +12,8 @@
       "name": "theislampill"
     }
   },
-  "runtime_version": "0.4.0",
-  "release_family": "v0.4.0.0",
+  "runtime_version": "0.4.1",
+  "release_family": "v0.4.1.0",
   "public_governor": "implementaudit",
   "public_entrypoint": "/implementaudit",
   "required_skills": [

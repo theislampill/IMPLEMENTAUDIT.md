@@ -29,7 +29,7 @@ make_minimal_repo() {
 name: implementaudit
 description: Fixture governor.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 
 # /implementaudit
@@ -44,7 +44,7 @@ EOF
 name: audit-state
 description: Internal bounded state-recovery cognition routed by /implementaudit.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 EOF
   cat >"$dir/skills/audit-assess/SKILL.md" <<'EOF'
@@ -52,7 +52,7 @@ EOF
 name: audit-assess
 description: Internal bounded independent assessment routed by /implementaudit.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 EOF
   cat >"$dir/skills/audit-implement/SKILL.md" <<'EOF'
@@ -60,7 +60,7 @@ EOF
 name: audit-implement
 description: Internal maintainer qualification cognition routed by /implementaudit.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 EOF
   cat >"$dir/skills/audit-andon/SKILL.md" <<'EOF'
@@ -68,7 +68,7 @@ EOF
 name: audit-andon
 description: Bounded Andon-response cognition.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 EOF
   cat >"$dir/.claude-plugin/plugin.json" <<'EOF'
@@ -110,6 +110,40 @@ EOF
 positive="$tmp/positive"
 make_minimal_repo "$positive"
 bash scripts/check-skill-layout-contract.sh --repo-root "$positive"
+
+compact="$tmp/compact"
+make_minimal_repo "$compact"
+python - "$compact/skills/implementaudit/SKILL.md" <<'PY'
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+old = (
+    "Source checkout layout is conventional and name-matched:\n"
+    "`skills/implementaudit/SKILL.md`. Release archives flatten that directory only as a build artifact."
+)
+new = (
+    "Source: `skills/implementaudit/SKILL.md` beside `references/`, `scripts/`,\n"
+    "`templates/`. Release flattening is a build projection; installed paths are\n"
+    "`SKILL.md`, `references/`, `scripts/`, `templates/` under the active skill directory."
+)
+assert text.count(old) == 1
+path.write_text(text.replace(old, new, 1), encoding="utf-8")
+PY
+bash scripts/check-skill-layout-contract.sh --repo-root "$compact"
+python - "$compact/skills/implementaudit/SKILL.md" <<'PY'
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+before = "Release flattening is a build projection; "
+assert text.count(before) == 1
+path.write_text(text.replace(before, "", 1), encoding="utf-8")
+PY
+if bash scripts/check-skill-layout-contract.sh --repo-root "$compact" >/dev/null 2>&1; then
+  echo "skill-layout-contract: incomplete compact layout unexpectedly passed" >&2
+  exit 1
+fi
 
 missing_child="$tmp/missing-child"
 make_minimal_repo "$missing_child"

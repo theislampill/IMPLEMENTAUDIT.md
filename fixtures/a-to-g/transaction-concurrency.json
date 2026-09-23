@@ -1,0 +1,91 @@
+{
+  "schema": "implementaudit.native-a-g.fixture.v1",
+  "slice": "C_TRANSACTION_SCOPED_CONCURRENCY",
+  "authority_ceiling": "PREPARATION_PRODUCT_EVIDENCE_ONLY",
+  "canonical_credit_granted": false,
+  "native_consumer_required": true,
+  "purpose": "Constrain child cardinality per route transaction while allowing disjoint transactions and priority recovery to make progress.",
+  "cases": [
+    {
+      "id": "C01_DISJOINT_TRANSACTIONS_MAY_RUN_CONCURRENTLY",
+      "coverage": "positive",
+      "input": {
+        "transactions": {
+          "tx-a": {"children": 1, "effects": ["radius:a"]},
+          "tx-b": {"children": 1, "effects": ["radius:b"]}
+        },
+        "effect_intersection": []
+      },
+      "expected": {
+        "active_transactions": ["tx-a", "tx-b"],
+        "controller_wide_child_max_one": false
+      }
+    },
+    {
+      "id": "C02_SECOND_CHILD_IN_SAME_TRANSACTION_REJECTED",
+      "coverage": "negative",
+      "input": {
+        "transaction": "tx-a",
+        "existing_child": "child-1",
+        "requested_child": "child-2"
+      },
+      "expected": {
+        "rejected_child": "child-2",
+        "reason": "MAX_CHILD_PER_ROUTE_TRANSACTION_1"
+      }
+    },
+    {
+      "id": "C03_SHARED_WRITER_SERIALIZES_ONLY_PAIR",
+      "coverage": "boundary",
+      "input": {
+        "conflicting_transactions": ["tx-a", "tx-b"],
+        "unrelated_transaction": "tx-c"
+      },
+      "expected": {
+        "serialize": ["tx-a", "tx-b"],
+        "unrelated_transaction_ready": true,
+        "global_barrier": false
+      }
+    },
+    {
+      "id": "C04_HOST_CAPACITY_QUEUES_WITHOUT_GRAPH_EDGE",
+      "coverage": "boundary",
+      "input": {
+        "host_capacity": 1,
+        "ready_transactions": ["tx-a", "tx-b"]
+      },
+      "expected": {
+        "resource_queue": ["tx-b"],
+        "semantic_dependency_created": false,
+        "ready_state_preserved": true
+      }
+    },
+    {
+      "id": "C05_STALE_UNRELATED_CHILD_CANNOT_BLOCK_P0_RECOVERY",
+      "coverage": "negative",
+      "input": {
+        "stale_child": "tx-old/child",
+        "priority_event": "HOST_REPORTED_COMPACTION",
+        "priority": "P0"
+      },
+      "expected": {
+        "p0_audit_state_ready": true,
+        "stale_child_credit": false,
+        "stale_child_disposition": "FENCE_OR_DISPOSE"
+      }
+    },
+    {
+      "id": "C06_RETURN_BUFFERED_UNTIL_GOVERNOR_RECONCILIATION",
+      "coverage": "positive",
+      "input": {
+        "child_status": "RETURNED",
+        "governor_reconciled": false
+      },
+      "expected": {
+        "authority_before_reconcile": "NONE",
+        "canonical_credit_before_reconcile": false,
+        "buffer_as_evidence": true
+      }
+    }
+  ]
+}

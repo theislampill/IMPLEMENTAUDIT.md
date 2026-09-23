@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_PROCESS_MINING",
+  "analytical_label": "Evolved Process Mining",
+  "analytical_label_status": "RESEARCHER_SYNTHESIS_NOT_A_RECOGNISED_SCHOOL_NAME",
+  "revision": "EPM-R1-2026-09-06",
+  "research_cutoff": "2026-09-06",
+  "declared_run_date": "2026-09-06",
+  "state": "FROZEN",
+  "freeze_meaning": "Stable examined scope, candidate population, source inventory and judgements. Not a claim of universal scholarly consensus, settled uncertainty or validated host adoption.",
+  "scope": "Independent study of process mining as event data linked to explicit process representations through discovery, conformance, enhancement, organisational/performance analysis, temporal monitoring and related predictive/prescriptive methods; includes responsible use and current object-centric, uncertain, federated and language-assisted frontiers.",
+  "scope_boundaries": [
+    "No requester repositories, runtime designs, previous Evolved packets or sibling outputs used.",
+    "No exhaustive census of every publication, commercial product, algorithm variant or industrial deployment.",
+    "No normative legal compliance assessment or medical advice; authority/privacy/fairness are analytical boundaries and research concerns.",
+    "Original formal-modelling precursors are examined through their explicit use in primary mining papers; some 1998 originals, the full IEEE standard and the monograph have stated access limits.",
+    "Current evidence means accessible by 2026-09-06; future issue dates, preprints, conference/journal versions and repeated datasets remain distinct.",
+    "The Evolved composition and its analytical probes are not represented as an independently validated academic school or tested organisational implementation."
+  ],
+  "population_total": 84,
+  "population_examined": 84,
+  "examination_counts": {
+    "EXAMINED": 74,
+    "EXAMINED_WITH_EVIDENCE_LIMIT": 10
+  },
+  "disposition_counts": {
+    "ASSUMPTION_SENSITIVE": 14,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 1,
+    "CONTEXT_DEPENDENT": 15,
+    "DOMAIN_SPECIFIC": 1,
+    "DUPLICATE_CANDIDATE": 1,
+    "NO_GENERAL_PROPERTY": 4,
+    "REJECTED_OR_DISFAVOURED": 5,
+    "RETAINED_IN_EVOLVED_FORM": 11,
+    "STRONGLY_RETAINED": 28,
+    "SUPERSEDED_BY_STRONGER_FORM": 1,
+    "UNRESOLVED": 2,
+    "USEFUL_BUT_EASILY_GAMED": 1
+  },
+  "unresolved_count": 2,
+  "unresolved_property_ids": [
+    "EPM-068",
+    "EPM-082"
+  ],
+  "unresolved_composition_obligations": [
+    {
+      "OBLIGATION_ID": "EPM-U01",
+      "PROPERTY_IDS": [
+        "EPM-068"
+      ],
+      "QUESTION": "Would prospective multi-site studies with credible counterfactuals retain the estimated benefit after costs, adverse effects and human adaptation?",
+      "STATUS": "EXAMINED_UNRESOLVED_TRANSFER"
+    },
+    {
+      "OBLIGATION_ID": "EPM-U02",
+      "PROPERTY_IDS": [
+        "EPM-082"
+      ],
+      "QUESTION": "Which uncertainty representations remain sound and useful for dynamic object identity relations at realistic scale?",
+      "STATUS": "EXAMINED_UNRESOLVED_COMPATIBILITY_AND_TRANSFER"
+    },
+    {
+      "OBLIGATION_ID": "EPM-U03",
+      "PROPERTY_IDS": [
+        "EPM-084"
+      ],
+      "QUESTION": "What minimal handoff information reliably prevents semantic overreach without excessive review cost needs field testing.",
+      "STATUS": "ANALYTICAL_INVARIANT_WITHOUT_WHOLE_SYSTEM_FIELD_VALIDATION"
+    }
+  ],
+  "counts": {
+    "properties": 84,
+    "examined": 84,
+    "sources": 58,
+    "families": 10,
+    "composition_relations": 70,
+    "criticisms": 29,
+    "tensions": 12,
+    "ceremony_records": 71,
+    "timeline_nodes": 20,
+    "genealogy_edges": 22,
+    "domain_models": 10,
+    "empirical_records": 21,
+    "dependence_groups": 7,
+    "analytical_probes": 14,
+    "crosswalk_worthy": 70,
+    "unresolved": 2
+  },
+  "uncompleted_mandatory_families": 0,
+  "evidence_limits": [
+    "53 works inspected in full-text claim-relevant sections; not a claim that all pages of all 53 works were read. Five additional source records have explicitly narrower access.",
+    "S003 and S004: original-work abstracts/metadata only. S015: official IEEE 1849-2023 scope/metadata, not all standard clauses. S051: second-edition monograph metadata/contents. S054: 2025 conference abstract/metadata; distinct 2026 full paper S055 inspected.",
+    "Future issue labels are not earlier empirical replications; exact manuscript/preprint versions and access dates are recorded. S028 remains under review at the research cut-off.",
+    "Formal validity is bounded by declared models and assumptions. The inspected S043 preprint has an explicitly retained proof-status ambiguity; this packet does not certify the disputed guarantee.",
+    "Shared benchmark logs, generators, prefixes, institutions and publication extensions are not independent field replications. 21 empirical records and seven evidence-dependence groups preserve this distinction.",
+    "Practitioner reports and industrial examples establish setting-specific experiences or organisational responses, not universal causal benefit. Broad deployed prescription benefit and broad uncertain object-centric transfer remain unresolved in this corpus.",
+    "The within-tradition composition and EPM-084 are explicit researcher synthesis. Fourteen analytical probes, including four small executed logical fixtures, are not deployment experiments or empirical validation of the whole system.",
+    "Completeness is within the declared scope and examined candidate population; no exhaustive enumeration of all literature, products, methods or deployments is claimed."
+  ],
+  "acceptance_gates": {
+    "scope_and_plural_genealogy": "PASS_WITH_EXPLICIT_HISTORICAL_ACCESS_LIMITS",
+    "mandatory_domain_families": "PASS_ALL_TEN_EXAMINED",
+    "current_search": "PASS_CURRENT_2026_AND_RECENT_WORK_VERSION_BOUNDED",
+    "candidate_denominator_and_dispositions": "PASS_ALL_84_RECONCILED",
+    "domain_models": "PASS_TEN_DEVELOPED_MODELS_AND_ALL_REQUIRED_PROFILE_DIMENSIONS",
+    "criticism_and_evolution": "PASS_29_ADJUDICATED_CRITICISMS_WITH_CHANGED_OR_BOUNDED_JUDGEMENTS",
+    "ceremony_and_retirement": "PASS_ALL_70_CROSSWALK_WORTHY_MECHANISMS_PLUS_EXPLICIT_CEREMONIAL_CANDIDATE",
+    "evidence_partitions_and_sources": "PASS_WITH_SEPARATE_THEORY_COMPARISON_FIELD_REPLICATION_AND_TRANSFER_LIMITS",
+    "internal_tensions": "PASS_12_WITH_SELECTION_CONDITIONS_AND_HYBRID_FAILURES",
+    "within_tradition_composition": "PASS_70_GUARDED_RELATIONS_SEVEN_CONFIGURATIONS_EXTERNAL_ACTORS_AND_REVISION_BOUNDARIES",
+    "audit_intake": "COMPLETE_ALL_84_IDS_WITH_NEUTRAL_QUESTIONS_AND_NON_OBLIGATION_DISPOSITIONS",
+    "public_documentation_intake": "COMPLETE_WITHOUT_REQUESTER_PROJECT_NAME",
+    "synthesis_intake": "COMPLETE_WITH_84_GLOBALLY_KEYED_EXPORTS_AND_EXPLICIT_INDEPENDENCE",
+    "payload_schema_and_reference_consistency": "PASS",
+    "archive_verification": "EXTERNAL_RECEIPT_REPORTS_ACTUAL_REOPEN_RESULT_TO_AVOID_CIRCULAR_POSTHOC_MANIFEST_MUTATION"
+  },
+  "verification": {
+    "automated_checks_executed": 3465,
+    "automated_checks_passed": 3465,
+    "automated_checks_failed": 0,
+    "checks_cover": [
+      "Strict UTF-8 JSON parsing and required schemas",
+      "Stable unique property/source/relation IDs",
+      "Full denominator and disposition/examination reconciliation",
+      "All ten domain profile fields for every candidate",
+      "Source-property inverse links and indexed inspected locators",
+      "Composition endpoints, source links and inverse references",
+      "Criticism, ceremony, genealogy, domain-model and search references",
+      "Full report spine and 84-record report/audit/synthesis reconciliation",
+      "Independence markers, wrong-prefix and placeholder checks",
+      "Four labelled analytical fixtures: projection duplication, perfect-fit permissiveness, sequence non-identifiability, decision-time feature availability"
+    ],
+    "verification_limit": "Structural/reference/consistency checks and four small analytical fixtures only. These do not verify every scholarly claim, establish evidence saturation independently, run a mining implementation or validate deployment effects. The report contains the substantive research judgements.",
+    "validator_sha256": "4149b47d7d4d5382f58eb833f2e3b84f0085dae2ce38fc031743e6d7e471b8a1",
+    "substantive_review": "Researcher reviewed the composed relationships, non-retained dispositions and all ten domain models before freeze. These human/model analytical judgements are distinguished from automated schema and hash checks."
+  },
+  "pre_freeze_change_log": [
+    {
+      "TYPE": "SUBSTANTIVE_CANDIDATE_ADDITION",
+      "CHANGE": "Added EPM-084 after within-tradition composition exposed validity-preserving analytical handoffs; initial 83 IDs retained without renumbering."
+    },
+    {
+      "TYPE": "SUBSTANTIVE_RELATION_CLARIFICATION",
+      "CHANGE": "R014: removed self-alternative and kept guarded heuristic/model-class alternatives; R042: streaming constrains custody rather than replacing reproducibility; R062: federation requires compatible meanings/privacy boundary; R068: absent model/reference dependencies do not require creating them."
+    },
+    {
+      "TYPE": "SUBSTANTIVE_MODEL_NOTATION_CORRECTION",
+      "CHANGE": "DM01 recording is an incomplete many-to-many correspondence, not an ordinary total function that was also said to omit work; extraction acts on the record collection. Generated payloads were refreshed and revalidated before freeze."
+    },
+    {
+      "TYPE": "PROVENANCE_AND_REFERENCE_CORRECTION",
+      "CHANGE": "S039 author initial corrected to K. Goel; sequence-identifiability narrative points to PROBE14; no old source editions promoted into current evidence."
+    },
+    {
+      "TYPE": "VALIDATOR_ONLY_CORRECTION",
+      "CHANGE": "Initial wrong-prefix check matched EVOLVED_FORM inside the valid status RETAINED_IN_EVOLVED_FORM. Word-boundary test corrected the detector; no payload claim was changed by that test fix."
+    },
+    {
+      "TYPE": "SYNTAX_ONLY_NORMALISATION",
+      "CHANGE": "Machine payloads serialised as UTF-8 JSON with two-space indentation, preserved Unicode and a final newline. No comment syntax or non-JSON numeric constants."
+    }
+  ],
+  "sibling_corpora_consulted": false,
+  "cross_trifecta_synthesis_performed": false,
+  "downstream_authority": "None. Ready for a later independent synthesis/crosswalk, not approval or adoption by any target.",
+  "hash_policy": "Inventory covers eight payloads only. This manifest and enclosing ZIP are excluded from the inventory to avoid circular hashes. ZIP exact size and SHA-256 are published externally.",
+  "payload_inventory": [
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "bytes": 256626,
+      "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead"
+    },
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "bytes": 1053080,
+      "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019"
+    },
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "bytes": 221420,
+      "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7"
+    },
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_AUDIT_INTAKE.md",
+      "bytes": 287614,
+      "sha256": "22e9729be518c77dfa2089f068d99829c4788a0a76786817c27c5280ef186e69"
+    },
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "bytes": 10676,
+      "sha256": "1b2eb4438c6fb62dd60e244d1004b1e1bd0f12c0e352d387cb8410d434dcbf07"
+    },
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_SYNTHESIS_INTAKE.md",
+      "bytes": 18001,
+      "sha256": "e32a42cc2557debc4bc883193eb8c06d999b5ef16a1dfc2d568119b261b7e007"
+    },
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "bytes": 607307,
+      "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db"
+    },
+    {
+      "relative_filename": "EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json",
+      "bytes": 34847,
+      "sha256": "78fd3dcf3b9d2b343bbbc736b056955ae73dd6e7fb560c794f8f54a7608ad84c"
+    }
+  ]
+}

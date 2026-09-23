@@ -15,6 +15,33 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Further shadow integration repairs retain recovery-capsule identity in stale
+  route verification, rebind the exact reviewed helper digest, restore operative
+  progressive-disclosure checks and distinguish packaged helper routes from
+  source-only tooling. Maintained continuity, trigger, reachability and semantic
+  fixtures now bind the current source contract. A byte-pinned vendor error
+  description is distinguished from terminal-cap policy without a blanket
+  exemption. These are unaccepted shadow proposals, not release qualification.
+
+- Independent pre-Codex shadow review hardens implicit loop/getopts writes,
+  interspersed builtin redirections and interpreter-function shadowing in the
+  bounded source recogniser. Snapshot queries preserve list/tuple family inputs,
+  refuse mapping-shaped family censuses, traverse deep collection containers
+  iteratively and refuse cyclic or excessively deep canonical values without
+  uncaught recursion errors. These corrections require fresh independent final
+  review and do not change campaign admission, package policy or host authority.
+
+- External shadow hardening refuses zero-output reader credit, malformed query
+  censuses and unresolved reusable-workflow effects; preserves deep lineage and
+  GitHub branch-filter boundaries; and rejects aliased package source paths.
+  Interpreter-array mutation recognition, including arithmetic execution, and
+  native-current source rechecks are hardened. Portable fixtures and cleanup controls are corrected without granting
+  stock-host, currentness, package-budget or release qualification.
+
+- Current normal source targets runtime `0.4.1` and release family `v0.4.1.0`
+  as an unpublished candidate. This unreleased entry grants no new tag, release,
+  public artifact, installed/native qualification or provenance. Previously
+  published `v0.4.0.0` evidence remains bound to its original identities.
 - Current Codex source-plugin metadata may carry Codex-owned interface fields
   while the Claude manifest remains strict-schema compatible. Both manifests
   must preserve equal shared package semantics: name, version, description,
@@ -22,6 +49,47 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Maintained README and portal surfaces now distinguish the immutable published
   v0.4.0.0 tag/assets from later current-main documentation and marketplace
   source installation.
+
+### Unreleased implementation scope
+
+- Host command validation, operational snapshot query policy, route request
+  validation, canonical hot rendering and automatic-effects checking now have
+  separate responsibility modules. Runtime modules remain bound to their
+  controllers by checked source buffers; transaction, CAS, journal and rollback
+  ownership is unchanged. Independent evidence rederivers remain separate.
+- Automatic-effects checking now refuses unsupported YAML block scalar values;
+  operational queries now return the typed refusal for non-iterable `families`
+  inputs. These are intentional refusal-behaviour changes, not merely refactoring.
+- The shipped executable applicability census records all four runtime modules
+  and statically follows their actual bounded buffer loaders. Maintained package
+  and evaluation validation include the new integration and host-policy controls.
+  These source controls do not establish installed-host or final release
+  qualification, and package payload changes require a new B4 measurement.
+
+- The current source includes canonical route-decision and governed-child
+  obligation handling, identity/currentness checks, and bounded action and
+  child-lifecycle interfaces in `route-transaction.py`.
+- Canonical state archive/lineage and bounded recovery re-entry interfaces are
+  implemented in `rotate-canonical-state.py`; they do not by themselves establish
+  stock-host recovery or currentness.
+- `compile-work-graph.py` produces read-only frontier and proximal-action
+  projections from typed dependencies and declared capacity/authority inputs.
+  These projections are not evidence that workers were dispatched.
+- `operational-evidence.py` provides snapshot validation and status, query, why,
+  diff and export interfaces. Returned row/byte limits are not a claim of bounded
+  cost for every underlying computation.
+- Compaction and Stop adapter source and associated source/fixture controls are
+  present. Installed configuration, trusted producer binding, actual hook firing,
+  native lifecycle and final qualification remain separate evidence requirements.
+- Candidate input-boundary corrections reject malformed digest types and
+  normalise demonstrated parser-limit and canonical Unicode encoding failures.
+  Release validation selects Python 3.11 before installing its pinned dependencies.
+  These changes do not constitute universal denial-of-service resistance or a
+  completed hosted-CI, package, native-host or release qualification.
+- Source validation now rejects the demonstrated skipped/swallowed CI checks in
+  its maintained workflow layout. The dogfood regression wrapper keeps its
+  diagnostic outputs in its own temporary directory so concurrent runs do not
+  overwrite one another. These are validation changes, not runtime host evidence.
 
 ## [v0.4.0.0] - 2026-08-16
 

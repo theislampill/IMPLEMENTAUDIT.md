@@ -45,6 +45,7 @@ fi
 
 "${py_cmd[@]}" - <<'PY'
 import re
+import hashlib
 import sys
 from pathlib import Path
 
@@ -68,18 +69,19 @@ FORBIDDEN = [
     "max-3",
     "max retry",
     "max retries",
-    "retry cap",
     "retry limit",
     "revision limit",
     "round limit",
     "capped round",
     "capped rounds",
-    "try cap",
-    "attempt cap",
     "failure_probe",
     "failure_escalate",
     "failure_handoff",
 ]
+
+# Match cap as a noun (including its plural), not the prefix of capability.
+# Preserve literal spaces within phrases; punctuation/underscores delimit words.
+CAP_PHRASE = r"(?<![^\W_])(?:retry|try|attempt) caps?(?![^\W_])"
 
 # Reject counted/capped strike policies without banning a proper noun or an
 # ordinary English use of "strike". The architecture forbids finite-count
@@ -97,6 +99,9 @@ STRIKE_POLICY_CONTEXT = (
 DIRECT_STRIKE_CAP_PATTERNS = [
     r"\bstrikes?\s+(?:counter|count|cap|limit)\b",
     r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+strikes?\b.*\b(?:stop|stops|block|blocks|handoff|hands\s+off|terminate|terminates|fail|fails|close|closes)\b",
+]
+DIRECT_RETRY_CAP_PATTERNS = [
+    r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+(?:retry|retries)\b.*\b(?:stop|stops|block|blocks|handoff|hand\s+off|hands\s+off|terminate|terminates|fail|fails|close|closes)\b",
 ]
 
 ALWAYS_FORBIDDEN = [
@@ -133,7 +138,12 @@ for path in paths:
         text = path.read_text(encoding="utf-8")
     except (UnicodeDecodeError, OSError):
         continue
+    retained_vendor = (path.as_posix() == 'fixtures/codex-recovery/native-code-mode/ServerNotification.json'
+        and not path.is_symlink()
+        and hashlib.sha256(path.read_bytes()).hexdigest() == 'eb4317b57ce7cad32d6ab8a5b7d39eb765c8fb8f67acbc808dd6e55959411c93')
     for lineno, line in enumerate(text.splitlines(), start=1):
+        if retained_vendor and line.strip() == '"description": "Reached the retry limit for responses.",':
+            continue  # one byte-pinned host-schema description, never a policy waiver
         lowered = line.lower()
         for term in ALWAYS_FORBIDDEN:
             if term in lowered:
@@ -141,15 +151,19 @@ for path in paths:
         for term in FORBIDDEN:
             if term in lowered and not any(context in lowered for context in NEGATED_CONTEXT):
                 violations.append(f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: {term!r}")
+        cap_phrase = re.search(CAP_PHRASE, lowered)
+        if cap_phrase and not any(context in lowered for context in NEGATED_CONTEXT):
+            violations.append(f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: {cap_phrase.group()!r}")
         counted_strike_policy = re.search(COUNTED_STRIKE, lowered) and re.search(
             STRIKE_POLICY_CONTEXT, lowered
         )
         direct_strike_cap = any(re.search(pattern, lowered) for pattern in DIRECT_STRIKE_CAP_PATTERNS)
-        if (counted_strike_policy or direct_strike_cap) and not any(
+        direct_retry_cap = any(re.search(pattern, lowered) for pattern in DIRECT_RETRY_CAP_PATTERNS)
+        if (counted_strike_policy or direct_strike_cap or direct_retry_cap) and not any(
             context in lowered for context in NEGATED_CONTEXT
         ):
             violations.append(
-                f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: counted/capped strike policy"
+                f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: counted/capped retry or strike policy"
             )
         if (
             "first" in lowered

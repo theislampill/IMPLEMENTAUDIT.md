@@ -369,9 +369,12 @@ def check_baseline(root: Path) -> list[str]:
     if dict(counts) != EXPECTED_COUNTS:
         errors.append("historical baseline classification counts mismatch")
     genealogy = json.loads((root / PROPERTY_INDEX).read_text(encoding="utf-8"))
-    genealogy_keys = {row["global_property_key"] for row in genealogy["properties"]}
+    # This historical baseline remains scoped to its original twelve lineages.
+    historical_lineages = set(LANE_TO_LINEAGE.values())
+    genealogy_keys = {row["global_property_key"] for row in genealogy["properties"]
+                      if row["lineage_id"] in historical_lineages}
     if {row.get("global_property_key") for row in rows} != genealogy_keys:
-        errors.append("historical baseline keys do not match the 658-property genealogy index")
+        errors.append("historical baseline keys do not match the 658-property historical genealogy selection")
     for row in rows:
         if row.get("V0400_CHANGE_DISPOSITION") != "DEFER_TO_V0410_BASELINE":
             errors.append(f"non-deferred v0.4 disposition: {row.get('global_property_key')}")

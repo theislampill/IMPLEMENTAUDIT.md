@@ -363,7 +363,15 @@ def release_info(site: dict, runtime_version: str) -> dict:
     ):
         raise SystemExit("published release status must describe published current truth")
     validate_project_milestone(str(release["milestone"]), str(release["manifest_version"]))
-    validate_release_ledger(str(release["milestone"]), str(release.get("audit_ledger_url", "")))
+    candidate_index_urls = {
+        "docs/audits/INDEX.md",
+        f"{REPO_URL}/blob/main/docs/audits/INDEX.md",
+    }
+    # Candidate status can use the maintained evidence index without inventing
+    # a final release report. Published releases retain the exact ledger guard.
+    audit_ledger_url = str(release.get("audit_ledger_url", ""))
+    if not (publication_state == "candidate" and audit_ledger_url in candidate_index_urls):
+        validate_release_ledger(str(release["milestone"]), audit_ledger_url)
     return release
 
 

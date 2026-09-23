@@ -1,0 +1,43 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^compact$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/skills/implementaudit/scripts/codex-compact-interlock.py\"",
+            "commandWindows": "C:\\Windows\\py.exe -3 \"%PLUGIN_ROOT%\\skills\\implementaudit\\scripts\\codex-compact-interlock.py\"",
+            "statusMessage": "Protecting IMPLEMENTAUDIT continuity"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 -I -S -B \"${PLUGIN_ROOT}/skills/implementaudit/scripts/host-stop-interlock.py\"",
+            "commandWindows": "C:\\Windows\\py.exe -3 -I -S -B \"${env:PLUGIN_ROOT}\\skills\\implementaudit\\scripts\\host-stop-interlock.py\"",
+            "statusMessage": "Validating IMPLEMENTAUDIT turn disposition"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 -I -S -B \"${PLUGIN_ROOT}/skills/implementaudit/scripts/codex-recovery-prompt-input.py\"",
+            "commandWindows": "C:\\Windows\\py.exe -3 -I -S -B \"${env:PLUGIN_ROOT}\\skills\\implementaudit\\scripts\\codex-recovery-prompt-input.py\"",
+            "statusMessage": "Observing IMPLEMENTAUDIT recovery input",
+            "additionalContextLimit": 5000,
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -14,7 +14,7 @@ Usage:
     --checksum CHECKSUMS.txt \
     --host codex|claude \
     --host-root ISOLATED_ROOT \
-    [--version 0.4.0] [--allow-downgrade]
+    [--version 0.4.1] [--allow-downgrade]
 
 The host root must be a disposable directory containing the regular sentinel
 .implementaudit-isolated-host-root. This command proves staged package copy,
@@ -30,7 +30,7 @@ asset=""
 checksum=""
 host=""
 host_root=""
-expected_version="0.4.0"
+expected_version="0.4.1"
 allow_downgrade=""
 
 while [ "$#" -gt 0 ]; do
@@ -50,8 +50,8 @@ done
 [ -n "$checksum" ] || fail "--checksum is required"
 [ -n "$host" ] || fail "--host is required"
 [ -n "$host_root" ] || fail "--host-root is required"
-[ "$expected_version" = "0.4.0" ] \
-  || fail "--version must match canonical runtime 0.4.0"
+[ "$expected_version" = "0.4.1" ] \
+  || fail "--version must match canonical runtime 0.4.1"
 [ -f "$asset" ] && [ ! -L "$asset" ] \
   || fail "asset must be a regular non-symlink file"
 [ -f "$checksum" ] && [ ! -L "$checksum" ] \

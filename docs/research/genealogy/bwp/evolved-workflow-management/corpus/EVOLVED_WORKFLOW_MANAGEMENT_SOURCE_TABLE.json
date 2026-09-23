@@ -1,0 +1,1954 @@
+{
+  "schema_version": "1.0.0",
+  "lineage_id": "EVOLVED_WORKFLOW_MANAGEMENT",
+  "research_cutoff": "2026-09-06",
+  "source_count": 51,
+  "sources": [
+    {
+      "SOURCE_ID": "EWM-S001",
+      "TITLE": "The Workflow Reference Model",
+      "AUTHORS_OR_ORGANISATION": [
+        "David Hollingsworth",
+        "Workflow Management Coalition"
+      ],
+      "DATE": "1994-11-29",
+      "VERSION_OR_EDITION": "TC00-1003 Issue 1.1, archival draft",
+      "URL_OR_DOI": "https://www.aiai.ed.ac.uk/project/wfmc/ARCHIVE/DOCS/refmodel/rmv1-16.html",
+      "SOURCE_CLASS": "HISTORICAL_STANDARD_DRAFT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S001-L01",
+          "LOCATOR": "Header; §§1.1–1.3, 1.7, 2.1–2.3",
+          "INSPECTED_CONTENT": "Plural precursors and separation of definition/build-time from execution/run-time; applications and human work.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "DEFINITION_OR_TAXONOMY"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-001"
+      ],
+      "EVIDENCE_LIMITS": "Draft date is not the date of the 1995 published reference model; archival HTML not deployment evidence.",
+      "INDEPENDENCE_CLUSTER": "WfMC",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S002",
+      "TITLE": "The Workflow Reference Model",
+      "AUTHORS_OR_ORGANISATION": [
+        "David Hollingsworth",
+        "Workflow Management Coalition"
+      ],
+      "DATE": "1995-01-19",
+      "VERSION_OR_EDITION": "Issue 1.1, TC00-1003; 55-page PDF",
+      "URL_OR_DOI": "https://wfmc.org/wp-content/uploads/2022/09/tc003v11.pdf",
+      "SOURCE_CLASS": "ISSUING_BODY_REFERENCE_MODEL",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S002-L01",
+          "LOCATOR": "Cover; §2.1 and §2.1.1, PDF pp.6–7; reference-model interfaces",
+          "INSPECTED_CONTENT": "Workflow definition, enactment, worklists and external applications are separate objects and responsibilities; workflows need not require business process re-engineering.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "DEFINITION_OR_TAXONOMY",
+            "STANDARD_OR_GUIDANCE_REQUIREMENT"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-001",
+        "EWM-002",
+        "EWM-004",
+        "EWM-041",
+        "EWM-042"
+      ],
+      "EVIDENCE_LIMITS": "URL upload year 2022 is not publication year. Reference architecture does not prove interoperable implementations or benefit.",
+      "INDEPENDENCE_CLUSTER": "WfMC",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S003",
+      "TITLE": "The Workflow Reference Model—10 Years On",
+      "AUTHORS_OR_ORGANISATION": [
+        "David Hollingsworth"
+      ],
+      "DATE": "2004",
+      "VERSION_OR_EDITION": "Workflow Handbook 2004, author retrospective",
+      "URL_OR_DOI": "https://wfmc.org/wp-content/uploads/2022/09/Ref_Model_10_years_on_Hollingsworth.pdf",
+      "SOURCE_CLASS": "AUTHOR_RETROSPECTIVE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S003-L01",
+          "LOCATOR": "Opening historical account; interface discussion, PDF p.6 / printed p.300",
+          "INSPECTED_CONTENT": "Retrospective evaluation of interface development and work/information marshalling.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-038",
+        "EWM-041",
+        "EWM-075"
+      ],
+      "EVIDENCE_LIMITS": "Participant account, not independent comparative evaluation; distinguishes intent from subsequent implementation.",
+      "INDEPENDENCE_CLUSTER": "WfMC",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S004",
+      "TITLE": "Verification of Workflow Nets",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "1997",
+      "VERSION_OR_EDITION": "Petri Nets 1997, LNCS 1248:407–426; DOI 10.1007/3-540-63139-9_48",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p44.pdf",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S004-L01",
+          "LOCATOR": "Definitions 1–7; Theorem 11; reduction and Theorem 18",
+          "INSPECTED_CONTENT": "WF-net structure, completion reachability, proper completion and absence of dead tasks; short-circuit characterisation under stated Petri-net assumptions.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-002",
+        "EWM-003",
+        "EWM-015",
+        "EWM-017",
+        "EWM-040"
+      ],
+      "EVIDENCE_LIMITS": "Model-bounded result; no proof of resource availability, fairness, deadlines or external success.",
+      "INDEPENDENCE_CLUSTER": "WF-net formal programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S005",
+      "TITLE": "Woflan: A Petri-net-based Workflow Analyzer",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "1999",
+      "VERSION_OR_EDITION": "Systems Analysis Modelling Simulation 35(3):345–357",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p71.pdf",
+      "SOURCE_CLASS": "PRIMARY_TOOL_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S005-L01",
+          "LOCATOR": "§3; PDF p.5 screenshot",
+          "INSPECTED_CONTENT": "Workflow analysis tool and translation/import diagnosis distinguish syntax and behavioural errors.",
+          "EVIDENCE_ROLES": [
+            "IMPLEMENTATION_SEMANTICS",
+            "FORMAL_OR_THEORETICAL_RESULT"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-017"
+      ],
+      "EVIDENCE_LIMITS": "Historical tool behaviour and examples, not current engine certification or measured organisational improvement.",
+      "INDEPENDENCE_CLUSTER": "WF-net formal programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S006",
+      "TITLE": "Workflow Patterns",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst",
+        "Arthur H. M. ter Hofstede",
+        "Bartek Kiepuszewski",
+        "Alistair P. Barros"
+      ],
+      "DATE": "2003-07",
+      "VERSION_OR_EDITION": "Distributed and Parallel Databases 14(1):5–51; DOI 10.1023/A:1022883727209; 52-page author manuscript",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p186.pdf",
+      "SOURCE_CLASS": "PRIMARY_CONCEPTUAL_AND_COMPARATIVE_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S006-L01",
+          "LOCATOR": "Introduction; perspectives; pattern 7 Synchronizing Merge and surrounding control-flow definitions",
+          "INSPECTED_CONTENT": "Recurring control-flow constructs and differing implementations; synchronising merge needs knowledge of branch activation.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "HISTORICAL_PROVENANCE",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-005",
+        "EWM-006",
+        "EWM-007",
+        "EWM-008",
+        "EWM-009",
+        "EWM-010",
+        "EWM-011",
+        "EWM-012",
+        "EWM-064"
+      ],
+      "EVIDENCE_LIMITS": "Historical feature comparison, not causal effectiveness. Earlier reports are related versions, not independent replications.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S007",
+      "TITLE": "Soundness of Workflow Nets: Classification, Decidability, and Analysis",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst",
+        "Kees M. van Hee",
+        "Arthur H. M. ter Hofstede",
+        "Natalia Sidorova",
+        "H. M. W. Verbeek",
+        "Marc Voorhoeve",
+        "Moe Thandar Wynn"
+      ],
+      "DATE": "2011",
+      "VERSION_OR_EDITION": "Formal Aspects of Computing 23(3):333–363; 32-page author manuscript",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p628.pdf",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_SYNTHESIS",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S007-L01",
+          "LOCATOR": "§§4–5; Definitions 5.2–5.8",
+          "INSPECTED_CONTENT": "Soundness variants have different quantifiers, starting populations and completion requirements; guarantees cannot be exchanged by name alone.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "DEFINITION_OR_TAXONOMY"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-005",
+        "EWM-011",
+        "EWM-015",
+        "EWM-016",
+        "EWM-017",
+        "EWM-019",
+        "EWM-020",
+        "EWM-023",
+        "EWM-029",
+        "EWM-040"
+      ],
+      "EVIDENCE_LIMITS": "Formal results depend on net class and definition. Comparative deployment efficacy is not established by classification.",
+      "INDEPENDENCE_CLUSTER": "WF-net formal programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S008",
+      "TITLE": "Soundness of Workflow Nets with Reset Arcs",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst",
+        "Kees M. van Hee",
+        "Arthur H. M. ter Hofstede",
+        "Natalia Sidorova",
+        "H. M. W. Verbeek",
+        "Marc Voorhoeve",
+        "Moe Thandar Wynn"
+      ],
+      "DATE": "2009",
+      "VERSION_OR_EDITION": "Transactions on Petri Nets III, LNCS 5800:50–70",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p559.pdf",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S008-L01",
+          "LOCATOR": "Introduction and formal model; PDF p.5 screenshot",
+          "INSPECTED_CONTENT": "Reset arcs model cancellation and change the analysis problem; general undecidability results are qualified by model assumptions.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-012",
+        "EWM-013",
+        "EWM-015",
+        "EWM-016",
+        "EWM-017",
+        "EWM-034"
+      ],
+      "EVIDENCE_LIMITS": "Does not imply that every finite-state or bounded cancellation-enabled implementation is unverifiable.",
+      "INDEPENDENCE_CLUSTER": "WF-net formal programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S009",
+      "TITLE": "Freeflow: Mediating Between Representation and Action in Workflow Systems",
+      "AUTHORS_OR_ORGANISATION": [
+        "Paul Dourish",
+        "Jim Holmes",
+        "Allan MacLean",
+        "Pernille Marqvardsen",
+        "Alex Zbyslaw"
+      ],
+      "DATE": "1996",
+      "VERSION_OR_EDITION": "CSCW 1996, nine-page author manuscript",
+      "URL_OR_DOI": "https://www.dourish.com/publications/1996/cscw96-freeflow.pdf",
+      "SOURCE_CLASS": "PRIMARY_CSCW_DESIGN_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S009-L01",
+          "LOCATOR": "Introduction; representation/action argument; temporal and dependency dimensions; system discussion",
+          "INSPECTED_CONTENT": "Workflow representations can mediate activity without exhaustively prescribing situated action; earlier workplace criticism is explicitly discussed.",
+          "EVIDENCE_ROLES": [
+            "CRITICISM_OR_NEGATIVE_EVIDENCE",
+            "HISTORICAL_PROVENANCE",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-004",
+        "EWM-030",
+        "EWM-031",
+        "EWM-033",
+        "EWM-050",
+        "EWM-056",
+        "EWM-058",
+        "EWM-063",
+        "EWM-068",
+        "EWM-071",
+        "EWM-077"
+      ],
+      "EVIDENCE_LIMITS": "Prototype and interpretive design argument; ethnographic foundations partly reported elsewhere; not a controlled trial.",
+      "INDEPENDENCE_CLUSTER": "CSCW situated workflow / print studies reception",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S010",
+      "TITLE": "Workflow From Within and Without: Technology and Cooperative Work on the Print Industry Shopfloor",
+      "AUTHORS_OR_ORGANISATION": [
+        "John Bowers",
+        "Graham Button",
+        "Wes Sharrock"
+      ],
+      "DATE": "1995",
+      "VERSION_OR_EDITION": "ECSCW 1995; DOI 10.1007/978-94-011-0349-7_4; pagination differs across metadata",
+      "URL_OR_DOI": "https://link.springer.com/chapter/10.1007/978-94-011-0349-7_4",
+      "SOURCE_CLASS": "PRIMARY_WORKPLACE_STUDY_ACCESS_LIMITED",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S010-L01",
+          "LOCATOR": "Publisher bibliographic record; reception inspected in EWM-S009",
+          "INSPECTED_CONTENT": "Existence, authorship and subject of the critical workplace study.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-031"
+      ],
+      "EVIDENCE_LIMITS": "Full text unavailable through attempted publisher and institutional routes. No site-level methods, sample or outcomes inferred from metadata.",
+      "INDEPENDENCE_CLUSTER": "CSCW situated workflow / print studies reception",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S011",
+      "TITLE": "Office procedure as practical action: models of work and system design",
+      "AUTHORS_OR_ORGANISATION": [
+        "Lucy A. Suchman"
+      ],
+      "DATE": "1983",
+      "VERSION_OR_EDITION": "ACM Transactions on Office Information Systems 1(4):320–328; DOI 10.1145/357442.357445",
+      "URL_OR_DOI": "https://doi.org/10.1145/357442.357445",
+      "SOURCE_CLASS": "PRIMARY_CSCW_PAPER_ACCESS_LIMITED",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S011-L01",
+          "LOCATOR": "Bibliographic record; subsequent reception in EWM-S009 and EWM-S034",
+          "INSPECTED_CONTENT": "Historical critical lineage, not reconstructed original argument.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-031"
+      ],
+      "EVIDENCE_LIMITS": "Original full text unavailable. Claims about situated planning here are grounded in directly inspected later primary work, not attributed as quotations from this paper.",
+      "INDEPENDENCE_CLUSTER": "CSCW situated workflow",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S012",
+      "TITLE": "Office Information Systems and Computer Science",
+      "AUTHORS_OR_ORGANISATION": [
+        "Clarence A. Ellis",
+        "Gary J. Nutt"
+      ],
+      "DATE": "1980",
+      "VERSION_OR_EDITION": "ACM Computing Surveys 12(1):27–60; DOI 10.1145/356802.356805",
+      "URL_OR_DOI": "https://doi.org/10.1145/356802.356805",
+      "SOURCE_CLASS": "HISTORICAL_SCHOLARLY_SURVEY_ACCESS_LIMITED",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S012-L01",
+          "LOCATOR": "Bibliographic record",
+          "INSPECTED_CONTENT": "Office information systems were an established subject before WfMC.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [],
+      "EVIDENCE_LIMITS": "Original text unavailable; no assertion that this paper or one earlier thesis founded all workflow management.",
+      "INDEPENDENCE_CLUSTER": "Office information systems",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception.",
+      "NO_PROPERTY_SUPPORT_REASON": "Retained as a scoped historical or current-research access-limited lead; no unsupported mechanism/result was extracted."
+    },
+    {
+      "SOURCE_ID": "EWM-S013",
+      "TITLE": "YAWL: Yet Another Workflow Language",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst",
+        "Arthur H. M. ter Hofstede"
+      ],
+      "DATE": "2005",
+      "VERSION_OR_EDITION": "Information Systems 30(4):245–275; 45-page author manuscript",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p251.pdf",
+      "SOURCE_CLASS": "PRIMARY_LANGUAGE_AND_FORMAL_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S013-L01",
+          "LOCATOR": "Definition 17; Theorem 1 and its restrictions; language motivation and cancellation discussion",
+          "INSPECTED_CONTENT": "Pattern-motivated workflow language, non-local OR-join and limitations on straightforward compositional soundness claims.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "IMPLEMENTATION_SEMANTICS",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-007",
+        "EWM-012",
+        "EWM-017",
+        "EWM-064"
+      ],
+      "EVIDENCE_LIMITS": "Theorem restrictions matter; early manuscripts and the eventual paper do not supply independent replications.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S014",
+      "TITLE": "Workflow Data Patterns",
+      "AUTHORS_OR_ORGANISATION": [
+        "Nick Russell",
+        "Arthur H. M. ter Hofstede",
+        "David Edmond",
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "2004",
+      "VERSION_OR_EDITION": "QUT FIT-TR-2004-01, 75-page technical report",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p220.pdf",
+      "SOURCE_CLASS": "PRIMARY_TECHNICAL_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S014-L01",
+          "LOCATOR": "Data visibility, scope and binding discussion, manuscript pp.7–13",
+          "INSPECTED_CONTENT": "Data can be task-, block-, case- or more broadly scoped; transfer and visibility are distinct from control-flow.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-005",
+        "EWM-006",
+        "EWM-020",
+        "EWM-021"
+      ],
+      "EVIDENCE_LIMITS": "This is the 2004 report, not a claim to have read every later shortened publication. Historical feature support is not current coverage.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S015",
+      "TITLE": "Workflow Resource Patterns: Identification, Representation and Tool Support",
+      "AUTHORS_OR_ORGANISATION": [
+        "Nick Russell",
+        "Wil M. P. van der Aalst",
+        "Arthur H. M. ter Hofstede",
+        "David Edmond"
+      ],
+      "DATE": "2005",
+      "VERSION_OR_EDITION": "CAiSE 2005, LNCS 3520:216–232",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p254.pdf",
+      "SOURCE_CLASS": "PRIMARY_PATTERN_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S015-L01",
+          "LOCATOR": "§3; work-item lifecycle PDF pp.4–5; allocation pp.6 onward; §3.4, delegation pattern 27 at PDF p.10",
+          "INSPECTED_CONTENT": "Offering, allocating and starting are different; role-based distribution, duty constraints and delegation involve different choices.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-005",
+        "EWM-010",
+        "EWM-019",
+        "EWM-025",
+        "EWM-026",
+        "EWM-027",
+        "EWM-028",
+        "EWM-029"
+      ],
+      "EVIDENCE_LIMITS": "Proposed lifecycle is an analytical pattern model, not a compulsory universal lifecycle; no population estimate of fairness or workload effects.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S016",
+      "TITLE": "Workflow Exception Patterns",
+      "AUTHORS_OR_ORGANISATION": [
+        "Nick Russell",
+        "Wil M. P. van der Aalst",
+        "Arthur H. M. ter Hofstede"
+      ],
+      "DATE": "2006",
+      "VERSION_OR_EDITION": "CAiSE 2006, LNCS 4001:288–302",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p325.pdf",
+      "SOURCE_CLASS": "PRIMARY_PATTERN_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S016-L01",
+          "LOCATOR": "§§3–5, especially §3.4; lifecycle PDF p.7 screenshot",
+          "INSPECTED_CONTENT": "Exception response distinguishes current work item, wider case and recovery action; rollback and compensation differ.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "IMPLEMENTATION_SEMANTICS",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-003",
+        "EWM-005",
+        "EWM-008",
+        "EWM-013",
+        "EWM-026",
+        "EWM-032",
+        "EWM-033",
+        "EWM-034",
+        "EWM-036",
+        "EWM-037",
+        "EWM-048",
+        "EWM-053",
+        "EWM-069",
+        "EWM-075"
+      ],
+      "EVIDENCE_LIMITS": "Assumes detected/classified exceptions for the presented framework; eight historical tools are not contemporary rankings or frequency data.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S017",
+      "TITLE": "Business Process Model and Notation (BPMN)",
+      "AUTHORS_OR_ORGANISATION": [
+        "Object Management Group"
+      ],
+      "DATE": "2014-01",
+      "VERSION_OR_EDITION": "Version 2.0.2, formal/2013-12-09",
+      "URL_OR_DOI": "https://www.omg.org/spec/BPMN/2.0.2/PDF",
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S017-L01",
+          "LOCATOR": "Chapter 13, §13.3 and §13.4; Table 13.3 printed p.436 / PDF p.467; event cancelActivity semantics",
+          "INSPECTED_CONTENT": "Executable control semantics, event scope and multiple-instance binding; some concurrent output detail remains underspecified.",
+          "EVIDENCE_ROLES": [
+            "STANDARD_OR_GUIDANCE_REQUIREMENT",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-002",
+        "EWM-003",
+        "EWM-006",
+        "EWM-007",
+        "EWM-008",
+        "EWM-009",
+        "EWM-013",
+        "EWM-014",
+        "EWM-018",
+        "EWM-020",
+        "EWM-024",
+        "EWM-032",
+        "EWM-034",
+        "EWM-041",
+        "EWM-061",
+        "EWM-064",
+        "EWM-066"
+      ],
+      "EVIDENCE_LIMITS": "Normative edition does not certify an engine, extension, XML export or actual business outcome.",
+      "INDEPENDENCE_CLUSTER": "OMG standards",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S018",
+      "TITLE": "Web Services Business Process Execution Language Version 2.0",
+      "AUTHORS_OR_ORGANISATION": [
+        "OASIS WS-BPEL Technical Committee"
+      ],
+      "DATE": "2007-04-11",
+      "VERSION_OR_EDITION": "OASIS Standard WS-BPEL 2.0",
+      "URL_OR_DOI": "https://docs.oasis-open.org/wsbpel/2.0/OS/wsbpel-v2.0-OS.html",
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S018-L01",
+          "LOCATOR": "§9.1 correlation; §12.5 fault matching; §12.8 isolated scopes",
+          "INSPECTED_CONTENT": "Message correlation and scoped fault/termination handling; overlapping business identifiers need precise instance routing.",
+          "EVIDENCE_ROLES": [
+            "STANDARD_OR_GUIDANCE_REQUIREMENT",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-001",
+        "EWM-010",
+        "EWM-021",
+        "EWM-022",
+        "EWM-024",
+        "EWM-032",
+        "EWM-036",
+        "EWM-038",
+        "EWM-039",
+        "EWM-041",
+        "EWM-076",
+        "EWM-077"
+      ],
+      "EVIDENCE_LIMITS": "No guarantee of all participants accepting an action or universal exactly-once external effects.",
+      "INDEPENDENCE_CLUSTER": "OASIS orchestration standards",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S019",
+      "TITLE": "Case Management Model and Notation (CMMN)",
+      "AUTHORS_OR_ORGANISATION": [
+        "Object Management Group"
+      ],
+      "DATE": "2016-12",
+      "VERSION_OR_EDITION": "Version 1.1, formal/2016-12-01",
+      "URL_OR_DOI": "https://www.omg.org/spec/CMMN/1.1/PDF",
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S019-L01",
+          "LOCATOR": "Cover; §5.2.2; §§8.1–8.2 and 8.6.1–8.6.4; printed p.122 / PDF p.140 screenshot",
+          "INSPECTED_CONTENT": "Discretionary planning, case roles, manual activation and required/repeated items; stage completion is not equivalent to every child succeeding.",
+          "EVIDENCE_ROLES": [
+            "STANDARD_OR_GUIDANCE_REQUIREMENT",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-003",
+        "EWM-014",
+        "EWM-021",
+        "EWM-025",
+        "EWM-027",
+        "EWM-030",
+        "EWM-053",
+        "EWM-075"
+      ],
+      "EVIDENCE_LIMITS": "Embedded PDF metadata incorrectly names another model; cover checked. Normative case completion permits specified terminal child states including Failed; business success requires an additional interpretation.",
+      "INDEPENDENCE_CLUSTER": "OMG standards",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S020",
+      "TITLE": "Sagas",
+      "AUTHORS_OR_ORGANISATION": [
+        "Hector Garcia-Molina",
+        "Kenneth Salem"
+      ],
+      "DATE": "1987",
+      "VERSION_OR_EDITION": "SIGMOD 1987; DOI 10.1145/38713.38742",
+      "URL_OR_DOI": "https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf",
+      "SOURCE_CLASS": "PRIMARY_TRANSACTION_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S020-L01",
+          "LOCATOR": "Opening long-lived transaction model; recovery discussion; §6 Other Errors, PDF pp.6–7; discussion of irreversible effects",
+          "INSPECTED_CONTENT": "Interleaved component transactions use compensation/forward recovery instead of one long atomic rollback.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "HISTORICAL_PROVENANCE",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-035",
+        "EWM-036",
+        "EWM-037",
+        "EWM-042",
+        "EWM-043",
+        "EWM-044",
+        "EWM-065",
+        "EWM-069",
+        "EWM-075"
+      ],
+      "EVIDENCE_LIMITS": "Compensation can fail, including through bugs; paper assumptions do not restore an arbitrary physical world. SIGMOD Record/proceedings DOI aliases are not two studies.",
+      "INDEPENDENCE_CLUSTER": "Long-lived transactions / Sagas",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S021",
+      "TITLE": "ADEPTflex—Supporting Dynamic Changes of Workflows Without Losing Control",
+      "AUTHORS_OR_ORGANISATION": [
+        "Manfred Reichert",
+        "Peter Dadam"
+      ],
+      "DATE": "1998",
+      "VERSION_OR_EDITION": "JIIS 10(2):93–129; DOI 10.1023/A:1008604709862",
+      "URL_OR_DOI": "https://dbis.eprints.uni-ulm.de/id/eprint/301/1/ReDa98.pdf",
+      "SOURCE_CLASS": "PRIMARY_ADAPTIVE_WORKFLOW_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S021-L01",
+          "LOCATOR": "Printed pp.106–107; schema and state transformation; concluding implementation status",
+          "INSPECTED_CONTENT": "Dynamic changes must satisfy structural and state/data preconditions, not only yield a sound target diagram.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "IMPLEMENTATION_SEMANTICS",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-020",
+        "EWM-033",
+        "EWM-048",
+        "EWM-049",
+        "EWM-050",
+        "EWM-067",
+        "EWM-076"
+      ],
+      "EVIDENCE_LIMITS": "Prototype-stage evidence; guarantees apply to the specified change operations and model, not arbitrary migrations.",
+      "INDEPENDENCE_CLUSTER": "ADEPT / Ulm",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S022",
+      "TITLE": "Case Handling: A New Paradigm for Business Process Support",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst",
+        "Mathias Weske",
+        "Dolf Grünbauer"
+      ],
+      "DATE": "2005",
+      "VERSION_OR_EDITION": "Data & Knowledge Engineering 53(2):129–162",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p252.pdf",
+      "SOURCE_CLASS": "PRIMARY_CASE_HANDLING_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S022-L01",
+          "LOCATOR": "Introductory contrast and data/case principles, PDF pp.5–7",
+          "INSPECTED_CONTENT": "Case-centred data availability and authorised discretion provide an alternative to activity-centred routing.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "IMPLEMENTATION_SEMANTICS",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-023",
+        "EWM-052",
+        "EWM-053"
+      ],
+      "EVIDENCE_LIMITS": "Conceptual/system evidence, not universal superiority; access to case information does not itself establish competence or legitimate authority.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / case handling",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S023",
+      "TITLE": "Workflow Patterns Put Into Context",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst",
+        "Arthur H. M. ter Hofstede"
+      ],
+      "DATE": "2012",
+      "VERSION_OR_EDITION": "Author manuscript; DOI 10.1007/s10270-012-0233-4",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p671.pdf",
+      "SOURCE_CLASS": "PRIMARY_AUTHOR_RESPONSE",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S023-L01",
+          "LOCATOR": "§§1–3",
+          "INSPECTED_CONTENT": "Authors describe programme origins and clarify that patterns are not a mandate to implement every pattern or a substitute for a full behavioural specification.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-004",
+        "EWM-041",
+        "EWM-061",
+        "EWM-066",
+        "EWM-070"
+      ],
+      "EVIDENCE_LIMITS": "Interested account in a live dispute. Popularity and citations are not independent effectiveness evidence.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S024",
+      "TITLE": "Comment on the authors’ reaction",
+      "AUTHORS_OR_ORGANISATION": [
+        "Egon Börger"
+      ],
+      "DATE": "2012 (contextual dating; slide gives inconsistent year for the response)",
+      "VERSION_OR_EDITION": "Two-slide author rejoinder to Workflow Patterns Put Into Context",
+      "URL_OR_DOI": "https://pages.di.unipi.it/borger/Papers/Bpmn/CommentingEvalBpmReaction.pdf",
+      "SOURCE_CLASS": "PRIMARY_CRITICAL_REJOINDER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_TEXT_AND_SCREENSHOT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S024-L01",
+          "LOCATOR": "Slides 1–2",
+          "INSPECTED_CONTENT": "Critic maintains that technical objections were not answered and that citation counts do not establish quality.",
+          "EVIDENCE_ROLES": [
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-007",
+        "EWM-012",
+        "EWM-018",
+        "EWM-051",
+        "EWM-066",
+        "EWM-070"
+      ],
+      "EVIDENCE_LIMITS": "Not the complete technical critique. Inconsistent date on slide is not silently harmonised; original paper recorded separately as EWM-S032.",
+      "INDEPENDENCE_CLUSTER": "Börger critical programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S025",
+      "TITLE": "The effectiveness of workflow management systems: A longitudinal study",
+      "AUTHORS_OR_ORGANISATION": [
+        "Hajo A. Reijers",
+        "Irene Vanderfeesten",
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "2016 (online 2015-11-14)",
+      "VERSION_OR_EDITION": "International Journal of Information Management 36:126–141; DOI 10.1016/j.ijinfomgt.2015.08.003",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p866.pdf",
+      "SOURCE_CLASS": "PRIMARY_LONGITUDINAL_FIELD_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S025-L01",
+          "LOCATOR": "§§3, 4.1–4.3.3, 5.2–5.3; Figures 4–5, printed p.132 / PDF p.7 (zero-based pageno 6), screenshot rechecked",
+          "INSPECTED_CONTENT": "Ten organisations and 25 intended processes reduced to five implementing organisations / seven enacted processes; five validated simulation comparisons after two exclusions. Abandonment chiefly reflects organisational/programme changes; successful deployments show mostly favourable but heterogeneous measured/adjusted outcomes.",
+          "EVIDENCE_ROLES": [
+            "EMPIRICAL_COMPARISON",
+            "FIELD_OR_DEPLOYMENT_EVIDENCE",
+            "INCIDENT_OR_FAILURE_EVIDENCE",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-004",
+        "EWM-019",
+        "EWM-028",
+        "EWM-031",
+        "EWM-050",
+        "EWM-052",
+        "EWM-057",
+        "EWM-061",
+        "EWM-063",
+        "EWM-071",
+        "EWM-074"
+      ],
+      "EVIDENCE_LIMITS": "2001–2012 Dutch programme, not random assignment; attrition, manager recall and calibrated simulation threaten causal and external validity. Earlier preliminary publications are the same programme.",
+      "INDEPENDENCE_CLUSTER": "Reijers longitudinal 2001–2012 programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S026",
+      "TITLE": "Activity Execution",
+      "AUTHORS_OR_ORGANISATION": [
+        "Temporal Technologies"
+      ],
+      "DATE": "Undated live page; inspected 2026-09-06",
+      "VERSION_OR_EDITION": "Documentation snapshot; no immutable SDK version asserted",
+      "URL_OR_DOI": "https://docs.temporal.io/activity-execution",
+      "SOURCE_CLASS": "PROJECT_DOCUMENTATION",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_PAGE",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S026-L01",
+          "LOCATOR": "Activity Execution; cancellation; Activity Id; Task Token; asynchronous completion",
+          "INSPECTED_CONTENT": "Timeouts trigger loss detection/retry; activity cancellation requires cooperation and may be ignored; execution and attempt identities differ.",
+          "EVIDENCE_ROLES": [
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-001",
+        "EWM-009",
+        "EWM-013",
+        "EWM-014",
+        "EWM-022",
+        "EWM-026",
+        "EWM-032",
+        "EWM-034",
+        "EWM-035",
+        "EWM-036",
+        "EWM-039",
+        "EWM-042",
+        "EWM-043",
+        "EWM-044",
+        "EWM-065",
+        "EWM-075"
+      ],
+      "EVIDENCE_LIMITS": "Specified implementation behaviour, not independent comparison or a guarantee about arbitrary downstream services.",
+      "INDEPENDENCE_CLUSTER": "Temporal documentation",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S027",
+      "TITLE": "Workflow Execution",
+      "AUTHORS_OR_ORGANISATION": [
+        "Temporal Technologies"
+      ],
+      "DATE": "Undated live page; inspected 2026-09-06",
+      "VERSION_OR_EDITION": "Documentation snapshot; no immutable SDK version asserted",
+      "URL_OR_DOI": "https://docs.temporal.io/workflow-execution",
+      "SOURCE_CLASS": "PROJECT_DOCUMENTATION",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S027-L01",
+          "LOCATOR": "Replays section; Workflow Execution overview",
+          "INSPECTED_CONTENT": "Replay reconstructs workflow state by matching emitted commands with event history; activities are separate from deterministic orchestration.",
+          "EVIDENCE_ROLES": [
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-002",
+        "EWM-018",
+        "EWM-042",
+        "EWM-045",
+        "EWM-046",
+        "EWM-047",
+        "EWM-055",
+        "EWM-072",
+        "EWM-073",
+        "EWM-076"
+      ],
+      "EVIDENCE_LIMITS": "Engine availability, compatible code and external effects remain assumptions; no cross-product portability guarantee.",
+      "INDEPENDENCE_CLUSTER": "Temporal documentation",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S028",
+      "TITLE": "Durable Task orchestrator code constraints",
+      "AUTHORS_OR_ORGANISATION": [
+        "Microsoft"
+      ],
+      "DATE": "Undated live page; inspected 2026-09-06",
+      "VERSION_OR_EDITION": "Documentation snapshot at redirected Durable Task page",
+      "URL_OR_DOI": "https://learn.microsoft.com/en-us/azure/durable-task/common/durable-task-code-constraints",
+      "SOURCE_CLASS": "PROJECT_DOCUMENTATION",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S028-L01",
+          "LOCATOR": "Deterministic APIs, external I/O constraints and versioning discussion",
+          "INSPECTED_CONTENT": "Orchestrator determinism requirements and code changes that break replay; side-by-side versions/task hubs are deployment strategies.",
+          "EVIDENCE_ROLES": [
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-045",
+        "EWM-047",
+        "EWM-049",
+        "EWM-073",
+        "EWM-076"
+      ],
+      "EVIDENCE_LIMITS": "Constraints are version/platform-specific documentation, not comparative benefit or proof of a particular application.",
+      "INDEPENDENCE_CLUSTER": "Microsoft Durable Task documentation",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S029",
+      "TITLE": "Distributed Speculative Execution for Resilient Cloud Applications",
+      "AUTHORS_OR_ORGANISATION": [
+        "Tianyu Li",
+        "Badrish Chandramouli",
+        "Philip A. Bernstein",
+        "Samuel Madden"
+      ],
+      "DATE": "2024-12-17",
+      "VERSION_OR_EDITION": "arXiv:2412.13314v1",
+      "URL_OR_DOI": "https://arxiv.org/html/2412.13314v1",
+      "SOURCE_CLASS": "PRIMARY_PREPRINT_SYSTEMS_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S029-L01",
+          "LOCATOR": "§4.1 recovery acknowledgements; §5.3 limitations; §6 experimental setup; §7 related work",
+          "INSPECTED_CONTENT": "Speculation and rollback require a controlled execution/persistence boundary; benchmark setup uses ten Azure D8s_v3 machines.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "IMPLEMENTATION_SEMANTICS",
+            "EMPIRICAL_COMPARISON"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-035",
+        "EWM-037",
+        "EWM-043",
+        "EWM-044",
+        "EWM-065"
+      ],
+      "EVIDENCE_LIMITS": "Version inspected is a preprint; no claimed independent replication. Benchmark performance does not validate unconstrained external effects or all applications.",
+      "INDEPENDENCE_CLUSTER": "DSE prototype evaluation",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S030",
+      "TITLE": "BEGIN AI TRANSACTION: Semantic Isolation for Durable AI Workflows",
+      "AUTHORS_OR_ORGANISATION": [
+        "Barzan Mozafari"
+      ],
+      "DATE": "2026-08-05",
+      "VERSION_OR_EDITION": "arXiv:2608.05412v1",
+      "URL_OR_DOI": "https://arxiv.org/html/2608.05412v1",
+      "SOURCE_CLASS": "PRIMARY_PREPRINT_PROPOSAL",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S030-L01",
+          "LOCATOR": "§§2–4; §5.1 audit construction/results; §5.2 controlled system evaluation; §7 future-work boundary",
+          "INSPECTED_CONTENT": "Proposes semantic environments/compatibility contracts. Audit: 100 selected eligible projects, 54 durable, four exposure-positive. Controlled graphs compare five mechanisms: static pinning and SSI prevent all four closed-world anomalies; online extension handles the demonstrated late-discovered dependency.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "EMPIRICAL_COMPARISON",
+            "RESEARCHER_INTERPRETATION"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-024",
+        "EWM-045",
+        "EWM-046",
+        "EWM-047",
+        "EWM-049",
+        "EWM-062",
+        "EWM-072",
+        "EWM-073",
+        "EWM-074",
+        "EWM-076"
+      ],
+      "EVIDENCE_LIMITS": "Static exposure is not an incident count; selection and off-repository controls matter. Controlled prototype experiments are positive mechanistic evidence, not independent validation or a general visible-effect/serialisability guarantee; §7 leaves the stronger effect/write contract to future work.",
+      "INDEPENDENCE_CLUSTER": "Semantic isolation 2026 proposal",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S031",
+      "TITLE": "Characterizing Large Language Model Agentic Workflows: A Study on N8n Ecosystem",
+      "AUTHORS_OR_ORGANISATION": [
+        "Yutian Tang",
+        "Yuming Zhou",
+        "Huaming Chen"
+      ],
+      "DATE": "2026-06",
+      "VERSION_OR_EDITION": "arXiv:2606.29116v1",
+      "URL_OR_DOI": "https://arxiv.org/html/2606.29116v1",
+      "SOURCE_CLASS": "PRIMARY_PREPRINT_STATIC_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S031-L01",
+          "LOCATOR": "§3.1 corpus and deduplication; §4 invoice example; §5 threats",
+          "INSPECTED_CONTENT": "Analysis of more than 6,000 public templates separates execution wiring from AI configuration and discusses limits of apparent validation steps.",
+          "EVIDENCE_ROLES": [
+            "EMPIRICAL_COMPARISON",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-056",
+        "EWM-057",
+        "EWM-058",
+        "EWM-061",
+        "EWM-062",
+        "EWM-068",
+        "EWM-073",
+        "EWM-074"
+      ],
+      "EVIDENCE_LIMITS": "Exact final denominator not independently located in inspected passages and not invented. Templates are not runtime traces; hidden/custom actions and public-selection bias limit conclusions.",
+      "INDEPENDENCE_CLUSTER": "n8n public templates 2026",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S032",
+      "TITLE": "Approaches to modeling business processes: a critical analysis of BPMN, workflow patterns and YAWL",
+      "AUTHORS_OR_ORGANISATION": [
+        "Egon Börger"
+      ],
+      "DATE": "2012 (online 2011-09-11)",
+      "VERSION_OR_EDITION": "Software and Systems Modeling 11:305–318; DOI 10.1007/s10270-011-0214-z",
+      "URL_OR_DOI": "https://link.springer.com/article/10.1007/s10270-011-0214-z",
+      "SOURCE_CLASS": "PRIMARY_CRITICAL_PAPER_ACCESS_LIMITED",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "ABSTRACT_AND_METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S032-L01",
+          "LOCATOR": "Publisher abstract and publication history",
+          "INSPECTED_CONTENT": "Abstract identifies precision and faithfulness objections to the compared approaches.",
+          "EVIDENCE_ROLES": [
+            "CRITICISM_OR_NEGATIVE_EVIDENCE",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-007",
+        "EWM-012",
+        "EWM-018",
+        "EWM-051"
+      ],
+      "EVIDENCE_LIMITS": "Paywalled full text not obtained. Detailed technical objections/six criteria not reconstructed from abstracts; dispute remains partly unresolved.",
+      "INDEPENDENCE_CLUSTER": "Börger critical programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S033",
+      "TITLE": "On the Evolution of BPMN 2.0 Support and Implementation",
+      "AUTHORS_OR_ORGANISATION": [
+        "Matthias Geiger",
+        "Simon Harrer",
+        "Jörg Lenhard",
+        "Guido Wirtz"
+      ],
+      "DATE": "2016",
+      "VERSION_OR_EDITION": "IEEE SOSE 2016; DOI 10.1109/SOSE.2016.39",
+      "URL_OR_DOI": "https://www.uni-bamberg.de/fileadmin/pi/Geiger2016OnTheEvolution.pdf",
+      "SOURCE_CLASS": "PRIMARY_ENGINE_BENCHMARK",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S033-L01",
+          "LOCATOR": "§IV.B.2; §V; PDF pp.5 and 9 screenshots",
+          "INSPECTED_CONTENT": "Isolated engine tests compare expected traces; feature suite grew to 38 constructs / 113 features; historical versions display incomplete support and regressions.",
+          "EVIDENCE_ROLES": [
+            "EMPIRICAL_COMPARISON",
+            "IMPLEMENTATION_SEMANTICS",
+            "INCIDENT_OR_FAILURE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-002",
+        "EWM-017",
+        "EWM-018",
+        "EWM-041",
+        "EWM-047",
+        "EWM-061",
+        "EWM-062",
+        "EWM-063",
+        "EWM-066",
+        "EWM-070",
+        "EWM-071",
+        "EWM-074"
+      ],
+      "EVIDENCE_LIMITS": "Three engines, four versions each, historical scope. Market success does not prove omitted features unimportant; that inference is challenged in this packet. No current product ranking.",
+      "INDEPENDENCE_CLUSTER": "Bamberg BPMN benchmark programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S034",
+      "TITLE": "Plans as Situated Action: An Activity Theory Approach to Workflow Systems",
+      "AUTHORS_OR_ORGANISATION": [
+        "Jakob E. Bardram"
+      ],
+      "DATE": "1997",
+      "VERSION_OR_EDITION": "ECSCW 1997 author preprint",
+      "URL_OR_DOI": "https://tidsskrift.dk/daimipb/article/download/7054/6015",
+      "SOURCE_CLASS": "PRIMARY_PARTICIPATORY_CSCW_STUDY",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S034-L01",
+          "LOCATOR": "Introduction; workplace method, PDF p.4; Rethinking Workflow, PDF pp.8–10",
+          "INSPECTED_CONTENT": "Hospital study and participatory scheduler design connect plans to situated activity rather than eliminating planning.",
+          "EVIDENCE_ROLES": [
+            "FIELD_OR_DEPLOYMENT_EVIDENCE",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-004",
+        "EWM-005",
+        "EWM-019",
+        "EWM-023",
+        "EWM-025",
+        "EWM-028",
+        "EWM-030",
+        "EWM-031",
+        "EWM-033",
+        "EWM-052",
+        "EWM-054",
+        "EWM-057",
+        "EWM-063",
+        "EWM-071",
+        "EWM-077"
+      ],
+      "EVIDENCE_LIMITS": "One 24-bed ward in a 370-bed hospital; qualitative observation/interviews/workshops, not a controlled clinical outcome trial.",
+      "INDEPENDENCE_CLUSTER": "Bardram hospital activity-theory programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S035",
+      "TITLE": "Constraint-Based Workflow Models: Change Made Easy",
+      "AUTHORS_OR_ORGANISATION": [
+        "Maja Pesic",
+        "M. H. Schonenberg",
+        "Natalia Sidorova",
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "2007",
+      "VERSION_OR_EDITION": "CoopIS 2007, LNCS 4803:77–94; DOI 10.1007/978-3-540-76848-7_7",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p420.pdf",
+      "SOURCE_CLASS": "PRIMARY_DECLARATIVE_WORKFLOW_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S035-L01",
+          "LOCATOR": "§2.3; §§3.1–3.2; verification example PDF p.12 screenshot",
+          "INSPECTED_CONTENT": "Constraint combinations can conflict or cause dead activities; automata support consistency checks and distinguish temporary from terminal violations.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-048",
+        "EWM-050",
+        "EWM-051",
+        "EWM-064",
+        "EWM-067"
+      ],
+      "EVIDENCE_LIMITS": "Demonstration/formal model evidence, not a general finding that workers understand declarative rules better or that all changes are safe.",
+      "INDEPENDENCE_CLUSTER": "Declare / Workflow Patterns programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S036",
+      "TITLE": "Process Flexibility: A Survey of Contemporary Approaches",
+      "AUTHORS_OR_ORGANISATION": [
+        "Helen Schonenberg",
+        "Ronny Mans",
+        "Nick Russell",
+        "Nataliya Mulyar",
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "2008",
+      "VERSION_OR_EDITION": "LNBIP 10:16–30; DOI 10.1007/978-3-540-68644-6_2",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p460.pdf",
+      "SOURCE_CLASS": "PRIMARY_TAXONOMY_AND_SCHOLARLY_REVIEW",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S036-L01",
+          "LOCATOR": "Four flexibility definitions; deviation example PDF p.5 screenshot; change discussion PDF pp.7–8",
+          "INSPECTED_CONTENT": "Flexibility by design, deviation, underspecification and change are distinct; control-flow undo need not compensate external effects.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-033",
+        "EWM-048",
+        "EWM-049",
+        "EWM-050",
+        "EWM-051",
+        "EWM-054",
+        "EWM-067"
+      ],
+      "EVIDENCE_LIMITS": "Taxonomy organises literature; comparative tool examples are not independent causal evaluations.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / flexibility programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S037",
+      "TITLE": "Worklets: A Service-Oriented Implementation of Dynamic Flexibility in Workflows",
+      "AUTHORS_OR_ORGANISATION": [
+        "Michael Adams",
+        "Arthur H. M. ter Hofstede",
+        "David Edmond",
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "2006",
+      "VERSION_OR_EDITION": "CoopIS 2006, LNCS 4275:291–308; DOI 10.1007/11914853_18",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p350.pdf",
+      "SOURCE_CLASS": "PRIMARY_ADAPTIVE_SYSTEM_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S037-L01",
+          "LOCATOR": "Worklet selection and ripple-down rules; Figure 5 PDF p.10 screenshot; replacement discussion",
+          "INSPECTED_CONTENT": "Late-bound subworkflows selected from contextual rules; human replacement when the selected worklet is inadequate.",
+          "EVIDENCE_ROLES": [
+            "IMPLEMENTATION_SEMANTICS",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-033",
+        "EWM-054"
+      ],
+      "EVIDENCE_LIMITS": "Illustrative health scenario and prototype are not a clinical deployment comparison. Local rule extension can accumulate opaque precedence.",
+      "INDEPENDENCE_CLUSTER": "Worklets / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S038",
+      "TITLE": "Loosely Coupled Interorganizational Workflows: Modeling and Analyzing Workflows Crossing Organizational Boundaries",
+      "AUTHORS_OR_ORGANISATION": [
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "2000 (accepted 1999-07-24)",
+      "VERSION_OR_EDITION": "Information & Management; nine-page author manuscript",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p99.pdf",
+      "SOURCE_CLASS": "PRIMARY_INTERORGANISATIONAL_FORMAL_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S038-L01",
+          "LOCATOR": "§§2, 5, 6.1–6.2; Figure 3 PDF p.7 screenshot",
+          "INSPECTED_CONTENT": "Local correctness and a shared message protocol need separate global compatibility analysis.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-022",
+        "EWM-038",
+        "EWM-039",
+        "EWM-040"
+      ],
+      "EVIDENCE_LIMITS": "Single-case asynchronous model abstracts data/resources; predefined partners and ordering assumptions restrict transfer to open or strategic participants.",
+      "INDEPENDENCE_CLUSTER": "WF-net interorganisational programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S039",
+      "TITLE": "Business artifacts: An approach to operational specification",
+      "AUTHORS_OR_ORGANISATION": [
+        "Anil Nigam",
+        "Nathan S. Caswell"
+      ],
+      "DATE": "2003",
+      "VERSION_OR_EDITION": "IBM Systems Journal 42(3):428–445",
+      "URL_OR_DOI": "https://www.inf.unibz.it/franconispace/lib/exe/fetch.php?media=organisation:sakt:2013:21.pdf",
+      "SOURCE_CLASS": "PRIMARY_DATA_CENTRIC_WORKFLOW_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S039-L01",
+          "LOCATOR": "Printed pp.429–431; artifact lifecycle and interacting lifecycles; applications",
+          "INSPECTED_CONTENT": "Identifiable business artefact instances and their lifecycles organise operational work and interactions.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "HISTORICAL_PROVENANCE",
+            "FIELD_OR_DEPLOYMENT_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-021",
+        "EWM-022",
+        "EWM-023",
+        "EWM-024",
+        "EWM-052"
+      ],
+      "EVIDENCE_LIMITS": "Illustrative consulting cases, not a general comparative trial; reliable/trusted flow assumptions are not a distributed recovery proof.",
+      "INDEPENDENCE_CLUSTER": "IBM business artifacts",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S040",
+      "TITLE": "Pattern-Based Approach to the Workflow Satisfiability Problem with User-Independent Constraints",
+      "AUTHORS_OR_ORGANISATION": [
+        "Daniel Karapetyan",
+        "Andrew J. Parkes",
+        "Gregory Gutin"
+      ],
+      "DATE": "2019-09",
+      "VERSION_OR_EDITION": "Journal of Artificial Intelligence Research 66:85–122",
+      "URL_OR_DOI": "https://www.jair.org/index.php/jair/article/download/11339/26518/21968",
+      "SOURCE_CLASS": "PRIMARY_FORMAL_ALGORITHMIC_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S040-L01",
+          "LOCATOR": "Introduction and problem assumptions; user-independent constraint formulation",
+          "INSPECTED_CONTENT": "Valid user assignment is a constraint satisfiability problem; tractability depends on parameterisation and constraint class.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-019",
+        "EWM-025",
+        "EWM-027",
+        "EWM-028",
+        "EWM-029"
+      ],
+      "EVIDENCE_LIMITS": "Time ordering is explicitly outside the studied problem. Algorithm benchmark speed is not asserted here. Assignment patterns are not the Workflow Patterns taxonomy.",
+      "INDEPENDENCE_CLUSTER": "WSP parameterised algorithms",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S041",
+      "TITLE": "Workflow sharing with automated metadata validation and test execution to improve the reusability of published workflows",
+      "AUTHORS_OR_ORGANISATION": [
+        "Hirotaka Suetake",
+        "Tsukasa Fukusato",
+        "Takeo Igarashi",
+        "Tazro Ohta"
+      ],
+      "DATE": "2023",
+      "VERSION_OR_EDITION": "GigaScience 12:giad006; DOI 10.1093/gigascience/giad006",
+      "URL_OR_DOI": "https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giad006/7050798",
+      "SOURCE_CLASS": "PRIMARY_SCIENTIFIC_WORKFLOW_SYSTEM_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S041-L01",
+          "LOCATOR": "Methods, results and Discussion; limitations on output checking",
+          "INSPECTED_CONTENT": "Yevis validates metadata and test execution but explicitly does not thereby verify that outputs are expected or scientifically correct.",
+          "EVIDENCE_ROLES": [
+            "IMPLEMENTATION_SEMANTICS",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-003",
+        "EWM-030",
+        "EWM-044",
+        "EWM-055",
+        "EWM-058",
+        "EWM-059",
+        "EWM-060",
+        "EWM-062",
+        "EWM-068",
+        "EWM-074",
+        "EWM-075"
+      ],
+      "EVIDENCE_LIMITS": "Successful execution status and checksum identity are different from semantic correctness; heuristic and changing-data workflows need appropriate oracles. Earlier preprint is not a replication.",
+      "INDEPENDENCE_CLUSTER": "Yevis workflow reuse",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S042",
+      "TITLE": "The Taverna workflow suite: designing and executing workflows of Web Services on the desktop, web or in the cloud",
+      "AUTHORS_OR_ORGANISATION": [
+        "Katherine Wolstencroft",
+        "Robert Haines",
+        "Donal Fellows",
+        "Alan Williams",
+        "David Withers",
+        "Stuart Owen",
+        "Stian Soiland-Reyes",
+        "Ian Dunlop",
+        "Aleksandra Nenadic",
+        "Paul Fisher",
+        "Jiten Bhagat",
+        "Khalid Belhajjame",
+        "Finn Bacall",
+        "Alex Hardisty",
+        "Abraham Nieva de la Hidalga",
+        "Maria P. Balcazar Vargas",
+        "Shoaib Sufi",
+        "Carole Goble"
+      ],
+      "DATE": "2013-07-01 (online 2013-05-02)",
+      "VERSION_OR_EDITION": "Nucleic Acids Research 41(W1):W557–W561; DOI 10.1093/nar/gkt328; engine 2.4 described",
+      "URL_OR_DOI": "https://academic.oup.com/nar/article/41/W1/W557/1094153",
+      "SOURCE_CLASS": "PRIMARY_SCIENTIFIC_WORKFLOW_SYSTEM_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S042-L01",
+          "LOCATOR": "Suite overview; engine iteration/loop/streaming; provenance discussion",
+          "INSPECTED_CONTENT": "Scientific service workflows include iteration and streaming; provenance captures execution and intermediate/final data.",
+          "EVIDENCE_ROLES": [
+            "IMPLEMENTATION_SEMANTICS",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-011",
+        "EWM-059",
+        "EWM-060",
+        "EWM-064"
+      ],
+      "EVIDENCE_LIMITS": "Paper-era engine behaviour, not present product status or proof of scientific validity; service dependencies remain external.",
+      "INDEPENDENCE_CLUSTER": "Taverna / myExperiment",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S043",
+      "TITLE": "Conformance Checking of Processes Based on Monitoring Real Behavior",
+      "AUTHORS_OR_ORGANISATION": [
+        "Anne Rozinat",
+        "Wil M. P. van der Aalst"
+      ],
+      "DATE": "2008",
+      "VERSION_OR_EDITION": "Information Systems 33(1):64–95; 44-page author manuscript",
+      "URL_OR_DOI": "https://www.vdaalst.com/publications/p436.pdf",
+      "SOURCE_CLASS": "PRIMARY_CONFORMANCE_METHOD_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S043-L01",
+          "LOCATOR": "§§2.1–2.3; fitness and appropriateness discussion",
+          "INSPECTED_CONTENT": "Conformance depends on event-to-case/activity/order assumptions and on the chosen model; fitness alone is not sufficient evaluation.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "DEFINITION_OR_TAXONOMY"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-055",
+        "EWM-056"
+      ],
+      "EVIDENCE_LIMITS": "Single-case projection and observed traces omit unlogged or unobserved behaviour. Fictional insurance example is not field validation.",
+      "INDEPENDENCE_CLUSTER": "Process conformance / WF-net programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S044",
+      "TITLE": "ExoFlow: A Universal Workflow System for Exactly-Once DAGs",
+      "AUTHORS_OR_ORGANISATION": [
+        "Siyuan Zhuang",
+        "Stephanie Wang",
+        "Eric Liang",
+        "Yi Cheng",
+        "Ion Stoica"
+      ],
+      "DATE": "2023",
+      "VERSION_OR_EDITION": "OSDI 2023:269–286",
+      "URL_OR_DOI": "https://stephanie-wang.github.io/pdfs/osdi23-exoflow.pdf",
+      "SOURCE_CLASS": "PRIMARY_SYSTEMS_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S044-L01",
+          "LOCATOR": "§§3.1–3.2; checkpoint boundary figure PDF p.6 screenshot; §8 limitations",
+          "INSPECTED_CONTENT": "Exactly-once DAG recovery relies on declared determinism and idempotent tasks or idempotent rollback, with appropriate persistence before external output.",
+          "EVIDENCE_ROLES": [
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "IMPLEMENTATION_SEMANTICS",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-035",
+        "EWM-037",
+        "EWM-042",
+        "EWM-043",
+        "EWM-044",
+        "EWM-045",
+        "EWM-046",
+        "EWM-047",
+        "EWM-060",
+        "EWM-065",
+        "EWM-069",
+        "EWM-076"
+      ],
+      "EVIDENCE_LIMITS": "Guarantee is not arbitrary exactly-once execution outside these assumptions. Coarse annotations and no native cross-task transactions are acknowledged in this version; headline speedups not exported.",
+      "INDEPENDENCE_CLUSTER": "ExoFlow OSDI prototype",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S045",
+      "TITLE": "Workflow Management Coalition Audit Data Specification",
+      "AUTHORS_OR_ORGANISATION": [
+        "Workflow Management Coalition"
+      ],
+      "DATE": "1998-09-22",
+      "VERSION_OR_EDITION": "WFMC-TC-1015, version 1.1",
+      "URL_OR_DOI": "https://wfmc.org/wp-content/uploads/2022/09/TC-1015_v11_1998.pdf",
+      "SOURCE_CLASS": "ISSUING_BODY_STANDARD",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S045-L01",
+          "LOCATOR": "§§3.1, 3.4, 3.5, 4; work-item and interorganisational event definitions",
+          "INSPECTED_CONTENT": "Audited event semantics and identity requirements; underlying clock assumptions; archiving explicitly outside specification.",
+          "EVIDENCE_ROLES": [
+            "STANDARD_OR_GUIDANCE_REQUIREMENT",
+            "HISTORICAL_PROVENANCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-001",
+        "EWM-014",
+        "EWM-022",
+        "EWM-026",
+        "EWM-039",
+        "EWM-046",
+        "EWM-055",
+        "EWM-056",
+        "EWM-057",
+        "EWM-058",
+        "EWM-068",
+        "EWM-072",
+        "EWM-076"
+      ],
+      "EVIDENCE_LIMITS": "Optional personal fields and historical privacy remarks are not contemporary legal advice. Logging interface operations does not observe all world effects.",
+      "INDEPENDENCE_CLUSTER": "WfMC",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S046",
+      "TITLE": "The Analysis of Data-Flow and Control-Flow in Workflow Processes Using Maude",
+      "AUTHORS_OR_ORGANISATION": [
+        "Oana Otilia Captarencu"
+      ],
+      "DATE": "2023",
+      "VERSION_OR_EDITION": "ICEIS 2023 vol.2:373–384; DOI 10.5220/0011844800003467",
+      "URL_OR_DOI": "https://profs.info.uaic.ro/oana.captarencu/research.html",
+      "SOURCE_CLASS": "PRIMARY_PAPER_ACCESS_LIMITED",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S046-L01",
+          "LOCATOR": "Author publication list, 2023 entry",
+          "INSPECTED_CONTENT": "Existence of a recent data/control verification line.",
+          "EVIDENCE_ROLES": [
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-020"
+      ],
+      "EVIDENCE_LIMITS": "Publisher PDF fetch failed repeatedly. No proof, algorithm, empirical result or performance claim extracted. 2024 extended item is a separate unexamined lead, not independent evidence.",
+      "INDEPENDENCE_CLUSTER": "Captarencu Maude workflow programme",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S047",
+      "TITLE": "Why workflows break: understanding and combating decay in Taverna workflows",
+      "AUTHORS_OR_ORGANISATION": [
+        "Jun Zhao",
+        "Jose Manuel Gomez-Perez",
+        "Khalid Belhajjame",
+        "Graham Klyne",
+        "Esteban Garcia-Cuesta",
+        "Aleix Garrido",
+        "Kristina Hettne",
+        "Marco Roos",
+        "David De Roure",
+        "Carole Goble"
+      ],
+      "DATE": "2012-10",
+      "VERSION_OR_EDITION": "IEEE eScience 2012:1–9; DOI 10.1109/eScience.2012.6404482",
+      "URL_OR_DOI": "https://research.lancaster-university.uk/en/publications/why-workflows-break-understanding-and-combating-decay-in-taverna-/",
+      "SOURCE_CLASS": "PRIMARY_EMPIRICAL_PAPER_ACCESS_LIMITED",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "ABSTRACT_AND_METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S047-L01",
+          "LOCATOR": "Institutional record, abstract and bibliography",
+          "INSPECTED_CONTENT": "Authors report study of decay in myExperiment/Taverna workflows and propose preserving auxiliary resources.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-059",
+        "EWM-060"
+      ],
+      "EVIDENCE_LIMITS": "Full methods/results unavailable from attempted institutional PDF; no sample denominator or rate used. Abstract transfer claim is not adopted as demonstrated generality.",
+      "INDEPENDENCE_CLUSTER": "Taverna / myExperiment",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S048",
+      "TITLE": "Why Do Scientific Workflows Still Break?",
+      "AUTHORS_OR_ORGANISATION": [
+        "Nahan Maligeay (conference/institutional metadata",
+        "other records spell Nathan)",
+        "Noémie Bossut",
+        "Khalid Belhajjame"
+      ],
+      "DATE": "2024",
+      "VERSION_OR_EDITION": "SSDBM 2024 short paper; DOI 10.1145/3676288.3676300",
+      "URL_OR_DOI": "https://ssdbm.org/2024/program.html",
+      "SOURCE_CLASS": "PRIMARY_PAPER_ACCESS_LIMITED",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "METADATA_ONLY",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S048-L01",
+          "LOCATOR": "Research Session 5; HAL record hal-04689501",
+          "INSPECTED_CONTENT": "A 2024 continuation of scientific-workflow decay research exists.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "UNVERIFIED_LEAD"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-059"
+      ],
+      "EVIDENCE_LIMITS": "HAL access protection and publisher fetch limit prevented reading methods/results; name discrepancy preserved, no invented rate or replication conclusion.",
+      "INDEPENDENCE_CLUSTER": "Scientific workflow decay 2024",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S049",
+      "TITLE": "Error Analysis of Globally Distributed Workflow Management Systems",
+      "AUTHORS_OR_ORGANISATION": [
+        "Sankha Dutta",
+        "REDWOOD Collaboration"
+      ],
+      "DATE": "2025-11",
+      "VERSION_OR_EDITION": "SC25 / IPDRM 2025 conference presentation, 19 slides; distinct from proceedings article DOI 10.1145/3731599.3767461",
+      "URL_OR_DOI": "https://ipdrm16.github.io/slides/IPDRM_25_FINAL.pdf",
+      "SOURCE_CLASS": "PRIMARY_FIELD_ANALYSIS_PRESENTATION",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "FULL_SLIDE_TEXT_AND_SELECTED_SCREENSHOTS",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S049-L01",
+          "LOCATOR": "Slides 6, 9–15 and 18; screenshots of slides 10,13,15",
+          "INSPECTED_CONTENT": "PanDA analysis separates reported fault sources; presentation reports 50 million user programs and 12% faults, focusing further on site-monitoring reports and selected sites.",
+          "EVIDENCE_ROLES": [
+            "FIELD_OR_DEPLOYMENT_EVIDENCE",
+            "INCIDENT_OR_FAILURE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-019",
+        "EWM-028",
+        "EWM-055",
+        "EWM-057",
+        "EWM-058",
+        "EWM-060"
+      ],
+      "EVIDENCE_LIMITS": "Slides, not the inaccessible full proceedings methods. Observation window and denominator exactness not independently reconstructed; reported faults can overlap; no extrapolation to all workflow systems. Diagram/text site-selection discrepancy resolved visually as union.",
+      "INDEPENDENCE_CLUSTER": "REDWOOD / PanDA 2025 analysis",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S050",
+      "TITLE": "The Action Workflow Approach to Workflow Management Technology",
+      "AUTHORS_OR_ORGANISATION": [
+        "Raul Medina-Mora",
+        "Terry Winograd",
+        "Rodrigo Flores",
+        "Fernando Flores"
+      ],
+      "DATE": "1992",
+      "VERSION_OR_EDITION": "CSCW 1992:281–288; DOI 10.1145/143457.143530",
+      "URL_OR_DOI": "https://www.lri.fr/~mbl/ENS/CSCW/material/papers/MedinaMora-CSCW92.pdf",
+      "SOURCE_CLASS": "PRIMARY_LANGUAGE_ACTION_SYSTEM_PAPER",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S050-L01",
+          "LOCATOR": "Printed pp.281–282; four-phase cycle screenshot PDF p.2; incremental automation PDF p.7",
+          "INSPECTED_CONTENT": "Requests, agreement, declared performance and satisfaction concern commitments; material, information and business perspectives are distinguished; automation can be incremental.",
+          "EVIDENCE_ROLES": [
+            "HISTORICAL_PROVENANCE",
+            "DEFINITION_OR_TAXONOMY",
+            "IMPLEMENTATION_SEMANTICS"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-030",
+        "EWM-031",
+        "EWM-038",
+        "EWM-039",
+        "EWM-058",
+        "EWM-068",
+        "EWM-075",
+        "EWM-077"
+      ],
+      "EVIDENCE_LIMITS": "Developer-origin account and illustrations, not independent outcome comparison. A recorded acceptance does not establish uncoerced consent or objective correctness. The paper’s agent processor is not an LLM.",
+      "INDEPENDENCE_CLUSTER": "ActionWorkflow / language-action",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    },
+    {
+      "SOURCE_ID": "EWM-S051",
+      "TITLE": "Workflow Control-Flow Patterns: A Revised View",
+      "AUTHORS_OR_ORGANISATION": [
+        "Nick Russell",
+        "Arthur H. M. ter Hofstede",
+        "Wil M. P. van der Aalst",
+        "Nataliya Mulyar"
+      ],
+      "DATE": "2006",
+      "VERSION_OR_EDITION": "BPM Center Report BPM-06-22; institutional cover plus report; DOI not assigned in inspected record",
+      "URL_OR_DOI": "https://pure.tue.nl/ws/files/2456784/710796038377571.pdfor",
+      "SOURCE_CLASS": "PRIMARY_PATTERN_TECHNICAL_REPORT",
+      "ACCESS_DATE": "2026-09-06",
+      "ACCESS_LEVEL": "SELECTED_FULL_TEXT_AND_FIGURES",
+      "CLAIM_LOCATORS": [
+        {
+          "LOCATOR_ID": "EWM-S051-L01",
+          "LOCATOR": "§§3.1–3.2, printed pp.5–7; WCP-22 printed p.44; WCP-38 printed pp.71–72; corresponding screenshots",
+          "INSPECTED_CONTENT": "Original twenty patterns refined and 23 additions formalised; synchronising merges split by assumptions; recursion, cancellation regions and general joins explicitly discussed.",
+          "EVIDENCE_ROLES": [
+            "DEFINITION_OR_TAXONOMY",
+            "FORMAL_OR_THEORETICAL_RESULT",
+            "CRITICISM_OR_NEGATIVE_EVIDENCE"
+          ]
+        }
+      ],
+      "SUPPORTED_PROPERTY_IDS": [
+        "EWM-003",
+        "EWM-006",
+        "EWM-007",
+        "EWM-008",
+        "EWM-009",
+        "EWM-010",
+        "EWM-011",
+        "EWM-012",
+        "EWM-013",
+        "EWM-014",
+        "EWM-016",
+        "EWM-034",
+        "EWM-064",
+        "EWM-070"
+      ],
+      "EVIDENCE_LIMITS": "Not an independent replication of the pattern programme. A terminating escape path is not sufficient to prove inevitable termination; the stronger prose at p.44 is narrowed analytically in this packet. Product counts are historical.",
+      "INDEPENDENCE_CLUSTER": "Workflow Patterns / YAWL",
+      "SUPPORT_INTERPRETATION": "Includes definitional, critical and limiting support, not only advocacy. Access-limited records support only their inspected metadata/abstract and documented reception."
+    }
+  ],
+  "source_policy": "Selected full-text means the locators were inspected, not every page. Metadata-only records carry no omitted methodological claims. Date precision and access limits are retained. Published copies and earlier drafts are not independent replications.",
+  "revision": "EWM-R1-2026-09-06"
+}

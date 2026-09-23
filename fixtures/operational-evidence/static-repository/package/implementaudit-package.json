@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "package_name": "fixture-package",
+  "required_skills": [],
+  "shared_resource_roots": [
+    "src"
+  ],
+  "host_manifests": {},
+  "generated_projections": {}
+}

@@ -13,8 +13,8 @@
       "meaning": "durable governed-work identity",
       "allocation_owner": "R0004",
       "allocated_ordinal_min": 1,
-      "allocated_ordinal_max": 55,
-      "next_unreserved_candidate": "R0038",
+      "allocated_ordinal_max": 58,
+      "next_unreserved_candidate": "R003B",
       "legacy": {
         "prefix": "R",
         "radix": 10,

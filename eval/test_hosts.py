@@ -1080,6 +1080,28 @@ def main():
               and not os.path.isfile(os.path.join(
                   tmp, "custody", "r-h39c", "process-started.json")))
 
+        # 39d. a payload directory nested inside an ancestor Git repository
+        # is not itself an attested product checkout. Git may resolve HEAD
+        # from the ancestor, but exact checkout-root identity must reject it
+        # before any host process starts.
+        nested39 = os.path.join(canon39, "nested39")
+        os.makedirs(os.path.join(nested39, "skills", "implementaudit"))
+        open(os.path.join(nested39, "skills", "implementaudit", "SKILL.md"),
+             "w").write("nested payload body" + chr(10))
+        counter39d = os.path.join(tmp, "spawn-counter-h39d")
+        a39d = make_adapter(
+            tmp, "ok-codex", counter=counter39d, checkout=nested39,
+            home=os.path.join(tmp, "codex-home-h39d"))
+        a39d.formal = True
+        a39d.product_expected_rev = head39
+        r39d = run(a39d, tmp, "r-h39d")
+        check("H39d ancestor-git-identity-INVALID-before-spawn",
+              r39d.kind == "invalid"
+              and "git identity" in str(r39d.detail)
+              and not os.path.exists(counter39d)
+              and not os.path.isfile(os.path.join(
+                  tmp, "custody", "r-h39d", "process-started.json")))
+
         # 40. a process-started.json rewritten with NON-UTF-8 garbage
         # (jail-less Config-O tamper + hard-killed wrapper) must still be
         # terminally classified — never a perpetual reconcile-error that
@@ -1539,8 +1561,9 @@ def main():
                       "read_before_write") is False)
 
             # Common execution wrappers preserve the actual command position.
-            # They must recognize cat/Get-Content without treating find's
-            # unrelated `-type` option as a reader command.
+            # Supported readers retain command position; multi-path PowerShell
+            # arrays remain outside the finite grammar. This refusal is not
+            # a claim that every such native command fails to read its inputs.
             wrapped_results44h = []
             for event in wrapped_readers44:
                 adapter44h = (powershell43 if "Get-Content" in event
@@ -1551,7 +1574,7 @@ def main():
                     adapter44h._run_host_checks(fx44, repo43).get(
                         "read_before_write"))
             check("H44h wrapped-reader-command-position",
-                  wrapped_results44h == [False, True, True, True, True]
+                  wrapped_results44h == [False, True, True, True, False]
                   and find_only44d.get("read_before_write") is False)
         except (AttributeError, framework.AdapterError):
             check("H44d content-read-not-file-listing", False)
@@ -1940,12 +1963,15 @@ def main():
              S45, "fail-closed", 0),
             ("D13-empty-xargs", "printf '' | xargs -E cat printf " +
              S45 + " " + R002D, S45, "not-content-read", 0),
+            # External patterns/programmes are unbound command inputs. The
+            # adapter intentionally refuses this unsupported evidence scope;
+            # full-preimage evaluators have a distinct stronger contract.
             ("grep-f-R", "grep -f " + S45 + " " + R002D,
-             R002D, "content-read", 0),
+             R002D, "fail-closed", 0),
             ("sed-f-R", "sed -f " + S45 + " " + R002D,
-             R002D, "content-read", 0),
+             R002D, "fail-closed", 0),
             ("get-content-literal", "Get-Content -LiteralPath " + S45 +
-             "," + R002D, R002D, "content-read", 0),
+             "," + R002D, R002D, "fail-closed", 0),
             ("get-content-delimiter", "Get-Content notes.txt -Delimiter " +
              S45, S45, "not-content-read", 0),
             ("tail-zero", "tail -n 0 " + S45,

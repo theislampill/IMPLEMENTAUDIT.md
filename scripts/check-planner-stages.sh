@@ -12,7 +12,7 @@ cd "$repo_root"
 require_in_file() {
   local file="$1"
   local text="$2"
-  grep -Fq "$text" "$file" || fail "missing in $file: $text"
+  grep -Fq -- "$text" "$file" || fail "missing in $file: $text"
 }
 
 require_file() {
@@ -120,9 +120,8 @@ require_in_file skills/implementaudit/templates/THINKING.md "Sidecars artifact"
 
 require_in_file skills/implementaudit/templates/PROTOCOL.md "<run-root>/THINKING.md"
 require_in_file skills/implementaudit/templates/PROTOCOL.md "CONTINUITY_DECISION"
-require_in_file skills/implementaudit/templates/ROADMAP.md 'Thinking file: `<run-root>/THINKING.md`'
+require_in_file skills/implementaudit/templates/ROADMAP.md '- Thinking: `<run-root>/THINKING.md`'
 require_in_file skills/implementaudit/templates/ROADMAP.md "IMPLEMENTAUDIT_RUN_ROOT"
-require_in_file skills/implementaudit/templates/STATE.md '| `<run-root>/THINKING.md` |'
 require_in_file skills/implementaudit/templates/STATE.md "Continuity decision"
 require_in_file skills/implementaudit/templates/phase-goal.txt "Thinking ref: <run-root>/THINKING.md"
 require_in_file skills/implementaudit/templates/phase-goal.txt "CONTINUITY_DECISION"
@@ -163,11 +162,7 @@ require_in_file skills/implementaudit/references/phase-design.md "terminal verif
 require_in_file skills/implementaudit/templates/PROTOCOL.md "audit object"
 require_in_file skills/implementaudit/templates/PROTOCOL.md "double-audit pattern"
 require_in_file skills/implementaudit/templates/ROADMAP.md "Audit object"
-require_in_file skills/implementaudit/templates/ROADMAP.md "tdqyq-audit-object"
-require_in_file skills/implementaudit/templates/ROADMAP.md "Double-audit sequence"
 require_in_file skills/implementaudit/templates/STATE.md "Audit object state"
-require_in_file skills/implementaudit/templates/STATE.md "ydqyq-audit-action"
-require_in_file skills/implementaudit/templates/STATE.md "Implementation action against object"
 require_in_file skills/implementaudit/templates/THINKING.md "Audit object"
 require_in_file skills/implementaudit/templates/THINKING.md "tdqyq-audit-object"
 require_in_file skills/implementaudit/templates/THINKING.md "Double-audit sequence"

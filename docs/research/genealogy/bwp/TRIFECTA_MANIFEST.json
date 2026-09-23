@@ -1,0 +1,338 @@
+{
+  "authority_boundary": "Neutral custody; retained analytical guards and evidence limits do not establish target applicability, runtime behavior, currentness or release.",
+  "counts": {
+    "complete_pairs": 18221,
+    "directional_relations_including_unresolved": 7068,
+    "outer_members": 62,
+    "pair_statuses": {
+      "MATERIAL_RELATION": 3171,
+      "NO_MATERIAL_RELATION": 15046,
+      "UNRESOLVED_RELATION": 4
+    },
+    "recursive_member_occurrences": 89,
+    "relation_rows_with_source_guards": 7068,
+    "selected_properties": 234
+  },
+  "identity_note": "Embedded content/normalized digests keep their source scope. Exact raw ZIP digests above do not reinterpret them.",
+  "members": [
+    {
+      "bytes": 15576,
+      "member": "EVOLVED_BWP_ALTERNATIVE_CONFIGURATIONS.json",
+      "sha256": "68f13c9350a956a95797cdcb31e9558fc7174f9bb7d81fc920d241e92de4960c"
+    },
+    {
+      "bytes": 23558,
+      "member": "EVOLVED_BWP_ANALYTICAL_COUNTEREXAMPLES.json",
+      "sha256": "d7f9fb519b22e4846a23de4a9762ea0e0eca1bcce94c9978c9f48ff92f19dc68"
+    },
+    {
+      "bytes": 2203,
+      "member": "EVOLVED_BWP_AUTOMATED_READBACK_REVIEW.json",
+      "sha256": "b2e4f52df350cad3554271be8dc6934269a8982bc1d95d0d2bbfe418e26cc538"
+    },
+    {
+      "bytes": 14918,
+      "member": "EVOLVED_BWP_COMPLETENESS_AND_REVERSE_CONSISTENCY_REVIEW.md",
+      "sha256": "edbc03a93c896a904933c63e97ad69a545adb392e7a7d7f1834071708c1c3dba"
+    },
+    {
+      "bytes": 179764,
+      "member": "EVOLVED_BWP_COMPOSITION_INDUCED_PROPERTY_LEDGER.json",
+      "sha256": "0693f35c7573052ede56de41d0bf71c42dced47be92e5114de15c8e5577649d3"
+    },
+    {
+      "bytes": 46869,
+      "member": "EVOLVED_BWP_COMPOSITION_MODEL.json",
+      "sha256": "f72822788afbaf275419ecbcf30d27f07d1ec53d69707337850c2d26522b2a69"
+    },
+    {
+      "bytes": 6083032,
+      "member": "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+      "sha256": "73f30ec8b6654c03528422664366f5a89d390607a44a59060b2851e0f6ed02bb"
+    },
+    {
+      "bytes": 699607,
+      "member": "EVOLVED_BWP_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json",
+      "sha256": "37d829369e6adafddf4b149e0b84ce5eb4c2f882bcce6eeace18b0a56d40f53f"
+    },
+    {
+      "bytes": 2085,
+      "member": "EVOLVED_BWP_COUNTS.json",
+      "sha256": "ca936b86d511061c4c13cfa82d5d86b4245486322deddfab93096c097bb1461c"
+    },
+    {
+      "bytes": 48408634,
+      "member": "EVOLVED_BWP_DIRECTIONAL_RELATION_LEDGER.json",
+      "sha256": "39c54e85979c11c0f615da087929d16439bfaf9fe4079f69e3a8611663ecddec"
+    },
+    {
+      "bytes": 1900,
+      "member": "EVOLVED_BWP_EXECUTED_ANALYTICAL_FIXTURES.json",
+      "sha256": "008524b56538f5163f641dd5ed6013dca0e4ddfe3d4d8cbad7d21727ff52b970"
+    },
+    {
+      "bytes": 39293,
+      "member": "EVOLVED_BWP_EXECUTION_PROMPT.md",
+      "sha256": "444b3066d02bdd02051e0a4d8fc9e68d2f146e510b67d7a24c9fbbedd891d889"
+    },
+    {
+      "bytes": 20747,
+      "member": "EVOLVED_BWP_FROZEN_MANIFEST.json",
+      "sha256": "4851fd0d2c4871e1b9960ff0f13c4e5be85c8a05a9ec25e283281de831fa6ab8"
+    },
+    {
+      "bytes": 272039,
+      "member": "EVOLVED_BWP_FROZEN_REPORT.md",
+      "sha256": "167abd3882b3541491e2fd489a3809b3f25f4759b05dc8a395404c1b2802fb48"
+    },
+    {
+      "bytes": 7859,
+      "member": "EVOLVED_BWP_INPUT_VERIFICATION.json",
+      "sha256": "8e7a4145b2e0085f375115dfa5a9b43e0e20bb4a4a872eb8f02f358e5900becd"
+    },
+    {
+      "bytes": 2067781,
+      "member": "EVOLVED_BWP_INTER_CROSSWALK_INTAKE.json",
+      "sha256": "e54ea9729c5dfeda249238d48cd4d7f39b0d25e1bf45e5f5dddd7f9e82405a1f"
+    },
+    {
+      "bytes": 531494,
+      "member": "EVOLVED_BWP_INTER_CROSSWALK_INTAKE.md",
+      "sha256": "fde4bbb0d67c1c11e71409087be8c4b5ca8750a0a6cf9649b83ff42f35543cfa"
+    },
+    {
+      "bytes": 13883799,
+      "member": "EVOLVED_BWP_INTRA_CROSSWALK_MATRIX.json",
+      "sha256": "4b32db053cadeba8dc2842d9c4993ad0dcd9e1b9646d44cb43a7f7f251cabe1f"
+    },
+    {
+      "bytes": 2479,
+      "member": "EVOLVED_BWP_PREFREEZE_REPAIR_LOG.json",
+      "sha256": "acbf9e3ee4d1a46cdd550767f6538c3fd214bf24a7c4dac0c479fb45c3aeb22e"
+    },
+    {
+      "bytes": 5524,
+      "member": "EVOLVED_BWP_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "8075e31b856404daa9b7a32e1ad71345b7cfafa04789f99de4da88a9c35382ff"
+    },
+    {
+      "bytes": 40088,
+      "member": "EVOLVED_BWP_REQUIRED_QUESTIONS_ADJUDICATION.json",
+      "sha256": "8c64cabacae9788062d9377e38908d1b49a61971d4a1b1ccbcf1785c83dba13a"
+    },
+    {
+      "bytes": 10747,
+      "member": "EVOLVED_BWP_SEMANTIC_REVIEW.json",
+      "sha256": "c3a48a5aff7f4198402b3ff68b5e054d66781097c56875de9bac42bc1f8c8dd5"
+    },
+    {
+      "bytes": 30202,
+      "member": "EVOLVED_BWP_SHARED_SOURCE_IDENTITY_LEDGER.json",
+      "sha256": "0d6fdbc716cb122e4e764dd25c7ec8d16cd6914cbfef26fdb613e8cef0e3dfd1"
+    },
+    {
+      "bytes": 642791,
+      "member": "EVOLVED_BWP_SOURCE_REGISTER.json",
+      "sha256": "a7ddbc57ec82a941b9a786aa66a8397136b6099a2d73f0c336a4618ada1bd127"
+    },
+    {
+      "bytes": 49096,
+      "member": "EVOLVED_BWP_TENSION_LEDGER.json",
+      "sha256": "9fcb42c961c6412d21593ff6657a8c7fe0bf0c94372529d2ee406de765344382"
+    },
+    {
+      "bytes": 4961,
+      "member": "EVOLVED_BWP_VERIFICATION_RECEIPT.json",
+      "sha256": "4dacf2575a8665e877e6a070b13ee0a5f010fa84f4bf35b349b86f1e49adec70"
+    },
+    {
+      "bytes": 1820,
+      "member": "START_HERE.md",
+      "sha256": "dd4ea38e1a1efbcc11846889c672c223798e8f5c0989449edb6075ef5539d6a2"
+    },
+    {
+      "bytes": 32432,
+      "member": "analysis/analysis_content.py",
+      "sha256": "7b00afe0cd33b9493499e42ada79b56c4c6b736d4e57a9b5af96de84b8618f4f"
+    },
+    {
+      "bytes": 7443,
+      "member": "analysis/bearers.py",
+      "sha256": "e21a9b106563d0a89a5d7f47d9f987d5eaaede212de73b9b089d715625a44356"
+    },
+    {
+      "bytes": 6166,
+      "member": "analysis/model_bearers.py",
+      "sha256": "288f232f0c4db389ed4d4958f266bbbc795d1984bb728c63f941e6503b84b958"
+    },
+    {
+      "bytes": 28998,
+      "member": "analysis/synthesis_spec.py",
+      "sha256": "2239a6a9bef47fb9940684633f2969cf8e8b8b675d254187f3930eca665a0c0a"
+    },
+    {
+      "bytes": 431686,
+      "member": "input_archives/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_PACKET(2).zip",
+      "sha256": "94f96cf38e32d373d5962f23f86e33513cc865dcaa899716797771cc76d3df49"
+    },
+    {
+      "bytes": 378624,
+      "member": "input_archives/EVOLVED_PROCESS_MINING_FROZEN_PACKET(2).zip",
+      "sha256": "94e2d898e5ea6f15bcd913b8c13c7b83e3dc477879e3f20375520a50cbcf9858"
+    },
+    {
+      "bytes": 373995,
+      "member": "input_archives/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_PACKET(2).zip",
+      "sha256": "e477651fe3629f33e98ddc04f51d33c4907c8fd659a7d518ba11e0544239e818"
+    },
+    {
+      "bytes": 508989,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_AUDIT_INTAKE.md",
+      "sha256": "1bd7f802be5501b1d7a4dd9149d3425af7e6579a45402c0d4bcddfdcf6ab8544"
+    },
+    {
+      "bytes": 428485,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_COMPOSITION_MODEL.json",
+      "sha256": "5959234839358d9bcad8969060d5bd81b026f98a534c756fbe4c51efdd661281"
+    },
+    {
+      "bytes": 22271,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_MANIFEST.json",
+      "sha256": "5f6286ef670308609381bc22fad3bc9da8cc9fb1bc0823b9aa4954c3dc741643"
+    },
+    {
+      "bytes": 322958,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_FROZEN_REPORT.md",
+      "sha256": "2ec53faf86722487859aa6777ef49a2abd1dbca6dd9e34db5023b04cfec86d8b"
+    },
+    {
+      "bytes": 1072094,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PROPERTY_LEDGER.json",
+      "sha256": "7d6217f869a8085e61a1b2c8bec7652efabc718e1aa03845e5c6b44493e924f3"
+    },
+    {
+      "bytes": 22872,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "b65e032f83fa7fa313d73b73e1da3e584e3f0aeac9cee31e4f565a507d67a7e1"
+    },
+    {
+      "bytes": 35897,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "sha256": "ab80dfb7efe31880c9ddc5439dce3ed63c10bfef41e701bc74958d425c0c9c20"
+    },
+    {
+      "bytes": 132848,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SOURCE_TABLE.json",
+      "sha256": "268c84bb082ccafb2ca4f99cade4099e5b8d48214dc9cc9820f26bd441b00440"
+    },
+    {
+      "bytes": 286670,
+      "member": "inputs/EBPM/EVOLVED_BUSINESS_PROCESS_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "sha256": "1805113160147bb3bdb48256d973e02fa21eb9dc93bdd422803ca3c838eb259b"
+    },
+    {
+      "bytes": 287614,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_AUDIT_INTAKE.md",
+      "sha256": "22e9729be518c77dfa2089f068d99829c4788a0a76786817c27c5280ef186e69"
+    },
+    {
+      "bytes": 607307,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_COMPOSITION_MODEL.json",
+      "sha256": "37216d6ba50efd147f8d72b29516e46012931332cac0c2f9c76e0064963756db"
+    },
+    {
+      "bytes": 12229,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_MANIFEST.json",
+      "sha256": "0a733f6a496c567044e8ec324038d57c5f0f7af5803413f0ae8b415b7c5a3677"
+    },
+    {
+      "bytes": 256626,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_FROZEN_REPORT.md",
+      "sha256": "b09aaa9c70e32166b720a4913b151ba2dfb2f016dae94f4adad10c0167931ead"
+    },
+    {
+      "bytes": 1053080,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_PROPERTY_LEDGER.json",
+      "sha256": "c4d19d8f6b053606a4a44740ab4d70862561bf9954de8807bca26d72ff3bb019"
+    },
+    {
+      "bytes": 10676,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "1b2eb4438c6fb62dd60e244d1004b1e1bd0f12c0e352d387cb8410d434dcbf07"
+    },
+    {
+      "bytes": 34847,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_RESEARCH_COVERAGE.json",
+      "sha256": "78fd3dcf3b9d2b343bbbc736b056955ae73dd6e7fb560c794f8f54a7608ad84c"
+    },
+    {
+      "bytes": 221420,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_SOURCE_TABLE.json",
+      "sha256": "5398ea3380ab5634e4233c1612f939cc414301e5dd15026cb8dca17d5181acd7"
+    },
+    {
+      "bytes": 18001,
+      "member": "inputs/EPM/EVOLVED_PROCESS_MINING_SYNTHESIS_INTAKE.md",
+      "sha256": "e32a42cc2557debc4bc883193eb8c06d999b5ef16a1dfc2d568119b261b7e007"
+    },
+    {
+      "bytes": 246937,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_AUDIT_INTAKE.md",
+      "sha256": "4a507781337d04f512ad5031df8c58ef2d74f10f0e797c79b707a3c9ca210e01"
+    },
+    {
+      "bytes": 806187,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_COMPOSITION_MODEL.json",
+      "sha256": "ba6121eb3a9ee8e322b635472528f8819952264776b04ac238593bfd61b86137"
+    },
+    {
+      "bytes": 14605,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_MANIFEST.json",
+      "sha256": "69dd419cb5ebf3eae661042660f936783ff92e7d930369e0faa849e3d568401f"
+    },
+    {
+      "bytes": 269451,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_FROZEN_REPORT.md",
+      "sha256": "6fb3f75e6352cb2d90fcee79b3fcc28d7984cf262fa69b64afab9377729d69a2"
+    },
+    {
+      "bytes": 1095256,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_PROPERTY_LEDGER.json",
+      "sha256": "e1e7fabf894e9d2dee8eed20888fb561c8aa356a57a288c88dac635563f9262c"
+    },
+    {
+      "bytes": 11107,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "53b6d58f31c4702bb6047195e30aa354b3b9fb86fd4890cfce332fde5ebdf4fb"
+    },
+    {
+      "bytes": 54652,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_RESEARCH_COVERAGE.json",
+      "sha256": "1ebf8485e4da80919052476e08d9b5fddf4839f61ecebd9074e2e581a34479f2"
+    },
+    {
+      "bytes": 86047,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_SOURCE_TABLE.json",
+      "sha256": "e3d40e2befea3dfcec003d532905171d4d6283148a7612ac69ab1002b905d36c"
+    },
+    {
+      "bytes": 17148,
+      "member": "inputs/EWM/EVOLVED_WORKFLOW_MANAGEMENT_SYNTHESIS_INTAKE.md",
+      "sha256": "20e50d58d3208da1d5c72271faabfae911b975e6840b5fa6bb3b679ad6f9b481"
+    },
+    {
+      "bytes": 16662,
+      "member": "verification/independent_verify.py",
+      "sha256": "60d72e750b9946c47d2aca09b0d592310ecccf07bdebd97986ac2d8641dddd3d"
+    }
+  ],
+  "packet": {
+    "bytes": 5322062,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/bwp/packet/EVOLVED_BWP_FROZEN_PACKET.zip",
+    "sha256": "6e3c95f7c81e5bbac67880f6ff58d360112e706d3469edbd8da425cb61233214"
+  },
+  "schema": "engineering-genealogy-trifecta-manifest-v1",
+  "storage": "EXACT_COMPRESSED_PACKET_MEMBERS",
+  "trifecta": "bwp"
+}

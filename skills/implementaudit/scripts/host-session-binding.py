@@ -1,0 +1,1128 @@
+#!/usr/bin/env python3
+"""Bind one exact host session to one governed IMPLEMENTAUDIT object."""
+
+from __future__ import annotations
+
+import argparse
+import contextlib
+import errno
+import hashlib
+import hmac
+import json
+import os
+import re
+import stat
+import sys
+import tempfile
+import time
+from pathlib import Path
+from typing import Any, Iterator, NoReturn
+
+
+STORE_SCHEMA = "implementaudit.host-session-binding-store.v1"
+STATE_SCHEMA = "implementaudit.host-session-binding-state.v1"
+BINDING_SCHEMA = "implementaudit.host-session-binding.v1"
+RESULT_SCHEMA = "implementaudit.host-session-binding-result.v1"
+HOLON_STAGE_RECEIPT_SCHEMA = "implementaudit.host-holon-stage-receipt.v1"
+GENERATION_RE = re.compile(r"G([0-9A-F]{4})")
+MAX_TEXT = 1024
+MAX_PROXIMAL_SELECTION_BYTES = 131072
+PROOF_LAYERS = {
+    "source_core": "PRESENT",
+    "package": "UNVERIFIED",
+    "install": "UNVERIFIED",
+    "host_activation": "UNVERIFIED",
+}
+BINDING_KEYS = {
+    "schema",
+    "host_id",
+    "host_session_id",
+    "controller_id",
+    "claim_id",
+    "explicit_run_root",
+    "repository_identity",
+    "git_common_directory_identity",
+    "worktree_identity",
+    "binding_generation",
+    "activation_event_id",
+    "activation_receipt",
+    "applicable_continuity_generation",
+    "applicable_continuity_receipt",
+    "status",
+    "predecessor_generation",
+    "supersession_or_tombstone_reason",
+}
+
+
+def fail(message: str) -> NoReturn:
+    print(
+        json.dumps(
+            {
+                "schema": RESULT_SCHEMA,
+                "status": "UNAVAILABLE",
+                "enforcement_available": False,
+                "error": message,
+            },
+            sort_keys=True,
+        )
+    )
+    raise SystemExit(2)
+
+
+def emit(payload: dict[str, Any]) -> None:
+    print(json.dumps(payload, sort_keys=True))
+
+
+def exact_text(value: str, label: str) -> str:
+    if not value or len(value) > MAX_TEXT or any(ord(char) < 32 for char in value):
+        fail(f"{label} is empty, oversized, or contains a control character")
+    return value
+
+
+def generation(value: str, label: str) -> str:
+    match = GENERATION_RE.fullmatch(value)
+    if not match or int(match.group(1), 16) < 1:
+        fail(f"{label} is not a non-zero canonical generation")
+    return value
+
+
+def next_generation(value: str) -> str:
+    current = int(generation(value, "binding_generation")[1:], 16)
+    if current >= 0xFFFF:
+        fail("binding generation is exhausted")
+    return f"G{current + 1:04X}"
+
+
+def has_reparse_flag(info: os.stat_result) -> bool:
+    return bool(getattr(info, "st_file_attributes", 0) & 0x400)
+
+
+def unsafe_file(info: os.stat_result) -> bool:
+    return (
+        not stat.S_ISREG(info.st_mode)
+        or stat.S_ISLNK(info.st_mode)
+        or has_reparse_flag(info)
+        or info.st_nlink != 1
+    )
+
+
+def safe_existing_directory(value: str, label: str) -> str:
+    raw = Path(value)
+    try:
+        absolute = raw.absolute()
+        resolved = raw.resolve(strict=True)
+        info = os.lstat(absolute)
+    except (OSError, RuntimeError) as exc:
+        fail(f"{label} is not a resolvable existing directory: {exc}")
+    if not stat.S_ISDIR(info.st_mode) or stat.S_ISLNK(info.st_mode) or has_reparse_flag(info):
+        fail(f"{label} is a symlink, reparse point, or non-directory")
+    if absolute != resolved:
+        fail(f"{label} traverses an alias")
+    return str(resolved)
+
+
+def ensure_safe_directory(path: Path, label: str) -> Path:
+    absolute = path.absolute()
+    existing = absolute
+    while not os.path.lexists(existing):
+        parent = existing.parent
+        if parent == existing:
+            fail(f"{label} has no inspectable existing ancestor")
+        existing = parent
+    safe_existing_directory(str(existing), f"{label} ancestor")
+    try:
+        absolute.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        fail(f"{label} cannot be created: {exc}")
+    return Path(safe_existing_directory(str(absolute), label))
+
+
+def is_within(child: str, parent: str) -> bool:
+    try:
+        Path(child).relative_to(Path(parent))
+    except ValueError:
+        return False
+    return True
+
+
+def require_run_worktree_custody(run_root: str, worktree: str) -> None:
+    if run_root == worktree or not is_within(run_root, worktree):
+        fail("explicit_run_root is outside the recorded worktree")
+
+
+def require_external_store(store: Path, binding: dict[str, Any]) -> Path:
+    canonical = Path(safe_existing_directory(str(store), "store"))
+    store_text = str(canonical)
+    for label in (
+        "repository_identity",
+        "git_common_directory_identity",
+        "worktree_identity",
+        "explicit_run_root",
+    ):
+        target = binding[label]
+        if store_text == target or is_within(store_text, target) or is_within(target, store_text):
+            fail(f"binding store overlaps target-controlled {label}")
+    return canonical
+
+
+def binding_key(host_id: str, host_session_id: str) -> str:
+    return hashlib.sha256(f"{host_id}\0{host_session_id}".encode("utf-8")).hexdigest()
+
+
+def session_key(host_session_id: str) -> str:
+    return hashlib.sha256(host_session_id.encode("utf-8")).hexdigest()
+
+
+def owner_path(store: Path) -> Path:
+    return store / "owner.json"
+
+
+def state_path(store: Path, host_id: str, host_session_id: str) -> Path:
+    key = binding_key(host_id, host_session_id)
+    return store / "bindings" / key[:2] / key / "binding.json"
+
+
+def session_index_path(store: Path, host_session_id: str) -> Path:
+    key = session_key(host_session_id)
+    return store / "sessions" / key[:2] / f"{key}.json"
+
+
+def binding_pair_exists(store: Path, host_id: str, host_session_id: str) -> bool:
+    state_present = os.path.lexists(state_path(store, host_id, host_session_id))
+    index_present = os.path.lexists(session_index_path(store, host_session_id))
+    if state_present != index_present:
+        fail("binding state and session host index are a partial pair")
+    return state_present
+
+
+def atomic_json(path: Path, payload: dict[str, Any]) -> None:
+    parent = ensure_safe_directory(path.parent, f"{path.name} parent")
+    target = parent / path.name
+    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=parent)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, target)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except OSError:
+            pass
+        raise
+
+
+def atomic_create_json(path: Path, payload: dict[str, Any]) -> None:
+    """Create one immutable receipt; an existing or uncertain write stays consumed."""
+    parent = ensure_safe_directory(path.parent, f"{path.name} parent")
+    target = parent / path.name
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(target, flags, 0o600)
+    except FileExistsError:
+        raise
+    except OSError as exc:
+        fail(f"immutable receipt cannot be created: {exc}")
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+    except OSError as exc:
+        # Never delete on uncertain completion. A visible partial receipt is a
+        # fail-closed consumed identity, not permission to retry elsewhere.
+        fail(f"immutable receipt write completion is unknown: {exc}")
+
+
+def read_json(path: Path, label: str) -> dict[str, Any]:
+    try:
+        absolute = path.absolute()
+        resolved = path.resolve(strict=True)
+        if absolute != resolved:
+            fail(f"{label} traverses an alias")
+        info = os.lstat(path)
+        if unsafe_file(info):
+            fail(f"{label} is not a safe regular file")
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        fail(f"{label} is unreadable or malformed: {exc}")
+    if not isinstance(payload, dict):
+        fail(f"{label} is not an object")
+    return payload
+
+
+def load_owner(store: Path, expected_owner: str | None = None) -> dict[str, Any]:
+    marker = read_json(owner_path(store), "store owner state")
+    if set(marker) != {"schema", "owner_id", "trusted", "enabled"}:
+        fail("store owner state has the wrong shape")
+    if marker["schema"] != STORE_SCHEMA or marker["trusted"] is not True or marker["enabled"] is not True:
+        fail("store owner state is untrusted, disabled, or mixed-version")
+    if not isinstance(marker["owner_id"], str):
+        fail("store owner identity is malformed")
+    if expected_owner is not None and marker["owner_id"] != expected_owner:
+        fail("foreign store owner")
+    return marker
+
+
+@contextlib.contextmanager
+def writer_lock(store: Path) -> Iterator[None]:
+    lock_path = store / ".writer.lock"
+    flags = os.O_RDWR | os.O_CREAT | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(lock_path, flags, 0o600)
+    except OSError as exc:
+        fail(f"writer lock cannot be opened safely: {exc}")
+    locked = False
+    try:
+        opened = os.fstat(descriptor)
+        current = os.lstat(lock_path)
+        if unsafe_file(opened) or unsafe_file(current) or (opened.st_dev, opened.st_ino) != (current.st_dev, current.st_ino):
+            fail("writer lock is unsafe")
+        if opened.st_size == 0:
+            os.write(descriptor, b"\0")
+            os.fsync(descriptor)
+        elif opened.st_size != 1:
+            fail("writer lock has an invalid size")
+        if os.name == "nt":
+            import msvcrt
+
+            while True:
+                try:
+                    os.lseek(descriptor, 0, os.SEEK_SET)
+                    msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
+                    locked = True
+                    break
+                except OSError as exc:
+                    if exc.errno not in {errno.EACCES, errno.EAGAIN, errno.EDEADLK}:
+                        raise
+                    time.sleep(0.05)
+        else:
+            import fcntl
+
+            fcntl.flock(descriptor, fcntl.LOCK_EX)
+            locked = True
+        yield
+    finally:
+        try:
+            if locked and os.name == "nt":
+                import msvcrt
+
+                os.lseek(descriptor, 0, os.SEEK_SET)
+                msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+            elif locked:
+                import fcntl
+
+                fcntl.flock(descriptor, fcntl.LOCK_UN)
+        finally:
+            os.close(descriptor)
+
+
+def validate_record(record: Any, host_id: str, host_session_id: str) -> dict[str, Any]:
+    if not isinstance(record, dict) or set(record) != BINDING_KEYS:
+        fail("binding record has the wrong shape")
+    if record["schema"] != BINDING_SCHEMA:
+        fail("binding record has a mixed-version schema")
+    if record["host_id"] != host_id or record["host_session_id"] != host_session_id:
+        fail("binding record has foreign host or session identity")
+    binding_generation = generation(record["binding_generation"], "binding_generation")
+    generation(record["applicable_continuity_generation"], "applicable_continuity_generation")
+    if record["status"] not in {"ACTIVE", "SUPERSEDED", "TOMBSTONED"}:
+        fail("binding record has an invalid status")
+    for key in (
+        "controller_id",
+        "claim_id",
+        "explicit_run_root",
+        "repository_identity",
+        "git_common_directory_identity",
+        "worktree_identity",
+        "activation_event_id",
+        "activation_receipt",
+        "applicable_continuity_receipt",
+    ):
+        if not isinstance(record[key], str) or not record[key]:
+            fail(f"binding record has an invalid {key}")
+    for key in (
+        "explicit_run_root",
+        "repository_identity",
+        "git_common_directory_identity",
+        "worktree_identity",
+    ):
+        if safe_existing_directory(record[key], key) != record[key]:
+            fail(f"binding record has a non-canonical {key}")
+    require_run_worktree_custody(record["explicit_run_root"], record["worktree_identity"])
+    predecessor = record["predecessor_generation"]
+    ordinal = int(binding_generation[1:], 16)
+    expected_predecessor = None if ordinal == 1 else f"G{ordinal - 1:04X}"
+    if predecessor != expected_predecessor:
+        fail("binding record has a broken predecessor-generation chain")
+    reason = record["supersession_or_tombstone_reason"]
+    if reason is not None and (not isinstance(reason, str) or not reason):
+        fail("binding record has an invalid transition reason")
+    return record
+
+
+def load_state(store: Path, host_id: str, host_session_id: str) -> tuple[Path, dict[str, Any]]:
+    target = state_path(store, host_id, host_session_id)
+    if not binding_pair_exists(store, host_id, host_session_id):
+        fail("host session binding is absent")
+    expected_index = {"host_id": host_id, "host_session_id": host_session_id}
+    index = read_json(session_index_path(store, host_session_id), "session host index")
+    if set(index) != set(expected_index) or index != expected_index:
+        fail("session host index is malformed, foreign, or mismatched")
+    state = read_json(target, "binding state")
+    if set(state) != {"schema", "host_id", "host_session_id", "records"}:
+        fail("binding state has the wrong shape")
+    if state["schema"] != STATE_SCHEMA or state["host_id"] != host_id or state["host_session_id"] != host_session_id:
+        fail("binding state is malformed, foreign, or mixed-version")
+    if not isinstance(state["records"], list) or not state["records"]:
+        fail("binding state has no records")
+    records = [validate_record(record, host_id, host_session_id) for record in state["records"]]
+    generations = [record["binding_generation"] for record in records]
+    if len(generations) != len(set(generations)) or generations != sorted(generations):
+        fail("binding generations are duplicate or out of order")
+    active = [record for record in records if record["status"] == "ACTIVE"]
+    if len(active) > 1 or (active and active[0] is not records[-1]):
+        fail("binding state is ambiguous")
+    if not active and records[-1]["status"] != "TOMBSTONED":
+        fail("binding state has no current active or tombstoned record")
+    for record in records[:-1]:
+        if record["status"] != "SUPERSEDED":
+            fail("non-current binding record is not superseded")
+    return target, state
+
+
+def current_record(state: dict[str, Any], *, require_active: bool) -> dict[str, Any]:
+    current = state["records"][-1]
+    if require_active and current["status"] != "ACTIVE":
+        fail("host session binding is not active")
+    return current
+
+
+def validate_expected_lineage(
+    state: dict[str, Any],
+    current: dict[str, Any],
+    observed: dict[str, str],
+    raw_links: list[list[str]],
+) -> None:
+    """Validate one caller-supplied contiguous historical binding/receipt slice."""
+    if not raw_links:
+        return
+    if len(raw_links) > 65:
+        fail("expected binding lineage exceeds its bound")
+    links: list[tuple[str, str, str]] = []
+    for raw_link in raw_links:
+        if len(raw_link) != 3:
+            fail("expected binding lineage link has the wrong shape")
+        binding_generation = generation(raw_link[0], "expected_lineage_binding_generation")
+        continuity_generation = generation(raw_link[1], "expected_lineage_continuity_generation")
+        receipt = exact_text(raw_link[2], "expected_lineage_continuity_receipt")
+        links.append((binding_generation, continuity_generation, receipt))
+    if len(links) < 2:
+        fail("expected binding lineage must contain distinct stale and current endpoints")
+    if links[-1] != (
+        observed["binding_generation"],
+        observed["applicable_continuity_generation"],
+        observed["applicable_continuity_receipt"],
+    ):
+        fail("expected binding lineage does not end at the current binding")
+    records_by_generation = {record["binding_generation"]: record for record in state["records"]}
+    invariant_keys = (
+        "controller_id",
+        "claim_id",
+        "explicit_run_root",
+        "repository_identity",
+        "git_common_directory_identity",
+        "worktree_identity",
+    )
+    previous_binding: str | None = None
+    previous_continuity: str | None = None
+    for index, (binding_generation, continuity_generation, receipt) in enumerate(links):
+        if previous_binding is not None:
+            if int(binding_generation[1:], 16) != int(previous_binding[1:], 16) + 1:
+                fail("expected binding lineage skips or aliases a binding generation")
+            if int(continuity_generation[1:], 16) != int(previous_continuity[1:], 16) + 1:
+                fail("expected binding lineage skips or aliases a continuity generation")
+        record = records_by_generation.get(binding_generation)
+        if record is None:
+            fail("expected binding lineage record is absent")
+        if any(record[key] != observed[key] for key in invariant_keys):
+            fail("expected binding lineage has foreign controller, claim, run, or custody identity")
+        if (
+            record["applicable_continuity_generation"] != continuity_generation
+            or record["applicable_continuity_receipt"] != receipt
+        ):
+            fail("expected binding lineage does not match its continuity receipt")
+        expected_status = "ACTIVE" if index == len(links) - 1 else "SUPERSEDED"
+        if record["status"] != expected_status:
+            fail("expected binding lineage has an invalid lifecycle status")
+        if previous_binding is not None and record["predecessor_generation"] != previous_binding:
+            fail("expected binding lineage has a broken predecessor link")
+        previous_binding = binding_generation
+        previous_continuity = continuity_generation
+    if records_by_generation[links[-1][0]] is not current:
+        fail("expected binding lineage does not identify the current record")
+
+
+def proof_result(**payload: Any) -> dict[str, Any]:
+    return {
+        "schema": RESULT_SCHEMA,
+        **payload,
+        "host_activation_proven": False,
+        "proof_layers": dict(PROOF_LAYERS),
+    }
+
+
+def command_init(args: argparse.Namespace) -> None:
+    owner = exact_text(args.owner_id, "owner_id")
+    store = Path(args.store).absolute()
+    if store.exists():
+        try:
+            info = os.lstat(store)
+        except OSError as exc:
+            fail(f"store cannot be inspected: {exc}")
+        if not stat.S_ISDIR(info.st_mode) or stat.S_ISLNK(info.st_mode) or has_reparse_flag(info):
+            fail("store is a symlink, reparse point, or non-directory")
+        marker = owner_path(store)
+        if marker.exists():
+            existing = load_owner(store, owner)
+            emit({"schema": STORE_SCHEMA, "status": "READY", "owner_id": existing["owner_id"]})
+            return
+        if any(store.iterdir()):
+            fail("non-empty store lacks trusted owner state")
+    else:
+        store = ensure_safe_directory(store, "store")
+    atomic_json(owner_path(store), {"schema": STORE_SCHEMA, "owner_id": owner, "trusted": True, "enabled": True})
+    emit({"schema": STORE_SCHEMA, "status": "READY", "owner_id": owner})
+
+
+def binding_from_args(
+    args: argparse.Namespace,
+    *,
+    binding_generation: str,
+    predecessor_generation: str | None,
+    reason: str | None,
+) -> dict[str, Any]:
+    run_root = safe_existing_directory(args.explicit_run_root, "explicit_run_root")
+    repository = safe_existing_directory(args.repository_identity, "repository_identity")
+    common = safe_existing_directory(args.git_common_directory_identity, "git_common_directory_identity")
+    worktree = safe_existing_directory(args.worktree_identity, "worktree_identity")
+    require_run_worktree_custody(run_root, worktree)
+    return {
+        "schema": BINDING_SCHEMA,
+        "host_id": exact_text(args.host_id, "host_id"),
+        "host_session_id": exact_text(args.host_session_id, "host_session_id"),
+        "controller_id": exact_text(args.controller_id, "controller_id"),
+        "claim_id": exact_text(args.claim_id, "claim_id"),
+        "explicit_run_root": run_root,
+        "repository_identity": repository,
+        "git_common_directory_identity": common,
+        "worktree_identity": worktree,
+        "binding_generation": binding_generation,
+        "activation_event_id": exact_text(args.activation_event_id, "activation_event_id"),
+        "activation_receipt": exact_text(args.activation_receipt, "activation_receipt"),
+        "applicable_continuity_generation": generation(args.continuity_generation, "continuity_generation"),
+        "applicable_continuity_receipt": exact_text(args.continuity_receipt, "continuity_receipt"),
+        "status": "ACTIVE",
+        "predecessor_generation": predecessor_generation,
+        "supersession_or_tombstone_reason": reason,
+    }
+
+
+def command_bind(args: argparse.Namespace) -> None:
+    store = Path(args.store).absolute()
+    load_owner(store, exact_text(args.owner_id, "owner_id"))
+    binding = binding_from_args(args, binding_generation="G0001", predecessor_generation=None, reason=None)
+    store = require_external_store(store, binding)
+    target = state_path(store, binding["host_id"], binding["host_session_id"])
+    index = session_index_path(store, binding["host_session_id"])
+    with writer_lock(store):
+        if binding_pair_exists(store, binding["host_id"], binding["host_session_id"]):
+            fail("binding already exists; expected-generation rebinding is required")
+        atomic_json(index, {"host_id": binding["host_id"], "host_session_id": binding["host_session_id"]})
+        atomic_json(
+            target,
+            {
+                "schema": STATE_SCHEMA,
+                "host_id": binding["host_id"],
+                "host_session_id": binding["host_session_id"],
+                "records": [binding],
+            },
+        )
+    emit(proof_result(status="BOUND", binding=binding))
+
+
+def command_rebind(args: argparse.Namespace) -> None:
+    store = Path(args.store).absolute()
+    load_owner(store, exact_text(args.owner_id, "owner_id"))
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    expected = generation(args.expected_generation, "expected_generation")
+    reason = exact_text(args.reason, "reason")
+    with writer_lock(store):
+        target, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=True)
+        if current["binding_generation"] != expected:
+            fail("expected binding generation does not match current generation")
+        successor = binding_from_args(
+            args,
+            binding_generation=next_generation(expected),
+            predecessor_generation=expected,
+            reason=reason,
+        )
+        require_external_store(store, current)
+        require_external_store(store, successor)
+        predecessor = dict(current)
+        predecessor["status"] = "SUPERSEDED"
+        predecessor["supersession_or_tombstone_reason"] = reason
+        state["records"][-1] = predecessor
+        state["records"].append(successor)
+        atomic_json(target, state)
+    emit(proof_result(status="BOUND", binding=successor))
+
+
+def command_lookup(args: argparse.Namespace) -> None:
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    store = Path(args.store).absolute()
+    if not binding_pair_exists(store, host_id, session_id):
+        emit({"schema": RESULT_SCHEMA, "status": "UNBOUND", "enforcement_available": False})
+        return
+    load_owner(store)
+    _, state = load_state(store, host_id, session_id)
+    current = current_record(state, require_active=False)
+    require_external_store(store, current)
+    if current["status"] == "TOMBSTONED":
+        emit(proof_result(status="TOMBSTONED", enforcement_available=False, binding=current))
+        return
+    emit(proof_result(status="BOUND", binding=current))
+
+
+def command_validate_event(args: argparse.Namespace) -> None:
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    store = Path(args.store).absolute()
+    load_owner(store)
+    _, state = load_state(store, host_id, session_id)
+    current = current_record(state, require_active=True)
+    require_external_store(store, current)
+    observed = {
+        "binding_generation": generation(args.binding_generation, "binding_generation"),
+        "controller_id": exact_text(args.controller_id, "controller_id"),
+        "claim_id": exact_text(args.claim_id, "claim_id"),
+        "explicit_run_root": safe_existing_directory(args.explicit_run_root, "explicit_run_root"),
+        "repository_identity": safe_existing_directory(args.repository_identity, "repository_identity"),
+        "git_common_directory_identity": safe_existing_directory(
+            args.git_common_directory_identity, "git_common_directory_identity"
+        ),
+        "worktree_identity": safe_existing_directory(args.worktree_identity, "worktree_identity"),
+        "applicable_continuity_generation": generation(args.continuity_generation, "continuity_generation"),
+        "applicable_continuity_receipt": exact_text(args.continuity_receipt, "continuity_receipt"),
+    }
+    for key, value in observed.items():
+        if current[key] != value:
+            fail(f"event has stale or foreign {key}")
+    validate_expected_lineage(state, current, observed, args.expected_lineage_link)
+    obligation = args.obligation_id
+    transaction = args.route_transaction_id
+    if (obligation is None) != (transaction is None):
+        fail("route obligation and transaction identities must be supplied together")
+    correlation = {
+        "host_id": host_id,
+        "host_session_id": session_id,
+        **observed,
+        "event_id": exact_text(args.event_id, "event_id"),
+        "turn_id": exact_text(args.turn_id, "turn_id") if args.turn_id else None,
+        "tool_use_id": exact_text(args.tool_use_id, "tool_use_id") if args.tool_use_id else None,
+        "agent_id": exact_text(args.agent_id, "agent_id") if args.agent_id else None,
+        "obligation_id": exact_text(obligation, "obligation_id") if obligation else None,
+        "route_transaction_id": exact_text(transaction, "route_transaction_id") if transaction else None,
+    }
+    digest = hashlib.sha256(json.dumps(correlation, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    result = proof_result(
+        status="ATTRIBUTED",
+        binding_generation=current["binding_generation"],
+        correlation_id=f"sha256:{digest}",
+    )
+    if obligation is not None:
+        result["obligation_id"] = obligation
+        result["route_transaction_id"] = transaction
+    emit(result)
+
+
+def _observed_binding(args: argparse.Namespace) -> dict[str, str]:
+    return {
+        "binding_generation": generation(args.binding_generation, "binding_generation"),
+        "controller_id": exact_text(args.controller_id, "controller_id"),
+        "claim_id": exact_text(args.claim_id, "claim_id"),
+        "explicit_run_root": safe_existing_directory(args.explicit_run_root, "explicit_run_root"),
+        "repository_identity": safe_existing_directory(args.repository_identity, "repository_identity"),
+        "git_common_directory_identity": safe_existing_directory(
+            args.git_common_directory_identity, "git_common_directory_identity"
+        ),
+        "worktree_identity": safe_existing_directory(args.worktree_identity, "worktree_identity"),
+        "applicable_continuity_generation": generation(
+            args.continuity_generation, "continuity_generation"
+        ),
+        "applicable_continuity_receipt": exact_text(
+            args.continuity_receipt, "continuity_receipt"
+        ),
+    }
+
+
+def _read_proximal_selection_stdin() -> str:
+    raw = sys.stdin.buffer.read(MAX_PROXIMAL_SELECTION_BYTES + 1)
+    if not raw:
+        fail("proximal action selection stdin is empty")
+    if len(raw) > MAX_PROXIMAL_SELECTION_BYTES:
+        fail("proximal action selection stdin is oversized")
+    try:
+        return raw.decode("utf-8")
+    except UnicodeError:
+        fail("proximal action selection stdin is malformed")
+
+
+def _reject_proximal_float(token: str) -> NoReturn:
+    fail(f"proximal action selection contains a forbidden float: {token}")
+
+
+def _reject_proximal_constant(token: str) -> NoReturn:
+    fail(f"proximal action selection contains a non-JSON numeric constant: {token}")
+
+
+def _canonical_proximal_selection(raw: str) -> dict[str, Any]:
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        value = dict(pairs)
+        if len(value) != len(pairs):
+            fail("proximal action selection contains a duplicate JSON member")
+        return value
+
+    try:
+        selection = json.loads(
+            raw,
+            object_pairs_hook=unique_object,
+            parse_float=_reject_proximal_float,
+            parse_constant=_reject_proximal_constant,
+        )
+    except json.JSONDecodeError as exc:
+        fail(f"proximal action selection is malformed: {exc}")
+    if not isinstance(selection, dict):
+        fail("proximal action selection is not an object")
+    canonical = json.dumps(
+        selection, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+        allow_nan=False,
+    )
+    if raw != canonical:
+        fail("proximal action selection is noncanonical")
+    common = {
+        "schema", "decision_sha256", "applicable", "decision",
+        "applicability_reason", "advance_allowed", "currentness",
+        "qualification", "authority", "digest",
+    }
+    required = common | {
+        "request_sha256", "projection_digest", "mode", "reason", "lanes",
+    }
+    expected = required if selection.get("applicable") is True else common
+    if set(selection) != expected:
+        fail("proximal action selection has the wrong shape")
+    if selection.get("schema") != "implementaudit.proximal-action-selection.v1":
+        fail("proximal action selection has a mixed-version schema")
+    for key in ("decision_sha256", "digest"):
+        value = selection.get(key)
+        if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+            fail(f"proximal action selection has an invalid {key}")
+    unsigned = dict(selection)
+    digest = unsigned.pop("digest")
+    expected_digest = hashlib.sha256(
+        json.dumps(
+            unsigned, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            allow_nan=False,
+        ).encode("utf-8")
+    ).hexdigest()
+    if not hmac.compare_digest(digest, expected_digest):
+        fail("proximal action selection has a stale digest")
+    currentness = selection.get("currentness")
+    if (not isinstance(currentness, dict)
+            or set(currentness) != {"receipt", "current"}
+            or not isinstance(currentness.get("receipt"), str)
+            or currentness.get("current") is not True):
+        fail("proximal action selection has invalid currentness")
+    authority = selection.get("authority")
+    authority_keys = {
+        "closure", "done", "lifecycle_credit", "merge", "package",
+        "publication", "release",
+    }
+    if (not isinstance(authority, dict) or set(authority) != authority_keys
+            or set(authority.values()) != {"NONE"}):
+        fail("proximal action selection exceeds evidence-only authority")
+    reason = selection.get("applicability_reason")
+    if not isinstance(reason, str) or not reason:
+        fail("proximal action selection lacks a derived applicability reason")
+    if selection.get("advance_allowed") is not True:
+        fail("proximal action selection does not permit the bounded advance")
+    if selection["applicable"] is True:
+        if (selection.get("decision") != "PROXIMAL_CLASSIFICATION_SATISFIED"
+                or not isinstance(selection.get("qualification"), dict)):
+            fail("required proximal action selection is unsatisfied")
+        for key in ("request_sha256", "projection_digest"):
+            value = selection.get(key)
+            if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+                fail(f"required proximal action selection has an invalid {key}")
+        lanes = selection.get("lanes")
+        if (selection.get("mode") in {None, "STOP_RECONCILE"}
+                or not isinstance(selection.get("reason"), str)
+                or not selection["reason"]
+                or not isinstance(lanes, list)
+                or not all(isinstance(item, str) for item in lanes)
+                or lanes != sorted(set(lanes))):
+            fail("required proximal action selection has an invalid projection")
+        qualification_authority = selection["qualification"].get("authority")
+        if (not isinstance(qualification_authority, dict)
+                or set(qualification_authority) != authority_keys
+                or set(qualification_authority.values()) != {"NONE"}):
+            fail("required proximal qualification exceeds evidence-only authority")
+    elif selection["applicable"] is False:
+        if (selection.get("decision") != "NOT_REQUIRED"
+                or selection.get("qualification") is not None):
+            fail("NOT_REQUIRED proximal action selection is contradictory")
+    else:
+        fail("proximal action selection applicability is not boolean")
+    return selection
+
+
+def proximal_receipt_path(
+    store: Path,
+    host_id: str,
+    host_session_id: str,
+    observed_binding: dict[str, str],
+    selection_digest: str,
+) -> Path:
+    binding = binding_key(host_id, host_session_id)
+    custody_identity = hashlib.sha256(json.dumps(
+        {
+            "host_id": host_id,
+            "host_session_id": host_session_id,
+            "binding": observed_binding,
+            "selection_digest": selection_digest,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")).hexdigest()
+    return store / "proximal-actions" / binding[:2] / binding / f"{custody_identity}.json"
+
+
+def holon_stage_receipt_path(store: Path, receipt_identity: str) -> Path:
+    match = re.fullmatch(r"sha256:([0-9a-f]{64})", receipt_identity)
+    if match is None:
+        fail("holon stage receipt identity is malformed")
+    digest = match.group(1)
+    return store / "holon-stage-receipts" / digest[:2] / f"{digest}.json"
+
+
+def command_record_holon_stage(args: argparse.Namespace) -> None:
+    """Create one immutable host-owned receipt for an observed holon stage."""
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    binding_generation = generation(args.binding_generation, "binding_generation")
+    store = Path(args.store).absolute()
+    owner = load_owner(store, exact_text(args.owner_id, "owner_id"))
+    selected_child = exact_text(args.selected_child, "selected_child")
+    if selected_child not in {"audit-state", "audit-assess", "audit-implement", "audit-andon"}:
+        fail("holon stage receipt selected child is not canonical")
+    stage = exact_text(args.stage, "stage")
+    if stage not in {"LOAD", "USE", "DISPOSE"}:
+        fail("holon stage receipt stage is not canonical")
+    identities = {
+        "packet_digest": exact_text(args.packet_digest, "packet_digest"),
+        "obligation_id": exact_text(args.obligation_id, "obligation_id"),
+        "route_transaction_id": exact_text(args.route_transaction_id, "route_transaction_id"),
+    }
+    if any(re.fullmatch(r"sha256:[0-9a-f]{64}", value) is None for value in identities.values()):
+        fail("holon stage receipt route identity is malformed")
+    body = {
+        "schema": HOLON_STAGE_RECEIPT_SCHEMA,
+        "owner_id": owner["owner_id"],
+        "host_id": host_id,
+        "host_session_id": session_id,
+        "binding_generation": binding_generation,
+        "selected_child": selected_child,
+        **identities,
+        "stage": stage,
+        "event_id": exact_text(args.event_id, "event_id"),
+    }
+    digest = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    receipt = {**body, "receipt_identity": f"sha256:{digest}"}
+    target = holon_stage_receipt_path(store, receipt["receipt_identity"])
+    with writer_lock(store):
+        _, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=True)
+        require_external_store(store, current)
+        if current["binding_generation"] != binding_generation:
+            fail("holon stage receipt has stale or foreign binding generation")
+        if os.path.lexists(target):
+            fail("holon stage receipt identity is already consumed")
+        try:
+            atomic_create_json(target, receipt)
+        except FileExistsError:
+            fail("holon stage receipt identity is already consumed")
+    emit(proof_result(
+        status="HOLON_STAGE_RECORDED",
+        binding_generation=binding_generation,
+        receipt=receipt,
+    ))
+
+
+def command_consume_proximal_action(args: argparse.Namespace) -> None:
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    event_id = exact_text(args.event_id, "event_id")
+    turn_id = exact_text(args.turn_id, "turn_id")
+    selection = _canonical_proximal_selection(_read_proximal_selection_stdin())
+    observed = _observed_binding(args)
+    store = Path(args.store).absolute()
+    load_owner(store)
+    receipt = {
+        "status": "CONSUMED",
+        "host_id": host_id,
+        "host_session_id": session_id,
+        "binding_generation": observed["binding_generation"],
+        "continuity_generation": observed["applicable_continuity_generation"],
+        "continuity_receipt": observed["applicable_continuity_receipt"],
+        "event_id": event_id,
+        "turn_id": turn_id,
+        "selection_digest": selection["digest"],
+        "decision_sha256": selection["decision_sha256"],
+    }
+    target = proximal_receipt_path(
+        store, host_id, session_id, observed, selection["digest"]
+    )
+    idempotent = False
+    with writer_lock(store):
+        _, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=True)
+        require_external_store(store, current)
+        for key, value in observed.items():
+            if current[key] != value:
+                fail(f"proximal action has stale or foreign {key}")
+        if selection["currentness"]["receipt"] != current[
+                "applicable_continuity_receipt"]:
+            fail("proximal action selection currentness is stale or foreign")
+        if os.path.lexists(target):
+            existing = read_json(target, "proximal action consumption receipt")
+            if existing != receipt:
+                fail("proximal action selection identity is already consumed")
+            idempotent = True
+        else:
+            try:
+                atomic_create_json(target, receipt)
+            except FileExistsError:
+                fail("proximal action selection identity is already consumed")
+    emit(proof_result(
+        status="PROXIMAL_ACTION_CONSUMED",
+        idempotent=idempotent,
+        binding_generation=current["binding_generation"],
+        selection_digest=selection["digest"],
+        decision=selection["decision"],
+        applicability_reason=selection["applicability_reason"],
+        authority={key: "NONE" for key in (
+            "closure", "done", "lifecycle_credit", "merge", "package",
+            "publication", "release",
+        )},
+    ))
+
+
+def command_tombstone(args: argparse.Namespace) -> None:
+    store = Path(args.store).absolute()
+    load_owner(store, exact_text(args.owner_id, "owner_id"))
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    expected = generation(args.expected_generation, "expected_generation")
+    reason = exact_text(args.reason, "reason")
+    with writer_lock(store):
+        target, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=True)
+        require_external_store(store, current)
+        if current["binding_generation"] != expected:
+            fail("expected binding generation does not match current generation")
+        predecessor = dict(current)
+        predecessor["status"] = "SUPERSEDED"
+        predecessor["supersession_or_tombstone_reason"] = reason
+        tombstone = dict(current)
+        tombstone["binding_generation"] = next_generation(expected)
+        tombstone["status"] = "TOMBSTONED"
+        tombstone["predecessor_generation"] = expected
+        tombstone["supersession_or_tombstone_reason"] = reason
+        state["records"][-1] = predecessor
+        state["records"].append(tombstone)
+        atomic_json(target, state)
+    emit(proof_result(status="TOMBSTONED", binding=tombstone, object_closed=False))
+
+
+def command_gc(args: argparse.Namespace) -> None:
+    store = Path(args.store).absolute()
+    load_owner(store, exact_text(args.owner_id, "owner_id"))
+    host_id = exact_text(args.host_id, "host_id")
+    session_id = exact_text(args.host_session_id, "host_session_id")
+    expected = generation(args.expected_generation, "expected_generation")
+    if args.retain_generations < 1:
+        fail("retain_generations must preserve at least the current generation")
+    resolved = {generation(item, "resolved_generation") for item in args.resolved_generation}
+    if not resolved or not args.resolution_receipt:
+        fail("GC requires closure-owner resolution evidence for every removable generation")
+    exact_text(args.resolution_receipt, "resolution_receipt")
+    with writer_lock(store):
+        target, state = load_state(store, host_id, session_id)
+        current = current_record(state, require_active=False)
+        require_external_store(store, current)
+        if current["binding_generation"] != expected:
+            fail("expected binding generation does not match current generation")
+        protected = {record["binding_generation"] for record in state["records"][-args.retain_generations :]}
+        removed = sorted(
+            record["binding_generation"]
+            for record in state["records"]
+            if record["binding_generation"] in resolved
+            and record["binding_generation"] not in protected
+            and record["status"] != "ACTIVE"
+        )
+        if removed:
+            state["records"] = [record for record in state["records"] if record["binding_generation"] not in removed]
+            atomic_json(target, state)
+    emit(
+        proof_result(
+            status="GC_COMPLETE",
+            removed_generations=removed,
+            preserved_current_generation=current["binding_generation"],
+            governed_state_deleted=False,
+        )
+    )
+
+
+def add_binding_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--owner-id", required=True)
+    parser.add_argument("--host-id", required=True)
+    parser.add_argument("--host-session-id", required=True)
+    parser.add_argument("--controller-id", required=True)
+    parser.add_argument("--claim-id", required=True)
+    parser.add_argument("--explicit-run-root", required=True)
+    parser.add_argument("--repository-identity", required=True)
+    parser.add_argument("--git-common-directory-identity", required=True)
+    parser.add_argument("--worktree-identity", required=True)
+    parser.add_argument("--activation-event-id", required=True)
+    parser.add_argument("--activation-receipt", required=True)
+    parser.add_argument("--continuity-generation", required=True)
+    parser.add_argument("--continuity-receipt", required=True)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--store", required=True)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    init = subparsers.add_parser("init")
+    init.add_argument("--owner-id", required=True)
+    init.set_defaults(run=command_init)
+
+    bind = subparsers.add_parser("bind")
+    add_binding_arguments(bind)
+    bind.set_defaults(run=command_bind)
+
+    rebind = subparsers.add_parser("rebind")
+    add_binding_arguments(rebind)
+    rebind.add_argument("--expected-generation", required=True)
+    rebind.add_argument("--reason", required=True)
+    rebind.set_defaults(run=command_rebind)
+
+    lookup = subparsers.add_parser("lookup")
+    lookup.add_argument("--host-id", required=True)
+    lookup.add_argument("--host-session-id", required=True)
+    lookup.set_defaults(run=command_lookup)
+
+    event = subparsers.add_parser("validate-event")
+    event.add_argument("--host-id", required=True)
+    event.add_argument("--host-session-id", required=True)
+    event.add_argument("--binding-generation", required=True)
+    event.add_argument("--controller-id", required=True)
+    event.add_argument("--claim-id", required=True)
+    event.add_argument("--explicit-run-root", required=True)
+    event.add_argument("--repository-identity", required=True)
+    event.add_argument("--git-common-directory-identity", required=True)
+    event.add_argument("--worktree-identity", required=True)
+    event.add_argument("--continuity-generation", required=True)
+    event.add_argument("--continuity-receipt", required=True)
+    event.add_argument("--event-id", required=True)
+    event.add_argument("--turn-id")
+    event.add_argument("--tool-use-id")
+    event.add_argument("--agent-id")
+    event.add_argument("--obligation-id")
+    event.add_argument("--route-transaction-id")
+    event.add_argument(
+        "--expected-lineage-link",
+        nargs=3,
+        action="append",
+        default=[],
+        metavar=("BINDING_GENERATION", "CONTINUITY_GENERATION", "CONTINUITY_RECEIPT"),
+    )
+    event.set_defaults(run=command_validate_event)
+
+    proximal = subparsers.add_parser("consume-proximal-action")
+    proximal.add_argument("--host-id", required=True)
+    proximal.add_argument("--host-session-id", required=True)
+    proximal.add_argument("--binding-generation", required=True)
+    proximal.add_argument("--controller-id", required=True)
+    proximal.add_argument("--claim-id", required=True)
+    proximal.add_argument("--explicit-run-root", required=True)
+    proximal.add_argument("--repository-identity", required=True)
+    proximal.add_argument("--git-common-directory-identity", required=True)
+    proximal.add_argument("--worktree-identity", required=True)
+    proximal.add_argument("--continuity-generation", required=True)
+    proximal.add_argument("--continuity-receipt", required=True)
+    proximal.add_argument("--event-id", required=True)
+    proximal.add_argument("--turn-id", required=True)
+    proximal.set_defaults(run=command_consume_proximal_action)
+
+    holon_stage = subparsers.add_parser("record-holon-stage")
+    holon_stage.add_argument("--owner-id", required=True)
+    holon_stage.add_argument("--host-id", required=True)
+    holon_stage.add_argument("--host-session-id", required=True)
+    holon_stage.add_argument("--binding-generation", required=True)
+    holon_stage.add_argument("--selected-child", required=True)
+    holon_stage.add_argument("--packet-digest", required=True)
+    holon_stage.add_argument("--obligation-id", required=True)
+    holon_stage.add_argument("--route-transaction-id", required=True)
+    holon_stage.add_argument("--stage", required=True)
+    holon_stage.add_argument("--event-id", required=True)
+    holon_stage.set_defaults(run=command_record_holon_stage)
+
+    tombstone = subparsers.add_parser("tombstone")
+    tombstone.add_argument("--owner-id", required=True)
+    tombstone.add_argument("--host-id", required=True)
+    tombstone.add_argument("--host-session-id", required=True)
+    tombstone.add_argument("--expected-generation", required=True)
+    tombstone.add_argument("--reason", required=True)
+    tombstone.set_defaults(run=command_tombstone)
+
+    gc = subparsers.add_parser("gc")
+    gc.add_argument("--owner-id", required=True)
+    gc.add_argument("--host-id", required=True)
+    gc.add_argument("--host-session-id", required=True)
+    gc.add_argument("--expected-generation", required=True)
+    gc.add_argument("--retain-generations", type=int, required=True)
+    gc.add_argument("--resolved-generation", action="append", default=[])
+    gc.add_argument("--resolution-receipt")
+    gc.set_defaults(run=command_gc)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    args.run(args)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

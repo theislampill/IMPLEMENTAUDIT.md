@@ -172,8 +172,8 @@ def validate_contract(root: Path) -> dict[str, Any]:
     require_equal("package_name", contract.get("package_name"), "implementaudit")
     require_equal("publisher", contract.get("publisher"), EXPECTED_PUBLISHER)
     require_equal("marketplace", contract.get("marketplace"), EXPECTED_MARKETPLACE)
-    require_equal("runtime_version", contract.get("runtime_version"), "0.4.0")
-    require_equal("release_family", contract.get("release_family"), "v0.4.0.0")
+    require_equal("runtime_version", contract.get("runtime_version"), "0.4.1")
+    require_equal("release_family", contract.get("release_family"), "v0.4.1.0")
     require_equal("public_governor", contract.get("public_governor"), "implementaudit")
     require_equal("public_entrypoint", contract.get("public_entrypoint"), "/implementaudit")
     require_equal("required_skills", contract.get("required_skills"), EXPECTED_REQUIRED_SKILLS)
@@ -237,6 +237,33 @@ def validate_contract(root: Path) -> dict[str, Any]:
         if not (root / shared_root).is_dir():
             raise ContractError(f"missing shared resource root: {shared_root}")
     return contract
+
+
+def validate_source_path(root: Path, path: Path, *, directory_ok: bool = False) -> None:
+    """Refuse aliases and non-regular payloads, including ancestor junctions.
+
+    The source compositor must still exclude concurrent writers. This is not
+    a claim that an unchecked writable filesystem is an immutable snapshot.
+    """
+    try:
+        relative = path.relative_to(root)
+        current = root
+        parts = relative.parts
+        for index, part in enumerate(parts):
+            current = current / part
+            info = current.lstat()
+            if stat.S_ISLNK(info.st_mode) or getattr(info, 'st_file_attributes', 0) & 0x400:
+                raise ContractError(f"source package path must not be aliased: {current}")
+            directory = stat.S_ISDIR(info.st_mode)
+            if index < len(parts) - 1:
+                if not directory:
+                    raise ContractError(f"source package ancestor is not a directory: {current}")
+            elif not stat.S_ISREG(info.st_mode) and not (directory_ok and directory):
+                raise ContractError(f"source package member is not regular: {current}")
+    except ContractError:
+        raise
+    except (OSError, ValueError) as exc:
+        raise ContractError(f"source package path is unavailable: {path}") from exc
 
 
 def normalized_bytes(path: Path) -> bytes:
@@ -337,14 +364,20 @@ def require_zopfli() -> Any:
         import zopfli.zlib as zopfli_zlib
     except ImportError as exc:
         raise ContractError(
-            "release build requires zopfli 0.2.3.post1; "
-            "run: python -m pip install --no-deps --requirement requirements-release.txt"
+            "candidate release build requires supported zopfli >=0.4.2,<0.5; "
+            "supply a separately qualified toolchain; no automatic installation"
         ) from exc
     try:
         observed = version("zopfli")
     except PackageNotFoundError as exc:
         raise ContractError("release build cannot resolve the zopfli package version") from exc
-    require_equal("zopfli version", observed, "0.2.3.post1")
+    # UNADOPTED B candidate: 0.4.2 locally tested; newer compatible releases
+    # still require D qualification. Historical 0.2.3.post1 remains a replay pin.
+    supported = re.fullmatch(r"0\.4\.([0-9]+)", observed)
+    if supported is None or int(supported.group(1)) < 2:
+        raise ContractError(
+            f"candidate zopfli version must satisfy >=0.4.2,<0.5: {observed}"
+        )
     return zopfli_zlib
 
 
@@ -401,11 +434,13 @@ def write_archive(path: Path, entries: list[tuple[str, bytes, int]], zopfli_modu
 
 def source_skill_entries(root: Path) -> list[tuple[Path, bytes, int]]:
     skill_root = root / "skills/implementaudit"
+    validate_source_path(root, skill_root, directory_ok=True)
     tracked = set(
         git_output(root, "ls-files", "--", "skills/implementaudit").splitlines()
     )
     entries: list[tuple[Path, bytes, int]] = []
     for path in sorted(skill_root.rglob("*"), key=lambda value: value.as_posix()):
+        validate_source_path(root, path, directory_ok=True)
         if not path.is_file():
             continue
         relative = PurePosixPath(path.relative_to(skill_root).as_posix())
@@ -435,6 +470,7 @@ def internal_skill_entries(root: Path) -> list[tuple[str, bytes, int]]:
                 f"untracked package member cannot bless its own inventory: {relative}"
             )
         path = root / relative
+        validate_source_path(root, path)
         if path.is_symlink() or not path.is_file():
             raise ContractError(f"required internal skill is missing or non-regular: {relative}")
         entries.append((relative, normalized_bytes(path), 0o644))
@@ -468,10 +504,21 @@ def artifact_payload_entries(
     contract: dict[str, Any],
 ) -> list[tuple[str, bytes, int]]:
     """Derive every non-inventory member for one artifact from canonical source."""
+    metadata_paths = [CONTRACT_PATH]
+    if role == "canonical_plugin":
+        metadata_paths.extend((*EXPECTED_MANIFESTS.values(),
+                               ".claude-plugin/marketplace.json", "hooks/hooks.json"))
+    for relative in metadata_paths:
+        validate_source_path(root, root / relative)
     skill_entries = source_skill_entries(root)
     child_entries = internal_skill_entries(root)
     package_data = normalized_bytes(root / CONTRACT_PATH)
     if role == "canonical_plugin":
+        hook_relative = "hooks/hooks.json"
+        tracked = set(git_output(root, "ls-files", "--", hook_relative).splitlines())
+        hook_path = root / hook_relative
+        if hook_relative not in tracked or hook_path.is_symlink() or not hook_path.is_file():
+            raise ContractError("canonical plugin hook must be one tracked regular file")
         entries: list[tuple[str, bytes, int]] = [
             (
                 ".codex-plugin/plugin.json",
@@ -488,6 +535,7 @@ def artifact_payload_entries(
                 normalized_bytes(root / ".claude-plugin/marketplace.json"),
                 0o644,
             ),
+            (hook_relative, normalized_bytes(hook_path), 0o644),
             (PACKAGE_NAME, package_data, 0o644),
         ]
         entries.extend(
@@ -528,7 +576,32 @@ def build_artifacts(root: Path, output_dir: Path, contract: dict[str, Any]) -> l
     return [plugin_path, standalone_path]
 
 
+def archive_json_object(zf: zipfile.ZipFile, member: str) -> dict[str, Any]:
+    """Refuse malformed or non-object metadata without a Python traceback."""
+    try:
+        value = json.loads(zf.read(member).decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
+        raise ContractError(f"{member} must be a readable UTF-8 JSON object") from exc
+    if not isinstance(value, dict):
+        raise ContractError(f"{member} must be a JSON object")
+    return value
+
+
 def verify_artifact(
+    root: Path,
+    role: str,
+    asset: Path,
+    contract: dict[str, Any],
+    require_clean_source: bool = False,
+) -> None:
+    try:
+        _verify_artifact(root, role, asset, contract, require_clean_source)
+    except (zipfile.BadZipFile, UnicodeDecodeError, zlib.error,
+            NotImplementedError, RuntimeError, OSError) as exc:
+        raise ContractError(f"artifact cannot be read canonically: {type(exc).__name__}: {exc}") from exc
+
+
+def _verify_artifact(
     root: Path,
     role: str,
     asset: Path,
@@ -575,9 +648,9 @@ def verify_artifact(
         required_meta = {PACKAGE_NAME, INVENTORY_NAME}
         if not required_meta.issubset(names):
             raise ContractError(f"{role} artifact lacks package identity or inventory")
-        embedded_contract = json.loads(zf.read(PACKAGE_NAME).decode("utf-8"))
+        embedded_contract = archive_json_object(zf, PACKAGE_NAME)
         require_equal("embedded package contract", embedded_contract, contract)
-        inventory = json.loads(zf.read(INVENTORY_NAME).decode("utf-8"))
+        inventory = archive_json_object(zf, INVENTORY_NAME)
         require_equal("inventory schema", inventory.get("schema"), contract["inventory_contract"]["format"])
         require_equal("inventory role", inventory.get("artifact_role"), role)
         for field in (
@@ -592,7 +665,10 @@ def verify_artifact(
         source = inventory.get("source")
         if not isinstance(source, dict) or set(source) != {"commit", "tree", "worktree_state"}:
             raise ContractError("inventory source binding is incomplete")
-        if source["worktree_state"] not in {"clean", "dirty"}:
+        if (
+            not isinstance(source["worktree_state"], str)
+            or source["worktree_state"] not in {"clean", "dirty"}
+        ):
             raise ContractError("inventory worktree_state must be clean or dirty")
         if require_clean_source and source["worktree_state"] != "clean":
             raise ContractError("release/install artifact source binding is dirty")
@@ -804,8 +880,8 @@ def install_plugin(
     asset = Path(raw_asset).resolve(strict=True)
     verify_artifact(root, "canonical_plugin", asset, contract, require_clean_source=True)
     with zipfile.ZipFile(asset) as zf:
-        incoming_inventory = json.loads(zf.read(INVENTORY_NAME).decode("utf-8"))
-        incoming_package = json.loads(zf.read(PACKAGE_NAME).decode("utf-8"))
+        incoming_inventory = archive_json_object(zf, INVENTORY_NAME)
+        incoming_package = archive_json_object(zf, PACKAGE_NAME)
 
     standalone = host_root / "skills/implementaudit"
     if standalone.exists() or standalone.is_symlink():
@@ -933,6 +1009,8 @@ def main(argv: list[str]) -> int:
     try:
         contract = validate_contract(root)
         if args.build:
+            if args.require_clean_source and source_identity(root)["worktree_state"] != "clean":
+                raise ContractError("release build source binding is dirty")
             paths = build_artifacts(root, Path(args.build).resolve(), contract)
             for path in paths:
                 print(f"package-contract: wrote {path}")

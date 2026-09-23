@@ -1,0 +1,293 @@
+{
+  "schema": "implementaudit.native-a-g.fixture.v1",
+  "slice": "E_POST_COMPACTION_ISOLATION",
+  "authority_ceiling": "PREPARATION_PRODUCT_EVIDENCE_ONLY",
+  "canonical_credit_granted": false,
+  "native_consumer_required": true,
+  "purpose": "Mandatory independent post-compaction cognition and separately qualified native authoritative recovery; no fixture execution credit.",
+  "whole_episode_qualification": {
+    "evidence_kind": "PROPOSED_MEASUREMENT",
+    "scope": "WHOLE_GOVERNOR_EPISODE",
+    "start": "BEFORE_ATTRIBUTABLE_BOOTSTRAP_DISCOVERY",
+    "end": "AFTER_RETURN_RECONCILIATION_AND_REQUIRED_OWNER_CURRENTNESS_READBACK",
+    "phases": [
+      "BOOTSTRAP",
+      "DISCOVERY",
+      "DISPATCH",
+      "EXECUTION",
+      "RETURN",
+      "RECONCILIATION"
+    ],
+    "dimensions": [
+      "RETAINED_GOVERNOR_CONTEXT",
+      "CONTEXT_COST",
+      "DISPATCH_COST",
+      "EXECUTION_COST",
+      "RECONCILIATION_COST",
+      "REMAINING_CONTINUATION_HEADROOM"
+    ],
+    "conditional_costs": {
+      "INSTALLATION": "APPLICABILITY_BASIS_REQUIRED",
+      "MAINTENANCE": "APPLICABILITY_BASIS_REQUIRED"
+    },
+    "continuation": "REUSE_SUFFICIENT_UNCHANGED_MACHINERY_INVESTIGATE_CHANGED_EVIDENCE_OR_DEPENDENCIES",
+    "worker_pressure": "NO_ROOT_COMPACTION_WITHOUT_GENUINE_ROOT_EVENT_INVALIDATE_ONLY_AFFECTED_DEPENDENCIES",
+    "unchanged_sufficient_evidence": "REUSE_WITHOUT_IDLE_OR_REPEATED_PROCESS_WORK",
+    "actual_observations": null,
+    "actual_qualification": "UNQUALIFIED"
+  },
+  "cases": [
+    {
+      "id": "E01_GENUINE_COMPACTION_FENCES_BEFORE_SUBSTANTIVE_READ",
+      "coverage": "positive",
+      "input": {
+        "event": "HOST_REPORTED_COMPACTION",
+        "preboundary_edge": "typed-edge-x"
+      },
+      "expected": {
+        "sequence": [
+          "INVALIDATE",
+          "MECHANICAL_CURRENTNESS",
+          "OPEN_AUDIT_STATE",
+          "RETURN",
+          "RECONCILE",
+          "RESUME_TYPED_EDGE"
+        ],
+        "governor_substantive_reconstruction": false
+      }
+    },
+    {
+      "id": "E02_RAW_STATE_READ_BEFORE_AUDIT_STATE_REJECTED",
+      "coverage": "negative",
+      "input": {
+        "event": "HOST_REPORTED_COMPACTION",
+        "audit_state_opened": false,
+        "attempted_read": "STATE.md substantive content"
+      },
+      "expected": {
+        "decision": "REJECT_GOVERNOR_SUBSTANTIVE_READ",
+        "credit": false
+      }
+    },
+    {
+      "id": "E03_STALE_ROUTE_CREDIT_REJECTED",
+      "coverage": "negative",
+      "input": {
+        "route_epoch": "G100",
+        "current_epoch": "G101",
+        "fresh_rebind": false
+      },
+      "expected": {
+        "credit": false,
+        "status": "STALE_AFTER_BOUNDARY"
+      }
+    },
+    {
+      "id": "E04_NON_BOUNDARY_STARTUP_DOES_NOT_TRIGGER_RECOVERY",
+      "coverage": "boundary",
+      "input": {
+        "event": "ORDINARY_STARTUP",
+        "host_reported_compaction": false
+      },
+      "expected": {
+        "audit_state_required": false,
+        "invalidate_continuity": false
+      }
+    },
+    {
+      "id": "E05_SECOND_COMPACTION_REQUIRES_DISTINCT_TRANSACTION",
+      "coverage": "boundary",
+      "input": {
+        "events": [
+          "compaction-1",
+          "compaction-2"
+        ],
+        "same_thread": true
+      },
+      "expected": {
+        "transactions_required": 2,
+        "reuse_prior_transaction": false,
+        "fresh_audit_state_each_boundary": true
+      }
+    },
+    {
+      "id": "E06_AUDIT_STATE_RETURN_IS_COMPACT_NOT_RAW_CANONICAL_CONTENT",
+      "coverage": "positive",
+      "input": {
+        "return_kind": "MINIMUM_APPLICABLE_FRONTIER"
+      },
+      "expected": {
+        "raw_canonical_content_allowed": false,
+        "identity_and_next_edge_required": true,
+        "authority_claims": []
+      }
+    }
+  ],
+  "native_case_scope": "NATIVE_AUTHORITATIVE_RECOVERY",
+  "post_compaction_reconciliation": {
+    "entry": "POST_COMPACTION_RECONCILIATION",
+    "evidence_kind": "PROPOSED_CONTRACT_CASES",
+    "actual_host_qualification": "UNQUALIFIED",
+    "cases": [
+      {
+        "id": "PC_CURRENT",
+        "compaction_completed": true,
+        "governor_resumed": true,
+        "currentness": "VERIFIED",
+        "measured_epoch": "VERIFIED",
+        "expected": {
+          "audit_state_required": true,
+          "result_authority": "NONE"
+        }
+      },
+      {
+        "id": "PC_NOT_CURRENT",
+        "compaction_completed": true,
+        "governor_resumed": true,
+        "currentness": "UNRESOLVED",
+        "measured_epoch": "VERIFIED",
+        "expected": {
+          "audit_state_required": true,
+          "currentness_finding": "UNRESOLVED",
+          "result_authority": "NONE"
+        }
+      },
+      {
+        "id": "PC_NO_EPOCH",
+        "compaction_completed": true,
+        "governor_resumed": true,
+        "currentness": "UNRESOLVED",
+        "measured_epoch": "ABSENT",
+        "expected": {
+          "audit_state_required": true,
+          "epoch_created": false,
+          "result_authority": "NONE"
+        }
+      },
+      {
+        "id": "PC_ACTIVE_SIBLINGS",
+        "compaction_completed": true,
+        "governor_resumed": true,
+        "independent_children": [
+          "ordinary-a",
+          "ordinary-b"
+        ],
+        "expected": {
+          "audit_state_required": true,
+          "independent_children": "UNCHANGED",
+          "new_governor_state_decisions": "HELD"
+        }
+      },
+      {
+        "id": "PC_RETURN_ONLY",
+        "dispatch": true,
+        "successful_return": true,
+        "accepted_join": false,
+        "expected": {
+          "pending": true,
+          "canonical_currentness_granted": false
+        }
+      },
+      {
+        "id": "PC_SECOND_BOUNDARY",
+        "observed_boundaries": [
+          "boundary-a"
+        ],
+        "pending_boundaries": [
+          "boundary-a",
+          "boundary-b"
+        ],
+        "accepted_successful_join": true,
+        "expected": {
+          "pending_boundaries": [
+            "boundary-b"
+          ],
+          "canonical_currentness_granted": false
+        }
+      },
+      {
+        "id": "PC_HOOK_FALLBACK",
+        "hook_receipt": null,
+        "independently_proved_completion_resume": true,
+        "expected": {
+          "audit_state_required": true,
+          "invented_host_id": false
+        }
+      },
+      {
+        "id": "PC_DUPLICATE",
+        "proved_occurrences": [
+          "boundary-a",
+          "boundary-a"
+        ],
+        "expected": {
+          "logical_pending_count": 1,
+          "dispatch_consumes_pending": false
+        }
+      },
+      {
+        "id": "PC_STATUS_QUERY",
+        "operation": "status",
+        "hook_receipt": null,
+        "source_registration": null,
+        "expected": {
+          "pending_mutated": false,
+          "compaction_proved": false
+        }
+      },
+      {
+        "id": "PC_UNPROVED_RESUME",
+        "operation": "resume",
+        "entry": "EXPLICIT_POST_COMPACTION_RESUME",
+        "hook_receipt": null,
+        "source_registration": null,
+        "expected": {
+          "audit_state_required": true,
+          "observation": "UNRESOLVED_RESUME_OBSERVATION",
+          "compaction_proved": false,
+          "result_authority": "NONE"
+        }
+      },
+      {
+        "id": "PC_FAILED_A_NEW_B",
+        "failed_assigned_scope": ["boundary-a"],
+        "distinct_proved_unassigned_scope": ["boundary-b"],
+        "expected": {
+          "ready_scope": ["boundary-b"],
+          "failed_a_assignment": "RETAINED",
+          "a_dependent_governor_decisions": "HELD"
+        }
+      },
+      {
+        "id": "PC_B_JOIN_PRESERVES_A",
+        "failed_assigned_scope": ["boundary-a"],
+        "actual_successful_accepted_join_scope": ["boundary-b"],
+        "expected": {
+          "pending_scope": ["boundary-a"],
+          "a_dependent_governor_decisions": "HELD",
+          "result_authority": "NONE"
+        }
+      },
+      {
+        "id": "PC_FAILED_SCOPE_RETRY",
+        "failed_assigned_scope": ["boundary-a"],
+        "qualified_retirement_consumer": null,
+        "expected": {
+          "disposition": "CONDITIONAL_UNQUALIFIED",
+          "automatic_release": false
+        }
+      },
+      {
+        "id": "PC_CALLER_SUCCESS_ONLY",
+        "caller_status": "SUCCEEDED",
+        "actual_same_child_load_use_return_result": null,
+        "governor_acceptance": null,
+        "expected": {
+          "actual_lifecycle_proved": false,
+          "lawful_join": false,
+          "native_dispose_proved": false
+        }
+      }
+    ]
+  }
+}
