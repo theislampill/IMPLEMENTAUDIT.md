@@ -1207,12 +1207,22 @@ if ([row["identity"] for row in identity["changed"]] != [
 observed.append("DE06")
 
 json_destination = tmp / "snapshot.json"
-json_receipt = evidence.export_snapshot(
-    base, json_destination, owned_root=tmp, output_format="json")
-if (json_destination.read_bytes() != canonical(base) or
-        json_receipt["output_sha256"] != hashlib.sha256(canonical(base)).hexdigest() or
-        json.loads(json_destination.read_text(encoding="utf-8")) != base):
-    raise SystemExit("DE07 JSON export diverged from canonical snapshot bytes")
+if os.name == "nt":
+    json_receipt = evidence.export_snapshot(
+        base, json_destination, owned_root=tmp, output_format="json")
+    if (json_destination.read_bytes() != canonical(base) or
+            json_receipt["output_sha256"] !=
+            hashlib.sha256(canonical(base)).hexdigest() or
+            json.loads(json_destination.read_text(encoding="utf-8")) != base):
+        raise SystemExit("DE07 JSON export diverged from canonical snapshot bytes")
+else:
+    expect_error("OE_EXPORT_WRITE_FAILED", lambda: evidence.export_snapshot(
+        base, json_destination, owned_root=tmp, output_format="json"))
+    if json_destination.exists() or any(
+            path.name.endswith(".implementaudit-stage") for path in tmp.iterdir()):
+        raise SystemExit("DE07 unsupported platform left an export object")
+    print("DE07 Windows export: NOT_APPLICABLE on POSIX; "
+          "typed refusal and no-effect control retained")
 observed.append("DE07")
 
 ambient_before = canonical(evidence.diff_snapshots(base, changed_snapshot))
@@ -1354,22 +1364,28 @@ if alias_root_destination.exists():
 
 replacement_destination = tmp / "replacement.json"
 replacement_alias = tmp / "replacement-stage-alias"
-original_stage_hook = evidence._snapshot_stage_v1
+if os.name == "nt":
+    original_stage_hook = evidence._snapshot_stage_v1
 
+    def replace_at_final_check(phase):
+        if phase == "before-publish":
+            stage = next(path for path in tmp.iterdir()
+                         if path.name.endswith(".implementaudit-stage"))
+            os.link(stage, replacement_alias)
 
-def replace_at_final_check(phase):
-    if phase == "before-publish":
-        stage = next(path for path in tmp.iterdir()
-                     if path.name.endswith(".implementaudit-stage"))
-        os.link(stage, replacement_alias)
-
-
-evidence._snapshot_stage_v1 = replace_at_final_check
-try:
+    evidence._snapshot_stage_v1 = replace_at_final_check
+    try:
+        expect_error("OE_EXPORT_WRITE_FAILED", lambda: evidence.export_snapshot(
+            base, replacement_destination, owned_root=tmp,
+            output_format="json"))
+    finally:
+        evidence._snapshot_stage_v1 = original_stage_hook
+else:
     expect_error("OE_EXPORT_WRITE_FAILED", lambda: evidence.export_snapshot(
         base, replacement_destination, owned_root=tmp, output_format="json"))
-finally:
-    evidence._snapshot_stage_v1 = original_stage_hook
+    if replacement_destination.exists() or replacement_alias.exists() or any(
+            path.name.endswith(".implementaudit-stage") for path in tmp.iterdir()):
+        raise SystemExit("DE14 unsupported platform left an export object")
 observed.append("DE14")
 
 noncurrent_first = json.loads(evidence.render_snapshot_projection_v1(
@@ -3385,23 +3401,43 @@ for operator in sorted(c08_r4_expected_unique_operators):
         c08_r4_duplicate_unique_operator(payload, selected))
 
 
-# The staged publication contract is finite and observable at named phases.
-# On the rejected destination-direct mechanism none of these phases exists;
-# the matrix must therefore RED before any production mechanism replacement.
+# The staged publication contract is finite and observable at named phases on
+# Windows. Other platforms must retain the typed refusal without a partial
+# stage or destination; Windows stage and hard-link controls run on that host.
 c08_r4_capability_check = getattr(
     census_module, "_snapshot_hardlink_publication_capable_v1", None)
-if c08_r4_capability_check is not None:
+if os.name == "nt" and c08_r4_capability_check is not None:
     census_module._snapshot_hardlink_publication_capable_v1 = (
         lambda _kernel, _handle: True)
 c08_r3_export_root = CASE_ROOT / "c08-r3-export-matrix"
 c08_r3_export_root.mkdir()
+if os.name != "nt":
+    refusal_root = c08_r3_export_root / "unsupported-platform"
+    refusal_root.mkdir()
+    refusal_destination = refusal_root / "snapshot.json"
+    try:
+        census_module.export_snapshot(
+            c08_r3_payload, refusal_destination, owned_root=refusal_root,
+            output_format="json")
+    except census_module.OperationalEvidenceError as exc:
+        if exc.code != "OE_EXPORT_WRITE_FAILED":
+            correction_red_failures.append(
+                f"C08-R3-C2 unsupported platform returned {exc.code}")
+    else:
+        correction_red_failures.append(
+            "C08-R3-C2 unsupported platform returned success-shaped export")
+    if any(refusal_root.iterdir()):
+        correction_red_failures.append(
+            "C08-R3-C2 unsupported platform left a stage or destination")
+    print("C08-R3-C2 Windows stage matrix: NOT_APPLICABLE on POSIX; "
+          "typed export refusal and no-effect control retained")
 c08_r3_phases = (
     "stage-created", "write-complete", "fsync-complete",
     "readback-start", "readback-eof", "before-publish")
 c08_r3_topologies = (
     "same-inode-same-size", "same-inode-size-change",
     "unlink-recreate", "link-swap", "destination-occupation")
-for phase in c08_r3_phases:
+for phase in (c08_r3_phases if os.name == "nt" else ()):
     for topology in c08_r3_topologies:
         case_root = c08_r3_export_root / f"{phase}-{topology}"
         case_root.mkdir()

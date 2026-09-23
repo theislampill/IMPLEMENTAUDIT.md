@@ -2359,10 +2359,12 @@ if os.name == "nt":
             r"C:\Program Files\Git\cmd\git.exe",
             r"C:\Program Files\Git\bin\git.exe"):
         raise SystemExit("native Windows Git trust roots are not exact")
+# Use the same fixed platform Bash entry point as the production owner route.
+owner_bash = (r"C:\Program Files\Git\bin\bash.exe"
+              if os.name == "nt" else "/bin/bash")
 # This is deliberately the installed helper's physical-owner route, with no
-# replacement of either loader.  It must stay independent of both this test's
-# cwd and the isolated publication repository built below.
-physical_owner = rotation.publication_owner_repo_v1()
+# replacement of either loader. Check its exact context shape against the
+# controlled copied owner below, rather than depending on ambient checkout state.
 expected_physical_context_keys = {
     "repo_path", "run_root_path", "controller_id", "claim_id", "run_id",
     "generation_id", "source_epoch", "receipt_ref", "receipt_oid",
@@ -2370,34 +2372,6 @@ expected_physical_context_keys = {
     "receipt_roadmap_digest", "expected_old_pointer_oid",
     "migration_marker_oid", "publication_custody_tuple", "publication_guard_refs",
 }
-
-def physical_observation():
-    try:
-        return ("CURRENT", rotation.load_governed_publication_context_v1())
-    except rotation.RotationError as exc:
-        return ("STOP", str(exc))
-
-
-physical_observed = physical_observation()
-if physical_observed[0] == "CURRENT":
-    physical_context = physical_observed[1]
-    if (physical_context["repo_path"] != physical_owner
-            or (r15_target not in {"receipt-pivot", "owner-env"}
-                and set(physical_context) != expected_physical_context_keys)
-            or not all(str(physical_context[key]) for key in (
-                "controller_id", "claim_id", "run_id", "generation_id",
-                "source_epoch", "receipt_oid"))):
-        raise SystemExit("physical publication custody loader is incomplete")
-elif physical_observed != (
-        "STOP", "publication continuity receipt does not bind current custody"):
-    raise SystemExit("physical publication custody returned an untyped refusal")
-physical_cwd = Path.cwd()
-os.chdir(Path(sys.argv[3]))
-try:
-    if physical_observation() != physical_observed:
-        raise SystemExit("physical publication custody changed with caller cwd")
-finally:
-    os.chdir(physical_cwd)
 with open(sys.argv[2], encoding="utf-8") as stream:
     fixture = json.load(stream)
 expected = [
@@ -2643,6 +2617,38 @@ source_scripts = Path(sys.argv[1]).parent
 for name in ("rotate-canonical-state.py", "canonical_hot_projection.py",
              "claim-run.sh", "validate-run-root.sh"):
     shutil.copy2(source_scripts / name, owner_scripts / name)
+owner_spec = importlib.util.spec_from_file_location(
+    "rotation_sequence_cas_owner", owner_scripts / "rotate-canonical-state.py")
+owner_rotation = importlib.util.module_from_spec(owner_spec)
+owner_spec.loader.exec_module(owner_rotation)
+
+# Exercise the no-owner negative in a deterministic owned checkout before
+# installing any controller refs. The caller's repository may have live
+# custody, so it is not part of this control.
+try:
+    owner_rotation.publication_owner_repo_v1()
+except owner_rotation.RotationError as exc:
+    if str(exc) != "publication custody owner contract is unavailable":
+        raise
+else:
+    raise SystemExit("ownerless physical publication route unexpectedly resolved")
+def ownerless_observation():
+    try:
+        return ("CURRENT", owner_rotation.load_governed_publication_context_v1())
+    except owner_rotation.RotationError as exc:
+        return ("STOP", str(exc))
+ownerless_observed = ownerless_observation()
+if ownerless_observed != (
+        "STOP", "publication custody owner contract is unavailable"):
+    raise SystemExit("ownerless physical publication route did not fail closed")
+physical_cwd = Path.cwd()
+os.chdir(Path(sys.argv[3]))
+try:
+    if ownerless_observation() != ownerless_observed:
+        raise SystemExit("ownerless physical route changed with caller cwd")
+finally:
+    os.chdir(physical_cwd)
+
 run_name = "task4-AbC123"
 run_root = owner_repo / ".IMPLEMENTAUDIT" / "runs" / run_name
 run_root.mkdir(parents=True)
@@ -2704,29 +2710,39 @@ marker_ref = "refs/implementaudit/current-generation-migrations/controller-1"
 invalidation_ref = "refs/implementaudit/continuity-invalidations/controller-1"
 current_ref = "refs/implementaudit/current-generations/controller-1"
 
-owner_spec = importlib.util.spec_from_file_location(
-    "rotation_sequence_cas_owner", owner_scripts / "rotate-canonical-state.py")
-owner_rotation = importlib.util.module_from_spec(owner_spec)
-owner_spec.loader.exec_module(owner_rotation)
 owner_validator_probe = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "validate-run-root.sh"),
+    owner_bash, str(owner_scripts / "validate-run-root.sh"),
     "--claim-only", run_root.resolve().as_posix(), "--repo-root", owner_repo_text,
 ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 if owner_validator_probe.returncode != 0:
     raise SystemExit("temporary source-layout owner validator failed: "
                      + owner_validator_probe.stderr.decode("utf-8", "replace"))
 owner_custody_probe = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    owner_bash, str(owner_scripts / "claim-run.sh"),
     "--publication-custody",
 ], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
    env=owner_rotation.git_environment(), check=False)
 if owner_custody_probe.returncode != 0:
     raise SystemExit("temporary source-layout custody route failed: stdout=%r stderr=%r"
                      % (owner_custody_probe.stdout, owner_custody_probe.stderr))
+owner_context = owner_rotation.load_governed_publication_context_v1()
 if (owner_rotation.publication_owner_repo_v1() != owner_repo.resolve()
-        or owner_rotation.load_governed_publication_context_v1()["run_root_path"]
-        != run_root.resolve()):
+        or owner_context["repo_path"] != owner_repo.resolve()
+        or owner_context["run_root_path"] != run_root.resolve()
+        or (r15_target not in {"receipt-pivot", "owner-env"}
+            and set(owner_context) != expected_physical_context_keys)
+        or not all(str(owner_context[key]) for key in (
+            "controller_id", "claim_id", "run_id", "generation_id",
+            "source_epoch", "receipt_oid"))):
     raise SystemExit("temporary source-layout owner did not resolve its physical custody")
+physical_cwd = Path.cwd()
+os.chdir(Path(sys.argv[3]))
+try:
+    if (owner_rotation.publication_owner_repo_v1() != owner_repo.resolve()
+            or owner_rotation.load_governed_publication_context_v1() != owner_context):
+        raise SystemExit("copied physical owner changed with caller cwd")
+finally:
+    os.chdir(physical_cwd)
 
 archive_population = {
     "schema": "implementaudit.canonical-state-rotation-f2-fixture.v1",
@@ -2847,7 +2863,7 @@ for index, key in enumerate(EXPECTED_CLAIM_MISMATCH_KEYS):
     changed[index] = key + "=" + claim_mutations[key]
     (run_root / ".claimed").write_bytes(("\n".join(changed) + "\n").encode())
     rejected = subprocess.run([
-        r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+        owner_bash, str(owner_scripts / "claim-run.sh"),
         "--publication-custody",
     ], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
        env=owner_rotation.git_environment(), check=False)
@@ -2893,8 +2909,12 @@ finally:
     else:
         os.environ["ProgramFiles"] = saved_program_files
 selected_executable = Path(fake_probe["argv"][0])
-if (not any(os.path.samefile(selected_executable, fixed)
-            for fixed in owner_rotation.WINDOWS_TRUSTED_GIT_PATHS_V1)
+fixed_git_candidates = (
+    owner_rotation.WINDOWS_TRUSTED_GIT_PATHS_V1 if os.name == "nt"
+    else ("/usr/bin/git", "/usr/local/bin/git"))
+if (not any(Path(fixed).is_file() and not Path(fixed).is_symlink()
+            and os.path.samefile(selected_executable, fixed)
+            for fixed in fixed_git_candidates)
         or str(fake_pf) in str(selected_executable)):
     raise SystemExit("caller ProgramFiles selected the trusted executable")
 fixed_null_sink = "NUL" if os.name == "nt" else "/dev/null"
@@ -2952,15 +2972,16 @@ if r15_target in {"", "observation-order"}:
 if r15_target == "observation-order":
     print("R15_OBSERVATION_ORDER_GREEN=PASS")
     raise SystemExit(0)
-original_windows_apis = owner_rotation._windows_apis_v1
-owner_rotation._windows_apis_v1 = lambda: (_ for _ in ()).throw(
-    owner_rotation.RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED"))
-try:
-    owner_error(lambda: owner_rotation.observe_publication_vector_v1(
-        context={"run_root_path": run_root}, expected_digests=expected_digests),
-        "OE_PUBLICATION_FENCE_UNSUPPORTED")
-finally:
-    owner_rotation._windows_apis_v1 = original_windows_apis
+if os.name == "nt":
+    original_windows_apis = owner_rotation._windows_apis_v1
+    owner_rotation._windows_apis_v1 = lambda: (_ for _ in ()).throw(
+        owner_rotation.RotationError("OE_PUBLICATION_FENCE_UNSUPPORTED"))
+    try:
+        owner_error(lambda: owner_rotation.observe_publication_vector_v1(
+            context={"run_root_path": run_root}, expected_digests=expected_digests),
+            "OE_PUBLICATION_FENCE_UNSUPPORTED")
+    finally:
+        owner_rotation._windows_apis_v1 = original_windows_apis
 
 owner_segment = reidentify(dict(segment, run_id=run_name))
 owner_segment_raw = owner_rotation.canonical_json_v1(owner_segment)
@@ -3455,7 +3476,7 @@ record_publisher("hostile-hooks-env")
 # only then may the copied R0011 owner mint/verify v3 and R0039 publish marker.
 reset_owner_case()
 transition_invalidation = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    owner_bash, str(owner_scripts / "claim-run.sh"),
     "--invalidate-continuity", controller_id, "--boundary", "manual-resume",
     "--event", "task6-copied-owner-transition",
 ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
@@ -3506,7 +3527,7 @@ if owner_rotation.publish_generation_pointer_v1(
         candidate_pointer_oid=transition_pointer_oid) != transition_pointer_oid:
     raise SystemExit("Task 6 copied owner did not publish/read back its pointer")
 transition_v3_process = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    owner_bash, str(owner_scripts / "claim-run.sh"),
     "--resume-controller", controller_id, "--boundary", "manual-resume",
     "--epoch", "G0002",
 ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
@@ -3515,7 +3536,7 @@ if transition_v3_process.returncode != 0:
                      + transition_v3_process.stderr.decode("utf-8", "replace"))
 transition_v3 = transition_v3_process.stdout.decode().strip()
 verified_transition_v3 = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    owner_bash, str(owner_scripts / "claim-run.sh"),
     "--verify-resume-receipt", transition_v3,
 ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 if (verified_transition_v3.returncode != 0
@@ -3525,7 +3546,7 @@ transition_marker_oid = owner_rotation.publish_first_migration_marker_v1()
 if git(owner_repo, "rev-parse", "--verify", marker_ref).decode().strip() != transition_marker_oid:
     raise SystemExit("Task 6 copied R0039 owner did not publish/read back marker")
 transition_current = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    owner_bash, str(owner_scripts / "claim-run.sh"),
     "--require-current-continuity", controller_id,
 ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 if (transition_current.returncode != 0
@@ -3583,7 +3604,7 @@ def install_marker_for(receipt_oid):
 
 def claim_probe(*args):
     return subprocess.run([
-        r"C:\Program Files\Git\bin\bash.exe",
+        owner_bash,
         str(owner_scripts / "claim-run.sh"), *args,
     ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
        check=False)
@@ -3738,7 +3759,7 @@ for label, broken_ref in (("packed-pointer", current_ref),
 # the immutable G0002 genesis sentinel while the current pointer and receipt
 # advance.  Candidate preparation itself has no publication authority.
 g3_invalidation_process = subprocess.run([
-    r"C:\Program Files\Git\bin\bash.exe", str(owner_scripts / "claim-run.sh"),
+    owner_bash, str(owner_scripts / "claim-run.sh"),
     "--invalidate-continuity", controller_id, "--boundary", "manual-resume",
     "--event", "task6-r2-g0003-lineage",
 ], cwd=str(owner_repo), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
