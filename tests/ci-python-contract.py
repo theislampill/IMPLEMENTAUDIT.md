@@ -13,7 +13,7 @@ def check(workflow: str, verifier: str) -> None:
     # Freeze the maintained workflow form after dropping inert comments/blank
     # lines. Any new YAML structure needs explicit review, not regex guesswork.
     normal = '\n'.join(line.rstrip() for line in active.splitlines() if line.strip()) + '\n'
-    if hashlib.sha256(normal.encode('utf-8')).hexdigest() != '533ca11115ae02f030838876228bcfc33d3deceafc6e61b552b3b90648803a6a':
+    if hashlib.sha256(normal.encode('utf-8')).hexdigest() != 'c0e8e608d4b4ea98c1760c0300ba04b2cf2fc769746c2dd9259bde36d77a79a1':
         raise ValueError('workflow layout changed; review and rebind the maintained contract')
     package = re.search(r'^  package:\n(?P<body>(?:^(?:    .*|)\n?)+)', active, re.M)
     if package is None:
@@ -23,19 +23,28 @@ def check(workflow: str, verifier: str) -> None:
         raise ValueError('duplicate package job is not a maintained layout')
     if re.search(r'^\s*<<\s*:|(?:^|\s)[&*][A-Za-z_]', active, re.M):
         raise ValueError('YAML aliases and merges require an explicit guard update')
-    # The maintained release job is unconditional and fail-fast. These controls
-    # must not be disabled while their command text survives as apparent proof.
-    if re.search(r'^\s*(?:if|continue-on-error|shell|needs|container)\s*:', active, re.M):
-        raise ValueError('conditional or failure-swallowing release configuration')
+    # The release verifier remains unconditional and fail-fast. Only the two
+    # evidence steps after it may run conditionally after a verifier failure.
+    if re.search(r'^[ \t]*(?:continue-on-error|shell|needs|container)\s*:', active, re.M):
+        raise ValueError('failure-swallowing release configuration')
+    capture_if = "        if: ${{ always() && steps.verify_package.outcome != 'skipped' }}"
+    upload_if = "        if: ${{ always() && steps.capture_package.outcome != 'skipped' }}"
+    if re.findall(r'(?m)^[ \t]*if\s*:[^\n]*$', active) != [capture_if, upload_if]:
+        raise ValueError('only maintained post-verifier evidence conditions are allowed')
     if len(re.findall(r'^        run: bash scripts/verify-package\.sh$', body, re.M)) != 1:
         raise ValueError('release verifier must be the exact unswallowed command')
     setup = '      - name: Set up release Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: "3.11"'
     install = '      - name: Install validation dependencies\n'
-    verify = '      - name: Verify package contract\n        run: bash scripts/verify-package.sh'
-    if body.count(setup) != 1 or body.count(install) != 1 or body.count(verify) != 1:
-        raise ValueError('one explicit release Python setup/install/verify sequence required')
-    if not body.index(setup) < body.index(install) < body.index(verify):
-        raise ValueError('Python setup must precede dependency installation and verification')
+    verify = '      - name: Verify package contract\n        id: verify_package\n        run: bash scripts/verify-package.sh'
+    capture = ('      - name: Capture package evidence\n        id: capture_package\n'
+               + capture_if + '\n'
+               + '        run: python scripts/capture-ci-package-evidence.py --output-dir "$RUNNER_TEMP/package-evidence"')
+    upload = ('      - name: Upload package evidence\n' + upload_if + '\n'
+              + '        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2')
+    if any(body.count(step) != 1 for step in (setup, install, verify, capture, upload)):
+        raise ValueError('one explicit release Python setup/install/verify/capture/upload sequence required')
+    if not body.index(setup) < body.index(install) < body.index(verify) < body.index(capture) < body.index(upload):
+        raise ValueError('Python setup, verification and evidence steps must retain order')
     dependencies = body[body.index(install):body.index('      - name:', body.index(install)+len(install))]
     expected_install = '- name: Install validation dependencies\n        run: |\n          sudo apt-get update\n          sudo apt-get install --yes ripgrep\n          release_python="$(python -c \'import sys; print(sys.executable)\')"\n          printf \'PYTHON_BIN=%s\\n\' "$release_python" >> "$GITHUB_ENV"\n          "$release_python" -m pip install --disable-pip-version-check --no-deps --requirement requirements-release.txt\n          rg --version'
     if dependencies.strip() != expected_install:
@@ -58,6 +67,8 @@ def check(workflow: str, verifier: str) -> None:
         '          python -m json.tool .claude-plugin/plugin.json >/dev/null',
         '          python -m json.tool .claude-plugin/marketplace.json >/dev/null',
         '          python -m json.tool package/implementaudit-package.json >/dev/null',
+        '        run: python scripts/capture-ci-package-evidence.py --output-dir "$RUNNER_TEMP/package-evidence"',
+        '          path: ${{ runner.temp }}/package-evidence/',
     ]
     affecting = [line for line in body.splitlines()
                  if re.search(r'python|github_env|github_path|\benv:|\bdefaults:|\bpath[=:]', line, re.I)]

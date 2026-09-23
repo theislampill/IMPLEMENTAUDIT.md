@@ -40,4 +40,19 @@ jobs:
           python -m json.tool package/implementaudit-package.json >/dev/null
 
       - name: Verify package contract
+        id: verify_package
         run: bash scripts/verify-package.sh
+
+      - name: Capture package evidence
+        id: capture_package
+        if: ${{ always() && steps.verify_package.outcome != 'skipped' }}
+        run: python scripts/capture-ci-package-evidence.py --output-dir "$RUNNER_TEMP/package-evidence"
+
+      - name: Upload package evidence
+        if: ${{ always() && steps.capture_package.outcome != 'skipped' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/package-evidence/
+          if-no-files-found: error
+          compression-level: 0
