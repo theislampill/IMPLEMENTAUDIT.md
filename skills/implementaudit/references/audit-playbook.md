@@ -312,8 +312,10 @@ investigate, spike, defer, or owner decision rather than pretending to be ready
 fixes. Rejected / duplicate / by-design / false-positive rows remain visible
 when they explain why a lead was not carried forward.
 
-A material row selected for publication becomes an executor-ready work order
-through `issue-ready-work-orders.md`. This preserves the row as the evidence
+A material row selected for publication, or a material continuation whose
+existing carrier plus accessible corpus cannot preserve action-distinguishing
+states, expands through `issue-ready-work-orders.md` without granting publication
+authority. This preserves the row as the evidence
 owner while adding the gap explanation, counterargument, ordered integration,
 controls, dependencies, overlap, rollback, and done state a cold executor needs.
 Several new drafts are reconciled as one set before publication review.

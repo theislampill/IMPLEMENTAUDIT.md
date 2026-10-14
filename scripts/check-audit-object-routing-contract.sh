@@ -448,7 +448,11 @@ for text in \
   "mutating command's own output is never the evidence" \
   "evidence-mismatch" \
   "does not claim publication" \
-  "no publication intent incurs none of these obligations"
+  "If a cold future consumer cannot distinguish states needed" \
+  'for different lawful next actions, load `issue-ready-work-orders.md` even without' \
+  "Without publication intent, the publication gates remain inactive." \
+  "intent and without the evidence-derived material-continuation trigger above," \
+  "retain the no-load/no-new-obligation cheap path."
 do
   require_text "$plan_ref" "$text"
 done

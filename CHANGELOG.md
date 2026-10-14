@@ -15,6 +15,12 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Current source reconciles complete evidence, open and closed owners, genealogy
+  and dependencies before a durable work-identity proposal. Material continuation
+  preserves distinct future actions in an adequate existing carrier, including
+  without publication intent; sufficient compact records retain the cheap path.
+  Full carrier alternatives and claim-specific receiving boundaries remain inside
+  the existing audit object. Published release assets are unchanged.
 - Current source derives verifier plans from exact semantic changes and affected
   consumers, with conservative escalation and preserved mandatory contribution
   gates. Control retirement includes pending descendants, supported older
