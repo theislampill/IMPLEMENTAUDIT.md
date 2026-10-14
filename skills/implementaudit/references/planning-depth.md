@@ -154,8 +154,9 @@ second action-selection owner for ordinary cheap work.
 
 Existing contribution-policy mandatory gates remain required until equivalent
 protection is proved and independently reviewed under current owner authority.
-R0038 relations are inputs only: revalidate them at their native owners before
-consequence; neither a relation nor an earlier PASS waives a gate. R0013 remains
+If a current relation owner supplies operational-evidence relations, treat them
+as inputs only and revalidate them at their native owners before consequence;
+neither a relation nor an earlier PASS waives a gate. R0013 remains
 the narrower owner for repeat verification after a prior PASS.
 
 ## Engineering-value admission and control lifecycle
