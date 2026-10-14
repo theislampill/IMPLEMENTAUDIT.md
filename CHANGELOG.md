@@ -15,6 +15,11 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Current source derives verifier plans from exact semantic changes and affected
+  consumers, with conservative escalation and preserved mandatory contribution
+  gates. Control retirement includes pending descendants, supported older
+  products and transferred obligations; evidence reuse preserves decision meaning.
+  These source changes do not alter the published v0.4.0.0 assets.
 - Current Codex source-plugin metadata may carry Codex-owned interface fields
   while the Claude manifest remains strict-schema compatible. Both manifests
   must preserve equal shared package semantics: name, version, description,

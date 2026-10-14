@@ -162,6 +162,12 @@ Use these lifecycle dispositions:
 - Make **conditional** only what depends on a trigger absent from ordinary work.
 - **Retire** only after the failure mode, consumer, and consequence end and
   rollback evidence exposes no hidden dependency.
+  Include pending descendants, old supported products and transferred obligations
+  in the consumer check. Discharge them with current owner evidence before
+  retirement; a new product, renamed owner or closed parent does not discharge
+  an old obligation. Missing or disputed evidence defers retirement while the
+  warranted gate remains intact. Compare total received benefit and lifecycle
+  cost, including support, handoff, recovery and eventual removal costs.
 - **Reclassify** when risk, scope, authority, or external consequence changes.
 Disposition labels never self-authorise:
 

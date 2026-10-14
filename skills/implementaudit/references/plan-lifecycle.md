@@ -353,6 +353,12 @@ Reconciliation must handle every closing-the-loop state explicitly:
 
 ## Plan Retirement
 
+Retiring a plan does not retire its consumers or obligations. Reconcile pending
+descendants, old supported products and transferred obligations under the
+engineering-value retirement rule in `lean-operating-discipline.md`; retain
+their evidence and current owner until discharge is proved. Supersession alone
+is not discharge, and local process savings do not establish total lifecycle value.
+
 Before committing a successor plan, write
 `SUPERSEDED_BY: <path> — <reason>` into the replaced plan. Every unchecked
 item in that plan ends with `| RECONCILIATION: STALE|TODO|BLOCKED`, using one

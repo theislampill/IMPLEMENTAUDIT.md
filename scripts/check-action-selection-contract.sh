@@ -55,7 +55,14 @@ for text in \
   "why deeper planning was or was not warranted" \
   "Reference loading follows selection" \
   "request size alone never does" \
-  "plan-quality defect"
+  "plan-quality defect" \
+  "### Verifier-plan selection" \
+  "authoritative changed semantic owners and effects" \
+  "equivalent-protection evidence and current owner authority" \
+  "generated, transitive runtime, package, or public/external" \
+  "Unknown owner or relation, a changed registry, package or release ambiguity" \
+  "Do not select full" \
+  "verification from diff size, a fixed command count, or a generic review mandate"
 do
   require "$depth_ref" "$text"
 done
@@ -712,6 +719,85 @@ for case in cases:
 if failures:
     raise SystemExit("\n".join(failures))
 sys.stdout.write(f"engineering-value controls: {len(cases)}/{len(cases)}\n")
+
+verifier_path = Path("fixtures/audit-action-selection/verifier-plan-cases.json")
+try:
+    verifier_payload = json.loads(verifier_path.read_text(encoding="utf-8"))
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"verifier-plan fixture unreadable: {exc}")
+if set(verifier_payload) != {"schema_version", "kind", "cases"}:
+    raise SystemExit("verifier-plan fixture schema")
+if verifier_payload["schema_version"] != 1 or verifier_payload["kind"] != "r0022-verifier-plan-selection":
+    raise SystemExit("verifier-plan fixture identity")
+verifier_cases = verifier_payload["cases"]
+required_verifier_ids = {
+    "R0022-V01-owner-omitted-under-scoped",
+    "R0022-V02-consumer-omitted-under-scoped",
+    "R0022-V03-effect-omitted-under-scoped",
+    "R0022-V04-trivial-local-cheap-path",
+    "R0022-V05-docs-only-verifier-plan",
+    "R0022-V06-generated-consumer-verifier-plan",
+    "R0022-V07-transitive-consumer-verifier-plan",
+    "R0022-V08-package-consumer-verifier-plan",
+    "R0022-V09-public-consumer-verifier-plan",
+    "R0022-V10-external-consumer-verifier-plan",
+    "R0022-V11-unknown-relation-only-escalates",
+    "R0022-V12-registry-change-only-escalates",
+    "R0022-V13-package-or-release-ambiguity-only-escalates",
+    "R0022-V14-stale-projection-only-escalates",
+    "R0022-V15-generated-package-composed-verifier-plan",
+}
+verifier_ids = [case.get("id") for case in verifier_cases if isinstance(case, dict)]
+if len(verifier_ids) != len(set(verifier_ids)) or set(verifier_ids) != required_verifier_ids:
+    raise SystemExit("verifier-plan fixture population is incomplete or duplicated")
+
+def decide_verifier_plan(observations):
+    fields = "change_identity semantic_owner effect consumer evidence_layer residual_risk rollback omission_equivalent_protection omission_owner_current generated_impact package_impact public_or_external_impact registry_changed package_or_release_ambiguous stale_projection unknown_owner_or_relation transitive_consumer local_reversible"
+    exact(observations, fields)
+    booleans(observations, fields)
+    plan_complete = all((
+        observations["change_identity"], observations["semantic_owner"],
+        observations["effect"], observations["consumer"],
+        observations["evidence_layer"], observations["residual_risk"],
+        observations["rollback"], observations["omission_equivalent_protection"],
+        observations["omission_owner_current"],
+    ))
+    if (not plan_complete or observations["unknown_owner_or_relation"]
+            or observations["registry_changed"]
+            or observations["package_or_release_ambiguous"]
+            or observations["stale_projection"]):
+        return "ESCALATE_CONSERVATIVELY"
+    impact_count = sum((
+        observations["generated_impact"], observations["transitive_consumer"],
+        observations["package_impact"], observations["public_or_external_impact"],
+    ))
+    if impact_count > 1:
+        return "VERIFY_COMPOSED_AFFECTED_CONSUMERS"
+    if observations["generated_impact"]:
+        return "VERIFY_SOURCE_AND_GENERATED_CONSUMER"
+    if observations["transitive_consumer"]:
+        return "VERIFY_TRANSITIVE_CONSUMER"
+    if observations["package_impact"]:
+        return "VERIFY_PACKAGE_CONSUMER"
+    if observations["public_or_external_impact"]:
+        return "VERIFY_PUBLIC_OR_EXTERNAL_CONSUMER"
+    return "SERIAL_CHEAP_PATH" if observations["local_reversible"] else "VERIFY_AFFECTED_OWNER"
+
+verifier_failures = []
+for case in verifier_cases:
+    try:
+        if set(case) != {"id", "observations", "expected"}:
+            raise ValueError("case members")
+        if not isinstance(case["observations"], dict) or not all(type(value) is bool for value in case["observations"].values()):
+            raise ValueError("observation types")
+        actual = decide_verifier_plan(case["observations"])
+        if actual != case["expected"]:
+            verifier_failures.append(f"{case['id']}: expected {case['expected']}, observed {actual}")
+    except (KeyError, TypeError, ValueError) as exc:
+        verifier_failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
+if verifier_failures:
+    raise SystemExit("\n".join(verifier_failures))
+sys.stdout.write(f"verifier-plan controls: {len(verifier_cases)}/{len(verifier_cases)}\n")
 PY
 
 # --- bootloader: Stage 1 derives and records the action set ---
