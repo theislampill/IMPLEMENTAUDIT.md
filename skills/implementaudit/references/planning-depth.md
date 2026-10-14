@@ -129,12 +129,60 @@ risk deepens the action set automatically; request size alone never does.
 An absent or hand-wavy action-selection record is a plan-quality defect, not a
 style preference.
 
+### Verifier-plan selection
+
+For a proposed change, derive the verifier plan in this order: exact change
+identity -> authoritative changed semantic owners and effects -> affected
+evidence obligations and consumers -> cheapest sufficient verifier plan ->
+escalation or omission rationale. Record the affected generated, runtime,
+package, registry, release, public, and external consumers; the evidence layer;
+residual risk; rollback; the cheapest sufficient decision-changing verifier;
+and the equivalent-protection evidence and current owner authority for every
+omitted verifier.
+
+A trivial local reversible change with a current owner, effect, consumer,
+evidence layer, residual, rollback, and equivalent protection stays on the
+serial cheap path. A generated, transitive runtime, package, or public/external
+consumer selects the verifier for that affected consumer. Do not select full
+verification from diff size, a fixed command count, or a generic review mandate;
+select it only for the named owner, consumer, or risk that needs it.
+
+Unknown owner or relation, a changed registry, package or release ambiguity,
+or a stale projection invalidates a narrow plan: stop, reclassify, and escalate
+conservatively. Do not create a permanent graph, worksheet, model call, or
+second action-selection owner for ordinary cheap work.
+
+Existing contribution-policy mandatory gates remain required until equivalent
+protection is proved and independently reviewed under current owner authority.
+If a current relation owner supplies operational-evidence relations, treat them
+as inputs only and revalidate them at their native owners before consequence;
+neither a relation nor an earlier PASS waives a gate. R0013 remains
+the narrower owner for repeat verification after a prior PASS.
+
 ## Engineering-value admission and control lifecycle
 
 Preserve the gate or engineering obligation where warranted, while omitting
 candidate work inside it that has no discriminating payoff for the current
 state. When proposing, repeating, or standardising process work, reuse the
 action-selection or Muda/Mura/Muri record. No retain, admit, or owner-decision disposition is complete unless it names the live driver; authoritative owner; consumer existence and authoritative consumer; protected consequence; cheapest sufficient discriminator; expected evidence and material marginal cost; activation and non-trigger path; and stopping, retirement, or reclassification condition. Incomplete evidence defers the lifecycle mutation and leaves the controlling gate intact.
+
+For reuse in a successor decision, declare the operative decision family in
+the existing action-selection, finding/repair or continuation record. Justify
+unchanged decision-relevant meanings or an explicit evidence-transfer relation,
+including scope, permissions, ownership, prohibitions, activation conditions
+and evidence limits. Keep remaining possibilities requiring different lawful
+actions distinguishable. Positive admission is permitted only if every
+remaining possibility permits that admission; otherwise defer the affected
+admission and retain its first missing discriminator. A digest, earlier PASS
+or handoff label supplies neither present sufficiency nor authority. Keep
+richer evidence accessible for later questions; justified unchanged meaning
+permits reuse without replay.
+
+Compare total received benefit and lifecycle cost against credible alternatives,
+including manual coordination, conventional code, bounded analysis, non-use
+and retirement. A local saving or increased activity is not an end-to-end gain.
+Use the existing Lean retirement owner to preserve pending descendants,
+supported older products and transferred obligations; no new worksheet follows.
 
 Activate for a proposed permanent gate or artefact; repeated unchanged
 evidence, planning, or reporting; unclear artefact consumption; unexplained
