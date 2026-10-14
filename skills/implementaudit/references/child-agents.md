@@ -3,6 +3,21 @@
 Use this reference when `/implementaudit` needs bounded review evidence from
 child agents, subagents, specialists, or simulated written audit passes.
 
+For the material ready-frontier trigger below, execute its accounting before
+the first child spawn, including in a read-only audit. Reading the rule or
+stating a worker ceiling does not perform that step. Use a short deterministic
+command over the current cell identities, dependency states and observed host
+statuses to expose the partition and capacity arithmetic before dispatch.
+Keep this calculation in the existing transcript/state; it requires no new
+queue file, graph, worksheet or helper.
+
+On each child return or block, reacquire host status, update that cell, preserve
+still-active siblings, and recompute before dispatching or waiting again.
+A newly ready independent review need not wait for unrelated implementation.
+Check its actual read/write/acceptance boundaries first. This applies only when
+the material trigger and value warrant hold; the serial cheap path below stays
+unchanged, and a ceiling never creates work or an occupancy target.
+
 ## Instruction precedence
 
 Repo-wide child/subagent rules live in root `AGENTS.md`. Subtree-specific
