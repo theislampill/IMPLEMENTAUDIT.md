@@ -5,7 +5,7 @@
   "independent_semantic_evaluation": "NOT_RUN",
   "source_procedure": {
     "path": "skills/implementaudit/references/issue-ready-work-orders.md",
-    "sha256": "eaf73ccfb7b655035d171fa54f4b91dae882611fe48d832a24fd94a3291355c3",
+    "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
     "lines": [
       74,
       172
@@ -68,7 +68,7 @@
       "semantic_evidence": "NOT_OBSERVED",
       "scenario_sha256": "c90e0f28d77dc1519c26c2f4fa571666b27de35fa113ef4c7420244ab5a6669b",
       "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
-      "source_procedure_sha256": "eaf73ccfb7b655035d171fa54f4b91dae882611fe48d832a24fd94a3291355c3",
+      "source_procedure_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
       "source_procedure_lines": [
         74,
         172
@@ -112,7 +112,7 @@
       "semantic_evidence": "NOT_OBSERVED",
       "scenario_sha256": "cdc55ae2409c9154ee800e2a42f558f2346f9e1c9a82b982288cd6da1601e054",
       "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
-      "source_procedure_sha256": "eaf73ccfb7b655035d171fa54f4b91dae882611fe48d832a24fd94a3291355c3",
+      "source_procedure_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
       "source_procedure_lines": [
         74,
         172
@@ -142,7 +142,7 @@
       "semantic_evidence": "NOT_OBSERVED",
       "scenario_sha256": "3bd2ad94936731f18486a20eeff58e37a8d948d8c2248bb789aa913583e96a69",
       "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
-      "source_procedure_sha256": "eaf73ccfb7b655035d171fa54f4b91dae882611fe48d832a24fd94a3291355c3",
+      "source_procedure_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
       "source_procedure_lines": [
         74,
         172
@@ -178,7 +178,7 @@
       "semantic_evidence": "NOT_OBSERVED",
       "scenario_sha256": "f2a05b99bfe3e6d9e059a2403e0bfb1d1bce42b7a1bb171366970e411560ec62",
       "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
-      "source_procedure_sha256": "eaf73ccfb7b655035d171fa54f4b91dae882611fe48d832a24fd94a3291355c3",
+      "source_procedure_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
       "source_procedure_lines": [
         74,
         172
@@ -229,7 +229,7 @@
       "semantic_evidence": "NOT_OBSERVED",
       "scenario_sha256": "1bd6954aba58ed09d7ba1eeb8d29b9d0c73f30c627dd79c1b56d7c59712711c2",
       "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
-      "source_procedure_sha256": "eaf73ccfb7b655035d171fa54f4b91dae882611fe48d832a24fd94a3291355c3",
+      "source_procedure_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
       "source_procedure_lines": [
         74,
         172
@@ -259,7 +259,7 @@
       "semantic_evidence": "NOT_OBSERVED",
       "scenario_sha256": "962fde1877eddd5bc0a3d24be7ad7d7f6009b07ef1f6b63be082eb3c41c17aa7",
       "context_sha256": "252a58db287c2e8382553dca41bc0d795a1cfe0fb28012d1848f4c4479ef3f07",
-      "source_procedure_sha256": "eaf73ccfb7b655035d171fa54f4b91dae882611fe48d832a24fd94a3291355c3",
+      "source_procedure_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
       "source_procedure_lines": [
         74,
         172
