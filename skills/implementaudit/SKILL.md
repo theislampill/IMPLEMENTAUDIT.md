@@ -246,6 +246,11 @@ content refuses those actions. Verify selected-source/package/inventory identity
 before using the progressive owner. Ordinary direct work stays on the Execution
 Spine without a new reference read, model call, graph, or worksheet.
 
+When a run root is needed, claim it with `scripts/claim-run.sh <task>`,
+initialize from canonical runtime templates, then run
+`scripts/validate-run-root.sh <root>` after authoring; an invalid root is Andon,
+not dispatchable.
+
 ---
 
 ## Runtime Loop

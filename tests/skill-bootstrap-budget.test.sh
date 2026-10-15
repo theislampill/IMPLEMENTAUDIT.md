@@ -99,6 +99,11 @@ for label, replacement in (
 ):
     governor.write_text(text.replace(route, replacement), encoding="utf-8", newline="")
     check(label, "active planner route")
+run_root_edge = route.split("\n\n")[-1]
+assert run_root_edge.startswith("When a run root is needed, claim it with")
+governor.write_text(text.replace(run_root_edge, "<!--\n" + run_root_edge + "\n-->"),
+                   encoding="utf-8", newline="")
+check("inert-run-root-edge-with-stage-owner-retained", "active planner route")
 governor.write_text(text.replace(route, " ".join(route.split())), encoding="utf-8", newline="")
 check("equivalent-route-reflow", None)
 governor.write_bytes(original_governor)
