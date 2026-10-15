@@ -1,11 +1,12 @@
 {
-  "format": "R0045 bounded constituent qualification and continuation record, revision 1",
+  "format": "Published R0045 bounded constituent qualification and continuation record, revision 2; unallocated in the selected main canonical registry",
   "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/233",
   "host": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/232#issuecomment-5638961873",
   "shared_case": "EAA:EAA-001 / EAOSE:EAOSE-C001; one evidence family, two scoped references",
   "scope": "70 complete constituent dispositions; not 70 fully absorbed properties or completion of the 278-property/32-group host.",
   "accepting_route": "Direct authorized owner/maintainer invocation from #233 and the qualification document. A closed #233 remains the retained readable entry. No predecessor carrier or full local research record is retired.",
-  "authority": "R0045 owner work order only; no campaign cells, counters, currentness, global release, host/sibling closure or general autonomy authority.",
+  "authority": "Direct owner authority for published R0045 / issue #233 only; the identifier remains unallocated in the selected main canonical registry. No campaign cells, counters, currentness, global release, host/sibling closure or general autonomy authority.",
+  "owner_reference_format": "current_native_owners and TC existing_rockstars map exact preserved work-order IDs to their selected-main canonical allocation status. Published issue scope and direct owner authorization do not change that registry or admit a campaign cell.",
   "runtime_source": {
     "commit": "38d1fa982a652d9a77c3ae70817b99294dea7f00",
     "tree": "97df61f9b0b2b9bda970c0f702b9f4b96078e4c1",
@@ -2610,10 +2611,10 @@
       "novelty_adjudication": "The analytical handoff and explicit acceptance-transition criteria already forbid semantic promotion. The example supplies a concrete projection failure, not new authority.",
       "new_normative_property_admitted": false,
       "target_requirement": "Preserve definition/version, observed event meaning, uncertain mappings and the receiving acceptance predicate in projections and successor capsules.",
-      "existing_rockstars": [
-        "R0038",
-        "R0039"
-      ],
+      "existing_rockstars": {
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "semantic_invalidation_radius": "Affected event/projection interpretations and downstream decisions; raw event history remains evidence.",
       "cheap_or_non_trigger_path": "Do not introduce a mining engine or universal event ontology when a small typed record suffices.",
       "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification."
@@ -2636,11 +2637,11 @@
       "novelty_adjudication": "Predecessor-governed revision and justified-reference criteria already reject circular self-authorization. The narrow formal self-modification theorem is not generalized assurance.",
       "new_normative_property_admitted": false,
       "target_requirement": "Evaluate changed control criteria, event meaning and permission boundaries under admitted predecessor authority, with explicit old/new obligations and post-change evidence.",
-      "existing_rockstars": [
-        "R0033",
-        "R0037",
-        "R0039"
-      ],
+      "existing_rockstars": {
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "semantic_invalidation_radius": "Changed validators, policies, dependent evidence and action grants; earlier valid decisions remain retained.",
       "cheap_or_non_trigger_path": "Leave the existing control unchanged when the proposed revision lacks warranted benefit or authority.",
       "evidence_ceiling": "Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification."
@@ -2671,12 +2672,12 @@
         "pointer": "/rows/0",
         "canonical_sha256": "7e434680299d80433eccd09de42d8cc49fb220cff188b7b034c197a0cae4c3b8"
       },
-      "current_native_owners": [
-        "R001F",
-        "R002C",
-        "R002D",
-        "R002F"
-      ],
+      "current_native_owners": {
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -2816,14 +2817,14 @@
         "pointer": "/rows/1",
         "canonical_sha256": "d21696732bbecaa8546cc9118f8c4f07af9c98dae28895c5f04ffe1c48673b3d"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0029",
-        "R002E",
-        "R002F",
-        "R0033",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -2967,11 +2968,11 @@
         "pointer": "/rows/2",
         "canonical_sha256": "ed415588695ad74124001a749eaf3118791a1aa1ab17e05d8d3401652492ed1d"
       },
-      "current_native_owners": [
-        "R0022",
-        "R002A",
-        "R002D"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -3130,12 +3131,12 @@
         "pointer": "/rows/3",
         "canonical_sha256": "cfab108a7831f83d675dd5067ec51d84ddbb7d039af74b8dbc3e58d3cb3b5a33"
       },
-      "current_native_owners": [
-        "R0029",
-        "R002E",
-        "R0033",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -3305,15 +3306,15 @@
         "pointer": "/rows/4",
         "canonical_sha256": "975d7e6a8411a17e47a25f37de5f0554fbb1c3c8b33315b327b8533d09459fd4"
       },
-      "current_native_owners": [
-        "R0007",
-        "R0023",
-        "R0024",
-        "R002A",
-        "R002B",
-        "R0037",
-        "R0038"
-      ],
+      "current_native_owners": {
+        "R0007": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -3458,11 +3459,11 @@
         "pointer": "/rows/5",
         "canonical_sha256": "6c695871460e34641dbb83aa97df525ec94963b79d455da85f2cf527a7cdd51b"
       },
-      "current_native_owners": [
-        "R0019",
-        "R0022",
-        "R002D"
-      ],
+      "current_native_owners": {
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -3610,17 +3611,17 @@
         "pointer": "/rows/6",
         "canonical_sha256": "ee0b805d0d10ee15554b9ad905a71317c0d4ac550ac53005e9cd343dc53c24bd"
       },
-      "current_native_owners": [
-        "R0001",
-        "R0002",
-        "R0006",
-        "R0023",
-        "R0024",
-        "R002B",
-        "R002D",
-        "R0032",
-        "R0038"
-      ],
+      "current_native_owners": {
+        "R0001": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0002": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0006": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -3785,15 +3786,15 @@
         "pointer": "/rows/7",
         "canonical_sha256": "a92efd881f013235ea260509797b04f033a8077d4c781a96f1fc5cdf3d02ba65"
       },
-      "current_native_owners": [
-        "R0008",
-        "R000B",
-        "R0024",
-        "R002B",
-        "R002F",
-        "R0035",
-        "R0038"
-      ],
+      "current_native_owners": {
+        "R0008": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R000B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -3931,13 +3932,13 @@
         "pointer": "/rows/8",
         "canonical_sha256": "774a98d31166d71474f285d67576bfd924f41f8220131ddb2fb27bec7a87052e"
       },
-      "current_native_owners": [
-        "R0029",
-        "R002E",
-        "R0033",
-        "R0037",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -4039,10 +4040,10 @@
         "pointer": "/rows/9",
         "canonical_sha256": "bef63cbbd7a3ee3bbaf5eea19df832f669db7946c587b48f5e81eb56438d5cfc"
       },
-      "current_native_owners": [
-        "R002A",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -4223,15 +4224,15 @@
         "pointer": "/rows/10",
         "canonical_sha256": "2f431b4fad198e21355c8200385a05cd17a7bb0253a70087a60005ced876a010"
       },
-      "current_native_owners": [
-        "R0019",
-        "R0022",
-        "R002A",
-        "R002D",
-        "R0030",
-        "R0034",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0034": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -4338,13 +4339,13 @@
         "pointer": "/rows/11",
         "canonical_sha256": "3a7c089348a1b87e1fd414ac4cbbdeab326efcfce38dc8390ef504ae98905cf9"
       },
-      "current_native_owners": [
-        "R000E",
-        "R0011",
-        "R002A",
-        "R0037",
-        "R0039"
-      ],
+      "current_native_owners": {
+        "R000E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0011": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -4506,15 +4507,15 @@
         "pointer": "/rows/12",
         "canonical_sha256": "596f19d93d422c85c719e043804386d767a2cf23bd466ef83b3f0214a16a8814"
       },
-      "current_native_owners": [
-        "R001F",
-        "R002A",
-        "R002C",
-        "R002D",
-        "R002F",
-        "R0030",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -4631,10 +4632,10 @@
         "pointer": "/rows/13",
         "canonical_sha256": "d0e1ce0c95889711eef944cdf83c12a716cc6cc8efe2808719d14832ab736372"
       },
-      "current_native_owners": [
-        "R002A",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -4744,15 +4745,15 @@
         "pointer": "/rows/14",
         "canonical_sha256": "18040cac626af9c12a4056b0960770af1010d2a5a0a092b118776eac7eb0844a"
       },
-      "current_native_owners": [
-        "R0021",
-        "R0022",
-        "R002A",
-        "R002E",
-        "R0035",
-        "R0037",
-        "R0039"
-      ],
+      "current_native_owners": {
+        "R0021": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -4864,12 +4865,12 @@
         "pointer": "/rows/15",
         "canonical_sha256": "44e41e3c0c1e3ca41bf89d2dd1ac2dcd750e4aa9d684db21e5aae09e9dfee18e"
       },
-      "current_native_owners": [
-        "R0019",
-        "R0022",
-        "R002A",
-        "R002D"
-      ],
+      "current_native_owners": {
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -4997,14 +4998,14 @@
         "pointer": "/rows/16",
         "canonical_sha256": "65cc8caa51793d2a614cee1ea7de9dd0d4c0dd63fe8df8a12f6300c3e5a4d465"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0023",
-        "R0029",
-        "R002D",
-        "R002F",
-        "R0032"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -5195,14 +5196,14 @@
         "pointer": "/rows/17",
         "canonical_sha256": "f0157f303c864a53c7f42177a342ee65db24830afa159d9522f5aed60ab100c6"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0024",
-        "R002A",
-        "R002B",
-        "R002D",
-        "R0038"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -5365,13 +5366,13 @@
         "pointer": "/rows/18",
         "canonical_sha256": "29ef106cdd4f484df889505f6a99fd5973851c0aad5fc9229154a2d445268d8d"
       },
-      "current_native_owners": [
-        "R0022",
-        "R002A",
-        "R002D",
-        "R0030",
-        "R0034"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0034": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -5588,11 +5589,11 @@
         "pointer": "/rows/19",
         "canonical_sha256": "71e80a45ef34abcc4dde329539792b757bf7b860cef001b2afe6b07cbab64f02"
       },
-      "current_native_owners": [
-        "R0019",
-        "R0022",
-        "R002D"
-      ],
+      "current_native_owners": {
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -5786,12 +5787,12 @@
         "pointer": "/rows/20",
         "canonical_sha256": "98c2e755eaaa0ee30119afe13a224aa157916b6df1e845df45306c4338269fb4"
       },
-      "current_native_owners": [
-        "R0029",
-        "R002E",
-        "R0033",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -5948,16 +5949,16 @@
         "pointer": "/rows/21",
         "canonical_sha256": "9dcc798fb02dfcd6779ef3836f6950bf6d41c2767ca16a91bb79bbf136a0fba8"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0029",
-        "R002D",
-        "R002E",
-        "R0032",
-        "R0033",
-        "R0037",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -6154,17 +6155,17 @@
         "pointer": "/rows/22",
         "canonical_sha256": "82bd92c10ecfab0db3228a1ff5d5bce116b2099b0b8e8b3bc8801ee56cbea62f"
       },
-      "current_native_owners": [
-        "R0007",
-        "R000F",
-        "R0023",
-        "R0024",
-        "R002E",
-        "R0030",
-        "R0033",
-        "R0035",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0007": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R000F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -6361,11 +6362,11 @@
         "pointer": "/rows/23",
         "canonical_sha256": "81ce5a79ce1f76e8cee940ff06ad263881281dac810a0eb699087ed753c1f70b"
       },
-      "current_native_owners": [
-        "R0024",
-        "R0030",
-        "R0031"
-      ],
+      "current_native_owners": {
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0031": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -6495,17 +6496,17 @@
         "pointer": "/rows/24",
         "canonical_sha256": "37d6adaffcd2b8d3f494c77a1e2d9f0f002e1a6a53f6b89b1f759030ca2cca90"
       },
-      "current_native_owners": [
-        "R000F",
-        "R001F",
-        "R0024",
-        "R002C",
-        "R002D",
-        "R002F",
-        "R0030",
-        "R0031",
-        "R0035"
-      ],
+      "current_native_owners": {
+        "R000F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0031": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -6624,12 +6625,12 @@
         "pointer": "/rows/25",
         "canonical_sha256": "071e98cb1e38c44efee5bec500f5a6a45a4495c95901d6e7a39c01d4328c96ae"
       },
-      "current_native_owners": [
-        "R0008",
-        "R000B",
-        "R002F",
-        "R0035"
-      ],
+      "current_native_owners": {
+        "R0008": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R000B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -6817,12 +6818,12 @@
         "pointer": "/rows/26",
         "canonical_sha256": "dcf41f79a81d7298ca69dc15a4da34c59b96e7a683ae7349b6716c893368032b"
       },
-      "current_native_owners": [
-        "R0008",
-        "R000B",
-        "R002F",
-        "R0035"
-      ],
+      "current_native_owners": {
+        "R0008": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R000B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -6953,14 +6954,14 @@
         "pointer": "/rows/27",
         "canonical_sha256": "c7c68d0f1a330b561e757915ab2575621457292332b451c34b905deeb382b929"
       },
-      "current_native_owners": [
-        "R0008",
-        "R000B",
-        "R0022",
-        "R0029",
-        "R002F",
-        "R0035"
-      ],
+      "current_native_owners": {
+        "R0008": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R000B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -7114,11 +7115,11 @@
         "pointer": "/rows/28",
         "canonical_sha256": "cf50c8a8e91b890a24916895b146f86f92b2b165c7928b7adc7201813e24840f"
       },
-      "current_native_owners": [
-        "R002B",
-        "R002F",
-        "R0032"
-      ],
+      "current_native_owners": {
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -7257,15 +7258,15 @@
         "pointer": "/rows/29",
         "canonical_sha256": "098faa2de95e51fde7943356621be283213cc656e63d166449f385fa8fd4c08e"
       },
-      "current_native_owners": [
-        "R0007",
-        "R0010",
-        "R0015",
-        "R001D",
-        "R0023",
-        "R0034",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0007": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0010": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0015": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R001D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0034": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -7400,16 +7401,16 @@
         "pointer": "/rows/30",
         "canonical_sha256": "b2a1cc59082c5f4322765a51bb7f306e864f605430bd3672195fcec2c355e570"
       },
-      "current_native_owners": [
-        "R0007",
-        "R0021",
-        "R0022",
-        "R0023",
-        "R002E",
-        "R0035",
-        "R0037",
-        "R0039"
-      ],
+      "current_native_owners": {
+        "R0007": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0021": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -7515,15 +7516,15 @@
         "pointer": "/rows/31",
         "canonical_sha256": "ce99656c3802484c1708ecc56d6ce17abbdf022e3e6afa89f9985fb6bb90ac49"
       },
-      "current_native_owners": [
-        "R0022",
-        "R002D",
-        "R0030",
-        "R0032",
-        "R0033",
-        "R0037",
-        "R0039"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -7675,11 +7676,11 @@
         "pointer": "/rows/32",
         "canonical_sha256": "04e69c295dbaef8ab84a72b8f3a9a7304ce3d0613aeee5170ccb756b8caa4478"
       },
-      "current_native_owners": [
-        "R002B",
-        "R002F",
-        "R0032"
-      ],
+      "current_native_owners": {
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -7849,14 +7850,14 @@
         "pointer": "/rows/33",
         "canonical_sha256": "63d247b7543031a0ee6cc2dfe03e39f371582484514360c1752a086d2f45449f"
       },
-      "current_native_owners": [
-        "R001F",
-        "R0023",
-        "R002C",
-        "R002D",
-        "R002F",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -8037,13 +8038,13 @@
         "pointer": "/rows/34",
         "canonical_sha256": "cdd63db83bc2353c67a199d155c63b4e110260f7057768d42d3196e1a1036904"
       },
-      "current_native_owners": [
-        "R0019",
-        "R0022",
-        "R002B",
-        "R002D",
-        "R002F"
-      ],
+      "current_native_owners": {
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -8240,14 +8241,14 @@
         "pointer": "/rows/35",
         "canonical_sha256": "ce7806f160217b0400c1ebe51fd50a866fab63626a34096fbacf2fb2d30cc573"
       },
-      "current_native_owners": [
-        "R000F",
-        "R0024",
-        "R002A",
-        "R0030",
-        "R0035",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R000F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -8417,13 +8418,13 @@
         "pointer": "/rows/36",
         "canonical_sha256": "72ce91cd63f4983468b8f6e0250b8d1639130fd99ff856958ae58d042cfacc0f"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0029",
-        "R002A",
-        "R002F",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -8585,11 +8586,11 @@
         "pointer": "/rows/37",
         "canonical_sha256": "def2523bf648c1fe17d52474a2f4d38f961d9c0cdb717b46822d5233db8ce39f"
       },
-      "current_native_owners": [
-        "R0029",
-        "R002A",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -8764,11 +8765,11 @@
         "pointer": "/rows/38",
         "canonical_sha256": "149e99281cb623f7da805e2b8ff49e56f0b85805d697dcdcbefbaba8ecbcf6d0"
       },
-      "current_native_owners": [
-        "R0029",
-        "R002A",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -8936,15 +8937,15 @@
         "pointer": "/rows/39",
         "canonical_sha256": "5c177f92bfa9dcc56ac6b1aeb7aa708a3eee55f5dca0a5569b814162922b5423"
       },
-      "current_native_owners": [
-        "R0029",
-        "R002E",
-        "R0030",
-        "R0033",
-        "R0035",
-        "R0037",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -9102,11 +9103,11 @@
         "pointer": "/rows/40",
         "canonical_sha256": "2d0abb2f21bd78dc4d8cc33009377665868d08a90ca4c5279b7cdd8caa3b6c2e"
       },
-      "current_native_owners": [
-        "R002B",
-        "R002F",
-        "R0032"
-      ],
+      "current_native_owners": {
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -9270,15 +9271,15 @@
         "pointer": "/rows/41",
         "canonical_sha256": "a7c4c3455967ee8cbe2e4bdaad994f3181d8ec26ed7295d21c556856285bb395"
       },
-      "current_native_owners": [
-        "R0011",
-        "R0024",
-        "R002B",
-        "R0033",
-        "R0036",
-        "R0038",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0011": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0036": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -9472,11 +9473,11 @@
         "pointer": "/rows/42",
         "canonical_sha256": "51b1ea995e99dc9517096c910f75978c3d9493eb25873d96eee2e3ddbf7741aa"
       },
-      "current_native_owners": [
-        "R0024",
-        "R002E",
-        "R0033"
-      ],
+      "current_native_owners": {
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -9633,14 +9634,14 @@
         "pointer": "/rows/43",
         "canonical_sha256": "2a9f95486521f6b4ed806d5748a6b90821c8ea98b966e20a8df7b22a9217140e"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0029",
-        "R002A",
-        "R002B",
-        "R002F",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -9759,16 +9760,16 @@
         "pointer": "/rows/44",
         "canonical_sha256": "52aa8ee8d3828679293f983d5ed729398b4acc0e6b1a05f84d30d7ea3bafa6cb"
       },
-      "current_native_owners": [
-        "R000D",
-        "R0023",
-        "R0024",
-        "R002A",
-        "R002B",
-        "R002D",
-        "R0032",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R000D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -9967,12 +9968,12 @@
         "pointer": "/rows/45",
         "canonical_sha256": "a7c99c6adba9ab63f647ba2308d3b3670450a66fb85f27678bc2bb44284b2cbf"
       },
-      "current_native_owners": [
-        "R000E",
-        "R0011",
-        "R0037",
-        "R0039"
-      ],
+      "current_native_owners": {
+        "R000E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0011": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -10117,13 +10118,13 @@
         "pointer": "/rows/46",
         "canonical_sha256": "729df92ebe2098bf3ec84e2cba220a83ef2f4cc94a27ff7f418a87fdba06a45d"
       },
-      "current_native_owners": [
-        "R0008",
-        "R000B",
-        "R002B",
-        "R002F",
-        "R0035"
-      ],
+      "current_native_owners": {
+        "R0008": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R000B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0035": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -10271,11 +10272,11 @@
         "pointer": "/rows/47",
         "canonical_sha256": "2a3af73c8b5e4d88a47742832eeac1c078d81bc9b48de4656fc90706bdab5c25"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0029",
-        "R002F"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -10409,11 +10410,11 @@
         "pointer": "/rows/48",
         "canonical_sha256": "dfd4e225b3db4e233b4a5abf3d9500999b820384b94a0ca23ae8f916652d46c0"
       },
-      "current_native_owners": [
-        "R0023",
-        "R002D",
-        "R0032"
-      ],
+      "current_native_owners": {
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -10568,14 +10569,14 @@
         "pointer": "/rows/49",
         "canonical_sha256": "fe2bf50b03615f6f4741c4c277fae33fcd67597ee022cc18c6ffbe38ffde10f9"
       },
-      "current_native_owners": [
-        "R0023",
-        "R0024",
-        "R002B",
-        "R002D",
-        "R0032",
-        "R0038"
-      ],
+      "current_native_owners": {
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -10786,18 +10787,18 @@
         "pointer": "/rows/50",
         "canonical_sha256": "aa1e24885fa25625080ed43e2426ce6e14b90710cc0beca1e3c730a856e9c856"
       },
-      "current_native_owners": [
-        "R0010",
-        "R0015",
-        "R001D",
-        "R001F",
-        "R0023",
-        "R002C",
-        "R002D",
-        "R002F",
-        "R0032",
-        "R0034"
-      ],
+      "current_native_owners": {
+        "R0010": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0015": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R001D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0034": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -11034,15 +11035,15 @@
         "pointer": "/rows/51",
         "canonical_sha256": "9f88544240e734aa4674838d353fcf7489eb6c0c638f8a5d78d507ef2d259e50"
       },
-      "current_native_owners": [
-        "R0024",
-        "R0029",
-        "R002B",
-        "R002E",
-        "R0033",
-        "R0038",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0038": "unallocated in the selected main canonical registry; published work-order reference only",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -11172,13 +11173,13 @@
         "pointer": "/rows/52",
         "canonical_sha256": "66389f84f30869a56269a0a9c3042a8036128c87c76fee9442c39edb0fdc621a"
       },
-      "current_native_owners": [
-        "R0023",
-        "R002A",
-        "R002D",
-        "R0032",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -11309,11 +11310,11 @@
         "pointer": "/rows/53",
         "canonical_sha256": "01296432713221f124c3968fa14ee5e017ad645a5f9576d3365becaadddb581e"
       },
-      "current_native_owners": [
-        "R002A",
-        "R002D",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -11502,20 +11503,20 @@
         "pointer": "/rows/54",
         "canonical_sha256": "608afb34832d4456ec4b72d5d2964b8d5c4b12a8490fbdaf3262e03c9064e302"
       },
-      "current_native_owners": [
-        "R000E",
-        "R0011",
-        "R0019",
-        "R001E",
-        "R0021",
-        "R0022",
-        "R0023",
-        "R002D",
-        "R0032",
-        "R0034",
-        "R0037",
-        "R0039"
-      ],
+      "current_native_owners": {
+        "R000E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0011": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R001E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0021": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0034": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -11712,11 +11713,11 @@
         "pointer": "/rows/55",
         "canonical_sha256": "7aa3cc9ab5fef0ac058c88e297453a7d3376d9b5eb29fc322a3bd4a25a55caef"
       },
-      "current_native_owners": [
-        "R0029",
-        "R002A",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -11873,10 +11874,10 @@
         "pointer": "/rows/56",
         "canonical_sha256": "42ea77a95e28d977d2dedb5a1350134ca393270163b1e7d0ee9e06f8fa9719dd"
       },
-      "current_native_owners": [
-        "R002A",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -11993,17 +11994,17 @@
         "pointer": "/rows/57",
         "canonical_sha256": "160d190c1ee9cfe56e8f1d3b5f872c25eae2957e0d5d21e08f25d46c37ccc3a0"
       },
-      "current_native_owners": [
-        "R0001",
-        "R0002",
-        "R0006",
-        "R0022",
-        "R0023",
-        "R0029",
-        "R002D",
-        "R002F",
-        "R0032"
-      ],
+      "current_native_owners": {
+        "R0001": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0002": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0006": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -12114,11 +12115,11 @@
         "pointer": "/rows/58",
         "canonical_sha256": "18edd56f18c680ec24c101885b6ddbb3f41d0692f95ae882a75edbe129ddaac7"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0029",
-        "R002F"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -12229,7 +12230,7 @@
         "pointer": "/rows/59",
         "canonical_sha256": "0ce0982a469f081458869c9b92092c5220689eb32d92010ac337656897d0c14d"
       },
-      "current_native_owners": [],
+      "current_native_owners": {},
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -12379,11 +12380,11 @@
         "pointer": "/rows/60",
         "canonical_sha256": "18b918751bb6807b50957d698bcfd45e7586dcc56aab30fe33987b8e83b4659f"
       },
-      "current_native_owners": [
-        "R0022",
-        "R0029",
-        "R002F"
-      ],
+      "current_native_owners": {
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/planning-depth.md",
@@ -12541,12 +12542,12 @@
         "pointer": "/rows/61",
         "canonical_sha256": "45f6c590b5cc5b3c15be9275c8be9ea45b161b078a97c955810515a3602b7597"
       },
-      "current_native_owners": [
-        "R0023",
-        "R002D",
-        "R0032",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -12675,16 +12676,16 @@
         "pointer": "/rows/62",
         "canonical_sha256": "8ea574efd9cb298320de0db681ff01e2f29a7d3acde03bc14ee53e48aa9378bf"
       },
-      "current_native_owners": [
-        "R0007",
-        "R001F",
-        "R0023",
-        "R002A",
-        "R002C",
-        "R002D",
-        "R002F",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0007": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -12834,11 +12835,11 @@
         "pointer": "/rows/63",
         "canonical_sha256": "e5c7870b9a3f0a28f57cb1f1201c4e0cc85455c572dcbb808162b1e0f287a42a"
       },
-      "current_native_owners": [
-        "R002D",
-        "R0030",
-        "R0034"
-      ],
+      "current_native_owners": {
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0034": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -13011,21 +13012,21 @@
         "pointer": "/rows/64",
         "canonical_sha256": "5cd48a83f7e5b854f23a4caa653a1203e1b71f7e4299032dc30940e5f0ada0c0"
       },
-      "current_native_owners": [
-        "R0001",
-        "R0002",
-        "R0006",
-        "R0010",
-        "R0015",
-        "R001D",
-        "R0023",
-        "R0024",
-        "R002A",
-        "R002D",
-        "R0032",
-        "R0034",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0001": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0002": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0006": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0010": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0015": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R001D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0032": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0034": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -13172,12 +13173,12 @@
         "pointer": "/rows/65",
         "canonical_sha256": "9c92c8c12964beb8afd4977265689d0335c32803f1bcda58e884c9afe48e74b9"
       },
-      "current_native_owners": [
-        "R001F",
-        "R002C",
-        "R002D",
-        "R002F"
-      ],
+      "current_native_owners": {
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -13346,17 +13347,17 @@
         "pointer": "/rows/66",
         "canonical_sha256": "3fa858f44ea0dde75c337be9dd5b1358635424987b8110ea2623116f74996ff0"
       },
-      "current_native_owners": [
-        "R0019",
-        "R0022",
-        "R0029",
-        "R002A",
-        "R002D",
-        "R002E",
-        "R0033",
-        "R0037",
-        "R003A"
-      ],
+      "current_native_owners": {
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0029": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0033": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R003A": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -13534,11 +13535,11 @@
         "pointer": "/rows/67",
         "canonical_sha256": "589e4da038f6024fc4c5886832ea25ef4ce787a5c9c3e5fabb40df83811be73d"
       },
-      "current_native_owners": [
-        "R0019",
-        "R0022",
-        "R002D"
-      ],
+      "current_native_owners": {
+        "R0019": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
@@ -13701,20 +13702,20 @@
         "pointer": "/rows/68",
         "canonical_sha256": "c0480654c600f53c553596cecccab6a3e2c3148e18c1007447784bb4d19cd1e7"
       },
-      "current_native_owners": [
-        "R001F",
-        "R0022",
-        "R0024",
-        "R002A",
-        "R002C",
-        "R002D",
-        "R002E",
-        "R002F",
-        "R0030",
-        "R0031",
-        "R0037",
-        "R0039"
-      ],
+      "current_native_owners": {
+        "R001F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0022": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0024": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002A": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002C": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002D": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002E": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0030": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0031": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0039": "unallocated in the selected main canonical registry; published work-order reference only"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/child-agents.md",
@@ -13865,12 +13866,12 @@
         "pointer": "/rows/69",
         "canonical_sha256": "98a737e44bf5331bb4fe504fb39bc6fe0a4512e25f3677fe98c785b3080104fa"
       },
-      "current_native_owners": [
-        "R0023",
-        "R002B",
-        "R002F",
-        "R0037"
-      ],
+      "current_native_owners": {
+        "R0023": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002B": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R002F": "allocated in the selected main canonical registry; this reference grants no additional authority",
+        "R0037": "allocated in the selected main canonical registry; this reference grants no additional authority"
+      },
       "current_source_paths": [
         "skills/implementaudit/references/issue-ready-work-orders.md",
         "skills/implementaudit/references/audit-category-matrix.md",
