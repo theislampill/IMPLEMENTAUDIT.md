@@ -250,9 +250,9 @@ bash scripts/check-cold-review-contract.sh --repo-root "$tmp_root" \
 # 3. Stage 6.i removed from the stage map -> must fail.
 reset_sandbox
 sed 's/^### Stage 6.i - Independent cold review$/### Stage 6.i - Removed/' \
-  "$tmp_root/skills/implementaudit/SKILL.md" >"$tmp_root/skill.tmp"
-mv "$tmp_root/skill.tmp" "$tmp_root/skills/implementaudit/SKILL.md"
-expect_fail "SKILL.md without Stage 6.i"
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md" >"$tmp_root/skill.tmp"
+mv "$tmp_root/skill.tmp" "$tmp_root/skills/implementaudit/references/plan-lifecycle.md"
+expect_fail "progressive stage owner without Stage 6.i"
 
 # 4. Readiness gate clause removed from plan-lifecycle -> must fail.
 reset_sandbox

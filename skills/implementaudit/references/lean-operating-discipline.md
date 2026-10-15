@@ -249,6 +249,15 @@ reruns the unchanged byte gate. If restored semantics do not fit, keep the
 package failure visible and route to architecture, evidence-derived calibration,
 or owner decision; never recover headroom by deleting governed behaviour.
 
+The governor's 450-line/22,000-byte gate retains a 741-byte restoration allowance:
+the largest complete stage in the reviewed planner move, including its heading
+and separators. The source fixture binds that measurement and the complete
+progressive owner. An edit consuming this allowance requires semantic-preserving
+placement before acceptance; it cannot raise the ceiling. This covers restoring
+one moved stage, not arbitrary future growth or a complete rollback. Ordinary
+work gains no worksheet or model call. Reconsider this control only with a new
+owner-backed consumer measurement and independent R0023 review.
+
 ## Environment-quirk memoization
 
 When the same normalized host or tool error reaches a second distinct linked

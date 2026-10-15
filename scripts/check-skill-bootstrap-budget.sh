@@ -48,6 +48,7 @@ fi
 
 "${py_cmd[@]}" - "$skill_file" "$max_lines" "$max_bytes" <<'PY'
 import sys
+import subprocess
 from pathlib import Path
 
 path = Path(sys.argv[1])
@@ -71,6 +72,13 @@ if byte_count > max_bytes:
     raise SystemExit(
         f"{path}: bootloader too large: {byte_count} bytes > {max_bytes}"
     )
+
+if path.as_posix() == "skills/implementaudit/SKILL.md":
+    # The existing semantic evidence owner binds the active trigger, complete
+    # progressive owner and measured single-stage restoration allowance.
+    subprocess.run([sys.executable, "fixtures/semantic-preservation/evaluate.py",
+                    "--cases", "fixtures/semantic-preservation/cases.json",
+                    "--bootstrap-skill", str(path)], check=True)
 
 for lineno, line in enumerate(lines, start=1):
     lowered = line.lower()

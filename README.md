@@ -551,8 +551,11 @@ flowchart TB
 
 ## Native planner stages
 
-When goal synthesis or phased audit closure is needed, `skills/implementaudit/SKILL.md` defines
-a native Stage 0-7 planner contract:
+When goal synthesis or phased audit closure is needed, `skills/implementaudit/SKILL.md`
+requires reading the complete [Stage 0-7 planner contract](skills/implementaudit/references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure)
+before the planning decision. Ordinary direct work keeps the Execution Spine and
+does not load the stage detail. Missing or mismatched progressive owners refuse
+the affected planning action; the load-map link alone is not a completed read.
 
 ```text
 Stage 0 - Context/tool/repo-state detection

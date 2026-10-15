@@ -414,8 +414,11 @@ if [ -n "$successor_root" ]; then
   exit 0
 fi
 
-# --- SKILL.md stage map carries the gate ---
+# --- The governor activates the complete progressive stage owner ---
 skill="skills/implementaudit/SKILL.md"
+require "$skill" "For goal synthesis or a warranted phased plan, read"
+require "$skill" "references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure"
+stage_owner="skills/implementaudit/references/plan-lifecycle.md"
 for text in \
   "Stage 6.i - Independent cold review" \
   "does not reuse the authoring context" \
@@ -427,12 +430,12 @@ for text in \
   "Self-critique is" \
   "preserved, not replaced"
 do
-  require "$skill" "$text"
+  require "$stage_owner" "$text"
 done
 
 # Stage 6 self-critique must remain intact (preserved, not replaced).
-require "$skill" "Stage 6 - Plan review and self-critique"
-require "$skill" "Stage 6.ii - Pre-flight smoke"
+require "$stage_owner" "Stage 6 - Plan review and self-critique"
+require "$stage_owner" "Stage 6.ii - Pre-flight smoke"
 
 # --- planning-depth stage list includes the new stage ---
 require "skills/implementaudit/references/planning-depth.md" \

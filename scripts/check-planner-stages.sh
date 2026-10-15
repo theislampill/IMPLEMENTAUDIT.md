@@ -48,21 +48,24 @@ require_file docs/diagrams/execution-spine.mmd
 require_file docs/portal/pages/planning-and-phases.html
 
 require_in_file skills/implementaudit/SKILL.md "## 2b. Planner stages for goal synthesis and phased audit closure"
-require_in_file skills/implementaudit/SKILL.md "Stage 0 - Context/tool/repo-state detection"
-require_in_file skills/implementaudit/SKILL.md "Stage 1 - Audit-governed intake and routing"
-require_in_file skills/implementaudit/SKILL.md "Stage 2 - Recon / Gemba"
-require_in_file skills/implementaudit/SKILL.md "Stage 3 - Deep think / risk and dependency analysis"
-require_in_file skills/implementaudit/SKILL.md "Stage 4 - Phase decomposition"
-require_in_file skills/implementaudit/SKILL.md 'Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts'
-require_in_file skills/implementaudit/SKILL.md "Stage 6 - Plan review and self-critique"
-require_in_file skills/implementaudit/SKILL.md "Stage 6.i - Independent cold review"
-require_in_file skills/implementaudit/SKILL.md "Stage 6.ii - Pre-flight smoke"
-require_in_file skills/implementaudit/SKILL.md 'Stage 7 - One ready-to-paste `/goal` handoff when not already embedded'
+require_in_file skills/implementaudit/SKILL.md "For goal synthesis or a warranted phased plan, read"
+require_in_file skills/implementaudit/SKILL.md "references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "## 2b. Planner stages for goal synthesis and phased audit closure"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 0 - Context/tool/repo-state detection"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 1 - Audit-governed intake and routing"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 2 - Recon / Gemba"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 3 - Deep think / risk and dependency analysis"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 4 - Phase decomposition"
+require_in_file skills/implementaudit/references/plan-lifecycle.md 'Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts'
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 6 - Plan review and self-critique"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 6.i - Independent cold review"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 6.ii - Pre-flight smoke"
+require_in_file skills/implementaudit/references/plan-lifecycle.md 'Stage 7 - One ready-to-paste `/goal` handoff when not already embedded'
 require_in_file skills/implementaudit/SKILL.md ".IMPLEMENTAUDIT/THINKING.md"
 require_in_file skills/implementaudit/SKILL.md 'do not print a second `/goal`'
-require_in_file skills/implementaudit/SKILL.md "Self-critique:"
-require_in_file skills/implementaudit/SKILL.md "PREFLIGHT_GREEN"
-require_in_file skills/implementaudit/SKILL.md "PREFLIGHT_RED"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Self-critique:"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "PREFLIGHT_GREEN"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "PREFLIGHT_RED"
 require_in_file skills/implementaudit/SKILL.md "AUDIT_COMPLETE"
 require_in_file skills/implementaudit/SKILL.md "IMPLEMENTAUDIT_RUN_COMPLETE"
 require_in_file skills/implementaudit/SKILL.md "scripts/claim-run.sh"
@@ -71,19 +74,19 @@ require_in_file skills/implementaudit/SKILL.md 'IMPLEMENTAUDIT_RUN_ROOT'
 require_in_file skills/implementaudit/SKILL.md 'IMPLEMENTAUDIT_BASELINE_REF'
 require_in_file skills/implementaudit/SKILL.md "CONTINUITY_DECISION"
 require_in_file skills/implementaudit/SKILL.md ".IMPLEMENTAUDIT/runs/<task-slug>-<id>/"
-require_in_file skills/implementaudit/SKILL.md "Stage 6 assumptions"
-require_in_file skills/implementaudit/SKILL.md "0-2 true-gap questions"
-require_in_file skills/implementaudit/SKILL.md "at most four material questions"
-require_in_file skills/implementaudit/SKILL.md "canonical runtime templates"
-require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh <root>` after authoring'
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Stage 6 assumptions"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "0-2 true-gap questions"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "at most four material questions"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "canonical runtime templates"
+require_in_file skills/implementaudit/references/plan-lifecycle.md '`scripts/validate-run-root.sh <root>` after authoring'
 require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh` immediately before'
-require_in_file skills/implementaudit/SKILL.md "safe containment with unresolved causality"
-require_in_file skills/implementaudit/SKILL.md "distinct supported candidate causes"
-require_in_file skills/implementaudit/SKILL.md "residual dispositions"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "safe containment with unresolved causality"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "distinct supported candidate causes"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "residual dispositions"
 require_in_file skills/implementaudit/references/planning-depth.md 'Historical `6.2` and `6.5`'
 require_in_file skills/implementaudit/references/planning-depth.md "normalize as aliases for those same two substages"
 
-require_ordered skills/implementaudit/SKILL.md \
+require_ordered skills/implementaudit/references/plan-lifecycle.md \
   "Stage 6 - Plan review and self-critique" \
   "Stage 6.i - Independent cold review" \
   "Stage 6.ii - Pre-flight smoke" \

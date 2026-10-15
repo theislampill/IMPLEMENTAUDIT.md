@@ -170,9 +170,12 @@ for needle in [
     "andon:",
     "class:",
     "abnormality class",
-    "version skew",
 ]:
     require(skill, needle, "Andon class / version-skew discipline", skill_path)
+planner_path = "skills/implementaudit/references/plan-lifecycle.md"
+require(read(planner_path), "version skew", "Stage 0 version-skew discipline", planner_path)
+require(skill, "references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure",
+        "active progressive planner route", skill_path)
 
 # 3b. Andon log substrate must exist in the STATE.md template
 state_path = "skills/implementaudit/templates/STATE.md"

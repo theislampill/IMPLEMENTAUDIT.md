@@ -183,8 +183,9 @@ if grep -Fq "### Public capability projection" \
    grep -Fq '"kind": "rendered-consumer-boundary"' \
      fixtures/public-projection/cases.json &&
    grep -Fq 'material owner-sourced capabilities omitted' \
-     skills/implementaudit/SKILL.md &&
-   grep -Fq 'audience/authority/abstraction mismatch' skills/implementaudit/SKILL.md &&
+     skills/implementaudit/references/plan-lifecycle.md &&
+   grep -Fq 'audience/authority/abstraction mismatch' skills/implementaudit/references/plan-lifecycle.md &&
+   grep -Fq 'references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure' skills/implementaudit/SKILL.md &&
    grep -Fq 'Public projection challenge: overclaim / omission / audience-owner-abstraction mismatch / duplicate authority / hidden route / not applicable with owner evidence' \
      fixtures/child-agents/read-only-contract-auditor.md &&
    grep -Fq '## Public Capability Projection (when activated)' \
