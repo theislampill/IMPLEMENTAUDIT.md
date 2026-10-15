@@ -132,4 +132,25 @@ with tempfile.TemporaryDirectory(prefix='r001e-successor-') as raw:
     p=make('diagnostic-allocates')
     write(p/'skills/implementaudit/scripts/resolve-durable-identity.py','#!/usr/bin/env python3\nprint("R001E")\n')
     run('diagnostic-allocation-refusal',p,False,'Python route probe',full=True)
+    p=make('python-output-bound')
+    write(p/'skills/implementaudit/scripts/resolve-internal-skill.py','import sys\nsys.stdout.write("x"*131072)\nsys.stdout.flush()\n')
+    run('python-output-bound',p,False,'output limit exceeded',full=True)
+    p=make('python-timeout-child');pidfile=p/'owned-child.pid'
+    body=('import subprocess,sys,time\nfrom pathlib import Path\n'
+          'child=subprocess.Popen([sys.executable,"-c","import time; time.sleep(45)"],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\n'
+          'Path('+repr(str(pidfile))+').write_text(str(child.pid))\n'
+          'print("python-route-timeout-control",file=sys.stderr,flush=True)\ntime.sleep(45)\n')
+    write(p/'skills/implementaudit/scripts/resolve-internal-skill.py',body)
+    run('python-timeout-child',p,False,'python-route-timeout-control',full=True)
+    pid=int(pidfile.read_text(encoding='utf-8'))
+    if os.name=='nt':
+        listed=subprocess.run(['tasklist','/FI','PID eq '+str(pid),'/FO','CSV','/NH'],capture_output=True,text=True,check=True)
+        alive='"'+str(pid)+'"' in listed.stdout
+        if alive:subprocess.run(['taskkill','/PID',str(pid),'/T','/F'],capture_output=True,check=False)
+    else:
+        listed=subprocess.run(['ps','-o','stat=','-p',str(pid)],capture_output=True,text=True)
+        alive=bool(listed.stdout.strip()) and not listed.stdout.lstrip().startswith('Z')
+        if alive:os.kill(pid,9)
+    assert not alive,'Python probe child survived its bounded parent'
+    print('helper-reachability-successor: Python probe child termination observed',flush=True)
 print('helper-reachability-successor: complete '+str(len(results))+' controls; source/fixture evidence only',flush=True)

@@ -37,6 +37,8 @@ import signal
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 import types
 from pathlib import Path
 from pathlib import PurePosixPath
@@ -460,15 +462,66 @@ if not census_only:
                 value = value.replace(key, replacement)
             return value
         argv = [sys.executable, *options, bind(operand), *map(bind, arguments)]
+        # A timeout on only the direct process can leave a child alive (and
+        # holding the staged directory or pipes). Use the existing process-family
+        # boundary, bounded stream buffers, and retain refusal diagnostics.
+        job = _KillOnCloseJob() if os.name == "nt" else None
+        kwargs = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP} if job else {"start_new_session": True}
+        process = None
+        streams, readers = {}, []
+        overflow = threading.Event()
+        timed_out = False
         try:
-            outcome = subprocess.run(argv, cwd=governor_dir, capture_output=True, text=True, timeout=10,
-                                     env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+            process = subprocess.Popen(argv, cwd=governor_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       bufsize=0, env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}, **kwargs)
+            if job:
+                job.assign(process)
+            def drain(pipe, key):
+                buffer = streams[key]
+                while True:
+                    chunk = pipe.read(4096)
+                    if not chunk:
+                        return
+                    available = 65536 - len(buffer)
+                    buffer.extend(chunk[:available])
+                    if len(chunk) > available:
+                        overflow.set()
+                        return
+            for key, pipe in (("stdout", process.stdout), ("stderr", process.stderr)):
+                streams[key] = bytearray()
+                reader = threading.Thread(target=drain, args=(pipe, key), daemon=True)
+                reader.start(); readers.append(reader)
+            deadline = time.monotonic() + 10
+            while process.poll() is None and not overflow.wait(.02):
+                if time.monotonic() >= deadline:
+                    timed_out = True
+                    break
         except (OSError, subprocess.SubprocessError) as exc:
             raise SystemExit(f"check-helper-reachability: Python route probe failed: {exc}") from exc
-        if ((outcome.returncode == 0) != expected_success
-                or (expected_output is not None and outcome.stdout.strip() != expected_output)):
+        finally:
+            if job:
+                job.close()
+            elif process is not None:
+                try: os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError: pass
+            if process is not None:
+                if process.poll() is None:
+                    process.kill()
+                process.wait(timeout=2)
+                for reader in readers:
+                    reader.join(timeout=2)
+                process.stdout.close(); process.stderr.close()
+        stdout = bytes(streams.get("stdout", b"")).decode("utf-8", errors="replace")
+        stderr = bytes(streams.get("stderr", b"")).decode("utf-8", errors="replace")
+        diagnostic = (stderr or stdout)[-2048:]
+        diagnostic = re.sub(r"(?im)^([A-Z_]*(?:TOKEN|SECRET|PASSWORD|API_KEY)[A-Z_]*=).*?$", r"\1<redacted>", diagnostic)
+        if timed_out or overflow.is_set() or any(reader.is_alive() for reader in readers):
+            reason = "timed out after 10s" if timed_out else ("output limit exceeded" if overflow.is_set() else "stream cleanup incomplete")
+            raise SystemExit("check-helper-reachability: Python route probe " + reason + "\n" + diagnostic)
+        if ((process.returncode == 0) != expected_success
+                or (expected_output is not None and stdout.strip() != expected_output)):
             raise SystemExit("check-helper-reachability: Python route probe result/refusal differs: " +
-                             Path(operand).name + "\n" + (outcome.stderr or outcome.stdout)[-2048:])
+                             Path(operand).name + "\n" + diagnostic)
     with tempfile.TemporaryDirectory(prefix="r001e-python-routes-") as temporary:
         for role, prefix in projection_prefixes.items():
             projected = Path(temporary) / role
