@@ -250,7 +250,7 @@ Each full member path has exactly one row; missing, extra, duplicate, unknown
 executable types and projection differences refuse. Counts and suffixes never
 select membership. The invocation checkout's committed package-owner blob is
 the evaluator authority; uncommitted owner changes require a reviewed rebind.
-Presence/tests/self-use/wildcards are not dispatch.
+Presence, direct tests, self-reference, and wildcard discovery are not dispatch.
 Fields `H|C|T|O|K|A|N` mean full member path/class/trigger/owner/caller/
 args/no-event. Classes `A/R/O/S/I`: automatic/required/optional/standalone/
 internal; owners `P/R/C/S/V`: PROTOCOL/this/child-agents/SKILL/validator.
