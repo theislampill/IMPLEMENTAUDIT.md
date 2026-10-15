@@ -501,6 +501,8 @@
       "path": "research-engineering-lineage/",
       "source": "research-lineage-overview.html",
       "sources": [
+        "docs/research/implementaudit/r0045-attribution-qualification.md",
+        "docs/research/implementaudit/r0045-member-dispositions.json",
         "README.md",
         "CHANGELOG.md",
         "docs/audits/archive/v0.3.3.3-release-report.md",
