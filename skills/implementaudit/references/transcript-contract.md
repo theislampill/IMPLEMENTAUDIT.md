@@ -253,7 +253,7 @@ IMPLEMENTAUDIT_CONTINUITY_SAVED
   spec from disk, re-validate the phase spec, and continue from the paused
   step without re-printing IMPLEMENTAUDIT_PHASE_START.
 - `IMPLEMENTAUDIT_CONTINUITY_SAVED` is emitted only when a bounded continuity
-  writeback is actually performed (SKILL.md Stage 0; PROTOCOL.md continuity
+  writeback is actually performed (plan-lifecycle.md Stage 0; PROTOCOL.md continuity
   steps). It must carry all six fields: Target, Reason, Evidence, Boundary,
   Authorization, Not saved. Saved continuity never overrides live files,
   AGENTS.md, Smoke A/B evidence, or the final audit.
