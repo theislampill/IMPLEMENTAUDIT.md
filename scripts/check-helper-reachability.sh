@@ -30,11 +30,16 @@ fi
 "${py_cmd[@]}" - "$repo_root" "$authority_root" "$BASH" "$census_only" <<'PY'
 import os
 import json
+import hashlib
 import re
+import shlex
 import signal
 import subprocess
 import sys
+import tempfile
+import types
 from pathlib import Path
+from pathlib import PurePosixPath
 
 if os.name == "nt":
     import ctypes
@@ -80,36 +85,63 @@ for path in (builder, package_contract, skill_root, contract):
     if not path.exists():
         raise SystemExit(f"check-helper-reachability: missing owner: {path}")
 
-builder_text = builder.read_text(encoding="utf-8")
+# The invocation checkout is the selected evaluator authority; --repo-root is
+# data only. A package-owner change needs a newly reviewed committed authority.
+# Capture once, authenticate against that fixed source blob, execute that buffer.
+trusted_builder = authority_root / "scripts" / "package-contract.py"
 try:
-    package = json.loads(package_contract.read_text(encoding="utf-8"))
-except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-    raise SystemExit(f"check-helper-reachability: package contract is unreadable: {exc}") from exc
-shared_roots = package.get("shared_resource_roots")
-if not isinstance(shared_roots, list) or "skills/implementaudit/scripts" not in shared_roots:
-    raise SystemExit("check-helper-reachability: package contract omits the shared helper root")
-if "EXPECTED_SHARED_ROOTS" not in builder_text or "contract.get(\"shared_resource_roots\")" not in builder_text:
-    raise SystemExit("check-helper-reachability: package builder does not enforce shared resources")
-archive_entries = {"SKILL.md"}
-for shared_root in shared_roots:
-    prefix = "skills/implementaudit/"
-    if not isinstance(shared_root, str) or not shared_root.startswith(prefix):
-        raise SystemExit("check-helper-reachability: package shared root escapes the governor")
-    source_root = root / shared_root
-    if not source_root.is_dir():
-        raise SystemExit(f"check-helper-reachability: missing package shared root: {shared_root}")
-    archive_entries.update(
-        path.relative_to(skill_root).as_posix()
-        for path in source_root.rglob("*")
-        if path.is_file()
-    )
-helpers = sorted(path.name for path in (skill_root / "scripts").glob("*.sh") if path.is_file())
-if len(helpers) != len(set(helpers)):
-    raise SystemExit("check-helper-reachability: duplicate helper in package shared root")
+    authority_commit = subprocess.check_output(
+        ["git", "-C", str(authority_root), "rev-parse", "HEAD"], text=True).strip()
+    owner_object = authority_commit + ":scripts/package-contract.py"
+    owner_blob = subprocess.check_output(
+        ["git", "-C", str(authority_root), "rev-parse", owner_object], text=True).strip()
+    expected_builder = subprocess.check_output(
+        ["git", "-C", str(authority_root), "cat-file", "blob", owner_blob])
+    builder_buffer = trusted_builder.read_bytes()
+    if builder_buffer != expected_builder:
+        raise SystemExit("check-helper-reachability: selected package owner is not its committed authority")
+    if builder.read_bytes() != builder_buffer:
+        raise SystemExit("check-helper-reachability: package owner differs from selected checker owner")
+except (OSError, subprocess.SubprocessError) as exc:
+    raise SystemExit(f"check-helper-reachability: package owner authority unavailable: {exc}") from exc
+package_owner = types.ModuleType("_helper_census_package_owner")
+package_owner.__file__ = str(trusted_builder)
+exec(compile(builder_buffer, str(trusted_builder), "exec"), package_owner.__dict__)
+try:
+    package = package_owner.validate_contract(root)
+except (OSError, ValueError) as exc:
+    raise SystemExit(f"check-helper-reachability: package contract is invalid: {exc}") from exc
 
-contract_text = contract.read_text(encoding="utf-8")
-rows, mode_rows = {}, {}
-for line_number, line in enumerate(contract_text.splitlines(), 1):
+# Membership comes only from each builder projection's executable metadata.
+# Invocation types are checked AFTER membership; unknown executables stay in it.
+projection_prefixes = {"canonical_plugin": "skills/implementaudit/",
+                       "standalone_compatibility": ""}
+projection_members, projection_payloads, projection_entries = {}, {}, {}
+for role, prefix in projection_prefixes.items():
+    try:
+        entries = package_owner.artifact_payload_entries(root, role, package)
+    except (OSError, ValueError, subprocess.SubprocessError) as exc:
+        raise SystemExit(f"check-helper-reachability: package population unavailable: {role}: {exc}") from exc
+    names = [path for path, _data, _mode in entries]
+    if len(names) != len(set(names)):
+        raise SystemExit(f"check-helper-reachability: duplicate package member: {role}")
+    projection_entries[role] = entries
+    projection_payloads[role] = {path: data for path, data, _mode in entries}
+    projection_members[role] = {path for path, _data, mode in entries
+                                if path.startswith(prefix + "scripts/") and mode & 0o111}
+canonical_relative = {path.removeprefix("skills/implementaudit/")
+                      for path in projection_members["canonical_plugin"]}
+if canonical_relative != projection_members["standalone_compatibility"]:
+    raise SystemExit("check-helper-reachability: executable projection parity differs")
+archive_entries = set(projection_payloads["standalone_compatibility"])
+helpers = sorted(path.removeprefix("scripts/") for path in canonical_relative)
+for helper in helpers:
+    if PurePosixPath(helper).suffix not in {".sh", ".py"}:
+        raise SystemExit(f"check-helper-reachability: UNKNOWN_EXECUTABLE_TYPE: scripts/{helper}")
+
+def read_rows(contract_text):
+  rows, mode_rows = {}, {}
+  for line_number, line in enumerate(contract_text.splitlines(), 1):
     if line.startswith("helper-mode: "):
         parts = [part.strip() for part in line.split("|")]
         if len(parts) not in {4, 5}:
@@ -124,11 +156,28 @@ for line_number, line in enumerate(contract_text.splitlines(), 1):
         parts = [part.strip() for part in line.split("|")]
         if len(parts) != 7:
             raise SystemExit(f"check-helper-reachability: malformed helper route at line {line_number}")
-        helper = parts[0].removeprefix("helper-route: ")
+        member = parts[0].removeprefix("helper-route: ")
+        if (not member.startswith("scripts/") or member == "scripts/"
+                or chr(92) in member or ".." in PurePosixPath(member).parts
+                or PurePosixPath(member).as_posix() != member):
+            raise SystemExit(f"check-helper-reachability: route is not a full package member path: {member}")
+        helper = member.removeprefix("scripts/")
         if helper in rows:
             raise SystemExit(f"check-helper-reachability: duplicate applicability row: {helper}")
         rows[helper] = {"class": parts[1], "trigger": parts[2], "owner": parts[3],
                         "caller": parts[4], "arguments": parts[5], "boundary": parts[6]}
+    elif line.startswith("helper-role: "):
+        raise SystemExit("check-helper-reachability: unowned projection-specific classification")
+  return rows, mode_rows
+
+projected_rows = {}
+for role, prefix in projection_prefixes.items():
+    text = projection_payloads[role][prefix + "references/repo-state-comparison.md"].decode("utf-8")
+    projected_rows[role] = read_rows(text)
+if projected_rows["canonical_plugin"] != projected_rows["standalone_compatibility"]:
+    raise SystemExit("check-helper-reachability: classification projection parity differs")
+rows, mode_rows = projected_rows["canonical_plugin"]
+contract_text = projection_payloads["standalone_compatibility"]["references/repo-state-comparison.md"].decode("utf-8")
 
 missing, extra = sorted(set(helpers) - set(rows)), sorted(set(rows) - set(helpers))
 if missing:
@@ -136,6 +185,9 @@ if missing:
     raise SystemExit("check-helper-reachability: missing applicability rows: " + ", ".join(missing) + suffix)
 if extra:
     raise SystemExit("check-helper-reachability: applicability rows not in package: " + ", ".join(extra))
+for role, prefix in projection_prefixes.items():
+    if {prefix + "scripts/" + helper for helper in projected_rows[role][0]} != projection_members[role]:
+        raise SystemExit("check-helper-reachability: full-path classification set differs: " + role)
 
 class_names = {"A": "automatic", "R": "required-procedural", "O": "optional-advisory",
                "S": "standalone-diagnostic", "I": "internal-library"}
@@ -157,13 +209,62 @@ def arguments_are_anchored(value, helper, content):
     expected = [] if value.lower() == "none" else token_re.findall(value.lower())
     candidates = re.findall(r"`([^`]*" + re.escape(helper) + r"[^`]*)`", content, re.I | re.S)
     candidates.extend(line.split("#", 1)[0] for line in content.splitlines()
-                      if helper in line and "`" not in line and re.match(r"\s*(?:bash|source|exec)\b", line, re.I))
+                      if helper in line and "`" not in line and re.match(r"\s*(?:bash|source|exec|python3?|py)\b", line, re.I))
     for candidate in candidates:
         found = re.search(re.escape(helper), candidate, re.I)
         actual = token_re.findall(candidate[found.end():].lower()) if found else []
         if actual == expected:
             return True
     return False
+
+def python_command(helper, arguments, content):
+    """Typed source command, not a substring inside echo, -c, -m or a comment."""
+    expected = [] if arguments == "none" else shlex.split(arguments)
+    commands = re.findall(r"(?<!`)`(?!`)([^`]+)(?<!`)`(?!`)", content, re.S)
+    commands.extend(line for line in content.splitlines() if "`" not in line)
+    for command in commands:
+        try:
+            words = shlex.split(re.sub(r"\\\s*\n\s*", " ", command), comments=True)
+        except ValueError:
+            continue
+        if not words or words[0] not in {"python", "python3", "py"}:
+            continue
+        index = 1
+        if words[0] == "py":
+            if words[1:2] != ["-3"]:
+                continue
+            index = 2
+        options = []
+        while index < len(words) and words[index] in {"-I", "-S", "-B"}:
+            options.append(words[index]); index += 1
+        if index >= len(words):
+            continue
+        operand = words[index]
+        if (operand == "scripts/" + helper or operand.endswith("/scripts/" + helper)) and words[index + 1:] == expected:
+            return options, operand, words[index + 1:]
+    return None
+
+def selected_owner(raw, helper, role):
+    base, _mark, fragment = raw.partition("#")
+    base = owner_aliases.get(base, base)
+    packaged_path(base, helper, role)
+    canonical = projection_payloads["canonical_plugin"]["skills/implementaudit/" + base]
+    standalone = projection_payloads["standalone_compatibility"][base]
+    if canonical != standalone:
+        raise SystemExit(f"check-helper-reachability: route owner projection parity differs: {base}")
+    content = canonical.decode("utf-8")
+    if fragment:
+        lines = content.splitlines()
+        def slug(line):
+            return re.sub(r"[^a-z0-9 -]", "", line.lstrip("#").strip().lower()).replace(" ", "-")
+        starts = [n for n, line in enumerate(lines) if re.match(r"^#{1,6} ", line) and slug(line) == fragment]
+        if len(starts) != 1:
+            raise SystemExit(f"check-helper-reachability: owner section absent/ambiguous: {raw}")
+        start = starts[0]
+        level = len(lines[start]) - len(lines[start].lstrip("#"))
+        end = next((n for n in range(start + 1, len(lines)) if re.match(r"^#{1," + str(level) + r"} ", lines[n])), len(lines))
+        content = "\n".join(lines[start:end])
+    return base, content
 
 def shell_code(content):
     cleaned = []
@@ -254,13 +355,15 @@ for helper, mode in mode_rows:
     if not field_is_anchored(row["boundary"], mode_owner.lower()):
         raise SystemExit(f"check-helper-reachability: mode boundary absent: {helper} {mode}")
     if row["caller"] != "-":
-        caller_content = shell_code(packaged_path(row["caller"], helper, "mode caller").read_text(encoding="utf-8"))
+        caller_content = shell_code(selected_owner(row["caller"], helper, "mode caller")[1])
         if not caller_invokes(helper, caller_content):
             raise SystemExit(f"check-helper-reachability: mode caller does not invoke {helper}: {row['caller']}")
         flags = r"\s+" + r"\s+".join(re.escape(flag) + r"\s+[^\s]+" for flag in mode.split())
         if not re.search(re.escape(helper) + r"[\"']?" + flags, caller_content):
             raise SystemExit(f"check-helper-reachability: mode caller does not invoke exact mode: {helper} {mode}")
 
+governor_command = None
+diagnostic_command = None
 for helper in helpers:
     row = rows[helper]
     if row["class"] not in class_names:
@@ -269,15 +372,28 @@ for helper in helpers:
     for field in ("trigger", "arguments", "boundary"):
         if not row[field] or row[field] == "-":
             raise SystemExit(f"check-helper-reachability: empty {field} for {helper}")
-    owner_text = owner_aliases.get(row["owner"], row["owner"])
+    owner_text, owner_source = selected_owner(row["owner"], helper, "dispatch owner")
     if Path(owner_text) == Path("scripts") / helper:
         raise SystemExit(f"check-helper-reachability: dispatch owner cannot be the helper itself: {helper}")
-    owner_lines = packaged_path(owner_text, helper, "dispatch owner").read_text(encoding="utf-8").splitlines()
+    owner_lines = owner_source.splitlines()
     non_route_lines = [line for line in owner_lines if not line.startswith(("helper-route: ", "helper-mode: "))]
     owner_content = "\n".join(non_route_lines)
     helper_lines = [index for index, line in enumerate(non_route_lines) if helper in line]
     if not helper_lines:
         raise SystemExit(f"check-helper-reachability: dispatch owner does not name helper {helper}: {owner_text}")
+    if helper == "resolve-internal-skill.py" and applicability == "internal-library":
+        expected_owner = "S#governor-routed-internal-cognition"
+        expected_arguments = "--governor SKILL.md --child <child>"
+        command = python_command(helper, row["arguments"], owner_content)
+        if (row["owner"] != expected_owner or row["caller"] != expected_owner
+                or row["arguments"] != expected_arguments or command is None
+                or row["trigger"] != "child-resolution" or row["boundary"] != "no-load-credit"
+                or not all(token in owner_content for token in
+                    ("Before loading one child", "The resolver refuses missing/extra children",
+                     "governor re-derives current state", "source/canonical layouts load"))):
+            raise SystemExit("check-helper-reachability: governor resolver command/trigger/consequence absent")
+        governor_command = command
+        continue
     if applicability == "required-procedural":
         action = r"(?:bash|run|supply|dispatch(?:es)?|invoke|enforce|requires?|claim(?: it)? with)"
         contexts = ["\n".join(non_route_lines[max(0, i - 4):i + 5]) for i in helper_lines]
@@ -295,12 +411,29 @@ for helper in helpers:
                    and field_is_anchored(row["boundary"], context.lower().replace("artefact", "artifact").replace(helper.lower(), ""))
                    and arguments_are_anchored(row["arguments"], helper, context) for context in procedural):
             raise SystemExit(f"check-helper-reachability: route fields do not co-occur: {helper}")
+        if helper.endswith(".py") and not any(
+                python_command(helper, row["arguments"], context) is not None
+                and all(field_is_anchored(row[field], context.lower().replace(helper.lower(), ""))
+                        for field in ("trigger", "boundary")) for context in procedural):
+            raise SystemExit(f"check-helper-reachability: Python procedural invocation absent: {helper}")
     if applicability in {"optional-advisory", "standalone-diagnostic"}:
         advisory = " ".join((row["trigger"], row["arguments"], row["boundary"]))
         if mandatory_re.search(advisory):
             raise SystemExit(f"check-helper-reachability: advisory/standalone row implies mandatory enforcement: {helper}")
         if any(mandatory_re.search(" ".join(non_route_lines[max(0, i - 1):i + 2])) for i in helper_lines):
             raise SystemExit(f"check-helper-reachability: advisory owner overclaim: {helper}")
+        if helper.endswith(".py"):
+            contexts = ["\n".join(non_route_lines[max(0, i - 4):i + 5]) for i in helper_lines]
+            commands = [python_command(helper, row["arguments"], context) for context in contexts
+                        if applicability in context and field_is_anchored(row["boundary"], context.lower())]
+            command = next((value for value in commands if value is not None), None)
+            if command is None:
+                raise SystemExit(f"check-helper-reachability: advisory/standalone role or exact invocation absent: {helper}")
+            if helper == "resolve-durable-identity.py":
+                if (row["arguments"] != "--canonical <identity>" or row["boundary"] != "no-allocation"
+                        or "no allocation" not in owner_content.lower()):
+                    raise SystemExit("check-helper-reachability: advisory/standalone durable boundary absent")
+                diagnostic_command = command
     caller_rel = owner_aliases.get(row["caller"], row["caller"])
     if applicability in {"automatic", "internal-library"}:
         if caller_rel == "-":
@@ -308,12 +441,62 @@ for helper in helpers:
         caller_path = packaged_path(caller_rel, helper, "caller")
         if not (Path(caller_rel).as_posix().startswith("scripts/") and Path(caller_rel).suffix == ".sh"):
             raise SystemExit(f"check-helper-reachability: caller is not a shipped script: {helper}: {caller_rel}")
-        if not caller_invokes(helper, caller_path.read_text(encoding="utf-8")):
+        if not caller_invokes(helper, selected_owner(row["caller"], helper, "caller")[1]):
             raise SystemExit(f"check-helper-reachability: caller does not invoke {helper}: {caller_rel}")
     elif caller_rel != "-":
         raise SystemExit(f"check-helper-reachability: nonautomatic helper declares caller: {helper}")
 
 if not census_only:
+    # These bounded source probes execute the documented Python commands from
+    # the actual projected owner. They do not claim an installed agent event,
+    # child LOAD/USE, native admission, or that Markdown dispatches itself.
+    if governor_command is None or diagnostic_command is None:
+        raise SystemExit("check-helper-reachability: Python route probe lacks supported owner commands")
+    def run_python(command, governor_dir, values, expected_success, expected_output=None):
+        options, operand, arguments = command
+        substitutions = {"<skill-dir>": str(governor_dir), **values}
+        def bind(value):
+            for key, replacement in substitutions.items():
+                value = value.replace(key, replacement)
+            return value
+        argv = [sys.executable, *options, bind(operand), *map(bind, arguments)]
+        try:
+            outcome = subprocess.run(argv, cwd=governor_dir, capture_output=True, text=True, timeout=10,
+                                     env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise SystemExit(f"check-helper-reachability: Python route probe failed: {exc}") from exc
+        if ((outcome.returncode == 0) != expected_success
+                or (expected_output is not None and outcome.stdout.strip() != expected_output)):
+            raise SystemExit("check-helper-reachability: Python route probe result/refusal differs: " +
+                             Path(operand).name + "\n" + (outcome.stderr or outcome.stdout)[-2048:])
+    with tempfile.TemporaryDirectory(prefix="r001e-python-routes-") as temporary:
+        for role, prefix in projection_prefixes.items():
+            projected = Path(temporary) / role
+            # Both supported layouts keep the governor directory identity.
+            projected = projected / ("plugin" if prefix else "implementaudit")
+            for member, data, _mode in projection_entries[role]:
+                target = projected / member
+                if not target.resolve().is_relative_to(projected.resolve()):
+                    raise SystemExit("check-helper-reachability: Python route probe path escapes projection")
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(data)
+            governor_dir = projected / prefix
+            for child in package["required_skills"][1:]:
+                child_path = (projected / "skills" / child / "SKILL.md" if prefix else
+                              governor_dir / "internal-procedures" / (child + ".md"))
+                run_python(governor_command, governor_dir, {"<child>": child}, True, str(child_path.resolve()))
+            child_path.unlink()  # fixture-only missing-child boundary
+            run_python(governor_command, governor_dir, {"<child>": child}, False)
+            run_python(diagnostic_command, governor_dir, {"<identity>": "R30"}, True, "R001E")  # legacy alias control
+            run_python(diagnostic_command, governor_dir, {"<identity>": "not-an-identity"}, False)
+            # Allocation assertions are separate documented diagnostic inputs.
+            allocation = python_command("resolve-durable-identity.py", "--require-allocated <identity>",
+                                        selected_owner(rows["resolve-durable-identity.py"]["owner"],
+                                                       "resolve-durable-identity.py", "dispatch owner")[1])
+            if allocation is None:
+                raise SystemExit("check-helper-reachability: Python route probe lacks allocation diagnostic")
+            for identity in ("R0038", "G0001"):  # unallocated/run-local refusal controls
+                run_python(allocation, governor_dir, {"<identity>": identity}, False)
     # The evaluated candidate supplies skills and fixtures, never the probe
     # program.  The checker invocation root is the authority for F10 behavior.
     r30_probe = authority_root / "tests" / "scarce-resource-rehearsal-contract.test.sh"
@@ -376,5 +559,7 @@ if not census_only:
 print(("HELPER_REACHABILITY_CENSUS=PASS " if census_only else "HELPER_REACHABILITY=PASS ") +
       f"population={len(helpers)} examined={len(rows)} "
       f"modes={len(mode_rows)}/{sum(len(modes) for modes in implemented_mode_sets.values())} "
-      "enumeration=package-contract.shared_resource_roots")
+      "enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2 " +
+      f"owner_commit={authority_commit} owner_blob={owner_blob} " +
+      f"owner_sha256={hashlib.sha256(builder_buffer).hexdigest()}")
 PY

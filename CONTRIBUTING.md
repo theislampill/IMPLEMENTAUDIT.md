@@ -126,6 +126,13 @@ bash scripts/check-helper-reachability.sh
 bash tests/helper-reachability.test.sh
 ```
 
+The invoked helper checker owns its evaluator independently of an evaluated
+`--repo-root`. It binds the package builder to that invocation checkout's exact
+committed blob and executes the same verified buffer. An uncommitted builder
+edit or candidate-supplied replacement is refused; a legitimate builder change
+requires a reviewed new committed authority. Census-only output does not prove
+executed routes or an installed governor event.
+
 For runtime, package, validation-registry, or release-bearing changes, complete
 the focused gates first and then run the canonical full source/package gate:
 

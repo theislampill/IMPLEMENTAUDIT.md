@@ -26,11 +26,15 @@ make_candidate() {
     "$candidate/fixtures/scarce-resource-rehearsal/"
   cp "$repo_root/fixtures/run-root-example/phases/phase-1.md" \
     "$candidate/fixtures/run-root-example/phases/"
+  cp -R "$repo_root/.codex-plugin" "$repo_root/.claude-plugin" "$candidate/"
+  git -C "$candidate" init --quiet
+  git -C "$candidate" add .
   printf '%s\n' "$candidate"
 }
 
 expect_fail() {
   local label="$1" pattern="$2" candidate="$3" output
+  git -C "$candidate" add -A
   if output="$(bash "$checker" --census-only --repo-root "$candidate" 2>&1)"; then
     printf 'helper-reachability.test: %s unexpectedly passed\n' "$label" >&2
     exit 1
@@ -52,7 +56,7 @@ from pathlib import Path
 path, helper, column_text, value = sys.argv[1:]
 column = int(column_text)
 lines = Path(path).read_text(encoding="utf-8").splitlines()
-prefix = f"helper-route: {helper}|"
+prefix = f"helper-route: scripts/{helper}|"
 matches = [index for index, line in enumerate(lines) if line.startswith(prefix)]
 if len(matches) != 1:
     raise SystemExit(f"expected one route row for {helper}, got {len(matches)}")
@@ -73,7 +77,7 @@ from pathlib import Path
 
 path, helper = sys.argv[1:]
 lines = Path(path).read_text(encoding="utf-8").splitlines()
-prefix = f"helper-route: {helper}|"
+prefix = f"helper-route: scripts/{helper}|"
 kept = [line for line in lines if not line.startswith(prefix)]
 if len(kept) != len(lines) - 1:
     raise SystemExit(f"expected one route row for {helper}")
@@ -82,14 +86,14 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY=PASS population=19 examined=19 modes=5/5 enumeration=package-contract.shared_resource_roots' \
+grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=5/5 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$positive_output" || {
-    printf 'helper-reachability.test: live positive census did not prove 19/19\n%s\n' "$positive_output" >&2
+    printf 'helper-reachability.test: live positive census did not prove complete full-path equality\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=19 examined=19 modes=5/5 enumeration=package-contract.shared_resource_roots' \
+grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=5/5 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
@@ -340,12 +344,15 @@ expect_fail R30-F8 \
 future_helper="$(make_candidate future-helper)"
 cp "$future_helper/skills/implementaudit/scripts/detect-stack.sh" \
   "$future_helper/skills/implementaudit/scripts/future-helper.sh"
-expect_fail R30-F20 'missing applicability rows: future-helper.sh (population=20 examined=19)' "$future_helper"
+expect_fail R30-F20 'missing applicability rows: future-helper.sh' "$future_helper"
 
 extra_row="$(make_candidate extra-row)"
 printf '%s\n' \
-  'helper-route: ghost-helper.sh|S|owner-diagnosis|R|-|none|never-automatic' \
+  'helper-route: scripts/ghost-helper.sh|S|owner-diagnosis|R|-|none|never-automatic' \
   >>"$extra_row/skills/implementaudit/references/repo-state-comparison.md"
 expect_fail R30-F11 'applicability rows not in package: ghost-helper.sh' "$extra_row"
 
-printf 'helper-reachability.test: ok (derived 19/19 + modes 5/5 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'
+printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 5/5 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'
+
+python -I -B "$repo_root/tests/helper-reachability-successor.py" "$repo_root" "$BASH"
+python -I -B "$repo_root/tests/helper-reachability-custody.py" "$repo_root" "$BASH"

@@ -9,6 +9,7 @@
 
       <h2 id="scripts">Shipped scripts</h2>
       <p>These helper scripts live in the repo and canonical plugin under <code>skills/implementaudit/scripts/</code>; the standalone compatibility projection ships the same files as root <code>scripts/</code>.</p>
+      <p>Qualification derives every executable script member from each package projection and compares exact full paths with the source-owned applicability rows. Unknown executable types and missing, extra, duplicate or divergent rows refuse qualification. Ordinary use runs only the routes selected by the current audit; package presence alone establishes no dispatch.</p>
       <table><thead><tr><th>Script</th><th>Plain role</th><th>Typical loop</th></tr></thead><tbody>
         <tr><td><code>claim-run.sh</code></td><td>Atomically create a namespaced run folder; may advise a gitignore update but does not write it.</td><td>L2 run-state control</td></tr>
         <tr><td><code>detect-env.sh</code></td><td>Record host/tool orientation.</td><td>L1/L2 planning</td></tr>
@@ -20,6 +21,8 @@
         <tr><td><code>validate-run-root.sh</code></td><td>Check run-folder structure, status enum, Andon rows, and roadmap completeness during resume or final review.</td><td>L2/L5 closure</td></tr>
         <tr><td><code>custody-append.sh</code></td><td>Absent-safe append into a separately authorized non-authoritative ActiveGraph mirror.</td><td>L4/L5 optional mirror</td></tr>
         <tr><td><code>lane-survivor-inventory.sh</code></td><td>Print-only classification of declared lane outputs after interruption; advisory and deliberately unwired from closure gates.</td><td>L4 interruption recovery</td></tr>
+        <tr><td><code>resolve-internal-skill.py</code></td><td>Resolve a selected child through the governor's internal procedure; lookup alone gives no child-load or native-authority credit.</td><td>Governor-procedural internal route</td></tr>
+        <tr><td><code>resolve-durable-identity.py</code></td><td>Explicit diagnostic for canonical and historical identity spellings; never allocates or reserves an identity.</td><td>Standalone diagnosis</td></tr>
       </tbody></table>
 
       <h2 id="script-path-boundary">Script path boundary</h2>
