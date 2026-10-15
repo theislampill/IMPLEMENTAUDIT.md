@@ -50,10 +50,6 @@ Run invariants:
 - Graphify output is orientation evidence, not proof. ActiveGraph custody is not correctness proof. Sidecars are optional unless a repo says otherwise; their presence authorizes no install, indexing, setup, config, export, or sidecar mutation.
 - Capability Ledger entries, when configured, are derived from recorded gate
   passages only. Do not claim general competence from one run.
-- Derive the warranted `ydqyq-audit-action` set from scope, uncertainty, risk,
-  dependencies, evidence gaps, authorization state, and intended executor; record
-  selected and omitted actions with reasons per the action-selection contract in
-  `references/planning-depth.md`. Depth never requires an activation keyword.
 
 ## State-derived RC self-dogfood route
 `SELF_DOGFOOD_TRIGGER` applies only when the audit object is the exact
@@ -233,6 +229,12 @@ implementation continues to use `.IMPLEMENTAUDIT/runs/`.
 ---
 
 ## 2b. Planner stages for goal synthesis and phased audit closure
+Only within the goal-synthesis or warranted phased-planning route:
+Derive the warranted `ydqyq-audit-action` set from scope, uncertainty, risk,
+dependencies, evidence gaps, authorization state, and intended executor; record
+selected and omitted actions with reasons per the action-selection contract in
+`references/planning-depth.md`. Depth never requires an activation keyword.
+
 For goal synthesis or a warranted phased plan, read
 `references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure`
 before intake, phase design, preflight, dispatch, or handoff. Use its complete
