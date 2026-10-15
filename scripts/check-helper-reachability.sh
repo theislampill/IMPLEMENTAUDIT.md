@@ -242,8 +242,9 @@ def python_command(helper, arguments, content):
         if index >= len(words):
             continue
         operand = words[index]
-        if (operand == "scripts/" + helper or operand.endswith("/scripts/" + helper)) and words[index + 1:] == expected:
-            return options, operand, words[index + 1:]
+        member = "scripts/" + helper
+        if operand in {member, "<skill-dir>/" + member} and words[index + 1:] == expected:
+            return options, operand, words[index + 1:], member
     return None
 
 def selected_owner(raw, helper, role):
@@ -455,13 +456,26 @@ if not census_only:
     if governor_command is None or diagnostic_command is None:
         raise SystemExit("check-helper-reachability: Python route probe lacks supported owner commands")
     def run_python(command, governor_dir, values, expected_success, expected_output=None):
-        options, operand, arguments = command
+        options, operand, arguments, member = command
         substitutions = {"<skill-dir>": str(governor_dir), **values}
         def bind(value):
             for key, replacement in substitutions.items():
                 value = value.replace(key, replacement)
             return value
-        argv = [sys.executable, *options, bind(operand), *map(bind, arguments)]
+        expected_member = (governor_dir / member).absolute()
+        declared_member = Path(bind(operand))
+        if not declared_member.is_absolute():
+            declared_member = governor_dir / declared_member
+        try:
+            # Bind the accepted source operand to this staged member, not an
+            # external path that happens to end in the same scripts/name.
+            if (expected_member.resolve(strict=True) != expected_member
+                    or declared_member.resolve(strict=True) != expected_member
+                    or not expected_member.is_file()):
+                raise ValueError("operand does not identify the staged member")
+        except (OSError, ValueError) as exc:
+            raise SystemExit("check-helper-reachability: Python route probe member identity differs: " + member) from exc
+        argv = [sys.executable, *options, str(expected_member), *map(bind, arguments)]
         # A timeout on only the direct process can leave a child alive (and
         # holding the staged directory or pipes). Use the existing process-family
         # boundary, bounded stream buffers, and retain refusal diagnostics.

@@ -66,6 +66,24 @@ with tempfile.TemporaryDirectory(prefix='r001e-successor-') as raw:
     run('unrouted-python',p,False,'missing applicability rows')
     # This first RED is also runnable before implementation, without touching source.
     if '--baseline-only' in sys.argv: raise SystemExit(0)
+    # Full-path suffix equality does not bind a declared route to its package.
+    # The independently retained FR-01 witness executed an external resolver.
+    for case,prefix in [('external-absolute','/outside-package/'),
+                        ('external-relative','other-package/'),
+                        ('parent-traversal','../'),
+                        ('placeholder-traversal','<skill-dir>/../'),
+                        ('windows-absolute','C:/outside-package/')]:
+        for helper in ('resolve-internal-skill.py','resolve-durable-identity.py'):
+            p=make('path-'+case+'-'+helper)
+            path=p/'skills/implementaudit/SKILL.md' if helper=='resolve-internal-skill.py' else owner(p)
+            before=('scripts/' if helper=='resolve-internal-skill.py' else '<skill-dir>/scripts/')+helper
+            replace(path,before,prefix+'scripts/'+helper)
+            run('packaged-operand-'+case+'-'+helper,p,False,
+                'governor resolver' if helper=='resolve-internal-skill.py' else 'advisory/standalone')
+    p=make('resolver-governor-placeholder')
+    replace(p/'skills/implementaudit/SKILL.md','python scripts/resolve-internal-skill.py',
+            'python -I -S -B <skill-dir>/scripts/resolve-internal-skill.py')
+    run('packaged-operand-placeholder-positive',p,True,'HELPER_REACHABILITY=PASS',full=True)
     for name in ('unclassified.unknown','unclassified'):
         p=make(name);write(p/'skills/implementaudit/scripts'/name,'unknown executable\n')
         run('unknown-type-'+name,p,False,'UNKNOWN_EXECUTABLE_TYPE')
