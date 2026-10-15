@@ -244,11 +244,25 @@ whole-repo sweep.
 
 ## Helper dispatch (#157)
 
-Gate derives source repo `scripts/*.sh`; presence/tests/self-use/wildcards are
-not dispatch. Fields `H|C|T|O|K|A|N` mean helper/class/trigger/owner/caller/
+The source-only gate derives executable `scripts/**` members separately from
+both canonical package-builder projections and their executable metadata.
+Each full member path has exactly one row; missing, extra, duplicate, unknown
+executable types and projection differences refuse. Counts and suffixes never
+select membership. The invocation checkout's committed package-owner blob is
+the evaluator authority; uncommitted owner changes require a reviewed rebind.
+Presence, direct tests, self-reference, and wildcard discovery are not dispatch.
+Fields `H|C|T|O|K|A|N` mean full member path/class/trigger/owner/caller/
 args/no-event. Classes `A/R/O/S/I`: automatic/required/optional/standalone/
 internal; owners `P/R/C/S/V`: PROTOCOL/this/child-agents/SKILL/validator.
-R runs `bash <skill-dir>/scripts/<H> <A>` and blocks T; A/I need K; O/S never gate.
+R runs its declared command and blocks T; A/I need a live named K; O/S never gate.
+Shell routes use Bash; Python routes use their exact typed Python command.
+The resolver's I role is governor-procedural, not mechanically automatic. Its
+child-resolution command runs from the loaded governor's directory; refusal
+blocks the selected child. Lookup alone has no-load-credit.
+Source command probes do not establish installed event, child load/use or native
+authority. Selected policy/dynamic-loader consumers also bind approved purpose
+and the trusted executable buffer actually used; the absent private native
+adapter is not imported or qualified by this population gate.
 One audit object; no event, no sweep. Phased Stage 0 runs `detect-env.sh`; run
 `validate-audit-spec.sh <spec>` for a spec and `detect-stack.sh` only for standalone diagnosis.
 
@@ -279,25 +293,40 @@ helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reaso
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
 
-helper-route: check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
-helper-route: apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
-helper-route: check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
-helper-route: check-duplication-parity.sh|R|duplication-set|R|-|<manifest>|no-set
-helper-route: check-evidence-anchor.sh|R|scope|P|-|--artifact ... --tree ...|disjoint
-helper-route: check-handoff-packet.sh|R|handoff-packet|P|-|<p> --repo-root <r>|same-session
-helper-route: check-lesson-lift.sh|R|final-record|P|-|<c> --repo-root <r>|closure
-helper-route: check-respec-impact-set.sh|A|impact-set|V|V|impact-set|no-impact
-helper-route: claim-run.sh|R|run-root|S|-|<task>|initialize
-helper-route: custody-append.sh|O|authorised-mirror|P|-|<store> <run> <event> <type> <json>|absent
-helper-route: detect-env.sh|R|Stage-0|R|-|none|phased
-helper-route: detect-stack.sh|S|stack-diagnosis|R|-|none|not-auto
-helper-route: lane-survivor-inventory.sh|O|interrupted-lane|C|-|<root> --expect <path>|unrelated
-helper-route: map-pin-chain.sh|R|artefact-edit|R|-|<path> [--expect-hops N]|no-completeness
-helper-route: repo-state.sh|R|Smoke/final|R|-|changed-files <baseline>|read-only
-helper-route: summarize-repo.sh|S|repo/owner-diagnosis|R|-|[--generated-owner <path>]|targeted-default
-helper-route: validate-audit-spec.sh|R|audit-spec|R|-|<spec>|no-spec
-helper-route: validate-phase.sh|R|phase|P|-|<phase>|exit-code
-helper-route: validate-run-root.sh|R|run-root|S|-|<root>|invalid
+helper-route: scripts/check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
+helper-route: scripts/apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
+helper-route: scripts/check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
+helper-route: scripts/check-duplication-parity.sh|R|duplication-set|R|-|<manifest>|no-set
+helper-route: scripts/check-evidence-anchor.sh|R|scope|P|-|--artifact ... --tree ...|disjoint
+helper-route: scripts/check-handoff-packet.sh|R|handoff-packet|P|-|<p> --repo-root <r>|same-session
+helper-route: scripts/check-lesson-lift.sh|R|final-record|P|-|<c> --repo-root <r>|closure
+helper-route: scripts/check-respec-impact-set.sh|A|impact-set|V|V|impact-set|no-impact
+helper-route: scripts/claim-run.sh|R|run-root|S|-|<task>|initialize
+helper-route: scripts/custody-append.sh|O|authorised-mirror|P|-|<store> <run> <event> <type> <json>|absent
+helper-route: scripts/detect-env.sh|R|Stage-0|R|-|none|phased
+helper-route: scripts/detect-stack.sh|S|stack-diagnosis|R|-|none|not-auto
+helper-route: scripts/lane-survivor-inventory.sh|O|interrupted-lane|C|-|<root> --expect <path>|unrelated
+helper-route: scripts/map-pin-chain.sh|R|artefact-edit|R|-|<path> [--expect-hops N]|no-completeness
+helper-route: scripts/repo-state.sh|R|Smoke/final|R|-|changed-files <baseline>|read-only
+helper-route: scripts/summarize-repo.sh|S|repo/owner-diagnosis|R|-|[--generated-owner <path>]|targeted-default
+helper-route: scripts/validate-audit-spec.sh|R|audit-spec|R|-|<spec>|no-spec
+helper-route: scripts/validate-phase.sh|R|phase|P|-|<phase>|exit-code
+helper-route: scripts/validate-run-root.sh|R|run-root|S|-|<root>|invalid
+
+helper-route: scripts/resolve-internal-skill.py|I|child-resolution|S#governor-routed-internal-cognition|S#governor-routed-internal-cognition|--governor SKILL.md --child <child>|no-load-credit
+helper-route: scripts/resolve-durable-identity.py|S|identity-diagnosis|R#durable-identity-diagnostic|-|--canonical <identity>|no-allocation
+
+## Durable identity diagnostic
+
+For an explicit identity-diagnosis, invoke the standalone-diagnostic
+`python -B <skill-dir>/scripts/resolve-durable-identity.py --canonical <identity>`.
+This resolves canonical or historical spelling only: no allocation, reservation,
+currentness, publication or automatic enforcement follows. To inspect the source-owned
+allocated range, use
+`python -B <skill-dir>/scripts/resolve-durable-identity.py --require-allocated <identity>`.
+The existing --legacy, --ordinal, --format and --validate modes keep the same
+read-only diagnostic boundary. Formatting a name never allocates it; allocation
+remains with the existing issue-ready-work-orders and identity-namespaces owners.
 
 ## Pin-chain map (#76)
 

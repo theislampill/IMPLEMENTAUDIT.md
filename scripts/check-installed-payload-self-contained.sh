@@ -36,8 +36,9 @@ fi
 
 "${py_cmd[@]}" - <<'PY'
 import re
+import stat
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 root = Path.cwd()
 skills = root / "skills"
@@ -49,6 +50,7 @@ repo_only_pattern = re.compile(
 )
 
 violations: list[str] = []
+route_owner = skills / "implementaudit/references/repo-state-comparison.md"
 for path in sorted(skills.rglob("*")):
     if not path.is_file():
         continue
@@ -57,6 +59,36 @@ for path in sorted(skills.rglob("*")):
     except UnicodeDecodeError:
         continue
     for lineno, line in enumerate(lines, 1):
+        if path == route_owner and line.startswith("helper-route: "):
+            # A declared full member identity is metadata, not a repo command.
+            # Exempt only this first field, after validating its exact governed
+            # path. Every other field retains the original reference scan.
+            fields = line.split("|")
+            member = fields[0].removeprefix("helper-route: ")
+            relative = PurePosixPath(member)
+            valid = (len(fields) == 7 and fields[1] in {"A", "R", "O", "S", "I"}
+                     and all(field.strip() for field in fields)
+                     and member.startswith("scripts/") and len(relative.parts) > 1
+                     and chr(92) not in member and relative.as_posix() == member
+                     and ".." not in relative.parts and member.strip() == member)
+            if not valid:
+                violations.append(f"{path.as_posix()}:{lineno}: invalid packaged helper declaration: {member}")
+                continue
+            target = root
+            try:
+                for part in ("skills", "implementaudit", *relative.parts):
+                    target = target / part
+                    info = target.lstat()
+                    if stat.S_ISLNK(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400:
+                        valid = False
+                valid = (valid and stat.S_ISREG(info.st_mode) and info.st_nlink == 1
+                         and target.resolve().is_relative_to((skills / "implementaudit").resolve()))
+            except (OSError, ValueError):
+                valid = False
+            if not valid:
+                violations.append(f"{path.as_posix()}:{lineno}: invalid packaged helper declaration: {member}")
+                continue
+            line = line[len(fields[0]):]
         normalized_line = line.replace("\\", "/")
         if not repo_only_pattern.search(normalized_line):
             continue

@@ -180,14 +180,24 @@ seed_candidate() {
   cp tests/scarce-resource-rehearsal-contract.test.sh "$candidate/tests/"
   cp fixtures/scarce-resource-rehearsal/cases.json "$candidate/fixtures/scarce-resource-rehearsal/"
   cp fixtures/run-root-example/phases/phase-1.md "$candidate/fixtures/run-root-example/phases/"
+  cp -R .codex-plugin .claude-plugin "$candidate/"
+  git -C "$candidate" init --quiet
+  git -C "$candidate" add .
   printf '%s\n' "$candidate"
 }
 seed_probe_authority() {
   local authority="$tmp/$1"
   mkdir -p "$authority/scripts" "$authority/tests"
   cp "$reachability" "$authority/scripts/check-helper-reachability.sh"
+  cp scripts/package-contract.py "$authority/scripts/package-contract.py"
   cp tests/scarce-resource-rehearsal-contract.test.sh \
     "$authority/tests/scarce-resource-rehearsal-contract.test.sh"
+  # The selected package owner now has an independently rooted committed pin.
+  # Candidate mutations below cannot replace this authority or its probe.
+  git -C "$authority" init --quiet
+  git -C "$authority" add .
+  git -C "$authority" -c user.name='R001E fixture authority' \
+    -c user.email='fixture@example.invalid' commit --quiet -m 'Freeze fixture authority'
   printf '%s\n' "$authority"
 }
 expect_rejected() {

@@ -92,10 +92,10 @@ ROUTE_LAYOUT=SOURCE_OR_CANONICAL_PLUGIN_OR_STANDALONE
 ROUTE_POPULATION=EXACT_AND_COMPLETE
 ```
 
-Before loading one child, the governor verifies the executing package,
+Before loading one child, the governor verifies executing package,
 plugin/standalone precedence, audit object, and authority ceiling; it applies the
 currentness/independence gate and names exactly one child. Resolve with
-`scripts/resolve-internal-skill.py --governor SKILL.md --child <child>`:
+`python scripts/resolve-internal-skill.py --governor SKILL.md --child <child>`:
 source/canonical layouts load `../<child>/SKILL.md`; standalone loads
 `internal-procedures/<child>.md`. The resolver refuses missing/extra children or
 ambiguous sibling layouts; do not infer from discovery/search order. A child result returns here as evidence input; the

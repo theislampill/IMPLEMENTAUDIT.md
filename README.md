@@ -1236,6 +1236,14 @@ runtime references define those behaviours; the
 keeps source, package, install, hosted and public evidence separate.
 `/dashboard/` is not part of either generated package projection.
 
+Helper qualification compares every executable script member with its full-path
+route in both package projections; it does not run every helper in ordinary use.
+The internal skill resolver follows the governor's selected-child procedure,
+while the durable identity resolver is an explicit diagnostic that allocates
+nothing. A successful lookup does not establish a child load or native authority.
+The [helper owner](skills/implementaudit/references/repo-state-comparison.md#helper-dispatch-157)
+defines the five applicability classes and their evidence boundaries.
+
 ### Install / update the canonical dual-host plugin
 
 `IMPLEMENTAUDIT.plugin.zip` is the primary atomic package for Codex and Claude.

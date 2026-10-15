@@ -539,42 +539,8 @@ for line in claim_lines:
         )
 PY
 
-# Shipped-payload path integrity: files under skills/ ship to consumers who do
-# not receive fixtures/, tests/, or the repo-side check-* scripts. Any line in
-# the payload referencing such a path must carry a "source repo" label so
-# installed agents know the path is repo-side, not a dangling instruction.
-"${py_cmd[@]}" - <<'PY'
-import re
-import sys
-from pathlib import Path
-
-# Bare skills/implementaudit/scripts/ paths resolve nowhere for installed consumers
-# (the archive flattens skills/implementaudit/); helpers resolve via
-# "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/... instead.
-pattern = re.compile(r"(fixtures/[\w.-]+|tests/[\w.-]+|scripts/check-[\w.-]+|skills/implementaudit/scripts/)")
-violations = []
-for path in sorted(Path("skills").rglob("*")):
-    if not path.is_file():
-        continue
-    try:
-        lines = path.read_text(encoding="utf-8").splitlines()
-    except UnicodeDecodeError:
-        continue
-    for lineno, line in enumerate(lines, 1):
-        if pattern.search(line) and "source repo" not in line.lower():
-            violations.append(
-                f"{path.as_posix()}:{lineno}: repo-only path reference without "
-                f"'source repo' label: {line.strip()[:90]}"
-            )
-        if "skills/implementaudit/scripts/" in line and "installed payload" in line.lower():
-            violations.append(
-                f"{path.as_posix()}:{lineno}: installed payload must not use "
-                f"source repo skills/scripts path: {line.strip()[:90]}"
-            )
-if violations:
-    sys.stderr.write("\n".join(violations) + "\n")
-    raise SystemExit(1)
-PY
+# One maintained owner checks installed-payload paths and helper metadata.
+bash scripts/check-installed-payload-self-contained.sh
 
 for marker in \
   Self-critique: \
@@ -683,7 +649,6 @@ bash scripts/check-capability-parity-contract.sh
 bash scripts/check-dogfood-bootstrap-contract.sh
 bash scripts/check-safeguard-restoration.sh
 bash scripts/check-native-integration.sh
-bash scripts/check-installed-payload-self-contained.sh
 bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-public-claim-boundaries.sh
 bash scripts/check-package-shape-claims.sh

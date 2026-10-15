@@ -53,6 +53,10 @@ else
   fail "python, python3, or py -3 is required"
 fi
 
+# Validate packaged metadata through its single owner before the stricter
+# source-checker label pass below. This also preserves direct invocation safety.
+bash "$repo_root/scripts/check-installed-payload-self-contained.sh"
+
 "${py_cmd[@]}" - \
   "$final_report" \
   "$sidecars_ref" \
@@ -236,6 +240,11 @@ def check_source_only_labels(paths: list[Path]) -> None:
     for path in paths:
         text = read(path)
         for lineno, line in enumerate(text.splitlines(), 1):
+            if (path.resolve() == Path("skills/implementaudit/references/repo-state-comparison.md").resolve()
+                    and line.startswith("helper-route: ")):
+                # The owner above validated this exact metadata form and path;
+                # retain the strict source-only scan on every later field.
+                line = line.split("|", 1)[1]
             if not pattern.search(line):
                 continue
             lower = line.lower()
