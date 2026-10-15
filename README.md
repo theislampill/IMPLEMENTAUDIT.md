@@ -626,6 +626,17 @@ and roadmap candidates route through DMADV and stay separate from defect
 closure. Plan creation, review, dispatch, and reconciliation follow
 `skills/implementaudit/references/plan-lifecycle.md`; issue publication remains deferred.
 
+Current source also checks existing open and closed owners before proposing a
+new durable work identity. Material findings retain an executable plan and a
+reconciled scope; a duplicate belongs with its existing owner. When a future
+maintainer would lose distinctions needed for different lawful actions, the
+same audit object preserves that continuation even without publication intent.
+An adequate existing record stays compact. This prepares evidence and proposals;
+it grants no publication, receiving, implementation or closure authority. The
+[work-order reference](skills/implementaudit/references/issue-ready-work-orders.md)
+owns the detailed comparison, admission and cheap-path rules. These current-source
+changes do not alter the published release assets.
+
 ## Greenfield / brownfield routing
 
 ImplementAudit classifies work before planning or mutation:

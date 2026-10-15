@@ -254,4 +254,26 @@ if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
   printf 'audit-object-routing-contract.test: reduced-obligation meta-tier claim unexpectedly passed\n' >&2
   exit 1
 fi
+# R001F's amended continuation boundary retains publication authority and the
+# no-trigger cheap path. Removing either must still fail the existing owner.
+cp skills/implementaudit/references/audit-category-matrix.md "$tmp/fixture-only/skills/implementaudit/references/audit-category-matrix.md"
+for anchor in \
+  'If a cold future consumer cannot distinguish states needed' \
+  'for different lawful next actions, load `issue-ready-work-orders.md` even without' \
+  'Without publication intent, the publication gates remain inactive.' \
+  'intent and without the evidence-derived material-continuation trigger above,' \
+  'retain the no-load/no-new-obligation cheap path.'
+do
+  grep -Fv "$anchor" skills/implementaudit/references/plan-lifecycle.md \
+    > "$tmp/fixture-only/skills/implementaudit/references/plan-lifecycle.md"
+  if bash scripts/check-audit-object-routing-contract.sh --scan-root "$tmp/fixture-only" >"$tmp/continuation-boundary.out" 2>&1; then
+    printf 'audit-object-routing-contract.test: missing continuation boundary passed: %s\n' "$anchor" >&2
+    exit 1
+  fi
+  grep -F "missing in skills/implementaudit/references/plan-lifecycle.md: $anchor" "$tmp/continuation-boundary.out" >/dev/null || {
+    cat "$tmp/continuation-boundary.out" >&2
+    printf 'audit-object-routing-contract.test: wrong continuation-boundary failure\n' >&2
+    exit 1
+  }
+done
 printf 'audit-object-routing-contract.test: ok\n'

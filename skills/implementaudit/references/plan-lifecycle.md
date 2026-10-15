@@ -435,8 +435,13 @@ policy, body policy, duplicate check, and readback evidence.
 
 ## Issue-Ready Preparation
 
-Before the authorised gate, apply `issue-ready-work-orders.md` to each material
-finding selected for publication. Bind stable draft IDs and hashes, then
+At a material continuation boundary, first inspect the existing carrier and its
+accessible corpus. If a cold future consumer cannot distinguish states needed
+for different lawful next actions, load `issue-ready-work-orders.md` even without
+publication intent. Task labels alone do not trigger loading; a sufficient compact
+carrier stays on the ordinary cheap path. Before the authorised publication gate,
+also apply that owner to each material finding selected for publication.
+Bind stable draft IDs and hashes for the proposed publication set, then
 reconcile every unordered pair (or a justified equivalent complete grouping),
 shared owner, dependency, filing order, and implementation/PR topology. Reread
 each draft after the sibling set stabilises. This preparation remains inside
@@ -492,7 +497,9 @@ and read back both surfaces. If an issue has already auto-closed, post the
 evidence comment retroactively and record the closure race instead of silently
 dropping the accounting evidence.
 
-A run with no publication intent incurs none of these obligations.
+Without publication intent, the publication gates remain inactive. Without that
+intent and without the evidence-derived material-continuation trigger above,
+retain the no-load/no-new-obligation cheap path.
 
 ## No Arbitrary Revision Cap
 

@@ -200,7 +200,7 @@ Load references only when the current gate needs them:
 - `references/audit-category-matrix.md`: native audit-category routing.
 - `references/audit-playbook.md`: detailed audit heuristics.
 - `references/plan-lifecycle.md`: self-contained plans, execution, and review.
-- `references/issue-ready-work-orders.md`: issue synthesis and reconciliation.
+- `references/issue-ready-work-orders.md`: material issues or continuation loss.
 - `references/child-agents.md`: bounded fanout, ready cells, and serial fallback.
 - `references/terminology-integration.md`: thin terminology precedence.
   Use FMEA-lite fields when risk is material, STRIDE/trust-boundary notes when
