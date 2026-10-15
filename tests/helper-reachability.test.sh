@@ -99,6 +99,25 @@ grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=
     exit 1
   }
 
+# A progressive stage owner does not replace the declared governor helper edge.
+missing_run_root_edge="$(make_candidate missing-run-root-governor-edge)"
+python - "$missing_run_root_edge" <<'PY'
+from pathlib import Path
+import sys
+
+candidate = Path(sys.argv[1])
+governor = candidate / "skills/implementaudit/SKILL.md"
+owner = candidate / "skills/implementaudit/references/plan-lifecycle.md"
+assert "### Stage 5 - Write" in owner.read_text(encoding="utf-8")
+text = governor.read_text(encoding="utf-8")
+start = text.index("When a run root is needed, claim it with")
+ending = "not dispatchable.\n"
+end = text.index(ending, start) + len(ending)
+governor.write_text(text[:start] + text[end:], encoding="utf-8")
+PY
+expect_fail "missing governor run-root edge with reference retained" \
+  "unanchored trigger: claim-run.sh: run-root" "$missing_run_root_edge"
+
 # R001E must count the scarce-resource rehearsal as a distinct governed mode,
 # rather than treating the authorization-record mode as its proxy.
 grep -Fqx \

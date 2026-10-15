@@ -24,7 +24,7 @@ phase, route or lens, evidence boundary, and Andon/control hook.
 | Term family | Native parent | Owning reference | Runtime hook |
 | --- | --- | --- | --- |
 | VOC / CTQ / SIPOC | owner/source and acceptance criteria | `routing.md` | Stage 1 and Define/Measure field refinement; Andon when output or downstream consumer is vague. |
-| FMEA-lite | Stage 3 risk analysis | `phase-design.md` and `SKILL.md` | Failure mode, cause, effect, detection, countermeasure, owner/source, evidence boundary; no numeric RPN without measured evidence. |
+| FMEA-lite | Stage 3 risk analysis | `phase-design.md` and `plan-lifecycle.md` | Failure mode, cause, effect, detection, countermeasure, owner/source, evidence boundary; no numeric RPN without measured evidence. |
 | Strangler / ACL | mixed route | `routing.md` and `plan-lifecycle.md` | DMAIC outer shell plus DMADV inner design for replacement/migration; Andon before unvalidated deletion or legacy semantic leakage. |
 | Bounded Context / Ubiquitous Language | owner/source and evidence boundary | this file plus `routing.md` | Protect repo-native vocabulary and keep external or legacy terms from becoming runtime lanes. |
 | STRIDE / trust boundary | security pressure and evidence boundary | `audit-category-matrix.md` | Material security surfaces classify instruction/data boundaries; repo-content-as-data remains mandatory. |

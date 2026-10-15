@@ -18,12 +18,12 @@ cp docs/diagrams/execution-spine.mmd "$tmp/docs/diagrams/execution-spine.mmd"
 cp docs/portal/pages/planning-and-phases.html \
   "$tmp/docs/portal/pages/planning-and-phases.html"
 
-if ! grep -Fq "Stage 6.ii - Pre-flight smoke" "$tmp/skills/implementaudit/SKILL.md"; then
+if ! grep -Fq "Stage 6.ii - Pre-flight smoke" "$tmp/skills/implementaudit/references/plan-lifecycle.md"; then
   printf 'planner-stages.test: fixture setup failed\n' >&2
   exit 1
 fi
 
-perl -0pi -e 's/Stage 6\.ii - Pre-flight smoke/Stage 6.ii - missing/' "$tmp/skills/implementaudit/SKILL.md"
+perl -0pi -e 's/Stage 6\.ii - Pre-flight smoke/Stage 6.ii - missing/' "$tmp/skills/implementaudit/references/plan-lifecycle.md"
 
 (
   cd "$tmp"
@@ -57,7 +57,7 @@ cp -R skills "$tmp/skills-routing"
 cp -R fixtures "$tmp/fixtures-routing"
 cp scripts/check-planner-stages.sh "$tmp/check-planner-stages-routing.sh"
 perl -0pi -e 's/distinct supported candidate causes/distinct hidden candidate causes/' \
-  "$tmp/skills-routing/implementaudit/SKILL.md"
+  "$tmp/skills-routing/implementaudit/references/plan-lifecycle.md"
 (
   cd "$tmp"
   rm -rf skills fixtures

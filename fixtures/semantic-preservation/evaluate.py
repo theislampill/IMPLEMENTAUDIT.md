@@ -58,6 +58,105 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def active_markdown_lines(text: str) -> list[str]:
+    """Exclude inert examples, comments and quotes from an operative route."""
+    result: list[str] = []
+    fence = None
+    comment = False
+    lazy_quote = False
+    for line in text.splitlines():
+        if fence:
+            if re.fullmatch(r" {0,3}" + re.escape(fence[0]) + "{" + str(fence[1]) + r",}[ \t]*", line):
+                fence = None
+            continue
+        if not comment:
+            quote = re.match(r" {0,3}>[ \t]?(.*)", line)
+            interruption = not line.strip() or re.match(r" {0,3}(?:#{1,6}[ \t]|`{3,}|~{3,}|<!--|[-+*][ \t]|[0-9]+[.)][ \t])", line)
+            if quote:
+                lazy_quote = bool(quote.group(1).strip())
+                continue
+            if lazy_quote and not interruption:
+                continue
+            lazy_quote = False
+            if line.expandtabs(4).startswith("    "):
+                continue
+            opening = re.match(r" {0,3}(`{3,}|~{3,})", line)
+            if opening:
+                fence = (opening.group(1)[0], len(opening.group(1)))
+                continue
+        visible = ""
+        cursor = 0
+        while cursor < len(line):
+            if comment:
+                end = line.find("-->", cursor)
+                if end < 0:
+                    break
+                cursor, comment = end + 3, False
+            else:
+                start = line.find("<!--", cursor)
+                if start < 0:
+                    visible += line[cursor:]
+                    break
+                visible += line[cursor:start] + " "
+                cursor, comment = start + 4, True
+        result.append(visible)
+    return result
+
+
+def verify_bootstrap(cases_path: Path, skill_path: Path) -> int:
+    """Verify this reviewed progressive move, not arbitrary prose equivalence."""
+    root = require_mapping(json.loads(cases_path.read_text(encoding="utf-8")), "root")
+    binding = require_mapping(root.get("bootstrap_route"), "bootstrap_route")
+    require_keys(binding, {"governor_heading", "governor_route", "owner_path", "owner_sha256",
+                          "moved_heading", "moved_sha256", "moved_bytes", "stage_blocks",
+                          "reserve_bytes", "reserve_basis"}, "bootstrap_route")
+    repo = Path(__file__).resolve().parents[2]
+    raw = skill_path.read_bytes()
+    stages = binding["stage_blocks"]
+    if not isinstance(stages, list) or not stages:
+        raise FixtureError("planner owner stage census missing")
+    reserve = max(stage["bytes"] for stage in stages)
+    if binding["reserve_bytes"] != reserve or not isinstance(reserve, int) or reserve <= 0:
+        raise FixtureError("semantic reserve must equal the largest complete moved stage")
+    if 22000 - len(raw) < reserve:
+        raise FixtureError(f"semantic reserve: {22000 - len(raw)} bytes < {reserve}; restore one complete moved stage")
+    lines = active_markdown_lines(raw.decode("utf-8"))
+    locations = [i for i, line in enumerate(lines) if line == binding["governor_heading"]]
+    if len(locations) != 1:
+        raise FixtureError("active planner route heading missing or ambiguous")
+    start = locations[0] + 1
+    end = next((i for i in range(start, len(lines)) if lines[i].startswith("## ")), len(lines))
+    if " ".join(binding["governor_route"].split()) not in " ".join(" ".join(lines[start:end]).split()):
+        raise FixtureError("active planner route trigger/read-before-decision/fence missing")
+    owner_name = normalise_repo_path(binding["owner_path"], "planner owner")
+    owner = repo / owner_name
+    if owner.is_symlink() or not owner.is_file():
+        raise FixtureError("planner owner missing or not an ordinary source file")
+    content = owner.read_bytes()
+    if sha256(content) != binding["owner_sha256"]:
+        raise FixtureError("planner owner identity mismatch (wrong version or mixed owner)")
+    text = content.decode("utf-8")
+    heading = binding["moved_heading"]
+    if text.count(heading + "\n") != 1:
+        raise FixtureError("planner owner moved section missing or ambiguous")
+    start = text.index(heading + "\n")
+    end = text.find("\n## ", start + len(heading))
+    block = text[start:] if end < 0 else text[start:end]
+    block = block.rstrip("\n")
+    if len(block.encode()) != binding["moved_bytes"] or sha256(block.encode()) != binding["moved_sha256"]:
+        raise FixtureError("planner owner moved predicates differ from reviewed complete source")
+    actual_stages = re.split(r"(?m)(?=^### Stage )", block)[1:]
+    observed = [{"heading": part.splitlines()[0], "bytes": len(part.encode()), "sha256": sha256(part.encode())}
+                for part in actual_stages]
+    if observed != stages:
+        raise FixtureError("planner owner stage identity/census mismatch")
+    required_source, _, _ = parse_builder_manifest(root["package_evidence"], repo)
+    if owner_name not in required_source:
+        raise FixtureError("planner owner is unshipped in the selected package projection")
+    print(f"bootstrap-route: verified source owner; semantic reserve {22000 - len(raw)} bytes >= {reserve}")
+    return 0
+
+
 def read_revision(repo: Path, path: str, revision: str) -> bytes | None:
     if revision == "WORKTREE":
         target = repo.joinpath(*PurePosixPath(path).parts)
@@ -503,7 +602,7 @@ def run(cases_path: Path, check: bool) -> int:
     root = require_mapping(payload, "root")
     require_keys(
         root,
-        {"schema_version", "package_evidence", "exact_literal_evidence", "evidence_profiles", "cases"},
+        {"schema_version", "package_evidence", "exact_literal_evidence", "evidence_profiles", "cases", "bootstrap_route"},
         "root",
     )
     if root["schema_version"] != 2:
@@ -542,8 +641,11 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", type=Path, required=True)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--bootstrap-skill", type=Path)
     args = parser.parse_args()
     try:
+        if args.bootstrap_skill is not None:
+            return verify_bootstrap(args.cases, args.bootstrap_skill)
         return run(args.cases, args.check)
     except (FixtureError, json.JSONDecodeError, OSError) as error:
         print(f"semantic-preservation-cases: {error}")

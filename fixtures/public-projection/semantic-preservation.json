@@ -7,7 +7,8 @@
       "projection_tokens": ["| Topic | Audience/job | Authority and placements | Abstraction/route | Current-state transition | Evidence |"],
       "canonical_owners": [
         {"path": "skills/implementaudit/references/audit-playbook.md", "tokens": ["current authority", "abstraction", "substantial offline README", "hidden/campaign-bound routes", "rendered-consumer", "governed-detail preservation", "source/generator green", "Ordinary prose", "overclaim/omission"]},
-        {"path": "skills/implementaudit/SKILL.md", "tokens": ["material owner-sourced capabilities omitted", "audience/authority/abstraction mismatch", "duplicate current authority", "hidden/campaign-bound routes"]}
+        {"path": "skills/implementaudit/SKILL.md", "tokens": ["For goal synthesis or a warranted phased plan, read", "references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure", "before intake, phase design, preflight, dispatch, or handoff"]},
+        {"path": "skills/implementaudit/references/plan-lifecycle.md", "tokens": ["material owner-sourced capabilities omitted", "audience/authority/abstraction mismatch", "duplicate current authority", "hidden/campaign-bound routes"]}
       ],
       "consumer": {"path": "tests/census-discipline.test.sh", "tokens": ["audience/authority/abstraction mismatch", "duplicate authority", "hidden route", "rendered-consumer-boundary", "github_readme_diagram_fits"]}
     },

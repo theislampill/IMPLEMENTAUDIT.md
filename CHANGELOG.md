@@ -15,6 +15,11 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Current source moves the complete planner-stage detail into the existing
+  plan-lifecycle reference, with a governor read-before-decision route and
+  unchanged authority fences. Source checks retain a measured single-stage
+  restoration allowance and reject missing or mismatched progressive owners.
+  Ordinary direct work keeps its cheap path; published assets are unchanged.
 - Current source reconciles complete evidence, open and closed owners, genealogy
   and dependencies before a durable work-identity proposal. Material continuation
   preserves distinct future actions in an adequate existing carrier, including

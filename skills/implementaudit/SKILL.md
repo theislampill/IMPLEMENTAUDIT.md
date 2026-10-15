@@ -229,78 +229,27 @@ implementation continues to use `.IMPLEMENTAUDIT/runs/`.
 ---
 
 ## 2b. Planner stages for goal synthesis and phased audit closure
-Use this stage map only when goal synthesis or a phased run is warranted. In
-embedded governance, do not print a second `/goal`; govern the supplied target.
-
-### Stage 0 - Context/tool/repo-state detection
-Detect repo root, current dirty state, `AGENTS.md`, optional sidecars, helper
-availability, prior run state, version skew, `IMPLEMENTAUDIT_BASE`, and
-`IMPLEMENTAUDIT_BASELINE_REF`. Bounded continuity preload may read AGENTS.md,
-run-root applied context, optional personal/project notes, Graphify terrain,
-and ActiveGraph custody. Continuity from any source never overrides safety
-defaults, authorization boundaries, AGENTS.md, or repo policy.
-
-### Stage 1 - Audit-governed intake and routing
-Validate the input; ask at most four material questions only when required.
-Use 0-2 true-gap questions when the gap is narrow. Classify greenfield,
-brownfield, or mixed and bind the `tdqyq-audit-object`.
+Only within the goal-synthesis or warranted phased-planning route:
 Derive the warranted `ydqyq-audit-action` set from scope, uncertainty, risk,
 dependencies, evidence gaps, authorization state, and intended executor; record
 selected and omitted actions with reasons per the action-selection contract in
 `references/planning-depth.md`. Depth never requires an activation keyword.
 
-### Stage 2 - Recon / Gemba
-Inspect live owner/source, generated artifacts, package surfaces, scripts,
-fixtures, docs, and sidecars. Graphify may orient; live files decide.
+For goal synthesis or a warranted phased plan, read
+`references/plan-lifecycle.md#2b-planner-stages-for-goal-synthesis-and-phased-audit-closure`
+before intake, phase design, preflight, dispatch, or handoff. Use its complete
+stage sequence; a load-map mention alone is not a completed read.
+Keep the supplied audit object and authorization ceiling; embedded work does
+not print a second `/goal`. Require independent cold review before preflight,
+dispatch, or handoff. Missing, unshipped, wrong-version or mixed-owner stage
+content refuses those actions. Verify selected-source/package/inventory identity
+before using the progressive owner. Ordinary direct work stays on the Execution
+Spine without a new reference read, model call, graph, or worksheet.
 
-### Stage 3 - Deep think / risk and dependency analysis
-Record risks, dependencies, rollback path, evidence strategy, security
-pressure, deep pressure, and direction pressure in THINKING.
-
-### Stage 4 - Phase decomposition
-Create atomic phases with acceptance criteria, owner/source, Smoke A/B,
-mandatory commands, rollback/removal path, and terminal object state to prove.
-Phases with 3+ independent units declare `unit_independence` and
-`change_class`; ceremony amortizes per batch, not per unit.
-
-### Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts
-When a run root is needed, write `ROADMAP.md`, `STATE.md`, `THINKING.md`,
-`PROTOCOL.md`, `context.md`, `tools.md`, `sidecars.md`, and phase specs under
-`.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. Claim it with
-`scripts/claim-run.sh <task>`, initialize from canonical runtime templates, then run
-`scripts/validate-run-root.sh <root>` after authoring; an invalid root is Andon, not dispatchable.
-
-When safe containment with unresolved causality is available, contain first,
-then route to the STATE residual procedure: preserve distinct supported candidate causes
-separately (or record why fewer are supportable), record residual dispositions,
-and do not claim full root-cause resolution.
-
-### Stage 6 - Plan review and self-critique
-Review assumptions, atomicity, falsifiability, and readiness against
-live source and exact mutation scope. Without exact evidence, HOLD, not READY.
-Print `Self-critique:` (1-3) and record Stage 6 assumptions.
-
-### Stage 6.i - Independent cold review
-Each handoff/executor artifact gets independent review that
-does not reuse the authoring context: a
-separate child agent where the host supports subagents,
-else a bounded serial fresh-context pass. As cold reader/weak executor, it records
-PASS / GAP-REVISE / BLOCKED / OWNER DECISION.
-No handoff, preflight, or dispatch proceeds without a disposition.
-Under `references/audit-playbook.md`, challenge:
-material owner-sourced capabilities omitted from every public route,
-audience/authority/abstraction mismatch, duplicate current authority, and
-hidden/campaign-bound routes. Keywords do not trigger it; trivial no-artifact
-work skips it. Self-critique is preserved, not replaced.
-
-### Stage 6.ii - Pre-flight smoke
-Run deduplicated mandatory commands once before dispatch. Print
-`PREFLIGHT_GREEN` or `PREFLIGHT_RED`; unrelated or unclear broken baselines need
-Andon or OWNER DECISION.
-
-### Stage 7 - One ready-to-paste `/goal` handoff when not already embedded
-Print exactly one ready-to-paste handoff only after stages pass. Do not print a
-second `/goal` inside an existing `/goal` run.
+When a run root is needed, claim it with `scripts/claim-run.sh <task>`,
+initialize from canonical runtime templates, then run
+`scripts/validate-run-root.sh <root>` after authoring; an invalid root is Andon,
+not dispatchable.
 
 ---
 
