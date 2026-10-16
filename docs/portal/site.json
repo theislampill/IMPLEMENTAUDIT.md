@@ -501,6 +501,8 @@
       "path": "research-engineering-lineage/",
       "source": "research-lineage-overview.html",
       "sources": [
+        "docs/research/implementaudit/r003c-interaction-qualification.md",
+        "docs/research/implementaudit/r003c-member-dispositions.json",
         "docs/research/implementaudit/r003b-configuration-qualification.md",
         "docs/research/implementaudit/r003b-member-dispositions.json",
         "docs/research/implementaudit/r0040-event-meaning-qualification.md",
