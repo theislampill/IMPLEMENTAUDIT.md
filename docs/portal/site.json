@@ -501,6 +501,8 @@
       "path": "research-engineering-lineage/",
       "source": "research-lineage-overview.html",
       "sources": [
+        "docs/research/implementaudit/r0040-event-meaning-qualification.md",
+        "docs/research/implementaudit/r0040-member-dispositions.json",
         "docs/research/implementaudit/r0045-attribution-qualification.md",
         "docs/research/implementaudit/r0045-member-dispositions.json",
         "README.md",
