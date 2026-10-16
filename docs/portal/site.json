@@ -501,6 +501,10 @@
       "path": "research-engineering-lineage/",
       "source": "research-lineage-overview.html",
       "sources": [
+        "docs/research/implementaudit/r003d-maintenance-qualification.md",
+        "docs/research/implementaudit/r003d-member-dispositions.json",
+        "docs/research/implementaudit/sss-synthesis-qualification.md",
+        "docs/research/implementaudit/sss-synthesis-dispositions.json",
         "docs/research/implementaudit/r003c-interaction-qualification.md",
         "docs/research/implementaudit/r003c-member-dispositions.json",
         "docs/research/implementaudit/r003b-configuration-qualification.md",
