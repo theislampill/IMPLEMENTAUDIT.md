@@ -1,0 +1,8 @@
+{
+  "schema": "implementaudit.route-transaction-result.v1",
+  "status": "UNAVAILABLE",
+  "enforcement_available": false,
+  "error": "constructed command failed: first line\nsecond line",
+  "decision": "PENDING",
+  "advance_allowed": false
+}

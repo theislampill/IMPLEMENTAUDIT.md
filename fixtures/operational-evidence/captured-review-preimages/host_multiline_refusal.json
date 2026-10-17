@@ -1,0 +1,6 @@
+{
+  "schema": "implementaudit.host-session-binding-result.v1",
+  "status": "UNAVAILABLE",
+  "enforcement_available": false,
+  "error": "constructed command failed: first line\nsecond line"
+}
