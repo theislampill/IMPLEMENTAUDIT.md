@@ -71,7 +71,7 @@ need canonical `scripts/verify-package.sh` registration. No second CI test list
 is created. A standalone diagnostic load edge does not activate native routing.
 
 The native metadata writer format and scoped R0033 producer interface are
-proposed, not accepted cross-owner interfaces. R0033 facts, R003A attribution,
+proposed, not accepted cross-owner interfaces. R0033 facts, R003A attribution (unallocated in this base's namespace registry),
 R0036 executor/effect capabilities and batched accepted-result custody, and
 R0037 natural event consumption remain their owners. No native controller was
 created in this lane. No campaign state, epoch, receipt or accepted cell count
@@ -88,3 +88,5 @@ Runtime 0.4.0, release family v0.4.0.0, both 327,680-byte caps and 2,000-byte
 headroom, the governor/four-child topology and bootstrap budgets remain intact.
 No merge, publication beyond one draft PR, final certification or closure is
 part of this source candidate.
+
+Later runtime namespace admission belongs to the existing R0004 allocation owner. Public issue references and constructed fixture labels grant no runtime allocation or native producer admission.

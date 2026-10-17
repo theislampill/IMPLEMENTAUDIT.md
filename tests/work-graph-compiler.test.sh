@@ -323,7 +323,7 @@ if [item["cell_id"] for item in prep_projection.get("preparation_frontier", [])]
 
 null_product = copy.deepcopy(base)
 null_product["cells"][1]["id"] = "R38-C06"
-null_product["cells"][1]["owner"] = "R0038"
+null_product["cells"][1]["owner"] = "R0038"  # fixture label unallocated in this base's namespace registry
 null_product["cells"][2]["deps"] = ["R38-C06"]
 null_product["cells"][1]["source_bearing"] = True
 null_product["cells"][1]["result"] = None

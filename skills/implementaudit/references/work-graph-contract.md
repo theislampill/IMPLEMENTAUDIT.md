@@ -1,8 +1,8 @@
 # Work graph contract
 
-R0035's optional `scripts/compile-work-graph.py` grants no currentness, route,
+`scripts/compile-work-graph.py` grants no currentness, route,
 JOIN, effect or lifecycle authority.
-Governor/four-child topology, canonical verifier and campaign remain unchanged.
+No governor/four-child, canonical verifier or campaign changes.
 Cheap serial work needs no graph; consequential gates remain.
 
 ## Sources
@@ -16,10 +16,10 @@ NATIVE_NODE_FIELDS, _native_validate_node, _native_validate_context,
 _native_validate_binding and _compile_native_documents_v1. Results/transitions: reconcile_native_results_v1, compile_recursive_transition_v1,
 check_recursive_execution_v1 and compile_verifier_graph_v1.
 
-Native modes verify sibling claim-run.sh controller/root/continuity before/after
-acquisition; missing/stale/foreign/ambiguous identity exits 2. They never create or
-resume controllers. Snapshot APIs cannot authenticate callers. Native metadata
-awaits writer admission; legacy formats are unsupported, neither empty nor complete.
+Native modes verify controller/root/continuity through sibling claim-run.sh
+before/after acquisition; missing/stale/foreign/ambiguous identity exits 2.
+No controller creation/resumption. Snapshot APIs cannot authenticate callers.
+Native metadata awaits writer admission; legacy formats are unsupported, not empty/complete.
 Enumerate STATE.md, ROADMAP.md and recursive plans/phases/tasks `.md`, each with one
 `implementaudit-work-graph` fence. Incomplete/unknown/duplicate/conflicting/cyclic
 populations refuse. Captured prose cannot redefine execution policy.
@@ -29,7 +29,7 @@ read/invalidator. Acquire bytes/directory membership/POSIX modes twice. Missing
 reads block; symlinks/nonregular inputs refuse. Resolve under repository or
 constructed input root. Semantic reads conservatively bind native worktree.
 Rederive serialized graphs from captured sources; resealing cannot hide omissions.
-Private sources remain within their evidence boundary.
+Keep private sources private.
 
 ## Decisions
 
@@ -63,10 +63,10 @@ preserves shell state/stdin/fail-fast; capture keeps raw streams/durable integer
 exit. Serial nodes have unqualified dynamic read/write and artifact semantics:
 no cached reuse. Correspondence, conversion and retirement remain separate.
 
-No hook is installed. Interlock requires current graph, R003A host, R0036 task/executor,
+No hook is installed. Interlock requires current graph, R003A host (unallocated in this base's namespace registry), R0036 task/executor,
 authenticated R0033 facts, authority/effect capability, covered tool path and
 trusted hook/failure semantics. Native transition/JOIN, capacity/discovery,
-containment and Windows/ACL proof remain pending; observations prove no effect.
+containment and Windows/access-control-list proof remain pending; observations prove no effect.
 Relations are not work DAGs.
 TC07 needs actual joint configuration/progress, not pairwise greens; TC06 retains
 consumers/descendants/recovery until discharge/accepted transfer.
