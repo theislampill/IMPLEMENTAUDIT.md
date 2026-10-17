@@ -530,15 +530,15 @@ import re as _route_re
 
 CAPTURE_ROUTE_KINDS = ("pending", "pending-decision", "route", "route-result", "host-binding")
 _route_commit = "fa14948894f583cc0b4e3be80e9283839c9992b5"
-_route_pending_source = {"path": "skills/implementaudit/scripts/compaction-audit-pending.py", "commit": _route_commit,
+_route_pending_source = {"path": "skills/implementaudit/scripts/compaction-audit-pending.py", "commit": _route_commit, # source repo
     "blob": "9e1adfd6aef34906d857f6419709b4405cbcdea0", "sha256": "97e7516bc09d9263de995c108c9693b0e9dc69d1bccfd4effb5e397a22983d74"}
-_route_route_source = {"path": "skills/implementaudit/scripts/route-transaction.py", "commit": _route_commit,
+_route_route_source = {"path": "skills/implementaudit/scripts/route-transaction.py", "commit": _route_commit, # source repo
     "blob": "7969902b1bb8dae192a4dcef795d93ba216229b3", "sha256": "6e92da026b597bad2946ee7feff71e73ebaf91d0509ccb3a6d5ea1fabe7e08e3"}
-_route_binding_source = {"path": "skills/implementaudit/scripts/host-session-binding.py", "commit": _route_commit,
+_route_binding_source = {"path": "skills/implementaudit/scripts/host-session-binding.py", "commit": _route_commit, # source repo
     "blob": "df50bec5a5f852e2e01c5d61c7f3fe45cdefd378", "sha256": "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"}
-_route_profile_source = {"path": "skills/implementaudit/scripts/compaction-result-profile.py", "commit": _route_commit,
+_route_profile_source = {"path": "skills/implementaudit/scripts/compaction-result-profile.py", "commit": _route_commit, # source repo
     "blob": "57bc436862bd8fcfac4402186339dfc82acd952a", "sha256": "0b4e2595d52c108c35f1142322fc15e1716e440eeb75e2fbc5611af6031f9d6c"}
-_route_observation_source = {"path": "skills/implementaudit/scripts/compaction-result-observation.py", "commit": _route_commit,
+_route_observation_source = {"path": "skills/implementaudit/scripts/compaction-result-observation.py", "commit": _route_commit, # source repo
     "blob": "9d6a6e5c3a4d9e370f69576a7dbff12a2d3bb73d", "sha256": "0ff4589848b4bb37ebe0a4eaf33da8dc5956074b016d50046382ad7814287604"}
 ROUTE_FORMAT_SOURCES = {"pending": [_route_pending_source, _route_profile_source, _route_observation_source],
     "pending-decision": [_route_pending_source], "route": [_route_route_source],
@@ -1514,13 +1514,13 @@ import re as _occurrence_re
 CAPTURE_OCCURRENCE_KINDS = ('result-occurrence', 'member-coverage', 'child-visibility')
 _occurrence_commit = 'fa14948894f583cc0b4e3be80e9283839c9992b5'
 OCCURRENCE_FORMAT_SOURCES = {
-    'result-occurrence': [{'path': 'skills/implementaudit/scripts/compaction-result-observation.py',
+    'result-occurrence': [{'path': 'skills/implementaudit/scripts/compaction-result-observation.py', # source repo
         'commit': _occurrence_commit, 'blob': '9d6a6e5c3a4d9e370f69576a7dbff12a2d3bb73d',
         'sha256': '0ff4589848b4bb37ebe0a4eaf33da8dc5956074b016d50046382ad7814287604'}],
-    'member-coverage': [{'path': 'skills/implementaudit/scripts/compile-work-graph.py',
+    'member-coverage': [{'path': 'skills/implementaudit/scripts/compile-work-graph.py', # source repo
         'commit': _occurrence_commit, 'blob': '3d18c445e5d41e80c515c9251da2260af8c53947',
         'sha256': '37c5d68830e9f2d0034ada3f661de7b48393c8ab265f611ef5412e8f41ffba8f'},
-        {'path': 'scripts/check-auto-loom-coverage.py', 'commit': _occurrence_commit,
+        {'path': 'scripts/check-auto-loom-coverage.py', 'commit': _occurrence_commit, # source repo
         'blob': '2ab7671676a7a39d5092d6cf85a244fd608818c6',
         'sha256': '3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02'}],
     'child-visibility': [dict(_route_route_source),
