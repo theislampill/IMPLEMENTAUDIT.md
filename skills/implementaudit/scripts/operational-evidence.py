@@ -30,8 +30,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = '439b4b460dbf2b05f8ff9bf693efc29d8fc9ff48d9aa46b16c7bba161969cfe5'
-_QUERY_POLICY_MODULE_BYTES = 19521
+_QUERY_POLICY_MODULE_SHA256 = '07d84b60421bdf07a2e952d9c6d8a7cd26e215ade20c477a5ead18b989d7c488'
+_QUERY_POLICY_MODULE_BYTES = 183086
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os
@@ -85,6 +85,7 @@ VALIDATION_SCHEMA = "implementaudit-operational-evidence-validation-v1"
 SCHEMA_DEFINITION = "implementaudit-operational-evidence-schema-v1"
 REPOSITORY_COLLECTION_SCHEMA = "implementaudit-repository-collection-v1"
 REPOSITORY_SNAPSHOT_SCHEMA = "implementaudit-repository-snapshot-v1"
+CAPTURED_SNAPSHOT_SCHEMA = "implementaudit-captured-owner-snapshot-v1"
 EVIDENCE_FAILURE_COLLECTION_SCHEMA = (
     "implementaudit-evidence-failure-collection-v1")
 RELEASE_COLLECTION_SCHEMA = "implementaudit-release-collection-v1"
@@ -605,6 +606,8 @@ def _read_repository_path(path, root=None, maximum=None):
     path = pathlib.Path(path).absolute()
     root = pathlib.Path(root).absolute() if root is not None else pathlib.Path(path.anchor)
     relative = path.relative_to(root)
+    if not relative.parts:
+        raise OSError("repository input has no file leaf")
     maximum = REPOSITORY_MAX_FILE_BYTES if maximum is None else min(maximum, REPOSITORY_MAX_FILE_BYTES)
     if (os.name != "posix" or os.open not in os.supports_dir_fd or
             not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY")):
@@ -2265,6 +2268,47 @@ def _compose_currentness(native, capture):
     return {"state": state, "invalidators": invalidators}
 
 
+_RELEASE_RECORD_TYPES_V1 = frozenset({
+    "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
+    "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
+    "Release", "Asset", "PublicSurface"})
+
+
+def _release_omissions_v1(missing_types):
+    return [{"record_type": record_type, "state": "UNKNOWN",
+             "invalidator": f"MISSING_RELEASE_LAYER:{record_type}"}
+            for record_type in missing_types]
+
+
+def _release_candidate_v1(repository, nodes, boundary_currentness, missing_types):
+    """Derive the same non-authoritative candidate for collection and checking.
+
+    Retain the caller's node order and first occurrence of each invalidator.
+    This pure calculation neither authenticates inputs nor renews observations.
+    """
+    public_nodes = [row for row in nodes if row["record_type"] == "PublicSurface"]
+    invalidators = list(boundary_currentness["invalidators"])
+    for row in (item for item in nodes if item["layer"] == "EXTERNAL"):
+        for invalidator in row["currentness"]["invalidators"]:
+            if invalidator not in invalidators:
+                invalidators.append(invalidator)
+    invalidators.extend(
+        f"MISSING_RELEASE_LAYER:{record_type}" for record_type in missing_types)
+    public_commit = None
+    if len(public_nodes) != 1:
+        invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
+    else:
+        public_commit = public_nodes[0]["commit_identity"]
+        if public_commit != repository["commit"]:
+            invalidators.append("PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT")
+    if repository["worktree_state"] != "CLEAN":
+        invalidators.append("LOCAL_WORKTREE_DIRTY")
+    if not invalidators:
+        invalidators.append("NATIVE_CANDIDATE_QUALIFICATION_REQUIRED")
+    return {"state": "UNVERIFIED", "invalidators": invalidators,
+            "local_commit": repository["commit"], "public_commit": public_commit}
+
+
 def collect_release(root: pathlib.Path):
     """Collect local and frozen external RELEASE facts without promotion."""
     root = pathlib.Path(root).resolve()
@@ -2302,33 +2346,17 @@ def collect_release(root: pathlib.Path):
         _error("OE_RELEASE_LOCAL_INVALID", "$release.local.records",
                "must be an array")
 
-    nodes = [
-        {
-            "id": "git-commit", "record_type": "Commit", "layer": "LOCAL",
-            "family": "RELEASE", "object_identity": repository["commit"],
-            "source_identity": "git:HEAD",
-            "native_owner_identity": "git:repository",
-            "currentness": {"state": "CURRENT", "invalidators": []},
-            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
-        },
-        {
-            "id": "git-tree", "record_type": "Tree", "layer": "LOCAL",
-            "family": "RELEASE", "object_identity": repository["tree"],
-            "source_identity": "git:HEAD^{tree}",
-            "native_owner_identity": "git:repository",
-            "currentness": {"state": "CURRENT", "invalidators": []},
-            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
-        },
-        {
-            "id": "git-worktree", "record_type": "Worktree",
-            "layer": "LOCAL", "family": "RELEASE",
-            "object_identity": repository["worktree_state"],
-            "source_identity": "git:status--porcelain-v1",
-            "native_owner_identity": "git:repository",
-            "currentness": {"state": "CURRENT", "invalidators": []},
-            "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
-        },
-    ]
+    nodes = [{
+        "id": identity, "record_type": kind, "layer": "LOCAL",
+        "family": "RELEASE", "object_identity": repository[key],
+        "source_identity": source, "native_owner_identity": "git:repository",
+        "currentness": {"state": "CURRENT", "invalidators": []},
+        "authority_ceiling": "READ_ONLY_NATIVE_OBSERVATION",
+    } for identity, kind, key, source in (
+        ("git-commit", "Commit", "commit", "git:HEAD"),
+        ("git-tree", "Tree", "tree", "git:HEAD^{tree}"),
+        ("git-worktree", "Worktree", "worktree_state", "git:status--porcelain-v1"),
+    )]
     seen_ids = {row["id"] for row in nodes}
     local_keys = {
         "id", "record_type", "path", "sha256", "source_identity",
@@ -2470,35 +2498,10 @@ def collect_release(root: pathlib.Path):
         })
         seen_ids.add(record_id)
 
-    public_nodes = [
-        row for row in nodes if row["record_type"] == "PublicSurface"]
-    candidate_invalidators = list(boundary_currentness["invalidators"])
-    for external_node in (
-            row for row in nodes if row["layer"] == "EXTERNAL"):
-        for invalidator in external_node["currentness"]["invalidators"]:
-            if invalidator not in candidate_invalidators:
-                candidate_invalidators.append(invalidator)
-    required_types = {
-        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
-        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
-        "Release", "Asset", "PublicSurface"}
     observed_types = {row["record_type"] for row in nodes}
-    missing_types = sorted(required_types - observed_types)
-    candidate_invalidators.extend(
-        f"MISSING_RELEASE_LAYER:{record_type}"
-        for record_type in missing_types)
-    public_commit = None
-    if len(public_nodes) != 1:
-        candidate_invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
-    else:
-        public_commit = public_nodes[0]["commit_identity"]
-        if public_commit != repository["commit"]:
-            candidate_invalidators.append(
-                "PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT")
-    if repository["worktree_state"] != "CLEAN":
-        candidate_invalidators.append("LOCAL_WORKTREE_DIRTY")
-    if not candidate_invalidators:
-        candidate_invalidators.append("NATIVE_CANDIDATE_QUALIFICATION_REQUIRED")
+    missing_types = sorted(_RELEASE_RECORD_TYPES_V1 - observed_types)
+    candidate = _release_candidate_v1(
+        repository, nodes, boundary_currentness, missing_types)
 
     type_census = Counter(row["record_type"] for row in nodes)
     nodes.sort(key=lambda row: (row["layer"], row["record_type"], row["id"]))
@@ -2523,23 +2526,11 @@ def collect_release(root: pathlib.Path):
             "captured_at": captured_at, "expires_at": expires_at,
             "evaluated_at": evaluated_at,
         },
-        "omissions": [
-            {
-                "record_type": record_type,
-                "state": "UNKNOWN",
-                "invalidator": f"MISSING_RELEASE_LAYER:{record_type}",
-            }
-            for record_type in missing_types
-        ],
+        "omissions": _release_omissions_v1(missing_types),
         "node_type_census": {
-            key: type_census[key] for key in sorted(required_types)},
+            key: type_census[key] for key in sorted(_RELEASE_RECORD_TYPES_V1)},
         "nodes": nodes,
-        "candidate": {
-            "state": "UNVERIFIED",
-            "invalidators": candidate_invalidators,
-            "local_commit": repository["commit"],
-            "public_commit": public_commit,
-        },
+        "candidate": candidate,
         "establishes": [],
     }
     result["semantic_sha256"] = hashlib.sha256(
@@ -3498,6 +3489,20 @@ def _validate_static_receipt(value):
                "must be an array")
     facts = []
     fact_ids = set()
+
+    def fact_provenance():
+        return {
+            "collector_identity": collector["identity"],
+            "collector_version": collector["version"],
+            "collector_package_sha256": collector["package_sha256"],
+            "invocation_identity": collector["invocation_identity"],
+            "output_schema_identity": collector["output_schema_identity"],
+            "parser_mode": collector["parser_mode"],
+            "configuration_sha256": collector["configuration_sha256"],
+            "target_snapshot_identity": target["snapshot_identity"],
+            "input_file_set_sha256": target["input_file_set_sha256"],
+        }
+
     for index, source_fact in enumerate(value["facts"]):
         path = f"$static.facts[{index}]"
         fact = _object(
@@ -3543,17 +3548,7 @@ def _validate_static_receipt(value):
                 fact["resolution"] != "RESOLVED"):
             _error("OE_STATIC_RECEIPT_INVALID", path,
                    "positive structural relation must be resolved")
-        provenance = {
-            "collector_identity": collector["identity"],
-            "collector_version": collector["version"],
-            "collector_package_sha256": collector["package_sha256"],
-            "invocation_identity": collector["invocation_identity"],
-            "output_schema_identity": collector["output_schema_identity"],
-            "parser_mode": collector["parser_mode"],
-            "configuration_sha256": collector["configuration_sha256"],
-            "target_snapshot_identity": target["snapshot_identity"],
-            "input_file_set_sha256": target["input_file_set_sha256"],
-        }
+        provenance = fact_provenance()
         facts.append({
             **fact,
             "state": (outcome if outcome != "CURRENT" and
@@ -3583,17 +3578,7 @@ def _validate_static_receipt(value):
             "state": outcome, "work_consequence": "NONE", "mapping": None,
             "native_owner_identity": target["repository_identity"],
             "authority_ceiling": "READ_ONLY_STRUCTURAL_FACT",
-            "provenance": {
-                "collector_identity": collector["identity"],
-                "collector_version": collector["version"],
-                "collector_package_sha256": collector["package_sha256"],
-                "invocation_identity": collector["invocation_identity"],
-                "output_schema_identity": collector["output_schema_identity"],
-                "parser_mode": collector["parser_mode"],
-                "configuration_sha256": collector["configuration_sha256"],
-                "target_snapshot_identity": target["snapshot_identity"],
-                "input_file_set_sha256": target["input_file_set_sha256"],
-            },
+            "provenance": fact_provenance(),
         })
     if not facts:
         _error("OE_STATIC_EMPTY", "$static.facts",
@@ -3731,8 +3716,72 @@ def _snapshot_diff_keyset_v1(names: str) -> frozenset[str]:
     return frozenset(names.split())
 
 
+# The closed-tree census and branch validators share these exact producer
+# grammars. Every field remains explicit; no branch is admitted by inference.
+_SNAPSHOT_NATIVE_MEMBER_KEYS_V1 = {
+    "repository": frozenset({"root", "git_common_dir"}),
+    "controller": frozenset({"id", "ref", "record_oid"}),
+    "claim": frozenset({"id", "run_id", "run_root"}),
+    "continuity": frozenset({
+        "generation", "source_epoch", "invalidation_ref", "invalidation_oid",
+        "boundary_kind", "boundary_event_id", "pointer_ref", "pointer_oid",
+        "pointer_digest", "receipt_schema", "receipt_ref", "receipt_oid",
+        "receipt", "marker_ref", "marker_oid", "generation_manifest_oid",
+        "generation_manifest_digest", "cold_high_water", "degraded_state"}),
+    "hot": frozenset({
+        "state_path", "state_sha256", "roadmap_path", "roadmap_sha256",
+        "work_graph_path", "work_graph_sha256", "work_graph_compiler_sha256"}),
+    "frontier": frozenset({
+        "population", "counts", "active", "ready", "blocked_summary",
+        "writer_holds", "resource_holds", "digest"}),
+    "route": frozenset({
+        "controller_id", "controller_record_oid", "ref", "record_oid",
+        "record_identity", "decision", "classification",
+        "route_transaction_id", "obligation_id", "route_state"}),
+}
+
+_SNAPSHOT_REPOSITORY_FACT_KEYS_V1 = {
+    "FILE": frozenset({"kind", "path", "sha256", "bytes", "file_type",
+                       "language", "state", "provenance"}),
+    "FILE_UNREADABLE_OBSERVATION": frozenset({"kind", "path", "state", "provenance"}),
+    "FILE_EXCLUDED_OBSERVATION": frozenset({"kind", "path", "state", "provenance"}),
+    "PARSER_ERROR_OBSERVATION": frozenset({"kind", "path", "state", "provenance"}),
+    "PARSER_LIMIT_OBSERVATION": frozenset({"kind", "path", "state", "provenance"}),
+    "PYTHON_IMPORT": frozenset({"kind", "source", "target", "state", "provenance"}),
+    "PYTHON_REVERSE_DEPENDENT": frozenset({"kind", "source", "target", "state", "provenance"}),
+    "UNSUPPORTED_IMPORT_OBSERVATION": frozenset({"kind", "source", "target", "state", "provenance"}),
+    "PACKAGE_MANIFEST": frozenset({"kind", "path", "package_name", "sha256", "state", "provenance"}),
+    "PACKAGE_ROOT": frozenset({"kind", "package_name", "path", "state", "provenance"}),
+    "PACKAGE_MANIFEST_ERROR": frozenset({"kind", "path", "state", "provenance"}),
+    "REGISTRY_FILE": frozenset({"kind", "path", "sha256", "state", "provenance"}),
+}
+
+_SNAPSHOT_REPOSITORY_AST_KEYS_V1 = frozenset({
+    "collector_identity", "collector_version", "collector_package_sha256",
+    "invocation_identity", "output_schema_identity", "parser",
+    "input_path", "input_sha256"})
+
+_SNAPSHOT_REPOSITORY_PROVENANCE_KEYS_V1 = {
+    "FILE": frozenset({"method", "commit", "tree"}),
+    "FILE_UNREADABLE_OBSERVATION": frozenset({"method", "commit", "tree"}),
+    "FILE_EXCLUDED_OBSERVATION": frozenset({"method", "commit", "tree"}),
+    "PARSER_ERROR_OBSERVATION": _SNAPSHOT_REPOSITORY_AST_KEYS_V1,
+    "PARSER_LIMIT_OBSERVATION": _SNAPSHOT_REPOSITORY_AST_KEYS_V1,
+    "PYTHON_IMPORT": _SNAPSHOT_REPOSITORY_AST_KEYS_V1,
+    "PYTHON_REVERSE_DEPENDENT": _SNAPSHOT_REPOSITORY_AST_KEYS_V1,
+    "UNSUPPORTED_IMPORT_OBSERVATION": _SNAPSHOT_REPOSITORY_AST_KEYS_V1 | {"reason"},
+    "PACKAGE_MANIFEST": frozenset({"parser", "input_path"}),
+    "PACKAGE_ROOT": frozenset({"parser", "input_path", "input_sha256"}),
+    "PACKAGE_MANIFEST_ERROR": frozenset({"parser", "input_path", "input_sha256"}),
+    "REGISTRY_FILE": frozenset({"method", "reason"}),
+}
+
+
 _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1 = frozenset({
     SNAPSHOT_PAYLOAD_KEYS,
+    *_SNAPSHOT_NATIVE_MEMBER_KEYS_V1.values(),
+    *_SNAPSHOT_REPOSITORY_FACT_KEYS_V1.values(),
+    *_SNAPSHOT_REPOSITORY_PROVENANCE_KEYS_V1.values(),
     _snapshot_diff_keyset_v1(
         "native_current repository evidence_failure release"),
     _snapshot_diff_keyset_v1("owner state value sha256"),
@@ -3741,28 +3790,10 @@ _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1 = frozenset({
         "schema authority_ceiling establishes repository controller claim "
         "continuity hot frontier andon_state open_andons "
         "active_instructions next_action route semantic_sha256"),
-    _snapshot_diff_keyset_v1("root git_common_dir"),
-    _snapshot_diff_keyset_v1("id ref record_oid"),
-    _snapshot_diff_keyset_v1("id run_id run_root"),
-    _snapshot_diff_keyset_v1(
-        "generation source_epoch invalidation_ref invalidation_oid "
-        "boundary_kind boundary_event_id pointer_ref pointer_oid "
-        "pointer_digest receipt_schema receipt_ref receipt_oid receipt "
-        "marker_ref marker_oid generation_manifest_oid "
-        "generation_manifest_digest cold_high_water degraded_state"),
-    _snapshot_diff_keyset_v1(
-        "state_path state_sha256 roadmap_path roadmap_sha256 "
-        "work_graph_path work_graph_sha256 work_graph_compiler_sha256"),
-    _snapshot_diff_keyset_v1(
-        "population counts active ready blocked_summary writer_holds "
-        "resource_holds digest"),
     _snapshot_diff_keyset_v1("DONE ACTIVE READY BLOCKED"),
     _snapshot_diff_keyset_v1(
         "id reference kind authority subject issued_epoch status "
         "status_evidence supersedes_by scope_end"),
-    _snapshot_diff_keyset_v1(
-        "controller_id controller_record_oid ref record_oid record_identity "
-        "decision classification route_transaction_id obligation_id route_state"),
     _snapshot_diff_keyset_v1(
         "schema repository capabilities diagnostics facts "
         "static_collector_invocations"),
@@ -3779,25 +3810,6 @@ _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1 = frozenset({
         "collector input_path input_sha256 collector_identity "
         "collector_version collector_package_sha256 invocation_identity "
         "output_schema_identity parser"),
-    _snapshot_diff_keyset_v1(
-        "kind path sha256 bytes file_type language state provenance"),
-    _snapshot_diff_keyset_v1("kind path state provenance"),
-    _snapshot_diff_keyset_v1("kind source target state provenance"),
-    _snapshot_diff_keyset_v1(
-        "kind path package_name sha256 state provenance"),
-    _snapshot_diff_keyset_v1("kind package_name path state provenance"),
-    _snapshot_diff_keyset_v1("kind path sha256 state provenance"),
-    _snapshot_diff_keyset_v1("method commit tree"),
-    _snapshot_diff_keyset_v1(
-        "collector_identity collector_version collector_package_sha256 "
-        "invocation_identity output_schema_identity parser input_path input_sha256"),
-    _snapshot_diff_keyset_v1(
-        "collector_identity collector_version collector_package_sha256 "
-        "invocation_identity output_schema_identity parser input_path "
-        "input_sha256 reason"),
-    _snapshot_diff_keyset_v1("parser input_path"),
-    _snapshot_diff_keyset_v1("parser input_path input_sha256"),
-    _snapshot_diff_keyset_v1("method reason"),
     _snapshot_diff_keyset_v1(
         "schema families source first_red_id first_red_state weakest_leg_id "
         "residual_ids layer_census evidence_records failure_records "
@@ -4021,10 +4033,7 @@ def _snapshot_diff_release_record_v1(
         _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.id",
                "snapshot record identity must be globally unique")
     identities.add(identity)
-    if (value["record_type"] not in {
-            "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
-            "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
-            "Release", "Asset", "PublicSurface"} or
+    if (value["record_type"] not in _RELEASE_RECORD_TYPES_V1 or
             value["family"] != "RELEASE" or
             value["authority_ceiling"] != "READ_ONLY_NATIVE_OBSERVATION" or
             value["layer"] not in {"LOCAL", "EXTERNAL"}):
@@ -4183,81 +4192,25 @@ def _snapshot_diff_repository_v1(value: dict, path: str) -> None:
         _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.capabilities",
                "repository capability population is incomplete")
 
-    fact_variants = {
-        "FILE": {"kind", "path", "sha256", "bytes", "file_type",
-                 "language", "state", "provenance"},
-        "FILE_UNREADABLE_OBSERVATION": {"kind", "path", "state", "provenance"},
-        "FILE_EXCLUDED_OBSERVATION": {"kind", "path", "state", "provenance"},
-        "PARSER_ERROR_OBSERVATION": {"kind", "path", "state", "provenance"},
-        "PARSER_LIMIT_OBSERVATION": {"kind", "path", "state", "provenance"},
-        "PYTHON_IMPORT": {"kind", "source", "target", "state", "provenance"},
-        "PYTHON_REVERSE_DEPENDENT": {
-            "kind", "source", "target", "state", "provenance"},
-        "UNSUPPORTED_IMPORT_OBSERVATION": {
-            "kind", "source", "target", "state", "provenance"},
-        "PACKAGE_MANIFEST": {
-            "kind", "path", "package_name", "sha256", "state", "provenance"},
-        "PACKAGE_ROOT": {"kind", "package_name", "path", "state", "provenance"},
-        "PACKAGE_MANIFEST_ERROR": {"kind", "path", "state", "provenance"},
-        "REGISTRY_FILE": {"kind", "path", "sha256", "state", "provenance"},
-    }
     facts = value["facts"]
     if type(facts) is not list:
         _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.facts",
                "repository facts must be an array")
-    ast_keys = {
-        "collector_identity", "collector_version", "collector_package_sha256",
-        "invocation_identity", "output_schema_identity", "parser",
-        "input_path", "input_sha256"}
     for index, fact in enumerate(facts):
         fact_path = f"{path}.facts[{index}]"
         kind = fact.get("kind") if type(fact) is dict else None
-        if kind not in fact_variants:
+        if kind not in _SNAPSHOT_REPOSITORY_FACT_KEYS_V1:
             _error("OE_DIFF_SNAPSHOT_INVALID", fact_path,
                    "repository fact kind is foreign")
         row = _snapshot_diff_exact_object_v1(
-            fact, fact_variants[kind], fact_path)
-        provenance_keys = {
-            "FILE": {"method", "commit", "tree"},
-            "FILE_UNREADABLE_OBSERVATION": {"method", "commit", "tree"},
-            "FILE_EXCLUDED_OBSERVATION": {"method", "commit", "tree"},
-            "PARSER_ERROR_OBSERVATION": ast_keys,
-            "PARSER_LIMIT_OBSERVATION": ast_keys,
-            "PYTHON_IMPORT": ast_keys,
-            "PYTHON_REVERSE_DEPENDENT": ast_keys,
-            "UNSUPPORTED_IMPORT_OBSERVATION": ast_keys | {"reason"},
-            "PACKAGE_MANIFEST": {"parser", "input_path"},
-            "PACKAGE_ROOT": {"parser", "input_path", "input_sha256"},
-            "PACKAGE_MANIFEST_ERROR": {"parser", "input_path", "input_sha256"},
-            "REGISTRY_FILE": {"method", "reason"},
-        }[kind]
+            fact, _SNAPSHOT_REPOSITORY_FACT_KEYS_V1[kind], fact_path)
+        provenance_keys = _SNAPSHOT_REPOSITORY_PROVENANCE_KEYS_V1[kind]
         _snapshot_diff_exact_object_v1(
             row["provenance"], provenance_keys, f"{fact_path}.provenance")
 
 
 def _snapshot_diff_native_v1(value: dict, path: str) -> None:
-    fixed = {
-        "repository": {"root", "git_common_dir"},
-        "controller": {"id", "ref", "record_oid"},
-        "claim": {"id", "run_id", "run_root"},
-        "continuity": {
-            "generation", "source_epoch", "invalidation_ref", "invalidation_oid",
-            "boundary_kind", "boundary_event_id", "pointer_ref", "pointer_oid",
-            "pointer_digest", "receipt_schema", "receipt_ref", "receipt_oid",
-            "receipt", "marker_ref", "marker_oid", "generation_manifest_oid",
-            "generation_manifest_digest", "cold_high_water", "degraded_state"},
-        "hot": {
-            "state_path", "state_sha256", "roadmap_path", "roadmap_sha256",
-            "work_graph_path", "work_graph_sha256", "work_graph_compiler_sha256"},
-        "frontier": {
-            "population", "counts", "active", "ready", "blocked_summary",
-            "writer_holds", "resource_holds", "digest"},
-        "route": {
-            "controller_id", "controller_record_oid", "ref", "record_oid",
-            "record_identity", "decision", "classification",
-            "route_transaction_id", "obligation_id", "route_state"},
-    }
-    for key, keys in fixed.items():
+    for key, keys in _SNAPSHOT_NATIVE_MEMBER_KEYS_V1.items():
         _snapshot_diff_exact_object_v1(value[key], keys, f"{path}.{key}")
     for key in ("controller", "continuity", "route"):
         for member, item in value[key].items():
@@ -4382,42 +4335,18 @@ def _snapshot_diff_release_v1(value: dict, path: str) -> None:
                     row["capture_sha256"] != value["external_capture_sha256"]):
                 _error("OE_DIFF_SNAPSHOT_INVALID", node_path,
                        "release external currentness or capture identity differs")
-    required_types = {
-        "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
-        "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
-        "Release", "Asset", "PublicSurface"}
     observed_types = {row["record_type"] for row in value["nodes"]}
-    missing_types = sorted(required_types - observed_types)
-    expected_omissions = [{
-        "record_type": record_type, "state": "UNKNOWN",
-        "invalidator": f"MISSING_RELEASE_LAYER:{record_type}"}
-        for record_type in missing_types]
+    missing_types = sorted(_RELEASE_RECORD_TYPES_V1 - observed_types)
+    expected_omissions = _release_omissions_v1(missing_types)
     if value["omissions"] != expected_omissions:
         _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.omissions",
                "release omission census differs from validated nodes")
-    public_nodes = [
-        row for row in value["nodes"] if row["record_type"] == "PublicSurface"]
-    public_commit = (public_nodes[0]["commit_identity"]
-                     if len(public_nodes) == 1 else None)
-    if candidate["public_commit"] != public_commit:
+    expected_candidate = _release_candidate_v1(
+        repository, value["nodes"], boundary_currentness, missing_types)
+    if candidate["public_commit"] != expected_candidate["public_commit"]:
         _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.candidate.public_commit",
                "release public candidate identity differs")
-    expected_invalidators = list(boundary_currentness["invalidators"])
-    for row in (item for item in value["nodes"] if item["layer"] == "EXTERNAL"):
-        for invalidator in row["currentness"]["invalidators"]:
-            if invalidator not in expected_invalidators:
-                expected_invalidators.append(invalidator)
-    expected_invalidators.extend(
-        f"MISSING_RELEASE_LAYER:{record_type}" for record_type in missing_types)
-    if len(public_nodes) != 1:
-        expected_invalidators.append("PUBLIC_IDENTITY_NOT_EXACTLY_ONE")
-    elif public_commit != repository["commit"]:
-        expected_invalidators.append("PUBLIC_PREDECESSOR_DIFFERS_FROM_LOCAL_COMMIT")
-    if repository["worktree_state"] != "CLEAN":
-        expected_invalidators.append("LOCAL_WORKTREE_DIRTY")
-    if not expected_invalidators:
-        expected_invalidators.append("NATIVE_CANDIDATE_QUALIFICATION_REQUIRED")
-    if candidate["invalidators"] != expected_invalidators:
+    if candidate["invalidators"] != expected_candidate["invalidators"]:
         _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.candidate.invalidators",
                "release candidate invalidators differ from validated nodes")
 
@@ -4612,13 +4541,9 @@ def _snapshot_diff_collections_v1(
                     row, record_path, identities)
                 population.append({"path": f"record:{parsed['id']}",
                                    "record": parsed})
-            required_types = {
-                "Commit", "Tree", "Worktree", "GeneratedArtifact", "Package",
-                "Install", "Host", "PullRequest", "Check", "Merge", "Tag",
-                "Release", "Asset", "PublicSurface"}
             type_census = Counter(row["record_type"] for row in release["nodes"])
             if release["node_type_census"] != {
-                    key: type_census[key] for key in sorted(required_types)}:
+                    key: type_census[key] for key in sorted(_RELEASE_RECORD_TYPES_V1)}:
                 _error("OE_DIFF_SNAPSHOT_INVALID", member_path,
                        "release node-type census differs from validated records")
             _snapshot_diff_release_v1(release, f"{member_path}.value")
@@ -4636,6 +4561,8 @@ def _snapshot_diff_collections_v1(
 
 def _parse_diff_snapshot_v1(snapshot: object, path: str) -> tuple[dict, list[dict]]:
     """Validate one immutable payload without repairing or selecting authority."""
+    if type(snapshot) is dict and snapshot.get("schema_version") == CAPTURED_SNAPSHOT_SCHEMA:
+        return _parse_captured_snapshot_v1(snapshot, path)
     if type(snapshot) is dict and snapshot.get("schema_version") == REPOSITORY_SNAPSHOT_SCHEMA:
         return _parse_repository_snapshot_v1(snapshot, path)
     if (type(snapshot) is not dict or set(snapshot) != SNAPSHOT_PAYLOAD_KEYS or
@@ -5093,7 +5020,7 @@ def _load_diff_snapshot_file_v1(path: pathlib.Path, label: str) -> dict:
 
 _snapshot_query_policy = _query_policy_module.SnapshotQueryPolicy(
     families=FAMILIES, states=STATES,
-    snapshot_schema=(SNAPSHOT_PAYLOAD_SCHEMA, REPOSITORY_SNAPSHOT_SCHEMA),
+    snapshot_schema=(SNAPSHOT_PAYLOAD_SCHEMA, REPOSITORY_SNAPSHOT_SCHEMA, CAPTURED_SNAPSHOT_SCHEMA),
     status_schema=QUERY_STATUS_SCHEMA, result_schema=QUERY_RESULT_SCHEMA,
     why_schema=QUERY_WHY_SCHEMA, canonical_json=canonical_json_v1, error=_error)
 
@@ -5103,7 +5030,7 @@ def _snapshot_query_records_v1(snapshot: object) -> list[dict]:
 
 def _query_input_v1(snapshot):
     if type(snapshot) is dict and type(snapshot.get("collections")) is dict and (
-            snapshot.get("schema_version") == REPOSITORY_SNAPSHOT_SCHEMA or
+            snapshot.get("schema_version") in (REPOSITORY_SNAPSHOT_SCHEMA, CAPTURED_SNAPSHOT_SCHEMA) or
             set(snapshot.get("collections", {})) == {
                 "native_current", "repository", "evidence_failure", "release"}):
         return _parse_diff_snapshot_v1(snapshot, "$snapshot")[0]
@@ -5632,6 +5559,92 @@ def _parse_repository_snapshot_value_v1(value, path):
     return canonical, [{"path": "record:" + row["id"], "record": row} for row in records]
 
 
+def _captured_projection_v1(member, code):
+    try:
+        if type(member) is not dict or type(member.get("input_text")) is not str:
+            raise ValueError("captured member input_text must be text")
+        # Validate the captured source before the pure decoder sees it. Raw
+        # producer locators remain text and are never traversed by this path.
+        value = decode_strict_json_bytes(member["input_text"].encode("utf-8"), "captured owner input")
+        validate_identity_json_v1(value)
+        projected = _query_policy_module.project_captured_collection(member)
+        canonical_json_v1(projected)
+        if any(row["family"] not in FAMILIES for row in projected["records"]):
+            raise ValueError("captured projection crossed the six-family boundary")
+        return projected
+    except (KeyError, TypeError, ValueError, UnicodeError, RecursionError, OverflowError) as exc:
+        detail = str(exc).encode("utf-8", "backslashreplace").decode("utf-8")
+        _error(code, "$capture", "captured source format or structural binding differs: " + detail)
+
+
+def observe_captured_snapshot_v1(kind: str, source: pathlib.Path) -> dict:
+    """Explicit byte-bound source capture; no host selection or currentness gate."""
+    if kind not in _query_policy_module.CAPTURE_KINDS:
+        _error("OE_CAPTURE_KIND_UNSUPPORTED", "$capture", "captured source kind is not implemented")
+    try:
+        raw, file_type = _read_repository_path(source, maximum=_query_policy_module.CAPTURE_INPUT_MAX_BYTES)
+        if file_type != "file":
+            raise OSError("captured input is not a regular file")
+        text = raw.decode("utf-8")
+        script = pathlib.Path(__file__)
+        compiler_raw, _ = _read_repository_path(script)
+        schema_raw, _ = _read_repository_path(script.parent.parent / "references/operational-evidence-schema.json")
+    except (OSError, UnicodeError):
+        _error("OE_CAPTURE_INPUT_UNREADABLE", "$capture", "bounded non-aliased UTF-8 file or secure reader is unavailable")
+    member = {"owner": "R0038-AS03-AS08", "kind": kind, "state": "UNVERIFIED",
+              "input_text": text, "sha256": hashlib.sha256(raw).hexdigest()}
+    projection = _captured_projection_v1(member, "OE_CAPTURE_INVALID")
+    manifest = {"domain": "IA-CAPTURED-OWNER-SNAPSHOT-v1", "scope": "CAPTURED_OWNER", "kind": kind,
+                "schema_sha256": hashlib.sha256(schema_raw).hexdigest(),
+                "compiler_sha256": hashlib.sha256(compiler_raw).hexdigest(),
+                "query_policy_sha256": _QUERY_POLICY_MODULE_SHA256,
+                "input_sha256": member["sha256"], "input_bytes": len(raw),
+                "input_profile": {"max_input_bytes": _query_policy_module.CAPTURE_INPUT_MAX_BYTES,
+                                  "max_records": _query_policy_module.CAPTURE_RECORD_MAX}}
+    identity = hashlib.sha256(canonical_json_v1(manifest)).hexdigest()
+    snapshot = {"schema_version": CAPTURED_SNAPSHOT_SCHEMA, "snapshot_id": "iacapture-v1-" + identity,
+                "scope": "CAPTURED_OWNER", "aggregate": "DEGRADED", "families": list(FAMILIES),
+                "input_manifest": manifest, "input_manifest_sha256": identity,
+                "missing_or_omitted_state": projection["omissions"], "collections": {"captured_owner": member}}
+    return _parse_captured_snapshot_v1(snapshot, "$capture")[0]
+
+
+def _parse_captured_snapshot_v1(value, path):
+    try:
+        _snapshot_diff_exact_object_v1(value, set(SNAPSHOT_PAYLOAD_KEYS) | {"scope", "input_manifest"}, path)
+        manifest = _snapshot_diff_exact_object_v1(value["input_manifest"], {
+            "domain", "scope", "kind", "schema_sha256", "compiler_sha256", "query_policy_sha256",
+            "input_sha256", "input_bytes", "input_profile"}, path + ".input_manifest")
+        collections = _snapshot_diff_exact_object_v1(value["collections"], {"captured_owner"}, path + ".collections")
+        member = _snapshot_diff_exact_object_v1(collections["captured_owner"], {
+            "owner", "kind", "state", "input_text", "sha256"}, path + ".collections.captured_owner")
+        if type(member["input_text"]) is not str:
+            raise ValueError("captured input_text must be text")
+        if (value["schema_version"] != CAPTURED_SNAPSHOT_SCHEMA or value["scope"] != "CAPTURED_OWNER" or
+                value["aggregate"] != "DEGRADED" or value["families"] != list(FAMILIES) or
+                manifest["domain"] != "IA-CAPTURED-OWNER-SNAPSHOT-v1" or manifest["scope"] != "CAPTURED_OWNER" or
+                manifest["kind"] != member["kind"] or manifest["input_sha256"] != member["sha256"] or
+                type(manifest["input_bytes"]) is not int or manifest["input_bytes"] != len(member["input_text"].encode("utf-8")) or
+                manifest["input_profile"] != {"max_input_bytes": _query_policy_module.CAPTURE_INPUT_MAX_BYTES,
+                                              "max_records": _query_policy_module.CAPTURE_RECORD_MAX}):
+            raise ValueError("captured scope, population or input binding differs")
+        for key in ("schema_sha256", "compiler_sha256", "query_policy_sha256", "input_sha256"):
+            _snapshot_diff_digest_v1(manifest[key], path + ".input_manifest." + key)
+        identity = hashlib.sha256(canonical_json_v1(manifest)).hexdigest()
+        if value["input_manifest_sha256"] != identity or value["snapshot_id"] != "iacapture-v1-" + identity:
+            raise ValueError("captured snapshot identity differs")
+        projection = _captured_projection_v1(member, "OE_DIFF_SNAPSHOT_INVALID")
+        if value["missing_or_omitted_state"] != projection["omissions"]:
+            raise ValueError("captured omission census differs")
+        raw = canonical_json_v1(value)
+        if len(raw) > REPOSITORY_MAX_FILE_BYTES:
+            raise ValueError("captured snapshot exceeds the existing file inspection ceiling")
+        return decode_strict_json_bytes(raw, "captured snapshot"), [
+            {"path": "record:" + row["id"], "record": row} for row in projection["records"]]
+    except (KeyError, TypeError, ValueError, UnicodeError, RecursionError, OverflowError):
+        _error("OE_DIFF_SNAPSHOT_INVALID", path, "captured snapshot contains invalid scope, source or derived census")
+
+
 def _bounded_query_result_v1(result, max_rows, max_bytes):
     if (type(max_rows) is not int or max_rows <= 0 or type(max_bytes) is not int or max_bytes <= 0):
         _error("OE_QUERY_BOUND_INVALID", "$query", "query bounds must be finite positive integers")
@@ -5661,7 +5674,10 @@ def build_cli_parser_v1() -> argparse.ArgumentParser:
         command.add_argument("input", type=pathlib.Path)
     scan = commands.add_parser("scan", help="emit a repository-only observation; no native selection or publication")
     scan.add_argument("repository", type=pathlib.Path)
-    inspect = commands.add_parser("inspect", help="inspect a frozen repository-only snapshot offline")
+    capture = commands.add_parser("capture", help="decode an explicit captured owner file as UNVERIFIED observations")
+    capture.add_argument("kind", choices=_query_policy_module.CAPTURE_KINDS)
+    capture.add_argument("input", type=pathlib.Path)
+    inspect = commands.add_parser("inspect", help="inspect a frozen repository or captured-owner snapshot offline")
     inspect.add_argument("input", type=pathlib.Path)
     choice = inspect.add_mutually_exclusive_group()
     choice.add_argument("--family", choices=FAMILIES)
@@ -5830,11 +5846,14 @@ def main() -> int:
         if args.command == "scan":
             sys.stdout.buffer.write(canonical_json_v1(observe_repository_snapshot_v1(args.repository)))
             return 0
+        if args.command == "capture":
+            sys.stdout.buffer.write(canonical_json_v1(observe_captured_snapshot_v1(args.kind, args.input)))
+            return 0
         if args.command == "inspect":
             value = _load_diff_snapshot_file_v1(args.input, "$inspect")
-            if value["schema_version"] != REPOSITORY_SNAPSHOT_SCHEMA:
+            if value["schema_version"] not in (REPOSITORY_SNAPSHOT_SCHEMA, CAPTURED_SNAPSHOT_SCHEMA):
                 _error("OE_INSPECT_SCOPE_INVALID", "$inspect",
-                       "inspect accepts only repository-only observations; native routes remain owner-selected")
+                       "inspect requires a repository or captured-owner observation; native routes remain owner-selected")
             if args.current_only and not args.family:
                 _error("OE_QUERY_FILTER_INVALID", "$inspect", "current-only requires a family query")
             if args.format == "json":
@@ -5855,7 +5874,7 @@ def main() -> int:
                 result = evaluate_currentness(value)
             # A matching digest proves only the declared file/producer relation.
             if args.format != "json":
-                result["acquisition_scope"] = "REPOSITORY_ONLY_UNAUTHENTICATED_FILE"
+                result["acquisition_scope"] = value["scope"] + "_UNAUTHENTICATED_FILE"
             sys.stdout.buffer.write(canonical_json_v1(result))
             return 0
         if args.command in ("validate", "canonicalize"):
