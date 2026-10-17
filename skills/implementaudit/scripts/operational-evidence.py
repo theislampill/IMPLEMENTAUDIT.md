@@ -30,8 +30,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = '07d84b60421bdf07a2e952d9c6d8a7cd26e215ade20c477a5ead18b989d7c488'
-_QUERY_POLICY_MODULE_BYTES = 183086
+_QUERY_POLICY_MODULE_SHA256 = 'ac67509ffc9a82970e5d765e874c3b763edf2fb87ceb002f6e9cb3123e8eeb0c'
+_QUERY_POLICY_MODULE_BYTES = 193134
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os

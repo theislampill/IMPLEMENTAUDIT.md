@@ -787,16 +787,13 @@ def _route_pending_return_bindings(assignment, state, omissions):
         _route_require(returned["status"] in {"SUCCEEDED", "FAILED"} and returned["currentness"] in {"VERIFIED", "UNRESOLVED"} and
             returned["measured_epoch"] in {"VERIFIED", "UNRESOLVED"}, "captured result scalar variant differs")
         _route_require(type(returned["frontier"]) is str and 0 < len(returned["frontier"]) <= 1024, "captured result frontier is malformed")
-        _route_closed(identity, "obligation_digest observation_id child_observation_exchange_identity scope result_pin result_physical members child_final parent_delivery bound_exchange use authorization_record hold_history", label="actual result identity")
-        for key in ("obligation_digest", "observation_id", "child_observation_exchange_identity"):
-            _route_sha(identity[key], "actual result " + key, False)
+        # These are the actual R/A fields even when acquisition has no C/Q/E.
+        # Reuse the C/E structural checks without inventing source context.
+        complete_acceptance = accepted if type(accepted) is dict and ("record" in accepted or "value" in accepted) else None
+        _occurrence_result_acceptance(identity, complete_acceptance)
         _route_require(returned["return_digest"] == _route_digest(identity), "return digest differs from captured R identity")
         _route_require(observed is not None and identity["observation_id"] == returned["observation_id"] and
             identity["scope"] == observed["scope"] and observed["scope"], "R identity differs from selected observation scope")
-        _route_file_pin(identity["result_pin"], "captured result pin")
-        _route_require(type(identity["members"]) is list and 0 < len(identity["members"]) <= 32, "captured result member population differs")
-        for member in identity["members"]:
-            _route_closed(member, "pin physical", label="captured result member"); _route_file_pin(member["pin"], "captured member pin")
         _route_closed(returned["evidence"], "bound_exchange use child_final parent_delivery", label="return evidence selectors")
         for name in ("bound_exchange", "use"):
             pair = _route_closed(identity[name], "call result", label="return " + name)
@@ -812,7 +809,6 @@ def _route_pending_return_bindings(assignment, state, omissions):
         for name in ("child_final", "parent_delivery"):
             locator, selected = identity[name]["locator"], returned["evidence"][name]
             _route_require(selected == locator, "return delivery selector differs")
-        _route_require(type(identity["hold_history"]) is dict and identity["hold_history"].get("original_bind") == identity["bound_exchange"], "return does not retain original bound exchange")
     else:
         _route_omission(omissions, "Incomplete captured return: existing actual-result identity/digest fields are absent; no result binding is established", "EVIDENCE", child_id=child)
     if accepted is not None:
@@ -831,11 +827,10 @@ def _route_pending_return_bindings(assignment, state, omissions):
             if identity is not None:
                 _route_require(all(av[key] == identity[key] for key in ("obligation_digest", "observation_id", "child_observation_exchange_identity")) and
                     av["actual_result_digest"] == returned["return_digest"], "acceptance differs from exact adjacent result")
-            decoder = globals().get("decode_occurrence_capture")
-            if callable(decoder):
-                decoder("result-occurrence", av)
-            else:
-                _route_omission(omissions, "Captured acceptance binding checked; pure occurrence companion is not linked for its remaining format checks", "EVIDENCE", child_id=child)
+            if identity is None:
+                _occurrence_acceptance(av)
+                _occurrence_pin(accepted["record"])
+                _route_require(accepted["record"]["role"] == "parent", "acceptance record does not belong to parent")
             source = assignment.get("observation_source")
             if type(source) is dict:
                 for key in ("parent_identity", "actual_child_identity"):
@@ -905,6 +900,7 @@ def _route_acquisition(proposal, assignment, records, omissions, parts):
     bound = acquisition["episode_record_bound"]
     if qualified:
         _route_file_pin(profile["Q"], "captured Q raw-byte pin", 2 * 1024 * 1024)
+        _route_require(profile["Q"]["path"] == acquisition["lookup"]["Q"], "captured Q pin differs from exact lookup")
         _route_file_pin(profile["evidence"], "qualification candidate raw-byte pin", 2 * 1024 * 1024)
         _route_require(type(profile["review_pins"]) is list and len(profile["review_pins"]) == 2, "qualification review pin population differs")
         for pin in profile["review_pins"]: _route_file_pin(pin, "qualification review raw-byte pin", 2 * 1024 * 1024)
@@ -914,7 +910,9 @@ def _route_acquisition(proposal, assignment, records, omissions, parts):
         _route_require(profile["Q"] is None and not bound and "episode_candidate" not in acquisition, "absent-Q acquisition claims an episode")
     expected_status = "EPISODE_BOUND_PENDING_ORIGIN_VALIDATOR" if bound else "QUALIFICATION_BOUND_PENDING_EPISODE_ORIGIN" if qualified else "CANDIDATE_ACQUIRED_PENDING_QUALIFICATION"
     _route_require(acquisition["status"] == expected_status, "acquisition status contradicts captured Q/E flags")
-    if bound: _route_file_pin(acquisition["episode"], "captured E raw-byte pin", 2 * 1024 * 1024)
+    if bound:
+        _route_file_pin(acquisition["episode"], "captured E raw-byte pin", 2 * 1024 * 1024)
+        _route_require(acquisition["episode"]["path"] == acquisition["lookup"]["E"], "captured E pin differs from exact lookup")
     else: _route_require(acquisition["episode"] is None, "unbound episode has a pin")
     if qualified:
         episode = _route_closed(acquisition["episode_candidate"], "policy_digest parent_identity actual_child_identity assignment_identity obligation_digest observation_id covered_boundary_versions O_U_exchange_USE_R_A_identities physical_source_and_cutoff_identities exact_result_digest exact_acceptance_digest authority_ceiling Q_digest actual_acquisition_and_custody_validation_evidence", label="captured episode value")
@@ -1639,12 +1637,14 @@ def _occurrence_locator(value):
                         type(value['physical_line']) is int and value['physical_line'] > 0), 'RECORD_LOCATOR')
 
 
-def _occurrence_pin(pin, sources):
+def _occurrence_pin(pin, sources=None):
     _occurrence_shape(pin, 'path physical role locator timestamp message_or_call_id', 'SOURCE_OCCURRENCE')
     _occurrence_locator(pin['locator'])
     _occurrence_physical(pin['physical'])
-    _occurrence_require(pin['role'] in ('parent', 'child') and _occurrence_text(pin['timestamp']) and
+    _occurrence_require(_occurrence_text(pin['path']) and pin['role'] in ('parent', 'child') and _occurrence_text(pin['timestamp']) and
                         (pin['message_or_call_id'] is None or _occurrence_text(pin['message_or_call_id'])), 'SOURCE_OCCURRENCE')
+    if sources is None:
+        return
     source = sources[pin['role']]
     _occurrence_require(pin['path'] == source['path'] and pin['physical'] == source['physical'], 'SOURCE_OCCURRENCE_BINDING')
     start, end = pin['locator']['offset'], pin['locator']['offset'] + pin['locator']['bytes']
@@ -1683,6 +1683,100 @@ def _occurrence_acceptance(value):
         _occurrence_require(_occurrence_hash(value[field]), 'ACCEPTANCE_IDENTITY')
     _occurrence_parent_child(value['parent_identity'], value['actual_child_identity'])
     _occurrence_scope(value['accepted_boundary_versions'])
+
+
+def _occurrence_exchange(pair, sources=None):
+    _occurrence_shape(pair, 'call result', 'EXACT_EXCHANGE_PAIR')
+    for pin in pair.values():
+        _occurrence_pin(pin, sources)
+        _occurrence_require(pin['role'] == 'child', 'EXACT_CHILD_EXCHANGE')
+    _occurrence_before(pair['call'], pair['result'])
+    _occurrence_require(pair['call']['message_or_call_id'] == pair['result']['message_or_call_id'] and
+                        _occurrence_text(pair['call']['message_or_call_id']), 'CALL_RESULT_ASSOCIATION')
+
+
+def _occurrence_result_acceptance(r, a=None, sources=None):
+    """CRO actual_result/acceptance:758-855, from supplied R/A fields alone.
+
+    Pending can retain R before A, C, Q or E exists. Full C/E source context
+    adds its allowed-range/history checks; its absence removes no structural,
+    member-closure, original-exchange, local-source or delivery-order check.
+    Raw file and record pins remain unauthenticated; no locator is opened.
+    """
+    _occurrence_shape(r, 'obligation_digest observation_id child_observation_exchange_identity scope result_pin '
+        'result_physical members child_final parent_delivery bound_exchange use authorization_record hold_history', 'RESULT_IDENTITY_SHAPE')
+    for field in ('obligation_digest', 'observation_id', 'child_observation_exchange_identity'):
+        _occurrence_require(_occurrence_hash(r[field]), 'RESULT_IDENTITY')
+    _occurrence_scope(r['scope'])
+    _occurrence_artifact(r['result_pin']); _occurrence_physical(r['result_physical'])
+    _occurrence_require(r['result_pin']['bytes'] <= 1048576, 'RESULT_ARTIFACT_BYTE_BOUND')
+    _occurrence_require(type(r['members']) is list and 0 < len(r['members']) <= 32, 'RESULT_MEMBER_CLOSURE')
+    # Check only the captured path relation, with its source spelling intact.
+    # Physical alias/reparse checks still require unavailable native bytes.
+    path_type = (_occurrence_pathlib.PureWindowsPath if
+                 _occurrence_pathlib.PureWindowsPath(r['result_pin']['path']).is_absolute()
+                 else _occurrence_pathlib.PurePosixPath)
+    result_path = path_type(r['result_pin']['path'])
+    _occurrence_require(result_path.is_absolute() and '..' not in result_path.parts, 'FOREIGN_RESULT_MEMBER')
+    member_paths, member_physical = {result_path}, {_occurrence_canonical(r['result_physical'])}
+    total = r['result_pin']['bytes']
+    for member in r['members']:
+        _occurrence_shape(member, 'pin physical', 'RESULT_MEMBER_SHAPE')
+        _occurrence_artifact(member['pin']); _occurrence_physical(member['physical'])
+        _occurrence_require(member['pin']['bytes'] <= 1048576, 'RESULT_ARTIFACT_BYTE_BOUND')
+        loc = _occurrence_canonical(member['physical'])
+        member_path = path_type(member['pin']['path'])
+        _occurrence_require(member_path.is_absolute() and '..' not in member_path.parts and
+                            member_path.is_relative_to(result_path.parent), 'FOREIGN_RESULT_MEMBER')
+        _occurrence_require(member_path not in member_paths and loc not in member_physical, 'DUPLICATE_RESULT_MEMBER')
+        member_paths.add(member_path); member_physical.add(loc); total += member['pin']['bytes']
+    _occurrence_require(total <= _occurrence_limit, 'RESULT_CLOSURE_BYTE_BOUND')
+    held = _occurrence_shape(r['hold_history'], 'path physical prefix_bytes prefix_sha256 physical_records history_start_ordinal '
+        'host_producer_authenticated original_bind', 'HOLD_PREFIX_SHAPE')
+    _occurrence_physical(held['physical'])
+    _occurrence_require(held['host_producer_authenticated'] is False and _occurrence_text(held['path']) and
+                        _occurrence_hash(held['prefix_sha256']) and type(held['prefix_bytes']) is int and
+                        0 < held['prefix_bytes'] <= _occurrence_limit and type(held['physical_records']) is int and
+                        0 < held['physical_records'] <= 64 and type(held['history_start_ordinal']) is int and
+                        held['history_start_ordinal'] >= 0, 'HOLD_PREFIX_BINDING')
+    if sources is not None:
+        _occurrence_require(held['path'] == sources['child']['path'] and held['physical'] == sources['child']['physical'] and
+                            held['history_start_ordinal'] == sources['child']['history_start_ordinal'], 'HOLD_PREFIX_BINDING')
+    _occurrence_require(r['bound_exchange'] == held['original_bind'], 'BOUND_EXCHANGE_NOT_ORIGINAL')
+    for pair in (r['bound_exchange'], r['use']):
+        _occurrence_exchange(pair, sources)
+    original = r['bound_exchange']
+    _occurrence_require(original['result']['locator']['offset'] + original['result']['locator']['bytes'] == held['prefix_bytes'],
+                        'ORIGINAL_COMPLETION_OUTSIDE_CUTOFF')
+    for pin in (r['child_final'], r['parent_delivery'], r['authorization_record']):
+        _occurrence_pin(pin, sources)
+    _occurrence_require(r['child_final']['role'] == 'child' and all(p['role'] == 'parent' for p in
+                        (r['parent_delivery'], r['authorization_record'])), 'RETURN_PARENT_ROLE')
+    # resolve_record takes every role's pins from one context source. R itself
+    # retains enough path/physical/history operands to check that local binding.
+    for pin in (*original.values(), *r['use'].values(), r['child_final']):
+        _occurrence_require(pin['path'] == held['path'] and pin['physical'] == held['physical'] and
+                            pin['locator']['embedded_ordinal'] >= held['history_start_ordinal'], 'SOURCE_OCCURRENCE_BINDING')
+    parent = r['parent_delivery']
+    _occurrence_require(r['authorization_record']['path'] == parent['path'] and
+                        r['authorization_record']['physical'] == parent['physical'], 'SOURCE_OCCURRENCE_BINDING')
+    for first, second in ((original['result'], r['use']['call']), (r['use']['result'], r['child_final']),
+                          (r['child_final'], parent)):
+        _occurrence_before(first, second)
+    if a is not None:
+        _occurrence_shape(a, 'record value', 'ACCEPTANCE_RECORD_SHAPE')
+        _occurrence_acceptance(a['value']); _occurrence_pin(a['record'], sources)
+        _occurrence_require(a['record']['role'] == 'parent', 'RETURN_PARENT_ROLE')
+        _occurrence_require(a['record']['path'] == parent['path'] and a['record']['physical'] == parent['physical'],
+                            'SOURCE_OCCURRENCE_BINDING')
+        _occurrence_before(parent, a['record'])
+        av = a['value']
+        _occurrence_require(r['scope'] == av['accepted_boundary_versions'], 'RESULT_OR_ACCEPTANCE_SCOPE')
+        _occurrence_require(all(r[k] == av[k] for k in
+                            ('obligation_digest', 'observation_id', 'child_observation_exchange_identity')), 'RESULT_ACCEPTANCE_BINDING')
+        _occurrence_require(av['actual_result_digest'] == _occurrence_sha(r), 'RESULT_ACCEPTANCE_DIGEST')
+        if sources is not None:
+            _occurrence_require(av['observation_source_cutoff'] == sources['compaction_cutoff'], 'RESULT_OR_ACCEPTANCE_SCOPE')
 
 
 def _occurrence_result(value, out):
@@ -1781,66 +1875,16 @@ def _occurrence_result(value, out):
             physical[location] = {'physical_occurrence': intrinsic, 'captured_pins': [pin]}
     values = _occurrence_shape(value['O_U_exchange_USE_R_A_identities'], 'O U exchange USE R A', 'EXCHANGE_POPULATION')
     _occurrence_artifact(values['O'])
-    r = _occurrence_shape(values['R'], 'obligation_digest observation_id child_observation_exchange_identity scope result_pin '
-        'result_physical members child_final parent_delivery bound_exchange use authorization_record hold_history', 'RESULT_IDENTITY_SHAPE')
-    a = _occurrence_shape(values['A'], 'record value', 'ACCEPTANCE_RECORD_SHAPE')
-    _occurrence_acceptance(a['value'])
-    for field in ('obligation_digest', 'observation_id', 'child_observation_exchange_identity'):
-        _occurrence_require(_occurrence_hash(r[field]), 'RESULT_IDENTITY')
-    _occurrence_scope(r['scope'])
-    _occurrence_artifact(r['result_pin']); _occurrence_physical(r['result_physical'])
-    _occurrence_require(r['result_pin']['bytes'] <= 1048576, 'RESULT_ARTIFACT_BYTE_BOUND')
-    _occurrence_require(type(r['members']) is list and 0 < len(r['members']) <= 32, 'RESULT_MEMBER_CLOSURE')
-    # Check only the captured path relation, with its source spelling intact.
-    # Physical alias/reparse checks still require unavailable native bytes.
-    path_type = (_occurrence_pathlib.PureWindowsPath if
-                 _occurrence_pathlib.PureWindowsPath(r['result_pin']['path']).is_absolute()
-                 else _occurrence_pathlib.PurePosixPath)
-    result_path = path_type(r['result_pin']['path'])
-    _occurrence_require(result_path.is_absolute() and '..' not in result_path.parts, 'FOREIGN_RESULT_MEMBER')
-    member_paths, member_physical = {result_path}, {_occurrence_canonical(r['result_physical'])}
-    total = r['result_pin']['bytes']
-    for member in r['members']:
-        _occurrence_shape(member, 'pin physical', 'RESULT_MEMBER_SHAPE')
-        _occurrence_artifact(member['pin']); _occurrence_physical(member['physical'])
-        _occurrence_require(member['pin']['bytes'] <= 1048576, 'RESULT_ARTIFACT_BYTE_BOUND')
-        loc = _occurrence_canonical(member['physical'])
-        member_path = path_type(member['pin']['path'])
-        _occurrence_require(member_path.is_absolute() and '..' not in member_path.parts and
-                            member_path.is_relative_to(result_path.parent), 'FOREIGN_RESULT_MEMBER')
-        _occurrence_require(member_path not in member_paths and loc not in member_physical, 'DUPLICATE_RESULT_MEMBER')
-        member_paths.add(member_path); member_physical.add(loc); total += member['pin']['bytes']
-    _occurrence_require(total <= _occurrence_limit, 'RESULT_CLOSURE_BYTE_BOUND')
-    held = _occurrence_shape(r['hold_history'], 'path physical prefix_bytes prefix_sha256 physical_records history_start_ordinal '
-        'host_producer_authenticated original_bind', 'HOLD_PREFIX_SHAPE')
-    _occurrence_physical(held['physical'])
-    _occurrence_require(held['host_producer_authenticated'] is False and held['path'] == sources['child']['path'] and
-                        held['physical'] == sources['child']['physical'] and _occurrence_hash(held['prefix_sha256']) and
-                        type(held['prefix_bytes']) is int and 0 < held['prefix_bytes'] <= _occurrence_limit and
-                        type(held['physical_records']) is int and 0 < held['physical_records'] <= 64 and
-                        type(held['history_start_ordinal']) is int and
-                        held['history_start_ordinal'] == sources['child']['history_start_ordinal'], 'HOLD_PREFIX_BINDING')
-    _occurrence_require(r['bound_exchange'] == held['original_bind'], 'BOUND_EXCHANGE_NOT_ORIGINAL')
-    for pair in (r['bound_exchange'], r['use'], values['exchange'], values['USE']):
-        _occurrence_shape(pair, 'call result', 'EXACT_EXCHANGE_PAIR')
-        for pin in pair.values():
-            _occurrence_pin(pin, sources)
-            _occurrence_require(pin['role'] == 'child', 'EXACT_CHILD_EXCHANGE')
-        _occurrence_before(pair['call'], pair['result'])
-        _occurrence_require(pair['call']['message_or_call_id'] == pair['result']['message_or_call_id'] and
-                            _occurrence_text(pair['call']['message_or_call_id']), 'CALL_RESULT_ASSOCIATION')
+    # CRO delivery_packet:280-286 uses artifact(O)'s default 1 MiB bound.
+    # Custody candidate/Q/E pins retain their independent 2 MiB bound.
+    _occurrence_require(values['O']['bytes'] <= 1048576, 'OBLIGATION_ARTIFACT_BYTE_BOUND')
+    r, a = values['R'], values['A']
+    _occurrence_require(a is not None, 'ACCEPTANCE_RECORD_SHAPE')
+    _occurrence_result_acceptance(r, a, sources)
+    _occurrence_exchange(values['exchange'], sources)
     original = r['bound_exchange']
-    _occurrence_require(original['result']['locator']['offset'] + original['result']['locator']['bytes'] == held['prefix_bytes'],
-                        'ORIGINAL_COMPLETION_OUTSIDE_CUTOFF')
     _occurrence_require(r['use'] == values['USE'] and r['authorization_record'] == values['U'], 'EXCHANGE_IDENTITY')
-    for pin in (r['child_final'], r['parent_delivery'], values['U'], a['record']):
-        _occurrence_pin(pin, sources)
-    _occurrence_require(r['child_final']['role'] == 'child' and all(p['role'] == 'parent' for p in
-                        (r['parent_delivery'], values['U'], a['record'])), 'RETURN_PARENT_ROLE')
-    for first, second in ((values['exchange']['result'], original['call']), (original['result'], r['use']['call']),
-                          (r['use']['result'], r['child_final']), (r['child_final'], r['parent_delivery']),
-                          (r['parent_delivery'], a['record'])):
-        _occurrence_before(first, second)
+    _occurrence_before(values['exchange']['result'], original['call'])
     def references(item):
         if type(item) is dict:
             if set(item) == {'path', 'physical', 'role', 'locator', 'timestamp', 'message_or_call_id'}:
@@ -1851,13 +1895,11 @@ def _occurrence_result(value, out):
             for nested in item: references(nested)
     references(values)
     av = a['value']
-    _occurrence_require(value['covered_boundary_versions'] == r['scope'] == av['accepted_boundary_versions'] and
-                        av['observation_source_cutoff'] == sources['compaction_cutoff'], 'RESULT_OR_ACCEPTANCE_SCOPE')
-    _occurrence_require(value['obligation_digest'] == values['O']['sha256'] == r['obligation_digest'] == av['obligation_digest'] and
-                        value['observation_id'] == r['observation_id'] == av['observation_id'] and
-                        r['child_observation_exchange_identity'] == av['child_observation_exchange_identity'] and
-                        av['parent_identity'] == parent and av['actual_child_identity'] == child, 'RESULT_ACCEPTANCE_BINDING')
-    _occurrence_require(value['exact_result_digest'] == _occurrence_sha(r) == av['actual_result_digest'] and
+    _occurrence_require(value['covered_boundary_versions'] == r['scope'], 'RESULT_OR_ACCEPTANCE_SCOPE')
+    _occurrence_require(value['obligation_digest'] == values['O']['sha256'] == r['obligation_digest'] and
+                        value['observation_id'] == r['observation_id'] and av['parent_identity'] == parent and
+                        av['actual_child_identity'] == child, 'RESULT_ACCEPTANCE_BINDING')
+    _occurrence_require(value['exact_result_digest'] == _occurrence_sha(r) and
                         value['exact_acceptance_digest'] == _occurrence_sha(a), 'RESULT_ACCEPTANCE_DIGEST')
     root = _occurrence_row(out, [schema, value['observation_id'], value['exact_result_digest']], 'EVIDENCE', 'EvidenceRecord', value, '$')
     result_key = _occurrence_row(out, ['result', value['exact_result_digest']], 'EVIDENCE', 'EvidenceRecord', r, '$.O_U_exchange_USE_R_A_identities.R')
@@ -1930,6 +1972,124 @@ def _occurrence_work_product_source(source):
     return source
 
 
+def _occurrence_work_product_observations(graph, cells, local, out,
+                                          by_owner=None, by_disposition=None, authorizations=None):
+    """Compare supplied realised products/proposals; never compute a frontier.
+
+    Pinned WG compile_product_frontier_v1 owns these record predicates. Missing
+    comparison inputs stay omissions, independently of the absent authority bytes.
+    """
+    topology = graph.get('integration_topology')
+    topology = topology if type(topology) is dict else {}
+    realised = {}
+    for cell_id, result in local.items():
+        commit = result['product']['commit']
+        _occurrence_require(commit not in realised, 'WORK_PRODUCT_RUNTIME_IDENTITY')
+        realised[commit] = (result, ['work-product', cell_id])
+    if 'qualified_products' in topology:
+        noncells = topology['qualified_products']
+        _occurrence_require(type(noncells) is list, 'WORK_PRODUCT_NONCELL')
+        owners = set()
+        for index, entry in enumerate(noncells):
+            _occurrence_shape(entry, 'owner result', 'WORK_PRODUCT_NONCELL')
+            owner = entry['owner']
+            _occurrence_require(_occurrence_text(owner) and owner not in owners, 'WORK_PRODUCT_NONCELL_OWNER')
+            owners.add(owner)
+            result = _occurrence_work_product_result(entry['result'])
+            anchor = '$.integration_topology.qualified_products[' + str(index) + ']'
+            if by_owner is None:
+                _occurrence_omit(out, 'NON_CELL_PRODUCT_BINDINGS_NOT_CAPTURED', 'EVIDENCE', source_anchor=anchor, owner=owner)
+            else:
+                binding = by_owner.get(('NON_CELL', owner))
+                _occurrence_require(binding is not None and result['product'] ==
+                                    {k: binding[k] for k in ('commit', 'tree', 'review_sha256')}, 'WORK_PRODUCT_NONCELL_BINDING')
+                disposition = by_disposition[binding['commit']]
+                _occurrence_require(result['disposition'] == {k: disposition[k] for k in ('kind', 'target')},
+                                    'WORK_PRODUCT_NONCELL_DISPOSITION')
+            commit = result['product']['commit']
+            _occurrence_require(commit not in realised, 'WORK_PRODUCT_RUNTIME_IDENTITY')
+            key = _occurrence_row(out, ['work-product', 'NON_CELL', owner], 'EVIDENCE', 'WorkNonCellProduct', entry, anchor)
+            realised[commit] = (result, key)
+    expected_noncells = {owner for kind, owner in by_owner if kind == 'NON_CELL'} if by_owner is not None else set()
+    complete = by_owner is not None and ('qualified_products' in topology or not expected_noncells)
+    if complete:
+        expected_commits = {binding['commit'] for binding in by_owner.values()}
+        _occurrence_require(bool(realised) and set(realised) == expected_commits, 'WORK_PRODUCT_RUNTIME_CENSUS')
+    elif expected_noncells:
+        _occurrence_omit(out, 'PRODUCT_NONCELL_REALISATIONS_NOT_CAPTURED', 'EVIDENCE',
+                         source_anchor='$.integration_topology.qualified_products', owners=sorted(expected_noncells))
+    elif realised:
+        _occurrence_omit(out, 'PRODUCT_RUNTIME_BINDING_CENSUS_NOT_CAPTURED', 'EVIDENCE', source_anchor='$.integration_topology.product_contract')
+    heads = None
+    if 'integration_heads' in topology:
+        declared = _occurrence_preparation_list(topology['integration_heads'], 'WORK_PRODUCT_INTEGRATION_HEAD')
+        _occurrence_require(all(_occurrence_work_commit(head) for head in declared), 'WORK_PRODUCT_INTEGRATION_HEAD')
+        heads = set(declared)
+        _occurrence_row(out, ['work-integration-heads'], 'EVIDENCE', 'IntegrationHeads',
+                        {'integration_heads': declared}, '$.integration_topology.integration_heads')
+    missing_heads = False
+    for commit, (result, _) in realised.items():
+        kind, target = result['disposition']['kind'], result['disposition']['target']
+        if kind == 'INTEGRATED':
+            if heads is None:
+                missing_heads = True
+            else:
+                _occurrence_require(target in heads, 'WORK_PRODUCT_INTEGRATION_HEAD')
+        if kind == 'SUPERSEDED':
+            _occurrence_require(target != commit, 'WORK_PRODUCT_SELF_SUPERSESSION')
+        if kind in ('SUPERSEDED', 'REJECTED'):
+            if complete:
+                _occurrence_require(target in realised, 'WORK_PRODUCT_RUNTIME_TARGET')
+            elif target not in realised:
+                _occurrence_omit(out, 'PRODUCT_RUNTIME_TARGET_NOT_CAPTURED', 'EVIDENCE', product_commit=commit, target=target)
+    if missing_heads:
+        _occurrence_omit(out, 'PRODUCT_INTEGRATION_HEADS_NOT_CAPTURED', 'EVIDENCE', source_anchor='$.integration_topology.integration_heads')
+    if 'composition_proposals' not in topology:
+        return
+    proposals = topology['composition_proposals']
+    _occurrence_require(type(proposals) is list, 'WORK_PRODUCT_PROPOSAL')
+    owners = set()
+    authorised = {_occurrence_canonical(item) for item in authorizations} if authorizations is not None else None
+    for index, proposal in enumerate(proposals):
+        _occurrence_shape(proposal, 'owner products qualification_review_sha256 integration_authority', 'WORK_PRODUCT_PROPOSAL')
+        owner = proposal['owner']
+        _occurrence_require(_occurrence_text(owner) and owner in cells and owner not in owners, 'WORK_PRODUCT_PROPOSAL_OWNER')
+        owners.add(owner)
+        products = _occurrence_preparation_list(proposal['products'], 'WORK_PRODUCT_PROPOSAL_PRODUCTS')
+        _occurrence_require(products == sorted(products) and all(_occurrence_work_commit(commit) for commit in products),
+                            'WORK_PRODUCT_PROPOSAL_PRODUCTS')
+        missing_products = []
+        for commit in products:
+            if commit in realised:
+                _occurrence_require(realised[commit][0]['disposition']['kind'] not in ('SUPERSEDED', 'REJECTED'),
+                                    'WORK_PRODUCT_PROPOSAL_PRODUCTS')
+            elif complete:
+                raise ValueError('WORK_PRODUCT_PROPOSAL_PRODUCTS')
+            else:
+                missing_products.append(commit)
+        _occurrence_require(_occurrence_hash(proposal['qualification_review_sha256']) and
+                            _occurrence_work_receipt(proposal['integration_authority']), 'WORK_PRODUCT_PROPOSAL_IDENTITY')
+        anchor = '$.integration_topology.composition_proposals[' + str(index) + ']'
+        if authorised is None:
+            _occurrence_omit(out, 'COMPOSITION_AUTHORIZATION_INPUT_NOT_CAPTURED', 'EVIDENCE', source_anchor=anchor, owner=owner)
+        else:
+            _occurrence_require(_occurrence_canonical(proposal) in authorised, 'WORK_PRODUCT_PROPOSAL_AUTHORIZATION')
+        if missing_products:
+            _occurrence_omit(out, 'COMPOSITION_PRODUCT_REALISATION_NOT_CAPTURED', 'EVIDENCE', source_anchor=anchor, products=missing_products)
+        cell = cells[owner]
+        _occurrence_require(cell['state'] == 'READY' and all(cells[dep]['state'] == 'DONE' for dep in cell['deps']),
+                            'WORK_PRODUCT_PROPOSAL_DEPENDENCIES')
+        _occurrence_require(not any(member != owner and cells[member]['state'] == 'ACTIVE'
+                            for members in graph['serialization_groups'].values() if owner in members for member in members),
+                            'WORK_PRODUCT_PROPOSAL_HOLD')
+        key = _occurrence_row(out, ['work-composition-proposal', owner], 'EXECUTION', 'CompositionProposal', proposal, anchor)
+        _occurrence_relation(out, 'PROPOSED_BY', key, ['work-cell', owner], anchor)
+        for commit in products:
+            if commit in realised:
+                _occurrence_relation(out, 'PROPOSES_PRODUCT', key, realised[commit][1], anchor)
+        _occurrence_omit(out, 'PRODUCT_COMPOSITION_ACTIVATION_NOT_ESTABLISHED', source_anchor=anchor, owner=owner)
+
+
 def _occurrence_work_products(graph, cells, out):
     """Check supplied product bindings without the external authority bytes.
 
@@ -1957,6 +2117,7 @@ def _occurrence_work_products(graph, cells, out):
             _occurrence_work_product_source(source)
         if signal:
             _occurrence_omit(out, 'PRODUCT_AUTHORITY_INPUTS_NOT_CAPTURED', 'EVIDENCE', source_anchor='$.integration_topology.product_contract')
+        _occurrence_work_product_observations(graph, cells, local, out)
         return
     _occurrence_shape(contract, 'authority_sha256 done_classification non_cell_owners join_owners product_bindings '
         'disposition_bindings composition_authorizations future_consumers', 'WORK_PRODUCT_CONTRACT')
@@ -2047,6 +2208,7 @@ def _occurrence_work_products(graph, cells, out):
                             by_disposition[consumer['product_commit']]['kind'] not in ('SUPERSEDED', 'REJECTED'), 'WORK_PRODUCT_FUTURE_CONSUMER')
         identity = _occurrence_canonical(consumer)
         _occurrence_require(identity not in seen, 'WORK_PRODUCT_FUTURE_CONSUMER'); seen.add(identity)
+    _occurrence_work_product_observations(graph, cells, local, out, by_owner, by_disposition, authorizations)
     contract_key = _occurrence_row(out, ['work-product-contract'], 'EVIDENCE', 'WorkProductContract', contract, '$.integration_topology.product_contract')
     source_key = _occurrence_row(out, ['work-product-authority-source'], 'EVIDENCE', 'Artifact', source, '$.authority.qualified_product_contract')
     _occurrence_relation(out, 'DECLARES_SOURCE', contract_key, source_key, '$.authority.qualified_product_contract')
@@ -2083,7 +2245,8 @@ def _occurrence_preparation(cell, cells, groups, out, anchor):
     _occurrence_require(all(type(v) is int and v >= 0 for v in rank.values()), 'PREPARATION_RANK')
     record = _occurrence_shape(value['record'], 'graph_path receipt predecessors interface_assumptions inspected_paths proposed_paths '
         'allowed_work forbidden_work cost_boundary invalidators activation_revalidation', 'PREPARATION_RECORD')
-    _occurrence_require(_occurrence_text(record['graph_path']) and _occurrence_text(record['cost_boundary']), 'PREPARATION_RECORD')
+    _occurrence_require(_occurrence_text(record['graph_path']) and type(record['cost_boundary']) is str and
+                        bool(record['cost_boundary']), 'PREPARATION_RECORD')
     _occurrence_require(_occurrence_work_receipt(record['receipt']), 'PREPARATION_RECEIPT')
     predecessors = record['predecessors']
     _occurrence_require(type(predecessors) is list and bool(predecessors), 'PREPARATION_PREDECESSOR_SET')

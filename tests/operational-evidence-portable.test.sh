@@ -13,3 +13,5 @@ fi
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-route-repairs.py" --consumer "$repo_root/skills/implementaudit/scripts/operational_query_policy.py" --occurrence "$repo_root/skills/implementaudit/scripts/operational_query_policy.py"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-preparation.py" --target "$repo_root/skills/implementaudit/scripts/operational_query_policy.py"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-integration.py" "$repo_root"
+"${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-route-bindings.py" --target "$repo_root/skills/implementaudit/scripts/operational_query_policy.py"
+"${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-product-bindings.py" --target "$repo_root/skills/implementaudit/scripts/operational_query_policy.py"
