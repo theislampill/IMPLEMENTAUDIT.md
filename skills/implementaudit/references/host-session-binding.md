@@ -38,7 +38,7 @@ Native host authentication is **unsupported by this portable core**. An
 not proof of an executing native principal. POSIX ownership and permission
 checks are local custody checks; cooperating writers share one lock. They do
 not defeat a non-cooperating actor with the same user privileges or establish
-native event provenance. Windows ACL, locking-race and durability qualification
+native event provenance. Windows access control lists, locking-race and durability qualification
 remain unverified. Successful attribution continues to report
 `host_activation_proven: false`.
 
