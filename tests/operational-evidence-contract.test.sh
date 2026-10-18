@@ -19,7 +19,12 @@ else
   fail "python, python3, or py -3 is required"
 fi
 
-loader="skills/implementaudit/scripts/operational-evidence.py"
+if [ "${IMPLEMENTAUDIT_R0038_FIXTURE_STAGE:-}" != "1" ]; then
+  exec "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/run-contract-bank.py" \
+    "$repo_root" "$BASH" "$@"
+fi
+
+loader="scripts/operational-evidence.py"
 rotation_loader="skills/implementaudit/scripts/rotate-canonical-state.py"
 fixtures="fixtures/operational-evidence"
 tmp="$(mktemp -d)"
@@ -31,8 +36,8 @@ import hashlib, json, pathlib, shlex, subprocess, sys
 
 root=pathlib.Path(sys.argv[1]).resolve()
 out=pathlib.Path(sys.argv[2]).resolve()
-doc=root/'skills/implementaudit/references/operational-evidence.md'
-helper=root/'skills/implementaudit/scripts/operational-evidence.py'
+doc=root/'docs/operational-evidence.md'
+helper=root/'scripts/operational-evidence.py'
 fixture=root/'fixtures/operational-evidence/valid-minimal.json'
 doc_bytes=doc.read_bytes()
 raw=doc_bytes.decode('utf-8')
@@ -42,13 +47,13 @@ if raw.count(start)!=1 or raw.count(end)!=1:
     raise SystemExit('OE_RECEIVER_ROUTE_ABSENT')
 section=raw.split(start,1)[1].split(end,1)[0]
 commands=[shlex.split(line) for line in section.splitlines() if line.startswith('python ')]
-expected_commands=[['python','-B','$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py',mode,'$RECORD'] for mode in ['validate','canonicalize']]
+expected_commands=[['python','-B','$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py',mode,'$RECORD'] for mode in ['validate','canonicalize']]
 if commands!=expected_commands:
     raise SystemExit('OE_RECEIVER_COMMAND_BINDING_MISMATCH')
 for required in ['standalone-diagnostic','no automatic or default invocation','Structural validation is not currentness','There is no `build` or `refresh` CLI command.']:
     if required not in raw:raise SystemExit('OE_RECEIVER_BOUNDARY_MISSING: '+required)
 helper_before=hashlib.sha256(helper.read_bytes()).hexdigest()
-schema=root/'skills/implementaudit/references/operational-evidence-schema.json'
+schema=root/'docs/operational-evidence-schema.json'
 schema_before=hashlib.sha256(schema.read_bytes()).hexdigest()
 fixture_before=hashlib.sha256(fixture.read_bytes()).hexdigest()
 results=[]
@@ -134,7 +139,7 @@ if missing:
     raise SystemExit(f"C07-R0001 status/query/why interfaces are absent: {missing}")
 
 schema = json.loads(pathlib.Path(
-    "skills/implementaudit/references/operational-evidence-schema.json"
+    "docs/operational-evidence-schema.json"
 ).read_text(encoding="utf-8"))
 if schema.get("x-bounded-history-query") != {
         "schema": "implementaudit.operational-evidence-query.v1",
@@ -724,7 +729,7 @@ PY
 
 run_diff_export_contract() {
 "${py_cmd[@]}" - "$loader" "$fixtures/diff-export-cases.json" \
-  "skills/implementaudit/references/operational-evidence-schema.json" \
+  "docs/operational-evidence-schema.json" \
   "$tmp/diff-export" <<'PY'
 import copy
 import hashlib
@@ -1513,7 +1518,7 @@ RUN_ARTIFACT_FIXTURE = pathlib.Path(
 RELEASE_FIXTURE = pathlib.Path(
     "fixtures/operational-evidence/release/positive").resolve()
 schema_definition = json.loads(
-    (LOADER.parent.parent / "references/operational-evidence-schema.json")
+    (LOADER.parent.parent / "docs/operational-evidence-schema.json")
     .read_text(encoding="utf-8"))
 if schema_definition.get("x-native-current-facts") != {
         "schema": "implementaudit-native-current-facts-v1",
@@ -1597,7 +1602,7 @@ def load_bytes_module(path, name):
 
 
 def load_module(repo, serial):
-    path = repo / "skills/implementaudit/scripts/operational-evidence.py"
+    path = repo / "scripts/operational-evidence.py"
     return load_bytes_module(path, f"operational_evidence_native_current_{serial}")
 
 
@@ -1612,16 +1617,18 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
     request_input_path = request_input["path"]
     request_input_raw = request_input["content"].encode("utf-8")
     write(repo / request_input_path, request_input_raw)
-    script = repo / "skills/implementaudit/scripts/operational-evidence.py"
+    script = repo / "scripts/operational-evidence.py"
     compiler = repo / "skills/implementaudit/scripts/compile-work-graph.py"
     route = repo / "skills/implementaudit/scripts/route-transaction.py"
     claim = repo / "skills/implementaudit/scripts/claim-run.sh"
     validate_run_root = repo / "skills/implementaudit/scripts/validate-run-root.sh"
     route_reference = repo / "skills/implementaudit/references/route-obligations.md"
-    schema = repo / "skills/implementaudit/references/operational-evidence-schema.json"
+    schema = repo / "docs/operational-evidence-schema.json"
     governor = repo / "skills/implementaudit/SKILL.md"
     audit_state = repo / "skills/audit-state/SKILL.md"
     script.parent.mkdir(parents=True)
+    compiler.parent.mkdir(parents=True, exist_ok=True)
+    schema.parent.mkdir(parents=True, exist_ok=True)
     route_reference.parent.mkdir(parents=True, exist_ok=True)
     audit_state.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(LOADER, script)
@@ -1629,14 +1636,15 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
     shutil.copyfile(ROUTE, route)
     # The checked-buffer parents require their exact sibling policy sources.
     # Keep the fixture population complete; do not bypass their source pins.
-    policy_names = ("operational_query_policy.py", "route_request_policy.py")
+    policy_names = ("operational_query_policy.py",)
     for name in policy_names:
         shutil.copyfile(LOADER.parent / name, script.parent / name)
+    shutil.copyfile(ROUTE.parent / "route_request_policy.py", route.parent / "route_request_policy.py")
     shutil.copyfile(CLAIM, claim)
     shutil.copyfile(VALIDATE_RUN_ROOT, validate_run_root)
     shutil.copyfile(ROUTE_REFERENCE, route_reference)
     shutil.copyfile(
-        LOADER.parent.parent / "references/operational-evidence-schema.json", schema)
+        LOADER.parent.parent / "docs/operational-evidence-schema.json", schema)
     shutil.copyfile(GOVERNOR, governor)
     shutil.copyfile(AUDIT_STATE, audit_state)
     if include_c05:
@@ -1648,6 +1656,7 @@ def prepare(case, serial, *, include_c04=False, include_c05=False):
     git(repo, "add", "tracked.txt", request_input_path,
         str(script.relative_to(repo)),
         str(compiler.relative_to(repo)), str(route.relative_to(repo)),
+        str((route.parent / "route_request_policy.py").relative_to(repo)),
         str(claim.relative_to(repo)), str(validate_run_root.relative_to(repo)),
         str(route_reference.relative_to(repo)),
         str(schema.relative_to(repo)),
@@ -2953,9 +2962,9 @@ variant_collections["native_current"]["sha256"] = hashlib.sha256(
     snapshot_module.canonical_json_v1(
         variant_collections["native_current"]["value"])).hexdigest()
 compiler_raw = (snapshot_repo /
-    "skills/implementaudit/scripts/operational-evidence.py").read_bytes()
+    "scripts/operational-evidence.py").read_bytes()
 schema_raw = (snapshot_repo /
-    "skills/implementaudit/references/operational-evidence-schema.json").read_bytes()
+    "docs/operational-evidence-schema.json").read_bytes()
 original_material = snapshot_module._build_snapshot_material_v1(
     snapshot_native, original_collections, schema_raw, compiler_raw)
 variant_material = snapshot_module._build_snapshot_material_v1(
@@ -3065,9 +3074,9 @@ late_run = late_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123"
 late_output = late_run / "operational-evidence"
 late_current = late_output / "snapshots/CURRENT"
 late_compiler_path = (
-    late_repo / "skills/implementaudit/scripts/operational-evidence.py")
+    late_repo / "scripts/operational-evidence.py")
 late_schema_path = (
-    late_repo / "skills/implementaudit/references/operational-evidence-schema.json")
+    late_repo / "docs/operational-evidence-schema.json")
 late_compiler_raw = late_compiler_path.read_bytes()
 late_schema_raw = late_schema_path.read_bytes()
 
@@ -3147,9 +3156,9 @@ census_module = load_module(census_repo, 550)
 census_native = census_module.collect_native_current()
 census_collections = census_module._collect_snapshot_inputs_v1(census_native)
 census_compiler_raw = (
-    census_repo / "skills/implementaudit/scripts/operational-evidence.py").read_bytes()
+    census_repo / "scripts/operational-evidence.py").read_bytes()
 census_schema_raw = (
-    census_repo / "skills/implementaudit/references/operational-evidence-schema.json"
+    census_repo / "docs/operational-evidence-schema.json"
 ).read_bytes()
 c08_r3_material = census_module._build_snapshot_material_v1(
     census_native, census_collections, census_schema_raw, census_compiler_raw)

@@ -18,7 +18,7 @@ from unittest.mock import patch
 
 ROOT = Path(sys.argv.pop(1)).resolve()
 HERE = Path(__file__).resolve().parent
-SCRIPT = ROOT / "skills/implementaudit/scripts/operational-evidence.py"
+SCRIPT = ROOT / "scripts/operational-evidence.py"
 POLICY = SCRIPT.with_name("operational_query_policy.py")
 
 

@@ -9,9 +9,9 @@
       "family": "CODE",
       "question": "Which exact carrier, query-policy and schema bytes are present, and which local Python dependency edges are mechanically supported?",
       "required_paths": [
-        "skills/implementaudit/scripts/operational-evidence.py",
-        "skills/implementaudit/scripts/operational_query_policy.py",
-        "skills/implementaudit/references/operational-evidence-schema.json"
+        "scripts/operational-evidence.py",
+        "scripts/operational_query_policy.py",
+        "docs/operational-evidence-schema.json"
       ],
       "answer_scope": "Tracked path/hash facts plus supported positive Python AST edges; no registry-entry or dynamic-loader inference"
     },

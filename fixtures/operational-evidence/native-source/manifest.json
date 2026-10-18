@@ -1,0 +1,73 @@
+{
+  "scope": "FIXTURE_ONLY_NOT_NATIVE_ADMISSION",
+  "donor_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+  "provenance": "r0038-evidence.zip pinned native-readonly-dependencies.json and r39-readonly-dependencies.json",
+  "files": [
+    {
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "bytes": 124875,
+      "sha256": "37c5d68830e9f2d0034ada3f661de7b48393c8ab265f611ef5412e8f41ffba8f",
+      "git_blob": "3d18c445e5d41e80c515c9251da2260af8c53947"
+    },
+    {
+      "path": "skills/implementaudit/scripts/route-transaction.py",
+      "bytes": 335077,
+      "sha256": "6e92da026b597bad2946ee7feff71e73ebaf91d0509ccb3a6d5ea1fabe7e08e3",
+      "git_blob": "7969902b1bb8dae192a4dcef795d93ba216229b3"
+    },
+    {
+      "path": "skills/implementaudit/scripts/route_request_policy.py",
+      "bytes": 5191,
+      "sha256": "ea69123930803e428630b51565b6c7f58d079262f3feda34d95c31f0fdd6375f",
+      "git_blob": "cc7cf0eca3ea04702178327a564ec06e12b61d10"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "bytes": 96055,
+      "sha256": "07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7",
+      "git_blob": "d94887ca3a413a279c986a35ebd220c43c3ef0d0"
+    },
+    {
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "bytes": 75292,
+      "sha256": "fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5",
+      "git_blob": "1f9f422c291ce0169e89a66dfb2b5443d0a15629"
+    },
+    {
+      "path": "skills/implementaudit/references/route-obligations.md",
+      "bytes": 24980,
+      "sha256": "df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba",
+      "git_blob": "f54b3a07a18cd99abe476f2ad05a47f0e39d57c5"
+    },
+    {
+      "path": "skills/implementaudit/SKILL.md",
+      "bytes": 21974,
+      "sha256": "1d0adf2a8c5bf8d984ae689b95e1742558bb6af53f0473e6409aa99b1256d208",
+      "git_blob": "0f60d91ba82adecacf7334ef56d42ed9c35b9676"
+    },
+    {
+      "path": "skills/audit-state/SKILL.md",
+      "bytes": 15705,
+      "sha256": "77098bf79bf8149ba956a426f2594ea76ecc37b7ce85c243fefcfaeaaf2afabc",
+      "git_blob": "6da5dd98e3cfb8a2ec437452cfa97418d6567a69"
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "bytes": 12058,
+      "sha256": "0c5fb125e59b3493c2f3c9baf6a7704ccb2b5fc486f9363a028055f3d6cfad7c",
+      "git_blob": "f279932d75a51f6b0cd0ec084b2f9cdb073fad00"
+    },
+    {
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "bytes": 262594,
+      "sha256": "d0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460",
+      "git_blob": "49c305b4979f0eaa292d0ccb7ef1047d32333364"
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/query-cursor-cases.json",
+      "bytes": 551,
+      "sha256": "06722d72bc3b7ebda17cd60b269c6547a73dc01eb665e43864478322ad65ad6d",
+      "git_blob": "65ae7243b999979598a4f34e85d985d0006e6ba9"
+    }
+  ]
+}

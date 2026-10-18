@@ -597,6 +597,75 @@ def _file_language(path):
     }.get(suffix, "unsupported")
 
 
+def _read_repository_windows_v1(path, maximum):
+    """Read a local drive path while holding every component against replacement.
+
+    Windows reparse points and alternate namespaces are refused, including leaf
+    links. Share-read-only handles exclude write/delete opens for the entire
+    acquisition. No pathname-only check substitutes for the held handles.
+    """
+    if len(path.drive) != 2 or path.drive[1] != ":":
+        raise OSError("secure Windows reader requires a local drive path")
+    parts = path.parts[1:]
+    if not parts or any(
+            part in {".", ".."} or ":" in part or part.rstrip(" .") != part or
+            pathlib.PureWindowsPath(part).is_reserved() for part in parts):
+        raise OSError("Windows device, stream or alias spelling refused")
+    kernel = _snapshot_windows_kernel_v1()
+    if kernel.GetDriveTypeW(path.anchor) != 3:
+        raise OSError("secure Windows reader requires a fixed local drive")
+    handles = []
+    try:
+        cursor = pathlib.Path(path.anchor)
+        for index, part in enumerate((None, *parts)):
+            if part is not None:
+                cursor /= part
+            handle = kernel.CreateFileW(
+                os.fspath(cursor), 0x80000000, 0x00000001, None, 3,
+                0x02000000 | 0x00200000, None)
+            if handle == ctypes.c_void_p(-1).value:
+                raise ctypes.WinError(ctypes.get_last_error())
+            handles.append(handle)
+            info = _snapshot_handle_info_v1(kernel, handle)
+            if info.attributes & 0x400:
+                raise OSError("Windows reparse point refused")
+            if index < len(parts):
+                if not info.attributes & 0x10:
+                    raise OSError("Windows parent is not a directory")
+            elif (info.attributes & 0x10 or info.links != 1 or
+                  ((info.size_high << 32) | info.size_low) > maximum):
+                raise OSError("tracked file type or byte ceiling refused")
+        before = info
+        chunks = []
+        total = 0
+        while total <= maximum:
+            size = min(1024 * 1024, maximum + 1 - total)
+            buffer = ctypes.create_string_buffer(size)
+            count = ctypes.c_uint32()
+            if not kernel.ReadFile(handle, buffer, size, ctypes.byref(count), None):
+                raise ctypes.WinError(ctypes.get_last_error())
+            if not count.value:
+                break
+            chunks.append(buffer.raw[:count.value])
+            total += count.value
+        after = _snapshot_handle_info_v1(kernel, handle)
+
+        def identity(value):
+            return (value.attributes, value.volume_serial, value.file_index_high,
+                    value.file_index_low, value.links, value.size_high,
+                    value.size_low, value.creation_time.high,
+                    value.creation_time.low, value.write_time.high,
+                    value.write_time.low)
+
+        if (total > maximum or total != ((before.size_high << 32) | before.size_low) or
+                identity(before) != identity(after)):
+            raise OSError("tracked file changed or exceeded the byte ceiling")
+        return b"".join(chunks), "file"
+    finally:
+        for handle in reversed(handles):
+            kernel.CloseHandle(handle)
+
+
 def _read_repository_path(path, root=None, maximum=None):
     """Read bounded bytes through non-following directory and file handles.
 
@@ -609,6 +678,8 @@ def _read_repository_path(path, root=None, maximum=None):
     if not relative.parts:
         raise OSError("repository input has no file leaf")
     maximum = REPOSITORY_MAX_FILE_BYTES if maximum is None else min(maximum, REPOSITORY_MAX_FILE_BYTES)
+    if os.name == "nt":
+        return _read_repository_windows_v1(path, maximum)
     if (os.name != "posix" or os.open not in os.supports_dir_fd or
             not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY")):
         raise OSError("secure repository file handles unsupported on this platform")
@@ -702,7 +773,7 @@ def _native_file(path, label, maximum=256 * 1024):
                 bool(getattr(before, "st_file_attributes", 0) & 0x400) or
                 before.st_size > maximum):
             raise OSError("unsafe native-current file")
-        raw = _read_repository_path(path, maximum=maximum)[0] if os.name == "posix" else path.read_bytes()
+        raw = _read_repository_path(path, maximum=maximum)[0]
         after = path.lstat()
     except OSError:
         _error("OE_NATIVE_CURRENT_FILE", label,
@@ -1015,7 +1086,7 @@ def _native_module_from_bytes(raw, path, name, label):
 
 
 def _native_graph_projection(raw):
-    compiler_path = pathlib.Path(__file__).resolve().with_name("compile-work-graph.py")
+    compiler_path = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts/compile-work-graph.py"
     compiler_raw = _native_file(
         compiler_path, "$native.work_graph_compiler", 256 * 1024)
     module = _native_module_from_bytes(
@@ -1153,7 +1224,7 @@ def _native_predecessor(
 
 
 def _native_route_module():
-    path = pathlib.Path(__file__).resolve().with_name("route-transaction.py")
+    path = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts/route-transaction.py"
     raw = _native_file(path, "$native.route_validator", 512 * 1024)
     module = _native_module_from_bytes(
         raw, path, "_implementaudit_native_route_transaction",
@@ -1250,7 +1321,7 @@ exit "$status"
 
 
 def _native_require_current_receipt(repo, controller, receipt, route_module):
-    claim_path = pathlib.Path(__file__).resolve().with_name("claim-run.sh")
+    claim_path = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts/claim-run.sh"
     validate_path = claim_path.with_name("validate-run-root.sh")
     claim_raw = _native_file(claim_path, "$native.continuity_validator", 256 * 1024)
     validate_raw = _native_file(
@@ -1345,7 +1416,7 @@ def _native_route(
 
 def collect_native_current():
     """Read one exact native hot/current fact set without lifecycle authority."""
-    source_repository = pathlib.Path(__file__).resolve().parents[3]
+    source_repository = pathlib.Path(__file__).resolve().parents[1]
     observed_source = _native_resolved_path(
         _run_git(source_repository, "rev-parse", "--path-format=absolute",
                  "--show-toplevel").stdout.strip(), "$native.source_repository")
@@ -3001,7 +3072,7 @@ def _snapshot_require_input_fence_v1(
 
 def publish_current_snapshot():
     """Compile and atomically select one native-custody R0038 snapshot."""
-    source_repository = pathlib.Path(__file__).resolve().parents[3]
+    source_repository = pathlib.Path(__file__).resolve().parents[1]
     common = _native_resolved_path(
         _run_git(source_repository, "rev-parse", "--path-format=absolute",
                  "--git-common-dir").stdout.strip(), "$snapshot.git_common_dir")
@@ -3020,7 +3091,7 @@ def publish_current_snapshot():
         _snapshot_stage_v1("writer-held")
 
         compiler_path = pathlib.Path(__file__).resolve()
-        schema_path = compiler_path.parent.parent / "references" / (
+        schema_path = compiler_path.parent.parent / "docs" / (
             "operational-evidence-schema.json")
         compiler_raw = _native_file(compiler_path, "$snapshot.compiler", 2 * 1024 * 1024)
         schema_raw = _native_file(schema_path, "$snapshot.schema", 512 * 1024)
@@ -4757,7 +4828,7 @@ def _export_destination_v1(
             if (_snapshot_is_link_v1(cursor) or not cursor.is_dir() or
                     os.fspath(cursor.resolve(strict=True)) != os.fspath(cursor)):
                 raise OSError("destination parent is not an owned regular directory")
-        repository = pathlib.Path(__file__).resolve().parents[3]
+        repository = pathlib.Path(__file__).resolve().parents[1]
         try:
             resolved_root.relative_to(repository)
         except ValueError:
@@ -4804,6 +4875,8 @@ def _snapshot_windows_kernel_v1():
     kernel.SetFileInformationByHandle.restype = ctypes.c_int
     kernel.GetFileInformationByHandle.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
     kernel.GetFileInformationByHandle.restype = ctypes.c_int
+    kernel.GetDriveTypeW.argtypes = [ctypes.c_wchar_p]
+    kernel.GetDriveTypeW.restype = ctypes.c_uint32
     kernel.GetVolumeInformationByHandleW.argtypes = [
         ctypes.c_void_p, ctypes.c_wchar_p, ctypes.c_uint32,
         ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_uint32),
@@ -5103,7 +5176,7 @@ def _history_request_v1(request: object) -> tuple[dict, int, int]:
 
 def _load_r39_query_contract_v1() -> tuple[types.ModuleType, pathlib.Path, bytes]:
     """Execute the exact fixed sibling R0027 verifier bytes as trusted source."""
-    path = pathlib.Path(__file__).resolve().with_name("rotate-canonical-state.py")
+    path = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts/rotate-canonical-state.py"
     raw = _native_file(path, "$query.r39_contract", 512 * 1024)
     name = "_implementaudit_r39_query_contract_v1"
     module = types.ModuleType(name)
@@ -5444,7 +5517,7 @@ def _load_selected_snapshot_v1() -> dict:
     # owner inputs, compiler or schema bytes. Reuse the publisher's exact input
     # derivation and complete read fence; this path does not publish anything.
     compiler_path = pathlib.Path(__file__).absolute()
-    schema_path = compiler_path.parent.parent / "references/operational-evidence-schema.json"
+    schema_path = compiler_path.parent.parent / "docs/operational-evidence-schema.json"
     compiler_raw = _native_file(compiler_path, "$snapshot.compiler", 2 * 1024 * 1024)
     schema_raw = _native_file(schema_path, "$snapshot.schema", 512 * 1024)
     collections = _collect_snapshot_inputs_v1(native)
@@ -5481,7 +5554,7 @@ def observe_repository_snapshot_v1(root: pathlib.Path) -> dict:
     """
     collection = collect_repository(root)
     script = pathlib.Path(__file__)
-    schema_path = script.parent.parent / "references/operational-evidence-schema.json"
+    schema_path = script.parent.parent / "docs/operational-evidence-schema.json"
     compiler_raw, _ = _read_repository_path(script)
     schema_raw, _ = _read_repository_path(schema_path)
     manifest = {
@@ -5588,7 +5661,7 @@ def observe_captured_snapshot_v1(kind: str, source: pathlib.Path) -> dict:
         text = raw.decode("utf-8")
         script = pathlib.Path(__file__)
         compiler_raw, _ = _read_repository_path(script)
-        schema_raw, _ = _read_repository_path(script.parent.parent / "references/operational-evidence-schema.json")
+        schema_raw, _ = _read_repository_path(script.parent.parent / "docs/operational-evidence-schema.json")
     except (OSError, UnicodeError):
         _error("OE_CAPTURE_INPUT_UNREADABLE", "$capture", "bounded non-aliased UTF-8 file or secure reader is unavailable")
     member = {"owner": "R0038-AS03-AS08", "kind": kind, "state": "UNVERIFIED",
@@ -5824,7 +5897,7 @@ def _validate_record(value):
 
 def load_operational_evidence(path: pathlib.Path):
     script_root = pathlib.Path(__file__).resolve().parent.parent
-    schema_path = script_root / "references" / "operational-evidence-schema.json"
+    schema_path = script_root / "docs" / "operational-evidence-schema.json"
     try:
         schema_bytes, _ = _read_repository_path(schema_path)
         input_bytes, input_type = _read_repository_path(path)

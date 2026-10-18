@@ -16,7 +16,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(sys.argv.pop(1)).resolve()
-SCRIPT = ROOT / "skills/implementaudit/scripts/operational-evidence.py"
+SCRIPT = ROOT / "scripts/operational-evidence.py"
 spec = importlib.util.spec_from_file_location("captured_oe", SCRIPT)
 oe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(oe)

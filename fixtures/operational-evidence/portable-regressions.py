@@ -18,7 +18,7 @@ import unittest
 from unittest.mock import patch
 
 SOURCE_ROOT = Path(sys.argv.pop(1)).resolve()
-spec = importlib.util.spec_from_file_location("oe_under_test", SOURCE_ROOT / "skills/implementaudit/scripts/operational-evidence.py")
+spec = importlib.util.spec_from_file_location("oe_under_test", SOURCE_ROOT / "scripts/operational-evidence.py")
 oe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(oe)
 
@@ -60,8 +60,8 @@ class PortableBoundaryTests(unittest.TestCase):
                   "hot": {"state_sha256": "2" * 64, "roadmap_sha256": "3" * 64,
                           "work_graph_sha256": "4" * 64},
                   "route": {"record_identity": "constructed-route-identity"}}
-        script = SOURCE_ROOT / "skills/implementaudit/scripts/operational-evidence.py"
-        schema = SOURCE_ROOT / "skills/implementaudit/references/operational-evidence-schema.json"
+        script = SOURCE_ROOT / "scripts/operational-evidence.py"
+        schema = SOURCE_ROOT / "docs/operational-evidence-schema.json"
         material = oe._build_snapshot_material_v1(native, oe._collect_snapshot_inputs_v1(native),
                                                   schema.read_bytes(), script.read_bytes())
         snapshots = run / "operational-evidence/snapshots"
@@ -366,7 +366,7 @@ class PortableBoundaryTests(unittest.TestCase):
             self.assertTrue(all(row["state"] != "CURRENT" for row in facts))
 
     def test_companion_pair_missing_alias_and_wrong_bytes_refuse(self):
-        scripts = SOURCE_ROOT / "skills/implementaudit/scripts"
+        scripts = SOURCE_ROOT / "scripts"
         owned = self.root / "loader"
         owned.mkdir()
         primary, companion = owned / "operational-evidence.py", owned / "operational_query_policy.py"
@@ -385,7 +385,7 @@ class PortableBoundaryTests(unittest.TestCase):
         self.assertNotEqual(invoke().returncode, 0)
 
     def test_hardlinked_companion_is_not_a_unique_source(self):
-        scripts = SOURCE_ROOT / "skills/implementaudit/scripts"
+        scripts = SOURCE_ROOT / "scripts"
         owned = self.root / "hardlinked-loader"
         owned.mkdir()
         primary = owned / "operational-evidence.py"
@@ -397,7 +397,7 @@ class PortableBoundaryTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, "hardlinked policy source was accepted as unique")
 
     def test_cli_scan_frozen_inspect_and_typed_input_refusals(self):
-        helper = SOURCE_ROOT / "skills/implementaudit/scripts/operational-evidence.py"
+        helper = SOURCE_ROOT / "scripts/operational-evidence.py"
         def invoke(*args):
             return subprocess.run([sys.executable, "-B", str(helper), *map(str, args)],
                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)

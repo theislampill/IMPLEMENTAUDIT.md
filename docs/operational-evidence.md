@@ -1,5 +1,7 @@
 # Operational Evidence Carrier
 
+This is a repository-only tool. Set `IMPLEMENTAUDIT_REPO_ROOT` to the exact checkout root. The compiler and byte-pinned companion live in root `scripts/`; the schema and this reference live in root `docs/`. These four files are not included in the plugin or standalone skill. Native interfaces resolve only from `skills/implementaudit/scripts/` in that same checkout and retain their source/currentness requirements; absent interfaces refuse. Repository-only distribution does not limit the original six-family contract to repository scanning or authenticate captured observations.
+
 This reference owns the strict carrier boundary for R0038. The C02 collector itself is limited to read-only repository, Git, file, package-declaration and registry-file facts plus positive Python-AST relations. It does not collect later-cell native run/evidence/release owners, query, export, publish, schedule, mutate, refresh, watch, serve a UI, call a model, or establish authority. Native repository, Git, planning, controller, execution, evidence, failure, package, install, host, CI, release, external and public owners remain authoritative.
 
 ## Portable repository observation
@@ -7,10 +9,10 @@ This reference owns the strict carrier boundary for R0038. The C02 collector its
 An explicit source-only reader is available before native acquisition. `scan` reads one exact Git worktree and emits a deterministic repository-only snapshot to stdout. `inspect` reads that frozen file. Neither selects a controller/run, creates a native receipt, writes a snapshot directory/CURRENT pointer, or calls the native publisher. There is no automatic or default invocation. The existing native `status`, `query`, `why`, and `export` routes still derive their owner internally and accept no repository, run, epoch, receipt, or snapshot override.
 
 ```bash
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" scan "$REPOSITORY" > "$TASK_OUTPUT/repository.json"
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/repository.json"
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/repository.json" --family CODE --max-rows 100 --max-bytes 262144
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/repository.json" --format graph --max-rows 100 --max-bytes 262144
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" scan "$REPOSITORY" > "$TASK_OUTPUT/repository.json"
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/repository.json"
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/repository.json" --family CODE --max-rows 100 --max-bytes 262144
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/repository.json" --format graph --max-rows 100 --max-bytes 262144
 ```
 
 The caller chooses an existing isolated `TASK_OUTPUT` directory; shell redirection is caller-owned output, not atomic native publication. For canonical JSON use `inspect <file> --format json`; for retained dependency explanation use `inspect <file> --why <record-id>`. `diff <before> <after>` accepts two snapshots of the same acquisition scope. Frozen inspect/diff/render are offline and run no subprocess, target code, or model. Graph and table formats are inert JSON. Bounded views include an omitted-state census and cannot claim a complete decision when truncated.
@@ -21,9 +23,9 @@ The caller chooses an existing isolated `TASK_OUTPUT` directory; shell redirecti
 
 The initial profile is bounded by 4,096 tracked paths, 16 MiB per file, 128 MiB total retained input and 1 MiB per Python parser input. These refusal ceilings were selected for the observed base population (1,164 tracked paths, 68,199,991 bytes total, 13,075,398-byte largest member); they are not universal repository budgets. A whole-population/total limit refuses collection. An unreadable or oversized individual file remains a named non-current observation. A Python input beyond its parser ceiling retains exact file facts and an explicit unsupported parser observation. Supported parsing only extracts positive local AST edges and never imports or executes target configuration. Registry entry, dynamic import, unsupported language and unqualified optional-analyser claims remain bounded by the original capability contracts below.
 
-Secret/administrative names and Git-ignored tracked files are excluded before content reads, with a visible path/reason census. Untracked files are not content inputs. Case/Unicode collisions refuse the population; nonportable path spellings, device names and alternate-stream forms are excluded. POSIX reads hold non-following directory/file descriptors, refuse hard-linked regular files, and retain only an inert leaf-symlink target observation. Parent symlinks, special files, replacement races and input drift cannot yield an outside-root CURRENT file. Unsupported secure-handle platforms refuse direct input reads and produce PARTIAL repository capabilities; real Windows support needs its own qualified handle implementation and acceptance. Existing Windows export tests remain platform-scoped. No POSIX result implies Windows qualification.
+Secret/administrative names and Git-ignored tracked files are excluded before content reads, with a visible path/reason census. Untracked files are not content inputs. Case/Unicode collisions refuse the population; nonportable path spellings, device names and alternate-stream forms are excluded. POSIX reads hold non-following directory/file descriptors, refuse hard-linked regular files, and retain only an inert leaf-symlink target observation. Parent symlinks, special files, replacement races and input drift cannot yield an outside-root CURRENT file. Windows fixed-local-drive reads hold share-read-only handles for every directory and the file, refuse reparse points (including leaf links), hard links, alternate streams and device/alias spellings, and verify the opened identity and bounded bytes. UNC/device namespaces remain unsupported. Unsupported secure-handle platforms refuse direct input reads and produce PARTIAL repository capabilities. Existing Windows export tests remain platform-scoped. No POSIX result implies Windows qualification.
 
-Git reads clear ambient Git selectors/trace configuration, disable optional locks, replacement objects, external transports, hooks, fsmonitor and all configured clean/process filters. Exact commit/tree/index/status and file population are re-observed through the three existing collection fences. Native artifact and frozen snapshot reads use the bounded reader on POSIX as well. Git status never recurses into submodules; a gitlink is a non-current unsupported input boundary until a separately qualified submodule collector exists. Computed Python imports retain line and column anchors, including multiple calls on one line. Frozen repository facts use the same closed scalar grammar as native snapshots; recomputing an envelope digest cannot admit invalid file facts.
+Git reads clear ambient Git selectors/trace configuration, disable optional locks, replacement objects, external transports, hooks, fsmonitor and all configured clean/process filters. Exact commit/tree/index/status and file population are re-observed through the three existing collection fences. Native artifact and frozen snapshot reads use the same bounded platform reader. Git status never recurses into submodules; a gitlink is a non-current unsupported input boundary until a separately qualified submodule collector exists. Computed Python imports retain line and column anchors, including multiple calls on one line. Frozen repository facts use the same closed scalar grammar as native snapshots; recomputing an envelope digest cannot admit invalid file facts.
 
 ### Query policy and source transition
 
@@ -46,9 +48,9 @@ This source slice adds no UI, annotation, index, hook broker or public skill. Ca
 `capture <kind> <input>` reads one explicitly named UTF-8 JSON file and emits `implementaudit-captured-owner-snapshot-v1`. Its `iacapture-v1-` identity binds the exact input bytes, input kind, reading profile, compiler, companion and schema. The input text remains intact, including fields outside the projected vocabulary. `inspect` labels this scope `CAPTURED_OWNER_UNAUTHENTICATED_FILE`. A captured producer's `CURRENT`, `VERIFIED`, `SATISFIED`, accepted or authenticated labels remain observations inside the source payload. Every projected row has currentness `UNVERIFIED`, invalidator `CAPTURE_AUTHENTICATION_NOT_ESTABLISHED` and `establishes: []`. No field in a supplied file can remove this floor.
 
 ```bash
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" capture pending "$TASK_INPUT/pending.json" > "$TASK_OUTPUT/pending-snapshot.json"
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/pending-snapshot.json" --family EXECUTION --max-rows 100 --max-bytes 262144
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/pending-snapshot.json" --format graph --max-rows 100 --max-bytes 262144
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" capture pending "$TASK_INPUT/pending.json" > "$TASK_OUTPUT/pending-snapshot.json"
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/pending-snapshot.json" --family EXECUTION --max-rows 100 --max-bytes 262144
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" inspect "$TASK_OUTPUT/pending-snapshot.json" --format graph --max-rows 100 --max-bytes 262144
 ```
 
 The same frozen query, why, diff, table and graph paths serve this scope. Record identities use kind plus stable source keys; changed source content remains visible to diff. Projected source identities retain the input SHA-256, field anchor and exact format-owner source pins. All six families remain in the snapshot; uncaptured families and incomplete source semantics have explicit omission rows. `--current-only` returns no captured rows. Bounded review status describes whether the selected output was truncated; it does not authenticate the input or satisfy an obligation. Native selected snapshots remain outside `inspect`, and `status`, `query`, `why` and `export` keep their native selection contracts.
@@ -109,7 +111,7 @@ Source text payloads have one separate, explicit normalization before canonical 
 
 This is the trailing-LF-removed convention used by the R0038 live-object re-anchor. A one-trailing-LF digest is not a competing content fact and is not accepted as the canonical payload digest.
 
-The packaged carrier is `scripts/operational-evidence.py`. `validate` returns a typed validation receipt and `canonicalize` returns the canonical record bytes. Unsupported schema versions and invalid inputs return one machine-readable `implementaudit-operational-evidence-error-v1` object on standard error with a stable error code; they never return an empty model. C01 does not register this carrier as a shipped helper or public route. That later admission remains C11's owner boundary.
+The repository-only carrier is `scripts/operational-evidence.py`. `validate` returns a typed validation receipt and `canonicalize` returns the canonical record bytes. Unsupported schema versions and invalid inputs return one machine-readable `implementaudit-operational-evidence-error-v1` object on standard error with a stable error code; they never return an empty model. C01 does not register this carrier as a shipped helper or public route. That later admission remains C11's owner boundary.
 
 ## Explicit invocation and receiving boundary
 
@@ -125,12 +127,12 @@ The packaged carrier is `scripts/operational-evidence.py`. `validate` returns a 
 | `why RECORD_ID` | Inspect retained explanation for a named record in that snapshot | Same native receiver; reported lineage is not a new causal conclusion |
 | `export --destination DEST --owned-root OWNED [--format FORMAT] [--max-rows N --max-bytes N]` | Explicit request for a new export at a declared task-owned destination | Same native receiver plus separately scoped file effect; no overwrite, fallback, authority change or implicit refresh |
 
-The export formats are `json`, `table` and `graph`; the existing export rules below define their bounds. For the two record modes, bind `IMPLEMENTAUDIT_SKILL_DIR` to the selected governor directory and `RECORD` to the chosen input file. `python` below denotes the verified interpreter, not a fallback selected after a failed prerequisite.
+The export formats are `json`, `table` and `graph`; the existing export rules below define their bounds. For the two record modes, bind `IMPLEMENTAUDIT_REPO_ROOT` to the selected repository checkout and `RECORD` to the chosen input file. `python` below denotes the verified interpreter, not a fallback selected after a failed prerequisite.
 
 <!-- operational-evidence-explicit-record-commands:start -->
 ```bash
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" validate "$RECORD"
-python -B "$IMPLEMENTAUDIT_SKILL_DIR/scripts/operational-evidence.py" canonicalize "$RECORD"
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" validate "$RECORD"
+python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" canonicalize "$RECORD"
 ```
 <!-- operational-evidence-explicit-record-commands:end -->
 

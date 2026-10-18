@@ -47,7 +47,7 @@
     "native_override": false,
     "pointer_publication": false,
     "file_inspection_authority": "REPOSITORY_ONLY_UNAUTHENTICATED_FILE",
-    "secure_file_reader_platform": "POSIX_nonfollowing_directory_and_file_handles",
+    "secure_file_reader_platform": "POSIX_nonfollowing_handles_or_Windows_fixed_local_drive_share_read_only_handles",
     "unsupported_reader_platform": "typed_refusal_or_PARTIAL_file_facts",
     "input_ceilings": {
       "files": 4096,
