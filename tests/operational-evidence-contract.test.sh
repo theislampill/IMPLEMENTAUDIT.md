@@ -1086,6 +1086,9 @@ producer_collection = producer_snapshot["collections"]["evidence_failure"]
 producer_collection["value"] = producer_evidence
 producer_collection["sha256"] = hashlib.sha256(
     canonical(producer_evidence)).hexdigest()
+seal_fixture(producer_snapshot)
+if evidence.diff_snapshots(producer_snapshot, producer_snapshot)["counts"]["changed"]:
+    raise SystemExit("C08-R4 producer preimage is not a valid unchanged snapshot")
 duplicate_lineage = copy.deepcopy(producer_snapshot)
 failure = duplicate_lineage["collections"]["evidence_failure"]["value"][
     "failure_records"][0]
