@@ -62,6 +62,32 @@ class WindowsReaderTests(unittest.TestCase):
         with self.assertRaises(OSError):
             oe._read_repository_path(stream, self.root)
 
+    def test_actual_short_names_do_not_bypass_excluded_components(self):
+        kernel = oe._snapshot_windows_kernel_v1()
+        kernel.GetShortPathNameW.argtypes = [oe.ctypes.c_wchar_p, oe.ctypes.c_wchar_p, oe.ctypes.c_uint32]
+        kernel.GetShortPathNameW.restype = oe.ctypes.c_uint32
+        leaf = self.root / "credentials.json"
+        leaf.write_bytes(b"excluded fixture bytes")
+        parent = self.root / "credentials"
+        parent.mkdir()
+        (parent / "data.txt").write_bytes(b"excluded parent fixture bytes")
+        observed = []
+        for target in (leaf, parent / "data.txt"):
+            buffer = oe.ctypes.create_unicode_buffer(32768)
+            length = kernel.GetShortPathNameW(str(target), buffer, len(buffer))
+            self.assertGreater(length, 0)
+            reported = Path(buffer.value)
+            alias = (target.parent / reported.name if target == leaf else
+                     parent.parent / reported.parent.name / target.name)
+            if str(alias).casefold() == str(target).casefold():
+                continue
+            self.assertIsNone(oe._repository_path_policy(alias.relative_to(self.root).as_posix()))
+            observed.append(str(alias))
+            with self.subTest(target=target), self.assertRaises(OSError):
+                oe._read_repository_path(alias)
+        if not observed:
+            self.skipTest("this volume did not assign short aliases to the test-owned excluded components")
+
     def test_alias_and_device_spellings_refused(self):
         for path in (Path(str(self.file) + "."), Path(str(self.file) + " "),
                      self.root / "NUL", Path("\\\\.\\NUL"),

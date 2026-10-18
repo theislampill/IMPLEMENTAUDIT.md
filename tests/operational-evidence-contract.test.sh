@@ -198,7 +198,7 @@ relations = [
            confidence="declared", inference_rule=None),
 ]
 snapshot = {
-    "schema_version": "implementaudit-operational-snapshot-payload.v1",
+    "schema_version": "implementaudit-operational-snapshot-payload.v2",
     "snapshot_id": "iasnap-v1-" + "a" * 64,
     "aggregate": "DEGRADED",
     "families": families,
@@ -769,7 +769,7 @@ if schema.get("x-bounded-snapshot-diff-export") != {
         "diff_schema": "implementaudit-operational-snapshot-diff.v1",
         "export_schema": "implementaudit-operational-snapshot-export.v1",
         "projection_schema": "implementaudit-operational-snapshot-projection.v1",
-        "payload_schema": "implementaudit-operational-snapshot-payload.v1",
+        "payload_schema": "implementaudit-operational-snapshot-payload.v2",
         "semantic_identity": "record_id_plus_explicit_snapshot_fields",
         "canonical_json_export": "canonical_json_v1(snapshot)",
         "projection_formats": ["table", "graph"],
@@ -945,8 +945,8 @@ def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
                 "sha256": hashlib.sha256(
                     evidence.canonical_json_v1(value)).hexdigest()}
 
-    return {
-        "schema_version": "implementaudit-operational-snapshot-payload.v1",
+    result = {
+        "schema_version": "implementaudit-operational-snapshot-payload.v2",
         "snapshot_id": "iasnap-v1-" + identifier * 64,
         "aggregate": aggregate,
         "families": list(evidence.FAMILIES),
@@ -959,10 +959,51 @@ def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
         },
         "input_manifest_sha256": manifest_digest or identifier * 64,
     }
+    seal_fixture(result, manifest_digest or identifier * 64)
+    return result
 
 
 def canonical(value):
     return evidence.canonical_json_v1(value)
+
+
+def seal_fixture(value, compiler_digest=None):
+    """Independent v2 fixture binding; not native authentication or acquisition."""
+    sha = lambda item: hashlib.sha256(canonical(item)).hexdigest()
+    native = value["collections"]["native_current"]["value"]
+    prior = value.get("input_manifest", {})
+    inputs = {
+        "schema_version": "implementaudit-operational-snapshot-input.v1",
+        "compiler_sha256": compiler_digest or prior["compiler_sha256"],
+        "schema_sha256": hashlib.sha256(pathlib.Path(sys.argv[3]).read_bytes()).hexdigest(),
+        "current_tuple": {
+            "controller_id": native["controller"]["id"], "claim_id": native["claim"]["id"],
+            "run_id": native["claim"]["run_id"], "source_epoch": native["continuity"]["source_epoch"],
+            "source_pointer_oid": native["continuity"]["pointer_oid"],
+            "hot_state_sha256": native["hot"]["state_sha256"],
+            "hot_roadmap_sha256": native["hot"]["roadmap_sha256"],
+            "work_graph_sha256": native["hot"]["work_graph_sha256"],
+            "route_identity": native["route"]["record_identity"]},
+        "collector_inputs": [{"name": name, "owner": row["owner"], "state": row["state"],
+                              "sha256": row["sha256"]}
+                             for name, row in sorted(value["collections"].items())],
+        "native_semantic_sha256": native["semantic_sha256"],
+        "missing_or_omitted_state": value["missing_or_omitted_state"],
+    }
+    semantic = {key: value[key] for key in ("schema_version", "aggregate", "families",
+                                           "missing_or_omitted_state", "collections")}
+    contract = {"schema": "implementaudit-operational-compiler-contract.v2",
+        "payload_schema": "implementaudit-operational-snapshot-payload.v2",
+        "input_schema": "implementaudit-operational-snapshot-input.v1",
+        "canonicalisation": "canonical_json_v1", "semantic_members": list(semantic),
+        "collectors": ["evidence_failure", "native_current", "release", "repository"],
+        "identity": "IA-OPERATIONAL-SNAPSHOT-v1"}
+    identity = {"domain": "IA-OPERATIONAL-SNAPSHOT-v1", "encoding": "UTF-8",
+        "canonicalisation": "canonical_json_v1", "semantic_payload_sha256": sha(semantic),
+        "canonical_input_manifest_sha256": sha(inputs), "schema_sha256": inputs["schema_sha256"],
+        "compiler_contract_sha256": sha(contract), "compiler_blob_sha256": inputs["compiler_sha256"]}
+    value.update(input_manifest=inputs, input_manifest_sha256=sha(inputs),
+                 identity_record=identity, snapshot_id="iasnap-v1-" + sha(identity))
 
 
 def refresh_collection(value, name):
@@ -973,6 +1014,7 @@ def refresh_collection(value, name):
         semantic_value["semantic_sha256"] = hashlib.sha256(
             canonical(semantic_value)).hexdigest()
     collection["sha256"] = hashlib.sha256(canonical(semantic_value)).hexdigest()
+    seal_fixture(value)
 
 
 def expect_error(code, action):
@@ -1168,7 +1210,9 @@ permuted["collections"]["evidence_failure"]["value"]["evidence_records"].reverse
 refresh_collection(permuted, "evidence_failure")
 first = evidence.diff_snapshots(base, permuted)
 second = evidence.diff_snapshots(permuted, base)
-if first["added"] or first["removed"] or first["changed"] or canonical(first) != canonical(second):
+if (any(first[key] or second[key] for key in ("added", "removed", "changed")) or
+        first["before_snapshot_id"] != second["after_snapshot_id"] or
+        first["after_snapshot_id"] != second["before_snapshot_id"]):
     raise SystemExit("DE01 permutation did not yield one empty canonical diff")
 observed.append("DE01")
 
@@ -2907,8 +2951,11 @@ input_manifest = json.loads(input_raw)
 payload = json.loads(payload_raw)
 manifest = json.loads(manifest_raw)
 current = json.loads(current_raw)
-if snapshot_id != "iasnap-v1-" + hashlib.sha256(input_raw).hexdigest():
-    raise SystemExit("C06 snapshot identity is not the canonical input-manifest digest")
+if (snapshot_id != "iasnap-v1-" + hashlib.sha256(
+        snapshot_module.canonical_json_v1(payload["identity_record"])).hexdigest() or
+        payload["input_manifest"] != input_manifest or
+        payload["identity_record"]["canonical_input_manifest_sha256"] != hashlib.sha256(input_raw).hexdigest()):
+    raise SystemExit("C06 snapshot identity does not bind the structured record and embedded input manifest")
 if set(manifest) != {
         "schema_version", "controller_id", "claim_id", "run_id", "source_epoch",
         "source_pointer_oid", "source_evidence_entries"}:
@@ -5015,7 +5062,7 @@ def external_transport(url, headers):
             "etag": "fixture-pr-etag",
             "x-ratelimit-remaining": "4999",
             "link": ""},
-        "body": b'{"id":1,"node_id":"PR_fixture"}',
+        "body": b'{"id":1,"node_id":"PR_fixture","number":1,"url":"https://api.github.com/repos/fixture/project/pulls/1","base":{"repo":{"full_name":"fixture/project"}}}',
     }
 
 
@@ -5112,7 +5159,7 @@ base_response = {
     "headers": {
         "etag": "fixture-pr-etag", "x-ratelimit-remaining": "4999",
         "link": ""},
-    "body": b'{"id":1}',
+    "body": b'{"id":1,"number":1,"url":"https://api.github.com/repos/fixture/project/pulls/1","base":{"repo":{"full_name":"fixture/project"}}}',
 }
 case_colliding_response = {
     **base_response,
@@ -5152,7 +5199,7 @@ else:
 assert_external_capture_state(
     "external auth absent", {"auth_state": "ABSENT"},
     {**base_response, "status": 401},
-    {"state": "UNVERIFIED", "invalidators": ["AUTH_ABSENT"]})
+    {"state": "UNVERIFIED", "invalidators": ["AUTH_ABSENT", "AUTH_REJECTED"]})
 assert_external_capture_state(
     "external rate exhausted", {},
     {**base_response, "status": 429,

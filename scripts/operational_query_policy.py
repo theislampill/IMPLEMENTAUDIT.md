@@ -11,7 +11,7 @@ from collections import Counter
 
 class SnapshotQueryPolicy:
     def __init__(self, *, families, states, snapshot_schema, status_schema,
-                 result_schema, why_schema, canonical_json, error):
+                 result_schema, why_schema, canonical_json, error, observation_liveness=None):
         self._families = tuple(families)
         self._states = tuple(states)
         self._snapshot_schemas = (snapshot_schema,) if type(snapshot_schema) is str else tuple(snapshot_schema)
@@ -20,6 +20,7 @@ class SnapshotQueryPolicy:
         self._why_schema = why_schema
         self._canonical_json = canonical_json
         self._error = error
+        self._observation_liveness = observation_liveness
 
     def project_collector(self, name, value):
         """One projection for query/diff/render; original observations stay intact.
@@ -192,6 +193,8 @@ class SnapshotQueryPolicy:
             stack.append((value, True))
             stack.extend((child, False) for child in reversed(children))
 
+        if self._observation_liveness is not None:
+            records = self._observation_liveness(snapshot, records)
         return sorted(records, key=lambda row: (
             row["record"]["family"], row["record"]["id"],
             self._canonical_json(row["record"])))
@@ -199,9 +202,12 @@ class SnapshotQueryPolicy:
     def evaluate_currentness(self, snapshot: dict) -> dict:
         """Report currentness without turning absence or degradation into success."""
         census = {family: Counter() for family in self._families}
+        expired_projection = False
         for row in self._snapshot_query_records_v1(snapshot):
             record = row["record"]
             census[record["family"]][record["currentness"]["state"]] += 1
+            expired_projection |= bool(record.get("liveness") and
+                                       "CAPTURE_EXPIRED" in record["currentness"]["invalidators"])
         omitted = snapshot.get("missing_or_omitted_state", [])
         if type(omitted) is not list:
             self._error("OE_QUERY_SNAPSHOT_INVALID", "$.missing_or_omitted_state",
@@ -212,6 +218,8 @@ class SnapshotQueryPolicy:
                 omitted.append({"kind": "QUERY_FAMILY_ABSENT", "family": family,
                                 "state": "UNVERIFIED", "code": "NO_RETAINED_FAMILY_RECORDS"})
         aggregate = snapshot.get("aggregate")
+        if expired_projection:
+            aggregate = "STALE" if aggregate not in {"INVALID", "SUPERSEDED"} else aggregate
         if aggregate == "COMPLETE" and omitted:
             aggregate = "DEGRADED"
         return {

@@ -30,8 +30,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = '4f62307b0db8e00fe025b235f2847bfb49a677ecbb8a3cf17c2c9e49f42e5eac'
-_QUERY_POLICY_MODULE_BYTES = 193246
+_QUERY_POLICY_MODULE_SHA256 = '269a5fe99c3a966514d53ad748dd4319cb8f5665789303b0826a56d131c033e4'
+_QUERY_POLICY_MODULE_BYTES = 193774
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os
@@ -95,7 +95,7 @@ STATIC_NORMALIZED_SCHEMA = "implementaudit-static-normalized-v1"
 STATIC_NORMALIZED_SET_SCHEMA = "implementaudit-static-normalized-set-v1"
 NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v1"
 SNAPSHOT_INPUT_SCHEMA = "implementaudit-operational-snapshot-input.v1"
-SNAPSHOT_PAYLOAD_SCHEMA = "implementaudit-operational-snapshot-payload.v1"
+SNAPSHOT_PAYLOAD_SCHEMA = "implementaudit-operational-snapshot-payload.v2"
 SNAPSHOT_MANIFEST_SCHEMA = "IA-OPERATIONAL-SNAPSHOT-v1"
 SNAPSHOT_CURRENT_SCHEMA = "implementaudit.operational-snapshot-current.v1"
 SNAPSHOT_PUBLICATION_SCHEMA = "implementaudit-operational-snapshot-publication-v1"
@@ -131,6 +131,18 @@ SNAPSHOT_OWNER_ENTRY_KEYS = frozenset({
 SNAPSHOT_PAYLOAD_KEYS = frozenset({
     "schema_version", "snapshot_id", "aggregate", "families",
     "missing_or_omitted_state", "collections", "input_manifest_sha256"})
+NATIVE_SNAPSHOT_PAYLOAD_KEYS = SNAPSHOT_PAYLOAD_KEYS | {"input_manifest", "identity_record"}
+SNAPSHOT_SEMANTIC_KEYS = ("schema_version", "aggregate", "families",
+                          "missing_or_omitted_state", "collections")
+SNAPSHOT_COMPILER_CONTRACT = {
+    "schema": "implementaudit-operational-compiler-contract.v2",
+    "payload_schema": SNAPSHOT_PAYLOAD_SCHEMA,
+    "input_schema": SNAPSHOT_INPUT_SCHEMA,
+    "canonicalisation": "canonical_json_v1",
+    "semantic_members": list(SNAPSHOT_SEMANTIC_KEYS),
+    "collectors": ["evidence_failure", "native_current", "release", "repository"],
+    "identity": "IA-OPERATIONAL-SNAPSHOT-v1",
+}
 FAMILIES = (
     "CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE")
 STATES = (
@@ -450,6 +462,9 @@ REPOSITORY_MAX_FILES = 4096
 REPOSITORY_MAX_FILE_BYTES = 16 * 1024 * 1024
 REPOSITORY_MAX_TOTAL_BYTES = 128 * 1024 * 1024
 REPOSITORY_MAX_PYTHON_BYTES = 1024 * 1024
+SECURE_FILE_MAX_BYTES = 16 * 1024 * 1024
+GIT_METADATA_MAX_FILES = 4096
+GIT_METADATA_MAX_BYTES = 128 * 1024 * 1024
 
 
 def _repository_path_policy(relative):
@@ -484,6 +499,111 @@ def _repository_exclusions(root, paths):
                            ("git-ignored-path" if path in ignored else None)))}
 
 
+def _git_source_directories(root):
+    """Locate physical Git metadata without loading target configuration."""
+    root = pathlib.Path(root).absolute()
+
+    def directory(path):
+        path = pathlib.Path(os.path.abspath(path))
+        info = path.lstat()
+        if (not stat.S_ISDIR(info.st_mode) or path.is_symlink() or
+                getattr(info, "st_file_attributes", 0) & 0x400 or
+                path.resolve(strict=True) != path):
+            raise OSError("Git metadata directory aliases another object")
+        return path
+
+    entry = root / ".git"
+    if entry.is_dir():
+        git_dir = directory(entry)
+    else:
+        raw, kind = _read_repository_path(entry, maximum=8192)
+        if kind != "file" or not raw.startswith(b"gitdir: "):
+            raise OSError("unsupported Git directory marker")
+        value = raw[8:].decode("utf-8").rstrip("\r\n")
+        if not value or any(c in value for c in "\r\n\0"):
+            raise OSError("invalid Git directory marker")
+        git_dir = directory(root / value)
+    common_dir = git_dir
+    marker = git_dir / "commondir"
+    if marker.exists() or marker.is_symlink():
+        raw, kind = _read_repository_path(marker, maximum=8192)
+        value = raw.decode("utf-8").rstrip("\r\n")
+        if kind != "file" or not value or any(c in value for c in "\r\n\0"):
+            raise OSError("invalid common Git directory marker")
+        common_dir = directory(git_dir / value)
+    directory(common_dir / "objects")
+    return git_dir, common_dir
+
+
+@contextlib.contextmanager
+def _git_read_view(root):
+    """One disposable metadata view, with no target configuration or hooks.
+
+    The actual command reads only a fixed configuration owned by this carrier.
+    Mutable target filter definitions cannot enter after a configuration census.
+    Objects remain read-only in their existing store; no repository is created,
+    selected, committed or updated by this view.
+    """
+    git_dir, common = _git_source_directories(root)
+    with tempfile.TemporaryDirectory(prefix="implementaudit-git-read-") as temporary:
+        view = pathlib.Path(temporary)
+        (view / "objects").mkdir()
+        (view / "refs").mkdir()
+        total = 0
+        count = 0
+
+        def copy(source, relative):
+            nonlocal total, count
+            if not source.exists() and not source.is_symlink():
+                return
+            before = source.lstat()
+            raw, kind = _read_repository_path(source, maximum=SECURE_FILE_MAX_BYTES)
+            after = source.lstat()
+            if (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns) != (
+                    after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns):
+                raise OSError("Git metadata changed while acquiring the read view")
+            count += 1
+            total += len(raw)
+            if kind != "file" or count > GIT_METADATA_MAX_FILES or total > GIT_METADATA_MAX_BYTES:
+                raise OSError("Git metadata type or bound refused")
+            target = view / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if target.exists() and target.read_bytes() != raw:
+                raise OSError("ambiguous Git metadata scope")
+            target.write_bytes(raw)
+            # Git's racy-index test depends on this timestamp, not only bytes.
+            os.utime(target, ns=(after.st_atime_ns, after.st_mtime_ns))
+
+        for source, relative in [(git_dir / "HEAD", "HEAD"),
+                (git_dir / "index", "index"), (common / "packed-refs", "packed-refs"),
+                (common / "shallow", "shallow"),
+                (common / "info/exclude", "info/exclude"),
+                (common / "info/attributes", "info/attributes")]:
+            copy(source, relative)
+        for source in git_dir.glob("sharedindex.*"):
+            copy(source, source.name)
+        for source_root in dict.fromkeys((common / "refs", git_dir / "refs")):
+            if not source_root.exists():
+                continue
+            for directory, directories, files in os.walk(source_root, followlinks=False):
+                parent = pathlib.Path(directory)
+                for child in [parent, *(parent / name for name in directories)]:
+                    info = child.lstat()
+                    if (child.is_symlink() or not stat.S_ISDIR(info.st_mode) or
+                            getattr(info, "st_file_attributes", 0) & 0x400):
+                        raise OSError("Git reference directory alias refused")
+                for name in files:
+                    source = parent / name
+                    copy(source, pathlib.Path("refs") / source.relative_to(source_root))
+        if not (view / "HEAD").is_file():
+            raise OSError("Git HEAD is absent")
+        (view / "config").write_text(
+            "[core]\nrepositoryformatversion = 0\nbare = false\nfilemode = " +
+            ("false" if os.name == "nt" else "true") + "\nautocrlf = false\n",
+            encoding="ascii")
+        yield view, common / "objects"
+
+
 def _run_git(root: pathlib.Path, *args: str, text: bool = True):
     environment = dict(os.environ)
     for name in tuple(environment):
@@ -498,6 +618,8 @@ def _run_git(root: pathlib.Path, *args: str, text: bool = True):
         "GIT_CONFIG_SYSTEM": os.devnull,
         "GIT_OPTIONAL_LOCKS": "0",
         "GIT_NO_REPLACE_OBJECTS": "1",
+        "GIT_NO_LAZY_FETCH": "1",
+        "GIT_TERMINAL_PROMPT": "0",
     })
     for name in (
             "GIT_ASKPASS", "SSH_ASKPASS", "GIT_SSH", "GIT_SSH_COMMAND",
@@ -520,24 +642,13 @@ def _run_git(root: pathlib.Path, *args: str, text: bool = True):
         "-c", "protocol.allow=never",
     ]
     try:
-        # status can run a configured clean/process filter. Discover only inert
-        # configuration names, then disable every filter before reading facts.
-        config = subprocess.run(
-            ["git", *isolated_configuration, "-C", os.fspath(root), "config",
-             "--null", "--name-only", "--get-regexp", r"^filter\..*\.(clean|smudge|process|required)$"],
-            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            env=environment, timeout=10)
-        if config.returncode not in (0, 1):
-            raise OSError("Git configuration census failed")
-        for key in config.stdout.decode("utf-8").split("\0"):
-            if key:
-                isolated_configuration.extend(["-c", key + (
-                    "=false" if key.endswith(".required") else "=")])
-        return subprocess.run(
-            ["git", *isolated_configuration, "-C", os.fspath(root), *args],
-            check=True,
-            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, text=text, env=environment, timeout=30)
+        with _git_read_view(root) as (view, objects):
+            environment["GIT_OBJECT_DIRECTORY"] = os.fspath(objects)
+            return subprocess.run(
+                ["git", *isolated_configuration, "--git-dir=" + os.fspath(view),
+                 "--work-tree=" + os.fspath(root), "-C", os.fspath(root), *args],
+                check=True, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, text=text, env=environment, timeout=30)
     except (OSError, UnicodeError, subprocess.SubprocessError):
         _error("OE_REPOSITORY_GIT", "$repository",
                "repository Git facts could not be read")
@@ -644,6 +755,21 @@ def _windows_open_child_v1(parent, name, directory):
     return result.value
 
 
+def _windows_handle_name_v1(kernel, handle):
+    """Return a bounded normalized DOS name from the already-open object."""
+    size = kernel.GetFinalPathNameByHandleW(handle, None, 0, 0)
+    if size == 0 or size > 32768:
+        raise OSError("Windows canonical handle name is unavailable or unbounded")
+    buffer = ctypes.create_unicode_buffer(size)
+    length = kernel.GetFinalPathNameByHandleW(handle, buffer, size, 0)
+    if length == 0 or length >= size:
+        raise OSError("Windows canonical handle name changed or is unavailable")
+    value = buffer.value
+    if not value.startswith("\\\\?\\") or not re.match(r"[A-Za-z]:\\", value[4:]):
+        raise OSError("Windows handle has an unsupported canonical namespace")
+    return pathlib.PureWindowsPath(value[4:])
+
+
 def _read_repository_windows_v1(path, maximum):
     """Read a local drive path while holding every component against replacement.
 
@@ -663,6 +789,7 @@ def _read_repository_windows_v1(path, maximum):
         raise OSError("secure Windows reader requires a fixed local drive")
     handles = []
     try:
+        requested = pathlib.PureWindowsPath(path.anchor)
         for index, part in enumerate((None, *parts)):
             if part is None:
                 handle = kernel.CreateFileW(
@@ -671,10 +798,13 @@ def _read_repository_windows_v1(path, maximum):
                     raise ctypes.WinError(ctypes.get_last_error())
             else:
                 handle = _windows_open_child_v1(handles[-1], part, index < len(parts))
+                requested /= part
             handles.append(handle)
             info = _snapshot_handle_info_v1(kernel, handle)
             if info.attributes & 0x400:
                 raise OSError("Windows reparse point refused")
+            if str(_windows_handle_name_v1(kernel, handle)).casefold() != str(requested).casefold():
+                raise OSError("Windows spelling aliases a different canonical long name")
             if index < len(parts):
                 if not info.attributes & 0x10:
                     raise OSError("Windows parent is not a directory")
@@ -726,7 +856,7 @@ def _read_repository_path(path, root=None, maximum=None):
     relative = path.relative_to(root)
     if not relative.parts:
         raise OSError("repository input has no file leaf")
-    maximum = REPOSITORY_MAX_FILE_BYTES if maximum is None else min(maximum, REPOSITORY_MAX_FILE_BYTES)
+    maximum = REPOSITORY_MAX_FILE_BYTES if maximum is None else min(maximum, SECURE_FILE_MAX_BYTES)
     if os.name == "nt":
         return _read_repository_windows_v1(path, maximum)
     if (os.name != "posix" or os.open not in os.supports_dir_fd or
@@ -1472,9 +1602,7 @@ def collect_native_current():
     if observed_source != source_repository:
         _error("OE_NATIVE_CURRENT_CUSTODY", "$native.source_repository",
                "carrier source is not in its own repository checkout")
-    common = _native_resolved_path(
-        _run_git(source_repository, "rev-parse", "--path-format=absolute",
-                 "--git-common-dir").stdout.strip(), "$native.git_common_dir")
+    common = _git_source_directories(source_repository)[1]
     controller_refs = _run_git(
         source_repository, "for-each-ref", "--format=%(refname)",
         "refs/implementaudit/controllers/").stdout.splitlines()
@@ -1513,9 +1641,7 @@ def collect_native_current():
         _error("OE_NATIVE_CURRENT_CUSTODY", "$native.run_root",
                "native run root is not the fixed bound-run-root location")
     run_id = run_relative.parts[2]
-    controller_common = _native_resolved_path(
-        _run_git(repository, "rev-parse", "--path-format=absolute",
-                 "--git-common-dir").stdout.strip(), "$native.controller_git_common_dir")
+    controller_common = _git_source_directories(repository)[1]
     if controller_common != common:
         _error("OE_NATIVE_CURRENT_CUSTODY", "$native.controller",
                "controller repository is foreign to carrier Git custody")
@@ -2865,16 +2991,14 @@ def _snapshot_missing_census_v1(collections: dict) -> list[dict]:
     return sorted(missing, key=canonical_json_v1)
 
 
-def _build_snapshot_material_v1(
-        native: dict, collections: dict, schema_raw: bytes,
-        compiler_raw: bytes) -> dict:
+def _snapshot_input_manifest_v1(collections: dict, schema_sha256: str,
+                                compiler_sha256: str) -> dict:
+    native = collections["native_current"]["value"]
     missing = _snapshot_missing_census_v1(collections)
-    aggregate = "DEGRADED" if missing else "COMPLETE"
-    portable_native = collections["native_current"]["value"]
-    input_manifest = {
+    return {
         "schema_version": SNAPSHOT_INPUT_SCHEMA,
-        "compiler_sha256": hashlib.sha256(compiler_raw).hexdigest(),
-        "schema_sha256": hashlib.sha256(schema_raw).hexdigest(),
+        "compiler_sha256": compiler_sha256,
+        "schema_sha256": schema_sha256,
         "current_tuple": {
             "controller_id": native["controller"]["id"],
             "claim_id": native["claim"]["id"],
@@ -2890,20 +3014,44 @@ def _build_snapshot_material_v1(
             {"name": name, "owner": row["owner"], "state": row["state"],
              "sha256": row["sha256"]}
             for name, row in sorted(collections.items())],
-        "native_semantic_sha256": portable_native["semantic_sha256"],
+        "native_semantic_sha256": native["semantic_sha256"],
         "missing_or_omitted_state": missing,
     }
+
+
+def _snapshot_identity_record_v1(semantic: dict, input_manifest: dict) -> dict:
+    return {
+        "domain": "IA-OPERATIONAL-SNAPSHOT-v1", "encoding": "UTF-8",
+        "canonicalisation": "canonical_json_v1",
+        "semantic_payload_sha256": hashlib.sha256(canonical_json_v1(semantic)).hexdigest(),
+        "canonical_input_manifest_sha256": hashlib.sha256(canonical_json_v1(input_manifest)).hexdigest(),
+        "schema_sha256": input_manifest["schema_sha256"],
+        "compiler_contract_sha256": hashlib.sha256(canonical_json_v1(SNAPSHOT_COMPILER_CONTRACT)).hexdigest(),
+        "compiler_blob_sha256": input_manifest["compiler_sha256"],
+    }
+
+
+def _build_snapshot_material_v1(
+        native: dict, collections: dict, schema_raw: bytes,
+        compiler_raw: bytes) -> dict:
+    missing = _snapshot_missing_census_v1(collections)
+    aggregate = "DEGRADED" if missing else "COMPLETE"
+    input_manifest = _snapshot_input_manifest_v1(collections,
+        hashlib.sha256(schema_raw).hexdigest(), hashlib.sha256(compiler_raw).hexdigest())
     input_raw = canonical_json_v1(input_manifest)
-    snapshot_digest = hashlib.sha256(input_raw).hexdigest()
-    snapshot_id = "iasnap-v1-" + snapshot_digest
     payload = {
         "schema_version": SNAPSHOT_PAYLOAD_SCHEMA,
-        "snapshot_id": snapshot_id, "aggregate": aggregate,
+        "aggregate": aggregate,
         "families": list(FAMILIES),
         "missing_or_omitted_state": missing,
         "collections": {name: row for name, row in sorted(collections.items())},
-        "input_manifest_sha256": snapshot_digest,
     }
+    identity_record = _snapshot_identity_record_v1(payload, input_manifest)
+    snapshot_digest = hashlib.sha256(canonical_json_v1(identity_record)).hexdigest()
+    snapshot_id = "iasnap-v1-" + snapshot_digest
+    payload.update(snapshot_id=snapshot_id, input_manifest=input_manifest,
+                   input_manifest_sha256=hashlib.sha256(input_raw).hexdigest(),
+                   identity_record=identity_record)
     payload_raw = canonical_json_v1(payload)
     root_identity = "sha256:" + hashlib.sha256(canonical_json_v1({
         "controller_id": native["controller"]["id"],
@@ -2988,7 +3136,7 @@ def _snapshot_validate_manifest_v1(raw: bytes, snapshot_id: str) -> dict:
             type(value.get("run_id")) is not str or
             not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", value["run_id"]) or
             type(value.get("source_epoch")) is not str or
-            not re.fullmatch(r"G[0-9]{4}", value["source_epoch"]) or
+            not re.fullmatch(r"G[0-9A-F]{4}", value["source_epoch"]) or
             type(value.get("source_pointer_oid")) is not str or
             not re.fullmatch(
                 r"(?:[0-9a-f]{40}|[0-9a-f]{64})", value["source_pointer_oid"]) or
@@ -3122,9 +3270,7 @@ def _snapshot_require_input_fence_v1(
 def publish_current_snapshot():
     """Compile and atomically select one native-custody R0038 snapshot."""
     source_repository = pathlib.Path(__file__).resolve().parents[1]
-    common = _native_resolved_path(
-        _run_git(source_repository, "rev-parse", "--path-format=absolute",
-                 "--git-common-dir").stdout.strip(), "$snapshot.git_common_dir")
+    common = _git_source_directories(source_repository)[1]
     lock = common / "implementaudit-r0038-snapshot-writer.lock"
     pending = None
     current_temp = None
@@ -3301,9 +3447,13 @@ def publish_current_snapshot():
 
 def _native_external_get(url, headers):
     """Perform the runner's concrete GET-only network operation."""
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, response_headers, newurl):
+            return None
+
     request = urllib.request.Request(url, headers=headers, method="GET")
     try:
-        response = urllib.request.urlopen(request, timeout=30)
+        response = urllib.request.build_opener(NoRedirect()).open(request, timeout=30)
     except urllib.error.HTTPError as exc:
         response = exc
     try:
@@ -3316,16 +3466,57 @@ def _native_external_get(url, headers):
                        "response headers must not collide case-insensitively")
             seen_headers.add(normalized)
             raw_headers[key] = value
+        body = response.read(16 * 1024 * 1024 + 1)
+        if len(body) > 16 * 1024 * 1024:
+            _error("OE_EXTERNAL_RESPONSE", "$external.response.body", "response exceeds bounded capture")
         return {
             "status": response.status,
             "headers": raw_headers,
-            "body": response.read(),
+            "body": body,
         }
     finally:
         response.close()
 
 
-def run_external_readonly(request, transport=None):
+def _external_response_matches_v1(request, payload):
+    """Bind response identity to the requested repository and operation."""
+    if type(payload) is not dict:
+        return False
+    parts = request["path"].split("/")
+    repo = "/".join(parts[1:4])
+    api = "https://api.github.com/" + repo
+    operation, selected = request["operation"], parts[-1]
+    positive_id = lambda value: type(value) is int and value > 0
+    oid = lambda value: type(value) is str and re.fullmatch(r"[0-9a-f]{40}", value) is not None
+    if operation == "PULL_REQUEST":
+        return (positive_id(payload.get("id")) and type(payload.get("number")) is int and
+                payload["number"] == int(selected) and payload.get("url") == api + "/pulls/" + selected and
+                payload.get("base", {}).get("repo", {}).get("full_name") == "/".join(parts[2:4]))
+    if operation == "CHECK_RUNS":
+        rows = payload.get("check_runs")
+        return (type(rows) is list and type(payload.get("total_count")) is int and
+                payload["total_count"] >= len(rows) and all(type(row) is dict and
+                positive_id(row.get("id")) and row.get("url") == api + "/check-runs/" + str(row["id"]) and
+                row.get("head_sha") == parts[-2] for row in rows) and
+                len({row["id"] for row in rows}) == len(rows))
+    if operation == "TAG":
+        obj = payload.get("object", {})
+        return (payload.get("ref") == "refs/tags/" + selected and
+                payload.get("url") == api + "/git/refs/tags/" + selected and type(obj) is dict and
+                obj.get("type") in {"commit", "tag"} and oid(obj.get("sha")))
+    if operation == "RELEASE":
+        return (positive_id(payload.get("id")) and payload.get("tag_name") == selected and
+                payload.get("url") == api + "/releases/" + str(payload["id"]))
+    if operation == "ASSET":
+        return (positive_id(payload.get("id")) and payload["id"] == int(selected) and
+                payload.get("url") == api + "/releases/assets/" + selected)
+    if operation == "PUBLIC_READBACK":
+        return (payload.get("type") == "file" and payload.get("path") == "/".join(parts[5:]) and
+                payload.get("url") == "https://api.github.com" + request["path"] and oid(payload.get("sha")))
+    return False
+
+
+def run_external_readonly(request, transport=None, *, authorization_token=None):
     """Run one fixed allowlisted external GET and return a frozen capture."""
     request_keys = {
         "schema", "source", "operation", "path", "auth_state", "page",
@@ -3379,12 +3570,19 @@ def run_external_readonly(request, transport=None):
     if transport is not None and not callable(transport):
         _error("OE_EXTERNAL_REQUEST", "$external.transport",
                "transport must be callable when supplied")
+    if authorization_token is not None and (transport is not None or
+            type(authorization_token) is not str or not re.fullmatch(r"[A-Za-z0-9_.-]{1,4096}", authorization_token)):
+        _error("OE_EXTERNAL_REQUEST", "$external.authentication", "credential requires the fixed native transport")
+    if transport is None:
+        auth_state = "PRESENT" if authorization_token is not None else "ABSENT"
     url = (
         f"https://api.github.com{request['path']}?page={page}&per_page={per_page}")
     headers = {
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
     }
+    if authorization_token is not None:
+        headers["Authorization"] = "Bearer " + authorization_token
     try:
         response = (
             _native_external_get(url, headers) if transport is None else
@@ -3431,13 +3629,28 @@ def run_external_readonly(request, transport=None):
         "AVAILABLE" if rate_remaining is not None else "UNKNOWN")
     link = normalized_headers.get("link", "")
     pagination_state = (
-        "INCOMPLETE" if 'rel="next"' in link else "COMPLETE")
+        "INCOMPLETE" if 'rel="next"' in link or page != 1 else "COMPLETE")
+    if (request["operation"] == "CHECK_RUNS" and type(payload) is dict and
+            type(payload.get("total_count")) is int and type(payload.get("check_runs")) is list and
+            payload["total_count"] != len(payload["check_runs"])):
+        pagination_state = "INCOMPLETE"
     actual_etag = normalized_headers.get("etag")
     object_drift = (
         expected_etag is not None and actual_etag != expected_etag)
     currentness = _external_boundary_currentness(
         auth_state, rate_state, pagination_state, object_drift,
         expires_at, evaluated_at)
+    if 200 <= status < 300:
+        try:
+            object_matches = _external_response_matches_v1(request, payload)
+        except (AttributeError, TypeError, ValueError, KeyError):
+            object_matches = False
+        if not object_matches:
+            currentness = _compose_currentness(currentness, {
+                "state": "CONTRADICTORY", "invalidators": ["RESPONSE_OBJECT_MISMATCH"]})
+    if status in (401, 403):
+        currentness = _compose_currentness(currentness, {
+            "state": "UNVERIFIED", "invalidators": ["AUTH_REJECTED"]})
     if status < 200 or status >= 300:
         known = set(currentness["invalidators"])
         if status not in (401, 403, 429) or not known:
@@ -3898,7 +4111,17 @@ _SNAPSHOT_REPOSITORY_PROVENANCE_KEYS_V1 = {
 
 
 _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1 = frozenset({
-    SNAPSHOT_PAYLOAD_KEYS,
+    NATIVE_SNAPSHOT_PAYLOAD_KEYS,
+    _snapshot_diff_keyset_v1(
+        "schema_version compiler_sha256 schema_sha256 current_tuple collector_inputs "
+        "native_semantic_sha256 missing_or_omitted_state"),
+    _snapshot_diff_keyset_v1(
+        "controller_id claim_id run_id source_epoch source_pointer_oid hot_state_sha256 "
+        "hot_roadmap_sha256 work_graph_sha256 route_identity"),
+    _snapshot_diff_keyset_v1("name owner state sha256"),
+    _snapshot_diff_keyset_v1(
+        "domain encoding canonicalisation semantic_payload_sha256 canonical_input_manifest_sha256 "
+        "schema_sha256 compiler_contract_sha256 compiler_blob_sha256"),
     *_SNAPSHOT_NATIVE_MEMBER_KEYS_V1.values(),
     *_SNAPSHOT_REPOSITORY_FACT_KEYS_V1.values(),
     *_SNAPSHOT_REPOSITORY_PROVENANCE_KEYS_V1.values(),
@@ -4685,7 +4908,7 @@ def _parse_diff_snapshot_v1(snapshot: object, path: str) -> tuple[dict, list[dic
         return _parse_captured_snapshot_v1(snapshot, path)
     if type(snapshot) is dict and snapshot.get("schema_version") == REPOSITORY_SNAPSHOT_SCHEMA:
         return _parse_repository_snapshot_v1(snapshot, path)
-    if (type(snapshot) is not dict or set(snapshot) != SNAPSHOT_PAYLOAD_KEYS or
+    if (type(snapshot) is not dict or set(snapshot) != NATIVE_SNAPSHOT_PAYLOAD_KEYS or
             snapshot.get("schema_version") != SNAPSHOT_PAYLOAD_SCHEMA or
             type(snapshot.get("snapshot_id")) is not str or
             not SNAPSHOT_ID_RE.fullmatch(snapshot["snapshot_id"]) or
@@ -4694,9 +4917,7 @@ def _parse_diff_snapshot_v1(snapshot: object, path: str) -> tuple[dict, list[dic
             type(snapshot.get("missing_or_omitted_state")) is not list or
             type(snapshot.get("collections")) is not dict or
             type(snapshot.get("input_manifest_sha256")) is not str or
-            not re.fullmatch(r"[0-9a-f]{64}", snapshot["input_manifest_sha256"]) or
-            snapshot["snapshot_id"] !=
-            "iasnap-v1-" + snapshot["input_manifest_sha256"]):
+            not re.fullmatch(r"[0-9a-f]{64}", snapshot["input_manifest_sha256"])):
         _error("OE_DIFF_SNAPSHOT_INVALID", path,
                "snapshot payload schema, identity, families, or manifest differs")
     try:
@@ -4712,6 +4933,20 @@ def _parse_diff_snapshot_v1(snapshot: object, path: str) -> tuple[dict, list[dic
                    "snapshot aggregate and missing-state census differ")
         validated_identities, population = _snapshot_diff_collections_v1(
             canonical["collections"], f"{path}.collections")
+        inputs = canonical["input_manifest"]
+        for name in ("schema_sha256", "compiler_sha256"):
+            if type(inputs.get(name)) is not str or not re.fullmatch(r"[0-9a-f]{64}", inputs[name]):
+                _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.input_manifest.{name}",
+                       "snapshot input source digest is invalid")
+        expected_inputs = _snapshot_input_manifest_v1(canonical["collections"],
+            inputs["schema_sha256"], inputs["compiler_sha256"])
+        semantic = {key: canonical[key] for key in SNAPSHOT_SEMANTIC_KEYS}
+        identity = _snapshot_identity_record_v1(semantic, expected_inputs)
+        if (inputs != expected_inputs or canonical["identity_record"] != identity or
+                canonical["input_manifest_sha256"] != identity["canonical_input_manifest_sha256"] or
+                canonical["snapshot_id"] != "iasnap-v1-" + hashlib.sha256(canonical_json_v1(identity)).hexdigest()):
+            _error("OE_DIFF_SNAPSHOT_INVALID", path,
+                   "snapshot semantic content, input manifest and structured identity differ")
         if _snapshot_missing_census_v1(canonical["collections"]) != missing:
             _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.missing_or_omitted_state",
                    "snapshot missing-state census differs from validated collections")
@@ -4926,6 +5161,9 @@ def _snapshot_windows_kernel_v1():
     kernel.GetFileInformationByHandle.restype = ctypes.c_int
     kernel.GetDriveTypeW.argtypes = [ctypes.c_wchar_p]
     kernel.GetDriveTypeW.restype = ctypes.c_uint32
+    kernel.GetFinalPathNameByHandleW.argtypes = [
+        ctypes.c_void_p, ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32]
+    kernel.GetFinalPathNameByHandleW.restype = ctypes.c_uint32
     kernel.GetVolumeInformationByHandleW.argtypes = [
         ctypes.c_void_p, ctypes.c_wchar_p, ctypes.c_uint32,
         ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_uint32),
@@ -5140,11 +5378,36 @@ def _load_diff_snapshot_file_v1(path: pathlib.Path, label: str) -> dict:
     return _validate_diff_snapshot_v1(value, label)
 
 
+def _query_observation_liveness_v1(snapshot, rows):
+    """Overlay present expiry on copied query rows, never the frozen payload."""
+    release = snapshot.get("collections", {}).get("release", {}).get("value")
+    if type(release) is not dict or release.get("schema") != RELEASE_COLLECTION_SCHEMA:
+        return rows
+    boundary = release["external_boundary"]
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    if now >= boundary["expires_at"]:
+        live = {"state": "STALE", "invalidators": ["CAPTURE_EXPIRED"]}
+    elif now < boundary["captured_at"] or now < boundary["evaluated_at"]:
+        live = {"state": "UNVERIFIED", "invalidators": ["CAPTURE_CLOCK_UNCERTAIN"]}
+    else:
+        live = {"state": "CURRENT", "invalidators": []}
+    for row in rows:
+        record = row["record"]
+        if record.get("layer") != "EXTERNAL":
+            continue
+        record["observed_currentness"] = record["currentness"]
+        record["currentness"] = _compose_currentness(record["currentness"], live)
+        record["liveness"] = {"evaluated_at": now, "expires_at": boundary["expires_at"],
+                              "basis": "QUERY_TIME_ONLY_NO_REFRESH"}
+    return rows
+
+
 _snapshot_query_policy = _query_policy_module.SnapshotQueryPolicy(
     families=FAMILIES, states=STATES,
     snapshot_schema=(SNAPSHOT_PAYLOAD_SCHEMA, REPOSITORY_SNAPSHOT_SCHEMA, CAPTURED_SNAPSHOT_SCHEMA),
     status_schema=QUERY_STATUS_SCHEMA, result_schema=QUERY_RESULT_SCHEMA,
-    why_schema=QUERY_WHY_SCHEMA, canonical_json=canonical_json_v1, error=_error)
+    why_schema=QUERY_WHY_SCHEMA, canonical_json=canonical_json_v1, error=_error,
+    observation_liveness=_query_observation_liveness_v1)
 
 def _snapshot_query_records_v1(snapshot: object) -> list[dict]:
     return _snapshot_query_policy._snapshot_query_records_v1(_query_input_v1(snapshot))
