@@ -1,0 +1,67 @@
+{
+  "schema": "implementaudit.repository-source-peer-manifest.v1",
+  "scope": "REPOSITORY_ONLY_SOURCE_COMPOSITION",
+  "native_admission": "NOT_ESTABLISHED_BY_SOURCE_COPY",
+  "files": [
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
+      "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
+      "bytes": 96055,
+      "sha256": "07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/claim-run.sh",
+      "modified": false,
+      "mode": "100644"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
+      "materialized_path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "bytes": 75292,
+      "sha256": "fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "modified": false,
+      "mode": "100644"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/references/route-obligations.md",
+      "materialized_path": "skills/implementaudit/references/route-obligations.md",
+      "bytes": 24980,
+      "sha256": "df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/references/route-obligations.md",
+      "modified": false,
+      "mode": "100644"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/host-session-binding.py",
+      "materialized_path": "skills/implementaudit/scripts/host-session-binding.py",
+      "bytes": 49020,
+      "sha256": "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/host-session-binding.py",
+      "modified": false,
+      "mode": "100755"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "materialized_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "bytes": 262594,
+      "sha256": "d0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "modified": false,
+      "mode": "100755"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "materialized_path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "bytes": 12058,
+      "sha256": "0c5fb125e59b3493c2f3c9baf6a7704ccb2b5fc486f9363a028055f3d6cfad7c",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "modified": false,
+      "mode": "100755"
+    }
+  ]
+}

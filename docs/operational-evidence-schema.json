@@ -113,6 +113,24 @@
     "publication": false,
     "activegraph_authority": false
   },
+  "x-native-current-facts-v2": {
+    "schema": "implementaudit-native-current-facts-v2",
+    "inherits": "x-native-current-facts",
+    "canonical_work_graph": "exact_UTF8_canonical_WORK_GRAPH_bytes_bound_to_hot_digest",
+    "route_graph": "R0035_native_work_graph_with_complete_declared_node_population",
+    "route_relation": "R0035_binding_of_canonical_graph_to_R0033_current_scope_export",
+    "source_selection": "fixed_same_checkout_source_peers_no_caller_override",
+    "route_source": "R0033_current_obligation_transaction_scope_and_receipt",
+    "affected_nodes": "R0035_direct_scope_required_optional_dependents_and_ancestors",
+    "independent_nodes": "retained_separately_without_global_route_digest_in_node_identity",
+    "uncovered_scopes": "explicit_UNVERIFIED_capability_and_omission_rows",
+    "missing_peer_capability": "both_route_graph_and_route_relation_null_with_UNVERIFIED_omission",
+    "partial_peer_capability": "typed_refusal",
+    "frozen_validation": "fixed_byte_bound_pure_owner_contract_no_native_refresh",
+    "legacy_facts_v1": "preserved_bytes_with_query_time_UNVERIFIED_mapping_omission",
+    "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
+    "establishes": []
+  },
   "x-bounded-history-query": {
     "schema": "implementaudit.operational-evidence-query.v1",
     "cursor_schema": "implementaudit.history-query-cursor.v1",

@@ -17,4 +17,9 @@ fi
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-product-bindings.py" --target "$repo_root/scripts/operational_query_policy.py"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/windows-reader.py" "$repo_root"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/windows-export.py" "$repo_root"
+"${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/native-route-projection.py" "$repo_root"
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite route
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite security
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite directory --case test_multiple_pages_unicode_names_and_population_bound
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite directory-race
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/review-regressions.py" "$repo_root"

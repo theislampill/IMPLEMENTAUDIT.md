@@ -89,20 +89,55 @@ class SnapshotQueryPolicy:
                            {"bucket": bucket, "message": message}, source,
                            "UNSUPPORTED" if bucket == "skipped" else "UNKNOWN")
         elif name == "native_current":
-            if type(value) is not dict or value.get("schema") != "implementaudit-native-current-facts-v1":
+            if type(value) is not dict or value.get("schema") not in {
+                    "implementaudit-native-current-facts-v1", "implementaudit-native-current-facts-v2"}:
                 self._error("OE_QUERY_SNAPSHOT_INVALID", "$.collections.native_current", "native producer schema differs")
             source = {"collection_schema": value["schema"],
                       "controller": value["controller"], "claim": value["claim"],
                       "continuity": value["continuity"], "hot": value["hot"]}
+            base_ids = {}
             for key, kind in (("controller", "Controller"), ("claim", "CustodyClaim"),
                               ("continuity", "Receipt"), ("frontier", "WorkItem"),
                               ("route", "RouteObligation"), ("active_instructions", "Instruction"),
                               ("next_action", "NextAction")):
-                record([key], "EXECUTION", kind, value[key], source)
+                if key == "frontier" and value["schema"] == "implementaudit-native-current-facts-v2":
+                    kind = "DeclaredWorkGraphFrontier"
+                base_ids[key] = record([key], "EXECUTION", kind, value[key], source)["id"]
             frontier = value["frontier"]
             for key, kind in (("writer_holds", "Writer"), ("resource_holds", "Resource")):
                 # A complete empty owner-derived hold map remains an observation.
                 record([key], "OWNERSHIP", kind, frontier[key], source)
+            if value["schema"] == "implementaudit-native-current-facts-v2" and value["route_relation"] is not None:
+                relation = value["route_relation"]
+                graph = value["route_graph"]
+                record(["route_relation"], "EXECUTION", "RouteAffectedNodes", relation,
+                    {**source, "semantic_owner": "R0035", "graph_digest": graph["digest"]})
+                node_ids = {}
+                for node in graph["nodes"]:
+                    node_ids[node["id"]] = record(["native_node", node["id"]], "EXECUTION", "GovernedWorkNode", node,
+                        {**source, "semantic_owner": "R0035", "native_input_digest": node["input_digest"]})["id"]
+                scope_ids = {}
+                for scope in relation["uncovered_scopes"]:
+                    scope_ids[scope] = record(["uncovered_route_scope", scope], "EXECUTION", "RouteCapability",
+                        {"scope": scope, "code": "NATIVE_ROUTE_SCOPE_UNCOVERED"}, source, "UNVERIFIED")["id"]
+                for node in graph["nodes"]:
+                    edges = [("DEPENDS_ON", node_ids[target]) for target in node["requires"]]
+                    edges += [("OPTIONALLY_DEPENDS_ON", node_ids[target]) for target in node["optional"]]
+                    if node["parent"] is not None:
+                        edges.append(("PART_OF", node_ids[node["parent"]]))
+                    if node["id"] in relation["direct_nodes"]:
+                        edges.append(("HAS_ROUTE_OBLIGATION", base_ids["route"]))
+                    edges += [("HAS_UNCOVERED_ROUTE_SCOPE", scope_ids[scope])
+                              for scope in node["route_scopes"] if scope in scope_ids]
+                    for kind, target in edges:
+                        edge = record(["native_relation", node["id"], kind, target], "EXECUTION", "Relation",
+                            {"kind": kind, "native_node": node["id"]},
+                            {**source, "semantic_owner": "R0035", "native_input_digest": node["input_digest"]})
+                        edge.update(relation_type=kind, source_entity_id=node_ids[node["id"]],
+                                    target_entity_id=target, confidence="owner-derived")
+            else:
+                record(["route_mapping_capability"], "EXECUTION", "RouteCapability",
+                    {"code": "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE"}, source, "UNVERIFIED")
         return records
 
 
@@ -213,6 +248,11 @@ class SnapshotQueryPolicy:
             self._error("OE_QUERY_SNAPSHOT_INVALID", "$.missing_or_omitted_state",
                    "omitted-state census must be an array")
         omitted = json.loads(self._canonical_json(omitted).decode("utf-8"))
+        native = snapshot.get("collections", {}).get("native_current", {}).get("value")
+        if type(native) is dict and native.get("route_relation") is None and not any(
+                row.get("code") == "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE" for row in omitted):
+            omitted.append({"kind": "QUERY_NATIVE_CAPABILITY_UNVERIFIED", "family": "EXECUTION",
+                "state": "UNVERIFIED", "code": "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE"})
         for family in self._families:
             if not census[family]:
                 omitted.append({"kind": "QUERY_FAMILY_ABSENT", "family": family,

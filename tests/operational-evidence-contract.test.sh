@@ -848,7 +848,9 @@ def snapshot(identifier, records=None, *, aggregate=None, omitted=None,
     frontier["digest"] = hashlib.sha256(
         evidence.canonical_json_v1(frontier)).hexdigest()
     native_value = semantic({
-        "schema": evidence.NATIVE_CURRENT_SCHEMA,
+        # This historical carrier fixture remains explicitly v1. The current
+        # producer's v2 route relation has separate positive/negative controls.
+        "schema": evidence.LEGACY_NATIVE_CURRENT_SCHEMA,
         "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT", "establishes": [],
         "repository": {"root": "$REPOSITORY_ROOT", "git_common_dir": "$GIT_COMMON_DIR"},
         "controller": {"id": "fixture-controller", "ref": "refs/controller",
@@ -1040,7 +1042,13 @@ producer_native["route"].update(decision="REQUIRED",
 refresh_collection(producer_after, "native_current")
 producer_diff = evidence.diff_snapshots(producer_before, producer_after)
 producer_rows = evidence.query_family(producer_after, "EXECUTION")["rows"]
-if (producer_diff["counts"]["changed"] != 2 or len(producer_rows) != 7 or not any(
+producer_mapping_gap = [row for row in producer_rows
+    if row["record"]["record_type"] == "RouteCapability"]
+if (len(producer_mapping_gap) != 1 or
+        producer_mapping_gap[0]["record"]["currentness"]["state"] != "UNVERIFIED" or
+        producer_mapping_gap[0]["record"]["observation"].get("code") != "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE"):
+    raise SystemExit("legacy native mapping capability omission disappeared")
+if (producer_diff["counts"]["changed"] != 2 or len(producer_rows) != 8 or not any(
         row["record"].get("observation", {}).get("obligation_id") == "constructed-pending-boundary"
         for row in producer_rows)):
     raise SystemExit("C07/C08 native producer observations disappeared from the common population")
@@ -1317,16 +1325,16 @@ for output_format in ("table", "graph"):
     projection = json.loads(evidence.render_snapshot_projection_v1(
         mixed, output_format=output_format, max_rows=100, max_bytes=100000))
     if (projection["format"] != output_format or projection["truncated"] or
-            projection["included_count"] != 16 or projection["omitted_count"] != 0 or
-            projection["state_census"] != {"CURRENT": 12, "STALE": 1, "UNSUPPORTED": 3}):
+            projection["included_count"] != 17 or projection["omitted_count"] != 0 or
+            projection["state_census"] != {"CURRENT": 12, "STALE": 1, "UNSUPPORTED": 3, "UNVERIFIED": 1}):
         raise SystemExit(f"DE09 {output_format} projection lost state coverage")
 observed.append("DE09")
 
 bounded = json.loads(evidence.render_snapshot_projection_v1(
     mixed, output_format="table", max_rows=1, max_bytes=100000))
 if (not bounded["truncated"] or bounded["decision_usable"] or
-        bounded["included_count"] != 1 or bounded["omitted_count"] != 15 or
-        bounded["state_census"] != {"CURRENT": 12, "STALE": 1, "UNSUPPORTED": 3}):
+        bounded["included_count"] != 1 or bounded["omitted_count"] != 16 or
+        bounded["state_census"] != {"CURRENT": 12, "STALE": 1, "UNSUPPORTED": 3, "UNVERIFIED": 1}):
     raise SystemExit("DE10 bounded projection did not remain explicit nondecision")
 observed.append("DE10")
 
@@ -1459,7 +1467,7 @@ observed.append("DE14")
 noncurrent_first = json.loads(evidence.render_snapshot_projection_v1(
     mixed, output_format="table", max_rows=1, max_bytes=100000))
 if (noncurrent_first["rows"][0]["record"]["currentness"]["state"] == "CURRENT" or
-        noncurrent_first["omitted_state_census"] != {"CURRENT": 12, "UNSUPPORTED": 3}):
+        noncurrent_first["omitted_state_census"] != {"CURRENT": 12, "UNSUPPORTED": 3, "UNVERIFIED": 1}):
     raise SystemExit("DE15 bound preferentially hid non-current rows")
 observed.append("DE15")
 
@@ -2866,8 +2874,10 @@ if (positive_repo / ".IMPLEMENTAUDIT/runs/native-current-ABC123/operational-evid
     raise SystemExit("C03 created a snapshot/publication root")
 if record != repeat or positive_module.canonical_json_v1(record) != positive_module.canonical_json_v1(repeat):
     raise SystemExit("native-current facts are not deterministic")
-if record.get("schema") != "implementaudit-native-current-facts-v1":
+if record.get("schema") != "implementaudit-native-current-facts-v2":
     raise SystemExit("native-current fact schema missing")
+if record.get("route_graph") is not None or record.get("route_relation") is not None:
+    raise SystemExit("historical fixture peers fabricated native route/node capability")
 if record.get("authority_ceiling") != "READ_ONLY_NATIVE_CURRENT_FACT":
     raise SystemExit("native-current authority ceiling drift")
 if record.get("frontier", {}).get("active") != ["CELL-A"]:

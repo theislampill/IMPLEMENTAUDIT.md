@@ -178,6 +178,37 @@ READY/JOIN, create a snapshot or output root, query history, use network, or
 inspect an ActiveGraph mirror. C06 remains the sole later snapshot
 compiler/publication owner.
 
+## Native route and affected-node projection
+
+The no-override native collector emits `implementaudit-native-current-facts-v2`.
+It retains the exact canonical WORK_GRAPH text and obtains the current obligation,
+transaction and scope through R0033's `read_current_route_scope_v1`. The selected
+R0035 peer derives the complete node population, direct scope, dependent and
+ancestor sets, independent nodes and uncovered scopes. R0038 validates that
+relation against the canonical graph and current controller/claim/receipt tuple;
+it does not author a route fact or infer satisfaction from a caller's graph field.
+The R0033 semantic predicate and the complete relation are reacquired at the
+final native fence. Dynamic route identities remain a derivative of the current
+graph; they are not written into the currentness receipt's source preimage.
+
+Queries distinguish the persisted `DeclaredWorkGraphFrontier` from
+`GovernedWorkNode` and `RouteAffectedNodes` observations. Dependency, parent,
+route-obligation and uncovered-scope edges remain explicit. A changed satisfaction
+affects the owner's scoped nodes while an independent node keeps its own input
+identity. Each uncovered scope remains an `UNVERIFIED` capability and omission;
+one satisfied scope cannot clear another boundary.
+
+The selected peers live under source repo `source-peers/route-graph/`, outside
+the normal plugin and standalone payloads. Native execution requires an exact
+source-checkout composition at the canonical same-checkout owner paths. Merely
+copying these sources establishes no native source/profile admission. Historical
+peers lacking both new interfaces retain an explicit
+`NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE` omission; a partially supplied pair
+refuses. Legacy native-facts v1 bytes remain unchanged and receive that omission
+at query time. Frozen v2 readers execute only the fixed, byte-bound pure R0035
+validator against retained canonical bytes; they perform no subprocess, network,
+model, native acquisition or publication.
+
 ## Immutable current snapshot publication
 
 `publish_current_snapshot()` is the C06 no-argument producer. It accepts no repository, run root, output root, controller, claim, branch, pointer, receipt, epoch, snapshot ID, manifest, locator or digest. The carrier derives the sole controller and bound run from `collect_native_current()`, then derives the only effect root as `<bound-run-root>/operational-evidence/snapshots`. Its receipt is an R0038 output-root observation with an empty `establishes` population; it creates no controller, route, currentness, lifecycle, release or closure authority.

@@ -30,8 +30,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = '269a5fe99c3a966514d53ad748dd4319cb8f5665789303b0826a56d131c033e4'
-_QUERY_POLICY_MODULE_BYTES = 193774
+_QUERY_POLICY_MODULE_SHA256 = 'ba0770ac0f9bdfdd32787956910d58968115850b272fb9300204818493393d9f'
+_QUERY_POLICY_MODULE_BYTES = 196915
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os
@@ -93,7 +93,9 @@ EXTERNAL_READ_CAPTURE_SCHEMA = "implementaudit-external-read-capture-v1"
 STATIC_RECEIPT_SCHEMA = "implementaudit-static-receipt-v1"
 STATIC_NORMALIZED_SCHEMA = "implementaudit-static-normalized-v1"
 STATIC_NORMALIZED_SET_SCHEMA = "implementaudit-static-normalized-set-v1"
-NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v1"
+LEGACY_NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v1"
+NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v2"
+NATIVE_ROUTE_CURRENT_SCHEMA = NATIVE_CURRENT_SCHEMA
 SNAPSHOT_INPUT_SCHEMA = "implementaudit-operational-snapshot-input.v1"
 SNAPSHOT_PAYLOAD_SCHEMA = "implementaudit-operational-snapshot-payload.v2"
 SNAPSHOT_MANIFEST_SCHEMA = "IA-OPERATIONAL-SNAPSHOT-v1"
@@ -1603,6 +1605,36 @@ def _native_route(
         _error("OE_NATIVE_CURRENT_ROUTE", "$native.route",
                "canonical R0033 pure current-route validator rejected the route record")
 
+def _native_route_relation(repository, run_root, graph_raw, route,
+                           compiler_path, compiler_raw, route_module):
+    """Consume the fixed semantic owners; do not derive governed node scope."""
+    compiler = _native_module_from_bytes(compiler_raw, compiler_path,
+        "_implementaudit_native_route_graph", "$native.route_graph_compiler")
+    graph_capable = callable(getattr(compiler, "bind_native_route_relation_v1", None))
+    route_capable = callable(getattr(route_module, "read_current_route_scope_v1", None))
+    if not graph_capable and not route_capable:
+        # Historical source peers retain their old observation interface. The
+        # compiler/query census below exposes this mandatory capability gap.
+        return None
+    if not graph_capable or not route_capable or not callable(
+            getattr(compiler, "read_native_run_v1", None)):
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_graph_compiler",
+               "canonical route/node peer composition is incomplete")
+    try:
+        graph = compiler.read_native_run_v1(run_root, repository)
+        relation = compiler.bind_native_route_relation_v1(graph, graph_raw)
+    except (Exception, SystemExit):
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route_relation",
+               "canonical affected-node acquisition or binding refused")
+    if graph["route_scope"]["route"] != route:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
+               "canonical route changed during affected-node acquisition")
+    if _native_file(compiler_path, "$native.route_graph_compiler", 256 * 1024) != compiler_raw:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_graph_compiler",
+               "graph owner source changed during acquisition")
+    return graph, relation
+
+
 def collect_native_current():
     """Read one exact native hot/current fact set without lifecycle authority."""
     source_repository = pathlib.Path(__file__).resolve().parents[1]
@@ -1810,6 +1842,8 @@ def collect_native_current():
         source_repository, controller, controller_oid, claim, run_root,
         generation, receipt, invalidation[4], invalidation[5],
         state["next_action"], route_module)
+    route_projection = _native_route_relation(
+        repository, run_root, graph_raw, route, compiler_path, compiler_raw, route_module)
 
     ref_fence = {
         controller_ref: controller_oid, invalidation_ref: invalidation_oid,
@@ -1879,6 +1913,9 @@ def collect_native_current():
         "next_action": state["next_action"],
         "route": route,
     }
+    result.update(route_graph=route_projection[0] if route_projection is not None else None,
+                  route_relation=route_projection[1] if route_projection is not None else None,
+                  canonical_work_graph=graph_raw.decode("utf-8", "strict"))
     result["semantic_sha256"] = hashlib.sha256(canonical_json_v1(result)).hexdigest()
     final_route = _native_route(
         source_repository, controller, controller_oid, claim, run_root,
@@ -1887,6 +1924,10 @@ def collect_native_current():
     if final_route != route:
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.route",
                "R0033 route identity changed during final semantic observation")
+    if _native_route_relation(repository, run_root, graph_raw, final_route,
+            compiler_path, compiler_raw, route_module) != route_projection:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
+               "affected-node sources changed during final observation")
     return result
 
 
@@ -2885,7 +2926,8 @@ def _snapshot_portable_native_v1(native: dict) -> dict:
 
     def replace(value):
         if type(value) is dict:
-            return {key: replace(item) for key, item in value.items()
+            return {key: item if key in {"route_graph", "route_relation", "canonical_work_graph"}
+                    else replace(item) for key, item in value.items()
                     if key != "semantic_sha256"}
         if type(value) is list:
             return [replace(item) for item in value]
@@ -2938,6 +2980,16 @@ def _collect_snapshot_inputs_v1(native: dict) -> dict:
 
 def _snapshot_missing_census_v1(collections: dict) -> list[dict]:
     missing = []
+    native = collections["native_current"]["value"]
+    if native.get("schema") == NATIVE_ROUTE_CURRENT_SCHEMA and native.get("route_relation") is None:
+        missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
+            "owner": "R0033/R0035", "state": "UNVERIFIED",
+            "code": "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE"})
+    elif native.get("schema") == NATIVE_ROUTE_CURRENT_SCHEMA:
+        for scope in native["route_relation"]["uncovered_scopes"]:
+            missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
+                "owner": "R0033/R0035", "state": "UNVERIFIED",
+                "code": "NATIVE_ROUTE_SCOPE_UNCOVERED", "scope": scope})
     for name in sorted(collections):
         row = collections[name]
         if row["state"] != "CURRENT":
@@ -4147,6 +4199,12 @@ _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1 = frozenset({
         "schema authority_ceiling establishes repository controller claim "
         "continuity hot frontier andon_state open_andons "
         "active_instructions next_action route semantic_sha256"),
+    _snapshot_diff_keyset_v1(
+        "schema authority_ceiling establishes repository controller claim "
+        "continuity hot frontier andon_state open_andons "
+        "active_instructions next_action route semantic_sha256 "
+        "route_graph route_relation canonical_work_graph"),
+    _snapshot_diff_keyset_v1("kind collector owner state code scope"),
     _snapshot_diff_keyset_v1("DONE ACTIVE READY BLOCKED"),
     _snapshot_diff_keyset_v1(
         "id reference kind authority subject issued_epoch status "
@@ -4225,6 +4283,11 @@ _SNAPSHOT_DIFF_DYNAMIC_MAP_SUFFIXES_V1 = (
 
 def _snapshot_diff_closed_tree_v1(value: object, path: str) -> None:
     """Consume every JSON branch admitted by the four producer grammars."""
+    if path.endswith((".collections.native_current.value.route_graph",
+                      ".collections.native_current.value.route_relation")):
+        # These branches have the R0035 closed grammar, recompiled by the fixed
+        # pure owner below. They are not interpreted as R0038 fact scalars.
+        return
     if type(value) is dict:
         dynamic = path.endswith(_SNAPSHOT_DIFF_DYNAMIC_MAP_SUFFIXES_V1)
         if not dynamic and frozenset(value) not in _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1:
@@ -4435,10 +4498,21 @@ def _snapshot_diff_release_record_v1(
 def _snapshot_diff_missing_v1(value: object, path: str) -> None:
     if type(value) is not dict or value.get("kind") not in {
             "COLLECTOR_NON_CURRENT", "REPOSITORY_DIAGNOSTIC",
-            "OWNER_FACT_NON_CURRENT", "RELEASE_INVALIDATOR"}:
+            "OWNER_FACT_NON_CURRENT", "RELEASE_INVALIDATOR", "NATIVE_CAPABILITY_UNVERIFIED"}:
         _error("OE_DIFF_SNAPSHOT_INVALID", path,
                "missing-or-omitted entry has a foreign schema")
     kind = value["kind"]
+    if kind == "NATIVE_CAPABILITY_UNVERIFIED":
+        expected = {"kind", "collector", "owner", "state", "code"}
+        if value.get("code") == "NATIVE_ROUTE_SCOPE_UNCOVERED":
+            expected.add("scope")
+            _snapshot_diff_text_v1(value.get("scope"), f"{path}.scope")
+        elif value.get("code") != "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE":
+            _error("OE_DIFF_SNAPSHOT_INVALID", path, "unknown native capability omission")
+        if (set(value) != expected or value.get("collector") != "native_current" or
+                value.get("owner") != "R0033/R0035" or value.get("state") != "UNVERIFIED"):
+            _error("OE_DIFF_SNAPSHOT_INVALID", path, "native capability omission differs")
+        return
     schemas = {
         "COLLECTOR_NON_CURRENT": {
             "kind", "collector", "owner", "state", "code"},
@@ -4566,6 +4640,48 @@ def _snapshot_diff_repository_v1(value: dict, path: str) -> None:
             row["provenance"], provenance_keys, f"{fact_path}.provenance")
 
 
+def _snapshot_diff_route_graph_v2(value, path):
+    """Revalidate captured owner data without native selection or execution."""
+    # source repo: the fixed repository-only R0035 peer also accompanies the
+    # materialized canonical layout. Frozen readers use only its pure contract.
+    peer = pathlib.Path(__file__).resolve().parents[1] / (
+        "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py")
+    try:
+        source = value["canonical_work_graph"]
+        if type(source) is not str or len(source.encode("utf-8")) > 256 * 1024:
+            raise ValueError("canonical graph source exceeds its original bound")
+        source = source.encode("utf-8")
+        if hashlib.sha256(source).hexdigest() != value["hot"]["work_graph_sha256"]:
+            raise ValueError("canonical graph source identity differs")
+        if value["route_graph"] is None or value["route_relation"] is None:
+            if value["route_graph"] is not None or value["route_relation"] is not None:
+                raise ValueError("partial route/node projection is ambiguous")
+            return  # Capability absence is mandatory UNVERIFIED census, not a positive.
+        raw = _native_file(peer, "$snapshot.route_graph_contract", 256 * 1024)
+        if hashlib.sha256(raw).hexdigest() != value["hot"]["work_graph_compiler_sha256"]:
+            raise ValueError("captured graph contract source differs")
+        owner = _native_module_from_bytes(raw, peer,
+            "_implementaudit_frozen_route_graph", "$snapshot.route_graph_contract")
+        graph, relation = value["route_graph"], value["route_relation"]
+        if owner.bind_native_route_relation_v1(graph, source) != relation:
+            raise ValueError("affected-node relation differs from canonical source")
+        binding = graph["binding"]
+        if (graph["route_scope"]["route"] != value["route"] or
+                binding["controller"] != value["controller"]["id"] or
+                binding["claim"] != value["claim"]["id"] or
+                binding["epoch"] != value["continuity"]["generation"] or
+                binding["receipt"] != value["continuity"]["receipt"]):
+            raise ValueError("graph crossed native route/currentness custody")
+        for name, member in (("STATE.md", "state_sha256"), ("ROADMAP.md", "roadmap_sha256")):
+            if hashlib.sha256(graph["source_documents"][name].encode("utf-8")).hexdigest() != value["hot"][member]:
+                raise ValueError("graph source differs from native hot identity")
+        if _native_file(peer, "$snapshot.route_graph_contract", 256 * 1024) != raw:
+            raise ValueError("graph contract source changed during frozen validation")
+    except (Exception, SystemExit):
+        _error("OE_DIFF_SNAPSHOT_INVALID", path,
+               "captured route/node source, population, relation or contract differs")
+
+
 def _snapshot_diff_native_v1(value: dict, path: str) -> None:
     for key, keys in _SNAPSHOT_NATIVE_MEMBER_KEYS_V1.items():
         _snapshot_diff_exact_object_v1(value[key], keys, f"{path}.{key}")
@@ -4634,6 +4750,8 @@ def _snapshot_diff_native_v1(value: dict, path: str) -> None:
             _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.active_instructions[{index}]",
                    "native active instruction is foreign or duplicated")
         seen.add(row["id"])
+    if value["schema"] == NATIVE_ROUTE_CURRENT_SCHEMA:
+        _snapshot_diff_route_graph_v2(value, path)
 
 
 def _snapshot_diff_release_v1(value: dict, path: str) -> None:
@@ -4745,8 +4863,10 @@ def _snapshot_diff_collections_v1(
                 "controller", "claim", "continuity", "hot", "frontier",
                 "andon_state", "open_andons", "active_instructions",
                 "next_action", "route", "semantic_sha256"}
+            if type(value) is dict and value.get("schema") == NATIVE_ROUTE_CURRENT_SCHEMA:
+                keys.update({"route_graph", "route_relation", "canonical_work_graph"})
             current = _snapshot_diff_exact_object_v1(value, keys, f"{member_path}.value")
-            if (current["schema"] != NATIVE_CURRENT_SCHEMA or
+            if (current["schema"] not in {LEGACY_NATIVE_CURRENT_SCHEMA, NATIVE_ROUTE_CURRENT_SCHEMA} or
                     current["authority_ceiling"] != "READ_ONLY_NATIVE_CURRENT_FACT" or
                     current["establishes"] != [] or any(
                         type(current[key]) is not dict or not current[key]
