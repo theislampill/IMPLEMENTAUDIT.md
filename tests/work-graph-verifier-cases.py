@@ -26,8 +26,43 @@ def reject(call, message):
         raise AssertionError("accepted negative: " + message)
 
 
+def selective_policy(current):
+    # Constructed policy inputs only. Real acquisition, issuance and consumption
+    # have a separate explicit Linux qualification; this supplies no such proof.
+    graph = wg.compile_verifier_graph_v1(current, wg.verifier_registered_tests_v1(current), {})
+    inputs = {"COMMAND:" + path + ":0": dict(program_sha256=contract["sha256"], image_digest="1" * 64)
+              for path, contract in wg.VERIFIER_LEAF_CONTRACTS_V1.items()}
+    acquired = dict(schema="implementaudit.verifier-acquisition.v1", scope="CONTROLLED_TASK_LEAVES_V1",
+                    binding={"constructed": "policy-only"}, inputs=inputs)
+    plan = wg.compile_verifier_reuse_v1(graph, current, acquired, {})
+    assert all(n["decision"] == "EXECUTE" for n in plan["nodes"])
+    issued = {n["node"]: n["key"] for n in plan["nodes"]}
+    repeat = wg.compile_verifier_reuse_v1(graph, current, acquired, issued)
+    assert all(n["decision"] == "CONSUME_PRIOR_SUCCESS" for n in repeat["nodes"])
+    changed = copy.deepcopy(acquired)
+    changed["inputs"]["COMMAND:scripts/check-readme-toc.sh:0"]["image_digest"] = "2" * 64
+    selected = wg.compile_verifier_reuse_v1(graph, current, changed, issued)
+    assert [n["decision"] for n in selected["nodes"]] == ["EXECUTE", "CONSUME_PRIOR_SUCCESS"]
+    for component in ("registry", "source", "environment", "runtime", "producer", "scope"):
+        changed = copy.deepcopy(acquired)
+        changed["binding"][component] = "changed"
+        assert all(n["decision"] == "EXECUTE" for n in wg.compile_verifier_reuse_v1(graph, current, changed, issued)["nodes"])
+    changed = copy.deepcopy(acquired)
+    changed["inputs"][next(iter(inputs))]["program_sha256"] = "0" * 64
+    reject(lambda: wg.compile_verifier_reuse_v1(graph, current, changed, issued), "checker contract")
+    changed = copy.deepcopy(acquired)
+    changed["inputs"].pop(next(iter(inputs)))
+    reject(lambda: wg.compile_verifier_reuse_v1(graph, current, changed, issued), "population")
+    changed = dict(acquired, scope="UNQUALIFIED")
+    reject(lambda: wg.compile_verifier_reuse_v1(graph, current, changed, issued), "scope")
+    drift = current.replace(b"bash scripts/check-readme-toc.sh\n", b"bash scripts/check-readme-toc.sh --unknown\n")
+    drift_graph = wg.compile_verifier_graph_v1(drift, wg.verifier_registered_tests_v1(drift), {})
+    reject(lambda: wg.compile_verifier_reuse_v1(drift_graph, drift, acquired, issued), "invocation")
+
+
 def main():
     current = (ROOT / "scripts/verify-package.sh").read_bytes()
+    selective_policy(current)
     tests = sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / "tests").glob("*.test.sh"))
     # This independent source slice deliberately awaits its separate registry
     # patch. Mapping the declared registry still succeeds, while a required
@@ -141,6 +176,31 @@ def main():
             comparison = Path(td) / ("comparison-" + str(code) + ".json")
             result = subprocess.run([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", "compare", *map(str, captures), str(comparison)], cwd=root, capture_output=True)
             assert result.returncode == 0, (result.stdout, result.stderr)
+            if code == 0:
+                for index, field in enumerate(("graph_digest", "mapping_digest", "mapped_source", "mapped_nodes", "node_population", "stdout_sha256", "stderr_sha256", "exit", "missing_exit")):
+                    bad = Path(td) / ("inconsistent-" + field)
+                    shutil.copytree(captures[1], bad)
+                    record = json.loads((bad / "result.json").read_bytes())
+                    if field in {"graph_digest", "stdout_sha256", "stderr_sha256"}:
+                        record[field] = "0" * 64
+                    elif field in {"mapping_digest", "mapped_source"}:
+                        mapped = json.loads((bad / "mapping.json").read_bytes())
+                        if field == "mapping_digest":
+                            mapped["digest"] = "0" * 64
+                        else:
+                            mapped["nodes"][0]["source"] += "# changed command\n"
+                        (bad / "mapping.json").write_text(json.dumps(mapped))
+                    elif field == "mapped_nodes":
+                        record["mapped_nodes"] += 1
+                    elif field == "node_population":
+                        record["nodes"].append(copy.deepcopy(record["nodes"][0]))
+                    elif field == "exit":
+                        (bad / "exit-code.txt").write_text("7\n")
+                    else:
+                        (bad / "exit-code.txt").unlink()
+                    (bad / "result.json").write_text(json.dumps(record))
+                    checked = subprocess.run([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", "compare", str(captures[0]), str(bad), str(Path(td) / ("inconsistent-result-%d.json" % index))], cwd=root, capture_output=True)
+                    assert checked.returncode in {1, 2}, (field, checked.stdout, checked.stderr)
         # A later recording error must not erase the nested process exit/logs.
         driver_spec = importlib.util.spec_from_file_location("capture_fixture", root / "scripts/qualify-work-graph-verifier.py")
         driver = importlib.util.module_from_spec(driver_spec)

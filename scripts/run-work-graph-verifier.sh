@@ -2,6 +2,19 @@
 # Optional R0035 qualification transport. Canonical verify-package is unchanged.
 # Command bytes come only from the exact revalidated canonical registry mapping.
 set -euo pipefail
+if [ "${1:-}" = "--isolated-leaf" ]; then
+  # The task acquirer supplies the closed filesystem/environment. This route
+  # emits no canonical terminal marker and inherits no evidence descriptors.
+  [ "$#" -eq 4 ] || exit 2
+  exec python -c '
+import hashlib, os, sys
+source, digest = sys.argv[1:]
+if hashlib.sha256(source.encode()).hexdigest() != digest:
+    raise SystemExit(2)
+os.closerange(3, 4096)
+os.execv("/usr/bin/bash", ["bash", "--noprofile", "--norc", "-c", source])
+' "$3" "$4"
+fi
 if [ "$#" -lt 4 ]; then
   printf 'work-graph-verifier: command stream, trace, node count and stream digest required\n' >&2
   exit 2
