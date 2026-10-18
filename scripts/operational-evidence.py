@@ -3461,6 +3461,10 @@ def _native_external_get(url, headers):
         seen_headers = set()
         for key, value in response.headers.raw_items():
             normalized = key.lower()
+            # Only these fields enter capture identity/currentness. Unconsumed
+            # transport metadata (including OAuth client hints) grants no facts.
+            if normalized not in {"etag", "x-ratelimit-remaining", "link"}:
+                continue
             if normalized in seen_headers:
                 _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
                        "response headers must not collide case-insensitively")

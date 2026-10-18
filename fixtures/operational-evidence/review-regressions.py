@@ -4,6 +4,7 @@ These controls do not authenticate a native source or activate a controller.
 The preserved seed is the review's explicitly constructed native payload.
 """
 import copy
+from email.message import Message
 import hashlib
 import importlib.util
 import json
@@ -43,6 +44,30 @@ def material(epoch="G0009"):
 
 
 class ReviewRegressions(unittest.TestCase):
+    def test_native_response_selects_only_consumed_headers(self):
+        class Response:
+            status = 200
+            def __init__(self, headers): self.headers = headers
+            def read(self, maximum): return b"{}"
+            def close(self): pass
+        headers = Message()
+        headers.add_header("X-OAuth-Client-Id", "synthetic-public-client")
+        headers.add_header("X-OAuth-Client-Id", "synthetic-public-client")
+        headers.add_header("ETag", "exact-etag")
+        headers.add_header("X-RateLimit-Remaining", "1")
+        with patch.object(oe.urllib.request, "build_opener") as opener:
+            opener.return_value.open.return_value = Response(headers)
+            result = oe._native_external_get("https://api.github.com/repos/fixture/project/pulls/1", {})
+        self.assertEqual(result["headers"], {"ETag": "exact-etag", "X-RateLimit-Remaining": "1"})
+        for name in ("etag", "x-ratelimit-remaining", "link"):
+            duplicate = Message()
+            duplicate.add_header(name, "first")
+            duplicate.add_header(name.upper(), "second")
+            with self.subTest(header=name), patch.object(oe.urllib.request, "build_opener") as opener:
+                opener.return_value.open.return_value = Response(duplicate)
+                with self.assertRaises(oe.OperationalEvidenceError):
+                    oe._native_external_get("https://api.github.com/repos/fixture/project/pulls/1", {})
+
     @unittest.skipUnless(os.name == "nt", "Windows Git long-path behavior")
     def test_git_long_path_deletion_is_not_clean(self):
         with tempfile.TemporaryDirectory(prefix="oe-long-git-") as directory:
