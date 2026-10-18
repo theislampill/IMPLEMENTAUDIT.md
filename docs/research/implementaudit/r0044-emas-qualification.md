@@ -1,3 +1,95 @@
+# Published, canonically unallocated R0044: complete EMAS disposition and continuation
+
+## Current scope and accepting authority
+
+The [issue #231](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/231) candidate now joins all **76 original EMAS members** to their exact later prepared target records and a separate current documentary disposition. It retains the original public reconstruction unchanged, including the older public target antecedent. The [member projection](r0044-member-dispositions.json) is the continuing full-record entry. The source utility decodes the records and retrieves their complete original, intake, domain, source-access, group, direction, pair, bridge and target context.
+
+Runtime remains **NO_CHANGE**, version **0.4.0**, release family **v0.4.0.0**. The additional shared changes register the issue's test, expose this continuing portal route and preserve a failing source-pack smoke diagnostic while retaining its nonzero exit, first-failure short circuit, success behavior and cleanup. No runtime engine, dependency, installer, workflow, archive cap, governor limit or canonical identity allocation is changed.
+
+The selected accepting scope is documentary: an actual fair comparison with two complete outcomes, actual receiving of the final target/continuation records, and full disposition of all 76 members. The entitled human decision and subsequent evidence certificate on issue #231 determine acceptance. Neither this file, a model report nor the projection digest grants approval. Any accepted scope must expressly preserve the native and operational residuals below. The separate [AMA-CONTINUATION host](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/232#issuecomment-5638961873) receives one scoped constituent input after certification; this does not complete its EAOSE 132-member or AMA 278-original/32-group undertaking.
+
+## Four distinct layers
+
+| Layer | Binding and access | Meaning |
+| --- | --- | --- |
+| Original source | `source_projection/source_files`; immutable corpus `cacfe97da7656b472bf4f11e50c9d106a6c3f92a` | Original judgments and complete original/AMA/intake content, with source limits |
+| Older public target | `source_projection/rows/*/historical_target_candidate`; `0e175fe64cbd4846fbf8e06c8b2ede12295c514c` | Separate unmerged historical candidate; never substituted for later preparation |
+| Later prepared target | `target_continuation/rows`; exact crosswalk digest `462803bc046c469dd9bd101c3c0cfc657fa3e80a79f70179128df90efe7c3d82`, `PREPARATION.json#/rows/1` digest `eae4e4c28b170bfb513661485cab1551ed970062abd83af9e93926a617a4232b`, final binding digest `c0c984488f7f8654688882f25acd0ded955cd371a6787c1c2cb39cd98f2e3570` | Verified prepared correspondence; host row 3 is a different subject |
+| Current qualified disposition | Each target row's `current`, plus `current_source_owners` and `current_scope` | Bounded documentary continuation and conditional operational residuals; no 76-runtime-pass claim |
+
+The `source_projection` object is the exact original published v1 JSON object, including its historical null target fields and then-pending observations. Those fields describe that earlier layer. The separate `target_continuation` supplies the newly available target mapping; it does not rewrite earlier evidence. Canonical JSON strings with `unallocated` field names retain complete semantic records under the repository's same-line identity rule; `member` decodes them.
+
+Prepared target states are **27 PARTIALLY_ABSORBED, 36 CONDITIONAL, 9 REJECTED_WITH_REASON, 1 RESEARCH_ONLY and 3 NON_TRIGGERED**. These assignments come from each exact row and its full property record, not from distributing a count. The original nine source-status counts remain separately **28/16/7/8/10/1/2/3/1** in their original vocabulary. The 56 source-register keys are packet-local bibliography records, not independent studies.
+
+All nine prepared rejections remain: **EMAS-005, 006, 014, 022, 029, 042, 049, 056 and 064**. **EMAS-013** is RESEARCH_ONLY: a current FIPA claim needs the exact issuing-body profile, implementation build and relevant conformance evidence. No new standards claim or research replay is selected. **EMAS-044, 053 and 075** remain NON_TRIGGERED without their distinct optimization, representation or fault-model prerequisites. For EMAS-075, preserve **2k+1 replicas, at most k faulty, correct function knowledge, synchrony and the underlying algorithm's approximation limits**. Replication does not create rights or exact global optimality.
+
+Prepared primary and secondary routing is kept per concern and per source layer. Each member retains its corrected carrier `concern_routes`, `primary_decisions` and decision scope, resolving through the bounded corrected-carrier decisions; these are separate from selected operative packet roles. An unenumerated packet role stays explicitly unknown. Discovery-only secondary membership is not behavioral coverage. In particular, **EMAS-053** is primary for corrected carrier T8C-LEARNING and secondary discovery-only in the distinct JOINT packet. Its explicit secondary limit survives: a three-way feasibility witness does not prove monotonic MARL factorisation or optimal policy learning. Every other member retains its own guard, source authority, supported portion, residual, first missing discriminator, next action and horizon with equal coverage.
+
+## Current owners, actions and custody
+
+The selected source base is `b802705830d1ec86a20dce0001f5dc6a5470b68a`. The projection binds the actual current owner file hashes separately from historical prepared line references. The governor, planning-depth, child-agents, issue-ready-work-orders, continuity, plan-lifecycle and audit-category owners are source-only evidence. **`operational-evidence.md` and `composed-evidence.md` are absent from this main base.** Their prepared references remain historical; their engines are not silently imported from draft PRs. Source existence does not prove native activation or semantic realization.
+
+The bounded issue has no demonstrated generic runtime defect requiring an additional normative amendment. The existing R0022 decision-value contract, issue #209's dependency/JOIN semantics and issue #214's performed-versus-accepted semantics govern claim boundaries. Whole closure of those two issues is not a universal prerequisite for this documentary disposition. A selected stronger native claim would require its exact missing source, host, actor/rights, event and accepting-consumer evidence; the current documentary result cannot supply it.
+
+Operational residuals remain conditional. A prepared instruction such as “add” or “qualify” is retained as historical proposed work, not automatically asserted as a current defect or promised implementation. Current next actions use the member's own original evidence and rights. Rejected claims stay rejected; dormant domain mechanisms stay dormant; research-only questions reopen only for the exact selected claim. No general programme steward or future implementation date is appointed.
+
+Continuing custody is the repository's qualification/member route and the issue #231 certificate, with one additive constituent input at issue #232. The full original corpus remains accessible through immutable public Git objects. Private transport, operational records and absolute local locators remain outside Git; public aliases/digests identify their custody rather than pretending to be download routes. The complete selected actionable target meaning is in this projection. All old carriers remain retained. Retirement requires a later entitled decision and actual complete accepting transfer; a closed issue or archive hash alone is insufficient.
+
+## Relations and shared obligations
+
+Retain **11,960 incident directions, 11,906 explicit reverse IDs, 54 null reverses, 15,352 touching pairs, 9,694 explicit no-material pairs and 75 hand-adjudicated source bridges**. The new target layer maps all 11,960 directions, all 32 applicable group records, 101 applicable context dispositions and 48 prepared semantic bridge dispositions. The **48 prepared bridges and 75 original touching bridges are different populations**. Missing prepared bridge coverage is not a no-material judgment; each source record and target direction remains accessible.
+
+Independent reverse types and guards survive. Of the 54 null explicit reverses, 53 have separately recorded reversed endpoints; only `AMA-R02009` lacks one at the frozen source scope. `AMA-R00111` and `AMA-R00110` have different types and permitted inferences. A missing hand bridge differs from an explicit scoped negative. Every member keeps its own groups, siblings and justified asymmetry. No research relation becomes an execution edge.
+
+The later sealed crosswalk's `reverse_endpoint_candidate_ids` arrays are empty for all 11,960 indexed directions; 11,959 disagree with the actual opposite-endpoint records. Only `AMA-R02009` has no such record. This historical index limitation is retained without altering sealed bytes. The current reader resolves the complete original directions and their independent types/guards; it does not use those empty candidate arrays as evidence of absence.
+
+TC10 retains exactly **ESPLE-023, EBPM-022, EPM-043, EPM-064, EMAS-072 and EAOSE-C124** in both the older and later prepared layers. EMAS-001 is the comparison premise, not a substitute parent. TC10's case-mix illustration is analytical, not measured benefit in this experiment. Its shared obligation is consumed once for the selected comparison population/version/observation boundary.
+
+The accepted [EAA constituent receipt](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/232#issuecomment-6204277607) remains scoped to its unchanged 70-member input; it populates no EMAS target decision and completes no EAOSE member. AMA remains **132 + 76 + 70 = 278 originals / 32 groups**. Historical LAW/CSS/SSD/DRF retain 658 properties; SSS/BWP/AMA add 747; the complete denominator remains **seven trifectas / 21 lineages / 1,405 originals**. No relation, membership, synthesis or execution adds an original.
+
+## Comparison applicability and actual acceptance
+
+The original [protocol](r0044-comparison-protocol.md) and [results](r0044-comparison-results.json) remain frozen at comparison source `ff66f450014e2581e87f37a4782aa0bb65f3c99a`, tree `80dcbc6b42febfd19651e31b1d0b0caf2da6c5b6`. Direct and split each delivered **M1–M3/R1–R3**. The real parent read both alternatives; split required actual assembly of both partial contributions. The reports found useful defects, including the separately repaired host-receipt route. The same complete information, tools and rights—including scripts and parallel tool calls—were available to the adequate direct alternative.
+
+Dispatch-to-complete-receipt was **1,377.994772 seconds direct** and **1,385.593441 seconds split**. Tokens, money and active compute remain unmeasured. **Total cost is INCONCLUSIVE.** Receiving, evaluator rework, coordination, integration, review, recovery and delivery are not zero; later continuation work is separately scoped and not added to the old measured intervals. Fixed order, caches, shared source/model/host and author-side receiving prevent causal or general multi-agent superiority claims.
+
+The proposed owner decision accepts the two complete documentary contributions fairly at that historical scope and the separately observed final-target receiving at its final subject. It preserves the adequate direct/manual/conventional path. Neither a worker start, report, local pass, semantic receipt nor model identity authenticates native JOIN or entitled approval. No mandatory comparator or receiver is removed. The final certificate must bind the actual final receiver report, independent review, human scope decision and exact source/validation identities.
+
+Final-target receiving uses one fresh context, a neutral mission and a separately frozen oracle. Initial source/target action discrimination precedes exposure to author current conclusions; subsequent readback must use this actual continuing route and preserve all 76 members. Prior source exposure, shared model/source dependence and any opaque delivered-message visibility limit must be reported. No encrypted-message equality is presented as complete delivered plaintext or borrowed from another issue's waiver.
+
+## Reproduce and distinguish checks
+
+The standard-library utility remains repository-only, outside both runtime package payloads. With the immutable public objects available, use the original `recover` command and then:
+
+```bash
+python scripts/r0044-reconstruct.py check --custody-root /tmp/emas-custody
+python scripts/r0044-reconstruct.py member --custody-root /tmp/emas-custody \
+  --id EMAS-013 --output /tmp/emas-member-013.json
+bash tests/r0044-reconstruction.test.sh --custody-root /tmp/emas-custody
+```
+
+`check` without public custody remains **INDEX_STRUCTURE_ONLY**. With custody it rederives the unchanged public source projection. The v2 continuation is separately bound to its qualified projection digest. A custodian with the exact sealed files can supply `--input-map PRIVATE_MAP.json` to rederive the target layer; aliases and fixed pins are declared in the utility. A successful public-only check does not claim private custody access. `compose --custody-root DIR --input-map FILE --output FILE` derives the new layered candidate; `build` continues to derive the historical public v1 layer. `--repo-root DIR` explicitly selects a complete Git repository containing the pinned source base for composition or sealed checking. Git acquisition/object errors reject composition; only a successful tree lookup establishes an absent owner. Row 3, mixed/stale inputs and changed member/guard/authority/action/receiver/host-route/TC10 fields fail their respective controls.
+
+The final issue certificate and PR validation record carry actual test counts, exact source head/base/tested checkout, canonical run/job/attempt, packages/inventories and complete disposable/public readbacks. A local subset is not a canonical suite pass; synthetic PR checkout and actual merge are separate identities. Both archive caps remain **327,680 bytes**, with at least **2,000 bytes** headroom. Governor limits remain **450 lines / 22,000 bytes**, with the unchanged source at **372 lines / 19,346 bytes / 2,654-byte reserve**. Normal packages cannot discharge private B-P4B.
+
+## Retained failures and noncredits
+
+The original local canonical wrappers failed at scarce-resource F6 and the outer process-tree heldout; later successful individual owners do not reconstruct a wrapper pass. Original hosted run **39026339572**, attempt **1**, job **117377954052**, failed in the source-pack route without the inner cause. The later exact-P 719-byte inner log establishes missing registration only for that new occurrence. It does not reconstruct the old 150-byte partial log or old CI stop.
+
+The separately reviewed cleanup patch preserves the tested original failures and diagnostics. Its four before/after controls, cleanup-only failure and cleanup-plus-registry scoped success remain at their original identities. Ambient `BASH_ENV` absence was not established there; early unbound PID snapshots remain excluded.
+
+Q-P1L observed an orphaned zombie at the strict PID-absence boundary. Q-P2L passed its distinct process assertion but had a return-0/present-root anomaly. Historical failed PIDs remain unobserved. Q-F1/Q-F2 later fixture reappearances and differing byte/inode histories remain real; their writers remain unknown. PF-1/PF-2 remain unresolved at those scopes. No process predicate, timeout or cleanup was weakened, no unexplained residue was erased, and no Linux probe was replayed on Windows. Fresh final-head success would not erase these failures or prove their cause.
+
+The initial whole-object evaluator failure and justified required-field correction remain; so do profile-expansion, command/selector and receipt-route findings. Model review is evidence, not approval. No canonical campaign mutation, original DAG credit, currentness, qualified epoch, M reduction, global release or whole AMA acceptance follows from this issue.
+
+Rollback is confined to this issue's admitted source/projection/shared-owner delta, with coherent regeneration. Accepted history and failed witnesses remain. External publication, merge or deployment would require a separately authorized coherent revert/compensation if later invalidated.
+
+---
+
+## Historical published-candidate record at the original head
+
+The following original text is retained verbatim from published head `0a52a5a738363f5232422591717a3f39c9b805fa`. Its unavailable-input and proposed-integration statements describe that earlier subject. The current sections above supersede those specific frontiers; original trial, source and failure claims keep their original identities.
+
 # Published R0044: EMAS comparison and reconstruction candidate (canonically unallocated)
 
 ## Decision and continuing entry

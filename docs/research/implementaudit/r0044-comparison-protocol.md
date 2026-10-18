@@ -179,3 +179,13 @@ reports, fields outside the assigned units are null or empty, with that scope
 explicit. Each still has access to all common inputs. Neither partial report
 claims completion of the combined task. The maintainer will receive and compare
 the complete alternatives using the frozen criteria.
+
+
+## Separate continuation applicability
+
+The historical protocol and neutral mission above remain unchanged. The later
+sealed target mapping and final-target receiver are a separate subject and do
+not rebind the three original participants, change their mission or add new
+trial measurements. Both complete alternatives remain usable; total comparison
+cost remains INCONCLUSIVE. The exact current documentary accepting scope and
+native residuals are in the qualification document and issue certificate.
