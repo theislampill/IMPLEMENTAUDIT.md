@@ -186,7 +186,13 @@ for identity in request.pop("paths"):
 request.update(input_root_identity=hashlib.sha256(os.fsencode(str(root))).hexdigest(),read_set=read_set,manifest=manifest)
 pathlib.Path(sys.argv[3]).write_text(json.dumps(request,sort_keys=True,separators=(",",":")))
 '''
-    result = subprocess.run([sys.executable, "-B", "-c", program, str(input_root), raw(request).decode(), str(output)], capture_output=True)
+    command = [sys.executable, "-B", "-c", program, str(input_root), raw(request).decode(), str(output)]
+    result = subprocess.run(command, capture_output=True)
+    output.with_suffix(".command.json").write_bytes(raw(dict(command=command, cwd=os.getcwd(),
+                                                          scope="CONSTRUCTED_MANIFEST_SUBPROCESS")))
+    output.with_suffix(".stdout").write_bytes(result.stdout)
+    output.with_suffix(".stderr").write_bytes(result.stderr)
+    output.with_suffix(".exit").write_text(str(result.returncode) + "\n")
     assert result.returncode == 0, result.stderr
     return result.returncode
 
@@ -233,6 +239,64 @@ def consume_manifest(input_root, g, transition, name, output, exit_code):
     return execution, consumption
 
 
+def reminder_controls(root, state, nodes, original, report, evidence):
+    """Use the receipt of the actual PREP/SIB work and its real consumer."""
+    history = [report["event_receipt"]]
+    reminder_state = copy.deepcopy(state)
+    reminder_state["event"].update(id="reminder-new-id", kind="REMINDER")
+    reminder = graph(root, reminder_state, nodes)
+    assert wg.diff_native_graphs_v1(original, reminder)["invalidated"] == []
+    transition = wg.compile_recursive_transition_v1(reminder, history)
+    evidence.mkdir()
+    for name, value in (("original", original), ("consumed", report), ("reminder", reminder),
+                        ("transition", transition)):
+        (evidence / (name + ".json")).write_bytes(raw(value))
+    assert transition["selected"] == [] and transition["mode"] == "NO_REDISPATCH", transition
+    no_op = wg.check_recursive_execution_v1(reminder, history, transition, [], [])
+    assert no_op["status"] == "NO_REDISPATCH_AT_SUPPLIED_HISTORY"
+    assert no_op["event_receipt"] is None  # No new result or accepted-history token.
+    assert report["event_receipt"]["source_graph"] == original
+    (evidence / "no-op-consumption.json").write_bytes(raw(no_op))
+
+    legacy = {k: v for k, v in history[0].items() if k != "source_graph"}
+    assert wg.compile_recursive_transition_v1(original, [legacy])["selected"] == []
+    reject(lambda: wg.compile_recursive_transition_v1(reminder, [legacy]), "unbound")
+    reject(lambda: wg.compile_recursive_transition_v1(reminder, history * 2), "duplicate event")
+    for key, value in (("graph_digest", "0" * 64), ("dispatch_id", "0" * 64),
+                       ("event_id", "another-event"), ("consumed", ["PREP"])):
+        wrong = copy.deepcopy(history[0])
+        wrong[key] = value
+        reject(lambda: wg.compile_recursive_transition_v1(reminder, [wrong]), "event")
+    forged = copy.deepcopy(history[0])
+    forged["source_graph"]["nodes"][0]["input_digest"] = "0" * 64
+    forged["source_graph"].pop("digest")
+    forged["source_graph"] = wg._seal_graph(forged["source_graph"])
+    reject(lambda: wg.compile_recursive_transition_v1(reminder, [forged]), "source-derived")
+    missing = copy.deepcopy(history[0])
+    missing["source_graph"] = None
+    reject(lambda: wg.compile_recursive_transition_v1(reminder, [missing]), "object")
+
+    # A history entry cannot suppress a changed input, context or currentness.
+    path = root / "inputs/a.txt"
+    initial_bytes = path.read_bytes()
+    path.write_bytes(initial_bytes + b"material change\n")
+    changed = wg.read_native_run_v1(root)
+    assert "PREP" in wg.diff_native_graphs_v1(original, changed)["invalidated"]
+    assert wg.compile_recursive_transition_v1(changed, history)["selected"] == ["PREP", "SIB"]
+    path.write_bytes(initial_bytes)
+    altered_context = copy.deepcopy(reminder_state)
+    altered_context["context"]["host_capacity"] += 1
+    changed = graph(root, altered_context, nodes)
+    assert wg.compile_recursive_transition_v1(changed, history)["selected"] == ["PREP", "SIB"]
+    # Another material event type is not automatically an unchanged reminder.
+    altered_context = copy.deepcopy(reminder_state)
+    altered_context["event"].update(id="return-new-id", kind="RETURN")
+    changed = graph(root, altered_context, nodes)
+    assert wg.compile_recursive_transition_v1(changed, history)["selected"] == ["PREP", "SIB"]
+    assert graph(root, state, nodes) == original
+    print("native-work-graph: new-id unchanged reminder preserves consumed work; changed inputs/context reconsider")
+
+
 def main():
     # Historical preimage is valid v1 projection, not native enumeration. This
     # assertion preserves its deliberate limit instead of changing the oracle.
@@ -240,6 +304,9 @@ def main():
                cells=[dict(id="C1", state="READY", deps=[])], serialization_groups={})
     assert wg.compile_frontier_projection(raw(old))["population"] == 1
     with tempfile.TemporaryDirectory(prefix="r0035-native-") as td:
+        if len(sys.argv) > 1:
+            td = str(Path(sys.argv[1]).resolve())
+            Path(td).mkdir(parents=True, exist_ok=False)
         completed_input_controls(Path(td) / "completed-inputs")
         root = Path(td) / "run"
         state, nodes = fixture()
@@ -573,6 +640,7 @@ def main():
         replay = wg.compile_recursive_transition_v1(g, [report["event_receipt"]])
         assert replay["selected"] == [] and replay["mode"] == "NO_REDISPATCH"
         assert wg.check_recursive_execution_v1(g, [report["event_receipt"]], replay, [], [])["status"] == "NO_REDISPATCH_AT_SUPPLIED_HISTORY"
+        reminder_controls(root, state, nodes, g, report, Path(td) / "reminder-controls")
         changed = copy.deepcopy(report["event_receipt"])
         changed["graph_digest"] = "0" * 64
         reject(lambda: wg.compile_recursive_transition_v1(g, [changed]), "event")

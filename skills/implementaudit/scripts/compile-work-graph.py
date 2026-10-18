@@ -1468,155 +1468,136 @@ def compile_native_a_g_v1(request_bytes: bytes) -> dict[str, JSONValue]:
 # caller-fact boundary. The explicit native source and transition interfaces
 # below do not silently upgrade those interfaces into native authentication.
 
-NATIVE_FENCE = re.compile(
-    r"(?m)^```implementaudit-work-graph\r?\n(.*?)\r?\n```[ \t]*$", re.S
-)
-NATIVE_NODE_FIELDS = {
-    "id", "parent", "kind", "state", "requires", "optional", "reads", "writes",
-    "acceptance", "resources", "authority", "effect", "authorization",
-    "independence", "resource_demand", "rank", "route_scopes", "logical_delivery",
-    "future_consumer", "invalidators", "independent_results", "context", "done_evidence",
-}
-
+NATIVE_FENCE = re.compile('(?m)^```implementaudit-work-graph\\r?\\n(.*?)\\r?\\n```[ \\t]*$', re.S)
+NATIVE_NODE_FIELDS = {'id', 'parent', 'kind', 'state', 'requires', 'optional', 'reads', 'writes', 'acceptance', 'resources', 'authority', 'effect', 'authorization', 'independence', 'resource_demand', 'rank', 'route_scopes', 'logical_delivery', 'future_consumer', 'invalidators', 'independent_results', 'context', 'done_evidence'}
 
 def _graph_hash(value):
     return hashlib.sha256(canonical_json_v1(value)).hexdigest()
 
-
 def _seal_graph(value):
     result = copy.deepcopy(value)
-    result["digest"] = _graph_hash(result)
+    result['digest'] = _graph_hash(result)
     return result
-
 
 def _check_graph_seal(value, schema):
     _require_object(value, schema)
     validate_identity_json_v1(value)
-    if value.get("schema") != schema:
-        raise WorkGraphError(f"unknown schema: expected {schema}")
-    digest = value.get("digest")
-    body = {key: item for key, item in value.items() if key != "digest"}
+    if value.get('schema') != schema:
+        raise WorkGraphError(f'unknown schema: expected {schema}')
+    digest = value.get('digest')
+    body = {key: item for key, item in value.items() if key != 'digest'}
     if not isinstance(digest, str) or digest != _graph_hash(body):
-        raise WorkGraphError(f"{schema}: digest mismatch")
-    if schema == "implementaudit.native-work-graph.v1":
-        documents = _require_object(value.get("source_documents"), "native graph source documents")
+        raise WorkGraphError(f'{schema}: digest mismatch')
+    if schema == 'implementaudit.native-work-graph.v1':
+        documents = _require_object(value.get('source_documents'), 'native graph source documents')
         snapshot = {}
         for path, data in documents.items():
-            if path not in {"STATE.md", "ROADMAP.md"} and not re.fullmatch(r"(?:plans|phases|tasks)/(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.md", path):
-                raise WorkGraphError("native graph: unsupported source document path")
-            if any(part in {".", ".."} for part in path.split("/")) or type(data) is not str:
-                raise WorkGraphError("native graph: invalid source document")
-            snapshot[path] = data.encode("utf-8")
-        if not {"STATE.md", "ROADMAP.md"}.issubset(snapshot):
-            raise WorkGraphError("native graph: missing source documents")
-        binding = _require_object(value.get("binding"), "native graph binding")
-        _require_exact_members(binding, {"acquisition", "controller", "claim", "receipt", "epoch", "candidate_head", "candidate_tree", "worktree_digest", "continuity_helper_digest", "source_digest", "read_set", "input_root_identity"}, "native graph binding")
-        if _compile_native_documents_v1(snapshot, {k: v for k, v in binding.items() if k != "source_digest"}) != value:
-            raise WorkGraphError("native graph differs from source-derived projection")
-
+            if path not in {'STATE.md', 'ROADMAP.md'} and (not re.fullmatch('(?:plans|phases|tasks)/(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\\.md', path)):
+                raise WorkGraphError('native graph: unsupported source document path')
+            if any((part in {'.', '..'} for part in path.split('/'))) or type(data) is not str:
+                raise WorkGraphError('native graph: invalid source document')
+            snapshot[path] = data.encode('utf-8')
+        if not {'STATE.md', 'ROADMAP.md'}.issubset(snapshot):
+            raise WorkGraphError('native graph: missing source documents')
+        binding = _require_object(value.get('binding'), 'native graph binding')
+        _require_exact_members(binding, {'acquisition', 'controller', 'claim', 'receipt', 'epoch', 'candidate_head', 'candidate_tree', 'worktree_digest', 'continuity_helper_digest', 'source_digest', 'read_set', 'input_root_identity'}, 'native graph binding')
+        if _compile_native_documents_v1(snapshot, {k: v for k, v in binding.items() if k != 'source_digest'}) != value:
+            raise WorkGraphError('native graph differs from source-derived projection')
 
 def _native_strings(value, label):
     result = _require_string_array(value, label)
     if len(result) != len(set(result)):
-        raise WorkGraphError(f"{label}: duplicate member")
-    if any(not item.strip() or any(ord(c) < 32 for c in item) for item in result):
-        raise WorkGraphError(f"{label}: non-empty printable strings required")
+        raise WorkGraphError(f'{label}: duplicate member')
+    if any((not item.strip() or any((ord(c) < 32 for c in item)) for item in result)):
+        raise WorkGraphError(f'{label}: non-empty printable strings required')
     return result
-
 
 def _native_name(value, label):
     value = _require_string(value, label)
-    if not value.strip() or any(ord(c) < 32 for c in value):
-        raise WorkGraphError(f"{label}: non-empty printable string required")
+    if not value.strip() or any((ord(c) < 32 for c in value)):
+        raise WorkGraphError(f'{label}: non-empty printable string required')
     return value
-
 
 def _native_int(value, label, minimum=0):
     if type(value) is not int or not minimum <= value <= INT64_MAX:
-        raise WorkGraphError(f"{label}: bounded integer >= {minimum} required")
+        raise WorkGraphError(f'{label}: bounded integer >= {minimum} required')
     return value
-
 
 def _native_enum(value, choices, label):
     if type(value) is not str or value not in choices:
-        raise WorkGraphError(f"{label}: unknown token")
+        raise WorkGraphError(f'{label}: unknown token')
     return value
-
 
 def _native_document(data, path, schema):
     try:
-        text = data.decode("utf-8", "strict")
+        text = data.decode('utf-8', 'strict')
     except UnicodeDecodeError as exc:
-        raise WorkGraphError(f"{path}: invalid UTF-8") from exc
+        raise WorkGraphError(f'{path}: invalid UTF-8') from exc
     matches = NATIVE_FENCE.findall(text)
-    if len(matches) != 1 or text.count("```implementaudit-work-graph") != 1:
-        raise WorkGraphError(f"{path}: exactly one native metadata block required")
+    if len(matches) != 1 or text.count('```implementaudit-work-graph') != 1:
+        raise WorkGraphError(f'{path}: exactly one native metadata block required')
     obj = _require_object(decode_strict_json_bytes(matches[0].encode(), path), path)
-    if obj.get("schema") != schema:
-        raise WorkGraphError(f"{path}: unknown native metadata schema")
+    if obj.get('schema') != schema:
+        raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
-
 
 def _native_source_snapshot(run_root):
     root = pathlib.Path(run_root)
     if root.is_symlink() or not root.is_dir():
-        raise WorkGraphError("native source root is missing or a symlink")
-    files = [root / "STATE.md", root / "ROADMAP.md"]
-    for name in ("plans", "phases", "tasks"):
+        raise WorkGraphError('native source root is missing or a symlink')
+    files = [root / 'STATE.md', root / 'ROADMAP.md']
+    for name in ('plans', 'phases', 'tasks'):
         directory = root / name
         if directory.is_symlink():
-            raise WorkGraphError("native source directory is a symlink")
+            raise WorkGraphError('native source directory is a symlink')
         if not directory.exists():
             continue
         for base, dirs, names in os.walk(directory, followlinks=False):
             for item in dirs + names:
                 if (pathlib.Path(base) / item).is_symlink():
-                    raise WorkGraphError("native source contains a symlink")
-            files.extend(pathlib.Path(base) / n for n in names if n.endswith(".md"))
+                    raise WorkGraphError('native source contains a symlink')
+            files.extend((pathlib.Path(base) / n for n in names if n.endswith('.md')))
     result = {}
     for path in sorted(files):
         if path.is_symlink() or not path.is_file():
-            raise WorkGraphError(f"native source missing or symlink: {path.name}")
+            raise WorkGraphError(f'native source missing or symlink: {path.name}')
         try:
             result[path.relative_to(root).as_posix()] = path.read_bytes()
         except OSError as exc:
-            raise WorkGraphError(f"native source unreadable: {path.name}") from exc
+            raise WorkGraphError(f'native source unreadable: {path.name}') from exc
     return result
-
 
 def _native_continuity(repo_root, run_root):
     """Read the existing sibling currentness owner; never create a controller."""
     repo = pathlib.Path(repo_root).resolve()
-    helper = pathlib.Path(__file__).resolve().with_name("claim-run.sh")
+    helper = pathlib.Path(__file__).resolve().with_name('claim-run.sh')
     if not helper.is_file() or helper.is_symlink():
-        raise WorkGraphError("native continuity helper unavailable")
+        raise WorkGraphError('native continuity helper unavailable')
+
     def call(args):
         try:
             result = subprocess.run(args, cwd=repo, capture_output=True, timeout=30)
         except (OSError, subprocess.TimeoutExpired) as exc:
-            raise WorkGraphError("native continuity read unavailable") from exc
+            raise WorkGraphError('native continuity read unavailable') from exc
         if result.returncode:
-            # Do not expose native diagnostics or administrative paths.
-            raise WorkGraphError("native continuity gate refused or unavailable")
-        return result.stdout.decode("utf-8", "strict").strip()
-    current = call(["bash", str(helper), "--current-controller"]).split("\t")
+            raise WorkGraphError('native continuity gate refused or unavailable')
+        return result.stdout.decode('utf-8', 'strict').strip()
+    current = call(['bash', str(helper), '--current-controller']).split('\t')
     if len(current) != 4 or pathlib.Path(current[1]).resolve() != repo or pathlib.Path(current[2]).resolve() != pathlib.Path(run_root).resolve():
-        raise WorkGraphError("native continuity root mismatch")
-    receipt = call(["bash", str(helper), "--require-current-continuity", current[0]])
+        raise WorkGraphError('native continuity root mismatch')
+    receipt = call(['bash', str(helper), '--require-current-continuity', current[0]])
     if not RECEIPT_RE.fullmatch(receipt):
-        raise WorkGraphError("native continuity receipt format mismatch")
-    verified = call(["bash", str(helper), "--verify-resume-receipt", receipt])
+        raise WorkGraphError('native continuity receipt format mismatch')
+    verified = call(['bash', str(helper), '--verify-resume-receipt', receipt])
     if verified != receipt:
-        raise WorkGraphError("native continuity receipt readback mismatch")
-    head = call(["git", "rev-parse", "HEAD"])
-    tree = call(["git", "rev-parse", "HEAD^{tree}"])
-    # Include tracked dirty bytes and untracked source identities. The run
-    # documents themselves are separately acquired and fenced below.
-    diff = subprocess.run(["git", "diff", "--binary", "HEAD"], cwd=repo, capture_output=True, check=True).stdout
-    status = subprocess.run(["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"], cwd=repo, capture_output=True, check=True).stdout
-    untracked = subprocess.run(["git", "ls-files", "--others", "--exclude-standard", "-z"], cwd=repo, capture_output=True, check=True).stdout
+        raise WorkGraphError('native continuity receipt readback mismatch')
+    head = call(['git', 'rev-parse', 'HEAD'])
+    tree = call(['git', 'rev-parse', 'HEAD^{tree}'])
+    diff = subprocess.run(['git', 'diff', '--binary', 'HEAD'], cwd=repo, capture_output=True, check=True).stdout
+    status = subprocess.run(['git', 'status', '--porcelain=v1', '-z', '--untracked-files=all'], cwd=repo, capture_output=True, check=True).stdout
+    untracked = subprocess.run(['git', 'ls-files', '--others', '--exclude-standard', '-z'], cwd=repo, capture_output=True, check=True).stdout
     other = []
-    for raw_path in untracked.split(b"\0"):
+    for raw_path in untracked.split(b'\x00'):
         if not raw_path:
             continue
         path = repo / os.fsdecode(raw_path)
@@ -1625,123 +1606,111 @@ def _native_continuity(repo_root, run_root):
         elif path.is_file():
             data = path.read_bytes()
         else:
-            raise WorkGraphError("native worktree changed during identity read")
+            raise WorkGraphError('native worktree changed during identity read')
         other.append([os.fsdecode(raw_path), hashlib.sha256(data).hexdigest()])
-    return dict(acquisition="NATIVE_CONTINUITY_VERIFIED", controller=current[0],
-                claim=current[3], receipt=receipt, epoch=receipt.split("/")[-1].split("@")[0],
-                candidate_head=head, candidate_tree=tree,
-                worktree_digest=_graph_hash([hashlib.sha256(diff).hexdigest(), hashlib.sha256(status).hexdigest(), other]),
-                continuity_helper_digest=hashlib.sha256(helper.read_bytes()).hexdigest())
-
+    return dict(acquisition='NATIVE_CONTINUITY_VERIFIED', controller=current[0], claim=current[3], receipt=receipt, epoch=receipt.split('/')[-1].split('@')[0], candidate_head=head, candidate_tree=tree, worktree_digest=_graph_hash([hashlib.sha256(diff).hexdigest(), hashlib.sha256(status).hexdigest(), other]), continuity_helper_digest=hashlib.sha256(helper.read_bytes()).hexdigest())
 
 def _native_semantics(value, label):
     values = _native_strings(value, label)
     for item in values:
-        if not re.fullmatch(r"(?:path|semantic|scope):[^\s]+", item):
-            raise WorkGraphError(f"{label}: typed path/semantic/scope identity required")
-        if item.startswith("path:"):
+        if not re.fullmatch('(?:path|semantic|scope):[^\\s]+', item):
+            raise WorkGraphError(f'{label}: typed path/semantic/scope identity required')
+        if item.startswith('path:'):
             path = item[5:]
-            if "\\" in path or path.startswith("/") or ":" in path or any(p in {"", ".", ".."} for p in path.split("/")):
-                raise WorkGraphError(f"{label}: canonical relative POSIX path required")
+            if '\\' in path or path.startswith('/') or ':' in path or any((p in {'', '.', '..'} for p in path.split('/'))):
+                raise WorkGraphError(f'{label}: canonical relative POSIX path required')
     return values
-
 
 def _native_validate_node(node, path):
     _require_object(node, path)
     _require_exact_members(node, NATIVE_NODE_FIELDS, path)
-    _native_name(node["id"], path + ".id")
-    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:/-]*", node["id"]):
-        raise WorkGraphError(f"{path}: invalid stable node identity")
-    if node["parent"] is not None:
-        _native_name(node["parent"], path + ".parent")
-    _native_enum(node["kind"], {"PLAN", "PHASE", "TASK", "JOIN"}, path + ".kind")
-    _native_enum(node["state"], {"OPEN", "ACTIVE", "DONE"}, path + ".state")
-    for key in ("requires", "optional", "route_scopes", "invalidators"):
-        _native_strings(node[key], path + "." + key)
-    if set(node["requires"]) & set(node["optional"]):
-        raise WorkGraphError(f"{path}: required/optional overlap")
-    for key in ("reads", "writes", "acceptance", "resources", "authority"):
-        _native_semantics(node[key], path + "." + key)
-    _native_enum(node["effect"], {"READ_ONLY", "PREPARATION", "MUTATION", "EXTERNAL"}, path + ".effect")
-    _native_enum(node["authorization"], {"PERMITTED", "MISSING", "UNKNOWN"}, path + ".authorization")
-    _native_enum(node["independence"], {"KNOWN", "UNKNOWN"}, path + ".independence")
-    _native_int(node["resource_demand"], path + ".resource_demand")
-    _native_int(node["rank"], path + ".rank", INT64_MIN)
-    _require_bool(node["independent_results"], path + ".independent_results")
-    if node["logical_delivery"] is not None:
-        _native_name(node["logical_delivery"], path + ".logical_delivery")
-    if node["state"] == "DONE":
-        if type(node["done_evidence"]) is not str or not DIGEST_RE.fullmatch(node["done_evidence"]):
-            raise WorkGraphError(f"{path}: DONE requires source evidence digest")
-    elif node["done_evidence"] is not None:
-        raise WorkGraphError(f"{path}: non-DONE cannot carry DONE evidence")
-    future = node["future_consumer"]
+    _native_name(node['id'], path + '.id')
+    if not re.fullmatch('[A-Za-z0-9][A-Za-z0-9_.:/-]*', node['id']):
+        raise WorkGraphError(f'{path}: invalid stable node identity')
+    if node['parent'] is not None:
+        _native_name(node['parent'], path + '.parent')
+    _native_enum(node['kind'], {'PLAN', 'PHASE', 'TASK', 'JOIN'}, path + '.kind')
+    _native_enum(node['state'], {'OPEN', 'ACTIVE', 'DONE'}, path + '.state')
+    for key in ('requires', 'optional', 'route_scopes', 'invalidators'):
+        _native_strings(node[key], path + '.' + key)
+    if set(node['requires']) & set(node['optional']):
+        raise WorkGraphError(f'{path}: required/optional overlap')
+    for key in ('reads', 'writes', 'acceptance', 'resources', 'authority'):
+        _native_semantics(node[key], path + '.' + key)
+    _native_enum(node['effect'], {'READ_ONLY', 'PREPARATION', 'MUTATION', 'EXTERNAL'}, path + '.effect')
+    _native_enum(node['authorization'], {'PERMITTED', 'MISSING', 'UNKNOWN'}, path + '.authorization')
+    _native_enum(node['independence'], {'KNOWN', 'UNKNOWN'}, path + '.independence')
+    _native_int(node['resource_demand'], path + '.resource_demand')
+    _native_int(node['rank'], path + '.rank', INT64_MIN)
+    _require_bool(node['independent_results'], path + '.independent_results')
+    if node['logical_delivery'] is not None:
+        _native_name(node['logical_delivery'], path + '.logical_delivery')
+    if node['state'] == 'DONE':
+        if type(node['done_evidence']) is not str or not DIGEST_RE.fullmatch(node['done_evidence']):
+            raise WorkGraphError(f'{path}: DONE requires source evidence digest')
+    elif node['done_evidence'] is not None:
+        raise WorkGraphError(f'{path}: non-DONE cannot carry DONE evidence')
+    future = node['future_consumer']
     if future is not None:
-        _require_object(future, path + ".future_consumer")
-        _require_exact_members(future, {"node", "condition"}, path + ".future_consumer")
+        _require_object(future, path + '.future_consumer')
+        _require_exact_members(future, {'node', 'condition'}, path + '.future_consumer')
         for key in future:
-            _native_name(future[key], path + ".future_consumer." + key)
-    if node["effect"] == "PREPARATION" and future is None:
-        raise WorkGraphError(f"{path}: preparation requires bounded future consumer")
-    context = _require_object(node["context"], path + ".context")
-    _require_exact_members(context, {"locality", "governor_cost", "child_cost", "return_cost", "useful_value"}, path + ".context")
-    _native_enum(context["locality"], {"GOVERNOR", "CHILD", "EITHER"}, path + ".context.locality")
-    for key in ("governor_cost", "child_cost", "return_cost", "useful_value"):
-        _native_int(context[key], path + ".context." + key)
-
+            _native_name(future[key], path + '.future_consumer.' + key)
+    if node['effect'] == 'PREPARATION' and future is None:
+        raise WorkGraphError(f'{path}: preparation requires bounded future consumer')
+    context = _require_object(node['context'], path + '.context')
+    _require_exact_members(context, {'locality', 'governor_cost', 'child_cost', 'return_cost', 'useful_value'}, path + '.context')
+    _native_enum(context['locality'], {'GOVERNOR', 'CHILD', 'EITHER'}, path + '.context.locality')
+    for key in ('governor_cost', 'child_cost', 'return_cost', 'useful_value'):
+        _native_int(context[key], path + '.context.' + key)
 
 def _native_validate_context(context):
-    _require_object(context, "native context")
-    _require_exact_members(context, {"host_capacity", "operator_ceiling", "reserve", "route_facts", "outstanding_deliveries"}, "native context")
-    for key in ("host_capacity", "reserve"):
-        _native_int(context[key], "native context." + key)
-    if context["operator_ceiling"] is not None:
-        _native_int(context["operator_ceiling"], "native operator_ceiling")
+    _require_object(context, 'native context')
+    _require_exact_members(context, {'host_capacity', 'operator_ceiling', 'reserve', 'route_facts', 'outstanding_deliveries'}, 'native context')
+    for key in ('host_capacity', 'reserve'):
+        _native_int(context[key], 'native context.' + key)
+    if context['operator_ceiling'] is not None:
+        _native_int(context['operator_ceiling'], 'native operator_ceiling')
     scopes = set()
-    if type(context["route_facts"]) is not list:
-        raise WorkGraphError("route facts: array required")
-    for fact in context["route_facts"]:
-        _require_object(fact, "route fact")
-        _require_exact_members(fact, {"schema", "scope", "obligation", "generation", "binding", "continuity", "status", "satisfaction", "expected_satisfaction", "source_digest"}, "route fact")
-        if fact["schema"] != "implementaudit.work-graph-route-fact.v1":
-            raise WorkGraphError("route fact: unknown schema")
-        for key in ("scope", "generation", "binding", "continuity"):
-            _native_name(fact[key], "route fact." + key)
-        if fact["obligation"] is not None or fact["status"] != "NOT_REQUIRED":
-            _native_name(fact["obligation"], "route fact.obligation")
-        if fact["scope"] in scopes:
-            raise WorkGraphError("route fact: duplicate scope")
-        scopes.add(fact["scope"])
-        _native_enum(fact["status"], {"BLOCKED", "SATISFIED", "NOT_REQUIRED", "UNKNOWN"}, "route fact.status")
-        for key in ("satisfaction", "expected_satisfaction"):
+    if type(context['route_facts']) is not list:
+        raise WorkGraphError('route facts: array required')
+    for fact in context['route_facts']:
+        _require_object(fact, 'route fact')
+        _require_exact_members(fact, {'schema', 'scope', 'obligation', 'generation', 'binding', 'continuity', 'status', 'satisfaction', 'expected_satisfaction', 'source_digest'}, 'route fact')
+        if fact['schema'] != 'implementaudit.work-graph-route-fact.v1':
+            raise WorkGraphError('route fact: unknown schema')
+        for key in ('scope', 'generation', 'binding', 'continuity'):
+            _native_name(fact[key], 'route fact.' + key)
+        if fact['obligation'] is not None or fact['status'] != 'NOT_REQUIRED':
+            _native_name(fact['obligation'], 'route fact.obligation')
+        if fact['scope'] in scopes:
+            raise WorkGraphError('route fact: duplicate scope')
+        scopes.add(fact['scope'])
+        _native_enum(fact['status'], {'BLOCKED', 'SATISFIED', 'NOT_REQUIRED', 'UNKNOWN'}, 'route fact.status')
+        for key in ('satisfaction', 'expected_satisfaction'):
             if fact[key] is not None:
-                _native_name(fact[key], "route fact." + key)
-        if type(fact["source_digest"]) is not str or not DIGEST_RE.fullmatch(fact["source_digest"]):
-            raise WorkGraphError("route fact: source digest required")
-    if type(context["outstanding_deliveries"]) is not list:
-        raise WorkGraphError("outstanding deliveries: array required")
+                _native_name(fact[key], 'route fact.' + key)
+        if type(fact['source_digest']) is not str or not DIGEST_RE.fullmatch(fact['source_digest']):
+            raise WorkGraphError('route fact: source digest required')
+    if type(context['outstanding_deliveries']) is not list:
+        raise WorkGraphError('outstanding deliveries: array required')
     deliveries = set()
-    for delivery in context["outstanding_deliveries"]:
-        _require_object(delivery, "delivery hold")
-        _require_exact_members(delivery, {"id", "state", "source_digest"}, "delivery hold")
-        _native_name(delivery["id"], "delivery hold.id")
-        if delivery["id"] in deliveries:
-            raise WorkGraphError("duplicate logical delivery hold")
-        deliveries.add(delivery["id"])
-        _native_enum(delivery["state"], {"PENDING", "UNKNOWN", "COMMITTED"}, "delivery hold.state")
-        if type(delivery["source_digest"]) is not str or not DIGEST_RE.fullmatch(delivery["source_digest"]):
-            raise WorkGraphError("delivery hold: source digest required")
-
+    for delivery in context['outstanding_deliveries']:
+        _require_object(delivery, 'delivery hold')
+        _require_exact_members(delivery, {'id', 'state', 'source_digest'}, 'delivery hold')
+        _native_name(delivery['id'], 'delivery hold.id')
+        if delivery['id'] in deliveries:
+            raise WorkGraphError('duplicate logical delivery hold')
+        deliveries.add(delivery['id'])
+        _native_enum(delivery['state'], {'PENDING', 'UNKNOWN', 'COMMITTED'}, 'delivery hold.state')
+        if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
+            raise WorkGraphError('delivery hold: source digest required')
 
 def _native_route_block(fact, acquisition):
-    # A pure proposed-fact reducer, never an authenticated route producer.
-    if acquisition == "NATIVE_CONTINUITY_VERIFIED":
-        return "ROUTE_PRODUCER_UNAVAILABLE"
-    satisfied = fact is not None and (fact["status"] == "NOT_REQUIRED" or (
-        fact["status"] == "SATISFIED" and fact["satisfaction"] is not None and
-        fact["satisfaction"] == fact["expected_satisfaction"]))
-    return None if satisfied else "ROUTE_UNSATISFIED"
-
+    if acquisition == 'NATIVE_CONTINUITY_VERIFIED':
+        return 'ROUTE_PRODUCER_UNAVAILABLE'
+    satisfied = fact is not None and (fact['status'] == 'NOT_REQUIRED' or (fact['status'] == 'SATISFIED' and fact['satisfaction'] is not None and (fact['satisfaction'] == fact['expected_satisfaction'])))
+    return None if satisfied else 'ROUTE_UNSATISFIED'
 
 def _native_validate_binding(binding, nodes):
     """Validate a complete captured binding, without authenticating its caller.
@@ -1749,112 +1718,111 @@ def _native_validate_binding(binding, nodes):
     Only read_native_run_v1's live continuity gate can acquire native identity.
     A resealable serialized record cannot replace that gate.
     """
-    _require_object(binding, "native binding")
-    identity = {"controller", "claim", "receipt", "epoch", "candidate_head", "candidate_tree",
-                "worktree_digest", "continuity_helper_digest"}
-    _require_exact_members(binding, identity | {"acquisition", "read_set", "input_root_identity"}, "native binding")
-    _native_enum(binding["acquisition"], {"CONSTRUCTED_FILESYSTEM", "NATIVE_CONTINUITY_VERIFIED"}, "native binding.acquisition")
-    if binding["acquisition"] == "CONSTRUCTED_FILESYSTEM":
-        if any(binding[key] is not None for key in identity):
-            raise WorkGraphError("native binding: constructed acquisition cannot carry native identity")
+    _require_object(binding, 'native binding')
+    identity = {'controller', 'claim', 'receipt', 'epoch', 'candidate_head', 'candidate_tree', 'worktree_digest', 'continuity_helper_digest'}
+    _require_exact_members(binding, identity | {'acquisition', 'read_set', 'input_root_identity'}, 'native binding')
+    _native_enum(binding['acquisition'], {'CONSTRUCTED_FILESYSTEM', 'NATIVE_CONTINUITY_VERIFIED'}, 'native binding.acquisition')
+    if binding['acquisition'] == 'CONSTRUCTED_FILESYSTEM':
+        if any((binding[key] is not None for key in identity)):
+            raise WorkGraphError('native binding: constructed acquisition cannot carry native identity')
     else:
         for key in identity:
-            _native_name(binding[key], "native binding." + key)
-        for key in ("candidate_head", "candidate_tree"):
-            if not re.fullmatch(r"[0-9a-f]{40}", binding[key]):
-                raise WorkGraphError("native binding: invalid Git identity")
-        for key in ("worktree_digest", "continuity_helper_digest"):
+            _native_name(binding[key], 'native binding.' + key)
+        for key in ('candidate_head', 'candidate_tree'):
+            if not re.fullmatch('[0-9a-f]{40}', binding[key]):
+                raise WorkGraphError('native binding: invalid Git identity')
+        for key in ('worktree_digest', 'continuity_helper_digest'):
             if not DIGEST_RE.fullmatch(binding[key]):
-                raise WorkGraphError("native binding: invalid identity digest")
-        if not RECEIPT_RE.fullmatch(binding["receipt"]):
-            raise WorkGraphError("native binding: invalid continuity receipt")
-        if binding["epoch"] != binding["receipt"].split("/")[-1].split("@")[0]:
-            raise WorkGraphError("native binding: receipt/epoch mismatch")
-    if type(binding["input_root_identity"]) is not str or not DIGEST_RE.fullmatch(binding["input_root_identity"]):
-        raise WorkGraphError("native binding: input root identity required")
-    reads = _require_object(binding["read_set"], "native binding.read_set")
-    expected = {p for n in nodes.values() for p in n["reads"] + n["invalidators"] if p.startswith("path:")}
-    _require_exact_members(reads, expected, "native binding.read_set")
+                raise WorkGraphError('native binding: invalid identity digest')
+        if not RECEIPT_RE.fullmatch(binding['receipt']):
+            raise WorkGraphError('native binding: invalid continuity receipt')
+        if binding['epoch'] != binding['receipt'].split('/')[-1].split('@')[0]:
+            raise WorkGraphError('native binding: receipt/epoch mismatch')
+    if type(binding['input_root_identity']) is not str or not DIGEST_RE.fullmatch(binding['input_root_identity']):
+        raise WorkGraphError('native binding: input root identity required')
+    reads = _require_object(binding['read_set'], 'native binding.read_set')
+    expected = {p for n in nodes.values() for p in n['reads'] + n['invalidators'] if p.startswith('path:')}
+    _require_exact_members(reads, expected, 'native binding.read_set')
     for record in reads.values():
-        _require_object(record, "native binding read record")
-        _require_exact_members(record, {"status", "sha256"}, "native binding read record")
-        _native_enum(record["status"], {"MISSING", "PRESENT_FILE", "PRESENT_DIRECTORY"}, "native binding read status")
-        if record["status"] == "MISSING":
-            if record["sha256"] is not None:
-                raise WorkGraphError("native binding: missing input cannot have a content digest")
-        elif type(record["sha256"]) is not str or not DIGEST_RE.fullmatch(record["sha256"]):
-            raise WorkGraphError("native binding: present input needs a content digest")
-
+        _require_object(record, 'native binding read record')
+        _require_exact_members(record, {'status', 'sha256'}, 'native binding read record')
+        _native_enum(record['status'], {'MISSING', 'PRESENT_FILE', 'PRESENT_DIRECTORY'}, 'native binding read status')
+        if record['status'] == 'MISSING':
+            if record['sha256'] is not None:
+                raise WorkGraphError('native binding: missing input cannot have a content digest')
+        elif type(record['sha256']) is not str or not DIGEST_RE.fullmatch(record['sha256']):
+            raise WorkGraphError('native binding: present input needs a content digest')
 
 def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False):
     before = copy.deepcopy(binding)
     for path in snapshot:
-        if path not in {"STATE.md", "ROADMAP.md"} and not re.fullmatch(r"(?:plans|phases|tasks)/(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.md", path):
-            raise WorkGraphError("native source document path is unsupported")
-        if any(part in {".", ".."} for part in path.split("/")):
-            raise WorkGraphError("native source document path escapes root")
-    state = _native_document(snapshot["STATE.md"], "STATE.md", "implementaudit.native-state.v1")
-    _require_exact_members(state, {"schema", "campaign", "root", "original_scope", "nodes", "event", "context"}, "native STATE")
-    for key in ("campaign", "root", "original_scope"):
-        _native_name(state[key], "native STATE." + key)
-    inventory = set(_native_strings(state["nodes"], "native STATE.nodes"))
-    event = _require_object(state["event"], "native event")
-    _require_exact_members(event, {"id", "kind", "subject"}, "native event")
-    _native_name(event["id"], "native event.id")
-    _native_enum(event["kind"], {"RETURN", "JOIN", "REDERIVE", "REMINDER", "INTERRUPTION"}, "native event.kind")
-    _native_name(event["subject"], "native event.subject")
-    _native_validate_context(state["context"])
-    roadmap = _native_document(snapshot["ROADMAP.md"], "ROADMAP.md", "implementaudit.native-roadmap.v1")
-    _require_exact_members(roadmap, {"schema", "phases"}, "native ROADMAP")
-    phases = set(_native_strings(roadmap["phases"], "native ROADMAP.phases"))
+        if path not in {'STATE.md', 'ROADMAP.md'} and (not re.fullmatch('(?:plans|phases|tasks)/(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\\.md', path)):
+            raise WorkGraphError('native source document path is unsupported')
+        if any((part in {'.', '..'} for part in path.split('/'))):
+            raise WorkGraphError('native source document path escapes root')
+    state = _native_document(snapshot['STATE.md'], 'STATE.md', 'implementaudit.native-state.v1')
+    _require_exact_members(state, {'schema', 'campaign', 'root', 'original_scope', 'nodes', 'event', 'context'}, 'native STATE')
+    for key in ('campaign', 'root', 'original_scope'):
+        _native_name(state[key], 'native STATE.' + key)
+    inventory = set(_native_strings(state['nodes'], 'native STATE.nodes'))
+    event = _require_object(state['event'], 'native event')
+    _require_exact_members(event, {'id', 'kind', 'subject'}, 'native event')
+    _native_name(event['id'], 'native event.id')
+    _native_enum(event['kind'], {'RETURN', 'JOIN', 'REDERIVE', 'REMINDER', 'INTERRUPTION'}, 'native event.kind')
+    _native_name(event['subject'], 'native event.subject')
+    _native_validate_context(state['context'])
+    roadmap = _native_document(snapshot['ROADMAP.md'], 'ROADMAP.md', 'implementaudit.native-roadmap.v1')
+    _require_exact_members(roadmap, {'schema', 'phases'}, 'native ROADMAP')
+    phases = set(_native_strings(roadmap['phases'], 'native ROADMAP.phases'))
     nodes = {}
     for path, data in sorted(snapshot.items()):
-        if path in {"STATE.md", "ROADMAP.md"}:
+        if path in {'STATE.md', 'ROADMAP.md'}:
             continue
-        document = _native_document(data, path, "implementaudit.native-spec.v1")
-        _require_exact_members(document, {"schema", "nodes"}, path)
-        if type(document["nodes"]) is not list or not document["nodes"]:
-            raise WorkGraphError(f"{path}: nonempty nodes required")
-        for value in document["nodes"]:
+        document = _native_document(data, path, 'implementaudit.native-spec.v1')
+        _require_exact_members(document, {'schema', 'nodes'}, path)
+        if type(document['nodes']) is not list or not document['nodes']:
+            raise WorkGraphError(f'{path}: nonempty nodes required')
+        for value in document['nodes']:
             _native_validate_node(value, path)
-            if value["id"] in nodes:
-                raise WorkGraphError("native population: duplicate node")
+            if value['id'] in nodes:
+                raise WorkGraphError('native population: duplicate node')
             node = copy.deepcopy(value)
-            node["source_path"] = path
-            node["source_digest"] = hashlib.sha256(data).hexdigest()
-            nodes[node["id"]] = node
+            node['source_path'] = path
+            node['source_digest'] = hashlib.sha256(data).hexdigest()
+            nodes[node['id']] = node
     if inventory != set(nodes):
-        raise WorkGraphError("native population disagrees with complete source enumeration")
-    if phases != {n["id"] for n in nodes.values() if n["kind"] == "PHASE"}:
-        raise WorkGraphError("native ROADMAP phase population mismatch")
-    if state["root"] not in nodes or event["subject"] not in nodes:
-        raise WorkGraphError("native ancestry root/subject missing")
-    if nodes[state["root"]]["kind"] != "PLAN":
-        raise WorkGraphError("native ancestry root must be a plan")
+        raise WorkGraphError('native population disagrees with complete source enumeration')
+    if phases != {n['id'] for n in nodes.values() if n['kind'] == 'PHASE'}:
+        raise WorkGraphError('native ROADMAP phase population mismatch')
+    if state['root'] not in nodes or event['subject'] not in nodes:
+        raise WorkGraphError('native ancestry root/subject missing')
+    if nodes[state['root']]['kind'] != 'PLAN':
+        raise WorkGraphError('native ancestry root must be a plan')
     for node in nodes.values():
-        chain, cursor = set(), node["id"]
+        chain, cursor = (set(), node['id'])
         while cursor is not None:
             if cursor not in nodes or cursor in chain:
-                raise WorkGraphError("native ancestry missing or cyclic")
+                raise WorkGraphError('native ancestry missing or cyclic')
             chain.add(cursor)
-            parent = nodes[cursor]["parent"]
-            if parent is None and cursor != state["root"]:
-                raise WorkGraphError("native ancestry ends outside campaign root")
+            parent = nodes[cursor]['parent']
+            if parent is None and cursor != state['root']:
+                raise WorkGraphError('native ancestry ends outside campaign root')
             cursor = parent
-        for dep in node["requires"] + node["optional"]:
-            if dep not in nodes or dep == node["id"]:
-                raise WorkGraphError("native dependency unknown or self-cycle")
-        future = node["future_consumer"]
-        if future is not None and (future["node"] not in nodes or future["node"] == node["id"]):
-            raise WorkGraphError("native future consumer missing or self-cycle")
-    visiting, visited, order = set(), set(), []
+        for dep in node['requires'] + node['optional']:
+            if dep not in nodes or dep == node['id']:
+                raise WorkGraphError('native dependency unknown or self-cycle')
+        future = node['future_consumer']
+        if future is not None and (future['node'] not in nodes or future['node'] == node['id']):
+            raise WorkGraphError('native future consumer missing or self-cycle')
+    visiting, visited, order = (set(), set(), [])
+
     def visit(name):
         if name in visiting:
-            raise WorkGraphError("native dependency cycle")
+            raise WorkGraphError('native dependency cycle')
         if name in visited:
             return
         visiting.add(name)
-        for dep in nodes[name]["requires"] + nodes[name]["optional"]:
+        for dep in nodes[name]['requires'] + nodes[name]['optional']:
             visit(dep)
         visiting.remove(name)
         visited.add(name)
@@ -1863,95 +1831,77 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False):
         for name in sorted(nodes):
             visit(name)
     except RecursionError as exc:
-        raise WorkGraphError("native graph traversal depth exceeded") from exc
+        raise WorkGraphError('native graph traversal depth exceeded') from exc
     if acquire_only:
-        # Parsing for read-set discovery never yields a dispatchable graph.
         return dict(nodes=[nodes[name] for name in sorted(nodes)])
     _native_validate_binding(before, nodes)
-    routes = {f["scope"]: f for f in state["context"]["route_facts"]}
-    held = {d["id"]: d for d in state["context"]["outstanding_deliveries"]}
+    routes = {f['scope']: f for f in state['context']['route_facts']}
+    held = {d['id']: d for d in state['context']['outstanding_deliveries']}
     for name in order:
         node = nodes[name]
-        declared = node["state"]
+        declared = node['state']
         reasons = []
-        if any(nodes[d]["state"] != "DONE" for d in node["requires"]):
-            if declared == "DONE" and any(nodes[d]["declared_state"] != "DONE" for d in node["requires"]):
-                raise WorkGraphError("native DONE contradicts open required dependency")
-            reasons.append("DEPENDENCY")
-        if node["authorization"] != "PERMITTED":
-            reasons.append("AUTHORIZATION")
-        if node["independence"] != "KNOWN":
-            reasons.append("INDEPENDENCE_UNKNOWN")
-        # This compiler is not an effect executor. An owner permission assertion
-        # cannot satisfy physical containment, even if it is well-formed.
-        if node["effect"] in {"MUTATION", "EXTERNAL"}:
-            reasons.append("EFFECT_EXECUTOR_UNAVAILABLE")
-        if node["logical_delivery"] in held:
-            reasons.append("LOGICAL_DELIVERY_HELD")
-        read_paths = sorted({p for p in node["reads"] + node["invalidators"] if p.startswith("path:")})
-        read_set = {p: before["read_set"][p] for p in read_paths}
-        if any(record["status"] == "MISSING" for record in read_set.values()):
-            reasons.append("MISSING_INPUT")
-        for scope in node["route_scopes"]:
-            reason = _native_route_block(routes.get(scope), before["acquisition"])
+        if any((nodes[d]['state'] != 'DONE' for d in node['requires'])):
+            if declared == 'DONE' and any((nodes[d]['declared_state'] != 'DONE' for d in node['requires'])):
+                raise WorkGraphError('native DONE contradicts open required dependency')
+            reasons.append('DEPENDENCY')
+        if node['authorization'] != 'PERMITTED':
+            reasons.append('AUTHORIZATION')
+        if node['independence'] != 'KNOWN':
+            reasons.append('INDEPENDENCE_UNKNOWN')
+        if node['effect'] in {'MUTATION', 'EXTERNAL'}:
+            reasons.append('EFFECT_EXECUTOR_UNAVAILABLE')
+        if node['logical_delivery'] in held:
+            reasons.append('LOGICAL_DELIVERY_HELD')
+        read_paths = sorted({p for p in node['reads'] + node['invalidators'] if p.startswith('path:')})
+        read_set = {p: before['read_set'][p] for p in read_paths}
+        if any((record['status'] == 'MISSING' for record in read_set.values())):
+            reasons.append('MISSING_INPUT')
+        for scope in node['route_scopes']:
+            reason = _native_route_block(routes.get(scope), before['acquisition'])
             if reason is not None:
                 reasons.append(reason)
         fact_identity = {key: value for key, value in node.items()}
-        node["input_digest"] = _graph_hash(dict(
-            fact=fact_identity, campaign=state["campaign"], original_scope=state["original_scope"],
-            required={d: nodes[d]["input_digest"] for d in node["requires"]},
-            optional={d: nodes[d]["input_digest"] for d in node["optional"]},
-            read_set=read_set,
-            unresolved_semantic_worktree=(before["worktree_digest"] if any(not p.startswith("path:") for p in node["reads"] + node["invalidators"]) else None),
-            route_facts=[routes.get(scope) for scope in node["route_scopes"]],
-            delivery=held.get(node["logical_delivery"])))
-        node["declared_state"] = declared
-        node["state"] = "ACTIVE" if declared == "ACTIVE" else "BLOCKED" if reasons else "DONE" if declared == "DONE" else "READY"
-        node["blocked_reasons"] = sorted(set(reasons))
+        node['input_digest'] = _graph_hash(dict(fact=fact_identity, campaign=state['campaign'], original_scope=state['original_scope'], required={d: nodes[d]['input_digest'] for d in node['requires']}, optional={d: nodes[d]['input_digest'] for d in node['optional']}, read_set=read_set, unresolved_semantic_worktree=before['worktree_digest'] if any((not p.startswith('path:') for p in node['reads'] + node['invalidators'])) else None, route_facts=[routes.get(scope) for scope in node['route_scopes']], delivery=held.get(node['logical_delivery'])))
+        node['declared_state'] = declared
+        node['state'] = 'ACTIVE' if declared == 'ACTIVE' else 'BLOCKED' if reasons else 'DONE' if declared == 'DONE' else 'READY'
+        node['blocked_reasons'] = sorted(set(reasons))
     source_inventory = [dict(path=path, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for path, data in sorted(snapshot.items())]
-    before["source_digest"] = _graph_hash(source_inventory)
-    return _seal_graph(dict(schema="implementaudit.native-work-graph.v1", binding=before,
-                            campaign=state["campaign"], root=state["root"], original_scope=state["original_scope"],
-                            event=event, context=state["context"], source_inventory=source_inventory,
-                            source_documents={path: data.decode("utf-8") for path, data in snapshot.items()},
-                            nodes=[nodes[name] for name in sorted(nodes)],
-                            population={s: sum(n["state"] == s for n in nodes.values()) for s in KNOWN_STATES},
-                            authority="NONE"))
-
+    before['source_digest'] = _graph_hash(source_inventory)
+    return _seal_graph(dict(schema='implementaudit.native-work-graph.v1', binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
 
 def _acquire_native_read_set(nodes, input_root):
     root = pathlib.Path(input_root).resolve()
     result = {}
-    paths = sorted({p for n in nodes for p in n["reads"] + n["invalidators"] if p.startswith("path:")})
-    _native_semantics(paths, "native read set")
+    paths = sorted({p for n in nodes for p in n['reads'] + n['invalidators'] if p.startswith('path:')})
+    _native_semantics(paths, 'native read set')
     for identity in paths:
         relative = pathlib.PurePosixPath(identity[5:])
         path = root.joinpath(*relative.parts)
         for count in range(1, len(relative.parts) + 1):
             if root.joinpath(*relative.parts[:count]).is_symlink():
-                raise WorkGraphError("native input symlink is unsupported")
+                raise WorkGraphError('native input symlink is unsupported')
         if not path.exists():
-            result[identity] = dict(status="MISSING", sha256=None)
+            result[identity] = dict(status='MISSING', sha256=None)
         elif path.is_file():
-            result[identity] = dict(status="PRESENT_FILE", sha256=_graph_hash([path.stat().st_mode & 0o7777, hashlib.sha256(path.read_bytes()).hexdigest()]))
+            result[identity] = dict(status='PRESENT_FILE', sha256=_graph_hash([path.stat().st_mode & 4095, hashlib.sha256(path.read_bytes()).hexdigest()]))
         elif path.is_dir():
             members = []
             for base, dirs, names in os.walk(path, followlinks=False):
                 for name in sorted(dirs + names):
                     member = pathlib.Path(base) / name
                     if member.is_symlink():
-                        raise WorkGraphError("native input directory contains symlink")
+                        raise WorkGraphError('native input directory contains symlink')
                     if member.is_dir():
-                        members.append([member.relative_to(path).as_posix(), "DIRECTORY", member.stat().st_mode & 0o7777])
+                        members.append([member.relative_to(path).as_posix(), 'DIRECTORY', member.stat().st_mode & 4095])
                     elif member.is_file():
-                        members.append([member.relative_to(path).as_posix(), member.stat().st_mode & 0o7777, hashlib.sha256(member.read_bytes()).hexdigest()])
+                        members.append([member.relative_to(path).as_posix(), member.stat().st_mode & 4095, hashlib.sha256(member.read_bytes()).hexdigest()])
                     else:
-                        raise WorkGraphError("native input contains non-regular file")
-            result[identity] = dict(status="PRESENT_DIRECTORY", sha256=_graph_hash([path.stat().st_mode & 0o7777, sorted(members)]))
+                        raise WorkGraphError('native input contains non-regular file')
+            result[identity] = dict(status='PRESENT_DIRECTORY', sha256=_graph_hash([path.stat().st_mode & 4095, sorted(members)]))
         else:
-            raise WorkGraphError("native input is not a regular file or directory")
+            raise WorkGraphError('native input is not a regular file or directory')
     return result
-
 
 def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
     """Acquire all supported native documents, then derive a sealed projection.
@@ -1960,262 +1910,229 @@ def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
     it requires the genuine existing continuity owner before AND after intake.
     Neither path authenticates physical host capacity or effect capabilities.
     """
-    before = (_native_continuity(repo_root, run_root) if repo_root is not None else
-              dict(acquisition="CONSTRUCTED_FILESYSTEM", controller=None, claim=None,
-                   receipt=None, epoch=None, candidate_head=None, candidate_tree=None,
-                   worktree_digest=None, continuity_helper_digest=None))
+    before = _native_continuity(repo_root, run_root) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
     snapshot = _native_source_snapshot(run_root)
     preliminary = _compile_native_documents_v1(snapshot, before, acquire_only=True)
     input_root = pathlib.Path(input_root if input_root is not None else repo_root if repo_root is not None else run_root)
-    read_set = _acquire_native_read_set(preliminary["nodes"], input_root)
+    read_set = _acquire_native_read_set(preliminary['nodes'], input_root)
     bound = dict(before, read_set=read_set, input_root_identity=hashlib.sha256(os.fsencode(str(input_root.resolve()))).hexdigest())
     projection = _compile_native_documents_v1(snapshot, bound)
     if _native_source_snapshot(run_root) != snapshot:
-        raise WorkGraphError("native source changed during intake")
-    if _acquire_native_read_set(projection["nodes"], input_root) != read_set:
-        raise WorkGraphError("native inputs changed during intake")
+        raise WorkGraphError('native source changed during intake')
+    if _acquire_native_read_set(projection['nodes'], input_root) != read_set:
+        raise WorkGraphError('native inputs changed during intake')
     if repo_root is not None and _native_continuity(repo_root, run_root) != before:
-        raise WorkGraphError("native continuity changed during intake")
+        raise WorkGraphError('native continuity changed during intake')
     return projection
-
 
 def _semantic_overlap(left, right):
     for a in left:
         for b in right:
-            if a == b or (a.startswith("path:") and b.startswith("path:") and
-                          (a.startswith(b + "/") or b.startswith(a + "/"))):
+            if a == b or (a.startswith('path:') and b.startswith('path:') and (a.startswith(b + '/') or b.startswith(a + '/'))):
                 return True
     return False
 
-
 def _bounded_selection_v1(candidates, active, capacity, *, semantic=False):
     """One bounded selection loop shared by the recovered and native routes."""
-    occupied = sum(int(c["resource_demand"]) for c in active)
+    occupied = sum((int(c['resource_demand']) for c in active))
     free = max(0, capacity - occupied)
-    selected, deferred, holds, remaining = [], {}, list(active), free
+    selected, deferred, holds, remaining = ([], {}, list(active), free)
     overlap = _semantic_overlap if semantic else lambda a, b: bool(set(a) & set(b))
-    def resources(cell):
-        if "resources" in cell:
-            return cell["resources"] + cell.get("acceptance", []) + cell.get("authority", [])
-        return [] if cell["resource_boundary"] == "NONE" else [cell["resource_boundary"]]
-    for cell in sorted(candidates, key=lambda item: (-int(item["rank"]), str(item["id"]))):
-        conflict = any(overlap(cell["writes"], old["writes"]) or
-                       overlap(cell["writes"], old.get("reads", [])) or
-                       overlap(cell.get("reads", []), old["writes"]) or
-                       overlap(resources(cell), resources(old)) for old in holds)
-        reason = "CONFLICT" if conflict else ("CAPACITY" if int(cell["resource_demand"]) > remaining or (semantic and capacity == 0) else None)
-        if reason:
-            deferred[str(cell["id"])] = reason
-            continue
-        selected.append(str(cell["id"]))
-        remaining -= int(cell["resource_demand"])
-        holds.append(cell)
-    return selected, deferred, occupied, free
 
+    def resources(cell):
+        if 'resources' in cell:
+            return cell['resources'] + cell.get('acceptance', []) + cell.get('authority', [])
+        return [] if cell['resource_boundary'] == 'NONE' else [cell['resource_boundary']]
+    for cell in sorted(candidates, key=lambda item: (-int(item['rank']), str(item['id']))):
+        conflict = any((overlap(cell['writes'], old['writes']) or overlap(cell['writes'], old.get('reads', [])) or overlap(cell.get('reads', []), old['writes']) or overlap(resources(cell), resources(old)) for old in holds))
+        reason = 'CONFLICT' if conflict else 'CAPACITY' if int(cell['resource_demand']) > remaining or (semantic and capacity == 0) else None
+        if reason:
+            deferred[str(cell['id'])] = reason
+            continue
+        selected.append(str(cell['id']))
+        remaining -= int(cell['resource_demand'])
+        holds.append(cell)
+    return (selected, deferred, occupied, free)
 
 def cheap_path_v1(total_cells, ready_cells, capacity):
-    for name, value in (("total", total_cells), ("ready", ready_cells), ("capacity", capacity)):
+    for name, value in (('total', total_cells), ('ready', ready_cells), ('capacity', capacity)):
         _native_int(value, name)
     if ready_cells > total_cells:
-        raise WorkGraphError("cheap path census contradiction")
-    graph_required = total_cells >= 3 and ready_cells >= 2 and capacity >= 2
-    return dict(graph_required=graph_required, mode="GRAPH_CANDIDATE" if graph_required else "CHEAP_SERIAL",
-                authority="NONE")
-
+        raise WorkGraphError('cheap path census contradiction')
+    graph_required = total_cells >= 3 and ready_cells >= 2 and (capacity >= 2)
+    return dict(graph_required=graph_required, mode='GRAPH_CANDIDATE' if graph_required else 'CHEAP_SERIAL', authority='NONE')
 
 def select_native_frontier_v1(graph):
-    _check_graph_seal(graph, "implementaudit.native-work-graph.v1")
-    context = graph["context"]
-    capacity = max(0, context["host_capacity"] - context["reserve"])
-    if context["operator_ceiling"] is not None:
-        capacity = min(capacity, context["operator_ceiling"])
-    nodes = graph["nodes"]
-    active = [n for n in nodes if n["state"] == "ACTIVE"]
-    candidates, placements, value_deferred = [], {}, {}
+    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    context = graph['context']
+    capacity = max(0, context['host_capacity'] - context['reserve'])
+    if context['operator_ceiling'] is not None:
+        capacity = min(capacity, context['operator_ceiling'])
+    nodes = graph['nodes']
+    active = [n for n in nodes if n['state'] == 'ACTIVE']
+    candidates, placements, value_deferred = ([], {}, {})
     for node in nodes:
-        if node["state"] != "READY" or node["kind"] not in {"TASK", "JOIN"}:
+        if node['state'] != 'READY' or node['kind'] not in {'TASK', 'JOIN'}:
             continue
-        costs = node["context"]
+        costs = node['context']
         choices = []
-        if costs["locality"] in {"GOVERNOR", "EITHER"}:
-            choices.append((costs["governor_cost"], "GOVERNOR"))
-        if costs["locality"] in {"CHILD", "EITHER"}:
-            choices.append((costs["child_cost"] + costs["return_cost"], "DELEGATED_EXECUTOR_CANDIDATE"))
+        if costs['locality'] in {'GOVERNOR', 'EITHER'}:
+            choices.append((costs['governor_cost'], 'GOVERNOR'))
+        if costs['locality'] in {'CHILD', 'EITHER'}:
+            choices.append((costs['child_cost'] + costs['return_cost'], 'DELEGATED_EXECUTOR_CANDIDATE'))
         cost, placement = min(choices)
-        if cost > costs["useful_value"]:
-            value_deferred[node["id"]] = "CONTEXT_COST"
+        if cost > costs['useful_value']:
+            value_deferred[node['id']] = 'CONTEXT_COST'
             continue
-        placements[node["id"]] = placement
+        placements[node['id']] = placement
         candidates.append(node)
     selected, deferred, occupied, free = _bounded_selection_v1(candidates, active, capacity, semantic=True)
     deferred.update(value_deferred)
-    identity = _graph_hash([graph["digest"], graph["event"], selected])
-    mode = cheap_path_v1(sum(n["kind"] in {"TASK", "JOIN"} for n in nodes), len(candidates), free)
-    return dict(schema="implementaudit.native-dispatch.v1", graph_digest=graph["digest"],
-                event=copy.deepcopy(graph["event"]), dispatch_id=identity, selected=selected,
-                inputs={n["id"]: n["input_digest"] for n in nodes if n["id"] in selected},
-                capacity=capacity, active_occupancy=occupied, free_capacity=free,
-                deferred=dict(sorted(deferred.items())),
-                blocked={n["id"]: n["blocked_reasons"] for n in nodes if n["state"] == "BLOCKED"},
-                placements={name: placements[name] for name in selected},
-                mode=mode["mode"], graph_required=mode["graph_required"], authority="NONE")
-
+    identity = _graph_hash([graph['digest'], graph['event'], selected])
+    mode = cheap_path_v1(sum((n['kind'] in {'TASK', 'JOIN'} for n in nodes)), len(candidates), free)
+    return dict(schema='implementaudit.native-dispatch.v1', graph_digest=graph['digest'], event=copy.deepcopy(graph['event']), dispatch_id=identity, selected=selected, inputs={n['id']: n['input_digest'] for n in nodes if n['id'] in selected}, capacity=capacity, active_occupancy=occupied, free_capacity=free, deferred=dict(sorted(deferred.items())), blocked={n['id']: n['blocked_reasons'] for n in nodes if n['state'] == 'BLOCKED'}, placements={name: placements[name] for name in selected}, mode=mode['mode'], graph_required=mode['graph_required'], authority='NONE')
 
 def diff_native_graphs_v1(previous, current):
     for graph in (previous, current):
-        _check_graph_seal(graph, "implementaudit.native-work-graph.v1")
-    old, new = ({n["id"]: n for n in g["nodes"]} for g in (previous, current))
-    global_keys = ("acquisition", "controller", "claim", "receipt", "epoch", "candidate_head", "candidate_tree", "continuity_helper_digest", "input_root_identity")
-    global_change = any(previous["binding"][key] != current["binding"][key] for key in global_keys)
-    changed = {name for name in old.keys() | new.keys() if name not in old or name not in new or old[name]["input_digest"] != new[name]["input_digest"] or global_change}
-    # Required and optional consumer identity closures are already included in
-    # each input_digest. Parent summary nodes also need explicit reconsideration.
+        _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    old, new = ({n['id']: n for n in g['nodes']} for g in (previous, current))
+    global_keys = ('acquisition', 'controller', 'claim', 'receipt', 'epoch', 'candidate_head', 'candidate_tree', 'continuity_helper_digest', 'input_root_identity')
+    global_change = any((previous['binding'][key] != current['binding'][key] for key in global_keys))
+    changed = {name for name in old.keys() | new.keys() if name not in old or name not in new or old[name]['input_digest'] != new[name]['input_digest'] or global_change}
     for name in list(changed):
         for source in (old, new):
-            cursor = source.get(name, {}).get("parent")
+            cursor = source.get(name, {}).get('parent')
             while cursor is not None:
                 changed.add(cursor)
-                cursor = source[cursor]["parent"]
-    return dict(invalidated=sorted(changed), preserved=sorted((old.keys() & new.keys()) - changed),
-                removed=sorted(old.keys() - new.keys()), added=sorted(new.keys() - old.keys()),
-                recompute_required=previous["digest"] != current["digest"], authority="NONE")
-
+                cursor = source[cursor]['parent']
+    return dict(invalidated=sorted(changed), preserved=sorted((old.keys() & new.keys()) - changed), removed=sorted(old.keys() - new.keys()), added=sorted(new.keys() - old.keys()), recompute_required=previous['digest'] != current['digest'], authority='NONE')
 
 def reconcile_native_results_v1(dispatched_graph, current_graph, dispatch, results, join_id):
     """Read-only result normalization. Current graph must be freshly reacquired
     by the consumer; a supplied hash is not native currentness authentication.
     """
     for graph in (dispatched_graph, current_graph):
-        _check_graph_seal(graph, "implementaudit.native-work-graph.v1")
+        _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
     if dispatch != select_native_frontier_v1(dispatched_graph):
-        raise WorkGraphError("dispatch differs from exact derived selection")
-    nodes = {n["id"]: n for n in dispatched_graph["nodes"]}
-    if join_id not in nodes or nodes[join_id]["kind"] != "JOIN":
-        raise WorkGraphError("unknown JOIN consumer")
+        raise WorkGraphError('dispatch differs from exact derived selection')
+    nodes = {n['id']: n for n in dispatched_graph['nodes']}
+    if join_id not in nodes or nodes[join_id]['kind'] != 'JOIN':
+        raise WorkGraphError('unknown JOIN consumer')
     join = nodes[join_id]
-    required, optional = set(join["requires"]), set(join["optional"])
+    required, optional = (set(join['requires']), set(join['optional']))
     if type(results) is not list:
-        raise WorkGraphError("results: array required")
+        raise WorkGraphError('results: array required')
     mapped = {}
-    statuses = {"PASS", "FAIL", "PARTIAL", "NONVERDICT", "UNKNOWN", "PENDING", "INTERRUPTED", "TRANSPORT_FAILURE"}
-    fields = {"schema", "node", "dispatch_id", "graph_digest", "input_digest", "status", "terminal", "exit_code", "evidence_digest", "independence_key", "scope"}
+    statuses = {'PASS', 'FAIL', 'PARTIAL', 'NONVERDICT', 'UNKNOWN', 'PENDING', 'INTERRUPTED', 'TRANSPORT_FAILURE'}
+    fields = {'schema', 'node', 'dispatch_id', 'graph_digest', 'input_digest', 'status', 'terminal', 'exit_code', 'evidence_digest', 'independence_key', 'scope'}
     for result in results:
-        _require_object(result, "result")
-        _require_exact_members(result, fields, "result")
-        if result["schema"] != "implementaudit.work-result.v1":
-            raise WorkGraphError("result: unknown schema")
-        name = result["node"]
-        if name not in nodes or name not in dispatch["selected"] or name not in required | optional:
-            raise WorkGraphError("result: unknown or undispatched contributor")
+        _require_object(result, 'result')
+        _require_exact_members(result, fields, 'result')
+        if result['schema'] != 'implementaudit.work-result.v1':
+            raise WorkGraphError('result: unknown schema')
+        name = result['node']
+        if name not in nodes or name not in dispatch['selected'] or name not in required | optional:
+            raise WorkGraphError('result: unknown or undispatched contributor')
         if name in mapped:
-            raise WorkGraphError("result: duplicate contributor")
-        if (result["dispatch_id"] != dispatch["dispatch_id"] or result["graph_digest"] != dispatched_graph["digest"] or result["input_digest"] != nodes[name]["input_digest"]):
-            raise WorkGraphError("result: stale graph/dispatch/source identity")
-        _native_enum(result["status"], statuses, "result.status")
-        _require_bool(result["terminal"], "result.terminal")
-        if result["exit_code"] is not None:
-            _native_int(result["exit_code"], "result.exit_code", INT64_MIN)
-        if result["evidence_digest"] is not None and (type(result["evidence_digest"]) is not str or not DIGEST_RE.fullmatch(result["evidence_digest"])):
-            raise WorkGraphError("result: invalid evidence digest")
-        _native_name(result["independence_key"], "result.independence_key")
-        if _native_strings(result["scope"], "result.scope") != [name]:
-            raise WorkGraphError("result: scope cannot grant whole-parent credit")
-        if result["status"] == "PASS" and (not result["terminal"] or result["exit_code"] != 0 or result["evidence_digest"] is None):
-            raise WorkGraphError("result: contradictory PASS envelope")
-        if result["status"] == "PENDING" and result["terminal"]:
-            raise WorkGraphError("result: contradictory terminal PENDING")
+            raise WorkGraphError('result: duplicate contributor')
+        if result['dispatch_id'] != dispatch['dispatch_id'] or result['graph_digest'] != dispatched_graph['digest'] or result['input_digest'] != nodes[name]['input_digest']:
+            raise WorkGraphError('result: stale graph/dispatch/source identity')
+        _native_enum(result['status'], statuses, 'result.status')
+        _require_bool(result['terminal'], 'result.terminal')
+        if result['exit_code'] is not None:
+            _native_int(result['exit_code'], 'result.exit_code', INT64_MIN)
+        if result['evidence_digest'] is not None and (type(result['evidence_digest']) is not str or not DIGEST_RE.fullmatch(result['evidence_digest'])):
+            raise WorkGraphError('result: invalid evidence digest')
+        _native_name(result['independence_key'], 'result.independence_key')
+        if _native_strings(result['scope'], 'result.scope') != [name]:
+            raise WorkGraphError('result: scope cannot grant whole-parent credit')
+        if result['status'] == 'PASS' and (not result['terminal'] or result['exit_code'] != 0 or result['evidence_digest'] is None):
+            raise WorkGraphError('result: contradictory PASS envelope')
+        if result['status'] == 'PENDING' and result['terminal']:
+            raise WorkGraphError('result: contradictory terminal PENDING')
         mapped[name] = result
     delta = diff_native_graphs_v1(dispatched_graph, current_graph)
-    if delta["recompute_required"]:
-        return dict(status="RECOMPUTE_REQUIRED", **delta)
+    if delta['recompute_required']:
+        return dict(status='RECOMPUTE_REQUIRED', **delta)
     missing = sorted(required - mapped.keys())
-    all_settled = not missing and all(mapped[name]["terminal"] for name in required)
-    status = "PENDING"
+    all_settled = not missing and all((mapped[name]['terminal'] for name in required))
+    status = 'PENDING'
     if all_settled:
-        if any(mapped[name]["status"] in {"FAIL", "TRANSPORT_FAILURE"} for name in required):
-            status = "FAIL"
-        elif any(mapped[name]["status"] != "PASS" for name in required):
-            status = "NONVERDICT"
+        if any((mapped[name]['status'] in {'FAIL', 'TRANSPORT_FAILURE'} for name in required)):
+            status = 'FAIL'
+        elif any((mapped[name]['status'] != 'PASS' for name in required)):
+            status = 'NONVERDICT'
         else:
-            status = "SATISFIED_AT_DECLARED_RESULT_CONTRACT"
-        if join["independent_results"]:
-            keys = [mapped[name]["independence_key"] for name in required]
-            evidence = [mapped[name]["evidence_digest"] for name in required]
+            status = 'SATISFIED_AT_DECLARED_RESULT_CONTRACT'
+        if join['independent_results']:
+            keys = [mapped[name]['independence_key'] for name in required]
+            evidence = [mapped[name]['evidence_digest'] for name in required]
+
             def sources(name):
-                closure, pending = set(), [name]
+                closure, pending = (set(), [name])
                 while pending:
                     item = pending.pop()
                     if item in closure:
                         continue
                     closure.add(item)
-                    # Optional consumption is not independently attested here;
-                    # conservatively include every declared possible source.
-                    pending.extend(nodes[item]["requires"] + nodes[item]["optional"])
-                reads = [p for item in closure for p in nodes[item]["reads"] + nodes[item]["invalidators"]]
-                evidence = {nodes[item]["done_evidence"] for item in closure if nodes[item]["done_evidence"] is not None}
-                return closure, reads, evidence
+                    pending.extend(nodes[item]['requires'] + nodes[item]['optional'])
+                reads = [p for item in closure for p in nodes[item]['reads'] + nodes[item]['invalidators']]
+                evidence = {nodes[item]['done_evidence'] for item in closure if nodes[item]['done_evidence'] is not None}
+                return (closure, reads, evidence)
             closures = {name: sources(name) for name in required}
-            common = any(bool(closures[a][0] & closures[b][0]) or
-                         _semantic_overlap(closures[a][1], closures[b][1]) or
-                         bool(closures[a][2] & closures[b][2])
-                         for a in required for b in required if a < b)
+            common = any((bool(closures[a][0] & closures[b][0]) or _semantic_overlap(closures[a][1], closures[b][1]) or bool(closures[a][2] & closures[b][2]) for a in required for b in required if a < b))
             if len(set(keys)) != len(keys) or (None not in evidence and len(set(evidence)) != len(evidence)) or common:
-                status = "NONVERDICT" if status != "FAIL" else status
-    return dict(schema="implementaudit.native-join.v1", status=status, all_required_settled=all_settled,
-                required=sorted(required), optional=sorted(optional), missing=missing,
-                omitted_optional=sorted(optional - mapped.keys()),
-                retained_scopes={name: result["scope"] for name, result in sorted(mapped.items())},
-                graph_digest=current_graph["digest"], consumer=join_id, authority="NONE", lifecycle_credit="NONE")
-
+                status = 'NONVERDICT' if status != 'FAIL' else status
+    return dict(schema='implementaudit.native-join.v1', status=status, all_required_settled=all_settled, required=sorted(required), optional=sorted(optional), missing=missing, omitted_optional=sorted(optional - mapped.keys()), retained_scopes={name: result['scope'] for name, result in sorted(mapped.items())}, graph_digest=current_graph['digest'], consumer=join_id, authority='NONE', lifecycle_credit='NONE')
 
 def compile_recursive_transition_v1(graph, history):
-    _check_graph_seal(graph, "implementaudit.native-work-graph.v1")
+    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
     if type(history) is not list:
-        raise WorkGraphError("event history: array required")
-    nodes = {n["id"]: n for n in graph["nodes"]}
-    ancestors, cursor = [], graph["event"]["subject"]
+        raise WorkGraphError('event history: array required')
+    nodes = {n['id']: n for n in graph['nodes']}
+    ancestors, cursor = ([], graph['event']['subject'])
     while cursor is not None:
         ancestors.append(cursor)
-        cursor = nodes[cursor]["parent"]
-    if ancestors[-1] != graph["root"]:
-        raise WorkGraphError("recursive ancestry root mismatch")
+        cursor = nodes[cursor]['parent']
+    if ancestors[-1] != graph['root']:
+        raise WorkGraphError('recursive ancestry root mismatch')
     plan = select_native_frontier_v1(graph)
     consumers = {}
-    for name in plan["selected"]:
+    for name in plan['selected']:
         node = nodes[name]
-        # Non-preparation work still has a bounded consumer: the enclosing
-        # current scope re-derivation, never an unbounded output queue.
-        consumers[name] = node["future_consumer"] or dict(node=node["parent"] or graph["root"], condition="scoped result reconsideration")
+        consumers[name] = node['future_consumer'] or dict(node=node['parent'] or graph['root'], condition='scoped result reconsideration')
     seen = set()
     replay = False
     for receipt in history:
-        _require_object(receipt, "event receipt")
-        _require_exact_members(receipt, {"event_id", "graph_digest", "dispatch_id", "consumed"}, "event receipt")
-        _native_name(receipt["event_id"], "event receipt identity")
-        _native_strings(receipt["consumed"], "event receipt consumed")
-        for key in ("graph_digest", "dispatch_id"):
+        _require_object(receipt, 'event receipt')
+        fields = {'event_id', 'graph_digest', 'dispatch_id', 'consumed'}
+        _require_exact_members(receipt, fields | ({'source_graph'} if 'source_graph' in receipt else set()), 'event receipt')
+        _native_name(receipt['event_id'], 'event receipt identity')
+        _native_strings(receipt['consumed'], 'event receipt consumed')
+        for key in ('graph_digest', 'dispatch_id'):
             if type(receipt[key]) is not str or not DIGEST_RE.fullmatch(receipt[key]):
-                raise WorkGraphError("event receipt digest required")
-        if receipt["event_id"] in seen:
-            raise WorkGraphError("duplicate event receipt")
-        seen.add(receipt["event_id"])
-        if receipt["event_id"] == graph["event"]["id"]:
-            if receipt["graph_digest"] != graph["digest"] or receipt["dispatch_id"] != plan["dispatch_id"] or receipt["consumed"] != plan["selected"]:
-                raise WorkGraphError("event identity reused with changed graph or incomplete consumption")
+                raise WorkGraphError('event receipt digest required')
+        if receipt['event_id'] in seen:
+            raise WorkGraphError('duplicate event receipt')
+        seen.add(receipt['event_id'])
+        if 'source_graph' in receipt:
+            prior = receipt['source_graph']
+            prior_plan = select_native_frontier_v1(prior)
+            if receipt['event_id'] != prior['event']['id'] or receipt['graph_digest'] != prior['digest'] or receipt['dispatch_id'] != prior_plan['dispatch_id'] or (receipt['consumed'] != prior_plan['selected']):
+                raise WorkGraphError('event receipt differs from source-derived complete consumption')
+            if graph['event']['kind'] == 'REMINDER' and receipt['consumed'] == plan['selected'] and (prior['event']['subject'] == graph['event']['subject']) and all((prior[k] == graph[k] for k in ('campaign', 'root', 'original_scope', 'context'))) and (not diff_native_graphs_v1(prior, graph)['invalidated']):
+                replay = True
+        elif receipt['event_id'] != graph['event']['id'] and graph['event']['kind'] == 'REMINDER' and set(receipt['consumed']) & set(plan['selected']):
+            raise WorkGraphError('unchanged reminder consumption is unbound without its source graph')
+        if receipt['event_id'] == graph['event']['id']:
+            if receipt['graph_digest'] != graph['digest'] or receipt['dispatch_id'] != plan['dispatch_id'] or receipt['consumed'] != plan['selected']:
+                raise WorkGraphError('event identity reused with changed graph or incomplete consumption')
             replay = True
-    directions = {
-        "INWARD": sorted(n["id"] for n in graph["nodes"] if n["parent"] == ancestors[0]),
-        "OUTWARD": sorted(n["id"] for n in graph["nodes"] if n["parent"] in ancestors[1:] and n["id"] not in ancestors),
-        "FORWARD": sorted(n["id"] for n in graph["nodes"] if n["future_consumer"] is not None),
-        "BACKWARD": sorted(n["id"] for n in graph["nodes"] if n["kind"] == "JOIN"),
-    }
-    result = dict(schema="implementaudit.recursive-transition.v1", **{k: v for k, v in plan.items() if k != "schema"},
-                  campaign=graph["campaign"], root=graph["root"], original_scope=graph["original_scope"],
-                  ancestors=ancestors, directions=directions, consumers=consumers)
+    directions = {'INWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] == ancestors[0])), 'OUTWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] in ancestors[1:] and n['id'] not in ancestors)), 'FORWARD': sorted((n['id'] for n in graph['nodes'] if n['future_consumer'] is not None)), 'BACKWARD': sorted((n['id'] for n in graph['nodes'] if n['kind'] == 'JOIN'))}
+    result = dict(schema='implementaudit.recursive-transition.v1', **{k: v for k, v in plan.items() if k != 'schema'}, campaign=graph['campaign'], root=graph['root'], original_scope=graph['original_scope'], ancestors=ancestors, directions=directions, consumers=consumers)
     if replay:
-        result.update(selected=[], mode="NO_REDISPATCH")
+        result.update(selected=[], mode='NO_REDISPATCH')
     return _seal_graph(result)
-
 
 def check_recursive_execution_v1(graph, history, transition, executions, consumptions):
     """Consume source-bound records, not a caller-resealed population.
@@ -2224,74 +2141,60 @@ def check_recursive_execution_v1(graph, history, transition, executions, consump
     custody. Actual portable consumers must inspect their output bytes; native
     callers additionally need the current governor's accepted-result custody.
     """
-    _check_graph_seal(transition, "implementaudit.recursive-transition.v1")
+    _check_graph_seal(transition, 'implementaudit.recursive-transition.v1')
     if transition != compile_recursive_transition_v1(graph, history):
-        raise WorkGraphError("recursive transition differs from source-derived graph/history")
+        raise WorkGraphError('recursive transition differs from source-derived graph/history')
     if type(executions) is not list or type(consumptions) is not list:
-        raise WorkGraphError("execution and consumption arrays required")
-    expected = set(transition["selected"])
-    nodes = {n["id"]: n for n in graph["nodes"]}
-    done, used = {}, {}
+        raise WorkGraphError('execution and consumption arrays required')
+    expected = set(transition['selected'])
+    nodes = {n['id']: n for n in graph['nodes']}
+    done, used = ({}, {})
     for record in executions:
-        _require_object(record, "execution")
-        _require_exact_members(record, {"node", "dispatch_id", "graph_digest", "input_digest", "input_root_identity", "read_set", "output_digest", "exit_code"}, "execution")
-        if record["node"] not in expected or record["node"] in done:
-            raise WorkGraphError("unknown or duplicate execution")
-        if record["dispatch_id"] != transition["dispatch_id"] or type(record["exit_code"]) is not int or record["exit_code"] != 0:
-            raise WorkGraphError("stale or failed execution")
-        node = nodes[record["node"]]
-        reads = {p: graph["binding"]["read_set"][p] for p in node["reads"] + node["invalidators"] if p.startswith("path:")}
-        if (record["graph_digest"] != graph["digest"] or
-                record["input_digest"] != node["input_digest"] or
-                record["input_root_identity"] != graph["binding"]["input_root_identity"] or
-                record["read_set"] != reads):
-            raise WorkGraphError("execution input binding mismatch")
-        if type(record["output_digest"]) is not str or not DIGEST_RE.fullmatch(record["output_digest"]):
-            raise WorkGraphError("execution output digest required")
-        done[record["node"]] = record
+        _require_object(record, 'execution')
+        _require_exact_members(record, {'node', 'dispatch_id', 'graph_digest', 'input_digest', 'input_root_identity', 'read_set', 'output_digest', 'exit_code'}, 'execution')
+        if record['node'] not in expected or record['node'] in done:
+            raise WorkGraphError('unknown or duplicate execution')
+        if record['dispatch_id'] != transition['dispatch_id'] or type(record['exit_code']) is not int or record['exit_code'] != 0:
+            raise WorkGraphError('stale or failed execution')
+        node = nodes[record['node']]
+        reads = {p: graph['binding']['read_set'][p] for p in node['reads'] + node['invalidators'] if p.startswith('path:')}
+        if record['graph_digest'] != graph['digest'] or record['input_digest'] != node['input_digest'] or record['input_root_identity'] != graph['binding']['input_root_identity'] or (record['read_set'] != reads):
+            raise WorkGraphError('execution input binding mismatch')
+        if type(record['output_digest']) is not str or not DIGEST_RE.fullmatch(record['output_digest']):
+            raise WorkGraphError('execution output digest required')
+        done[record['node']] = record
     if set(done) != expected:
-        raise WorkGraphError("missing execution for selected useful work")
+        raise WorkGraphError('missing execution for selected useful work')
     for record in consumptions:
-        _require_object(record, "consumption")
-        _require_exact_members(record, {"node", "consumer", "condition", "input_digest", "input_root_identity", "read_set_digest", "output_digest", "decision_before", "decision_after"}, "consumption")
-        name = record["node"]
+        _require_object(record, 'consumption')
+        _require_exact_members(record, {'node', 'consumer', 'condition', 'input_digest', 'input_root_identity', 'read_set_digest', 'output_digest', 'decision_before', 'decision_after'}, 'consumption')
+        name = record['node']
         if name not in expected or name in used:
-            raise WorkGraphError("unknown or duplicate consumer input")
-        if (record["consumer"] != transition["consumers"][name]["node"] or
-                record["condition"] != transition["consumers"][name]["condition"] or
-                record["output_digest"] != done[name]["output_digest"]):
-            raise WorkGraphError("consumer identity/condition/output mismatch")
-        if (record["input_digest"] != done[name]["input_digest"] or
-                record["input_root_identity"] != done[name]["input_root_identity"] or
-                record["read_set_digest"] != _graph_hash(done[name]["read_set"])):
-            raise WorkGraphError("consumer input binding mismatch")
-        for key in ("decision_before", "decision_after"):
-            _native_name(record[key], "consumer." + key)
-        if record["decision_before"] == record["decision_after"]:
-            raise WorkGraphError("consumer has no decision-changing return")
+            raise WorkGraphError('unknown or duplicate consumer input')
+        if record['consumer'] != transition['consumers'][name]['node'] or record['condition'] != transition['consumers'][name]['condition'] or record['output_digest'] != done[name]['output_digest']:
+            raise WorkGraphError('consumer identity/condition/output mismatch')
+        if record['input_digest'] != done[name]['input_digest'] or record['input_root_identity'] != done[name]['input_root_identity'] or record['read_set_digest'] != _graph_hash(done[name]['read_set']):
+            raise WorkGraphError('consumer input binding mismatch')
+        for key in ('decision_before', 'decision_after'):
+            _native_name(record[key], 'consumer.' + key)
+        if record['decision_before'] == record['decision_after']:
+            raise WorkGraphError('consumer has no decision-changing return')
         used[name] = record
     if set(used) != expected:
-        raise WorkGraphError("missing consumer for selected useful work")
-    status = ("PORTABLE_RECORDS_CONSUMED" if expected else
-              "NO_REDISPATCH_AT_SUPPLIED_HISTORY" if transition["mode"] == "NO_REDISPATCH" else "NO_ELIGIBLE_EXECUTION")
-    return dict(schema="implementaudit.recursive-execution.v1", status=status,
-                event_receipt=dict(event_id=transition["event"]["id"], graph_digest=transition["graph_digest"],
-                                   dispatch_id=transition["dispatch_id"], consumed=transition["selected"]),
-                consumed=sorted(used), authority="NONE", native_campaign_proven=False,
-                evidence_scope="SOURCE_BOUND_EXECUTION_AND_CONSUMPTION_RECORDS", process_attestation="EXTERNAL_TO_PURE_CHECKER")
-
+        raise WorkGraphError('missing consumer for selected useful work')
+    status = 'PORTABLE_RECORDS_CONSUMED' if expected else 'NO_REDISPATCH_AT_SUPPLIED_HISTORY' if transition['mode'] == 'NO_REDISPATCH' else 'NO_ELIGIBLE_EXECUTION'
+    return dict(schema='implementaudit.recursive-execution.v1', status=status, event_receipt=dict(event_id=transition['event']['id'], graph_digest=transition['graph_digest'], dispatch_id=transition['dispatch_id'], consumed=transition['selected'], source_graph=copy.deepcopy(graph)) if expected else None, consumed=sorted(used), authority='NONE', native_campaign_proven=False, evidence_scope='SOURCE_BOUND_EXECUTION_AND_CONSUMPTION_RECORDS', process_attestation='EXTERNAL_TO_PURE_CHECKER')
 
 def verifier_registered_tests_v1(registry_bytes):
     """Discover test invocations from the actual canonical owner, not a count."""
     try:
-        text = registry_bytes.decode("utf-8", "strict")
+        text = registry_bytes.decode('utf-8', 'strict')
     except (AttributeError, UnicodeDecodeError) as exc:
-        raise WorkGraphError("verifier registry: UTF-8 bytes required") from exc
-    tests = re.findall(r"(?m)^bash (tests/[A-Za-z0-9_.-]+\.test\.sh)(?:[ \t]|$)", text)
+        raise WorkGraphError('verifier registry: UTF-8 bytes required') from exc
+    tests = re.findall('(?m)^bash (tests/[A-Za-z0-9_.-]+\\.test\\.sh)(?:[ \\t]|$)', text)
     if len(tests) != len(set(tests)):
-        raise WorkGraphError("verifier registration: duplicate test")
+        raise WorkGraphError('verifier registration: duplicate test')
     return sorted(tests)
-
 
 def compile_verifier_graph_v1(registry_bytes, test_paths, environment):
     """Map every registry byte to one ordered executable node.
@@ -2302,23 +2205,23 @@ def compile_verifier_graph_v1(registry_bytes, test_paths, environment):
     a proof that verifier bodies have independently closed read/write sets.
     """
     registered = verifier_registered_tests_v1(registry_bytes)
-    if sorted(_native_strings(test_paths, "verifier test paths")) != registered:
-        raise WorkGraphError("verifier registration population mismatch")
-    _require_object(environment, "verifier environment")
+    if sorted(_native_strings(test_paths, 'verifier test paths')) != registered:
+        raise WorkGraphError('verifier registration population mismatch')
+    _require_object(environment, 'verifier environment')
     validate_identity_json_v1(environment)
-    text = registry_bytes.decode("utf-8")
-    if "r0035_verifier_" in text or "\0" in text:
-        raise WorkGraphError("verifier registry conflicts with transport namespace")
-    boundary = "bash scripts/generate-readme-diagrams.sh --check\n"
+    text = registry_bytes.decode('utf-8')
+    if 'r0035_verifier_' in text or '\x00' in text:
+        raise WorkGraphError('verifier registry conflicts with transport namespace')
+    boundary = 'bash scripts/generate-readme-diagrams.sh --check\n'
     if text.count(boundary) != 1:
-        raise WorkGraphError("verifier grammar: unique composed-prelude boundary required")
+        raise WorkGraphError('verifier grammar: unique composed-prelude boundary required')
     at = text.index(boundary)
-    if at == 0 or (at and text[at - 1] != "\n"):
-        raise WorkGraphError("verifier grammar: prelude boundary must start a line")
-    if re.search(r"(?m)^bash tests/", text[:at]):
-        raise WorkGraphError("verifier grammar: test hidden in composed prelude")
+    if at == 0 or (at and text[at - 1] != '\n'):
+        raise WorkGraphError('verifier grammar: prelude boundary must start a line')
+    if re.search('(?m)^bash tests/', text[:at]):
+        raise WorkGraphError('verifier grammar: test hidden in composed prelude')
     lines = text[at:].splitlines(keepends=True)
-    chunks = [("PRELUDE", "COMPOSED_PRELUDE", text[:at], None)]
+    chunks = [('PRELUDE', 'COMPOSED_PRELUDE', text[:at], None)]
     index = 0
     commands_seen = {}
     while index < len(lines):
@@ -2326,80 +2229,61 @@ def compile_verifier_graph_v1(registry_bytes, test_paths, environment):
         index += 1
         if not source.strip():
             name, kind, old, command = chunks[-1]
-            chunks[-1] = name, kind, old + source, command
+            chunks[-1] = (name, kind, old + source, command)
             continue
-        while source.rstrip("\r\n").endswith("\\"):
+        while source.rstrip('\r\n').endswith('\\'):
             if index == len(lines):
-                raise WorkGraphError("verifier grammar: truncated continuation")
+                raise WorkGraphError('verifier grammar: truncated continuation')
             source += lines[index]
             index += 1
-        logical = source.replace("\\\n", "")
+        logical = source.replace('\\\n', '')
         try:
             words = shlex.split(logical, comments=False, posix=True)
         except ValueError as exc:
-            raise WorkGraphError("verifier grammar: malformed command") from exc
-        if len(words) >= 2 and words[0] == "bash" and re.fullmatch(r"(?:scripts|tests)/[A-Za-z0-9_.-]+\.sh", words[1]):
-            # Shell operators cannot be smuggled into a supposedly atomic tail.
-            if re.search(r"[;|&<>`]|\$\(", logical):
-                raise WorkGraphError("verifier grammar: compound tail command")
+            raise WorkGraphError('verifier grammar: malformed command') from exc
+        if len(words) >= 2 and words[0] == 'bash' and re.fullmatch('(?:scripts|tests)/[A-Za-z0-9_.-]+\\.sh', words[1]):
+            if re.search('[;|&<>`]|\\$\\(', logical):
+                raise WorkGraphError('verifier grammar: compound tail command')
             command = words[1]
             occurrence = commands_seen.get(command, 0)
             commands_seen[command] = occurrence + 1
-            name = f"COMMAND:{command}:{occurrence}"
-            kind = "TEST" if command.startswith("tests/") else "CHECK"
-        elif words == ["git", "diff", "--check"]:
-            name, kind, command = "FINAL_DIFF", "FINAL_CHECK", "git diff --check"
+            name = f'COMMAND:{command}:{occurrence}'
+            kind = 'TEST' if command.startswith('tests/') else 'CHECK'
+        elif words == ['git', 'diff', '--check']:
+            name, kind, command = ('FINAL_DIFF', 'FINAL_CHECK', 'git diff --check')
         elif logical == "printf 'verify-package: ok\\n'\n" and index == len(lines):
-            name, kind, command = "TERMINAL", "TERMINAL", "printf"
+            name, kind, command = ('TERMINAL', 'TERMINAL', 'printf')
         else:
-            raise WorkGraphError("verifier grammar: unknown tail command")
+            raise WorkGraphError('verifier grammar: unknown tail command')
         chunks.append((name, kind, source, command))
-    if chunks[-1][1] != "TERMINAL":
-        raise WorkGraphError("verifier grammar: exact terminal operation required")
-    nodes, offset, prior, test_nodes = [], 0, None, {}
+    if chunks[-1][1] != 'TERMINAL':
+        raise WorkGraphError('verifier grammar: exact terminal operation required')
+    nodes, offset, prior, test_nodes = ([], 0, None, {})
     for name, kind, source, command in chunks:
-        encoded = source.encode("utf-8")
-        if any(n["id"] == name for n in nodes):
-            raise WorkGraphError("verifier graph: duplicate node")
-        node = dict(id=name, kind=kind, source=source, source_sha256=hashlib.sha256(encoded).hexdigest(),
-                    byte_start=offset, byte_end=offset + len(encoded),
-                    requires=[] if prior is None else [prior], command=command,
-                    environment_digest=_graph_hash(environment),
-                    writer_resource_constraint="SHARED_SHELL_AND_REPOSITORY_SERIAL",
-                    independence="UNQUALIFIED_TRANSITIVE_READ_WRITE_SETS",
-                    evidence=["raw_stdout", "raw_stderr", "process_exit", "node_start_end"],
-                    invalidators=["registry_bytes", "candidate_source", "environment", "order", "currentness"],
-                    result_contract="PASS_EXIT_ZERO_OR_FAIL_OR_UNSETTLED_DEPENDENCY")
-        if kind == "TEST":
+        encoded = source.encode('utf-8')
+        if any((n['id'] == name for n in nodes)):
+            raise WorkGraphError('verifier graph: duplicate node')
+        node = dict(id=name, kind=kind, source=source, source_sha256=hashlib.sha256(encoded).hexdigest(), byte_start=offset, byte_end=offset + len(encoded), requires=[] if prior is None else [prior], command=command, environment_digest=_graph_hash(environment), writer_resource_constraint='SHARED_SHELL_AND_REPOSITORY_SERIAL', independence='UNQUALIFIED_TRANSITIVE_READ_WRITE_SETS', evidence=['raw_stdout', 'raw_stderr', 'process_exit', 'node_start_end'], invalidators=['registry_bytes', 'candidate_source', 'environment', 'order', 'currentness'], result_contract='PASS_EXIT_ZERO_OR_FAIL_OR_UNSETTLED_DEPENDENCY')
+        if kind == 'TEST':
             if command in test_nodes:
-                raise WorkGraphError("verifier registration: duplicate test node")
+                raise WorkGraphError('verifier registration: duplicate test node')
             test_nodes[command] = name
         nodes.append(node)
         offset += len(encoded)
         prior = name
     if sorted(test_nodes) != registered or offset != len(registry_bytes):
-        raise WorkGraphError("verifier registry coverage mismatch")
-    return _seal_graph(dict(schema="implementaudit.verifier-work-graph.v1", registry_sha256=hashlib.sha256(registry_bytes).hexdigest(),
-                            covered_bytes=offset, environment=environment, nodes=nodes, test_nodes=test_nodes,
-                            ordering="LEGACY_SERIAL_PRESERVED", selective_reuse="UNQUALIFIED_READ_SETS_REFUSE_REUSE",
-                            canonical_route_changed=False, authority="NONE"))
-
+        raise WorkGraphError('verifier registry coverage mismatch')
+    return _seal_graph(dict(schema='implementaudit.verifier-work-graph.v1', registry_sha256=hashlib.sha256(registry_bytes).hexdigest(), covered_bytes=offset, environment=environment, nodes=nodes, test_nodes=test_nodes, ordering='LEGACY_SERIAL_PRESERVED', selective_reuse='UNQUALIFIED_READ_SETS_REFUSE_REUSE', canonical_route_changed=False, authority='NONE'))
 
 def verifier_command_stream_v1(graph, current_registry_bytes):
-    _check_graph_seal(graph, "implementaudit.verifier-work-graph.v1")
-    if graph["registry_sha256"] != hashlib.sha256(current_registry_bytes).hexdigest():
-        raise WorkGraphError("verifier graph: stale registry")
-    rebuilt = compile_verifier_graph_v1(current_registry_bytes, sorted(graph["test_nodes"]), graph["environment"])
+    _check_graph_seal(graph, 'implementaudit.verifier-work-graph.v1')
+    if graph['registry_sha256'] != hashlib.sha256(current_registry_bytes).hexdigest():
+        raise WorkGraphError('verifier graph: stale registry')
+    rebuilt = compile_verifier_graph_v1(current_registry_bytes, sorted(graph['test_nodes']), graph['environment'])
     if rebuilt != graph:
-        raise WorkGraphError("verifier graph differs from current owner derivation")
-    return b"".join(node["id"].encode() + b"\0" + node["source"].encode() + b"\0" for node in graph["nodes"])
-
-
-VERIFIER_LEAF_CONTRACTS_V1 = {
-    "scripts/check-readme-toc.sh": dict(sha256="9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638", reads=["README.md"], probes=[]),  # source repo
-    "scripts/check-agents-bootstrap-budget.sh": dict(sha256="be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078", reads=["AGENTS.md"], probes=["docs/audits/RETENTION.md", "tests/agents-bootstrap-budget.test.sh"]),  # source repo
-}
-
+        raise WorkGraphError('verifier graph differs from current owner derivation')
+    return b''.join((node['id'].encode() + b'\x00' + node['source'].encode() + b'\x00' for node in graph['nodes']))
+VERIFIER_LEAF_CONTRACTS_V1 = {'scripts/check-readme-toc.sh': dict(sha256='9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638', reads=['README.md'], probes=[]), 'scripts/check-agents-bootstrap-budget.sh': dict(sha256='be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078', reads=['AGENTS.md'], probes=['docs/audits/RETENTION.md', 'tests/agents-bootstrap-budget.test.sh'])}  # source repo
 
 def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     """Derive a bounded task plan. The real acquirer owns input facts; the
@@ -2407,125 +2291,89 @@ def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     This pure function authenticates neither execution nor native currentness.
     """
     verifier_command_stream_v1(graph, registry)
-    _require_exact_members(acquired, {"schema", "scope", "binding", "inputs"}, "verifier acquisition")
-    if acquired["schema"] != "implementaudit.verifier-acquisition.v1" or acquired["scope"] != "CONTROLLED_TASK_LEAVES_V1":
-        raise WorkGraphError("unsupported verifier acquisition scope")
-    _require_object(acquired["binding"], "verifier binding")
-    _require_object(issued, "issued verifier keys")
-    names = {"COMMAND:" + path + ":0" for path in VERIFIER_LEAF_CONTRACTS_V1}
-    _require_exact_members(acquired["inputs"], names, "verifier input population")
+    _require_exact_members(acquired, {'schema', 'scope', 'binding', 'inputs'}, 'verifier acquisition')
+    if acquired['schema'] != 'implementaudit.verifier-acquisition.v1' or acquired['scope'] != 'CONTROLLED_TASK_LEAVES_V1':
+        raise WorkGraphError('unsupported verifier acquisition scope')
+    _require_object(acquired['binding'], 'verifier binding')
+    _require_object(issued, 'issued verifier keys')
+    names = {'COMMAND:' + path + ':0' for path in VERIFIER_LEAF_CONTRACTS_V1}
+    _require_exact_members(acquired['inputs'], names, 'verifier input population')
     if not set(issued).issubset(names):
-        raise WorkGraphError("foreign issued verifier population")
+        raise WorkGraphError('foreign issued verifier population')
     nodes = []
-    for node in graph["nodes"]:
-        if node["id"] not in names:
+    for node in graph['nodes']:
+        if node['id'] not in names:
             continue
-        contract = VERIFIER_LEAF_CONTRACTS_V1[node["command"]]
-        if node["source"].strip() != "bash " + node["command"]:
-            raise WorkGraphError("unsupported verifier invocation")
-        inputs = acquired["inputs"][node["id"]]
-        _require_exact_members(inputs, {"program_sha256", "image_digest"}, "verifier leaf input")
-        if inputs["program_sha256"] != contract["sha256"]:
-            raise WorkGraphError("unsupported verifier checker contract")
-        if not isinstance(inputs["image_digest"], str) or not re.fullmatch(r"[0-9a-f]{64}", inputs["image_digest"]):
-            raise WorkGraphError("invalid verifier image identity")
-        key = _graph_hash([graph["digest"], acquired["scope"], acquired["binding"], node, contract, inputs])
-        nodes.append(dict(node=node["id"], key=key, decision="CONSUME_PRIOR_SUCCESS" if issued.get(node["id"]) == key else "EXECUTE"))
-    if {n["node"] for n in nodes} != names:
-        raise WorkGraphError("verifier mapped scope population mismatch")
-    return _seal_graph(dict(schema="implementaudit.verifier-reuse-plan.v1", scope=acquired["scope"],
-                            graph_digest=graph["digest"], nodes=nodes,
-                            omitted_canonical_nodes=len(graph["nodes"]) - len(nodes), authority="NONE"))
-
+        contract = VERIFIER_LEAF_CONTRACTS_V1[node['command']]
+        if node['source'].strip() != 'bash ' + node['command']:
+            raise WorkGraphError('unsupported verifier invocation')
+        inputs = acquired['inputs'][node['id']]
+        _require_exact_members(inputs, {'program_sha256', 'image_digest'}, 'verifier leaf input')
+        if inputs['program_sha256'] != contract['sha256']:
+            raise WorkGraphError('unsupported verifier checker contract')
+        if not isinstance(inputs['image_digest'], str) or not re.fullmatch('[0-9a-f]{64}', inputs['image_digest']):
+            raise WorkGraphError('invalid verifier image identity')
+        key = _graph_hash([graph['digest'], acquired['scope'], acquired['binding'], node, contract, inputs])
+        nodes.append(dict(node=node['id'], key=key, decision='CONSUME_PRIOR_SUCCESS' if issued.get(node['id']) == key else 'EXECUTE'))
+    if {n['node'] for n in nodes} != names:
+        raise WorkGraphError('verifier mapped scope population mismatch')
+    return _seal_graph(dict(schema='implementaudit.verifier-reuse-plan.v1', scope=acquired['scope'], graph_digest=graph['digest'], nodes=nodes, omitted_canonical_nodes=len(graph['nodes']) - len(nodes), authority='NONE'))
 
 def main(argv: list[str]) -> int:
-    if len(argv) > 1 and argv[1] in {"--select-native", "--recursive-native", "--reconcile-native"}:
+    if len(argv) > 1 and argv[1] in {'--select-native', '--recursive-native', '--reconcile-native'}:
         try:
-            expected = {"--select-native": 4, "--recursive-native": 5, "--reconcile-native": 8}[argv[1]]
+            expected = {'--select-native': 4, '--recursive-native': 5, '--reconcile-native': 8}[argv[1]]
             if len(argv) != expected:
-                raise WorkGraphError("native operation requires RUN_ROOT REPO_ROOT and its exact contract inputs")
+                raise WorkGraphError('native operation requires RUN_ROOT REPO_ROOT and its exact contract inputs')
             current = read_native_run_v1(argv[2], argv[3])
+
             def load_json(path):
                 return decode_strict_json_bytes(pathlib.Path(path).read_bytes(), path)
-            if argv[1] == "--select-native":
+            if argv[1] == '--select-native':
                 result = select_native_frontier_v1(current)
-            elif argv[1] == "--recursive-native":
+            elif argv[1] == '--recursive-native':
                 result = compile_recursive_transition_v1(current, load_json(argv[4]))
             else:
                 result = reconcile_native_results_v1(load_json(argv[4]), current, load_json(argv[5]), load_json(argv[6]), argv[7])
             sys.stdout.buffer.write(canonical_json_v1(result))
             return 0
         except (OSError, WorkGraphError) as exc:
-            print(f"compile-work-graph: {exc}", file=sys.stderr)
+            print(f'compile-work-graph: {exc}', file=sys.stderr)
             return 2
-    if len(argv) > 1 and argv[1] in {"--inspect-native", "--native-run"}:
+    if len(argv) > 1 and argv[1] in {'--inspect-native', '--native-run'}:
         try:
-            expected = 3 if argv[1] == "--inspect-native" else 4
+            expected = 3 if argv[1] == '--inspect-native' else 4
             if len(argv) != expected:
-                raise WorkGraphError("usage: --inspect-native RUN_ROOT or --native-run RUN_ROOT REPO_ROOT")
+                raise WorkGraphError('usage: --inspect-native RUN_ROOT or --native-run RUN_ROOT REPO_ROOT')
             graph = read_native_run_v1(argv[2], None if expected == 3 else argv[3])
             sys.stdout.buffer.write(canonical_json_v1(graph))
             return 0
         except (OSError, WorkGraphError) as exc:
-            print(f"compile-work-graph: {exc}", file=sys.stderr)
+            print(f'compile-work-graph: {exc}', file=sys.stderr)
             return 2
-    proximal_mode = (
-        argv[1] if len(argv) > 1 and argv[1].startswith("--proximal-") else None
-    )
-    native_mode = len(argv) > 1 and argv[1] == "--native-a-g"
-    supported_modes = {
-        "--proximal-schedule": {3},
-        "--proximal-advance": {5},
-        "--proximal-action-selection": {3, 6},
-        "--proximal-reconcile": {5},
-    }
+    proximal_mode = argv[1] if len(argv) > 1 and argv[1].startswith('--proximal-') else None
+    native_mode = len(argv) > 1 and argv[1] == '--native-a-g'
+    supported_modes = {'--proximal-schedule': {3}, '--proximal-advance': {5}, '--proximal-action-selection': {3, 6}, '--proximal-reconcile': {5}}
     invalid_mode = proximal_mode is not None and proximal_mode not in supported_modes
-    invalid_arity = (
-        proximal_mode is not None
-        and not invalid_mode
-        and len(argv) not in supported_modes[proximal_mode]
-    )
-    if invalid_mode or invalid_arity or (native_mode and len(argv) != 3) or (
-            proximal_mode is None and not native_mode and len(argv) not in {2, 3}):
-        print(
-            "usage: compile-work-graph.py WORK_GRAPH.json [PRODUCT_AUTHORITY.json]\n"
-            "   or: compile-work-graph.py --proximal-schedule REQUEST.json\n"
-            "   or: compile-work-graph.py --proximal-advance CONTEXT.json REQUEST.json PROJECTION.json\n"
-            "   or: compile-work-graph.py --proximal-action-selection CONTEXT.json "
-            "[REQUEST.json PROJECTION.json ADVANCE_TOKEN.json]\n"
-            "   or: compile-work-graph.py --proximal-reconcile REQUEST.json "
-            "PROJECTION.json RESULTS.json\n"
-            "   or: compile-work-graph.py --native-a-g REQUEST.json",
-            file=sys.stderr,
-        )
+    invalid_arity = proximal_mode is not None and (not invalid_mode) and (len(argv) not in supported_modes[proximal_mode])
+    if invalid_mode or invalid_arity or (native_mode and len(argv) != 3) or (proximal_mode is None and (not native_mode) and (len(argv) not in {2, 3})):
+        print('usage: compile-work-graph.py WORK_GRAPH.json [PRODUCT_AUTHORITY.json]\n   or: compile-work-graph.py --proximal-schedule REQUEST.json\n   or: compile-work-graph.py --proximal-advance CONTEXT.json REQUEST.json PROJECTION.json\n   or: compile-work-graph.py --proximal-action-selection CONTEXT.json [REQUEST.json PROJECTION.json ADVANCE_TOKEN.json]\n   or: compile-work-graph.py --proximal-reconcile REQUEST.json PROJECTION.json RESULTS.json\n   or: compile-work-graph.py --native-a-g REQUEST.json', file=sys.stderr)
         return 2
     path = pathlib.Path(argv[2] if proximal_mode or native_mode else argv[1])
     try:
         if native_mode:
             projection = compile_native_a_g_v1(path.read_bytes())
-        elif proximal_mode == "--proximal-schedule":
+        elif proximal_mode == '--proximal-schedule':
             projection = compile_proximal_schedule_v1(path.read_bytes())
-        elif proximal_mode == "--proximal-advance":
-            projection = issue_proximal_advance_v1(
-                path.read_bytes(), pathlib.Path(argv[3]).read_bytes(),
-                pathlib.Path(argv[4]).read_bytes(),
-            )
-        elif proximal_mode == "--proximal-action-selection":
+        elif proximal_mode == '--proximal-advance':
+            projection = issue_proximal_advance_v1(path.read_bytes(), pathlib.Path(argv[3]).read_bytes(), pathlib.Path(argv[4]).read_bytes())
+        elif proximal_mode == '--proximal-action-selection':
             context_bytes = path.read_bytes()
             token_path = None if len(argv) == 3 else pathlib.Path(argv[5])
-            inputs = (None, None, None) if token_path is None else (
-                pathlib.Path(argv[3]).read_bytes(),
-                pathlib.Path(argv[4]).read_bytes(),
-                token_path.read_bytes(),
-            )
-            projection = compile_proximal_action_selection_v1(
-                context_bytes, *inputs
-            )
-        elif proximal_mode == "--proximal-reconcile":
-            projection = reconcile_proximal_results_v1(
-                path.read_bytes(), pathlib.Path(argv[3]).read_bytes(),
-                pathlib.Path(argv[4]).read_bytes(),
-            )
+            inputs = (None, None, None) if token_path is None else (pathlib.Path(argv[3]).read_bytes(), pathlib.Path(argv[4]).read_bytes(), token_path.read_bytes())
+            projection = compile_proximal_action_selection_v1(context_bytes, *inputs)
+        elif proximal_mode == '--proximal-reconcile':
+            projection = reconcile_proximal_results_v1(path.read_bytes(), pathlib.Path(argv[3]).read_bytes(), pathlib.Path(argv[4]).read_bytes())
         else:
             raw = path.read_bytes()
             authority_path = pathlib.Path(argv[2]) if len(argv) == 3 else None
@@ -2534,14 +2382,12 @@ def main(argv: list[str]) -> int:
                 validate_product_authority_cli_path_v1(raw, path, authority_path)
             projection = compile_frontier_projection(raw, authority_bytes)
     except OSError as exc:
-        print(f"compile-work-graph: {path}: {exc}", file=sys.stderr)
+        print(f'compile-work-graph: {path}: {exc}', file=sys.stderr)
         return 2
     except WorkGraphError as exc:
-        print(f"compile-work-graph: {exc}", file=sys.stderr)
+        print(f'compile-work-graph: {exc}', file=sys.stderr)
         return 2
     sys.stdout.buffer.write(canonical_json_v1(projection))
     return 0
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(main(sys.argv))

@@ -6,6 +6,7 @@ registry, choose parallel tests, supply release authority, or install anything.
 """
 import argparse
 import copy
+import errno
 import hashlib
 import importlib.util
 import json
@@ -13,6 +14,7 @@ import os
 from pathlib import Path
 import platform
 import re
+import shutil
 import signal
 import stat
 import struct
@@ -27,10 +29,12 @@ except ImportError:
     fcntl = resource = None
 
 ROOT = Path(__file__).resolve().parents[1]
-LOADED_DRIVER = Path(__file__).read_bytes()
+LOADED_DRIVER_PATH = Path(__file__).resolve()
+LOADED_DRIVER = LOADED_DRIVER_PATH.read_bytes()
 SPEC = importlib.util.spec_from_file_location("work_graph", ROOT / "skills/implementaudit/scripts/compile-work-graph.py")
 WG = importlib.util.module_from_spec(SPEC)
 LOADED_COMPILER = Path(SPEC.origin).read_bytes()
+LOADED_COMPILER_PATH = Path(SPEC.origin).resolve()
 exec(compile(LOADED_COMPILER, SPEC.origin, "exec"), WG.__dict__)
 
 
@@ -38,20 +42,217 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def stream_sha(stream):
+    digest = hashlib.sha256()
+    for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+        digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _file_identity(metadata):
+    return (metadata.st_dev, metadata.st_ino, metadata.st_mode, metadata.st_size,
+            metadata.st_mtime_ns, metadata.st_ctime_ns)
+
+
+def require_source_descriptor_api():
+    if (not all(hasattr(os, flag) for flag in ("O_DIRECTORY", "O_NOFOLLOW", "O_NONBLOCK")) or
+            not all(call in os.supports_dir_fd for call in (os.open, os.stat, os.readlink)) or
+            os.stat not in os.supports_follow_symlinks):
+        raise WG.WorkGraphError("full verifier source observation requires no-follow directory descriptors")
+
+
+def source_member(name, *, root=None):
+    """Observe declared Git members without following source symlink targets."""
+    path = Path(name)
+    if path.is_absolute() or not path.parts or any(p in {"", ".", ".."} for p in path.parts):
+        raise WG.WorkGraphError("unsupported Git member path")
+    require_source_descriptor_api()
+    directory = os.open(ROOT if root is None else root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    directories = [(directory, stat.S_IMODE(os.fstat(directory).st_mode))]
+    result = dict(ancestor_modes={".": directories[0][1]})
+    try:
+        for index, component in enumerate(path.parts[:-1]):
+            try:
+                child = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                dir_fd=directory)
+            except OSError as exc:
+                if exc.errno not in {errno.ENOENT, errno.ENOTDIR, errno.ELOOP, errno.EACCES}:
+                    raise
+                return dict(result, kind="UNACQUIRED", reason="MISSING_OR_UNSUPPORTED_ANCESTOR")
+            directory = child
+            mode = stat.S_IMODE(os.fstat(directory).st_mode)
+            directories.append((directory, mode))
+            result["ancestor_modes"]["/".join(path.parts[:index + 1])] = mode
+        try:
+            before = os.stat(path.name, dir_fd=directory, follow_symlinks=False)
+        except FileNotFoundError:
+            return dict(result, kind="MISSING")
+        result["mode"] = stat.S_IMODE(before.st_mode)
+        if stat.S_ISLNK(before.st_mode):
+            result.update(kind="SYMLINK", target_sha256=sha(os.fsencode(
+                os.readlink(path.name, dir_fd=directory))), content="TARGET_NOT_FOLLOWED")
+        elif stat.S_ISREG(before.st_mode):
+            fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+            try:
+                opened = os.fstat(fd)
+                if not stat.S_ISREG(opened.st_mode) or _file_identity(before) != _file_identity(opened):
+                    raise WG.WorkGraphError("source member changed during observation")
+                with os.fdopen(fd, "rb", closefd=False) as stream:
+                    digest = stream_sha(stream)
+                if _file_identity(opened) != _file_identity(os.fstat(fd)):
+                    raise WG.WorkGraphError("source member changed during observation")
+                result.update(kind="FILE", bytes=opened.st_size, sha256=digest)
+            finally:
+                os.close(fd)
+        elif stat.S_ISDIR(before.st_mode):
+            result.update(kind="DIRECTORY", content="MEMBERSHIP_NOT_RECURSIVELY_ACQUIRED")
+        else:
+            result.update(kind="UNACQUIRED", reason="NONREGULAR_MEMBER")
+        if _file_identity(before) != _file_identity(os.stat(path.name, dir_fd=directory, follow_symlinks=False)):
+            raise WG.WorkGraphError("source member changed during observation")
+        return result
+    finally:
+        changed = any(stat.S_IMODE(os.fstat(fd).st_mode) != mode for fd, mode in directories)
+        for fd, _ in directories:
+            os.close(fd)
+        if changed:
+            raise WG.WorkGraphError("source ancestor mode changed during observation")
+
+
 def source_identity():
+    require_source_descriptor_api()
     def git(*args):
         return subprocess.check_output(["git", *args], cwd=ROOT)
-    names = git("ls-files", "-z").split(b"\0")
-    files = []
-    for name in names:
-        if not name:
-            continue
-        path = ROOT / os.fsdecode(name)
-        data = os.fsencode(os.readlink(path)) if path.is_symlink() else path.read_bytes() if path.is_file() else b"MISSING"
-        files.append([os.fsdecode(name), sha(data)])
+    names = sorted(set(filter(None, git("ls-files", "-z").split(b"\0"))))
+    untracked = sorted(set(filter(None, git("ls-files", "--others", "--exclude-standard", "-z").split(b"\0"))))
+    members = {}
+    for raw in sorted(set(names) | set(untracked)):
+        name = os.fsdecode(raw)
+        members[name] = dict(tracked=raw in names, **source_member(name))
+    files = [[os.fsdecode(raw), members[os.fsdecode(raw)].get("sha256",
+              members[os.fsdecode(raw)].get("target_sha256", sha(b"MISSING")))] for raw in names]
+    refs = git("for-each-ref", "--sort=refname",
+               "--format=%(refname)%00%(objectname)%00%(*objectname)%00%(symref)")
     return dict(head=git("rev-parse", "HEAD").decode().strip(), tree=git("rev-parse", "HEAD^{tree}").decode().strip(),
+                head_reference=git("rev-parse", "--symbolic-full-name", "HEAD").decode().strip(),
                 tracked_source_digest=sha(WG.canonical_json_v1(files)),
-                status_digest=sha(git("status", "--porcelain=v1", "-z", "--untracked-files=all")))
+                status_digest=sha(git("status", "--porcelain=v1", "-z", "--untracked-files=all")),
+                index_sha256=sha(git("ls-files", "--stage", "-z")),
+                git_refs=[os.fsdecode(line).split("\0") for line in refs.splitlines()],
+                members=members,
+                acquisition_coverage="PARTIAL_GIT_DECLARED_MEMBERS_NO_SYMLINK_DEREFERENCE; IGNORED_NAMESPACE_UNACQUIRED")
+
+
+def executable_identity(path):
+    if path is None:
+        return dict(available=False)
+    if not all(hasattr(os, flag) for flag in ("O_NOFOLLOW", "O_NONBLOCK")):
+        raise WG.WorkGraphError("full verifier executable observation requires a safe nonblocking open")
+    resolved = Path(path).resolve(strict=True)
+    fd = os.open(resolved, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        before = os.fstat(fd)
+        if not stat.S_ISREG(before.st_mode):
+            raise WG.WorkGraphError("unsupported executable member")
+        with os.fdopen(fd, "rb", closefd=False) as stream:
+            digest = stream_sha(stream)
+        if _file_identity(before) != _file_identity(os.fstat(fd)):
+            raise WG.WorkGraphError("executable changed during observation")
+    finally:
+        os.close(fd)
+    if _file_identity(before) != _file_identity(resolved.lstat()):
+        raise WG.WorkGraphError("executable changed during observation")
+    return dict(available=True, selected_path=str(path), resolved_path=str(resolved),
+                mode=stat.S_IMODE(before.st_mode), bytes=before.st_size, sha256=digest)
+
+
+def environment_identity():
+    # Digest all inherited values without retaining them. Only the established
+    # safe projection and the two explicit CI branch/config inputs are printed.
+    inherited = b"\0".join(os.fsencode(k) + b"=" + os.fsencode(v)
+                           for k, v in sorted(os.environ.items()))
+    umask = None
+    if platform.system() == "Linux":
+        try:
+            with Path("/proc/self/status").open() as stream:
+                for line in stream:
+                    if line.startswith("Umask:"):
+                        umask = int(line.split()[1], 8)
+                        break
+        except OSError:
+            pass
+    identity = {name: getattr(os, name)() for name in ("getuid", "geteuid", "getgid", "getegid", "getgroups")
+                if hasattr(os, name)}
+    limits = None if resource is None else {
+        name: list(resource.getrlimit(getattr(resource, name)))
+        for name in dir(resource) if name.startswith("RLIMIT_")}
+    executables = {"observer_python": executable_identity(sys.executable),
+                   **{name: executable_identity(shutil.which(name)) for name in ("bash", "git", "node", "npx")}}
+    return dict(platform=platform.platform(), python=sys.version, python_executable=sys.executable,
+                bash=subprocess.check_output(["bash", "--version"]).decode().splitlines()[0],
+                git=subprocess.check_output(["git", "--version"]).decode().strip(),
+                selected_environment={k: os.environ.get(k) for k in
+                    ("PATH", "LANG", "LC_ALL", "TZ", "PYTHONDONTWRITEBYTECODE", "GITHUB_BASE_REF", "GITHUB_ACTIONS")},
+                inherited_environment_sha256=sha(inherited),
+                executables=executables,
+                process_identity=identity, inherited_resource_limits=limits, umask=umask,
+                acquisition_coverage="PARTIAL_NOT_TOOLCHAIN_CLOSURE")
+
+
+def full_engine_binding():
+    # These are the actual loaded paths, not a candidate ROOT that a caller may
+    # point at a small fixture. This is source currentness, not startup trust.
+    result = {}
+    engine_root = LOADED_DRIVER_PATH.parents[1]
+    for name, path, loaded in (("driver_sha256", LOADED_DRIVER_PATH, LOADED_DRIVER),
+                               ("compiler_sha256", LOADED_COMPILER_PATH, LOADED_COMPILER)):
+        member = source_member(path.relative_to(engine_root).as_posix(), root=engine_root)
+        if (member["kind"] != "FILE" or member["bytes"] != len(loaded) or
+                member["sha256"] != sha(loaded)):
+            raise WG.WorkGraphError("loaded verifier engine differs from current source")
+        result[name] = sha(loaded)
+    return result
+
+
+def trace_nodes(mapping, mode, code, data):
+    """Derive the only legal source-ordered START/PASS prefix; no attestation."""
+    if type(mode) is not str or mode not in {"legacy", "dag"} or type(code) is not int:
+        raise WG.WorkGraphError("invalid verifier node observation context")
+    names = [n["id"] for n in mapping["nodes"]]
+    if mode == "legacy":
+        if data is not None:
+            raise WG.WorkGraphError("legacy route has no original node trace")
+        events = []
+    else:
+        if type(data) is not bytes or (data and not data.endswith(b"\n")):
+            raise WG.WorkGraphError("invalid verifier node trace framing")
+        events = data.split(b"\n")[:-1] if data else []
+        expected = [name.encode() + b"\t" + state for name in names for state in (b"START", b"PASS")]
+        if events != expected[:len(events)] or len(events) > len(expected):
+            raise WG.WorkGraphError("invalid ordered verifier node trace")
+        if code == 0 and len(events) != len(expected):
+            raise WG.WorkGraphError("successful verifier has incomplete node trace")
+    nodes = []
+    for index, name in enumerate(names):
+        state = "PASS" if len(events) >= 2 * index + 2 else (
+            "INTERRUPTED" if code < 0 else "FAIL") if len(events) == 2 * index + 1 else "UNSETTLED"
+        nodes.append(dict(node=name, status=state, terminal=state != "UNSETTLED"))
+    return nodes
+
+
+def valid_nodes(nodes, names, mode, code):
+    if type(nodes) is not list or len(nodes) != len(names):
+        return False
+    for node, name in zip(nodes, names):
+        if (type(node) is not dict or set(node) != {"node", "status", "terminal"} or
+                type(node["node"]) is not str or node["node"] != name or
+                type(node["status"]) is not str or node["status"] not in {"PASS", "FAIL", "INTERRUPTED", "UNSETTLED"} or
+                type(node["terminal"]) is not bool or node["terminal"] != (node["status"] != "UNSETTLED") or
+                (mode == "legacy" and node["status"] != "UNSETTLED") or
+                (node["status"] == "FAIL" and code <= 0) or
+                (node["status"] == "INTERRUPTED" and code >= 0)):
+            return False
+    return True
 
 
 def verified_record(directory):
@@ -59,23 +260,87 @@ def verified_record(directory):
     def read_json(name):
         return WG.decode_strict_json_bytes((directory / name).read_bytes(), name)
     result, mapping = read_json("result.json"), read_json("mapping.json")
+    if (type(result) is not dict or type(result.get("schema")) is not str or
+            result["schema"] not in {"implementaudit.verifier-run.v1", "implementaudit.verifier-run.v2"}):
+        raise WG.WorkGraphError("invalid verifier result schema")
+    fields = {"schema", "mode", "command", "before", "after", "environment", "registry_sha256",
+              "graph_digest", "mapped_nodes", "registered_tests", "registration_complete", "exit",
+              "elapsed_ms", "stdout_sha256", "stderr_sha256", "nodes", "authority"}
+    if result["schema"] == "implementaudit.verifier-run.v2":
+        fields |= {"environment_after", "engine_binding", "node_trace", "execution_context",
+                   "actual_argv", "command_stream"}
+    if (set(result) != fields or type(result.get("mode")) is not str or
+            result["mode"] not in {"legacy", "dag"} or result.get("authority") != "NONE" or
+            type(result.get("command")) is not list or
+            not all(type(value) is str for value in result["command"]) or
+            not all(type(result.get(key)) is dict for key in ("before", "after", "environment")) or
+            any(type(result.get(key)) is not str or not re.fullmatch(r"[0-9a-f]{64}", result[key])
+                for key in ("registry_sha256", "graph_digest", "stdout_sha256", "stderr_sha256"))):
+        raise WG.WorkGraphError("invalid verifier result members or types")
     registry = b"".join(n["source"].encode() for n in mapping["nodes"])
-    WG.verifier_command_stream_v1(mapping, registry)
+    compiled_stream = WG.verifier_command_stream_v1(mapping, registry)
     names = [n["id"] for n in mapping["nodes"]]
     exit_bytes = (directory / "exit-code.txt").read_bytes()
-    valid = (result["schema"] == "implementaudit.verifier-run.v1" and
-             result["mode"] in {"legacy", "dag"} and
+    valid = (result["command"] == ["bash", "scripts/verify-package.sh" if result["mode"] == "legacy"
+                                   else "scripts/run-work-graph-verifier.sh"] and
              result["graph_digest"] == mapping["digest"] and
              result["registry_sha256"] == mapping["registry_sha256"] and
              result["environment"] == mapping["environment"] and
              type(result["mapped_nodes"]) is int and result["mapped_nodes"] == len(names) and
              type(result["registered_tests"]) is int and result["registered_tests"] == len(mapping["test_nodes"]) and
-             [n["node"] for n in result["nodes"]] == names and
              type(result["exit"]) is int and re.fullmatch(rb"-?(?:0|[1-9][0-9]*)\n", exit_bytes) is not None and
              int(exit_bytes) == result["exit"] and
+             type(result["registration_complete"]) is bool and
+             type(result["elapsed_ms"]) is int and result["elapsed_ms"] >= 0 and
+             valid_nodes(result["nodes"], names, result["mode"], result["exit"]) and
              all(result[stream + "_sha256"] == sha((directory / (stream + ".log")).read_bytes()) for stream in ("stdout", "stderr")))
     if not valid:
         raise WG.WorkGraphError("inconsistent verifier result, mapping, raw streams or durable exit")
+    # Both formats require an actual ordered DAG trace. Only v2 originally
+    # bound those bytes; reading v1 cannot retroactively create that binding.
+    data = (directory / "nodes.tsv").read_bytes() if result["mode"] == "dag" else None
+    if result["schema"] == "implementaudit.verifier-run.v2":
+        if (type(result["environment_after"]) is not dict or
+                type(result["engine_binding"]) is not dict or
+                set(result["engine_binding"]) != {"driver_sha256", "compiler_sha256"} or
+                any(type(value) is not str or not re.fullmatch(r"[0-9a-f]{64}", value)
+                    for value in result["engine_binding"].values())):
+            raise WG.WorkGraphError("invalid verifier observation binding")
+        context, binding = result["execution_context"], result["command_stream"]
+        if (type(context) is not dict or set(context) != {"cwd", "output"} or
+                any(type(value) is not str or not Path(value).is_absolute() for value in context.values()) or
+                type(result["actual_argv"]) is not list or
+                not all(type(value) is str for value in result["actual_argv"]) or
+                type(binding) is not dict or set(binding) != {"sha256", "bytes"} or
+                type(binding["bytes"]) is not int or binding["bytes"] < 0 or
+                type(binding["sha256"]) is not str or not re.fullmatch(r"[0-9a-f]{64}", binding["sha256"])):
+            raise WG.WorkGraphError("invalid verifier command input binding")
+        retained_stream = (directory / "commands.bin").read_bytes()
+        if (retained_stream != compiled_stream or len(retained_stream) != binding["bytes"] or
+                sha(retained_stream) != binding["sha256"]):
+            raise WG.WorkGraphError("inconsistent retained verifier command stream")
+        # Validate the original literal execution paths, even when the retained
+        # evidence is later restored elsewhere. This is not attestation.
+        expected_argv = list(result["command"])
+        if result["mode"] == "dag":
+            original_output = context["output"]
+            expected_argv += [original_output + "/commands.bin", original_output + "/nodes.tsv",
+                              str(len(names)), binding["sha256"]]
+        if result["actual_argv"] != expected_argv:
+            raise WG.WorkGraphError("inconsistent verifier actual argv")
+        trace = result["node_trace"]
+        if result["mode"] == "dag":
+            if (type(trace) is not dict or set(trace) != {"sha256", "bytes"} or
+                    type(trace["bytes"]) is not int or trace["bytes"] < 0 or
+                    type(trace["sha256"]) is not str or not re.fullmatch(r"[0-9a-f]{64}", trace["sha256"])):
+                raise WG.WorkGraphError("invalid verifier node trace binding")
+            if len(data) != trace["bytes"] or sha(data) != trace["sha256"]:
+                raise WG.WorkGraphError("inconsistent retained verifier node trace")
+        else:
+            if trace is not None:
+                raise WG.WorkGraphError("legacy route has no original node trace")
+    if result["nodes"] != trace_nodes(mapping, result["mode"], result["exit"], data):
+        raise WG.WorkGraphError("inconsistent verifier nodes and ordered trace")
     return result
 
 
@@ -83,12 +348,22 @@ def compare(left, right, out):
     a, b = (verified_record(p) for p in (left, right))
     checks = dict(same_source=a["before"] == b["before"] == a["after"] == b["after"],
                   same_registry=a["registry_sha256"] == b["registry_sha256"],
-                  same_environment=a["environment"] == b["environment"],
+                  same_environment=a["environment"] == a.get("environment_after", a["environment"]) ==
+                                   b["environment"] == b.get("environment_after", b["environment"]),
+                  same_record_schema=a["schema"] == b["schema"],
                   same_exit=a["exit"] == b["exit"],
                   same_stdout=(left / "stdout.log").read_bytes() == (right / "stdout.log").read_bytes(),
                   same_stderr=(left / "stderr.log").read_bytes() == (right / "stderr.log").read_bytes(),
                   route_pair={a["mode"], b["mode"]} == {"legacy", "dag"})
+    if a["schema"] == b["schema"] == "implementaudit.verifier-run.v2":
+        checks.update(same_engine=a["engine_binding"] == b["engine_binding"],
+                      same_execution_cwd=a["execution_context"]["cwd"] == b["execution_context"]["cwd"],
+                      same_compiled_stream=(left / "commands.bin").read_bytes() == (right / "commands.bin").read_bytes())
     result = dict(schema="implementaudit.verifier-correspondence.v1", checks=checks,
+                  record_coverage=["HISTORICAL_V1_RETAINED_TRACE_VALIDATED_NO_ORIGINAL_BINDING" if r["schema"].endswith(".v1") and r["mode"] == "dag"
+                                   else "HISTORICAL_V1_WHOLE_PROCESS_ONLY" if r["schema"].endswith(".v1")
+                                   else "ORDERED_TRACE_BOUND_V2" if r["mode"] == "dag"
+                                   else "WHOLE_PROCESS_ONLY_V2" for r in (a, b)],
                   raw_observables_equal=all(checks.values()), normalization="NONE_RAW_BYTES",
                   evidence_semantics="NODE_AND_WHOLE_PROCESS_ONLY; TRANSITIVE_OUTPUT_ARTIFACT_SEMANTICS_UNQUALIFIED",
                   canonical_conversion="NOT_PERFORMED", retirement="NOT_PERFORMED", authority="NONE")
@@ -99,53 +374,54 @@ def compare(left, right, out):
 
 def run(mode, output):
     output.mkdir(parents=True, exist_ok=False)
+    engine = full_engine_binding()
     before = source_identity()
-    environment = dict(platform=platform.platform(), python=sys.version,
-                       python_executable=sys.executable,
-                       bash=subprocess.check_output(["bash", "--version"]).decode().splitlines()[0],
-                       git=subprocess.check_output(["git", "--version"]).decode().strip(),
-                       selected_environment={k: os.environ.get(k) for k in ("PATH", "LANG", "LC_ALL", "TZ", "PYTHONDONTWRITEBYTECODE")})
+    environment = environment_identity()
     registry = (ROOT / "scripts/verify-package.sh").read_bytes()
     tests = WG.verifier_registered_tests_v1(registry)
     graph = WG.compile_verifier_graph_v1(registry, tests, environment)
     actual_tests = sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / "tests").glob("*.test.sh"))
     registration_complete = actual_tests == tests
     (output / "mapping.json").write_bytes(WG.canonical_json_v1(graph) + b"\n")
-    with tempfile.TemporaryDirectory(prefix="r0035-verifier-stream-") as temporary:
-        stream = Path(temporary) / "commands.bin"
-        stream.write_bytes(WG.verifier_command_stream_v1(graph, registry))
-        if mode == "legacy":
-            command = ["bash", "scripts/verify-package.sh"]
-        else:
-            command = ["bash", "scripts/run-work-graph-verifier.sh", str(stream), str(output / "nodes.tsv"), str(len(graph["nodes"])), sha(stream.read_bytes())]
-        started = time.monotonic()
-        with (output / "stdout.log").open("wb") as stdout, (output / "stderr.log").open("wb") as stderr:
-            process = subprocess.run(command, cwd=ROOT, stdout=stdout, stderr=stderr)
-            # Retain the actual nested exit before any source/trace/JSON work.
-            # A later wrapper error cannot silently erase a completed verdict.
-            with (output / "exit-code.txt").open("w") as terminal:
-                terminal.write(str(process.returncode) + "\n")
-                terminal.flush()
-                os.fsync(terminal.fileno())
+    stream = output / "commands.bin"
+    compiled_stream = WG.verifier_command_stream_v1(graph, registry)
+    stream.write_bytes(compiled_stream)
+    if mode == "legacy":
+        command = ["bash", "scripts/verify-package.sh"]
+    else:
+        command = ["bash", "scripts/run-work-graph-verifier.sh", str(stream), str(output / "nodes.tsv"), str(len(graph["nodes"])), sha(compiled_stream)]
+        # Empty means no node start was observed, including a prestart
+        # failure before the runner opens its trace descriptor.
+        (output / "nodes.tsv").write_bytes(b"")
+    full_engine_binding()
+    started = time.monotonic()
+    with (output / "stdout.log").open("wb") as stdout, (output / "stderr.log").open("wb") as stderr:
+        process = subprocess.run(command, cwd=ROOT, stdout=stdout, stderr=stderr)
+        # Retain the actual nested exit before any source/trace/JSON work.
+        # A later wrapper error cannot silently erase a completed verdict.
+        with (output / "exit-code.txt").open("w") as terminal:
+            terminal.write(str(process.returncode) + "\n")
+            terminal.flush()
+            os.fsync(terminal.fileno())
+    full_engine_binding()
+    if stream.read_bytes() != compiled_stream:
+        raise WG.WorkGraphError("retained verifier command stream differs from launched input")
     after = source_identity()
-    observed = {}
-    if mode == "dag":
-        for line in (output / "nodes.tsv").read_text().splitlines():
-            name, state = line.split("\t")
-            observed[name] = state
-    node_results = []
-    for n in graph["nodes"]:
-        state = observed.get(n["id"])
-        status = "PASS" if state == "PASS" else ("INTERRUPTED" if process.returncode < 0 else "FAIL") if state == "START" else "UNSETTLED"
-        node_results.append(dict(node=n["id"], status=status, terminal=state is not None))
-    result = dict(schema="implementaudit.verifier-run.v1", mode=mode, command=command[:2],
-                  before=before, after=after, environment=environment,
+    environment_after = environment_identity()
+    trace = (output / "nodes.tsv").read_bytes() if mode == "dag" else None
+    node_results = trace_nodes(graph, mode, process.returncode, trace)
+    result = dict(schema="implementaudit.verifier-run.v2", mode=mode, command=command[:2],
+                  actual_argv=command, execution_context=dict(cwd=str(ROOT), output=str(output)),
+                  command_stream=dict(sha256=sha(compiled_stream), bytes=len(compiled_stream)),
+                  before=before, after=after, environment=environment, environment_after=environment_after,
+                  engine_binding=engine,
                   registry_sha256=sha(registry), graph_digest=graph["digest"],
                   mapped_nodes=len(graph["nodes"]), registered_tests=len(tests),
                   registration_complete=registration_complete,
                   exit=process.returncode, elapsed_ms=int((time.monotonic() - started) * 1000),
                   stdout_sha256=sha((output / "stdout.log").read_bytes()), stderr_sha256=sha((output / "stderr.log").read_bytes()),
-                  nodes=node_results, authority="NONE")
+                  nodes=node_results, node_trace=None if trace is None else dict(sha256=sha(trace), bytes=len(trace)),
+                  authority="NONE")
     (output / "result.json").write_bytes(WG.canonical_json_v1(result) + b"\n")
     print(json.dumps({k: result[k] for k in ("mode", "exit", "elapsed_ms", "mapped_nodes", "registered_tests", "registration_complete", "stdout_sha256", "stderr_sha256")}, sort_keys=True))
     return process.returncode if process.returncode >= 0 else 128 - process.returncode

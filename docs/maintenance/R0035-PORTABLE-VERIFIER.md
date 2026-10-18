@@ -111,6 +111,68 @@ their acquired execution inputs and source guard, rather than using commit
 metadata as an unconditional invalidator. This does not relax the separate
 native candidate/currentness contract, which continues to invalidate globally.
 
+## Full-run observation and retained-record integrity
+
+The existing `legacy`, `dag` and `compare` interfaces remain separate from
+the live two-leaf reuse interface. New captures use
+`implementaudit.verifier-run.v2`. They observe the current Git HEAD, symbolic
+HEAD, refs, staged index projection, tracked files and non-ignored untracked
+files. File observations include kind, mode and content digest where regular
+bytes are available, plus the opened root and ancestor directory modes.
+Source symlink targets are hashed as link text and are not followed. Missing,
+unsupported and incompletely acquired members remain explicit. Ignored
+namespace contents, arbitrary Git configuration and transitive Git object
+closure are not implied by these observations.
+
+The full-run environment record retains its established safe fields and the
+two actual CI branch inputs, `GITHUB_BASE_REF` and `GITHUB_ACTIONS`. It binds
+the entire inherited environment by digest without exporting other variable
+values. It observes the selected Python, Bash, Git, Node and npx executable
+bytes where present, process user/group identities, inherited resource limits
+and the current umask where supported. These are observations of the ambient
+invocation. They do not claim complete loader, library, Python startup,
+renderer/browser, network or host filesystem acquisition. A changed recorded
+input makes the correspondence check fail; an absent broader acquisition
+contract continues to forbid full-canonical cached reuse.
+
+Source acquisition requires supported no-follow directory descriptors and
+nonblocking regular-file acquisition. Unsupported platforms refuse this
+capture path explicitly. The canonical verifier itself remains available
+through its existing direct interface. The observer checks the actual loaded
+driver and compiler paths against their retained loaded bytes before launch
+and after exit, including when a test points the candidate root at another
+directory. Its durable process exit is written before later currentness,
+trace or result validation can fail.
+
+For the DAG route, one strict parser accepts only the original source-ordered
+`START`/`PASS` sequence or a legal terminal prefix. A zero exit requires the
+complete sequence. A nonzero exit may follow an unfinished node, precede all
+nodes, or follow all node passes when a shell EXIT trap fails. These cases
+retain distinct process and node results. Missing, duplicate, foreign,
+out-of-order or malformed events refuse; stored status and boolean terminal
+fields must match the derived trace exactly. New captures bind the retained
+trace bytes and length, retain the actual command stream and complete argv,
+and validate them again through the existing `verified_record` consumer.
+Transport restoration preserves the original recorded paths rather than
+rewriting their identities to a new extraction directory.
+
+Historical v1 records remain historical. A DAG record must still have its
+actual retained trace, and the current consumer checks that trace against its
+stored node projection. This re-read does not create an original trace seal,
+loaded-engine binding or full argv record that the old producer did not
+write. A legacy record has no separately observed node passes. Exact schema
+members prevent a v2 record from silently retaining its new fields while
+claiming the old format. The comparator reports the coverage of each record
+and preserves raw stdout/stderr comparison without normalization.
+
+Trace consistency is not exclusive-writer authentication: the current runner
+uses a writable trace descriptor in the shared shell. It does not supply an
+authenticated per-node producer for importing arbitrary completion claims.
+Before/after ambient observations likewise do not rule out an input changing
+and being restored during execution. The isolated two-leaf consumer has its
+own stricter acquisition and live-custody contract; full-run observations do
+not inherit that contract merely because they use the same compiler.
+
 ## Qualification and limits
 
 The explicit successor harness is:
@@ -138,13 +200,29 @@ rewrite or retrospectively validate those historical outer runs.
 
 The existing full verifier mapping still binds every registry byte and
 preserves original order, stdin, shared-shell state, traps and fail-fast
-behaviour. Those nodes have unqualified dynamic reads/writes, resource
-dependencies, output artifacts and predecessor effects. No complete trusted
-producer currently supplies those observations to a matching authenticating
-consumer. Their conservative no-reuse fallback remains required. Extending
-this profile requires inspected executable semantics, a complete acquisition
-contract and supported actual execution/consumer evidence; adding filenames
-or caller assertions is insufficient.
+behaviour. Its expanded observations distinguish available source, ref,
+environment, tool and resource changes. They do not close each node's dynamic
+read/write set or predecessor effects. In particular, substituting a node in
+the shared shell needs the state and effects its actual successor consumes;
+an isolated successful subprocess is insufficient. Unqualified nodes retain
+the serial no-reuse fallback. Extending the admitted scope requires inspected
+executable semantics, a complete acquisition contract and supported actual
+execution/consumer evidence; adding filenames or caller assertions is
+insufficient.
+
+The portal builder's existing `--out` interface supports a narrower retained
+artifact operation without a new compiler or oracle. A task can retain its
+explicit output directory, producer inputs and raw result, then invoke the
+existing `check-docs-portal.py` against those exact files. Missing metadata or
+a changed required proof strip affects that real consumer. Its structural
+acceptance of an inert HTML comment does not make raw artifact bytes equal.
+This operation does not reconstruct the canonical test's original generated
+trees: `tests/docs-portal.test.sh` overwrites some generations and removes its
+temporary tree on EXIT, while nested `verify-docs-portal.sh` removes another
+tree before returning. The qualifier receives control after those boundaries.
+Retaining the original canonical artifacts and consumer events needs an
+owner-supplied retention/callback interface at those producer and consumer
+operations. A post-run snapshot cannot recover already deleted generations.
 
 The whole-run comparator retains raw-byte equality. Two successful full
 executions are different evidence from a failed raw comparison. No temporary
@@ -175,3 +253,29 @@ old completion was proved for those bytes. Native use still needs the
 governor/R0036 accepted-result producer and currentness contract. The missing
 input regression is a constructed portable control and supplies neither that
 producer nor native lifecycle acceptance.
+
+## Reminder consumption history
+
+The existing pure `check_recursive_execution_v1` consumer now includes its
+source graph in a receipt only after nonempty execution and consumption have
+both passed. History intake rederives that retained graph from its original
+source documents and checks the exact event, dispatch and complete selection.
+An unchanged `REMINDER` with a different event ID can then preserve the consumed
+selection when the original scope, subject, context and every relevant input
+remain unchanged. Changed inputs or context trigger ordinary reconsideration.
+The implementation does not distribute partial historical receipts across a
+new selection or give old results new input identities.
+
+Old four-field receipts remain usable for their original same-event replay
+check. An overlapping cross-event reminder without a retained source graph
+refuses because the original consumption cannot be compared. Inconsistent or
+duplicate history refuses even if another receipt looks usable. No-op returns
+have `event_receipt: null`; the caller keeps the original consumed receipt.
+This avoids manufacturing a new history token for work that did not execute.
+
+The registered native-format fixture exercises this path through actual PREP
+and SIB subprocess output and the existing manifest consumers. Its optional
+fresh-directory argument retains source facts, raw commands, outputs, exits,
+graphs and the no-op receiving result. These are constructed portable controls.
+Retained source documents make the pure comparison checkable; authentic native
+accepted-history custody remains an input from the existing governor/producer.
