@@ -104,7 +104,7 @@ def public_record(row):
     require(isinstance(row, dict) and row.get("type") == "response_item", "PUBLIC_RECORD_REQUIRED")
     p = row.get("payload")
     require(isinstance(p, dict) and p.get("type") == "message" and p.get("role") == "assistant" and
-            p.get("phase") in ("commentary", "final"), "PUBLIC_RECORD_REQUIRED")
+            p.get("phase") in ("commentary", "final_answer"), "PUBLIC_RECORD_REQUIRED")
     meta = row.get("metadata")
     require(isinstance(meta, dict) and meta.get("client_authored") is False, "HOST_RETAINED_RECORD_REQUIRED")
     retained = meta.get("retained_source")
@@ -171,7 +171,7 @@ def discover_public(source):
         if block.endswith(b"\n") and len(block) <= MAX_RECORD:
             row = parse(block)
             p = row.get("payload", {}) if isinstance(row, dict) else {}
-            if row.get("type") == "response_item" and p.get("type") == "message" and p.get("role") == "assistant" and p.get("phase") in ("commentary", "final"):
+            if row.get("type") == "response_item" and p.get("type") == "message" and p.get("role") == "assistant" and p.get("phase") in ("commentary", "final_answer"):
                 candidate = public_record(row)
                 chosen = {"offset": offset, "bytes": len(block), "sha256": digest(block), "ordinal": candidate["ordinal"]}
         offset += len(block)

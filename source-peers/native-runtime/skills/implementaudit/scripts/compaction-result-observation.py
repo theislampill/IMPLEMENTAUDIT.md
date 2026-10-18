@@ -717,13 +717,12 @@ def actual_result(context, prepared, evidence, store, session, owner, skill_pin,
     _, use_identity = command_response(context, 'child', evidence['use']['call'], evidence['use']['result'], use_input)
     before(bound_identity['result'], use_pin)
     final_row, final_pin = resolve_record(context, 'child', evidence['child_final'])
-    final_phase = 'final' if context['profile_id'] == NONPROTECTED_PROFILE else 'final_answer'
-    returned = typed_message(final_row, ('schema', 'obligation_digest', 'observation_id', 'child_observation_exchange_identity', 'exact_observed_boundary_versions', 'result_bytes_identity', 'authority_ceiling'), 'implementaudit.compaction-result-return.v1', phase=final_phase, context=context)
+    returned = typed_message(final_row, ('schema', 'obligation_digest', 'observation_id', 'child_observation_exchange_identity', 'exact_observed_boundary_versions', 'result_bytes_identity', 'authority_ceiling'), 'implementaudit.compaction-result-return.v1', phase='final_answer', context=context)
     before(use_identity['result'], final_pin)
     delivered_row, delivered_pin = resolve_record(context, 'parent', evidence['parent_delivery'])
     delivery = delivered_row['payload']
     envelope = 'Message Type: FINAL_ANSWER\nTask name: /root\nSender: ' + context['actual_child_identity']['agent_path'] + '\nPayload:\n'
-    require(delivered_row['type'] == 'response_item' and delivery.get('type') == 'agent_message' and (delivery.get('author') == context['actual_child_identity']['agent_path']) and (delivery.get('recipient') == '/root') and (delivery.get('content') == [{'type': 'input_text', 'text': envelope + public_message(final_row, final_phase, context=context)}]), 'ACTUAL_FINAL_RETURN_DELIVERY_ASSOCIATION')
+    require(delivered_row['type'] == 'response_item' and delivery.get('type') == 'agent_message' and (delivery.get('author') == context['actual_child_identity']['agent_path']) and (delivery.get('recipient') == '/root') and (delivery.get('content') == [{'type': 'input_text', 'text': envelope + public_message(final_row, 'final_answer', context=context)}]), 'ACTUAL_FINAL_RETURN_DELIVERY_ASSOCIATION')
     before(final_pin, delivered_pin)
     obligation = prepared['obligation']
     bindings = {'obligation_digest': prepared['obligation_pin']['sha256'], 'observation_id': obligation['observation_id'], 'child_observation_exchange_identity': exchange['identity'], 'exact_observed_boundary_versions': obligation['covered_boundary_versions']}

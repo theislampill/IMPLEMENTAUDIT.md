@@ -88,15 +88,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-result-observation.py",
-      "bytes": 111141,
-      "sha256": "b80b1fcd87a3e630cbfea73bb2d55aa56c877a54411a62bb260e360a41e322cc",
+      "bytes": 111052,
+      "sha256": "e0394a71eb4b374ab1f15a4fab4b22204110d719f26335d62ee2fbc6c5209dfe",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "c44d2351ba7e48fb324a761c818eb5ecb428f89b9ea64c6b99fe6a64ad0e1d72",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "inherited_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
-      "additional_delta": "Fixed profile issuer/code closure, current metadata/final phase, complete pending-kind census, exact scope and occurrence ordering; legacy R/A guards preserved"
+      "additional_delta": "Fixed issuer/code closure, current retained metadata, pending-kind census and scope/range ordering; original final_answer R/A predicates preserved"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
@@ -124,24 +124,26 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_native_reader.py",
-      "bytes": 15805,
-      "sha256": "dac93a3aca1d8c743eb31f6bde37081c0830cc9881241ef3b33df59262d5de48",
+      "bytes": 15812,
+      "sha256": "3ea54f5f19e20f3524a6c059d3ce9d8a93fd41ed3ec27d1cc6b898ea1f2ced6e",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,
       "modified": true,
-      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_source_owner.py",
-      "bytes": 19181,
-      "sha256": "c487dd76e4c021cc537f325658b27389ed25dae3daed314516ff422de5f7d171",
+      "bytes": 19195,
+      "sha256": "823791c9a77b6527dc1a7bfd6456f911067ee9cfa01d02bd73db8abaa90a9d1f",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,
       "modified": true,
-      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization"
     }
   ]
 }

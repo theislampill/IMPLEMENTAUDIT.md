@@ -62,13 +62,14 @@ consumer must additionally compare these values with its independently
 captured canonical C03/R0035 route and scope; a coherent foreign tuple is not
 authenticated by a self-contained structural validator.
 
-Three additional current-profile controls exercise retained metadata through the
-actual history parser, the native `final` phase through result/member/delivery
-validation, and the unchanged legacy `final_answer` phase. Unknown metadata,
-foreign turns, malformed provenance and copied delivery still refuse. The
-original 42-control identities and R/A guard golden remain unchanged; the
-legacy phase proof normalizes only the exact independently tested profile
-branch before comparing the original AST.
+Four additional current-profile controls exercise retained metadata through the
+actual history parser, result/member/delivery validation, and exact raw-to-native
+public binding. The selected runtime emits `final_answer` in both retained raw
+records and the native item API; its generated schema's `final` spelling was
+not used as evidence of live behavior. The bounded adapters preserve that
+observed spelling without rewriting source bytes. Unknown metadata, foreign
+turns, malformed provenance and copied delivery still refuse. The original
+42-control identities and complete R/A guard golden remain unchanged.
 
 Three export controls additionally preserve the pending owner's unresolved
 signals, bind assigned/covered kinds and versions to the observation census,

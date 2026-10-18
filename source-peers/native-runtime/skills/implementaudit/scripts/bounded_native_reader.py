@@ -69,7 +69,7 @@ def project_items(result, params):
         item = entry.get("item") if isinstance(entry, dict) else None
         if (not isinstance(item, dict) or entry.get("turnId") != params["turnId"] or
                 item.get("id") not in params["itemIds"] or item["id"] in seen or
-                item.get("type") != "agentMessage" or item.get("phase") not in ("commentary", "final") or
+                item.get("type") != "agentMessage" or item.get("phase") not in ("commentary", "final_answer") or
                 not isinstance(item.get("text"), str)):
             raise ValueError("EXACT_PUBLIC_ITEM_REQUIRED")
         seen.add(item["id"])

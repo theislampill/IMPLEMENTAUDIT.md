@@ -2,6 +2,7 @@
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -145,20 +146,52 @@ class ProfileSemanticsControls(unittest.TestCase):
 
     def test_current_final_phase_reaches_bound_result_and_delivery(self):
         with tempfile.TemporaryDirectory(dir=SCRATCH) as directory:
-            result=self.result('final',self.obs.NONPROTECTED_PROFILE,Path(directory))
+            result=self.result('final_answer',self.obs.NONPROTECTED_PROFILE,Path(directory))
             self.assertEqual((result['status'],result['currentness']),('SUCCEEDED','UNRESOLVED'))
             self.assertEqual(len(result['identity']['members']),1)
             self.reader.project_items({'data':[{'turnId':TURN,'item':{'id':'fixture-message',
-                'type':'agentMessage','text':'fixture','phase':'final'}}]}, {'turnId':TURN,'itemIds':['fixture-message']})
+                'type':'agentMessage','text':'fixture','phase':'final_answer'}}]}, {'turnId':TURN,'itemIds':['fixture-message']})
             with self.assertRaisesRegex(ValueError,'ACTUAL_FINAL_RETURN_DELIVERY_ASSOCIATION'):
-                self.result('final',self.obs.NONPROTECTED_PROFILE,Path(directory),tamper_delivery=True)
+                self.result('final_answer',self.obs.NONPROTECTED_PROFILE,Path(directory),tamper_delivery=True)
 
     def test_profile_final_phases_remain_distinct(self):
         with tempfile.TemporaryDirectory(dir=SCRATCH) as directory:
             result=self.result('final_answer',self.obs.CURRENT_BOUNDARY_PROFILE,Path(directory))
             self.assertEqual(result['status'],'SUCCEEDED')
-            for profile, phases in ((self.obs.NONPROTECTED_PROFILE,('final_answer','analysis','commentary')),
+            for profile, phases in ((self.obs.NONPROTECTED_PROFILE,('final','analysis','commentary')),
                                     (self.obs.CURRENT_BOUNDARY_PROFILE,('final','analysis','commentary'))):
                 for phase in phases:
                     with self.subTest(profile=profile,phase=phase), self.assertRaisesRegex(ValueError,'ACTUAL_ASSISTANT_ROLE_OR_PHASE'):
                         self.result(phase,profile,Path(directory))
+
+    def test_qualified_terminal_format_binds_raw_and_native_without_normalization(self):
+        owner=load('bounded_source_owner.py')
+        raw_row=self.public(11,'final_answer','exact public terminal')
+        raw=owner.public_record(raw_row)
+        params={'turnId':TURN,'itemIds':['fixture-message']}
+        native_result={'data':[{'turnId':TURN,'item':{'id':'fixture-message','type':'agentMessage',
+            'text':'exact public terminal','phase':'final_answer'}}]}
+        native=self.reader.project_items(native_result,params)[0]
+        owner.bind_public(raw,native)
+        self.assertEqual(raw['phase'],native['phase'])
+        self.assertEqual(raw['body_sha256'],native['body_sha256'])
+        wrong=copy.deepcopy(native_result);wrong['data'][0]['item']['text']+=' changed'
+        with self.assertRaisesRegex(ValueError,'NATIVE_PUBLIC_ID_BODY_PHASE_TURN_DIFFERS'):
+            owner.bind_public(raw,self.reader.project_items(wrong,params)[0])
+        for phase in ('final','analysis',None):
+            wrong=copy.deepcopy(native_result);wrong['data'][0]['item']['phase']=phase
+            with self.subTest(phase=phase), self.assertRaises(ValueError): self.reader.project_items(wrong,params)
+        with tempfile.TemporaryDirectory(dir=SCRATCH) as directory:
+            p=Path(directory)/'owned-public.jsonl'
+            header=b'{"type":"session_meta","payload":{}}\n'
+            wire=self.obs.canonical(raw_row)+b'\n';p.write_bytes(header+wire)
+            if os.name != 'nt':
+                # This physical native-reader owner is Windows-only. The pure
+                # phase/body controls above remain portable; do not fake custody.
+                with self.assertRaisesRegex(OSError,'LEXICAL_LOCAL_ABSOLUTE_PATH_REQUIRED'):
+                    owner.physical(p)
+                return
+            source={'physical':owner.physical(p),'cutoff_bytes':p.stat().st_size,'header_prefix':{'bytes':len(header)}}
+            locators,_=owner.discover_public(source)
+            selected=owner.read_public(p,source['physical'],locators[0],source['cutoff_bytes'])
+            owner.bind_public(selected,native)
