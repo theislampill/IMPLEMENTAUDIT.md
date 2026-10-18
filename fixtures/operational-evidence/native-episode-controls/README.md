@@ -59,7 +59,7 @@ The frozen export fixture includes `owner.canonical_route` and
 `owner.host_and_scope`. Resealed foreign controller, receipt, transaction,
 parent and malformed scope controls exercise internal checks. The R0038
 consumer must additionally compare these values with its independently
-captured canonical C03/R35 route and scope; a coherent foreign tuple is not
+captured canonical C03/R0035 route and scope; a coherent foreign tuple is not
 authenticated by a self-contained structural validator.
 
 The adaptation return records 15 distinct focused checks against the integrated
