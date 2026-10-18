@@ -599,7 +599,7 @@ def _git_read_view(root):
             raise OSError("Git HEAD is absent")
         (view / "config").write_text(
             "[core]\nrepositoryformatversion = 0\nbare = false\nfilemode = " +
-            ("false" if os.name == "nt" else "true") + "\nautocrlf = false\n",
+            ("false" if os.name == "nt" else "true") + "\nautocrlf = false\nlongpaths = true\n",
             encoding="ascii")
         yield view, common / "objects"
 

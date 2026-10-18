@@ -43,6 +43,30 @@ def material(epoch="G0009"):
 
 
 class ReviewRegressions(unittest.TestCase):
+    @unittest.skipUnless(os.name == "nt", "Windows Git long-path behavior")
+    def test_git_long_path_deletion_is_not_clean(self):
+        with tempfile.TemporaryDirectory(prefix="oe-long-git-") as directory:
+            root = Path(directory)
+            environment = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+            environment.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1")
+            def git(*args):
+                return subprocess.run(["git", "-c", "core.longpaths=true", "-c", "core.hooksPath=" + os.devnull,
+                    "-c", "commit.gpgsign=false", "-C", str(root), *args], env=environment,
+                    capture_output=True, check=True)
+            git("init", "-q")
+            relative = "/".join(["directory_" + "a" * 40] * 5 + ["input.txt"])
+            target = root / relative
+            target.parent.mkdir(parents=True)
+            target.write_bytes(b"tracked bytes\n")
+            self.assertGreater(len(str(target)), 260)
+            git("add", ".")
+            git("-c", "user.name=fixture", "-c", "user.email=fixture@example.invalid", "commit", "-qm", "fixture")
+            self.assertEqual(oe._run_git(root, "status", "--porcelain=v1").stdout, "")
+            target.unlink()
+            expected = git("status", "--porcelain=v1").stdout.decode()
+            self.assertIn(" D ", expected)
+            self.assertEqual(oe._run_git(root, "status", "--porcelain=v1").stdout, expected)
+
     def test_all_external_operations_bind_the_exact_object(self):
         api = "https://api.github.com/repos/fixture/project"
         cases = [
