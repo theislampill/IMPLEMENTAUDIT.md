@@ -5,7 +5,15 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT
+cleanup() {
+  local status=$?
+  if [ "$status" -ne 0 ] && [ -f "$tmp/source-pack-smoke.out" ]; then
+    cat "$tmp/source-pack-smoke.out" >&2 || :
+  fi
+  rm -rf "$tmp"
+  exit "$status"
+}
+trap cleanup EXIT
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
