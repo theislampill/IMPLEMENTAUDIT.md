@@ -70,6 +70,11 @@ original 42-control identities and R/A guard golden remain unchanged; the
 legacy phase proof normalizes only the exact independently tested profile
 branch before comparing the original AST.
 
+Three export controls additionally preserve the pending owner's unresolved
+signals, bind assigned/covered kinds and versions to the observation census,
+and apply the original source ordering and nonoverlap predicates to every
+selected occurrence. These controls do not establish producer authentication.
+
 The adaptation return records 15 distinct focused checks against the integrated
 successor source, including a recheck of the R/A golden after making its empty
 AST metadata handling portable across Python versions. It does not repeat the

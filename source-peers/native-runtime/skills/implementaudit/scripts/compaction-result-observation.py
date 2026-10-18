@@ -1052,7 +1052,7 @@ def _episode_export_scope(value):
     seen = set()
     for row in value:
         closed(row, ('id', 'version', 'kind'), 'EPISODE_EXPORT_SCOPE_SHAPE')
-        require(isinstance(row['id'], str) and 0 < len(row['id']) <= 256 and (row['id'] not in seen) and (type(row['version']) is int) and (row['version'] > 0) and (row['kind'] in ('COMPLETED_RESUMED_BOUNDARY', 'AMBIGUOUS_MARKER_GROUP', 'UNRESOLVED_RESUME_OBSERVATION')), 'EPISODE_EXPORT_SCOPE_BINDING')
+        require(isinstance(row['id'], str) and 0 < len(row['id']) <= 256 and (row['id'] not in seen) and (type(row['version']) is int) and (row['version'] > 0) and (row['kind'] in ('COMPLETED_RESUMED_BOUNDARY', 'AMBIGUOUS_MARKER_GROUP', 'UNRESOLVED_RESUME_OBSERVATION', 'UNRESOLVED_SIGNAL')), 'EPISODE_EXPORT_SCOPE_BINDING')
         seen.add(row['id'])
 
 def _episode_export_path(value):
@@ -1164,6 +1164,9 @@ def validate_frozen_episode_export_v1(value):
         _episode_export_scope([{key: row[key] for key in ('id', 'kind', 'version')}])
         require(row['id'] not in observations and type(row['consumed_version']) is int and (0 <= row['consumed_version'] <= row['version']) and isinstance(row['assignment_children'], list) and (len(row['assignment_children']) <= 64) and (len(set(row['assignment_children'])) == len(row['assignment_children'])) and all((isinstance(item, str) and item for item in row['assignment_children'])), 'EPISODE_EXPORT_PENDING_ROW_BINDING')
         observations[row['id']] = row
+    require(all(row['id'] in observations and observations[row['id']]['kind'] == row['kind'] and
+        observations[row['id']]['version'] >= row['version'] for row in pending['assignment_scope']),
+        'EPISODE_EXPORT_ASSIGNED_OBSERVATION_BINDING')
     require(pending['pending_scope'] == [{key: row[key] for key in ('id', 'version', 'kind')} for row in pending['observations'] if row['version'] > row['consumed_version']] and all((row['id'] in observations and observations[row['id']]['consumed_version'] >= row['version'] for row in pending['covered_scope'])), 'EPISODE_EXPORT_CONSUMPTION_BINDING')
     lifecycle = closed(value['lifecycle'], ('result', 'acceptance', 'join', 'h0', 'source_terminal_release'), 'EPISODE_EXPORT_LIFECYCLE_SHAPE')
     require(lifecycle['result'] == {'status': 'SUCCEEDED', 'return_digest': episode['result_digest']} and lifecycle['acceptance'] == {'status': 'ACCEPTED_EXACT_RESULT', 'digest': episode['acceptance_digest']} and (lifecycle['join'] == {'status': 'JOINED_EVIDENCE_ONLY', 'covered': episode['covered_boundary_versions'], 'pending_consumed': True}), 'EPISODE_EXPORT_RESULT_ACCEPTANCE_JOIN_BINDING')
@@ -1183,7 +1186,7 @@ def validate_frozen_episode_export_v1(value):
             locator = closed(pin['locator'], ('offset', 'bytes', 'sha256', 'embedded_ordinal', 'physical_line'), 'EPISODE_EXPORT_RECORD_LOCATOR_SHAPE')
             physical = closed(pin['physical'], ('device', 'inode'), 'EPISODE_EXPORT_RECORD_PHYSICAL_SHAPE')
             require(pin['role'] == 'child' and isinstance(pin['path'], str) and (0 < len(pin['path']) <= 4096) and all((type(item) is int and item >= 0 for item in physical.values())) and (type(locator['offset']) is int) and (locator['offset'] >= 0) and (type(locator['bytes']) is int) and (0 < locator['bytes'] <= 256 * 1024) and (type(locator['embedded_ordinal']) is int) and (locator['embedded_ordinal'] >= 1) and (locator['physical_line'] is None or (type(locator['physical_line']) is int and locator['physical_line'] >= 1)) and isinstance(locator['sha256'], str) and re.fullmatch('[0-9a-f]{64}', locator['sha256']) and all((isinstance(pin[key], str) and pin[key] for key in ('timestamp', 'message_or_call_id'))), 'EPISODE_EXPORT_RECORD_PIN_BINDING')
-        require(row['records']['call']['locator']['offset'] < row['records']['result']['locator']['offset'], 'EPISODE_EXPORT_RECORD_PAIR_ORDER')
+        before(row['records']['call'], row['records']['result'])
     require({row['semantic'] for row in occurrences['occurrences'] if row['population'] == 'CURRENT'} == {'LOAD', 'EXCHANGE', 'BIND'} and all((row['observation_id'] == episode['observation_id'] for row in occurrences['occurrences'] if row['population'] == 'CURRENT')), 'EPISODE_EXPORT_CURRENT_OCCURRENCES')
     custody = closed(value['custody'], ('candidate', 'qualification', 'episode', 'attestation', 'source_cutoffs'), 'EPISODE_EXPORT_CUSTODY_SHAPE')
     for key in ('candidate', 'qualification', 'episode', 'attestation'):
@@ -1204,9 +1207,16 @@ def validate_frozen_episode_export_v1(value):
     current_rows = [row for row in occurrences['occurrences'] if row['population'] == 'CURRENT']
     require(len(current_rows) == 3 and held['original_bind'] == next((row['records'] for row in current_rows if row['semantic'] == 'BIND')), 'EPISODE_EXPORT_ORIGINAL_BIND_CUTOFF')
     offsets = set()
+    ordered_records = []
     for row in occurrences['occurrences']:
         for pin in row['records'].values():
             locator = pin['locator']
             require(pin['path'] == held['path'] and pin['physical'] == held['physical'] and (cuts['child']['metadata']['bytes'] <= locator['offset']) and (locator['offset'] + locator['bytes'] <= held['prefix_bytes']) and (locator['embedded_ordinal'] < held['physical_records']) and (locator['physical_line'] in (None, locator['embedded_ordinal'] + 1)) and (locator['offset'] not in offsets), 'EPISODE_EXPORT_OCCURRENCE_SOURCE_RANGE_OR_IDENTITY')
             offsets.add(locator['offset'])
+            ordered_records.append(pin)
+    ordered_records.sort(key=lambda pin: pin['locator']['offset'])
+    for prior, current in zip(ordered_records, ordered_records[1:]):
+        before(prior, current)
+        require(prior['locator']['embedded_ordinal'] < current['locator']['embedded_ordinal'],
+            'EPISODE_EXPORT_RECORD_ORDINAL_ORDER')
     return value

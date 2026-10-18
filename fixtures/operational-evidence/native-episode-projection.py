@@ -118,9 +118,14 @@ class NativeEpisodeProjectionTests(unittest.TestCase):
                 oe.diff_snapshots(payload, payload)
 
     def test_unproved_second_boundary_remains_visible_and_unconsumed(self):
+        for kind in ('UNRESOLVED_RESUME_OBSERVATION', 'UNRESOLVED_SIGNAL', 'AMBIGUOUS_MARKER_GROUP'):
+            with self.subTest(kind=kind):
+                self._unproved_second_boundary(kind)
+
+    def _unproved_second_boundary(self, kind):
         collections = self.material()
         episode = collections['native_current']['value']['native_episode']['value']
-        later = {'id': 'later-unresolved-delivery', 'kind': 'UNRESOLVED_RESUME_OBSERVATION', 'version': 1}
+        later = {'id': 'later-unresolved-delivery', 'kind': kind, 'version': 1}
         episode['pending']['observations'].append({**later, 'consumed_version': 0, 'assignment_children': []})
         episode['pending']['pending_scope'] = [later]
         episode['pending']['revision'] += 1
@@ -136,6 +141,19 @@ class NativeEpisodeProjectionTests(unittest.TestCase):
         self.assertEqual(value['aggregate'], 'DEGRADED')
         self.assertTrue(any(item.get('code') == 'NATIVE_PENDING_BOUNDARY_UNVERIFIED'
             and item.get('scope') == later['id'] for item in value['missing_or_omitted_state']))
+
+    def test_covered_kind_and_overlapping_occurrence_never_become_current(self):
+        for mutation in ('covered-kind', 'pair-overlap', 'cross-pair-overlap'):
+            collections = self.material()
+            episode = collections['native_current']['value']['native_episode']['value']
+            if mutation == 'covered-kind':
+                episode['pending']['observations'][0]['kind'] = 'AMBIGUOUS_MARKER_GROUP'
+            else:
+                role = 'call' if mutation == 'pair-overlap' else 'result'
+                episode['occurrences']['occurrences'][0]['records'][role]['locator']['bytes'] = 6
+            owner_fixture.FrozenExportTests().reseal(episode)
+            with self.subTest(mutation=mutation), self.assertRaises(oe.OperationalEvidenceError):
+                oe.query_family(self.payload(collections), 'EXECUTION', current_only=True)
 
     def test_frozen_episode_consumers_never_invoke_selected_owner(self):
         value = self.payload(self.material())

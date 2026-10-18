@@ -1,4 +1,4 @@
-"""Run the original 42 controls and three current-profile regressions."""
+"""Run the original 42 controls and six profile/export regressions."""
 import argparse
 import importlib.util
 import json
@@ -48,8 +48,17 @@ def main():
             raise ValueError('current-profile regression population changed')
         tests += profile_tests
         actual = sorted(actual + profile_ids)
+        export_tests = list(leaves(unittest.defaultTestLoader.loadTestsFromModule(load_local('test_export_semantics'))))
+        export_ids = sorted(test.id() for test in export_tests)
+        if export_ids != ['test_export_semantics.ExportSemanticsControls.' + name for name in (
+                'test_covered_and_assigned_scope_bind_pending_kind_and_version',
+                'test_occurrence_ranges_and_order_match_original_source_guards',
+                'test_unresolved_signal_is_preserved_without_consumption')]:
+            raise ValueError('export-semantic regression population changed')
+        tests += export_tests
+        actual = sorted(actual + export_ids)
         if args.list:
-            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 45, 'tests': actual}, indent=2)); return 0
+            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 48, 'tests': actual}, indent=2)); return 0
         if args.case:
             unknown = set(args.case) - set(actual)
             if unknown: raise ValueError('unknown selected control: ' + ', '.join(sorted(unknown)))
@@ -57,7 +66,7 @@ def main():
         before = support.source_pins()
         result = unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(tests))
         if support.source_pins() != before: raise ValueError('public source changed during regression')
-        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 45, 'executed': result.testsRun,
+        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 48, 'executed': result.testsRun,
             'skipped': len(result.skipped), 'success': result.wasSuccessful(), 'source_sha256': before}, sort_keys=True))
         return 0 if result.wasSuccessful() else 1
 

@@ -12,6 +12,7 @@ import os
 import tempfile
 import types
 import unittest
+from datetime import datetime
 HERE = SCRATCH
 
 def canonical(value):
@@ -33,10 +34,10 @@ class FrozenExportTests(unittest.TestCase):
     def setUp(self):
         source = source_text('compaction-result-observation.py')
         tree = ast.parse(source)
-        names = {'validate_frozen_episode_export_v1', '_episode_export_scope', '_episode_export_pin', '_episode_export_source', '_episode_export_locator', '_episode_export_physical', '_episode_export_path', '_episode_export_route_binding', '_episode_export_code_pins'}
+        names = {'validate_frozen_episode_export_v1', '_episode_export_scope', '_episode_export_pin', '_episode_export_source', '_episode_export_locator', '_episode_export_physical', '_episode_export_path', '_episode_export_route_binding', '_episode_export_code_pins', 'before'}
         nodes = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in names]
         self.assertEqual({n.name for n in nodes}, names)
-        self.ns = dict(require=require, closed=closed, canonical=canonical, digest=digest, re=re, MAX_TOTAL=2 * 1024 * 1024, NONPROTECTED_PROFILE='codex-app-bounded-public-nonprotected-v1')
+        self.ns = dict(require=require, closed=closed, canonical=canonical, digest=digest, re=re, datetime=datetime, MAX_TOTAL=2 * 1024 * 1024, NONPROTECTED_PROFILE='codex-app-bounded-public-nonprotected-v1')
         exec(compile(ast.Module(body=nodes, type_ignores=[]), '<pure-validator>', 'exec'), self.ns)
         self.validate = self.ns['validate_frozen_episode_export_v1']
 
@@ -70,7 +71,7 @@ class FrozenExportTests(unittest.TestCase):
         paths = {role: 'C:/fixture/sessions/rollout-fixture-' + role + '.jsonl' for role in ('parent', 'child')}
 
         def record(offset):
-            return {'path': paths['child'], 'physical': {'device': 1, 'inode': 2}, 'role': 'child', 'locator': {'offset': offset, 'bytes': 4, 'sha256': h, 'embedded_ordinal': offset, 'physical_line': offset + 1}, 'timestamp': 'fixture-time', 'message_or_call_id': 'fixture-' + str(offset)}
+            return {'path': paths['child'], 'physical': {'device': 1, 'inode': 2}, 'role': 'child', 'locator': {'offset': offset, 'bytes': 4, 'sha256': h, 'embedded_ordinal': offset, 'physical_line': offset + 1}, 'timestamp': '2026-10-18T00:00:%02dZ' % offset, 'message_or_call_id': 'fixture-' + str(offset)}
         rows = [{'population': 'CURRENT', 'attempt_class': 'ORIGINAL', 'semantic': name, 'observation_id': h, 'completion': 'COMPLETED', 'records': {'call': record(i * 10), 'result': record(i * 10 + 5)}} for i, name in enumerate(('LOAD', 'EXCHANGE', 'BIND'), 1)]
         cutoff = {'path': paths['child'], 'physical': {'device': 1, 'inode': 2}, 'prefix_bytes': 100, 'prefix_sha256': h, 'physical_records': 100, 'history_start_ordinal': 1, 'host_producer_authenticated': False, 'original_bind': rows[2]['records']}
         sources = {role: {'path': paths[role], 'physical': {'device': 1, 'inode': 1 if role == 'parent' else 2}, 'metadata': {'offset': 0, 'bytes': 5, 'sha256': h, 'embedded_ordinal': 0, 'physical_line': 1}, 'metadata_payload_digest': h, 'history_start_ordinal': 0 if role == 'parent' else 1, 'allowed_ranges': [{'offset': 0, 'bytes': 2 * 1024 * 1024}], 'canonical_open_binding_digest': 'sha256:' + h} for role in ('parent', 'child')}
