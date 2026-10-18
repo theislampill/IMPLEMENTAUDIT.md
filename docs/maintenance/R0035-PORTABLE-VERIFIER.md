@@ -245,6 +245,15 @@ at this source-fact contract. A source DONE assertion that requires a source
 OPEN or ACTIVE node remains a contradiction and refuses. An ACTIVE node keeps
 its resource occupancy even when a current blocking reason appears.
 
+The shared selection loop charges each selected or ACTIVE entry
+`max(1, resource_demand)` capacity units. A zero declared demand remains a valid
+source value; it cannot erase the entry's occupied slot. Positive demand keeps
+its existing charge, including an ACTIVE demand exceeding current capacity.
+The same rule applies to the original supplied-fact A/G consumer and the
+native-format frontier. Constructed controls cover zero host capacity, an
+explicit zero ceiling, an absent ceiling, reserve, mixed demands and occupied
+ACTIVE entries. They do not authenticate an actual host roster.
+
 `done_evidence` is a source-declared digest, not an authenticated accepted
 result with its historical input binding. Present-but-changed input bytes
 change the graph and invalidate affected consumers through

@@ -36,6 +36,7 @@ Keep private sources private.
 
 Selection preserves ACTIVE demand, semantic/path conflicts and capacity limits;
 read/read alone is no mutex. Context placement is advisory.
+Each selected or ACTIVE entry occupies at least one slot.
 
 MUTATION/EXTERNAL hold at EFFECT_EXECUTOR_UNAVAILABLE. Logical-delivery holds
 cross transaction IDs; only their effect owner clears them. Independent preparation

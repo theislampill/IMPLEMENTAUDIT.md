@@ -1934,7 +1934,7 @@ def _semantic_overlap(left, right):
 
 def _bounded_selection_v1(candidates, active, capacity, *, semantic=False):
     """One bounded selection loop shared by the recovered and native routes."""
-    occupied = sum((int(c['resource_demand']) for c in active))
+    occupied = sum((max(1, int(c['resource_demand'])) for c in active))
     free = max(0, capacity - occupied)
     selected, deferred, holds, remaining = ([], {}, list(active), free)
     overlap = _semantic_overlap if semantic else lambda a, b: bool(set(a) & set(b))
@@ -1944,13 +1944,14 @@ def _bounded_selection_v1(candidates, active, capacity, *, semantic=False):
             return cell['resources'] + cell.get('acceptance', []) + cell.get('authority', [])
         return [] if cell['resource_boundary'] == 'NONE' else [cell['resource_boundary']]
     for cell in sorted(candidates, key=lambda item: (-int(item['rank']), str(item['id']))):
+        demand = max(1, int(cell['resource_demand']))
         conflict = any((overlap(cell['writes'], old['writes']) or overlap(cell['writes'], old.get('reads', [])) or overlap(cell.get('reads', []), old['writes']) or overlap(resources(cell), resources(old)) for old in holds))
-        reason = 'CONFLICT' if conflict else 'CAPACITY' if int(cell['resource_demand']) > remaining or (semantic and capacity == 0) else None
+        reason = 'CONFLICT' if conflict else 'CAPACITY' if demand > remaining else None
         if reason:
             deferred[str(cell['id'])] = reason
             continue
         selected.append(str(cell['id']))
-        remaining -= int(cell['resource_demand'])
+        remaining -= demand
         holds.append(cell)
     return (selected, deferred, occupied, free)
 

@@ -107,6 +107,46 @@ def by_id(g):
     return {n["id"]: n for n in g["nodes"]}
 
 
+def slot_capacity_controls(root):
+    """Zero declared resource units never erase a selected or ACTIVE slot."""
+    cases = [
+        ("zero-ready", 1, None, 0, 0, 0, None, ["PREP"], 0),
+        ("zero-host", 0, None, 0, 0, 0, None, [], 0),
+        ("zero-ceiling", 3, 0, 0, 0, 0, None, [], 0),
+        ("one-ceiling", 3, 1, 0, 0, 0, None, ["PREP"], 0),
+        ("reserve-held", 2, None, 1, 0, 0, None, ["PREP"], 0),
+        ("two-free", 2, None, 0, 0, 0, None, ["PREP", "SIB"], 0),
+        ("active-zero-full", 1, None, 0, 0, 0, "SIB", [], 1),
+        ("active-zero-free", 2, None, 0, 0, 0, "SIB", ["PREP"], 1),
+        ("active-over-capacity", 1, None, 0, 0, 2, "SIB", [], 2),
+        ("positive-demand", 2, None, 0, 2, 1, None, ["PREP"], 0),
+        ("mixed-demand", 2, None, 0, 0, 2, None, ["PREP"], 0),
+        ("structural-active-zero", 1, None, 0, 0, 0, "ROOT", [], 1),
+    ]
+    for name, host, ceiling, reserve, prep, sibling, active, expected, occupied in cases:
+        state, nodes = fixture()
+        state["context"].update(host_capacity=host, operator_ceiling=ceiling, reserve=reserve)
+        indexed = {n["id"]: n for n in nodes}
+        indexed["PREP"]["resource_demand"] = prep
+        indexed["SIB"]["resource_demand"] = sibling
+        if active:
+            indexed[active]["state"] = "ACTIVE"
+            if active == "ROOT":
+                indexed[active]["resource_demand"] = 0
+        current = graph(root / name, state, nodes)
+        dispatch = wg.select_native_frontier_v1(current)
+        (root / name / "observed.json").write_bytes(raw(dict(
+            scope="CONSTRUCTED_SOURCE_DERIVED_SELECTION_ONLY", authority="NONE",
+            graph=current, dispatch=dispatch, expected_selected=expected,
+            expected_active_occupancy=occupied)) + b"\n")
+        assert dispatch["selected"] == expected, (name, dispatch)
+        assert dispatch["active_occupancy"] == occupied, (name, dispatch)
+        assert dispatch["free_capacity"] == max(0, dispatch["capacity"] - occupied)
+        assert len(dispatch["selected"]) <= dispatch["free_capacity"], (name, dispatch)
+        # The accepted source field remains zero; occupancy is derived separately.
+        assert by_id(current)["PREP"]["resource_demand"] == prep
+
+
 def completed_input_controls(root):
     """Current missing inputs cannot discharge required edges via old DONE."""
     state, nodes = fixture()
@@ -307,6 +347,7 @@ def main():
         if len(sys.argv) > 1:
             td = str(Path(sys.argv[1]).resolve())
             Path(td).mkdir(parents=True, exist_ok=False)
+        slot_capacity_controls(Path(td) / "slot-capacity")
         completed_input_controls(Path(td) / "completed-inputs")
         root = Path(td) / "run"
         state, nodes = fixture()

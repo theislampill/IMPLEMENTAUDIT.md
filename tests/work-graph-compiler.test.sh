@@ -2416,6 +2416,23 @@ if any(value["authority"] != "SOLE_GOVERNOR" for value in owners.values()):
 # Two ready, disjoint cells consume the two free slots; their lower-ranked
 # resource-conflicting peer is deferred, while acceptance/authority/irreversible
 # and stale-currentness work remains blocked rather than gaining a native credit.
+for host, active, expected, occupied in [
+        (0, False, [], 0), (1, False, ["safe-a"], 0),
+        (2, False, ["safe-a", "safe-b"], 0),
+        (1, True, [], 1), (2, True, ["safe-a"], 1)]:
+    zero_demand = copy.deepcopy(native_request)
+    zero_demand["dependency"] = dict(
+        cells=[native_cell("safe-a", resource_demand=0, rank=2),
+               native_cell("safe-b", resource_demand=0, rank=1,
+                           state="ACTIVE" if active else "READY")],
+        joins=[dict(id="A_G_JOIN", requires=["safe-a", "safe-b"])],
+        host_capacity=host, operator_ceiling=host)
+    zero_schedule = module.compile_native_a_g_v1(canonical(zero_demand))["schedule"]
+    if (zero_schedule["selected"] != expected or
+            zero_schedule["active_occupancy"] != occupied or
+            zero_schedule["free_capacity"] != max(0, host - occupied)):
+        raise SystemExit("native G: zero resource demand bypassed slot occupancy")
+
 native_boundary = copy.deepcopy(native_request)
 native_boundary["dependency"] = {
     "cells": [
