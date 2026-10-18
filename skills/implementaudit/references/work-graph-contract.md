@@ -26,7 +26,8 @@ populations refuse. Captured prose cannot redefine execution policy.
 
 Bind source bytes/population, candidate/tree/worktree/continuity and every path
 read/invalidator. Acquire bytes/directory membership/POSIX modes twice. Missing
-reads block; symlinks/nonregular inputs refuse. Resolve under repository or
+reads block even DONE prerequisites; ACTIVE occupancy stays held.
+Symlinks/nonregular inputs refuse. Resolve under repository or
 constructed input root. Semantic reads conservatively bind native worktree.
 Rederive serialized graphs from captured sources; resealing cannot hide omissions.
 Keep private sources private.

@@ -154,3 +154,24 @@ transitive output-artifact semantics. Shared registry/governor integration
 remains a separate owner patch set and must be measured and tested on its own
 exact combined overlay; overlay results are not results for the published PR
 tree.
+
+## Completed native-format prerequisites
+
+The portable native-format reader preserves a source node's `declared_state`
+and `done_evidence`. A current blocking reason, including a missing acquired
+read or invalidator, projects a declared DONE node as BLOCKED. Required
+consumers also block, including a chain of previously declared DONE nodes.
+The compiler does not automatically rerun that completed work. Restoring the
+same complete input projection permits the prior declared completion again
+at this source-fact contract. A source DONE assertion that requires a source
+OPEN or ACTIVE node remains a contradiction and refuses. An ACTIVE node keeps
+its resource occupancy even when a current blocking reason appears.
+
+`done_evidence` is a source-declared digest, not an authenticated accepted
+result with its historical input binding. Present-but-changed input bytes
+change the graph and invalidate affected consumers through
+`diff_native_graphs_v1`; a fresh projection alone cannot establish that the
+old completion was proved for those bytes. Native use still needs the
+governor/R0036 accepted-result producer and currentness contract. The missing
+input regression is a constructed portable control and supplies neither that
+producer nor native lifecycle acceptance.

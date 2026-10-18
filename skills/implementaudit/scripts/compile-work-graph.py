@@ -1875,7 +1875,7 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False):
         declared = node["state"]
         reasons = []
         if any(nodes[d]["state"] != "DONE" for d in node["requires"]):
-            if declared == "DONE":
+            if declared == "DONE" and any(nodes[d]["declared_state"] != "DONE" for d in node["requires"]):
                 raise WorkGraphError("native DONE contradicts open required dependency")
             reasons.append("DEPENDENCY")
         if node["authorization"] != "PERMITTED":
@@ -1906,7 +1906,7 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False):
             route_facts=[routes.get(scope) for scope in node["route_scopes"]],
             delivery=held.get(node["logical_delivery"])))
         node["declared_state"] = declared
-        node["state"] = declared if declared in {"DONE", "ACTIVE"} else ("BLOCKED" if reasons else "READY")
+        node["state"] = "ACTIVE" if declared == "ACTIVE" else "BLOCKED" if reasons else "DONE" if declared == "DONE" else "READY"
         node["blocked_reasons"] = sorted(set(reasons))
     source_inventory = [dict(path=path, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for path, data in sorted(snapshot.items())]
     before["source_digest"] = _graph_hash(source_inventory)
@@ -2396,8 +2396,8 @@ def verifier_command_stream_v1(graph, current_registry_bytes):
 
 
 VERIFIER_LEAF_CONTRACTS_V1 = {
-    "scripts/check-readme-toc.sh": dict(sha256="9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638", reads=["README.md"], probes=[]),
-    "scripts/check-agents-bootstrap-budget.sh": dict(sha256="be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078", reads=["AGENTS.md"], probes=["docs/audits/RETENTION.md", "tests/agents-bootstrap-budget.test.sh"]),
+    "scripts/check-readme-toc.sh": dict(sha256="9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638", reads=["README.md"], probes=[]),  # source repo
+    "scripts/check-agents-bootstrap-budget.sh": dict(sha256="be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078", reads=["AGENTS.md"], probes=["docs/audits/RETENTION.md", "tests/agents-bootstrap-budget.test.sh"]),  # source repo
 }
 
 

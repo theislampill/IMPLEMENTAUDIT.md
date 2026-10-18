@@ -107,6 +107,50 @@ def by_id(g):
     return {n["id"]: n for n in g["nodes"]}
 
 
+def completed_input_controls(root):
+    """Current missing inputs cannot discharge required edges via old DONE."""
+    state, nodes = fixture()
+    nodes.append(node("C3", "PH", state="DONE", requires=["C1"]))
+    state["nodes"].append("C3")
+    nodes[5]["requires"] = ["C3", "C2"]
+    before = graph(root, state, nodes)
+    missing = root / "inputs/a.txt"
+    original = missing.read_bytes()
+    missing.unlink()
+    after = wg.read_native_run_v1(root)
+    current = by_id(after)
+    assert current["C1"]["state"] == "BLOCKED", current["C1"]
+    assert current["C1"]["declared_state"] == "DONE"
+    assert current["C1"]["done_evidence"] == by_id(before)["C1"]["done_evidence"]
+    assert current["C1"]["blocked_reasons"] == ["MISSING_INPUT"]
+    assert current["C3"]["state"] == "BLOCKED"
+    assert current["C3"]["blocked_reasons"] == ["DEPENDENCY"]
+    assert current["PREP"]["state"] == "BLOCKED"
+    assert current["C2"]["state"] == "DONE"
+    assert wg.select_native_frontier_v1(after)["selected"] == ["SIB"]
+    delta = wg.diff_native_graphs_v1(before, after)
+    assert {"C1", "C3", "PREP"} <= set(delta["invalidated"])
+    assert {"C2", "SIB"} <= set(delta["preserved"])
+    missing.write_bytes(original)
+    assert wg.read_native_run_v1(root) == before
+
+    # ACTIVE custody is retained even if its current read becomes missing.
+    active = copy.deepcopy(nodes)
+    active[6].update(state="ACTIVE", done_evidence=None)
+    graph(root, state, active)
+    (root / "inputs/c.txt").unlink()
+    active_missing = wg.read_native_run_v1(root)
+    assert by_id(active_missing)["SIB"]["state"] == "ACTIVE"
+    assert by_id(active_missing)["SIB"]["blocked_reasons"] == ["MISSING_INPUT"]
+    assert wg.select_native_frontier_v1(active_missing)["active_occupancy"] == 1
+
+    # A source DONE assertion over a source OPEN dependency remains invalid.
+    contradiction = copy.deepcopy(nodes)
+    contradiction[2].update(state="OPEN", done_evidence=None)
+    write_run(root, state, contradiction)
+    reject(lambda: wg.read_native_run_v1(root), "DONE contradicts open required")
+
+
 def packet(g, plan, name, status="PASS", terminal=True, **kw):
     n = by_id(g)[name]
     result = dict(schema="implementaudit.work-result.v1", node=name,
@@ -196,6 +240,7 @@ def main():
                cells=[dict(id="C1", state="READY", deps=[])], serialization_groups={})
     assert wg.compile_frontier_projection(raw(old))["population"] == 1
     with tempfile.TemporaryDirectory(prefix="r0035-native-") as td:
+        completed_input_controls(Path(td) / "completed-inputs")
         root = Path(td) / "run"
         state, nodes = fixture()
         g = graph(root, state, nodes)
