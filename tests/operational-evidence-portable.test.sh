@@ -16,4 +16,5 @@ fi
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-route-bindings.py" --target "$repo_root/scripts/operational_query_policy.py"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/captured-product-bindings.py" --target "$repo_root/scripts/operational_query_policy.py"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/windows-reader.py" "$repo_root"
+"${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/windows-export.py" "$repo_root"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/review-regressions.py" "$repo_root"

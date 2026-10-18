@@ -198,22 +198,24 @@ class WindowsReaderTests(unittest.TestCase):
             if parent.lstat().st_file_attributes & 0x400:
                 parent.rmdir()  # This exact test-owned junction only; never its target.
 
-    def test_actual_export_volume_refusal_has_no_effect(self):
+    def test_actual_export_requires_per_object_custody(self):
         kernel = oe._snapshot_windows_kernel_v1()
         handle = kernel.CreateFileW(str(self.file), 0x80000000, 1, None, 3, 0, None)
         self.assertNotEqual(handle, oe.ctypes.c_void_p(-1).value)
         try:
             capable = oe._snapshot_hardlink_publication_capable_v1(kernel, handle)
+            flags = oe.ctypes.c_uint32()
+            self.assertTrue(kernel.GetVolumeInformationByHandleW(
+                handle, None, 0, None, None, oe.ctypes.byref(flags), None, 0))
+            if flags.value & 0x00400000:
+                self.assertFalse(capable)
         finally:
             kernel.CloseHandle(handle)
         target = self.root / "export.json"
-        if capable:
-            oe._snapshot_stage_export_v1(b"{}", target)
-            self.assertEqual(target.read_bytes(), b"{}")
-        else:
-            with self.assertRaisesRegex(OSError, "hard-link topology"):
-                oe._snapshot_stage_export_v1(b"{}", target)
-            self.assertFalse(target.exists())
+        # An unsealed ordinary file on NTFS remains incapable. The exporter
+        # creates its own sealed object and checks that actual object's DACL.
+        oe._snapshot_stage_export_v1(b"{}", target)
+        self.assertEqual(target.read_bytes(), b"{}")
         self.assertEqual(list(self.root.glob("*.implementaudit-stage")), [])
 
 

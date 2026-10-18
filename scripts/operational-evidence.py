@@ -725,7 +725,8 @@ class _WindowsIoStatusV1(ctypes.Structure):
                 ("information", ctypes.c_size_t)]
 
 
-def _windows_open_child_v1(parent, name, directory):
+def _windows_open_child_v1(parent, name, directory, *, create_security=None,
+                           hold_directory=False):
     """Open one component relative to its held parent, never reparse a pathname."""
     native = ctypes.WinDLL("ntdll")
     native.NtCreateFile.argtypes = [ctypes.POINTER(ctypes.c_void_p), ctypes.c_uint32,
@@ -743,12 +744,21 @@ def _windows_open_child_v1(parent, name, directory):
                                    ctypes.cast(buffer, ctypes.c_void_p))
     attributes = _WindowsObjectAttributesV1(
         ctypes.sizeof(_WindowsObjectAttributesV1), parent, ctypes.pointer(text),
-        0x40 | 0x1000, None, None)  # CASE_INSENSITIVE | DONT_REPARSE
+        0x40 | 0x1000, create_security, None)  # CASE_INSENSITIVE | DONT_REPARSE
     result = ctypes.c_void_p()
     status = _WindowsIoStatusV1()
+    access = 0x00100080 | (0 if directory else 1)
+    if hold_directory:
+        access = 0x80100000
+    if create_security is not None:
+        if directory:
+            raise OSError("private export stage must be a file")
+        access = 0xC0130000  # read/write, DELETE, READ_CONTROL, SYNCHRONIZE
     code = native.NtCreateFile(
-        ctypes.byref(result), 0x00100080 | (0 if directory else 1),
-        ctypes.byref(attributes), ctypes.byref(status), None, 0, 1, 1,
+        ctypes.byref(result), access,
+        ctypes.byref(attributes), ctypes.byref(status), None,
+        0x100 if create_security is not None else 0, 1,
+        2 if create_security is not None else 1,  # CREATE_NEW or OPEN
         0x20 | 0x00200000 | (1 if directory else 0x40), None, 0)
     if code < 0:
         raise ctypes.WinError(native.RtlNtStatusToDosError(code))
@@ -5211,12 +5221,122 @@ def _snapshot_handle_regular_v1(info: _SnapshotHandleInfoV1, size: int) -> bool:
 
 
 def _snapshot_hardlink_publication_capable_v1(kernel, handle) -> bool:
-    """Admit publication only when the bound volume cannot add hard links."""
+    """Require no hard links or a live, immutable owner-only descriptor."""
     flags = ctypes.c_uint32()
     if not kernel.GetVolumeInformationByHandleW(
             handle, None, 0, None, None, ctypes.byref(flags), None, 0):
         raise ctypes.WinError(ctypes.get_last_error())
-    return not bool(flags.value & 0x00400000)
+    return not bool(flags.value & 0x00400000) or bool(
+        flags.value & 0x8 and _snapshot_sealed_dacl_v1(handle))
+
+
+def _snapshot_security_api_v1():
+    security = ctypes.WinDLL("advapi32", use_last_error=True)
+    pointer = ctypes.c_void_p
+    security.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes = [
+        ctypes.c_wchar_p, ctypes.c_uint32, ctypes.POINTER(pointer), pointer]
+    security.ConvertStringSecurityDescriptorToSecurityDescriptorW.restype = ctypes.c_int
+    security.ConvertSecurityDescriptorToStringSecurityDescriptorW.argtypes = [
+        pointer, ctypes.c_uint32, ctypes.c_uint32, ctypes.POINTER(pointer), pointer]
+    security.ConvertSecurityDescriptorToStringSecurityDescriptorW.restype = ctypes.c_int
+    security.GetSecurityInfo.argtypes = [pointer, ctypes.c_int, ctypes.c_uint32,
+        pointer, pointer, pointer, pointer, ctypes.POINTER(pointer)]
+    security.GetSecurityInfo.restype = ctypes.c_uint32
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel.LocalFree.argtypes = [pointer]
+    kernel.LocalFree.restype = pointer
+    return security, kernel.LocalFree
+
+
+@contextlib.contextmanager
+def _snapshot_creation_security_v1():
+    """Seal a new stage at creation, without touching any pre-existing ACL.
+
+    Deny WRITE_ATTRIBUTES (including native hard links), WRITE_DAC and
+    WRITE_OWNER to ordinary reopeners, including OWNER RIGHTS. Only the owner
+    can read/delete after the original write-capable creation handle closes.
+    """
+    security, free = _snapshot_security_api_v1()
+    descriptor = ctypes.c_void_p()
+    if not security.ConvertStringSecurityDescriptorToSecurityDescriptorW(
+            "D:P(D;;0x000C0100;;;WD)(D;;0x000C0100;;;OW)(A;;0x00130089;;;OW)",
+            1, ctypes.byref(descriptor), None):
+        raise ctypes.WinError(ctypes.get_last_error())
+    try:
+        yield descriptor
+    finally:
+        free(descriptor)
+
+
+def _snapshot_sealed_dacl_v1(handle):
+    """Read back the actual protected DACL through the original object handle."""
+    security, free = _snapshot_security_api_v1()
+    observed = ctypes.c_void_p()
+    code = security.GetSecurityInfo(
+        handle, 1, 4, None, None, None, None, ctypes.byref(observed))
+    if code:
+        raise ctypes.WinError(code)
+    try:
+        with _snapshot_creation_security_v1() as expected:
+            values = []
+            for descriptor in (expected, observed):
+                text = ctypes.c_void_p()
+                if not security.ConvertSecurityDescriptorToStringSecurityDescriptorW(
+                        descriptor, 1, 4, ctypes.byref(text), None):
+                    raise ctypes.WinError(ctypes.get_last_error())
+                try:
+                    values.append(ctypes.wstring_at(text))
+                finally:
+                    free(text)
+            return values[0] == values[1]
+    finally:
+        free(observed)
+
+
+def _snapshot_check_parents_v1(kernel, parents):
+    for handle, path, identity in parents:
+        info = _snapshot_handle_info_v1(kernel, handle)
+        if (info.attributes & 0x400 or not info.attributes & 0x10 or
+                (info.volume_serial, info.file_index_high, info.file_index_low) != identity or
+                str(_windows_handle_name_v1(kernel, handle)).casefold() != str(path).casefold()):
+            raise OSError("export parent identity, canonical name or type changed")
+
+
+@contextlib.contextmanager
+def _snapshot_export_parents_v1(kernel, target):
+    """Hold every component through publication; create only below this parent."""
+    if (not target.is_absolute() or len(target.drive) != 2 or target.drive[1] != ":" or
+            kernel.GetDriveTypeW(target.anchor) != 3 or any(
+                part in {".", ".."} or ":" in part or part.rstrip(" .") != part or
+                pathlib.PureWindowsPath(part).is_reserved() for part in target.parts[1:])):
+        raise OSError("export requires a canonical fixed-drive path")
+    parents = []
+    try:
+        requested = pathlib.PureWindowsPath(target.anchor)
+        for part in (None, *target.parent.parts[1:]):
+            if part is None:
+                handle = kernel.CreateFileW(
+                    target.anchor, 0x80000000, 1, None, 3, 0x02200000, None)
+                if handle == ctypes.c_void_p(-1).value:
+                    raise ctypes.WinError(ctypes.get_last_error())
+            else:
+                handle = _windows_open_child_v1(
+                    parents[-1][0], part, True, hold_directory=True)
+                requested /= part
+            # Own the handle before any subsequent operation can fail.
+            parents.append((handle, requested, None))
+            info = _snapshot_handle_info_v1(kernel, handle)
+            parents[-1] = (handle, requested,
+                (info.volume_serial, info.file_index_high, info.file_index_low))
+            _snapshot_check_parents_v1(kernel, parents)
+        yield parents
+    finally:
+        failed = False
+        for handle, _, _ in reversed(parents):
+            if not kernel.CloseHandle(handle):
+                failed = True
+        if failed:
+            raise OSError("export parent handle cleanup failed")
 
 
 def _snapshot_delete_stage_v1(kernel, handle) -> None:
@@ -5227,9 +5347,11 @@ def _snapshot_delete_stage_v1(kernel, handle) -> None:
 
 
 def _snapshot_atomic_no_replace_v1(handle, target: pathlib.Path) -> None:
-    """Atomically rename the live private stage; replacement is forbidden."""
+    """Rename inside the live stage's held parent; replacement is forbidden."""
     kernel = _snapshot_windows_kernel_v1()
-    name = os.fspath(target).encode("utf-16-le")
+    if str(_windows_handle_name_v1(kernel, handle).parent).casefold() != str(target.parent).casefold():
+        raise OSError("stage is outside the held intended export parent")
+    name = target.name.encode("utf-16-le")
     pointer_size = ctypes.sizeof(ctypes.c_void_p)
     root_offset = (4 + pointer_size - 1) // pointer_size * pointer_size
     length_offset = root_offset + pointer_size
@@ -5239,9 +5361,17 @@ def _snapshot_atomic_no_replace_v1(handle, target: pathlib.Path) -> None:
     ctypes.c_void_p.from_buffer(buffer, root_offset).value = None
     ctypes.c_uint32.from_buffer(buffer, length_offset).value = len(name)
     ctypes.memmove(ctypes.addressof(buffer) + name_offset, name, len(name))
-    if not kernel.SetFileInformationByHandle(
-            handle, 3, buffer, name_offset + len(name)):
-        code = ctypes.get_last_error()
+    native = ctypes.WinDLL("ntdll")
+    native.NtSetInformationFile.argtypes = [ctypes.c_void_p,
+        ctypes.POINTER(_WindowsIoStatusV1), ctypes.c_void_p, ctypes.c_uint32, ctypes.c_int]
+    native.NtSetInformationFile.restype = ctypes.c_long
+    native.RtlNtStatusToDosError.argtypes = [ctypes.c_long]
+    native.RtlNtStatusToDosError.restype = ctypes.c_uint32
+    status = _WindowsIoStatusV1()
+    result = native.NtSetInformationFile(
+        handle, ctypes.byref(status), buffer, name_offset + len(name), 10)
+    if result < 0:
+        code = native.RtlNtStatusToDosError(result)
         if code in {80, 183}:
             raise FileExistsError(code, "export destination became occupied")
         raise ctypes.WinError(code)
@@ -5250,16 +5380,16 @@ def _snapshot_atomic_no_replace_v1(handle, target: pathlib.Path) -> None:
 def _snapshot_stage_export_v1(raw: bytes, target: pathlib.Path) -> None:
     """Publish one exact byte string through a write/delete-excluded stage."""
     kernel = _snapshot_windows_kernel_v1()
+    with _snapshot_export_parents_v1(kernel, target) as parents:
+        with _snapshot_creation_security_v1() as descriptor:
+            _snapshot_stage_export_held_v1(kernel, parents, descriptor, raw, target)
+
+
+def _snapshot_stage_export_held_v1(kernel, parents, descriptor, raw, target):
     stage = target.with_name(
         f".{target.name}.{secrets.token_hex(16)}.implementaudit-stage")
-    handle = kernel.CreateFileW(
-        os.fspath(stage), 0x80000000 | 0x40000000 | 0x00010000,
-        0x00000001, None, 1, 0x00000100, None)
-    if handle == ctypes.c_void_p(-1).value:
-        code = ctypes.get_last_error()
-        if code in {80, 183}:
-            raise OSError(code, "private stage identity collided")
-        raise ctypes.WinError(code)
+    handle = _windows_open_child_v1(
+        parents[-1][0], stage.name, False, create_security=descriptor)
     published = False
     delete_marked = False
     try:
@@ -5269,6 +5399,7 @@ def _snapshot_stage_export_v1(raw: bytes, target: pathlib.Path) -> None:
         if not _snapshot_hardlink_publication_capable_v1(kernel, handle):
             raise OSError(
                 "volume cannot exclude hard-link topology through publication")
+        _snapshot_check_parents_v1(kernel, parents)
         _snapshot_stage_v1("stage-created")
         offset = 0
         while offset < len(raw):
@@ -5308,6 +5439,9 @@ def _snapshot_stage_export_v1(raw: bytes, target: pathlib.Path) -> None:
                  verified.file_index_low)):
             raise OSError("private stage identity or exact bytes changed")
         _snapshot_stage_v1("before-publish")
+        _snapshot_check_parents_v1(kernel, parents)
+        if not _snapshot_hardlink_publication_capable_v1(kernel, handle):
+            raise OSError("private stage publication security changed")
         final_stage = _snapshot_handle_info_v1(kernel, handle)
         if (not _snapshot_handle_regular_v1(final_stage, len(raw)) or
                 (created.volume_serial, created.file_index_high,
@@ -5317,6 +5451,14 @@ def _snapshot_stage_export_v1(raw: bytes, target: pathlib.Path) -> None:
             raise OSError("private stage changed immediately before publication")
         _snapshot_atomic_no_replace_v1(handle, target)
         published = True
+        _snapshot_check_parents_v1(kernel, parents)
+        final = _snapshot_handle_info_v1(kernel, handle)
+        if (not _snapshot_handle_regular_v1(final, len(raw)) or
+                (created.volume_serial, created.file_index_high, created.file_index_low) !=
+                (final.volume_serial, final.file_index_high, final.file_index_low) or
+                str(_windows_handle_name_v1(kernel, handle)).casefold() != str(target).casefold() or
+                not _snapshot_hardlink_publication_capable_v1(kernel, handle)):
+            raise OSError("published export identity or custody changed")
     finally:
         if not published:
             try:
@@ -5325,8 +5467,7 @@ def _snapshot_stage_export_v1(raw: bytes, target: pathlib.Path) -> None:
             except OSError:
                 pass
         if not kernel.CloseHandle(handle):
-            if published:
-                raise ctypes.WinError(ctypes.get_last_error())
+            raise ctypes.WinError(ctypes.get_last_error())
         if not published and not delete_marked:
             raise OSError("private stage cleanup could not be identity-bound")
 
