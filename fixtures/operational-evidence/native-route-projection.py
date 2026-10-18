@@ -3,7 +3,7 @@ import copy
 import hashlib
 import importlib.util
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import sys
 import unittest
 
@@ -17,7 +17,7 @@ SEED = json.loads((ROOT / "fixtures/operational-evidence/review-native-before.js
 from unittest.mock import patch
 
 # These are explicit injected source/interface inputs, never native witnesses.
-LANE = Path('/r0038-source-interface-fixture')
+LANE = PurePosixPath('/r0038-source-interface-fixture')
 PEERS = ROOT / 'source-peers/route-graph/skills/implementaudit/scripts'
 def load_peer(name):
     path = PEERS / name
@@ -71,7 +71,7 @@ def binding(rec):
     return dict(acquisition='NATIVE_CONTINUITY_VERIFIED', controller=rec['controller_id'], claim=rec['claim_id'],
         receipt=rec['continuity_receipt'], epoch=rec['continuity_generation'], candidate_head='4' * 40,
         candidate_tree='5' * 40, worktree_digest='6' * 64, continuity_helper_digest='7' * 64,
-        read_set={}, input_root_identity='8' * 64)
+        read_set={}, input_root_identity=hashlib.sha256(str(LANE).encode()).hexdigest())
 
 def node(name, *, kind='TASK', scopes=(), requires=()):
     return dict(id=name, parent=None if name == 'root' else 'root', kind=kind, state='OPEN', requires=list(requires),
@@ -128,7 +128,7 @@ class NativeRouteProjectionTests(unittest.TestCase):
         self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_BYTES, len(producer))
 
     def material(self, satisfied=False):
-        rec = record(LANE / "run")
+        rec = record(LANE / ".IMPLEMENTAUDIT/runs/native-route-projection")
         baseline = native_compile(rec)
         if satisfied:
             rec["route_state"] = "SATISFIED"
@@ -146,6 +146,8 @@ class NativeRouteProjectionTests(unittest.TestCase):
             route_relation=relation, canonical_work_graph=canonical.decode(), route=summary(rec))
         native["controller"]["id"] = rec["controller_id"]
         native["claim"]["id"] = rec["claim_id"]
+        native["claim"].update(run_id="native-route-projection",
+            run_root=".IMPLEMENTAUDIT/runs/native-route-projection")
         native["continuity"].update(generation=rec["continuity_generation"],
             source_epoch=rec["continuity_generation"], receipt=rec["continuity_receipt"])
         native["hot"].update(state_sha256=hashlib.sha256(graph["source_documents"]["STATE.md"].encode()).hexdigest(),
@@ -218,6 +220,50 @@ class NativeRouteProjectionTests(unittest.TestCase):
         value = self.payload(collections)
         with self.assertRaises(oe.OperationalEvidenceError):
             oe.diff_snapshots(value, value)
+
+    def rewrite_graph(self, collections, *, foreign_run=False, foreign_input=False, mixed_edges=False):
+        native = collections["native_current"]["value"]
+        graph = native["route_graph"]
+        sources = {path: value.encode() for path, value in graph["source_documents"].items()}
+        bound = {key: value for key, value in graph["binding"].items() if key != "source_digest"}
+        scope = copy.deepcopy(graph["route_scope"])
+        if foreign_run:
+            scope["owner"]["explicit_run_root"] = "/foreign/.IMPLEMENTAUDIT/runs/native-route-projection"
+        if foreign_input:
+            bound["input_root_identity"] = "0" * 64
+        if mixed_edges:
+            spec = WG._native_document(sources["tasks/controls.md"], "tasks/controls.md", "implementaudit.native-spec.v1")
+            next(n for n in spec["nodes"] if n["id"] == "root")["requires"] = ["scoped"]
+            sources["tasks/controls.md"] = fenced(spec)
+        observed = WG._RouteScopeObservation(seal(scope), WG._CAPTURED_ROUTE_REPLAY_KEY)
+        graph = WG._compile_native_documents_v1(sources, bound, _route_observation=observed)
+        cells = [dict(id=n["id"], deps=n["requires"], optional_deps=n["optional"],
+            route_scopes=n["route_scopes"], state=n["state"]) for n in graph["nodes"]]
+        source = oe.canonical_json_v1(dict(schema="implementaudit.work-graph.v1",
+            population={"total_cells": len(cells)}, cells=cells, serialization_groups={}))
+        native.update(route_graph=graph, route_relation=WG.bind_native_route_relation_v1(graph, source),
+            canonical_work_graph=source.decode(), frontier=WG.compile_frontier_projection(source))
+        native["hot"]["work_graph_sha256"] = hashlib.sha256(source).hexdigest()
+
+    def test_resealed_foreign_run_or_input_root_refuses(self):
+        for mutation in ({"foreign_run": True}, {"foreign_input": True}):
+            collections = self.material()
+            self.rewrite_graph(collections, **mutation)
+            value = self.payload(collections)
+            with self.subTest(mutation=mutation), self.assertRaises(oe.OperationalEvidenceError):
+                oe.diff_snapshots(value, value)
+
+    def test_dependency_and_containment_remain_distinct_in_why(self):
+        collections = self.material()
+        self.rewrite_graph(collections, mixed_edges=True)
+        value = self.payload(collections)
+        rows = oe.query_family(value, "EXECUTION")["rows"]
+        for node in ("root", "scoped"):
+            record = next(row["record"] for row in rows if row["record"]["record_type"] == "GovernedWorkNode"
+                          and row["record"]["observation"]["id"] == node)
+            why = oe.explain_history_why_v1(value, record["id"])
+            self.assertEqual(why["status"], "FOUND")
+            self.assertTrue({"DEPENDS_ON", "PART_OF"} <= {row["relation_type"] for row in why["relations"]})
 
     def test_frozen_consumers_never_acquire_native_graph(self):
         value = self.payload(self.material())

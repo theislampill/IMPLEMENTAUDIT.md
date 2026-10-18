@@ -30,8 +30,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = 'ba0770ac0f9bdfdd32787956910d58968115850b272fb9300204818493393d9f'
-_QUERY_POLICY_MODULE_BYTES = 196915
+_QUERY_POLICY_MODULE_SHA256 = '89269bd52ed2cc47d3f98041ba7989c2013b2f97dc57a76fa8aace6aca86951b'
+_QUERY_POLICY_MODULE_BYTES = 198331
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os
@@ -606,7 +606,8 @@ def _git_read_view(root):
         yield view, common / "objects"
 
 
-def _run_git(root: pathlib.Path, *args: str, text: bool = True):
+def _run_git(root: pathlib.Path, *args: str, text: bool = True,
+             allowed_returncodes: tuple[int, ...] = (0,)):
     environment = dict(os.environ)
     for name in tuple(environment):
         # Explicit -C is not sufficient: GIT_DIR/INDEX_FILE/WORK_TREE and trace
@@ -646,11 +647,14 @@ def _run_git(root: pathlib.Path, *args: str, text: bool = True):
     try:
         with _git_read_view(root) as (view, objects):
             environment["GIT_OBJECT_DIRECTORY"] = os.fspath(objects)
-            return subprocess.run(
+            completed = subprocess.run(
                 ["git", *isolated_configuration, "--git-dir=" + os.fspath(view),
                  "--work-tree=" + os.fspath(root), "-C", os.fspath(root), *args],
-                check=True, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                check=False, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE, text=text, env=environment, timeout=30)
+            if completed.returncode not in allowed_returncodes:
+                completed.check_returncode()
+            return completed
     except (OSError, UnicodeError, subprocess.SubprocessError):
         _error("OE_REPOSITORY_GIT", "$repository",
                "repository Git facts could not be read")
@@ -4672,6 +4676,23 @@ def _snapshot_diff_route_graph_v2(value, path):
                 binding["epoch"] != value["continuity"]["generation"] or
                 binding["receipt"] != value["continuity"]["receipt"]):
             raise ValueError("graph crossed native route/currentness custody")
+        # The native input root is the repository selected by C03, and R0033's
+        # run must be that repository's exact claimed relative run. Preserve
+        # the producer platform's path spelling when checking its root digest.
+        run_text = graph["route_scope"]["owner"]["explicit_run_root"]
+        if type(run_text) is not str or any(part in {".", ".."}
+                for part in run_text.replace("\\", "/").split("/")):
+            raise ValueError("route run root has a lexical alias")
+        windows = bool(re.match(r"^[A-Za-z]:[/\\]", run_text))
+        run_path = pathlib.PureWindowsPath(run_text) if windows else pathlib.PurePosixPath(run_text)
+        relative = pathlib.PurePosixPath(value["claim"]["run_root"])
+        if (not run_path.is_absolute() or (not windows and "\\" in run_text) or
+                relative.parts != (".IMPLEMENTAUDIT", "runs", value["claim"]["run_id"]) or
+                run_path.parts[-3:] != relative.parts):
+            raise ValueError("route run root differs from native claim")
+        input_root = str(run_path.parents[2])
+        if hashlib.sha256(input_root.encode("utf-8")).hexdigest() != binding["input_root_identity"]:
+            raise ValueError("route run root and native input root differ")
         for name, member in (("STATE.md", "state_sha256"), ("ROADMAP.md", "roadmap_sha256")):
             if hashlib.sha256(graph["source_documents"][name].encode("utf-8")).hexdigest() != value["hot"][member]:
                 raise ValueError("graph source differs from native hot identity")

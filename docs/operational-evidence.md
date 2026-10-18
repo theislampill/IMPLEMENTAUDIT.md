@@ -209,6 +209,16 @@ at query time. Frozen v2 readers execute only the fixed, byte-bound pure R0035
 validator against retained canonical bytes; they perform no subprocess, network,
 model, native acquisition or publication.
 
+Declared and recursively selected graph inputs pass the repository owner's
+secret/administrative-name policy before content reads. A Git-backed input root
+also checks each selected path against its isolated Git ignore policy, including
+ignored tracked files. A denied member refuses the scope rather than silently
+removing an input. Frozen route validation binds the declared run beneath the
+exact claimed relative run to the graph's platform-specific input-root digest.
+Explanations keep dependency and containment edges typed: a mixed traversal
+revisit is retained in `context_cycle_relations`; dependency-only, containment-only
+and ordinary causal-lineage cycles still refuse.
+
 ## Immutable current snapshot publication
 
 `publish_current_snapshot()` is the C06 no-argument producer. It accepts no repository, run root, output root, controller, claim, branch, pointer, receipt, epoch, snapshot ID, manifest, locator or digest. The carrier derives the sole controller and bound run from `collect_native_current()`, then derives the only effect root as `<bound-run-root>/operational-evidence/snapshots`. Its receipt is an R0038 output-root observation with an empty `establishes` population; it creates no controller, route, currentness, lifecycle, release or closure authority.

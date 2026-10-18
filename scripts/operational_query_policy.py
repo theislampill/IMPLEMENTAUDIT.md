@@ -343,6 +343,7 @@ class SnapshotQueryPolicy:
         order = []
         retained_relations = []
         code_cycle_relations = []
+        context_cycle_relations = []
         active = set()
         complete = set()
 
@@ -350,12 +351,14 @@ class SnapshotQueryPolicy:
         # valid retained lineage depend on Python's interpreter recursion limit.
         active.add(record_id)
         order.append(by_id[record_id])
-        stack = [(record_id, iter(outgoing.get(record_id, [])))]
+        positions = {record_id: 0}
+        stack = [(record_id, iter(outgoing.get(record_id, [])), None)]
         while stack:
-            identity, relations = stack[-1]
+            identity, relations, incoming = stack[-1]
             relation = next(relations, None)
             if relation is None:
                 active.remove(identity)
+                del positions[identity]
                 complete.add(identity)
                 stack.pop()
                 continue
@@ -373,13 +376,29 @@ class SnapshotQueryPolicy:
                         relation["relation_type"] == "DEPENDS_ON"):
                     code_cycle_relations.append(relation["id"])
                     continue
+                cycle = [frame[2] for frame in stack[positions[target] + 1:]] + [relation]
+                # A containment tree and a dependency DAG can form a mixed
+                # traversal cycle (parent needs child; child belongs to parent).
+                # The owner validates each graph separately. Retain all typed
+                # edges without turning containment into causal lineage.
+                if (any(edge["relation_type"] == "PART_OF" for edge in cycle) and
+                        any(edge["relation_type"] in {"DEPENDS_ON", "OPTIONALLY_DEPENDS_ON"} for edge in cycle) and
+                        all(edge.get("family") == "EXECUTION" and
+                            edge.get("native_owner_identity") == "R0038-C03" and
+                            edge.get("source_identity", {}).get("semantic_owner") == "R0035" and
+                            edge.get("confidence") == "owner-derived" and
+                            edge["relation_type"] in {"DEPENDS_ON", "OPTIONALLY_DEPENDS_ON", "PART_OF"}
+                            for edge in cycle)):
+                    context_cycle_relations.append(relation["id"])
+                    continue
                 self._error("OE_WHY_CYCLE", "$.relations",
                             "why lineage contains a reachable cycle")
             if target in complete:
                 continue
             active.add(target)
             order.append(by_id[target])
-            stack.append((target, iter(outgoing.get(target, []))))
+            positions[target] = len(stack)
+            stack.append((target, iter(outgoing.get(target, [])), relation))
 
         for row in order:
             evidence = row.get("contrary_evidence", [])
@@ -394,6 +413,7 @@ class SnapshotQueryPolicy:
             "schema": self._why_schema, "record_id": record_id,
             "status": "FOUND", "chain": order,
             "code_cycle_relations": sorted(code_cycle_relations),
+            "context_cycle_relations": sorted(context_cycle_relations),
             "relations": retained_relations, "contrary_evidence": contrary,
             "authority_ceiling": "READ_ONLY_OBSERVATION", "establishes": []}
 

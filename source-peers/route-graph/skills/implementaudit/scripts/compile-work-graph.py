@@ -928,10 +928,10 @@ def _native_document(data, path, schema):
     return obj
 
 
-_NATIVE_STATIC_OWNER_SHA256 = '311bdfd73830e4cd3339e470785194ee832cec0955a87f267e589d602e4a637e'
+_NATIVE_STATIC_OWNER_SHA256 = 'd49fbe1f0508b3a72aa4dcef089ad6533a98e7eb4850dc318ff825779a0b49b0'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 332053
+_NATIVE_STATIC_OWNER_BYTES = 333516
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -1869,10 +1869,24 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _rout
     return _seal_graph(dict(schema='implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
 
 
+def _native_input_policy_v1(owner, root, relative, git_policy):
+    reason = owner._repository_path_policy(relative)
+    if reason is not None:
+        raise WorkGraphError('native declared input policy refused: ' + reason)
+    if git_policy:
+        # One literal path, quiet bounded output, isolated Git configuration.
+        # --no-index also covers ignored files that happen to be tracked.
+        result = owner._run_git(root, 'check-ignore', '--no-index', '--quiet', '--',
+            relative, text=False, allowed_returncodes=(0, 1))
+        if result.returncode == 0:
+            raise WorkGraphError('native declared input policy refused: git-ignored-path')
+
+
 def _acquire_native_read_set(nodes, input_root):
     import stat
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     root = pathlib.Path(input_root).absolute()
+    git_policy = (root / '.git').exists() or (root / '.git').is_symlink()
     budget = dict(entries=0, maximum_entries=NATIVE_READ_MAX_ENTRIES, remaining=NATIVE_READ_MAX_TOTAL_BYTES)
     _native_static_directory_v1(owner, root, budget)
     paths = sorted({p for n in nodes for p in n['reads'] + n['invalidators'] if p.startswith('path:')})
@@ -1881,6 +1895,7 @@ def _acquire_native_read_set(nodes, input_root):
         raise WorkGraphError('native declared read population bound exceeded')
     result = {}
     for identity in paths:
+        _native_input_policy_v1(owner, root, identity[5:], git_policy)
         path = root.joinpath(*pathlib.PurePosixPath(identity[5:]).parts)
         try:
             info = path.lstat()
@@ -1912,6 +1927,7 @@ def _acquire_native_read_set(nodes, input_root):
                     root_mode = directory_mode
                 for name, is_directory, mode in rows:
                     member = directory / name
+                    _native_input_policy_v1(owner, root, member.relative_to(root).as_posix(), git_policy)
                     relative = member.relative_to(path).as_posix()
                     if is_directory:
                         members.append([relative, 'DIRECTORY', mode])

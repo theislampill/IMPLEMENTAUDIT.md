@@ -484,6 +484,35 @@ class SecurityControls(unittest.TestCase):
                 WG._native_source_snapshot(root)
             BASELINE.append({'control': 'source-cumulative-byte-bound', 'operand': 'ACTUAL_SOURCE_TOTAL_EXCEEDS_4_MIB'})
 
+    def test_10_declared_and_recursive_secret_paths_refuse_before_read(self):
+        with disposable('input-policy-') as root:
+            (root / '.env').write_bytes(b'OWNED_DUMMY_NO_CREDENTIALS\n')
+            (root / 'data').mkdir()
+            (root / 'data/.env').write_bytes(b'OWNED_DUMMY_NO_CREDENTIALS\n')
+            (root / 'ordinary.txt').write_bytes(b'ordinary\n')
+            self.assertEqual(WG._acquire_native_read_set(
+                [{'reads': ['path:ordinary.txt'], 'invalidators': []}], root)['path:ordinary.txt']['status'], 'PRESENT_FILE')
+            for relative in ('.env', 'data'):
+                with self.subTest(path=relative), patch.object(WG, '_native_static_file_v1',
+                        side_effect=AssertionError('excluded content was read')), self.assertRaises(WG.WorkGraphError):
+                    WG._acquire_native_read_set([{'reads': ['path:' + relative], 'invalidators': []}], root)
+
+    def test_11_git_ignored_leaf_and_subtree_refuse_before_read(self):
+        with disposable('ignored-policy-') as root:
+            (root / '.git/objects').mkdir(parents=True)
+            (root / '.git/refs/heads').mkdir(parents=True)
+            (root / '.git/HEAD').write_bytes(b'ref: refs/heads/main\n')
+            (root / '.git/config').write_bytes(b'[core]\nrepositoryformatversion = 0\nbare = false\n')
+            (root / 'data').mkdir()
+            (root / 'data/ignored.txt').write_bytes(b'OWNED_IGNORED_DUMMY\n')
+            (root / '.gitignore').write_bytes(b'data/ignored.txt\n')
+            check = subprocess.run([str(GIT), '-C', str(root), 'check-ignore', '--no-index', 'data/ignored.txt'], capture_output=True)
+            self.assertEqual(check.returncode, 0)
+            for relative in ('data/ignored.txt', 'data'):
+                with self.subTest(path=relative), patch.object(WG, '_native_static_file_v1',
+                        side_effect=AssertionError('ignored content was read')), self.assertRaises(WG.WorkGraphError):
+                    WG._acquire_native_read_set([{'reads': ['path:' + relative], 'invalidators': []}], root)
+
     def test_05_actual_ignored_entry_population_is_bounded(self):
         with disposable('source-count-') as root:
             documents(root)
