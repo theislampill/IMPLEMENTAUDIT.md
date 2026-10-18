@@ -6,7 +6,7 @@ All host metadata, public messages, IDs, route records and pending facts used
 by the tests are synthetic fixtures. Native transport is mocked or refused
 before launch. There are no model calls, native RPCs or configuration reads.
 
-Keep the eight `test_*.py` modules, `native_test_support.py`,
+Keep the ten `test_*.py` modules, `native_test_support.py`,
 `run_native_source_regressions.py`, and `guard-golden.json` together. The
 portable launcher takes an explicit repository root:
 
@@ -25,8 +25,9 @@ inside its owned temporary directory. A partial closure refuses; after the
 last actual RT dependency is supplied, the complete unbound producer reports
 FIXED_SELECTION_UNBOUND. Subprocess entry points are forbidden in that test.
 
-`--list` verifies and prints the exact 42 registered control IDs without
-running them. Repeat `--case FULL_TEST_ID` to run focused adaptation checks.
+`--list` verifies the unchanged 42-control baseline and prints all 49 registered
+IDs, including four profile and three export controls, without running them.
+Repeat `--case FULL_TEST_ID` to run focused adaptation checks.
 `--scratch-parent DIRECTORY` optionally places all owned temporary fixtures
 under a selected directory; otherwise Python's temporary directory is used.
 The launcher checks that public source hashes remain unchanged during a run.
