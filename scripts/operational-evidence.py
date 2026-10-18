@@ -30,8 +30,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = '89269bd52ed2cc47d3f98041ba7989c2013b2f97dc57a76fa8aace6aca86951b'
-_QUERY_POLICY_MODULE_BYTES = 198331
+_QUERY_POLICY_MODULE_SHA256 = 'e57dcd7394d248c7379f38ee7d2124cab4e8ebca743bca7b22f2fd4e9d4c2ae4'
+_QUERY_POLICY_MODULE_BYTES = 202320
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os
@@ -94,8 +94,9 @@ STATIC_RECEIPT_SCHEMA = "implementaudit-static-receipt-v1"
 STATIC_NORMALIZED_SCHEMA = "implementaudit-static-normalized-v1"
 STATIC_NORMALIZED_SET_SCHEMA = "implementaudit-static-normalized-set-v1"
 LEGACY_NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v1"
-NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v2"
-NATIVE_ROUTE_CURRENT_SCHEMA = NATIVE_CURRENT_SCHEMA
+NATIVE_ROUTE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v2"
+NATIVE_CURRENT_SCHEMA = "implementaudit-native-current-facts-v3"
+NATIVE_ROUTE_SCHEMAS = {NATIVE_ROUTE_CURRENT_SCHEMA, NATIVE_CURRENT_SCHEMA}
 SNAPSHOT_INPUT_SCHEMA = "implementaudit-operational-snapshot-input.v1"
 SNAPSHOT_PAYLOAD_SCHEMA = "implementaudit-operational-snapshot-payload.v2"
 SNAPSHOT_MANIFEST_SCHEMA = "IA-OPERATIONAL-SNAPSHOT-v1"
@@ -1639,6 +1640,64 @@ def _native_route_relation(repository, run_root, graph_raw, route,
     return graph, relation
 
 
+def _native_episode_peer_bytes():
+    # source repo: fixed generic owner contracts, outside shipped skills.
+    root = pathlib.Path(__file__).resolve().parents[1] / "source-peers/native-runtime/skills/implementaudit/scripts"
+    return [(root / name, _native_file(root / name, "$native.episode_contract", 256 * 1024))
+            for name in ("compaction-audit-pending.py", "compaction-result-observation.py")]
+
+
+def _native_episode():
+    """Read the selected accepted owner episode; no caller path/profile input."""
+    root = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts"
+    paths = [root / name for name in ("compaction-audit-pending.py", "compaction-result-observation.py")]
+    raws = [_native_file(path, "$native.episode_owner", 256 * 1024)
+            if path.exists() or path.is_symlink() else None for path in paths]
+    markers = (b"def acquire_selected_episode_export_v1(", b"def validate_frozen_episode_export_v1(")
+    capable = [raw is not None and marker in raw for raw, marker in zip(raws, markers)]
+    if not any(capable):
+        return None  # Historical peer set: retain an explicit capability gap.
+    if not all(capable):
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.episode", "native episode peer composition is incomplete")
+    peers = _native_episode_peer_bytes()
+    if raws != [raw for path, raw in peers]:
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.episode", "native episode owners differ from the selected source composition")
+    producer = _native_module_from_bytes(raws[0], paths[0], "_native_episode_producer", "$native.episode")
+    contract = _native_module_from_bytes(raws[1], paths[1], "_native_episode_contract", "$native.episode")
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            value = producer.acquire_selected_episode_export_v1()
+            if contract.validate_frozen_episode_export_v1(value) != value:
+                raise ValueError("episode owner changed its exported value")
+    except (Exception, SystemExit):
+        _error("OE_NATIVE_CURRENT_EPISODE", "$native.episode", "selected accepted episode refused owner validation")
+    if any(_native_file(path, "$native.episode_fence", 256 * 1024) != raw
+           for path, raw in [*zip(paths, raws), *peers]):
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "episode owner source changed during read")
+    return {"producer_sha256": hashlib.sha256(raws[0]).hexdigest(),
+            "contract_sha256": hashlib.sha256(raws[1]).hexdigest(), "value": value}
+
+
+def _native_episode_binding(wrapped, route, graph):
+    value = wrapped["value"]
+    if value["status"] != "AVAILABLE":
+        return
+    if graph is None or value["owner"]["canonical_route"] != route:
+        raise ValueError("accepted episode belongs to a different current route")
+    scope = graph["route_scope"]
+    expected = {**scope["owner"], **scope["host"],
+                **{key: route[key] for key in ("obligation_id", "route_transaction_id")}}
+    if value["owner"]["host_and_scope"] != expected:
+        raise ValueError("accepted episode belongs to a different host/currentness scope")
+    pins = value["owner"]["code_pins"]
+    normalized = {key.replace("\\", "/"): digest for key, digest in pins.items()}
+    expected_pins = {"implementaudit/scripts/route-transaction.py": scope["source"]["producer_sha256"],
+                     "implementaudit/scripts/compaction-audit-pending.py": wrapped["producer_sha256"],
+                     "implementaudit/scripts/compaction-result-observation.py": wrapped["contract_sha256"]}
+    if len(normalized) != len(pins) or any(normalized.get(key) != digest for key, digest in expected_pins.items()):
+        raise ValueError("accepted episode route source identity differs")
+
+
 def collect_native_current():
     """Read one exact native hot/current fact set without lifecycle authority."""
     source_repository = pathlib.Path(__file__).resolve().parents[1]
@@ -1848,6 +1907,13 @@ def collect_native_current():
         state["next_action"], route_module)
     route_projection = _native_route_relation(
         repository, run_root, graph_raw, route, compiler_path, compiler_raw, route_module)
+    native_episode = _native_episode()
+    if native_episode is not None:
+        try:
+            _native_episode_binding(native_episode, route,
+                                    route_projection[0] if route_projection is not None else None)
+        except (KeyError, TypeError, ValueError):
+            _error("OE_NATIVE_CURRENT_EPISODE", "$native.episode", "accepted episode crossed native route custody")
 
     ref_fence = {
         controller_ref: controller_oid, invalidation_ref: invalidation_oid,
@@ -1919,8 +1985,15 @@ def collect_native_current():
     }
     result.update(route_graph=route_projection[0] if route_projection is not None else None,
                   route_relation=route_projection[1] if route_projection is not None else None,
-                  canonical_work_graph=graph_raw.decode("utf-8", "strict"))
+                  canonical_work_graph=graph_raw.decode("utf-8", "strict"),
+                  native_episode=native_episode)
     result["semantic_sha256"] = hashlib.sha256(canonical_json_v1(result)).hexdigest()
+    if _native_episode() != native_episode:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "accepted episode changed during native observation")
+    if _native_route_relation(repository, run_root, graph_raw, route,
+            compiler_path, compiler_raw, route_module) != route_projection:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
+               "affected-node sources changed during final observation")
     final_route = _native_route(
         source_repository, controller, controller_oid, claim, run_root,
         generation, receipt, invalidation[4], invalidation[5],
@@ -1928,10 +2001,6 @@ def collect_native_current():
     if final_route != route:
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.route",
                "R0033 route identity changed during final semantic observation")
-    if _native_route_relation(repository, run_root, graph_raw, final_route,
-            compiler_path, compiler_raw, route_module) != route_projection:
-        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
-               "affected-node sources changed during final observation")
     return result
 
 
@@ -2930,7 +2999,7 @@ def _snapshot_portable_native_v1(native: dict) -> dict:
 
     def replace(value):
         if type(value) is dict:
-            return {key: item if key in {"route_graph", "route_relation", "canonical_work_graph"}
+            return {key: item if key in {"route_graph", "route_relation", "canonical_work_graph", "native_episode"}
                     else replace(item) for key, item in value.items()
                     if key != "semantic_sha256"}
         if type(value) is list:
@@ -2985,15 +3054,30 @@ def _collect_snapshot_inputs_v1(native: dict) -> dict:
 def _snapshot_missing_census_v1(collections: dict) -> list[dict]:
     missing = []
     native = collections["native_current"]["value"]
-    if native.get("schema") == NATIVE_ROUTE_CURRENT_SCHEMA and native.get("route_relation") is None:
+    if native.get("schema") in NATIVE_ROUTE_SCHEMAS and native.get("route_relation") is None:
         missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
             "owner": "R0033/R0035", "state": "UNVERIFIED",
             "code": "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE"})
-    elif native.get("schema") == NATIVE_ROUTE_CURRENT_SCHEMA:
+    elif native.get("schema") in NATIVE_ROUTE_SCHEMAS:
         for scope in native["route_relation"]["uncovered_scopes"]:
             missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
                 "owner": "R0033/R0035", "state": "UNVERIFIED",
                 "code": "NATIVE_ROUTE_SCOPE_UNCOVERED", "scope": scope})
+    if native.get("schema") == NATIVE_CURRENT_SCHEMA:
+        wrapped = native.get("native_episode")
+        episode = wrapped["value"] if wrapped is not None else None
+        if episode is None or episode["status"] != "AVAILABLE":
+            missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
+                "owner": "R003A/continuity", "state": "UNVERIFIED", "code": "NATIVE_EPISODE_UNAVAILABLE"})
+        elif episode["lifecycle"]["h0"]["status"] != "RECORDED":
+            missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
+                "owner": "R003A/continuity", "state": "UNVERIFIED", "code": "NATIVE_H0_LIFECYCLE_UNAVAILABLE"})
+        if episode is not None and episode["status"] == "AVAILABLE":
+            for boundary in episode["pending"]["observations"]:
+                if boundary["kind"] != "COMPLETED_RESUMED_BOUNDARY":
+                    missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
+                        "owner": "R003A/continuity", "state": "UNVERIFIED",
+                        "code": "NATIVE_PENDING_BOUNDARY_UNVERIFIED", "scope": boundary["id"]})
     for name in sorted(collections):
         row = collections[name]
         if row["state"] != "CURRENT":
@@ -4208,6 +4292,11 @@ _SNAPSHOT_DIFF_CLOSED_KEYSETS_V1 = frozenset({
         "continuity hot frontier andon_state open_andons "
         "active_instructions next_action route semantic_sha256 "
         "route_graph route_relation canonical_work_graph"),
+    _snapshot_diff_keyset_v1(
+        "schema authority_ceiling establishes repository controller claim "
+        "continuity hot frontier andon_state open_andons "
+        "active_instructions next_action route semantic_sha256 "
+        "route_graph route_relation canonical_work_graph native_episode"),
     _snapshot_diff_keyset_v1("kind collector owner state code scope"),
     _snapshot_diff_keyset_v1("DONE ACTIVE READY BLOCKED"),
     _snapshot_diff_keyset_v1(
@@ -4288,8 +4377,9 @@ _SNAPSHOT_DIFF_DYNAMIC_MAP_SUFFIXES_V1 = (
 def _snapshot_diff_closed_tree_v1(value: object, path: str) -> None:
     """Consume every JSON branch admitted by the four producer grammars."""
     if path.endswith((".collections.native_current.value.route_graph",
-                      ".collections.native_current.value.route_relation")):
-        # These branches have the R0035 closed grammar, recompiled by the fixed
+                      ".collections.native_current.value.route_relation",
+                      ".collections.native_current.value.native_episode")):
+        # These branches have their semantic owner's closed grammar, checked by the fixed
         # pure owner below. They are not interpreted as R0038 fact scalars.
         return
     if type(value) is dict:
@@ -4508,13 +4598,14 @@ def _snapshot_diff_missing_v1(value: object, path: str) -> None:
     kind = value["kind"]
     if kind == "NATIVE_CAPABILITY_UNVERIFIED":
         expected = {"kind", "collector", "owner", "state", "code"}
-        if value.get("code") == "NATIVE_ROUTE_SCOPE_UNCOVERED":
+        if value.get("code") in {"NATIVE_ROUTE_SCOPE_UNCOVERED", "NATIVE_PENDING_BOUNDARY_UNVERIFIED"}:
             expected.add("scope")
             _snapshot_diff_text_v1(value.get("scope"), f"{path}.scope")
-        elif value.get("code") != "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE":
+        elif value.get("code") not in {"NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE", "NATIVE_EPISODE_UNAVAILABLE", "NATIVE_H0_LIFECYCLE_UNAVAILABLE"}:
             _error("OE_DIFF_SNAPSHOT_INVALID", path, "unknown native capability omission")
+        owner = "R003A/continuity" if value.get("code") in {"NATIVE_EPISODE_UNAVAILABLE", "NATIVE_H0_LIFECYCLE_UNAVAILABLE", "NATIVE_PENDING_BOUNDARY_UNVERIFIED"} else "R0033/R0035"
         if (set(value) != expected or value.get("collector") != "native_current" or
-                value.get("owner") != "R0033/R0035" or value.get("state") != "UNVERIFIED"):
+                value.get("owner") != owner or value.get("state") != "UNVERIFIED"):
             _error("OE_DIFF_SNAPSHOT_INVALID", path, "native capability omission differs")
         return
     schemas = {
@@ -4703,6 +4794,27 @@ def _snapshot_diff_route_graph_v2(value, path):
                "captured route/node source, population, relation or contract differs")
 
 
+def _snapshot_diff_native_episode_v3(native, path):
+    wrapped = native["native_episode"]
+    if wrapped is None:
+        return
+    try:
+        _snapshot_diff_exact_object_v1(wrapped, {"producer_sha256", "contract_sha256", "value"}, path)
+        peers = _native_episode_peer_bytes()
+        if (wrapped["producer_sha256"] != hashlib.sha256(peers[0][1]).hexdigest() or
+                wrapped["contract_sha256"] != hashlib.sha256(peers[1][1]).hexdigest()):
+            raise ValueError("episode contract/producer source identity differs")
+        contract = _native_module_from_bytes(peers[1][1], peers[1][0],
+            "_frozen_episode_contract", "$snapshot.episode_contract")
+        if contract.validate_frozen_episode_export_v1(wrapped["value"]) != wrapped["value"]:
+            raise ValueError("episode contract changed the captured value")
+        _native_episode_binding(wrapped, native["route"], native["route_graph"])
+        if any(_native_file(source, "$snapshot.episode_contract", 256 * 1024) != raw for source, raw in peers):
+            raise ValueError("episode source changed during frozen validation")
+    except (Exception, SystemExit):
+        _error("OE_DIFF_SNAPSHOT_INVALID", path, "accepted episode shape, source, scope or physical binding differs")
+
+
 def _snapshot_diff_native_v1(value: dict, path: str) -> None:
     for key, keys in _SNAPSHOT_NATIVE_MEMBER_KEYS_V1.items():
         _snapshot_diff_exact_object_v1(value[key], keys, f"{path}.{key}")
@@ -4771,8 +4883,10 @@ def _snapshot_diff_native_v1(value: dict, path: str) -> None:
             _error("OE_DIFF_SNAPSHOT_INVALID", f"{path}.active_instructions[{index}]",
                    "native active instruction is foreign or duplicated")
         seen.add(row["id"])
-    if value["schema"] == NATIVE_ROUTE_CURRENT_SCHEMA:
+    if value["schema"] in NATIVE_ROUTE_SCHEMAS:
         _snapshot_diff_route_graph_v2(value, path)
+    if value["schema"] == NATIVE_CURRENT_SCHEMA:
+        _snapshot_diff_native_episode_v3(value, path + ".native_episode")
 
 
 def _snapshot_diff_release_v1(value: dict, path: str) -> None:
@@ -4884,10 +4998,12 @@ def _snapshot_diff_collections_v1(
                 "controller", "claim", "continuity", "hot", "frontier",
                 "andon_state", "open_andons", "active_instructions",
                 "next_action", "route", "semantic_sha256"}
-            if type(value) is dict and value.get("schema") == NATIVE_ROUTE_CURRENT_SCHEMA:
+            if type(value) is dict and value.get("schema") in NATIVE_ROUTE_SCHEMAS:
                 keys.update({"route_graph", "route_relation", "canonical_work_graph"})
+                if value["schema"] == NATIVE_CURRENT_SCHEMA:
+                    keys.add("native_episode")
             current = _snapshot_diff_exact_object_v1(value, keys, f"{member_path}.value")
-            if (current["schema"] not in {LEGACY_NATIVE_CURRENT_SCHEMA, NATIVE_ROUTE_CURRENT_SCHEMA} or
+            if (current["schema"] not in {LEGACY_NATIVE_CURRENT_SCHEMA, *NATIVE_ROUTE_SCHEMAS} or
                     current["authority_ceiling"] != "READ_ONLY_NATIVE_CURRENT_FACT" or
                     current["establishes"] != [] or any(
                         type(current[key]) is not dict or not current[key]

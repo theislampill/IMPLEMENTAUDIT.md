@@ -180,7 +180,8 @@ compiler/publication owner.
 
 ## Native route and affected-node projection
 
-The no-override native collector emits `implementaudit-native-current-facts-v2`.
+The no-override native collector emits `implementaudit-native-current-facts-v3`,
+retaining the v2 route projection and adding the selected accepted episode.
 It retains the exact canonical WORK_GRAPH text and obtains the current obligation,
 transaction and scope through R0033's `read_current_route_scope_v1`. The selected
 R0035 peer derives the complete node population, direct scope, dependent and
@@ -220,6 +221,26 @@ revisit is retained in `context_cycle_relations`; dependency-only, containment-o
 and ordinary causal-lineage cycles still refuse.
 
 ## Immutable current snapshot publication
+
+The v3 native fact record obtains an accepted nonprotected episode only from
+the existing pending owner's no-argument `acquire_selected_episode_export_v1`.
+Both runtime producer and pure observation validator must exactly match the
+fixed public source-peer bytes. The owner selects its private policy and
+canonical route/H0/pending pointers; a caller cannot choose an authentication
+profile or supply an accepted flag. A missing capability or unbound/unaccepted
+episode is an explicit UNVERIFIED observation. Bound malformed or stale evidence
+refuses. The episode's current route, host, controller, claim, run, continuity,
+obligation, transaction and source pins must agree with the other native owners.
+
+The frozen record preserves original C/Q/E, physical source ranges, member
+locators and selected original/prior/retry classifications. Query/why/diff use
+only the source-bound pure validator; no private selection lookup, native RPC,
+subprocess, model or source refresh occurs. Results, separate acceptance,
+consumed JOIN, source terminal release and H0 stage receipts remain separate
+records. Missing H0 receipts remain UNVERIFIED even when an accepted episode is
+available. Unproved pending boundaries retain their noncurrent state. Historical
+v1/v2 native facts gain a query-time missing-episode census without rewriting
+their frozen bytes. Captured-owner inputs keep their existing UNVERIFIED floor.
 
 `publish_current_snapshot()` is the C06 no-argument producer. It accepts no repository, run root, output root, controller, claim, branch, pointer, receipt, epoch, snapshot ID, manifest, locator or digest. The carrier derives the sole controller and bound run from `collect_native_current()`, then derives the only effect root as `<bound-run-root>/operational-evidence/snapshots`. Its receipt is an R0038 output-root observation with an empty `establishes` population; it creates no controller, route, currentness, lifecycle, release or closure authority.
 

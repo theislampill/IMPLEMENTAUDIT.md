@@ -90,7 +90,8 @@ class SnapshotQueryPolicy:
                            "UNSUPPORTED" if bucket == "skipped" else "UNKNOWN")
         elif name == "native_current":
             if type(value) is not dict or value.get("schema") not in {
-                    "implementaudit-native-current-facts-v1", "implementaudit-native-current-facts-v2"}:
+                    "implementaudit-native-current-facts-v1", "implementaudit-native-current-facts-v2",
+                    "implementaudit-native-current-facts-v3"}:
                 self._error("OE_QUERY_SNAPSHOT_INVALID", "$.collections.native_current", "native producer schema differs")
             source = {"collection_schema": value["schema"],
                       "controller": value["controller"], "claim": value["claim"],
@@ -100,14 +101,14 @@ class SnapshotQueryPolicy:
                               ("continuity", "Receipt"), ("frontier", "WorkItem"),
                               ("route", "RouteObligation"), ("active_instructions", "Instruction"),
                               ("next_action", "NextAction")):
-                if key == "frontier" and value["schema"] == "implementaudit-native-current-facts-v2":
+                if key == "frontier" and value["schema"] != "implementaudit-native-current-facts-v1":
                     kind = "DeclaredWorkGraphFrontier"
                 base_ids[key] = record([key], "EXECUTION", kind, value[key], source)["id"]
             frontier = value["frontier"]
             for key, kind in (("writer_holds", "Writer"), ("resource_holds", "Resource")):
                 # A complete empty owner-derived hold map remains an observation.
                 record([key], "OWNERSHIP", kind, frontier[key], source)
-            if value["schema"] == "implementaudit-native-current-facts-v2" and value["route_relation"] is not None:
+            if value["schema"] != "implementaudit-native-current-facts-v1" and value["route_relation"] is not None:
                 relation = value["route_relation"]
                 graph = value["route_graph"]
                 record(["route_relation"], "EXECUTION", "RouteAffectedNodes", relation,
@@ -138,6 +139,47 @@ class SnapshotQueryPolicy:
             else:
                 record(["route_mapping_capability"], "EXECUTION", "RouteCapability",
                     {"code": "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE"}, source, "UNVERIFIED")
+            wrapped = value.get("native_episode")
+            episode = wrapped["value"] if wrapped is not None else None
+            if episode is None or episode["status"] != "AVAILABLE":
+                record(["native_episode_capability"], "EXECUTION", "NativeEpisodeCapability",
+                    {"code": "NATIVE_EPISODE_UNAVAILABLE",
+                     "reason": episode["reason_code"] if episode is not None else "OWNER_INTERFACE_ABSENT"},
+                    source, "UNVERIFIED")
+            else:
+                evidence_source = {**source, "semantic_owner": "R003A/continuity",
+                    "native_export_digest": episode["export_digest"],
+                    "producer_sha256": wrapped["producer_sha256"], "contract_sha256": wrapped["contract_sha256"]}
+                ids = {}
+                for key, family, kind in (("owner", "OWNERSHIP", "NativeSourceOwner"),
+                        ("episode", "EVIDENCE", "NativeAcceptedEpisode"),
+                        ("custody", "EVIDENCE", "NativePhysicalCustody")):
+                    ids[key] = record(["native_episode", key], family, kind, episode[key], evidence_source)["id"]
+                for key, family, kind in (("result", "EVIDENCE", "NativeResult"),
+                        ("acceptance", "EVIDENCE", "NativeAcceptance"),
+                        ("join", "EXECUTION", "NativeJoin"),
+                        ("source_terminal_release", "EXECUTION", "NativeSourceTerminalRelease"),
+                        ("h0", "EXECUTION", "NativeLifecycleReceipts")):
+                    observed = episode["lifecycle"][key]
+                    state = "UNVERIFIED" if key == "h0" and observed["status"] != "RECORDED" else "CURRENT"
+                    ids[key] = record(["native_episode", key], family, kind, observed, evidence_source, state)["id"]
+                for boundary in episode["pending"]["observations"]:
+                    state = "CURRENT" if boundary["kind"] == "COMPLETED_RESUMED_BOUNDARY" else "UNVERIFIED"
+                    record(["native_pending", boundary["id"]], "EXECUTION", "NativePendingBoundary",
+                        boundary, evidence_source, state)
+                record(["native_pending_scope"], "EXECUTION", "NativePendingScope",
+                    episode["pending"], evidence_source)
+                for occurrence in episode["occurrences"]["occurrences"]:
+                    record(["native_occurrence", occurrence["population"], occurrence["attempt_class"],
+                            occurrence["semantic"], occurrence["observation_id"], occurrence["records"]],
+                        "EVIDENCE", "NativeResultOccurrence", occurrence, evidence_source)
+                for left, kind, right in (("episode", "HAS_JOIN", "join"),
+                        ("join", "ACCEPTED_BY", "acceptance"), ("acceptance", "ACCEPTS", "result"),
+                        ("result", "BOUND_TO", "custody"), ("episode", "PRODUCED_BY", "owner")):
+                    edge = record(["native_episode_relation", left, kind, right], "EVIDENCE", "Relation",
+                        {"kind": kind}, evidence_source)
+                    edge.update(relation_type=kind, source_entity_id=ids[left], target_entity_id=ids[right],
+                                confidence="owner-derived")
         return records
 
 
@@ -253,6 +295,15 @@ class SnapshotQueryPolicy:
                 row.get("code") == "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE" for row in omitted):
             omitted.append({"kind": "QUERY_NATIVE_CAPABILITY_UNVERIFIED", "family": "EXECUTION",
                 "state": "UNVERIFIED", "code": "NATIVE_ROUTE_NODE_MAPPING_UNAVAILABLE"})
+        if type(native) is dict:
+            wrapped = native.get("native_episode")
+            episode = wrapped["value"] if wrapped is not None else None
+            code = ("NATIVE_EPISODE_UNAVAILABLE" if episode is None or episode["status"] != "AVAILABLE"
+                    else "NATIVE_H0_LIFECYCLE_UNAVAILABLE" if episode["lifecycle"]["h0"]["status"] != "RECORDED"
+                    else None)
+            if code is not None and not any(row.get("code") == code for row in omitted):
+                omitted.append({"kind": "QUERY_NATIVE_CAPABILITY_UNVERIFIED", "family": "EXECUTION",
+                    "state": "UNVERIFIED", "code": code})
         for family in self._families:
             if not census[family]:
                 omitted.append({"kind": "QUERY_FAMILY_ABSENT", "family": family,

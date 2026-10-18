@@ -18,6 +18,8 @@ fi
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/windows-reader.py" "$repo_root"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/windows-export.py" "$repo_root"
 "${py_cmd[@]}" -B "$repo_root/fixtures/operational-evidence/native-route-projection.py" "$repo_root"
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-episode-projection.py" "$repo_root"
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-episode-controls/run_native_source_regressions.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite route
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite security
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite directory --case test_multiple_pages_unicode_names_and_population_bound

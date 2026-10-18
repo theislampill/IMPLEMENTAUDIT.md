@@ -131,6 +131,21 @@
     "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
     "establishes": []
   },
+  "x-native-current-facts-v3": {
+    "schema": "implementaudit-native-current-facts-v3",
+    "inherits": "x-native-current-facts-v2",
+    "native_episode": "optional_fixed_owner_export_with_producer_and_pure_contract_source_digests",
+    "producer": "compaction-audit-pending.py.acquire_selected_episode_export_v1_no_arguments",
+    "frozen_validator": "compaction-result-observation.py.validate_frozen_episode_export_v1_no_IO",
+    "selected_scope": "exact_C03_route_and_R0035_host_controller_claim_run_continuity_obligation_transaction",
+    "cutoffs": "original_immutable_C_Q_E_and_selected_occurrence_prefixes_never_live_EOF",
+    "unavailable": "explicit_UNVERIFIED_capability_and_omission_census",
+    "invalid_bound_record": "typed_refusal_never_absence",
+    "captured_input_upgrade": false,
+    "h0_lifecycle": "separate_typed_receipts_or_explicit_UNVERIFIED",
+    "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
+    "establishes": []
+  },
   "x-bounded-history-query": {
     "schema": "implementaudit.operational-evidence-query.v1",
     "cursor_schema": "implementaudit.history-query-cursor.v1",

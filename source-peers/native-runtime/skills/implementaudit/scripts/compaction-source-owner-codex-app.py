@@ -1,0 +1,447 @@
+"""Existing owner generic nonprotected projection. Historical private selectors are excluded."""
+import hashlib
+import importlib.util
+import os
+from pathlib import Path
+import re
+HERE = Path(__file__).resolve().parent
+OBSERVATION = HERE / 'compaction-result-observation.py'
+READER = HERE / 'codex-recovery-native-reader.py'
+
+def require(value, reason):
+    if not value:
+        raise ValueError(reason)
+
+def observation(policy):
+    require(policy['descriptor']['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    key = str(Path('implementaudit/scripts/compaction-result-observation.py'))
+    return _np_module({'path': str(OBSERVATION), 'bytes': OBSERVATION.stat().st_size, 'sha256': policy['code_and_skill_pins'][key]}, 'compaction-result-observation.py')
+
+def host_binding(obs, context, policy):
+    require(context['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    return nonprotected_host_binding(obs, context, policy)
+
+def sealed_prefix(obs, context, role, end):
+    source = context[role]
+    path, first = obs.physical(source['path'])
+    require(obs.identity(first) == source['physical'] and type(end) is int and (source['metadata']['bytes'] <= end <= first.st_size) and (end <= obs.MAX_TOTAL), 'CURRENT_PUBLIC_PREFIX_BOUND')
+    h = hashlib.sha256()
+    with path.open('rb') as stream:
+        require(obs.identity(os.fstat(stream.fileno())) == source['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
+        remaining = end
+        while remaining:
+            block = stream.read(min(65536, remaining))
+            require(block, 'CURRENT_PUBLIC_PREFIX_CHANGED')
+            h.update(block)
+            remaining -= len(block)
+    _, last = obs.physical(path)
+    require(obs.identity(last) == source['physical'] and last.st_size >= end, 'CURRENT_PUBLIC_PREFIX_CHANGED')
+    return {'role': role, 'physical': source['physical'], 'prefix_bytes': end, 'prefix_sha256': h.hexdigest()}
+
+def active_public_turn(obs, context, role, pin, retained):
+    """Only the declared native-turn interval; private content supplies no proof."""
+    anchor = context['parent_turn_start'] if role == 'parent' else context['child_activation']
+    start = anchor['locator']['offset']
+    end = pin['locator']['offset'] + pin['locator']['bytes']
+    require(0 <= start < end and end - start <= obs.MAX_TOTAL, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
+    path, info = obs.physical(context[role]['path'])
+    require(obs.identity(info) == context[role]['physical'], 'CURRENT_PUBLIC_PREFIX_CHANGED')
+    active = None
+    count = 0
+    with path.open('rb') as stream:
+        stream.seek(start)
+        position = start
+        while position < end:
+            raw = stream.readline(min(obs.MAX_RECORD + 1, end - position))
+            require(raw and raw.endswith(b'\n') and (len(raw) <= obs.MAX_RECORD), 'CURRENT_PUBLIC_TURN_FRAME')
+            row = obs.json.loads(raw, object_pairs_hook=obs.unique)
+            count += 1
+            require(isinstance(row, dict) and isinstance(row.get('payload'), dict) and isinstance(row.get('type'), str), 'CURRENT_PUBLIC_TURN_FRAME')
+            require(count <= obs.MAX_RECORDS, 'CURRENT_PUBLIC_TURN_RANGE_BOUND')
+            if row.get('type') == 'event_msg' and row['payload'].get('type') == 'task_started' or row.get('type') == 'turn_context':
+                active = row['payload'].get('turn_id')
+            position += len(raw)
+    require(active == retained['id']['turn_id'], 'CURRENT_PUBLIC_WRONG_ACTIVE_TURN')
+
+def native_public_binding(obs, context, policy, pins):
+    require(context['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    return nonprotected_public_binding(obs, context, policy, pins)
+
+def tool_calls(obs, records):
+    calls = {}
+    completed = set()
+    inventory = []
+    for record in records[1:]:
+        row = record['row']
+        if row['type'] != 'response_item':
+            continue
+        payload = row['payload']
+        kind = payload.get('type')
+        if kind in ('custom_tool_call', 'function_call'):
+            call_id = payload.get('call_id')
+            require(isinstance(call_id, str) and call_id and (call_id not in calls) and isinstance(payload.get('name'), str) and payload['name'], 'SOURCE_OWNER_EFFECT_CALL_SHAPE')
+            command = payload.get('input') if kind == 'custom_tool_call' else payload.get('arguments')
+            require(isinstance(command, str), 'SOURCE_OWNER_EFFECT_CALL_SHAPE')
+            calls[call_id] = record
+            inventory.append({'kind': kind, 'name': payload['name'], 'call_id': call_id, 'call': record['locator'], 'input_sha256': obs.digest(command.encode('utf-8'))})
+        elif kind in ('custom_tool_call_output', 'function_call_output'):
+            call_id = payload.get('call_id')
+            require(isinstance(call_id, str) and call_id in calls and (call_id not in completed) and ((kind == 'custom_tool_call_output') == (calls[call_id]['row']['payload']['type'] == 'custom_tool_call')), 'SOURCE_OWNER_EFFECT_OUTPUT_ASSOCIATION')
+            completed.add(call_id)
+            item = next((value for value in inventory if value['call_id'] == call_id))
+            item['output'] = record['locator']
+        elif kind not in ('reasoning', 'message', 'agent_message'):
+            raise ValueError('SOURCE_OWNER_UNCLASSIFIED_EFFECT_ROW')
+    require(set(calls) == completed, 'SOURCE_OWNER_UNSETTLED_EFFECT_CALL')
+    return obs.digest(obs.canonical(inventory))
+
+def boundary_cutoff(obs, context, prepared):
+    """Recheck the sealed parent prefix after transport, with unchanged128 MiB bound."""
+    cutoff = prepared['obligation']['observation_source_cutoff']
+    source = context['parent']
+    require(isinstance(cutoff, dict) and cutoff.get('path') == source['path'] and (cutoff.get('physical') == source['physical']) and (type(cutoff.get('prefix_bytes')) is int) and (0 < cutoff['prefix_bytes'] <= obs.MAX_RECORDS * obs.MAX_TOTAL), 'SOURCE_OWNER_BOUNDARY_CUTOFF_CHANGED')
+    path, first = obs.physical(source['path'])
+    require(obs.identity(first) == source['physical'] and cutoff['prefix_bytes'] <= first.st_size <= obs.MAX_RECORDS * obs.MAX_TOTAL, 'SOURCE_OWNER_BOUNDARY_SOURCE_BOUND')
+    digestor = hashlib.sha256()
+    with path.open('rb') as stream:
+        require(obs.identity(os.fstat(stream.fileno())) == source['physical'], 'SOURCE_OWNER_BOUNDARY_SOURCE_CHANGED')
+        remaining = cutoff['prefix_bytes']
+        while remaining:
+            raw = stream.read(min(65536, remaining))
+            require(raw, 'SOURCE_OWNER_BOUNDARY_SOURCE_TRUNCATED')
+            digestor.update(raw)
+            remaining -= len(raw)
+        opened = os.fstat(stream.fileno())
+    _, last = obs.physical(path)
+    require(obs.identity(first) == obs.identity(opened) == obs.identity(last) and (first.st_size, first.st_mtime_ns) == (opened.st_size, opened.st_mtime_ns) == (last.st_size, last.st_mtime_ns) and (digestor.hexdigest() == cutoff['prefix_sha256']), 'SOURCE_OWNER_BOUNDARY_CUTOFF_CHANGED')
+
+def release_subject(obs, context, prepared, result, accepted, candidate_pin, q_pin, child_terminal, policy=None):
+    terminal_row, terminal_pin = obs.resolve_record(context, 'child', child_terminal)
+    require(terminal_row['type'] == 'event_msg' and terminal_row['payload'].get('type') == 'task_complete', 'SOURCE_OWNER_CHILD_TERMINAL_ABSENT')
+    obs.before(result['identity']['child_final'], terminal_pin)
+    end = terminal_pin['locator']['offset'] + terminal_pin['locator']['bytes']
+    general = context['profile_id'] in obs.BOUNDARY_PROFILES
+    if general:
+        boundary_cutoff(obs, context, prepared)
+        _, current = obs.physical(context['child']['path'])
+        require(end == current.st_size, 'SOURCE_OWNER_TERMINAL_NOT_FINAL')
+        activation, _ = obs.resolve_record(context, 'child', context['child_activation']['locator'])
+        require(terminal_row['payload'].get('turn_id') == activation['payload'].get('turn_id') and isinstance(terminal_row['payload'].get('turn_id'), str) and terminal_row['payload']['turn_id'], 'SOURCE_OWNER_TERMINAL_TURN_DIFFERS')
+    records, prefix = obs.hold_records(context, cutoff=end)
+    require(records[-1]['locator'] == terminal_pin['locator'], 'SOURCE_OWNER_TERMINAL_PREFIX_DIFFERS')
+    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
+        require(policy is not None, 'CURRENT_PUBLIC_POLICY_REQUIRED')
+        native_public_binding(obs, context, policy, [context['open'], prepared['authorization']['route_record'], prepared['authorization']['record'], result['identity']['child_final'], accepted['record']])
+    return {'schema': 'implementaudit.compaction-boundary-release.v1' if general else 'implementaudit.compaction-current-release.v1', **({'covered_boundary_versions': prepared['obligation']['covered_boundary_versions']} if general else {}), 'child_id': context['actual_child_identity']['agent_path'], 'observation_id': prepared['obligation']['observation_id'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'result_digest': result['return_digest'], 'acceptance_digest': obs.digest(obs.canonical(accepted)), 'child_terminal': child_terminal, 'child_prefix_sha256': prefix['prefix_sha256'], 'observed_tool_calls_sha256': tool_calls(obs, records), 'effect_reconciliation': 'NO_UNRECONCILED_EFFECTS', 'explicit_release': 'GRANTED', 'authority_ceiling': 'NONE'}
+
+def _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
+    obs = observation(policy)
+    if context.get('source_association') == 'PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED':
+        require(isinstance(context['child'].get('settings_envelope'), dict), 'SOURCE_OWNER_CURRENT_SETTINGS_MISSING')
+    binding = host_binding(obs, context, policy)
+    obs.closed(release_evidence, ('child_terminal', 'parent_release'), 'SOURCE_OWNER_RELEASE_EVIDENCE_SHAPE')
+    subject = release_subject(obs, context, prepared, result, accepted, candidate_pin, q_pin, release_evidence['child_terminal'], policy=policy)
+    row, release_pin = obs.resolve_record(context, 'parent', release_evidence['parent_release'])
+    observed = obs.typed_message(row, tuple(subject), subject['schema'], context=context)
+    require(observed == subject, 'SOURCE_OWNER_ROOT_RELEASE_DIFFERS')
+    obs.before(accepted['record'], release_pin)
+    terminal_pin = obs.resolve_record(context, 'child', release_evidence['child_terminal'])[1]
+    obs.before(terminal_pin, release_pin)
+    public_binding = None
+    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
+        public_binding = native_public_binding(obs, context, policy, [context['open'], prepared['authorization']['route_record'], prepared['authorization']['record'], result['identity']['child_final'], accepted['record'], release_pin])
+    return {'schema': 'implementaudit.source-owner-episode-attestation.v1', 'issuer_id': policy['descriptor']['authenticating_source_owner']['issuer_id'], 'policy_digest': policy['policy_digest'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'parent_identity': candidate['parent_identity'], 'actual_child_identity': candidate['actual_child_identity'], 'obligation_digest': candidate['obligation_digest'], 'result_digest': result['return_digest'], 'acceptance_digest': candidate['exact_acceptance_digest'], 'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'host_source_binding': binding, 'release_evidence': release_evidence, 'terminal_effect_release': obs.terminal_release_identity(context, prepared, candidate), 'authority_ceiling': 'NONE', **({'current_public_record_binding': public_binding} if public_binding is not None else {})}
+NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
+NONPROTECTED_SELECTION_PIN = None
+
+class NonprotectedNativeReadRefusal(ValueError):
+
+    def __init__(self, report):
+        super().__init__('NONPROTECTED_NATIVE_READ_UNQUALIFIED')
+        self.native_report = report
+
+def _np_read_pin(pin, maximum, custody=None):
+    import stat
+    require(isinstance(pin, dict) and set(pin) == {'path', 'bytes', 'sha256'} and (type(pin['bytes']) is int) and (0 < pin['bytes'] <= maximum) and isinstance(pin['sha256'], str) and re.fullmatch('[0-9a-f]{64}', pin['sha256']), 'NONPROTECTED_PIN_SHAPE')
+    path = Path(pin['path'])
+    require(path.is_absolute() and Path(os.path.realpath(path)) == path, 'NONPROTECTED_PIN_ALIAS')
+    before = path.stat()
+    parents = [(item, item.lstat()) for item in (path, *path.parents)]
+    require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and (before.st_size == pin['bytes']) and all((not stat.S_ISLNK(info.st_mode) and (not getattr(info, 'st_file_attributes', 0) & 1024) for _, info in parents)), 'NONPROTECTED_PIN_PHYSICAL')
+    opener = path.open('rb') if custody is None else custody.held_file(path, allow_append=False)
+    with opener as stream:
+        opened = os.fstat(stream.fileno())
+        require((opened.st_dev, opened.st_ino, opened.st_size, opened.st_nlink) == (before.st_dev, before.st_ino, before.st_size, 1), 'NONPROTECTED_PIN_CHANGED')
+        raw = stream.read(before.st_size)
+        after = os.fstat(stream.fileno())
+    require(len(raw) == before.st_size and hashlib.sha256(raw).hexdigest() == pin['sha256'] and ((after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_nlink) == (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, 1)) and all(((item.lstat().st_dev, item.lstat().st_ino) == (info.st_dev, info.st_ino) for item, info in parents)), 'NONPROTECTED_PIN_CHANGED')
+    return raw
+
+def _np_module(pin, basename, custody=None):
+    import types
+    require(Path(pin['path']).name == basename and Path(pin['path']).parent == HERE, 'NONPROTECTED_MODULE_OWNER_PATH')
+    raw = _np_read_pin(pin, 512 * 1024, custody)
+    module = types.ModuleType('_nonprotected_' + basename.replace('.', '_'))
+    module.__file__ = pin['path']
+    exec(compile(raw, pin['path'], 'exec', dont_inherit=True), module.__dict__)
+    return module
+
+def _np_selection():
+    import json
+    require(NONPROTECTED_SELECTION_PIN is not None, 'NONPROTECTED_FIXED_SELECTION_UNBOUND')
+    raw = _np_read_pin(NONPROTECTED_SELECTION_PIN, 256 * 1024)
+
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            require(key not in result, 'NONPROTECTED_SELECTION_DUPLICATE_KEY')
+            result[key] = value
+        return result
+    selected = json.loads(raw, object_pairs_hook=unique)
+    required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source', 'session_root', 'cwd', 'cli_version', 'native_version', 'desktop_version', 'host_process', 'desktop_process', 'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'runtime_helpers', 'episode_owner', 'pending_owner'}
+    require(isinstance(selected, dict) and set(selected) == required and (selected['schema'] == 'implementaudit.codex-nonprotected-provider-selection.v1') and (selected['profile_id'] == NONPROTECTED_PROFILE) and (set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'}), 'NONPROTECTED_FIXED_SELECTION_SHAPE')
+    pointer = selected['pending_owner']
+    require(isinstance(pointer, dict) and set(pointer) == {'store', 'session_id', 'owner_id'} and isinstance(pointer['store'], str) and Path(pointer['store']).is_absolute() and (pointer['session_id'] == selected['root_thread_id']) and isinstance(pointer['owner_id'], str) and pointer['owner_id'], 'NONPROTECTED_FIXED_PENDING_OWNER_SHAPE')
+    return selected
+
+def _np_runtime(obs, code_pins):
+    selected = _np_selection()
+    custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    protocol = _np_module(selected['runtime_helpers']['bounded_native_reader.py'], 'bounded_native_reader.py', custody)
+    helpers = _np_module(selected['runtime_helpers']['bounded_source_owner.py'], 'bounded_source_owner.py', custody)
+    protocol.custody = helpers.custody = custody
+    reader_key = str(Path('implementaudit/scripts/codex-recovery-native-reader.py'))
+    require(reader_key in code_pins, 'NONPROTECTED_READER_CODE_PIN_ABSENT')
+    reader_pin = {'path': str(READER), 'bytes': READER.stat().st_size, 'sha256': code_pins[reader_key]}
+    reader = _np_module(reader_pin, 'codex-recovery-native-reader.py', custody)
+    require(callable(getattr(reader, 'native_read_nonprotected', None)), 'NONPROTECTED_READER_ENTRY_ABSENT')
+    return (selected, custody, protocol, helpers, reader)
+
+def _np_call(runtime, methods, child_id=None):
+    selected, _, protocol, helpers, reader = runtime
+    report = reader.native_read_nonprotected(selected, methods, child_id=child_id, protocol_helper=protocol)
+    try:
+        helpers.qualified_protocol(report)
+    except ValueError as error:
+        raise NonprotectedNativeReadRefusal(report) from error
+    return report
+
+def _np_episode(runtime):
+    selected, custody, _, _, _ = runtime
+    owner = selected['episode_owner']
+    require(isinstance(owner, dict) and set(owner) == {'module_pin', 'repository', 'controller'} and isinstance(owner['repository'], str) and isinstance(owner['controller'], str) and owner['controller'], 'NONPROTECTED_CANONICAL_EPISODE_OWNER_UNBOUND')
+    route = _np_module(owner['module_pin'], 'route-transaction.py', custody)
+    require(callable(getattr(route, 'read_current_episode_binding_v1', None)), 'NONPROTECTED_CANONICAL_EPISODE_ENTRY_ABSENT')
+    binding = route.read_current_episode_binding_v1(Path(owner['repository']), owner['controller'])
+    require(binding.get('schema') == 'implementaudit.r0033-current-episode-binding.v1' and binding.get('authority_ceiling') == 'NONE' and (binding.get('canonical_route_currentness') == 'VALIDATED_AT_READ') and (binding.get('host_and_scope', {}).get('host_session_id') == selected['root_thread_id']) and isinstance(binding.get('logical_task'), str) and re.fullmatch('[a-z0-9][a-z0-9_-]{0,127}', binding['logical_task']) and isinstance(binding.get('opening_digest'), str), 'NONPROTECTED_CANONICAL_EPISODE_BINDING')
+    return binding
+
+def _np_subject(runtime):
+    selected, _, _, helpers, _ = runtime
+    episode = _np_episode(runtime)
+    parent_id = selected['root_thread_id']
+    params = {'parentThreadId': parent_id, 'sourceKinds': ['subAgent'], 'limit': 100, 'cursor': None, 'archived': False, 'useStateDbOnly': True}
+    catalog = _np_call(runtime, [('thread/list', params)])
+    records = catalog['responses'][0]['threads']
+    expected_path = selected['root_agent_path'] + '/' + episode['logical_task']
+    matches = []
+    for record in records:
+        require(isinstance(record.get('path'), str), 'NONPROTECTED_CATALOG_PHYSICAL_PATH_ABSENT')
+        require(helpers.canonical_path(record['path']).is_relative_to(helpers.canonical_path(selected['session_root'])) and Path(record['path']).name.endswith('-' + record['id'] + '.jsonl'), 'NONPROTECTED_CATALOG_SOURCE_NAMESPACE')
+        source = helpers.header(record)
+        require(source['metadata'].get('id') == record['id'] and source['metadata'].get('parent_thread_id') == parent_id, 'NONPROTECTED_CATALOG_HEADER_PARENT_DIFFERS')
+        if source['metadata'].get('agent_path') == expected_path:
+            matches.append((record['id'], source))
+    require(len(matches) == 1, 'NONPROTECTED_CANONICAL_CHILD_NOT_UNIQUE')
+    child_id, discovered = matches[0]
+    metadata = _np_call(runtime, [('thread/read', {'threadId': ident, 'includeTurns': False}) for ident in (parent_id, child_id)], child_id)
+    parent, child = [row['thread'] for row in metadata['responses']]
+    sources = {'parent': helpers.header(parent), 'child': helpers.header(child)}
+    helpers.validate_relation(selected, parent, child, sources['parent']['metadata'], sources['child']['metadata'])
+    require(child['id'] == child_id and all((sources['child'][key] == discovered[key] for key in ('physical', 'header_prefix', 'metadata'))) and (sources['child']['metadata']['agent_path'] == expected_path) and (helpers.canonical_path(parent['path']) == helpers.canonical_path(selected['root_source'])), 'NONPROTECTED_SELECTED_NATIVE_CHILD_CHANGED')
+    require(_np_episode(runtime) == episode, 'NONPROTECTED_CANONICAL_EPISODE_CHANGED_DURING_NATIVE_READ')
+    return {'episode': episode, 'metadata': metadata, 'catalog': catalog, 'sources': sources, 'parent_identity': {'thread_id': parent_id, 'agent_path': selected['root_agent_path']}, 'actual_child_identity': {'thread_id': child_id, 'parent_thread_id': parent_id, 'agent_path': expected_path}}
+
+def nonprotected_bind_sources(obs, request, code_pins):
+    """Bind actual source-selected child to canonical OPEN and real host events."""
+    import contextlib
+    import json
+    require(isinstance(request, dict) and set(request) == {'open', 'spawn_call', 'spawn_output', 'child_activation', 'parent_turn_start'}, 'NONPROTECTED_PUBLIC_LOCATOR_REQUEST_SHAPE')
+    runtime = _np_runtime(obs, code_pins)
+    selected, custody, _, _, _ = runtime
+    with _np_provider_guard(runtime):
+        subject = _np_subject(runtime)
+        require(subject['episode']['selected_child_role'] == 'audit-state', 'NONPROTECTED_RECONCILIATION_ROLE_REQUIRED')
+        context = {'profile_id': NONPROTECTED_PROFILE, 'parent_identity': subject['parent_identity'], 'actual_child_identity': subject['actual_child_identity'], 'logical_child_id': subject['actual_child_identity']['agent_path'], 'canonical_episode_binding': subject['episode'], '_source_profile_code_pins': code_pins, 'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED', 'host_producer_authenticated': False}
+        for role in ('parent', 'child'):
+            source = subject['sources'][role]
+            prefix = source['header_prefix']
+            path = source['physical']['path']
+            with custody.held_file(path) as stream:
+                raw = stream.read(prefix['bytes'])
+            require(hashlib.sha256(raw).hexdigest() == prefix['sha256'], 'NONPROTECTED_HEADER_CHANGED')
+            header = json.loads(raw, object_pairs_hook=obs.unique)
+            require(header['type'] == 'session_meta' and header['ordinal'] == 0, 'NONPROTECTED_HEADER_ORDINAL')
+            metadata = {'offset': 0, 'bytes': prefix['bytes'], 'sha256': prefix['sha256'], 'embedded_ordinal': 0, 'physical_line': 1}
+            context[role] = {'path': path, 'physical': {key: source['physical'][key] for key in ('device', 'inode')}, 'metadata': metadata, 'metadata_payload_digest': obs.digest(obs.canonical(header['payload'])), 'history_start_ordinal': 1 if role == 'child' else 0, 'allowed_ranges': [{'offset': index * obs.MAX_TOTAL, 'bytes': obs.MAX_TOTAL} for index in range(obs.MAX_RECORDS)], 'canonical_open_binding_digest': subject['episode']['opening_digest']}
+        with contextlib.ExitStack() as held:
+            for role in ('parent', 'child'):
+                held.enter_context(custody.held_file(context[role]['path']))
+            opened, open_pin = obs.resolve_record(context, 'parent', request['open'])
+            spawn, spawn_pin = obs.resolve_record(context, 'parent', request['spawn_call'])
+            output, output_pin = obs.resolve_record(context, 'parent', request['spawn_output'])
+            activation, activation_pin = obs.resolve_record(context, 'child', request['child_activation'])
+            turn, turn_pin = obs.resolve_record(context, 'parent', request['parent_turn_start'])
+            call = spawn['payload']
+            reply = output['payload']
+            require(spawn['type'] == output['type'] == 'response_item' and call.get('type') == 'function_call' and (call.get('namespace') == 'collaboration') and (call.get('name') == 'spawn_agent') and (reply.get('type') == 'function_call_output') and (reply.get('call_id') == call.get('call_id')) and isinstance(call.get('call_id'), str), 'ACTUAL_SPAWN_CALL_OUTPUT_ASSOCIATION')
+            args = json.loads(call['arguments'], object_pairs_hook=obs.unique)
+            require(args.get('task_name') == subject['episode']['logical_task'] and args.get('fork_turns') == 'none' and (json.loads(reply['output'], object_pairs_hook=obs.unique) == {'task_name': context['actual_child_identity']['agent_path']}), 'NONPROTECTED_CANONICAL_FRESH_SPAWN_DIFFERS')
+            obs.visible(opened, {'CHILD_TASK': args['task_name'], 'CHILD_SKILL_SELECTED': 'audit-state', 'STATUS': 'OPEN', 'LOAD': 'UNVERIFIED'}, context=context)
+            require(activation['type'] == 'event_msg' and activation['payload'].get('type') == 'task_started' and (activation['ordinal'] == 1) and (request['child_activation']['offset'] == context['child']['metadata']['bytes']) and (turn['type'] == 'event_msg') and (turn['payload'].get('type') == 'task_started'), 'NONPROTECTED_ACTIVATION_BOUNDARY')
+            obs.before(turn_pin, open_pin)
+            obs.before(open_pin, spawn_pin)
+            obs.before(spawn_pin, output_pin)
+            obs.before(output_pin, activation_pin)
+        context.update(open=open_pin, spawn_call=spawn_pin, spawn_output=output_pin, child_activation=activation_pin, parent_turn_start=turn_pin)
+        with contextlib.ExitStack() as held:
+            for role in ('parent', 'child'):
+                held.enter_context(custody.held_file(context[role]['path']))
+            context['fresh_child_boundary'] = obs.fresh_child_boundary(context)
+        require(_np_episode(runtime) == subject['episode'], 'NONPROTECTED_OPEN_CHANGED_DURING_BIND')
+        return context
+
+def nonprotected_fixed_policy(obs, code_pins):
+    selected, _, _, _, _ = _np_runtime(obs, code_pins)
+    require(isinstance(selected['episode_owner'], dict) and selected['episode_owner'].get('module_pin') is not None, 'NONPROTECTED_CANONICAL_EPISODE_OWNER_UNBOUND')
+
+    def code_pin(filename):
+        key = str(Path('implementaudit/scripts') / filename)
+        require(key in code_pins, 'NONPROTECTED_OWNER_CODE_PIN_ABSENT')
+        pin = {'path': str(HERE / filename), 'bytes': (HERE / filename).stat().st_size, 'sha256': code_pins[key]}
+        _np_read_pin(pin, 512 * 1024)
+        return pin
+    provider = {'profile_id': NONPROTECTED_PROFILE, 'selection_pin': dict(NONPROTECTED_SELECTION_PIN), 'native_version': selected['native_version'], 'native_executable': selected['native_executable'], 'desktop_version': selected['desktop_version'], 'desktop': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_identity_only': selected['config_file']}
+    descriptor = {'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1', 'profile_id': NONPROTECTED_PROFILE, 'custody_namespace': 'result-observations-v1', 'qualification_key': 'qualification/Q.json', 'provider_selection': provider, 'authenticating_source_owner': {'issuer_id': 'codex-app-canonical-episode-public-source-v1', 'module_pin': code_pin('compaction-source-owner-codex-app.py'), 'native_reader_pin': code_pin('codex-recovery-native-reader.py'), 'native_binary': selected['native_executable'], 'desktop_executable': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_file': selected['config_file']}, 'exact_host_tuple': {'source_header_cli_version': selected['cli_version'], 'provider_selection_sha256': NONPROTECTED_SELECTION_PIN['sha256'], 'native_version': selected['native_version'], 'native_executable_sha256': selected['native_executable']['sha256'], 'desktop_package_version': selected['desktop_version'], 'desktop_executable_sha256': selected['desktop_executable']['sha256'], 'desktop_asar_sha256': selected['desktop_asar']['sha256'], 'config_sha256': selected['config_file']['sha256']}}
+    value = {'descriptor': descriptor, 'code_and_skill_pins': code_pins}
+    return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
+
+def _np_provider_guard(runtime):
+    import contextlib
+    selected, custody, protocol, helpers, _ = runtime
+
+    @contextlib.contextmanager
+    def guard():
+        with contextlib.ExitStack() as stack:
+            pins = {}
+            for key, maximum in (('native_executable', 512 * 1024 * 1024), ('desktop_executable', 512 * 1024 * 1024), ('desktop_asar', 1024 * 1024 * 1024), ('config_file', 65536)):
+                pin = selected[key]
+                require(type(pin.get('bytes')) is int and 0 < pin['bytes'] <= maximum, 'NONPROTECTED_PROVIDER_BOUND')
+                stream = stack.enter_context(custody.held_file(pin['path'], allow_append=False))
+                before = os.fstat(stream.fileno())
+                require(before.st_size == pin['bytes'] and before.st_nlink == 1, 'NONPROTECTED_PROVIDER_IDENTITY')
+                remaining = before.st_size
+                digestor = hashlib.sha256()
+                while remaining:
+                    require(os.fstat(stream.fileno()).st_size == before.st_size, 'NONPROTECTED_PROVIDER_CHANGED')
+                    block = stream.read(min(1024 * 1024, remaining))
+                    require(block, 'NONPROTECTED_PROVIDER_TRUNCATED')
+                    digestor.update(block)
+                    remaining -= len(block)
+                require(digestor.hexdigest() == pin['sha256'], 'NONPROTECTED_PROVIDER_DIGEST_CHANGED')
+                pins[key] = (stream, before)
+            host = helpers.owning_host(selected, protocol)
+            yield host
+            require(helpers.owning_host(selected, protocol) == host, 'NONPROTECTED_OWNING_HOST_CHANGED')
+            for stream, before in pins.values():
+                after = os.fstat(stream.fileno())
+                require((after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_nlink) == (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, 1), 'NONPROTECTED_PROVIDER_CHANGED')
+    return guard()
+
+def nonprotected_host_binding(obs, context, policy):
+    runtime = _np_runtime(obs, policy['code_and_skill_pins'])
+    selected = runtime[0]
+    require(nonprotected_fixed_policy(obs, policy['code_and_skill_pins']) == policy, 'NONPROTECTED_FIXED_P_CHANGED')
+    with _np_provider_guard(runtime):
+        subject = _np_subject(runtime)
+        require(subject['parent_identity'] == context['parent_identity'] and subject['actual_child_identity'] == context['actual_child_identity'] and (subject['episode']['opening_digest'] == context['canonical_episode_binding']['opening_digest']), 'NONPROTECTED_CANONICAL_CONTEXT_CHANGED')
+        for role in ('parent', 'child'):
+            require(subject['sources'][role]['physical']['path'] == context[role]['path'] and {key: subject['sources'][role]['physical'][key] for key in ('device', 'inode')} == context[role]['physical'], 'NONPROTECTED_CONTEXT_PHYSICAL_CHANGED')
+        responses = subject['metadata']['responses']
+    owner = policy['descriptor']['authenticating_source_owner']
+    return {'schema': 'implementaudit.codex-app-exact-source-binding.v1', 'native_reader_sha256': owner['native_reader_pin']['sha256'], 'provider_selection_sha256': NONPROTECTED_SELECTION_PIN['sha256'], 'native_version': selected['native_version'], 'native_executable_sha256': selected['native_executable']['sha256'], 'desktop_executable_sha256': selected['desktop_executable']['sha256'], 'desktop_asar_sha256': selected['desktop_asar']['sha256'], 'config_sha256': selected['config_file']['sha256'], 'parent_thread_read_response_sha256': responses[0]['response_sha256'], 'child_thread_read_response_sha256': responses[1]['response_sha256'], 'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'authority_ceiling': 'NONE'}
+
+def nonprotected_public_binding(obs, context, policy, pins):
+    runtime = _np_runtime(obs, policy['code_and_skill_pins'])
+    selected, custody, _, _, _ = runtime
+    require(context['profile_id'] == NONPROTECTED_PROFILE and 0 < len(pins) <= 16, 'NONPROTECTED_PUBLIC_SCOPE')
+    with _np_provider_guard(runtime):
+        episode = _np_episode(runtime)
+        require(episode['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'NONPROTECTED_OPEN_BINDING_CHANGED')
+        requests = []
+        selected_records = []
+        ends = {}
+        for pin in pins:
+            role = pin['role']
+            source = context[role]
+            with custody.held_file(source['path']):
+                row, checked = obs.resolve_record(context, role, pin['locator'])
+                require(checked == pin, 'NONPROTECTED_PUBLIC_PIN_CHANGED')
+                retained = obs.current_retained_locator(row, context)
+                body = obs.public_message(row, row['payload']['phase'], context=context)
+                active_public_turn(obs, context, role, pin, retained)
+            ident = retained['id']
+            selected_records.append((pin, retained, body, row['payload']['phase']))
+            requests.append(('thread/items/read', {'threadId': context['parent_identity']['thread_id'] if role == 'parent' else context['actual_child_identity']['thread_id'], 'turnId': ident['turn_id'], 'itemIds': [ident['message_id']]}))
+            ends[role] = max(ends.get(role, 0), pin['locator']['offset'] + pin['locator']['bytes'])
+        prefixes = []
+        for role, end in sorted(ends.items()):
+            with custody.held_file(context[role]['path']):
+                prefixes.append(sealed_prefix(obs, context, role, end))
+        require(len(requests) <= 8, 'NONPROTECTED_PUBLIC_REQUEST_BOUND')
+        report = _np_call(runtime, requests, context['actual_child_identity']['thread_id'])
+        records = []
+        for (pin, retained, body, phase), response in zip(selected_records, report['responses']):
+            ident = retained['id']
+            native = response['items'][0]
+            require(native == {'id': ident['message_id'], 'turn_id': ident['turn_id'], 'phase': phase, 'body_bytes': len(body.encode('utf-8')), 'body_sha256': obs.digest(body.encode('utf-8'))}, 'NONPROTECTED_PUBLIC_NATIVE_DIFFERS')
+            records.append({'role': pin['role'], 'pin': pin, 'id': ident['message_id'], 'turn_id': ident['turn_id'], 'revision': retained['revision'], 'phase': phase, 'full_body_sha256': native['body_sha256'], 'native_response_sha256': response['response_sha256']})
+        after = []
+        for role, end in sorted(ends.items()):
+            with custody.held_file(context[role]['path']):
+                after.append(sealed_prefix(obs, context, role, end))
+        require(after == prefixes and _np_episode(runtime) == episode, 'NONPROTECTED_PUBLIC_CUTOFF_OR_EPISODE_CHANGED')
+    return {'schema': 'implementaudit.nonprotected-native-public-record-binding.v1', 'records': records, 'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}
+
+def nonprotected_sources_guard(obs, context, code_pins):
+    import contextlib
+    runtime = _np_runtime(obs, code_pins)
+    selected, custody, _, helpers, _ = runtime
+
+    @contextlib.contextmanager
+    def guard():
+        require(context['profile_id'] == NONPROTECTED_PROFILE and context['parent_identity']['thread_id'] == selected['root_thread_id'], 'NONPROTECTED_SOURCE_GUARD_SCOPE')
+        expected = selected['root_agent_path'] + '/' + context['canonical_episode_binding']['logical_task']
+        with contextlib.ExitStack() as stack:
+            for role in ('parent', 'child'):
+                source = context[role]
+                path = custody.lexical_path(source['path'])
+                if role == 'parent':
+                    require(path == custody.lexical_path(selected['root_source']), 'NONPROTECTED_ROOT_SOURCE_CHANGED')
+                else:
+                    require(path.is_relative_to(custody.lexical_path(selected['session_root'])) and path.name.endswith('-' + context['actual_child_identity']['thread_id'] + '.jsonl'), 'NONPROTECTED_CHILD_SOURCE_NAMESPACE')
+                stack.enter_context(custody.held_file(path))
+                observed = helpers.header({'path': str(path)})
+                require({key: observed['physical'][key] for key in ('device', 'inode')} == source['physical'] and observed['header_prefix']['sha256'] == source['metadata']['sha256'] and (observed['metadata']['cli_version'] == selected['cli_version']), 'NONPROTECTED_SOURCE_GUARD_CHANGED')
+                if role == 'child':
+                    require(observed['metadata'].get('id') == context['actual_child_identity']['thread_id'] and observed['metadata'].get('parent_thread_id') == selected['root_thread_id'] and (observed['metadata'].get('agent_path') == expected), 'NONPROTECTED_CHILD_HEADER_BINDING')
+            yield
+    return guard()
+
+def validate(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
+    """The original final validator runs under the new source custody guard."""
+    if context['profile_id'] != NONPROTECTED_PROFILE:
+        return _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence)
+    obs = observation(policy)
+    with nonprotected_sources_guard(obs, context, policy['code_and_skill_pins']):
+        return _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence)

@@ -127,8 +127,9 @@ class NativeRouteProjectionTests(unittest.TestCase):
         self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_SHA256, hashlib.sha256(producer).hexdigest())
         self.assertEqual(WG._NATIVE_ROUTE_PRODUCER_BYTES, len(producer))
 
-    def material(self, satisfied=False):
+    def material(self, satisfied=False, record_overrides=None):
         rec = record(LANE / ".IMPLEMENTAUDIT/runs/native-route-projection")
+        rec.update(record_overrides or {})
         baseline = native_compile(rec)
         if satisfied:
             rec["route_state"] = "SATISFIED"
@@ -143,7 +144,7 @@ class NativeRouteProjectionTests(unittest.TestCase):
         collections = copy.deepcopy(SEED["collections"])
         native = collections["native_current"]["value"]
         native.update(schema=oe.NATIVE_CURRENT_SCHEMA, route_graph=graph,
-            route_relation=relation, canonical_work_graph=canonical.decode(), route=summary(rec))
+            route_relation=relation, canonical_work_graph=canonical.decode(), route=summary(rec), native_episode=None)
         native["controller"]["id"] = rec["controller_id"]
         native["claim"]["id"] = rec["claim_id"]
         native["claim"].update(run_id="native-route-projection",

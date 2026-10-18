@@ -62,6 +62,86 @@
       "source_path": "skills/implementaudit/scripts/canonical_hot_projection.py",
       "modified": false,
       "mode": "100755"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "materialized_path": "skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "bytes": 1563,
+      "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "8ef5216f1bc73f43aaf9de06877945d84f29323ece30faec791ea44b2ab0dcdf",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "bytes": 37336,
+      "sha256": "9dce6fd1c953213c3e9012c49c66e936fff91a1524d859f84748de7ac2a48fa9",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "1f35bd9f9841e05dfb419f85890b34f036e13af387fed5a9a80868787293d972",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "materialized_path": "skills/implementaudit/scripts/compaction-result-observation.py",
+      "bytes": 110451,
+      "sha256": "b3d9934224665b2c1d86a3d68e39bfecbac5860ee6cb9d4a4c34513e28ae752c",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "c44d2351ba7e48fb324a761c818eb5ecb428f89b9ea64c6b99fe6a64ad0e1d72",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "inherited_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
+      "additional_delta": "Fixed source-profile issuer and complete normalized thirteen-member code closure"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
+      "bytes": 61695,
+      "sha256": "78cf81b3ade6c6322dc8488e0e45a48a927477c4a3b15668b51d1c16bf7e1bcb",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "materialized_path": "skills/implementaudit/scripts/bounded_file_custody.py",
+      "bytes": 8022,
+      "sha256": "d17b51fd6baf96dbbd0d32c81433e39bf9e3d03bb306e339a207ab4bb61e4473",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": null,
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+      "materialized_path": "skills/implementaudit/scripts/bounded_native_reader.py",
+      "bytes": 15805,
+      "sha256": "dac93a3aca1d8c743eb31f6bde37081c0830cc9881241ef3b33df59262d5de48",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": null,
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "materialized_path": "skills/implementaudit/scripts/bounded_source_owner.py",
+      "bytes": 19181,
+      "sha256": "c487dd76e4c021cc537f325658b27389ed25dae3daed314516ff422de5f7d171",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": null,
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
     }
   ]
 }
