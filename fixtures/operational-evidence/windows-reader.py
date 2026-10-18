@@ -3,6 +3,7 @@ import importlib.util
 import os
 from pathlib import Path
 import subprocess
+import struct
 import sys
 import tempfile
 import types
@@ -121,6 +122,55 @@ class WindowsReaderTests(unittest.TestCase):
             kernel.CloseHandle(handle)
         self.assertFalse(stage.exists())
         self.assertEqual(absent.read_bytes(), b"source bytes")
+
+    def test_parent_metadata_change_cannot_redirect_acquisition(self):
+        # Regression for source-review finding: attribute writes are not fenced
+        # by FILE_SHARE_READ. All objects and the alternate target are disposable.
+        inside, outside = self.root / "inside", self.root / "outside"
+        inside.mkdir()
+        outside.mkdir()
+        parent = inside / "parent"
+        parent.mkdir()
+        sentinel = b"outside fixture bytes"
+        (outside / "data.txt").write_bytes(sentinel)
+        kernel = oe._snapshot_windows_kernel_v1()
+        kernel.DeviceIoControl.argtypes = [oe.ctypes.c_void_p, oe.ctypes.c_uint32,
+            oe.ctypes.c_void_p, oe.ctypes.c_uint32, oe.ctypes.c_void_p,
+            oe.ctypes.c_uint32, oe.ctypes.POINTER(oe.ctypes.c_uint32), oe.ctypes.c_void_p]
+        kernel.DeviceIoControl.restype = oe.ctypes.c_int
+        original = oe._snapshot_handle_info_v1
+        parent_id = parent.stat().st_ino
+        changed = []
+
+        def inspect(api, handle):
+            info = original(api, handle)
+            if not changed and (info.file_index_high << 32) | info.file_index_low == parent_id:
+                substitute = ("\\??\\" + str(outside)).encode("utf-16-le")
+                printed = str(outside).encode("utf-16-le")
+                names = substitute + b"\0\0" + printed + b"\0\0"
+                raw = struct.pack("<IHHHHHH", 0xA0000003, 8 + len(names), 0,
+                                  0, len(substitute), len(substitute) + 2, len(printed)) + names
+                writer = kernel.CreateFileW(str(parent), 0x100, 7, None, 3, 0x02200000, None)
+                self.assertNotEqual(writer, oe.ctypes.c_void_p(-1).value)
+                try:
+                    data = oe.ctypes.create_string_buffer(raw)
+                    count = oe.ctypes.c_uint32()
+                    self.assertTrue(kernel.DeviceIoControl(writer, 0x900A4, data, len(raw),
+                                    None, 0, oe.ctypes.byref(count), None))
+                    changed.append(True)
+                finally:
+                    kernel.CloseHandle(writer)
+            return info
+
+        try:
+            with patch.object(oe, "_snapshot_handle_info_v1", side_effect=inspect):
+                with self.assertRaises(OSError):
+                    oe._read_repository_path(parent / "data.txt", inside)
+            self.assertEqual(changed, [True])
+            self.assertEqual((outside / "data.txt").read_bytes(), sentinel)
+        finally:
+            if parent.lstat().st_file_attributes & 0x400:
+                parent.rmdir()  # This exact test-owned junction only; never its target.
 
     def test_actual_export_volume_refusal_has_no_effect(self):
         kernel = oe._snapshot_windows_kernel_v1()

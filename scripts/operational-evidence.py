@@ -597,12 +597,59 @@ def _file_language(path):
     }.get(suffix, "unsupported")
 
 
+class _WindowsUnicodeStringV1(ctypes.Structure):
+    _fields_ = [("length", ctypes.c_uint16), ("maximum", ctypes.c_uint16),
+                ("buffer", ctypes.c_void_p)]
+
+
+class _WindowsObjectAttributesV1(ctypes.Structure):
+    _fields_ = [("length", ctypes.c_uint32), ("root", ctypes.c_void_p),
+                ("name", ctypes.POINTER(_WindowsUnicodeStringV1)),
+                ("attributes", ctypes.c_uint32), ("security", ctypes.c_void_p),
+                ("quality", ctypes.c_void_p)]
+
+
+class _WindowsIoStatusV1(ctypes.Structure):
+    _fields_ = [("status_or_pointer", ctypes.c_void_p),
+                ("information", ctypes.c_size_t)]
+
+
+def _windows_open_child_v1(parent, name, directory):
+    """Open one component relative to its held parent, never reparse a pathname."""
+    native = ctypes.WinDLL("ntdll")
+    native.NtCreateFile.argtypes = [ctypes.POINTER(ctypes.c_void_p), ctypes.c_uint32,
+        ctypes.POINTER(_WindowsObjectAttributesV1), ctypes.POINTER(_WindowsIoStatusV1),
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32,
+        ctypes.c_uint32, ctypes.c_void_p, ctypes.c_uint32]
+    native.NtCreateFile.restype = ctypes.c_long
+    native.RtlNtStatusToDosError.argtypes = [ctypes.c_long]
+    native.RtlNtStatusToDosError.restype = ctypes.c_uint32
+    buffer = ctypes.create_unicode_buffer(name)
+    length = len(name.encode("utf-16-le"))
+    if length > 65532:
+        raise OSError("Windows name exceeds the native byte bound")
+    text = _WindowsUnicodeStringV1(length, length + 2,
+                                   ctypes.cast(buffer, ctypes.c_void_p))
+    attributes = _WindowsObjectAttributesV1(
+        ctypes.sizeof(_WindowsObjectAttributesV1), parent, ctypes.pointer(text),
+        0x40 | 0x1000, None, None)  # CASE_INSENSITIVE | DONT_REPARSE
+    result = ctypes.c_void_p()
+    status = _WindowsIoStatusV1()
+    code = native.NtCreateFile(
+        ctypes.byref(result), 0x00100080 | (0 if directory else 1),
+        ctypes.byref(attributes), ctypes.byref(status), None, 0, 1, 1,
+        0x20 | 0x00200000 | (1 if directory else 0x40), None, 0)
+    if code < 0:
+        raise ctypes.WinError(native.RtlNtStatusToDosError(code))
+    return result.value
+
+
 def _read_repository_windows_v1(path, maximum):
     """Read a local drive path while holding every component against replacement.
 
     Windows reparse points and alternate namespaces are refused, including leaf
-    links. Share-read-only handles exclude write/delete opens for the entire
-    acquisition. No pathname-only check substitutes for the held handles.
+    links. Each child is acquired relative to its held parent with reparse
+    processing disabled. Sharing rules alone do not exclude metadata changes.
     """
     if len(path.drive) != 2 or path.drive[1] != ":":
         raise OSError("secure Windows reader requires a local drive path")
@@ -616,15 +663,14 @@ def _read_repository_windows_v1(path, maximum):
         raise OSError("secure Windows reader requires a fixed local drive")
     handles = []
     try:
-        cursor = pathlib.Path(path.anchor)
         for index, part in enumerate((None, *parts)):
-            if part is not None:
-                cursor /= part
-            handle = kernel.CreateFileW(
-                os.fspath(cursor), 0x80000000, 0x00000001, None, 3,
-                0x02000000 | 0x00200000, None)
-            if handle == ctypes.c_void_p(-1).value:
-                raise ctypes.WinError(ctypes.get_last_error())
+            if part is None:
+                handle = kernel.CreateFileW(
+                    path.anchor, 0x80000000, 1, None, 3, 0x02200000, None)
+                if handle == ctypes.c_void_p(-1).value:
+                    raise ctypes.WinError(ctypes.get_last_error())
+            else:
+                handle = _windows_open_child_v1(handles[-1], part, index < len(parts))
             handles.append(handle)
             info = _snapshot_handle_info_v1(kernel, handle)
             if info.attributes & 0x400:
@@ -660,6 +706,9 @@ def _read_repository_windows_v1(path, maximum):
         if (total > maximum or total != ((before.size_high << 32) | before.size_low) or
                 identity(before) != identity(after)):
             raise OSError("tracked file changed or exceeded the byte ceiling")
+        if any(_snapshot_handle_info_v1(kernel, parent).attributes & 0x400
+               for parent in handles[:-1]):
+            raise OSError("Windows parent became a reparse point during acquisition")
         return b"".join(chunks), "file"
     finally:
         for handle in reversed(handles):
