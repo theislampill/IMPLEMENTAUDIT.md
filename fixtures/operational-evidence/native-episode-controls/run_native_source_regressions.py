@@ -1,4 +1,4 @@
-"""Run the 42 public native-source controls against an explicit repository root."""
+"""Run the original 42 controls and three current-profile regressions."""
 import argparse
 import importlib.util
 import json
@@ -39,8 +39,17 @@ def main():
         actual = sorted(test.id() for test in tests)
         if actual != expected or len(actual) != 42:
             raise ValueError('the complete 42-control population changed')
+        profile_tests = list(leaves(unittest.defaultTestLoader.loadTestsFromModule(load_local('test_profile_semantics'))))
+        profile_ids = sorted(test.id() for test in profile_tests)
+        if profile_ids != ['test_profile_semantics.ProfileSemanticsControls.' + name for name in (
+                'test_current_final_phase_reaches_bound_result_and_delivery',
+                'test_profile_final_phases_remain_distinct',
+                'test_retained_metadata_reaches_history_without_relaxing_provenance')]:
+            raise ValueError('current-profile regression population changed')
+        tests += profile_tests
+        actual = sorted(actual + profile_ids)
         if args.list:
-            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 42, 'tests': actual}, indent=2)); return 0
+            print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 45, 'tests': actual}, indent=2)); return 0
         if args.case:
             unknown = set(args.case) - set(actual)
             if unknown: raise ValueError('unknown selected control: ' + ', '.join(sorted(unknown)))
@@ -48,7 +57,7 @@ def main():
         before = support.source_pins()
         result = unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(tests))
         if support.source_pins() != before: raise ValueError('public source changed during regression')
-        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 42, 'executed': result.testsRun,
+        print(json.dumps({'scope': 'SOURCE_ONLY_NO_NATIVE_CREDIT', 'registered': 45, 'executed': result.testsRun,
             'skipped': len(result.skipped), 'success': result.wasSuccessful(), 'source_sha256': before}, sort_keys=True))
         return 0 if result.wasSuccessful() else 1
 

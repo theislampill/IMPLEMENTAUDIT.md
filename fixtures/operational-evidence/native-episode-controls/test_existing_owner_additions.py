@@ -56,6 +56,16 @@ class ExistingObservationControls(unittest.TestCase):
         for name in ('actual_result', 'acceptance'):
             node = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == name))
             if name == 'actual_result':
+                phase = [n for n in node.body if isinstance(n, ast.Assign) and
+                    any(isinstance(t, ast.Name) and t.id == 'final_phase' for t in n.targets)]
+                self.assertEqual(len(phase), 1)
+                self.assertEqual(ast.dump(phase[0].value), ast.dump(ast.parse(
+                    "'final' if context['profile_id'] == NONPROTECTED_PROFILE else 'final_answer'", mode='eval').body))
+                node.body.remove(phase[0])
+                class LegacyFinalPhase(ast.NodeTransformer):
+                    def visit_Name(self, value):
+                        return ast.Constant(value='final_answer') if value.id == 'final_phase' else value
+                node = LegacyFinalPhase().visit(node)
                 node.body = [n for n in node.body if not (isinstance(n, ast.Assign) and any((isinstance(t, ast.Name) and t.id == 'selected_occurrences' for t in n.targets))) and (not (isinstance(n, ast.If) and ast.unparse(n.test) == "context['profile_id'] == NONPROTECTED_PROFILE"))]
                 for item in ast.walk(node):
                     if isinstance(item, ast.Call) and isinstance(item.func, ast.Name) and (item.func.id == 'hold_history'):

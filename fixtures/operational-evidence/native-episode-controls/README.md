@@ -62,6 +62,14 @@ consumer must additionally compare these values with its independently
 captured canonical C03/R0035 route and scope; a coherent foreign tuple is not
 authenticated by a self-contained structural validator.
 
+Three additional current-profile controls exercise retained metadata through the
+actual history parser, the native `final` phase through result/member/delivery
+validation, and the unchanged legacy `final_answer` phase. Unknown metadata,
+foreign turns, malformed provenance and copied delivery still refuse. The
+original 42-control identities and R/A guard golden remain unchanged; the
+legacy phase proof normalizes only the exact independently tested profile
+branch before comparing the original AST.
+
 The adaptation return records 15 distinct focused checks against the integrated
 successor source, including a recheck of the R/A golden after making its empty
 AST metadata handling portable across Python versions. It does not repeat the

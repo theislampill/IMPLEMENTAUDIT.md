@@ -88,15 +88,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-result-observation.py",
-      "bytes": 110451,
-      "sha256": "b3d9934224665b2c1d86a3d68e39bfecbac5860ee6cb9d4a4c34513e28ae752c",
+      "bytes": 110568,
+      "sha256": "fcea648dc91d3d8fd9b19848553b4517648cb96504dd86e54f6aa89d96ad70d8",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "c44d2351ba7e48fb324a761c818eb5ecb428f89b9ea64c6b99fe6a64ad0e1d72",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "inherited_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
-      "additional_delta": "Fixed source-profile issuer and complete normalized thirteen-member code closure"
+      "additional_delta": "Fixed profile issuer/code closure and current-profile retained metadata/final-phase integration; legacy predicates preserved"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
