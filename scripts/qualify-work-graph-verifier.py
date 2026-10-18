@@ -476,7 +476,8 @@ class VerifierTaskSession:
                                 preexec_fn=limits, start_new_session=True)
                 except (OSError, subprocess.SubprocessError) as exc:
                     self._write(directory / "launch-error.json", dict(error=type(exc).__name__, detail=str(exc),
-                                child_started=False, actual_exit="UNOBSERVED"))
+                                launch_phase="POPEN_DID_NOT_RETURN", checker_started="UNOBSERVED",
+                                actual_exit="UNOBSERVED"))
                     raise
                 self.dispatch_count += 1
                 try:

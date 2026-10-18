@@ -60,8 +60,17 @@ Consumed history prevents redispatch; changed/incomplete replay refuses.
 
 Verifier mapping covers all registry bytes. One validated retained snapshot
 preserves shell state/stdin/fail-fast; capture keeps raw streams/durable integer
-exit. Serial nodes have unqualified dynamic read/write and artifact semantics:
-no cached reuse. Correspondence, conversion and retirement remain separate.
+exit. Full serial mapping has unqualified dynamic read/write and artifact
+semantics: no cached reuse. Correspondence, conversion and retirement remain separate.
+
+compile_verifier_reuse_v1 admits only two byte-pinned zero-argument checker
+leaves under CONTROLLED_TASK_LEAVES_V1. Pure plans authenticate nothing.
+The repository companion captures sealed Linux runtime/source inputs and
+consumes only its own live receipts. Startup, environment/resources, registry,
+unknown tracked source and retained evidence are bound. Changed reads rerun
+affected leaves; failed/stale/missing/corrupt results cannot be reused.
+This finite profile has no semantic file outputs and grants no canonical
+predecessor substitution or native currentness.
 
 No hook is installed. Interlock requires current graph, R003A host (unallocated in this base's namespace registry), R0036 task/executor,
 authenticated R0033 facts, authority/effect capability, covered tool path and
