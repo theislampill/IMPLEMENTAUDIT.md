@@ -562,7 +562,9 @@ if not census_only:
                                                        "resolve-durable-identity.py", "dispatch owner")[1])
             if allocation is None:
                 raise SystemExit("check-helper-reachability: Python route probe lacks allocation diagnostic")
-            for identity in ("R0038", "G0001"):  # unallocated/run-local refusal controls
+            for identity in ("R0038", "R0039", "R003A"):
+                run_python(allocation, governor_dir, {"<identity>": identity}, True, identity)
+            for identity in ("R003B", "G0001"):  # unallocated/run-local refusal controls
                 run_python(allocation, governor_dir, {"<identity>": identity}, False)
     # The evaluated candidate supplies skills and fixtures, never the probe
     # program.  The checker invocation root is the authority for F10 behavior.
