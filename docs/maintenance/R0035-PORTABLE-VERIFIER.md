@@ -114,7 +114,7 @@ native candidate/currentness contract, which continues to invalidate globally.
 ## Full-run observation and retained-record integrity
 
 The existing `legacy`, `dag` and `compare` interfaces remain separate from
-the live two-leaf reuse interface. New captures use
+the live two-leaf reuse interface. Captures without acquisition options use
 `implementaudit.verifier-run.v2`. They observe the current Git HEAD, symbolic
 HEAD, refs, staged index projection, tracked files and non-ignored untracked
 files. File observations include kind, mode and content digest where regular
@@ -172,6 +172,102 @@ Before/after ambient observations likewise do not rule out an input changing
 and being restored during execution. The isolated two-leaf consumer has its
 own stricter acquisition and live-custody contract; full-run observations do
 not inherit that contract merely because they use the same compiler.
+
+## Explicit full-run input and artifact observations
+
+The `legacy` and `dag` routes accept three independent opt-in contracts:
+
+```bash
+/usr/bin/python3 -B scripts/qualify-work-graph-verifier.py dag \
+  /absolute/fresh-evidence --retain-repro-assets --empty-stdin --capture-dist
+```
+
+Any acquisition option selects `implementaudit.verifier-run.v3`, whose exact
+member set includes `child_environment`, `repro_artifacts`, `stdin` and
+`dist_namespace`. Unrequested artifact, input or namespace contracts are
+null. Historical v1/v2 records keep their original fields and meanings; a
+version downgrade carrying incompatible new members refuses. These options
+do not change the compiler, registry, command order or shared-shell runner.
+They do not enable full-canonical cached reuse.
+
+`--retain-repro-assets` requires the single registered zero-argument
+`bash tests/reproducible-release-asset.test.sh` invocation and this exact
+11,460-byte producer source:
+`7c892c5e84a29bd33d6ed03c97a5610efde51b0d1ad0165f9e9ded0a3bdfb3ad`.
+The producer's existing six exports receive fresh, distinct absolute paths
+inside the capture and outside the source worktree:
+
+| Existing environment hook | Retained capture member |
+| --- | --- |
+| `REPRO_RETAINED_ASSET_A` | `repro-assets/IMPLEMENTAUDIT-A.skill` |
+| `REPRO_RETAINED_ASSET_B` | `repro-assets/IMPLEMENTAUDIT-B.skill` |
+| `REPRO_RETAINED_PLUGIN_A` | `repro-assets/IMPLEMENTAUDIT-A.plugin.zip` |
+| `REPRO_RETAINED_PLUGIN_B` | `repro-assets/IMPLEMENTAUDIT-B.plugin.zip` |
+| `REPRO_RETAINED_CHECKSUMS_A` | `repro-assets/CHECKSUMS-A.txt` |
+| `REPRO_RETAINED_CHECKSUMS_B` | `repro-assets/CHECKSUMS-B.txt` |
+
+Inherited `REPRO_RETAINED_*` variables or `REPRO_SOURCE_REF`, including empty
+values, refuse this option. The source ref remains the producer's existing
+`HEAD`; the record binds its commit/tree, exact source and registered command.
+The six explicit child overrides and the complete inherited/actual child
+environment digests are retained without exporting other environment values.
+The observer rechecks source currentness and acquires file kinds, modes,
+lengths, hashes and the exact declared population. Each export is bounded to
+16 MiB. A successful process requires all six regular files and unchanged
+observed source. A failed prefix can retain missing or incomplete outputs,
+explicitly labelled `UNQUALIFIED_INCOMPLETE_OR_FAILED_PROCESS`. The durable
+process exit is written before a later observation or consumer refusal.
+
+The actual `verified_record` consumer rederives that declaration from the
+existing mapping and retained files, including missing, changed, foreign,
+role-swapped or mode-altered members. The original literal capture paths and
+child environment remain part of identity after transport. Correspondence
+compares the raw declared artifacts as well as commands, stdout, stderr and
+environment; it never removes temporary paths to manufacture equality. These
+are observations of six final exports from the whole process. They do not
+authenticate internal producer/consumer events, recover deleted generations,
+or establish every dynamic read, write, tool or predecessor effect.
+
+`--stdin-file PATH` and `--empty-stdin` are mutually exclusive. A file path is
+recorded literally; relative paths use the candidate source root as their
+declaration context. The observer requires a regular file through no-follow
+ancestor descriptors, reads at most 16 MiB once, retains `stdin.bin`, and sends
+those same in-memory bytes through the actual child's input pipe. The empty
+option sends an empty pipe. The consumer validates retained bytes, length,
+mode and the source declaration. This binds supplied bytes, not how many
+bytes an application consumed. Without either option, inherited stdin and
+its unqualified acquisition status remain unchanged.
+
+V3 also records external PATH resolution and executable byte bindings for
+`python`, `python3` and `py`, separately from observer Python. Relative and
+empty PATH entries, and Bash/Git version observations, use the actual child
+source cwd. The recorded fallback argv describes external resolution only;
+shell functions, aliases, startup code and launcher interpreter resolution
+remain unqualified. No arbitrary startup or launcher inspection is implied.
+The overall environment coverage remains `PARTIAL_NOT_TOOLCHAIN_CLOSURE`.
+
+`--capture-dist` acquires exactly the source root's `dist/` namespace before
+and after the process. Missing `dist/` is explicit. An existing namespace must
+contain ordinary directories and regular files; symlinks, dangling links,
+special files and acquisition races refuse safely. The recursive snapshot
+retains complete membership, directory/file modes and raw file bytes, bounded
+to 4,096 entries, depth 32, 16 MiB per file and 64 MiB total per snapshot.
+Before/after snapshots do not establish intervening event history or acquire
+any other ignored namespace.
+
+The consumer rederives both retained snapshots and their inventory. Live
+currentness then uses only the qualifier's actual source root: the original
+declared source cwd must agree, and current `dist/` must equal the retained
+after observation. Imported context text never selects a filesystem to read.
+A restored record with unavailable original source retains verifiable
+snapshot bytes but refuses currentness; comparison cannot silently rebase it.
+This finite namespace matters to existing canonical operations: the recursive
+text guards scan extra `dist/` members, and `build-release-asset.sh --check`
+first checks the two fixed release assets against live changelog history.
+The existing `--check-stale-release-set package <dist> <CHANGELOG>` interface
+can exercise that latter predicate without building. Missing assets are not
+themselves a stale-publication failure, although a changed declared snapshot
+still invalidates its retained currentness binding.
 
 ## Qualification and limits
 

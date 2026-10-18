@@ -22,6 +22,7 @@ RETAIN = None
 
 def run_command(command, **kwargs):
     """Retain the real tiny-fixture command, source objects, streams and exit."""
+    source_root = kwargs.pop("source_root", None)
     if RETAIN is None:
         return subprocess.run(command, **kwargs)
     directory = RETAIN / "commands" / ("%04d" % len(list((RETAIN / "commands").iterdir())))
@@ -32,9 +33,11 @@ def run_command(command, **kwargs):
                   selected_environment={k: environment.get(k) for k in safe},
                   environment_sha256=hashlib.sha256(b"\0".join(
                       os.fsencode(k) + b"=" + os.fsencode(v) for k, v in sorted(environment.items()))).hexdigest())
-    candidate = Path(record["cwd"])
+    candidate = Path(record["cwd"] if source_root is None else source_root)
+    record["observed_source_root"] = str(candidate)
     objects = {}
-    if (candidate / "tests/sample.test.sh").is_file():
+    if ((candidate / "tests/sample.test.sh").is_file() or
+            (candidate / "tests/reproducible-release-asset.test.sh").is_file()):
         for parent, dirs, names in os.walk(candidate, followlinks=False):
             dirs[:] = [d for d in dirs if d != ".git" and not (Path(parent) / d).is_symlink()]
             for name in names:
@@ -92,6 +95,475 @@ def capture(root, output, mode="dag", environment=None):
 def compare_capture(root, left, right, output):
     return run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", "compare",
                         str(left), str(right), str(output)], cwd=root, capture_output=True)
+
+
+def extended_capture_cases(directory):
+    """Actual v3 input/output observation; early fixtures never run a builder.
+
+    Removing a retained material file must make the real record consumer
+    refuse while the original process streams and durable exit stay intact.
+    The incomplete canary is written before the pinned producer, then exit 7
+    prevents that producer from running. It is never a successful release.
+    """
+    root = directory / "extended-root"
+    for name in ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
+                 "skills/implementaudit/scripts/compile-work-graph.py",
+                 "tests/reproducible-release-asset.test.sh"):
+        target = root / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / name, target)
+    (root / "scripts/generate-readme-diagrams.sh").write_text("#!/bin/bash\nexit 0\n")
+    (root / "tests/sample.test.sh").write_text("#!/bin/bash\ncat\n")
+    registry_path = root / "scripts/verify-package.sh"
+    prelude = '#!/usr/bin/env bash\nset -euo pipefail\n'
+    end = "git diff --check\n\nprintf 'verify-package: ok\\n'\n"
+    producer_tail = ('bash scripts/generate-readme-diagrams.sh --check\n'
+                     'bash tests/reproducible-release-asset.test.sh\n' + end)
+    registry = (prelude + 'printf "partial fixture\\n"\n'
+                'if [ -n "${REPRO_RETAINED_ASSET_A:-}" ]; then\n'
+                '  printf "incomplete observer canary\\n" > "$REPRO_RETAINED_ASSET_A"\n'
+                'fi\nexit 7\n' + producer_tail)
+    registry_path.write_text(registry)
+    run_command(["git", "init", "-q", str(root)], check=True)
+    run_command(["git", "add", "."], cwd=root, check=True)
+    run_command(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@localhost",
+                 "-c", "commit.gpgsign=false", "commit", "-qm", "constructed extended capture"], cwd=root, check=True)
+
+    def observed(output, mode, flags, expected, environment=None):
+        process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
+                               mode, str(output), *flags], cwd=root, capture_output=True,
+                              **({"env": environment} if environment is not None else {}))
+        assert process.returncode == expected, ("extended capture outcome", process.stdout, process.stderr)
+        record = json.loads((output / "result.json").read_bytes())
+        assert record["exit"] == expected
+        return record
+
+    default = observed(directory / "extended-default-v2", "legacy", [], 7)
+    assert default["schema"] == "implementaudit.verifier-run.v2"
+    original_output = directory / "repro-original-capture"
+    record = observed(original_output, "legacy", ["--retain-repro-assets"], 7)
+    assert record["schema"] == "implementaudit.verifier-run.v3"
+    artifact = record["repro_artifacts"]
+    assert not artifact["complete"] and artifact["coverage"] == "UNQUALIFIED_INCOMPLETE_OR_FAILED_PROCESS"
+    assert len(artifact["files"]) == 6
+    assert artifact["files"]["ASSET_A"]["observation"]["kind"] == "FILE"
+    assert all(v["observation"]["kind"] == "MISSING" for k, v in artifact["files"].items() if k != "ASSET_A")
+    assert record["stdin"] is None
+    original_env = record["child_environment"]
+    assert original_env["actual_environment_sha256"] == record["environment"]["inherited_environment_sha256"]
+    assert len(original_env["overrides"]) == 6
+    legacy = directory / "repro-restored-legacy"
+    original_output.rename(legacy)
+    dag_record = observed(original_output, "dag", ["--retain-repro-assets"], 7)
+    assert all(n["status"] == "UNSETTLED" for n in dag_record["nodes"][1:])
+    compared = directory / "repro-partial-comparison.json"
+    process = compare_capture(root, legacy, original_output, compared)
+    assert process.returncode == 0, (process.stdout, process.stderr)
+    comparison = json.loads(compared.read_bytes())
+    assert comparison["checks"]["same_declared_repro_artifacts"]
+    assert comparison["checks"]["same_child_environment"]
+    assert comparison["repro_artifact_coverage"] == ["UNQUALIFIED_INCOMPLETE_OR_FAILED_PROCESS"] * 2
+
+    for name in ("missing", "changed", "mode", "role", "producer", "source-commit", "environment",
+                 "environment-file", "environment-path", "command", "downgrade"):
+        bad = directory / ("bad-repro-" + name)
+        shutil.copytree(original_output, bad)
+        changed = json.loads((bad / "result.json").read_bytes())
+        member = bad / changed["repro_artifacts"]["files"]["ASSET_A"]["relative_path"]
+        if name == "missing":
+            member.unlink()
+        elif name == "changed":
+            member.write_bytes(b"different material output\n")
+        elif name == "mode":
+            member.chmod((member.stat().st_mode & 0o7777) ^ 0o020)
+        elif name == "role":
+            files = changed["repro_artifacts"]["files"]
+            files["ASSET_A"], files["ASSET_B"] = files["ASSET_B"], files["ASSET_A"]
+        elif name == "producer":
+            changed["repro_artifacts"]["producer"]["sha256"] = "0" * 64
+        elif name == "source-commit":
+            changed["repro_artifacts"]["producer"]["source_commit"] = "0" * 40
+        elif name == "environment":
+            changed["child_environment"]["actual_environment_sha256"] = "0" * 64
+        elif name == "environment-file":
+            (bad / "child-environment.json").unlink()
+        elif name == "environment-path":
+            changed["child_environment"]["overrides"]["REPRO_RETAINED_ASSET_A"] += ".foreign"
+        elif name == "command":
+            changed["actual_argv"].append("--foreign")
+        else:
+            changed["schema"] = "implementaudit.verifier-run.v2"
+        (bad / "result.json").write_text(json.dumps(changed) + "\n")
+        checked = compare_capture(root, legacy, bad, directory / ("repro-refusal-" + name + ".json"))
+        assert checked.returncode == 2, (name, checked.stdout, checked.stderr)
+        assert (bad / "exit-code.txt").read_bytes() == b"7\n"
+
+    keys = ["REPRO_RETAINED_" + name for name in artifact["files"]] + ["REPRO_SOURCE_REF"]
+    for index, key in enumerate(keys):
+        output = directory / ("repro-override-" + str(index))
+        process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
+                               "legacy", str(output), "--retain-repro-assets"], cwd=root, capture_output=True,
+                              env=dict(os.environ, **{key: ""}))
+        assert process.returncode == 2 and b"override" in process.stderr
+        assert not (output / "exit-code.txt").exists()
+    producer = root / "tests/reproducible-release-asset.test.sh"
+    producer_bytes = producer.read_bytes()
+    for name in ("producer", "arguments"):
+        output = directory / ("repro-preflight-" + name)
+        if name == "producer":
+            producer.write_bytes(producer_bytes + b"\n# changed producer\n")
+        else:
+            registry_path.write_text(registry.replace('bash tests/reproducible-release-asset.test.sh\n',
+                                                     'bash tests/reproducible-release-asset.test.sh --foreign\n'))
+        try:
+            process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
+                                   "legacy", str(output), "--retain-repro-assets"], cwd=root, capture_output=True)
+            assert process.returncode == 2 and b"repro" in process.stderr
+            assert not (output / "exit-code.txt").exists()
+        finally:
+            producer.write_bytes(producer_bytes)
+            registry_path.write_text(registry)
+
+    # A real Bash script receives the exact retained bytes through the runner.
+    registry_path.write_text(prelude + 'bash scripts/generate-readme-diagrams.sh --check\n'
+                             'bash tests/sample.test.sh\n' + end)
+    payload = b"retained stdin\nNUL=\0 and final bytes\n"
+    input_file = directory / "explicit-input.bin"
+    input_file.write_bytes(payload)
+    stdin_output = directory / "stdin-original-capture"
+    file_record = observed(stdin_output, "legacy", ["--stdin-file", str(input_file)], 0)
+    assert file_record["repro_artifacts"] is None
+    assert (stdin_output / "stdin.bin").read_bytes() == payload
+    assert (stdin_output / "stdout.log").read_bytes() == payload + b"verify-package: ok\n"
+    stdin_legacy = directory / "stdin-restored-legacy"
+    stdin_output.rename(stdin_legacy)
+    observed(stdin_output, "dag", ["--stdin-file", str(input_file)], 0)
+    process = compare_capture(root, stdin_legacy, stdin_output, directory / "stdin-comparison.json")
+    assert process.returncode == 0, (process.stdout, process.stderr)
+    for name in ("missing", "changed", "symlink", "declaration", "size-bool"):
+        bad = directory / ("bad-stdin-" + name)
+        shutil.copytree(stdin_output, bad)
+        changed = json.loads((bad / "result.json").read_bytes())
+        if name == "missing":
+            (bad / "stdin.bin").unlink()
+        elif name == "changed":
+            (bad / "stdin.bin").write_bytes(b"changed retained input\n")
+        elif name == "symlink":
+            (bad / "stdin.bin").unlink()
+            (bad / "stdin.bin").symlink_to(input_file)
+        elif name == "declaration":
+            changed["stdin"]["declared_path"] += ".foreign"
+        else:
+            changed["stdin"]["bytes"] = True
+        (bad / "result.json").write_text(json.dumps(changed) + "\n")
+        process = compare_capture(root, stdin_legacy, bad, directory / ("stdin-refusal-" + name + ".json"))
+        assert process.returncode == 2, (name, process.stdout, process.stderr)
+    empty_output = directory / "empty-stdin"
+    empty = observed(empty_output, "dag", ["--empty-stdin"], 0)
+    assert empty["stdin"]["mode"] == "EMPTY_PIPE" and (empty_output / "stdin.bin").read_bytes() == b""
+    assert (empty_output / "stdout.log").read_bytes() == b"verify-package: ok\n"
+    dist_capture_cases(root, directory)
+    extended_boundary_cases(root, directory)
+    dist_existing_consumer_cases(directory)
+    print("work-graph-verifier: explicit v3 partial artifacts, child environment and retained stdin consumed")
+
+
+def dist_capture_cases(root, directory):
+    """A complete finite ignored namespace must affect the real consumer."""
+    (root / ".gitignore").write_text("dist/\n")
+    source_dist = root / "dist"
+    source_dist.mkdir()
+    (source_dist / "nested").mkdir()
+    (source_dist / "probe.txt").write_bytes(b"current material\n")
+    (source_dist / "nested/member.bin").write_bytes(b"nested\0bytes\n")
+    original_output = directory / "dist-original-capture"
+
+    def observe(mode, output):
+        process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
+                               mode, str(output), "--capture-dist", "--empty-stdin"],
+                              cwd=root, capture_output=True)
+        assert process.returncode == 0, ("dist capture outcome", process.stdout, process.stderr)
+        return json.loads((output / "result.json").read_bytes())
+
+    record = observe("legacy", original_output)
+    namespace = record["dist_namespace"]
+    assert namespace["before"] == namespace["after"]
+    assert set(namespace["before"]["entries"]) == {"dist", "dist/probe.txt", "dist/nested", "dist/nested/member.bin"}
+    assert (original_output / "dist-before/dist/probe.txt").read_bytes() == b"current material\n"
+    legacy = directory / "dist-restored-legacy"
+    original_output.rename(legacy)
+    observe("dag", original_output)
+    compared = directory / "dist-comparison.json"
+    process = compare_capture(root, legacy, original_output, compared)
+    assert process.returncode == 0, (process.stdout, process.stderr)
+    assert json.loads(compared.read_bytes())["checks"]["same_dist_namespace"]
+    foreign = compare_capture(ROOT, legacy, original_output, directory / "dist-foreign-context.json")
+    assert foreign.returncode == 2 and b"current source context" in foreign.stderr, (foreign.stdout, foreign.stderr)
+    for name in ("missing", "added", "changed", "mode", "directory-mode", "type", "symlink",
+                 "fifo", "foreign-root", "inventory", "sidecar", "scope"):
+        bad = directory / ("bad-dist-" + name)
+        shutil.copytree(original_output, bad)
+        result = json.loads((bad / "result.json").read_bytes())
+        member = bad / "dist-before/dist/probe.txt"
+        if name == "missing":
+            member.unlink()
+        elif name == "added":
+            (member.parent / "extra.txt").write_bytes(b"extra material\n")
+        elif name == "changed":
+            member.write_bytes(b"changed material\n")
+        elif name == "mode":
+            member.chmod((member.stat().st_mode & 0o7777) ^ 0o020)
+        elif name == "directory-mode":
+            member.parent.chmod((member.parent.stat().st_mode & 0o7777) ^ 0o020)
+        elif name in {"type", "symlink", "fifo"}:
+            member.unlink()
+            if name == "type":
+                member.mkdir()
+            elif name == "symlink":
+                member.symlink_to(source_dist / "probe.txt")
+            else:
+                os.mkfifo(member)
+        elif name == "foreign-root":
+            (bad / "dist-before/foreign").write_bytes(b"outside snapshot population\n")
+        elif name == "inventory":
+            result["dist_namespace"]["before"]["entries"].pop("dist/probe.txt")
+        elif name == "sidecar":
+            (bad / "dist-namespace.json").unlink()
+        else:
+            result["dist_namespace"]["source_path"] += ".foreign"
+        (bad / "result.json").write_text(json.dumps(result) + "\n")
+        process = compare_capture(root, legacy, bad, directory / ("dist-refusal-" + name + ".json"))
+        assert process.returncode == 2, (name, process.stdout, process.stderr)
+        assert (bad / "exit-code.txt").read_bytes() == b"0\n"
+    # An ignored source change has identical shell streams/exit but a different
+    # current namespace. Do not normalize its inventory out of correspondence.
+    (source_dist / "probe.txt").write_bytes(b"different source material\n")
+    changed_output = directory / "dist-source-changed"
+    observe("dag", changed_output)
+    process = compare_capture(root, legacy, changed_output, directory / "dist-source-comparison.json")
+    assert process.returncode == 2 and b"current dist" in process.stderr
+    assert (legacy / "stdout.log").read_bytes() == (changed_output / "stdout.log").read_bytes()
+    assert (legacy / "exit-code.txt").read_bytes() == (changed_output / "exit-code.txt").read_bytes()
+    source_dist.rename(directory / "original-dist-source")
+    missing = observe("dag", directory / "dist-source-missing")
+    assert missing["dist_namespace"]["before"]["entries"] == {"dist": {"kind": "MISSING"}}
+    for name in ("dangling-link", "fifo", "file", "oversized"):
+        if name == "dangling-link":
+            source_dist.symlink_to(directory / "absent-dist")
+        elif name == "fifo":
+            os.mkfifo(source_dist)
+        elif name == "file":
+            source_dist.write_bytes(b"not a directory\n")
+        else:
+            source_dist.mkdir()
+            with (source_dist / "large.bin").open("wb") as stream:
+                stream.truncate(16 * 1024 * 1024 + 1)
+        process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
+                               "dag", str(directory / ("dist-source-refusal-" + name)), "--capture-dist"],
+                              cwd=root, capture_output=True, timeout=10)
+        assert process.returncode == 2 and b"dist" in process.stderr
+        if name == "oversized":
+            source_dist.rename(directory / "oversized-dist-input")
+        else:
+            source_dist.unlink()
+
+
+def extended_boundary_cases(root, directory):
+    """Actual input delivery, explicit bounds and child-cwd resolution."""
+    registry = root / "scripts/verify-package.sh"
+    original = registry.read_text()
+    qualifier = [sys.executable, "-B", "scripts/qualify-work-graph-verifier.py"]
+    # Missing exports cannot turn a zero process exit into artifact coverage.
+    registry.write_text(original.replace("set -euo pipefail\n", "set -euo pipefail\nexit 0\n").replace(
+        "bash tests/sample.test.sh", "bash tests/reproducible-release-asset.test.sh"))
+    output = directory / "repro-zero-missing"
+    process = run_command([*qualifier, "legacy", str(output), "--retain-repro-assets"], cwd=root, capture_output=True)
+    assert process.returncode == 2 and (output / "exit-code.txt").read_bytes() == b"0\n"
+    assert not json.loads((output / "repro-artifacts.json").read_bytes())["complete"]
+    assert not (output / "result.json").exists()
+    registry.write_text(original)
+
+    input_path = directory / "replace-after-acquisition.bin"
+    payload = b"original pipe bytes\0\n"
+    input_path.write_bytes(payload)
+    registry.write_text(original.replace("set -euo pipefail\n", "set -euo pipefail\nprintf 'replacement\\n' > " +
+                                        shlex.quote(str(input_path)) + "\n"))
+    output = directory / "stdin-single-acquisition"
+    process = run_command([*qualifier, "dag", str(output), "--stdin-file", str(input_path)], cwd=root, capture_output=True)
+    assert process.returncode == 0, (process.stdout, process.stderr)
+    assert input_path.read_bytes() == b"replacement\n"
+    assert (output / "stdin.bin").read_bytes() == payload
+    assert (output / "stdout.log").read_bytes() == payload + b"verify-package: ok\n"
+    registry.write_text(original)
+    for name in ("symlink", "fifo", "oversized"):
+        path = directory / ("stdin-source-" + name)
+        if name == "symlink":
+            path.symlink_to(input_path)
+        elif name == "fifo":
+            os.mkfifo(path)
+        else:
+            with path.open("wb") as stream:
+                stream.truncate(16 * 1024 * 1024 + 1)
+        output = directory / ("stdin-source-refusal-" + name)
+        process = run_command([*qualifier, "legacy", str(output), "--stdin-file", str(path)],
+                              cwd=root, capture_output=True, timeout=10)
+        assert process.returncode == 2 and not (output / "exit-code.txt").exists()
+    process = run_command([*qualifier, "legacy", str(directory / "stdin-conflicting-options"),
+                           "--stdin-file", str(input_path), "--empty-stdin"], cwd=root, capture_output=True)
+    assert process.returncode == 2
+
+    # The caller is outside ROOT. Actual Bash resolution must nevertheless use
+    # the launched cwd for both relative and empty PATH entries. These explicit
+    # fixture wrappers invoke a known interpreter; launcher closure is unclaimed.
+    sample = root / "tests/sample.test.sh"
+    sample_bytes = sample.read_bytes()
+    sample.write_bytes(b"#!/bin/bash\npython -c 'print(17)'\ncat\n")
+    wrapper = b'#!/bin/sh\nexec /usr/bin/python3 "$@"\n'
+    bash_wrapper = (b'#!/bin/sh\nif [ "${1:-}" = "--version" ]; then\n'
+                    b"  printf 'constructed bash version\\n'; exit 0\nfi\nexec /bin/bash \"$@\"\n")
+    for label, path_entry in (("relative", "fixture-bin"), ("empty", "")):
+        bindir = root / path_entry
+        bindir.mkdir(exist_ok=True)
+        for name in ("python", "python3", "py"):
+            (bindir / name).write_bytes(wrapper)
+            (bindir / name).chmod(0o755)
+        (bindir / "bash").write_bytes(bash_wrapper)
+        (bindir / "bash").chmod(0o755)
+        environment = dict(os.environ, PATH=path_entry + os.pathsep + os.environ["PATH"])
+        output = directory / ("python-resolution-" + label)
+        command = [sys.executable, "-B", str(root / "scripts/qualify-work-graph-verifier.py")]
+        process = run_command([*command, "legacy", str(output), "--empty-stdin"],
+                              cwd=directory, source_root=root, env=environment, capture_output=True)
+        assert process.returncode == 0, (process.stdout, process.stderr)
+        result = json.loads((output / "result.json").read_bytes())
+        for name in ("python", "python3", "py"):
+            assert result["environment"]["executables"][name]["resolved_path"] == str(bindir / name)
+            assert result["environment"]["executables"][name]["sha256"] == hashlib.sha256(wrapper).hexdigest()
+        assert result["environment"]["child_python_resolution"]["launcher_interpreter"] == "UNQUALIFIED"
+        assert result["environment"]["bash"] == "constructed bash version"
+        assert result["environment"]["executables"]["bash"]["resolved_path"] == str(bindir / "bash")
+        assert (output / "stdout.log").read_bytes() == b"17\nverify-package: ok\n"
+        (bindir / "python").write_bytes(wrapper + b"# changed selected executable bytes\n")
+        changed_output = directory / ("python-resolution-changed-" + label)
+        process = run_command([*command, "dag", str(changed_output), "--empty-stdin"],
+                              cwd=directory, source_root=root, env=environment, capture_output=True)
+        assert process.returncode == 0, (process.stdout, process.stderr)
+        compared = directory / ("python-resolution-comparison-" + label + ".json")
+        process = compare_capture(root, output, changed_output, compared)
+        assert process.returncode == 1
+        checks = json.loads(compared.read_bytes())["checks"]
+        assert checks["same_stdout"] and not checks["same_environment"]
+        for name in ("python", "python3", "py", "bash"):
+            (bindir / name).unlink()
+    registry.write_text(original)
+    sample.write_bytes(sample_bytes)
+
+    # A postprocessing refusal still preserves the actual completed child exit.
+    output = directory / "v3-postprocessing-failure"
+    program = (
+        "import importlib.util, pathlib\n"
+        "s=importlib.util.spec_from_file_location('q', 'scripts/qualify-work-graph-verifier.py')\n"
+        "q=importlib.util.module_from_spec(s); s.loader.exec_module(q)\n"
+        "def refuse(*args): raise q.WG.WorkGraphError('constructed postprocessing refusal')\n"
+        "q.verify_extended_record=refuse\n"
+        "try: q.run('legacy', pathlib.Path(" + repr(str(output)) + "), empty_stdin=True)\n"
+        "except q.WG.WorkGraphError: raise SystemExit(2)\n")
+    process = run_command([sys.executable, "-B", "-c", program], cwd=root, capture_output=True)
+    assert process.returncode == 2 and (output / "exit-code.txt").read_bytes() == b"0\n"
+    assert not (output / "result.json").exists()
+
+
+def dist_existing_consumer_cases(directory):
+    """Exercise existing material predicates without invoking a build."""
+    sources = directory / "dist-consumer-sources"
+    sources.mkdir()
+    binding = {}
+    for name in ("scripts/build-release-asset.sh", "scripts/verify-package.sh"):
+        data = (ROOT / name).read_bytes()
+        shutil.copy2(ROOT / name, sources / Path(name).name)
+        binding[name] = dict(sha256=hashlib.sha256(data).hexdigest(), bytes=len(data))
+    (sources / "binding.json").write_text(json.dumps(binding, sort_keys=True, indent=2) + "\n")
+    withdrawn = b"constructed withdrawn bytes\n"
+    digest = hashlib.sha256(withdrawn).hexdigest()
+    for role in ("current", "plugin", "skill"):
+        case = directory / ("dist-stale-consumer-" + role)
+        (case / "dist").mkdir(parents=True)
+        (case / "CHANGELOG.md").write_text("# Constructed history\nsuperseded " + digest + "\n")
+        for kind, name in (("plugin", "IMPLEMENTAUDIT.plugin.zip"), ("skill", "IMPLEMENTAUDIT.skill")):
+            (case / "dist" / name).write_bytes(withdrawn if kind == role else b"constructed current bytes\n")
+        process = run_command(["bash", str(ROOT / "scripts/build-release-asset.sh"), "--check-stale-release-set",
+                               "package", str(case / "dist"), str(case / "CHANGELOG.md")], cwd=case, capture_output=True)
+        assert process.returncode == (0 if role == "current" else 1), (role, process.stdout, process.stderr)
+    # Recover the exact existing first guard's argv. Keeping its patterns in
+    # the original registry also avoids turning this fixture into a guard hit.
+    lines = (ROOT / "scripts/verify-package.sh").read_text().splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("if grep -R -n -I"))
+    end = next(i for i in range(start, len(lines)) if lines[i].startswith("  . >"))
+    argv = shlex.split(" ".join(line.rstrip("\\").strip() for line in lines[start:end]))[1:] + ["."]
+    assert argv[0] == "grep" and argv.count("-e") == 5
+    first_pattern = argv[argv.index("-e") + 1]
+    for label, data, expected in (("benign", b"benign extra material\n", 1),
+                                  ("forbidden", first_pattern.encode() + b"\n", 0)):
+        case = directory / ("dist-grep-consumer-" + label)
+        (case / "dist").mkdir(parents=True)
+        (case / "dist/probe.txt").write_bytes(data)
+        process = run_command(argv, cwd=case, capture_output=True)
+        assert process.returncode == expected, (label, process.stdout, process.stderr)
+
+
+def retained_repro_consumer_cases(root, capture, directory):
+    """Consume an actual producer capture; never synthesize a route or build."""
+    original = json.loads((capture / "result.json").read_bytes())
+    assert original["schema"] == "implementaudit.verifier-run.v3" and original["exit"] == 0
+    assert original["repro_artifacts"]["complete"] and len(original["repro_artifacts"]["files"]) == 6
+    compared = directory / "same-actual-route.json"
+    process = compare_capture(root, capture, capture, compared)
+    assert process.returncode == 1, (process.stdout, process.stderr)
+    checks = json.loads(compared.read_bytes())["checks"]
+    assert not checks["route_pair"] and all(v for k, v in checks.items() if k != "route_pair")
+    # Independent malformed copies preserve the actual producer's original
+    # raw streams/exit. Every one must refuse at the actual evidence consumer.
+    for name in ("missing", "bytes", "mode", "role", "producer", "stale", "environment", "command", "population", "sidecar"):
+        bad = directory / ("actual-repro-refusal-" + name)
+        shutil.copytree(capture, bad)
+        record = json.loads((bad / "result.json").read_bytes())
+        assets = record["repro_artifacts"]
+        member = bad / assets["files"]["ASSET_A"]["relative_path"]
+        if name == "missing":
+            member.unlink()
+        elif name == "bytes":
+            member.write_bytes(b"changed actual export\n")
+        elif name == "mode":
+            member.chmod(0o640)
+        elif name == "role":
+            assets["files"]["ASSET_A"], assets["files"]["PLUGIN_A"] = assets["files"]["PLUGIN_A"], assets["files"]["ASSET_A"]
+        elif name == "producer":
+            assets["producer"]["sha256"] = "0" * 64
+        elif name == "stale":
+            assets["producer"]["source_commit"] = "0" * 40
+        elif name == "environment":
+            record["child_environment"]["overrides"]["REPRO_RETAINED_ASSET_A"] += ".foreign"
+        elif name == "command":
+            (bad / "commands.bin").write_bytes(b"changed command stream\0")
+        elif name == "population":
+            (member.parent / "foreign.txt").write_bytes(b"foreign\n")
+        else:
+            (bad / "repro-artifacts.json").unlink()
+        (bad / "result.json").write_text(json.dumps(record) + "\n")
+        process = compare_capture(root, capture, bad, directory / ("actual-repro-" + name + ".json"))
+        assert process.returncode == 2, (name, process.stdout, process.stderr)
+        assert (bad / "exit-code.txt").read_bytes() == b"0\n"
+    changed = directory / "actual-repro-meaningful-output"
+    shutil.copytree(capture, changed)
+    data = (changed / "stdout.log").read_bytes() + b"different declared outcome\n"
+    (changed / "stdout.log").write_bytes(data)
+    record = json.loads((changed / "result.json").read_bytes())
+    record["stdout_sha256"] = hashlib.sha256(data).hexdigest()
+    (changed / "result.json").write_text(json.dumps(record) + "\n")
+    compared = directory / "actual-repro-meaningful-output.json"
+    process = compare_capture(root, capture, changed, compared)
+    assert process.returncode == 1
+    assert not json.loads(compared.read_bytes())["checks"]["same_stdout"]
 
 
 def trace_integrity_cases(root, directory, captures):
@@ -668,6 +1140,7 @@ def main():
                 trace_integrity_cases(root, Path(td), captures)
         capture_boundary_cases(root, Path(td), registry, prelude, tail)
         engine_boundary_cases(root, Path(td))
+        extended_capture_cases(Path(td))
         # A later recording error must not erase the nested process exit/logs.
         driver_spec = importlib.util.spec_from_file_location("capture_fixture", root / "scripts/qualify-work-graph-verifier.py")
         driver = importlib.util.module_from_spec(driver_spec)
