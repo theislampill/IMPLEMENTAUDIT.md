@@ -1,0 +1,211 @@
+{
+  "format": "Published, canonically unallocated R0044 bounded documentary comparison v1",
+  "observed_at": "2026-10-17T09:05:50.790389+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/231",
+  "scope": "One actual matched public-source qualification comparison, with parent documentary receiving. No native JOIN, owner approval, campaign credit or statistical effectiveness verdict.",
+  "real_task_and_consumer": "Qualify the exact public EMAS reconstruction for the issue-owned maintainer candidate; root executor actually receives the report and uses its source/guard/action/findings in candidate documentation.",
+  "population": {
+    "EMAS_originals": 76,
+    "required_evidence_units_per_complete_alternative": 6,
+    "trial_repetitions": 1
+  },
+  "frozen_inputs": {
+    "frozen_commit": "ff66f450014e2581e87f37a4782aa0bb65f3c99a",
+    "frozen_tree": "80dcbc6b42febfd19651e31b1d0b0caf2da6c5b6",
+    "base": "b802705830d1ec86a20dce0001f5dc6a5470b68a",
+    "files": [
+      {
+        "path": "scripts/r0044-reconstruct.py",
+        "bytes": 31494,
+        "sha256": "cf49ee1e306b1e5a110bb520278de4d7d8ea6f55cc31203023ce8af78c1035f0"
+      },
+      {
+        "path": "tests/r0044-reconstruction.py",
+        "bytes": 5994,
+        "sha256": "fcc5c3d8c2f342b08ddb5827c5e43a3a51549588ca9ce4c1c0cdb53f38910a57"
+      },
+      {
+        "path": "tests/r0044-reconstruction.test.sh",
+        "bytes": 419,
+        "sha256": "c32876d565435556134cac255096ece54059fa3f03f7ae834f6beb7e8dfb4bb1"
+      },
+      {
+        "path": "docs/research/implementaudit/r0044-member-dispositions.json",
+        "bytes": 1263191,
+        "sha256": "804f0166af4201991dfd1d7f9feb3ff9c0239a6e4aa5547479c92d0196118c13"
+      }
+    ]
+  },
+  "pre_execution_freeze_sha256": "2fb9ec46479eb9e730bd51f1f82bf5a8ad635ac451ecb2a326745424743a9016",
+  "neutral_mission_sha256": "4443cdf2e6b437e349b17a1f2d447e223ab970233bc7671bb9e618ae8a2d9184",
+  "operational_protocol_sha256": "bdcc9b5a530554c57a960151786edcd037e20de96623aa85274fa08bab7e589d",
+  "common_custody_inputs_sha256": "b7a678ec17701e9ede4600b8f4c6c127fee1cd8ffc53da85352bcd3210923287",
+  "original_oracle_sha256": "a9158d5f310517b7534f3cf8013a02c507857a181dec72b93c6a8f99c4d9a32b",
+  "oracle_criteria_changed": false,
+  "topology": {
+    "direct": "one fresh full-task context",
+    "decomposed": "two fresh member/relation contexts concurrently plus actual root integration",
+    "execution_order": "direct then decomposed",
+    "context_fork": "none for every participant",
+    "model_overrides": "none",
+    "participant_spawned_agents": "none authorised; no such action reported"
+  },
+  "capabilities": "Same complete frozen checkout, public source and issue/receiving files, read-only source access and own-output writes; efficient scripts and parallel independent tool calls available to every participant. No locality/right constraint makes the direct route infeasible.",
+  "participants": {
+    "direct": {
+      "required_units": [
+        "M1",
+        "M2",
+        "M3",
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "scope": "Complete alternative",
+      "frozen_commit": "ff66f450014e2581e87f37a4782aa0bb65f3c99a",
+      "report_json_sha256": "f85f6fce53fb429a18b99ca775a7ea7b252db3e6cc7ca7c0fbbea987d02d4d5f",
+      "report_json_bytes": 493758,
+      "report_md_sha256": "3f0853815aad866a95d8582542098c4407af2e2c25eb17da08f7342ac0491ecd",
+      "report_md_bytes": 21328,
+      "mechanical_receipt_sha256": "14dd43c79bca1ab13b17bf2c48153639604a88f2b2c0594bfe53ef4d89a81468",
+      "semantic_receipt_sha256": "9358bccfdd72a11a6fcb4c0c0311a4ce0bae9e6f840900a998dbfc748422a997",
+      "all_assigned_units_received": true,
+      "reported_start_utc": "2026-10-17T08:18:06.516619+00:00",
+      "reported_end_utc": "2026-10-17T08:35:36.626948+00:00",
+      "participant_reported_interval_seconds": 1050.110329,
+      "read_and_command_evidence_items_in_report": 171,
+      "all_output_file_count": 102,
+      "all_output_bytes": 94167122,
+      "model_tokens": null,
+      "monetary_cost": null,
+      "active_compute_seconds": null,
+      "reported_finish_to_parent_return_observation_seconds": 79.381862,
+      "timing_limit": "Reported interval and parent observation are distinct; final serialization, routing and observation delay are not active worker compute.",
+      "separate_command_ledger_rows": 32
+    },
+    "members": {
+      "required_units": [
+        "M1",
+        "M2",
+        "M3"
+      ],
+      "scope": "Partial contribution; combined receipt is required",
+      "frozen_commit": "ff66f450014e2581e87f37a4782aa0bb65f3c99a",
+      "report_json_sha256": "d1b7d044c8e128bbf84f13c4599035b3720f308498415d29c09330ad961085c1",
+      "report_json_bytes": 267649,
+      "report_md_sha256": "4a5804f3f560dfe03602b437519ddbb8b5220090dbd08ca648ca881e67e32760",
+      "report_md_bytes": 19319,
+      "mechanical_receipt_sha256": "4bff280d82e37602a3f77a5a2b2b5ffc7c679ae784463d676b6975f31b700433",
+      "semantic_receipt_sha256": "a5cc634ab60fb30df2dd6b27b688fcd8d2aba7986c26079de46aee5814dbf20f",
+      "all_assigned_units_received": true,
+      "reported_start_utc": "2026-10-17T08:41:27.746338+00:00",
+      "reported_end_utc": "2026-10-17T09:00:15.582960+00:00",
+      "participant_reported_interval_seconds": 1127.836622,
+      "read_and_command_evidence_items_in_report": 118,
+      "all_output_file_count": 110,
+      "all_output_bytes": 9255332,
+      "model_tokens": null,
+      "monetary_cost": null,
+      "active_compute_seconds": null,
+      "reported_finish_to_parent_return_observation_seconds": 104.124107,
+      "timing_limit": "Reported interval and parent observation are distinct; final serialization, routing and observation delay are not active worker compute.",
+      "separate_command_ledger_rows": 42
+    },
+    "relations": {
+      "required_units": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "scope": "Partial contribution; combined receipt is required",
+      "frozen_commit": "ff66f450014e2581e87f37a4782aa0bb65f3c99a",
+      "report_json_sha256": "9d318e1326d24f58ffe50dc378703f9fbc6897fb63797ba90249b1d8f3e590c2",
+      "report_json_bytes": 298391,
+      "report_md_sha256": "7e6c8cf7ac12ec1199ac9f0fcd44d6f3cd5429606977bbe02e961890bcb0d8e0",
+      "report_md_bytes": 14180,
+      "mechanical_receipt_sha256": "32ac50f3e4d62e4bd726bd499c7a2de43a3903fc04e22bdda548925d58d0a79e",
+      "semantic_receipt_sha256": "f68609fbfceda665d1baf34ae525a6e603bc12e1564b0cd3f7acdcb3d71d41d2",
+      "all_assigned_units_received": true,
+      "reported_start_utc": "2026-10-17T08:42:08.526818+00:00",
+      "reported_end_utc": "2026-10-17T08:52:47.345656+00:00",
+      "participant_reported_interval_seconds": 638.818838,
+      "read_and_command_evidence_items_in_report": 25,
+      "all_output_file_count": 76,
+      "all_output_bytes": 14794102,
+      "model_tokens": null,
+      "monetary_cost": null,
+      "active_compute_seconds": null,
+      "reported_finish_to_parent_return_observation_seconds": 126.84769,
+      "timing_limit": "One preliminary bootstrap read preceded local logging; its interval is unknown. Parent dispatch bounds the larger elapsed observation.",
+      "separate_command_ledger_rows": 23
+    }
+  },
+  "complete_alternatives": {
+    "direct_documentary_outcome_received": true,
+    "decomposed_documentary_outcome_received": true,
+    "combined_receipt_sha256": "8e73cfe6884d06b4dd0b239e4b4bcce9fc88cd2c41737021bdcaa2b47476a07a",
+    "outcome_comparison": "Both complete required documentary alternatives received"
+  },
+  "observed_time_dimensions_seconds": {
+    "direct_dispatch_request_to_return_observation": 1169.553181,
+    "direct_dispatch_request_to_documentary_receipt": 1377.994772,
+    "direct_parent_receiving_interval_including_harness_rework": 208.441531,
+    "split_dispatch_request_to_complete_documentary_receipt": 1385.593441,
+    "split_parent_individual_receiving_intervals_sum": 167.714603,
+    "split_parent_final_integration_interval": 46.209491,
+    "direct_participant_reported_interval": 1050.110329,
+    "split_participants_reported_intervals_sum": 1766.65546
+  },
+  "observable_message_bytes": {
+    "direct_dispatch": 1467,
+    "split_dispatch_sum": 3024,
+    "common_mission_file_per_participant": 5115,
+    "limit": "Bytes are not model tokens; exact operational messages are retained in the return archive."
+  },
+  "cost_partitions": {
+    "common_preparation": "Source recovery, candidate authoring, input/protocol/oracle preparation and initial focused checks are common fixed work. Complete active time/tokens/money were not exposed; known command timings and retained failures are in the return.",
+    "receiver_harness_rework": "Initial direct receiving rejected extra member annotations through overstrict whole-object equality. Required-field correction preserves the unchanged frozen facts/schema interpretation and is applied identically to both alternatives; old failure and discriminating controls retained. Direct end-to-end observation includes this interval; it is also identified as common receiver setup/rework, not worker compute.",
+    "recurring_execution": "Use each dispatch/return/receiving observation and separately reported worker interval; summed overlapping intervals are not elapsed or active-compute time.",
+    "split_rework": "Member participant retained a missing COMPOSED profile expansion and corrected source-closure control, plus an inventory quoting deviation that exposed only non-frozen filenames. Relation participant retained locator-object/expanded-record mismatch and a pre-logging bootstrap limit. Parent supplemental raw-ZIP selector initially required a slash before a root-level member; corrected source selection and failure remain separate from participant results.",
+    "final_lifecycle_work": "Shared code review, source navigation repair, package/portal/copy qualification, publication and recovery delivery are separate subsequent work recorded in the return. They are not zero or a complete task bill for either alternative.",
+    "task_total_model_tokens": null,
+    "task_total_money": null,
+    "hidden_platform_load": null
+  },
+  "receiving_controls": {
+    "existing_checker_source_commit": "ff66f450014e2581e87f37a4782aa0bb65f3c99a",
+    "checker_sha256": "72a04a5311c988da1e745fdb368d95ac0125124919185bf0b87432c4c2b60ffc",
+    "case_count": 11,
+    "all_expected_exits_observed": true,
+    "results_sha256": "ca558b4a7cfe493262b023bb66e0158f26573f7b0190305de13722da9d76db7e",
+    "meaning": "Actual documentary packets plus explicitly constructed incomplete/corrupt/cheap-path controls. Presence flags and echoed owner text do not authenticate rights or native receiving; all actual positive packets retain pending native JOIN."
+  },
+  "source_transition": {
+    "frozen_trial_commit": "ff66f450014e2581e87f37a4782aa0bb65f3c99a",
+    "subsequent_navigation_repair_commit": "3f8680ab4c98cbfc404015f8d37df41dd2db5f05",
+    "finding": "EAA host comment 6204277607 belongs under issue232, not233. Retain the old failure and exact bound comment. All 76 rows and incident facts are unchanged; participants did not qualify the later repaired navigation.",
+    "independent_review": "One fresh source reviewer also reproduced the defect and full-source correspondence, then reviews the final whole-candidate delta with this prior exposure disclosed."
+  },
+  "limitations": [
+    "Same model family, host/filesystem/cache and original sources create common causes; distinct contexts are not statistical independence.",
+    "The direct arm ran first. Parent preparation and the separate source review overlapped parts of the shared host; platform/cache/load effects were not controlled or measured.",
+    "Parent has authoring context. Participant read/command reports are retained but are not complete independently authenticated model/native transcripts.",
+    "Reported finish times can precede final serialization/return; dispatch-to-return observations include routing, serialization and observation delay.",
+    "Unknown material costs prevent a full total-cost ranking. No measured dimension alone establishes comparative causation, a general autonomy result or a global CBAL optimum.",
+    "The adequate direct path remains available. One selected task does not qualify all 76 mechanisms, all32groups or the sibling/host acceptance predicates.",
+    "Later sealed target/primary routing/private residuals and complete native/owner receiving remain pending; older public/EAA-side evidence is not their substitute."
+  ],
+  "total_cost_conclusion": "INCONCLUSIVE: compare only the explicitly observed dimensions; preserve both successful documentary arrangements and all failures/rework without a total-cost or general multi-agent superiority claim.",
+  "current_applicability": {
+    "scope": "Separate final-target continuation; no original experiment replay or rebinding.",
+    "historical_source": "ff66f450014e2581e87f37a4782aa0bb65f3c99a",
+    "both_complete_documentary_alternatives_retained": true,
+    "total_cost": "INCONCLUSIVE",
+    "new_trial_measurements": false,
+    "selected_acceptance": "Exact final human decision must expressly accept the documentary scope and retain operational/native residuals.",
+    "final_target_receiving": "Separately observed receiver and independent review, bound in the issue certificate; original participants do not qualify later target fields.",
+    "native_join": "NOT_ESTABLISHED",
+    "campaign_consumption": "NOT_CLAIMED",
+    "later_costs": "Continuation receiving/review/recovery/qualification/delivery are separate costs; tokens, money and active compute remain unmeasured."
+  }
+}
