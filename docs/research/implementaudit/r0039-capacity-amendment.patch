@@ -1,0 +1,477 @@
+diff --git a/package/budgets/r0039-v2-owner-approval.md b/package/budgets/r0039-v2-owner-approval.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..41418272ac50a0a8571acd37e0243361dbaf06b8
+--- /dev/null
++++ b/package/budgets/r0039-v2-owner-approval.md
+@@ -0,0 +1,21 @@
++# OWNER APPROVAL — R0039 / #215 — Prospective Package Capacity Amendment
++
++I approve a prospective increase of the canonical plugin and standalone compatibility compressed-package limits from **327,680 bytes (320 KiB) to 393,216 bytes (384 KiB) per artifact**, retaining the mandatory **2,000-byte reserve**.
++
++This is a deliberate owner decision following the measured R0039 package-capacity investigation. The objective is to permit complete, readable, secure and functional implementations without forcing disproportionate source compression or representation changes.
++
++I authorise the entitled package-contract/shared integration owner to implement this narrow prospective amendment, including the versioned budget declaration, necessary coordinated validation and installer checks, and exact-source evidence.
++
++Preserve the original historical budget and its evidence. Verify that no external host or distribution limit prohibits the revised budget. Do not weaken membership, integrity, security, installation, rollback, source-currentness or runtime acceptance controls. No pre-existing failing result becomes a historical PASS through this amendment.
++
++Defer discretionary final package-size optimisation until the currently commissioned source implementations have been integrated and the complete shipping population is measurable. Perform that reassessment before final combined package acceptance, release or any issue closure that depends on it.
++
++Do not repeat the completed compression investigation merely to justify this approved budget change.
++
++R0039's separate LR10-C writer-provenance problem, native acceptance, shared-owner integration and other outstanding requirements remain fully applicable.
++
++No merge, issue closure, release or protected campaign mutation is authorised here. Return the implemented exact-source change and its affected verification through the existing owner/conductor route.
++
++
++
++One caution we have discovered about R0039: Raising the cap resolves only the capacity obstacle after the owner implements and verifies the amendment. Its unexplained historical `.controller` writer event remains open. I am deferring another engineering commission on that until the relevant filesystem/runner owner can supply writer provenance or a reliably reproducing case.
+diff --git a/package/implementaudit-package.json b/package/implementaudit-package.json
+index 90447952a858a071ea8031b36db026017808ba42..a1287aab19b42a866dfdbc8cf57950332050da31 100644
+--- a/package/implementaudit-package.json
++++ b/package/implementaudit-package.json
+@@ -78,30 +78,60 @@
+       "worktree_state"
+     ]
+   },
++  "budget_revision": {
++    "revision": 2,
++    "applicability": "prospective",
++    "owner": "R0039",
++    "supersedes_revision": 1,
++    "owner_approval": {
++      "path": "package/budgets/r0039-v2-owner-approval.md",
++      "sha256": "c5575774aae04aeb65de98390831e76c9971da570dc60f0b4eadad2aa2da1582"
++    }
++  },
++  "budget_history": {
++    "1": {
++      "canonical_plugin": {
++        "artifact_role": "canonical_plugin",
++        "measurement": "final_deterministic_compressed_bytes",
++        "p0_baseline_bytes": 257985,
++        "prototype_added_raw_bytes": 11263,
++        "zip_path_header_allowance_bytes": 2504,
++        "rounding_unit_bytes": 65536,
++        "cap_bytes": 327680,
++        "owner": "R0021",
++        "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
++        "locked_before_builder_change": true
++      },
++      "standalone_compatibility": {
++        "artifact_role": "standalone_compatibility",
++        "measurement": "final_deterministic_compressed_bytes",
++        "p0_baseline_bytes": 257985,
++        "prototype_added_raw_bytes": 9465,
++        "zip_path_header_allowance_bytes": 222,
++        "rounding_unit_bytes": 65536,
++        "cap_bytes": 327680,
++        "owner": "R0021",
++        "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
++        "locked_before_builder_change": true
++      }
++    }
++  },
+   "budgets": {
+     "canonical_plugin": {
+       "artifact_role": "canonical_plugin",
+       "measurement": "final_deterministic_compressed_bytes",
+-      "p0_baseline_bytes": 257985,
+-      "prototype_added_raw_bytes": 11263,
+-      "zip_path_header_allowance_bytes": 2504,
+       "rounding_unit_bytes": 65536,
+-      "cap_bytes": 327680,
+-      "owner": "R0021",
+-      "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
+-      "locked_before_builder_change": true
++      "cap_bytes": 393216,
++      "reserve_bytes": 2000,
++      "owner": "R0039"
+     },
+     "standalone_compatibility": {
+       "artifact_role": "standalone_compatibility",
+       "measurement": "final_deterministic_compressed_bytes",
+-      "p0_baseline_bytes": 257985,
+-      "prototype_added_raw_bytes": 9465,
+-      "zip_path_header_allowance_bytes": 222,
+       "rounding_unit_bytes": 65536,
+-      "cap_bytes": 327680,
+-      "owner": "R0021",
+-      "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
+-      "locked_before_builder_change": true
++      "cap_bytes": 393216,
++      "reserve_bytes": 2000,
++      "owner": "R0039"
+     }
+   },
+   "generic_activegraph_dependency": false
+diff --git a/scripts/package-contract.py b/scripts/package-contract.py
+index 7f41069614f629260dcfcdb2d3769aa4d4e73f67..0ec17f1238b892c23864ad45dd3a8eb033af7b6d 100755
+--- a/scripts/package-contract.py
++++ b/scripts/package-contract.py
+@@ -60,7 +60,9 @@ EXPECTED_PROJECTIONS = {
+         "layout": "flattened-skill",
+     },
+ }
+-EXPECTED_BUDGETS = {
++# Retain the R0021 declaration exactly. A prospective amendment does not
++# relabel measurements or failures evaluated against that historical budget.
++HISTORICAL_BUDGETS = {
+     "canonical_plugin": {
+         "artifact_role": "canonical_plugin",
+         "measurement": "final_deterministic_compressed_bytes",
+@@ -90,6 +92,27 @@ EXPECTED_BUDGETS = {
+         "locked_before_builder_change": True,
+     },
+ }
++EXPECTED_BUDGET_REVISION = {
++    "revision": 2,
++    "applicability": "prospective",
++    "owner": "R0039",
++    "supersedes_revision": 1,
++    "owner_approval": {
++        "path": "package/budgets/r0039-v2-owner-approval.md",
++        "sha256": "c5575774aae04aeb65de98390831e76c9971da570dc60f0b4eadad2aa2da1582",
++    },
++}
++EXPECTED_BUDGETS = {
++    role: {
++        "artifact_role": role,
++        "measurement": "final_deterministic_compressed_bytes",
++        "rounding_unit_bytes": 65536,
++        "cap_bytes": 393216,
++        "reserve_bytes": 2000,
++        "owner": "R0039",
++    }
++    for role in EXPECTED_PROJECTIONS
++}
+ TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
+ INVENTORY_NAME = "IMPLEMENTAUDIT_INVENTORY.json"
+ PACKAGE_NAME = "IMPLEMENTAUDIT_PACKAGE.json"
+@@ -189,6 +212,10 @@ def validate_contract(root: Path) -> dict[str, Any]:
+         contract.get("generated_projections"),
+         EXPECTED_PROJECTIONS,
+     )
++    require_equal(
++        "budget_revision", contract.get("budget_revision"), EXPECTED_BUDGET_REVISION
++    )
++    require_equal("budget_history", contract.get("budget_history"), {"1": HISTORICAL_BUDGETS})
+     require_equal("budgets", contract.get("budgets"), EXPECTED_BUDGETS)
+     require_equal(
+         "generic_activegraph_dependency",
+@@ -717,10 +744,25 @@ def verify_artifact(
+                     expected_data,
+                 )
+ 
+-    size = asset.stat().st_size
+-    cap = contract["budgets"][role]["cap_bytes"]
++    enforce_budget_size(contract, role, asset.stat().st_size)
++
++
++def enforce_budget_size(contract: dict[str, Any], role: str, size: int) -> None:
++    budgets = contract["budgets"]
++    if role not in budgets:
++        raise ContractError(f"unknown artifact budget role: {role}")
++    if size < 0:
++        raise ContractError("artifact byte size must be non-negative")
++    cap = budgets[role]["cap_bytes"]
+     if size > cap:
+         raise ContractError(f"{role} artifact exceeds reviewed cap: {size} > {cap} bytes")
++    reserve = budgets[role]["reserve_bytes"]
++    headroom = cap - size
++    if headroom < reserve:
++        raise ContractError(
++            f"{role} artifact violates required reserve: {headroom} < {reserve} bytes "
++            f"({size} bytes; reviewed cap {cap})"
++        )
+ 
+ 
+ def read_installed_inventory(target: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+@@ -966,20 +1008,13 @@ def main(argv: list[str]) -> int:
+             )
+         elif args.check_budget_size:
+             role, raw_size = args.check_budget_size
+-            budgets = contract["budgets"]
+-            if role not in budgets:
++            if role not in contract["budgets"]:
+                 raise ContractError(f"unknown artifact budget role: {role}")
+             try:
+                 size = int(raw_size)
+             except ValueError as exc:
+                 raise ContractError(f"artifact byte size is not an integer: {raw_size}") from exc
+-            if size < 0:
+-                raise ContractError("artifact byte size must be non-negative")
+-            cap = budgets[role]["cap_bytes"]
+-            if size > cap:
+-                raise ContractError(
+-                    f"{role} artifact exceeds reviewed cap: {size} > {cap} bytes"
+-                )
++            enforce_budget_size(contract, role, size)
+     except ContractError as exc:
+         print(f"package-contract: {exc}", file=sys.stderr)
+         return 1
+diff --git a/tests/R000B-R001E-review-heldouts.test.sh b/tests/R000B-R001E-review-heldouts.test.sh
+index 7b51340681756af4d29d9dcbf3dd0d8506a19318..2568f2339efa541c9abbb7a2ba73b7dc68c1382b 100644
+--- a/tests/R000B-R001E-review-heldouts.test.sh
++++ b/tests/R000B-R001E-review-heldouts.test.sh
+@@ -357,12 +357,12 @@ bash scripts/build-release-asset.sh "$asset_dir" >/dev/null
+ if ! bash scripts/check-package-contract.sh --check-budget-size \
+     canonical_plugin "$(wc -c < "$asset_dir/IMPLEMENTAUDIT.plugin.zip" | tr -d '[:space:]')" \
+     >/dev/null 2>&1; then
+-  failures+=("r33-canonical-plugin-capacity-over-327680")
++  failures+=("r33-canonical-plugin-capacity-cap-or-reserve-violation")
+ fi
+ if ! bash scripts/check-package-contract.sh --check-budget-size \
+     standalone_compatibility "$(wc -c < "$asset_dir/IMPLEMENTAUDIT.skill" | tr -d '[:space:]')" \
+     >/dev/null 2>&1; then
+-  failures+=("r33-standalone-compatibility-capacity-over-327680")
++  failures+=("r33-standalone-compatibility-capacity-cap-or-reserve-violation")
+ fi
+ 
+ if [ "${#failures[@]}" -gt 0 ]; then
+diff --git a/tests/package-contract.test.sh b/tests/package-contract.test.sh
+index 997135bc110e7b6ce39871e2f5090cab5d9d8fd8..632e4f450c3ae96e5d16e04e6f52dd4e1b0cefad 100755
+--- a/tests/package-contract.test.sh
++++ b/tests/package-contract.test.sh
+@@ -216,13 +216,82 @@ path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+ PY
+ expect_reject post-review-cap-edit "$changed_cap" "budgets"
+ 
+-bash "$checker" --check-budget-size canonical_plugin 327680
+-bash "$checker" --check-budget-size standalone_compatibility 327680
+-if bash "$checker" --check-budget-size canonical_plugin 327681 >/dev/null 2>&1; then
+-  fail "canonical plugin overrun was accepted"
+-fi
+-if bash "$checker" --check-budget-size standalone_compatibility 327681 >/dev/null 2>&1; then
+-  fail "standalone compatibility overrun was accepted"
+-fi
++for mutation in missing-reserve reduced-reserve unapproved-revision \
++    missing-revision substituted-approval changed-history missing-history; do
++  fixture="$tmp/$mutation"
++  make_fixture "$fixture"
++  python - "$fixture/package/implementaudit-package.json" "$mutation" <<'PY'
++import copy
++import json
++import pathlib
++import sys
++
++path = pathlib.Path(sys.argv[1])
++mutation = sys.argv[2]
++data = json.loads(path.read_text(encoding="utf-8"))
++if mutation == "missing-reserve":
++    data["budgets"]["standalone_compatibility"].pop("reserve_bytes", None)
++elif mutation == "reduced-reserve":
++    data["budgets"]["canonical_plugin"]["reserve_bytes"] = 1999
++elif mutation == "unapproved-revision":
++    data.setdefault("budget_revision", {})["revision"] = 3
++elif mutation == "missing-revision":
++    data.pop("budget_revision", None)
++elif mutation == "substituted-approval":
++    data.setdefault("budget_revision", {}).setdefault("owner_approval", {})["sha256"] = "0" * 64
++elif mutation == "changed-history":
++    history = copy.deepcopy(data.get("budget_history", {"1": data["budgets"]}))
++    history["1"]["canonical_plugin"]["cap_bytes"] = 393216
++    data["budget_history"] = history
++elif mutation == "missing-history":
++    data.pop("budget_history", None)
++else:
++    raise SystemExit(f"unknown mutation: {mutation}")
++path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
++PY
++  case "$mutation" in
++    *reserve) expected="budgets" ;;
++    *history) expected="budget_history" ;;
++    *) expected="budget_revision" ;;
++  esac
++  expect_reject "$mutation" "$fixture" "$expected"
++done
++
++expect_budget_reject() {
++  local role="$1" size="$2" expected="$3" output
++  if output="$(bash "$checker" --check-budget-size "$role" "$size" 2>&1)"; then
++    fail "$role accepted $size bytes"
++  fi
++  case "$output" in
++    *"$expected"*) ;;
++    *) fail "wrong budget rejection for $role at $size bytes: $output" ;;
++  esac
++}
++
++# Retain the original CLI refusal order when both inputs are invalid.
++expect_budget_reject unknown_role not-an-integer "unknown artifact budget role"
++expect_budget_reject canonical_plugin not-an-integer "artifact byte size is not an integer"
++expect_budget_reject standalone_compatibility -1 "artifact byte size must be non-negative"
++
++for role in canonical_plugin standalone_compatibility; do
++  # R0039 revision 2 is prospective. The owner-approved 393216-byte cap
++  # retains a mandatory 2000-byte reserve; the accepting maximum is 391216.
++  bash "$checker" --check-budget-size "$role" 391216
++  expect_budget_reject "$role" 391217 "required reserve"
++  expect_budget_reject "$role" 393216 "required reserve"
++  expect_budget_reject "$role" 393217 "exceeds reviewed cap"
++done
++
++python - <<'PY'
++import hashlib
++import json
++from pathlib import Path
++
++contract = json.loads(Path("package/implementaudit-package.json").read_text())
++approval = contract["budget_revision"]["owner_approval"]
++observed = hashlib.sha256(Path(approval["path"]).read_bytes()).hexdigest()
++if observed != approval["sha256"]:
++    raise SystemExit("source owner approval bytes differ from the reviewed declaration")
++PY
+ 
+ printf 'package-contract.test: ok\n'
+diff --git a/tests/plugin-release-asset.test.sh b/tests/plugin-release-asset.test.sh
+index acc20b5a9dd8c19fcb137d1ff94ffcc6c26fd61c..732752c6a1d975db572ba95861c83286d38ab439 100755
+--- a/tests/plugin-release-asset.test.sh
++++ b/tests/plugin-release-asset.test.sh
+@@ -152,11 +152,14 @@ package_name = "IMPLEMENTAUDIT_PACKAGE.json"
+ 
+ def validate_archive(raw_path, role):
+     path = Path(raw_path)
+-    cap = source_package["budgets"][role]["cap_bytes"]
+-    if cap != 327680:
+-        raise SystemExit(f"{role} cap is not the predeclared 327680 bytes")
+-    if path.stat().st_size > cap:
+-        raise SystemExit(f"{role} exceeds its predeclared size cap")
++    budget = source_package["budgets"][role]
++    cap, reserve = budget["cap_bytes"], budget["reserve_bytes"]
++    if source_package["budget_revision"]["revision"] != 2:
++        raise SystemExit(f"{role} budget is not the prospective R0039 revision 2")
++    if (cap, reserve) != (393216, 2000):
++        raise SystemExit(f"{role} cap and reserve differ from the approved R0039 budget")
++    if path.stat().st_size > cap - reserve:
++        raise SystemExit(f"{role} exceeds its approved cap or consumes its required reserve")
+ 
+     with zipfile.ZipFile(path) as archive:
+         infos = archive.infolist()
+diff --git a/tests/release-asset.test.sh b/tests/release-asset.test.sh
+index 90cd7645721142e3587b16e9c1977afec1b8ccca..9466b6a1e5482ee4d4a24203f8f6b0673078a17c 100755
+--- a/tests/release-asset.test.sh
++++ b/tests/release-asset.test.sh
+@@ -1166,10 +1166,20 @@ with zipfile.ZipFile(asset) as zf:
+     # references/continuity.md plus PROTOCOL/STATE contract text grew the
+     # deflated asset to ~131 KB — growth verified intentional and deflated.
+     asset_bytes = asset.stat().st_size
+-    # R002D revision 1 binds this role to the pre-implementation R0021 budget
+-    # declaration. Final bytes cannot select or raise their own cap.
+-    OWNER_OUTER_BOUND_BYTES = 327_680
+-    MIN_HEADROOM_BYTES = 0
++    # History: R002D revision 1 enforced the pre-implementation R0021 cap of
++    # 327680 bytes, with MIN_HEADROOM_BYTES=0 in this legacy guard. Its prior
++    # measurements and failures retain that historical declaration.
++    # R0039 revision 2 is an explicit prospective owner amendment to 393216
++    # bytes, retaining the mandatory 2000-byte reserve. Final bytes cannot
++    # select or raise their own cap.
++    package_budget = json.loads(zf.read("IMPLEMENTAUDIT_PACKAGE.json"))
++    declared_budget = package_budget["budgets"]["standalone_compatibility"]
++    if package_budget["budget_revision"]["revision"] != 2:
++        raise SystemExit("standalone budget is not prospective R0039 revision 2")
++    if (declared_budget["cap_bytes"], declared_budget["reserve_bytes"]) != (393216, 2000):
++        raise SystemExit("standalone declaration differs from the approved R0039 budget")
++    OWNER_OUTER_BOUND_BYTES = 393_216
++    MIN_HEADROOM_BYTES = 2_000
+     CALIBRATION_QUANTUM_BYTES = 65_536
+     CURRENT_CALIBRATION_AUTHORITY = "owner"
+     ALLOWED_CALIBRATION_AUTHORITIES = {
+@@ -1180,7 +1190,7 @@ with zipfile.ZipFile(asset) as zf:
+             "current calibration authority must name the owner-authorised fold-in"
+         )
+ 
+-    MAX_ASSET_BYTES = 327_680
++    MAX_ASSET_BYTES = 393_216
+     CURRENT_CALIBRATION_ASSET_BYTES = asset_bytes
+     N06_BASELINE_ASSET_BYTES = 206_584
+     N06_FINAL_P7_ASSET_BYTES = 215_126
+@@ -1190,7 +1200,8 @@ with zipfile.ZipFile(asset) as zf:
+     N04_IDENTITY_INTEGRITY_FORECAST_BYTES = 202_593
+     N05_CALIBRATION_MAIN_ASSET_BYTES = 202_679
+     N05_FINAL_MEASURED_FORECAST_BYTES = 206_159
+-    FIRST_REJECTED_BYTES = MAX_ASSET_BYTES + 1
++    MAX_ACCEPTED_BYTES = MAX_ASSET_BYTES - MIN_HEADROOM_BYTES
++    FIRST_REJECTED_BYTES = MAX_ACCEPTED_BYTES + 1
+ 
+     def enforce_asset_budget_policy(max_bytes, measured_bytes, authority):
+         if max_bytes > OWNER_OUTER_BOUND_BYTES:
+@@ -1221,9 +1232,9 @@ with zipfile.ZipFile(asset) as zf:
+                 f"configured {configured_measured_bytes:,}, "
+                 f"actual {actual_bytes:,}"
+             )
+-        if max_bytes != 327_680:
++        if max_bytes != 393_216:
+             raise SystemExit(
+-                "hard ceiling differs from the reviewed pre-build R0021 cap: "
++                "hard ceiling differs from the approved prospective R0039 cap: "
+                 f"got {max_bytes:,}"
+             )
+         enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
+@@ -1237,7 +1248,7 @@ with zipfile.ZipFile(asset) as zf:
+             raise SystemExit(f"budget policy accepted {fragment}")
+ 
+     for fragment, values in (
+-        ("outer bound", (393_216, N06_BASELINE_ASSET_BYTES, "owner")),
++        ("outer bound", (458_752, N06_BASELINE_ASSET_BYTES, "owner")),
+         ("minimum headroom", (196_608, N06_BASELINE_ASSET_BYTES, "owner")),
+         ("calibration authority", (
+             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
+@@ -1260,7 +1271,7 @@ with zipfile.ZipFile(asset) as zf:
+             MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
+         ("configured measurement", (
+             230_000, 227_500, asset_bytes, "owner")),
+-        ("reviewed pre-build R0021 cap", (
++        ("approved prospective R0039 cap", (
+             MAX_ASSET_BYTES - CALIBRATION_QUANTUM_BYTES,
+             asset_bytes, asset_bytes, "owner")),
+     ):
+@@ -1270,19 +1281,19 @@ with zipfile.ZipFile(asset) as zf:
+             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, authority)
+ 
+     def enforce_asset_budget(candidate_bytes):
+-        if candidate_bytes <= MAX_ASSET_BYTES:
++        if candidate_bytes <= MAX_ACCEPTED_BYTES:
+             return
+         raise SystemExit(
+-            f"asset size {candidate_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "
+-            "threshold. Verify ZIP_DEFLATED compression is applied (the check above), "
+-            "then update MAX_ASSET_BYTES in tests/release-asset.test.sh if the payload "
+-            "growth is intentional."
++            f"asset size {candidate_bytes:,} bytes exceeds the {MAX_ACCEPTED_BYTES:,}-byte "
++            f"accepting maximum: the {MAX_ASSET_BYTES:,}-byte owner-approved cap "
++            f"requires {MIN_HEADROOM_BYTES:,} bytes of reserve. Any budget amendment "
++            "requires a new prospective owner decision."
+         )
+ 
+     # Historical probes, the N05 calibration main asset, the measured final N05
+-    # stack, and the ceiling itself must be admitted. The first byte above the
+-    # calibrated ceiling must remain rejected. The actual artifact must satisfy
+-    # both the durable policy and the unchanged hard-ceiling enforcement.
++    # stack, and the accepting maximum must be admitted. The next byte, the cap
++    # with no reserve, and the first byte above the cap must remain rejected.
++    # The actual artifact must satisfy both the approved policy and reserve.
+     enforce_asset_budget(FULL_W1_FORECAST_BYTES)
+     enforce_asset_budget(N02_EVIDENCE_CENSUS_FORECAST_BYTES)
+     enforce_asset_budget(ISSUE_75_77_84_TRAIN_FORECAST_BYTES)
+@@ -1290,13 +1301,14 @@ with zipfile.ZipFile(asset) as zf:
+     enforce_asset_budget(N05_CALIBRATION_MAIN_ASSET_BYTES)
+     enforce_asset_budget(N05_FINAL_MEASURED_FORECAST_BYTES)
+     enforce_asset_budget(N06_FINAL_P7_ASSET_BYTES)
+-    enforce_asset_budget(MAX_ASSET_BYTES)
+-    try:
+-        enforce_asset_budget(FIRST_REJECTED_BYTES)
+-    except SystemExit:
+-        pass
+-    else:
+-        raise SystemExit("asset above MAX_ASSET_BYTES was accepted")
++    enforce_asset_budget(MAX_ACCEPTED_BYTES)
++    for rejected_bytes in (FIRST_REJECTED_BYTES, MAX_ASSET_BYTES, MAX_ASSET_BYTES + 1):
++        try:
++            enforce_asset_budget(rejected_bytes)
++        except SystemExit:
++            pass
++        else:
++            raise SystemExit(f"asset above MAX_ACCEPTED_BYTES was accepted: {rejected_bytes}")
+ 
+     enforce_calibrated_asset_policy(
+         MAX_ASSET_BYTES, CURRENT_CALIBRATION_ASSET_BYTES, asset_bytes,
