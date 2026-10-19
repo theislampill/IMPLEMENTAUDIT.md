@@ -1,0 +1,537 @@
+{
+  "artifact_texts": {
+    "evidence": "bad\nok!\nOriginal owner-bounded evidence remains exact.\n",
+    "work_graph": "{\"schema_version\":\"implementaudit.work-graph-fixture.v2\",\"frontier\":{\"DONE\":[\"phase-0\"],\"ACTIVE\":[\"phase-1\"],\"READY\":[\"phase-2\"],\"BLOCKED\":[\"phase-3\"]}}\n"
+  },
+  "bodies": {
+    "ROADMAP": {
+      "archive_pointers": [],
+      "artifact_refs": [
+        {
+          "artifact_id": "work_graph",
+          "locator": "WORK_GRAPH.json",
+          "object_format": "sha1",
+          "owner": "WORK_GRAPH.json",
+          "role": "WORK_GRAPH"
+        }
+      ],
+      "continuity": {
+        "boundary": "handoff-resume",
+        "continuity_epoch": "G0001",
+        "expected_receipt_ref": "refs/implementaudit/continuity-receipts/r0039-fixture/G0001",
+        "expected_receipt_schema": "implementaudit.continuity-receipt.v2",
+        "invalidation_oid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "predecessor_receipt_ref_oid": null,
+        "projection_generation_id": "G0001",
+        "reconciled": true
+      },
+      "history": [
+        {
+          "owner": "ROADMAP.md",
+          "payload": {
+            "current_applicability": "INVALIDATED_CURRENT_USE",
+            "evidence_refs": [
+              "evidence"
+            ],
+            "historical_refusal": "TC11 original scope remains; current use refused",
+            "original_scope": "Original admission prefix before later invalidation",
+            "text": "Exact historical narrative. Current-use refusal never erases original scope."
+          },
+          "record_id": "TC06-retained-history",
+          "record_kind": "phase.completed",
+          "status": "PRESERVED"
+        }
+      ],
+      "pair_id": "R0039-qualified-pair",
+      "payload": {
+        "compensations": {
+          "owner": "ROADMAP.md",
+          "value": [
+            {
+              "description": "Owner reconciliation remains pending",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "for_record": "oneshot-1",
+              "record_id": "compensation-1",
+              "status": "PENDING"
+            }
+          ]
+        },
+        "deferrals": {
+          "owner": "ROADMAP.md",
+          "value": [
+            {
+              "description": "Retain revisit condition",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "record_id": "deferral-1",
+              "revisit_trigger": "Exact native evidence arrives",
+              "scope": "R0039/#215 qualification fixture",
+              "status": "DEFERRED"
+            }
+          ]
+        },
+        "dependencies": {
+          "owner": "ROADMAP.md",
+          "value": [
+            {
+              "evidence_refs": [
+                "work_graph"
+              ],
+              "record_id": "dependency-1",
+              "source": "phase-2",
+              "status": "OPEN",
+              "target": "phase-1"
+            }
+          ]
+        },
+        "frontier": {
+          "owner": "WORK_GRAPH.json",
+          "value": {
+            "ACTIVE": [
+              "phase-1"
+            ],
+            "BLOCKED": [
+              "phase-3"
+            ],
+            "DONE": [
+              "phase-0"
+            ],
+            "READY": [
+              "phase-2"
+            ]
+          }
+        },
+        "obligations": {
+          "owner": "ROADMAP.md",
+          "value": [
+            {
+              "description": "Retain unresolved continuation obligation",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "record_id": "obligation-1",
+              "scope": "R0039/#215 qualification fixture",
+              "status": "BLOCKED"
+            }
+          ]
+        },
+        "planning": {
+          "owner": "ROADMAP.md",
+          "value": {
+            "action_selection": {
+              "omitted": [
+                "Public lifecycle operations"
+              ],
+              "rationale": "Only the bounded source change is authorized",
+              "selected": [
+                "Pure deterministic projection"
+              ]
+            },
+            "baseline_ref": "fixture-baseline",
+            "goal": "Preserve complete canonical protected state",
+            "scope_boundaries": [
+              "No native currentness authority",
+              "Unsupported legacy bytes fail closed"
+            ]
+          }
+        }
+      },
+      "role": "ROADMAP",
+      "schema_version": "implementaudit.canonical-pair.v2",
+      "transition": null
+    },
+    "STATE": {
+      "archive_pointers": [],
+      "artifact_refs": [
+        {
+          "artifact_id": "receipt",
+          "locator": "refs/implementaudit/continuity-receipts/r0039-fixture/G0001",
+          "object_format": "sha1",
+          "owner": "claim-run.sh",
+          "role": "CONTINUITY_RECEIPT"
+        },
+        {
+          "artifact_id": "evidence",
+          "locator": "fixtures/boundary-evidence.txt",
+          "object_format": "sha1",
+          "owner": "R0033/continuity",
+          "role": "EVIDENCE"
+        }
+      ],
+      "continuity": {
+        "boundary": "handoff-resume",
+        "continuity_epoch": "G0001",
+        "expected_receipt_ref": "refs/implementaudit/continuity-receipts/r0039-fixture/G0001",
+        "expected_receipt_schema": "implementaudit.continuity-receipt.v2",
+        "invalidation_oid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "predecessor_receipt_ref_oid": null,
+        "projection_generation_id": "G0001",
+        "reconciled": true
+      },
+      "history": [
+        {
+          "owner": "STATE.md",
+          "payload": {
+            "current_applicability": "INVALIDATED_CURRENT_USE",
+            "evidence_refs": [
+              "evidence"
+            ],
+            "historical_refusal": "TC11 original scope remains; current use refused",
+            "original_scope": "Original admission prefix before later invalidation",
+            "text": "Exact historical narrative. Current-use refusal never erases original scope."
+          },
+          "record_id": "TC11-admission-history",
+          "record_kind": "instruction.satisfied",
+          "status": "PRESERVED"
+        }
+      ],
+      "pair_id": "R0039-qualified-pair",
+      "payload": {
+        "andons": {
+          "owner": "STATE.md",
+          "value": [
+            {
+              "description": "Unresolved cause remains explicit",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "record_id": "andon-1",
+              "scope": "R0039/#215 qualification fixture",
+              "status": "OPEN"
+            }
+          ]
+        },
+        "authorisations": {
+          "owner": "STATE.md",
+          "value": [
+            {
+              "applicability": "APPLIES",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "expires_at": null,
+              "issued_epoch": "G0001",
+              "issuer": "user",
+              "record_id": "authorisation-1",
+              "scope": "R0039/#215",
+              "status": "ACTIVE",
+              "subject": "Preserve exact audit instructions",
+              "supersedes": []
+            }
+          ]
+        },
+        "continuation": {
+          "owner": "STATE.md",
+          "value": {
+            "last_check": "Recorded fixture baseline",
+            "next_action": "Verify the exact candidate after archive custody",
+            "phase": "F2",
+            "route": "ordinary",
+            "status": "BLOCKED"
+          }
+        },
+        "evidence_ceilings": {
+          "owner": "STATE.md",
+          "value": [
+            {
+              "description": "Fixture schema qualification only",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "record_id": "ceiling-1",
+              "scope": "R0039/#215 qualification fixture",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "identity": {
+          "owner": "claim-run.sh",
+          "value": {
+            "audit_object": "R0039/#215 schema qualification",
+            "candidate": "cccccccccccccccccccccccccccccccccccccccc",
+            "claim_id": "claim-r0039",
+            "controller_id": "r0039-fixture",
+            "package": "fixture-package",
+            "pull_request": null,
+            "release": null,
+            "run_root_identity": ".IMPLEMENTAUDIT/runs/r0039-fixture",
+            "tree": "dddddddddddddddddddddddddddddddddddddddd"
+          }
+        },
+        "instructions": {
+          "owner": "STATE.md",
+          "value": [
+            {
+              "applicability": "APPLIES",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "expires_at": null,
+              "issued_epoch": "G0001",
+              "issuer": "user",
+              "record_id": "instruction-1",
+              "scope": "R0039/#215",
+              "status": "ACTIVE",
+              "subject": "Preserve exact audit instructions",
+              "supersedes": []
+            },
+            {
+              "applicability": "APPLIES",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "expires_at": null,
+              "issued_epoch": "G0001",
+              "issuer": "user",
+              "record_id": "instruction-expired",
+              "scope": "R0039/#215",
+              "status": "EXPIRED",
+              "subject": "Preserve exact audit instructions",
+              "supersedes": []
+            }
+          ]
+        },
+        "non_verdicts": {
+          "owner": "STATE.md",
+          "value": [
+            {
+              "description": "Custody is not correctness proof",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "record_id": "non-verdict-1",
+              "scope": "R0039/#215 qualification fixture",
+              "status": "PRESERVED"
+            }
+          ]
+        },
+        "original_reds": {
+          "owner": "STATE.md",
+          "value": [
+            {
+              "description": "Original root-only RED remains RED evidence",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "record_id": "red-1",
+              "scope": "R0039/#215 qualification fixture",
+              "status": "PRESERVED"
+            }
+          ]
+        },
+        "pending_boundaries": {
+          "owner": "R0033/continuity",
+          "value": [
+            {
+              "audit_state_required": true,
+              "boundary_id": "boundary-1",
+              "boundary_kind": "host-reported-compaction",
+              "completed": true,
+              "consumption": {
+                "covered_boundary_ids": [],
+                "state": "PENDING",
+                "witness": null
+              },
+              "currentness": {
+                "epoch": null,
+                "state": "UNRESOLVED"
+              },
+              "historical_refusal": {
+                "evidence_ref": "evidence",
+                "original_prefix_cutoff": 4,
+                "state": "ORIGINAL_PREFIX_REQUIRED"
+              },
+              "observation": {
+                "boundary_ids": [
+                  "boundary-1",
+                  "boundary-2"
+                ],
+                "cutoff": 4,
+                "scope": "H0 bounded observation"
+              },
+              "original_evidence_locator": "fixtures/boundary-evidence.txt",
+              "original_evidence_ref": "evidence",
+              "owner": "R0033/continuity",
+              "physical_source": {
+                "byte_length": 3,
+                "file_identity": "fixtures/boundary-evidence.txt",
+                "offset": 0,
+                "ordinal": 1,
+                "sha256": "2f05d4b689d270cafb02285f35f44866f7dc8a2d368a3f9d1124373eeab31fb1",
+                "source_binding": "bf83ceac1b4e331a301d517922ce24180ed1bd0e63747007d6934916f11587a3"
+              },
+              "prior_occurrence_ids": [],
+              "reservation": {
+                "owner_ref": "R0033/reservation/boundary-1",
+                "state": "RESERVED"
+              },
+              "result": {
+                "original_response_sha256": null,
+                "returned_response_sha256": null,
+                "state": "FAILED"
+              },
+              "retry": {
+                "original_occurrence_id": null,
+                "state": "NONE",
+                "supported_evidence_ref": null
+              },
+              "selected_occurrence_id": "boundary-1",
+              "uncovered_successors": [
+                "boundary-2"
+              ]
+            },
+            {
+              "audit_state_required": true,
+              "boundary_id": "boundary-2",
+              "boundary_kind": "host-reported-compaction",
+              "completed": true,
+              "consumption": {
+                "covered_boundary_ids": [],
+                "state": "PENDING",
+                "witness": null
+              },
+              "currentness": {
+                "epoch": null,
+                "state": "UNRESOLVED"
+              },
+              "historical_refusal": {
+                "evidence_ref": "evidence",
+                "original_prefix_cutoff": 4,
+                "state": "ORIGINAL_PREFIX_REQUIRED"
+              },
+              "observation": {
+                "boundary_ids": [
+                  "boundary-1",
+                  "boundary-2"
+                ],
+                "cutoff": 4,
+                "scope": "H0 bounded observation"
+              },
+              "original_evidence_locator": "fixtures/boundary-evidence.txt",
+              "original_evidence_ref": "evidence",
+              "owner": "R0033/continuity",
+              "physical_source": {
+                "byte_length": 3,
+                "file_identity": "fixtures/boundary-evidence.txt",
+                "offset": 4,
+                "ordinal": 2,
+                "sha256": "56c82365edb1088db0c0c18905e3b5f9392582a05bb8372be1b7a78926ad4a1f",
+                "source_binding": "bf83ceac1b4e331a301d517922ce24180ed1bd0e63747007d6934916f11587a3"
+              },
+              "prior_occurrence_ids": [
+                "boundary-1"
+              ],
+              "reservation": {
+                "owner_ref": "R0033/reservation/boundary-2",
+                "state": "RESERVED"
+              },
+              "result": {
+                "original_response_sha256": null,
+                "returned_response_sha256": null,
+                "state": "FAILED"
+              },
+              "retry": {
+                "original_occurrence_id": null,
+                "state": "NONE",
+                "supported_evidence_ref": null
+              },
+              "selected_occurrence_id": "boundary-2",
+              "uncovered_successors": []
+            }
+          ]
+        },
+        "rollback": {
+          "owner": "STATE.md",
+          "value": {
+            "conditions": [
+              "Reconcile native currentness before rollback"
+            ],
+            "evidence_refs": [
+              "evidence"
+            ],
+            "status": "AVAILABLE",
+            "target": "G0000"
+          }
+        },
+        "runtime_artifacts": {
+          "owner": "STATE.md",
+          "value": [
+            "receipt",
+            "work_graph",
+            "evidence"
+          ]
+        },
+        "steers": {
+          "owner": "STATE.md",
+          "value": [
+            {
+              "description": "Preserve the user's exact instruction",
+              "evidence_refs": [
+                "evidence"
+              ],
+              "record_id": "steer-1",
+              "scope": "R0039/#215 qualification fixture",
+              "status": "ACTIVE"
+            }
+          ]
+        },
+        "terminal": {
+          "owner": "STATE.md",
+          "value": {
+            "external_effects": [
+              {
+                "evidence_refs": [
+                  "evidence"
+                ],
+                "kind": "EXTERNAL_EFFECT",
+                "record_id": "effect-1",
+                "scope": "No public mutation",
+                "status": "NOT_GRANTED"
+              }
+            ],
+            "handoffs": [
+              {
+                "evidence_refs": [
+                  "evidence"
+                ],
+                "kind": "HANDOFF",
+                "record_id": "handoff-1",
+                "scope": "bounded handoff",
+                "status": "PENDING"
+              }
+            ],
+            "markers": [
+              {
+                "evidence_refs": [
+                  "evidence"
+                ],
+                "kind": "MARKER",
+                "record_id": "marker-1",
+                "scope": "original terminal history remains visible",
+                "status": "ISSUED"
+              }
+            ],
+            "one_shots": [
+              {
+                "evidence_refs": [
+                  "evidence"
+                ],
+                "kind": "ONE_SHOT",
+                "record_id": "oneshot-1",
+                "scope": "exact local fixture",
+                "status": "CONSUMED"
+              }
+            ]
+          }
+        }
+      },
+      "role": "STATE",
+      "schema_version": "implementaudit.canonical-pair.v2",
+      "transition": null
+    }
+  },
+  "qualification": "NEW_SCHEMA_FIXTURE_ONLY; not recovered native source, currentness, release, or approval proof"
+}
