@@ -147,7 +147,7 @@ tests requiring the frozen packet. Supply the exact retained packet explicitly
 for all thirteen controls:
 
 ```bash
-R0043_PACKET=/path/to/EVOLVED_AMA_FROZEN_PACKET.zip bash tests/r0043-reconstruction.test.sh
+R0043_PACKET=/path/to/EVOLVED_AMA_FROZEN_PACKET.zip bash tests/r0043-reconstruction.test.sh # published, canonically unallocated
 ```
 
 Without that input three packet-dependent tests report skips. The immutable
