@@ -1,0 +1,481 @@
+{
+  "format": "r0043-public-continuation-v1",
+  "allocation": "Published R0043; canonically unallocated. This projection allocates no new identity, cell or authority.",
+  "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+  "packet_sha256": "1c9654ab3017ecccdd3b24810b20ac23a5b51a5c19c1a488b64a2684dade026f",
+  "scope": "ORIGINALS_AND_OLDER_PUBLIC_TARGET_WITH_SEPARATE_ACCEPTED_CONSTITUENTS; later EAOSE/AMA preparation unavailable",
+  "population": {
+    "originals": 278,
+    "eaose": 132,
+    "eaa": 70,
+    "emas": 76,
+    "groups": 32,
+    "memberships": 1245,
+    "overlapping_originals": 266,
+    "additional_memberships": 967
+  },
+  "source_status_counts": {
+    "STRONGLY_RETAINED": 18,
+    "RETAINED_IN_EVOLVED_FORM": 35,
+    "USEFUL_BUT_EASILY_GAMED": 2,
+    "CONTEXT_DEPENDENT": 26,
+    "REJECTED_OR_DISFAVOURED": 20,
+    "ASSUMPTION_SENSITIVE": 17,
+    "DOMAIN_SPECIFIC": 2,
+    "CONTESTED": 2,
+    "SUPERSEDED_BY_STRONGER_FORM": 2,
+    "CEREMONY_NOT_GENERAL_PROPERTY": 4,
+    "USEFUL_BUT_EASILY_BUREAUCRATISED": 1,
+    "UNRESOLVED": 2,
+    "NO_GENERAL_PROPERTY": 1
+  },
+  "reported_later_eaose_counts_only": {
+    "PARTIALLY_ABSORBED": 34,
+    "CONDITIONAL": 66,
+    "REJECTED_WITH_REASON": 25,
+    "DEFERRED": 3,
+    "RESEARCH_ONLY": 4
+  },
+  "acceptance": {
+    "eaose_132": "NOT_ACCEPTED",
+    "ama_278_32": "NOT_ACCEPTED",
+    "native_receiving": "NOT_ESTABLISHED",
+    "predecessor_retirement": "NOT_AUTHORISED"
+  },
+  "relations": {
+    "directions": 20152,
+    "pairs": 24592,
+    "material_pairs": 9178,
+    "no_material_pairs": 15414,
+    "hand_bridges": 105
+  },
+  "relation_scope": "Original typed directions and independently recorded reverses, explicit negative pairs and guarded bridges; no execution edges or invented target relation dispositions.",
+  "context_populations": {
+    "bundles": 16,
+    "tensions": 24,
+    "configurations": 15,
+    "profiles": 54,
+    "rejected_novelty_candidates": 20,
+    "new_properties": 0
+  },
+  "full_context_members": [
+    {
+      "bytes": 67717,
+      "member": "EVOLVED_AMA_ALTERNATIVE_CONFIGURATIONS.json",
+      "sha256": "8661e6c50fb1a4e11ab426d51b644769f2cd42839bdabb10cffbd4a3a47d53f7"
+    },
+    {
+      "bytes": 132142,
+      "member": "EVOLVED_AMA_ANALYTICAL_COUNTEREXAMPLES.json",
+      "sha256": "40100a0af5e26fd87ebe23f2013da3fa0f97e8f663ae7edb0722fd35db884385"
+    },
+    {
+      "bytes": 3339,
+      "member": "EVOLVED_AMA_ANALYTICAL_TEST_RESULTS.json",
+      "sha256": "f38a3a0a56e8e062dc403ec38756153f2888d6ba2f890effa46d5aced3913ded"
+    },
+    {
+      "bytes": 128370,
+      "member": "EVOLVED_AMA_CLAIM_EVIDENCE_LEDGER.json",
+      "sha256": "508297cb6f064bf17b5617b4ac1696715601e79f86ec821b52464f05d22749a6"
+    },
+    {
+      "bytes": 9549,
+      "member": "EVOLVED_AMA_COMPLETENESS_AND_REVERSE_CONSISTENCY_REVIEW.md",
+      "sha256": "0d81a0817d153d5af38ae7e1cb6d4867233e7cfb8459417a307b68d1a5f94cbf"
+    },
+    {
+      "bytes": 338829,
+      "member": "EVOLVED_AMA_COMPOSITION_INDUCED_PROPERTY_LEDGER.json",
+      "sha256": "cf08e52c45384794aa5d181dfd043863fbe7faf59367c56187dc56e1a1317f79"
+    },
+    {
+      "bytes": 91522,
+      "member": "EVOLVED_AMA_COMPOSITION_MODEL.json",
+      "sha256": "3b3f895704af5f8d1b7125211f5258101f06495a04eee771a682c9cdcf21ddb3"
+    },
+    {
+      "bytes": 63026,
+      "member": "EVOLVED_AMA_COMPOSITION_QUESTION_ADJUDICATION.json",
+      "sha256": "22d0a9377e7b7a1418be4df76c6df01bc165c0aed2fb2fdf82a501e011c11df4"
+    },
+    {
+      "bytes": 2954408,
+      "member": "EVOLVED_AMA_CONSTITUENT_CONTEXT_INDEX.json",
+      "sha256": "0360b8b0f7fe6dd6f395813a7a193d3f676f1cf8852d9f9cb6a09ea0722e4269"
+    },
+    {
+      "bytes": 17870487,
+      "member": "EVOLVED_AMA_CONSTITUENT_PROPERTY_REGISTER.json",
+      "sha256": "f192b636e93bde19b4b27f88c3e71ac725caa121925c38b16681edd2a1a2ae82"
+    },
+    {
+      "bytes": 1566372,
+      "member": "EVOLVED_AMA_CONVERGENCE_AND_COMPOSITION_CLUSTERS.json",
+      "sha256": "9492314581675238e874c77d0bf1fc7ac0e6952bcf81a6dfbaf9dd57464255b3"
+    },
+    {
+      "bytes": 4026,
+      "member": "EVOLVED_AMA_COUNTS.json",
+      "sha256": "04c0511931602a8e35faafafd0c238a42f66301dea308b8286e0ccf1289c9d6e"
+    },
+    {
+      "bytes": 104012636,
+      "member": "EVOLVED_AMA_DIRECTIONAL_RELATION_LEDGER.json",
+      "sha256": "dced059f2eff583aee3e548bdce2c427e7bb35e3f516fd50d3d95b34d431d03e"
+    },
+    {
+      "bytes": 13258,
+      "member": "EVOLVED_AMA_FROZEN_MANIFEST.json",
+      "sha256": "3266c5c1f9087eea260bb5df69f029694d1428fca159fb9b82a1b54a3a9c29ca"
+    },
+    {
+      "bytes": 65879,
+      "member": "EVOLVED_AMA_FROZEN_REPORT.md",
+      "sha256": "e0a32f00a95d58c445d8c1c8e3c593a2343da32e5fc17c5102e408107d2117ed"
+    },
+    {
+      "bytes": 13894,
+      "member": "EVOLVED_AMA_INPUT_VERIFICATION.json",
+      "sha256": "011ec22c84545e8fe0cdbdbeabdc94f48c5c1bcfe469d26ae42f46cf8f7f1b58"
+    },
+    {
+      "bytes": 3646338,
+      "member": "EVOLVED_AMA_INTER_CROSSWALK_INTAKE.json",
+      "sha256": "d50163d0f1dc30fa8866f45ead11bd1d2f0594142674273580c2136f85b25123"
+    },
+    {
+      "bytes": 33683,
+      "member": "EVOLVED_AMA_INTER_CROSSWALK_INTAKE.md",
+      "sha256": "d2c9f466f85087c3cb10d4f7ef2c9009689e0c716dc9116d29823dbf06b0a8ea"
+    },
+    {
+      "bytes": 15241160,
+      "member": "EVOLVED_AMA_INTRA_CROSSWALK_MATRIX.json",
+      "sha256": "a554a60411861527fa3f7f806a16f51e62848f95e5257349749ae8f5132622c4"
+    },
+    {
+      "bytes": 4005,
+      "member": "EVOLVED_AMA_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "b22bc51672a1b7bf372436b3803690e679864fc84b699d85bb35314832a897df"
+    },
+    {
+      "bytes": 26787,
+      "member": "EVOLVED_AMA_READONLY_REVIEW_RESULT.json",
+      "sha256": "f023f7affe097cce670e9c062ba6d031ecd347b1149b68282bfece2f583530fa"
+    },
+    {
+      "bytes": 15961,
+      "member": "EVOLVED_AMA_REQUIREMENTS_COMPLETION_AUDIT.json",
+      "sha256": "e24f6bd5526653854cc8cc18436a63a2c0f6a0f263550463601223276118f0e4"
+    },
+    {
+      "bytes": 1912977,
+      "member": "EVOLVED_AMA_SEMANTIC_PROFILES_AND_RULES.json",
+      "sha256": "973f5d8a2013410dbfcfd903eb3955972c11f9f5fe347cf24ddebece282a6803"
+    },
+    {
+      "bytes": 203371,
+      "member": "EVOLVED_AMA_SHARED_SOURCE_IDENTITY_LEDGER.json",
+      "sha256": "aa818ed256753ebb2bd36cdbc0bc0325f0bc54502a122aa7e024ade352216122"
+    },
+    {
+      "bytes": 1384349,
+      "member": "EVOLVED_AMA_SOURCE_REGISTER.json",
+      "sha256": "e29939c382b26790701d3a691e1c0a12ad2ed0aa4b9f45553b29cc3882f18346"
+    },
+    {
+      "bytes": 49394,
+      "member": "EVOLVED_AMA_SYNTHESIS_PROMPT.md",
+      "sha256": "43c902a9df357da81716d7d62a0a86053d433962452dafe89d7a22796df222a4"
+    },
+    {
+      "bytes": 82434,
+      "member": "EVOLVED_AMA_TENSION_LEDGER.json",
+      "sha256": "df966e9b4e0db017b0ac758a07d1fce7d1c4c7a3ef774fca1ec57e4cea7f1a88"
+    },
+    {
+      "bytes": 8252,
+      "member": "EVOLVED_AMA_VERIFICATION_RECEIPT.json",
+      "sha256": "26c998f7906e3a55a93b4f34566bf7d751b289e387c45f2f611307ba0bc270f6"
+    },
+    {
+      "bytes": 2512,
+      "member": "EVOLVED_AMA_VERIFIER_NEGATIVE_CONTROLS.json",
+      "sha256": "d28edc7ab678a2ed6a7f18ea99f1dee58d835d0907d7834e846c0fd6f8f7d5c9"
+    },
+    {
+      "bytes": 1825,
+      "member": "START_HERE.md",
+      "sha256": "5007505c4b5fb83d38b7e04423dbc4d7db403fb6d8706c75daf78addb9034f46"
+    },
+    {
+      "bytes": 412040,
+      "member": "constituents/EAA.zip",
+      "sha256": "009b37693541d387a2d65c281815731a05423b31fae298a9c6c99ad069e87769"
+    },
+    {
+      "bytes": 3728163,
+      "member": "constituents/EAOSE.zip",
+      "sha256": "17cf10e5bedfe8a52d0a85c81c318294a0d80e5ca8ad8f868e12b7a116b34b9a"
+    },
+    {
+      "bytes": 370502,
+      "member": "constituents/EMAS.zip",
+      "sha256": "84af391ed2c82514f0e22ff671a0945945dec608ffccfde485e2302374bab227"
+    },
+    {
+      "bytes": 38548,
+      "member": "verify_ama.py",
+      "sha256": "ab967a2378feaab7fd1f63db4ddad71ad414415906e92144ee7940b11064e7b2"
+    }
+  ],
+  "tc_findings": [
+    {
+      "id": "TC01",
+      "parents": [
+        "ESME:ESME-C104",
+        "ESPLE:ESPLE-027",
+        "EWM:EWM-005",
+        "EAOSE:EAOSE-C086"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC01\",\"athruk\":[\"A\",\"B\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Use the already adequate atomic composition contract for a single simple operation.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0035\",\"R002D\"],\"frozen_frontier_cells\":[\"G-DISPATCH\",\"CAM-Q1\"],\"id\":\"TC01\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"The existing reachable-joint-state and compositional-premise criteria already reject the unsupported global inference. The higher-order witness is new to this target crosswalk; a new state tuple does not establish a new normative property.\",\"parents\":[\"ESME:ESME-C104\",\"ESPLE:ESPLE-027\",\"EWM:EWM-005\",\"EAOSE:EAOSE-C086\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Joint configuration, workflow definition and actor interaction assumptions; retain unaffected component observations.\",\"target_requirement\":\"A meaningful JOIN must inspect the supported joint configuration and interaction obligations, not count component passes.\",\"title\":\"Joint feasibility across product, workflow and actor constraints\",\"witness\":\"Three Boolean pairwise inequality constraints each have solutions in pairs, but their three-way conjunction has none.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC02",
+      "parents": [
+        "ESME:ESME-C102",
+        "ESPLE:ESPLE-021",
+        "EPM:EPM-084",
+        "EAOSE:EAOSE-C006"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC02\",\"athruk\":[\"D\",\"E\",\"H\",\"I\",\"K\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"One existing atomic request/effect contract may bind all necessary dimensions without extra machinery.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R003A\",\"R0039\",\"R0030\"],\"frozen_frontier_cells\":[\"EH-3\",\"GHK-AUTH/RECOVERY\",\"R39-F9\"],\"id\":\"TC02\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"Cross-stage coherence and validity-preserving handoff already require compatible meanings and authority. Adding the concrete tuple is target instantiation, not proof that a digest establishes authorization.\",\"parents\":[\"ESME:ESME-C102\",\"ESPLE:ESPLE-021\",\"EPM:EPM-084\",\"EAOSE:EAOSE-C006\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Only claims/actions depending on changed semantic or grant dimensions; preserve historical evidence at its original decision.\",\"target_requirement\":\"Bind only decision-relevant product/configuration, definition/instance, observation and principal/grant dimensions; reject an unsupported join of separately valid records.\",\"title\":\"Common decision identity across derivation, work instance and grant\",\"witness\":\"Equal artifact bytes coexist with changed workflow semantics and action grant.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC03",
+      "parents": [
+        "ESA:ESA-011",
+        "EWM:EWM-022",
+        "EAOSE:EAOSE-C042",
+        "EAOSE:EAOSE-C100"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC03\",\"athruk\":[\"C\",\"G\",\"K\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Keep unrelated effect identities concurrent when current authority/resource constraints permit.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0030\",\"R0035\",\"R003A\"],\"frozen_frontier_cells\":[\"EH-3\",\"G-DISPATCH\"],\"id\":\"TC03\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"The inherited message/effect correlation and demonstrated-containment criteria already distinguish route identity from an external effect.\",\"parents\":[\"ESA:ESA-011\",\"EWM:EWM-022\",\"EAOSE:EAOSE-C042\",\"EAOSE:EAOSE-C100\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Shared effect identities and affected recipients; independent read-only research remains available.\",\"target_requirement\":\"Conflict and retry admission must account for logical delivery and pending/unknown effects across transactions, not only path or route uniqueness.\",\"title\":\"Transaction independence does not establish delivery independence\",\"witness\":\"Two distinct route IDs address the same order and send operation.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC04",
+      "parents": [
+        "ESA:ESA-003",
+        "EPM:EPM-054",
+        "EPM:EPM-084",
+        "EWM:EWM-077",
+        "EAA:EAA-005"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC04\",\"athruk\":[\"F\",\"J\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Do not introduce a mining engine or universal event ontology when a small typed record suffices.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0038\",\"R0039\"],\"frozen_frontier_cells\":[\"R38-C11\",\"R38-C12\",\"R38-C13\",\"R38-C14\",\"CAM-I1\"],\"id\":\"TC04\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"The analytical handoff and explicit acceptance-transition criteria already forbid semantic promotion. The example supplies a concrete projection failure, not new authority.\",\"parents\":[\"ESA:ESA-003\",\"EPM:EPM-054\",\"EPM:EPM-084\",\"EWM:EWM-077\",\"EAA:EAA-005\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Affected event/projection interpretations and downstream decisions; raw event history remains evidence.\",\"target_requirement\":\"Preserve definition/version, observed event meaning, uncertain mappings and the receiving acceptance predicate in projections and successor capsules.\",\"title\":\"Observation meaning cannot silently become acceptance\",\"witness\":\"The same done token denotes performed under one definition and accepted under another.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC05",
+      "parents": [
+        "ESME:ESME-C049",
+        "EWM:EWM-036",
+        "EWM:EWM-037",
+        "EAOSE:EAOSE-C039"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC05\",\"athruk\":[\"K\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"A reversible local-only operation may use a direct preimage restore.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0030\",\"R002C\"],\"frozen_frontier_cells\":[\"EH-3\",\"EH-1\",\"EH-2\",\"GHK-AUTH/RECOVERY\"],\"id\":\"TC05\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"Returnability and compensation criteria already preserve unremedied external consequences. A constructed rollback example is not a product recovery test.\",\"parents\":[\"ESME:ESME-C049\",\"EWM:EWM-036\",\"EWM:EWM-037\",\"EAOSE:EAOSE-C039\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Changed targets, externally affected recipients and claimed recovery guarantees.\",\"target_requirement\":\"Specify rollback, compensation, forward repair and accepted residual loss separately; reconcile exact external effects before retry or closure.\",\"title\":\"Recovery across software state, workflow remedy and recipient effect\",\"witness\":\"Local rollback restores a value while an already received notification persists.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC06",
+      "parents": [
+        "ESME:ESME-C058",
+        "ESPLE:ESPLE-061",
+        "EWM:EWM-014",
+        "EWM:EWM-075",
+        "EAOSE:EAOSE-C068"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC06\",\"athruk\":[\"D\",\"K\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Preserve an adequate old version or reclassify the control when replacement adds no value.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0035\",\"R0037\",\"R0039\"],\"frozen_frontier_cells\":[\"EH-2\",\"CAM-T1\"],\"id\":\"TC06\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"Support-aware retirement, descendant disposition and live-obligation preservation already cover the combined consumer.\",\"parents\":[\"ESME:ESME-C058\",\"ESPLE:ESPLE-061\",\"EWM:EWM-014\",\"EWM:EWM-075\",\"EAOSE:EAOSE-C068\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Retired component consumers, pending descendants, historical version support and recovery dependencies.\",\"target_requirement\":\"Retire a helper, worker, workflow version or control only when remaining supported consumers and obligations are discharged or explicitly transferred.\",\"title\":\"Retirement requires supported-product and in-flight-work accounting\",\"witness\":\"No new admissions remain, but an old deployed consumer still relies on the mechanism.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC07",
+      "parents": [
+        "ESA:ESA-068",
+        "ESME:ESME-C104",
+        "EWM:EWM-011",
+        "EAOSE:EAOSE-C086",
+        "EAOSE:EAOSE-C130"
+      ],
+      "classification": "UNRESOLVED_DISCRIMINATOR",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC07\",\"athruk\":[\"B\",\"G\",\"J\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"An acyclic bounded case with a proved predecessor can use ordinary dependency scheduling.\",\"classification\":\"UNRESOLVED_DISCRIMINATOR\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0035\",\"R0037\"],\"frozen_frontier_cells\":[\"F-TRIGGER\",\"G-DISPATCH\",\"GHK-AUTH/RECOVERY\"],\"id\":\"TC07\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"No common refinement/fairness/environment model establishes a global liveness theorem. The joint-obligation criterion remains applicable; a stronger universal progress claim is unresolved.\",\"parents\":[\"ESA:ESA-068\",\"ESME:ESME-C104\",\"EWM:EWM-011\",\"EAOSE:EAOSE-C086\",\"EAOSE:EAOSE-C130\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Only progress claims and decisions depending on the circular assumption; local tests keep their original limited scope.\",\"target_requirement\":\"Separate reachable exit, soundness, deadlock freedom and inevitable completion; document real dependencies, resource assumptions and a progress/recovery path at the selected JOIN.\",\"title\":\"Local progress assumptions can form a global wait cycle\",\"witness\":\"Each local machine can finish if its peer has progressed; together neither first action is enabled.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC08",
+      "parents": [
+        "ESA:ESA-010",
+        "ESME:ESME-C024",
+        "EPM:EPM-084",
+        "EAOSE:EAOSE-C130"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC08\",\"athruk\":[\"A\",\"G\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Proceed with disjoint safe work while buffering acceptance that genuinely depends on another result.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0035\"],\"frozen_frontier_cells\":[\"G-DISPATCH\",\"B-P1\"],\"id\":\"TC08\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"Dependency typing and validity-preserving interpretation already prohibit converting correlation into execution authority.\",\"parents\":[\"ESA:ESA-010\",\"ESME:ESME-C024\",\"EPM:EPM-084\",\"EAOSE:EAOSE-C130\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Only scheduling edges justified by changed dependency evidence; no global serialization from shared eventual product.\",\"target_requirement\":\"Keep informational, diagnostic, execution and acceptance relations typed, including relations imported from research or logs.\",\"title\":\"Mined relation and execution prerequisite remain different\",\"witness\":\"Identical historical co-change sets coexist with no live prerequisite; an actual dependency changes the ready set.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC09",
+      "parents": [
+        "ESME:ESME-C103",
+        "EPM:EPM-072",
+        "EAOSE:EAOSE-C118"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC09\",\"athruk\":[\"I\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Use one sufficient observation when independence would not change the decision.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0022\",\"R0038\"],\"frozen_frontier_cells\":[\"B-P4B\",\"CAM-Q1\",\"R38-C14\"],\"id\":\"TC09\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"Evidence-independence accounting already preserves common cause. The number of named fields, packets, agents or relations is not an independent-study denominator.\",\"parents\":[\"ESME:ESME-C103\",\"EPM:EPM-072\",\"EAOSE:EAOSE-C118\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Claims of corroboration, uncertainty reduction and generality using the reused source.\",\"target_requirement\":\"Record originating work/version/data/model where it matters; retain local claim scopes and source-access limits through aggregation.\",\"title\":\"Source and observation reuse across all three research families\",\"witness\":\"Three reports share one originating observation.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC10",
+      "parents": [
+        "ESPLE:ESPLE-023",
+        "EBPM:EBPM-022",
+        "EPM:EPM-043",
+        "EPM:EPM-064",
+        "EMAS:EMAS-072",
+        "EAOSE:EAOSE-C124"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC10\",\"athruk\":[\"J\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Retain no-change or evidence-insufficient when a worthwhile comparison is unavailable.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0022\",\"R0038\",\"R0035\"],\"frozen_frontier_cells\":[\"B-P4B\",\"CAM-Q1\",\"R38-C14\"],\"id\":\"TC10\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"The inherited population, causal-identification and regime-transfer criteria already defeat this inference. No measured triad benefit is claimed.\",\"parents\":[\"ESPLE:ESPLE-023\",\"EBPM:EBPM-022\",\"EPM:EPM-043\",\"EPM:EPM-064\",\"EMAS:EMAS-072\",\"EAOSE:EAOSE-C124\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Changed evaluation populations, policies, observers and downstream improvement claims.\",\"target_requirement\":\"Bind configuration/definition/policy version, case mix, observation selection and comparison unit before asserting improvement; use matched or otherwise justified comparisons.\",\"title\":\"Adaptive workflow and agent-policy changes alter evaluation populations\",\"witness\":\"Aggregate success rises from 54% to 76% while both case classes worsen because the case mix changes.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC11",
+      "parents": [
+        "ESME:ESME-C103",
+        "EPM:EPM-054",
+        "EWM:EWM-076",
+        "EAOSE:EAOSE-C072"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC11\",\"athruk\":[\"E\",\"H\",\"I\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Reuse mechanically and semantically unaffected evidence at its existing scope.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0039\",\"R003A\"],\"frozen_frontier_cells\":[\"EH-1\",\"EH-2\",\"GHK-AUTH/RECOVERY\",\"R39-F9\"],\"id\":\"TC11\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"Assumption-indexed invalidation and coherent recovery already require successor applicability. A new boundary is not retrospective falsification of the original verdict.\",\"parents\":[\"ESME:ESME-C103\",\"EPM:EPM-054\",\"EWM:EWM-076\",\"EAOSE:EAOSE-C072\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Only authority and evidence affected by the newer event; no replay of unrelated accepted ancestry.\",\"target_requirement\":\"Retain the original verdict and identity, then derive the affected reuse/invalidation radius for the latest boundary and actual successor decision.\",\"title\":\"Later boundaries supersede use without erasing earlier evidence\",\"witness\":\"A valid review for generation 4 remains historical evidence but does not match generation 5.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    },
+    {
+      "id": "TC12",
+      "parents": [
+        "ESA:ESA-063",
+        "ESME:ESME-C102",
+        "EPM:EPM-031",
+        "EPM:EPM-059",
+        "EAA:EAA-070",
+        "EAOSE:EAOSE-C072"
+      ],
+      "classification": "STRENGTHENS_EXISTING",
+      "record_json_unallocated": "{\"analysis_kind\":\"CROSS_TRIFECTA_COMPOSITION\",\"analytical_case\":\"analytical_cases.py#TC12\",\"athruk\":[\"F\",\"H\"],\"athruk_basis\":\"Target interpretation in ATHRUK_IMPLICATIONS.json, including each explicit cross-family bridge rationale; these are implications, not independent proof.\",\"cheap_or_non_trigger_path\":\"Leave the existing control unchanged when the proposed revision lacks warranted benefit or authority.\",\"classification\":\"STRENGTHENS_EXISTING\",\"evidence_ceiling\":\"Analytical composition of frozen inherited criteria and finite counterexample, not empirical benefit, native runtime, installed-host or release qualification.\",\"existing_rockstars\":[\"R0033\",\"R0037\",\"R0039\"],\"frozen_frontier_cells\":[\"EH-3\",\"F-TRIGGER\",\"GHK-AUTH/RECOVERY\"],\"id\":\"TC12\",\"new_normative_property_admitted\":false,\"novelty_adjudication\":\"Predecessor-governed revision and justified-reference criteria already reject circular self-authorization. The narrow formal self-modification theorem is not generalized assurance.\",\"parents\":[\"ESA:ESA-063\",\"ESME:ESME-C102\",\"EPM:EPM-031\",\"EPM:EPM-059\",\"EAA:EAA-070\",\"EAOSE:EAOSE-C072\"],\"review_status\":\"SUBJECT_TO_REVIEW_STATUS_RECORD\",\"semantic_invalidation_radius\":\"Changed validators, policies, dependent evidence and action grants; earlier valid decisions remain retained.\",\"target_requirement\":\"Evaluate changed control criteria, event meaning and permission boundaries under admitted predecessor authority, with explicit old/new obligations and post-change evidence.\",\"title\":\"Self-revision cannot provide its own sole admission criterion\",\"witness\":\"A successor validator accepts an action that its governing predecessor rejects.\"}",
+      "scope": "Original analytical hypothesis, no new normative property; native owners and guards preserved."
+    }
+  ],
+  "accepted_siblings": {
+    "EAA": {
+      "issue": 233,
+      "commit": "6f2183c782a283a9c0925a0195837a6310539070",
+      "tree": "d35b411fa7f1cfbb8df0a7ba127cb39ec18e8d22",
+      "path": "docs/research/implementaudit/r0045-member-dispositions.json",
+      "bytes": 636575,
+      "sha256": "85b6e242ba567d5dc0cac3d90deb1d1479a9a27129a90dc949a5e968ed0a2122",
+      "certificate": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/233#issuecomment-6204270650",
+      "certificate_body_sha256": "a7d73c2b0d06cf9f2d20a7df8a9a0c6954a38f24425707f35149f1d6019b4678",
+      "scope": "Accepted 70-member constituent documentary contribution; shared C001/EAA-001 evidence counted once; no host synthesis acceptance."
+    },
+    "EMAS": {
+      "issue": 231,
+      "commit": "44117ccd5af275f24bed923da7ba282a829f42e9",
+      "tree": "cf695dc0befdc0cbaa6a92e43db512ce2eb504ad",
+      "path": "docs/research/implementaudit/r0044-member-dispositions.json",
+      "bytes": 9359909,
+      "git_blob": "86e4fa1f02a88d9759323dc018e63a25380e59bf",
+      "certificate": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/231#issuecomment-6244484285",
+      "certificate_body_sha256": "b53fdd264942b4d3cedb49ded55d1b954995a04f53a3ab0cc2baf0c42d3dd4ae",
+      "scope": "Accepted 76-member documentary contribution; both six-unit alternatives complete, total cost INCONCLUSIVE; no new trial or whole-AMA acceptance."
+    }
+  },
+  "missing_input": {
+    "eaose_crosswalk_unallocated": "R0043_CROSSWALK.json",
+    "eaose_preparation": "PREPARATION.json#/rows/0",
+    "ama_preparation": "PREPARATION.json#/rows/3",
+    "binding": "INPUT_EVIDENCE.json for the retained final preparation correspondence",
+    "required_content": [
+      "PROPERTY_LEDGER.jsonl",
+      "GROUP_LEDGER.jsonl",
+      "RELATION_LOCATORS.jsonl",
+      "FULL_CONTEXT_LEDGER.jsonl",
+      "TARGET_RELATION_DISPOSITIONS.jsonl",
+      "TARGET_RECONCILIATION.json",
+      "SOURCE_MEMBER_MANIFEST.json",
+      "INPUT_MANIFEST.json",
+      "OPERATIVE_SOURCE_BINDINGS.json",
+      "AMA_CONTINUATION_CANDIDATE.md"
+    ],
+    "limit": "Exact individual meaning cannot be recreated from historical counts. This is an input boundary, not evidence of a runtime defect."
+  },
+  "projection_sha256": "7d46cfa4ab2e7d0449547977e0166a52651b587a44661c43dabf58ea3861aed7",
+  "storage_format": "r0043-parts-v1",
+  "parts": [
+    {
+      "file": "r0043-member-dispositions-rows-01.json",
+      "axis": "rows",
+      "records": 56,
+      "bytes": 779056,
+      "sha256": "9d1777dee31a19187b97155b1fe59d474e56da180ec67262827bcc3e0235c969"
+    },
+    {
+      "file": "r0043-member-dispositions-rows-02.json",
+      "axis": "rows",
+      "records": 69,
+      "bytes": 771141,
+      "sha256": "72c2f6904ba91aa2d966a9bf73612790c47c71b3b2f82aa3bc24bbd6219fc562"
+    },
+    {
+      "file": "r0043-member-dispositions-rows-03.json",
+      "axis": "rows",
+      "records": 64,
+      "bytes": 776871,
+      "sha256": "f91b6f1f7f4720374d6c99bfbb5ee5f9d728c94aaa393d38393b825288000bf7"
+    },
+    {
+      "file": "r0043-member-dispositions-rows-04.json",
+      "axis": "rows",
+      "records": 60,
+      "bytes": 771298,
+      "sha256": "008ed00da3b465ee34a46f6e2903f88f9e1064c32e328aafa554290d817082c4"
+    },
+    {
+      "file": "r0043-member-dispositions-rows-05.json",
+      "axis": "rows",
+      "records": 29,
+      "bytes": 384858,
+      "sha256": "13202dc0e77b6c12c9667a8015b6f7737811f819617f478530ec96059d64d6d8"
+    },
+    {
+      "file": "r0043-member-dispositions-groups-01.json",
+      "axis": "groups",
+      "records": 22,
+      "bytes": 771076,
+      "sha256": "09592e6b769bc601086668dacfaa0b0a501467e867238a191155ecb1596da1cd"
+    },
+    {
+      "file": "r0043-member-dispositions-groups-02.json",
+      "axis": "groups",
+      "records": 10,
+      "bytes": 461842,
+      "sha256": "df28d7a6d72182e4de1345b85ecfa6ab48f14ed439688c5d319b3ca4011510c2"
+    }
+  ]
+}
