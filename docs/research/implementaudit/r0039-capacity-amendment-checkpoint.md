@@ -19,7 +19,7 @@ This checkpoint publishes the separate proposal as a recovery patch. It does **n
 | Measured complete local commit | `a4f4b0c104f3c03fd2ce4da689279af140b58d86` |
 | Measured complete local tree | `a7646b3df5a7282610bc1b4bcaef1be900dee772` |
 
-The recovery patch is [r0039-capacity-amendment.patch](r0039-capacity-amendment.patch). It contains six modified files and one new source-controlled owner approval. Its complete-file Git preimages and postimages must match before serial adoption; no fuzzy application is authorized. The sealed original source/shared transport supplies the base. The final owner return supplies whole-file images, SHA-256/mode bindings, reverse patch and verification receipts.
+The recovery patch is retained losslessly as [r0039-capacity-amendment.patch.b64](r0039-capacity-amendment.patch.b64). Decode it using the guarded command below; the decoded bytes retain the exact patch SHA-256 above. It contains six modified files and one new source-controlled owner approval. Its complete-file Git preimages and postimages must match before serial adoption; no fuzzy application is authorized. The sealed original source/shared transport supplies the base. The final owner return supplies whole-file images, SHA-256/mode bindings, reverse patch and verification receipts.
 
 The measured complete commit preserves the previously completed, separate fixture correction from `541f5fe0b0b770969e9d6dd5b35d7c3ef5650faf`. No LR10 writer probe was repeated.
 
@@ -53,3 +53,27 @@ References: [GitHub release limits](https://docs.github.com/en/repositories/rele
 The LR10-C historical `.controller` writer event remains **GAP-REVISE**. Further writer engineering is **deferred by owner** until the filesystem/runner owner provides writer provenance or a reliably reproducing case. This does not withdraw or reinterpret the earlier fixture correction.
 
 The designated owners must integrate the current commissioned source implementations, then measure the complete shipping population and reassess package size before final combined acceptance, release or dependent issue closure. Native acceptance, shared-owner integration and other original R0039 requirements remain applicable. No merge, closure, release, native activation or protected campaign mutation is represented by this checkpoint.
+
+## Recovery representation correction
+
+The first checkpoint, commit `0522ad693bb95fe64194cbe824413f0ec1b5632b`, stored the literal unified diff. Hosted workflow `39278536572` failed its whitespace gate on fourteen blank context lines in that documentary file. Those single-space lines are valid patch syntax. This successor stores exactly the same patch bytes in Base64 so the ordinary whitespace check can remain unchanged. The source proposal, whole-file images, measured complete tree and package bytes are unchanged. The original failure is retained.
+
+Decode from the repository root into a new output file (the command refuses to overwrite an existing file):
+
+```sh
+python3 - docs/research/implementaudit/r0039-capacity-amendment.patch.b64 /tmp/r0039-capacity-amendment.patch <<'PY'
+from pathlib import Path
+import base64
+import hashlib
+import sys
+encoded = Path(sys.argv[1]).read_bytes()
+payload = base64.b64decode(b"".join(encoded.splitlines()), validate=True)
+assert len(payload) == 22937
+assert hashlib.sha256(payload).hexdigest() == "695cd180575e2e7b7b5819a3277cae90b4205541961611ac6f95d189b7ed1727"
+with Path(sys.argv[2]).open("xb") as output:
+    output.write(payload)
+print(sys.argv[2])
+PY
+```
+
+The designated owner must still verify the complete-file preimages and modes before `git apply --check --index`, then verify postimages after serial adoption. Decoding does not authorize applying this shared-owner patch to the issue-only PR. The source transport supplied in the owner return also contains the unchanged ordinary forward and reverse patches.
