@@ -68,8 +68,10 @@ import hashlib
 import sys
 encoded = Path(sys.argv[1]).read_bytes()
 payload = base64.b64decode(b"".join(encoded.splitlines()), validate=True)
-assert len(payload) == 22937
-assert hashlib.sha256(payload).hexdigest() == "695cd180575e2e7b7b5819a3277cae90b4205541961611ac6f95d189b7ed1727"
+if len(payload) != 22937:
+    raise SystemExit("Refuse: decoded patch length mismatch")
+if hashlib.sha256(payload).hexdigest() != "695cd180575e2e7b7b5819a3277cae90b4205541961611ac6f95d189b7ed1727":
+    raise SystemExit("Refuse: decoded patch SHA-256 mismatch")
 with Path(sys.argv[2]).open("xb") as output:
     output.write(payload)
 print(sys.argv[2])
@@ -77,3 +79,5 @@ PY
 ```
 
 The designated owner must still verify the complete-file preimages and modes before `git apply --check --index`, then verify postimages after serial adoption. Decoding does not authorize applying this shared-owner patch to the issue-only PR. The source transport supplied in the owner return also contains the unchanged ordinary forward and reverse patches.
+
+The decoding length and digest refusals are explicit and remain active when Python optimisation is enabled. They were verified in both normal execution and with `PYTHONOPTIMIZE=1`, including altered payloads and existing-output refusal. This correction changes only these recovery instructions.
