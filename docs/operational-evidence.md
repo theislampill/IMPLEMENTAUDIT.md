@@ -210,6 +210,17 @@ at query time. Frozen v2 readers execute only the fixed, byte-bound pure R0035
 validator against retained canonical bytes; they perform no subprocess, network,
 model, native acquisition or publication.
 
+The repository composition retains the complete R0035 compiler adopted at
+`87a7ea09`, including its product-authority refusals, with the existing R0038
+hardened input readers. Continuity uses host-only primitives without loading
+the optional route producer. A scoped route still requires that producer's
+exact source and policy; a no-scope run retains the original optional behavior.
+The secure readers require this same checkout's pinned root operational reader,
+query policy and continuity-helper closure. General installed R0035 support is
+not established by this repository-only composition. A native observation must
+come from identical compiler bytes at the canonical and frozen-peer paths;
+captures from another compiler version remain subject to exact source refusal.
+
 Declared and recursively selected graph inputs pass the repository owner's
 secret/administrative-name policy before content reads. A Git-backed input root
 also checks each selected path against its isolated Git ignore policy, including

@@ -596,6 +596,87 @@ class SecurityControls(unittest.TestCase):
             self.assertFalse(marker.exists())
 
 
+class ContinuityCompatibilityControls(unittest.TestCase):
+    """Real Git/content reads; only the external currentness result is injected."""
+
+    def test_host_helper_keeps_shell_startup_inert_and_custody_checked(self):
+        host = WG._native_continuity_host_v1()
+        owner, _, _ = WG._native_static_owner_module_v1()
+        with disposable('host-only-boundary-') as root:
+            marker = root / 'startup-executed'
+            startup = root / 'startup.sh'
+            startup.write_text('printf unsafe > "' + str(marker).replace('\\', '/') + '"\n', encoding='utf-8')
+            with patch.dict(os.environ, {'BASH_ENV': str(startup), 'ENV': str(startup),
+                                         'PYTHONPATH': str(root), 'GIT_EXTERNAL_DIFF': 'must-not-run'}):
+                result = WG._native_claim_call_v1(owner, host, root, ['--current-controller'],
+                    b"printf 'host-only-inert-control\\n'\n", b'exit 0\n')
+            self.assertEqual(result, 'host-only-inert-control')
+            self.assertFalse(marker.exists())
+            selected = host.trusted_host_executable(root, 'bash')
+            self.assertEqual(selected, BASH)
+            with self.assertRaisesRegex(WG.WorkGraphError, 'inside target-repository custody'):
+                host.trusted_host_executable(selected.parent, 'bash')
+
+    def test_absent_optional_producer_preserves_continuity(self):
+        producer = Path(WG.__file__).with_name('route-transaction.py')
+        original = producer.read_bytes()
+        with disposable('optional-producer-') as root:
+            marker, command = git_fixture(root)
+            producer.unlink()  # Only the owned disposable source copy.
+            try:
+                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+                    actual = WG._native_continuity(root, root)
+                self.assertEqual(actual['receipt'], RECEIPT)
+                self.assertEqual(actual['acquisition'], 'NATIVE_CONTINUITY_VERIFIED')
+                self.assertFalse(marker.exists())
+            finally:
+                producer.write_bytes(original)
+
+    def test_no_scope_does_not_load_present_wrong_optional_producer(self):
+        producer = Path(WG.__file__).with_name('route-transaction.py')
+        original = producer.read_bytes()
+        with disposable('no-route-scope-') as root:
+            git_fixture(root)
+            rec = record(root)
+            docs = snapshot(rec)
+            spec = json.loads(docs['tasks/controls.md'].decode().splitlines()[1])
+            for item in spec['nodes']:
+                item['route_scopes'] = []
+            docs['tasks/controls.md'] = fenced(spec)
+            for name, raw in docs.items():
+                p = root / name
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_bytes(raw)
+            producer.write_bytes(b'raise AssertionError("optional producer executed")\n')
+            try:
+                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+                    actual = WG.read_native_run_v1(root, root)
+                self.assertEqual(actual['schema'], 'implementaudit.native-work-graph.v1')
+                self.assertEqual(actual['authority'], 'NONE')
+                self.assertNotIn('route_scope', actual)
+                self.assertEqual(len(actual['nodes']), 6)
+                self.assertFalse(any(item['route_scopes'] for item in actual['nodes']))
+            finally:
+                producer.write_bytes(original)
+
+    def test_scoped_intake_still_refuses_present_wrong_producer(self):
+        producer = Path(WG.__file__).with_name('route-transaction.py')
+        original = producer.read_bytes()
+        with disposable('wrong-scoped-producer-') as root:
+            git_fixture(root)
+            for name, raw in snapshot(record(root)).items():
+                p = root / name
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_bytes(raw)
+            producer.write_bytes(b'raise AssertionError("wrong producer executed")\n')
+            try:
+                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)), \
+                     self.assertRaisesRegex(WG.WorkGraphError, 'source identity changed'):
+                    WG.read_native_run_v1(root, root)
+            finally:
+                producer.write_bytes(original)
+
+
 @unittest.skipUnless(os.name == 'nt', 'Windows handle-directory query control')
 class HandleQueryControls(unittest.TestCase):
     def test_multiple_pages_unicode_names_and_population_bound(self):
@@ -740,6 +821,8 @@ def suite_tests(name):
         return list(loader.loadTestsFromTestCase(Controls))
     if name == 'security':
         return list(loader.loadTestsFromTestCase(SecurityControls))
+    if name == 'continuity-compatibility':
+        return list(loader.loadTestsFromTestCase(ContinuityCompatibilityControls))
     if name == 'directory':
         return ([SecurityControls(method) for method in (
             'test_04_source_file_and_cumulative_real_bounds',
@@ -756,7 +839,7 @@ def main():
     global WORK, RT, WG, GIT, BASH
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo-root', type=Path, required=True)
-    parser.add_argument('--suite', choices=('route', 'security', 'directory', 'directory-race'), required=True)
+    parser.add_argument('--suite', choices=('route', 'security', 'directory', 'directory-race', 'continuity-compatibility'), required=True)
     parser.add_argument('--case', action='append', default=[], help='Exact existing method name; repeat to run a focused subset')
     parser.add_argument('--list', action='store_true', help='List the selected population without source/native acquisition')
     args = parser.parse_args()
