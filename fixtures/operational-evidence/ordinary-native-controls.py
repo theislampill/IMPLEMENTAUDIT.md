@@ -3,6 +3,7 @@ import argparse
 import base64
 import copy
 import hashlib
+import io
 import json
 from pathlib import Path
 import types
@@ -169,6 +170,62 @@ def available_export(*, canonical_route=None, host_and_scope=None, scope=None, c
 
 
 class OrdinaryControls(unittest.TestCase):
+    def test_producer_invalid_policy_refuses_before_ownership_io(self):
+        route = load_owner('route-transaction.py')
+        cyclic = {}; cyclic['cycle'] = cyclic
+        for value in (None, [], {'bad': float('nan')}, {'bad': object()}, cyclic,
+                      {'padding': 'x' * route.MAX_ROUTE_RECORD_BYTES}):
+            output = io.StringIO()
+            with self.subTest(value_type=type(value).__name__), \
+                 mock.patch.object(route, 'git', side_effect=AssertionError('OWNERSHIP_IO_REACHED')), \
+                 contextlib.redirect_stdout(output):
+                with self.assertRaises(SystemExit) as refused:
+                    route.execute_current_ordinary_receiver_v2(Path('/constructed'), 'constructed', value)
+            self.assertEqual(refused.exception.code, 2)
+            result = json.loads(output.getvalue())
+            self.assertEqual(result['status'], 'UNAVAILABLE')
+            self.assertFalse(result['advance_allowed'])
+
+    def test_producer_freezes_prospective_policy_before_other_owner_calls(self):
+        """Data-only alias control: stop before any bootstrap/import/effect."""
+        import contextlib
+        route = load_owner('route-transaction.py')
+        with tempfile.TemporaryDirectory(prefix='ordinary-policy-snapshot-') as directory:
+            repo = Path(directory)
+            policy = {'schema': 'implementaudit.ordinary-native-policy.v1',
+                'provider': {'python_executable': {'path': 'fixed-python'}},
+                'receiver_argv': ['fixed-python', '-I', '-S', '-B',
+                    str(repo / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'), '--ordinary-receiver'],
+                'code_pins': {'implementaudit/scripts/bounded_file_custody.py': 'a' * 64,
+                    'implementaudit/scripts/compaction-source-owner-codex-app.py': 'b' * 64}}
+            accepted = copy.deepcopy(policy)
+            scope = {'identity': 'constructed-policy-snapshot'}
+            packet = wire({'source_event': {'body': canonical({'schema': 'implementaudit.ordinary-review-mission.v1',
+                'policy_digest': sha(accepted), 'scope': scope, 'authority_ceiling': 'NONE'}).decode()}})
+            seen = []
+            class BeforeBootstrap(Exception): pass
+            def git(root, *args):
+                if args[:1] == ('rev-parse',): return str(repo / '.git')
+                if args[:1] == ('for-each-ref',):
+                    policy['code_pins']['implementaudit/scripts/bounded_file_custody.py'] = 'c' * 64
+                    return ''
+                self.fail('unexpected Git dependency')
+            @contextlib.contextmanager
+            def boundary(root, pins):
+                seen.append(copy.deepcopy(pins))
+                raise BeforeBootstrap()
+                yield  # Context shape only; no source bytes or code are loaded.
+            with mock.patch.object(route, 'git', side_effect=git), \
+                 mock.patch.object(route, 'namespace_gate', return_value=contextlib.nullcontext()), \
+                 mock.patch.object(route, 'read_current_ordinary_result_v1', return_value={'packet': packet, 'scope': scope}), \
+                 mock.patch.object(route, '_ordinary_execution_ref_v1', return_value='refs/ordinary-receivers/constructed'), \
+                 mock.patch.object(route, 'read_current_ordinary_execution_v1', return_value=None), \
+                 mock.patch.object(route, '_ordinary_fixed_source_owner_v2', side_effect=boundary):
+                with self.assertRaises(BeforeBootstrap):
+                    route.execute_current_ordinary_receiver_v2(repo, 'constructed', policy)
+            self.assertNotEqual(policy, accepted, 'the caller-side interleaving must occur')
+            self.assertEqual(seen, [accepted['code_pins']], 'bootstrap must use the exact policy whose digest was accepted')
+
     @unittest.skipUnless(os.name == 'nt', 'Selected source loader uses Windows held-file custody')
     def test_changed_observation_module_refuses_before_execution(self):
         owner = load_owner('compaction-source-owner-codex-app.py')

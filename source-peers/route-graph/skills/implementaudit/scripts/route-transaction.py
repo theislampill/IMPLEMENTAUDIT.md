@@ -7238,6 +7238,18 @@ def execute_current_ordinary_receiver_v2(repo, controller, policy):
     is no caller process-result, command, callback or module operand. Bootstrap
     source comes from exact policy-bound Git blobs, then held worktree bytes.
     """
+    # Freeze caller-owned nested containers before any other owner call. The
+    # digest check and every later bootstrap/effect read use this same value.
+    if type(policy) is not dict:
+        fail('ordinary receiver policy is not the accepted prospective policy')
+    try:
+        policy_raw = json.dumps(policy, sort_keys=True, separators=(',', ':'),
+            ensure_ascii=False, allow_nan=False).encode('utf-8')
+        if len(policy_raw) > MAX_ROUTE_RECORD_BYTES:
+            fail('ordinary receiver policy exceeds its bound')
+        policy = json.loads(policy_raw, object_pairs_hook=unique_object)
+    except (TypeError, ValueError, UnicodeError, RecursionError):
+        fail('ordinary receiver policy is not bounded canonical JSON')
     common = str(Path(git(repo, 'rev-parse', '--path-format=absolute', '--git-common-dir')).resolve())
     with namespace_gate(common):
         canonical = read_current_ordinary_result_v1(repo, controller)
@@ -7246,8 +7258,7 @@ def execute_current_ordinary_receiver_v2(repo, controller, policy):
         mission = json.loads(packet['source_event']['body'], object_pairs_hook=unique_object)
         if (type(policy) is not dict or policy.get('schema') != 'implementaudit.ordinary-native-policy.v1'
                 or mission.get('schema') != 'implementaudit.ordinary-review-mission.v1'
-                or mission.get('policy_digest') != hashlib.sha256(json.dumps(policy, sort_keys=True,
-                    separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')).hexdigest()
+                or mission.get('policy_digest') != hashlib.sha256(policy_raw).hexdigest()
                 or mission.get('scope') != canonical['scope'] or mission.get('authority_ceiling') != 'NONE'):
             fail('ordinary receiver policy is not the accepted prospective policy')
         source_path = Path(repo) / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
