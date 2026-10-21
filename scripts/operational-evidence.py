@@ -1673,7 +1673,13 @@ def _native_current_observation_v1(
         _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_graph_compiler",
                "canonical route/node observation composition is incomplete")
     try:
-        with observe(run_root, repository) as raw:
+        expected_current = {
+            "controller_id": controller, "controller_record_oid": controller_oid,
+            "claim_id": claim, "explicit_run_root": os.fspath(run_root),
+            "continuity_generation": generation, "continuity_receipt": receipt,
+            "boundary_kind": boundary_kind, "boundary_event_id": boundary_event_id,
+            "next_action": next_action}
+        with observe(run_root, repository, expected_current=expected_current) as raw:
             if type(raw) is not bytes:
                 _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_relation",
                        "native owner did not yield immutable projection bytes")
@@ -1685,10 +1691,7 @@ def _native_current_observation_v1(
                     "explicit_run_root": os.fspath(run_root),
                     "continuity_generation": generation, "continuity_receipt": receipt}
                     or route["controller_id"] != controller
-                    or route["controller_record_oid"] != controller_oid
-                    or scope["boundary"]["kind"] != boundary_kind
-                    or scope["boundary"]["event_id"] != boundary_event_id
-                    or scope["scope"]["identity"] != next_action):
+                    or route["controller_record_oid"] != controller_oid):
                 _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
                        "native owner projection crossed the exact C03 current identity")
             relation = compiler.bind_native_route_relation_v1(graph, graph_raw)

@@ -175,6 +175,31 @@ class ObservationCostControls(unittest.TestCase):
                 self.h.current[field] = old
         self.assertEqual(self.h.expected_scope(), original)
 
+    def test_valid_pending_stale_request_keeps_current_owner_corroboration(self):
+        for field in ('boundary_kind', 'boundary_event_id', 'next_action'):
+            with self.subTest(field=field):
+                h = self.h
+                original = copy.deepcopy(h.request)
+                if field == 'next_action':
+                    h.request['scope'] = {'identity': 'retained-prior-scope'}
+                    h.request['scope']['digest'] = h.rt.digest_json(h.request['scope'])
+                else:
+                    boundary = h.request['boundary']
+                    boundary['kind' if field == 'boundary_kind' else 'event_id'] = (
+                        'new-session' if field == 'boundary_kind' else 'retained-prior-boundary')
+                    boundary['digest'] = h.rt.digest_json({k: boundary[k] for k in ('kind', 'event_id')})
+                h.create_records()
+                h.record.pop('lifecycle')
+                h.record.update(route_state=None, obligation_id=None, predecessor_record_oid=None,
+                                child_lifecycle_owned=False, consumed_record_oid=None, expires_on=h.rt.EXPIRES_ON)
+                h.record['record_identity'] = h.rt.digest_json({k: v for k, v in h.record.items() if k != 'record_identity'})
+                h.rt.validate_route_record_semantics(h.root, h.controller, h.oid, h.record)
+                self.assertEqual(h.record['decision'], 'PENDING')
+                with self.primary() as (route, _):
+                    self.assertEqual(route['decision'], 'PENDING')
+                h.request = original
+                h.create_records()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

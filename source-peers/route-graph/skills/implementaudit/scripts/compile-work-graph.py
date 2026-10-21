@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'aa44e7396df730de958d5a4afe891554109c10df34ae3292aefa7a8e01b75831'
+_NATIVE_STATIC_OWNER_SHA256 = 'ec8620ba5652e9ac019157b6596c626c54072efc58b2f1050dfa354fc41b0943'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 351377
+_NATIVE_STATIC_OWNER_BYTES = 351595
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2755,14 +2755,16 @@ def _acquire_native_read_set(nodes, input_root):
     return result
 
 @contextlib.contextmanager
-def observe_native_run_v1(run_root, repo_root=None, *, input_root=None):
+def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected_current=None):
     """Hold the existing native owner checks around a caller's read-only use.
 
     Omitting repo_root is explicitly constructed filesystem evidence. Supplying
     it requires the genuine existing continuity owner before AND after intake.
     Neither path authenticates physical host capacity or effect capabilities.
     Only immutable projection bytes are yielded; all terminal guards execute
-    after use, before the enclosing observation can be accepted.
+    after use, before the enclosing observation can be accepted. An optional
+    corroborating current tuple is a constraint rechecked by R0033, never facts
+    supplied in place of acquisition. Retained PENDING requests may be stale.
     """
     before = _native_continuity(repo_root, run_root) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
     snapshot = _native_source_snapshot(run_root)
@@ -2788,6 +2790,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None):
     combined_route_read = False
     receiver_binding = None
     with contextlib.ExitStack() as owner_read:
+        if expected_current is not None and not route_available:
+            raise WorkGraphError('current corroboration requires the native route owner')
         if route_available:
             producer, producer_path, producer_raw = _native_route_scope_module_v1()
             transaction = getattr(producer, 'current_route_observation_v1', None)
@@ -2796,7 +2800,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None):
                     raise WorkGraphError('native route transaction interface is malformed')
                 # This callable comes only from the fixed, byte-verified sibling
                 # owner. No caller callback/module or serialized witness enters.
-                observed = owner_read.enter_context(transaction(pathlib.Path(repo_root), before['controller']))
+                corroboration = {} if expected_current is None else {'expected_current': expected_current}
+                observed = owner_read.enter_context(transaction(pathlib.Path(repo_root), before['controller'], **corroboration))
                 acquired_bytes = observed.scope_bytes()
                 if type(acquired_bytes) is not bytes:
                     raise WorkGraphError('native route transaction did not yield immutable bytes')
@@ -2811,6 +2816,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None):
                     receiver_binding = decode_strict_json_bytes(receiver_bytes, 'native receiver binding')
                 combined_route_read = True
             else:
+                if expected_current is not None:
+                    raise WorkGraphError('current corroboration requires the enclosing route interface')
                 acquired_route = producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller'])
             if pathlib.Path(acquired_route['owner']['explicit_run_root']).resolve() != pathlib.Path(run_root).resolve():
                 raise WorkGraphError('route producer returned a foreign run root')
