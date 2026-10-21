@@ -795,9 +795,14 @@ def read_selected_accepted_episode_v1():
 def acquire_selected_episode_export_v1():
     """Collector entry for explicit acquisition; never called by frozen readers.
 
-    An accepted episode is already acquired by the existing JOIN owner. This
-    export deliberately reads that immutable closure without a new native RPC.
+    The compaction branch reads an already acquired immutable closure without
+    a native RPC. The separately selected ordinary branch authenticates bounded
+    public records through read-only local native APIs; it never executes the
+    receiver or publishes its receipt. Frozen validators do neither operation.
     """
+    owner = OBSERVATION._nonprotected_source_owner(nonprotected_code_identity())
+    if owner.ORDINARY_SELECTION_PIN is not None:
+        return owner.acquire_selected_ordinary_episode_v1()
     return read_selected_accepted_episode_v1()
 if __name__ == '__main__':
     raise SystemExit(main())

@@ -151,6 +151,28 @@ class SnapshotQueryPolicy:
                     "native_export_digest": episode["export_digest"],
                     "producer_sha256": wrapped["producer_sha256"], "contract_sha256": wrapped["contract_sha256"]}
                 ids = {}
+                if episode["schema"] == "implementaudit.ordinary-episode-export.v1":
+                    ids["ordinary"] = record(["native_episode", "ordinary"], "EVIDENCE", "NativeOrdinaryEpisode",
+                        {"schema": episode["schema"], "scope": episode["owner"]["scope"],
+                         "export_digest": episode["export_digest"]}, evidence_source)["id"]
+                    for key, family, kind in (("owner", "OWNERSHIP", "NativeSourceOwner"),
+                            ("result", "EVIDENCE", "NativeResult"), ("acceptance", "EVIDENCE", "NativeAcceptance"),
+                            ("receiving", "EXECUTION", "NativeJoin"), ("custody", "EVIDENCE", "NativePhysicalCustody"),
+                            ("occurrences", "EVIDENCE", "NativeResultOccurrences")):
+                        ids[key] = record(["native_episode", key], family, kind, episode[key], evidence_source)["id"]
+                    # Ordinary v1 proves its separate canonical/result/receiving
+                    # records, and grants no formal H0 LOAD/USE/DISPOSE credit.
+                    record(["native_episode", "lifecycle"], "EXECUTION", "NativeLifecycleReceipts",
+                        episode["lifecycle"], evidence_source, "UNVERIFIED")
+                    for left, kind, right in (("ordinary", "HAS_JOIN", "receiving"),
+                            ("receiving", "ACCEPTED_BY", "acceptance"), ("acceptance", "ACCEPTS", "result"),
+                            ("result", "BOUND_TO", "custody"), ("result", "HAS_OCCURRENCE", "occurrences"),
+                            ("ordinary", "PRODUCED_BY", "owner")):
+                        edge = record(["native_episode_relation", left, kind, right], "EVIDENCE", "Relation",
+                            {"kind": kind}, evidence_source)
+                        edge.update(relation_type=kind, source_entity_id=ids[left], target_entity_id=ids[right],
+                                    confidence="owner-derived")
+                    return records
                 for key, family, kind in (("owner", "OWNERSHIP", "NativeSourceOwner"),
                         ("episode", "EVIDENCE", "NativeAcceptedEpisode"),
                         ("custody", "EVIDENCE", "NativePhysicalCustody")):
@@ -299,7 +321,9 @@ class SnapshotQueryPolicy:
             wrapped = native.get("native_episode")
             episode = wrapped["value"] if wrapped is not None else None
             code = ("NATIVE_EPISODE_UNAVAILABLE" if episode is None or episode["status"] != "AVAILABLE"
-                    else "NATIVE_H0_LIFECYCLE_UNAVAILABLE" if episode["lifecycle"]["h0"]["status"] != "RECORDED"
+                    else "NATIVE_H0_LIFECYCLE_UNAVAILABLE" if (
+                        episode["schema"] == "implementaudit.ordinary-episode-export.v1" or
+                        episode["lifecycle"]["h0"]["status"] != "RECORDED")
                     else None)
             if code is not None and not any(row.get("code") == code for row in omitted):
                 omitted.append({"kind": "QUERY_NATIVE_CAPABILITY_UNVERIFIED", "family": "EXECUTION",

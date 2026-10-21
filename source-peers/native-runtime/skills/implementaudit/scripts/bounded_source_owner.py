@@ -230,6 +230,115 @@ def qualified_protocol(report):
                 for name in ("stdout", "stderr")), "NATIVE_READ_OR_CLEANUP_UNQUALIFIED")
     require(all("error" not in response for response in report.get("responses", [])), "NATIVE_RESPONSE_ERROR")
 
+
+def ordinary_ancestry_pair_v1(selection, rows, caller_pid):
+    """Pure discriminator for the explicit ordinary policy, never the old P."""
+    require(selection.get('schema') == 'implementaudit.codex-ordinary-selection.v1' and
+            selection.get('instance_selection') == 'EXACT_ROOT_EXECUTION_ANCESTRY',
+            'ORDINARY_INSTANCE_POLICY_REQUIRED')
+    require(isinstance(rows, list) and 1 <= len(rows) <= 12 and rows[0].get('pid') == caller_pid,
+            'ORDINARY_ANCESTRY_ROOT')
+    seen = set()
+    for index, row in enumerate(rows):
+        require(isinstance(row, dict) and set(row) == {'pid', 'parent_pid', 'name', 'path', 'created_utc'} and
+                type(row['pid']) is int and row['pid'] > 0 and row['pid'] not in seen and
+                type(row['parent_pid']) is int and row['parent_pid'] >= 0 and
+                isinstance(row['created_utc'], str) and row['created_utc'], 'ORDINARY_ANCESTRY_SHAPE')
+        seen.add(row['pid'])
+        if index + 1 < len(rows):
+            require(row['parent_pid'] == rows[index + 1].get('pid'), 'ORDINARY_ANCESTRY_LINK')
+    candidates = [(left, right) for left, right in zip(rows, rows[1:])
+                  if left['name'] == 'codex.exe' and right['name'] == 'ChatGPT.exe' and
+                  canonical_path(left['path']) == canonical_path(selection['native_executable']['path']) and
+                  canonical_path(right['path']) == canonical_path(selection['desktop_executable']['path'])]
+    require(len(candidates) == 1, 'ORDINARY_OWNING_HOST_NOT_UNIQUE')
+    native, desktop = candidates[0]
+    return {'native_process': native, 'desktop_process': desktop}
+
+
+def owning_ordinary_host(selection, reader):
+    """Observe this process's bounded ancestry; accept no PID override.
+
+    Binary/configuration equality remains the caller's immutable provider guard.
+    Historical PID fields never become permission to relax those byte pins.
+    """
+    powershell = custody.trusted_system_tool('powershell.exe')
+    cim = powershell.parent / 'Modules' / 'CimCmdlets' / 'CimCmdlets.psd1'
+    require(cim.is_file() and Path(os.path.realpath(cim)) == cim, 'TRUSTED_CIM_MODULE_ABSENT')
+    script = "Import-Module -Name '" + str(cim).replace("'", "''") + "' -Force -ErrorAction Stop; "
+    script += '$targetPid = ' + str(os.getpid()) + '; '
+    script += r'''$rows = @(); $seen = @{}; for ($n=0; $n -lt 12 -and $targetPid -gt 0; $n++) { if ($seen.ContainsKey($targetPid)) { break }; $seen[$targetPid]=$true; $p=CimCmdlets\Get-CimInstance Win32_Process -Filter "ProcessId=$targetPid"; if (-not $p) { break }; $rows += [pscustomobject]@{pid=[int]$p.ProcessId; parent_pid=[int]$p.ParentProcessId; name=$p.Name; path=$p.ExecutablePath; created_utc=$p.CreationDate.ToUniversalTime().ToString('o')}; $targetPid=[int]$p.ParentProcessId }; $rows | ConvertTo-Json -Depth 3 -Compress'''
+    run = subprocess.run([str(powershell), '-NoProfile', '-Command', script], capture_output=True,
+                         timeout=12, creationflags=subprocess.CREATE_NO_WINDOW)
+    require(run.returncode == 0 and len(run.stdout) <= 32768, 'ORDINARY_ANCESTRY_READ_FAILED')
+    pair = ordinary_ancestry_pair_v1(selection, parse(run.stdout), os.getpid())
+    for name in ('native_executable', 'desktop_executable'):
+        observed = reader.file_pin(Path(selection[name]['path']))
+        require(observed['sha256'] == selection[name]['sha256'], 'SELECTED_HOST_EXECUTABLE_CHANGED')
+    return pair
+
+
+def run_held_ordinary_receiver_v1(selection, source_pin):
+    """Execute the sole fixed receiver entry with held interpreter/source bytes.
+
+    No shell, supplied command, model call, stdin, or environment override API.
+    The receiver entry itself is constrained to the fixed local read-only owner.
+    """
+    import contextlib
+    python_pin = selection['python_executable']
+    require(Path(source_pin['path']).name == 'compaction-source-owner-codex-app.py', 'ORDINARY_RUNNER_SOURCE_NAME')
+    argv = [python_pin['path'], '-I', '-S', '-B', source_pin['path'], '--ordinary-receiver']
+    with contextlib.ExitStack() as stack:
+        held = []
+        for pin in (python_pin, source_pin):
+            stream = stack.enter_context(custody.held_file(pin['path'], allow_append=False))
+            info = os.fstat(stream.fileno())
+            require(0 < pin['bytes'] <= 128 * 1024 * 1024 and info.st_size == pin['bytes'] and info.st_nlink == 1,
+                    'ORDINARY_RUNNER_PIN_BOUND')
+            checksum = hashlib.sha256(); remaining = pin['bytes']
+            while remaining:
+                block = stream.read(min(65536, remaining)); require(block, 'ORDINARY_RUNNER_TRUNCATED')
+                checksum.update(block); remaining -= len(block)
+            require(checksum.hexdigest() == pin['sha256'], 'ORDINARY_RUNNER_PIN_CHANGED')
+            held.append((stream, info))
+        environment = {key: value for key, value in os.environ.items()
+            if key.casefold() in {'systemroot', 'windir', 'systemdrive', 'comspec', 'pathext', 'temp', 'tmp',
+                                 'userprofile', 'localappdata', 'appdata', 'programfiles', 'programfiles(x86)'} }
+        paths = [Path(python_pin['path']).parent]
+        # Preserve the existing native owners' fixed host-tool discovery while
+        # excluding the caller PATH and Git/Python configuration overrides.
+        for key in ('ProgramFiles', 'ProgramFiles(x86)'):
+            if os.environ.get(key):
+                git_root = Path(os.environ[key]) / 'Git'
+                paths.extend(git_root / name for name in ('cmd', 'bin', 'usr/bin'))
+        if os.environ.get('SystemRoot'):
+            system = Path(os.environ['SystemRoot'])
+            paths.extend((system / 'System32', system))
+        paths.append(custody.trusted_system_tool('powershell.exe').parent)
+        environment['PATH'] = os.pathsep.join(dict.fromkeys(str(path.resolve()) for path in paths if path.is_dir()))
+        process = subprocess.Popen(argv, cwd=selection['episode_owner']['repository'], env=environment,
+            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
+        try:
+            stdout, stderr = process.communicate(timeout=180)
+        except subprocess.TimeoutExpired:
+            if os.name == 'nt':
+                subprocess.run([str(custody.trusted_system_tool('taskkill.exe')), '/PID', str(process.pid), '/T', '/F'],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15, check=False,
+                    creationflags=subprocess.CREATE_NO_WINDOW)
+            else:
+                process.kill()
+            process.communicate(timeout=15)
+            raise ValueError('ORDINARY_RECEIVER_TIMEOUT_UNQUALIFIED')
+        require(len(stdout) <= 256 * 1024 and len(stderr) <= 256 * 1024 and type(process.returncode) is int,
+                'ORDINARY_RECEIVER_OUTPUT_BOUND')
+        for stream, before in held:
+            after = os.fstat(stream.fileno())
+            require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns) ==
+                    (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns), 'ORDINARY_RUNNER_CHANGED_DURING_EXECUTION')
+        return {'argv': argv, 'python_pin': dict(python_pin), 'source_pin': dict(source_pin), 'exit_code': process.returncode,
+                'stdout': stdout.decode('utf-8', 'strict'), 'stdout_sha256': digest(stdout), 'stderr_sha256': digest(stderr)}
+
 def selected_child(selection, caller, previous):
     root = selection['root_thread_id']
     child = selection['selected_child_thread_id']

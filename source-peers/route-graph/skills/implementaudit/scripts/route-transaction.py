@@ -6944,3 +6944,126 @@ def read_current_episode_binding_v1(repo, controller, expected_current=None):
     opening = {key: value[key] for key in ('open_record_oid', 'open_record_identity', 'logical_task',
         'selected_child_role', 'selected_child_target', 'packet_pin', 'skill_pin', 'host_and_scope')}
     return {**value, 'opening_digest': digest_json(opening), 'binding_digest': digest_json(value)}
+
+
+def read_current_ordinary_result_v1(repo, controller):
+    """Read an ordinary audit-assess return/acceptance from canonical custody.
+
+    Native child UUIDs and host execution are deliberately not inferred here.
+    The selected source owner independently authenticates those public records.
+    """
+    current = validate_pure_current_route(repo, controller)
+    oid, record = current_ref(repo, controller)
+    if oid != current['record_oid'] or record is None:
+        fail('ordinary route changed after currentness')
+    if record['decision'] != 'REQUIRED':
+        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
+    role, _ = mapped_child_route(record)
+    if role != 'audit-assess':
+        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
+    if record['route_state'] == 'UNSATISFIED':
+        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
+    opening = read_current_episode_binding_v1(repo, controller)
+    scope = read_current_route_scope_v1(repo, controller)
+    life = record['lifecycle']
+    packet_wire = life['delivery']['packet']
+    packet = decoded_artifact(validate_bytes_identity(packet_wire, 'ordinary packet'), 'ordinary packet')
+    route_packet_record(packet, record['obligation_id'], record['route_transaction_id'], expected_target='audit-assess')
+    returned_wire = life['child_return']
+    decision_wire = life['governor_decision']
+    if returned_wire is not None:
+        returned = decoded_artifact(validate_bytes_identity(returned_wire, 'ordinary return'), 'ordinary return')
+        child_return_record(returned, record['obligation_id'], record['route_transaction_id'],
+                            packet_wire['digest'], expected_child='audit-assess')
+    if decision_wire is not None:
+        if returned_wire is None or life['governor_decision_count'] != 1:
+            fail('ordinary acceptance lacks one exact return')
+        decision = decoded_artifact(validate_bytes_identity(decision_wire, 'ordinary acceptance'), 'ordinary acceptance')
+        governor_decision_record(decision, record['obligation_id'], record['route_transaction_id'], returned_wire['digest'])
+    expected = {'OPEN': (False, False), 'RETURNED': (True, False), 'SATISFIED': (True, True)}
+    if expected.get(record['route_state']) != (returned_wire is not None, decision_wire is not None):
+        fail('ordinary lifecycle members contradict canonical state')
+    if current_ref(repo, controller) != (oid, record) or validate_pure_current_route(repo, controller) != current:
+        fail('ordinary result changed during read')
+    return {'status': record['route_state'], 'canonical_route': current,
+            'opening': opening, 'scope': scope['scope'], 'packet': packet_wire,
+            'child_return': returned_wire, 'governor_decision': decision_wire}
+
+
+def _ordinary_execution_ref_v1(controller, canonical):
+    opening = canonical['opening']['opening_digest']
+    if canonical['status'] != 'SATISFIED' or not HEX_RE.fullmatch(opening):
+        fail('ordinary receiver requires current exact parent acceptance')
+    return 'refs/implementaudit/ordinary-receivers/' + controller + '/' + opening.removeprefix('sha256:')
+
+
+def _ordinary_execution_record_v1(value, canonical):
+    exact_keys(value, {'schema', 'accepted_record_oid', 'opening_digest', 'execution', 'execution_digest'}, 'ordinary execution record')
+    if (value['schema'] != 'implementaudit.ordinary-receiver-record.v1' or
+            value['accepted_record_oid'] != canonical['canonical_route']['record_oid'] or
+            value['opening_digest'] != canonical['opening']['opening_digest'] or
+            value['execution_digest'] != digest_json(value['execution'])):
+        fail('ordinary receiver execution has foreign accepted custody')
+    execution = value['execution']
+    exact_keys(execution, {'schema', 'policy_digest', 'opening_digest', 'return_digest', 'acceptance_digest',
+        'argv', 'python_pin', 'source_pin', 'exit_code', 'stdout', 'stdout_sha256', 'stderr_sha256'}, 'ordinary execution')
+    if (execution['schema'] != 'implementaudit.ordinary-receiver-execution.v1' or
+            execution['opening_digest'] != value['opening_digest'] or
+            execution['return_digest'] != canonical['child_return']['digest'] or
+            execution['acceptance_digest'] != canonical['governor_decision']['digest'] or
+            type(execution['exit_code']) is not int or type(execution['stdout']) is not str or
+            len(execution['stdout'].encode('utf-8')) > 256 * 1024 or
+            execution['stdout_sha256'] != hashlib.sha256(execution['stdout'].encode('utf-8')).hexdigest()):
+        fail('ordinary receiver execution result is malformed or foreign')
+    return value
+
+
+def read_current_ordinary_execution_v1(repo, controller):
+    """Resolve only the current canonical accepted opening's immutable receipt."""
+    canonical = read_current_ordinary_result_v1(repo, controller)
+    ref = _ordinary_execution_ref_v1(controller, canonical)
+    rows = git(repo, 'for-each-ref', '--format=%(objectname) %(refname)', ref).splitlines()
+    if not rows:
+        return None
+    if len(rows) != 1 or rows[0].split(' ', 1)[-1] != ref:
+        fail('ordinary receiver ref namespace is ambiguous')
+    oid = rows[0].split(' ', 1)[0]
+    raw = git_blob_bytes(repo, oid, 'ordinary receiver execution')
+    _ordinary_execution_record_v1(decoded_artifact(raw, 'ordinary receiver execution'), canonical)
+    if read_current_ordinary_result_v1(repo, controller) != canonical or git(repo, 'rev-parse', '--verify', ref) != oid:
+        fail('ordinary receiver accepted custody changed during read')
+    return {'ref': ref, 'oid': oid, 'wire': bytes_identity(raw)}
+
+
+def record_current_ordinary_execution_v1(repo, controller, execution):
+    """Existing-owner expected-absence publication; caller is the fixed runner.
+
+    This stores its actual subprocess observation, never a child-model exit.
+    No existing receipt is overwritten, including a failed execution.
+    """
+    common = str(Path(git(repo, 'rev-parse', '--path-format=absolute', '--git-common-dir')).resolve())
+    with namespace_gate(common):
+        canonical = read_current_ordinary_result_v1(repo, controller)
+        ref = _ordinary_execution_ref_v1(controller, canonical)
+        if read_current_ordinary_execution_v1(repo, controller) is not None:
+            fail('ordinary receiver execution receipt already exists; preserved')
+        value = {'schema': 'implementaudit.ordinary-receiver-record.v1',
+            'accepted_record_oid': canonical['canonical_route']['record_oid'],
+            'opening_digest': canonical['opening']['opening_digest'],
+            'execution': execution, 'execution_digest': digest_json(execution)}
+        _ordinary_execution_record_v1(value, canonical)
+        raw = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=True, allow_nan=False).encode('utf-8') + b'\n'
+        oid = write_route_record_blob(repo, raw.decode('utf-8'))
+        route = canonical['canonical_route']
+        transaction = ('start\nverify ' + route['ref'] + ' ' + route['record_oid'] + '\nverify refs/implementaudit/controllers/' +
+            controller + ' ' + route['controller_record_oid'] + '\nupdate ' + ref + ' ' + oid + ' ' + ZERO_OID + '\nprepare\ncommit\n')
+        completed = subprocess.run([str(trusted_host_executable(repo, 'git')), 'update-ref', '--stdin'], cwd=repo,
+            env=sanitized_action_environment(), input=transaction.encode('ascii'), capture_output=True, check=False)
+        if completed.returncode:
+            fail('ordinary receiver expected-absence publication refused; reconcile effect before retry')
+        if read_current_ordinary_result_v1(repo, controller) != canonical:
+            fail('ordinary receiver receipt retained but currentness changed; no current credit')
+        result = read_current_ordinary_execution_v1(repo, controller)
+        if result != {'ref': ref, 'oid': oid, 'wire': bytes_identity(raw)}:
+            fail('ordinary receiver execution receipt readback differs')
+        return result

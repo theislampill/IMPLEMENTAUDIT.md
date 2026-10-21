@@ -25,6 +25,7 @@ def load_fixture(name, path):
 
 load_fixture('native_test_support', ROOT / 'fixtures/operational-evidence/native-episode-controls/native_test_support.py')
 owner_fixture = load_fixture('episode_fixture_data', ROOT / 'fixtures/operational-evidence/native-episode-controls/test_episode_export.py')
+ordinary_fixture = load_fixture('ordinary_episode_fixture_data', ROOT / 'fixtures/operational-evidence/ordinary-native-controls.py')
 saved_argv = sys.argv
 try:
     sys.argv = ['route_fixture', str(ROOT)]
@@ -34,6 +35,91 @@ finally:
 
 
 class NativeEpisodeProjectionTests(unittest.TestCase):
+    def test_ordinary_binding_requires_exact_canonical_acceptance(self):
+        episode = ordinary_fixture.available_export()
+        owner = episode['owner']
+        host = owner['host_and_scope']
+        graph = {'route_scope': {
+            'owner': {key: host[key] for key in ('controller_id', 'claim_id', 'explicit_run_root',
+                                               'continuity_generation', 'continuity_receipt')},
+            'host': {key: host[key] for key in ('host_id', 'host_session_id', 'host_binding_generation', 'host_correlation_id')},
+            'source': {'producer_sha256': owner['code_pins']['implementaudit/scripts/route-transaction.py']},
+            'satisfaction': episode['acceptance']['decision']['digest']}}
+        wrapped = {'value': episode,
+            'producer_sha256': owner['code_pins']['implementaudit/scripts/compaction-audit-pending.py'],
+            'contract_sha256': owner['code_pins']['implementaudit/scripts/compaction-result-observation.py']}
+        oe._native_episode_binding(wrapped, owner['canonical_route'], graph)
+        graph['route_scope']['satisfaction'] = 'sha256:'+'0'*64
+        with self.assertRaises(ValueError):
+            oe._native_episode_binding(wrapped, owner['canonical_route'], graph)
+
+    def ordinary_material(self):
+        overrides = {'route_state': 'SATISFIED', 'host_id': 'codex',
+            'host_session_id': '11111111-1111-1111-1111-111111111111',
+            'lifecycle': {'governor_decision': {'digest': 'sha256:'+'8'*64}}}
+        collections = route_fixture.NativeRouteProjectionTests().material(record_overrides=overrides)
+        native = collections['native_current']['value']
+        scope = native['route_graph']['route_scope']
+        peers = oe._native_episode_peer_bytes()
+        producer_sha, contract_sha = [hashlib.sha256(raw).hexdigest() for path, raw in peers]
+        code = ordinary_fixture.available_export()['owner']['code_pins']
+        code.update({'implementaudit/scripts/compaction-audit-pending.py': producer_sha,
+            'implementaudit/scripts/compaction-result-observation.py': contract_sha,
+            'implementaudit/scripts/route-transaction.py': scope['source']['producer_sha256']})
+        episode = ordinary_fixture.available_export(canonical_route=native['route'],
+            host_and_scope={**scope['owner'], **scope['host'],
+                **{key: native['route'][key] for key in ('obligation_id', 'route_transaction_id')}},
+            scope=scope['scope'], code_pins=code)
+        overrides['lifecycle']['governor_decision']['digest'] = episode['acceptance']['decision']['digest']
+        collections = route_fixture.NativeRouteProjectionTests().material(record_overrides=overrides)
+        collections['native_current']['value']['native_episode'] = {
+            'producer_sha256': producer_sha, 'contract_sha256': contract_sha, 'value': episode}
+        return collections
+
+    def test_ordinary_actual_primary_queries_why_diff_and_owner_binding(self):
+        collections = self.ordinary_material()
+        value = self.payload(collections)
+        with patch.object(oe.subprocess, 'Popen', side_effect=AssertionError('frozen acquisition')), \
+                patch.object(oe, 'collect_native_current', side_effect=AssertionError('native refresh')):
+            rows = oe._snapshot_query_records_v1(value)
+            joined = next(row['record'] for row in rows if row['record']['record_type'] == 'NativeJoin')
+            why = oe.explain_history_why_v1(value, joined['id'])
+            self.assertTrue({'NativeAcceptance', 'NativeResult', 'NativePhysicalCustody'} <=
+                            {row['record_type'] for row in why['chain']})
+            self.assertEqual(oe.diff_snapshots(value, value)['counts']['changed'], 0)
+            for family in oe.FAMILIES:
+                oe.query_family(value, family)
+        native = collections['native_current']['value']
+        foreign = copy.deepcopy(native['route_graph'])
+        foreign['route_scope']['satisfaction'] = 'sha256:'+'0'*64
+        with self.assertRaises(ValueError):
+            oe._native_episode_binding(native['native_episode'], native['route'], foreign)
+
+    def test_ordinary_projection_does_not_invent_compaction_or_formal_stages(self):
+        # Projection unit only. This constructed value is not authenticated,
+        # and is deliberately not passed off as a frozen-validator positive.
+        collections = copy.deepcopy(SEED['collections'])
+        native = collections['native_current']['value']
+        native.update(schema=oe.NATIVE_CURRENT_SCHEMA, route_relation=None, route_graph=None)
+        episode = {'schema': 'implementaudit.ordinary-episode-export.v1', 'status': 'AVAILABLE',
+            'reason_code': None, 'export_digest': 'sha256:'+'d'*64,
+            'owner': {'scope': 'ordinary-review'}, 'result': {'separate': 'result'},
+            'acceptance': {'separate': 'acceptance'}, 'receiving': {'separate': 'join'},
+            'custody': {'separate': 'physical'}, 'occurrences': {'separate': 'occurrences'},
+            'lifecycle': {'LOAD': 'UNVERIFIED', 'USE': 'UNVERIFIED', 'DISPOSE': 'UNVERIFIED'}}
+        native['native_episode'] = {'producer_sha256': 'a'*64, 'contract_sha256': 'b'*64, 'value': episode}
+        with patch.object(oe.subprocess, 'Popen', side_effect=AssertionError('no acquisition')):
+            rows = oe._snapshot_query_policy.project_collector('native_current', native)
+            missing = oe._snapshot_missing_census_v1(collections)
+        kinds = {row['record_type'] for row in rows}
+        self.assertTrue({'NativeOrdinaryEpisode', 'NativeResult', 'NativeAcceptance', 'NativeJoin',
+                         'NativePhysicalCustody', 'NativeResultOccurrences'} <= kinds)
+        self.assertNotIn('NativePendingBoundary', kinds)
+        self.assertNotIn('NativePendingScope', kinds)
+        lifecycle = next(row for row in rows if row['record_type'] == 'NativeLifecycleReceipts')
+        self.assertEqual(lifecycle['currentness']['state'], 'UNVERIFIED')
+        self.assertTrue(any(row.get('code') == 'NATIVE_H0_LIFECYCLE_UNAVAILABLE' for row in missing))
+
     def material(self):
         collections = route_fixture.NativeRouteProjectionTests().material(record_overrides={
             'route_state': 'OPEN', 'host_id': 'codex', 'host_session_id': 'fixture-parent'})

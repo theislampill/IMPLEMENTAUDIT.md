@@ -30,8 +30,8 @@ from collections import Counter
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_QUERY_POLICY_MODULE_SHA256 = 'e57dcd7394d248c7379f38ee7d2124cab4e8ebca743bca7b22f2fd4e9d4c2ae4'
-_QUERY_POLICY_MODULE_BYTES = 202320
+_QUERY_POLICY_MODULE_SHA256 = '650e8353dc4b55c45ba3988bfc156be2b7bb9372289ab13c5b92eb5bcf48b8c8'
+_QUERY_POLICY_MODULE_BYTES = 204440
 def _load_query_policy_module():
     import hashlib as _hashlib
     import os as _os
@@ -1689,6 +1689,9 @@ def _native_episode_binding(wrapped, route, graph):
                 **{key: route[key] for key in ("obligation_id", "route_transaction_id")}}
     if value["owner"]["host_and_scope"] != expected:
         raise ValueError("accepted episode belongs to a different host/currentness scope")
+    if (value["schema"] == "implementaudit.ordinary-episode-export.v1" and
+            scope["satisfaction"] != value["acceptance"]["decision"]["digest"]):
+        raise ValueError("ordinary acceptance differs from the canonical satisfied route")
     pins = value["owner"]["code_pins"]
     normalized = {key.replace("\\", "/"): digest for key, digest in pins.items()}
     expected_pins = {"implementaudit/scripts/route-transaction.py": scope["source"]["producer_sha256"],
@@ -2682,7 +2685,11 @@ def _release_candidate_v1(repository, nodes, boundary_currentness, missing_types
 def collect_release(root: pathlib.Path):
     """Collect local and frozen external RELEASE facts without promotion."""
     root = pathlib.Path(root).resolve()
-    repository_before = collect_repository(root)
+    return _collect_release_from_repository_v1(root, collect_repository(root))
+
+
+def _collect_release_from_repository_v1(root, repository_before):
+    """Reuse the same transaction's C02 observation; retain the final C05 fence."""
     repository = repository_before["repository"]
     file_facts = {
         row["path"]: row for row in repository_before["facts"]
@@ -3043,7 +3050,7 @@ def _collect_snapshot_inputs_v1(native: dict) -> dict:
         "evidence_failure": _snapshot_optional_collection_v1(
             "R0038-C04", lambda: collect_evidence_failure(run_root)),
         "release": _snapshot_optional_collection_v1(
-            "R0038-C05", lambda: collect_release(repository_root)),
+            "R0038-C05", lambda: _collect_release_from_repository_v1(repository_root, repository)),
     }
     for row in collections.values():
         row.setdefault(
@@ -3069,10 +3076,12 @@ def _snapshot_missing_census_v1(collections: dict) -> list[dict]:
         if episode is None or episode["status"] != "AVAILABLE":
             missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
                 "owner": "R003A/continuity", "state": "UNVERIFIED", "code": "NATIVE_EPISODE_UNAVAILABLE"})
-        elif episode["lifecycle"]["h0"]["status"] != "RECORDED":
+        elif (episode["schema"] == "implementaudit.ordinary-episode-export.v1" or
+              episode["lifecycle"]["h0"]["status"] != "RECORDED"):
             missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
                 "owner": "R003A/continuity", "state": "UNVERIFIED", "code": "NATIVE_H0_LIFECYCLE_UNAVAILABLE"})
-        if episode is not None and episode["status"] == "AVAILABLE":
+        if (episode is not None and episode["status"] == "AVAILABLE" and
+                episode["schema"] != "implementaudit.ordinary-episode-export.v1"):
             for boundary in episode["pending"]["observations"]:
                 if boundary["kind"] != "COMPLETED_RESUMED_BOUNDARY":
                     missing.append({"kind": "NATIVE_CAPABILITY_UNVERIFIED", "collector": "native_current",
@@ -3613,7 +3622,7 @@ def _native_external_get(url, headers):
             normalized = key.lower()
             # Only these fields enter capture identity/currentness. Unconsumed
             # transport metadata (including OAuth client hints) grants no facts.
-            if normalized not in {"etag", "x-ratelimit-remaining", "link"}:
+            if normalized not in {"etag", "x-ratelimit-remaining", "x-ratelimit-reset", "link"}:
                 continue
             if normalized in seen_headers:
                 _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
@@ -3778,6 +3787,14 @@ def run_external_readonly(request, transport=None, *, authorization_token=None):
     if rate_remaining is not None and rate_remaining < 0:
         _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
                "rate remaining header must be non-negative")
+    reset_text = normalized_headers.get("x-ratelimit-reset")
+    rate_reset_at = None
+    if reset_text is not None:
+        if not re.fullmatch(r"[0-9]{1,12}", reset_text) or int(reset_text) > 253402300799:
+            _error("OE_EXTERNAL_RESPONSE", "$external.response.headers",
+                   "rate reset header must be a bounded UTC epoch")
+        rate_reset_at = (datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc) +
+                         datetime.timedelta(seconds=int(reset_text))).strftime("%Y-%m-%dT%H:%M:%SZ")
     rate_state = (
         "EXHAUSTED" if status == 429 or rate_remaining == 0 else
         "AVAILABLE" if rate_remaining is not None else "UNKNOWN")
@@ -3839,7 +3856,8 @@ def run_external_readonly(request, transport=None, *, authorization_token=None):
         },
         "response": {
             "status": status, "etag": actual_etag,
-            "rate_remaining": rate_remaining, "pagination": pagination_state,
+            "rate_remaining": rate_remaining, "rate_reset_at": rate_reset_at,
+            "pagination": pagination_state,
             "body_sha256": hashlib.sha256(body).hexdigest(),
             "body_bytes": len(body),
         },

@@ -153,6 +153,7 @@ def _validate_source_episode(candidate, candidate_pin, context, prepared, result
     return {'schema': 'implementaudit.source-owner-episode-attestation.v1', 'issuer_id': policy['descriptor']['authenticating_source_owner']['issuer_id'], 'policy_digest': policy['policy_digest'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'parent_identity': candidate['parent_identity'], 'actual_child_identity': candidate['actual_child_identity'], 'obligation_digest': candidate['obligation_digest'], 'result_digest': result['return_digest'], 'acceptance_digest': candidate['exact_acceptance_digest'], 'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'host_source_binding': binding, 'release_evidence': release_evidence, 'terminal_effect_release': obs.terminal_release_identity(context, prepared, candidate), 'authority_ceiling': 'NONE', **({'current_public_record_binding': public_binding} if public_binding is not None else {})}
 NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
 NONPROTECTED_SELECTION_PIN = None
+ORDINARY_SELECTION_PIN = None
 
 class NonprotectedNativeReadRefusal(ValueError):
 
@@ -445,3 +446,350 @@ def validate(candidate, candidate_pin, context, prepared, result, accepted, poli
     obs = observation(policy)
     with nonprotected_sources_guard(obs, context, policy['code_and_skill_pins']):
         return _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence)
+
+
+def _ordinary_selection_v1():
+    import json
+    require(ORDINARY_SELECTION_PIN is not None, 'ORDINARY_SELECTION_UNBOUND')
+    selected = json.loads(_np_read_pin(ORDINARY_SELECTION_PIN, 256 * 1024), object_pairs_hook=_ordinary_unique_v1)
+    fields = {'schema', 'profile_id', 'instance_selection', 'root_thread_id', 'root_agent_path',
+        'root_source', 'session_root', 'cwd', 'cli_version', 'native_version', 'desktop_version',
+        'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'python_executable',
+        'runtime_helpers', 'episode_owner', 'receiving'}
+    require(type(selected) is dict and set(selected) == fields and
+            selected['schema'] == 'implementaudit.codex-ordinary-selection.v1' and
+            selected['profile_id'] == 'codex-app-ordinary-review-v1' and
+            selected['instance_selection'] == 'EXACT_ROOT_EXECUTION_ANCESTRY' and selected['root_agent_path'] == '/root',
+            'ORDINARY_SELECTION_SHAPE')
+    require(set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'},
+            'ORDINARY_HELPER_POPULATION')
+    receiving = selected['receiving']
+    require(type(receiving) is dict and set(receiving) == {'artifact_root', 'review_evidence_path', 'receiving_evidence_path',
+        'graph_owner', 'receiver_node', 'consumer', 'h0_store', 'h0_owner_id'}, 'ORDINARY_RECEIVING_SELECTION')
+    for key in ('artifact_root', 'review_evidence_path', 'receiving_evidence_path', 'h0_store'):
+        require(type(receiving[key]) is str and Path(receiving[key]).is_absolute(), 'ORDINARY_SELECTED_PATH')
+    require(receiving['review_evidence_path'] != receiving['receiving_evidence_path'], 'ORDINARY_EVIDENCE_SLOT_ALIAS')
+    return selected
+
+
+def _ordinary_unique_v1(pairs):
+    value = {}
+    for key, item in pairs:
+        require(key not in value, 'ORDINARY_DUPLICATE_KEY')
+        value[key] = item
+    return value
+
+
+def _ordinary_modules_v1(selected):
+    custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    protocol = _np_module(selected['runtime_helpers']['bounded_native_reader.py'], 'bounded_native_reader.py', custody)
+    helpers = _np_module(selected['runtime_helpers']['bounded_source_owner.py'], 'bounded_source_owner.py', custody)
+    protocol.custody = helpers.custody = custody
+    pins = {}
+    names = ('route-transaction.py', 'compaction-audit-pending.py', 'compaction-result-observation.py',
+        'compaction-source-owner-codex-app.py', 'bounded_source_owner.py', 'bounded_native_reader.py',
+        'bounded_file_custody.py', 'codex-recovery-native-reader.py', 'host-session-binding.py',
+        'compile-work-graph.py', 'claim-run.sh', 'validate-run-root.sh', 'route_request_policy.py')
+    paths = [HERE / name for name in names] + [HERE.parent / 'SKILL.md', HERE.parent.parent / 'audit-assess/SKILL.md',
+        HERE.parent / 'references/child-agents.md', HERE.parent / 'references/continuity.md']
+    for path in paths:
+        with custody.held_file(path, allow_append=False) as stream:
+            info = os.fstat(stream.fileno())
+            require(0 < info.st_size <= 512 * 1024 and info.st_nlink == 1, 'ORDINARY_CODE_BOUND')
+            raw = stream.read(info.st_size)
+            require(len(raw) == info.st_size, 'ORDINARY_CODE_TRUNCATED')
+        pins[path.relative_to(HERE.parent.parent).as_posix()] = hashlib.sha256(raw).hexdigest()
+    def module(name):
+        path = HERE / name
+        return _np_module({'path': str(path), 'bytes': path.stat().st_size,
+                          'sha256': pins['implementaudit/scripts/' + name]}, name, custody)
+    return (selected, custody, protocol, helpers, module('codex-recovery-native-reader.py')), module('compaction-result-observation.py'), pins
+
+
+def _ordinary_receiver_input_v1(selected, obs):
+    command = '& ' + obs.shell_literal(selected['python_executable']['path'])
+    command += ' -I -S -B ' + obs.shell_literal(str(Path(__file__).resolve())) + ' --ordinary-execute'
+    return obs.tool_input(command) + '\n'
+
+
+def ordinary_policy_v1():
+    """Prospective P. Put its digest in the immutable R0033 mission before OPEN."""
+    selected = _ordinary_selection_v1()
+    _, obs, pins = _ordinary_modules_v1(selected)
+    receiving = selected['receiving']
+    return {'schema': 'implementaudit.ordinary-native-policy.v1', 'profile_id': obs.ORDINARY_PROFILE,
+        'selection_pin': dict(ORDINARY_SELECTION_PIN), 'instance_selection': selected['instance_selection'],
+        'provider': {k: selected[k] for k in ('native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'python_executable')},
+        'code_pins': pins, 'receiver_argv': [selected['python_executable']['path'], '-I', '-S', '-B', str(Path(__file__).resolve()), '--ordinary-receiver'],
+        'receiver_node': receiving['receiver_node'], 'consumer': receiving['consumer'],
+        'artifact_root': receiving['artifact_root'], 'root_thread_id': selected['root_thread_id'], 'root_agent_path': selected['root_agent_path']}
+
+
+def ordinary_receiver_tool_input_v1():
+    selected = _ordinary_selection_v1()
+    _, obs, _ = _ordinary_modules_v1(selected)
+    return _ordinary_receiver_input_v1(selected, obs)
+
+
+def _ordinary_provider_guard_v1(runtime):
+    import contextlib
+    selected, custody, protocol, helpers, _ = runtime
+    @contextlib.contextmanager
+    def guard():
+        with contextlib.ExitStack() as stack:
+            held = []
+            # All immutable pins are checked BEFORE any native app-server read.
+            for key, maximum in (('native_executable', 512 * 1024 * 1024), ('desktop_executable', 512 * 1024 * 1024),
+                ('desktop_asar', 1024 * 1024 * 1024), ('config_file', 65536), ('python_executable', 128 * 1024 * 1024)):
+                pin = selected[key]
+                require(set(pin) == {'path', 'bytes', 'sha256'} and type(pin['bytes']) is int and 0 < pin['bytes'] <= maximum,
+                        'ORDINARY_PROVIDER_PIN')
+                stream = stack.enter_context(custody.held_file(pin['path'], allow_append=False))
+                info = os.fstat(stream.fileno())
+                require(info.st_size == pin['bytes'] and info.st_nlink == 1, 'ORDINARY_PROVIDER_IDENTITY')
+                checksum = hashlib.sha256(); remaining = pin['bytes']
+                while remaining:
+                    raw = stream.read(min(65536, remaining))
+                    require(raw, 'ORDINARY_PROVIDER_TRUNCATED'); checksum.update(raw); remaining -= len(raw)
+                require(checksum.hexdigest() == pin['sha256'], 'ORDINARY_PROVIDER_DIGEST_CHANGED')
+                held.append((stream, info))
+            host = helpers.owning_ordinary_host(selected, protocol)
+            yield
+            require(helpers.owning_ordinary_host(selected, protocol) == host, 'ORDINARY_PROCESS_INSTANCE_CHANGED')
+            for stream, before in held:
+                after = os.fstat(stream.fileno())
+                require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_nlink) ==
+                        (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_nlink), 'ORDINARY_PROVIDER_CHANGED')
+    return guard()
+
+
+def _ordinary_artifact_v1(obs, selected, pin):
+    root, _ = obs.physical(pin['path'])
+    allowed = Path(selected['receiving']['artifact_root']).resolve(strict=True)
+    require(root.is_relative_to(allowed), 'ORDINARY_ARTIFACT_OUTSIDE_CUSTODY')
+    return obs.artifact(pin, maximum=obs.MAX_TOTAL)
+
+
+def _ordinary_document_v1(obs, selected, path):
+    import json
+    file, info = obs.physical(path)
+    require(0 < info.st_size <= 8 * 1024 * 1024 and file.is_relative_to(
+        Path(selected['receiving']['artifact_root']).resolve(strict=True)), 'ORDINARY_DOCUMENT_BOUND')
+    raw = file.read_bytes()
+    pin = {'path': str(file), 'bytes': len(raw), 'sha256': obs.digest(raw)}
+    require(obs.artifact(pin, maximum=8 * 1024 * 1024)[0] == raw, 'ORDINARY_DOCUMENT_CHANGED')
+    return json.loads(raw, object_pairs_hook=obs.unique), pin
+
+
+def _ordinary_resolve_v1(obs, context, role, locator):
+    source = context[role]
+    selected = obs.read_records(source['path'], [source['metadata'], locator],
+        [{'offset': source['metadata']['offset'], 'bytes': source['metadata']['bytes']},
+         {'offset': locator['offset'], 'bytes': locator['bytes']}], source['physical'])['records']
+    meta, row = selected[0]['row'], selected[1]['row']
+    require(meta['type'] == 'session_meta' and obs.digest(obs.canonical(meta['payload'])) == source['metadata_payload_digest'],
+            'ORDINARY_SOURCE_HEADER_CHANGED')
+    p = row['payload']
+    pin = {'path': source['path'], 'physical': source['physical'], 'role': role, 'locator': dict(locator),
+           'timestamp': row['timestamp'], 'message_or_call_id': p.get('id', p.get('call_id', p.get('turn_id')))}
+    return row, pin
+
+
+def _ordinary_public_v1(runtime, obs, context, role, locator, phase):
+    row, pin = _ordinary_resolve_v1(obs, context, role, locator)
+    body = obs.public_message(row, phase, context=context)
+    retained = obs.current_retained_locator(row, context)
+    ident = retained['id']
+    thread = context['actual_child_identity']['thread_id'] if role == 'child' else context['parent_identity']['thread_id']
+    report = _np_call(runtime, [('thread/items/read', {'threadId': thread, 'turnId': ident['turn_id'], 'itemIds': [ident['message_id']]})],
+                      context['actual_child_identity']['thread_id'])
+    expected = {'id': ident['message_id'], 'turn_id': ident['turn_id'], 'phase': phase,
+                'body_bytes': len(body.encode('utf-8')), 'body_sha256': obs.digest(body.encode('utf-8'))}
+    require(report['responses'][0]['items'] == [expected], 'ORDINARY_NATIVE_PUBLIC_BODY_DIFFERS')
+    require(_ordinary_resolve_v1(obs, context, role, locator) == (row, pin), 'ORDINARY_PUBLIC_CHANGED_DURING_READ')
+    # No response timestamp/updatedAt/protocol run identifier enters semantics.
+    return {'pin': pin, 'message_id': ident['message_id'], 'turn_id': ident['turn_id'], 'revision': retained['revision'],
+            'phase': phase, 'body': body, 'body_sha256': expected['body_sha256']}
+
+
+def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical):
+    import contextlib
+    import json
+    document, document_pin = _ordinary_document_v1(obs, selected, selected['receiving']['review_evidence_path'])
+    obs.closed(document, ('schema', 'records'), 'ORDINARY_REVIEW_EVIDENCE')
+    require(document['schema'] == 'implementaudit.ordinary-review-evidence.v1', 'ORDINARY_REVIEW_SCHEMA')
+    locators = obs.closed(document['records'], ('open', 'spawn_call', 'spawn_output', 'child_activation', 'child_final', 'acceptance'), 'ORDINARY_REVIEW_LOCATORS')
+    subject = _np_subject(runtime)
+    require(subject['episode'] == canonical['opening'] and subject['episode']['selected_child_role'] == 'audit-assess', 'ORDINARY_CANONICAL_CHILD')
+    context = {'profile_id': obs.NONPROTECTED_PROFILE, 'parent_identity': subject['parent_identity'],
+               'actual_child_identity': subject['actual_child_identity']}
+    for role in ('parent', 'child'):
+        source = subject['sources'][role]
+        prefix = source['header_prefix']
+        path = source['physical']['path']
+        with runtime[1].held_file(path) as stream:
+            raw = stream.read(prefix['bytes'])
+        require(obs.digest(raw) == prefix['sha256'], 'ORDINARY_METADATA_CHANGED')
+        header = json.loads(raw, object_pairs_hook=obs.unique)
+        require(header['type'] == 'session_meta' and header['ordinal'] == 0, 'ORDINARY_METADATA_ORDINAL')
+        context[role] = {'path': path, 'physical': {k: source['physical'][k] for k in ('device', 'inode')},
+            'metadata': {'offset': 0, 'bytes': prefix['bytes'], 'sha256': prefix['sha256'], 'embedded_ordinal': 0, 'physical_line': 1},
+            'metadata_payload_digest': obs.digest(obs.canonical(header['payload']))}
+    public = [_ordinary_public_v1(runtime, obs, context, 'parent', locators['open'], 'commentary')]
+    call, call_pin = _ordinary_resolve_v1(obs, context, 'parent', locators['spawn_call'])
+    output, output_pin = _ordinary_resolve_v1(obs, context, 'parent', locators['spawn_output'])
+    activation, activation_pin = _ordinary_resolve_v1(obs, context, 'child', locators['child_activation'])
+    args = json.loads(call['payload']['arguments'], object_pairs_hook=obs.unique)
+    require(call['type'] == output['type'] == 'response_item' and call['payload'].get('type') == 'function_call' and
+        call['payload'].get('namespace') == 'collaboration' and call['payload'].get('name') == 'spawn_agent' and
+        output['payload'].get('type') == 'function_call_output' and output['payload'].get('call_id') == call['payload'].get('call_id') and
+        args.get('task_name') == canonical['opening']['logical_task'] and args.get('fork_turns') == 'none' and
+        json.loads(output['payload']['output'], object_pairs_hook=obs.unique) == {'task_name': subject['actual_child_identity']['agent_path']},
+        'ORDINARY_ACTUAL_SPAWN_PAIR')
+    require(activation['type'] == 'event_msg' and activation['payload'].get('type') == 'task_started' and
+        activation['ordinal'] == 1 and locators['child_activation']['offset'] == context['child']['metadata']['bytes'], 'ORDINARY_ACTUAL_ACTIVATION')
+    public.append(_ordinary_public_v1(runtime, obs, context, 'child', locators['child_final'], 'final_answer'))
+    require(public[-1]['turn_id'] == activation['payload'].get('turn_id'), 'ORDINARY_FRESH_TURN')
+    public.append(_ordinary_public_v1(runtime, obs, context, 'parent', locators['acceptance'], 'commentary'))
+    owner = {'profile_id': obs.ORDINARY_PROFILE, 'issuer_id': 'codex-app-canonical-ordinary-public-v1',
+        'policy_digest': obs._ordinary_hash(policy), 'code_pins': pins, 'canonical_route': canonical['canonical_route'],
+        'host_and_scope': canonical['opening']['host_and_scope'], 'opening': canonical['opening'], 'scope': canonical['scope']}
+    returned = obs._ordinary_wire(canonical['child_return'])
+    payload = obs.closed(returned['payload'], ('schema', 'verdict', 'scope', 'summary', 'members', 'authority_ceiling'), 'ORDINARY_PAYLOAD')
+    require(type(payload['members']) is list and 1 <= len(payload['members']) <= 32, 'ORDINARY_MEMBER_POPULATION')
+    members = [{'pin': pin, 'physical': _ordinary_artifact_v1(obs, selected, pin)[1]} for pin in payload['members']]
+    result = {'packet': canonical['packet'], 'return': canonical['child_return'], 'actual_child_identity': subject['actual_child_identity'],
+              'members': members, 'final': public[1]['pin']}
+    acceptance = {'decision': canonical['governor_decision'], 'record': public[2]['pin']}
+    occurrences = {'scope': 'SELECTED_FRESH_CHILD_ONLY', 'history': 'UNEXAMINED_OUTSIDE_SELECTED_RECORDS', 'open': public[0]['pin'],
+        'spawn': {'call': call_pin, 'output': output_pin, 'task_name': args['task_name'], 'fork_turns': args['fork_turns']}, 'activation': activation_pin}
+    return owner, result, acceptance, occurrences, context, public, document_pin
+
+
+def _ordinary_canonical_v1(selected, runtime):
+    owner = selected['episode_owner']
+    route = _np_module(owner['module_pin'], 'route-transaction.py', runtime[1])
+    canonical = route.read_current_ordinary_result_v1(Path(owner['repository']), owner['controller'])
+    if canonical['status'] != 'CANONICAL_REVIEW_ABSENT':
+        h0_path = HERE / 'host-session-binding.py'
+        h0 = _np_module({'path': str(h0_path), 'bytes': h0_path.stat().st_size,
+                         'sha256': hashlib.sha256(h0_path.read_bytes()).hexdigest()}, 'host-session-binding.py', runtime[1])
+        store = Path(selected['receiving']['h0_store'])
+        h0.load_owner(store, selected['receiving']['h0_owner_id'])
+        host = canonical['opening']['host_and_scope']
+        _, state = h0.load_state(store, host['host_id'], host['host_session_id'])
+        binding = h0.current_record(state, require_active=True)
+        expected = {'controller_id': host['controller_id'], 'claim_id': host['claim_id'], 'explicit_run_root': host['explicit_run_root'],
+            'binding_generation': host['host_binding_generation'], 'applicable_continuity_generation': host['continuity_generation'],
+            'applicable_continuity_receipt': host['continuity_receipt']}
+        require(all(binding[k] == v for k, v in expected.items()), 'ORDINARY_H0_CURRENTNESS')
+    return route, canonical
+
+
+def _ordinary_sources_v1(context, all_pins):
+    return {role: {'path': context[role]['path'], 'physical': context[role]['physical'], 'metadata': context[role]['metadata'],
+        'thread_id': context['parent_identity']['thread_id'] if role == 'parent' else context['actual_child_identity']['thread_id'],
+        'cutoff': max(pin['locator']['offset'] + pin['locator']['bytes'] for pin in all_pins if pin['role'] == role)}
+        for role in ('parent', 'child')}
+
+
+def ordinary_receiver_check_v1():
+    """Actual deterministic receiver command. It grants no JOIN or lifecycle."""
+    selected = _ordinary_selection_v1()
+    runtime, obs, pins = _ordinary_modules_v1(selected)
+    policy = ordinary_policy_v1()
+    route, canonical = _ordinary_canonical_v1(selected, runtime)
+    require(canonical['status'] == 'SATISFIED', 'ORDINARY_PARENT_ACCEPTANCE_ABSENT')
+    with _ordinary_provider_guard_v1(runtime):
+        owner, result, acceptance, occurrences, context, public, document_pin = _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical)
+        # Reuse the strict review-only semantic validator before any success.
+        obs.validate_ordinary_review_v1(owner, result, acceptance, occurrences, context, public, policy)
+        require(route.read_current_ordinary_result_v1(Path(selected['episode_owner']['repository']), selected['episode_owner']['controller']) == canonical and
+                ordinary_policy_v1() == policy and _ordinary_document_v1(obs, selected, document_pin['path'])[1] == document_pin,
+                'ORDINARY_RECEIVER_INPUT_CHANGED')
+        return obs.ordinary_receiver_value_v1(owner, result, acceptance)
+
+
+def acquire_selected_ordinary_episode_v1():
+    """Explicit live read-only acquisition; frozen consumers never call this."""
+    import json
+    if ORDINARY_SELECTION_PIN is None:
+        obs_path = HERE / 'compaction-result-observation.py'
+        obs = _np_module({'path': str(obs_path), 'bytes': obs_path.stat().st_size,
+                          'sha256': hashlib.sha256(obs_path.read_bytes()).hexdigest()}, obs_path.name)
+        return obs.ordinary_export_unavailable_v1('ORDINARY_SELECTION_UNBOUND')
+    selected = _ordinary_selection_v1(); runtime, obs, pins = _ordinary_modules_v1(selected)
+    policy = ordinary_policy_v1(); route, canonical = _ordinary_canonical_v1(selected, runtime)
+    missing = {'CANONICAL_REVIEW_ABSENT': 'CANONICAL_REVIEW_ABSENT', 'OPEN': 'CHILD_RETURN_ABSENT', 'RETURNED': 'PARENT_ACCEPTANCE_ABSENT'}
+    if canonical['status'] in missing: return obs.ordinary_export_unavailable_v1(missing[canonical['status']])
+    require(canonical['status'] == 'SATISFIED', 'ORDINARY_CANONICAL_STATE')
+    execution_receipt = route.read_current_ordinary_execution_v1(Path(selected['episode_owner']['repository']), selected['episode_owner']['controller'])
+    if execution_receipt is None: return obs.ordinary_export_unavailable_v1('RECEIVER_EXECUTION_ABSENT')
+    for key, reason in (('review_evidence_path', 'REVIEW_EVIDENCE_ABSENT'), ('receiving_evidence_path', 'RECEIVING_EVIDENCE_ABSENT')):
+        if not os.path.lexists(selected['receiving'][key]): return obs.ordinary_export_unavailable_v1(reason)
+    with _ordinary_provider_guard_v1(runtime):
+        owner, result, acceptance, occurrences, context, public, review_pin = _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical)
+        document, receiving_pin = _ordinary_document_v1(obs, selected, selected['receiving']['receiving_evidence_path'])
+        obs.closed(document, ('schema', 'records', 'graph', 'dispatch', 'work_result', 'join'), 'ORDINARY_RECEIVING_EVIDENCE')
+        require(document['schema'] == 'implementaudit.ordinary-receiving-evidence.v1', 'ORDINARY_RECEIVING_SCHEMA')
+        locators = obs.closed(document['records'], ('join',), 'ORDINARY_RECEIVER_LOCATORS')
+        obs.validate_ordinary_execution_v1(execution_receipt, owner, result, acceptance, policy)
+        values = {}
+        for key in ('graph', 'dispatch', 'work_result', 'join'):
+            raw, _ = _ordinary_artifact_v1(obs, selected, document[key])
+            values[key] = json.loads(raw, object_pairs_hook=obs.unique)
+        graph_owner = _np_module(selected['receiving']['graph_owner'], 'compile-work-graph.py', runtime[1])
+        current_graph = graph_owner.read_native_run_v1(canonical['opening']['host_and_scope']['explicit_run_root'], selected['episode_owner']['repository'])
+        joined = graph_owner.reconcile_native_results_v1(values['graph'], current_graph, values['dispatch'], [values['work_result']], policy['consumer'])
+        require(joined == values['join'], 'ORDINARY_RECEIVING_JOIN_CHANGED')
+        public.append(_ordinary_public_v1(runtime, obs, context, 'parent', locators['join'], 'commentary'))
+        receiving = {'process': execution_receipt, 'dispatch': values['dispatch'], 'result': values['work_result'], 'join': joined, 'record': public[-1]['pin']}
+        all_pins = [item['pin'] for item in public] + [occurrences['spawn']['call'], occurrences['spawn']['output'], occurrences['activation']]
+        value = {'schema': obs.ORDINARY_EXPORT_SCHEMA, 'status': 'AVAILABLE', 'reason_code': None, 'owner': owner,
+            'result': result, 'acceptance': acceptance, 'receiving': receiving, 'lifecycle': dict(obs.ORDINARY_LIFECYCLE),
+            'occurrences': occurrences, 'custody': {'policy': policy, 'sources': _ordinary_sources_v1(context, all_pins),
+                'review_evidence': review_pin, 'receiving_evidence': receiving_pin, 'public_records': public}, 'authority_ceiling': 'NONE'}
+        value['export_digest'] = obs._ordinary_hash(value)
+        obs.validate_ordinary_episode_export_v1(value)
+        require(route.read_current_ordinary_result_v1(Path(selected['episode_owner']['repository']), selected['episode_owner']['controller']) == canonical and
+                ordinary_policy_v1() == policy and _ordinary_document_v1(obs, selected, review_pin['path'])[1] == review_pin and
+                _ordinary_document_v1(obs, selected, receiving_pin['path'])[1] == receiving_pin, 'ORDINARY_FINAL_INPUT_FENCE')
+        require(route.read_current_ordinary_execution_v1(Path(selected['episode_owner']['repository']), selected['episode_owner']['controller']) == execution_receipt,
+                'ORDINARY_EXECUTION_RECEIPT_CHANGED')
+        for member in result['members']:
+            require(_ordinary_artifact_v1(obs, selected, member['pin'])[1] == member['physical'], 'ORDINARY_FINAL_MEMBER_FENCE')
+        return value
+
+
+def execute_ordinary_receiver_v1():
+    """Explicit effect entry. Hold exact bytes, run once, retain owner receipt."""
+    selected = _ordinary_selection_v1(); runtime, obs, pins = _ordinary_modules_v1(selected)
+    policy = ordinary_policy_v1(); route, canonical = _ordinary_canonical_v1(selected, runtime)
+    require(canonical['status'] == 'SATISFIED', 'ORDINARY_PARENT_ACCEPTANCE_ABSENT')
+    repo, controller = Path(selected['episode_owner']['repository']), selected['episode_owner']['controller']
+    existing = route.read_current_ordinary_execution_v1(repo, controller)
+    if existing is not None:
+        return {'status': 'EXISTING_EXECUTION_PRESERVED', 'receipt': existing, 'executed': False}
+    path = Path(__file__).resolve()
+    source_pin = {'path': str(path), 'bytes': path.stat().st_size, 'sha256': pins['implementaudit/scripts/compaction-source-owner-codex-app.py']}
+    with _ordinary_provider_guard_v1(runtime):
+        execution = runtime[3].run_held_ordinary_receiver_v1(selected, source_pin)
+        execution.update(schema='implementaudit.ordinary-receiver-execution.v1', policy_digest=obs._ordinary_hash(policy),
+            opening_digest=canonical['opening']['opening_digest'], return_digest=canonical['child_return']['digest'],
+            acceptance_digest=canonical['governor_decision']['digest'])
+        require(execution['argv'] == policy['receiver_argv'] and ordinary_policy_v1() == policy and
+                route.read_current_ordinary_result_v1(repo, controller) == canonical, 'ORDINARY_EXECUTION_INPUT_CHANGED')
+        receipt = route.record_current_ordinary_execution_v1(repo, controller, execution)
+        return {'status': 'EXECUTION_RECORDED', 'receipt': receipt, 'executed': True}
+
+
+if __name__ == '__main__':
+    import json
+    import sys
+    try:
+        require(sys.argv[1:] in (['--ordinary-receiver'], ['--ordinary-execute']), 'ORDINARY_RECEIVER_ARGUMENTS')
+        value = ordinary_receiver_check_v1() if sys.argv[1] == '--ordinary-receiver' else execute_ordinary_receiver_v1()
+        sys.stdout.write(json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False) + '\n')
+    except (Exception, SystemExit) as error:
+        sys.stderr.write(json.dumps({'schema': 'implementaudit.ordinary-receiver-refusal.v1', 'reason': str(error)}) + '\n')
+        raise SystemExit(2)

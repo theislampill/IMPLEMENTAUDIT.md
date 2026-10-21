@@ -55,11 +55,13 @@ class ReviewRegressions(unittest.TestCase):
         headers.add_header("X-OAuth-Client-Id", "synthetic-public-client")
         headers.add_header("ETag", "exact-etag")
         headers.add_header("X-RateLimit-Remaining", "1")
+        headers.add_header("X-RateLimit-Reset", "978307200")
         with patch.object(oe.urllib.request, "build_opener") as opener:
             opener.return_value.open.return_value = Response(headers)
             result = oe._native_external_get("https://api.github.com/repos/fixture/project/pulls/1", {})
-        self.assertEqual(result["headers"], {"ETag": "exact-etag", "X-RateLimit-Remaining": "1"})
-        for name in ("etag", "x-ratelimit-remaining", "link"):
+        self.assertEqual(result["headers"], {"ETag": "exact-etag", "X-RateLimit-Remaining": "1",
+                                           "X-RateLimit-Reset": "978307200"})
+        for name in ("etag", "x-ratelimit-remaining", "x-ratelimit-reset", "link"):
             duplicate = Message()
             duplicate.add_header(name, "first")
             duplicate.add_header(name.upper(), "second")
@@ -67,6 +69,52 @@ class ReviewRegressions(unittest.TestCase):
                 opener.return_value.open.return_value = Response(duplicate)
                 with self.assertRaises(oe.OperationalEvidenceError):
                     oe._native_external_get("https://api.github.com/repos/fixture/project/pulls/1", {})
+
+    def test_external_capture_retains_exact_rate_reset_without_invention(self):
+        request = {"schema": "implementaudit-external-read-request-v1", "source": "GITHUB_API",
+            "operation": "PULL_REQUEST", "path": "/repos/fixture/project/pulls/1", "auth_state": "PRESENT",
+            "page": 1, "per_page": 100, "expected_etag": None, "captured_at": "2001-01-01T00:00:00Z",
+            "expires_at": "2099-01-01T01:00:00Z", "evaluated_at": "2001-01-01T00:00:00Z"}
+        response = {"status": 200, "headers": {"ETag": "fixture", "X-RateLimit-Remaining": "1",
+                    "X-RateLimit-Reset": "978307200"}, "body": oe.canonical_json_v1({"id": 1, "number": 1,
+                    "url": "https://api.github.com/repos/fixture/project/pulls/1",
+                    "base": {"repo": {"full_name": "fixture/project"}}})}
+        with patch.object(oe, "_native_external_get", return_value=response):
+            value = oe.run_external_readonly(request, authorization_token="synthetic-token")
+        self.assertEqual(value["response"]["rate_reset_at"], "2001-01-01T00:00:00Z")
+        self.assertNotIn("synthetic-token", str(value))
+        for bad in ("-1", "not-an-epoch", "1,2", "253402300800", "９７８３０７２００"):
+            with self.subTest(reset=bad), patch.object(oe, "_native_external_get", return_value={
+                    **response, "headers": {**response["headers"], "X-RateLimit-Reset": bad}}):
+                with self.assertRaises(oe.OperationalEvidenceError):
+                    oe.run_external_readonly(request)
+        response["headers"].pop("X-RateLimit-Reset")
+        with patch.object(oe, "_native_external_get", return_value=response):
+            missing = oe.run_external_readonly(request)
+        self.assertIsNone(missing["response"]["rate_reset_at"])
+
+    def test_snapshot_release_reuses_acquired_repository_and_keeps_final_fence(self):
+        root = ROOT / "fixtures/operational-evidence/release/positive"
+        repository = {"repository": {"commit": "3"*40, "tree": "4"*40, "worktree_state": "CLEAN"},
+            "facts": [{"kind": "FILE", "path": p.relative_to(root).as_posix(),
+                       "sha256": hashlib.sha256(p.read_bytes()).hexdigest()}
+                      for p in root.rglob("*") if p.is_file()]}
+        native = copy.deepcopy(SEED["collections"]["native_current"]["value"])
+        native["repository"]["root"] = str(root)
+        native["claim"]["run_root"] = "."
+        with patch.object(oe, "collect_repository", return_value=repository) as scan:
+            reference = oe.collect_release(root)
+            self.assertEqual(scan.call_count, 2)
+        with patch.object(oe, "collect_repository", return_value=repository) as scan:
+            composed = oe._collect_snapshot_inputs_v1(native)
+            self.assertEqual(scan.call_count, 2)  # Opening C02 plus unchanged C05 final fence.
+            self.assertEqual(composed["release"]["value"], reference)
+        changed = copy.deepcopy(repository)
+        changed["repository"]["commit"] = "5"*40
+        with patch.object(oe, "collect_repository", side_effect=[repository, changed]), \
+                self.assertRaises(oe.OperationalEvidenceError) as refused:
+            oe._collect_snapshot_inputs_v1(native)
+        self.assertEqual(refused.exception.code, "OE_RELEASE_CHANGED_DURING_SCAN")
 
     @unittest.skipUnless(os.name == "nt", "Windows Git long-path behavior")
     def test_git_long_path_deletion_is_not_clean(self):

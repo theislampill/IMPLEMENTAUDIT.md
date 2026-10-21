@@ -1547,10 +1547,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'cb84be5590efe48c852a0b5f5f2b126790ccd2986cb57004001677494d6209fe'
+_NATIVE_STATIC_OWNER_SHA256 = 'af337b1c3d4e58eedabc7b669644c324d0039dfe2561a3f890ff3564cda0c0b3'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 341374
+_NATIVE_STATIC_OWNER_BYTES = 342608
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2167,10 +2167,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '0d4faa89878a8072409536ed2f4802576f2adb4ec5ee28755d0489b396bcc895'
+_NATIVE_ROUTE_PRODUCER_SHA256 = '1391c824a07bca15452a47df877ab7e57f68f96abcdb899df542717cd258112b'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 341797
+_NATIVE_ROUTE_PRODUCER_BYTES = 349917
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()

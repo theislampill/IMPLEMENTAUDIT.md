@@ -1127,6 +1127,8 @@ def _episode_export_code_pins(pins):
 
 
 def validate_frozen_episode_export_v1(value):
+    if isinstance(value, dict) and value.get('schema') == 'implementaudit.ordinary-episode-export.v1':
+        return validate_ordinary_episode_export_v1(value)
     """Validate a captured projection only. No filesystem, native RPC or refresh.
 
     This function does not authenticate caller-authored facts. The collector
@@ -1219,3 +1221,386 @@ def validate_frozen_episode_export_v1(value):
         require(prior['locator']['embedded_ordinal'] < current['locator']['embedded_ordinal'],
             'EPISODE_EXPORT_RECORD_ORDINAL_ORDER')
     return value
+
+
+# Ordinary review receiving is a separate contract. No compaction assignment,
+# boundary coverage, pending consumption or full H0 lifecycle is implied.
+ORDINARY_PROFILE = 'codex-app-ordinary-review-v1'
+ORDINARY_EXPORT_SCHEMA = 'implementaudit.ordinary-episode-export.v1'
+ORDINARY_ABSENCES = ('ORDINARY_SELECTION_UNBOUND', 'CANONICAL_REVIEW_ABSENT',
+                    'CHILD_RETURN_ABSENT', 'PARENT_ACCEPTANCE_ABSENT',
+                    'REVIEW_EVIDENCE_ABSENT', 'RECEIVER_EXECUTION_ABSENT', 'RECEIVING_EVIDENCE_ABSENT')
+ORDINARY_LIFECYCLE = {'OPEN': 'CANONICAL', 'RETURN': 'CANONICAL', 'RECONCILE': 'CANONICAL',
+                      'LOAD': 'UNVERIFIED', 'USE': 'UNVERIFIED', 'DISPOSE': 'UNVERIFIED',
+                      'parent_complete': False}
+
+
+def _ordinary_hash(value):
+    return digest(json.dumps(value, sort_keys=True, separators=(',', ':'),
+                             ensure_ascii=False, allow_nan=False).encode('utf-8'))
+
+
+def _ordinary_sha(value, prefixed=False):
+    require(type(value) is str and re.fullmatch(('sha256:' if prefixed else '') + '[0-9a-f]{64}', value),
+            'ORDINARY_DIGEST')
+
+
+def _ordinary_text(value):
+    require(type(value) is str and 0 < len(value) <= 4096 and all(ord(c) >= 32 for c in value),
+            'ORDINARY_TEXT')
+
+
+def _ordinary_wire(value):
+    import base64
+    closed(value, ('bytes', 'digest', 'bytes_b64'), 'ORDINARY_WIRE_FIELDS')
+    require(type(value['bytes']) is int and 0 < value['bytes'] <= 1024 * 1024 and
+            type(value['bytes_b64']) is str and len(value['bytes_b64']) <= 1400000, 'ORDINARY_WIRE_BOUND')
+    _ordinary_sha(value['digest'], True)
+    raw = base64.b64decode(value['bytes_b64'], validate=True)
+    require(len(raw) == value['bytes'] and 'sha256:' + digest(raw) == value['digest'], 'ORDINARY_WIRE_DIGEST')
+    result = json.loads(raw.decode('utf-8', 'strict'), object_pairs_hook=unique)
+    require(type(result) is dict, 'ORDINARY_WIRE_OBJECT')
+    return result
+
+
+def _ordinary_pin(value):
+    closed(value, ('path', 'bytes', 'sha256'), 'ORDINARY_ARTIFACT_PIN')
+    _episode_export_path(value['path'])
+    require(type(value['bytes']) is int and 0 < value['bytes'] <= MAX_TOTAL, 'ORDINARY_ARTIFACT_BOUND')
+    _ordinary_sha(value['sha256'])
+
+
+def _ordinary_record(pin, sources, role=None):
+    closed(pin, ('path', 'physical', 'role', 'locator', 'timestamp', 'message_or_call_id'), 'ORDINARY_RECORD_PIN')
+    require(pin['role'] in sources and (role is None or pin['role'] == role), 'ORDINARY_RECORD_ROLE')
+    source = sources[pin['role']]
+    require(pin['path'] == source['path'] and pin['physical'] == source['physical'], 'ORDINARY_RECORD_SOURCE')
+    loc = closed(pin['locator'], ('offset', 'bytes', 'sha256', 'embedded_ordinal', 'physical_line'), 'ORDINARY_LOCATOR')
+    require(type(loc['offset']) is int and loc['offset'] >= source['metadata']['bytes'] and
+            type(loc['bytes']) is int and 0 < loc['bytes'] <= MAX_RECORD and
+            loc['offset'] + loc['bytes'] <= source['cutoff'] and
+            type(loc['embedded_ordinal']) is int and loc['embedded_ordinal'] >= 1 and
+            (loc['physical_line'] is None or type(loc['physical_line']) is int and loc['physical_line'] >= 2),
+            'ORDINARY_RECORD_RANGE')
+    _ordinary_sha(loc['sha256'])
+    _ordinary_text(pin['timestamp']); _ordinary_text(pin['message_or_call_id'])
+
+
+def ordinary_receiver_value_v1(owner, result, acceptance):
+    return {'schema': 'implementaudit.ordinary-receiver-result.v1', 'status': 'VALIDATED',
+            'opening_digest': owner['opening']['opening_digest'],
+            'packet_digest': result['packet']['digest'], 'return_digest': result['return']['digest'],
+            'acceptance_digest': acceptance['decision']['digest'],
+            'members_digest': _ordinary_hash(result['members']), 'scope': owner['scope'],
+            'actual_child_identity': result['actual_child_identity'], 'authority_ceiling': 'NONE'}
+
+
+def ordinary_join_value_v1(owner, result, acceptance, receiving):
+    return {'schema': 'implementaudit.ordinary-join-acceptance.v1',
+            'opening_digest': owner['opening']['opening_digest'], 'return_digest': result['return']['digest'],
+            'acceptance_digest': acceptance['decision']['digest'],
+            'execution_receipt_ref': receiving['process']['ref'],
+            'execution_receipt_digest': receiving['process']['wire']['digest'],
+            'receiver_evidence_digest': receiving['result']['evidence_digest'],
+            'node': receiving['result']['node'], 'consumer': receiving['join']['consumer'],
+            'graph_digest': receiving['join']['graph_digest'], 'dispatch_id': receiving['dispatch']['dispatch_id'],
+            'join_digest': _ordinary_hash(receiving['join']), 'scope': owner['scope'],
+            'decision_before': 'RECEIVING_UNVERIFIED', 'decision_after': 'SCOPED_RESULT_RECEIVED',
+            'authority_ceiling': 'NONE'}
+
+
+def ordinary_export_unavailable_v1(reason):
+    value = {'schema': ORDINARY_EXPORT_SCHEMA, 'status': 'UNAVAILABLE', 'reason_code': reason,
+             **{key: None for key in ('owner', 'result', 'acceptance', 'receiving', 'lifecycle', 'occurrences', 'custody')},
+             'authority_ceiling': 'NONE'}
+    return validate_ordinary_episode_export_v1({**value, 'export_digest': _ordinary_hash(value)})
+
+
+def _validate_ordinary_episode_v1(value, *, review_only=False):
+    """Pure closed-schema consistency check; never authenticates caller bytes."""
+    raw = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
+    require(len(raw) <= 8 * 1024 * 1024, 'ORDINARY_EXPORT_BOUND')
+    closed(value, ('schema', 'status', 'reason_code', 'owner', 'result', 'acceptance', 'receiving',
+                   'lifecycle', 'occurrences', 'custody', 'authority_ceiling', 'export_digest'), 'ORDINARY_EXPORT_FIELDS')
+    require(value['schema'] == ORDINARY_EXPORT_SCHEMA and value['authority_ceiling'] == 'NONE' and
+            value['export_digest'] == _ordinary_hash({k: v for k, v in value.items() if k != 'export_digest'}),
+            'ORDINARY_EXPORT_IDENTITY')
+    if value['status'] == 'UNAVAILABLE':
+        require(value['reason_code'] in ORDINARY_ABSENCES and all(value[k] is None for k in
+                ('owner', 'result', 'acceptance', 'receiving', 'lifecycle', 'occurrences', 'custody')), 'ORDINARY_ABSENCE')
+        return value
+    require(value['status'] == 'AVAILABLE' and value['reason_code'] is None, 'ORDINARY_EXPORT_STATUS')
+    owner = closed(value['owner'], ('profile_id', 'issuer_id', 'policy_digest', 'code_pins',
+                    'canonical_route', 'host_and_scope', 'opening', 'scope'), 'ORDINARY_OWNER')
+    require(owner['profile_id'] == ORDINARY_PROFILE and owner['issuer_id'] == 'codex-app-canonical-ordinary-public-v1',
+            'ORDINARY_OWNER_PROFILE')
+    route, host = owner['canonical_route'], owner['host_and_scope']
+    result = closed(value['result'], ('packet', 'return', 'actual_child_identity', 'members', 'final'), 'ORDINARY_RESULT')
+    child = closed(result['actual_child_identity'], ('thread_id', 'parent_thread_id', 'agent_path'), 'ORDINARY_CHILD')
+    for item in child.values(): _ordinary_text(item)
+    episode = {'parent_identity': {'thread_id': child['parent_thread_id']}}
+    _episode_export_route_binding(owner, episode)
+    require(route['route_state'] == 'SATISFIED', 'ORDINARY_ROUTE_NOT_ACCEPTED')
+    opening = closed(owner['opening'], ('schema', 'route_current', 'open_record_oid', 'open_record_identity',
+        'logical_task', 'selected_child_role', 'selected_child_target', 'packet_pin', 'skill_pin', 'host_and_scope',
+        'canonical_route_currentness', 'authority_ceiling', 'opening_digest', 'binding_digest'), 'ORDINARY_OPENING')
+    require(opening['schema'] == 'implementaudit.r0033-current-episode-binding.v1' and
+            opening['route_current'] == route and opening['host_and_scope'] == host and
+            opening['selected_child_role'] == 'audit-assess' and opening['selected_child_target'] == 'independently assess the exact immutable review packet' and
+            opening['canonical_route_currentness'] == 'VALIDATED_AT_READ' and opening['authority_ceiling'] == 'NONE' and
+            re.fullmatch('[a-z0-9][a-z0-9_-]{0,127}', opening['logical_task']) is not None,
+            'ORDINARY_OPENING_BINDING')
+    opening_body = {k: opening[k] for k in ('open_record_oid', 'open_record_identity', 'logical_task',
+                    'selected_child_role', 'selected_child_target', 'packet_pin', 'skill_pin', 'host_and_scope')}
+    require(opening['opening_digest'] == 'sha256:' + _ordinary_hash(opening_body) and
+            opening['binding_digest'] == 'sha256:' + _ordinary_hash({k: v for k, v in opening.items() if k not in ('opening_digest', 'binding_digest')}),
+            'ORDINARY_OPENING_DIGEST')
+    require(type(opening['open_record_oid']) is str and re.fullmatch('[0-9a-f]{40}(?:[0-9a-f]{24})?', opening['open_record_oid']), 'ORDINARY_OPEN_OID')
+    _ordinary_sha(opening['open_record_identity'], True)
+    require(child['thread_id'] != child['parent_thread_id'] and child['parent_thread_id'] == host['host_session_id'], 'ORDINARY_CHILD_PARENT')
+    scope = closed(owner['scope'], ('identity', 'digest'), 'ORDINARY_SCOPE')
+    _ordinary_text(scope['identity'])
+    require(scope['digest'] == 'sha256:' + _ordinary_hash({'identity': scope['identity']}), 'ORDINARY_SCOPE_DIGEST')
+    custody = closed(value['custody'], ('policy', 'sources', 'review_evidence', 'receiving_evidence', 'public_records'), 'ORDINARY_CUSTODY')
+    policy = closed(custody['policy'], ('schema', 'profile_id', 'selection_pin', 'instance_selection', 'provider',
+        'code_pins', 'receiver_argv', 'receiver_node', 'consumer', 'artifact_root', 'root_thread_id', 'root_agent_path'), 'ORDINARY_POLICY')
+    require(policy['schema'] == 'implementaudit.ordinary-native-policy.v1' and policy['profile_id'] == ORDINARY_PROFILE and
+            policy['instance_selection'] == 'EXACT_ROOT_EXECUTION_ANCESTRY' and
+            owner['policy_digest'] == _ordinary_hash(policy) and owner['code_pins'] == policy['code_pins'] and
+            child['parent_thread_id'] == policy['root_thread_id'] and
+            child['agent_path'] == policy['root_agent_path'] + '/' + opening['logical_task'], 'ORDINARY_POLICY_BINDING')
+    pins = owner['code_pins']
+    required = {'implementaudit/scripts/' + name for name in ('route-transaction.py', 'compaction-audit-pending.py',
+        'compaction-result-observation.py', 'compaction-source-owner-codex-app.py', 'bounded_source_owner.py',
+        'bounded_native_reader.py', 'bounded_file_custody.py', 'codex-recovery-native-reader.py',
+        'host-session-binding.py', 'compile-work-graph.py', 'claim-run.sh', 'validate-run-root.sh', 'route_request_policy.py')}
+    required.update(('implementaudit/SKILL.md', 'audit-assess/SKILL.md',
+                     'implementaudit/references/child-agents.md', 'implementaudit/references/continuity.md'))
+    require(type(pins) is dict and set(pins) == required, 'ORDINARY_CODE_PIN_POPULATION')
+    for pin in pins.values(): _ordinary_sha(pin)
+    skill = closed(opening['skill_pin'], ('identity', 'bytes', 'digest'), 'ORDINARY_SKILL_PIN')
+    _episode_export_path(skill['identity'])
+    require(skill['identity'].replace('\\', '/').endswith('/audit-assess/SKILL.md') and type(skill['bytes']) is int and
+            0 < skill['bytes'] <= 1024 * 1024 and skill['digest'] == 'sha256:' + pins['audit-assess/SKILL.md'], 'ORDINARY_SKILL_SOURCE')
+    _ordinary_pin(policy['selection_pin']); _episode_export_path(policy['artifact_root'])
+    require(type(policy['provider']) is dict and set(policy['provider']) ==
+            {'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'python_executable'}, 'ORDINARY_PROVIDER')
+    for pin in policy['provider'].values():
+        closed(pin, ('path', 'bytes', 'sha256'), 'ORDINARY_PROVIDER_PIN')
+        _episode_export_path(pin['path']); _ordinary_sha(pin['sha256'])
+        require(type(pin['bytes']) is int and 0 < pin['bytes'] <= 1024 * 1024 * 1024, 'ORDINARY_PROVIDER_BOUND')
+    require(type(policy['receiver_argv']) is list and len(policy['receiver_argv']) == 6 and
+            policy['receiver_argv'][0] == policy['provider']['python_executable']['path'] and
+            policy['receiver_argv'][1:4] == ['-I', '-S', '-B'] and policy['receiver_argv'][5] == '--ordinary-receiver' and
+            policy['receiver_argv'][4].replace('\\', '/').endswith('/compaction-source-owner-codex-app.py'), 'ORDINARY_RECEIVER_ARGV')
+    _episode_export_path(policy['receiver_argv'][4])
+    for k in ('receiver_node', 'consumer'): _ordinary_text(policy[k])
+    packet = _ordinary_wire(result['packet']); returned = _ordinary_wire(result['return'])
+    require(opening['packet_pin'] == {k: result['packet'][k] for k in ('bytes', 'digest')}, 'ORDINARY_PACKET_PIN')
+    closed(packet, ('schema', 'obligation_id', 'route_transaction_id', 'target_identity', 'source_event'), 'ORDINARY_PACKET')
+    closed(returned, ('schema', 'obligation_id', 'route_transaction_id', 'packet_digest', 'status', 'payload'), 'ORDINARY_RETURN')
+    require(packet['schema'] == 'implementaudit.route-packet.v1' and packet['target_identity'] == 'audit-assess' and
+            returned['schema'] == 'implementaudit.child-return.v1' and returned['status'] == 'RETURNED' and
+            returned['packet_digest'] == result['packet']['digest'] and
+            all(packet[k] == returned[k] == route[k] for k in ('obligation_id', 'route_transaction_id')), 'ORDINARY_RETURN_BINDING')
+    event = closed(packet['source_event'], ('schema', 'source_identity', 'provenance', 'body', 'kind', 'reactivation'), 'ORDINARY_SOURCE_EVENT')
+    provenance = closed(event['provenance'], ('schema', 'event_id', 'host_correlation_id'), 'ORDINARY_SOURCE_PROVENANCE')
+    reactivate = closed(event['reactivation'], ('reopen', 'target_changed', 'invalidating_evidence'), 'ORDINARY_REACTIVATION')
+    require(event['schema'] == 'implementaudit.source-event.v1' and type(event['source_identity']) is str and
+            re.fullmatch('[A-Za-z0-9][A-Za-z0-9._:-]{0,255}', event['source_identity']) and
+            provenance['schema'] == 'implementaudit.source-event-provenance.v1' and provenance['event_id'] == event['source_identity'] and
+            event['kind'] in ('one-shot-action', 'standing-constraint') and all(type(item) is bool for item in reactivate.values()), 'ORDINARY_SOURCE_EVENT_BINDING')
+    _ordinary_sha(provenance['host_correlation_id'], True)
+    require(type(event['body']) is str and 0 < len(event['body'].encode()) <= 100000, 'ORDINARY_MISSION_BOUND')
+    mission = json.loads(event['body'], object_pairs_hook=unique)
+    closed(mission, ('schema', 'policy_digest', 'scope', 'mission', 'authority_ceiling'), 'ORDINARY_MISSION')
+    require(mission['schema'] == 'implementaudit.ordinary-review-mission.v1' and mission['policy_digest'] == owner['policy_digest'] and
+            mission['scope'] == scope and mission['authority_ceiling'] == 'NONE', 'ORDINARY_PROSPECTIVE_POLICY_BINDING')
+    _ordinary_text(mission['mission'])
+    payload = closed(returned['payload'], ('schema', 'verdict', 'scope', 'summary', 'members', 'authority_ceiling'), 'ORDINARY_PAYLOAD')
+    require(payload['schema'] == 'implementaudit.ordinary-review-payload.v1' and payload['verdict'] in ('PASS', 'FAIL', 'NONVERDICT') and
+            payload['scope'] == scope and payload['authority_ceiling'] == 'NONE', 'ORDINARY_PAYLOAD_BINDING')
+    _ordinary_text(payload['summary'])
+    require(type(result['members']) is list and 1 <= len(result['members']) <= 32 and
+            payload['members'] == [m['pin'] for m in result['members']], 'ORDINARY_MEMBER_POPULATION')
+    seen_paths, seen_physical, total = set(), set(), result['return']['bytes']
+    root = policy['artifact_root'].replace('\\', '/').rstrip('/') + '/'
+    for member in result['members']:
+        closed(member, ('pin', 'physical'), 'ORDINARY_MEMBER')
+        _ordinary_pin(member['pin']); _episode_export_physical(member['physical'])
+        path = member['pin']['path'].replace('\\', '/')
+        physical_id = tuple(member['physical'][k] for k in ('device', 'inode'))
+        require(path.startswith(root) and path not in seen_paths and physical_id not in seen_physical, 'ORDINARY_MEMBER_CUSTODY')
+        seen_paths.add(path); seen_physical.add(physical_id); total += member['pin']['bytes']
+    require(total <= MAX_TOTAL, 'ORDINARY_MEMBER_TOTAL')
+    acceptance = closed(value['acceptance'], ('decision', 'record'), 'ORDINARY_ACCEPTANCE')
+    decision = _ordinary_wire(acceptance['decision'])
+    closed(decision, ('schema', 'obligation_id', 'route_transaction_id', 'return_digest', 'outcome', 'reason'), 'ORDINARY_DECISION')
+    require(decision['schema'] == 'implementaudit.governor-route-decision.v1' and decision['outcome'] == 'SATISFIED' and
+            decision['return_digest'] == result['return']['digest'] and
+            all(decision[k] == route[k] for k in ('obligation_id', 'route_transaction_id')), 'ORDINARY_ACCEPTANCE_BINDING')
+    _ordinary_text(decision['reason'])
+    require(value['lifecycle'] == ORDINARY_LIFECYCLE, 'ORDINARY_STAGE_PROMOTION')
+    sources = closed(custody['sources'], ('parent', 'child'), 'ORDINARY_SOURCES')
+    for role, source in sources.items():
+        closed(source, ('path', 'physical', 'metadata', 'thread_id', 'cutoff'), 'ORDINARY_SOURCE')
+        _episode_export_path(source['path']); _episode_export_physical(source['physical'])
+        _episode_export_locator(source['metadata'])
+        require(source['metadata']['offset'] == 0 and source['metadata']['embedded_ordinal'] == 0 and
+                type(source['cutoff']) is int and source['metadata']['bytes'] < source['cutoff'] <= MAX_TOTAL * MAX_RECORDS and
+                source['thread_id'] == (child['thread_id'] if role == 'child' else child['parent_thread_id']), 'ORDINARY_SOURCE_BINDING')
+    require(sources['parent']['path'] != sources['child']['path'] and sources['parent']['physical'] != sources['child']['physical'], 'ORDINARY_SOURCE_ALIAS')
+    occurrences = closed(value['occurrences'], ('scope', 'history', 'open', 'spawn', 'activation'), 'ORDINARY_OCCURRENCES')
+    require(occurrences['scope'] == 'SELECTED_FRESH_CHILD_ONLY' and occurrences['history'] == 'UNEXAMINED_OUTSIDE_SELECTED_RECORDS', 'ORDINARY_HISTORY_PROMOTION')
+    spawn = closed(occurrences['spawn'], ('call', 'output', 'task_name', 'fork_turns'), 'ORDINARY_SPAWN')
+    require(spawn['task_name'] == opening['logical_task'] and spawn['fork_turns'] == 'none', 'ORDINARY_FRESH_CHILD')
+    for pin in (occurrences['open'], spawn['call'], spawn['output']): _ordinary_record(pin, sources, 'parent')
+    _ordinary_record(occurrences['activation'], sources, 'child')
+    require(occurrences['activation']['locator']['offset'] == sources['child']['metadata']['bytes'] and
+            occurrences['activation']['locator']['embedded_ordinal'] == 1, 'ORDINARY_ACTIVATION')
+    before(occurrences['open'], spawn['call']); before(spawn['call'], spawn['output']); before(spawn['output'], occurrences['activation'])
+    _ordinary_record(result['final'], sources, 'child'); _ordinary_record(acceptance['record'], sources, 'parent')
+    before(occurrences['activation'], result['final']); before(result['final'], acceptance['record'])
+    if review_only:
+        records = custody['public_records']
+        require(type(records) is list and len(records) == 3, 'ORDINARY_REVIEW_PUBLIC_POPULATION')
+        for record, pin, expected, phase in ((records[0], occurrences['open'], None, 'commentary'),
+            (records[1], result['final'], returned, 'final_answer'), (records[2], acceptance['record'], decision, 'commentary')):
+            closed(record, ('pin', 'message_id', 'turn_id', 'revision', 'phase', 'body', 'body_sha256'), 'ORDINARY_PUBLIC_RECORD')
+            require(record['pin'] == pin and record['message_id'] == pin['message_or_call_id'] and record['phase'] == phase and
+                    type(record['body']) is str and 0 < len(record['body'].encode()) <= MAX_RECORD and
+                    digest(record['body'].encode()) == record['body_sha256'], 'ORDINARY_PUBLIC_BINDING')
+            if expected is not None:
+                require(record['body'].startswith('```json\n') and record['body'].endswith('\n```') and
+                        json.loads(record['body'][8:-4], object_pairs_hook=unique) == expected, 'ORDINARY_PUBLIC_BODY')
+        opening_text = records[0]['body']
+        require(opening_text.startswith('```ini\n') and '\n```' in opening_text, 'ORDINARY_PUBLIC_OPEN')
+        fields = unique([line.split('=', 1) for line in opening_text[7:opening_text.index('\n```')].splitlines()])
+        require(all(fields.get(k) == v for k, v in {'CHILD_TASK': opening['logical_task'], 'CHILD_SKILL_SELECTED': 'audit-assess',
+                    'STATUS': 'OPEN', 'LOAD': 'UNVERIFIED'}.items()), 'ORDINARY_PUBLIC_OPEN_BINDING')
+        return value
+    receiving = closed(value['receiving'], ('process', 'dispatch', 'result', 'join', 'record'), 'ORDINARY_RECEIVING')
+    process = validate_ordinary_execution_v1(receiving['process'], owner, result, acceptance, policy)
+    _ordinary_record(receiving['record'], sources, 'parent')
+    before(acceptance['record'], receiving['record'])
+    dispatch = receiving['dispatch']; work = receiving['result']; join = receiving['join']
+    closed(dispatch, ('schema', 'graph_digest', 'event', 'dispatch_id', 'selected', 'inputs', 'capacity', 'active_occupancy',
+        'free_capacity', 'deferred', 'blocked', 'placements', 'mode', 'graph_required', 'authority'), 'ORDINARY_DISPATCH')
+    closed(work, ('schema', 'node', 'dispatch_id', 'graph_digest', 'input_digest', 'status', 'terminal', 'exit_code',
+        'evidence_digest', 'independence_key', 'scope'), 'ORDINARY_WORK_RESULT')
+    closed(join, ('schema', 'status', 'all_required_settled', 'required', 'optional', 'missing', 'omitted_optional',
+        'retained_scopes', 'graph_digest', 'consumer', 'authority', 'lifecycle_credit'), 'ORDINARY_JOIN')
+    node = policy['receiver_node']
+    event = closed(dispatch['event'], ('id', 'kind', 'subject'), 'ORDINARY_DISPATCH_EVENT')
+    require(event['kind'] in ('RETURN', 'JOIN', 'REDERIVE', 'REMINDER', 'INTERRUPTION') and
+            dispatch['dispatch_id'] == _ordinary_hash([dispatch['graph_digest'], event, dispatch['selected']]), 'ORDINARY_DISPATCH_IDENTITY')
+    for key in ('id', 'subject'): _ordinary_text(event[key])
+    for key in ('capacity', 'active_occupancy', 'free_capacity'):
+        require(type(dispatch[key]) is int and dispatch[key] >= 0, 'ORDINARY_CAPACITY')
+    require(dispatch['free_capacity'] == max(0, dispatch['capacity'] - dispatch['active_occupancy']) and
+            dispatch['free_capacity'] >= 1 and dispatch['placements'] == {node: 'GOVERNOR'} and
+            type(dispatch['graph_required']) is bool and dispatch['mode'] in ('CHEAP_SERIAL', 'GRAPH_CANDIDATE') and
+            type(dispatch['deferred']) is dict and node not in dispatch['deferred'] and
+            type(dispatch['blocked']) is dict and node not in dispatch['blocked'], 'ORDINARY_RECEIVER_DISPATCH')
+    require(dispatch['schema'] == 'implementaudit.native-dispatch.v1' and dispatch['authority'] == 'NONE' and
+            dispatch['selected'] == [node] and work['node'] == node and work['scope'] == [node] and
+            work['schema'] == 'implementaudit.work-result.v1' and work['status'] == 'PASS' and work['terminal'] is True and
+            type(work['exit_code']) is int and work['exit_code'] == process['exit_code'] and
+            work['evidence_digest'] == process['stdout_sha256'] and dispatch['inputs'] == {node: work['input_digest']} and
+            work['dispatch_id'] == dispatch['dispatch_id'] and work['graph_digest'] == dispatch['graph_digest'] == join['graph_digest'] and
+            join['schema'] == 'implementaudit.native-join.v1' and join['status'] == 'SATISFIED_AT_DECLARED_RESULT_CONTRACT' and
+            join['all_required_settled'] is True and join['required'] == [node] and join['optional'] == join['missing'] == join['omitted_optional'] == [] and
+            join['retained_scopes'] == {node: [node]} and join['consumer'] == policy['consumer'] and
+            join['authority'] == join['lifecycle_credit'] == 'NONE', 'ORDINARY_JOIN_RESULT_BINDING')
+    for item in (work['input_digest'], work['graph_digest'], work['dispatch_id'], work['evidence_digest']): _ordinary_sha(item)
+    _ordinary_text(work['independence_key'])
+    public = custody['public_records']
+    require(type(public) is list and len(public) == 4, 'ORDINARY_PUBLIC_POPULATION')
+    expected_public = [(occurrences['open'], None, 'commentary'), (result['final'], returned, 'final_answer'),
+                       (acceptance['record'], decision, 'commentary'), (receiving['record'], ordinary_join_value_v1(owner, result, acceptance, receiving), 'commentary')]
+    for record, (pin, expected_body, phase) in zip(public, expected_public):
+        closed(record, ('pin', 'message_id', 'turn_id', 'revision', 'phase', 'body', 'body_sha256'), 'ORDINARY_PUBLIC_RECORD')
+        require(record['pin'] == pin and record['message_id'] == pin['message_or_call_id'] and record['phase'] == phase and
+                type(record['body']) is str and 0 < len(record['body'].encode()) <= MAX_RECORD and
+                digest(record['body'].encode()) == record['body_sha256'], 'ORDINARY_PUBLIC_BINDING')
+        for key in ('message_id', 'turn_id', 'revision'): _ordinary_text(record[key])
+        uuid = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+        require(re.fullmatch(uuid, record['turn_id']) and re.fullmatch('retained_' + uuid, record['revision']), 'ORDINARY_PUBLIC_RETAINED_ID')
+        if expected_body is not None:
+            require(record['body'].startswith('```json\n') and record['body'].endswith('\n```') and
+                    json.loads(record['body'][8:-4], object_pairs_hook=unique) == expected_body, 'ORDINARY_PUBLIC_BODY')
+        else:
+            text = record['body']
+            require(text.startswith('```ini\n') and '\n```' in text, 'ORDINARY_PUBLIC_OPEN')
+            fields = unique([line.split('=', 1) for line in text[7:text.index('\n```')].splitlines()])
+            require(all(fields.get(k) == v for k, v in {'CHILD_TASK': opening['logical_task'], 'CHILD_SKILL_SELECTED': 'audit-assess',
+                        'STATUS': 'OPEN', 'LOAD': 'UNVERIFIED'}.items()), 'ORDINARY_PUBLIC_OPEN_BINDING')
+    for key in ('review_evidence', 'receiving_evidence'): _ordinary_pin(custody[key])
+    return value
+
+
+def validate_ordinary_execution_v1(receipt, owner, result, acceptance, policy):
+    """Bind a canonical owner execution record; arbitrary process dicts fail."""
+    import base64
+    closed(receipt, ('ref', 'oid', 'wire'), 'ORDINARY_EXECUTION_RECEIPT')
+    expected_ref = 'refs/implementaudit/ordinary-receivers/' + owner['canonical_route']['controller_id'] + '/' + owner['opening']['opening_digest'].removeprefix('sha256:')
+    require(receipt['ref'] == expected_ref, 'ORDINARY_EXECUTION_REF')
+    record = _ordinary_wire(receipt['wire'])
+    raw = base64.b64decode(receipt['wire']['bytes_b64'], validate=True)
+    git_raw = b'blob ' + str(len(raw)).encode('ascii') + b'\0' + raw
+    require(receipt['oid'] in (hashlib.sha1(git_raw).hexdigest(), hashlib.sha256(git_raw).hexdigest()), 'ORDINARY_EXECUTION_OBJECT')
+    closed(record, ('schema', 'accepted_record_oid', 'opening_digest', 'execution', 'execution_digest'), 'ORDINARY_EXECUTION_RECORD')
+    require(record['schema'] == 'implementaudit.ordinary-receiver-record.v1' and
+            record['accepted_record_oid'] == owner['canonical_route']['record_oid'] and
+            record['opening_digest'] == owner['opening']['opening_digest'] and
+            record['execution_digest'] == 'sha256:' + _ordinary_hash(record['execution']), 'ORDINARY_EXECUTION_ACCEPTED_CUSTODY')
+    process = closed(record['execution'], ('schema', 'policy_digest', 'opening_digest', 'return_digest', 'acceptance_digest',
+        'argv', 'python_pin', 'source_pin', 'exit_code', 'stdout', 'stdout_sha256', 'stderr_sha256'), 'ORDINARY_PROCESS')
+    _ordinary_pin(process['source_pin'])
+    require(process['schema'] == 'implementaudit.ordinary-receiver-execution.v1' and process['policy_digest'] == owner['policy_digest'] and
+            process['opening_digest'] == record['opening_digest'] and process['return_digest'] == result['return']['digest'] and
+            process['acceptance_digest'] == acceptance['decision']['digest'] and process['argv'] == policy['receiver_argv'] and
+            process['python_pin'] == policy['provider']['python_executable'] and process['source_pin']['path'] == process['argv'][4] and
+            process['source_pin']['sha256'] == owner['code_pins']['implementaudit/scripts/compaction-source-owner-codex-app.py'] and
+            type(process['exit_code']) is int and process['exit_code'] == 0 and type(process['stdout']) is str and
+            0 < len(process['stdout'].encode()) <= MAX_RECORD and digest(process['stdout'].encode()) == process['stdout_sha256'] and
+            process['stderr_sha256'] == digest(b'') and
+            json.loads(process['stdout'], object_pairs_hook=unique) == ordinary_receiver_value_v1(owner, result, acceptance), 'ORDINARY_RECEIVER_PROCESS_BINDING')
+    return process
+
+
+def validate_ordinary_episode_export_v1(value):
+    """Full frozen export only; no caller option can skip receiving validation."""
+    return _validate_ordinary_episode_v1(value)
+
+
+def validate_ordinary_review_v1(owner, result, acceptance, occurrences, context, public, policy):
+    """Internal receiver input check; returns no accepted episode or JOIN."""
+    pins = [record['pin'] for record in public] + [occurrences['spawn']['call'], occurrences['spawn']['output'], occurrences['activation']]
+    sources = {role: {'path': context[role]['path'], 'physical': context[role]['physical'], 'metadata': context[role]['metadata'],
+        'thread_id': context['parent_identity']['thread_id'] if role == 'parent' else context['actual_child_identity']['thread_id'],
+        'cutoff': max(pin['locator']['offset'] + pin['locator']['bytes'] for pin in pins if pin['role'] == role)} for role in ('parent', 'child')}
+    value = {'schema': ORDINARY_EXPORT_SCHEMA, 'status': 'AVAILABLE', 'reason_code': None, 'owner': owner, 'result': result,
+        'acceptance': acceptance, 'receiving': None, 'lifecycle': dict(ORDINARY_LIFECYCLE), 'occurrences': occurrences,
+        'custody': {'policy': policy, 'sources': sources, 'review_evidence': None, 'receiving_evidence': None, 'public_records': public},
+        'authority_ceiling': 'NONE'}
+    value['export_digest'] = _ordinary_hash(value)
+    _validate_ordinary_episode_v1(value, review_only=True)
+
+
+def ordinary_command_response_v1(call_row, output_row, expected_input):
+    """The existing closed exec carrier only, not arbitrary tool-output text."""
+    require(call_row['type'] == output_row['type'] == 'response_item', 'ORDINARY_PROCESS_CARRIER')
+    call, output = call_row['payload'], output_row['payload']
+    require(call.get('type') == 'custom_tool_call' and call.get('name') == 'exec' and call.get('status') == 'completed' and
+            call.get('input') == expected_input and type(call.get('call_id')) is str and call['call_id'] and
+            output.get('type') == 'custom_tool_call_output' and output.get('call_id') == call['call_id'], 'ORDINARY_PROCESS_CALL_PAIR')
+    content = output.get('output')
+    require(type(content) is list and len(content) == 2 and all(type(item) is dict and set(item) == {'type', 'text'} and
+            item['type'] == 'input_text' and type(item['text']) is str for item in content), 'ORDINARY_PROCESS_OUTPUT_CARRIER')
+    require(len(content[1]['text'].encode()) <= MAX_RECORD, 'ORDINARY_PROCESS_OUTPUT_BOUND')
+    nested = json.loads(content[1]['text'], object_pairs_hook=unique)
+    closed(nested, ('chunk_id', 'wall_time_seconds', 'exit_code', 'original_token_count', 'output'), 'ORDINARY_PROCESS_RESULT_FIELDS')
+    require(type(nested['exit_code']) is int and nested['exit_code'] == 0 and type(nested['output']) is str and
+            0 < len(nested['output'].encode()) <= MAX_RECORD, 'ORDINARY_PROCESS_NOT_SUCCEEDED')
+    return nested['output']
