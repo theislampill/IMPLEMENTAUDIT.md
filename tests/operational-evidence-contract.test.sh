@@ -3188,7 +3188,8 @@ for late_stage, late_input in (
         state["done"] = True
 
     late_module.collect_native_current = observed_native
-    late_module._collect_snapshot_inputs_v1 = observed_collections
+    late_module._capture_snapshot_inputs_v1 = lambda native: (
+        observed_collections(native), observed_collections)
     late_module._snapshot_stage_v1 = mutate_at_late_stage
     try:
         try:
@@ -3907,8 +3908,9 @@ for collector, bucket, record_id, state, invalidators in publisher_changes:
         publisher_census_module.canonical_json_v1(value)).hexdigest()
 publisher_census_module.collect_native_current = lambda: copy.deepcopy(
     census_native)
-publisher_census_module._collect_snapshot_inputs_v1 = lambda native: (
-    copy.deepcopy(publisher_collections))
+publisher_census_module._capture_snapshot_inputs_v1 = lambda native: (
+    copy.deepcopy(publisher_collections),
+    lambda observed_native: copy.deepcopy(publisher_collections))
 publisher_census_receipt = publisher_census_module.publish_current_snapshot()
 publisher_census_dir = (
     publisher_census_run / "operational-evidence/snapshots" /

@@ -102,16 +102,23 @@ class ReviewRegressions(unittest.TestCase):
         native = copy.deepcopy(SEED["collections"]["native_current"]["value"])
         native["repository"]["root"] = str(root)
         native["claim"]["run_root"] = "."
-        with patch.object(oe, "collect_repository", return_value=repository) as scan:
+        observations = []
+        def reobserve():
+            observations.append(True)
+            return copy.deepcopy(repository)
+        with patch.object(oe, "_collect_repository_observation_v1", return_value=(repository, reobserve)) as scan:
             reference = oe.collect_release(root)
-            self.assertEqual(scan.call_count, 2)
-        with patch.object(oe, "collect_repository", return_value=repository) as scan:
+            self.assertEqual(scan.call_count, 1)
+            self.assertEqual(len(observations), 1)
+        observations.clear()
+        with patch.object(oe, "_collect_repository_observation_v1", return_value=(repository, reobserve)) as scan:
             composed = oe._collect_snapshot_inputs_v1(native)
-            self.assertEqual(scan.call_count, 2)  # Opening C02 plus unchanged C05 final fence.
+            self.assertEqual(scan.call_count, 1)  # Opening C02 plus fresh C05 final fence.
+            self.assertEqual(len(observations), 1)
             self.assertEqual(composed["release"]["value"], reference)
         changed = copy.deepcopy(repository)
         changed["repository"]["commit"] = "5"*40
-        with patch.object(oe, "collect_repository", side_effect=[repository, changed]), \
+        with patch.object(oe, "_collect_repository_observation_v1", return_value=(repository, lambda: changed)), \
                 self.assertRaises(oe.OperationalEvidenceError) as refused:
             oe._collect_snapshot_inputs_v1(native)
         self.assertEqual(refused.exception.code, "OE_RELEASE_CHANGED_DURING_SCAN")
@@ -185,7 +192,8 @@ class ReviewRegressions(unittest.TestCase):
         files = [{"kind": "FILE", "path": path.relative_to(source).as_posix(),
                   "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
                  for path in source.rglob("*") if path.is_file()]
-        with patch.object(oe, "collect_repository", return_value={"repository": repository, "facts": files}):
+        observed = {"repository": repository, "facts": files}
+        with patch.object(oe, "_collect_repository_observation_v1", return_value=(observed, lambda: copy.deepcopy(observed))):
             release = oe.collect_release(source)
         collections = copy.deepcopy(SEED["collections"])
         collections["release"] = {"owner": "R0038-C05", "state": "CURRENT",

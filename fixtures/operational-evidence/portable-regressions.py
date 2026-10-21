@@ -80,15 +80,18 @@ class PortableBoundaryTests(unittest.TestCase):
                 oe._load_selected_snapshot_v1()
             self.assertEqual(raised.exception.code, "OE_SNAPSHOT_STALE")
             source.write_bytes(original)
-            collect = oe._collect_snapshot_inputs_v1
+            collect = oe._capture_snapshot_inputs_v1
             calls = []
             def drift_after_first_collection(current):
-                value = collect(current)
+                value, reobserve = collect(current)
                 calls.append(value)
                 if len(calls) == 1:
                     source.write_bytes(b"VALUE = 8\n")
-                return value
-            with patch.object(oe, "_collect_snapshot_inputs_v1", side_effect=drift_after_first_collection):
+                def final_observation(native):
+                    calls.append(None)
+                    return reobserve(native)
+                return value, final_observation
+            with patch.object(oe, "_capture_snapshot_inputs_v1", side_effect=drift_after_first_collection):
                 with self.assertRaises(oe.OperationalEvidenceError) as raised:
                     oe._load_selected_snapshot_v1()
             self.assertEqual(raised.exception.code, "OE_SNAPSHOT_INPUT_CHANGED")

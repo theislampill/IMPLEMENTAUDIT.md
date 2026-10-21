@@ -689,7 +689,7 @@ def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical):
 def _ordinary_canonical_v1(selected, runtime):
     owner = selected['episode_owner']
     route = _np_module(owner['module_pin'], 'route-transaction.py', runtime[1])
-    canonical = route.read_current_ordinary_result_v1(Path(owner['repository']), owner['controller'])
+    canonical = route.read_applicable_ordinary_result_v1(Path(owner['repository']), owner['controller'])
     if canonical['status'] != 'CANONICAL_REVIEW_ABSENT':
         h0_path = HERE / 'host-session-binding.py'
         h0 = _np_module({'path': str(h0_path), 'bytes': h0_path.stat().st_size,

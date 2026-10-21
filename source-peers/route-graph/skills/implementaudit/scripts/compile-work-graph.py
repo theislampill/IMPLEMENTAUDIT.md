@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'af337b1c3d4e58eedabc7b669644c324d0039dfe2561a3f890ff3564cda0c0b3'
+_NATIVE_STATIC_OWNER_SHA256 = 'aa44e7396df730de958d5a4afe891554109c10df34ae3292aefa7a8e01b75831'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 342608
+_NATIVE_STATIC_OWNER_BYTES = 351377
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2170,10 +2170,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = 'bff4664e968d6e8ba9cdb089a002134ad9f8b9505c9414fe93ebd2c1f6799737'
+_NATIVE_ROUTE_PRODUCER_SHA256 = '5cb0dc072b4e90140ff5cd0097a8d45594117578410356b159eb4fb30bd1bfe0'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 364522
+_NATIVE_ROUTE_PRODUCER_BYTES = 365629
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -2754,12 +2754,15 @@ def _acquire_native_read_set(nodes, input_root):
         raise WorkGraphError('native static source owner changed during input acquisition')
     return result
 
-def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
-    """Acquire all supported native documents, then derive a sealed projection.
+@contextlib.contextmanager
+def observe_native_run_v1(run_root, repo_root=None, *, input_root=None):
+    """Hold the existing native owner checks around a caller's read-only use.
 
     Omitting repo_root is explicitly constructed filesystem evidence. Supplying
     it requires the genuine existing continuity owner before AND after intake.
     Neither path authenticates physical host capacity or effect capabilities.
+    Only immutable projection bytes are yielded; all terminal guards execute
+    after use, before the enclosing observation can be accepted.
     """
     before = _native_continuity(repo_root, run_root) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
     snapshot = _native_source_snapshot(run_root)
@@ -2815,6 +2818,8 @@ def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
             route_observation = _RouteScopeObservation(acquired_route, _NATIVE_ROUTE_OBSERVATION_KEY,
                                                        receiver_binding=receiver_binding)
         projection = _compile_native_documents_v1(snapshot, bound, _route_observation=route_observation)
+        yield json.dumps(projection, sort_keys=True, separators=(',', ':'),
+                         ensure_ascii=False, allow_nan=False).encode('utf-8')
         if route_observation is not None and _route_observation_value(route_observation) != acquired_route:
             raise WorkGraphError('provisional native route observation was mutated')
         if route_observation is not None and route_observation.receiver_binding != receiver_binding:
@@ -2834,6 +2839,12 @@ def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
         _, final_path, final_raw = _native_route_scope_module_v1()
         if final_path != producer_path or final_raw != producer_raw:
             raise WorkGraphError('native route producer changed during intake')
+
+
+def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
+    """Return a projection only after the complete native observation closes."""
+    with observe_native_run_v1(run_root, repo_root, input_root=input_root) as raw:
+        projection = decode_strict_json_bytes(raw, 'native run observation')
     return projection
 
 def _semantic_overlap(left, right):

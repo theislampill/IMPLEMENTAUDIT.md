@@ -288,6 +288,24 @@ Typed ordinary public JSON permits the native commentary carrier's single termin
 
 R0038 projects result, acceptance, receiving, physical custody and occurrences separately, and requires the acceptance digest to match the canonical satisfied-route receipt. Formal H0 LOAD/USE/DISPOSE remain UNVERIFIED in ordinary v1. The query census retains that limitation; ordinary receiving grants no pending-compaction consumption, parent completion, campaign authority or issue closure.
 
+The C03 read can hold the fixed R0035 owner observation open through its own
+read-only consumption. R0035 retains its source, input, continuity and R0033
+semantic checks on both sides; C03 corroborates the exact current identity and
+rechecks its own refs and bytes after owner closure. Historical peers retain the
+full separate reads. No serialized capture supplies this live observation.
+For a canonical route selecting an unrelated role, the ordinary source adapter
+may return only an unavailable observation with null canonical facts; it does
+not prove currentness or absence of a route obligation. Applicable ordinary
+reviews retain the full current reader.
+
+Within one repository publication/read transaction, a private live capture may
+reuse bounded AST and repository semantics only after fresh physical bytes,
+Git state, exclusion census and collector/runtime provenance agree. Each
+original C02 collection retains its three terminal fences. Caller-provided
+collections still require independent live derivation; no cross-transaction
+cache or caller trust flag is admitted. These source mechanisms do not by
+themselves establish the native publication or currentness budgets.
+
 ## Deterministic read-only status, query and why
 
 `status`, `query` and `why` are C07 readers. They accept no repository, run root, snapshot root, controller, claim, pointer, manifest locator or other caller-supplied authority path. The CLI derives the bound run through the C03 native-current reader, follows only the validated snapshot `CURRENT`, and returns canonical JSON under the `READ_ONLY_OBSERVATION` authority ceiling with an empty `establishes` population. These commands do not publish a snapshot, change `CURRENT`, mint route/currentness/lifecycle authority, inspect an ActiveGraph mirror, use network or invoke a model.

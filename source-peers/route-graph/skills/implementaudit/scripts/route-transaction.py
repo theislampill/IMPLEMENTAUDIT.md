@@ -6886,6 +6886,28 @@ def read_current_ordinary_result_v1(repo, controller):
     return decoded_artifact(result, 'current ordinary result projection')
 
 
+def read_applicable_ordinary_result_v1(repo, controller):
+    """Skip unrelated roles only to an unavailable, non-authoritative floor.
+
+    This is not a cheap currentness proof. Applicable ordinary reviews still use
+    the complete live reader. The negative result contains no route facts and
+    cannot establish absence of an obligation or permit an effect.
+    """
+    source = file_digest(Path(__file__).resolve())
+    oid, record = current_ref(repo, controller)
+    if oid is None or record is None:
+        return read_current_ordinary_result_v1(repo, controller)
+    applicable = (record['decision'] == 'REQUIRED'
+                  and mapped_child_route(record)[0] == 'audit-assess')
+    if applicable:
+        return read_current_ordinary_result_v1(repo, controller)
+    validate_canonical_route_record_bytes(repo, oid, record)
+    if (current_ref(repo, controller) != (oid, record)
+            or file_digest(Path(__file__).resolve()) != source):
+        fail('ordinary applicability input changed during observation')
+    return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': None}
+
+
 def _ordinary_result_from_read_v1(repo, oid, record, current):
     """Private projection of one source-owned, provisional canonical tuple."""
     if record['decision'] != 'REQUIRED':

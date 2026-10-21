@@ -1640,6 +1640,74 @@ def _native_route_relation(repository, run_root, graph_raw, route,
     return graph, relation
 
 
+@contextlib.contextmanager
+def _native_current_observation_v1(
+        repository, source_repository, controller, controller_oid, claim, run_root,
+        generation, receipt, boundary_kind, boundary_event_id, next_action,
+        graph_raw, compiler_path, compiler_raw, route_module):
+    """Hold the fixed native owners' complete guards around the C03 read."""
+    compiler = _native_module_from_bytes(compiler_raw, compiler_path,
+        "_implementaudit_native_route_graph", "$native.route_graph_compiler")
+    observe = getattr(compiler, "observe_native_run_v1", None)
+    route_args = (source_repository, controller, controller_oid, claim, run_root,
+                  generation, receipt, boundary_kind, boundary_event_id,
+                  next_action, route_module)
+    if observe is None or repository != source_repository:
+        # Historical peers and separate checkout custody retain the original
+        # full acquisitions. No new capability is inferred for those sources.
+        route = _native_route(*route_args)
+        projection = _native_route_relation(repository, run_root, graph_raw,
+            route, compiler_path, compiler_raw, route_module)
+        yield route, projection
+        if _native_route_relation(repository, run_root, graph_raw, route,
+                compiler_path, compiler_raw, route_module) != projection:
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
+                   "affected-node sources changed during final observation")
+        if _native_route(*route_args) != route:
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.route",
+                   "R0033 route identity changed during final semantic observation")
+        return
+    if (not callable(observe) or
+            not callable(getattr(compiler, "bind_native_route_relation_v1", None)) or
+            not callable(getattr(route_module, "read_current_route_scope_v1", None))):
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_graph_compiler",
+               "canonical route/node observation composition is incomplete")
+    try:
+        with observe(run_root, repository) as raw:
+            if type(raw) is not bytes:
+                _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_relation",
+                       "native owner did not yield immutable projection bytes")
+            graph = decode_strict_json_bytes(raw, "native owner observation")
+            scope = graph["route_scope"]
+            route = scope["route"]
+            if (scope["owner"] != {
+                    "controller_id": controller, "claim_id": claim,
+                    "explicit_run_root": os.fspath(run_root),
+                    "continuity_generation": generation, "continuity_receipt": receipt}
+                    or route["controller_id"] != controller
+                    or route["controller_record_oid"] != controller_oid
+                    or scope["boundary"]["kind"] != boundary_kind
+                    or scope["boundary"]["event_id"] != boundary_event_id
+                    or scope["scope"]["identity"] != next_action):
+                _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
+                       "native owner projection crossed the exact C03 current identity")
+            relation = compiler.bind_native_route_relation_v1(graph, graph_raw)
+            yield route, (graph, relation)
+            if graph != decode_strict_json_bytes(raw, "native owner observation"):
+                _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
+                       "provisional native projection was mutated")
+        # Context exit retains the owner's fresh source/readset/continuity,
+        # semantic route, receipt, ref and producer-source validation.
+    except OperationalEvidenceError:
+        raise
+    except (Exception, SystemExit):
+        _error("OE_NATIVE_CURRENT_ROUTE", "$native.route_relation",
+               "canonical affected-node observation or terminal validation refused")
+    if _native_file(compiler_path, "$native.route_graph_compiler", 256 * 1024) != compiler_raw:
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_graph_compiler",
+               "graph owner source changed during observation")
+
+
 def _native_episode_peer_bytes():
     # source repo: fixed generic owner contracts, outside shipped skills.
     root = pathlib.Path(__file__).resolve().parents[1] / "source-peers/native-runtime/skills/implementaudit/scripts"
@@ -1904,111 +1972,132 @@ def collect_native_current():
      continuity_claim_validator_path, continuity_claim_validator_raw) = (
         _native_require_current_receipt(
             repository, controller, receipt, route_module))
-    route = _native_route(
-        source_repository, controller, controller_oid, claim, run_root,
-        generation, receipt, invalidation[4], invalidation[5],
-        state["next_action"], route_module)
-    route_projection = _native_route_relation(
-        repository, run_root, graph_raw, route, compiler_path, compiler_raw, route_module)
-    native_episode = _native_episode()
-    if native_episode is not None:
-        try:
-            _native_episode_binding(native_episode, route,
-                                    route_projection[0] if route_projection is not None else None)
-        except (KeyError, TypeError, ValueError):
-            _error("OE_NATIVE_CURRENT_EPISODE", "$native.episode", "accepted episode crossed native route custody")
+    with _native_current_observation_v1(
+            repository, source_repository, controller, controller_oid, claim, run_root,
+            generation, receipt, invalidation[4], invalidation[5], state["next_action"],
+            graph_raw, compiler_path, compiler_raw, route_module) as (route, route_projection):
+        native_episode = _native_episode()
+        if native_episode is not None:
+            try:
+                _native_episode_binding(native_episode, route,
+                                        route_projection[0] if route_projection is not None else None)
+            except (KeyError, TypeError, ValueError):
+                _error("OE_NATIVE_CURRENT_EPISODE", "$native.episode", "accepted episode crossed native route custody")
 
-    ref_fence = {
-        controller_ref: controller_oid, invalidation_ref: invalidation_oid,
-        pointer_ref: pointer_oid, receipt_ref: receipt_oid, marker_ref: marker_oid,
-        genesis_receipt_ref: genesis_receipt_oid,
-        predecessor_ref: predecessor_oid,
-        route["ref"]: route["record_oid"]}
-    file_fence = {
-        run_root / ".claimed": claimed_raw, run_root / ".controller": sentinel_raw,
-        state_path: state_raw, roadmap_path: roadmap_raw, graph_path: graph_raw,
-        compiler_path: compiler_raw,
-        route_validator_path: route_validator_raw,
-        continuity_validator_path: continuity_validator_raw,
-        continuity_claim_validator_path: continuity_claim_validator_raw}
-    if _run_git(
-            source_repository, "for-each-ref", "--format=%(refname)",
-            "refs/implementaudit/controllers/").stdout.splitlines() != controller_refs:
-        _error("OE_NATIVE_CURRENT_CHANGED", "$native.controller",
-               "controller population changed during observation")
-    if any(_native_ref_oid(
-            source_repository, ref, "$native.final_ref_fence") != oid
+        ref_fence = {
+            controller_ref: controller_oid, invalidation_ref: invalidation_oid,
+            pointer_ref: pointer_oid, receipt_ref: receipt_oid, marker_ref: marker_oid,
+            genesis_receipt_ref: genesis_receipt_oid,
+            predecessor_ref: predecessor_oid,
+            route["ref"]: route["record_oid"]}
+        file_fence = {
+            run_root / ".claimed": claimed_raw, run_root / ".controller": sentinel_raw,
+            state_path: state_raw, roadmap_path: roadmap_raw, graph_path: graph_raw,
+            compiler_path: compiler_raw,
+            route_validator_path: route_validator_raw,
+            continuity_validator_path: continuity_validator_raw,
+            continuity_claim_validator_path: continuity_claim_validator_raw}
+        if _run_git(
+                source_repository, "for-each-ref", "--format=%(refname)",
+                "refs/implementaudit/controllers/").stdout.splitlines() != controller_refs:
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.controller",
+                   "controller population changed during observation")
+        if any(_native_ref_oid(
+                source_repository, ref, "$native.final_ref_fence") != oid
+               for ref, oid in ref_fence.items()):
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.refs",
+                   "native-current ref changed during observation")
+        # Reuse the opening route-source bound; the route owner is larger than
+        # the default hot-file bound. Equality below still refuses every change.
+        if any(_native_file(path, "$native.final_file_fence",
+                            512 * 1024 if path == route_validator_path else 256 * 1024) != raw
+               for path, raw in file_fence.items()):
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.hot",
+                   "native-current file changed during observation")
+
+        result = {
+            "schema": NATIVE_CURRENT_SCHEMA,
+            "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
+            "establishes": [],
+            "repository": {
+                "root": repository.as_posix(), "git_common_dir": common.as_posix()},
+            "controller": {
+                "id": controller, "ref": controller_ref, "record_oid": controller_oid},
+            "claim": {
+                "id": claim, "run_id": run_id, "run_root": run_relative_text},
+            "continuity": {
+                "generation": generation, "source_epoch": pointer["source_epoch"],
+                "invalidation_ref": invalidation_ref,
+                "invalidation_oid": invalidation_oid,
+                "boundary_kind": invalidation[4], "boundary_event_id": invalidation[5],
+                "pointer_ref": pointer_ref, "pointer_oid": pointer_oid,
+                "pointer_digest": pointer["pointer_digest"],
+                "receipt_schema": receipt_fields[0], "receipt_ref": receipt_ref,
+                "receipt_oid": receipt_oid, "receipt": receipt,
+                "marker_ref": marker_ref, "marker_oid": marker_oid,
+                "generation_manifest_oid": pointer["generation_manifest_oid"],
+                "generation_manifest_digest": pointer["generation_manifest_digest"],
+                "cold_high_water": pointer["cold_high_water"],
+                "degraded_state": pointer["degraded_state"]},
+            "hot": {
+                "state_path": "STATE.md", "state_sha256": state_sha256,
+                "roadmap_path": "ROADMAP.md", "roadmap_sha256": roadmap_sha256,
+                "work_graph_path": "WORK_GRAPH.json",
+                "work_graph_sha256": graph_sha256,
+                "work_graph_compiler_sha256": compiler_sha256},
+            "frontier": projection,
+            "andon_state": state["andon_state"],
+            "open_andons": state["open_andons"],
+            "active_instructions": state["active_instructions"],
+            "next_action": state["next_action"],
+            "route": route,
+        }
+        result.update(route_graph=route_projection[0] if route_projection is not None else None,
+                      route_relation=route_projection[1] if route_projection is not None else None,
+                      canonical_work_graph=graph_raw.decode("utf-8", "strict"),
+                      native_episode=native_episode)
+        result["semantic_sha256"] = hashlib.sha256(canonical_json_v1(result)).hexdigest()
+        if _native_episode() != native_episode:
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "accepted episode changed during native observation")
+    # Recheck C03's own custody after the enclosing owner has closed.
+    if any(_native_ref_oid(source_repository, ref, "$native.closed_ref_fence") != oid
            for ref, oid in ref_fence.items()):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.refs",
-               "native-current ref changed during observation")
-    # Reuse the opening route-source bound; the route owner is larger than
-    # the default hot-file bound. Equality below still refuses every change.
-    if any(_native_file(path, "$native.final_file_fence",
+               "native-current ref changed before observation closure")
+    if any(_native_file(path, "$native.closed_file_fence",
                         512 * 1024 if path == route_validator_path else 256 * 1024) != raw
            for path, raw in file_fence.items()):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.hot",
-               "native-current file changed during observation")
-
-    result = {
-        "schema": NATIVE_CURRENT_SCHEMA,
-        "authority_ceiling": "READ_ONLY_NATIVE_CURRENT_FACT",
-        "establishes": [],
-        "repository": {
-            "root": repository.as_posix(), "git_common_dir": common.as_posix()},
-        "controller": {
-            "id": controller, "ref": controller_ref, "record_oid": controller_oid},
-        "claim": {
-            "id": claim, "run_id": run_id, "run_root": run_relative_text},
-        "continuity": {
-            "generation": generation, "source_epoch": pointer["source_epoch"],
-            "invalidation_ref": invalidation_ref,
-            "invalidation_oid": invalidation_oid,
-            "boundary_kind": invalidation[4], "boundary_event_id": invalidation[5],
-            "pointer_ref": pointer_ref, "pointer_oid": pointer_oid,
-            "pointer_digest": pointer["pointer_digest"],
-            "receipt_schema": receipt_fields[0], "receipt_ref": receipt_ref,
-            "receipt_oid": receipt_oid, "receipt": receipt,
-            "marker_ref": marker_ref, "marker_oid": marker_oid,
-            "generation_manifest_oid": pointer["generation_manifest_oid"],
-            "generation_manifest_digest": pointer["generation_manifest_digest"],
-            "cold_high_water": pointer["cold_high_water"],
-            "degraded_state": pointer["degraded_state"]},
-        "hot": {
-            "state_path": "STATE.md", "state_sha256": state_sha256,
-            "roadmap_path": "ROADMAP.md", "roadmap_sha256": roadmap_sha256,
-            "work_graph_path": "WORK_GRAPH.json",
-            "work_graph_sha256": graph_sha256,
-            "work_graph_compiler_sha256": compiler_sha256},
-        "frontier": projection,
-        "andon_state": state["andon_state"],
-        "open_andons": state["open_andons"],
-        "active_instructions": state["active_instructions"],
-        "next_action": state["next_action"],
-        "route": route,
-    }
-    result.update(route_graph=route_projection[0] if route_projection is not None else None,
-                  route_relation=route_projection[1] if route_projection is not None else None,
-                  canonical_work_graph=graph_raw.decode("utf-8", "strict"),
-                  native_episode=native_episode)
-    result["semantic_sha256"] = hashlib.sha256(canonical_json_v1(result)).hexdigest()
-    if _native_episode() != native_episode:
-        _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "accepted episode changed during native observation")
-    if _native_route_relation(repository, run_root, graph_raw, route,
-            compiler_path, compiler_raw, route_module) != route_projection:
-        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
-               "affected-node sources changed during final observation")
-    final_route = _native_route(
-        source_repository, controller, controller_oid, claim, run_root,
-        generation, receipt, invalidation[4], invalidation[5],
-        state["next_action"], route_module)
-    if final_route != route:
-        _error("OE_NATIVE_CURRENT_CHANGED", "$native.route",
-               "R0033 route identity changed during final semantic observation")
+               "native-current file changed before observation closure")
     return result
 
 
 def collect_repository(root: pathlib.Path):
     """Collect exact read-only Git/file/package facts and bounded Python AST edges."""
+    return _collect_repository_observation_v1(root)[0]
+
+
+def _repository_collector_signature_v1(include_python):
+    """Bind private semantic reuse to freshly read collector/runtime provenance."""
+    source = _native_file(pathlib.Path(__file__).absolute(), "$repository.collector", 2 * 1024 * 1024)
+    runtime = (platform.python_implementation(), platform.python_version(), sys.version, sys.executable)
+    if not include_python:
+        return source, runtime, None, None
+    try:
+        ast_path = pathlib.Path(ast.__file__).absolute()
+        ast_raw = _native_file(ast_path, "$repository.python_ast", 2 * 1024 * 1024)
+    except (AttributeError, OSError, OperationalEvidenceError):
+        _error("OE_STATIC_COLLECTOR_IDENTITY", "$repository.python_ast",
+               "Python AST collector bytes could not be identified")
+    return source, runtime, str(ast_path), ast_raw
+
+
+def _collect_repository_observation_v1(root):
+    """Acquire one live result and a transaction-local fresh-byte reobserver.
+
+    The closure owns immutable result bytes and its physical/Git input census.
+    No supplied JSON, persisted token or process-global cache can create it.
+    """
     root = pathlib.Path(root).resolve()
     if not root.is_dir():
         _error("OE_REPOSITORY_UNREADABLE", "$repository",
@@ -2102,14 +2191,10 @@ def collect_repository(root: pathlib.Path):
     regular_paths = [path for path in file_bytes if file_types[path] == "file"]
     modules = _python_module_map(regular_paths)
     python_paths = sorted(path for path in regular_paths if path.endswith(".py"))
+    collector_signature = _repository_collector_signature_v1(bool(python_paths))
     ast_provenance = None
     if python_paths:
-        try:
-            ast_package_sha256 = hashlib.sha256(
-                pathlib.Path(ast.__file__).read_bytes()).hexdigest()
-        except (AttributeError, OSError):
-            _error("OE_STATIC_COLLECTOR_IDENTITY", "$repository.python_ast",
-                   "Python AST collector bytes could not be identified")
+        ast_package_sha256 = hashlib.sha256(collector_signature[3]).hexdigest()
         ast_provenance = {
             "collector_identity": "python-stdlib-ast",
             "collector_version": (
@@ -2306,11 +2391,26 @@ def collect_repository(root: pathlib.Path):
         "facts": facts,
         "static_collector_invocations": static_invocations,
     }
-    immutable_result = decode_strict_json_bytes(
-        canonical_json_v1(result), "repository collection result")
+    result_raw = canonical_json_v1(result)
+    immutable_result = decode_strict_json_bytes(result_raw, "repository collection result")
+
+    def reobserve():
+        # Decode before the terminal fence: callers cannot mutate the retained
+        # baseline, and no parser/canonicalization callback follows fresh reads.
+        observed_result = decode_strict_json_bytes(result_raw, "repository collection result")
+        if _repository_collector_signature_v1(bool(python_paths)) != collector_signature:
+            _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
+                   "repository collector source or runtime changed during collection")
+        _require_repository_snapshot_stable(
+            root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded)
+        return observed_result
+
+    if _repository_collector_signature_v1(bool(python_paths)) != collector_signature:
+        _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
+               "repository collector source or runtime changed during collection")
     _require_repository_snapshot_stable(
         root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded)
-    return immutable_result
+    return immutable_result, reobserve
 
 
 def collect_evidence_failure(root: pathlib.Path):
@@ -2685,11 +2785,43 @@ def _release_candidate_v1(repository, nodes, boundary_currentness, missing_types
 def collect_release(root: pathlib.Path):
     """Collect local and frozen external RELEASE facts without promotion."""
     root = pathlib.Path(root).resolve()
-    return _collect_release_from_repository_v1(root, collect_repository(root))
+    return _repository_collectors_v1(root)[1]()
 
 
 def _collect_release_from_repository_v1(root, repository_before):
-    """Reuse the same transaction's C02 observation; retain the final C05 fence."""
+    """A supplied collection remains data; require independent live derivation."""
+    result = _derive_release_from_repository_v1(root, repository_before)
+    if collect_repository(root) != repository_before:
+        _error("OE_RELEASE_CHANGED_DURING_SCAN", "$release",
+               "repository changed during RELEASE collection")
+    return result
+
+
+def _repository_collectors_v1(root):
+    """Own one live C02 capture and C05's freshly fenced local derivation."""
+    repository, reobserve = _collect_repository_observation_v1(root)
+    repository_raw = canonical_json_v1(repository)
+
+    def release():
+        before = decode_strict_json_bytes(repository_raw, "repository collection result")
+        result = _derive_release_from_repository_v1(root, before)
+        try:
+            after = reobserve()
+        except OperationalEvidenceError as exc:
+            if exc.code != "OE_REPOSITORY_CHANGED_DURING_SCAN":
+                raise
+            _error("OE_RELEASE_CHANGED_DURING_SCAN", "$release",
+                   "repository changed during RELEASE collection")
+        if after != before:
+            _error("OE_RELEASE_CHANGED_DURING_SCAN", "$release",
+                   "repository changed during RELEASE collection")
+        return result
+
+    return repository, release, reobserve
+
+
+def _derive_release_from_repository_v1(root, repository_before):
+    """Derive C05 data; each caller owns its separate live repository fence."""
     repository = repository_before["repository"]
     file_facts = {
         row["path"]: row for row in repository_before["facts"]
@@ -2914,10 +3046,6 @@ def _collect_release_from_repository_v1(root, repository_before):
         canonical_json_v1(result)).hexdigest()
     immutable_result = decode_strict_json_bytes(
         canonical_json_v1(result), "release collection")
-    repository_after = collect_repository(root)
-    if repository_after != repository_before:
-        _error("OE_RELEASE_CHANGED_DURING_SCAN", "$release",
-               "repository changed during RELEASE collection")
     return immutable_result
 
 
@@ -3037,25 +3165,46 @@ def _snapshot_optional_collection_v1(owner: str, action) -> dict:
 
 
 def _collect_snapshot_inputs_v1(native: dict) -> dict:
+    return _capture_snapshot_inputs_v1(native)[0]
+
+
+def _capture_snapshot_inputs_v1(native):
+    """Keep pure repository reuse inside this one input-observation transaction."""
     repository_root = pathlib.Path(native["repository"]["root"])
     run_relative = pathlib.PurePosixPath(native["claim"]["run_root"])
     run_root = repository_root.joinpath(*run_relative.parts)
-    repository = collect_repository(repository_root)
-    collections = {
-        "native_current": {
-            "owner": "R0038-C03", "state": "CURRENT",
-            "value": _snapshot_portable_native_v1(native)},
-        "repository": {
-            "owner": "R0038-C02", "state": "CURRENT", "value": repository},
-        "evidence_failure": _snapshot_optional_collection_v1(
-            "R0038-C04", lambda: collect_evidence_failure(run_root)),
-        "release": _snapshot_optional_collection_v1(
-            "R0038-C05", lambda: _collect_release_from_repository_v1(repository_root, repository)),
-    }
-    for row in collections.values():
-        row.setdefault(
-            "sha256", hashlib.sha256(canonical_json_v1(row["value"])).hexdigest())
-    return collections
+    repository, release, reobserve_repository = _repository_collectors_v1(repository_root)
+
+    def collect(observed_native, observed_repository):
+        collections = {
+            "native_current": {
+                "owner": "R0038-C03", "state": "CURRENT",
+                "value": _snapshot_portable_native_v1(observed_native)},
+            "repository": {
+                "owner": "R0038-C02", "state": "CURRENT", "value": observed_repository},
+            "evidence_failure": _snapshot_optional_collection_v1(
+                "R0038-C04", lambda: collect_evidence_failure(run_root)),
+            "release": _snapshot_optional_collection_v1("R0038-C05", release),
+        }
+        for row in collections.values():
+            row.setdefault(
+                "sha256", hashlib.sha256(canonical_json_v1(row["value"])).hexdigest())
+        return collections
+
+    def reobserve(observed_native):
+        if (pathlib.Path(observed_native["repository"]["root"]) != repository_root or
+                pathlib.PurePosixPath(observed_native["claim"]["run_root"]) != run_relative):
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
+                   "repository or run-root custody changed during collection")
+        try:
+            return collect(observed_native, reobserve_repository())
+        except OperationalEvidenceError as exc:
+            if exc.code not in {"OE_REPOSITORY_CHANGED_DURING_SCAN", "OE_RELEASE_CHANGED_DURING_SCAN"}:
+                raise
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
+                   "repository or collector input drifted")
+
+    return collect(native, repository), reobserve
 
 
 def _snapshot_missing_census_v1(collections: dict) -> list[dict]:
@@ -3406,13 +3555,14 @@ def _snapshot_cleanup_pending_v1(path: pathlib.Path | None) -> None:
 def _snapshot_require_input_fence_v1(
         compiler_path: pathlib.Path, schema_path: pathlib.Path,
         snapshots: pathlib.Path, compiler_raw: bytes, schema_raw: bytes,
-        native: dict, collections: dict, before_current: bytes | None) -> None:
+        native: dict, collections: dict, before_current: bytes | None,
+        reobserve_inputs) -> None:
     final_compiler = _native_file(
         compiler_path, "$snapshot.final_compiler", 2 * 1024 * 1024)
     final_schema = _native_file(
         schema_path, "$snapshot.final_schema", 512 * 1024)
     final_native = collect_native_current()
-    final_collections = _collect_snapshot_inputs_v1(final_native)
+    final_collections = reobserve_inputs(final_native)
     if (compiler_raw != final_compiler or schema_raw != final_schema or
             canonical_json_v1(_snapshot_portable_native_v1(native)) !=
             canonical_json_v1(_snapshot_portable_native_v1(final_native)) or
@@ -3465,12 +3615,12 @@ def publish_current_snapshot():
                    "snapshot output root is not one physical directory")
         before_current = (_snapshot_current_raw_v1(snapshots)
                           if snapshots.exists() else None)
-        collections = _collect_snapshot_inputs_v1(native)
+        collections, reobserve_inputs = _capture_snapshot_inputs_v1(native)
         _snapshot_stage_v1("after-first-observation")
 
         _snapshot_require_input_fence_v1(
             compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
-            native, collections, before_current)
+            native, collections, before_current, reobserve_inputs)
 
         material = _build_snapshot_material_v1(
             native, collections, schema_raw, compiler_raw)
@@ -3541,7 +3691,7 @@ def publish_current_snapshot():
         _snapshot_stage_v1("before-current-replace")
         _snapshot_require_input_fence_v1(
             compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
-            native, collections, before_current)
+            native, collections, before_current, reobserve_inputs)
         _snapshot_verify_materialization_v1(
             snapshot_dir, expected, material["snapshot_id"])
         if _snapshot_read_regular_v1(
@@ -6252,7 +6402,7 @@ def _load_selected_snapshot_v1() -> dict:
     schema_path = compiler_path.parent.parent / "docs/operational-evidence-schema.json"
     compiler_raw = _native_file(compiler_path, "$snapshot.compiler", 2 * 1024 * 1024)
     schema_raw = _native_file(schema_path, "$snapshot.schema", 512 * 1024)
-    collections = _collect_snapshot_inputs_v1(native)
+    collections, reobserve_inputs = _capture_snapshot_inputs_v1(native)
     material = _build_snapshot_material_v1(native, collections, schema_raw, compiler_raw)
     input_raw = _snapshot_read_regular_v1(
         snapshots / current["snapshot_id"] / "input-manifest.json", snapshots,
@@ -6262,7 +6412,7 @@ def _load_selected_snapshot_v1() -> dict:
                "selected snapshot compiler, schema or collector inputs are no longer exact")
     _snapshot_require_input_fence_v1(
         compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
-        native, collections, raw)
+        native, collections, raw, reobserve_inputs)
     return payload
 
 
