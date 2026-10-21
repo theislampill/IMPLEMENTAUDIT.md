@@ -167,6 +167,90 @@ def available_export(*, canonical_route=None, host_and_scope=None, scope=None, c
 
 
 class OrdinaryControls(unittest.TestCase):
+    @unittest.skipUnless(os.name == 'nt', 'Selected source loader uses Windows held-file custody')
+    def test_changed_observation_module_refuses_before_execution(self):
+        owner = load_owner('compaction-source-owner-codex-app.py')
+        with tempfile.TemporaryDirectory(prefix='ordinary-code-pins-') as directory:
+            scripts = Path(directory)/'skills/implementaudit/scripts'
+            scripts.mkdir(parents=True)
+            code = {}
+            for relative in available_export()['owner']['code_pins']:
+                source = REPO/'source-peers/native-runtime/skills'/relative
+                if not source.is_file(): source = REPO/'source-peers/route-graph/skills'/relative
+                if not source.is_file(): source = REPO/'skills'/relative
+                destination = scripts.parent.parent/relative
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                raw = source.read_bytes(); destination.write_bytes(raw); code[relative] = sha(raw)
+            selected = {'runtime_helpers': {name: {'path': str(scripts/name), 'bytes': (scripts/name).stat().st_size,
+                'sha256': sha((scripts/name).read_bytes())} for name in
+                ('bounded_file_custody.py','bounded_native_reader.py','bounded_source_owner.py')},
+                'code_pins': {k:v for k,v in code.items() if not k.endswith('/compaction-source-owner-codex-app.py')}}
+            (scripts/'compaction-result-observation.py').write_bytes(b'raise AssertionError("UNTRUSTED_OBSERVATION_MODULE_EXECUTED")\n')
+            with mock.patch.object(owner, 'HERE', scripts):
+                with self.assertRaisesRegex(ValueError, 'ORDINARY_FIXED_CODE_CHANGED'):
+                    owner._ordinary_modules_v1(selected)
+
+    def test_mission_policy_mismatch_refuses_before_native_effect(self):
+        owner = load_owner('compaction-source-owner-codex-app.py')
+        obs = load_owner('compaction-result-observation.py'); value = available_export()
+        canonical_state = {'status':'SATISFIED', 'packet':value['result']['packet'], 'scope':value['owner']['scope']}
+        policy = copy.deepcopy(value['custody']['policy']); policy['receiver_node'] = 'foreign-receiver'
+        selected = {'episode_owner': {'repository': str(REPO), 'controller': 'constructed-ordinary'}}
+        route = types.SimpleNamespace(read_current_ordinary_execution_v1=lambda *a:None)
+        with mock.patch.object(owner, '_ordinary_selection_v1', return_value=selected), \
+             mock.patch.object(owner, '_ordinary_modules_v1', return_value=((),obs,
+                 {'implementaudit/scripts/compaction-source-owner-codex-app.py': '0'*64})), \
+             mock.patch.object(owner, 'ordinary_policy_v1', return_value=policy), \
+             mock.patch.object(owner, '_ordinary_canonical_v1', return_value=(route,canonical_state)), \
+             mock.patch.object(owner, '_ordinary_provider_guard_v1', side_effect=AssertionError('NATIVE_EFFECT_REACHED')):
+            with self.assertRaisesRegex(ValueError, 'ORDINARY_MISSION_POLICY_CHANGED'):
+                owner.execute_ordinary_receiver_v1()
+
+    @unittest.skipUnless(os.name == 'nt', 'Selected native document reader uses Windows held-file custody')
+    def test_document_parent_substitution_cannot_read_outside_bytes(self):
+        owner = load_owner('compaction-source-owner-codex-app.py')
+        obs = load_owner('compaction-result-observation.py')
+        custody_path = REPO/'source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py'
+        helper_raw = custody_path.read_bytes()
+        with tempfile.TemporaryDirectory(prefix='ordinary-document-race-') as directory:
+            root = Path(directory).resolve()
+            folder, saved, outside = root/'selected', root/'saved', root/'outside'
+            folder.mkdir(); outside.mkdir()
+            target = folder/'record.json'; target.write_bytes(b'{}')
+            sentinel = b'{"outside_owned_test_sentinel":true}'
+            (outside/'record.json').write_bytes(sentinel)
+            selected = {'receiving': {'artifact_root': str(root)}, 'runtime_helpers': {
+                'bounded_file_custody.py': {'path': str(custody_path), 'bytes': len(helper_raw), 'sha256': sha(helper_raw)}}}
+            actual_physical, actual_read = obs.physical, Path.read_bytes
+            switched = False; outside_reads = []
+            def race(path):
+                nonlocal switched
+                result = actual_physical(path)
+                if Path(path) == target and not switched:
+                    self.assertTrue(all(p.is_relative_to(root) for p in (folder, saved, outside)))
+                    folder.rename(saved)
+                    if os.name == 'nt':
+                        subprocess.run(['cmd.exe', '/c', 'mklink', '/J', str(folder), str(outside)],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                    else: folder.symlink_to(outside, target_is_directory=True)
+                    switched = True
+                return result
+            def observe_read(path):
+                raw = actual_read(path)
+                if Path(path) == target and raw == sentinel: outside_reads.append(len(raw))
+                return raw
+            try:
+                with mock.patch.object(obs, 'physical', side_effect=race), mock.patch.object(Path, 'read_bytes', observe_read):
+                    with self.assertRaises((ValueError, OSError)):
+                        owner._ordinary_document_v1(obs, selected, str(target))
+                self.assertTrue(switched)
+                self.assertEqual(outside_reads, [], 'document slot followed a substituted parent before custody validation')
+            finally:
+                if switched:
+                    if os.name == 'nt': os.rmdir(folder)
+                    else: folder.unlink()
+                    saved.rename(folder)
+
     def test_ordinary_export_requires_its_own_validator(self):
         obs = load_owner("compaction-result-observation.py")
         self.assertTrue(callable(getattr(obs, "validate_ordinary_episode_export_v1", None)),
@@ -177,6 +261,13 @@ class OrdinaryControls(unittest.TestCase):
         self.assertIsNone(owner.NONPROTECTED_SELECTION_PIN)
         self.assertTrue(hasattr(owner, "ORDINARY_SELECTION_PIN"))
         self.assertIsNone(owner.ORDINARY_SELECTION_PIN)
+        observed = available_export()['owner']['code_pins']
+        fixed = {k:v for k,v in observed.items() if not k.endswith('/compaction-source-owner-codex-app.py')}
+        owner._ordinary_check_code_pins_v1({'code_pins':fixed}, observed)
+        for changed in ({**fixed, 'extra':'0'*64}, {k:v for k,v in fixed.items() if k!='audit-assess/SKILL.md'},
+                        {**fixed, 'implementaudit/scripts/host-session-binding.py':'0'*64}):
+            with self.assertRaisesRegex(ValueError, 'ORDINARY_FIXED_CODE_CHANGED'):
+                owner._ordinary_check_code_pins_v1({'code_pins':changed}, observed)
 
     def test_available_and_each_truthful_absence(self):
         obs = load_owner("compaction-result-observation.py")

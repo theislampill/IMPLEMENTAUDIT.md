@@ -455,7 +455,7 @@ def _ordinary_selection_v1():
     fields = {'schema', 'profile_id', 'instance_selection', 'root_thread_id', 'root_agent_path',
         'root_source', 'session_root', 'cwd', 'cli_version', 'native_version', 'desktop_version',
         'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'python_executable',
-        'runtime_helpers', 'episode_owner', 'receiving'}
+        'runtime_helpers', 'episode_owner', 'receiving', 'code_pins'}
     require(type(selected) is dict and set(selected) == fields and
             selected['schema'] == 'implementaudit.codex-ordinary-selection.v1' and
             selected['profile_id'] == 'codex-app-ordinary-review-v1' and
@@ -480,6 +480,11 @@ def _ordinary_unique_v1(pairs):
     return value
 
 
+def _ordinary_check_code_pins_v1(selected, observed):
+    expected = {k: v for k, v in observed.items() if k != 'implementaudit/scripts/compaction-source-owner-codex-app.py'}
+    require(selected['code_pins'] == expected, 'ORDINARY_FIXED_CODE_CHANGED')
+
+
 def _ordinary_modules_v1(selected):
     custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
     protocol = _np_module(selected['runtime_helpers']['bounded_native_reader.py'], 'bounded_native_reader.py', custody)
@@ -499,6 +504,7 @@ def _ordinary_modules_v1(selected):
             raw = stream.read(info.st_size)
             require(len(raw) == info.st_size, 'ORDINARY_CODE_TRUNCATED')
         pins[path.relative_to(HERE.parent.parent).as_posix()] = hashlib.sha256(raw).hexdigest()
+    _ordinary_check_code_pins_v1(selected, pins)
     def module(name):
         path = HERE / name
         return _np_module({'path': str(path), 'bytes': path.stat().st_size,
@@ -564,10 +570,15 @@ def _ordinary_provider_guard_v1(runtime):
 
 
 def _ordinary_artifact_v1(obs, selected, pin):
-    root, _ = obs.physical(pin['path'])
+    root, before = obs.artifact_preflight(pin, obs.MAX_TOTAL)
     allowed = Path(selected['receiving']['artifact_root']).resolve(strict=True)
     require(root.is_relative_to(allowed), 'ORDINARY_ARTIFACT_OUTSIDE_CUSTODY')
-    return obs.artifact(pin, maximum=obs.MAX_TOTAL)
+    custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    raw = _np_read_pin(pin, obs.MAX_TOTAL, custody)
+    _, after = obs.physical(root)
+    require(obs.identity(before) == obs.identity(after) and before.st_mtime_ns == after.st_mtime_ns,
+            'ORDINARY_ARTIFACT_CHANGED')
+    return raw, obs.identity(before)
 
 
 def _ordinary_document_v1(obs, selected, path):
@@ -575,9 +586,18 @@ def _ordinary_document_v1(obs, selected, path):
     file, info = obs.physical(path)
     require(0 < info.st_size <= 8 * 1024 * 1024 and file.is_relative_to(
         Path(selected['receiving']['artifact_root']).resolve(strict=True)), 'ORDINARY_DOCUMENT_BOUND')
-    raw = file.read_bytes()
+    custody = _np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
+    with custody.held_file(file, allow_append=False) as stream:
+        opened = os.fstat(stream.fileno())
+        require(obs.identity(opened) == obs.identity(info) and opened.st_size == info.st_size and
+                opened.st_mtime_ns == info.st_mtime_ns, 'ORDINARY_DOCUMENT_CHANGED')
+        raw = stream.read(info.st_size + 1)
+        after = os.fstat(stream.fileno())
+        require(len(raw) == info.st_size and after.st_size == info.st_size and after.st_mtime_ns == info.st_mtime_ns,
+                'ORDINARY_DOCUMENT_CHANGED')
+    _, final = obs.physical(file)
+    require(obs.identity(final) == obs.identity(info) and final.st_mtime_ns == info.st_mtime_ns, 'ORDINARY_DOCUMENT_CHANGED')
     pin = {'path': str(file), 'bytes': len(raw), 'sha256': obs.digest(raw)}
-    require(obs.artifact(pin, maximum=8 * 1024 * 1024)[0] == raw, 'ORDINARY_DOCUMENT_CHANGED')
     return json.loads(raw, object_pairs_hook=obs.unique), pin
 
 
@@ -673,7 +693,7 @@ def _ordinary_canonical_v1(selected, runtime):
     if canonical['status'] != 'CANONICAL_REVIEW_ABSENT':
         h0_path = HERE / 'host-session-binding.py'
         h0 = _np_module({'path': str(h0_path), 'bytes': h0_path.stat().st_size,
-                         'sha256': hashlib.sha256(h0_path.read_bytes()).hexdigest()}, 'host-session-binding.py', runtime[1])
+                         'sha256': selected['code_pins']['implementaudit/scripts/host-session-binding.py']}, 'host-session-binding.py', runtime[1])
         store = Path(selected['receiving']['h0_store'])
         h0.load_owner(store, selected['receiving']['h0_owner_id'])
         host = canonical['opening']['host_and_scope']
@@ -693,6 +713,16 @@ def _ordinary_sources_v1(context, all_pins):
         for role in ('parent', 'child')}
 
 
+def _ordinary_mission_policy_v1(obs, policy, canonical):
+    import json
+    mission = json.loads(obs._ordinary_wire(canonical['packet'])['source_event']['body'], object_pairs_hook=obs.unique)
+    obs.closed(mission, ('schema', 'policy_digest', 'scope', 'mission', 'authority_ceiling'), 'ORDINARY_MISSION')
+    require(mission['schema'] == 'implementaudit.ordinary-review-mission.v1' and
+            mission['policy_digest'] == obs._ordinary_hash(policy) and mission['scope'] == canonical['scope'] and
+            mission['authority_ceiling'] == 'NONE', 'ORDINARY_MISSION_POLICY_CHANGED')
+    obs._ordinary_text(mission['mission'])
+
+
 def ordinary_receiver_check_v1():
     """Actual deterministic receiver command. It grants no JOIN or lifecycle."""
     selected = _ordinary_selection_v1()
@@ -700,6 +730,7 @@ def ordinary_receiver_check_v1():
     policy = ordinary_policy_v1()
     route, canonical = _ordinary_canonical_v1(selected, runtime)
     require(canonical['status'] == 'SATISFIED', 'ORDINARY_PARENT_ACCEPTANCE_ABSENT')
+    _ordinary_mission_policy_v1(obs, policy, canonical)
     with _ordinary_provider_guard_v1(runtime):
         owner, result, acceptance, occurrences, context, public, document_pin = _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical)
         # Reuse the strict review-only semantic validator before any success.
@@ -720,6 +751,7 @@ def acquire_selected_ordinary_episode_v1():
         return obs.ordinary_export_unavailable_v1('ORDINARY_SELECTION_UNBOUND')
     selected = _ordinary_selection_v1(); runtime, obs, pins = _ordinary_modules_v1(selected)
     policy = ordinary_policy_v1(); route, canonical = _ordinary_canonical_v1(selected, runtime)
+    if canonical['status'] != 'CANONICAL_REVIEW_ABSENT': _ordinary_mission_policy_v1(obs, policy, canonical)
     missing = {'CANONICAL_REVIEW_ABSENT': 'CANONICAL_REVIEW_ABSENT', 'OPEN': 'CHILD_RETURN_ABSENT', 'RETURNED': 'PARENT_ACCEPTANCE_ABSENT'}
     if canonical['status'] in missing: return obs.ordinary_export_unavailable_v1(missing[canonical['status']])
     require(canonical['status'] == 'SATISFIED', 'ORDINARY_CANONICAL_STATE')
@@ -766,6 +798,7 @@ def execute_ordinary_receiver_v1():
     selected = _ordinary_selection_v1(); runtime, obs, pins = _ordinary_modules_v1(selected)
     policy = ordinary_policy_v1(); route, canonical = _ordinary_canonical_v1(selected, runtime)
     require(canonical['status'] == 'SATISFIED', 'ORDINARY_PARENT_ACCEPTANCE_ABSENT')
+    _ordinary_mission_policy_v1(obs, policy, canonical)
     repo, controller = Path(selected['episode_owner']['repository']), selected['episode_owner']['controller']
     existing = route.read_current_ordinary_execution_v1(repo, controller)
     if existing is not None:
