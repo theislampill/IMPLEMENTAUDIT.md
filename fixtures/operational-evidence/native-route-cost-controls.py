@@ -1,7 +1,7 @@
 """Constructed owner-transaction controls; no native performance/authority credit.
 
 Frozen baseline at 8e2999fc: ordinary result = 6 full route validations;
-R35 native orchestration = 4. The required successor uses 2 enclosing checks.
+R0035 native orchestration = 4. The required successor uses 2 enclosing checks.
 The independent projection oracle below does not call producer formatters.
 """
 import argparse
