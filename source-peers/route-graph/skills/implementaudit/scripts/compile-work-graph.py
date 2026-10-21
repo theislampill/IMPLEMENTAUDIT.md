@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import copy
+import contextlib
 import json
 import os
 import pathlib
@@ -2167,10 +2168,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '0d86963e9a64fe6d0baa047638a90c2180768871ba3b5ae4abe22a7946c50484'
+_NATIVE_ROUTE_PRODUCER_SHA256 = '8186d2850c19c7a12d569004df8de7d947f840805d7cd3db080331729dce430c'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 356106
+_NATIVE_ROUTE_PRODUCER_BYTES = 360113
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -2684,23 +2685,43 @@ def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
             raise WorkGraphError('native route producer is unavailable') from exc
         else:
             route_available = True
-    if route_available:
-        producer, producer_path, producer_raw = _native_route_scope_module_v1()
-        acquired_route = producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller'])
-        if pathlib.Path(acquired_route['owner']['explicit_run_root']).resolve() != pathlib.Path(run_root).resolve():
-            raise WorkGraphError('route producer returned a foreign run root')
-        _native_validate_route_scope_v1(acquired_route, before)
-        route_observation = _RouteScopeObservation(acquired_route, _NATIVE_ROUTE_OBSERVATION_KEY)
-    projection = _compile_native_documents_v1(snapshot, bound, _route_observation=route_observation)
-    if _native_source_snapshot(run_root) != snapshot:
-        raise WorkGraphError('native source changed during intake')
-    if _acquire_native_read_set(projection['nodes'], input_root) != read_set:
-        raise WorkGraphError('native inputs changed during intake')
-    if repo_root is not None and _native_continuity(repo_root, run_root) != before:
-        raise WorkGraphError('native continuity changed during intake')
+    combined_route_read = False
+    with contextlib.ExitStack() as owner_read:
+        if route_available:
+            producer, producer_path, producer_raw = _native_route_scope_module_v1()
+            transaction = getattr(producer, 'current_route_observation_v1', None)
+            if transaction is not None:
+                if not callable(transaction):
+                    raise WorkGraphError('native route transaction interface is malformed')
+                # This callable comes only from the fixed, byte-verified sibling
+                # owner. No caller callback/module or serialized witness enters.
+                observed = owner_read.enter_context(transaction(pathlib.Path(repo_root), before['controller']))
+                acquired_bytes = observed.scope_bytes()
+                if type(acquired_bytes) is not bytes:
+                    raise WorkGraphError('native route transaction did not yield immutable bytes')
+                acquired_route = decode_strict_json_bytes(acquired_bytes, 'native route transaction scope')
+                combined_route_read = True
+            else:
+                acquired_route = producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller'])
+            if pathlib.Path(acquired_route['owner']['explicit_run_root']).resolve() != pathlib.Path(run_root).resolve():
+                raise WorkGraphError('route producer returned a foreign run root')
+            _native_validate_route_scope_v1(acquired_route, before)
+            route_observation = _RouteScopeObservation(acquired_route, _NATIVE_ROUTE_OBSERVATION_KEY)
+        projection = _compile_native_documents_v1(snapshot, bound, _route_observation=route_observation)
+        if route_observation is not None and _route_observation_value(route_observation) != acquired_route:
+            raise WorkGraphError('provisional native route observation was mutated')
+        if _native_source_snapshot(run_root) != snapshot:
+            raise WorkGraphError('native source changed during intake')
+        if _acquire_native_read_set(projection['nodes'], input_root) != read_set:
+            raise WorkGraphError('native inputs changed during intake')
+        if repo_root is not None and _native_continuity(repo_root, run_root) != before:
+            raise WorkGraphError('native continuity changed during intake')
+        if producer is not None and not combined_route_read:
+            if producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller']) != acquired_route:
+                raise WorkGraphError('native route changed during intake')
+        # Every projection remains provisional until the owner context exits;
+        # it freshly checks semantic inputs/receipts/refs and rejects mutation.
     if producer is not None:
-        if producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller']) != acquired_route:
-            raise WorkGraphError('native route changed during intake')
         _, final_path, final_raw = _native_route_scope_module_v1()
         if final_path != producer_path or final_raw != producer_raw:
             raise WorkGraphError('native route producer changed during intake')

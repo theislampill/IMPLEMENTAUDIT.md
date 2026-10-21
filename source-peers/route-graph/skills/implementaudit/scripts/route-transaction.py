@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import base64
 import contextlib
+import copy
 from datetime import datetime
 import errno
 import hashlib
@@ -4408,47 +4409,11 @@ def read_current_route_scope_v1(
     ):
         if record.get(key) != route[key]:
             fail("route scope source differs from the validated route identity")
-    request = candidate_request_from_record(record, require_current_inputs=True)
-    # These exact identity-record bytes belong to R0033, including non-ASCII.
-    scope = dict(request["scope"])
-    if scope["digest"] != digest_json({"identity": scope["identity"]}):
-        fail("route scope digest is contradictory")
-    satisfaction = None
-    if route["route_state"] == "SATISFIED":
-        satisfaction = record["lifecycle"]["governor_decision"]["digest"]
-    record_raw = json.dumps(
-        record, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8") + b"\n"
-    value = {
-        "schema": "implementaudit.current-route-scope.v1",
-        "authority_ceiling": "READ_ONLY_CURRENT_ROUTE_FACT",
-        "establishes": [],
-        "route": dict(route),
-        "scope": scope,
-        "boundary": dict(request["boundary"]),
-        "owner": {key: record[key] for key in (
-            "controller_id", "claim_id", "explicit_run_root",
-            "continuity_generation", "continuity_receipt",
-        )},
-        "host": {key: record[key] for key in (
-            "host_id", "host_session_id", "host_binding_generation",
-            "host_correlation_id",
-        )},
-        "source": {
-            "predicate_version": record["predicate_version"],
-            "record_schema": record["schema"],
-            "producer_sha256": file_digest(Path(__file__).resolve())[7:],
-            "record_sha256": hashlib.sha256(record_raw).hexdigest(),
-        },
-        "expiry_fingerprint": record["expiry_fingerprint"],
-        "satisfaction": satisfaction,
-    }
+    value = _scope_from_read_v1(record, route)
     # Re-run the owner's existing semantic/ref fences after formatting; even
     # an equal caller-supplied currentness object cannot replace these reads.
     if validate_pure_current_route(repo, controller, expected_current) != route:
         fail("route scope identity changed during read-only export")
-    value["digest"] = digest_json(value)[7:]
     return value
 
 
@@ -6900,6 +6865,83 @@ def read_current_episode_binding_v1(repo, controller, expected_current=None):
     oid, record = current_ref(repo, controller)
     if oid != before['record_oid'] or record is None or record.get('record_identity') != before['record_identity']:
         fail('canonical episode changed after current route validation')
+    value = _episode_from_read_v1(repo, oid, record, before)
+    post_oid, post_record = current_ref(repo, controller)
+    if post_oid != oid or post_record != record:
+        fail('canonical episode changed during read')
+    _pure_route_final_ref_fence(repo, controller, before['controller_record_oid'], oid)
+    if validate_pure_current_route(repo, controller, expected_current) != before:
+        fail('canonical episode currentness changed during acquisition')
+    return value
+
+
+def read_current_ordinary_result_v1(repo, controller):
+    """Read an ordinary audit-assess return/acceptance from canonical custody.
+
+    Native child UUIDs and host execution are deliberately not inferred here.
+    The selected source owner independently authenticates those public records.
+    """
+    with current_route_observation_v1(repo, controller) as observed:
+        result = observed.ordinary_result_bytes()
+    return decoded_artifact(result, 'current ordinary result projection')
+
+
+def _ordinary_result_from_read_v1(repo, oid, record, current):
+    """Private projection of one source-owned, provisional canonical tuple."""
+    if record['decision'] != 'REQUIRED':
+        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
+    role, _ = mapped_child_route(record)
+    if role != 'audit-assess':
+        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
+    if record['route_state'] == 'UNSATISFIED':
+        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
+    opening = _episode_from_read_v1(repo, oid, record, current)
+    scope = _scope_from_read_v1(record, current)
+    life = record['lifecycle']
+    packet_wire = life['delivery']['packet']
+    packet = decoded_artifact(validate_bytes_identity(packet_wire, 'ordinary packet'), 'ordinary packet')
+    route_packet_record(packet, record['obligation_id'], record['route_transaction_id'], expected_target='audit-assess')
+    returned_wire = life['child_return']
+    decision_wire = life['governor_decision']
+    if returned_wire is not None:
+        returned = decoded_artifact(validate_bytes_identity(returned_wire, 'ordinary return'), 'ordinary return')
+        child_return_record(returned, record['obligation_id'], record['route_transaction_id'],
+                            packet_wire['digest'], expected_child='audit-assess')
+    if decision_wire is not None:
+        if returned_wire is None or life['governor_decision_count'] != 1:
+            fail('ordinary acceptance lacks one exact return')
+        decision = decoded_artifact(validate_bytes_identity(decision_wire, 'ordinary acceptance'), 'ordinary acceptance')
+        governor_decision_record(decision, record['obligation_id'], record['route_transaction_id'], returned_wire['digest'])
+    expected = {'OPEN': (False, False), 'RETURNED': (True, False), 'SATISFIED': (True, True)}
+    if expected.get(record['route_state']) != (returned_wire is not None, decision_wire is not None):
+        fail('ordinary lifecycle members contradict canonical state')
+    return {'status': record['route_state'], 'canonical_route': current,
+            'opening': opening, 'scope': scope['scope'], 'packet': packet_wire,
+            'child_return': returned_wire, 'governor_decision': decision_wire}
+
+
+def _scope_from_read_v1(record, route):
+    """Pure scope formatting; standalone public reader keeps its old fences."""
+    request = candidate_request_from_record(record, require_current_inputs=True)
+    scope = dict(request['scope'])
+    if scope['digest'] != digest_json({'identity': scope['identity']}):
+        fail('route scope digest is contradictory')
+    record_raw = json.dumps(record, sort_keys=True, separators=(',', ':'), ensure_ascii=True,
+                            allow_nan=False).encode('utf-8') + b'\n'
+    value = {'schema': 'implementaudit.current-route-scope.v1', 'authority_ceiling': 'READ_ONLY_CURRENT_ROUTE_FACT',
+        'establishes': [], 'route': dict(route), 'scope': scope, 'boundary': dict(request['boundary']),
+        'owner': {key: record[key] for key in ('controller_id', 'claim_id', 'explicit_run_root', 'continuity_generation', 'continuity_receipt')},
+        'host': {key: record[key] for key in ('host_id', 'host_session_id', 'host_binding_generation', 'host_correlation_id')},
+        'source': {'predicate_version': record['predicate_version'], 'record_schema': record['schema'],
+                   'producer_sha256': file_digest(Path(__file__).resolve())[7:], 'record_sha256': hashlib.sha256(record_raw).hexdigest()},
+        'expiry_fingerprint': record['expiry_fingerprint'],
+        'satisfaction': record['lifecycle']['governor_decision']['digest'] if route['route_state'] == 'SATISFIED' else None}
+    value['digest'] = digest_json(value)[7:]
+    return value
+
+
+def _episode_from_read_v1(repo, oid, record, route):
+    """Validate immutable OPEN lineage once inside the enclosing read fence."""
     if record.get('route_state') not in {'OPEN', 'RETURNED', 'SATISFIED'}:
         fail('canonical episode has no OPEN lineage', decision='REQUIRED')
     with RouteObjectReader(repo) as object_reader:
@@ -6927,15 +6969,8 @@ def read_current_episode_binding_v1(repo, controller, expected_current=None):
             'controller_id', 'claim_id', 'explicit_run_root')
     if any(record.get(key) != opened.get(key) for key in keys):
         fail('canonical OPEN identity changed across retained lineage')
-    post_oid, post_record = current_ref(repo, controller)
-    if post_oid != oid or post_record != record:
-        fail('canonical episode changed during read')
-    _pure_route_final_ref_fence(repo, controller, before['controller_record_oid'], oid)
-    if validate_pure_current_route(repo, controller, expected_current) != before:
-        fail('canonical episode currentness changed during acquisition')
-    value = {'schema': 'implementaudit.r0033-current-episode-binding.v1',
-        'route_current': before, 'open_record_oid': opened_oid,
-        'open_record_identity': opened['record_identity'], 'logical_task': logical_task,
+    value = {'schema': 'implementaudit.r0033-current-episode-binding.v1', 'route_current': route,
+        'open_record_oid': opened_oid, 'open_record_identity': opened['record_identity'], 'logical_task': logical_task,
         'selected_child_role': role, 'selected_child_target': target,
         'packet_pin': {key: delivery['packet'][key] for key in ('bytes', 'digest')},
         'skill_pin': {key: delivery['child'][key] for key in ('identity', 'bytes', 'digest')},
@@ -6946,48 +6981,90 @@ def read_current_episode_binding_v1(repo, controller, expected_current=None):
     return {**value, 'opening_digest': digest_json(opening), 'binding_digest': digest_json(value)}
 
 
-def read_current_ordinary_result_v1(repo, controller):
-    """Read an ordinary audit-assess return/acceptance from canonical custody.
+_ROUTE_READ_ISSUER_V1 = object()
 
-    Native child UUIDs and host execution are deliberately not inferred here.
-    The selected source owner independently authenticates those public records.
+
+class _CurrentRouteReadV1:
+    """Owner-issued provisional projections, unusable for new reads after exit.
+
+    This is not a serializable credential or a cache. Every public entry creates
+    a new view from live owner predicates; every successful exit rederives them.
     """
-    current = validate_pure_current_route(repo, controller)
+    __slots__ = ('__repo', '__oid', '__record', '__route', '__initial', '__active')
+
+    def __init__(self, issuer, repo, oid, record, route):
+        if issuer is not _ROUTE_READ_ISSUER_V1:
+            fail('current route view must be acquired by its source owner')
+        self.__repo, self.__oid = repo, oid
+        self.__record, self.__route = copy.deepcopy(record), copy.deepcopy(route)
+        self.__initial = digest_json([self.__record, self.__route])
+        self.__active = True
+
+    def __emit(self, value):
+        self.__check()
+        # Canonical bytes cannot be mutated and restored between fence reads.
+        # The fixed consumer decodes its own copy; no yielded dict is trusted.
+        return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False,
+                          allow_nan=False).encode('utf-8')
+
+    def __check(self):
+        if not self.__active:
+            fail('current route observation is closed')
+        if digest_json([self.__record, self.__route]) != self.__initial:
+            fail('provisional current route data was mutated')
+
+    def scope_bytes(self):
+        self.__check()
+        return self.__emit(_scope_from_read_v1(self.__record, self.__route))
+
+    def opening_bytes(self):
+        self.__check()
+        return self.__emit(_episode_from_read_v1(self.__repo, self.__oid, self.__record, self.__route))
+
+    def ordinary_result_bytes(self):
+        self.__check()
+        return self.__emit(_ordinary_result_from_read_v1(self.__repo, self.__oid, self.__record, self.__route))
+
+    def _check_owner_exit(self, issuer):
+        if issuer is not _ROUTE_READ_ISSUER_V1:
+            fail('foreign current route exit')
+        self.__check()
+
+    def _close_owner_read(self, issuer):
+        if issuer is not _ROUTE_READ_ISSUER_V1:
+            fail('foreign current route close')
+        self.__active = False
+
+
+@contextlib.contextmanager
+def current_route_observation_v1(repo, controller, expected_current=None):
+    """Acquire a bounded owner read; yielded facts are provisional until exit.
+
+    Accepts no supplied record, callback, module, trusted flag or reusable token.
+    A successful exit performs the complete fresh semantic/currentness check,
+    including request inputs, package and child source, not merely ref equality.
+    """
+    expected = copy.deepcopy(expected_current)
+    source = file_digest(Path(__file__).resolve())
+    route = validate_pure_current_route(repo, controller, expected)
     oid, record = current_ref(repo, controller)
-    if oid != current['record_oid'] or record is None:
-        fail('ordinary route changed after currentness')
-    if record['decision'] != 'REQUIRED':
-        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
-    role, _ = mapped_child_route(record)
-    if role != 'audit-assess':
-        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
-    if record['route_state'] == 'UNSATISFIED':
-        return {'status': 'CANONICAL_REVIEW_ABSENT', 'canonical_route': current}
-    opening = read_current_episode_binding_v1(repo, controller)
-    scope = read_current_route_scope_v1(repo, controller)
-    life = record['lifecycle']
-    packet_wire = life['delivery']['packet']
-    packet = decoded_artifact(validate_bytes_identity(packet_wire, 'ordinary packet'), 'ordinary packet')
-    route_packet_record(packet, record['obligation_id'], record['route_transaction_id'], expected_target='audit-assess')
-    returned_wire = life['child_return']
-    decision_wire = life['governor_decision']
-    if returned_wire is not None:
-        returned = decoded_artifact(validate_bytes_identity(returned_wire, 'ordinary return'), 'ordinary return')
-        child_return_record(returned, record['obligation_id'], record['route_transaction_id'],
-                            packet_wire['digest'], expected_child='audit-assess')
-    if decision_wire is not None:
-        if returned_wire is None or life['governor_decision_count'] != 1:
-            fail('ordinary acceptance lacks one exact return')
-        decision = decoded_artifact(validate_bytes_identity(decision_wire, 'ordinary acceptance'), 'ordinary acceptance')
-        governor_decision_record(decision, record['obligation_id'], record['route_transaction_id'], returned_wire['digest'])
-    expected = {'OPEN': (False, False), 'RETURNED': (True, False), 'SATISFIED': (True, True)}
-    if expected.get(record['route_state']) != (returned_wire is not None, decision_wire is not None):
-        fail('ordinary lifecycle members contradict canonical state')
-    if current_ref(repo, controller) != (oid, record) or validate_pure_current_route(repo, controller) != current:
-        fail('ordinary result changed during read')
-    return {'status': record['route_state'], 'canonical_route': current,
-            'opening': opening, 'scope': scope['scope'], 'packet': packet_wire,
-            'child_return': returned_wire, 'governor_decision': decision_wire}
+    if oid != route['record_oid'] or record is None or any(record.get(key) != route[key] for key in (
+            'controller_id', 'record_identity', 'decision', 'classification', 'route_transaction_id', 'obligation_id', 'route_state')):
+        fail('canonical route changed before combined observation')
+    validate_canonical_route_record_bytes(repo, oid, record)
+    record = copy.deepcopy(record)
+    view = _CurrentRouteReadV1(_ROUTE_READ_ISSUER_V1, repo, oid, record, route)
+    try:
+        yield view
+        view._check_owner_exit(_ROUTE_READ_ISSUER_V1)
+        if current_ref(repo, controller) != (oid, record) or validate_pure_current_route(repo, controller, expected) != route:
+            fail('canonical route changed during combined observation')
+        _pure_route_final_ref_fence(repo, controller, route['controller_record_oid'], oid)
+        if file_digest(Path(__file__).resolve()) != source:
+            fail('route source changed during combined observation')
+        view._check_owner_exit(_ROUTE_READ_ISSUER_V1)
+    finally:
+        view._close_owner_read(_ROUTE_READ_ISSUER_V1)
 
 
 def _ordinary_execution_ref_v1(controller, canonical):

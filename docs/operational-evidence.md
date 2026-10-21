@@ -282,6 +282,8 @@ The source owner's explicit `--ordinary-execute` operation delegates to R0033's 
 
 The producer publishes an immutable attempt marker immediately before invoking the fixed receiver. A missing completed receipt after that marker requires effect reconciliation and cannot trigger another run. A failed process result is retained as a result, not promoted to success; interruption or changed inputs preserves the attempt without a successful receipt. Receipt absence proves no accepted execution evidence, not that no effect occurred.
 
+Typed ordinary public JSON permits the native commentary carrier's single terminal LF after the closing fence. Parsing preserves the original body, native body hash and physical locator bytes. Additional trailing whitespace, extra blank lines, prose outside the fence and duplicate JSON keys remain refusals.
+
 R0038 projects result, acceptance, receiving, physical custody and occurrences separately, and requires the acceptance digest to match the canonical satisfied-route receipt. Formal H0 LOAD/USE/DISPOSE remain UNVERIFIED in ordinary v1. The query census retains that limitation; ordinary receiving grants no pending-compaction consumption, parent completion, campaign authority or issue closure.
 
 ## Deterministic read-only status, query and why

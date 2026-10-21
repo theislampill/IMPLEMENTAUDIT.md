@@ -325,6 +325,28 @@ class OrdinaryControls(unittest.TestCase):
         with mock.patch("builtins.open", side_effect=AssertionError("forbidden IO")), mock.patch.object(Path, "stat", side_effect=AssertionError("forbidden stat")):
             self.assertEqual(obs.validate_ordinary_episode_export_v1(value), value)
 
+    def test_single_native_terminal_lf_preserves_exact_public_body(self):
+        """Actual native commentary retains one LF after its JSON fence."""
+        obs=load_owner('compaction-result-observation.py');value=available_export()
+        for public in value['custody']['public_records'][1:]:
+            public['body']+='\n';public['body_sha256']=sha(public['body'].encode())
+        reseal(value);before=copy.deepcopy(value)
+        self.assertEqual(obs.validate_ordinary_episode_export_v1(value),before)
+        context={role:value['custody']['sources'][role] for role in ('parent','child')}
+        context.update(parent_identity={'thread_id':value['result']['actual_child_identity']['parent_thread_id']},
+            actual_child_identity=value['result']['actual_child_identity'])
+        obs.validate_ordinary_review_v1(value['owner'],value['result'],value['acceptance'],value['occurrences'],
+            context,value['custody']['public_records'][:3],value['custody']['policy'])
+        self.assertEqual(value,before,'Parsing must not normalize native bodies, pins or hashes')
+
+    def test_public_json_fence_keeps_strict_outer_boundary(self):
+        obs=load_owner('compaction-result-observation.py')
+        for prefix,suffix in (('', '\n\n'),('', '\r\n'),('', ' '),('', '\nprose'),('quote\n','')):
+            value=available_export();public=value['custody']['public_records'][2]
+            public['body']=prefix+public['body']+suffix;public['body_sha256']=sha(public['body'].encode());reseal(value)
+            with self.assertRaisesRegex(ValueError,'ORDINARY_PUBLIC_BODY'):
+                obs.validate_ordinary_episode_export_v1(value)
+
     def test_closed_exec_pair_requires_exact_call_and_success(self):
         obs = load_owner("compaction-result-observation.py")
         call = {"type": "response_item", "payload": {"type": "custom_tool_call", "name": "exec", "status": "completed", "input": "exact", "call_id": "one"}}

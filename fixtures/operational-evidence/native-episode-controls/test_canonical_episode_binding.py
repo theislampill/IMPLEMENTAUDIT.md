@@ -26,7 +26,7 @@ def require(value, reason):
         raise ValueError(reason)
 
 def route_fixture(state='SATISFIED'):
-    needed = {'validate_lifecycle_predecessor_chain', 'open_logical_task', 'logical_task_name', 'validate_bytes_identity', 'bytes_identity', 'read_current_episode_binding_v1'}
+    needed = {'validate_lifecycle_predecessor_chain', 'open_logical_task', 'logical_task_name', 'validate_bytes_identity', 'bytes_identity', '_episode_from_read_v1', 'read_current_episode_binding_v1'}
     tree = ast.parse(source_text('route-transaction.py'))
     selected = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in needed]
     env = {'__name__': 'fixture', 'Any': object, 'Path': Path, 'fail': fail, 'json': json, 'base64': base64, 'hashlib': hashlib, 're': re, 'OID_RE': re.compile('[0-9a-f]{40}'), 'HEX_RE': re.compile('sha256:[0-9a-f]{64}'), 'digest_json': digest, 'exact_keys': lambda value, keys, label: value if isinstance(value, dict) and set(value) == keys else fail(label), 'exact_text': lambda value, label: value if isinstance(value, str) and value else fail(label)}

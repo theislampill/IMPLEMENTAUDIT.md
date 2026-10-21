@@ -1316,6 +1316,15 @@ def ordinary_export_unavailable_v1(reason):
     return validate_ordinary_episode_export_v1({**value, 'export_digest': _ordinary_hash(value)})
 
 
+def _ordinary_public_json_v1(body):
+    # The native commentary carrier may retain one LF after the fence. Parse
+    # that view only: original body bytes, native hashes and locators stay exact.
+    require(type(body) is str and body.startswith('```json\n'), 'ORDINARY_PUBLIC_BODY')
+    view = body[:-1] if body.endswith('\n') else body
+    require(view.endswith('\n```'), 'ORDINARY_PUBLIC_BODY')
+    return json.loads(view[8:-4], object_pairs_hook=unique)
+
+
 def _validate_ordinary_episode_v1(value, *, review_only=False):
     """Pure closed-schema consistency check; never authenticates caller bytes."""
     raw = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
@@ -1471,8 +1480,7 @@ def _validate_ordinary_episode_v1(value, *, review_only=False):
                     type(record['body']) is str and 0 < len(record['body'].encode()) <= MAX_RECORD and
                     digest(record['body'].encode()) == record['body_sha256'], 'ORDINARY_PUBLIC_BINDING')
             if expected is not None:
-                require(record['body'].startswith('```json\n') and record['body'].endswith('\n```') and
-                        json.loads(record['body'][8:-4], object_pairs_hook=unique) == expected, 'ORDINARY_PUBLIC_BODY')
+                require(_ordinary_public_json_v1(record['body']) == expected, 'ORDINARY_PUBLIC_BODY')
         opening_text = records[0]['body']
         require(opening_text.startswith('```ini\n') and '\n```' in opening_text, 'ORDINARY_PUBLIC_OPEN')
         fields = unique([line.split('=', 1) for line in opening_text[7:opening_text.index('\n```')].splitlines()])
@@ -1527,8 +1535,7 @@ def _validate_ordinary_episode_v1(value, *, review_only=False):
         uuid = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
         require(re.fullmatch(uuid, record['turn_id']) and re.fullmatch('retained_' + uuid, record['revision']), 'ORDINARY_PUBLIC_RETAINED_ID')
         if expected_body is not None:
-            require(record['body'].startswith('```json\n') and record['body'].endswith('\n```') and
-                    json.loads(record['body'][8:-4], object_pairs_hook=unique) == expected_body, 'ORDINARY_PUBLIC_BODY')
+            require(_ordinary_public_json_v1(record['body']) == expected_body, 'ORDINARY_PUBLIC_BODY')
         else:
             text = record['body']
             require(text.startswith('```ini\n') and '\n```' in text, 'ORDINARY_PUBLIC_OPEN')
