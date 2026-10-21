@@ -21,6 +21,7 @@ fi
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-episode-projection.py" "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/ordinary-native-controls.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-route-cost-controls.py" --repo-root "$repo_root"
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-receiver-dispatch-controls.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-episode-controls/run_native_source_regressions.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite route
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-peer-controls.py" --repo-root "$repo_root" --suite security

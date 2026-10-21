@@ -5,6 +5,7 @@ import hashlib
 import hmac
 import copy
 import contextlib
+import base64
 import json
 import os
 import pathlib
@@ -1507,7 +1508,8 @@ def _check_graph_seal(value, schema):
         # This is captured-data replay only. It cannot issue a native acquisition witness.
         replay = None
         if schema == 'implementaudit.native-work-graph.v2':
-            replay = _RouteScopeObservation(value.get('route_scope'), _CAPTURED_ROUTE_REPLAY_KEY)
+            replay = _RouteScopeObservation(value.get('route_scope'), _CAPTURED_ROUTE_REPLAY_KEY,
+                                            receiver_binding=value.get('receiver_binding'))
         if _compile_native_documents_v1(snapshot, {k: v for k, v in binding.items() if k != 'source_digest'}, _route_observation=replay) != value:
             raise WorkGraphError('native graph differs from source-derived projection')
 
@@ -2168,10 +2170,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '8186d2850c19c7a12d569004df8de7d947f840805d7cd3db080331729dce430c'
+_NATIVE_ROUTE_PRODUCER_SHA256 = '2924c8fb8f545706aca37ef1e9ba8277478922399a3e9d6a8b5393d95756485b'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 360113
+_NATIVE_ROUTE_PRODUCER_BYTES = 363895
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -2182,13 +2184,14 @@ _CAPTURED_ROUTE_REPLAY_KEY = object()
 
 class _RouteScopeObservation:
     """In-process acquisition/replay witness, never accepted from JSON."""
-    __slots__ = ('value', 'key')
+    __slots__ = ('value', 'key', 'receiver_binding')
 
-    def __init__(self, value, key):
+    def __init__(self, value, key, *, receiver_binding=None):
         if key is not _NATIVE_ROUTE_OBSERVATION_KEY and key is not _CAPTURED_ROUTE_REPLAY_KEY:
             raise WorkGraphError('route observation must be issued by its owner acquisition or captured replay')
         self.value = copy.deepcopy(value)
         self.key = key
+        self.receiver_binding = copy.deepcopy(receiver_binding)
 
 
 def _route_observation_value(observation):
@@ -2197,6 +2200,96 @@ def _route_observation_value(observation):
              observation.key is not _CAPTURED_ROUTE_REPLAY_KEY)):
         raise WorkGraphError('caller route data cannot replace owner acquisition')
     return copy.deepcopy(observation.value)
+
+
+def _native_receiver_binding_v1(observation):
+    """Validate captured binding semantics; only live owner intake authenticates."""
+    scope = _route_observation_value(observation)
+    value = copy.deepcopy(observation.receiver_binding)
+    if value is None:
+        return None
+    _require_exact_members(value, {'schema', 'producer', 'executor', 'route_record_oid',
+        'route_scope_digest', 'policy', 'record', 'source_pins', 'authority_ceiling', 'establishes'}, 'receiver binding')
+    if (value['schema'] != 'implementaudit.ordinary-receiver-binding.v1' or value['producer'] != 'R0033'
+            or value['executor'] != 'execute_current_ordinary_receiver_v2' or value['authority_ceiling'] != 'NONE'
+            or value['establishes'] != [] or value['route_record_oid'] != scope['route']['record_oid']
+            or value['route_scope_digest'] != scope['digest'] or scope['route']['route_state'] != 'SATISFIED'
+            or scope['route']['decision'] != 'REQUIRED'):
+        raise WorkGraphError('receiver binding is not the current accepted fixed executor')
+
+    def decode_wire(wire):
+        _require_exact_members(wire, {'bytes', 'digest', 'bytes_b64'}, 'receiver binding bytes')
+        if (type(wire['bytes']) is not int or not 0 < wire['bytes'] <= 1024 * 1024
+                or type(wire['bytes_b64']) is not str or len(wire['bytes_b64']) > 1398104):
+            raise WorkGraphError('receiver binding bytes exceed their bound')
+        try:
+            raw = base64.b64decode(wire['bytes_b64'], validate=True)
+        except (ValueError, TypeError) as exc:
+            raise WorkGraphError('receiver binding bytes are malformed') from exc
+        if (len(raw) != wire['bytes'] or base64.b64encode(raw).decode() != wire['bytes_b64']
+                or wire['digest'] != 'sha256:' + hashlib.sha256(raw).hexdigest()):
+            raise WorkGraphError('receiver binding bytes changed')
+        return raw, decode_strict_json_bytes(raw, 'receiver binding document')
+
+    raw, record = decode_wire(value['record'])
+    _require_object(record, 'receiver canonical record')
+    if (hashlib.sha256(raw).hexdigest() != scope['source']['record_sha256']
+            or hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() != value['route_record_oid']
+            or record.get('record_identity') != scope['route']['record_identity']
+            or any(record.get(k) != scope['route'][k] for k in ('controller_id', 'decision', 'route_state', 'obligation_id', 'route_transaction_id'))):
+        raise WorkGraphError('receiver binding canonical source differs')
+    lifecycle = _require_object(record.get('lifecycle'), 'receiver canonical lifecycle')
+    delivery = _require_object(lifecycle.get('delivery'), 'receiver canonical delivery')
+    _, packet = decode_wire(delivery.get('packet'))
+    _require_object(packet, 'receiver packet')
+    event = _require_object(packet.get('source_event'), 'receiver source event')
+    if type(event.get('body')) is not str:
+        raise WorkGraphError('receiver mission text is missing')
+    mission = decode_strict_json_bytes(event['body'].encode(), 'receiver mission')
+    _require_exact_members(mission, {'schema', 'policy_digest', 'scope', 'mission', 'authority_ceiling'}, 'receiver mission')
+    policy = _require_object(value['policy'], 'receiver policy')
+    _require_exact_members(policy, {'schema', 'profile_id', 'selection_pin', 'instance_selection', 'provider', 'code_pins',
+        'receiver_argv', 'receiver_node', 'consumer', 'artifact_root', 'root_thread_id', 'root_agent_path'}, 'receiver policy')
+    _require_object(policy['code_pins'], 'receiver policy code pins')
+    if (mission['schema'] != 'implementaudit.ordinary-review-mission.v1' or mission['authority_ceiling'] != 'NONE'
+            or mission['scope'] != scope['scope'] or mission['policy_digest'] != _graph_hash(policy)
+            or policy['schema'] != 'implementaudit.ordinary-native-policy.v1' or packet.get('target_identity') != 'audit-assess'
+            or packet.get('obligation_id') != scope['route']['obligation_id'] or packet.get('route_transaction_id') != scope['route']['route_transaction_id']
+            or policy['code_pins'].get('implementaudit/scripts/route-transaction.py') != _NATIVE_ROUTE_PRODUCER_SHA256):
+        raise WorkGraphError('receiver policy differs from the accepted route')
+    names = {'implementaudit/scripts/bounded_file_custody.py', 'implementaudit/scripts/compaction-source-owner-codex-app.py'}
+    _require_exact_members(value['source_pins'], names, 'receiver source pins')
+    if type(record.get('inputs')) is not list:
+        raise WorkGraphError('receiver canonical inputs are missing')
+    inputs = {}
+    for item in record['inputs']:
+        _require_exact_members(item, {'identity', 'path', 'digest', 'status'}, 'receiver canonical input')
+        if type(item['path']) is not str or item['path'] in inputs:
+            raise WorkGraphError('receiver canonical input identity is ambiguous')
+        inputs[item['path']] = item
+    for key, digest in value['source_pins'].items():
+        _require_digest(digest, 'receiver source digest')
+        item = inputs.get('skills/' + key, {})
+        if item.get('status') != 'CURRENT' or item.get('digest') != 'sha256:' + digest or policy['code_pins'].get(key) != digest:
+            raise WorkGraphError('receiver source is not a current canonical input')
+    for key in ('receiver_node', 'consumer'):
+        _native_name(policy[key], 'receiver policy.' + key)
+    if policy['receiver_node'] == policy['consumer']:
+        raise WorkGraphError('receiver and JOIN must be distinct')
+    return value
+
+
+def _native_fixed_receiver_matches_v1(node, nodes, relation, binding):
+    if binding is None:
+        return False
+    policy = binding['policy']
+    consumer = nodes.get(policy['consumer'], {})
+    return (node['id'] == policy['receiver_node'] and node['kind'] == 'TASK'
+        and node['effect'] == 'MUTATION' and node['context']['locality'] == 'GOVERNOR'
+        and node['writes'] == ['semantic:r0033-ordinary-receiver-receipt']
+        and node['resources'] == ['semantic:writer:r0033-ordinary-receiver-receipt'] and node['authority'] == []
+        and node['id'] in relation['affected_nodes'] and node['id'] not in relation['direct_nodes']
+        and consumer.get('kind') == 'JOIN' and consumer.get('requires') == [node['id']] and consumer.get('optional') == [])
 
 
 def _native_validate_route_scope_v1(value, binding):
@@ -2463,6 +2556,9 @@ def _native_validate_binding(binding, nodes):
 def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _route_observation=None):
     before = copy.deepcopy(binding)
     route_scope = _route_observation_value(_route_observation) if _route_observation is not None else None
+    if route_scope is not None:
+        _native_validate_route_scope_v1(route_scope, before)
+    receiver_binding = _native_receiver_binding_v1(_route_observation) if _route_observation is not None else None
     if route_scope is not None and before.get('acquisition') != 'NATIVE_CONTINUITY_VERIFIED':
         raise WorkGraphError('constructed bindings cannot claim owner route acquisition')
     for path in snapshot:
@@ -2562,7 +2658,8 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _rout
             reasons.append('AUTHORIZATION')
         if node['independence'] != 'KNOWN':
             reasons.append('INDEPENDENCE_UNKNOWN')
-        if node['effect'] in {'MUTATION', 'EXTERNAL'}:
+        receiver_available = _native_fixed_receiver_matches_v1(node, nodes, route_relation, receiver_binding)
+        if node['effect'] in {'MUTATION', 'EXTERNAL'} and not receiver_available:
             reasons.append('EFFECT_EXECUTOR_UNAVAILABLE')
         if node['logical_delivery'] in held:
             reasons.append('LOGICAL_DELIVERY_HELD')
@@ -2575,13 +2672,13 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _rout
             if reason is not None:
                 reasons.append(reason)
         fact_identity = {key: value for key, value in node.items()}
-        node['input_digest'] = _graph_hash(dict(fact=fact_identity, campaign=state['campaign'], original_scope=state['original_scope'], required={d: nodes[d]['input_digest'] for d in node['requires']}, optional={d: nodes[d]['input_digest'] for d in node['optional']}, read_set=read_set, unresolved_semantic_worktree=before['worktree_digest'] if any((not p.startswith('path:') for p in node['reads'] + node['invalidators'])) else None, route_facts=[routes.get(scope) for scope in node['route_scopes']], **({'route_owner': route_scope} if route_scope is not None and route_scope['scope']['identity'] in node['route_scopes'] else {}), delivery=held.get(node['logical_delivery'])))
+        node['input_digest'] = _graph_hash(dict(fact=fact_identity, campaign=state['campaign'], original_scope=state['original_scope'], required={d: nodes[d]['input_digest'] for d in node['requires']}, optional={d: nodes[d]['input_digest'] for d in node['optional']}, read_set=read_set, unresolved_semantic_worktree=before['worktree_digest'] if any((not p.startswith('path:') for p in node['reads'] + node['invalidators'])) else None, route_facts=[routes.get(scope) for scope in node['route_scopes']], **({'route_owner': route_scope} if route_scope is not None and route_scope['scope']['identity'] in node['route_scopes'] else {}), **({'receiver_binding': receiver_binding} if receiver_available else {}), delivery=held.get(node['logical_delivery'])))
         node['declared_state'] = declared
         node['state'] = 'ACTIVE' if declared == 'ACTIVE' else 'BLOCKED' if reasons else 'DONE' if declared == 'DONE' else 'READY'
         node['blocked_reasons'] = sorted(set(reasons))
     source_inventory = [dict(path=path, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for path, data in sorted(snapshot.items())]
     before['source_digest'] = _graph_hash(source_inventory)
-    return _seal_graph(dict(schema='implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
+    return _seal_graph(dict(schema='implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), **({'receiver_binding': receiver_binding} if receiver_binding is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
 
 def _native_input_policy_v1(owner, root, relative, git_policy):
     reason = owner._repository_path_policy(relative)
@@ -2686,6 +2783,7 @@ def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
         else:
             route_available = True
     combined_route_read = False
+    receiver_binding = None
     with contextlib.ExitStack() as owner_read:
         if route_available:
             producer, producer_path, producer_raw = _native_route_scope_module_v1()
@@ -2700,16 +2798,27 @@ def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
                 if type(acquired_bytes) is not bytes:
                     raise WorkGraphError('native route transaction did not yield immutable bytes')
                 acquired_route = decode_strict_json_bytes(acquired_bytes, 'native route transaction scope')
+                receiver_reader = getattr(observed, 'ordinary_receiver_binding_bytes', None)
+                if receiver_reader is not None:
+                    if not callable(receiver_reader):
+                        raise WorkGraphError('native receiver binding interface is malformed')
+                    receiver_bytes = receiver_reader()
+                    if type(receiver_bytes) is not bytes:
+                        raise WorkGraphError('native receiver binding is not immutable bytes')
+                    receiver_binding = decode_strict_json_bytes(receiver_bytes, 'native receiver binding')
                 combined_route_read = True
             else:
                 acquired_route = producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller'])
             if pathlib.Path(acquired_route['owner']['explicit_run_root']).resolve() != pathlib.Path(run_root).resolve():
                 raise WorkGraphError('route producer returned a foreign run root')
             _native_validate_route_scope_v1(acquired_route, before)
-            route_observation = _RouteScopeObservation(acquired_route, _NATIVE_ROUTE_OBSERVATION_KEY)
+            route_observation = _RouteScopeObservation(acquired_route, _NATIVE_ROUTE_OBSERVATION_KEY,
+                                                       receiver_binding=receiver_binding)
         projection = _compile_native_documents_v1(snapshot, bound, _route_observation=route_observation)
         if route_observation is not None and _route_observation_value(route_observation) != acquired_route:
             raise WorkGraphError('provisional native route observation was mutated')
+        if route_observation is not None and route_observation.receiver_binding != receiver_binding:
+            raise WorkGraphError('provisional native receiver binding was mutated')
         if _native_source_snapshot(run_root) != snapshot:
             raise WorkGraphError('native source changed during intake')
         if _acquire_native_read_set(projection['nodes'], input_root) != read_set:

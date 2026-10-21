@@ -7025,6 +7025,10 @@ class _CurrentRouteReadV1:
         self.__check()
         return self.__emit(_ordinary_result_from_read_v1(self.__repo, self.__oid, self.__record, self.__route))
 
+    def ordinary_receiver_binding_bytes(self):
+        self.__check()
+        return self.__emit(_ordinary_receiver_binding_from_read_v1(self.__repo, self.__record, self.__route))
+
     def _check_owner_exit(self, issuer):
         if issuer is not _ROUTE_READ_ISSUER_V1:
             fail('foreign current route exit')
@@ -7146,6 +7150,87 @@ def record_current_ordinary_execution_v1(repo, controller, execution):
     fail('caller-supplied ordinary execution results are not accepted')
 
 
+@contextlib.contextmanager
+def _ordinary_fixed_source_owner_v2(repo, code_pins):
+    """Hold the two fixed, exact Git-backed bootstrap sources; execute no task."""
+    import types
+    if os.name != 'nt':
+        fail('ordinary receiver bootstrap requires Windows held-file custody')
+
+    def bound_blob(name):
+        relative = 'skills/implementaudit/scripts/' + name
+        expected = code_pins.get('implementaudit/scripts/' + name)
+        if not isinstance(expected, str) or re.fullmatch('[0-9a-f]{64}', expected) is None:
+            fail('ordinary receiver source pin is missing')
+        oid = git(repo, 'rev-parse', '--verify', 'HEAD:' + relative)
+        size = git(repo, 'cat-file', '-s', oid)
+        if re.fullmatch('[0-9]+', size) is None or not 0 < int(size) <= 65536:
+            fail('ordinary receiver source exceeds its pre-read bound')
+        raw = git_blob_bytes(repo, oid, 'ordinary receiver source')
+        if not 0 < len(raw) <= 65536 or hashlib.sha256(raw).hexdigest() != expected:
+            fail('ordinary receiver source differs from accepted policy')
+        return Path(repo) / relative, raw
+
+    custody_path, custody_raw = bound_blob('bounded_file_custody.py')
+    custody = types.ModuleType('_ordinary_receipt_custody'); custody.__file__ = str(custody_path)
+    exec(compile(custody_raw, str(custody_path), 'exec', dont_inherit=True), custody.__dict__)
+    owner_path, owner_raw = bound_blob('compaction-source-owner-codex-app.py')
+    with custody.held_file(custody_path, allow_append=False) as custody_stream, \
+            custody.held_file(owner_path, allow_append=False) as owner_stream:
+        for stream, raw in ((custody_stream, custody_raw), (owner_stream, owner_raw)):
+            info = os.fstat(stream.fileno())
+            if info.st_nlink != 1 or info.st_size != len(raw) or stream.read(len(raw) + 1) != raw:
+                fail('ordinary receiver active source differs from its bound blob')
+        owner = types.ModuleType('_ordinary_receipt_source'); owner.__file__ = str(owner_path)
+        exec(compile(owner_raw, str(owner_path), 'exec', dont_inherit=True), owner.__dict__)
+        yield owner
+
+
+def _ordinary_receiver_binding_from_read_v1(repo, record, route):
+    """Read-only availability of the sole fixed executor, never effect credit.
+
+    Source pins come from current canonical request inputs, not a caller flag
+    or module. The enclosing owner observation revalidates them on exit.
+    """
+    if (record['decision'] != 'REQUIRED' or record['route_state'] != 'SATISFIED'
+            or mapped_child_route(record)[0] != 'audit-assess'):
+        return None
+    packet = decoded_artifact(validate_bytes_identity(record['lifecycle']['delivery']['packet'], 'ordinary packet'), 'ordinary packet')
+    try:
+        mission = json.loads(packet['source_event']['body'], object_pairs_hook=unique_object)
+    except (ValueError, TypeError):
+        return None
+    if type(mission) is not dict or mission.get('schema') != 'implementaudit.ordinary-review-mission.v1':
+        return None
+    exact_keys(mission, {'schema', 'policy_digest', 'scope', 'mission', 'authority_ceiling'}, 'ordinary mission')
+    request = candidate_request_from_record(record, require_current_inputs=True)
+    inputs = {item['path']: item['digest'] for item in request['inputs']}
+    names = ('bounded_file_custody.py', 'compaction-source-owner-codex-app.py')
+    if any('skills/implementaudit/scripts/' + name not in inputs for name in names):
+        return None
+    pins = {'implementaudit/scripts/' + name: inputs['skills/implementaudit/scripts/' + name].removeprefix('sha256:') for name in names}
+    with _ordinary_fixed_source_owner_v2(repo, pins) as owner:
+        policy = owner.ordinary_policy_v1()
+        if (type(policy) is not dict or policy.get('schema') != 'implementaudit.ordinary-native-policy.v1'
+                or digest_json(policy).removeprefix('sha256:') != mission['policy_digest']
+                or mission['scope'] != request['scope'] or mission['authority_ceiling'] != 'NONE'
+                or any(policy.get('code_pins', {}).get(key) != value for key, value in pins.items())
+                or policy.get('code_pins', {}).get('implementaudit/scripts/route-transaction.py') != file_digest(Path(__file__).resolve())[7:]
+                or policy.get('receiver_argv') != [policy.get('provider', {}).get('python_executable', {}).get('path'),
+                    '-I', '-S', '-B', str(Path(repo) / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'), '--ordinary-receiver']):
+            fail('ordinary receiver binding differs from accepted fixed policy')
+        for key in ('receiver_node', 'consumer'):
+            if type(policy.get(key)) is not str or not policy[key]:
+                fail('ordinary receiver binding has no exact consumer')
+        if owner.ordinary_policy_v1() != policy:
+            fail('ordinary receiver binding policy changed during read')
+    raw = json.dumps(record, sort_keys=True, separators=(',', ':'), ensure_ascii=True, allow_nan=False).encode('utf-8') + b'\n'
+    return {'schema': 'implementaudit.ordinary-receiver-binding.v1', 'producer': 'R0033',
+        'executor': 'execute_current_ordinary_receiver_v2', 'route_record_oid': route['record_oid'],
+        'route_scope_digest': _scope_from_read_v1(record, route)['digest'], 'policy': policy,
+        'record': bytes_identity(raw), 'source_pins': pins, 'authority_ceiling': 'NONE', 'establishes': []}
+
+
 def execute_current_ordinary_receiver_v2(repo, controller, policy):
     """Run and capture the bound receiver under the receipt publication lease.
 
@@ -7153,7 +7238,6 @@ def execute_current_ordinary_receiver_v2(repo, controller, policy):
     is no caller process-result, command, callback or module operand. Bootstrap
     source comes from exact policy-bound Git blobs, then held worktree bytes.
     """
-    import types
     common = str(Path(git(repo, 'rev-parse', '--path-format=absolute', '--git-common-dir')).resolve())
     with namespace_gate(common):
         canonical = read_current_ordinary_result_v1(repo, controller)
@@ -7177,32 +7261,7 @@ def execute_current_ordinary_receiver_v2(repo, controller, policy):
         if git(repo, 'for-each-ref', '--format=%(refname)', attempt_ref):
             fail('ordinary receiver prior attempt has no completed receipt; reconcile, do not replay')
 
-        def bound_blob(name):
-            relative = 'skills/implementaudit/scripts/' + name
-            expected = policy.get('code_pins', {}).get('implementaudit/scripts/' + name)
-            if not isinstance(expected, str) or re.fullmatch('[0-9a-f]{64}', expected) is None:
-                fail('ordinary receiver source pin is missing')
-            oid = git(repo, 'rev-parse', '--verify', 'HEAD:' + relative)
-            size = git(repo, 'cat-file', '-s', oid)
-            if re.fullmatch('[0-9]+', size) is None or not 0 < int(size) <= 65536:
-                fail('ordinary receiver source exceeds its pre-read bound')
-            raw = git_blob_bytes(repo, oid, 'ordinary receiver source')
-            if not 0 < len(raw) <= 65536 or hashlib.sha256(raw).hexdigest() != expected:
-                fail('ordinary receiver source differs from accepted policy')
-            return Path(repo) / relative, raw
-
-        custody_path, custody_raw = bound_blob('bounded_file_custody.py')
-        custody = types.ModuleType('_ordinary_receipt_custody'); custody.__file__ = str(custody_path)
-        exec(compile(custody_raw, str(custody_path), 'exec', dont_inherit=True), custody.__dict__)
-        owner_path, owner_raw = bound_blob(source_path.name)
-        with custody.held_file(custody_path, allow_append=False) as custody_stream, \
-                custody.held_file(owner_path, allow_append=False) as owner_stream:
-            for stream, raw in ((custody_stream, custody_raw), (owner_stream, owner_raw)):
-                info = os.fstat(stream.fileno())
-                if info.st_nlink != 1 or info.st_size != len(raw) or stream.read(len(raw) + 1) != raw:
-                    fail('ordinary receiver active source differs from its bound blob')
-            owner = types.ModuleType('_ordinary_receipt_source'); owner.__file__ = str(owner_path)
-            exec(compile(owner_raw, str(owner_path), 'exec', dont_inherit=True), owner.__dict__)
+        with _ordinary_fixed_source_owner_v2(repo, policy.get('code_pins', {})) as owner:
             if owner.ordinary_policy_v1() != policy:
                 fail('ordinary receiver active policy changed')
             attempt_raw = json.dumps(_ordinary_attempt_v2(canonical, mission['policy_digest']), sort_keys=True,
