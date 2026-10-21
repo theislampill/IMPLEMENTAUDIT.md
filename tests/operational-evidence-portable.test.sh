@@ -23,6 +23,7 @@ fi
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/ordinary-native-controls.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-route-cost-controls.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-observation-cost-controls.py" --repo-root "$repo_root"
+"${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-ordinary-observation-controls.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/native-currentness-cost-controls.py" --repo-root "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/repository-fence-cost-controls.py" "$repo_root"
 "${py_cmd[@]}" -I -S -B "$repo_root/fixtures/operational-evidence/selected-native-read-controls.py" --repo-root "$repo_root"

@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'b1dc1c7295fa0c71120f845bb7b47b2137a8248f3c4f99d4218b18bef60e50e4'
+_NATIVE_STATIC_OWNER_SHA256 = 'f5fa7592702e4292c7e405cc9010887cfa18ebe93fe066215b94171927cd35fd'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 363712
+_NATIVE_STATIC_OWNER_BYTES = 365736
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2205,10 +2205,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '714e5557e92875038a5a348c56e3d34acd15253fd6b43db449cd791c7b600ddc'
+_NATIVE_ROUTE_PRODUCER_SHA256 = 'e002b94a03c80b929cfdc8f640be0996d0a379c26d5e64d0c7dad55ee84ca2e0'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 366891
+_NATIVE_ROUTE_PRODUCER_BYTES = 367421
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -2791,7 +2791,7 @@ def _acquire_native_read_set(nodes, input_root):
 
 @contextlib.contextmanager
 def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected_current=None,
-                          _continuity_sources=None):
+                          _continuity_sources=None, _episode_outputs=None):
     """Hold the existing native owner checks around a caller's read-only use.
 
     Omitting repo_root is explicitly constructed filesystem evidence. Supplying
@@ -2862,8 +2862,36 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             route_observation = _RouteScopeObservation(acquired_route, _NATIVE_ROUTE_OBSERVATION_KEY,
                                                        receiver_binding=receiver_binding)
         projection = _compile_native_documents_v1(snapshot, bound, _route_observation=route_observation)
-        yield json.dumps(projection, sort_keys=True, separators=(',', ':'),
-                         ensure_ascii=False, allow_nan=False).encode('utf-8')
+        projection_raw = json.dumps(projection, sort_keys=True, separators=(',', ':'),
+                                    ensure_ascii=False, allow_nan=False).encode('utf-8')
+        with contextlib.ExitStack() as episode_read:
+            episode = None
+            if _episode_outputs is not None and receiver_binding is not None and combined_route_read:
+                # Source pins were derived by the live R0033 owner from the
+                # accepted mission. No caller source, module or fact enables it.
+                source_owner = episode_read.enter_context(producer._ordinary_fixed_source_owner_v2(
+                    pathlib.Path(repo_root), receiver_binding['source_pins']))
+                policy = source_owner.ordinary_policy_v1()
+                if (policy != receiver_binding['policy'] or
+                        policy.get('code_pins', {}).get('implementaudit/scripts/compile-work-graph.py') !=
+                        hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest()):
+                    raise WorkGraphError('native episode policy differs from the current receiver binding')
+                actual_owner = dict(repository=str(pathlib.Path(repo_root).absolute()), controller=before['controller'],
+                    module_pin=dict(path=str(producer_path), bytes=len(producer_raw), sha256=hashlib.sha256(producer_raw).hexdigest()))
+                raw = episode_read.enter_context(source_owner._ordinary_episode_observation_v1((observed, projection_raw, actual_owner)))
+                if type(raw) is not bytes:
+                    raise WorkGraphError('native episode owner did not yield immutable bytes')
+                episode = decode_strict_json_bytes(raw, 'native ordinary episode')
+            if _episode_outputs is not None:
+                _episode_outputs.append(episode)
+            yield projection_raw
+            if episode is not None:
+                if source_owner.ordinary_policy_v1() != policy:
+                    raise WorkGraphError('native episode policy changed during observation')
+                # Unavailable branches retain their complete original fresh
+                # acquisition; only a real AVAILABLE episode shares the live read.
+                if episode['status'] != 'AVAILABLE' and source_owner.acquire_selected_ordinary_episode_v1() != episode:
+                    raise WorkGraphError('native episode availability changed during observation')
         if route_observation is not None and _route_observation_value(route_observation) != acquired_route:
             raise WorkGraphError('provisional native route observation was mutated')
         if route_observation is not None and route_observation.receiver_binding != receiver_binding:
@@ -2908,6 +2936,33 @@ def observe_native_run_sources_v1(run_root, repo_root, *, input_root=None, expec
             separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
     if len(sources) != 2 or sources[1] != sources[0]:
         raise WorkGraphError('native executed continuity sources changed during observation')
+
+
+@contextlib.contextmanager
+def observe_native_run_episode_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Observe graph, current route and authentic ordinary episode together.
+
+    This source owner creates every read and output sink. The public entry has
+    no episode, receipt, module, callback or prevalidated currentness operand.
+    Every projection stays provisional until all nested source owners close.
+    """
+    if repo_root is None:
+        raise WorkGraphError('native episode observation requires actual repository continuity')
+    sources, episodes = [], []
+    with observe_native_run_v1(run_root, repo_root, input_root=input_root,
+            expected_current=expected_current, _continuity_sources=sources, _episode_outputs=episodes) as raw:
+        if (len(sources) != 1 or len(episodes) != 1 or
+                set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
+                any(type(v) is not str or not DIGEST_RE.fullmatch(v) for v in sources[0].values())):
+            raise WorkGraphError('native episode source observation is absent or malformed')
+        graph = decode_strict_json_bytes(raw, 'native episode observation projection')
+        if graph['binding']['continuity_helper_digest'] != sources[0]['claim_sha256']:
+            raise WorkGraphError('native episode projection differs from executed continuity source')
+        yield json.dumps(dict(schema='implementaudit.native-run-episode-source-observation.v1',
+            projection=graph, continuity_sources=dict(sources[0]), ordinary_episode=episodes[0]),
+            sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
+    if len(sources) != 2 or sources[1] != sources[0]:
+        raise WorkGraphError('native episode continuity sources changed during observation')
 
 
 def read_native_run_v1(run_root, repo_root=None, *, input_root=None):

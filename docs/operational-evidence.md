@@ -331,6 +331,19 @@ may return only an unavailable observation with null canonical facts; it does
 not prove currentness or absence of a route obligation. Applicable ordinary
 reviews retain the full current reader.
 
+When the accepted fixed ordinary receiver is present, the source owners may
+observe its authenticated episode inside that same live graph/route read.
+Only the fixed owners derive the canonical opening, execution receipt and
+current graph; the public entry accepts no supplied episode or trusted view.
+The provider remains held through use. Exit rereads the native catalog,
+parent/child metadata and all four selected public records in one bounded
+read-only API process, then checks physical records, H0, policy, receiving
+artifacts and member custody. The enclosing graph and route owners close their
+fresh input/currentness fences afterward. Unavailable and historical paths
+retain their full separate acquisitions. The route view refuses new reads
+after closure; returned bytes are accepted only after every exit check passes.
+Frozen inspection still performs no acquisition.
+
 Within one repository publication/read transaction, a private live capture may
 reuse bounded AST and repository semantics only after fresh physical bytes,
 Git state, exclusion census and collector/runtime provenance agree. Each

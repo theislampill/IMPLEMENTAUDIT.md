@@ -1774,12 +1774,13 @@ def _native_route_relation(repository, run_root, graph_raw, route,
 def _native_current_observation_v1(
         repository, source_repository, controller, controller_oid, claim, run_root,
         generation, receipt, boundary_kind, boundary_event_id, next_action,
-        graph_raw, compiler_path, compiler_raw, route_module, *, continuity_sources=None):
+        graph_raw, compiler_path, compiler_raw, route_module, *, continuity_sources=None, _episode_output=None):
     """Hold the fixed native owners' complete guards around the C03 read."""
     compiler = _native_module_from_bytes(compiler_raw, compiler_path,
         "_implementaudit_native_route_graph", "$native.route_graph_compiler")
     observe = getattr(compiler, "observe_native_run_v1", None)
     source_observation = False
+    episode_observation = False
     if continuity_sources is not None:
         if (type(continuity_sources) is not dict or
                 set(continuity_sources) != {"claim_sha256", "validate_sha256"} or
@@ -1791,6 +1792,12 @@ def _native_current_observation_v1(
             if not callable(observe_sources) or not callable(observe):
                 _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "incomplete source-observation interface")
             observe, source_observation = observe_sources, True
+            if _episode_output is not None:
+                observe_episode = getattr(compiler, "observe_native_run_episode_sources_v1", None)
+                if observe_episode is not None:
+                    if not callable(observe_episode):
+                        _error("OE_NATIVE_CURRENT_SOURCE", "$native.episode", "malformed enclosing episode owner")
+                    observe, episode_observation = observe_episode, True
         else:
             # Historical/separate owners retain C03's original fixed-byte call.
             actual = _native_require_current_receipt(repository, controller, receipt, route_module)
@@ -1833,12 +1840,17 @@ def _native_current_observation_v1(
                        "native owner did not yield immutable projection bytes")
             graph = decode_strict_json_bytes(raw, "native owner observation")
             if source_observation:
-                _object(graph, "$native.continuity_sources", exact_keys={
-                    "schema", "projection", "continuity_sources"}, required={
-                    "schema", "projection", "continuity_sources"})
-                if (graph["schema"] != "implementaudit.native-run-source-observation.v1" or
+                fields = {"schema", "projection", "continuity_sources"}
+                if episode_observation:
+                    fields.add("ordinary_episode")
+                _object(graph, "$native.continuity_sources", exact_keys=fields, required=fields)
+                schema = ("implementaudit.native-run-episode-source-observation.v1" if episode_observation
+                          else "implementaudit.native-run-source-observation.v1")
+                if (graph["schema"] != schema or
                         graph["continuity_sources"] != continuity_sources):
                     _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "executed helper sources differ")
+                if episode_observation:
+                    _episode_output.append(graph["ordinary_episode"])
                 graph = graph["projection"]
             scope = graph["route_scope"]
             route = scope["route"]
@@ -1877,8 +1889,8 @@ def _native_episode_peer_bytes():
             for name in ("compaction-audit-pending.py", "compaction-result-observation.py")]
 
 
-def _native_episode():
-    """Read the selected accepted owner episode; no caller path/profile input."""
+def _native_episode_owners_v1():
+    """Acquire the fixed episode owners, retaining exact bytes for exit checks."""
     root = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts"
     paths = [root / name for name in ("compaction-audit-pending.py", "compaction-result-observation.py")]
     raws = [_native_file(path, "$native.episode_owner", 256 * 1024)
@@ -1894,18 +1906,35 @@ def _native_episode():
         _error("OE_NATIVE_CURRENT_SOURCE", "$native.episode", "native episode owners differ from the selected source composition")
     producer = _native_module_from_bytes(raws[0], paths[0], "_native_episode_producer", "$native.episode")
     contract = _native_module_from_bytes(raws[1], paths[1], "_native_episode_contract", "$native.episode")
+    return producer, contract, [*zip(paths, raws), *peers], raws
+
+
+def _native_episode_wrap_v1(value, owners):
+    _, contract, files, raws = owners
     try:
         with contextlib.redirect_stdout(io.StringIO()):
-            value = producer.acquire_selected_episode_export_v1()
             if contract.validate_frozen_episode_export_v1(value) != value:
                 raise ValueError("episode owner changed its exported value")
     except (Exception, SystemExit):
         _error("OE_NATIVE_CURRENT_EPISODE", "$native.episode", "selected accepted episode refused owner validation")
     if any(_native_file(path, "$native.episode_fence", 256 * 1024) != raw
-           for path, raw in [*zip(paths, raws), *peers]):
+           for path, raw in files):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "episode owner source changed during read")
     return {"producer_sha256": hashlib.sha256(raws[0]).hexdigest(),
             "contract_sha256": hashlib.sha256(raws[1]).hexdigest(), "value": value}
+
+
+def _native_episode():
+    """Read the selected accepted owner episode; no caller path/profile input."""
+    owners = _native_episode_owners_v1()
+    if owners is None:
+        return None
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            value = owners[0].acquire_selected_episode_export_v1()
+    except (Exception, SystemExit):
+        _error("OE_NATIVE_CURRENT_EPISODE", "$native.episode", "selected accepted episode refused owner validation")
+    return _native_episode_wrap_v1(value, owners)
 
 
 def _native_episode_binding(wrapped, route, graph):
@@ -2141,13 +2170,22 @@ def _observe_native_current_v1():
     (continuity_validator_path, continuity_validator_raw,
      continuity_claim_validator_path, continuity_claim_validator_raw) = (
         _native_continuity_source_files_v1())
+    episode_output = []
     with _native_current_observation_v1(
             repository, source_repository, controller, controller_oid, claim, run_root,
             generation, receipt, invalidation[4], invalidation[5], state["next_action"],
             graph_raw, compiler_path, compiler_raw, route_module,
             continuity_sources={"claim_sha256": hashlib.sha256(continuity_validator_raw).hexdigest(),
-                                "validate_sha256": hashlib.sha256(continuity_claim_validator_raw).hexdigest()}) as (route, route_projection):
-        native_episode = _native_episode()
+                                "validate_sha256": hashlib.sha256(continuity_claim_validator_raw).hexdigest()},
+            _episode_output=episode_output) as (route, route_projection):
+        episode_owners = None
+        if episode_output and episode_output[0] is not None:
+            episode_owners = _native_episode_owners_v1()
+            if episode_owners is None:
+                _error("OE_NATIVE_CURRENT_SOURCE", "$native.episode", "enclosing episode has no exact owner composition")
+            native_episode = _native_episode_wrap_v1(episode_output[0], episode_owners)
+        else:
+            native_episode = _native_episode()
         if native_episode is not None:
             try:
                 _native_episode_binding(native_episode, route,
@@ -2233,7 +2271,9 @@ def _observe_native_current_v1():
         if canonical_json_v1(result) != native_record_raw:
             _error("OE_NATIVE_CURRENT_CHANGED", "$native.observation",
                    "provisional native facts were mutated during read-only use")
-        if _native_episode() != native_episode:
+        final_episode = (_native_episode_wrap_v1(episode_output[0], episode_owners)
+                         if episode_owners is not None else _native_episode())
+        if final_episode != native_episode:
             _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "accepted episode changed during native observation")
     # Recheck C03's own custody after the enclosing owner has closed.
     if any(_native_ref_oid(source_repository, ref, "$native.closed_ref_fence") != oid

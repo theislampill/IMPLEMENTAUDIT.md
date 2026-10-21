@@ -6877,18 +6877,9 @@ def read_current_episode_binding_v1(repo, controller, expected_current=None):
     This read-only owner entry never accepts an actual child UUID, profile,
     packet, logical task, host generation or receipt from its caller.
     """
-    before = validate_pure_current_route(repo, controller, expected_current)
-    oid, record = current_ref(repo, controller)
-    if oid != before['record_oid'] or record is None or record.get('record_identity') != before['record_identity']:
-        fail('canonical episode changed after current route validation')
-    value = _episode_from_read_v1(repo, oid, record, before)
-    post_oid, post_record = current_ref(repo, controller)
-    if post_oid != oid or post_record != record:
-        fail('canonical episode changed during read')
-    _pure_route_final_ref_fence(repo, controller, before['controller_record_oid'], oid)
-    if validate_pure_current_route(repo, controller, expected_current) != before:
-        fail('canonical episode currentness changed during acquisition')
-    return value
+    with current_route_observation_v1(repo, controller, expected_current) as observed:
+        value = observed.opening_bytes()
+    return decoded_artifact(value, 'current episode binding')
 
 
 def read_current_ordinary_result_v1(repo, controller):
@@ -7028,7 +7019,7 @@ class _CurrentRouteReadV1:
     This is not a serializable credential or a cache. Every public entry creates
     a new view from live owner predicates; every successful exit rederives them.
     """
-    __slots__ = ('__repo', '__oid', '__record', '__route', '__initial', '__active')
+    __slots__ = ('__repo', '__oid', '__record', '__route', '__initial', '__active', '__execution')
 
     def __init__(self, issuer, repo, oid, record, route):
         if issuer is not _ROUTE_READ_ISSUER_V1:
@@ -7037,6 +7028,7 @@ class _CurrentRouteReadV1:
         self.__record, self.__route = copy.deepcopy(record), copy.deepcopy(route)
         self.__initial = digest_json([self.__record, self.__route])
         self.__active = True
+        self.__execution = None
 
     def __emit(self, value):
         self.__check()
@@ -7067,10 +7059,21 @@ class _CurrentRouteReadV1:
         self.__check()
         return self.__emit(_ordinary_receiver_binding_from_read_v1(self.__repo, self.__record, self.__route))
 
+    def ordinary_execution_bytes(self):
+        self.__check()
+        canonical = _ordinary_result_from_read_v1(self.__repo, self.__oid, self.__record, self.__route)
+        value = self.__emit(_ordinary_execution_from_read_v1(self.__repo, self.__route['controller_id'], canonical))
+        if self.__execution is not None and value != self.__execution:
+            fail('ordinary receiver accepted custody changed during observation')
+        self.__execution = value
+        return value
+
     def _check_owner_exit(self, issuer):
         if issuer is not _ROUTE_READ_ISSUER_V1:
             fail('foreign current route exit')
         self.__check()
+        if self.__execution is not None:
+            self.ordinary_execution_bytes()
 
     def _close_owner_read(self, issuer):
         if issuer is not _ROUTE_READ_ISSUER_V1:
@@ -7170,6 +7173,15 @@ def _ordinary_publish_v2(repo, controller, canonical, ref, raw, *, verify_refs=(
 def read_current_ordinary_execution_v1(repo, controller):
     """Resolve only the current canonical accepted opening's immutable receipt."""
     canonical = read_current_ordinary_result_v1(repo, controller)
+    value = _ordinary_execution_from_read_v1(repo, controller, canonical)
+    if value is not None and (read_current_ordinary_result_v1(repo, controller) != canonical or
+            git(repo, 'rev-parse', '--verify', value['ref']) != value['oid']):
+        fail('ordinary receiver accepted custody changed during read')
+    return value
+
+
+def _ordinary_execution_from_read_v1(repo, controller, canonical):
+    """Private receipt projection inside the source owner's active route read."""
     ref = _ordinary_execution_ref_v1(controller, canonical)
     rows = git(repo, 'for-each-ref', '--format=%(objectname) %(refname)', ref).splitlines()
     if not rows:
@@ -7185,7 +7197,8 @@ def read_current_ordinary_execution_v1(repo, controller):
     attempt = decoded_artifact(git_blob_bytes(repo, record['attempt_oid'], 'ordinary receiver attempt'), 'ordinary receiver attempt')
     if attempt != _ordinary_attempt_v2(canonical, record['execution']['policy_digest']):
         fail('ordinary receiver attempt binding differs')
-    if read_current_ordinary_result_v1(repo, controller) != canonical or git(repo, 'rev-parse', '--verify', ref) != oid:
+    if (git(repo, 'rev-parse', '--verify', ref) != oid or
+            git(repo, 'rev-parse', '--verify', attempt_ref) != record['attempt_oid']):
         fail('ordinary receiver accepted custody changed during read')
     return {'ref': ref, 'oid': oid, 'wire': bytes_identity(raw)}
 

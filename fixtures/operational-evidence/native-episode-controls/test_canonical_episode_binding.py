@@ -26,17 +26,20 @@ def require(value, reason):
         raise ValueError(reason)
 
 def route_fixture(state='SATISFIED'):
-    needed = {'validate_lifecycle_predecessor_chain', 'open_logical_task', 'logical_task_name', 'validate_bytes_identity', 'bytes_identity', '_episode_from_read_v1', 'read_current_episode_binding_v1'}
+    needed = {'validate_lifecycle_predecessor_chain', 'open_logical_task', 'logical_task_name', 'validate_bytes_identity', 'bytes_identity', '_episode_from_read_v1', 'read_current_episode_binding_v1', '_CurrentRouteReadV1', 'current_route_observation_v1'}
     tree = ast.parse(source_text('route-transaction.py'))
-    selected = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in needed]
+    selected = [n for n in tree.body if isinstance(n, (ast.FunctionDef, ast.ClassDef)) and n.name in needed]
     env = {'__name__': 'fixture', 'Any': object, 'Path': Path, 'fail': fail, 'json': json, 'base64': base64, 'hashlib': hashlib, 're': re, 'OID_RE': re.compile('[0-9a-f]{40}'), 'HEX_RE': re.compile('sha256:[0-9a-f]{64}'), 'digest_json': digest, 'exact_keys': lambda value, keys, label: value if isinstance(value, dict) and set(value) == keys else fail(label), 'exact_text': lambda value, label: value if isinstance(value, str) and value else fail(label)}
+    env.update(contextlib=contextlib, copy=copy, __file__=str(source_path('route-transaction.py')),
+               _ROUTE_READ_ISSUER_V1=object(), file_digest=lambda path: 'fixed-source')
     exec(compile(ast.Module(body=selected, type_ignores=[]), '<existing-route-validators>', 'exec'), env)
     common = {'host_id': 'host', 'host_session_id': 'root', 'host_binding_generation': '0001', 'host_correlation_id': 'correlation', 'continuity_generation': '0001', 'continuity_receipt': 'receipt', 'obligation_id': 'obligation', 'route_transaction_id': 'transaction', 'controller_id': 'controller', 'claim_id': 'claim', 'explicit_run_root': 'run'}
     delivery = {'packet': env['bytes_identity'](b'packet'), 'child': {'identity': 'audit-state', **env['bytes_identity'](b'skill')}}
     lifecycle = {'state': 'OPEN', 'required_record_oid': 'a' * 40, 'delivery': delivery, 'logical_task': 'bounded-task', 'child_return': None, 'governor_decision': None, 'governor_decision_count': 0, 'source_event_status': 'active'}
 
     def record(status, predecessor, life):
-        value = {**common, 'route_state': status, 'predecessor_record_oid': predecessor, 'lifecycle': life}
+        value = {**common, 'decision': 'REQUIRED', 'classification': 'MECHANICALLY_REQUIRED',
+                 'route_state': status, 'predecessor_record_oid': predecessor, 'lifecycle': life}
         return value | {'record_identity': digest(value)}
     opened = record('OPEN', 'a' * 40, lifecycle)
     returned = record('RETURNED', 'b' * 40, lifecycle | {'state': 'RETURNED', 'child_return': {'return': 'exact'}})
@@ -47,6 +50,11 @@ def route_fixture(state='SATISFIED'):
     def validate_bytes(repo, oid, value, **kwargs):
         require(value['record_identity'] == digest({k: v for k, v in value.items() if k != 'record_identity'}), 'record bytes changed')
     env.update(RouteObjectReader=lambda repo: contextlib.nullcontext(None), git_blob_bytes=lambda repo, oid, label, **kwargs: json.dumps(objects[oid]).encode(), decoded_artifact=lambda raw, label: json.loads(raw), validate_canonical_route_record_bytes=validate_bytes, mapped_child_route=lambda record: ('audit-state', 'audit-state-target'), current_ref=lambda repo, controller: copy.deepcopy(current), validate_pure_current_route=lambda *args: {'record_oid': current[0], 'record_identity': current[1]['record_identity'], 'controller_record_oid': 'e' * 40}, _pure_route_final_ref_fence=lambda *args: None)
+    route = {key: current[1][key] for key in ('controller_id','record_identity','decision','classification',
+                                           'route_transaction_id','obligation_id','route_state')}
+    route.update(record_oid=current[0],controller_record_oid='e'*40)
+    env.update(_open_pure_route_read_v1=lambda *a: ({},{},*copy.deepcopy(current),copy.deepcopy(route)),
+               _pure_route_semantics_v1=lambda *a:copy.deepcopy(route),current_controller=lambda *a,**k:{})
     return (env, objects, current)
 
 class CanonicalRouteControls(unittest.TestCase):
@@ -95,6 +103,9 @@ class CanonicalNativeSelectionControls(unittest.TestCase):
                 return {'responses': [{'threads': threads}]}
             return {'responses': [{'thread': {'id': root, 'path': 'parent'}}, {'thread': next((t for t in threads if t['id'] == child_id))}]}
         helpers = types.SimpleNamespace(header=header, validate_relation=lambda *args: None, canonical_path=lambda p: Path(p))
+        helper_env = {'require':require,'Path':Path}
+        selected_functions('bounded_source_owner.py', {'_subject_from_episode_v1'}, helper_env)
+        helpers._subject_from_episode_v1=helper_env['_subject_from_episode_v1']
         runtime = (selected, None, None, helpers, None)
         env['_np_episode'] = lambda runtime: copy.deepcopy(episode)
         env['_np_call'] = native

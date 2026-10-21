@@ -36,6 +36,63 @@ class CurrentnessCostControls(unittest.TestCase):
         self.assertEqual(self.h.rt.validate_pure_current_route(self.h.root,self.h.controller),self.h.summary())
         self.assertEqual(self.h.rt.current_controller.call_count,2)
 
+    def test_opening_uses_one_complete_currentness_pair(self):
+        self.assertEqual(self.h.rt.read_current_episode_binding_v1(self.h.root,self.h.controller),
+                         self.h.expected_opening())
+        self.assertEqual(self.h.rt.current_controller.call_count,2)
+
+    def test_missing_execution_remains_fenced_and_unavailable(self):
+        original=self.h.git
+        def read(repo,*args,**kwargs):
+            if args[:2]==('for-each-ref','--format=%(objectname) %(refname)'): return ''
+            return original(repo,*args,**kwargs)
+        with patch.object(self.h.rt,'git',side_effect=read):
+            self.assertIsNone(self.h.rt.read_current_ordinary_execution_v1(self.h.root,self.h.controller))
+            self.assertEqual(self.h.rt.current_controller.call_count,2)
+
+    def test_execution_view_refuses_late_receipt_publication_and_closed_reuse(self):
+        original=self.h.git; present=False
+        def read(repo,*args,**kwargs):
+            if args[:2]==('for-each-ref','--format=%(objectname) %(refname)'):
+                return ('9'*40+' '+args[2]) if present else ''
+            return original(repo,*args,**kwargs)
+        with patch.object(self.h.rt,'git',side_effect=read):
+            with self.assertRaises((self.refusal,KeyError)):
+                with self.h.rt.current_route_observation_v1(self.h.root,self.h.controller) as view:
+                    self.assertEqual(view.ordinary_execution_bytes(),b'null')
+                    present=True
+            with self.assertRaises(self.refusal): view.ordinary_execution_bytes()
+
+    def test_execution_receipt_and_attempt_keep_exact_custody(self):
+        rt=self.h.rt; canonical=self.h.expected_result(); ref=rt._ordinary_execution_ref_v1(self.h.controller,canonical)
+        attempt_ref=ref.replace('/ordinary-receivers/','/ordinary-receiver-attempts/')
+        execution=dict(schema='implementaudit.ordinary-receiver-execution.v1',policy_digest='1'*64,
+            opening_digest=canonical['opening']['opening_digest'],return_digest=canonical['child_return']['digest'],
+            acceptance_digest=canonical['governor_decision']['digest'],argv=[],python_pin={},source_pin={},
+            exit_code=0,stdout='actual output',stdout_sha256=hashlib.sha256(b'actual output').hexdigest(),
+            stderr_sha256=hashlib.sha256(b'').hexdigest())
+        receipt=dict(schema='implementaudit.ordinary-receiver-record.v2',accepted_record_oid=self.h.oid,
+            opening_digest=canonical['opening']['opening_digest'],attempt_oid='7'*40,
+            execution=execution,execution_digest=rt.digest_json(execution))
+        self.h.objects['8'*40]=receipt
+        self.h.objects['7'*40]=rt._ordinary_attempt_v2(canonical,execution['policy_digest'])
+        refs={ref:'8'*40,attempt_ref:'7'*40}; original=self.h.git
+        def read(repo,*args,**kwargs):
+            if args[:2]==('for-each-ref','--format=%(objectname) %(refname)'):return refs[ref]+' '+ref
+            if args[:2]==('rev-parse','--verify') and args[2] in refs:return refs[args[2]]
+            return original(repo,*args,**kwargs)
+        with patch.object(rt,'git',side_effect=read):
+            with rt.current_route_observation_v1(self.h.root,self.h.controller) as view:
+                value=json.loads(view.ordinary_execution_bytes())
+            self.assertEqual((value['ref'],value['oid']),(ref,'8'*40))
+            self.assertEqual(json.loads(base64.b64decode(value['wire']['bytes_b64'])),receipt)
+            self.assertEqual(rt.current_controller.call_count,2)
+            for changed_ref in (ref,attempt_ref):
+                with self.subTest(changed_ref=changed_ref),self.assertRaises((self.refusal,KeyError)):
+                    with rt.current_route_observation_v1(self.h.root,self.h.controller) as view:
+                        view.ordinary_execution_bytes(); refs[changed_ref]='9'*40
+                refs.update({ref:'8'*40,attempt_ref:'7'*40})
+
     def test_each_current_field_change_after_use_refuses(self):
         for key in self.h.current:
             with self.subTest(key=key):

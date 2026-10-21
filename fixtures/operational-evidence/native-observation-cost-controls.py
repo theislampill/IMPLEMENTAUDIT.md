@@ -41,6 +41,72 @@ class ObservationCostControls(unittest.TestCase):
         self.continuity_sources = {'claim_sha256': hashlib.sha256(b'claim fixture').hexdigest(),
                                    'validate_sha256': hashlib.sha256(b'validate fixture').hexdigest()}
 
+    def test_combined_native_episode_observation_has_no_caller_episode_operand(self):
+        import inspect
+        method = getattr(self.h.wg, 'observe_native_run_episode_sources_v1')
+        self.assertEqual(list(inspect.signature(method).parameters),
+                         ['run_root', 'repo_root', 'input_root', 'expected_current'])
+
+    @contextlib.contextmanager
+    def composed_episode(self, on_episode_close=None):
+        h=self.h
+        policy={'code_pins':{'implementaudit/scripts/compile-work-graph.py':
+                           hashlib.sha256(Path(h.wg.__file__).read_bytes()).hexdigest()}}
+        self.episode_events=[]
+        @contextlib.contextmanager
+        def episode(native):
+            self.episode_view, graph_raw, actual=native
+            self.assertEqual(actual,dict(repository=str(h.root.absolute()),controller=h.controller,
+                module_pin=dict(path=str(Path(h.rt.__file__)),bytes=len(h.producer_bytes),sha256=hashlib.sha256(h.producer_bytes).hexdigest())))
+            self.assertEqual(json.loads(self.episode_view.ordinary_result_bytes()),h.expected_result())
+            self.assertIs(type(graph_raw),bytes)
+            self.episode_events.append('entry')
+            yield b'{"status":"AVAILABLE","fixture":"constructed owner boundary"}'
+            self.episode_events.append('exit')
+            if on_episode_close:on_episode_close()
+        owner=types.SimpleNamespace(ordinary_policy_v1=lambda:copy.deepcopy(policy),
+                                    _ordinary_episode_observation_v1=episode)
+        with h.graph_patched():
+            h.graph_binding['continuity_helper_digest']=self.continuity_sources['claim_sha256']
+            continuity=h.continuity.side_effect
+            def capture(*a,**kw):
+                result=continuity(*a)
+                if kw.get('_source_reads') is not None:kw['_source_reads'].append(copy.deepcopy(self.continuity_sources))
+                return result
+            compile_docs=h.wg._compile_native_documents_v1.side_effect
+            def project(*a,**kw):
+                value=compile_docs(*a,**kw)
+                if not kw.get('acquire_only'):value['binding']=copy.deepcopy(a[1])
+                return value
+            with patch.object(h.wg,'_native_continuity',side_effect=capture), \
+                 patch.object(h.wg,'_compile_native_documents_v1',side_effect=project), \
+                 patch.object(h.rt,'_ordinary_receiver_binding_from_read_v1',return_value={'source_pins':{},'policy':policy}), \
+                 patch.object(h.rt,'_ordinary_fixed_source_owner_v2',side_effect=lambda *a:contextlib.nullcontext(owner)):
+                with h.wg.observe_native_run_episode_sources_v1(h.root,h.root) as raw:
+                    yield json.loads(raw)
+
+    def test_available_episode_and_graph_share_one_actual_route_observation(self):
+        with self.composed_episode() as value:
+            self.assertEqual(value['ordinary_episode']['status'],'AVAILABLE')
+            self.assertEqual(value['continuity_sources'],self.continuity_sources)
+            self.assertEqual(self.episode_events,['entry'])
+        self.assertEqual(self.episode_events,['entry','exit'])
+        self.assertEqual(self.h.validation.call_count,2)
+        self.assertEqual(self.h.rt.current_controller.call_count,2)
+        with self.assertRaises(self.refusal):self.episode_view.ordinary_result_bytes()
+
+    def test_episode_exit_changes_are_seen_by_final_graph_and_route_guards(self):
+        for field in ('document','readset','route'):
+            def late_change():
+                if field=='document':self.h.graph_snapshot['STATE.md']=b'changed'
+                elif field=='readset':self.h.graph_read_set['path:new']={'status':'MISSING','sha256':None}
+                else:self.h.input.write_bytes(b'changed')
+            with self.subTest(field=field):
+                original=self.h.input.read_bytes()
+                with self.assertRaises((self.h.wg.WorkGraphError,self.refusal)):
+                    with self.composed_episode(late_change):pass
+                self.h.input.write_bytes(original)
+
     def ordinary(self):
         # The preimage uses its existing strict reader at this call site.
         reader = getattr(self.h.rt, 'read_applicable_ordinary_result_v1', self.h.rt.read_current_ordinary_result_v1)

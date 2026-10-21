@@ -431,3 +431,102 @@ def acquire(selection, reader, *, previous=None, nominations=None, receipts=None
             "admission_status": "STAGED_SOURCE_OWNER_OUTPUT_REQUIRES_EXACT_ROOT_ADMISSION",
             "authority_ceiling": "NONE", "coverage": "EXACT_SELECTED_PUBLIC_RECORDS_ONLY",
             "noncredits": ["lifecycle", "result", "acceptance", "JOIN", "occurrence_history", "campaign_epoch", "campaign_currentness"]}
+
+
+def _bind_episode_owner_v1(selected, actual):
+    """Private equality constraint against the fixed graph owner's live source."""
+    code = 'ORDINARY_SELECTED_EPISODE_OWNER_DIFFERS'
+    require(type(selected) is dict and type(actual) is dict and
+            set(selected) == set(actual) == {'repository', 'controller', 'module_pin'}, code)
+    for value in (selected, actual):
+        require(type(value['repository']) is str and type(value['controller']) is str and
+                type(value['module_pin']) is dict and set(value['module_pin']) == {'path', 'bytes', 'sha256'} and
+                type(value['module_pin']['path']) is str and type(value['module_pin']['bytes']) is int and
+                0 < value['module_pin']['bytes'] <= 512 * 1024 and type(value['module_pin']['sha256']) is str, code)
+    require(Path(selected['repository']) == Path(actual['repository']) and selected['controller'] == actual['controller'] and
+            Path(selected['module_pin']['path']) == Path(actual['module_pin']['path']) and
+            all(selected['module_pin'][key] == actual['module_pin'][key] for key in ('bytes', 'sha256')), code)
+
+
+def _subject_from_episode_v1(runtime, episode, native_call):
+    selected, _, _, helpers, _ = runtime
+    parent_id = selected['root_thread_id']
+    params = {'parentThreadId': parent_id, 'sourceKinds': ['subAgent'], 'limit': 100, 'cursor': None, 'archived': False, 'useStateDbOnly': True}
+    catalog = native_call(runtime, [('thread/list', params)])
+    records = catalog['responses'][0]['threads']
+    expected_path = selected['root_agent_path'] + '/' + episode['logical_task']
+    matches = []
+    for record in records:
+        require(isinstance(record.get('path'), str), 'NONPROTECTED_CATALOG_PHYSICAL_PATH_ABSENT')
+        require(helpers.canonical_path(record['path']).is_relative_to(helpers.canonical_path(selected['session_root'])) and Path(record['path']).name.endswith('-' + record['id'] + '.jsonl'), 'NONPROTECTED_CATALOG_SOURCE_NAMESPACE')
+        source = helpers.header(record)
+        require(source['metadata'].get('id') == record['id'] and source['metadata'].get('parent_thread_id') == parent_id, 'NONPROTECTED_CATALOG_HEADER_PARENT_DIFFERS')
+        if source['metadata'].get('agent_path') == expected_path:
+            matches.append((record['id'], source))
+    require(len(matches) == 1, 'NONPROTECTED_CANONICAL_CHILD_NOT_UNIQUE')
+    child_id, discovered = matches[0]
+    metadata = native_call(runtime, [('thread/read', {'threadId': ident, 'includeTurns': False}) for ident in (parent_id, child_id)], child_id)
+    parent, child = [row['thread'] for row in metadata['responses']]
+    sources = {'parent': helpers.header(parent), 'child': helpers.header(child)}
+    helpers.validate_relation(selected, parent, child, sources['parent']['metadata'], sources['child']['metadata'])
+    require(child['id'] == child_id and all((sources['child'][key] == discovered[key] for key in ('physical', 'header_prefix', 'metadata'))) and (sources['child']['metadata']['agent_path'] == expected_path) and (helpers.canonical_path(parent['path']) == helpers.canonical_path(selected['root_source'])), 'NONPROTECTED_SELECTED_NATIVE_CHILD_CHANGED')
+    return {'episode': episode, 'metadata': metadata, 'catalog': catalog, 'sources': sources, 'parent_identity': {'thread_id': parent_id, 'agent_path': selected['root_agent_path']}, 'actual_child_identity': {'thread_id': child_id, 'parent_thread_id': parent_id, 'agent_path': expected_path}}
+
+
+def _recheck_ordinary_native_v1(runtime, obs, context, public, occurrences, native_call, resolve):
+    """Fresh bounded native exit read for the fixed owner's active observation.
+
+    Private implementation helper, not an authentication entry or credential.
+    Batch the same read-only API predicates in one process; retain each exact
+    response, source-header, physical-record, body and relation check.
+    """
+    selected, _, _, helpers, _ = runtime
+    subject = context['_native_subject']
+    parent_id = subject['parent_identity']['thread_id']
+    child_id = subject['actual_child_identity']['thread_id']
+    params = {'parentThreadId': parent_id, 'sourceKinds': ['subAgent'], 'limit': 100,
+              'cursor': None, 'archived': False, 'useStateDbOnly': True}
+    methods = [('thread/list', params)] + [
+        ('thread/read', {'threadId': ident, 'includeTurns': False}) for ident in (parent_id, child_id)]
+    originals = []
+    for item in public:
+        pin = item['pin']; role, locator = pin['role'], pin['locator']
+        row, actual_pin = resolve(obs, context, role, locator)
+        retained = obs.current_retained_locator(row, context)
+        require(actual_pin == pin and obs.public_message(row, item['phase'], context=context) == item['body'] and
+                retained['revision'] == item['revision'] and retained['id']['message_id'] == item['message_id'] and
+                retained['id']['turn_id'] == item['turn_id'], 'ORDINARY_PUBLIC_CHANGED_DURING_READ')
+        methods.append(('thread/items/read', {'threadId': child_id if role == 'child' else parent_id,
+            'turnId': item['turn_id'], 'itemIds': [item['message_id']]}))
+        originals.append((row, actual_pin))
+    report = native_call(runtime, methods, child_id)
+    responses = report['responses']
+    require(len(responses) == len(methods), 'ORDINARY_NATIVE_RESPONSE_POPULATION')
+    matches = []
+    expected_path = subject['actual_child_identity']['agent_path']
+    for record in responses[0]['threads']:
+        require(isinstance(record.get('path'), str) and
+                helpers.canonical_path(record['path']).is_relative_to(helpers.canonical_path(selected['session_root'])) and
+                Path(record['path']).name.endswith('-' + record['id'] + '.jsonl'), 'NONPROTECTED_CATALOG_SOURCE_NAMESPACE')
+        source = helpers.header(record)
+        require(source['metadata'].get('id') == record['id'] and
+                source['metadata'].get('parent_thread_id') == parent_id, 'NONPROTECTED_CATALOG_HEADER_PARENT_DIFFERS')
+        if source['metadata'].get('agent_path') == expected_path:
+            matches.append((record['id'], source))
+    require(len(matches) == 1 and matches[0][0] == child_id, 'NONPROTECTED_CANONICAL_CHILD_NOT_UNIQUE')
+    parent, child = [row['thread'] for row in responses[1:3]]
+    sources = {'parent': helpers.header(parent), 'child': helpers.header(child)}
+    helpers.validate_relation(selected, parent, child, sources['parent']['metadata'], sources['child']['metadata'])
+    require(child['id'] == child_id and helpers.canonical_path(parent['path']) == helpers.canonical_path(selected['root_source']) and
+            all(sources[role][key] == subject['sources'][role][key] for role in ('parent', 'child')
+                for key in ('physical', 'header_prefix', 'metadata')) and
+            all(matches[0][1][key] == sources['child'][key] for key in ('physical', 'header_prefix', 'metadata')),
+            'NONPROTECTED_SELECTED_NATIVE_CHILD_CHANGED')
+    for item, response, before in zip(public, responses[3:], originals):
+        expected = {'id': item['message_id'], 'turn_id': item['turn_id'], 'phase': item['phase'],
+                    'body_bytes': len(item['body'].encode('utf-8')), 'body_sha256': item['body_sha256']}
+        require(response['items'] == [expected], 'ORDINARY_NATIVE_PUBLIC_BODY_DIFFERS')
+        require(resolve(obs, context, item['pin']['role'], item['pin']['locator']) == before,
+                'ORDINARY_PUBLIC_CHANGED_DURING_READ')
+    for pin in (occurrences['spawn']['call'], occurrences['spawn']['output'], occurrences['activation']):
+        require(resolve(obs, context, pin['role'], pin['locator'])[1] == pin, 'ORDINARY_OCCURRENCE_CHANGED')
