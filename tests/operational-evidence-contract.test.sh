@@ -4149,6 +4149,7 @@ PY
 
 "${py_cmd[@]}" - "$loader" "$fixtures/static-repository" "$tmp" <<'PY'
 import ast
+import contextlib
 import copy
 import hashlib
 import importlib.util
@@ -4383,19 +4384,31 @@ initialize_repo(changing_repo)
 changing_path = (changing_repo / "src" / "main.py").resolve()
 original_read_bytes = pathlib.Path.read_bytes
 original_secure_read = module._read_repository_path
+original_read_scope = getattr(module, "_repository_read_scope_v1", None)
 first_hash_read = threading.Event()
 mutation_finished = threading.Event()
 read_state = {"intercepted": False}
 
 
-def synchronized_read_bytes(path, **kwargs):
-    data = original_secure_read(path, **kwargs)
+def synchronize_after_read(path, data):
     if path.resolve() == changing_path and not read_state["intercepted"]:
         read_state["intercepted"] = True
         first_hash_read.set()
         if not mutation_finished.wait(timeout=5):
             raise RuntimeError("timed out waiting for synchronized mutation")
     return data
+
+
+def synchronized_read_bytes(path, **kwargs):
+    return synchronize_after_read(path, original_secure_read(path, **kwargs))
+
+
+@contextlib.contextmanager
+def synchronized_read_scope(root):
+    with original_read_scope(root) as read:
+        def synchronized(path, *args, **kwargs):
+            return synchronize_after_read(path, read(path, *args, **kwargs))
+        yield synchronized
 
 
 def mutate_after_first_hash():
@@ -4408,7 +4421,10 @@ def mutate_after_first_hash():
 
 mutator = threading.Thread(target=mutate_after_first_hash)
 mutator.start()
-module._read_repository_path = synchronized_read_bytes
+if os.name == "nt" and original_read_scope is not None:
+    module._repository_read_scope_v1 = synchronized_read_scope
+else:
+    module._read_repository_path = synchronized_read_bytes
 try:
     module.collect_repository(changing_repo)
 except module.OperationalEvidenceError as exc:
@@ -4420,6 +4436,8 @@ else:
     raise SystemExit("mid-scan mutation returned a mixed CURRENT snapshot")
 finally:
     module._read_repository_path = original_secure_read
+    if original_read_scope is not None:
+        module._repository_read_scope_v1 = original_read_scope
     mutator.join(timeout=5)
 if mutator.is_alive() or not mutation_finished.is_set():
     raise SystemExit("synchronized mid-scan mutation control did not complete")

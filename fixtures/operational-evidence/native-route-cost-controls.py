@@ -102,7 +102,11 @@ class Harness:
                 'fail': lambda message, **kwargs: (_ for _ in ()).throw(Refusal(message)),
             }.items(): stack.enter_context(patch.object(self.rt, name, side_effect=replacement))
             self.create_records()
-            self.validation = stack.enter_context(patch.object(self.rt, 'validate_pure_current_route', wraps=self.rt.validate_pure_current_route))
+            # Count complete semantic derivations, including the owner's new
+            # enclosing-currentness path. Its real current reads have separate
+            # entry/exit controls; no assertion below is relaxed.
+            semantic = '_pure_route_semantics_v1' if hasattr(self.rt, '_pure_route_semantics_v1') else 'validate_pure_current_route'
+            self.validation = stack.enter_context(patch.object(self.rt, semantic, wraps=getattr(self.rt, semantic)))
             yield self
 
     def create_records(self):

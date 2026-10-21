@@ -4,6 +4,7 @@ Only disposable repositories are published. The native observer is an explicit
 constructed fixture; repository handles, Git reads, collectors and fences run.
 """
 import argparse
+import contextlib
 import copy
 import hashlib
 import importlib.util
@@ -37,6 +38,17 @@ def load(path, name):
 
 oe = load(ROOT / "scripts/operational-evidence.py", "repository_cost_subject")
 reference = load(args.reference_source, "repository_cost_reference") if args.reference_source else None
+
+
+@contextlib.contextmanager
+def constructed_native_observation():
+    """Preserve mocked before/after drift checks without invoking a native owner."""
+    before = copy.deepcopy(oe.collect_native_current())
+    before_raw = oe.canonical_json_v1(before)
+    yield before
+    if oe.canonical_json_v1(oe.collect_native_current()) != before_raw:
+        raise oe.OperationalEvidenceError(
+            "OE_NATIVE_CURRENT_CHANGED", "$native.fixture", "constructed native observation drifted")
 
 
 def git(root, *argv):
@@ -84,8 +96,11 @@ class RepositoryFenceCostTests(unittest.TestCase):
 
     def measured(self, name, action):
         counts = {"python_parses": 0, "secure_reads": 0, "stability_fences": 0, "git_reads": 0}
+        secure_reader = ("_windows_read_held_leaf_v1"
+                         if os.name == "nt" and hasattr(oe, "_windows_read_held_leaf_v1")
+                         else "_read_repository_path")
         originals = {key: getattr(oe, value) for key, value in {
-            "secure_reads": "_read_repository_path", "stability_fences": "_require_repository_snapshot_stable",
+            "secure_reads": secure_reader, "stability_fences": "_require_repository_snapshot_stable",
             "git_reads": "_run_git"}.items()}
         original_parse = oe.ast.parse
 
@@ -102,7 +117,7 @@ class RepositoryFenceCostTests(unittest.TestCase):
 
         started = time.perf_counter()
         with patch.object(oe.ast, "parse", side_effect=parse), \
-                patch.object(oe, "_read_repository_path", side_effect=counted("secure_reads")), \
+                patch.object(oe, secure_reader, side_effect=counted("secure_reads")), \
                 patch.object(oe, "_require_repository_snapshot_stable", side_effect=counted("stability_fences")), \
                 patch.object(oe, "_run_git", side_effect=counted("git_reads")):
             result = action()
@@ -116,6 +131,20 @@ class RepositoryFenceCostTests(unittest.TestCase):
         result, counts = self.measured("release", lambda: oe.collect_release(self.root))
         self.assertEqual(oe.canonical_json_v1(result), oe.canonical_json_v1(expected))
         self.assertEqual(counts["python_parses"], 1)
+
+    def test_secure_read_counter_includes_scoped_and_standalone_acquisitions(self):
+        path = self.root / "local.py"
+        def both_read_paths():
+            first = oe._read_repository_path(path, root=self.root)
+            if hasattr(oe, "_repository_read_scope_v1"):
+                with oe._repository_read_scope_v1(self.root) as read:
+                    second = read(path)
+            else:
+                second = oe._read_repository_path(path, root=self.root)
+            return first, second
+        values, counts = self.measured("secure_reader_counter", both_read_paths)
+        self.assertEqual(values, ((b"VALUE = 1\n", "file"), (b"VALUE = 1\n", "file")))
+        self.assertEqual(counts["secure_reads"], 2)
 
     def test_snapshot_publication_derives_repository_once(self):
         result, counts = self.measured("constructed_publication", self.publish)
@@ -260,7 +289,8 @@ class RepositoryFenceCostTests(unittest.TestCase):
             (self.root / "local.py").write_bytes(b"VALUE = 99\n")
             return result
         with patch.object(oe, "__file__", str(self.root / "scripts/operational-evidence.py")), \
-                patch.object(oe, "collect_native_current", side_effect=lambda: copy.deepcopy(self.native)):
+                patch.object(oe, "collect_native_current", side_effect=lambda: copy.deepcopy(self.native)), \
+                patch.object(oe, "_observe_native_current_v1", side_effect=constructed_native_observation):
             selected = oe._load_selected_snapshot_v1()
             self.assertEqual(selected["snapshot_id"], json.loads(self.current.read_bytes())["snapshot_id"])
             with patch.object(oe, "_capture_snapshot_inputs_v1", side_effect=capture), \

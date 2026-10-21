@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'ec8620ba5652e9ac019157b6596c626c54072efc58b2f1050dfa354fc41b0943'
+_NATIVE_STATIC_OWNER_SHA256 = 'd48caa0ecf77a6f129333356676c738980b5d5aa208e3d698112cab36fed1127'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 351595
+_NATIVE_STATIC_OWNER_BYTES = 359842
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -1993,6 +1993,32 @@ def _native_source_snapshot(run_root):
         raise WorkGraphError('native static source owner changed during acquisition')
     return dict(sorted(result.items()))
 
+# This exact R0011 pair shares load_final_v3_receipt only for the LF-exact
+# 18-field domain. Its legacy TSV-pointer branch is not equivalent. Unknown
+# helper or receipt bytes retain separate verification; no saved authority token.
+_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE = (
+    '07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
+    'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
+
+
+def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
+    """Classify immutable bytes returned by the exact helper, not caller proof."""
+    try:
+        raw = owner._native_blob(repo, receipt.rsplit('@', 1)[1],
+                                 '$native.continuity_receipt_domain', maximum=512 * 1024)
+        if (type(raw) is not bytes or len(raw) > 512 * 1024 or
+                not raw.startswith(b'implementaudit.continuity-receipt.v3\t') or
+                not raw.endswith(b'\n') or raw.count(b'\n') != 1 or
+                raw.count(b'\t') != 17 or any(not field for field in raw[:-1].split(b'\t')) or
+                any(value < 0x20 and value not in (0x09, 0x0A) or value == 0x7F for value in raw)):
+            return False
+        raw.decode('utf-8', 'strict')
+        return True
+    except (Exception, SystemExit):
+        # An unavailable discriminator cannot authorize the shortcut.
+        return False
+
+
 def _native_continuity(repo_root, run_root):
     import base64
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
@@ -2009,9 +2035,12 @@ def _native_continuity(repo_root, run_root):
     receipt = _native_claim_call_v1(owner, host, repo, ['--require-current-continuity', current[0]], claim_raw, validate_raw)
     if not RECEIPT_RE.fullmatch(receipt):
         raise WorkGraphError('native continuity receipt format mismatch')
-    verified = _native_claim_call_v1(owner, host, repo, ['--verify-resume-receipt', receipt], claim_raw, validate_raw)
-    if verified != receipt:
-        raise WorkGraphError('native continuity receipt readback mismatch')
+    helper_pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
+    if (helper_pair != _NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE or
+            not _native_equivalent_receipt_domain_v1(owner, repo, receipt)):
+        verified = _native_claim_call_v1(owner, host, repo, ['--verify-resume-receipt', receipt], claim_raw, validate_raw)
+        if verified != receipt:
+            raise WorkGraphError('native continuity receipt readback mismatch')
     request = dict(source=base64.b64encode(owner_raw).decode('ascii'), sha256=_NATIVE_STATIC_OWNER_SHA256,
                    path=str(owner_path), repository=str(repo))
     environment = owner._native_child_environment(host)
@@ -2170,10 +2199,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '5cb0dc072b4e90140ff5cd0097a8d45594117578410356b159eb4fb30bd1bfe0'
+_NATIVE_ROUTE_PRODUCER_SHA256 = '714e5557e92875038a5a348c56e3d34acd15253fd6b43db449cd791c7b600ddc'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 365629
+_NATIVE_ROUTE_PRODUCER_BYTES = 366891
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()

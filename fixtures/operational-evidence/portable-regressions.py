@@ -3,6 +3,7 @@
 All repositories and adversarial bytes are constructed in a disposable directory.
 This is a source regression suite, never native acquisition/receiving evidence.
 """
+import contextlib
 import copy
 import hashlib
 import importlib.util
@@ -21,6 +22,18 @@ SOURCE_ROOT = Path(sys.argv.pop(1)).resolve()
 spec = importlib.util.spec_from_file_location("oe_under_test", SOURCE_ROOT / "scripts/operational-evidence.py")
 oe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(oe)
+
+
+@contextlib.contextmanager
+def constructed_native_observation():
+    """Keep the fixture's mocked opening/closing observations inside one scope."""
+    before = copy.deepcopy(oe.collect_native_current())
+    before_raw = oe.canonical_json_v1(before)
+    yield before
+    if oe.canonical_json_v1(oe.collect_native_current()) != before_raw:
+        raise oe.OperationalEvidenceError(
+            "OE_NATIVE_CURRENT_CHANGED", "$native.fixture", "constructed native observation drifted")
+
 
 def git(root, *args, **kwargs):
     return subprocess.run(["git", "-C", str(root), *args], check=True,
@@ -73,7 +86,8 @@ class PortableBoundaryTests(unittest.TestCase):
         (snapshots / "CURRENT").write_bytes(material["current_raw"])
         source = self.repo / "local.py"
         original = source.read_bytes()
-        with patch.object(oe, "collect_native_current", return_value=native):
+        with patch.object(oe, "collect_native_current", return_value=native), \
+                patch.object(oe, "_observe_native_current_v1", side_effect=constructed_native_observation):
             self.assertEqual(oe.canonical_json_v1(oe._load_selected_snapshot_v1()), material["payload_raw"])
             source.write_bytes(b"VALUE = 9\n")
             with self.assertRaises(oe.OperationalEvidenceError) as raised:
@@ -275,6 +289,7 @@ class PortableBoundaryTests(unittest.TestCase):
         current = {"snapshot_id": "iasnap-v1-" + "a" * 64, "source_pointer_oid": "1" * 40}
         payload = {"schema_version": oe.SNAPSHOT_PAYLOAD_SCHEMA, "snapshot_id": current["snapshot_id"]}
         with patch.object(oe, "collect_native_current", return_value=native), \
+                patch.object(oe, "_observe_native_current_v1", side_effect=constructed_native_observation), \
                 patch.object(oe, "_snapshot_current_raw_v1", return_value=b"constructed"), \
                 patch.object(oe, "_snapshot_validate_current_v1", return_value=current), \
                 patch.object(oe, "_snapshot_read_regular_v1", return_value=oe.canonical_json_v1(payload)):

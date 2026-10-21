@@ -787,13 +787,7 @@ def _windows_handle_name_v1(kernel, handle):
     return pathlib.PureWindowsPath(value[4:])
 
 
-def _read_repository_windows_v1(path, maximum):
-    """Read a local drive path while holding every component against replacement.
-
-    Windows reparse points and alternate namespaces are refused, including leaf
-    links. Each child is acquired relative to its held parent with reparse
-    processing disabled. Sharing rules alone do not exclude metadata changes.
-    """
+def _windows_repository_parts_v1(path, kernel):
     if len(path.drive) != 2 or path.drive[1] != ":":
         raise OSError("secure Windows reader requires a local drive path")
     parts = path.parts[1:]
@@ -801,9 +795,52 @@ def _read_repository_windows_v1(path, maximum):
             part in {".", ".."} or ":" in part or part.rstrip(" .") != part or
             pathlib.PureWindowsPath(part).is_reserved() for part in parts):
         raise OSError("Windows device, stream or alias spelling refused")
-    kernel = _snapshot_windows_kernel_v1()
     if kernel.GetDriveTypeW(path.anchor) != 3:
         raise OSError("secure Windows reader requires a fixed local drive")
+    return parts
+
+
+def _windows_read_held_leaf_v1(kernel, handle, before, parents, maximum):
+    """Read fresh leaf bytes; no file bytes or leaf handles are retained."""
+    chunks = []
+    total = 0
+    while total <= maximum:
+        size = min(1024 * 1024, maximum + 1 - total)
+        buffer = ctypes.create_string_buffer(size)
+        count = ctypes.c_uint32()
+        if not kernel.ReadFile(handle, buffer, size, ctypes.byref(count), None):
+            raise ctypes.WinError(ctypes.get_last_error())
+        if not count.value:
+            break
+        chunks.append(buffer.raw[:count.value])
+        total += count.value
+    after = _snapshot_handle_info_v1(kernel, handle)
+
+    def identity(value):
+        return (value.attributes, value.volume_serial, value.file_index_high,
+                value.file_index_low, value.links, value.size_high,
+                value.size_low, value.creation_time.high,
+                value.creation_time.low, value.write_time.high,
+                value.write_time.low)
+
+    if (total > maximum or total != ((before.size_high << 32) | before.size_low) or
+            identity(before) != identity(after)):
+        raise OSError("tracked file changed or exceeded the byte ceiling")
+    if any(_snapshot_handle_info_v1(kernel, parent).attributes & 0x400
+           for parent in parents):
+        raise OSError("Windows parent became a reparse point during acquisition")
+    return b"".join(chunks), "file"
+
+
+def _read_repository_windows_v1(path, maximum):
+    """Read a local drive path while holding every component against replacement.
+
+    Windows reparse points and alternate namespaces are refused, including leaf
+    links. Each child is acquired relative to its held parent with reparse
+    processing disabled. Sharing rules alone do not exclude metadata changes.
+    """
+    kernel = _snapshot_windows_kernel_v1()
+    parts = _windows_repository_parts_v1(path, kernel)
     handles = []
     try:
         requested = pathlib.PureWindowsPath(path.anchor)
@@ -828,38 +865,118 @@ def _read_repository_windows_v1(path, maximum):
             elif (info.attributes & 0x10 or info.links != 1 or
                   ((info.size_high << 32) | info.size_low) > maximum):
                 raise OSError("tracked file type or byte ceiling refused")
-        before = info
-        chunks = []
-        total = 0
-        while total <= maximum:
-            size = min(1024 * 1024, maximum + 1 - total)
-            buffer = ctypes.create_string_buffer(size)
-            count = ctypes.c_uint32()
-            if not kernel.ReadFile(handle, buffer, size, ctypes.byref(count), None):
-                raise ctypes.WinError(ctypes.get_last_error())
-            if not count.value:
-                break
-            chunks.append(buffer.raw[:count.value])
-            total += count.value
-        after = _snapshot_handle_info_v1(kernel, handle)
-
-        def identity(value):
-            return (value.attributes, value.volume_serial, value.file_index_high,
-                    value.file_index_low, value.links, value.size_high,
-                    value.size_low, value.creation_time.high,
-                    value.creation_time.low, value.write_time.high,
-                    value.write_time.low)
-
-        if (total > maximum or total != ((before.size_high << 32) | before.size_low) or
-                identity(before) != identity(after)):
-            raise OSError("tracked file changed or exceeded the byte ceiling")
-        if any(_snapshot_handle_info_v1(kernel, parent).attributes & 0x400
-               for parent in handles[:-1]):
-            raise OSError("Windows parent became a reparse point during acquisition")
-        return b"".join(chunks), "file"
+        return _windows_read_held_leaf_v1(kernel, handle, info, handles[:-1], maximum)
     finally:
         for handle in reversed(handles):
             kernel.CloseHandle(handle)
+
+
+@contextlib.contextmanager
+def _repository_read_scope_v1(root):
+    """Hold a bounded private directory set for one physical repository scan.
+
+    Every reuse checks current metadata. Canonical names may be retained only
+    through ancestry opened with read/list access and no delete sharing; denied
+    stronger access falls back to attribute handles and per-use name checks.
+    Leaves are freshly opened parent-relative with DONT_REPARSE and closed after
+    each read. No handle escapes the scope or enters a process-global cache.
+    """
+    root = pathlib.Path(root).resolve()
+    if os.name != "nt":
+        yield lambda path, maximum=None: _read_repository_path(path, root=root, maximum=maximum)
+        return
+    kernel = _snapshot_windows_kernel_v1()
+    directories = {}
+    active = True
+
+    def close_directories():
+        pending = tuple(handle for handle, pinned in directories.values())
+        directories.clear()
+        failure = None
+        for handle in reversed(pending):
+            try:
+                if not kernel.CloseHandle(handle):
+                    failure = OSError("Windows repository directory handle did not close")
+            except OSError as exc:
+                failure = exc
+        if failure is not None:
+            raise failure
+
+    def read(path, maximum=None):
+        if not active:
+            raise OSError("repository read scope is closed")
+        path = pathlib.Path(path).absolute()
+        if not path.relative_to(root).parts:
+            raise OSError("repository input has no file leaf")
+        maximum = REPOSITORY_MAX_FILE_BYTES if maximum is None else min(maximum, SECURE_FILE_MAX_BYTES)
+        parts = _windows_repository_parts_v1(path, kernel)
+        # Exact spellings are cache keys. A short name or a differently spelled
+        # component must pass its own canonical long-name acquisition check.
+        keys = [tuple(path.parts[:index]) for index in range(1, len(path.parts))]
+        if len(directories) + sum(key not in directories for key in keys) > 128:
+            close_directories()
+        if len(keys) > 128:
+            # Keep the established deep-path behavior without growing the cache.
+            return _read_repository_windows_v1(path, maximum)
+        parents = []
+        leaf = None
+        try:
+            for index, key in enumerate(keys):
+                retained = directories.get(key)
+                acquired = retained is None
+                if acquired:
+                    if index == 0:
+                        handle = kernel.CreateFileW(
+                            path.anchor, 0x80000000, 1, None, 3, 0x02200000, None)
+                        if handle == ctypes.c_void_p(-1).value:
+                            raise ctypes.WinError(ctypes.get_last_error())
+                        pinned = True
+                    else:
+                        try:
+                            handle = _windows_open_child_v1(
+                                parents[-1], key[-1], True, hold_directory=True)
+                            pinned = directories[key[:-1]][1]
+                        except OSError:
+                            # READ_ATTRIBUTES alone does not pin a pathname.
+                            # Preserve the established access/fresh-name path
+                            # when stronger read/list custody is unavailable.
+                            handle = _windows_open_child_v1(parents[-1], key[-1], True)
+                            pinned = False
+                else:
+                    handle, pinned = retained
+                try:
+                    info = _snapshot_handle_info_v1(kernel, handle)
+                    if info.attributes & 0x400 or not info.attributes & 0x10:
+                        raise OSError("Windows repository parent is not a physical directory")
+                    if acquired or not pinned:
+                        requested = pathlib.PureWindowsPath(*key)
+                        if str(_windows_handle_name_v1(kernel, handle)).casefold() != str(requested).casefold():
+                            raise OSError("Windows spelling aliases a different canonical long name")
+                except BaseException:
+                    if acquired:
+                        kernel.CloseHandle(handle)
+                    raise
+                if acquired:
+                    # Failed/aliased acquisitions must never become reusable.
+                    directories[key] = (handle, pinned)
+                parents.append(handle)
+            leaf = _windows_open_child_v1(parents[-1], parts[-1], False)
+            info = _snapshot_handle_info_v1(kernel, leaf)
+            if (info.attributes & (0x10 | 0x400) or info.links != 1 or
+                    ((info.size_high << 32) | info.size_low) > maximum):
+                raise OSError("tracked file type or byte ceiling refused")
+            if str(_windows_handle_name_v1(kernel, leaf)).casefold() != str(path).casefold():
+                raise OSError("Windows spelling aliases a different canonical long name")
+            return _windows_read_held_leaf_v1(kernel, leaf, info, parents, maximum)
+        finally:
+            if leaf is not None and not kernel.CloseHandle(leaf):
+                raise OSError("Windows repository leaf handle did not close")
+
+    try:
+        yield read
+    finally:
+        active = False
+        close_directories()
 
 
 def _read_repository_path(path, root=None, maximum=None):
@@ -929,7 +1046,8 @@ def _physical_file_row(relative, data=None, file_type=None):
 
 
 def _require_repository_snapshot_stable(
-        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded=None):
+        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded=None,
+        read_repository=None):
     if excluded is None:
         excluded = {}
     if _repository_exclusions(root, paths) != excluded:
@@ -943,7 +1061,8 @@ def _require_repository_snapshot_stable(
             observed_file_rows.append(_physical_file_row(relative))
             continue
         try:
-            data, file_type = _read_repository_path(path, root=root)
+            data, file_type = (read_repository(path) if read_repository is not None
+                               else _read_repository_path(path, root=root))
             observed_file_rows.append(
                 _physical_file_row(relative, data, file_type))
         except (OSError, UnicodeError):
@@ -1773,6 +1892,14 @@ def _native_episode_binding(wrapped, route, graph):
 
 
 def collect_native_current():
+    """Return exact native facts only after their complete observation closes."""
+    with _observe_native_current_v1() as result:
+        pass
+    return result
+
+
+@contextlib.contextmanager
+def _observe_native_current_v1():
     """Read one exact native hot/current fact set without lifecycle authority."""
     source_repository = pathlib.Path(__file__).resolve().parents[1]
     observed_source = _native_resolved_path(
@@ -2060,6 +2187,11 @@ def collect_native_current():
                       canonical_work_graph=graph_raw.decode("utf-8", "strict"),
                       native_episode=native_episode)
         result["semantic_sha256"] = hashlib.sha256(canonical_json_v1(result)).hexdigest()
+        native_record_raw = canonical_json_v1(result)
+        yield result
+        if canonical_json_v1(result) != native_record_raw:
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.observation",
+                   "provisional native facts were mutated during read-only use")
         if _native_episode() != native_episode:
             _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "accepted episode changed during native observation")
     # Recheck C03's own custody after the enclosing owner has closed.
@@ -2072,7 +2204,6 @@ def collect_native_current():
            for path, raw in file_fence.items()):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.hot",
                "native-current file changed before observation closure")
-    return result
 
 
 def collect_repository(root: pathlib.Path):
@@ -2096,6 +2227,11 @@ def _repository_collector_signature_v1(include_python):
 
 
 def _collect_repository_observation_v1(root):
+    with _repository_read_scope_v1(root) as read_repository:
+        return _collect_repository_observation_scoped_v1(root, read_repository)
+
+
+def _collect_repository_observation_scoped_v1(root, read_repository):
     """Acquire one live result and a transaction-local fresh-byte reobserver.
 
     The closure owns immutable result bytes and its physical/Git input census.
@@ -2154,7 +2290,7 @@ def _collect_repository_observation_v1(root):
                     "method": "repository-default-deny-v1", "commit": commit, "tree": tree}})
             continue
         try:
-            data, file_type = _read_repository_path(path, root=root)
+            data, file_type = read_repository(path)
         except (OSError, UnicodeError):
             file_error = True
             physical_file_rows.append(_physical_file_row(relative))
@@ -2187,7 +2323,7 @@ def _collect_repository_observation_v1(root):
         })
 
     _require_repository_snapshot_stable(
-        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded)
+        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded, read_repository)
     input_file_set_sha256 = hashlib.sha256(
         canonical_json_v1(file_rows)).hexdigest()
 
@@ -2377,7 +2513,7 @@ def _collect_repository_observation_v1(root):
          "reason_code": registry_reason},
     ]
     _require_repository_snapshot_stable(
-        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded)
+        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded, read_repository)
     facts.sort(key=lambda row: canonical_json_v1(row))
     static_invocations.sort(key=lambda row: canonical_json_v1(row))
     for values in diagnostics.values():
@@ -2404,15 +2540,16 @@ def _collect_repository_observation_v1(root):
         if _repository_collector_signature_v1(bool(python_paths)) != collector_signature:
             _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
                    "repository collector source or runtime changed during collection")
-        _require_repository_snapshot_stable(
-            root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded)
+        with _repository_read_scope_v1(root) as fresh_reader:
+            _require_repository_snapshot_stable(
+                root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded, fresh_reader)
         return observed_result
 
     if _repository_collector_signature_v1(bool(python_paths)) != collector_signature:
         _error("OE_REPOSITORY_CHANGED_DURING_SCAN", "$repository",
                "repository collector source or runtime changed during collection")
     _require_repository_snapshot_stable(
-        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded)
+        root, paths, commit, tree, raw_paths, status, physical_file_rows, excluded, read_repository)
     return immutable_result, reobserve
 
 
@@ -3574,6 +3711,27 @@ def _snapshot_require_input_fence_v1(
                "a compiler, schema, native, route, graph, or collector input drifted")
     final_current = (_snapshot_current_raw_v1(snapshots)
                      if snapshots.exists() else None)
+    if final_current != before_current:
+        _error("OE_SNAPSHOT_CURRENT_CHANGED", "$snapshot.CURRENT",
+               "CURRENT changed during the complete input fence")
+
+
+def _snapshot_require_non_native_input_fence_v1(
+        compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
+        native, collections, before_current, reobserve_inputs):
+    """Close static inputs after the selected reader's native owner has closed.
+
+    This private helper supplies no native proof. The no-argument selected
+    reader owns that enclosing observation; the publisher uses the full fence.
+    """
+    final_compiler = _native_file(compiler_path, "$snapshot.final_compiler", 2 * 1024 * 1024)
+    final_schema = _native_file(schema_path, "$snapshot.final_schema", 512 * 1024)
+    final_collections = reobserve_inputs(native)
+    if (compiler_raw != final_compiler or schema_raw != final_schema or
+            canonical_json_v1(collections) != canonical_json_v1(final_collections)):
+        _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
+               "compiler, schema or collector input drifted after native observation")
+    final_current = _snapshot_current_raw_v1(snapshots) if snapshots.exists() else None
     if final_current != before_current:
         _error("OE_SNAPSHOT_CURRENT_CHANGED", "$snapshot.CURRENT",
                "CURRENT changed during the complete input fence")
@@ -6372,7 +6530,17 @@ def query_history_v1(
 
 
 def _load_selected_snapshot_v1() -> dict:
-    native = collect_native_current()
+    # This read-only consumer stays inside the real native observation. No
+    # provisional fact can escape a failed owner close; it accepts no token or
+    # caller-supplied native state. Publisher checks retain their own lifetime.
+    with _observe_native_current_v1() as native:
+        payload, fence = _read_selected_snapshot_material_v1(native)
+    _snapshot_require_non_native_input_fence_v1(*fence)
+    return payload
+
+
+def _read_selected_snapshot_material_v1(native):
+    """Read provisional material; only the enclosing caller qualifies it."""
     repository_root = pathlib.Path(native["repository"]["root"])
     run_root = repository_root.joinpath(
         *pathlib.PurePosixPath(native["claim"]["run_root"]).parts)
@@ -6413,10 +6581,8 @@ def _load_selected_snapshot_v1() -> dict:
     if payload_raw != material["payload_raw"] or input_raw != material["input_raw"]:
         _error("OE_SNAPSHOT_STALE", "$snapshot.inputs",
                "selected snapshot compiler, schema or collector inputs are no longer exact")
-    _snapshot_require_input_fence_v1(
-        compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
-        native, collections, raw, reobserve_inputs)
-    return payload
+    return payload, (compiler_path, schema_path, snapshots, compiler_raw, schema_raw,
+                     native, collections, raw, reobserve_inputs)
 
 
 def _repository_snapshot_missing_v1(collection):

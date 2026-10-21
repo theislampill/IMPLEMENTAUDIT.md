@@ -4288,18 +4288,12 @@ def candidate_request_from_record(
     )
 
 
-def validate_pure_current_route(
-    repo: Path,
-    controller: str,
-    expected_current: dict[str, str] | None = None,
-) -> dict[str, Any]:
-    """Validate current route semantics without attributing a host event/effect."""
-    environment = pure_route_environment()
-    oid, record = current_ref(repo, controller)
-    if oid is None or record is None:
-        fail("canonical route decision is absent")
-    validate_canonical_route_record_bytes(repo, oid, record)
-    current = current_controller(repo, controller, environment=environment)
+def _pure_route_semantics_v1(repo, controller, oid, record, current, expected_current):
+    """Private complete semantic derivation from this owner's live opening read.
+
+    Callers cannot use this as currentness proof: only the public validator or
+    enclosing source-owned observation supplies and closes the actual read.
+    """
     if expected_current is not None:
         allowed = {
             "controller_id",
@@ -4368,12 +4362,6 @@ def validate_pure_current_route(
         or record.get("history_query") != normalized_history_query(request)
     ):
         fail("route decision no longer agrees with its exact live predicate")
-    post_current = current_controller(repo, controller, environment=environment)
-    post_oid, post_record = current_ref(repo, controller)
-    if post_current != current or post_oid != oid or post_record != record:
-        fail("R0033 route/controller semantics changed during pure validation")
-    _pure_route_final_ref_fence(
-        repo, controller, current["controller_record_oid"], oid)
     return {
         "controller_id": controller,
         "controller_record_oid": current["controller_record_oid"],
@@ -4386,6 +4374,34 @@ def validate_pure_current_route(
         "obligation_id": obligation_id,
         "route_state": record["route_state"],
     }
+
+
+def _open_pure_route_read_v1(repo, controller, expected_current):
+    environment = pure_route_environment()
+    oid, record = current_ref(repo, controller)
+    if oid is None or record is None:
+        fail("canonical route decision is absent")
+    validate_canonical_route_record_bytes(repo, oid, record)
+    current = current_controller(repo, controller, environment=environment)
+    route = _pure_route_semantics_v1(repo, controller, oid, record, current, expected_current)
+    _pure_route_final_ref_fence(repo, controller, current["controller_record_oid"], oid)
+    return environment, current, oid, record, route
+
+
+def validate_pure_current_route(
+    repo: Path,
+    controller: str,
+    expected_current: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Validate current route semantics without attributing a host event/effect."""
+    environment, current, oid, record, route = _open_pure_route_read_v1(repo, controller, expected_current)
+    post_current = current_controller(repo, controller, environment=environment)
+    post_oid, post_record = current_ref(repo, controller)
+    if post_current != current or post_oid != oid or post_record != record:
+        fail("R0033 route/controller semantics changed during pure validation")
+    _pure_route_final_ref_fence(
+        repo, controller, current["controller_record_oid"], oid)
+    return route
 
 
 def read_current_route_scope_v1(
@@ -7072,8 +7088,10 @@ def current_route_observation_v1(repo, controller, expected_current=None):
     """
     expected = copy.deepcopy(expected_current)
     source = file_digest(Path(__file__).resolve())
-    route = validate_pure_current_route(repo, controller, expected)
-    oid, record = current_ref(repo, controller)
+    environment, current, oid, record, route = _open_pure_route_read_v1(repo, controller, expected)
+    final_oid, final_record = current_ref(repo, controller)
+    if (final_oid, final_record) != (oid, record):
+        fail('canonical route changed before combined observation')
     if oid != route['record_oid'] or record is None or any(record.get(key) != route[key] for key in (
             'controller_id', 'record_identity', 'decision', 'classification', 'route_transaction_id', 'obligation_id', 'route_state')):
         fail('canonical route changed before combined observation')
@@ -7083,8 +7101,13 @@ def current_route_observation_v1(repo, controller, expected_current=None):
     try:
         yield view
         view._check_owner_exit(_ROUTE_READ_ISSUER_V1)
-        if current_ref(repo, controller) != (oid, record) or validate_pure_current_route(repo, controller, expected) != route:
+        if current_ref(repo, controller) != (oid, record):
             fail('canonical route changed during combined observation')
+        validate_canonical_route_record_bytes(repo, oid, record)
+        if _pure_route_semantics_v1(repo, controller, oid, record, current, expected) != route:
+            fail('canonical route semantics changed during combined observation')
+        if current_controller(repo, controller, environment=environment) != current:
+            fail('current controller changed during combined observation')
         _pure_route_final_ref_fence(repo, controller, route['controller_record_oid'], oid)
         if file_digest(Path(__file__).resolve()) != source:
             fail('route source changed during combined observation')

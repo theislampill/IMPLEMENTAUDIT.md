@@ -138,7 +138,7 @@ python -B "$IMPLEMENTAUDIT_REPO_ROOT/scripts/operational-evidence.py" canonicali
 
 Structural validation is not currentness, truth, admission, readiness, acceptance, release or closure. An optional diagnostic that was not requested creates no missing automatic-enforcement claim. An unsupported native context does not fall back to another repository, run or installed home.
 
-There is no `build` or `refresh` CLI command. The existing internal `publish_current_snapshot()` producer is the separate C06 output writer: its selected owner and effect authority must be bound before a library call. The producer calls `_collect_snapshot_inputs_v1()`, which invokes the existing repository, evidence/failure and release collectors, while the producer and the current snapshot reader call `collect_native_current()`. These library relationships do not automatically run from a reference load or a record validation. `query_history_v1()` and `run_external_readonly()` also remain their documented library interfaces; a CLI name, hidden refresh or new external authority must not be inferred for either. Native-context, snapshot publication, installed invocation and full R001E census qualification retain their own receiving gates.
+There is no `build` or `refresh` CLI command. The existing internal `publish_current_snapshot()` producer is the separate C06 output writer: its selected owner and effect authority must be bound before a library call. The producer calls `_collect_snapshot_inputs_v1()`, which invokes the existing repository, evidence/failure and release collectors, while the producer calls `collect_native_current()` and the current snapshot reader holds its source-owned native observation through materialization. These library relationships do not automatically run from a reference load or a record validation. `query_history_v1()` and `run_external_readonly()` also remain their documented library interfaces; a CLI name, hidden refresh or new external authority must not be inferred for either. Native-context, snapshot publication, installed invocation and full R001E census qualification retain their own receiving gates.
 
 ## Bounded repository and static collection
 
@@ -209,6 +209,24 @@ refuses. Legacy native-facts v1 bytes remain unchanged and receive that omission
 at query time. Frozen v2 readers execute only the fixed, byte-bound pure R0035
 validator against retained canonical bytes; they perform no subprocess, network,
 model, native acquisition or publication.
+
+Read-only native observation keeps one actual current-controller acquisition
+at each end of the enclosing R0033 owner scope, with complete route semantics
+derived again before closing. The standalone pure validator keeps its own pair.
+For the exact pinned R0011 helper pair, R0035 avoids the second verification
+only after the immutable returned receipt proves the LF-exact 18-field v3
+domain shared by `require` and `verify`. Legacy TSV-pointer receipts, malformed
+or unavailable receipt bytes, and unknown helper bytes retain both calls.
+This is source equivalence, not cached currentness or a caller-supplied token.
+
+The selected snapshot reader keeps materialization inside that live native
+scope and returns no payload until the owner closes successfully. It then
+rechecks compiler/schema bytes, fresh repository and external inputs, and
+CURRENT. Publication retains its separate full native fences. Windows C02 uses
+a bounded transaction-local directory-handle pool; names are retained only
+through strongly held ancestry. Weaker access retains fresh canonical-name
+checks. Every leaf and parent reparse check remains fresh; all three physical
+repository fences and deterministic handle cleanup remain required.
 
 The repository composition retains the complete R0035 compiler adopted at
 `87a7ea09`, including its product-authority refusals, with the existing R0038
