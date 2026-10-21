@@ -344,6 +344,15 @@ retain their full separate acquisitions. The route view refuses new reads
 after closure; returned bytes are accepted only after every exit check passes.
 Frozen inspection still performs no acquisition.
 
+The combined read also shares R0035's actual fixed-byte R0011 acquisitions
+with its fixed R0033 producer. The original receipt parser still derives the
+complete current tuple; after route semantics are rechecked, the fixed closing
+continuation reacquires actual continuity before final refs, execution receipts
+and source checks. No public entry accepts a currentness result or callback.
+Standalone owners retain their own reads. Opening public records share one
+bounded native API process while each record keeps its exact body, retained
+identity, physical-source and post-read checks.
+
 Within one repository publication/read transaction, a private live capture may
 reuse bounded AST and repository semantics only after fresh physical bytes,
 Git state, exclusion census and collector/runtime provenance agree. Each

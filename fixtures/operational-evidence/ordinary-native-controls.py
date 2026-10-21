@@ -467,15 +467,16 @@ class OrdinaryControls(unittest.TestCase):
             response = {"responses": [{"items": [{"id": "final", "turn_id": expected["turn_id"], "phase": "final_answer",
                 "body_bytes": len(expected["body"].encode()), "body_sha256": expected["body_sha256"]}]}]}
             with mock.patch.object(owner, "_np_call", return_value=response) as api:
-                first = owner._ordinary_public_v1(None, obs, context, "child", locator, "final_answer")
+                runtime = (None,None,None,load_owner('bounded_source_owner.py'),None)
+                first = owner._ordinary_public_v1(runtime, obs, context, "child", locator, "final_answer")
                 with path.open("ab") as stream: stream.write(b'{"unrelated":"not read"}\n')
-                second = owner._ordinary_public_v1(None, obs, context, "child", locator, "final_answer")
+                second = owner._ordinary_public_v1(runtime, obs, context, "child", locator, "final_answer")
                 self.assertEqual(first, second)
                 self.assertEqual(api.call_args.args[1][0][0], "thread/items/read")
                 bad = copy.deepcopy(response); bad["responses"][0]["items"][0]["body_sha256"] = "0" * 64
                 api.return_value = bad
                 with self.assertRaisesRegex(ValueError, "ORDINARY_NATIVE_PUBLIC_BODY_DIFFERS"):
-                    owner._ordinary_public_v1(None, obs, context, "child", locator, "final_answer")
+                    owner._ordinary_public_v1(runtime, obs, context, "child", locator, "final_answer")
 
     def test_review_only_validator_cannot_be_used_as_full_export(self):
         obs = load_owner("compaction-result-observation.py"); value = available_export()

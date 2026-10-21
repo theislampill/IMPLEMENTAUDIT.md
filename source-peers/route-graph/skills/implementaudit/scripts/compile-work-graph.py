@@ -2019,10 +2019,12 @@ def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
         return False
 
 
-def _native_continuity(repo_root, run_root, *, _source_reads=None):
+def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_reads=None):
     import base64
     if _source_reads is not None and type(_source_reads) is not list:
         raise WorkGraphError('native continuity source output must be a private list')
+    if _current_reads is not None and type(_current_reads) is not list:
+        raise WorkGraphError('native currentness output must be a private list')
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     host = _native_continuity_host_v1()
     repo = pathlib.Path(repo_root).absolute()
@@ -2104,6 +2106,8 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None):
         # Output only, recorded after actual loaded-byte execution and fences.
         # No supplied value is consulted as currentness or source authority.
         _source_reads.append(dict(claim_sha256=helper_pair[0], validate_sha256=helper_pair[1]))
+    if _current_reads is not None:
+        _current_reads.append(dict(controller_result=list(current), receipt=receipt))
     return dict(acquisition='NATIVE_CONTINUITY_VERIFIED', controller=current[0], claim=current[3], receipt=receipt,
         epoch=receipt.split('/')[-1].split('@')[0], candidate_head=head, candidate_tree=tree,
         worktree_digest=_graph_hash([_graph_hash([hashlib.sha256(diff).hexdigest(), changed_records]), hashlib.sha256(status).hexdigest(), other]),
@@ -2205,10 +2209,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = 'e002b94a03c80b929cfdc8f640be0996d0a379c26d5e64d0c7dad55ee84ca2e0'
+_NATIVE_ROUTE_PRODUCER_SHA256 = '31504a84afa82a97562727a82c32c7834804738a469478c54edfa42fedb3123d'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 367421
+_NATIVE_ROUTE_PRODUCER_BYTES = 369889
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -2803,6 +2807,9 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
     supplied in place of acquisition. Retained PENDING requests may be stale.
     """
     source_output = {} if _continuity_sources is None else {'_source_reads': _continuity_sources}
+    current_reads = []
+    if _episode_outputs is not None:
+        source_output['_current_reads'] = current_reads
     before = _native_continuity(repo_root, run_root, **source_output) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
     snapshot = _native_source_snapshot(run_root)
     preliminary = _compile_native_documents_v1(snapshot, before, acquire_only=True)
@@ -2825,6 +2832,7 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
         else:
             route_available = True
     combined_route_read = False
+    shared_currentness = False
     receiver_binding = None
     with contextlib.ExitStack() as owner_read:
         if expected_current is not None and not route_available:
@@ -2832,6 +2840,18 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
         if route_available:
             producer, producer_path, producer_raw = _native_route_scope_module_v1()
             transaction = getattr(producer, 'current_route_observation_v1', None)
+            shared = getattr(producer, '_observe_current_route_from_owner_v1', None)
+            if current_reads and shared is not None:
+                if len(current_reads) != 1 or not callable(shared):
+                    raise WorkGraphError('native actual-currentness composition is malformed')
+                def close_currentness():
+                    if _native_continuity(repo_root, run_root, **source_output) != before or len(current_reads) != 2:
+                        raise WorkGraphError('native continuity changed during intake')
+                    return producer._current_controller_from_owner_read_v1(pathlib.Path(repo_root), before['controller'],
+                        current_reads[1]['controller_result'], current_reads[1]['receipt'])
+                transaction = lambda repo, controller, **kw: shared(repo, controller, current_reads[0],
+                    kw.get('expected_current'), close_currentness)
+                shared_currentness = True
             if transaction is not None:
                 if not callable(transaction):
                     raise WorkGraphError('native route transaction interface is malformed')
@@ -2900,7 +2920,7 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             raise WorkGraphError('native source changed during intake')
         if _acquire_native_read_set(projection['nodes'], input_root) != read_set:
             raise WorkGraphError('native inputs changed during intake')
-        if repo_root is not None and _native_continuity(repo_root, run_root, **source_output) != before:
+        if repo_root is not None and not shared_currentness and _native_continuity(repo_root, run_root, **source_output) != before:
             raise WorkGraphError('native continuity changed during intake')
         if producer is not None and not combined_route_read:
             if producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller']) != acquired_route:

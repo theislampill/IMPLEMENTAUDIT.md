@@ -433,6 +433,31 @@ def acquire(selection, reader, *, previous=None, nominations=None, receipts=None
             "noncredits": ["lifecycle", "result", "acceptance", "JOIN", "occurrence_history", "campaign_epoch", "campaign_currentness"]}
 
 
+def _ordinary_public_batch_v1(runtime, obs, context, specs, native_call, resolve):
+    """Private fixed-owner read composition; no authentication from caller data."""
+    require(type(specs) is list and 1 <= len(specs) <= 4, 'ORDINARY_NATIVE_PUBLIC_POPULATION')
+    prepared, methods = [], []
+    for role, locator, phase in specs:
+        row, pin = resolve(obs, context, role, locator)
+        body = obs.public_message(row, phase, context=context)
+        retained = obs.current_retained_locator(row, context)
+        ident = retained['id']
+        thread = context['actual_child_identity']['thread_id'] if role == 'child' else context['parent_identity']['thread_id']
+        methods.append(('thread/items/read', {'threadId': thread, 'turnId': ident['turn_id'], 'itemIds': [ident['message_id']]}))
+        expected = {'id': ident['message_id'], 'turn_id': ident['turn_id'], 'phase': phase,
+                    'body_bytes': len(body.encode('utf-8')), 'body_sha256': obs.digest(body.encode('utf-8'))}
+        prepared.append((row, pin, body, retained, expected))
+    report = native_call(runtime, methods, context['actual_child_identity']['thread_id'])
+    require(len(report['responses']) == len(prepared), 'ORDINARY_NATIVE_PUBLIC_POPULATION')
+    values = []
+    for (role, locator, phase), (row, pin, body, retained, expected), response in zip(specs, prepared, report['responses']):
+        require(response['items'] == [expected], 'ORDINARY_NATIVE_PUBLIC_BODY_DIFFERS')
+        require(resolve(obs, context, role, locator) == (row, pin), 'ORDINARY_PUBLIC_CHANGED_DURING_READ')
+        values.append({'pin': pin, 'message_id': expected['id'], 'turn_id': expected['turn_id'],
+            'revision': retained['revision'], 'phase': phase, 'body': body, 'body_sha256': expected['body_sha256']})
+    return values
+
+
 def _bind_episode_owner_v1(selected, actual):
     """Private equality constraint against the fixed graph owner's live source."""
     code = 'ORDINARY_SELECTED_EPISODE_OWNER_DIFFERS'

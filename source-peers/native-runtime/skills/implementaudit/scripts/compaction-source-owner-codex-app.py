@@ -597,20 +597,11 @@ def _ordinary_resolve_v1(obs, context, role, locator):
 
 
 def _ordinary_public_v1(runtime, obs, context, role, locator, phase):
-    row, pin = _ordinary_resolve_v1(obs, context, role, locator)
-    body = obs.public_message(row, phase, context=context)
-    retained = obs.current_retained_locator(row, context)
-    ident = retained['id']
-    thread = context['actual_child_identity']['thread_id'] if role == 'child' else context['parent_identity']['thread_id']
-    report = _np_call(runtime, [('thread/items/read', {'threadId': thread, 'turnId': ident['turn_id'], 'itemIds': [ident['message_id']]})],
-                      context['actual_child_identity']['thread_id'])
-    expected = {'id': ident['message_id'], 'turn_id': ident['turn_id'], 'phase': phase,
-                'body_bytes': len(body.encode('utf-8')), 'body_sha256': obs.digest(body.encode('utf-8'))}
-    require(report['responses'][0]['items'] == [expected], 'ORDINARY_NATIVE_PUBLIC_BODY_DIFFERS')
-    require(_ordinary_resolve_v1(obs, context, role, locator) == (row, pin), 'ORDINARY_PUBLIC_CHANGED_DURING_READ')
-    # No response timestamp/updatedAt/protocol run identifier enters semantics.
-    return {'pin': pin, 'message_id': ident['message_id'], 'turn_id': ident['turn_id'], 'revision': retained['revision'],
-            'phase': phase, 'body': body, 'body_sha256': expected['body_sha256']}
+    return _ordinary_publics_v1(runtime, obs, context, [(role, locator, phase)])[0]
+
+
+def _ordinary_publics_v1(runtime, obs, context, specs):
+    return runtime[3]._ordinary_public_batch_v1(runtime, obs, context, specs, _np_call, _ordinary_resolve_v1)
 
 
 def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical, *, _opening=None):
@@ -637,7 +628,6 @@ def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical, *, _ope
         context[role] = {'path': path, 'physical': {k: source['physical'][k] for k in ('device', 'inode')},
             'metadata': {'offset': 0, 'bytes': prefix['bytes'], 'sha256': prefix['sha256'], 'embedded_ordinal': 0, 'physical_line': 1},
             'metadata_payload_digest': obs.digest(obs.canonical(header['payload']))}
-    public = [_ordinary_public_v1(runtime, obs, context, 'parent', locators['open'], 'commentary')]
     call, call_pin = _ordinary_resolve_v1(obs, context, 'parent', locators['spawn_call'])
     output, output_pin = _ordinary_resolve_v1(obs, context, 'parent', locators['spawn_output'])
     activation, activation_pin = _ordinary_resolve_v1(obs, context, 'child', locators['child_activation'])
@@ -650,9 +640,9 @@ def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical, *, _ope
         'ORDINARY_ACTUAL_SPAWN_PAIR')
     require(activation['type'] == 'event_msg' and activation['payload'].get('type') == 'task_started' and
         activation['ordinal'] == 1 and locators['child_activation']['offset'] == context['child']['metadata']['bytes'], 'ORDINARY_ACTUAL_ACTIVATION')
-    public.append(_ordinary_public_v1(runtime, obs, context, 'child', locators['child_final'], 'final_answer'))
-    require(public[-1]['turn_id'] == activation['payload'].get('turn_id'), 'ORDINARY_FRESH_TURN')
-    public.append(_ordinary_public_v1(runtime, obs, context, 'parent', locators['acceptance'], 'commentary'))
+    public = _ordinary_publics_v1(runtime, obs, context, [('parent', locators['open'], 'commentary'),
+        ('child', locators['child_final'], 'final_answer'), ('parent', locators['acceptance'], 'commentary')])
+    require(public[1]['turn_id'] == activation['payload'].get('turn_id'), 'ORDINARY_FRESH_TURN')
     owner = {'profile_id': obs.ORDINARY_PROFILE, 'issuer_id': 'codex-app-canonical-ordinary-public-v1',
         'policy_digest': obs._ordinary_hash(policy), 'code_pins': pins, 'canonical_route': canonical['canonical_route'],
         'host_and_scope': canonical['opening']['host_and_scope'], 'opening': canonical['opening'], 'scope': canonical['scope']}

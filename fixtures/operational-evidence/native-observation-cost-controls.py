@@ -48,7 +48,7 @@ class ObservationCostControls(unittest.TestCase):
                          ['run_root', 'repo_root', 'input_root', 'expected_current'])
 
     @contextlib.contextmanager
-    def composed_episode(self, on_episode_close=None):
+    def composed_episode(self, on_episode_close=None, shared_continuity=False):
         h=self.h
         policy={'code_pins':{'implementaudit/scripts/compile-work-graph.py':
                            hashlib.sha256(Path(h.wg.__file__).read_bytes()).hexdigest()}}
@@ -72,18 +72,38 @@ class ObservationCostControls(unittest.TestCase):
             def capture(*a,**kw):
                 result=continuity(*a)
                 if kw.get('_source_reads') is not None:kw['_source_reads'].append(copy.deepcopy(self.continuity_sources))
+                if shared_continuity and kw.get('_current_reads') is not None:
+                    kw['_current_reads'].append(dict(controller_result=[h.controller,str(h.root),str(h.root),h.current['claim_id']],
+                                                     receipt=h.current['continuity_receipt']))
                 return result
             compile_docs=h.wg._compile_native_documents_v1.side_effect
             def project(*a,**kw):
                 value=compile_docs(*a,**kw)
                 if not kw.get('acquire_only'):value['binding']=copy.deepcopy(a[1])
                 return value
-            with patch.object(h.wg,'_native_continuity',side_effect=capture), \
+            with patch.object(h.rt,'_current_controller_from_owner_read_v1',
+                    side_effect=lambda *a:copy.deepcopy(h.current),create=True), \
+                 patch.object(h.wg,'_native_continuity',side_effect=capture), \
                  patch.object(h.wg,'_compile_native_documents_v1',side_effect=project), \
                  patch.object(h.rt,'_ordinary_receiver_binding_from_read_v1',return_value={'source_pins':{},'policy':policy}), \
                  patch.object(h.rt,'_ordinary_fixed_source_owner_v2',side_effect=lambda *a:contextlib.nullcontext(owner)):
                 with h.wg.observe_native_run_episode_sources_v1(h.root,h.root) as raw:
                     yield json.loads(raw)
+
+    def test_shared_actual_continuity_does_not_repeat_nested_owner_invocations(self):
+        with self.composed_episode(shared_continuity=True) as value:
+            self.assertEqual(value['ordinary_episode']['status'],'AVAILABLE')
+        self.assertEqual(self.h.validation.call_count,2)
+        self.assertEqual(self.h.rt.current_controller.call_count,0,
+                         'R0035 already performs actual fixed-owner currentness at both ends')
+
+    def test_shared_actual_continuity_still_refuses_each_changed_current_field(self):
+        for key in self.h.current:
+            with self.subTest(key=key):
+                original=copy.deepcopy(self.h.current)
+                with self.assertRaises((self.refusal,self.h.wg.WorkGraphError)):
+                    with self.composed_episode(shared_continuity=True):self.h.current[key]='changed'
+                self.h.current=original
 
     def test_available_episode_and_graph_share_one_actual_route_observation(self):
         with self.composed_episode() as value:

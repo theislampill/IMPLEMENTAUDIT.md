@@ -1,5 +1,6 @@
 """Constructed source-owner currentness lifetime controls, no native credit."""
 import argparse
+import contextlib
 import base64
 import copy
 import hashlib
@@ -139,7 +140,7 @@ class CurrentnessCostControls(unittest.TestCase):
                     with self.h.rt.current_route_observation_v1(self.h.root,self.h.controller,bad):
                         self.fail('foreign context yielded a view')
 
-    def continuity(self, changed_helper=False, wrong_verify=False, receipt_raw=None, blob_error=False):
+    def continuity(self, changed_helper=False, wrong_verify=False, receipt_raw=None, blob_error=False, source_changes=False):
         h=self.h
         owner=ROOT/'source-peers/native-runtime/skills/implementaudit/scripts'
         claim=(owner/'claim-run.sh').read_bytes()
@@ -167,18 +168,26 @@ class CurrentnessCostControls(unittest.TestCase):
             return 'wrong' if wrong_verify else receipt
         values=[b'a'*40,b'b'*40,b'',b'',b'',b'']
         response=types.SimpleNamespace(returncode=0,stderr=b'',stdout=json.dumps([base64.b64encode(x).decode() for x in values]).encode())
-        with (patch.object(h.wg,'_native_static_owner_module_v1',return_value=(owner,Path('owner.py'),b'owner')),
+        self.current_owner_reads=[]
+        with (patch.object(h.wg,'_native_static_owner_module_v1',side_effect=[
+                    (owner,Path('owner.py'),b'owner'),(owner,Path('owner.py'),b'changed' if source_changes else b'owner')]),
                 patch.object(h.wg,'_native_continuity_host_v1',return_value=object()),
                 patch.object(h.wg,'_native_static_file_v1',side_effect=file_read),
                 patch.object(h.wg,'_native_claim_call_v1',side_effect=call),
                 patch.object(h.wg.subprocess,'run',return_value=response)):
             sources=[]
-            actual=h.wg._native_continuity(h.root,h.root,_source_reads=sources)
+            actual=h.wg._native_continuity(h.root,h.root,_source_reads=sources,_current_reads=self.current_owner_reads)
         self.assertEqual(actual['receipt'],receipt)
         self.assertEqual(actual['continuity_helper_digest'],hashlib.sha256(claim).hexdigest())
         self.assertEqual(sources,[{'claim_sha256':hashlib.sha256(claim).hexdigest(),
                                    'validate_sha256':hashlib.sha256(validate).hexdigest()}])
+        self.assertEqual(self.current_owner_reads,[dict(controller_result=['cost-control',str(h.root),str(h.root),'2'*32],receipt=receipt)])
         return calls
+
+    def test_changed_terminal_source_emits_no_currentness_output(self):
+        with self.assertRaisesRegex(self.h.wg.WorkGraphError,'static owner source changed'):
+            self.continuity(source_changes=True)
+        self.assertEqual(self.current_owner_reads,[])
 
     def test_exact_require_helper_does_not_repeat_its_same_receipt_verifier(self):
         calls=self.continuity()
@@ -208,6 +217,60 @@ class CurrentnessCostControls(unittest.TestCase):
         self.assertEqual(self.receipt_reads,[])
         with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
             self.continuity(changed_helper=True,wrong_verify=True)
+
+class CurrentOwnerParserControls(unittest.TestCase):
+    def setUp(self):
+        self.rt=load(SOURCE/'source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py','current_owner_parser')
+        self.temp=tempfile.TemporaryDirectory(prefix='current-owner-parser-');self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name);self.ctrl='constructed-owner';self.claim='2'*32
+        self.receipt='refs/implementaudit/continuity-receipts/'+self.ctrl+'/G0001@'+'3'*40
+        self.parts=[self.ctrl,str(self.root),str(self.root),self.claim]
+        self.invalidation=['implementaudit.continuity-invalidation.v1',self.ctrl,'unused','unused','manual-resume','boundary']
+
+    def receipt_fields(self,version):
+        if version==3:
+            fields=['unused']*18
+            for i,v in {0:'implementaudit.continuity-receipt.v3',1:self.ctrl,2:self.claim,3:self.root.name,
+                4:'G0001',5:'4'*40,6:'refs/implementaudit/current-generations/'+self.ctrl,16:'next'}.items():fields[i]=v
+        else:
+            fields=['unused']*12
+            for i,v in {0:'implementaudit.continuity-receipt.v2',1:self.ctrl,3:self.claim,8:'4'*40,
+                9:'manual-resume',10:'G0001',11:'next'}.items():fields[i]=v
+        return fields
+
+    @contextlib.contextmanager
+    def io(self,raw):
+        def fail(message,**kw):raise ValueError(message)
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(patch.object(self.rt,'fail',side_effect=fail))
+            stack.enter_context(patch.object(self.rt,'git_blob_bytes',side_effect=lambda repo,oid,*a,**k:
+                raw if oid=='3'*40 else ('\t'.join(self.invalidation)+'\n').encode()))
+            stack.enter_context(patch.object(self.rt,'git',return_value='1'*40))
+            stack.enter_context(patch.object(self.rt,'trusted_host_executable',return_value=self.root/'bash'))
+            self.calls=stack.enter_context(patch.object(self.rt,'run',side_effect=lambda *a,**k:
+                '\t'.join(self.parts) if k['label']=='controller currentness' else self.receipt))
+            yield
+
+    def test_real_parser_preserves_v2_and_strict_v3_complete_current_tuple(self):
+        expected=dict(controller_id=self.ctrl,repository_identity=str(self.root),explicit_run_root=str(self.root),
+            claim_id=self.claim,continuity_receipt=self.receipt,continuity_generation='G0001',
+            controller_record_oid='1'*40,boundary_kind='manual-resume',boundary_event_id='boundary',next_action='next')
+        for version in (2,3):
+            with self.subTest(version=version),self.io(('\t'.join(self.receipt_fields(version))+'\n').encode()):
+                self.assertEqual(self.rt.current_controller(self.root,self.ctrl,environment={}),expected)
+                self.assertEqual(self.calls.call_count,2)
+                self.assertEqual(self.rt._current_controller_from_owner_read_v1(self.root,self.ctrl,self.parts,self.receipt),expected)
+                self.assertEqual(self.calls.call_count,2,'parsing actual owner output must not launch another owner')
+
+    def test_legacy_v3_and_wrong_receipt_domains_still_refuse(self):
+        fields=self.receipt_fields(3);valid=('\t'.join(fields)+'\n').encode()
+        cases=[('\t'.join(fields[:14])+'\n').encode(),valid+b'\n',valid.replace(b'\t',b'\n',1),valid.replace(b'\t',b'\x00',1)]
+        for index in (0,1,2,3,4,6):
+            changed=list(fields);changed[index]='foreign';cases.append(('\t'.join(changed)+'\n').encode())
+        for raw in cases:
+            with self.subTest(raw=raw[:60]),self.io(raw):
+                with self.assertRaises(ValueError):self.rt._current_controller_from_owner_read_v1(self.root,self.ctrl,self.parts,self.receipt)
+
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--repo-root',type=Path,default=ROOT);p.add_argument('--source-root',type=Path)

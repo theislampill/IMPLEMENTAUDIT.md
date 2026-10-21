@@ -223,6 +223,32 @@ class OrdinaryObservationControls(unittest.TestCase):
             args[4].side_effect=changed
             with self.assertRaises(ValueError):self.helper._recheck_ordinary_native_v1(args[0],self.obs,*args[1:])
 
+    def test_public_batch_preserves_three_exact_records_in_one_native_call(self):
+        with self.native_boundary() as args:
+            runtime,context,public,_,api,resolve=args
+            api.side_effect=lambda *a:dict(responses=copy.deepcopy(self.responses[3:6]))
+            specs=[(p['pin']['role'],p['pin']['locator'],p['phase']) for p in public[:3]]
+            with patch.object(self.owner,'_np_call',api),patch.object(self.owner,'_ordinary_resolve_v1',resolve):
+                result=self.owner._ordinary_publics_v1(runtime,self.obs,context,specs)
+            self.assertEqual(result,public[:3]);api.assert_called_once()
+            self.assertEqual([m[0] for m in api.call_args.args[1]],['thread/items/read']*3)
+
+    def test_public_batch_refuses_partial_wrong_or_changed_native_records(self):
+        for field in ('partial','body','order','raw'):
+            with self.subTest(field=field),self.native_boundary() as args:
+                runtime,context,public,_,api,resolve=args
+                responses=copy.deepcopy(self.responses[3:6])
+                if field=='partial':responses.pop()
+                elif field=='body':responses[1]['items'][0]['body_sha256']='0'*64
+                elif field=='order':responses.reverse()
+                def response(*a):
+                    if field=='raw':self.raw_drift=True
+                    return dict(responses=responses)
+                api.side_effect=response
+                specs=[(p['pin']['role'],p['pin']['locator'],p['phase']) for p in public[:3]]
+                with patch.object(self.owner,'_np_call',api),patch.object(self.owner,'_ordinary_resolve_v1',resolve):
+                    with self.assertRaises(ValueError):self.owner._ordinary_publics_v1(runtime,self.obs,context,specs)
+
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(); parser.add_argument('--repo-root',type=Path,default=ROOT)

@@ -3437,6 +3437,23 @@ def current_controller(
         label="continuity currentness",
         environment=environment,
     )
+    return _current_controller_from_owner_read_v1(repo, controller, parts, receipt)
+
+
+def _current_controller_from_owner_read_v1(repo, controller, parts, receipt):
+    """Parse actual fixed-owner output inside its enclosing live read.
+
+    Private implementation only: supplied output is never currentness proof.
+    The public route reader owns its calls; the fixed graph composition owns
+    the same real calls and their source/identity guards at entry and exit.
+    """
+    if (type(parts) is not list or len(parts) != 4 or parts[0] != controller or
+            any(type(value) is not str for value in parts) or type(receipt) is not str):
+        fail("controller currentness returned a foreign or malformed record")
+    try:
+        explicit_run_root = str(Path(parts[2]).resolve(strict=True))
+    except OSError as exc:
+        fail(f"controller currentness returned an unreadable run root: {exc}")
     prefix = f"refs/implementaudit/continuity-receipts/{controller}/"
     if not receipt.startswith(prefix) or "@" not in receipt:
         fail("continuity receipt identity is malformed")
@@ -7091,7 +7108,18 @@ def current_route_observation_v1(repo, controller, expected_current=None):
     """
     expected = copy.deepcopy(expected_current)
     source = file_digest(Path(__file__).resolve())
-    environment, current, oid, record, route = _open_pure_route_read_v1(repo, controller, expected)
+    opening = _open_pure_route_read_v1(repo, controller, expected)
+    def closing():
+        return current_controller(repo, controller, environment=opening[0])
+    with _route_observation_lifetime_v1(repo, controller, expected, source, opening, closing) as view:
+        yield view
+
+
+@contextlib.contextmanager
+def _route_observation_lifetime_v1(repo, controller, expected, source, opening, _closing_current):
+    # Private composition. Public entries alone acquire currentness; the fixed
+    # source-owned closing continuation runs after semantics and before final refs.
+    environment, current, oid, record, route = opening
     final_oid, final_record = current_ref(repo, controller)
     if (final_oid, final_record) != (oid, record):
         fail('canonical route changed before combined observation')
@@ -7109,7 +7137,7 @@ def current_route_observation_v1(repo, controller, expected_current=None):
         validate_canonical_route_record_bytes(repo, oid, record)
         if _pure_route_semantics_v1(repo, controller, oid, record, current, expected) != route:
             fail('canonical route semantics changed during combined observation')
-        if current_controller(repo, controller, environment=environment) != current:
+        if _closing_current() != current:
             fail('current controller changed during combined observation')
         _pure_route_final_ref_fence(repo, controller, route['controller_record_oid'], oid)
         if file_digest(Path(__file__).resolve()) != source:
@@ -7117,6 +7145,24 @@ def current_route_observation_v1(repo, controller, expected_current=None):
         view._check_owner_exit(_ROUTE_READ_ISSUER_V1)
     finally:
         view._close_owner_read(_ROUTE_READ_ISSUER_V1)
+
+
+@contextlib.contextmanager
+def _observe_current_route_from_owner_v1(repo, controller, owner_read, expected_current, closing_current):
+    """Private graph-owner composition, not a public supplied-proof entry."""
+    expected = copy.deepcopy(expected_current)
+    source = file_digest(Path(__file__).resolve())
+    exact_keys(owner_read, {'controller_result', 'receipt'}, 'actual continuity owner read')
+    current = _current_controller_from_owner_read_v1(repo, controller, owner_read['controller_result'], owner_read['receipt'])
+    oid, record = current_ref(repo, controller)
+    if oid is None or record is None:
+        fail('canonical route decision is absent')
+    validate_canonical_route_record_bytes(repo, oid, record)
+    route = _pure_route_semantics_v1(repo, controller, oid, record, current, expected)
+    _pure_route_final_ref_fence(repo, controller, current['controller_record_oid'], oid)
+    with _route_observation_lifetime_v1(repo, controller, expected, source,
+            (None, current, oid, record, route), closing_current) as view:
+        yield view
 
 
 def _ordinary_execution_ref_v1(controller, canonical):
