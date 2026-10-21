@@ -7057,7 +7057,9 @@ def record_current_ordinary_execution_v1(repo, controller, execution):
         route = canonical['canonical_route']
         transaction = ('start\nverify ' + route['ref'] + ' ' + route['record_oid'] + '\nverify refs/implementaudit/controllers/' +
             controller + ' ' + route['controller_record_oid'] + '\nupdate ' + ref + ' ' + oid + ' ' + ZERO_OID + '\nprepare\ncommit\n')
-        completed = subprocess.run([str(trusted_host_executable(repo, 'git')), 'update-ref', '--stdin'], cwd=repo,
+        # Receipt publication must not execute target-owned reference hooks.
+        completed = subprocess.run([str(trusted_host_executable(repo, 'git')), '-c', 'core.hooksPath=' + os.devnull,
+            'update-ref', '--stdin'], cwd=repo,
             env=sanitized_action_environment(), input=transaction.encode('ascii'), capture_output=True, check=False)
         if completed.returncode:
             fail('ordinary receiver expected-absence publication refused; reconcile effect before retry')

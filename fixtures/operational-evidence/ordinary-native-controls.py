@@ -11,6 +11,7 @@ import sys
 import contextlib
 import os
 import shutil
+import shlex
 import subprocess
 import unittest
 from unittest import mock
@@ -389,6 +390,10 @@ class OrdinaryControls(unittest.TestCase):
             controller = value['owner']['canonical_route']['controller_id']
             git('update-ref', 'refs/implementaudit/controllers/' + controller, controller_oid)
             git('update-ref', value['owner']['canonical_route']['ref'], accepted_oid)
+            marker = repo / 'untrusted-reference-hook-ran'
+            hook = repo / '.git/hooks/reference-transaction'
+            hook.write_bytes(("#!/bin/sh\nprintf 'executed\\n' > " + shlex.quote(marker.as_posix()) + "\n").encode())
+            hook.chmod(0o755)
             canonical_state = {'status': 'SATISFIED', 'opening': value['owner']['opening'],
                 'canonical_route': {**value['owner']['canonical_route'], 'record_oid': accepted_oid, 'controller_record_oid': controller_oid},
                 'child_return': value['result']['return'], 'governor_decision': value['acceptance']['decision']}
@@ -400,11 +405,14 @@ class OrdinaryControls(unittest.TestCase):
                  mock.patch.object(route, 'read_current_ordinary_result_v1', return_value=canonical_state), \
                  mock.patch.object(route, 'fail', side_effect=refuse):
                 published = route.record_current_ordinary_execution_v1(repo, controller, execution)
+                self.assertFalse(marker.exists(), 'receipt publication executed an untrusted repository hook')
                 self.assertEqual(route.read_current_ordinary_execution_v1(repo, controller), published)
                 self.assertEqual(git('rev-parse', published['ref']), published['oid'])
                 with self.assertRaisesRegex(ValueError, 'already exists; preserved'):
                     route.record_current_ordinary_execution_v1(repo, controller, execution)
                 self.assertEqual(git('rev-parse', published['ref']), published['oid'])
+            git('update-ref', 'refs/fixture/hook-positive-control', controller_oid)
+            self.assertEqual(marker.read_bytes(), b'executed\n')
 
 
 if __name__ == "__main__":
