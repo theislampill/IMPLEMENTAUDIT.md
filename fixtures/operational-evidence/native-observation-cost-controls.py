@@ -38,6 +38,8 @@ class ObservationCostControls(unittest.TestCase):
         self.scope.__enter__()
         self.addCleanup(self.scope.__exit__, None, None, None)
         self.oe = load(SOURCE / 'scripts/operational-evidence.py', 'observation_primary')
+        self.continuity_sources = {'claim_sha256': hashlib.sha256(b'claim fixture').hexdigest(),
+                                   'validate_sha256': hashlib.sha256(b'validate fixture').hexdigest()}
 
     def ordinary(self):
         # The preimage uses its existing strict reader at this call site.
@@ -87,14 +89,25 @@ class ObservationCostControls(unittest.TestCase):
                 self.ordinary()
 
     @contextlib.contextmanager
-    def primary(self, legacy=False):
+    def primary(self, legacy=False, source_observation=False, expected_sources=None):
         h, oe = self.h, self.oe
         with h.graph_patched():
+            if source_observation:
+                h.graph_binding['continuity_helper_digest'] = self.continuity_sources['claim_sha256']
+                continuity = h.continuity.side_effect
+                def capture_sources(*a, **kw):
+                    value = continuity(*a)
+                    if kw.get('_source_reads') is not None:
+                        kw['_source_reads'].append(copy.deepcopy(self.continuity_sources))
+                    return value
+                h.continuity.side_effect = capture_sources
             original = h.wg._compile_native_documents_v1.side_effect
             def project(*args, **kwargs):
                 value = original(*args, **kwargs)
                 if 'route' in value:
                     value['route_scope'] = value.pop('route')
+                if source_observation and not kwargs.get('acquire_only'):
+                    value['binding'] = copy.deepcopy(args[1])
                 return value
             compiler = h.wg
             if legacy:
@@ -103,7 +116,10 @@ class ObservationCostControls(unittest.TestCase):
             with patch.object(h.wg, '_compile_native_documents_v1', side_effect=project), \
                     patch.object(h.wg, 'bind_native_route_relation_v1', return_value={'scope': 'constructed relation'}), \
                     patch.object(oe, '_native_module_from_bytes', return_value=compiler), \
-                    patch.object(oe, '_native_file', return_value=b'compiler source'):
+                    patch.object(oe, '_native_file', return_value=b'compiler source'), \
+                    patch.object(oe, '_native_require_current_receipt', return_value=(
+                        Path('claim-run.sh'), b'claim fixture', Path('validate-run-root.sh'), b'validate fixture')) as direct:
+                self.direct_receipt = direct
                 c = h.current
                 args = (h.root, h.root, h.controller, c['controller_record_oid'], c['claim_id'], h.root,
                     c['continuity_generation'], c['continuity_receipt'], c['boundary_kind'],
@@ -121,8 +137,33 @@ class ObservationCostControls(unittest.TestCase):
                     if oe._native_route(*route_args) != route:
                         raise AssertionError('legacy late route refusal')
                 else:
-                    with observer(*args) as value:
+                    kwargs = ({'continuity_sources': copy.deepcopy(expected_sources or self.continuity_sources)}
+                              if source_observation else {})
+                    with observer(*args, **kwargs) as value:
                         yield value
+
+    def test_owned_source_observation_reuses_same_actual_R0011_checks(self):
+        with self.primary(source_observation=True) as (route, _):
+            self.assertEqual(route, self.h.summary())
+        self.assertEqual(self.direct_receipt.call_count, 0)
+        self.assertEqual(self.h.continuity.call_count, 2)
+        self.assertEqual(self.h.validation.call_count, 2)
+
+    def test_legacy_source_observation_keeps_direct_R0011_check(self):
+        with self.primary(legacy=True, source_observation=True):
+            pass
+        self.assertEqual(self.direct_receipt.call_count, 1)
+
+    def test_foreign_executed_helper_bytes_refuse(self):
+        wrong = {**self.continuity_sources, 'validate_sha256': '9' * 64}
+        with self.assertRaises(self.oe.OperationalEvidenceError):
+            with self.primary(source_observation=True, expected_sources=wrong):
+                self.fail('foreign helper bytes yielded an accepted observation')
+
+    def test_executed_helper_change_at_close_refuses(self):
+        with self.assertRaises(self.oe.OperationalEvidenceError):
+            with self.primary(source_observation=True):
+                self.continuity_sources['validate_sha256'] = '9' * 64
 
     def test_primary_one_owner_transaction_preserves_projection(self):
         with self.primary() as (route, (graph, relation)):
@@ -143,9 +184,10 @@ class ObservationCostControls(unittest.TestCase):
                 self.h.input.write_bytes(b'changed after projection')
 
     def test_provisional_projection_mutation_is_rejected(self):
-        with self.assertRaises(self.oe.OperationalEvidenceError):
-            with self.primary() as (_, (graph, _)):
-                graph['nodes'][0]['id'] = 'forged'
+        for proof in (False, True):
+            with self.subTest(source_observation=proof), self.assertRaises(self.oe.OperationalEvidenceError):
+                with self.primary(source_observation=proof) as (_, (graph, _)):
+                    graph['nodes'][0]['id'] = 'forged'
 
     def test_late_native_document_readset_receipt_and_producer_changes_refuse(self):
         changes = (
@@ -195,8 +237,9 @@ class ObservationCostControls(unittest.TestCase):
                 h.record['record_identity'] = h.rt.digest_json({k: v for k, v in h.record.items() if k != 'record_identity'})
                 h.rt.validate_route_record_semantics(h.root, h.controller, h.oid, h.record)
                 self.assertEqual(h.record['decision'], 'PENDING')
-                with self.primary() as (route, _):
-                    self.assertEqual(route['decision'], 'PENDING')
+                for proof in (False, True):
+                    with self.primary(source_observation=proof) as (route, _):
+                        self.assertEqual(route['decision'], 'PENDING')
                 h.request = original
                 h.create_records()
 

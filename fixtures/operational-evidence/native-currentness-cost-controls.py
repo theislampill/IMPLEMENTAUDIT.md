@@ -102,6 +102,7 @@ class CurrentnessCostControls(unittest.TestCase):
         def file_read(owner,path,*args):
             return (claim if path.name=='claim-run.sh' else validate,0o644)
         def call(owner,host,repo,args,*rest):
+            self.assertEqual(rest,(claim,validate))
             calls.append(args)
             if args==['--current-controller']:return '\t'.join(['cost-control',str(h.root),str(h.root),'2'*32])
             if args[0]=='--require-current-continuity':return receipt
@@ -114,9 +115,12 @@ class CurrentnessCostControls(unittest.TestCase):
                 patch.object(h.wg,'_native_static_file_v1',side_effect=file_read),
                 patch.object(h.wg,'_native_claim_call_v1',side_effect=call),
                 patch.object(h.wg.subprocess,'run',return_value=response)):
-            actual=h.wg._native_continuity(h.root,h.root)
+            sources=[]
+            actual=h.wg._native_continuity(h.root,h.root,_source_reads=sources)
         self.assertEqual(actual['receipt'],receipt)
         self.assertEqual(actual['continuity_helper_digest'],hashlib.sha256(claim).hexdigest())
+        self.assertEqual(sources,[{'claim_sha256':hashlib.sha256(claim).hexdigest(),
+                                   'validate_sha256':hashlib.sha256(validate).hexdigest()}])
         return calls
 
     def test_exact_require_helper_does_not_repeat_its_same_receipt_verifier(self):

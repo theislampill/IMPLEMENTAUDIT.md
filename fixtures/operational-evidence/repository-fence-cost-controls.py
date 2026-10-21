@@ -279,6 +279,40 @@ class RepositoryFenceCostTests(unittest.TestCase):
         collections["repository"]["value"]["facts"].append({"kind": "FORGED"})
         self.assertEqual(oe.canonical_json_v1(reobserve(self.native)), expected)
 
+    def test_snapshot_reobservation_has_one_fresh_fence_after_optional_reads(self):
+        collections, reobserve = oe._capture_snapshot_inputs_v1(self.native)
+        events = []
+        derive, fence = oe._derive_release_from_repository_v1, oe._require_repository_snapshot_stable
+        def derive_release(*a, **kw):
+            result = derive(*a, **kw)
+            events.append('release-read')
+            return result
+        def final_fence(*a, **kw):
+            result = fence(*a, **kw)
+            events.append('fresh-fence')
+            return result
+        with patch.object(oe, '_derive_release_from_repository_v1', side_effect=derive_release), \
+                patch.object(oe, '_require_repository_snapshot_stable', side_effect=final_fence):
+            actual = reobserve(self.native)
+        self.assertEqual(actual, collections)
+        self.assertEqual(events, ['release-read', 'fresh-fence'])
+
+    def test_missing_release_does_not_omit_final_repository_drift_check(self):
+        missing = oe.OperationalEvidenceError('OE_RELEASE_ARTIFACT_MISSING', '$release.fixture',
+                                             'constructed unavailable release owner')
+        original = oe.collect_evidence_failure
+        with patch.object(oe, '_derive_release_from_repository_v1', side_effect=missing):
+            collections, reobserve = oe._capture_snapshot_inputs_v1(self.native)
+            self.assertEqual(collections['release']['state'], 'UNKNOWN')
+            self.assertEqual(reobserve(self.native), collections)
+            def late_change(*a, **kw):
+                (self.root / 'local.py').write_bytes(b'VALUE = 77\n')
+                return original(*a, **kw)
+            with patch.object(oe, 'collect_evidence_failure', side_effect=late_change):
+                with self.assertRaises(oe.OperationalEvidenceError) as caught:
+                    reobserve(self.native)
+            self.assertEqual(caught.exception.code, 'OE_SNAPSHOT_INPUT_CHANGED')
+
     def test_selected_reader_rechecks_drift_after_live_capture(self):
         self.publish()
         original_capture = oe._capture_snapshot_inputs_v1

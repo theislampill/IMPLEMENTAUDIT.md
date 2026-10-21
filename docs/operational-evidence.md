@@ -228,6 +228,21 @@ through strongly held ancestry. Weaker access retains fresh canonical-name
 checks. Every leaf and parent reparse check remains fresh; all three physical
 repository fences and deterministic handle cleanup remain required.
 
+Windows leaf buffers are bounded by the observed file size plus one growth
+sentinel byte, within the existing ceiling; size, identity, EOF and parent
+checks still close each read. Snapshot input reobservation reads optional
+collectors before one final fresh repository fence, including when RELEASE is
+unavailable. It retains C02's three internal fences and an immutable baseline;
+standalone RELEASE collection keeps its own original fence.
+
+The source-reporting native observation additionally exposes the exact claim
+and validation helper digests used by its two loaded-byte R0011 checks. C03 can
+reuse those actual checks only when both match its own captured helper bytes
+and the observation closes unchanged. Its receipt/marker/predecessor, route,
+input and final file/ref checks remain. Historical or separate owners keep
+C03's original direct check. These source observations do not authenticate
+native actor records, create caller credentials or replace receiving/JOIN.
+
 The repository composition retains the complete R0035 compiler adopted at
 `87a7ea09`, including its product-authority refusals, with the existing R0038
 hardened input readers. Continuity uses host-only primitives without loading

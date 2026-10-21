@@ -804,9 +804,15 @@ def _windows_read_held_leaf_v1(kernel, handle, before, parents, maximum):
     """Read fresh leaf bytes; no file bytes or leaf handles are retained."""
     chunks = []
     total = 0
-    while total <= maximum:
-        size = min(1024 * 1024, maximum + 1 - total)
-        buffer = ctypes.create_string_buffer(size)
+    expected = (before.size_high << 32) | before.size_low
+    limit = min(maximum, expected)
+    # The observed size is already mandatory at the closing identity check.
+    # One extra byte detects growth; filling the entire policy ceiling cannot
+    # make a larger file admissible. Keep this buffer private to this one leaf.
+    capacity = min(1024 * 1024, max(1, limit + 1))
+    buffer = ctypes.create_string_buffer(capacity)
+    while total <= limit:
+        size = min(capacity, limit + 1 - total)
         count = ctypes.c_uint32()
         if not kernel.ReadFile(handle, buffer, size, ctypes.byref(count), None):
             raise ctypes.WinError(ctypes.get_last_error())
@@ -823,7 +829,7 @@ def _windows_read_held_leaf_v1(kernel, handle, before, parents, maximum):
                 value.creation_time.low, value.write_time.high,
                 value.write_time.low)
 
-    if (total > maximum or total != ((before.size_high << 32) | before.size_low) or
+    if (total > maximum or total != expected or
             identity(before) != identity(after)):
         raise OSError("tracked file changed or exceeded the byte ceiling")
     if any(_snapshot_handle_info_v1(kernel, parent).attributes & 0x400
@@ -1635,12 +1641,17 @@ exit "$status"
 '''
 
 
-def _native_require_current_receipt(repo, controller, receipt, route_module):
+def _native_continuity_source_files_v1():
     claim_path = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts/claim-run.sh"
     validate_path = claim_path.with_name("validate-run-root.sh")
     claim_raw = _native_file(claim_path, "$native.continuity_validator", 256 * 1024)
     validate_raw = _native_file(
         validate_path, "$native.continuity_claim_validator", 256 * 1024)
+    return claim_path, claim_raw, validate_path, validate_raw
+
+
+def _native_require_current_receipt(repo, controller, receipt, route_module):
+    claim_path, claim_raw, validate_path, validate_raw = _native_continuity_source_files_v1()
     closure = None
     completed = None
     try:
@@ -1763,11 +1774,29 @@ def _native_route_relation(repository, run_root, graph_raw, route,
 def _native_current_observation_v1(
         repository, source_repository, controller, controller_oid, claim, run_root,
         generation, receipt, boundary_kind, boundary_event_id, next_action,
-        graph_raw, compiler_path, compiler_raw, route_module):
+        graph_raw, compiler_path, compiler_raw, route_module, *, continuity_sources=None):
     """Hold the fixed native owners' complete guards around the C03 read."""
     compiler = _native_module_from_bytes(compiler_raw, compiler_path,
         "_implementaudit_native_route_graph", "$native.route_graph_compiler")
     observe = getattr(compiler, "observe_native_run_v1", None)
+    source_observation = False
+    if continuity_sources is not None:
+        if (type(continuity_sources) is not dict or
+                set(continuity_sources) != {"claim_sha256", "validate_sha256"} or
+                any(type(value) is not str or not re.fullmatch(r"[0-9a-f]{64}", value)
+                    for value in continuity_sources.values())):
+            _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "invalid executed-source constraint")
+        observe_sources = getattr(compiler, "observe_native_run_sources_v1", None)
+        if observe_sources is not None and repository == source_repository:
+            if not callable(observe_sources) or not callable(observe):
+                _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "incomplete source-observation interface")
+            observe, source_observation = observe_sources, True
+        else:
+            # Historical/separate owners retain C03's original fixed-byte call.
+            actual = _native_require_current_receipt(repository, controller, receipt, route_module)
+            if {"claim_sha256": hashlib.sha256(actual[1]).hexdigest(),
+                    "validate_sha256": hashlib.sha256(actual[3]).hexdigest()} != continuity_sources:
+                _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_sources", "continuity helper bytes changed")
     route_args = (source_repository, controller, controller_oid, claim, run_root,
                   generation, receipt, boundary_kind, boundary_event_id,
                   next_action, route_module)
@@ -1803,6 +1832,14 @@ def _native_current_observation_v1(
                 _error("OE_NATIVE_CURRENT_SOURCE", "$native.route_relation",
                        "native owner did not yield immutable projection bytes")
             graph = decode_strict_json_bytes(raw, "native owner observation")
+            if source_observation:
+                _object(graph, "$native.continuity_sources", exact_keys={
+                    "schema", "projection", "continuity_sources"}, required={
+                    "schema", "projection", "continuity_sources"})
+                if (graph["schema"] != "implementaudit.native-run-source-observation.v1" or
+                        graph["continuity_sources"] != continuity_sources):
+                    _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "executed helper sources differ")
+                graph = graph["projection"]
             scope = graph["route_scope"]
             route = scope["route"]
             if (scope["owner"] != {
@@ -1815,7 +1852,10 @@ def _native_current_observation_v1(
                        "native owner projection crossed the exact C03 current identity")
             relation = compiler.bind_native_route_relation_v1(graph, graph_raw)
             yield route, (graph, relation)
-            if graph != decode_strict_json_bytes(raw, "native owner observation"):
+            retained = decode_strict_json_bytes(raw, "native owner observation")
+            if source_observation:
+                retained = retained["projection"]
+            if graph != retained:
                 _error("OE_NATIVE_CURRENT_CHANGED", "$native.route_relation",
                        "provisional native projection was mutated")
         # Context exit retains the owner's fresh source/readset/continuity,
@@ -2100,12 +2140,13 @@ def _observe_native_current_v1():
     route_module, route_validator_path, route_validator_raw = _native_route_module()
     (continuity_validator_path, continuity_validator_raw,
      continuity_claim_validator_path, continuity_claim_validator_raw) = (
-        _native_require_current_receipt(
-            repository, controller, receipt, route_module))
+        _native_continuity_source_files_v1())
     with _native_current_observation_v1(
             repository, source_repository, controller, controller_oid, claim, run_root,
             generation, receipt, invalidation[4], invalidation[5], state["next_action"],
-            graph_raw, compiler_path, compiler_raw, route_module) as (route, route_projection):
+            graph_raw, compiler_path, compiler_raw, route_module,
+            continuity_sources={"claim_sha256": hashlib.sha256(continuity_validator_raw).hexdigest(),
+                                "validate_sha256": hashlib.sha256(continuity_claim_validator_raw).hexdigest()}) as (route, route_projection):
         native_episode = _native_episode()
         if native_episode is not None:
             try:
@@ -3313,9 +3354,14 @@ def _capture_snapshot_inputs_v1(native):
     repository_root = pathlib.Path(native["repository"]["root"])
     run_relative = pathlib.PurePosixPath(native["claim"]["run_root"])
     run_root = repository_root.joinpath(*run_relative.parts)
-    repository, release, reobserve_repository = _repository_collectors_v1(repository_root)
+    repository, reobserve_repository = _collect_repository_observation_v1(repository_root)
+    repository_raw = canonical_json_v1(repository)
 
-    def collect(observed_native, observed_repository):
+    def collect(observed_native, *, initial=False):
+        # This private immutable baseline was derived live by C02. Optional
+        # collectors consume a fresh copy; only the final fresh-byte fence
+        # qualifies the combined result, including missing optional owners.
+        observed_repository = decode_strict_json_bytes(repository_raw, "snapshot repository baseline")
         collections = {
             "native_current": {
                 "owner": "R0038-C03", "state": "CURRENT",
@@ -3324,11 +3370,22 @@ def _capture_snapshot_inputs_v1(native):
                 "owner": "R0038-C02", "state": "CURRENT", "value": observed_repository},
             "evidence_failure": _snapshot_optional_collection_v1(
                 "R0038-C04", lambda: collect_evidence_failure(run_root)),
-            "release": _snapshot_optional_collection_v1("R0038-C05", release),
+            "release": _snapshot_optional_collection_v1(
+                "R0038-C05", lambda: _derive_release_from_repository_v1(repository_root, observed_repository)),
         }
         for row in collections.values():
             row.setdefault(
                 "sha256", hashlib.sha256(canonical_json_v1(row["value"])).hexdigest())
+        failure_code = ("OE_RELEASE_CHANGED_DURING_SCAN" if initial and collections["release"]["state"] == "CURRENT"
+                        else "OE_SNAPSHOT_INPUT_CHANGED")
+        try:
+            after = reobserve_repository()
+        except OperationalEvidenceError as exc:
+            if exc.code != "OE_REPOSITORY_CHANGED_DURING_SCAN":
+                raise
+            _error(failure_code, "$snapshot.input_fence", "repository changed during optional collection")
+        if after != observed_repository:
+            _error(failure_code, "$snapshot.input_fence", "repository baseline changed during optional collection")
         return collections
 
     def reobserve(observed_native):
@@ -3337,14 +3394,14 @@ def _capture_snapshot_inputs_v1(native):
             _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
                    "repository or run-root custody changed during collection")
         try:
-            return collect(observed_native, reobserve_repository())
+            return collect(observed_native)
         except OperationalEvidenceError as exc:
             if exc.code not in {"OE_REPOSITORY_CHANGED_DURING_SCAN", "OE_RELEASE_CHANGED_DURING_SCAN"}:
                 raise
             _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.input_fence",
                    "repository or collector input drifted")
 
-    return collect(native, repository), reobserve
+    return collect(native, initial=True), reobserve
 
 
 def _snapshot_missing_census_v1(collections: dict) -> list[dict]:

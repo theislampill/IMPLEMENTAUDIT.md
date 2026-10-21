@@ -82,6 +82,37 @@ class WindowsRepositoryReadCostTests(unittest.TestCase):
         self.assertEqual(len(fences), 3)
         self.assertEqual(len(opened), 1, 'same physical parent reopened for every leaf/fence')
 
+    def test_payload_buffers_follow_observed_size_and_preserve_EOF_bytes(self):
+        original = ctypes.create_string_buffer
+        for raw in (b'', b'small file\n', b'x' * (1024 * 1024), b'y' * (1024 * 1024 + 17)):
+            with self.subTest(bytes=len(raw)):
+                self.first.write_bytes(raw)
+                sizes = []
+                def allocate(size, *a, **kw):
+                    sizes.append(size)
+                    return original(size, *a, **kw)
+                with patch.object(ctypes, 'create_string_buffer', side_effect=allocate):
+                    actual, kind = oe._read_repository_windows_v1(self.first, 4 * 1024 * 1024)
+                self.assertEqual((actual, kind), (raw, 'file'))
+                self.assertTrue(sizes)
+                self.assertLessEqual(max(sizes), min(1024 * 1024, len(raw) + 1))
+                self.assertLessEqual(sum(sizes), 2 * min(1024 * 1024, len(raw) + 1) + 1)
+
+    def test_short_observed_size_still_refuses_actual_extra_bytes(self):
+        original = oe._snapshot_handle_info_v1
+        changed = []
+        def info(kernel, handle):
+            value = original(kernel, handle)
+            if not value.attributes & 0x10 and not changed:
+                value = type(value).from_buffer_copy(bytes(value))
+                value.size_high, value.size_low = 0, 1
+                changed.append(True)
+            return value
+        with patch.object(oe, '_snapshot_handle_info_v1', side_effect=info):
+            with self.assertRaises(OSError):
+                oe._read_repository_windows_v1(self.first, 4 * 1024 * 1024)
+        self.assertEqual(changed, [True])
+
     @contextlib.contextmanager
     def tracked_kernel(self):
         kernel = oe._snapshot_windows_kernel_v1()

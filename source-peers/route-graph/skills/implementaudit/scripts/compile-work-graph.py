@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'd48caa0ecf77a6f129333356676c738980b5d5aa208e3d698112cab36fed1127'
+_NATIVE_STATIC_OWNER_SHA256 = 'b1dc1c7295fa0c71120f845bb7b47b2137a8248f3c4f99d4218b18bef60e50e4'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 359842
+_NATIVE_STATIC_OWNER_BYTES = 363712
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2019,8 +2019,10 @@ def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
         return False
 
 
-def _native_continuity(repo_root, run_root):
+def _native_continuity(repo_root, run_root, *, _source_reads=None):
     import base64
+    if _source_reads is not None and type(_source_reads) is not list:
+        raise WorkGraphError('native continuity source output must be a private list')
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     host = _native_continuity_host_v1()
     repo = pathlib.Path(repo_root).absolute()
@@ -2098,6 +2100,10 @@ def _native_continuity(repo_root, run_root):
     _, final_path, final_raw = _native_static_owner_module_v1()
     if final_path != owner_path or final_raw != owner_raw:
         raise WorkGraphError('native static owner source changed during continuity')
+    if _source_reads is not None:
+        # Output only, recorded after actual loaded-byte execution and fences.
+        # No supplied value is consulted as currentness or source authority.
+        _source_reads.append(dict(claim_sha256=helper_pair[0], validate_sha256=helper_pair[1]))
     return dict(acquisition='NATIVE_CONTINUITY_VERIFIED', controller=current[0], claim=current[3], receipt=receipt,
         epoch=receipt.split('/')[-1].split('@')[0], candidate_head=head, candidate_tree=tree,
         worktree_digest=_graph_hash([_graph_hash([hashlib.sha256(diff).hexdigest(), changed_records]), hashlib.sha256(status).hexdigest(), other]),
@@ -2784,7 +2790,8 @@ def _acquire_native_read_set(nodes, input_root):
     return result
 
 @contextlib.contextmanager
-def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected_current=None):
+def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected_current=None,
+                          _continuity_sources=None):
     """Hold the existing native owner checks around a caller's read-only use.
 
     Omitting repo_root is explicitly constructed filesystem evidence. Supplying
@@ -2795,7 +2802,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
     corroborating current tuple is a constraint rechecked by R0033, never facts
     supplied in place of acquisition. Retained PENDING requests may be stale.
     """
-    before = _native_continuity(repo_root, run_root) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
+    source_output = {} if _continuity_sources is None else {'_source_reads': _continuity_sources}
+    before = _native_continuity(repo_root, run_root, **source_output) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
     snapshot = _native_source_snapshot(run_root)
     preliminary = _compile_native_documents_v1(snapshot, before, acquire_only=True)
     input_root = pathlib.Path(input_root if input_root is not None else repo_root if repo_root is not None else run_root)
@@ -2864,7 +2872,7 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             raise WorkGraphError('native source changed during intake')
         if _acquire_native_read_set(projection['nodes'], input_root) != read_set:
             raise WorkGraphError('native inputs changed during intake')
-        if repo_root is not None and _native_continuity(repo_root, run_root) != before:
+        if repo_root is not None and _native_continuity(repo_root, run_root, **source_output) != before:
             raise WorkGraphError('native continuity changed during intake')
         if producer is not None and not combined_route_read:
             if producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller']) != acquired_route:
@@ -2875,6 +2883,31 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
         _, final_path, final_raw = _native_route_scope_module_v1()
         if final_path != producer_path or final_raw != producer_raw:
             raise WorkGraphError('native route producer changed during intake')
+
+
+@contextlib.contextmanager
+def observe_native_run_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Expose exact executed R0011 sources inside the same live observation.
+
+    This owner creates the output sink. It is never a caller proof, saved
+    currentness token or substitute for either actual continuity acquisition.
+    """
+    if repo_root is None:
+        raise WorkGraphError('native source observation requires actual repository continuity')
+    sources = []
+    with observe_native_run_v1(run_root, repo_root, input_root=input_root,
+            expected_current=expected_current, _continuity_sources=sources) as raw:
+        if (len(sources) != 1 or set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
+                any(type(value) is not str or not DIGEST_RE.fullmatch(value) for value in sources[0].values())):
+            raise WorkGraphError('native executed-source observation is absent or malformed')
+        graph = decode_strict_json_bytes(raw, 'native source observation projection')
+        if graph['binding']['continuity_helper_digest'] != sources[0]['claim_sha256']:
+            raise WorkGraphError('native projection differs from executed continuity source')
+        yield json.dumps(dict(schema='implementaudit.native-run-source-observation.v1',
+            projection=graph, continuity_sources=dict(sources[0])), sort_keys=True,
+            separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
+    if len(sources) != 2 or sources[1] != sources[0]:
+        raise WorkGraphError('native executed continuity sources changed during observation')
 
 
 def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
