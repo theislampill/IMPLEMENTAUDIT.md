@@ -1549,10 +1549,11 @@ def validate_ordinary_execution_v1(receipt, owner, result, acceptance, policy):
     raw = base64.b64decode(receipt['wire']['bytes_b64'], validate=True)
     git_raw = b'blob ' + str(len(raw)).encode('ascii') + b'\0' + raw
     require(receipt['oid'] in (hashlib.sha1(git_raw).hexdigest(), hashlib.sha256(git_raw).hexdigest()), 'ORDINARY_EXECUTION_OBJECT')
-    closed(record, ('schema', 'accepted_record_oid', 'opening_digest', 'execution', 'execution_digest'), 'ORDINARY_EXECUTION_RECORD')
-    require(record['schema'] == 'implementaudit.ordinary-receiver-record.v1' and
+    closed(record, ('schema', 'accepted_record_oid', 'opening_digest', 'attempt_oid', 'execution', 'execution_digest'), 'ORDINARY_EXECUTION_RECORD')
+    require(record['schema'] == 'implementaudit.ordinary-receiver-record.v2' and
             record['accepted_record_oid'] == owner['canonical_route']['record_oid'] and
             record['opening_digest'] == owner['opening']['opening_digest'] and
+            type(record['attempt_oid']) is str and re.fullmatch('[0-9a-f]{40}', record['attempt_oid']) is not None and
             record['execution_digest'] == 'sha256:' + _ordinary_hash(record['execution']), 'ORDINARY_EXECUTION_ACCEPTED_CUSTODY')
     process = closed(record['execution'], ('schema', 'policy_digest', 'opening_digest', 'return_digest', 'acceptance_digest',
         'argv', 'python_pin', 'source_pin', 'exit_code', 'stdout', 'stdout_sha256', 'stderr_sha256'), 'ORDINARY_PROCESS')

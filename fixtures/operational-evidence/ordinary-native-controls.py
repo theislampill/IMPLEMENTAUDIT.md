@@ -14,6 +14,8 @@ import shutil
 import shlex
 import subprocess
 import unittest
+import concurrent.futures
+import threading
 from unittest import mock
 
 REPO = Path(__file__).resolve().parents[2]
@@ -131,8 +133,8 @@ def available_export(*, canonical_route=None, host_and_scope=None, scope=None, c
         'argv': policy['receiver_argv'], 'python_pin': policy['provider']['python_executable'],
         'source_pin': {**pin('compaction-source-owner-codex-app.py'), 'sha256': code['implementaudit/scripts/compaction-source-owner-codex-app.py']}, 'stdout': stdout,
         'stdout_sha256': sha(stdout.encode()), 'stderr_sha256': sha(b''), 'exit_code': 0}
-    execution_record = {'schema': 'implementaudit.ordinary-receiver-record.v1', 'accepted_record_oid': route['record_oid'],
-        'opening_digest': opening_digest, 'execution': execution, 'execution_digest': 'sha256:' + sha(execution)}
+    execution_record = {'schema': 'implementaudit.ordinary-receiver-record.v2', 'accepted_record_oid': route['record_oid'],
+        'opening_digest': opening_digest, 'attempt_oid': '6' * 40, 'execution': execution, 'execution_digest': 'sha256:' + sha(execution)}
     raw_execution = canonical(execution_record)
     process = {'ref': 'refs/implementaudit/ordinary-receivers/' + controller + '/' + opening_digest.removeprefix('sha256:'),
         'oid': hashlib.sha1(b'blob ' + str(len(raw_execution)).encode() + b'\0' + raw_execution).hexdigest(), 'wire': wire(execution_record)}
@@ -438,21 +440,15 @@ class OrdinaryControls(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'ORDINARY_RUNNER_PIN_CHANGED'):
                     helper.run_held_ordinary_receiver_v1(selection, candidate)
 
-    def test_existing_execution_ref_is_preserved_before_any_write(self):
+    def test_caller_execution_operand_refuses_before_any_store_access(self):
         route = load_owner('route-transaction.py')
-        value = available_export()
-        canonical_state = {'status': 'SATISFIED', 'opening': value['owner']['opening'],
-            'canonical_route': value['owner']['canonical_route'], 'child_return': value['result']['return'],
-            'governor_decision': value['acceptance']['decision']}
         def refuse(message, **kwargs): raise ValueError(message)
-        with mock.patch.object(route, 'git', return_value=str(REPO)), mock.patch.object(route, 'namespace_gate', return_value=contextlib.nullcontext()), \
-             mock.patch.object(route, 'read_current_ordinary_result_v1', return_value=canonical_state), \
-             mock.patch.object(route, 'read_current_ordinary_execution_v1', return_value=value['receiving']['process']), \
-             mock.patch.object(route, 'write_route_record_blob', side_effect=AssertionError('must preserve existing ref')) as write, \
+        with mock.patch.object(route, 'git', side_effect=AssertionError('must refuse before Git')) as read, \
+             mock.patch.object(route, 'write_route_record_blob', side_effect=AssertionError('must refuse before write')) as write, \
              mock.patch.object(route, 'fail', side_effect=refuse):
-            with self.assertRaisesRegex(ValueError, 'already exists; preserved'):
+            with self.assertRaisesRegex(ValueError, 'caller-supplied ordinary execution results are not accepted'):
                 route.record_current_ordinary_execution_v1(REPO, 'constructed-ordinary', {})
-            write.assert_not_called()
+            read.assert_not_called(); write.assert_not_called()
 
     def test_execution_record_rejects_accepted_route_and_member_drift(self):
         obs = load_owner('compaction-result-observation.py')
@@ -465,45 +461,133 @@ class OrdinaryControls(unittest.TestCase):
                 obs.validate_ordinary_execution_v1(value['receiving']['process'], value['owner'], value['result'],
                     value['acceptance'], value['custody']['policy'])
 
-    def test_real_git_expected_absence_publication_and_reopen(self):
-        """Real disposable Git CAS; canonical eligibility is constructed here."""
-        route = load_owner('route-transaction.py'); value = available_export()
+    @contextlib.contextmanager
+    def producer_case(self, *, fail_after_run=False):
+        """Constructed admission; real pinned code, held process, lease and Git."""
+        route = load_owner('route-transaction.py')
         git_exe = shutil.which('git'); self.assertIsNotNone(git_exe)
-        environment = {**os.environ, 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_OPTIONAL_LOCKS': '0'}
-        with tempfile.TemporaryDirectory(prefix='ordinary-cas-control-') as temp:
+        environment = route.sanitized_action_environment()
+        with tempfile.TemporaryDirectory(prefix='ordinary-producer-') as temp:
             repo = Path(temp)
             def git(*args, raw=None):
                 return subprocess.run([git_exe, '-C', str(repo), *args], input=raw, capture_output=True,
                                       env=environment, check=True).stdout.decode().strip()
             git('init', '--quiet')
+            git('config', 'core.longpaths', 'true')
+            folder = repo / 'skills/implementaudit/scripts'; folder.mkdir(parents=True)
+            for name in ('bounded_file_custody.py', 'bounded_source_owner.py'):
+                (folder/name).write_bytes((REPO/'source-peers/native-runtime/skills/implementaudit/scripts'/name).read_bytes())
+            # This fixture policy deliberately admits a harmless test receiver.
+            # It is not the production native profile or an authentication proof.
+            owner = folder/'compaction-source-owner-codex-app.py'
+            owner.write_text('''import hashlib,json,sys,types\nfrom pathlib import Path\nHERE=Path(__file__).parent\ndef data(): return json.loads((HERE/"fixture.json").read_bytes())\ndef ordinary_policy_v1(): return data()["policy"]\ndef load(name):\n p=HERE/name;m=types.ModuleType(name);m.__file__=str(p);exec(compile(p.read_bytes(),str(p),"exec"),m.__dict__);return m\ndef _ordinary_receiver_observation_v2():\n d=data();h=load("bounded_source_owner.py");h.custody=load("bounded_file_custody.py")\n p=Path(__file__);raw=p.read_bytes();pin={"path":str(p),"bytes":len(raw),"sha256":hashlib.sha256(raw).hexdigest()}\n selected={"python_executable":d["policy"]["provider"]["python_executable"],"episode_owner":{"repository":str(HERE.parents[2])}}\n result=h.run_held_ordinary_receiver_v1(selected,pin)\n if d["fail_after_run"]: raise ValueError("observed effect interrupted before receipt")\n result.update(d["binding"]);return result\nif __name__=="__main__":\n with (HERE/"runs.txt").open("a") as f:f.write("actual-process\\n")\n print("actual constructed receiver")\n''', encoding='utf-8', newline='\n')
+            git('add', '--', 'skills')
+            git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'commit.gpgsign=false',
+                '-c', 'core.hooksPath='+os.devnull, 'commit', '-qm', 'Constructed receiver source')
             controller_oid = git('hash-object', '-w', '--stdin', raw=b'constructed controller\n')
             accepted_oid = git('hash-object', '-w', '--stdin', raw=b'constructed accepted route\n')
-            controller = value['owner']['canonical_route']['controller_id']
+            controller = 'constructed-ordinary'
+            route_ref = 'refs/implementaudit/route-decisions/'+controller
             git('update-ref', 'refs/implementaudit/controllers/' + controller, controller_oid)
-            git('update-ref', value['owner']['canonical_route']['ref'], accepted_oid)
+            git('update-ref', route_ref, accepted_oid)
+            def pin(path):
+                raw=path.read_bytes();return {'path':str(path),'bytes':len(raw),'sha256':sha(raw)}
+            policy={'schema':'implementaudit.ordinary-native-policy.v1',
+                'provider':{'python_executable':pin(Path(sys.executable))},
+                'receiver_argv':[str(Path(sys.executable)),'-I','-S','-B',str(owner),'--ordinary-receiver'],
+                'code_pins':{'implementaudit/scripts/'+name:sha((folder/name).read_bytes())
+                    for name in ('bounded_file_custody.py','compaction-source-owner-codex-app.py')}}
+            scope={'identity':'constructed','digest':'sha256:'+sha('constructed')}
+            mission={'schema':'implementaudit.ordinary-review-mission.v1','policy_digest':sha(policy),'scope':scope,'authority_ceiling':'NONE'}
+            canonical_state={'status':'SATISFIED','opening':{'opening_digest':'sha256:'+sha('opening')},
+                'canonical_route':{'ref':route_ref,'record_oid':accepted_oid,'controller_record_oid':controller_oid},
+                'child_return':{'digest':'sha256:'+sha('returned')},'governor_decision':{'digest':'sha256:'+sha('accepted')},
+                'packet':wire({'source_event':{'body':canonical(mission).decode()}}),'scope':scope}
+            binding={'schema':'implementaudit.ordinary-receiver-execution.v1','policy_digest':sha(policy),
+                'opening_digest':canonical_state['opening']['opening_digest'],'return_digest':canonical_state['child_return']['digest'],
+                'acceptance_digest':canonical_state['governor_decision']['digest']}
+            (folder/'fixture.json').write_bytes(canonical({'policy':policy,'binding':binding,'fail_after_run':fail_after_run}))
             marker = repo / 'untrusted-reference-hook-ran'
             hook = repo / '.git/hooks/reference-transaction'
             hook.write_bytes(("#!/bin/sh\nprintf 'executed\\n' > " + shlex.quote(marker.as_posix()) + "\n").encode())
             hook.chmod(0o755)
-            canonical_state = {'status': 'SATISFIED', 'opening': value['owner']['opening'],
-                'canonical_route': {**value['owner']['canonical_route'], 'record_oid': accepted_oid, 'controller_record_oid': controller_oid},
-                'child_return': value['result']['return'], 'governor_decision': value['acceptance']['decision']}
-            execution = json.loads(base64.b64decode(value['receiving']['process']['wire']['bytes_b64']))['execution']
             def refuse(message, **kwargs): raise ValueError(message)
             with mock.patch.object(route, 'trusted_host_executable', return_value=Path(git_exe)), \
                  mock.patch.object(route, 'sanitized_action_environment', return_value=environment), \
-                 mock.patch.object(route, 'namespace_gate', side_effect=lambda *a, **k: contextlib.nullcontext()), \
                  mock.patch.object(route, 'read_current_ordinary_result_v1', return_value=canonical_state), \
                  mock.patch.object(route, 'fail', side_effect=refuse):
-                published = route.record_current_ordinary_execution_v1(repo, controller, execution)
+                yield route, repo, controller, policy, folder, marker, git, controller_oid
+
+    @unittest.skipUnless(os.name == 'nt', 'Production held custody uses Windows')
+    def test_real_owner_held_process_receipt_and_duplicate_refusal(self):
+        with self.producer_case() as (route,repo,controller,policy,folder,marker,git,controller_oid):
+                result = route.execute_current_ordinary_receiver_v2(repo, controller, policy)
+                self.assertTrue(result['executed']); published=result['receipt']
+                self.assertEqual((folder/'runs.txt').read_text(), 'actual-process\n')
                 self.assertFalse(marker.exists(), 'receipt publication executed an untrusted repository hook')
                 self.assertEqual(route.read_current_ordinary_execution_v1(repo, controller), published)
                 self.assertEqual(git('rev-parse', published['ref']), published['oid'])
-                with self.assertRaisesRegex(ValueError, 'already exists; preserved'):
-                    route.record_current_ordinary_execution_v1(repo, controller, execution)
+                again=route.execute_current_ordinary_receiver_v2(repo,controller,policy)
+                self.assertFalse(again['executed']);self.assertEqual(again['receipt'],published)
+                self.assertEqual((folder/'runs.txt').read_text(), 'actual-process\n')
                 self.assertEqual(git('rev-parse', published['ref']), published['oid'])
-            git('update-ref', 'refs/fixture/hook-positive-control', controller_oid)
-            self.assertEqual(marker.read_bytes(), b'executed\n')
+                wrong=copy.deepcopy(policy);wrong['receiver_argv'][-1]='other'
+                with self.assertRaisesRegex(ValueError,'prospective policy'):
+                    route.execute_current_ordinary_receiver_v2(repo,controller,wrong)
+                git('update-ref', 'refs/fixture/hook-positive-control', controller_oid)
+                self.assertEqual(marker.read_bytes(), b'executed\n')
+
+    @unittest.skipUnless(os.name == 'nt', 'Production held custody uses Windows')
+    def test_interrupted_effect_retains_attempt_and_cannot_replay(self):
+        with self.producer_case(fail_after_run=True) as (route,repo,controller,policy,folder,marker,git,controller_oid):
+            with self.assertRaisesRegex(ValueError,'observed effect interrupted'):
+                route.execute_current_ordinary_receiver_v2(repo,controller,policy)
+            self.assertEqual((folder/'runs.txt').read_text(),'actual-process\n')
+            attempts=git('for-each-ref','--format=%(objectname)','refs/implementaudit/ordinary-receiver-attempts/')
+            self.assertTrue(attempts)
+            with self.assertRaisesRegex(ValueError,'prior attempt has no completed receipt'):
+                route.execute_current_ordinary_receiver_v2(repo,controller,policy)
+            self.assertEqual((folder/'runs.txt').read_text(),'actual-process\n')
+            self.assertEqual(git('for-each-ref','--format=%(objectname)','refs/implementaudit/ordinary-receiver-attempts/'),attempts)
+            self.assertFalse(git('for-each-ref','--format=%(objectname)','refs/implementaudit/ordinary-receivers/'))
+
+    @unittest.skipUnless(os.name == 'nt', 'Production held custody uses Windows')
+    def test_owner_source_drift_refuses_before_attempt_or_process(self):
+        with self.producer_case() as (route,repo,controller,policy,folder,marker,git,controller_oid):
+            with (folder/'compaction-source-owner-codex-app.py').open('ab') as f:f.write(b'\n# changed after policy\n')
+            with self.assertRaisesRegex(ValueError,'active source differs'):
+                route.execute_current_ordinary_receiver_v2(repo,controller,policy)
+            self.assertFalse((folder/'runs.txt').exists())
+            self.assertFalse(git('for-each-ref','--format=%(objectname)','refs/implementaudit/ordinary-receiver-attempts/'))
+
+    @unittest.skipUnless(os.name == 'nt', 'Production held custody uses Windows')
+    def test_route_drift_after_process_retains_unresolved_attempt(self):
+        with self.producer_case() as (route,repo,controller,policy,folder,marker,git,controller_oid):
+            original=route.read_current_ordinary_result_v1.return_value
+            def current(*args):
+                value=copy.deepcopy(original)
+                if (folder/'runs.txt').exists(): value['canonical_route']['record_oid']='9'*40
+                return value
+            route.read_current_ordinary_result_v1.side_effect=current
+            with self.assertRaisesRegex(ValueError,'effect observed but inputs changed'):
+                route.execute_current_ordinary_receiver_v2(repo,controller,policy)
+            self.assertEqual((folder/'runs.txt').read_text(),'actual-process\n')
+            self.assertTrue(git('for-each-ref','--format=%(objectname)','refs/implementaudit/ordinary-receiver-attempts/'))
+            self.assertFalse(git('for-each-ref','--format=%(objectname)','refs/implementaudit/ordinary-receivers/'))
+
+    @unittest.skipUnless(os.name == 'nt', 'Production held custody uses Windows')
+    def test_concurrent_owner_requests_launch_at_most_one_receiver(self):
+        with self.producer_case() as (route,repo,controller,policy,folder,marker,git,controller_oid):
+            barrier=threading.Barrier(2)
+            def attempt():
+                barrier.wait()
+                try:return route.execute_current_ordinary_receiver_v2(repo,controller,policy)
+                except ValueError as error:return str(error)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+                results=list(pool.map(lambda _:attempt(),range(2)))
+            self.assertEqual(sum(type(x)is dict and x['executed'] for x in results),1)
+            self.assertEqual((folder/'runs.txt').read_text(),'actual-process\n')
+            self.assertIsNotNone(route.read_current_ordinary_execution_v1(repo,controller))
 
 
 if __name__ == "__main__":

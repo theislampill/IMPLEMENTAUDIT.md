@@ -6998,10 +6998,11 @@ def _ordinary_execution_ref_v1(controller, canonical):
 
 
 def _ordinary_execution_record_v1(value, canonical):
-    exact_keys(value, {'schema', 'accepted_record_oid', 'opening_digest', 'execution', 'execution_digest'}, 'ordinary execution record')
-    if (value['schema'] != 'implementaudit.ordinary-receiver-record.v1' or
+    exact_keys(value, {'schema', 'accepted_record_oid', 'opening_digest', 'attempt_oid', 'execution', 'execution_digest'}, 'ordinary execution record')
+    if (value['schema'] != 'implementaudit.ordinary-receiver-record.v2' or
             value['accepted_record_oid'] != canonical['canonical_route']['record_oid'] or
             value['opening_digest'] != canonical['opening']['opening_digest'] or
+            not isinstance(value['attempt_oid'], str) or not OID_RE.fullmatch(value['attempt_oid']) or
             value['execution_digest'] != digest_json(value['execution'])):
         fail('ordinary receiver execution has foreign accepted custody')
     execution = value['execution']
@@ -7018,6 +7019,28 @@ def _ordinary_execution_record_v1(value, canonical):
     return value
 
 
+def _ordinary_attempt_v2(canonical, policy_digest):
+    return {'schema': 'implementaudit.ordinary-receiver-attempt.v1',
+        'accepted_record_oid': canonical['canonical_route']['record_oid'],
+        'opening_digest': canonical['opening']['opening_digest'], 'policy_digest': policy_digest,
+        'return_digest': canonical['child_return']['digest'], 'acceptance_digest': canonical['governor_decision']['digest']}
+
+
+def _ordinary_publish_v2(repo, controller, canonical, ref, raw, *, verify_refs=()):
+    oid = write_route_record_blob(repo, raw.decode('utf-8'))
+    route = canonical['canonical_route']
+    transaction = ('start\nverify ' + route['ref'] + ' ' + route['record_oid'] + '\nverify refs/implementaudit/controllers/' +
+        controller + ' ' + route['controller_record_oid'] + '\n' +
+        ''.join('verify ' + name + ' ' + expected + '\n' for name, expected in verify_refs) +
+        'update ' + ref + ' ' + oid + ' ' + ZERO_OID + '\nprepare\ncommit\n')
+    completed = subprocess.run([str(trusted_host_executable(repo, 'git')), '-c', 'core.hooksPath=' + os.devnull,
+        'update-ref', '--stdin'], cwd=repo, env=sanitized_action_environment(), input=transaction.encode('ascii'),
+        capture_output=True, check=False)
+    if completed.returncode or git(repo, 'rev-parse', '--verify', ref) != oid:
+        fail('ordinary receiver expected-absence publication refused; reconcile effect before retry')
+    return oid
+
+
 def read_current_ordinary_execution_v1(repo, controller):
     """Resolve only the current canonical accepted opening's immutable receipt."""
     canonical = read_current_ordinary_result_v1(repo, controller)
@@ -7029,43 +7052,101 @@ def read_current_ordinary_execution_v1(repo, controller):
         fail('ordinary receiver ref namespace is ambiguous')
     oid = rows[0].split(' ', 1)[0]
     raw = git_blob_bytes(repo, oid, 'ordinary receiver execution')
-    _ordinary_execution_record_v1(decoded_artifact(raw, 'ordinary receiver execution'), canonical)
+    record = _ordinary_execution_record_v1(decoded_artifact(raw, 'ordinary receiver execution'), canonical)
+    attempt_ref = ref.replace('/ordinary-receivers/', '/ordinary-receiver-attempts/')
+    if git(repo, 'rev-parse', '--verify', attempt_ref) != record['attempt_oid']:
+        fail('ordinary receiver attempt custody differs')
+    attempt = decoded_artifact(git_blob_bytes(repo, record['attempt_oid'], 'ordinary receiver attempt'), 'ordinary receiver attempt')
+    if attempt != _ordinary_attempt_v2(canonical, record['execution']['policy_digest']):
+        fail('ordinary receiver attempt binding differs')
     if read_current_ordinary_result_v1(repo, controller) != canonical or git(repo, 'rev-parse', '--verify', ref) != oid:
         fail('ordinary receiver accepted custody changed during read')
     return {'ref': ref, 'oid': oid, 'wire': bytes_identity(raw)}
 
 
 def record_current_ordinary_execution_v1(repo, controller, execution):
-    """Existing-owner expected-absence publication; caller is the fixed runner.
+    """Retired unsafe observation operand; it cannot publish process credit."""
+    fail('caller-supplied ordinary execution results are not accepted')
 
-    This stores its actual subprocess observation, never a child-model exit.
-    No existing receipt is overwritten, including a failed execution.
+
+def execute_current_ordinary_receiver_v2(repo, controller, policy):
+    """Run and capture the bound receiver under the receipt publication lease.
+
+    Policy is immutable prospective input bound by the accepted packet. There
+    is no caller process-result, command, callback or module operand. Bootstrap
+    source comes from exact policy-bound Git blobs, then held worktree bytes.
     """
+    import types
     common = str(Path(git(repo, 'rev-parse', '--path-format=absolute', '--git-common-dir')).resolve())
     with namespace_gate(common):
         canonical = read_current_ordinary_result_v1(repo, controller)
         ref = _ordinary_execution_ref_v1(controller, canonical)
-        if read_current_ordinary_execution_v1(repo, controller) is not None:
-            fail('ordinary receiver execution receipt already exists; preserved')
-        value = {'schema': 'implementaudit.ordinary-receiver-record.v1',
+        packet = decoded_artifact(validate_bytes_identity(canonical['packet'], 'ordinary packet'), 'ordinary packet')
+        mission = json.loads(packet['source_event']['body'], object_pairs_hook=unique_object)
+        if (type(policy) is not dict or policy.get('schema') != 'implementaudit.ordinary-native-policy.v1'
+                or mission.get('schema') != 'implementaudit.ordinary-review-mission.v1'
+                or mission.get('policy_digest') != hashlib.sha256(json.dumps(policy, sort_keys=True,
+                    separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')).hexdigest()
+                or mission.get('scope') != canonical['scope'] or mission.get('authority_ceiling') != 'NONE'):
+            fail('ordinary receiver policy is not the accepted prospective policy')
+        source_path = Path(repo) / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+        if policy.get('receiver_argv') != [policy.get('provider', {}).get('python_executable', {}).get('path'),
+                '-I', '-S', '-B', str(source_path), '--ordinary-receiver']:
+            fail('ordinary receiver command differs from the fixed owner entry')
+        existing = read_current_ordinary_execution_v1(repo, controller)
+        if existing is not None:
+            return {'status': 'EXISTING_EXECUTION_PRESERVED', 'receipt': existing, 'executed': False}
+        attempt_ref = ref.replace('/ordinary-receivers/', '/ordinary-receiver-attempts/')
+        if git(repo, 'for-each-ref', '--format=%(refname)', attempt_ref):
+            fail('ordinary receiver prior attempt has no completed receipt; reconcile, do not replay')
+
+        def bound_blob(name):
+            relative = 'skills/implementaudit/scripts/' + name
+            expected = policy.get('code_pins', {}).get('implementaudit/scripts/' + name)
+            if not isinstance(expected, str) or re.fullmatch('[0-9a-f]{64}', expected) is None:
+                fail('ordinary receiver source pin is missing')
+            oid = git(repo, 'rev-parse', '--verify', 'HEAD:' + relative)
+            size = git(repo, 'cat-file', '-s', oid)
+            if re.fullmatch('[0-9]+', size) is None or not 0 < int(size) <= 65536:
+                fail('ordinary receiver source exceeds its pre-read bound')
+            raw = git_blob_bytes(repo, oid, 'ordinary receiver source')
+            if not 0 < len(raw) <= 65536 or hashlib.sha256(raw).hexdigest() != expected:
+                fail('ordinary receiver source differs from accepted policy')
+            return Path(repo) / relative, raw
+
+        custody_path, custody_raw = bound_blob('bounded_file_custody.py')
+        custody = types.ModuleType('_ordinary_receipt_custody'); custody.__file__ = str(custody_path)
+        exec(compile(custody_raw, str(custody_path), 'exec', dont_inherit=True), custody.__dict__)
+        owner_path, owner_raw = bound_blob(source_path.name)
+        with custody.held_file(custody_path, allow_append=False) as custody_stream, \
+                custody.held_file(owner_path, allow_append=False) as owner_stream:
+            for stream, raw in ((custody_stream, custody_raw), (owner_stream, owner_raw)):
+                info = os.fstat(stream.fileno())
+                if info.st_nlink != 1 or info.st_size != len(raw) or stream.read(len(raw) + 1) != raw:
+                    fail('ordinary receiver active source differs from its bound blob')
+            owner = types.ModuleType('_ordinary_receipt_source'); owner.__file__ = str(owner_path)
+            exec(compile(owner_raw, str(owner_path), 'exec', dont_inherit=True), owner.__dict__)
+            if owner.ordinary_policy_v1() != policy:
+                fail('ordinary receiver active policy changed')
+            attempt_raw = json.dumps(_ordinary_attempt_v2(canonical, mission['policy_digest']), sort_keys=True,
+                separators=(',', ':'), ensure_ascii=True, allow_nan=False).encode('utf-8') + b'\n'
+            attempt_oid = _ordinary_publish_v2(repo, controller, canonical, attempt_ref, attempt_raw)
+            # The fixed source executes and captures the process here, while
+            # this same lease still excludes concurrent check/run/publication.
+            execution = owner._ordinary_receiver_observation_v2()
+            if owner.ordinary_policy_v1() != policy or read_current_ordinary_result_v1(repo, controller) != canonical:
+                fail('ordinary receiver effect observed but inputs changed; reconcile before retry')
+        value = {'schema': 'implementaudit.ordinary-receiver-record.v2',
             'accepted_record_oid': canonical['canonical_route']['record_oid'],
             'opening_digest': canonical['opening']['opening_digest'],
+            'attempt_oid': attempt_oid,
             'execution': execution, 'execution_digest': digest_json(execution)}
         _ordinary_execution_record_v1(value, canonical)
         raw = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=True, allow_nan=False).encode('utf-8') + b'\n'
-        oid = write_route_record_blob(repo, raw.decode('utf-8'))
-        route = canonical['canonical_route']
-        transaction = ('start\nverify ' + route['ref'] + ' ' + route['record_oid'] + '\nverify refs/implementaudit/controllers/' +
-            controller + ' ' + route['controller_record_oid'] + '\nupdate ' + ref + ' ' + oid + ' ' + ZERO_OID + '\nprepare\ncommit\n')
-        # Receipt publication must not execute target-owned reference hooks.
-        completed = subprocess.run([str(trusted_host_executable(repo, 'git')), '-c', 'core.hooksPath=' + os.devnull,
-            'update-ref', '--stdin'], cwd=repo,
-            env=sanitized_action_environment(), input=transaction.encode('ascii'), capture_output=True, check=False)
-        if completed.returncode:
-            fail('ordinary receiver expected-absence publication refused; reconcile effect before retry')
+        oid = _ordinary_publish_v2(repo, controller, canonical, ref, raw, verify_refs=((attempt_ref, attempt_oid),))
         if read_current_ordinary_result_v1(repo, controller) != canonical:
             fail('ordinary receiver receipt retained but currentness changed; no current credit')
         result = read_current_ordinary_execution_v1(repo, controller)
         if result != {'ref': ref, 'oid': oid, 'wire': bytes_identity(raw)}:
             fail('ordinary receiver execution receipt readback differs')
-        return result
+        return {'status': 'EXECUTION_RECORDED', 'receipt': result, 'executed': True}

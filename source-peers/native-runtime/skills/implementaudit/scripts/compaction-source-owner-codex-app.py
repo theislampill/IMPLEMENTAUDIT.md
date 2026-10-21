@@ -793,16 +793,13 @@ def acquire_selected_ordinary_episode_v1():
         return value
 
 
-def execute_ordinary_receiver_v1():
-    """Explicit effect entry. Hold exact bytes, run once, retain owner receipt."""
+def _ordinary_receiver_observation_v2():
+    """Fixed process observation; only the serialized R0033 producer stores it."""
     selected = _ordinary_selection_v1(); runtime, obs, pins = _ordinary_modules_v1(selected)
     policy = ordinary_policy_v1(); route, canonical = _ordinary_canonical_v1(selected, runtime)
     require(canonical['status'] == 'SATISFIED', 'ORDINARY_PARENT_ACCEPTANCE_ABSENT')
     _ordinary_mission_policy_v1(obs, policy, canonical)
     repo, controller = Path(selected['episode_owner']['repository']), selected['episode_owner']['controller']
-    existing = route.read_current_ordinary_execution_v1(repo, controller)
-    if existing is not None:
-        return {'status': 'EXISTING_EXECUTION_PRESERVED', 'receipt': existing, 'executed': False}
     path = Path(__file__).resolve()
     source_pin = {'path': str(path), 'bytes': path.stat().st_size, 'sha256': pins['implementaudit/scripts/compaction-source-owner-codex-app.py']}
     with _ordinary_provider_guard_v1(runtime):
@@ -812,8 +809,16 @@ def execute_ordinary_receiver_v1():
             acceptance_digest=canonical['governor_decision']['digest'])
         require(execution['argv'] == policy['receiver_argv'] and ordinary_policy_v1() == policy and
                 route.read_current_ordinary_result_v1(repo, controller) == canonical, 'ORDINARY_EXECUTION_INPUT_CHANGED')
-        receipt = route.record_current_ordinary_execution_v1(repo, controller, execution)
-        return {'status': 'EXECUTION_RECORDED', 'receipt': receipt, 'executed': True}
+        return execution
+
+
+def execute_ordinary_receiver_v1():
+    """Delegate the entire check/run/publication transaction to its owner."""
+    selected = _ordinary_selection_v1(); runtime, obs, _ = _ordinary_modules_v1(selected)
+    route, canonical = _ordinary_canonical_v1(selected, runtime)
+    policy = ordinary_policy_v1(); _ordinary_mission_policy_v1(obs, policy, canonical)
+    return route.execute_current_ordinary_receiver_v2(Path(selected['episode_owner']['repository']),
+        selected['episode_owner']['controller'], policy)
 
 
 if __name__ == '__main__':
