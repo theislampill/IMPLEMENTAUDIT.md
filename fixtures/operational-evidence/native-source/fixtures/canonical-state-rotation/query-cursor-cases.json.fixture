@@ -1,0 +1,13 @@
+{
+  "schema": "implementaudit.canonical-state-rotation-query-cursor-cases.v1",
+  "cases": [
+    {"id": "QC01-valid", "expect": "ACCEPT"},
+    {"id": "QC02-wrong-version", "expect": "REJECT"},
+    {"id": "QC03-wrong-generation", "expect": "REJECT"},
+    {"id": "QC04-wrong-manifest", "expect": "REJECT"},
+    {"id": "QC05-wrong-filters", "expect": "REJECT"},
+    {"id": "QC06-stale-position", "expect": "REJECT"},
+    {"id": "QC07-malformed-digest", "expect": "REJECT"},
+    {"id": "QC08-recomputed-skip-is-nondecision", "expect": "NONDECISION"}
+  ]
+}

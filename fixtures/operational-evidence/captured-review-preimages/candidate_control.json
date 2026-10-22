@@ -1,0 +1,655 @@
+{
+  "schema": "implementaudit.compaction-unconsumed-acquisition.v1",
+  "policy_digest": "17ad92e63c962393c0329c658937d16eccaea13036412a3d1d0a5b6b8f29d738",
+  "producer_environment_identity": {
+    "profile_id": "codex-desktop-0.153.4-collaboration-public-v1",
+    "parent_metadata": "e31e1f443ba5da4f95255ccebb05e60d51a158d36f5400090fd6c43c9eb42062",
+    "child_metadata": "0afbc7c3c11c0f7d165fc3801ee0a4f400832fcb600a05f20d7d6a2d860711da"
+  },
+  "parent_identity": {
+    "thread_id": "fixture-parent",
+    "agent_path": "/root"
+  },
+  "actual_child_identity": {
+    "thread_id": "fixture-child",
+    "parent_thread_id": "fixture-parent",
+    "agent_path": "/root/reconcile"
+  },
+  "assignment_identity": "84773d80a0c29bc06b4995b64b7c72105b21c44ad145c549ba3fff265a7e580f",
+  "obligation_digest": "edf1346ecec9f62bfc852708d0fa87ccbc28b8e37dc718e41a7c522f4ef98af5",
+  "observation_id": "6bdb95cbfd647dc56d6b1d241787c6a3aafffe36896105fbb416fa8c1e6711ff",
+  "covered_boundary_versions": [
+    {
+      "id": "fixture-boundary-1",
+      "version": 1,
+      "kind": "completed-compaction"
+    }
+  ],
+  "O_U_exchange_USE_R_A_identities": {
+    "O": {
+      "path": "/fixture/obligation.json",
+      "bytes": 80,
+      "sha256": "edf1346ecec9f62bfc852708d0fa87ccbc28b8e37dc718e41a7c522f4ef98af5"
+    },
+    "U": {
+      "path": "/fixture/parent.jsonl",
+      "physical": {
+        "device": 1,
+        "inode": 1
+      },
+      "role": "parent",
+      "locator": {
+        "offset": 400,
+        "bytes": 10,
+        "sha256": "3896f03ebd0772c06ddc071a279308e4c954dfe52cc1728a9eb0e556fdcf6728",
+        "embedded_ordinal": 4,
+        "physical_line": 5
+      },
+      "timestamp": "2026-01-01T00:00:04Z",
+      "message_or_call_id": "fixture-authorization"
+    },
+    "exchange": {
+      "call": {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 500,
+          "bytes": 10,
+          "sha256": "07474afa53a08ba5eb86a9f068ff446a4f394b3c0c6b29d924e3833c3542801e",
+          "embedded_ordinal": 5,
+          "physical_line": 6
+        },
+        "timestamp": "2026-01-01T00:00:05Z",
+        "message_or_call_id": "reused-call-id"
+      },
+      "result": {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 600,
+          "bytes": 10,
+          "sha256": "73586884b86d257452980665b3446f29d9063ca5221e159d42ba842f5296307b",
+          "embedded_ordinal": 6,
+          "physical_line": 7
+        },
+        "timestamp": "2026-01-01T00:00:06Z",
+        "message_or_call_id": "reused-call-id"
+      }
+    },
+    "USE": {
+      "call": {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 900,
+          "bytes": 10,
+          "sha256": "0d7fe39a03aafa252203001646fcb954e34390c726e0f77b8b2006fa1b597818",
+          "embedded_ordinal": 9,
+          "physical_line": 10
+        },
+        "timestamp": "2026-01-01T00:00:09Z",
+        "message_or_call_id": "use-id"
+      },
+      "result": {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 1000,
+          "bytes": 10,
+          "sha256": "19e2fe8efe0893ab4587ac613d2bd1ad4c053321a32dd937da442087555e9de7",
+          "embedded_ordinal": 10,
+          "physical_line": 11
+        },
+        "timestamp": "2026-01-01T00:00:10Z",
+        "message_or_call_id": "use-id"
+      }
+    },
+    "R": {
+      "obligation_digest": "edf1346ecec9f62bfc852708d0fa87ccbc28b8e37dc718e41a7c522f4ef98af5",
+      "observation_id": "6bdb95cbfd647dc56d6b1d241787c6a3aafffe36896105fbb416fa8c1e6711ff",
+      "child_observation_exchange_identity": "36f2af6f7da7083863b0ab03478bfe82ada000659b9cb95b8ff2eed4aa6cc50d",
+      "scope": [
+        {
+          "id": "fixture-boundary-1",
+          "version": 1,
+          "kind": "completed-compaction"
+        }
+      ],
+      "result_pin": {
+        "path": "/fixture/result/result.json",
+        "bytes": 100,
+        "sha256": "d9fd9a3d81d750e6edc61aec66e7c4112f7af7c34ebe0a0d20189464ec9df135"
+      },
+      "result_physical": {
+        "device": 2,
+        "inode": 10
+      },
+      "members": [
+        {
+          "pin": {
+            "path": "/fixture/result/member.json",
+            "bytes": 20,
+            "sha256": "68884b2d004b2e093caf976b47c84ff35072d9c46f4864bd4620faa22ec9f415"
+          },
+          "physical": {
+            "device": 2,
+            "inode": 11
+          }
+        }
+      ],
+      "child_final": {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 1100,
+          "bytes": 10,
+          "sha256": "eaa25c327f22b7b002b224771775c9fad7cc0d1dbc30acdd0dfb2b44c2f6755b",
+          "embedded_ordinal": 11,
+          "physical_line": 12
+        },
+        "timestamp": "2026-01-01T00:00:11Z",
+        "message_or_call_id": "fixture-final"
+      },
+      "parent_delivery": {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 1200,
+          "bytes": 10,
+          "sha256": "52623bb8a38ec86f86407a5443e8c1e5a4deb674c15c2d9604c813a0e9a0b04a",
+          "embedded_ordinal": 12,
+          "physical_line": 13
+        },
+        "timestamp": "2026-01-01T00:00:12Z",
+        "message_or_call_id": "fixture-parent-delivery"
+      },
+      "bound_exchange": {
+        "call": {
+          "path": "/fixture/child.jsonl",
+          "physical": {
+            "device": 1,
+            "inode": 2
+          },
+          "role": "child",
+          "locator": {
+            "offset": 700,
+            "bytes": 10,
+            "sha256": "4d60935329041e3d1b4fe23e4176dd769a0bedf3788f0c853b1da9ca5cf149a5",
+            "embedded_ordinal": 7,
+            "physical_line": 8
+          },
+          "timestamp": "2026-01-01T00:00:07Z",
+          "message_or_call_id": "reused-call-id"
+        },
+        "result": {
+          "path": "/fixture/child.jsonl",
+          "physical": {
+            "device": 1,
+            "inode": 2
+          },
+          "role": "child",
+          "locator": {
+            "offset": 800,
+            "bytes": 10,
+            "sha256": "ef3150ae08b35eabe15889e6674b6cb91417f9382b2bd3766b06e324c3761d2d",
+            "embedded_ordinal": 8,
+            "physical_line": 9
+          },
+          "timestamp": "2026-01-01T00:00:08Z",
+          "message_or_call_id": "reused-call-id"
+        }
+      },
+      "use": {
+        "call": {
+          "path": "/fixture/child.jsonl",
+          "physical": {
+            "device": 1,
+            "inode": 2
+          },
+          "role": "child",
+          "locator": {
+            "offset": 900,
+            "bytes": 10,
+            "sha256": "0d7fe39a03aafa252203001646fcb954e34390c726e0f77b8b2006fa1b597818",
+            "embedded_ordinal": 9,
+            "physical_line": 10
+          },
+          "timestamp": "2026-01-01T00:00:09Z",
+          "message_or_call_id": "use-id"
+        },
+        "result": {
+          "path": "/fixture/child.jsonl",
+          "physical": {
+            "device": 1,
+            "inode": 2
+          },
+          "role": "child",
+          "locator": {
+            "offset": 1000,
+            "bytes": 10,
+            "sha256": "19e2fe8efe0893ab4587ac613d2bd1ad4c053321a32dd937da442087555e9de7",
+            "embedded_ordinal": 10,
+            "physical_line": 11
+          },
+          "timestamp": "2026-01-01T00:00:10Z",
+          "message_or_call_id": "use-id"
+        }
+      },
+      "authorization_record": {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 400,
+          "bytes": 10,
+          "sha256": "3896f03ebd0772c06ddc071a279308e4c954dfe52cc1728a9eb0e556fdcf6728",
+          "embedded_ordinal": 4,
+          "physical_line": 5
+        },
+        "timestamp": "2026-01-01T00:00:04Z",
+        "message_or_call_id": "fixture-authorization"
+      },
+      "hold_history": {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "prefix_bytes": 810,
+        "prefix_sha256": "cf572bb523ace34165b003652fe2fabdf21605d67bf6b069983c42daf0ec368e",
+        "physical_records": 9,
+        "history_start_ordinal": 1,
+        "host_producer_authenticated": false,
+        "original_bind": {
+          "call": {
+            "path": "/fixture/child.jsonl",
+            "physical": {
+              "device": 1,
+              "inode": 2
+            },
+            "role": "child",
+            "locator": {
+              "offset": 700,
+              "bytes": 10,
+              "sha256": "4d60935329041e3d1b4fe23e4176dd769a0bedf3788f0c853b1da9ca5cf149a5",
+              "embedded_ordinal": 7,
+              "physical_line": 8
+            },
+            "timestamp": "2026-01-01T00:00:07Z",
+            "message_or_call_id": "reused-call-id"
+          },
+          "result": {
+            "path": "/fixture/child.jsonl",
+            "physical": {
+              "device": 1,
+              "inode": 2
+            },
+            "role": "child",
+            "locator": {
+              "offset": 800,
+              "bytes": 10,
+              "sha256": "ef3150ae08b35eabe15889e6674b6cb91417f9382b2bd3766b06e324c3761d2d",
+              "embedded_ordinal": 8,
+              "physical_line": 9
+            },
+            "timestamp": "2026-01-01T00:00:08Z",
+            "message_or_call_id": "reused-call-id"
+          }
+        }
+      }
+    },
+    "A": {
+      "record": {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 1300,
+          "bytes": 10,
+          "sha256": "afe48377f142e60d3f795c14733fef61e00493a3d832b39caa72032d051fe8e4",
+          "embedded_ordinal": 13,
+          "physical_line": 14
+        },
+        "timestamp": "2026-01-01T00:00:13Z",
+        "message_or_call_id": "fixture-acceptance"
+      },
+      "value": {
+        "schema": "implementaudit.compaction-reconciliation-acceptance.v1",
+        "action": "ACCEPT_BOUNDED_RECONCILIATION",
+        "parent_identity": {
+          "thread_id": "fixture-parent",
+          "agent_path": "/root"
+        },
+        "actual_child_identity": {
+          "thread_id": "fixture-child",
+          "parent_thread_id": "fixture-parent",
+          "agent_path": "/root/reconcile"
+        },
+        "obligation_digest": "edf1346ecec9f62bfc852708d0fa87ccbc28b8e37dc718e41a7c522f4ef98af5",
+        "observation_id": "6bdb95cbfd647dc56d6b1d241787c6a3aafffe36896105fbb416fa8c1e6711ff",
+        "child_observation_exchange_identity": "36f2af6f7da7083863b0ab03478bfe82ada000659b9cb95b8ff2eed4aa6cc50d",
+        "actual_result_digest": "cb0250c2d9b40d684cadf40bb604d3a179806409032328f35e4ed0f38c0a24c9",
+        "accepted_boundary_versions": [
+          {
+            "id": "fixture-boundary-1",
+            "version": 1,
+            "kind": "completed-compaction"
+          }
+        ],
+        "observation_source_cutoff": {
+          "fixture_cutoff": "source-owned-opaque-cutoff",
+          "bytes": 810
+        },
+        "authority_ceiling": "NONE"
+      }
+    }
+  },
+  "physical_source_and_cutoff_identities": {
+    "parent": {
+      "path": "/fixture/parent.jsonl",
+      "physical": {
+        "device": 1,
+        "inode": 1
+      },
+      "metadata": {
+        "offset": 0,
+        "bytes": 10,
+        "sha256": "e3f4304b6a24ef1bedd366aae9655276ed8e3fc612aeb3c21af2cce6ef72dec4",
+        "embedded_ordinal": 0,
+        "physical_line": 1
+      },
+      "allowed_ranges": [
+        {
+          "offset": 0,
+          "bytes": 20000
+        }
+      ],
+      "metadata_payload_digest": "e31e1f443ba5da4f95255ccebb05e60d51a158d36f5400090fd6c43c9eb42062",
+      "history_start_ordinal": 1
+    },
+    "child": {
+      "path": "/fixture/child.jsonl",
+      "physical": {
+        "device": 1,
+        "inode": 2
+      },
+      "metadata": {
+        "offset": 0,
+        "bytes": 10,
+        "sha256": "2a1b5ad4d263a981b309ceaf12fc60b56dc900ad470b3030513276e021ec0aa4",
+        "embedded_ordinal": 0,
+        "physical_line": 1
+      },
+      "allowed_ranges": [
+        {
+          "offset": 0,
+          "bytes": 20000
+        }
+      ],
+      "metadata_payload_digest": "0afbc7c3c11c0f7d165fc3801ee0a4f400832fcb600a05f20d7d6a2d860711da",
+      "history_start_ordinal": 1
+    },
+    "compaction_cutoff": {
+      "fixture_cutoff": "source-owned-opaque-cutoff",
+      "bytes": 810
+    },
+    "records": [
+      {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 100,
+          "bytes": 10,
+          "sha256": "35ff74aeea25311f4fe759a6b762c8cd41a79adb23dd5615b92cf215175a63e5",
+          "embedded_ordinal": 1,
+          "physical_line": 2
+        },
+        "timestamp": "2026-01-01T00:00:01Z",
+        "message_or_call_id": "fixture-open"
+      },
+      {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 200,
+          "bytes": 10,
+          "sha256": "918c326a0202b3d947b4ce186d9c6187520dfdb364a513ffaf4b34ac9d5ec0a2",
+          "embedded_ordinal": 2,
+          "physical_line": 3
+        },
+        "timestamp": "2026-01-01T00:00:02Z",
+        "message_or_call_id": "fixture-spawn"
+      },
+      {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 300,
+          "bytes": 10,
+          "sha256": "7686b9122431e2a079136e3afec3568fa589c5cda5a3d103132242bb4ae4eb97",
+          "embedded_ordinal": 3,
+          "physical_line": 4
+        },
+        "timestamp": "2026-01-01T00:00:03Z",
+        "message_or_call_id": "fixture-spawn-output"
+      },
+      {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 400,
+          "bytes": 10,
+          "sha256": "3896f03ebd0772c06ddc071a279308e4c954dfe52cc1728a9eb0e556fdcf6728",
+          "embedded_ordinal": 4,
+          "physical_line": 5
+        },
+        "timestamp": "2026-01-01T00:00:04Z",
+        "message_or_call_id": "fixture-authorization"
+      },
+      {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 500,
+          "bytes": 10,
+          "sha256": "07474afa53a08ba5eb86a9f068ff446a4f394b3c0c6b29d924e3833c3542801e",
+          "embedded_ordinal": 5,
+          "physical_line": 6
+        },
+        "timestamp": "2026-01-01T00:00:05Z",
+        "message_or_call_id": "reused-call-id"
+      },
+      {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 600,
+          "bytes": 10,
+          "sha256": "73586884b86d257452980665b3446f29d9063ca5221e159d42ba842f5296307b",
+          "embedded_ordinal": 6,
+          "physical_line": 7
+        },
+        "timestamp": "2026-01-01T00:00:06Z",
+        "message_or_call_id": "reused-call-id"
+      },
+      {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 700,
+          "bytes": 10,
+          "sha256": "4d60935329041e3d1b4fe23e4176dd769a0bedf3788f0c853b1da9ca5cf149a5",
+          "embedded_ordinal": 7,
+          "physical_line": 8
+        },
+        "timestamp": "2026-01-01T00:00:07Z",
+        "message_or_call_id": "reused-call-id"
+      },
+      {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 800,
+          "bytes": 10,
+          "sha256": "ef3150ae08b35eabe15889e6674b6cb91417f9382b2bd3766b06e324c3761d2d",
+          "embedded_ordinal": 8,
+          "physical_line": 9
+        },
+        "timestamp": "2026-01-01T00:00:08Z",
+        "message_or_call_id": "reused-call-id"
+      },
+      {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 900,
+          "bytes": 10,
+          "sha256": "0d7fe39a03aafa252203001646fcb954e34390c726e0f77b8b2006fa1b597818",
+          "embedded_ordinal": 9,
+          "physical_line": 10
+        },
+        "timestamp": "2026-01-01T00:00:09Z",
+        "message_or_call_id": "use-id"
+      },
+      {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 1000,
+          "bytes": 10,
+          "sha256": "19e2fe8efe0893ab4587ac613d2bd1ad4c053321a32dd937da442087555e9de7",
+          "embedded_ordinal": 10,
+          "physical_line": 11
+        },
+        "timestamp": "2026-01-01T00:00:10Z",
+        "message_or_call_id": "use-id"
+      },
+      {
+        "path": "/fixture/child.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 2
+        },
+        "role": "child",
+        "locator": {
+          "offset": 1100,
+          "bytes": 10,
+          "sha256": "eaa25c327f22b7b002b224771775c9fad7cc0d1dbc30acdd0dfb2b44c2f6755b",
+          "embedded_ordinal": 11,
+          "physical_line": 12
+        },
+        "timestamp": "2026-01-01T00:00:11Z",
+        "message_or_call_id": "fixture-final"
+      },
+      {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 1200,
+          "bytes": 10,
+          "sha256": "52623bb8a38ec86f86407a5443e8c1e5a4deb674c15c2d9604c813a0e9a0b04a",
+          "embedded_ordinal": 12,
+          "physical_line": 13
+        },
+        "timestamp": "2026-01-01T00:00:12Z",
+        "message_or_call_id": "fixture-parent-delivery"
+      },
+      {
+        "path": "/fixture/parent.jsonl",
+        "physical": {
+          "device": 1,
+          "inode": 1
+        },
+        "role": "parent",
+        "locator": {
+          "offset": 1300,
+          "bytes": 10,
+          "sha256": "afe48377f142e60d3f795c14733fef61e00493a3d832b39caa72032d051fe8e4",
+          "embedded_ordinal": 13,
+          "physical_line": 14
+        },
+        "timestamp": "2026-01-01T00:00:13Z",
+        "message_or_call_id": "fixture-acceptance"
+      }
+    ]
+  },
+  "exact_result_digest": "cb0250c2d9b40d684cadf40bb604d3a179806409032328f35e4ed0f38c0a24c9",
+  "exact_acceptance_digest": "35593d9cc8550fbc5acdc3ae10dbdcdfb7de140a987624bc49f8dd4c8c09f43f",
+  "source_origin_validation": "UNESTABLISHED",
+  "host_producer_authenticated": false,
+  "authority_ceiling": "NONE"
+}

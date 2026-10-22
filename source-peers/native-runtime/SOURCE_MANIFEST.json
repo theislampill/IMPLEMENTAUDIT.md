@@ -1,0 +1,152 @@
+{
+  "schema": "implementaudit.repository-source-peer-manifest.v1",
+  "scope": "REPOSITORY_ONLY_SOURCE_COMPOSITION",
+  "native_admission": "NOT_ESTABLISHED_BY_SOURCE_COPY",
+  "files": [
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
+      "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
+      "bytes": 96708,
+      "sha256": "9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/claim-run.sh",
+      "modified": true,
+      "mode": "100644",
+      "semantic_owner": "R0011",
+      "source_preimage_sha256": "07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7",
+      "additional_delta": "Readonly combined currentness observation uses the unchanged require predicates; existing CLI output domains preserved"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
+      "materialized_path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "bytes": 75292,
+      "sha256": "fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "modified": false,
+      "mode": "100644"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/references/route-obligations.md",
+      "materialized_path": "skills/implementaudit/references/route-obligations.md",
+      "bytes": 24980,
+      "sha256": "df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/references/route-obligations.md",
+      "modified": false,
+      "mode": "100644"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/host-session-binding.py",
+      "materialized_path": "skills/implementaudit/scripts/host-session-binding.py",
+      "bytes": 49020,
+      "sha256": "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/host-session-binding.py",
+      "modified": false,
+      "mode": "100755"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "materialized_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "bytes": 262594,
+      "sha256": "d0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "modified": false,
+      "mode": "100755"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "materialized_path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "bytes": 12058,
+      "sha256": "0c5fb125e59b3493c2f3c9baf6a7704ccb2b5fc486f9363a028055f3d6cfad7c",
+      "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
+      "source_path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "modified": false,
+      "mode": "100755"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "materialized_path": "skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "bytes": 1563,
+      "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "8ef5216f1bc73f43aaf9de06877945d84f29323ece30faec791ea44b2ab0dcdf",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "bytes": 64841,
+      "sha256": "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "1f35bd9f9841e05dfb419f85890b34f036e13af387fed5a9a80868787293d972",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "materialized_path": "skills/implementaudit/scripts/compaction-result-observation.py",
+      "bytes": 143900,
+      "sha256": "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "c44d2351ba7e48fb324a761c818eb5ecb428f89b9ea64c6b99fe6a64ad0e1d72",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "inherited_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
+      "additional_delta": "Fixed issuer/code closure, current retained metadata, pending-kind census and scope/range ordering; original final_answer R/A predicates preserved"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
+      "bytes": 62044,
+      "sha256": "0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "materialized_path": "skills/implementaudit/scripts/bounded_file_custody.py",
+      "bytes": 8022,
+      "sha256": "d17b51fd6baf96dbbd0d32c81433e39bf9e3d03bb306e339a207ab4bb61e4473",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": null,
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+      "materialized_path": "skills/implementaudit/scripts/bounded_native_reader.py",
+      "bytes": 15812,
+      "sha256": "3ea54f5f19e20f3524a6c059d3ce9d8a93fd41ed3ec27d1cc6b898ea1f2ced6e",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": null,
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "materialized_path": "skills/implementaudit/scripts/bounded_source_owner.py",
+      "bytes": 37103,
+      "sha256": "7f4e010102ea66c824c1f08dfc32004e154bfd54a08bc59025c1618f816720b7",
+      "semantic_owner": "R003A/continuity",
+      "mode": "100644",
+      "source_preimage_sha256": null,
+      "modified": true,
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization"
+    }
+  ]
+}

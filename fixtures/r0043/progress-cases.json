@@ -1,0 +1,36 @@
+{
+  "format": "r0043-documentary-progress-cases-v1",
+  "allocation": "Published R0043; canonically unallocated",
+  "scope": "Constructed finite documentary protocols for actual receiving interpretation; no native runtime, external effect, host principal or accepting authority is represented.",
+  "source_tc": "TC07",
+  "source_parents": ["ESA:ESA-068", "ESME:ESME-C104", "EWM:EWM-011", "EAOSE:EAOSE-C086", "EAOSE:EAOSE-C130"],
+  "common_rules": {
+    "state": "A_done and B_done are initially false. A completed step sets only its own done flag to true; flags never reset.",
+    "step_execution": "A permitted step, once selected, completes atomically without failure. No undeclared external actor changes either flag.",
+    "join": "The receiving parent may accept the constructed completion claim only after both done flags are true; the parent retains the decision and all residuals.",
+    "scheduler": "At each tick the scheduler may choose an enabled step or wait without changing state. No fairness assumption is supplied in the default configuration.",
+    "local_test_scope": "Each participant has passed a local test starting with every prerequisite it needs already true. Those are conditional local observations.",
+    "authority": "All protocol descriptions and permissions are hypothetical within this file. Changing a prerequisite is a predecessor-owned protocol revision requiring a new bounded check, not an available implicit escape."
+  },
+  "cases": [
+    {
+      "id": "A23",
+      "steps": [
+        {"participant": "A", "requires_done": ["B"], "sets_done": "A"},
+        {"participant": "B", "requires_done": ["A"], "sets_done": "B"}
+      ],
+      "proposed_claim": "The two local successful tests justify the composed parent's completion claim from the stated initial state.",
+      "questions": ["Which steps are initially enabled?", "Is a completion state reachable under the stated protocol?", "What claim can the parent accept, and what next action and residual must it retain?", "Would adding scheduler fairness alone change your answer?"]
+    },
+    {
+      "id": "A24",
+      "steps": [
+        {"participant": "A", "requires_done": [], "sets_done": "A"},
+        {"participant": "B", "requires_done": ["A"], "sets_done": "B"}
+      ],
+      "proposed_claim": "The parent can treat reachable exit, soundness of the JOIN predicate, absence of a nonterminal state with no enabled step, and inevitable completion as interchangeable conclusions.",
+      "additional_configuration": "Consider separately an explicitly supplied scheduling obligation: an enabled incomplete step that remains enabled is eventually selected. All other assumptions stay unchanged.",
+      "questions": ["Give the reachable states and enabled steps.", "Which distinct conclusions follow in the default configuration, and why?", "What changes under the additional scheduling obligation?", "Does this finite result settle the original universal TC07 discriminator or qualify a native implementation?"]
+    }
+  ]
+}
