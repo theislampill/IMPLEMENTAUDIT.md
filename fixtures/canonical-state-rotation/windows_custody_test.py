@@ -11,6 +11,7 @@ import stat
 import subprocess
 import sys
 import tempfile
+import threading
 import unittest
 from unittest import mock
 
@@ -96,6 +97,47 @@ class WindowsCustody(unittest.TestCase):
                     self.fail("second owner acquired the held lock")
         with self.claim.native_lock(path, blocking=False):
             pass
+
+    def test_windows_process_death_releases_lease_without_deleting_gate(self):
+        path = self.root / 'process-owned.gate'
+        script = '''import importlib.util,sys
+from pathlib import Path
+spec=importlib.util.spec_from_file_location('owned_lock',sys.argv[1])
+owner=importlib.util.module_from_spec(spec);spec.loader.exec_module(owner)
+with owner.native_lock(Path(sys.argv[2]),blocking=False):
+ print('LOCKED',flush=True)
+ sys.stdin.read(1)
+'''
+        child = subprocess.Popen([sys.executable, '-I', '-B', '-c', script,
+                                  str(SCRIPTS / 'claim-run-rotation.py'), str(path)],
+                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        lines = []
+        reader = threading.Thread(target=lambda: lines.append(child.stdout.readline()), daemon=True)
+        reader.start()
+        try:
+            reader.join(15)
+            self.assertFalse(reader.is_alive(), 'owned lock process did not report readiness')
+            self.assertIn(lines, ([b'LOCKED\n'], [b'LOCKED\r\n']))
+            before = path.stat()
+            with self.assertRaises((OSError, self.claim.RotationError)):
+                with self.claim.native_lock(path, blocking=False):
+                    self.fail('parent acquired a live child lease')
+            child.kill()
+            child.wait(timeout=10)
+            self.assertIsNotNone(child.returncode)
+            with self.claim.native_lock(path, blocking=False):
+                pass  # Windows correctly denies reads through a different handle while locked.
+            self.assertEqual(path.read_bytes(), b'\0')
+            after = path.stat()
+            self.assertEqual((before.st_dev, before.st_ino, before.st_size, before.st_nlink),
+                             (after.st_dev, after.st_ino, after.st_size, after.st_nlink))
+        finally:
+            if child.poll() is None:
+                child.kill()
+            child.wait(timeout=10)
+            for stream in (child.stdin, child.stdout, child.stderr):
+                stream.close()
+            reader.join(5)
 
     def test_native_memory_observation(self):
         self.rotate._check_memory_budget()

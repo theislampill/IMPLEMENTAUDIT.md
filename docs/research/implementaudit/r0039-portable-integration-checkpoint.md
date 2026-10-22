@@ -7,6 +7,55 @@ draft and non-closing. The current commissioning owner authorized the bounded
 branch integration, exact shared-source adoption, checks and guarded publication.
 That source grant does not supply protected campaign or native acceptance authority.
 
+## Windows continuation and retained portable record
+
+The later source checkpoint `ebbab7df166061206f3e49b9cb4b5c5cde5c48e6`
+adds a private custody substrate through the existing claim, projection and paired
+reader owners. It supports parent-relative retained Windows handles on a fixed
+local NTFS volume, refuses reparse/short-name/device/stream aliases and linked
+inputs, preserves exclusive flushed read-only output, and uses the existing
+Windows one-byte lock protocol. The fourteen-field receipt-v3, permanent marker,
+sole publication owner and F0-F9 order remain unchanged (PL4 source inspection).
+
+Actual Windows controls cover legacy-v2 currentness, first migration with a real
+pointer/receipt/marker, the original 80-cell currentness matrix, compensation,
+hard-linked/symbolic authority refusal, native handle and lock behavior, and
+process-death lock release (PL5 constructed Windows execution). These are
+task-owned qualification subjects, not authenticated campaign episodes or a
+claim of complete host/input acceptance. The earlier POSIX-only refusals remain
+historical failures. The original process-death bank's POSIX-only skip is
+retained; a separate Windows process control supplies that platform observation.
+
+An attempted persistent Git-reader optimization was rejected when independent
+packed-object corruption controls exposed stale internal Git cache values. The
+current substrate closes its Git process after each independent bounded object
+lookup. It preserves type/size/hash checks and asks Git to confirm the physical
+ref interpretation before returning it. Frozen failed reviews and the ineffective
+cache-setting experiment remain retained (PL5 discrimination). Directory long
+names are checked at acquisition through handles that exclude deletion/rename;
+object identities and reparse metadata are rechecked. These checks do not claim
+authentication against arbitrary equally privileged mutation.
+
+The owner selected installed `tiktoken 0.13.0` for new measurements. The historical
+`R0039-F1-CAL-v2` declaration, its population hash and `0.12.0` binding remain
+unchanged. New pure input functions exercise separate byte-only, token-only and
+context-only OR branches, both payoff thresholds, observation binding/freshness,
+and C02 proposal/retry/supersession refusals. They grant no producer or effect
+authority and are not selected by the accepting CLI; its route remains
+`EXACT_BYTES` pending the exact entitled input contract (PL5 constructed controls).
+
+The original quartet and selected boundary records have since been received and
+independently reconstructed at historical documentary scope. That receiving does
+not establish a new canonical pair/current receipt or consume protected pending
+obligations. Authentic calibration/context observations, full-operation cost and
+memory admission, a compatible entitled C02 adapter, new-pair cold receiving and
+applicable actual-host evidence remain separate accepting gates. The fixed
+5000-ms/67108864-byte limits are not relaxed. Final artifacts, installs and hosted
+verification must bind the eventual exact head; this checkpoint does not predict
+their outcomes. All following sections retain the earlier portable checkpoint's
+identities, chronology and qualifications rather than describing a new final
+acceptance.
+
 ## Recovered lineage and accepted main
 
 The intake public head was `7c52d3ac55945131fe302fb6237990b376c8d5d7`, tree
