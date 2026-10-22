@@ -232,9 +232,11 @@ capability refuse. The Windows parent-handle implementation remains a native
 qualification requirement. These checks prevent path redirection; they do not
 authenticate against an equally privileged process that can modify held objects.
 
-The canonical package remains version0.4.0 / familyv0.4.0.0, one governor and four
-children. Each final compressed projection has a327680-byte cap with a2000-byte
-reserve. Both generated inventories and isolated plugin/standalone copy routes
+The canonical package remains version 0.4.0 / family v0.4.0.0, one governor and
+four children. Prospective budget revision 2 permits 393,216 compressed bytes
+per projection and requires a 2,000-byte reserve, so each artifact must be at
+most 391,216 bytes. The original 327,680-byte cap and its recorded failures retain
+their historical scope. Both generated inventories and isolated plugin/standalone copy routes
 must contain the exact bound helper pair. A source or portable fixture result
 does not confer native Windows, host discovery, install, release or campaign
 qualification. Source reviews and fresh-context canaries bind an immutable
