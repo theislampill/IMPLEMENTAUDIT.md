@@ -604,7 +604,8 @@ def _ordinary_publics_v1(runtime, obs, context, specs):
     return runtime[3]._ordinary_public_batch_v1(runtime, obs, context, specs, _np_call, _ordinary_resolve_v1)
 
 
-def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical, *, _opening=None):
+def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical, *, _opening=None,
+                        _receiving_join_locator=None):
     import contextlib
     import json
     document, document_pin = _ordinary_document_v1(obs, selected, selected['receiving']['review_evidence_path'])
@@ -640,8 +641,11 @@ def _ordinary_review_v1(selected, runtime, obs, pins, policy, canonical, *, _ope
         'ORDINARY_ACTUAL_SPAWN_PAIR')
     require(activation['type'] == 'event_msg' and activation['payload'].get('type') == 'task_started' and
         activation['ordinal'] == 1 and locators['child_activation']['offset'] == context['child']['metadata']['bytes'], 'ORDINARY_ACTUAL_ACTIVATION')
-    public = _ordinary_publics_v1(runtime, obs, context, [('parent', locators['open'], 'commentary'),
-        ('child', locators['child_final'], 'final_answer'), ('parent', locators['acceptance'], 'commentary')])
+    public_specs = [('parent', locators['open'], 'commentary'),
+        ('child', locators['child_final'], 'final_answer'), ('parent', locators['acceptance'], 'commentary')]
+    if _receiving_join_locator is not None:
+        public_specs.append(('parent', _receiving_join_locator, 'commentary'))
+    public = _ordinary_publics_v1(runtime, obs, context, public_specs)
     require(public[1]['turn_id'] == activation['payload'].get('turn_id'), 'ORDINARY_FRESH_TURN')
     owner = {'profile_id': obs.ORDINARY_PROFILE, 'issuer_id': 'codex-app-canonical-ordinary-public-v1',
         'policy_digest': obs._ordinary_hash(policy), 'code_pins': pins, 'canonical_route': canonical['canonical_route'],
@@ -770,12 +774,17 @@ def _ordinary_episode_observation_v1(_native=None):
         if not os.path.lexists(selected['receiving'][key]):
             yield obs.canonical(obs.ordinary_export_unavailable_v1(reason)); return
     with _ordinary_provider_guard_v1(runtime):
-        owner, result, acceptance, occurrences, context, public, review_pin = _ordinary_review_v1(
-            selected, runtime, obs, pins, policy, canonical, _opening=canonical['opening'] if _native is not None else None)
         document, receiving_pin = _ordinary_document_v1(obs, selected, selected['receiving']['receiving_evidence_path'])
         obs.closed(document, ('schema', 'records', 'graph', 'dispatch', 'work_result', 'join'), 'ORDINARY_RECEIVING_EVIDENCE')
         require(document['schema'] == 'implementaudit.ordinary-receiving-evidence.v1', 'ORDINARY_RECEIVING_SCHEMA')
         locators = obs.closed(document['records'], ('join',), 'ORDINARY_RECEIVER_LOCATORS')
+        # The fixed owner reads this locator from the exact receiving document.
+        # O/R/A/J keep their individual raw/API checks within one bounded call;
+        # neither the locator nor the unvalidated body grants receiving credit.
+        owner, result, acceptance, occurrences, context, public, review_pin = _ordinary_review_v1(
+            selected, runtime, obs, pins, policy, canonical,
+            _opening=canonical['opening'] if _native is not None else None,
+            _receiving_join_locator=locators['join'] if _native is not None else None)
         obs.validate_ordinary_execution_v1(execution_receipt, owner, result, acceptance, policy)
         values, artifact_custody = {}, {}
         for key in ('graph', 'dispatch', 'work_result', 'join'):
@@ -786,7 +795,10 @@ def _ordinary_episode_observation_v1(_native=None):
                          if _native is None else json.loads(graph_raw, object_pairs_hook=obs.unique))
         joined = graph_owner.reconcile_native_results_v1(values['graph'], current_graph, values['dispatch'], [values['work_result']], policy['consumer'])
         require(joined == values['join'], 'ORDINARY_RECEIVING_JOIN_CHANGED')
-        public.append(_ordinary_public_v1(runtime, obs, context, 'parent', locators['join'], 'commentary'))
+        if _native is None:
+            # This standalone path has no later combined native API fence;
+            # retain its original separate JOIN read after graph validation.
+            public.append(_ordinary_public_v1(runtime, obs, context, 'parent', locators['join'], 'commentary'))
         receiving = {'process': execution_receipt, 'dispatch': values['dispatch'], 'result': values['work_result'], 'join': joined, 'record': public[-1]['pin']}
         all_pins = [item['pin'] for item in public] + [occurrences['spawn']['call'], occurrences['spawn']['output'], occurrences['activation']]
         value = {'schema': obs.ORDINARY_EXPORT_SCHEMA, 'status': 'AVAILABLE', 'reason_code': None, 'owner': owner,

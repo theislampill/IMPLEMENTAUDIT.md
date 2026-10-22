@@ -670,6 +670,54 @@ class OrdinaryControls(unittest.TestCase):
             self.assertIsNotNone(route.read_current_ordinary_execution_v1(repo,controller))
 
 
+class OrdinaryAcquisitionCostControls(unittest.TestCase):
+    def test_header_keeps_parse_and_identity_inside_one_held_read(self):
+        owner = load_owner('bounded_source_owner.py')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'source.jsonl'
+            raw = canonical({'type': 'session_meta', 'ordinal': 0,
+                             'payload': {'id': 'bounded-header'}}) + b'\n'
+            path.write_bytes(raw)
+            active, calls = [], []
+            @contextlib.contextmanager
+            def held(value):
+                calls.append(str(value)); active.append(True)
+                try:
+                    with open(value, 'rb') as stream: yield stream
+                finally: active.pop()
+            original_parse = owner.parse
+            def parse_inside(raw):
+                self.assertTrue(active, 'header parsing escaped held physical custody')
+                return original_parse(raw)
+            owner.custody = types.SimpleNamespace(lexical_path=Path, held_file=held)
+            with mock.patch.object(owner, 'parse', side_effect=parse_inside):
+                result = owner.header({'path': str(path)})
+            self.assertEqual(len(calls), 1)
+            self.assertEqual(result['physical']['inode'], path.stat().st_ino)
+            self.assertEqual(result['header_prefix']['sha256'], sha(raw))
+            self.assertEqual(result['metadata'], {'id': 'bounded-header'})
+
+    def test_header_closing_guard_and_malformed_prefix_refuse(self):
+        owner = load_owner('bounded_source_owner.py')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'source.jsonl'
+            @contextlib.contextmanager
+            def held(value):
+                with open(value, 'rb') as stream: yield stream
+                raise ValueError('actual closing guard refused')
+            owner.custody = types.SimpleNamespace(lexical_path=Path, held_file=held)
+            path.write_bytes(canonical({'type':'session_meta','ordinal':0,'payload':{}})+b'\n')
+            with self.assertRaisesRegex(ValueError, 'closing guard refused'):
+                owner.header({'path':str(path)})
+            owner.custody.held_file = lambda value: open(value, 'rb')
+            for raw in (b'{"type":"session_meta","type":"session_meta","payload":{}}\n',
+                        b'{"type":"session_meta","payload":{}}', b'X'*(owner.MAX_RECORD+1)):
+                path.write_bytes(raw)
+                with self.subTest(bytes=len(raw)), self.assertRaises(ValueError):
+                    owner.header({'path':str(path)})
+
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", type=Path, default=REPO)

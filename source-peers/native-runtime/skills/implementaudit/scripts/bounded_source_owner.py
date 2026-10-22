@@ -60,22 +60,25 @@ def same_physical(info, expected):
 
 def header(thread):
     path = custody.lexical_path(thread["path"])
-    source = physical(path)
     with custody.held_file(path) as stream:
-        require(same_physical(os.fstat(stream.fileno()), source), "HEADER_SOURCE_CHANGED")
+        info = os.fstat(stream.fileno())
+        require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1, "SOURCE_NOT_REGULAR_OR_HARDLINK")
+        source = {"path": str(path), "device": info.st_dev, "inode": info.st_ino}
         raw = stream.readline(MAX_RECORD + 1)
         require(len(raw) <= MAX_RECORD and raw.endswith(b"\n"), "HEADER_RANGE_BOUND")
         cutoff = os.fstat(stream.fileno()).st_size
-    row = parse(raw)
-    require(row.get("type") == "session_meta" and isinstance(row.get("payload"), dict), "HEADER_TYPE")
-    payload = row["payload"]
-    fields = ("id", "session_id", "parent_thread_id", "agent_path", "cli_version", "cwd",
-              "originator", "thread_source", "history_mode")
-    require(physical(path) == source, "HEADER_SOURCE_CHANGED")
-    return {"physical": source, "header_prefix": {"offset": 0, "bytes": len(raw),
-        "sha256": digest(raw), "ordinal": row.get("ordinal")},
-        "metadata": {key: payload[key] for key in fields if key in payload},
-        "cutoff_bytes": cutoff}
+        row = parse(raw)
+        require(row.get("type") == "session_meta" and isinstance(row.get("payload"), dict), "HEADER_TYPE")
+        payload = row["payload"]
+        fields = ("id", "session_id", "parent_thread_id", "agent_path", "cli_version", "cwd",
+                  "originator", "thread_source", "history_mode")
+        # The same held leaf and every held ancestor stay protected through
+        # parsing. held_file rechecks identity, hardlinks, reparsing and names
+        # before this provisional value can escape its closing guard.
+        return {"physical": source, "header_prefix": {"offset": 0, "bytes": len(raw),
+            "sha256": digest(raw), "ordinal": row.get("ordinal")},
+            "metadata": {key: payload[key] for key in fields if key in payload},
+            "cutoff_bytes": cutoff}
 
 def validate_relation(selection, root, child, root_header, child_header):
     ROOT_ID = selection['root_thread_id']

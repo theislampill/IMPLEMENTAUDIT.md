@@ -26,6 +26,35 @@ def load(path, name):
     return module
 
 
+class RefFenceCostControls(unittest.TestCase):
+    def test_exact_fence_uses_one_fresh_git_read(self):
+        module = load(SOURCE / 'scripts/operational-evidence.py', 'ref_fence_primary')
+        expected = {'refs/implementaudit/a': '1' * 40, 'refs/implementaudit/b': '2' * 40}
+        output = ''.join(ref + '\t' + oid + '\n' for ref, oid in expected.items())
+        with patch.object(module, '_run_git', return_value=types.SimpleNamespace(stdout=output)) as read:
+            self.assertTrue(module._native_refs_match_v1(Path('/constructed/repo'), expected))
+        self.assertEqual(read.call_count, 1)
+        self.assertEqual(read.call_args.args[-2:], tuple(sorted(expected)))
+
+    def test_changed_missing_duplicate_and_malformed_ref_output_refuse(self):
+        module = load(SOURCE / 'scripts/operational-evidence.py', 'ref_fence_negatives')
+        expected = {'refs/implementaudit/a': '1' * 40, 'refs/implementaudit/b': '2' * 40}
+        first = 'refs/implementaudit/a\t' + '1' * 40 + '\n'
+        valid = first + 'refs/implementaudit/b\t' + '2' * 40 + '\n'
+        cases = [first, valid.replace('2' * 40, '3' * 40), valid + first,
+                 valid.replace('\t', ' ', 1), valid.replace('2' * 40, 'invalid')]
+        for output in cases:
+            with self.subTest(output=output), patch.object(module, '_run_git', return_value=types.SimpleNamespace(stdout=output)):
+                self.assertFalse(module._native_refs_match_v1(Path('/constructed/repo'), expected))
+        # Git's prefix patterns can also return descendants. They neither
+        # replace an exact requested ref nor create an extra authority claim.
+        child = 'refs/implementaudit/a/child\t' + '4' * 40 + '\n'
+        with patch.object(module, '_run_git', return_value=types.SimpleNamespace(stdout=valid + child)):
+            self.assertTrue(module._native_refs_match_v1(Path('/constructed/repo'), expected))
+        with patch.object(module, '_run_git', return_value=types.SimpleNamespace(stdout=child)):
+            self.assertFalse(module._native_refs_match_v1(Path('/constructed/repo'), expected))
+
+
 class ObservationCostControls(unittest.TestCase):
     def setUp(self):
         fixture = load(ROOT / 'fixtures/operational-evidence/native-route-cost-controls.py', 'route_harness')

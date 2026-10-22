@@ -1149,6 +1149,24 @@ def _native_ref_oid(repo, ref, label):
     return oid
 
 
+def _native_refs_match_v1(repo, expected):
+    """Fresh exact-ref fence in one Git read; never a cached currentness token."""
+    output = _run_git(repo, "for-each-ref", "--format=%(refname)%09%(objectname)",
+                      *sorted(expected)).stdout
+    actual = {}
+    for row in output.splitlines():
+        ref, separator, oid = row.partition("\t")
+        if not separator or not re.fullmatch(r"[0-9a-f]{40}", oid):
+            return False
+        # for-each-ref patterns may include descendants; the old individual
+        # verify reads also made no claim about those unselected refs.
+        if ref in expected:
+            if ref in actual:
+                return False
+            actual[ref] = oid
+    return actual == expected
+
+
 def _native_exact_tsv(raw, schema, count, label):
     if (not raw.endswith(b"\n") or b"\n" in raw[:-1] or b"\r" in raw or
             b"\x00" in raw or any(
@@ -2211,9 +2229,7 @@ def _observe_native_current_v1():
                 "refs/implementaudit/controllers/").stdout.splitlines() != controller_refs:
             _error("OE_NATIVE_CURRENT_CHANGED", "$native.controller",
                    "controller population changed during observation")
-        if any(_native_ref_oid(
-                source_repository, ref, "$native.final_ref_fence") != oid
-               for ref, oid in ref_fence.items()):
+        if not _native_refs_match_v1(source_repository, ref_fence):
             _error("OE_NATIVE_CURRENT_CHANGED", "$native.refs",
                    "native-current ref changed during observation")
         # Reuse the opening route-source bound; the route owner is larger than
@@ -2276,8 +2292,7 @@ def _observe_native_current_v1():
         if final_episode != native_episode:
             _error("OE_NATIVE_CURRENT_CHANGED", "$native.episode", "accepted episode changed during native observation")
     # Recheck C03's own custody after the enclosing owner has closed.
-    if any(_native_ref_oid(source_repository, ref, "$native.closed_ref_fence") != oid
-           for ref, oid in ref_fence.items()):
+    if not _native_refs_match_v1(source_repository, ref_fence):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.refs",
                "native-current ref changed before observation closure")
     if any(_native_file(path, "$native.closed_file_fence",

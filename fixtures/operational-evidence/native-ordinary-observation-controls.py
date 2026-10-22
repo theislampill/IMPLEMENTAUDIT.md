@@ -36,7 +36,7 @@ class OrdinaryObservationControls(unittest.TestCase):
         self.root = Path(self.temp.name)
 
     @contextlib.contextmanager
-    def boundary(self):
+    def boundary(self, composed=True):
         value = self.value; owner = self.owner; obs = self.obs
         canonical = dict(status='SATISFIED', canonical_route=value['owner']['canonical_route'],
             opening=value['owner']['opening'], scope=value['owner']['scope'], packet=value['result']['packet'],
@@ -83,25 +83,37 @@ class OrdinaryObservationControls(unittest.TestCase):
             self.assertEqual(results, [value['receiving']['result']])
             self.assertEqual(consumer, self.policy['consumer'])
             return copy.deepcopy(value['receiving']['join'])
+        self.legacy_order = []
+        def legacy_graph(*args):
+            self.legacy_order.append('graph'); return copy.deepcopy(graph)
+        def legacy_join(*args):
+            self.legacy_order.append('join'); return copy.deepcopy(value['custody']['public_records'][3])
         graph_owner = types.SimpleNamespace(reconcile_native_results_v1=reconcile,
-            read_native_run_v1=Mock(side_effect=AssertionError('duplicate graph acquisition')))
+            read_native_run_v1=Mock(side_effect=AssertionError('duplicate graph acquisition')) if composed else legacy_graph)
         self.provider = []
         @contextlib.contextmanager
         def provider(*args):
             self.provider.append('entry'); yield; self.provider.append('exit')
+        def review(*args, **kwargs):
+            self.assertEqual(kwargs.get('_receiving_join_locator'), document['records']['join'] if composed else None)
+            self.legacy_order.append('review')
+            return (copy.deepcopy(value['owner']), copy.deepcopy(value['result']),
+                copy.deepcopy(value['acceptance']), copy.deepcopy(value['occurrences']), context,
+                copy.deepcopy(value['custody']['public_records'][:4 if composed else 3]), copy.deepcopy(self.review_pin))
+        legacy_route = types.SimpleNamespace(read_current_ordinary_result_v1=lambda *args:copy.deepcopy(self.canonical),
+            read_current_ordinary_execution_v1=lambda *args:copy.deepcopy(self.receipt))
         replacements = dict(
             ORDINARY_SELECTION_PIN={'fixture': 'private selection'},
             _ordinary_selection_v1=lambda: selected,
             _ordinary_modules_v1=lambda s: (runtime, obs, value['owner']['code_pins']),
             ordinary_policy_v1=lambda: copy.deepcopy(self.policy),
-            _ordinary_canonical_v1=Mock(side_effect=AssertionError('duplicate route acquisition')),
+            _ordinary_canonical_v1=Mock(side_effect=AssertionError('duplicate route acquisition')) if composed else
+                lambda *args:(legacy_route,copy.deepcopy(self.canonical)),
             _ordinary_h0_current_v1=Mock(), _ordinary_provider_guard_v1=provider,
-            _ordinary_review_v1=lambda *a, **k: (copy.deepcopy(value['owner']),copy.deepcopy(value['result']),
-                copy.deepcopy(value['acceptance']),copy.deepcopy(value['occurrences']),context,
-                copy.deepcopy(value['custody']['public_records'][:3]),copy.deepcopy(self.review_pin)),
+            _ordinary_review_v1=review,
             _ordinary_document_v1=documents, _ordinary_artifact_v1=artifact,
             _np_module=lambda *a: graph_owner,
-            _ordinary_public_v1=lambda *a: copy.deepcopy(value['custody']['public_records'][3]))
+            _ordinary_public_v1=Mock(side_effect=AssertionError('redundant JOIN acquisition')) if composed else legacy_join)
         with contextlib.ExitStack() as stack:
             for name, replacement in replacements.items(): stack.enter_context(patch.object(owner,name,replacement))
             yield view, obs.canonical(graph), copy.deepcopy(self.actual_owner)
@@ -118,6 +130,13 @@ class OrdinaryObservationControls(unittest.TestCase):
                 self.assertEqual(self.obs.validate_ordinary_episode_export_v1(actual),actual)
             self.assertEqual(self.provider,['entry','exit'])
             self.public_check.assert_called_once()
+
+    def test_legacy_acquisition_preserves_separate_late_join_read(self):
+        with self.boundary(composed=False):
+            with self.owner._ordinary_episode_observation_v1() as raw:
+                self.assertEqual(json.loads(raw)['status'],'AVAILABLE')
+            self.assertEqual(self.legacy_order, ['review','graph','join'])
+            self.public_check.assert_not_called()
 
     def test_late_route_receipt_policy_document_member_and_native_changes_refuse(self):
         for field in ('route','receipt','policy','review','receiving','member','artifact','native'):
@@ -224,28 +243,30 @@ class OrdinaryObservationControls(unittest.TestCase):
             with self.assertRaises(ValueError):self.helper._recheck_ordinary_native_v1(args[0],self.obs,*args[1:])
 
     def test_public_batch_preserves_three_exact_records_in_one_native_call(self):
-        with self.native_boundary() as args:
+        for count in (3, 4):
+          with self.subTest(count=count), self.native_boundary() as args:
             runtime,context,public,_,api,resolve=args
-            api.side_effect=lambda *a:dict(responses=copy.deepcopy(self.responses[3:6]))
-            specs=[(p['pin']['role'],p['pin']['locator'],p['phase']) for p in public[:3]]
+            api.side_effect=lambda *a:dict(responses=copy.deepcopy(self.responses[3:3+count]))
+            specs=[(p['pin']['role'],p['pin']['locator'],p['phase']) for p in public[:count]]
             with patch.object(self.owner,'_np_call',api),patch.object(self.owner,'_ordinary_resolve_v1',resolve):
                 result=self.owner._ordinary_publics_v1(runtime,self.obs,context,specs)
-            self.assertEqual(result,public[:3]);api.assert_called_once()
-            self.assertEqual([m[0] for m in api.call_args.args[1]],['thread/items/read']*3)
+            self.assertEqual(result,public[:count]);api.assert_called_once()
+            self.assertEqual([m[0] for m in api.call_args.args[1]],['thread/items/read']*count)
 
     def test_public_batch_refuses_partial_wrong_or_changed_native_records(self):
+      for count in (3, 4):
         for field in ('partial','body','order','raw'):
-            with self.subTest(field=field),self.native_boundary() as args:
+            with self.subTest(field=field,count=count),self.native_boundary() as args:
                 runtime,context,public,_,api,resolve=args
-                responses=copy.deepcopy(self.responses[3:6])
+                responses=copy.deepcopy(self.responses[3:3+count])
                 if field=='partial':responses.pop()
-                elif field=='body':responses[1]['items'][0]['body_sha256']='0'*64
+                elif field=='body':responses[-1]['items'][0]['body_sha256']='0'*64
                 elif field=='order':responses.reverse()
                 def response(*a):
                     if field=='raw':self.raw_drift=True
                     return dict(responses=responses)
                 api.side_effect=response
-                specs=[(p['pin']['role'],p['pin']['locator'],p['phase']) for p in public[:3]]
+                specs=[(p['pin']['role'],p['pin']['locator'],p['phase']) for p in public[:count]]
                 with patch.object(self.owner,'_np_call',api),patch.object(self.owner,'_ordinary_resolve_v1',resolve):
                     with self.assertRaises(ValueError):self.owner._ordinary_publics_v1(runtime,self.obs,context,specs)
 

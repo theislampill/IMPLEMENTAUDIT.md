@@ -353,6 +353,15 @@ Standalone owners retain their own reads. Opening public records share one
 bounded native API process while each record keeps its exact body, retained
 identity, physical-source and post-read checks.
 
+For a composed read of a completed ordinary episode, the fixed owner reads the receiving locator
+from its bound document before batching all four O/R/A/J public reads. The JOIN
+body gains no credit until execution, graph/result, artifact and final source
+checks succeed. Header parsing stays inside one held leaf/ancestor lifetime;
+its closing guard still precedes delivery. Each C03 ref fence obtains the exact
+named refs in one fresh Git read, retaining both fence locations and all missing,
+changed or malformed-ref refusals. No ancestry check or byte pin is omitted.
+The standalone episode path retains its separate JOIN read after graph validation.
+
 Within one repository publication/read transaction, a private live capture may
 reuse bounded AST and repository semantics only after fresh physical bytes,
 Git state, exclusion census and collector/runtime provenance agree. Each
