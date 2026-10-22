@@ -23,6 +23,8 @@ CONTROLLER = "canonical-reader-test"
 
 
 def command(argv, cwd, data=None):
+    if os.name == "nt" and argv[0] == "bash":
+        argv = [r"C:\Program Files\Git\bin\bash.exe", *argv[1:]]
     env = {key: value for key, value in os.environ.items()
            if not key.startswith(("GIT_", "IMPLEMENTAUDIT_"))}
     env.update(PYTHONDONTWRITEBYTECODE="1", LC_ALL="C")

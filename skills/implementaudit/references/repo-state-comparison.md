@@ -511,6 +511,7 @@ Detailed triggers and consequences live in `continuity.md`.
 helper-route: scripts/claim-run-rotation.py|A|canonical-currentness|references/continuity.md#canonical-generations-and-readers|scripts/claim-run.sh|<owner-command> <controller>|claim-owned
 helper-route: scripts/rotate-canonical-state.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/claim-run-rotation.py|none|no-currentness
 helper-route: scripts/canonical_hot_projection.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/rotate-canonical-state.py|none|no-currentness
+helper-route: scripts/canonical_custody.py|I|canonical-windows-custody|references/continuity.md#canonical-generations-and-readers|scripts/claim-run-rotation.py|none|no-currentness
 helper-route: scripts/read-canonical-pair.py|A|canonical-validation|references/continuity.md#canonical-generations-and-readers|scripts/validate-run-root.sh|--run-root <run-root> --output <empty-private-directory> --native-guards|derivative-only
 
 ### Claim-owned native modes

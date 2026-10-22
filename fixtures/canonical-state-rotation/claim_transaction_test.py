@@ -29,6 +29,8 @@ CONTROLLER = "transaction-test"
 
 
 def run(argv, *, cwd, input_bytes=None):
+    if os.name == "nt" and argv[0] == "bash":
+        argv = [r"C:\Program Files\Git\bin\bash.exe", *argv[1:]]
     environment = dict(os.environ)
     for key in list(environment):
         if key.startswith("GIT_") or key.startswith("IMPLEMENTAUDIT_"):
@@ -48,7 +50,7 @@ class Fixture:
         self.scripts = self.repo / "skills/implementaudit/scripts"
         self.scripts.mkdir(parents=True)
         for name in ("claim-run.sh", "claim-run-rotation.py", "validate-run-root.sh",
-                     "rotate-canonical-state.py", "canonical_hot_projection.py"):
+                     "rotate-canonical-state.py", "canonical_hot_projection.py", "canonical_custody.py"):
             chosen = POST / name if (POST / name).is_file() else BASE / "skills/implementaudit/scripts" / name
             if chosen.is_file():
                 shutil.copyfile(chosen, self.scripts / name)

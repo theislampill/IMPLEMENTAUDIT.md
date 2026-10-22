@@ -19,6 +19,39 @@ import stat
 import subprocess
 import sys
 
+# Private substrate is exact-source bound; it owns no transaction authority.
+def _windows_custody():
+    import types
+    path = Path(__file__).absolute().with_name("canonical_custody.py")
+    before = os.lstat(path)
+    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+            or getattr(before, "st_file_attributes", 0) & 0x400):
+        raise ImportError("canonical custody substrate is aliased or nonregular")
+    with open(path, "rb") as stream:
+        opened = os.fstat(stream.fileno())
+        raw = stream.read(33559)
+        after = os.fstat(stream.fileno())
+    if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+            != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
+            or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
+            != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
+            or len(raw) != 33558
+            or hashlib.sha256(raw).hexdigest() != "48a414e37a4eeeb950a1a7c34d2dba0ab0a602229371aff79ae270e9518fd8de"):
+        raise ImportError("canonical custody substrate source identity mismatch")
+    module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    module = types.ModuleType(module_name)
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), module.__dict__)
+    sys.modules[module_name] = module
+    return module
+
+
+_CUSTODY = _windows_custody()
+_WINDOWS = _CUSTODY if os.name == "nt" else None
+
+
 sys.dont_write_bytecode = True
 OWNER = Path(__file__).resolve().with_name("claim-run.sh")
 
@@ -34,6 +67,9 @@ def require(condition, message):
 
 def directory(path):
     """Open each POSIX ancestor without following a link; never resolve aliases."""
+    if _WINDOWS is not None:
+        held = _WINDOWS.Directory(path)
+        return held.path, held
     require(os.name == "posix" and hasattr(os, "O_NOFOLLOW") and os.open in os.supports_dir_fd,
             "UNSUPPORTED_NATIVE_ANCESTRY")
     require(not any(part in (".", "..") for part in str(path).split("/")), "lexical path alias")
@@ -51,6 +87,15 @@ def directory(path):
 
 
 def regular_at(fd, name, *, optional=False):
+    if _WINDOWS is not None:
+        try:
+            with _WINDOWS.File(fd, name) as held:
+                return held.read()
+        except FileNotFoundError:
+            if optional:
+                fd.verify()
+                return None
+            raise
     try:
         opened = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
     except FileNotFoundError:
@@ -75,7 +120,20 @@ def call(cwd, argv):
     env = {key: value for key, value in os.environ.items()
            if not key.startswith(("GIT_", "IMPLEMENTAUDIT_"))}
     env.update(PYTHONDONTWRITEBYTECODE="1", LC_ALL="C")
+    if os.name == "nt" and argv[0] in {"git", "bash"}:
+        argv = [str(Path(r"C:\Program Files\Git") / ("cmd/git.exe" if argv[0] == "git" else "bin/bash.exe")), *argv[1:]]
     return subprocess.run(argv, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+
+
+def close_directory(fd):
+    if _WINDOWS is not None:
+        fd.close()
+    else:
+        os.close(fd)
+
+
+def directory_names(fd):
+    return fd.names() if _WINDOWS is not None else os.listdir(fd)
 
 
 def owner(repo, *arguments):
@@ -100,9 +158,9 @@ def controller_population_binds(run, claim_id=None, *, allow_non_git=False, lega
             except FileNotFoundError:
                 continue
             try:
-                require(not os.listdir(fd), "unresolved nonempty Git discovery custody")
+                require(not directory_names(fd), "unresolved nonempty Git discovery custody")
             finally:
-                os.close(fd)
+                close_directory(fd)
         return False
     repo = Path(result.stdout.decode("utf-8").strip())
     require(repo.is_absolute() and run.is_relative_to(repo), "controller discovery is outside requested run custody")
@@ -127,7 +185,7 @@ def controller_population_binds(run, claim_id=None, *, allow_non_git=False, lega
             try:
                 regular_at(fd, loose.name, optional=True)
             finally:
-                os.close(fd)
+                close_directory(fd)
         result = call(run, ["git", "cat-file", "blob", raw_ref.decode("ascii")])
         require(result.returncode == 0 and not result.stderr, "discovery blob is unavailable")
         raw = result.stdout
@@ -138,7 +196,7 @@ def controller_population_binds(run, claim_id=None, *, allow_non_git=False, lega
             require(len(row) == 4 and row[:2] == ["implementaudit.controller-current.v1", controller],
                     "unknown controller discovery schema")
             bound_claim, bound_run = row[2], row[3]
-            require(bound_run.startswith("/") and not any(c in bound_run for c in "\r\0")
+            require((bound_run.startswith("/") or os.name == "nt" and re.match(r"[A-Za-z]:/", bound_run)) and not any(c in bound_run for c in "\r\0")
                     and all(part not in ("", ".", "..") for part in bound_run.split("/")[1:]),
                     "malformed discovered controller run path")
             run_identity = "/".join(bound_run.split("/")[-3:])
@@ -166,9 +224,9 @@ def controller_population_binds(run, claim_id=None, *, allow_non_git=False, lega
         if kind != "controllers":
             bound_run = str(repo / run_identity)
         _, bound_fd = directory(bound_run)
-        os.close(bound_fd)
+        close_directory(bound_fd)
         require(re.fullmatch(r"[0-9a-f]{32}", bound_claim) is not None, "malformed discovered claim identity")
-        if bound_claim == claim_id or bound_run == str(run):
+        if bound_claim == claim_id or Path(bound_run) == run:
             if kind == "controllers" and controller == legacy_controller:
                 continue  # This exact controller already passed native controller binding.
             return True
@@ -194,7 +252,7 @@ def read_path(path):
     try:
         return regular_at(fd, path.name)
     finally:
-        os.close(fd)
+        close_directory(fd)
 
 
 def native_guard_views(run, pair, resolution):
@@ -299,6 +357,18 @@ def native_guard_views(run, pair, resolution):
 
 
 def snapshot_files(fd, prefix=""):
+    if _WINDOWS is not None:
+        result = {}
+        for name in fd.names():
+            try:
+                child = _WINDOWS.Directory(fd.path / name)
+            except NotADirectoryError:
+                result[prefix + name] = regular_at(fd, name)
+            else:
+                with child:
+                    result.update(snapshot_files(child, prefix + name + "/"))
+        fd.verify()
+        return result
     result = {}
     for name in os.listdir(fd):
         info = os.stat(name, dir_fd=fd, follow_symlinks=False)
@@ -314,6 +384,16 @@ def snapshot_files(fd, prefix=""):
 
 
 def write_snapshot(fd, files):
+    if _WINDOWS is not None:
+        for name, data in files.items():
+            parts = name.split("/")
+            for part in parts:
+                _WINDOWS.component(part)
+            with _WINDOWS.Directory(fd.path.joinpath(*parts[:-1]), create=True, create_root=fd.path) as parent:
+                with _WINDOWS.File(parent, parts[-1], create=True, writable=True) as held:
+                    held.write(data, 0o600)
+            fd.verify()
+        return
     for name, data in files.items():
         cursor = os.dup(fd)
         try:
@@ -339,7 +419,7 @@ def materialize_pair(run_arg, output_arg, *, native_guards=False, verify_current
         hint = regular_at(fd, ".controller", optional=True)
         claim = regular_at(fd, ".claimed", optional=True)
     finally:
-        os.close(fd)
+        close_directory(fd)
     ids = re.findall(rb"(?m)^claim_id=([0-9a-f]{32})$", claim or b"")
     if hint is None:
         claim_is_v2 = claim is not None and b"schema=implementaudit.run-claim.v2\n" in claim
@@ -357,7 +437,7 @@ def materialize_pair(run_arg, output_arg, *, native_guards=False, verify_current
     require(current.returncode == 0 and current.stdout.endswith(b"\n") and current.stdout.count(b"\n") == 1,
             "native controller binding refused")
     row = current.stdout[:-1].decode("utf-8").split("\t")
-    require(len(row) == 4 and row[0] == controller and row[2] == str(run) and row[3] == ids[0].decode(),
+    require(len(row) == 4 and row[0] == controller and Path(row[2]) == run and row[3] == ids[0].decode(),
             "native controller does not bind the requested run and claim")
     repo = Path(row[1])
     require(repo.is_absolute() and run.is_relative_to(repo), "native repository identity is not the requested custody")
@@ -395,10 +475,10 @@ def materialize_pair(run_arg, output_arg, *, native_guards=False, verify_current
         if verify_current:
             require(snapshot_files(fd) == pair, "validation snapshot or current native authority changed during consumption")
         else:
-            require(not os.listdir(fd), "validation snapshot directory must be empty")
+            require(not directory_names(fd), "validation snapshot directory must be empty")
             write_snapshot(fd, pair)
     finally:
-        os.close(fd)
+        close_directory(fd)
     return 0
 
 

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import functools
 import hashlib
 import json
 import os
@@ -21,6 +22,39 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Any
+
+# Private substrate is exact-source bound; it owns no transaction authority.
+def _windows_custody():
+    import types
+    path = Path(__file__).absolute().with_name("canonical_custody.py")
+    before = os.lstat(path)
+    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+            or getattr(before, "st_file_attributes", 0) & 0x400):
+        raise ImportError("canonical custody substrate is aliased or nonregular")
+    with open(path, "rb") as stream:
+        opened = os.fstat(stream.fileno())
+        raw = stream.read(33559)
+        after = os.fstat(stream.fileno())
+    if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+            != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
+            or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
+            != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
+            or len(raw) != 33558
+            or hashlib.sha256(raw).hexdigest() != "48a414e37a4eeeb950a1a7c34d2dba0ab0a602229371aff79ae270e9518fd8de"):
+        raise ImportError("canonical custody substrate source identity mismatch")
+    module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    module = types.ModuleType(module_name)
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), module.__dict__)
+    sys.modules[module_name] = module
+    return module
+
+
+_CUSTODY = _windows_custody()
+_WINDOWS = _CUSTODY if os.name == "nt" else None
+
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
@@ -133,6 +167,14 @@ def git_environment() -> dict[str, str]:
         git_executable_v1(), "nt" if os.name == "nt" else "posix")
 
 
+def _scoped_git(function):
+    @functools.wraps(function)
+    def invoke(repo, *args, **kwargs):
+        with _CUSTODY.git_scope(repo, git_executable_v1(), git_environment()):
+            return function(repo, *args, **kwargs)
+    return invoke
+
+
 def git_executable_v1() -> str:
     candidates = (tuple(Path(value) for value in WINDOWS_TRUSTED_GIT_PATHS_V1)
                   if os.name == "nt"
@@ -196,6 +238,13 @@ def _directory_handle(path: Path, root: Path, *, create: bool = False):
     This prevents symlink redirection, not mutation by an equally privileged
     process that can rename or rewrite the held objects themselves.
     """
+    if _WINDOWS is not None:
+        path, root = _WINDOWS.absolute_path(path), _WINDOWS.absolute_path(root)
+        if not path.is_relative_to(root):
+            raise RotationError('path escapes repository custody')
+        with _WINDOWS.Directory(path, create=create, create_root=root) as directory:
+            yield directory, directory.verify
+        return
     path, root = Path(os.path.abspath(path)), Path(os.path.abspath(root))
     if not contained(path, root):
         raise RotationError(f'path escapes repository custody: {path}')
@@ -301,6 +350,12 @@ def read_regular(
 ) -> tuple[bytes, os.stat_result]:
     if not contained(path, custody_root):
         raise RotationError(f"protected path escapes custody: {label}")
+    if _WINDOWS is not None:
+        with _WINDOWS.Directory(path.parent) as directory:
+            with _WINDOWS.File(directory, path.name, maximum=MAX_SOURCE_BYTES) as held:
+                before = held.stat()
+                _file_identity(before, label, require_owner_write)
+                return held.read(), before
     require_safe_directory_chain(path.parent, custody_root)
     try:
         with _directory_handle(path.parent, custody_root) as (parent, verify):
@@ -347,6 +402,15 @@ def _file_identity(info, label: str, require_owner_write: bool = False):
 
 def write_new_regular(path: Path, data: bytes, mode: int, *, custody_root: Path) -> None:
     mode = effective_mode(mode)
+    if _WINDOWS is not None:
+        if not contained(path, custody_root):
+            raise RotationError('output escapes repository custody')
+        with _WINDOWS.Directory(path.parent) as directory:
+            with _WINDOWS.File(directory, path.name, create=True, writable=True, maximum=MAX_SOURCE_BYTES) as held:
+                held.write(data, mode)
+                if stat.S_IMODE(held.stat().st_mode) != mode:
+                    raise RotationError('immutable output mode differs')
+        return
     try:
         with _directory_handle(path.parent, custody_root) as (parent, verify):
             verify()
@@ -425,18 +489,96 @@ def _check_memory_budget(source_bytes: int = 0) -> None:
     if source_bytes * SOURCE_MEMORY_RESERVE_FACTOR > budget:
         raise RotationError('source population exceeds conservative memory admission bound')
     try:
-        import resource
-        peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-        if sys.platform.startswith('linux'):
-            peak *= 1024
-        elif sys.platform != 'darwin':
-            raise RotationError('native peak-memory measurement is unqualified')
+        if _WINDOWS is not None:
+            peak = _WINDOWS.peak_process_memory()
+        else:
+            import resource
+            peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            if sys.platform.startswith('linux'):
+                peak *= 1024
+            elif sys.platform != 'darwin':
+                raise RotationError('native peak-memory measurement is unqualified')
         if type(peak) not in (int, float) or peak <= 0:
             raise RotationError('native peak-memory measurement is unavailable')
     except (ImportError, OSError, AttributeError) as exc:
         raise RotationError('native peak-memory measurement is unavailable') from exc
     if peak > budget:
         raise RotationError('process peak memory exceeds frozen bound; no publication authorised')
+
+
+def rotation_trigger_v1(source_bytes: int, source_tokens: int, context_health_bp: int) -> list[str]:
+    """Frozen OR policy. Unknown observations cannot become zero or healthy."""
+    if (any(type(value) is not int for value in (source_bytes, source_tokens, context_health_bp))
+            or source_bytes < 0 or source_tokens < 0 or not 0 <= context_health_bp <= 10000):
+        raise RotationError('complete nonnegative byte/token and bounded context observations are required')
+    return [name for name, triggered in (
+        ('BYTES', source_bytes >= 131072), ('TOKENS', source_tokens >= 32768),
+        ('CONTEXT_HEALTH', context_health_bp <= 2500)) if triggered]
+
+
+def rotation_payoff_v1(byte_reduction: int, token_reduction: int) -> bool:
+    if any(type(value) is not int for value in (byte_reduction, token_reduction)):
+        raise RotationError('both measured byte and token reductions are required')
+    return byte_reduction >= 32768 and token_reduction >= 8192
+
+
+def check_rotation_observation_v1(contract: dict, observation: dict, subject: dict,
+                                  measured_source_bytes: int, now_unix_ms: int) -> dict:
+    """Check a proposed existing-owner input envelope, without admitting a producer.
+
+    This pure interface is deliberately not selected by the accepting CLI. A
+    matching caller-authored contract/hash is not a grant or host authentication.
+    The calibration/input owner must admit the producer, dependency, current-host
+    applicability and full-operation measurement contract before wiring effects.
+    """
+    contract_keys = {'schema', 'baseline_calibration_id', 'baseline_population_sha256', 'issuer', 'grant_sha256',
+                     'producer_sha256', 'host', 'subject', 'maximum_observation_age_ms', 'tokenizer'}
+    observation_keys = {'schema', 'contract_sha256', 'subject', 'host', 'issuer', 'grant_sha256',
+                        'producer_sha256', 'observed_at_unix_ms', 'source_bytes', 'source_tokens',
+                        'context_health_bp', 'tokenizer', 'observation_id'}
+    if (type(contract) is not dict or set(contract) != contract_keys
+            or contract['schema'] != 'implementaudit.rotation-input-contract-proposal.v1'
+            or contract['baseline_calibration_id'] != CALIBRATION_ID or contract['baseline_population_sha256'] != CALIBRATION_SHA256
+            or type(observation) is not dict or set(observation) != observation_keys
+            or observation['schema'] != 'implementaudit.rotation-input-observation.v1'):
+        raise RotationError('unknown or incomplete proposed calibration/input contract')
+    for name in ('grant_sha256', 'producer_sha256'):
+        if not isinstance(contract[name], str) or re.fullmatch(r'[0-9a-f]{64}', contract[name]) is None:
+            raise RotationError('proposed issuer grant and producer identities must be exact')
+    if (not isinstance(contract['issuer'], str) or not contract['issuer']
+            or type(contract['host']) is not dict or set(contract['host']) != {'name', 'version'}
+            or any(not isinstance(value, str) or not value for value in contract['host'].values())
+            or type(subject) is not dict
+            or set(subject) != {'controller', 'claim_id', 'run_root_identity', 'receipt_token', 'state_sha256', 'roadmap_sha256'}):
+        raise RotationError('exact issuer, selected host and complete pair/receipt subject are required')
+    for name in ('state_sha256', 'roadmap_sha256'):
+        if not isinstance(subject[name], str) or re.fullmatch(r'[0-9a-f]{64}', subject[name]) is None:
+            raise RotationError('exact selected pair hashes are required')
+    if (not isinstance(subject['controller'], str) or re.fullmatch(r'[a-z0-9][a-z0-9-]{0,47}', subject['controller']) is None
+            or not isinstance(subject['claim_id'], str) or re.fullmatch(r'[0-9a-f]{32}', subject['claim_id']) is None
+            or not isinstance(subject['run_root_identity'], str)
+            or re.fullmatch(r'\.IMPLEMENTAUDIT/runs/[a-z0-9][a-z0-9-]*-[A-Za-z0-9]{6}', subject['run_root_identity']) is None
+            or not isinstance(subject['receipt_token'], str)
+            or re.fullmatch(r'refs/implementaudit/continuity-receipts/' + re.escape(subject['controller'])
+                            + r'/G(?!0000)[0-9A-F]{4}@[0-9a-f]{40}', subject['receipt_token']) is None):
+        raise RotationError('selected subject has an invalid controller, claim, run or receipt identity')
+    if (observation['contract_sha256'] != sha256(canonical_bytes(contract))
+            or any(observation[name] != contract[name] for name in ('issuer', 'grant_sha256', 'producer_sha256', 'host'))
+            or observation['subject'] != subject or contract['subject'] != subject
+            or type(measured_source_bytes) is not int or observation['source_bytes'] != measured_source_bytes
+            or contract['tokenizer'] != {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}
+            or observation['tokenizer'] != contract['tokenizer']):
+        raise RotationError('observation does not bind the selected producer, source, tokenizer or host proposal')
+    observed, age = observation['observed_at_unix_ms'], contract['maximum_observation_age_ms']
+    if (any(type(value) is not int for value in (observed, age, now_unix_ms))
+            or observed < 0 or not 0 < age <= 30000 or not 0 <= now_unix_ms - observed <= age):
+        raise RotationError('observation is missing, stale, future-dated or outside proposed freshness')
+    body = {key: value for key, value in observation.items() if key != 'observation_id'}
+    if observation['observation_id'] != sha256(canonical_bytes(body)):
+        raise RotationError('observation identity differs from its complete envelope')
+    return {'observation_id': observation['observation_id'],
+            'triggered_by': rotation_trigger_v1(measured_source_bytes, observation['source_tokens'], observation['context_health_bp']),
+            'authority_ceiling': 'PROPOSED_INPUT_ONLY_NO_EFFECT_AUTHORITY'}
 
 
 def _json(raw: bytes, label: str) -> Any:
@@ -478,6 +620,14 @@ def _identity(controller: str, generation: str) -> str:
 
 
 def _ref(repo: Path, ref: str, *, absent: bool = False) -> str | None:
+    try:
+        observed = _CUSTODY.current_ref(repo, ref)
+    except OSError as exc:
+        raise RotationError(str(exc)) from exc
+    if observed is not NotImplemented:
+        if observed is None and not absent:
+            raise RotationError('required authority ref is absent')
+        return observed
     """ABSENT is distinct from malformed ref and failed Git operation."""
     if not re.fullmatch(r'refs/implementaudit/[A-Za-z0-9/._-]+', ref):
         raise RotationError('invalid implementation ref')
@@ -497,6 +647,15 @@ def _ref(repo: Path, ref: str, *, absent: bool = False) -> str | None:
 
 
 def _blob(repo: Path, oid: str) -> bytes:
+    _check_memory_budget()
+    maximum = min(MAX_SOURCE_BYTES, calibration_contract_v1()['maximum_memory_bytes'] // SOURCE_MEMORY_RESERVE_FACTOR)
+    try:
+        observed = _CUSTODY.read_object(repo, oid, maximum)
+    except OSError as exc:
+        raise RotationError(str(exc)) from exc
+    if observed is not NotImplemented:
+        _check_memory_budget(len(observed))
+        return observed
     _hex(oid, 40, 'blob OID')
     if git(repo, 'cat-file', '-t', oid) != b'blob\n':
         raise RotationError('object is not a blob')
@@ -536,7 +695,10 @@ def _anchor_object(repo: Path, controller: str, raw: bytes) -> str:
 def _mkdir(path: Path, root: Path) -> None:
     with _directory_handle(path, root, create=True) as (descriptor, verify):
         verify()
-        os.fsync(descriptor)
+        if _WINDOWS is not None:
+            descriptor.flush()
+        else:
+            os.fsync(descriptor)
 
 
 def _write_verified(path: Path, raw: bytes, root: Path, mode: int = 0o444) -> None:
@@ -841,6 +1003,7 @@ def _verify_retained_archives(repo: Path, preimage: dict) -> dict[str, str]:
     return guards
 
 
+@_scoped_git
 def verify_canonical_archive(repo: Path, controller: str, archive_ref: str,
                              expected_sha256: str) -> dict:
     repo = require_repo(str(repo))
@@ -851,6 +1014,7 @@ def verify_canonical_archive(repo: Path, controller: str, archive_ref: str,
     return manifest
 
 
+@_scoped_git
 def archive_retention_guards(repo: Path, controller: str, archive_ref: str,
                              expected_sha256: str) -> dict[str, str]:
     """Return exact retained ref guards for the sole publisher's CAS transaction."""
@@ -893,6 +1057,7 @@ def _pointers(preimage: dict, archive_ref: str, archive_oid: str, archive_sha: s
                  authority='ARCHIVED_ONLY_HISTORY') for entry in preimage['archive_population']]
 
 
+@_scoped_git
 def prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
                             generation: str, owner_map_path: Path,
                             predecessor: dict, calibration: dict) -> dict:
@@ -901,6 +1066,7 @@ def prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
                                     predecessor, calibration, native_resume=False)
 
 
+@_scoped_git
 def prepare_native_resume_draft(repo: Path, run_root: Path, controller: str,
                                 generation: str, predecessor: dict) -> dict:
     """Preserve an exact migrated preimage after a native owner boundary.
@@ -1007,7 +1173,7 @@ def _read_native_preparation(repo: Path, run_root: Path, controller: str,
     for path, expected in ((generation_dir, {'draft', 'native-resume-owner-map.json'}),
                             (draft_dir, {'STATE.md', 'ROADMAP.md', 'protected-state.json', 'draft-manifest.json'})):
         with _directory_handle(path, run_root) as (descriptor, verify):
-            if set(os.listdir(descriptor)) != expected:
+            if set(descriptor.names() if _WINDOWS is not None else os.listdir(descriptor)) != expected:
                 raise RotationError('native preparation is incomplete, changed or already finalized')
             verify()
     landed, info = read_regular(generation_dir / 'native-resume-owner-map.json', run_root,
@@ -1342,6 +1508,7 @@ def _verify_projection_draft(run_root: Path, preimage: dict, pointers: list, pre
             raise RotationError('draft bytes or immutable modes differ from original deterministic oracle')
 
 
+@_scoped_git
 def finalize_canonical_projection(repo: Path, run_root: Path, prepared: dict,
                                   transition: dict) -> dict:
     """Finalize immutable bytes after native owner allocation, never publish them."""
@@ -1389,6 +1556,7 @@ def finalize_canonical_projection(repo: Path, run_root: Path, prepared: dict,
     return {'pointer': pointer, 'generation_dir': generation_dir}
 
 
+@_scoped_git
 def read_canonical_generation(repo: Path, run_root: Path, pointer: dict) -> dict:
     """Verify a contained immutable generation; only claim-run can join currentness."""
     repo = require_repo(str(repo))
@@ -1438,6 +1606,7 @@ def read_canonical_generation(repo: Path, run_root: Path, pointer: dict) -> dict
             'state_path': generation_dir / 'STATE.md', 'roadmap_path': generation_dir / 'ROADMAP.md'}
 
 
+@_scoped_git
 def resolve_typed_archive_pointer_v2(repo: Path, pointer: dict) -> dict:
     """Selective, hash-exact historical retrieval with no current selection."""
     if type(pointer) is not dict or pointer.get('authority') != 'ARCHIVED_ONLY_HISTORY':

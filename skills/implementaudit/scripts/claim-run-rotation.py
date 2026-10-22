@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import contextlib
 import errno
+import functools
 import hashlib
 import json
 import os
@@ -20,6 +21,39 @@ import subprocess
 import sys
 import time
 import types
+
+# Private substrate is exact-source bound; it owns no transaction authority.
+def _windows_custody():
+    import types
+    path = Path(__file__).absolute().with_name("canonical_custody.py")
+    before = os.lstat(path)
+    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+            or getattr(before, "st_file_attributes", 0) & 0x400):
+        raise ImportError("canonical custody substrate is aliased or nonregular")
+    with open(path, "rb") as stream:
+        opened = os.fstat(stream.fileno())
+        raw = stream.read(33559)
+        after = os.fstat(stream.fileno())
+    if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+            != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
+            or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
+            != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
+            or len(raw) != 33558
+            or hashlib.sha256(raw).hexdigest() != "48a414e37a4eeeb950a1a7c34d2dba0ab0a602229371aff79ae270e9518fd8de"):
+        raise ImportError("canonical custody substrate source identity mismatch")
+    module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    module = types.ModuleType(module_name)
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), module.__dict__)
+    sys.modules[module_name] = module
+    return module
+
+
+_CUSTODY = _windows_custody()
+_WINDOWS = _CUSTODY if os.name == "nt" else None
+
 
 sys.dont_write_bytecode = True
 ZERO = "0" * 40
@@ -57,6 +91,78 @@ class LegacyRoute(Exception):
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":"),
                       ensure_ascii=False, allow_nan=False).encode("utf-8")
+
+
+def propose_c02_correction_v1(observed, decision, prior_decisions):
+    """Pure existing-owner proposal, never producer, event or effect admission.
+
+    Physical occurrence/census custody, issuer entitlement and applicability
+    remain indispensable owner inputs. Hash equality cannot establish them.
+    This interface changes no CLI, receipt schema, ref or F0-F9 ordering.
+    """
+    observation_keys = {'schema', 'controller', 'claim_id', 'run_root_identity', 'pointer_oid',
+                        'receipt_oid', 'marker_oid', 'invalidation_oid', 'event_id', 'boundary', 'later_boundaries'}
+    decision_keys = {'schema', 'issuer', 'grant_sha256', 'evidence_sha256', 'kind',
+                     'observation_sha256', 'decision_id'}
+
+    def validate(observation, proposal):
+        if (type(observation) is not dict or set(observation) != observation_keys
+                or observation['schema'] != 'implementaudit.c02-observation.v1'
+                or type(proposal) is not dict or set(proposal) != decision_keys
+                or proposal['schema'] != 'implementaudit.c02-decision-proposal.v1'
+                or proposal['kind'] != 'ERRONEOUS_INVALIDATION'):
+            raise RotationError('unknown or incomplete C02 observation/decision proposal')
+        if (not isinstance(observation['controller'], str) or not CONTROLLER.fullmatch(observation['controller'])
+                or not isinstance(observation['claim_id'], str) or not re.fullmatch(r'[0-9a-f]{32}', observation['claim_id'])
+                or not isinstance(observation['run_root_identity'], str)
+                or not re.fullmatch(r'\.IMPLEMENTAUDIT/runs/[a-z0-9][a-z0-9-]*-[A-Za-z0-9]{6}', observation['run_root_identity'])
+                or observation['boundary'] not in BOUNDARIES
+                or not isinstance(observation['event_id'], str) or not observation['event_id']
+                or not isinstance(proposal['issuer'], str) or not proposal['issuer']):
+            raise RotationError('C02 issuer, run, claim or event identity is incomplete')
+        for key in ('pointer_oid', 'receipt_oid', 'marker_oid', 'invalidation_oid'):
+            if not isinstance(observation[key], str) or not OID.fullmatch(observation[key]):
+                raise RotationError('C02 requires a complete exact expected-old authority tuple')
+        for key in ('grant_sha256', 'evidence_sha256', 'observation_sha256', 'decision_id'):
+            if not isinstance(proposal[key], str) or not SHA256.fullmatch(proposal[key]):
+                raise RotationError('C02 requires exact grant, evidence and observation identities')
+        later = observation['later_boundaries']
+        if type(later) is not list or len(later) > 4096:
+            raise RotationError('C02 later-boundary census is missing or unbounded')
+        events, oids = {observation['event_id']}, {observation['invalidation_oid']}
+        for row in later:
+            if (type(row) is not dict or set(row) != {'event_id', 'invalidation_oid', 'boundary'}
+                    or not isinstance(row['event_id'], str) or not row['event_id']
+                    or not isinstance(row['invalidation_oid'], str) or not OID.fullmatch(row['invalidation_oid'])
+                    or row['event_id'] in events or row['invalidation_oid'] in oids
+                    or row['boundary'] not in BOUNDARIES):
+                raise RotationError('C02 later-boundary identity is ambiguous or malformed')
+            events.add(row['event_id'])
+            oids.add(row['invalidation_oid'])
+        unsigned = {key: value for key, value in proposal.items() if key != 'decision_id'}
+        if (proposal['observation_sha256'] != hashlib.sha256(canonical(observation)).hexdigest()
+                or proposal['decision_id'] != hashlib.sha256(canonical(unsigned)).hexdigest()):
+            raise RotationError('C02 proposal is not bound to its complete original observation')
+
+    validate(observed, decision)
+    if type(prior_decisions) is not list or len(prior_decisions) > 4096:
+        raise RotationError('C02 prior-decision census is missing or unbounded')
+    status = 'OWNER_ADMISSION_REQUIRED'
+    for row in prior_decisions:
+        if type(row) is not dict or set(row) != {'observation', 'decision'}:
+            raise RotationError('C02 prior decision is malformed')
+        validate(row['observation'], row['decision'])
+        if row['observation']['invalidation_oid'] == observed['invalidation_oid']:
+            if row != {'observation': observed, 'decision': decision}:
+                raise RotationError('C02 replay or conflicting adjudication requires owner reconciliation')
+            status = 'EXACT_RETRY_NO_EFFECT'
+    if observed['later_boundaries']:
+        status = 'SUPERSEDED_NEWER_BOUNDARY_NO_EFFECT'
+    return {'status': status, 'decision_id': decision['decision_id'],
+            'expected_old': {key: observed[key] for key in ('controller', 'claim_id', 'run_root_identity',
+                             'pointer_oid', 'receipt_oid', 'marker_oid', 'invalidation_oid')},
+            'retained_original': {'event_id': observed['event_id'], 'invalidation_oid': observed['invalidation_oid']},
+            'authority_ceiling': 'NO_EFFECT_AUTHORITY'}
 
 
 def decode_json(raw):
@@ -122,12 +228,37 @@ def git(repo, *args, input_bytes=None):
     return result.stdout
 
 
+def _scoped_git(function):
+    @functools.wraps(function)
+    def invoke(context, *args, **kwargs):
+        with _CUSTODY.git_scope(context['repo'], fixed_git(), git_environment()):
+            return function(context, *args, **kwargs)
+    return invoke
+
+
 def unsafe(info):
     return stat.S_ISLNK(info.st_mode) or bool(getattr(info, "st_file_attributes", 0) & 0x400)
 
 
 def safe_chain(path, *, allow_missing=False):
     path = Path(path)
+    if _WINDOWS is not None:
+        _WINDOWS.absolute_path(path)
+        current = path
+        while True:
+            try:
+                with _WINDOWS.Directory(current if current == path else current):
+                    pass
+                return
+            except NotADirectoryError:
+                with _WINDOWS.Directory(current.parent) as parent:
+                    with _WINDOWS.File(parent, current.name):
+                        pass
+                return
+            except FileNotFoundError:
+                if not allow_missing or current == Path(current.anchor):
+                    raise
+                current = current.parent
     if not path.is_absolute() or any(part in (".", "..") for part in path.parts):
         raise RotationError("custody path is not canonical absolute")
     current = Path(path.anchor)
@@ -162,6 +293,13 @@ class DirectoryPin:
         self.path = Path(path)
         self.nodes = []
         self.closed = False
+        self.native = None
+        if _WINDOWS is not None:
+            try:
+                self.native = _WINDOWS.Directory(path, create=create, create_root=self.path.anchor)
+            except OSError as exc:
+                raise CustodyError(str(exc)) from exc
+            return
         if (os.name != "posix" or not hasattr(os, "O_DIRECTORY") or not hasattr(os, "O_NOFOLLOW")
                 or os.open not in os.supports_dir_fd or os.stat not in os.supports_dir_fd
                 or os.mkdir not in os.supports_dir_fd):
@@ -200,9 +338,16 @@ class DirectoryPin:
 
     @property
     def fd(self):
+        if self.native is not None:
+            return self.native
         return self.nodes[-1][2]
 
     def verify(self):
+        if self.native is not None:
+            try:
+                return self.native.verify()
+            except OSError as exc:
+                raise CustodyError(str(exc)) from exc
         if self.closed:
             raise CustodyError("retained directory observation was already closed")
         for parent, name, fd, identity in self.nodes:
@@ -211,6 +356,10 @@ class DirectoryPin:
                 raise CustodyError("canonical ancestor was replaced, renamed or redirected")
 
     def close(self):
+        if self.native is not None:
+            self.native.close()
+            self.closed = True
+            return
         for _, _, fd, _ in reversed(self.nodes):
             os.close(fd)
         self.nodes = []
@@ -232,8 +381,15 @@ class PinnedFile:
         self.path = Path(path)
         self.directory = DirectoryPin(self.path.parent)
         self.fd = None
+        self.native = None
         self.max_bytes = max_bytes
         try:
+            if _WINDOWS is not None:
+                try:
+                    self.native = _WINDOWS.File(self.directory.native, self.path.name, maximum=max_bytes)
+                except OSError as exc:
+                    raise CustodyError(str(exc)) from exc
+                return
             before = os.stat(self.path.name, dir_fd=self.directory.fd, follow_symlinks=False)
             if unsafe(before) or not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > max_bytes:
                 raise CustodyError("input is not a bounded single-link regular file")
@@ -246,12 +402,22 @@ class PinnedFile:
             raise
 
     def verify(self):
+        if self.native is not None:
+            try:
+                return self.native.verify()
+            except OSError as exc:
+                raise CustodyError(str(exc)) from exc
         self.directory.verify()
         current = os.stat(self.path.name, dir_fd=self.directory.fd, follow_symlinks=False)
         if snapshot(current) != self.identity or snapshot(os.fstat(self.fd)) != self.identity:
             raise CustodyError("retained file identity, mode, link count or change time drifted")
 
     def read(self):
+        if self.native is not None:
+            try:
+                return self.native.read()
+            except OSError as exc:
+                raise CustodyError(str(exc)) from exc
         self.verify()
         os.lseek(self.fd, 0, os.SEEK_SET)
         chunks = []
@@ -270,6 +436,9 @@ class PinnedFile:
         return b"".join(chunks)
 
     def close(self):
+        if self.native is not None:
+            self.native.close()
+            self.native = None
         if self.fd is not None:
             os.close(self.fd)
             self.fd = None
@@ -301,6 +470,12 @@ def ref_path(repo, ref):
 
 
 def read_ref(repo, ref):
+    try:
+        observed = _CUSTODY.current_ref(repo, ref)
+    except OSError as exc:
+        raise CustodyError(str(exc)) from exc
+    if observed is not NotImplemented:
+        return observed
     path = ref_path(repo, ref)
     loose = read_regular(path, max_bytes=4096) if os.path.lexists(path) else None
     common = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-common-dir").decode().strip())
@@ -333,6 +508,12 @@ def read_ref(repo, ref):
 def read_blob(repo, oid):
     if not isinstance(oid, str) or not OID.fullmatch(oid):
         raise RotationError("blob identity is invalid")
+    try:
+        observed = _CUSTODY.read_object(repo, oid, MAX_BYTES)
+    except OSError as exc:
+        raise RotationError(str(exc)) from exc
+    if observed is not NotImplemented:
+        return observed
     if git(repo, "cat-file", "-t", oid) != b"blob\n":
         raise RotationError("authority object is not a blob")
     size = int(git(repo, "cat-file", "-s", oid))
@@ -375,12 +556,13 @@ def discover(controller):
         raise RotationError("run custody is not a strict claimed root")
     cref = f"refs/implementaudit/controllers/{controller}"
     coid = read_ref(repo, cref)
-    expected = f"implementaudit.controller-current.v1\t{controller}\t{fields[3]}\t{root}\n".encode()
+    expected = f"implementaudit.controller-current.v1\t{controller}\t{fields[3]}\t{fields[2]}\n".encode()
     if coid is None or read_blob(repo, coid) != expected:
         raise RotationError("controller ref does not bind the claimed root")
     return {"repo": repo, "run_root": root, "controller": controller,
             "claim_id": fields[3], "run_root_identity": rel, "controller_ref": cref,
-            "controller_oid": coid, "pointer_ref": f"refs/implementaudit/current-generations/{controller}",
+            "controller_oid": coid, "custody_output": raw,
+            "pointer_ref": f"refs/implementaudit/current-generations/{controller}",
             "marker_ref": f"refs/implementaudit/current-generation-migrations/{controller}",
             "invalidation_ref": f"refs/implementaudit/continuity-invalidations/{controller}"}
 
@@ -816,6 +998,7 @@ def _read_generation_evidence_v1(context, observed):
                 receipt_token=ref + "@" + oid, epoch_oid=epoch_oid)
 
 
+@_scoped_git
 def require_current_generation_join_v1(context):
     observed = managed(context)
     if observed["pointer"] is not None:
@@ -833,6 +1016,10 @@ def _mkdir_safe(path):
 @contextlib.contextmanager
 def native_lock(path, *, blocking):
     """A checked process-owned one-byte gate; process death releases the lease."""
+    if _WINDOWS is not None:
+        with _WINDOWS.lock(path, blocking=blocking):
+            yield
+        return
     path = Path(path)
     with DirectoryPin(path.parent, create=True) as directory:
         flags = os.O_RDWR | os.O_NOFOLLOW | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NONBLOCK", 0)
@@ -1138,7 +1325,7 @@ def archive_retention_guards(context, prepared):
 
 def verify_custody(context):
     expected = "\t".join((context["controller"], str(context["repo"]), str(context["run_root"]), context["claim_id"])) + "\n"
-    if owner_call(context["repo"], "--current-controller", context["controller"]) != expected.encode():
+    if owner_call(context["repo"], "--current-controller", context["controller"]) != context.get("custody_output", expected.encode()):
         raise CustodyError("native claim custody changed during the operation")
     if read_ref(context["repo"], context["controller_ref"]) != context["controller_oid"]:
         raise CustodyError("controller custody changed during the operation")
@@ -1146,7 +1333,8 @@ def verify_custody(context):
 
 def retained_owner_paths(context):
     return [context["run_root"] / ".claimed", *(Path(__file__).absolute().with_name(name) for name in
-            ("claim-run.sh", "claim-run-rotation.py", "rotate-canonical-state.py", "canonical_hot_projection.py"))]
+            ("claim-run.sh", "claim-run-rotation.py", "rotate-canonical-state.py", "canonical_hot_projection.py",
+             "canonical_custody.py"))]
 
 
 def predecessor_guards(context, predecessor):
@@ -1382,6 +1570,7 @@ def recover_failed_epoch(context, failed, failed_oid):
             raise RotationError("recovery did not reach pointer+receipt+marker currentness; retained allocation requires inspection") from exc
 
 
+@_scoped_git
 def run_canonical_rotation_v1(context, owner_map_path, calibration):
     with rotation_lease(context):
         predecessor = resolve_predecessor(context)
@@ -1422,6 +1611,7 @@ def run_canonical_rotation_v1(context, owner_map_path, calibration):
                     raise RotationError(str(recovery_exc)) from exc
 
 
+@_scoped_git
 def resume_native_generation_v1(context, boundary, epoch, pointer_token, invalidation_token):
     if boundary not in BOUNDARIES:
         raise RotationError("native resume requires one original native boundary")
@@ -1469,6 +1659,7 @@ def resume_native_generation_v1(context, boundary, epoch, pointer_token, invalid
                 raise RotationError("NATIVE_RESUME_INCOMPLETE: retained native allocation requires inspection; " + str(exc)) from exc
 
 
+@_scoped_git
 def recover_rotation_v1(context):
     with rotation_lease(context):
         observed = authorities(context)
@@ -1494,6 +1685,7 @@ def recover_rotation_v1(context):
         return recover_failed_epoch(context, record, oid)
 
 
+@_scoped_git
 def invalidate_current_generation_v1(context, boundary, event):
     if boundary not in BOUNDARIES:
         raise RotationError("public invalidation requires a native boundary, not a rotation claim")
@@ -1528,6 +1720,7 @@ def invalidate_current_generation_v1(context, boundary, event):
     return context["invalidation_ref"] + "@" + oid
 
 
+@_scoped_git
 def read_component(context, component, expected_pointer=None):
     if component not in {"STATE", "ROADMAP"}:
         raise RotationError("canonical component must be STATE or ROADMAP")
@@ -1547,6 +1740,7 @@ def read_component(context, component, expected_pointer=None):
     return joined[component.lower() + "_bytes"]
 
 
+@_scoped_git
 def resolve_generation(context):
     joined = require_current_generation_join_v1(context)
     generation = context["run_root"] / "state-generations" / joined["pointer"]["projection_generation_id"]
@@ -1559,6 +1753,7 @@ def resolve_generation(context):
             "archive_manifest_path": str(generation / "archive-manifest.json"), "pointer": joined["pointer"]}
 
 
+@_scoped_git
 def resolve_resume_generation(context):
     source = native_resume_source(context)
     joined, observed = source["joined"], source["observed"]
@@ -1577,6 +1772,7 @@ def resolve_resume_generation(context):
             "archive_manifest_path": str(generation / "archive-manifest.json"), "pointer": joined["pointer"]}
 
 
+@_scoped_git
 def read_resume_component(context, component, pointer_token, invalidation_token):
     if component not in {"STATE", "ROADMAP"}:
         raise RotationError("native resume component must be STATE or ROADMAP")
