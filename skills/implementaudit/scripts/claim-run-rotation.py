@@ -32,14 +32,14 @@ def _windows_custody():
         raise ImportError("canonical custody substrate is aliased or nonregular")
     with open(path, "rb") as stream:
         opened = os.fstat(stream.fileno())
-        raw = stream.read(33559)
+        raw = stream.read(33630)
         after = os.fstat(stream.fileno())
     if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
             != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
-            or len(raw) != 33558
-            or hashlib.sha256(raw).hexdigest() != "48a414e37a4eeeb950a1a7c34d2dba0ab0a602229371aff79ae270e9518fd8de"):
+            or len(raw) != 33629
+            or hashlib.sha256(raw).hexdigest() != "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"):
         raise ImportError("canonical custody substrate source identity mismatch")
     module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
     if module_name in sys.modules:
@@ -209,6 +209,11 @@ def git_environment():
     result.update({"PATH": os.pathsep.join(search), "LC_ALL": "C", "LANG": "C",
                    "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
                    "GIT_TERMINAL_PROMPT": "0"})
+    if os.name == "nt":
+        # Canonical refs can exceed MAX_PATH even when the audited root does not.
+        # This process-owned setting never changes the user's Git configuration.
+        result.update({"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "core.longpaths",
+                       "GIT_CONFIG_VALUE_0": "true"})
     return result
 
 

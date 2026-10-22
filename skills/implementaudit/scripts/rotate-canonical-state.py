@@ -33,14 +33,14 @@ def _windows_custody():
         raise ImportError("canonical custody substrate is aliased or nonregular")
     with open(path, "rb") as stream:
         opened = os.fstat(stream.fileno())
-        raw = stream.read(33559)
+        raw = stream.read(33630)
         after = os.fstat(stream.fileno())
     if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
             != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
-            or len(raw) != 33558
-            or hashlib.sha256(raw).hexdigest() != "48a414e37a4eeeb950a1a7c34d2dba0ab0a602229371aff79ae270e9518fd8de"):
+            or len(raw) != 33629
+            or hashlib.sha256(raw).hexdigest() != "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"):
         raise ImportError("canonical custody substrate source identity mismatch")
     module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
     if module_name in sys.modules:
@@ -155,11 +155,15 @@ def _fixed_git_environment_v1(executable: str,
         sink = "/dev/null"
     else:
         raise RotationError("trusted Git platform is unsupported")
-    return {
+    result = {
         "PATH": path_value, "LC_ALL": "C", "LANG": "C",
         "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": sink,
         "GIT_TERMINAL_PROMPT": "0", "GIT_NO_REPLACE_OBJECTS": "1",
     }
+    if platform_name == "nt":
+        result.update({"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "core.longpaths",
+                       "GIT_CONFIG_VALUE_0": "true"})
+    return result
 
 
 def git_environment() -> dict[str, str]:
@@ -507,7 +511,7 @@ def _check_memory_budget(source_bytes: int = 0) -> None:
 
 
 def rotation_trigger_v1(source_bytes: int, source_tokens: int, context_health_bp: int) -> list[str]:
-    """Frozen OR policy. Unknown observations cannot become zero or healthy."""
+    """Claim-run rotation route: frozen OR policy; unknown inputs stay unknown."""
     if (any(type(value) is not int for value in (source_bytes, source_tokens, context_health_bp))
             or source_bytes < 0 or source_tokens < 0 or not 0 <= context_health_bp <= 10000):
         raise RotationError('complete nonnegative byte/token and bounded context observations are required')

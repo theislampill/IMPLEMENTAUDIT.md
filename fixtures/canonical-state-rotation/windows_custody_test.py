@@ -220,6 +220,28 @@ class GitObjectCustody(unittest.TestCase):
         self.assertTrue(processes)
         self.assertTrue(all(p.poll() is not None for p in processes))
 
+    @unittest.skipUnless(os.name == 'nt', 'Windows long authority-path control')
+    def test_long_authority_paths_use_owned_git_configuration(self):
+        repo = self.repo / ('long-authority-' + 'x' * 110)
+        repo.mkdir()
+        self.claim.git(repo, 'init', '-q')
+        # The private owner must not depend on a user's global long-path option.
+        self.claim.git(repo, 'config', 'core.longpaths', 'false')
+        raw = b'long-path retained authority'
+        oid = self.claim.git(repo, 'hash-object', '-w', '--stdin', input_bytes=raw).decode().strip()
+        ref = 'refs/implementaudit/state-archives/transaction-test/objects/' + oid
+        self.assertGreater(len(str(repo / '.git' / ref)), 260)
+        with self.custody.git_scope(repo, self.exe, self.claim.git_environment()):
+            self.assertIsNone(self.custody.current_ref(repo, ref))
+            self.claim.git(repo, 'update-ref', ref, oid, '0' * 40)
+            self.assertEqual(self.custody.current_ref(repo, ref), oid)
+        projection = load('rotate-canonical-state')
+        self.assertEqual(projection.git(repo, 'show-ref', '--verify', '--hash', ref).decode().strip(), oid)
+        reader = load('read-canonical-pair')
+        result = reader.call(repo, ['git', 'show-ref', '--verify', '--hash', ref])
+        self.assertEqual(result.returncode, 0, result.stderr.decode())
+        self.assertEqual(result.stdout.decode().strip(), oid)
+
     def test_wrong_type_and_size_are_refused(self):
         oid = self.git('hash-object', '-w', '--stdin', data=b'bounded').decode().strip()
         tree = self.git('mktree', data=b'').decode().strip()

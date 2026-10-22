@@ -284,3 +284,33 @@ The detailed retained owner return supplies exact argument shapes, hashes,
 commands, evidence requirements and scope-specific stopping conditions. This
 checkpoint deliberately leaves the unresolved source/interface work visible:
 the remaining task is not accurately described as Windows tests alone.
+### Subsequent Windows path and composed-gate findings
+
+PL5 Windows qualification at `2c69e4ab70839475ec2524f8f0ba58bab91fe900`
+completed all three isolated installer banks and all four official copy routes:
+266 member readbacks and 16 child resolutions. These are copy results; native
+host invocation and accepting input/producer entitlement remain separate.
+
+The first hosted run for that head, `39871321582`, stopped at the terminology
+checker before the runtime banks. Two new comments lacked native attachment.
+The subsequent comment repair preserves executable semantics and refreshes only
+the exact helper byte/hash bindings; the checker and its expectations remain.
+
+The separate Windows crash bank at that head retained 11 failures and two errors.
+A direct discriminator found that the sanitized Git environment omitted the
+global long-path setting: a 284-character authority path produced `Filename too
+long` instead of proved absence. The existing owners now supply Windows
+`core.longpaths=true` per invocation, without changing global or repository
+configuration. A real-filesystem regression retains a conflicting local setting
+and checks absence, publication and independent owner/reader readback.
+
+Complete-owner diagnostics at that same head remain over the fixed limits:
+39,581.867 ms for rotation and 8,831.689 ms for its below-threshold successor.
+The corresponding private Windows Job Object recorded peaks of 138,678,272 and
+106,065,920 committed bytes, with no baseline subtraction. This proposed memory
+metric is not admitted calibration and is not maximum child RSS. An earlier
+recorder result omitted the Python process launched through the WindowsApps
+alias and was rejected as incomplete; it is not a memory pass. The fixed 5,000 ms
+and 67,108,864-byte declarations remain unchanged. Actual tiktoken 0.13 counting
+on the constructed pair observed 188,537 bytes and 23,668 tokens of reduction;
+this does not admit a current-host context producer or the accepting OR path.

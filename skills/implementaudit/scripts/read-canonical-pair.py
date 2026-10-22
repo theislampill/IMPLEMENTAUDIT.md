@@ -29,14 +29,14 @@ def _windows_custody():
         raise ImportError("canonical custody substrate is aliased or nonregular")
     with open(path, "rb") as stream:
         opened = os.fstat(stream.fileno())
-        raw = stream.read(33559)
+        raw = stream.read(33630)
         after = os.fstat(stream.fileno())
     if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
             != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
-            or len(raw) != 33558
-            or hashlib.sha256(raw).hexdigest() != "48a414e37a4eeeb950a1a7c34d2dba0ab0a602229371aff79ae270e9518fd8de"):
+            or len(raw) != 33629
+            or hashlib.sha256(raw).hexdigest() != "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"):
         raise ImportError("canonical custody substrate source identity mismatch")
     module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
     if module_name in sys.modules:
@@ -121,7 +121,8 @@ def call(cwd, argv):
            if not key.startswith(("GIT_", "IMPLEMENTAUDIT_"))}
     env.update(PYTHONDONTWRITEBYTECODE="1", LC_ALL="C")
     if os.name == "nt" and argv[0] in {"git", "bash"}:
-        argv = [str(Path(r"C:\Program Files\Git") / ("cmd/git.exe" if argv[0] == "git" else "bin/bash.exe")), *argv[1:]]
+        options = ["-c", "core.longpaths=true"] if argv[0] == "git" else []
+        argv = [str(Path(r"C:\Program Files\Git") / ("cmd/git.exe" if argv[0] == "git" else "bin/bash.exe")), *options, *argv[1:]]
     return subprocess.run(argv, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
 
 

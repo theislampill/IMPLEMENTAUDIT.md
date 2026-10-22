@@ -146,7 +146,10 @@ def identity(value, *, directory=False):
 
 @contextlib.contextmanager
 def creation_security(k):
-    """Owner-only protected DACL on new objects; never change an existing ACL."""
+    """Claim-run output custody route: create owner-only protected permissions.
+
+    Never change the security descriptor of an existing object.
+    """
     api = ctypes.WinDLL("advapi32", use_last_error=True)
     fn = api.ConvertStringSecurityDescriptorToSecurityDescriptorW
     fn.argtypes = [ctypes.c_wchar_p, ctypes.c_ulong, ctypes.POINTER(ctypes.c_void_p), ctypes.c_void_p]
