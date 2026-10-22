@@ -737,6 +737,7 @@ bash tests/custody-append.test.sh
 bash tests/docs-portal.test.sh
 bash tests/genealogy-corpus.test.sh
 bash tests/r0044-reconstruction.test.sh
+bash tests/r0043-reconstruction.test.sh
 bash tests/operational-evidence-contract.test.sh
 bash tests/operational-evidence-portable.test.sh
 bash scripts/check-validation-registry.sh
