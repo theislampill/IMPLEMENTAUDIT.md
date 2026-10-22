@@ -1,0 +1,54 @@
+{
+  "schema": "r0038-portable-consumer-questions-v1",
+  "scope": "REPOSITORY_ONLY",
+  "authority_ceiling": "READ_ONLY_OBSERVATION",
+  "establishes": [],
+  "questions": [
+    {
+      "id": "C00-Q01",
+      "family": "CODE",
+      "question": "Which exact carrier, query-policy and schema bytes are present, and which local Python dependency edges are mechanically supported?",
+      "required_paths": [
+        "scripts/operational-evidence.py",
+        "scripts/operational_query_policy.py",
+        "docs/operational-evidence-schema.json"
+      ],
+      "answer_scope": "Tracked path/hash facts plus supported positive Python AST edges; no registry-entry or dynamic-loader inference"
+    },
+    {
+      "id": "C00-Q02",
+      "family": "OWNERSHIP",
+      "question": "Which native semantic owner and writer/resource constraints govern the selected current work?",
+      "repository_only_answer": "UNVERIFIED",
+      "missing_owner": "Authenticated current controller/claim/work-graph source; no selection by scan"
+    },
+    {
+      "id": "C00-Q03",
+      "family": "EXECUTION",
+      "question": "Which frontier and pending route obligations are current, and which terminal or JOIN claims are accepted?",
+      "repository_only_answer": "UNVERIFIED",
+      "missing_owner": "R0033/R0035 and actual native occurrence/receiving interfaces"
+    },
+    {
+      "id": "C00-Q04",
+      "family": "EVIDENCE",
+      "question": "Which claim/criterion receipt binds this candidate, controls, contrary evidence and weakest leg?",
+      "repository_only_answer": "UNVERIFIED",
+      "missing_owner": "Canonical selected run-evidence owner and accepted consumer"
+    },
+    {
+      "id": "C00-Q05",
+      "family": "FAILURE",
+      "question": "Which canonical Andon, containment, residual and recovery records remain open or accepted?",
+      "repository_only_answer": "UNVERIFIED",
+      "missing_owner": "Canonical selected failure/recovery owner; source logs do not become native events"
+    },
+    {
+      "id": "C00-Q06",
+      "family": "RELEASE",
+      "question": "Which exact source-to-package/install/host/PR/check/merge/release/public evidence legs qualify this candidate?",
+      "repository_only_answer": "UNVERIFIED",
+      "missing_owner": "Complete bound local/frozen external release capture and actual qualification/readback"
+    }
+  ]
+}
