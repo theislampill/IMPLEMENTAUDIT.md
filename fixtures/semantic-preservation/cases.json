@@ -2,7 +2,7 @@
   "schema_version": 2,
   "package_evidence": {
     "builder_path": "scripts/package-contract.py",
-    "builder_sha256": "74fba7d03c33865a7926efa96ae30df2eef631b8820157c5a3d8cfb3b54270c0",
+    "builder_sha256": "496647f271fc91bf62e8ad1523a341efca9c5911ce22e22e7777d0ff4461ce39",
     "repo_only_instrumentation": [
       "fixtures/semantic-preservation/cases.json",
       "fixtures/semantic-preservation/evaluate.py",
@@ -80,7 +80,7 @@
       "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "3745d0554e6f0c0fce542c50dac67d0120bee3baa442402b4c19213be823f055", "anchor": "references/lean-operating-discipline.md"},
       "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "c077be1091dccd563461e98e1eaf0d865c1b7fb1095e3018470aec60d4245c10", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "3745d0554e6f0c0fce542c50dac67d0120bee3baa442402b4c19213be823f055", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/install-codex-from-release.sh", "revision": "WORKTREE", "sha256": "636832a20488839a45c1c86bbf812a13d15c278d1e35300336ca5976164d68d4", "anchor": "references/lean-operating-discipline.md"}}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "3745d0554e6f0c0fce542c50dac67d0120bee3baa442402b4c19213be823f055", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/install-codex-from-release.sh", "revision": "WORKTREE", "sha256": "0d0e5faea158574e51eded0c07325c83d1da9f09ad6a348e3037a4a303fb0a9d", "anchor": "references/lean-operating-discipline.md"}}
       ]
     },
     "exact-marker-changed": {
