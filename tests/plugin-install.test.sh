@@ -115,6 +115,8 @@ PY
 assert_exact_archive_tree() {
   "${py_cmd[@]}" - "$1" "$2" <<'PY'
 import hashlib
+import stat
+import subprocess
 import sys
 import zipfile
 from pathlib import Path, PurePosixPath
@@ -135,6 +137,7 @@ with zipfile.ZipFile(asset) as archive:
         expected[relative.as_posix()] = (
             len(archive.read(info.filename)),
             hashlib.sha256(archive.read(info.filename)).hexdigest(),
+            stat.S_IMODE(info.external_attr >> 16),
         )
 
 observed = {}
@@ -146,6 +149,7 @@ for path in target.rglob("*"):
         observed[path.relative_to(target).as_posix()] = (
             len(data),
             hashlib.sha256(data).hexdigest(),
+            stat.S_IMODE(path.stat().st_mode),
         )
 
 if observed != expected:
@@ -155,8 +159,23 @@ if observed != expected:
         name for name in set(expected) & set(observed) if expected[name] != observed[name]
     )
     raise SystemExit(
-        f"installed member mismatch: missing={missing}, extra={extra}, hash_or_size_drift={drift}"
+        f"installed member mismatch: missing={missing}, extra={extra}, hash_size_or_mode_drift={drift}"
     )
+
+governor_root = target / "skills/implementaudit"
+resolved = subprocess.run(
+    [str(governor_root / "scripts/resolve-internal-skill.py"),
+     "--governor", str(governor_root / "SKILL.md"), "--child", "audit-state"],
+    cwd=target, check=True, capture_output=True, text=True,
+)
+if resolved.stdout.strip() != str(target / "skills/audit-state/SKILL.md"):
+    raise SystemExit("direct installed Python helper resolved the wrong child")
+detected = subprocess.run(
+    [str(governor_root / "scripts/detect-stack.sh")],
+    cwd=target, check=True, capture_output=True, text=True,
+)
+if not detected.stdout.startswith("implementaudit.detect-stack\nside_effects=none\n"):
+    raise SystemExit("direct installed shell helper did not execute its entrypoint")
 PY
 }
 
@@ -263,6 +282,7 @@ mutate_archive() {
 import hashlib
 import json
 import re
+import stat
 import sys
 import zipfile
 from pathlib import Path
@@ -308,6 +328,13 @@ elif mode == "forged-source-binding":
         inventory_info,
         (json.dumps(inventory, indent=2, sort_keys=True) + "\n").encode("utf-8"),
     )
+elif mode in {"non-executable-script", "setuid-script", "setgid-script", "sticky-script"}:
+    info, data = rows["skills/implementaudit/scripts/resolve-internal-skill.py"]
+    permissions = {
+        "non-executable-script": 0o644, "setuid-script": 0o4755,
+        "setgid-script": 0o2755, "sticky-script": 0o1755,
+    }[mode]
+    info.external_attr = (stat.S_IFREG | permissions) << 16
 else:
     raise SystemExit(f"unknown mutation mode: {mode}")
 
@@ -391,6 +418,24 @@ for host in codex claude; do
   assert_exact_archive_tree "$asset" "$target"
 done
 
+# Exact bytes do not make a wrong-mode predecessor an idempotent success.
+for host in codex claude; do
+  root="$(new_host_root)"
+  install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.0 \
+    >"$tmp_parent/mode-predecessor-setup-$host.out"
+  target="$root/plugins/implementaudit"
+  chmod 0644 "$target/skills/implementaudit/scripts/resolve-internal-skill.py"
+  before="$(tree_digest "$target")"
+  expect_install_failure "$host wrong-mode predecessor" \
+    install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.0
+  grep -q 'installed plugin member mode mismatch' "$tmp_parent/rejected.out" \
+    || fail "$host wrong-mode predecessor did not hit the mode guard"
+  [ "$(tree_digest "$target")" = "$before" ] \
+    || fail "$host wrong-mode rejection changed its predecessor"
+  sibling_count="$(find "$root/plugins" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d '[:space:]')"
+  [ "$sibling_count" -eq 1 ] || fail "$host wrong-mode rejection left transaction residue"
+done
+
 stale_checksum="$tmp_parent/STALE-CHECKSUMS.txt"
 printf 'sha256  %064d  IMPLEMENTAUDIT.plugin.zip\n' 0 > "$stale_checksum"
 root="$(new_host_root)"
@@ -398,7 +443,7 @@ expect_install_failure "stale checksum" \
   install_plugin codex "$root" "$asset" "$stale_checksum" --version 0.4.0
 [ ! -e "$root/plugins/implementaudit" ] || fail "stale checksum created a plugin target"
 
-for mutation in missing-child extra-child changed-child-hash stale-child mixed-version forged-source-binding; do
+for mutation in missing-child extra-child changed-child-hash stale-child mixed-version forged-source-binding non-executable-script setuid-script setgid-script sticky-script; do
   mutation_dir="$(mktemp -d "$tmp_parent/$mutation-archive.XXXXXX")"
   mutated_asset="$mutation_dir/IMPLEMENTAUDIT.plugin.zip"
   mutated_checksums="$mutation_dir/CHECKSUMS.txt"
@@ -409,6 +454,12 @@ for mutation in missing-child extra-child changed-child-hash stale-child mixed-v
     install_plugin codex "$root" "$mutated_asset" "$mutated_checksums" --version 0.4.0
   [ ! -e "$root/plugins/implementaudit" ] \
     || fail "$mutation archive created a plugin target"
+  case "$mutation" in
+    *-script)
+      grep -q 'mode mismatch for skills/implementaudit/scripts/resolve-internal-skill.py' \
+        "$tmp_parent/rejected.out" || fail "$mutation did not hit the archive mode guard"
+      ;;
+  esac
 done
 
 # A standalone skill and canonical plugin in the same host root are ambiguous.

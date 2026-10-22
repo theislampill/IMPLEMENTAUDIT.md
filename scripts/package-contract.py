@@ -60,7 +60,9 @@ EXPECTED_PROJECTIONS = {
         "layout": "flattened-skill",
     },
 }
-EXPECTED_BUDGETS = {
+# Retain the R0021 declaration exactly. A prospective amendment does not
+# relabel measurements or failures evaluated against that historical budget.
+HISTORICAL_BUDGETS = {
     "canonical_plugin": {
         "artifact_role": "canonical_plugin",
         "measurement": "final_deterministic_compressed_bytes",
@@ -89,6 +91,27 @@ EXPECTED_BUDGETS = {
         ),
         "locked_before_builder_change": True,
     },
+}
+EXPECTED_BUDGET_REVISION = {
+    "revision": 2,
+    "applicability": "prospective",
+    "owner": "R0039",
+    "supersedes_revision": 1,
+    "owner_approval": {
+        "path": "package/budgets/r0039-v2-owner-approval.md",
+        "sha256": "c5575774aae04aeb65de98390831e76c9971da570dc60f0b4eadad2aa2da1582",
+    },
+}
+EXPECTED_BUDGETS = {
+    role: {
+        "artifact_role": role,
+        "measurement": "final_deterministic_compressed_bytes",
+        "rounding_unit_bytes": 65536,
+        "cap_bytes": 393216,
+        "reserve_bytes": 2000,
+        "owner": "R0039",
+    }
+    for role in EXPECTED_PROJECTIONS
 }
 TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
 INVENTORY_NAME = "IMPLEMENTAUDIT_INVENTORY.json"
@@ -189,6 +212,10 @@ def validate_contract(root: Path) -> dict[str, Any]:
         contract.get("generated_projections"),
         EXPECTED_PROJECTIONS,
     )
+    require_equal(
+        "budget_revision", contract.get("budget_revision"), EXPECTED_BUDGET_REVISION
+    )
+    require_equal("budget_history", contract.get("budget_history"), {"1": HISTORICAL_BUDGETS})
     require_equal("budgets", contract.get("budgets"), EXPECTED_BUDGETS)
     require_equal(
         "generic_activegraph_dependency",
@@ -559,7 +586,7 @@ def verify_artifact(
                 raise ContractError(f"non-canonical ZIP metadata: {info.filename}")
             if info.extra or info.comment:
                 raise ContractError(f"unexpected ZIP metadata: {info.filename}")
-            observed_mode = (info.external_attr >> 16) & 0o777
+            observed_mode = stat.S_IMODE(info.external_attr >> 16)
             observed_type = stat.S_IFMT(info.external_attr >> 16)
             if observed_type != stat.S_IFREG:
                 raise ContractError(f"archive member is not a regular file: {info.filename}")
@@ -717,10 +744,25 @@ def verify_artifact(
                     expected_data,
                 )
 
-    size = asset.stat().st_size
-    cap = contract["budgets"][role]["cap_bytes"]
+    enforce_budget_size(contract, role, asset.stat().st_size)
+
+
+def enforce_budget_size(contract: dict[str, Any], role: str, size: int) -> None:
+    budgets = contract["budgets"]
+    if role not in budgets:
+        raise ContractError(f"unknown artifact budget role: {role}")
+    if size < 0:
+        raise ContractError("artifact byte size must be non-negative")
+    cap = budgets[role]["cap_bytes"]
     if size > cap:
         raise ContractError(f"{role} artifact exceeds reviewed cap: {size} > {cap} bytes")
+    reserve = budgets[role]["reserve_bytes"]
+    headroom = cap - size
+    if headroom < reserve:
+        raise ContractError(
+            f"{role} artifact violates required reserve: {headroom} < {reserve} bytes "
+            f"({size} bytes; reviewed cap {cap})"
+        )
 
 
 def read_installed_inventory(target: Path) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -770,6 +812,10 @@ def read_installed_inventory(target: Path) -> tuple[dict[str, Any], dict[str, An
         raise ContractError(
             f"installed plugin population mismatch: missing={missing} extra={extra}"
         )
+    for name in expected_paths:
+        expected_mode = 0o755 if name.startswith("skills/implementaudit/scripts/") else 0o644
+        if stat.S_IMODE((target / name).stat().st_mode) != expected_mode:
+            raise ContractError(f"installed plugin member mode mismatch: {name}")
     return package, inventory
 
 
@@ -863,7 +909,12 @@ def install_plugin(
     try:
         stage.mkdir()
         with zipfile.ZipFile(asset) as zf:
-            zf.extractall(stage)
+            for info in zf.infolist():
+                mode = 0o755 if info.filename.startswith("skills/implementaudit/scripts/") else 0o644
+                metadata = info.external_attr >> 16
+                if stat.S_IFMT(metadata) != stat.S_IFREG or stat.S_IMODE(metadata) != mode:
+                    raise ContractError(f"noncanonical archive member mode: {info.filename}")
+                Path(zf.extract(info, stage)).chmod(mode)
         read_installed_inventory(stage)
         if fault == "remove-staged-member":
             (stage / "skills/implementaudit/SKILL.md").unlink()
@@ -957,20 +1008,13 @@ def main(argv: list[str]) -> int:
             )
         elif args.check_budget_size:
             role, raw_size = args.check_budget_size
-            budgets = contract["budgets"]
-            if role not in budgets:
+            if role not in contract["budgets"]:
                 raise ContractError(f"unknown artifact budget role: {role}")
             try:
                 size = int(raw_size)
             except ValueError as exc:
                 raise ContractError(f"artifact byte size is not an integer: {raw_size}") from exc
-            if size < 0:
-                raise ContractError("artifact byte size must be non-negative")
-            cap = budgets[role]["cap_bytes"]
-            if size > cap:
-                raise ContractError(
-                    f"{role} artifact exceeds reviewed cap: {size} > {cap} bytes"
-                )
+            enforce_budget_size(contract, role, size)
     except ContractError as exc:
         print(f"package-contract: {exc}", file=sys.stderr)
         return 1

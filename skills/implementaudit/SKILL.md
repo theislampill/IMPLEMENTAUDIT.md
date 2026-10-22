@@ -112,6 +112,7 @@ ORDINARY_CHEAP_PATH=GOVERNOR_ONLY
 PLANNING_COGNITION=GOVERNOR_PROGRESSIVE_REFERENCE
 EXECUTION_REPAIR_COGNITION=GOVERNOR_PROGRESSIVE_REFERENCE
 STATE_ROUTE_CURRENTNESS=MECHANICALLY_VERIFIED_REQUIRED
+STATE_ROUTE_REQUIRED_COMPLETED_BOUNDARY=BOUNDED_EXECUTION_EVEN_IF_UNRESOLVED
 REVIEW_ROUTE_PACKET=IMMUTABLE_DIGEST_BOUND_REQUIRED
 REVIEW_ROUTE_INDEPENDENCE=GOVERNOR_PROVED_REQUIRED
 MAINTAINER_ROUTE_CURRENTNESS=MECHANICALLY_VERIFIED_REQUIRED
@@ -122,7 +123,10 @@ CHILD_AUTHORITY_OR_CLOSURE_OUTPUT=REJECTED
 
 Route `audit-state` only after a real compaction, restart, transfer, or
 stale-context boundary and the mechanical continuity/currentness gate in
-`references/continuity.md`. Route `audit-assess` only for a digest-bound
+`references/continuity.md`. Its separately proved completed-compaction/resume
+obligation still requires bounded audit-state execution with unresolved
+currentness/epoch recorded; it grants no authority or ordinary execution.
+Route `audit-assess` only for a digest-bound
 immutable packet under the independence contract in
 `references/plan-lifecycle.md`. Route maintainer-only `audit-implement` only for an
 exact candidate after mechanically verified release currentness under
@@ -133,7 +137,9 @@ direct cord-pull may invoke the same bounded cognition and returns to the actual
 caller without creating lifecycle, currentness, mutation, RXX or closure
 authority. Cheap deterministic Andons bypass the child.
 
-A missing gate refuses child loading. An ordinary cheap-path action stays on
+A missing package/authority gate refuses child loading. The required completed-
+boundary route is the narrow currentness exception owned by continuity; every
+other missing currentness gate refuses child loading. An ordinary cheap-path action stays on
 the Execution Spine. Planning remains progressively owned by
 `references/planning-depth.md`; execution/repair remains progressively owned by
 the Runtime Loop and `references/plan-lifecycle.md`. A verifier failure in the
@@ -191,8 +197,10 @@ Load references only when the current gate needs them:
 - `references/goal-format.md`: `/goal`, response, and marker shape.
 - `references/transcript-contract.md`: marker order, handoff exclusivity, and
   the state-derived RC self-dogfood evidence contract when triggered.
-- `references/continuity.md`: controller currentness, epochs, replay refusal,
-  receiver receipts, and post-boundary reconciliation before mutation.
+- `references/continuity.md`: pointer-aware separate reads, epochs, replay
+  refusal, receiver receipts, pending completed-boundary cognition and STOPs.
+- `references/canonical-state-rotation.md`: zero-model pair/archive projection
+  and claim-owned publication; load only for rotation or typed retrieval.
 - `references/repo-state-comparison.md`: baseline/final and helper dispatch.
 - `references/sidecars.md`: optional Graphify/ActiveGraph and tooling bounds.
 - `references/lean-operating-discipline.md`: PDCA, Andon, Hansei, 5 Whys,
@@ -257,9 +265,13 @@ not dispatchable.
 0. Continuity boundary (when resuming): STOP narration/effects at
    host-reported-compaction/new-session/handoff-resume/manual-resume/inferred-context-gap.
    `--current-controller`; separate `--invalidate-continuity`; pre-boundary wait/contain only.
-   Read STATE.md then ROADMAP.md, each in its own completed host action; evidence reads must not use ';', '&&', pipelines, multi-stage shell composition, or batching.
+   After migration use `--resolve-resume-generation` and `--read-resume-state`
+   with the exact prior pointer and fresh invalidation tokens; these are
+   PRE_RESUME_EVIDENCE, not currentness. Read STATE.md then ROADMAP.md
+   through the native boundary contract (`references/continuity.md`), each
+   in its own completed host action; evidence reads must not use ';', '&&', pipelines, multi-stage shell composition, or batching.
    Live state wins; record the epoch row; refuse: "Target already satisfied at <evidence>; no duplicate action taken."
-   `--resume-controller`; `--verify-resume-receipt`; `--require-current-continuity`; first message: receipt/frontier/discrepancies.
+   `--resume-controller` with those tokens when migrated; `--verify-resume-receipt`; `--require-current-continuity`; first message: receipt/frontier/discrepancies.
    `POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT`; `PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY`;
    `STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE`; `POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT`.
 1. Safety read: `AGENTS.md`, README/CONTRIBUTING/docs/workflows, existing audit

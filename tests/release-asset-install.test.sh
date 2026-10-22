@@ -212,10 +212,13 @@ do
   }
 done
 
-"${py_cmd[@]}" - "$installed" <<'PY'
+"${py_cmd[@]}" - "$installed" "$asset" <<'PY'
 import hashlib
 import json
+import stat
+import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 root = Path(sys.argv[1])
@@ -248,6 +251,29 @@ if observed_paths != expected_paths:
 skill_docs = [path for path in root.rglob("SKILL.md") if path.is_file()]
 if skill_docs != [root / "SKILL.md"]:
     raise SystemExit("standalone install exposed a discoverable child skill")
+
+with zipfile.ZipFile(sys.argv[2]) as archive:
+    if set(archive.namelist()) != observed_paths:
+        raise SystemExit("installed standalone population differs from exact archive")
+    for info in archive.infolist():
+        member = root / info.filename
+        if member.read_bytes() != archive.read(info.filename):
+            raise SystemExit(f"installed archive byte mismatch: {info.filename}")
+        if stat.S_IMODE(member.stat().st_mode) != stat.S_IMODE(info.external_attr >> 16):
+            raise SystemExit(f"installed archive mode mismatch: {info.filename}")
+resolved = subprocess.run(
+    [str(root / "scripts/resolve-internal-skill.py"),
+     "--governor", str(root / "SKILL.md"), "--child", "audit-state"],
+    cwd=root, check=True, capture_output=True, text=True,
+)
+if resolved.stdout.strip() != str(root / "internal-procedures/audit-state.md"):
+    raise SystemExit("direct installed Python helper resolved the wrong child")
+detected = subprocess.run(
+    [str(root / "scripts/detect-stack.sh")],
+    cwd=root, check=True, capture_output=True, text=True,
+)
+if not detected.stdout.startswith("implementaudit.detect-stack\nside_effects=none\n"):
+    raise SystemExit("direct installed shell helper did not execute its entrypoint")
 PY
 [ ! -e "$installed/.claude-plugin/plugin.json" ] && [ ! -e "$installed/.claude-plugin/marketplace.json" ] || {
   printf 'release-asset-install.test: Codex projection must exclude both plugin manifests\n' >&2
@@ -263,6 +289,19 @@ if [ -e "$installed/IMPLEMENTAUDIT.md" ]; then
   printf 'release-asset-install.test: root behavior file must not be installed\n' >&2
   exit 1
 fi
+
+# Exact bytes do not make a wrong-mode predecessor an idempotent success.
+mode_home="$tmp_parent/wrong mode predecessor home"
+mode_target="$mode_home/skills/implementaudit"
+install_codex "$mode_home" >"$tmp_parent/mode-predecessor-setup.out"
+chmod 0644 "$mode_target/scripts/resolve-internal-skill.py"
+mode_before="$(tree_digest "$mode_target")"
+expect_install_failure "wrong-mode predecessor" install_codex "$mode_home"
+grep -q 'installed standalone member mode mismatch' "$tmp_parent/rejected.out" \
+  || fail "wrong-mode predecessor did not hit the mode guard"
+[ "$(tree_digest "$mode_target")" = "$mode_before" ] \
+  || fail "wrong-mode rejection changed its predecessor"
+assert_no_transaction_residue "$mode_home"
 
 # An existing standalone target is an update predecessor, not disposable
 # staging. It must be exact before any transaction path is created.
@@ -388,6 +427,37 @@ if bash scripts/install-codex-from-release.sh \
   printf 'release-asset-install.test: stale checksum unexpectedly passed\n' >&2
   exit 1
 fi
+
+# Recomputed checksums cannot authorize noncanonical or special permission bits.
+for mutation in non-executable-script setuid-script setgid-script sticky-script; do
+  mutation_dir="$tmp_parent/$mutation archive"
+  mkdir -p "$mutation_dir"
+  mutated_asset="$mutation_dir/IMPLEMENTAUDIT.skill"
+  mutated_checksums="$mutation_dir/CHECKSUMS.txt"
+  "${py_cmd[@]}" - "$asset" "$mutated_asset" "$mutation" <<'PY'
+import stat
+import sys
+import zipfile
+permissions = {
+    "non-executable-script": 0o644, "setuid-script": 0o4755,
+    "setgid-script": 0o2755, "sticky-script": 0o1755,
+}[sys.argv[3]]
+with zipfile.ZipFile(sys.argv[1]) as source, zipfile.ZipFile(sys.argv[2], "w") as target:
+    for info in source.infolist():
+        if info.filename == "scripts/resolve-internal-skill.py":
+            info.external_attr = (stat.S_IFREG | permissions) << 16
+        target.writestr(info, source.read(info.filename))
+PY
+  bash scripts/write-release-checksums.sh "$mutated_asset" "$mutated_checksums"
+  expect_install_failure "$mutation archive" \
+    bash scripts/install-codex-from-release.sh \
+      --asset "$mutated_asset" --checksum "$mutated_checksums" \
+      --codex-home "$tmp_parent/$mutation rejected home" --version 0.4.0
+  grep -q 'mode mismatch for scripts/resolve-internal-skill.py' "$tmp_parent/rejected.out" \
+    || fail "$mutation did not hit the archive mode guard"
+  [ ! -e "$tmp_parent/$mutation rejected home/skills/implementaudit" ] \
+    || fail "$mutation archive created an installed target"
+done
 
 overbroad_dir="$tmp_parent/overbroad asset"
 mkdir -p "$overbroad_dir"

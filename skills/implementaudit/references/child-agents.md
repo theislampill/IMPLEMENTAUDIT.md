@@ -121,6 +121,14 @@ source tree with `--run-root`; it never substitutes a same-named checker from
 the run-root checkout. Absence or failure is fail-closed. Calling the mode only
 from tests does not discharge the live gate.
 
+The required completed-compaction/resume audit-state route in `continuity.md`
+retains its execution obligation when currentness/epoch is unresolved. Its bound
+capsule preserves occurrence identity, physical/source evidence, observation
+scope/cutoff, reservation/result, accepted witness or absence, uncovered
+successors, historical refusals and supported retry. Child return is evidence;
+it cannot consume another occurrence or discharge currentness. This adds no
+new child, router, store or lifecycle owner.
+
 ## Specialist loops
 
 Specialist fanout is a warranted `ydqyq-audit-action`, not an optional

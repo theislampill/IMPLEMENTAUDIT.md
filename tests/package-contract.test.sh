@@ -216,13 +216,82 @@ path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 PY
 expect_reject post-review-cap-edit "$changed_cap" "budgets"
 
-bash "$checker" --check-budget-size canonical_plugin 327680
-bash "$checker" --check-budget-size standalone_compatibility 327680
-if bash "$checker" --check-budget-size canonical_plugin 327681 >/dev/null 2>&1; then
-  fail "canonical plugin overrun was accepted"
-fi
-if bash "$checker" --check-budget-size standalone_compatibility 327681 >/dev/null 2>&1; then
-  fail "standalone compatibility overrun was accepted"
-fi
+for mutation in missing-reserve reduced-reserve unapproved-revision \
+    missing-revision substituted-approval changed-history missing-history; do
+  fixture="$tmp/$mutation"
+  make_fixture "$fixture"
+  python - "$fixture/package/implementaudit-package.json" "$mutation" <<'PY'
+import copy
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+mutation = sys.argv[2]
+data = json.loads(path.read_text(encoding="utf-8"))
+if mutation == "missing-reserve":
+    data["budgets"]["standalone_compatibility"].pop("reserve_bytes", None)
+elif mutation == "reduced-reserve":
+    data["budgets"]["canonical_plugin"]["reserve_bytes"] = 1999
+elif mutation == "unapproved-revision":
+    data.setdefault("budget_revision", {})["revision"] = 3
+elif mutation == "missing-revision":
+    data.pop("budget_revision", None)
+elif mutation == "substituted-approval":
+    data.setdefault("budget_revision", {}).setdefault("owner_approval", {})["sha256"] = "0" * 64
+elif mutation == "changed-history":
+    history = copy.deepcopy(data.get("budget_history", {"1": data["budgets"]}))
+    history["1"]["canonical_plugin"]["cap_bytes"] = 393216
+    data["budget_history"] = history
+elif mutation == "missing-history":
+    data.pop("budget_history", None)
+else:
+    raise SystemExit(f"unknown mutation: {mutation}")
+path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+PY
+  case "$mutation" in
+    *reserve) expected="budgets" ;;
+    *history) expected="budget_history" ;;
+    *) expected="budget_revision" ;;
+  esac
+  expect_reject "$mutation" "$fixture" "$expected"
+done
+
+expect_budget_reject() {
+  local role="$1" size="$2" expected="$3" output
+  if output="$(bash "$checker" --check-budget-size "$role" "$size" 2>&1)"; then
+    fail "$role accepted $size bytes"
+  fi
+  case "$output" in
+    *"$expected"*) ;;
+    *) fail "wrong budget rejection for $role at $size bytes: $output" ;;
+  esac
+}
+
+# Retain the original CLI refusal order when both inputs are invalid.
+expect_budget_reject unknown_role not-an-integer "unknown artifact budget role"
+expect_budget_reject canonical_plugin not-an-integer "artifact byte size is not an integer"
+expect_budget_reject standalone_compatibility -1 "artifact byte size must be non-negative"
+
+for role in canonical_plugin standalone_compatibility; do
+  # R0039 revision 2 is prospective. The owner-approved 393216-byte cap
+  # retains a mandatory 2000-byte reserve; the accepting maximum is 391216.
+  bash "$checker" --check-budget-size "$role" 391216
+  expect_budget_reject "$role" 391217 "required reserve"
+  expect_budget_reject "$role" 393216 "required reserve"
+  expect_budget_reject "$role" 393217 "exceeds reviewed cap"
+done
+
+python - <<'PY'
+import hashlib
+import json
+from pathlib import Path
+
+contract = json.loads(Path("package/implementaudit-package.json").read_text())
+approval = contract["budget_revision"]["owner_approval"]
+observed = hashlib.sha256(Path(approval["path"]).read_bytes()).hexdigest()
+if observed != approval["sha256"]:
+    raise SystemExit("source owner approval bytes differ from the reviewed declaration")
+PY
 
 printf 'package-contract.test: ok\n'

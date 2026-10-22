@@ -492,3 +492,58 @@ generation, when the owner authorized build but not commit, or when the change
 is a deferred owner decision.
 
 Rule phrase: when validation is red.
+
+Canonical pair integration preserves the claim-run publication owner. The
+automatic `scripts/claim-run-rotation.py` companion is called by claim-run;
+its internal `scripts/rotate-canonical-state.py` library owns deterministic
+projection/archive work and captures the physical sibling source before load.
+That library captures and verifies the exact byte count/SHA-256 of
+`scripts/canonical_hot_projection.py` before executing its pure functions.
+`scripts/read-canonical-pair.py` is automatically called by the run-root and
+phase validators for pointer-aware derivative snapshots. It calls the native
+claim owner, grants no authority, and never falls back on a refused JOIN.
+Its `--native-guards` views preserve the exact paired native profiles and
+owner-bound artifacts for original Markdown consumers; `--verify-current`
+rechecks the complete snapshot after consumption. Evidence-only native resume
+reads use the claim owner's separate boundary interface, never this adapter.
+Detailed triggers and consequences live in `continuity.md`.
+
+helper-route: scripts/claim-run-rotation.py|A|canonical-currentness|references/continuity.md#canonical-generations-and-readers|scripts/claim-run.sh|<owner-command> <controller>|claim-owned
+helper-route: scripts/rotate-canonical-state.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/claim-run-rotation.py|none|no-currentness
+helper-route: scripts/canonical_hot_projection.py|I|canonical-projection|references/continuity.md#canonical-generations-and-readers|scripts/rotate-canonical-state.py|none|no-currentness
+helper-route: scripts/read-canonical-pair.py|A|canonical-validation|references/continuity.md#canonical-generations-and-readers|scripts/validate-run-root.sh|--run-root <run-root> --output <empty-private-directory> --native-guards|derivative-only
+
+### Claim-owned native modes
+
+These are exact public native operations; their mode census grants no execution
+authority. The continuity boundary contract supplies the actual trigger and
+ordered separate reads. Migrated resume requires both exact tokens; legacy
+resume uses its original boundary/epoch form without migrated tokens.
+
+| Command | Boundary |
+|---|---|
+| `claim-run.sh --current-controller <controller>` | controller-custody |
+| `claim-run.sh --invalidate-continuity <controller> --boundary <boundary> --event <event>` | fresh-invalidation |
+| `claim-run.sh --resume-controller <controller> --boundary <boundary> --epoch <epoch> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>` | native-resume-currentness |
+| `claim-run.sh --verify-resume-receipt <receipt-token>` | receipt-verification |
+| `claim-run.sh --require-current-continuity <controller>` | native-currentness |
+| `claim-run.sh --resolve-canonical-generation <controller>` | native-current-read |
+| `claim-run.sh --read-canonical-state <controller> --role <role> --expected-pointer <pointer-token>` | native-current-read |
+| `claim-run.sh --read-current-state <controller> <role> --expected-pointer <pointer-token>` | native-current-read |
+| `claim-run.sh --resolve-resume-generation <controller>` | pre-resume-evidence |
+| `claim-run.sh --read-resume-state <controller> --role <role> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>` | pre-resume-evidence |
+| `claim-run.sh --rotate-canonical-state <controller> --owner-map <owner-map>` | rotation-publication |
+| `claim-run.sh --recover-canonical-state <controller>` | rotation-recovery |
+
+helper-mode: claim-run.sh|--current-controller|<controller>|controller-custody
+helper-mode: claim-run.sh|--invalidate-continuity|<controller> --boundary <boundary> --event <event>|fresh-invalidation
+helper-mode: claim-run.sh|--resume-controller|<controller> --boundary <boundary> --epoch <epoch> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>|native-resume-currentness
+helper-mode: claim-run.sh|--verify-resume-receipt|<receipt-token>|receipt-verification
+helper-mode: claim-run.sh|--require-current-continuity|<controller>|native-currentness
+helper-mode: claim-run.sh|--resolve-canonical-generation|<controller>|native-current-read
+helper-mode: claim-run.sh|--read-canonical-state|<controller> --role <role> --expected-pointer <pointer-token>|native-current-read
+helper-mode: claim-run.sh|--read-current-state|<controller> <role> --expected-pointer <pointer-token>|native-current-read
+helper-mode: claim-run.sh|--resolve-resume-generation|<controller>|pre-resume-evidence
+helper-mode: claim-run.sh|--read-resume-state|<controller> --role <role> --expected-pointer <pointer-token> --expected-invalidation <invalidation-token>|pre-resume-evidence
+helper-mode: claim-run.sh|--rotate-canonical-state|<controller> --owner-map <owner-map>|rotation-publication
+helper-mode: claim-run.sh|--recover-canonical-state|<controller>|rotation-recovery

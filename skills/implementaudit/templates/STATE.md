@@ -167,6 +167,26 @@ under the requested identity before marking them bound.
 
 ## Context epochs and instruction applicability
 
+This is the native legacy authoring template. Once canonical migration is
+recorded, resolve/read STATE and ROADMAP through claim-run with one expected
+pointer token (`references/continuity.md`); root copies are compatibility history.
+Never author a future receipt OID, pointer OID or self-referential owner-map hash
+into the pair. Unsupported native-to-typed field migration stops rather than
+classifying unparsed instructions, Andons, residuals or attestations as history.
+Native validator input requires paired protected `native_guards` profiles
+(`implementaudit.native-guard-profile.v1`), owned by each role and retaining
+its exact source lines. This STATE status and next-action table row must match
+the protected continuation exactly. The adapter derives the live epoch heading
+and row from the native pointer; profiles retain historical epoch rows and
+cannot occupy the live epoch. All remaining native guards consume preserved
+lines unchanged. Use its `--native-guards` views and post-consumption
+`--verify-current` check; derivative files grant no currentness authority.
+Keep all pending completed compaction/resume identities, source bindings,
+scopes/cutoffs, actual results, accepted witnesses or absence, uncovered
+successors, historical refusals and supported retries. Missing epoch/currentness
+cannot make the required bounded audit-state execution optional or consumed.
+
+
 Current epoch: G0001
 
 One row per continuity boundary (see `references/continuity.md` and

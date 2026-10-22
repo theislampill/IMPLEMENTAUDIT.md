@@ -103,6 +103,27 @@ work, use the double-audit pattern:
 
 Execute these steps for every phase N, in order:
 
+Canonical read rule for every STATE/ROADMAP read or update below: after migration,
+resolve the claim-owned pointer and read the pair separately with the same
+expected token (`references/continuity.md`). Root copies are compatibility history;
+immutable generations change only through the native owner. A refused JOIN or
+unsupported native successor stops effects; do not edit/read root copies around
+it. Required bounded audit-state execution after independently proved completed
+compaction/resume retains unresolved epoch/currentness without granting authority.
+At a migrated invalidation boundary, use the separate `--read-resume-state`
+STATE then ROADMAP commands with both native resolution tokens. These remain
+`PRE_RESUME_EVIDENCE` until native resume, receipt verification and currentness
+pass; the ordinary current reader cannot authorize this evidence route.
+For automatic Markdown consumers, materialize a new private snapshot with
+`read-canonical-pair.py --run-root <root> --output <empty-directory>
+--native-guards`. Use its `native-records/STATE.md`, `native-records/ROADMAP.md`
+and contained artifact paths for current authorization, closure, residual,
+evidence and direct-record checks. This retains native schemas, original
+guards and declared sibling dependencies. Re-run the adapter with the same
+arguments plus `--verify-current` after consumption and before accepting the
+result. A changed pointer, pair, profile or dependency refuses. Raw typed JSON,
+root compatibility copies and derivative snapshots confer no authority.
+
 **Step 1 — Read STATE.md.**
 Confirm `Current phase` matches N. If STATE.md shows a different current phase,
 do not execute phase N; instead report the discrepancy and wait for owner
@@ -951,7 +972,8 @@ Print `AUDIT_START` with:
 - Command list: deduplicated mandatory commands to re-run
 - Baseline ref
 
-Re-read the original `<run-root>/ROADMAP.md` from disk. Do not rely on earlier
+Re-read the canonical ROADMAP through the read rule above (legacy:
+`<run-root>/ROADMAP.md` from disk). Do not rely on earlier
 reading from this session or from phase-level self-reports. This is the
 definitive phase and deliverable list.
 

@@ -265,7 +265,8 @@ Context-epoch continuity (#35) deliberately introduces NO new marker: a
 continuity boundary is recorded as a new epoch row in STATE.md `## Context
 epochs and instruction applicability` (provenance exactly one of
 `host-reported-compaction` / `new-session` / `handoff-resume` /
-`manual-resume` / `inferred-context-gap`), and post-boundary reconciliation
+`manual-resume` / `inferred-context-gap`, plus the distinct claim-owned
+`canonical-state-rotation`), and post-boundary reconciliation
 precedes any repository mutation (PROTOCOL.md §Continuity boundaries;
 `references/continuity.md`). A transcript that mutates the repository
 after a host-reported compaction without a reconciliation record, or that
@@ -279,6 +280,9 @@ new command. Ordinary task narration, a new check, an audit-artifact write, a
 package build or a commit before fresh invalidation, receipt verification and
 currentness is a continuity violation. A remembered standing constraint remains
 binding but does not become the active frontier without live-state evidence.
+After migration, token-bound `--read-resume-state` reads preserve the required
+STATE-then-ROADMAP order under `PRE_RESUME_EVIDENCE`. They do not replace fresh
+native receipt verification or confer currentness; see `continuity.md`.
 
 ## Child-skill routing observability
 
@@ -300,11 +304,19 @@ without the announcement, an announcement without a load, a mismatched child,
 duplicate child announcements, or a retroactive announcement is a routing
 observability failure; none creates authority or closure.
 
-For a real continuity boundary, the verified receipt precedes the
-`audit-state` load. Its route line appears in the first narration permitted
+For the ordinary real-boundary recovery route, the verified receipt precedes
+the `audit-state` load. Its route line appears in the first narration permitted
 after that receipt; it never displaces or precedes the receipt/currentness
 gate. The other children follow the same actual-load/visible-route bijection
 when their own governor gates genuinely select them.
+
+A separately proved completed-compaction/resume obligation follows continuity's
+required bounded route even when currentness is unresolved or its measured epoch
+is absent. The actual-load announcement states that limit and preserves original
+occurrence/source/scope identity; it claims no verified receipt or ordinary
+execution permission. This exception does not turn dispatch, reservation, failed
+return or matching output into accepted occurrence consumption. Native routing,
+observation and accepted JOIN remain continuity-owned.
 
 Verification inside a child may report an already-known cheap deterministic failure;
 after return, the governor may handle that result without another model child.
