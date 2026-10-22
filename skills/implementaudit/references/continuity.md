@@ -104,6 +104,14 @@ portable rules use `AGENTS_UPDATE_DECISION`.
 
 ## Canonical generations and readers
 
+The existing claim, projection and paired-reader owners load the exact captured
+`canonical_custody.py` substrate for supported Windows handle custody and bounded
+Git reads. It owns no ref publication, epoch, receipt, producer admission or
+currentness. Each independent object lookup uses a fresh Git process; type,
+size, hash and actual Git ref interpretation remain required. Windows custody
+requires fixed local NTFS, SHA-1 objects and the supported files-ref backend;
+unsupported capabilities refuse before selecting legacy or migrated authority.
+
 `claim-run.sh` remains the sole continuity/current-pointer/receipt/marker writer.
 Its private `claim-run-rotation.py` companion invokes `rotate-canonical-state.py`
 for zero-model draft, anchored archive, final projection and typed retrieval;
