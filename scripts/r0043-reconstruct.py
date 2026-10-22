@@ -86,7 +86,11 @@ def write_index(path, index, axes=('rows', 'groups')):
             name = f'{path.stem}-{axis}-{i:02}.json'
             (path.parent / name).write_bytes(data)
             manifest['parts'].append({'file': name, 'axis': axis, 'records': len(records), 'bytes': len(data), 'sha256': digest(data)})
-    core.write_json(path, manifest)
+    if index.get('format') == 'r0043-prepared-continuation-v1':
+        # Keep the published, canonically unallocated scope beside literal aliases.
+        path.write_bytes(canonical(manifest) + b'\n')
+    else:
+        core.write_json(path, manifest)
 
 
 def read_index(path):
@@ -645,7 +649,7 @@ def check_prepared(prepared, index, repo_root=None):
     require([g['id'] for g in prepared['groups']] == [g['id'] for g in index['groups']], 'prepared group population differs')
     for group, old in zip(prepared['groups'], index['groups']):
         require(group['members'] == old['members'] and group['controls']['RED'] and group['controls']['positive'], 'prepared group/control differs')
-    relations = all_target_relations(prepared)
+    relations = all_target_relations(prepared, repo_root or ROOT)
     require(len({r['id'] for r in relations}) == len(relations) == 20152 and
         all(r['hard_dependency_admitted'] is False for r in relations), 'prepared relation/dependency differs')
     require(len({r['id'] for r in prepared['concerns']}) == len(prepared['concerns']) == 47, 'distinct concern population differs')

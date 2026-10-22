@@ -170,6 +170,10 @@ class ReaderTests(unittest.TestCase):
                 dest = root / owner['path']
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 dest.write_bytes((ROOT / owner['path']).read_bytes())
+            sibling = root / self.reader.SIBLINGS['EMAS']['path']
+            sibling.parent.mkdir(parents=True, exist_ok=True)
+            sibling.write_bytes((ROOT / self.reader.SIBLINGS['EMAS']['path']).read_bytes())
+            self.reader.check_prepared(prepared, self.index, repo_root=root)
             (root / prepared['current_source_owners'][0]['path']).write_bytes(b'changed meaning')
             with self.assertRaisesRegex(ValueError, 'current source'):
                 self.reader.check_prepared(prepared, self.index, repo_root=root)
@@ -181,9 +185,21 @@ class ReaderTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('unavailable', result.stderr)
 
-    @unittest.skipUnless(os.environ.get('R0043_INPUT_MAP'), 'private preparation supplied only for exact receiving integration')
+    def test_selected_receiving_root_must_supply_inherited_relations(self):
+        prepared = self.reader.read_index(ROOT / self.reader.PREPARED_FILE)
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for owner in prepared['current_source_owners']:
+                if owner['state'] == 'PRESENT_SOURCE_ONLY':
+                    path = root / owner['path']
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes((ROOT / owner['path']).read_bytes())
+            with self.assertRaises((ValueError, OSError)):
+                self.reader.check_prepared(prepared, self.index, repo_root=root)
+
+    @unittest.skipUnless(os.environ.get('R0043_INPUT_MAP'), 'private preparation supplied only for exact receiving integration')  # published, canonically unallocated
     def test_missing_and_changed_private_input_refused(self):
-        supplied = self.reader.parse(Path(os.environ['R0043_INPUT_MAP']).read_bytes())
+        supplied = self.reader.parse(Path(os.environ['R0043_INPUT_MAP']).read_bytes())  # published, canonically unallocated
         lock = self.reader.parse((ROOT / self.reader.PREPARED_LOCK).read_bytes())
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

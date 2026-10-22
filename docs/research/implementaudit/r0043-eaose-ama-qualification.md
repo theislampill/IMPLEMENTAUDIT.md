@@ -177,6 +177,62 @@ accepting actions.
 
 ## Validation and integration
 
+### Actual receiving of the recovered records
+
+One newly commissioned cold consumer retrieved all 278 full member views and
+32 full groups at source `ceb006ce02a88d35e2157cfc8d03cb20e0cd617f`, tree
+`c2e710d85fed644601d64bb481f22ed7aff9328c`, and the unchanged prepared semantic
+projection `199d82973cf18cc789fef5ef7c75f255ed880b0c4eb7461e3548e63207bfeae0`.
+Its retained local output manifest is
+`7f3ba83c318af019a68436a8e06e10d6d594021a23c40acbb62ea698d821ba92`.
+That digest identifies owner-held evidence, not a public download or an
+acceptance event. The parent verified all 47 output files, every keyed
+member/current-state mapping and every group/control mapping, then consumed
+the report and its concrete responsibility, action and custody decisions.
+
+The consumer interpreted the stated criterion, trigger, authority, status,
+evidence classifications and scope, residual, first discriminator, next action,
+consumer and horizon fields for all 278 members. It also read all 146 accepted
+sibling action mappings and all 32 group controls. Full retrieval is distinct
+from rereview of every original field, bibliography rationale or all 20,152
+directions. The eleven focal readings preserve the distinct C026/C027/C062,
+C119/C120, EAA-062/EAA-070, non-primary EAA-056 and dormant EMAS-053 actions.
+
+Two receiver-authored proposals used the same real member reader and identical
+valid EMAS-053 output bytes. The consumer rejected dropping the domain/model
+guard and treating joint feasibility as implementation authority; it accepted
+concise wording that retained every action distinction and full route. These
+are actual semantic decisions after retrieval, not blind trials, an integrity
+refusal or empirical validation of a domain mechanism.
+
+The actual parent retained integration responsibility and the human approval
+boundary. It rejected proposed completion with an unassigned collective
+responsibility and rejected a readback child's claim to permit merge, while
+retaining valid leaf facts. An adequate directly commissioned path remained
+admissible. This qualifies the selected ordinary responsibility distinction;
+it grants no general holonic architecture, governed native lifecycle,
+campaign admission, external principal authentication or human assent.
+
+Every recovered group discriminator equals its previously received exact
+control. Thirteen earlier branches and nineteen supplemental families are
+reused at their original documentary scopes, without replay or new
+independence credit. Original S10/y's breach inference remains unsupported;
+the separate S10/n1 witness supports only its added modeled facts. S12/a's
+cause remains unresolved. TC07 retains its finite-model/fairness conditions.
+The declared entry exposed historical conclusions to the new consumer;
+requested model was GPT-6 Astra/max, actual child model was not independently
+exposed, and host-recorded message delivery was encrypted. Those visibility
+and coverage limits remain part of the entitled accepting decision.
+
+The projections' `acceptance` values preserve their authored pre-approval
+snapshot. They are not a live issue-status service. Later entitled acceptance
+must be read in the two independently addressable records at
+[issue 232](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/232), with
+the exact accepted source, current evidence and retained continuation scope.
+No historical `NOT_ACCEPTED` or unavailable field is rewritten retroactively.
+
+### Source and test boundaries
+
 The authorized serialized integration adds the existing issue-owned
 `tests/r0043-reconstruction.test.sh` to `scripts/verify-package.sh`, preserving
 both registrations from accepted main. The donor's unregistered-wrapper CI
@@ -184,6 +240,13 @@ failure remains historical. Native Windows baseline also exposed POSIX versus
 Windows separator inequality in the reader's sibling identity strings; the
 two repository paths now use explicit POSIX serialization. No runtime source
 mechanism was changed.
+
+A further negative control exposed a missing inherited-relation file in an
+explicitly selected receiving checkout being masked by the tool checkout's
+copy. Prepared checking now reads that inherited file from the selected
+receiving root. Missing content refuses the binding; a complete alternate
+root passes before a changed owner source is independently refused. This is
+a repository-reader access repair, separate from the native runtime.
 
 The ordinary reconstruction tests distinguish local projection integrity from
 tests requiring the frozen packet. Supply the exact retained packet explicitly
@@ -195,7 +258,7 @@ R0043_PACKET=/path/to/EVOLVED_AMA_FROZEN_PACKET.zip R0043_INPUT_MAP=/private/pre
 ```
 
 Without those inputs four packet-dependent and one private-input test report
-skips. With both, all nineteen controls execute. The immutable
+skips. With both, all twenty controls execute. The immutable
 packet belongs to the separate frozen corpus commit; its historic path is not
 assumed present in a main checkout. The complete reconstruction engine and
 original test bank are preserved. No test is hidden or renamed to evade the
