@@ -1,8 +1,10 @@
-# R0043 EAOSE and AMA continuation — portable, canonically unallocated
+# R0043 EAOSE and AMA continuation — canonically unallocated
 
-R0043 is published, canonically unallocated. This is a non-closing documentary
-preparation for issue 232. EAOSE-132 and AMA-CONTINUATION-278/32 remain separate
-acceptance undertakings. Runtime 0.4.0 and release family v0.4.0.0 are unchanged.
+R0043 is published, canonically unallocated. EAOSE-132 and
+AMA-CONTINUATION-278/32 have separate acceptance records at issue 232. This
+repository route supplies complete original and later documentary dispositions;
+entitled acceptance, actual receiving and issue closure are separate evidence.
+Runtime 0.4.0 and release family v0.4.0.0 are unchanged.
 
 ## Declared entry and complete content
 
@@ -53,16 +55,56 @@ STRENGTHENS_EXISTING, 74 QUALIFICATION_ONLY, three DEFERRED and four
 UNRESOLVED_DISCRIMINATOR records. These are not the later 34 partial, 66
 conditional, 25 rejected, three deferred and four research-only assignments.
 
-The exact later R0043 crosswalk (canonically unallocated), EAOSE row 0 and AMA row 3
-have not been recovered. Full later property/group/relation/context target
-records and their final correspondence remain required inputs. The reader
-leaves those fields unavailable. The accepted EMAS row-1 projection supplies
-32 group records with mechanism, mixed-state context and first missing
-discriminator text. They are reusable at that certified constituent scope;
-they do not establish custody of the separate row-3 group ledger, execution of
-all its RED/positive controls or the absent EAOSE assignments. Original group
-records do not replace either target layer.
-`member --require-prepared` therefore refuses that stronger request.
+The original portable candidate could not obtain the later crosswalk, EAOSE
+row 0 or AMA row 3. Its seven original parts, historical nulls and failed
+`member --require-prepared` outcome remain unchanged historical evidence.
+
+The recovered exact inputs now have a separate
+`r0043-prepared-dispositions.json` entry and twelve bounded content parts.
+`r0043-prepared-source-lock.json` binds the actual crosswalk, distinct row 0
+and row 3, all full ledgers, final-input correspondence and the 47-concern
+reconciliation. All 278 prepared assignments come from their own records;
+counts do not create assignments. Every inherited row-1 group field matches
+the row-3-bound full group record. The additional controls preserve all 32
+exact RED discriminators and positive boundaries. All 11,960 identical
+accepted EMAS direction records are reused through the pinned sibling file;
+only the other 8,192 directions are added. Their union remains 20,152,
+without creating scheduler dependencies or new independent evidence.
+
+The default reader discovers this later entry, validates its identity and
+checks its present source owners against main
+`3c41194af2db331f63706a49ef50a6e435138a4b`. Historical prepared anchors for
+`composed-evidence.md` and packaged `operational-evidence.md` are absent at that
+base and remain explicitly absent. Repository `docs/operational-evidence.md`
+is a separate present source. No absent historical path is relabelled as
+present behavior. Current-source drift refuses the stronger binding.
+
+```bash
+python3 scripts/r0043-reconstruct.py check --packet /path/to/EVOLVED_AMA_FROZEN_PACKET.zip --require-prepared
+python3 scripts/r0043-reconstruct.py member --packet /path/to/EVOLVED_AMA_FROZEN_PACKET.zip --key EAOSE:EAOSE-C026 --require-prepared --output /path/to/c026.json
+```
+
+The later public projection retains member actions, guards, owner/source
+routes, supported portions, reasons, residuals, first discriminators and
+horizons; the immutable original packet supplies complete originals,
+bibliography, independent reverses, negatives and context. The exact private
+input map is retained with the commissioning owner's issue evidence, outside
+Git. Aliases and hashes in the public lock are custody identifiers, not
+public downloads. An authorized consumer can additionally verify all exact
+input correspondence or retrieve full private content locally:
+
+```bash
+python3 scripts/r0043-reconstruct.py check --packet /path/to/EVOLVED_AMA_FROZEN_PACKET.zip --input-map /private/prepared-input-map.json --require-prepared
+python3 scripts/r0043-reconstruct.py prepared-record --input-map /private/prepared-input-map.json --key PROPERTY_LEDGER.jsonl --selector EAOSE:EAOSE-C026 --output /private/full-c026.json
+python3 scripts/r0043-reconstruct.py prepared-record --input-map /private/prepared-input-map.json --key prior_preparation --selector /rows/3 --output /private/ama-row3.json
+```
+
+The map explicitly names each local file for the lock's aliases; the reader
+never follows embedded historical host paths. Raw private output must remain
+outside Git and public delivery. Regenerate only the later projection with
+`build-prepared --packet ... --input-map ... --output ...`; its independently
+reviewed digest belongs in the prepared source lock. A regenerated digest is
+not permission to change source judgments or acceptance.
 
 The accepted EAA-70 contribution is bound to its certificate and exact
 636,575-byte member projection. The accepted EMAS-76 contribution is bound to
@@ -133,24 +175,27 @@ claim follows. The accompanying owner return binds the exact source and
 receiving subjects, exposure limits, tests, review, failures and next entitled
 accepting actions.
 
-## Validation and the reserved integration edge
+## Validation and integration
 
-`tests/r0043-reconstruction.test.sh` is included in this issue-owned source.
-The canonical registry entry is delivered as a separate one-line patch to
-`scripts/verify-package.sh`, under the reserved shared integration owner. The
-independent draft therefore exposes its unregistered-wrapper failure; a result
-from the separately composed candidate is not a result for that draft tree.
-The two subjects and actual CI observations are recorded in the owner return.
+The authorized serialized integration adds the existing issue-owned
+`tests/r0043-reconstruction.test.sh` to `scripts/verify-package.sh`, preserving
+both registrations from accepted main. The donor's unregistered-wrapper CI
+failure remains historical. Native Windows baseline also exposed POSIX versus
+Windows separator inequality in the reader's sibling identity strings; the
+two repository paths now use explicit POSIX serialization. No runtime source
+mechanism was changed.
 
 The ordinary reconstruction tests distinguish local projection integrity from
 tests requiring the frozen packet. Supply the exact retained packet explicitly
-for all thirteen controls:
+for packet-dependent controls, and supply the private map for its integrity
+control:
 
 ```bash
-R0043_PACKET=/path/to/EVOLVED_AMA_FROZEN_PACKET.zip bash tests/r0043-reconstruction.test.sh # published, canonically unallocated
+R0043_PACKET=/path/to/EVOLVED_AMA_FROZEN_PACKET.zip R0043_INPUT_MAP=/private/prepared-input-map.json bash tests/r0043-reconstruction.test.sh # published, canonically unallocated
 ```
 
-Without that input three packet-dependent tests report skips. The immutable
+Without those inputs four packet-dependent and one private-input test report
+skips. With both, all nineteen controls execute. The immutable
 packet belongs to the separate frozen corpus commit; its historic path is not
 assumed present in a main checkout. The complete reconstruction engine and
 original test bank are preserved. No test is hidden or renamed to evade the

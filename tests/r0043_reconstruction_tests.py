@@ -121,6 +121,98 @@ class ReaderTests(unittest.TestCase):
             with self.assertRaises((OSError, ValueError)):
                 self.reader.read_index(path)
 
+    def test_prepared_entry_is_separate_from_historical_unknowns(self):
+        path = ROOT / 'docs/research/implementaudit/r0043-prepared-dispositions.json'
+        self.assertTrue(path.is_file(), 'recovered preparation has no consumer entry')
+        prepared = self.reader.read_index(path)
+        self.reader.check_prepared(prepared, self.index)
+        self.assertEqual(len(prepared['rows']), 278)
+        self.assertEqual(len(prepared['groups']), 32)
+        self.assertEqual(len(prepared['concerns']), 47)
+        self.assertEqual(prepared['preparation_rows'][0]['selector'], '/rows/0')
+        self.assertEqual(prepared['preparation_rows'][1]['selector'], '/rows/3')
+        old = self.reader.index_row(self.index, 'EAOSE:EAOSE-C026')
+        current = self.reader.index_row(prepared, old['key'])
+        self.assertIsNone(old['later_prepared_target'])
+        self.assertEqual(current['prepared_absorption'], 'DEFERRED')
+        self.assertEqual(current['source_status'], 'DOMAIN_SPECIFIC')
+        self.assertEqual(current['current']['runtime'], 'NO_CHANGE')
+
+    def test_prepared_wrong_row_group_guard_and_residual_fail_even_resealed(self):
+        path = ROOT / 'docs/research/implementaudit/r0043-prepared-dispositions.json'
+        self.assertTrue(path.is_file(), 'recovered preparation has no consumer entry')
+        original = self.reader.read_index(path)
+        mutations = [
+            lambda d: d['preparation_rows'][0].update(selector='/rows/1'),
+            lambda d: d['groups'][0]['members'].pop(),
+            lambda d: d['groups'][0]['controls'].pop('RED'),
+            lambda d: d['rows'][-1]['current'].pop('next_lawful_action'),
+            lambda d: d['target_relations'][0].update(hard_dependency_admitted=True),
+            lambda d: d['concerns'].pop(),
+        ]
+        for change in mutations:
+            with self.subTest(change=mutations.index(change)):
+                changed = copy.deepcopy(original)
+                change(changed)
+                with self.assertRaises((ValueError, KeyError)):
+                    self.reader.check_prepared(reseal(changed), self.index)
+
+    def test_prepared_current_owner_change_refuses_current_binding(self):
+        path = ROOT / 'docs/research/implementaudit/r0043-prepared-dispositions.json'
+        self.assertTrue(path.is_file(), 'recovered preparation has no consumer entry')
+        prepared = self.reader.read_index(path)
+        self.reader.check_prepared(prepared, self.index, repo_root=ROOT)
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for owner in prepared['current_source_owners']:
+                if owner['state'] == 'ABSENT_AT_SELECTED_BASE':
+                    continue
+                dest = root / owner['path']
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_bytes((ROOT / owner['path']).read_bytes())
+            (root / prepared['current_source_owners'][0]['path']).write_bytes(b'changed meaning')
+            with self.assertRaisesRegex(ValueError, 'current source'):
+                self.reader.check_prepared(prepared, self.index, repo_root=root)
+
+    def test_require_prepared_refuses_missing_entry_for_check(self):
+        with tempfile.TemporaryDirectory() as temp:
+            result = subprocess.run([sys.executable, str(READER), 'check', '--require-prepared',
+                '--prepared-index', str(Path(temp) / 'missing.json')], capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('unavailable', result.stderr)
+
+    @unittest.skipUnless(os.environ.get('R0043_INPUT_MAP'), 'private preparation supplied only for exact receiving integration')
+    def test_missing_and_changed_private_input_refused(self):
+        supplied = self.reader.parse(Path(os.environ['R0043_INPUT_MAP']).read_bytes())
+        lock = self.reader.parse((ROOT / self.reader.PREPARED_LOCK).read_bytes())
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            selected = 'prior_preparation'
+            changed = root / 'changed.json'
+            data = bytearray(Path(supplied[selected]).read_bytes())
+            data[-2] ^= 1
+            changed.write_bytes(data)
+            supplied[selected] = str(changed)
+            route = root / 'map.json'
+            route.write_text(json.dumps(supplied), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'identity differs'):
+                self.reader.pinned_inputs(route, lock)
+            changed.unlink()
+            with self.assertRaises(OSError):
+                self.reader.pinned_inputs(route, lock)
+
+    @unittest.skipUnless(os.environ.get(PACKET_VARIABLE), 'full pinned packet is supplied only for custody integration')
+    def test_later_member_can_be_received_without_retroactive_target(self):
+        prepared = self.reader.read_index(ROOT / self.reader.PREPARED_FILE)
+        corpus = self.reader.Corpus(Path(os.environ[PACKET_VARIABLE]), self.reader.read_lock(ROOT))
+        result = self.reader.member_view(corpus, self.index, 'EAOSE:EAOSE-C026', ROOT, prepared)
+        self.reader.require_prepared(result)
+        self.assertIsNone(result['historical_prepared_target'])
+        self.assertEqual(result['later_prepared_target']['prepared_absorption'], 'DEFERRED')
+        self.assertEqual({g['id'] for g in result['prepared_groups']}, {'AMA-K001', 'AMA-K010'})
+        self.assertEqual({r['id'] for r in result['prepared_incident_relations']},
+            {r['relation_id'] for r in result['incident_relations']})
+
     @unittest.skipUnless(os.environ.get(PACKET_VARIABLE), 'full pinned packet is supplied only for custody integration')
     def test_full_source_reader_preserves_action_and_opposite_direction(self):
         corpus = self.reader.Corpus(Path(os.environ[PACKET_VARIABLE]), self.reader.read_lock(ROOT))

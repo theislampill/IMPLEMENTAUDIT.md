@@ -4,7 +4,8 @@
 Adapter over existing R0044 strict JSON/hash/archive helpers (canonically unallocated).
 It reads immutable research records, never executes archive code, grants no
 authority and does not implement a second runtime, evaluator or state machine.
-Missing later preparation remains missing; aggregate counts cannot populate it.
+The historical index retains its unknowns. A separate pinned later projection
+provides recovered preparation; aggregate counts cannot populate either layer.
 """
 import argparse
 from collections import Counter, defaultdict
@@ -13,6 +14,7 @@ import io
 import json
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
 import sys
 import zipfile
 
@@ -61,13 +63,13 @@ def read_lock(root=ROOT):
     return lock
 
 
-def write_index(path, index):
+def write_index(path, index, axes=('rows', 'groups')):
     """Keep every text part below the observed GitHub content retrieval limit."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    manifest = {k: v for k, v in index.items() if k not in ('rows', 'groups')}
+    manifest = {k: v for k, v in index.items() if k not in axes}
     manifest['storage_format'] = 'r0043-parts-v1'
     manifest['parts'] = []
-    for axis in ('rows', 'groups'):
+    for axis in axes:
         pending, batches = [], []
         for record in index[axis]:
             if pending and len(canonical(pending + [record])) > 780000:
@@ -93,12 +95,13 @@ def read_index(path):
         return manifest
     require(manifest['storage_format'] == 'r0043-parts-v1', 'unsupported part manifest')
     index = {k: v for k, v in manifest.items() if k not in ('storage_format', 'parts')}
-    index['rows'], index['groups'] = [], []
+    axes = PREPARED_AXES if manifest.get('format') == 'r0043-prepared-continuation-v1' else ('rows', 'groups')
+    index.update({axis: [] for axis in axes})
     seen = set()
     for item in manifest['parts']:
         name = item['file']
         safe_member(name)
-        require('/' not in name and name not in seen and item['axis'] in ('rows', 'groups'), 'invalid or duplicate part route')
+        require('/' not in name and name not in seen and item['axis'] in axes, 'invalid or duplicate part route')
         seen.add(name)
         data = (path.parent / name).read_bytes()
         require(len(data) == item['bytes'] and len(data) <= 800000 and digest(data) == item['sha256'], 'projection part identity differs')
@@ -134,6 +137,7 @@ class Corpus:
         pin = core.PINS[core.AMA_ZIP]
         require(len(data) == pin[0] and digest(data) == pin[1], 'frozen packet identity differs')
         core.pinned_bytes(core.AMA_ZIP, data)
+        self.raw = data
         self.archive = checked_archive(data)
         core.Corpus.verify_archive(self.archive, lock['ama_members'], 'EVOLVED_AMA_FROZEN_MANIFEST.json')
         self.cache, self.nested, self.nested_cache = {}, {}, {}
@@ -410,7 +414,254 @@ def check_source(corpus, index):
     require(index['full_context_members'] == read_lock()['ama_members'], 'original full context routes differ')
 
 
-def member_view(corpus, index, key, root=ROOT):
+PREPARED_AXES = ('rows', 'groups', 'target_relations', 'contexts', 'concerns')
+PREPARED_FILE = DOC / 'r0043-prepared-dispositions.json'
+PREPARED_LOCK = DOC / 'r0043-prepared-source-lock.json'
+AMA_PREPARED_COUNTS = {'PARTIALLY_ABSORBED': 77, 'CONDITIONAL': 145,
+    'NON_TRIGGERED': 4, 'RESEARCH_ONLY': 8, 'REJECTED_WITH_REASON': 41, 'DEFERRED': 3}
+
+
+def pinned_inputs(input_map, lock):
+    """Read only the explicitly supplied custody map; never follow embedded paths."""
+    paths = parse(input_map.read_bytes())
+    require(set(lock['pins']) <= set(paths), 'missing prepared input route')
+    raw = {}
+    for alias, pin in lock['pins'].items():
+        path = Path(paths[alias])
+        require(path.stat().st_size == pin['bytes'], 'prepared input size differs: ' + alias)
+        data = path.read_bytes()
+        require(digest(data) == pin['sha256'], 'prepared input identity differs: ' + alias)
+        raw[alias] = data
+    return raw
+
+
+def build_prepared(input_map, corpus, index, repo_root=ROOT):
+    """Project exact later records; preserve the historical v1 index unchanged."""
+    lock = parse((ROOT / PREPARED_LOCK).read_bytes())
+    raw = pinned_inputs(input_map, lock)
+    crosswalk = parse(raw['R0043_CROSSWALK.json'])  # published, canonically unallocated
+    prep = parse(raw['prior_preparation'])
+    evidence = parse(raw['INPUT_EVIDENCE.json'])
+    binding = parse(raw['final_packet_binding'])
+    require(binding['original_preparation']['sha256'] == lock['pins']['prior_preparation']['sha256'], 'wrong final preparation binding')
+    require(raw['EVOLVED_AMA_FROZEN_PACKET.zip'] == corpus.raw, 'wrong prepared source packet')
+    selected_rows = []
+    for selector, identity, count in [('/rows/0', 'EAOSE', 132), ('/rows/3', 'AMA_SYNTHESIS', 278)]:
+        row = pointer(prep, selector)
+        require(row['ROW_ID'] == identity and row['PROPERTY_CROSSWALK_CURRENT']['property_count'] == count, 'wrong preparation row/population')
+        joined = next(r for r in evidence['original_row_crosswalks'] if r['ROW_ID'] == identity)
+        require(joined['original_preparation_ref']['json_pointer'] == selector and
+            joined['original_preparation_ref']['input']['sha256'] == lock['pins']['prior_preparation']['sha256'] and
+            joined['frozen_prepared_property_crosswalk'] == row['PROPERTY_CROSSWALK_CURRENT'], 'wrong retained-final row correspondence')
+        selected_rows.append({'selector': selector, 'row_id': identity, 'count': count,
+            'record_json_unallocated': canonical(row).decode(),
+            'input_sha256': lock['pins']['prior_preparation']['sha256'],
+            'final_binding_sha256': lock['pins']['final_packet_binding']['sha256']})
+    member_manifest = parse(raw['SOURCE_MEMBER_MANIFEST.json'])
+    require(member_manifest['packet']['sha256'] == index['packet_sha256'], 'wrong full member manifest')
+    for item in member_manifest['members']:
+        data = corpus.archive.read(item['member'])
+        require(len(data) == item['bytes'] and digest(data) == item['sha256'], 'full source member differs')
+    records = {name: [parse(line) for line in raw[name].splitlines() if line]
+        for name in ['PROPERTY_LEDGER.jsonl', 'GROUP_LEDGER.jsonl', 'RELATION_LOCATORS.jsonl',
+                     'TARGET_RELATION_DISPOSITIONS.jsonl', 'FULL_CONTEXT_LEDGER.jsonl']}
+    full = {r['key']: r for r in records['PROPERTY_LEDGER.jsonl']}
+    require(len(full) == len(records['PROPERTY_LEDGER.jsonl']) == 278 and set(full) == set(KEYS), 'prepared member population differs')
+    eaose = {r['Property']: r for r in crosswalk['rows']}
+    require(len(crosswalk['rows']) == 132 and set(eaose) == set(EAOSE_IDS), 'crosswalk original population differs')
+    reconciliation = parse(raw['TARGET_RECONCILIATION.json'])
+    require(reconciliation['higher_order_findings']['findings'] ==
+        [parse(f['record_json_unallocated']) for f in index['tc_findings']], 'later TC parents/guards differ from retained full obligations')
+    routing = {}
+    for concern in reconciliation['receiving_behavior_evidence']['concerns']:
+        alias = 'source-packet-' + concern['source_packet']['sha256']
+        routed = pointer(parse(raw[alias]), concern['source_packet_pointer'])
+        routing[concern['concern']] = {'primary': routed.get('primary_properties', routed.get('primary_source_properties', [])),
+            'secondary': routed.get('secondary_route_keys', []), 'input_alias': alias,
+            'selector': concern['source_packet_pointer']}
+    rows = []
+    for old in index['rows']:
+        key = old['key']
+        record = full[key]
+        require(record['source_register_record'] == corpus.register[key] and
+            record['original_intake_record'] == corpus.intake_by_key[key][1] and
+            record['source_row_sha256'] == old['intake']['canonical_record_sha256'] and
+            record['group_memberships'] == old['groups'], 'prepared original/guard correspondence differs: ' + key)
+        if key in eaose:
+            cw = eaose[key]
+            require(cw['Warranted_delta_acceptance_or_no_adoption_reason'] == record['current_candidate_target_record'] and
+                cw['Prepared_absorption_state'] == record['absorption_state'] and
+                cw['External_status'] == old['source_status'] and
+                cw['original_group_memberships'] == old['groups'] and
+                cw['AMA_directional_relation_ids'] == old['incident_direction_ids'], 'prepared EAOSE crosswalk differs: ' + key)
+        continuation_fields = ['absorption_scope', 'absorbed_portion', 'residual', 'first_missing_discriminator',
+            'reason', 'reconsideration_trigger', 'plausible_next_action', 'version_horizon',
+            'current_product_carriers', 'operative_owner_refs', 'load_consumer_path',
+            'release_cell_effect', 'authority_earned', 'authority_not_earned']
+        continuation_record = core.public_fields(record, continuation_fields)
+        continuation_record['qualification_evidence'] = core.public_fields(record['qualification_evidence'],
+            ['original_limits', 'credit', 'complete_qualification'])
+        if key in eaose:
+            continuation_record['aligned_crosswalk'] = core.public_fields(eaose[key],
+                ['Native_disposition', 'Native_owners', 'exact_sibling_properties', 'outside_AMA_TC_hypotheses',
+                 'outside_AMA_limit', 'next_action', 'current_source_correction'])
+        routes = []
+        for name in record['current_carrier_concerns']:
+            r = routing.get(name, {})
+            routes.append({'concern': name, 'role': 'PRIMARY' if key in r.get('primary', []) else
+                'SECONDARY_DISCOVERY_ONLY' if key in r.get('secondary', []) else 'NOT_ENUMERATED_IN_SELECTED_ROUTING_ROW',
+                'input_alias': r.get('input_alias'), 'selector': r.get('selector')})
+        state = record['absorption_state']
+        action = {'REJECTED_WITH_REASON': 'Retain the exact rejection and reason; do not promise the rejected general mechanism.',
+            'RESEARCH_ONLY': 'Retain the unresolved research claim and evidence limits; select a narrower actual claim before new work.',
+            'NON_TRIGGERED': 'Keep this mechanism dormant until its own domain, rights and representation trigger is established.',
+            'DEFERRED': 'Keep the historical deferral; a newly selected responsibility or domain claim requires its own guarded receiving.',
+            'CONDITIONAL': 'Establish this member\'s actual trigger, rights, model and receiving predicate before operational reliance.',
+            'PARTIALLY_ABSORBED': 'Retain supported guidance separately from this member\'s residual; qualify only a selected stronger claim.'}[state]
+        current = {'runtime': 'NO_CHANGE', 'supported_portion': 'Complete source and later-target disposition available; no whole-member operative absorption claimed.',
+            'consumer': 'The commissioned issue 232 executor and bounded cold receiver for the EAOSE and AMA decisions; entitled owner acceptance remains separate.',
+            'source_authority': old['source_obligation']['authority'], 'trigger': old['source_obligation']['trigger'],
+            'otherwise': old['source_obligation']['cheap_path'], 'residual': record['residual'],
+            'first_missing_discriminator': record['first_missing_discriminator'],
+            'next_lawful_action': {'disposition': action, 'member_specific': record['plausible_next_action']},
+            'reentry_trigger': record['reconsideration_trigger'],
+            'horizon': 'Before a stronger selected claim, material premise change or custody retirement; no autonomous recurring work or delivery date.',
+            'owner_acceptance': 'EXACT_SUBJECT_HUMAN_DECISION_REQUIRED'}
+        rows.append({'key': key, 'source_status': old['source_status'], 'groups': old['groups'],
+            'original_intake_sha256': old['intake']['canonical_record_sha256'],
+            'prepared_absorption': state, 'prepared_record_json_unallocated': canonical(record['current_candidate_target_record']).decode(),
+            'prepared_continuation_json_unallocated': canonical(continuation_record).decode(),
+            'prepared_routing': routes, 'corrected_carrier_routing': core.public_fields(record['corrected_full_corpus_record'],
+                ['concern_routes', 'primary_decisions', 'decision_scope']),
+            'full_record': {'input_alias': 'PROPERTY_LEDGER.jsonl', 'key': key, 'sha256': digest(canonical(record))},
+            'accepted_constituent': old['accepted_constituent'], 'current': current})
+    groups = []
+    accepted_member(repo_root, 'EMAS', 'EMAS-001')
+    accepted_emas = parse((repo_root / SIBLINGS['EMAS']['path']).read_bytes())['target_continuation']
+    accepted_groups = {r['id']: parse(r['record_json_unallocated']) for r in accepted_emas['groups']}
+    for record, original in zip(records['GROUP_LEDGER.jsonl'], corpus.groups):
+        require(record['group_id'] == original['cluster_id'] and record['source_cluster_full_record'] == original and
+            record['member_original_property_identities'] == original['member_properties'], 'prepared group source differs')
+        inherited = accepted_groups[record['group_id']]
+        require(all(record[k] == v for k, v in inherited.items()), 'accepted row1 group field is not equivalent')
+        groups.append({'id': record['group_id'], 'members': original['member_properties'],
+            'record_json_unallocated': canonical(inherited).decode(), 'controls': record['continuation_controls'],
+            'row1_reuse': 'Every inherited projected field equals the exact row3-bound full group record; original row1 acceptance scope unchanged.',
+            'full_record': {'input_alias': 'GROUP_LEDGER.jsonl', 'key': record['group_id'], 'sha256': digest(canonical(record))}})
+    require(len(groups) == 32, 'prepared group population differs')
+    locators = {r['id']: r for r in records['RELATION_LOCATORS.jsonl']}
+    directions = {r['id']: r for r in records['TARGET_RELATION_DISPOSITIONS.jsonl']}
+    require(len(locators) == len(directions) == 20152, 'prepared relation population differs')
+    target_relations = []
+    for relation in corpus.relations:
+        identity = relation['relation_id']
+        loc = locators[identity]
+        require(loc['full_record_canonical_sha256'] == digest(canonical(relation)) and
+            loc['relation_type'] == relation['relation_type'] and
+            loc['assumptions'] == relation['assumptions'], 'prepared relation guard/source differs')
+        target_relations.append({**directions[identity], 'original_record_sha256': loc['full_record_canonical_sha256'],
+            'original_pointer': loc['full_record_locator']})
+    concerns = []
+    for i, record in enumerate(reconciliation['corrected_receiver_dispositions']['rows']):
+        projected = core.public_fields(record, ['candidate_id', 'short_id', 'concern', 'source_producer_classification',
+            'proposed_receiver_classification', 'decision_authority', 'actual_contract_can_pass_while_concern_fails',
+            'reason', 'proposed_acceptance_owners', 'source_disposition', 'material_binding_required',
+            'new_durable_identity_proposed', 'canonical_adjudication_and_final_review_pending'])
+        projected['primary_source_properties'] = record['exact_parent_provenance']['properties']
+        projected['target_and_qualification'] = core.public_fields(record['target_and_qualification'],
+            ['status', 'required_action_or_scope', 'secondary_credit', 'non_trigger_reason', 'reconsideration_trigger'])
+        concerns.append({'id': record['candidate_id'], 'record_json_unallocated': canonical(projected).decode(),
+            'full_record': {'input_alias': 'TARGET_RECONCILIATION.json', 'selector': f'/corrected_receiver_dispositions/rows/{i}',
+                'sha256': digest(canonical(record))}})
+    owner_paths = sorted({a.split(':')[0].split('#')[0] for record in full.values() for a in record['operative_owner_refs'] if a.startswith('skills/')} |
+        {'skills/implementaudit/SKILL.md', 'skills/implementaudit/references/child-agents.md',
+         'skills/implementaudit/references/issue-ready-work-orders.md', 'skills/implementaudit/references/composed-evidence.md',
+         'skills/implementaudit/references/audit-category-matrix.md', 'skills/implementaudit/references/plan-lifecycle.md',
+         'docs/operational-evidence.md'})
+    owners = []
+    for path in owner_paths:
+        entry = subprocess.check_output(['git', '-C', str(repo_root), 'ls-tree', lock['source_base'], '--', path], stderr=subprocess.PIPE)
+        if not entry:
+            require(not (repo_root / path).exists(), 'current source appeared after selected base: ' + path)
+            owners.append({'path': path, 'state': 'ABSENT_AT_SELECTED_BASE', 'bytes': None, 'sha256': None,
+                'source_base': lock['source_base'], 'scope': 'Historical prepared anchor only; no present source or behavior claimed.'})
+            continue
+        data = subprocess.check_output(['git', '-C', str(repo_root), 'show', lock['source_base'] + ':' + path], stderr=subprocess.PIPE)
+        require((repo_root / path).read_bytes() == data, 'current source owner differs from selected base: ' + path)
+        owners.append({'path': path, 'state': 'PRESENT_SOURCE_ONLY', 'bytes': len(data), 'sha256': digest(data),
+            'source_base': lock['source_base'], 'scope': 'Exact present source; historical prepared line numbers are not current anchors.'})
+    inherited_relations = {r['id']: r for r in accepted_emas['target_relations']}
+    require(all(r == inherited_relations[r['id']] for r in target_relations if r['id'] in inherited_relations),
+        'accepted row1 relation field is not equivalent')
+    new_relations = [r for r in target_relations if r['id'] not in inherited_relations]
+    result = {'format': 'r0043-prepared-continuation-v1',
+        'allocation': 'Published R0043; canonically unallocated. No new property, native authority or campaign credit.',
+        'historical_projection_sha256': index['projection_sha256'], 'packet_sha256': index['packet_sha256'],
+        'preparation_rows': selected_rows, 'input_custody': lock['pins'],
+        'custody_limit': 'Aliases and digests identify private preparation, not public downloads. --input-map reads exact retained full records locally; the bounded projection and original packet supply public meaning.',
+        'rows': rows, 'groups': groups, 'target_relations': new_relations,
+        'inherited_relations': {'route': SIBLINGS['EMAS'], 'selector': '/target_continuation/target_relations',
+            'count': len(inherited_relations), 'scope': 'Exact field equality checked against full row3-bound records; reused once without another qualification.'},
+        'contexts': reconciliation['ama_context_target_dispositions'], 'concerns': concerns,
+        'bridges_json_unallocated': canonical(reconciliation['ama_explicit_bridge_target_dispositions']).decode(),
+        'secondary_limits_json_unallocated': canonical([core.public_fields(r['exact_original_limit'],
+            ['key', 'concern', 'source_pointer', 'source_row_sha256', 'source_semantic_disposition',
+             'prior_target_disposition', 'prior_target_qualification_limit', 'trigger', 'cheap_path',
+             'not_discriminated_by_grouped_witness', 'remaining_conditional_action', 'target_behavior_credit'])
+            for r in reconciliation['receiving_behavior_evidence']['secondary_limits']]).decode(),
+        'source_base': lock['source_base'], 'source_tree': lock['source_tree'], 'current_source_owners': owners,
+        'acceptance': ACCEPTANCE, 'scope': 'Complete documentary disposition and exact later-input access; actual receiving and entitled acceptance are separately evidenced.'}
+    core.no_private_locations(result)
+    return core.seal(result)
+
+
+def all_target_relations(prepared, repo_root=ROOT):
+    accepted_member(repo_root, 'EMAS', 'EMAS-001')
+    inherited = prepared['inherited_relations']
+    require(inherited['route'] == SIBLINGS['EMAS'], 'wrong accepted relation route')
+    records = pointer(parse((repo_root / inherited['route']['path']).read_bytes()), inherited['selector'])
+    require(len(records) == inherited['count'] == 11960, 'wrong accepted relation count')
+    return sorted(records + prepared['target_relations'], key=lambda r: r['id'])
+
+
+def check_prepared(prepared, index, repo_root=None):
+    lock = parse((ROOT / PREPARED_LOCK).read_bytes())
+    unsigned = dict(prepared)
+    supplied = unsigned.pop('projection_sha256')
+    require(supplied == digest(canonical(unsigned)) == lock['projection_sha256'], 'prepared projection identity differs')
+    require(prepared['format'] == 'r0043-prepared-continuation-v1' and prepared['acceptance'] == ACCEPTANCE, 'wrong prepared format/acceptance')
+    require(prepared['historical_projection_sha256'] == index['projection_sha256'] and
+        prepared['packet_sha256'] == index['packet_sha256'], 'mixed historical/prepared source')
+    require([(r['selector'], r['row_id'], r['count']) for r in prepared['preparation_rows']] ==
+        [('/rows/0', 'EAOSE', 132), ('/rows/3', 'AMA_SYNTHESIS', 278)], 'wrong prepared rows')
+    require([r['key'] for r in prepared['rows']] == KEYS, 'prepared original population differs')
+    require(Counter(r['prepared_absorption'] for r in prepared['rows']) == Counter(AMA_PREPARED_COUNTS), 'prepared individual states differ')
+    for row, old in zip(prepared['rows'], index['rows']):
+        require(row['source_status'] == old['source_status'] and row['groups'] == old['groups'] and
+            row['original_intake_sha256'] == old['intake']['canonical_record_sha256'], 'prepared member binding differs')
+        require(row['current']['trigger'] == old['source_obligation']['trigger'] and
+            row['current']['otherwise'] == old['source_obligation']['cheap_path'] and
+            row['current']['next_lawful_action'] and row['current']['horizon'], 'prepared guard/action/residual missing')
+    require([g['id'] for g in prepared['groups']] == [g['id'] for g in index['groups']], 'prepared group population differs')
+    for group, old in zip(prepared['groups'], index['groups']):
+        require(group['members'] == old['members'] and group['controls']['RED'] and group['controls']['positive'], 'prepared group/control differs')
+    relations = all_target_relations(prepared)
+    require(len({r['id'] for r in relations}) == len(relations) == 20152 and
+        all(r['hard_dependency_admitted'] is False for r in relations), 'prepared relation/dependency differs')
+    require(len({r['id'] for r in prepared['concerns']}) == len(prepared['concerns']) == 47, 'distinct concern population differs')
+    if repo_root is not None:
+        for owner in prepared['current_source_owners']:
+            if owner['state'] == 'ABSENT_AT_SELECTED_BASE':
+                require(not (repo_root / owner['path']).exists(), 'current source appeared after selected base: ' + owner['path'])
+                continue
+            data = (repo_root / owner['path']).read_bytes()
+            require(len(data) == owner['bytes'] and digest(data) == owner['sha256'], 'current source owner binding differs: ' + owner['path'])
+    core.no_private_locations(prepared)
+    return {'scope': 'EXACT_LATER_PREPARATION_AND_CURRENT_SOURCE_BINDING; not entitled acceptance',
+        'originals': 278, 'eaose': 132, 'groups': 32, 'concerns': 47, 'projection_sha256': supplied}
+
+
+def member_view(corpus, index, key, root=ROOT, prepared=None):
     row = index_row(index, key)
     record = corpus.register[key]
     require(digest(canonical(record)) == row['register']['canonical_record_sha256'], 'member source/index mismatch')
@@ -419,7 +670,7 @@ def member_view(corpus, index, key, root=ROOT):
     opposite = {r['relation_id']: corpus.reverse_endpoints[(r['target_property'], r['source_property'])]
         for r in relations if not r['reverse_relation_id']}
     endpoint_keys = {r[field] for r in relations for field in ('source_property', 'target_property')}
-    return {'scope': 'FULL_ORIGINAL_AND_GUARDED_CONTEXT; target layers separately identified', 'key': key,
+    result = {'scope': 'FULL_ORIGINAL_AND_GUARDED_CONTEXT; target layers separately identified', 'key': key,
         'original': corpus.resolve_original(record), 'source_register_record': record,
         'source_intake': corpus.intake_by_key[key][1],
         'bibliography': {k: corpus.sources[k] for k in record['source_ids']},
@@ -443,6 +694,20 @@ def member_view(corpus, index, key, root=ROOT):
         'accepted_constituent': accepted_member(root, row['lineage'], row['original_id']),
         'continuation': row['continuation'], 'acceptance': index['acceptance'],
         'full_context_routes': index['full_context_members'], 'missing_input': index['missing_input']}
+    if prepared is not None:
+        later = index_row(prepared, key)
+        result.update({'historical_prepared_target': row['later_prepared_target'],
+            'later_prepared_target': later, 'later_prepared_state': 'EXACT_ROW0_AND_ROW3_BOUND_DOCUMENTARY_RECORD',
+            'prepared_record': parse(later['prepared_record_json_unallocated']),
+            'prepared_continuation': parse(later['prepared_continuation_json_unallocated']),
+            'prepared_groups': [g for g in prepared['groups'] if g['id'] in row['groups']],
+            'prepared_incident_relations': [r for r in all_target_relations(prepared, root) if r['id'] in row['incident_direction_ids']],
+            'prepared_contexts': [c for c in prepared['contexts'] if key in c['property_keys']],
+            'prepared_bridges': [b for b in parse(prepared['bridges_json_unallocated']) if key in (b['source'], b['target'])],
+            'prepared_concerns': [c for c in prepared['concerns'] if c['id'] in later['corrected_carrier_routing']['concern_routes']],
+            'current_source_owners': prepared['current_source_owners'],
+            'historical_missing_input': result.pop('missing_input')})
+    return result
 
 
 def require_prepared(view):
@@ -451,7 +716,7 @@ def require_prepared(view):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('command', choices=['build', 'check', 'member', 'group', 'relation', 'context'])
+    ap.add_argument('command', choices=['build', 'build-prepared', 'check', 'member', 'group', 'relation', 'context', 'prepared-record'])
     ap.add_argument('--index', type=Path, default=ROOT / DOC / 'r0043-member-dispositions.json')
     ap.add_argument('--packet', type=Path)
     ap.add_argument('--antecedent', type=Path)
@@ -459,11 +724,33 @@ def main():
     ap.add_argument('--output', type=Path)
     ap.add_argument('--repo-root', type=Path, default=ROOT)
     ap.add_argument('--require-prepared', action='store_true')
+    ap.add_argument('--prepared-index', type=Path, default=ROOT / PREPARED_FILE)
+    ap.add_argument('--input-map', type=Path)
+    ap.add_argument('--selector', help='JSON pointer or exact key/id for a private JSONL record')
     args = ap.parse_args()
     try:
         lock = read_lock()
         corpus = Corpus(args.packet, lock) if args.packet else None
-        if args.command == 'build':
+        if args.command == 'prepared-record':
+            require(args.input_map and args.key and args.output, 'private full-record access requires --input-map, --key and local --output')
+            prepared_lock = parse((ROOT / PREPARED_LOCK).read_bytes())
+            raw_inputs = pinned_inputs(args.input_map, prepared_lock)
+            require(args.key in raw_inputs, 'unknown prepared input alias')
+            raw_record = raw_inputs[args.key]
+            if args.key.endswith('.jsonl'):
+                require(args.selector, 'full JSONL access requires an exact record key')
+                matches = [r for r in (parse(line) for line in raw_record.splitlines() if line)
+                    if args.selector in (r.get('key'), r.get('id'), r.get('group_id'))]
+                require(len(matches) == 1, 'private record selector missing or ambiguous')
+                content = matches[0]
+            elif args.key.endswith('.md'):
+                content = raw_record.decode('utf-8')
+            else:
+                content = pointer(parse(raw_record), args.selector) if args.selector else parse(raw_record)
+            result = {'input_alias': args.key, 'selector': args.selector,
+                'input_sha256': digest(raw_record), 'full_record': content,
+                'scope': 'PRIVATE_LOCAL_READBACK_ONLY; do not publish raw preparation or custody paths.'}
+        elif args.command == 'build':
             require(corpus is not None and args.antecedent is not None, 'build requires --packet and --antecedent')
             result = build(corpus, lock, args.antecedent, ROOT / DOC / 'r0043-tc-source.json')
             check_index(result)
@@ -472,14 +759,29 @@ def main():
             result = check_index(index)
             if corpus is not None:
                 check_source(corpus, index)
+            prepared = None
+            if args.command == 'build-prepared':
+                require(corpus is not None and args.input_map and args.output, 'build-prepared requires --packet, --input-map and --output')
+                result = build_prepared(args.input_map, corpus, index, args.repo_root)
+            elif args.prepared_index.is_file():
+                prepared = read_index(args.prepared_index)
+                result['later_prepared'] = check_prepared(prepared, index, args.repo_root)
+                result['historical_limit'] = result['limit']
+                result['limit'] = 'The historical index is unchanged. Exact later preparation is available separately; neither layer supplies entitled acceptance.'
+                if args.input_map:
+                    require(corpus is not None, 'prepared source correspondence requires --packet')
+                    require(prepared == build_prepared(args.input_map, corpus, index, args.repo_root), 'prepared reconstruction differs')
+                    result['later_prepared']['full_input_correspondence'] = 'VERIFIED_EXACT_ROW0_ROW3_ALL_FULL_RECORDS'
+            if args.require_prepared:
+                require(prepared is not None, 'later prepared input entry unavailable')
             if args.command == 'check' and corpus is not None:
                 if args.antecedent:
                     require(index == build(corpus, lock, args.antecedent, ROOT / DOC / 'r0043-tc-source.json'), 'reconstruction differs')
                 result['full_source_correspondence'] = 'VERIFIED_ALL_278_ORIGINALS_AND_INCIDENT_RELATIONS; not target or receiving'
-            elif args.command != 'check':
+            elif args.command not in ('check', 'build-prepared'):
                 require(corpus is not None and args.key, 'this command requires --packet and --key')
                 if args.command == 'member':
-                    result = member_view(corpus, index, args.key, args.repo_root)
+                    result = member_view(corpus, index, args.key, args.repo_root, prepared)
                     if args.require_prepared:
                         require_prepared(result)
                 elif args.command == 'group':
@@ -489,6 +791,9 @@ def main():
                         'original_relations': [corpus.relation_by_id[k] for k in group['relation_ids']],
                         'later_prepared_group_record': None, 'acceptance': index['acceptance'],
                         'limit': 'Later mechanism-specific target controls remain unavailable. Original group membership is discovery only.'}
+                    if prepared is not None:
+                        result['later_prepared_group_record'] = next(g for g in prepared['groups'] if g['id'] == args.key)
+                        result['limit'] = 'Exact later group controls recovered; their observed execution and entitled acceptance remain separate.'
                 elif args.command == 'relation':
                     require(args.key in corpus.relation_by_id, 'unknown relation')
                     relation = corpus.relation_by_id[args.key]
@@ -497,6 +802,8 @@ def main():
                         'source_member': index_row(index, relation['source_property']),
                         'target_member': index_row(index, relation['target_property']),
                         'later_target_relation': None, 'limit': 'Guarded analytical relation; not an execution prerequisite or accepted target disposition.'}
+                    if prepared is not None:
+                        result['later_target_relation'] = next(r for r in all_target_relations(prepared, args.repo_root) if r['id'] == args.key)
                 else:
                     safe_member(args.key)
                     require(args.key in corpus.archive.namelist() and args.key.endswith(('.json', '.md')), 'context must name an existing text member')
@@ -504,8 +811,8 @@ def main():
                     result = {'member': args.key, 'sha256': digest(raw), 'complete_content': parse(raw) if args.key.endswith('.json') else raw.decode(),
                         'scope': 'Complete original context bytes interpreted only within their frozen evidence ceiling.'}
         if args.output:
-            if args.command == 'build':
-                write_index(args.output, result)
+            if args.command in ('build', 'build-prepared'):
+                write_index(args.output, result, PREPARED_AXES if args.command == 'build-prepared' else ('rows', 'groups'))
             else:
                 core.write_json(args.output, result)
         else:
