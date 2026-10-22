@@ -12,14 +12,14 @@ That source grant does not supply protected campaign or native acceptance author
 The intake public head was `7c52d3ac55945131fe302fb6237990b376c8d5d7`, tree
 `87ad66bd232b67aeeac25ce064df982470be226c`; its original base was
 `44117ccd5af275f24bed923da7ba282a829f42e9`. An ordinary two-parent merge incorporates
-accepted main `8de178eff2167f5e364d63b5cbf11bf271eb3d50`, including R0038 PR245
-and R0043 PR248, without rewriting the published R0039 ancestry. Its merge tree
+accepted main `8de178eff2167f5e364d63b5cbf11bf271eb3d50`, including accepted PR245
+and PR248, without rewriting the published R0039 ancestry. Its merge tree
 is `8b0df38bc012378d83395204d23b4de5905f1c54`.
 
 All 183 accepted-main changed paths were retained exactly at that merge. The later
 shared adoption deliberately composes only two of those paths: the helper census
 retains the allocated R0038/R0039/R003A identities and next R003B refusal, and the
-canonical registry retains the R0043 reconstruction and operational-evidence tests.
+canonical registry retains PR248's reconstruction and operational-evidence tests.
 The accepted repository-only source peers, evidence and other implementations are
 preserved. They do not replace the corrected shipping R0039 helpers.
 
