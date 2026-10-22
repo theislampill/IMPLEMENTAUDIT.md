@@ -6,12 +6,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
       "materialized_path": "skills/implementaudit/scripts/claim-run.sh",
-      "bytes": 96055,
-      "sha256": "07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7",
+      "bytes": 96708,
+      "sha256": "9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
       "source_commit": "fa14948894f583cc0b4e3be80e9283839c9992b5",
       "source_path": "skills/implementaudit/scripts/claim-run.sh",
-      "modified": false,
-      "mode": "100644"
+      "modified": true,
+      "mode": "100644",
+      "semantic_owner": "R0011",
+      "source_preimage_sha256": "07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7",
+      "additional_delta": "Readonly combined currentness observation uses the unchanged require predicates; existing CLI output domains preserved"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
@@ -136,8 +139,8 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_source_owner.py",
-      "bytes": 36520,
-      "sha256": "2094987fea6d3fa04da4feaca0fc9686f15aa3e1c6e921f0ba79e45394553399",
+      "bytes": 37103,
+      "sha256": "7f4e010102ea66c824c1f08dfc32004e154bfd54a08bc59025c1618f816720b7",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,

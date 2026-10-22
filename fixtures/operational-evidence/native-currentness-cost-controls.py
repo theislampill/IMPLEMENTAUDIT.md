@@ -140,10 +140,14 @@ class CurrentnessCostControls(unittest.TestCase):
                     with self.h.rt.current_route_observation_v1(self.h.root,self.h.controller,bad):
                         self.fail('foreign context yielded a view')
 
-    def continuity(self, changed_helper=False, wrong_verify=False, receipt_raw=None, blob_error=False, source_changes=False):
+    def continuity(self, changed_helper=False, wrong_verify=False, receipt_raw=None, blob_error=False,
+                   source_changes=False, combined=False, combined_output=None):
         h=self.h
         owner=ROOT/'source-peers/native-runtime/skills/implementaudit/scripts'
-        claim=(owner/'claim-run.sh').read_bytes()
+        # Keep the original helper/receipt-domain controls bound to their exact
+        # immutable donor. Exercise the new source-owner mode separately.
+        claim=((owner/'claim-run.sh') if combined else
+               ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run.sh.fixture').read_bytes()
         validate=(owner/'validate-run-root.sh').read_bytes()
         if changed_helper:claim+=b'\n# different source must retain separate verification\n'
         calls=[]
@@ -162,6 +166,10 @@ class CurrentnessCostControls(unittest.TestCase):
         def call(owner,host,repo,args,*rest):
             self.assertEqual(rest,(claim,validate))
             calls.append(args)
+            if args==['--observe-current-continuity']:
+                return (combined_output if combined_output is not None else '\t'.join([
+                    'implementaudit.current-continuity-observation.v1','cost-control',
+                    str(h.root),str(h.root),'2'*32,receipt]))
             if args==['--current-controller']:return '\t'.join(['cost-control',str(h.root),str(h.root),'2'*32])
             if args[0]=='--require-current-continuity':return receipt
             self.assertEqual(args,['--verify-resume-receipt',receipt])
@@ -193,6 +201,22 @@ class CurrentnessCostControls(unittest.TestCase):
         calls=self.continuity()
         self.assertEqual([c[0] for c in calls],['--current-controller','--require-current-continuity'])
         self.assertEqual(self.receipt_reads,['3'*40])
+
+    def test_combined_owner_mode_keeps_actual_tuple_and_full_receipt_domain(self):
+        calls=self.continuity(combined=True)
+        self.assertEqual(calls,[['--observe-current-continuity']])
+        self.assertEqual(self.receipt_reads,['3'*40])
+        legacy=b'implementaudit.continuity-receipt.v3\t'+b'\t'.join([b'field']*13)+b'\n'
+        with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
+            self.continuity(combined=True,receipt_raw=legacy,wrong_verify=True)
+
+    def test_malformed_combined_owner_output_emits_no_currentness(self):
+        for value in ('foreign\tc\tr\tr\tclaim\treceipt',
+                      'implementaudit.current-continuity-observation.v1\tc\tr\tr\tclaim',
+                      'implementaudit.current-continuity-observation.v1\tc\t/foreign\t/foreign\tclaim\treceipt'):
+            with self.subTest(value=value),self.assertRaises(self.h.wg.WorkGraphError):
+                self.continuity(combined=True,combined_output=value)
+            self.assertEqual(self.current_owner_reads,[])
 
     def test_legacy_TSV_receipt_keeps_original_verifier_refusal(self):
         legacy=b'implementaudit.continuity-receipt.v3\t'+b'\t'.join([b'field']*13)+b'\n'

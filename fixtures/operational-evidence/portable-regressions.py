@@ -357,7 +357,9 @@ class PortableBoundaryTests(unittest.TestCase):
         (self.repo / ".gitattributes").write_text("*.py filter=r0038fixture\n")
         git(self.repo, "add", ".gitattributes")
         git(self.repo, "config", "filter.r0038fixture.clean", sys.executable + " " + str(hook))
-        (self.repo / "main.py").write_text("import local\n# force dirty filter evaluation\n")
+        # A size change lets Git classify the file without running its filter.
+        # Equal-sized changed content requires the positive filter evaluation.
+        (self.repo / "main.py").write_text("import other\n")
         git(self.repo, "status", "--porcelain=v1")
         self.assertTrue(marker.exists(), "positive sentinel did not exercise configured Git filter")
         marker.unlink()

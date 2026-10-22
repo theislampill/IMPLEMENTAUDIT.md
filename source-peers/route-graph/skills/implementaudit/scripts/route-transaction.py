@@ -4717,10 +4717,34 @@ def standalone_child_delivery_identity(
                 fail("standalone procedure retains discoverable YAML frontmatter")
 
 def resolved_child_delivery_path(mapped_child: str, governor: Path, resolver: Path) -> Path:
-    completed = subprocess.run(
-        [sys.executable, str(resolver), "--governor", str(governor), "--child", mapped_child],
-        cwd=governor.parent, env=pure_route_environment(), text=True, capture_output=True, check=False,
-    )
+    before = child_delivery_snapshot(resolver, "internal-child resolver")
+    if (hashlib.sha256(before[0]).hexdigest() ==
+            'be553c29e1092643a71e6b50260d760bab15bbc76cd3c2091d05c4b52b8f302e'
+            and mapped_child in {'audit-state', 'audit-assess', 'audit-implement', 'audit-andon'}):
+        import io
+        import functools
+        # source repo: execute the exact known resolver's own layout checks.
+        # No path/population result is cached; unknown code keeps its CLI route.
+        namespace = {'__name__': '_qualified_internal_child_resolver', '__file__': str(resolver)}
+        output, errors = io.StringIO(), io.StringIO()
+        code = 0
+        # Only this known module's print is captured. Process-global stream
+        # redirection could otherwise swallow an independent reader's warning.
+        namespace['print'] = functools.partial(print, file=output)
+        exec(compile(before[0], str(resolver), 'exec'), namespace)
+        try:
+            namespace['resolve'](governor, mapped_child)
+        except SystemExit as exc:
+            code = 1
+            errors.write(str(exc.code) + '\n')
+        if child_delivery_snapshot(resolver, "internal-child resolver") != before:
+            fail("internal-child resolver source changed during resolution")
+        completed = subprocess.CompletedProcess([], code, output.getvalue(), errors.getvalue())
+    else:
+        completed = subprocess.run(
+            [sys.executable, str(resolver), "--governor", str(governor), "--child", mapped_child],
+            cwd=governor.parent, env=pure_route_environment(), text=True, capture_output=True, check=False,
+        )
     if completed.returncode:
         detail = completed.stderr.strip() or completed.stdout.strip() or f"exit {completed.returncode}"
         fail(f"internal-child resolver refused {mapped_child}: {detail}")

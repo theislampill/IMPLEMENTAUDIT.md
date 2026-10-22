@@ -359,6 +359,166 @@ class ObservationCostControls(unittest.TestCase):
                 h.create_records()
 
 
+
+class ContinuityStreamCostControls(unittest.TestCase):
+    def setUp(self):
+        import os
+        import shutil
+        self.oe = load(SOURCE / 'scripts/operational-evidence.py', 'continuity_stream_subject')
+        candidate = Path('C:/Program Files/Git/bin/bash.exe') if os.name == 'nt' else None
+        self.bash = str(candidate) if candidate is not None and candidate.is_file() else shutil.which('bash')
+        if not self.bash: self.skipTest('Bash unavailable for source transport control')
+
+    def test_loaded_bytes_quotes_unicode_and_validator_keep_exact_outputs(self):
+        import os
+        import subprocess
+        builder = getattr(self.oe, '_native_r0011_stdin_payload_v1', None)
+        self.assertTrue(callable(builder), 'bounded loaded-byte transport is unavailable')
+        claim = b"# literal source quote ' and dollar $ are data here\nprintf '%s\\n' \"$1\"\nbash 'fixture/validate-run-root.sh' \"$2\"\n\n"
+        validate = b"printf '[%s]\\n' \"$1\"\n"
+        payload = builder(claim, validate)
+        first = "literal ' $() " + chr(96) + "data" + chr(96); second = 'π-tail'
+        environment = {k: v for k, v in os.environ.items()
+                       if not k.startswith(('BASH_FUNC_', 'GIT_')) and k not in {'BASH_ENV', 'ENV'}}
+        result = subprocess.run([self.bash, '-c', 'eval "$(cat)"', 'fixed-source-control',
+            hashlib.sha256(claim).hexdigest(), hashlib.sha256(validate).hexdigest(), first, second],
+            input=payload, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=environment, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.decode('utf-8'), first + '\n[' + second + ']\n')
+        marker = ('implementaudit-native-r0011-child-v1\t' + hashlib.sha256(claim).hexdigest()
+                  + '\t' + hashlib.sha256(validate).hexdigest()).encode()
+        self.assertEqual(result.stderr.splitlines(), [marker])
+        refused = subprocess.run([self.bash, '-c', 'eval "$(cat)"', 'fixed-source-control',
+            '0' * 64, hashlib.sha256(validate).hexdigest(), first, second], input=payload,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=environment, timeout=30)
+        self.assertNotEqual(refused.returncode, 0)
+        self.assertEqual(refused.stdout, b'')
+
+    def test_transport_bounds_and_unknown_helper_fallback_remain(self):
+        builder = getattr(self.oe, '_native_r0011_stdin_payload_v1', None)
+        selected = getattr(self.oe, '_native_r0011_stdin_script_v1', None)
+        self.assertTrue(callable(builder) and callable(selected), 'bounded transport owner is unavailable')
+        for raw in (b'', b'x\0y', b'x' * (256 * 1024 + 1), bytearray(b'code')):
+            with self.subTest(kind=type(raw), size=len(raw)), self.assertRaises((ValueError, self.oe.OperationalEvidenceError)):
+                builder(raw, b'valid\n')
+        self.assertIsNone(selected(b'unknown helper\n', b'unknown validator\n', ['--current-controller']))
+
+
+class ResolverExecutionCostControls(unittest.TestCase):
+    def setUp(self):
+        import shutil
+        self.temp = tempfile.TemporaryDirectory(prefix='resolver-source-controls-')
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name).resolve()
+        self.rt = load(SOURCE / 'source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py',
+                       'resolver_execution_source')
+        self.governor = self.root / 'skills/implementaudit/SKILL.md'
+        self.governor.parent.mkdir(parents=True)
+        self.governor.write_bytes(b'governor fixture\n')
+        for name in ('audit-state', 'audit-assess', 'audit-implement', 'audit-andon'):
+            path = self.root / 'skills' / name / 'SKILL.md'; path.parent.mkdir()
+            path.write_bytes(b'child fixture\n')
+        self.resolver = self.governor.parent / 'scripts/resolve-internal-skill.py'
+        self.resolver.parent.mkdir()
+        shutil.copyfile(ROOT / 'skills/implementaudit/scripts/resolve-internal-skill.py', self.resolver)
+
+    def test_known_resolver_runs_its_real_layout_checks_without_process_launch(self):
+        with patch.object(self.rt.subprocess, 'run', side_effect=AssertionError('redundant resolver process')):
+            actual = self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
+        self.assertEqual(actual, self.root / 'skills/audit-assess/SKILL.md')
+        extra = self.root / 'skills/foreign/SKILL.md'; extra.parent.mkdir(); extra.write_bytes(b'foreign\n')
+        with patch.object(self.rt.subprocess, 'run', side_effect=AssertionError('redundant resolver process')):
+            with self.assertRaises(SystemExit):
+                self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
+
+    def test_unknown_resolver_bytes_retain_the_actual_subprocess_path(self):
+        self.resolver.write_bytes(self.resolver.read_bytes() + b'\n# unknown source version\n')
+        original = self.rt.subprocess.run
+        with patch.object(self.rt.subprocess, 'run', side_effect=original) as calls:
+            actual = self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
+        self.assertEqual(actual, self.root / 'skills/audit-assess/SKILL.md')
+        self.assertEqual(calls.call_count, 1)
+
+    def test_changed_known_resolver_source_cannot_release_a_path(self):
+        original = Path.resolve
+        changed = []
+        def resolve(path, *args, **kwargs):
+            if path == self.governor and not changed:
+                self.resolver.write_bytes(self.resolver.read_bytes() + b'\n# changed during resolution\n')
+                changed.append(True)
+            return original(path, *args, **kwargs)
+        with patch.object(Path, 'resolve', resolve):
+            with self.assertRaises(SystemExit):
+                self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
+        self.assertEqual(changed, [True])
+
+    def test_other_readers_stderr_is_not_captured_as_resolver_output(self):
+        import io
+        import sys
+        import threading
+        entered, released = threading.Event(), threading.Event()
+        original = Path.resolve
+        def resolve(path, *args, **kwargs):
+            if path == self.governor:
+                entered.set()
+                self.assertTrue(released.wait(3))
+            return original(path, *args, **kwargs)
+        def neighbor():
+            if entered.wait(3):
+                print('independent reader warning', file=sys.stderr)
+            released.set()
+        output = io.StringIO()
+        with contextlib.redirect_stderr(output), patch.object(Path, 'resolve', resolve):
+            thread = threading.Thread(target=neighbor); thread.start()
+            try:
+                actual = self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
+            finally: thread.join()
+        self.assertEqual(actual, self.root / 'skills/audit-assess/SKILL.md')
+        self.assertEqual(output.getvalue(), 'independent reader warning\n')
+
+
+
+
+class CombinedContinuitySourceControls(unittest.TestCase):
+    setUp = ContinuityStreamCostControls.setUp
+    def test_actual_owner_refuses_missing_ambiguous_and_invalid_custody_without_writes(self):
+        import os
+        import subprocess
+        claim = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh').read_bytes()
+        validate = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh').read_bytes()
+        script = self.oe._native_r0011_stdin_script_v1(claim, validate, ['--observe-current-continuity'])
+        self.assertIsInstance(script, bytes)
+        environment = {k:v for k,v in os.environ.items()
+                       if not k.startswith(('GIT_', 'BASH_FUNC_')) and k not in {'BASH_ENV','ENV','PYTHONPATH','PYTHONSTARTUP'}}
+        environment.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1', PYTHONDONTWRITEBYTECODE='1')
+        with tempfile.TemporaryDirectory(prefix='combined-continuity-refusal-') as directory:
+            root = Path(directory).resolve()
+            subprocess.run(['git','-C',str(root),'init','-q'],env=environment,check=True,capture_output=True)
+            blob = subprocess.run(['git','-C',str(root),'hash-object','-w','--stdin'],input=b'invalid controller\n',
+                                  env=environment,check=True,capture_output=True).stdout.decode().strip()
+            for population in (0,1,2):
+                if population:
+                    subprocess.run(['git','-C',str(root),'update-ref',
+                                    'refs/implementaudit/controllers/control-'+str(population),blob],
+                                   env=environment,check=True,capture_output=True)
+                before = subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment)
+                result = subprocess.run([self.bash,'-c','eval "$(cat)"','fixed-source-control',
+                    hashlib.sha256(claim).hexdigest(),hashlib.sha256(validate).hexdigest(),
+                    '--observe-current-continuity'],input=script,cwd=root,env=environment,
+                    stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
+                self.assertNotEqual(result.returncode,0)
+                self.assertEqual(result.stdout,b'')
+                self.assertEqual(subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment),before)
+                self.assertFalse((root/'.IMPLEMENTAUDIT').exists())
+            extra = subprocess.run([self.bash,'-c','eval "$(cat)"','fixed-source-control',
+                hashlib.sha256(claim).hexdigest(),hashlib.sha256(validate).hexdigest(),
+                '--observe-current-continuity','caller-controller'],input=script,cwd=root,env=environment,
+                stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
+            self.assertNotEqual(extra.returncode,0)
+            self.assertEqual(extra.stdout,b'')
+
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--repo-root', type=Path, default=ROOT)

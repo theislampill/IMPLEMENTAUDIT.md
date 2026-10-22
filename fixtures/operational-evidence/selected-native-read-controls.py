@@ -77,6 +77,71 @@ class SelectedNativeReadControls(unittest.TestCase):
         self.assertEqual(first,second)
         self.assertEqual((self.openings,self.closings,repeated.call_count),(2,2,0))
 
+
+    def test_repository_read_overlaps_only_inside_owned_selected_transaction(self):
+        import threading
+        started, native_progress = threading.Event(), threading.Event()
+        original = self.oe._collect_repository_observation_v1
+        workers = []
+        def repository(root):
+            workers.append(threading.current_thread())
+            started.set()
+            self.assertTrue(native_progress.wait(3), 'native observation did not progress independently')
+            return original(root)
+        @contextlib.contextmanager
+        def native():
+            start = getattr(self.oe, '_start_selected_repository_read_v1', lambda root: None)
+            start(self.case.root)
+            self.assertTrue(started.wait(3), 'repository read remained serial after native observation')
+            native_progress.set()
+            yield copy.deepcopy(self.case.native)
+        with patch.object(self.oe, '__file__', str(self.case.root/'scripts/operational-evidence.py')), \
+                patch.object(self.oe, '_observe_native_current_v1', side_effect=native), \
+                patch.object(self.oe, '_collect_repository_observation_v1', side_effect=repository):
+            value = self.oe._load_selected_snapshot_v1()
+        self.assertEqual(value['snapshot_id'], __import__('json').loads(self.case.current.read_bytes())['snapshot_id'])
+        self.assertEqual(len(workers), 1)
+        self.assertTrue(all(not worker.is_alive() for worker in workers))
+
+    def test_native_failure_joins_readonly_repository_worker_before_return(self):
+        import threading
+        started, release, finished = threading.Event(), threading.Event(), threading.Event()
+        original = self.oe._collect_repository_observation_v1
+        workers = []
+        def repository(root):
+            workers.append(threading.current_thread()); started.set()
+            try:
+                self.assertTrue(release.wait(3))
+                return original(root)
+            finally: finished.set()
+        @contextlib.contextmanager
+        def native():
+            start = getattr(self.oe, '_start_selected_repository_read_v1', lambda root: None)
+            start(self.case.root)
+            self.assertTrue(started.wait(3), 'repository work was not admitted from the actual bound root')
+            release.set()
+            raise self.oe.OperationalEvidenceError('OE_NATIVE_CURRENT_CHANGED', '$native.fixture', 'native refusal')
+            yield None
+        with patch.object(self.oe, '__file__', str(self.case.root/'scripts/operational-evidence.py')), \
+                patch.object(self.oe, '_observe_native_current_v1', side_effect=native), \
+                patch.object(self.oe, '_collect_repository_observation_v1', side_effect=repository):
+            with self.assertRaises(self.oe.OperationalEvidenceError):
+                self.oe._load_selected_snapshot_v1()
+        self.assertTrue(finished.is_set())
+        self.assertTrue(all(not worker.is_alive() for worker in workers))
+
+    def test_foreign_repository_cannot_replace_started_observation(self):
+        @contextlib.contextmanager
+        def native():
+            start = getattr(self.oe, '_start_selected_repository_read_v1', lambda root: None)
+            start(self.case.root / 'foreign-unselected')
+            yield copy.deepcopy(self.case.native)
+        with patch.object(self.oe, '__file__', str(self.case.root/'scripts/operational-evidence.py')), \
+                patch.object(self.oe, '_observe_native_current_v1', side_effect=native):
+            with self.assertRaises(self.oe.OperationalEvidenceError):
+                self.oe._load_selected_snapshot_v1()
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--repo-root',type=Path,default=ROOT)
     args,rest=parser.parse_known_args();ROOT=args.repo_root.resolve()

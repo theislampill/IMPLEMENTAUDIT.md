@@ -1659,6 +1659,46 @@ exit "$status"
 '''
 
 
+
+def _native_r0011_stdin_payload_v1(claim_raw, validate_raw):
+    """Carry exact bounded owner bytes as data; hash them before evaluation."""
+    for raw in (claim_raw, validate_raw):
+        if type(raw) is not bytes or not 0 < len(raw) <= 256 * 1024 or b"\0" in raw:
+            raise ValueError("bounded non-NUL continuity source bytes required")
+    def literal(raw):
+        return b"'" + raw.replace(b"'", b"'\\''") + b"'"
+    tail = _NATIVE_R0011_CHILD_BOOTSTRAP[
+        _NATIVE_R0011_CHILD_BOOTSTRAP.index("observed_claim="):]
+    # The hash is still calculated over the actual loaded bytes. Parsing its
+    # fixed stdin-filename output needs no separate cut subprocess.
+    tail = tail.replace(" | sha256sum | cut -d' ' -f1)", " | sha256sum)")
+    tail = tail.replace('[ "$observed_claim" = "$expected_claim" ]',
+        'observed_claim="${observed_claim%% *}"\n'
+        'observed_validate="${observed_validate%% *}"\n'
+        '[ "$observed_claim" = "$expected_claim" ]', 1)
+    return (b"set -u\nclaim_text=" + literal(claim_raw) + b"\nvalidate_text=" +
+            literal(validate_raw) +
+            b'\nexpected_claim="$1"\nexpected_validate="$2"\nshift 2\n' + tail.encode("ascii"))
+
+
+def _native_r0011_stdin_script_v1(claim_raw, validate_raw, arguments):
+    """Known readonly CLI domain only; other owners retain the file transport."""
+    pair = (hashlib.sha256(claim_raw).hexdigest(),
+            hashlib.sha256(validate_raw).hexdigest())
+    original = ("07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7",
+                "fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5")
+    combined = ("9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce",
+                "fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5")
+    if pair not in (original, combined):
+        return None
+    readonly = (arguments == ["--current-controller"] or
+        (pair == combined and arguments == ["--observe-current-continuity"]) or
+        (type(arguments) is list and len(arguments) == 2 and
+         arguments[0] in {"--require-current-continuity", "--verify-resume-receipt"}))
+    return _native_r0011_stdin_payload_v1(claim_raw, validate_raw) if readonly else None
+
+
+
 def _native_continuity_source_files_v1():
     claim_path = pathlib.Path(__file__).resolve().parents[1] / "skills/implementaudit/scripts/claim-run.sh"
     validate_path = claim_path.with_name("validate-run-root.sh")
@@ -1978,6 +2018,56 @@ def _native_episode_binding(wrapped, route, graph):
         raise ValueError("accepted episode route source identity differs")
 
 
+
+
+# A selected reader owns this invocation-local handoff. It conveys no native
+# proof and cannot be supplied as a serialized token or reused by another read.
+import contextvars
+_SELECTED_REPOSITORY_READ_V1 = contextvars.ContextVar(
+    "implementaudit_selected_repository_read", default=None)
+
+
+class _SelectedRepositoryReadV1:
+    def __init__(self):
+        from concurrent.futures import ThreadPoolExecutor
+        self._pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="implementaudit-repository")
+        self._root = None
+        self._future = None
+        self._closed = False
+        self._taken = False
+
+    def start(self, root):
+        if self._closed:
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.repository", "repository read is closed")
+        root = pathlib.Path(root).absolute()
+        if self._root is not None and self._root != root:
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.repository", "repository observation changed root")
+        if self._future is None:
+            self._root = root
+            self._future = self._pool.submit(_collect_repository_observation_v1, root)
+
+    def take(self, root):
+        if self._taken:
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.repository", "repository observation was already consumed")
+        self.start(root)
+        result = self._future.result()
+        self._taken = True
+        return result
+
+    def close(self):
+        self._closed = True
+        self._pool.shutdown(wait=True, cancel_futures=True)
+
+
+def _start_selected_repository_read_v1(repository):
+    observation = _SELECTED_REPOSITORY_READ_V1.get()
+    if observation is not None:
+        if type(observation) is not _SelectedRepositoryReadV1:
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.repository", "unowned repository observation")
+        observation.start(repository)
+
+
+
 def collect_native_current():
     """Return exact native facts only after their complete observation closes."""
     with _observe_native_current_v1() as result:
@@ -2040,6 +2130,10 @@ def _observe_native_current_v1():
                "controller repository is foreign to carrier Git custody")
     claimed_raw, sentinel_raw, run_relative_text = _native_claim(
         run_root, repository, common, controller, claim, run_id)
+    # C02 is an independent readonly acquisition of this actual bound root.
+    # Its own full lifetime and the later post-native input fence remain owed.
+    # The selected consumer alone installs the invocation-local read owner.
+    _start_selected_repository_read_v1(repository)
 
     state_path = run_root / "STATE.md"
     roadmap_path = run_root / "ROADMAP.md"
@@ -3409,7 +3503,13 @@ def _capture_snapshot_inputs_v1(native):
     repository_root = pathlib.Path(native["repository"]["root"])
     run_relative = pathlib.PurePosixPath(native["claim"]["run_root"])
     run_root = repository_root.joinpath(*run_relative.parts)
-    repository, reobserve_repository = _collect_repository_observation_v1(repository_root)
+    repository_observation = _SELECTED_REPOSITORY_READ_V1.get()
+    if repository_observation is None:
+        repository, reobserve_repository = _collect_repository_observation_v1(repository_root)
+    else:
+        if type(repository_observation) is not _SelectedRepositoryReadV1:
+            _error("OE_SNAPSHOT_INPUT_CHANGED", "$snapshot.repository", "unowned repository observation")
+        repository, reobserve_repository = repository_observation.take(repository_root)
     repository_raw = canonical_json_v1(repository)
 
     def collect(observed_native, *, initial=False):
@@ -6645,10 +6745,17 @@ def _load_selected_snapshot_v1() -> dict:
     # This read-only consumer stays inside the real native observation. No
     # provisional fact can escape a failed owner close; it accepts no token or
     # caller-supplied native state. Publisher checks retain their own lifetime.
-    with _observe_native_current_v1() as native:
-        payload, fence = _read_selected_snapshot_material_v1(native)
-    _snapshot_require_non_native_input_fence_v1(*fence)
-    return payload
+    repository_read = _SelectedRepositoryReadV1()
+    token = _SELECTED_REPOSITORY_READ_V1.set(repository_read)
+    try:
+        with _observe_native_current_v1() as native:
+            payload, fence = _read_selected_snapshot_material_v1(native)
+        # Native completion still precedes this fresh physical/Git/static fence.
+        _snapshot_require_non_native_input_fence_v1(*fence)
+        return payload
+    finally:
+        _SELECTED_REPOSITORY_READ_V1.reset(token)
+        repository_read.close()
 
 
 def _read_selected_snapshot_material_v1(native):

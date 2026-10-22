@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = '51842be317b6def6a373034bb7c426e2aaa9b46f8016a0cfe98820892ffca807'
+_NATIVE_STATIC_OWNER_SHA256 = 'cb5dbaff70adf8a19e798f0823b6d5f23abc5d5d1ac12ef9a2e932ba177aebee'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 366326
+_NATIVE_STATIC_OWNER_BYTES = 371425
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -1940,6 +1940,27 @@ def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw
     for index, (key, value) in enumerate(config.items()):
         environment['GIT_CONFIG_KEY_' + str(index)] = key
         environment['GIT_CONFIG_VALUE_' + str(index)] = value
+    stream_builder = getattr(owner, '_native_r0011_stdin_script_v1', None)
+    script = stream_builder(claim_raw, validate_raw, arguments) if callable(stream_builder) else None
+    if script is not None:
+        if type(script) is not bytes or not 0 < len(script) <= 3 * 1024 * 1024:
+            raise WorkGraphError('native continuity source stream is malformed')
+        with contextlib.redirect_stdout(io.StringIO()):
+            bash = route.trusted_host_executable(repo, 'bash')
+        # source repo: the fixed primary owns this exact loaded-byte transport.
+        # argv0 and all original readonly owner calls remain unchanged. No
+        # temporary path can replace bytes between their hash and evaluation.
+        result = subprocess.run([str(bash), '-c', 'eval "$(cat)"',
+            'implementaudit-r0035-current', hashlib.sha256(claim_raw).hexdigest(),
+            hashlib.sha256(validate_raw).hexdigest(), *arguments], input=script,
+            cwd=repo, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            timeout=30, check=False)
+        marker = ('implementaudit-native-r0011-child-v1\t' + hashlib.sha256(claim_raw).hexdigest()
+                  + '\t' + hashlib.sha256(validate_raw).hexdigest()).encode()
+        if (result.returncode or len(result.stdout) > 8192 or len(result.stderr) > 16384
+                or result.stderr.splitlines().count(marker) != 1):
+            raise WorkGraphError('native continuity owner refused or changed')
+        return result.stdout.decode('utf-8', 'strict').strip()
     closure = pathlib.Path(tempfile.mkdtemp(prefix='implementaudit-r0035-current-'))
     expected = [(closure / 'claim-run.sh', claim_raw), (closure / 'validate-run-root.sh', validate_raw)]
     try:
@@ -2000,6 +2021,12 @@ _NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE = (
     '07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
 
+# The same owner emits its controller tuple only after the full require branch.
+# No supplied tuple replaces owner acquisition; other source pairs keep both calls.
+_NATIVE_COMBINED_CURRENT_PAIR_V1 = (
+    '9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce',
+    'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
+
 
 def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
     """Classify immutable bytes returned by the exact helper, not caller proof."""
@@ -2033,14 +2060,22 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     budget = dict(remaining=512 * 1024)
     claim_raw = _native_static_file_v1(owner, helper, 256 * 1024, budget)[0]
     validate_raw = _native_static_file_v1(owner, validate, 256 * 1024, budget)[0]
-    current = _native_claim_call_v1(owner, host, repo, ['--current-controller'], claim_raw, validate_raw).split('\t')
+    helper_pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
+    if helper_pair == _NATIVE_COMBINED_CURRENT_PAIR_V1:
+        observed = _native_claim_call_v1(owner, host, repo, ['--observe-current-continuity'], claim_raw, validate_raw).split('\t')
+        if len(observed) != 6 or observed[0] != 'implementaudit.current-continuity-observation.v1':
+            raise WorkGraphError('native combined continuity observation is malformed')
+        current, receipt = observed[1:5], observed[5]
+    else:
+        current = _native_claim_call_v1(owner, host, repo, ['--current-controller'], claim_raw, validate_raw).split('\t')
+        receipt = None
     if len(current) != 4 or pathlib.Path(current[1]).absolute() != repo or pathlib.Path(current[2]).absolute() != pathlib.Path(run_root).absolute():
         raise WorkGraphError('native continuity root mismatch')
-    receipt = _native_claim_call_v1(owner, host, repo, ['--require-current-continuity', current[0]], claim_raw, validate_raw)
+    if receipt is None:
+        receipt = _native_claim_call_v1(owner, host, repo, ['--require-current-continuity', current[0]], claim_raw, validate_raw)
     if not RECEIPT_RE.fullmatch(receipt):
         raise WorkGraphError('native continuity receipt format mismatch')
-    helper_pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
-    if (helper_pair != _NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE or
+    if (helper_pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1) or
             not _native_equivalent_receipt_domain_v1(owner, repo, receipt)):
         verified = _native_claim_call_v1(owner, host, repo, ['--verify-resume-receipt', receipt], claim_raw, validate_raw)
         if verified != receipt:
@@ -2209,10 +2244,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '31504a84afa82a97562727a82c32c7834804738a469478c54edfa42fedb3123d'
+_NATIVE_ROUTE_PRODUCER_SHA256 = '8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 369889
+_NATIVE_ROUTE_PRODUCER_BYTES = 371304
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()

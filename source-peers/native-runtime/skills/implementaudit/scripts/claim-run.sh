@@ -972,15 +972,27 @@ publication_custody_io() {
 
 controller_io() {
   local a="$1" c="$2" repo common ref oid s rc rg root rr target_common; shift 2
+  local observe_current=0
+  [ "$a" != observe ] || observe_current=1
   repo="$(git rev-parse --path-format=absolute --show-toplevel)" || return
   common="$(cd "$(git rev-parse --path-format=absolute --git-common-dir)" && pwd -P)" || return
-  if [ "$a" = current ] && [ -z "$c" ]; then
+  if { [ "$a" = current ] || [ "$observe_current" = 1 ]; } && [ -z "$c" ]; then
     local x=(); mapfile -t x < <(git for-each-ref --format='%(refname)' refs/implementaudit/controllers/)
     [ "${#x[@]}" = 1 ] || { printf 'claim-run.sh: ambiguous controller population: %s\n' "${#x[@]}" >&2; return 1; }
     c="${x[0]##*/}"
   fi
   case "$c" in ''|*[!a-z0-9-]*|-*) return 1;; esac
   [ "${#c}" -le 48 ] || return 1; ref="refs/implementaudit/controllers/$c"
+  # Readonly composition: select the same unique controller, then execute the
+  # existing require branch unchanged. The tuple is emitted only on success.
+  [ "$observe_current" != 1 ] || a=require
+  emit_continuity_token() {
+    if [ "$observe_current" = 1 ]; then
+      printf 'implementaudit.current-continuity-observation.v1\t%s\t%s\t%s\t%s\t%s\n' "$c" "$rr" "$root" "$rg" "$1"
+    else
+      printf '%s\n' "$1"
+    fi
+  }
   load() {
     oid="$(git rev-parse --verify "$ref" 2>/dev/null)" || return
     IFS=$'\t' read -r s rc rg root <<< "$(git cat-file blob "$oid")"
@@ -1718,7 +1730,7 @@ sys.stdout.buffer.write(raw[:-1])
               return 1
             fi
             require_permanent_genesis_marker || return 1
-            printf '%s\n' "$v3_token"
+            emit_continuity_token "$v3_token"
             return
           fi
           [ "$pointer_format" = TSV ] || return 1
@@ -1764,7 +1776,7 @@ sys.stdout.buffer.write(raw[:-1])
           [ -z "$mextra" ] &&
             [ "$ms:$mc:$mclaim:$mrun:$mep" = "implementaudit.current-generation-migration.v1:$c:$rg:$run_identity:$pep" ] &&
             [ "$mpref:$mpschema:$mvref:$mvoid:$mterminal" = "$pref:implementaudit.current-generation.v1:$pvref:$void:true" ] || return 1
-          printf '%s@%s\n' "$pvref" "$void"
+          emit_continuity_token "$pvref@$void"
           return
         fi
       fi
@@ -1805,7 +1817,7 @@ sys.stdout.buffer.write(raw[:-1])
           git update-ref "$rref" "$newr" "$zero" || return 1
           load_final_v3_receipt "$rref@$newr" || return 1
           token="$v3_token"
-          printf '%s\n' "$token"
+          emit_continuity_token "$token"
           return
         fi
         rref="refs/implementaudit/continuity-receipts/$c/$e"
@@ -1861,7 +1873,7 @@ sys.stdout.buffer.write(raw[:-1])
         esac
         [ "$rref" = "refs/implementaudit/continuity-receipts/$c/$e2" ] || return
       fi
-      printf '%s\n' "$token" ;;
+      emit_continuity_token "$token" ;;
     *) return 1 ;;
   esac
 }
@@ -1873,6 +1885,7 @@ case "${1:-}" in
   --publication-custody) publication_custody_io; exit $? ;;
   --recovery-custody) [ "$#" -eq 1 ] || exit 1; publication_custody_io recovery-observation; exit $? ;;
   --current-controller) controller_io current "${2:-}"; exit $? ;;
+  --observe-current-continuity) [ "$#" -eq 1 ] || exit 1; controller_io observe ''; exit $? ;;
   --resume-controller)
     controller="${2:-}"; shift 2; boundary='' epoch=''
     while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --epoch) epoch="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown resume argument: %s\n' "$1" >&2; exit 1;; esac; done

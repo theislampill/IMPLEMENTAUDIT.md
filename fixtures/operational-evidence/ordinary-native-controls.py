@@ -671,6 +671,63 @@ class OrdinaryControls(unittest.TestCase):
 
 
 class OrdinaryAcquisitionCostControls(unittest.TestCase):
+    def test_metadata_prefix_bound_and_private_tail_are_separate(self):
+        import mmap
+        owner = load_owner('bounded_source_owner.py')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'source.jsonl'
+            owner.custody = types.SimpleNamespace(lexical_path=Path, held_file=lambda p: open(p, 'rb'))
+            base = canonical({'type': 'session_meta', 'ordinal': 0, 'payload': {'id': 'é-prefix'}})
+            raw = base + b' ' * (owner.MAX_RECORD - len(base) - 1) + b'\n'
+            path.write_bytes(raw + b'\xffPRIVATE-NOT-METADATA' * 100)
+            original = mmap.mmap
+            def bounded(fd, length, *args, **kwargs):
+                self.assertGreater(length, 0)
+                self.assertLessEqual(length, owner.MAX_RECORD + 1)
+                self.assertEqual(kwargs.get('access'), mmap.ACCESS_READ)
+                return original(fd, length, *args, **kwargs)
+            with mock.patch.object(mmap, 'mmap', side_effect=bounded):
+                value = owner.header({'path': str(path)})
+            self.assertEqual(value['metadata'], {'id': 'é-prefix'})
+            self.assertEqual(value['header_prefix']['bytes'], owner.MAX_RECORD)
+            self.assertEqual(value['header_prefix']['sha256'], sha(raw))
+            path.write_bytes(base + b' ' * (owner.MAX_RECORD - len(base)) + b'\n')
+            with self.assertRaisesRegex(ValueError, 'HEADER_RANGE_BOUND'):
+                owner.header({'path': str(path)})
+
+    def test_empty_metadata_never_requests_a_whole_file_mapping(self):
+        import mmap
+        owner = load_owner('bounded_source_owner.py')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'empty.jsonl'; path.write_bytes(b'')
+            owner.custody = types.SimpleNamespace(lexical_path=Path, held_file=lambda p: open(p, 'rb'))
+            with mock.patch.object(mmap, 'mmap', side_effect=AssertionError('empty mapping is unbounded')):
+                with self.assertRaisesRegex(ValueError, 'HEADER_RANGE_BOUND'):
+                    owner.header({'path': str(path)})
+
+    def test_metadata_line_cannot_change_between_boundary_search_and_copy(self):
+        import mmap
+        owner = load_owner('bounded_source_owner.py')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'source.jsonl'
+            base = canonical({'type': 'session_meta', 'ordinal': 0, 'payload': {'id': 'line-race'}})
+            path.write_bytes(base + b' ' * 32 + b'\n')
+            owner.custody = types.SimpleNamespace(lexical_path=Path, held_file=lambda p: open(p, 'rb'))
+            original = mmap.mmap
+            class ChangedLine:
+                def __init__(self, *args, **kwargs): self.view = original(*args, **kwargs)
+                def __enter__(self): return self
+                def __exit__(self, *args): self.view.close()
+                def find(self, value):
+                    end = self.view.find(value)
+                    with open(path, 'r+b', buffering=0) as stream:
+                        stream.seek(len(base)); stream.write(b'\n')
+                    return end
+                def __getitem__(self, key): return self.view[key]
+            with mock.patch.object(mmap, 'mmap', ChangedLine):
+                with self.assertRaisesRegex(ValueError, 'HEADER_RANGE_BOUND'):
+                    owner.header({'path': str(path)})
+
     def test_header_keeps_parse_and_identity_inside_one_held_read(self):
         owner = load_owner('bounded_source_owner.py')
         with tempfile.TemporaryDirectory() as directory:

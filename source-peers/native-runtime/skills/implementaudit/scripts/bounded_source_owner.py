@@ -64,8 +64,18 @@ def header(thread):
         info = os.fstat(stream.fileno())
         require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1, "SOURCE_NOT_REGULAR_OR_HARDLINK")
         source = {"path": str(path), "device": info.st_dev, "inode": info.st_ino}
-        raw = stream.readline(MAX_RECORD + 1)
-        require(len(raw) <= MAX_RECORD and raw.endswith(b"\n"), "HEADER_RANGE_BOUND")
+        # Discover only the first metadata line within the existing bounded
+        # prefix. No bytes after its LF are copied, parsed or retained. Mapping
+        # the held descriptor avoids byte-at-a-time unbuffered readline calls.
+        import mmap
+        length = min(info.st_size, MAX_RECORD + 1)
+        require(length > 0, "HEADER_RANGE_BOUND")
+        with mmap.mmap(stream.fileno(), length, access=mmap.ACCESS_READ) as prefix:
+            end = prefix.find(b"\n")
+            require(0 <= end < MAX_RECORD, "HEADER_RANGE_BOUND")
+            raw = prefix[:end + 1]
+        require(len(raw) <= MAX_RECORD and raw.endswith(b"\n") and
+                raw.find(b"\n") == len(raw) - 1, "HEADER_RANGE_BOUND")
         cutoff = os.fstat(stream.fileno()).st_size
         row = parse(raw)
         require(row.get("type") == "session_meta" and isinstance(row.get("payload"), dict), "HEADER_TYPE")
