@@ -1,0 +1,103 @@
+{
+  "schema": "implementaudit.route-decision.v1",
+  "predicate_version": "R0033.route-predicate.v1",
+  "controller_id": "constructed-controller",
+  "claim_id": "11111111111111111111111111111111",
+  "explicit_run_root": "/constructed/run",
+  "continuity_generation": "G0001",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/constructed-controller/G0001@1111111111111111111111111111111111111111",
+  "host_id": "codex",
+  "host_session_id": "constructed-session",
+  "host_binding_generation": "G0001",
+  "host_correlation_id": "sha256:02f694a7940cb73a6bb498c0fdb4663f1dbcb2fa6b53edb452fb429e69eae230",
+  "boundary": {
+    "kind": "host-reported-compaction",
+    "event_id": "constructed-event",
+    "digest": "sha256:3126bf5a5e46cd27a8a4101eed069ba8587f24eddae94ae2d15f13cd2a17b55b"
+  },
+  "scope": {
+    "identity": "constructed-scope",
+    "digest": "sha256:8f74e9691edeb6ad1aac4ded6cea96f1a0002cb60887584ebed1afc007d83d0d"
+  },
+  "action": {
+    "identity": "constructed-action",
+    "digest": "sha256:805764051e143a9ac0c6d0062c3d7821843a10d1627af2f14940b437aa7fd3d2",
+    "class": "REQUIRED_INTERNAL_CHILD",
+    "argv": [
+      "route-trigger",
+      "STALE_CONTEXT_RECONSTRUCTION"
+    ]
+  },
+  "evidence": {
+    "owner": {},
+    "authority": {},
+    "effect": {},
+    "dependency": {}
+  },
+  "inputs": [
+    {
+      "identity": "constructed-input",
+      "path": "source.txt",
+      "digest": "sha256:1c687fda969f890aa30b59b200efdd1aa85e1bfc56163eab4741da45406e6337",
+      "status": "CURRENT"
+    }
+  ],
+  "package": {
+    "head": "1111111111111111111111111111111111111111",
+    "tree": "2222222222222222222222222222222222222222",
+    "source_digests": {},
+    "action_executable": {}
+  },
+  "child_source": {
+    "identity": "/constructed/audit-state/SKILL.md",
+    "digest": "sha256:9937b5b2cb0b37a2982504ffaacc6f27df5daba179cc8173cad1f50806749857"
+  },
+  "decision": "REQUIRED",
+  "classification": "MECHANICALLY_REQUIRED",
+  "invalidators": [],
+  "expiry_fingerprint": "sha256:d0b28537df79773af4435ef94ef4922193af3631ef9c8b3bd3f3125f8d7a945f",
+  "expires_on": [
+    "action-completion",
+    "next-action-change",
+    "scope-change",
+    "read-set-change",
+    "host-binding-generation-change",
+    "continuity-receipt-change",
+    "package-identity-change",
+    "child-source-identity-change",
+    "owner-evidence-change",
+    "authority-evidence-change",
+    "dependency-evidence-change",
+    "effect-evidence-change",
+    "contradiction-or-invalidation",
+    "scope-expansion"
+  ],
+  "predecessor_record_oid": "2222222222222222222222222222222222222222",
+  "route_transaction_id": "sha256:1507a97e78cc34545e6c39d5a865178094ce38a05b175b492266b243e1fe8ba0",
+  "obligation_id": "sha256:0586eafbeb0ea7920a33f483b8526c9ad4619a9cd1b65167f1e0103ee4a56cac",
+  "route_state": "OPEN",
+  "child_lifecycle_owned": true,
+  "consumed_record_oid": null,
+  "lifecycle": {
+    "state": "OPEN",
+    "required_record_oid": "3333333333333333333333333333333333333333",
+    "delivery": {
+      "child": {
+        "bytes": 42,
+        "digest": "sha256:9937b5b2cb0b37a2982504ffaacc6f27df5daba179cc8173cad1f50806749857",
+        "bytes_b64": "Q09OU1RSVUNURUQgY2hpbGQgc291cmNlOyBuZXZlciBleGVjdXRhYmxl",
+        "identity": "/constructed/audit-state/SKILL.md"
+      },
+      "packet": {
+        "bytes": 736,
+        "digest": "sha256:af9955759b87af62177f7d5ec6600f84982372e7b1ccdfd65e4d8943a80799b5",
+        "bytes_b64": "eyJvYmxpZ2F0aW9uX2lkIjoic2hhMjU2OjA1ODZlYWZiZWIwZWE3OTIwYTMzZjQ4M2I4NTI2YzlhZDQ2MTlhOWNkMWI2NTE2N2YxZTAxMDNlZTRhNTZjYWMiLCJyb3V0ZV90cmFuc2FjdGlvbl9pZCI6InNoYTI1NjoxNTA3YTk3ZTc4Y2MzNDU0NWU2YzM5ZDVhODY1MTc4MDk0Y2UzOGEwNWIxNzViNDkyMjY2YjI0M2UxZmU4YmEwIiwic2NoZW1hIjoiaW1wbGVtZW50YXVkaXQucm91dGUtcGFja2V0LnYxIiwic291cmNlX2V2ZW50Ijp7ImJvZHkiOiJDT05TVFJVQ1RFRDoga2VlcCBzb3VyY2UgdGV4dCwgaW5jbHVkaW5nIGBpbmlgIGFuZFxubmV3bGluZXMuIiwia2luZCI6Im9uZS1zaG90LWFjdGlvbiIsInByb3ZlbmFuY2UiOnsiZXZlbnRfaWQiOiJjb25zdHJ1Y3RlZC1ldmVudCIsImhvc3RfY29ycmVsYXRpb25faWQiOiJzaGEyNTY6MDJmNjk0YTc5NDBjYjczYTZiYjQ5OGMwZmRiNDY2M2YxZGJjYjJmYTZiNTNlZGI0NTJmYjQyOWU2OWVhZTIzMCIsInNjaGVtYSI6ImltcGxlbWVudGF1ZGl0LnNvdXJjZS1ldmVudC1wcm92ZW5hbmNlLnYxIn0sInJlYWN0aXZhdGlvbiI6eyJpbnZhbGlkYXRpbmdfZXZpZGVuY2UiOmZhbHNlLCJyZW9wZW4iOmZhbHNlLCJ0YXJnZXRfY2hhbmdlZCI6ZmFsc2V9LCJzY2hlbWEiOiJpbXBsZW1lbnRhdWRpdC5zb3VyY2UtZXZlbnQudjEiLCJzb3VyY2VfaWRlbnRpdHkiOiJjb25zdHJ1Y3RlZC1ldmVudCJ9LCJ0YXJnZXRfaWRlbnRpdHkiOiJhdWRpdC1hc3Nlc3MifQ=="
+      }
+    },
+    "child_return": null,
+    "governor_decision": null,
+    "governor_decision_count": 0,
+    "source_event_status": "active"
+  },
+  "record_identity": "sha256:54f52c0906d0775e541ffcf2c543fb3b5d73c4b7262e7ed8aaaf274a00fb94d5"
+}

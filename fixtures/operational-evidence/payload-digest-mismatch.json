@@ -1,0 +1,23 @@
+{
+  "schema": "implementaudit-operational-evidence-v1",
+  "aggregate": "DEGRADED",
+  "families": ["CODE", "OWNERSHIP", "EXECUTION", "EVIDENCE", "FAILURE", "RELEASE"],
+  "affected_families": ["EVIDENCE"],
+  "capability_declarations": [],
+  "currentness_predicates": [],
+  "entities": [],
+  "relations": [],
+  "payload_records": [
+    {
+      "id": "payload:digest-mismatch",
+      "family": "EVIDENCE",
+      "native_owner_identity": "github:issue:214",
+      "source_identity": {"id": "I_kwDOSh3v8s8AAAABNB7c4g", "layer": "external"},
+      "evidence_layer": "external",
+      "currentness": {"state": "CURRENT", "invalidators": []},
+      "media_type": "text/markdown",
+      "payload": "line one\nline two\n",
+      "payload_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}
