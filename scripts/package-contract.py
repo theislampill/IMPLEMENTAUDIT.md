@@ -765,6 +765,27 @@ def enforce_budget_size(contract: dict[str, Any], role: str, size: int) -> None:
         )
 
 
+def installed_member_mode_matches(path: Path, expected_mode: int) -> bool:
+    if os.name not in {"posix", "nt"}:
+        raise ContractError(f"installed member permissions unsupported on platform: {os.name}")
+    metadata = path.lstat()
+    if not stat.S_ISREG(metadata.st_mode):
+        return False
+    observed = stat.S_IMODE(metadata.st_mode)
+    if os.name == "posix":
+        return observed == expected_mode
+    # Native Windows chmod represents read/write state, not POSIX execute or
+    # owner/group/other bits. Exact logical ZIP modes remain checked separately.
+    attributes = getattr(metadata, "st_file_attributes", None)
+    return (
+        expected_mode in {0o644, 0o755}
+        and type(attributes) is int and attributes >= 0
+        and not attributes & (stat.FILE_ATTRIBUTE_READONLY | stat.FILE_ATTRIBUTE_REPARSE_POINT)
+        and observed & (stat.S_IREAD | stat.S_IWRITE) == (stat.S_IREAD | stat.S_IWRITE)
+        and not observed & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX)
+    )
+
+
 def read_installed_inventory(target: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     if target.is_symlink() or not target.is_dir():
         raise ContractError("installed plugin target must be a real directory")
@@ -814,7 +835,7 @@ def read_installed_inventory(target: Path) -> tuple[dict[str, Any], dict[str, An
         )
     for name in expected_paths:
         expected_mode = 0o755 if name.startswith("skills/implementaudit/scripts/") else 0o644
-        if stat.S_IMODE((target / name).stat().st_mode) != expected_mode:
+        if not installed_member_mode_matches(target / name, expected_mode):
             raise ContractError(f"installed plugin member mode mismatch: {name}")
     return package, inventory
 

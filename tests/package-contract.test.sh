@@ -294,4 +294,6 @@ if observed != approval["sha256"]:
     raise SystemExit("source owner approval bytes differ from the reviewed declaration")
 PY
 
+python fixtures/package-contract/installed_modes_test.py
+
 printf 'package-contract.test: ok\n'

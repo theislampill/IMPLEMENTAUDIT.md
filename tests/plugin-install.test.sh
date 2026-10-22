@@ -115,6 +115,8 @@ PY
 assert_exact_archive_tree() {
   "${py_cmd[@]}" - "$1" "$2" <<'PY'
 import hashlib
+import os
+import shutil
 import stat
 import subprocess
 import sys
@@ -126,6 +128,21 @@ target = Path(sys.argv[2])
 if not target.is_dir():
     raise SystemExit(f"installed target is not a directory: {target}")
 
+def physical_mode(path):
+    metadata = path.lstat()
+    observed = stat.S_IMODE(metadata.st_mode)
+    if os.name == "posix":
+        return observed
+    if os.name != "nt":
+        raise SystemExit("unsupported installed permission model")
+    attributes = getattr(metadata, "st_file_attributes", None)
+    if (not stat.S_ISREG(metadata.st_mode) or type(attributes) is not int
+            or attributes < 0 or attributes & 0x401 or observed & 0o7000
+            or observed & 0o600 != 0o600):
+        raise SystemExit(f"installed Windows member is not regular readable/writable non-reparse: {path}")
+    relative = path.relative_to(target).as_posix()
+    return 0o755 if relative.startswith("skills/implementaudit/scripts/") else 0o644
+
 with zipfile.ZipFile(asset) as archive:
     expected = {}
     for info in archive.infolist():
@@ -134,6 +151,10 @@ with zipfile.ZipFile(asset) as archive:
         relative = PurePosixPath(info.filename)
         if relative.is_absolute() or ".." in relative.parts or "\\" in info.filename:
             raise SystemExit(f"unsafe member in test asset: {info.filename}")
+        logical_mode = 0o755 if info.filename.startswith("skills/implementaudit/scripts/") else 0o644
+        if (stat.S_IFMT(info.external_attr >> 16) != stat.S_IFREG
+                or stat.S_IMODE(info.external_attr >> 16) != logical_mode):
+            raise SystemExit(f"noncanonical logical archive mode: {info.filename}")
         expected[relative.as_posix()] = (
             len(archive.read(info.filename)),
             hashlib.sha256(archive.read(info.filename)).hexdigest(),
@@ -149,7 +170,7 @@ for path in target.rglob("*"):
         observed[path.relative_to(target).as_posix()] = (
             len(data),
             hashlib.sha256(data).hexdigest(),
-            stat.S_IMODE(path.stat().st_mode),
+            physical_mode(path),
         )
 
 if observed != expected:
@@ -163,15 +184,22 @@ if observed != expected:
     )
 
 governor_root = target / "skills/implementaudit"
+python_command = [str(governor_root / "scripts/resolve-internal-skill.py")]
+shell_command = [str(governor_root / "scripts/detect-stack.sh")]
+if os.name == "nt":
+    python_command.insert(0, sys.executable)
+    shell = shutil.which("bash")
+    if shell is None:
+        raise SystemExit("Windows installed shell helper requires the selected Bash runtime")
+    shell_command = [shell, (governor_root / "scripts/detect-stack.sh").as_posix()]
 resolved = subprocess.run(
-    [str(governor_root / "scripts/resolve-internal-skill.py"),
-     "--governor", str(governor_root / "SKILL.md"), "--child", "audit-state"],
+    python_command + ["--governor", str(governor_root / "SKILL.md"), "--child", "audit-state"],
     cwd=target, check=True, capture_output=True, text=True,
 )
 if resolved.stdout.strip() != str(target / "skills/audit-state/SKILL.md"):
     raise SystemExit("direct installed Python helper resolved the wrong child")
 detected = subprocess.run(
-    [str(governor_root / "scripts/detect-stack.sh")],
+    shell_command,
     cwd=target, check=True, capture_output=True, text=True,
 )
 if not detected.stdout.startswith("implementaudit.detect-stack\nside_effects=none\n"):
@@ -424,7 +452,12 @@ for host in codex claude; do
   install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.0 \
     >"$tmp_parent/mode-predecessor-setup-$host.out"
   target="$root/plugins/implementaudit"
-  chmod 0644 "$target/skills/implementaudit/scripts/resolve-internal-skill.py"
+  "${py_cmd[@]}" - "$target/skills/implementaudit/scripts/resolve-internal-skill.py" <<'PY'
+import os
+import stat
+import sys
+os.chmod(sys.argv[1], stat.S_IREAD if os.name == "nt" else 0o644)
+PY
   before="$(tree_digest "$target")"
   expect_install_failure "$host wrong-mode predecessor" \
     install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.0
@@ -434,6 +467,7 @@ for host in codex claude; do
     || fail "$host wrong-mode rejection changed its predecessor"
   sibling_count="$(find "$root/plugins" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d '[:space:]')"
   [ "$sibling_count" -eq 1 ] || fail "$host wrong-mode rejection left transaction residue"
+  chmod 0755 "$target/skills/implementaudit/scripts/resolve-internal-skill.py"
 done
 
 stale_checksum="$tmp_parent/STALE-CHECKSUMS.txt"

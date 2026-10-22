@@ -197,6 +197,27 @@ def numeric_version(value):
     return tuple(int(part) for part in text.split("."))
 
 
+def installed_member_mode_matches(path, expected_mode):
+    if os.name not in {"posix", "nt"}:
+        raise SystemExit(f"installed member permissions unsupported on platform: {os.name}")
+    metadata = path.lstat()
+    if not stat.S_ISREG(metadata.st_mode):
+        return False
+    observed = stat.S_IMODE(metadata.st_mode)
+    if os.name == "posix":
+        return observed == expected_mode
+    # Native Windows chmod represents read/write state, not POSIX execute or
+    # owner/group/other bits. Exact logical ZIP modes remain checked separately.
+    attributes = getattr(metadata, "st_file_attributes", None)
+    return (
+        expected_mode in {0o644, 0o755}
+        and type(attributes) is int and attributes >= 0
+        and not attributes & (stat.FILE_ATTRIBUTE_READONLY | stat.FILE_ATTRIBUTE_REPARSE_POINT)
+        and observed & (stat.S_IREAD | stat.S_IWRITE) == (stat.S_IREAD | stat.S_IWRITE)
+        and not observed & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX)
+    )
+
+
 def read_installed_standalone(root):
     if root.is_symlink() or not root.is_dir():
         raise SystemExit("installed standalone target must be a real directory")
@@ -266,7 +287,7 @@ def read_installed_standalone(root):
         )
     for name in expected_paths:
         expected_mode = 0o755 if name.startswith("scripts/") else 0o644
-        if stat.S_IMODE((root / name).stat().st_mode) != expected_mode:
+        if not installed_member_mode_matches(root / name, expected_mode):
             raise SystemExit(f"installed standalone member mode mismatch: {name}")
     return package, inventory
 
