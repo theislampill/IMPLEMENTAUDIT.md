@@ -1,0 +1,192 @@
+{
+  "schema": "implementaudit.work-graph.v1",
+  "graph_id": "constructed-preparation-graph",
+  "population": {
+    "total_cells": 3
+  },
+  "cells": [
+    {
+      "id": "holder",
+      "state": "ACTIVE",
+      "deps": []
+    },
+    {
+      "id": "prepared",
+      "state": "READY",
+      "deps": [
+        "done-source"
+      ],
+      "preparation": {
+        "kinds": [
+          "REVIEW_PLAN"
+        ],
+        "effect_class": "READ_ONLY_EFFECT_FREE",
+        "final_composed_only": false,
+        "execution_unavailable": {
+          "kind": "LIVE_HOLD",
+          "group": "W_owner",
+          "holders": [
+            "holder"
+          ]
+        },
+        "rank": {
+          "terminal_unlock_value": 1,
+          "expected_reuse": 1,
+          "cost": 1,
+          "invalidation_risk": 1
+        },
+        "record": {
+          "graph_path": "/constructed/WORK_GRAPH.json",
+          "receipt": "refs/implementaudit/continuity-receipts/constructed/G0001@1111111111111111111111111111111111111111",
+          "predecessors": [
+            {
+              "cell_id": "holder",
+              "state": "ACTIVE",
+              "identity": {
+                "kind": "UNAVAILABLE",
+                "reason": "NOT_DONE"
+              }
+            },
+            {
+              "cell_id": "done-source",
+              "state": "DONE",
+              "identity": {
+                "kind": "QUALIFIED_PRODUCT",
+                "commit": "1111111111111111111111111111111111111111",
+                "tree": "2222222222222222222222222222222222222222",
+                "review_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+              }
+            }
+          ],
+          "interface_assumptions": {
+            "constructed-interface": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "inspected_paths": [
+            "/constructed/owner.py"
+          ],
+          "proposed_paths": [
+            "/constructed/review-plan.md"
+          ],
+          "allowed_work": [
+            "REVIEW_PLAN"
+          ],
+          "forbidden_work": [
+            "SOURCE_MUTATION",
+            "GRAPH_MUTATION",
+            "LIFECYCLE_CREDIT",
+            "REF_MUTATION",
+            "PACKAGE_INSTALL_PUBLICATION",
+            "EXTERNAL_EFFECT"
+          ],
+          "cost_boundary": "constructed finite review only",
+          "invalidators": [
+            "TARGET_STATE",
+            "DEPENDENCY_RESULT",
+            "INTERFACE_ASSUMPTION"
+          ],
+          "activation_revalidation": [
+            "CURRENTNESS",
+            "DEPENDENCY_RESULTS",
+            "INTERFACE_ASSUMPTIONS",
+            "CAUSAL_RED"
+          ]
+        }
+      }
+    },
+    {
+      "id": "done-source",
+      "state": "DONE",
+      "deps": [],
+      "source_bearing": true,
+      "result": {
+        "product": {
+          "commit": "1111111111111111111111111111111111111111",
+          "tree": "2222222222222222222222222222222222222222",
+          "review_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "disposition": {
+          "kind": "SUPERSEDED",
+          "target": "1111111111111111111111111111111111111111"
+        }
+      }
+    }
+  ],
+  "serialization_groups": {
+    "W_owner": [
+      "holder",
+      "prepared"
+    ]
+  },
+  "authority": {
+    "qualified_product_contract": {
+      "kind": "GOVERNOR_VERIFIED_PRODUCT_BINDINGS",
+      "path": "/constructed/never-open-product-authority.json",
+      "bytes": 943,
+      "sha256": "9151f29127017ba4b6a7317947fc25c360738e093698379d49187554ab8eac04",
+      "receipt": "refs/implementaudit/continuity-receipts/constructed/G0001@5555555555555555555555555555555555555555"
+    }
+  },
+  "integration_topology": {
+    "product_contract": {
+      "authority_sha256": "f248eaf3333b7de192daca365a9ac4b813b08019d291da73fb22cc311ba04b22",
+      "done_classification": {
+        "done-source": "SOURCE_PRODUCT"
+      },
+      "non_cell_owners": [
+        "declared-owner"
+      ],
+      "join_owners": [],
+      "product_bindings": [
+        {
+          "owner_kind": "CELL",
+          "owner": "done-source",
+          "commit": "1111111111111111111111111111111111111111",
+          "tree": "2222222222222222222222222222222222222222",
+          "review_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        {
+          "owner_kind": "NON_CELL",
+          "owner": "declared-owner",
+          "commit": "6666666666666666666666666666666666666666",
+          "tree": "7777777777777777777777777777777777777777",
+          "review_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+        }
+      ],
+      "disposition_bindings": [
+        {
+          "product_commit": "1111111111111111111111111111111111111111",
+          "kind": "SUPERSEDED",
+          "target": "1111111111111111111111111111111111111111"
+        },
+        {
+          "product_commit": "6666666666666666666666666666666666666666",
+          "kind": "INTEGRATED",
+          "target": "9999999999999999999999999999999999999999"
+        }
+      ],
+      "composition_authorizations": [],
+      "future_consumers": []
+    },
+    "qualified_products": [
+      {
+        "owner": "declared-owner",
+        "result": {
+          "product": {
+            "commit": "6666666666666666666666666666666666666666",
+            "tree": "7777777777777777777777777777777777777777",
+            "review_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+          },
+          "disposition": {
+            "kind": "INTEGRATED",
+            "target": "9999999999999999999999999999999999999999"
+          }
+        }
+      }
+    ],
+    "integration_heads": [
+      "4444444444444444444444444444444444444444",
+      "9999999999999999999999999999999999999999"
+    ],
+    "composition_proposals": []
+  }
+}

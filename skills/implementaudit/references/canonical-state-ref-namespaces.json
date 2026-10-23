@@ -1,0 +1,72 @@
+{
+  "schema": "implementaudit.canonical-state-ref-namespaces.v1",
+  "controller_scope": "existing explicit native controller; no allocation",
+  "generation_scope": "existing run-local G namespace; positive uppercase HEX4",
+  "allocation_owner": "identity-namespaces.json remains R0004-owned and unchanged",
+  "retirement": "retain readers, migration markers, all anchored archives, retained transition/publication/object evidence and consumer obligations",
+  "role_patterns": [
+    {
+      "role": "controller-current",
+      "fullmatch": "refs/implementaudit/controllers/[a-z0-9][a-z0-9-]{0,47}",
+      "owner": "claim-run.sh",
+      "authority": "CONTROLLER_CUSTODY",
+      "archive_anchor": false
+    },
+    {
+      "role": "current-generation",
+      "fullmatch": "refs/implementaudit/current-generations/[a-z0-9][a-z0-9-]{0,47}",
+      "owner": "claim-run.sh",
+      "authority": "CURRENT_POINTER",
+      "archive_anchor": false
+    },
+    {
+      "role": "migration-marker",
+      "fullmatch": "refs/implementaudit/current-generation-migrations/[a-z0-9][a-z0-9-]{0,47}",
+      "owner": "claim-run.sh",
+      "authority": "PERMANENT_MIGRATION",
+      "archive_anchor": false
+    },
+    {
+      "role": "continuity-invalidation",
+      "fullmatch": "refs/implementaudit/continuity-invalidations/[a-z0-9][a-z0-9-]{0,47}",
+      "owner": "claim-run.sh",
+      "authority": "CURRENT_INVALIDATION",
+      "archive_anchor": false
+    },
+    {
+      "role": "continuity-receipt",
+      "fullmatch": "refs/implementaudit/continuity-receipts/[a-z0-9][a-z0-9-]{0,47}/G(?!0000)[0-9A-F]{4}",
+      "owner": "claim-run.sh",
+      "authority": "BOUND_RECEIPT",
+      "archive_anchor": false
+    },
+    {
+      "role": "prepared-state-archive",
+      "fullmatch": "refs/implementaudit/state-archives/[a-z0-9][a-z0-9-]{0,47}/G(?!0000)[0-9A-F]{4}",
+      "owner": "claim-run.sh / rotate-canonical-state.py",
+      "authority": "ARCHIVED_ONLY_HISTORY",
+      "archive_anchor": true
+    },
+    {
+      "role": "retained-transition",
+      "fullmatch": "refs/implementaudit/state-archives/[a-z0-9][a-z0-9-]{0,47}/epochs/G(?!0000)[0-9A-F]{4}",
+      "owner": "claim-run.sh",
+      "authority": "RETAINED_TRANSITION_EVIDENCE",
+      "archive_anchor": false
+    },
+    {
+      "role": "retained-publication-intent",
+      "fullmatch": "refs/implementaudit/state-archives/[a-z0-9][a-z0-9-]{0,47}/epochs/G(?!0000)[0-9A-F]{4}-publication",
+      "owner": "claim-run.sh",
+      "authority": "RETAINED_PUBLICATION_EVIDENCE",
+      "archive_anchor": false
+    },
+    {
+      "role": "retained-object",
+      "fullmatch": "refs/implementaudit/state-archives/[a-z0-9][a-z0-9-]{0,47}/objects/[0-9a-f]{40}",
+      "owner": "claim-run.sh",
+      "authority": "RETAINED_OBJECT_EVIDENCE",
+      "archive_anchor": false
+    }
+  ]
+}

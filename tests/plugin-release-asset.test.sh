@@ -152,11 +152,14 @@ package_name = "IMPLEMENTAUDIT_PACKAGE.json"
 
 def validate_archive(raw_path, role):
     path = Path(raw_path)
-    cap = source_package["budgets"][role]["cap_bytes"]
-    if cap != 327680:
-        raise SystemExit(f"{role} cap is not the predeclared 327680 bytes")
-    if path.stat().st_size > cap:
-        raise SystemExit(f"{role} exceeds its predeclared size cap")
+    budget = source_package["budgets"][role]
+    cap, reserve = budget["cap_bytes"], budget["reserve_bytes"]
+    if source_package["budget_revision"]["revision"] != 3:
+        raise SystemExit(f"{role} budget is not the prospective R003A revision 3")
+    if (cap, reserve) != (458752, 2000):
+        raise SystemExit(f"{role} cap and reserve differ from the approved R003A budget")
+    if path.stat().st_size > cap - reserve:
+        raise SystemExit(f"{role} exceeds its approved cap or consumes its required reserve")
 
     with zipfile.ZipFile(path) as archive:
         infos = archive.infolist()

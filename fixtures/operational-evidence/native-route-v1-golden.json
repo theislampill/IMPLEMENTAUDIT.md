@@ -1,0 +1,323 @@
+{
+  "schema": "r0038.native-route-v1-regression-golden.v1",
+  "scope": "SYNTHETIC_CAPTURED_INTERFACE_ONLY_NOT_NATIVE_ADMISSION",
+  "provenance": {
+    "semantic_owner": "R0035",
+    "source_sha256": "3dcdbea4ed1a911261d57e02413d159758ea50a77f707036d036184c8396782d",
+    "source_commit": "2397b2459f2a3e090fcc2065c3eae80a1ce1d27f",
+    "source_pr": 246,
+    "method": "One pure _compile_native_documents_v1 call on the retained pre-change owner; no source/controller/native acquisition",
+    "retained_control_source_sha256": "ed2e157ea7e9a34b54327d52ba02257bb15c3525fbfafa83d51a653c64401d13"
+  },
+  "input_sha256": "34b56877a3ec19b51e7d5013837e8e49762e44a45085b69ab8b5a0a46917420d",
+  "expected": {
+    "schema": "implementaudit.native-work-graph.v1",
+    "binding": {
+      "acquisition": "NATIVE_CONTINUITY_VERIFIED",
+      "controller": "bounded-control",
+      "claim": "11111111111111111111111111111111",
+      "receipt": "refs/implementaudit/continuity-receipts/bounded-control/G000A@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "epoch": "G000A",
+      "candidate_head": "4444444444444444444444444444444444444444",
+      "candidate_tree": "5555555555555555555555555555555555555555",
+      "worktree_digest": "6666666666666666666666666666666666666666666666666666666666666666",
+      "continuity_helper_digest": "7777777777777777777777777777777777777777777777777777777777777777",
+      "read_set": {},
+      "input_root_identity": "8888888888888888888888888888888888888888888888888888888888888888",
+      "source_digest": "7dfcbf173d623d912d8d9830ad87864cb12d20e0d66d99250d8fe9208ae74f6d"
+    },
+    "campaign": "source-control",
+    "root": "root",
+    "original_scope": "source-interface",
+    "event": {
+      "id": "event-one",
+      "kind": "REDERIVE",
+      "subject": "root"
+    },
+    "context": {
+      "host_capacity": 4,
+      "operator_ceiling": null,
+      "reserve": 0,
+      "route_facts": [
+        {
+          "schema": "implementaudit.work-graph-route-fact.v1",
+          "scope": "review:bounded",
+          "obligation": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "generation": "G000A",
+          "binding": "legacy",
+          "continuity": "legacy",
+          "status": "SATISFIED",
+          "satisfaction": "caller-yes",
+          "expected_satisfaction": "caller-yes",
+          "source_digest": "9999999999999999999999999999999999999999999999999999999999999999"
+        }
+      ],
+      "outstanding_deliveries": []
+    },
+    "source_inventory": [
+      {
+        "path": "ROADMAP.md",
+        "bytes": 94,
+        "sha256": "91f834541a4ab9933dbc3dec6214ee63540e41eb275988b4ba9244bc78d13ef5"
+      },
+      {
+        "path": "STATE.md",
+        "bytes": 851,
+        "sha256": "cbc3348ea095995c0381c3ccee90046e179a39a1a942d1afd1005f34c6712bbd"
+      },
+      {
+        "path": "tasks/controls.md",
+        "bytes": 3445,
+        "sha256": "202600991da3937e12f705e3c55c965a226aaff9b6ee5dab96330331a2e24225"
+      }
+    ],
+    "source_documents": {
+      "STATE.md": "```implementaudit-work-graph\n{\"schema\": \"implementaudit.native-state.v1\", \"campaign\": \"source-control\", \"root\": \"root\", \"original_scope\": \"source-interface\", \"nodes\": [\"dependent\", \"independent\", \"root\", \"scoped\", \"scoped_two\", \"uncovered\"], \"event\": {\"id\": \"event-one\", \"kind\": \"REDERIVE\", \"subject\": \"root\"}, \"context\": {\"host_capacity\": 4, \"operator_ceiling\": null, \"reserve\": 0, \"route_facts\": [{\"schema\": \"implementaudit.work-graph-route-fact.v1\", \"scope\": \"review:bounded\", \"obligation\": \"sha256:1111111111111111111111111111111111111111111111111111111111111111\", \"generation\": \"G000A\", \"binding\": \"legacy\", \"continuity\": \"legacy\", \"status\": \"SATISFIED\", \"satisfaction\": \"caller-yes\", \"expected_satisfaction\": \"caller-yes\", \"source_digest\": \"9999999999999999999999999999999999999999999999999999999999999999\"}], \"outstanding_deliveries\": []}}\n```\n",
+      "ROADMAP.md": "```implementaudit-work-graph\n{\"schema\": \"implementaudit.native-roadmap.v1\", \"phases\": []}\n```\n",
+      "tasks/controls.md": "```implementaudit-work-graph\n{\"schema\": \"implementaudit.native-spec.v1\", \"nodes\": [{\"id\": \"root\", \"parent\": null, \"kind\": \"PLAN\", \"state\": \"OPEN\", \"requires\": [], \"optional\": [], \"reads\": [], \"writes\": [], \"acceptance\": [], \"resources\": [], \"authority\": [], \"effect\": \"READ_ONLY\", \"authorization\": \"PERMITTED\", \"independence\": \"KNOWN\", \"resource_demand\": 1, \"rank\": 0, \"route_scopes\": [], \"logical_delivery\": null, \"future_consumer\": null, \"invalidators\": [], \"independent_results\": true, \"context\": {\"locality\": \"GOVERNOR\", \"governor_cost\": 1, \"child_cost\": 2, \"return_cost\": 1, \"useful_value\": 3}, \"done_evidence\": null}, {\"id\": \"scoped\", \"parent\": \"root\", \"kind\": \"TASK\", \"state\": \"OPEN\", \"requires\": [], \"optional\": [], \"reads\": [], \"writes\": [], \"acceptance\": [], \"resources\": [], \"authority\": [], \"effect\": \"READ_ONLY\", \"authorization\": \"PERMITTED\", \"independence\": \"KNOWN\", \"resource_demand\": 1, \"rank\": 0, \"route_scopes\": [\"review:bounded\"], \"logical_delivery\": null, \"future_consumer\": null, \"invalidators\": [], \"independent_results\": true, \"context\": {\"locality\": \"GOVERNOR\", \"governor_cost\": 1, \"child_cost\": 2, \"return_cost\": 1, \"useful_value\": 3}, \"done_evidence\": null}, {\"id\": \"scoped_two\", \"parent\": \"root\", \"kind\": \"TASK\", \"state\": \"OPEN\", \"requires\": [], \"optional\": [], \"reads\": [], \"writes\": [], \"acceptance\": [], \"resources\": [], \"authority\": [], \"effect\": \"READ_ONLY\", \"authorization\": \"PERMITTED\", \"independence\": \"KNOWN\", \"resource_demand\": 1, \"rank\": 0, \"route_scopes\": [\"review:bounded\", \"second-boundary\"], \"logical_delivery\": null, \"future_consumer\": null, \"invalidators\": [], \"independent_results\": true, \"context\": {\"locality\": \"GOVERNOR\", \"governor_cost\": 1, \"child_cost\": 2, \"return_cost\": 1, \"useful_value\": 3}, \"done_evidence\": null}, {\"id\": \"dependent\", \"parent\": \"root\", \"kind\": \"TASK\", \"state\": \"OPEN\", \"requires\": [\"scoped\"], \"optional\": [], \"reads\": [], \"writes\": [], \"acceptance\": [], \"resources\": [], \"authority\": [], \"effect\": \"READ_ONLY\", \"authorization\": \"PERMITTED\", \"independence\": \"KNOWN\", \"resource_demand\": 1, \"rank\": 0, \"route_scopes\": [], \"logical_delivery\": null, \"future_consumer\": null, \"invalidators\": [], \"independent_results\": true, \"context\": {\"locality\": \"GOVERNOR\", \"governor_cost\": 1, \"child_cost\": 2, \"return_cost\": 1, \"useful_value\": 3}, \"done_evidence\": null}, {\"id\": \"independent\", \"parent\": \"root\", \"kind\": \"TASK\", \"state\": \"OPEN\", \"requires\": [], \"optional\": [], \"reads\": [], \"writes\": [], \"acceptance\": [], \"resources\": [], \"authority\": [], \"effect\": \"READ_ONLY\", \"authorization\": \"PERMITTED\", \"independence\": \"KNOWN\", \"resource_demand\": 1, \"rank\": 0, \"route_scopes\": [], \"logical_delivery\": null, \"future_consumer\": null, \"invalidators\": [], \"independent_results\": true, \"context\": {\"locality\": \"GOVERNOR\", \"governor_cost\": 1, \"child_cost\": 2, \"return_cost\": 1, \"useful_value\": 3}, \"done_evidence\": null}, {\"id\": \"uncovered\", \"parent\": \"root\", \"kind\": \"TASK\", \"state\": \"OPEN\", \"requires\": [], \"optional\": [], \"reads\": [], \"writes\": [], \"acceptance\": [], \"resources\": [], \"authority\": [], \"effect\": \"READ_ONLY\", \"authorization\": \"PERMITTED\", \"independence\": \"KNOWN\", \"resource_demand\": 1, \"rank\": 0, \"route_scopes\": [\"second-boundary\"], \"logical_delivery\": null, \"future_consumer\": null, \"invalidators\": [], \"independent_results\": true, \"context\": {\"locality\": \"GOVERNOR\", \"governor_cost\": 1, \"child_cost\": 2, \"return_cost\": 1, \"useful_value\": 3}, \"done_evidence\": null}]}\n```\n"
+    },
+    "nodes": [
+      {
+        "id": "dependent",
+        "parent": "root",
+        "kind": "TASK",
+        "state": "BLOCKED",
+        "requires": [
+          "scoped"
+        ],
+        "optional": [],
+        "reads": [],
+        "writes": [],
+        "acceptance": [],
+        "resources": [],
+        "authority": [],
+        "effect": "READ_ONLY",
+        "authorization": "PERMITTED",
+        "independence": "KNOWN",
+        "resource_demand": 1,
+        "rank": 0,
+        "route_scopes": [],
+        "logical_delivery": null,
+        "future_consumer": null,
+        "invalidators": [],
+        "independent_results": true,
+        "context": {
+          "locality": "GOVERNOR",
+          "governor_cost": 1,
+          "child_cost": 2,
+          "return_cost": 1,
+          "useful_value": 3
+        },
+        "done_evidence": null,
+        "source_path": "tasks/controls.md",
+        "source_digest": "202600991da3937e12f705e3c55c965a226aaff9b6ee5dab96330331a2e24225",
+        "input_digest": "10a87ba457be1b2ad7df516e4d6c810f66e547eab3bd5d526e5559f7c020d733",
+        "declared_state": "OPEN",
+        "blocked_reasons": [
+          "DEPENDENCY"
+        ]
+      },
+      {
+        "id": "independent",
+        "parent": "root",
+        "kind": "TASK",
+        "state": "READY",
+        "requires": [],
+        "optional": [],
+        "reads": [],
+        "writes": [],
+        "acceptance": [],
+        "resources": [],
+        "authority": [],
+        "effect": "READ_ONLY",
+        "authorization": "PERMITTED",
+        "independence": "KNOWN",
+        "resource_demand": 1,
+        "rank": 0,
+        "route_scopes": [],
+        "logical_delivery": null,
+        "future_consumer": null,
+        "invalidators": [],
+        "independent_results": true,
+        "context": {
+          "locality": "GOVERNOR",
+          "governor_cost": 1,
+          "child_cost": 2,
+          "return_cost": 1,
+          "useful_value": 3
+        },
+        "done_evidence": null,
+        "source_path": "tasks/controls.md",
+        "source_digest": "202600991da3937e12f705e3c55c965a226aaff9b6ee5dab96330331a2e24225",
+        "input_digest": "6fdd7891c1520c4db65002f2b972ad0144b9bb13482c0967240434b7c9b105bf",
+        "declared_state": "OPEN",
+        "blocked_reasons": []
+      },
+      {
+        "id": "root",
+        "parent": null,
+        "kind": "PLAN",
+        "state": "READY",
+        "requires": [],
+        "optional": [],
+        "reads": [],
+        "writes": [],
+        "acceptance": [],
+        "resources": [],
+        "authority": [],
+        "effect": "READ_ONLY",
+        "authorization": "PERMITTED",
+        "independence": "KNOWN",
+        "resource_demand": 1,
+        "rank": 0,
+        "route_scopes": [],
+        "logical_delivery": null,
+        "future_consumer": null,
+        "invalidators": [],
+        "independent_results": true,
+        "context": {
+          "locality": "GOVERNOR",
+          "governor_cost": 1,
+          "child_cost": 2,
+          "return_cost": 1,
+          "useful_value": 3
+        },
+        "done_evidence": null,
+        "source_path": "tasks/controls.md",
+        "source_digest": "202600991da3937e12f705e3c55c965a226aaff9b6ee5dab96330331a2e24225",
+        "input_digest": "fa1d60a3a394a2466f58391f1ab559f9ea9ea94d879e0a61969a1ee5241c6a2c",
+        "declared_state": "OPEN",
+        "blocked_reasons": []
+      },
+      {
+        "id": "scoped",
+        "parent": "root",
+        "kind": "TASK",
+        "state": "BLOCKED",
+        "requires": [],
+        "optional": [],
+        "reads": [],
+        "writes": [],
+        "acceptance": [],
+        "resources": [],
+        "authority": [],
+        "effect": "READ_ONLY",
+        "authorization": "PERMITTED",
+        "independence": "KNOWN",
+        "resource_demand": 1,
+        "rank": 0,
+        "route_scopes": [
+          "review:bounded"
+        ],
+        "logical_delivery": null,
+        "future_consumer": null,
+        "invalidators": [],
+        "independent_results": true,
+        "context": {
+          "locality": "GOVERNOR",
+          "governor_cost": 1,
+          "child_cost": 2,
+          "return_cost": 1,
+          "useful_value": 3
+        },
+        "done_evidence": null,
+        "source_path": "tasks/controls.md",
+        "source_digest": "202600991da3937e12f705e3c55c965a226aaff9b6ee5dab96330331a2e24225",
+        "input_digest": "6c7368319b236ac1fa8e6d2f6bab9db70319efcd4230b8389c3571e5f387d71f",
+        "declared_state": "OPEN",
+        "blocked_reasons": [
+          "ROUTE_PRODUCER_UNAVAILABLE"
+        ]
+      },
+      {
+        "id": "scoped_two",
+        "parent": "root",
+        "kind": "TASK",
+        "state": "BLOCKED",
+        "requires": [],
+        "optional": [],
+        "reads": [],
+        "writes": [],
+        "acceptance": [],
+        "resources": [],
+        "authority": [],
+        "effect": "READ_ONLY",
+        "authorization": "PERMITTED",
+        "independence": "KNOWN",
+        "resource_demand": 1,
+        "rank": 0,
+        "route_scopes": [
+          "review:bounded",
+          "second-boundary"
+        ],
+        "logical_delivery": null,
+        "future_consumer": null,
+        "invalidators": [],
+        "independent_results": true,
+        "context": {
+          "locality": "GOVERNOR",
+          "governor_cost": 1,
+          "child_cost": 2,
+          "return_cost": 1,
+          "useful_value": 3
+        },
+        "done_evidence": null,
+        "source_path": "tasks/controls.md",
+        "source_digest": "202600991da3937e12f705e3c55c965a226aaff9b6ee5dab96330331a2e24225",
+        "input_digest": "2e95d842f816e7312846fcd439c1b3c1bf6aaaa0888b826400c2c302e8f320d9",
+        "declared_state": "OPEN",
+        "blocked_reasons": [
+          "ROUTE_PRODUCER_UNAVAILABLE"
+        ]
+      },
+      {
+        "id": "uncovered",
+        "parent": "root",
+        "kind": "TASK",
+        "state": "BLOCKED",
+        "requires": [],
+        "optional": [],
+        "reads": [],
+        "writes": [],
+        "acceptance": [],
+        "resources": [],
+        "authority": [],
+        "effect": "READ_ONLY",
+        "authorization": "PERMITTED",
+        "independence": "KNOWN",
+        "resource_demand": 1,
+        "rank": 0,
+        "route_scopes": [
+          "second-boundary"
+        ],
+        "logical_delivery": null,
+        "future_consumer": null,
+        "invalidators": [],
+        "independent_results": true,
+        "context": {
+          "locality": "GOVERNOR",
+          "governor_cost": 1,
+          "child_cost": 2,
+          "return_cost": 1,
+          "useful_value": 3
+        },
+        "done_evidence": null,
+        "source_path": "tasks/controls.md",
+        "source_digest": "202600991da3937e12f705e3c55c965a226aaff9b6ee5dab96330331a2e24225",
+        "input_digest": "a70f47dfc538ec828bc7faf3629dbdd51767c24a6f416cf74d00a78e307a1a70",
+        "declared_state": "OPEN",
+        "blocked_reasons": [
+          "ROUTE_PRODUCER_UNAVAILABLE"
+        ]
+      }
+    ],
+    "population": {
+      "DONE": 0,
+      "ACTIVE": 0,
+      "READY": 2,
+      "BLOCKED": 4
+    },
+    "authority": "NONE",
+    "digest": "b74d0cd9393f4990b8187bd94a2961b309117168e31857f2274fe157e8ddb94b"
+  }
+}

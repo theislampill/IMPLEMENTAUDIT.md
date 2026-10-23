@@ -29,6 +29,7 @@ fi
 
 "${py_cmd[@]}" - "$repo_root" "$authority_root" "$BASH" "$census_only" <<'PY'
 import os
+import ast
 import json
 import hashlib
 import re
@@ -287,8 +288,81 @@ def shell_code(content):
         cleaned.append("".join(kept))
     return "\n".join(cleaned)
 
+def python_array_invokes(helper, content):
+    # Recognize an actual selected-Python command, never a comment, echo or -c.
+    arrays = set(re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)=\((?:python3?|py(?: -3)?)(?: -[BIS])*\)", content))
+    aliases = set()
+    for line in content.splitlines():
+        match = re.match(r"^\s*([A-Za-z_][A-Za-z0-9_]*)=\".*?/" + re.escape(helper) + r"\"\s*$", line)
+        if match:
+            aliases.add(match.group(1))
+    for line in content.splitlines():
+        match = re.match(r'^\s*(?:PYTHONDONTWRITEBYTECODE=1\s+)?"\$\{([A-Za-z_][A-Za-z0-9_]*)\[@\]\}"\s+(?:-[BIS]\s+)*(.+)$', line)
+        if not match or match.group(1) not in arrays:
+            continue
+        operands = ['"$' + alias + '"' for alias in aliases]
+        operands += ['"$(dirname "$0")/' + helper + '"']
+        if any(match.group(2) == operand or match.group(2).startswith(operand + " ") for operand in operands):
+            return True
+    return False
+
+
+def captured_python_library(helper, content):
+    # A package library must be loaded from the physical sibling and executed
+    # from the captured buffer. Merely mentioning a filename is not a route.
+    try:
+        tree = ast.parse(content)
+    except SyntaxError:
+        return False
+    constants = {target.id: node.value.value for node in tree.body if isinstance(node, ast.Assign)
+                 and isinstance(node.value, ast.Constant) for target in node.targets if isinstance(target, ast.Name)}
+    for function in (node for node in tree.body if isinstance(node, ast.FunctionDef)):
+        nodes = list(ast.walk(function))
+        calls = [node for node in nodes if isinstance(node, ast.Call)]
+        if not any(isinstance(node, ast.Constant) and node.value == helper for node in nodes):
+            continue
+        if not any(isinstance(node, ast.Name) and node.id == "__file__" for node in nodes):
+            continue
+        captured = set()
+        for node in nodes:
+            if not isinstance(node, ast.Assign) or not isinstance(node.value, ast.Call):
+                continue
+            call = node.value
+            if ((isinstance(call.func, ast.Name) and call.func.id == "read_regular")
+                    or (isinstance(call.func, ast.Attribute) and call.func.attr == "read")):
+                captured.update(target.id for target in node.targets if isinstance(target, ast.Name))
+        executed = any(isinstance(call.func, ast.Name) and call.func.id == "exec" and call.args
+                       and isinstance(call.args[0], ast.Call) and isinstance(call.args[0].func, ast.Name)
+                       and call.args[0].func.id == "compile" and len(call.args[0].args) == 3
+                       and isinstance(call.args[0].args[0], ast.Name) and call.args[0].args[0].id in captured
+                       and isinstance(call.args[0].args[2], ast.Constant) and call.args[0].args[2].value == "exec"
+                       for call in calls)
+        invoked = any(isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                      and node.func.id == function.name and not function.lineno <= node.lineno <= function.end_lineno
+                      for node in ast.walk(tree))
+        sibling = any(isinstance(call.func, ast.Attribute) and call.func.attr in {"with_name", "join"}
+                      and any(isinstance(arg, ast.Constant) and arg.value == helper for arg in call.args)
+                      for call in calls)
+        if not (captured and executed and invoked and sibling):
+            continue
+        if helper == "canonical_hot_projection.py":
+            raw = projection_payloads["standalone_compatibility"]["scripts/" + helper]
+            if (constants.get("_HOT_PROJECTION_MODULE_BYTES") != len(raw)
+                    or constants.get("_HOT_PROJECTION_MODULE_SHA256") != hashlib.sha256(raw).hexdigest()):
+                return False
+            guards = [node for node in nodes if isinstance(node, ast.If)
+                      and any(isinstance(child, ast.Raise) for child in node.body)]
+            if not any(all(token in ast.unparse(guard.test) for token in
+                           ("len(_source)", "_HOT_PROJECTION_MODULE_BYTES", "sha256(_source)", "_HOT_PROJECTION_MODULE_SHA256"))
+                       for guard in guards):
+                return False
+        return True
+    return False
+
 def caller_invokes(helper, content):
     content = shell_code(content)
+    if python_array_invokes(helper, content):
+        return True
     def command_uses(target, path_prefix=False):
         prefix = r"(?:[^\s\"']*/)?" if path_prefix else ""
         operand = rf"[\"']?{prefix}{target}[\"']?(?=\s|$)"
@@ -323,7 +397,20 @@ def packaged_path(raw, helper, role):
         raise SystemExit(f"check-helper-reachability: missing {role}: {helper}: {raw}")
     return path
 
+def claim_public_modes(content):
+    dispatch = re.search(r'^case "\$\{1:-\}" in\n(.*?)^esac$', content, re.M | re.S)
+    if dispatch is None:
+        raise SystemExit("check-helper-reachability: claim public dispatch is unavailable")
+    labels = re.findall(r"^  ([^\n ]+)\)", dispatch.group(1), re.M)
+    if not labels or any(not re.fullmatch(r"--[a-z0-9-]+(?:\|--[a-z0-9-]+)*", label) for label in labels):
+        raise SystemExit("check-helper-reachability: unknown claim public dispatch shape")
+    # --controller is the claim constructor already covered by its required
+    # procedural route. Every distinct native operation has an exact mode row.
+    return sorted({mode for label in labels for mode in label.split("|")} - {"--controller"})
+
+
 implemented_mode_sets = {}
+implemented_mode_sets["claim-run.sh"] = claim_public_modes((skill_root / "scripts/claim-run.sh").read_text(encoding="utf-8"))
 graph_helper = "validate-run-root.sh"
 graph_text = (skill_root / "scripts" / graph_helper).read_text(encoding="utf-8")
 implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+", graph_text)))
@@ -442,9 +529,13 @@ for helper in helpers:
         if caller_rel == "-":
             raise SystemExit(f"check-helper-reachability: {applicability} helper lacks caller: {helper}")
         caller_path = packaged_path(caller_rel, helper, "caller")
-        if not (Path(caller_rel).as_posix().startswith("scripts/") and Path(caller_rel).suffix == ".sh"):
+        if not Path(caller_rel).as_posix().startswith("scripts/"):
             raise SystemExit(f"check-helper-reachability: caller is not a shipped script: {helper}: {caller_rel}")
-        if not caller_invokes(helper, selected_owner(row["caller"], helper, "caller")[1]):
+        caller_source = selected_owner(row["caller"], helper, "caller")[1]
+        if applicability == "internal-library" and Path(caller_rel).suffix == ".py":
+            if not captured_python_library(helper, caller_source):
+                raise SystemExit(f"check-helper-reachability: caller does not capture/load {helper}: {caller_rel}")
+        elif Path(caller_rel).suffix != ".sh" or not caller_invokes(helper, caller_source):
             raise SystemExit(f"check-helper-reachability: caller does not invoke {helper}: {caller_rel}")
     elif caller_rel != "-":
         raise SystemExit(f"check-helper-reachability: nonautomatic helper declares caller: {helper}")
@@ -562,7 +653,9 @@ if not census_only:
                                                        "resolve-durable-identity.py", "dispatch owner")[1])
             if allocation is None:
                 raise SystemExit("check-helper-reachability: Python route probe lacks allocation diagnostic")
-            for identity in ("R0038", "G0001"):  # unallocated/run-local refusal controls
+            for identity in ("R0038", "R0039", "R003A"):
+                run_python(allocation, governor_dir, {"<identity>": identity}, True, identity)
+            for identity in ("R003B", "G0001"):  # unallocated/run-local refusal controls
                 run_python(allocation, governor_dir, {"<identity>": identity}, False)
     # The evaluated candidate supplies skills and fixtures, never the probe
     # program.  The checker invocation root is the authority for F10 behavior.

@@ -1,0 +1,36 @@
+{
+  "schema": "implementaudit.repository-source-peer-manifest.v1",
+  "scope": "REPOSITORY_ONLY_SOURCE_COMPOSITION",
+  "native_admission": "PENDING",
+  "files": [
+    {
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
+      "bytes": 371304,
+      "sha256": "8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389",
+      "semantic_owner": "R0033",
+      "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
+      "materialized_path": "skills/implementaudit/scripts/route-transaction.py",
+      "mode": "100755",
+      "modified": true
+    },
+    {
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/route_request_policy.py",
+      "bytes": 5191,
+      "sha256": "ea69123930803e428630b51565b6c7f58d079262f3feda34d95c31f0fdd6375f",
+      "semantic_owner": "R0033",
+      "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
+      "materialized_path": "skills/implementaudit/scripts/route_request_policy.py",
+      "mode": "100755"
+    },
+    {
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+      "bytes": 237804,
+      "sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
+      "semantic_owner": "R0035",
+      "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
+      "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "mode": "100644",
+      "modified": true
+    }
+  ]
+}
