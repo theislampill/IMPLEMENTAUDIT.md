@@ -306,19 +306,10 @@ executable semantics, a complete acquisition contract and supported actual
 execution/consumer evidence; adding filenames or caller assertions is
 insufficient.
 
-The portal builder's existing `--out` interface supports a narrower retained
-artifact operation without a new compiler or oracle. A task can retain its
-explicit output directory, producer inputs and raw result, then invoke the
-existing `check-docs-portal.py` against those exact files. Missing metadata or
-a changed required proof strip affects that real consumer. Its structural
-acceptance of an inert HTML comment does not make raw artifact bytes equal.
-This operation does not reconstruct the canonical test's original generated
-trees: `tests/docs-portal.test.sh` overwrites some generations and removes its
-temporary tree on EXIT, while nested `verify-docs-portal.sh` removes another
-tree before returning. The qualifier receives control after those boundaries.
-Retaining the original canonical artifacts and consumer events needs an
-owner-supplied retention/callback interface at those producer and consumer
-operations. A post-run snapshot cannot recover already deleted generations.
+The portal's original overwrite/cleanup gap has a separate finite opt-in
+interface, described below. A post-run snapshot still cannot recover a
+generation that was already deleted without that interface. Historical
+endpoint-only records retain that limitation.
 
 The whole-run comparator retains raw-byte equality. Two successful full
 executions are different evidence from a failed raw comparison. No temporary
@@ -328,6 +319,133 @@ transitive output-artifact semantics. Shared registry/governor integration
 remains a separate owner patch set and must be measured and tested on its own
 exact combined overlay; overlay results are not results for the published PR
 tree.
+
+## Opt-in portal invocation handoff (C4)
+
+```bash
+/usr/bin/python3 -B scripts/qualify-work-graph-verifier.py dag \
+  /absolute/fresh-evidence --retain-portal-events
+```
+
+The same option is accepted by `legacy`; it may be combined with the existing
+v3 acquisition options. It explicitly selects `implementaudit.verifier-run.v4`,
+which adds `portal_events` to the v3 members. Capture without this option keeps
+its original v2/v3 schema and behavior. The v1–v3 readers remain available at
+their original evidence ceilings. Relabelling v4 as an older format refuses.
+
+The qualifier creates one private external `portal-events/` destination and
+passes its absolute request path in `IMPLEMENTAUDIT_PORTAL_CAPTURE`. An
+inherited value, including an empty value, refuses a new capture. This is a
+finite request, not a credential or a callback command. The repo-only
+`portal-event-capture.py` helper accepts only the two existing portal operations
+and the source-owned test/fixture lifecycle hooks. It is not packaged, installed,
+registered as another verifier family, or used by the compiler or runner.
+
+### Exact supported invocation population
+
+The supported profile is `DOCS_PORTAL_TEST_V1`, bound to the exact inspected
+builder, checker, docs test and nested verifier source hashes in `SOURCE_PINS`.
+It requires the existing zero-argument mapped node
+`COMMAND:tests/docs-portal.test.sh:0`. Changed executable/test source refuses
+until that finite contract is reviewed and updated. Source data still follows
+the real builder and checker; their verdicts are not replaced.
+
+The current successful profile has **49 actual invocations: 17 builds and 32
+checker calls**. Eight builds and seven checkers exit zero. Nine builds and 25
+checkers intentionally exit one. Each slot independently declares its operation,
+expected exit, canonical/fixture/nested source context and original output class.
+The fixed population detects a missing final event even if a restored manifest
+declares only its surviving records. Expected negative checker exits remain
+`FAILURE` results; the enclosing test expectation can be satisfied by them.
+
+The test registers its actual Bash process and fresh private temporary root.
+The helper checks live Linux process ancestry against the qualifier and that
+registered node, retaining process start ticks and both proc and namespace PID
+observations. Copied fixture scripts have one explicitly registered fixture
+root. Their literal cwd remains the candidate root, while their effective source
+root remains the distinct copied tree. The nested `verify-docs-portal.sh` build
+and check belong to the same existing test node.
+
+### What is retained before a caller can delete it
+
+The opt-in entrypoint supervises a real child process. It forks the current
+Python interpreter and compiles the acquired exact builder/checker source bytes
+in that child with the original argv, cwd and main entrypoint. The request is
+removed only from that inner child's environment to avoid recursive capture.
+The unchanged oracle produces the actual raw stdout, stderr and integer exit.
+The supervisor writes the exit durably before artifact/currentness checks and
+later JSON processing, then forwards the raw streams and ordinary exit to the
+caller. Stream timing and cross-stream interleaving are not compared.
+
+Each successful build gets an invocation ordinal and distinct generation ID.
+Its complete output is copied before the build returns. Rebuilding the same
+path cannot replace its earlier retained generation. Each checker input is
+copied before the actual checker runs, including the intentional negative
+inputs. Membership, ordinary file/directory kinds, modes and raw bytes are
+retained, including the original `generated_at` timestamp. The consumer does
+not normalize timestamps, paths or inert comments. A missing metadata file or
+altered required proof strip fails the actual checker; an inert HTML comment
+can pass that checker while still changing the retained artifact identity.
+
+Checker input membership, content, modes and live device/inode/size/mtime/ctime
+observations are compared again after the child returns. Ordinary write-and-
+restore or path replacement changes those observation stamps and refuses.
+This is a bounded observation window, not hostile-kernel or equal-UID writer
+authentication. Copied or mutated inputs have their own observed identities.
+A produced/consumed link is recorded only for the most recent successful build
+at the same original path and source root whose complete artifact equals the
+actual checker input. Failed builds never create a successful generation from
+an older tree left at that path. The intentional unsafe `--out .` failure has
+no output snapshot, so it cannot cause a repository traversal.
+
+The source context includes the exact loaded producer, checker and helper
+bytes, the inspected owner scripts, declared portal source observations and
+the qualifier's original source/run/node mapping. The actual forked Python
+executable, version, flags and environment digests are observations; they do
+not establish complete dynamic-library, startup or transitive-read acquisition.
+No private inherited environment values are exported.
+
+### Receiving checks, bounds and authority
+
+The real `verified_record` consumer validates the original request, source/node
+mapping, exact ordered event population, event chain, actual raw results,
+generation links and every retained artifact. The node, fixture, nested-output
+and return records are sealed with their original bytes and modes; their
+declared process-parent chains are checked for internal consistency. Missing, extra, reordered,
+duplicate, stale, foreign, corrupt, symlink or unsupported members refuse.
+Successful outer execution requires the complete profile and successful node
+return. Failed or pre-node execution can retain explicit incomplete evidence;
+an observer failure leaves the already completed child exit and raw logs in
+place without issuing a successful handoff.
+
+The profile requires Linux process observations, POSIX fork and no-follow
+directory descriptors. Artifact snapshots are limited to 4,096 entries, depth
+32, 16 MiB per file and 64 MiB per tree. Raw streams are limited to 8 MiB each;
+declared portal source observations also have a 64 MiB aggregate byte bound;
+the executable observation is limited to 128 MiB. A child has a 120-second wall
+limit. The session has a 512 MiB retained-artifact/stream bound and at most 64
+event slots; the required current profile is the smaller exact 49-slot set.
+Concurrent writers to one capture refuse. Exclusive creation prevents silent
+replacement of earlier records. Ordinary test and nested-verifier cleanup
+continues to remove their temporary output; retained external snapshots remain.
+
+Own-process supervision establishes the stated live invocation/return custody.
+Restored or resealed JSON receives **declared integrity/consistency only**. Run
+IDs, process IDs, digests and node labels cannot authenticate an imported issuer,
+hostile equal-UID process, native controller, route satisfaction or accepted
+JOIN. This C4 increment does not qualify C1, C2, C3, C5, C6 or C7, full-canonical
+equivalence/reuse, R003A host attribution, conversion, retirement or closure.
+The original canonical verifier remains the rollback route.
+
+The finite lifecycle and integrity controls are in the already registered
+`tests/work-graph-verifier-cases.py` and `tests/docs-portal.test.sh`. A focused
+retained run avoids an unnecessary full legacy/DAG pair:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B \
+  tests/work-graph-verifier-cases.py --portal-only \
+  --retain-fixtures /absolute/fresh-portal-evidence
+```
 
 ## Completed native-format prerequisites
 

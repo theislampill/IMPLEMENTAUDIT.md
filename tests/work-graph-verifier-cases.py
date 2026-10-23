@@ -12,6 +12,8 @@ import shlex
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("work_graph", ROOT / "skills/implementaudit/scripts/compile-work-graph.py")
@@ -90,6 +92,266 @@ def capture(root, output, mode="dag", environment=None):
     process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
                            mode, str(output)], **options)
     return process, json.loads((output / "result.json").read_bytes())
+
+
+def portal_capture_cases(directory):
+    """Actual registered portal test, including its temporary copied sources.
+
+    This is a finite registry, not a full-canonical equivalence run. Losing an
+    earlier generation, accepting a mutated checker input, or flattening an
+    expected checker failure must fail the actual retained-record consumer.
+    """
+    root = directory / "portal-root"
+    root.mkdir()
+    for raw in subprocess.check_output(["git", "ls-files", "-z"], cwd=ROOT).split(b"\0"):
+        if not raw:
+            continue
+        name = os.fsdecode(raw)
+        target = root / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / name, target)
+    # The new repo-only helper can be untracked while this RED is developed.
+    helper = ROOT / "scripts/portal-event-capture.py"
+    if helper.exists():
+        shutil.copy2(helper, root / "scripts" / helper.name)
+    (root / "scripts/generate-readme-diagrams.sh").write_text("#!/bin/bash\nexit 0\n")
+    (root / "scripts/verify-package.sh").write_text(
+        "#!/bin/bash\nset -euo pipefail\n"
+        "bash scripts/generate-readme-diagrams.sh --check\n"
+        "bash tests/docs-portal.test.sh\n"
+        "git diff --check\nprintf 'verify-package: ok\\n'\n")
+    for argv in (["git", "init", "-q"], ["git", "add", "."],
+                 ["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@localhost",
+                  "-c", "commit.gpgsign=false", "commit", "-qm", "finite actual portal invocation fixture"]):
+        run_command(argv, cwd=root, check=True)
+    output = directory / "portal-capture"
+    environment = dict(os.environ)
+    environment.pop("IMPLEMENTAUDIT_PORTAL_CAPTURE", None)
+    process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py",
+                           "dag", str(output), "--capture-portal-events"], cwd=root,
+                          capture_output=True, env=environment)
+    assert process.returncode == 0, ("portal capture", process.stdout, process.stderr)
+    record = json.loads((output / "result.json").read_bytes())
+    assert record["schema"] == "implementaudit.verifier-run.v4"
+    portal = record["portal_events"]
+    assert portal["complete"] and portal["coverage"] == "FINITE_PORTAL_INVOCATIONS_COMPLETE"
+    assert len(portal["events"]) == 49
+    events = [json.loads((output / "portal-events" / name / "event.json").read_bytes())
+              for name in portal["events"]]
+    assert sum(e["operation"] == "BUILD" for e in events) == 17
+    assert sum(e["operation"] == "CHECK" and e["exit"] == 1 for e in events) == 25
+    assert all(e["status"] == ("SUCCESS" if e["exit"] == 0 else "FAILURE") for e in events)
+    repeated = [e for e in events if e["operation"] == "BUILD" and e["exit"] == 0
+                and e["invocation"]["artifact_path"].endswith("/portal-custody")]
+    assert len(repeated) == 2 and repeated[0]["generation"] != repeated[1]["generation"]
+    assert repeated[0]["artifact"] != repeated[1]["artifact"]
+    assert not Path(repeated[0]["invocation"]["artifact_path"]).exists()
+    # The first producer's original result remains the same evidence through
+    # all three altered consumer inputs; no producer is rerun between them.
+    first_producer_result = {key: events[40][key] for key in ("stdout", "stderr", "exit")}
+    assert first_producer_result["exit"] == 0
+    checked = observer_probe(root, "q.verified_record(Path(sys.argv[2]))", output)
+    assert checked.returncode == 0, (checked.stdout, checked.stderr)
+    assert events[41]["consumed_generation"] == events[40]["generation"]
+    assert events[46]["consumed_generation"] == events[45]["generation"]
+    assert all(events[i]["consumed_generation"] is None for i in (42, 43, 44))
+    assert [events[i]["exit"] for i in range(40, 47)] == [0, 0, 1, 1, 0, 0, 0]
+    assert events[44]["artifact"] != events[40]["artifact"]
+    assert events[39]["artifact"] is None  # Unsafe --out . never snapshots the repository.
+    assert all(e["artifact"] is None for e in events if e["operation"] == "BUILD" and e["exit"] != 0)
+
+    controls = []
+    def refused(label):
+        actual = observer_probe(root, "q.verified_record(Path(sys.argv[2]))", output)
+        assert actual.returncode == 2, (label, actual.stdout, actual.stderr)
+        controls.append(dict(control=label, exit=actual.returncode, diagnostic=actual.stderr.decode()))
+
+    @contextmanager
+    def changed_file(path, data):
+        before = path.read_bytes()
+        path.write_bytes(data)
+        try:
+            yield
+        finally:
+            path.write_bytes(before)
+
+    event_root = output / "portal-events"
+    first_event = event_root / "event-0000"
+    artifact = first_event / "artifact"
+    page = artifact / "index.html"
+    for label, relative in (("missing generation metadata", "docs-metadata.json"),
+                            ("missing original generated page", "index.html")):
+        original = artifact / relative
+        backup = directory / "held-portal-member"
+        original.rename(backup)
+        try:
+            refused(label)
+        finally:
+            backup.rename(original)
+    with changed_file(page, page.read_bytes() + b"\n<!-- retained bytes corrupted -->\n"):
+        refused("corrupt artifact despite structural comment acceptance")
+    extra = artifact / "foreign.txt"
+    extra.write_text("not part of this generation\n")
+    try:
+        refused("extra artifact member")
+    finally:
+        extra.unlink()
+    mode = page.stat().st_mode & 0o7777
+    page.chmod(mode ^ 0o100)
+    try:
+        refused("changed artifact mode")
+    finally:
+        page.chmod(mode)
+    backup = directory / "held-portal-member"
+    page.rename(backup)
+    for kind in ("symlink", "fifo"):
+        if kind == "symlink":
+            page.symlink_to(backup)
+        else:
+            os.mkfifo(page)
+        try:
+            refused("unsupported artifact " + kind)
+        finally:
+            page.unlink()
+    backup.rename(page)
+    last = event_root / "event-0048"
+    backup = directory / "held-portal-event"
+    last.rename(backup)
+    try:
+        refused("missing final actual checker event")
+        # Resealing the declared surviving set still cannot omit a required slot.
+        modified = copy.deepcopy(record)
+        modified["portal_events"]["events"].pop("event-0048")
+        returned = json.loads((event_root / "node-return.json").read_bytes())
+        returned["events"].pop()
+        with changed_file(output / "result.json", json.dumps(modified).encode()):
+            with changed_file(event_root / "node-return.json", json.dumps(returned).encode()):
+                refused("omitted required event in resealed declared population")
+    finally:
+        backup.rename(last)
+    duplicate = event_root / "event-0049"
+    shutil.copytree(first_event, duplicate)
+    try:
+        refused("duplicate extra portal event")
+    finally:
+        shutil.rmtree(duplicate)
+    first_event.rename(backup)
+    (event_root / "event-0001").rename(first_event)
+    backup.rename(event_root / "event-0001")
+    try:
+        refused("reordered portal events")
+    finally:
+        first_event.rename(backup)
+        (event_root / "event-0001").rename(first_event)
+        backup.rename(event_root / "event-0001")
+    for label, mutate in (
+        ("false successful checker status", lambda e: e.update(status="SUCCESS")),
+        ("foreign run binding", lambda e: e["invocation"].update(run_id="0" * 32)),
+        ("foreign source root", lambda e: e["invocation"].update(source_root="/foreign")),
+        ("false generation link", lambda e: e.update(consumed_generation=events[40]["generation"])),
+        ("changed checker input window", lambda e: e["after_stamps"].pop("index.html")),
+    ):
+        path = event_root / "event-0042/event.json"
+        altered = json.loads(path.read_bytes())
+        mutate(altered)
+        with changed_file(path, json.dumps(altered).encode()):
+            refused(label)
+    with changed_file(first_event / "stdout.log", b"manufactured producer output\n"):
+        refused("changed original raw producer result")
+    with changed_file(first_event / "exit-code.txt", b"7\n"):
+        refused("changed durable actual producer exit")
+    with changed_file(event_root / "loaded/build-docs-portal.py", b"stale producer\n"):
+        refused("stale retained producer source")
+    for name in ("node.json", "fixture.json", "nested.json", "node-return.json"):
+        path = event_root / name
+        altered = json.loads(path.read_bytes())
+        altered["foreign_field"] = "not part of the observed lifecycle"
+        with changed_file(path, json.dumps(altered).encode()):
+            refused("foreign lifecycle record field: " + name)
+    with changed_file(event_root / "lock", b"foreign lock bytes\n"):
+        refused("foreign retained lock bytes")
+    result_path = output / "result.json"
+    altered = copy.deepcopy(record)
+    altered["portal_events"]["request"]["source_root"] = "/foreign"
+    with changed_file(result_path, json.dumps(altered).encode()):
+        refused("foreign qualifier source context")
+    # Both genuine earlier same-path generations must remain independently bound.
+    left = event_root / "event-0002/artifact"
+    right = event_root / "event-0003/artifact"
+    left.rename(backup)
+    right.rename(left)
+    backup.rename(right)
+    try:
+        refused("swapped earlier generation at the same path")
+    finally:
+        left.rename(backup)
+        right.rename(left)
+        backup.rename(right)
+    (directory / "portal-integrity-controls.json").write_text(json.dumps(controls, indent=2) + "\n")
+    checked = observer_probe(root, "q.verified_record(Path(sys.argv[2]))", output)
+    assert checked.returncode == 0, ("restored complete capture", checked.stderr)
+
+    # With capture disabled, the actual registered test preserves its raw result.
+    off = directory / "portal-capture-off"
+    process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", "dag", str(off)],
+                          cwd=root, capture_output=True, env=environment)
+    assert process.returncode == 0, (process.stdout, process.stderr)
+    assert json.loads((off / "result.json").read_bytes())["schema"] == "implementaudit.verifier-run.v2"
+    assert not (off / "portal-events").exists()
+    for name in ("stdout.log", "stderr.log", "exit-code.txt"):
+        assert (off / name).read_bytes() == (output / name).read_bytes(), ("capture-off raw compatibility", name)
+
+    # Real concurrent input mutation, scheduled at the actual child's runtime
+    # observation. An inert comment keeps the checker oracle successful, while
+    # the original input custody must refuse the changed consumption window.
+    drift = directory / "portal-input-drift"
+    outcome = []
+    def mutate_live_input():
+        event = drift / "portal-events/event-0001"
+        deadline = time.monotonic() + 45
+        while time.monotonic() < deadline:
+            if (event / "runtime.json").exists():
+                inv = json.loads((event / "invocation.json").read_bytes())
+                target = Path(inv["artifact_path"]) / "index.html"
+                with target.open("ab") as stream:
+                    stream.write(b"\n<!-- mutation during actual checker consumption -->\n")
+                outcome.append("mutated")
+                return
+            time.sleep(0.001)
+        outcome.append("not observed")
+    worker = threading.Thread(target=mutate_live_input)
+    worker.start()
+    process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", "dag", str(drift),
+                           "--capture-portal-events"], cwd=root, capture_output=True, env=environment)
+    worker.join()
+    assert outcome == ["mutated"] and process.returncode == 2, (outcome, process.stdout, process.stderr)
+    event = drift / "portal-events/event-0001"
+    actual = json.loads((event / "event.json").read_bytes())
+    assert actual["capture_status"] == "CHECKER_INPUT_DRIFT" and actual["exit"] == 0
+    assert (event / "exit-code.txt").read_bytes() == b"0\n"
+    assert b"check-docs-portal: ok" in (event / "stdout.log").read_bytes()
+    assert not (drift / "result.json").exists()
+
+    # Unsupported source and inherited capture requests refuse before dispatch.
+    producer = root / "scripts/build-docs-portal.py"
+    with changed_file(producer, producer.read_bytes() + b"\n# unreviewed source successor\n"):
+        bad = directory / "portal-stale-producer"
+        process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", "dag", str(bad),
+                               "--capture-portal-events"], cwd=root, capture_output=True, env=environment)
+        assert process.returncode == 2 and not (bad / "exit-code.txt").exists()
+        assert b"unsupported portal source contract" in process.stderr
+    bad = directory / "portal-ambiguous-request"
+    process = run_command([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", "dag", str(bad),
+                           "--capture-portal-events"], cwd=root, capture_output=True,
+                          env=dict(environment, IMPLEMENTAUDIT_PORTAL_CAPTURE=""))
+    assert process.returncode == 2 and b"ambiguous inherited" in process.stderr
+
+    oversized = directory / "portal-oversized-artifact"
+    oversized.mkdir()
+    with (oversized / "oversized.bin").open("wb") as stream:
+        stream.truncate(16 * 1024 * 1024 + 1)
+    process = observer_probe(root, "try:\n    q.portal_engine().tree(Path(sys.argv[2]))\nexcept ValueError as exc:\n    raise q.WG.WorkGraphError(str(exc))", oversized)
+    assert process.returncode == 2 and b"byte limit" in process.stderr
 
 
 def compare_capture(root, left, right, output):
@@ -990,6 +1252,7 @@ def main():
     global RETAIN
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--retain-fixtures", type=Path)
+    parser.add_argument("--portal-only", action="store_true")
     options = parser.parse_args()
     if options.retain_fixtures is not None:
         RETAIN = options.retain_fixtures.resolve()
@@ -997,6 +1260,11 @@ def main():
         (RETAIN / "commands").mkdir()
         (RETAIN / "objects").mkdir()
         shutil.copyfile(__file__, RETAIN / "harness-source.py")
+    if options.portal_only:
+        with fixture_directory() as td:
+            portal_capture_cases(Path(td))
+        print("work-graph-verifier: finite actual portal capture controls passed")
+        return
     current = (ROOT / "scripts/verify-package.sh").read_bytes()
     selective_policy(current)
     tests = sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / "tests").glob("*.test.sh"))
@@ -1141,6 +1409,7 @@ def main():
         capture_boundary_cases(root, Path(td), registry, prelude, tail)
         engine_boundary_cases(root, Path(td))
         extended_capture_cases(Path(td))
+        portal_capture_cases(Path(td))
         # A later recording error must not erase the nested process exit/logs.
         driver_spec = importlib.util.spec_from_file_location("capture_fixture", root / "scripts/qualify-work-graph-verifier.py")
         driver = importlib.util.module_from_spec(driver_spec)

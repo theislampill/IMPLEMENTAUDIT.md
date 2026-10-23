@@ -43,6 +43,8 @@ REPRO_FILES = dict(ASSET_A="IMPLEMENTAUDIT-A.skill", ASSET_B="IMPLEMENTAUDIT-B.s
                    CHECKSUMS_A="CHECKSUMS-A.txt", CHECKSUMS_B="CHECKSUMS-B.txt")
 EXPLICIT_FILE_LIMIT = 16 * 1024 * 1024
 DIST_LIMITS = dict(file_bytes=EXPLICIT_FILE_LIMIT, total_bytes=64 * 1024 * 1024, entries=4096, depth=32)
+PORTAL_ENV = "IMPLEMENTAUDIT_PORTAL_CAPTURE"
+_PORTAL_ENGINE = None
 
 
 def sha(data):
@@ -460,7 +462,7 @@ def validate_child_resolution(environment):
 
 def verify_extended_record(directory, result, mapping):
     context = result["execution_context"]
-    if all(result[key] is None for key in ("repro_artifacts", "stdin", "dist_namespace")):
+    if all(result[key] is None for key in ("repro_artifacts", "stdin", "dist_namespace")) and result.get("portal_events") is None:
         raise WG.WorkGraphError("v3 requires an explicit acquisition contract")
     validate_child_resolution(result["environment"])
     validate_child_resolution(result["environment_after"])
@@ -474,6 +476,8 @@ def verify_extended_record(directory, result, mapping):
             environment["actual_environment_sha256"] != result["environment"].get("inherited_environment_sha256")):
         raise WG.WorkGraphError("invalid actual child environment binding")
     expected_overrides = repro_overrides(context["output"]) if result["repro_artifacts"] is not None else {}
+    if result.get("portal_events") is not None:
+        expected_overrides[PORTAL_ENV] = context["output"] + "/portal-events/request.json"
     if (WG.canonical_json_v1(environment["overrides"]) != WG.canonical_json_v1(expected_overrides) or
             (not expected_overrides and environment["base_environment_sha256"] != environment["actual_environment_sha256"]) or
             retained_bytes(directory, "child-environment.json")[0] != WG.canonical_json_v1(environment) + b"\n"):
@@ -527,6 +531,51 @@ def verify_extended_record(directory, result, mapping):
             raise WG.WorkGraphError("retained dist integrity valid; current source context unavailable")
         if dist_inventory(ROOT) != expected["after"]:
             raise WG.WorkGraphError("current dist namespace differs from retained after observation")
+
+
+def portal_engine():
+    """Load the one repo-only portal owner only for an explicit v4 operation."""
+    global _PORTAL_ENGINE
+    path = LOADED_DRIVER_PATH.with_name("portal-event-capture.py")
+    observed = source_member(path.name, root=path.parent, with_bytes=True, byte_limit=EXPLICIT_FILE_LIMIT)
+    if observed.get("kind") != "FILE":
+        raise WG.WorkGraphError("portal capture helper is unavailable")
+    data = observed.pop("_acquired_bytes")
+    if _PORTAL_ENGINE is None:
+        spec = importlib.util.spec_from_file_location("portal_event_capture", path)
+        _PORTAL_ENGINE = importlib.util.module_from_spec(spec)
+        _PORTAL_ENGINE._CAPTURE_SOURCE = data
+        exec(compile(data, str(path), "exec"), _PORTAL_ENGINE.__dict__)
+    if _PORTAL_ENGINE.LOADED_SOURCE != data:
+        raise WG.WorkGraphError("loaded portal capture helper differs from current source")
+    return _PORTAL_ENGINE
+
+
+def verify_portal_record(directory, result, mapping):
+    portal = result["portal_events"]
+    if portal is None:
+        return
+    try:
+        request = portal["request"]
+        context = result["execution_context"]
+        node = [n for n in mapping["nodes"] if n["id"] == "COMMAND:tests/docs-portal.test.sh:0"]
+        if (len(node) != 1 or request["source_root"] != context["cwd"] or
+                request["output"] != context["output"] + "/portal-events" or
+                request["source_binding"] != {key: result["before"][key] for key in
+                    ("head", "tree", "tracked_source_digest", "status_digest")} or
+                request["mapping"] != dict(graph_digest=mapping["digest"], registry_sha256=mapping["registry_sha256"],
+                    node={key: node[0][key] for key in ("id", "source", "source_sha256", "command")})):
+            raise WG.WorkGraphError("foreign portal qualifier source/run/node binding")
+        for name, member in request["sources"].items():
+            for source in (result["before"], result["after"]):
+                acquired = source["members"].get(name, {})
+                if acquired.get("kind") != "FILE" or any(acquired.get(key) != member[key] for key in ("mode", "bytes", "sha256")):
+                    raise WG.WorkGraphError("stale portal producer/helper source binding")
+        expected = portal_engine().verify(directory / "portal-events", request, require_complete=result["exit"] == 0)
+        if WG.canonical_json_v1(expected) != WG.canonical_json_v1(portal):
+            raise WG.WorkGraphError("portal event/generation handoff differs from original binding")
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise WG.WorkGraphError("portal retained-record refusal: " + str(exc)) from exc
 
 
 def full_engine_binding():
@@ -591,7 +640,7 @@ def verified_record(directory):
         return WG.decode_strict_json_bytes((directory / name).read_bytes(), name)
     result, mapping = read_json("result.json"), read_json("mapping.json")
     if (type(result) is not dict or type(result.get("schema")) is not str or
-            result["schema"] not in {"implementaudit.verifier-run.v1", "implementaudit.verifier-run.v2", "implementaudit.verifier-run.v3"}):
+            result["schema"] not in {"implementaudit.verifier-run.v1", "implementaudit.verifier-run.v2", "implementaudit.verifier-run.v3", "implementaudit.verifier-run.v4"}):
         raise WG.WorkGraphError("invalid verifier result schema")
     fields = {"schema", "mode", "command", "before", "after", "environment", "registry_sha256",
               "graph_digest", "mapped_nodes", "registered_tests", "registration_complete", "exit",
@@ -599,8 +648,10 @@ def verified_record(directory):
     if result["schema"] != "implementaudit.verifier-run.v1":
         fields |= {"environment_after", "engine_binding", "node_trace", "execution_context",
                    "actual_argv", "command_stream"}
-    if result["schema"] == "implementaudit.verifier-run.v3":
+    if result["schema"] in {"implementaudit.verifier-run.v3", "implementaudit.verifier-run.v4"}:
         fields |= {"repro_artifacts", "child_environment", "stdin", "dist_namespace"}
+    if result["schema"] == "implementaudit.verifier-run.v4":
+        fields.add("portal_events")
     if (set(result) != fields or type(result.get("mode")) is not str or
             result["mode"] not in {"legacy", "dag"} or result.get("authority") != "NONE" or
             type(result.get("command")) is not list or
@@ -673,8 +724,10 @@ def verified_record(directory):
                 raise WG.WorkGraphError("legacy route has no original node trace")
     if result["nodes"] != trace_nodes(mapping, result["mode"], result["exit"], data):
         raise WG.WorkGraphError("inconsistent verifier nodes and ordered trace")
-    if result["schema"] == "implementaudit.verifier-run.v3":
+    if result["schema"] in {"implementaudit.verifier-run.v3", "implementaudit.verifier-run.v4"}:
         verify_extended_record(directory, result, mapping)
+    if result["schema"] == "implementaudit.verifier-run.v4":
+        verify_portal_record(directory, result, mapping)
     return result
 
 
@@ -693,7 +746,7 @@ def compare(left, right, out):
         checks.update(same_engine=a["engine_binding"] == b["engine_binding"],
                       same_execution_cwd=a["execution_context"]["cwd"] == b["execution_context"]["cwd"],
                       same_compiled_stream=(left / "commands.bin").read_bytes() == (right / "commands.bin").read_bytes())
-    if a["schema"] == b["schema"] == "implementaudit.verifier-run.v3":
+    if a["schema"] == b["schema"] and a["schema"] in {"implementaudit.verifier-run.v3", "implementaudit.verifier-run.v4"}:
         same_artifacts = a["repro_artifacts"] == b["repro_artifacts"]
         if same_artifacts and a["repro_artifacts"] is not None:
             same_artifacts = all(retained_bytes(left, member["relative_path"])[0] == retained_bytes(right, member["relative_path"])[0]
@@ -711,31 +764,40 @@ def compare(left, right, out):
                 for phase in ("dist-before", "dist-after")
                 for name, member in namespace["before"]["entries"].items() if member["kind"] == "FILE")
         checks["same_dist_namespace"] = same_dist
+    if a["schema"] == b["schema"] == "implementaudit.verifier-run.v4":
+        checks["same_portal_events"] = a["portal_events"] == b["portal_events"]
     result = dict(schema="implementaudit.verifier-correspondence.v1", checks=checks,
                   record_coverage=["HISTORICAL_V1_RETAINED_TRACE_VALIDATED_NO_ORIGINAL_BINDING" if r["schema"].endswith(".v1") and r["mode"] == "dag"
                                    else "HISTORICAL_V1_WHOLE_PROCESS_ONLY" if r["schema"].endswith(".v1")
                                    else "DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3" if r["schema"].endswith(".v3")
+                                   else "FINITE_PORTAL_INVOCATION_OBSERVATIONS_V4" if r["schema"].endswith(".v4")
                                    else "ORDERED_TRACE_BOUND_V2" if r["mode"] == "dag"
                                    else "WHOLE_PROCESS_ONLY_V2" for r in (a, b)],
                   raw_observables_equal=all(checks.values()), normalization="NONE_RAW_BYTES",
                   evidence_semantics="NODE_AND_WHOLE_PROCESS_ONLY; TRANSITIVE_OUTPUT_ARTIFACT_SEMANTICS_UNQUALIFIED",
                   canonical_conversion="NOT_PERFORMED", retirement="NOT_PERFORMED", authority="NONE")
-    if a["schema"] == b["schema"] == "implementaudit.verifier-run.v3":
+    if a["schema"] == b["schema"] and a["schema"] in {"implementaudit.verifier-run.v3", "implementaudit.verifier-run.v4"}:
         result["repro_artifact_coverage"] = [r["repro_artifacts"]["coverage"] if r["repro_artifacts"] is not None
                                              else "NOT_REQUESTED" for r in (a, b)]
         result["stdin_coverage"] = [r["stdin"]["mode"] if r["stdin"] is not None else "INHERITED_UNQUALIFIED" for r in (a, b)]
         result["dist_coverage"] = [r["dist_namespace"]["coverage"] if r["dist_namespace"] is not None
                                    else "UNACQUIRED" for r in (a, b)]
-        result["evidence_semantics"] += "; EXPLICIT_DECLARED_INPUT_OUTPUT_OBSERVATIONS_ONLY; NO_INTERNAL_EVENT_CUSTODY"
+        result["evidence_semantics"] += "; EXPLICIT_DECLARED_INPUT_OUTPUT_OBSERVATIONS_ONLY"
+        if a["schema"] == "implementaudit.verifier-run.v3":
+            result["evidence_semantics"] += "; NO_INTERNAL_EVENT_CUSTODY"
+        else:
+            result["portal_coverage"] = [r["portal_events"]["coverage"] if r["portal_events"] is not None
+                                         else "NOT_REQUESTED" for r in (a, b)]
+            result["evidence_semantics"] += "; FINITE_PORTAL_DECLARED_CONSISTENCY; IMPORTED_EXECUTION_AUTHENTICATION_UNQUALIFIED"
     out.write_bytes(WG.canonical_json_v1(result) + b"\n")
     print(json.dumps(result, sort_keys=True))
     return 0 if all(checks.values()) else 1
 
 
-def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin=False, capture_dist=False):
+def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin=False, capture_dist=False, capture_portal_events=False):
     if stdin_file is not None and empty_stdin:
         raise WG.WorkGraphError("stdin-file and empty-stdin are mutually exclusive")
-    extended = retain_repro_assets or stdin_file is not None or empty_stdin or capture_dist
+    extended = retain_repro_assets or stdin_file is not None or empty_stdin or capture_dist or capture_portal_events
     if extended and (output == ROOT or ROOT in output.parents):
         raise WG.WorkGraphError("extended capture evidence must be outside the candidate")
     output.mkdir(parents=True, exist_ok=False)
@@ -749,12 +811,23 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
         (output / "repro-assets").mkdir(mode=0o700)
         overrides = repro_overrides(str(output))
         child_environment.update(overrides)
+    if capture_portal_events:
+        if PORTAL_ENV in os.environ:
+            raise WG.WorkGraphError("ambiguous inherited portal capture request")
+        overrides[PORTAL_ENV] = str(output / "portal-events/request.json")
+        child_environment.update(overrides)
     environment = environment_identity(child_environment, child_resolution=extended)
     registry = (ROOT / "scripts/verify-package.sh").read_bytes()
     tests = WG.verifier_registered_tests_v1(registry)
     graph = WG.compile_verifier_graph_v1(registry, tests, environment)
     if retain_repro_assets:
         repro_binding(graph, before)
+    portal_request = None
+    if capture_portal_events:
+        try:
+            portal_request = portal_engine().prepare(output / "portal-events", ROOT, graph, before)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise WG.WorkGraphError("portal acquisition refusal: " + str(exc)) from exc
     child_binding = stdin_binding = stdin_bytes = None
     if extended:
         child_binding = dict(schema="implementaudit.verifier-child-environment.v1",
@@ -807,7 +880,13 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
         durable_bytes(output / "repro-artifacts.json", WG.canonical_json_v1(artifacts) + b"\n")
         if process.returncode == 0 and (not artifacts["complete"] or not artifacts["source_current"]):
             raise WG.WorkGraphError("successful repro capture has missing artifacts or changed source")
-    result = dict(schema="implementaudit.verifier-run.v3" if extended else "implementaudit.verifier-run.v2", mode=mode, command=command[:2],
+    portal = None
+    if portal_request is not None:
+        try:
+            portal = portal_engine().verify(output / "portal-events", portal_request, require_complete=process.returncode == 0)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise WG.WorkGraphError("portal handoff refusal: " + str(exc)) from exc
+    result = dict(schema="implementaudit.verifier-run.v4" if capture_portal_events else "implementaudit.verifier-run.v3" if extended else "implementaudit.verifier-run.v2", mode=mode, command=command[:2],
                   actual_argv=command, execution_context=dict(cwd=str(ROOT), output=str(output)),
                   command_stream=dict(sha256=sha(compiled_stream), bytes=len(compiled_stream)),
                   before=before, after=after, environment=environment, environment_after=environment_after,
@@ -821,7 +900,11 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
                   authority="NONE")
     if extended:
         result.update(repro_artifacts=artifacts, child_environment=child_binding, stdin=stdin_binding, dist_namespace=namespace)
+        if capture_portal_events:
+            result["portal_events"] = portal
         verify_extended_record(output, result, graph)
+        if capture_portal_events:
+            verify_portal_record(output, result, graph)
     (output / "result.json").write_bytes(WG.canonical_json_v1(result) + b"\n")
     print(json.dumps({k: result[k] for k in ("mode", "exit", "elapsed_ms", "mapped_nodes", "registered_tests", "registration_complete", "stdout_sha256", "stderr_sha256")}, sort_keys=True))
     return process.returncode if process.returncode >= 0 else 128 - process.returncode
@@ -1246,12 +1329,13 @@ def main():
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--capture-dist", action="store_true")
+    parser.add_argument("--retain-portal-events", "--capture-portal-events", dest="capture_portal_events", action="store_true")
     stdin = parser.add_mutually_exclusive_group()
     stdin.add_argument("--stdin-file")
     stdin.add_argument("--empty-stdin", action="store_true")
     args = parser.parse_args()
     try:
-        if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist):
+        if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events):
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
         if args.mode == "scoped" and len(args.paths) == 2:
             session = VerifierTaskSession(args.paths[0], args.paths[1])
@@ -1269,7 +1353,8 @@ def main():
             return compare(*args.paths)
         if args.mode in {"legacy", "dag"} and len(args.paths) == 1:
             return run(args.mode, args.paths[0].resolve(), retain_repro_assets=args.retain_repro_assets,
-                       stdin_file=args.stdin_file, empty_stdin=args.empty_stdin, capture_dist=args.capture_dist)
+                       stdin_file=args.stdin_file, empty_stdin=args.empty_stdin, capture_dist=args.capture_dist,
+                       capture_portal_events=args.capture_portal_events)
         parser.error("run takes one fresh output directory; compare takes two run directories and a fresh result path")
     except (OSError, ValueError, KeyError, TypeError, WG.WorkGraphError, subprocess.SubprocessError) as exc:
         print("work-graph-verifier: " + str(exc), file=sys.stderr)
