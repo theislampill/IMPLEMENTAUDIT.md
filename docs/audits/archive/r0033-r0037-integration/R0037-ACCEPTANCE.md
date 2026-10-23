@@ -25,6 +25,63 @@ these include six pause-applicability cases and two real scheduled FIFO races.
 Final source identities belong to SOURCE-IDENTITIES.json, not the older 62/69
 snapshots below. No native chronology, enforcement or closure is established.
 
+## Post-publication disposition composition addendum
+
+The existing run-root validator now has a supplemental three-way
+`--turn-disposition` record check. It composes existing structural, phase,
+canonical-pair, lesson-lift, closure and handoff owners. Terminal closure,
+audited handoff and truthful nonterminal yield have different predicates;
+success-shaped child output, an open audit object, pending deferrals, blocked
+review, inconsistent coverage, missing exact final anchors or contradictory
+response claims cannot substitute for eligibility. The exact test population,
+source preimages and successor hashes are in the source manifest and final
+execution receipt. Earlier absent-selector, parser and independent adversarial
+failures remain preserved alongside their repairs.
+
+This is a **supplemental bounded portable profile**, not a replacement for the
+full original final-audit path. The governor links to the applicable existing
+PROTOCOL checks. Broader external captures, repository-only reviews, live
+publication and lesson-lift dependencies keep their original owners and
+acceptance obligations. `OUT_OF_PROFILE` (exit 3) returns no disposition and
+does not mean native facilities are unavailable. `RECORD_REFUSED` (exit 1)
+retains a concrete input failure or contradiction. Neither grants fallback
+permission, closure or a waiver. No new general worksheet or artifact-location
+rule applies outside the documented supplemental profile.
+
+Supported-profile controls include positive closure, owner-requested and Andon
+handoffs, valid yield, full STATE-template compatibility, applicable plans,
+owner-dispositioned residuals, changed read sets and subordinate FIFO refusal.
+Independent controls exposed incorrect Review-column and cold-review grammar,
+an unfinished capture wrongly blocking yield, and an existing `not applicable`
+spelling wrongly refused. Corrections preserve the old structural/TY branches.
+Fixed read-only helper calls have a bounded process-group timeout; that bound
+is not an audit-round limit and cannot justify terminal handoff.
+
+The governor and transcript also resolve the audit-marker contradiction:
+nonterminal audit markers recur per final-audit round; final closure emits once.
+An unchanged two-round marker probe already passed, so this is a source
+clarification rather than a fabricated runtime RED. Phase-local Andon markers
+retain their own contract. Prephase pause disclosure points to the existing
+typed TY schema instead of inventing an in-phase execution record.
+
+The local full package command at published checkpoint `61081882...` exited 1
+after its canonical reader tests passed: generated reader directories remained
+inside a source-evidence input. Direct audit-andon found fixture-lifecycle
+contamination with initiating cause unresolved. All 24 roots/1,841 entries,
+including one symlink, and fifteen compiled cache files were preserved outside
+pack inputs. The rejected source-evidence gate subsequently passed unchanged.
+The original full-command failure remains a failure; a split recovery is not
+an unbroken full-package PASS. Read final hosted/local gate receipts separately.
+
+**Current R0037 assessment:** accepted finite-cap restoration, nested L4 return
+clarification, 77 portable TY controls and additional three-way record
+composition have substantive evidence. Full original acceptance is **OPEN**.
+The native Stop owner still reports unsupported effect authentication; no
+portable record result establishes actual host response binding, Stop
+permission, lifecycle acceptance, JOIN or closure. Authentic final-candidate
+native qualification and the original nested/terminal populations remain with
+their original owners and exact acceptance boundaries.
+
 ## Original contract and exact comment dispositions
 
 The full [issue #211](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) body and all four comments are the contract input. Intake JSON SHA-256: `e46dfce9e4f0aa47f01dacc4f8e40f55441f176c0e7ace6c5499be9579dcfa10`. The derived complete contract report `lanes/r37-contract.md` has SHA-256 `e4d12c12da4bea6e6c1691f5d7d43e86ead511648c275f15ca8610a67f592fa3`. Evidence paths below identify records in the local `r33r37-evidence/` execution capture; their derived contents and source identities are retained here.
@@ -237,4 +294,4 @@ The R0033 strict G0002 late-announcement and G0003 noncanonical-announcement/lat
 | Future admitted disposition/host adapter | Thin actual terminal/handoff/yield consumer, adapter/hook/binding surfaces introduced solely for actuation, plus package inventories. Restore the truthful absence-of-native-interception claim; existing run roots/controllers/receipts remain readable. No adapter currently gains admission from this ledger. |
 | Shared integrations | Governor/reference/projection/semantic pins and package outputs must roll back only this integration's semantic delta, retaining R35 dispatch/JOIN, R39 rotation/currentness and R36/PR251 custody. |
 
-**Ledger conclusion:** the accepted finite-cap repair is recovered, L4 source ambiguity is clarified, and the portable yield mode has a 69-control repaired source result awaiting the final bounded independent recheck and composition. The original nested, mutation, terminal and host-disposition populations remain separate open acceptance work; root owns their final evidence joins and any closure decision.
+**Historical checkpoint conclusion (superseded by the addenda above):** the accepted finite-cap repair is recovered, L4 source ambiguity is clarified, and the portable yield mode has a 69-control repaired source result awaiting the final bounded independent recheck and composition. The original nested, mutation, terminal and host-disposition populations remain separate open acceptance work; root owns their final evidence joins and any closure decision.

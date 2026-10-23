@@ -9,23 +9,26 @@
       "candidate_blob": "c13c76f8f1e88777a8241f7074db7f98c9627a21",
       "mode": "100644",
       "path": "docs/superpowers/plans/2026-10-23-r0033-r0037-integration.md",
+      "published_checkpoint_blob": "c13c76f8f1e88777a8241f7074db7f98c9627a21",
       "sha256": "cccea1549973f2135a4b7f156a7c148a67c76e9ffce8cf1adc50753f9045ef06"
     },
     {
       "base_blob": "cf046aeec6be24ba1b299b0bbd0a6ccbea385e2a",
       "bytes": 29574,
-      "candidate_blob": "80bbe500418faaa0fc6d5d4b867cfd49fef2a79e",
+      "candidate_blob": "961d831184f9b756b21c8f0fae3c28ae7e5d5617",
       "mode": "100644",
       "path": "fixtures/semantic-preservation/cases.json",
-      "sha256": "c1a1ddb1067c38e248cb37043cf6a4ca5c6872cea5119f748f9598d575502de3"
+      "published_checkpoint_blob": "80bbe500418faaa0fc6d5d4b867cfd49fef2a79e",
+      "sha256": "cf2db3b9165bf1b2ba7c2a98c6372a1b02db2d0a32a90d970c13d8c5bbbc5cc5"
     },
     {
       "base_blob": "2dbabe314a29638a99085e647f3f182cfcc923be",
-      "bytes": 43071,
-      "candidate_blob": "abe127228fc3b07675730f5d3b0d8cc0a10bbae5",
+      "bytes": 43228,
+      "candidate_blob": "9bf7ccec71b4a46d96ce23e350496cdf10f6d131",
       "mode": "100755",
       "path": "scripts/check-helper-reachability.sh",
-      "sha256": "1ad0eeb9fb999d1a31a10aacdc14cc8e44b6085af0a0a65fe5fe4fe073fed5b4"
+      "published_checkpoint_blob": "abe127228fc3b07675730f5d3b0d8cc0a10bbae5",
+      "sha256": "ec93ce7c8dd925c031034010685960069e59323c68def6852f7399601ba0c3c9"
     },
     {
       "base_blob": "310c3e5e46d400ccec618ba4aff1c028cd35062a",
@@ -33,6 +36,7 @@
       "candidate_blob": "6608cda478d038e8520f04938c9c94fe437b8ebc",
       "mode": "100644",
       "path": "scripts/check-no-terminal-cap.sh",
+      "published_checkpoint_blob": "6608cda478d038e8520f04938c9c94fe437b8ebc",
       "sha256": "f41925300b22ff7efe3822e4ab97ad8c2da1e80cb5778ce2ce0f29d424d913e7"
     },
     {
@@ -41,15 +45,17 @@
       "candidate_blob": "2930052b574a188f6ef6a37018acdf7dcd4240eb",
       "mode": "100644",
       "path": "skills/audit-implement/SKILL.md",
+      "published_checkpoint_blob": "2930052b574a188f6ef6a37018acdf7dcd4240eb",
       "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
     },
     {
       "base_blob": "14e5b75c2d160781ac4c3df9e8410bc0150a9c82",
-      "bytes": 21075,
-      "candidate_blob": "5fdb17e9d2750f73e399bdfc345f3bfa0fb39220",
+      "bytes": 21094,
+      "candidate_blob": "e4022d410d9ab71e78fa4ddc11a4136d5f85d677",
       "mode": "100644",
       "path": "skills/implementaudit/SKILL.md",
-      "sha256": "0f2070e68d6482fc78875ef32b86e702dcb4f01b6716631b6bfc8dea964fd05f"
+      "published_checkpoint_blob": "5fdb17e9d2750f73e399bdfc345f3bfa0fb39220",
+      "sha256": "573341c4a68d2b8e7a1d58a898a0bfaa899d59e1cf453e433e61464a4a79d067"
     },
     {
       "base_blob": "4c8d8002e2e5ec050a4b38936af6e97a464ca2a2",
@@ -57,23 +63,26 @@
       "candidate_blob": "9fd16bd9fb1f9a1faec7d471dd22802e591eb782",
       "mode": "100644",
       "path": "skills/implementaudit/references/host-session-binding.md",
+      "published_checkpoint_blob": "9fd16bd9fb1f9a1faec7d471dd22802e591eb782",
       "sha256": "10787ac1b2f80f4e0b1f4efc5d4ef7068b3f81f477e540c4aeb942eeae560ffa"
     },
     {
       "base_blob": "b8cd5569e62259a311f30a9e61a2ef0cc5ace65c",
-      "bytes": 34574,
-      "candidate_blob": "42745549db041508c370255f0f6e827e86522964",
+      "bytes": 34890,
+      "candidate_blob": "db25a103bdf0d49b5a00bf7935546cb4f98c438c",
       "mode": "100644",
       "path": "skills/implementaudit/references/repo-state-comparison.md",
-      "sha256": "57aa29860c59387e6397d107ccf54a3f63ac76a494a665a7eaaae6ddef27ac77"
+      "published_checkpoint_blob": "42745549db041508c370255f0f6e827e86522964",
+      "sha256": "59f4b7431ffe72b3cd92ce4e435b8483fd56dc3e14975d189b072dafc5448308"
     },
     {
       "base_blob": "7665cfd16fcc2f132dcfe7191261f1c4c9eb39c7",
-      "bytes": 29615,
-      "candidate_blob": "282d67d2a7d106a5ef29b72e4b7b7b442ca6f438",
+      "bytes": 29820,
+      "candidate_blob": "dd998b1f3b859f07a5a5afedc1030bc3c07ac365",
       "mode": "100644",
       "path": "skills/implementaudit/references/transcript-contract.md",
-      "sha256": "61c7d9cad0e0f5e4e9f0d93e58d2978093c51422fcf2fae0bb3dd8d38798432d"
+      "published_checkpoint_blob": "282d67d2a7d106a5ef29b72e4b7b7b442ca6f438",
+      "sha256": "90b708ecedf0cfedb652bcec46960d0eda64ac8023d18b25ab5e08d7551b4ef2"
     },
     {
       "base_blob": null,
@@ -81,23 +90,26 @@
       "candidate_blob": "040a5e5dc05c5dcc4643f5c87f574ff09966fd42",
       "mode": "100755",
       "path": "skills/implementaudit/scripts/validate-audit-implement-return.py",
+      "published_checkpoint_blob": "040a5e5dc05c5dcc4643f5c87f574ff09966fd42",
       "sha256": "97e1cc0996320559581ec01c7966060f1a85104714f25ac06124fe938ed85d21"
     },
     {
       "base_blob": "f9dc102ee5bbbfc87dea7ca50c94eea0b4854af1",
-      "bytes": 72819,
-      "candidate_blob": "20a58c08a0ee8468e291e33fb2c3e0dc2c252cf5",
+      "bytes": 96597,
+      "candidate_blob": "6d522bff602610d527c53d24c4f742eda861ea70",
       "mode": "100644",
       "path": "skills/implementaudit/scripts/validate-run-root.sh",
-      "sha256": "10727e3293785acc28650cfbd87892d75506e341d95b90a15cef41b6bdbf9c60"
+      "published_checkpoint_blob": "20a58c08a0ee8468e291e33fb2c3e0dc2c252cf5",
+      "sha256": "77f324a5d87f49dbd870e9fdc23d2e4d252d2bdb4244d523408245fbd6dbbbb3"
     },
     {
       "base_blob": "be8b7b7a6f5d16ec3c8f672f2935045200c2c919",
-      "bytes": 68742,
-      "candidate_blob": "761d2b371a8b43d34dc8785a2b6c66b6202bd17b",
+      "bytes": 73424,
+      "candidate_blob": "ab2c5023463f8bf252c08b6791f0295d544878e8",
       "mode": "100644",
       "path": "skills/implementaudit/templates/PROTOCOL.md",
-      "sha256": "ec3dce716bedfe59d401780057c76a543c348c047fc81bdcec43881f83ec8919"
+      "published_checkpoint_blob": "761d2b371a8b43d34dc8785a2b6c66b6202bd17b",
+      "sha256": "4e006be6c32d995bdabf2f518735da814eee9311b4597e8b1cf44d304f1e80de"
     },
     {
       "base_blob": null,
@@ -105,6 +117,7 @@
       "candidate_blob": "d45dda1aee21c72cb33db364d8ea982d9fe5a921",
       "mode": "100644",
       "path": "tests/cognition-lifecycle-composition.py",
+      "published_checkpoint_blob": "d45dda1aee21c72cb33db364d8ea982d9fe5a921",
       "sha256": "541d35dec645069f2205f5815491ca5ad4fc97e62462afdd8196cc6cefd18b11"
     },
     {
@@ -113,7 +126,17 @@
       "candidate_blob": "6724c5503d49ac8d5ab7b2cbda8e77b6357e7b22",
       "mode": "100644",
       "path": "tests/cognition-obligation-cases.py",
+      "published_checkpoint_blob": "6724c5503d49ac8d5ab7b2cbda8e77b6357e7b22",
       "sha256": "ce5004b980b3d71801d6b368805de874b5577753925c28e155098ab9f3d4d2ea"
+    },
+    {
+      "base_blob": null,
+      "bytes": 24031,
+      "candidate_blob": "7c22d51a208c3c0d4fb973aecab80c23e35f201a",
+      "mode": "100644",
+      "path": "tests/cognition-pending-durability.py",
+      "published_checkpoint_blob": null,
+      "sha256": "8e58b99805ea9c81b813df6c2b7b18df9d8ba6e08641ea7fa3beb4e2ff141196"
     },
     {
       "base_blob": null,
@@ -121,23 +144,26 @@
       "candidate_blob": "9ac540ea546408e355184aa63a985549d45ca8f1",
       "mode": "100644",
       "path": "tests/evidential-support-cases.py",
+      "published_checkpoint_blob": "9ac540ea546408e355184aa63a985549d45ca8f1",
       "sha256": "b9704fcecbe95d9431cff9529d34ab271436c6037e586bc5d74758be61ef76ee"
     },
     {
       "base_blob": "fc116ea784a02e04ee939c292e30915a100c623d",
       "bytes": 18576,
-      "candidate_blob": "09cfda3a107e569672e1921e8b6772c147d8c184",
+      "candidate_blob": "cc184800c3d01a6224767dcd9cbc4e34d991611c",
       "mode": "100755",
       "path": "tests/helper-reachability.test.sh",
-      "sha256": "6951e7c55e1755c0e0ddae9fd65246ff8ec77034f72e40e812c9a3244dfa1e4f"
+      "published_checkpoint_blob": "09cfda3a107e569672e1921e8b6772c147d8c184",
+      "sha256": "544a748e6d9a1a90f3d74e3af257d1207df057610d1cafdbe34d729cd2925126"
     },
     {
       "base_blob": "d05732d3e2acdff30422dba9a4277b40b2d4255a",
-      "bytes": 22613,
-      "candidate_blob": "b6214fc64885df401ad1a919f337944b604030ec",
+      "bytes": 22685,
+      "candidate_blob": "7b93849008d2b50ef3f3ff3e632ac3a0b5a568d5",
       "mode": "100644",
       "path": "tests/internal-skill-routing.test.sh",
-      "sha256": "bbad067886a438cee2d9c4b23796682bbd1bba37db47d36bfb9b6cd13adef15d"
+      "published_checkpoint_blob": "b6214fc64885df401ad1a919f337944b604030ec",
+      "sha256": "63f315a33b58b29b9e9756cfce148f0c179e4e5743f6398c9ff509307d1b0284"
     },
     {
       "base_blob": "09b17d5c1698999673d3e55c99ecf39b8fedb3cf",
@@ -145,6 +171,7 @@
       "candidate_blob": "d06ed28ed0c67bc290904d8827600a5b1c5b531b",
       "mode": "100644",
       "path": "tests/no-terminal-cap.test.sh",
+      "published_checkpoint_blob": "d06ed28ed0c67bc290904d8827600a5b1c5b531b",
       "sha256": "da0d87fadf8ee2e830ff00fee552a84aaf57bdadf03214915b6b3f442a18ff55"
     },
     {
@@ -153,16 +180,29 @@
       "candidate_blob": "52c78fc2c6206bf218416b41ef778a43afed229d",
       "mode": "100644",
       "path": "tests/nonterminal-yield-cases.py",
+      "published_checkpoint_blob": "52c78fc2c6206bf218416b41ef778a43afed229d",
       "sha256": "62f9ab583d0ec746c6a107cde2ade473c1e6054eb51d621da6963a1178846d24"
     },
     {
       "base_blob": "a36c56ceac1b3bc432ec4094cf4a781a41960a72",
-      "bytes": 47066,
-      "candidate_blob": "e66b4c3d2d4f39370c8ec05966af9d904ca2777a",
+      "bytes": 47113,
+      "candidate_blob": "20f26d24d814eca7db7bde0ac421e6deea3b41a4",
       "mode": "100644",
       "path": "tests/run-root-validation.test.sh",
-      "sha256": "201bba3b5af71e90de81a1cbdf632ffb996e161ed7b166276b3b8a20b89b7dab"
+      "published_checkpoint_blob": "e66b4c3d2d4f39370c8ec05966af9d904ca2777a",
+      "sha256": "d2c27a620f47daf769e97f6252213355a961c10c74454bacdb52a4621425efd8"
+    },
+    {
+      "base_blob": null,
+      "bytes": 17334,
+      "candidate_blob": "50226cce30b2d81cc718d4ea54770c653cc5cdb3",
+      "mode": "100644",
+      "path": "tests/turn-disposition-cases.py",
+      "published_checkpoint_blob": null,
+      "sha256": "44c40ce7f3accc1198b610f02ee7b2a258cdec1fc3f5df08ce212f73c0270905"
     }
   ],
-  "scope": "20-path portable source integration, excluding derivative acceptance/index documents; no native authority or release proof"
+  "published_checkpoint": "61081882f95bcc8c40685195b0b26a98a3f99a5b",
+  "published_tree": "769eb5343bbbff511314c24253d7830017300ded",
+  "scope": "22-path portable source integration, excluding derivative acceptance/index documents; no native authority or release proof"
 }

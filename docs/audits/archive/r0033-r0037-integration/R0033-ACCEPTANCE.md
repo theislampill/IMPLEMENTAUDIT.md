@@ -27,6 +27,61 @@ was read, mechanically reverified and separately accepted as recovery evidence.
 Native occurrence authentication, JOIN and consumed-result admission remain
 unproved; G0002/G0003 failures below are unchanged.
 
+## Post-publication portable durability addendum
+
+Draft [PR253](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/253) is the
+sole integration PR. Published checkpoint `61081882f95bcc8c40685195b0b26a98a3f99a5b`
+has two byte-identical package builds, four official isolated installations and
+exact installed inventory/mode equivalence. These are package results, not
+native activation. Successor source, installation, review and CI identities
+must be read from the final PR receipt; unchanged evidence is reused only at its
+actual dependency identity. Earlier pending rows below describe their original
+checkpoint and do not erase these later results.
+
+The additional `tests/cognition-pending-durability.py` exercises the unchanged
+pending/H0/source owners in **17 controls and 38 real owner processes**. It tests
+durable unresolved-currentness and absent-epoch records; nonobserving cheap
+status; repeated unresolved delivery; foreign-owner and malformed-input refusal;
+and actual process interruption immediately before and after the owner's real
+atomic replacement. Fresh processes recover the old or coherent successor
+bytes, retain the unconsumed obligation, and reacquire the exited writer's lock.
+This establishes process-crash/reload behavior, not power-loss durability or
+completion of directory fsync after the scheduled post-replacement exit.
+
+The native refusal controls materialize the documented complete frozen core
+and all sixteen manifested peer entries with exact bytes and modes. They reach
+the real missing-selected-root and unbound-selection guards. Failed reservation
+followed by return/JOIN remains `FOREIGN_CHILD`, with pending bytes unchanged;
+no assignment or deeper accepted JOIN is fabricated. No private source-selection
+pin, native peer, event observer or source owner was changed to obtain a pass.
+The test is reached through the existing internal-skill-routing wrapper.
+
+Preserve `pending-portable/run-003/` and its review, as well as run-001/run-002
+diagnostics. The internal, non-CLI `record_signal` missing-hook diagnostic is an
+unsupported excluded-native-path observation, not a defect in the supported
+resume/status CLI. The old excluded hook must not be restored: its
+ATTRIBUTED-to-enforcement promotion remains inadmissible. A separate latest-R39
+composition initially refused on its changed exact reason token; the original
+8-control/21-call result remains failed. A single-literal, source-bound oracle
+adaptation passes 17/38 without changing source or selection pins. It is a
+separate composition result, not permission to loosen the main-source oracle.
+
+Blind installed interpretation at the published checkpoint supported 15 of 16
+bounded cases. One prephase-pause disclosure case was partial and is retained;
+no case supplies native activation or an authentic delivery/acceptance chain.
+Later narrow installed results belong to their own final package receipt.
+Actual G0004–G0007 bounded returns and mechanical re-verifications support
+engineering recovery only. G0002/G0003 and released G0076/G0077 failures remain
+failed; actual native occurrence acceptance, JOIN and consumption remain open.
+
+**Current R0033 assessment:** substantial portable source and consumer work,
+durable supported-CLI behavior, and bounded package evidence are established.
+Full original acceptance is **OPEN**. Remaining live admission requires the
+existing selected-source, host and R35/R39 receiving owners; it may require
+owner-compatible source integration after their exact admission decisions.
+It is not accurately described as merely rerunning a native test, nor does it
+require reimplementing the portable durability already proved here.
+
 ## Contract identity and amendment reconciliation
 
 The complete [issue #207](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207) body and all five comments were recovered. The intake JSON SHA-256 is `ea5aa7b1708002418614f42757ecaf01453bec752ba779effe186a553cb2b596`. The locally derived contract report is `lanes/r33-contract.md`, SHA-256 `e9c18352b6918e87d4b79b9a5c358025d6bd24ea4053308c3ba3a09288429976`. Local evidence locators in this ledger refer to the execution capture `r33r37-evidence/`; they are evidence references, not shipped runtime inputs. This archive retains the decisions and identities rather than copying raw transcripts or logs, following `docs/audits/RETENTION.md`.
@@ -191,4 +246,4 @@ The whole exact-tree review must include the final governor/progressive-referenc
 
 Rollback follows semantic owners. Revert the v2 child, value helper, actual governor/consumer calls, registration, tests and generated/package projections coherently. Revert routing-oracle changes only with their preserved negative witnesses and source requirement visible; a rollback is not acceptance. A future admitted route transaction rolls back its guards/instrumentation as a unit while preserving resolver topology, continuity/currentness and failures. Shared governor, reference, semantic-fixture and package files require serialized integration that preserves independently owned R35/R39/PR251 changes. Do not roll back task custody, protected currentness or native security fences to make this slice pass.
 
-**Ledger conclusion:** bounded source implementation and focused portable checks have evidence; full R0033 route, semantic, package/install/native and issue-level acceptance remain open at the stated owners. Root alone adjudicates the final candidate and any later closure.
+**Historical checkpoint conclusion (superseded by the addenda above):** bounded source implementation and focused portable checks have evidence; full R0033 route, semantic, package/install/native and issue-level acceptance remain open at the stated owners. Root alone adjudicates the final candidate and any later closure.

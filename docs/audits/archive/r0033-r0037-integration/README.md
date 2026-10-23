@@ -17,6 +17,71 @@ The branch is `pro/r0033-r0037-20261023`, based on main
 receipts are recorded in the associated draft PR and the external execution
 evidence; they are not inferred from this pre-publication source ledger.
 
+## Successor to the published checkpoint
+
+The sole draft is [PR253](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/253).
+Checkpoint `61081882f95bcc8c40685195b0b26a98a3f99a5b`, tree
+`769eb5343bbbff511314c24253d7830017300ded`, passed hosted run `40030184800`
+and job `120676234611`. The tested merge commit
+`fba845896b26d5eb7f78b5ced34b77dc2202037b` has that same tree and the exact
+main/candidate parents. It also has two reproducible package builds and four
+official isolated installations. Those qualified results are preserved.
+
+The successor adds actual unchanged-owner pending durability tests: **17
+controls/38 owner processes**, including real before/after atomic replacement
+interruption, fresh reload/lock recovery, cheap nonobserving status, unresolved
+currentness/epoch persistence and exact nonconsuming native-selection refusals.
+The runtime pending/source peers and all private selection pins remain unchanged.
+
+The existing run-root validator adds **44** composed terminal/handoff/yield
+record controls. The original **77** TY controls and legacy branches remain
+intact. Independent review produced real counterexamples for blocked reviews,
+unproduced future captures, existing spelling compatibility and a directory
+swap that restored all original file identities. The successor binds packaged
+directory identities and bytes as well as actual record dependencies, preserves
+the original failures, and rejects those schedules. A constructed CRLF packet
+positive checks exact packet bytes; it is not Windows native qualification.
+
+This selector is a supplemental bounded profile. Full original final-audit
+owners remain normative for their applicable broader inputs. A portable
+out-of-profile refusal is not native unavailability and supplies no disposition
+or bypass permission. The governor/transcript clarification permits recurring
+nonterminal audit rounds while retaining single final closure. No second
+lifecycle engine or mandatory worksheet was added.
+
+On the integrated source, routing and run-root wrappers, finite-cap controls,
+bootstrap, registry and helper census pass. The governor is **21,094 bytes /
+396 lines**, reserve **906 >= 741**; the census is **29/29 helpers, 19/19 modes**.
+Exactly fourteen existing governor SHA fields were rebound without changing
+the semantic oracle values. Package limits, reserve, version and compatibility
+requirements remain unchanged. Final successor commit/tree, independent review,
+repeated packages, installed results and hosted CI belong to the final PR
+receipt; the earlier checkpoint's successful CI does not qualify new bytes.
+
+The initial blind installed bank supports 15/16 bounded interpretations, with
+one prephase-pause disclosure partial preserved. Later narrow installed checks
+have separate identities. No blind interpretation is native activation.
+The local full package run's fixture/cache contamination failure and its scoped
+successful recovery are retained separately from hosted CI. The original
+failure is not relabeled a full local PASS.
+
+Latest read-only owner heads are PR246 `04573f3f8c7e50c15255d213c185605681c1ffdd`,
+PR251 `488e5d14fc6fb4901690213a8b92d22ac7025ef9` and PR252
+`573ab36b522ba9fe9ade5e034ea47f8b0d19f5b1`. R35's actual default bootstrap
+composition with the current governor passes at **21,243 bytes**, reserve
+**757 >= 741** (16-byte margin), with exactly fourteen source-pin fields
+rebound. Final affected R39 composition is separately evidenced at its exact
+captured files; no clean text merge is treated as acceptance. The R39/PR251
+projection-loader overlap remains reserved and unapplied. Earlier composition
+results below remain historical, source-bound evidence.
+
+Both original issues remain **OPEN at full acceptance**. The supported portable
+durability and record composition are completed source work; native source
+selection, authentic physical occurrence/LOAD/result/acceptance/JOIN/consumption,
+effect ceilings and host-session-bound exit remain their genuine receiving-owner
+and native obligations. The active same-PR continuation has been narrowed
+accordingly, without erasing original populations or prospective-scope limits.
+
 ## Actual changes and semantic owners
 
 | Owner | Demonstrated gap and change | Evidence boundary |
