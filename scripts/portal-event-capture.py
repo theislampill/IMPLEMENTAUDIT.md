@@ -607,51 +607,75 @@ def execute(source, script, event, stream_budget):
     sys.stdout.flush()
     sys.stderr.flush()
     runtime = runtime_observation()
-    pid = os.fork()
-    if pid == 0:
-        code = 0
+    pid, status, timed_out = None, None, False
+    open_streams = [stdout, stderr]
+    def terminate():
         try:
-            os.setsid()
-            os.dup2(stdout, 1)
-            os.dup2(stderr, 2)
-            os.close(stdout)
-            os.close(stderr)
-            stream_limit = min(LIMITS["stream_bytes"], stream_budget // 2)
-            resource.setrlimit(resource.RLIMIT_FSIZE, (stream_limit, stream_limit))
-            os.environ.pop(ENV, None)
-            write_json(event / "runtime.json", dict(runtime=runtime, process=process_identity(),
-                       actual_environment_sha256=digest(b"\0".join(os.fsencode(k) + b"=" + os.fsencode(v)
-                                              for k, v in sorted(os.environ.items())))))
-            namespace = dict(__name__="__main__", __file__=str(script), __package__=None, __cached__=None)
-            exec(compile(source, str(script), "exec"), namespace)
-        except SystemExit as exc:
-            code = exc.code if isinstance(exc.code, int) else 0 if exc.code is None else 1
-            if exc.code is not None and not isinstance(exc.code, int):
-                print(exc.code, file=sys.stderr)
-        except BaseException as exc:
-            code = 1
-            sys.excepthook(type(exc), exc, exc.__traceback__.tb_next)
-        finally:
-            sys.stdout.flush()
-            sys.stderr.flush()
-        os._exit(code & 255)
-    os.close(stdout)
-    os.close(stderr)
-    started = time.monotonic()
-    timed_out = False
-    while True:
-        waited, status = os.waitpid(pid, os.WNOHANG)
-        if waited:
-            break
-        if time.monotonic() - started > LIMITS["wall_seconds"]:
-            timed_out = True
             os.killpg(pid, signal.SIGKILL)
-            _, status = os.waitpid(pid, 0)
-            break
-        time.sleep(0.01)
+        except ProcessLookupError:
+            # The forked child may not have called setsid yet. Its unreaped
+            # owned PID cannot be reused, so terminate that PID before waiting.
+            try:
+                os.kill(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        return os.waitpid(pid, 0)[1]
+    try:
+        pid = os.fork()
+        if pid == 0:
+            code = 0
+            try:
+                os.setsid()
+                os.dup2(stdout, 1)
+                os.dup2(stderr, 2)
+                os.close(stdout)
+                os.close(stderr)
+                stream_limit = min(LIMITS["stream_bytes"], stream_budget // 2)
+                resource.setrlimit(resource.RLIMIT_FSIZE, (stream_limit, stream_limit))
+                os.environ.pop(ENV, None)
+                write_json(event / "runtime.json", dict(runtime=runtime, process=process_identity(),
+                           actual_environment_sha256=digest(b"\0".join(os.fsencode(k) + b"=" + os.fsencode(v)
+                                                  for k, v in sorted(os.environ.items())))))
+                namespace = dict(__name__="__main__", __file__=str(script), __package__=None, __cached__=None)
+                exec(compile(source, str(script), "exec"), namespace)
+            except SystemExit as exc:
+                code = exc.code if isinstance(exc.code, int) else 0 if exc.code is None else 1
+                if exc.code is not None and not isinstance(exc.code, int):
+                    print(exc.code, file=sys.stderr)
+            except BaseException as exc:
+                code = 1
+                sys.excepthook(type(exc), exc, exc.__traceback__.tb_next)
+            finally:
+                sys.stdout.flush()
+                sys.stderr.flush()
+            os._exit(code & 255)
+        while open_streams:
+            os.close(open_streams[-1])
+            open_streams.pop()
+        started = time.monotonic()
+        while True:
+            waited, observed = os.waitpid(pid, os.WNOHANG)
+            if waited:
+                status = observed
+                break
+            if time.monotonic() - started > LIMITS["wall_seconds"]:
+                timed_out = True
+                status = terminate()
+                break
+            time.sleep(0.01)
+    except BaseException:
+        if pid is not None and pid > 0 and status is None:
+            status = terminate()
+        raise
+    finally:
+        if pid != 0:
+            for fd in open_streams:
+                with contextlib.suppress(OSError):
+                    os.close(fd)
+            if status is not None:
+                # Actual exit survives interruption and every later capture failure.
+                write(event / "exit-code.txt", (str(os.waitstatus_to_exitcode(status)) + "\n").encode())
     code = os.waitstatus_to_exitcode(status)
-    # The actual completed child result survives every later capture failure.
-    write(event / "exit-code.txt", (str(code) + "\n").encode())
     return code, runtime, timed_out
 
 

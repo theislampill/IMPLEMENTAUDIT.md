@@ -1265,18 +1265,21 @@ class VerifierTaskSession:
         WG.compile_verifier_reuse_v1(graph, registry, acquired, {})
         return dict(state=state, acquired=acquired, graph=graph, registry=registry, images=images)
 
+    def _verify_retained_result(self, receipt):
+        if time.monotonic() - receipt["observed_at"] > self.max_age:
+            raise WG.WorkGraphError("expired issued result")
+        for name, data in receipt["retained"].items():
+            if self._regular(receipt["directory"] / name)[1] != data:
+                raise WG.WorkGraphError("issued output or receipt changed")
+        for digest in receipt["required_objects"]:
+            if sha(self._regular(self.output / "objects" / digest)[1]) != digest:
+                raise WG.WorkGraphError("required execution input object changed")
+
     def _issued_keys(self):
         keys, refused = {}, {}
         for node, receipt in self._issued.items():
             try:
-                if time.monotonic() - receipt["observed_at"] > self.max_age:
-                    raise WG.WorkGraphError("expired issued result")
-                for name, data in receipt["retained"].items():
-                    if self._regular(receipt["directory"] / name)[1] != data:
-                        raise WG.WorkGraphError("issued output or receipt changed")
-                for digest in receipt["required_objects"]:
-                    if sha(self._regular(self.output / "objects" / digest)[1]) != digest:
-                        raise WG.WorkGraphError("required execution input object changed")
+                self._verify_retained_result(receipt)
                 keys[node] = receipt["key"]
             except (OSError, WG.WorkGraphError) as exc:
                 refused[node] = str(exc)
@@ -1339,26 +1342,46 @@ class VerifierTaskSession:
                 resource.setrlimit(resource.RLIMIT_AS, (self.LIMITS["address_bytes"],) * 2)
                 resource.setrlimit(resource.RLIMIT_FSIZE, (self.LIMITS["file_bytes"],) * 2)
                 resource.setrlimit(resource.RLIMIT_NOFILE, (self.LIMITS["descriptors"],) * 2)
-            complete = True
+            code, complete, process = None, False, None
             with (directory / "stdout.log").open("xb") as stdout, (directory / "stderr.log").open("xb") as stderr:
                 try:
-                    process = subprocess.Popen(["/usr/bin/bwrap", "--args", str(args_fd), *command], stdin=subprocess.DEVNULL,
+                    try:
+                        process = subprocess.Popen(["/usr/bin/bwrap", "--args", str(args_fd), *command], stdin=subprocess.DEVNULL,
                                 stdout=stdout, stderr=stderr, env=self.environment, close_fds=True, pass_fds=tuple(fds),
                                 preexec_fn=limits, start_new_session=True)
-                except (OSError, subprocess.SubprocessError) as exc:
-                    self._write(directory / "launch-error.json", dict(error=type(exc).__name__, detail=str(exc),
+                    except (OSError, subprocess.SubprocessError) as exc:
+                        self._write(directory / "launch-error.json", dict(error=type(exc).__name__, detail=str(exc),
                                 launch_phase="POPEN_DID_NOT_RETURN", checker_started="UNOBSERVED",
                                 actual_exit="UNOBSERVED"))
+                        raise
+                    self.dispatch_count += 1
+                    try:
+                        code = process.wait(timeout=self.LIMITS["wall_seconds"])
+                        complete = True
+                    except subprocess.TimeoutExpired:
+                        try:
+                            os.killpg(process.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass  # The child may already have exited; collect its actual status.
+                        code = process.wait()
+                except BaseException:
+                    if process is not None:
+                        if process.poll() is None:
+                            try:
+                                os.killpg(process.pid, signal.SIGKILL)
+                            except ProcessLookupError:
+                                pass
+                        code = process.wait()
                     raise
-                self.dispatch_count += 1
-                try:
-                    code = process.wait(timeout=self.LIMITS["wall_seconds"])
-                except subprocess.TimeoutExpired:
-                    complete = False
-                    os.killpg(process.pid, signal.SIGKILL)
-                    code = process.wait()
-                # The actual process exit survives any later recording error.
-                self._write(directory / "exit-code.txt", (str(code) + "\n").encode())
+                finally:
+                    # Preserve actual status even when interruption or a later
+                    # observer failure prevents a receipt. Timeout stays incomplete.
+                    if code is not None:
+                        self._write(directory / "exit-code.txt", (str(code) + "\n").encode())
+                    stdout.flush()
+                    stderr.flush()
+                    os.fsync(stdout.fileno())
+                    os.fsync(stderr.fileno())
         finally:
             for fd in fds:
                 os.close(fd)
@@ -1393,7 +1416,7 @@ class VerifierTaskSession:
         plan = WG.compile_verifier_reuse_v1(start["graph"], start["registry"], start["acquired"], issued)
         self._write(directory / "plan.json", plan)
         mapped = {n["id"]: n for n in start["graph"]["nodes"]}
-        nodes, aggregate_stdout, aggregate_stderr = [], b"", b""
+        nodes, aggregate_stdout, aggregate_stderr, consumed = [], b"", b"", {}
         for index, decision in enumerate(plan["nodes"]):
             current = self._acquire()
             self._require_same(start, current, directory, "before-consumption-%02d" % index)
@@ -1413,6 +1436,19 @@ class VerifierTaskSession:
                 disposition = "EXECUTED"
             after = self._acquire()
             self._require_same(current, after, directory, "during-consumption-%02d" % index)
+            consumed[node] = retained
+            evidence_refused = {}
+            # Reacquisition can outlive or overlap changes to any result already
+            # consumed in this join, including the newly executed result.
+            for consumed_node, evidence in consumed.items():
+                try:
+                    self._verify_retained_result(evidence)
+                except (OSError, WG.WorkGraphError) as exc:
+                    self._issued.pop(consumed_node, None)
+                    evidence_refused[consumed_node] = str(exc)
+            if evidence_refused:
+                self._write(directory / ("consumption-%02d-evidence-refusal.json" % index), evidence_refused)
+                raise WG.WorkGraphError("issued evidence changed during consumption: " + str(evidence_refused))
             if result["exit"] == 0 and result["complete"]:
                 self._issued[node] = retained
             aggregate_stdout += retained["retained"]["stdout.log"]

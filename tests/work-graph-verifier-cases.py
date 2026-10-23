@@ -9,12 +9,15 @@ import os
 from pathlib import Path
 import shutil
 import shlex
+import select
+import signal
 import subprocess
 import sys
 import tempfile
 import threading
 import time
 from types import SimpleNamespace
+import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1508,21 +1511,350 @@ def scoped_root_identity_cases(directory):
     return report
 
 
+class ScopedConsumerBoundaryCases(unittest.TestCase):
+    """Real tiny children and retained files; acquisition/namespace substituted.
+
+    These controls qualify the observer boundary only, not a checker, runtime
+    image, namespace, canonical route, or imported receipt.
+    """
+    evidence_root = None
+
+    def setUp(self):
+        spec = importlib.util.spec_from_file_location("scoped_consumer_owner", ROOT / "scripts/qualify-work-graph-verifier.py")
+        self.q = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.q)
+        if (self.q.platform.system() != "Linux" or self.q.platform.machine() != "x86_64" or
+                not hasattr(os, "memfd_create") or not hasattr(self.q.fcntl, "F_ADD_SEALS")):
+            self.skipTest("controlled leaf observer requires Linux x86_64 memfd support")
+        self.base = self.evidence_root / self._testMethodName
+        self.base.mkdir(parents=True)
+        self.real_popen = subprocess.Popen
+        self.registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+
+    def session(self, label):
+        source = self.base / label / "source"
+        source.mkdir(parents=True)
+        session = self.q.VerifierTaskSession(source, source.parent / "evidence")
+        graph = self.q.WG.compile_verifier_graph_v1(self.registry,
+            self.q.WG.verifier_registered_tests_v1(self.registry), session.environment)
+        seccomp = session._object(session.SECCOMP)
+        inputs = {"COMMAND:" + name + ":0": dict(program_sha256=contract["sha256"], image_digest="1" * 64)
+                  for name, contract in self.q.WG.VERIFIER_LEAF_CONTRACTS_V1.items()}
+        acquired = dict(state=dict(control="CONSTRUCTED_ACQUISITION_NO_CHECKER_PROOF"), graph=graph, registry=self.registry,
+            acquired=dict(schema="implementaudit.verifier-acquisition.v1", scope=session.SCOPE,
+                          binding=dict(control="CONSTRUCTED_OBSERVER_CONTROL"), inputs=inputs),
+            images={name: ({}, dict(directories=[], files=[], seccomp_sha256=seccomp)) for name in inputs})
+        plan = self.q.WG.compile_verifier_reuse_v1(graph, self.registry, acquired["acquired"], {})
+        return session, acquired, plan
+
+    def launch(self, argv, **kwargs):
+        return self.real_popen([sys.executable, "-B", "-c", "print('actual scoped child')"], **kwargs)
+
+    def test_unchanged_execution_and_reuse_keep_original_receipts(self):
+        session, acquired, _ = self.session("unchanged")
+        with mock.patch.object(session, "_acquire", return_value=acquired), mock.patch.object(subprocess, "Popen", side_effect=self.launch):
+            first, second = session.run(), session.run()
+        self.assertEqual([n["disposition"] for n in first["nodes"]], ["EXECUTED", "EXECUTED"])
+        self.assertEqual([n["disposition"] for n in second["nodes"]], ["REUSED", "REUSED"])
+        self.assertEqual([n["receipt_digest"] for n in first["nodes"]], [n["receipt_digest"] for n in second["nodes"]])
+        self.assertEqual((first["exit"], second["exit"], session.dispatch_count), (0, 0, 2))
+        self.assertEqual((session.output / "generation-000002/stdout.log").read_bytes(), b"actual scoped child\n" * 2)
+
+    def check_post_acquire(self, kind, reuse, earlier=False):
+        label = "%s-%s-%s" % (kind, reuse, earlier)
+        session, acquired, plan = self.session(label)
+        target_node = plan["nodes"][0 if earlier else -1]["node"]
+        retained = {}
+        execute = session._execute
+        def observed_execute(current, node, decision, directory):
+            result, evidence = execute(current, node, decision, directory)
+            retained[node["id"]] = evidence
+            return result, evidence
+        calls, clock = [0], [0]
+        monotonic = time.monotonic
+        def acquire():
+            calls[0] += 1
+            if calls[0] == 5:
+                evidence = session._issued[target_node] if reuse else retained[target_node]
+                if kind == "age":
+                    clock[0] += session.max_age + 1
+                elif kind == "object":
+                    path = session.output / "objects" / evidence["required_objects"][-1]
+                    path.chmod(0o600)
+                    path.write_bytes(b"changed required object\n")
+                else:
+                    (evidence["directory"] / kind).write_bytes(b"changed after acquisition\n")
+            return acquired
+        error = None
+        with mock.patch.object(subprocess, "Popen", side_effect=self.launch), \
+             mock.patch.object(session, "_execute", side_effect=observed_execute), \
+             mock.patch.object(time, "monotonic", side_effect=lambda: monotonic() + clock[0]):
+            if reuse:
+                with mock.patch.object(session, "_acquire", return_value=acquired):
+                    session.run()
+            with mock.patch.object(session, "_acquire", side_effect=acquire):
+                try:
+                    session.run()
+                except self.q.WG.WorkGraphError as exc:
+                    error = str(exc)
+        generation = session.output / ("generation-%06d" % session.generation)
+        result = dict(kind=kind, reuse=reuse, earlier_consumed_node=earlier, acquisition_calls=calls[0],
+                      refusal=error, aggregate_published=(generation / "result.json").exists(),
+                      target_still_issued=target_node in session._issued, dispatch_count=session.dispatch_count)
+        (self.base / (label + ".json")).write_text(json.dumps(result, indent=2) + "\n")
+        self.assertEqual(calls[0], 5)
+        self.assertIsNotNone(error, "changed evidence was accepted after reacquisition")
+        self.assertFalse(result["aggregate_published"])
+        self.assertFalse(result["target_still_issued"])
+        self.assertEqual(session.dispatch_count, 2)
+
+    def test_new_and_reused_results_recheck_bytes_objects_and_age(self):
+        for reuse in (False, True):
+            for kind in ("stdout.log", "receipt.json", "object", "age"):
+                with self.subTest(reuse=reuse, kind=kind):
+                    self.check_post_acquire(kind, reuse)
+
+    def test_earlier_consumed_result_cannot_drift_during_later_acquisition(self):
+        for reuse in (False, True):
+            with self.subTest(reuse=reuse):
+                self.check_post_acquire("stdout.log", reuse, earlier=True)
+
+    def lifecycle(self, operation, exit_before_kill=None):
+        label = "%s-%s" % (operation, exit_before_kill)
+        session, acquired, plan = self.session(label)
+        session.LIMITS = dict(session.LIMITS, wall_seconds=0.02)
+        decision = plan["nodes"][0]
+        node = next(n for n in acquired["graph"]["nodes"] if n["id"] == decision["node"])
+        gate_r, gate_w = os.pipe()
+        ready_r, ready_w = os.pipe()
+        child, actual_exits = {}, []
+        interruption = KeyboardInterrupt("controlled scoped wait interruption")
+        real_killpg = os.killpg
+        def launch(argv, **kwargs):
+            kwargs["pass_fds"] = (*kwargs.get("pass_fds", ()), gate_r, ready_w)
+            program = "import os; print('actual scoped lifecycle', flush=True); os.write(%d,b'R'); os.read(%d,1); raise SystemExit(%d)" % (
+                ready_w, gate_r, 0 if exit_before_kill is None else exit_before_kill)
+            process = self.real_popen([sys.executable, "-B", "-c", program], **kwargs)
+            wait = process.wait
+            child.update(process=process, wait=wait)
+            self.assertTrue(select.select([ready_r], [], [], 5)[0], "tiny child did not start")
+            self.assertEqual(os.read(ready_r, 1), b"R")
+            if operation == "interrupt":
+                first = [True]
+                def interrupted(*args, **kw):
+                    if first[0]:
+                        first[0] = False
+                        raise interruption
+                    return wait(*args, **kw)
+                process.wait = interrupted
+            return process
+        def terminate(pgid, signum):
+            if exit_before_kill is not None:
+                os.write(gate_w, b"x")
+                actual_exits.append(child["wait"](timeout=5))
+            return real_killpg(pgid, signum)
+        directory = session.output / "tiny-child"
+        receipt, error = None, None
+        try:
+            with mock.patch.object(subprocess, "Popen", side_effect=launch), mock.patch.object(os, "killpg", side_effect=terminate):
+                try:
+                    receipt, _ = session._execute(acquired, node, decision, directory)
+                except BaseException as exc:
+                    error = exc
+            # Inspect the owner's collected status before test cleanup can reap.
+            observed = child["process"].returncode
+            record = dict(operation=operation, exit_before_kill=exit_before_kill, observed_exit=observed,
+                actual_exits_before_kill=actual_exits, error=None if error is None else type(error).__name__,
+                same_interruption=error is interruption,
+                exit_bytes=(directory / "exit-code.txt").read_text() if (directory / "exit-code.txt").exists() else None,
+                receipt_exists=(directory / "receipt.json").exists(), complete=None if receipt is None else receipt["complete"])
+            (self.base / (label + ".json")).write_text(json.dumps(record, indent=2) + "\n")
+            expected = -signal.SIGKILL if exit_before_kill is None else exit_before_kill
+            self.assertEqual(observed, expected, "owned child was not terminated and reaped")
+            self.assertEqual(record["exit_bytes"], str(expected) + "\n")
+            self.assertEqual((directory / "stdout.log").read_bytes(), b"actual scoped lifecycle\n")
+            if operation == "interrupt":
+                self.assertIs(error, interruption)
+                self.assertFalse(record["receipt_exists"])
+            else:
+                self.assertIsNone(error)
+                self.assertFalse(receipt["complete"], "a timed-out exit zero must remain incomplete")
+            self.assertEqual(session._issued, {})
+        finally:
+            if child:
+                if child["process"].poll() is None:
+                    real_killpg(child["process"].pid, signal.SIGKILL)
+                child["wait"](timeout=5)
+            for fd in (gate_r, gate_w, ready_r, ready_w):
+                os.close(fd)
+
+    def test_timeout_and_interruption_preserve_exit_when_child_wins_kill_race(self):
+        for operation in ("timeout", "interrupt"):
+            for code in (0, 7):
+                with self.subTest(operation=operation, code=code):
+                    self.lifecycle(operation, code)
+
+    def test_interruption_terminates_and_reaps_actual_owned_child(self):
+        self.lifecycle("interrupt")
+
+
+class PortalObserverBoundaryCases(unittest.TestCase):
+    """Actual fork lifecycle controls, not canonical portal acceptance."""
+    evidence_root = None
+
+    def setUp(self):
+        if sys.platform != "linux" or not hasattr(os, "fork"):
+            self.skipTest("portal observer requires Linux fork")
+        spec = importlib.util.spec_from_file_location("portal_lifecycle_owner", ROOT / "scripts/portal-event-capture.py")
+        self.p = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.p)
+        self.base = self.evidence_root / self._testMethodName
+        self.base.mkdir(parents=True)
+
+    def lifecycle(self, operation, before_setsid):
+        event = self.base / (operation + "-" + str(before_setsid))
+        event.mkdir()
+        gate_r, gate_w = os.pipe()
+        ready_r, ready_w = os.pipe()
+        real_fork, real_wait, real_setsid = os.fork, os.waitpid, os.setsid
+        real_open, real_close, parent_pid = os.open, os.close, os.getpid()
+        stream_fds, close_interrupted = [], [False]
+        child = {}
+        interruption = KeyboardInterrupt("controlled portal observer interruption")
+        def fork():
+            pid = real_fork()
+            if pid > 0:
+                child["pid"] = pid
+            return pid
+        def setsid():
+            if before_setsid:
+                os.write(ready_w, b"R")
+                os.read(gate_r, 1)
+            return real_setsid()
+        def open_stream(path, *args, **kwargs):
+            fd = real_open(path, *args, **kwargs)
+            if Path(path) in (event / "stdout.log", event / "stderr.log"):
+                stream_fds.append(fd)
+            return fd
+        def close_stream(fd):
+            if (operation == "interrupt-close" and os.getpid() == parent_pid and
+                    child and fd in stream_fds and not close_interrupted[0]):
+                close_interrupted[0] = True
+                self.assertTrue(select.select([ready_r], [], [], 5)[0], "portal child did not reach setsid boundary")
+                self.assertEqual(os.read(ready_r, 1), b"R")
+                raise interruption
+            return real_close(fd)
+        first = [True]
+        def waitpid(pid, flags):
+            if flags == os.WNOHANG and first[0]:
+                first[0] = False
+                self.assertTrue(select.select([ready_r], [], [], 5)[0], "portal child did not reach boundary")
+                self.assertEqual(os.read(ready_r, 1), b"R")
+                if operation == "interrupt":
+                    raise interruption
+            return real_wait(pid, flags)
+        source = ("import os\nprint('actual portal child', flush=True)\nos.write(%d,b'R')\nos.read(%d,1)\n" % (ready_w, gate_r)).encode()
+        error, result, owner_reaped = None, None, False
+        try:
+            with mock.patch.object(os, "fork", side_effect=fork), mock.patch.object(os, "setsid", side_effect=setsid), \
+                 mock.patch.object(os, "open", side_effect=open_stream), mock.patch.object(os, "close", side_effect=close_stream), \
+                 mock.patch.object(os, "waitpid", side_effect=waitpid), \
+                 mock.patch.dict(self.p.LIMITS, wall_seconds=0 if operation == "timeout" else 120):
+                try:
+                    result = self.p.execute(source, event / "constructed.py", event, 8 * 1024 * 1024)
+                except BaseException as exc:
+                    error = exc
+            try:
+                waited = real_wait(child["pid"], os.WNOHANG)
+            except ChildProcessError:
+                owner_reaped = True
+            streams_closed = []
+            for fd in stream_fds:
+                try:
+                    os.fstat(fd)
+                except OSError:
+                    streams_closed.append(True)
+                else:
+                    streams_closed.append(False)
+            record = dict(operation=operation, before_setsid=before_setsid, owner_reaped=owner_reaped,
+                          error=None if error is None else type(error).__name__, same_interruption=error is interruption,
+                          exit_bytes=(event / "exit-code.txt").read_text() if (event / "exit-code.txt").exists() else None,
+                          result_exit=None if result is None else result[0], timed_out=None if result is None else result[2],
+                          streams_closed=streams_closed)
+            (event / "control-result.json").write_text(json.dumps(record, indent=2) + "\n")
+            self.assertTrue(owner_reaped, "portal observer left its child running or unreaped")
+            self.assertEqual(record["exit_bytes"], "-9\n")
+            self.assertEqual(streams_closed, [True, True])
+            if not before_setsid:
+                self.assertEqual((event / "stdout.log").read_bytes(), b"actual portal child\n")
+            if operation.startswith("interrupt"):
+                self.assertIs(error, interruption)
+            else:
+                self.assertIsNone(error)
+                self.assertEqual((result[0], result[2]), (-9, True))
+        finally:
+            if child and not owner_reaped:
+                try:
+                    os.kill(child["pid"], signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                try:
+                    real_wait(child["pid"], 0)
+                except ChildProcessError:
+                    pass
+            for fd in (gate_r, gate_w, ready_r, ready_w):
+                os.close(fd)
+            for fd in stream_fds:
+                try:
+                    real_close(fd)
+                except OSError:
+                    pass
+
+    def test_interruption_terminates_owned_child_before_and_after_setsid(self):
+        for before in (False, True):
+            with self.subTest(before_setsid=before):
+                self.lifecycle("interrupt", before)
+
+    def test_timeout_terminates_child_before_process_group_exists(self):
+        self.lifecycle("timeout", True)
+
+    def test_interruption_while_parent_closes_streams_reaps_child_and_closes_fds(self):
+        self.lifecycle("interrupt-close", True)
+
+
+def consumer_boundary_cases(directory):
+    directory.mkdir(parents=True)
+    suite = unittest.TestSuite()
+    for cases in (ScopedConsumerBoundaryCases, PortalObserverBoundaryCases):
+        cases.evidence_root = directory / cases.__name__
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(cases))
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    assert result.wasSuccessful(), "consumer evidence/lifecycle controls failed"
+
+
 def main():
     global RETAIN
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--retain-fixtures", type=Path)
     parser.add_argument("--portal-only", action="store_true")
     parser.add_argument("--portal-receiving", type=Path)
+    parser.add_argument("--consumer-only", action="store_true")
     options = parser.parse_args()
     if options.portal_only and options.portal_receiving is not None:
         parser.error("portal-only and portal-receiving are mutually exclusive")
+    if options.consumer_only and (options.portal_only or options.portal_receiving is not None):
+        parser.error("consumer-only cannot be combined with portal controls")
     if options.retain_fixtures is not None:
         RETAIN = options.retain_fixtures.resolve()
         RETAIN.mkdir(parents=True, exist_ok=False)
         (RETAIN / "commands").mkdir()
         (RETAIN / "objects").mkdir()
         shutil.copyfile(__file__, RETAIN / "harness-source.py")
+    if options.consumer_only:
+        with fixture_directory() as td:
+            consumer_boundary_cases(Path(td) / "consumer-boundaries")
+        print("work-graph-verifier: finite consumer evidence/lifecycle controls passed")
+        return
     if options.portal_receiving is not None:
         with fixture_directory() as td:
             portal_receiving_cases(Path(td) / "portal-receiving", options.portal_receiving.resolve())
@@ -1559,6 +1891,7 @@ def main():
     # in an actually executed held-out registry. No hand-written PASS oracle.
     with fixture_directory() as td:
         scoped_root_identity_cases(Path(td) / "scoped-root-identity")
+        consumer_boundary_cases(Path(td) / "consumer-boundaries")
         root = Path(td) / "repo"
         (root / "scripts").mkdir(parents=True)
         (root / "tests").mkdir()
