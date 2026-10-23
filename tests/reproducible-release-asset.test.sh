@@ -99,6 +99,43 @@ fi
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
+repro_capture_directory="${R0035_REPRO_EVENT_CAPTURE_DIR:-}"
+repro_capture() {
+  "$python_cmd" "$repo_root/scripts/repro-event-capture.py" "$@"
+}
+repro_event() {
+  local role="$1"
+  shift
+  if [ -n "$repro_capture_directory" ]; then
+    repro_capture event "$repro_capture_directory" "$role" -- "$@"
+  else
+    "$@"
+  fi
+}
+repro_capture_finish() {
+  local original_status=$? close_status=0 cleanup_status=0 finish_status=0
+  trap - EXIT
+  set +e
+  repro_capture close "$repro_capture_directory" "$original_status"
+  close_status=$?
+  rm -rf "$tmp"
+  cleanup_status=$?
+  if [ "$close_status" -eq 0 ]; then
+    repro_capture finish "$repro_capture_directory" "$cleanup_status"
+    finish_status=$?
+  fi
+  if [ "$original_status" -ne 0 ]; then
+    exit "$original_status"
+  fi
+  if [ "$close_status" -ne 0 ] || [ "$cleanup_status" -ne 0 ] || [ "$finish_status" -ne 0 ]; then
+    exit 125
+  fi
+}
+if [ -n "$repro_capture_directory" ]; then
+  repro_capture init "$repro_capture_directory" "$repo_root" "$tmp" "$source_commit" "$python_cmd"
+  trap repro_capture_finish EXIT
+fi
+
 for lane in a b; do
   git clone --quiet --no-local --no-checkout "$repo_root" "$tmp/checkout-$lane"
   git -C "$tmp/checkout-$lane" checkout --quiet --detach "$source_commit"
@@ -107,18 +144,18 @@ for lane in a b; do
 done
 
 SOURCE_DATE_EPOCH=315532800 TZ=UTC LC_ALL=C \
-  bash "$tmp/checkout-a/scripts/build-release-asset.sh" "$tmp/out-a"
+  repro_event build:a bash "$tmp/checkout-a/scripts/build-release-asset.sh" "$tmp/out-a"
 SOURCE_DATE_EPOCH=315532800 TZ=America/New_York LC_ALL=C \
-  bash "$tmp/checkout-b/scripts/build-release-asset.sh" "$tmp/out-b"
+  repro_event build:b bash "$tmp/checkout-b/scripts/build-release-asset.sh" "$tmp/out-b"
 
 release_members=(IMPLEMENTAUDIT.plugin.zip IMPLEMENTAUDIT.skill CHECKSUMS.txt)
 for member in "${release_members[@]}"; do
-  cmp -s "$tmp/out-a/$member" "$tmp/out-b/$member" \
+  repro_event "cmp:$member" cmp -s "$tmp/out-a/$member" "$tmp/out-b/$member" \
     || fail "$member differs byte-for-byte across clean builds"
 done
 
 for lane in a b; do
-  bash "$tmp/checkout-$lane/scripts/write-release-checksums.sh" \
+  repro_event "checksum:$lane" bash "$tmp/checkout-$lane/scripts/write-release-checksums.sh" \
     --check --all "$tmp/out-$lane" "$tmp/out-$lane/CHECKSUMS.txt"
 done
 
@@ -128,7 +165,7 @@ for role in plugin skill; do
     skill) artifact=IMPLEMENTAUDIT.skill ;;
   esac
   for lane in a b; do
-    "$python_cmd" - "$tmp/out-$lane/$artifact" > "$tmp/$role-manifest-$lane.json" <<'PY'
+    repro_event "manifest:$role:$lane" "$python_cmd" - "$tmp/out-$lane/$artifact" > "$tmp/$role-manifest-$lane.json" <<'PY'
 import hashlib
 import json
 import sys
@@ -173,22 +210,22 @@ with zipfile.ZipFile(asset) as archive:
 print(json.dumps(manifest, sort_keys=True, separators=(",", ":")))
 PY
   done
-  cmp -s "$tmp/$role-manifest-a.json" "$tmp/$role-manifest-b.json" \
+  repro_event "manifest-cmp:$role" cmp -s "$tmp/$role-manifest-a.json" "$tmp/$role-manifest-b.json" \
     || fail "$role entry manifests differ"
 done
 
 sha256_file() {
-  "$python_cmd" -c \
+  repro_event "$1" "$python_cmd" -c \
     'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())' \
-    "$1"
+    "$2"
 }
 
-skill_hash_a="$(sha256_file "$tmp/out-a/IMPLEMENTAUDIT.skill")"
-skill_hash_b="$(sha256_file "$tmp/out-b/IMPLEMENTAUDIT.skill")"
-plugin_hash_a="$(sha256_file "$tmp/out-a/IMPLEMENTAUDIT.plugin.zip")"
-plugin_hash_b="$(sha256_file "$tmp/out-b/IMPLEMENTAUDIT.plugin.zip")"
-checksums_hash_a="$(sha256_file "$tmp/out-a/CHECKSUMS.txt")"
-checksums_hash_b="$(sha256_file "$tmp/out-b/CHECKSUMS.txt")"
+skill_hash_a="$(sha256_file hash:skill:a "$tmp/out-a/IMPLEMENTAUDIT.skill")"
+skill_hash_b="$(sha256_file hash:skill:b "$tmp/out-b/IMPLEMENTAUDIT.skill")"
+plugin_hash_a="$(sha256_file hash:plugin:a "$tmp/out-a/IMPLEMENTAUDIT.plugin.zip")"
+plugin_hash_b="$(sha256_file hash:plugin:b "$tmp/out-b/IMPLEMENTAUDIT.plugin.zip")"
+checksums_hash_a="$(sha256_file hash:checksums:a "$tmp/out-a/CHECKSUMS.txt")"
+checksums_hash_b="$(sha256_file hash:checksums:b "$tmp/out-b/CHECKSUMS.txt")"
 [ "$skill_hash_a" = "$skill_hash_b" ] || fail "compatibility SHA-256 mismatch"
 [ "$plugin_hash_a" = "$plugin_hash_b" ] || fail "plugin SHA-256 mismatch"
 [ "$checksums_hash_a" = "$checksums_hash_b" ] || fail "checksum-manifest SHA-256 mismatch"
