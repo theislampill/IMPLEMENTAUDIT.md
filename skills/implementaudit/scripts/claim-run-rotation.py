@@ -22,6 +22,34 @@ import sys
 import time
 import types
 
+# Bind the load snapshot to the actual executing module code, before any owner
+# read. A newly sampled disk hash alone must never relabel an older instance.
+def _capture_claim_load_identity_v1(executing_code):
+    path = Path(__file__).absolute()
+    before = os.lstat(path)
+    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+            or getattr(before, 'st_file_attributes', 0) & 0x400):
+        raise ImportError('executing claim code has no ordinary physical source')
+    with path.open('rb') as stream:
+        opened = os.fstat(stream.fileno())
+        raw = stream.read(512 * 1024 + 1)
+        after = os.fstat(stream.fileno())
+    current = os.lstat(path)
+    identity = lambda item: (item.st_dev, item.st_ino, item.st_size, item.st_mtime_ns)
+    if (identity(before) != identity(opened) or identity(opened) != identity(after)
+            or identity(after) != identity(current) or len(raw) != before.st_size
+            or len(raw) > 512 * 1024):
+        raise ImportError('executing claim code source changed during load binding')
+    compiled = compile(raw, executing_code.co_filename, 'exec', dont_inherit=True,
+                       optimize=sys.flags.optimize)
+    if compiled != executing_code:
+        raise ImportError('executing claim code differs from the physical load snapshot')
+    return (str(path), len(raw), hashlib.sha256(raw).hexdigest())
+
+
+_CLAIM_LOAD_IDENTITY_V1 = _capture_claim_load_identity_v1(sys._getframe().f_code)
+
+
 # Private substrate is exact-source bound; it owns no transaction authority.
 def _windows_custody():
     import types
@@ -1187,6 +1215,11 @@ class _NativePublicationInputs:
     def ref_guards_v1(self):
         return self.native_guard.ref_guards_v1()
 
+    def verified_ref_guards_v1(self):
+        """One retained/native preflight; guard extraction performs verification."""
+        self.retained.verify()
+        return self.ref_guards_v1()
+
     def before_effect(self):
         self.verify()
         return self.native_guard.before_effect()
@@ -1233,14 +1266,14 @@ def update_refs(context, updates, guards, *, observation=None):
         if not OID.fullmatch(new) or (old is not None and not OID.fullmatch(old)):
             raise RotationError("transaction OID is malformed")
     with namespace_gate(context):
-        if observation is not None:
-            observation.verify()
         if isinstance(observation, _NativePublicationInputs):
-            source_guards = observation.ref_guards_v1()
+            source_guards = observation.verified_ref_guards_v1()
             if set(source_guards) & set(updates) or any(
                     ref in guards and guards[ref] != oid for ref, oid in source_guards.items()):
                 raise RotationError("native source/grant ref overlaps or conflicts with canonical CAS")
             guards = dict(guards, **source_guards)
+        elif observation is not None:
+            observation.verify()
         expected = dict(guards)
         expected.update({ref: old for ref, (_, old) in updates.items()})
         if read_refs(repo, expected) != expected:
@@ -1420,6 +1453,104 @@ def native_held_image_sha256_v1(pinned):
     if count != expected_size or os.fstat(fd).st_size != expected_size:
         raise RotationError('native image changed during streaming hash')
     return digest.hexdigest()
+
+
+# Reuse only the existing claim's completed predecessor read inside its SAME
+# operation/custody. This is not producer admission or a currentness cache.
+_NATIVE_PREDECESSOR_BINDING_V1 = None
+
+
+def _verify_claim_load_identity_v1():
+    path = Path(__file__).absolute()
+    raw = read_regular(path, max_bytes=512 * 1024)
+    if (str(path), len(raw), hashlib.sha256(raw).hexdigest()) != _CLAIM_LOAD_IDENTITY_V1:
+        raise RotationError('executing claim source differs from its bound load identity')
+    return raw
+
+
+class _NativePredecessorReadV1:
+    def __init__(self, context):
+        import threading
+        _verify_claim_load_identity_v1()  # BEFORE the first canonical owner read.
+        self._thread = threading.get_ident()
+        self._scope = _CUSTODY._GIT_SCOPE.get()
+        if self._scope is None or self._scope.repo != context['repo'].absolute():
+            raise RotationError('native predecessor reuse requires existing claim Git custody')
+        self._context = dict(context)
+        # Mint only by performing the actual existing owner read. Caller JSON
+        # and a matching hash cannot manufacture this operation-local witness.
+        self._raw = canonical(resolve_predecessor(context))
+        self._retained = None
+        self._used = self._closed = False
+
+    def predecessor(self):
+        return decode_json(self._raw)
+
+    def _physical(self):
+        import threading
+        if (self._closed or self._thread != threading.get_ident()
+                or _CUSTODY._GIT_SCOPE.get() is not self._scope
+                or type(self._retained) is not RetainedInputs):
+            raise RotationError('native predecessor read escaped its existing operation custody')
+        predecessor, context = self.predecessor(), self._context
+        held = {item.path: digest.hex() for item, digest in self._retained.items}
+        if held.get(Path(__file__).absolute()) != _CLAIM_LOAD_IDENTITY_V1[2]:
+            raise RotationError('retained claim code differs from the executing load identity')
+        required = set(retained_owner_paths(context))
+        required.update(context['repo'] / predecessor[role + '_path'] for role in ('state', 'roadmap'))
+        if not required.issubset(held) or any(
+                held[context['repo'] / predecessor[role + '_path']] != predecessor[role + '_sha256']
+                for role in ('state', 'roadmap')):
+            raise RotationError('native predecessor owner/code or exact source bytes are not retained')
+        self._retained.verify()
+        self._scope._native_ref_custody()  # Reverify held Git routing/config inputs.
+
+    def verify(self):
+        if _NATIVE_PREDECESSOR_BINDING_V1 is not self:
+            raise RotationError('native predecessor read is not the active existing-owner binding')
+        self._physical()
+        predecessor, context = self.predecessor(), self._context
+        guards = dict(predecessor_guards(context, predecessor), HEAD=predecessor['head'])
+        if (read_refs(context['repo'], guards) != guards
+                or git(context['repo'], 'rev-parse', 'HEAD^{tree}').decode().strip() != predecessor['tree']):
+            raise RotationError('native predecessor live authority or candidate changed')
+
+    def take(self, controller):
+        if self._used or controller != self._context['controller']:
+            raise RotationError('native predecessor read is consumed or foreign')
+        self.verify()
+        self._used = True
+        return dict(self._context), self.predecessor()
+
+
+@contextlib.contextmanager
+def _native_predecessor_scope_v1(read, retained):
+    """Share the actual fixed owner instance, not caller verifier functions."""
+    global _NATIVE_PREDECESSOR_BINDING_V1
+    if (type(read) is not _NativePredecessorReadV1 or type(retained) is not RetainedInputs
+            or _NATIVE_PREDECESSOR_BINDING_V1 is not None or read._retained is not None):
+        raise RotationError('native predecessor reuse requires the exact existing owner and retained input types')
+    read._retained = retained
+    read._physical()
+    path = Path(__file__).absolute()
+    raw = _verify_claim_load_identity_v1()
+    name = '_native_existing_claim_receiver_' + hashlib.sha256(os.fsencode(path) + b'\0' + raw).hexdigest()
+    module = sys.modules.get(__name__)
+    if module is None or module.__dict__ is not globals() or Path(module.__file__).absolute() != path:
+        raise RotationError('existing claim module identity is unavailable')
+    previous = sys.modules.get(name)
+    if previous is not None and previous is not module:
+        raise RotationError('native predecessor cannot substitute another existing receiver instance')
+    sys.modules[name] = module
+    _NATIVE_PREDECESSOR_BINDING_V1 = read
+    try:
+        yield read
+    finally:
+        _NATIVE_PREDECESSOR_BINDING_V1 = None
+        read._closed = True
+        read._retained = None
+        if previous is None:
+            sys.modules.pop(name, None)
 
 
 # Proposed addition to the EXISTING claim-run-rotation.py, not a new controller.
@@ -1723,7 +1854,13 @@ def _resolve_native_input_state_v1(native, controller):
             _validate_native_revision_v1(context, source, grant, native, claimed=True)
             waiter.check()
             return state
-        context = discover(controller)
+        borrowed = _NATIVE_PREDECESSOR_BINDING_V1
+        if borrowed is None:
+            context, predecessor = discover(controller), None
+        elif type(borrowed) is _NativePredecessorReadV1:
+            context, predecessor = borrowed.take(controller)
+        else:
+            raise RotationError('native predecessor binding is not the existing owner read')
         _native_selection_v1(context)
         refs = native_input_revision_refs_v1(context)
         heads = read_refs(context['repo'], refs.values())
@@ -1733,7 +1870,8 @@ def _resolve_native_input_state_v1(native, controller):
         grant = decode_json(read_blob(context['repo'], heads[refs['grant']]))
         _validate_native_revision_v1(context, source, grant, native)
         waiter = NativeCancellationWaitV1(source['cancellation'], source['producer_process'], source['reservation_id'])
-        predecessor = resolve_predecessor(context)
+        if predecessor is None:
+            predecessor = resolve_predecessor(context)
         helper = projection_helper()
         if source['binding']['subject'] != helper._native_subject(predecessor):
             raise RotationError('native source names a different canonical pair or receipt')
@@ -1752,6 +1890,8 @@ def _resolve_native_input_state_v1(native, controller):
         if read_refs(context['repo'], expected) != expected:
             raise RotationError('native source consumption has an unknown effect; reconcile before retry')
         _validate_native_revision_v1(context, claimed, grant, native, claimed=True)
+        if borrowed is not None:
+            borrowed.verify()  # Fresh full tuple after acquisition; never a cached authority.
         state = native.NativeInputState(source['binding'])
         state._snapshot = source['exact_usage']
         state._received_monotonic_ns = source['observed_monotonic_ns']
@@ -1841,6 +1981,12 @@ class _C02PublicationInputs(_NativePublicationInputs):
         self.operation.verify()
         return (self.retained.ref_guards_v1()
                 if isinstance(self.retained, _NativePublicationInputs) else {})
+
+    def verified_ref_guards_v1(self):
+        # C02's live source/issuer checks intervene between native checks.
+        # Preserve their order instead of coalescing across that boundary.
+        self.verify()
+        return self.ref_guards_v1()
 
     def before_effect(self):
         self.verify()
@@ -3055,7 +3201,8 @@ def run_canonical_rotation_v1(context, owner_map_path, calibration, *, tokenizer
     if native_input and tokenizer_encoding is None:
         raise RotationError("native input selection requires the exact offline tokenizer encoding")
     with rotation_lease(context):
-        predecessor = resolve_predecessor(context)
+        predecessor_read = _NativePredecessorReadV1(context) if native_input else None
+        predecessor = predecessor_read.predecessor() if predecessor_read is not None else resolve_predecessor(context)
         owner_map_path = Path(owner_map_path)
         if not owner_map_path.is_absolute():
             owner_map_path = context["run_root"] / owner_map_path
@@ -3089,6 +3236,7 @@ def run_canonical_rotation_v1(context, owner_map_path, calibration, *, tokenizer
                 source_bytes = sum(map(len, source))
                 source_tokens = sum(helper.count_rotation_tokens_v1(token_input['tokenizer_bytes'], source))
                 native_subject = helper._native_subject(predecessor)
+                native_scope.enter_context(_native_predecessor_scope_v1(predecessor_read, observation))
                 native_lease = native_scope.enter_context(helper.native_inputs_module_v1().rotation_input_lease_v1(
                     native_subject, source_bytes, source_tokens))
                 token_input['native_observation'] = native_lease

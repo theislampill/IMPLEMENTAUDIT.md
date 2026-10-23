@@ -143,12 +143,14 @@ class CurrentnessCostControls(unittest.TestCase):
     def continuity(self, changed_helper=False, wrong_verify=False, receipt_raw=None, blob_error=False,
                    source_changes=False, combined=False, combined_output=None):
         h=self.h
-        owner=ROOT/'source-peers/native-runtime/skills/implementaudit/scripts'
+        owner=ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts'
         # Keep the original helper/receipt-domain controls bound to their exact
         # immutable donor. Exercise the new source-owner mode separately.
-        claim=((owner/'claim-run.sh') if combined else
-               ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run.sh.fixture').read_bytes()
-        validate=(owner/'validate-run-root.sh').read_bytes()
+        claim=(owner/('claim-run-combined.sh.fixture' if combined else 'claim-run.sh.fixture')).read_bytes()
+        validate=(owner/'validate-run-root.sh.fixture').read_bytes()
+        expected=(h.wg._NATIVE_COMBINED_CURRENT_PAIR_V1 if combined else
+                  h.wg._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE)
+        self.assertEqual((hashlib.sha256(claim).hexdigest(),hashlib.sha256(validate).hexdigest()),expected)
         if changed_helper:claim+=b'\n# different source must retain separate verification\n'
         calls=[]
         receipt='refs/implementaudit/continuity-receipts/cost-control/G0001@'+'3'*40
@@ -235,12 +237,20 @@ class CurrentnessCostControls(unittest.TestCase):
         with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
             self.continuity(blob_error=True,wrong_verify=True)
 
-    def test_other_helper_source_keeps_separate_verification(self):
-        calls=self.continuity(changed_helper=True)
-        self.assertEqual([c[0] for c in calls],['--current-controller','--require-current-continuity','--verify-resume-receipt'])
-        self.assertEqual(self.receipt_reads,[])
-        with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
-            self.continuity(changed_helper=True,wrong_verify=True)
+    def test_other_helper_source_refuses_before_launch_and_currentness_output(self):
+        # Exact old18 and current original14 pairs are separate domains. A changed
+        # helper is neither; its former generic fallback must not authorize it.
+        owner=types.SimpleNamespace(_native_child_environment=lambda host:{})
+        source=ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts'
+        claim=(source/'claim-run.sh.fixture').read_bytes()+b'\n# changed source\n'
+        validate=(source/'validate-run-root.sh.fixture').read_bytes()
+        with patch.object(self.h.wg.subprocess,'run',side_effect=AssertionError('unselected source launched')):
+            with self.assertRaisesRegex(self.h.wg.WorkGraphError,'not an explicitly selected source domain'):
+                self.h.wg._native_claim_call_v1(owner,object(),self.h.root,
+                    ['--current-controller'],claim,validate)
+        with self.assertRaisesRegex(self.h.wg.WorkGraphError,'not an explicitly selected source domain'):
+            self.continuity(changed_helper=True)
+        self.assertEqual(self.current_owner_reads,[])
 
 class CurrentOwnerParserControls(unittest.TestCase):
     def setUp(self):
