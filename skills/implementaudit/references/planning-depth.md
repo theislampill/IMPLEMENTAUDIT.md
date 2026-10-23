@@ -202,6 +202,16 @@ only while expected information value exceeds carrying cost and an exit or
 reclassification condition remains live. Preserve sustainable recovery
 capacity instead of treating maximum utilisation as value.
 
+Material retry, recovery, or redispatch admission is conjunctive. Require
+semantic retry eligibility from the durable `FAILED_NO_EFFECT` state, a live
+deadline, queue age within policy, downstream capacity for the requested work,
+and recovery headroom for the requested work. Unknown effect state or any
+missing input refuses admission. Host/free executor slots and queue depth are
+observations, not downstream/recovery capacity or retry authority. Definitive,
+untriggered local work remains the serial cheap path and creates no retry queue.
+`CHEAP_PATH` requires canonical `NOT_STARTED`, no semantic retry eligibility,
+and zero requested work, deadline, queue-age, downstream, and recovery fields.
+
 No universal rule makes shorter feedback, lower work in progress, smaller
 batches, higher utilisation, more slack, or less slack correct. Stronger
 control depth is warranted by material consequence or hard-to-reverse action,

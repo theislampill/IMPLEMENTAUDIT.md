@@ -37,6 +37,7 @@ reset_sandbox() {
     "$tmp_root/skills/implementaudit/references" \
     "$tmp_root/skills/implementaudit/templates" \
     "$tmp_root/fixtures/audit-action-selection" \
+    "$tmp_root/fixtures/distributed-runtime" \
     "$tmp_root/fixtures/native-integration" \
     "$tmp_root/fixtures/audit-object-routing"
   cp skills/implementaudit/SKILL.md "$tmp_root/skills/implementaudit/"
@@ -55,6 +56,8 @@ reset_sandbox() {
     "$tmp_root/fixtures/audit-action-selection/"
   cp fixtures/audit-action-selection/*.json \
     "$tmp_root/fixtures/audit-action-selection/"
+  cp fixtures/distributed-runtime/r48-admission-cases.json \
+    "$tmp_root/fixtures/distributed-runtime/"
   cp fixtures/native-integration/single-plan-native-route.md \
     "$tmp_root/fixtures/native-integration/"
   cp fixtures/audit-object-routing/deep-pressure-disclosure.md \
@@ -934,5 +937,273 @@ case["expected"] = "VERIFY_PACKAGE_CONSUMER"
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "multi-impact verifier plan lost composed outcome"
+
+# P34-1. Executor capacity is not downstream or recovery capacity and cannot
+# authorize a material retry by itself.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C147-host-slots-not-downstream-capacity")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "host slots alone authorized retry"
+
+# P34-2. A short queue is an observation, not semantic retry authority or
+# downstream/recovery headroom.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C148-queue-depth-not-retry-authority")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "queue depth alone authorized retry"
+
+# P34-3. Definitive, untriggered local work remains on the serial cheap path and
+# never gains retry admission merely because executor capacity is free.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C149-local-retry-cheap-path-stays-serial")
+case["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "local cheap path gained a retry queue"
+
+# P34-4. Planning depth owns the conjunctive admission rule.
+reset_sandbox
+grep -v "Material retry, recovery, or redispatch admission is conjunctive" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "planning-depth retry admission owner removed"
+
+# P34-5. Lean discipline owns the same admission factors through the control
+# lifecycle rather than allowing capacity proxies to self-authorise.
+reset_sandbox
+grep -v "For retry, recovery, or redispatch, admit only when semantic eligibility" \
+  "$tmp_root/skills/implementaudit/references/lean-operating-discipline.md" \
+  >"$tmp_root/lean.tmp"
+mv "$tmp_root/lean.tmp" \
+  "$tmp_root/skills/implementaudit/references/lean-operating-discipline.md"
+expect_fail "lean retry admission owner removed"
+
+# P34-6. Child-agent scheduling must not reinterpret free executor capacity as
+# retry authority.
+reset_sandbox
+grep -v "establish semantic retry eligibility" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "child-agent retry admission boundary removed"
+
+# P34-7. A contradictory record cannot bypass retry/effect predicates merely by
+# selecting the cheap-local flags.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C150-contradictory-cheap-retry-refused")
+case["expected"] = "CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "contradictory retry record bypassed through cheap-local flags"
+
+# P34-8. Effect-state vocabulary is validated before any disposition; the former
+# noncanonical token cannot enter the cheap path.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R48-C149-local-retry-cheap-path-stays-serial")
+case["observations"]["effect_state"] = "NOT_ATTEMPTED"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "noncanonical effect state entered cheap path"
+
+# P34-9. The planning owner must retain the exact coherent cheap-path predicates.
+reset_sandbox
+grep -v 'CHEAP_PATH.*requires canonical.*NOT_STARTED' \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "planning cheap-path coherence predicates removed"
+
+# P34-10. Reproduce the independent held-out H13 shape against the fixture-aware
+# checker while retaining the coherent local positive in the same six-case set.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = payload["cases"][1]
+case["id"] = "H13-contradictory-cheap-with-retry-state"
+case["observations"] = {
+    "distributed_trigger": False,
+    "cheap_local_operation": True,
+    "semantic_retry_eligible": True,
+    "effect_state": "FAILED_NO_EFFECT",
+    "deadline_remaining_ms": 0,
+    "queue_age_ms": 0,
+    "max_queue_age_ms": 0,
+    "requested_units": 1,
+    "downstream_available_units": 0,
+    "recovery_available_units": 0,
+}
+case["expected"] = "REFUSE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh \
+  --repo-root "$tmp_root" \
+  --distributed-runtime-fixture \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" \
+  >/dev/null 2>&1 || fail "held-out contradictory cheap-local record was not refused"
+
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "H13-contradictory-cheap-with-retry-state")
+case["expected"] = "CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+if bash scripts/check-action-selection-contract.sh \
+  --repo-root "$tmp_root" \
+  --distributed-runtime-fixture \
+  "$tmp_root/fixtures/distributed-runtime/r48-admission-cases.json" \
+  >/dev/null 2>&1; then
+  fail "held-out contradictory cheap-local false green was not detected"
+fi
+
+# P34-11. Exercise typed inputs and each admission predicate through the actual
+# fixture-aware checker. Removing any predicate must admit a named bad record;
+# changing a strict numeric type check must accept a named malformed record.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$repo_root/scripts/check-action-selection-contract.sh" \
+  "$tmp_root" <<'PY'
+import copy
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+owner = Path(sys.argv[1])
+sandbox = Path(sys.argv[2])
+fixture_path = sandbox / "fixtures/distributed-runtime/r48-admission-cases.json"
+baseline = json.loads(fixture_path.read_text(encoding="utf-8"))
+checked = 0
+
+def check(label, payload, valid):
+    global checked
+    fixture_path.write_text(json.dumps(payload), encoding="utf-8")
+    result = subprocess.run(
+        ["bash", str(owner), "--repo-root", str(sandbox),
+         "--distributed-runtime-fixture", str(fixture_path)],
+        capture_output=True, text=True, check=False,
+    )
+    output = result.stdout + result.stderr
+    if valid:
+        if result.returncode != 0 or "D48-C04=PASS cases=6/6" not in output:
+            raise SystemExit(f"distributed retry {label}: valid case refused: {output}")
+    elif result.returncode == 0:
+        raise SystemExit(f"distributed retry {label}: malformed case accepted")
+    elif "fixture" not in output or "Traceback" in output:
+        raise SystemExit(f"distributed retry {label}: no attributable fixture refusal: {output}")
+    checked += 1
+
+def observation(label, changes, expected, case_index=0):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][case_index]["observations"].update(changes)
+    payload["cases"][case_index]["expected"] = expected
+    check(label, payload, True)
+
+check("positive", baseline, True)
+for field in ("deadline_remaining_ms", "queue_age_ms", "max_queue_age_ms",
+              "requested_units", "downstream_available_units", "recovery_available_units",
+              "host_free_slots", "queue_depth"):
+    for value in (True, -1):
+        payload = copy.deepcopy(baseline)
+        payload["cases"][0]["observations"][field] = value
+        check(f"typed-{field}-{value}", payload, False)
+for field, value in (("requested_units", 1.0), ("downstream_available_units", "1"),
+                     ("distributed_trigger", 1), ("cheap_local_operation", 0),
+                     ("semantic_retry_eligible", "true"), ("effect_state", [])):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][0]["observations"][field] = value
+    check(f"typed-{field}", payload, False)
+for field in baseline["cases"][0]["observations"]:
+    payload = copy.deepcopy(baseline)
+    del payload["cases"][0]["observations"][field]
+    check(f"missing-{field}", payload, False)
+for label, changes, expected in (
+    ("deadline-expired", {"deadline_remaining_ms": 0}, "REFUSE"),
+    ("queue-age-over-policy", {"queue_age_ms": 1001, "max_queue_age_ms": 1000}, "REFUSE"),
+    ("queue-age-at-policy", {"queue_age_ms": 1000, "max_queue_age_ms": 1000}, "ADMIT"),
+    ("no-requested-work", {"requested_units": 0}, "REFUSE"),
+    ("semantic-ineligible", {"semantic_retry_eligible": False}, "REFUSE"),
+    ("no-distributed-trigger", {"distributed_trigger": False}, "REFUSE"),
+    ("triggered-cheap-label", {"cheap_local_operation": True}, "REFUSE"),
+    ("host-proxy-not-downstream", {"downstream_available_units": 0,
+                                   "host_free_slots": 10000, "queue_depth": 0}, "REFUSE"),
+    ("queue-proxy-not-recovery", {"recovery_available_units": 0,
+                                 "host_free_slots": 10000, "queue_depth": 0}, "REFUSE"),
+    ("host-proxies-not-an-extra-gate", {"host_free_slots": 0, "queue_depth": 10000}, "ADMIT"),
+):
+    observation(label, changes, expected)
+for state in ("NOT_STARTED", "IN_FLIGHT", "UNKNOWN", "COMMITTED_VERIFIED",
+              "COMPENSATION_PENDING", "COMPENSATED_VERIFIED", "MANUAL_RECONCILIATION"):
+    observation(f"non-retriable-{state}", {"effect_state": state}, "REFUSE")
+for field, value in (("distributed_trigger", True), ("semantic_retry_eligible", True),
+                     ("effect_state", "FAILED_NO_EFFECT"), ("deadline_remaining_ms", 1),
+                     ("queue_age_ms", 1), ("max_queue_age_ms", 1),
+                     ("requested_units", 1), ("downstream_available_units", 1),
+                     ("recovery_available_units", 1)):
+    observation(f"contradictory-cheap-{field}", {field: value}, "REFUSE", 5)
+for label, payload in (("null-root", None), ("list-root", []), ("scalar-root", 7)):
+    check(label, payload, False)
+for field, value in (("schema", "foreign"), ("cell", "foreign"), ("cases", None),
+                     ("extra", True)):
+    payload = copy.deepcopy(baseline)
+    payload[field] = value
+    check(f"schema-{field}", payload, False)
+for label, value in (("null-case", None), ("list-case", []), ("scalar-case", 7)):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][0] = value
+    check(label, payload, False)
+for field, value in (("id", 1), ("expected", True), ("observations", []), ("extra", True)):
+    payload = copy.deepcopy(baseline)
+    payload["cases"][0][field] = value
+    check(f"case-{field}", payload, False)
+payload = copy.deepcopy(baseline)
+payload["cases"][0]["observations"]["extra"] = True
+check("extra-observation", payload, False)
+payload = copy.deepcopy(baseline)
+payload["cases"][1]["id"] = payload["cases"][0]["id"]
+check("duplicate-case", payload, False)
+payload = copy.deepcopy(baseline)
+payload["cases"].pop()
+check("missing-case", payload, False)
+print(f"distributed retry boundary controls: {checked}/{checked}")
+PY
 
 printf 'action-selection-contract.test: ok\n'
