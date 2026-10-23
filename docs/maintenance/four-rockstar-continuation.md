@@ -132,10 +132,13 @@ native plugin discovery, authentic host events or principal-bound effects.
 
 Finish the original isolated final-candidate ActiveGraph 1.10.0 self-dogfood
 requirement or obtain and document a justified, independently reviewed current
-supersession at the original owner boundary. A 1.12.0 isolated library run
-already exercised fourteen actual replay, compaction, archive, suffix,
-corruption and retention stages; it explicitly did not claim full self-dogfood.
-Do not relabel its receipt as the historical 1.10.0 or final-candidate result.
+supersession at the original owner boundary. Exact 1.10.0 installation and
+fourteen unchanged offline library controls now have execution evidence.
+Both 1.10.0 and 1.12.0 also have candidate-bound artifact checking, strict replay,
+compaction, snapshot replay and retirement receipts. Recover their actual
+commit/tree/package/helper bindings from the evidence bundle; a later source
+change requires affected final-candidate checks. Preserve each historical
+receipt's actual version and candidate. None claims full self-dogfood.
 
 Use the existing dogfood broker and verifier. The runner secret, event journal
 custody and independently observed corroboration must be outside the

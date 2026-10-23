@@ -299,6 +299,14 @@ unknown capability, or ambiguous authority yields `UNKNOWN` and
 `MANUAL_RECONCILIATION`, with no retry or terminal-closure permission. Ordinary
 local work without this dependency omits the flag and carrier entirely.
 
+Ordinary result, authority and journal records retain their exact v2 shapes.
+Protected records use v3 of those same schemas, with separate identity bindings,
+fence disposition and authority-guard evidence; protected results also deny
+automatic retry and terminal closure for `UNKNOWN`. Early protected refusals
+report an unevaluated fence and a null guard. A carrier appearing after ordinary
+route selection causes a v3 `UNKNOWN` result; any earlier v2 authority record
+remains the truthful record of the route originally selected.
+
 The sink consumes claim-run's verified receipt token without duplicating its
 legacy/native receipt parser. Immediately before its first protected effect,
 it prepares a verify-only Git reference transaction covering controller,

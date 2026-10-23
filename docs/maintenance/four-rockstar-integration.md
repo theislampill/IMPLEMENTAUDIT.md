@@ -118,6 +118,12 @@ the reference guard is released. Guard loss or uncertain release preserves
 Actual auxiliary Git lock/directory effects are recorded, including unresolved
 residue. No authority ref is updated by the verification guard.
 
+The original fixed v2 result, authority and journal contracts remain unchanged
+for ordinary work. Protected records explicitly use v3. Full-suite integration
+exposed the original unversioned extension; its failing consumer and new early
+refusal/late-carrier witnesses are retained. The repair versions those records
+at the same mutation owner without relaxing the original v2 consumer.
+
 The guarantee is limited to governed helper-routed cooperating writers and the
 qualified Git files backend. It does not fence an arbitrary same-principal
 writer, create an authentic host principal, supply external API idempotency or
@@ -176,13 +182,16 @@ evolvability/superiority claim is made. Prospective SSS/AMA research remains
 unadmitted research; selecting R002D as its continuation carrier did not adopt
 235 new product obligations.
 
-An isolated ActiveGraph 1.12.0 wheel/library experiment exercised fourteen
-actual creation, strict replay, snapshot/archive, suffix, corruption/missing
-blob, horizon and lineage-retention stages. It is not final-candidate
-IMPLEMENTAUDIT self-dogfood. The historical 1.10.0 wheel was hash verified but
-not relabelled as executed. Any reviewed current-version supersession must be
-an explicit acceptance record. Native discovery and a runner-owned
-authentication secret inaccessible to the interpreting model remain separate.
+Exact ActiveGraph 1.10.0 was recovered, installed in isolation and exercised
+against fourteen unchanged offline library controls. Both 1.10.0 and 1.12.0
+also completed candidate-bound artifact checking, strict replay, compaction,
+snapshot replay and closed-run retirement. Their exact version, candidate,
+package, helper-receipt and retained-store identities belong to the qualification
+evidence; earlier executions are never relabelled after a source change. These
+offline results do not establish full IMPLEMENTAUDIT self-dogfood. Any reviewed
+current-version supersession must be an explicit acceptance record. Native
+discovery and a runner-owned authentication secret inaccessible to the
+interpreting model remain separate.
 
 **R002E:** the public 60-property census and ancestor controls remain intact.
 The later actual-purpose policy correction is retained in the native-capture

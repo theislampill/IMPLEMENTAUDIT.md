@@ -227,15 +227,62 @@ else:
                         child.wait(timeout=5)
 
 
-def assert_result(fixture, result, payload, status, reason, target=PREIMAGE):
+V2_RESULT_FIELDS = {
+    "schema", "transaction_id", "claim_id", "phase", "step", "authority_binding_sha256",
+    "coordination_scope", "operation", "status", "reason_code", "source_path",
+    "destination_path", "pre_identities", "candidate_identities", "post_identities",
+    "planned_effect_set", "planned_effect_set_sha256", "actual_effect_set", "residue",
+}
+FENCE_EVIDENCE_FIELDS = {
+    "identity_bindings", "authority_publication_guard", "generation_fence_disposition",
+}
+
+
+def assert_stored_schemas(fixture, payload, protected):
+    transaction = fixture.run / "mutation-transactions" / payload["transaction_id"]
+    expected = {
+        "authority.json": ("authority", {
+            "schema", "transaction_id", "created_at_utc", "claim", "phase", "operation",
+            "source", "destination", "observations", "planned_effect_set",
+            "planned_effect_set_sha256",
+        }),
+        "journal.json": ("journal", {
+            "schema", "transaction_id", "authority_sha256", "status", "pre_identities",
+            "candidate_identities", "current_identities", "planned_effect_set_sha256",
+            "actual_effect_set", "residue", "updated_at_utc",
+        }),
+    }
+    for name, (kind, fields) in expected.items():
+        path = transaction / name
+        if not path.exists() and name == "journal.json":
+            continue
+        record = json.loads(path.read_bytes())
+        version = 3 if protected else 2
+        require(record["schema"] == f"implementaudit.observation-bound-mutation.{kind}.v{version}",
+                f"{kind} schema does not distinguish protected and ordinary records")
+        require(set(record) == fields | (FENCE_EVIDENCE_FIELDS if protected else set()),
+                f"{kind} record changed its versioned keyset")
+    saved_result = json.loads((transaction / "result.json").read_bytes())
+    require(saved_result["schema"] == payload["schema"] and set(saved_result) == set(payload),
+            "persisted result and stdout disagree on their versioned contract")
+
+
+def assert_result(fixture, result, payload, status, reason, target=PREIMAGE, protected=True):
     require(payload.get("status") == status and payload.get("reason_code") == reason,
             f"expected {status}/{reason}, got {payload.get('status')}/{payload.get('reason_code')}; {result.stderr}")
-    expected_exit = {"COMMITTED": 0, "REJECTED_NO_MUTATION": 64,
+    expected_exit = {"COMMITTED": 0, "NO_CHANGE": 0, "REJECTED_NO_MUTATION": 64,
                      "CONFLICT_REBASE": 65, "MUTATION_FAILED_ROLLED_BACK": 71,
                      "UNSUPPORTED_OWNER_DECISION": 77, "UNKNOWN": 78}[status]
     require(result.returncode == expected_exit, f"status/exit mismatch: {result.returncode}")
     require((fixture.repo / "target").read_bytes() == target, "protected target bytes differ")
-    require(payload.get("retry_permitted") is False, "sink granted retry authority")
+    version = 3 if protected else 2
+    require(payload.get("schema") == f"implementaudit.observation_bound_mutation.v{version}",
+            "result schema does not distinguish protected and ordinary records")
+    fields = V2_RESULT_FIELDS | (FENCE_EVIDENCE_FIELDS | {
+        "retry_permitted", "terminal_closure_claim"} if protected else set())
+    require(set(payload) == fields, "result changed its versioned keyset")
+    if protected:
+        require(payload.get("retry_permitted") is False, "sink granted retry authority")
     if status == "UNKNOWN":
         require(payload.get("terminal_closure_claim") == "PROHIBITED",
                 "unknown fence allowed terminal closure")
@@ -253,18 +300,38 @@ def current_generation(fixture, timeout=15):
             payload["identity_bindings"]["generation"]["receipt_oid"] == fixture.receipt,
             "result lost the exact verified receipt identity")
     assert_guard_effects(fixture, payload)
+    assert_stored_schemas(fixture, payload, protected=True)
 
 
 def cheap_local(fixture):
     fixture.fence_path.unlink()
     fixture.fence_path.parent.rmdir()
     result, payload = fixture.invoke()
-    assert_result(fixture, result, payload, "COMMITTED", "NONE", CANDIDATE)
-    require(payload.get("generation_fence_disposition") == "NOT_APPLICABLE",
-            "ordinary local mutation acquired a distributed fence obligation")
+    assert_result(fixture, result, payload, "COMMITTED", "NONE", CANDIDATE, protected=False)
+    assert_stored_schemas(fixture, payload, protected=False)
     require(not fixture.fence_path.parent.exists(), "ordinary local mutation created fence custody")
     require(not any(row["scope"] == "git-common" for row in payload["planned_effect_set"]),
             "ordinary local mutation planned distributed authority locks")
+
+
+def early_result(protected, no_change):
+    def control(fixture):
+        if not protected:
+            fixture.fence_path.unlink()
+        if no_change:
+            fixture.candidate.write_bytes(PREIMAGE)
+            status, reason = "NO_CHANGE", "NONE"
+        else:
+            fixture.candidate.unlink()
+            status, reason = "REJECTED_NO_MUTATION", "PREIMAGE_REQUIRED"
+        result, payload = fixture.invoke(required=protected)
+        assert_result(fixture, result, payload, status, reason, protected=protected)
+        require(not payload["actual_effect_set"], "early result performed an effect")
+        if protected:
+            require(payload["authority_publication_guard"] is None and
+                    payload["generation_fence_disposition"] == "NOT_EVALUATED",
+                    "early protected result invented a verified fence or guard")
+    return control
 
 
 def historical_legacy_receipt(fixture):
@@ -568,6 +635,10 @@ CASES = {
     "native-current-generation": native_current_generation,
     "disabled-reference-hooks": disabled_reference_hooks,
     "cheap-local": cheap_local,
+    "ordinary-early-rejection": early_result(False, False),
+    "ordinary-early-no-change": early_result(False, True),
+    "protected-early-rejection": early_result(True, False),
+    "protected-early-no-change": early_result(True, True),
     "ordinary-legacy-receipt": ordinary_legacy_receipt,
     "protected-legacy-receipt": protected_legacy_receipt,
     "wrong-controller": rejected_change(lambda f: f.fence.update(controller_id="foreign"), "WRONG_CONTROLLER"),

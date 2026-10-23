@@ -44,29 +44,29 @@
 - [x] Run recovered `tests/distributed-runtime-contract.test.sh --cell D48-C04` on baseline; preserve the missing-capacity gate witness.
 - [x] Port only the donor's current missing admission hunks; preserve all newer source and existing fixture IDs.
 - [x] Run six admission controls plus malformed, proxy-capacity and contradictory cheap-path controls; require focused action-selection tests to pass.
-- [ ] Review the semantic boundary: it is a conservative fixture/contract classifier, not a remote admission service or proof of actual downstream capacity.
+- [x] Review the semantic boundary: it is a conservative fixture/contract classifier, not a remote admission service or proof of actual downstream capacity.
 
 ## Task 3: compose the cooperating protected-effect fence
 
-**Writer:** root. **Files:** `skills/implementaudit/scripts/apply-observed-mutation.sh`, `tests/observation-bound-mutation-integrity.test.sh`, `tests/distributed-runtime-contract.test.sh`, distributed fixtures, and bounded existing continuity/PROTOCOL clauses if required.
+**Writer:** root. **Files:** `skills/implementaudit/scripts/apply-observed-mutation.sh`, `tests/distributed_generation_fence.py`, `tests/distributed-runtime-contract.test.sh`, distributed fixtures and the existing mutation-route reference. The original `tests/observation-bound-mutation-integrity.test.sh` remains an unchanged consumer contract; continuity/PROTOCOL changes were not needed.
 
 **Consumes:** donor `c3cd9baf4e0b8a9d5c79dc1603482caa073891aa`; current claim-run continuity and namespace-gate interfaces. **Produces:** source-bound protected request checks at the actual cooperating sink, with durable refusal/recovery evidence.
 
 - [x] Preserve baseline C02 failure and donor RED/GREEN ancestry.
 - [x] Adapt receipt handling to current original fourteen-field v3 and current native ownership; do not restore the donor's obsolete receipt or publication-lock protocol.
-- [ ] Bind request/controller/claim/generation/target and captured fence bytes, then recheck under the existing cooperating writer gate immediately before effect.
-- [ ] Exercise positive, stale/foreign, wrong-target, receipt drift, missing/unsafe fence, replay, partial failure and recovery controls. Explicitly test cooperating publication interaction and retain any unresolved writer boundary.
-- [ ] Hold only a real overlap with unavailable R0039 changes; preserve exact preimages and a concrete tested continuation for any such overlap.
+- [x] Bind request/controller/claim/generation/target and captured fence bytes, then recheck under the existing cooperating writer gate immediately before effect.
+- [x] Exercise positive, stale/foreign, wrong-target, receipt drift, missing/unsafe fence, replay, partial failure and recovery controls. Explicitly test cooperating publication interaction and retain any unresolved writer boundary.
+- [x] Hold only a real overlap with unavailable R0039 changes; preserve exact preimages and a concrete tested continuation for any such overlap.
 
 ## Task 4: repair surviving systems and security boundaries
 
 **Writers:** handoff lane and security lane in disjoint files, assigned by root after reproduced RED.
 
-- [ ] R002D: reproduce any unresolved-current-reference false completion in `check-handoff-packet.sh`; tighten the existing receiving route with focused `handoff-packet-contract` controls. Preserve P007/P012/P032 as distinct semantic obligations.
-- [ ] R002E: pin the projection source accepted by `claim-run-rotation.py::projection_helper` to source-owned length/digest and execute that exact captured buffer. Add bounded canonical-state tests for ordinary, same-size changed, malformed-pin and capture-drift cases.
-- [ ] Keep shell-to-companion custody and actual-purpose policy applicability explicit. Do not claim a complete chain from one repaired edge.
-- [ ] R002C: retain accepted consequence controls unless a new discriminating failure arises; qualify accessible installed behaviour and preserve native-effect/recovery limits.
-- [ ] Reconcile the conditional same-extension amendment; keep prospective SSS research outside admitted product obligations.
+- [x] R002D: reproduce any unresolved-current-reference false completion in `check-handoff-packet.sh`; tighten the existing receiving route with focused `handoff-packet-contract` controls. Preserve P007/P012/P032 as distinct semantic obligations.
+- [x] R002E: pin the projection source accepted by `claim-run-rotation.py::projection_helper` to source-owned length/digest and execute that exact captured buffer. Add bounded canonical-state tests for ordinary, same-size changed, malformed-pin and capture-drift cases.
+- [x] Keep shell-to-companion custody and actual-purpose policy applicability explicit. Do not claim a complete chain from one repaired edge.
+- [x] R002C: retain accepted consequence controls unless a new discriminating failure arises; qualify accessible installed behaviour and preserve native-effect/recovery limits.
+- [x] Reconcile the conditional same-extension amendment; keep prospective SSS research outside admitted product obligations.
 
 ## Task 5: final composition and qualification
 
@@ -74,7 +74,7 @@
 
 - [x] Register the aggregate test once; preserve the canonical CI registry.
 - [ ] Freeze source; run focused suites, one full package gate, reproducible builds, inventory/hash/headroom checks, and isolated official copy/readback routes.
-- [ ] Prepare unprimed positive/cheap/distractor/held-out missions with independent scoring for any accessible installed behavioural claim. Do not label shared-filesystem interpretation as native authenticated self-dogfood.
+- [x] Prepare unprimed positive/cheap/distractor/held-out missions with independent scoring for any accessible installed behavioural claim. Do not label shared-filesystem interpretation as native authenticated self-dogfood.
 - [x] Resolve ActiveGraph's current published version and qualify an isolated custody/replay leg where executable; retain native full self-dogfood requirements.
 - [ ] Obtain issue-specific review plus whole-composition review; repair material findings with preserved RED/GREEN evidence.
 - [ ] Reacquire main and R0035/R0039 identities, publish one draft PR through the GitHub integration with non-closing references, read back head/tree/draft/base, observe hosted CI and repair actual failures.
@@ -91,3 +91,5 @@ Keep issue/owner-coherent commits. Revert only this branch's bounded source and 
 - The receiving-reference review reproduced a mutable packet reread and a path replacement boundary. These findings are retained and assigned back to the existing handoff checker before final qualification.
 - The initial plan's revision-2 budget was corrected against the unchanged current package manifest: revision 3 belongs to accepted R003A, cap 458,752 bytes and reserve 2,000 for each archive. No budget owner or manifest was changed.
 - The unchanged baseline scarce-resource bank requires permitted local sockets and a scratch waitid subreaper on this host; all ten controls then pass. Candidate qualification will preserve those environmental facts.
+- Five fresh installed-interpretation missions received independent scoring: 19 criteria supported, one inspection act unverified, and owner loads not independently sealed. This is bounded advisory evidence, not the complete original activation families.
+- Exactly one draft PR (#251) was published. CI exposed a semantic-fixture hash mismatch, an unmarked historical alias fixture and an actual fixed-v2 schema incompatibility. Each failing witness is retained; full qualification remains open until the exact repaired candidate completes its gates.

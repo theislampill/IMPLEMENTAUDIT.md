@@ -449,7 +449,10 @@ def current_post_rows():
 empty_effect_digest = digest(canonical([]))
 controller_identity = None
 generation_identity = None
-fence_disposition = "NOT_APPLICABLE"
+FENCE_PATH = RUN / "mutation-fences" / f"phase-{args.phase}-step-{args.step}.json"
+protected_route_requested = os.path.lexists(FENCE_PATH) or args.require_generation_fence
+fence_disposition = "NOT_EVALUATED" if protected_route_requested else "NOT_APPLICABLE"
+fence_capture = None
 
 
 def protected_target_fingerprint():
@@ -498,9 +501,30 @@ def identity_bindings(transaction=None, effect_digest=empty_effect_digest):
     }
 
 
+def versioned_fence_fields(schema, transaction=None, effect_digest=empty_effect_digest,
+                           status=None, guard_available=False):
+    # The ordinary v2 contract is fixed. Protected records explicitly opt into
+    # v3; a late carrier refusal must also expose its protected uncertainty.
+    if not protected_route_requested and fence_disposition == "NOT_APPLICABLE":
+        return {"schema": schema + ".v2"}
+    fields = {
+        "schema": schema + ".v3",
+        "identity_bindings": identity_bindings(transaction, effect_digest),
+        "authority_publication_guard": authority_guard_record() if guard_available else None,
+        "generation_fence_disposition": fence_disposition,
+    }
+    if status is not None:
+        fields.update({
+            "retry_permitted": False,
+            "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
+        })
+    return fields
+
+
 def emit_no_effect(status, why, transaction=None):
     result = {
-        "schema": "implementaudit.observation_bound_mutation.v2",
+        **versioned_fence_fields("implementaudit.observation_bound_mutation",
+                                 transaction, status=status),
         "transaction_id": transaction,
         "claim_id": claim_id,
         "phase": args.phase,
@@ -519,10 +543,6 @@ def emit_no_effect(status, why, transaction=None):
         "planned_effect_set_sha256": empty_effect_digest,
         "actual_effect_set": [],
         "residue": [],
-        "identity_bindings": identity_bindings(transaction),
-        "generation_fence_disposition": fence_disposition,
-        "retry_permitted": False,
-        "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
     }
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
@@ -563,9 +583,6 @@ LOCK_ROOT = REPO / ".IMPLEMENTAUDIT" / ".r36-locks"
 LOCK_PARENT = LOCK_ROOT.parent
 LOCK_GATE = LOCK_ROOT / "namespace.gate"
 RELEASED_LOCK_ROOT = TX / "released-locks"
-FENCE_PATH = RUN / "mutation-fences" / f"phase-{args.phase}-step-{args.step}.json"
-protected_route_requested = os.path.lexists(FENCE_PATH) or args.require_generation_fence
-fence_capture = None
 
 if not safe_directory_chain(TX_PARENT, RUN, True):
     emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
@@ -1456,7 +1473,8 @@ def observations():
 
 def authority_record():
     return {
-        "schema": "implementaudit.observation-bound-mutation.authority.v2",
+        **versioned_fence_fields("implementaudit.observation-bound-mutation.authority",
+                                 transaction_id, planned_digest, guard_available=True),
         "transaction_id": transaction_id,
         "created_at_utc": utc_now(),
         "claim": {
@@ -1477,15 +1495,13 @@ def authority_record():
         "observations": observations(),
         "planned_effect_set": planned,
         "planned_effect_set_sha256": planned_digest,
-        "identity_bindings": identity_bindings(transaction_id, planned_digest),
-        "authority_publication_guard": authority_guard_record(),
-        "generation_fence_disposition": fence_disposition,
     }
 
 
 def emit_transaction_conflict(reason_code):
     result = {
-        "schema": "implementaudit.observation_bound_mutation.v2",
+        **versioned_fence_fields("implementaudit.observation_bound_mutation",
+                                 transaction_id, planned_digest, "CONFLICT_REBASE", True),
         "transaction_id": transaction_id,
         "claim_id": claim_id,
         "phase": args.phase,
@@ -1504,11 +1520,6 @@ def emit_transaction_conflict(reason_code):
         "planned_effect_set_sha256": planned_digest,
         "actual_effect_set": actual,
         "residue": [],
-        "identity_bindings": identity_bindings(transaction_id, planned_digest),
-        "authority_publication_guard": authority_guard_record(),
-        "generation_fence_disposition": fence_disposition,
-        "retry_permitted": False,
-        "terminal_closure_claim": "NOT_ASSERTED",
     }
     gate_release_errors = release_window_gate()
     if gate_release_errors:
@@ -1551,7 +1562,8 @@ def residue_row(path):
 
 def result_record(status, reason_code, residue_paths, effect_rows):
     return {
-        "schema": "implementaudit.observation_bound_mutation.v2",
+        **versioned_fence_fields("implementaudit.observation_bound_mutation",
+                                 transaction_id, planned_digest, status, True),
         "transaction_id": transaction_id,
         "claim_id": claim_id,
         "phase": args.phase,
@@ -1570,11 +1582,6 @@ def result_record(status, reason_code, residue_paths, effect_rows):
         "planned_effect_set_sha256": planned_digest,
         "actual_effect_set": list(effect_rows),
         "residue": [residue_row(path) for path in residue_paths if path_identity(path).get("kind") != "absent"],
-        "identity_bindings": identity_bindings(transaction_id, planned_digest),
-        "authority_publication_guard": authority_guard_record(),
-        "generation_fence_disposition": fence_disposition,
-        "retry_permitted": False,
-        "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
     }
 
 
@@ -1699,7 +1706,8 @@ residue = []
 
 def journal_record(status, residue_paths=(), effect_rows=None):
     return {
-        "schema": "implementaudit.observation-bound-mutation.journal.v2",
+        **versioned_fence_fields("implementaudit.observation-bound-mutation.journal",
+                                 transaction_id, planned_digest, guard_available=True),
         "transaction_id": transaction_id,
         "authority_sha256": digest(AUTHORITY.read_bytes()),
         "status": status,
@@ -1710,9 +1718,6 @@ def journal_record(status, residue_paths=(), effect_rows=None):
         "actual_effect_set": list(actual if effect_rows is None else effect_rows),
         "residue": [residue_row(path) for path in residue_paths if path.exists()],
         "updated_at_utc": utc_now(),
-        "identity_bindings": identity_bindings(transaction_id, planned_digest),
-        "authority_publication_guard": authority_guard_record(),
-        "generation_fence_disposition": fence_disposition,
     }
 
 
