@@ -317,7 +317,9 @@ this does not admit a current-host context producer or the accepting OR path.
 
 PL5 native Codex receiving at `79e7137fa61c3c4bc7f3a3eaf338372e6f709972`
 completed nine separate read-only owner actions against the retained constructed
-pair: R1, R2, R3, R5, R6, R7, R8, R9 and R10. STATE completed before ROADMAP;
+pair: controller and currentness checks, generation resolution, receipt
+verification, repeated currentness and resolution, separate STATE/ROADMAP reads,
+and final resolution. STATE completed before ROADMAP;
 the final resolution and all authority refs were unchanged. The fresh context
 reconstructed the fixture identity, frontier, unresolved obligations, next action,
 evidence burden and archived-only limits. The first invocation's policy refusal
