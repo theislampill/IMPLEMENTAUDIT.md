@@ -1013,6 +1013,81 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
     return process.returncode if process.returncode >= 0 else 128 - process.returncode
 
 
+def _registry_membership_snapshot_v1(root):
+    """Acquire the original checker's immediate glob without reading contents.
+
+    The fixed profile accepts ordinary matching files only. Python's glob also
+    yields directories and links; these refuse rather than disappear from the
+    projected namespace. Nonmatching names are observed for acquisition drift,
+    but neither their types nor contents affect this name-only predicate.
+    """
+    if ".." in Path(root).parts:
+        raise WG.WorkGraphError("registry source parent traversal is unqualified")
+    source = Path(os.path.abspath(root))
+    try:
+        source_bytes = len(str(source).encode("utf-8", "strict"))
+    except UnicodeError as exc:
+        raise WG.WorkGraphError("registry source path is not UTF-8") from exc
+    components = source.parts[1:]
+    if len(components) > 128 or source_bytes > 4096:
+        raise WG.WorkGraphError("registry source path bound exceeded")
+    require_source_descriptor_api()
+    chain = []
+    def node_identity(info):
+        return [str(info.st_dev), str(info.st_ino), info.st_mode]
+    def stamp(info):
+        return node_identity(info) + [info.st_size, info.st_mtime_ns, info.st_ctime_ns]
+    try:
+        fd = os.open("/", os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        chain.append((fd, None, node_identity(os.fstat(fd))))
+        for component in (*components, "tests"):
+            fd = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+            chain.append((fd, component, node_identity(os.fstat(fd))))
+        before = stamp(os.fstat(fd))
+        def census():
+            names, total = [], 0
+            with os.scandir(fd) as entries:
+                for entry in entries:
+                    try:
+                        total += len(entry.name.encode("utf-8", "strict"))
+                    except UnicodeError as exc:
+                        raise WG.WorkGraphError("registry membership name is not UTF-8") from exc
+                    names.append(entry.name)
+                    if len(names) > 4096 or total > 1024 * 1024:
+                        raise WG.WorkGraphError("registry membership name/entry bound exceeded")
+            return sorted(names)
+        names = census()
+        members, identities = {}, {}
+        for name in names:
+            if not name.endswith(".test.sh"):
+                continue
+            info = os.stat(name, dir_fd=fd, follow_symlinks=False)
+            if not stat.S_ISREG(info.st_mode):
+                raise WG.WorkGraphError("registry matching member must be an ordinary file")
+            members[name], identities[name] = "FILE", stamp(info)
+        if census() != names or stamp(os.fstat(fd)) != before:
+            raise WG.WorkGraphError("registry membership changed during acquisition")
+        for name, observed in identities.items():
+            if stamp(os.stat(name, dir_fd=fd, follow_symlinks=False)) != observed:
+                raise WG.WorkGraphError("registry member changed during acquisition")
+        for index, (opened, component, observed) in enumerate(chain):
+            if node_identity(os.fstat(opened)) != observed or (index and
+                    node_identity(os.stat(component, dir_fd=chain[index - 1][0], follow_symlinks=False)) != observed):
+                raise WG.WorkGraphError("registry directory chain changed during acquisition")
+        projection = dict(path="tests", pattern="*.test.sh", entries=members,
+            mode=stat.S_IMODE(os.fstat(fd).st_mode), observation="IMMEDIATE_GLOB_NAMES_ONLY_NO_CONTENT_READS")
+        currentness = dict(directory=before, ancestors=[row[2] for row in chain],
+                           census=names, members=identities)
+        return projection, currentness
+    finally:
+        for fd, _, _ in reversed(chain):
+            os.close(fd)
+
+
+def registry_membership_v1(root):
+    return _registry_membership_snapshot_v1(root)[0]
+
+
 class VerifierTaskSession:
     """Live producer custody for a finite, isolated two-real-checker scope.
 
@@ -1024,6 +1099,7 @@ class VerifierTaskSession:
     outside this portable scope.
     """
     SCOPE = "CONTROLLED_TASK_LEAVES_V1"
+    CONTRACTS = WG.VERIFIER_LEAF_CONTRACTS_V1
     ENVIRONMENT = dict(PATH="/usr/bin", LANG="C", LC_ALL="C", TZ="UTC", PYTHONHASHSEED="0")
     LIMITS = dict(cpu_seconds=30, address_bytes=1073741824, file_bytes=8388608,
                   descriptors=4096, scratch_bytes=8388608, wall_seconds=45)
@@ -1184,7 +1260,7 @@ class VerifierTaskSession:
         files["/usr/bin/python"] = (b'#!/usr/bin/bash\nexec /usr/bin/python3.12 -P -S -B "$@"\n', 0o555)
         return files
 
-    def _image(self, files, source_observations):
+    def _image(self, files, source_observations, membership=None):
         members = [dict(path=name, mode=mode, bytes=len(data), sha256=self._object(data))
                    for name, (data, mode) in sorted(files.items())]
         directories = sorted({str(p) for name in files for p in Path(name).parents if str(p) != "/"})
@@ -1198,6 +1274,10 @@ class VerifierTaskSession:
                         namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT",
                         startup="PYTHON_3_12_P_S_B_FIXED_HASHSEED_NO_SITE_NO_BYTECODE",
                         source_projection="READ_BYTES_AND_TYPED_EXISTENCE_PLACEHOLDERS")
+        if membership is not None:
+            manifest["directories"] = sorted(set(directories) | {"/work/tests"})
+            manifest["directory_membership"] = membership
+            manifest["source_projection"] = "READ_BYTES_AND_TYPED_GLOB_NAME_PLACEHOLDERS"
         return manifest, self._object(self._encode(manifest))
 
     @staticmethod
@@ -1214,6 +1294,10 @@ class VerifierTaskSession:
         if self.environment != self.ENVIRONMENT or self._engine_binding() != self._engine:
             raise WG.WorkGraphError("producer source or environment changed")
         state, contents = self._source_state()
+        membership = None
+        if self.SCOPE == "CONTROLLED_TASK_REGISTRY_V1":
+            membership, membership_stamp = _registry_membership_snapshot_v1(self.source)
+            state["registry_membership"] = dict(projection=membership, currentness=membership_stamp)
         registry = contents.get("scripts/verify-package.sh")
         if registry is None:
             raise WG.WorkGraphError("missing tracked verifier registry")
@@ -1221,8 +1305,8 @@ class VerifierTaskSession:
         runtime = self._runtime()
         runtime_manifest, runtime_digest = self._image(runtime, {})
         inputs, images = {}, {}
-        projected = {p for c in WG.VERIFIER_LEAF_CONTRACTS_V1.values() for p in c["reads"] + c["probes"]}
-        for program, contract in WG.VERIFIER_LEAF_CONTRACTS_V1.items():
+        projected = {p for c in self.CONTRACTS.values() for p in c["reads"] + c["probes"]}
+        for program, contract in self.CONTRACTS.items():
             if contents.get(program) is None:
                 raise WG.WorkGraphError("missing tracked checker contract")
             observations = {}
@@ -1241,7 +1325,13 @@ class VerifierTaskSession:
                 if data is not None:
                     files["/work/" + name] = (data, 0o444)
             files["/work/scripts/run-work-graph-verifier.sh"] = (self._regular(ROOT / "scripts/run-work-graph-verifier.sh")[1], 0o555)
-            manifest, digest = self._image(files, observations)
+            leaf_membership = membership if contract.get("membership") == "tests/*.test.sh" else None
+            if leaf_membership is not None:
+                for name in leaf_membership["entries"]:
+                    files["/work/tests/" + name] = (b"", 0o444)
+                observations["directory:tests"] = leaf_membership
+            manifest, digest = (self._image(files, observations) if leaf_membership is None
+                                else self._image(files, observations, leaf_membership))
             node = "COMMAND:" + program + ":0"
             inputs[node] = dict(program_sha256=sha(contents[program]), image_digest=digest)
             images[node] = (files, manifest)
@@ -1259,7 +1349,9 @@ class VerifierTaskSession:
                        directory_modes=state["directories"], process_identity=[self.producer_pid, os.geteuid(), os.getegid()],
                        null_device=[null.st_rdev, stat.S_IMODE(null.st_mode)],
                        source_guard=sha(WG.canonical_json_v1({n: v for n, v in state["files"].items() if n not in projected})))
-        acquired = dict(schema="implementaudit.verifier-acquisition.v1", scope="CONTROLLED_TASK_LEAVES_V1",
+        if membership is not None and _registry_membership_snapshot_v1(self.source) != (membership, membership_stamp):
+            raise WG.WorkGraphError("registry namespace changed during complete acquisition")
+        acquired = dict(schema="implementaudit.verifier-acquisition.v1", scope=self.SCOPE,
                         binding=binding, inputs=inputs)
         # Validate completeness and exact executable profiles before any dispatch.
         WG.compile_verifier_reuse_v1(graph, registry, acquired, {})
@@ -1394,6 +1486,8 @@ class VerifierTaskSession:
         raw["receipt.json"] = self._encode(result)
         self._write(directory / "receipt.json", raw["receipt.json"])
         required = [member["sha256"] for member in manifest["files"]] + [result["source_digest"], manifest["seccomp_sha256"]]
+        if "directory_membership" in manifest:
+            required.append(acquired["acquired"]["inputs"][node["id"]]["image_digest"])
         return result, dict(key=decision["key"], directory=directory, retained=raw,
                             required_objects=required, observed_at=time.monotonic())
 
@@ -1462,13 +1556,23 @@ class VerifierTaskSession:
         self._write(directory / "stdout.log", aggregate_stdout)
         self._write(directory / "stderr.log", aggregate_stderr)
         self._write(directory / "exit-code.txt", (str(code) + "\n").encode())
-        result = dict(schema="implementaudit.verifier-task-consumption.v1", scope="CONTROLLED_TASK_LEAVES_V1",
+        result = dict(schema="implementaudit.verifier-task-consumption.v1", scope=self.SCOPE,
                       producer=self.producer, generation=self.generation, source_digest=source_digest,
                       initial_plan_digest=plan["digest"], nodes=nodes, exit=code, dispatch_count=self.dispatch_count,
                       refused_cached_outputs=refused, omitted_canonical_nodes=plan["omitted_canonical_nodes"],
                       canonical_acceptance="UNQUALIFIED", authority="NONE")
         self._write(directory / "result.json", result)
         return copy.deepcopy(result)
+
+
+class RegistryVerifierTaskSession(VerifierTaskSession):
+    """Explicit three-leaf scope; the historical two-leaf API is unchanged."""
+    SCOPE = "CONTROLLED_TASK_REGISTRY_V1"
+    CONTRACTS = WG.VERIFIER_REGISTRY_CONTRACTS_V1
+
+    def __init__(self, source_root, output, **kwargs):
+        registry_membership_v1(source_root)  # Refuse aliases before base resolution.
+        super().__init__(source_root, output, **kwargs)
 
 
 _PREFIX_PROFILE = None
@@ -1494,7 +1598,7 @@ def create_composed_prefix_session(source_root, output, *, max_age=3600):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["legacy", "dag", "compare", "scoped", "prefix"])
+    parser.add_argument("mode", choices=["legacy", "dag", "compare", "scoped", "registry", "prefix"])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--capture-dist", action="store_true")
@@ -1507,8 +1611,9 @@ def main():
     try:
         if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events or args.retain_repro_events):
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
-        if args.mode in {"scoped", "prefix"} and len(args.paths) == 2:
-            session = (VerifierTaskSession if args.mode == "scoped" else create_composed_prefix_session)(*args.paths)
+        if args.mode in {"scoped", "registry", "prefix"} and len(args.paths) == 2:
+            session = {"scoped": VerifierTaskSession, "registry": RegistryVerifierTaskSession,
+                       "prefix": create_composed_prefix_session}[args.mode](*args.paths)
             # A caller may request another current-source consumption, never
             # inject a receipt, plan, mutation command or claimed process exit.
             status = 0

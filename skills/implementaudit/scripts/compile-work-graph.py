@@ -3535,6 +3535,7 @@ def verifier_command_stream_v1(graph, current_registry_bytes):
         raise WorkGraphError('verifier graph differs from current owner derivation')
     return b''.join((node['id'].encode() + b'\x00' + node['source'].encode() + b'\x00' for node in graph['nodes']))
 VERIFIER_LEAF_CONTRACTS_V1 = {'scripts/check-readme-toc.sh': dict(sha256='9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638', reads=['README.md'], probes=[]), 'scripts/check-agents-bootstrap-budget.sh': dict(sha256='be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078', reads=['AGENTS.md'], probes=['docs/audits/RETENTION.md', 'tests/agents-bootstrap-budget.test.sh'])}  # source repo
+VERIFIER_REGISTRY_CONTRACTS_V1 = {**VERIFIER_LEAF_CONTRACTS_V1, 'scripts/check-validation-registry.sh': dict(sha256='c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee', reads=['scripts/verify-package.sh', '.github/workflows/validate.yml'], probes=[], membership='tests/*.test.sh')}
 
 def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     """Derive a bounded task plan. The real acquirer owns input facts; the
@@ -3543,11 +3544,13 @@ def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     """
     verifier_command_stream_v1(graph, registry)
     _require_exact_members(acquired, {'schema', 'scope', 'binding', 'inputs'}, 'verifier acquisition')
-    if acquired['schema'] != 'implementaudit.verifier-acquisition.v1' or acquired['scope'] != 'CONTROLLED_TASK_LEAVES_V1':
+    _require_string(acquired['scope'], 'verifier acquisition scope')
+    contracts = {'CONTROLLED_TASK_LEAVES_V1': VERIFIER_LEAF_CONTRACTS_V1, 'CONTROLLED_TASK_REGISTRY_V1': VERIFIER_REGISTRY_CONTRACTS_V1}.get(acquired['scope'])
+    if acquired['schema'] != 'implementaudit.verifier-acquisition.v1' or contracts is None:
         raise WorkGraphError('unsupported verifier acquisition scope')
     _require_object(acquired['binding'], 'verifier binding')
     _require_object(issued, 'issued verifier keys')
-    names = {'COMMAND:' + path + ':0' for path in VERIFIER_LEAF_CONTRACTS_V1}
+    names = {'COMMAND:' + path + ':0' for path in contracts}
     _require_exact_members(acquired['inputs'], names, 'verifier input population')
     if not set(issued).issubset(names):
         raise WorkGraphError('foreign issued verifier population')
@@ -3555,7 +3558,7 @@ def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     for node in graph['nodes']:
         if node['id'] not in names:
             continue
-        contract = VERIFIER_LEAF_CONTRACTS_V1[node['command']]
+        contract = contracts[node['command']]
         if node['source'].strip() != 'bash ' + node['command']:
             raise WorkGraphError('unsupported verifier invocation')
         inputs = acquired['inputs'][node['id']]

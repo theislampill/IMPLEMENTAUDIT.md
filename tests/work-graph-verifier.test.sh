@@ -16,4 +16,5 @@ else py_cmd=(py -3); fi
 "${py_cmd[@]}" tests/work-graph-verifier-cases.py
 "${py_cmd[@]}" tests/work-graph-stream-cases.py
 "${py_cmd[@]}" tests/work-graph-prefix-cases.py
+"${py_cmd[@]}" tests/work-graph-registry-cases.py
 "${py_cmd[@]}" tests/work-graph-repro-events-cases.py ProfileCases FailureCases DurabilityCases QualifierCases

@@ -26,8 +26,8 @@ new dispatch. A new process must execute again. The process exits nonzero if
 any completed consumption failed, and exits 2 for an acquisition or contract
 refusal. No request means no execution or qualification.
 
-The supported leaves are exactly these registry commands, with their complete
-script bytes pinned in `VERIFIER_LEAF_CONTRACTS_V1`:
+The default `scoped` route supports exactly these registry commands, with their
+complete script bytes pinned in `VERIFIER_LEAF_CONTRACTS_V1`:
 
 | Command | Semantic reads | Existence probes | Outputs and coupling |
 | --- | --- | --- | --- |
@@ -47,7 +47,8 @@ checker and exposes its actual failure output.
 
 `compile_verifier_reuse_v1` is an additional pure API in the single existing
 compiler. It rederives the exact canonical registry mapping and stream seal,
-then accepts only the complete two-leaf acquisition schema. It selects
+then accepts the complete two-leaf acquisition schema for the default
+`CONTROLLED_TASK_LEAVES_V1` scope. It selects
 execution or consumption by keys that bind the graph, profile, observer
 binding, node, pinned contract and captured input image. Supplying fabricated
 JSON to this pure API proves no observation or execution.
@@ -110,6 +111,58 @@ transaction. The cross-generation key for these Git-free leaves depends on
 their acquired execution inputs and source guard, rather than using commit
 metadata as an unconditional invalidator. This does not relax the separate
 native candidate/currentness contract, which continues to invalidate globally.
+
+## Opt-in registry membership scope
+
+The explicit `registry` route adds the unchanged validation-registry checker to
+the two default leaves under `CONTROLLED_TASK_REGISTRY_V1`:
+
+```bash
+printf '%s\n' '{"operation":"run"}' '{"operation":"run"}' |
+  /usr/bin/python3 -B scripts/qualify-work-graph-verifier.py registry \
+  /absolute/candidate /absolute/fresh-evidence
+```
+
+`VERIFIER_REGISTRY_CONTRACTS_V1` pins the complete
+`scripts/check-validation-registry.sh` bytes to SHA-256
+`c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee`.
+The added leaf reads `scripts/verify-package.sh` and
+`.github/workflows/validate.yml` as bytes, and the immediate
+`tests/*.test.sh` names. The name population includes hidden and untracked
+matches. No ambient tests directory is mounted: acquired names become typed
+empty regular-file placeholders because this pinned checker reads names only.
+The image declares the actual tests directory even when its glob is empty;
+the original checker then emits `no tests/*.test.sh found` and exits 1.
+
+Acquisition holds no-follow descriptors from the absolute source root's
+ancestors through `tests`, bounded to 128 source-path components and 4,096
+UTF-8 path bytes before any descriptor opens. Parent traversal components
+refuse before path normalization. Both directory censuses are
+bounded to 4,096 total immediate entries and 1 MiB of UTF-8 name bytes.
+Directory identities, matching member identities and before/after population
+checks refuse observed replacement or drift. Missing directories and matching
+symlinks, directories or special files refuse instead of silently disappearing
+from the observed glob.
+
+`RegistryVerifierTaskSession` uses the same sealed runtime, actual execution
+and live receipt consumer. Unchanged successful results can be reused;
+untracked matching-name insertion/removal and CI content changes affect the
+registry image independently of the two earlier leaves. The global
+conservative source guard remains: tracked test-content changes outside the
+declared reads/probes still invalidate all three results. This profile does
+not claim content-only preservation for arbitrary tracked tests. Failed
+registry executions never become reusable successes. All three selected leaves
+are consumed and their exits aggregated; this finite scope makes no canonical
+shared-shell fail-fast claim.
+
+The registry node is index 112 of the original 117-node mapping, outside the
+first 23 nodes. This profile selects three nodes and omits 114. Its union with
+the separately qualified prefix23 covers 24 distinct original nodes, leaving
+93 outside that union; the two default leaves already overlap prefix23.
+These counts do not extend the canonical ordered prefix or reinterpret older
+qualification denominators. The default two-leaf API remains unchanged, and
+this scope supplies no general post-JOIN successor, native currentness or
+canonical predecessor-substitution acceptance.
 
 ## Full-run observation and retained-record integrity
 

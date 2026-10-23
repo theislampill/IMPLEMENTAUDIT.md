@@ -86,6 +86,16 @@ affected leaves; failed/stale/missing/corrupt results cannot be reused.
 This finite profile has no semantic file outputs and grants no canonical
 predecessor substitution or native currentness.
 
+The explicit repository qualifier `registry` route uses
+CONTROLLED_TASK_REGISTRY_V1: the two leaves plus the unchanged validation-registry
+checker. Its complete bounded immediate `tests/*.test.sh` population includes
+untracked and dot names. Acquired names become typed empty-file placeholders;
+test contents are not checker inputs. Missing directories, matching links,
+directories/special objects and acquisition drift refuse. An empty acquired
+population reaches the original checker failure. CI/registry text is acquired
+as bytes. The default two-leaf API is unchanged; other tracked source remains
+conservatively bound. This adds no canonical predecessor substitution.
+
 No hook is installed. Interlock requires current graph, exact R003A host session/object, R0036 task/executor,
 authenticated R0033 facts, authority/effect capability, covered tool path and
 trusted hook/failure semantics. Native transition/JOIN, capacity/discovery,
