@@ -681,6 +681,9 @@ bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh
 bash tests/closure-surface-contract.test.sh
 bash tests/authorization-binding-contract.test.sh
+bash tests/host-session-binding-hardening.test.sh
+bash tests/host-session-binding.test.sh
+bash tests/host-session-terminal.test.sh
 bash tests/scarce-resource-rehearsal-contract.test.sh
 bash tests/R000B-R001E-review-heldouts.test.sh
 bash tests/durable-identity-contract.test.sh

@@ -236,10 +236,10 @@ native qualification. These checks prevent path redirection; they do not
 authenticate against an equally privileged process that can modify held objects.
 
 The canonical package remains version 0.4.0 / family v0.4.0.0, one governor and
-four children. Prospective budget revision 2 permits 393,216 compressed bytes
-per projection and requires a 2,000-byte reserve, so each artifact must be at
-most 391,216 bytes. The original 327,680-byte cap and its recorded failures retain
-their historical scope. Both generated inventories and isolated plugin/standalone copy routes
+four children. Owner-approved prospective budget revision 3 permits 458,752
+compressed bytes per projection with a 2,000-byte reserve: at most 456,752 bytes
+per artifact. Revisions 1 and 2 retain their 327,680 and 393,216-byte caps and
+original failures as historical evidence. Both generated inventories and isolated plugin/standalone copy routes
 must contain the exact bound helper pair. A source or portable fixture result
 does not confer native Windows, host discovery, install, release or campaign
 qualification. Source reviews and fresh-context canaries bind an immutable

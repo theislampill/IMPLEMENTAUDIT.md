@@ -92,17 +92,7 @@ HISTORICAL_BUDGETS = {
         "locked_before_builder_change": True,
     },
 }
-EXPECTED_BUDGET_REVISION = {
-    "revision": 2,
-    "applicability": "prospective",
-    "owner": "R0039",
-    "supersedes_revision": 1,
-    "owner_approval": {
-        "path": "package/budgets/r0039-v2-owner-approval.md",
-        "sha256": "c5575774aae04aeb65de98390831e76c9971da570dc60f0b4eadad2aa2da1582",
-    },
-}
-EXPECTED_BUDGETS = {
+R0039_BUDGETS = {
     role: {
         "artifact_role": role,
         "measurement": "final_deterministic_compressed_bytes",
@@ -112,6 +102,20 @@ EXPECTED_BUDGETS = {
         "owner": "R0039",
     }
     for role in EXPECTED_PROJECTIONS
+}
+EXPECTED_BUDGET_REVISION = {
+    "revision": 3,
+    "applicability": "prospective",
+    "owner": "R003A",
+    "supersedes_revision": 2,
+    "owner_approval": {
+        "path": "package/budgets/r003a-v3-owner-approval.md",
+        "sha256": "21e1affebd7de32a91e578a601671efd1c1acdd8a06df2074eda287e0c9cf0d1",
+    },
+}
+EXPECTED_BUDGETS = {
+    role: {**budget, "cap_bytes": 458752, "owner": "R003A"}
+    for role, budget in R0039_BUDGETS.items()
 }
 TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
 INVENTORY_NAME = "IMPLEMENTAUDIT_INVENTORY.json"
@@ -215,7 +219,8 @@ def validate_contract(root: Path) -> dict[str, Any]:
     require_equal(
         "budget_revision", contract.get("budget_revision"), EXPECTED_BUDGET_REVISION
     )
-    require_equal("budget_history", contract.get("budget_history"), {"1": HISTORICAL_BUDGETS})
+    require_equal("budget_history", contract.get("budget_history"),
+                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS})
     require_equal("budgets", contract.get("budgets"), EXPECTED_BUDGETS)
     require_equal(
         "generic_activegraph_dependency",
