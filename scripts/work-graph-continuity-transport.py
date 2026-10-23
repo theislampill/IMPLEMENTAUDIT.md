@@ -11,6 +11,9 @@ readonly before any owner runs. Direct memfd/--ro-bind-data mounts have link cou
 zero and are incompatible with the unchanged custody owners. A private root and
 source subtree prevent a host-side parent replacement redirecting nested source
 reopens. Repository/common-directory binds retain the real declared paths/cwd.
+Private sealed python/python3 wrappers force isolated, no-site, no-bytecode
+startup even after the unchanged owner rebuilds its environment. Their readonly
+host-binary alias keeps sys.executable's parent in the owner's rebuilt PATH.
 
 This is a trusted readonly helper profile, not a generic hostile-code executor or
 an effect interlock. Host Python/Bash/Git and their root-owned system libraries
@@ -45,7 +48,9 @@ SOURCE_PROFILE_V1 = (
     ("canonical_custody.py", 33629, "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f", 0o755),
 )
 _HOST_ROOTS = ("/usr", "/bin", "/sbin", "/lib", "/lib64", "/etc", "/dev", "/proc")
-_MARKER = b"implementaudit.continuity-mounted-source.v1\t"
+_PYTHON_DIRECTORY = "/implementaudit-python"
+_PYTHON_ALIAS = _PYTHON_DIRECTORY + "/cpython"
+_MARKER = b"implementaudit.continuity-mounted-source.v2\t"
 _MAX_STDOUT = 8192
 _MAX_STDERR = 32768
 _TIMEOUT = 30
@@ -168,7 +173,7 @@ def _trusted(name):
 
 
 def _environment():
-    result = dict(PATH="/usr/bin:/bin", LC_ALL="C", PYTHONDONTWRITEBYTECODE="1",
+    result = dict(PATH=_PYTHON_DIRECTORY + ":/usr/bin:/bin", LC_ALL="C", PYTHONDONTWRITEBYTECODE="1",
                   PYTHONNOUSERSITE="1", PYTHONSAFEPATH="1", GIT_ATTR_NOSYSTEM="1",
                   GIT_CONFIG_GLOBAL="/dev/null", GIT_CONFIG_SYSTEM="/dev/null",
                   GIT_CONFIG_NOSYSTEM="1", GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1",
@@ -229,8 +234,17 @@ import hashlib,json,os,pathlib,stat
 request=json.loads(sys.argv[1])
 if os.getcwd()!=request["repository"]:
     raise RuntimeError("declared repository cwd changed")
+startup=dict(profile="ISOLATED_CPYTHON_V1",isolated=bool(sys.flags.isolated),
+             no_site=bool(sys.flags.no_site),dont_write_bytecode=bool(sys.flags.dont_write_bytecode))
+if startup!=request["startup"] or sys.executable!=request["python"] or not sys.dont_write_bytecode:
+    raise RuntimeError("Python startup is not the isolated private alias")
+alias=pathlib.Path(sys.executable)
+if (not stat.S_ISREG(alias.lstat().st_mode) or
+    not os.statvfs(alias).f_flag & os.ST_RDONLY or
+    not os.path.samestat(alias.stat(),pathlib.Path(request["host_python"]).stat())):
+    raise RuntimeError("Python alias is not the readonly trusted host binary")
 observed=[]
-for row in request["members"]:
+for row in request["members"]+request["startup_members"]:
     path=pathlib.Path(row["path"])
     for parent in (path.parent,*path.parents):
         info=parent.lstat()
@@ -249,10 +263,14 @@ for row in request["members"]:
         not os.statvfs(path).f_flag & os.ST_RDONLY):
         raise RuntimeError("mounted source differs from sealed closure")
     observed.append(dict(row,links=before.st_nlink,readonly=True))
-if sorted(p.name for p in pathlib.Path(request["members"][0]["path"]).parent.iterdir())!=sorted(r["name"] for r in observed):
+members=observed[:len(request["members"])]
+startup_members=observed[len(request["members"]):]
+if sorted(p.name for p in pathlib.Path(members[0]["path"]).parent.iterdir())!=sorted(r["name"] for r in members):
     raise RuntimeError("mounted source population is not closed")
-message=json.dumps(dict(repository=os.getcwd(),members=observed),sort_keys=True,separators=(",",":"))
-sys.stderr.write("implementaudit.continuity-mounted-source.v1\t"+message+"\n")
+if sorted(p.name for p in alias.parent.iterdir())!=sorted([alias.name]+[r["name"] for r in startup_members]):
+    raise RuntimeError("private Python startup population is not closed")
+message=json.dumps(dict(repository=os.getcwd(),members=members,startup=startup,startup_members=startup_members),sort_keys=True,separators=(",",":"))
+sys.stderr.write("implementaudit.continuity-mounted-source.v2\t"+message+"\n")
 sys.stderr.flush()
 os.execv(request["bash"],[request["bash"],request["members"][0]["path"],*request["arguments"]])
 '''
@@ -294,7 +312,7 @@ def call_readonly_v1(owner, *, repository, sources, arguments):
         common_pin = _Directory(common)
         directories.append(common_pin)
         for path in (source_dir, repository, common):
-            if path == Path("/") or any(path.is_relative_to(Path(root)) for root in _HOST_ROOTS):
+            if path == Path("/") or any(path.is_relative_to(Path(root)) for root in (*_HOST_ROOTS, _PYTHON_DIRECTORY)):
                 _refuse("TOPOLOGY_REFUSED", "source/data topology overlaps trusted host mounts")
         command = [bwrap, "--unshare-user", "--unshare-net", "--cap-drop", "ALL", "--die-with-parent", "--clearenv"]
         for root in _HOST_ROOTS:
@@ -321,8 +339,19 @@ def call_readonly_v1(owner, *, repository, sources, arguments):
             if any(path.is_relative_to(overlay) for path in bindings):
                 _refuse("TOPOLOGY_REFUSED", "source overlay would hide Git custody")
             command += ["--tmpfs", str(overlay)]
-        command += ["--dir", str(source_dir)]
-        for (_, raw), row in zip(sources, manifests):
+        command += ["--dir", str(source_dir), "--dir", _PYTHON_DIRECTORY,
+                    "--ro-bind", python, _PYTHON_ALIAS]
+        # All six qualified source bodies use sys.executable only to rebuild
+        # PATH. The binary alias preserves this private parent, so even the
+        # owner's narrowed environment resolves nested python/python3 here.
+        wrapper = ("#!" + bash + "\nexec " + _PYTHON_ALIAS + ' -I -S -B "$@"\n').encode("utf-8")
+        startup_members = [dict(name=name, path=_PYTHON_DIRECTORY + "/" + name,
+                               bytes=len(wrapper), sha256=hashlib.sha256(wrapper).hexdigest(), mode=0o755)
+                           for name in ("python", "python3")]
+        startup = dict(profile="ISOLATED_CPYTHON_V1", isolated=True, no_site=True, dont_write_bytecode=True)
+        sealed = list(zip((raw for _, raw in sources), manifests))
+        sealed += [(wrapper, row) for row in startup_members]
+        for raw, row in sealed:
             fd = os.memfd_create("implementaudit-" + row["name"], os.MFD_CLOEXEC | os.MFD_ALLOW_SEALING)
             descriptors.append(fd)
             view = memoryview(raw)
@@ -341,8 +370,9 @@ def call_readonly_v1(owner, *, repository, sources, arguments):
         command += ["--remount-ro", "/", "--chdir", str(repository)]
         for key, value in sorted(environment.items()):
             command += ["--setenv", key, value]
-        request = dict(repository=str(repository), members=manifests, bash=bash, arguments=arguments)
-        command += [python, "-I", "-S", "-B", "-c", _CHILD, json.dumps(request, separators=(",", ":"))]
+        request = dict(repository=str(repository), members=manifests, bash=bash, arguments=arguments,
+                       startup=startup, startup_members=startup_members, python=_PYTHON_ALIAS, host_python=python)
+        command += [_PYTHON_ALIAS, "-I", "-S", "-B", "-c", _CHILD, json.dumps(request, separators=(",", ":"))]
         for directory in directories:
             directory.verify()
         _sources(owner, sources, source_dir, before)
@@ -353,7 +383,8 @@ def call_readonly_v1(owner, *, repository, sources, arguments):
         if not separator or not first.startswith(_MARKER) or _MARKER in owner_stderr:
             _refuse("NAMESPACE_REFUSED", "no unique completed mounted-source observation")
         observation = json.loads(first[len(_MARKER):].decode("utf-8", "strict"))
-        expected = dict(repository=str(repository), members=[dict(row, links=1, readonly=True) for row in manifests])
+        expected = dict(repository=str(repository), members=[dict(row, links=1, readonly=True) for row in manifests],
+                        startup=startup, startup_members=[dict(row, links=1, readonly=True) for row in startup_members])
         if observation != expected:
             _refuse("OBSERVATION_REFUSED", "child read a different source closure or cwd")
         for fd in descriptors:
@@ -362,8 +393,9 @@ def call_readonly_v1(owner, *, repository, sources, arguments):
         _sources(owner, sources, source_dir, before)
         for directory in directories:
             directory.verify()
-        closure = dict(schema="implementaudit.continuity-source-closure.v1", repository=str(repository),
-                       members=[dict(row, seals=_ALL_SEALS) for row in observation["members"]])
+        closure = dict(schema="implementaudit.continuity-source-closure.v2", repository=str(repository),
+                       members=[dict(row, seals=_ALL_SEALS) for row in observation["members"]],
+                       startup=observation["startup"])
         result = dict(returncode=status, stdout=stdout, stderr=owner_stderr,
                       transport_stderr=first + b"\n", closure=closure)
     except ContinuityTransportError as exc:

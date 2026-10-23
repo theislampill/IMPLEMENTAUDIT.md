@@ -16,6 +16,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import tempfile
@@ -102,6 +103,68 @@ def require_host():
         if REQUIRE_SUPPORTED_HOST:
             raise AssertionError(message)
         raise unittest.SkipTest(message + "; positive kernel/owner controls not qualified")
+
+
+def exercise_python_startup(case, label, receipt):
+    """An unchanged nested owner must not import Python source from repo cwd."""
+    commands = (("--current-controller",),
+                ("--require-current-continuity", FIXTURES.CONTROLLER),
+                ("--verify-resume-receipt", receipt))
+    expected = [case.fixture.claim(*arguments) for arguments in commands]
+    for baseline in expected:
+        case.assertEqual(baseline.returncode, 0, baseline.stderr)
+    poison = case.fixture.repo / "datetime.py"
+    case.assertFalse(poison.exists())
+    poison.write_text("import os\nos.write(2,b'OUTSIDE_SIX_SOURCE_EXECUTED\\n')\n"
+                      "raise RuntimeError('OUTSIDE_SIX_SOURCE_EXECUTED')\n")
+    before = snapshot(case.fixture.repo)
+    original = subprocess.Popen
+    tracing = os.environ.get("R0035_TRANSPORT_TRACE") == "1"
+    try:
+        for arguments, baseline in zip(commands, expected):
+            with case.subTest(command=arguments[0], fixture=label):
+                trace = EVIDENCE / (label + "-startup-" + arguments[0][2:] + ".trace")
+                def traced(command, **kwargs):
+                    if tracing and Path(command[0]).name == "bwrap":
+                        command = ["/usr/bin/strace", "-f", "-v", "-yy", "-s", "2048", "-o", str(trace),
+                                   "-e", "trace=openat,execve,write", *command]
+                    return original(command, **kwargs)
+                with mock.patch.object(subprocess, "Popen", side_effect=traced):
+                    observed = case.call(*arguments)
+                save_result(label + "-cwd-module-" + arguments[0][2:], observed)
+                case.assertEqual((observed["returncode"], observed["stdout"], observed["stderr"]),
+                                 (baseline.returncode, baseline.stdout, baseline.stderr))
+                if tracing:
+                    lines = trace.read_text().splitlines()
+                    case.assertFalse(any("openat(" in line and '<' + str(poison) + '>' in line for line in lines),
+                                     "nested Python opened the repository marker module")
+                    case.assertFalse(any("write(" in line and "OUTSIDE_SIX_SOURCE_EXECUTED" in line for line in lines))
+                    binaries, wrappers = [], []
+                    for line in lines:
+                        match = re.search(r'\bexecve\("([^"]+)", \[', line)
+                        if not match or not re.fullmatch(r"(?:cpython|python(?:3(?:\.\d+)?)?)", Path(match[1]).name):
+                            continue
+                        case.assertIn(match[1], ("/implementaudit-python/cpython", "/implementaudit-python/python",
+                                                "/implementaudit-python/python3"), "unisolated host Python executed")
+                        if match[1].endswith("/cpython"):
+                            case.assertIn('["/implementaudit-python/cpython", "-I", "-S", "-B", ', line)
+                            binaries.append(line)
+                        else:
+                            wrappers.append(line)
+                    case.assertGreaterEqual(len(binaries), 2, "bootstrap and actual owner Python were not traced")
+                    case.assertTrue(wrappers, "owner did not execute a private Python wrapper")
+                    case.assertTrue({line.split()[0] for line in wrappers}.issubset(
+                                    {line.split()[0] for line in binaries}), "wrapper did not exec the isolated alias")
+                    if arguments[0] != "--current-controller":
+                        narrowed = [line for line in binaries if '", "-", ' in line and '"PYTHON' not in line]
+                        case.assertTrue(narrowed, "no actual nested validator Python after owner environment narrowing")
+                        case.assertTrue(all('"PATH=/implementaudit-python:' in line for line in narrowed))
+                    save_result(label + "-startup-executions-" + arguments[0][2:],
+                                dict(python_execve=binaries, wrapper_execve=wrappers, poison_module_reads=0))
+        case.assertEqual(snapshot(case.fixture.repo), before,
+                         "startup read wrote bytecode, objects, refs, or run state")
+    finally:
+        poison.unlink()
 
 
 class HostIndependentControls(unittest.TestCase):
@@ -206,11 +269,13 @@ class TransportControls(unittest.TestCase):
                 self.assertEqual(observed["stderr"], expected.stderr)
                 self.assertEqual(observed["returncode"], 0)
                 closure = observed["closure"]
-                self.assertEqual(closure["schema"], "implementaudit.continuity-source-closure.v1")
+                self.assertEqual(closure["schema"], "implementaudit.continuity-source-closure.v2")
                 self.assertEqual(closure["repository"], str(self.fixture.repo))
                 self.assertEqual(tuple(row["name"] for row in closure["members"]), NAMES)
                 self.assertTrue(all(row["readonly"] and row["links"] == 1
                                     and row["seals"] == 15 for row in closure["members"]))
+                self.assertEqual(closure["startup"], dict(profile="ISOLATED_CPYTHON_V1", isolated=True,
+                                                        no_site=True, dont_write_bytecode=True))
                 if prior_closure is not None:
                     self.assertEqual(closure, prior_closure, "closure identity includes ephemeral process state")
                 prior_closure = closure
@@ -294,7 +359,12 @@ class TransportControls(unittest.TestCase):
         with mock.patch.object(subprocess, "Popen", side_effect=inspect):
             result = self.call("--current-controller")
         self.assertEqual(result["returncode"], 0, result["stderr"])
-        self.assertEqual(len(seen), 6)
+        self.assertEqual(len(seen), 8, "six owner sources and two isolated-startup wrappers must be sealed")
+        observation = json.loads(result["transport_stderr"].split(b"\t", 1)[1])
+        self.assertEqual(tuple(row["name"] for row in observation["startup_members"]), ("python", "python3"))
+        self.assertTrue(all(row["readonly"] and row["links"] == 1 and row["mode"] == 0o755
+                            for row in observation["startup_members"]))
+        save_result("kernel-source-and-startup-seals", result)
         for fd in seen:
             with self.assertRaises(OSError) as caught:
                 os.fstat(fd)
@@ -395,6 +465,9 @@ class TransportControls(unittest.TestCase):
             with self.subTest(repository=repository):
                 with self.assertRaises(self.transport.ContinuityTransportError):
                     self.call("--current-controller", repository=repository)
+
+    def test_11_nested_python_ignores_repository_cwd_modules(self):
+        exercise_python_startup(self, "legacy", self.fixture.receipt)
 
 
 class MigratedControls(unittest.TestCase):
@@ -507,6 +580,9 @@ finally:
                 finally:
                     path.write_bytes(raw)
                     path.chmod(mode)
+
+    def test_13_nested_python_ignores_repository_cwd_modules(self):
+        exercise_python_startup(self, "migrated", self.receipt)
 
 
 if __name__ == "__main__":
