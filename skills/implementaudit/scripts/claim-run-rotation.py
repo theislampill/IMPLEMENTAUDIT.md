@@ -1558,7 +1558,7 @@ def _native_predecessor_scope_v1(read, retained):
 # pins its provider artifact; public accepting-core bytes contain no private
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
-_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '00eb69de08f959f7d5f4674dd0f357e5f96a3256981371bc0f54afc0489ab8a1'
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '439b4efaddbe7c3a19b625db0e8480d7a857ebc603be34cb9e9bbec575902581'
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
 _NATIVE_INPUT_BINARY_PIN_V1 = None
@@ -1704,12 +1704,12 @@ def _native_selection_v1(context):
 def _validate_native_revision_v1(context, source, grant, native, *, claimed=False):
     """Consume an already-admitted owner's revision; hashes do not mint authority."""
     selected = _native_selection_v1(context)
-    base = {'schema', 'phase', 'binding', 'exact_usage', 'cutoff_revision',
+    base = {'schema', 'phase', 'binding', 'exact_usage', 'reported_window', 'cutoff_revision',
             'observed_monotonic_ns', 'reservation_id', 'producer_process', 'host_process',
             'source_owner', 'source_contract_sha256', 'provider_selection_sha256', 'episode_binding_sha256',
             'cancellation'}
     if (type(source) is not dict or set(source) != base | ({'executor', 'transaction_id', 'ready_oid'} if claimed else set())
-            or source['schema'] != 'implementaudit.native-rotation-source.v2'
+            or source['schema'] != 'implementaudit.native-rotation-source.v3'
             or source['phase'] != ('CLAIMED' if claimed else 'READY')
             or type(source['reservation_id']) is not str or not re.fullmatch('[0-9a-f]{32}', source['reservation_id'])
             or any(source[key] != selected[key] for key in
@@ -1746,6 +1746,9 @@ def _validate_native_revision_v1(context, source, grant, native, *, claimed=Fals
             or source['cutoff_revision'] <= exact['stream_revision']
             or not 0 <= now_wall - exact['received_at_unix_ms'] <= min(30000, binding['budget_policy']['maximum_age_ms'])):
         raise RotationError('native exact-event cutoff is stale, future or unbound')
+    native.validate_reported_window_v1(source['reported_window'], binding, exact, source['cutoff_revision'])
+    if not source['observed_monotonic_ns'] <= source['reported_window']['received_monotonic_ns'] <= now_mono:
+        raise RotationError('native reported window has a foreign receipt clock')
     for key in ('producer_process', 'host_process'):
         record = source[key]
         if type(record) is not dict or set(record) != {'pid', 'creation_filetime', 'image'} or native_process_identity_v1(record['pid']) != record:
@@ -1778,7 +1781,7 @@ def prepare_native_source_update_v1(context, snapshot, grant, *, expected_source
     under the existing retained-object anchors. No new storage service is added.
     """
     refs = native_input_revision_refs_v1(context)
-    if (type(snapshot) is not dict or snapshot.get('schema') != 'implementaudit.native-rotation-source.v2'
+    if (type(snapshot) is not dict or snapshot.get('schema') != 'implementaudit.native-rotation-source.v3'
             or snapshot.get('phase') not in {'READY', 'REVOKED', 'CLOSED'}
             or type(grant) is not dict or grant.get('schema') != 'implementaudit.native-rotation-owner-grant.v1'
             or any(value is not None and not OID.fullmatch(value) for value in (expected_source_oid, expected_grant_oid))):
@@ -1809,6 +1812,7 @@ def reconcile_native_publication_v1(context, reservation_id):
     if (type(observation) is not dict
             or any(observation.get(key) != value for key, value in source['binding'].items())
             or observation.get('exact_usage') != source['exact_usage']
+            or observation.get('reported_window') != source.get('reported_window')
             or observation.get('cutoff_revision') != source['cutoff_revision']):
         raise RotationError('STOP_NATIVE_SOURCE_CLAIM_HAS_NO_EXACT_ACCEPTED_PUBLICATION')
     resolved = dict(source, phase='CLOSED', resolution={
@@ -1894,6 +1898,7 @@ def _resolve_native_input_state_v1(native, controller):
             borrowed.verify()  # Fresh full tuple after acquisition; never a cached authority.
         state = native.NativeInputState(source['binding'])
         state._snapshot = source['exact_usage']
+        state._reported_window = source['reported_window']
         state._received_monotonic_ns = source['observed_monotonic_ns']
         state._revision = source['cutoff_revision']
         state._quiescent = True

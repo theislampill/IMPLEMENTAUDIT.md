@@ -311,6 +311,8 @@ def nonprotected_fixed_policy(obs, code_pins):
         return pin
     provider = {'profile_id': NONPROTECTED_PROFILE, 'selection_pin': dict(NONPROTECTED_SELECTION_PIN), 'native_version': selected['native_version'], 'native_executable': selected['native_executable'], 'desktop_version': selected['desktop_version'], 'desktop': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_identity_only': selected['config_file']}
     descriptor = {'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1', 'profile_id': NONPROTECTED_PROFILE, 'custody_namespace': 'result-observations-v1', 'qualification_key': 'qualification/Q.json', 'provider_selection': provider, 'authenticating_source_owner': {'issuer_id': 'codex-app-canonical-episode-public-source-v1', 'module_pin': code_pin('compaction-source-owner-codex-app.py'), 'native_reader_pin': code_pin('codex-recovery-native-reader.py'), 'native_binary': selected['native_executable'], 'desktop_executable': selected['desktop_executable'], 'desktop_asar': selected['desktop_asar'], 'config_file': selected['config_file']}, 'exact_host_tuple': {'source_header_cli_version': selected['cli_version'], 'provider_selection_sha256': NONPROTECTED_SELECTION_PIN['sha256'], 'native_version': selected['native_version'], 'native_executable_sha256': selected['native_executable']['sha256'], 'desktop_package_version': selected['desktop_version'], 'desktop_executable_sha256': selected['desktop_executable']['sha256'], 'desktop_asar_sha256': selected['desktop_asar']['sha256'], 'config_sha256': selected['config_file']['sha256']}}
+    if capture['schema'] == 'implementaudit.owned-stdio-live-acquisition.v1':
+        descriptor['provider_selection']['producer_dependencies'] = selected['producer_dependencies']
     value = {'descriptor': descriptor, 'code_and_skill_pins': code_pins}
     return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
 
@@ -882,7 +884,7 @@ def validate_owned_stdio_selection_shape_v1(selected):
     required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source',
         'session_root', 'cwd', 'cli_version', 'native_version', 'native_executable', 'codex_home',
         'runtime_helpers', 'episode_owner', 'pending_owner', 'producer_capture_pin', 'capture_producer_pin', 'tool_evidence_contract'}
-    require(type(selected) is dict and set(selected) - {'c02_adjudication', 'rotation_input_owner'} == required and
+    require(type(selected) is dict and set(selected) - {'c02_adjudication', 'rotation_input_owner', 'producer_dependencies'} == required and
         selected['schema'] == 'implementaudit.codex-owned-stdio-provider-selection.v1' and
         selected['profile_id'] == OWNED_STDIO_PROFILE and selected['cli_version'] == '0.153.4' and
         selected['native_version'] == 'codex-cli 0.153.4' and selected['root_agent_path'] == '/root' and
@@ -911,12 +913,39 @@ def validate_owned_stdio_selection_shape_v1(selected):
             and Path(c02['decision_path']).is_absolute(), 'C02_CONFIGURED_OWNER_ROUTE_SHAPE')
     return selected
 
+def transfer_owned_stdio_interval_v1(runtime, producer, *, after_c5):
+    require(type(after_c5) is bool and OWNED_STDIO_SELECTION_PIN is not None and runtime[0] == _np_selection(),
+            'LIVE_INTERVAL_FIXED_SELECTION_REQUIRED')
+    executing = __import__('types').SimpleNamespace(**globals())
+    def read_release():
+        path = HERE / 'compaction-audit-pending.py'
+        pin = {'path':str(path),'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+        pending = _np_module(pin,'compaction-audit-pending.py',runtime[1])
+        return pending.read_selected_accepted_episode_v1()
+    with _as_provider_guard_v1(runtime):
+        return runtime[3].transfer_live_interval_v1(runtime,producer,executing,read_release if after_c5 else None)
+
+def own_live_stdio_process_v1(native_process, producer_pins, *, emit, native_module=None):
+    # An unadmitted capture factory, not a profile/grant or subprocess launcher.
+    require(type(producer_pins) is dict and set(producer_pins) == {'helper','runner','loop','claim','source_owner'},
+            'LIVE_PRODUCER_PIN_POPULATION')
+    require(producer_pins['source_owner']['path'] == str(Path(__file__).absolute()), 'LIVE_ACTUAL_PRODUCER_SOURCE_PATH')
+    helper = _np_module(producer_pins['helper'],'bounded_source_owner.py')
+    claim = helper.load_live_claim_v1(producer_pins['claim'],_np_read_pin)
+    executing_owner = __import__('types').SimpleNamespace(**globals())
+    return helper.OwnedStdioLiveProducerV1(native_process, executing_owner, claim,
+        producer_pins, emit=emit, native_module=native_module)
+
 def _as_capture_v1(selected, custody=None):
     import json
     raw = _np_read_pin(selected['producer_capture_pin'], 512 * 1024, custody)
     capture = json.loads(raw, object_pairs_hook=_ordinary_unique_v1)
     producer = _np_read_pin(selected['capture_producer_pin'], 128 * 1024, custody)
     schema = capture.get('schema')
+    if schema == 'implementaudit.owned-stdio-live-acquisition.v1':
+        helper = _np_module(selected['runtime_helpers']['bounded_source_owner.py'], 'bounded_source_owner.py', custody)
+        return helper.validate_live_capture_v1(selected, capture, lambda pin, bound: _np_read_pin(pin,bound,custody))
+    require('producer_dependencies' not in selected, 'CLOSED_CAPTURE_HAS_LIVE_ONLY_DEPENDENCIES')
     generic = schema == 'implementaudit.owned-stdio-source-acquisition.v1'
     require((generic and capture.get('status') == 'SOURCE_CAPTURED_UNADMITTED' or
         schema == 'r0039.native-two-boundary-capture.v1' and capture.get('status') == 'ACTUAL_TWO_BOUNDARY_CAPTURED_UNADMITTED') and
@@ -951,8 +980,12 @@ def _as_provider_guard_v1(runtime):
             before = protocol.file_pin(Path(binary['path']))
             require(before['sha256'] == binary['sha256'] and before['bytes'] == binary['bytes'], 'OWNED_STDIO_BINARY_CHANGED')
             capture = _as_capture_v1(selected, custody)
+            if capture['schema'] == 'implementaudit.owned-stdio-live-acquisition.v1':
+                claim_pin = selected['producer_dependencies']['claim-run-rotation.py']
+                claim = _np_module(claim_pin, 'claim-run-rotation.py', custody)
+                held.enter_context(helpers.held_live_capture_v1(selected,capture,claim))
             source = helpers.header({'path': selected['root_source']})
-            frozen = capture['source'] if capture['schema'] == 'implementaudit.owned-stdio-source-acquisition.v1' else capture['boundaries'][-1]['source']
+            frozen = capture['source'] if capture['schema'] in {'implementaudit.owned-stdio-source-acquisition.v1','implementaudit.owned-stdio-live-acquisition.v1'} else capture['boundaries'][-1]['source']
             require({key: source['physical'][key] for key in ('device', 'inode')} == frozen['physical'], 'OWNED_STDIO_CAPTURE_PHYSICAL_CHANGED')
             context = {'parent': {'path': selected['root_source'], 'physical': frozen['physical'],
                 'metadata': {'bytes': source['header_prefix']['bytes']}}}
@@ -988,6 +1021,8 @@ def _as_fixed_policy_v1(obs, code_pins, selected):
             'provider_selection_sha256': OWNED_STDIO_SELECTION_PIN['sha256'], 'native_version': selected['native_version'],
             'native_executable_sha256': selected['native_executable']['sha256'],
             'producer_capture_sha256': selected['producer_capture_pin']['sha256'], 'codex_home': selected['codex_home']}}
+    if capture['schema'] == 'implementaudit.owned-stdio-live-acquisition.v1':
+        descriptor['provider_selection']['producer_dependencies'] = selected['producer_dependencies']
     value = {'descriptor': descriptor, 'code_and_skill_pins': code_pins}
     return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
 
@@ -1068,13 +1103,6 @@ def _as_public_binding_v1(obs, context, policy, pins, runtime):
         'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}
 
 
-# Same existing-loop bookkeeping, no new reader.
-"""Opt-in bookkeeping on the EXISTING owned-stdio loop; no new transport/store.
-
-This conservative profile supports one owner-started, no-tools 0.153.4 thread.
-Actual owner/profile admission remains external. A receipt is a live capability,
-not a caller-authored terminal flag or a claim of an exhaustive host taxonomy.
-"""
 import threading
 import queue
 
@@ -1092,7 +1120,12 @@ class OwnedStdioQuiescenceV1:
         self._selected_thread_id = selected_thread_id
         self._lock = threading.RLock()
         self._pending, self._seen_ids = {}, set()
-        self._turns, self._items, self._completed = set(), set(), set()
+        self._turns, self._items, self._completed = set(), {}, set()
+        self._mcp, self._remote_seen = {}, False
+        self._lifecycle = False
+        self._lifecycle_validator = None
+        self._compaction_expected = 0
+        self._children = set()
         self._revision = 0
         self._initialized = False
         self._notified = False
@@ -1120,10 +1153,9 @@ class OwnedStdioQuiescenceV1:
             raise errors[0]
 
     def before_send(self, message):
-        """Existing sender calls this before writing, including notifications."""
         with self._lock:
             self._poison_all()  # ALL immediate vetoes, no durable cleanup here.
-            if self._failure:
+            if self._failure and not (self._lifecycle and self._failure == 'NONACCEPTING_LIFECYCLE_INTERVAL'):
                 self._deny(self._failure)
             if type(message) is not dict or type(message.get('method')) is not str:
                 self._deny('UNKNOWN_OWNER_REQUEST')
@@ -1139,7 +1171,7 @@ class OwnedStdioQuiescenceV1:
             identity_key = (type(identity), identity)
             if identity_key in self._seen_ids:
                 self._deny('DUPLICATE_OR_UNKNOWN_REQUEST_ID')
-            if method not in {'initialize', 'thread/start', 'thread/resume', 'turn/start', 'thread/read'}:
+            if method not in {'initialize', 'thread/start', 'thread/resume', 'turn/start', 'thread/read'} | ({'thread/compact/start'} if self._lifecycle else set()):
                 self._deny('REQUEST_OUTSIDE_CONSERVATIVE_PROFILE')
             if method == 'initialize':
                 if self._initialized or self._pending or self._seen_ids:
@@ -1156,7 +1188,10 @@ class OwnedStdioQuiescenceV1:
                 self._deny('UNSELECTED_NATIVE_RESUME')
             if method == 'turn/start' and (self._turns or 'turn/start' in self._pending.values()):
                 self._deny('OVERLAPPING_TURN_NOT_ADMITTED')
-            if method in {'turn/start', 'thread/read'} and (self._thread is None or params.get('threadId') != self._thread):
+            if method == 'thread/compact/start':
+                if self._compaction_expected or self._turns or self._items: self._deny('COMPACTION_WITH_OUTSTANDING_WORK')
+                self._compaction_expected = 1
+            if method in {'turn/start', 'thread/read', 'thread/compact/start'} and (self._thread is None or params.get('threadId') != self._thread):
                 self._deny('FOREIGN_REQUEST_SCOPE')
             self._seen_ids.add(identity_key)
             self._pending[identity_key] = method
@@ -1167,15 +1202,16 @@ class OwnedStdioQuiescenceV1:
             self._deny('OUTGOING_EFFECT_UNKNOWN')
 
     def after_record(self, message):
-        """Existing reader calls this for EVERY decoded record BEFORE enqueue."""
         with self._lock:
             self._poison_all()
             self._revision += 1
-            if self._failure:
+            if self._failure and not (self._lifecycle and self._failure == 'NONACCEPTING_LIFECYCLE_INTERVAL'):
                 self._deny(self._failure)
             if type(message) is not dict:
                 self._deny('UNKNOWN_NATIVE_RECORD')
             if 'id' in message:
+                if set(message) != {'id', 'result'}:
+                    self._deny('UNKNOWN_NATIVE_RESPONSE_ENVELOPE')
                 if 'method' in message:
                     self._deny('NATIVE_SERVER_REQUEST_NOT_ADMITTED')
                 identity = message['id']
@@ -1206,59 +1242,110 @@ class OwnedStdioQuiescenceV1:
                 elif method == 'thread/read':
                     if result.get('thread', {}).get('id') != self._thread:
                         self._deny('READ_FENCE_SCOPE')
-                    if not self._pending and not self._turns and not self._items and self._last_completed:
+                    if not self._pending and not self._turns and not self._items and self._last_completed and all(v == 'ready' for v in self._mcp.values()):
                         self._fence = self._revision
                 return
-            method, params = message.get('method'), message.get('params', {})
-            if type(params) is not dict:
-                self._deny('NATIVE_PARAMS_SHAPE')
-            if method == 'thread/started':
-                identity = params.get('thread', {}).get('id')
-                if not isinstance(identity, str) or (self._thread and identity != self._thread) or self._announced_thread:
-                    self._deny('UNEXPECTED_NATIVE_THREAD')
-                self._announced_thread = identity
-                return
-            if params.get('threadId') != self._thread or self._thread is None:
-                self._deny('FOREIGN_OR_UNKNOWN_NATIVE_SCOPE')
+            self._notification(message)
+
+    def _notification(self, message):
+        def need(ok, reason='UNKNOWN_NATIVE_NOTIFICATION_SHAPE'):
+            if not ok: self._deny(reason)
+        need(set(message) in ({'method','params'}, {'method','params','emittedAtMs'}))
+        need('emittedAtMs' not in message or type(message['emittedAtMs']) is int and 0 <= message['emittedAtMs'] < 2**63)
+        method, p = message['method'], message['params']
+        need(type(method) is str and type(p) is dict)
+        if method == 'remoteControl/status/changed':
+            need(set(p) <= {'installationId','serverName','status','environmentId'} and
+                 {'installationId','serverName','status'} <= set(p) and not self._remote_seen and
+                 p['status'] == 'disabled' and p.get('environmentId') is None and
+                 all(type(p[k]) is str and p[k] for k in ('installationId','serverName')))
+            self._remote_seen = True
+            return
+        if method == 'account/rateLimits/updated':
+            need(set(p) == {'rateLimits'} and type(p['rateLimits']) is dict and set(p['rateLimits']) <=
+                 {'credits','individualLimit','limitId','limitName','planType','primary','secondary','rateLimitReachedType','spendControlReached'})
+            return
+        if method == 'thread/started':
+            need(set(p) == {'thread'} and type(p['thread']) is dict)
+            identity = p['thread'].get('id')
+            need(type(identity) is str and identity and not self._announced_thread and
+                 (not self._thread or identity == self._thread) and
+                 (not self._selected_thread_id or identity == self._selected_thread_id), 'UNEXPECTED_NATIVE_THREAD')
+            self._announced_thread = identity
+            return
+        need(self._thread is not None and p.get('threadId') == self._thread, 'FOREIGN_OR_UNKNOWN_NATIVE_SCOPE')
+        if method == 'mcpServer/startupStatus/updated':
+            need({'threadId','name','status'} <= set(p) <= {'threadId','name','status','error','failureReason'} and
+                 type(p['name']) is str and p['name'] and p.get('error') is None and p.get('failureReason') is None)
+            name, status = p['name'], p['status']
+            need(status == 'starting' and name not in self._mcp or status == 'ready' and self._mcp.get(name) == 'starting',
+                 'MCP_STARTUP_NOT_SETTLED')
+            self._mcp[name] = status
+        elif method == 'thread/goal/cleared':
+            need(set(p) == {'threadId'} and not self._turns and not self._last_completed)
+        elif method == 'thread/status/changed':
+            need(set(p) == {'threadId','status'} and p['status'] in ({'type':'idle'}, {'type':'active','activeFlags':[]}))
+            need(p['status']['type'] != 'active' or self._turns or 'turn/start' in self._pending.values() or self._compaction_expected)
+        elif method in {'turn/started','turn/completed'}:
+            need(set(p) == {'threadId','turn'} and type(p['turn']) is dict)
+            turn = p['turn']; identity = turn.get('id')
+            need(type(identity) is str and identity and set(turn) <=
+                 {'id','status','items','itemsView','startedAt','completedAt','durationMs','error'})
             if method == 'turn/started':
-                turn = params.get('turn', {}).get('id')
-                if not isinstance(turn, str) or turn in self._completed:
-                    self._deny('TURN_START_SCOPE')
-                if turn not in self._turns and 'turn/start' not in self._pending.values():
-                    self._deny('UNREQUESTED_NATIVE_TURN')
-                self._turns.add(turn)
-            elif method == 'turn/completed':
-                turn = params.get('turn', {})
-                identity = turn.get('id')
-                if identity not in self._turns or turn.get('status') != 'completed' or self._items:
-                    self._deny('TURN_TERMINAL_WITH_PENDING_OR_UNKNOWN_WORK')
-                self._turns.remove(identity)
-                self._completed.add(identity)
-                self._last_completed = identity
-            elif method in {'item/started', 'item/completed'}:
-                item = params.get('item', {})
-                identity = item.get('id')
-                if item.get('type') not in {'agentMessage', 'reasoning'} or not isinstance(identity, str):
-                    self._deny('TOOLS_OR_UNKNOWN_ITEM_NOT_ADMITTED')
-                if method == 'item/started':
-                    if identity in self._items:
-                        self._deny('DUPLICATE_ITEM')
-                    self._items.add(identity)
-                else:
-                    if identity not in self._items:
-                        self._deny('UNKNOWN_ITEM_COMPLETION')
-                    self._items.remove(identity)
-            elif method in {'rawResponse/completed', 'thread/tokenUsage/updated'}:
-                pass  # Telemetry is not a boundary or a terminal/quiescence proof.
+                need(identity not in self._completed and (identity in self._turns or 'turn/start' in self._pending.values() or self._compaction_expected == 1),
+                     'UNREQUESTED_NATIVE_TURN')
+                self._turns.add(identity); self._compaction_expected = 0
             else:
-                self._deny('UNKNOWN_NATIVE_EVENT_REQUIRES_PROFILE_REVIEW')
+                need(identity in self._turns and turn.get('status') == 'completed' and not self._items,
+                     'TURN_TERMINAL_WITH_PENDING_OR_UNKNOWN_WORK')
+                self._turns.remove(identity); self._completed.add(identity); self._last_completed = identity
+        else:
+            need(p.get('turnId') in self._turns, 'FOREIGN_OR_INACTIVE_NATIVE_TURN')
+            if method in {'item/started','item/completed'}:
+                clock = 'startedAtMs' if method == 'item/started' else 'completedAtMs'
+                need({'threadId','turnId','item'} <= set(p) <= {'threadId','turnId','item',clock} and
+                     (clock not in p or type(p[clock]) is int and p[clock] >= 0) and type(p['item']) is dict)
+                item = p['item']; identity = item.get('id'); kind = item.get('type')
+                need(type(kind) is str and kind in {'userMessage','agentMessage','reasoning'} | ({'commandExecution','mcpToolCall','dynamicToolCall','collabAgentToolCall','contextCompaction'} if self._lifecycle else set()) and type(identity) is str and identity,
+                     'TOOLS_OR_UNKNOWN_ITEM_NOT_ADMITTED')
+                if kind not in {'userMessage','agentMessage','reasoning'}:
+                    need(callable(self._lifecycle_validator), 'PINNED_LIFECYCLE_VALIDATOR_REQUIRED')
+                    self._lifecycle_validator(self,item,method=='item/completed')
+                if method == 'item/started':
+                    need(identity not in self._items, 'DUPLICATE_ITEM'); self._items[identity] = kind
+                else:
+                    need(self._items.get(identity) == kind, 'UNKNOWN_ITEM_COMPLETION')
+                    if kind == 'collabAgentToolCall':
+                        self._children.update(item['receiverThreadIds'])
+                    del self._items[identity]
+            elif method == 'item/agentMessage/delta':
+                need(set(p) == {'threadId','turnId','itemId','delta'} and type(p['delta']) is str and
+                     self._items.get(p['itemId']) == 'agentMessage', 'UNKNOWN_DELTA_ITEM')
+            elif method == 'rawResponseItem/completed':
+                need(set(p) == {'threadId','turnId','item'} and type(p['item']) is dict)
+                item = p['item']
+                if self._lifecycle and item.get('type') in {'function_call','function_call_output','custom_tool_call','custom_tool_call_output','reasoning'}:
+                    need(callable(self._lifecycle_validator), 'PINNED_LIFECYCLE_VALIDATOR_REQUIRED')
+                    self._lifecycle_validator(self,item,True,raw=True)
+                    return
+                need({'type','id','role','content'} <= set(item) <=
+                     {'type','id','role','content','internal_chat_message_metadata_passthrough','phase'} and
+                     item['type'] == 'message' and type(item['id']) is str and
+                     item['role'] in {'system','developer','user','assistant'} and type(item['content']) is list and
+                     ('phase' not in item or item['phase'] in {None,'commentary','final_answer'}), 'RAW_TOOLS_OR_UNKNOWN_ITEM')
+            elif self._lifecycle and method in {'item/commandExecution/outputDelta','item/reasoning/textDelta','item/reasoning/summaryTextDelta','item/reasoning/summaryPartAdded'}:
+                need(p.get('itemId') in self._items and set(p) <= {'threadId','turnId','itemId','delta','contentIndex','summaryIndex'})
+            elif method == 'rawResponse/completed':
+                need({'threadId','turnId','responseId','usage'} <= set(p) <=
+                     {'threadId','turnId','responseId','usage','usageMetadata'} and type(p['usage']) is dict and
+                     type(p['responseId']) is str and ('usageMetadata' not in p or type(p['usageMetadata']) is dict))
+            elif method == 'thread/tokenUsage/updated':
+                need(set(p) == {'threadId','turnId','tokenUsage'} and type(p['tokenUsage']) is dict)
+            elif method == 'turn/moderationMetadata':
+                need(set(p) == {'threadId','turnId','metadata'} and type(p['metadata']) is dict)
+            else: self._deny('UNKNOWN_NATIVE_EVENT_REQUIRES_PROFILE_REVIEW')
 
     def ingest(self, message):
-        """Actual reader replaces its queue.put with this single atomic call.
-
-        Keeping validation and enqueue under the same ingress lock closes the
-        acquire-between-after_record-and-put gap. No second queue is allocated.
-        """
         with self._lock:
             self.after_record(message)
             try:
@@ -1272,7 +1359,6 @@ class OwnedStdioQuiescenceV1:
             self._deny('NATIVE_INGRESS_CLOSED_OR_UNKNOWN')
 
     def acquire(self, *reservations):
-        """Arm under the SAME short ingress lock; later ingress poisons first."""
         with self._lock:
             if (self._failure or not self._initialized or not self._notified or not self._thread
                     or self._pending or self._turns or self._items or not self._last_completed
@@ -1300,9 +1386,6 @@ class _OwnedQuiescenceReceipt:
         self.verify()
         return self._revision
 
-# Add before __main__ in the EXISTING selected owned-stdio source owner.
-# Only in-memory live capabilities; durable events stay in the native original
-# and the existing claim objects. No source/issuer identity is selected here.
 import contextlib as _c02_contextlib
 import contextvars as _c02_contextvars
 import json as _c02_json
@@ -1313,14 +1396,6 @@ _C02_SOURCE_BINDING_SEAL_V1 = object()
 
 
 class OwnedStdioC02CensusV1:
-    """One controlled interval on the existing selected source and claim writer.
-
-    The full scanner supplies a positive terminal at its actual EOF. The actual
-    existing reader's matched RPC ledger supplies continuing no-ingress custody.
-    We accept one engineered false new-session classification after that fence.
-    Any real native ingress, send, unknown callback, or unobserved decision closes
-    this narrow interval. We do not classify arbitrary historical wire kinds.
-    """
     def __init__(self, selected, claim_owner, context, ledger):
         require(selected.get('profile_id') == OWNED_STDIO_PROFILE, 'C02_SELECTED_PROFILE_REQUIRED')
         self.selected, self.owner, self.context, self.ledger = selected, claim_owner, context, ledger
@@ -1343,8 +1418,6 @@ class OwnedStdioC02CensusV1:
 
     def arm(self, scanned):
         require(self._receipt is None, 'C02_INTERVAL_ALREADY_ARMED')
-        # Register before reading claim/source metadata. A concurrent ingress
-        # therefore poisons this object even before its receipt is assigned.
         receipt = self.ledger.acquire(self)
         fence = scanned.get('c02_terminal_fence')
         require(type(fence) is dict and fence.get('session_id') == self.selected['root_thread_id'] == receipt.thread_id
@@ -1370,7 +1443,6 @@ class OwnedStdioC02CensusV1:
 
     def checkpoint(self):
         self.verify()
-        # Legitimate append callbacks do not reopen or advance native custody.
         return self._receipt.checkpoint(), self._fence['source_sha256'], self._fence['source_bytes']
 
     @property
@@ -1392,12 +1464,6 @@ class OwnedStdioC02CensusV1:
         self.verify()
 
     def inject_controlled_fault(self, event):
-        """Explicit controlled fault effect; caller must already authorize it.
-
-        It is never represented as an authentic historical native boundary.
-        The ordinary native invalidator retains its unconditional admission of
-        a genuinely newer event; only this private fault route uses expected-old.
-        """
         require(self._production_binding is _C02_SOURCE_BINDING_SEAL_V1, 'C02_SELECTED_LIVE_SOURCE_REQUIRED')
         source=self
         class Inputs(self.owner._NativePublicationInputs):
@@ -1447,14 +1513,6 @@ class OwnedStdioC02CensusV1:
 
 
 class ConfiguredC02IssuerV1:
-    """Receive data ONLY at the actual selected existing owner's named locator.
-
-    Configuration must be selected by the real owner before admission; choosing
-    a path/hash here is not authorization. This class cannot select its issuer,
-    invent a grant, infer a human decision, or accept caller grant JSON.
-    The actual issuer changes/withdraws this independent decision resource and
-    invokes issuer_withdrawn before durable cleanup. Every effect also rereads.
-    """
     def __init__(self, configured, subject):
         required = {'issuer','census_owner','decision_path','owner_decision_locator','source_contract_locator'}
         require(type(configured) is dict and set(configured) == required
@@ -1467,7 +1525,6 @@ class ConfiguredC02IssuerV1:
         self.verify()
 
     def _read(self):
-        # Fixed bounded file from the selected owner route, not another journal.
         require(self.path.resolve(strict=True)==self.path, 'C02_ISSUER_LOCATOR_CHANGED')
         with self.path.open('rb') as handle:
             import os
@@ -1514,9 +1571,6 @@ class ConfiguredC02IssuerV1:
         result=_c02_json.loads(_c02_json.dumps(self.decision[key]))
         require(type(result) is dict, 'C02_EFFECT_NOT_GRANTED')
         if key=='conditional_fresh_grant':
-            # One exact human decision may name the conditional scope before
-            # the actual append OID exists. Substitute only its observed OID;
-            # all other scope/code/generation fields are checked by the core.
             require(result.get('scope',{}).get('correction_record_oid')=='$OBSERVED_EXACT_APPEND'
                     and request.get('correction_record_oid'), 'C02_CONDITIONAL_APPEND_NOT_BOUND')
             result['scope']['correction_record_oid']=request['correction_record_oid']
@@ -1543,8 +1597,10 @@ def selected_c02_materializer_session_v1(runtime, context, source):
     try:
         yield value
         source.verify(); issuer.verify()
+    except BaseException:
+        source.cancel_now(); raise
     finally:
-        source.cancel_now(); issuer.cancel_now()
+        issuer.cancel_now()  # The enclosing interval owns successful source disposal.
         _C02_SELECTED_SESSION_V1.reset(token)
 
 
@@ -1562,7 +1618,6 @@ def get_selected_c02_materializer_v1(context, request):
 
 @_c02_contextlib.contextmanager
 def acquire_selected_c02_interval_v1(runtime, claim_owner, context, ledger, native_process, code_pins):
-    """Actual existing loop entry; no externally supplied scan or lease result."""
     import subprocess
     import os
     selected=runtime[0]
@@ -1589,9 +1644,6 @@ def acquire_selected_c02_interval_v1(runtime, claim_owner, context, ledger, nati
         require(physical_revision()==before, 'C02_SOURCE_CHANGED_DURING_FULL_SCAN')
         source.arm(scanned)
         def check_source():
-            # The full bounded census is collected above, outside namespace.gate.
-            # Under that short gate only this physical revision, the selected
-            # process liveness and the same-loop sticky veto are rechecked.
             require(native_process.poll() is None, 'C02_NATIVE_OWNER_EXITED')
             require(physical_revision()==before, 'C02_ORIGINAL_SOURCE_ADVANCED')
         source._source_check=check_source
@@ -1603,21 +1655,8 @@ def acquire_selected_c02_interval_v1(runtime, claim_owner, context, ledger, nati
         finally:
             source.cancel_now()
 
-# Proposed addition to the EXISTING compaction-source-owner-codex-app.py.
-# No reader, sender, process, observer, event log or pending store is created.
 
 class OwnedStdioC02HooksV1:
-    """Use the existing owner runtime and existing reader/sender hook points.
-
-    The existing source must separately supply its complete-interval lease and
-    the actual scoped issuer lease to claim's FIXED capability resolver. The
-    currently available acquisition/prefix guards and compaction summaries are
-    not that lease. This class never promotes them into completeness.
-
-    Every accepting claim operation executes in this owner's process while the
-    live operation is active; separate CLI readers of revision heads cannot
-    acquire an accepting capability. The original claim module remains writer.
-    """
     def __init__(self, runtime, claim_owner, context, invalidation_token, decision, *, source_owner_module):
         require(OWNED_STDIO_SELECTION_PIN is not None
                 and runtime[0]['profile_id'] == OWNED_STDIO_PROFILE,
@@ -1633,8 +1672,6 @@ class OwnedStdioC02HooksV1:
         require(self._held is None, 'C02_OWNED_OPERATION_REPLAY')
         held = contextlib.ExitStack()
         try:
-            # Existing selected binary/acquisition and original physical-prefix
-            # custody, not a second scanner or source of semantic authority.
             held.enter_context(_as_provider_guard_v1(self.runtime))
             operation = held.enter_context(self.owner.c02_owned_operation_v1(
                 self.context, self.invalidation_token, self.decision,
@@ -1647,6 +1684,7 @@ class OwnedStdioC02HooksV1:
 
     def __exit__(self, kind, value, traceback):
         held, self._held = self._held, None
+        if held is None:return False
         try:
             return held.__exit__(kind, value, traceback)
         finally:
@@ -1657,8 +1695,6 @@ class OwnedStdioC02HooksV1:
         return self._operation
 
     def before_context_request(self, method):
-        # Must run before the existing sender writes the native request. A
-        # refusal cannot be caught and treated as permission to send anyway.
         self._active().before_context_request(method)
 
     def cancel_now(self):
@@ -1671,7 +1707,6 @@ class OwnedStdioC02HooksV1:
         self._active().disconnect()
 
     def issuer_withdrawn(self):
-        # Called only from the actual admitted issuer's withdrawal signal.
         self._active().issuer_withdrawn()
 
     def append(self):
@@ -1681,8 +1716,6 @@ class OwnedStdioC02HooksV1:
         prepared = self.owner.prepare_c02_correction_v1(
             self.context, self.invalidation_token, self.decision)
         result = self.owner.publish_c02_correction_v1(self.context, prepared)
-        # Exact retained readback, in actual callback order. A landed append
-        # whose callback fails stays UNKNOWN; it is never silently replayed.
         self._active().source.observe_adjudication(result['record_oid'])
         self._active().verify()
         return result
@@ -1697,16 +1730,9 @@ class OwnedStdioC02HooksV1:
 
 
 def notify_owned_c02_and_rotation_v1(reservations, method, *arguments):
-    """Synchronous calls by the EXISTING reader/sender, not a new dispatcher.
-
-    On incoming records/EOF every current reservation must receive its veto
-    even if another hook fails. On outgoing requests any failure prohibits send.
-    No caught error or later successful hook can reopen the channel.
-    """
     if method not in {'before_context_request', 'after_native_record', 'disconnect'}:
         raise ValueError('unsupported existing owned-stdio hook')
     errors = []
-    # Every live capability is poisoned before ANY cleanup can wait on Git.
     for reservation in reservations:
         try:
             reservation.cancel_now()
@@ -1722,12 +1748,6 @@ def notify_owned_c02_and_rotation_v1(reservations, method, *arguments):
 
 
 def owned_stdio_ingest_v1(ledger, reservations, message):
-    """Existing decoded-reader call site, replacing its separate queue.put.
-
-    No new reader or queue. All guards are signalled before ledger bookkeeping
-    and before any cleanup. Errors poison the owner; the caller must terminate
-    its ordinary read/dispatch path, never continue as though admission passed.
-    """
     errors=[]
     for reservation in reservations:
         try: reservation.cancel_now()
@@ -1741,7 +1761,6 @@ def owned_stdio_ingest_v1(ledger, reservations, message):
 
 
 def owned_stdio_before_send_v1(ledger, reservations, message):
-    """Existing sender calls before its actual stdin write; failure forbids it."""
     errors=[]
     for reservation in reservations:
         try: reservation.cancel_now()
@@ -1755,7 +1774,6 @@ def owned_stdio_before_send_v1(ledger, reservations, message):
 
 
 def owned_stdio_disconnect_v1(ledger, reservations):
-    """Existing EOF/error path, signal-only fan-out before cleanup."""
     errors=[]
     for reservation in reservations:
         try: reservation.cancel_now()
@@ -1768,13 +1786,7 @@ def owned_stdio_disconnect_v1(ledger, reservations):
     if errors: raise errors[0]
 
 
-# Addition to the EXISTING owned-stdio source owner, not a new reader/service.
 def rotation_input_owner_selection_v1():
-    """Read the existing privately pinned provider, never caller-selected JSON.
-
-    Stable owner policy is selected before OPEN. The actual later episode digest
-    and final producer/consumer code identities belong in the immutable grant.
-    """
     if OWNED_STDIO_SELECTION_PIN is None:
         return None
     selected = _np_selection()
@@ -1792,12 +1804,6 @@ def rotation_input_owner_selection_v1():
 
 
 class OwnedStdioRotationReservationV1:
-    """Existing reader/sender hooks; cancellation always precedes ordinary locks.
-
-    The actual owner feeds EVERY record and EOF/error, calls the outgoing hook
-    BEFORE a context-changing send/injection, and calls the issuer hook BEFORE
-    grant withdrawal. None of these hooks waits for Git before cancelling.
-    """
     def __init__(self, runtime, native_state, native_process, claim_owner, claim_context, grant):
         import os
         import secrets
@@ -1827,8 +1833,9 @@ class OwnedStdioRotationReservationV1:
             with native_state._signal_lock:
                 native_state._verify(native_state._binding['subject'], native_state._binding['source_bytes'],
                                      native_state._binding['source_tokens'])
-                snapshot = {'schema': 'implementaudit.native-rotation-source.v2', 'phase': 'READY',
+                snapshot = {'schema': 'implementaudit.native-rotation-source.v3', 'phase': 'READY',
                     'binding': native_state._binding, 'exact_usage': native_state._snapshot,
+                    'reported_window': native_state._reported_window,
                     'cutoff_revision': native_state._revision,
                     'observed_monotonic_ns': native_state._received_monotonic_ns,
                     'reservation_id': reservation_id,
@@ -1853,7 +1860,6 @@ class OwnedStdioRotationReservationV1:
         self.ready_outcome = 'NOT_ATTEMPTED'
 
     def _cancel_first(self):
-        # This call must remain the FIRST statement in every external hook.
         try:
             self.signal.signal()
         except BaseException as exc:
@@ -1866,15 +1872,12 @@ class OwnedStdioRotationReservationV1:
             raise self._terminal_error
 
     def cancel_now(self):
-        """Signal-only fan-out stage: call all applicable owners before cleanup."""
         self._cancel_first()
 
     def _poison(self, error):
         self._cancel_first()
         self._terminal_error = self._terminal_error or error
         if self._ready_attempted or self._published:
-            # Only this already-owned isolated host; no foreign process lookup
-            # or automatic canonical recovery. Event cancellation is immediate.
             self.host_process.terminate()
 
     def _check_source(self):
@@ -1889,8 +1892,6 @@ class OwnedStdioRotationReservationV1:
         self.signal.check()
 
     def publish_ready(self):
-        # Reuse existing owner custody, not ref/object values. Every read remains
-        # fresh; nested calls retain the same checked repository/config binding.
         owner = self.owner
         with owner._CUSTODY.git_scope(self.context['repo'], owner.fixed_git(), owner.git_environment()):
             return self._publish_ready_with_custody()
@@ -1929,8 +1930,6 @@ class OwnedStdioRotationReservationV1:
                 self._check_source()
             except BaseException as exc:
                 self._poison(exc)
-                # Cleanup is revoke-only; it cannot declare the unknown attempt
-                # successful or make the reservation reusable. The event stays set.
                 try:
                     self._revoke('READY attempt refused or outcome uncertain')
                 except BaseException:
@@ -1938,8 +1937,6 @@ class OwnedStdioRotationReservationV1:
                 raise
 
     def _revoke(self, reason):
-        # All callers already signalled cancellation before reaching cleanup.
-        # This does not move any lock or Git work before the immediate veto.
         owner = self.owner
         with owner._CUSTODY.git_scope(self.context['repo'], owner.fixed_git(), owner.git_environment()):
             return self._revoke_with_custody(reason)

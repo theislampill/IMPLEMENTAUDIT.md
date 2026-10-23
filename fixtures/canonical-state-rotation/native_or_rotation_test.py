@@ -10,7 +10,7 @@ from unittest import mock
 
 import token_admission_test as token_fixture
 from archive_v2_test import M, git, transition
-from native_input_adapter_test import binding, exact, terminal
+from native_input_adapter_test import binding, exact, reported_window, terminal
 
 
 class NativeOrRotation(unittest.TestCase):
@@ -42,7 +42,7 @@ class NativeOrRotation(unittest.TestCase):
         if alter:
             alter(selected)
         owner = self.native.NativeInputState(selected)
-        owner.observe(exact(used)); owner.observe(terminal())
+        owner.observe(exact(used)); owner.observe(reported_window(total=used)); owner.observe(terminal())
         with mock.patch.object(self.native, '_resolve_existing_owner_v1', return_value=owner):
             with self.native.rotation_input_lease_v1(selected['subject'], selected['source_bytes'],
                                                    selected['source_tokens']) as lease:

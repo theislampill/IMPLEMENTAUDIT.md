@@ -52,8 +52,8 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
       "materialized_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
-      "bytes": 122754,
-      "sha256": "fdb2488971f1a7ab0dabb7c12f8f9e5f673d02811f611fef36cc7702f98e69b0",
+      "bytes": 125155,
+      "sha256": "c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "source_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
       "modified": true,
@@ -90,8 +90,8 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
-      "bytes": 128288,
-      "sha256": "00eb69de08f959f7d5f4674dd0f357e5f96a3256981371bc0f54afc0489ab8a1",
+      "bytes": 130469,
+      "sha256": "439b4efaddbe7c3a19b625db0e8480d7a857ebc603be34cb9e9bbec575902581",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "1f35bd9f9841e05dfb419f85890b34f036e13af387fed5a9a80868787293d972",
@@ -154,8 +154,8 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_source_owner.py",
-      "bytes": 46041,
-      "sha256": "d3eea74086d724f68802eccfe873b7502773f993ea989534b5bc02a0eac4f55f",
+      "bytes": 75841,
+      "sha256": "2e5e08e93c7fe835e2a775e107ce94cf2e45cb3cf297f4c415bdc557162b734f",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,
@@ -168,8 +168,8 @@
   "frozen_core_dependencies": [
     {
       "path": "skills/implementaudit/scripts/claim-run-rotation.py",
-      "bytes": 213048,
-      "sha256": "c82a11c38e57396812fa64c4af76e5956f7d8ec830d50cfc761c8ec48563b250",
+      "bytes": 213510,
+      "sha256": "f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "composition_preimage_sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
       "modified": true,
@@ -189,8 +189,8 @@
     },
     {
       "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
-      "bytes": 22059,
-      "sha256": "dd730efccd2bbfbec092316b59d93cbcd18ba20ad0e7479626727b2d1bc38d70",
+      "bytes": 27154,
+      "sha256": "96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "composition_preimage_sha256": "63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4",
       "modified": true,

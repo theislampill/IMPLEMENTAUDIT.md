@@ -476,8 +476,8 @@ SOURCE_MEMORY_RESERVE_FACTOR = 12
 SOURCE_EXCLUSIONS = {'.git', 'state-generations', 'state-archives', 'quarantine'}
 TOKENIZER_SHA256 = '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7'
 TOKENIZER_OID = 'f1f50811175d9446bcd26399db7108ef2969ad94'
-NATIVE_INPUT_MODULE_SHA256 = 'dd730efccd2bbfbec092316b59d93cbcd18ba20ad0e7479626727b2d1bc38d70'
-NATIVE_INPUT_MODULE_BYTES = 22059
+NATIVE_INPUT_MODULE_SHA256 = '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489'
+NATIVE_INPUT_MODULE_BYTES = 27154
 
 # The optional dependency runs in an isolated subprocess. It receives exact
 # pinned encoding bytes over stdin, never a URL, import path or executable from
@@ -538,7 +538,7 @@ def full_or_calibration_contract_v1() -> dict:
 
 def _historical_or_calibrations_v1():
     """Exact old interpretation only; neither producer admission nor live freshness."""
-    return (full_or_calibration_contract_v1(), {'schema': 'implementaudit.rotation-calibration-admission.v1', 'population_id': 'R0039-F1-CAL-v2', 'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497', 'byte_threshold': 131072, 'minimum_live_byte_reduction': 32768, 'maximum_runtime_ms': 5000, 'maximum_memory_bytes': 67108864, 'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}, 'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'}, 'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM', 'host_qualification': 'SEPARATE_NOT_INFERRED', 'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7', 'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94', 'token_threshold': 32768, 'minimum_live_token_reduction': 8192, 'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED', 'context_health_threshold_bp': 2500, 'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF', 'configured_usable_context_tokens': 258400, 'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1', 'maximum_observation_age_ms': 30000, 'native_input_module_sha256': '63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4', 'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'}})
+    return (full_or_calibration_contract_v1(), {'schema': 'implementaudit.rotation-calibration-admission.v1', 'population_id': 'R0039-F1-CAL-v2', 'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497', 'byte_threshold': 131072, 'minimum_live_byte_reduction': 32768, 'maximum_runtime_ms': 5000, 'maximum_memory_bytes': 67108864, 'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}, 'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'}, 'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM', 'host_qualification': 'SEPARATE_NOT_INFERRED', 'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7', 'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94', 'token_threshold': 32768, 'minimum_live_token_reduction': 8192, 'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED', 'context_health_threshold_bp': 2500, 'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF', 'configured_usable_context_tokens': 258400, 'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1', 'maximum_observation_age_ms': 30000, 'native_input_module_sha256': 'dd730efccd2bbfbec092316b59d93cbcd18ba20ad0e7479626727b2d1bc38d70', 'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'}}, {'schema': 'implementaudit.rotation-calibration-admission.v1', 'population_id': 'R0039-F1-CAL-v2', 'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497', 'byte_threshold': 131072, 'minimum_live_byte_reduction': 32768, 'maximum_runtime_ms': 5000, 'maximum_memory_bytes': 67108864, 'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}, 'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'}, 'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM', 'host_qualification': 'SEPARATE_NOT_INFERRED', 'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7', 'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94', 'token_threshold': 32768, 'minimum_live_token_reduction': 8192, 'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED', 'context_health_threshold_bp': 2500, 'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF', 'configured_usable_context_tokens': 258400, 'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1', 'maximum_observation_age_ms': 30000, 'native_input_module_sha256': '63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4', 'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'}})
 
 
 def native_inputs_module_v1():
@@ -577,6 +577,7 @@ def _verify_live_native_lease(lease, predecessor: dict, source_bytes: int, sourc
     with state._signal_lock:
         if (any(observation.get(key) != value for key, value in state._binding.items())
                 or observation.get('exact_usage') != state._snapshot
+                or observation.get('reported_window') != state._reported_window
                 or observation.get('cutoff_revision') != state._revision):
             raise RotationError('native lease observation differs from the held source-owner binding')
     return observation
@@ -591,15 +592,21 @@ def _check_native_input_record(record: dict, predecessor: dict, source_bytes: in
     """
     if (calibration not in _historical_or_calibrations_v1() or type(record) is not dict
             or set(record) != {'schema', 'observation', 'prepared_at_unix_ms', 'authority_ceiling'}
-            or record['schema'] != 'implementaudit.rotation-native-input.v1'
+            or record['schema'] not in {'implementaudit.rotation-native-input.v1','implementaudit.rotation-native-input.v2'}
             or record['authority_ceiling'] != 'HISTORICAL_INPUT_NOT_REAUTHENTICATED'):
         raise RotationError('unknown frozen native input schema or policy')
+    expected_schema = ('implementaudit.rotation-native-input.v2'
+                       if calibration == full_or_calibration_contract_v1()
+                       else 'implementaudit.rotation-native-input.v1')
+    if record['schema'] != expected_schema:
+        raise RotationError('frozen native schema differs from its exact calibration')
     observation = record['observation']
     binding_keys = {'issuer', 'grant_sha256', 'producer_sha256', 'semantic_contract_sha256',
                     'host', 'budget_policy', 'tokenizer', 'subject', 'source_bytes',
                     'source_tokens', 'thread_id', 'turn_id'}
     if (type(observation) is not dict or set(observation) != binding_keys
-            | {'exact_usage', 'cutoff_revision', 'context_health_bp', 'health_semantics', 'authority_ceiling'}):
+            | {'exact_usage', 'cutoff_revision', 'context_health_bp', 'health_semantics', 'authority_ceiling'}
+            | ({'reported_window'} if record['schema'] == 'implementaudit.rotation-native-input.v2' else set())):
         raise RotationError('incomplete or unknown frozen native observation')
     native = native_inputs_module_v1()
     try:
@@ -612,6 +619,10 @@ def _check_native_input_record(record: dict, predecessor: dict, source_bytes: in
             'threadId': exact['thread_id'], 'turnId': exact['turn_id'],
             'responseId': exact['response_id'], 'usage': exact['usage']}},
             observation['thread_id'], observation['turn_id'], exact['received_at_unix_ms'], exact['stream_revision'])
+        if record['schema'] == 'implementaudit.rotation-native-input.v2':
+            native.validate_reported_window_v1(observation['reported_window'], observation, exact, observation['cutoff_revision'])
+            if not observation['reported_window']['received_at_unix_ms'] <= record['prepared_at_unix_ms']:
+                raise RotationError('frozen reported window was not observed before preparation')
         policy, host = observation['budget_policy'], observation['host']
         prepared_at = record['prepared_at_unix_ms']
         if (parsed != exact or observation['subject'] != _native_subject(predecessor)
@@ -637,7 +648,7 @@ def _check_native_input_record(record: dict, predecessor: dict, source_bytes: in
 def _freeze_native_input(lease, predecessor: dict, source_bytes: int,
                          source_tokens: int, calibration: dict) -> dict:
     import time
-    record = {'schema': 'implementaudit.rotation-native-input.v1',
+    record = {'schema': 'implementaudit.rotation-native-input.v2',
               'observation': _verify_live_native_lease(lease, predecessor, source_bytes, source_tokens),
               'prepared_at_unix_ms': time.time_ns() // 1000000,
               'authority_ceiling': 'HISTORICAL_INPUT_NOT_REAUTHENTICATED'}

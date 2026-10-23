@@ -15,6 +15,7 @@ import sys
 import tempfile
 import unittest
 from unittest import mock
+from native_input_adapter_test import reported_window
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[2]
@@ -103,6 +104,7 @@ class NativePreflight(unittest.TestCase):
             'threadId': 'constructed-thread', 'turnId': 'constructed-turn', 'responseId': 'resp_constructed',
             'usage': {'inputTokens': 17003, 'outputTokens': 11, 'totalTokens': 17014,
                 'cachedInputTokens': 0, 'cacheWriteInputTokens': 0, 'reasoningOutputTokens': 0}}})
+        self.state.observe(reported_window(thread_id='constructed-thread', turn_id='constructed-turn'))
         self.state.observe({'method': 'turn/completed', 'params': {
             'threadId': 'constructed-thread', 'turn': {'id': 'constructed-turn', 'status': 'completed'}}})
         self.state._native_revision_guards = dict(self.expected)

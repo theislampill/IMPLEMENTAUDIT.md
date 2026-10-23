@@ -62,6 +62,15 @@ def _sha(value):
     return type(value) is str and re.fullmatch('[0-9a-f]{64}', value) is not None
 
 
+def _native_notification_v1(message):
+    _require(type(message) is dict and set(message) in ({'method', 'params'},
+        {'method', 'params', 'emittedAtMs'}) and type(message.get('method')) is str
+        and type(message.get('params')) is dict, 'UNCERTAIN_STREAM')
+    if 'emittedAtMs' in message:
+        _require(_integer(message['emittedAtMs']), 'INVALID_NATIVE_EMISSION_METADATA')
+    return message['method'], message['params']
+
+
 def parse_exact_usage_v1(message, thread_id, turn_id, received_at_unix_ms, stream_revision):
     """Parse exact native counters only; parsing never authenticates a producer.
 
@@ -69,13 +78,13 @@ def parse_exact_usage_v1(message, thread_id, turn_id, received_at_unix_ms, strea
     Receipt time/revision must come from the source-owned live stream; passing a
     retained probe here proves parser compatibility only.
     """
-    _require(type(message) is dict and set(message) == {'method', 'params'}
-             and message['method'] == 'rawResponse/completed', 'EXACT_RAW_EVENT_REQUIRED')
-    params = message['params']
+    method, params = _native_notification_v1(message)
+    _require(method == 'rawResponse/completed', 'EXACT_RAW_EVENT_REQUIRED')
     _require(type(params) is dict
              and {'threadId', 'turnId', 'responseId', 'usage'} <= set(params)
              and set(params) <= {'threadId', 'turnId', 'responseId', 'usage', 'usageMetadata'},
              'EXACT_EVENT_SHAPE')
+    _require('usageMetadata' not in params or type(params['usageMetadata']) is dict, 'EXACT_EVENT_METADATA_SHAPE')
     _require(_text(thread_id) and _text(turn_id)
              and params['threadId'] == thread_id and params['turnId'] == turn_id,
              'FOREIGN_NATIVE_SUBJECT')
@@ -95,6 +104,26 @@ def parse_exact_usage_v1(message, thread_id, turn_id, received_at_unix_ms, strea
     return {'thread_id': thread_id, 'turn_id': turn_id, 'response_id': response,
             'usage': usage, 'received_at_unix_ms': received_at_unix_ms,
             'stream_revision': stream_revision}
+
+
+def validate_reported_window_v1(record, binding, exact, cutoff_revision):
+    """Reported configured window, not a measurement of physical capacity.
+
+    UI usage counters never replace the raw exact numerator. A conservative
+    operational budget may be lower than the host-reported window, never higher.
+    Receipt clocks/revision are retained owner observations, not JSON send time.
+    """
+    _require(type(record) is dict and set(record) == {'schema','thread_id','turn_id',
+             'model_context_window','received_at_unix_ms','received_monotonic_ns','stream_revision'}
+             and record['schema'] == 'implementaudit.native-reported-window.v1'
+             and record['thread_id'] == binding['thread_id'] and record['turn_id'] == binding['turn_id']
+             and all(_integer(record[key], 1) for key in ('model_context_window','stream_revision'))
+             and all(_integer(record[key]) for key in ('received_at_unix_ms','received_monotonic_ns'))
+             and exact['stream_revision'] < record['stream_revision'] <= cutoff_revision
+             and exact['received_at_unix_ms'] <= record['received_at_unix_ms']
+             and binding['budget_policy']['configured_usable_tokens'] <= record['model_context_window'],
+             'CURRENT_REPORTED_WINDOW_REQUIRED_OR_POLICY_EXCEEDS_HOST_REPORT')
+    return record
 
 
 def configured_headroom_bp_v1(exact_used_tokens, configured_usable_tokens):
@@ -157,6 +186,8 @@ class NativeInputState:
         self._revision = 0
         self._snapshot = None
         self._received_monotonic_ns = None
+        self._last_receipt_monotonic_ns = None
+        self._reported_window = None
         self._quiescent = False
         self._problem = None
         self._connected = True
@@ -164,36 +195,71 @@ class NativeInputState:
         self._active_lease = None
         self._consumed = False
 
-    def observe(self, message):
-        """Feed every native record after acquisition starts, never filtered JSON."""
+    def observe(self, message, *, received_at_unix_ms=None, received_monotonic_ns=None):
+        """Consume the actual live callback clocks, never timestamps in JSON.
+
+        The existing owner supplies both clocks before logging or queue delay.
+        Omission preserves the original immediate-callback API. Neither form
+        authenticates custody or grants admission; source/issuer checks remain.
+        """
+        wall_now, mono_now = time.time_ns() // 1000000, time.monotonic_ns()
+        supplied = received_at_unix_ms is not None or received_monotonic_ns is not None
+        wall = received_at_unix_ms if supplied else wall_now
+        mono = received_monotonic_ns if supplied else mono_now
         with self._signal_lock:
             self._revision += 1
             try:
                 _require(not self._problem and self._connected and not self._consumed,
                          'NATIVE_CANDIDATE_INVALIDATED')
-                _require(type(message) is dict and set(message) == {'method', 'params'}, 'UNCERTAIN_STREAM')
-                method, params = message['method'], message['params']
+                _require(_integer(wall) and _integer(mono) and wall <= wall_now and mono <= mono_now
+                         and (self._last_receipt_monotonic_ns is None or mono >= self._last_receipt_monotonic_ns),
+                         'INVALID_OR_REORDERED_LIVE_RECEIPT_CLOCKS')
+                self._last_receipt_monotonic_ns = mono
+                method, params = _native_notification_v1(message)
                 thread, turn = self._binding['thread_id'], self._binding['turn_id']
                 if method == 'rawResponse/completed':
                     _require(self._snapshot is None, 'DUPLICATE_OR_REPLAYED_RESPONSE')
                     self._snapshot = parse_exact_usage_v1(
-                        message, thread, turn, time.time_ns() // 1000000, self._revision)
-                    self._received_monotonic_ns = time.monotonic_ns()
+                        message, thread, turn, wall, self._revision)
+                    self._received_monotonic_ns = mono
                 elif method == 'turn/completed':
-                    _require(type(params) is dict and params.get('threadId') == thread
-                             and type(params.get('turn')) is dict and params['turn'].get('id') == turn
+                    _require(set(params) == {'threadId','turn'} and params.get('threadId') == thread
+                             and type(params.get('turn')) is dict and set(params['turn']) <= {'id','status','items','itemsView','startedAt','completedAt','durationMs','error'}
+                             and params['turn'].get('error') is None and params['turn'].get('id') == turn
                              and params['turn'].get('status') == 'completed'
                              and self._snapshot is not None and not self._quiescent,
                              'QUIESCENT_TURN_REQUIRED')
                     self._quiescent = True
                 elif method == 'thread/tokenUsage/updated':
-                    # Recognized ancillary UI/accounting event; never a numerator.
-                    _require(type(params) is dict and params.get('threadId') == thread
-                             and params.get('turnId') == turn, 'FOREIGN_NATIVE_SUBJECT')
+                    _require(set(params) == {'threadId', 'turnId', 'tokenUsage'}
+                             and params.get('threadId') == thread and params.get('turnId') == turn
+                             and type(params['tokenUsage']) is dict, 'FOREIGN_NATIVE_SUBJECT')
+                    usage = params['tokenUsage']
+                    _require(set(usage) == {'last','total','modelContextWindow'}
+                             and all(type(usage[key]) is dict and _USAGE_KEYS - {'cacheWriteInputTokens'} <= set(usage[key]) <= _USAGE_KEYS
+                                     and all(_integer(value) for value in usage[key].values()) for key in ('last','total'))
+                             and self._reported_window is None and self._snapshot is not None,
+                             'UNKNOWN_DUPLICATE_OR_UNBOUND_WINDOW_EVENT')
+                    record = {'schema':'implementaudit.native-reported-window.v1','thread_id':thread,'turn_id':turn,
+                              'model_context_window':usage['modelContextWindow'], 'received_at_unix_ms':wall,
+                              'received_monotonic_ns':mono,'stream_revision':self._revision}
+                    self._reported_window = validate_reported_window_v1(record, self._binding, self._snapshot, self._revision)
+                elif method == 'account/rateLimits/updated':
+                    _require(set(params) == {'rateLimits'} and type(params['rateLimits']) is dict
+                             and set(params['rateLimits']) <= {'credits', 'individualLimit', 'limitId', 'limitName',
+                                 'planType', 'primary', 'secondary', 'rateLimitReachedType', 'spendControlReached'},
+                             'UNKNOWN_ACCOUNT_TELEMETRY')
+                elif method == 'turn/moderationMetadata':
+                    _require(set(params) == {'threadId', 'turnId', 'metadata'}
+                             and params['threadId'] == thread and params['turnId'] == turn
+                             and type(params['metadata']) is dict, 'FOREIGN_NATIVE_SUBJECT')
                 elif method == 'thread/status/changed':
-                    _require(type(params) is dict and params.get('threadId') == thread
-                             and params.get('status') == {'type': 'idle'} and self._quiescent,
+                    _require(set(params) == {'threadId', 'status'} and params.get('threadId') == thread
+                             and params.get('status') == {'type': 'idle'} and self._snapshot is not None,
                              'NATIVE_THREAD_NOT_QUIESCENT')
+                    # Idle may precede turn/completed in the actual stream. It
+                    # is ancillary only; the matching completion still owns
+                    # the sole transition to _quiescent.
                 else:
                     raise NativeInputError('CONTEXT_CHANGE_OR_UNKNOWN_RECORD')
             except NativeInputError as exc:
@@ -229,6 +295,7 @@ class NativeInputState:
                  and (not self._consumed or attempted_lease),
                  'SOURCE_OR_GRANT_INVALIDATED')
         _require(self._snapshot is not None and self._quiescent, 'EXACT_QUIESCENT_CUTOFF_REQUIRED')
+        validate_reported_window_v1(self._reported_window, self._binding, self._snapshot, self._revision)
         _require(type(subject) is dict and subject == self._binding['subject']
                  and _integer(source_bytes) and source_bytes == self._binding['source_bytes']
                  and _integer(source_tokens) and source_tokens == self._binding['source_tokens'],
@@ -380,7 +447,8 @@ class _RotationInputLease:
         self._attempted = False
         self._observation = copy.deepcopy(state._binding)
         self._observation.update(
-            exact_usage=copy.deepcopy(state._snapshot), cutoff_revision=self._revision,
+            exact_usage=copy.deepcopy(state._snapshot),
+            reported_window=copy.deepcopy(state._reported_window), cutoff_revision=self._revision,
             context_health_bp=configured_headroom_bp_v1(
                 state._snapshot['usage']['totalTokens'],
                 state._binding['budget_policy']['configured_usable_tokens']),

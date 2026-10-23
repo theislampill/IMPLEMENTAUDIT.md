@@ -55,6 +55,14 @@ def exact(total=17014, response='resp_test_exact'):
     }}
 
 
+def reported_window(window=258400, total=17014, *, thread_id=THREAD, turn_id=TURN):
+    """Constructed window event, not measured capacity or authentic host telemetry."""
+    usage = exact(total)['params']['usage']
+    return {'method': 'thread/tokenUsage/updated', 'params': {
+        'threadId': thread_id, 'turnId': turn_id, 'tokenUsage': {
+            'last': dict(usage), 'total': dict(usage), 'modelContextWindow': window}}}
+
+
 def terminal():
     return {'method': 'turn/completed', 'params': {
         'threadId': THREAD, 'turn': {'id': TURN, 'status': 'completed', 'items': []}}}
@@ -75,6 +83,7 @@ class NativeInputMechanics(unittest.TestCase):
     def state(self, total=17014, complete=True):
         state = MODULE.NativeInputState(binding())
         state.observe(exact(total))
+        state.observe(reported_window(total=total))
         if complete:
             state.observe(terminal())
         return state
@@ -139,8 +148,8 @@ class NativeInputMechanics(unittest.TestCase):
 
     def test_incomplete_turn_and_estimate_only_cannot_lease(self):
         estimate_only = MODULE.NativeInputState(binding())
-        estimate_only.observe({'method': 'thread/tokenUsage/updated', 'params': {
-            'threadId': THREAD, 'turnId': TURN, 'tokenUsage': exact()['params']['usage']}})
+        with self.assertRaisesRegex(MODULE.NativeInputError, 'UNBOUND_WINDOW_EVENT'):
+            estimate_only.observe(reported_window())
         for state in (self.state(complete=False), estimate_only):
             with self.owner(state), self.assertRaises(MODULE.NativeInputError):
                 with self.lease(): pass
@@ -175,7 +184,7 @@ class NativeInputMechanics(unittest.TestCase):
         state = MODULE.NativeInputState(original)
         original['budget_policy']['configured_usable_tokens'] = 1
         original['subject']['state_sha256'] = 'f' * 64
-        state.observe(exact()); state.observe(terminal())
+        state.observe(exact()); state.observe(reported_window()); state.observe(terminal())
         with self.owner(state), self.lease() as lease:
             self.assertEqual(lease.observation['context_health_bp'], 9342)
             self.assertEqual(lease.observation['subject'], SUBJECT)
@@ -255,13 +264,87 @@ class NativeInputMechanics(unittest.TestCase):
             with self.owner(state), self.lease() as lease:
                 subject = dict(SUBJECT)
                 if drift == 'stream':
-                    state.observe({'method': 'thread/tokenUsage/updated', 'params': {
-                        'threadId': THREAD, 'turnId': TURN, 'tokenUsage': {}}})
+                    with self.assertRaisesRegex(MODULE.NativeInputError, 'WINDOW_EVENT'):
+                        state.observe({'method': 'thread/tokenUsage/updated', 'params': {
+                            'threadId': THREAD, 'turnId': TURN, 'tokenUsage': {}}})
                 else:
                     subject['receipt_token'] = subject['receipt_token'][:-1] + '9'
                 with self.assertRaises(MODULE.NativeInputError):
                     lease.admit(subject, 100000, 30000, lambda obs, guard: effects.append(obs))
             self.assertEqual(effects, [])
+
+    def test_missing_foreign_smaller_or_duplicate_window_refuses_lease(self):
+        state = MODULE.NativeInputState(binding())
+        state.observe(exact()); state.observe(terminal())
+        with self.owner(state), self.assertRaisesRegex(MODULE.NativeInputError, 'CURRENT_REPORTED_WINDOW_REQUIRED'):
+            with self.lease(): self.fail('windowless candidate reached accepting body')
+        events = [reported_window(window=value) for value in (258399, None, True)]
+        events += [reported_window(thread_id='foreign'), reported_window(turn_id='foreign')]
+        for event in events:
+            with self.subTest(event=event):
+                state = MODULE.NativeInputState(binding()); state.observe(exact())
+                with self.assertRaises(MODULE.NativeInputError): state.observe(event)
+                with self.owner(state), self.assertRaises(MODULE.NativeInputError):
+                    with self.lease(): self.fail('invalid window reached accepting body')
+        state = self.state()
+        with self.assertRaisesRegex(MODULE.NativeInputError, 'DUPLICATE_OR_UNBOUND_WINDOW_EVENT'):
+            state.observe(reported_window())
+        with self.owner(state), self.assertRaises(MODULE.NativeInputError):
+            with self.lease(): self.fail('duplicate window reset the candidate')
+
+    def test_larger_reported_window_does_not_replace_usage_policy_or_receipt_clocks(self):
+        state = MODULE.NativeInputState(binding())
+        state.observe(exact(), received_at_unix_ms=NOW - 10, received_monotonic_ns=4990000000)
+        # Different constructed UI counters and a larger report cannot renew
+        # the raw numerator, configured denominator or original source cutoff.
+        state.observe(reported_window(window=300000, total=90000))
+        state.observe(terminal())
+        with self.owner(state), self.lease() as lease:
+            observed = lease.observation
+            self.assertEqual(observed['exact_usage']['usage']['totalTokens'], 17014)
+            self.assertEqual(observed['budget_policy']['configured_usable_tokens'], 258400)
+            self.assertEqual(observed['context_health_bp'], 9342)
+            self.assertEqual(observed['reported_window']['model_context_window'], 300000)
+            self.assertEqual(observed['exact_usage']['received_at_unix_ms'], NOW - 10)
+        self.clock.return_value += 29991000000
+        with self.owner(state), self.assertRaisesRegex(MODULE.NativeInputError, 'STALE_FUTURE_OR_UNCERTAIN_CUTOFF'):
+            with self.lease(): self.fail('later window refreshed the old raw cutoff')
+
+    def test_archive_schema_is_bound_to_exact_window_calibration(self):
+        path = ROOT / 'skills/implementaudit/scripts/rotate-canonical-state.py'
+        spec = importlib.util.spec_from_file_location('constructed_window_archive_rotation', path)
+        rotation = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = rotation; spec.loader.exec_module(rotation)
+        selected = binding()
+        selected['budget_policy']['id'] = 'R0039-CONFIGURED-HEADROOM-v1'
+        state = MODULE.NativeInputState(selected)
+        state.observe(exact()); state.observe(reported_window()); state.observe(terminal())
+        with self.owner(state), self.lease() as lease:
+            observation = lease.observation
+        receipt_ref, receipt_oid = SUBJECT['receipt_token'].split('@')
+        predecessor = dict(SUBJECT, receipt_ref=receipt_ref, receipt_oid=receipt_oid)
+        current = rotation.full_or_calibration_contract_v1()
+        for calibration in rotation._historical_or_calibrations_v1():
+            current_schema = calibration == current
+            record = dict(schema='implementaudit.rotation-native-input.v2' if current_schema else
+                          'implementaudit.rotation-native-input.v1', observation=copy.deepcopy(observation),
+                          prepared_at_unix_ms=NOW, authority_ceiling='HISTORICAL_INPUT_NOT_REAUTHENTICATED')
+            if not current_schema: del record['observation']['reported_window']
+            rotation._check_native_input_record(record, predecessor, 100000, 30000, calibration)
+            # Change the entire member population as well as the version: this
+            # catches an actual downgrade, not merely a malformed schema label.
+            record['schema'] = ('implementaudit.rotation-native-input.v1' if current_schema else
+                                'implementaudit.rotation-native-input.v2')
+            if current_schema: del record['observation']['reported_window']
+            else: record['observation']['reported_window'] = copy.deepcopy(observation['reported_window'])
+            with self.subTest(module=calibration['native_input_module_sha256']), self.assertRaisesRegex(
+                    rotation.RotationError, 'schema differs from its exact calibration'):
+                rotation._check_native_input_record(record, predecessor, 100000, 30000, calibration)
+        record = dict(schema='implementaudit.rotation-native-input.v2', observation=copy.deepcopy(observation),
+                      prepared_at_unix_ms=NOW, authority_ceiling='HISTORICAL_INPUT_NOT_REAUTHENTICATED')
+        record['observation']['reported_window']['schema'] = 'implementaudit.native-reported-window.v2'
+        with self.assertRaises(rotation.RotationError):
+            rotation._check_native_input_record(record, predecessor, 100000, 30000, current)
 
     def test_nested_and_consumed_candidate_leases_refuse(self):
         state = self.state()

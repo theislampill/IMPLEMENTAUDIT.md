@@ -9,7 +9,7 @@ import unittest
 from unittest import mock
 
 import claim_transaction_test as claim
-from native_input_adapter_test import binding, exact, terminal, NOW
+from native_input_adapter_test import binding, exact, reported_window, terminal, NOW
 
 
 class PhysicalOwnerIsolation(unittest.TestCase):
@@ -58,7 +58,7 @@ class NativeClaim(unittest.TestCase):
 
     def state(self, used=193800):
         state = self.native.NativeInputState(self.binding)
-        state.observe(exact(used)); state.observe(terminal())
+        state.observe(exact(used)); state.observe(reported_window(total=used)); state.observe(terminal())
         return state
 
     def rotate(self):
