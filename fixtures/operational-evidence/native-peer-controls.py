@@ -399,9 +399,45 @@ def configure_filter(root, command):
 
 
 def current_answer(root, arguments):
-    if arguments[0] == '--current-controller':
+    if list(arguments) == ['--current-controller']:
         return 'injected-source-control\t' + str(root) + '\t' + str(root) + '\t' + '1' * 32
-    return RECEIPT
+    if list(arguments) in (['--require-current-continuity', 'injected-source-control'],
+                           ['--verify-resume-receipt', RECEIPT]):
+        return RECEIPT
+    raise AssertionError('unexpected injected currentness operation: ' + repr(arguments))
+
+
+@contextlib.contextmanager
+def injected_currentness(root):
+    """Inject only owner-call outcomes after the real fixed-source acquisition.
+
+    The six-source profile loads its adapter independently of the historical
+    two-source call helper. Keep the existing fixture's no-native-operation
+    boundary at that execution edge; do not bypass adapter/companion pins,
+    modes, held-source acquisition or the actual fixed-view Git reads.
+    """
+    acquire = WG._native_six_source_transport_v1
+    calls = []
+
+    def selected_transport(*args):
+        transport, acquired_sources, transport_source = acquire(*args)
+
+        def injected_call(owner, *, repository, sources, arguments):
+            if Path(repository) != root or sources != acquired_sources:
+                raise AssertionError('injected currentness crossed its source/repository binding')
+            answer = current_answer(root, arguments)
+            calls.append(list(arguments))
+            return dict(returncode=0, stdout=(answer + '\n').encode(), stderr=b'',
+                        closure=dict(scope='INJECTED_SOURCE_CONTROL_NO_NATIVE_CREDIT',
+                                     source_count=len(acquired_sources)))
+
+        transport.call_readonly_v1 = injected_call
+        return transport, acquired_sources, transport_source
+
+    with patch.object(WG, '_native_claim_call_v1',
+            side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)), \
+         patch.object(WG, '_native_six_source_transport_v1', side_effect=selected_transport):
+        yield calls
 
 
 def documents(root):
@@ -424,7 +460,7 @@ class SecurityControls(unittest.TestCase):
             self.assertTrue(marker.is_file())
             BASELINE.append({'control': 'local-filter-execution', 'positive_control': 'DIRECT_GIT_EXECUTED_OWNED_MARKER'})
             marker.unlink()
-            with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+            with injected_currentness(root):
                 value = WG._native_continuity(root, root)
             self.assertFalse(marker.exists())
             self.assertEqual(value['receipt'], RECEIPT)
@@ -586,7 +622,7 @@ class SecurityControls(unittest.TestCase):
         with disposable('tracked-change-') as root:
             marker, command = git_fixture(root)
             configure_filter(root, command)
-            with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+            with injected_currentness(root):
                 first = WG._native_continuity(root, root)
                 (root / 'data.txt').write_bytes(b'different-content\n')
                 second = WG._native_continuity(root, root)
@@ -624,7 +660,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
             marker, command = git_fixture(root)
             producer.unlink()  # Only the owned disposable source copy.
             try:
-                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+                with injected_currentness(root):
                     actual = WG._native_continuity(root, root)
                 self.assertEqual(actual['receipt'], RECEIPT)
                 self.assertEqual(actual['acquisition'], 'NATIVE_CONTINUITY_VERIFIED')
@@ -649,7 +685,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
                 p.write_bytes(raw)
             producer.write_bytes(b'raise AssertionError("optional producer executed")\n')
             try:
-                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)):
+                with injected_currentness(root):
                     actual = WG.read_native_run_v1(root, root)
                 self.assertEqual(actual['schema'], 'implementaudit.native-work-graph.v1')
                 self.assertEqual(actual['authority'], 'NONE')
@@ -670,7 +706,7 @@ class ContinuityCompatibilityControls(unittest.TestCase):
                 p.write_bytes(raw)
             producer.write_bytes(b'raise AssertionError("wrong producer executed")\n')
             try:
-                with patch.object(WG, '_native_claim_call_v1', side_effect=lambda owner, route, repo, args, a, b: current_answer(root, args)), \
+                with injected_currentness(root), \
                      self.assertRaisesRegex(WG.WorkGraphError, 'source identity changed'):
                     WG.read_native_run_v1(root, root)
             finally:
@@ -784,15 +820,17 @@ class DirectoryRaceControl(unittest.TestCase):
 SOURCE_MEMBERS = {
     'scripts/operational-evidence.py': 'scripts/operational-evidence.py',
     'scripts/operational_query_policy.py': 'scripts/operational_query_policy.py',
+    'scripts/work-graph-continuity-transport.py': 'scripts/work-graph-continuity-transport.py',
     **{f'skills/implementaudit/scripts/{name}': f'source-peers/route-graph/skills/implementaudit/scripts/{name}'
        for name in ('route-transaction.py', 'route_request_policy.py', 'compile-work-graph.py')},
     **{f'skills/implementaudit/scripts/{name}': f'skills/implementaudit/scripts/{name}'
-       for name in ('claim-run.sh', 'validate-run-root.sh')},
+       for name in ('claim-run.sh', 'validate-run-root.sh', 'claim-run-rotation.py',
+                    'rotate-canonical-state.py', 'canonical_hot_projection.py', 'canonical_custody.py')},
 }
 
 
 def assemble_test_source(repo, canonical):
-    """Seven exact source members; helper operations remain injected/inert."""
+    """Exact source/adapter closure; helper operations remain injected/inert."""
     hashes = {}
     for target_relative, source_relative in SOURCE_MEMBERS.items():
         source = repo / source_relative
@@ -809,7 +847,8 @@ def assemble_test_source(repo, canonical):
         target = canonical / target_relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(raw)
-        if target.read_bytes() != raw:
+        target.chmod(stat.S_IMODE(before.st_mode))
+        if target.read_bytes() != raw or stat.S_IMODE(target.stat().st_mode) != stat.S_IMODE(before.st_mode):
             raise ValueError('temporary source copy differs: ' + source_relative)
         hashes[source_relative] = hashlib.sha256(raw).hexdigest()
     return hashes
