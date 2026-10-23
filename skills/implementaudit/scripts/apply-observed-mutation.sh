@@ -45,6 +45,7 @@ EXITS = {
     "ROLLBACK_FAILED_WITH_RESIDUE": 75,
     "POST_COMMIT_DRIFT": 76,
     "UNSUPPORTED_OWNER_DECISION": 77,
+    "UNKNOWN": 78,
 }
 COORDINATION_SCOPE = "GOVERNED_HELPER_ROUTED_WRITERS_ONLY"
 
@@ -258,6 +259,7 @@ parser.add_argument("--phase", required=True, type=int)
 parser.add_argument("--step", required=True, type=int)
 parser.add_argument("--preimage")
 parser.add_argument("--candidate")
+parser.add_argument("--require-generation-fence", action="store_true")
 parser.add_argument("--offset")
 parser.add_argument("--region")
 parser.add_argument("--replacement")
@@ -445,6 +447,55 @@ def current_post_rows():
 
 
 empty_effect_digest = digest(canonical([]))
+controller_identity = None
+generation_identity = None
+fence_disposition = "NOT_APPLICABLE"
+
+
+def protected_target_fingerprint():
+    if SOURCE is None or source_initial.get("kind") != "regular":
+        return None
+    body = {
+        "authorized_path": source_name,
+        "preimage_identity": {
+            "sha256": source_initial["sha256"],
+            "byte_length": source_initial["byte_length"],
+        },
+    }
+    return {
+        "schema": "implementaudit.protected-target-fingerprint.v1",
+        **body,
+        "fingerprint_sha256": digest(canonical(body)),
+    }
+
+
+target_identity = protected_target_fingerprint()
+
+
+def identity_bindings(transaction=None, effect_digest=empty_effect_digest):
+    return {
+        "operation": {
+            "kind": "operation",
+            "operation": operation,
+            "source_path": source_name,
+            "destination_path": destination_name,
+        },
+        "attempt": {
+            "kind": "attempt",
+            "transaction_id": transaction,
+            "claim_id": claim_id,
+            "phase": args.phase,
+            "step": args.step,
+            "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        },
+        "effect": {
+            "kind": "effect-plan",
+            "planned_effect_set_sha256": effect_digest,
+        },
+        "controller": controller_identity,
+        "generation": generation_identity,
+        "target": target_identity,
+    }
 
 
 def emit_no_effect(status, why, transaction=None):
@@ -468,6 +519,10 @@ def emit_no_effect(status, why, transaction=None):
         "planned_effect_set_sha256": empty_effect_digest,
         "actual_effect_set": [],
         "residue": [],
+        "identity_bindings": identity_bindings(transaction),
+        "generation_fence_disposition": fence_disposition,
+        "retry_permitted": False,
+        "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
     }
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
@@ -508,6 +563,9 @@ LOCK_ROOT = REPO / ".IMPLEMENTAUDIT" / ".r36-locks"
 LOCK_PARENT = LOCK_ROOT.parent
 LOCK_GATE = LOCK_ROOT / "namespace.gate"
 RELEASED_LOCK_ROOT = TX / "released-locks"
+FENCE_PATH = RUN / "mutation-fences" / f"phase-{args.phase}-step-{args.step}.json"
+protected_route_requested = os.path.lexists(FENCE_PATH) or args.require_generation_fence
+fence_capture = None
 
 if not safe_directory_chain(TX_PARENT, RUN, True):
     emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
@@ -585,7 +643,6 @@ allowed = {
 }
 actual = []
 namespace_gate_fd = None
-
 
 def acquire_window_gate():
     """Lock the persistent governed-writer inode before any run-root effect."""
@@ -665,7 +722,29 @@ def release_window_gate():
     return errors
 
 
-def current_controller_failure():
+def git_read(args, binary=False):
+    completed = subprocess.run(
+        ["git", *args], cwd=os.fspath(REPO), text=not binary,
+        capture_output=True, check=False,
+    )
+    return completed.returncode, completed.stdout
+
+
+def load_generation_identity(controller, token, control):
+    # claim-run is the sole semantic owner for legacy and native receipts.
+    # Consume its verified opaque identity; do not clone either receipt parser.
+    pattern = rf"(refs/implementaudit/continuity-receipts/{re.escape(controller)}/(G[0-9A-F]{{4}}))@([0-9a-f]{{40}}|[0-9a-f]{{64}})"
+    match = re.fullmatch(pattern, token)
+    if match is None or match.group(2) == "G0000":
+        return None
+    return {
+        "generation_id": match.group(2),
+        "receipt_ref": match.group(1),
+        "receipt_oid": match.group(3),
+    }
+
+
+def current_controller_binding():
     marker = RUN / ".controller"
     identity = path_identity(marker)
     same = lambda l, r: os.path.normcase(os.path.abspath(native_input(l))) == os.path.normcase(os.path.abspath(r))
@@ -681,28 +760,390 @@ def current_controller_failure():
             cwd=os.fspath(REPO), text=True, capture_output=True,
         )
         if refs.returncode != 0:
-            return "STALE_CONTROLLER_CUSTODY"
+            return "STALE_CONTROLLER_CUSTODY", None, None
         for controller in refs.stdout.splitlines():
             rc, fields = record(controller)
             if rc == 0 and len(fields) == 4 and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id:
-                return "STALE_CONTROLLER_CUSTODY"
-        return None
+                return "STALE_CONTROLLER_CUSTODY", None, None
+        return None, None, None
     if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
     match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
     if match is None:
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
     controller = match.group(1).decode("ascii")
     rc, fields = record(controller)
     if rc != 0 or len(fields) != 4:
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
     if not (fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id):
-        return "STALE_CONTROLLER_CUSTODY"
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    controller_ref = f"refs/implementaudit/controllers/{controller}"
+    rc, controller_oid = git_read(["rev-parse", "--verify", controller_ref])
+    controller_oid = controller_oid.strip()
+    if rc != 0 or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", controller_oid) is None:
+        return "STALE_CONTROLLER_CUSTODY", None, None
+    control = {
+        "controller_id": controller,
+        "controller_ref": controller_ref,
+        "controller_oid": controller_oid,
+        "claim_id": claim_id,
+    }
     current = subprocess.run(
         [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--require-current-continuity", controller],
         cwd=os.fspath(REPO), text=True, capture_output=True,
     )
-    return None if current.returncode == 0 else "STALE_CONTINUITY_RECEIPT"
+    if current.returncode != 0:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    # Ordinary work retains every historical receipt accepted by its owner.
+    # Only the selected protected route requires a canonical generation token.
+    if not protected_route_requested:
+        return None, control, None
+    token = current.stdout.rstrip("\r\n")
+    generation = load_generation_identity(controller, token, control)
+    if generation is None:
+        return "STALE_CONTINUITY_RECEIPT", control, None
+    return None, control, generation
+
+
+def read_fence_buffer():
+    if not safe_directory_chain(FENCE_PATH.parent, RUN):
+        raise ValueError("unsafe fence directory")
+    before = os.lstat(FENCE_PATH)
+    if not stat.S_ISREG(before.st_mode) or is_reparse(before) or before.st_nlink != 1:
+        raise ValueError("fence is not a unique regular file")
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+    fd = os.open(FENCE_PATH, flags)
+    try:
+        opened = os.fstat(fd)
+        if (not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1
+            or is_reparse(before) or stat.S_ISLNK(before.st_mode)
+            or (before.st_dev, before.st_ino) != (opened.st_dev, opened.st_ino)
+            or opened.st_size > 16384):
+            raise ValueError("unsafe fence file")
+        with os.fdopen(fd, "rb", closefd=False) as handle:
+            raw = handle.read(16385)
+        after = os.fstat(fd)
+        current = os.lstat(FENCE_PATH)
+        witness = lambda st: (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns, st.st_nlink)
+        if len(raw) > 16384 or witness(before) != witness(opened) or witness(opened) != witness(after) or witness(after) != witness(current):
+            raise ValueError("fence changed during capture")
+        return raw
+    finally:
+        os.close(fd)
+
+
+def unique_fence_members(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate fence member")
+        result[key] = value
+    return result
+
+
+def require_generation_fence():
+    global controller_identity, generation_identity, fence_disposition, fence_capture
+    if not protected_route_requested:
+        if os.path.lexists(FENCE_PATH):
+            fence_disposition = "UNKNOWN"
+            return "UNKNOWN", "MANUAL_RECONCILIATION"
+        fence_disposition = "NOT_APPLICABLE"
+        return None
+    try:
+        raw = read_fence_buffer()
+        if fence_capture is not None and raw != fence_capture:
+            fence_disposition = "REJECTED"
+            return "REJECTED_NO_MUTATION", "FENCE_IDENTITY_DRIFT"
+        fence = json.loads(raw.decode("utf-8"), object_pairs_hook=unique_fence_members)
+        fence_capture = raw
+    except (OSError, UnicodeDecodeError, ValueError):
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    required = {
+        "schema", "phase", "step", "source_path", "protected_target",
+        "controller_generation", "authority_generation", "protected_generation",
+        "verified_resume_receipt",
+    }
+    optional = {"sink_capability", "controller_id"}
+    if (
+        not isinstance(fence, dict)
+        or set(fence) - required - optional
+        or not required.issubset(fence)
+        or fence.get("schema") != "implementaudit.protected-mutation-fence.v1"
+    ):
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    if controller_identity is None or generation_identity is None:
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    controller = controller_identity["controller_id"]
+    declared_controller = fence.get("controller_id", controller)
+    capability = fence.get("sink_capability", "REJECT_AND_REPORT")
+    if declared_controller != controller:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "WRONG_CONTROLLER"
+    if type(fence.get("phase")) is not int or type(fence.get("step")) is not int or fence.get("phase") != args.phase or fence.get("step") != args.step or fence.get("source_path") != source_name:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    target = fence.get("protected_target")
+    expected_target = None if target_identity is None else target_identity["preimage_identity"]
+    if not isinstance(target, dict) or set(target) != {"sha256", "byte_length"} or type(target.get("byte_length")) is not int or target != expected_target:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    current_generation = generation_identity["generation_id"]
+    generations = [
+        fence.get("controller_generation"), fence.get("authority_generation"),
+        fence.get("protected_generation"),
+    ]
+    if any(not isinstance(item, str) or re.fullmatch(r"G[0-9A-F]{4}", item) is None for item in generations):
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_AUTHORITY_GENERATION"
+    if fence["controller_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_CONTROLLER_GENERATION"
+    if fence["authority_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "STALE_AUTHORITY_GENERATION"
+    if fence["protected_generation"] != current_generation:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_GENERATION_MISMATCH"
+    current_token = f'{generation_identity["receipt_ref"]}@{generation_identity["receipt_oid"]}'
+    if fence.get("verified_resume_receipt") != current_token:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "POINTER_RECEIPT_DRIFT"
+    if capability != "REJECT_AND_REPORT":
+        fence_disposition = "UNKNOWN"
+        return "UNKNOWN", "MANUAL_RECONCILIATION"
+    failure, current_control, current_generation_binding = current_controller_binding()
+    if failure is not None:
+        fence_disposition = "REJECTED"
+        status = "UNSUPPORTED_OWNER_DECISION" if failure == "STALE_CONTROLLER_CUSTODY" else "REJECTED_NO_MUTATION"
+        reason_code = failure if failure == "STALE_CONTROLLER_CUSTODY" else "POINTER_RECEIPT_DRIFT"
+        return status, reason_code
+    if current_control != controller_identity:
+        fence_disposition = "REJECTED"
+        return "UNSUPPORTED_OWNER_DECISION", "STALE_CONTROLLER_CUSTODY"
+    if current_generation_binding != generation_identity:
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "POINTER_RECEIPT_DRIFT"
+    if source_initial != path_identity(SOURCE):
+        fence_disposition = "REJECTED"
+        return "REJECTED_NO_MUTATION", "PROTECTED_TARGET_IDENTITY_MISMATCH"
+    fence_disposition = "VERIFIED"
+    return None
+
+
+authority_guard = None
+authority_guard_reader = None
+authority_guard_refs = {}
+authority_guard_paths = {}
+authority_guard_locks = {}
+authority_guard_common = None
+authority_guard_state = "NOT_APPLICABLE"
+authority_guard_head_target = None
+
+
+class AuthorityGuardLost(RuntimeError):
+    pass
+
+
+def initialise_authority_guard():
+    """Plan a native Git verify-only transaction; claim-run owns its meaning."""
+    global authority_guard_common, authority_guard_refs, authority_guard_state, authority_guard_head_target
+    global planned, planned_digest, allowed
+    if not protected_route_requested:
+        return
+    rc, storage = git_read(["config", "--get", "extensions.refStorage"])
+    if rc not in (0, 1) or (rc == 0 and storage.strip() != "files"):
+        raise ValueError("protected effect requires the qualified Git files backend")
+    rc, raw_common = git_read(["rev-parse", "--path-format=absolute", "--git-common-dir"])
+    if rc != 0:
+        raise ValueError("Git common directory unavailable")
+    common = Path(os.path.abspath(native_input(raw_common.strip())))
+    claimed = Path(os.path.abspath(native_input(claim["git_common_dir"])))
+    if os.path.normcase(str(common)) != os.path.normcase(str(claimed)) or not safe_directory_chain(common, Path(common.anchor)):
+        raise ValueError("Git common directory custody mismatch")
+    authority_guard_common = common
+    controller = controller_identity["controller_id"]
+    refs = {
+        controller_identity["controller_ref"], generation_identity["receipt_ref"],
+        f"refs/implementaudit/continuity-invalidations/{controller}",
+        f"refs/implementaudit/current-generations/{controller}",
+        f"refs/implementaudit/current-generation-migrations/{controller}", "HEAD",
+    }
+    rc, branch = git_read(["symbolic-ref", "--quiet", "HEAD"])
+    if rc == 0:
+        if not branch.strip().startswith("refs/heads/"):
+            raise ValueError("unsupported current branch reference")
+        refs.add(branch.strip())
+        authority_guard_head_target = branch.strip()
+    elif rc != 1:
+        raise ValueError("HEAD identity unavailable")
+    zero = "0" * len(generation_identity["receipt_oid"])
+    for ref in sorted(refs):
+        rc, oid = git_read(["rev-parse", "--verify", "--quiet", ref])
+        if rc == 0 and re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", oid.strip()):
+            authority_guard_refs[ref] = oid.strip()
+        elif rc == 1 and ref not in {"HEAD", controller_identity["controller_ref"], generation_identity["receipt_ref"]}:
+            authority_guard_refs[ref] = zero
+        else:
+            raise ValueError("reference identity unavailable")
+        rc, raw_path = git_read(["rev-parse", "--path-format=absolute", "--git-path", ref + ".lock"])
+        if rc != 0:
+            raise ValueError("reference lock location unavailable")
+        lock = Path(os.path.abspath(native_input(raw_path.strip())))
+        try:
+            relative = lock.relative_to(common)
+        except ValueError as error:
+            raise ValueError("reference lock outside bound common directory") from error
+        cursor = common
+        for part in relative.parts[:-1]:
+            cursor /= part
+            identity = path_identity(cursor)
+            if identity["kind"] not in {"directory", "absent"}:
+                raise ValueError("unsafe reference directory")
+            authority_guard_paths[cursor] = identity
+        if os.path.lexists(lock):
+            raise ValueError("reference lock already present")
+        authority_guard_paths[lock] = {"kind": "absent"}
+        authority_guard_locks[lock] = None
+    for path, identity in authority_guard_paths.items():
+        lock = path in authority_guard_locks
+        plan_key = ("git-common", path.relative_to(common).as_posix())
+        planned_map[plan_key] = {
+            "roles": {"authority-ref-lock" if lock else "authority-ref-directory"},
+            "allowed_effects": {"create", "unlink", "lock-attempt"} if lock else {"mkdir"},
+            "retention": "transient" if lock else "durable",
+        }
+    planned = [dict(scope=scope, path=path, roles=sorted(row["roles"]),
+                    allowed_effects=sorted(row["allowed_effects"]), retention=row["retention"])
+               for (scope, path), row in sorted(planned_map.items())]
+    planned_digest = digest(canonical(planned))
+    allowed = {(row["scope"], row["path"]): set(row["allowed_effects"]) for row in planned}
+    authority_guard_state = "PLANNED"
+
+
+def record_guard_effect(path, effect, before, after, outcome="applied"):
+    relative = path.relative_to(authority_guard_common).as_posix()
+    if effect not in allowed.get(("git-common", relative), set()):
+        raise RuntimeError("EFFECT_SET_INCOMPLETE:git-common:" + relative)
+    actual.append(dict(sequence=len(actual) + 1, scope="git-common", path=relative,
+                       effect=effect, before=before, after=after, outcome=outcome))
+
+
+def capture_guard_effects(prepared):
+    for path, before in authority_guard_paths.items():
+        after = path_identity(path)
+        if path in authority_guard_locks:
+            if not prepared:
+                record_guard_effect(path, "lock-attempt", before, after, "unknown")
+                continue
+            if after.get("kind") == "regular" and after.get("link_count") == 1 and after.get("byte_length") == 0:
+                authority_guard_locks[path] = after
+                record_guard_effect(path, "create", before, after)
+            elif prepared:
+                raise AuthorityGuardLost("prepared reference lock is not held")
+            else:
+                # A failed prepare can create and remove locks before readback.
+                # Absence after failure does not prove that no auxiliary effect ran.
+                record_guard_effect(path, "lock-attempt", before, after, "unknown")
+        elif before["kind"] == "absent" and after["kind"] == "directory":
+            record_guard_effect(path, "mkdir", before, after)
+
+
+def acquire_authority_guard():
+    global authority_guard, authority_guard_state, authority_guard_reader
+    if not protected_route_requested:
+        return
+    import queue
+    import threading
+    messages = queue.Queue()
+    command = ["git", "-c", "core.hooksPath=" + os.devnull,
+               "-c", "core.filesRefLockTimeout=1000", "update-ref", "--stdin", "--no-deref"]
+    authority_guard = subprocess.Popen(command, cwd=os.fspath(REPO), text=True,
+                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = authority_guard
+    def receive_prepare():
+        try:
+            messages.put((process.stdout.readline().strip(), process.stdout.readline().strip()))
+        except (OSError, ValueError) as error:
+            messages.put(error)
+    reader = threading.Thread(target=receive_prepare, daemon=True)
+    authority_guard_reader = reader
+    reader.start()
+    # Git also locks HEAD when verifying its current branch. Listing both
+    # creates a duplicate-update refusal. Capture requires both physical locks;
+    # a changed symbolic HEAD therefore cannot silently weaken this guard.
+    request = "start\n" + "".join(
+        f"verify {ref} {oid}\n" for ref, oid in sorted(authority_guard_refs.items())
+        if ref != "HEAD" or authority_guard_head_target is None) + "prepare\n"
+    prepared = False
+    try:
+        authority_guard.stdin.write(request)
+        authority_guard.stdin.flush()
+        reply = messages.get(timeout=10)
+        prepared = reply == ("start: ok", "prepare: ok") and authority_guard.poll() is None
+        capture_guard_effects(prepared)
+        if not prepared:
+            raise AuthorityGuardLost("Git reference guard was not prepared")
+        authority_guard_state = "HELD"
+        ensure_authority_guard()
+        failure = require_generation_fence()
+        if failure is not None:
+            raise AuthorityGuardLost("continuity changed before reference guard preparation")
+    except (BrokenPipeError, OSError, queue.Empty) as error:
+        if not prepared:
+            capture_guard_effects(False)
+        raise AuthorityGuardLost("Git reference guard unavailable") from error
+
+
+def ensure_authority_guard():
+    if not protected_route_requested:
+        return
+    if authority_guard is None or authority_guard.poll() is not None or authority_guard_state != "HELD":
+        raise AuthorityGuardLost("authority guard process is not live")
+    for path, expected in authority_guard_locks.items():
+        if expected is None or path_identity(path) != expected:
+            raise AuthorityGuardLost("authority guard lock identity changed")
+
+
+def release_authority_guard():
+    global authority_guard, authority_guard_state
+    process = authority_guard
+    if process is None:
+        return []
+    authority_guard = None
+    errors = []
+    if authority_guard_reader is not None and authority_guard_reader.is_alive():
+        process.kill()
+        authority_guard_reader.join(timeout=10)
+        errors.append("reference guard preparation reader required termination")
+    try:
+        output, stderr = process.communicate("abort\n", timeout=10)
+        if process.returncode != 0 or output.strip() != "abort: ok":
+            errors.append("reference guard abort was not acknowledged: " + stderr.strip()[:1000])
+    except (OSError, ValueError, subprocess.TimeoutExpired):
+        process.kill()
+        process.communicate(timeout=10)
+        errors.append("reference guard process required termination")
+    for path, before in authority_guard_locks.items():
+        after = path_identity(path)
+        if before is not None and after["kind"] == "absent":
+            record_guard_effect(path, "unlink", before, after)
+        elif after["kind"] != "absent":
+            errors.append("reference guard residue: " + path.relative_to(authority_guard_common).as_posix())
+    authority_guard_state = "RELEASE_UNCERTAIN" if errors else "RELEASED"
+    if errors:
+        sys.stderr.write("apply-observed-mutation: " + "; ".join(errors) + "\n")
+    return errors
+
+
+def authority_guard_record():
+    return {"state": authority_guard_state, "method": "GIT_VERIFY_ONLY_PREPARED_TRANSACTION",
+            "git_common_dir": str(authority_guard_common) if authority_guard_common is not None else None,
+            "expected_refs": dict(authority_guard_refs), "head_symbolic_ref": authority_guard_head_target,
+            "scope": COORDINATION_SCOPE,
+            "remaining_lock_paths": [path.relative_to(authority_guard_common).as_posix() for path in authority_guard_locks if os.path.lexists(path)]}
 
 
 def window_intents():
@@ -765,6 +1206,8 @@ def verification_window_failure():
 
 
 def authorise(path, effect):
+    if protected_route_requested and path in {SOURCE, DESTINATION, BACKUP, STAGE}:
+        ensure_authority_guard()
     key = ("repo", repo_relative(path))
     if effect not in allowed.get(key, set()):
         raise RuntimeError(f"EFFECT_SET_INCOMPLETE:{key[1]}:{effect}")
@@ -1011,29 +1454,33 @@ def observations():
     return result
 
 
-authority_record = {
-    "schema": "implementaudit.observation-bound-mutation.authority.v2",
-    "transaction_id": transaction_id,
-    "created_at_utc": utc_now(),
-    "claim": {
-        "claim_id": claim_id,
-        "claim_sha256": digest(claim_bytes),
-        "repo_root": claim["repo_root"],
-        "git_common_dir": claim["git_common_dir"],
-        "run_root": claim["run_root"],
-    },
-    "phase": {
-        "phase": args.phase,
-        "step": args.step,
-        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
-    },
-    "operation": operation,
-    "source": source_name,
-    "destination": destination_name,
-    "observations": observations(),
-    "planned_effect_set": planned,
-    "planned_effect_set_sha256": planned_digest,
-}
+def authority_record():
+    return {
+        "schema": "implementaudit.observation-bound-mutation.authority.v2",
+        "transaction_id": transaction_id,
+        "created_at_utc": utc_now(),
+        "claim": {
+            "claim_id": claim_id,
+            "claim_sha256": digest(claim_bytes),
+            "repo_root": claim["repo_root"],
+            "git_common_dir": claim["git_common_dir"],
+            "run_root": claim["run_root"],
+        },
+        "phase": {
+            "phase": args.phase,
+            "step": args.step,
+            "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        },
+        "operation": operation,
+        "source": source_name,
+        "destination": destination_name,
+        "observations": observations(),
+        "planned_effect_set": planned,
+        "planned_effect_set_sha256": planned_digest,
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "authority_publication_guard": authority_guard_record(),
+        "generation_fence_disposition": fence_disposition,
+    }
 
 
 def emit_transaction_conflict(reason_code):
@@ -1057,7 +1504,15 @@ def emit_transaction_conflict(reason_code):
         "planned_effect_set_sha256": planned_digest,
         "actual_effect_set": actual,
         "residue": [],
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "authority_publication_guard": authority_guard_record(),
+        "generation_fence_disposition": fence_disposition,
+        "retry_permitted": False,
+        "terminal_closure_claim": "NOT_ASSERTED",
     }
+    gate_release_errors = release_window_gate()
+    if gate_release_errors:
+        sys.stderr.write("apply-observed-mutation: governed-writer gate release requires manual reconciliation\n")
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS["CONFLICT_REBASE"])
 
@@ -1115,6 +1570,11 @@ def result_record(status, reason_code, residue_paths, effect_rows):
         "planned_effect_set_sha256": planned_digest,
         "actual_effect_set": list(effect_rows),
         "residue": [residue_row(path) for path in residue_paths if path_identity(path).get("kind") != "absent"],
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "authority_publication_guard": authority_guard_record(),
+        "generation_fence_disposition": fence_disposition,
+        "retry_permitted": False,
+        "terminal_closure_claim": "PROHIBITED" if status == "UNKNOWN" else "NOT_ASSERTED",
     }
 
 
@@ -1182,11 +1642,13 @@ def emit_initialisation_failure():
 try:
     acquire_window_gate()
 except WriterDomainBreach:
+    release_window_gate()
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
 except OSError as error:
+    release_window_gate()
     sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
     emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
-controller_failure = current_controller_failure()
+controller_failure, controller_identity, generation_identity = current_controller_binding()
 if controller_failure is not None:
     if release_window_gate():
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
@@ -1201,6 +1663,17 @@ if window_failure is not None:
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
     emit_no_effect("UNSUPPORTED_OWNER_DECISION", "OPEN_VERIFICATION_WINDOW")
 phase_hook("window-scan-complete")
+fence_failure = require_generation_fence()
+if fence_failure is not None:
+    fence_status, fence_reason = fence_failure
+    if release_window_gate():
+        emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    emit_no_effect(fence_status, fence_reason)
+try:
+    initialise_authority_guard()
+except (OSError, ValueError):
+    release_window_gate()
+    emit_no_effect("UNKNOWN", "MANUAL_RECONCILIATION")
 
 try:
     if path_identity(TX_PARENT).get("kind") == "absent":
@@ -1215,7 +1688,7 @@ except FileExistsError:
 except OSError:
     emit_initialisation_failure()
 try:
-    write_new(AUTHORITY, canonical(authority_record), mark_init_authority)
+    write_new(AUTHORITY, canonical(authority_record()), mark_init_authority)
     fsync_dir(TX)
 except OSError:
     emit_initialisation_failure()
@@ -1237,6 +1710,9 @@ def journal_record(status, residue_paths=(), effect_rows=None):
         "actual_effect_set": list(actual if effect_rows is None else effect_rows),
         "residue": [residue_row(path) for path in residue_paths if path.exists()],
         "updated_at_utc": utc_now(),
+        "identity_bindings": identity_bindings(transaction_id, planned_digest),
+        "authority_publication_guard": authority_guard_record(),
+        "generation_fence_disposition": fence_disposition,
     }
 
 
@@ -1380,6 +1856,18 @@ terminal_finalized = False
 def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     global retain_owned_locks, terminal_finalized
     uncertain_paths = list(residue_paths)
+    if authority_guard is not None:
+        try:
+            # Hold publication exclusion through every target/rollback effect
+            # and a durable terminal target journal. The final result includes
+            # observed guard release effects and asserts no later currentness.
+            persist_journal(status, uncertain_paths)
+        except (OSError, RuntimeError):
+            status, reason_code = "UNKNOWN", "MANUAL_RECONCILIATION"
+            uncertain_paths.append(TX)
+        if release_authority_guard():
+            status, reason_code = "UNKNOWN", "MANUAL_RECONCILIATION"
+            uncertain_paths.extend([JOURNAL, TX])
     if uncertain_paths:
         retain_owned_locks = True
         uncertain_paths.extend(owned_lock_residue_paths())
@@ -1407,9 +1895,17 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
+    phase_hook("terminal-result-durable")
     terminal_finalized = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
+
+
+def require_first_protected_effect_generation_fence():
+    fence_failure = require_generation_fence()
+    if fence_failure is not None:
+        final_result(*fence_failure)
+    acquire_authority_guard()
 
 
 phase_hook("init")
@@ -1468,6 +1964,8 @@ try:
         if not source_observation_unchanged() or path_identity(DESTINATION).get("kind") != "absent":
             final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
         persist_journal("PLANNED")
+        require_first_protected_effect_generation_fence()
+        phase_hook("first-protected-effect-boundary")
         try:
             link(SOURCE, DESTINATION, mark_move_destination_published)
         except FileExistsError:
@@ -1485,6 +1983,8 @@ try:
         final_result("COMMITTED")
 
     persist_journal("PLANNED")
+    require_first_protected_effect_generation_fence()
+    phase_hook("first-protected-effect-boundary")
     replace(SOURCE, BACKUP, mark_displaced)
     persist_journal("DISPLACEMENT_DURABLE", [BACKUP])
     if fault == "after-displacement":
@@ -1524,6 +2024,9 @@ try:
     unlink(BACKUP)
     final_result("COMMITTED")
 except RuntimeError as error:
+    if isinstance(error, AuthorityGuardLost):
+        paths = [path for path in (JOURNAL, BACKUP, STAGE, DESTINATION) if path is not None and path_identity(path).get("kind") != "absent"]
+        final_result("UNKNOWN", "MANUAL_RECONCILIATION", paths)
     if isinstance(error, WriterDomainBreach):
         final_result("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
     if str(error).startswith("EFFECT_SET_INCOMPLETE:"):
@@ -1558,5 +2061,6 @@ finally:
         if not retain_owned_locks:
             release_locks()
             release_lock_root()
+        release_authority_guard()
         release_namespace_gate()
 PY

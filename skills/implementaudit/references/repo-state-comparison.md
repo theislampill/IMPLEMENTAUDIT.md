@@ -287,6 +287,37 @@ effects, the governed-writer window/lock boundary, transactional evidence and
 truthful terminal status; direct filesystem replacement is not an equivalent
 consumer route.
 
+When a protected effect depends on a distributed authority generation, pass
+`--require-generation-fence` on that same route and supply the phase/step's
+`<run-root>/mutation-fences/phase-<n>-step-<n>.json`. The existing conditional
+carrier binds schema `implementaudit.protected-mutation-fence.v1`, integer
+`phase`/`step`, exact `source_path`, `protected_target` SHA-256 and byte length,
+`controller_generation`, `authority_generation`, `protected_generation`, and
+`verified_resume_receipt`. Optional `controller_id` must match; a selected sink
+must actually support `REJECT_AND_REPORT`. Missing or unsafe required input,
+unknown capability, or ambiguous authority yields `UNKNOWN` and
+`MANUAL_RECONCILIATION`, with no retry or terminal-closure permission. Ordinary
+local work without this dependency omits the flag and carrier entirely.
+
+The sink consumes claim-run's verified receipt token without duplicating its
+legacy/native receipt parser. Immediately before its first protected effect,
+it prepares a verify-only Git reference transaction covering controller,
+receipt, invalidation, migration marker, generation pointer and current Git
+identity. Git's current-branch verification also locks HEAD; the sink requires
+both locks. It rechecks currentness and holds exclusion through target effects,
+rollback and a durable terminal target journal. It then aborts the verify-only
+transaction and records observed release before its final result. No authority
+reference is rewritten by the guard. Its declared/observed auxiliary effects
+use `git-common` scope; surviving lock paths remain explicit on uncertain
+release. Reference-transaction hooks are disabled for this guard only. An
+unsupported Git files backend or unestablished exclusion refuses the protected
+route; it never falls back to ordinary mutation.
+
+This is cooperation between the existing Git authority and mutation owners.
+It is not host-principal authentication, a general distributed runtime,
+external-API idempotency, consensus, or protection against non-cooperating
+same-principal writers. A current receipt does not supply an external grant.
+
 helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
