@@ -7,6 +7,10 @@ finish. Each event launches the original argv in the original cwd/environment;
 inline Python receives the original heredoc bytes. stdout/stderr are separately
 teed without normalization. Original comparison operands and successful output
 generations are retained before the shell's existing EXIT cleanup.
+The v2 envelope binds a durable raw process receipt to each completed event.
+Post-child acquisition failure keeps the receipt and an explicit failed handoff;
+it cannot produce a complete profile. Observed unsupported input kinds are
+refused before dispatch, while missing ordinary operands keep the child's exit.
 
 verify_record(directory, *, expected_source=None, expected_run_id=None,
               require_complete=True) checks the complete finite profile derived
@@ -24,6 +28,8 @@ Bounds are fail-closed capture limits, not changes to default reproduction.
 """
 
 import argparse
+import base64
+import binascii
 import hashlib
 import io
 import json
@@ -40,7 +46,7 @@ import uuid
 import zipfile
 
 
-SCHEMA = "implementaudit.repro-events.v1"
+SCHEMA = "implementaudit.repro-events.v2"
 PROFILE = "REPRODUCIBLE_RELEASE_ASSET_C5_V1"
 PRODUCER = "tests/reproducible-release-asset.test.sh"
 OWNER = "scripts/repro-event-capture.py"
@@ -53,6 +59,14 @@ MAX_STREAM = 8 * 1024 * 1024
 MAX_TOTAL = 128 * 1024 * 1024
 MAX_MEMBERS = 128
 MAX_JSON = 4 * 1024 * 1024
+# A process receipt embeds both raw streams before post-child acquisition can
+# fail. Its bound must accommodate two complete MAX_STREAM base64 payloads.
+MAX_PROCESS_JSON = 2 * (4 * ((MAX_STREAM + 2) // 3)) + MAX_JSON
+PROCESS_COMMON = ("schema profile run_id index event_id role source_sha256 argv cwd "
+                  "environment_sha256 environment_projection stdin exit_code capture_errors "
+                  "start_monotonic_ns end_monotonic_ns")
+EVENT_FIELDS = (PROCESS_COMMON + " stdout stderr inputs_before inputs_after outputs_before outputs_after "
+                "source_before source_after clone_before clone_after executable_before executable_after generation_id")
 HEX = re.compile(r"[0-9a-f]{64}\Z")
 SEMANTICS = "OWN_CHILD_PROCESS_OBSERVATIONS; IMPORTED_READBACK_DECLARED_CONSISTENCY_ONLY"
 
@@ -130,8 +144,8 @@ def read_regular(path, limit=MAX_FILE):
     return data, metadata(before)
 
 
-def json_read(path):
-    data, observed = read_regular(path, MAX_JSON)
+def json_read(path, limit=MAX_JSON):
+    data, observed = read_regular(path, limit)
     demand(observed["mode"] == 0o600, "retained JSON mode changed")
     def pairs(items):
         result = {}
@@ -146,7 +160,7 @@ def json_read(path):
         raise ReproCaptureError("invalid JSON") from exc
 
 
-def write_new(path, data):
+def write_new(path, data, *, sync_parent=False):
     no_alias(path.parent)
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL |
                  getattr(os, "O_NOFOLLOW", 0), 0o600)
@@ -157,6 +171,13 @@ def write_new(path, data):
             os.fsync(stream.fileno())
     finally:
         os.close(fd)
+    if sync_parent:
+        fd = os.open(path.parent, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) |
+                     getattr(os, "O_NOFOLLOW", 0))
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
 
 
 def put_blob(directory, data):
@@ -176,7 +197,14 @@ class Readback:
         self.directory = no_alias(Path(directory))
         demand(self.directory.is_dir(), "capture root must be a directory")
         self.used = set()
+        self.process_used = set()
         self.total = 0
+
+    def process_bytes(self, path, data):
+        if path not in self.process_used:
+            self.process_used.add(path)
+            self.total += len(data)
+        demand(self.total <= MAX_TOTAL, "capture namespace exceeds bound")
 
     def blob(self, descriptor):
         fields(descriptor, "bytes sha256", "blob")
@@ -303,6 +331,7 @@ def init(directory, repository, work_root, source_commit, python_command):
     directory.mkdir(mode=0o700)
     (directory / "blobs").mkdir(mode=0o700)
     (directory / "events").mkdir(mode=0o700)
+    (directory / "processes").mkdir(mode=0o700)
     session = dict(schema=SCHEMA, profile=PROFILE, run_id=uuid.uuid4().hex,
                    context=dict(repository=str(repo), work_root=str(work), cwd=os.getcwd(),
                                 python_command=python_command),
@@ -477,6 +506,58 @@ def event_files(directory):
     return [directory / "events" / name for name in names]
 
 
+def unsupported_inputs(spec, observations):
+    """Refuse observed special/alias inputs before the original child launches.
+
+    MISSING is allowed: ordinary commands retain their actual missing-file exit.
+    Only the checksum consumer accepts a flat directory as its input namespace.
+    This is an ordinary observation boundary, not a race-free acquired image.
+    """
+    errors = []
+    for item in observations:
+        kind = item["kind"]
+        if spec["role"].startswith("checksum:") and kind == "DIRECTORY":
+            for member in item["members"]:
+                if member["kind"] not in {"FILE", "MISSING"}:
+                    errors.append("UNSUPPORTED_INPUT_KIND:" + member["path"] + ":" + member["kind"])
+        elif kind not in {"FILE", "MISSING"}:
+            errors.append("UNSUPPORTED_INPUT_KIND:" + item["path"] + ":" + kind)
+    return sorted(errors)
+
+
+def invocation(reader, session, item, spec, index, last_end):
+    event_id = session["run_id"] + ":" + f"{index:02d}" + ":" + spec["role"]
+    demand(item["schema"] == SCHEMA and item["profile"] == PROFILE and
+           item["run_id"] == session["run_id"] and integer(item["index"]) and
+           item["index"] == index and item["event_id"] == event_id and item["role"] == spec["role"],
+           "missing, duplicate, reordered, or foreign invocation")
+    demand(item["source_sha256"] == digest(canonical(session["source"])), "foreign invocation source")
+    demand(item["argv"] == spec["argv"] and item["cwd"] == session["context"]["cwd"],
+           "invocation mismatch")
+    demand(type(item["environment_sha256"]) is str and HEX.fullmatch(item["environment_sha256"]),
+           "invalid child environment digest")
+    fields(item["environment_projection"], "SOURCE_DATE_EPOCH TZ LC_ALL", "environment projection")
+    demand(all(value is None or type(value) is str for value in item["environment_projection"].values()),
+           "invalid child environment projection")
+    if spec["role"].startswith("build:"):
+        wanted = dict(SOURCE_DATE_EPOCH="315532800", TZ="UTC" if spec["lane"] == "a" else "America/New_York", LC_ALL="C")
+        demand(item["environment_projection"] == wanted, "build environment mismatch")
+    demand(integer(item["start_monotonic_ns"]) and integer(item["end_monotonic_ns"]) and
+           last_end <= item["start_monotonic_ns"] <= item["end_monotonic_ns"], "invocation temporal order mismatch")
+    if spec["inline"]:
+        fields(item["stdin"], "mode blob", "inline stdin")
+        demand(item["stdin"]["mode"] == "INLINE_BYTES" and
+               reader.blob(item["stdin"]["blob"]) == manifest_program(reader, session),
+               "inline stdin mismatch")
+    else:
+        demand(item["stdin"] == dict(mode="INHERITED_UNQUALIFIED"), "unexpected stdin capture")
+    code = item["exit_code"]
+    demand(code is None or integer(code) and -255 <= code <= 255, "invalid child exit code")
+    demand(type(item["capture_errors"]) is list and all(type(error) is str for error in item["capture_errors"]),
+           "invalid capture errors")
+    return item["end_monotonic_ns"]
+
+
 def event(directory, role, argv):
     directory = no_alias(Path(directory))
     demand(not (directory / "close.json").exists(), "capture already closed")
@@ -492,6 +573,9 @@ def event(directory, role, argv):
         demand(role == spec["role"] and argv == spec["argv"], "foreign or reordered invocation")
         demand(os.getcwd() == session["context"]["cwd"], "event cwd changed")
         previous = [json_read(path) for path in paths]
+        process_names = sorted(os.listdir(no_alias(directory / "processes")))
+        demand(process_names == [f"{index:02d}.json" for index in range(len(paths))],
+               "event after missing process receipt or failed handoff")
         if previous:
             demand(previous[-1]["exit_code"] == 0 and not previous[-1]["capture_errors"],
                    "event after failed child/handoff")
@@ -504,31 +588,52 @@ def event(directory, role, argv):
         demand(inline is None or inline == manifest_program(reader, session),
                "inline producer stdin differs from bound source")
         env = dict(os.environ)
-        start = time.monotonic_ns()
-        code, stdout, stderr, errors = capture_process(argv, inline)
-        end = time.monotonic_ns()
-        after_inputs = [observe(directory, Path(path)) for path in spec["inputs"]]
-        after_outputs = [observe(directory, Path(path)) for path in spec["outputs"]]
         event_id = session["run_id"] + ":" + f"{len(paths):02d}" + ":" + role
-        generated = code == 0 and bool(spec["outputs"])
-        item = dict(schema=SCHEMA, profile=PROFILE, run_id=session["run_id"],
-                    index=len(paths), event_id=event_id, role=role,
-                    source_sha256=digest(canonical(session["source"])),
-                    argv=argv, cwd=os.getcwd(),
-                    environment_sha256=digest(canonical(env)),
-                    environment_projection={key: env.get(key) for key in ("SOURCE_DATE_EPOCH", "TZ", "LC_ALL")},
-                    stdin=dict(mode="INLINE_BYTES", blob=put_blob(directory, inline)) if inline is not None
-                    else dict(mode="INHERITED_UNQUALIFIED"),
-                    stdout=put_blob(directory, stdout), stderr=put_blob(directory, stderr),
-                    exit_code=code, capture_errors=errors,
-                    start_monotonic_ns=start, end_monotonic_ns=end,
-                    inputs_before=before_inputs, inputs_after=after_inputs,
-                    outputs_before=before_outputs, outputs_after=after_outputs,
-                    source_before=before_source, source_after=source_now(directory, session),
-                    clone_before=before_clone, clone_after=clone_observation(directory, session, spec["lane"]),
-                    executable_before=before_executable, executable_after=executable(directory, argv),
-                    generation_id=event_id + ":outputs" if generated else None)
-        write_new(directory / "events" / f"{len(paths):02d}.json", canonical(item))
+        common = dict(schema=SCHEMA, profile=PROFILE, run_id=session["run_id"],
+                      index=len(paths), event_id=event_id, role=role,
+                      source_sha256=digest(canonical(session["source"])),
+                      argv=argv, cwd=os.getcwd(),
+                      environment_sha256=digest(canonical(env)),
+                      environment_projection={key: env.get(key) for key in ("SOURCE_DATE_EPOCH", "TZ", "LC_ALL")},
+                      stdin=dict(mode="INLINE_BYTES", blob=put_blob(directory, inline)) if inline is not None
+                      else dict(mode="INHERITED_UNQUALIFIED"))
+        demand(len(canonical(common)) <= MAX_JSON - 1024, "process metadata exceeds capture bound")
+        start = time.monotonic_ns()
+        unsupported = unsupported_inputs(spec, before_inputs)
+        if unsupported:
+            code, stdout, stderr, errors = None, b"", b"", unsupported
+            dispatch = "NOT_STARTED_UNSUPPORTED_INPUT"
+        else:
+            code, stdout, stderr, errors = capture_process(argv, inline)
+            dispatch = "CHILD_RETURNED" if code is not None else "LAUNCH_FAILED"
+        end = time.monotonic_ns()
+        common.update(exit_code=code, capture_errors=errors,
+                      start_monotonic_ns=start, end_monotonic_ns=end)
+        receipt = dict(common, dispatch=dispatch, stdout_base64=base64.b64encode(stdout).decode("ascii"),
+                       stderr_base64=base64.b64encode(stderr).decode("ascii"))
+        raw_receipt = canonical(receipt)
+        # No product/source/output read, including CAS deduplication, precedes
+        # this durable write after capture_process returns the actual outcome.
+        write_new(directory / "processes" / f"{len(paths):02d}.json", raw_receipt, sync_parent=True)
+        try:
+            item = dict(common, stdout=put_blob(directory, stdout), stderr=put_blob(directory, stderr),
+                        inputs_before=before_inputs,
+                        inputs_after=[observe(directory, Path(path)) for path in spec["inputs"]],
+                        outputs_before=before_outputs,
+                        outputs_after=[observe(directory, Path(path)) for path in spec["outputs"]],
+                        source_before=before_source, source_after=source_now(directory, session),
+                        clone_before=before_clone, clone_after=clone_observation(directory, session, spec["lane"]),
+                        executable_before=before_executable, executable_after=executable(directory, argv),
+                        generation_id=event_id + ":outputs" if code == 0 and spec["outputs"] else None)
+            write_new(directory / "events" / f"{len(paths):02d}.json", canonical(item))
+        except (OSError, ReproCaptureError) as exc:
+            failure = dict(schema=SCHEMA, profile=PROFILE, run_id=session["run_id"], index=len(paths),
+                           event_id=event_id, process_sha256=digest(raw_receipt),
+                           error="POST_ACQUISITION_HANDOFF_FAILED",
+                           error_type="OSError" if isinstance(exc, OSError) else "ReproCaptureError",
+                           errno=exc.errno if isinstance(exc, OSError) else None)
+            write_new(directory / "processes" / f"{len(paths):02d}.handoff.json", canonical(failure), sync_parent=True)
+            return 125
         if code is None or errors:
             return 125
         # Preserve the actual child exit in the event. Shell signal convention is
@@ -607,42 +712,12 @@ def assess_events(reader, session, events):
     failed = False
     for index, item in enumerate(events):
         spec = expected[index]
-        fields(item, "schema profile run_id index event_id role source_sha256 argv cwd environment_sha256 "
-               "environment_projection stdin stdout stderr exit_code capture_errors start_monotonic_ns "
-               "end_monotonic_ns inputs_before inputs_after outputs_before outputs_after source_before source_after "
-               "clone_before clone_after executable_before executable_after generation_id", "event")
+        fields(item, EVENT_FIELDS, "event")
         event_id = session["run_id"] + ":" + f"{index:02d}" + ":" + spec["role"]
-        demand(item["schema"] == SCHEMA and item["profile"] == PROFILE and
-               item["run_id"] == session["run_id"] and type(item["index"]) is int and
-               item["index"] == index and item["event_id"] == event_id and item["role"] == spec["role"],
-               "missing, duplicate, reordered, or foreign event")
-        demand(item["source_sha256"] == digest(canonical(session["source"])), "foreign event source")
-        demand(item["argv"] == spec["argv"] and item["cwd"] == session["context"]["cwd"],
-               "event invocation mismatch")
-        demand(type(item["environment_sha256"]) is str and HEX.fullmatch(item["environment_sha256"]),
-               "invalid child environment digest")
-        fields(item["environment_projection"], "SOURCE_DATE_EPOCH TZ LC_ALL", "environment projection")
-        demand(all(value is None or type(value) is str for value in item["environment_projection"].values()),
-               "invalid child environment projection")
-        if spec["role"].startswith("build:"):
-            wanted = dict(SOURCE_DATE_EPOCH="315532800", TZ="UTC" if spec["lane"] == "a" else "America/New_York", LC_ALL="C")
-            demand(item["environment_projection"] == wanted, "build environment mismatch")
-        demand(integer(item["start_monotonic_ns"]) and integer(item["end_monotonic_ns"]) and
-               last_end <= item["start_monotonic_ns"] <= item["end_monotonic_ns"], "event temporal order mismatch")
-        last_end = item["end_monotonic_ns"]
-        if spec["inline"]:
-            fields(item["stdin"], "mode blob", "inline stdin")
-            demand(item["stdin"]["mode"] == "INLINE_BYTES" and
-                   reader.blob(item["stdin"]["blob"]) == manifest_program(reader, session),
-                   "inline stdin mismatch")
-        else:
-            demand(item["stdin"] == dict(mode="INHERITED_UNQUALIFIED"), "unexpected stdin capture")
+        last_end = invocation(reader, session, item, spec, index, last_end)
         stdout, stderr = reader.blob(item["stdout"]), reader.blob(item["stderr"])
         demand(len(stdout) <= MAX_STREAM and len(stderr) <= MAX_STREAM, "raw stream exceeds bound")
         code = item["exit_code"]
-        demand(code is None or integer(code) and -255 <= code <= 255, "invalid child exit code")
-        demand(type(item["capture_errors"]) is list and all(type(error) is str for error in item["capture_errors"]),
-               "invalid capture errors")
         if failed:
             issues.append(spec["role"] + ":EVENT_AFTER_FAILURE")
         if code != 0 or item["capture_errors"]:
@@ -739,12 +814,133 @@ def read_events(directory, reader, session, refs=None):
         descriptor = dict(path="events/" + path.name, bytes=len(data), sha256=digest(data))
         if refs is not None:
             demand(refs[index] == descriptor, "event reference mismatch")
-        events.append(json_read(path))
+        item = json_read(path)
+        fields(item, EVENT_FIELDS, "event")
+        events.append(item)
         derived.append(descriptor)
     return events, derived
 
 
-def assessment(directory, reader, session, events, closing, cleanup):
+def read_process_results(directory, reader, session, events, refs=None, failure_refs=None):
+    """Bind durable own-child outcomes to the subsequently acquired events."""
+    names = sorted(os.listdir(no_alias(directory / "processes")))
+    result_names = [name for name in names if re.fullmatch(r"[0-9]{2}\.json", name)]
+    failure_names = [name for name in names if re.fullmatch(r"[0-9]{2}\.handoff\.json", name)]
+    expected = profile(session)
+    demand(names == sorted(result_names + failure_names) and len(result_names) <= len(expected),
+           "foreign process receipt member")
+    demand(result_names == [f"{index:02d}.json" for index in range(len(result_names))],
+           "missing or reordered process receipt")
+    demand(len(result_names) in {len(events), len(events) + 1}, "process/event handoff omission")
+    wanted_failures = [f"{len(events):02d}.handoff.json"] if len(result_names) > len(events) else []
+    demand(failure_names == wanted_failures, "unmatched completed process or handoff failure")
+    if refs is not None:
+        demand(type(refs) is list and len(refs) == len(result_names), "process reference omission")
+    if failure_refs is not None:
+        demand(type(failure_refs) is list and len(failure_refs) == len(failure_names), "handoff failure reference omission")
+    derived, failures, issues = [], [], []
+    last_end = 0
+    for index, name in enumerate(result_names):
+        path = directory / "processes" / name
+        raw, _ = read_regular(path, MAX_PROCESS_JSON)
+        reader.process_bytes("processes/" + name, raw)
+        descriptor = dict(path="processes/" + name, bytes=len(raw), sha256=digest(raw))
+        if refs is not None:
+            demand(refs[index] == descriptor, "process reference mismatch")
+        derived.append(descriptor)
+        item = json_read(path, MAX_PROCESS_JSON)
+        fields(item, PROCESS_COMMON + " dispatch stdout_base64 stderr_base64", "process receipt")
+        spec = expected[index]
+        last_end = invocation(reader, session, item, spec, index, last_end)
+        streams = {}
+        for stream in ("stdout", "stderr"):
+            encoded = item[stream + "_base64"]
+            demand(type(encoded) is str and len(encoded) <= 4 * ((MAX_STREAM + 2) // 3),
+                   "invalid raw process stream")
+            try:
+                data = base64.b64decode(encoded, validate=True)
+            except (ValueError, binascii.Error) as exc:
+                raise ReproCaptureError("invalid raw process stream encoding") from exc
+            demand(len(data) <= MAX_STREAM and base64.b64encode(data).decode("ascii") == encoded,
+                   "noncanonical or oversized raw process stream")
+            streams[stream] = data
+        code, dispatch, errors = item["exit_code"], item["dispatch"], item["capture_errors"]
+        if dispatch == "CHILD_RETURNED":
+            demand(integer(code), "completed process lacks actual integer exit")
+            demand(not any(error.startswith(("UNSUPPORTED_INPUT_KIND:", "LAUNCH_FAILED:")) for error in errors),
+                   "completed process has non-dispatch errors")
+        elif dispatch == "NOT_STARTED_UNSUPPORTED_INPUT":
+            demand(code is None and errors and all(error.startswith("UNSUPPORTED_INPUT_KIND:") for error in errors)
+                   and not any(streams.values()), "invalid unsupported-input refusal")
+        elif dispatch == "LAUNCH_FAILED":
+            demand(code is None and len(errors) == 1 and re.fullmatch(r"LAUNCH_FAILED:[0-9]+", errors[0])
+                   and not any(streams.values()), "invalid launch failure")
+        else:
+            raise ReproCaptureError("unknown process dispatch outcome")
+        if index < len(events):
+            event = events[index]
+            demand(all(item[key] == event.get(key) for key in PROCESS_COMMON.split()),
+                   "process result differs from event invocation or raw exit")
+            for stream, data in streams.items():
+                demand(reader.blob(event[stream]) == data, "process result differs from event raw stream")
+            inputs = event["inputs_before"]
+            demand(type(inputs) is list and len(inputs) == len(spec["inputs"]), "omitted process input observation")
+            for value, operand in zip(inputs, spec["inputs"]):
+                observation(reader, value, operand)
+            refused = unsupported_inputs(spec, event["inputs_before"])
+            demand((dispatch == "NOT_STARTED_UNSUPPORTED_INPUT" and errors == refused) or
+                   (dispatch != "NOT_STARTED_UNSUPPORTED_INPUT" and not refused),
+                   "unsupported input was dispatched or refusal is not derived")
+        else:
+            failure_path = directory / "processes" / failure_names[0]
+            failure_raw, _ = read_regular(failure_path, MAX_JSON)
+            reader.process_bytes("processes/" + failure_path.name, failure_raw)
+            failure = json_read(failure_path)
+            fields(failure, "schema profile run_id index event_id process_sha256 error error_type errno", "handoff failure")
+            demand(failure["schema"] == SCHEMA and failure["profile"] == PROFILE and
+                   failure["run_id"] == session["run_id"] and integer(failure["index"]) and
+                   failure["index"] == index and failure["event_id"] == item["event_id"] and
+                   failure["process_sha256"] == descriptor["sha256"] and
+                   failure["error"] == "POST_ACQUISITION_HANDOFF_FAILED", "foreign handoff failure")
+            demand(failure["error_type"] in {"OSError", "ReproCaptureError"} and
+                   (failure["errno"] is None or integer(failure["errno"]) and 0 < failure["errno"] <= 4095),
+                   "invalid handoff failure outcome")
+            demand(failure["error_type"] != "ReproCaptureError" or failure["errno"] is None,
+                   "capture error has a foreign OS error number")
+            failure_descriptor = dict(path="processes/" + failure_path.name,
+                                      bytes=len(failure_raw), sha256=digest(failure_raw))
+            if failure_refs is not None:
+                demand(failure_refs[0] == failure_descriptor, "handoff failure reference mismatch")
+            failures.append(failure_descriptor)
+            issues.append(spec["role"] + ":POST_ACQUISITION_HANDOFF_FAILED")
+        if dispatch != "CHILD_RETURNED" or code != 0 or errors:
+            issues.append(spec["role"] + ":PROCESS_RESULT_INCOMPLETE")
+            demand(index == len(result_names) - 1, "process after failed child or unsupported-input refusal")
+    if len(result_names) != len(expected):
+        issues.append("INCOMPLETE_PROCESS_PROFILE")
+    return derived, failures, issues
+
+
+def unhanded_blobs(directory, reader, failures, refs=None):
+    """Retain partial acquisitions without promoting them to event evidence."""
+    names = sorted(os.listdir(no_alias(directory / "blobs")))
+    demand(len(names) <= MAX_MEMBERS, "capture namespace exceeds bound")
+    extra = sorted(set(names) - reader.used)
+    demand(not extra or failures, "omitted or foreign retained artifact blob")
+    derived = []
+    for name in extra:
+        demand(HEX.fullmatch(name), "foreign partial acquisition blob")
+        data, _ = read_regular(directory / "blobs" / name)
+        descriptor = dict(bytes=len(data), sha256=name)
+        reader.blob(descriptor)
+        derived.append(descriptor)
+    if refs is not None:
+        demand(type(refs) is list and refs == derived, "unhanded acquisition inventory mismatch")
+    demand(names == sorted(reader.used), "omitted retained artifact blob")
+    return derived
+
+
+def assessment(directory, reader, session, events, closing, cleanup, process_issues):
     issues, generations = assess_events(reader, session, events)
     fields(closing, "schema run_id script_exit source generations", "close")
     demand(closing["schema"] == SCHEMA and closing["run_id"] == session["run_id"] and
@@ -767,6 +963,7 @@ def assessment(directory, reader, session, events, closing, cleanup):
         issues.append("PRODUCER_EXIT_NONZERO")
     if cleanup != dict(exit_code=0, work_root_absent=True):
         issues.append("ORIGINAL_WORK_ROOT_CLEANUP_INCOMPLETE")
+    issues.extend(process_issues)
     return dict(complete=not issues, issues=issues)
 
 
@@ -775,13 +972,16 @@ def finish(directory, cleanup_exit):
     reader = Readback(directory)
     session = load_session(directory, reader)
     events, refs = read_events(directory, reader, session)
+    results, failures, process_issues = read_process_results(directory, reader, session, events)
     closing = json_read(directory / "close.json")
     work = Path(session["context"]["work_root"])
     cleanup = dict(exit_code=cleanup_exit, work_root_absent=not (work.exists() or work.is_symlink()))
-    verdict = assessment(directory, reader, session, events, closing, cleanup)
+    verdict = assessment(directory, reader, session, events, closing, cleanup, process_issues)
+    partial = unhanded_blobs(directory, reader, failures)
     record = dict(schema=SCHEMA, profile=PROFILE, semantics=SEMANTICS,
                   session_sha256=digest(canonical(session)), close_sha256=digest(canonical(closing)),
                   run_id=session["run_id"], source=session["source"], events=refs,
+                  process_results=results, handoff_failures=failures, unhanded_blobs=partial,
                   cleanup=cleanup, assessment=verdict)
     write_new(directory / "record.json", canonical(record))
     verify_record(directory, require_complete=False)
@@ -791,12 +991,13 @@ def finish(directory, cleanup_exit):
 def verify_record(directory, *, expected_source=None, expected_run_id=None, require_complete=True):
     """Strict imported consistency readback; caller supplies its own bindings."""
     directory = no_alias(Path(directory))
-    demand(sorted(os.listdir(directory)) == ["blobs", "close.json", "events", "record.json", "session.json"],
+    demand(sorted(os.listdir(directory)) == ["blobs", "close.json", "events", "processes", "record.json", "session.json"],
            "unexpected or incomplete capture namespace")
     reader = Readback(directory)
     session = load_session(directory, reader)
     record = json_read(directory / "record.json")
-    fields(record, "schema profile semantics session_sha256 close_sha256 run_id source events cleanup assessment", "record")
+    fields(record, "schema profile semantics session_sha256 close_sha256 run_id source events process_results "
+           "handoff_failures unhanded_blobs cleanup assessment", "record")
     demand(record["schema"] == SCHEMA and record["profile"] == PROFILE and record["semantics"] == SEMANTICS and
            record["run_id"] == session["run_id"] and record["source"] == session["source"] and
            record["session_sha256"] == digest(canonical(session)), "envelope identity mismatch")
@@ -808,15 +1009,15 @@ def verify_record(directory, *, expected_source=None, expected_run_id=None, requ
     if expected_run_id is not None:
         demand(expected_run_id == session["run_id"], "expected run binding mismatch")
     events, _ = read_events(directory, reader, session, record["events"])
+    _, failures, process_issues = read_process_results(directory, reader, session, events,
+                                                      record["process_results"], record["handoff_failures"])
     closing = json_read(directory / "close.json")
     demand(record["close_sha256"] == digest(canonical(closing)), "close identity mismatch")
-    actual = assessment(directory, reader, session, events, closing, record["cleanup"])
+    actual = assessment(directory, reader, session, events, closing, record["cleanup"], process_issues)
     fields(record["assessment"], "complete issues", "assessment")
     demand(type(record["assessment"]["complete"]) is bool, "invalid completion type")
     demand(record["assessment"] == actual, "declared completion differs from derived finite profile")
-    no_alias(directory / "blobs")
-    demand(sorted(os.listdir(directory / "blobs")) == sorted(reader.used),
-           "omitted or foreign retained artifact blob")
+    unhanded_blobs(directory, reader, failures, record["unhanded_blobs"])
     if require_complete:
         demand(actual["complete"], "incomplete C5 custody: " + "; ".join(actual["issues"]))
     return record

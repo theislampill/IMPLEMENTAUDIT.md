@@ -287,7 +287,12 @@ class ProfileCases(unittest.TestCase):
         owner = self.fixture.owner
         record = owner.verify_record(self.capture)
         events = [read_json(self.capture / row["path"]) for row in record["events"]]
+        processes = [read_json(self.capture / row["path"]) for row in record["process_results"]]
         self.assertEqual([row["role"] for row in events], EXPECTED_ROLES)
+        self.assertEqual([row["role"] for row in processes], EXPECTED_ROLES)
+        self.assertTrue(all(row["dispatch"] == "CHILD_RETURNED" for row in processes))
+        self.assertEqual(record["handoff_failures"], [])
+        self.assertEqual(record["unhanded_blobs"], [])
         self.assertTrue(all(row["exit_code"] == 0 for row in events))
         self.assertEqual(record["cleanup"], {"exit_code": 0, "work_root_absent": True})
         self.assertFalse(Path(read_json(self.capture / "session.json")["context"]["work_root"]).exists())
@@ -314,6 +319,18 @@ class ProfileCases(unittest.TestCase):
         record = read_json(target / "record.json")
         raw = path.read_bytes()
         record["events"][index] = dict(path="events/" + path.name, bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+        write_json(target / "record.json", record)
+
+    def reseal_process_stdout(self, target, index, raw):
+        import base64
+        path = target / "processes" / f"{index:02d}.json"
+        item = read_json(path)
+        item["stdout_base64"] = base64.b64encode(raw).decode()
+        write_json(path, item)
+        data = path.read_bytes()
+        record = read_json(target / "record.json")
+        record["process_results"][index] = dict(path="processes/" + path.name,
+                                                bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
         write_json(target / "record.json", record)
 
     def test_missing_duplicate_reordered_and_foreign_events_refused(self):
@@ -391,7 +408,8 @@ class ProfileCases(unittest.TestCase):
         retained.chmod(0o600)
         item["stdout"] = {"bytes": len(raw), "sha256": sha}
         self.reseal(target, 5, item)
-        with self.assertRaises(self.fixture.owner.ReproCaptureError):
+        self.reseal_process_stdout(target, 5, raw)
+        with self.assertRaisesRegex(self.fixture.owner.ReproCaptureError, "declared completion differs"):
             self.fixture.owner.verify_record(target)
 
     def test_boolean_completion_type_and_retained_blob_modes_are_strict(self):
@@ -428,14 +446,17 @@ class ProfileCases(unittest.TestCase):
                 return [rewrite(item) for item in value]
             return value
         for index in range(19):
-            self.reseal(target, index, rewrite(read_json(target / "events" / f"{index:02d}.json")))
+            event = read_json(target / "events" / f"{index:02d}.json")
+            if event["stdout"] == old:
+                self.reseal_process_stdout(target, index, raw)
+            self.reseal(target, index, rewrite(event))
         closing = rewrite(read_json(target / "close.json"))
         write_json(target / "close.json", closing)
         record = read_json(target / "record.json")
         record["close_sha256"] = hashlib.sha256((target / "close.json").read_bytes()).hexdigest()
         write_json(target / "record.json", record)
         (target / "blobs" / old["sha256"]).unlink()
-        with self.assertRaises(self.fixture.owner.ReproCaptureError):
+        with self.assertRaisesRegex(self.fixture.owner.ReproCaptureError, "declared completion differs"):
             self.fixture.owner.verify_record(target)
 
 
@@ -527,7 +548,8 @@ class FailureCases(unittest.TestCase):
         producer.chmod(mode ^ 0o100)
         producer.chmod(mode)
         result = self.fixture.compare(capture, work)
-        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.returncode, 125)
+        self.assertIsNone(read_json(capture / "events/02.json")["exit_code"])
         record = self.fixture.finish_partial(capture, work)
         self.assertTrue(any("SOURCE_CUSTODY_DRIFT" in issue for issue in record["assessment"]["issues"]))
         self.assertTrue(any("INPUT_GENERATION_DRIFT" in issue for issue in record["assessment"]["issues"]))
@@ -539,6 +561,280 @@ class FailureCases(unittest.TestCase):
         self.assertEqual(result.returncode, 125)
         self.assertEqual(len(list((capture / "events").iterdir())), 2)
         self.fixture.finish_partial(capture, work)
+
+
+class DurabilityCases(unittest.TestCase):
+    """Original child outcomes survive acquisition failure; unsafe inputs never launch."""
+
+    def setUp(self):
+        self.fixture = Fixture()
+        self.addCleanup(self.fixture.clean)
+
+    def copied(self, source):
+        target = Path(tempfile.mkdtemp(prefix="receipt-control-", dir=self.fixture.base))
+        target.rmdir()
+        shutil.copytree(source, target)
+        self.addCleanup(shutil.rmtree, target)
+        return target
+
+    def reseal_process(self, capture, index, item):
+        path = capture / "processes" / f"{index:02d}.json"
+        write_json(path, item)
+        raw = path.read_bytes()
+        record = read_json(capture / "record.json")
+        record["process_results"][index] = dict(path="processes/" + path.name,
+                                                bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+        write_json(capture / "record.json", record)
+
+    def test_completed_child_exit_is_durable_before_post_child_reads(self):
+        import base64
+        import errno
+        capture, work = self.fixture.prefix()
+        owner = self.fixture.owner
+        left = work / "out-a/IMPLEMENTAUDIT.plugin.zip"
+        right = work / "out-b/IMPLEMENTAUDIT.plugin.zip"
+        right.write_bytes(right.read_bytes() + b"actual comparison difference")
+        observe, execute = owner.observe, owner.capture_process
+        completed = []
+        def real_child(*args):
+            result = execute(*args)
+            completed.append(result)
+            return result
+        def failed_read(directory, path):
+            if completed and Path(path) == left:
+                raise OSError(errno.EIO, "post-child acquisition failure control")
+            return observe(directory, path)
+        owner.capture_process, owner.observe = real_child, failed_read
+        cwd = Path.cwd()
+        try:
+            os.chdir(self.fixture.repo)
+            try:
+                result = owner.event(capture, "cmp:IMPLEMENTAUDIT.plugin.zip",
+                                     ["cmp", "-s", str(left), str(right)])
+            except OSError:
+                result = None
+        finally:
+            os.chdir(cwd)
+            owner.capture_process, owner.observe = execute, observe
+        self.assertEqual(completed[0][0], 1)
+        self.assertTrue((capture / "processes/02.json").is_file(),
+                        "completed child exit was lost before post-acquisition failure")
+        receipt = read_json(capture / "processes/02.json")
+        self.assertEqual(receipt["exit_code"], 1)
+        self.assertEqual(base64.b64decode(receipt["stdout_base64"]), completed[0][1])
+        self.assertEqual(base64.b64decode(receipt["stderr_base64"]), completed[0][2])
+        self.assertEqual(result, 125)
+        self.assertTrue((capture / "processes/02.handoff.json").is_file())
+        original_receipt = (capture / "processes/02.json").read_bytes()
+        resumed = self.fixture.compare(capture, work)
+        self.assertEqual(resumed.returncode, 125)
+        self.assertEqual((capture / "processes/02.json").read_bytes(), original_receipt)
+        record = self.fixture.finish_partial(capture, work)
+        self.assertEqual(len(record["process_results"]), 3)
+        self.assertEqual(len(record["events"]), 2)
+        self.assertFalse(record["assessment"]["complete"])
+        self.assertTrue(any("POST_ACQUISITION_HANDOFF_FAILED" in issue for issue in record["assessment"]["issues"]))
+        with self.assertRaises(owner.ReproCaptureError):
+            owner.verify_record(capture)
+        for change in ("missing-marker", "foreign-marker", "marker-exit-bool", "unhanded-omission"):
+            with self.subTest(change=change):
+                target = self.copied(capture)
+                marker = target / "processes/02.handoff.json"
+                altered = read_json(marker)
+                if change == "missing-marker":
+                    marker.unlink()
+                elif change == "foreign-marker":
+                    altered["process_sha256"] = "0" * 64
+                    write_json(marker, altered)
+                elif change == "marker-exit-bool":
+                    altered["errno"] = True
+                    write_json(marker, altered)
+                else:
+                    record = read_json(target / "record.json")
+                    del record["process_results"][-1]
+                    write_json(target / "record.json", record)
+                if marker.exists() and change != "unhanded-omission":
+                    raw = marker.read_bytes()
+                    record = read_json(target / "record.json")
+                    record["handoff_failures"][0] = dict(path="processes/02.handoff.json",
+                                                         bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+                    write_json(target / "record.json", record)
+                with self.assertRaises(owner.ReproCaptureError):
+                    owner.verify_record(target, require_complete=False)
+
+    def test_successful_child_raw_streams_precede_cas_read_and_failed_handoff(self):
+        import base64
+        import errno
+        capture, work = self.fixture.prefix()
+        owner = self.fixture.owner
+        commands = self.fixture.base / "commands"
+        commands.mkdir()
+        wrapper = commands / "cmp"
+        wrapper.write_text('#!/usr/bin/env bash\n/usr/bin/cmp "$@"\nresult=$?\n'
+                           "printf 'actual stdout\\000tail'\nprintf 'actual stderr\\377tail' >&2\nexit \"$result\"\n")
+        wrapper.chmod(0o755)
+        put, execute = owner.put_blob, owner.capture_process
+        completed = []
+        def real_child(*args):
+            result = execute(*args)
+            completed.append(result)
+            return result
+        def failed_cas(*args):
+            if completed:
+                raise OSError(errno.EIO, "post-child CAS read failure control")
+            return put(*args)
+        owner.capture_process, owner.put_blob = real_child, failed_cas
+        cwd, path = Path.cwd(), os.environ["PATH"]
+        try:
+            os.chdir(self.fixture.repo)
+            os.environ["PATH"] = str(commands) + os.pathsep + path
+            result = owner.event(capture, "cmp:IMPLEMENTAUDIT.plugin.zip",
+                                 ["cmp", "-s", str(work / "out-a/IMPLEMENTAUDIT.plugin.zip"),
+                                  str(work / "out-b/IMPLEMENTAUDIT.plugin.zip")])
+        finally:
+            os.chdir(cwd)
+            os.environ["PATH"] = path
+            owner.capture_process, owner.put_blob = execute, put
+        self.assertEqual(completed[0][0], 0)
+        self.assertEqual(result, 125)
+        receipt = read_json(capture / "processes/02.json")
+        self.assertEqual(receipt["exit_code"], 0)
+        self.assertEqual(base64.b64decode(receipt["stdout_base64"]), b"actual stdout\0tail")
+        self.assertEqual(base64.b64decode(receipt["stderr_base64"]), b"actual stderr\xfftail")
+        self.assertFalse((capture / "events/02.json").exists())
+        record = self.fixture.finish_partial(capture, work, code=0)
+        self.assertFalse(record["assessment"]["complete"])
+        self.assertTrue(record["handoff_failures"])
+        # The pre-acquired wrapper executable is retained even though its event
+        # could not be handed off; this inventory cannot qualify completion.
+        self.assertTrue(record["unhanded_blobs"])
+        target = self.copied(capture)
+        altered = read_json(target / "record.json")
+        altered["unhanded_blobs"] = []
+        write_json(target / "record.json", altered)
+        with self.assertRaises(owner.ReproCaptureError):
+            owner.verify_record(target, require_complete=False)
+
+    def test_process_receipt_identity_shape_raw_result_and_membership_are_bound(self):
+        capture, result = self.fixture.run()
+        self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
+        self.fixture.owner.verify_record(capture)
+        for change in ("missing", "duplicate", "reordered", "foreign-run", "foreign-source", "bad-base64",
+                       "exit-bool", "exit-null", "exit-different", "stdout-different", "not-started",
+                       "index-bool", "symlink", "mode", "foreign-file", "foreign-handoff", "omitted-reference"):
+            with self.subTest(change=change):
+                target = self.copied(capture)
+                path = target / "processes/02.json"
+                item = read_json(path)
+                if change == "missing":
+                    path.unlink()
+                elif change == "symlink":
+                    path.unlink()
+                    path.symlink_to(capture / "processes/02.json")
+                elif change == "mode":
+                    path.chmod(0o644)
+                elif change == "foreign-file":
+                    (target / "processes/unlisted.json").write_text("{}\n")
+                elif change == "foreign-handoff":
+                    (target / "processes/18.handoff.json").write_text("{}\n")
+                elif change == "omitted-reference":
+                    record = read_json(target / "record.json")
+                    del record["process_results"][2]
+                    write_json(target / "record.json", record)
+                else:
+                    if change == "duplicate":
+                        item = read_json(target / "processes/01.json")
+                    elif change == "reordered":
+                        item["role"] = "cmp:IMPLEMENTAUDIT.skill"
+                    elif change == "foreign-run":
+                        item["run_id"] = "0" * 32
+                    elif change == "foreign-source":
+                        item["source_sha256"] = "0" * 64
+                    elif change == "bad-base64":
+                        item["stdout_base64"] = "?"
+                    elif change == "exit-bool":
+                        item["exit_code"] = False
+                    elif change == "exit-null":
+                        item["exit_code"] = None
+                    elif change == "exit-different":
+                        item["exit_code"] = 1
+                    elif change == "stdout-different":
+                        item["stdout_base64"] = "eA=="
+                    elif change == "not-started":
+                        item["dispatch"] = "NOT_STARTED_UNSUPPORTED_INPUT"
+                        item["exit_code"] = None
+                        item["capture_errors"] = ["UNSUPPORTED_INPUT_KIND:invented:SPECIAL"]
+                    else:
+                        item["index"] = False
+                    self.reseal_process(target, 2, item)
+                with self.assertRaises(self.fixture.owner.ReproCaptureError):
+                    self.fixture.owner.verify_record(target, require_complete=False)
+
+    def test_two_maximum_raw_streams_have_explicit_json_and_aggregate_bounds(self):
+        import base64
+        capture, work = self.fixture.prefix()
+        owner = self.fixture.owner
+        commands = self.fixture.base / "large-commands"
+        commands.mkdir()
+        wrapper = commands / "cmp"
+        wrapper.write_text('#!/usr/bin/env python\nimport subprocess,sys\n'
+                           'result=subprocess.run(["/usr/bin/cmp", *sys.argv[1:]])\n'
+                           f'sys.stdout.buffer.write(b"x" * {owner.MAX_STREAM})\n'
+                           f'sys.stderr.buffer.write(b"y" * {owner.MAX_STREAM})\n'
+                           'raise SystemExit(result.returncode)\n')
+        wrapper.chmod(0o755)
+        result = self.fixture.compare(capture, work, env=dict(self.fixture.env,
+                                      PATH=str(commands) + os.pathsep + self.fixture.env["PATH"]))
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(len(result.stdout), owner.MAX_STREAM)
+        self.assertEqual(len(result.stderr), owner.MAX_STREAM)
+        path = capture / "processes/02.json"
+        self.assertGreater(path.stat().st_size, owner.MAX_FILE)
+        self.assertLessEqual(path.stat().st_size, owner.MAX_PROCESS_JSON)
+        record = self.fixture.finish_partial(capture, work)
+        self.assertFalse(record["assessment"]["complete"])
+        total = sum(path.stat().st_size for folder in ("blobs", "processes") for path in (capture / folder).iterdir())
+        limit = owner.MAX_TOTAL
+        try:
+            owner.MAX_TOTAL = total - 1
+            with self.assertRaises(owner.ReproCaptureError):
+                owner.verify_record(capture, require_complete=False)
+        finally:
+            owner.MAX_TOTAL = limit
+        item = read_json(path)
+        item["stdout_base64"] = base64.b64encode(b"x" * (owner.MAX_STREAM + 1)).decode()
+        self.reseal_process(capture, 2, item)
+        with self.assertRaises(owner.ReproCaptureError):
+            owner.verify_record(capture, require_complete=False)
+
+    def test_observed_fifo_operand_is_refused_before_child_dispatch(self):
+        import signal
+        capture, work = self.fixture.prefix()
+        left = work / "out-a/IMPLEMENTAUDIT.plugin.zip"
+        right = work / "out-b/IMPLEMENTAUDIT.plugin.zip"
+        right.unlink()
+        os.mkfifo(right)
+        argv = ["python", str(self.fixture.repo / "scripts/repro-event-capture.py"), "event", str(capture),
+                "cmp:IMPLEMENTAUDIT.plugin.zip", "--", "cmp", "-s", str(left), str(right)]
+        process = subprocess.Popen(argv, cwd=self.fixture.repo, env=self.fixture.env,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+        timed_out = False
+        try:
+            _, stderr = process.communicate(timeout=3)
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            os.killpg(process.pid, signal.SIGKILL)
+            _, stderr = process.communicate()
+        self.assertFalse(timed_out, "observed FIFO was dispatched and needed an external watchdog")
+        self.assertEqual(process.returncode, 125, stderr.decode(errors="replace"))
+        receipt = read_json(capture / "processes/02.json")
+        self.assertEqual(receipt["dispatch"], "NOT_STARTED_UNSUPPORTED_INPUT")
+        self.assertIsNone(receipt["exit_code"])
+        event = read_json(capture / "events/02.json")
+        self.assertIsNone(event["exit_code"])
+        self.assertTrue(any("UNSUPPORTED_INPUT_KIND" in error for error in event["capture_errors"]))
+        record = self.fixture.finish_partial(capture, work)
+        self.assertFalse(record["assessment"]["complete"])
 
 
 class Lifecycle(unittest.TestCase):
