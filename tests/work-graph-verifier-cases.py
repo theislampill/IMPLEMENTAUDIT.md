@@ -14,6 +14,8 @@ import sys
 import tempfile
 import threading
 import time
+from types import SimpleNamespace
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("work_graph", ROOT / "skills/implementaudit/scripts/compile-work-graph.py")
@@ -1402,6 +1404,110 @@ def selective_policy(current):
     reject(lambda: wg.compile_verifier_reuse_v1(drift_graph, drift, acquired, issued), "invocation")
 
 
+def scoped_root_identity_cases(directory):
+    """Real legacy binding/compiler with explicit constructed acquisition inputs.
+
+    The source/runtime facts and observer bytes are fixture values; only the
+    root stat boundary is varied. This never dispatches or qualifies a checker,
+    runtime image, namespace or authentic source acquisition.
+    """
+    directory.mkdir(parents=True)
+    path = ROOT / "scripts/qualify-work-graph-verifier.py"
+    spec = importlib.util.spec_from_file_location("scoped_root_qualifier", path)
+    q = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(q)
+    session = q.VerifierTaskSession.__new__(q.VerifierTaskSession)
+    session.source = directory / "source"
+    session.source.mkdir()
+    session.output = directory / "evidence"
+    session.output.mkdir()
+    session.environment = dict(session.ENVIRONMENT)
+    session.producer, session.producer_pid = "constructed-root-observer", os.getpid()
+    session.dispatch_count = session.generation = 0
+    session._issued = {}
+    session._engine = session._engine_binding()
+    names = {"scripts/verify-package.sh"}
+    for program, contract in q.WG.VERIFIER_LEAF_CONTRACTS_V1.items():
+        names.update([program, *contract["reads"], *contract["probes"]])
+    contents = {name: (ROOT / name).read_bytes() for name in names}
+    state = dict(head="1" * 40, tree="2" * 40, directories={".": 0o755},
+        files={name: dict(kind="FILE", mode=0o644, size=len(data), sha256=q.sha(data)) for name, data in contents.items()})
+    regular = session._regular
+    observer_paths = {Path(name).resolve() for name in ("/usr/bin/bwrap", "/usr/bin/git", sys.executable)}
+    def constructed_regular(path, missing=False):
+        if Path(path) in observer_paths:
+            data = b"CONSTRUCTED_OBSERVER_BYTES_NO_EXECUTION"
+            return dict(kind="FILE", mode=0o555, size=len(data), sha256=q.sha(data)), data
+        return regular(path, missing=missing)
+    actual_stat = Path.stat
+    identifiers = [27, 9223372036855308736]  # Preserved actual R0035 host stat witness.
+    def root_stat(path, *args, **kwargs):
+        if path == session.source:
+            return SimpleNamespace(st_dev=identifiers[0], st_ino=identifiers[1])
+        return actual_stat(path, *args, **kwargs)
+    rows = []
+    def acquire(device, inode):
+        identifiers[:] = [device, inode]
+        acquired = session._acquire()
+        assert acquired["acquired"]["binding"]["root"] == [str(session.source), str(device), str(inode)]
+        return acquired
+    def plan(acquired, issued=None):
+        return q.WG.compile_verifier_reuse_v1(acquired["graph"], acquired["registry"], acquired["acquired"], issued or {})
+    # Null-device/resource observations are real on this finite Linux profile;
+    # neither the system runtime census nor an external process is invoked.
+    if q.platform.system() != "Linux" or q.resource is None:
+        return dict(scope="CONSTRUCTED_LEGACY_ROOT_IDENTITY", execution="UNSUPPORTED_LINUX_PROFILE")
+    with mock.patch.object(session, "_source_state", return_value=(state, contents)), \
+         mock.patch.object(session, "_runtime", return_value={}), \
+         mock.patch.object(session, "_regular", side_effect=constructed_regular), \
+         mock.patch.object(Path, "stat", root_stat), mock.patch.object(session, "_execute") as execute:
+        # This reaches the original acquisition's binding construction and the
+        # unchanged signed64 compiler before testing the new adapter directly.
+        observed = acquire(*identifiers)
+        rows.append(dict(control="preserved actual unsigned inode admitted losslessly", root=observed["acquired"]["binding"]["root"]))
+        keys = set()
+        for value in (0, 2**63 - 1, 2**63, 2**64 - 2, 2**64 - 1):
+            acquired = acquire(value, value)
+            current = plan(acquired)
+            keys.add(tuple(n["key"] for n in current["nodes"]))
+            rows.append(dict(control="uint64 root boundary", value=str(value), root=acquired["acquired"]["binding"]["root"]))
+        assert len(keys) == 5
+        for field in ("st_dev", "st_ino"):
+            for value in (-1, 2**64, True, False, 1.0, "1", None):
+                fields = dict(st_dev=27, st_ino=9223372036855308736)
+                fields[field] = value
+                try:
+                    session._root_identity(SimpleNamespace(**fields))
+                except q.WG.WorkGraphError as exc:
+                    assert "unsigned 64-bit" in str(exc)
+                else:
+                    raise AssertionError("malformed root identifier admitted: " + field + "=" + repr(value))
+        rows.append(dict(control="malformed identifiers refused", cases=14))
+        before = acquire(2**64 - 2, 2**63)
+        initial = plan(before)
+        issued = {node["node"]: node["key"] for node in initial["nodes"]}
+        assert all(n["decision"] == "CONSUME_PRIOR_SUCCESS" for n in plan(before, issued)["nodes"])
+        for field, device, inode in (("inode", 2**64 - 2, 2**63 + 1), ("device", 2**64 - 1, 2**63)):
+            after = acquire(device, inode)
+            changed = plan(after, issued)
+            assert all(n["decision"] == "EXECUTE" and n["key"] != issued[n["node"]] for n in changed["nodes"])
+            try:
+                session._require_same(before, after, directory, "adjacent-" + field)
+            except q.WG.WorkGraphError as exc:
+                assert "candidate changed adjacent-" + field in str(exc)
+            else:
+                raise AssertionError("changed root identity passed live currentness")
+            refusal = json.loads((directory / ("adjacent-" + field + "-currentness-refusal.json")).read_bytes())
+            assert refusal["before"]["acquired"]["binding"]["root"] != refusal["after"]["acquired"]["binding"]["root"]
+            rows.append(dict(control="adjacent " + field + " invalidates both leaves and currentness", decisions=changed["nodes"]))
+        execute.assert_not_called()
+    assert session.dispatch_count == 0 and not session._issued
+    report = dict(scope="CONSTRUCTED_SOURCE_RUNTIME_OBSERVER_AND_ROOT_STAT; REAL_LEGACY_BINDING_COMPILER_CURRENTNESS",
+                  controls=rows, dispatch_count=0, actual_runtime_census=False, actual_namespace=False, authority="NONE")
+    (directory / "root-identity-controls.json").write_text(json.dumps(report, sort_keys=True, indent=2) + "\n")
+    return report
+
+
 def main():
     global RETAIN
     parser = argparse.ArgumentParser(description=__doc__)
@@ -1452,6 +1558,7 @@ def main():
     # Preserve order, shell globals, terminal stdout/stderr and legacy fail-fast
     # in an actually executed held-out registry. No hand-written PASS oracle.
     with fixture_directory() as td:
+        scoped_root_identity_cases(Path(td) / "scoped-root-identity")
         root = Path(td) / "repo"
         (root / "scripts").mkdir(parents=True)
         (root / "tests").mkdir()

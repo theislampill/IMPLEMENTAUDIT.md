@@ -1200,6 +1200,14 @@ class VerifierTaskSession:
                         source_projection="READ_BYTES_AND_TYPED_EXISTENCE_PLACEHOLDERS")
         return manifest, self._object(self._encode(manifest))
 
+    @staticmethod
+    def _root_identity(info):
+        """Canonical decimal uint64 device/inode for the acquired root binding."""
+        identifiers = (info.st_dev, info.st_ino)
+        if any(type(value) is not int or not 0 <= value < 2**64 for value in identifiers):
+            raise WG.WorkGraphError("filesystem device/inode must be unsigned 64-bit integers")
+        return [str(value) for value in identifiers]
+
     def _acquire(self):
         if os.getpid() != self.producer_pid:
             raise WG.WorkGraphError("producer process changed; receipt import is unsupported")
@@ -1244,7 +1252,7 @@ class VerifierTaskSession:
         observer = {path: sha(self._regular(Path(path).resolve())[1]) for path in ("/usr/bin/bwrap", "/usr/bin/git", sys.executable)}
         inherited_limits = {name: list(resource.getrlimit(getattr(resource, name)))
                             for name in dir(resource) if name.startswith("RLIMIT_")}
-        binding = dict(producer=self.producer, root=[str(self.source), root_stat.st_dev, root_stat.st_ino],
+        binding = dict(producer=self.producer, root=[str(self.source), *self._root_identity(root_stat)],
                        engine=self._engine, observer=observer, kernel=list(platform.uname()),
                        runtime=runtime_digest, environment=self.environment, limits=self.LIMITS,
                        inherited_resource_limits=inherited_limits,
