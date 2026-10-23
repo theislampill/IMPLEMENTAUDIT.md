@@ -185,7 +185,7 @@ rotation_io() {
 
 controller='' supersede='' deferred='' boundary='' event=''
 case "${1:-}" in
-  --rotate-canonical-state|--recover-canonical-state|--read-current-state|--read-canonical-state|--resolve-canonical-generation|--resolve-resume-generation|--read-resume-state)
+  --rotate-canonical-state|--recover-canonical-state|--read-current-state|--read-canonical-state|--resolve-canonical-generation|--resolve-resume-generation|--read-resume-state|--prepare-c02-correction|--append-c02-correction|--apply-c02-correction)
     rotation_operation="$1"; controller="${2:-}"; shift 2
     case "$rotation_operation" in
       --rotate-canonical-state) rotation_operation=rotate ;;
@@ -195,6 +195,9 @@ case "${1:-}" in
       --resolve-canonical-generation) rotation_operation=resolve ;;
       --resolve-resume-generation) rotation_operation=resolve-resume ;;
       --read-resume-state) rotation_operation=read-resume ;;
+      --prepare-c02-correction) rotation_operation=c02-prepare ;;
+      --append-c02-correction) rotation_operation=c02-append ;;
+      --apply-c02-correction) rotation_operation=c02-apply ;;
     esac
     rotation_io "$rotation_operation" "$controller" "$@"; exit $? ;;
   --current-controller) controller_io current "${2:-}"; exit $? ;;

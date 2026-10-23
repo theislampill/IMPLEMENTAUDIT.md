@@ -21,6 +21,7 @@ _V2_AUTHORITY = "NO_CURRENTNESS_AUTHORITY"
 _V2_BODY_SCHEMA = "implementaudit.canonical-pair.v2"
 _V2_TRANSITION_SCHEMA = "implementaudit.canonical-state-transition.v2"
 _V2_NATIVE_RESUME_SCHEMA = "implementaudit.native-resume-transition.v1"
+_V2_C02_SCHEMA = "implementaudit.c02-correction-transition.v1"
 _V2_POINTER_SCHEMA = "implementaudit.typed-archive-pointer.v2"
 _V2_OWNERS = {"STATE.md", "ROADMAP.md", "claim-run.sh", "WORK_GRAPH.json", "R0033/continuity"}
 _V2_GROUP_OWNERS = {
@@ -58,6 +59,7 @@ _V2_RECORD_STATES = {"OPEN", "BLOCKED", "DONE", "DEFERRED", "UNVERIFIED", "PRESE
 _V2_BOUNDARIES = {"host-reported-compaction", "new-session", "handoff-resume", "manual-resume",
                    "inferred-context-gap", "canonical-state-rotation"}
 _V2_NATIVE_BOUNDARIES = _V2_BOUNDARIES - {"canonical-state-rotation"}
+_V2_BOUNDARIES = _V2_BOUNDARIES | {"erroneous-invalidation-correction"}
 _V2_HISTORY_KINDS = {"finding.closed", "andon.closed", "residual.terminal", "epoch.closed",
                       "instruction.satisfied", "phase.completed", "transition.closed",
                       "recovery.record", "artifact.historical"}
@@ -513,7 +515,12 @@ def _v2_continuity(value: object, controller: str) -> None:
 def _v2_transition(value: object, current: Mapping[str, object], controller: str,
                     receipt_oid: str | None = None) -> None:
     _v2_object(value, _V2_TRANSITION_KEYS, "successor transition")
-    if value["transition_kind"] == "native-resume":
+    if value["transition_kind"] == "c02-correction":
+        _v2_require(value["schema_version"] == _V2_C02_SCHEMA
+                    and value["boundary"] == "erroneous-invalidation-correction"
+                    and current["expected_receipt_schema"] == "implementaudit.continuity-receipt.v3",
+                    "C02 requires its distinct owner transition and migrated predecessor")
+    elif value["transition_kind"] == "native-resume":
         _v2_require(value["schema_version"] == _V2_NATIVE_RESUME_SCHEMA
                     and current["expected_receipt_schema"] == "implementaudit.continuity-receipt.v3",
                     "native resume requires the original native boundary and migrated predecessor")

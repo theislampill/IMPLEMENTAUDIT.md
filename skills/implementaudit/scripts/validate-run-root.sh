@@ -1195,7 +1195,9 @@ if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability
       note=$7; gsub(/^[ \t]+|[ \t]+$/, "", note)
       bound_rotation=(native_epoch != "" && p == "canonical-state-rotation" &&
                       (e != native_epoch || note == "native pointer JOIN"))
-      if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/ && !bound_rotation) print e
+      bound_correction=(native_epoch != "" && p == "erroneous-invalidation-correction" &&
+                        e == native_epoch && note == "native pointer JOIN")
+      if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/ && !bound_rotation && !bound_correction) print e
     }' "$state")"
   if [ -n "$bad_prov" ]; then
     err "STATE.md epoch row(s) with invalid boundary provenance: $(printf '%s' "$bad_prov" | tr '\n' ' ') (allowed: host-reported-compaction / new-session / handoff-resume / manual-resume / inferred-context-gap; never fabricate a compaction)"

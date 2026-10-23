@@ -29,14 +29,14 @@ def _windows_custody():
         raise ImportError("canonical custody substrate is aliased or nonregular")
     with open(path, "rb") as stream:
         opened = os.fstat(stream.fileno())
-        raw = stream.read(33630)
+        raw = stream.read(36368)
         after = os.fstat(stream.fileno())
     if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
             != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
-            or len(raw) != 33629
-            or hashlib.sha256(raw).hexdigest() != "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"):
+            or len(raw) != 36367
+            or hashlib.sha256(raw).hexdigest() != "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"):
         raise ImportError("canonical custody substrate source identity mismatch")
     module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
     if module_name in sys.modules:
@@ -310,7 +310,12 @@ def native_guard_views(run, pair, resolution):
               and effective.get("transition_kind") == "native-resume"
               and effective["boundary"] in {"host-reported-compaction", "new-session", "handoff-resume", "manual-resume", "inferred-context-gap"}
               and all(effective.get(key) is None for key in ("failed_transition_epoch", "failed_projection_generation_id", "failed_transition_receipt_ref_oid")))
-    require((rotation or resume) and effective["reconciled"] is True,
+    correction = (effective.get("schema_version") == "implementaudit.c02-correction-transition.v1"
+                  and effective.get("transition_kind") == "c02-correction"
+                  and effective["boundary"] == "erroneous-invalidation-correction"
+                  and all(key in effective and effective[key] is None for key in
+                          ("failed_transition_epoch", "failed_projection_generation_id", "failed_transition_receipt_ref_oid")))
+    require((rotation or resume or correction) and effective["reconciled"] is True,
             "native guard live envelope is not an admitted owner-bound transition")
     for rows in profiles.values():
         require(not any(re.match(r"^\s*\|\s*" + re.escape(effective["continuity_epoch"]) + r"\s*\|", line) for line in rows),

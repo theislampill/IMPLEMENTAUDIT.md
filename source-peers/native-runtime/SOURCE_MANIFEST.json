@@ -80,73 +80,76 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
-      "bytes": 64841,
-      "sha256": "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
+      "bytes": 80350,
+      "sha256": "8e761d55241ed09c9174e441d86ec320478e5c099f31fef6e82fff761fa807de",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "1f35bd9f9841e05dfb419f85890b34f036e13af387fed5a9a80868787293d972",
       "modified": true,
-      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-result-observation.py",
-      "bytes": 143900,
-      "sha256": "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
+      "bytes": 146078,
+      "sha256": "38236d9247b66202807f55c36e8505335c73c5129778cd16b3180661690578e4",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "c44d2351ba7e48fb324a761c818eb5ecb428f89b9ea64c6b99fe6a64ad0e1d72",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "inherited_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
-      "additional_delta": "Fixed issuer/code closure, current retained metadata, pending-kind census and scope/range ordering; original final_answer R/A predicates preserved"
+      "additional_delta": "Fixed issuer/code closure, current retained metadata, pending-kind census and scope/range ordering; original final_answer R/A predicates preserved; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
-      "bytes": 62044,
-      "sha256": "0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986",
+      "bytes": 62056,
+      "sha256": "aacbf3c65f9d36d933160f5169b4f09f126d36db9ae2e9770d1004d9b7cef52d",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97"
+      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_file_custody.py",
-      "bytes": 8022,
-      "sha256": "d17b51fd6baf96dbbd0d32c81433e39bf9e3d03bb306e339a207ab4bb61e4473",
+      "bytes": 10273,
+      "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,
       "modified": true,
-      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED"
+      "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
+      "additional_delta": "; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_native_reader.py",
-      "bytes": 15812,
-      "sha256": "3ea54f5f19e20f3524a6c059d3ce9d8a93fd41ed3ec27d1cc6b898ea1f2ced6e",
+      "bytes": 20749,
+      "sha256": "1f72979eb39138d999843c127893c8dbeba97cc8c5546b19c3725758011df5a6",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization"
+      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_source_owner.py",
-      "bytes": 37103,
-      "sha256": "7f4e010102ea66c824c1f08dfc32004e154bfd54a08bc59025c1618f816720b7",
+      "bytes": 46041,
+      "sha256": "d3eea74086d724f68802eccfe873b7502773f993ea989534b5bc02a0eac4f55f",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization"
+      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback"
     }
   ]
 }

@@ -13,12 +13,12 @@ def require(value, reason):
         raise ValueError(reason)
 
 def observation(policy):
-    require(policy['descriptor']['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    require(policy['descriptor']['profile_id'] in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     key = str(Path('implementaudit/scripts/compaction-result-observation.py'))
     return _np_module({'path': str(OBSERVATION), 'bytes': OBSERVATION.stat().st_size, 'sha256': policy['code_and_skill_pins'][key]}, 'compaction-result-observation.py')
 
 def host_binding(obs, context, policy):
-    require(context['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    require(context['profile_id'] in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     return nonprotected_host_binding(obs, context, policy)
 
 def sealed_prefix(obs, context, role, end):
@@ -64,7 +64,7 @@ def active_public_turn(obs, context, role, pin, retained):
     require(active == retained['id']['turn_id'], 'CURRENT_PUBLIC_WRONG_ACTIVE_TURN')
 
 def native_public_binding(obs, context, policy, pins):
-    require(context['profile_id'] == NONPROTECTED_PROFILE, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
+    require(context['profile_id'] in SOURCE_PROFILES, 'NONPROTECTED_PROJECTION_PROFILE_REQUIRED')
     return nonprotected_public_binding(obs, context, policy, pins)
 
 def tool_calls(obs, records):
@@ -129,7 +129,7 @@ def release_subject(obs, context, prepared, result, accepted, candidate_pin, q_p
         require(terminal_row['payload'].get('turn_id') == activation['payload'].get('turn_id') and isinstance(terminal_row['payload'].get('turn_id'), str) and terminal_row['payload']['turn_id'], 'SOURCE_OWNER_TERMINAL_TURN_DIFFERS')
     records, prefix = obs.hold_records(context, cutoff=end)
     require(records[-1]['locator'] == terminal_pin['locator'], 'SOURCE_OWNER_TERMINAL_PREFIX_DIFFERS')
-    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
+    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES):
         require(policy is not None, 'CURRENT_PUBLIC_POLICY_REQUIRED')
         native_public_binding(obs, context, policy, [context['open'], prepared['authorization']['route_record'], prepared['authorization']['record'], result['identity']['child_final'], accepted['record']])
     return {'schema': 'implementaudit.compaction-boundary-release.v1' if general else 'implementaudit.compaction-current-release.v1', **({'covered_boundary_versions': prepared['obligation']['covered_boundary_versions']} if general else {}), 'child_id': context['actual_child_identity']['agent_path'], 'observation_id': prepared['obligation']['observation_id'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'result_digest': result['return_digest'], 'acceptance_digest': obs.digest(obs.canonical(accepted)), 'child_terminal': child_terminal, 'child_prefix_sha256': prefix['prefix_sha256'], 'observed_tool_calls_sha256': tool_calls(obs, records), 'effect_reconciliation': 'NO_UNRECONCILED_EFFECTS', 'explicit_release': 'GRANTED', 'authority_ceiling': 'NONE'}
@@ -148,7 +148,7 @@ def _validate_source_episode(candidate, candidate_pin, context, prepared, result
     terminal_pin = obs.resolve_record(context, 'child', release_evidence['child_terminal'])[1]
     obs.before(terminal_pin, release_pin)
     public_binding = None
-    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, NONPROTECTED_PROFILE):
+    if context['profile_id'] in (obs.CURRENT_BOUNDARY_PROFILE, *SOURCE_PROFILES):
         public_binding = native_public_binding(obs, context, policy, [context['open'], prepared['authorization']['route_record'], prepared['authorization']['record'], result['identity']['child_final'], accepted['record'], release_pin])
     return {'schema': 'implementaudit.source-owner-episode-attestation.v1', 'issuer_id': policy['descriptor']['authenticating_source_owner']['issuer_id'], 'policy_digest': policy['policy_digest'], 'candidate_sha256': candidate_pin['sha256'], 'Q_sha256': q_pin['sha256'], 'parent_identity': candidate['parent_identity'], 'actual_child_identity': candidate['actual_child_identity'], 'obligation_digest': candidate['obligation_digest'], 'result_digest': result['return_digest'], 'acceptance_digest': candidate['exact_acceptance_digest'], 'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'host_source_binding': binding, 'release_evidence': release_evidence, 'terminal_effect_release': obs.terminal_release_identity(context, prepared, candidate), 'authority_ceiling': 'NONE', **({'current_public_record_binding': public_binding} if public_binding is not None else {})}
 NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
@@ -189,8 +189,9 @@ def _np_module(pin, basename, custody=None):
 
 def _np_selection():
     import json
-    require(NONPROTECTED_SELECTION_PIN is not None, 'NONPROTECTED_FIXED_SELECTION_UNBOUND')
-    raw = _np_read_pin(NONPROTECTED_SELECTION_PIN, 256 * 1024)
+    pin = selected_source_pin_v1()
+    require(pin is not None, 'NONPROTECTED_FIXED_SELECTION_UNBOUND')
+    raw = _np_read_pin(pin, 256 * 1024)
 
     def unique(pairs):
         result = {}
@@ -199,6 +200,8 @@ def _np_selection():
             result[key] = value
         return result
     selected = json.loads(raw, object_pairs_hook=unique)
+    if OWNED_STDIO_SELECTION_PIN is not None:
+        return validate_owned_stdio_selection_shape_v1(selected)
     required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source', 'session_root', 'cwd', 'cli_version', 'native_version', 'desktop_version', 'host_process', 'desktop_process', 'native_executable', 'desktop_executable', 'desktop_asar', 'config_file', 'runtime_helpers', 'episode_owner', 'pending_owner'}
     require(isinstance(selected, dict) and set(selected) == required and (selected['schema'] == 'implementaudit.codex-nonprotected-provider-selection.v1') and (selected['profile_id'] == NONPROTECTED_PROFILE) and (set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'}), 'NONPROTECTED_FIXED_SELECTION_SHAPE')
     pointer = selected['pending_owner']
@@ -211,6 +214,7 @@ def _np_runtime(obs, code_pins):
     protocol = _np_module(selected['runtime_helpers']['bounded_native_reader.py'], 'bounded_native_reader.py', custody)
     helpers = _np_module(selected['runtime_helpers']['bounded_source_owner.py'], 'bounded_source_owner.py', custody)
     protocol.custody = helpers.custody = custody
+    helpers._observation_owner = obs
     reader_key = str(Path('implementaudit/scripts/codex-recovery-native-reader.py'))
     require(reader_key in code_pins, 'NONPROTECTED_READER_CODE_PIN_ABSENT')
     reader_pin = {'path': str(READER), 'bytes': READER.stat().st_size, 'sha256': code_pins[reader_key]}
@@ -239,7 +243,7 @@ def _np_episode(runtime):
 
 def _np_subject(runtime):
     episode = _np_episode(runtime)
-    subject = runtime[3]._subject_from_episode_v1(runtime, episode, _np_call)
+    subject = (runtime[3]._subject_from_owned_stdio_episode_v1 if runtime[0]['profile_id'] == OWNED_STDIO_PROFILE else runtime[3]._subject_from_episode_v1)(runtime, episode, _np_call)
     require(_np_episode(runtime) == episode, 'NONPROTECTED_CANONICAL_EPISODE_CHANGED_DURING_NATIVE_READ')
     return subject
 
@@ -254,7 +258,7 @@ def nonprotected_bind_sources(obs, request, code_pins):
     with _np_provider_guard(runtime):
         subject = _np_subject(runtime)
         require(subject['episode']['selected_child_role'] == 'audit-state', 'NONPROTECTED_RECONCILIATION_ROLE_REQUIRED')
-        context = {'profile_id': NONPROTECTED_PROFILE, 'parent_identity': subject['parent_identity'], 'actual_child_identity': subject['actual_child_identity'], 'logical_child_id': subject['actual_child_identity']['agent_path'], 'canonical_episode_binding': subject['episode'], '_source_profile_code_pins': code_pins, 'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED', 'host_producer_authenticated': False}
+        context = {'profile_id': selected['profile_id'], 'parent_identity': subject['parent_identity'], 'actual_child_identity': subject['actual_child_identity'], 'logical_child_id': subject['actual_child_identity']['agent_path'], 'canonical_episode_binding': subject['episode'], '_source_profile_code_pins': code_pins, 'source_association': 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED', 'host_producer_authenticated': False}
         for role in ('parent', 'child'):
             source = subject['sources'][role]
             prefix = source['header_prefix']
@@ -295,6 +299,8 @@ def nonprotected_bind_sources(obs, request, code_pins):
 
 def nonprotected_fixed_policy(obs, code_pins):
     selected, _, _, _, _ = _np_runtime(obs, code_pins)
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_fixed_policy_v1(obs, code_pins, selected)
     require(isinstance(selected['episode_owner'], dict) and selected['episode_owner'].get('module_pin') is not None, 'NONPROTECTED_CANONICAL_EPISODE_OWNER_UNBOUND')
 
     def code_pin(filename):
@@ -311,6 +317,8 @@ def nonprotected_fixed_policy(obs, code_pins):
 def _np_provider_guard(runtime):
     import contextlib
     selected, custody, protocol, helpers, _ = runtime
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_provider_guard_v1(runtime)
 
     @contextlib.contextmanager
     def guard():
@@ -343,6 +351,8 @@ def _np_provider_guard(runtime):
 def nonprotected_host_binding(obs, context, policy):
     runtime = _np_runtime(obs, policy['code_and_skill_pins'])
     selected = runtime[0]
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_host_binding_v1(obs, context, policy, runtime)
     require(nonprotected_fixed_policy(obs, policy['code_and_skill_pins']) == policy, 'NONPROTECTED_FIXED_P_CHANGED')
     with _np_provider_guard(runtime):
         subject = _np_subject(runtime)
@@ -356,7 +366,9 @@ def nonprotected_host_binding(obs, context, policy):
 def nonprotected_public_binding(obs, context, policy, pins):
     runtime = _np_runtime(obs, policy['code_and_skill_pins'])
     selected, custody, _, _, _ = runtime
-    require(context['profile_id'] == NONPROTECTED_PROFILE and 0 < len(pins) <= 16, 'NONPROTECTED_PUBLIC_SCOPE')
+    if selected['profile_id'] == OWNED_STDIO_PROFILE:
+        return _as_public_binding_v1(obs, context, policy, pins, runtime)
+    require(context['profile_id'] in SOURCE_PROFILES and 0 < len(pins) <= 16, 'NONPROTECTED_PUBLIC_SCOPE')
     with _np_provider_guard(runtime):
         episode = _np_episode(runtime)
         require(episode['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'NONPROTECTED_OPEN_BINDING_CHANGED')
@@ -402,7 +414,7 @@ def nonprotected_sources_guard(obs, context, code_pins):
 
     @contextlib.contextmanager
     def guard():
-        require(context['profile_id'] == NONPROTECTED_PROFILE and context['parent_identity']['thread_id'] == selected['root_thread_id'], 'NONPROTECTED_SOURCE_GUARD_SCOPE')
+        require(context['profile_id'] in SOURCE_PROFILES and context['profile_id'] == selected['profile_id'] and context['parent_identity']['thread_id'] == selected['root_thread_id'], 'NONPROTECTED_SOURCE_GUARD_SCOPE')
         expected = selected['root_agent_path'] + '/' + context['canonical_episode_binding']['logical_task']
         with contextlib.ExitStack() as stack:
             for role in ('parent', 'child'):
@@ -422,7 +434,7 @@ def nonprotected_sources_guard(obs, context, code_pins):
 
 def validate(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence):
     """The original final validator runs under the new source custody guard."""
-    if context['profile_id'] != NONPROTECTED_PROFILE:
+    if context['profile_id'] not in SOURCE_PROFILES:
         return _validate_source_episode(candidate, candidate_pin, context, prepared, result, accepted, policy, q_pin, custody_root, release_evidence)
     obs = observation(policy)
     with nonprotected_sources_guard(obs, context, policy['code_and_skill_pins']):
@@ -861,3 +873,202 @@ if __name__ == '__main__':
     except (Exception, SystemExit) as error:
         sys.stderr.write(json.dumps({'schema': 'implementaudit.ordinary-receiver-refusal.v1', 'reason': str(error)}) + '\n')
         raise SystemExit(2)
+
+# Distinct owned-stdio source profile. No caller field can select this issuer.
+OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
+OWNED_STDIO_SELECTION_PIN = None
+SOURCE_PROFILES = (NONPROTECTED_PROFILE, OWNED_STDIO_PROFILE)
+
+def selected_source_pin_v1():
+    selected = [pin for pin in (NONPROTECTED_SELECTION_PIN, OWNED_STDIO_SELECTION_PIN) if pin is not None]
+    require(len(selected) <= 1 and not (selected and ORDINARY_SELECTION_PIN is not None), 'FIXED_SOURCE_SELECTION_AMBIGUOUS')
+    return selected[0] if selected else None
+
+def selected_source_profile_v1():
+    if selected_source_pin_v1() is None:
+        return None
+    return _np_selection()['profile_id']
+
+def validate_owned_stdio_selection_shape_v1(selected):
+    required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source',
+        'session_root', 'cwd', 'cli_version', 'native_version', 'native_executable', 'codex_home',
+        'runtime_helpers', 'episode_owner', 'pending_owner', 'producer_capture_pin', 'capture_producer_pin', 'tool_evidence_contract'}
+    require(type(selected) is dict and set(selected) == required and
+        selected['schema'] == 'implementaudit.codex-owned-stdio-provider-selection.v1' and
+        selected['profile_id'] == OWNED_STDIO_PROFILE and selected['cli_version'] == '0.153.4' and
+        selected['native_version'] == 'codex-cli 0.153.4' and selected['root_agent_path'] == '/root' and
+        selected['tool_evidence_contract'] == 'EXACT_ORIGINAL_CUSTOM_EXEC_AND_COLLABORATION_V1' and
+        set(selected['runtime_helpers']) == {'bounded_native_reader.py', 'bounded_source_owner.py', 'bounded_file_custody.py'},
+        'OWNED_STDIO_FIXED_SELECTION_SHAPE')
+    uuid = r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}'
+    require(type(selected['root_thread_id']) is str and re.fullmatch(uuid, selected['root_thread_id']), 'OWNED_STDIO_ROOT_IDENTITY')
+    for key in ('root_source', 'session_root', 'cwd', 'codex_home'):
+        path = Path(selected[key])
+        require(path.is_absolute() and path.resolve(strict=True) == path, 'OWNED_STDIO_SELECTED_PATH_ALIAS')
+    require(Path(selected['session_root']) == Path(selected['codex_home']) / 'sessions' and
+        Path(selected['root_source']).is_relative_to(Path(selected['session_root'])) and
+        Path(selected['root_source']).name.endswith('-' + selected['root_thread_id'] + '.jsonl'), 'OWNED_STDIO_SOURCE_NAMESPACE')
+    pointer = selected['pending_owner']
+    require(type(pointer) is dict and set(pointer) == {'store', 'session_id', 'owner_id'} and
+        type(pointer['store']) is str and Path(pointer['store']).is_absolute() and
+        pointer['session_id'] == selected['root_thread_id'] and type(pointer['owner_id']) is str and pointer['owner_id'],
+        'OWNED_STDIO_PENDING_OWNER_SHAPE')
+    require(type(selected['episode_owner']) is dict and set(selected['episode_owner']) == {'module_pin', 'repository', 'controller'},
+        'OWNED_STDIO_R0033_OWNER_SHAPE')
+    return selected
+
+def _as_capture_v1(selected, custody=None):
+    import json
+    raw = _np_read_pin(selected['producer_capture_pin'], 512 * 1024, custody)
+    capture = json.loads(raw, object_pairs_hook=_ordinary_unique_v1)
+    producer = _np_read_pin(selected['capture_producer_pin'], 128 * 1024, custody)
+    schema = capture.get('schema')
+    generic = schema == 'implementaudit.owned-stdio-source-acquisition.v1'
+    require((generic and capture.get('status') == 'SOURCE_CAPTURED_UNADMITTED' or
+        schema == 'r0039.native-two-boundary-capture.v1' and capture.get('status') == 'ACTUAL_TWO_BOUNDARY_CAPTURED_UNADMITTED') and
+        capture.get('thread_id') == selected['root_thread_id'] and
+        capture.get('native_version') == selected['native_version'] and
+        capture.get('native_executable_sha256') == selected['native_executable']['sha256'] and
+        capture.get('process_exit_code') == 0 and capture.get('transport') == 'dedicated-owner-started-stdio' and
+        capture.get('profile_admission') == 'UNADMITTED' and capture.get('native_pending_consumption') is False and
+        capture.get('capture_script_sha256') == hashlib.sha256(producer).hexdigest() and
+        Path(capture.get('codex_home', '')) == Path(selected['codex_home']) and
+        Path(capture.get('cwd', '')) == Path(selected['cwd']) and
+        (generic and type(capture.get('source')) is dict or not generic and len(capture.get('boundaries', [])) == 2),
+        'OWNED_STDIO_PRODUCER_CAPTURE_BINDING')
+    # This historical acquisition record remains unadmitted. Selection never
+    # rewrites its H0/currentness/epoch labels or supplies missing child evidence.
+    sources = [capture['source']] if generic else [boundary['source'] for boundary in capture['boundaries']]
+    for source in sources:
+        require(Path(source['path']) == Path(selected['root_source']) and
+            source['metadata']['id'] == source['metadata']['session_id'] == selected['root_thread_id'] and
+            source['metadata']['cli_version'] == selected['cli_version'], 'OWNED_STDIO_CAPTURE_SOURCE_CHANGED')
+    return capture
+
+def _as_provider_guard_v1(runtime):
+    import contextlib
+    selected, custody, protocol, helpers, _ = runtime
+    @contextlib.contextmanager
+    def guard():
+        with contextlib.ExitStack() as held:
+            binary = selected['native_executable']
+            held.enter_context(custody.held_file(binary['path'], allow_append=False))
+            held.enter_context(custody.held_file(selected['producer_capture_pin']['path'], allow_append=False))
+            before = protocol.file_pin(Path(binary['path']))
+            require(before['sha256'] == binary['sha256'] and before['bytes'] == binary['bytes'], 'OWNED_STDIO_BINARY_CHANGED')
+            capture = _as_capture_v1(selected, custody)
+            source = helpers.header({'path': selected['root_source']})
+            frozen = capture['source'] if capture['schema'] == 'implementaudit.owned-stdio-source-acquisition.v1' else capture['boundaries'][-1]['source']
+            require({key: source['physical'][key] for key in ('device', 'inode')} == frozen['physical'], 'OWNED_STDIO_CAPTURE_PHYSICAL_CHANGED')
+            context = {'parent': {'path': selected['root_source'], 'physical': frozen['physical'],
+                'metadata': {'bytes': source['header_prefix']['bytes']}}}
+            # Existing prefix owner; no transcript body is copied into evidence.
+            obs = helpers._observation_owner
+            prefix = sealed_prefix(obs, context, 'parent', frozen['bytes'])
+            require(prefix['prefix_sha256'] == frozen['sha256'], 'OWNED_STDIO_CAPTURE_PREFIX_CHANGED')
+            yield {'native_executable': before, 'producer_capture_pin': selected['producer_capture_pin']}
+            require(protocol.file_pin(Path(binary['path'])) == before and _as_capture_v1(selected, custody) == capture and
+                sealed_prefix(obs, context, 'parent', frozen['bytes']) == prefix, 'OWNED_STDIO_PROVIDER_CHANGED_DURING_READ')
+    return guard()
+
+def _as_fixed_policy_v1(obs, code_pins, selected):
+    def code_pin(name):
+        path = HERE / name
+        pin = {'path': str(path), 'bytes': path.stat().st_size,
+            'sha256': code_pins[str(Path('implementaudit/scripts') / name)]}
+        _np_read_pin(pin, 512 * 1024)
+        return pin
+    capture = _as_capture_v1(selected)
+    descriptor = {'schema': 'implementaudit.compaction-fixed-acquisition-policy.v1',
+        'profile_id': OWNED_STDIO_PROFILE, 'custody_namespace': 'result-observations-v1', 'qualification_key': 'qualification/Q.json',
+        'provider_selection': {'profile_id': OWNED_STDIO_PROFILE, 'selection_pin': dict(OWNED_STDIO_SELECTION_PIN),
+            'native_version': selected['native_version'], 'native_executable': selected['native_executable'],
+            'codex_home': selected['codex_home'], 'producer_capture_pin': selected['producer_capture_pin'],
+            'capture_producer_pin': selected['capture_producer_pin'],
+            'tool_evidence_contract': selected['tool_evidence_contract']},
+        'authenticating_source_owner': {'issuer_id': 'codex-owned-stdio-canonical-episode-public-source-v1',
+            'module_pin': code_pin('compaction-source-owner-codex-app.py'),
+            'native_reader_pin': code_pin('codex-recovery-native-reader.py'), 'native_binary': selected['native_executable'],
+            'producer_capture_pin': selected['producer_capture_pin']},
+        'exact_host_tuple': {'source_header_cli_version': selected['cli_version'],
+            'provider_selection_sha256': OWNED_STDIO_SELECTION_PIN['sha256'], 'native_version': selected['native_version'],
+            'native_executable_sha256': selected['native_executable']['sha256'],
+            'producer_capture_sha256': selected['producer_capture_pin']['sha256'], 'codex_home': selected['codex_home']}}
+    value = {'descriptor': descriptor, 'code_and_skill_pins': code_pins}
+    return {**value, 'policy_digest': obs.digest(obs.canonical(value))}
+
+def _as_host_binding_v1(obs, context, policy, runtime):
+    selected = runtime[0]
+    require(_as_fixed_policy_v1(obs, policy['code_and_skill_pins'], selected) == policy, 'OWNED_STDIO_FIXED_POLICY_CHANGED')
+    with _np_provider_guard(runtime):
+        subject = _np_subject(runtime)
+        require(subject['parent_identity'] == context['parent_identity'] and subject['actual_child_identity'] == context['actual_child_identity'] and
+            subject['episode']['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'OWNED_STDIO_CANONICAL_CONTEXT_CHANGED')
+        for role in ('parent', 'child'):
+            require(subject['sources'][role]['physical']['path'] == context[role]['path'] and
+                {key: subject['sources'][role]['physical'][key] for key in ('device', 'inode')} == context[role]['physical'],
+                'OWNED_STDIO_CONTEXT_PHYSICAL_CHANGED')
+        responses = subject['metadata']['responses']
+    return {'schema': 'implementaudit.codex-owned-stdio-exact-source-binding.v1',
+        'native_reader_sha256': policy['descriptor']['authenticating_source_owner']['native_reader_pin']['sha256'],
+        'provider_selection_sha256': OWNED_STDIO_SELECTION_PIN['sha256'], 'native_version': selected['native_version'],
+        'native_executable_sha256': selected['native_executable']['sha256'],
+        'producer_capture_sha256': selected['producer_capture_pin']['sha256'], 'codex_home': selected['codex_home'],
+        'parent_thread_read_response_sha256': responses[0]['response_sha256'], 'child_thread_read_response_sha256': responses[1]['response_sha256'],
+        'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'authority_ceiling': 'NONE'}
+
+def _as_public_turn_v1(obs, context, role, pin):
+    anchor = context['parent_turn_start'] if role == 'parent' else context['child_activation']
+    start, end = anchor['locator']['offset'], pin['locator']['offset'] + pin['locator']['bytes']
+    require(0 <= start < end and end - start <= obs.MAX_TOTAL, 'OWNED_STDIO_PUBLIC_TURN_BOUND')
+    path, info = obs.physical(context[role]['path'])
+    require(obs.identity(info) == context[role]['physical'], 'OWNED_STDIO_PUBLIC_PHYSICAL_CHANGED')
+    active = None
+    position, count = start, 0
+    with path.open('rb') as stream:
+        stream.seek(start)
+        while position < end:
+            raw = stream.readline(min(obs.MAX_RECORD + 1, end - position))
+            require(raw and raw.endswith(b'\n') and len(raw) <= obs.MAX_RECORD, 'OWNED_STDIO_PUBLIC_TURN_FRAME')
+            row = obs.json.loads(raw, object_pairs_hook=obs.unique)
+            count += 1
+            require(count <= obs.MAX_RECORDS and isinstance(row, dict) and isinstance(row.get('payload'), dict), 'OWNED_STDIO_PUBLIC_TURN_FRAME')
+            if row.get('type') == 'turn_context' or row.get('type') == 'event_msg' and row['payload'].get('type') == 'task_started':
+                active = row['payload'].get('turn_id')
+            position += len(raw)
+    require(isinstance(active, str) and active, 'OWNED_STDIO_ACTIVE_TURN_ABSENT')
+    return active
+
+def _as_public_binding_v1(obs, context, policy, pins, runtime):
+    import contextlib
+    selected, custody, _, _, _ = runtime
+    require(context['profile_id'] == OWNED_STDIO_PROFILE and 0 < len(pins) <= 8, 'OWNED_STDIO_PUBLIC_SCOPE')
+    with _np_provider_guard(runtime):
+        episode = _np_episode(runtime)
+        require(episode['opening_digest'] == context['canonical_episode_binding']['opening_digest'], 'OWNED_STDIO_PUBLIC_OPEN_CHANGED')
+        requests, originals, ends = [], [], {}
+        for pin in pins:
+            role = pin['role']
+            with custody.held_file(context[role]['path']):
+                row, checked = obs.resolve_record(context, role, pin['locator'])
+                require(checked == pin, 'OWNED_STDIO_PUBLIC_PIN_CHANGED')
+                body = obs.public_message(row, row['payload']['phase'], context=context).encode('utf-8')
+                turn = _as_public_turn_v1(obs, context, role, pin)
+            expected = {'id': row['payload']['id'], 'turn_id': turn, 'phase': row['payload']['phase'],
+                'body_bytes': len(body), 'body_sha256': obs.digest(body)}
+            requests.append(('thread/items/list', {'threadId': context[role + '_identity']['thread_id'] if role == 'parent' else context['actual_child_identity']['thread_id'],
+                'turnId': turn, 'limit': 64, 'cursor': None, 'sortDirection': 'asc'}))
+            originals.append((pin, expected))
+            ends[role] = max(ends.get(role, 0), pin['locator']['offset'] + pin['locator']['bytes'])
+        prefixes = [sealed_prefix(obs, context, role, end) for role, end in sorted(ends.items())]
+        report = _np_call(runtime, requests, context['actual_child_identity']['thread_id'])
+        records = []
+        for (pin, expected), response in zip(originals, report['responses']):
+            require(response.get('page_complete') is True and [item for item in response['items'] if item['id'] == expected['id']] == [expected],
+                'OWNED_STDIO_NATIVE_PUBLIC_DIFFERS')
+            records.append({'role': pin['role'], 'pin': pin, **expected,
+                'source_semantics': 'ORIGINAL_NATIVE_RECORD', 'native_response_sha256': response['response_sha256']})
+        require([sealed_prefix(obs, context, role, end) for role, end in sorted(ends.items())] == prefixes and _np_episode(runtime) == episode,
+            'OWNED_STDIO_PUBLIC_CUTOFF_OR_EPISODE_CHANGED')
+    return {'schema': 'implementaudit.owned-stdio-native-public-record-binding.v1', 'records': records,
+        'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}

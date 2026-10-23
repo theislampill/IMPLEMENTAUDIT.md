@@ -568,3 +568,131 @@ def _recheck_ordinary_native_v1(runtime, obs, context, public, occurrences, nati
                 'ORDINARY_PUBLIC_CHANGED_DURING_READ')
     for pin in (occurrences['spawn']['call'], occurrences['spawn']['output'], occurrences['activation']):
         require(resolve(obs, context, pin['role'], pin['locator'])[1] == pin, 'ORDINARY_OCCURRENCE_CHANGED')
+
+
+def acquire_owned_stdio_public_v1(source, native_item, start_offset, cutoff, observation_owner):
+    """Read one exact-turn native public item in a bounded original-source interval.
+
+    This adds no source admission. The pinned 0.153.4 observation grammar and
+    existing physical custody remain distinct from the desktop retained grammar.
+    """
+    require(isinstance(native_item, dict) and set(native_item) ==
+            {'id', 'turn_id', 'phase', 'body_bytes', 'body_sha256'}, 'OWNED_STDIO_NATIVE_ITEM_SHAPE')
+    require(type(start_offset) is int and type(cutoff) is int and
+            source['header_prefix']['bytes'] <= start_offset < cutoff <= source['cutoff_bytes'] and
+            cutoff - start_offset <= MAX_DISCOVERY, 'OWNED_STDIO_PUBLIC_INTERVAL_BOUND')
+    require(source['metadata'].get('cli_version') == '0.153.4', 'OWNED_STDIO_SOURCE_VERSION')
+    path = Path(source['physical']['path'])
+    require(physical(path) == source['physical'], 'OWNED_STDIO_PUBLIC_PHYSICAL_CHANGED')
+    selected = None
+    active_turn = None
+    offset = start_offset
+    count = 0
+    digestor = hashlib.sha256()
+    with custody.held_file(path) as stream:
+        opened = os.fstat(stream.fileno())
+        require(same_physical(opened, source['physical']) and opened.st_size >= cutoff,
+                'OWNED_STDIO_PUBLIC_SOURCE_CHANGED')
+        stream.seek(start_offset - 1)
+        require(stream.read(1) == b'\n', 'OWNED_STDIO_PUBLIC_RECORD_BOUNDARY')
+        while offset < cutoff:
+            raw = stream.readline(min(MAX_RECORD + 1, cutoff - offset))
+            require(raw and len(raw) <= MAX_RECORD and raw.endswith(b'\n'), 'OWNED_STDIO_PUBLIC_FRAME')
+            count += 1
+            require(count <= 2048, 'OWNED_STDIO_PUBLIC_RECORD_BOUND')
+            digestor.update(raw)
+            row = parse(raw)
+            require(isinstance(row, dict) and isinstance(row.get('payload'), dict), 'OWNED_STDIO_PUBLIC_FRAME')
+            payload = row['payload']
+            if row.get('type') == 'turn_context' or (row.get('type') == 'event_msg' and payload.get('type') == 'task_started'):
+                active_turn = payload.get('turn_id')
+            # Other records are classified only. Their text/summary/replacement
+            # bodies supply no public proof and never escape this function.
+            if row.get('type') == 'response_item' and payload.get('type') == 'message' and payload.get('role') == 'assistant' and payload.get('id') == native_item['id']:
+                require(selected is None and active_turn == native_item['turn_id'], 'OWNED_STDIO_PUBLIC_ID_OR_ACTIVE_TURN')
+                body = observation_owner.public_message(row, phase=native_item['phase'],
+                    context={'profile_id': observation_owner.PROFILE}).encode('utf-8')
+                observed = {'id': payload['id'], 'turn_id': active_turn, 'phase': payload['phase'],
+                            'body_bytes': len(body), 'body_sha256': digest(body)}
+                bind_public(observed, native_item)
+                require(type(row.get('ordinal')) is int and row['ordinal'] >= 0, 'SOURCE_ORDINAL_REQUIRED')
+                selected = {'public': observed, 'locator': {'offset': offset, 'bytes': len(raw),
+                    'sha256': digest(raw), 'ordinal': row['ordinal']}}
+            offset += len(raw)
+        after = os.fstat(stream.fileno())
+        require((opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns) ==
+                (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns), 'OWNED_STDIO_PUBLIC_SOURCE_CHANGED')
+    require(physical(path) == source['physical'] and selected is not None, 'OWNED_STDIO_PUBLIC_NOT_FOUND')
+    return {'public': selected['public'], 'locator': selected['locator'], 'physical': source['physical'],
+            'source_interval': {'offset': start_offset, 'bytes': cutoff - start_offset,
+                'sha256': digestor.hexdigest(), 'cutoff_bytes': cutoff}, 'authority_ceiling': 'NONE'}
+
+def _held_owned_stdio_child_discovery_v1(selected, logical_task):
+    """Complete explicitly bounded traversal; any unknown coverage refuses."""
+    import contextlib
+    @contextlib.contextmanager
+    def acquire():
+        root=custody.lexical_path(selected['session_root'])
+        expected_path=selected['root_agent_path']+'/'+logical_task
+        candidates=[];entry_count=1;directory_count=0;file_count=0
+        with contextlib.ExitStack() as held:
+            def walk(directory,depth):
+                nonlocal entry_count,directory_count,file_count
+                require(depth<=3,'OWNED_STDIO_HEADER_DISCOVERY_DEPTH_BOUND')
+                held.enter_context(custody.held_directory(directory));directory_count+=1
+                # os.scandir and entry.stat errors propagate. Never use glob,
+                # which suppresses enumeration PermissionError on this runtime.
+                with os.scandir(directory) as entries:
+                    for entry in entries:
+                        entry_count+=1
+                        require(entry_count<=128,'OWNED_STDIO_HEADER_DISCOVERY_ENTRY_BOUND')
+                        path=directory/entry.name
+                        # Windows DirEntry.stat may report nlink=0; obtain the
+                        # actual path metadata before the held relative open.
+                        info=os.lstat(path)
+                        require(not stat.S_ISLNK(info.st_mode) and not getattr(info,'st_file_attributes',0)&0x400,
+                            'OWNED_STDIO_DISCOVERY_ALIAS_REFUSED')
+                        if stat.S_ISDIR(info.st_mode):
+                            walk(path,depth+1)
+                        elif stat.S_ISREG(info.st_mode):
+                            require(info.st_nlink==1,'OWNED_STDIO_DISCOVERY_HARDLINK_REFUSED')
+                            file_count+=1
+                            if not entry.name.startswith('rollout-') or not entry.name.endswith('.jsonl'):
+                                continue
+                            source=header({'path':str(path)});meta=source['metadata'];ident=meta.get('id')
+                            require(isinstance(ident,str) and path.name.endswith('-'+ident+'.jsonl'),
+                                'OWNED_STDIO_HEADER_FILENAME_IDENTITY')
+                            if meta.get('parent_thread_id')==selected['root_thread_id'] and meta.get('agent_path')==expected_path:
+                                require(meta.get('cli_version')==selected['cli_version'] and meta.get('cwd')==selected['cwd'] and
+                                    meta.get('thread_source')=='subagent','OWNED_STDIO_CHILD_HEADER_SCOPE')
+                                candidates.append((ident,source))
+                        else:
+                            raise ValueError('OWNED_STDIO_DISCOVERY_ENTRY_KIND_REFUSED')
+            walk(root,0)
+            require(len(candidates)==1,'OWNED_STDIO_ACTUAL_CHILD_NOT_UNIQUE_OR_TRANSPORT_UNAVAILABLE')
+            yield candidates[0],{'schema':'implementaudit.owned-stdio-header-discovery.v1','namespace':str(root),
+                'enumerated_entries':entry_count,'enumerated_directories':directory_count,'enumerated_files':file_count,
+                'logical_task':logical_task,'source':'EXISTING_BOUNDED_NATIVE_HEADER_OWNER',
+                'native_catalog_claim':False,'authority_ceiling':'NONE'}
+    return acquire()
+
+def discover_owned_stdio_child_v1(selected, logical_task):
+    with _held_owned_stdio_child_discovery_v1(selected,logical_task) as observed:
+        return observed
+
+def _subject_from_owned_stdio_episode_v1(runtime, episode, native_call):
+    selected, _, _, helpers, _ = runtime
+    parent_id=selected['root_thread_id']
+    with helpers._held_owned_stdio_child_discovery_v1(selected,episode['logical_task']) as ((child_id,discovered),discovery):
+        expected_path=selected['root_agent_path']+'/'+episode['logical_task']
+        metadata=native_call(runtime,[('thread/read',{'threadId':ident,'includeTurns':False})
+            for ident in (parent_id,child_id)],child_id)
+        parent,child=[row['thread'] for row in metadata['responses']]
+        sources={'parent':helpers.header(parent),'child':helpers.header(child)}
+        helpers.validate_relation(selected,parent,child,sources['parent']['metadata'],sources['child']['metadata'])
+        require(child['id']==child_id and all(sources['child'][key]==discovered[key]
+            for key in ('physical','header_prefix','metadata')) and sources['child']['metadata']['agent_path']==expected_path and
+            custody.lexical_path(parent['path'])==custody.lexical_path(selected['root_source']),'OWNED_STDIO_NATIVE_CHILD_CHANGED')
+        return {'episode':episode,'metadata':metadata,'catalog':discovery,'sources':sources,
+            'parent_identity':{'thread_id':parent_id,'agent_path':selected['root_agent_path']},
+            'actual_child_identity':{'thread_id':child_id,'parent_thread_id':parent_id,'agent_path':expected_path}}

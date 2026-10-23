@@ -33,14 +33,14 @@ def _windows_custody():
         raise ImportError("canonical custody substrate is aliased or nonregular")
     with open(path, "rb") as stream:
         opened = os.fstat(stream.fileno())
-        raw = stream.read(33630)
+        raw = stream.read(36368)
         after = os.fstat(stream.fileno())
     if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
             != (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             or (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
             != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
-            or len(raw) != 33629
-            or hashlib.sha256(raw).hexdigest() != "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"):
+            or len(raw) != 36367
+            or hashlib.sha256(raw).hexdigest() != "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"):
         raise ImportError("canonical custody substrate source identity mismatch")
     module_name = "_canonical_custody_" + hashlib.sha256(raw).hexdigest()
     if module_name in sys.modules:
@@ -58,8 +58,8 @@ _WINDOWS = _CUSTODY if os.name == "nt" else None
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_HOT_PROJECTION_MODULE_SHA256 = 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276'
-_HOT_PROJECTION_MODULE_BYTES = 57891
+_HOT_PROJECTION_MODULE_SHA256 = 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f'
+_HOT_PROJECTION_MODULE_BYTES = 58417
 def _load_hot_projection_module():
     import hashlib as _hashlib
     import os as _os
@@ -474,6 +474,276 @@ MAX_SOURCE_BYTES = 16 * 1024 * 1024
 # that Python allocation has an operating-system hard limit.
 SOURCE_MEMORY_RESERVE_FACTOR = 12
 SOURCE_EXCLUSIONS = {'.git', 'state-generations', 'state-archives', 'quarantine'}
+TOKENIZER_SHA256 = '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7'
+TOKENIZER_OID = 'f1f50811175d9446bcd26399db7108ef2969ad94'
+NATIVE_INPUT_MODULE_SHA256 = '63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4'
+NATIVE_INPUT_MODULE_BYTES = 19796
+
+# The optional dependency runs in an isolated subprocess. It receives exact
+# pinned encoding bytes over stdin, never a URL, import path or executable from
+# the campaign. No download, cache mutation or host-context estimate occurs.
+_TOKEN_COUNTER = r'''
+import base64, hashlib, importlib.metadata, json, sys
+if importlib.metadata.version('tiktoken') != '0.13.0':
+    raise SystemExit('tiktoken 0.13.0 is required')
+import tiktoken
+encoding, text = sys.stdin.buffer.read().split(b'\0', 1)
+if hashlib.sha256(encoding).hexdigest() != '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7':
+    raise SystemExit('encoding identity mismatch')
+ranks = {base64.b64decode(token, validate=True): int(rank)
+         for token, rank in (line.split() for line in encoding.splitlines())}
+encoder = tiktoken.Encoding(name='cl100k_base', mergeable_ranks=ranks,
+    pat_str=r"'(?i:[sdmt]|ll|ve|re)|[^\r\n\p{L}\p{N}]?+\p{L}++|\p{N}{1,3}+| ?[^\s\p{L}\p{N}]++[\r\n]*+|\s++$|\s*[\r\n]|\s+(?!\S)|\s",
+    special_tokens={'<|endoftext|>':100257, '<|fim_prefix|>':100258,
+                    '<|fim_middle|>':100259, '<|fim_suffix|>':100260, '<|endofprompt|>':100276})
+print(json.dumps([len(encoder.encode_ordinary(value)) for value in json.loads(text)]))
+'''
+
+
+def token_calibration_contract_v1() -> dict:
+    """Prospective local byte/token inputs; the historical calibration is intact.
+
+    This admits no context-health producer and grants no host qualification.
+    The inherited helper bounds do not replace whole-operation qualification.
+    """
+    contract = calibration_contract_v1()
+    contract.update(admission_route='EXACT_BYTES_OR_TOKENS',
+                    tokenizer={'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'},
+                    tokenizer_encoding_sha256=TOKENIZER_SHA256, tokenizer_encoding_oid=TOKENIZER_OID,
+                    token_threshold=32768, minimum_live_token_reduction=8192,
+                    context_health='UNAVAILABLE_NO_ADMISSION')
+    return contract
+
+
+def full_or_calibration_contract_v1() -> dict:
+    """Proposed configured-budget OR policy; this static value admits no owner.
+
+    The 258400 budget is configured operational policy for this exact host/model,
+    not measured capacity. The fixed native source remains unavailable until its
+    issuer/grant/semantics and actual companion checkpoints are separately admitted.
+    """
+    contract = token_calibration_contract_v1()
+    contract.update(admission_route='EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM',
+                    context_health='EXISTING_NATIVE_OWNER_LEASE_REQUIRED',
+                    context_health_threshold_bp=2500,
+                    context_health_semantics='CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF',
+                    configured_usable_context_tokens=258400,
+                    native_input_policy_id='R0039-CONFIGURED-HEADROOM-v1',
+                    maximum_observation_age_ms=30000,
+                    native_input_module_sha256=NATIVE_INPUT_MODULE_SHA256,
+                    native_input_host={'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra',
+                        'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'})
+    return contract
+
+
+def native_inputs_module_v1():
+    """Shared exact-source instance for the existing companion, never a producer selector."""
+    import types
+    path = Path(__file__).absolute().with_name('canonical_rotation_inputs.py')
+    raw, _ = read_regular(path, path.parent, 'native input source', require_owner_write=False)
+    if len(raw) != NATIVE_INPUT_MODULE_BYTES or sha256(raw) != NATIVE_INPUT_MODULE_SHA256:
+        raise RotationError('native input source identity mismatch')
+    name = '_implementaudit_native_inputs_' + sha256(os.fsencode(path) + b'\0' + raw)
+    if name not in sys.modules:
+        module = types.ModuleType(name)
+        module.__file__ = str(path)
+        exec(compile(raw, str(path), 'exec'), module.__dict__)
+        sys.modules[name] = module
+    return sys.modules[name]
+
+
+def _native_subject(predecessor: dict) -> dict:
+    result = {key: predecessor[key] for key in
+              ('controller', 'claim_id', 'run_root_identity', 'state_sha256', 'roadmap_sha256')}
+    result['receipt_token'] = predecessor['receipt_ref'] + '@' + predecessor['receipt_oid']
+    return result
+
+
+def _verify_live_native_lease(lease, predecessor: dict, source_bytes: int, source_tokens: int) -> dict:
+    native = native_inputs_module_v1()
+    if (type(lease) is not native._RotationInputLease or lease._closed or lease._attempted):
+        raise RotationError('an active unconsumed existing-owner native input lease is required')
+    try:
+        native._PublisherGuard(lease, _native_subject(predecessor), source_bytes, source_tokens).verify()
+    except native.NativeInputError as exc:
+        raise RotationError('native input lease is unavailable, changed or outside its cutoff') from exc
+    observation = lease.observation
+    state = lease._state
+    with state._signal_lock:
+        if (any(observation.get(key) != value for key, value in state._binding.items())
+                or observation.get('exact_usage') != state._snapshot
+                or observation.get('cutoff_revision') != state._revision):
+            raise RotationError('native lease observation differs from the held source-owner binding')
+    return observation
+
+
+def _check_native_input_record(record: dict, predecessor: dict, source_bytes: int,
+                               source_tokens: int, calibration: dict) -> None:
+    """Verify frozen semantics/population, never reauthenticate archival authority.
+
+    Freshness is checked against the recorded preparation time, not today's time.
+    Only _verify_live_native_lease can establish a live selected-owner input.
+    """
+    if (calibration != full_or_calibration_contract_v1() or type(record) is not dict
+            or set(record) != {'schema', 'observation', 'prepared_at_unix_ms', 'authority_ceiling'}
+            or record['schema'] != 'implementaudit.rotation-native-input.v1'
+            or record['authority_ceiling'] != 'HISTORICAL_INPUT_NOT_REAUTHENTICATED'):
+        raise RotationError('unknown frozen native input schema or policy')
+    observation = record['observation']
+    binding_keys = {'issuer', 'grant_sha256', 'producer_sha256', 'semantic_contract_sha256',
+                    'host', 'budget_policy', 'tokenizer', 'subject', 'source_bytes',
+                    'source_tokens', 'thread_id', 'turn_id'}
+    if (type(observation) is not dict or set(observation) != binding_keys
+            | {'exact_usage', 'cutoff_revision', 'context_health_bp', 'health_semantics', 'authority_ceiling'}):
+        raise RotationError('incomplete or unknown frozen native observation')
+    native = native_inputs_module_v1()
+    try:
+        native._validate_binding({key: observation[key] for key in binding_keys})
+        exact = observation['exact_usage']
+        if type(exact) is not dict or set(exact) != {
+                'thread_id', 'turn_id', 'response_id', 'usage', 'received_at_unix_ms', 'stream_revision'}:
+            raise RotationError('unknown exact native cutoff')
+        parsed = native.parse_exact_usage_v1({'method': 'rawResponse/completed', 'params': {
+            'threadId': exact['thread_id'], 'turnId': exact['turn_id'],
+            'responseId': exact['response_id'], 'usage': exact['usage']}},
+            observation['thread_id'], observation['turn_id'], exact['received_at_unix_ms'], exact['stream_revision'])
+        policy, host = observation['budget_policy'], observation['host']
+        prepared_at = record['prepared_at_unix_ms']
+        if (parsed != exact or observation['subject'] != _native_subject(predecessor)
+                or observation['source_bytes'] != source_bytes or observation['source_tokens'] != source_tokens
+                or observation['tokenizer'] != dict(calibration['tokenizer'], encoding_sha256=TOKENIZER_SHA256)
+                or any(host[key] != value for key, value in calibration['native_input_host'].items())
+                or policy['id'] != calibration['native_input_policy_id']
+                or policy['configured_usable_tokens'] != calibration['configured_usable_context_tokens']
+                or policy['maximum_age_ms'] > calibration['maximum_observation_age_ms']
+                or type(prepared_at) is not int or not 0 <= prepared_at - exact['received_at_unix_ms'] <= policy['maximum_age_ms']
+                or type(observation['cutoff_revision']) is not int
+                or observation['cutoff_revision'] <= exact['stream_revision']
+                or type(observation['context_health_bp']) is not int
+                or observation['context_health_bp'] != native.configured_headroom_bp_v1(
+                    exact['usage']['totalTokens'], policy['configured_usable_tokens'])
+                or observation['health_semantics'] != calibration['context_health_semantics']
+                or observation['authority_ceiling'] != 'INPUT_ONLY_NO_CURRENTNESS_OR_PUBLICATION_AUTHORITY'):
+            raise RotationError('frozen native input differs from source, policy, cutoff or subject')
+    except native.NativeInputError as exc:
+        raise RotationError('invalid frozen native input binding') from exc
+
+
+def _freeze_native_input(lease, predecessor: dict, source_bytes: int,
+                         source_tokens: int, calibration: dict) -> dict:
+    import time
+    record = {'schema': 'implementaudit.rotation-native-input.v1',
+              'observation': _verify_live_native_lease(lease, predecessor, source_bytes, source_tokens),
+              'prepared_at_unix_ms': time.time_ns() // 1000000,
+              'authority_ceiling': 'HISTORICAL_INPUT_NOT_REAUTHENTICATED'}
+    _check_native_input_record(record, predecessor, source_bytes, source_tokens, calibration)
+    return record
+
+
+def _check_calibration(contract: dict) -> None:
+    if contract not in (calibration_contract_v1(), token_calibration_contract_v1(),
+                        full_or_calibration_contract_v1(),
+                        c02_preparation_policy_v1('windows'), c02_preparation_policy_v1('other')):
+        raise RotationError('unknown calibration or observation admission contract')
+
+
+def c02_preparation_policy_v1(host: str | None = None) -> dict:
+    """New correction policy, not a rewrite of the frozen byte calibration.
+
+    The existing helper memory/custody guards and all old route deadlines remain
+    in force. Actual Windows full-operation/descendant qualification is separate
+    from this necessary preparation ceiling and from issuer/semantic admission.
+    """
+    host = ('windows' if os.name == 'nt' else 'other') if host is None else host
+    if host not in {'windows', 'other'}:
+        raise RotationError('unknown correction preparation platform')
+    return {'schema': 'implementaudit.c02-preparation-policy.v1',
+            'admission_route': 'C02_OWNER_GRANTED_FRESH_TRANSITION',
+            'historical_calibration_id': CALIBRATION_ID,
+            'historical_calibration_sha256': CALIBRATION_SHA256,
+            'qualification_host': host,
+            'maximum_runtime_ms': 60000 if host == 'windows' else 5000,
+            'windows_full_operation_peak_job_bytes': 201326592 if host == 'windows' else None,
+            'applies_windows_envelope_to_other_hosts': False,
+            'helper_memory_guard_unchanged_bytes': 67108864,
+            'authority_ceiling': 'NO_ISSUER_GRANT_OR_QUALIFICATION_AUTHORITY'}
+
+
+def count_rotation_tokens_v1(encoding: bytes, population: tuple[bytes, ...]) -> list[int]:
+    """Count each exact component separately with the admitted real tokenizer."""
+    if (type(encoding) is not bytes or len(encoding) != 1681126 or sha256(encoding) != TOKENIZER_SHA256
+            or type(population) not in (tuple, list) or not 1 <= len(population) <= 4
+            or any(type(raw) is not bytes for raw in population)
+            or sum(map(len, population)) > MAX_SOURCE_BYTES):
+        raise RotationError('tokenizer encoding or bounded byte population mismatch')
+    try:
+        payload = encoding + b'\0' + canonical_bytes([raw.decode('utf-8', 'strict') for raw in population])
+        env = {'PATH': str(Path(sys.executable).parent), 'PYTHONDONTWRITEBYTECODE': '1'}
+        if os.name == 'nt':
+            env.update(SystemRoot=r'C:\Windows', WINDIR=r'C:\Windows')
+        result = subprocess.run([sys.executable, '-I', '-B', '-c', _TOKEN_COUNTER], input=payload,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env, timeout=30, check=False)
+        if result.returncode or len(result.stdout) > 1024:
+            raise RotationError('real tiktoken 0.13.0 counting failed; no estimated fallback')
+        counts = json.loads(result.stdout)
+        if (type(counts) is not list or len(counts) != len(population)
+                or any(type(value) is not int or not 0 <= value <= len(raw)
+                       for value, raw in zip(counts, population))):
+            raise RotationError('tokenizer returned an invalid population')
+        return counts
+    except (UnicodeError, ValueError, OSError, subprocess.SubprocessError) as exc:
+        raise RotationError('exact token measurement is unavailable') from exc
+
+
+def _tokenizer_guard(repo: Path, controller: str, calibration: dict) -> dict:
+    _check_calibration(calibration)
+    if calibration not in (token_calibration_contract_v1(), full_or_calibration_contract_v1()):
+        return {}
+    ref = f'{ARCHIVE_PREFIX}/{controller}/objects/{TOKENIZER_OID}'
+    if _ref(repo, ref) != TOKENIZER_OID or sha256(_blob(repo, TOKENIZER_OID)) != TOKENIZER_SHA256:
+        raise RotationError('archived tokenizer encoding custody mismatch')
+    return {ref: TOKENIZER_OID}
+
+
+def _correction_guard(repo: Path, controller: str, manifest: dict) -> dict:
+    """Retained C02 provenance, never an issuer/grant or currentness decision."""
+    if manifest.get('preparation_kind') != 'c02-correction':
+        return {}
+    oid = _hex(manifest['correction_record_oid'], 40, 'correction record')
+    raw = _blob(repo, oid)
+    record = _json(raw, 'correction record')
+    if (type(record) is not dict or set(record) != {'schema', 'observation', 'decision', 'source', 'expected_old', 'currentness'}
+            or record['schema'] != 'implementaudit.c02-correction-record.v1'
+            or canonical_bytes(record)[:-1] != raw
+            or record['currentness'] != 'DISABLED_PENDING_OWNER_PROTOCOL'
+            or type(record['decision']) is not dict or record['decision'].get('kind') != 'ERRONEOUS_INVALIDATION'
+            or any(type(record[key]) is not dict for key in ('observation', 'expected_old', 'source'))):
+        raise RotationError('correction record is not the retained append-only owner proposal')
+    predecessor = manifest['predecessor']
+    expected = {key: predecessor[key] for key in ('controller', 'claim_id', 'run_root_identity', 'pointer_oid', 'receipt_oid')}
+    expected['marker_oid'] = predecessor['migration_marker_oid']
+    if (any(record['observation'].get(key) != value or record['expected_old'].get(key) != value
+            for key, value in expected.items())
+            or record['expected_old'].get('controller_oid') != predecessor['controller_oid']
+            or record['expected_old'].get('receipt_ref') != predecessor['receipt_ref']):
+        raise RotationError('correction provenance does not bind this exact preimage')
+    invalidation = _hex(record['observation'].get('invalidation_oid'), 40, 'corrected invalidation')
+    if (record['expected_old'].get('invalidation_oid') != invalidation
+            or invalidation == predecessor['invalidation_oid']):
+        raise RotationError('correction substituted the erroneous event or the prior valid invalidation')
+    source_oid = _hex(record['source'].get('oid'), 40, 'correction census source')
+    grant_oid = _hex(record['source'].get('grant_oid'), 40, 'correction issuer grant')
+    guards = {}
+    for member in (oid, invalidation, source_oid, grant_oid):
+        ref = f'{ARCHIVE_PREFIX}/{controller}/objects/{member}'
+        if _ref(repo, ref) != member:
+            raise RotationError('correction provenance retention anchor missing')
+        # The correction record was already read and validated above in this
+        # same lookup. Every independent lookup still starts a fresh Git reader.
+        if member != oid:
+            _blob(repo, member)
+        guards[ref] = member
+    return guards
 
 
 def calibration_contract_v1() -> dict[str, object]:
@@ -650,6 +920,19 @@ def _ref(repo: Path, ref: str, *, absent: bool = False) -> str | None:
     if rc:
         raise RotationError(f'ref unavailable or malformed: {ref}')
     return _hex(git(repo, 'show-ref', '--verify', '--hash', ref).decode().strip(), 40, 'ref object')
+
+
+def _refs(repo: Path, refs) -> dict:
+    names = list(refs)
+    try:
+        observed = _CUSTODY.current_refs(repo, names)
+    except OSError as exc:
+        raise RotationError(str(exc)) from exc
+    if observed is NotImplemented:
+        return {name: _ref(repo, name) for name in names}
+    if any(value is None for value in observed.values()):
+        raise RotationError('required authority ref is absent')
+    return observed
 
 
 def _blob(repo: Path, oid: str) -> bytes:
@@ -883,11 +1166,16 @@ def _verify_archive_one(repo: Path, controller: str, archive_ref: str,
     if sha256(raw) != _hex(expected_sha256, 64, 'archive SHA-256'):
         raise RotationError('archive manifest hash mismatch')
     manifest = _canonical_json(raw, 'archive manifest')
-    native = manifest.get('preparation_kind') == 'native-resume'
+    kind = manifest.get('preparation_kind')
+    native = kind in {'native-resume', 'c02-correction'}
+    correction = kind == 'c02-correction'
+    full_or = manifest.get('calibration') == full_or_calibration_contract_v1()
     if (set(manifest) != {'schema', 'controller', 'claim_id', 'run_root_identity',
                          'preparation_generation_id', 'predecessor', 'entries',
                          'projection_schema', 'owner_map_schema', 'discovery',
                          'retention', 'authority_ceiling', 'calibration'} | ({'preparation_kind'} if native else set())
+                         | ({'correction_record_oid'} if correction else set())
+                         | ({'native_input'} if full_or else set())
             or manifest['schema'] != ARCHIVE_SCHEMA
             or manifest['controller'] != controller
             or manifest['preparation_generation_id'] != generation
@@ -900,8 +1188,11 @@ def _verify_archive_one(repo: Path, controller: str, archive_ref: str,
     _validate_predecessor_schema(manifest['predecessor'])
     if native and manifest['predecessor']['receipt_schema'] != 'implementaudit.continuity-receipt.v3':
         raise RotationError('native resume archive requires a migrated predecessor')
-    if manifest['calibration'] != calibration_contract_v1():
-        raise RotationError('archive calibration contract drift')
+    _check_calibration(manifest['calibration'])
+    if full_or and native:
+        raise RotationError('native input OR policy cannot substitute a preserved-preimage operation')
+    _tokenizer_guard(repo, controller, manifest['calibration'])
+    _correction_guard(repo, controller, manifest)
     entries, seen = manifest['entries'], set()
     if type(entries) is not list or not entries:
         raise RotationError('archive population is empty')
@@ -920,9 +1211,11 @@ def _verify_archive_one(repo: Path, controller: str, archive_ref: str,
             raise RotationError('duplicate archive member')
         seen.add(key)
         member = _blob(repo, entry['blob_oid'])
-        if (sha256(member) != entry['sha256'] or len(member) != entry['byte_length']
-                or _ref(repo, f'{ARCHIVE_PREFIX}/{controller}/objects/{entry["blob_oid"]}') != entry['blob_oid']):
+        if sha256(member) != entry['sha256'] or len(member) != entry['byte_length']:
             raise RotationError('archive member identity or retention anchor mismatch')
+    anchors = {f'{ARCHIVE_PREFIX}/{controller}/objects/{entry["blob_oid"]}': entry['blob_oid'] for entry in entries}
+    if _refs(repo, anchors) != anchors:
+        raise RotationError('archive member identity or retention anchor mismatch')
     if not {'STATE', 'ROADMAP', 'OWNER_MAP'}.issubset(seen):
         raise RotationError('archive omits canonical preimage/owner population')
     indexed = {row['artifact_id']: row for row in entries}
@@ -934,13 +1227,19 @@ def _verify_archive_one(repo: Path, controller: str, archive_ref: str,
                 or (aid != 'OWNER_MAP' and row['source_path'] != owner)):
             raise RotationError('archive canonical member binding mismatch')
         if native and aid == 'OWNER_MAP':
-            if (row['source_path'] != 'state-generations/' + generation + '/native-resume-owner-map.json'
+            if (row['source_path'] != 'state-generations/' + generation + '/' + kind + '-owner-map.json'
                     or row['mode'] != f'{effective_mode(0o444):04o}'):
                 raise RotationError('native resume owner map is not the exact immutable derived input')
         else:
             safe_relative(row['source_path'], SOURCE_EXCLUSIONS)
     preimage = _archive_preimage(repo, manifest)
     _validate_predecessor_binding(preimage, manifest['predecessor'])
+    if full_or:
+        source_bytes = len(preimage['state_bytes']) + len(preimage['roadmap_bytes'])
+        source_tokens = sum(count_rotation_tokens_v1(_blob(repo, TOKENIZER_OID),
+                            (preimage['state_bytes'], preimage['roadmap_bytes'])))
+        _check_native_input_record(manifest['native_input'], manifest['predecessor'],
+                                   source_bytes, source_tokens, manifest['calibration'])
     identity = preimage['payload']['STATE']['identity']['value']
     prior = manifest['predecessor']
     if (manifest['controller'] != identity['controller_id'] or manifest['claim_id'] != identity['claim_id']
@@ -996,6 +1295,8 @@ def _verify_retained_archives(repo: Path, preimage: dict) -> dict[str, str]:
             guards[ref] = oid
             guards.update({f'{ARCHIVE_PREFIX}/{controller}/objects/{entry["blob_oid"]}': entry['blob_oid']
                            for entry in manifest['entries']})
+            guards.update(_tokenizer_guard(repo, controller, manifest['calibration']))
+            guards.update(_correction_guard(repo, controller, manifest))
             metadata_bytes += sum(len(row) for row in members)
             _check_memory_budget(metadata_bytes)
             pending.extend((row, source['current_continuity']['projection_generation_id'])
@@ -1003,9 +1304,8 @@ def _verify_retained_archives(repo: Path, preimage: dict) -> dict[str, str]:
         expected_binding, members = verified[ref]
         if expected_binding != binding or canonical_bytes(pointer) not in members:
             raise RotationError('retained pointer is not an exact archived population member')
-    for ref, oid in guards.items():
-        if _ref(repo, ref) != oid:
-            raise RotationError('retained archive changed during genealogy verification')
+    if _refs(repo, guards) != guards:
+        raise RotationError('retained archive changed during genealogy verification')
     return guards
 
 
@@ -1030,9 +1330,10 @@ def archive_retention_guards(repo: Path, controller: str, archive_ref: str,
     guards[archive_ref] = oid
     guards.update({f'{ARCHIVE_PREFIX}/{controller}/objects/{entry["blob_oid"]}': entry['blob_oid']
                    for entry in manifest['entries']})
-    for ref, expected in guards.items():
-        if _ref(repo, ref) != expected:
-            raise RotationError('retention guard changed before publication handoff')
+    guards.update(_tokenizer_guard(repo, controller, manifest['calibration']))
+    guards.update(_correction_guard(repo, controller, manifest))
+    if _refs(repo, guards) != guards:
+        raise RotationError('retention guard changed before publication handoff')
     return dict(sorted(guards.items()))
 
 
@@ -1066,15 +1367,31 @@ def _pointers(preimage: dict, archive_ref: str, archive_oid: str, archive_sha: s
 @_scoped_git
 def prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
                             generation: str, owner_map_path: Path,
-                            predecessor: dict, calibration: dict) -> dict:
+                            predecessor: dict, calibration: dict, *, tokenizer_bytes: bytes | None = None,
+                            native_observation=None) -> dict:
     """Called only after claim-run admission; creates no currentness authority."""
     return _prepare_canonical_draft(repo, run_root, controller, generation, owner_map_path,
-                                    predecessor, calibration, native_resume=False)
+                                    predecessor, calibration, native_resume=False, tokenizer_bytes=tokenizer_bytes,
+                                    native_observation=native_observation)
 
 
 @_scoped_git
 def prepare_native_resume_draft(repo: Path, run_root: Path, controller: str,
                                 generation: str, predecessor: dict) -> dict:
+    return _prepare_preserved_preimage_draft(repo, run_root, controller, generation, predecessor)
+
+
+@_scoped_git
+def prepare_c02_correction_draft(repo: Path, run_root: Path, controller: str,
+                                  generation: str, predecessor: dict, correction_record: dict) -> dict:
+    """Prepare only; the claim owner must separately admit fresh C02 semantics."""
+    return _prepare_preserved_preimage_draft(repo, run_root, controller, generation, predecessor,
+                                           preservation_kind='c02-correction', correction_record=correction_record)
+
+
+def _prepare_preserved_preimage_draft(repo: Path, run_root: Path, controller: str,
+                                      generation: str, predecessor: dict, *,
+                                      preservation_kind='native-resume', correction_record=None) -> dict:
     """Preserve an exact migrated preimage after a native owner boundary.
 
     No caller owner map or protected updates are accepted. Only current source
@@ -1087,6 +1404,13 @@ def prepare_native_resume_draft(repo: Path, run_root: Path, controller: str,
     run_root = require_run_root(str(run_root), repo)
     archive_ref = _identity(controller, generation)
     _validate_predecessor_schema(predecessor)
+    preparation_policy = c02_preparation_policy_v1() if preservation_kind == 'c02-correction' else calibration_contract_v1()
+    correction_oid = None
+    if preservation_kind == 'c02-correction':
+        raw = canonical_bytes(correction_record)[:-1]
+        correction_oid = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    elif preservation_kind != 'native-resume' or correction_record is not None:
+        raise RotationError('unknown preserved-preimage preparation kind')
     if (predecessor['controller'] != controller
             or predecessor['run_root_identity'] != run_root.relative_to(repo).as_posix()
             or predecessor['receipt_schema'] != 'implementaudit.continuity-receipt.v3'
@@ -1095,9 +1419,12 @@ def prepare_native_resume_draft(repo: Path, run_root: Path, controller: str,
     guards = {predecessor['pointer_ref']: predecessor['pointer_oid'],
               predecessor['receipt_ref']: predecessor['receipt_oid'],
               'refs/implementaudit/current-generation-migrations/' + controller: predecessor['migration_marker_oid']}
+    if correction_oid is not None:
+        guards.update(_correction_guard(repo, controller, {'preparation_kind': preservation_kind,
+            'correction_record_oid': correction_oid, 'predecessor': predecessor}))
 
     def check_guards():
-        if any(_ref(repo, ref) != oid for ref, oid in guards.items()):
+        if _refs(repo, guards) != guards:
             raise RotationError('native resume predecessor pointer, receipt or marker changed')
 
     check_guards()
@@ -1136,22 +1463,24 @@ def prepare_native_resume_draft(repo: Path, run_root: Path, controller: str,
         raise RotationError('native resume changed a protected source value or owner')
     _verify_retained_archives(repo, preimage)
     check_guards()
-    owner_map_path = run_root / 'state-generations' / generation / 'native-resume-owner-map.json'
+    owner_map_path = run_root / 'state-generations' / generation / (preservation_kind + '-owner-map.json')
     owner_raw = canonical_bytes({'schema': 'implementaudit.rotation-owner-map.v2', 'owner_map': rows})
     _check_memory_budget(sum(map(len, source.values())) + len(owner_raw) + sum(map(len, artifacts.values())))
     archive_oid = _ref(repo, archive_ref, absent=True)
     if archive_oid is not None:
         prepared = _read_native_preparation(repo, run_root, controller, generation, predecessor,
-                                            source, owner_raw, archive_oid)
+                                            source, owner_raw, archive_oid,
+                                            preservation_kind=preservation_kind, correction_record_oid=correction_oid)
     else:
         _mkdir(owner_map_path.parent, run_root)
         _write_verified(owner_map_path, owner_raw, run_root)
         prepared = _prepare_canonical_draft(repo, run_root, controller, generation, owner_map_path,
-                                            predecessor, calibration_contract_v1(), native_resume=True,
-                                            started=started)
+                                            predecessor, preparation_policy, native_resume=True,
+                                            started=started, preservation_kind=preservation_kind,
+                                            correction_record_oid=correction_oid)
     check_guards()
     _check_memory_budget()
-    if (time.monotonic() - started) * 1000 > calibration_contract_v1()['maximum_runtime_ms']:
+    if (time.monotonic() - started) * 1000 > preparation_policy['maximum_runtime_ms']:
         raise RotationError('native preparation readback exceeds frozen runtime bound')
     return prepared
 
@@ -1172,17 +1501,19 @@ def _draft_manifest(controller: str, generation: str, archive_ref: str,
 
 def _read_native_preparation(repo: Path, run_root: Path, controller: str,
                               generation: str, predecessor: dict, source: dict,
-                              owner_raw: bytes, archive_oid: str) -> dict:
+                              owner_raw: bytes, archive_oid: str, *, preservation_kind='native-resume',
+                              correction_record_oid=None) -> dict:
     """Reuse only a complete identical F2; never repair or overwrite a generation."""
     generation_dir = run_root / 'state-generations' / generation
     draft_dir = generation_dir / 'draft'
-    for path, expected in ((generation_dir, {'draft', 'native-resume-owner-map.json'}),
+    owner_map_name = preservation_kind + '-owner-map.json'
+    for path, expected in ((generation_dir, {'draft', owner_map_name}),
                             (draft_dir, {'STATE.md', 'ROADMAP.md', 'protected-state.json', 'draft-manifest.json'})):
         with _directory_handle(path, run_root) as (descriptor, verify):
             if set(descriptor.names() if _WINDOWS is not None else os.listdir(descriptor)) != expected:
                 raise RotationError('native preparation is incomplete, changed or already finalized')
             verify()
-    landed, info = read_regular(generation_dir / 'native-resume-owner-map.json', run_root,
+    landed, info = read_regular(generation_dir / owner_map_name, run_root,
                                 'derived native owner map', require_owner_write=False)
     if landed != owner_raw or stat.S_IMODE(info.st_mode) != effective_mode(0o444):
         raise RotationError('native preparation derived owner map drift')
@@ -1193,7 +1524,7 @@ def _read_native_preparation(repo: Path, run_root: Path, controller: str,
     archive_ref = _identity(controller, generation)
     live_bytes = sum(map(len, source.values()))
     prepared = {
-        'schema': 'implementaudit.native-resume-prepared.v1', 'triggered': True,
+        'schema': 'implementaudit.' + preservation_kind + '-prepared.v1', 'triggered': True,
         'controller': controller, 'generation_id': generation,
         'archive_ref': archive_ref, 'archive_manifest_oid': archive_oid,
         'archive_manifest_sha256': sha256(_blob(repo, archive_oid)),
@@ -1201,11 +1532,13 @@ def _read_native_preparation(repo: Path, run_root: Path, controller: str,
         'draft_manifest_sha256': sha256(draft_raw),
         'source_state_sha256': sha256(source['STATE']), 'source_roadmap_sha256': sha256(source['ROADMAP']),
         'exact_next_action': predecessor['exact_next_action'], 'predecessor': predecessor,
-        'calibration': calibration_contract_v1(),
+        'calibration': c02_preparation_policy_v1() if preservation_kind == 'c02-correction' else calibration_contract_v1(),
         'measurement': {'live_bytes_before': live_bytes, 'live_byte_reduction': live_bytes - sum(sizes),
                         'model_calls': 0, 'host_qualification': 'SEPARATE_NOT_INFERRED'},
         'authority_ceiling': 'NO_CURRENTNESS_AUTHORITY',
     }
+    if correction_record_oid is not None:
+        prepared['correction_record_oid'] = correction_record_oid
     manifest, preimage, pointers = _checked_prepared(repo, run_root, prepared)
     owner_entry = next(row for row in manifest['entries'] if row['role'] == 'OWNER_MAP')
     if _blob(repo, owner_entry['blob_oid']) != owner_raw:
@@ -1217,14 +1550,30 @@ def _read_native_preparation(repo: Path, run_root: Path, controller: str,
 def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
                              generation: str, owner_map_path: Path, predecessor: dict,
                              calibration: dict, *, native_resume: bool,
-                             started: float | None = None) -> dict:
+                             started: float | None = None, tokenizer_bytes: bytes | None = None,
+                             preservation_kind='native-resume', correction_record_oid=None,
+                             native_observation=None) -> dict:
     import time
     started = time.monotonic() if started is None else started
     repo = require_repo(str(repo))
     run_root = require_run_root(str(run_root), repo)
     archive_ref = _identity(controller, generation)
     _validate_predecessor_schema(predecessor)
-    if (calibration != calibration_contract_v1() or predecessor.get('controller') != controller
+    _check_calibration(calibration)
+    full_or = calibration == full_or_calibration_contract_v1()
+    tokens_selected = calibration in (token_calibration_contract_v1(), full_or_calibration_contract_v1())
+    if (preservation_kind not in {'native-resume', 'c02-correction'}
+            or (preservation_kind == 'c02-correction') != (correction_record_oid is not None)
+            or (not native_resume and preservation_kind != 'native-resume')):
+        raise RotationError('preserved-preimage preparation cannot substitute an operation')
+    if ((preservation_kind == 'c02-correction')
+            != (calibration in (c02_preparation_policy_v1('windows'), c02_preparation_policy_v1('other')))):
+        raise RotationError('correction policy cannot be selected by another operation')
+    if (native_resume and tokens_selected) or (tokenizer_bytes is not None and not tokens_selected):
+        raise RotationError('token admission cannot substitute for native resume or byte-only policy')
+    if not full_or and native_observation is not None:
+        raise RotationError('native input cannot substitute another preparation policy')
+    if (predecessor.get('controller') != controller
             or predecessor.get('run_root_identity') != run_root.relative_to(repo).as_posix()):
         raise RotationError('predecessor identity or frozen calibration contract mismatch')
     source = {}
@@ -1236,10 +1585,28 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
             raise RotationError('current preimage size or hash mismatch')
         source[role], infos[role] = raw, info
     live_bytes = len(source['STATE']) + len(source['ROADMAP'])
-    if not native_resume and live_bytes < calibration['byte_threshold']:
-        return {'triggered': False, 'reason': 'BELOW_FROZEN_BYTE_THRESHOLD',
+    source_tokens = sum(count_rotation_tokens_v1(tokenizer_bytes, tuple(source.values()))) if tokens_selected else None
+    native_input = None
+    if full_or:
+        native_input = _freeze_native_input(native_observation, predecessor, live_bytes, source_tokens, calibration)
+        if _ref(repo, predecessor['receipt_ref']) != predecessor['receipt_oid']:
+            raise RotationError('native input receipt is no longer the exact selected predecessor')
+    triggered_by = (rotation_trigger_v1(live_bytes, source_tokens, native_input['observation']['context_health_bp'])
+                    if full_or else [] if native_resume else [name for name, hit in (
+        ('BYTES', live_bytes >= calibration['byte_threshold']),
+        ('TOKENS', source_tokens is not None and source_tokens >= 32768)) if hit])
+    if not native_resume and not triggered_by:
+        result = {'triggered': False, 'reason': 'BELOW_FROZEN_BYTE_THRESHOLD',
                 'live_bytes': live_bytes, 'archive_writes': 0, 'model_calls': 0,
                 'authority_ceiling': 'NO_CURRENTNESS_AUTHORITY'}
+        if tokens_selected:
+            result.update(reason='BELOW_BYTE_AND_TOKEN_THRESHOLDS', live_tokens=source_tokens,
+                          context_health='UNAVAILABLE')
+        if full_or:
+            result.update(reason='BELOW_ALL_CALIBRATED_OR_THRESHOLDS', native_input=native_input,
+                          context_health=calibration['context_health_semantics'],
+                          context_health_bp=native_input['observation']['context_health_bp'])
+        return result
     _check_memory_budget(live_bytes)
     if _ref(repo, archive_ref, absent=True) is not None:
         raise RotationError('preparation generation was already used')
@@ -1247,7 +1614,7 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
     if not owner_map_path.is_absolute():
         owner_map_path = run_root / owner_map_path
     if native_resume and (predecessor['receipt_schema'] != 'implementaudit.continuity-receipt.v3'
-                          or owner_map_path != run_root / 'state-generations' / generation / 'native-resume-owner-map.json'):
+                          or owner_map_path != run_root / 'state-generations' / generation / (preservation_kind + '-owner-map.json')):
         raise RotationError('native resume map must be the exact derived successor input')
     owner_raw, owner_info = read_regular(owner_map_path, run_root, 'owner map', require_owner_write=False)
     _check_memory_budget(live_bytes + len(owner_raw))
@@ -1279,6 +1646,10 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
                      'owner': 'COMPLETE_PAIR_OWNER_MAP', 'sha256': sha256(owner_raw),
                      'byte_length': len(owner_raw), 'mode': f'{stat.S_IMODE(owner_info.st_mode):04o}'}, owner_raw))
     records.extend((entry, artifacts[entry['artifact_id']]) for entry in artifact_entries)
+    if full_or and _verify_live_native_lease(native_observation, predecessor, live_bytes, source_tokens) != native_input['observation']:
+        raise RotationError('native input changed before archive preparation')
+    if tokens_selected and _anchor_object(repo, controller, tokenizer_bytes) != TOKENIZER_OID:
+        raise RotationError('tokenizer retention identity mismatch')
     bound_predecessor = dict(predecessor)
     for role in ('state', 'roadmap'):
         bound_predecessor[role + '_path'] = _source_path(repo, run_root, predecessor[role + '_path'], role.upper()).relative_to(repo).as_posix()
@@ -1292,8 +1663,13 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
         'retention': 'NO_DELETE_WITHOUT_ACCEPTED_RETENTION_SUCCESSOR',
         'authority_ceiling': 'ARCHIVED_ONLY_HISTORY', 'calibration': calibration,
     }
+    if full_or:
+        manifest['native_input'] = native_input
     if native_resume:
-        manifest['preparation_kind'] = 'native-resume'
+        manifest['preparation_kind'] = preservation_kind
+    if correction_record_oid is not None:
+        manifest['correction_record_oid'] = correction_record_oid
+        _correction_guard(repo, controller, manifest)
     archive_raw = canonical_bytes(manifest)
     archive_oid = _store_blob(repo, archive_raw)
     git(repo, 'update-ref', archive_ref, archive_oid, ZERO_OID)
@@ -1302,6 +1678,10 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
     draft = _derive(preimage, None, pointers)
     _check_memory_budget()
     reduction = live_bytes - len(draft['state_bytes']) - len(draft['roadmap_bytes'])
+    token_reduction = (source_tokens - sum(count_rotation_tokens_v1(tokenizer_bytes,
+                       (draft['state_bytes'], draft['roadmap_bytes'])))) if tokens_selected else None
+    if tokens_selected and not rotation_payoff_v1(reduction, token_reduction):
+        raise RotationError('measured byte/token payoff is below the minimum; archive retained')
     if not native_resume and reduction < calibration['minimum_live_byte_reduction']:
         raise RotationError('measured live-state reduction is below frozen minimum; archive retained')
     generation_root = run_root / 'state-generations' / generation
@@ -1322,8 +1702,19 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
     _check_memory_budget()
     if elapsed_ms > calibration['maximum_runtime_ms']:
         raise RotationError('draft/archive runtime exceeds frozen bound; undiscoverable draft retained')
-    return {
-        'schema': 'implementaudit.native-resume-prepared.v1' if native_resume else 'implementaudit.canonical-prepared.v2',
+    measurement = {'live_bytes_before': live_bytes, 'live_byte_reduction': reduction,
+                   'model_calls': 0, 'host_qualification': 'SEPARATE_NOT_INFERRED'}
+    if tokens_selected:
+        measurement.update(live_tokens_before=source_tokens, live_token_reduction=token_reduction,
+                           triggered_by=triggered_by, context_health='UNAVAILABLE')
+    if full_or:
+        if _verify_live_native_lease(native_observation, predecessor, live_bytes, source_tokens) != native_input['observation']:
+            raise RotationError('native input changed during preparation; historical archive retained')
+        measurement.update(context_health=calibration['context_health_semantics'],
+                           context_health_bp=native_input['observation']['context_health_bp'],
+                           native_input_sha256=sha256(canonical_bytes(native_input)))
+    prepared = {
+        'schema': 'implementaudit.' + preservation_kind + '-prepared.v1' if native_resume else 'implementaudit.canonical-prepared.v2',
         'triggered': True,
         'controller': controller, 'generation_id': generation,
         'archive_ref': archive_ref, 'archive_manifest_oid': archive_oid,
@@ -1334,11 +1725,14 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
         'source_roadmap_sha256': sha256(source['ROADMAP']),
         'exact_next_action': predecessor['exact_next_action'],
         'predecessor': predecessor, 'calibration': calibration,
-        'measurement': {'live_bytes_before': live_bytes, 'live_byte_reduction': reduction,
-                        'model_calls': 0,
-                        'host_qualification': 'SEPARATE_NOT_INFERRED'},
+        'measurement': measurement,
         'authority_ceiling': 'NO_CURRENTNESS_AUTHORITY',
     }
+    if correction_record_oid is not None:
+        prepared['correction_record_oid'] = correction_record_oid
+    if full_or:
+        prepared['native_input'] = native_input
+    return prepared
 
 
 def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict, dict, list]:
@@ -1346,8 +1740,15 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict,
               'archive_manifest_oid', 'archive_manifest_sha256', 'draft_path', 'draft_manifest_sha256',
               'source_state_sha256', 'source_roadmap_sha256', 'exact_next_action', 'predecessor',
               'calibration', 'measurement', 'authority_ceiling'}
+    correction = type(prepared) is dict and prepared.get('schema') == 'implementaudit.c02-correction-prepared.v1'
+    full_or = type(prepared) is dict and prepared.get('calibration') == full_or_calibration_contract_v1()
+    if correction:
+        fields.add('correction_record_oid')
+    if full_or:
+        fields.add('native_input')
     if (type(prepared) is not dict or set(prepared) != fields
-            or prepared.get('schema') not in {'implementaudit.canonical-prepared.v2', 'implementaudit.native-resume-prepared.v1'}
+            or prepared.get('schema') not in {'implementaudit.canonical-prepared.v2', 'implementaudit.native-resume-prepared.v1',
+                                             'implementaudit.c02-correction-prepared.v1'}
             or prepared.get('triggered') is not True
             or prepared.get('authority_ceiling') != 'NO_CURRENTNESS_AUTHORITY'):
         raise RotationError('invalid prepared descriptor')
@@ -1357,9 +1758,13 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict,
         raise RotationError('prepared archive scope drift')
     manifest = verify_canonical_archive(repo, controller, prepared['archive_ref'],
                                         prepared['archive_manifest_sha256'])
-    if ((prepared['schema'] == 'implementaudit.native-resume-prepared.v1')
-            != (manifest.get('preparation_kind') == 'native-resume')):
+    kind = {'implementaudit.native-resume-prepared.v1': 'native-resume',
+            'implementaudit.c02-correction-prepared.v1': 'c02-correction'}.get(prepared['schema'])
+    if kind != manifest.get('preparation_kind') or (correction
+            and prepared['correction_record_oid'] != manifest.get('correction_record_oid')):
         raise RotationError('prepared operation differs from anchored archive kind')
+    if full_or and prepared['native_input'] != manifest['native_input']:
+        raise RotationError('prepared native input differs from retained historical input')
     if _ref(repo, prepared['archive_ref']) != prepared['archive_manifest_oid']:
         raise RotationError('prepared archive object drift')
     predecessor = dict(prepared['predecessor'])
@@ -1368,8 +1773,7 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict,
             repo, run_root, predecessor[role + '_path'], role.upper()).relative_to(repo).as_posix()
     if (predecessor != manifest['predecessor']
             or manifest['run_root_identity'] != run_root.relative_to(repo).as_posix()
-            or prepared['calibration'] != manifest['calibration']
-            or prepared['calibration'] != calibration_contract_v1()):
+            or prepared['calibration'] != manifest['calibration']):
         raise RotationError('prepared owner/predecessor/calibration drift')
     preimage = _archive_preimage(repo, manifest)
     _validate_predecessor_binding(preimage, predecessor)
@@ -1384,6 +1788,23 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict,
     measured = {'live_bytes_before': live_bytes,
                 'live_byte_reduction': live_bytes - len(draft['state_bytes']) - len(draft['roadmap_bytes']),
                 'model_calls': 0, 'host_qualification': 'SEPARATE_NOT_INFERRED'}
+    if prepared['calibration'] in (token_calibration_contract_v1(), full_or_calibration_contract_v1()):
+        counts = count_rotation_tokens_v1(_blob(repo, TOKENIZER_OID),
+                    (preimage['state_bytes'], preimage['roadmap_bytes'], draft['state_bytes'], draft['roadmap_bytes']))
+        source_tokens, reduction = sum(counts[:2]), sum(counts[:2]) - sum(counts[2:])
+        triggered = (rotation_trigger_v1(live_bytes, source_tokens,
+                         prepared['native_input']['observation']['context_health_bp']) if full_or
+                     else [name for name, hit in (('BYTES', live_bytes >= 131072), ('TOKENS', source_tokens >= 32768)) if hit])
+        if not triggered or not rotation_payoff_v1(measured['live_byte_reduction'], reduction):
+            raise RotationError('archived byte/token population does not earn trigger and payoff')
+        measured.update(live_tokens_before=source_tokens, live_token_reduction=reduction,
+                        triggered_by=triggered, context_health='UNAVAILABLE')
+        if full_or:
+            _check_native_input_record(prepared['native_input'], predecessor, live_bytes, source_tokens,
+                                       prepared['calibration'])
+            measured.update(context_health=prepared['calibration']['context_health_semantics'],
+                            context_health_bp=prepared['native_input']['observation']['context_health_bp'],
+                            native_input_sha256=sha256(canonical_bytes(prepared['native_input'])))
     if canonical_bytes(prepared['measurement']) != canonical_bytes(measured):
         raise RotationError('prepared measurement is not the exact source-derived population')
     return manifest, preimage, pointers
@@ -1401,7 +1822,13 @@ def _pure_transition(preimage: dict, prepared: dict, transition: dict) -> dict:
             or not set(transition).issubset(allowed)):
         raise RotationError('invalid or cyclic transition envelope')
     native = transition['transition_kind'] == 'native-resume'
-    if native:
+    correction = transition['transition_kind'] == 'c02-correction'
+    if correction:
+        if (set(transition) != allowed or transition['schema'] != 'implementaudit.c02-correction-transition.v1'
+                or transition['boundary'] != 'erroneous-invalidation-correction'
+                or prepared['schema'] != 'implementaudit.c02-correction-prepared.v1'):
+            raise RotationError('C02 transition schema, boundary or preparation mismatch')
+    elif native:
         if (set(transition) != allowed or transition['schema'] != 'implementaudit.native-resume-transition.v1'
                 or type(transition['boundary']) is not str
                 or transition['boundary'] not in _hot_projection_module._V2_NATIVE_BOUNDARIES
@@ -1429,8 +1856,8 @@ def _pure_transition(preimage: dict, prepared: dict, transition: dict) -> dict:
         raise RotationError('successor receipt ref/schema mismatch')
     kind = transition['transition_kind']
     failed_generation = transition.get('failed_transition_generation')
-    if kind in {'rotation', 'native-resume'}:
-        if (transition['payload_source'] != ('preimage' if native else 'draft')
+    if kind in {'rotation', 'native-resume', 'c02-correction'}:
+        if (transition['payload_source'] != ('preimage' if native or correction else 'draft')
                 or transition['failed_transition_epoch'] is not None
                 or failed_generation is not None or failed_receipt is not None
                 or generation != prepared['generation_id']):
@@ -1443,7 +1870,8 @@ def _pure_transition(preimage: dict, prepared: dict, transition: dict) -> dict:
         raise RotationError('unknown rotation transition kind')
     prior = preimage['current_continuity']
     return {
-        'schema_version': 'implementaudit.native-resume-transition.v1' if native else 'implementaudit.canonical-state-transition.v2',
+        'schema_version': ('implementaudit.c02-correction-transition.v1' if correction else
+                          'implementaudit.native-resume-transition.v1' if native else 'implementaudit.canonical-state-transition.v2'),
         'boundary': transition['boundary'],
         'reconciled': True,
         'predecessor_generation_id': prior['projection_generation_id'],
@@ -1526,7 +1954,7 @@ def finalize_canonical_projection(repo: Path, run_root: Path, prepared: dict,
     # Existence and exact bytes are necessary; claim-run separately proves the
     # invalidation's native controller/epoch provenance and currentness.
     _blob(repo, transition['invalidation_oid'])
-    if transition['transition_kind'] in {'rotation', 'native-resume'}:
+    if transition['transition_kind'] in {'rotation', 'native-resume', 'c02-correction'}:
         _verify_projection_draft(run_root, preimage, pointers, prepared)
     candidate = _derive(preimage, pure_transition, pointers)
     generation = transition['projection_generation_id']

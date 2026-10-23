@@ -471,15 +471,25 @@ class TransactionControls(unittest.TestCase):
         path = self.fixture.run_root / "STATE.md"
         saved = path.read_bytes()
         times = path.stat()
+        attempted, denied = False, False
         def write_restore(*args):
+            nonlocal attempted, denied
             prepared = original(*args)
-            path.write_bytes(saved + b"transient mutation\n")
+            attempted = True
+            try:
+                path.write_bytes(saved + b"transient mutation\n")
+            except PermissionError:
+                denied = True  # A held Windows handle may prevent the mutation itself.
+                raise
             path.write_bytes(saved)
             os.utime(path, ns=(times.st_atime_ns, times.st_mtime_ns))
             return prepared
         with mock.patch.object(self.projection, "prepare_canonical_draft", side_effect=write_restore):
-            with self.assertRaises(self.owner.RotationError):
+            with self.assertRaises((self.owner.RotationError, PermissionError)) as failure:
                 self.rotate()
+        self.assertTrue(attempted, "the source-mutation attack point was not exercised")
+        self.assertEqual(isinstance(failure.exception, PermissionError), denied)
+        self.assertEqual(path.read_bytes(), saved)
         self.assertIsNone(self.owner.read_ref(self.fixture.repo, self.context["invalidation_ref"]))
         self.assertIsNone(self.owner.read_ref(self.fixture.repo, self.owner.epoch_ref(self.context, "G0002")))
         self.assertEqual(self.fixture.claim("--require-current-continuity", CONTROLLER).stdout.decode().strip(), self.fixture.receipt)
@@ -618,7 +628,8 @@ class RealHelperIntegration(unittest.TestCase):
             for item in bodies[role]["artifact_refs"]:
                 if item["role"] == "CONTINUITY_RECEIPT":
                     item["locator"] = rref
-        bodies["STATE"]["history"][0]["payload"]["text"] += " Historical exact observation." * 6500
+        bodies["STATE"]["history"][0]["payload"]["text"] += getattr(
+            self, 'history_text', " Historical exact observation." * 6500)
         raw = self.factory.render_pair(bodies)
         self.original_pair = raw
         for role in ("STATE", "ROADMAP"):
