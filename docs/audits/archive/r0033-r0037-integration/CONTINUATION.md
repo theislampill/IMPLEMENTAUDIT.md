@@ -177,3 +177,23 @@ ledger's semantic source units. Reverting a portable mechanism also retires its
 registry/projection/evidence claims, while existing continuity, custody and
 readable run records remain intact. Reverting tests does not discharge an
 original obligation.
+
+## Marker-instrument successor receipt boundary
+
+Preserve full hosted run `40037118624` as FAILED on exact40baa/tree504ef:
+two obsolete continuity assertions caused the same 2/39 local RED. The subsequent
+test-only repair updates the existing semantic assertions and adds an already
+supported two-round positive/reversed-final-order negative. Focused continuity
+41/41, the full marker bank and the validation registry pass; no runtime checker,
+workflow or packaged source changed. Retain the original log SHA-256
+`b764be72258389fb4fa05dc8d8c005af1936c5fa8c6c2ad7b7c7100ef97041fa`
+and exact preimages. This correction does not add universal missing-marker
+validation to the lightweight ordering owner or replace native final-audit gates.
+
+The final PR receipt binds the new exact commit/tree and repeated-build/four-
+installation inventory. Reuse the prior 40baa 17+44 installed controls and four
+fresh blind interpretations only after complete unchanged-payload/input proof;
+do not relabel them as reruns. The final hosted run has its own terminal result.
+Do not restart completed runtime qualification or reopen the corrected literal
+merely to recreate context. Continue only actual remaining native/receiving and
+separately authorized original acceptance work on this same PR.

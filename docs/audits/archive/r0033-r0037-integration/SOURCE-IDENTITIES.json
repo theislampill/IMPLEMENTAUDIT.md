@@ -139,6 +139,16 @@
       "sha256": "8e58b99805ea9c81b813df6c2b7b18df9d8ba6e08641ea7fa3beb4e2ff141196"
     },
     {
+      "base_blob": "c104f6cf31219ddcbcfdf6e3babb37b231cc291c",
+      "bytes": 10581,
+      "candidate_blob": "a450230bd2ee3c630ecfc95d735030b9415b1aee",
+      "mode": "100644",
+      "path": "tests/continuity.test.sh",
+      "prior_qualified_checkpoint_blob": "c104f6cf31219ddcbcfdf6e3babb37b231cc291c",
+      "published_checkpoint_blob": "c104f6cf31219ddcbcfdf6e3babb37b231cc291c",
+      "sha256": "26a6500388aadf86978d84dcd7a6a5e4a75c411535f3b6e10c78eb654f83a623"
+    },
+    {
       "base_blob": null,
       "bytes": 22123,
       "candidate_blob": "9ac540ea546408e355184aa63a985549d45ca8f1",
@@ -164,6 +174,16 @@
       "path": "tests/internal-skill-routing.test.sh",
       "published_checkpoint_blob": "b6214fc64885df401ad1a919f337944b604030ec",
       "sha256": "63f315a33b58b29b9e9756cfce148f0c179e4e5743f6398c9ff509307d1b0284"
+    },
+    {
+      "base_blob": "99710ceb0ee5fa5673fc197ea4372e9a5d3a5d4a",
+      "bytes": 4692,
+      "candidate_blob": "c3819a09059af707caa0d490006fa4ec4ca93124",
+      "mode": "100755",
+      "path": "tests/marker-order.test.sh",
+      "prior_qualified_checkpoint_blob": "99710ceb0ee5fa5673fc197ea4372e9a5d3a5d4a",
+      "published_checkpoint_blob": "99710ceb0ee5fa5673fc197ea4372e9a5d3a5d4a",
+      "sha256": "968b391f23dd6b39211280dd254b2adcecc06e5b8611c1936d160ca2b5aab686"
     },
     {
       "base_blob": "09b17d5c1698999673d3e55c99ecf39b8fedb3cf",
@@ -204,7 +224,10 @@
   ],
   "prior_integrated_checkpoint": "c0573094fc67219fce40ecff0e31198ca33f4eef",
   "prior_integrated_tree": "2685a10706afd557663fd9c54c7eae4e56a5fe7b",
+  "prior_qualified_checkpoint": "40baa43e792c95f8ad49cea8dccfd85ac42b94d7",
+  "prior_qualified_tree": "504ef813aed1056bb77fbbb114415be3abf87e40",
+  "prior_source_manifest_sha256": "4f24fbcb048ed925c27561bca3b83d4b4effe0db7e843fdc41c797c7f8a2636e",
   "published_checkpoint": "61081882f95bcc8c40685195b0b26a98a3f99a5b",
   "published_tree": "769eb5343bbbff511314c24253d7830017300ded",
-  "scope": "22-path portable source integration, excluding derivative acceptance/index documents; no native authority or release proof"
+  "scope": "24-path portable source integration, excluding derivative acceptance/index documents; final two-test instrument repair leaves runtime payload unchanged; no native authority or release proof"
 }

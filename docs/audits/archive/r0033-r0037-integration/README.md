@@ -191,3 +191,34 @@ registry entries and dependent composed controls. Reverting tests never
 discharges an original obligation. Existing earlier evidence stays bound to its
 unchanged source; evidence for reverted or changed consumers is retired or
 requalified explicitly. No merge or issue closure is authorized by this ledger.
+
+## Subsequent marker-instrument repair
+
+Checkpoint `40baa43e792c95f8ad49cea8dccfd85ac42b94d7`, tree
+`504ef813aed1056bb77fbbb114415be3abf87e40`, has exact two-build/four-install
+qualification and four fresh bounded installed interpretations (native zero).
+Its full hosted run `40037118624` nevertheless failed: two continuity-test
+assertions still required the obsolete blanket once-per-run marker sentence.
+The complete original hosted log (SHA-256
+`b764be72258389fb4fa05dc8d8c005af1936c5fa8c6c2ad7b7c7100ef97041fa`)
+and the exact local 2/39 RED remain preserved.
+
+Direct audit-andon localized the defect to the test consumer. The repair checks
+nonterminal markers per audit round and terminal markers once per run, retaining
+both no-completion-replay assertions. The existing marker bank adds the actual
+preimage-supported two-round positive and reversed-final-order negative.
+Focused continuity checks pass **41/41**; the complete marker bank and unchanged
+validation registry pass. No runtime checker, skill payload, workflow or package
+limit changes in this repair. The lightweight order checker is not promoted to
+a complete missing-marker validator. The final successor needs its own exact
+source/inventory binding and full hosted CI; earlier PASS receipts keep their
+original identities, and unchanged payload evidence is reused explicitly.
+
+Read-only final composition inputs include R39 PR252
+`8fd58276a50ae069ed71d52be01c775047ce692a`: its successor changes one fixture
+lifecycle test only, with 1,402 other Git entries unchanged and the new disposal
+control passing. Prior runtime composition is reused at those unchanged bytes.
+The restored-caller R35 composition is **21,248 bytes**, reserve **752 >= 741**.
+The earlier measured compositions above remain historical results. Reserved
+projection/authority work, both original issue populations and native gates
+remain open; this test correction grants no acceptance or closure.

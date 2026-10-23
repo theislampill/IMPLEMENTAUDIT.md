@@ -295,3 +295,21 @@ The R0033 strict G0002 late-announcement and G0003 noncanonical-announcement/lat
 | Shared integrations | Governor/reference/projection/semantic pins and package outputs must roll back only this integration's semantic delta, retaining R35 dispatch/JOIN, R39 rotation/currentness and R36/PR251 custody. |
 
 **Historical checkpoint conclusion (superseded by the addenda above):** the accepted finite-cap repair is recovered, L4 source ambiguity is clarified, and the portable yield mode has a 69-control repaired source result awaiting the final bounded independent recheck and composition. The original nested, mutation, terminal and host-disposition populations remain separate open acceptance work; root owns their final evidence joins and any closure decision.
+
+## Preserved marker-instrument regression
+
+Full hosted run `40037118624` on `40baa43e792c95f8ad49cea8dccfd85ac42b94d7`
+failed the two obsolete continuity-test literals (2/39). This does not invalidate
+the separately qualified package/install bytes, and those passes do not override
+the full-gate failure. Direct audit-andon and same-source local RED support a
+narrow test-owner repair: check the existing per-round nonterminal/final-once
+contract and retain both no-replay assertions. The updated continuity bank
+passes 41/41; the existing marker bank now includes a two-round positive and
+reversed-final-order negative already discriminated by the unchanged checker.
+The recorded preimage controls are not a runtime RED. No checker, workflow,
+native Stop owner, supplemental validator or runtime payload changed.
+
+Original logs, preimages and focused GREENs are retained in the external
+execution capture. A successor full CI result and new source-bound package
+inventories must be read from their actual final receipts. All original nested,
+mutation, terminal and host-turn populations remain independently open.
