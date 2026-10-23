@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import signal
 import stat
 import subprocess
 import sys
@@ -418,6 +419,89 @@ class CustodyCases(unittest.TestCase):
             session.run.return_value = dict(exit=code, complete=complete)
             with mock.patch.object(sys, "argv", ["qualifier", "prefix", str(self.source), str(self.base / "unused")]), mock.patch.object(sys, "stdin", Input), mock.patch.object(sys, "stdout", io.StringIO()), mock.patch.object(Q, "create_composed_prefix_session", return_value=session):
                 self.assertNotEqual(Q.main(), 0)
+
+    def exit_before_kill(self, operation, code):
+        """Real child and killpg; a pipe fixes the exit-before-signal ordering.
+
+        Only the external launcher and acquisition are substituted. This is a
+        termination/custody control, not a namespace or prefix execution proof.
+        """
+        self.S = Q.create_composed_prefix_session(self.source, self.base / ("race-%s-%s" % (operation, code)))
+        self.S.LIMITS = dict(self.S.LIMITS, wall_seconds=0.01)
+        real_popen, real_killpg = subprocess.Popen, os.killpg
+        readfd, writefd = os.pipe()
+        child, observed = {}, {}
+        interruption = KeyboardInterrupt("controlled wait interruption")
+        def launch(argv, **kwargs):
+            kwargs["pass_fds"] = (*kwargs["pass_fds"], readfd)
+            process = real_popen([sys.executable, "-B", "-c",
+                "import os,sys; os.read(int(sys.argv[1]),1); print('actual exit race'); raise SystemExit(int(sys.argv[2]))",
+                str(readfd), str(code)], **kwargs)
+            child["process"], child["wait"] = process, process.wait
+            if operation == "interrupt":
+                first = [True]
+                def interrupted(*args, **kw):
+                    if first[0]:
+                        first[0] = False
+                        raise interruption
+                    return child["wait"](*args, **kw)
+                process.wait = interrupted
+            return process
+        def kill_after_exit(pgid, signum):
+            self.assertEqual(pgid, child["process"].pid)
+            self.assertEqual(signum, signal.SIGKILL)
+            # The child cannot exit before this gate, so the interruption's
+            # poll sees a live child. The real group then disappears before
+            # the real signal call, without relying on scheduler sleeps.
+            os.write(writefd, b"x")
+            observed["exit"] = child["wait"](timeout=2)
+            self.assertEqual(observed["exit"], code)
+            try:
+                return real_killpg(pgid, signum)
+            except ProcessLookupError:
+                observed["group_absent"] = True
+                raise
+        acquired = dict(self.tiny_image(), stamps={}, graph={})
+        directory = self.S.output / "generation-000001" / "execution"
+        try:
+            with mock.patch.object(subprocess, "Popen", side_effect=launch), mock.patch.object(os, "killpg", side_effect=kill_after_exit), mock.patch.object(self.S, "_acquire", return_value=acquired):
+                if operation == "interrupt":
+                    with self.assertRaises(KeyboardInterrupt) as raised:
+                        self.S.run()
+                    self.assertIs(raised.exception, interruption)
+                    self.assertFalse((directory / "receipt.json").exists())
+                else:
+                    result = self.S.run()
+                    self.assertEqual(result["exit"], code)
+                    self.assertFalse(result["complete"])
+                    self.assertFalse(json.loads((directory / "receipt.json").read_bytes())["complete"])
+                self.assertEqual(observed, dict(exit=code, group_absent=True))
+                self.assertEqual((directory / "exit-code.txt").read_bytes(), (str(code) + "\n").encode())
+                self.assertEqual((directory / "stdout.log").read_bytes(), b"actual exit race\n")
+                self.assertEqual((directory / "stderr.log").read_bytes(), b"")
+                self.assertEqual(self.S._issued, {})
+                with self.assertRaisesRegex(ValueError, "failed or interrupted"):
+                    self.S.run()
+                self.assertEqual(self.S.dispatch_count, 1)
+        finally:
+            if "process" in child and child["process"].poll() is None:
+                try:
+                    real_killpg(child["process"].pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                child["wait"](timeout=2)
+            os.close(readfd)
+            os.close(writefd)
+
+    def test_timeout_exit_before_kill_preserves_actual_exit_without_success(self):
+        for code in (0, 7):
+            with self.subTest(code=code):
+                self.exit_before_kill("timeout", code)
+
+    def test_interruption_exit_before_kill_preserves_actual_exit_and_exception(self):
+        for code in (0, 7):
+            with self.subTest(code=code):
+                self.exit_before_kill("interrupt", code)
 
     def test_concurrent_consumption_refuses_without_second_acquisition(self):
         entered, release = threading.Event(), threading.Event()

@@ -715,11 +715,19 @@ def bind_session(base, compiler, engine_root, loaded_helper):
                         code = process.wait(timeout=self.LIMITS["wall_seconds"])
                         complete = True
                     except subprocess.TimeoutExpired:
-                        os.killpg(process.pid, signal.SIGKILL)
+                        try:
+                            os.killpg(process.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            # Exit may win the race with termination. Always
+                            # collect its status; a timeout stays incomplete.
+                            pass
                         code = process.wait()
                     except BaseException:
                         if process.poll() is None:
-                            os.killpg(process.pid, signal.SIGKILL)
+                            try:
+                                os.killpg(process.pid, signal.SIGKILL)
+                            except ProcessLookupError:
+                                pass
                         code = process.wait()
                         raise
                     finally:
