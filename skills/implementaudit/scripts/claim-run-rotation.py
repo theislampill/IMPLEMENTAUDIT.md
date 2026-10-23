@@ -1451,7 +1451,8 @@ def _private_native_input_selection_v1(context):
         return selected
     # Same materialized physical owner as pending/observation/export. The peer
     # is the reviewed template source, never a second executing policy owner.
-    path = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+    # This companion requires separate governed provisioning in the source repo.
+    path = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'  # source repo owner
     if not path.exists():
         return None
     held = []
@@ -1986,7 +1987,8 @@ def c02_owned_operation_v1(context, invalidation_token, decision, *, _selected_s
     with contextlib.ExitStack() as held:
         if _selected_source_owner is not None:
             import ast
-            expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+            # Admission binds the separately provisioned source repo companion.
+            expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'  # source repo owner
             if (type(_selected_source_owner) is not types.ModuleType
                     or Path(_selected_source_owner.__file__).absolute() != expected
                     or _C02_SELECTED_SOURCE_V1.get() is not None):
