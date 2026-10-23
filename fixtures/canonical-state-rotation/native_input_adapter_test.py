@@ -5,6 +5,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import queue
 import sys
 import threading
 import unittest
@@ -87,7 +88,7 @@ class NativeInputMechanics(unittest.TestCase):
         return MODULE.rotation_input_lease_v1(subject or SUBJECT, source_bytes, source_tokens)
 
     def test_default_resolver_refuses_caller_supplied_authority(self):
-        with self.assertRaisesRegex(MODULE.NativeInputError, 'OWNER_UNAVAILABLE'):
+        with self.assertRaisesRegex(MODULE.NativeInputError, 'NATIVE_INPUT_DURABLE_SOURCE_UNAVAILABLE_OR_CONSUMED'):
             with self.lease():
                 self.fail('unadmitted source reached accepting body')
         with mock.patch.object(MODULE, '_resolve_existing_owner_v1', return_value=True):
@@ -475,6 +476,62 @@ class NativeInputMechanics(unittest.TestCase):
                 lease.admit(SUBJECT, 100000, 30000, publish)
             self.assertIsInstance(caught.exception, MODULE.NativeInputOutcomeUnknown)
         self.assertEqual(effects, ['SIMULATED_UNINSTRUMENTED_EFFECT'])
+
+
+class NativeSourceLedgerMechanics(unittest.TestCase):
+    """Constructed RPC traffic; no native producer or quiescence admission."""
+    @classmethod
+    def setUpClass(cls):
+        path = ROOT / 'source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+        spec = importlib.util.spec_from_file_location('native_source_ledger_under_test', path)
+        cls.source = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.source)
+
+    def ready(self, incoming_id=1, outgoing_id=1):
+        messages = queue.Queue()
+        value = self.source.OwnedStdioQuiescenceV1(messages)
+        value.before_send({'id': outgoing_id, 'method': 'initialize', 'params': {}})
+        value.ingest({'id': incoming_id, 'result': {}}); messages.get_nowait()
+        value.before_send({'method': 'initialized'})
+        value.before_send({'id': 2, 'method': 'thread/start', 'params': {}})
+        value.ingest({'id': 2, 'result': {'thread': {'id': THREAD}}}); messages.get_nowait()
+        value.before_send({'id': 3, 'method': 'turn/start', 'params': {'threadId': THREAD}})
+        value.ingest({'id': 3, 'result': {'turn': {'id': TURN}}}); messages.get_nowait()
+        value.ingest({'method': 'turn/completed', 'params': {'threadId': THREAD,
+            'turn': {'id': TURN, 'status': 'completed'}}}); messages.get_nowait()
+        value.before_send({'id': 4, 'method': 'thread/read', 'params': {'threadId': THREAD}})
+        value.ingest({'id': 4, 'result': {'thread': {'id': THREAD}}}); messages.get_nowait()
+        value.acquire().verify()
+        return value
+
+    def test_exact_integer_and_string_ids_are_distinct_valid_requests(self):
+        self.ready()
+        self.ready(incoming_id='1', outgoing_id='1')
+
+    def test_incoming_id_aliases_and_mismatches_poison_the_fence(self):
+        for identity in (True, 1.0, '1', None, [], {}):
+            with self.subTest(identity=identity):
+                value = self.source.OwnedStdioQuiescenceV1(queue.Queue())
+                value.before_send({'id': 1, 'method': 'initialize'})
+                with self.assertRaises(ValueError):
+                    value.ingest({'id': identity, 'result': {}})
+                self.assertEqual(value._pending, {(int, 1): 'initialize'})
+                with self.assertRaises(ValueError):
+                    value.ingest({'id': 1, 'result': {}})
+                with self.assertRaises(ValueError):
+                    value.acquire()
+
+    def test_outgoing_id_aliases_and_reused_ids_refuse(self):
+        for identity in (True, 1.0, None, [], {}):
+            with self.subTest(identity=identity):
+                value = self.source.OwnedStdioQuiescenceV1(queue.Queue())
+                with self.assertRaises(ValueError):
+                    value.before_send({'id': identity, 'method': 'initialize'})
+                with self.assertRaises(ValueError):
+                    value.acquire()
+        value = self.ready()
+        with self.assertRaises(ValueError):
+            value.before_send({'id': 4, 'method': 'thread/read', 'params': {'threadId': THREAD}})
 
 
 if __name__ == '__main__':

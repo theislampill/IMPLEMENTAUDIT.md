@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """C02 mechanics only: constructed owner evidence is not authentic entitlement.
 
-The production resolver is deliberately unavailable. Only this isolated fixture
-substitutes its source locator; real claim-run refs and Git CAS remain in use.
+Actual production source/issuer selection remains unavailable. This isolated
+fixture supplies explicitly constructed live leases and its revision locator
+through the existing owner seam. The real operation, guards and Git CAS execute.
 """
 from __future__ import annotations
 
+import contextlib
 import copy
+import threading
 import hashlib
 import importlib.util
 import unittest
@@ -15,6 +18,57 @@ from unittest import mock
 import claim_transaction_test as transaction_tests
 
 CONTROLLER = transaction_tests.CONTROLLER
+
+
+class ConstructedOwnerLease:
+    """Explicit test stimulus, never an authentic producer or issuer grant."""
+    def __init__(self, fixture):
+        self.fixture = fixture
+        self.revision = 0
+        self.withdrawn = threading.Event()
+        self.verifications = 0
+        self.checkpoints = 0
+
+    def withdraw(self):
+        self.revision += 1
+        self.withdrawn.set()
+
+    def verify(self):
+        self.verifications += 1
+        if self.withdrawn.is_set():
+            raise self.fixture.owner.RotationError('constructed owner lease withdrawn')
+
+    def checkpoint(self):
+        self.checkpoints += 1
+        self.verify()
+        return self.revision
+
+
+class ConstructedSourceLease(ConstructedOwnerLease):
+    def census(self, request):
+        self.verify()
+        fixture = self.fixture
+        event = fixture.source['erroneous_event']
+        rows = [{'sequence': 0, 'kind': 'native-boundary', **event}]
+        retained, _ = fixture.owner._c02_retained_decisions_v1(fixture.context)
+        # This fixture constructs exactly one event and at most one correction;
+        # no chronological ordering is inferred from arbitrary Git object IDs.
+        fixture.assertLessEqual(len(retained), 1)
+        for record, oid in retained:
+            fixture.assertEqual(record['observation']['invalidation_oid'], event['invalidation_oid'])
+            rows.append({'sequence': 1, 'kind': 'adjudication', 'record_oid': oid})
+        return {'schema': 'implementaudit.c02-owned-interval.v1',
+            'source_owner': fixture.source['source_owner'], 'source_cutoff': fixture.source['source_cutoff'],
+            'subject': {key: fixture.context[key] for key in ('controller', 'claim_id', 'run_root_identity')},
+            'interval_start': 0, 'interval_end': len(rows) - 1, 'complete': True,
+            'covered_boundary_kinds': sorted(fixture.owner.BOUNDARIES),
+            'covers_adjudications': True, 'events': rows}
+
+
+class ConstructedIssuerLease(ConstructedOwnerLease):
+    def grant(self, request):
+        self.verify()
+        return copy.deepcopy(self.fixture.source['grant'])
 
 
 class CorrectionPublication(unittest.TestCase):
@@ -95,8 +149,21 @@ class CorrectionPublication(unittest.TestCase):
         self.required()
         return self.owner.publish_c02_correction_v1(self.context, prepared or self.prepare())
 
-    def fixture_owner(self):
-        return mock.patch.object(self.owner, '_resolve_c02_source_owner_v1', side_effect=self.resolver, create=True)
+    @contextlib.contextmanager
+    def fixture_owner(self, *, context=None, resolver=None):
+        """Constructed entitlement only; all accepting core checks remain real."""
+        context = self.context if context is None else context
+        source, issuer = ConstructedSourceLease(self), ConstructedIssuerLease(self)
+        selected = {key: context[key] for key in ('controller', 'claim_id', 'run_root_identity')}
+        selected.update(repo=str(context['repo']), census_owner='fixture-only-source-owner',
+                        issuer='fixture-only-issuer', source_contract_locator='constructed-only',
+                        owner_decision_locator='constructed-only-not-native-admission')
+        with mock.patch.object(self.owner, '_C02_ADMITTED_OWNER_SELECTION_V1', selected), \
+             mock.patch.object(self.owner, '_resolve_c02_materializer_capabilities_v1', return_value=(source, issuer)), \
+             mock.patch.object(self.owner, '_resolve_c02_source_owner_v1', side_effect=resolver or self.resolver):
+            with self.owner.c02_owned_operation_v1(context, self.event_token, self.decision) as operation:
+                self.assertIs(type(operation), self.owner._C02OwnedOperation)
+                yield operation
 
     def refs(self):
         return self.fixture.git('for-each-ref', '--format=%(refname) %(objectname)')
@@ -146,8 +213,13 @@ class CorrectionPublication(unittest.TestCase):
     def test_production_has_no_resolver_and_caller_hash_is_not_entitlement(self):
         self.required()
         before = self.refs()
-        with self.assertRaisesRegex(self.owner.RotationError, 'source.owner.*unavailable'):
+        with self.assertRaisesRegex(self.owner.RotationError, 'requires the existing owned-stdio live operation'):
             self.prepare()
+        self.assertEqual(self.refs(), before)
+        # Even a valid constructed locator cannot replace the active owner lease.
+        with mock.patch.object(self.owner, '_resolve_c02_source_owner_v1', side_effect=self.resolver):
+            with self.assertRaisesRegex(self.owner.RotationError, 'existing owned-stdio live operation'):
+                self.prepare()
         self.assertEqual(self.refs(), before)
 
     def test_missing_revoked_wrong_scope_code_and_hash_grants_refuse(self):
@@ -314,6 +386,52 @@ class CorrectionPublication(unittest.TestCase):
             self.assertEqual(self.refs(), before)
 
 
+    def test_real_live_guard_and_checkpoints_are_invoked(self):
+        with self.fixture_owner() as operation:
+            before = (operation.source.verifications, operation.issuer.verifications,
+                      operation.source.checkpoints, operation.issuer.checkpoints)
+            prepared = self.prepare()
+            result = self.publish(prepared)
+            after = (operation.source.verifications, operation.issuer.verifications,
+                     operation.source.checkpoints, operation.issuer.checkpoints)
+            self.assertTrue(all(end > start for start, end in zip(before, after)))
+            self.assertEqual(result['status'], 'APPENDED_NO_CURRENTNESS')
+            self.assertIs(self.owner._c02_require_live_operation_v1(self.context), operation)
+        with self.assertRaisesRegex(self.owner.RotationError, 'existing owned-stdio live operation'):
+            self.prepare()
+
+    def withdrawal_at_actual_cas(self, role):
+        real_git = self.owner.git_process
+        fired = []
+        with self.assertRaises(self.owner.C02MaterializationUnknown):
+            with self.fixture_owner() as operation:
+                prepared = self.prepare()
+                lease = getattr(operation, role)
+                def withdraw(repo, *args, **kwargs):
+                    if args[:3] == ('update-ref', '--stdin', '-z') and not fired:
+                        fired.append(True)
+                        lease.withdraw()  # After before_effect, before the real Git CAS.
+                    return real_git(repo, *args, **kwargs)
+                with mock.patch.object(self.owner, 'git_process', side_effect=withdraw):
+                    self.publish(prepared)
+        self.assertEqual(fired, [True])
+        # Publication actually landed, but the live guard refused success. The
+        # exact append remains retained for explicit reconciliation, not replay.
+        self.owner.require_anchor(self.context, prepared['record_oid'])
+        self.assertEqual(self.owner.read_blob(self.fixture.repo, prepared['record_oid']),
+                         self.owner.canonical(prepared['record']))
+        self.assertEqual(self.owner.read_ref(self.fixture.repo, self.context['invalidation_ref']),
+                         self.observed['invalidation_oid'])
+        with self.assertRaises(self.owner.RotationError):
+            self.owner.require_current_generation_join_v1(self.context)
+
+    def test_source_withdrawal_during_actual_cas_is_unknown(self):
+        self.withdrawal_at_actual_cas('source')
+
+    def test_issuer_withdrawal_during_actual_cas_is_unknown(self):
+        self.withdrawal_at_actual_cas('issuer')
+
+
 class FreshCorrection(unittest.TestCase):
     """Explicit fresh-transition stimuli; the real production issuer is absent."""
     rotate = transaction_tests.RealHelperIntegration.rotate
@@ -431,7 +549,7 @@ class FreshCorrection(unittest.TestCase):
             if not seen:
                 seen.append(self.newer('genuine-newer-during-c02-exact-retry'))
             return self.resolver(context, request)
-        with mock.patch.object(self.owner, '_resolve_c02_source_owner_v1', side_effect=preempt):
+        with self.fixture_owner(resolver=preempt):
             with self.assertRaises(self.owner.RotationError):
                 self.transition()
         self.assertEqual(len(seen), 1)

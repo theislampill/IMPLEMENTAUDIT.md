@@ -1184,6 +1184,9 @@ class _NativePublicationInputs:
         self.retained.verify()
         self.native_guard.verify()
 
+    def ref_guards_v1(self):
+        return self.native_guard.ref_guards_v1()
+
     def before_effect(self):
         self.verify()
         return self.native_guard.before_effect()
@@ -1232,6 +1235,12 @@ def update_refs(context, updates, guards, *, observation=None):
     with namespace_gate(context):
         if observation is not None:
             observation.verify()
+        if isinstance(observation, _NativePublicationInputs):
+            source_guards = observation.ref_guards_v1()
+            if set(source_guards) & set(updates) or any(
+                    ref in guards and guards[ref] != oid for ref, oid in source_guards.items()):
+                raise RotationError("native source/grant ref overlaps or conflicts with canonical CAS")
+            guards = dict(guards, **source_guards)
         expected = dict(guards)
         expected.update({ref: old for ref, (_, old) in updates.items()})
         if read_refs(repo, expected) != expected:
@@ -1264,9 +1273,952 @@ def update_refs(context, updates, guards, *, observation=None):
             observation.verify()
 
 
+# Transient synchronization owned by the EXISTING producer. Not an issuer,
+# currentness store, service, or alternate ref writer. No ResetEvent operation.
+def _native_sync_api_v1():
+    if os.name != 'nt':
+        raise RotationError('native cancellation requires the qualified Windows host')
+    import ctypes
+    from ctypes import wintypes as W
+    k = ctypes.WinDLL('kernel32', use_last_error=True)
+    declarations = {
+        'CreateEventW': (W.HANDLE, (ctypes.c_void_p, W.BOOL, W.BOOL, W.LPCWSTR)),
+        'SetEvent': (W.BOOL, (W.HANDLE,)),
+        'WaitForSingleObject': (W.DWORD, (W.HANDLE, W.DWORD)),
+        'CloseHandle': (W.BOOL, (W.HANDLE,)),
+        'OpenProcess': (W.HANDLE, (W.DWORD, W.BOOL, W.DWORD)),
+        'GetCurrentProcess': (W.HANDLE, ()),
+        'DuplicateHandle': (W.BOOL, (W.HANDLE, W.HANDLE, W.HANDLE,
+                          ctypes.POINTER(W.HANDLE), W.DWORD, W.BOOL, W.DWORD)),
+    }
+    for name, (restype, argtypes) in declarations.items():
+        function = getattr(k, name)
+        function.restype, function.argtypes = restype, argtypes
+    return ctypes, W, k
+
+
+class NativeCancellationSignalV1:
+    """Sticky unnamed manual-reset event; only the producer receives modify rights."""
+    def __init__(self, reservation_id):
+        self.c, self.W, self.k = _native_sync_api_v1()
+        self.handle = self.k.CreateEventW(None, True, False, None)
+        if not self.handle:
+            raise RotationError('native producer cancellation event is unavailable')
+        self.descriptor = {'schema': 'implementaudit.native-cancellation.v1',
+            'producer_process': native_process_identity_v1(os.getpid()),
+            'event_handle': int(self.handle), 'reservation_id': reservation_id}
+
+    def signal(self):
+        # FIRST action at every ingress/revocation hook. No reservation lock,
+        # file/Git read, namespace gate, or currentness operation precedes this.
+        if not self.handle or not self.k.SetEvent(self.handle):
+            raise RotationError('native cancellation signal failed; contain owned host')
+
+    def check(self):
+        if not self.handle or self.k.WaitForSingleObject(self.handle, 0) != 258:
+            raise RotationError('native producer reservation is already cancelled or closed')
+
+    def close(self):
+        # Explicit disposal only after durable terminalization / consumer exit.
+        # Closing is never a reset and never makes an old reservation usable.
+        handle, self.handle = self.handle, None
+        if handle and not self.k.CloseHandle(handle):
+            raise RotationError('native cancellation producer handle cleanup failed')
+
+
+class NativeCancellationWaitV1:
+    """Duplicate the exact live producer object with SYNCHRONIZE rights only.
+
+    Numeric JSON is not a capability: producer PID/birth/image is independently
+    checked, DuplicateHandle obtains the actual object from that process, and
+    NtQueryObject verifies Event type. The successful durable CLAIMED CAS binds
+    the exact consuming PID/birth and transaction. Other consumers cannot reset
+    this event and cannot replay CLAIMED after that executor exits.
+    """
+    def __init__(self, descriptor, producer_process, reservation_id):
+        self.c, self.W, self.k = _native_sync_api_v1()
+        self.handle = None
+        if (type(descriptor) is not dict or set(descriptor) !=
+                {'schema', 'producer_process', 'event_handle', 'reservation_id'}
+                or descriptor['schema'] != 'implementaudit.native-cancellation.v1'
+                or descriptor['producer_process'] != producer_process
+                or descriptor['reservation_id'] != reservation_id
+                or type(descriptor['event_handle']) is not int or not 0 < descriptor['event_handle'] < 2**64
+                or native_process_identity_v1(producer_process['pid']) != producer_process):
+            raise RotationError('native cancellation descriptor is unbound or stale')
+        self.producer_process = dict(producer_process)
+        process = self.k.OpenProcess(0x0040 | 0x1000, False, producer_process['pid'])
+        if not process:
+            raise RotationError('native cancellation producer cannot be held')
+        try:
+            duplicate = self.W.HANDLE()
+            # Deliberately no EVENT_MODIFY_STATE, no DUPLICATE_SAME_ACCESS,
+            # and no inheritable handle. The child can only wait/check.
+            if not self.k.DuplicateHandle(process, descriptor['event_handle'], self.k.GetCurrentProcess(),
+                    self.c.byref(duplicate), 0x00100000, False, 0):
+                raise RotationError('native cancellation object cannot be duplicated')
+            self.handle = duplicate.value
+        finally:
+            self.k.CloseHandle(process)
+        try:
+            self._event_type()
+            self.check()
+        except BaseException:
+            self.close()
+            raise
+
+    def _event_type(self):
+        c = self.c
+        class UnicodeString(c.Structure):
+            _fields_ = [('length', self.W.USHORT), ('maximum', self.W.USHORT), ('buffer', c.c_void_p)]
+        query = c.WinDLL('ntdll').NtQueryObject
+        query.argtypes = (self.W.HANDLE, self.W.ULONG, c.c_void_p, self.W.ULONG, c.POINTER(self.W.ULONG))
+        query.restype = c.c_long
+        buffer = c.create_string_buffer(4096)
+        needed = self.W.ULONG()
+        if query(self.handle, 2, buffer, len(buffer), c.byref(needed)) != 0:
+            raise RotationError('native cancellation object type unavailable')
+        name = UnicodeString.from_buffer(buffer)
+        start = c.addressof(buffer)
+        if (name.length % 2 or not start <= (name.buffer or 0) <= start + len(buffer) - name.length
+                or c.wstring_at(name.buffer, name.length // 2) != 'Event'):
+            raise RotationError('native cancellation handle is not an Event')
+
+    def check(self):
+        # Check the independent sticky signal BEFORE slower process/ref reads.
+        if not self.handle or self.k.WaitForSingleObject(self.handle, 0) != 258:
+            raise RotationError('native reservation cancelled or cancellation handle invalid')
+        if native_process_identity_v1(self.producer_process['pid']) != self.producer_process:
+            raise RotationError('native cancellation producer died or was replaced')
+        if self.k.WaitForSingleObject(self.handle, 0) != 258:
+            raise RotationError('native reservation cancelled during liveness read')
+
+    def close(self):
+        handle, self.handle = self.handle, None
+        if handle and not self.k.CloseHandle(handle):
+            raise RotationError('native cancellation consumer handle cleanup failed')
+
+
+def native_held_image_sha256_v1(pinned):
+    """Hash the existing held descriptor in <=1MiB buffers; never read() the image."""
+    pinned.verify()
+    fd = pinned.native.fd if pinned.native is not None else pinned.fd
+    expected_size = os.fstat(fd).st_size
+    if not 0 <= expected_size <= 512 * 1024 * 1024:
+        raise RotationError('native image exceeds the admitted file bound')
+    os.lseek(fd, 0, os.SEEK_SET)
+    digest, count = hashlib.sha256(), 0
+    while True:
+        chunk = os.read(fd, 1024 * 1024)
+        if not chunk:
+            break
+        count += len(chunk)
+        if count > expected_size:
+            raise RotationError('native image grew during streaming hash')
+        digest.update(chunk)
+    pinned.verify()
+    if count != expected_size or os.fstat(fd).st_size != expected_size:
+        raise RotationError('native image changed during streaming hash')
+    return digest.hexdigest()
+
+
+# Proposed addition to the EXISTING claim-run-rotation.py, not a new controller.
+# Never select from CLI/env/STATE/caller JSON. Existing private profile adoption
+# pins its provider artifact; public accepting-core bytes contain no private
+# repo/issuer/episode literal. Only the governed private pin expression may vary
+# from this source-owner template. Actual episode/grant data comes AFTER OPEN.
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '00eb69de08f959f7d5f4674dd0f357e5f96a3256981371bc0f54afc0489ab8a1'
+_NATIVE_PRIVATE_PROFILE_V1 = None
+_NATIVE_INPUT_RESOLVED_V1 = None
+_NATIVE_INPUT_BINARY_PIN_V1 = None
+
+
+def _private_native_input_selection_v1(context):
+    """Existing source-owned provider selection, through authenticated repo custody.
+
+    Not used by historical canonical readers. No __file__-relative fallback and
+    no caller module/path. Before executing private code, normalize only the one
+    literal OWNED_STDIO_SELECTION_PIN and require the exact reviewed template.
+    Retain physical producer/provider files through the live canonical CAS.
+    """
+    global _NATIVE_PRIVATE_PROFILE_V1
+    if _NATIVE_PRIVATE_PROFILE_V1 is not None:
+        repo, selected, held = _NATIVE_PRIVATE_PROFILE_V1
+        if context['repo'] != repo:
+            raise RotationError('private native profile cannot cross repository custody')
+        for item in held:
+            item.verify()
+        return selected
+    # Same materialized physical owner as pending/observation/export. The peer
+    # is the reviewed template source, never a second executing policy owner.
+    path = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+    if not path.exists():
+        return None
+    held = []
+    try:
+        import ast
+        producer = PinnedFile(path, max_bytes=512 * 1024)
+        held.append(producer)
+        raw = producer.read()
+        declarations = [node for node in ast.parse(raw).body if isinstance(node, ast.Assign)
+                        and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+                        and node.targets[0].id == 'OWNED_STDIO_SELECTION_PIN']
+        if len(declarations) != 1:
+            raise RotationError('private native selector is not one declared literal')
+        value = declarations[0].value
+        pin = ast.literal_eval(value)
+        rows = raw.splitlines(keepends=True)
+        start = sum(map(len, rows[:value.lineno - 1])) + value.col_offset
+        end = sum(map(len, rows[:value.end_lineno - 1])) + value.end_col_offset
+        normalized = raw[:start] + b'None' + raw[end:]
+        if hashlib.sha256(normalized).hexdigest() != _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256:
+            raise RotationError('private native owner differs from the reviewed source template')
+        if pin is None:
+            return None
+        if (type(pin) is not dict or set(pin) != {'path', 'bytes', 'sha256'}
+                or type(pin['path']) is not str or not Path(pin['path']).is_absolute()
+                or type(pin['bytes']) is not int or not 0 < pin['bytes'] <= 256 * 1024
+                or type(pin['sha256']) is not str or not SHA256.fullmatch(pin['sha256'])):
+            raise RotationError('private native provider pin is malformed')
+        provider = PinnedFile(Path(pin['path']), max_bytes=256 * 1024)
+        held.append(provider)
+        payload = provider.read()
+        if len(payload) != pin['bytes'] or hashlib.sha256(payload).hexdigest() != pin['sha256']:
+            raise RotationError('private native provider differs from its governed pin')
+        name = '_native_private_owner_' + hashlib.sha256(os.fsencode(path) + b'\0' + raw).hexdigest()
+        module = types.ModuleType(name)
+        module.__file__ = str(path)
+        exec(compile(raw, str(path), 'exec', dont_inherit=True), module.__dict__)
+        selected = module.rotation_input_owner_selection_v1()
+        if selected is None:
+            return None
+        if (selected.get('producer_sha256') != hashlib.sha256(raw).hexdigest()
+                or selected.get('provider_selection_sha256') != pin['sha256']):
+            raise RotationError('private owner returned a different physical source or provider')
+        _NATIVE_PRIVATE_PROFILE_V1 = (context['repo'], selected, tuple(held))
+        held = []
+        return selected
+    finally:
+        for item in reversed(held):
+            item.close()
+
+
+def native_input_revision_refs_v1(context):
+    if not CONTROLLER.fullmatch(context['controller']):
+        raise RotationError('invalid native input controller')
+    return {'source': 'refs/implementaudit/rotation-input-sources/' + context['controller'],
+            'grant': 'refs/implementaudit/rotation-input-grants/' + context['controller']}
+
+
+def native_process_identity_v1(pid):
+    """Kernel PID/birth/image/liveness, never a PID or JSON assertion alone.
+
+    This exact proposed producer is Windows-only. A different platform requires
+    an independently qualified process-custody implementation.
+    """
+    if os.name != 'nt' or type(pid) is not int or pid <= 0:
+        raise RotationError('native input process custody is unsupported')
+    import ctypes
+    from ctypes import wintypes
+    kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+    kernel.OpenProcess.argtypes = (wintypes.DWORD, wintypes.BOOL, wintypes.DWORD)
+    kernel.OpenProcess.restype = wintypes.HANDLE
+    kernel.CloseHandle.argtypes = (wintypes.HANDLE,)
+    kernel.GetProcessTimes.argtypes = (wintypes.HANDLE, *([ctypes.POINTER(wintypes.FILETIME)] * 4))
+    kernel.GetExitCodeProcess.argtypes = (wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD))
+    kernel.QueryFullProcessImageNameW.argtypes = (wintypes.HANDLE, wintypes.DWORD, wintypes.LPWSTR,
+                                                 ctypes.POINTER(wintypes.DWORD))
+    handle = kernel.OpenProcess(0x1000, False, pid)
+    if not handle:
+        raise RotationError('selected native producer process is absent')
+    try:
+        times = [wintypes.FILETIME() for _ in range(4)]
+        code = wintypes.DWORD()
+        size = wintypes.DWORD(32768)
+        image = ctypes.create_unicode_buffer(size.value)
+        if (not kernel.GetProcessTimes(handle, *[ctypes.byref(value) for value in times])
+                or not kernel.GetExitCodeProcess(handle, ctypes.byref(code)) or code.value != 259
+                or not kernel.QueryFullProcessImageNameW(handle, 0, image, ctypes.byref(size))):
+            raise RotationError('selected native producer process custody failed')
+        return {'pid': pid, 'creation_filetime': (times[0].dwHighDateTime << 32) | times[0].dwLowDateTime,
+                'image': str(Path(image.value).resolve(strict=True))}
+    finally:
+        kernel.CloseHandle(handle)
+
+
+def _native_selection_v1(context):
+    selected = _private_native_input_selection_v1(context)
+    required = {'repo', 'controller', 'claim_id', 'run_root_identity', 'issuer', 'source_owner',
+                'source_contract_sha256', 'provider_selection_sha256',
+                'producer_sha256', 'owner_decision_locator'}
+    if selected is None:
+        raise RotationError('NATIVE_INPUT_EXISTING_OWNER_SELECTION_ABSENT')
+    if (type(selected) is not dict or type(selected.get('repo')) is not str
+            or not Path(selected['repo']).is_absolute()
+            or str(Path(selected['repo'])) != selected['repo']
+            or any(part in {'.', '..'} for part in selected['repo'].replace('\\', '/').split('/'))
+            or str(Path(selected['repo']).resolve(strict=True)) != selected['repo']):
+        raise RotationError('native input repository spelling must be exact canonical absolute custody')
+    if (type(selected) is not dict or set(selected) != required
+            or any(type(value) is not str or not value for value in selected.values())
+            or Path(selected['repo']).resolve(strict=True) != context['repo'].resolve(strict=True)
+            or any(selected[key] != context[key] for key in ('controller', 'claim_id', 'run_root_identity'))
+            or any(not SHA256.fullmatch(selected[key]) for key in
+                   ('source_contract_sha256', 'provider_selection_sha256', 'producer_sha256'))):
+        raise RotationError('native input fixed owner selection does not match the actual claim')
+    return selected
+
+
+def _validate_native_revision_v1(context, source, grant, native, *, claimed=False):
+    """Consume an already-admitted owner's revision; hashes do not mint authority."""
+    selected = _native_selection_v1(context)
+    base = {'schema', 'phase', 'binding', 'exact_usage', 'cutoff_revision',
+            'observed_monotonic_ns', 'reservation_id', 'producer_process', 'host_process',
+            'source_owner', 'source_contract_sha256', 'provider_selection_sha256', 'episode_binding_sha256',
+            'cancellation'}
+    if (type(source) is not dict or set(source) != base | ({'executor', 'transaction_id', 'ready_oid'} if claimed else set())
+            or source['schema'] != 'implementaudit.native-rotation-source.v2'
+            or source['phase'] != ('CLAIMED' if claimed else 'READY')
+            or type(source['reservation_id']) is not str or not re.fullmatch('[0-9a-f]{32}', source['reservation_id'])
+            or any(source[key] != selected[key] for key in
+                   ('source_owner', 'source_contract_sha256', 'provider_selection_sha256'))):
+        raise RotationError('native input source is absent, foreign, revoked, or already consumed')
+    binding, exact = source['binding'], source['exact_usage']
+    native._validate_binding(binding)
+    grant_fields = {'schema', 'status', 'issuer', 'source_owner', 'source_contract_sha256',
+                    'provider_selection_sha256', 'episode_binding_sha256', 'producer_sha256',
+                    'consumer_sha256', 'subject', 'host', 'budget_policy', 'tokenizer',
+                    'not_before_unix_ms', 'expires_at_unix_ms', 'owner_decision_locator'}
+    if (type(grant) is not dict or set(grant) != grant_fields
+            or grant['schema'] != 'implementaudit.native-rotation-owner-grant.v1' or grant['status'] != 'ACTIVE'
+            or any(grant[key] != selected[key] for key in
+                   ('issuer', 'source_owner', 'source_contract_sha256', 'provider_selection_sha256',
+                    'producer_sha256', 'owner_decision_locator'))
+            or type(grant['episode_binding_sha256']) is not str or not SHA256.fullmatch(grant['episode_binding_sha256'])
+            or source['episode_binding_sha256'] != grant['episode_binding_sha256']
+            or grant['consumer_sha256'] != hashlib.sha256(read_regular(Path(__file__).absolute())).hexdigest()
+            or any(grant[key] != binding[key] for key in ('issuer', 'producer_sha256', 'subject', 'host', 'budget_policy', 'tokenizer'))
+            or binding['semantic_contract_sha256'] != selected['source_contract_sha256']
+            or binding['grant_sha256'] != hashlib.sha256(canonical(grant)).hexdigest()):
+        raise RotationError('actual native source, issuer grant, semantics, or consumer code differ')
+    now_wall, now_mono = time.time_ns() // 1000000, time.monotonic_ns()
+    if (type(grant['not_before_unix_ms']) is not int or type(grant['expires_at_unix_ms']) is not int
+            or not grant['not_before_unix_ms'] <= now_wall <= grant['expires_at_unix_ms']
+            or type(source['observed_monotonic_ns']) is not int
+            or not 0 <= now_mono - source['observed_monotonic_ns'] <= 30000000000):
+        raise RotationError('native source monotonic cutoff or issuer grant is not current')
+    parsed = native.parse_exact_usage_v1({'method': 'rawResponse/completed', 'params': {
+        'threadId': exact['thread_id'], 'turnId': exact['turn_id'], 'responseId': exact['response_id'],
+        'usage': exact['usage']}}, binding['thread_id'], binding['turn_id'], exact['received_at_unix_ms'], exact['stream_revision'])
+    if (parsed != exact or type(source['cutoff_revision']) is not int
+            or source['cutoff_revision'] <= exact['stream_revision']
+            or not 0 <= now_wall - exact['received_at_unix_ms'] <= min(30000, binding['budget_policy']['maximum_age_ms'])):
+        raise RotationError('native exact-event cutoff is stale, future or unbound')
+    for key in ('producer_process', 'host_process'):
+        record = source[key]
+        if type(record) is not dict or set(record) != {'pid', 'creation_filetime', 'image'} or native_process_identity_v1(record['pid']) != record:
+            raise RotationError('native source process died, changed or was reused')
+    global _NATIVE_INPUT_BINARY_PIN_V1
+    image_path = Path(source['host_process']['image'])
+    if _NATIVE_INPUT_BINARY_PIN_V1 is None:
+        held = PinnedFile(image_path, max_bytes=512 * 1024 * 1024)
+        try:
+            if native_held_image_sha256_v1(held) != binding['host']['binary_sha256']:
+                raise RotationError('actual native process image differs from the admitted binary')
+        except BaseException:
+            held.close()
+            raise
+        _NATIVE_INPUT_BINARY_PIN_V1 = held
+    if _NATIVE_INPUT_BINARY_PIN_V1.path != image_path:
+        raise RotationError('selected native process image path changed')
+    _NATIVE_INPUT_BINARY_PIN_V1.verify()
+    if claimed and (source['executor'] != native_process_identity_v1(os.getpid())
+                    or not re.fullmatch('[0-9a-f]{32}', source['transaction_id']) or not OID.fullmatch(source['ready_oid'])):
+        raise RotationError('native input consumption belongs to a different or interrupted executor')
+
+
+def prepare_native_source_update_v1(context, snapshot, grant, *, expected_source_oid, expected_grant_oid):
+    """Pure plan for the EXISTING claim writer, after actual source/issuer verification.
+
+    Called only by the admitted owned-stdio source owner, not exposed as a caller
+    JSON CLI. READY comes from the actual reader callback; REVOKED is published
+    before any dispatch/injection and on disconnect/finally. Old objects remain
+    under the existing retained-object anchors. No new storage service is added.
+    """
+    refs = native_input_revision_refs_v1(context)
+    if (type(snapshot) is not dict or snapshot.get('schema') != 'implementaudit.native-rotation-source.v2'
+            or snapshot.get('phase') not in {'READY', 'REVOKED', 'CLOSED'}
+            or type(grant) is not dict or grant.get('schema') != 'implementaudit.native-rotation-owner-grant.v1'
+            or any(value is not None and not OID.fullmatch(value) for value in (expected_source_oid, expected_grant_oid))):
+        raise RotationError('native source revision plan is malformed')
+    raw, grant_raw = canonical(snapshot), canonical(grant)
+    oid = lambda value: hashlib.sha1(b'blob ' + str(len(value)).encode() + b'\0' + value).hexdigest()
+    return {'source_bytes': raw, 'grant_bytes': grant_raw,
+            'updates': {refs['source']: (oid(raw), expected_source_oid), refs['grant']: (oid(grant_raw), expected_grant_oid)},
+            'authority_ceiling': 'INERT_OWNER_UPDATE_PLAN_NO_ADMISSION'}
+
+
+def reconcile_native_publication_v1(context, reservation_id):
+    """Close only a real exact canonical JOIN; absent/partial F2-F5 is STOP.
+
+    Never overwrites an archive, turns CLAIMED back into READY, infers success
+    from child exit, or invents a recovery generation. A failed read leaves the
+    one-shot consumption intact for the existing owner's manual reconciliation.
+    """
+    _native_selection_v1(context)
+    refs = native_input_revision_refs_v1(context)
+    source_oid = read_ref(context['repo'], refs['source'])
+    source = decode_json(read_blob(context['repo'], source_oid))
+    if (source.get('reservation_id') != reservation_id or 'transaction_id' not in source
+            or source.get('phase') not in {'CLAIMED', 'REVOKED'}):
+        raise RotationError('native reservation has no exact issued consumption to reconcile')
+    joined = require_current_generation_join_v1(context)
+    observation = joined.get('archive_manifest', {}).get('native_input', {}).get('observation')
+    if (type(observation) is not dict
+            or any(observation.get(key) != value for key, value in source['binding'].items())
+            or observation.get('exact_usage') != source['exact_usage']
+            or observation.get('cutoff_revision') != source['cutoff_revision']):
+        raise RotationError('STOP_NATIVE_SOURCE_CLAIM_HAS_NO_EXACT_ACCEPTED_PUBLICATION')
+    resolved = dict(source, phase='CLOSED', resolution={
+        'status': 'EXACT_CANONICAL_JOIN_VERIFIED', 'pointer_oid': joined['pointer_oid'],
+        'receipt_token': joined['receipt_token'], 'epoch_oid': joined['epoch_oid'],
+        'authority_ceiling': 'EFFECT_READBACK_ONLY_NO_NATIVE_QUALIFICATION'})
+    oid = write_blob(context, canonical(resolved))
+    updates = retention_updates(context, [oid, source_oid])
+    updates[refs['source']] = (oid, source_oid)
+    # Fence the exact authority tuple that earned JOIN. Never adopt newer
+    # controller/invalidation heads merely because pointer/marker stayed equal.
+    observed = {'controller': context['controller_oid'], 'pointer': joined['pointer_oid'],
+                'marker': joined['marker_oid'], 'invalidation': joined['pointer']['invalidation_oid']}
+    if authorities(context) != observed:
+        raise RotationError('canonical outcome changed during native source reconciliation')
+    guards = owner_guards(context, observed)
+    receipt_ref_value, receipt_oid = joined['receipt_token'].split('@')
+    guards[receipt_ref_value] = receipt_oid
+    update_refs(context, updates, guards)
+    return resolved['resolution']
+
+
+def _resolve_native_input_state_v1(native, controller):
+    """Fresh CLI: consume one durable source revision, preserving both clocks.
+
+    This is the fixed receiver selected by canonical_rotation_inputs.py. No
+    observe() call re-stamps a retained event. CLAIMED survives process death;
+    another CLI cannot reconstruct it as READY. Partial/unknown results require
+    existing-owner reconciliation; a new genuine source event is a new episode.
+    """
+    global _NATIVE_INPUT_RESOLVED_V1
+    if type(controller) is not str or not CONTROLLER.fullmatch(controller):
+        raise native.NativeInputError('NATIVE_INPUT_EXISTING_OWNER_SELECTION_ABSENT')
+    waiter = None
+    try:
+        if _NATIVE_INPUT_RESOLVED_V1 is not None:
+            state, context, expected, source, grant, waiter = _NATIVE_INPUT_RESOLVED_V1
+            waiter.check()  # Independent signal before any Git/namespace work.
+            if context['controller'] != controller:
+                raise RotationError('native input cannot cross its actual selected controller')
+            if read_refs(context['repo'], expected) != expected:
+                raise RotationError('native source or grant head changed')
+            _validate_native_revision_v1(context, source, grant, native, claimed=True)
+            waiter.check()
+            return state
+        context = discover(controller)
+        _native_selection_v1(context)
+        refs = native_input_revision_refs_v1(context)
+        heads = read_refs(context['repo'], refs.values())
+        if any(value is None for value in heads.values()):
+            raise RotationError('native source or grant revision is absent')
+        source = decode_json(read_blob(context['repo'], heads[refs['source']]))
+        grant = decode_json(read_blob(context['repo'], heads[refs['grant']]))
+        _validate_native_revision_v1(context, source, grant, native)
+        waiter = NativeCancellationWaitV1(source['cancellation'], source['producer_process'], source['reservation_id'])
+        predecessor = resolve_predecessor(context)
+        helper = projection_helper()
+        if source['binding']['subject'] != helper._native_subject(predecessor):
+            raise RotationError('native source names a different canonical pair or receipt')
+        import secrets
+        claimed = dict(source, phase='CLAIMED', ready_oid=heads[refs['source']],
+                       executor=native_process_identity_v1(os.getpid()), transaction_id=secrets.token_hex(16))
+        oid = write_blob(context, canonical(claimed))
+        updates = retention_updates(context, [oid, *heads.values()])
+        updates[refs['source']] = (oid, heads[refs['source']])
+        guards = predecessor_guards(context, predecessor)
+        guards[refs['grant']] = heads[refs['grant']]
+        waiter.check()
+        update_refs(context, updates, guards)
+        waiter.check()
+        expected = {refs['source']: oid, refs['grant']: heads[refs['grant']]}
+        if read_refs(context['repo'], expected) != expected:
+            raise RotationError('native source consumption has an unknown effect; reconcile before retry')
+        _validate_native_revision_v1(context, claimed, grant, native, claimed=True)
+        state = native.NativeInputState(source['binding'])
+        state._snapshot = source['exact_usage']
+        state._received_monotonic_ns = source['observed_monotonic_ns']
+        state._revision = source['cutoff_revision']
+        state._quiescent = True
+        state._native_revision_guards = expected
+        state._native_cancellation_wait = waiter
+        _NATIVE_INPUT_RESOLVED_V1 = (state, context, expected, claimed, grant, waiter)
+        return state
+    except (RotationError, native.NativeInputError, OSError, KeyError, TypeError, ValueError) as exc:
+        if waiter is not None and _NATIVE_INPUT_RESOLVED_V1 is None:
+            waiter.close()
+        raise native.NativeInputError('NATIVE_INPUT_DURABLE_SOURCE_UNAVAILABLE_OR_CONSUMED') from exc
+
+
 def owner_guards(context, observed, *, exclude=()):
     return {context[key + "_ref"]: observed[key]
             for key in ("controller", "pointer", "marker", "invalidation") if key not in exclude}
+
+
+# Proposed private addition to claim-run-rotation.py. No new public grant input.
+import contextvars as _c02_contextvars
+import threading as _c02_threading
+
+
+class C02MaterializationUnknown(RotationError):
+    """An attempted effect raced withdrawal or has uncertain completion."""
+
+
+_C02_LIVE_OPERATION_V1 = _c02_contextvars.ContextVar('claim_owned_c02_operation', default=None)
+_C02_SELECTED_SOURCE_V1 = _c02_contextvars.ContextVar('claim_c02_selected_source', default=None)
+_C02_SOURCE_CUSTODY_V1 = _c02_contextvars.ContextVar('claim_c02_source_custody', default=None)
+
+
+def _resolve_c02_materializer_capabilities_v1(context, request):
+    """Fixed actual-owner seam, never a caller callback or JSON permission.
+
+    The existing owned-stdio source currently supplies held physical prefixes
+    and compaction/resume summaries. It does not yet supply the authoritative
+    mapping of all native boundaries/adjudications to a complete live interval.
+    Neither that missing fact nor an actual scoped issuer is invented here.
+    Only the existing selected source owner may wire its concrete live census
+    and issuer leases here after their actual admission. Production stays shut.
+    """
+    selected = _C02_SELECTED_SOURCE_V1.get()
+    if selected is None:
+        raise RotationError('C02_COMPLETE_ORDERED_INTERVAL_AND_SCOPED_ISSUER_LEASE_UNAVAILABLE')
+    _, source, issuer = selected
+    source.verify(); issuer.verify()
+    return source, issuer
+
+
+def _c02_materializer_selection_v1(context):
+    live = _C02_SELECTED_SOURCE_V1.get()
+    selected = live[0] if live is not None else _C02_ADMITTED_OWNER_SELECTION_V1
+    keys = {'repo', 'controller', 'claim_id', 'run_root_identity', 'census_owner',
+            'issuer', 'source_contract_locator', 'owner_decision_locator'}
+    if (type(selected) is not dict or set(selected) != keys
+            or any(not isinstance(value, str) or not value for value in selected.values())
+            or Path(selected['repo']) != context['repo'] or not Path(selected['repo']).is_absolute()
+            or any(selected[key] != context[key] for key in ('controller', 'claim_id', 'run_root_identity'))):
+        raise RotationError('C02 actual scoped owner selection is unavailable or foreign')
+    safe_chain(context['repo'])
+    return selected
+
+
+def _c02_require_live_operation_v1(context):
+    operation = _C02_LIVE_OPERATION_V1.get()
+    if operation is None or operation.context is not context:
+        raise RotationError('C02 accepting effect requires the existing owned-stdio live operation')
+    operation.verify()
+    return operation
+
+
+class _C02PublicationInputs(_NativePublicationInputs):
+    """The existing update_refs checkpoint ABI, with an independently live veto."""
+    def __init__(self, retained, operation):
+        self.retained, self.operation = retained, operation
+
+    def verify(self):
+        self.operation.verify()
+        if self.retained is not None:
+            self.retained.verify()
+        self.operation.verify()
+
+    def ref_guards_v1(self):
+        self.operation.verify()
+        return (self.retained.ref_guards_v1()
+                if isinstance(self.retained, _NativePublicationInputs) else {})
+
+    def before_effect(self):
+        self.verify()
+        prior = self.retained.before_effect() if isinstance(self.retained, _NativePublicationInputs) else None
+        return prior, self.operation.checkpoint()
+
+    def after_effect(self, checkpoint):
+        prior, stamp = checkpoint
+        self.operation.after_effect(stamp)
+        if prior is not None:
+            self.retained.after_effect(prior)
+        if self.retained is not None:
+            self.retained.verify()
+        self.operation.after_effect(stamp)
+
+
+def _c02_compose_live_inputs_v1(context, retained):
+    operation = _c02_require_live_operation_v1(context)
+    if isinstance(retained, _C02PublicationInputs):
+        if retained.operation is not operation:
+            raise RotationError('C02 live operation changed')
+        return retained
+    return _C02PublicationInputs(retained, operation)
+
+
+@_scoped_git
+def _c02_withdraw_owned_revision_v1(context, role, owned_oids):
+    """One-way denial only; never overwrite another reservation or revive one."""
+    refs = _c02_owner_revision_refs_v1(context)
+    ref = refs['grant_ref' if role == 'issuer' else 'ref']
+    old = read_ref(context['repo'], ref)
+    if old is None or old not in owned_oids:
+        return
+    value = decode_json(read_blob(context['repo'], old))
+    if role == 'issuer':
+        if value.get('revoked') is True:
+            return
+        value['revoked'] = True
+    else:
+        if value.get('census_complete') is False:
+            return
+        value.update(census_complete=False, ordering='WITHDRAWN_NO_ADMISSION')
+    oid = write_blob(context, canonical(value))
+    updates = retention_updates(context, [old, oid])
+    updates[ref] = (oid, old)
+    # This denial must not inherit the accepting operation's now-invalid guard.
+    try:
+        update_refs(context, updates, {context['controller_ref']: context['controller_oid']})
+    except CASFailure:
+        current = read_ref(context['repo'], ref)
+        if current == oid:
+            return
+        if current not in owned_oids:
+            return  # A different revision is never overwritten by this cleanup.
+        raise
+
+
+class _C02OwnedOperation:
+    def __init__(self, context, token, decision, source, issuer):
+        self.context, self.token = context, token
+        self._source_custody = _C02_SOURCE_CUSTODY_V1.get()
+        self.decision_bytes = canonical(decision)
+        self.source, self.issuer = source, issuer
+        for capability, names in ((source, ('verify', 'checkpoint', 'census')),
+                                  (issuer, ('verify', 'checkpoint', 'grant'))):
+            if callable(capability) or any(not callable(getattr(capability, name, None)) for name in names):
+                raise RotationError('C02 actual owner lease interface is incomplete; booleans are not authority')
+        self._lock = _c02_threading.Lock()
+        self.invalidated = _c02_threading.Event()
+        self._reason = None
+        self._closed = False
+        self._source_intents, self._grant_intents = set(), set()
+        self._initial = (source.checkpoint(), issuer.checkpoint())
+        self.verify()
+
+    def verify(self):
+        if self._source_custody is not None:
+            self._source_custody.verify()
+        with self._lock:
+            if self._reason is not None or self._closed:
+                raise RotationError('C02 owner operation invalidated: ' + str(self._reason or 'closed'))
+        self.source.verify()
+        self.issuer.verify()
+        if (self.source.checkpoint(), self.issuer.checkpoint()) != self._initial:
+            raise RotationError('C02 source or issuer lease revision advanced')
+        with self._lock:
+            if self._reason is not None or self._closed:
+                raise RotationError('C02 owner operation changed while verified')
+
+    def checkpoint(self):
+        self.verify()
+        return self._initial
+
+    def after_effect(self, stamp):
+        try:
+            self.verify()
+            if stamp != self._initial:
+                raise RotationError('C02 publication checkpoint was substituted')
+        except BaseException as exc:
+            raise C02MaterializationUnknown('C02 effect raced source/issuer withdrawal; exact readback required') from exc
+
+    def register_intent(self, source_oid, grant_oid):
+        # Intent is recorded before CAS, so a landed-but-unknown write cannot be
+        # forgotten because a post-CAS success flag was never set.
+        with self._lock:
+            self._source_intents.add(source_oid)
+            self._grant_intents.add(grant_oid)
+
+    def cancel_now(self, reason='SOURCE_ADVANCED'):
+        if reason not in {'SOURCE_ADVANCED', 'CONNECTION_LOST', 'ISSUER_WITHDRAWN', 'SOURCE_CLOSED'}:
+            raise RotationError('unknown C02 owner signal')
+        # Signal-only first pass. No Git, source read, callback or blocking cleanup.
+        with self._lock:
+            self._reason = reason
+            self.invalidated.set()
+
+    def signal(self, reason):
+        self.cancel_now(reason)
+        with self._lock:
+            source_oids, grant_oids = set(self._source_intents), set(self._grant_intents)
+        if reason == 'ISSUER_WITHDRAWN':
+            _c02_withdraw_owned_revision_v1(self.context, 'issuer', grant_oids)
+        else:
+            _c02_withdraw_owned_revision_v1(self.context, 'source', source_oids)
+
+    def before_context_request(self, method):
+        self.signal('SOURCE_ADVANCED')
+        raise RotationError('C02 reservation withdrawn before context dispatch; reacquire outside this operation')
+
+    def after_native_record(self):
+        self.signal('SOURCE_ADVANCED')
+
+    def disconnect(self):
+        self.signal('CONNECTION_LOST')
+
+    def issuer_withdrawn(self):
+        self.signal('ISSUER_WITHDRAWN')
+
+
+@contextlib.contextmanager
+def c02_owned_operation_v1(context, invalidation_token, decision, *, _selected_source_owner=None):
+    """Use the same materialized, template-bound existing owner as native OR."""
+    selected_token = custody_token = None
+    with contextlib.ExitStack() as held:
+        if _selected_source_owner is not None:
+            import ast
+            expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+            if (type(_selected_source_owner) is not types.ModuleType
+                    or Path(_selected_source_owner.__file__).absolute() != expected
+                    or _C02_SELECTED_SOURCE_V1.get() is not None):
+                raise RotationError('C02 binding must come from the existing materialized source owner')
+            producer = held.enter_context(PinnedFile(expected, max_bytes=512 * 1024))
+            raw = producer.read()
+            declarations = [node for node in ast.parse(raw).body if isinstance(node, ast.Assign)
+                            and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+                            and node.targets[0].id == 'OWNED_STDIO_SELECTION_PIN']
+            if len(declarations) != 1:
+                raise RotationError('C02 selected owner has no unique fixed provider declaration')
+            value = declarations[0].value
+            pin = ast.literal_eval(value)
+            rows = raw.splitlines(keepends=True)
+            start = sum(map(len, rows[:value.lineno - 1])) + value.col_offset
+            end = sum(map(len, rows[:value.end_lineno - 1])) + value.end_col_offset
+            if hashlib.sha256(raw[:start] + b'None' + raw[end:]).hexdigest() != _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256:
+                raise RotationError('C02 materialized owner differs from the shared reviewed source template')
+            if (type(pin) is not dict or set(pin) != {'path', 'bytes', 'sha256'}
+                    or type(pin['path']) is not str or not Path(pin['path']).is_absolute()
+                    or type(pin['bytes']) is not int or not 0 < pin['bytes'] <= 256 * 1024
+                    or type(pin['sha256']) is not str or not SHA256.fullmatch(pin['sha256'])):
+                raise RotationError('C02 actual provider is not selected')
+            provider = held.enter_context(PinnedFile(Path(pin['path']), max_bytes=256 * 1024))
+            payload = provider.read()
+            if len(payload) != pin['bytes'] or hashlib.sha256(payload).hexdigest() != pin['sha256']:
+                raise RotationError('C02 provider differs from its governed pin')
+            retained = held.enter_context(RetainedInputs([expected, Path(pin['path'])]))
+            getter = getattr(_selected_source_owner, 'get_selected_c02_materializer_v1', None)
+            compiled = compile(raw, str(expected), 'exec', dont_inherit=True)
+            actual_code = next((item for item in compiled.co_consts if isinstance(item, types.CodeType)
+                                and item.co_name == 'get_selected_c02_materializer_v1'), None)
+            if (type(getter) is not types.FunctionType or actual_code is None
+                    or getter.__globals__ is not _selected_source_owner.__dict__
+                    or getter.__closure__ is not None
+                    or getter.__code__.replace(co_filename=str(expected)) != actual_code):
+                raise RotationError('C02 source getter is not the fixed reviewed source function')
+            binding = getter(context, decision)
+            selected_token = _C02_SELECTED_SOURCE_V1.set(binding)
+            custody_token = _C02_SOURCE_CUSTODY_V1.set(retained)
+        try:
+            with _c02_acquired_operation_v1(context, invalidation_token, decision) as operation:
+                yield operation
+        finally:
+            if custody_token is not None:
+                _C02_SOURCE_CUSTODY_V1.reset(custody_token)
+            if selected_token is not None:
+                _C02_SELECTED_SOURCE_V1.reset(selected_token)
+
+@contextlib.contextmanager
+def _c02_acquired_operation_v1(context, invalidation_token, decision):
+    _c02_materializer_selection_v1(context)
+    exact_authority_token(context, 'invalidation', invalidation_token)
+    if _C02_LIVE_OPERATION_V1.get() is not None:
+        raise RotationError('nested C02 owner operation is forbidden')
+    request = {key: context[key] for key in ('controller', 'claim_id', 'run_root_identity')}
+    request.update(invalidation_token=invalidation_token, decision_id=decision.get('decision_id'))
+    source, issuer = _resolve_c02_materializer_capabilities_v1(context, request)
+    operation = _C02OwnedOperation(context, invalidation_token, decision, source, issuer)
+    token = _C02_LIVE_OPERATION_V1.set(operation)
+    try:
+        yield operation
+        operation.verify()
+    except BaseException:
+        # Preserve the original error. Cleanup never restores the old authority.
+        try:
+            operation.signal('SOURCE_CLOSED')
+        except BaseException:
+            pass
+        raise
+    finally:
+        with operation._lock:
+            operation._closed = True
+        _C02_LIVE_OPERATION_V1.reset(token)
+
+
+def _c02_project_owned_interval_v1(context, interval, original):
+    """Validate metadata from the actual source lease; never infer absent events."""
+    keys = {'schema', 'source_owner', 'source_cutoff', 'subject', 'interval_start', 'interval_end',
+            'complete', 'covered_boundary_kinds', 'covers_adjudications', 'events'}
+    selected = _c02_materializer_selection_v1(context)
+    if (type(interval) is not dict or set(interval) != keys
+            or interval['schema'] != 'implementaudit.c02-owned-interval.v1'
+            or interval['source_owner'] != selected['census_owner']
+            or interval['subject'] != {key: context[key] for key in ('controller', 'claim_id', 'run_root_identity')}
+            or interval['complete'] is not True or interval['covers_adjudications'] is not True
+            or interval['covered_boundary_kinds'] != sorted(BOUNDARIES)
+            or not isinstance(interval['source_cutoff'], str) or not interval['source_cutoff']
+            or type(interval['interval_start']) is not int or type(interval['interval_end']) is not int
+            or not 0 <= interval['interval_start'] <= interval['interval_end']
+            or type(interval['events']) is not list or not 0 < len(interval['events']) <= 4096):
+        raise RotationError('C02 complete all-boundary/adjudication source interval is unavailable')
+    previous = interval['interval_start'] - 1
+    found = False
+    later, prior, event_ids, native_oids, decisions = [], [], set(), set(), set()
+    guards = {}
+    for row in interval['events']:
+        if (type(row) is not dict or type(row.get('sequence')) is not int
+                or not previous < row['sequence'] <= interval['interval_end']):
+            raise RotationError('C02 source order is unknown, duplicated or reversed')
+        previous = row['sequence']
+        if row.get('kind') == 'native-boundary':
+            if set(row) != {'sequence', 'kind', 'event_id', 'invalidation_oid', 'boundary'}:
+                raise RotationError('C02 source boundary descriptor is malformed')
+            event = {key: row[key] for key in ('event_id', 'invalidation_oid', 'boundary')}
+            if row['event_id'] in event_ids or row['invalidation_oid'] in native_oids or row['boundary'] not in BOUNDARIES:
+                raise RotationError('C02 source boundary is ambiguous or unsupported')
+            actual = invalidation_record(context, row['invalidation_oid'])
+            if actual != {'event': row['event_id'], 'oid': row['invalidation_oid'], 'boundary': row['boundary']}:
+                raise RotationError('C02 source boundary does not bind the retained native object')
+            require_anchor(context, row['invalidation_oid'])
+            guards[anchor_ref(context, row['invalidation_oid'])] = row['invalidation_oid']
+            event_ids.add(row['event_id']); native_oids.add(row['invalidation_oid'])
+            if event == original:
+                found = True
+            elif found:
+                later.append(event)
+        elif row.get('kind') == 'adjudication':
+            if set(row) != {'sequence', 'kind', 'record_oid'} or row['record_oid'] in decisions:
+                raise RotationError('C02 source adjudication descriptor is ambiguous')
+            record = _c02_read_correction_v1(context, row['record_oid'])
+            if record['observation']['invalidation_oid'] == original['invalidation_oid'] and not found:
+                raise RotationError('C02 adjudication precedes its source-mapped erroneous event')
+            prior.append({'observation': record['observation'], 'decision': record['decision']})
+            decisions.add(row['record_oid'])
+            guards[anchor_ref(context, row['record_oid'])] = row['record_oid']
+        else:
+            raise RotationError('C02 source interval has an unclassified owner event')
+    if not found:
+        raise RotationError('C02 exact erroneous event is absent from the admitted source interval')
+    local, local_guards = _c02_retained_decisions_v1(context)
+    if decisions != {oid for _, oid in local}:
+        raise RotationError('C02 source census omitted or invented retained adjudications')
+    guards.update(local_guards)
+    return {'schema': 'implementaudit.c02-owner-snapshot.v1', 'source_owner': interval['source_owner'],
+            'source_cutoff': interval['source_cutoff'], 'ordering': 'SOURCE_OWNER_COMPLETE_SEQUENCE',
+            'census_complete': True, 'erroneous_event': original, 'later_boundaries': later,
+            'prior_decisions': prior}, guards
+
+
+@_scoped_git
+def materialize_c02_owner_revisions_v1(context, invalidation_token, decision, *, correction_record_oid=None):
+    """Publish admitted existing-owner facts through the sole claim writer.
+
+    No source snapshot, grant, callback or approval flag is accepted from CLI.
+    Complete ordered facts and the conditional issuer decision come from the
+    two live capabilities selected by the existing owner. This changes only
+    the already registered C02 revision heads and retained-object anchors.
+    """
+    operation = _c02_require_live_operation_v1(context)
+    if operation.token != invalidation_token or operation.decision_bytes != canonical(decision):
+        raise RotationError('C02 materialization substituted its selected operation')
+    with rotation_lease(context):
+        source = native_resume_source(context)
+        predecessor, observed = source['predecessor'], source['observed']
+        event_oid = exact_authority_token(context, 'invalidation', invalidation_token)
+        if observed['invalidation'] != event_oid:
+            raise CASFailure('newer native boundary preempted C02 materialization')
+        event = invalidation_record(context, event_oid)
+        original = {'event_id': event['event'], 'invalidation_oid': event_oid, 'boundary': event['boundary']}
+        refs = _c02_owner_revision_refs_v1(context)
+        old = read_refs(context['repo'], refs.values())
+        request = {key: context[key] for key in ('controller', 'claim_id', 'run_root_identity')}
+        request.update(context=context, invalidation_token=invalidation_token, decision_id=decision['decision_id'],
+            code_sha256=hashlib.sha256(read_regular(Path(__file__).absolute())).hexdigest(),
+            projection_code_sha256=hashlib.sha256(read_regular(Path(__file__).absolute().with_name('rotate-canonical-state.py'))).hexdigest(),
+            correction_record_oid=correction_record_oid,
+            effect='C02_FRESH_TRANSITION' if correction_record_oid is not None else 'APPEND_ONLY_NO_CURRENTNESS')
+        snapshot, history_guards = _c02_project_owned_interval_v1(context, operation.source.census(request), original)
+        observation = {'schema': 'implementaudit.c02-observation.v1',
+            **{key: context[key] for key in ('controller', 'claim_id', 'run_root_identity')},
+            'pointer_oid': observed['pointer'], 'receipt_oid': predecessor['receipt_oid'],
+            'marker_oid': observed['marker'], **original, 'later_boundaries': snapshot['later_boundaries']}
+        proposal = propose_c02_correction_v1(observation, decision, snapshot['prior_decisions'])
+        if snapshot['later_boundaries']:
+            raise RotationError('C02 source census has a newer applicable boundary; no materialization')
+        correction = None
+        if correction_record_oid is not None:
+            correction = _c02_read_correction_v1(context, correction_record_oid)
+            if correction['observation'] != observation or correction['decision'] != decision:
+                raise RotationError('C02 conditional successor substituted its original accepted append')
+            request['fresh_scope'] = _c02_fresh_grant_scope_v1(context, correction, correction_record_oid,
+                                                           predecessor, snapshot['source_cutoff'])
+        request.update(source_cutoff=snapshot['source_cutoff'],
+                       expected_old=getattr(operation.source, 'expected_old', None))
+        grant = operation.issuer.grant(request)
+        snapshot['grant'] = decode_json(canonical(grant))
+        plan = prepare_c02_owner_revision_update_v1(context, snapshot, grant,
+            expected_source_oid=old[refs['ref']], expected_grant_oid=old[refs['grant_ref']])
+        source_oid, grant_oid = plan['updates'][refs['ref']][0], plan['updates'][refs['grant_ref']][0]
+        locator = dict(ref=refs['ref'], oid=source_oid, grant_ref=refs['grant_ref'], grant_oid=grant_oid)
+        if correction is None:
+            _c02_verify_grant_v1(snapshot, request, observation, decision)
+        else:
+            _c02_admission_material_v1(context, correction, correction_record_oid, predecessor,
+                                      snapshot, locator, request['code_sha256'], request['projection_code_sha256'])
+        operation.verify()
+        guards = owner_guards(context, observed)
+        guards.update({predecessor['receipt_ref']: predecessor['receipt_oid'], 'HEAD': predecessor['head']})
+        guards.update(history_guards)
+        if old == {refs['ref']: source_oid, refs['grant_ref']: grant_oid}:
+            operation.verify()
+            if read_refs(context['repo'], {**guards, **old}) != {**guards, **old}:
+                raise CASFailure('C02 exact materialization retry changed during readback')
+            return {'status': 'EXACT_REVISION_RETRY_NO_EFFECT', 'source_oid': source_oid, 'grant_oid': grant_oid,
+                    'effect': request['effect'], 'currentness_restored': False}
+        operation.register_intent(source_oid, grant_oid)
+        if write_blob(context, plan['source_bytes']) != source_oid or write_blob(context, plan['grant_bytes']) != grant_oid:
+            raise RotationError('C02 materialized revision bytes changed')
+        updates = retention_updates(context, [source_oid, grant_oid, *old.values()])
+        updates.update(plan['updates'])
+        try:
+            update_refs(context, updates, guards, observation=_c02_compose_live_inputs_v1(context, None))
+            operation.verify()
+            current = read_refs(context['repo'], refs.values())
+            if current != {refs['ref']: source_oid, refs['grant_ref']: grant_oid}:
+                raise CASFailure('C02 materialized revisions changed during readback')
+        except BaseException as exc:
+            current = read_refs(context['repo'], refs.values())
+            landed = current.get(refs['ref']) == source_oid or current.get(refs['grant_ref']) == grant_oid
+            if landed or isinstance(exc, C02MaterializationUnknown):
+                try:
+                    operation.signal('SOURCE_CLOSED')
+                except BaseException:
+                    pass
+                error = C02MaterializationUnknown('C02 materialization outcome retained for exact reconciliation; no success')
+                error.revision_readback = current
+                raise error from exc
+            raise
+        require_anchor(context, source_oid); require_anchor(context, grant_oid)
+        return {'status': 'OWNER_REVISIONS_MATERIALIZED', 'source_oid': source_oid, 'grant_oid': grant_oid,
+                'effect': request['effect'], 'currentness_restored': False}
 
 
 # Inert until the repository owner explicitly selects the existing adjudication
@@ -1316,7 +2268,7 @@ def _resolve_c02_source_owner_v1(context, request):
     storage or a second currentness writer. Actual source and issuer verification
     precede their publication; a true boolean or caller hash cannot establish it.
     """
-    selected = _C02_ADMITTED_OWNER_SELECTION_V1
+    selected = _c02_materializer_selection_v1(context)
     if selected is None:
         raise RotationError('C02 source-owner admission unavailable: actual scoped owner selection required')
     keys = {'repo', 'controller', 'claim_id', 'run_root_identity', 'census_owner',
@@ -1357,6 +2309,7 @@ def _resolve_c02_source_owner_v1(context, request):
 
 def _c02_source_census_v1(context, invalidation_token, decision, *, effect='APPEND_ONLY_NO_CURRENTNESS'):
     """Resolve an owner snapshot, then verify bytes and revision outside the gate."""
+    _c02_require_live_operation_v1(context)
     oid = exact_authority_token(context, "invalidation", invalidation_token)
     original = invalidation_record(context, oid)
     if original is None or original['boundary'] not in BOUNDARIES:
@@ -1521,6 +2474,7 @@ def publish_c02_correction_v1(context, prepared):
             or prepared['authority_ceiling'] != 'INERT_PREPARATION_NO_EFFECT_AUTHORITY'):
         raise RotationError("C02 publication requires one exact inert preparation")
     with rotation_lease(context), RetainedInputs(retained_owner_paths(context)) as observation:
+        observation = _c02_compose_live_inputs_v1(context, observation)
         fresh = prepare_c02_correction_v1(context, prepared['invalidation_token'], prepared['decision'])
         # Local append evidence can appear after a crashed call; source/grant and
         # original expected-old bindings must still be identical on exact retry.
@@ -2274,6 +3228,7 @@ def run_c02_correction_v1(context, correction_record_oid):
         paths = [*retained_owner_paths(context), *(generation / name for name in
                  ('STATE.md', 'ROADMAP.md', 'protected-state.json', 'archive-manifest.json', 'generation-manifest.json'))]
         with RetainedInputs(paths) as observation:
+            observation = _c02_compose_live_inputs_v1(context, observation)
             helper = projection_helper()
             prepare = getattr(helper, 'prepare_c02_correction_draft', None)
             if not callable(prepare):
@@ -2320,11 +3275,13 @@ def recover_rotation_v1(context):
 
 
 @_scoped_git
-def invalidate_current_generation_v1(context, boundary, event):
+def invalidate_current_generation_v1(context, boundary, event, *, _expected_old=None, _observation=None):
     if boundary not in BOUNDARIES:
         raise RotationError("public invalidation requires a native boundary, not a rotation claim")
     field(event, "physical boundary event")
     observed = managed(context)
+    if _expected_old is not None and observed != _expected_old:
+        raise CASFailure("controlled C02 fault was preempted by a genuine boundary")
     raw = ("\t".join(("implementaudit.continuity-invalidation.v1", context["controller"],
                       context["controller_oid"], context["claim_id"], boundary, event)) + "\n").encode()
     oid = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
@@ -2350,7 +3307,7 @@ def invalidate_current_generation_v1(context, boundary, event):
         raise RotationError("native invalidation bytes changed before publication")
     updates = retention_updates(context, [*observed.values(), oid])
     updates[context["invalidation_ref"]] = (oid, observed["invalidation"])
-    update_refs(context, updates, owner_guards(context, observed, exclude=("invalidation",)))
+    update_refs(context, updates, owner_guards(context, observed, exclude=("invalidation",)), observation=_observation)
     return context["invalidation_ref"] + "@" + oid
 
 

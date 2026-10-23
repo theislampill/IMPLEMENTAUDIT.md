@@ -240,14 +240,36 @@ class NativeInputState:
                  'STALE_FUTURE_OR_UNCERTAIN_CUTOFF')
 
 
-def _resolve_existing_owner_v1():
-    """Fixed source selection point; no plugin path, callback, JSON grant, or fallback.
-
-    Changing this requires the existing owner's separate source/issuer/grant and
-    live host integration admission. It must return that owner's already-held
-    NativeInputState and enforce its replay census and exclusive native custody.
-    """
-    raise NativeInputError('OWNER_UNAVAILABLE_NO_ADMITTED_NATIVE_INPUT_SOURCE')
+def _resolve_existing_owner_v1(controller=None):
+    """Fixed physical existing-claim receiver; its source selection is None by default."""
+    import hashlib
+    import os
+    from pathlib import Path
+    import stat
+    import sys
+    import types
+    path = Path(__file__).absolute().with_name('claim-run-rotation.py')
+    before = os.lstat(path)
+    if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or getattr(before, 'st_file_attributes', 0) & 0x400:
+        raise NativeInputError('NATIVE_CLAIM_RECEIVER_ALIAS')
+    with path.open('rb') as stream:
+        opened = os.fstat(stream.fileno())
+        raw = stream.read(512 * 1024 + 1)
+        after = os.fstat(stream.fileno())
+    identity = lambda value: (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns)
+    if identity(before) != identity(opened) or identity(opened) != identity(after) or len(raw) != before.st_size or len(raw) > 512 * 1024:
+        raise NativeInputError('NATIVE_CLAIM_RECEIVER_CHANGED')
+    name = '_native_existing_claim_receiver_' + hashlib.sha256(os.fsencode(path) + b'\0' + raw).hexdigest()
+    if name not in sys.modules:
+        module = types.ModuleType(name)
+        module.__file__ = str(path)
+        sys.modules[name] = module
+        try:
+            exec(compile(raw, str(path), 'exec'), module.__dict__)
+        except BaseException:
+            sys.modules.pop(name, None)
+            raise
+    return sys.modules[name]._resolve_native_input_state_v1(sys.modules[__name__], controller)
 
 
 _EffectCheckpoint = namedtuple('_EffectCheckpoint',
@@ -286,8 +308,14 @@ class _PublisherGuard:
         self._require_known_outcome()
         lease, state = self._lease, self._lease._state
         try:
+            cancellation = getattr(state, '_native_cancellation_wait', None)
+            if cancellation is not None:
+                try:
+                    cancellation.check()
+                except Exception as exc:
+                    raise NativeInputError('NATIVE_SOURCE_CANCELLED_OR_UNAVAILABLE') from exc
             _require(not lease._closed and state._active_lease is lease, 'LEASE_EXPIRED')
-            _require(_resolve_existing_owner_v1() is state, 'EXISTING_OWNER_BINDING_CHANGED')
+            _require(_resolve_existing_owner_v1(self._subject['controller']) is state, 'EXISTING_OWNER_BINDING_CHANGED')
             with state._signal_lock:
                 state._verify(self._subject, *self._counts, attempted_lease=lease._attempted)
                 _require(state._revision == lease._revision, 'STREAM_CHANGED_AFTER_LEASE')
@@ -295,6 +323,21 @@ class _PublisherGuard:
             if self._started:
                 raise self._unknown_error() from exc
             raise
+
+    def ref_guards_v1(self):
+        self.verify()
+        expected = getattr(self._lease._state, '_native_revision_guards', None)
+        if expected is None:
+            return {}  # Existing declared mechanics fixtures; never durable admission.
+        if type(expected) is not dict or len(expected) != 2 or any(
+                type(ref) is not str or type(oid) is not str or re.fullmatch('[0-9a-f]{40}', oid) is None
+                for ref, oid in expected.items()):
+            raise self._unknown_error()
+        controller = self._subject['controller']
+        if set(expected) != {'refs/implementaudit/rotation-input-sources/' + controller,
+                             'refs/implementaudit/rotation-input-grants/' + controller}:
+            raise self._unknown_error()
+        return dict(expected)
 
     def before_effect(self):
         """Immediately before the actual existing publisher commit/CAS checkpoint."""
@@ -385,7 +428,7 @@ class _RotationInputLease:
 @contextmanager
 def rotation_input_lease_v1(subject, measured_source_bytes, measured_source_tokens):
     """Production entry: fails closed until an existing native owner is selected."""
-    state = _resolve_existing_owner_v1()
+    state = _resolve_existing_owner_v1(subject.get('controller') if type(subject) is dict else None)
     _require(type(state) is NativeInputState, 'EXISTING_OWNER_CAPABILITY_REQUIRED')
     with state._gate:
         with state._signal_lock:

@@ -81,6 +81,20 @@
       "owner": "claim-run.sh",
       "authority": "C02_ISSUER_DECISION_REVISION",
       "archive_anchor": false
+    },
+    {
+      "role": "native-input-source-revision",
+      "fullmatch": "refs/implementaudit/rotation-input-sources/[a-z0-9][a-z0-9-]{0,47}",
+      "owner": "claim-run.sh",
+      "authority": "NATIVE_INPUT_SOURCE_REVISION",
+      "archive_anchor": false
+    },
+    {
+      "role": "native-input-issuer-revision",
+      "fullmatch": "refs/implementaudit/rotation-input-grants/[a-z0-9][a-z0-9-]{0,47}",
+      "owner": "claim-run.sh",
+      "authority": "NATIVE_INPUT_ISSUER_REVISION",
+      "archive_anchor": false
     }
   ]
 }

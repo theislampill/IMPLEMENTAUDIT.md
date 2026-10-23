@@ -52,15 +52,16 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
       "materialized_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
-      "bytes": 120989,
-      "sha256": "fe2359ced910bbb2f460a2c5deb95a84a3dd3f50f970e4f314ff2172b0461d2c",
+      "bytes": 122754,
+      "sha256": "fdb2488971f1a7ab0dabb7c12f8f9e5f673d02811f611fef36cc7702f98e69b0",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
       "source_path": "skills/implementaudit/scripts/rotate-canonical-state.py",
       "modified": true,
       "mode": "100755",
       "source_preimage_sha256": "d0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460",
-      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted",
-      "semantic_owner": "R0039 original14/TC06"
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted; composed R0039 native-v3/C02 source candidate; no native admission",
+      "semantic_owner": "R0039 original14/TC06",
+      "composition_preimage_sha256": "fe2359ced910bbb2f460a2c5deb95a84a3dd3f50f970e4f314ff2172b0461d2c"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
@@ -89,14 +90,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
-      "bytes": 80350,
-      "sha256": "0bb3c8ae5c3e0464d236074db24d114baf8ea71e3852f4fccdf4c93e5c5713a7",
+      "bytes": 128288,
+      "sha256": "00eb69de08f959f7d5f4674dd0f357e5f96a3256981371bc0f54afc0489ab8a1",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "1f35bd9f9841e05dfb419f85890b34f036e13af387fed5a9a80868787293d972",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback"
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback; composed R0039 native-v3/C02 source candidate; no native admission",
+      "composition_preimage_sha256": "0bb3c8ae5c3e0464d236074db24d114baf8ea71e3852f4fccdf4c93e5c5713a7"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
@@ -114,15 +116,16 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
-      "bytes": 62056,
-      "sha256": "aacbf3c65f9d36d933160f5169b4f09f126d36db9ae2e9770d1004d9b7cef52d",
+      "bytes": 63178,
+      "sha256": "e6516032d8d93e00a530c0753ed23e1b51cdcf2b27e45611b3923f3922718c34",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
       "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
-      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission"
+      "additional_delta": "R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; composed R0039 native-v3/C02 source candidate; no native admission",
+      "composition_preimage_sha256": "aacbf3c65f9d36d933160f5169b4f09f126d36db9ae2e9770d1004d9b7cef52d"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
@@ -165,9 +168,12 @@
   "frozen_core_dependencies": [
     {
       "path": "skills/implementaudit/scripts/claim-run-rotation.py",
-      "bytes": 149857,
-      "sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
-      "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61"
+      "bytes": 205239,
+      "sha256": "beefe82a431612d77a393bcc9f07423e8281106c684941f7967d9cb3d5eddc19",
+      "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
+      "composition_preimage_sha256": "69bea85f96c3cca62858bf3ecb6fd9fd19775203064e54b912577ea2a3c69123",
+      "modified": true,
+      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission"
     },
     {
       "path": "skills/implementaudit/scripts/read-canonical-pair.py",
@@ -183,9 +189,12 @@
     },
     {
       "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
-      "bytes": 19796,
-      "sha256": "63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4",
-      "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61"
+      "bytes": 22059,
+      "sha256": "dd730efccd2bbfbec092316b59d93cbcd18ba20ad0e7479626727b2d1bc38d70",
+      "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
+      "composition_preimage_sha256": "63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4",
+      "modified": true,
+      "additional_delta": "; composed R0039 native-v3/C02 source candidate; no native admission"
     }
   ]
 }

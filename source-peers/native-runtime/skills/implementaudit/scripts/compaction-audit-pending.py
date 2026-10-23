@@ -62,7 +62,7 @@ def physical(path, *, directory=False):
     require(stat.S_ISDIR(info.st_mode) if directory else stat.S_ISREG(info.st_mode) and info.st_nlink == 1, 'SOURCE_FILE_KIND')
     return path
 
-def _scan_source_unheld(path, prefix=None, native_cli_version=None):
+def _scan_source_unheld(path, prefix=None, native_cli_version=None, *, require_c02_terminal=False):
     """Check a finite source using one bounded record, not an in-memory transcript.
 
     The total work ceiling is the existing observation source-window budget.
@@ -138,7 +138,19 @@ def _scan_source_unheld(path, prefix=None, native_cli_version=None):
     identity = {'device': before.st_dev, 'inode': before.st_ino}
     if prefix is not None:
         require(identity == prefix['physical'] and meta_sha == prefix['session_meta_sha256'] and (prefix_hash.hexdigest() == prefix['prefix_sha256']), 'SOURCE_PREFIX_OR_PHYSICAL_ID_CHANGED')
-    return {'bytes': offset, 'sha256': full_hash.hexdigest(), 'physical': identity, 'metadata': meta, 'metadata_sha256': meta_sha, 'summaries': summaries, 'unresumed_marker': bool(group)}
+    result = {'bytes': offset, 'sha256': full_hash.hexdigest(), 'physical': identity, 'metadata': meta, 'metadata_sha256': meta_sha, 'summaries': summaries, 'unresumed_marker': bool(group)}
+    if require_c02_terminal:
+        # Narrow positive: an actual last native task_complete record, not an
+        # empty selected list or inferred absence from endpoints. Full framing,
+        # physical, prefix and ordinal checks above still cover every byte.
+        require(version == '0.153.4' and not group and number > 1 and
+            row['type'] == 'event_msg' and row['payload'].get('type') == 'task_complete' and
+            'metadata' not in row and type(row['payload'].get('turn_id')) is str and row['payload']['turn_id'],
+            'C02_POSITIVE_CURRENT_TERMINAL_SOURCE_FENCE_REQUIRED')
+        result['c02_terminal_fence'] = {**descriptor, 'turn_id': row['payload']['turn_id'],
+            'session_id': meta.get('session_id'), 'source_bytes': offset,
+            'source_sha256': result['sha256'], 'physical': identity}
+    return result
 
 def source_identity(source):
     return {key: source[key] for key in ('path', 'task_id', 'session_id', 'session_meta_sha256', 'physical', 'sessions_root')}
@@ -662,16 +674,18 @@ def _nonprotected_source_registration(request, session, selected):
     require(observed['bytes'] == request['expected_bytes'] and observed['sha256'] == request['expected_sha256'] and (meta.get('id') == session) and (meta.get('session_id') == session) and (meta.get('cli_version') == selected['cli_version']), 'NONPROTECTED_SOURCE_REGISTRATION_PIN')
     return {'path': selected['root_source'], 'task_id': session, 'session_id': session, 'sessions_root': selected['session_root'], 'physical': observed['physical'], 'session_meta_sha256': observed['metadata_sha256'], 'prefix_bytes': observed['bytes'], 'prefix_sha256': observed['sha256'], 'provenance': 'HOST_STORE_OWNER_REGISTERED_PHYSICAL_NATIVE_SESSION_PREFIX', 'native_producer_runtime_equivalence': 'UNVERIFIED'}
 
-def scan_source(path, prefix=None):
+def scan_source(path, prefix=None, *, require_c02_terminal=False):
     owner = OBSERVATION._nonprotected_source_owner(nonprotected_code_identity())
     if owner.selected_source_pin_v1() is None:
+        require(not require_c02_terminal, 'C02_EXISTING_SOURCE_OWNER_NOT_SELECTED')
         return _scan_source_unheld(path, prefix)
     selected = owner._np_selection()
     if str(path) != selected['root_source']:
+        require(not require_c02_terminal, 'C02_FOREIGN_SOURCE_INTERVAL')
         return _scan_source_unheld(path, prefix)
     custody = owner._np_module(selected['runtime_helpers']['bounded_file_custody.py'], 'bounded_file_custody.py')
     with custody.held_file(path):
-        return _scan_source_unheld(path, prefix, native_cli_version=selected['cli_version'])
+        return _scan_source_unheld(path, prefix, native_cli_version=selected['cli_version'], require_c02_terminal=require_c02_terminal)
 
 def _validate_registered_prefix(prefix):
     """Validate the immutable recorded prefix, never the current live EOF."""

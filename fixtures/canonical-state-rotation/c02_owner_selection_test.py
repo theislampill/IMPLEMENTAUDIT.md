@@ -27,7 +27,7 @@ class OwnerSelection(unittest.TestCase):
         context, selected, request = self.subject()
         request.update(selected)
         before = self.git('for-each-ref')
-        with self.assertRaisesRegex(self.claim.RotationError, 'admission unavailable'):
+        with self.assertRaisesRegex(self.claim.RotationError, 'owner selection is unavailable'):
             self.claim._resolve_c02_source_owner_v1(context, request)
         self.assertEqual(self.git('for-each-ref'), before)
 

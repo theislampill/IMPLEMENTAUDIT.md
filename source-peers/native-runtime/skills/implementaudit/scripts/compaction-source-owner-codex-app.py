@@ -882,7 +882,7 @@ def validate_owned_stdio_selection_shape_v1(selected):
     required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source',
         'session_root', 'cwd', 'cli_version', 'native_version', 'native_executable', 'codex_home',
         'runtime_helpers', 'episode_owner', 'pending_owner', 'producer_capture_pin', 'capture_producer_pin', 'tool_evidence_contract'}
-    require(type(selected) is dict and set(selected) == required and
+    require(type(selected) is dict and set(selected) - {'c02_adjudication', 'rotation_input_owner'} == required and
         selected['schema'] == 'implementaudit.codex-owned-stdio-provider-selection.v1' and
         selected['profile_id'] == OWNED_STDIO_PROFILE and selected['cli_version'] == '0.153.4' and
         selected['native_version'] == 'codex-cli 0.153.4' and selected['root_agent_path'] == '/root' and
@@ -904,6 +904,11 @@ def validate_owned_stdio_selection_shape_v1(selected):
         'OWNED_STDIO_PENDING_OWNER_SHAPE')
     require(type(selected['episode_owner']) is dict and set(selected['episode_owner']) == {'module_pin', 'repository', 'controller'},
         'OWNED_STDIO_R0033_OWNER_SHAPE')
+    c02 = selected.get('c02_adjudication')
+    if c02 is not None:
+        require(type(c02) is dict and set(c02) == {'issuer','census_owner','decision_path','owner_decision_locator','source_contract_locator'}
+            and all(type(value) is str and value for value in c02.values())
+            and Path(c02['decision_path']).is_absolute(), 'C02_CONFIGURED_OWNER_ROUTE_SHAPE')
     return selected
 
 def _as_capture_v1(selected, custody=None):
@@ -1061,6 +1066,937 @@ def _as_public_binding_v1(obs, context, policy, pins, runtime):
             'OWNED_STDIO_PUBLIC_CUTOFF_OR_EPISODE_CHANGED')
     return {'schema': 'implementaudit.owned-stdio-native-public-record-binding.v1', 'records': records,
         'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}
+
+
+# Same existing-loop bookkeeping, no new reader.
+"""Opt-in bookkeeping on the EXISTING owned-stdio loop; no new transport/store.
+
+This conservative profile supports one owner-started, no-tools 0.153.4 thread.
+Actual owner/profile admission remains external. A receipt is a live capability,
+not a caller-authored terminal flag or a claim of an exhaustive host taxonomy.
+"""
+import threading
+import queue
+
+
+class QuiescenceRefusal(ValueError):
+    pass
+
+
+class OwnedStdioQuiescenceV1:
+    def __init__(self, existing_queue, *, selected_thread_id=None, native_process=None):
+        if type(existing_queue) is not queue.Queue:
+            raise QuiescenceRefusal('EXISTING_OWNER_QUEUE_REQUIRED')
+        self.queue = existing_queue
+        self.native_process = native_process
+        self._selected_thread_id = selected_thread_id
+        self._lock = threading.RLock()
+        self._pending, self._seen_ids = {}, set()
+        self._turns, self._items, self._completed = set(), set(), set()
+        self._revision = 0
+        self._initialized = False
+        self._notified = False
+        self._thread = None
+        self._announced_thread = None
+        self._last_completed = None
+        self._fence = None
+        self._failure = None
+        self._reservations = []
+
+    def _deny(self, reason):
+        self._failure = reason
+        raise QuiescenceRefusal(reason)
+
+    def _poison_all(self):
+        errors = []
+        for reservation in tuple(self._reservations):
+            try:
+                reservation.cancel_now()
+            except BaseException as exc:
+                errors.append(exc)
+        self._fence = None
+        if errors:
+            self._failure = 'OWNER_CANCELLATION_FAILED'
+            raise errors[0]
+
+    def before_send(self, message):
+        """Existing sender calls this before writing, including notifications."""
+        with self._lock:
+            self._poison_all()  # ALL immediate vetoes, no durable cleanup here.
+            if self._failure:
+                self._deny(self._failure)
+            if type(message) is not dict or type(message.get('method')) is not str:
+                self._deny('UNKNOWN_OWNER_REQUEST')
+            method = message['method']
+            if method == 'initialized' and 'id' not in message:
+                if not self._initialized or self._notified:
+                    self._deny('INITIALIZATION_ORDER')
+                self._notified = True
+                return
+            identity = message.get('id')
+            if type(identity) not in (str, int):
+                self._deny('DUPLICATE_OR_UNKNOWN_REQUEST_ID')
+            identity_key = (type(identity), identity)
+            if identity_key in self._seen_ids:
+                self._deny('DUPLICATE_OR_UNKNOWN_REQUEST_ID')
+            if method not in {'initialize', 'thread/start', 'thread/resume', 'turn/start', 'thread/read'}:
+                self._deny('REQUEST_OUTSIDE_CONSERVATIVE_PROFILE')
+            if method == 'initialize':
+                if self._initialized or self._pending or self._seen_ids:
+                    self._deny('INITIALIZATION_ORDER')
+            elif not self._notified:
+                self._deny('REQUEST_BEFORE_INITIALIZATION')
+            params = message.get('params', {})
+            if type(params) is not dict:
+                self._deny('REQUEST_PARAMS_SHAPE')
+            if method in {'thread/start','thread/resume'} and (self._thread is not None
+                    or any(value in {'thread/start','thread/resume'} for value in self._pending.values())):
+                self._deny('SECOND_SESSION_OR_THREAD_NOT_ADMITTED')
+            if method == 'thread/resume' and (not self._selected_thread_id or params.get('threadId') != self._selected_thread_id):
+                self._deny('UNSELECTED_NATIVE_RESUME')
+            if method == 'turn/start' and (self._turns or 'turn/start' in self._pending.values()):
+                self._deny('OVERLAPPING_TURN_NOT_ADMITTED')
+            if method in {'turn/start', 'thread/read'} and (self._thread is None or params.get('threadId') != self._thread):
+                self._deny('FOREIGN_REQUEST_SCOPE')
+            self._seen_ids.add(identity_key)
+            self._pending[identity_key] = method
+
+    def send_failed(self):
+        with self._lock:
+            self._poison_all()
+            self._deny('OUTGOING_EFFECT_UNKNOWN')
+
+    def after_record(self, message):
+        """Existing reader calls this for EVERY decoded record BEFORE enqueue."""
+        with self._lock:
+            self._poison_all()
+            self._revision += 1
+            if self._failure:
+                self._deny(self._failure)
+            if type(message) is not dict:
+                self._deny('UNKNOWN_NATIVE_RECORD')
+            if 'id' in message:
+                if 'method' in message:
+                    self._deny('NATIVE_SERVER_REQUEST_NOT_ADMITTED')
+                identity = message['id']
+                if type(identity) not in (str, int):
+                    self._deny('NATIVE_RESPONSE_ID_TYPE')
+                identity_key = (type(identity), identity)
+                if identity_key not in self._pending or 'error' in message or 'result' not in message:
+                    self._deny('UNKNOWN_DUPLICATE_OR_FAILED_RESPONSE')
+                method = self._pending.pop(identity_key)
+                result = message['result']
+                if type(result) is not dict:
+                    self._deny('RESPONSE_SHAPE')
+                if method == 'initialize':
+                    self._initialized = True
+                elif method in {'thread/start','thread/resume'}:
+                    thread = result.get('thread', {}).get('id')
+                    if not isinstance(thread, str) or not thread or (self._announced_thread and thread != self._announced_thread):
+                        self._deny('THREAD_CREATION_SCOPE')
+                    self._thread = thread
+                    if self._selected_thread_id and thread != self._selected_thread_id:
+                        self._deny('SELECTED_THREAD_RESPONSE_CHANGED')
+                elif method == 'turn/start':
+                    turn = result.get('turn', {}).get('id')
+                    if not isinstance(turn, str) or not turn:
+                        self._deny('TURN_CREATION_SCOPE')
+                    if turn not in self._completed:
+                        self._turns.add(turn)
+                elif method == 'thread/read':
+                    if result.get('thread', {}).get('id') != self._thread:
+                        self._deny('READ_FENCE_SCOPE')
+                    if not self._pending and not self._turns and not self._items and self._last_completed:
+                        self._fence = self._revision
+                return
+            method, params = message.get('method'), message.get('params', {})
+            if type(params) is not dict:
+                self._deny('NATIVE_PARAMS_SHAPE')
+            if method == 'thread/started':
+                identity = params.get('thread', {}).get('id')
+                if not isinstance(identity, str) or (self._thread and identity != self._thread) or self._announced_thread:
+                    self._deny('UNEXPECTED_NATIVE_THREAD')
+                self._announced_thread = identity
+                return
+            if params.get('threadId') != self._thread or self._thread is None:
+                self._deny('FOREIGN_OR_UNKNOWN_NATIVE_SCOPE')
+            if method == 'turn/started':
+                turn = params.get('turn', {}).get('id')
+                if not isinstance(turn, str) or turn in self._completed:
+                    self._deny('TURN_START_SCOPE')
+                if turn not in self._turns and 'turn/start' not in self._pending.values():
+                    self._deny('UNREQUESTED_NATIVE_TURN')
+                self._turns.add(turn)
+            elif method == 'turn/completed':
+                turn = params.get('turn', {})
+                identity = turn.get('id')
+                if identity not in self._turns or turn.get('status') != 'completed' or self._items:
+                    self._deny('TURN_TERMINAL_WITH_PENDING_OR_UNKNOWN_WORK')
+                self._turns.remove(identity)
+                self._completed.add(identity)
+                self._last_completed = identity
+            elif method in {'item/started', 'item/completed'}:
+                item = params.get('item', {})
+                identity = item.get('id')
+                if item.get('type') not in {'agentMessage', 'reasoning'} or not isinstance(identity, str):
+                    self._deny('TOOLS_OR_UNKNOWN_ITEM_NOT_ADMITTED')
+                if method == 'item/started':
+                    if identity in self._items:
+                        self._deny('DUPLICATE_ITEM')
+                    self._items.add(identity)
+                else:
+                    if identity not in self._items:
+                        self._deny('UNKNOWN_ITEM_COMPLETION')
+                    self._items.remove(identity)
+            elif method in {'rawResponse/completed', 'thread/tokenUsage/updated'}:
+                pass  # Telemetry is not a boundary or a terminal/quiescence proof.
+            else:
+                self._deny('UNKNOWN_NATIVE_EVENT_REQUIRES_PROFILE_REVIEW')
+
+    def ingest(self, message):
+        """Actual reader replaces its queue.put with this single atomic call.
+
+        Keeping validation and enqueue under the same ingress lock closes the
+        acquire-between-after_record-and-put gap. No second queue is allocated.
+        """
+        with self._lock:
+            self.after_record(message)
+            try:
+                self.queue.put_nowait(message)
+            except queue.Full:
+                self._deny('OWNED_QUEUE_REJECTED_INGRESS')
+
+    def disconnect(self):
+        with self._lock:
+            self._poison_all()
+            self._deny('NATIVE_INGRESS_CLOSED_OR_UNKNOWN')
+
+    def acquire(self, *reservations):
+        """Arm under the SAME short ingress lock; later ingress poisons first."""
+        with self._lock:
+            if (self._failure or not self._initialized or not self._notified or not self._thread
+                    or self._pending or self._turns or self._items or not self._last_completed
+                    or self._fence != self._revision or not self.queue.empty()):
+                raise QuiescenceRefusal('NO_COMPLETE_CURRENT_OWNER_QUIESCENCE_FENCE')
+            if any(not callable(getattr(value, 'cancel_now', None)) for value in reservations):
+                raise QuiescenceRefusal('MISSING_IMMEDIATE_CANCELLATION')
+            self._reservations.extend(reservations)
+            return _OwnedQuiescenceReceipt(self, self._revision, self._thread, self._last_completed)
+
+
+class _OwnedQuiescenceReceipt:
+    def __init__(self, owner, revision, thread_id, turn_id):
+        self._owner, self._revision = owner, revision
+        self.thread_id, self.turn_id = thread_id, turn_id
+
+    def verify(self):
+        value = self._owner
+        with value._lock:
+            if (value._failure or value._revision != self._revision or value._fence != self._revision
+                    or value._pending or value._turns or value._items or not value.queue.empty()):
+                raise QuiescenceRefusal('OWNED_QUIESCENCE_ADVANCED_OR_WITHDRAWN')
+
+    def checkpoint(self):
+        self.verify()
+        return self._revision
+
+# Add before __main__ in the EXISTING selected owned-stdio source owner.
+# Only in-memory live capabilities; durable events stay in the native original
+# and the existing claim objects. No source/issuer identity is selected here.
+import contextlib as _c02_contextlib
+import contextvars as _c02_contextvars
+import json as _c02_json
+import threading as _c02_threading
+
+_C02_SELECTED_SESSION_V1 = _c02_contextvars.ContextVar('selected_owned_stdio_c02', default=None)
+_C02_SOURCE_BINDING_SEAL_V1 = object()
+
+
+class OwnedStdioC02CensusV1:
+    """One controlled interval on the existing selected source and claim writer.
+
+    The full scanner supplies a positive terminal at its actual EOF. The actual
+    existing reader's matched RPC ledger supplies continuing no-ingress custody.
+    We accept one engineered false new-session classification after that fence.
+    Any real native ingress, send, unknown callback, or unobserved decision closes
+    this narrow interval. We do not classify arbitrary historical wire kinds.
+    """
+    def __init__(self, selected, claim_owner, context, ledger):
+        require(selected.get('profile_id') == OWNED_STDIO_PROFILE, 'C02_SELECTED_PROFILE_REQUIRED')
+        self.selected, self.owner, self.context, self.ledger = selected, claim_owner, context, ledger
+        self._cancelled = _c02_threading.Event()
+        self._receipt = None
+        self._events = []
+        self._record_oids = set()
+        self._original = None
+        self._fence = None
+        self.expected_old = None
+        self._source_check = None
+        self._production_binding = None
+        self._fault_inflight = False
+
+    def cancel_now(self):
+        self._cancelled.set()  # No namespace lock, file I/O or cleanup.
+
+    def unknown_owner_event(self):
+        self.cancel_now()
+
+    def arm(self, scanned):
+        require(self._receipt is None, 'C02_INTERVAL_ALREADY_ARMED')
+        # Register before reading claim/source metadata. A concurrent ingress
+        # therefore poisons this object even before its receipt is assigned.
+        receipt = self.ledger.acquire(self)
+        fence = scanned.get('c02_terminal_fence')
+        require(type(fence) is dict and fence.get('session_id') == self.selected['root_thread_id'] == receipt.thread_id
+                and fence.get('turn_id') == receipt.turn_id, 'C02_TERMINAL_AND_LIVE_RPC_FENCE_DISAGREE')
+        require(not self.owner._c02_retained_decisions_v1(self.context)[0], 'C02_CONTROLLED_SUBJECT_HAS_PRIOR_ADJUDICATIONS')
+        joined=self.owner.require_current_generation_join_v1(self.context)
+        expected = self.owner.managed(self.context)
+        require(expected['pointer']==joined['pointer_oid'] and expected['marker']==joined['marker_oid']
+                and expected['invalidation']==joined['pointer']['invalidation_oid'],
+                'C02_CURRENT_PREIMAGE_CHANGED_BEFORE_INTERVAL_ARM')
+        receipt.verify()
+        require(not self._cancelled.is_set(), 'C02_INGRESS_DURING_ARM')
+        self._fence = _c02_json.loads(_c02_json.dumps(fence))
+        self.expected_old = dict(expected)
+        self._receipt = receipt
+
+    def verify(self):
+        require(self._receipt is not None and not self._cancelled.is_set(), 'C02_LIVE_INTERVAL_UNAVAILABLE')
+        self._receipt.verify()
+        if self._source_check is not None:
+            self._source_check()
+        require(not self._cancelled.is_set(), 'C02_LIVE_INTERVAL_ADVANCED')
+
+    def checkpoint(self):
+        self.verify()
+        # Legitimate append callbacks do not reopen or advance native custody.
+        return self._receipt.checkpoint(), self._fence['source_sha256'], self._fence['source_bytes']
+
+    @property
+    def source_cutoff(self):
+        self.verify()
+        return self.selected['root_thread_id'] + ':' + str(self._fence['source_bytes']) + ':' + self._fence['source_sha256']
+
+    def observe_engineered_invalidation(self, oid, event, expected_old):
+        self.verify()
+        require(self._production_binding is None or self._fault_inflight,
+                'C02_CANNOT_RETROACTIVELY_LABEL_A_NATIVE_EVENT_AS_CONTROLLED')
+        require(self._original is None and expected_old == self.expected_old, 'C02_FAULT_CALLBACK_SCOPE_OR_REPLAY')
+        actual = self.owner.invalidation_record(self.context, oid)
+        require(actual == {'event':event,'boundary':'new-session','oid':oid}, 'C02_CONTROLLED_FAULT_READBACK_MISMATCH')
+        self.owner.require_anchor(self.context, oid)
+        self._original = oid
+        self._events.append({'sequence':1,'kind':'native-boundary','event_id':event,
+                             'invalidation_oid':oid,'boundary':'new-session'})
+        self.verify()
+
+    def inject_controlled_fault(self, event):
+        """Explicit controlled fault effect; caller must already authorize it.
+
+        It is never represented as an authentic historical native boundary.
+        The ordinary native invalidator retains its unconditional admission of
+        a genuinely newer event; only this private fault route uses expected-old.
+        """
+        require(self._production_binding is _C02_SOURCE_BINDING_SEAL_V1, 'C02_SELECTED_LIVE_SOURCE_REQUIRED')
+        source=self
+        class Inputs(self.owner._NativePublicationInputs):
+            def ref_guards_v1(self): return {}
+            def verify(self): source.verify()
+            def before_effect(self): return source.checkpoint()
+            def after_effect(self, stamp):
+                source.verify()
+                require(stamp==source.checkpoint(), 'C02_CONTROLLED_FAULT_OUTCOME_UNKNOWN')
+        self._fault_inflight=True
+        try:
+            token=self.owner.invalidate_current_generation_v1(self.context,'new-session',event,
+                _expected_old=self.expected_old,_observation=Inputs())
+            oid=self.owner.exact_authority_token(self.context,'invalidation',token)
+            self.observe_engineered_invalidation(oid,event,self.expected_old)
+            return token
+        except BaseException as exc:
+            self.cancel_now()
+            raise ValueError('C02_CONTROLLED_FAULT_OUTCOME_UNKNOWN_READBACK_REQUIRED') from exc
+        finally:
+            self._fault_inflight=False
+
+    def observe_adjudication(self, oid):
+        self.verify()
+        require(self._original is not None, 'C02_ADJUDICATION_BEFORE_FAULT_CALLBACK')
+        record = self.owner._c02_read_correction_v1(self.context, oid)
+        require(record['observation']['invalidation_oid'] == self._original, 'C02_FOREIGN_ADJUDICATION_CALLBACK')
+        if oid not in self._record_oids:
+            self._record_oids.add(oid)
+            self._events.append({'sequence':len(self._events)+1,'kind':'adjudication','record_oid':oid})
+        self.verify()
+
+    def census(self, request):
+        self.verify()
+        require(self._original is not None, 'C02_EXACT_CONTROLLED_EVENT_NOT_OBSERVED')
+        retained, _ = self.owner._c02_retained_decisions_v1(self.context)
+        require({oid for _,oid in retained} == self._record_oids, 'C02_UNOBSERVED_OWNER_ADJUDICATION')
+        result = {'schema':'implementaudit.c02-owned-interval.v1',
+            'source_owner':self.selected['c02_adjudication']['census_owner'],
+            'source_cutoff':self.source_cutoff,
+            'subject':{key:self.context[key] for key in ('controller','claim_id','run_root_identity')},
+            'interval_start':1,'interval_end':len(self._events),'complete':True,
+            'covered_boundary_kinds':sorted(self.owner.BOUNDARIES),'covers_adjudications':True,
+            'events':_c02_json.loads(_c02_json.dumps(self._events))}
+        self.verify()
+        return result
+
+
+class ConfiguredC02IssuerV1:
+    """Receive data ONLY at the actual selected existing owner's named locator.
+
+    Configuration must be selected by the real owner before admission; choosing
+    a path/hash here is not authorization. This class cannot select its issuer,
+    invent a grant, infer a human decision, or accept caller grant JSON.
+    The actual issuer changes/withdraws this independent decision resource and
+    invokes issuer_withdrawn before durable cleanup. Every effect also rereads.
+    """
+    def __init__(self, configured, subject):
+        required = {'issuer','census_owner','decision_path','owner_decision_locator','source_contract_locator'}
+        require(type(configured) is dict and set(configured) == required
+                and all(type(x) is str and x for x in configured.values()), 'C02_OWNER_ROUTE_NOT_SELECTED')
+        self.configured, self.subject = dict(configured), dict(subject)
+        self.path = Path(configured['decision_path'])
+        require(self.path.is_absolute() and self.path.resolve(strict=True) == self.path, 'C02_ISSUER_LOCATOR_ALIAS')
+        self._raw, self._identity, self.decision = self._read()
+        self._withdrawn = _c02_threading.Event()
+        self.verify()
+
+    def _read(self):
+        # Fixed bounded file from the selected owner route, not another journal.
+        require(self.path.resolve(strict=True)==self.path, 'C02_ISSUER_LOCATOR_CHANGED')
+        with self.path.open('rb') as handle:
+            import os
+            before = os.fstat(handle.fileno())
+            require(0 < before.st_size <= 65536, 'C02_ISSUER_DECISION_BOUND')
+            raw = handle.read(65537)
+            after = os.fstat(handle.fileno())
+        require((before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns) ==
+                (after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns), 'C02_ISSUER_DECISION_CHANGED_DURING_READ')
+        def unique(pairs):
+            value = {}
+            for key,item in pairs:
+                require(key not in value, 'C02_DUPLICATE_ISSUER_FIELD')
+                value[key]=item
+            return value
+        value = _c02_json.loads(raw.decode('utf-8'),object_pairs_hook=unique)
+        keys={'schema','issuer','role','subject','decision_id','revoked','qualification','expected_old',
+              'source_cutoff','append_grant','conditional_fresh_grant'}
+        require(type(value) is dict and set(value)==keys
+                and value['schema']=='implementaudit.c02-configured-owner-decision.v1'
+                and value['issuer']==self.configured['issuer'] and value['role']=='CONTINUITY_ADJUDICATION_OWNER'
+                and value['subject']==self.subject and value['revoked'] is False
+                and value['qualification']=='CONTROLLED_NONPROTECTED_FAULT_INJECTION', 'C02_SCOPED_ISSUER_DECISION_UNAVAILABLE')
+        return raw,(before.st_dev,before.st_ino),value
+
+    def cancel_now(self):
+        self._withdrawn.set()
+
+    def verify(self):
+        require(not self._withdrawn.is_set(), 'C02_ISSUER_WITHDRAWN')
+        raw,identity,_ = self._read()
+        require(raw==self._raw and identity==self._identity and not self._withdrawn.is_set(), 'C02_ISSUER_REVISION_CHANGED')
+
+    def checkpoint(self):
+        self.verify()
+        return hashlib.sha256(self._raw).hexdigest(), self._identity
+
+    def grant(self, request):
+        self.verify()
+        require(request['decision_id']==self.decision['decision_id']
+                and request['source_cutoff']==self.decision['source_cutoff']
+                and request['expected_old']==self.decision['expected_old'], 'C02_ISSUER_EXACT_SUBJECT_CHANGED')
+        key='conditional_fresh_grant' if request['effect']=='C02_FRESH_TRANSITION' else 'append_grant'
+        result=_c02_json.loads(_c02_json.dumps(self.decision[key]))
+        require(type(result) is dict, 'C02_EFFECT_NOT_GRANTED')
+        if key=='conditional_fresh_grant':
+            # One exact human decision may name the conditional scope before
+            # the actual append OID exists. Substitute only its observed OID;
+            # all other scope/code/generation fields are checked by the core.
+            require(result.get('scope',{}).get('correction_record_oid')=='$OBSERVED_EXACT_APPEND'
+                    and request.get('correction_record_oid'), 'C02_CONDITIONAL_APPEND_NOT_BOUND')
+            result['scope']['correction_record_oid']=request['correction_record_oid']
+        self.verify()
+        return result
+
+
+@_c02_contextlib.contextmanager
+def selected_c02_materializer_session_v1(runtime, context, source):
+    selected=runtime[0]
+    require(OWNED_STDIO_SELECTION_PIN is not None and selected==_np_selection()
+            and selected.get('profile_id')==OWNED_STDIO_PROFILE
+            and type(source) is OwnedStdioC02CensusV1 and source.selected is selected
+            and source._production_binding is _C02_SOURCE_BINDING_SEAL_V1
+            and source.context is context and _C02_SELECTED_SESSION_V1.get() is None,
+            'C02_SELECTED_SOURCE_SESSION_UNAVAILABLE')
+    source.verify()
+    subject={key:context[key] for key in ('controller','claim_id','run_root_identity')}
+    issuer=ConfiguredC02IssuerV1(selected.get('c02_adjudication'),subject)
+    require(issuer.decision['source_cutoff']==source.source_cutoff
+            and issuer.decision['expected_old']==source.expected_old, 'C02_ISSUER_SOURCE_CUTOFF_CHANGED')
+    value=(context,source,issuer)
+    token=_C02_SELECTED_SESSION_V1.set(value)
+    try:
+        yield value
+        source.verify(); issuer.verify()
+    finally:
+        source.cancel_now(); issuer.cancel_now()
+        _C02_SELECTED_SESSION_V1.reset(token)
+
+
+def get_selected_c02_materializer_v1(context, request):
+    value=_C02_SELECTED_SESSION_V1.get()
+    require(OWNED_STDIO_SELECTION_PIN is not None and value is not None and value[0] is context,
+            'C02_SOURCE_AND_ACTUAL_ISSUER_NOT_SELECTED')
+    _,source,issuer=value
+    source.verify(); issuer.verify()
+    selected={key:context[key] for key in ('controller','claim_id','run_root_identity')}
+    selected.update(repo=str(context['repo']),**{key:issuer.configured[key] for key in
+        ('census_owner','issuer','source_contract_locator','owner_decision_locator')})
+    return selected,source,issuer
+
+
+@_c02_contextlib.contextmanager
+def acquire_selected_c02_interval_v1(runtime, claim_owner, context, ledger, native_process, code_pins):
+    """Actual existing loop entry; no externally supplied scan or lease result."""
+    import subprocess
+    import os
+    selected=runtime[0]
+    require(OWNED_STDIO_SELECTION_PIN is not None and selected==_np_selection()
+            and type(ledger) is OwnedStdioQuiescenceV1 and ledger.native_process is native_process
+            and type(native_process) is subprocess.Popen and native_process.poll() is None
+            and native_process.stdin is not None and native_process.stdout is not None
+            and native_process.args==[selected['native_executable']['path'],'app-server','--listen','stdio://'],
+            'C02_ACTUAL_SELECTED_OWNED_STDIO_REQUIRED')
+    key=str(Path('implementaudit/scripts/compaction-audit-pending.py'))
+    require(key in code_pins, 'C02_EXISTING_SCANNER_CODE_PIN_REQUIRED')
+    path=HERE/'compaction-audit-pending.py'
+    pending=_np_module({'path':str(path),'bytes':path.stat().st_size,'sha256':code_pins[key]},
+                       'compaction-audit-pending.py',runtime[1])
+    with _as_provider_guard_v1(runtime):
+        episode=_np_episode(runtime)
+        require(episode['host_and_scope']['host_session_id']==selected['root_thread_id'], 'C02_R0033_EPISODE_SCOPE')
+        source=OwnedStdioC02CensusV1(selected,claim_owner,context,ledger)
+        def physical_revision():
+            value=os.stat(selected['root_source'])
+            return value.st_dev,value.st_ino,value.st_size,value.st_mtime_ns,value.st_ctime_ns
+        before=physical_revision()
+        scanned=pending.scan_source(Path(selected['root_source']),require_c02_terminal=True)
+        require(physical_revision()==before, 'C02_SOURCE_CHANGED_DURING_FULL_SCAN')
+        source.arm(scanned)
+        def check_source():
+            # The full bounded census is collected above, outside namespace.gate.
+            # Under that short gate only this physical revision, the selected
+            # process liveness and the same-loop sticky veto are rechecked.
+            require(native_process.poll() is None, 'C02_NATIVE_OWNER_EXITED')
+            require(physical_revision()==before, 'C02_ORIGINAL_SOURCE_ADVANCED')
+        source._source_check=check_source
+        source._production_binding=_C02_SOURCE_BINDING_SEAL_V1
+        try:
+            source.verify()
+            yield source
+            source.verify()
+        finally:
+            source.cancel_now()
+
+# Proposed addition to the EXISTING compaction-source-owner-codex-app.py.
+# No reader, sender, process, observer, event log or pending store is created.
+
+class OwnedStdioC02HooksV1:
+    """Use the existing owner runtime and existing reader/sender hook points.
+
+    The existing source must separately supply its complete-interval lease and
+    the actual scoped issuer lease to claim's FIXED capability resolver. The
+    currently available acquisition/prefix guards and compaction summaries are
+    not that lease. This class never promotes them into completeness.
+
+    Every accepting claim operation executes in this owner's process while the
+    live operation is active; separate CLI readers of revision heads cannot
+    acquire an accepting capability. The original claim module remains writer.
+    """
+    def __init__(self, runtime, claim_owner, context, invalidation_token, decision, *, source_owner_module):
+        require(OWNED_STDIO_SELECTION_PIN is not None
+                and runtime[0]['profile_id'] == OWNED_STDIO_PROFILE,
+                'C02_OWNED_STDIO_PROFILE_NOT_ADMITTED')
+        self.runtime, self.owner, self.context = runtime, claim_owner, context
+        self.invalidation_token, self.decision = invalidation_token, decision
+        self.source_owner_module = source_owner_module
+        self._held = None
+        self._operation = None
+
+    def __enter__(self):
+        import contextlib
+        require(self._held is None, 'C02_OWNED_OPERATION_REPLAY')
+        held = contextlib.ExitStack()
+        try:
+            # Existing selected binary/acquisition and original physical-prefix
+            # custody, not a second scanner or source of semantic authority.
+            held.enter_context(_as_provider_guard_v1(self.runtime))
+            operation = held.enter_context(self.owner.c02_owned_operation_v1(
+                self.context, self.invalidation_token, self.decision,
+                _selected_source_owner=self.source_owner_module))
+        except BaseException:
+            held.close()
+            raise
+        self._held, self._operation = held, operation
+        return self
+
+    def __exit__(self, kind, value, traceback):
+        held, self._held = self._held, None
+        try:
+            return held.__exit__(kind, value, traceback)
+        finally:
+            self._operation = None
+
+    def _active(self):
+        require(self._operation is not None, 'C02_OWNED_OPERATION_NOT_ACTIVE')
+        return self._operation
+
+    def before_context_request(self, method):
+        # Must run before the existing sender writes the native request. A
+        # refusal cannot be caught and treated as permission to send anyway.
+        self._active().before_context_request(method)
+
+    def cancel_now(self):
+        self._active().cancel_now()
+
+    def after_native_record(self):
+        self._active().after_native_record()
+
+    def disconnect(self):
+        self._active().disconnect()
+
+    def issuer_withdrawn(self):
+        # Called only from the actual admitted issuer's withdrawal signal.
+        self._active().issuer_withdrawn()
+
+    def append(self):
+        self._active().verify()
+        self.owner.materialize_c02_owner_revisions_v1(
+            self.context, self.invalidation_token, self.decision)
+        prepared = self.owner.prepare_c02_correction_v1(
+            self.context, self.invalidation_token, self.decision)
+        result = self.owner.publish_c02_correction_v1(self.context, prepared)
+        # Exact retained readback, in actual callback order. A landed append
+        # whose callback fails stays UNKNOWN; it is never silently replayed.
+        self._active().source.observe_adjudication(result['record_oid'])
+        self._active().verify()
+        return result
+
+    def apply_conditional_successor(self, correction_record_oid):
+        self._active().verify()
+        self.owner.materialize_c02_owner_revisions_v1(self.context, self.invalidation_token,
+            self.decision, correction_record_oid=correction_record_oid)
+        result = self.owner.run_c02_correction_v1(self.context, correction_record_oid)
+        self._active().verify()
+        return result
+
+
+def notify_owned_c02_and_rotation_v1(reservations, method, *arguments):
+    """Synchronous calls by the EXISTING reader/sender, not a new dispatcher.
+
+    On incoming records/EOF every current reservation must receive its veto
+    even if another hook fails. On outgoing requests any failure prohibits send.
+    No caught error or later successful hook can reopen the channel.
+    """
+    if method not in {'before_context_request', 'after_native_record', 'disconnect'}:
+        raise ValueError('unsupported existing owned-stdio hook')
+    errors = []
+    # Every live capability is poisoned before ANY cleanup can wait on Git.
+    for reservation in reservations:
+        try:
+            reservation.cancel_now()
+        except BaseException as exc:
+            errors.append(exc)
+    for reservation in reservations:
+        try:
+            getattr(reservation, method)(*arguments)
+        except BaseException as exc:
+            errors.append(exc)
+    if errors:
+        raise errors[0]
+
+
+def owned_stdio_ingest_v1(ledger, reservations, message):
+    """Existing decoded-reader call site, replacing its separate queue.put.
+
+    No new reader or queue. All guards are signalled before ledger bookkeeping
+    and before any cleanup. Errors poison the owner; the caller must terminate
+    its ordinary read/dispatch path, never continue as though admission passed.
+    """
+    errors=[]
+    for reservation in reservations:
+        try: reservation.cancel_now()
+        except BaseException as exc: errors.append(exc)
+    try: ledger.ingest(message)
+    except BaseException as exc: errors.append(exc)
+    for reservation in reservations:
+        try: reservation.after_native_record()
+        except BaseException as exc: errors.append(exc)
+    if errors: raise errors[0]
+
+
+def owned_stdio_before_send_v1(ledger, reservations, message):
+    """Existing sender calls before its actual stdin write; failure forbids it."""
+    errors=[]
+    for reservation in reservations:
+        try: reservation.cancel_now()
+        except BaseException as exc: errors.append(exc)
+    try: ledger.before_send(message)
+    except BaseException as exc: errors.append(exc)
+    for reservation in reservations:
+        try: reservation.before_context_request(message.get('method'))
+        except BaseException as exc: errors.append(exc)
+    if errors: raise errors[0]
+
+
+def owned_stdio_disconnect_v1(ledger, reservations):
+    """Existing EOF/error path, signal-only fan-out before cleanup."""
+    errors=[]
+    for reservation in reservations:
+        try: reservation.cancel_now()
+        except BaseException as exc: errors.append(exc)
+    try: ledger.disconnect()
+    except BaseException as exc: errors.append(exc)
+    for reservation in reservations:
+        try: reservation.disconnect()
+        except BaseException as exc: errors.append(exc)
+    if errors: raise errors[0]
+
+
+# Addition to the EXISTING owned-stdio source owner, not a new reader/service.
+def rotation_input_owner_selection_v1():
+    """Read the existing privately pinned provider, never caller-selected JSON.
+
+    Stable owner policy is selected before OPEN. The actual later episode digest
+    and final producer/consumer code identities belong in the immutable grant.
+    """
+    if OWNED_STDIO_SELECTION_PIN is None:
+        return None
+    selected = _np_selection()
+    owner = selected.get('rotation_input_owner')
+    if owner is None:
+        return None
+    fields = {'repo', 'controller', 'claim_id', 'run_root_identity', 'issuer',
+              'source_contract_sha256', 'owner_decision_locator'}
+    require(type(owner) is dict and set(owner) == fields
+            and all(type(value) is str and value for value in owner.values()),
+            'ROTATION_INPUT_PRIVATE_OWNER_SHAPE')
+    return dict(owner, source_owner='codex-owned-stdio-canonical-episode-public-source-v1',
+                provider_selection_sha256=OWNED_STDIO_SELECTION_PIN['sha256'],
+                producer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+
+
+class OwnedStdioRotationReservationV1:
+    """Existing reader/sender hooks; cancellation always precedes ordinary locks.
+
+    The actual owner feeds EVERY record and EOF/error, calls the outgoing hook
+    BEFORE a context-changing send/injection, and calls the issuer hook BEFORE
+    grant withdrawal. None of these hooks waits for Git before cancelling.
+    """
+    def __init__(self, runtime, native_state, native_process, claim_owner, claim_context, grant):
+        import os
+        import secrets
+        import subprocess
+        import threading
+        selected = runtime[0]
+        require(OWNED_STDIO_SELECTION_PIN is not None and selected['profile_id'] == OWNED_STDIO_PROFILE,
+                'ROTATION_SOURCE_PROFILE_NOT_ADMITTED')
+        require(type(native_process) is subprocess.Popen and native_process.poll() is None
+                and native_process.stdin is not None and native_process.stdout is not None,
+                'ROTATION_REQUIRES_EXISTING_OWNER_STDIO_HANDLES')
+        require(native_process.args == [selected['native_executable']['path'], 'app-server', '--listen', 'stdio://'],
+                'ROTATION_REQUIRES_EXACT_OWNED_STDIO_LAUNCH_WITHOUT_SECOND_TRANSPORT')
+        episode = _np_episode(runtime)
+        require(episode['host_and_scope']['host_session_id'] == native_state._binding['thread_id'],
+                'ROTATION_NATIVE_EPISODE_DOES_NOT_MATCH_H0')
+        policy = claim_owner._native_selection_v1(claim_context)
+        require(policy['provider_selection_sha256'] == OWNED_STDIO_SELECTION_PIN['sha256']
+                and grant.get('episode_binding_sha256') == episode['binding_digest']
+                and policy['producer_sha256'] == hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                'ROTATION_SOURCE_CODE_PROFILE_OR_ISSUER_EPISODE_DIFFERS')
+        native = claim_owner.projection_helper().native_inputs_module_v1()
+        require(type(native_state) is native.NativeInputState, 'ROTATION_NATIVE_STATE_SOURCE_DIFFERS')
+        reservation_id = secrets.token_hex(16)
+        signal = claim_owner.NativeCancellationSignalV1(reservation_id)
+        try:
+            with native_state._signal_lock:
+                native_state._verify(native_state._binding['subject'], native_state._binding['source_bytes'],
+                                     native_state._binding['source_tokens'])
+                snapshot = {'schema': 'implementaudit.native-rotation-source.v2', 'phase': 'READY',
+                    'binding': native_state._binding, 'exact_usage': native_state._snapshot,
+                    'cutoff_revision': native_state._revision,
+                    'observed_monotonic_ns': native_state._received_monotonic_ns,
+                    'reservation_id': reservation_id,
+                    'producer_process': claim_owner.native_process_identity_v1(os.getpid()),
+                    'host_process': claim_owner.native_process_identity_v1(native_process.pid),
+                    'cancellation': signal.descriptor, 'episode_binding_sha256': episode['binding_digest'],
+                    **{key: policy[key] for key in ('source_owner', 'source_contract_sha256', 'provider_selection_sha256')}}
+            claim_owner._validate_native_revision_v1(claim_context, snapshot, grant, native)
+        except BaseException:
+            signal.signal()
+            signal.close()  # No READY publication was attempted by this constructor.
+            raise
+        self.owner, self.context, self.native = claim_owner, claim_context, native
+        self.host_process, self.native_state, self.signal = native_process, native_state, signal
+        self.runtime, self.episode_binding = runtime, episode['binding_digest']
+        self.snapshot = claim_owner.decode_json(claim_owner.canonical(snapshot))
+        self.grant = claim_owner.decode_json(claim_owner.canonical(grant))
+        self.refs = claim_owner.native_input_revision_refs_v1(claim_context)
+        self._lock = threading.RLock()  # Materialization/cleanup only, NEVER ingress cancellation.
+        self._published = self._ready_attempted = self._closed = False
+        self._terminal_error = None
+        self.ready_outcome = 'NOT_ATTEMPTED'
+
+    def _cancel_first(self):
+        # This call must remain the FIRST statement in every external hook.
+        try:
+            self.signal.signal()
+        except BaseException as exc:
+            self._terminal_error = self._terminal_error or exc
+            self.host_process.terminate()
+            raise
+
+    def _raise_poisoned(self):
+        if self._terminal_error is not None:
+            raise self._terminal_error
+
+    def cancel_now(self):
+        """Signal-only fan-out stage: call all applicable owners before cleanup."""
+        self._cancel_first()
+
+    def _poison(self, error):
+        self._cancel_first()
+        self._terminal_error = self._terminal_error or error
+        if self._ready_attempted or self._published:
+            # Only this already-owned isolated host; no foreign process lookup
+            # or automatic canonical recovery. Event cancellation is immediate.
+            self.host_process.terminate()
+
+    def _check_source(self):
+        self.signal.check()
+        require(_np_episode(self.runtime)['binding_digest'] == self.episode_binding,
+                'ROTATION_CANONICAL_EPISODE_CHANGED')
+        self.owner._validate_native_revision_v1(self.context, self.snapshot, self.grant, self.native)
+        with self.native_state._signal_lock:
+            self.native_state._verify(self.snapshot['binding']['subject'],
+                self.snapshot['binding']['source_bytes'], self.snapshot['binding']['source_tokens'])
+            require(self.native_state._revision == self.snapshot['cutoff_revision'], 'ROTATION_NATIVE_STREAM_ADVANCED')
+        self.signal.check()
+
+    def publish_ready(self):
+        # Reuse existing owner custody, not ref/object values. Every read remains
+        # fresh; nested calls retain the same checked repository/config binding.
+        owner = self.owner
+        with owner._CUSTODY.git_scope(self.context['repo'], owner.fixed_git(), owner.git_environment()):
+            return self._publish_ready_with_custody()
+
+    def _publish_ready_with_custody(self):
+        with self._lock:
+            self._raise_poisoned()
+            require(not self._published and not self._closed and not self._ready_attempted, 'ROTATION_RESERVATION_REPLAY')
+            owner, context = self.owner, self.context
+            try:
+                self._check_source()
+                previous = owner.read_refs(context['repo'], self.refs.values())
+                if previous[self.refs['source']] is not None:
+                    old = owner.decode_json(owner.read_blob(context['repo'], previous[self.refs['source']]))
+                    prior_resolved = (old.get('phase') == 'CLOSED'
+                        and old.get('resolution', {}).get('status') == 'EXACT_CANONICAL_JOIN_VERIFIED')
+                    require(old.get('phase') in {'REVOKED', 'CLOSED'}
+                            and ('transaction_id' not in old or prior_resolved)
+                            and old.get('exact_usage', {}).get('response_id') != self.snapshot['exact_usage']['response_id'],
+                            'ROTATION_PRIOR_CONSUMPTION_REQUIRES_RECONCILIATION')
+                predecessor = owner.resolve_predecessor(context)
+                require(owner.projection_helper()._native_subject(predecessor) == self.snapshot['binding']['subject'],
+                        'ROTATION_SOURCE_PREDECESSOR_CHANGED')
+                plan = owner.prepare_native_source_update_v1(context, self.snapshot, self.grant,
+                    expected_source_oid=previous[self.refs['source']], expected_grant_oid=previous[self.refs['grant']])
+                source_oid = owner.write_blob(context, plan['source_bytes'])
+                grant_oid = owner.write_blob(context, plan['grant_bytes'])
+                updates = owner.retention_updates(context, [source_oid, grant_oid, *previous.values()])
+                updates.update(plan['updates'])
+                self.signal.check()
+                self._ready_attempted = True
+                self.ready_outcome = 'MAY_HAVE_PUBLISHED'  # BEFORE any READY CAS.
+                owner.update_refs(context, updates, owner.predecessor_guards(context, predecessor))
+                self._published = True
+                self.ready_outcome = 'EXACT_READY_READBACK'
+                self._check_source()
+            except BaseException as exc:
+                self._poison(exc)
+                # Cleanup is revoke-only; it cannot declare the unknown attempt
+                # successful or make the reservation reusable. The event stays set.
+                try:
+                    self._revoke('READY attempt refused or outcome uncertain')
+                except BaseException:
+                    pass  # Original failure plus sticky cancellation/containment survive.
+                raise
+
+    def _revoke(self, reason):
+        # All callers already signalled cancellation before reaching cleanup.
+        # This does not move any lock or Git work before the immediate veto.
+        owner = self.owner
+        with owner._CUSTODY.git_scope(self.context['repo'], owner.fixed_git(), owner.git_environment()):
+            return self._revoke_with_custody(reason)
+
+    def _revoke_with_custody(self, reason):
+        with self._lock:
+            if self._closed:
+                return
+            if not (self._ready_attempted or self._published):
+                self._closed = True
+                return
+            owner, context = self.owner, self.context
+            source_oid = owner.read_ref(context['repo'], self.refs['source'])
+            if source_oid is None:
+                self._closed = True  # Exact absence, not a successful READY claim.
+                return
+            current = owner.decode_json(owner.read_blob(context['repo'], source_oid))
+            require(current.get('reservation_id') == self.snapshot['reservation_id'], 'ROTATION_RESERVATION_REPLACED')
+            if current.get('phase') in {'REVOKED', 'CLOSED'}:
+                self._closed = True
+                return
+            require(current.get('phase') in {'READY', 'CLAIMED'}, 'ROTATION_SOURCE_PHASE_UNKNOWN')
+            ended = dict(current, phase='REVOKED', terminal_reason=str(reason)[:256])
+            oid = owner.write_blob(context, owner.canonical(ended))
+            updates = owner.retention_updates(context, [oid, source_oid])
+            updates[self.refs['source']] = (oid, source_oid)
+            owner.update_refs(context, updates, {})
+            self._closed = True
+
+    def _cleanup_after_signal(self, reason):
+        try:
+            self._revoke(reason)
+        except BaseException as exc:
+            self._poison(exc)
+            raise
+        self._raise_poisoned()  # A later successful cleanup never clears UNKNOWN.
+
+    def before_context_request(self, method):
+        self._cancel_first()
+        self._cleanup_after_signal('before context request: ' + str(method))
+
+    def after_native_record(self):
+        self._cancel_first()
+        self._cleanup_after_signal('native stream advanced after cutoff')
+
+    def disconnect(self):
+        self._cancel_first()
+        self._cleanup_after_signal('native connection closed or uncertain')
+
+    def before_grant_withdrawal(self):
+        self._cancel_first()
+        self._cleanup_after_signal('before independent issuer withdrawal')
+
+    def finish(self):
+        self._cancel_first()
+        self._cleanup_after_signal('owner finished; explicit effect reconciliation required')
+
 
 if __name__ == '__main__':
     import json

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Public C02 routing and actual append mechanics with a fixture-only issuer."""
+import contextlib
 import io
 import os
 from types import SimpleNamespace
@@ -25,7 +26,17 @@ class CorrectionCLI(unittest.TestCase):
         previous = os.getcwd()
         try:
             os.chdir(self.fixture.repo)
-            with mock.patch.object(self.owner.sys, 'stdout', SimpleNamespace(buffer=output)):
+            # main performs its actual discovery/validation first. Its fresh
+            # context then owns one constructed operation for this invocation;
+            # no identity guard or discovery validator is patched away.
+            actual_discover = self.owner.discover
+            with contextlib.ExitStack() as held:
+                def discover(controller):
+                    context = actual_discover(controller)
+                    held.enter_context(self.fixture_owner(context=context))
+                    return context
+                held.enter_context(mock.patch.object(self.owner, 'discover', side_effect=discover))
+                held.enter_context(mock.patch.object(self.owner.sys, 'stdout', SimpleNamespace(buffer=output)))
                 self.assertEqual(self.owner.main([command, correction.CONTROLLER, *arguments]), 0)
         finally:
             os.chdir(previous)
@@ -39,21 +50,20 @@ class CorrectionCLI(unittest.TestCase):
     def test_prepare_append_and_exact_retry_use_existing_owner(self):
         args = ('--expected-invalidation', self.event_token, '--decision', self.decision_path())
         before = self.refs()
-        with self.fixture_owner():
-            prepared = self.invoke('c02-prepare', *args)
-            self.assertEqual(self.refs(), before)
-            self.assertEqual(prepared['authority_ceiling'], 'INERT_PREPARATION_NO_EFFECT_AUTHORITY')
-            first = self.invoke('c02-append', *args)
-            self.assertEqual(first['status'], 'APPENDED_NO_CURRENTNESS')
-            after = self.refs()
-            retry = self.invoke('c02-append', *args)
-            self.assertEqual(retry['record_oid'], first['record_oid'])
-            self.assertEqual(retry['status'], 'EXACT_RETRY_NO_EFFECT')
-            self.assertEqual(self.refs(), after)
-            # The append issuer cannot authorize fresh currentness.
-            with self.assertRaises(self.owner.RotationError):
-                self.invoke('c02-apply', '--correction-record', first['record_oid'])
-            self.assertEqual(self.refs(), after)
+        prepared = self.invoke('c02-prepare', *args)
+        self.assertEqual(self.refs(), before)
+        self.assertEqual(prepared['authority_ceiling'], 'INERT_PREPARATION_NO_EFFECT_AUTHORITY')
+        first = self.invoke('c02-append', *args)
+        self.assertEqual(first['status'], 'APPENDED_NO_CURRENTNESS')
+        after = self.refs()
+        retry = self.invoke('c02-append', *args)
+        self.assertEqual(retry['record_oid'], first['record_oid'])
+        self.assertEqual(retry['status'], 'EXACT_RETRY_NO_EFFECT')
+        self.assertEqual(self.refs(), after)
+        # The append issuer cannot authorize fresh currentness.
+        with self.assertRaises(self.owner.RotationError):
+            self.invoke('c02-apply', '--correction-record', first['record_oid'])
+        self.assertEqual(self.refs(), after)
         with self.assertRaises(self.owner.RotationError):
             self.owner.require_current_generation_join_v1(self.context)
 
@@ -65,7 +75,7 @@ class CorrectionCLI(unittest.TestCase):
             result = self.fixture.claim(flag, correction.CONTROLLER,
                 '--expected-invalidation', self.event_token, '--decision', self.decision_path())
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn(b'C02 source-owner admission unavailable', result.stderr)
+            self.assertIn(b'C02 accepting effect requires the existing owned-stdio live operation', result.stderr)
         result = self.fixture.claim('--apply-c02-correction', correction.CONTROLLER,
                                     '--correction-record', '0' * 40)
         self.assertNotEqual(result.returncode, 0)

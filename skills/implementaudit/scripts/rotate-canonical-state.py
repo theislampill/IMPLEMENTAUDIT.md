@@ -476,8 +476,8 @@ SOURCE_MEMORY_RESERVE_FACTOR = 12
 SOURCE_EXCLUSIONS = {'.git', 'state-generations', 'state-archives', 'quarantine'}
 TOKENIZER_SHA256 = '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7'
 TOKENIZER_OID = 'f1f50811175d9446bcd26399db7108ef2969ad94'
-NATIVE_INPUT_MODULE_SHA256 = '63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4'
-NATIVE_INPUT_MODULE_BYTES = 19796
+NATIVE_INPUT_MODULE_SHA256 = 'dd730efccd2bbfbec092316b59d93cbcd18ba20ad0e7479626727b2d1bc38d70'
+NATIVE_INPUT_MODULE_BYTES = 22059
 
 # The optional dependency runs in an isolated subprocess. It receives exact
 # pinned encoding bytes over stdin, never a URL, import path or executable from
@@ -536,6 +536,11 @@ def full_or_calibration_contract_v1() -> dict:
     return contract
 
 
+def _historical_or_calibrations_v1():
+    """Exact old interpretation only; neither producer admission nor live freshness."""
+    return (full_or_calibration_contract_v1(), {'schema': 'implementaudit.rotation-calibration-admission.v1', 'population_id': 'R0039-F1-CAL-v2', 'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497', 'byte_threshold': 131072, 'minimum_live_byte_reduction': 32768, 'maximum_runtime_ms': 5000, 'maximum_memory_bytes': 67108864, 'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}, 'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'}, 'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM', 'host_qualification': 'SEPARATE_NOT_INFERRED', 'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7', 'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94', 'token_threshold': 32768, 'minimum_live_token_reduction': 8192, 'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED', 'context_health_threshold_bp': 2500, 'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF', 'configured_usable_context_tokens': 258400, 'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1', 'maximum_observation_age_ms': 30000, 'native_input_module_sha256': '63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4', 'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'}})
+
+
 def native_inputs_module_v1():
     """Shared exact-source instance for the existing companion, never a producer selector."""
     import types
@@ -584,7 +589,7 @@ def _check_native_input_record(record: dict, predecessor: dict, source_bytes: in
     Freshness is checked against the recorded preparation time, not today's time.
     Only _verify_live_native_lease can establish a live selected-owner input.
     """
-    if (calibration != full_or_calibration_contract_v1() or type(record) is not dict
+    if (calibration not in _historical_or_calibrations_v1() or type(record) is not dict
             or set(record) != {'schema', 'observation', 'prepared_at_unix_ms', 'authority_ceiling'}
             or record['schema'] != 'implementaudit.rotation-native-input.v1'
             or record['authority_ceiling'] != 'HISTORICAL_INPUT_NOT_REAUTHENTICATED'):
@@ -642,7 +647,7 @@ def _freeze_native_input(lease, predecessor: dict, source_bytes: int,
 
 def _check_calibration(contract: dict) -> None:
     if contract not in (calibration_contract_v1(), token_calibration_contract_v1(),
-                        full_or_calibration_contract_v1(),
+                        *_historical_or_calibrations_v1(),
                         c02_preparation_policy_v1('windows'), c02_preparation_policy_v1('other')):
         raise RotationError('unknown calibration or observation admission contract')
 
@@ -697,7 +702,7 @@ def count_rotation_tokens_v1(encoding: bytes, population: tuple[bytes, ...]) -> 
 
 def _tokenizer_guard(repo: Path, controller: str, calibration: dict) -> dict:
     _check_calibration(calibration)
-    if calibration not in (token_calibration_contract_v1(), full_or_calibration_contract_v1()):
+    if calibration not in (token_calibration_contract_v1(), *_historical_or_calibrations_v1()):
         return {}
     ref = f'{ARCHIVE_PREFIX}/{controller}/objects/{TOKENIZER_OID}'
     if _ref(repo, ref) != TOKENIZER_OID or sha256(_blob(repo, TOKENIZER_OID)) != TOKENIZER_SHA256:
@@ -1169,7 +1174,7 @@ def _verify_archive_one(repo: Path, controller: str, archive_ref: str,
     kind = manifest.get('preparation_kind')
     native = kind in {'native-resume', 'c02-correction'}
     correction = kind == 'c02-correction'
-    full_or = manifest.get('calibration') == full_or_calibration_contract_v1()
+    full_or = manifest.get('calibration') in _historical_or_calibrations_v1()
     if (set(manifest) != {'schema', 'controller', 'claim_id', 'run_root_identity',
                          'preparation_generation_id', 'predecessor', 'entries',
                          'projection_schema', 'owner_map_schema', 'discovery',
@@ -1561,6 +1566,8 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
     _validate_predecessor_schema(predecessor)
     _check_calibration(calibration)
     full_or = calibration == full_or_calibration_contract_v1()
+    if not full_or and calibration in _historical_or_calibrations_v1():
+        raise RotationError('historical native input policy is interpretation-only, not current admission')
     tokens_selected = calibration in (token_calibration_contract_v1(), full_or_calibration_contract_v1())
     if (preservation_kind not in {'native-resume', 'c02-correction'}
             or (preservation_kind == 'c02-correction') != (correction_record_oid is not None)
@@ -1741,7 +1748,7 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict,
               'source_state_sha256', 'source_roadmap_sha256', 'exact_next_action', 'predecessor',
               'calibration', 'measurement', 'authority_ceiling'}
     correction = type(prepared) is dict and prepared.get('schema') == 'implementaudit.c02-correction-prepared.v1'
-    full_or = type(prepared) is dict and prepared.get('calibration') == full_or_calibration_contract_v1()
+    full_or = type(prepared) is dict and prepared.get('calibration') in _historical_or_calibrations_v1()
     if correction:
         fields.add('correction_record_oid')
     if full_or:
@@ -1788,7 +1795,7 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict,
     measured = {'live_bytes_before': live_bytes,
                 'live_byte_reduction': live_bytes - len(draft['state_bytes']) - len(draft['roadmap_bytes']),
                 'model_calls': 0, 'host_qualification': 'SEPARATE_NOT_INFERRED'}
-    if prepared['calibration'] in (token_calibration_contract_v1(), full_or_calibration_contract_v1()):
+    if prepared['calibration'] in (token_calibration_contract_v1(), *_historical_or_calibrations_v1()):
         counts = count_rotation_tokens_v1(_blob(repo, TOKENIZER_OID),
                     (preimage['state_bytes'], preimage['roadmap_bytes'], draft['state_bytes'], draft['roadmap_bytes']))
         source_tokens, reduction = sum(counts[:2]), sum(counts[:2]) - sum(counts[2:])
