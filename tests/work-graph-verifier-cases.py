@@ -1832,6 +1832,42 @@ def consumer_boundary_cases(directory):
     assert result.wasSuccessful(), "consumer evidence/lifecycle controls failed"
 
 
+def fixture_capture_environment_cases(directory):
+    """Outer capture destinations never belong to independent child fixtures."""
+    directory.mkdir()
+    bindir = directory / "bin"
+    bindir.mkdir()
+    report = directory / "child-environment.jsonl"
+    probe = directory / "probe.py"
+    probe.write_text(
+        "import json, os, sys\nfrom pathlib import Path\n"
+        "keys = sorted(k for k in os.environ if k.startswith('REPRO_RETAINED_') or k in "
+        "('REPRO_SOURCE_REF', 'R0035_REPRO_EVENT_CAPTURE_DIR', 'IMPLEMENTAUDIT_PORTAL_CAPTURE'))\n"
+        "with Path(" + repr(str(report)) + ").open('a') as stream:\n"
+        "    stream.write(json.dumps(dict(argv=sys.argv[1:], capture_keys=keys, "
+        "sentinel=os.environ.get('FIXTURE_CAPTURE_SENTINEL'))) + '\\n')\n")
+    launcher = bindir / "python"
+    launcher.write_text("#!/bin/sh\nexec " + shlex.quote(sys.executable) + " -I -S -B " +
+                        shlex.quote(str(probe)) + ' "$@"\n')
+    launcher.chmod(0o755)
+    environment = dict(os.environ, PATH=str(bindir) + os.pathsep + os.environ["PATH"],
+                       FIXTURE_CAPTURE_SENTINEL="unrelated environment preserved",
+                       REPRO_SOURCE_REF="HEAD", R0035_REPRO_EVENT_CAPTURE_DIR=str(directory / "outer-events"),
+                       IMPLEMENTAUDIT_PORTAL_CAPTURE=str(directory / "outer-portal-request.json"))
+    for role in ("ASSET_A", "ASSET_B", "CHECKSUMS_A", "CHECKSUMS_B", "PLUGIN_A", "PLUGIN_B"):
+        environment["REPRO_RETAINED_" + role] = str(directory / ("outer-" + role))
+    environment["REPRO_RETAINED_UNDECLARED"] = ""
+    process = run_command(["bash", str(ROOT / "tests/work-graph-verifier.test.sh")],
+                          cwd=directory, env=environment, capture_output=True)
+    assert process.returncode == 0, ("fixture capture environment boundary", process.stdout, process.stderr)
+    rows = [json.loads(line) for line in report.read_text().splitlines()]
+    assert [row["argv"][0] for row in rows] == [
+        "tests/work-graph-verifier-cases.py", "tests/work-graph-stream-cases.py",
+        "tests/work-graph-prefix-cases.py", "tests/work-graph-repro-events-cases.py"]
+    assert all(not row["capture_keys"] for row in rows), ("outer capture escaped into child fixture", rows)
+    assert all(row["sentinel"] == "unrelated environment preserved" for row in rows)
+
+
 def main():
     global RETAIN
     parser = argparse.ArgumentParser(description=__doc__)
@@ -1890,6 +1926,7 @@ def main():
     # Preserve order, shell globals, terminal stdout/stderr and legacy fail-fast
     # in an actually executed held-out registry. No hand-written PASS oracle.
     with fixture_directory() as td:
+        fixture_capture_environment_cases(Path(td) / "fixture-capture-environment")
         scoped_root_identity_cases(Path(td) / "scoped-root-identity")
         consumer_boundary_cases(Path(td) / "consumer-boundaries")
         root = Path(td) / "repo"
