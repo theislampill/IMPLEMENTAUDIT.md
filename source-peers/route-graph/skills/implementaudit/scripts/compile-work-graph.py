@@ -2828,6 +2828,71 @@ def _acquire_native_read_set(nodes, input_root):
         raise WorkGraphError('native static source owner changed during input acquisition')
     return result
 
+# Explicitly constructed intake preserves the self-contained R0035 diagnostic.
+# These original portable readers acquire no repository/native currentness. They
+# are selected only when repo_root is absent, never after a native-owner refusal.
+def _constructed_source_snapshot_v1(run_root):
+    root = pathlib.Path(run_root)
+    if root.is_symlink() or not root.is_dir():
+        raise WorkGraphError('native source root is missing or a symlink')
+    files = [root / 'STATE.md', root / 'ROADMAP.md']
+    for name in ('plans', 'phases', 'tasks'):
+        directory = root / name
+        if directory.is_symlink():
+            raise WorkGraphError('native source directory is a symlink')
+        if not directory.exists():
+            continue
+        for base, dirs, names in os.walk(directory, followlinks=False):
+            for item in dirs + names:
+                if (pathlib.Path(base) / item).is_symlink():
+                    raise WorkGraphError('native source contains a symlink')
+            files.extend((pathlib.Path(base) / n for n in names if n.endswith('.md')))
+    result = {}
+    for path in sorted(files):
+        if path.is_symlink() or not path.is_file():
+            raise WorkGraphError(f'native source missing or symlink: {path.name}')
+        try:
+            result[path.relative_to(root).as_posix()] = path.read_bytes()
+        except OSError as exc:
+            raise WorkGraphError(f'native source unreadable: {path.name}') from exc
+    return result
+
+
+def _acquire_constructed_read_set_v1(nodes, input_root):
+    root = pathlib.Path(input_root).resolve()
+    result = {}
+    paths = sorted({p for n in nodes for p in n['reads'] + n['invalidators'] if p.startswith('path:')})
+    _native_semantics(paths, 'native read set')
+    for identity in paths:
+        relative = pathlib.PurePosixPath(identity[5:])
+        path = root.joinpath(*relative.parts)
+        for count in range(1, len(relative.parts) + 1):
+            if root.joinpath(*relative.parts[:count]).is_symlink():
+                raise WorkGraphError('native input symlink is unsupported')
+        if not path.exists():
+            result[identity] = dict(status='MISSING', sha256=None)
+        elif path.is_file():
+            result[identity] = dict(status='PRESENT_FILE', sha256=_graph_hash([path.stat().st_mode & 4095, hashlib.sha256(path.read_bytes()).hexdigest()]))
+        elif path.is_dir():
+            members = []
+            for base, dirs, names in os.walk(path, followlinks=False):
+                for name in sorted(dirs + names):
+                    member = pathlib.Path(base) / name
+                    if member.is_symlink():
+                        raise WorkGraphError('native input directory contains symlink')
+                    if member.is_dir():
+                        members.append([member.relative_to(path).as_posix(), 'DIRECTORY', member.stat().st_mode & 4095])
+                    elif member.is_file():
+                        members.append([member.relative_to(path).as_posix(), member.stat().st_mode & 4095, hashlib.sha256(member.read_bytes()).hexdigest()])
+                    else:
+                        raise WorkGraphError('native input contains non-regular file')
+            result[identity] = dict(status='PRESENT_DIRECTORY', sha256=_graph_hash([path.stat().st_mode & 4095, sorted(members)]))
+        else:
+            raise WorkGraphError('native input is not a regular file or directory')
+    return result
+
+
+
 @contextlib.contextmanager
 def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected_current=None,
                           _continuity_sources=None, _episode_outputs=None):
@@ -2841,15 +2906,17 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
     corroborating current tuple is a constraint rechecked by R0033, never facts
     supplied in place of acquisition. Retained PENDING requests may be stale.
     """
+    read_sources = _constructed_source_snapshot_v1 if repo_root is None else _native_source_snapshot
+    read_inputs = _acquire_constructed_read_set_v1 if repo_root is None else _acquire_native_read_set
     source_output = {} if _continuity_sources is None else {'_source_reads': _continuity_sources}
     current_reads = []
     if _episode_outputs is not None:
         source_output['_current_reads'] = current_reads
     before = _native_continuity(repo_root, run_root, **source_output) if repo_root is not None else dict(acquisition='CONSTRUCTED_FILESYSTEM', controller=None, claim=None, receipt=None, epoch=None, candidate_head=None, candidate_tree=None, worktree_digest=None, continuity_helper_digest=None)
-    snapshot = _native_source_snapshot(run_root)
+    snapshot = read_sources(run_root)
     preliminary = _compile_native_documents_v1(snapshot, before, acquire_only=True)
     input_root = pathlib.Path(input_root if input_root is not None else repo_root if repo_root is not None else run_root)
-    read_set = _acquire_native_read_set(preliminary['nodes'], input_root)
+    read_set = read_inputs(preliminary['nodes'], input_root)
     bound = dict(before, read_set=read_set, input_root_identity=hashlib.sha256(os.fsencode(str(input_root.resolve()))).hexdigest())
     route_observation = None
     producer = None
@@ -2951,9 +3018,9 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
             raise WorkGraphError('provisional native route observation was mutated')
         if route_observation is not None and route_observation.receiver_binding != receiver_binding:
             raise WorkGraphError('provisional native receiver binding was mutated')
-        if _native_source_snapshot(run_root) != snapshot:
+        if read_sources(run_root) != snapshot:
             raise WorkGraphError('native source changed during intake')
-        if _acquire_native_read_set(projection['nodes'], input_root) != read_set:
+        if read_inputs(projection['nodes'], input_root) != read_set:
             raise WorkGraphError('native inputs changed during intake')
         if repo_root is not None and not shared_currentness and _native_continuity(repo_root, run_root, **source_output) != before:
             raise WorkGraphError('native continuity changed during intake')

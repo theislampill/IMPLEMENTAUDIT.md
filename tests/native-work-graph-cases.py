@@ -5,9 +5,11 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
+import types
 
 REPO = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location(
@@ -337,6 +339,73 @@ def reminder_controls(root, state, nodes, original, report, evidence):
     print("native-work-graph: new-id unchanged reminder preserves consumed work; changed inputs/context reconsider")
 
 
+def source_composition_controls(root, expected, scratch):
+    """Keep constructed diagnostics separate from acquired repository evidence."""
+    compiler = REPO / "skills/implementaudit/scripts/compile-work-graph.py"
+    peer = REPO / "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py"
+    compiler_raw = compiler.read_bytes()
+    assert compiler_raw == peer.read_bytes(), "canonical and frozen compiler source differ"
+    manifest = json.loads((REPO / "source-peers/route-graph/SOURCE_MANIFEST.json").read_bytes())
+    entry = next(row for row in manifest["files"] if row["semantic_owner"] == "R0035")
+    assert entry["bytes"] == len(compiler_raw)
+    assert entry["sha256"] == hashlib.sha256(compiler_raw).hexdigest()
+
+    # The distribution contains the compiler, not the repository-only reader.
+    # Execute exactly that layout, then compare the complete derived projection.
+    installed = scratch / "installed/skills/implementaudit/scripts/compile-work-graph.py"
+    installed.parent.mkdir(parents=True)
+    shutil.copy2(compiler, installed)
+    isolated = types.ModuleType("isolated_constructed_compiler")
+    isolated.__file__ = str(installed)
+    exec(compile(compiler_raw, str(installed), "exec"), isolated.__dict__)
+    assert not (scratch / "installed/scripts/operational-evidence.py").exists()
+    assert isolated.read_native_run_v1(root) == expected
+    with isolated.observe_native_run_v1(root) as projection_raw:
+        assert type(projection_raw) is bytes
+        assert json.loads(projection_raw) == expected
+
+    # The constructed route never calls the secure repository owner. An actual
+    # native refusal must propagate, with no fallback or empty projection.
+    original_owner = wg._native_static_owner_module_v1
+    original_continuity = wg._native_continuity
+    original_constructed = wg._constructed_source_snapshot_v1
+    def forbidden_owner():
+        raise AssertionError("constructed intake loaded the repository-only owner")
+    try:
+        wg._native_static_owner_module_v1 = forbidden_owner
+        assert wg.read_native_run_v1(root) == expected
+    finally:
+        wg._native_static_owner_module_v1 = original_owner
+    def refused_continuity(*args, **kwargs):
+        raise wg.WorkGraphError("constructed test native-owner refusal")
+    def forbidden_fallback(*args, **kwargs):
+        raise AssertionError("native refusal fell back to constructed intake")
+    try:
+        wg._native_continuity = refused_continuity
+        wg._constructed_source_snapshot_v1 = forbidden_fallback
+        reject(lambda: wg.read_native_run_v1(root, REPO), "native-owner refusal")
+    finally:
+        wg._native_continuity = original_continuity
+        wg._constructed_source_snapshot_v1 = original_constructed
+
+    # A provisional result is not accepted until its context's final read.
+    input_path = root / "inputs/a.txt"
+    source_path = root / "STATE.md"
+    for path, diagnostic in ((input_path, "native inputs changed during intake"),
+                             (source_path, "native source changed during intake")):
+        before = path.read_bytes()
+        def mutate_during_use():
+            with wg.observe_native_run_v1(root) as provisional:
+                assert json.loads(provisional) == expected
+                path.write_bytes(before + b"\n")
+        try:
+            reject(mutate_during_use, diagnostic)
+        finally:
+            path.write_bytes(before)
+    assert wg.read_native_run_v1(root) == expected
+    print("native-work-graph: identical canonical/peer source; installed constructed intake and closing fences; no native fallback")
+
+
 def main():
     # Historical preimage is valid v1 projection, not native enumeration. This
     # assertion preserves its deliberate limit instead of changing the oracle.
@@ -358,6 +427,7 @@ def main():
         assert by_id(g)["PREP"]["state"] == "READY"
         assert by_id(g)["QUALIFY"]["state"] == "BLOCKED"
         assert wg.read_native_run_v1(root) == g
+        source_composition_controls(root, g, Path(td) / "source-composition")
         input_path = root / "inputs/a.txt"
         original_input = input_path.read_bytes()
         input_path.write_bytes(b"changed actual input\n")

@@ -265,6 +265,14 @@ not established by this repository-only composition. A native observation must
 come from identical compiler bytes at the canonical and frozen-peer paths;
 captures from another compiler version remain subject to exact source refusal.
 
+The R0035 integration preserves a self-contained constructed-input route in the
+same compiler. Omitting `repo_root` selects the original constructed readers
+before acquisition and uses them again at the closing checks. Supplying a
+repository selects the hardened readers; a failure cannot trigger a constructed
+fallback. The canonical and repository-peer compiler files have identical bytes.
+This source composition does not relabel earlier captures or establish native
+admission for a new source identity.
+
 Declared and recursively selected graph inputs pass the repository owner's
 secret/administrative-name policy before content reads. A Git-backed input root
 also checks each selected path against its isolated Git ignore policy, including

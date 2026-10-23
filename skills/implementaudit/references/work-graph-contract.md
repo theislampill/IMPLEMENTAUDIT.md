@@ -16,8 +16,12 @@ NATIVE_NODE_FIELDS, _native_validate_node, _native_validate_context,
 _native_validate_binding and _compile_native_documents_v1. Results/transitions: reconcile_native_results_v1, compile_recursive_transition_v1,
 check_recursive_execution_v1 and compile_verifier_graph_v1.
 
-Native modes verify controller/root/continuity through sibling claim-run.sh
-before/after acquisition; missing/stale/foreign/ambiguous identity exits 2.
+Repository-backed native modes require the pinned same-checkout operational
+reader and a supported continuity source closure. They verify
+controller/root/continuity through sibling claim-run.sh before/after acquisition;
+missing/stale/foreign/ambiguous identity or unavailable source closure exits 2.
+The shipped pure and explicitly constructed diagnostic paths do not load that
+repository-only reader. A failed native acquisition never falls back to them.
 No controller creation/resumption. Snapshot APIs cannot authenticate callers.
 Native metadata awaits writer admission; legacy formats are unsupported, not empty/complete.
 Enumerate STATE.md, ROADMAP.md and recursive plans/phases/tasks `.md`, each with one
@@ -38,7 +42,10 @@ Selection preserves ACTIVE demand, semantic/path conflicts and capacity limits;
 read/read alone is no mutex. Context placement is advisory.
 Each selected or ACTIVE entry occupies at least one slot.
 
-MUTATION/EXTERNAL hold at EFFECT_EXECUTOR_UNAVAILABLE. Logical-delivery holds
+MUTATION/EXTERNAL hold at EFFECT_EXECUTOR_UNAVAILABLE. The repository composition
+retains R0033's narrow, exact-source ordinary-receiver binding: only its bound
+node can clear that one hold, while all other readiness predicates remain.
+Caller facts or frozen replay cannot establish a live receiver. Logical-delivery holds
 cross transaction IDs; only their effect owner clears them. Independent preparation
 remains eligible. Native scoped nodes hold at ROUTE_PRODUCER_UNAVAILABLE.
 Constructed R0033 facts are proposed: SATISFIED needs its owner's expected current
@@ -74,7 +81,7 @@ affected leaves; failed/stale/missing/corrupt results cannot be reused.
 This finite profile has no semantic file outputs and grants no canonical
 predecessor substitution or native currentness.
 
-No hook is installed. Interlock requires current graph, R003A host (unallocated in this base's namespace registry), R0036 task/executor,
+No hook is installed. Interlock requires current graph, exact R003A host session/object, R0036 task/executor,
 authenticated R0033 facts, authority/effect capability, covered tool path and
 trusted hook/failure semantics. Native transition/JOIN, capacity/discovery,
 containment and Windows/access-control-list proof remain pending; observations prove no effect.
