@@ -38,9 +38,12 @@ Native host authentication is **unsupported by this portable core**. An
 not proof of an executing native principal. POSIX ownership and permission
 checks are local custody checks; cooperating writers share one lock. They do
 not defeat a non-cooperating actor with the same user privileges or establish
-native event provenance. Windows access control lists, locking-race and durability qualification
-remain unverified. Successful attribution continues to report
-`host_activation_proven: false`.
+native event provenance. Store operations on Windows and other non-POSIX
+platforms explicitly refuse unsupported custody; `init` refuses before creating
+the store. The ordinary absent-binding lookup remains available without writes.
+No POSIX permission check substitutes for Windows access control lists or
+durability. Successful portable attribution reports `host_activation_proven:
+false` and `enforcement_available: false`.
 
 The key is the exact host ID plus exact host-session ID. A direct session index
 also prevents one session ID from being rebound under an incompatible host
@@ -152,10 +155,11 @@ correlation does not satisfy or consume either one.
 
 ## Separate consumer integration requirements
 
-The following Stop and route behavior describes the separately owned donor
-integration contracts. This R003A source slice does not include, install or
-register those adapters. Their admission and package projection remain with
-the existing consumer and package owners.
+The shipped `host-stop-interlock.py` selects only read-only attribution and the
+unsupported-host terminal described below. The following broader Stop and route
+behavior remains the separately owned, unselected donor integration contract.
+Its mechanical custody API is retained for source consumers and qualification;
+the selected native event entrypoint cannot reach it or grant its effects.
 
 `consume-proximal-action` is the R0035 continuation-custody join. An admitted
 Stop adapter selects this operation from its trusted installation and the fixed
@@ -247,14 +251,60 @@ host discovery, activation, enforcement or universal-host claim.
 Rollback removes the thin host adapter and R003A store records. Preserve the
 controller, claim, governed run, continuity receipts and audit evidence.
 
+## Selected unsupported-host terminal
+
+For selected Stop attribution, this is a role R required procedural helper.
+Invoke `python -I -S -B <skill-dir>/scripts/host-stop-interlock.py` with bounded
+Stop JSON on stdin; its boundary is unsupported host effects.
+`PLUGIN_ROOT` must identify its physical plugin cache root;
+`PLUGIN_DATA` must match that root's marketplace/plugin owner pair or its native
+scratch name. These paths select local custody, not a host principal or grant.
+The standalone projection retains this file for source compatibility but cannot
+satisfy the plugin topology or claim a registered native event route.
+
+An absent store, or exact never-bound session with no admitted attempt, returns
+`UNBOUND`, with no repository scan, directory enumeration, validator, subprocess
+or write. Existing state is read through the adjacent binding core's fixed
+source-owned identity. One descriptor-bound buffer is validated and compiled;
+the source path is not reopened for execution. Foreign members, aliases, changed
+bytes and unsupported custody refuse. This removes the selected Stop edge's
+pathname launch; it does not qualify an unselected recovery launcher.
+
+A bound, tombstoned, incomplete, disabled or otherwise unavailable selection
+returns `UNAVAILABLE` with `decision: block`. The selected interface has no
+supported verifier for a host-owned non-forgeable principal/grant. No caller
+ID, purpose, activation receipt, reentry flag, child output or policy digest
+can enable enforcement. Unknown event fields, including asserted grants or
+purposes, refuse. Every terminal output states `host_activation_proven: false`,
+`enforcement_available: false` and `effect_accepted: false`.
+
+This entrypoint never calls a route, compiler, turn-disposition, proximal
+consumption or lifecycle writer. `consume_proximal_selection` is an explicit
+mechanical source API, with the original bounded canonical stdin semantics and
+generation checks; it is unreachable from native Stop. Neither that API nor a
+successful source test supplies current effect acceptance. Refusal preserves
+historical records and only blocks the dependent current use (TC11).
+
+The adapter/capture/runtime isolated-policy chain is not admitted or reachable
+from this terminal. Its AM01 purpose-exception, AM02 executable-source and AM03
+current-effect requirements remain conditional on selecting that chain; they
+are not passed by a refusal. Historical source findings and the absent selected
+policy `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c`
+remain retained. The different historical policy is no substitute. Any future
+admission must qualify every actual prepare, preflight and runtime consumer,
+including the original positive and negative discriminators, before effects.
+No global native, currentness, recovery, lifecycle or release claim follows.
+
 ## Reserved hook compatibility proposals
 
 The donor contains compact, recovery-input and Stop consumers in
 `codex-compact-interlock.py`, `codex-recovery-prompt-input.py` and
-`host-stop-interlock.py`. Those shared files and their canonical hook manifest
-are absent from this public R003A source slice on the pinned main base. This
-slice therefore supplies neither a retained standalone hook substrate nor a
-registered canonical host route.
+`host-stop-interlock.py`. Only the bounded Stop reader above is included here;
+the compact/recovery adapters and canonical hook registration remain absent.
+Repository-only native-runtime and route-graph peers retain their independent
+source manifests and admission boundaries. Mechanical composition with the
+current binding core is route-consumer evidence, not native admission or a
+change to those peers' frozen installed/runtime source selections.
 
 Any later inclusion requires an explicit decision by the existing consumer and
 package owners. That decision must identify the selected files, their actual

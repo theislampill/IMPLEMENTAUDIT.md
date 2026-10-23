@@ -202,6 +202,8 @@ Load references only when the current gate needs them:
 - `references/canonical-state-rotation.md`: zero-model pair/archive projection
   and claim-owned publication; load only for rotation or typed retrieval.
 - `references/repo-state-comparison.md`: baseline/final and helper dispatch.
+- `references/host-session-binding.md`: selected portable host/session
+  attribution, owner-store custody, and explicit host-activation limits.
 - `references/sidecars.md`: optional Graphify/ActiveGraph and tooling bounds.
 - `references/lean-operating-discipline.md`: PDCA, Andon, Hansei, 5 Whys,
   Poka-yoke, and no arbitrary try/revision caps.

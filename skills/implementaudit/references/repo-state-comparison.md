@@ -315,6 +315,8 @@ helper-route: scripts/validate-run-root.sh|R|run-root|S|-|<root>|invalid
 
 helper-route: scripts/resolve-internal-skill.py|I|child-resolution|S#governor-routed-internal-cognition|S#governor-routed-internal-cognition|--governor SKILL.md --child <child>|no-load-credit
 helper-route: scripts/resolve-durable-identity.py|S|identity-diagnosis|R#durable-identity-diagnostic|-|--canonical <identity>|no-allocation
+helper-route: scripts/host-session-binding.py|R|selected-attribution|references/host-session-binding.md|-|--store <store> lookup --host-id <host> --host-session-id <session>|no-host-activation
+helper-route: scripts/host-stop-interlock.py|R|selected-stop-attribution|references/host-session-binding.md|-|none|unsupported-host-effects
 
 ## Durable identity diagnostic
 

@@ -100,7 +100,13 @@ def has_reparse_flag(info: os.stat_result) -> bool:
 
 def unsafe_permissions(info: os.stat_result) -> bool:
     """Portable POSIX custody only; this does not authenticate a native host."""
-    return os.name == "posix" and (info.st_uid != os.geteuid() or bool(info.st_mode & 0o022))
+    require_supported_store_custody()
+    return info.st_uid != os.geteuid() or bool(info.st_mode & 0o022)
+
+
+def require_supported_store_custody() -> None:
+    if os.name != "posix":
+        fail("host-session store custody is unsupported on this platform")
 
 
 def unsafe_file(info: os.stat_result) -> bool:
@@ -619,11 +625,13 @@ def proof_result(**payload: Any) -> dict[str, Any]:
         "schema": RESULT_SCHEMA,
         **payload,
         "host_activation_proven": False,
+        "enforcement_available": False,
         "proof_layers": dict(PROOF_LAYERS),
     }
 
 
 def command_init(args: argparse.Namespace) -> None:
+    require_supported_store_custody()
     owner = exact_text(args.owner_id, "owner_id")
     store = ensure_safe_directory(Path(args.store), "store")
     marker = owner_path(store)
