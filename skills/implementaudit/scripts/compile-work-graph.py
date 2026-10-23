@@ -3570,23 +3570,32 @@ def compile_verifier_reuse_v1(graph, registry, acquired, issued):
         raise WorkGraphError('verifier mapped scope population mismatch')
     return _seal_graph(dict(schema='implementaudit.verifier-reuse-plan.v1', scope=acquired['scope'], graph_digest=graph['digest'], nodes=nodes, omitted_canonical_nodes=len(graph['nodes']) - len(nodes), authority='NONE'))
 
+def _native_operation_output_v1(operation, run_root, repo_root, operands):
+    """Accept operation bytes only after the enclosing source checks close."""
+    def load_json(path):
+        return decode_strict_json_bytes(pathlib.Path(path).read_bytes(), path)
+    with observe_native_run_v1(run_root, repo_root) as raw:
+        current = decode_strict_json_bytes(raw, 'native run observation')
+        if operation == '--select-native':
+            result = select_native_frontier_v1(current)
+        elif operation == '--recursive-native':
+            result = compile_recursive_transition_v1(current, load_json(operands[0]))
+        elif operation == '--reconcile-native':
+            result = reconcile_native_results_v1(load_json(operands[0]), current,
+                load_json(operands[1]), load_json(operands[2]), operands[3])
+        else:
+            raise WorkGraphError('unknown native operation')
+        output = canonical_json_v1(result)
+    return output
+
 def main(argv: list[str]) -> int:
     if len(argv) > 1 and argv[1] in {'--select-native', '--recursive-native', '--reconcile-native'}:
         try:
             expected = {'--select-native': 4, '--recursive-native': 5, '--reconcile-native': 8}[argv[1]]
             if len(argv) != expected:
                 raise WorkGraphError('native operation requires RUN_ROOT REPO_ROOT and its exact contract inputs')
-            current = read_native_run_v1(argv[2], argv[3])
-
-            def load_json(path):
-                return decode_strict_json_bytes(pathlib.Path(path).read_bytes(), path)
-            if argv[1] == '--select-native':
-                result = select_native_frontier_v1(current)
-            elif argv[1] == '--recursive-native':
-                result = compile_recursive_transition_v1(current, load_json(argv[4]))
-            else:
-                result = reconcile_native_results_v1(load_json(argv[4]), current, load_json(argv[5]), load_json(argv[6]), argv[7])
-            sys.stdout.buffer.write(canonical_json_v1(result))
+            output = _native_operation_output_v1(argv[1], argv[2], argv[3], argv[4:])
+            sys.stdout.buffer.write(output)
             return 0
         except (OSError, WorkGraphError) as exc:
             print(f'compile-work-graph: {exc}', file=sys.stderr)
