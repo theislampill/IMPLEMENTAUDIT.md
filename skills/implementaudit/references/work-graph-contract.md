@@ -25,6 +25,8 @@ repository-only reader. A failed native acquisition never falls back to them.
 The current six-source continuity profile requires the repository-only sealed
 Linux transport. Its v2 observation binds all six sources and the loaded adapter;
 the two-source v1 envelope cannot represent it. Unsupported hosts refuse.
+Nested Python keeps `-I -S -B` through a private read-only interpreter alias;
+the closure binds that startup profile. The host runtime remains trusted.
 No controller creation/resumption. Snapshot APIs cannot authenticate callers.
 Native metadata awaits writer admission; legacy formats are unsupported, not empty/complete.
 Enumerate STATE.md, ROADMAP.md and recursive plans/phases/tasks `.md`, each with one

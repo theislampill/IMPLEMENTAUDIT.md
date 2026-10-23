@@ -1716,8 +1716,8 @@ _NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1 = (
     ("canonical_hot_projection.py", 57891, "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276", 0o755),
     ("canonical_custody.py", 33629, "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f", 0o755),
 )
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = "5a1d6a9150285831f6b9d3d2af74394bf2c028896bae13242efd566b3be2ca37"
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 19873
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = "b7f7a422ddcfcd54b8642eb67da0170f49d2df2b8fde874668d91f186be61a4f"
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 22406
 
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
@@ -1755,8 +1755,10 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
             or info.st_nlink != 1):
         _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_transport", "transport source differs from the executed profile")
     expected = dict(schema="implementaudit.native-continuity-closure.v1",
-        execution=dict(schema="implementaudit.continuity-source-closure.v1",
-                       repository=str(pathlib.Path(repository).absolute()), members=rows),
+        execution=dict(schema="implementaudit.continuity-source-closure.v2",
+                       repository=str(pathlib.Path(repository).absolute()), members=rows,
+                       startup=dict(profile="ISOLATED_CPYTHON_V1", isolated=True,
+                                    no_site=True, dont_write_bytecode=True)),
         transport=dict(path=str(path), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
                        mode=stat.S_IMODE(info.st_mode)))
     # Equality also refuses aliases, extra members, reordered members and

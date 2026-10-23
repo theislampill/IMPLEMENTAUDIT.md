@@ -118,8 +118,10 @@ class ReceivingClosureControls(unittest.TestCase):
         shutil.copy2(ROOT / "scripts/work-graph-continuity-transport.py", self.adapter)
         raw = self.adapter.read_bytes()
         self.value = dict(schema="implementaudit.native-continuity-closure.v1",
-            execution=dict(schema="implementaudit.continuity-source-closure.v1",
-                           repository=str(self.root), members=self.rows),
+            execution=dict(schema="implementaudit.continuity-source-closure.v2",
+                           repository=str(self.root), members=self.rows,
+                           startup=dict(profile="ISOLATED_CPYTHON_V1", isolated=True,
+                                        no_site=True, dont_write_bytecode=True)),
             transport=dict(path=str(self.adapter), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
                            mode=self.adapter.stat().st_mode & 4095))
         self.pair = dict(claim_sha256=self.rows[0]["sha256"], validate_sha256=self.rows[1]["sha256"])
@@ -139,7 +141,12 @@ class ReceivingClosureControls(unittest.TestCase):
                          lambda v: v.update(extra="unacquired"),
                          lambda v: v["execution"]["members"][0].update(bytes=float(self.rows[0]["bytes"])),
                          lambda v: v["execution"]["members"][0].update(readonly=1),
-                         lambda v: v["execution"]["members"][0].update(seals=7)):
+                         lambda v: v["execution"]["members"][0].update(seals=7),
+                         lambda v: v["execution"].pop("startup"),
+                         lambda v: v["execution"].update(schema="implementaudit.continuity-source-closure.v1"),
+                         lambda v: v["execution"]["startup"].update(isolated=False),
+                         lambda v: v["execution"]["startup"].update(no_site=1),
+                         lambda v: v["execution"]["startup"].update(dont_write_bytecode=False)):
             value = copy.deepcopy(self.value)
             mutation(value)
             with self.subTest(value=value), self.assertRaises(OE.OperationalEvidenceError):

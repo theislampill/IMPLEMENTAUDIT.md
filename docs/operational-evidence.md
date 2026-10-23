@@ -258,7 +258,14 @@ The current main continuity owners have a distinct six-source execution profile.
 `scripts/work-graph-continuity-transport.py` admits only their exact bytes, modes
 and three read-only commands. Sealed memory files populate a linked, read-only
 namespace with the original sibling paths and actual repository cwd. Nested
-imports and launches therefore consume captured code. Source, parent and cwd
+imports and launches therefore consume captured code. A private read-only
+CPython alias and sealed `python`/`python3` wrappers enforce `-I -S -B`, including
+after an unchanged owner rebuilds PATH from `sys.executable.parent`. The child
+checks the wrappers, alias and actual startup flags. The execution closure is
+`implementaudit.continuity-source-closure.v2` with the exact
+`ISOLATED_CPYTHON_V1` startup record. Host Python, its standard library and other
+system runtimes remain trusted assumptions, not an acquired runtime image.
+Source, parent and cwd
 replacement still fail the closing fences; the adapter does not change any
 currentness predicate or the older two-source optimization eligibility.
 
