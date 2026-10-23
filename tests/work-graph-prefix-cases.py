@@ -18,6 +18,7 @@ import tarfile
 import tempfile
 import threading
 import time
+from types import SimpleNamespace
 import unittest
 from unittest import mock
 
@@ -32,6 +33,13 @@ def load(name, path):
 
 
 Q = load("prefix_qualifier", ROOT / "scripts/qualify-work-graph-verifier.py")
+
+
+def stat_record(info, **changes):
+    fields = {name: getattr(info, name) for name in
+              ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")}
+    fields.update(changes)
+    return SimpleNamespace(**fields)
 
 
 class AdmissionCases(unittest.TestCase):
@@ -56,6 +64,31 @@ class AdmissionCases(unittest.TestCase):
     def snapshot(self, **limits):
         bounds = dict(self.P.SOURCE_BOUNDS, **limits)
         return self.P.snapshot_tree(self.source, self.objects, bounds)
+
+    def test_stat_identifiers_preserve_uint64_domain_in_canonical_json(self):
+        original = self.source.stat()
+        encodings = set()
+        for identifier in (0, 2**63 - 1, 2**63, 2**64 - 2, 2**64 - 1):
+            with self.subTest(identifier=identifier):
+                value = self.P.identity(stat_record(original, st_dev=identifier, st_ino=identifier))
+                encoded = Q.WG.canonical_json_v1(dict(identity=value))
+                restored = Q.WG.decode_strict_json_bytes(encoded, "stat identity")
+                self.assertEqual(restored["identity"][:2], [str(identifier), str(identifier)])
+                self.assertEqual(value[2:], [original.st_mode, original.st_nlink, original.st_size,
+                                            original.st_mtime_ns, original.st_ctime_ns])
+                encodings.add(encoded)
+        self.assertEqual(len(encodings), 5, "adjacent unsigned identities collapsed")
+        # Real current interpreter stat is observed without acquiring its bytes
+        # or invoking the runtime-image/namespace path.
+        actual = self.P.identity(Path(sys.executable).stat())
+        self.assertEqual(json.loads(Q.WG.canonical_json_v1(actual)), actual)
+
+    def test_stat_identifiers_refuse_malformed_and_out_of_domain_values(self):
+        original = self.source.stat()
+        for field in ("st_dev", "st_ino"):
+            for invalid in (-1, 2**64, True, 1.0, "1", None):
+                with self.subTest(field=field, invalid=invalid), self.assertRaisesRegex(ValueError, "unsigned 64-bit"):
+                    self.P.identity(stat_record(original, **{field: invalid}))
 
     def test_original_group_is_exact_source_prefix_without_successor(self):
         registry = (ROOT / "scripts/verify-package.sh").read_bytes()
@@ -307,6 +340,23 @@ class CustodyCases(unittest.TestCase):
         self.S.output.chmod(0o755)
         with self.assertRaisesRegex(ValueError, "custody changed"):
             self.S.run()
+
+    def test_adjacent_uint64_custody_identity_refuses_before_acquisition(self):
+        current = self.S.output.lstat()
+        observed = [2**63]
+        original_lstat = Path.lstat
+        def lstat(path, *args, **kwargs):
+            if path == self.S.output:
+                return stat_record(current, st_dev=2**64 - 1, st_ino=observed[0])
+            return original_lstat(path, *args, **kwargs)
+        self.S._output_identity = self.P.identity(stat_record(current, st_dev=2**64 - 1, st_ino=observed[0]))[:2]
+        with mock.patch.object(Path, "lstat", lstat), mock.patch.object(self.S, "_acquire") as acquire:
+            self.S._custody()
+            observed[0] += 1
+            with self.assertRaisesRegex(ValueError, "custody changed"):
+                self.S.run()
+            acquire.assert_not_called()
+        self.assertEqual(self.S.dispatch_count, 0)
 
     def test_no_imported_receipt_entrypoint(self):
         _, retained = self.seed()

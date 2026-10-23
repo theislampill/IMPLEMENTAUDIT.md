@@ -103,7 +103,16 @@ def encode(value):
 
 
 def identity(info):
-    return [info.st_dev, info.st_ino, info.st_mode, info.st_nlink,
+    """Exact stat vector: decimal uint64 device/inode, then integer metadata.
+
+    Filesystem identifiers can exceed signed64 JSON integers. Their canonical
+    decimal strings preserve the full unsigned domain without float conversion.
+    Mode, link count, byte size and nanosecond timestamps remain integers.
+    """
+    identifiers = (info.st_dev, info.st_ino)
+    if any(type(value) is not int or not 0 <= value < 2**64 for value in identifiers):
+        raise ValueError("filesystem device/inode must be unsigned 64-bit integers")
+    return [str(info.st_dev), str(info.st_ino), info.st_mode, info.st_nlink,
             info.st_size, info.st_mtime_ns, info.st_ctime_ns]
 
 

@@ -387,9 +387,19 @@ single-link files; special files, links, extended metadata, unsupported kinds,
 concurrent changes and exceeded bounds refuse. Directory membership, modes,
 bytes and Git refs/index/object files are part of the input identity. Worktrees,
 alternates, shallow/partial repositories, submodules, replacement refs and
-external Git configuration are unsupported. Only the declared basic local Git
-configuration is admitted. Git observation uses fixed configuration, bounded
-local builtins and no network or lazy object acquisition.
+external Git configuration are unsupported. Only the declared keys in the
+`core` and optional `remote "origin"` configuration sections are admitted;
+tracking-branch sections are unsupported. A separately initialized and fetched
+detached repository has its own complete, bound actual Git namespace. Its
+qualification does not qualify metadata rejected from another checkout. Git
+observation uses fixed configuration, bounded local builtins and no network or
+lazy object acquisition.
+
+Stat identity vectors encode device and inode identifiers as canonical decimal
+strings for the complete unsigned 64-bit domain. Other stat fields retain their
+integer types. This preserves exact identity comparisons when a host inode
+exceeds the signed 64-bit integer range of the canonical JSON contract; it does
+not truncate identifiers or convert them through floating point.
 
 The source is archived and privately materialized, preserving file and
 directory modes and ordinary file link count one. Archive owners and timestamps
