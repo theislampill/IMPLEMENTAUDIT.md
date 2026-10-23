@@ -1190,7 +1190,7 @@ with zipfile.ZipFile(asset) as zf:
             "current calibration authority must name the owner-authorised fold-in"
         )
 
-    MAX_ASSET_BYTES = 393_216
+    MAX_ASSET_BYTES = 458_752
     CURRENT_CALIBRATION_ASSET_BYTES = asset_bytes
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
@@ -1232,9 +1232,9 @@ with zipfile.ZipFile(asset) as zf:
                 f"configured {configured_measured_bytes:,}, "
                 f"actual {actual_bytes:,}"
             )
-        if max_bytes != 393_216:
+        if max_bytes != 458_752:
             raise SystemExit(
-                "hard ceiling differs from the approved prospective R0039 cap: "
+                "hard ceiling differs from the approved prospective R003A cap: "
                 f"got {max_bytes:,}"
             )
         enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
@@ -1248,7 +1248,7 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(f"budget policy accepted {fragment}")
 
     for fragment, values in (
-        ("outer bound", (458_752, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("outer bound", (524_288, N06_BASELINE_ASSET_BYTES, "owner")),
         ("minimum headroom", (196_608, N06_BASELINE_ASSET_BYTES, "owner")),
         ("calibration authority", (
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
@@ -1271,7 +1271,7 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
         ("configured measurement", (
             230_000, 227_500, asset_bytes, "owner")),
-        ("approved prospective R0039 cap", (
+        ("approved prospective R003A cap", (
             MAX_ASSET_BYTES - CALIBRATION_QUANTUM_BYTES,
             asset_bytes, asset_bytes, "owner")),
     ):
