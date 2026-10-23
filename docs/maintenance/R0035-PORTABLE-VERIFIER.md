@@ -347,6 +347,123 @@ repairs through their actual owners. Historical separate-overlay results remain
 bound to those overlays. Package and execution results must identify the exact
 combined source used; they do not transfer to a later source by description.
 
+## Opt-in acquired composed prefix (C1/C2/C3/C7 subpredicates)
+
+The repository qualifier also exposes `create_composed_prefix_session(source,
+fresh_output, max_age=3600)` and an explicit `prefix` command. A live session
+accepts only `{"operation":"run"}` requests, each at most 4 KiB:
+
+```bash
+printf '%s\n' '{"operation":"run"}' '{"operation":"run"}' |
+  /usr/bin/python3 -B scripts/qualify-work-graph-verifier.py prefix \
+  /absolute/standalone-candidate /absolute/fresh-prefix-evidence
+```
+
+`COMPOSED_SOURCE_PREFIX_23_V1` is one group containing the original composed
+prelude and the next 22 checks. The existing compiler derives every node and
+source byte from the pinned canonical registry. The group ends after
+`check-terminology-integration.sh` and stops before
+`check-added-lines-clean.sh`. It covers 23 of the original 117 nodes and omits
+the remaining 94, including the terminal operation. There are no invented
+per-node execution traces, substituted successor effects or changes to the
+default registry. The original legacy/DAG v1–v4 captures and `scoped` two-leaf
+API retain their existing routes and evidence ceilings.
+
+The profile is deliberately finite: Linux x86_64, observable sealed memfds,
+Bubblewrap, the system Python 3.12 and the explicitly listed Unix tools and
+libraries. The original checker entrypoints and three transitive repository
+programs are pinned in the repo-only companion. Changed executable source
+requires review of that execution contract. Candidate data still goes through
+the unchanged checks. The pinned rendered-diagram checker must select its
+original `NOT_APPLICABLE` branch from the acquired Git state. An applicable
+renderer branch refuses admission because the profile has no acquired browser
+contract; it is neither skipped nor supplied a substitute verdict.
+
+The acquirer reads the actual selected working namespace, including tracked,
+untracked and ignored members and its complete standalone `.git` directory.
+It does not replace a dirty working tree with a clone of HEAD. Every source
+ancestor is opened without following symlinks. Files must be ordinary,
+single-link files; special files, links, extended metadata, unsupported kinds,
+concurrent changes and exceeded bounds refuse. Directory membership, modes,
+bytes and Git refs/index/object files are part of the input identity. Worktrees,
+alternates, shallow/partial repositories, submodules, replacement refs and
+external Git configuration are unsupported. Only the declared basic local Git
+configuration is admitted. Git observation uses fixed configuration, bounded
+local builtins and no network or lazy object acquisition.
+
+The source is archived and privately materialized, preserving file and
+directory modes and ordinary file link count one. Archive owners and timestamps
+are explicitly normalized to zero; names, kinds, sizes, modes, digests and the
+complete directory/file census are validated before materialization. Duplicate,
+extra, missing, traversal and link members refuse. The original canonical
+registry remains in its original source location. The exact compiler-derived
+prefix executes through a separate reserved
+`.IMPLEMENTAUDIT/verify-package.sh` overlay, whose path and bytes are bound to
+the acquisition. Any pre-existing `.IMPLEMENTAUDIT` member refuses before
+dispatch, so the bootstrap cannot replace admitted source.
+
+Runtime files are acquired into content-addressed objects and mounted from
+sealed descriptors. Their observed aliases, modes, bytes and namespace are
+rechecked; mounted bytes and unique object bytes have separate bounds. The
+subject receives a cleared, fixed environment, an empty stdin and fixed
+locale, timezone and Python hash seed. Python wrappers use `-P -S -B`;
+transitive Python children inherit safe-path, no-user-site and no-bytecode
+settings. Standard library bytes are acquired, while site customizations and
+package directories are absent. Git has no helper search path. The image has
+no host root, proc filesystem, general device tree, user home or browser.
+
+All original commands run in one Bash process with their original ordering,
+shell state, traps and fail-fast behavior. Writes are confined to the private
+source/Git copy, a private temporary filesystem, `/dev/null` and observer-owned
+raw streams. Private writes are discarded; the profile exports no shell state
+or artifact into an omitted successor. A fresh PID namespace owns descendants;
+the observer kills its owned process group on timeout or interruption and
+retains the actual integer process exit before later recording/currentness
+work. A failed launch has an explicit unobserved exit. Failed, interrupted or
+incomplete executions cannot issue reusable success.
+
+Source acquisition is bounded to 4,096 entries, depth 40, 128 MiB per file and
+256 MiB total; its generated archive is limited to 272 MiB. Runtime enumeration
+has a 4,096-entry/depth-40 bound, a 32 MiB file limit and separate 128 MiB mounted
+and unique-byte limits. Execution has 90 CPU seconds, 120 wall seconds, 1 GiB
+address space and 4,096 descriptors. Private source and temporary filesystems
+are limited to 512 MiB and 32 MiB. Staging files are limited to 272 MiB so the
+archive can materialize; the subject's later file limit and accepted raw
+streams are each 16 MiB. A session retains at most 1 GiB of input objects and
+64 consumption records; the composed evidence bound is 2 GiB. These limits
+describe this profile, not every canonical unit.
+
+The successful receipt remains in the issuing process. Each consumption
+rechecks the current candidate, runtime, observer executable/process/kernel,
+loaded driver/helper/compiler, environment, limits, raw output and every
+required retained object, including the archive, prefix, scope, graph and
+seccomp bytes. A missing original object is not silently reconstructed.
+Output/receipt changes, source or observer drift, expiry, a different process,
+failed work or imported receipt requests refuse. An unchanged consumption
+keeps the original receipt and dispatch count. A current-input refusal can
+retain the old receipt; restoring the same admitted inputs permits its reuse
+within the original live lifetime. This is trusted live producer custody, not
+authentication against a hostile kernel or arbitrary equal-UID writer.
+Concurrent calls on the same live session refuse before a second acquisition.
+
+This route provides bounded acquire/execute/revalidate/consume engineering for
+the complete original prefix. It does not qualify full-canonical equivalence,
+selective preservation within the group, shared-shell successor transfer,
+native currentness, R003A attribution, retirement or closure. The next original
+command uses process substitution and needs a supported descriptor/proc
+interface. Later canonical units also need real nested namespaces and live
+process observations; binding host proc or fabricating proc files does not
+satisfy those contracts. The remaining portable predicates retain their own
+implementation and qualification work and are not labelled native-only.
+
+The existing `tests/work-graph-verifier.test.sh` family runs tiny admission,
+archive, budget and live-consumer controls from `tests/work-graph-prefix-cases.py`.
+Constructed consumer tests isolate acquisition or the external namespace
+launcher explicitly; their actual tiny child exits are observer controls,
+not evidence that the canonical prefix or sandbox ran. Actual profile evidence
+must separately retain its command, source/runtime identities, raw streams,
+integer exit, unchanged consumption and mutation refusals.
+
 ## Opt-in portal invocation handoff (C4)
 
 ```bash

@@ -1023,6 +1023,7 @@ class VerifierTaskSession:
     consumption boundary; arbitrary concurrent host/producer compromise is
     outside this portable scope.
     """
+    SCOPE = "CONTROLLED_TASK_LEAVES_V1"
     ENVIRONMENT = dict(PATH="/usr/bin", LANG="C", LC_ALL="C", TZ="UTC", PYTHONHASHSEED="0")
     LIMITS = dict(cpu_seconds=30, address_bytes=1073741824, file_bytes=8388608,
                   descriptors=4096, scratch_bytes=8388608, wall_seconds=45)
@@ -1066,7 +1067,7 @@ class VerifierTaskSession:
         self._issued = {}
         self._engine = self._engine_binding()
         self._write(self.output / "session.json", dict(schema="implementaudit.verifier-task-session.v1",
-                    scope="CONTROLLED_TASK_LEAVES_V1", producer=self.producer, source=str(self.source),
+                    scope=self.SCOPE, producer=self.producer, source=str(self.source),
                     producer_pid=self.producer_pid,
                     engine=self._engine, receipt_custody="LIVE_PRODUCER_ONLY_NO_IMPORT", max_age_seconds=max_age,
                     canonical_acceptance="UNQUALIFIED", authority="NONE"))
@@ -1426,9 +1427,30 @@ class VerifierTaskSession:
         return copy.deepcopy(result)
 
 
+_PREFIX_PROFILE = None
+
+
+def create_composed_prefix_session(source_root, output, *, max_age=3600):
+    """Explicit finite original prefix; live producer only, no imported receipts.
+
+    Lazy loading keeps historical captures and the original scoped API free of
+    this repository-only companion. The loaded bytes remain engine-bound at
+    every acquisition and receiving boundary.
+    """
+    global _PREFIX_PROFILE
+    if _PREFIX_PROFILE is None:
+        path = ROOT / "scripts/qualify-work-graph-prefix.py"
+        data = VerifierTaskSession._regular(path)[1]
+        spec = importlib.util.spec_from_file_location("verifier_prefix", path)
+        module = importlib.util.module_from_spec(spec)
+        exec(compile(data, str(path), "exec"), module.__dict__)
+        _PREFIX_PROFILE = module.bind_session(VerifierTaskSession, WG, ROOT, data)
+    return _PREFIX_PROFILE(source_root, output, max_age=max_age)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["legacy", "dag", "compare", "scoped"])
+    parser.add_argument("mode", choices=["legacy", "dag", "compare", "scoped", "prefix"])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--capture-dist", action="store_true")
@@ -1441,16 +1463,22 @@ def main():
     try:
         if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events or args.retain_repro_events):
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
-        if args.mode == "scoped" and len(args.paths) == 2:
-            session = VerifierTaskSession(args.paths[0], args.paths[1])
+        if args.mode in {"scoped", "prefix"} and len(args.paths) == 2:
+            session = (VerifierTaskSession if args.mode == "scoped" else create_composed_prefix_session)(*args.paths)
             # A caller may request another current-source consumption, never
             # inject a receipt, plan, mutation command or claimed process exit.
             status = 0
-            for line in sys.stdin.buffer:
+            requests = iter(lambda: sys.stdin.buffer.readline(4097), b"") if args.mode == "prefix" else sys.stdin.buffer
+            for line in requests:
+                if args.mode == "prefix" and len(line) > 4096:
+                    raise WG.WorkGraphError("prefix request exceeds its byte bound")
                 if WG.decode_strict_json_bytes(line, "scope request") != {"operation": "run"}:
                     raise WG.WorkGraphError("only a current-source run request is supported")
                 result = session.run()
-                status = max(status, result["exit"])
+                code = result["exit"]
+                if args.mode == "prefix" and (code < 0 or not result["complete"]):
+                    code = 1
+                status = max(status, code)
                 print(json.dumps(result, sort_keys=True), flush=True)
             return status
         if args.mode == "compare" and len(args.paths) == 3:
