@@ -222,10 +222,15 @@ fi
   exit 1
 }
 
-"${py_cmd[@]}" - "$claude_skills_dir" <<'PY'
+"${py_cmd[@]}" - "$claude_skills_dir" "$asset" <<'PY'
 import hashlib
 import json
+import os
+import shutil
+import stat
+import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 root = Path(sys.argv[1])
@@ -258,7 +263,70 @@ if observed_paths != expected_paths:
 skill_docs = [path for path in root.rglob("SKILL.md") if path.is_file()]
 if skill_docs != [root / "SKILL.md"]:
     raise SystemExit("standalone install exposed a discoverable child skill")
+
+with zipfile.ZipFile(sys.argv[2]) as archive:
+    if set(archive.namelist()) != observed_paths:
+        raise SystemExit("installed standalone population differs from exact archive")
+    for info in archive.infolist():
+        member = root / info.filename
+        if member.read_bytes() != archive.read(info.filename):
+            raise SystemExit(f"installed archive byte mismatch: {info.filename}")
+        logical_mode = 0o755 if info.filename.startswith("scripts/") else 0o644
+        if (stat.S_IFMT(info.external_attr >> 16) != stat.S_IFREG
+                or stat.S_IMODE(info.external_attr >> 16) != logical_mode):
+            raise SystemExit(f"noncanonical logical archive mode: {info.filename}")
+        metadata = member.lstat()
+        observed = stat.S_IMODE(metadata.st_mode)
+        if os.name == "posix":
+            if observed != logical_mode:
+                raise SystemExit(f"installed archive mode mismatch: {info.filename}")
+        elif os.name == "nt":
+            attributes = getattr(metadata, "st_file_attributes", None)
+            if (not stat.S_ISREG(metadata.st_mode) or type(attributes) is not int
+                    or attributes < 0 or attributes & 0x401 or observed & 0o7000
+                    or observed & 0o600 != 0o600):
+                raise SystemExit(f"installed Windows member is not regular readable/writable non-reparse: {info.filename}")
+        else:
+            raise SystemExit("unsupported installed permission model")
+python_command = [str(root / "scripts/resolve-internal-skill.py")]
+shell_command = [str(root / "scripts/detect-stack.sh")]
+if os.name == "nt":
+    python_command.insert(0, sys.executable)
+    shell = shutil.which("bash")
+    if shell is None:
+        raise SystemExit("Windows installed shell helper requires the selected Bash runtime")
+    shell_command = [shell, (root / "scripts/detect-stack.sh").as_posix()]
+resolved = subprocess.run(
+    python_command + ["--governor", str(root / "SKILL.md"), "--child", "audit-state"],
+    cwd=root, check=True, capture_output=True, text=True,
+)
+if resolved.stdout.strip() != str(root / "internal-procedures/audit-state.md"):
+    raise SystemExit("direct installed Python helper resolved the wrong child")
+detected = subprocess.run(
+    shell_command,
+    cwd=root, check=True, capture_output=True, text=True,
+)
+if not detected.stdout.startswith("implementaudit.detect-stack\nside_effects=none\n"):
+    raise SystemExit("direct installed shell helper did not execute its entrypoint")
 PY
+
+# Exact bytes do not make a wrong-mode predecessor an idempotent success.
+mode_target="$tmp_parent/wrong mode predecessor/skills/implementaudit"
+install_claude "$mode_target" >"$tmp_parent/mode-predecessor-setup.out"
+"${py_cmd[@]}" - "$mode_target/scripts/resolve-internal-skill.py" <<'PY'
+import os
+import stat
+import sys
+os.chmod(sys.argv[1], stat.S_IREAD if os.name == "nt" else 0o644)
+PY
+mode_before="$(tree_digest "$mode_target")"
+expect_install_failure "wrong-mode predecessor" install_claude "$mode_target"
+grep -q 'installed standalone member mode mismatch' "$tmp_parent/rejected.out" \
+  || fail "wrong-mode predecessor did not hit the mode guard"
+[ "$(tree_digest "$mode_target")" = "$mode_before" ] \
+  || fail "wrong-mode rejection changed its predecessor"
+assert_no_transaction_residue "$mode_target"
+chmod 0755 "$mode_target/scripts/resolve-internal-skill.py"
 
 # An existing standalone target is an update predecessor, not disposable
 # staging. It must be exact before any transaction path is created.
@@ -366,6 +434,37 @@ if bash scripts/install-claude-from-release.sh \
   printf 'release-asset-install-claude.test: stale checksum unexpectedly passed\n' >&2
   exit 1
 fi
+
+# Recomputed checksums cannot authorize noncanonical or special permission bits.
+for mutation in non-executable-script setuid-script setgid-script sticky-script; do
+  mutation_dir="$tmp_parent/$mutation archive"
+  mkdir -p "$mutation_dir"
+  mutated_asset="$mutation_dir/IMPLEMENTAUDIT.skill"
+  mutated_checksums="$mutation_dir/CHECKSUMS.txt"
+  "${py_cmd[@]}" - "$asset" "$mutated_asset" "$mutation" <<'PY'
+import stat
+import sys
+import zipfile
+permissions = {
+    "non-executable-script": 0o644, "setuid-script": 0o4755,
+    "setgid-script": 0o2755, "sticky-script": 0o1755,
+}[sys.argv[3]]
+with zipfile.ZipFile(sys.argv[1]) as source, zipfile.ZipFile(sys.argv[2], "w") as target:
+    for info in source.infolist():
+        if info.filename == "scripts/resolve-internal-skill.py":
+            info.external_attr = (stat.S_IFREG | permissions) << 16
+        target.writestr(info, source.read(info.filename))
+PY
+  bash scripts/write-release-checksums.sh "$mutated_asset" "$mutated_checksums"
+  expect_install_failure "$mutation archive" \
+    bash scripts/install-claude-from-release.sh \
+      --asset "$mutated_asset" --checksum "$mutated_checksums" \
+      --claude-skills-dir "$tmp_parent/$mutation rejected/skills/implementaudit"
+  grep -q 'mode mismatch for scripts/resolve-internal-skill.py' "$tmp_parent/rejected.out" \
+    || fail "$mutation did not hit the archive mode guard"
+  [ ! -e "$tmp_parent/$mutation rejected/skills/implementaudit" ] \
+    || fail "$mutation archive created an installed target"
+done
 
 overbroad_dir="$tmp_parent/overbroad asset"
 mkdir -p "$overbroad_dir"

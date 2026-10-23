@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import zipfile
 
 ROOT = Path(sys.argv.pop(1)).resolve()
 READER = ROOT / 'scripts/r0043-reconstruct.py'
@@ -161,15 +162,25 @@ class ReaderTests(unittest.TestCase):
         path = ROOT / 'docs/research/implementaudit/r0043-prepared-dispositions.json'
         self.assertTrue(path.is_file(), 'recovered preparation has no consumer entry')
         prepared = self.reader.read_index(path)
-        self.reader.check_prepared(prepared, self.index, repo_root=ROOT)
+        # The historical preparation must refuse the adopted current owners.
+        with self.assertRaisesRegex(ValueError, 'current source owner binding differs'):
+            self.reader.check_prepared(prepared, self.index, repo_root=ROOT)
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            for owner in prepared['current_source_owners']:
-                if owner['state'] == 'ABSENT_AT_SELECTED_BASE':
-                    continue
-                dest = root / owner['path']
-                dest.parent.mkdir(parents=True, exist_ok=True)
-                dest.write_bytes((ROOT / owner['path']).read_bytes())
+            owners = [owner for owner in prepared['current_source_owners']
+                      if owner['state'] == 'PRESENT_SOURCE_ONLY']
+            # Exact selected-base test data keeps this control independent of Git history.
+            fixture = ROOT / 'fixtures/r0043/prepared-source-owners.zip'
+            with zipfile.ZipFile(fixture) as source_owners:
+                self.assertEqual(sorted(source_owners.namelist()),
+                                 sorted(owner['path'] for owner in owners))
+                for owner in owners:
+                    data = source_owners.read(owner['path'])
+                    self.assertEqual(len(data), owner['bytes'], owner['path'])
+                    self.assertEqual(hashlib.sha256(data).hexdigest(), owner['sha256'], owner['path'])
+                    dest = root / owner['path']
+                    dest.parent.mkdir(parents=True, exist_ok=True)
+                    dest.write_bytes(data)
             sibling = root / self.reader.SIBLINGS['EMAS']['path']
             sibling.parent.mkdir(parents=True, exist_ok=True)
             sibling.write_bytes((ROOT / self.reader.SIBLINGS['EMAS']['path']).read_bytes())

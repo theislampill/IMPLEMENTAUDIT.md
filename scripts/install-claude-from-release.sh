@@ -156,6 +156,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import sys
 import tempfile
 import zipfile
@@ -209,6 +210,27 @@ def numeric_version(value):
     if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", text):
         raise SystemExit(f"runtime version is not numeric dotted form: {text!r}")
     return tuple(int(part) for part in text.split("."))
+
+
+def installed_member_mode_matches(path, expected_mode):
+    if os.name not in {"posix", "nt"}:
+        raise SystemExit(f"installed member permissions unsupported on platform: {os.name}")
+    metadata = path.lstat()
+    if not stat.S_ISREG(metadata.st_mode):
+        return False
+    observed = stat.S_IMODE(metadata.st_mode)
+    if os.name == "posix":
+        return observed == expected_mode
+    # Native Windows chmod represents read/write state, not POSIX execute or
+    # owner/group/other bits. Exact logical ZIP modes remain checked separately.
+    attributes = getattr(metadata, "st_file_attributes", None)
+    return (
+        expected_mode in {0o644, 0o755}
+        and type(attributes) is int and attributes >= 0
+        and not attributes & (stat.FILE_ATTRIBUTE_READONLY | stat.FILE_ATTRIBUTE_REPARSE_POINT)
+        and observed & (stat.S_IREAD | stat.S_IWRITE) == (stat.S_IREAD | stat.S_IWRITE)
+        and not observed & (stat.S_ISUID | stat.S_ISGID | stat.S_ISVTX)
+    )
 
 
 def read_installed_standalone(root):
@@ -278,6 +300,10 @@ def read_installed_standalone(root):
         raise SystemExit(
             f"installed standalone population mismatch: missing={missing} extra={extra}"
         )
+    for name in expected_paths:
+        expected_mode = 0o755 if name.startswith("scripts/") else 0o644
+        if not installed_member_mode_matches(root / name, expected_mode):
+            raise SystemExit(f"installed standalone member mode mismatch: {name}")
     return package, inventory
 
 # Required archive entries — skill content at root (no skills/ prefix).
@@ -369,7 +395,12 @@ with zipfile.ZipFile(asset) as zf:
 
     with tempfile.TemporaryDirectory() as temp_dir:
         root = Path(temp_dir)
-        zf.extractall(root)
+        for info in zf.infolist():
+            mode = 0o755 if info.filename.startswith("scripts/") else 0o644
+            metadata = info.external_attr >> 16
+            if stat.S_IFMT(metadata) != stat.S_IFREG or stat.S_IMODE(metadata) != mode:
+                raise SystemExit(f"noncanonical archive member mode: {info.filename}")
+            Path(zf.extract(info, root)).chmod(mode)
         package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text(encoding="utf-8"))
         inventory = json.loads((root / "IMPLEMENTAUDIT_INVENTORY.json").read_text(encoding="utf-8"))
         expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]

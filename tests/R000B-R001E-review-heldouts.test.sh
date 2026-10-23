@@ -357,12 +357,12 @@ bash scripts/build-release-asset.sh "$asset_dir" >/dev/null
 if ! bash scripts/check-package-contract.sh --check-budget-size \
     canonical_plugin "$(wc -c < "$asset_dir/IMPLEMENTAUDIT.plugin.zip" | tr -d '[:space:]')" \
     >/dev/null 2>&1; then
-  failures+=("r33-canonical-plugin-capacity-over-327680")
+  failures+=("r33-canonical-plugin-capacity-cap-or-reserve-violation")
 fi
 if ! bash scripts/check-package-contract.sh --check-budget-size \
     standalone_compatibility "$(wc -c < "$asset_dir/IMPLEMENTAUDIT.skill" | tr -d '[:space:]')" \
     >/dev/null 2>&1; then
-  failures+=("r33-standalone-compatibility-capacity-over-327680")
+  failures+=("r33-standalone-compatibility-capacity-cap-or-reserve-violation")
 fi
 
 if [ "${#failures[@]}" -gt 0 ]; then

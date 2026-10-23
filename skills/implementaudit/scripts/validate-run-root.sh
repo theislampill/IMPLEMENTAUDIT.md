@@ -622,7 +622,7 @@ check_done_phase_captures() {
     :
   elif is_nonterminal_phase_status "$status"; then
     return 0
-  elif [ -f "$run_root/ROADMAP.md" ]; then
+  elif [ -f "$roadmap" ]; then
     phase_n="$(basename "$phase" | sed -n 's/^phase-\([0-9][0-9]*\)\.md$/\1/p')"
     status="$(awk -F'|' -v n="$phase_n" '
       function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
@@ -639,7 +639,7 @@ check_done_phase_captures() {
         next
       }
       phase_table && NF && $0 !~ /^[ \t]*$/ { phase_table=0 }
-    ' "$run_root/ROADMAP.md")"
+    ' "$roadmap")"
     is_terminal_phase_status "$status" || return 0
   else
     return 0
@@ -705,6 +705,43 @@ fi
 }
 [ -d "$run_root" ] || { printf 'validate-run-root: not a directory: %s\n' "$run_root" >&2; exit 2; }
 
+# Claim-owned canonical selection precedes every native STATE/ROADMAP guard.
+# The original legacy parser remains intact; typed projection custody alone
+# cannot discharge an unmapped native semantic guard.
+state="$run_root/STATE.md"
+roadmap="$run_root/ROADMAP.md"
+canonical_record_root="$run_root"
+canonical_roots=()
+canonical_snapshots=()
+reader="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/read-canonical-pair.py"
+validation_snapshots="$(mktemp -d)" || exit 1
+trap 'rm -rf "$validation_snapshots"' EXIT
+reader_py=()
+canonical_selection() {
+  local selected_root="$1" output="$2"
+  if [ "${#reader_py[@]}" -eq 0 ]; then
+    if command -v python >/dev/null 2>&1; then reader_py=(python -B)
+    elif command -v python3 >/dev/null 2>&1; then reader_py=(python3 -B)
+    elif command -v py >/dev/null 2>&1; then reader_py=(py -3 -B)
+    else printf 'validate-run-root: Python is required for canonical selection\n' >&2; return 1; fi
+  fi
+  PYTHONDONTWRITEBYTECODE=1 "${reader_py[@]}" "$reader" --run-root "$selected_root" --output "$output" --native-guards
+}
+mkdir "$validation_snapshots/pair" || exit 1
+canonical_selection "$run_root" "$validation_snapshots/pair"
+selection_rc=$?
+case "$selection_rc" in
+  0)
+    state="$validation_snapshots/pair/native-STATE.md"
+    roadmap="$validation_snapshots/pair/native-ROADMAP.md"
+    canonical_record_root="$validation_snapshots/pair/native-records"
+    canonical_roots+=("$run_root")
+    canonical_snapshots+=("$validation_snapshots/pair")
+    ;;
+  3) : ;; # Physical absence/unbound structural legacy profile; no currentness claim.
+  *) err "canonical pair selection refused; root compatibility fallback is forbidden"; exit 1 ;;
+esac
+
 claim="$run_root/.claimed"
 claim_mode=""
 if [ "$mode" = micro ] && [ ! -f "$claim" ]; then
@@ -729,28 +766,30 @@ if [ -f "$claim" ]; then
 fi
 
 if [ "$mode" = micro ]; then
-  [ -f "$run_root/STATE.md" ] || err "missing required artifact: STATE.md"
+  [ -f "$state" ] || err "missing required artifact: STATE.md"
 else
   root_done=no
   if grep -Eq '^\|[[:space:]]*Status[[:space:]]*\|[[:space:]]*DONE[[:space:]]*\|' \
-    "$run_root/STATE.md" 2>/dev/null; then
+    "$state" 2>/dev/null; then
     root_done=yes
   fi
   template_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../templates" && pwd)"
   for f in STATE.md PROTOCOL.md; do
-    if [ ! -f "$run_root/$f" ]; then err "missing required artifact: $f"
-    elif ! has_non_whitespace "$run_root/$f"; then err "required artifact is blank: $f"; fi
+    artifact_path="$run_root/$f"; [ "$f" != STATE.md ] || artifact_path="$state"
+    if [ ! -f "$artifact_path" ]; then err "missing required artifact: $f"
+    elif ! has_non_whitespace "$artifact_path"; then err "required artifact is blank: $f"; fi
   done
   for f in ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+    artifact_path="$run_root/$f"; [ "$f" != ROADMAP.md ] || artifact_path="$roadmap"
     artifact_status="$(awk -F'|' -v artifact="<run-root>/$f" '
       function trim(v) { gsub(/^[ \t`]+|[ \t`]+$/, "", v); return v }
       trim($2) == artifact { print tolower(trim($3)); exit }
-    ' "$run_root/STATE.md" 2>/dev/null)"
-    if [ ! -f "$run_root/$f" ]; then err "missing planning artifact: $f (required for dispatched phase runs)"
-    elif ! has_non_whitespace "$run_root/$f"; then err "planning artifact is blank: $f"; fi
+    ' "$state" 2>/dev/null)"
+    if [ ! -f "$artifact_path" ]; then err "missing planning artifact: $f (required for dispatched phase runs)"
+    elif ! has_non_whitespace "$artifact_path"; then err "planning artifact is blank: $f"; fi
     if [ "$root_done" = yes ] && [ "$artifact_status" = complete ] &&
-       [ -f "$run_root/$f" ] &&
-       cmp -s "$run_root/$f" "$template_dir/$f"; then
+       [ -f "$artifact_path" ] &&
+       cmp -s "$artifact_path" "$template_dir/$f"; then
       err "planning artifact remains an unfilled template at DONE: $f"
     fi
   done
@@ -761,7 +800,6 @@ if [ "$mode" = full ] && [ -d "$run_root/phases" ]; then
     < <(find "$run_root/phases" -type f -name 'phase-*.md' -print | sort)
 fi
 
-state="$run_root/STATE.md"
 if [ -f "$state" ]; then
   if [ "$mode" = full ]; then
     status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
@@ -818,7 +856,7 @@ if [ -f "$state" ]; then
     if find "$run_root/phases" -type f -name 'phase-*.md' -print -quit 2>/dev/null | grep -q .; then
       err "micro root contains phase specs; phased dispatch requires a full run root"
     fi
-    if [ -f "$run_root/ROADMAP.md" ] && grep -Eq '^\|[[:space:]]*[0-9]+[[:space:]]*\|' "$run_root/ROADMAP.md"; then
+    if [ -f "$roadmap" ] && grep -Eq '^\|[[:space:]]*[0-9]+[[:space:]]*\|' "$roadmap"; then
       err "micro root contains a ROADMAP phase table; phased dispatch requires a full run root"
     fi
     if grep -R -E -q '^(Stage 6\.i|Stage 6\.2|Independent cold-review disposition|Review disposition):' "$run_root" \
@@ -844,6 +882,16 @@ if [ -f "$claim" ]; then
     [ -d "$sibling" ] || continue
     [ "$sibling" = "$run_root" ] && continue
     sibling_state="$sibling/STATE.md"
+    sibling_snapshot="$(mktemp -d "$validation_snapshots/sibling.XXXXXX")" || exit 1
+    canonical_selection "$sibling" "$sibling_snapshot"
+    sibling_rc=$?
+    case "$sibling_rc" in
+      0) sibling_state="$sibling_snapshot/native-STATE.md"
+         canonical_roots+=("$sibling")
+         canonical_snapshots+=("$sibling_snapshot") ;;
+      3) : ;;
+      *) err "sibling canonical selection refused: $(basename "$sibling")"; continue ;;
+    esac
     if [ ! -f "$sibling_state" ] || ! grep -Eq \
       '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF|COMPLETE|HANDOFF|SUPERSEDED_BY:[[:space:]].+|PARALLEL:[[:space:]].+)$' \
       "$sibling_state"; then
@@ -947,13 +995,14 @@ if [ -f "$state" ] && grep -qi '^[[:space:]]*cold-review[[:space:]]*:' "$state";
   fi
   if [ "${#cold_py[@]}" -gt 0 ]; then
     cold_error=""
-    if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" <<'PY'
+    if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" "$canonical_record_root" <<'PY'
 import pathlib
 import re
 import subprocess
 import sys
 
-root = pathlib.Path(sys.argv[1]).resolve()
+repository_run = pathlib.Path(sys.argv[1]).resolve()
+root = pathlib.Path(sys.argv[3]).resolve()
 state = pathlib.Path(sys.argv[2])
 lines = state.read_text(encoding="utf-8").splitlines()
 
@@ -1074,7 +1123,7 @@ for line in exact:
 
     def git(*args):
         return subprocess.run(
-            ["git", "-C", str(root), *args],
+            ["git", "-C", str(repository_run), *args],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -1108,12 +1157,12 @@ fi
 # Installed consumers without the repo checker still fail closed for an actual
 # direct live row instead of silently treating the contract as optional.
 if grep -E -q '^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)' \
-  "$run_root"/*.md 2>/dev/null; then
+  "$canonical_record_root"/*.md 2>/dev/null; then
   validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
   live_cold_checker="$validator_repo_root/scripts/check-cold-review-contract.sh" # source repo checker; absent from installed skill by design
   if [ -z "$validator_repo_root" ] || [ ! -f "$live_cold_checker" ] || [ -L "$live_cold_checker" ]; then
     err "live successor/non-verdict rows require the repository cold-review checker"
-  elif ! bash "$live_cold_checker" --run-root "$run_root" >/dev/null; then
+  elif ! bash "$live_cold_checker" --run-root "$canonical_record_root" >/dev/null; then
     err "live successor/non-verdict contract failed"
   fi
 fi
@@ -1135,13 +1184,18 @@ if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability
   if [ -n "$bad_epoch_id" ]; then
     err "STATE.md epoch row(s) use malformed durable generation identities: $(printf '%s' "$bad_epoch_id" | tr '\n' ' ')"
   fi
-  bad_prov="$(awk -F'|' '
+  native_rotation_epoch=""
+  [ "$selection_rc" -ne 0 ] || native_rotation_epoch="$current_epoch"
+  bad_prov="$(awk -F'|' -v native_epoch="$native_rotation_epoch" '
     /^## Context epochs and instruction applicability/ { f=1; next }
     f && /^## / { f=0 }
     f && /^\|[[:space:]]*(e[1-9][0-9]*|G[0-9A-F]{4})[[:space:]]*\|/ {
       p=$3; gsub(/^[ \t]+|[ \t]+$/, "", p)
       e=$2; gsub(/^[ \t]+|[ \t]+$/, "", e)
-      if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/) print e
+      note=$7; gsub(/^[ \t]+|[ \t]+$/, "", note)
+      bound_rotation=(native_epoch != "" && p == "canonical-state-rotation" &&
+                      (e != native_epoch || note == "native pointer JOIN"))
+      if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/ && !bound_rotation) print e
     }' "$state")"
   if [ -n "$bad_prov" ]; then
     err "STATE.md epoch row(s) with invalid boundary provenance: $(printf '%s' "$bad_prov" | tr '\n' ' ') (allowed: host-reported-compaction / new-session / handoff-resume / manual-resume / inferred-context-gap; never fabricate a compaction)"
@@ -1183,10 +1237,10 @@ if [ -f "$state" ]; then
   fi
 fi
 
-if [ -f "$run_root/ROADMAP.md" ] && [ -d "$run_root/phases" ]; then
+if [ -f "$roadmap" ] && [ -d "$run_root/phases" ]; then
   while IFS= read -r n; do
     [ -f "$run_root/phases/phase-$n.md" ] || err "ROADMAP names phase $n but phases/phase-$n.md is missing"
-  done < <(grep -oE '^\| *[0-9]+ *\|' "$run_root/ROADMAP.md" 2>/dev/null | grep -oE '[0-9]+' | sort -un)
+  done < <(grep -oE '^\| *[0-9]+ *\|' "$roadmap" 2>/dev/null | grep -oE '[0-9]+' | sort -un)
 fi
 
 check_background_chains "$run_root" "$state"
@@ -1195,6 +1249,14 @@ if [ -f "$run_root/respec-impact-set.md" ]; then
   respec_checker="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/check-respec-impact-set.sh"
   respec_output="$(bash "$respec_checker" "$run_root/respec-impact-set.md" 2>&1)" \
     || err "respec-impact-set.md invalid: $respec_output"
+fi
+
+if [ "$err_count" -eq 0 ]; then
+  for i in "${!canonical_roots[@]}"; do
+    PYTHONDONTWRITEBYTECODE=1 "${reader_py[@]}" "$reader" --run-root "${canonical_roots[$i]}" \
+      --output "${canonical_snapshots[$i]}" --native-guards --verify-current \
+      || err "canonical inputs changed before native validation completed"
+  done
 fi
 
 if [ "$err_count" -gt 0 ]; then
