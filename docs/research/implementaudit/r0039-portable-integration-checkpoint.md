@@ -314,3 +314,25 @@ alias and was rejected as incomplete; it is not a memory pass. The fixed 5,000 m
 and 67,108,864-byte declarations remain unchanged. Actual tiktoken 0.13 counting
 on the constructed pair observed 188,537 bytes and 23,668 tokens of reduction;
 this does not admit a current-host context producer or the accepting OR path.
+
+PL5 native Codex receiving at `79e7137fa61c3c4bc7f3a3eaf338372e6f709972`
+completed nine separate read-only owner actions against the retained constructed
+pair: R1, R2, R3, R5, R6, R7, R8, R9 and R10. STATE completed before ROADMAP;
+the final resolution and all authority refs were unchanged. The fresh context
+reconstructed the fixture identity, frontier, unresolved obligations, next action,
+evidence burden and archived-only limits. The first invocation's policy refusal
+remains separate from the later task-only exact-command allowlist execution.
+Claude package-copy results remain valid; native Claude invocation is unavailable
+after its actual authentication failure and the owner's confirmation of no access.
+
+The next bounded Windows optimisation selects the existing underlying Git
+executable before its launcher, retaining the same version, fresh per-object
+processes, custody and readback gates. Complete-owner measurement fell from
+39,581.867 to 25,409.039 ms, with process count falling from 1,978 to 1,059.
+Peak job committed memory remained above the original limit at 139,272,192 bytes.
+The migrated non-trigger measured 5,293.447 ms and 106,127,360 bytes. A separate
+10,589-byte unmigrated non-trigger measured 3,794.531 ms and 138,952,704 bytes,
+with proved legacy absence, unchanged refs and no new run files or archive.
+These are proposed whole-operation diagnostics, not admitted calibration or
+whole-issue acceptance. No numerical gate, original calibration or test deadline
+was changed. The original 30-second Windows timeout failures remain retained.

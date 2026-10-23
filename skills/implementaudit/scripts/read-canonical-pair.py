@@ -122,7 +122,10 @@ def call(cwd, argv):
     env.update(PYTHONDONTWRITEBYTECODE="1", LC_ALL="C")
     if os.name == "nt" and argv[0] in {"git", "bash"}:
         options = ["-c", "core.longpaths=true"] if argv[0] == "git" else []
-        argv = [str(Path(r"C:\Program Files\Git") / ("cmd/git.exe" if argv[0] == "git" else "bin/bash.exe")), *options, *argv[1:]]
+        root = Path(r"C:\Program Files\Git")
+        direct = root / "mingw64/bin/git.exe"
+        executable = (direct if direct.is_file() and not direct.is_symlink() else root / "cmd/git.exe") if argv[0] == "git" else root / "bin/bash.exe"
+        argv = [str(executable), *options, *argv[1:]]
     return subprocess.run(argv, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
 
 

@@ -184,7 +184,8 @@ def decode_json(raw):
 
 
 def fixed_git():
-    choices = ((r"C:\Program Files\Git\cmd\git.exe", r"C:\Program Files\Git\bin\git.exe")
+    choices = ((r"C:\Program Files\Git\mingw64\bin\git.exe",
+                r"C:\Program Files\Git\cmd\git.exe", r"C:\Program Files\Git\bin\git.exe")
                if os.name == "nt" else ("/usr/bin/git", "/usr/local/bin/git"))
     for candidate in choices:
         try:
@@ -199,8 +200,9 @@ def fixed_git():
 def git_environment():
     # Reused donor boundary: no inherited GIT_*, hooks, loader or shell overrides.
     if os.name == "nt":
-        root = Path(fixed_git()).parents[1]
-        search = [str(Path(sys.executable).parent), str(root / "cmd"),
+        executable = Path(fixed_git())
+        root = executable.parents[2] if executable.parent.parent.name == "mingw64" else executable.parents[1]
+        search = [str(Path(sys.executable).parent), str(root / "mingw64/bin"), str(root / "cmd"),
                   str(root / "bin"), str(root / "usr/bin"), r"C:\Windows\System32"]
         result = {"SystemRoot": r"C:\Windows", "WINDIR": r"C:\Windows"}
     else:
@@ -210,7 +212,7 @@ def git_environment():
                    "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
                    "GIT_TERMINAL_PROMPT": "0"})
     if os.name == "nt":
-        # Canonical refs can exceed MAX_PATH even when the audited root does not.
+        # Long authority refs need explicit Git support even under a short root.
         # This process-owned setting never changes the user's Git configuration.
         result.update({"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "core.longpaths",
                        "GIT_CONFIG_VALUE_0": "true"})

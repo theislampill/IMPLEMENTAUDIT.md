@@ -112,6 +112,7 @@ class RotationError(RuntimeError):
     """Refusal of an incomplete or uncertain rotation operation."""
 
 WINDOWS_TRUSTED_GIT_PATHS_V1 = (
+    r"C:\Program Files\Git\mingw64\bin\git.exe",
     r"C:\Program Files\Git\cmd\git.exe",
     r"C:\Program Files\Git\bin\git.exe",
 )
@@ -142,6 +143,7 @@ def _fixed_git_environment_v1(executable: str,
                               platform_name: str) -> dict[str, str]:
     if platform_name == "nt":
         path_value = ";".join((
+            r"C:\Program Files\Git\mingw64\bin",
             r"C:\Program Files\Git\cmd",
             r"C:\Program Files\Git\bin",
             r"C:\Program Files\Git\usr\bin",
