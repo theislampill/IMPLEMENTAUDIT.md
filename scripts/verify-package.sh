@@ -343,6 +343,20 @@ require_file tests/agents-bootstrap-budget.test.sh
 require_file tests/added-lines-clean.test.sh
 require_file tests/claim-run.test.sh
 require_file tests/continuity.test.sh
+require_file scripts/check-canonical-state-rotation.sh
+require_file tests/canonical-state-rotation.test.sh
+require_file skills/implementaudit/scripts/rotate-canonical-state.py
+require_file skills/implementaudit/scripts/canonical_hot_projection.py
+require_file skills/implementaudit/scripts/claim-run-rotation.py
+require_file skills/implementaudit/scripts/read-canonical-pair.py
+require_file skills/implementaudit/references/canonical-state-rotation.md
+require_file skills/implementaudit/references/canonical-state-ref-namespaces.json
+require_file fixtures/canonical-state-rotation/protected_projection_v2_test.py
+require_file fixtures/canonical-state-rotation/archive_v2_test.py
+require_file fixtures/canonical-state-rotation/native_resume_v2_test.py
+require_file fixtures/canonical-state-rotation/claim_transaction_test.py
+require_file fixtures/canonical-state-rotation/canonical_reader_test.py
+require_file fixtures/canonical-state-rotation/v2/source.json
 require_file tests/phase-validation.test.sh
 require_file tests/acceptance-instrument-discipline.test.sh
 require_file tests/lossless-evidence-capture.test.sh
@@ -695,6 +709,7 @@ bash tests/agents-bootstrap-budget.test.sh
 bash tests/added-lines-clean.test.sh
 bash tests/claim-run.test.sh
 bash tests/continuity.test.sh
+bash tests/canonical-state-rotation.test.sh
 bash tests/phase-validation.test.sh
 bash tests/acceptance-instrument-discipline.test.sh
 bash tests/lossless-evidence-capture.test.sh
@@ -737,6 +752,9 @@ bash tests/custody-append.test.sh
 bash tests/docs-portal.test.sh
 bash tests/genealogy-corpus.test.sh
 bash tests/r0044-reconstruction.test.sh
+bash tests/r0043-reconstruction.test.sh
+bash tests/operational-evidence-contract.test.sh
+bash tests/operational-evidence-portable.test.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
 bash scripts/build-release-asset.sh --check

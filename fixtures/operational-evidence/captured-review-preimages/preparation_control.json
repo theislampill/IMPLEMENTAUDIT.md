@@ -1,0 +1,91 @@
+{
+  "schema": "implementaudit.work-graph.v1",
+  "graph_id": "constructed-preparation-graph",
+  "population": {
+    "total_cells": 2
+  },
+  "cells": [
+    {
+      "id": "holder",
+      "state": "ACTIVE",
+      "deps": []
+    },
+    {
+      "id": "prepared",
+      "state": "READY",
+      "deps": [],
+      "preparation": {
+        "kinds": [
+          "REVIEW_PLAN"
+        ],
+        "effect_class": "READ_ONLY_EFFECT_FREE",
+        "final_composed_only": false,
+        "execution_unavailable": {
+          "kind": "LIVE_HOLD",
+          "group": "W_owner",
+          "holders": [
+            "holder"
+          ]
+        },
+        "rank": {
+          "terminal_unlock_value": 1,
+          "expected_reuse": 1,
+          "cost": 1,
+          "invalidation_risk": 1
+        },
+        "record": {
+          "graph_path": "/constructed/WORK_GRAPH.json",
+          "receipt": "refs/implementaudit/continuity-receipts/constructed/G0001@1111111111111111111111111111111111111111",
+          "predecessors": [
+            {
+              "cell_id": "holder",
+              "state": "ACTIVE",
+              "identity": {
+                "kind": "UNAVAILABLE",
+                "reason": "NOT_DONE"
+              }
+            }
+          ],
+          "interface_assumptions": {
+            "constructed-interface": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "inspected_paths": [
+            "/constructed/owner.py"
+          ],
+          "proposed_paths": [
+            "/constructed/review-plan.md"
+          ],
+          "allowed_work": [
+            "REVIEW_PLAN"
+          ],
+          "forbidden_work": [
+            "SOURCE_MUTATION",
+            "GRAPH_MUTATION",
+            "LIFECYCLE_CREDIT",
+            "REF_MUTATION",
+            "PACKAGE_INSTALL_PUBLICATION",
+            "EXTERNAL_EFFECT"
+          ],
+          "cost_boundary": "constructed finite review only",
+          "invalidators": [
+            "TARGET_STATE",
+            "DEPENDENCY_RESULT",
+            "INTERFACE_ASSUMPTION"
+          ],
+          "activation_revalidation": [
+            "CURRENTNESS",
+            "DEPENDENCY_RESULTS",
+            "INTERFACE_ASSUMPTIONS",
+            "CAUSAL_RED"
+          ]
+        }
+      }
+    }
+  ],
+  "serialization_groups": {
+    "W_owner": [
+      "holder",
+      "prepared"
+    ]
+  }
+}

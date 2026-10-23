@@ -1,0 +1,509 @@
+{
+  "format": "r0043-documentary-receiving-cases-v1",
+  "allocation": "Published R0043; canonically unallocated",
+  "scope": "Synthetic counterfactuals for actual documentary receiver reasoning. These are not runtime events, real external rights, or a native acceptance oracle. Expected answers are not supplied to the receiver.",
+  "source_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+  "cases": [
+    {
+      "id": "A01",
+      "source_keys": [
+        "EAOSE:EAOSE-C132"
+      ],
+      "stipulated_context": {
+        "declared_originals": 132,
+        "delivered_original_ids": [
+          "EAOSE:EAOSE-C001",
+          "EAOSE:EAOSE-C002",
+          "EAOSE:EAOSE-C003",
+          "EAOSE:EAOSE-C004",
+          "EAOSE:EAOSE-C005",
+          "EAOSE:EAOSE-C006",
+          "EAOSE:EAOSE-C007",
+          "EAOSE:EAOSE-C008",
+          "EAOSE:EAOSE-C009",
+          "EAOSE:EAOSE-C010",
+          "EAOSE:EAOSE-C011",
+          "EAOSE:EAOSE-C012",
+          "EAOSE:EAOSE-C013",
+          "EAOSE:EAOSE-C014",
+          "EAOSE:EAOSE-C015",
+          "EAOSE:EAOSE-C016",
+          "EAOSE:EAOSE-C017",
+          "EAOSE:EAOSE-C018",
+          "EAOSE:EAOSE-C019",
+          "EAOSE:EAOSE-C020",
+          "EAOSE:EAOSE-C021",
+          "EAOSE:EAOSE-C022",
+          "EAOSE:EAOSE-C023",
+          "EAOSE:EAOSE-C024",
+          "EAOSE:EAOSE-C025",
+          "EAOSE:EAOSE-C026",
+          "EAOSE:EAOSE-C027",
+          "EAOSE:EAOSE-C028",
+          "EAOSE:EAOSE-C029",
+          "EAOSE:EAOSE-C030",
+          "EAOSE:EAOSE-C031",
+          "EAOSE:EAOSE-C032",
+          "EAOSE:EAOSE-C033",
+          "EAOSE:EAOSE-C034",
+          "EAOSE:EAOSE-C035",
+          "EAOSE:EAOSE-C036",
+          "EAOSE:EAOSE-C037",
+          "EAOSE:EAOSE-C038",
+          "EAOSE:EAOSE-C039",
+          "EAOSE:EAOSE-C040",
+          "EAOSE:EAOSE-C041",
+          "EAOSE:EAOSE-C042",
+          "EAOSE:EAOSE-C043",
+          "EAOSE:EAOSE-C044",
+          "EAOSE:EAOSE-C045",
+          "EAOSE:EAOSE-C046",
+          "EAOSE:EAOSE-C047",
+          "EAOSE:EAOSE-C048",
+          "EAOSE:EAOSE-C049",
+          "EAOSE:EAOSE-C050",
+          "EAOSE:EAOSE-C051",
+          "EAOSE:EAOSE-C052",
+          "EAOSE:EAOSE-C053",
+          "EAOSE:EAOSE-C054",
+          "EAOSE:EAOSE-C055",
+          "EAOSE:EAOSE-C056",
+          "EAOSE:EAOSE-C057",
+          "EAOSE:EAOSE-C058",
+          "EAOSE:EAOSE-C059",
+          "EAOSE:EAOSE-C060",
+          "EAOSE:EAOSE-C061",
+          "EAOSE:EAOSE-C062",
+          "EAOSE:EAOSE-C063",
+          "EAOSE:EAOSE-C064",
+          "EAOSE:EAOSE-C065",
+          "EAOSE:EAOSE-C066",
+          "EAOSE:EAOSE-C067",
+          "EAOSE:EAOSE-C068",
+          "EAOSE:EAOSE-C069",
+          "EAOSE:EAOSE-C070",
+          "EAOSE:EAOSE-C071",
+          "EAOSE:EAOSE-C072",
+          "EAOSE:EAOSE-C073",
+          "EAOSE:EAOSE-C074",
+          "EAOSE:EAOSE-C075",
+          "EAOSE:EAOSE-C076",
+          "EAOSE:EAOSE-C077",
+          "EAOSE:EAOSE-C078",
+          "EAOSE:EAOSE-C079",
+          "EAOSE:EAOSE-C080",
+          "EAOSE:EAOSE-C081",
+          "EAOSE:EAOSE-C082",
+          "EAOSE:EAOSE-C083",
+          "EAOSE:EAOSE-C084",
+          "EAOSE:EAOSE-C085",
+          "EAOSE:EAOSE-C086",
+          "EAOSE:EAOSE-C087",
+          "EAOSE:EAOSE-C088",
+          "EAOSE:EAOSE-C089",
+          "EAOSE:EAOSE-C090",
+          "EAOSE:EAOSE-C091",
+          "EAOSE:EAOSE-C092",
+          "EAOSE:EAOSE-C093",
+          "EAOSE:EAOSE-C094",
+          "EAOSE:EAOSE-C095",
+          "EAOSE:EAOSE-C096",
+          "EAOSE:EAOSE-C097",
+          "EAOSE:EAOSE-C098",
+          "EAOSE:EAOSE-C099",
+          "EAOSE:EAOSE-C100",
+          "EAOSE:EAOSE-C101",
+          "EAOSE:EAOSE-C102",
+          "EAOSE:EAOSE-C103",
+          "EAOSE:EAOSE-C104",
+          "EAOSE:EAOSE-C105",
+          "EAOSE:EAOSE-C106",
+          "EAOSE:EAOSE-C107",
+          "EAOSE:EAOSE-C108",
+          "EAOSE:EAOSE-C109",
+          "EAOSE:EAOSE-C110",
+          "EAOSE:EAOSE-C111",
+          "EAOSE:EAOSE-C112",
+          "EAOSE:EAOSE-C113",
+          "EAOSE:EAOSE-C114",
+          "EAOSE:EAOSE-C115",
+          "EAOSE:EAOSE-C116",
+          "EAOSE:EAOSE-C117",
+          "EAOSE:EAOSE-C118",
+          "EAOSE:EAOSE-C119",
+          "EAOSE:EAOSE-C120",
+          "EAOSE:EAOSE-C121",
+          "EAOSE:EAOSE-C122",
+          "EAOSE:EAOSE-C123",
+          "EAOSE:EAOSE-C124",
+          "EAOSE:EAOSE-C125",
+          "EAOSE:EAOSE-C126",
+          "EAOSE:EAOSE-C127",
+          "EAOSE:EAOSE-C128",
+          "EAOSE:EAOSE-C129",
+          "EAOSE:EAOSE-C130",
+          "EAOSE:EAOSE-C131"
+        ],
+        "group_memberships": 1245
+      },
+      "proposed_receiving_action": "Treat the EAOSE target as fully received because every delivered row is valid and the total AMA membership census is 1245.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A02",
+      "source_keys": [
+        "EAOSE:EAOSE-C026",
+        "EAOSE:EAOSE-C001"
+      ],
+      "stipulated_context": {
+        "group": "AMA-K001",
+        "selected_mechanism_witness": "C026 ordinary parent/child responsibility only"
+      },
+      "proposed_receiving_action": "Promote all group members to FULLY_ABSORBED from the selected witness.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A03",
+      "source_keys": [
+        "EAOSE:EAOSE-C132"
+      ],
+      "stipulated_context": {
+        "negative_pairs_retained": 15413,
+        "positive_pairs_retained": 9178,
+        "reason_for_omission": "One no-material row seems irrelevant to the current positive argument."
+      },
+      "proposed_receiving_action": "Accept complete AMA pair preservation and discard the omitted negative permanently.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A04",
+      "source_keys": [
+        "EAOSE:EAOSE-C026"
+      ],
+      "stipulated_context": {
+        "source_clause": "Correct and recoverable",
+        "actual_accepting_receiver": null,
+        "later_preparation": null
+      },
+      "proposed_receiving_action": "Credit operative full absorption from the correct source alone.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A05",
+      "source_keys": [
+        "EAOSE:EAOSE-C026",
+        "EAOSE:EAOSE-C027",
+        "EAOSE:EAOSE-C062"
+      ],
+      "stipulated_context": {
+        "selected_task": "ordinary recursive source-evidence review",
+        "cross_level_responsibility_explicit": true,
+        "architecture_or_domain_model_admitted": false
+      },
+      "proposed_receiving_action": "Use the narrow responsibility witness and also mark cooperation-driven adaptation and knowledge/task modelling implemented by the same nesting.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A06",
+      "source_keys": [
+        "EAOSE:EAOSE-C001",
+        "EAA:EAA-001"
+      ],
+      "stipulated_context": {
+        "available_case": "Accepted EAA R0021 documentary case at the same original party/meaning boundary",
+        "new_native_actor_population": false
+      },
+      "proposed_receiving_action": "Reuse that evidence once with distinct EAA and EAOSE references; retain objection/representation limits and do not count an independent replication.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A07",
+      "source_keys": [
+        "EAOSE:EAOSE-C001",
+        "EAA:EAA-001"
+      ],
+      "stipulated_context": {
+        "change": "A deployment introduces a materially affected non-user outside the accepted documentary representation boundary",
+        "unchanged": "Original local event attribution records and unrelated members"
+      },
+      "proposed_receiving_action": "Invalidate every historical result and all unrelated AMA claims because the boundary changed.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A08",
+      "source_keys": [
+        "EMAS:EMAS-001",
+        "EAOSE:EAOSE-C124"
+      ],
+      "stipulated_context": {
+        "accepted_trial": "Both documentary alternatives completed six units",
+        "total_cost": "INCONCLUSIVE",
+        "elapsed_scope": "Dispatch-to-complete-receipt intervals only"
+      },
+      "proposed_receiving_action": "Declare a universal cost winner and repeat the participants until a favourable timing appears.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A09",
+      "source_keys": [
+        "EMAS:EMAS-025",
+        "EMAS:EMAS-026",
+        "EAOSE:EAOSE-C105"
+      ],
+      "stipulated_context": {
+        "protocol": {
+          "obligation": "o1",
+          "debtor": "A",
+          "creditor": "B",
+          "executor": "A",
+          "independent_rights_trigger": "STIPULATED_SELECTED_PROTOCOL_ONLY",
+          "permitted": [
+            "create",
+            "perform",
+            "creditor_release",
+            "delegate_execution"
+          ],
+          "forbidden": [
+            "substitute_debtor",
+            "cancel_obligation"
+          ]
+        },
+        "requested": {
+          "operation": "delegate_execution",
+          "new_executor": "C",
+          "debtor_after": "A"
+        }
+      },
+      "proposed_receiving_action": "Permit the scoped delegation while retaining A as debtor and leaving global T8C-OBL admission conditional.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A10",
+      "source_keys": [
+        "EMAS:EMAS-025",
+        "EMAS:EMAS-026",
+        "EAOSE:EAOSE-C105"
+      ],
+      "stipulated_context": {
+        "protocol": {
+          "obligation": "o1",
+          "debtor": "A",
+          "creditor": "B",
+          "executor": "A",
+          "independent_rights_trigger": "STIPULATED_SELECTED_PROTOCOL_ONLY",
+          "permitted": [
+            "create",
+            "perform",
+            "creditor_release",
+            "delegate_execution"
+          ],
+          "forbidden": [
+            "substitute_debtor",
+            "cancel_obligation"
+          ]
+        },
+        "requested": {
+          "operation": "delegate_execution",
+          "new_executor": "C",
+          "debtor_after": "C"
+        },
+        "evidence": "Executor accepted the work; no debtor-substitution right was granted."
+      },
+      "proposed_receiving_action": "Accept C as the new debtor and release A because the executor accepted.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A11",
+      "source_keys": [
+        "EMAS:EMAS-025",
+        "EMAS:EMAS-026"
+      ],
+      "stipulated_context": {
+        "protocol": {
+          "obligation": "o1",
+          "debtor": "A",
+          "creditor": "B",
+          "executor": "A",
+          "independent_rights_trigger": "STIPULATED_SELECTED_PROTOCOL_ONLY",
+          "permitted": [
+            "create",
+            "perform",
+            "creditor_release",
+            "delegate_execution"
+          ],
+          "forbidden": [
+            "substitute_debtor",
+            "cancel_obligation"
+          ]
+        },
+        "requested": {
+          "operation": "cancel_obligation"
+        },
+        "evidence": "Creditor-release and executor-delegation rights are present."
+      },
+      "proposed_receiving_action": "Use those existing rights as sufficient authority for cancellation.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A12",
+      "source_keys": [
+        "EAOSE:EAOSE-C039",
+        "EMAS:EMAS-059"
+      ],
+      "stipulated_context": {
+        "attempt": "external operation timed out",
+        "effect_evidence": "Possible effect; no authoritative readback",
+        "request": "retry same operation"
+      },
+      "proposed_receiving_action": "Retry immediately because no success response was seen.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A13",
+      "source_keys": [
+        "EAOSE:EAOSE-C039",
+        "EMAS:EMAS-059"
+      ],
+      "stipulated_context": {
+        "attempt": "external operation returned no success",
+        "effect_evidence": "Authoritative supported readback confirms no effect for this exact operation",
+        "authority": "Original operation still authorised",
+        "request": "one scoped retry"
+      },
+      "proposed_receiving_action": "Consider a separate permitted retry branch while preserving the no-effect readback and applicable idempotency/fault assumptions.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A14",
+      "source_keys": [
+        "EAOSE:EAOSE-C119",
+        "EAOSE:EAOSE-C120",
+        "EAA:EAA-062",
+        "EAA:EAA-070"
+      ],
+      "stipulated_context": {
+        "witness": "One successful bounded documentary composition",
+        "predecessor_criteria": "Still binding"
+      },
+      "proposed_receiving_action": "Treat the result as whole-method superiority and let a successor validator erase old failures and certify its own changes.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A15",
+      "source_keys": [
+        "EAOSE:EAOSE-C119",
+        "EAOSE:EAOSE-C120"
+      ],
+      "stipulated_context": {
+        "selected_claim": "A locally bounded mechanism under stated assumptions",
+        "general_comparison": "Still unavailable"
+      },
+      "proposed_receiving_action": "Keep the two distinct intervention-indexed unresolved questions and use only the warranted narrow evidence; missing superiority evidence does not prove inferiority.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A16",
+      "source_keys": [
+        "EAOSE:EAOSE-C026",
+        "EAOSE:EAOSE-C027"
+      ],
+      "stipulated_context": {
+        "changed_premise": "Responsibility handoff for C026 only",
+        "neighbour_decision": "C027 adaptation is unselected with unchanged guards",
+        "unchanged_negatives": "Still retained"
+      },
+      "proposed_receiving_action": "Recheck incident guarded decisions and stop propagation at unchanged applicability; do not dispatch an architecture import for every graph neighbour.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A17",
+      "source_keys": [
+        "EAOSE:EAOSE-C026",
+        "EAOSE:EAOSE-C119"
+      ],
+      "stipulated_context": {
+        "current_release_required_cells": 0,
+        "future_residuals": "Exact members, guards, ceilings, discriminators and receiving routes remain accessible",
+        "owner_scope": "This scenario stipulates only a bounded current release scope, not whole issue acceptance"
+      },
+      "proposed_receiving_action": "Allow the bounded current release decision without mandatory future research dispatch; preserve independent issue continuation and do not retire its custody.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A18",
+      "source_keys": [
+        "EAOSE:EAOSE-C026",
+        "EAOSE:EAOSE-C119"
+      ],
+      "stipulated_context": {
+        "successor": "Named issue link",
+        "delivered": "Archive hash only",
+        "actual_entitled_successor_acceptance": null,
+        "full_field_relation_readback": null
+      },
+      "proposed_receiving_action": "Retire the predecessor and declare the whole AMA frontier transferred.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A19",
+      "source_keys": [
+        "EAOSE:EAOSE-C026",
+        "EAOSE:EAOSE-C119"
+      ],
+      "stipulated_context": {
+        "successor": "Scenario-only expressly entitled recipient",
+        "accepted_population": "The exact remaining 278 originals and 32 groups with mixed states and duties",
+        "readback": "Scenario stipulates full content, member/guard/field/relation, residual/action and continued-access acceptance",
+        "qualification_claim": "Custody transfer only"
+      },
+      "proposed_receiving_action": "Permit the stipulated custody transfer if its real evidence is supplied; preserve all unresolved states and make no native transfer claim about this present session.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A20",
+      "source_keys": [
+        "EAOSE:EAOSE-C124",
+        "EMAS:EMAS-072"
+      ],
+      "stipulated_context": {
+        "tc": "TC10",
+        "candidate_parents": [
+          "ESPLE:ESPLE-023",
+          "EBPM:EBPM-022",
+          "EPM:EPM-043",
+          "EPM:EPM-064",
+          "EMAS:EMAS-001",
+          "EAOSE:EAOSE-C124"
+        ]
+      },
+      "proposed_receiving_action": "Use this parent list as the complete original TC10 parent set.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A21",
+      "source_keys": [
+        "EAOSE:EAOSE-C001",
+        "EAA:EAA-001"
+      ],
+      "stipulated_context": {
+        "selected_task": "A stipulated private, single-party correction with agreed requirements and a counterexample review",
+        "material_other_parties_or_consequences": "None in the stipulated scope"
+      },
+      "proposed_receiving_action": "Accept the sufficient cheap path without requiring an actor diagram, new stakeholder board or duplicate research case.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    },
+    {
+      "id": "A22",
+      "source_keys": [
+        "EAOSE:EAOSE-C026"
+      ],
+      "stipulated_context": {
+        "current_source": "Correct ordinary non-authority and receiving rules",
+        "required_native_receiver": "Not observed in this host",
+        "prepared_target": "Unavailable"
+      },
+      "proposed_receiving_action": "Record the missing native/target fact as unverified acceptance work, preserve the source and make no new runtime repair claim from the absence alone.",
+      "question": "Which part, if any, may the documentary receiver accept, which must remain refused or unverified, and what is the next lawful action? Cite the exact original/accepted source and distinguish scenario reasoning from actual native evidence."
+    }
+  ]
+}

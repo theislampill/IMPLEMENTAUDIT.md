@@ -982,6 +982,8 @@ installed_validator_dir="$tmp/installed-validator/skills/implementaudit/scripts"
 installed_template_dir="$tmp/installed-validator/skills/implementaudit/templates"
 mkdir -p "$installed_validator_dir" "$installed_template_dir"
 cp "$helper" "$installed_validator_dir/validate-run-root.sh"
+cp skills/implementaudit/scripts/read-canonical-pair.py "$installed_validator_dir/"
+cp skills/implementaudit/scripts/canonical_custody.py "$installed_validator_dir/"
 cp skills/implementaudit/templates/* "$installed_template_dir/"
 bash "$installed_validator_dir/validate-run-root.sh" \
   "$retained_review_fixtures" >/dev/null || {

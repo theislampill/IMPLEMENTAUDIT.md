@@ -75,6 +75,19 @@ Repo map file for brownfield work: `<run-root>/repo-map.md`
 Review column: independent cold-review disposition for executor-facing
 artifacts — PASS / GAP-REVISE / BLOCKED / OWNER DECISION / not applicable.
 
+After canonical migration, read this roadmap through claim-run using the same
+expected pointer token as STATE; root files and archived plans are historical
+context. Preserve the complete DONE/ACTIVE/READY/BLOCKED population, obligations,
+deferrals, dependencies, compensations and selected/omitted planning rationale.
+The paired protected `native_guards` profile retains this role's exact native
+phase table and source lines. Native phase validation consumes the selected
+`native-ROADMAP.md` derivative through `read-canonical-pair.py --native-guards`,
+then rechecks the complete native snapshot with `--verify-current` before
+accepting its result. Every artifact input must retain its owner-bound bytes.
+The pending completed-boundary audit-state obligation remains continuity-owned
+when currentness or epoch is unresolved. Archives and historical refusal scopes
+survive retirement; a projection or plan does not grant execution authority.
+
 ## Execution index (projection)
 
 This roadmap — execution order, dependencies, phase status, and review

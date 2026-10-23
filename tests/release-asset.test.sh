@@ -1166,10 +1166,20 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # R002D revision 1 binds this role to the pre-implementation R0021 budget
-    # declaration. Final bytes cannot select or raise their own cap.
-    OWNER_OUTER_BOUND_BYTES = 327_680
-    MIN_HEADROOM_BYTES = 0
+    # History: R002D revision 1 enforced the pre-implementation R0021 cap of
+    # 327680 bytes, with MIN_HEADROOM_BYTES=0 in this legacy guard. Its prior
+    # measurements and failures retain that historical declaration.
+    # R0039 revision 2 is an explicit prospective owner amendment to 393216
+    # bytes, retaining the mandatory 2000-byte reserve. Final bytes cannot
+    # select or raise their own cap.
+    package_budget = json.loads(zf.read("IMPLEMENTAUDIT_PACKAGE.json"))
+    declared_budget = package_budget["budgets"]["standalone_compatibility"]
+    if package_budget["budget_revision"]["revision"] != 2:
+        raise SystemExit("standalone budget is not prospective R0039 revision 2")
+    if (declared_budget["cap_bytes"], declared_budget["reserve_bytes"]) != (393216, 2000):
+        raise SystemExit("standalone declaration differs from the approved R0039 budget")
+    OWNER_OUTER_BOUND_BYTES = 393_216
+    MIN_HEADROOM_BYTES = 2_000
     CALIBRATION_QUANTUM_BYTES = 65_536
     CURRENT_CALIBRATION_AUTHORITY = "owner"
     ALLOWED_CALIBRATION_AUTHORITIES = {
@@ -1180,7 +1190,7 @@ with zipfile.ZipFile(asset) as zf:
             "current calibration authority must name the owner-authorised fold-in"
         )
 
-    MAX_ASSET_BYTES = 327_680
+    MAX_ASSET_BYTES = 393_216
     CURRENT_CALIBRATION_ASSET_BYTES = asset_bytes
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
@@ -1190,7 +1200,8 @@ with zipfile.ZipFile(asset) as zf:
     N04_IDENTITY_INTEGRITY_FORECAST_BYTES = 202_593
     N05_CALIBRATION_MAIN_ASSET_BYTES = 202_679
     N05_FINAL_MEASURED_FORECAST_BYTES = 206_159
-    FIRST_REJECTED_BYTES = MAX_ASSET_BYTES + 1
+    MAX_ACCEPTED_BYTES = MAX_ASSET_BYTES - MIN_HEADROOM_BYTES
+    FIRST_REJECTED_BYTES = MAX_ACCEPTED_BYTES + 1
 
     def enforce_asset_budget_policy(max_bytes, measured_bytes, authority):
         if max_bytes > OWNER_OUTER_BOUND_BYTES:
@@ -1221,9 +1232,9 @@ with zipfile.ZipFile(asset) as zf:
                 f"configured {configured_measured_bytes:,}, "
                 f"actual {actual_bytes:,}"
             )
-        if max_bytes != 327_680:
+        if max_bytes != 393_216:
             raise SystemExit(
-                "hard ceiling differs from the reviewed pre-build R0021 cap: "
+                "hard ceiling differs from the approved prospective R0039 cap: "
                 f"got {max_bytes:,}"
             )
         enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
@@ -1237,7 +1248,7 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(f"budget policy accepted {fragment}")
 
     for fragment, values in (
-        ("outer bound", (393_216, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("outer bound", (458_752, N06_BASELINE_ASSET_BYTES, "owner")),
         ("minimum headroom", (196_608, N06_BASELINE_ASSET_BYTES, "owner")),
         ("calibration authority", (
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
@@ -1260,7 +1271,7 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
         ("configured measurement", (
             230_000, 227_500, asset_bytes, "owner")),
-        ("reviewed pre-build R0021 cap", (
+        ("approved prospective R0039 cap", (
             MAX_ASSET_BYTES - CALIBRATION_QUANTUM_BYTES,
             asset_bytes, asset_bytes, "owner")),
     ):
@@ -1270,19 +1281,19 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, authority)
 
     def enforce_asset_budget(candidate_bytes):
-        if candidate_bytes <= MAX_ASSET_BYTES:
+        if candidate_bytes <= MAX_ACCEPTED_BYTES:
             return
         raise SystemExit(
-            f"asset size {candidate_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "
-            "threshold. Verify ZIP_DEFLATED compression is applied (the check above), "
-            "then update MAX_ASSET_BYTES in tests/release-asset.test.sh if the payload "
-            "growth is intentional."
+            f"asset size {candidate_bytes:,} bytes exceeds the {MAX_ACCEPTED_BYTES:,}-byte "
+            f"accepting maximum: the {MAX_ASSET_BYTES:,}-byte owner-approved cap "
+            f"requires {MIN_HEADROOM_BYTES:,} bytes of reserve. Any budget amendment "
+            "requires a new prospective owner decision."
         )
 
     # Historical probes, the N05 calibration main asset, the measured final N05
-    # stack, and the ceiling itself must be admitted. The first byte above the
-    # calibrated ceiling must remain rejected. The actual artifact must satisfy
-    # both the durable policy and the unchanged hard-ceiling enforcement.
+    # stack, and the accepting maximum must be admitted. The next byte, the cap
+    # with no reserve, and the first byte above the cap must remain rejected.
+    # The actual artifact must satisfy both the approved policy and reserve.
     enforce_asset_budget(FULL_W1_FORECAST_BYTES)
     enforce_asset_budget(N02_EVIDENCE_CENSUS_FORECAST_BYTES)
     enforce_asset_budget(ISSUE_75_77_84_TRAIN_FORECAST_BYTES)
@@ -1290,13 +1301,14 @@ with zipfile.ZipFile(asset) as zf:
     enforce_asset_budget(N05_CALIBRATION_MAIN_ASSET_BYTES)
     enforce_asset_budget(N05_FINAL_MEASURED_FORECAST_BYTES)
     enforce_asset_budget(N06_FINAL_P7_ASSET_BYTES)
-    enforce_asset_budget(MAX_ASSET_BYTES)
-    try:
-        enforce_asset_budget(FIRST_REJECTED_BYTES)
-    except SystemExit:
-        pass
-    else:
-        raise SystemExit("asset above MAX_ASSET_BYTES was accepted")
+    enforce_asset_budget(MAX_ACCEPTED_BYTES)
+    for rejected_bytes in (FIRST_REJECTED_BYTES, MAX_ASSET_BYTES, MAX_ASSET_BYTES + 1):
+        try:
+            enforce_asset_budget(rejected_bytes)
+        except SystemExit:
+            pass
+        else:
+            raise SystemExit(f"asset above MAX_ACCEPTED_BYTES was accepted: {rejected_bytes}")
 
     enforce_calibrated_asset_policy(
         MAX_ASSET_BYTES, CURRENT_CALIBRATION_ASSET_BYTES, asset_bytes,

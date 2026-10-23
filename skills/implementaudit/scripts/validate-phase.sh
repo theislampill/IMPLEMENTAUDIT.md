@@ -29,10 +29,22 @@ if [ "${1:-}" = "--mutation-authority" ]; then
   elif command -v python3 >/dev/null 2>&1; then py=(python3)
   elif command -v py >/dev/null 2>&1; then py=(py -3)
   else printf 'validate-phase: Python is required for mutation authority\n' >&2; exit 2; fi
-  "${py[@]}" - "$phase_file" "$phase" "$step" "$repo_root" "$run_root" <<'PY'
+  phase_work="$(mktemp -d)" || exit 1
+  trap 'rm -rf "$phase_work"' EXIT
+  phase_snapshot="$phase_work/pair"
+  mkdir "$phase_snapshot" || exit 1
+  reader="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/read-canonical-pair.py"
+  PYTHONDONTWRITEBYTECODE=1 "${py[@]}" -B "$reader" --run-root "$run_root" --output "$phase_snapshot" --native-guards
+  reader_rc=$?
+  case "$reader_rc" in
+    0) roadmap_input="$phase_snapshot/native-ROADMAP.md" ;;
+    3) roadmap_input="$run_root/ROADMAP.md" ;;
+    *) printf 'validate-phase: canonical pair selection refused; root fallback is forbidden\n' >&2; exit 1 ;;
+  esac
+  PYTHONDONTWRITEBYTECODE=1 "${py[@]}" -B - "$phase_file" "$phase" "$step" "$repo_root" "$run_root" "$roadmap_input" >"$phase_work/authority.json" <<'PY'
 import hashlib,json,os,re,stat,sys
 from pathlib import Path
-phase_file,phase_text,step_text,repo_text,run_text=sys.argv[1:]; phase_no=int(phase_text); step=int(step_text)
+phase_file,phase_text,step_text,repo_text,run_text,roadmap_input=sys.argv[1:]; phase_no=int(phase_text); step=int(step_text)
 def die(s): print('validate-phase: mutation authority '+s,file=sys.stderr); raise SystemExit(1)
 if any(part in ('.','..') for part in Path(phase_file).parts):
  die('phase path must be canonical without dot components')
@@ -58,7 +70,7 @@ try: claim=(run/'.claimed').read_text(encoding='utf-8').splitlines()
 except OSError: die('claim metadata is missing')
 ids=[x.split('=',1)[1] for x in claim if x.startswith('claim_id=')]
 if len(ids)!=1 or not re.fullmatch(r'[0-9a-f]{32}',ids[0]): die('claim metadata lacks one v2 claim_id')
-roadmap=run/'ROADMAP.md'
+roadmap=Path(roadmap_input)
 if not roadmap.is_file() or len(re.findall(rf'(?m)^\|\s*{phase_no}\s*\|',roadmap.read_text(encoding='utf-8')))!=1: die('ROADMAP does not contain exactly one matching phase row')
 def pathok(x):
  return isinstance(x,str) and bool(x) and not x.endswith('/') and not x.startswith('/') and '\\' not in x and not re.match(r'^[A-Za-z]:',x) and not any(ord(c)<32 for c in x) and all(y not in ('','.','..') for y in x.split('/'))
@@ -92,7 +104,14 @@ binding={'schema':'implementaudit.phase-mutation-authority-binding.v1','claim_id
 digest=hashlib.sha256(json.dumps(binding,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
 print(json.dumps({'schema':'implementaudit.phase-mutation-authority.v1','phase':phase_no,'step':step,'run_root':run_rel,'operation':op,'source':source,'destination':dest,'mutation_scope':scope,'authority_binding_sha256':digest},separators=(',',':'),ensure_ascii=False))
 PY
-  exit $?
+  authority_rc=$?
+  [ "$authority_rc" -eq 0 ] || exit "$authority_rc"
+  if [ "$reader_rc" -eq 0 ]; then
+    PYTHONDONTWRITEBYTECODE=1 "${py[@]}" -B "$reader" --run-root "$run_root" --output "$phase_snapshot" \
+      --native-guards --verify-current || exit 1
+  fi
+  cat "$phase_work/authority.json"
+  exit 0
 fi
 
 fail() {

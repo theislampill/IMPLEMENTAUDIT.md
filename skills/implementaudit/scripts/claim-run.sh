@@ -172,17 +172,58 @@ controller_io() {
   esac
 }
 
+# The companion is the existing claim owner implementation. Exit 3 means only
+# physical absence of both migration authorities; every other refusal is final.
+rotation_io() {
+  local rotation_py=()
+  if command -v python3 >/dev/null 2>&1; then rotation_py=(python3)
+  elif command -v python >/dev/null 2>&1; then rotation_py=(python)
+  elif command -v py >/dev/null 2>&1; then rotation_py=(py -3)
+  else printf 'claim-run.sh: Python 3 is required for generation currentness\n' >&2; return 1; fi
+  "${rotation_py[@]}" -B "$(dirname "$0")/claim-run-rotation.py" "$@"
+}
+
 controller='' supersede='' deferred='' boundary='' event=''
 case "${1:-}" in
+  --rotate-canonical-state|--recover-canonical-state|--read-current-state|--read-canonical-state|--resolve-canonical-generation|--resolve-resume-generation|--read-resume-state)
+    rotation_operation="$1"; controller="${2:-}"; shift 2
+    case "$rotation_operation" in
+      --rotate-canonical-state) rotation_operation=rotate ;;
+      --recover-canonical-state) rotation_operation=recover ;;
+      --read-current-state) rotation_operation=read ;;
+      --read-canonical-state) rotation_operation=read-role ;;
+      --resolve-canonical-generation) rotation_operation=resolve ;;
+      --resolve-resume-generation) rotation_operation=resolve-resume ;;
+      --read-resume-state) rotation_operation=read-resume ;;
+    esac
+    rotation_io "$rotation_operation" "$controller" "$@"; exit $? ;;
   --current-controller) controller_io current "${2:-}"; exit $? ;;
   --resume-controller)
-    controller="${2:-}"; shift 2; boundary='' epoch=''
-    while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --epoch) epoch="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown resume argument: %s\n' "$1" >&2; exit 1;; esac; done
+    controller="${2:-}"; shift 2; boundary='' epoch='' expected_pointer='' expected_invalidation=''
+    while [ "$#" -gt 0 ]; do
+      [ "$#" -ge 2 ] || { printf 'claim-run.sh: resume argument is missing a value\n' >&2; exit 1; }
+      case "$1" in
+        --boundary) boundary="$2" ;;
+        --epoch) epoch="$2" ;;
+        --expected-pointer) [ -z "$expected_pointer" ] || exit 1; expected_pointer="$2" ;;
+        --expected-invalidation) [ -z "$expected_invalidation" ] || exit 1; expected_invalidation="$2" ;;
+        *) printf 'claim-run.sh: unknown resume argument: %s\n' "$1" >&2; exit 1 ;;
+      esac
+      shift 2
+    done
+    rotation_io resume "$controller" "$boundary" "$epoch" "$expected_pointer" "$expected_invalidation"; rotation_status=$?
+    [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
+    [ -z "$expected_pointer$expected_invalidation" ] || { printf 'claim-run.sh: migrated resume tokens cannot route through legacy continuity\n' >&2; exit 1; }
     controller_io resume "$controller" "$boundary" "$epoch"; exit $? ;;
   --verify-resume-receipt)
     receipt_arg="${2:-}"; controller="${receipt_arg%@*}"; controller="${controller#refs/implementaudit/continuity-receipts/}"; controller="${controller%/*}"
+    rotation_io verify "$controller" "$receipt_arg"; rotation_status=$?
+    [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
     controller_io verify "$controller" "$receipt_arg"; exit $? ;;
-  --require-current-continuity) controller_io require "${2:-}"; exit $? ;;
+  --require-current-continuity)
+    rotation_io require "${2:-}"; rotation_status=$?
+    [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
+    controller_io require "${2:-}"; exit $? ;;
   --invalidate-continuity)
     controller="${2:-}"; shift 2; deferred=invalidate
     while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --event) event="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown invalidation argument: %s\n' "$1" >&2; exit 1;; esac; done ;;
@@ -190,6 +231,13 @@ case "${1:-}" in
     controller="${2:-}"; shift 2
     if [ "${1:-}" = --supersede-claim ]; then supersede="${2:-}"; shift 2; fi ;;
 esac
+
+# Resolve migrated ownership before any legacy preflight can consult inherited
+# Git directory/worktree environment. Only exact physical absence falls through.
+if [ "$deferred" = invalidate ]; then
+  rotation_io invalidate "$controller" "$boundary" "$event"; rotation_status=$?
+  [ "$rotation_status" -eq 3 ] || exit "$rotation_status"
+fi
 
 mode=full
 if [ "${1:-}" = "--micro" ]; then

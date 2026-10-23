@@ -43,6 +43,7 @@ if [ "${1:-}" = "--q14-only" ]; then
 fi
 
 "${py_cmd[@]}" - "$cases" <<'PY'
+import copy
 import hashlib
 import itertools
 import json
@@ -690,7 +691,25 @@ def admission_mismatch(case, result):
     return None
 
 admission_failures = []
+
+def current_allocation_case(case):
+    # Frozen v2 fixtures used R0038 when the registry stopped at ordinal 55.
+    # Preserve their bytes and predicates; bind only that symbolic candidate
+    # operand to the current registry. Explicit wrong-candidate controls stay.
+    current = copy.deepcopy(case)
+    allocation = current.get("allocated_rxx")
+    if isinstance(allocation, dict) and allocation.get("next_unreserved_candidate") == "R0038":
+        allocation["next_unreserved_candidate"] = next_unreserved_candidate
+    return current
+
+historical_candidate = next(case for case in admission_cases if case["id"] == "R31-A5")
+if next_unreserved_candidate != "R0038":
+    historical_result = admission_action(historical_candidate)
+    if historical_result != outcome("REJECT", "ALLOCATION_IDENTITY", "REGISTRY_CANDIDATE_MISMATCH"):
+        admission_failures.append("historical allocated candidate gained current admission")
+
 for case in admission_cases:
+    case = current_allocation_case(case)
     observed = admission_action(case)
     if observed["action"] not in allowed_admission_actions:
         admission_failures.append(f"{case['id']}: admission did not produce an allowed action: {observed['action']}")
@@ -699,6 +718,7 @@ for case in admission_cases:
         admission_failures.append(mismatch)
 
 for control in admission_controls:
+    control = current_allocation_case(control)
     mismatch = admission_mismatch(control, admission_action(control))
     if mismatch:
         admission_failures.append(mismatch)
