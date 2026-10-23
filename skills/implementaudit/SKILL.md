@@ -301,8 +301,8 @@ not dispatchable.
    decision, local git trace, and Capability Ledger if configured.
 8. Final audit: verify changed files, generated artifacts, package contents,
    claims, marker order, and unresolved gaps against the complete working tree.
-   For a phased run, use the applicable final-record checks in `templates/PROTOCOL.md`;
-   structural failure is Andon and forbids closure.
+   For a phased run, run `scripts/validate-run-root.sh` immediately before
+   `AUDIT_COMPLETE`; structural failure is Andon and forbids closure.
 
 Andon:
 

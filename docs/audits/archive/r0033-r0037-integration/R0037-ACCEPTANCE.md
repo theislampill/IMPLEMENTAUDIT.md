@@ -39,8 +39,8 @@ execution receipt. Earlier absent-selector, parser and independent adversarial
 failures remain preserved alongside their repairs.
 
 This is a **supplemental bounded portable profile**, not a replacement for the
-full original final-audit path. The governor links to the applicable existing
-PROTOCOL checks. Broader external captures, repository-only reviews, live
+full original final-audit path. The governor retains the required direct structural check immediately before
+closure; supplemental checks remain in PROTOCOL. Broader external captures, repository-only reviews, live
 publication and lesson-lift dependencies keep their original owners and
 acceptance obligations. `OUT_OF_PROFILE` (exit 3) returns no disposition and
 does not mean native facilities are unavailable. `RECORD_REFUSED` (exit 1)

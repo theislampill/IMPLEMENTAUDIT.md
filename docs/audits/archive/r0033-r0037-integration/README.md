@@ -45,13 +45,14 @@ positive checks exact packet bytes; it is not Windows native qualification.
 This selector is a supplemental bounded profile. Full original final-audit
 owners remain normative for their applicable broader inputs. A portable
 out-of-profile refusal is not native unavailability and supplies no disposition
-or bypass permission. The governor/transcript clarification permits recurring
+or bypass permission. The governor retains its original direct structural-validation call immediately
+before closure. The governor/transcript clarification permits recurring
 nonterminal audit rounds while retaining single final closure. No second
 lifecycle engine or mandatory worksheet was added.
 
 On the integrated source, routing and run-root wrappers, finite-cap controls,
-bootstrap, registry and helper census pass. The governor is **21,094 bytes /
-396 lines**, reserve **906 >= 741**; the census is **29/29 helpers, 19/19 modes**.
+bootstrap, registry and helper census pass. The governor is **21,099 bytes /
+396 lines**, reserve **901 >= 741**; the census is **29/29 helpers, 19/19 modes**.
 Exactly fourteen existing governor SHA fields were rebound without changing
 the semantic oracle values. Package limits, reserve, version and compatibility
 requirements remain unchanged. Final successor commit/tree, independent review,
@@ -81,6 +82,26 @@ selection, authentic physical occurrence/LOAD/result/acceptance/JOIN/consumption
 effect ceilings and host-session-bound exit remain their genuine receiving-owner
 and native obligations. The active same-PR continuation has been narrowed
 accordingly, without erasing original populations or prospective-scope limits.
+
+## Preserved hosted regression and repair
+
+Successor `c0573094fc67219fce40ecff0e31198ca33f4eef` / tree
+`2685a10706afd557663fd9c54c7eae4e56a5fe7b` retains the independently reviewed
+portable additions. Hosted run `40036017402` failed because its governor
+reference wording removed the exact direct structural caller required by
+`check-planner-stages.sh`. The original hosted log and a same-source local RED
+are retained. The correction restores the two existing caller lines; the
+checker, workflow and supplemental-profile limits are unchanged. Its focused
+planner GREEN and the complete canonical static prefix pass. These are scoped
+results, not a replacement for the final full hosted run.
+
+The final governor is 21,099 bytes, SHA-256
+`14cdbc87dece8fa16c3e329abc135c0cbe4eb18e7f4b637517a5d9bc1e8d19c6`.
+Its fourteen semantic SHA fields are rebound, with all other oracle values
+preserved. The record validator, PROTOCOL and transcript hashes are unchanged
+from the v5 independent review. Earlier R35/R39 receipts retain their original
+source identities; final PR evidence gives the focused changed-governor
+composition/budget join without claiming unchanged runtime tests were rerun.
 
 ## Actual changes and semantic owners
 

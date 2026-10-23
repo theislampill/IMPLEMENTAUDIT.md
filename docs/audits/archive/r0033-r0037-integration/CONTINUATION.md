@@ -59,7 +59,9 @@ Preserve all original REDs, G0002/G0003 strict-route failures and released
 G0076/G0077 misses. Later bounded recovery/currentness does not repair failed
 chronology. Preserve the full local package exit 1, the actual Andon diagnosis,
 exact quarantined fixture/cache inventories and successful scoped pack recovery.
-Do not call split recovery an unbroken full-package pass. Final CI has its own
+Do not call split recovery an unbroken full-package pass. Preserve successor
+CI40036017402's exact caller-text failure and its original-call restoration;
+the planner checker and workflow were not weakened. Final CI has its own
 exact tested source and outcome.
 
 ## Genuine remaining acceptance boundaries

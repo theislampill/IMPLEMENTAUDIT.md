@@ -15,11 +15,11 @@
     {
       "base_blob": "cf046aeec6be24ba1b299b0bbd0a6ccbea385e2a",
       "bytes": 29574,
-      "candidate_blob": "961d831184f9b756b21c8f0fae3c28ae7e5d5617",
+      "candidate_blob": "156a9daa90273a794824f949a76993a52b789a9c",
       "mode": "100644",
       "path": "fixtures/semantic-preservation/cases.json",
       "published_checkpoint_blob": "80bbe500418faaa0fc6d5d4b867cfd49fef2a79e",
-      "sha256": "cf2db3b9165bf1b2ba7c2a98c6372a1b02db2d0a32a90d970c13d8c5bbbc5cc5"
+      "sha256": "06fca99b08c992a6ab46fd62989685093decbcb6a29a974992ce11c0080bb52c"
     },
     {
       "base_blob": "2dbabe314a29638a99085e647f3f182cfcc923be",
@@ -50,12 +50,12 @@
     },
     {
       "base_blob": "14e5b75c2d160781ac4c3df9e8410bc0150a9c82",
-      "bytes": 21094,
-      "candidate_blob": "e4022d410d9ab71e78fa4ddc11a4136d5f85d677",
+      "bytes": 21099,
+      "candidate_blob": "690804425fec47e69d73655870c33df51e593d99",
       "mode": "100644",
       "path": "skills/implementaudit/SKILL.md",
       "published_checkpoint_blob": "5fdb17e9d2750f73e399bdfc345f3bfa0fb39220",
-      "sha256": "573341c4a68d2b8e7a1d58a898a0bfaa899d59e1cf453e433e61464a4a79d067"
+      "sha256": "14cdbc87dece8fa16c3e329abc135c0cbe4eb18e7f4b637517a5d9bc1e8d19c6"
     },
     {
       "base_blob": "4c8d8002e2e5ec050a4b38936af6e97a464ca2a2",
@@ -202,6 +202,8 @@
       "sha256": "44c40ce7f3accc1198b610f02ee7b2a258cdec1fc3f5df08ce212f73c0270905"
     }
   ],
+  "prior_integrated_checkpoint": "c0573094fc67219fce40ecff0e31198ca33f4eef",
+  "prior_integrated_tree": "2685a10706afd557663fd9c54c7eae4e56a5fe7b",
   "published_checkpoint": "61081882f95bcc8c40685195b0b26a98a3f99a5b",
   "published_tree": "769eb5343bbbff511314c24253d7830017300ded",
   "scope": "22-path portable source integration, excluding derivative acceptance/index documents; no native authority or release proof"
