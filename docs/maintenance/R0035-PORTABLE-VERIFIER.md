@@ -325,14 +325,27 @@ interface, described below. A post-run snapshot still cannot recover a
 generation that was already deleted without that interface. Historical
 endpoint-only records retain that limitation.
 
+The runner acquires its complete command stream through one nonblocking,
+no-follow regular-file descriptor, with a 16 MiB bound and before/after file
+identity checks. It waits for the acquirer's actual successful exit before
+validating framing and the digest or executing any node. A replaced final
+symlink, FIFO, oversized file, partial stream or failed acquirer refuses.
+Once acquired, replacing the pathname cannot change the retained commands.
+This closes the observed final-component check/open race; it does not acquire
+the ancestor namespace, Python startup closure or every command's inputs.
+The same Bash process still preserves argv, stdin, shell state, traps and
+fail-fast behavior. These controls run in `tests/work-graph-stream-cases.py`
+through the existing verifier test family.
+
 The whole-run comparator retains raw-byte equality. Two successful full
 executions are different evidence from a failed raw comparison. No temporary
 path, fixture commit identity, command, result, artifact or meaningful output
 is normalized away. Raw equality also does not independently establish
-transitive output-artifact semantics. Shared registry/governor integration
-remains a separate owner patch set and must be measured and tested on its own
-exact combined overlay; overlay results are not results for the published PR
-tree.
+transitive output-artifact semantics. The current source incorporates the
+formerly reserved registry, governor load-map/applicability and semantic-pin
+repairs through their actual owners. Historical separate-overlay results remain
+bound to those overlays. Package and execution results must identify the exact
+combined source used; they do not transfer to a later source by description.
 
 ## Opt-in portal invocation handoff (C4)
 
@@ -428,6 +441,12 @@ generation links and every retained artifact. The node, fixture, nested-output
 and return records are sealed with their original bytes and modes; their
 declared process-parent chains are checked for internal consistency. Missing, extra, reordered,
 duplicate, stale, foreign, corrupt, symlink or unsupported members refuse.
+Nested source observations require their complete typed populations and byte
+bounds. Runtime observations require their exact schema, an absolute executable
+path, bounded version/flag values and valid digests. Checker identity stamps
+must agree with each retained member's kind, mode and byte count. Resealing an
+incomplete source context, invalid runtime record or impossible stamp does not
+make that record admissible.
 Successful outer execution requires the complete profile and successful node
 return. Failed or pre-node execution can retain explicit incomplete evidence;
 an observer failure leaves the already completed child exit and raw logs in
@@ -490,6 +509,25 @@ inputs; successful manifest, checksum and hash outputs must describe the actual
 retained artifacts. An expected or unexpected failed child remains a failed
 event with its actual exit and raw streams.
 
+The inner record uses `implementaudit.repro-events.v2`. Immediately after a
+child returns, an exclusively created and synced `processes/NN.json` preserves
+its actual integer exit, raw base64 stdout/stderr, invocation, stdin, timing,
+run and source binding. This happens before post-child input, output, source,
+executable or artifact acquisition. A later observer failure retains that
+receipt and an explicit failed handoff; it cannot silently retry or satisfy a
+complete profile. Partial acquired blobs remain bounded and inventoried as
+`unhanded_blobs`. The record always declares `process_results`,
+`handoff_failures` and `unhanded_blobs`; a complete profile requires nineteen
+matching process receipts and events, with no failed handoffs or unhanded blobs.
+
+The input observer refuses a FIFO, alias, special file or unsupported nested
+namespace before dispatch, recording `NOT_STARTED_UNSUPPORTED_INPUT` and a
+null exit. An ordinary-file comparison still retains its actual unequal exit
+1 or missing-operand exit 2. Each raw stream is limited to 8 MiB; the explicit
+26,563,928-byte process-receipt bound accommodates both base64 streams and
+bounded metadata. Process receipts and acquired blobs share a 128 MiB total
+bound. These bounds do not turn a failed acquisition into successful evidence.
+
 Successful build and manifest generations are retained before their existing
 cleanup. Every consuming child receives its original operands; the helper
 records their bytes, modes, membership and ordinary live identity stamps before
@@ -515,7 +553,8 @@ run IDs and successful readback do not establish native currentness, authenticat
 effect admission, governed dispatch, accepted JOIN or release authority.
 
 The helper is repo-only, and its controls run through the existing
-`tests/work-graph-verifier.test.sh` family. `ProfileCases` and `FailureCases`
+`tests/work-graph-verifier.test.sh` family. `ProfileCases`, `FailureCases` and
+`DurabilityCases`
 exercise actual finite child execution, integrity and failure handling;
 `QualifierCases` exercises both legacy/DAG v4 handoffs, receiving mutations,
 partial failures, ambient refusal and the additive v3 profile. The separate
