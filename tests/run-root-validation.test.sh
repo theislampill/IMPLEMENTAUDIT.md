@@ -1045,5 +1045,6 @@ if ln -s "$claim_root" "$tmp/claim-only-link" 2>/dev/null; then
 fi
 
 "${py_cmd[@]}" tests/nonterminal-yield-cases.py
+"${py_cmd[@]}" tests/turn-disposition-cases.py
 
 printf 'run-root-validation.test: ok\n'

@@ -301,8 +301,8 @@ not dispatchable.
    decision, local git trace, and Capability Ledger if configured.
 8. Final audit: verify changed files, generated artifacts, package contents,
    claims, marker order, and unresolved gaps against the complete working tree.
-   For a phased run, run `scripts/validate-run-root.sh` immediately before
-   `AUDIT_COMPLETE`; structural failure is Andon and forbids closure.
+   For a phased run, use the applicable final-record checks in `templates/PROTOCOL.md`;
+   structural failure is Andon and forbids closure.
 
 Andon:
 
@@ -349,7 +349,7 @@ Final markers:
 contract phrase: AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE. Never print
 completion markers when a handoff marker remains active.
 
-Emit each final audit marker exactly once per run.
+Repeat nonterminal audit markers per round; emit final audit closure once.
 Do not replay a completion marker in a later summary or final response. If a
 marker was already emitted at its transition, describe the result without
 printing that marker again.

@@ -1207,6 +1207,72 @@ Print `AUDIT_HANDOFF` (instead of `AUDIT_COMPLETE`) when:
 
 `AUDIT_HANDOFF` must not appear with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 
+### Supplemental portable turn-disposition record check
+
+A response ending is not an audit-object terminal event. Ordinary prephase
+clarification, user pause, owner-authority waits and external waits route to
+truthful `NONTERMINAL_YIELD` when its applicable record is complete; they do not
+automatically become an audited handoff. Read `references/host-session-binding.md`
+for the existing TY-1 through TY-6 record schema, including outside-phase pauses.
+The full final-audit calls and eligibility predicates above remain normative.
+For records covered by the bounded profile below, the sole governor may add this
+mechanical composition of the applicable existing branch:
+
+```text
+bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition NONTERMINAL_YIELD <run-root>
+bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition TERMINAL_CLOSURE <run-root> --closure-record <run-root>/final-report.md --superseded-plan <each-replaced-plan> --plan-cycle-record <each-cycle-accounted-plan>
+bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition AUDITED_HANDOFF <run-root> --handoff-packet <run-root>/handoff.md
+```
+
+This supplemental profile is not a universal replacement for the full original
+owners. Its input limits are not new general artifact-location requirements or
+mandatory worksheets. An out-of-profile refusal supplies no disposition; it is
+not native-host unavailability. Broader captures, reviews, lesson-lift records
+and publication keep their actual original checks and acceptance requirements.
+An `OUT_OF_PROFILE` refusal (exit 3) selects no disposition; use the original
+full owners for those broader inputs. `RECORD_REFUSED` (exit 1) identifies an
+input failure or contradiction that remains unresolved. Neither authorizes
+closure, waives a required check or creates a fallback permission. Preserve
+the exact unavailable or unproved input boundary.
+
+Repeat applicable plan options exactly as inventoried in STATE; omit only the
+inapplicable options. An optional `--response-record <path>` checks a supplied
+response's markers too. This is a source record, not an authentic host response
+binding. A requested yield cannot downgrade actual terminal or handoff claims.
+The closure branch composes phase, lesson-lift and closure owners, passes the
+real `--steer-dir`, retains sibling `deferrals.jsonl`, and requires terminal
+eligibility, current final anchors, qualification and numeric coverage math.
+Its bounded portable read set contains regular non-aliased files inside the run
+root (and sibling roots when the existing claim check consumes them), packaged
+owners and templates, with closure at the run root top level. External captures,
+active scarce-resource rehearsals, repository-only reviews, external lesson-lift
+inputs and dynamic publication dependencies refuse explicitly. Each fixed helper
+has a ten-second read-validation bound; timeout terminates only its launched
+process group and returns no disposition. This is not an audit-round/retry cap. A declared `## Deliverables` list uses one literal backticked
+path per bullet. Under canonical selection, every consumed nested dependency must also appear
+in the existing selected owner map. Future outputs of an in-progress phase do
+not block a truthful yield. No command written in a target record is executed.
+
+Within this profile, handoff current STATE remains `BLOCKED` with audit object `open`, concrete
+Blocker, Owner/source, Next action and Re-entry condition. `Handoff basis` is
+`owner-request` or `andon`; `Handoff evidence` names the contained evidence file.
+The existing packet carries its bare SHA-256 content hash and one exclusive
+`AUDIT_HANDOFF` or `ANDON_HANDOFF`. Owner-requested handoff uses `AUDIT_HANDOFF`
+without fabricated Andon attempts. Andon handoff additionally records Phase,
+Failing criterion, Probe and escalation history, Handoff trigger, Remaining
+blocker and Next owner action, with its exact blocked phase/log evidence. The
+trigger is an existing condition: `owner-decision`, `unsafe-scope`,
+`missing-authorization`, `external-dependency`, `irreproducibility`,
+`missing-tool-or-access` or `no-bounded-countermeasure`, never an arbitrary count.
+Packet Class-3 text and `has_state_claims: no` cannot establish handoff alone.
+
+The result validates the supplied record disposition only: authority NONE,
+effect authority false, native enforcement false. It grants no Stop, lifecycle,
+closure, JOIN, publication or currentness authority. Natural-language evidence
+sufficiency and authentic host-session acceptance remain separate obligations.
+The existing native adapter retains its unsupported-host result; unbound
+ordinary Stop retains its own cheap path.
+
 ### Ordering rules
 
 - `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`.

@@ -458,7 +458,10 @@ IMPLEMENTAUDIT_RUN_COMPLETE
 
 Rules:
 
-- Emit each final audit marker exactly once per run.
+- Emit `AUDIT_START`, `AUDIT_VERIFY`, and applicable `AUDIT_GAPS`/`AUDIT_WARNING`
+  per final-audit round. Emit `AUDIT_COMPLETE`, `AUDIT_HANDOFF` and
+  `IMPLEMENTAUDIT_RUN_COMPLETE` once per run. Phase-local `ANDON_HANDOFF`
+  follows its own phase contract.
   Do not replay a completion marker in a later summary or final response. Once
   emitted at its transition, later prose may describe the state but must not
   print that marker again.

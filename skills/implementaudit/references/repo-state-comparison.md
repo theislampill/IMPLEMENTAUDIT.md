@@ -274,6 +274,9 @@ Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
 
 For a selected portable nonterminal-yield record check, run
 `bash <skill-dir>/scripts/validate-run-root.sh --nonterminal-yield <run-root>`.
+For the composed branch check, run
+`bash <skill-dir>/scripts/validate-run-root.sh --turn-disposition <disposition> <run-root>`
+with the explicit record and applicable plan inputs listed in PROTOCOL.
 This is record-only validation with no host authority. The existing governor
 selects it under `references/host-session-binding.md`; native Stop remains
 unsupported. The evidential-support values consumer is governor-procedural:
@@ -298,6 +301,7 @@ helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|sta
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
 helper-mode: validate-run-root.sh|--nonterminal-yield|<run-root>|record-only-no-host-authority
+helper-mode: validate-run-root.sh|--turn-disposition|<disposition> <run-root>|composed-record-only-no-host-authority
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
 
