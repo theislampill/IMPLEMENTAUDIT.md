@@ -79,13 +79,13 @@
     ]
   },
   "budget_revision": {
-    "revision": 2,
+    "revision": 3,
     "applicability": "prospective",
-    "owner": "R0039",
-    "supersedes_revision": 1,
+    "owner": "R003A",
+    "supersedes_revision": 2,
     "owner_approval": {
-      "path": "package/budgets/r0039-v2-owner-approval.md",
-      "sha256": "c5575774aae04aeb65de98390831e76c9971da570dc60f0b4eadad2aa2da1582"
+      "path": "package/budgets/r003a-v3-owner-approval.md",
+      "sha256": "21e1affebd7de32a91e578a601671efd1c1acdd8a06df2074eda287e0c9cf0d1"
     }
   },
   "budget_history": {
@@ -114,6 +114,24 @@
         "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
         "locked_before_builder_change": true
       }
+    },
+    "2": {
+      "canonical_plugin": {
+        "artifact_role": "canonical_plugin",
+        "measurement": "final_deterministic_compressed_bytes",
+        "rounding_unit_bytes": 65536,
+        "cap_bytes": 393216,
+        "reserve_bytes": 2000,
+        "owner": "R0039"
+      },
+      "standalone_compatibility": {
+        "artifact_role": "standalone_compatibility",
+        "measurement": "final_deterministic_compressed_bytes",
+        "rounding_unit_bytes": 65536,
+        "cap_bytes": 393216,
+        "reserve_bytes": 2000,
+        "owner": "R0039"
+      }
     }
   },
   "budgets": {
@@ -121,17 +139,17 @@
       "artifact_role": "canonical_plugin",
       "measurement": "final_deterministic_compressed_bytes",
       "rounding_unit_bytes": 65536,
-      "cap_bytes": 393216,
+      "cap_bytes": 458752,
       "reserve_bytes": 2000,
-      "owner": "R0039"
+      "owner": "R003A"
     },
     "standalone_compatibility": {
       "artifact_role": "standalone_compatibility",
       "measurement": "final_deterministic_compressed_bytes",
       "rounding_unit_bytes": 65536,
-      "cap_bytes": 393216,
+      "cap_bytes": 458752,
       "reserve_bytes": 2000,
-      "owner": "R0039"
+      "owner": "R003A"
     }
   },
   "generic_activegraph_dependency": false

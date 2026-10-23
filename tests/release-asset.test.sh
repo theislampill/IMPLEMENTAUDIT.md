@@ -1169,16 +1169,16 @@ with zipfile.ZipFile(asset) as zf:
     # History: R002D revision 1 enforced the pre-implementation R0021 cap of
     # 327680 bytes, with MIN_HEADROOM_BYTES=0 in this legacy guard. Its prior
     # measurements and failures retain that historical declaration.
-    # R0039 revision 2 is an explicit prospective owner amendment to 393216
-    # bytes, retaining the mandatory 2000-byte reserve. Final bytes cannot
-    # select or raise their own cap.
+    # R0039 revision 2 retained 393216 bytes and the 2000-byte reserve.
+    # R003A revision 3 prospectively selects 458752 with that reserve unchanged.
+    # Final bytes cannot select or raise their own cap; both histories remain.
     package_budget = json.loads(zf.read("IMPLEMENTAUDIT_PACKAGE.json"))
     declared_budget = package_budget["budgets"]["standalone_compatibility"]
-    if package_budget["budget_revision"]["revision"] != 2:
-        raise SystemExit("standalone budget is not prospective R0039 revision 2")
-    if (declared_budget["cap_bytes"], declared_budget["reserve_bytes"]) != (393216, 2000):
-        raise SystemExit("standalone declaration differs from the approved R0039 budget")
-    OWNER_OUTER_BOUND_BYTES = 393_216
+    if package_budget["budget_revision"]["revision"] != 3:
+        raise SystemExit("standalone budget is not prospective R003A revision 3")
+    if (declared_budget["cap_bytes"], declared_budget["reserve_bytes"]) != (458752, 2000):
+        raise SystemExit("standalone declaration differs from the approved R003A budget")
+    OWNER_OUTER_BOUND_BYTES = 458_752
     MIN_HEADROOM_BYTES = 2_000
     CALIBRATION_QUANTUM_BYTES = 65_536
     CURRENT_CALIBRATION_AUTHORITY = "owner"

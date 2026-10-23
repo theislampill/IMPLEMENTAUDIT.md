@@ -154,10 +154,10 @@ def validate_archive(raw_path, role):
     path = Path(raw_path)
     budget = source_package["budgets"][role]
     cap, reserve = budget["cap_bytes"], budget["reserve_bytes"]
-    if source_package["budget_revision"]["revision"] != 2:
-        raise SystemExit(f"{role} budget is not the prospective R0039 revision 2")
-    if (cap, reserve) != (393216, 2000):
-        raise SystemExit(f"{role} cap and reserve differ from the approved R0039 budget")
+    if source_package["budget_revision"]["revision"] != 3:
+        raise SystemExit(f"{role} budget is not the prospective R003A revision 3")
+    if (cap, reserve) != (458752, 2000):
+        raise SystemExit(f"{role} cap and reserve differ from the approved R003A budget")
     if path.stat().st_size > cap - reserve:
         raise SystemExit(f"{role} exceeds its approved cap or consumes its required reserve")
 

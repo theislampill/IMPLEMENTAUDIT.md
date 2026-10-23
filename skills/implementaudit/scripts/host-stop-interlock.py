@@ -145,6 +145,15 @@ def exact_installed_path(raw: str, *, directory: bool) -> Path:
     return path
 
 
+def path_present(path: Path) -> bool:
+    """Only a definite missing path is absence; custody errors refuse."""
+    try:
+        os.lstat(path)
+    except FileNotFoundError:
+        return False
+    return True
+
+
 def plugin_store() -> Path:
     """Bind H0 to both physical owner components, never a flattened name."""
     if not (sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode):
@@ -174,7 +183,7 @@ def plugin_store() -> Path:
         # An ordinary session need not have created plugin data. Validate the
         # physical existing ancestor without creating or enumerating anything.
         ancestor = path
-        while not os.path.lexists(ancestor):
+        while not path_present(ancestor):
             parent = ancestor.parent
             if parent == ancestor:
                 raise InterlockUnavailable("installed data ancestor is unavailable")
@@ -322,7 +331,7 @@ def main() -> int:
     try:
         event = read_event()
         store = plugin_store()
-        if not os.path.lexists(store):
+        if not path_present(store):
             emit({"status": "UNBOUND", "disposition": "NO_ACTIVE_AUDIT_OBJECT",
                   "active_audit_object": False})
             return 0

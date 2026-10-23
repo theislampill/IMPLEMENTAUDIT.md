@@ -48,7 +48,7 @@ class TerminalTests(unittest.TestCase):
                                "--store", str(self.store), *args],
                               capture_output=True, text=True, timeout=20)
 
-    def invoke(self, expected, *, data=None):
+    def invoke(self, expected, *, data=None, fault=None):
         # Preload stdlib, then deny every scan, process and filesystem effect.
         # The actual main is executed, with real JSON input and fixed source.
         wrapper = self.root / "entry.py"
@@ -56,6 +56,14 @@ class TerminalTests(unittest.TestCase):
 from pathlib import Path
 adapter = Path(sys.argv[1])
 source = adapter.read_bytes()
+fault = json.loads(sys.argv[2]) if len(sys.argv) > 2 else None
+original_lstat = os.lstat
+injected = []
+def fault_lstat(path, *args, **kwargs):
+    if fault and os.fspath(path) == fault['path']:
+        injected.append(fault['errno'])
+        raise OSError(fault['errno'], 'injected observation failure', str(path))
+    return original_lstat(path, *args, **kwargs)
 def guard(event, args):
     if event in {'os.scandir', 'os.listdir', 'subprocess.Popen', 'os.system', 'os.mkdir', 'os.remove', 'os.rename', 'os.rmdir', 'os.chmod', 'os.link', 'os.symlink'}:
         raise AssertionError('forbidden event: ' + event)
@@ -64,13 +72,32 @@ def guard(event, args):
         if (isinstance(mode, str) and any(c in mode for c in 'wax+')) or (isinstance(flags, int) and flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND)):
             raise AssertionError('forbidden write')
 sys.addaudithook(guard)
-exec(compile(source, str(adapter), 'exec'), {'__file__': str(adapter), '__name__': '__main__'})
+try:
+    if fault and fault['stage'] == 'main':
+        namespace = {'__file__': str(adapter), '__name__': 'r003a_terminal_main_control'}
+        exec(compile(source, str(adapter), 'exec'), namespace)
+        original_store = namespace['plugin_store']
+        def selected_store():
+            value = original_store()
+            os.lstat = fault_lstat
+            return value
+        namespace['plugin_store'] = selected_store
+        raise SystemExit(namespace['main']())
+    if fault:
+        os.lstat = fault_lstat
+    exec(compile(source, str(adapter), 'exec'), {'__file__': str(adapter), '__name__': '__main__'})
+finally:
+    if fault and not injected:
+        raise AssertionError('fault control did not reach its observation boundary')
 ''', encoding="utf-8")
         before = self.snapshot()
         environment = {k: os.environ[k] for k in ("SystemRoot", "WINDIR") if k in os.environ}
         environment.update(PLUGIN_ROOT=str(self.install), PLUGIN_DATA=str(data or self.data))
-        p = subprocess.run([sys.executable, "-I", "-S", "-B", str(wrapper),
-                            str(self.scripts / "host-stop-interlock.py")],
+        command = [sys.executable, "-I", "-S", "-B", str(wrapper),
+                   str(self.scripts / "host-stop-interlock.py")]
+        if fault:
+            command.append(json.dumps(fault))
+        p = subprocess.run(command,
                            input=json.dumps(self.event), text=True, capture_output=True,
                            env=environment, timeout=20)
         self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
@@ -133,6 +160,18 @@ exec(compile(source, str(adapter), 'exec'), {'__file__': str(adapter), '__name__
         self.assertEqual(p.returncode, 2, p.stdout + p.stderr)
         self.assertEqual(json.loads(p.stdout)["status"], "UNAVAILABLE")
         self.assertFalse(self.store.exists())
+
+    def test_uninspectable_attempt_is_not_absence_at_either_boundary(self):
+        import errno
+        key = hashlib.sha256(self.event["session_id"].encode()).hexdigest()
+        attempt = self.store / "activation-attempts" / key[:2] / (key + ".json")
+        attempt.parent.mkdir(parents=True)
+        attempt.write_text(json.dumps({"schema": "implementaudit.host-session-binding-attempt.v1",
+            "owner_id": "mechanical-owner", "host_id": "codex", "host_session_id": self.event["session_id"]}))
+        for stage in ("early", "main"):
+            for code in (errno.EACCES, errno.EIO):
+                with self.subTest(stage=stage, error=code):
+                    self.invoke("UNAVAILABLE", fault={"path": str(self.store), "stage": stage, "errno": code})
 
     def test_empty_store_zero_scan(self):
         if os.name != "posix":
@@ -232,7 +271,9 @@ exec(compile(source, str(adapter), 'exec'), {'__file__': str(adapter), '__name__
         repo = self.root / "repository"
         repo.mkdir()
         def git(*args):
-            p = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, timeout=20)
+            p = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, timeout=20,
+                env={**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1",
+                     "GIT_TERMINAL_PROMPT": "0"})
             self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
             return p.stdout.strip()
         git("init", "-q")
