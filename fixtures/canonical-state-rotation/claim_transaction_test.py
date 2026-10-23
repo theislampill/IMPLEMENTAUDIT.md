@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import contextlib
+import gc
 import importlib.util
 import json
 import os
@@ -43,6 +44,9 @@ def run(argv, *, cwd, input_bytes=None):
 
 class Fixture:
     def __init__(self, *, seed_receipt=True, persistent_repo=None):
+        # Completed test cases contain cyclic module globals; retire them before
+        # measuring another invocation in this long-lived test process.
+        gc.collect()
         self.directory = None if persistent_repo is not None else tempfile.TemporaryDirectory(prefix="case-", dir=EVIDENCE)
         self.repo = Path(persistent_repo) if persistent_repo is not None else Path(self.directory.name)
         if persistent_repo is not None:
@@ -77,6 +81,15 @@ class Fixture:
         self.receipt = receipt.stdout.decode().strip()
 
     def close(self):
+        # These modules belong to this disposable physical installation. Keeping
+        # their per-path cache entries after deleting it pollutes later process
+        # peak checks. Shared custody modules and other fixtures remain intact.
+        retired = {str((self.scripts / name).absolute()) for name in (
+            "rotate-canonical-state.py", "canonical_hot_projection.py",
+            "canonical_rotation_inputs.py")}
+        for name, module in tuple(sys.modules.items()):
+            if getattr(module, "__file__", None) in retired:
+                sys.modules.pop(name, None)
         if self.directory is not None:
             self.directory.cleanup()
 
@@ -252,6 +265,34 @@ class FixtureProjection:
         return {"state_bytes": state, "roadmap_bytes": road,
                 "protected_manifest": json.loads(protected), "archive_manifest": json.loads(archive),
                 "state_path": generation / "STATE.md", "roadmap_path": generation / "ROADMAP.md"}
+
+
+class FixtureLifecycleControls(unittest.TestCase):
+    def test_disposal_removes_only_the_retired_installations_modules(self):
+        import types
+        with tempfile.TemporaryDirectory(prefix="fixture-disposal-", dir=EVIDENCE) as directory:
+            fixture = Fixture.__new__(Fixture)
+            fixture.repo = Path(directory) / "retired"
+            fixture.scripts = fixture.repo / "skills/implementaudit/scripts"
+            fixture.directory = None
+            entries = {}
+            for label, path in {
+                    "projection": fixture.scripts / "rotate-canonical-state.py",
+                    "nested": fixture.scripts / "canonical_hot_projection.py",
+                    "native": fixture.scripts / "canonical_rotation_inputs.py",
+                    "other": Path(directory) / "active/rotate-canonical-state.py",
+                    "shared": fixture.scripts / "canonical_custody.py"}.items():
+                name = "fixture_disposal_control_" + label
+                self.assertNotIn(name, sys.modules)
+                module = types.ModuleType(name); module.__file__ = str(path.absolute())
+                entries[name] = module; sys.modules[name] = module
+                self.addCleanup(sys.modules.pop, name, None)
+            fixture.close()
+            for label in ("projection", "nested", "native"):
+                self.assertNotIn("fixture_disposal_control_" + label, sys.modules)
+            for label in ("other", "shared"):
+                name = "fixture_disposal_control_" + label
+                self.assertIs(sys.modules[name], entries[name])
 
 
 class TransactionControls(unittest.TestCase):
