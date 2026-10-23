@@ -1708,6 +1708,63 @@ def _native_continuity_source_files_v1():
     return claim_path, claim_raw, validate_path, validate_raw
 
 
+_NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1 = (
+    ("claim-run.sh", 17368, "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383", 0o644),
+    ("validate-run-root.sh", 61001, "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6", 0o644),
+    ("claim-run-rotation.py", 103754, "6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca", 0o644),
+    ("rotate-canonical-state.py", 92941, "7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26", 0o755),
+    ("canonical_hot_projection.py", 57891, "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276", 0o755),
+    ("canonical_custody.py", 33629, "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f", 0o755),
+)
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = "5a1d6a9150285831f6b9d3d2af74394bf2c028896bae13242efd566b3be2ca37"
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 19873
+
+
+def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
+    """Check the complete live source set at fixed paths, never captured paths.
+
+    The compiler's context owns execution and currentness. This receiving check
+    independently binds its six-file output to this same source checkout. A
+    retained JSON object alone is not execution or native acceptance evidence.
+    """
+    expected_pair = dict(claim_sha256=_NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1[0][2],
+                         validate_sha256=_NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1[1][2])
+    if pair != expected_pair:
+        if value is not None:
+            _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "unknown source pair claimed a six-source closure")
+        return
+    root = pathlib.Path(__file__).absolute().parents[1]
+    source_root = root / "skills/implementaudit/scripts"
+    if pathlib.Path(compiler_path).absolute() != source_root / "compile-work-graph.py":
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "closure compiler is outside the receiving source checkout")
+    rows = []
+    for name, size, digest, mode in _NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1:
+        path = source_root / name
+        raw = _native_file(path, "$native.continuity_closure", size)
+        info = path.lstat()
+        if (len(raw) != size or hashlib.sha256(raw).hexdigest() != digest
+                or stat.S_IMODE(info.st_mode) != mode or info.st_nlink != 1):
+            _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_closure", "continuity source differs from the qualified closure")
+        rows.append(dict(name=name, path=str(path), bytes=size, sha256=digest, mode=mode,
+                         links=1, readonly=True, seals=15))
+    path = root / "scripts/work-graph-continuity-transport.py"
+    raw = _native_file(path, "$native.continuity_transport", 64 * 1024)
+    info = path.lstat()
+    if (len(raw) != _NATIVE_CONTINUITY_TRANSPORT_BYTES
+            or hashlib.sha256(raw).hexdigest() != _NATIVE_CONTINUITY_TRANSPORT_SHA256
+            or info.st_nlink != 1):
+        _error("OE_NATIVE_CURRENT_CHANGED", "$native.continuity_transport", "transport source differs from the executed profile")
+    expected = dict(schema="implementaudit.native-continuity-closure.v1",
+        execution=dict(schema="implementaudit.continuity-source-closure.v1",
+                       repository=str(pathlib.Path(repository).absolute()), members=rows),
+        transport=dict(path=str(path), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                       mode=stat.S_IMODE(info.st_mode)))
+    # Equality also refuses aliases, extra members, reordered members and
+    # foreign captured path strings without ever opening those supplied paths.
+    if type(value) is not dict or canonical_json_v1(value) != canonical_json_v1(expected):
+        _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "executed closure differs from fixed receiving sources")
+
+
 def _native_require_current_receipt(repo, controller, receipt, route_module):
     claim_path, claim_raw, validate_path, validate_raw = _native_continuity_source_files_v1()
     closure = None
@@ -1839,19 +1896,25 @@ def _native_current_observation_v1(
     observe = getattr(compiler, "observe_native_run_v1", None)
     source_observation = False
     episode_observation = False
+    source_version = 1
+    closure_observation = None
     if continuity_sources is not None:
         if (type(continuity_sources) is not dict or
                 set(continuity_sources) != {"claim_sha256", "validate_sha256"} or
                 any(type(value) is not str or not re.fullmatch(r"[0-9a-f]{64}", value)
                     for value in continuity_sources.values())):
             _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "invalid executed-source constraint")
-        observe_sources = getattr(compiler, "observe_native_run_sources_v1", None)
+        observe_sources = getattr(compiler, "observe_native_run_sources_v2", None)
+        if observe_sources is not None:
+            source_version = 2
+        else:
+            observe_sources = getattr(compiler, "observe_native_run_sources_v1", None)
         if observe_sources is not None and repository == source_repository:
             if not callable(observe_sources) or not callable(observe):
                 _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "incomplete source-observation interface")
             observe, source_observation = observe_sources, True
             if _episode_output is not None:
-                observe_episode = getattr(compiler, "observe_native_run_episode_sources_v1", None)
+                observe_episode = getattr(compiler, f"observe_native_run_episode_sources_v{source_version}", None)
                 if observe_episode is not None:
                     if not callable(observe_episode):
                         _error("OE_NATIVE_CURRENT_SOURCE", "$native.episode", "malformed enclosing episode owner")
@@ -1899,14 +1962,23 @@ def _native_current_observation_v1(
             graph = decode_strict_json_bytes(raw, "native owner observation")
             if source_observation:
                 fields = {"schema", "projection", "continuity_sources"}
+                if source_version == 2:
+                    fields.add("continuity_closure")
                 if episode_observation:
                     fields.add("ordinary_episode")
                 _object(graph, "$native.continuity_sources", exact_keys=fields, required=fields)
-                schema = ("implementaudit.native-run-episode-source-observation.v1" if episode_observation
-                          else "implementaudit.native-run-source-observation.v1")
+                schema = (f"implementaudit.native-run-episode-source-observation.v{source_version}" if episode_observation
+                          else f"implementaudit.native-run-source-observation.v{source_version}")
                 if (graph["schema"] != schema or
                         graph["continuity_sources"] != continuity_sources):
                     _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_sources", "executed helper sources differ")
+                if source_version == 2:
+                    closure_observation = graph["continuity_closure"]
+                    _native_check_continuity_closure_v1(closure_observation, repository, compiler_path, continuity_sources)
+                elif continuity_sources == dict(
+                        claim_sha256=_NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1[0][2],
+                        validate_sha256=_NATIVE_CONTINUITY_SIX_SOURCE_PROFILE_V1[1][2]):
+                    _error("OE_NATIVE_CURRENT_SOURCE", "$native.continuity_closure", "current six-source composition requires the v2 observation")
                 if episode_observation:
                     _episode_output.append(graph["ordinary_episode"])
                 graph = graph["projection"]
@@ -1930,6 +2002,8 @@ def _native_current_observation_v1(
                        "provisional native projection was mutated")
         # Context exit retains the owner's fresh source/readset/continuity,
         # semantic route, receipt, ref and producer-source validation.
+        if source_observation and source_version == 2:
+            _native_check_continuity_closure_v1(closure_observation, repository, compiler_path, continuity_sources)
     except OperationalEvidenceError:
         raise
     except (Exception, SystemExit):

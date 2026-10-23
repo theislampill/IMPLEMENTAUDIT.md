@@ -214,6 +214,8 @@ class ObservationCostControls(unittest.TestCase):
                     value = continuity(*a)
                     if kw.get('_source_reads') is not None:
                         kw['_source_reads'].append(copy.deepcopy(self.continuity_sources))
+                    if kw.get('_closure_reads') is not None:
+                        kw['_closure_reads'].append(None)  # Explicit historical two-source fixture.
                     return value
                 h.continuity.side_effect = capture_sources
             original = h.wg._compile_native_documents_v1.side_effect

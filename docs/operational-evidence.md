@@ -254,6 +254,24 @@ input and final file/ref checks remain. Historical or separate owners keep
 C03's original direct check. These source observations do not authenticate
 native actor records, create caller credentials or replace receiving/JOIN.
 
+The current main continuity owners have a distinct six-source execution profile.
+`scripts/work-graph-continuity-transport.py` admits only their exact bytes, modes
+and three read-only commands. Sealed memory files populate a linked, read-only
+namespace with the original sibling paths and actual repository cwd. Nested
+imports and launches therefore consume captured code. Source, parent and cwd
+replacement still fail the closing fences; the adapter does not change any
+currentness predicate or the older two-source optimization eligibility.
+
+`observe_native_run_sources_v2` and its episode variant retain the original two
+helper hashes and add the complete executed closure plus the exact loaded
+transport identity. C03 independently checks the six fixed same-checkout paths
+and transport bytes before and after consuming that live observation. Captured
+paths never select reads. The historical v1 envelope remains two-source only;
+it refuses the six-source profile. Missing Linux namespace facilities are typed
+refusals, with no mutable-path fallback, host policy change or Windows claim.
+Constructed legacy and migrated fixture controls qualify this portable source
+composition, not a genuine controller, host admission or campaign acceptance.
+
 The repository composition retains the complete R0035 compiler adopted at
 `87a7ea09`, including its product-authority refusals, with the existing R0038
 hardened input readers. Continuity uses host-only primitives without loading

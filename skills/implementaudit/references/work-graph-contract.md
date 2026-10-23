@@ -22,6 +22,9 @@ controller/root/continuity through sibling claim-run.sh before/after acquisition
 missing/stale/foreign/ambiguous identity or unavailable source closure exits 2.
 The shipped pure and explicitly constructed diagnostic paths do not load that
 repository-only reader. A failed native acquisition never falls back to them.
+The current six-source continuity profile requires the repository-only sealed
+Linux transport. Its v2 observation binds all six sources and the loaded adapter;
+the two-source v1 envelope cannot represent it. Unsupported hosts refuse.
 No controller creation/resumption. Snapshot APIs cannot authenticate callers.
 Native metadata awaits writer admission; legacy formats are unsupported, not empty/complete.
 Enumerate STATE.md, ROADMAP.md and recursive plans/phases/tasks `.md`, each with one

@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'cb5dbaff70adf8a19e798f0823b6d5f23abc5d5d1ac12ef9a2e932ba177aebee'
+_NATIVE_STATIC_OWNER_SHA256 = 'e055884b55ce5465feeece80242bc16e42d983bf1fb5b34876a0e844150a40f6'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 371425
+_NATIVE_STATIC_OWNER_BYTES = 376456
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -2028,6 +2028,40 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
 
 
+# A separate exact-source transport profile, never a new optimisation pair.
+_NATIVE_SIX_SOURCE_PAIR_V1 = (
+    '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
+    'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '5a1d6a9150285831f6b9d3d2af74394bf2c028896bae13242efd566b3be2ca37'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 19873
+
+
+def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
+    """Acquire the repository-only adapter and its complete fixed source set."""
+    import types
+    path = pathlib.Path(__file__).absolute().parents[3] / 'scripts/work-graph-continuity-transport.py'
+    raw, mode = _native_static_file_v1(owner, path, 64 * 1024, dict(remaining=64 * 1024))
+    if (len(raw) != _NATIVE_CONTINUITY_TRANSPORT_BYTES
+            or hashlib.sha256(raw).hexdigest() != _NATIVE_CONTINUITY_TRANSPORT_SHA256):
+        raise WorkGraphError('native continuity transport source identity changed')
+    module = types.ModuleType('_implementaudit_native_continuity_transport')
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), 'exec'), module.__dict__)
+    root = pathlib.Path(__file__).absolute().parent
+    sources = []
+    budget = dict(remaining=512 * 1024)
+    for name, size, digest, expected_mode in module.SOURCE_PROFILE_V1:
+        source = root / name
+        data, actual_mode = _native_static_file_v1(owner, source, size, budget)
+        if (len(data) != size or hashlib.sha256(data).hexdigest() != digest
+                or actual_mode != expected_mode):
+            raise WorkGraphError('native continuity closure source identity changed')
+        sources.append((str(source), data))
+    if (sources[0][1], sources[1][1]) != (claim_raw, validate_raw):
+        raise WorkGraphError('native continuity source set crossed its helper acquisition')
+    return module, tuple(sources), (path, raw, mode)
+
+
 def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
     """Classify immutable bytes returned by the exact helper, not caller proof."""
     try:
@@ -2046,12 +2080,14 @@ def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
         return False
 
 
-def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_reads=None):
+def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_reads=None, _closure_reads=None):
     import base64
     if _source_reads is not None and type(_source_reads) is not list:
         raise WorkGraphError('native continuity source output must be a private list')
     if _current_reads is not None and type(_current_reads) is not list:
         raise WorkGraphError('native currentness output must be a private list')
+    if _closure_reads is not None and type(_closure_reads) is not list:
+        raise WorkGraphError('native closure output must be a private list')
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     host = _native_continuity_host_v1()
     repo = pathlib.Path(repo_root).absolute()
@@ -2061,23 +2097,42 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     claim_raw = _native_static_file_v1(owner, helper, 256 * 1024, budget)[0]
     validate_raw = _native_static_file_v1(owner, validate, 256 * 1024, budget)[0]
     helper_pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
+    transport = None
+    closure = None
+    if helper_pair == _NATIVE_SIX_SOURCE_PAIR_V1:
+        transport, transport_sources, transport_source = _native_six_source_transport_v1(owner, claim_raw, validate_raw)
+    def call(arguments):
+        nonlocal closure
+        if transport is None:
+            return _native_claim_call_v1(owner, host, repo, arguments, claim_raw, validate_raw)
+        try:
+            observed = transport.call_readonly_v1(owner, repository=str(repo),
+                sources=transport_sources, arguments=tuple(arguments))
+        except transport.ContinuityTransportError as exc:
+            raise WorkGraphError('native continuity transport refused: ' + exc.code) from exc
+        if observed['returncode'] or len(observed['stdout']) > 8192 or len(observed['stderr']) > 16384:
+            raise WorkGraphError('native continuity owner refused or changed')
+        if closure is not None and observed['closure'] != closure:
+            raise WorkGraphError('native continuity executed source closure changed')
+        closure = observed['closure']
+        return observed['stdout'].decode('utf-8', 'strict').strip()
     if helper_pair == _NATIVE_COMBINED_CURRENT_PAIR_V1:
-        observed = _native_claim_call_v1(owner, host, repo, ['--observe-current-continuity'], claim_raw, validate_raw).split('\t')
+        observed = call(['--observe-current-continuity']).split('\t')
         if len(observed) != 6 or observed[0] != 'implementaudit.current-continuity-observation.v1':
             raise WorkGraphError('native combined continuity observation is malformed')
         current, receipt = observed[1:5], observed[5]
     else:
-        current = _native_claim_call_v1(owner, host, repo, ['--current-controller'], claim_raw, validate_raw).split('\t')
+        current = call(['--current-controller']).split('\t')
         receipt = None
     if len(current) != 4 or pathlib.Path(current[1]).absolute() != repo or pathlib.Path(current[2]).absolute() != pathlib.Path(run_root).absolute():
         raise WorkGraphError('native continuity root mismatch')
     if receipt is None:
-        receipt = _native_claim_call_v1(owner, host, repo, ['--require-current-continuity', current[0]], claim_raw, validate_raw)
+        receipt = call(['--require-current-continuity', current[0]])
     if not RECEIPT_RE.fullmatch(receipt):
         raise WorkGraphError('native continuity receipt format mismatch')
     if (helper_pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1) or
             not _native_equivalent_receipt_domain_v1(owner, repo, receipt)):
-        verified = _native_claim_call_v1(owner, host, repo, ['--verify-resume-receipt', receipt], claim_raw, validate_raw)
+        verified = call(['--verify-resume-receipt', receipt])
         if verified != receipt:
             raise WorkGraphError('native continuity receipt readback mismatch')
     request = dict(source=base64.b64encode(owner_raw).decode('ascii'), sha256=_NATIVE_STATIC_OWNER_SHA256,
@@ -2134,6 +2189,15 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     if (_native_static_file_v1(owner, helper, 256 * 1024, dict(remaining=256 * 1024))[0] != claim_raw
             or _native_static_file_v1(owner, validate, 256 * 1024, dict(remaining=256 * 1024))[0] != validate_raw):
         raise WorkGraphError('native continuity helper source changed')
+    if transport is not None:
+        for path, raw in transport_sources:
+            if _native_static_file_v1(owner, path, len(raw), dict(remaining=len(raw)))[0] != raw:
+                raise WorkGraphError('native continuity closure changed after execution')
+        path, raw, mode = transport_source
+        if _native_static_file_v1(owner, path, len(raw), dict(remaining=len(raw))) != (raw, mode):
+            raise WorkGraphError('native continuity transport changed after execution')
+        closure = dict(schema='implementaudit.native-continuity-closure.v1', execution=closure,
+            transport=dict(path=str(path), bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(), mode=mode))
     _, final_path, final_raw = _native_static_owner_module_v1()
     if final_path != owner_path or final_raw != owner_raw:
         raise WorkGraphError('native static owner source changed during continuity')
@@ -2141,6 +2205,8 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
         # Output only, recorded after actual loaded-byte execution and fences.
         # No supplied value is consulted as currentness or source authority.
         _source_reads.append(dict(claim_sha256=helper_pair[0], validate_sha256=helper_pair[1]))
+    if _closure_reads is not None:
+        _closure_reads.append(closure)
     if _current_reads is not None:
         _current_reads.append(dict(controller_result=list(current), receipt=receipt))
     return dict(acquisition='NATIVE_CONTINUITY_VERIFIED', controller=current[0], claim=current[3], receipt=receipt,
@@ -2895,7 +2961,7 @@ def _acquire_constructed_read_set_v1(nodes, input_root):
 
 @contextlib.contextmanager
 def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected_current=None,
-                          _continuity_sources=None, _episode_outputs=None):
+                          _continuity_sources=None, _episode_outputs=None, _continuity_closures=None):
     """Hold the existing native owner checks around a caller's read-only use.
 
     Omitting repo_root is explicitly constructed filesystem evidence. Supplying
@@ -2909,6 +2975,8 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
     read_sources = _constructed_source_snapshot_v1 if repo_root is None else _native_source_snapshot
     read_inputs = _acquire_constructed_read_set_v1 if repo_root is None else _acquire_native_read_set
     source_output = {} if _continuity_sources is None else {'_source_reads': _continuity_sources}
+    if _continuity_closures is not None:
+        source_output['_closure_reads'] = _continuity_closures
     current_reads = []
     if _episode_outputs is not None:
         source_output['_current_reads'] = current_reads
@@ -3036,55 +3104,69 @@ def observe_native_run_v1(run_root, repo_root=None, *, input_root=None, expected
 
 
 @contextlib.contextmanager
-def observe_native_run_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
-    """Expose exact executed R0011 sources inside the same live observation.
-
-    This owner creates the output sink. It is never a caller proof, saved
-    currentness token or substitute for either actual continuity acquisition.
-    """
+def _observe_native_sources_v2(run_root, repo_root, input_root, expected_current, *, version, episode):
+    """Private envelope composition; every sink is created by this owner."""
     if repo_root is None:
         raise WorkGraphError('native source observation requires actual repository continuity')
-    sources = []
+    sources, episodes, closures = [], [], []
     with observe_native_run_v1(run_root, repo_root, input_root=input_root,
-            expected_current=expected_current, _continuity_sources=sources) as raw:
-        if (len(sources) != 1 or set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
-                any(type(value) is not str or not DIGEST_RE.fullmatch(value) for value in sources[0].values())):
+            expected_current=expected_current, _continuity_sources=sources,
+            _episode_outputs=episodes if episode else None,
+            _continuity_closures=closures if version == 2 else None) as raw:
+        if (len(sources) != 1 or (version == 2 and len(closures) != 1) or (episode and len(episodes) != 1) or
+                set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
+                any(type(v) is not str or not DIGEST_RE.fullmatch(v) for v in sources[0].values())):
             raise WorkGraphError('native executed-source observation is absent or malformed')
+        if version == 1 and (sources[0]['claim_sha256'], sources[0]['validate_sha256']) == _NATIVE_SIX_SOURCE_PAIR_V1:
+            raise WorkGraphError('native six-source continuity requires the v2 source observation')
         graph = decode_strict_json_bytes(raw, 'native source observation projection')
         if graph['binding']['continuity_helper_digest'] != sources[0]['claim_sha256']:
             raise WorkGraphError('native projection differs from executed continuity source')
-        yield json.dumps(dict(schema='implementaudit.native-run-source-observation.v1',
-            projection=graph, continuity_sources=dict(sources[0])), sort_keys=True,
-            separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
+        label = 'episode-source' if episode else 'source'
+        value = dict(schema=f'implementaudit.native-run-{label}-observation.v{version}',
+                     projection=graph, continuity_sources=dict(sources[0]))
+        if version == 2:
+            value['continuity_closure'] = closures[0]
+        if episode:
+            value['ordinary_episode'] = episodes[0]
+        yield json.dumps(value, sort_keys=True, separators=(',', ':'),
+                         ensure_ascii=False, allow_nan=False).encode('utf-8')
     if len(sources) != 2 or sources[1] != sources[0]:
         raise WorkGraphError('native executed continuity sources changed during observation')
+    if version == 2 and (len(closures) != 2 or closures[1] != closures[0]):
+        raise WorkGraphError('native executed continuity closure changed during observation')
+
+
+@contextlib.contextmanager
+def observe_native_run_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Retain the exact historical two-source envelope; six sources require v2."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=1, episode=False) as raw:
+        yield raw
 
 
 @contextlib.contextmanager
 def observe_native_run_episode_sources_v1(run_root, repo_root, *, input_root=None, expected_current=None):
-    """Observe graph, current route and authentic ordinary episode together.
+    """Retain the historical episode envelope for its two-source composition."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=1, episode=True) as raw:
+        yield raw
 
-    This source owner creates every read and output sink. The public entry has
-    no episode, receipt, module, callback or prevalidated currentness operand.
-    Every projection stays provisional until all nested source owners close.
-    """
-    if repo_root is None:
-        raise WorkGraphError('native episode observation requires actual repository continuity')
-    sources, episodes = [], []
-    with observe_native_run_v1(run_root, repo_root, input_root=input_root,
-            expected_current=expected_current, _continuity_sources=sources, _episode_outputs=episodes) as raw:
-        if (len(sources) != 1 or len(episodes) != 1 or
-                set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
-                any(type(v) is not str or not DIGEST_RE.fullmatch(v) for v in sources[0].values())):
-            raise WorkGraphError('native episode source observation is absent or malformed')
-        graph = decode_strict_json_bytes(raw, 'native episode observation projection')
-        if graph['binding']['continuity_helper_digest'] != sources[0]['claim_sha256']:
-            raise WorkGraphError('native episode projection differs from executed continuity source')
-        yield json.dumps(dict(schema='implementaudit.native-run-episode-source-observation.v1',
-            projection=graph, continuity_sources=dict(sources[0]), ordinary_episode=episodes[0]),
-            sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
-    if len(sources) != 2 or sources[1] != sources[0]:
-        raise WorkGraphError('native episode continuity sources changed during observation')
+
+@contextlib.contextmanager
+def observe_native_run_sources_v2(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Observe the complete executed source closure, provisional until exit."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=2, episode=False) as raw:
+        yield raw
+
+
+@contextlib.contextmanager
+def observe_native_run_episode_sources_v2(run_root, repo_root, *, input_root=None, expected_current=None):
+    """Observe graph, complete continuity closure and ordinary episode together."""
+    with _observe_native_sources_v2(run_root, repo_root, input_root, expected_current,
+                                   version=2, episode=True) as raw:
+        yield raw
 
 
 def read_native_run_v1(run_root, repo_root=None, *, input_root=None):
