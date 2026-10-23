@@ -212,12 +212,15 @@ threshold it returns the ordinary cheap path without loading an owner map,
 writing an archive/generation or calling a model. Triggered unsupported grammar
 or insufficient measured payoff refuses; retained bytes are never discarded to
 meet a budget. Token/context-health admission and original host calibration
-remain separate qualification burdens. Storage is retained and deduplicated;
+remain separate qualification burdens. The owner-approved scoped issue exit
+described below does not satisfy those original predicates. Storage is retained and deduplicated;
 budget excess is an owner decision, never silent deletion.
 
 Triggered work checks the process peak resident set against67108864bytes before
 archive effects, after parsing and derivation, and before returning a prepared
-candidate. RSS includes interpreter/caller: Linux KiB, macOS bytes; other platforms refuse. A conservative twelvefold
+candidate. The process-only observation includes interpreter/caller: Linux RSS
+in KiB, macOS RSS in bytes, or Windows peak working-set bytes; other platforms
+refuse. This is not whole-process-tree memory. A conservative twelvefold
 source-population reserve refuses inputs before parsing when their encoded
 population alone cannot fit that admission envelope. Admission and observed-peak checks provide no OS hard memory limit.
 Measured times and RSS stay in qualification evidence, outside deterministic
@@ -228,8 +231,8 @@ Source and output custody requires native directory-handle operations. The
 helper holds non-following handles from the filesystem anchor through every
 ancestor, accesses children relative to those handles, rechecks their identities,
 and applies output permissions to the opened descriptor. Hosts without this
-capability refuse. The Windows parent-handle implementation remains a native
-qualification requirement. These checks prevent path redirection; they do not
+capability refuse. The Windows parent-handle implementation requires its own
+native qualification. These checks prevent path redirection; they do not
 authenticate against an equally privileged process that can modify held objects.
 
 The canonical package remains version 0.4.0 / family v0.4.0.0, one governor and
@@ -241,6 +244,44 @@ must contain the exact bound helper pair. A source or portable fixture result
 does not confer native Windows, host discovery, install, release or campaign
 qualification. Source reviews and fresh-context canaries bind an immutable
 candidate; they are separate from each zero-model rotation.
+
+### Prospective Windows byte-only qualification
+
+The October 22, 2026 owner amendment for issue #215 selects only the demonstrated
+`EXACT_BYTES` path, protected-state equivalence at its measured scope, Windows
+custody/crash/rollback controls, distribution parity and selected installed Codex
+receiving. Token/context activation and accepting C02 publication remain
+unavailable; unauthenticated or unqualified inputs fail closed. The retained
+authentic-input, full amended occurrence-canary and entitled-correction predicates
+remain unearned with their existing owners in one linked follow-up. No pending
+or unknown obligation is consumed by this narrower issue exit.
+
+For the pinned Windows qualification population only, the prospective complete
+owner CLI ceiling is 60,000 ms and 201,326,592 peak aggregate committed bytes
+(192 MiB), with no baseline subtraction. A private Windows Job Object contains
+the suspended-before-assignment root and inherited descendants with no breakaway.
+Time starts immediately before process creation and ends after root exit AND
+an empty job; shell, Python, Git and in-job console/helper overhead are included.
+Subsequent independent readback, storage scans, token counts and model receiving
+are outside this interval. Missing or incomplete accounting refuses qualification.
+This is a candidate qualification ceiling, not a new runtime timeout, universal
+guarantee, or budget for other hosts. Existing helper limits, security checks and
+test deadlines remain unchanged.
+
+The source-owned repo record
+`docs/research/implementaudit/r0039-windows-byte-qualification.json` binds the
+exact runtime, fixture, owner map, pre/post pairs, recorder, controls and observed
+host versions. It is qualification evidence, not an installed runtime dependency.
+PL5 measured full rotation took 25,409.039 ms and 139,272,192 committed bytes;
+migrated and unmigrated non-triggers took 5,293.447/3,794.531 ms and
+106,127,360/138,952,704 committed bytes. Original 5,000 ms / 67,108,864-byte
+full-operation failures and calibration remain unchanged. The measured pair
+saved 188,537 live bytes and 23,662 separately counted tiktoken 0.13.0 tokens,
+while retaining 242,750 additional archive/run/Git-object bytes. No deletion
+is justified by this qualification. Exact-head review, composed CI, package
+receiving, separate merge approval and certification remain distinct gates;
+no original-DAG, whole-cell, campaign, native-currentness or full-release credit
+follows from the scope amendment.
 
 ## Pending occurrences and retirement
 

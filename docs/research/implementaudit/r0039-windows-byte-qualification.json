@@ -1,0 +1,350 @@
+{
+  "record_kind": "prospective_windows_byte_rotation_qualification",
+  "issue": 215,
+  "pr": 249,
+  "accepting_route": "EXACT_BYTES",
+  "policy": {
+    "owner_approval_date": "2026-10-22 America/New_York",
+    "maximum_owner_cli_ms": 60000,
+    "maximum_peak_job_committed_bytes": 201326592,
+    "baseline_subtraction_bytes": 0,
+    "applies_to_other_hosts": false,
+    "changes_runtime_limits_or_test_deadlines": false,
+    "universal_hard_realtime_guarantee": false
+  },
+  "historical_calibration": {
+    "name": "R0039-F1-CAL-v2",
+    "population_sha256": "b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497",
+    "maximum_ms": 5000,
+    "maximum_memory_bytes": 67108864,
+    "status": "ORIGINAL_FULL_OPERATION_TARGET_UNMET; original declarations and failures unchanged"
+  },
+  "source_at_measurement": {
+    "head": "79e7137fa61c3c4bc7f3a3eaf338372e6f709972",
+    "tree": "bd81aa4239f23479e55e73cd7c32842ea1d6e620",
+    "dirty_status": " M skills/implementaudit/scripts/claim-run-rotation.py\n M skills/implementaudit/scripts/read-canonical-pair.py\n M skills/implementaudit/scripts/rotate-canonical-state.py\n"
+  },
+  "same_runtime_committed_as": "aa11566e6d4f4781b2e8f82d9d2abff50db4d442",
+  "verified_runtime_unchanged_at": "ab48400a1da430dc23ab666c5ea3d546d812053c",
+  "runtime_files": {
+    "apply-observed-mutation.sh": {
+      "bytes": 56144,
+      "sha256": "eec9f0eaa80905cdd9187810449f6401d97912e0d1721abaf6a15b937c946d39"
+    },
+    "canonical_custody.py": {
+      "bytes": 33629,
+      "sha256": "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"
+    },
+    "canonical_hot_projection.py": {
+      "bytes": 57891,
+      "sha256": "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276"
+    },
+    "check-authorization-binding.sh": {
+      "bytes": 17469,
+      "sha256": "e2ff72034bac8317b881dcbf1180a47f6d7b64119398af2b664c47e10cdba728"
+    },
+    "check-closure-surface.sh": {
+      "bytes": 94842,
+      "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7"
+    },
+    "check-duplication-parity.sh": {
+      "bytes": 5208,
+      "sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7"
+    },
+    "check-evidence-anchor.sh": {
+      "bytes": 43368,
+      "sha256": "b52984cf1c3f68ccaa288fc8e543468aa547029dd27ad177ddcab904450a7e76"
+    },
+    "check-handoff-packet.sh": {
+      "bytes": 8912,
+      "sha256": "72a04a5311c988da1e745fdb368d95ac0125124919185bf0b87432c4c2b60ffc"
+    },
+    "check-lesson-lift.sh": {
+      "bytes": 11417,
+      "sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a"
+    },
+    "check-respec-impact-set.sh": {
+      "bytes": 6560,
+      "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38"
+    },
+    "claim-run-rotation.py": {
+      "bytes": 103754,
+      "sha256": "6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca"
+    },
+    "claim-run.sh": {
+      "bytes": 17368,
+      "sha256": "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383"
+    },
+    "custody-append.sh": {
+      "bytes": 5668,
+      "sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762"
+    },
+    "detect-env.sh": {
+      "bytes": 7221,
+      "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516"
+    },
+    "detect-stack.sh": {
+      "bytes": 3601,
+      "sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2"
+    },
+    "lane-survivor-inventory.sh": {
+      "bytes": 2459,
+      "sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45"
+    },
+    "map-pin-chain.sh": {
+      "bytes": 2615,
+      "sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74"
+    },
+    "read-canonical-pair.py": {
+      "bytes": 26728,
+      "sha256": "4dafb199a0bfad23f461a74d5e39197d092ae2de5f7162f9a56ce6300aa38e6b"
+    },
+    "repo-state.sh": {
+      "bytes": 22629,
+      "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b"
+    },
+    "resolve-durable-identity.py": {
+      "bytes": 6787,
+      "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203"
+    },
+    "resolve-internal-skill.py": {
+      "bytes": 3945,
+      "sha256": "be553c29e1092643a71e6b50260d760bab15bbc76cd3c2091d05c4b52b8f302e"
+    },
+    "rotate-canonical-state.py": {
+      "bytes": 92941,
+      "sha256": "7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26"
+    },
+    "summarize-repo.sh": {
+      "bytes": 7281,
+      "sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c"
+    },
+    "validate-audit-spec.sh": {
+      "bytes": 1673,
+      "sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7"
+    },
+    "validate-phase.sh": {
+      "bytes": 45816,
+      "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab"
+    },
+    "validate-run-root.sh": {
+      "bytes": 61001,
+      "sha256": "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6"
+    }
+  },
+  "fixture_source": {
+    "path": "fixtures/canonical-state-rotation/claim_transaction_test.py",
+    "bytes": 96859,
+    "sha256": "17b390c0fe66aa1e25359ef4fc24af1eb1b0219138eabf3082204997222c726d",
+    "class": "RealHelperIntegration",
+    "case": "test_real_helper_migrates_real_main_receipt_and_separate_readers"
+  },
+  "population": {
+    "scope": "Constructed task-owned large pair, its migrated nontrigger and an unmigrated small pair; not campaign state or all possible workloads",
+    "pre_pair": {
+      "STATE": {
+        "bytes": 202629,
+        "sha256": "7fce183fca625eb5686f26fd722f43ea06ede4cb94c5e639cfd9e87c7874ff31"
+      },
+      "ROADMAP": {
+        "bytes": 2960,
+        "sha256": "92b3ad869c7998e707803d0c18e307f17c6b06e8fc9412e24d22e93c91ef9b06"
+      }
+    },
+    "post_pair": {
+      "STATE": {
+        "bytes": 10858,
+        "sha256": "a4b00f3232c5a69929082252293b1360868a4778e6661a9b5f1bbd31eaf30041"
+      },
+      "ROADMAP": {
+        "bytes": 6194,
+        "sha256": "248512f4fb84584132d3800af6761e619de68fb0756776ee58a79f5f2db471ff"
+      }
+    },
+    "interpretive_owner_map": {
+      "bytes": 78949,
+      "sha256": "267ff636ca2309e32a78245fdc126a08b0768c20db31f110939c6e8ebdd61f36"
+    },
+    "small_pair_bytes": 10589,
+    "small_difference": "Private setup omits only the 6500-repeat history extension; product and tracked fixture unchanged"
+  },
+  "measurement": {
+    "recorders": {
+      "measure_owner_job.py": {
+        "bytes": 6316,
+        "sha256": "d19f3eabb1651876f74bf86f0354689222536578f31f277f5e46ef613d6ec85b"
+      },
+      "windows_job_measure.py": {
+        "bytes": 9496,
+        "sha256": "6dc21e695a1a8ab5feee620d13a2ce9539736adc2632e07327396f0ff8391bda"
+      }
+    },
+    "start": "Immediately before CreateProcessW with CREATE_SUSPENDED",
+    "end": "Root exit observed AND private job ActiveProcesses equals zero",
+    "included": [
+      "owner shell",
+      "Python",
+      "Git",
+      "inherited descendants",
+      "in-job console/helper overhead"
+    ],
+    "excluded": [
+      "external measurement harness",
+      "subsequent independent pair readback",
+      "subsequent storage scans",
+      "separate token counts",
+      "native model canary"
+    ],
+    "metric": "Kernel PeakJobMemoryUsed: aggregate committed bytes, not RSS or maximum child peak",
+    "accounting": "Assign and confirm root membership before resume; no breakaway; private KILL_ON_JOB_CLOSE job; sampled PID list is not a complete creation census",
+    "failure": "Reject incomplete accounting, brokered out-of-job child, missing/failed root or nonempty terminal job; never subtract baseline or count a subset as complete",
+    "alias_control": "Earlier WindowsApps python3 alias omitted actual Python and is rejected. Qualified task process PATH excludes that alias directory only; no global configuration changed"
+  },
+  "host": {
+    "windows_readback": "10.0.26200; fixed local NTFS",
+    "python_readback": "3.11.9",
+    "git_at_launcher_measurement": "2.54.0.windows.1",
+    "codex_selected_receiving": "0.153.4; separate external consumer, outside owner CLI measurement",
+    "readback_limit": "OS/Python/filesystem versions were read back during qualification on the same Windows boot, not captured as original per-invocation fields. Actual process images and runtime hashes are retained in measurement records."
+  },
+  "observations": [
+    {
+      "operation": "rotation",
+      "elapsed_ms": 25409.0387,
+      "peak_job_committed_bytes": 139272192,
+      "peak_single_process_committed_bytes": 36200448,
+      "kernel_total_processes": 1059,
+      "exit_code": 0,
+      "terminal_active_processes": 0,
+      "assigned_before_resume": true,
+      "terminal_breakaway_allowed": false,
+      "baseline_subtracted_bytes": 0,
+      "sampled_pid_census_complete": false,
+      "harness_included": false,
+      "within_prospective_windows_numbers": true,
+      "within_original_time_number": false,
+      "within_original_memory_number": false
+    },
+    {
+      "operation": "migrated_nontrigger",
+      "elapsed_ms": 5293.4467,
+      "peak_job_committed_bytes": 106127360,
+      "peak_single_process_committed_bytes": 35971072,
+      "kernel_total_processes": 234,
+      "exit_code": 0,
+      "terminal_active_processes": 0,
+      "assigned_before_resume": true,
+      "terminal_breakaway_allowed": false,
+      "baseline_subtracted_bytes": 0,
+      "sampled_pid_census_complete": false,
+      "harness_included": false,
+      "within_prospective_windows_numbers": true,
+      "within_original_time_number": false,
+      "within_original_memory_number": false
+    },
+    {
+      "operation": "unmigrated_nontrigger",
+      "elapsed_ms": 3794.5314,
+      "peak_job_committed_bytes": 138952704,
+      "peak_single_process_committed_bytes": 35987456,
+      "kernel_total_processes": 173,
+      "exit_code": 0,
+      "terminal_active_processes": 0,
+      "assigned_before_resume": true,
+      "terminal_breakaway_allowed": false,
+      "baseline_subtracted_bytes": 0,
+      "sampled_pid_census_complete": false,
+      "harness_included": false,
+      "within_prospective_windows_numbers": true,
+      "within_original_time_number": true,
+      "within_original_memory_number": false
+    }
+  ],
+  "benefit_and_retention": {
+    "byte_reduction": 188537,
+    "token_counts": {
+      "version": "0.13.0",
+      "encoding": "cl100k_base",
+      "scope": "separate diagnostic count; not accepting CLI work",
+      "pre": {
+        "STATE": 27976,
+        "ROADMAP": 711
+      },
+      "post": {
+        "STATE": 3145,
+        "ROADMAP": 1880
+      }
+    },
+    "token_reduction": 23662,
+    "cl100k_base_data_sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7",
+    "retained_before_bytes": 286277,
+    "retained_after_bytes": 529027,
+    "retained_increase_bytes": 242750,
+    "migrated_nontrigger_storage_unchanged": true,
+    "unmigrated_nontrigger_refs_and_population_unchanged": true
+  },
+  "evidence": {
+    "whole-owner-direct-git/result.json": {
+      "bytes": 108074,
+      "sha256": "22f0634b67fc6c4eb67b55384d61a182c225dfc18e80de2f926229f35da2898c"
+    },
+    "legacy-small-direct-git/RESULT.json": {
+      "bytes": 18138,
+      "sha256": "0299309de7332642c3fd5cbe836315f73af302f7aafc0a059d057350d6e9ee73"
+    },
+    "whole-owner-native-python-2c69/result.json": {
+      "bytes": 156975,
+      "sha256": "83b700aed1c9c8d154f5620c24f9cf849bd2d8a29e320c84b3eb2d3209b2e6c4"
+    },
+    "GIT_LAUNCHER_DISCRIMINATOR.json": {
+      "bytes": 1299,
+      "sha256": "13343fd177331edadbcf35e49211859c5ff8a16127a607244aa481903a671bc4"
+    },
+    "JOB_MEASURE_CONTROL_01_FAILURE.json": {
+      "bytes": 598,
+      "sha256": "126fb4c51f264c45302bd05cc63736483f285d1e1495ffd342140fce844f88ae"
+    },
+    "JOB_MEASURE_CONTROL_02.json": {
+      "bytes": 1407,
+      "sha256": "d6b396d7219b7d7e11318212f905c705cc5d53eec37a93990f5a01ee24915816"
+    },
+    "JOB_BASH_CONTROL.json": {
+      "bytes": 1484,
+      "sha256": "9fd8f47a8277222a9e130a833d991410b857a534ddea9232370a84ea2d1e4769"
+    },
+    "JOB_BASH_PYTHON3_CONTROL.json": {
+      "bytes": 1401,
+      "sha256": "b9b37e16b111566ea351bdf1c0e8b392d99a9acbd7c2254362e511220e24adb6"
+    },
+    "measure_owner_job.py": {
+      "bytes": 6316,
+      "sha256": "d19f3eabb1651876f74bf86f0354689222536578f31f277f5e46ef613d6ec85b"
+    },
+    "measure_legacy_small.py": {
+      "bytes": 3583,
+      "sha256": "3238f77e2abf99da3040d19e82bce6afc312837b2cf12cb80c934c73afa7cdb2"
+    },
+    "windows_job_measure.py": {
+      "bytes": 9496,
+      "sha256": "6dc21e695a1a8ab5feee620d13a2ce9539736adc2632e07327396f0ff8391bda"
+    },
+    "TOKENIZER_013_OBSERVATIONS.json": {
+      "bytes": 4255,
+      "sha256": "90af83faff12c7978223d4c8b9be4ea7dc3368f56b596532b8c99e36a638f204"
+    },
+    "OWNER_SCOPE_APPROVAL.md": {
+      "bytes": 4242,
+      "sha256": "58591a41496c6ba12db502fb20e63e21b8a27f82a17fac8de474e02284fe35a1"
+    },
+    "owner-disposition-review-02/receiver/REPORT.md": {
+      "bytes": 10825,
+      "sha256": "fa06698e7cb317eacc3f3d1edeef5444cd5bdbcad4324c886d8aceb0014d663a"
+    }
+  },
+  "acceptance_limits": [
+    "Independent final exact-subject review and final hosted/package gates remain separate",
+    "Authentic token/context OR, full amended occurrence canary and entitled C02 publication remain unearned in the owned follow-up",
+    "No original DAG/M/whole-cell/native-currentness/full-release credit",
+    "Earlier diagnostic records retain their original UNADMITTED_DIAGNOSTIC status; this separate prospective policy does not rewrite them"
+  ]
+}

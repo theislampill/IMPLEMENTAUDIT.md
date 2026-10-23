@@ -338,3 +338,18 @@ with proved legacy absence, unchanged refs and no new run files or archive.
 These are proposed whole-operation diagnostics, not admitted calibration or
 whole-issue acceptance. No numerical gate, original calibration or test deadline
 was changed. The original 30-second Windows timeout failures remain retained.
+
+### Owner-approved bounded Windows scope
+
+The October 22 owner decision prospectively admits a 60-second / 192-MiB
+complete-operation Windows qualification envelope for the pinned byte-only
+population, subject to independent review and exact-head delivery gates. The
+source-owned [qualification record](r0039-windows-byte-qualification.json) binds
+the unchanged measured runtime, all three operation populations, whole-job
+accounting controls, original failures and exact measurement exclusions. This
+later disposition does not rewrite the diagnostic status of earlier records.
+The canonical rotation reference owns the operational scope and preserves all
+existing helper limits, security checks and test deadlines. Authentic OR inputs,
+the full amended occurrence canary and entitled correction publication remain
+unearned in the single owned follow-up. Selected Codex receiving does not imply
+Claude runtime or full-release qualification; merge approval remains separate.
