@@ -352,7 +352,17 @@ nonempty strings; all limitations/gaps/conditions/defeaters are string lists.
 
 `CONDITIONAL` names exact outstanding conditions; other states cannot hide
 conditions. `UNRESOLVED` names the evidence gaps rather than manufacturing a
-contradiction. For multiple claims the conservative summary is `NOT_SUPPORTED`
+contradiction. Apply the specific transport rule before that general gap rule:
+local evidence offered for a broader deployment claim stays `CONDITIONAL` or
+`NOT_SUPPORTED` until evidence closes the transport bridge. Use `CONDITIONAL`
+with the exact outstanding transport qualifications, or `NOT_SUPPORTED` with
+the reason the evidence cannot support the requested boundary. This boundary
+judgement does not assert that the system has failed; absence of transport
+evidence is not a factual counterexample. Do not use `UNRESOLVED` to bypass
+this specific state bound, or silently narrow the requested deployment claim.
+A separately stated narrower proposition can still be `SUPPORTED` within its
+demonstrated scope. Other missing-evidence judgements retain `UNRESOLVED` and
+their exact gaps. For multiple claims the conservative summary is `NOT_SUPPORTED`
 if any claim has that state, otherwise `UNRESOLVED`, otherwise `CONDITIONAL`,
 otherwise `SUPPORTED`. This consistency rule does not prove the judgement.
 

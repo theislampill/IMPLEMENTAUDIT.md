@@ -82,6 +82,48 @@ owner-compatible source integration after their exact admission decisions.
 It is not accurately described as merely rerunning a native test, nor does it
 require reimplementing the portable durability already proved here.
 
+## Installed semantic qualification and transport-state repair
+
+Independent acceptance review found that the actual semantic held-outs in
+comment 5314405274 had not been supplied by value validation or routing-only
+interpretations. An eight-case bank was sealed before fresh reader dispatch
+against installed checkpoint `2f7dbe1a46b70083802c018d73b08791daedc010`, tree
+`633325b241099761a2d1514b0e6516e2f6f66223`. The v2 oracle SHA-256 is
+`d1f4634941c5d3bd26c29eb252a1eebb46659f6b2aee075f0e4af2c5a65cad47`.
+Each fresh context receives one opaque mission and the installed entry, without
+the expected answer or original issue text. The full first-outcome distribution,
+ordered source reads and independent grading belong to the final PR receipt.
+This is portable constructed semantic evidence, not the original native trials.
+
+The first correlated-evidence answer, SHA-256
+`9c364f5fc36cdc45cd68c5dd609c75959e98cdb5d3cf0f1145b87eaac5e7bcaf`,
+correctly refused a broader seasonal recommendation and retained one observation
+lineage, but returned `UNRESOLVED`. Preserve that conservative partial: acceptance
+item 1 requires `CONDITIONAL` or `NOT_SUPPORTED` for local evidence offered for
+a broader deployment until transport is established. No factual failure or
+unsafe deployment authorization was observed.
+
+The existing child's transport warning was present; the exact shared return
+contract omitted this specific state bound and supplied only the general
+missing-evidence rule. The repair restores the accepted rule in that single
+owner, distinguishing a boundary not supportable from a factual contradiction
+and preserving narrower positive and other unresolved judgments. Schema,
+legacy tokens, validators, governor, child population and authority are unchanged.
+The diagnostic record and exact preimages are retained in the execution capture.
+
+Do not replace the original partial with a later reader answer. Qualify the
+changed installed bytes with fresh affected interpretations and retain their
+own source identities. New contract bytes require exact package/inventory,
+four isolated install and current hosted CI evidence; the previous complete-
+payload reuse proof does not qualify this changed contract. Read the final
+receipt before declaring the portable semantic work complete. Full R0033
+acceptance remains OPEN independently of those results.
+
+Rollback this narrow contract delta with its manifest/evidence addendum and
+retire the corresponding successor interpretation claims. Preserve original
+answers and every earlier source-bound qualification, pending obligation,
+native fence, and R35/R39 receiving-owner responsibility.
+
 ## Contract identity and amendment reconciliation
 
 The complete [issue #207](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207) body and all five comments were recovered. The intake JSON SHA-256 is `ea5aa7b1708002418614f42757ecaf01453bec752ba779effe186a553cb2b596`. The locally derived contract report is `lanes/r33-contract.md`, SHA-256 `e9c18352b6918e87d4b79b9a5c358025d6bd24ea4053308c3ba3a09288429976`. Local evidence locators in this ledger refer to the execution capture `r33r37-evidence/`; they are evidence references, not shipped runtime inputs. This archive retains the decisions and identities rather than copying raw transcripts or logs, following `docs/audits/RETENTION.md`.

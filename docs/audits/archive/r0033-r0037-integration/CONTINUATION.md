@@ -195,5 +195,22 @@ installation inventory. Reuse the prior 40baa 17+44 installed controls and four
 fresh blind interpretations only after complete unchanged-payload/input proof;
 do not relabel them as reruns. The final hosted run has its own terminal result.
 Do not restart completed runtime qualification or reopen the corrected literal
-merely to recreate context. Continue only actual remaining native/receiving and
-separately authorized original acceptance work on this same PR.
+merely to recreate context. This reuse applies to the unchanged runtime at that
+checkpoint; a later changed contract needs its own affected qualification.
+
+## Semantic successor receipt boundary
+
+The eight actual installed semantic first outcomes are separate from the
+153-call value grammar and earlier routing/marker interpretations. Preserve
+their pre-dispatch oracle and every first response. The original correlated-
+evidence response at 2f7 returned a conservative `UNRESOLVED`, contrary to the
+accepted deployment state bound; its exact identity is in R0033-ACCEPTANCE.md.
+The existing shared return contract now restores that specific rule without
+changing schema, legacy compatibility, validators or authority.
+
+Read the final PR semantic/package/CI receipt before resuming. Fresh affected
+interpretations of the changed contract must be completed in this commission,
+not mislabeled native-only work. Preserve their complete outcome distribution
+and the original partial separately. Only actually unfinished native/receiving
+or separately authorized original work may be left to the next executor;
+any demonstrated portable defect still belongs to this same integrated PR.

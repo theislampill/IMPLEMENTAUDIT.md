@@ -77,12 +77,12 @@
     },
     {
       "base_blob": "7665cfd16fcc2f132dcfe7191261f1c4c9eb39c7",
-      "bytes": 29820,
-      "candidate_blob": "dd998b1f3b859f07a5a5afedc1030bc3c07ac365",
+      "bytes": 30595,
+      "candidate_blob": "0312f74a168adf608b42bfd5fe3f9d1a564d98d1",
       "mode": "100644",
       "path": "skills/implementaudit/references/transcript-contract.md",
       "published_checkpoint_blob": "282d67d2a7d106a5ef29b72e4b7b7b442ca6f438",
-      "sha256": "90b708ecedf0cfedb652bcec46960d0eda64ac8023d18b25ab5e08d7551b4ef2"
+      "sha256": "492ea1bb6015c69cbab49d29f1bfdeca30770ecfdab627473e5662e7cf5eef4e"
     },
     {
       "base_blob": null,
@@ -226,8 +226,8 @@
   "prior_integrated_tree": "2685a10706afd557663fd9c54c7eae4e56a5fe7b",
   "prior_qualified_checkpoint": "40baa43e792c95f8ad49cea8dccfd85ac42b94d7",
   "prior_qualified_tree": "504ef813aed1056bb77fbbb114415be3abf87e40",
-  "prior_source_manifest_sha256": "4f24fbcb048ed925c27561bca3b83d4b4effe0db7e843fdc41c797c7f8a2636e",
+  "prior_source_manifest_sha256": "5668a7aef7808f5a2e45aae92820572635b2dc629e311a96ec48a591f6c3e94e",
   "published_checkpoint": "61081882f95bcc8c40685195b0b26a98a3f99a5b",
   "published_tree": "769eb5343bbbff511314c24253d7830017300ded",
-  "scope": "24-path portable source integration, excluding derivative acceptance/index documents; final two-test instrument repair leaves runtime payload unchanged; no native authority or release proof"
+  "scope": "24-path portable source integration, excluding derivative acceptance/index documents; transport-state contract repair preserves schema, runtime validators and authority; no native acceptance or release proof"
 }
