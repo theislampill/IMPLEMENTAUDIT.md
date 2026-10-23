@@ -232,6 +232,140 @@ def validate_lineage(values, ancestor):
         raise CaptureError("inconsistent declared portal process lineage")
 
 
+def bounded_integer(value, minimum, maximum):
+    return type(value) is int and minimum <= value <= maximum
+
+
+def bounded_text(value, maximum):
+    if type(value) is not str or not value or "\0" in value:
+        return False
+    try:
+        return len(value.encode("utf-8")) <= maximum
+    except UnicodeError:
+        return False
+
+
+def declared_digest(value):
+    return type(value) is str and len(value) == 64 and all(c in "0123456789abcdef" for c in value)
+
+
+def declared_relative_path(value, *, root=False):
+    if root and value == ".":
+        return True
+    return (bounded_text(value, 4096) and len(value.split("/")) <= LIMITS["depth"] and
+            all(part not in {"", ".", ".."} and bounded_text(part, 255) for part in value.split("/")))
+
+
+def validate_file_observation(value, label, *, byte_limit, kind=False):
+    fields = {"mode", "bytes", "sha256"} | ({"kind"} if kind else set())
+    if (type(value) is not dict or set(value) != fields or
+            (kind and value["kind"] != "FILE") or
+            not bounded_integer(value["mode"], 0, 0o7777) or
+            not bounded_integer(value["bytes"], 0, byte_limit) or
+            not declared_digest(value["sha256"])):
+        raise CaptureError("invalid bounded " + label + " file observation")
+
+
+def validate_tree_observation(value, label):
+    """Validate a declared ordinary tree without consulting its claimed root."""
+    if type(value) is not dict or not 1 <= len(value) <= LIMITS["entries"] or "." not in value:
+        raise CaptureError("invalid " + label + " tree population")
+    children, total = {}, 0
+    for name, member in value.items():
+        if not declared_relative_path(name, root=True) or type(member) is not dict:
+            raise CaptureError("invalid " + label + " tree path/member")
+        if member.get("kind") == "DIRECTORY":
+            if (set(member) != {"kind", "mode", "members"} or
+                    not bounded_integer(member["mode"], 0, 0o7777) or
+                    type(member["members"]) is not list or len(member["members"]) > LIMITS["entries"] or
+                    any(not bounded_text(n, 255) or "/" in n or n in {".", ".."} for n in member["members"]) or
+                    member["members"] != sorted(set(member["members"]))):
+                raise CaptureError("invalid " + label + " directory observation")
+            children[name] = []
+        else:
+            validate_file_observation(member, label, byte_limit=LIMITS["file_bytes"], kind=True)
+            total += member["bytes"]
+    if "." not in children or total > LIMITS["tree_bytes"]:
+        raise CaptureError("invalid or oversized " + label + " tree")
+    for name in value:
+        if name != ".":
+            parent, _, leaf = name.rpartition("/")
+            parent = parent or "."
+            if parent not in children:
+                raise CaptureError("missing " + label + " parent directory")
+            children[parent].append(leaf)
+    if any(value[name]["members"] != sorted(members) for name, members in children.items()):
+        raise CaptureError("inconsistent " + label + " directory membership")
+    return total
+
+
+def validate_source_context(value, expected_root):
+    fields = {"root", "portal", "declared_files", "coverage"}
+    if (type(value) is not dict or set(value) != fields or value["root"] != expected_root or
+            not bounded_text(value["root"], 4096) or str(absolute(value["root"])) != value["root"] or
+            value["coverage"] != "PORTAL_DECLARED_SOURCE_OBSERVATION_NOT_TRANSITIVE_READ_CLOSURE"):
+        raise CaptureError("invalid portal source observation schema/context")
+    total = validate_tree_observation(value["portal"], "portal source")
+    if value["portal"].get("site.json", {}).get("kind") != "FILE":
+        raise CaptureError("missing portal site source observation")
+    files = value["declared_files"]
+    required = {"package/implementaudit-package.json", ".codex-plugin/plugin.json", ".claude-plugin/plugin.json"}
+    if type(files) is not dict or not 1 <= len(files) <= LIMITS["entries"] or not required <= set(files):
+        raise CaptureError("invalid portal declared source population")
+    for name, member in files.items():
+        if not declared_relative_path(name):
+            raise CaptureError("invalid portal declared source path")
+        validate_file_observation(member, "portal declared source", byte_limit=LIMITS["file_bytes"])
+        total += member["bytes"]
+        if name.startswith("docs/portal/"):
+            relative = name[len("docs/portal/"):]
+            if value["portal"].get(relative) != dict(kind="FILE", **member):
+                raise CaptureError("contradictory repeated portal source observation")
+    if total > LIMITS["tree_bytes"]:
+        raise CaptureError("portal declared source bytes exceed limit")
+
+
+def validate_runtime_observation(value, parent):
+    fields = {"runtime", "process", "actual_environment_sha256"}
+    if type(value) is not dict or set(value) != fields or not declared_digest(value["actual_environment_sha256"]):
+        raise CaptureError("invalid portal actual runtime/environment observation")
+    validate_process(value["process"])
+    if value["process"]["ppid"] != parent["pid"]:
+        raise CaptureError("foreign portal actual-child process observation")
+    runtime = value["runtime"]
+    fields = {"executable", "observation", "version", "implementation", "flags", "environment_sha256", "coverage"}
+    if (type(runtime) is not dict or set(runtime) != fields or
+            not bounded_text(runtime["executable"], 4096) or str(absolute(runtime["executable"])) != runtime["executable"] or
+            not bounded_text(runtime["version"], 4096) or not bounded_text(runtime["implementation"], 64) or
+            not declared_digest(runtime["environment_sha256"]) or
+            runtime["coverage"] != "ACTUAL_FORKED_PYTHON_NOT_TOOLCHAIN_CLOSURE" or
+            type(runtime["flags"]) is not list or not 1 <= len(runtime["flags"]) <= 64 or
+            any(type(flag) is not bool and not bounded_integer(flag, -(2 ** 31), 2 ** 31 - 1)
+                for flag in runtime["flags"])):
+        raise CaptureError("invalid portal nested runtime observation")
+    validate_file_observation(runtime["observation"], "portal runtime", byte_limit=LIMITS["runtime_bytes"])
+    if runtime["observation"]["bytes"] == 0:
+        raise CaptureError("empty portal runtime executable observation")
+
+
+def validate_input_stamps(value, artifact):
+    if type(value) is not dict or set(value) != set(artifact):
+        raise CaptureError("incomplete checker input observation window")
+    for name, stamp in value.items():
+        if (type(stamp) is not list or len(stamp) != 6 or
+                not bounded_integer(stamp[0], 0, 2 ** 64 - 1) or
+                not bounded_integer(stamp[1], 1, 2 ** 64 - 1) or
+                not bounded_integer(stamp[2], 0, 0o177777) or
+                not bounded_integer(stamp[3], 0, 2 ** 63 - 1) or
+                any(not bounded_integer(v, -(2 ** 63), 2 ** 63 - 1) for v in stamp[4:])):
+            raise CaptureError("invalid bounded checker input identity stamp")
+        member = artifact[name]
+        kind = stat.S_IFDIR if member["kind"] == "DIRECTORY" else stat.S_IFREG
+        if (stat.S_IFMT(stamp[2]) != kind or stat.S_IMODE(stamp[2]) != member["mode"] or
+                (member["kind"] == "FILE" and stamp[3] != member["bytes"])):
+            raise CaptureError("checker input stamp contradicts retained artifact kind/mode/bytes")
+
+
 def profile():
     def slot(op, code, context, target):
         return dict(operation=op, exit=code, context=context, target=target)
@@ -677,22 +811,17 @@ def verify(path, request, *, require_complete):
                 record["operation"] != slot["operation"] or inv["operation"] != slot["operation"] or
                 inv["run_id"] != request["run_id"] or inv["node"] != NODE or inv["cwd"] != request["source_root"] or
                 inv["request_sha256"] != digest(encode(request)) or inv["sources"] != request["sources"] or
-                record["source_after"] != inv["source_context"] or
+                encode(record["source_after"]) != encode(inv["source_context"]) or
                 record["previous_event_sha256"] != previous or type(record["exit"]) is not int or
                 type(record["expected_exit"]) is not int or record["expected_exit"] != slot["exit"] or
                 record["status"] != ("SUCCESS" if record["exit"] == 0 else "INTERRUPTED" if record["exit"] < 0 else "FAILURE") or
                 record["capture_status"] != "COMPLETE" or record["timed_out"] is not False or
                 read(event / "exit-code.txt")[0] != (str(record["exit"]) + "\n").encode() or
                 read(event / "invocation.json")[0] != encode(inv) or
-                load(event / "runtime.json") != record["runtime"]):
+                read(event / "runtime.json")[0] != encode(record["runtime"])):
             raise CaptureError("inconsistent portal event/source/result/order")
         validate_lineage(inv["lineage"], node["owner"])
-        runtime = record["runtime"]
-        if set(runtime) != {"runtime", "process", "actual_environment_sha256"}:
-            raise CaptureError("invalid portal runtime observation")
-        validate_process(runtime["process"])
-        if runtime["process"]["ppid"] != inv["lineage"][0]["pid"]:
-            raise CaptureError("foreign portal actual-child process observation")
+        validate_runtime_observation(record["runtime"], inv["lineage"][0])
         if require_complete and record["exit"] != slot["exit"]:
             raise CaptureError("portal actual result does not satisfy the finite test expectation")
         expected_root = request["source_root"]
@@ -704,8 +833,10 @@ def verify(path, request, *, require_complete):
                 raise CaptureError("foreign portal fixture source binding")
             validate_lineage(fixture["registration_lineage"], node["owner"])
         script_name = SOURCES[0] if slot["operation"] == "BUILD" else SOURCES[1]
-        if inv["source_root"] != expected_root or inv["script"] != expected_root + "/" + script_name or inv["source_context"]["root"] != expected_root:
+        if inv["source_root"] != expected_root or inv["script"] != expected_root + "/" + script_name:
             raise CaptureError("foreign portal source root")
+        validate_source_context(inv["source_context"], expected_root)
+        validate_source_context(record["source_after"], expected_root)
         if slot["context"] == "FIXTURE":
             target = expected_root + "/dist/docs-portal"
         elif slot["context"] == "NESTED_VERIFY":
@@ -733,6 +864,7 @@ def verify(path, request, *, require_complete):
             total += len(data)
         artifact = record["artifact"]
         if artifact is not None:
+            validate_tree_observation(artifact, "retained portal artifact")
             retained, _ = tree(event / "artifact")
             if retained != artifact:
                 raise CaptureError("missing/extra/corrupt portal artifact bytes or modes")
@@ -747,10 +879,8 @@ def verify(path, request, *, require_complete):
         else:
             if artifact is None or record["generation"] is not None or record["input_stamps"] != record["after_stamps"]:
                 raise CaptureError("changed checker input or false generation")
-            if (type(record["input_stamps"]) is not dict or set(record["input_stamps"]) != set(artifact) or
-                    any(type(values) is not list or len(values) != 6 or any(type(value) is not int for value in values)
-                        for values in record["input_stamps"].values())):
-                raise CaptureError("incomplete checker input observation window")
+            validate_input_stamps(record["input_stamps"], artifact)
+            validate_input_stamps(record["after_stamps"], artifact)
             expected_generation = None
             for old in reversed(list(events.values())):
                 if old["operation"] == "BUILD" and old["exit"] == 0 and old["invocation"]["artifact_path"] == target:

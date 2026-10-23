@@ -94,6 +94,159 @@ def capture(root, output, mode="dag", environment=None):
     return process, json.loads((output / "result.json").read_bytes())
 
 
+def portal_receiving_cases(directory, captured):
+    """Reseal malformed declarations from an intact real portal capture.
+
+    The producer's original helper bytes stay in the request and retained
+    source. This exercises the current receiving implementation; it does not
+    claim a fresh producer execution or authenticate a resealed issuer.
+    """
+    directory.mkdir()
+    output = directory / "capture"
+    shutil.copytree(captured, output)
+    helper = ROOT / "scripts/portal-event-capture.py"
+    helper_source = helper.read_bytes()
+    (directory / "receiving-helper.py").write_bytes(helper_source)
+    spec = importlib.util.spec_from_file_location("portal_receiving_owner", helper)
+    engine = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(engine)
+    events = output / "portal-events"
+    originals = {p: p.read_bytes() for p in output.rglob("*.json")}
+    original = json.loads(originals[output / "result.json"])
+    probe_source = """import importlib.util, json, sys
+from pathlib import Path
+spec = importlib.util.spec_from_file_location('portal_receiving_owner', sys.argv[1])
+owner = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(owner)
+try:
+    output = Path(sys.argv[2])
+    declared = owner.load(output / 'result.json')
+    received = owner.verify(output / 'portal-events', declared['portal_events']['request'],
+                            require_complete=declared['exit'] == 0)
+    if owner.encode(received) != owner.encode(declared['portal_events']):
+        raise owner.CaptureError('portal handoff differs from the resealed declaration')
+    print(json.dumps(dict(complete=received['complete'], coverage=received['coverage']), sort_keys=True))
+except (OSError, ValueError, KeyError, TypeError) as error:
+    print(type(error).__name__ + ': ' + str(error), file=sys.stderr)
+    raise SystemExit(2)
+"""
+    def receive():
+        return run_command([sys.executable, "-B", "-c", probe_source, str(helper), str(output)],
+                           cwd=directory, capture_output=True, timeout=30)
+    positive = receive()
+    assert positive.returncode == 0, ("intact historical portal capture", positive.stdout, positive.stderr)
+    assert json.loads(positive.stdout)["complete"] is True
+
+    def reseal(index, mutate):
+        event = events / ("event-%04d" % index)
+        value = json.loads((event / "event.json").read_bytes())
+        mutate(value)
+        (event / "invocation.json").write_bytes(engine.encode(value["invocation"]))
+        (event / "runtime.json").write_bytes(engine.encode(value["runtime"]))
+        (event / "event.json").write_bytes(engine.encode(value))
+        result, previous = copy.deepcopy(original), None
+        for name in result["portal_events"]["events"]:
+            path = events / name / "event.json"
+            record = json.loads(path.read_bytes())
+            record["previous_event_sha256"] = previous
+            data = engine.encode(record)
+            path.write_bytes(data)
+            previous = hashlib.sha256(data).hexdigest()
+            result["portal_events"]["events"][name] = previous
+        (output / "result.json").write_bytes(engine.encode(result))
+
+    def source_change(change):
+        def mutate(event):
+            change(event["invocation"]["source_context"])
+            event["source_after"] = copy.deepcopy(event["invocation"]["source_context"])
+        return mutate
+    def omit_context(event):
+        event["invocation"]["source_context"] = {"root": event["invocation"]["source_root"]}
+        event["source_after"] = copy.deepcopy(event["invocation"]["source_context"])
+    def omit_runtime(event):
+        event["runtime"]["runtime"] = None
+        event["runtime"]["actual_environment_sha256"] = "not-a-digest"
+    def runtime_change(change):
+        return lambda event: change(event["runtime"]["runtime"])
+    def stamp_change(change):
+        def mutate(event):
+            change(event["input_stamps"])
+            event["after_stamps"] = copy.deepcopy(event["input_stamps"])
+        return mutate
+    def declared_change(field, value):
+        return source_change(lambda context: context["declared_files"]["package/implementaudit-package.json"].update({field: value}))
+    def oversized_declared(context):
+        for member in context["declared_files"].values():
+            member["bytes"] = engine.LIMITS["file_bytes"]
+    def wrong_portal_member(context):
+        context["portal"]["."]["members"].remove("site.json")
+
+    cases = [
+        ("omitted declared source population", 0, omit_context),
+        ("omitted runtime and invalid environment digest", 0, omit_runtime),
+        ("zeroed identity stamps contradict artifact", 1,
+         stamp_change(lambda stamps: stamps.update({name: [0] * 6 for name in stamps}))),
+        ("missing source coverage", 0, source_change(lambda context: context.pop("coverage"))),
+        ("foreign source observation field", 0, source_change(lambda context: context.update(foreign=True))),
+        ("empty source portal population", 0, source_change(lambda context: context.update(portal={}))),
+        ("empty declared-file population", 0, source_change(lambda context: context.update(declared_files={}))),
+        ("missing required package source observation", 0,
+         source_change(lambda context: context["declared_files"].pop("package/implementaudit-package.json"))),
+        ("contradictory source directory membership", 0, source_change(wrong_portal_member)),
+        ("unsupported source member kind", 0,
+         source_change(lambda context: context["portal"]["site.json"].update(kind="SYMLINK"))),
+        ("invalid declared source digest", 0, declared_change("sha256", "not-a-digest")),
+        ("boolean declared source byte count", 0, declared_change("bytes", True)),
+        ("negative declared source byte count", 0, declared_change("bytes", -1)),
+        ("oversized declared source member", 0, declared_change("bytes", engine.LIMITS["file_bytes"] + 1)),
+        ("oversized declared source aggregate", 0, source_change(oversized_declared)),
+        ("foreign runtime observation field", 0, runtime_change(lambda runtime: runtime.update(foreign=True))),
+        ("relative runtime executable", 0, runtime_change(lambda runtime: runtime.update(executable="python"))),
+        ("missing runtime version", 0, runtime_change(lambda runtime: runtime.update(version=None))),
+        ("missing runtime implementation", 0, runtime_change(lambda runtime: runtime.update(implementation=""))),
+        ("invalid runtime flags", 0, runtime_change(lambda runtime: runtime.update(flags=[None]))),
+        ("invalid runtime source environment digest", 0,
+         runtime_change(lambda runtime: runtime.update(environment_sha256="not-a-digest"))),
+        ("invalid actual child environment digest", 0,
+         lambda event: event["runtime"].update(actual_environment_sha256="not-a-digest")),
+        ("invalid runtime executable digest", 0,
+         runtime_change(lambda runtime: runtime["observation"].update(sha256="not-a-digest"))),
+        ("boolean runtime executable mode", 0,
+         runtime_change(lambda runtime: runtime["observation"].update(mode=True))),
+        ("oversized runtime executable observation", 0,
+         runtime_change(lambda runtime: runtime["observation"].update(bytes=engine.LIMITS["runtime_bytes"] + 1))),
+        ("checker stamp has unsupported kind", 1,
+         stamp_change(lambda stamps: stamps["index.html"].__setitem__(2, 0o120644))),
+        ("checker stamp disagrees with retained mode", 1,
+         stamp_change(lambda stamps: stamps["index.html"].__setitem__(2, stamps["index.html"][2] ^ 0o100))),
+        ("checker stamp disagrees with retained byte count", 1,
+         stamp_change(lambda stamps: stamps["index.html"].__setitem__(3, stamps["index.html"][3] + 1))),
+        ("checker stamp has negative inode", 1,
+         stamp_change(lambda stamps: stamps["index.html"].__setitem__(1, -1))),
+        ("checker stamp timestamp exceeds integer bound", 1,
+         stamp_change(lambda stamps: stamps["index.html"].__setitem__(4, 2 ** 80))),
+    ]
+    results = []
+    for label, index, mutate in cases:
+        try:
+            reseal(index, mutate)
+            observed = receive()
+            results.append(dict(control=label, exit=observed.returncode,
+                                stdout=observed.stdout.decode(), stderr=observed.stderr.decode()))
+        finally:
+            for path, data in originals.items():
+                path.write_bytes(data)
+    restored = receive()
+    assert restored.returncode == 0, ("restored receiving fixture", restored.stdout, restored.stderr)
+    assert helper.read_bytes() == helper_source, "receiving owner changed during heldouts"
+    report = dict(original_capture=str(captured), original_complete=True, fresh_execution=False,
+                  producer_helper=original["portal_events"]["request"]["sources"]["scripts/portal-event-capture.py"],
+                  receiving_helper_sha256=hashlib.sha256(helper_source).hexdigest(), controls=results,
+                  restored_complete=True, authority="NONE")
+    (directory / "receiving-controls.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    assert all(row["exit"] == 2 for row in results), [row for row in results if row["exit"] != 2]
+
+
 def portal_capture_cases(directory):
     """Actual registered portal test, including its temporary copied sources.
 
@@ -290,6 +443,7 @@ def portal_capture_cases(directory):
     (directory / "portal-integrity-controls.json").write_text(json.dumps(controls, indent=2) + "\n")
     checked = observer_probe(root, "q.verified_record(Path(sys.argv[2]))", output)
     assert checked.returncode == 0, ("restored complete capture", checked.stderr)
+    portal_receiving_cases(directory / "portal-receiving", output)
 
     # With capture disabled, the actual registered test preserves its raw result.
     off = directory / "portal-capture-off"
@@ -1253,13 +1407,21 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--retain-fixtures", type=Path)
     parser.add_argument("--portal-only", action="store_true")
+    parser.add_argument("--portal-receiving", type=Path)
     options = parser.parse_args()
+    if options.portal_only and options.portal_receiving is not None:
+        parser.error("portal-only and portal-receiving are mutually exclusive")
     if options.retain_fixtures is not None:
         RETAIN = options.retain_fixtures.resolve()
         RETAIN.mkdir(parents=True, exist_ok=False)
         (RETAIN / "commands").mkdir()
         (RETAIN / "objects").mkdir()
         shutil.copyfile(__file__, RETAIN / "harness-source.py")
+    if options.portal_receiving is not None:
+        with fixture_directory() as td:
+            portal_receiving_cases(Path(td) / "portal-receiving", options.portal_receiving.resolve())
+        print("work-graph-verifier: strict portal receiving controls passed against an intact historical capture")
+        return
     if options.portal_only:
         with fixture_directory() as td:
             portal_capture_cases(Path(td))
