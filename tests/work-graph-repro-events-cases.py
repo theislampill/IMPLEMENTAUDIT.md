@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -133,6 +134,134 @@ class Fixture:
         ended = self.cli("finish", capture, result.returncode)
         assert ended.returncode == 0 if code else ended.returncode == 125, ended.stderr
         return self.owner.verify_record(capture, require_complete=False)
+
+
+class QualifierCases(unittest.TestCase):
+    """Actual v4 handoff through both registered-node execution routes."""
+    @classmethod
+    def setUpClass(cls):
+        cls.fixture = Fixture()
+        root = cls.fixture.repo
+        for name in ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
+                     "skills/implementaudit/scripts/compile-work-graph.py"):
+            target = root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / name, target)
+        (root / "scripts/generate-readme-diagrams.sh").write_text("#!/bin/bash\nexit 0\n")
+        (root / "scripts/verify-package.sh").write_text(
+            "#!/bin/bash\nset -euo pipefail\n"
+            "bash scripts/generate-readme-diagrams.sh --check\n"
+            "bash tests/reproducible-release-asset.test.sh\n"
+            "git diff --check\nprintf 'verify-package: ok\\n'\n")
+        for command in (["add", "--all"], ["commit", "-qm", "finite actual qualifier C5 handoff"]):
+            subprocess.run(["git", "-C", str(root), *command], check=True,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        cls.outputs = {}
+        for mode in ("legacy", "dag"):
+            output = cls.fixture.base / ("qualifier-" + mode)
+            process = cls.invoke(mode, output, "--retain-repro-events")
+            if process.returncode:
+                raise AssertionError((mode, process.returncode, process.stdout, process.stderr))
+            cls.outputs[mode] = output
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.fixture.clean()
+
+    @classmethod
+    def invoke(cls, *arguments, **overrides):
+        return subprocess.run([sys.executable, "-B", "scripts/qualify-work-graph-verifier.py", *map(str, arguments)],
+                              cwd=cls.fixture.repo, env=dict(cls.fixture.env, **overrides),
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    @classmethod
+    def readback(cls, directory):
+        program = (
+            "import importlib.util,sys; from pathlib import Path; "
+            "s=importlib.util.spec_from_file_location('q','scripts/qualify-work-graph-verifier.py'); "
+            "q=importlib.util.module_from_spec(s); s.loader.exec_module(q); "
+            "q.verified_record(Path(sys.argv[1]))")
+        return subprocess.run([sys.executable, "-B", "-c", program, str(directory)],
+                              cwd=cls.fixture.repo, env=cls.fixture.env,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    def test_actual_legacy_and_dag_complete_after_original_cleanup(self):
+        for mode, output in self.outputs.items():
+            with self.subTest(mode=mode):
+                result = read_json(output / "result.json")
+                self.assertEqual(result["schema"], "implementaudit.verifier-run.v4")
+                self.assertIsNone(result["portal_events"])
+                self.assertEqual(result["exit"], 0)
+                self.assertEqual(result["repro_events"]["coverage"], "COMPLETE_FINITE_REPRO_CHILD_EVENTS")
+                self.assertEqual(len(result["repro_events"]["record"]["events"]), 19)
+                session = read_json(output / "repro-events/session.json")
+                self.assertFalse(Path(session["context"]["work_root"]).exists())
+                actual = self.readback(output)
+                self.assertEqual(actual.returncode, 0, actual.stderr.decode(errors="replace"))
+                compared = self.invoke("compare", output, output, self.fixture.base / (mode + "-self-comparison.json"))
+                # The comparator requires a legacy/DAG pair. A self-comparison
+                # validates identical declarations but must not satisfy that
+                # route obligation merely because its raw bytes are equal.
+                self.assertEqual(compared.returncode, 1, (compared.stdout, compared.stderr))
+                checks = json.loads(compared.stdout)["checks"]
+                self.assertFalse(checks.pop("route_pair"))
+                self.assertTrue(all(checks.values()), checks)
+
+    def test_retained_source_run_context_and_shape_mutations_refuse(self):
+        original = self.outputs["dag"]
+        mutations = {
+            "foreign-repository": lambda row: row["repro_events"]["binding"].update(repository="/foreign"),
+            "foreign-output": lambda row: row["repro_events"]["binding"].update(output="/foreign"),
+            "foreign-run": lambda row: row["repro_events"]["record"].update(run_id="0" * 32),
+            "foreign-source": lambda row: row["repro_events"]["binding"]["source"].update(source_commit="0" * 40),
+            "wrong-coverage": lambda row: row["repro_events"].update(coverage="UNQUALIFIED_PARTIAL_OR_FAILED_PROCESS"),
+            "boolean-exit": lambda row: row.update(exit=False),
+            "v3-downgrade": lambda row: row.update(schema="implementaudit.verifier-run.v3"),
+            "missing-portal-slot": lambda row: row.pop("portal_events"),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(control=label):
+                target = self.fixture.base / ("mutation-" + label)
+                shutil.copytree(original, target)
+                result = read_json(target / "result.json")
+                mutate(result)
+                write_json(target / "result.json", result)
+                self.assertNotEqual(self.readback(target).returncode, 0)
+        for relative in ("session.json", "record.json"):
+            with self.subTest(missing=relative):
+                target = self.fixture.base / ("missing-" + relative)
+                shutil.copytree(original, target)
+                (target / "repro-events" / relative).unlink()
+                self.assertNotEqual(self.readback(target).returncode, 0)
+
+    def test_failed_child_keeps_actual_exit_and_partial_profile(self):
+        output = self.fixture.base / "qualifier-child-failure"
+        process = self.invoke("dag", output, "--retain-repro-events", C5_CASE_FAIL_B="1")
+        self.assertNotEqual(process.returncode, 0)
+        result = read_json(output / "result.json")
+        self.assertEqual(result["exit"], int((output / "exit-code.txt").read_text()))
+        self.assertEqual(result["repro_events"]["coverage"], "UNQUALIFIED_PARTIAL_OR_FAILED_PROCESS")
+        self.assertFalse(result["repro_events"]["record"]["assessment"]["complete"])
+        self.assertEqual(self.readback(output).returncode, 0)
+
+    def test_ambient_capture_refuses_nominal_v3_and_explicit_v4(self):
+        for ordinal, options in enumerate((("--empty-stdin",), ("--retain-repro-events",))):
+            output = self.fixture.base / ("ambient-" + str(ordinal))
+            actual = self.invoke("dag", output, *options, R0035_REPRO_EVENT_CAPTURE_DIR="")
+            self.assertEqual(actual.returncode, 2)
+            self.assertIn(b"ambiguous inherited repro event capture", actual.stderr)
+            self.assertFalse((output / "exit-code.txt").exists())
+
+    def test_new_producer_preserves_v3_six_export_contract(self):
+        output = self.fixture.base / "new-producer-v3"
+        actual = self.invoke("dag", output, "--retain-repro-assets")
+        self.assertEqual(actual.returncode, 0, actual.stderr.decode(errors="replace"))
+        result = read_json(output / "result.json")
+        self.assertEqual(result["schema"], "implementaudit.verifier-run.v3")
+        self.assertNotIn("repro_events", result)
+        self.assertNotIn("portal_events", result)
+        self.assertTrue(result["repro_artifacts"]["complete"])
+        self.assertEqual(self.readback(output).returncode, 0)
 
 
 EXPECTED_ROLES = [

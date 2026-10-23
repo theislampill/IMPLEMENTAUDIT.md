@@ -38,6 +38,10 @@ LOADED_COMPILER_PATH = Path(SPEC.origin).resolve()
 exec(compile(LOADED_COMPILER, SPEC.origin, "exec"), WG.__dict__)
 REPRO_PRODUCER = "tests/reproducible-release-asset.test.sh"
 REPRO_PRODUCER_SHA256 = "7c892c5e84a29bd33d6ed03c97a5610efde51b0d1ad0165f9e9ded0a3bdfb3ad"
+REPRO_EVENT_PRODUCER_SHA256 = "a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310"
+# Keep the original historical v3 producer. The additive profile has actual
+# capture-off raw-stream/exit/export equivalence at the same build source.
+REPRO_PRODUCER_PROFILES = {REPRO_PRODUCER_SHA256: 11460, REPRO_EVENT_PRODUCER_SHA256: 12799}
 REPRO_FILES = dict(ASSET_A="IMPLEMENTAUDIT-A.skill", ASSET_B="IMPLEMENTAUDIT-B.skill",
                    PLUGIN_A="IMPLEMENTAUDIT-A.plugin.zip", PLUGIN_B="IMPLEMENTAUDIT-B.plugin.zip",
                    CHECKSUMS_A="CHECKSUMS-A.txt", CHECKSUMS_B="CHECKSUMS-B.txt")
@@ -45,6 +49,9 @@ EXPLICIT_FILE_LIMIT = 16 * 1024 * 1024
 DIST_LIMITS = dict(file_bytes=EXPLICIT_FILE_LIMIT, total_bytes=64 * 1024 * 1024, entries=4096, depth=32)
 PORTAL_ENV = "IMPLEMENTAUDIT_PORTAL_CAPTURE"
 _PORTAL_ENGINE = None
+REPRO_EVENT_ENV = "R0035_REPRO_EVENT_CAPTURE_DIR"
+REPRO_EVENT_OWNER = "scripts/repro-event-capture.py"
+_REPRO_EVENT_ENGINE = None
 
 
 def sha(data):
@@ -266,12 +273,12 @@ def repro_binding(mapping, source):
     if (len(nodes) != 1 or nodes[0]["kind"] != "TEST" or
             nodes[0]["command"] != REPRO_PRODUCER or nodes[0]["source"].strip() != "bash " + REPRO_PRODUCER or
             type(member) is not dict or member.get("kind") != "FILE" or member.get("tracked") is not True or
-            member.get("sha256") != REPRO_PRODUCER_SHA256 or type(member.get("bytes")) is not int or
-            member["bytes"] != 11460 or type(member.get("mode")) is not int or
+            type(member.get("sha256")) is not str or member["sha256"] not in REPRO_PRODUCER_PROFILES or type(member.get("bytes")) is not int or
+            member["bytes"] != REPRO_PRODUCER_PROFILES[member["sha256"]] or type(member.get("mode")) is not int or
             any(type(source.get(k)) is not str or not re.fullmatch(r"[0-9a-f]{40}", source[k]) for k in ("head", "tree"))):
         raise WG.WorkGraphError("repro retention requires the pinned registered zero-argument producer")
     node = nodes[0]
-    return dict(path=REPRO_PRODUCER, sha256=REPRO_PRODUCER_SHA256, bytes=11460,
+    return dict(path=REPRO_PRODUCER, sha256=member["sha256"], bytes=member["bytes"],
                 node=node_id, source=node["source"], source_sha256=node["source_sha256"],
                 source_ref="HEAD", source_commit=source["head"], source_tree=source["tree"])
 
@@ -462,7 +469,8 @@ def validate_child_resolution(environment):
 
 def verify_extended_record(directory, result, mapping):
     context = result["execution_context"]
-    if all(result[key] is None for key in ("repro_artifacts", "stdin", "dist_namespace")) and result.get("portal_events") is None:
+    if (all(result[key] is None for key in ("repro_artifacts", "stdin", "dist_namespace"))
+            and result.get("portal_events") is None and result.get("repro_events") is None):
         raise WG.WorkGraphError("v3 requires an explicit acquisition contract")
     validate_child_resolution(result["environment"])
     validate_child_resolution(result["environment_after"])
@@ -478,6 +486,8 @@ def verify_extended_record(directory, result, mapping):
     expected_overrides = repro_overrides(context["output"]) if result["repro_artifacts"] is not None else {}
     if result.get("portal_events") is not None:
         expected_overrides[PORTAL_ENV] = context["output"] + "/portal-events/request.json"
+    if result.get("repro_events") is not None:
+        expected_overrides[REPRO_EVENT_ENV] = context["output"] + "/repro-events"
     if (WG.canonical_json_v1(environment["overrides"]) != WG.canonical_json_v1(expected_overrides) or
             (not expected_overrides and environment["base_environment_sha256"] != environment["actual_environment_sha256"]) or
             retained_bytes(directory, "child-environment.json")[0] != WG.canonical_json_v1(environment) + b"\n"):
@@ -578,6 +588,80 @@ def verify_portal_record(directory, result, mapping):
         raise WG.WorkGraphError("portal retained-record refusal: " + str(exc)) from exc
 
 
+def repro_event_engine():
+    """Execute acquired helper bytes, then retain their identity for readback."""
+    global _REPRO_EVENT_ENGINE
+    path = LOADED_DRIVER_PATH.with_name("repro-event-capture.py")
+    member = source_member(path.name, root=path.parent, with_bytes=True, byte_limit=EXPLICIT_FILE_LIMIT)
+    if member.get("kind") != "FILE":
+        raise WG.WorkGraphError("repro event capture helper is unavailable")
+    data = member.pop("_acquired_bytes")
+    if _REPRO_EVENT_ENGINE is None:
+        spec = importlib.util.spec_from_file_location("repro_event_capture", path)
+        _REPRO_EVENT_ENGINE = importlib.util.module_from_spec(spec)
+        exec(compile(data, str(path), "exec"), _REPRO_EVENT_ENGINE.__dict__)
+        _REPRO_EVENT_ENGINE._QUALIFIER_LOADED_SOURCE = data
+    if _REPRO_EVENT_ENGINE._QUALIFIER_LOADED_SOURCE != data:
+        raise WG.WorkGraphError("loaded repro event helper differs from current source")
+    return _REPRO_EVENT_ENGINE
+
+
+def repro_event_binding(mapping, source, original_output):
+    producer = repro_binding(mapping, source)
+    if producer["sha256"] != REPRO_EVENT_PRODUCER_SHA256:
+        raise WG.WorkGraphError("repro event capture requires its exact event-capable producer")
+    identities = {}
+    for role, name in (("producer", REPRO_PRODUCER), ("capture_owner", REPRO_EVENT_OWNER)):
+        member = source.get("members", {}).get(name, {})
+        if member.get("kind") != "FILE" or member.get("tracked") is not True:
+            raise WG.WorkGraphError("repro event owner must be an acquired tracked file")
+        identities[role] = dict(path=name, **{key: member[key] for key in ("bytes", "sha256", "mode")})
+    return dict(output=original_output + "/repro-events",
+        source=dict(source_commit=source["head"], source_tree=source["tree"], **identities),
+        mapping=dict(graph_digest=mapping["digest"], registry_sha256=mapping["registry_sha256"],
+                     node=producer["node"], source=producer["source"], source_sha256=producer["source_sha256"]))
+
+
+def observe_repro_events(directory, original_output, mapping, before, after, code, *, original_cwd):
+    binding = repro_event_binding(mapping, before, original_output)
+    binding["repository"] = original_cwd
+    if dict(repro_event_binding(mapping, after, original_output), repository=original_cwd) != binding:
+        raise WG.WorkGraphError("repro event producer/helper source changed")
+    target = directory / "repro-events"
+    if not target.exists() and not target.is_symlink() and code != 0:
+        record = None  # A failed outer process may not have reached this family.
+    else:
+        try:
+            engine = repro_event_engine()
+            loaded = engine._QUALIFIER_LOADED_SOURCE
+            expected_owner = binding["source"]["capture_owner"]
+            if len(loaded) != expected_owner["bytes"] or sha(loaded) != expected_owner["sha256"]:
+                raise WG.WorkGraphError("repro event reader differs from the captured source owner")
+            record = engine.verify_record(target,
+                expected_source=binding["source"], require_complete=code == 0)
+            session = engine.json_read(target / "session.json")
+            if (engine.digest(engine.canonical(session)) != record["session_sha256"] or
+                    session["context"]["repository"] != original_cwd or session["context"]["cwd"] != original_cwd):
+                raise WG.WorkGraphError("repro event session crossed its original qualifier repository")
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise WG.WorkGraphError("repro event handoff refusal: " + str(exc)) from exc
+    complete = record is not None and record["assessment"]["complete"] and code == 0 and before == after
+    return dict(schema="implementaudit.verifier-repro-events.v1", binding=binding, record=record,
+                coverage="COMPLETE_FINITE_REPRO_CHILD_EVENTS" if complete else "UNQUALIFIED_PARTIAL_OR_FAILED_PROCESS",
+                semantics="OWN_CHILD_PROCESS_OBSERVATIONS; IMPORTED_READBACK_DECLARED_CONSISTENCY_ONLY")
+
+
+def verify_repro_event_record(directory, result, mapping):
+    observed = result["repro_events"]
+    if observed is None:
+        return
+    expected = observe_repro_events(directory, result["execution_context"]["output"], mapping,
+                                   result["before"], result["after"], result["exit"],
+                                   original_cwd=result["execution_context"]["cwd"])
+    if WG.canonical_json_v1(expected) != WG.canonical_json_v1(observed):
+        raise WG.WorkGraphError("repro event handoff differs from original source/run/node binding")
+
+
 def full_engine_binding():
     # These are the actual loaded paths, not a candidate ROOT that a caller may
     # point at a small fixture. This is source currentness, not startup trust.
@@ -651,7 +735,7 @@ def verified_record(directory):
     if result["schema"] in {"implementaudit.verifier-run.v3", "implementaudit.verifier-run.v4"}:
         fields |= {"repro_artifacts", "child_environment", "stdin", "dist_namespace"}
     if result["schema"] == "implementaudit.verifier-run.v4":
-        fields.add("portal_events")
+        fields |= {"portal_events", "repro_events"}
     if (set(result) != fields or type(result.get("mode")) is not str or
             result["mode"] not in {"legacy", "dag"} or result.get("authority") != "NONE" or
             type(result.get("command")) is not list or
@@ -728,6 +812,7 @@ def verified_record(directory):
         verify_extended_record(directory, result, mapping)
     if result["schema"] == "implementaudit.verifier-run.v4":
         verify_portal_record(directory, result, mapping)
+        verify_repro_event_record(directory, result, mapping)
     return result
 
 
@@ -766,11 +851,12 @@ def compare(left, right, out):
         checks["same_dist_namespace"] = same_dist
     if a["schema"] == b["schema"] == "implementaudit.verifier-run.v4":
         checks["same_portal_events"] = a["portal_events"] == b["portal_events"]
+        checks["same_repro_events"] = a["repro_events"] == b["repro_events"]
     result = dict(schema="implementaudit.verifier-correspondence.v1", checks=checks,
                   record_coverage=["HISTORICAL_V1_RETAINED_TRACE_VALIDATED_NO_ORIGINAL_BINDING" if r["schema"].endswith(".v1") and r["mode"] == "dag"
                                    else "HISTORICAL_V1_WHOLE_PROCESS_ONLY" if r["schema"].endswith(".v1")
                                    else "DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3" if r["schema"].endswith(".v3")
-                                   else "FINITE_PORTAL_INVOCATION_OBSERVATIONS_V4" if r["schema"].endswith(".v4")
+                                   else "FINITE_CHILD_INVOCATION_OBSERVATIONS_V4" if r["schema"].endswith(".v4")
                                    else "ORDERED_TRACE_BOUND_V2" if r["mode"] == "dag"
                                    else "WHOLE_PROCESS_ONLY_V2" for r in (a, b)],
                   raw_observables_equal=all(checks.values()), normalization="NONE_RAW_BYTES",
@@ -788,21 +874,27 @@ def compare(left, right, out):
         else:
             result["portal_coverage"] = [r["portal_events"]["coverage"] if r["portal_events"] is not None
                                          else "NOT_REQUESTED" for r in (a, b)]
-            result["evidence_semantics"] += "; FINITE_PORTAL_DECLARED_CONSISTENCY; IMPORTED_EXECUTION_AUTHENTICATION_UNQUALIFIED"
+            result["repro_event_coverage"] = [r["repro_events"]["coverage"] if r["repro_events"] is not None
+                                              else "NOT_REQUESTED" for r in (a, b)]
+            result["evidence_semantics"] += "; FINITE_CHILD_EVENTS_DECLARED_CONSISTENCY; IMPORTED_EXECUTION_AUTHENTICATION_UNQUALIFIED"
     out.write_bytes(WG.canonical_json_v1(result) + b"\n")
     print(json.dumps(result, sort_keys=True))
     return 0 if all(checks.values()) else 1
 
 
-def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin=False, capture_dist=False, capture_portal_events=False):
+def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin=False, capture_dist=False,
+        capture_portal_events=False, retain_repro_events=False):
     if stdin_file is not None and empty_stdin:
         raise WG.WorkGraphError("stdin-file and empty-stdin are mutually exclusive")
-    extended = retain_repro_assets or stdin_file is not None or empty_stdin or capture_dist or capture_portal_events
+    events = capture_portal_events or retain_repro_events
+    extended = retain_repro_assets or stdin_file is not None or empty_stdin or capture_dist or events
     if extended and (output == ROOT or ROOT in output.parents):
         raise WG.WorkGraphError("extended capture evidence must be outside the candidate")
     output.mkdir(parents=True, exist_ok=False)
     engine = full_engine_binding()
     before = source_identity()
+    if REPRO_EVENT_ENV in os.environ:
+        raise WG.WorkGraphError("ambiguous inherited repro event capture directory")
     child_environment = dict(os.environ) if extended else None
     overrides = {}
     if retain_repro_assets:
@@ -816,12 +908,20 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
             raise WG.WorkGraphError("ambiguous inherited portal capture request")
         overrides[PORTAL_ENV] = str(output / "portal-events/request.json")
         child_environment.update(overrides)
+    if retain_repro_events:
+        if "REPRO_SOURCE_REF" in os.environ:
+            raise WG.WorkGraphError("ambiguous inherited repro event source-ref override")
+        overrides[REPRO_EVENT_ENV] = str(output / "repro-events")
+        child_environment.update(overrides)
     environment = environment_identity(child_environment, child_resolution=extended)
     registry = (ROOT / "scripts/verify-package.sh").read_bytes()
     tests = WG.verifier_registered_tests_v1(registry)
     graph = WG.compile_verifier_graph_v1(registry, tests, environment)
     if retain_repro_assets:
         repro_binding(graph, before)
+    if retain_repro_events:
+        repro_event_binding(graph, before, str(output))
+        repro_event_engine()
     portal_request = None
     if capture_portal_events:
         try:
@@ -886,7 +986,9 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
             portal = portal_engine().verify(output / "portal-events", portal_request, require_complete=process.returncode == 0)
         except (OSError, ValueError, KeyError, TypeError) as exc:
             raise WG.WorkGraphError("portal handoff refusal: " + str(exc)) from exc
-    result = dict(schema="implementaudit.verifier-run.v4" if capture_portal_events else "implementaudit.verifier-run.v3" if extended else "implementaudit.verifier-run.v2", mode=mode, command=command[:2],
+    repro_events = observe_repro_events(output, str(output), graph, before, after, process.returncode,
+                                       original_cwd=str(ROOT)) if retain_repro_events else None
+    result = dict(schema="implementaudit.verifier-run.v4" if events else "implementaudit.verifier-run.v3" if extended else "implementaudit.verifier-run.v2", mode=mode, command=command[:2],
                   actual_argv=command, execution_context=dict(cwd=str(ROOT), output=str(output)),
                   command_stream=dict(sha256=sha(compiled_stream), bytes=len(compiled_stream)),
                   before=before, after=after, environment=environment, environment_after=environment_after,
@@ -900,11 +1002,12 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
                   authority="NONE")
     if extended:
         result.update(repro_artifacts=artifacts, child_environment=child_binding, stdin=stdin_binding, dist_namespace=namespace)
-        if capture_portal_events:
-            result["portal_events"] = portal
+        if events:
+            result.update(portal_events=portal, repro_events=repro_events)
         verify_extended_record(output, result, graph)
-        if capture_portal_events:
+        if events:
             verify_portal_record(output, result, graph)
+            verify_repro_event_record(output, result, graph)
     (output / "result.json").write_bytes(WG.canonical_json_v1(result) + b"\n")
     print(json.dumps({k: result[k] for k in ("mode", "exit", "elapsed_ms", "mapped_nodes", "registered_tests", "registration_complete", "stdout_sha256", "stderr_sha256")}, sort_keys=True))
     return process.returncode if process.returncode >= 0 else 128 - process.returncode
@@ -1330,12 +1433,13 @@ def main():
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--capture-dist", action="store_true")
     parser.add_argument("--retain-portal-events", "--capture-portal-events", dest="capture_portal_events", action="store_true")
+    parser.add_argument("--retain-repro-events", action="store_true")
     stdin = parser.add_mutually_exclusive_group()
     stdin.add_argument("--stdin-file")
     stdin.add_argument("--empty-stdin", action="store_true")
     args = parser.parse_args()
     try:
-        if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events):
+        if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events or args.retain_repro_events):
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
         if args.mode == "scoped" and len(args.paths) == 2:
             session = VerifierTaskSession(args.paths[0], args.paths[1])
@@ -1354,7 +1458,7 @@ def main():
         if args.mode in {"legacy", "dag"} and len(args.paths) == 1:
             return run(args.mode, args.paths[0].resolve(), retain_repro_assets=args.retain_repro_assets,
                        stdin_file=args.stdin_file, empty_stdin=args.empty_stdin, capture_dist=args.capture_dist,
-                       capture_portal_events=args.capture_portal_events)
+                       capture_portal_events=args.capture_portal_events, retain_repro_events=args.retain_repro_events)
         parser.error("run takes one fresh output directory; compare takes two run directories and a fresh result path")
     except (OSError, ValueError, KeyError, TypeError, WG.WorkGraphError, subprocess.SubprocessError) as exc:
         print("work-graph-verifier: " + str(exc), file=sys.stderr)

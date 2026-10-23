@@ -182,7 +182,7 @@ The `legacy` and `dag` routes accept three independent opt-in contracts:
   /absolute/fresh-evidence --retain-repro-assets --empty-stdin --capture-dist
 ```
 
-Any acquisition option selects `implementaudit.verifier-run.v3`, whose exact
+Any of the acquisition options above selects `implementaudit.verifier-run.v3`, whose exact
 member set includes `child_environment`, `repro_artifacts`, `stdin` and
 `dist_namespace`. Unrequested artifact, input or namespace contracts are
 null. Historical v1/v2 records keep their original fields and meanings; a
@@ -191,9 +191,23 @@ do not change the compiler, registry, command order or shared-shell runner.
 They do not enable full-canonical cached reuse.
 
 `--retain-repro-assets` requires the single registered zero-argument
-`bash tests/reproducible-release-asset.test.sh` invocation and this exact
-11,460-byte producer source:
-`7c892c5e84a29bd33d6ed03c97a5610efde51b0d1ad0165f9e9ded0a3bdfb3ad`.
+`bash tests/reproducible-release-asset.test.sh` invocation and one of two exact
+producer profiles:
+
+| Producer profile | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Original six-export producer | 11,460 | `7c892c5e84a29bd33d6ed03c97a5610efde51b0d1ad0165f9e9ded0a3bdfb3ad` |
+| Additive event-capable producer, capture off | 12,799 | `a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310` |
+
+The original profile remains admitted for historical v3 records. Controlled
+real-process comparisons preserve raw stdout, stderr, exit, exports and cleanup
+with capture off. All six actual release exports also match across the original,
+new capture-off and new capture-on producers when they build the same source
+commit. Packages from different commits retain their different inventory source
+identities; those identities are not normalized. An inherited
+`R0035_REPRO_EVENT_CAPTURE_DIR`, including an empty value, refuses nominal
+capture instead of silently adding an event contract to v3.
+
 The producer's existing six exports receive fresh, distinct absolute paths
 inside the capture and outside the source worktree:
 
@@ -328,8 +342,9 @@ tree.
 ```
 
 The same option is accepted by `legacy`; it may be combined with the existing
-v3 acquisition options. It explicitly selects `implementaudit.verifier-run.v4`,
-which adds `portal_events` to the v3 members. Capture without this option keeps
+v3 acquisition options and the C5 event option below. It explicitly selects
+`implementaudit.verifier-run.v4`, which adds nullable `portal_events` and
+`repro_events` to the v3 members. Capture without either event option keeps
 its original v2/v3 schema and behavior. The v1–v3 readers remain available at
 their original evidence ceilings. Relabelling v4 as an older format refuses.
 
@@ -433,7 +448,7 @@ Own-process supervision establishes the stated live invocation/return custody.
 Restored or resealed JSON receives **declared integrity/consistency only**. Run
 IDs, process IDs, digests and node labels cannot authenticate an imported issuer,
 hostile equal-UID process, native controller, route satisfaction or accepted
-JOIN. This C4 increment does not qualify C1, C2, C3, C5, C6 or C7, full-canonical
+JOIN. This C4 increment does not qualify C1, C2, C3, C6 or C7, full-canonical
 equivalence/reuse, R003A host attribution, conversion, retirement or closure.
 The original canonical verifier remains the rollback route.
 
@@ -446,6 +461,74 @@ PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B \
   tests/work-graph-verifier-cases.py --portal-only \
   --retain-fixtures /absolute/fresh-portal-evidence
 ```
+
+## Opt-in reproduction invocation handoff (C5)
+
+```bash
+/usr/bin/python3 -B scripts/qualify-work-graph-verifier.py dag \
+  /absolute/fresh-evidence --retain-repro-events
+```
+
+`legacy` accepts the same option. It can accompany `--retain-portal-events`,
+`--retain-repro-assets` and the other explicit acquisition options. C5-only
+capture uses v4 with `portal_events=null`; C4-only capture has
+`repro_events=null`. The exact v1–v3 field sets remain unchanged. The parent
+passes one fresh absolute external `repro-events/` destination through
+`R0035_REPRO_EVENT_CAPTURE_DIR`. Ambient capture and `REPRO_SOURCE_REF`
+overrides refuse before launching the verifier. This option requires the exact
+event-capable producer above, an acquired tracked capture helper, and the
+existing registered zero-argument reproduction test node.
+
+The finite `REPRODUCIBLE_RELEASE_ASSET_C5_V1` profile retains the original
+nineteen child invocations in order: two builds, three release-file comparisons,
+two checksum checks, two plugin-manifest producers and their comparison, two
+skill-manifest producers and their comparison, and six hash producers. Counts
+alone do not establish completeness. The receiving helper checks the required
+roles, actual argv and stdin, source identities, cwd, exit codes, retained
+operands and output semantics. Successful comparisons must agree with their
+inputs; successful manifest, checksum and hash outputs must describe the actual
+retained artifacts. An expected or unexpected failed child remains a failed
+event with its actual exit and raw streams.
+
+Successful build and manifest generations are retained before their existing
+cleanup. Every consuming child receives its original operands; the helper
+records their bytes, modes, membership and ordinary live identity stamps before
+and after consumption. The original cleanup still runs. Partial/failing profiles
+remain explicitly incomplete, and no failed build's residual directory is
+promoted to a successful generation. Ordinary write-and-restore changes ctime
+and is detected within the observation window. These checks do not authenticate
+an imported issuer or protect against a hostile kernel or equal-UID writer.
+
+The qualifier's receiving boundary reacquires the exact helper bytes used for
+readback and compares them with the captured source owner. It binds the C5
+record and session to the outer source commit/tree, producer/helper identities,
+registered node, literal original output and original repository cwd. Missing,
+corrupt, stale, foreign, incomplete-success or unsupported records refuse. If a
+failed canonical prefix never reaches the reproduction node, its absent capture
+is retained as `UNQUALIFIED_PARTIAL_OR_FAILED_PROCESS`; it is not a completed C5
+profile. The actual outer exit is durable before these receiving checks.
+
+The comparator compares the raw event declarations, including paths and run
+identities. It does not normalize two independent captures into equality.
+Imported readback remains **declared integrity/consistency only**. Source pins,
+run IDs and successful readback do not establish native currentness, authenticated
+effect admission, governed dispatch, accepted JOIN or release authority.
+
+The helper is repo-only, and its controls run through the existing
+`tests/work-graph-verifier.test.sh` family. `ProfileCases` and `FailureCases`
+exercise actual finite child execution, integrity and failure handling;
+`QualifierCases` exercises both legacy/DAG v4 handoffs, receiving mutations,
+partial failures, ambient refusal and the additive v3 profile. The separate
+`Lifecycle` case executes the actual official package producer.
+
+C4 and C5 close their finite internal-generation observation gaps. Full canonical
+runtime/startup acquisition (C1), execution namespace/Git acquisition (C2),
+mutable resource contracts (C3), shared-shell effect transfer and protected
+receipt custody (C6), and full acquire/execute/consume currentness (C7) retain
+their separate qualification requirements. They remain portable engineering
+work where executable semantics permit; they are not relabelled native-only.
+The complete canonical registry retains its serial no-reuse fallback until
+those requirements and actual consumer evidence support a wider admission.
 
 ## Completed native-format prerequisites
 
