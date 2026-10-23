@@ -284,7 +284,7 @@ def historical_legacy_receipt(fixture):
     record = fixture.base / "historical-v1-receipt.tsv"
     record.write_bytes("\t".join(fields).encode())
     oid = fixture.run_command(["git", "hash-object", "-w", str(record)]).stdout.strip()
-    ref = f"refs/implementaudit/continuity-receipts/{CONTROLLER}/e1"
+    ref = f"refs/implementaudit/continuity-receipts/{CONTROLLER}/e1"  # legacy spelling compatibility fixture
     fixture.run_command(["git", "update-ref", ref, oid])
     fixture.receipt = ref + "@" + oid
     fixture.run_command(["bash", str(CLAIM), "--verify-resume-receipt", fixture.receipt])
