@@ -863,17 +863,6 @@ def execute_ordinary_receiver_v1():
         selected['episode_owner']['controller'], policy)
 
 
-if __name__ == '__main__':
-    import json
-    import sys
-    try:
-        require(sys.argv[1:] in (['--ordinary-receiver'], ['--ordinary-execute']), 'ORDINARY_RECEIVER_ARGUMENTS')
-        value = ordinary_receiver_check_v1() if sys.argv[1] == '--ordinary-receiver' else execute_ordinary_receiver_v1()
-        sys.stdout.write(json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False) + '\n')
-    except (Exception, SystemExit) as error:
-        sys.stderr.write(json.dumps({'schema': 'implementaudit.ordinary-receiver-refusal.v1', 'reason': str(error)}) + '\n')
-        raise SystemExit(2)
-
 # Distinct owned-stdio source profile. No caller field can select this issuer.
 OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
 OWNED_STDIO_SELECTION_PIN = None
@@ -1072,3 +1061,14 @@ def _as_public_binding_v1(obs, context, policy, pins, runtime):
             'OWNED_STDIO_PUBLIC_CUTOFF_OR_EPISODE_CHANGED')
     return {'schema': 'implementaudit.owned-stdio-native-public-record-binding.v1', 'records': records,
         'source_prefixes': prefixes, 'anchor_response_sha256s': [], 'canonical_episode_binding': episode, 'authority_ceiling': 'NONE'}
+
+if __name__ == '__main__':
+    import json
+    import sys
+    try:
+        require(sys.argv[1:] in (['--ordinary-receiver'], ['--ordinary-execute']), 'ORDINARY_RECEIVER_ARGUMENTS')
+        value = ordinary_receiver_check_v1() if sys.argv[1] == '--ordinary-receiver' else execute_ordinary_receiver_v1()
+        sys.stdout.write(json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False) + '\n')
+    except (Exception, SystemExit) as error:
+        sys.stderr.write(json.dumps({'schema': 'implementaudit.ordinary-receiver-refusal.v1', 'reason': str(error)}) + '\n')
+        raise SystemExit(2)

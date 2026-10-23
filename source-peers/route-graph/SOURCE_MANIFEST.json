@@ -5,13 +5,15 @@
   "files": [
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
-      "bytes": 371304,
-      "sha256": "8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389",
+      "bytes": 375105,
+      "sha256": "ad0367c90db2a23580a2f37ecb6b87d2b774e04ce524a95bf159f038062fafa4",
       "semantic_owner": "R0033",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/route-transaction.py",
       "mode": "100755",
-      "modified": true
+      "modified": true,
+      "source_preimage_sha256": "8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted"
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/route_request_policy.py",
@@ -24,13 +26,16 @@
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
-      "bytes": 237804,
-      "sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
+      "bytes": 244555,
+      "sha256": "ed1a0361533be2a4e6dd46a2525ab290c6a6bbfc4740dcd353657cb61048e5e1",
       "semantic_owner": "R0035",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
       "mode": "100644",
-      "modified": true
+      "modified": true,
+      "source_preimage_sha256": "ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9",
+      "additional_delta": "R0039 original14 owner composition; verified R0033 read view; old native18 domain not reinterpreted"
     }
-  ]
+  ],
+  "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW"
 }
