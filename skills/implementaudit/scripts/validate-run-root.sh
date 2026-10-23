@@ -675,19 +675,25 @@ check_done_phase_captures() {
 }
 
 mode=full
+nonterminal_yield=no
 if [ "${1:-}" = "--micro" ]; then
   mode=micro
   shift
 elif [ "${1:-}" = "--ledger" ]; then
   mode=ledger
   shift
+elif [ "${1:-}" = "--nonterminal-yield" ]; then
+  nonterminal_yield=yes
+  shift
 fi
 run_root="${1:-}"
-if [ -z "$run_root" ]; then
+if [ -z "$run_root" ] || { [ "$nonterminal_yield" = yes ] && [ "$#" -ne 1 ]; }; then
   if [ "$mode" = micro ]; then
     printf 'usage: validate-run-root.sh --micro <run-root>\n' >&2
   elif [ "$mode" = ledger ]; then
     printf 'usage: validate-run-root.sh --ledger <markdown-ledger>\n' >&2
+  elif [ "$nonterminal_yield" = yes ]; then
+    printf 'usage: validate-run-root.sh --nonterminal-yield <run-root>\n' >&2
   else
     printf 'usage: validate-run-root.sh <run-root>\n' >&2
   fi
@@ -741,6 +747,63 @@ case "$selection_rc" in
   3) : ;; # Physical absence/unbound structural legacy profile; no currentness claim.
   *) err "canonical pair selection refused; root compatibility fallback is forbidden"; exit 1 ;;
 esac
+
+
+# Selected-record consistency for the additive yield mode. This is read evidence,
+# not controller/host currentness. Legacy records otherwise have no final pair
+# token, so a stable individual late read would miss earlier structural drift.
+yield_read_identity() {
+  "${reader_py[@]}" - "$state" "$roadmap" "$run_root" <<'PYIDENTITY'
+import hashlib,json,os,re,stat,sys
+from pathlib import Path
+state,roadmap,root=map(Path,sys.argv[1:])
+records={}
+def read(path):
+    path=path.absolute()
+    for node in (path,*path.parents):
+        info=node.lstat()
+        if stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+            raise ValueError('aliased yield read-set member')
+    info=path.lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_size>1_000_000:
+        raise ValueError('unsafe yield read-set member')
+    signature=lambda x:[x.st_dev,x.st_ino,x.st_size,x.st_mtime_ns,x.st_ctime_ns]
+    fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0)|getattr(os,'O_NONBLOCK',0))
+    with os.fdopen(fd,'rb') as handle:
+        opened=os.fstat(handle.fileno())
+        if not stat.S_ISREG(opened.st_mode):
+            raise ValueError('nonregular yield read-set member after open')
+        data=handle.read(1_000_001);closed=os.fstat(handle.fileno())
+    if len(data)>1_000_000 or not signature(info)==signature(opened)==signature(closed)==signature(path.lstat()):
+        raise ValueError('yield read-set changed during capture')
+    records[str(path)]=[signature(closed),hashlib.sha256(data).hexdigest()]
+    return data.decode('utf-8')
+try:
+    text=read(state);read(roadmap)
+    # Match the late table consumer's section and cell normalization exactly;
+    # Markdown backticks cannot remove a phase from this consistency read set.
+    lines=text.splitlines()
+    phases=set()
+    if lines.count('## Current phase')==1:
+        for line in lines[lines.index('## Current phase')+1:]:
+            if line.startswith('## '):
+                break
+            if line.startswith('|'):
+                cells=[cell.strip(' \t`') for cell in line.split('|')[1:-1]]
+                if len(cells)==2 and cells[0]=='Phase' and re.fullmatch(r'[1-9][0-9]*',cells[1]):
+                    phases.add(cells[1])
+    for phase in sorted(phases):
+        read(root/'phases'/('phase-'+phase+'.md'))
+    sys.stdout.write(json.dumps(records,sort_keys=True,separators=(',',':'))+'\n')
+except (OSError,ValueError) as exc:
+    sys.stderr.write('validate-run-root: yield read-set unavailable: '+str(exc)+'\n')
+    raise SystemExit(1)
+PYIDENTITY
+}
+yield_initial_identity=""
+if [ "$nonterminal_yield" = yes ]; then
+  yield_initial_identity="$(yield_read_identity)" || { err "yield read-set capture failed"; exit 1; }
+fi
 
 claim="$run_root/.claimed"
 claim_mode=""
@@ -1245,6 +1308,183 @@ fi
 
 check_background_chains "$run_root" "$state"
 
+# R0037's additive record predicate shares the selected canonical pair and the
+# ordinary structural checks above. It neither binds a host session nor grants
+# Stop, currentness, effect, handoff or closure authority. Native callers must
+# establish their authentic binding/currentness through the existing owners.
+if [ "$nonterminal_yield" = yes ] && [ "$err_count" -eq 0 ]; then
+  if ! "${reader_py[@]}" - "$state" "$run_root" <<'PY'
+import os
+from pathlib import Path
+import re
+import stat
+import sys
+
+state, root = map(Path, sys.argv[1:])
+
+def refuse(reason):
+    raise SystemExit("validate-run-root: nonterminal yield refused: " + reason)
+
+def read_regular(path):
+    try:
+        before = path.lstat()
+        if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1
+                or getattr(before, 'st_file_attributes', 0) & 0x400
+                or before.st_size > 1_000_000):
+            refuse("unsafe or oversized record: " + path.name)
+        fd = os.open(path, os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0))
+        with os.fdopen(fd, 'rb') as stream:
+            opened = os.fstat(stream.fileno())
+            if not stat.S_ISREG(opened.st_mode):
+                refuse("nonregular record after open: " + path.name)
+            data = stream.read(1_000_001)
+            after = os.fstat(stream.fileno())
+        signature = lambda value: (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns, value.st_ctime_ns)
+        if (len(data) > 1_000_000 or signature(before) != signature(opened)
+                or signature(opened) != signature(after) or signature(after) != signature(path.lstat())):
+            refuse("record changed while read: " + path.name)
+        return data.decode('utf-8', 'strict').splitlines()
+    except (OSError, UnicodeError) as exc:
+        refuse("unreadable record: " + str(exc))
+
+lines = read_regular(state)
+if lines.count('## Current phase') != 1:
+    refuse("exactly one Current phase section is required")
+fields = {}
+for line in lines[lines.index('## Current phase') + 1:]:
+    if line.startswith('## '):
+        break
+    if not line.startswith('|'):
+        continue
+    cells = [cell.strip(' \t`') for cell in line.split('|')[1:-1]]
+    if len(cells) != 2:
+        refuse("malformed Current phase row")
+    key, value = cells
+    if key == 'Field' or re.fullmatch(r'[-:]+', key or ' '):
+        continue
+    if key in fields:
+        refuse("duplicate Current phase field: " + key)
+    fields[key] = value
+
+placeholders = {'', '-', 'none', 'pending', 'todo', 'tbd', 'unknown', 'n/a', 'not applicable'}
+def required(key):
+    value = fields.get(key, '')
+    if value.strip(' <>[]').lower() in placeholders or not value.strip():
+        refuse("missing concrete " + key)
+    return value
+
+def action(key):
+    value = required(key).lower()
+    # Record concreteness is not a closed English verb grammar or proof of
+    # semantic sufficiency. Reject unresolved templates and bare continuations.
+    ignored = {'a', 'an', 'and', 'at', 'for', 'from', 'it', 'now', 'of', 'on', 'or', 'that', 'the', 'then', 'this', 'to', 'with'} | placeholders
+    words = re.findall(r'[a-z0-9]+', value)
+    # Conventional standalone template tokens are unresolved. Literal indexing,
+    # parametrized test IDs and shell brace expressions are ordinary action text.
+    token = r'(?:command|target|path|file|name|value|action|probe|todo|tbd)'
+    template = r'(?<![\w./:$-])(?:<\s*' + token + r'\s*>|\[\s*' + token + r'\s*\]|\{\s*' + token + r'\s*\})(?![\w./-])'
+    if (re.search(template, value)
+            or len(words) < 2 or not any(word not in ignored for word in words[1:])):
+        refuse("non-actionable " + key)
+
+status = required('Status')
+if status not in {'open', 'READY_TO_DISPATCH', 'IN_PHASE', 'PAUSED', 'BLOCKED', 'INTERRUPTED'}:
+    refuse("status is not nonterminal")
+if required('Audit object state') != 'open':
+    refuse("audit object is not explicitly open")
+for key in ('Phase', 'Last check', 'Owner/source', 'Authorization state', 'Re-entry condition'):
+    required(key)
+action('Next action')
+if any(line.strip() in {'AUDIT_COMPLETE', 'IMPLEMENTAUDIT_RUN_COMPLETE', 'AUDIT_HANDOFF', 'ANDON_HANDOFF'} for line in lines):
+    refuse("terminal or handoff claim cannot use the yield predicate")
+
+phase = fields['Phase']
+if re.fullmatch(r'[1-9][0-9]*', phase):
+    phase_path = root / 'phases' / ('phase-' + phase + '.md')
+    if not phase_path.parent.is_dir() or phase_path.parent.is_symlink():
+        refuse("current phase directory is absent or aliased")
+    phase_lines = read_regular(phase_path)
+    phase_ids = {match.group(1) for line in phase_lines
+                 if (match := re.match(r'^(?:Phase:\s*|# Phase\s+)([1-9][0-9]*)(?:\s|$)', line))}
+    if phase_ids != {phase}:
+        refuse("current phase specification identity differs")
+elif status not in {'open', 'READY_TO_DISPATCH', 'PAUSED', 'BLOCKED', 'INTERRUPTED'}:
+    refuse("active phase must identify its specification")
+
+if status == 'IN_PHASE':
+    required('Current checkpoint')
+    required('Last completed step')
+elif status == 'PAUSED':
+    required('Pause reason')
+    required('Resume point')
+    trigger = required('Pause trigger')
+    if trigger not in {'clarification', 'owner-authority', 'external-wait', 'user-interruption'}:
+        refuse("unknown pause trigger")
+    if trigger == 'external-wait':
+        required('Blocker')
+        required('Containment')
+        action('Next probe')
+    if trigger == 'user-interruption':
+        context = required('Pause phase context')
+        if context not in {'IN_PROGRESS', 'OUTSIDE_PHASE'}:
+            refuse("unknown pause phase context")
+        # Phase specs contain START/DONE template anchors before execution.
+        # Applicability is an explicit supplied fact, not inferred chronology.
+        if context == 'OUTSIDE_PHASE':
+            if 'IMPLEMENTAUDIT_PAUSE' in lines:
+                refuse("out-of-phase user pause cannot fabricate an in-phase pause record")
+        else:
+            if not re.fullmatch(r'[1-9][0-9]*', phase):
+                refuse("in-progress user pause requires a numbered phase")
+            if lines.count('IMPLEMENTAUDIT_PAUSE') != 1:
+                refuse("user interruption requires its existing pause record")
+            start = lines.index('IMPLEMENTAUDIT_PAUSE') + 1
+            block = lines[start:start + 4]
+            if (len(block) != 4 or block[0] != 'Phase: ' + phase
+                    or block[1] not in {'Status: paused at boundary', 'Status: paused mid-step'}
+                    or not block[2].startswith('Last completed step: ')
+                    or block[2].split(':', 1)[1].strip().lower() in placeholders
+                    or block[3] != 'STATE.md: updated'):
+                refuse("pause record is incomplete, foreign or not durable")
+            if ('Last completed step' in fields
+                    and block[2].split(':', 1)[1].strip() != fields['Last completed step']):
+                refuse("pause record contradicts the current last completed step")
+elif status == 'BLOCKED':
+    required('Blocker')
+    required('Containment')
+    action('Next probe')
+elif status == 'INTERRUPTED':
+    source = required('Stop source')
+    point = required('Interruption point')
+    log_id = required('Interruption log')
+    in_log, matching = False, []
+    for line in lines:
+        if line.startswith('## '):
+            in_log = line == '## Andon log'
+        elif in_log and line.startswith('|'):
+            cells = [cell.strip() for cell in line.split('|')[1:-1]]
+            if cells and cells[0] == log_id:
+                matching.append(cells)
+    def exact_phrase(value, text):
+        return re.search(r'(?<![A-Za-z0-9_.:@+/-])' + re.escape(value)
+                         + r'(?![A-Za-z0-9_.:@+/-])', text) is not None
+    row = matching[0] if len(matching) == 1 else []
+    # Preserve both existing Andon shapes (with and without Occ).
+    phase_index, text_index = (2, 4) if len(row) == 8 else (1, 3)
+    if (len(row) not in {7, 8} or not exact_phrase(source, row[text_index])
+            or not exact_phrase(point, row[text_index])
+            or (re.fullmatch(r'[1-9][0-9]*', phase) and row[phase_index] != phase)):
+        refuse("owner stop/interruption point lacks its exact durable log row")
+else:
+    required('Pending decision')
+
+sys.stdout.write('validate-run-root: nonterminal yield record ok (source-only; host enforcement unavailable)\n')
+PY
+  then
+    err "nonterminal-yield predicate failed"
+  fi
+fi
+
 if [ -f "$run_root/respec-impact-set.md" ]; then
   respec_checker="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/check-respec-impact-set.sh"
   respec_output="$(bash "$respec_checker" "$run_root/respec-impact-set.md" 2>&1)" \
@@ -1257,6 +1497,11 @@ if [ "$err_count" -eq 0 ]; then
       --output "${canonical_snapshots[$i]}" --native-guards --verify-current \
       || err "canonical inputs changed before native validation completed"
   done
+fi
+
+if [ "$nonterminal_yield" = yes ] && [ "$err_count" -eq 0 ]; then
+  yield_final_identity="$(yield_read_identity)" || err "yield read-set recheck failed"
+  [ "$yield_initial_identity" = "$yield_final_identity" ] || err "yield read-set changed during validation"
 fi
 
 if [ "$err_count" -gt 0 ]; then
