@@ -3535,7 +3535,7 @@ def verifier_command_stream_v1(graph, current_registry_bytes):
         raise WorkGraphError('verifier graph differs from current owner derivation')
     return b''.join((node['id'].encode() + b'\x00' + node['source'].encode() + b'\x00' for node in graph['nodes']))
 VERIFIER_LEAF_CONTRACTS_V1 = {'scripts/check-readme-toc.sh': dict(sha256='9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638', reads=['README.md'], probes=[]), 'scripts/check-agents-bootstrap-budget.sh': dict(sha256='be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078', reads=['AGENTS.md'], probes=['docs/audits/RETENTION.md', 'tests/agents-bootstrap-budget.test.sh'])}  # source repo
-VERIFIER_REGISTRY_CONTRACTS_V1 = {**VERIFIER_LEAF_CONTRACTS_V1, 'scripts/check-validation-registry.sh': dict(sha256='c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee', reads=['scripts/verify-package.sh', '.github/workflows/validate.yml'], probes=[], membership='tests/*.test.sh')}
+VERIFIER_REGISTRY_CONTRACTS_V1 = {**VERIFIER_LEAF_CONTRACTS_V1, 'scripts/check-validation-registry.sh': dict(sha256='c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee', reads=['scripts/verify-package.sh', '.github/workflows/validate.yml'], probes=[], membership='tests/*.test.sh')}  # source repo
 
 def compile_verifier_reuse_v1(graph, registry, acquired, issued):
     """Derive a bounded task plan. The real acquirer owns input facts; the
