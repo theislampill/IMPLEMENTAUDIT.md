@@ -51,6 +51,7 @@ RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
 INTERNAL_ROUTING_PROFILE = "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1"
 LEAN_DISCIPLINE_PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
+RESPEC_PROFILE = "CONTROLLED_TASK_RESPEC_IMPACT_SET_V1"
 BOOTSTRAP_BUDGET_PROFILE = "CONTROLLED_TASK_BOOTSTRAP_LOAD_BUDGET_V1"
 # Inspected seq ELF: its only DT_NEEDED member is libc, with this existing
 # loader. The original uses the fixed integer command `seq 1 500` under C locale.
@@ -323,6 +324,23 @@ BOOTSTRAP_COPY_INPUTS = (
     "fixtures/semantic-preservation/evaluate.py", "fixtures/semantic-preservation/test-cases.sh",
 )
 _CONTRACTS = {
+    RESPEC_PROFILE: dict(label="respec-impact-set", index=44, program="tests/respec-impact-set-contract.test.sh",
+        programs={
+            "tests/respec-impact-set-contract.test.sh": "8d2948d511bc9cb3f57539205295f451a50d8593d653f0cb509bee9e52e043d5",
+            "skills/implementaudit/scripts/check-respec-impact-set.sh": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38",
+            "skills/implementaudit/scripts/check-closure-surface.sh": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7"},
+        data=("skills/implementaudit/templates/respec-impact-set.md",
+            "skills/implementaudit/references/phase-design.md", "skills/implementaudit/templates/phase-goal.txt",
+            "fixtures/respec-impact-set/cases.json"),
+        bounds=dict(file_bytes=128 * 1024, total_bytes=512 * 1024, files=8),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="THREE_PINNED_PROGRAMS_FOUR_LITERAL_INPUTS_TYPED_SCHEMA_ABSENCE_PRIVATE_REPLACEMENT_AND_CLOSURE_FILES",
+        # The original swallows this optional command's failure. Bind its
+        # actual absence; a newly present program requires its own qualification.
+        absent=("eval/check_fixture_schema.py",),
+        recursive=dict(roots=(), optional=True, optional_files=("eval/check_fixture_schema.py",),
+            bounds=dict(file_bytes=128 * 1024, total_bytes=128 * 1024,
+                entries=4, depth=4, path_bytes=256))),
     BOOTSTRAP_BUDGET_PROFILE: dict(label="bootstrap-load-budget", index=88,
         program="tests/skill-bootstrap-budget.test.sh",
         programs={
@@ -745,7 +763,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -1989,6 +2007,9 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         if sum(value["bytes"] for value in state["files"].values()) > bounds["total_bytes"]:
             raise ValueError("complete finite recursive byte bound exceeded")
         state["recursive_inputs"]["resources"] = recursive_output_bounds(state, objects, contract, profile=profile)
+        for name in contract.get("absent", ()):
+            if state["recursive_inputs"]["projection"]["probes"][name]["kind"] != "MISSING":
+                raise ValueError("finite-leaf required absent input is present: " + name)
     for name in sorted(directories):
         if prefix.identity(directory(name)) != stamps[name]:
             raise ValueError("finite-leaf source ancestor changed during acquisition")
@@ -2044,7 +2065,23 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile == CLAIM_BOUNDARY_PROFILE:
+    if profile == RESPEC_PROFILE:
+        fixture = state["files"]["fixtures/respec-impact-set/cases.json"]["bytes"]
+        checker = state["files"]["skills/implementaudit/scripts/check-respec-impact-set.sh"]["bytes"]
+        wrapper = state["files"][contract["program"]]["bytes"]
+        # Eleven impact sets, two replacement files and three closure records;
+        # one diagnostic, two sed -i siblings, one wrapper Python spool and
+        # fourteen checker spools (including the two closure-checker calls).
+        # Count them all concurrently. Full pinned scripts overbound heredocs.
+        sizes = (8192,) * 16 + (65536,) + (8192,) * 2 + (wrapper,) + (checker,) * 14
+        copies, files, directories = 0, len(sizes), 1
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=64 * 1024 + 8 * fixture,
+            original_data_memory_reservation=64 * 1024 + 64 * fixture,
+            generated_files=17, sed_temporary_files=2, wrapper_spools=1,
+            wrapper_spool_bytes=wrapper, checker_spools=14, checker_spool_bytes=14 * checker)
+    elif profile == CLAIM_BOUNDARY_PROFILE:
         bound = state["public_inputs"]["resources"]
         checker = state["files"]["scripts/check-public-claim-boundaries.sh"]["bytes"]
         # One diagnostic is overwritten twice. Each of five synchronous Bash
