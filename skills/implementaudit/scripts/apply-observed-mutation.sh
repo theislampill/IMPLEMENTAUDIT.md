@@ -1224,17 +1224,22 @@ def verification_window_failure():
     return None
 
 
-def authorise(path, effect):
-    if protected_route_requested and path in {SOURCE, DESTINATION, BACKUP, STAGE}:
-        ensure_authority_guard()
+def require_planned_effect(path, effect):
     key = ("repo", repo_relative(path))
     if effect not in allowed.get(key, set()):
         raise RuntimeError(f"EFFECT_SET_INCOMPLETE:{key[1]}:{effect}")
+    return key
+
+
+def authorise(path, effect):
+    if protected_route_requested and path in {SOURCE, DESTINATION, BACKUP, STAGE}:
+        ensure_authority_guard()
+    require_planned_effect(path, effect)
 
 
 def record(path, effect, before=None, after=None, outcome="applied"):
-    key = ("repo", repo_relative(path))
-    authorise(path, effect)
+    # Retain the observed outcome even if authority was lost after the syscall.
+    key = require_planned_effect(path, effect)
     actual.append(
         {
             "sequence": len(actual) + 1,
@@ -1313,11 +1318,13 @@ def write_new(path, data, on_mutated=None, on_durable=None, effect_rows=None, sy
     with path.open("xb", buffering=0) as handle:
         notify_mutated(on_mutated, path, "create")
         record_applied(path, "create", before, path_identity(path), rows[0])
+        authorise(path, "write")
         written = handle.write(data)
         notify_mutated(on_mutated, path, "write")
         record_applied(path, "write", before, path_identity(path), rows[1])
         if written != len(data):
             raise OSError("short write")
+        authorise(path, "fsync")
         os.fsync(handle.fileno())
         record_applied(path, "fsync", path_identity(path), path_identity(path), rows[2])
     if sync_parent:

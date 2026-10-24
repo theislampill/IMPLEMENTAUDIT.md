@@ -640,3 +640,76 @@ invocation remains bound to `1e5dc873`; unchanged source/package/ActiveGraph res
 retain their recorded candidate identities. It contributes no acceptance credit
 to the other three original RLGWOs and does not qualify the combined four-source
 package or change its cap/reserve.
+
+## R0030: retain completed protected effects after guard loss
+
+The original C03 truthful-effect discriminator now has an implemented correction,
+with related C02 fencing and C05 retained-recovery evidence. The prior helper
+`f860ac5a3520f029cfcb0c314f30817ad65a492698e8d975ae1a1edf17ac6676`
+could complete a protected syscall, lose its actual fixture guard immediately
+afterward, then reject the effect-recording call because the guard was no longer
+live. UNKNOWN/manual reconciliation and backup custody were retained, but the
+execution record omitted effects that had already occurred. This was a concrete
+history-completeness defect, without a demonstrated unauthorized later operation.
+
+The correction separates declared-effect membership from live authorization.
+`record()` retains the same plan membership and sequence checks when appending an
+observed outcome. `authorise()` still checks the live guard before a protected
+operation. Stage writing and file synchronization now each have an explicit
+immediate authorization check, replacing checks formerly supplied accidentally
+by the preceding recording call. Recording an already-completed effect grants
+no subsequent target/custody mutation. Declared auxiliary directory sync and
+journal/result persistence can continue to preserve execution evidence.
+
+| Evidence population | Actual result and scope |
+|---|---|
+| Author negative controls | Three formal missing-effect failures on the unchanged predecessor: actual guard loss after source displacement, stage creation and stage writing. The same final test bytes were used for the corrected run. |
+| Corrected focused bank | Protected success plus the three loss cases pass in one four-case invocation. Existing pre-effect guard-loss and ordinary v2 cheap-local controls also pass. |
+| Independent held-out boundary | After a real stage-file fsync returns, terminate the isolated guard before recording. All five completed protected rows remain; the next target-link authorization refuses. Target remains absent, backup and stage retain their expected bytes. |
+| Complete affected wrapper | One execution on source-only local candidate `8de7a2ca4e207c247bf623e570cb8d7683670ce7`, tree `41be4a6982a6bd553987a477e09a23c7815c450f`, exits 0 in 112.216 seconds. This is the existing mutation-integrity wrapper, not a full repository campaign. |
+
+The independent witness returns helper exit 78, UNKNOWN/MANUAL_RECONCILIATION,
+retry false and terminal closure PROHIBITED. It verifies journal/result agreement,
+fixed schemas, plan digest and membership, contiguous sequence, input/custody
+identities, unchanged authority refs and retained physical lock residue. No later
+protected syscall or rollback occurs. The reviewer inspected every affected
+record/authorization call path and confirmed the added write/fsync guards preserve
+pre-syscall authorization. Instrumentation strips back to the exact source bytes.
+These are actual disposable local effects with a real fixture guard termination;
+they do not authenticate production principals or native host events.
+
+The source review was frozen against `39f9e9af11ec1a02d74214d442bad00507c0bc9a`.
+The separate evidence-only R002E publication advanced the branch to
+`3ee43680d507399c109511f9905387155cda391f` without changing these source bytes.
+The complete wrapper ran on a clean candidate based on that public head. Source
+and test hashes were unchanged before and after the wrapper. Its full stdout and
+stderr are retained; the wrapper's unsupported non-cooperating gate-replacement
+witness remains explicitly unsupported and receives no positive acceptance credit.
+
+- Corrected helper: `db223c9db51c6c158aeda4919ead941b831e8ae9452e32cc3866070e2096e053`.
+- Exact test: `e1009d1af826d43ea05a42a41feca34c0e70b79a69d000a7283ff68e03a86d8b`.
+- Frozen author packet manifest: `125c7f2a01091176b8941674c85db294924aa5079eb40cdd074a06d6f95e0286`.
+- Independent source review: `4e5f2a140f6a4b4b57c4db0c24e6620adaad8019175285e49174219c27ea89f0`.
+- Independent review manifest: `fd860cd8b1cf5dff5f60aee5fea4df0cd25f550b8bc94cecc195c3a76dc0f3c5`.
+- Independent boundary summary: `6c21666a1800198ecfe8527e27a14826ed2d2f19e0c85252ae48e71cd3515c28`.
+- Full-wrapper stdout: `020d6f71e123b527401939963d445299e4886deca80407b685c718ddbb7d15ac`.
+- Full-wrapper stderr: `543b97d6032732c48cbbe43392bbe32ec41c7c3f163115b41dc705ae7a7aaffc`.
+
+All original negative evidence remains. Canonical test fixtures are cleaned by
+the test harness; their assertions are not relabeled as preserved raw snapshots.
+The initial probe and independent held-out fixture retain their actual records.
+The full affected wrapper also reruns the existing C05 controls because the shared
+recorder changed. Its final-directory-fsync characterization remains a limit:
+actual stdout reports F75/RESULT_PERSISTENCE_FAILURE with 97 observed effects,
+while the retained prospective COMMITTED/RELEASED result contains 98 rows. No
+durable hook fires. Stored COMMITTED alone is not proof of durable completion.
+
+This increment changes neither the v2/v3 schemas, authority issuer, fence,
+protected-effect boundary nor journal/result ordering. Guard loss still requires
+manual reconciliation; it does not permit retry, automatic recovery or closure.
+Original C01-C09 acceptance, 54-property and 98/133 relation populations, P34/P37
+residuals and the P53 owner decision remain distinct. Host discovery, native
+principal/effect receiving, non-cooperating writers, crash/power-loss durability,
+external exactly-once execution and whole R0030 acceptance are not established.
+The other three RLGWOs receive no closure credit, and prior ActiveGraph observations
+retain their actual candidate identities pending any final-source binding.

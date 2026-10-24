@@ -1082,6 +1082,134 @@ PY
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
 }
 
+guard_loss_effect_recording_heldouts() {
+  # A completed protected syscall remains an observed effect after guard loss;
+  # recording it must not permit the next protected syscall to execute.
+  "$python_bin" - "$repo_root" "$tmp/guard-loss-effects" "${1:-all}" <<'PY'
+import hashlib,importlib.util,json,os,sys
+from pathlib import Path
+sys.dont_write_bytecode=True
+repo,base=map(Path,sys.argv[1:3]); selected=sys.argv[3]
+spec=importlib.util.spec_from_file_location('r36_fence_fixture',repo/'tests/distributed_generation_fence.py')
+fence=importlib.util.module_from_spec(spec); spec.loader.exec_module(fence)
+require=fence.require
+cases=('protected-success','after-displacement','after-stage-create','after-stage-write')
+require(selected=='all' or selected in cases,'unknown post-effect guard-loss case')
+base.mkdir(parents=True,exist_ok=True)
+
+def read_record(path):
+    return json.loads(path.read_bytes())
+
+def assert_effects(payload):
+    planned={(row['scope'],row['path']):row for row in payload['planned_effect_set']}
+    expected=hashlib.sha256(json.dumps(payload['planned_effect_set'],sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+    require(payload['planned_effect_set_sha256']==expected,'effect-plan digest mismatch')
+    for index,row in enumerate(payload['actual_effect_set'],1):
+        require(row['sequence']==index,'effect sequence is not contiguous')
+        require(row['effect'] in planned[(row['scope'],row['path'])]['allowed_effects'],
+                'observed effect escaped predeclared plan')
+
+def protected_rows(record,paths):
+    return [row for row in record['actual_effect_set'] if row['scope']=='repo' and row['path'] in paths]
+
+for name in cases if selected=='all' else (selected,):
+    fixture=fence.Fixture(base/name)
+    preimage=fixture.repo/'artifacts/preimage.bin'; preimage.write_bytes(fence.PREIMAGE)
+    refs_before=fixture.run_command(['git','show-ref']).stdout
+    witness=fixture.base/'observed-effects.json'
+    helper=fence.HELPER
+    if name!='protected-success':
+        injection=f'''mode={name!r}
+observed_path=Path({str(witness)!r})
+original_notify=notify_mutated; original_fsync=os.fsync
+observed={{'events':[],'loss':None,'stage_fsync_calls':0}}
+def save_observation():
+    observed_path.write_text(json.dumps(observed,sort_keys=True))
+def observed_mutation(callback,path,effect):
+    original_notify(callback,path,effect)
+    if path in {{SOURCE,BACKUP,STAGE,DESTINATION}}:
+        observed['events'].append({{'path':repo_relative(path),'effect':effect,
+                                   'guard_alive':authority_guard.poll() is None}})
+    selected=(mode=='after-displacement' and path==SOURCE and effect=='replace'
+              or mode=='after-stage-create' and path==STAGE and effect=='create'
+              or mode=='after-stage-write' and path==STAGE and effect=='write')
+    if selected:
+        assert observed['loss'] is None and authority_guard.poll() is None
+        observed['loss']={{'path':repo_relative(path),'effect':effect,
+                          'source':path_identity(SOURCE),'backup':path_identity(BACKUP),
+                          'stage':path_identity(STAGE),'actual_before_record':list(actual)}}
+        authority_guard.kill(); authority_guard.wait(timeout=5)
+        observed['loss']['guard_exit']=authority_guard.returncode
+    save_observation()
+def observed_fsync(fd):
+    opened=os.fstat(fd)
+    if STAGE.exists():
+        staged=os.lstat(STAGE)
+        if (opened.st_dev,opened.st_ino)==(staged.st_dev,staged.st_ino):
+            observed['stage_fsync_calls']+=1
+            save_observation()
+    return original_fsync(fd)
+globals()['notify_mutated']=observed_mutation
+os.fsync=observed_fsync'''
+        helper=fixture.instrument('first-protected-effect-boundary',injection)
+    command=fixture.command(helper,required=True)
+    command[command.index('--preimage')+1]=str(preimage)
+    result=fixture.run_command(command,check=False)
+    (fixture.base/'sink.out').write_text(result.stdout); (fixture.base/'sink.err').write_text(result.stderr)
+    payload=json.loads(result.stdout)
+    tx=fixture.run/'mutation-transactions'/payload['transaction_id']
+    backup=tx/'backup.bin'; stage=tx/'stage.bin'
+    backup_rel=backup.relative_to(fixture.repo).as_posix(); stage_rel=stage.relative_to(fixture.repo).as_posix()
+    paths={'target',backup_rel,stage_rel}
+    rows=protected_rows(payload,paths)
+    require(read_record(tx/'result.json')==payload,'durable result differs from stdout')
+    require(fixture.run_command(['git','show-ref']).stdout==refs_before,'verify-only guard changed authority refs')
+    assert_effects(payload)
+    fence.assert_stored_schemas(fixture,payload,True)
+    if name=='protected-success':
+        fence.assert_result(fixture,result,payload,'COMMITTED','NONE',fence.CANDIDATE)
+        fence.assert_guard_effects(fixture,payload)
+        require(not payload['residue'] and not (tx/'journal.json').exists(),'successful control retained uncertainty')
+    else:
+        observed=read_record(witness)
+        require(observed['loss'] is not None and observed['loss']['guard_exit']!=0,'fault missed actual live guard')
+        require(result.returncode==78 and payload['status']=='UNKNOWN' and payload['reason_code']=='MANUAL_RECONCILIATION',
+                'guard loss did not remain UNKNOWN')
+        require(payload['retry_permitted'] is False and payload['terminal_closure_claim']=='PROHIBITED',
+                'guard loss permitted retry or closure')
+        require(set(payload)==fence.V2_RESULT_FIELDS|fence.FENCE_EVIDENCE_FIELDS|{'retry_permitted','terminal_closure_claim'},
+                'guard loss changed the fixed v3 schema')
+        require(not (fixture.repo/'target').exists() and backup.read_bytes()==fence.PREIMAGE,
+                'guard loss changed retained target/backup state')
+        expected_stage=None if name=='after-displacement' else b'' if name=='after-stage-create' else fence.CANDIDATE
+        require((stage.read_bytes() if stage.exists() else None)==expected_stage,'a later protected write or cleanup ran')
+        require(all(event['guard_alive'] for event in observed['events']) and observed['stage_fsync_calls']==0,
+                'a new protected syscall ran after guard loss')
+        retained={row['path'] for row in payload['residue']}
+        require(backup_rel in retained and (tx/'journal.json').relative_to(fixture.repo).as_posix() in retained,
+                'guard loss dropped backup/journal custody')
+        require(expected_stage is None or stage_rel in retained,'guard loss dropped staging custody')
+        journal=read_record(tx/'journal.json')
+        require(journal['status']=='UNKNOWN','retained journal lost uncertainty')
+        expected=[('target','replace'),(backup_rel,'replace')]
+        if name!='after-displacement': expected.append((stage_rel,'create'))
+        if name=='after-stage-write': expected.append((stage_rel,'write'))
+        print(json.dumps({'case':name,'status':payload['status'],'guard_exit':observed['loss']['guard_exit'],
+                          'observed_syscalls':observed['events'],'stage_fsync_calls':observed['stage_fsync_calls'],
+                          'recorded_protected_effects':[(row['path'],row['effect']) for row in rows]},sort_keys=True),flush=True)
+        require([(row['path'],row['effect']) for row in rows]==expected,
+                'D48-C03 RED: observed protected '+name+' effect missing from actual effect set')
+        require(protected_rows(journal,paths)==rows,'durable journal lost an observed protected effect')
+        require(all(row['outcome']=='applied' for row in rows),'observed protected effect is not applied')
+        require(rows[0]['before']['sha256']==hashlib.sha256(fence.PREIMAGE).hexdigest()
+                and rows[0]['after']=={'kind':'absent'} and rows[1]['before']=={'kind':'absent'}
+                and rows[1]['after']['sha256']==hashlib.sha256(fence.PREIMAGE).hexdigest(),
+                'replacement rows lost their actual before/after identities')
+        fence.assert_guard_effects(fixture,payload,clean=False)
+    print('D48-C03 post-effect guard-loss '+name+': PASS',flush=True)
+PY
+}
+
 terminal_journal_custody_heldouts() {
   # Deleting the only execution checkpoint before its successor is durable
   # must fail these actual-helper crash and persistence-failure controls.
@@ -2167,6 +2295,7 @@ PY
   canonical_observation_races
   patch_input_capture_heldouts
   external_drift_and_recovery
+  guard_loss_effect_recording_heldouts
   terminal_journal_custody_heldouts
   true_kill_requires_manual_custody
   interrupted_move_requires_manual_custody
@@ -2175,6 +2304,7 @@ PY
 }
 
 case "${1:-}" in
+  --guard-loss-effect-recording-heldouts) guard_loss_effect_recording_heldouts "${2:-all}"; printf 'R36_GUARD_LOSS_EFFECT_RECORDING_HELDOUTS=PASS\n'; exit 0;;
   --terminal-journal-custody-heldouts) terminal_journal_custody_heldouts "${2:-all}"; printf 'R36_TERMINAL_JOURNAL_CUSTODY_HELDOUTS=PASS\n'; exit 0;;
   --patch-input-capture-heldouts) fixture_self_check; patch_input_capture_heldouts "${2:-all}"; printf 'R36_PATCH_INPUT_CAPTURE_HELDOUTS=PASS\n'; exit 0;;
   --post-compaction-marker-deletion-heldout) post_compaction_marker_deletion_heldout; printf 'HOST_NEUTRAL_CONTINUITY_MARKER_DELETION_HELDOUT=PASS\n'; exit 0;;

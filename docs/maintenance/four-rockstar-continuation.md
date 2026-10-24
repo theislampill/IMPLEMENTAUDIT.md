@@ -304,3 +304,27 @@ Do not substitute the fictional fixture requirements for the missing approved
 policy. Continue the independently executable R0030 partial-failure/source-currentness
 work while preserving P53, and preserve the prior R002C diagnostic gap and R002D
 version-bound/final-candidate evidence at their actual identities.
+
+## R0030 completed-effect recording checkpoint
+
+The post-syscall guard-loss discriminator is now reproduced and corrected in the
+existing observed-mutation helper. Three predecessor missing-effect failures are
+retained. The corrected protected-success/loss bank, existing pre-effect and cheap
+controls, independent after-stage-fsync held-out and one complete affected wrapper
+pass at helper `db223c9db51c6c158aeda4919ead941b831e8ae9452e32cc3866070e2096e053`.
+The integration record binds the exact source/test, source-only candidate and
+independent review. Reuse those observations rather than replaying the unchanged
+bank. Package/copy checks and final public head/CI belong to the publication receipt.
+
+Recording a completed protected effect no longer requires authority to remain live
+after the syscall, while each later protected operation retains its own live guard
+check. Actual guard loss still yields UNKNOWN/manual reconciliation, prohibits retry
+and closure, and retains custody. Auxiliary evidence persistence is permitted. The
+full wrapper preserves the prior final-directory-fsync limitation and unsupported
+external-writer witness; neither is converted into acceptance. P53 remains an owner
+decision, and original C01-C09, native authority, power-loss durability and external
+exactly-once receiving gates remain open. No R0035 graph/READY/JOIN owner is changed.
+
+After publication, bind any warranted final-candidate offline ActiveGraph execution
+to its actual new source/package. Reuse the completed version-bound library controls
+and retain the original native self-dogfood obligation and all historical failures.
