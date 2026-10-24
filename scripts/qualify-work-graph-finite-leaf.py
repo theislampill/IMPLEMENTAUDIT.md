@@ -250,6 +250,7 @@ SKILL_LAYOUT_REQUIRED = (
       ("implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon")),
     ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json", "scripts/build-release-asset.sh",
 )
+_SKILL_LAYOUT_GIT_ARGS = ("ls-files", "--error-unmatch", "skills/SKILL.md")
 _CONTRACTS = {
     NATIVE_INTEGRATION_PROFILE: dict(label="native-integration", index=74, program="tests/native-integration.test.sh",
         programs={
@@ -284,8 +285,12 @@ _CONTRACTS = {
         bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=7),
         source_modes="NORMALIZED_0444_READ_ONLY",
         projection="TWO_ORIGINAL_PROGRAMS_PINNED_ENGINE_RUNNER_COMPLETE_ACTIVE_SCAN_AND_SKILL_TREES_OBSERVED_GIT_ABSENCE",
+        present_git=dict(source_owner=RETENTION_PROFILE, original_args=_SKILL_LAYOUT_GIT_ARGS,
+            source_modes="NORMALIZED_0600_READ_ONLY_MOUNT",
+            projection="ORIGINAL_SKILL_LAYOUT_COMPLETE_READ_SET_AND_ACTUAL_STANDALONE_GIT_ORIGINAL_TRACKED_PATH_DECISION"),
         recursive=dict(roots=SKILL_LAYOUT_ROOTS, optional=True,
             optional_files=("CONTRIBUTING.md", ".git"), bounds=_RECURSIVE_BOUNDS,
+            optional_directory_files=(".git",),
             required_members=SKILL_LAYOUT_REQUIRED)),
     RETENTION_PROFILE: dict(label="audit-retention", index=58, program="tests/audit-retention.test.sh",
         programs={
@@ -723,7 +728,15 @@ def snapshot_recursive_inputs(prefix, root, objects, contract):
                 guards.append((parent, component, None))
                 probes[name] = dict(kind="MISSING", missing_at=relative)
                 return
-            if not final or kind == "DIRECTORY":
+            if (final and kind == "FILE" and name in contract.get("optional_directory_files", ()) and
+                    stat.S_ISDIR(before.st_mode)):
+                # A typed marker only. Its content cannot be admitted by this
+                # recursive projection; the fixed caller must close the whole
+                # actual Git namespace through the established complete owner.
+                opened_directory(parent, component, relative, before)
+                stamps[name] = prefix.identity(before)
+                probes[name] = dict(kind="DIRECTORY")
+            elif not final or kind == "DIRECTORY":
                 if not stat.S_ISDIR(before.st_mode):
                     raise ValueError("recursive source directory has an unsupported type")
                 if relative in directories:
@@ -1092,6 +1105,52 @@ def retention_output_bounds(state, objects):
         basis="COMPLETE_ROOT_AND_INDEX_NAMES_NECESSARY_REFERENCE_ANCHOR_BOUNDS_NOT_SEMANTIC_ACCEPTANCE")
 
 
+def snapshot_skill_layout_git(prefix, root, objects, state, contract, git_owner, environment):
+    """Extend the observed read set using the same captured C2/source owners."""
+    complete_contract = contract_for(contract["present_git"]["source_owner"])
+    complete, detail = snapshot_complete_git_inputs(prefix, root, objects, complete_contract, git_owner, environment)
+    if (any(complete["files"].get(name) != value for name, value in state["files"].items()) or
+            any(complete["directories"].get(name) != mode for name, mode in state["directories"].items())):
+        raise ValueError("skill-layout read inputs changed before complete Git acquisition")
+    context = git_owner["context"](root=root, environment=environment, finite_skill_layout=True)
+    baseline = {key: value for key, value in detail["git"].items() if key != "read_profile"}
+    scoped = {key: value for key, value in context["binding"].items()
+              if key not in ("read_profile", "observation_bounds")}
+    if baseline != scoped:
+        raise ValueError("skill-layout Git command context differs from complete source custody")
+    observed = git_owner["capture"](context, _SKILL_LAYOUT_GIT_ARGS)
+    streams = {}
+    for name in ("stdout", "stderr"):
+        raw = observed[name]
+        key = digest(raw)
+        objects.setdefault(key, raw)
+        streams[name] = dict(bytes=len(raw), sha256=key)
+    # Reuse the exact recursive owner to close optional absence and complete
+    # active memberships too; a newly added scan file cannot escape allocation.
+    recursive, currentness = snapshot_recursive_inputs(prefix, root, {}, contract["recursive"])
+    if (currentness != {key: value for key, value in state["recursive_inputs"].items() if key != "resources"} or
+            any(complete["files"].get(name) != value for name, value in recursive["files"].items())):
+        raise ValueError("skill-layout read population changed during Git acquisition")
+    current, stamps = prefix.snapshot_tree(root, {}, complete_contract["complete_git"])
+    if current != complete or stamps != detail["currentness"]:
+        raise ValueError("complete skill-layout source or Git changed during acquisition")
+    names = set(complete["files"]) | set(complete["directories"]) | set(detail["git"]["index_format"]["ordinary_paths"])
+    name_bytes = sum(len(name.encode("utf-8")) + 1 for name in names)
+    read_bytes = sum(value["bytes"] for value in state["files"].values())
+    # Read-set limits stay at their original values. Opaque Git/research bytes
+    # remain in custody, without pretending the original decodes those inputs.
+    memory = (64 * 1024**2 + 64 * read_bytes + 8 * state["layout_resources"]["max_stderr_bytes"] +
+              64 * name_bytes + 512 * (len(names) + detail["git"]["index_format"]["entries"]) +
+              4 * complete["files"][".git/index"]["bytes"])
+    feature = dict(branch="PRESENT_GIT", git=context["binding"],
+        original_argv=["git", *_SKILL_LAYOUT_GIT_ARGS], observer_argv=["git", "--no-pager", *_SKILL_LAYOUT_GIT_ARGS],
+        observed_exit=observed["exit"], streams=streams,
+        role="ACTUAL_C2_OBSERVATION_NOT_ORIGINAL_RESULT_OR_SUBSTITUTE",
+        read_files=len(state["files"]), read_bytes=read_bytes, read_bounds=dict(contract["bounds"]),
+        complete_traversal_name_bytes=name_bytes, original_data_memory_reservation=memory)
+    return complete, detail, feature
+
+
 def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None, git_owner=None, environment=None):
     """Acquire the literal closure and the profile's complete typed namespace.
 
@@ -1165,9 +1224,21 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         if state["files"][name]["sha256"] != pin:
             raise ValueError("unsupported finite-leaf pinned branch input")
     if profile == SKILL_LAYOUT_PROFILE:
-        if state["recursive_inputs"]["projection"]["probes"][".git"]["kind"] != "MISSING":
-            raise ValueError("present Git storage requires a separately acquired C2 read closure; skill-layout requires observed absence")
+        kind = state["recursive_inputs"]["projection"]["probes"][".git"]["kind"]
+        if kind not in ("MISSING", "DIRECTORY"):
+            raise ValueError("skill-layout requires observed Git absence or complete standalone Git storage")
+        if kind == "MISSING" and environment is not None and environment != prefix.ENVIRONMENT:
+            raise ValueError("observed skill-layout Git branch changed from the selected startup environment")
         state["layout_resources"] = skill_layout_output_bounds(state, objects)
+        if kind == "DIRECTORY":
+            complete, currentness, feature = snapshot_skill_layout_git(
+                prefix, root, objects, state, contract, git_owner, environment)
+            state["files"].update(complete["files"])
+            state["directories"].update(complete["directories"])
+            state["complete_git_inputs"] = currentness
+            stamps["complete_git_inputs"] = currentness
+            state["skill_layout_git_inputs"] = feature
+            stamps["skill_layout_git_inputs"] = feature
     if profile == ROUTING_PROFILE:
         # This checker accumulates every error. Bound all eight possible phrase
         # messages on every structurally observed line without inspecting any
@@ -1274,6 +1345,8 @@ def temporary_requirements(state, *, profile=PROFILE):
             max_stderr_bytes=max(state["layout_resources"]["max_stderr_bytes"], diagnostic + granule),
             diagnostic_file_bound=diagnostic, generated_file_bound=generated,
             generated_private_files=109, private_fixture_trees=9)
+        if "skill_layout_git_inputs" in state:
+            extra["original_data_memory_reservation"] = state["skill_layout_git_inputs"]["original_data_memory_reservation"]
     elif profile == ROUTING_PROFILE:
         checker_name = "scripts/check-routing.sh"
         checker = state["files"][checker_name]["bytes"]
@@ -1482,8 +1555,28 @@ def retention_readonly_image(files):
     return {name: (raw, 0o600 if mode == 0o444 else mode) for name, (raw, mode) in files.items()}
 
 
-def retention_runtime_binding(source, runtime, objects):
+def finite_image_permissions(files, source, *, profile=PROFILE):
+    """Select fixed image permissions from the already acquired source branch."""
+    contract = contract_for(profile)
+    source_modes = contract["source_modes"]
+    if profile == SKILL_LAYOUT_PROFILE and "skill_layout_git_inputs" in source:
+        feature = source["skill_layout_git_inputs"]
+        if (not isinstance(feature, dict) or feature.get("branch") != "PRESENT_GIT" or
+                "complete_git_inputs" not in source):
+            raise ValueError("unsupported acquired skill-layout image branch")
+        source_modes = contract["present_git"]["source_modes"]
+    if source_modes == "NORMALIZED_0600_READ_ONLY_MOUNT":
+        if profile not in (RETENTION_PROFILE, SKILL_LAYOUT_PROFILE):
+            raise ValueError("unsupported compact read-only image profile")
+        return retention_readonly_image(files), dict(source_modes=source_modes,
+            data_permissions="OWNER_0600_READ_ONLY_MOUNT")
+    return files, dict(source_modes=source_modes)
+
+
+def retention_runtime_binding(source, runtime, objects, *, profile=RETENTION_PROFILE):
     """Bind the real C2 observer to the same physical Git carried to /work."""
+    if profile not in (RETENTION_PROFILE, SKILL_LAYOUT_PROFILE):
+        raise ValueError("unsupported complete Git runtime command scope")
     binding = source["complete_git_inputs"]["git"]
     executable = binding["executable"]
     name = executable["selected_path"]
@@ -1494,7 +1587,8 @@ def retention_runtime_binding(source, runtime, objects):
             [str(observed["identity"][i]) for i in (0, 1, 2, 4, 5, 6)] != binding["executable_file_identity"] or
             entry["sha256"] != executable["sha256"] or digest(objects.get(entry["sha256"], b"")) != entry["sha256"]):
         raise ValueError("complete Git source observer differs from captured original runtime")
-    return dict(executable=executable, original_argv=["git", "ls-files", "-z"],
+    args = _SKILL_LAYOUT_GIT_ARGS if profile == SKILL_LAYOUT_PROFILE else ("ls-files", "-z")
+    return dict(executable=executable, original_argv=["git", *args],
                 custody="ACTUAL_CAPTURED_SYSTEM_GIT_BYTES_ORIGINAL_COMMAND_OUTPUT_NEVER_SUBSTITUTED")
 
 
@@ -1611,7 +1705,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                          if profile == REGISTRY_PROFILE else None)
     git_owner = ({"context": base._acquire.__globals__["_preflight_git_context_v1"],
                   "capture": base._acquire.__globals__["_preflight_git_capture_v1"]}
-                 if profile == RETENTION_PROFILE else None)
+                 if profile in (RETENTION_PROFILE, SKILL_LAYOUT_PROFILE) else None)
 
     class FiniteVerifierSession(parent):
         SCOPE = profile
@@ -1632,6 +1726,20 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             # convenience resolution can erase a parent-traversal component.
             if any(".." in Path(path).parts for path in (source_root, output)):
                 raise compiler.WorkGraphError("finite-leaf parent traversal is unqualified")
+            if profile == SKILL_LAYOUT_PROFILE:
+                # Select only fixed startup environments from the physical
+                # marker's presence. The established source owners reacquire
+                # its type/currentness; unsupported markers still refuse there.
+                fd = prefix.open_directory(source_root)
+                try:
+                    try:
+                        os.stat(".git", dir_fd=fd, follow_symlinks=False)
+                    except FileNotFoundError:
+                        pass
+                    else:
+                        self.ENVIRONMENT = dict(parent.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1")
+                finally:
+                    os.close(fd)
             super().__init__(source_root, output, max_age=max_age)
 
         def _engine_binding(self):
@@ -1653,8 +1761,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             temporary = temporary_requirements(source, profile=profile)
             require_resource_capacity(temporary, self.LIMITS)
             runtime = finite_runtime(prefix, objects, profile=profile)
-            if profile == RETENTION_PROFILE:
-                runtime["retention_git_binding"] = retention_runtime_binding(source, runtime, objects)
+            if "complete_git_inputs" in source:
+                runtime["retention_git_binding"] = retention_runtime_binding(source, runtime, objects, profile=profile)
             engine_objects = {}
             for name, expected in self._engine.items():
                 captured = prefix.read_regular(engine_root / name)[1]
@@ -1681,8 +1789,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             if profile == RETENTION_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                 raise compiler.WorkGraphError("original-readable runner differs from captured engine bytes")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
-            if profile == RETENTION_PROFILE:
-                files = retention_readonly_image(files)
+            files, image_permissions = finite_image_permissions(files, source, profile=profile)
+            if "complete_git_inputs" in source:
                 temporary["image_reservation"] = retention_image_reservation(files, self.LIMITS)
             membership = None
             if profile == REGISTRY_PROFILE:
@@ -1714,21 +1822,24 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 descriptors = len(files) + 2 + 64  # existing launch descriptors plus observer margin
                 if descriptors > self.LIMITS["descriptors"] or image_bytes > self.LIMITS["address_bytes"] // 4:
                     raise compiler.WorkGraphError("complete recursive image exceeds finite descriptor/memory reservation")
-                temporary["image_reservation"] = dict(descriptors=descriptors, observer_descriptor_margin=64,
-                    mounted_bytes=image_bytes, address_reservation_bytes=self.LIMITS["address_bytes"] // 4)
+                temporary.setdefault("image_reservation", {}).update(dict(descriptors=descriptors, observer_descriptor_margin=64,
+                    mounted_bytes=image_bytes, address_reservation_bytes=self.LIMITS["address_bytes"] // 4))
                 manifest["directories"] = sorted(set(manifest["directories"]) |
                     {"/work/" + name for name in source["directories"] if name != "."})
                 manifest["directory_membership"] = source["recursive_inputs"]["projection"]
                 manifest["source_projection"] = "COMPLETE_RECURSIVE_READ_BYTES_AND_EXPLICIT_OPTIONAL_PRESENCE"
                 image_key = self._object(self._encode(manifest))
-            if profile == RETENTION_PROFILE:
+            if "complete_git_inputs" in source:
                 manifest["directories"] = sorted(set(manifest["directories"]) |
                     {"/work/" + name for name in source["directories"] if name != "."})
                 manifest["directory_membership"] = source["complete_git_inputs"]["projection"]
-                manifest["source_projection"] = contract["projection"]
+                manifest["source_projection"] = (contract["present_git"]["projection"]
+                    if profile == SKILL_LAYOUT_PROFILE else contract["projection"])
                 manifest["git_startup"] = runtime["retention_git_binding"]
                 manifest["image_reservation"] = temporary["image_reservation"]
-                manifest["data_permissions"] = "OWNER_0600_READ_ONLY_MOUNT"
+                image_key = self._object(self._encode(manifest))
+            if "data_permissions" in image_permissions:
+                manifest["data_permissions"] = image_permissions["data_permissions"]
                 image_key = self._object(self._encode(manifest))
             if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE):
                 # The original physical helper validator requires st_nlink=1.
@@ -1745,9 +1856,12 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 runtime=runtime_key, runtime_observations=runtime_observation_key,
                 inputs={node["id"]: dict(program_sha256=contract["programs"][contract["program"]], image_digest=image_key)},
                 environment=self.environment, observer=observer, limits=self.LIMITS,
-                source_bounds=contract.get("complete_git", contract["bounds"]),
-                source_projection=contract["projection"], temporary_reservation=temporary, startup_umask=0o022,
-                directory_modes="NORMALIZED_0755_READ_ONLY", source_files=contract["source_modes"],
+                source_bounds=(source["complete_git_inputs"]["projection"]["bounds"]
+                    if "complete_git_inputs" in source else contract["bounds"]),
+                source_projection=(contract["present_git"]["projection"]
+                    if "skill_layout_git_inputs" in source else contract["projection"]),
+                temporary_reservation=temporary, startup_umask=0o022,
+                directory_modes="NORMALIZED_0755_READ_ONLY", source_files=image_permissions["source_modes"],
                 namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT", stdin="EMPTY",
                 mutable_resources=["private bounded /tmp", "/dev/null", "observer stdout/stderr"],
                 effects="PRIVATE_WRITES_DISCARDED_NO_PREDECESSOR_OR_SUCCESSOR_SUBSTITUTION", authority="NONE")

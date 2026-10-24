@@ -6,7 +6,9 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("layout_profile_support", ROOT / "tests/work-graph-audit-spec-cases.py")
@@ -257,6 +259,281 @@ class LiveCases(LayoutFixture, shared.RetainedFixture, unittest.TestCase):
         self.assertIn(diagnostic, stderr)
         self.assertEqual(session._issued, {})
         with self.assertRaisesRegex(ValueError, "failed or interrupted"): session.run()
+        self.assertEqual(session.dispatch_count, 1)
+
+
+GIT_ARGS = ("ls-files", "--error-unmatch", "skills/SKILL.md")
+GIT_ENVIRONMENT = dict(P.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1")
+GIT_OWNER = dict(context=Q._preflight_git_context_v1, capture=Q._preflight_git_capture_v1)
+
+
+class GitFixture(LayoutFixture):
+    def setUp(self):
+        super().setUp()
+        # Genuine independent repository. Every source member and Git byte is
+        # acquired; an opaque input outside the original read set stays opaque.
+        self.member("docs/research/opaque.bin", b"\xff\x00" * 1024**2)
+        self.git("init", "--quiet", "--template=", str(self.source))
+        self.git("-C", str(self.source), "add", "--all")
+
+    def git(self, *args):
+        result = subprocess.run(["/usr/bin/git", *args], cwd=self.base, env=GIT_ENVIRONMENT,
+            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
+        self.assertEqual((result.returncode, result.stderr), (0, b""))
+        return result.stdout
+
+    def snapshot(self, *, owner=GIT_OWNER, environment=GIT_ENVIRONMENT):
+        objects = {}
+        state, stamps = self.A.snapshot_source(P, self.source, objects, profile=PROFILE,
+            git_owner=owner, environment=environment)
+        return state, stamps, objects
+
+    def tracked_missing_operand(self, *, descendant=False):
+        name = GIT_ARGS[-1] + ("/nested.md" if descendant else "")
+        path = self.member(name, b"historical flat data\n")
+        self.git("-C", str(self.source), "add", "--", name)
+        path.unlink()
+        if descendant:
+            path.parent.rmdir()
+        self.assertFalse((self.source / GIT_ARGS[-1]).exists())
+        return name
+
+
+class GitAdmissionCases(GitFixture, unittest.TestCase):
+    def test_complete_present_source_and_actual_untracked_exit_one_are_retained(self):
+        state, stamps, objects = self.snapshot()
+        files = {path.relative_to(self.source).as_posix() for path in self.source.rglob("*") if path.is_file()}
+        self.assertEqual(set(state["files"]), files)
+        for name, record in state["files"].items():
+            self.assertEqual(objects[record["sha256"]], (self.source / name).read_bytes())
+        feature = state["skill_layout_git_inputs"]
+        self.assertEqual(feature, stamps["skill_layout_git_inputs"])
+        self.assertEqual((feature["branch"], feature["observed_exit"], feature["original_argv"]),
+                         ("PRESENT_GIT", 1, ["git", *GIT_ARGS]))
+        self.assertEqual(objects[feature["streams"]["stdout"]["sha256"]], b"")
+        self.assertTrue(objects[feature["streams"]["stderr"]["sha256"]])
+        self.assertEqual(state["complete_git_inputs"]["git_observation"]["exit"], 0)
+        self.assertEqual(self.A.image_subject(state, profile=PROFILE), state["files"])
+
+    def test_actual_tracked_but_absent_operand_is_not_preaccepted_or_refused(self):
+        name = self.tracked_missing_operand()
+        state, _, objects = self.snapshot()
+        self.assertNotIn(name, state["files"])
+        self.assertIn(name, state["complete_git_inputs"]["git"]["index_format"]["ordinary_paths"])
+        feature = state["skill_layout_git_inputs"]
+        self.assertEqual(feature["observed_exit"], 0)
+        self.assertEqual(objects[feature["streams"]["stdout"]["sha256"]], name.encode() + b"\n")
+        session = self.session()
+        with self.assertRaisesRegex(AssertionError, "runtime acquisition"):
+            session.run()
+        self.assertEqual((session.dispatch_count, session._issued), (0, {}))
+
+    def test_actual_pathspec_descendant_match_is_not_replaced_with_exact_name_logic(self):
+        name = self.tracked_missing_operand(descendant=True)
+        state, _, objects = self.snapshot()
+        self.assertNotIn(GIT_ARGS[-1], state["complete_git_inputs"]["git"]["index_format"]["ordinary_paths"])
+        feature = state["skill_layout_git_inputs"]
+        self.assertEqual(feature["observed_exit"], 0)
+        self.assertEqual(objects[feature["streams"]["stdout"]["sha256"]], name.encode() + b"\n")
+
+    def test_genuine_no_git_state_environment_and_read_limits_are_preserved(self):
+        (self.source / ".git").rename(self.base / "held-git")
+        state, _, _ = self.snapshot(environment=P.ENVIRONMENT)
+        self.assertEqual(state["recursive_inputs"]["projection"]["probes"][".git"], dict(kind="MISSING", missing_at=".git"))
+        self.assertNotIn("complete_git_inputs", state)
+        self.assertNotIn("skill_layout_git_inputs", state)
+        self.assertNotIn("docs/research/opaque.bin", state["files"])
+        self.assertNotIn("original_data_memory_reservation", self.A.temporary_requirements(state, profile=PROFILE))
+        session = self.session()
+        self.assertEqual(session.environment, P.ENVIRONMENT)
+        contract = self.A.contract_for(PROFILE)
+        self.assertEqual(contract["bounds"], dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=7))
+        self.assertEqual(contract["recursive"]["bounds"]["file_bytes"], 1024**2)
+        self.assertEqual(session.LIMITS["scratch_bytes"], 32 * 1024**2)
+
+    def test_branch_presence_change_cannot_silently_change_startup(self):
+        session = self.session("present-selected")
+        marker, held = self.source / ".git", self.base / "held-git"
+        marker.rename(held)
+        with self.assertRaisesRegex(ValueError, "branch changed"):
+            session.run()
+        self.assertEqual(session.dispatch_count, 0)
+        no_git = self.session("absent-selected")
+        held.rename(marker)
+        with self.assertRaisesRegex(ValueError, "startup environment"):
+            no_git.run()
+        self.assertEqual(no_git.dispatch_count, 0)
+
+    def test_fixed_scope_rejects_other_commands_and_combined_selectors(self):
+        context = Q._preflight_git_context_v1(root=self.source, environment=GIT_ENVIRONMENT, finite_skill_layout=True)
+        self.assertEqual(context["binding"]["read_profile"], "FINITE_ORIGINAL86_SKILL_LAYOUT_TRACKED_PATH")
+        with self.assertRaisesRegex(ValueError, "fixed command"):
+            Q._preflight_git_capture_v1(context, ("ls-files", "-z"))
+        for flags in (dict(finite_ls_files=True, finite_skill_layout=True), dict(finite_skill_layout=1)):
+            with self.subTest(flags=flags), self.assertRaisesRegex(ValueError, "profile must be explicit"):
+                Q._preflight_git_context_v1(root=self.source, environment=GIT_ENVIRONMENT, **flags)
+        self.assertLessEqual(context["binding"]["observation_bounds"]["stdout_bytes"], 16 * 1024**2)
+
+    def test_real_same_byte_foreign_repository_context_cannot_replace_source_custody(self):
+        foreign = self.base / "foreign-source"
+        shutil.copytree(self.source, foreign)
+        def context(**options):
+            if options.get("finite_skill_layout"):
+                options = dict(options, root=foreign)
+            return Q._preflight_git_context_v1(**options)
+        owner = dict(context=context, capture=Q._preflight_git_capture_v1)
+        with self.assertRaisesRegex(ValueError, "differs from complete source custody"):
+            self.snapshot(owner=owner)
+
+    def test_control_change_and_unadmitted_config_refuse_before_original_execution(self):
+        context = Q._preflight_git_context_v1(root=self.source, environment=GIT_ENVIRONMENT, finite_skill_layout=True)
+        path = self.source / ".git/config"
+        path.write_bytes(path.read_bytes() + b"\n# actual control change\n")
+        with self.assertRaisesRegex(ValueError, "context or fixed command"):
+            Q._preflight_git_capture_v1(context, GIT_ARGS)
+        path.write_bytes(path.read_bytes() + b"[include]\n path = /outside/config\n")
+        with self.assertRaisesRegex(ValueError, "unsupported Git config entry"):
+            self.snapshot()
+
+    def test_new_active_member_between_complete_git_reads_cannot_escape_allocation(self):
+        original = P.snapshot_tree
+        whole = []
+        def capture(root, *args, **options):
+            result = original(root, *args, **options)
+            if Path(root) == self.source:
+                whole.append(1)
+                if len(whole) == 2:
+                    self.member("tests/new-after-complete-read.txt", b"actual new scan input\n")
+            return result
+        with mock.patch.object(P, "snapshot_tree", side_effect=capture):
+            with self.assertRaisesRegex(ValueError, "read population changed"):
+                self.snapshot()
+        self.assertEqual(len(whole), 2)
+
+    def test_opaque_complete_inputs_do_not_relax_the_original_read_set_bound(self):
+        state, _, _ = self.snapshot()
+        self.assertEqual(state["files"]["docs/research/opaque.bin"]["bytes"], 2 * 1024**2)
+        self.assertLessEqual(state["layout_resources"]["decoder_bound"], 4 * 1024**2)
+        self.assertEqual(state["complete_git_inputs"]["projection"]["bounds"]["file_bytes"], 16 * 1024**2)
+        self.member("tests/too-large-read.bin", b"x" * (1024**2 + 1))
+        with self.assertRaisesRegex(ValueError, "bound"):
+            self.snapshot()
+
+    def test_original_private_effects_and_selected_memory_capacity_are_reserved(self):
+        state, _, _ = self.snapshot()
+        reservation = self.A.temporary_requirements(state, profile=PROFILE)
+        self.assertEqual((reservation["copies"], reservation["files"], reservation["directories"]), (10, 120, 137))
+        self.assertEqual((reservation["private_fixture_trees"], reservation["generated_private_files"]), (9, 109))
+        session = self.session()
+        self.assertEqual(session.environment, GIT_ENVIRONMENT)
+        self.assertEqual((session.LIMITS["file_bytes"], session.LIMITS["scratch_bytes"], session.LIMITS["address_bytes"]),
+                         (16 * 1024**2, 32 * 1024**2, 1024**3))
+        self.A.require_resource_capacity(reservation, session.LIMITS)
+        session.LIMITS = dict(session.LIMITS,
+            address_bytes=reservation["original_data_memory_reservation"] * 4 // 3 - 1)
+        with self.assertRaisesRegex(ValueError, "memory capacity"):
+            session.run()
+        self.assertEqual(session.dispatch_count, 0)
+
+    def test_actual_runtime_binding_carries_only_the_fixed_original86_command(self):
+        state, _, _ = self.snapshot()
+        name = "/usr/bin/git"
+        metadata, raw = P.read_regular(Path(name), single_link=False)
+        key = self.A.digest(raw)
+        runtime = dict(files={name: dict(mode=0o555, bytes=len(raw), sha256=key)},
+            observations={name: dict(resolved=name, mode=metadata["mode"], bytes=len(raw), sha256=key, identity=metadata["identity"])})
+        binding = self.A.retention_runtime_binding(state, runtime, {key: raw}, profile=PROFILE)
+        self.assertEqual(binding["original_argv"], ["git", *GIT_ARGS])
+        with self.assertRaisesRegex(ValueError, "command scope"):
+            self.A.retention_runtime_binding(state, runtime, {key: raw}, profile="UNKNOWN")
+
+
+class GitImagePolicyCases(GitFixture, unittest.TestCase):
+    """One image-policy discriminator; no runtime or original execution."""
+    def test_present_git_compact_image_and_exact_no_git_projection(self):
+        def source_image(state, objects):
+            files = {"/work/" + name: (objects[row["sha256"]], 0o444)
+                     for name, row in state["files"].items()}
+            name = "/work/" + self.A.RUNNER
+            files[name] = (files[name][0], 0o555)
+            return files
+
+        marker, held = self.source / ".git", self.base / "held-git"
+        marker.rename(held)
+        absent, _, absent_objects = self.snapshot(environment=P.ENVIRONMENT)
+        original = source_image(absent, absent_objects)
+        selected, policy = self.A.finite_image_permissions(original, absent, profile=PROFILE)
+        self.assertIs(selected, original)
+        self.assertEqual(policy, dict(source_modes="NORMALIZED_0444_READ_ONLY"))
+        no_git = Q.create_finite_leaf_session(self.source, self.base / "no-git-policy", profile=PROFILE)
+        before, before_key = no_git._image(original, absent["files"])
+        after, after_key = no_git._image(selected, absent["files"])
+        self.assertEqual((after, after_key), (before, before_key))
+        self.assertNotIn("data_permissions", after)
+        self.assertEqual(no_git.environment, P.ENVIRONMENT)
+        self.assertEqual(no_git.LIMITS["scratch_bytes"], 32 * 1024**2)
+        self.assertEqual(self.A.contract_for(PROFILE)["source_modes"], "NORMALIZED_0444_READ_ONLY")
+
+        held.rename(marker)
+        present, _, present_objects = self.snapshot()
+        self.assertEqual(present["skill_layout_git_inputs"]["branch"], "PRESENT_GIT")
+        original = source_image(present, present_objects)
+        preserved = dict(original)
+        selected, policy = self.A.finite_image_permissions(original, present, profile=PROFILE)
+        self.assertEqual(original, preserved)
+        self.assertEqual(policy, dict(source_modes="NORMALIZED_0600_READ_ONLY_MOUNT",
+                                     data_permissions="OWNER_0600_READ_ONLY_MOUNT"))
+        self.assertEqual(set(selected), set(original))
+        for name, (raw, mode) in original.items():
+            self.assertEqual(selected[name], (raw, 0o555 if mode == 0o555 else 0o600))
+        git = Q.create_finite_leaf_session(self.source, self.base / "present-git-policy", profile=PROFILE)
+        self.assertEqual(git.environment, GIT_ENVIRONMENT)
+        self.assertEqual(git.LIMITS, no_git.LIMITS)
+        old_image, old_key = git._image(original, present["files"])
+        image, mode_key = git._image(selected, present["files"])
+        self.assertNotEqual(mode_key, old_key)
+        self.assertEqual(image["source_observations"], old_image["source_observations"])
+        self.assertEqual([(row["path"], row["bytes"], row["sha256"]) for row in image["files"]],
+                         [(row["path"], row["bytes"], row["sha256"]) for row in old_image["files"]])
+        image["data_permissions"] = policy["data_permissions"]
+        policy_key = git._object(git._encode(image))
+        self.assertNotEqual(policy_key, mode_key)
+        self.assertTrue(image["root_read_only"])
+        self.assertEqual(image["directory_mode"], 0o755)
+        self.assertEqual((no_git.dispatch_count, git.dispatch_count, no_git._issued, git._issued),
+                         (0, 0, {}, {}))
+
+
+class GitLiveCases(GitFixture, shared.RetainedFixture, unittest.TestCase):
+    LIVE_ENV = "R0035_FINITE_SKILL_LAYOUT_GIT_LIVE"
+    EVIDENCE_ENV = "R0035_FINITE_SKILL_LAYOUT_GIT_EVIDENCE"
+    OBJECTS_ENV = "R0035_FINITE_SKILL_LAYOUT_GIT_OBJECTS"
+    TEST_SOURCE = "tests/work-graph-skill-layout-cases.py"
+    actual = LiveCases.actual
+
+    def test_actual_present_git_positive_reuse(self):
+        session = self.session()
+        first, stdout, stderr = self.actual(session)
+        self.assertEqual((first["exit"], first["complete"], stdout, stderr),
+            (0, True, b"check-skill-layout-contract: ok\npayload path hygiene: ok\n" * 2 + b"skill-layout-contract.test: ok\n", b""))
+        second, stdout2, stderr2 = self.actual(session)
+        self.assertEqual((first["disposition"], second["disposition"], session.dispatch_count), ("EXECUTED", "REUSED", 1))
+        self.assertEqual((first["receipt_digest"], first["key"], first["producer"], stdout, stderr),
+                         (second["receipt_digest"], second["key"], second["producer"], stdout2, stderr2))
+        self.member("tests/changed-git-source.txt")
+        with self.assertRaisesRegex(ValueError, "prior receipt refused"):
+            session.run()
+        self.assertEqual(session.dispatch_count, 1)
+
+    def test_actual_tracked_missing_operand_failure_is_retained_and_not_reused(self):
+        self.tracked_missing_operand()
+        session = self.session()
+        result, stdout, stderr = self.actual(session)
+        diagnostic = b"flat canonical source skill file must not be tracked: " + GIT_ARGS[-1].encode() + b"\n"
+        self.assertEqual((result["exit"], result["complete"], stdout, stderr), (1, True, b"", diagnostic))
+        self.assertEqual(session._issued, {})
+        with self.assertRaisesRegex(ValueError, "failed or interrupted"):
+            session.run()
         self.assertEqual(session.dispatch_count, 1)
 
 

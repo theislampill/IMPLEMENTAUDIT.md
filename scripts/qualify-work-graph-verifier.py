@@ -1871,17 +1871,19 @@ def _preflight_git_index_v1(data, *, ordinary_only=False):
     return result
 
 
-def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=False):
+def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=False, finite_skill_layout=False):
     """Admit the actual declared context; never silently discard Git config.
 
     The caller must already have excluded system/global config and system
     attributes in the intended run environment. Other selectors are refused.
     The finite local config subset and physical selections are digest-bound.
     """
-    if type(finite_ls_files) is not bool:
+    if (type(finite_ls_files) is not bool or type(finite_skill_layout) is not bool or
+            (finite_ls_files and finite_skill_layout)):
         raise WG.WorkGraphError("preflight Git observation profile must be explicit")
+    finite_source = finite_ls_files or finite_skill_layout
     require_source_descriptor_api()
-    if not finite_ls_files:
+    if not finite_source:
         if root is not None or environment is not None:
             raise WG.WorkGraphError("preflight Git overrides require the fixed finite ls-files profile")
         root, environment = ROOT, dict(os.environ)
@@ -1893,7 +1895,7 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
         root, environment = Path(root), dict(environment)
     required = dict(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL="/dev/null", GIT_ATTR_NOSYSTEM="1")
     allowed = dict(required, GIT_OPTIONAL_LOCKS=None, GIT_PAGER=None)
-    if finite_ls_files:
+    if finite_source:
         required.update(GIT_OPTIONAL_LOCKS="0", GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1",
                         GIT_TERMINAL_PROMPT="0", GIT_EXEC_PATH="/nonexistent")
         allowed.update(required)
@@ -1924,7 +1926,7 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
 
     def acquire(path, **options):
         record, data = _preflight_git_file_v1(path, **options)
-        if finite_ls_files and data is not None:
+        if finite_source and data is not None:
             control_bytes[str(path)] = data
         controls.append(record)
         return data
@@ -1950,7 +1952,7 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
         declared = Path(os.fsdecode(raw.rstrip(b"\r\n")))
         common = Path(os.path.abspath(declared if declared.is_absolute() else gitdir / declared))
     ownership = {}
-    if finite_ls_files:
+    if finite_source:
         if gitdir != marker or common != marker:
             raise WG.WorkGraphError("finite Git source requires complete standalone local storage")
         for label, path in (("source", root), ("git", gitdir)):
@@ -1966,7 +1968,7 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
         if raw is not None:
             config.update(_preflight_git_config_v1(raw))
     head = acquire(gitdir / "HEAD", required=True)
-    if finite_ls_files:
+    if finite_source:
         if re.fullmatch(rb"(?:[0-9a-f]{40}|ref: refs/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*)\n", head) is None:
             raise WG.WorkGraphError("finite Git source refuses an unsupported discovery HEAD")
         for name in ("objects", "refs"):
@@ -1977,7 +1979,7 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
             controls.append(dict(path=str(path), kind="DIRECTORY", uid=info.st_uid, gid=info.st_gid,
                                  mode=stat.S_IMODE(info.st_mode), identity=[str(value) for value in _file_identity(info)]))
     index_format = _preflight_git_index_v1(acquire(gitdir / "index", required=True, byte_limit=EXPLICIT_FILE_LIMIT),
-                                           ordinary_only=finite_ls_files)
+                                           ordinary_only=finite_source)
     for directory in sorted({gitdir, common}):
         for name in ("info/attributes", "info/exclude"):
             acquire(directory / name)
@@ -1997,11 +1999,20 @@ def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=Fa
                    configuration_scope="NO_INCLUDES_NO_EXTERNAL_CALLBACKS_FINITE_KEYS",
                    continuity="PRE_POST_REACQUISITION_NOT_AN_ATOMIC_FILESYSTEM_LEASE")
     result = dict(binding=binding, environment=dict(environment, GIT_OPTIONAL_LOCKS="0"))
-    if finite_ls_files:
+    if finite_source:
         binding.update(read_profile="FINITE_ORIGINAL_LS_FILES_COMPLETE_STANDALONE_SOURCE", ownership=ownership,
                        owner_relation="ACTUAL_SOURCE_AND_GIT_UID_EQUALS_PRODUCER_NO_SAFE_DIRECTORY_OVERRIDE")
-        result.update(finite_request=dict(root=str(root), environment=environment, finite_ls_files=True),
+        selector = {"finite_skill_layout": True} if finite_skill_layout else {"finite_ls_files": True}
+        result.update(finite_request=dict(root=str(root), environment=environment, **selector),
                       captured_control_bytes=control_bytes)
+        if finite_skill_layout:
+            # The fixed pathspec can select indexed descendants too. Bound all
+            # possible quoted names without predicting the original decision.
+            stdout_bound = sum(4 * len(name.encode("utf-8")) + 3 for name in index_format["ordinary_paths"])
+            if stdout_bound > 16 * 1024**2:
+                raise WG.WorkGraphError("finite skill-layout Git observation exceeds stream capacity")
+            binding.update(read_profile="FINITE_ORIGINAL86_SKILL_LAYOUT_TRACKED_PATH",
+                           observation_bounds=dict(stdout_bytes=stdout_bound, stderr_bytes=64 * 1024))
     return result
 
 
@@ -2012,7 +2023,10 @@ def _preflight_git_capture_v1(context, args):
                ("status", "--porcelain=v1", "-z", "--untracked-files=all"),
                ("for-each-ref", "--sort=refname", "--format=%(refname)%00%(objectname)%00%(*objectname)%00%(symref)")}
     request = context.get("finite_request", {})
-    if (args not in allowed or (request and args != ("ls-files", "-z")) or
+    skill_layout = request.get("finite_skill_layout") is True
+    if skill_layout:
+        allowed = {("ls-files", "--error-unmatch", "skills/SKILL.md")}
+    if (args not in allowed or (request and not skill_layout and args != ("ls-files", "-z")) or
             _preflight_git_context_v1(**request) != context):
         raise WG.WorkGraphError("preflight Git observation context or fixed command changed")
     selected = context["binding"]["executable"]["resolved_path"]
@@ -2021,9 +2035,19 @@ def _preflight_git_capture_v1(context, args):
         if [str(value) for value in _file_identity(os.fstat(fd))] != context["binding"]["executable_file_identity"]:
             raise WG.WorkGraphError("preflight Git observation executable changed")
         try:
-            value = subprocess.check_output([selected, "--no-pager", *args], cwd=Path(request["root"]) if request else ROOT,
-                env=context["environment"], stdin=subprocess.DEVNULL, stderr=subprocess.PIPE,
-                executable="/proc/self/fd/" + str(fd), pass_fds=(fd,), timeout=15)
+            if skill_layout:
+                observed = subprocess.run([selected, "--no-pager", *args], cwd=Path(request["root"]),
+                    env=context["environment"], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                    executable="/proc/self/fd/" + str(fd), pass_fds=(fd,), timeout=15)
+                bounds = context["binding"]["observation_bounds"]
+                if (observed.returncode not in (0, 1) or len(observed.stdout) > bounds["stdout_bytes"] or
+                        len(observed.stderr) > bounds["stderr_bytes"]):
+                    raise WG.WorkGraphError("finite skill-layout Git observation has an unsupported result or stream")
+                value = dict(exit=observed.returncode, stdout=observed.stdout, stderr=observed.stderr)
+            else:
+                value = subprocess.check_output([selected, "--no-pager", *args], cwd=Path(request["root"]) if request else ROOT,
+                    env=context["environment"], stdin=subprocess.DEVNULL, stderr=subprocess.PIPE,
+                    executable="/proc/self/fd/" + str(fd), pass_fds=(fd,), timeout=15)
         except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
             raise WG.WorkGraphError("preflight Git observation fixed read command failed") from None
     finally:
