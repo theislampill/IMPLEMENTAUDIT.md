@@ -33,6 +33,7 @@ ROUTING_PROFILE = "CONTROLLED_TASK_ROUTING_V1"
 AUDIT_OBJECT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1"
 INSTALLED_PROFILE = "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1"
 PLANNER_COPY_PROFILE = "CONTROLLED_TASK_PLANNER_COPY_V1"
+FANOUT_PROFILE = "CONTROLLED_TASK_FANOUT_COVERAGE_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -219,6 +220,23 @@ AUDIT_OBJECT_INPUTS = ("README.md", "AGENTS.md", *AUDIT_ROUTING_FIXTURES,
     # Presence operands only: captured as data and never executed by this node.
     "fixtures/semantic-preservation/cases.json", "fixtures/semantic-preservation/evaluate.py",
     "fixtures/semantic-preservation/test-cases.sh")
+FANOUT_COPY_INPUTS = (
+    "skills/implementaudit/references/child-agents.md",
+    "skills/implementaudit/references/audit-category-matrix.md",
+    "skills/implementaudit/templates/THINKING.md",
+)
+FANOUT_INPUTS = (*FANOUT_COPY_INPUTS,
+    # The default child prompt belongs to the complete recursive tree below.
+    # Both plan defaults and every unconditional plan-quality read remain here.
+    *(name for name in PLAN_QUALITY_COMMON_INPUTS if not name.startswith("fixtures/child-agents/")),
+)
+FANOUT_REQUIRED_MEMBERS = tuple("fixtures/child-agents/" + name for name in (
+    "read-only-contract-auditor.md", "adversarial-behavioral-auditor.md",
+    "broad-scope-four-lanes.md", "low-concurrency-serialized-lanes.md",
+    "exploratory-discrimination-cases.md", "negative-coverage-table-only.md",
+    "negative-silent-lane-drop.md", "negative-generic-single-pass.md",
+    "negative-child-prompt-missing-fanout-contract.md",
+))
 _CONTRACTS = {
     AUDIT_OBJECT_PROFILE: dict(label="audit-object-routing", index=70, program="tests/audit-object-routing.test.sh",
         programs={
@@ -446,6 +464,19 @@ _CONTRACTS = {
         recursive=dict(roots=("skills", "fixtures"), optional=False, bounds=_RECURSIVE_BOUNDS,
             required_members=tuple(name for name in LIFECYCLE_INPUTS
                 if name.startswith(("skills/", "fixtures/simple-audit/"))))),
+    FANOUT_PROFILE: dict(label="fanout-coverage", index=91, program="tests/fanout-coverage-contract.test.sh",
+        programs={
+            "tests/fanout-coverage-contract.test.sh": "1a3d5274e30d99d9f7e1f087086bf3c239228b2b890758736312253b7ca2c372",
+            "scripts/check-fanout-coverage-contract.sh": "b3701a09bc7bdda184001e335f5762e5e57b1babc61ce733f91eb4fd3cd6c40b",
+            "scripts/check-plan-quality-contract.sh": "f89b9ba3e6f7d9a003238b1efc398e3b78aba9a84a9e4fc19cab5dc81c70f8df"},
+        data=FANOUT_INPUTS, bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=14),
+        # The original cp glob is only one observation: grep -R also reads dot,
+        # non-Markdown and nested files. Capture the entire typed tree, then
+        # preserve modes behind the read-only mount for private append/write.
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="THREE_PINNED_PROGRAMS_PLAN_DEFAULTS_LITERAL_READS_COMPLETE_CHILD_FIXTURE_TREE_AND_GLOB_PRIVATE_MUTATIONS_ONLY",
+        recursive=dict(roots=("fixtures/child-agents",), optional=False,
+            bounds=_RECURSIVE_BOUNDS, required_members=FANOUT_REQUIRED_MEMBERS)),
 }
 
 
@@ -458,7 +489,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -936,6 +967,46 @@ def temporary_requirements(state, *, profile=PROFILE):
         content, allocated = sum(sizes), sum(map(rounded, sizes))
         extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
             max_stderr_bytes=diagnostic + 4096, diagnostic_file_bound=diagnostic)
+    elif profile == FANOUT_PROFILE:
+        fixture_root = "fixtures/child-agents"
+        copied = (*FANOUT_COPY_INPUTS, *(name for name in sorted(state["files"])
+            if str(Path(name).parent) == fixture_root and not Path(name).name.startswith(".") and name.endswith(".md")))
+        # Eleven reset_sandbox calls remove the previous complete private tree
+        # before copying the next. Reserve one live tree, all three possible
+        # transform outputs, both global diagnostics and all three Bash spools.
+        # Appends fit128 bytes; ALLOW -> REJECT can grow once on every line,
+        # so double that file's original byte count rather than assume one hit.
+        discrimination = fixture_root + "/exploratory-discrimination-cases.md"
+        copy_sizes = [state["files"][name]["bytes"] * (2 if name == discrimination else 1) + 128 for name in copied]
+        child_ref, _, thinking = FANOUT_COPY_INPUTS
+        transforms = [state["files"][name]["bytes"] * (2 if name == discrimination else 1) + 512
+                      for name in (child_ref, thinking, discrimination)]
+        bound = state["recursive_inputs"]["resources"]
+        child_bytes = state["files"][child_ref]["bytes"]
+        # Bound every grep line, binary diagnostic and quoted byte. Python's
+        # private read_text/write_text can normalize every CR into a newline;
+        # reserve even one new prefixed line per child-reference byte. The
+        # pinned sed rewrite can add at most one byte per original input byte.
+        report = 4 * bound["all_lines_grep_report_bytes"] + bound["binary_diagnostic_bytes"]
+        report += child_bytes * (4 * len(child_ref.encode("utf-8")) + 32 + 8)
+        report += state["files"][discrimination]["bytes"] + 4096
+        data_sizes = [value["bytes"] for name, value in state["files"].items()
+                      if name not in {REGISTRY, *contract["programs"]}]
+        plan_diagnostic = 4 * max(data_sizes) + granule
+        # Complete typed namespaces include glob-matching directories, which
+        # the original cp may reject. Charge all possible operand diagnostics
+        # without pretending that such a population has passed the original.
+        namespace_diagnostic = sum(4 * len(name.encode("utf-8")) + 512
+                                   for name in {*state["files"], *state["directories"]})
+        checker = state["files"]["scripts/check-plan-quality-contract.sh"]["bytes"]
+        wrapper = state["files"][contract["program"]]["bytes"]
+        sizes = (*copy_sizes, *transforms, report, plan_diagnostic, checker, checker, wrapper)
+        copies, files, directories = len(copied), len(sizes), 7
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=report + plan_diagnostic + namespace_diagnostic + granule,
+            diagnostic_file_bound=plan_diagnostic, recursive_report_bound=report,
+            glob_files=list(copied[3:]), private_tree_incarnations=11)
     elif profile == AUTHORIZATION_PROFILE:
         data_bytes = sum(sizes)
         sizes = contract["temporary_sizes"]

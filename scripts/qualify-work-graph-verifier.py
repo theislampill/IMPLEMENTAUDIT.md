@@ -1667,6 +1667,7 @@ _FINITE_MODES = {
     "audit-object-routing": "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1",
     "installed-payload": "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1",
     "planner-copy": "CONTROLLED_TASK_PLANNER_COPY_V1",
+    "fanout-coverage": "CONTROLLED_TASK_FANOUT_COVERAGE_V1",
 }
 
 
