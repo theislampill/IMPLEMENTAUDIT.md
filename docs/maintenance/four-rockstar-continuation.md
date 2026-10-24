@@ -262,3 +262,25 @@ on the later package, authenticated native delivery, actual product effects or
 whole R002D acceptance. Preserve the original self-dogfood/ActiveGraph obligation
 and historical version-specific receipts; a new offline candidate run is a
 separate evidence stream and cannot supply missing broker/issuer authority.
+
+## R002C ordinary local-effect continuation
+
+Four first executions on the actual public `1e5dc873` plugin are sealed and
+independently assessed: A, C and D PASS their frozen essentials; B retains a
+GAP-REVISE for failing to identify the accessible stale loaded configuration.
+B correctly preserved containment and reported missing feedback; this diagnostic
+gap is not an established maintained-product defect or unsafe action. Preserve
+its first outcome, permitted containment alternative and precise recovery handoff.
+Do not relax the criterion, coach a replacement answer or rerun it for green.
+Assessment output manifest:
+`7fcebfd4273ff46b12eacb65b1afdb9b7d3276613f0d7168203c47a2a1f34341`.
+
+The integration record distinguishes actual local effects from cooperative
+source reads, unavailable authenticated native delivery and historical activation.
+Reuse unchanged guidance and prior qualified source/package evidence at their
+recorded identities. Further ordinary safety families and actual receiving
+boundaries require their own original criteria; these four cases do not close
+all 68 properties. Continue the separately frozen R002E ordinary security-trigger
+and cheap-path tasks without importing their results into R002C or substituting
+fixture requirements for authentic approved-policy custody. Original R002D
+self-dogfood and R0030 C01–C09/P53 boundaries remain unchanged.
