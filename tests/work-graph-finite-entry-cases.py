@@ -37,6 +37,7 @@ PROFILES = {
     "installed-payload": "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1",
     "planner-copy": "CONTROLLED_TASK_PLANNER_COPY_V1",
     "fanout-coverage": "CONTROLLED_TASK_FANOUT_COVERAGE_V1",
+    "skill-layout": "CONTROLLED_TASK_SKILL_LAYOUT_V1",
 }
 
 

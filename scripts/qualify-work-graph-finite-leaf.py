@@ -34,6 +34,7 @@ AUDIT_OBJECT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1"
 INSTALLED_PROFILE = "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1"
 PLANNER_COPY_PROFILE = "CONTROLLED_TASK_PLANNER_COPY_V1"
 FANOUT_PROFILE = "CONTROLLED_TASK_FANOUT_COVERAGE_V1"
+SKILL_LAYOUT_PROFILE = "CONTROLLED_TASK_SKILL_LAYOUT_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -237,7 +238,27 @@ FANOUT_REQUIRED_MEMBERS = tuple("fixtures/child-agents/" + name for name in (
     "negative-silent-lane-drop.md", "negative-generic-single-pass.md",
     "negative-child-prompt-missing-fanout-contract.md",
 ))
+SKILL_LAYOUT_ROOTS = ("skills", ".claude-plugin", ".github", "scripts", "tests", "docs/portal")
+SKILL_LAYOUT_REQUIRED = (
+    *("skills/" + name + "/SKILL.md" for name in
+      ("implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon")),
+    ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json", "scripts/build-release-asset.sh",
+)
 _CONTRACTS = {
+    SKILL_LAYOUT_PROFILE: dict(label="skill-layout", index=86, program="tests/skill-layout-contract.test.sh",
+        programs={
+            "tests/skill-layout-contract.test.sh": "1139d5406839aec5ebdfd82eb0ad63ec9f3c5404cabf3a6c377af0db4a546a7e",
+            "scripts/check-skill-layout-contract.sh": "b73e014aa4727d064108515fd959f1d9efb799b2afa1d02f0e7677bd51d02988",
+            # The original scans scripts as data. Pin the engine runner too:
+            # its captured source must survive the existing launcher insertion.
+            RUNNER: "345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae"},
+        data=("README.md", "AGENTS.md", ".codex-plugin/plugin.json"),
+        bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=7),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="TWO_ORIGINAL_PROGRAMS_PINNED_ENGINE_RUNNER_COMPLETE_ACTIVE_SCAN_AND_SKILL_TREES_OBSERVED_GIT_ABSENCE",
+        recursive=dict(roots=SKILL_LAYOUT_ROOTS, optional=True,
+            optional_files=("CONTRIBUTING.md", ".git"), bounds=_RECURSIVE_BOUNDS,
+            required_members=SKILL_LAYOUT_REQUIRED)),
     AUDIT_OBJECT_PROFILE: dict(label="audit-object-routing", index=70, program="tests/audit-object-routing.test.sh",
         programs={
             "tests/audit-object-routing.test.sh": "e32e07be7163d404a5bd88180ee630f4efc2d614ddae4a0555cbe2fab0744426",
@@ -489,7 +510,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -497,6 +518,13 @@ def contract_for(profile):
 def source_paths(profile=PROFILE):
     contract = contract_for(profile)
     return (REGISTRY, *contract["programs"], *contract["data"])
+
+
+def image_subject(state, *, profile=PROFILE):
+    """Retain the registry bytes whenever the original actually reads them."""
+    contract_for(profile)
+    return {name: value for name, value in state["files"].items()
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
@@ -835,6 +863,51 @@ def recursive_output_bounds(state, objects, contract, *, profile):
     return result
 
 
+def skill_layout_output_bounds(state, objects):
+    """All possible original diagnostic lines, without an acceptance decision.
+
+    Read_text's newline normalization and splitlines are bounded by decoded
+    actual line boundaries. Account for UTF-8 or ASCII backslash replacement,
+    every potential stale-line report and every structurally possible tree
+    report. The original alone applies the forbidden patterns and exemptions.
+    """
+    width = lambda text: max(len(text.encode("utf-8")), len(text.encode("ascii", "backslashreplace")))
+    active = (".claude-plugin/", ".github/", "scripts/", "tests/", "docs/portal/")
+    scan = tree = payload = 0
+    line_counts = {}
+    for name, record in state["files"].items():
+        scanned = name.startswith(active) or name in ("README.md", "AGENTS.md", "CONTRIBUTING.md")
+        in_payload = name.startswith("skills/implementaudit/")
+        if not scanned and not in_payload:
+            continue
+        try:
+            lines = objects[record["sha256"]].decode("utf-8", "strict").splitlines()
+        except UnicodeDecodeError:
+            # Original recursive scans skip undecodable files. Their complete
+            # bytes remain acquired; literal-read errors use the margin below.
+            continue
+        prefix = width(name) + len(str(max(len(lines), 1)))
+        if scanned:
+            line_counts[name] = len(lines)
+            scan += sum(prefix + 4 + width(line.strip()) for line in lines)
+            # tree_entry first requires a tree glyph; each such input line can
+            # produce at most one extra fixed-shape tree diagnostic.
+            tree += sum(prefix + 4 + 128 for line in lines if "├" in line or "└" in line)
+        if in_payload:
+            payload += sum(prefix + 8 + width(line) for line in lines)
+    namespace = sum(4 * len(name.encode("utf-8")) + 512
+                    for name in {*state["files"], *state["directories"]})
+    decoder = 4 * max(value["bytes"] for value in state["files"].values())
+    # The first checker stops on an accumulated scan failure; payload hygiene
+    # runs only after that stage succeeds. Namespace/literal errors stop early.
+    diagnostic = max(scan + tree, payload, namespace, decoder) + 64 * 1024
+    return dict(scan_line_counts=line_counts, possible_scan_bytes=scan,
+        possible_tree_bytes=tree, possible_payload_bytes=payload,
+        namespace_diagnostic_bytes=namespace, decoder_bound=decoder,
+        max_stderr_bytes=diagnostic,
+        basis="ALL_POSSIBLE_DECODED_LINES_AND_STRUCTURAL_TREE_MARKERS_NOT_ACCEPTANCE")
+
+
 def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None):
     """Acquire the literal closure and the profile's complete typed namespace.
 
@@ -898,6 +971,10 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
     for name, pin in contract.get("pinned_data", {}).items():
         if state["files"][name]["sha256"] != pin:
             raise ValueError("unsupported finite-leaf pinned branch input")
+    if profile == SKILL_LAYOUT_PROFILE:
+        if state["recursive_inputs"]["projection"]["probes"][".git"]["kind"] != "MISSING":
+            raise ValueError("present Git storage requires a separately acquired C2 read closure; skill-layout requires observed absence")
+        state["layout_resources"] = skill_layout_output_bounds(state, objects)
     if profile == ROUTING_PROFILE:
         # This checker accumulates every error. Bound all eight possible phrase
         # messages on every structurally observed line without inspecting any
@@ -951,6 +1028,22 @@ def temporary_requirements(state, *, profile=PROFILE):
         content, allocated = sum(sizes), sum(map(rounded, sizes))
         extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
             max_stderr_bytes=diagnostic + 4096, diagnostic_file_bound=diagnostic)
+    elif profile == SKILL_LAYOUT_PROFILE:
+        # Nine complete fixtures coexist. Each creates twelve files and fifteen
+        # directories; account for one removed child, one extra child/file,
+        # one flat file, eight retained diagnostics, the outer mktemp directory
+        # and three possible checker/wrapper here-document spools.
+        wrapper = state["files"][contract["program"]]["bytes"]
+        checker = state["files"]["scripts/check-skill-layout-contract.sh"]["bytes"]
+        generated = 4 * wrapper + 4096
+        diagnostic = 4 * wrapper + granule
+        sizes = (generated,) * 109 + (diagnostic,) * 8 + (checker, checker, wrapper)
+        copies, files, directories = 10, len(sizes), 137
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=max(state["layout_resources"]["max_stderr_bytes"], diagnostic + granule),
+            diagnostic_file_bound=diagnostic, generated_file_bound=generated,
+            generated_private_files=109, private_fixture_trees=9)
     elif profile == ROUTING_PROFILE:
         checker_name = "scripts/check-routing.sh"
         checker = state["files"][checker_name]["bytes"]
@@ -1299,11 +1392,12 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             runtime_files = {name: (objects[entry["sha256"]], entry["mode"]) for name, entry in runtime["files"].items()}
             _, runtime_key = self._image(runtime_files, {})
             files = dict(runtime_files)
-            subject = {name: value for name, value in source["files"].items()
-                       if name != REGISTRY or profile == REGISTRY_PROFILE}
+            subject = image_subject(source, profile=profile)
             files.update({"/work/" + name: (objects[value["sha256"]],
                 value["mode"] if contract["source_modes"] == "PRESERVE_READ_ONLY_MOUNT" else 0o444)
                 for name, value in subject.items()})
+            if profile == SKILL_LAYOUT_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
+                raise compiler.WorkGraphError("observed skill-layout runner differs from fixed engine runner")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
             membership = None
             if profile == REGISTRY_PROFILE:
