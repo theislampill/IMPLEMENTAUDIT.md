@@ -743,3 +743,56 @@ No package build, commit, publication, product semantic-owner change, or change 
 other ownership surfaces was performed by this follow-up. Rollback restores the
 three preserved reviewed preimages and their known R37-SR-F1 failure; it conveys
 no acceptance. The original broader R0037 obligations remain independent.
+
+
+### Hosted source-path annotation correction — 2026-10-24
+
+The successor-review repair was published at
+`108016e83414997a3e8d0a5f731f6f535d08b067`, tree
+`62ecf5a849b94fff242c1a2777ed42fa280e9811`. Hosted CI run **40140398015**, job
+**121010731774**, failed its **Verify package contract** step. The captured
+failure names validator line 190:
+`repo-only path reference without 'source repo' label` on
+`review_owner=owner.parents[2]/'scripts/check-cold-review-contract.sh'`.
+The full retained job log is SHA-256
+`718301220a7a7218d029313bf237f4ffd41d165889aa9e372f4880afcd6fcbd5`.
+This actual hosted failure remains evidence; earlier source reviews, canonical
+builds, four staged installs and sixteen installed calls did not establish this
+separate source-path gate. Their exact source-bound outcomes remain unchanged.
+
+The actual existing owner is
+`scripts/check-installed-payload-self-contained.sh`, invoked by the canonical
+verification registry. On the unchanged public validator
+`f78b874a6f089583b45a1ccb02617aa32d6bf57c4d6d64ab5e173e891a09f684`, that checker
+returned **1** with the same line-190 diagnostic. Adding only
+`# source repo checker; absent from installed skill by design` to that line made
+the same checker return **0** with `check-installed-payload-self-contained: ok`.
+The annotation is truthful: this is the repository-owned review checker, whose
+absence from installed packages remains an explicit profile boundary. No path,
+lookup rule, semantic owner, checker rule, or runtime decision was changed.
+
+Corrected validator SHA-256:
+`b996927d7b2659a14549909ecb0707a3e035362c5054f7ba7b748a29199da81b`.
+Removing only the **62 added comment bytes** restores the exact public validator
+bytes and SHA-256 above. The affected `PYDISPOSITION` embedded Python parses to
+an identical AST including source locations; Bash syntax also passes. The
+unchanged path-contract checker remains
+`228ab1ed29c50d7916cca4e82b0696d42314c6a4efb3b2a7bdd43b5a3bfd70b8`;
+the semantic checker remains
+`9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1`.
+
+Evidence is retained under `evidence/r37-source-label-correction`: exact public
+preimages, captured hosted failure, actual local RED/GREEN outputs, comment-only
+byte restoration, AST comparison and the frozen two-file diff. Prior behavioral
+and installed evidence is reused only for unchanged parsed semantics; its old
+validator, source, archive and installation digests are not relabeled as the new
+bytes. No behavioral bank or sixteen-call installed matrix was replayed. A local
+checker GREEN does not establish a new hosted-workflow GREEN or native proof.
+
+Independent review of the exact two-file packet, current package qualification,
+and guarded publication remain root-owned receiving gates. This lane performed
+no commit, package build, publication, branch-ref change, source-owner change,
+or native/controller action for this correction. Removing the annotation restores
+the known path-contract failure; the two saved preimages provide exact rollback.
+All earlier R0037 failures, finite populations, ordinary-review results and the
+interrupted follow-up non-verdict remain source-bound history.

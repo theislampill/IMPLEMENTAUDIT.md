@@ -187,7 +187,7 @@ try:
         direct_records=[safe_read(p)[0].decode('utf-8') for p in record_root.glob('*.md')]
         if any(re.search(r'(?m)^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)',text) for text in direct_records):
             if args.disposition!='NONTERMINAL_YIELD':refuse('unsupported repository-only review dependency')
-            review_owner=owner.parents[2]/'scripts/check-cold-review-contract.sh'
+            review_owner=owner.parents[2]/'scripts/check-cold-review-contract.sh'  # source repo checker; absent from installed skill by design
             try:review_owner_before=safe_read(review_owner)[1] if os.path.lexists(review_owner) else None
             except (OSError,ValueError) as exc:refuse('unsupported repository review owner: '+str(exc))
         for phase in (root/'phases').glob('phase-*.md'):
