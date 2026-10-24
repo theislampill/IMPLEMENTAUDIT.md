@@ -93,14 +93,51 @@ refuse before dispatch.
 Every template file enters the existing runtime objects and observations.
 All four directories, including empty `branches`, enter both the runtime-only
 and original image manifests before their final keys are computed. Both keys
-also bind the Git startup record. The original image remains read-only except
-for the existing private `/tmp`, `/dev/null` and observer streams.
+also bind the Git startup record. Ordinary source/runtime members remain
+read-only. The private `/tmp`, `/dev/null`, observer streams and the fixed
+kernel entropy interface below are explicit effect boundaries.
 
 Saved node 96 runtime/ELF evidence supplies the selected executable and Python
 closure basis. This source increment performs no new ELF probes and does not
 infer successful Git initialization from those records. Fresh Git object IDs,
 timestamps, loose-object writes, filesystem probes and default maintenance
 remain behavior of the actual unchanged original in its later receiver.
+
+## Fixed live kernel entropy interface
+
+The selected Git temporary-file path uses real kernel entropy through
+`/dev/urandom`. The existing seccomp filter already permits ordinary entropy
+syscalls and clocks; its bytes remain unchanged. Original87 alone acquires a
+typed observation of the direct character device at that fixed path: major 1,
+minor 9, mode 0666, uid/gid 0, one link and zero regular-file length. Physical
+device/inode/type/rdev/owner/mode/mtime/ctime are bound and checked again.
+Observation never opens or reads the device. No entropy bytes or generator
+state are snapshotted, seeded, substituted by a regular file or imported as
+receipt credentials.
+
+The record enters actual runtime observations, both image manifests and the
+acquisition key. The existing launcher accepts it only for original87's exact
+scope, node, literal command, pinned original/validator/repo-state/phase/Git
+bytes and complete actual template population. A missing original87 field,
+another profile carrying the field, altered bindings or changed device
+identity refuse before dispatch. The final physical recheck occurs before
+the unchanged launcher starts; existing post-consumption acquisition and
+same-producer receipt currentness apply afterward.
+
+The only new mapping is an explicit device bind from `/dev/urandom` to that
+same path. It supplies no general `/dev`, `/proc`, host root, caller-selected
+path, source write, mknod operation, host chmod, broker or syscall permission.
+It adds three launcher arguments and no retained entropy-content descriptor;
+the original's temporary device descriptor remains under the unchanged
+4096-descriptor/CPU/wall/memory limits.
+
+A character-device bind retains device I/O capability. A read-only filesystem
+mount does not establish a device-write prohibition. This profile qualifies
+the exact pinned closed program/Git call set, whose selected entropy path
+opens `O_RDONLY`; it does not promise generic device-write confinement for
+arbitrary programs. Image/acquisition resource and effects fields explicitly
+name this trusted live kernel interface. Same-producer reuse retains the
+original result rather than replaying or snapshotting kernel nondeterminism.
 
 ## Fixed private-write reservation
 
@@ -133,7 +170,7 @@ resource owner. Insufficient actual receiving capacity remains a refusal.
 
 ## Finite source controls and remaining gates
 
-The new author bank contains exactly ten allocated controls: fixed catalog
+The preserved original author bank contains ten controls: fixed catalog
 and all 33 incoming contract ASTs; faithful transcript data; pinned phase
 refusal; complete template/image binding; active-hook addition; config
 addition; selected symlink; closing-census race; foreign Git object; and the
@@ -144,6 +181,15 @@ corpus retains the genuine frozen template bytes, modes and all four
 directories. The fixture loader validates and materializes that corpus with
 no environment override or host-tree fallback. Production still captures its
 actual fixed template root. No accepted bank is replayed by this increment.
+
+Six proposed entropy controls cover typed metadata admission,
+closing identity drift, exact guarded original87 context, altered/missing
+scope/program/template/device records, old-profile exclusion and source-only
+acquisition/image-key binding. Metadata and Git-byte fixtures carry no
+actual device, runtime or original credit. They forbid device reads, runtime
+acquisition, subprocesses and original dispatch. Their execution requires a
+frozen source packet and the root's bounded allocation; prior ten controls
+remain retained at their original historical scope.
 
 The source packet freezes exact preimages, absences, postimages, modes,
 hashes, patch, proposed tree and the approved plan before these controls run.

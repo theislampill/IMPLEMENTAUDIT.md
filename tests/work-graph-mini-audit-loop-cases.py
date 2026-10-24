@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ten original87 source/boundary controls; no runtime/original qualification.
+"""Ten preserved original87 controls and six new entropy-boundary controls.
 
 The complete genuine template corpus is repository test data. Tests validate
 and materialize it privately without an environment or host-tree fallback.
@@ -7,10 +7,13 @@ Production has no template-root override; no Git/runtime/launcher is called.
 """
 import ast
 import base64
+import copy
 import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import stat
+import types
 import unittest
 from unittest import mock
 
@@ -295,6 +298,203 @@ class BindingCases(MiniFixture, unittest.TestCase):
         self.A.require_resource_capacity(reservation, session.LIMITS)
         with self.assertRaisesRegex(ValueError, "scratch capacity"):
             self.A.require_resource_capacity(reservation, dict(session.LIMITS, scratch_bytes=10027007))
+        self.assert_no_dispatch(session)
+
+
+class EntropyCases(MiniFixture, unittest.TestCase):
+    """Metadata/modelled-source cases only; no device, runtime or original proof."""
+    FIELD = "mini_audit_kernel_entropy"
+    GIT_FIXTURE = b"SOURCE_CONTROL_GIT_BYTES_NOT_AN_EXECUTABLE"
+
+    def metadata(self, **changes):
+        values = dict(st_dev=31, st_ino=13, st_mode=stat.S_IFCHR | 0o666,
+            st_nlink=1, st_rdev=B.os.makedev(1, 9), st_size=0, st_uid=0,
+            st_gid=0, st_mtime_ns=100, st_ctime_ns=100)
+        values.update(changes)
+        return types.SimpleNamespace(**values)
+
+    def device_path(self, before=None, after=None, *, alias=False):
+        before = self.metadata() if before is None else before
+        after = before if after is None else after
+        path = mock.Mock(name="FIXED_DEVICE_METADATA_FIXTURE")
+        path.resolve.return_value = mock.sentinel.foreign_device_path if alias else path
+        path.lstat.side_effect = [before, after]
+        return mock.patch.object(B.Q, "Path", return_value=path)
+
+    def device_record(self):
+        with self.device_path(), mock.patch.object(B.Q.os, "open", side_effect=AssertionError("device open forbidden")):
+            return B.Q.VerifierTaskSession._mini_audit_entropy_device_v1()
+
+    def guard_fixture(self):
+        session = self.session()
+        device = self.device_record()
+        corpus = json.loads((ROOT / "fixtures/work-graph-mini-audit-loop/git-template-corpus.json").read_bytes())
+        projection = dict(files=copy.deepcopy(self.A._MINI_AUDIT_TEMPLATE_FILES),
+            directories=copy.deepcopy(self.A._MINI_AUDIT_TEMPLATE_DIRECTORIES))
+        templates = dict(root=self.A._MINI_AUDIT_TEMPLATE_ROOT, projection=projection,
+            currentness={name: ["SOURCE_CONTROL_METADATA_ONLY"] for name in
+                set(projection["files"]) | set(projection["directories"])},
+            bounds=dict(self.A._MINI_AUDIT_TEMPLATE_BOUNDS),
+            policy="ACTUAL_COMPLETE_DEFAULT_TEMPLATE_TREE_NO_FILTER_NO_OVERRIDE")
+        runtime_files = {self.A._MINI_AUDIT_TEMPLATE_ROOT + "/" + name:
+            (base64.b64decode(row["base64"], validate=True), row["mode"])
+            for name, row in corpus["files"].items()}
+        runtime_files["/usr/bin/git"] = (self.GIT_FIXTURE, 0o555)
+        files = dict(runtime_files)
+        for name in (*PROGRAMS, PHASE):
+            files["/work/" + name] = ((self.source / name).read_bytes(), stat.S_IMODE((self.source / name).stat().st_mode))
+        manifest, _ = session._image(files, {})
+        self.A._mini_audit_template_image(manifest, templates)
+        git = dict(executable="/usr/bin/git", template_default=self.A._MINI_AUDIT_TEMPLATE_ROOT,
+            closure={name: dict(pin) for name, pin in self.A._MINI_AUDIT_GIT_PINS.items()},
+            maintenance="ORIGINAL_DEFAULT_BUILTIN_AUTO_MAINTENANCE_UNCHANGED")
+        manifest.update(git_startup=git, **{self.FIELD: copy.deepcopy(device)})
+        manifest["writable_resources"].append(device["capability"])
+        node = dict(id="COMMAND:" + PROGRAM + ":0", source="bash " + PROGRAM + "\n",
+            source_sha256=hashlib.sha256(("bash " + PROGRAM + "\n").encode()).hexdigest())
+        acquired = dict(acquired=dict(scope=PROFILE, environment=dict(session.environment), limits=dict(session.LIMITS),
+            inputs={node["id"]: dict(program_sha256=PROGRAMS[PROGRAM])},
+            mutable_resources=["private bounded /tmp", "/dev/null", "observer stdout/stderr", device["capability"]],
+            effects="PRIVATE_FILESYSTEM_WRITES_DISCARDED_TRUSTED_KERNEL_ENTROPY_NO_PREDECESSOR_OR_SUCCESSOR_SUBSTITUTION",
+            **{self.FIELD: copy.deepcopy(device)}))
+        return session, device, runtime_files, files, templates, git, node, manifest, acquired
+
+    def fixture_git_digest(self):
+        original = B.Q.sha
+        pin = self.A._MINI_AUDIT_GIT_PINS["/usr/bin/git"]["sha256"]
+        return mock.patch.object(B.Q, "sha", side_effect=lambda raw: pin if raw == self.GIT_FIXTURE else original(raw))
+
+    def test_entropy_fixed_typed_metadata_admission(self):
+        """E01: only exact direct character1:9 metadata; no device open/read."""
+        record = self.device_record()
+        self.assertEqual((record["path"], record["kind"], record["major"], record["minor"]),
+                         ("/dev/urandom", "CHARACTER", 1, 9))
+        self.assertEqual((record["mode"], record["uid"], record["gid"]), (0o666, 0, 0))
+        self.assertEqual(record["state"], "LIVE_TRUSTED_KERNEL_NONDETERMINISM_NOT_SNAPSHOTTED")
+        self.assertNotIn("sha256", record)
+        for changes in (
+            dict(st_mode=stat.S_IFREG | 0o666), dict(st_mode=stat.S_IFLNK | 0o777),
+            dict(st_rdev=B.os.makedev(1, 8)), dict(st_rdev=B.os.makedev(2, 9)),
+            dict(st_mode=stat.S_IFCHR | 0o600), dict(st_uid=1), dict(st_gid=1),
+            dict(st_nlink=2), dict(st_size=8),
+        ):
+            with self.subTest(metadata=changes), self.device_path(self.metadata(**changes)):
+                with self.assertRaisesRegex(B.Q.WG.WorkGraphError, "original87 kernel entropy device"):
+                    B.Q.VerifierTaskSession._mini_audit_entropy_device_v1()
+        with self.device_path(alias=True):
+            with self.assertRaisesRegex(B.Q.WG.WorkGraphError, "original87 kernel entropy device"):
+                B.Q.VerifierTaskSession._mini_audit_entropy_device_v1()
+        with mock.patch.object(B.Q, "Path") as path:
+            path.return_value.lstat.side_effect = FileNotFoundError("source-control absence")
+            with self.assertRaises(FileNotFoundError):
+                B.Q.VerifierTaskSession._mini_audit_entropy_device_v1()
+
+    def test_entropy_closing_physical_drift_refuses(self):
+        """E02: changed device identity or metadata cannot survive closing read."""
+        for changes in (dict(st_dev=32), dict(st_ino=14), dict(st_mode=stat.S_IFCHR | 0o600),
+                        dict(st_rdev=B.os.makedev(1, 8)), dict(st_uid=1), dict(st_ctime_ns=101)):
+            with self.subTest(changes=changes), self.device_path(after=self.metadata(**changes)), \
+                    mock.patch.object(B.Q.os, "open", side_effect=AssertionError("device open forbidden")):
+                with self.assertRaisesRegex(B.Q.WG.WorkGraphError, "changed during observation"):
+                    B.Q.VerifierTaskSession._mini_audit_entropy_device_v1()
+
+    def test_entropy_exact_closed_original_guard(self):
+        """E03: real source/template bytes plus explicit modeled Git admit only the fixed guard."""
+        session, device, _, files, _, _, node, manifest, acquired = self.guard_fixture()
+        with self.fixture_git_digest(), mock.patch.object(session, "_mini_audit_entropy_device_v1", return_value=device) as observe:
+            observed = session._mini_audit_entropy_guard_v1(acquired, node, files, manifest)
+        self.assertEqual(observed, device)
+        observe.assert_called_once_with()
+        self.assertIn(device["capability"], manifest["writable_resources"])
+        self.assertEqual(session.LIMITS["scratch_bytes"], 32 * 1024**2)
+        self.assertEqual(session.LIMITS["descriptors"], 4096)
+        self.assert_no_dispatch(session)
+
+    def test_entropy_foreign_or_incomplete_binding_refuses(self):
+        """E04: changed scope, source, branch, Git, templates or device fail closed."""
+        session, device, _, files, _, _, node, manifest, acquired = self.guard_fixture()
+        mutations = [
+            ("missing image device", lambda a, n, f, m: m.pop(self.FIELD)),
+            ("missing acquisition device", lambda a, n, f, m: a["acquired"].pop(self.FIELD)),
+            ("foreign scope", lambda a, n, f, m: a["acquired"].update(scope="OTHER")),
+            ("foreign node", lambda a, n, f, m: n.update(id="COMMAND:other:0")),
+            ("changed command", lambda a, n, f, m: n.update(source=n["source"] + "true\n")),
+            ("changed program", lambda a, n, f, m: f.update({"/work/" + PROGRAM: (b"foreign source", 0o644)})),
+            ("changed phase", lambda a, n, f, m: f.update({"/work/" + PHASE: (b"other branch", 0o644)})),
+            ("changed Git", lambda a, n, f, m: f.update({"/usr/bin/git": (b"foreign Git", 0o555)})),
+            ("extra active hook", lambda a, n, f, m: f.update({self.A._MINI_AUDIT_TEMPLATE_ROOT + "/hooks/pre-commit": (b"active", 0o755)})),
+            ("missing empty branch dir", lambda a, n, f, m: m["directories"].remove(self.A._MINI_AUDIT_TEMPLATE_ROOT + "/branches")),
+            ("foreign device", lambda a, n, f, m: m[self.FIELD].update(path="/dev/random")),
+            ("hidden capability", lambda a, n, f, m: a["acquired"].update(effects="PRIVATE_WRITES_ONLY")),
+        ]
+        with self.fixture_git_digest(), mock.patch.object(session, "_mini_audit_entropy_device_v1", return_value=device):
+            for label, mutate in mutations:
+                a, n, f, m = copy.deepcopy((acquired, node, files, manifest))
+                mutate(a, n, f, m)
+                with self.subTest(mutation=label), self.assertRaisesRegex(B.Q.WG.WorkGraphError, "original87 kernel entropy"):
+                    session._mini_audit_entropy_guard_v1(a, n, f, m)
+            drift = copy.deepcopy(device)
+            drift["identity"][1] = "14"
+            with mock.patch.object(session, "_mini_audit_entropy_device_v1", return_value=drift):
+                with self.assertRaisesRegex(B.Q.WG.WorkGraphError, "physical currentness differs"):
+                    session._mini_audit_entropy_guard_v1(acquired, node, files, manifest)
+        self.assert_no_dispatch(session)
+
+    def test_entropy_old_profiles_observe_no_device(self):
+        """E05: every other fixed profile has no entropy observation or field admission."""
+        guard = B.Q.VerifierTaskSession._mini_audit_entropy_guard_v1
+        for profile in self.A._CONTRACTS:
+            if profile == PROFILE:
+                continue
+            observer = mock.Mock(side_effect=AssertionError("old profile observed entropy device"))
+            old = types.SimpleNamespace(SCOPE=profile, _mini_audit_entropy_device_v1=observer)
+            with self.subTest(profile=profile):
+                self.assertIsNone(guard(old, dict(acquired={}), {}, {}, {}))
+                with self.assertRaisesRegex(B.Q.WG.WorkGraphError, "forbidden for another profile"):
+                    guard(old, dict(acquired={}), {}, {}, {self.FIELD: {}})
+                with self.assertRaisesRegex(B.Q.WG.WorkGraphError, "forbidden for another profile"):
+                    guard(old, dict(acquired={self.FIELD: {}}), {}, {}, {})
+                observer.assert_not_called()
+
+    def test_entropy_record_binds_both_images_and_acquisition_key(self):
+        """E06: modeled runtime isolates the real image/key owner; no actual acquisition credit."""
+        session, device, runtime_files, _, templates, git, _, _, _ = self.guard_fixture()
+        def modeled_runtime(prefix, objects, *, profile):
+            self.assertEqual(profile, PROFILE)
+            entries = {}
+            for name, (raw, mode) in runtime_files.items():
+                key = hashlib.sha256(raw).hexdigest()
+                objects[key] = raw
+                entries[name] = dict(sha256=key, mode=mode, bytes=len(raw))
+            return dict(files=entries, mini_audit_git_templates=copy.deepcopy(templates),
+                mini_audit_git_binding=copy.deepcopy(git),
+                evidence_scope="MODELED_SOURCE_CONTROL_RUNTIME_NO_PHYSICAL_ACQUISITION_CREDIT")
+        scope = session._acquire.__func__.__globals__
+        with mock.patch.dict(scope, finite_runtime=modeled_runtime), \
+                mock.patch.object(session, "_observer", return_value={"source_control": "MODELED_NO_RUNTIME_OBSERVER"}), \
+                mock.patch.object(session, "_mini_audit_entropy_device_v1", return_value=device) as observe:
+            first = session._acquire()
+            changed = copy.deepcopy(device)
+            changed["identity"][1] = "14"
+            observe.return_value = changed
+            second = session._acquire()
+        self.assertEqual(observe.call_count, 4)
+        self.assertNotEqual(first["key"], second["key"])
+        self.assertEqual(first["state"], second["state"])
+        self.assertEqual(first["stamps"], second["stamps"])
+        for capture, expected in ((first, device), (second, changed)):
+            acquired = capture["acquired"]
+            self.assertEqual(acquired[self.FIELD], expected)
+            runtime = json.loads((session.output / "objects" / acquired["runtime_observations"]).read_bytes())
+            self.assertEqual(runtime[self.FIELD], expected)
+            keys = [acquired["runtime"], acquired["inputs"][capture["node"]["id"]]["image_digest"]]
+            for key in keys:
+                image = json.loads((session.output / "objects" / key).read_bytes())
+                self.assertEqual(image[self.FIELD], expected)
+                self.assertIn(expected["capability"], image["writable_resources"])
+                self.assertFalse(any(row["path"] == "/dev/urandom" for row in image["files"]))
+            self.assertIn(expected["capability"], acquired["mutable_resources"])
+            self.assertIn("TRUSTED_KERNEL_ENTROPY", acquired["effects"])
         self.assert_no_dispatch(session)
 
 

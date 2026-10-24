@@ -3027,6 +3027,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             temporary = temporary_requirements(source, profile=profile)
             require_resource_capacity(temporary, self.LIMITS)
             runtime = finite_runtime(prefix, objects, profile=profile)
+            if profile == MINI_AUDIT_PROFILE:
+                runtime["mini_audit_kernel_entropy"] = self._mini_audit_entropy_device_v1()
             if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
                 runtime["audit_object_contract_git_binding"] = audit_object_contract_runtime_binding(source, runtime, objects)
             elif "complete_git_inputs" in source:
@@ -3042,6 +3044,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 profile=profile, registry_snapshot=registry_snapshot, git_owner=git_owner, environment=self.environment)
             if source != current or stamps != final_stamps or observer != self._observer():
                 raise compiler.WorkGraphError("finite-leaf source/runtime observer changed during acquisition")
+            if profile == MINI_AUDIT_PROFILE and runtime["mini_audit_kernel_entropy"] != self._mini_audit_entropy_device_v1():
+                raise compiler.WorkGraphError("original87 kernel entropy device changed during acquisition")
             self._custody()
             for captured in objects.values():
                 self._object(captured)
@@ -3050,6 +3054,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             if profile == MINI_AUDIT_PROFILE:
                 _mini_audit_template_image(runtime_manifest, runtime["mini_audit_git_templates"])
                 runtime_manifest["git_startup"] = runtime["mini_audit_git_binding"]
+                runtime_manifest["mini_audit_kernel_entropy"] = copy.deepcopy(runtime["mini_audit_kernel_entropy"])
+                runtime_manifest["writable_resources"].append(runtime["mini_audit_kernel_entropy"]["capability"])
                 runtime_key = self._object(self._encode(runtime_manifest))
             files = dict(runtime_files)
             subject = image_subject(source, profile=profile)
@@ -3114,6 +3120,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             if profile == MINI_AUDIT_PROFILE:
                 _mini_audit_template_image(manifest, runtime["mini_audit_git_templates"])
                 manifest["git_startup"] = runtime["mini_audit_git_binding"]
+                manifest["mini_audit_kernel_entropy"] = copy.deepcopy(runtime["mini_audit_kernel_entropy"])
+                manifest["writable_resources"].append(runtime["mini_audit_kernel_entropy"]["capability"])
                 image_key = self._object(self._encode(manifest))
             if profile == TOPOLOGY_PROFILE:
                 # Preserve actual empty directories without introducing a file
@@ -3217,6 +3225,10 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT", stdin="EMPTY",
                 mutable_resources=["private bounded /tmp", "/dev/null", "observer stdout/stderr"],
                 effects="PRIVATE_WRITES_DISCARDED_NO_PREDECESSOR_OR_SUCCESSOR_SUBSTITUTION", authority="NONE")
+            if profile == MINI_AUDIT_PROFILE:
+                acquired["mini_audit_kernel_entropy"] = copy.deepcopy(runtime["mini_audit_kernel_entropy"])
+                acquired["mutable_resources"].append(runtime["mini_audit_kernel_entropy"]["capability"])
+                acquired["effects"] = "PRIVATE_FILESYSTEM_WRITES_DISCARDED_TRUSTED_KERNEL_ENTROPY_NO_PREDECESSOR_OR_SUCCESSOR_SUBSTITUTION"
             if profile == CLAIM_BOUNDARY_PROFILE:
                 acquired.update(source_bounds=contract["complete_public"], private_source_overlay=overlay,
                     directory_modes="NORMALIZED_0755_EXISTING_MEMBERS_READ_ONLY_FIXED_DOCS_PARENT_WRITABLE",

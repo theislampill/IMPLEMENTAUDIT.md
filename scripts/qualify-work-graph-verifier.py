@@ -1551,6 +1551,104 @@ class VerifierTaskSession:
             result.update(observation="REFUSED", reason=str(error))
             return result
 
+    @staticmethod
+    def _mini_audit_entropy_device_v1():
+        """Observe one fixed real kernel interface without opening or reading it.
+
+        Entropy state is trusted live kernel state, like existing clocks and
+        getrandom. This records device currentness, never a seed or byte image.
+        A character-device bind is not generic device-write confinement.
+        """
+        path = Path("/dev/urandom")
+        before = path.lstat()
+        if (path.resolve(strict=True) != path or not stat.S_ISCHR(before.st_mode) or
+                (os.major(before.st_rdev), os.minor(before.st_rdev)) != (1, 9) or
+                stat.S_IMODE(before.st_mode) != 0o666 or before.st_nlink != 1 or
+                (before.st_uid, before.st_gid, before.st_size) != (0, 0, 0)):
+            raise WG.WorkGraphError("unsupported original87 kernel entropy device")
+        def stamp(info):
+            return [*VerifierTaskSession._root_identity(info), info.st_mode,
+                    info.st_nlink, info.st_rdev, info.st_size, info.st_uid,
+                    info.st_gid, info.st_mtime_ns, info.st_ctime_ns]
+        identity = stamp(before)
+        if path.resolve(strict=True) != path or stamp(path.lstat()) != identity:
+            raise WG.WorkGraphError("original87 kernel entropy device changed during observation")
+        return dict(schema="implementaudit.original87-kernel-entropy.v1",
+            policy="ORIGINAL87_FIXED_REAL_URANDOM_V1", path="/dev/urandom",
+            kind="CHARACTER", major=1, minor=9, mode=0o666, uid=0, gid=0,
+            identity=identity, consumer="PINNED_CLOSED_GIT_CSPRNG_PATH_OPENS_O_RDONLY",
+            state="LIVE_TRUSTED_KERNEL_NONDETERMINISM_NOT_SNAPSHOTTED",
+            capability="EXACT_URANDOM_CHARACTER_DEVICE_IO_NOT_GENERIC_DEVICE_WRITE_CONFINEMENT",
+            authority="NONE")
+
+    def _mini_audit_entropy_guard_v1(self, acquired, node, files, manifest):
+        """Admit the device only for the captured original87 closed call set."""
+        field = "mini_audit_kernel_entropy"
+        scope = "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1"
+        acquisition = acquired["acquired"]
+        if self.SCOPE != scope:
+            if field in manifest or field in acquisition:
+                raise WG.WorkGraphError("original87 kernel entropy is forbidden for another profile")
+            return None
+        binding = manifest.get(field)
+        command = "bash tests/e2e-mini-audit-loop.test.sh\n"
+        node_id = "COMMAND:tests/e2e-mini-audit-loop.test.sh:0"
+        program_pin = "8b4aff39b1da3c36d1ebc9e020923e214dec4926e5426ac4e322d59d444308f3"
+        git_pin = "2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668"
+        if (not isinstance(binding, dict) or acquisition.get(field) != binding or
+                acquisition.get("scope") != scope or node.get("id") != node_id or
+                node.get("source") != command or node.get("source_sha256") != sha(command.encode()) or
+                set(acquisition.get("inputs", {})) != {node_id} or
+                acquisition["inputs"][node_id].get("program_sha256") != program_pin or
+                manifest.get("root_read_only") is not True or
+                manifest.get("environment") != self.environment or acquisition.get("environment") != self.environment or
+                manifest.get("limits") != self.LIMITS or acquisition.get("limits") != self.LIMITS or
+                "private_source_overlay" in manifest):
+            raise WG.WorkGraphError("unsupported original87 kernel entropy execution scope")
+        required = {
+            "/usr/bin/git": (git_pin, 0o555),
+            "/work/tests/e2e-mini-audit-loop.test.sh": (program_pin, 0o644),
+            "/work/skills/implementaudit/scripts/validate-phase.sh": (
+                "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab", 0o755),
+            "/work/skills/implementaudit/scripts/repo-state.sh": (
+                "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b", 0o644),
+            "/work/fixtures/e2e-mini-audit-loop/phase-1.md": (
+                "44a48a1a22e8bb7a783aa0b4c3608e2d75afe4ad4d74ac720931f759b7cde06b", 0o644),
+        }
+        for name, (pin, mode) in required.items():
+            entry = files.get(name)
+            if (not isinstance(entry, tuple) or len(entry) != 2 or
+                    entry[1] != mode or sha(entry[0]) != pin):
+                raise WG.WorkGraphError("original87 kernel entropy requires pinned program and branch bytes")
+        templates = manifest.get("mini_audit_git_templates", {})
+        projection = templates.get("projection", {})
+        root = "/usr/share/git-core/templates"
+        if (templates.get("root") != root or
+                sha(self._encode(projection)) != "c16f8f1efb821f6547999f092623ce26fa29604a19a78c9108e7470e052bfbfd" or
+                templates.get("policy") != "ACTUAL_COMPLETE_DEFAULT_TEMPLATE_TREE_NO_FILTER_NO_OVERRIDE"):
+            raise WG.WorkGraphError("original87 kernel entropy requires complete fixed templates")
+        selected = {name: entry for name, entry in files.items() if name == root or name.startswith(root + "/")}
+        expected = {root + "/" + name: row for name, row in projection["files"].items()}
+        if set(selected) != set(expected) or any(
+                (len(selected[name][0]), selected[name][1], sha(selected[name][0])) !=
+                (row["bytes"], row["mode"], row["sha256"]) for name, row in expected.items()):
+            raise WG.WorkGraphError("original87 kernel entropy template bytes or modes differ")
+        directories = {root if name == "." else root + "/" + name for name in projection["directories"]}
+        if {name for name in manifest["directories"] if name == root or name.startswith(root + "/")} != directories:
+            raise WG.WorkGraphError("original87 kernel entropy template directories differ")
+        git = manifest.get("git_startup", {})
+        if (git.get("executable") != "/usr/bin/git" or git.get("template_default") != root or
+                git.get("closure", {}).get("/usr/bin/git", {}).get("sha256") != git_pin or
+                git.get("maintenance") != "ORIGINAL_DEFAULT_BUILTIN_AUTO_MAINTENANCE_UNCHANGED"):
+            raise WG.WorkGraphError("original87 kernel entropy Git binding differs")
+        if binding != self._mini_audit_entropy_device_v1():
+            raise WG.WorkGraphError("original87 kernel entropy physical currentness differs")
+        if (manifest.get("writable_resources") != ["fresh bounded /tmp", "/dev/null", "stdout", "stderr", binding["capability"]] or
+                acquisition.get("mutable_resources") != ["private bounded /tmp", "/dev/null", "observer stdout/stderr", binding["capability"]] or
+                acquisition.get("effects") != "PRIVATE_FILESYSTEM_WRITES_DISCARDED_TRUSTED_KERNEL_ENTROPY_NO_PREDECESSOR_OR_SUCCESSOR_SUBSTITUTION"):
+            raise WG.WorkGraphError("original87 kernel entropy capability disclosure differs")
+        return binding
+
     def _execute(self, acquired, node, decision, directory):
         files, manifest = acquired["images"][node["id"]]
         materialization = manifest.get("source_materialization")
@@ -1572,6 +1670,7 @@ class VerifierTaskSession:
             raise WG.WorkGraphError("unsupported read-only source image permissions")
         overlay_config = self._claim_overlay_guard_v1(files, manifest, node)
         overlay = manifest.get("private_source_overlay")
+        entropy = self._mini_audit_entropy_guard_v1(acquired, node, files, manifest)
         directory.mkdir()
         self._write(directory / "image.json", manifest)
         fds = []
@@ -1612,6 +1711,10 @@ class VerifierTaskSession:
                     args += ["--remount-ro", name]
                 census_fd = self._claim_census_buffer_v1()
                 fds.append(census_fd)
+            if entropy is not None:
+                # Only the fixed guarded original87 may expose this real kernel
+                # interface. Read-only filesystem flags do not deny device I/O.
+                args += ["--dev-bind", "/dev/urandom", "/dev/urandom"]
             args += ["--dev-bind", "/dev/null", "/dev/null", "--size", str(self.LIMITS["scratch_bytes"] if overlay is None else overlay["tmp_bytes"]), "--tmpfs", "/tmp",
                      "--remount-ro", "/", "--chdir", "/work", "--seccomp", str(seccomp_fd)]
             command = ["/usr/bin/bash", "--noprofile", "--norc", "/work/scripts/run-work-graph-verifier.sh",
@@ -1642,6 +1745,8 @@ class VerifierTaskSession:
             with (directory / "stdout.log").open("xb") as stdout, (directory / "stderr.log").open("xb") as stderr:
                 try:
                     try:
+                        if entropy is not None and entropy != self._mini_audit_entropy_device_v1():
+                            raise WG.WorkGraphError("original87 kernel entropy device changed before launch")
                         process = subprocess.Popen(["/usr/bin/bwrap", "--args", str(args_fd), *command], stdin=subprocess.DEVNULL,
                                 stdout=stdout, stderr=stderr, env=self.environment, close_fds=True, pass_fds=tuple(fds),
                                 preexec_fn=limits, start_new_session=True)
