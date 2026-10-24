@@ -141,7 +141,7 @@ class CurrentnessCostControls(unittest.TestCase):
                         self.fail('foreign context yielded a view')
 
     def continuity(self, changed_helper=False, wrong_verify=False, receipt_raw=None, blob_error=False,
-                   source_changes=False, combined=False, combined_output=None):
+                   source_changes=False, combined=False, combined_output=None, qualified_helpers=False):
         h=self.h
         owner=ROOT/'source-peers/native-runtime/skills/implementaudit/scripts'
         # Keep the original helper/receipt-domain controls bound to their exact
@@ -149,8 +149,12 @@ class CurrentnessCostControls(unittest.TestCase):
         claim=((owner/'claim-run.sh') if combined else
                ROOT/'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run.sh.fixture').read_bytes()
         validate=(owner/'validate-run-root.sh').read_bytes()
+        qualified=SOURCE/'skills/implementaudit/scripts'
+        if qualified_helpers:
+            claim=(qualified/'claim-run.sh').read_bytes()
+            validate=(qualified/'validate-run-root.sh').read_bytes()
         if changed_helper:claim+=b'\n# different source must retain separate verification\n'
-        calls=[]
+        calls=[];self.continuity_calls=calls
         receipt='refs/implementaudit/continuity-receipts/cost-control/G0001@'+'3'*40
         if receipt_raw is None:
             receipt_raw=b'implementaudit.continuity-receipt.v3\t'+b'\t'.join([b'field']*17)+b'\n'
@@ -162,7 +166,12 @@ class CurrentnessCostControls(unittest.TestCase):
             return receipt_raw
         owner=types.SimpleNamespace(_native_child_environment=lambda host:{},_native_blob=blob)
         def file_read(owner,path,*args):
-            return (claim if path.name=='claim-run.sh' else validate,0o644)
+            path=Path(path)
+            if path.name=='claim-run.sh':return claim,0o644
+            if path.name=='validate-run-root.sh':return validate,0o644
+            source=(SOURCE/'scripts'/path.name if path.name=='work-graph-continuity-transport.py'
+                    else qualified/path.name)
+            return source.read_bytes(),source.stat().st_mode & 0o7777
         def call(owner,host,repo,args,*rest):
             self.assertEqual(rest,(claim,validate))
             calls.append(args)
@@ -174,20 +183,35 @@ class CurrentnessCostControls(unittest.TestCase):
             if args[0]=='--require-current-continuity':return receipt
             self.assertEqual(args,['--verify-resume-receipt',receipt])
             return 'wrong' if wrong_verify else receipt
+        acquire=h.wg._native_six_source_transport_v1
+        def transport(owner,claim_raw,validate_raw):
+            # Keep real fixed adapter and complete source-population checks.
+            # Only the readonly effect result is constructed in this cost bank;
+            # actual transport execution has separate composition controls.
+            module,sources,identity=acquire(owner,claim_raw,validate_raw)
+            def readonly(owner,*,repository,sources,arguments,route):
+                self.assertEqual(repository,str(h.root))
+                result=call(owner,route,h.root,list(arguments),claim_raw,validate_raw)
+                return dict(returncode=0,stdout=result.encode(),stderr=b'',
+                            closure={'constructed_currentness_cost_control':True})
+            module.call_readonly_v1=readonly
+            return module,sources,identity
         values=[b'a'*40,b'b'*40,b'',b'',b'',b'']
         response=types.SimpleNamespace(returncode=0,stderr=b'',stdout=json.dumps([base64.b64encode(x).decode() for x in values]).encode())
-        self.current_owner_reads=[]
+        self.current_owner_reads=[];self.source_reads=[];self.closure_reads=[]
         with (patch.object(h.wg,'_native_static_owner_module_v1',side_effect=[
                     (owner,Path('owner.py'),b'owner'),(owner,Path('owner.py'),b'changed' if source_changes else b'owner')]),
                 patch.object(h.wg,'_native_continuity_host_v1',return_value=object()),
                 patch.object(h.wg,'_native_static_file_v1',side_effect=file_read),
                 patch.object(h.wg,'_native_claim_call_v1',side_effect=call),
-                patch.object(h.wg.subprocess,'run',return_value=response)):
-            sources=[]
-            actual=h.wg._native_continuity(h.root,h.root,_source_reads=sources,_current_reads=self.current_owner_reads)
+                patch.object(h.wg,'_native_six_source_transport_v1',side_effect=transport),
+                patch.object(h.wg.subprocess,'run',return_value=response) as child):
+            self.child_process=child
+            actual=h.wg._native_continuity(h.root,h.root,_source_reads=self.source_reads,
+                _current_reads=self.current_owner_reads,_closure_reads=self.closure_reads)
         self.assertEqual(actual['receipt'],receipt)
         self.assertEqual(actual['continuity_helper_digest'],hashlib.sha256(claim).hexdigest())
-        self.assertEqual(sources,[{'claim_sha256':hashlib.sha256(claim).hexdigest(),
+        self.assertEqual(self.source_reads,[{'claim_sha256':hashlib.sha256(claim).hexdigest(),
                                    'validate_sha256':hashlib.sha256(validate).hexdigest()}])
         self.assertEqual(self.current_owner_reads,[dict(controller_result=['cost-control',str(h.root),str(h.root),'2'*32],receipt=receipt)])
         return calls
@@ -236,11 +260,23 @@ class CurrentnessCostControls(unittest.TestCase):
             self.continuity(blob_error=True,wrong_verify=True)
 
     def test_other_helper_source_keeps_separate_verification(self):
-        calls=self.continuity(changed_helper=True)
+        calls=self.continuity(qualified_helpers=True)
         self.assertEqual([c[0] for c in calls],['--current-controller','--require-current-continuity','--verify-resume-receipt'])
         self.assertEqual(self.receipt_reads,[])
         with self.assertRaisesRegex(self.h.wg.WorkGraphError,'receipt readback mismatch'):
-            self.continuity(changed_helper=True,wrong_verify=True)
+            self.continuity(qualified_helpers=True,wrong_verify=True)
+
+    def test_unknown_helper_source_refuses_before_effects_or_currentness_output(self):
+        for qualified in (False,True):
+            with self.subTest(qualified=qualified),self.assertRaisesRegex(
+                    self.h.wg.WorkGraphError,'helpers are not an explicitly selected source domain'):
+                self.continuity(qualified_helpers=qualified,changed_helper=True)
+            self.assertEqual(self.continuity_calls,[])
+            self.assertEqual(self.receipt_reads,[])
+            self.assertEqual(self.current_owner_reads,[])
+            self.assertEqual(self.source_reads,[])
+            self.assertEqual(self.closure_reads,[])
+            self.child_process.assert_not_called()
 
 class CurrentOwnerParserControls(unittest.TestCase):
     def setUp(self):
