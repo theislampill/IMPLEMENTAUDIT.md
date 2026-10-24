@@ -20,12 +20,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--helper', type=Path, default=ROOT / 'skills/implementaudit/scripts/validate-run-root.sh')
     parser.add_argument('--repo-root', type=Path, default=Path.cwd())
+    parser.add_argument('--r37-regressions-only', action='store_true')
     args = parser.parse_args()
     head = subprocess.check_output(['git', '-C', str(args.repo_root), 'rev-parse', 'HEAD'], text=True).strip()
     results = []
     with tempfile.TemporaryDirectory(prefix='turn-disposition-') as tmp:
         tmp = Path(tmp)
         def case(name, disposition, expected, change=None, contains='', hook=None):
+            if args.r37_regressions_only and not name.startswith('r37-'): return
             root = tmp / name
             changes = {}
             if disposition == 'TERMINAL_CLOSURE':
@@ -130,6 +132,39 @@ def main():
             template = template.replace('## CONTINUITY_DECISION\n\nStatus: pending', '## CONTINUITY_DECISION\n\nStatus: none')
             template = template.replace('Reason:\n', 'Reason: Focused record qualification changes no enduring project behavior.\n')
             (root/'STATE.md').write_text(template)
+        def andon_rows(root, record, outcomes, *, legacy=False):
+            state = root / 'STATE.md'
+            text = state.read_text()
+            header = '|---|---|---|---|---|---|---|---|\n'
+            rows = ''.join('| ' + str(index) + ' | ' + ('' if legacy else occurrence + ' | ')
+                + '1 | ' + kind + ' | Criterion C1 needs deciding evidence | Hold affected closure | C1 deciding check | '
+                + outcome + ' |\n' for index, (occurrence, kind, outcome) in enumerate(outcomes, 1))
+            text = text.replace(header, header + rows)
+            if legacy:
+                text = text.replace('| # | Occ | Phase | Class |', '| # | Phase | Class |').replace(header, '|---|---|---|---|---|---|---|\n')
+            state.write_text(text)
+        def duplicate_andon_outcome(root, record):
+            andon_rows(root, record, [('o17', 'evidence-mismatch', 'open (rerun pending) | resolved')])
+            state = root / 'STATE.md'
+            replace(state, '| Rerun evidence | Outcome |', '| Rerun evidence | Outcome | Outcome |')
+            replace(state, '|---|---|---|---|---|---|---|---|', '|---|---|---|---|---|---|---|---|---|')
+        case('r37-closure-andon-duplicate-outcome', 'TERMINAL_CLOSURE', False,
+            duplicate_andon_outcome, contains='duplicate record table header')
+        for outcome in ('open (rerun pending)', 'escalated (cites #1)', 'blocked (handoff condition)', '', 'resolved-ish'):
+            case('r37-closure-andon-' + (outcome or 'missing'), 'TERMINAL_CLOSURE', False,
+                lambda r,p,o=outcome: andon_rows(r,p,[('o17','evidence-mismatch',o)]), contains='Andon')
+        case('r37-closure-andon-resolved', 'TERMINAL_CLOSURE', True,
+            lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','resolved')]))
+        case('r37-closure-andon-resolved-history', 'TERMINAL_CLOSURE', True,
+            lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','open (rerun pending)'),('o17','evidence-mismatch','resolved')]))
+        case('r37-closure-andon-unrelated-resolution', 'TERMINAL_CLOSURE', False,
+            lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','open (rerun pending)'),('o18','evidence-mismatch','resolved')]), contains='Andon')
+        case('r37-closure-andon-cross-class-resolution', 'TERMINAL_CLOSURE', False,
+            lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','open (rerun pending)'),('o17','regression','resolved')]), contains='Andon')
+        case('r37-closure-andon-legacy-resolved', 'TERMINAL_CLOSURE', True,
+            lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','resolved')],legacy=True))
+        case('r37-yield-open-andon', 'NONTERMINAL_YIELD', True,
+            lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','open (rerun pending)')]))
         case('full-state-template-positive', 'TERMINAL_CLOSURE', True, full_state)
         case('full-state-pending-continuity', 'TERMINAL_CLOSURE', False,
             lambda r,p: (full_state(r,p),replace(r/'STATE.md','## CONTINUITY_DECISION\n\nStatus: none','## CONTINUITY_DECISION\n\nStatus: pending')) and None)

@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import shutil
 import signal
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -51,6 +52,117 @@ def write_case(root, changes=None, *, omit=(), suffix="", phase=True, legacy_and
     return root
 
 
+def consumed_read_set_controls(parent, *, selected=None):
+    """Changing an actually consumed dependency must revoke the yield result."""
+    controls = []
+    for name in ('PROTOCOL.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md'):
+        controls.append((name, False, name, '', None))
+    controls.extend([
+        ('new-claim', False, '.claimed', 'mode=invalid\n', None),
+        ('noncurrent-phase', False, 'phases/phase-2.md', '# Phase 99\n', 'phase'),
+        ('done-phase-capture', False, 'evidence/completed.log', '', 'capture'),
+        ('large-done-capture', False, 'evidence/completed.log', '', 'large-capture'),
+        ('binary-done-capture', False, 'evidence/completed.log', '', 'binary-capture'),
+        ('new-direct-record', False, 'late-steer.md', 'successor-review: invalid\n', None),
+        ('unread-log', True, 'evidence/live-output.log', 'independent output changed\n', 'unread'),
+        ('legacy-sibling', False, '../sibling/STATE.md', 'No sibling disposition remains.\n', 'sibling'),
+        ('respec-replacement', False, 'evidence/replacement.txt', 'required marker removed\n', 'respec'),
+        ('respec-trailing-yes', False, 'evidence/replacement.txt', 'required marker removed\n', 'respec-trailing-yes'),
+        ('respec-trailing-path', False, 'evidence/replacement.txt', 'required marker removed\n', 'respec-trailing-path'),
+    ])
+    if selected is not None:
+        assert selected <= {control[0] for control in controls}, 'unknown consumed-input selector'
+        controls = [control for control in controls if control[0] in selected]
+    for index, (name, want, target, replacement, setup) in enumerate(controls):
+        respec = setup in {'respec', 'respec-trailing-yes', 'respec-trailing-path'}
+        family = parent / ('consumed-' + str(index)); family.mkdir()
+        root = write_case(family / 'root')
+        if respec or setup in {'capture', 'large-capture', 'binary-capture', 'unread'}:
+            (root / 'evidence').mkdir()
+        if setup in {'phase', 'capture', 'large-capture', 'binary-capture'}:
+            phase = (root / 'phases/phase-1.md').read_text().replace('Phase 1', 'Phase 2').replace('Phase: 1', 'Phase: 2')
+            if setup in {'capture', 'large-capture', 'binary-capture'}:
+                phase = phase.replace('Status recorded here.', 'Status: done').replace(
+                    '## Mandatory commands\n', '## Mandatory commands\n- `true`; capture: evidence/completed.log; expected: exit 0\n')
+                (root / 'evidence/completed.log').write_bytes(
+                    b'x' * 1_000_017 if setup == 'large-capture' else b'\xffverified output\n' if setup == 'binary-capture' else b'verified completed output\n')
+            (root / 'phases/phase-2.md').write_text(phase)
+        if setup == 'unread':
+            (root / target).write_text('independent output initial\n')
+        if setup == 'sibling':
+            (root / '.claimed').write_text('mode=full\ntemplates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md\n')
+            sibling = family / 'sibling'; sibling.mkdir()
+            (sibling / 'STATE.md').write_text('PARALLEL: independent accepted lane\n')
+        if respec:
+            (root / target).write_text('retained-marker\n')
+            (root / 'respec-impact-set.md').write_text(
+                'IMPLEMENTAUDIT_RESPEC_IMPACT_SET\nChange: bounded correction\nDeclared by: owner-17\n'
+                'Population size: 1\nLiteral count: 1\nStem/dirname additional count: 0\n'
+                'Enumeration method: literal + stem/dirname\nLiteral carriers: old-record\n'
+                'Stem/dirname additional carriers: none\nReplacement: yes\nReplacement path: evidence/replacement.txt\n'
+                '| # | Carrier | Kind | Status | Evidence |\n|---|---|---|---|---|\n'
+                '| 1 | old-record | source | applied | deciding check-17 |\n'
+                '## Invariants carried forward\n'
+                '| # | Invariant | Enforced by | Present in replacement? | Evidence |\n|---|---|---|---|---|\n'
+                '| 1 | retained marker | existing checker | yes | contains:retained-marker |\n')
+        if setup in {'respec-trailing-yes', 'respec-trailing-path'}:
+            impact = root / 'respec-impact-set.md'
+            field = 'Replacement: yes' if setup == 'respec-trailing-yes' else 'Replacement path: evidence/replacement.txt'
+            impact.write_text(impact.read_text().replace(field + '\n', field + '   \n'))
+        command = ['bash', str(HELPER), '--nonterminal-yield', str(root)]
+        baseline = subprocess.run(command, text=True, capture_output=True)
+        assert baseline.returncode == 0, name + ': baseline failed: ' + baseline.stdout + baseline.stderr
+        schedule = family / 'schedule.bash'; trigger = family / 'trigger'
+        mutation = 'from pathlib import Path; Path(' + repr(str(root / target)) + ').write_text(' + repr(replacement) + ')'
+        schedule.write_text('python() {\n'
+            '  if [ "$#" -eq 4 ] && [ "$1" = -B ] && [ "$2" = - ] && [ "$3" = ' + shlex.quote(str(root / 'STATE.md')) + ' ]; then\n'
+            '    command python -B -c ' + shlex.quote(mutation) + '\n'
+            '    printf triggered > ' + shlex.quote(str(trigger)) + '\n'
+            '  fi\n  command python "$@"\n}\nexport -f python\n')
+        if respec:
+            schedule.write_text('python() {\n'
+                '  if [ "$#" -eq 2 ] && [ "$1" = - ] && [ "$2" = ' + shlex.quote(str(root / 'respec-impact-set.md')) + ' ]; then\n'
+                '    command python "$@"; result=$?\n'
+                '    command python -B -c ' + shlex.quote(mutation) + '\n'
+                '    printf triggered > ' + shlex.quote(str(trigger)) + '\n'
+                '    return "$result"\n'
+                '  fi\n  command python "$@"\n}\nexport -f python\n')
+        result = subprocess.run(command, text=True, capture_output=True,
+            env=os.environ | {'BASH_ENV': str(schedule), 'PYTHONDONTWRITEBYTECODE': '1'})
+        assert trigger.exists(), name + ': scheduled actual read boundary was not reached'
+        assert (result.returncode == 0) == want, name + ': expected ' + str(want) + '\n' + result.stdout + result.stderr
+        if not want:
+            assert 'yield read-set' in result.stderr, name + ': wrong refusal: ' + result.stderr
+        print('PASS consumed-read-set-' + name)
+    return len(controls)
+
+
+def dependency_profile_controls(parent):
+    # Boundaries are portable input limits, never a native-host capability claim.
+    root = write_case(parent / 'background-profile')
+    chain = root / 'background/chain-17'; chain.mkdir(parents=True)
+    (chain / 'launch-intent.md').write_text('Legacy task-owned background declaration.\n')
+    plain = subprocess.run(['bash', str(HELPER), str(root)], text=True, capture_output=True)
+    assert plain.returncode == 0, plain.stdout + plain.stderr
+    for arguments in (['--nonterminal-yield'], ['--turn-disposition', 'NONTERMINAL_YIELD']):
+        result = subprocess.run(['bash', str(HELPER)] + arguments + [str(root)], text=True, capture_output=True)
+        assert result.returncode == 3 and 'OUT_OF_PROFILE' in result.stderr, result.stdout + result.stderr
+        assert 'native' not in result.stderr.lower(), 'portable profile was mislabeled native unavailability'
+    print('PASS explicit-background-read-profile')
+    root = write_case(parent / 'successor-profile')
+    (root / 'current-review.md').write_text('successor-review: pending original owner validation\n')
+    result = subprocess.run(['bash', str(HELPER), '--nonterminal-yield', str(root)], text=True, capture_output=True)
+    assert result.returncode == 3 and 'OUT_OF_PROFILE' in result.stderr, result.stdout + result.stderr
+    print('PASS explicit-repository-review-profile')
+    root = write_case(parent / 'direct-record-alias')
+    target = parent / 'aliased-record.md'; target.write_text('Current ordinary record.\n')
+    (root / 'live-review.md').symlink_to(target)
+    result = subprocess.run(['bash', str(HELPER), '--nonterminal-yield', str(root)], text=True, capture_output=True)
+    assert result.returncode != 0 and 'aliased yield read-set' in result.stderr, result.stdout + result.stderr
+    print('PASS direct-scanned-record-alias-refused')
+    return 3
+
+
 def main():
     cases = []
     # A valid current progress record must pass; missing mode is an explicit
@@ -69,6 +181,7 @@ def main():
                "Next probe": "Read external-job-27 terminal status after its owner update",
                "Next action": "Inspect external-job-27 after the owner update"}
     cases.append(("TY3-external-dependency", True, blocked, {}, ""))
+    cases.append(("suffixed-probe-template", False, blocked | {"Next probe": "Read <path>/external-job-27.json"}, {}, ""))
     pause_record = ("\nIMPLEMENTAUDIT_PAUSE\nPhase: 1\nStatus: paused at boundary\n"
                     "Last completed step: Smoke A input validation\nSTATE.md: updated\n")
     cases.append(("TY4-user-pause", True, pause | {"Pause trigger": "user-interruption", "Pause phase context": "IN_PROGRESS"}, {}, pause_record))
@@ -120,6 +233,12 @@ def main():
         ("concrete-parametrized-test-action", True, {"Next action": "Run pytest tests/test_config.py::test_load[linux] and inspect its exit status"}, {}, ""),
         ("concrete-braced-shell-action", True, {"Next action": "Inspect the output from printf '%s' {a,b} in case 27"}, {}, ""),
         ("unresolved-braced-command-template", False, {"Next action": "Run {command}"}, {}, ""),
+        ("suffixed-command-template", False, {"Next action": "Run <command>.sh"}, {}, ""),
+        ("suffixed-target-template", False, {"Next action": "Check [target]/status"}, {}, ""),
+        ("embedded-path-template", False, {"Next action": "Read evidence/<path>/status.json"}, {}, ""),
+        ("concrete-comparator", True, {"Next action": "Check that sample_count < expected_count for case-27"}, {}, ""),
+        ("concrete-keyed-index", True, {"Next action": "Inspect records[path].id for case-27"}, {}, ""),
+        ("concrete-shell-variable", True, {"Next action": "Inspect ${path}/case-27.json before resuming"}, {}, ""),
         ("quoted-phase-identity", True, {"Phase": "`1`"}, {}, ""),
         ("pause-conflicting-last-step", False, pause | {"Pause trigger": "user-interruption", "Pause phase context": "IN_PROGRESS"}, {},
          pause_record.replace("Last completed step: Smoke A input validation", "Last completed step: Step 11 phase verification")),
@@ -151,8 +270,10 @@ def main():
     for marker in ("AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE", "AUDIT_HANDOFF", "ANDON_HANDOFF"):
         cases.append(("marker-cannot-use-yield-" + marker, False, {}, {}, "\n" + marker + "\n"))
     fifo_count = 0
+    dependency_count = 0
     with tempfile.TemporaryDirectory(prefix="r37-yield-") as temporary:
         parent = Path(temporary)
+        dependency_count = consumed_read_set_controls(parent) + dependency_profile_controls(parent)
         for index, (name, want, changes, kwargs, suffix) in enumerate(cases):
             root = write_case(parent / str(index), changes, suffix=suffix, **kwargs)
             before = inventory(root)
@@ -271,7 +392,7 @@ def main():
                 print("PASS " + stage + "-fifo-replacement-refused")
         else:
             print("SKIP FIFO race controls: host has no mkfifo")
-    print(f"nonterminal-yield-cases: ok ({len(cases) + 5 + fifo_count} record controls; native Stop UNVERIFIED)")
+    print(f"nonterminal-yield-cases: ok ({len(cases) + 5 + fifo_count + dependency_count} record controls; native Stop UNVERIFIED)")
 
 
 if __name__ == "__main__":

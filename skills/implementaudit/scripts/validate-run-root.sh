@@ -110,13 +110,15 @@ def needed(mapping,key):
     if not concrete(value): refuse('missing concrete '+key)
     return value
 
-def table_rows(text):
+def table_rows(text, *, unique_headers=False):
     header=None
     for line in text.splitlines():
         if not line.startswith('|'): header=None;continue
         cells=[c.strip(' \t`') for c in line.split('|')[1:-1]]
         if cells and all(re.fullmatch(r':?-+:?',c) for c in cells):continue
-        if header is None: header=cells;continue
+        if header is None:
+            if unique_headers and len(cells)!=len(set(cells)):refuse('duplicate record table header')
+            header=cells;continue
         if len(cells)!=len(header):refuse('malformed record table')
         yield dict(zip(header,cells))
 
@@ -195,7 +197,8 @@ try:
             repo=run(['git','rev-parse','--show-toplevel']).stdout.strip()
             git_identity=lambda:tuple(run(command).stdout for command in (['git','-C',repo,'rev-parse','HEAD'],['git','-C',repo,'rev-parse','--abbrev-ref','HEAD'],['git','-C',repo,'status','--porcelain']))
             repo_before=git_identity()
-        run(['bash',str(helper)]+(['--nonterminal-yield'] if args.disposition=='NONTERMINAL_YIELD' else [])+[str(root)])
+        structural=run(['bash',str(helper)]+(['--nonterminal-yield'] if args.disposition=='NONTERMINAL_YIELD' else [])+[str(root)],allowed=(0,3) if args.disposition=='NONTERMINAL_YIELD' else (0,))
+        if structural.returncode==3:refuse('unsupported yield read-set profile: '+structural.stderr.strip())
         if closure:
             text=safe_read(closure)[0].decode('utf-8');data=fields(text)
             if closure.parent!=root:refuse('closure record must be a run-root sibling of deferrals.jsonl')
@@ -249,6 +252,24 @@ try:
                 if verdict.strip()!='PASS':refuse('nonterminal current cold-review disposition')
             for section,allowed in (('AGENTS_UPDATE_DECISION',{'updated','not warranted','OWNER DECISION'}),('CONTINUITY_DECISION',{'none','updated','deferred','OWNER DECISION'})):
                 if re.search(r'(?m)^## '+section+r'\s*$',state) and fields(state,section).get('Status') not in allowed:refuse('nonterminal '+section)
+            # An occurrence can retain earlier probe/escalation history. Only a
+            # later row for that same occurrence, phase and abnormality class
+            # supersedes its outcome; another remedy cannot close this one.
+            andon_blocks=re.findall(r'(?mis)^## Andon log\s*\n(.*?)(?=^## |\Z)',state)
+            if len(andon_blocks)!=1:refuse('expected one current Andon log')
+            latest={};row_ids=set()
+            for row in table_rows(andon_blocks[0], unique_headers=True):
+                if not {'#','Phase','Class','Outcome'}<=row.keys():refuse('malformed Andon outcome record')
+                number=row['#']
+                if not re.fullmatch(r'[1-9][0-9]*',number) or number in row_ids:refuse('ambiguous Andon row identity')
+                row_ids.add(number)
+                outcome=row['Outcome']
+                if outcome not in {'resolved','open (rerun pending)','blocked (handoff condition)'} and not re.fullmatch(r'escalated \(cites #[1-9][0-9]*(?:, #[1-9][0-9]*)*\)',outcome):refuse('unknown or missing Andon outcome')
+                occurrence=row.get('Occ')
+                if occurrence is not None and not occurrence:refuse('missing Andon occurrence identity')
+                key=('occ',occurrence,row['Phase'],row['Class']) if occurrence is not None else ('legacy-row',number)
+                latest[key]=outcome
+            if any(outcome!='resolved' for outcome in latest.values()):refuse('unresolved current Andon outcome prevents terminal closure')
             for row in table_rows(state):
                 if 'Finding' in row and 'Status' in row and row['Status'].lower() not in {'closed','done','verified','resolved','not-applicable','deferred'}:refuse('nonterminal in-scope ledger item')
                 if row.get('Consequential','').lower()=='yes' and row.get('Disposition') in {'pending','unresolved',''}:refuse('unresolved consequential residual')
@@ -959,6 +980,9 @@ check_done_phase_captures() {
       ./evidence/*) target="$run_root/${capture#./}" ;;
       *) continue ;;
     esac
+    if ! yield_track_dependency --capture "$target"; then
+      err "yield read-set DONE capture failed: $capture"; continue
+    fi
     if [ ! -f "$target" ]; then
       err "DONE phase $(basename "$phase") declared capture is missing: $capture"
     elif ! has_non_whitespace "$target"; then
@@ -1048,19 +1072,21 @@ esac
 # not controller/host currentness. Legacy records otherwise have no final pair
 # token, so a stable individual late read would miss earlier structural drift.
 yield_read_identity() {
-  "${reader_py[@]}" - "$state" "$roadmap" "$run_root" <<'PYIDENTITY'
+  "${reader_py[@]}" - "$state" "$roadmap" "$run_root" "$@" <<'PYIDENTITY'
 import hashlib,json,os,re,stat,sys
 from pathlib import Path
-state,roadmap,root=map(Path,sys.argv[1:])
+state,roadmap,root=map(Path,sys.argv[1:4])
+operation=sys.argv[4:]
 records={}
-def read(path):
+class Unsupported(ValueError): pass
+def read(path,textual=True):
     path=path.absolute()
     for node in (path,*path.parents):
         info=node.lstat()
         if stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
             raise ValueError('aliased yield read-set member')
     info=path.lstat()
-    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_size>1_000_000:
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or (textual and info.st_size>1_000_000):
         raise ValueError('unsafe yield read-set member')
     signature=lambda x:[x.st_dev,x.st_ino,x.st_size,x.st_mtime_ns,x.st_ctime_ns]
     fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0)|getattr(os,'O_NONBLOCK',0))
@@ -1068,36 +1094,121 @@ def read(path):
         opened=os.fstat(handle.fileno())
         if not stat.S_ISREG(opened.st_mode):
             raise ValueError('nonregular yield read-set member after open')
-        data=handle.read(1_000_001);closed=os.fstat(handle.fileno())
-    if len(data)>1_000_000 or not signature(info)==signature(opened)==signature(closed)==signature(path.lstat()):
+        digest=hashlib.sha256()
+        if textual:
+            data=handle.read(1_000_001);digest.update(data)
+        else:
+            # A consumed capture is fingerprinted as bytes. Its native owner
+            # decides content applicability; no text encoding or log-size cap.
+            data=None
+            while True:
+                chunk=handle.read(65536)
+                if not chunk:break
+                digest.update(chunk)
+        closed=os.fstat(handle.fileno())
+    if (textual and len(data)>1_000_000) or not signature(info)==signature(opened)==signature(closed)==signature(path.lstat()):
         raise ValueError('yield read-set changed during capture')
-    records[str(path)]=[signature(closed),hashlib.sha256(data).hexdigest()]
-    return data.decode('utf-8')
+    records[str(path)]=[signature(closed),digest.hexdigest()]
+    return data.decode('utf-8') if textual else ''
+def optional(path):
+    if not os.path.lexists(path):
+        records[str(path.absolute())]=None
+        return ''
+    return read(path)
+def presence(path):
+    if not os.path.lexists(path): records[str(path.absolute())]=None; return
+    info=path.lstat()
+    if not stat.S_ISREG(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+        raise ValueError('unsafe yield read-set presence dependency')
+    records[str(path.absolute())]=['present-file',info.st_dev,info.st_ino]
+def members(directory,pattern,recursive=False):
+    if not os.path.lexists(directory):
+        records['members:'+str(directory)+':'+pattern]=None
+        return []
+    if not stat.S_ISDIR(directory.lstat().st_mode) or directory.is_symlink():
+        raise ValueError('unsafe yield read-set directory')
+    if recursive:
+        selected=sorted(p for p in directory.rglob(pattern) if p.is_file() and not p.is_symlink())
+    else:
+        selected=sorted(p for p in directory.glob(pattern) if p.is_file() or p.is_symlink())
+    records['members:'+str(directory)+':'+pattern]=[str(p) for p in selected]
+    return selected
 try:
-    text=read(state);read(roadmap)
-    # Match the late table consumer's section and cell normalization exactly;
-    # Markdown backticks cannot remove a phase from this consistency read set.
-    lines=text.splitlines()
-    phases=set()
-    if lines.count('## Current phase')==1:
-        for line in lines[lines.index('## Current phase')+1:]:
-            if line.startswith('## '):
-                break
-            if line.startswith('|'):
-                cells=[cell.strip(' \t`') for cell in line.split('|')[1:-1]]
-                if len(cells)==2 and cells[0]=='Phase' and re.fullmatch(r'[1-9][0-9]*',cells[1]):
-                    phases.add(cells[1])
-    for phase in sorted(phases):
-        read(root/'phases'/('phase-'+phase+'.md'))
+    if operation:
+        kind,raw=operation;path=Path(raw)
+        if kind=='--capture':read(path,textual=False)
+        elif kind=='--optional':optional(path)
+        elif kind=='--presence':presence(path)
+        elif kind=='--respec':
+            # Select the same normalized fields and path as the respec owner.
+            lines=read(path).splitlines()
+            def field(name):
+                prefix=name+':'
+                values=[line[len(prefix):].strip() for line in lines if line.startswith(prefix)]
+                if len(values)!=1 or not values[0]:raise ValueError('ambiguous respec dependency field: '+name)
+                return values[0]
+            if field('Replacement')=='yes':
+                replacement=Path(field('Replacement path'))
+                if not replacement.is_absolute():replacement=path.parent/replacement
+                read(replacement,textual=False)
+        else:raise ValueError('unknown yield read-set operation')
+    else:
+        text=read(state);read(roadmap)
+        for name in ('PROTOCOL.md','THINKING.md','sidecars.md','tools.md','context.md'):
+            read(root/name)
+        optional(root/'.claimed');optional(root/'.controller')
+        # The structural owner scans every phase and every direct Markdown
+        # record, but not arbitrary nested evidence or still-producing logs.
+        for path in members(root/'phases','phase-*.md',recursive=True):read(path)
+        record_root=state.parent/'native-records' if state.name=='native-STATE.md' else root
+        for path in members(record_root,'*.md'):
+            record=read(path)
+            if re.search(r'(?m)^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)',record):
+                raise Unsupported('repository-only successor review dependencies require their original owner')
+        # Match the late Current phase parser, including backtick normalization.
+        lines=text.splitlines()
+        if lines.count('## Current phase')==1:
+            for line in lines[lines.index('## Current phase')+1:]:
+                if line.startswith('## '):break
+                if line.startswith('|'):
+                    cells=[cell.strip(' \t`') for cell in line.split('|')[1:-1]]
+                    if len(cells)==2 and cells[0]=='Phase' and re.fullmatch(r'[1-9][0-9]*',cells[1]):
+                        read(root/'phases'/('phase-'+cells[1]+'.md'))
+        if (root/'.claimed').is_file():
+            siblings=sorted(str(p) for p in root.parent.iterdir()
+                            if not p.name.startswith('.') and p.is_dir() and p!=root)
+            records['sibling-members:'+str(root.parent)]=siblings
+        background=root/'background'
+        if os.path.lexists(background):
+            if not background.is_dir() or background.is_symlink():raise ValueError('unsafe background namespace')
+            chains=[p for p in background.iterdir() if not p.name.startswith('.') and p.is_dir()]
+            if chains:raise Unsupported('recursive background-chain scans require their original owner')
+        records['background-chains']=[]
     sys.stdout.write(json.dumps(records,sort_keys=True,separators=(',',':'))+'\n')
+except Unsupported as exc:
+    sys.stderr.write('validate-run-root: OUT_OF_PROFILE: unsupported yield read-set dependency: '+str(exc)+'; no yield disposition\n')
+    raise SystemExit(3)
 except (OSError,ValueError) as exc:
     sys.stderr.write('validate-run-root: yield read-set unavailable: '+str(exc)+'\n')
     raise SystemExit(1)
 PYIDENTITY
 }
 yield_initial_identity=""
+yield_dependency_modes=(); yield_dependency_paths=(); yield_dependency_identities=()
+yield_track_dependency() {
+  [ "$nonterminal_yield" = yes ] || return 0
+  local identity
+  identity="$(yield_read_identity "$1" "$2")" || return $?
+  yield_dependency_modes+=("$1"); yield_dependency_paths+=("$2")
+  yield_dependency_identities+=("$identity")
+}
 if [ "$nonterminal_yield" = yes ]; then
-  yield_initial_identity="$(yield_read_identity)" || { err "yield read-set capture failed"; exit 1; }
+  yield_initial_identity="$(yield_read_identity)"
+  capture_rc=$?
+  if [ "$capture_rc" -ne 0 ]; then
+    [ "$capture_rc" -ne 3 ] || exit 3
+    err "yield read-set capture failed"; exit 1
+  fi
 fi
 
 claim="$run_root/.claimed"
@@ -1119,6 +1230,7 @@ if [ -f "$claim" ]; then
 
   claimed_templates="$(awk -F= '$1 == "templates" { print substr($0, index($0, "=") + 1); exit }' "$claim")"
   for f in $claimed_templates; do
+    yield_track_dependency --presence "$run_root/$f" || err "yield read-set claimed-artifact capture failed"
     [ -f "$run_root/$f" ] || err "claimed $f is missing — sentinel/artifact drift"
   done
 fi
@@ -1240,6 +1352,8 @@ if [ -f "$claim" ]; then
     [ -d "$sibling" ] || continue
     [ "$sibling" = "$run_root" ] && continue
     sibling_state="$sibling/STATE.md"
+    yield_track_dependency --optional "$sibling/.claimed" || { err "yield read-set sibling claim capture failed"; continue; }
+    yield_track_dependency --optional "$sibling/.controller" || { err "yield read-set sibling controller capture failed"; continue; }
     sibling_snapshot="$(mktemp -d "$validation_snapshots/sibling.XXXXXX")" || exit 1
     canonical_selection "$sibling" "$sibling_snapshot"
     sibling_rc=$?
@@ -1250,6 +1364,7 @@ if [ -f "$claim" ]; then
       3) : ;;
       *) err "sibling canonical selection refused: $(basename "$sibling")"; continue ;;
     esac
+    yield_track_dependency --capture "$sibling_state" || { err "yield read-set sibling STATE capture failed"; continue; }
     if [ ! -f "$sibling_state" ] || ! grep -Eq \
       '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF|COMPLETE|HANDOFF|SUPERSEDED_BY:[[:space:]].+|PARALLEL:[[:space:]].+)$' \
       "$sibling_state"; then
@@ -1352,6 +1467,11 @@ if [ -f "$state" ] && grep -qi '^[[:space:]]*cold-review[[:space:]]*:' "$state";
     err "python, python3, or py -3 is required for cold-review attestation validation"
   fi
   if [ "${#cold_py[@]}" -gt 0 ]; then
+    if [ "$nonterminal_yield" = yes ]; then
+      while IFS= read -r attestation; do
+        yield_track_dependency --capture "$canonical_record_root/$attestation" || err "yield read-set cold-review capture failed"
+      done < <(sed -nE 's/^cold-review:.*\| attestation: ([A-Za-z0-9._/-]+) \|.*/\1/p' "$state")
+    fi
     cold_error=""
     if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" "$canonical_record_root" <<'PY'
 import pathlib
@@ -1674,10 +1794,10 @@ def action(key):
     # semantic sufficiency. Reject unresolved templates and bare continuations.
     ignored = {'a', 'an', 'and', 'at', 'for', 'from', 'it', 'now', 'of', 'on', 'or', 'that', 'the', 'then', 'this', 'to', 'with'} | placeholders
     words = re.findall(r'[a-z0-9]+', value)
-    # Conventional standalone template tokens are unresolved. Literal indexing,
-    # parametrized test IDs and shell brace expressions are ordinary action text.
+    # Recognized placeholders remain unresolved inside paths or with suffixes.
+    # Indexed expressions, parameterized tests and shell variables stay literal.
     token = r'(?:command|target|path|file|name|value|action|probe|todo|tbd)'
-    template = r'(?<![\w./:$-])(?:<\s*' + token + r'\s*>|\[\s*' + token + r'\s*\]|\{\s*' + token + r'\s*\})(?![\w./-])'
+    template = r'<\s*' + token + r'\s*>|(?<![\w$])(?:\[\s*' + token + r'\s*\]|\{\s*' + token + r'\s*\})'
     if (re.search(template, value)
             or len(words) < 2 or not any(word not in ignored for word in words[1:])):
         refuse("non-actionable " + key)
@@ -1781,6 +1901,7 @@ PY
 fi
 
 if [ -f "$run_root/respec-impact-set.md" ]; then
+  yield_track_dependency --respec "$run_root/respec-impact-set.md" || err "yield read-set respec replacement capture failed"
   respec_checker="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/check-respec-impact-set.sh"
   respec_output="$(bash "$respec_checker" "$run_root/respec-impact-set.md" 2>&1)" \
     || err "respec-impact-set.md invalid: $respec_output"
@@ -1797,6 +1918,10 @@ fi
 if [ "$nonterminal_yield" = yes ] && [ "$err_count" -eq 0 ]; then
   yield_final_identity="$(yield_read_identity)" || err "yield read-set recheck failed"
   [ "$yield_initial_identity" = "$yield_final_identity" ] || err "yield read-set changed during validation"
+  for i in "${!yield_dependency_paths[@]}"; do
+    dependency_identity="$(yield_read_identity "${yield_dependency_modes[$i]}" "${yield_dependency_paths[$i]}")" || err "yield read-set dependency recheck failed"
+    [ "${yield_dependency_identities[$i]}" = "$dependency_identity" ] || err "yield read-set consumed dependency changed during validation"
+  done
 fi
 
 if [ "$err_count" -gt 0 ]; then

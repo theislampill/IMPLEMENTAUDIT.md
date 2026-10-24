@@ -313,3 +313,119 @@ Original logs, preimages and focused GREENs are retained in the external
 execution capture. A successor full CI result and new source-bound package
 inventories must be read from their actual final receipts. All original nested,
 mutation, terminal and host-turn populations remain independently open.
+
+
+## Portable original-requirement corrections — 2026-10-24
+
+This additive continuation preserves the full issue body and all four amendment
+comments, the **36 nested cases, 14 mutation families, 17 terminal criteria and
+15 host-turn conditions** at their original scope. It neither repeats nor
+replaces previously accepted unchanged programmes. The exact incoming PR253
+head was `4b7a2ff588413ce5e9160722f10bd264eb45848c`; its run-root validator
+SHA-256 was
+`77f324a5d87f49dbd870e9fdc23d2e4d252d2bdb4244d523408245fbd6dbbbb3`.
+Three new actual portable-consumer failures, rather than unavailable native
+facilities, justified this bounded correction to the existing owner:
+
+| Finding | Preserved incoming result | Existing-owner correction |
+|---|---|---|
+| Consumed read set | Baseline yield passed. Truncating mandatory PROTOCOL after structural consumption still returned yield success; an immediate recheck rejected the blank artifact. | Bind mandatory artifacts, claim metadata, all structurally consumed phases and direct Markdown scans. Pin applicable declared captures, sibling selections, attestations and respec replacement reads at their existing consumers; recheck the exact consumed identities. |
+| Active Andon at closure | A terminal record passed after an actual Andon row stated that criterion C1 remained contradicted and its deciding rerun was pending. | The closure branch requires the latest known outcome for each occurrence/phase/class to be resolved. A different occurrence or class cannot discharge it; legacy rows retain row identity. Earlier resolved-scope history, valid handoff and nonterminal yield remain distinct. |
+| Embedded action template | `Run <command>.sh`, `Check [target]/status`, and `Next probe: Read <path>/external-job-27.json` all passed, while the unsuffixed command placeholder refused. | Recognized unresolved placeholders remain unresolved inside paths and suffixes. Concrete indexing, parametrized tests, comparisons, shell brace expressions and shell variables remain accepted; semantic truth and authorization remain governor-owned. |
+
+Original witness records remain in the bounded execution capture:
+`readset-result.json` SHA-256 `7ab140c9d2066edc4dfd98830d5e18e2a118d14dbc4dbbe6fba1712d0fa0f453`;
+`closure-andon-result.json` SHA-256 `2faa6150920201e41421c41160c38c1919bd7d1c2e9b93de13da4f74330000be`;
+`action-result.json` SHA-256 `d98676405d37cab13f9e44165ecf4db842b8c9f826317491def49064c6aad94a`.
+Test-first regressions preserved the original false acceptance before source
+repair. A later selector probe preserved its direct-Markdown alias false green;
+a compatibility probe preserved the initially over-narrow large-capture refusal.
+Those successor probes are not relabeled incoming-source evidence. The final
+reader fingerprints actually consumed capture bytes by streaming them, retaining
+large and binary evidence without a new capture encoding or size requirement.
+Unconsumed nested output remains outside this comparison.
+
+The final working validator SHA-256 is `006c15762b42a6b88623c7378d1c7f742991e91d7201197619b46ce9edfc1abf`.
+The affected yield bank passes **101 record controls**: all 77 predecessor
+controls, fourteen consumed-input controls, three explicit dependency-profile
+controls and seven action-grammar controls. The complete affected disposition
+bank passes **55/55**: the prior 44 plus eleven scoped Andon controls. The
+first-final 99/55 successor and its later compatibility RED remain separately
+retained; the 101/55 result is the final streaming-source result. The original
+full, micro and legacy-ledger smoke controls and Bash syntax check pass on these
+same validator bytes. Final source manifests and containing commit/tree/package
+identities remain the parent integration receipt's responsibility.
+
+Final yield capture SHA-256: `aed26c7c317b1561814c9078734214e7fdbe8dd3b92605f804b6c626f30ab810`.
+Final disposition capture SHA-256: `8064e1e9357feb6e05e1c5f3bf8ea59467bf490c924cdf7d50b762d0f4b10919`.
+Original-mode smoke capture SHA-256: `c4e7bb341e8d6872f68adc2cc0f507ea45955ad4dbbea89c60dd883d9a9da484`.
+These are supplied-record results with authority NONE, native enforcement false
+and no accepted effect. They establish no authentic session binding, native
+Stop permission, child lifecycle acceptance, R0035 JOIN, issue closure or release.
+
+The direct-yield consistency profile now explicitly returns `OUT_OF_PROFILE`
+for recursive background-chain scans and repository-only successor-review
+consumers whose wider dependency families remain with their original owners.
+Their full structural/original checks remain mandatory. This refusal supplies
+no yield disposition, does not mean native facilities are unavailable, and
+creates no fallback permission or waiver. The supplemental disposition branch
+preserves this typed profile refusal. No new helper, lifecycle state, child,
+governor, graph dispatch or READY/JOIN writer was introduced.
+
+Rollback is the coherent validator/test/addendum unit with its exact retained
+preimages; preserve the three incoming REDs, successor probe outcomes and all
+original qualification populations. Retain independent resolver changes and
+existing controller/currentness/custody owners. The original native and entitled
+receiving boundaries remain open, and the prospective cross-triad work remains
+unadmitted. Fresh independent integration review and changed-payload
+package/install/host qualification retain their own acceptance gates.
+
+### Independent review follow-up — respec normalization and Andon headers
+
+Independent review of validator SHA-256
+`006c15762b42a6b88623c7378d1c7f742991e91d7201197619b46ce9edfc1abf`
+found two bounded residuals. The preserved `review-r37` witnesses show that
+`Replacement: yes   ` skipped the replacement capture and admitted mutation
+after the actual respec consumer had succeeded; a stable `Replacement path`
+with trailing spaces instead refused even though the original respec checker
+accepted it. A second witness supplies two `Outcome` headers, with an open
+value followed by `resolved`; dictionary conversion discarded the open value
+and admitted terminal closure. The cold-review normalization concern was not
+a defect and requires no correction.
+
+The same existing read-set owner now selects a respec dependency using the
+respec checker's `splitlines()`, exact field prefix, value `strip()` and `Path`
+resolution semantics. Its internal `--respec` operation captures the normalized
+replacement before the actual checker consumes it and rechecks that identity
+at the existing final boundary. It adds no public mode, external helper, global
+field-normalization change, evidence scan or capture size limit. Terminal Andon
+parsing alone now rejects duplicate normalized headers before converting rows
+to dictionaries; valid scoped resolution history, yield and handoff retain
+their existing rules.
+
+Test-first additions comprise two whitespace variants in the existing
+consumed-input controls and one duplicate-Outcome discriminator in the existing
+Andon controls. On the frozen predecessor, both whitespace regressions failed
+and exactly the duplicate-Outcome discriminator failed among the twelve scoped
+Andon controls. The successor validator SHA-256 is
+`3c575f14d3a9886281900ff8a8cc7837e0a44714e6fb0db464770dcb62560c28`.
+On those exact bytes, the targeted follow-up passes **3/3 respec controls**
+(each with a stable baseline and mutation after actual consumer completion)
+and **12/12 scoped Andon controls**. Bash syntax, Python test-file syntax and
+scoped diff checks pass. The prior 101/55 full-bank results remain bound to
+the predecessor bytes; unchanged banks and original-mode smoke populations
+were not replayed for this normalization/header-only follow-up. All **36 nested
+cases, 14 mutation families, 17 terminal criteria and 15 host-turn conditions**
+remain separate original obligations.
+
+The retained follow-up captures are `review-followup-1/red.json` SHA-256
+`ecd110d504a7214ad67cfdf34ac68085f9e925686c1a2c1349cda56c47d4eca3` and `review-followup-1/green.json` SHA-256
+`95144f7136131d0db324223e1b0294ce1c51d2290d9bceb8dc5c6515c8c55561`. Their source identities and exact runner commands
+are retained with the four-file preimages and successor review manifest. Every
+incoming and intermediate RED remains unchanged, including the independent
+reviewer's originals. Rollback of this follow-up is the saved four-file
+predecessor unit; that rollback restores the known review failures and grants
+no acceptance. Independent resolver work and original currentness/custody
+owners remain outside this change. Same-reviewer verification and parent
+integration gates remain required. These record results supply no native Stop,
+authentic host binding, child acceptance, READY/JOIN, closure or release authority.
