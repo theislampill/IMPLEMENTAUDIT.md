@@ -86,14 +86,14 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=17/17 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY=PASS population=([0-9]+) examined=\1 modes=20/20 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove complete full-path equality\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=17/17 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
+grep -Eq 'HELPER_REACHABILITY_CENSUS=PASS population=([0-9]+) examined=\1 modes=20/20 enumeration=package-contract.artifact_payload_entries full_path_sets=equal projections=2' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
@@ -371,7 +371,38 @@ printf '%s\n' \
   >>"$extra_row/skills/implementaudit/references/repo-state-comparison.md"
 expect_fail R30-F11 'applicability rows not in package: ghost-helper.sh' "$extra_row"
 
-printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 17/17 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'
+for mutation in metadata-buffer duplicate-buffer uncaptured-buffer changed-size changed-digest; do
+  native_input="$(make_candidate "native-input-$mutation")"
+  python - "$native_input/skills/implementaudit/scripts/rotate-canonical-state.py" "$mutation" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+path, mutation = Path(sys.argv[1]), sys.argv[2]
+text = path.read_text(encoding="utf-8")
+if mutation in {"metadata-buffer", "duplicate-buffer"}:
+    before = "    raw, _ = read_regular(path, path.parent, 'native input source', require_owner_write=False)"
+    after = before.replace("raw, _", "_, raw" if mutation == "metadata-buffer" else "raw, raw")
+elif mutation == "uncaptured-buffer":
+    start = text.index("def native_inputs_module_v1():")
+    end = text.index("\ndef _native_subject", start)
+    before = text[start:end]
+    after = before.replace("compile(raw, str(path), 'exec')", "compile(b'', str(path), 'exec')")
+else:
+    name = "NATIVE_INPUT_MODULE_BYTES" if mutation == "changed-size" else "NATIVE_INPUT_MODULE_SHA256"
+    match = re.search(r"(?m)^" + name + r" = .+$", text)
+    assert match is not None
+    before = match.group()
+    after = name + (" = 0" if mutation == "changed-size" else " = '" + "0" * 64 + "'")
+assert before != after and text.count(before) == 1
+path.write_bytes(text.replace(before, after).encode("utf-8"))
+PY
+  expect_fail "native-input-$mutation" \
+    'caller does not capture/load canonical_rotation_inputs.py: scripts/rotate-canonical-state.py' \
+    "$native_input"
+done
+
+printf 'helper-reachability.test: retained controls passed (dynamic full-path census + modes 20/20 + R30-F1-F5/F8/F11/F20/M1-M4 and native-input capture controls)\n'
 
 python -I -B "$repo_root/tests/helper-reachability-successor.py" "$repo_root" "$BASH"
 python -I -B "$repo_root/tests/helper-reachability-custody.py" "$repo_root" "$BASH"

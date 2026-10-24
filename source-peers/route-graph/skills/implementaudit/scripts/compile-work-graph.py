@@ -1923,6 +1923,99 @@ def _native_continuity_host_v1():
                            bash_script_path=bash_script_path)
 
 
+# This exact source-owned population is a separate original14 read domain.
+# It does not extend the old native18 stdin/equivalence allowlists. Every
+# dependency is selected by code identity, never by caller JSON or adjacency.
+_NATIVE_ORIGINAL14_CLOSURE_V1 = (('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f'), ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d'), ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa'), ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc'), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f'), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389'), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489'), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8'))
+
+
+def _native_original14_sources_v1(owner, claim_raw, validate_raw):
+    pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
+    selected = {name: (size, digest) for name, size, digest in _NATIVE_ORIGINAL14_CLOSURE_V1}
+    if pair != (selected['claim-run.sh'][1], selected['validate-run-root.sh'][1]):
+        if pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1):
+            raise WorkGraphError('native continuity owner pair is not an explicitly selected source domain')
+        return None
+    if os.name != 'nt':
+        raise WorkGraphError('original14 private transport requires qualified Windows custody')
+    budget = dict(remaining=1024 * 1024)
+    sources = []
+    for name, size, digest in _NATIVE_ORIGINAL14_CLOSURE_V1:
+        path = pathlib.Path(__file__).absolute().with_name(name)
+        raw = _native_static_file_v1(owner, path, size, budget)[0]
+        if len(raw) != size or hashlib.sha256(raw).hexdigest() != digest:
+            raise WorkGraphError('original14 private transport dependency differs: ' + name)
+        sources.append((name, raw))
+    if dict(sources)['claim-run.sh'] != claim_raw or dict(sources)['validate-run-root.sh'] != validate_raw:
+        raise WorkGraphError('original14 private transport source pair changed')
+    return sources
+
+
+def _native_original14_claim_call_v1(owner, route, repo, arguments, sources, environment):
+    import contextlib
+    import io
+    import tempfile
+    readonly = (arguments in (['--current-controller'], ['--observe-current-continuity']) or
+        (type(arguments) is list and len(arguments) == 2 and
+         arguments[0] in {'--require-current-continuity', '--verify-resume-receipt'} and
+         type(arguments[1]) is str))
+    if not readonly:
+        raise WorkGraphError('original14 private transport accepts only fixed read operations')
+    # This is the original owner's qualified Windows path requirement. Bind
+    # it to this invocation; neither global nor repository config is authority.
+    environment = dict(environment)
+    config_index = int(environment['GIT_CONFIG_COUNT'])
+    environment['GIT_CONFIG_KEY_' + str(config_index)] = 'core.longpaths'
+    environment['GIT_CONFIG_VALUE_' + str(config_index)] = 'true'
+    environment['GIT_CONFIG_COUNT'] = str(config_index + 1)
+    raw_by_name = dict(sources)
+    custody = owner._native_module_from_bytes(raw_by_name['canonical_custody.py'],
+        pathlib.Path(__file__).absolute().with_name('canonical_custody.py'),
+        '_r0035_original14_private_custody', '$native.original14.private_custody')
+    closure = pathlib.Path(tempfile.mkdtemp(prefix='implementaudit-r0035-original14-'))
+    expected = []
+    try:
+        for name, raw in sources:
+            path = closure / name
+            with path.open('xb') as stream:
+                stream.write(raw)
+            expected.append((path, raw))
+        with contextlib.ExitStack() as stack:
+            directory = stack.enter_context(custody.Directory(closure))
+            if set(directory.names()) != set(raw_by_name):
+                raise WorkGraphError('original14 private closure population differs')
+            retained = []
+            for path, raw in expected:
+                held = stack.enter_context(custody.File(directory, path.name, maximum=len(raw)))
+                if held.read() != raw:
+                    raise WorkGraphError('original14 private closure bytes changed')
+                retained.append(held)
+            with contextlib.redirect_stdout(io.StringIO()):
+                bash = route.trusted_host_executable(repo, 'bash')
+                claim_path = route.bash_script_path(closure / 'claim-run.sh')
+                validate_path = route.bash_script_path(closure / 'validate-run-root.sh')
+            # The unchanged bootstrap evaluates authenticated bytes. Its argv0
+            # must be the held canonical claim path: the original owner derives
+            # its companion and recursive claim calls from that exact identity.
+            pair = (hashlib.sha256(raw_by_name['claim-run.sh']).hexdigest(),
+                    hashlib.sha256(raw_by_name['validate-run-root.sh']).hexdigest())
+            result = subprocess.run([str(bash), '-c', owner._NATIVE_R0011_CHILD_BOOTSTRAP,
+                claim_path, claim_path, validate_path, *pair, *arguments], cwd=repo,
+                env=environment, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, timeout=30, check=False)
+            for held in retained:
+                held.verify()
+            if set(directory.names()) != set(raw_by_name):
+                raise WorkGraphError('original14 private closure population changed')
+            marker = ('implementaudit-native-r0011-child-v1\t' + pair[0] + '\t' + pair[1]).encode()
+            if (result.returncode or len(result.stdout) > 8192 or len(result.stderr) > 16384
+                    or result.stderr.splitlines().count(marker) != 1):
+                raise WorkGraphError('original14 continuity owner refused or changed')
+            return result.stdout.decode('utf-8', 'strict').strip()
+    finally:
+        owner._native_cleanup_private_closure(closure, expected)
+
+
 def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw):
     import contextlib
     import io
@@ -1940,6 +2033,9 @@ def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw
     for index, (key, value) in enumerate(config.items()):
         environment['GIT_CONFIG_KEY_' + str(index)] = key
         environment['GIT_CONFIG_VALUE_' + str(index)] = value
+    original14 = _native_original14_sources_v1(owner, claim_raw, validate_raw)
+    if original14 is not None:
+        return _native_original14_claim_call_v1(owner, route, repo, arguments, original14, environment)
     stream_builder = getattr(owner, '_native_r0011_stdin_script_v1', None)
     script = stream_builder(claim_raw, validate_raw, arguments) if callable(stream_builder) else None
     if script is not None:
@@ -2134,6 +2230,9 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     if (_native_static_file_v1(owner, helper, 256 * 1024, dict(remaining=256 * 1024))[0] != claim_raw
             or _native_static_file_v1(owner, validate, 256 * 1024, dict(remaining=256 * 1024))[0] != validate_raw):
         raise WorkGraphError('native continuity helper source changed')
+    # Recheck the full fixed original14 dependency population after all
+    # owner/Git reads; the old18 pair remains in its existing separate domain.
+    _native_original14_sources_v1(owner, claim_raw, validate_raw)
     _, final_path, final_raw = _native_static_owner_module_v1()
     if final_path != owner_path or final_raw != owner_raw:
         raise WorkGraphError('native static owner source changed during continuity')
@@ -2244,10 +2343,10 @@ def _native_validate_context(context):
         if type(delivery['source_digest']) is not str or not DIGEST_RE.fullmatch(delivery['source_digest']):
             raise WorkGraphError('delivery hold: source digest required')
 
-_NATIVE_ROUTE_PRODUCER_SHA256 = '8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389'
+_NATIVE_ROUTE_PRODUCER_SHA256 = 'ad0367c90db2a23580a2f37ecb6b87d2b774e04ce524a95bf159f038062fafa4'
 
 
-_NATIVE_ROUTE_PRODUCER_BYTES = 371304
+_NATIVE_ROUTE_PRODUCER_BYTES = 375105
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
