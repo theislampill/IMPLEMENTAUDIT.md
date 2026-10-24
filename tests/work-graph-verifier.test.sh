@@ -19,3 +19,7 @@ else py_cmd=(py -3); fi
 "${py_cmd[@]}" tests/work-graph-registry-cases.py
 "${py_cmd[@]}" tests/work-graph-repro-events-cases.py ProfileCases FailureCases DurabilityCases QualifierCases
 "${py_cmd[@]}" tests/work-graph-correspondence-preflight-cases.py
+"${py_cmd[@]}" tests/work-graph-audit-spec-cases.py
+"${py_cmd[@]}" tests/work-graph-andon-cases.py
+"${py_cmd[@]}" tests/work-graph-finite-batch-cases.py
+"${py_cmd[@]}" tests/work-graph-finite-entry-cases.py

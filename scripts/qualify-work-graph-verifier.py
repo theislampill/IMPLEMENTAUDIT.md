@@ -1610,6 +1610,34 @@ def create_composed_prefix_session(source_root, output, *, max_age=3600,
     return _PREFIX_PROFILES[profile](source_root, output, max_age=max_age)
 
 
+
+_FINITE_LEAF = None
+_FINITE_SESSIONS = {}
+_FINITE_MODES = {
+    "audit-spec": "CONTROLLED_TASK_AUDIT_SPEC_V1",
+    "andon-class": "CONTROLLED_TASK_ANDON_CLASS_V1",
+    "registry-wrapper": "CONTROLLED_TASK_REGISTRY_WRAPPER_V1",
+    "marker-order": "CONTROLLED_TASK_MARKER_ORDER_V1",
+}
+
+
+def create_finite_leaf_session(source_root, output, *, profile="CONTROLLED_TASK_AUDIT_SPEC_V1", max_age=3600):
+    """Acquire one explicitly qualified original node through the existing runner."""
+    global _FINITE_LEAF
+    if _FINITE_LEAF is None:
+        path = ROOT / "scripts/qualify-work-graph-finite-leaf.py"
+        data = VerifierTaskSession._regular(path)[1]
+        spec = importlib.util.spec_from_file_location("verifier_finite_leaf", path)
+        module = importlib.util.module_from_spec(spec)
+        exec(compile(data, str(path), "exec"), module.__dict__)
+        _FINITE_LEAF = module, data
+    module, data = _FINITE_LEAF
+    module.contract_for(profile)
+    if profile not in _FINITE_SESSIONS:
+        _FINITE_SESSIONS[profile] = module.bind_session(VerifierTaskSession, WG, ROOT, data, profile=profile)
+    return _FINITE_SESSIONS[profile](source_root, output, max_age=max_age)
+
+
 def _preflight_git_file_v1(path, *, required=False, byte_limit=65536):
     """Acquire a selected control file before Git can interpret it."""
     path = Path(path)
@@ -2043,7 +2071,7 @@ def preflight_verifier_pair_file_v1(path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24"])
+    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24", *_FINITE_MODES])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--capture-dist", action="store_true")
@@ -2058,9 +2086,13 @@ def main():
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
         if args.mode == "preflight" and len(args.paths) == 1:
             return preflight_verifier_pair_file_v1(args.paths[0])
-        if args.mode in {"scoped", "registry", "prefix", "prefix24"} and len(args.paths) == 2:
+        if args.mode in {"scoped", "registry", "prefix", "prefix24", *_FINITE_MODES} and len(args.paths) == 2:
             prefix_mode = args.mode in {"prefix", "prefix24"}
-            if prefix_mode:
+            finite_mode = args.mode in _FINITE_MODES
+            bounded_mode = prefix_mode or finite_mode
+            if finite_mode:
+                session = create_finite_leaf_session(*args.paths, profile=_FINITE_MODES[args.mode])
+            elif prefix_mode:
                 profile = "COMPOSED_SOURCE_PREFIX_24_V1" if args.mode == "prefix24" else "COMPOSED_SOURCE_PREFIX_23_V1"
                 session = create_composed_prefix_session(*args.paths, profile=profile)
             else:
@@ -2068,15 +2100,15 @@ def main():
             # A caller may request another current-source consumption, never
             # inject a receipt, plan, mutation command or claimed process exit.
             status = 0
-            requests = iter(lambda: sys.stdin.buffer.readline(4097), b"") if prefix_mode else sys.stdin.buffer
+            requests = iter(lambda: sys.stdin.buffer.readline(4097), b"") if bounded_mode else sys.stdin.buffer
             for line in requests:
-                if prefix_mode and len(line) > 4096:
-                    raise WG.WorkGraphError("prefix request exceeds its byte bound")
+                if bounded_mode and len(line) > 4096:
+                    raise WG.WorkGraphError(("prefix" if prefix_mode else "finite-leaf") + " request exceeds its byte bound")
                 if WG.decode_strict_json_bytes(line, "scope request") != {"operation": "run"}:
                     raise WG.WorkGraphError("only a current-source run request is supported")
                 result = session.run()
                 code = result["exit"]
-                if prefix_mode and (code < 0 or not result["complete"]):
+                if bounded_mode and (code < 0 or not result["complete"]):
                     code = 1
                 status = max(status, code)
                 print(json.dumps(result, sort_keys=True), flush=True)
