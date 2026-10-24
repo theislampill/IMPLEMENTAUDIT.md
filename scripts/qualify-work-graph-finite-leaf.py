@@ -48,6 +48,7 @@ CLAIM_BOUNDARY_CONFIG = "/profile/original96-overlay.json"
 _NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS", b"non-native")
 _NATIVE_HYGIENE_BOUND_ANCHORS = ("hunter2", "akia", "ghp_", "sk-", "password", "apikey", "api_key", "api-key")
 RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
+LEAN_DISCIPLINE_PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
 TERMINOLOGY_PROFILE = "CONTROLLED_TASK_TERMINOLOGY_INTEGRATION_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
@@ -273,7 +274,47 @@ AUDIT_OBJECT_CONTRACT_GIT_READS = (
         "refs/implementaudit/controllers/", "refs/implementaudit/current-generations/",
         "refs/implementaudit/current-generation-migrations/"),
 )
+LEAN_DISCIPLINE_READS = (
+    "skills/implementaudit/references/lean-operating-discipline.md",
+    "skills/implementaudit/templates/PROTOCOL.md",
+    "skills/implementaudit/templates/sidecars.md", "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/references/plan-lifecycle.md",
+    "skills/implementaudit/templates/STATE.md", "skills/implementaudit/templates/THINKING.md",
+    "skills/implementaudit/references/routing.md",
+    "skills/implementaudit/references/audit-category-matrix.md",
+    "skills/implementaudit/templates/phase-goal.txt",
+)
+LEAN_DISCIPLINE_CASES = "fixtures/semantic-preservation/cases.json"
+LEAN_DISCIPLINE_BUILDER = "scripts/package-contract.py"
+LEAN_DISCIPLINE_DATA = (
+    *LEAN_DISCIPLINE_READS,
+    *("fixtures/lean/" + name for name in (
+        "brownfield-dmaic-release-repair.md", "brownfield-dmaic-stale-docs.md",
+        "greenfield-dmadv-new-runtime-helper.md", "mixed-dmaic-dmadv-package-boundary.md",
+        "sidecar-graphify-absent-markdown-fallback.md", "sidecar-graphify-dmaic-analyze.md",
+        "sidecar-activegraph-dmaic-custody.md")),
+    *("skills/" + name + "/SKILL.md" for name in
+      ("audit-state", "audit-assess", "audit-implement", "audit-andon")),
+    "CONTRIBUTING.md", "scripts/check-marker-order.sh", "scripts/install-codex-from-release.sh",
+    LEAN_DISCIPLINE_CASES, LEAN_DISCIPLINE_BUILDER, RUNNER,
+)
 _CONTRACTS = {
+    LEAN_DISCIPLINE_PROFILE: dict(label="lean-discipline", index=24, program="tests/lean-discipline.test.sh",
+        programs={
+            "tests/lean-discipline.test.sh": "bef7d7bda08172f7a8aa709db10003a8709d9448bf552bf8b2fba157c1a30b3c",
+            "scripts/check-lean-discipline.sh": "eff43d8768b019c1dfcd369df84e864de5decea62cb664a3854f62dabc9b003f",
+            "fixtures/semantic-preservation/test-cases.sh": "d1e398c230f2762c10580409d4ffb6a47ce64075dff6b641ea1d322b769c7194",
+            "fixtures/semantic-preservation/evaluate.py": "e0dbc9006ff8be8cb312e3f0cd9eeba6507a73cba2a4011112f860b2381cb895"},
+        data=LEAN_DISCIPLINE_DATA,
+        pinned_data={
+            LEAN_DISCIPLINE_CASES: "8bb25e8a6bf78dba9568f4e8186727d4dfcc85665ce9dbfd53af63e7f980b623",
+            LEAN_DISCIPLINE_BUILDER: "f3fa90f6c1e7b75527eddd988a6977f27db669bec337f65ff9c2b1ceae50621f",
+            RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
+        bounds=dict(file_bytes=128 * 1024, total_bytes=192 * 1024**2, files=32),
+        whole_copy=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
+                        entries=4096, depth=40, path_bytes=2048),
+        source_modes="COPY_0666_UMASK_022_READ_ONLY_ROOT",
+        projection="COMPLETE_ACTUAL_ROOT_COPY_BYTES_MODES_AND_EMPTY_DIRECTORIES_PINNED_WORKTREE_SELECTORS_GIT_RETAINED_AS_COPIED_DATA"),
     CLAIM_BOUNDARY_PROFILE: dict(label="claim-boundary", index=96,
         program="tests/claim-boundary-proof-levels.test.sh",
         programs={
@@ -646,7 +687,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -660,7 +701,7 @@ def image_subject(state, *, profile=PROFILE):
     """Retain the registry bytes whenever the original actually reads them."""
     contract_for(profile)
     return {name: value for name, value in state["files"].items()
-            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE)}
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
@@ -1624,6 +1665,145 @@ def terminology_output_bounds(state, objects):
         basis="COMPLETE_COPY_BYTES_AND_NECESSARY_DIAGNOSTIC_ANCHORS_NO_SEMANTIC_ACCEPTANCE")
 
 
+def lean_discipline_selectors(prefix, state, objects, contract):
+    """Bind selected fixture/package inputs without running their evaluator."""
+    import ast
+    import json
+    for name, pin in contract["pinned_data"].items():
+        if state["files"][name]["sha256"] != pin:
+            raise ValueError("unsupported original24 pinned branch input")
+    payload = json.loads(objects[state["files"][LEAN_DISCIPLINE_CASES]["sha256"]])
+    references = []
+    def visit(value, selector):
+        if isinstance(value, dict):
+            if "revision" in value:
+                name = prefix.safe_name(value["path"])
+                if value["revision"] != "WORKTREE":
+                    raise ValueError("original24 non-WORKTREE revision requires an acquired C2 command scope")
+                kind = "FILE" if name in state["files"] else "DIRECTORY" if name in state["directories"] else "MISSING"
+                references.append(dict(selector=selector, path=name, revision=value["revision"], kind=kind,
+                    acquired=state["files"].get(name), declared_sha256=value["sha256"]))
+            for key, child in value.items():
+                visit(child, selector + "/" + key)
+        elif isinstance(value, list):
+            for index, child in enumerate(value):
+                visit(child, selector + "/" + str(index))
+    visit(payload, "")
+    if len(references) != 41 or payload["package_evidence"]["builder_path"] != LEAN_DISCIPLINE_BUILDER:
+        raise ValueError("unsupported original24 selected input census")
+    # The pinned builder is data here. Only these actual literal declarations
+    # are selected; importing/executing its builder or installer would be wrong.
+    builder = ast.parse(objects[state["files"][LEAN_DISCIPLINE_BUILDER]["sha256"]])
+    declarations = {}
+    for node in builder.body:
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            if node.targets[0].id in ("EXPECTED_REQUIRED_SKILLS", "EXPECTED_SHARED_ROOTS", "BLOCKED_PARTS"):
+                declarations[node.targets[0].id] = ast.literal_eval(node.value)
+    skill_names = declarations["EXPECTED_REQUIRED_SKILLS"]
+    roots = declarations["EXPECTED_SHARED_ROOTS"]
+    required = {"skills/" + name + "/SKILL.md":
+                "SKILL.md" if name == "implementaudit" else "internal-procedures/" + name + ".md"
+                for name in skill_names}
+    for root in roots:
+        prefix.safe_name(root)
+        for name in state["files"]:
+            if name.startswith(root + "/"):
+                required[name] = name.removeprefix("skills/implementaudit/")
+    reads = sorted({*LEAN_DISCIPLINE_READS, LEAN_DISCIPLINE_CASES, LEAN_DISCIPLINE_BUILDER,
+                    *("skills/" + name + "/SKILL.md" for name in skill_names),
+                    *(row["path"] for row in references),
+                    *payload["package_evidence"]["repo_only_instrumentation"]})
+    return dict(reference_count=len(references), references=references, source_read_paths=reads,
+        package_required_skills=skill_names, package_shared_roots=roots,
+        package_blocked_parts=sorted(declarations["BLOCKED_PARTS"]),
+        package_member_mapping=dict(sorted(required.items())),
+        repo_only_instrumentation=payload["package_evidence"]["repo_only_instrumentation"],
+        semantic_cases=len(payload["cases"]), semantic_profiles=len(payload["evidence_profiles"]),
+        original_git_commands=[], git_role="ACTUAL_COMPLETE_COPIED_DATA_ALL_SELECTED_REFERENCES_WORKTREE",
+        non_worktree_disposition="UNSUPPORTED_FIXED_BRANCH_REFUSAL_NO_SYNTHETIC_GIT_RESULT",
+        evaluator_root="FIXED_EVALUATOR_SOURCE_PARENT_NOT_PRIVATE_CASES_FILE_PARENT",
+        unselected_route="BOOTSTRAP_SKILL_OPTION_AND_PACKAGE_BUILDER_EXECUTION_NOT_SELECTED")
+
+
+def lean_discipline_output_bounds(state, objects, selectors):
+    """Bound actual copy/mutation/output lifetimes, never fixture acceptance."""
+    raw = lambda name: objects[state["files"][name]["sha256"]]
+    size = lambda name: state["files"][name]["bytes"]
+    lean, proto, _, _, _, _, thinking, routing, _, goal = LEAN_DISCIPLINE_READS
+    # Count necessary literal prefixes; ignore whether the original regex tail
+    # matches. This overcounts growth, including multiple matching source rows.
+    # Each fixture begins from a new full tree, so separate lean mutations take
+    # a maximum rather than being silently accumulated across fourteen copies.
+    replacements = (
+        (b"| Jidoka |", b"| Jidoka | Generic error label for failures. | skills/implementaudit/templates/PROTOCOL.md | check-planner-stages.sh |"),
+        (b"| Andon |", b"| Andon | Generic error label for failures. | skills/implementaudit/SKILL.md | check-planner-stages.sh |"),
+        (b"| Poka-yoke |", b"| Poka-yoke | Quality improvement mindset for better work. | skills/implementaudit/references/lean-operating-discipline.md | verify-package.sh |"),
+        (b"| Standard Work |", b"| Standard Work | Repeat good habits whenever possible. | skills/implementaudit/references/lean-operating-discipline.md | verify-package.sh |"),
+    )
+    row_growth = [raw(lean).count(prefix) * len(replacement) for prefix, replacement in replacements]
+    lean_growth = max(128,
+        raw(lean).lower().count(b"graphify terrain leverage") * len(b"GRAPHIFY_LEVERAGE_REMOVED"),
+        raw(lean).lower().count(b"activegraph custody events") * len(b"ACTIVEGRAPH_CUSTODY_REMOVED"),
+        row_growth[0] + row_growth[1], row_growth[2], row_growth[3])
+    mutation_growth = {
+        lean: lean_growth,
+        proto: max(raw(proto).count(b"5S_CHECK") * len(b"FIVES_REMOVED"),
+                   raw(proto).lower().count(b"jidoka") * len(b"STOP_SIGNAL")),
+        thinking: raw(thinking).count(b"Muda") * len(b"WASTE_REMOVED") +
+                  raw(thinking).count(b"muda") * len(b"waste_removed"),
+        routing: raw(routing).lower().count(b"dmaic") * len(b"REPAIR_ROUTE"),
+        goal: raw(goal).count(b"Quality route:") * len(b"QUALITY_REMOVED:"),
+    }
+    # json.dumps can escape each input byte and add separators. Both original
+    # changes have bounded fixed literals; charge two complete output files.
+    json_file = 6 * size(LEAN_DISCIPLINE_CASES) + 8192
+    semantic_output = 4 * size(LEAN_DISCIPLINE_CASES) + 8192
+    names = {*state["files"], *state["directories"]}
+    path_bytes = sum(len(name.encode("utf-8")) + 1 for name in names)
+    source_reads = [name for name in selectors["source_read_paths"] if name in state["files"]]
+    read_bytes = sum(size(name) for name in source_reads)
+    largest_read = max((size(name) for name in source_reads), default=0)
+    mutated_largest = max(size(name) + growth for name, growth in mutation_growth.items())
+    # Each outer Python mutation and rm is synchronous under set -e. A failing
+    # one terminates the wrapper; fifteen checker streams and the complete
+    # semantic bank are redirected to /dev/null by the unchanged original.
+    stderr = 65536 + max(4 * max(largest_read, mutated_largest) + 65536,
+                          4 * path_bytes + 512 * len(names))
+    memory = (64 * 1024**2 + 128 * read_bytes + 24 * mutated_largest +
+              32 * json_file + 16 * semantic_output + 64 * path_bytes + 2048 * len(names))
+    return dict(copied_source_files=len(state["files"]), copied_source_directories=len(state["directories"]),
+        copied_source_bytes=sum(value["bytes"] for value in state["files"].values()),
+        copied_file_growth=mutation_growth, private_json_file_bound=json_file,
+        captured_semantic_output_bound=semantic_output, source_read_paths=source_reads,
+        source_read_bytes=read_bytes, largest_read_file_bytes=largest_read,
+        complete_path_bytes=path_bytes, max_stdout_bytes=4096, max_stderr_bytes=stderr,
+        original_data_memory_reservation=memory, original_copy_incarnations=14,
+        simultaneous_copies=1, original_checker_calls=15, semantic_evaluator_calls=3,
+        semantic_json_attack_files=2, semantic_herestring_opportunities=9,
+        basis="COMPLETE_COPIED_SOURCE_NECESSARY_MUTATION_PREFIXES_AND_FIXED_SERIAL_EFFECTS_NOT_EVALUATOR_OUTPUT")
+
+
+def lean_discipline_snapshot(prefix, root, objects, contract):
+    """Retain the genuine complete tree; WORKTREE selection adds no Git answer."""
+    bounds = contract["whole_copy"]
+    state, stamps = prefix.snapshot_tree(root, objects, bounds)
+    if any(value["mode"] not in (0o444, 0o644, 0o755) for value in state["files"].values()) or any(
+            mode != 0o755 for mode in state["directories"].values()):
+        raise ValueError("original24 complete copy requires ordinary supported source modes and0755 directories")
+    if any(len(name.encode("utf-8")) > bounds["path_bytes"] for name in (*state["files"], *state["directories"])):
+        raise ValueError("original24 complete copy path bound exceeded")
+    selectors = lean_discipline_selectors(prefix, state, objects, contract)
+    resources = lean_discipline_output_bounds(state, objects, selectors)
+    current, current_stamps = prefix.snapshot_tree(root, {}, bounds)
+    if current != state or current_stamps != stamps:
+        raise ValueError("original24 complete source changed during acquisition")
+    return state, dict(currentness=stamps, selectors=selectors, resources=resources,
+        projection=dict(roots=["."], bounds=dict(bounds),
+            observation="COMPLETE_ACTUAL_BYTES_MODES_NAMES_TYPES_AND_EMPTY_DIRECTORIES_NO_COPY_OMISSIONS",
+            git="OBSERVED_ACTUAL_STORAGE_COPIED_AS_DATA_NO_GIT_COMMAND_SELECTED",
+            fallback="UNKNOWN_ORDINARY_MEMBERS_RETAINED_OR_FIXED_CAPACITY_REFUSAL"))
+
+
 def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None, git_owner=None, environment=None):
     """Acquire the literal closure and the profile's complete typed namespace.
 
@@ -1669,7 +1849,7 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         membership, currentness = snapshot_skill_namespace(prefix, root)
         state["skill_namespace"] = dict(projection=membership, currentness=currentness)
         stamps["skill_namespace"] = currentness
-    if "whole_copy" in contract:
+    if "whole_copy" in contract and profile != LEAN_DISCIPLINE_PROFILE:
         complete, currentness = snapshot_whole_copy_inputs(prefix, root, objects, contract["whole_copy"])
         if any(complete["files"].get(name) != value for name, value in state["files"].items()):
             raise ValueError("literal inputs changed during whole-copy acquisition")
@@ -1700,6 +1880,14 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         state["directories"].update(complete["directories"])
         state["public_inputs"] = observation
         stamps["public_inputs"] = observation["currentness"]
+    if profile == LEAN_DISCIPLINE_PROFILE:
+        complete, currentness = lean_discipline_snapshot(prefix, root, objects, contract)
+        if any(complete["files"].get(name) != value for name, value in state["files"].items()):
+            raise ValueError("original24 literal inputs changed during complete copy acquisition")
+        state["files"].update(complete["files"])
+        state["directories"].update(complete["directories"])
+        state["whole_copy_inputs"] = currentness
+        stamps["whole_copy_inputs"] = currentness
     if "recursive" in contract:
         recursive, currentness = snapshot_recursive_inputs(prefix, root, objects, contract["recursive"])
         state["files"].update(recursive["files"])
@@ -1845,6 +2033,29 @@ def temporary_requirements(state, *, profile=PROFILE):
             sed_temporaries=len(bound["sed_temporary_sizes"]), possible_heredoc_spools=len(bound["possible_heredoc_spool_sizes"]),
             original_checker_calls=36, diagnostic_files=5,
             capacity_disposition="EXPLICIT_ORIGINAL73_64MIB_CONTRACT_NO_AUTOMATIC_EXPANSION")
+    elif profile == LEAN_DISCIPLINE_PROFILE:
+        bound = state["whole_copy_inputs"]["resources"]
+        copied = [value["bytes"] + bound["copied_file_growth"].get(name, 0)
+                  for name, value in state["files"].items()]
+        # Fourteen full copies are serial and each is removed before the next.
+        # The semantic sub-wrapper runs between copies13/14 and cleans its two
+        # retained JSON files in its own EXIT trap. Charge those files alongside
+        # the one complete copy anyway, plus the largest possible single live
+        # checker/mutator/herestring spool. No fourteen-tree multiplication.
+        spool = max(state["files"]["scripts/check-lean-discipline.sh"]["bytes"],
+                    state["files"]["fixtures/semantic-preservation/test-cases.sh"]["bytes"],
+                    bound["captured_semantic_output_bound"])
+        sizes = (*copied, bound["private_json_file_bound"], bound["private_json_file_bound"], spool)
+        copies, files, directories = 1, len(sizes), len(state["directories"]) + 2
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=bound["max_stdout_bytes"],
+            max_stderr_bytes=bound["max_stderr_bytes"], copied_source_files=len(copied),
+            copied_source_directories=len(state["directories"]), copied_source_bytes=bound["copied_source_bytes"],
+            original_copy_incarnations=14, simultaneous_copies=1, original_checker_calls=15,
+            semantic_evaluator_calls=3, semantic_json_attack_files=2,
+            private_json_file_bound=bound["private_json_file_bound"], possible_simultaneous_spools=1,
+            spool_file_bound=spool, original_data_memory_reservation=bound["original_data_memory_reservation"],
+            capacity_disposition="FIXED_ORIGINAL24_512MIB_NO_AUTOMATIC_EXPANSION")
     elif profile == RETENTION_PROFILE:
         bound = state["complete_git_inputs"]["resources"]
         diagnostic = bound["diagnostic_file_bound"]
@@ -2287,6 +2498,10 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
         elif profile == TERMINOLOGY_PROFILE:
             # Original79 copies every source member, including present Git.
             LIMITS["scratch_bytes"] = 512 * 1024**2
+        elif profile == LEAN_DISCIPLINE_PROFILE:
+            # One complete copied root already exceeds the default32MiB;
+            # this fixed ceiling leaves every other executor limit unchanged.
+            LIMITS["scratch_bytes"] = 512 * 1024**2
         ENVIRONMENT = (dict(parent.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1")
                        if profile in (RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE) else parent.ENVIRONMENT)
 
@@ -2367,6 +2582,14 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             if profile == TERMINOLOGY_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
                 raise compiler.WorkGraphError("whole-copy runner differs from captured engine bytes")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
+            if profile == LEAN_DISCIPLINE_PROFILE:
+                if source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
+                    raise compiler.WorkGraphError("original24 copied runner differs from captured engine bytes")
+                # Bash reads its bootstrap script; it needs no executable bit.
+                # Preserve the actual copied source mode as well as its bytes.
+                files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], source["files"][RUNNER]["mode"])
+                files = copy_readonly_image(files)
+                temporary["image_reservation"] = retention_image_reservation(files, self.LIMITS)
             if profile == TERMINOLOGY_PROFILE:
                 # Whole-root cp observes this file's mode as well as its bytes.
                 # Bash reads the runner directly; its source mode stays exact.
@@ -2410,6 +2633,18 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                     {"/work/" + name for name, kind in membership["entries"].items() if kind == "DIRECTORY"})
                 manifest["directory_membership"] = membership
                 manifest["source_projection"] = "READ_BYTES_AND_COMPLETE_DEPTH_TWO_TYPED_NAME_PLACEHOLDERS"
+                image_key = self._object(self._encode(manifest))
+            if profile == LEAN_DISCIPLINE_PROFILE:
+                manifest["directories"] = sorted(set(manifest["directories"]) |
+                    {"/work/" + name for name in source["directories"] if name != "."})
+                manifest["directory_membership"] = source["whole_copy_inputs"]["projection"]
+                manifest["source_projection"] = contract["projection"]
+                manifest["selected_branch_data"] = source["whole_copy_inputs"]["selectors"]
+                manifest["image_reservation"] = temporary["image_reservation"]
+                manifest["source_materialization"] = "SINGLE_LINK_FILES_READ_ONLY_ROOT"
+                manifest["data_permissions"] = "OWNER_0600_READ_ONLY_MOUNT"
+                manifest["source_permissions"] = contract["source_modes"]
+                manifest["copy_umask"] = runtime["umask"]
                 image_key = self._object(self._encode(manifest))
             if "recursive" in contract:
                 image_bytes = sum(len(data) for data, _ in files.values())

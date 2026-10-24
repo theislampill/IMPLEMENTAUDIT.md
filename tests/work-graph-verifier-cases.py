@@ -1882,6 +1882,7 @@ def fixture_capture_environment_cases(directory):
         "tests/work-graph-audit-object-contract-cases.py",
         "tests/work-graph-claim-boundary-cases.py",
         "tests/work-graph-terminology-cases.py",
+        "tests/work-graph-lean-discipline-cases.py",
         "tests/work-graph-readme-effect-cases.py"]
     assert observed_banks == expected_banks, ("fixture bank population or order", observed_banks, expected_banks)
     assert all(not row["capture_keys"] for row in rows), ("outer capture escaped into child fixture", rows)
