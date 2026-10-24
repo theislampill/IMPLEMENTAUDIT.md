@@ -1650,6 +1650,9 @@ _FINITE_MODES = {
     "no-terminal-cap": "CONTROLLED_TASK_NO_TERMINAL_CAP_V1",
     "background-chain": "CONTROLLED_TASK_BACKGROUND_CHAIN_V1",
     "plan-lifecycle": "CONTROLLED_TASK_PLAN_LIFECYCLE_V1",
+    "plan-quality": "CONTROLLED_TASK_PLAN_QUALITY_V1",
+    "authorization-binding": "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1",
+    "read-only-plans": "CONTROLLED_TASK_READ_ONLY_PLANS_V1",
 }
 
 

@@ -25,6 +25,9 @@ ISSUES_PROFILE = "CONTROLLED_TASK_ISSUES_DEFERRED_V1"
 TERMINAL_PROFILE = "CONTROLLED_TASK_NO_TERMINAL_CAP_V1"
 BACKGROUND_PROFILE = "CONTROLLED_TASK_BACKGROUND_CHAIN_V1"
 LIFECYCLE_PROFILE = "CONTROLLED_TASK_PLAN_LIFECYCLE_V1"
+PLAN_QUALITY_PROFILE = "CONTROLLED_TASK_PLAN_QUALITY_V1"
+AUTHORIZATION_PROFILE = "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1"
+READ_ONLY_PROFILE = "CONTROLLED_TASK_READ_ONLY_PLANS_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -111,6 +114,47 @@ LIFECYCLE_INPUTS = (
     "docs/portal/pages/planning-and-phases.html", "fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md",
     "fixtures/audit-object-routing/plan-lifecycle.md",
 )
+PLAN_QUALITY_COMMON_INPUTS = (
+    "fixtures/read-only-plans/valid-handoff-plan.md", "fixtures/e2e-mini-audit-loop/phase-1.md",
+    "skills/implementaudit/templates/phase-goal.txt",
+    "fixtures/phase-design/negative-paths-without-symbols.md",
+    "skills/implementaudit/references/plan-lifecycle.md",
+    "skills/implementaudit/references/repo-state-comparison.md",
+    "skills/implementaudit/templates/read-only-plan.md",
+    "fixtures/child-agents/read-only-contract-auditor.md",
+)
+PLAN_QUALITY_INPUTS = (*PLAN_QUALITY_COMMON_INPUTS,
+    "fixtures/read-only-plans/read-only-zero-mutation.status",
+    "fixtures/read-only-plans/read-only-audit-ledger.status",
+    "fixtures/read-only-plans/negative-read-only-source-mutation.status",
+    "fixtures/secret-hygiene/negative-plan-reproduces-fake-secret.md",
+    "fixtures/secret-hygiene/negative-child-prompt-missing-security-rules.md",
+)
+AUTHORIZATION_INPUTS = (
+    "skills/implementaudit/templates/PROTOCOL.md", "skills/implementaudit/templates/STATE.md",
+    *("fixtures/authorization-binding/" + name for name in (
+        "intake-state-deny.md", "intake-state-grant.md", "authorization-record.txt",
+        "authorization-record-missing-source.txt", "auth.txt", "invocation-match.txt", "invocation-drift.txt")),
+)
+READ_ONLY_INPUTS = tuple(dict.fromkeys((*PLAN_QUALITY_INPUTS,
+    "docs/audits/INDEX.md", "docs/audits/RETENTION.md", "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/references/sidecars.md", "skills/implementaudit/references/transcript-contract.md",
+    "skills/implementaudit/templates/final-report.md",
+    # These programs are read as data by parity; none is executed by this node.
+    "scripts/check-dogfood-bootstrap-contract.sh", "scripts/dogfood-evidence-broker.py",
+    "scripts/check-installed-payload-self-contained.sh", "scripts/check-skill-bootstrap-budget.sh",
+    "scripts/build-source-evidence-pack.sh", "tests/source-evidence-pack-runnable.test.sh",
+    "tests/source-evidence-pack.test.sh",
+    "fixtures/secret-hygiene/repo-ignore-previous-instructions.md",
+    "fixtures/secret-hygiene/repo-print-env.md", "fixtures/secret-hygiene/repo-fake-secret.txt",
+    *("fixtures/dogfood-bootstrap/" + name for name in (
+        "positive/baseline-first-transcript.jsonl",
+        "negative/installed-readback-before-baseline-transcript.jsonl",
+        "negative/chunking-readback-before-baseline-transcript.jsonl",
+        "negative/real-home-readback-before-temp-home-transcript.jsonl",
+        "typed-event.schema.json", "typed/ordinary-control-activation.jsonl",
+        "typed/self-dogfood-corroboration.jsonl", "typed/self-dogfood-contradiction.jsonl")),
+)))
 _CONTRACTS = {
     PROFILE: dict(label="audit-spec", index=57, program="tests/audit-spec.test.sh",
         programs=PROGRAM_PINS, data=FIXTURES, bounds=SOURCE_BOUNDS,
@@ -231,6 +275,40 @@ _CONTRACTS = {
         source_modes="NORMALIZED_0444_READ_ONLY",
         projection="TWO_PINNED_PROGRAMS_SEVENTEEN_LITERAL_DATA_OR_PRESENCE_INPUTS_ORIGINAL_PIPEFAIL_CLAIM_RUN_NEVER_EXECUTED",
         temporary_sizes=(), temporary_directories=0),
+    PLAN_QUALITY_PROFILE: dict(label="plan-quality", index=84, program="tests/plan-quality-contract.test.sh",
+        programs={
+            "tests/plan-quality-contract.test.sh": "f0235682cac62a34cffcb5442ed191e6240991327f373fac10711e36ef78f45a",
+            "scripts/check-plan-quality-contract.sh": "f89b9ba3e6f7d9a003238b1efc398e3b78aba9a84a9e4fc19cab5dc81c70f8df"},
+        data=PLAN_QUALITY_INPUTS, bounds=dict(file_bytes=128 * 1024, total_bytes=1024 * 1024, files=16),
+        # cp must preserve the original writable mode in its private copy so
+        # the pinned wrapper can append campaign rows. The source mount stays
+        # read-only; normalizing source bytes to 0444 would change that behavior.
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="TWO_PINNED_PROGRAMS_THIRTEEN_LITERAL_DEFAULT_AND_EXPLICIT_INPUTS_21_CHECKER_CALLS_PRIVATE_WRITES_ONLY"),
+    AUTHORIZATION_PROFILE: dict(label="authorization-binding", index=31, program="tests/authorization-binding-contract.test.sh",
+        programs={
+            "tests/authorization-binding-contract.test.sh": "30d328e94d72f758328b4378f6c51df281d1d34f3dc784e70fd115ea99edba28",
+            "skills/implementaudit/scripts/check-authorization-binding.sh": "e2ff72034bac8317b881dcbf1180a47f6d7b64119398af2b664c47e10cdba728"},
+        data=AUTHORIZATION_INPUTS, bounds=dict(file_bytes=128 * 1024, total_bytes=1024 * 1024, files=12),
+        # The original helper expands binds with an unquoted for loop. Pin all
+        # source records feeding it: unknown glob syntax cannot silently gain a
+        # namespace observation. The wrapper's seven private adversarial inputs
+        # remain the exact pinned program's literals, including no-binds/dup.
+        pinned_data={
+            "fixtures/authorization-binding/auth.txt": "f22b0ba6c8dead168fbed2cf62d53d44a44cbf892c141eab4b797b3127ad990e",
+            "fixtures/authorization-binding/authorization-record.txt": "913695054d4495db3f6e1e1fd4d7a61fd44ace0caf0d3fab75bb7bdb3528aa98",
+            "fixtures/authorization-binding/authorization-record-missing-source.txt": "0a22219560d74fa81a836f6800451a3581c0071469048f2e278debbbb8dd08fc"},
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="TWO_WHOLE_PINNED_PROGRAMS_NINE_LITERAL_INPUTS_FIXED_STATE_AUTH_INVOCATION_BRANCH_NO_PHASE_OR_NATIVE_GRANT",
+        temporary_sizes=(20, 28, 79, 28, 66, 21, 78), temporary_directories=1),
+    READ_ONLY_PROFILE: dict(label="read-only-plans", index=80, program="tests/read-only-plans-lane.test.sh",
+        programs={
+            "tests/read-only-plans-lane.test.sh": "f76742263bb1eb06f6c2e531a2c46de943ba1371cc5d12db7c1b8480dc86c30c",
+            "scripts/check-plan-quality-contract.sh": "f89b9ba3e6f7d9a003238b1efc398e3b78aba9a84a9e4fc19cab5dc81c70f8df",
+            "scripts/check-capability-parity-contract.sh": "5dbca0e81a79e65b95c4d9a532bb893b5405fedb34ddbc360b3acc70f291d871"},
+        data=READ_ONLY_INPUTS, bounds=dict(file_bytes=128 * 1024, total_bytes=1024 * 1024, files=41),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="THREE_PINNED_PROGRAMS_COMPLETE_PARITY_DATA_PLAN_DEFAULTS_AND_REQUIRED_DIRECTORY_PRESENCE_NO_ENUMERATION"),
 }
 
 
@@ -242,7 +320,8 @@ def contract_for(profile):
     if type(profile) is not str or profile not in (PROFILE, ANDON_PROFILE, REGISTRY_PROFILE, MARKER_PROFILE,
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
-                                                     BACKGROUND_PROFILE, LIFECYCLE_PROFILE):
+                                                     BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -589,6 +668,9 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
     for name, pin in dict(contract["programs"], **{REGISTRY: REGISTRY_SHA256}).items():
         if state["files"][name]["sha256"] != pin:
             raise ValueError("unsupported finite-leaf executable or registry source")
+    for name, pin in contract.get("pinned_data", {}).items():
+        if state["files"][name]["sha256"] != pin:
+            raise ValueError("unsupported finite-leaf pinned branch input")
     return state, stamps
 
 
@@ -602,7 +684,37 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile == ISSUES_PROFILE:
+    if profile in (PLAN_QUALITY_PROFILE, READ_ONLY_PROFILE):
+        # Every original diagnostic includes at most one data-derived line,
+        # plus bounded literal paths/tokens/traceback. Charge UTF-8 error/repr
+        # expansion at four bytes per input byte and a 64 KiB fixed margin.
+        # All diagnostic files and possible Bash here-doc spools are charged
+        # simultaneously, even though the original overwrites/reuses them.
+        plan_size = state["files"]["fixtures/read-only-plans/valid-handoff-plan.md"]["bytes"]
+        diagnostic = 4 * max(max(sizes), plan_size + 128) + granule
+        checker = state["files"]["scripts/check-plan-quality-contract.sh"]["bytes"]
+        if profile == PLAN_QUALITY_PROFILE:
+            # Nine copied plans with <=128 appended bytes, four generated PR
+            # bodies, two generated plans, seven diagnostics, 21 checker spools
+            # and two wrapper spools. The checker program bounds its own body.
+            sizes = (plan_size + 128,) * 9 + (64,) * 4 + (1024,) * 2 + (diagnostic,) * 7 + (checker,) * 21 + (1024,) * 2
+            directories = 1
+        else:
+            parity = state["files"]["scripts/check-capability-parity-contract.sh"]["bytes"]
+            sizes = (diagnostic,) + (checker,) * 3 + (parity,)
+            directories = 0
+        copies, files = (9 if profile == PLAN_QUALITY_PROFILE else 0), len(sizes)
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=diagnostic + 4096, diagnostic_file_bound=diagnostic)
+    elif profile == AUTHORIZATION_PROFILE:
+        data_bytes = sum(sizes)
+        sizes = contract["temporary_sizes"]
+        copies, files, directories = 0, len(sizes), contract["temporary_directories"]
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=4 * data_bytes + granule)
+    elif profile == ISSUES_PROFILE:
         bound = state["recursive_inputs"]["resources"]
         content = bound["all_lines_grep_report_bytes"]
         copies, files, directories, allocated = 0, 1, 0, rounded(content)
@@ -645,6 +757,8 @@ def temporary_requirements(state, *, profile=PROFILE):
     result.update(extra)
     if "recursive" in contract:
         result["basis"] = "COMPLETE_ACQUIRED_INPUT_OUTPUT_BOUND_AND_FIXED_PRIVATE_WRITE_SET"
+    elif profile in (PLAN_QUALITY_PROFILE, AUTHORIZATION_PROFILE, READ_ONLY_PROFILE):
+        result["basis"] = "ACQUIRED_LITERAL_BYTES_AND_PINNED_BRANCH_PRIVATE_WRITE_SET"
     return result
 
 

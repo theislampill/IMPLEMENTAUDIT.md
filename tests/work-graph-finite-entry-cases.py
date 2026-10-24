@@ -28,6 +28,9 @@ PROFILES = {
     "no-terminal-cap": "CONTROLLED_TASK_NO_TERMINAL_CAP_V1",
     "background-chain": "CONTROLLED_TASK_BACKGROUND_CHAIN_V1",
     "plan-lifecycle": "CONTROLLED_TASK_PLAN_LIFECYCLE_V1",
+    "plan-quality": "CONTROLLED_TASK_PLAN_QUALITY_V1",
+    "authorization-binding": "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1",
+    "read-only-plans": "CONTROLLED_TASK_READ_ONLY_PLANS_V1",
 }
 
 
@@ -51,8 +54,8 @@ class FactoryCases(unittest.TestCase):
         sessions = [self.q.create_finite_leaf_session(ROOT, self.base / mode, profile=profile)
                     for mode, profile in PROFILES.items()]
         self.assertEqual([s.SCOPE for s in sessions], list(PROFILES.values()))
-        self.assertEqual(len({type(s) for s in sessions}), 13)
-        self.assertEqual(len({s.producer for s in sessions}), 13)
+        self.assertEqual(len({type(s) for s in sessions}), len(PROFILES))
+        self.assertEqual(len({s.producer for s in sessions}), len(PROFILES))
         for s in sessions:
             record = json.loads((s.output / "session.json").read_bytes())
             self.assertEqual(record["receipt_custody"], "LIVE_PRODUCER_ONLY_NO_IMPORT")
