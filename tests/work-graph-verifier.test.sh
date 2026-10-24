@@ -28,4 +28,5 @@ else py_cmd=(py -3); fi
 "${py_cmd[@]}" tests/work-graph-recursive-cases.py
 "${py_cmd[@]}" tests/work-graph-literal-cases.py
 "${py_cmd[@]}" tests/work-graph-planning-cases.py
+"${py_cmd[@]}" tests/work-graph-routing-cases.py
 "${py_cmd[@]}" tests/work-graph-readme-effect-cases.py

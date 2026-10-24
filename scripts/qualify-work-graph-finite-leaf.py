@@ -28,6 +28,7 @@ LIFECYCLE_PROFILE = "CONTROLLED_TASK_PLAN_LIFECYCLE_V1"
 PLAN_QUALITY_PROFILE = "CONTROLLED_TASK_PLAN_QUALITY_V1"
 AUTHORIZATION_PROFILE = "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1"
 READ_ONLY_PROFILE = "CONTROLLED_TASK_READ_ONLY_PLANS_V1"
+ROUTING_PROFILE = "CONTROLLED_TASK_ROUTING_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -155,6 +156,22 @@ READ_ONLY_INPUTS = tuple(dict.fromkeys((*PLAN_QUALITY_INPUTS,
         "typed-event.schema.json", "typed/ordinary-control-activation.jsonl",
         "typed/self-dogfood-corroboration.jsonl", "typed/self-dogfood-contradiction.jsonl")),
 )))
+ROUTING_SCAN_INPUTS = (
+    "README.md", "AGENTS.md", "skills/implementaudit/references/routing.md",
+    "skills/implementaudit/references/planning-depth.md",
+    "skills/implementaudit/references/goal-format.md",
+    "skills/implementaudit/references/phase-design.md", "skills/implementaudit/SKILL.md",
+)
+ROUTING_INPUTS = (*ROUTING_SCAN_INPUTS,
+    "skills/implementaudit/references/audit-category-matrix.md",
+    "skills/implementaudit/references/plan-lifecycle.md",
+    *("fixtures/routing/" + name + "/EXPECTED.md" for name in (
+        "greenfield-goal-synthesis", "greenfield-full-category-intake", "greenfield-batched-questions",
+        "brownfield-audit-closure", "brownfield-zero-question-recon", "brownfield-one-question-true-gap",
+        "brownfield-two-question-true-gap", "mixed-greenfield-in-brownfield")),
+    "fixtures/routing/greenfield-goal-synthesis/INVALID-MISSING-INTAKE.md",
+    "fixtures/routing/brownfield-audit-closure/INVALID-MUTATION-FIRST.md",
+)
 _CONTRACTS = {
     PROFILE: dict(label="audit-spec", index=57, program="tests/audit-spec.test.sh",
         programs=PROGRAM_PINS, data=FIXTURES, bounds=SOURCE_BOUNDS,
@@ -309,6 +326,17 @@ _CONTRACTS = {
         data=READ_ONLY_INPUTS, bounds=dict(file_bytes=128 * 1024, total_bytes=1024 * 1024, files=41),
         source_modes="NORMALIZED_0444_READ_ONLY",
         projection="THREE_PINNED_PROGRAMS_COMPLETE_PARITY_DATA_PLAN_DEFAULTS_AND_REQUIRED_DIRECTORY_PRESENCE_NO_ENUMERATION"),
+    ROUTING_PROFILE: dict(label="routing", index=54, program="tests/routing.test.sh",
+        programs={
+            "tests/routing.test.sh": "77fdce7b44d893f4aa820c9ee913b1ffed37c976dc04a16a7a4c667eaf2ff2af",
+            "scripts/check-routing.sh": "6bddc813e29f13e63ac0f88474fd32418c38bef4110360a2ae6a451a69e36974"},
+        data=ROUTING_INPUTS, bounds=dict(file_bytes=128 * 1024, total_bytes=1024 * 1024, files=22),
+        # The repaired original appends to its private README copy and replaces
+        # an invalid fixture. Keep source modes behind the read-only mount so
+        # cp preserves its ordinary writable-copy semantics; preserve both G2
+        # negatives and all five original checker invocations byte for byte.
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="TWO_PINNED_PROGRAMS_NINETEEN_LITERAL_INPUTS_FIVE_CHECKER_CALLS_REPAIRED_G2_NEGATIVES_PRIVATE_COPIES_ONLY"),
 }
 
 
@@ -321,7 +349,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -671,6 +699,23 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
     for name, pin in contract.get("pinned_data", {}).items():
         if state["files"][name]["sha256"] != pin:
             raise ValueError("unsupported finite-leaf pinned branch input")
+    if profile == ROUTING_PROFILE:
+        # This checker accumulates every error. Bound all eight possible phrase
+        # messages on every structurally observed line without inspecting any
+        # acceptance token, phrase or negation. One extra line per file covers
+        # the original private README append; invalid UTF-8 instead produces
+        # a bounded decoder traceback. All fixed requirement messages and
+        # decoder/repr expansion fit the independent margin below.
+        lines = {name: 0 for name in ROUTING_SCAN_INPUTS}
+        for name in lines:
+            try:
+                lines[name] = len(objects[state["files"][name]["sha256"]].decode("utf-8", "strict").splitlines()) + 1
+            except UnicodeDecodeError:
+                pass
+        diagnostic = 64 * 1024 + 4 * max(state["files"][name]["bytes"] for name in contract["data"])
+        diagnostic += sum(count * 8 * (len(name.encode("utf-8")) + 32 + 128) for name, count in lines.items())
+        state["routing_resources"] = dict(line_upper_counts=lines, diagnostic_file_bound=diagnostic,
+            basis="ALL_EIGHT_POSSIBLE_MESSAGES_PER_LINE_PLUS_FIXED_AND_DECODER_MARGIN_NOT_ACCEPTANCE")
     return state, stamps
 
 
@@ -704,6 +749,22 @@ def temporary_requirements(state, *, profile=PROFILE):
             sizes = (diagnostic,) + (checker,) * 3 + (parity,)
             directories = 0
         copies, files = (9 if profile == PLAN_QUALITY_PROFILE else 0), len(sizes)
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=diagnostic + 4096, diagnostic_file_bound=diagnostic)
+    elif profile == ROUTING_PROFILE:
+        checker_name = "scripts/check-routing.sh"
+        checker = state["files"][checker_name]["bytes"]
+        # Nineteen data copies and the copied checker, two captured diagnostic
+        # files, five possible checker here-doc spools, two wrapper spools.
+        # Charge all simultaneously, although sequential execution reuses them.
+        copies = [state["files"][name]["bytes"] for name in (*contract["data"], checker_name)]
+        copies[contract["data"].index("README.md")] += 64
+        invalid = contract["data"].index("fixtures/routing/greenfield-goal-synthesis/INVALID-MISSING-INTAKE.md")
+        copies[invalid] = max(copies[invalid], 128)
+        diagnostic = state["routing_resources"]["diagnostic_file_bound"]
+        sizes = (*copies, diagnostic, diagnostic, *((checker,) * 5), 128, 1024)
+        copies, files, directories = len(copies), len(sizes), 15
         content, allocated = sum(sizes), sum(map(rounded, sizes))
         extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
             max_stderr_bytes=diagnostic + 4096, diagnostic_file_bound=diagnostic)
@@ -757,7 +818,7 @@ def temporary_requirements(state, *, profile=PROFILE):
     result.update(extra)
     if "recursive" in contract:
         result["basis"] = "COMPLETE_ACQUIRED_INPUT_OUTPUT_BOUND_AND_FIXED_PRIVATE_WRITE_SET"
-    elif profile in (PLAN_QUALITY_PROFILE, AUTHORIZATION_PROFILE, READ_ONLY_PROFILE):
+    elif profile in (PLAN_QUALITY_PROFILE, AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE):
         result["basis"] = "ACQUIRED_LITERAL_BYTES_AND_PINNED_BRANCH_PRIVATE_WRITE_SET"
     return result
 

@@ -1653,6 +1653,7 @@ _FINITE_MODES = {
     "plan-quality": "CONTROLLED_TASK_PLAN_QUALITY_V1",
     "authorization-binding": "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1",
     "read-only-plans": "CONTROLLED_TASK_READ_ONLY_PLANS_V1",
+    "routing": "CONTROLLED_TASK_ROUTING_V1",
 }
 
 
