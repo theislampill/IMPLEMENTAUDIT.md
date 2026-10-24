@@ -35,6 +35,35 @@ premise or global continuity binding invalidates affected use. Unaffected
 accepted contract results remain available. Supplied JOIN result envelopes
 are refused.
 
+### Live pending settlement
+
+An accepted `PENDING` envelope retains a live settlement slot on the exact
+original issued frontier object. The same `CompletionContract` instance may
+later accept one terminal envelope for that contributor through `accept()`.
+It must retain the original dispatch, graph, input, single-node scope, consumer
+and independence identity, the original required/optional predecessor result
+identities, and an exact current `expected_old` history digest. Fresh source
+and input checks must still apply; the only current node hold that this path
+may settle is `COMPLETION_PENDING`. A second otherwise equal frontier object,
+a copied projection or a reissued frontier cannot take over that pending slot.
+
+Settlement appends a new BATCH event. The original pending event remains
+unchanged in the hash-linked history. The current live result and recursive
+completion projection use the terminal record; neither treats the old pending
+record as a second completion. Other contributors from a partially returned
+frontier can still arrive independently. Repeated pending returns, nonterminal
+replacements and terminal replay refuse without appending history. A terminal
+failure may settle a pending contributor, but it cannot satisfy a successful
+required JOIN. A stale expected-old refusal does not itself consume the live
+pending slot; retry still requires fresh applicability and custody checks.
+
+This is declared-result settlement within one live receiver. The companion
+does not start, wait for or authenticate a producer. Its caller remains
+responsible for actual execution and process cleanup. Reopening the journal
+does not reconstruct the issued object or pending custody, and no JSON import
+or retry API is added. The resource bounds and native authority ceiling below
+continue to apply.
+
 `join(consumer, expected_old=...)` accumulates contributors across batches and
 calls the compiler's existing JOIN verdict implementation. Missing, failed,
 partial, pending, nonverdict, correlated and contradictory contributions do
@@ -100,6 +129,16 @@ the old journal, replaces it, and fsyncs the directory. A pending transaction,
 torn record, foreign run identity, changed physical path or stale preimage
 refuses. Failed transactions and old history are not silently repaired.
 
+The live receiver and journal are bound to their creating process. An inherited
+instance after `fork()` refuses use before acquiring the inherited thread lock
+or reading/appending journal state; inherited frontier objects carry no
+settlement custody in the child. Threads in the original process continue to
+share the serialized receiver. `close()` in an inheriting child is cleanup only:
+it closes that child's descriptor without acquiring the inherited thread lock
+or explicitly unlocking the shared writer gate. It does not release the
+original parent's gate or restore custody. The original live parent can still
+settle its pending results after that cleanup.
+
 A restarted process retains the historical evidence but does not restore
 completion authority from JSON. Previously recorded nodes are held as
 `RECOVERY_CUSTODY_UNVERIFIED`; unrelated preparation can remain eligible. The
@@ -141,8 +180,22 @@ Run the additive controls with:
 
 ```sh
 /usr/bin/python3 -B tests/work-graph-completion-cases.py
+/usr/bin/python3 -B tests/work-graph-pending-settlement-cases.py
+/usr/bin/python3 -B tests/work-graph-completion-transition-cases.py
 bash tests/native-work-graph.test.sh
 ```
+
+The pending-settlement controls keep actual read-only child processes alive
+behind a pipe gate, record PENDING while those children are live, then consume
+their observed terminal output. They pair this path with a terminal-only
+control, preserve pending history, reap every owned child, and discriminate
+stale inputs/premises/predecessors, changed consumer/independence, competing
+frontier objects, expected-old races, terminal failure/replay, atomic batches
+and journal restart. A bounded fork control also requires inherited operations
+to refuse while another parent thread holds the receiver lock, preserves the
+parent's writer gate during child cleanup, reaps the fork child, and proves
+that the original parent can still settle. These controls qualify the portable
+receiver only.
 
 The source increment advances portable portions of R35-N04, D01, D02, D05,
 D06, D07 and D08, plus the corresponding P01, N01/N02/N04/N05/N06 and

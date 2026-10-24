@@ -98,6 +98,7 @@ class _Compiler:
 class _Journal:
     """Single cooperating writer; retained JSON is evidence, never a credential."""
     def __init__(self, root, run_identity, decoder):
+        self._process_id = os.getpid()
         self.root = Path(root).absolute()
         self.root.mkdir(mode=0o700, parents=False, exist_ok=True)
         self.root = _physical(self.root)
@@ -146,6 +147,7 @@ class _Journal:
             raise
 
     def check(self, allowed_pending=None):
+        _require(self._process_id == os.getpid(), 'journal belongs to another process')
         _require(not self.closed, 'journal writer is closed')
         st = _physical(self.root).stat()
         _require((st.st_dev, st.st_ino) == self.directory, 'journal directory replaced')
@@ -192,11 +194,15 @@ class _Journal:
     def close(self):
         if not self.closed:
             self.closed = True
+            # Closing a fork child's descriptor leaves the parent's writer gate
+            # held. Never explicitly unlock their shared open-file description.
             os.close(self.fd)
 
 def _serialized(method):
     @wraps(method)
     def call(self, *args, **kwargs):
+        # A fork can inherit an RLock held by a thread that no longer exists.
+        _require(self._process_id == os.getpid(), 'completion receiver belongs to another process')
         with self._operation_lock:
             return method(self, *args, **kwargs)
     return call
@@ -210,6 +216,7 @@ class CompletionContract:
     is re-established; it cannot restore accepted results from JSON.
     """
     def __init__(self, run_root, journal_root, *, input_root=None, compiler_sha256=None):
+        self._process_id = os.getpid()
         self._operation_lock = threading.RLock()
         self.owner = _Compiler(expected_sha256=compiler_sha256)
         self.wg = self.owner.module
@@ -230,15 +237,20 @@ class CompletionContract:
             self.close()
             raise
 
+    @_serialized
     def __enter__(self):
         return self
 
     def __exit__(self, *unused):
         self.close()
 
-    @_serialized
     def close(self):
-        self.journal.close()
+        if self._process_id != os.getpid():
+            # Inherited cleanup has no receiver use or live-custody authority.
+            self.journal.close()
+            return
+        with self._operation_lock:
+            self.journal.close()
 
     @property
     @_serialized
@@ -341,7 +353,9 @@ class CompletionContract:
         _require(len(self._issued) < MAX_EVENTS, 'live dispatch retention bound')
         raw = _raw(frontier)
         _require(len(raw) <= MAX_JOURNAL_BYTES, 'completion projection byte bound')
-        self._issued[id(frontier)] = (frontier, raw, copy.deepcopy(graph), set(), predecessors)
+        # Retain pending record identities on the exact issuing object. A second
+        # otherwise equal frontier must not acquire another dispatch's custody.
+        self._issued[id(frontier)] = (frontier, raw, copy.deepcopy(graph), set(), predecessors, {})
         return frontier
 
     @_serialized
@@ -382,8 +396,17 @@ class CompletionContract:
                          'foreign, duplicate or undispatched contributor')
                 seen.add(name)
                 _require(nodes[name]['kind'] == 'TASK', 'JOIN completion requires the shared JOIN reducer')
+                pending_digest = issued[5].get(name)
+                settling = pending_digest is not None
+                pending = valid.get(name)
+                _require(not settling or (pending is not None and pending['digest'] == pending_digest
+                         and pending['status'] == 'PENDING' and not pending['result']['terminal']),
+                         'stale pending result custody')
+                available = (current['states'].get(name) == 'READY' if not settling else
+                             current['states'].get(name) == 'BLOCKED'
+                             and current['blocked'].get(name) == ['COMPLETION_PENDING'])
                 _require(name not in issued[3] and name not in delta['invalidated']
-                         and current['states'].get(name) == 'READY', 'stale or already consumed result')
+                         and available, 'stale or already consumed result')
                 # An already executed contributor need not win a new dispatch.
                 # Its original prerequisite identities must still be applicable.
                 _require(issued[4][name] == {dep: valid.get(dep, {}).get('digest')
@@ -407,6 +430,9 @@ class CompletionContract:
                 _require(result['status'] != 'PASS' or (result['terminal'] and result['exit_code'] == 0
                          and result['evidence_digest'] is not None), 'contradictory PASS')
                 _require(result['status'] != 'PENDING' or not result['terminal'], 'terminal PENDING')
+                _require(not settling or (result['terminal'] and consumer == pending['consumer']
+                         and result['independence_key'] == pending['result']['independence_key']),
+                         'pending settlement must be terminal with unchanged consumer and independence')
                 record = dict(node=name, status=result['status'], consumer=consumer,
                               source_graph=copy.deepcopy(issued[2]), result=copy.deepcopy(result),
                               predecessors=copy.deepcopy(issued[4][name]))
@@ -414,8 +440,13 @@ class CompletionContract:
                 records.append(record)
         event = self.journal.append('BATCH', dict(records=records), expected_old)
         for record in records:
-            self._live[record['node']] = record
-        issued[3].update(record['node'] for record in records)
+            name = record['node']
+            self._live[name] = record
+            if record['status'] == 'PENDING':
+                issued[5][name] = record['digest']
+            else:
+                issued[5].pop(name, None)
+                issued[3].add(name)
         if issued[3] == set(frontier['selected']):
             del self._issued[id(frontier)]
         return event
