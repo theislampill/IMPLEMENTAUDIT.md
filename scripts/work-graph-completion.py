@@ -76,9 +76,14 @@ def _read(path, maximum):
         os.close(fd)
 
 class _Compiler:
-    def __init__(self):
+    def __init__(self, expected_sha256=None):
         self.path = Path(__file__).absolute().parents[1] / 'skills/implementaudit/scripts/compile-work-graph.py'
         self.raw, self.identity = _read(self.path, 1024 * 1024)
+        if expected_sha256 is not None:
+            _require(type(expected_sha256) is str and len(expected_sha256) == 64
+                     and all(c in '0123456789abcdef' for c in expected_sha256)
+                     and hashlib.sha256(self.raw).hexdigest() == expected_sha256,
+                     'captured compiler differs from required source digest')
         module = types.ModuleType('_r0035_completion_compiler')
         module.__file__ = str(self.path)
         # Execute captured physically checked bytes, never a module-cache entry.
@@ -204,9 +209,9 @@ class CompletionContract:
     Reopening a journal holds previously observed nodes until producer custody
     is re-established; it cannot restore accepted results from JSON.
     """
-    def __init__(self, run_root, journal_root, *, input_root=None):
+    def __init__(self, run_root, journal_root, *, input_root=None, compiler_sha256=None):
         self._operation_lock = threading.RLock()
-        self.owner = _Compiler()
+        self.owner = _Compiler(expected_sha256=compiler_sha256)
         self.wg = self.owner.module
         self.run = _physical(run_root)
         self.inputs = _physical(input_root if input_root is not None else run_root)

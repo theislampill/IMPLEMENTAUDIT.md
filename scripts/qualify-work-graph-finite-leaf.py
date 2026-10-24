@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Repository-only finite acquisition of four explicit original verifier nodes.
+"""Repository-only finite acquisition of seven explicit original verifier nodes.
 
 The compiler remains the node/source owner. Execution uses the qualifier's
 existing isolated-leaf launcher; this helper adds no executor or native authority.
@@ -16,6 +16,9 @@ PROFILE = "CONTROLLED_TASK_AUDIT_SPEC_V1"
 ANDON_PROFILE = "CONTROLLED_TASK_ANDON_CLASS_V1"
 REGISTRY_PROFILE = "CONTROLLED_TASK_REGISTRY_WRAPPER_V1"
 MARKER_PROFILE = "CONTROLLED_TASK_MARKER_ORDER_V1"
+COMMIT_PROFILE = "CONTROLLED_TASK_COMMIT_MESSAGE_V1"
+AGENTS_PROFILE = "CONTROLLED_TASK_AGENTS_BOOTSTRAP_V1"
+ESCALATION_PROFILE = "CONTROLLED_TASK_ANDON_ESCALATION_V1"
 NODE = "COMMAND:tests/audit-spec.test.sh:0"
 REGISTRY = "scripts/verify-package.sh"
 REGISTRY_SHA256 = "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698"
@@ -33,6 +36,43 @@ FIXTURES = tuple("fixtures/audit-spec/" + name for name in (
     "invalid-missing-release-boundary.md"))
 SOURCE_PATHS = (REGISTRY, *PROGRAM_PINS, *FIXTURES)
 SOURCE_BOUNDS = dict(file_bytes=64 * 1024, total_bytes=256 * 1024, files=9)
+COMMIT_FIXTURES = tuple("fixtures/commit-message/" + name for name in (
+    'andon-not-applicable-linkage-FAIL.md',
+    'bare-count-not-anchor-FAIL.md',
+    'behavior-change-empty-body-FAIL.md',
+    'behavior-change-three-line-body-PASS.md',
+    'breaking-body-no-anchor-FAIL.md',
+    'breaking-subject-empty-body-FAIL.md',
+    'codename-unexpanded-PASS.md',
+    'decision-record-PASS.md',
+    'decision-record-empty-body-FAIL.md',
+    'docs-typo-slim-PASS.md',
+    'external-url-not-anchor-FAIL.md',
+    'finding-close-no-anchor-FAIL.md',
+    'hunk-anchor-PASS.md',
+    'landed-placeholder-not-anchor-FAIL.md',
+    'ledger-linked-no-linkage-FAIL.md',
+    'linkage-andon-PASS.md',
+    'linkage-ledger-row-PASS.md',
+    'mechanical-regen-slim-PASS.md',
+    'mechanical-with-long-body-PASS.md',
+    'named-anchor-PASS.md',
+    'occurrences-anchor-PASS.md',
+    'occurrences-ratio-not-anchor-FAIL.md',
+    'ordinary-hex-word-not-anchor-FAIL.md',
+    'placeholder-anchor-FAIL.md',
+    'real-window-best-body-PASS.md',
+    'reviewer-slots-unscored-PASS.md',
+    'test-placeholder-not-anchor-FAIL.md',
+    'unparseable-subject-slim-FAIL.md',
+))
+ESCALATION_FIXTURES = tuple("fixtures/andon-escalation/" + name for name in (
+    'same-class-recurrence.md',
+    'first-occurrence-misscoped-validator.md',
+    'cross-class-shared-invariant.md',
+    'correct-by-luck-perturbation.md',
+    'reasoned-rejection.md',
+))
 _CONTRACTS = {
     PROFILE: dict(label="audit-spec", index=57, program="tests/audit-spec.test.sh",
         programs=PROGRAM_PINS, data=FIXTURES, bounds=SOURCE_BOUNDS,
@@ -67,6 +107,34 @@ _CONTRACTS = {
         # Exact bytes of the thirteen literal here-documents in the wrapper.
         temporary_sizes=(172, 159, 82, 59, 69, 41, 27, 259, 95, 119, 84, 30, 51),
         temporary_directories=1),
+    COMMIT_PROFILE: dict(label="commit-message", index=56, program="tests/commit-message-contract.test.sh",
+        programs={
+            "tests/commit-message-contract.test.sh": "1ae951cc68bac704d5771e5d91bece6fab0f8793b1f0b79956f403ef03e27c7c",
+            "skills/implementaudit/scripts/repo-state.sh": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b"},
+        data=COMMIT_FIXTURES, bounds=dict(file_bytes=64 * 1024, total_bytes=512 * 1024, files=31),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="TWO_PINNED_PROGRAMS_FIXED_COMMIT_MESSAGE_BRANCH_AND_28_LITERAL_FIXTURES_NO_GIT_OR_ENUMERATION",
+        # Reserve every possible anonymous Bash here-document spool even when
+        # this kernel uses a pipe; all28 fixed calls are conservatively counted.
+        temporary_sizes=(3092,) * 28, temporary_directories=0),
+    AGENTS_PROFILE: dict(label="agents-bootstrap", index=59, program="tests/agents-bootstrap-budget.test.sh",
+        programs={
+            "tests/agents-bootstrap-budget.test.sh": "82d5413a6a67943cfb13d1ed70068ccacbea5c090491b5fac991697a870cf051",
+            "scripts/check-agents-bootstrap-budget.sh": "be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078"},
+        data=("AGENTS.md", "docs/audits/RETENTION.md"),
+        bounds=dict(file_bytes=64 * 1024, total_bytes=256 * 1024, files=5),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="TWO_PINNED_PROGRAMS_AGENT_BYTES_AND_CONSERVATIVELY_CAPTURED_REGULAR_RETENTION_PROBE_NO_GIT",
+        # Three generated documents, three diagnostics, and every possible
+        # Bash here-document spool (three in the wrapper, four checker calls).
+        temporary_sizes=(5412, 788, 1034, 65536, 65536, 65536, 124, 788, 1034, 3073, 3073, 3073, 3073), temporary_directories=1),
+    ESCALATION_PROFILE: dict(label="andon-escalation", index=39, program="tests/andon-escalation-judgment.test.sh",
+        programs={"tests/andon-escalation-judgment.test.sh": "48f3b279836a60f03bfc573203f47d1cdd323dbbbbe68047e158d398d1ef2f84"},
+        data=("skills/implementaudit/templates/PROTOCOL.md", *ESCALATION_FIXTURES),
+        bounds=dict(file_bytes=256 * 1024, total_bytes=1024 * 1024, files=8),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="PINNED_PROGRAM_PROTOCOL_AND_FIVE_LITERAL_FIXTURES_ORIGINAL_PIPEFAIL_NO_GIT_OR_ENUMERATION",
+        temporary_sizes=(), temporary_directories=0),
 }
 
 
@@ -75,7 +143,8 @@ def digest(data):
 
 
 def contract_for(profile):
-    if type(profile) is not str or profile not in (PROFILE, ANDON_PROFILE, REGISTRY_PROFILE, MARKER_PROFILE):
+    if type(profile) is not str or profile not in (PROFILE, ANDON_PROFILE, REGISTRY_PROFILE, MARKER_PROFILE,
+                                                     COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -153,7 +222,7 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
 
 
 def temporary_requirements(state, *, profile=PROFILE):
-    """Conservative allocation bounds for four inspected temporary-write sets."""
+    """Conservative allocation bounds for the explicit temporary-write sets."""
     contract = contract_for(profile)
     granule = 64 * 1024
     page = os.sysconf("SC_PAGE_SIZE")
@@ -161,7 +230,7 @@ def temporary_requirements(state, *, profile=PROFILE):
         raise ValueError("unsupported temporary allocation granule")
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
-    if profile in (REGISTRY_PROFILE, MARKER_PROFILE):
+    if profile in (REGISTRY_PROFILE, MARKER_PROFILE, COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE):
         sizes = contract["temporary_sizes"]
         copies, files, directories = 0, len(sizes), contract["temporary_directories"]
         content, allocated = sum(sizes), sum(map(rounded, sizes))

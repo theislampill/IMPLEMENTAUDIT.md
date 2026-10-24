@@ -19,6 +19,9 @@ PROFILES = {
     "andon-class": "CONTROLLED_TASK_ANDON_CLASS_V1",
     "registry-wrapper": "CONTROLLED_TASK_REGISTRY_WRAPPER_V1",
     "marker-order": "CONTROLLED_TASK_MARKER_ORDER_V1",
+    "commit-message": "CONTROLLED_TASK_COMMIT_MESSAGE_V1",
+    "agents-bootstrap": "CONTROLLED_TASK_AGENTS_BOOTSTRAP_V1",
+    "andon-escalation": "CONTROLLED_TASK_ANDON_ESCALATION_V1",
 }
 
 
@@ -41,8 +44,8 @@ class FactoryCases(unittest.TestCase):
         sessions = [self.q.create_finite_leaf_session(ROOT, self.base / mode, profile=profile)
                     for mode, profile in PROFILES.items()]
         self.assertEqual([s.SCOPE for s in sessions], list(PROFILES.values()))
-        self.assertEqual(len({type(s) for s in sessions}), 4)
-        self.assertEqual(len({s.producer for s in sessions}), 4)
+        self.assertEqual(len({type(s) for s in sessions}), 7)
+        self.assertEqual(len({s.producer for s in sessions}), 7)
         for s in sessions:
             record = json.loads((s.output / "session.json").read_bytes())
             self.assertEqual(record["receipt_custody"], "LIVE_PRODUCER_ONLY_NO_IMPORT")

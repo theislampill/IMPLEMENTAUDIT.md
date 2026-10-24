@@ -23,3 +23,5 @@ else py_cmd=(py -3); fi
 "${py_cmd[@]}" tests/work-graph-andon-cases.py
 "${py_cmd[@]}" tests/work-graph-finite-batch-cases.py
 "${py_cmd[@]}" tests/work-graph-finite-entry-cases.py
+"${py_cmd[@]}" tests/work-graph-finite-next-cases.py
+"${py_cmd[@]}" tests/work-graph-readme-effect-cases.py

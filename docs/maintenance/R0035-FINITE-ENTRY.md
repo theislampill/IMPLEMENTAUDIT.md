@@ -1,6 +1,6 @@
 # R0035 finite verifier entry points
 
-The repository qualifier exposes four explicit original-command profiles through
+The repository qualifier exposes seven explicit original-command profiles through
 one captured-module factory. They reuse the existing isolated-leaf executor and
 compiler mapping. The complete canonical registry still contains 117 nodes;
 these entry points do not run its unqualified remainder.
@@ -11,6 +11,9 @@ these entry points do not run its unqualified remainder.
 | `andon-class` | `CONTROLLED_TASK_ANDON_CLASS_V1` | 25 |
 | `registry-wrapper` | `CONTROLLED_TASK_REGISTRY_WRAPPER_V1` | 113 |
 | `marker-order` | `CONTROLLED_TASK_MARKER_ORDER_V1` | 45 |
+| `commit-message` | `CONTROLLED_TASK_COMMIT_MESSAGE_V1` | 56 |
+| `agents-bootstrap` | `CONTROLLED_TASK_AGENTS_BOOTSTRAP_V1` | 59 |
+| `andon-escalation` | `CONTROLLED_TASK_ANDON_ESCALATION_V1` | 39 |
 
 `registry-wrapper` executes the original registry test wrapper. The pre-existing
 `registry` mode remains the separate three-leaf profile containing the original
@@ -53,7 +56,8 @@ successful reuse. Full-capture options are unavailable on these routes.
 
 The finite helper's original source closures, exact executable pins, private
 scratch bounds and independent-node limits are documented in
-`R0035-FINITE-LEAF.md`, `R0035-AUDIT-SPEC.md` and `R0035-ANDON-CLASS.md`.
+`R0035-FINITE-LEAF.md`, `R0035-AUDIT-SPEC.md`, `R0035-ANDON-CLASS.md` and
+`R0035-FINITE-NEXT-PROFILES.md`.
 No omitted predecessor effect is supplied and no private test output is exported
 to a successor. The separate README effect contract, when qualified, owns its
 own physical producer/consumer evidence.
@@ -64,16 +68,16 @@ own physical producer/consumer evidence.
 custody and bounded protocol. Its protocol-routing doubles are explicitly unit
 controls and are not original-command execution evidence. The component's
 actual-command tests and an independent final-engine CLI run supply that separate
-evidence. The canonical verifier wrapper registers the three component banks
+evidence. The canonical verifier wrapper registers the finite component banks
 and the entry controls; its exact child census continues to check capture-variable
 stripping and preservation of unrelated environment values.
 
 A receiving review must bind the final qualifier/compiler/helper bytes, execute
-the four real original commands, and verify unchanged second requests retain the
+the seven real original commands, and verify unchanged second requests retain the
 same receipt with one dispatch each. Earlier component observations on different
 engine bytes remain historical evidence, never relabeled as a final-source run.
 
-These four independent profiles may expand the separately demonstrated finite
+These seven independent profiles may expand the separately demonstrated finite
 union only at their actual reviewed source. They do not prove full canonical
 chain equivalence, general accepted JOIN, authentic native task admission,
 Windows execution, prefix24 namespace availability or the original whole-issue

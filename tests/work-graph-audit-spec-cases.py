@@ -10,6 +10,7 @@ import shutil
 import signal
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,7 @@ P, _ = load("audit_spec_prefix", ROOT / "scripts/qualify-work-graph-prefix.py")
 
 class ProfileFixture:
     PROFILE = None
+    SOURCE_ADMISSION_ONLY = True
 
     def setUp(self):
         self.assertTrue(HELPER.is_file(), "finite original audit-spec profile is absent")
@@ -50,9 +52,35 @@ class ProfileFixture:
         state, stamps = self.A.snapshot_source(P, self.source, objects, profile=self.profile)
         return state, stamps, objects
 
+    def source_admission_session(self, session):
+        """Test source/resource refusals without claiming a runtime observer.
+
+        The live fixtures retain the unmodified session. Admission fixtures
+        replace only the observer prerequisite with an unencodable sentinel;
+        reaching runtime acquisition or dispatch is always a test failure.
+        """
+        if not self.SOURCE_ADMISSION_ONLY:
+            return session
+
+        def forbidden_runtime(*_args, **_kwargs):
+            raise AssertionError("source-admission fixture reached runtime acquisition")
+
+        scope = session._acquire.__func__.__globals__
+        self.assertIn("finite_runtime", scope)
+        guards = (
+            mock.patch.object(session, "_observer", return_value=mock.sentinel.source_admission_only),
+            mock.patch.dict(scope, {"finite_runtime": forbidden_runtime}),
+            mock.patch.object(session, "_execute", side_effect=AssertionError(
+                "source-admission fixture reached dispatch")),
+        )
+        for guard in guards:
+            guard.start()
+            self.addCleanup(guard.stop)
+        return session
+
     def session(self, name="evidence", **options):
         cls = self.A.bind_session(Q.VerifierTaskSession, Q.WG, ROOT, self.helper, profile=self.profile)
-        return cls(self.source, self.base / name, **options)
+        return self.source_admission_session(cls(self.source, self.base / name, **options))
 
 
 class AdmissionCases(ProfileFixture, unittest.TestCase):
@@ -150,8 +178,41 @@ class AdmissionCases(ProfileFixture, unittest.TestCase):
         self.assertEqual(session.dispatch_count, 0)
         self.assertEqual(list(session.output.rglob("dispatch.json")), [])
 
+    def test_source_admission_cannot_accept_valid_inputs(self):
+        session = self.session()
+        with self.assertRaisesRegex(AssertionError, "runtime acquisition"):
+            session.run()
+        self.assertEqual(session.dispatch_count, 0)
+        self.assertEqual(session._issued, {})
+        self.assertFalse((session.output / "objects").exists())
+        self.assertEqual(list(session.output.rglob("result.json")), [])
+
+    def test_missing_observer_tool_refuses_without_dispatch_or_receipt(self):
+        session = self.session()
+        resolve = Path.resolve
+        absent = self.base / "missing-observer-bwrap"
+
+        def missing_tool(path, *args, **kwargs):
+            if str(path) == "/usr/bin/bwrap":
+                return resolve(absent, *args, **kwargs)
+            return resolve(path, *args, **kwargs)
+
+        # Restore the real observer for this capability-refusal control, while
+        # retaining the no-runtime/no-dispatch tripwires. No host file changes.
+        observer = type(session)._observer.__get__(session, type(session))
+        with mock.patch.object(session, "_observer", observer), mock.patch.object(Path, "resolve", missing_tool):
+            with self.assertRaises(FileNotFoundError) as error:
+                session.run()
+        self.assertEqual(error.exception.filename, str(absent))
+        self.assertEqual(session.dispatch_count, 0)
+        self.assertEqual(session._issued, {})
+        self.assertFalse((session.output / "objects").exists())
+        self.assertEqual(list(session.output.rglob("dispatch.json")), [])
+        self.assertEqual(list(session.output.rglob("result.json")), [])
+
 
 class RetainedFixture(ProfileFixture):
+    SOURCE_ADMISSION_ONLY = False
     LIVE_ENV = "R0035_AUDIT_SPEC_LIVE"
     EVIDENCE_ENV = "R0035_AUDIT_SPEC_EVIDENCE"
     OBJECTS_ENV = "R0035_AUDIT_SPEC_OBJECTS"

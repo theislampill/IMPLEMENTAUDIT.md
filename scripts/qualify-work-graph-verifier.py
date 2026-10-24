@@ -28,14 +28,37 @@ try:
 except ImportError:
     fcntl = resource = None
 
-ROOT = Path(__file__).resolve().parents[1]
-LOADED_DRIVER_PATH = Path(__file__).resolve()
-LOADED_DRIVER = LOADED_DRIVER_PATH.read_bytes()
+# The fixed README receiver supplies only source data from its complete,
+# physically checked closure. No result/authority credential is accepted here.
+_EFFECT_CAPTURE = globals().pop("_R0035_EFFECT_SOURCE_CAPTURE", None)
+if _EFFECT_CAPTURE is None:
+    ROOT = Path(__file__).resolve().parents[1]
+    LOADED_DRIVER_PATH = Path(__file__).resolve()
+    LOADED_DRIVER = LOADED_DRIVER_PATH.read_bytes()
+    DRIVER_SOURCE_IDENTITY = "CURRENT_FILE_OBSERVATION_NOT_CAPTURE_ATTESTATION"
+    LOADED_COMPILER_PATH = ROOT / "skills/implementaudit/scripts/compile-work-graph.py"
+    LOADED_COMPILER = LOADED_COMPILER_PATH.read_bytes()
+    LOADED_COMPILER_PATH = LOADED_COMPILER_PATH.resolve()
+else:
+    if (type(_EFFECT_CAPTURE) is not dict
+            or set(_EFFECT_CAPTURE) != {"driver", "compiler", "expected_compiler_sha256"}
+            or any(type(_EFFECT_CAPTURE[name]) is not bytes or not 0 < len(_EFFECT_CAPTURE[name]) <= 1024**2
+                   for name in ("driver", "compiler"))
+            or type(_EFFECT_CAPTURE["expected_compiler_sha256"]) is not str
+            or re.fullmatch(r"[0-9a-f]{64}", _EFFECT_CAPTURE["expected_compiler_sha256"]) is None
+            or hashlib.sha256(_EFFECT_CAPTURE["compiler"]).hexdigest()
+               != _EFFECT_CAPTURE["expected_compiler_sha256"]):
+        raise ValueError("invalid fixed-loader compiler source capture")
+    LOADED_DRIVER_PATH = Path(__file__).absolute()
+    ROOT = LOADED_DRIVER_PATH.parents[1]
+    LOADED_DRIVER = _EFFECT_CAPTURE["driver"]
+    DRIVER_SOURCE_IDENTITY = "CAPTURED_EXECUTED_BUFFER"
+    LOADED_COMPILER_PATH = ROOT / "skills/implementaudit/scripts/compile-work-graph.py"
+    LOADED_COMPILER = _EFFECT_CAPTURE["compiler"]
 SPEC = importlib.util.spec_from_file_location("work_graph", ROOT / "skills/implementaudit/scripts/compile-work-graph.py")
 WG = importlib.util.module_from_spec(SPEC)
-LOADED_COMPILER = Path(SPEC.origin).read_bytes()
-LOADED_COMPILER_PATH = Path(SPEC.origin).resolve()
 exec(compile(LOADED_COMPILER, SPEC.origin, "exec"), WG.__dict__)
+del _EFFECT_CAPTURE
 REPRO_PRODUCER = "tests/reproducible-release-asset.test.sh"
 REPRO_PRODUCER_SHA256 = "7c892c5e84a29bd33d6ed03c97a5610efde51b0d1ad0165f9e9ded0a3bdfb3ad"
 REPRO_EVENT_PRODUCER_SHA256 = "a27521758cc71e312052d7eaa7c8b488dbbe2dcc5089d6054be0923455763310"
@@ -1618,6 +1641,9 @@ _FINITE_MODES = {
     "andon-class": "CONTROLLED_TASK_ANDON_CLASS_V1",
     "registry-wrapper": "CONTROLLED_TASK_REGISTRY_WRAPPER_V1",
     "marker-order": "CONTROLLED_TASK_MARKER_ORDER_V1",
+    "commit-message": "CONTROLLED_TASK_COMMIT_MESSAGE_V1",
+    "agents-bootstrap": "CONTROLLED_TASK_AGENTS_BOOTSTRAP_V1",
+    "andon-escalation": "CONTROLLED_TASK_ANDON_ESCALATION_V1",
 }
 
 
