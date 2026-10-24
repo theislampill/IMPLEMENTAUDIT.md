@@ -451,8 +451,10 @@ If verification establishes that a new constraint defeats the selected counterme
 and materially changes the warranted response, the active child returns to the
 governor, the governor re-derives current state, and only then may it select and load a
 fresh `audit-andon` route. If that diagnosis warrants another bounded repair,
-`audit-andon` returns to the governor before a fresh `audit-implement` route. A direct
-child-to-child transition is a routing failure.
+`audit-andon` returns to the governor; execution/repair remains governor-owned
+through its progressive reference. A later `audit-implement` route requires a
+separately warranted exact claim and the applicable branch-specific admission/currentness gates.
+A direct child-to-child transition is a routing failure.
 
 ## Final audit markers
 

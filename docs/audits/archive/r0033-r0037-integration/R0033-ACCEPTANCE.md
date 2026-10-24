@@ -523,3 +523,87 @@ CI remain separate root-owned gates; this local correction does not rewrite the
 actual failed hosted result. Rollback restores the prior route/compiler/manifest
 receiving tuple coherently and retains the failure evidence; it does not qualify
 that prior tuple to receive the newer resolver.
+
+## Prospective repair and separately admitted qualification
+
+A narrow original-contract discriminator was found on public parent
+`2c167c9cb9c3eefc66448212d602196b737d663e`, tree
+`37856af8793d998d00d4e6a19bf2fb01c5fa4d8f`. The inherited transcript passage
+said a repair-warranting Andon diagnosis returned to the governor before a fresh
+`audit-implement` route, without stating a separately warranted claim and its
+admission gates. The original four-child supplement's NON_TRIGGER and adjacent
+boundary assign prospective execution/repair to the governor's progressive
+reference. Amendment 5314405274 item 4 preserves that owner while broadening
+bounded evidential support. Later amendments do not make diagnosis qualification
+admission. The unchanged child contract already retains those distinctions.
+
+Independent pre-edit review found the same implication in the existing secondary-
+abnormality fixture: `repair_warranted` required a later qualification load, and
+its positive case treated the diagnosis as sufficient. Actual execution of that
+unchanged fixture function reproduced two failures before source edits:
+
+| Literal original-contract expectation | Predecessor observation | Corrected observation |
+|---|---|---|
+| A repair-only return/re-derivation may finish this bounded cognition trace without a qualification child. | False: valid continuation rejected. | True. |
+| Diagnosis alone does not admit a later qualification route. | True: unqualified sequence accepted. | False. |
+
+These are real executions of the repository's supplied-event fixture, not
+observed model misroutes or authenticated child events. The source passage did
+not literally command the child to execute a repair; the defect was an
+unqualified transition implication and the oracle that enforced it.
+
+The paragraph now returns diagnosis to the governor's progressive execution/
+repair owner. Any later `audit-implement` route requires a separately warranted
+exact claim and existing branch-specific admission/currentness gates. The
+preceding cheap-failure and new-constraint/Andon conditions, sole governor, four
+children, return boundaries and no-child-chain rule remain intact. The child
+contract, v2 consumer, resolver and native owners are unchanged.
+
+The existing finite oracle now binds a supplied qualification-claim observation
+to its matching admission projection before qualification selection, clears
+those observations across child/repair boundaries, and requires return/re-
+derivation before later governor work. Its admission event represents the
+existing owner's branch-specific checks; this fixture neither reimplements
+those checks nor authenticates the supplied facts. A repair recommendation no
+longer imposes another child. The exact predecessor wrong-positive trace remains
+registered as a negative; an additional qualified-initial trace isolates the
+missing later admission. Cheap/no-repair/direct-chain controls remain, together
+with a separately admitted qualification positive, a separately warranted
+proposition without forced repair execution, and absent/foreign/stale/child-
+supplied/premature admission negatives.
+
+On transcript SHA-256
+`a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf`
+and test SHA-256
+`f08f3b6e9181244d28bdb0b9f6bf9f1882a93f33a8f51b0f12a55e7de549cd52`,
+the unchanged two-case reproduction driver passes, and all **17 affected
+secondary-abnormality controls** pass. The exact existing embedded source-contract
+block and shell syntax check also pass. The affected AST extraction retains its
+original import/Event/CHILDREN nodes and the complete secondary function/case/
+assertion block without AST edits. The unrelated resolver, 154-case supplied-
+value, pending-durability, observability and lifecycle populations in the same
+wrapper were not replayed. No full-wrapper or whole-repository result is claimed.
+
+- Predecessor test: `aa9bf09c2741e36dcd58996536985b82b17a604e9dfa8af4f7b90d314eaf71d8`.
+- Original two-failure output: `228b119eb769bfdc302d25d14aec78737a6a509ba0cb7eccf442bfe49bb0ad4e`.
+- Same-driver corrected output: `501cef3b767a16dc12a981e419ffd8cde5c270d033b55edb8f8e36f097dd0bca`.
+- Seventeen-control output: `11ce209edeb7fdb1a2f276900d96f7b558f7b03632d33be8af64907c9ce34c25`.
+- Independent pre-edit review: `7fb46ce169c88e582d19071a670f12cb328d57c37852e6aac5c0b8bb33241c75`.
+
+Two proposed ordinary advice tasks remain UNEXECUTED: they could bypass the
+passage and overlapped existing semantic categories. Their frozen prompts and
+superseded preparation are retained with zero dispatch/outcomes. This increment
+does not relabel the original eight semantic cases, infer completion of the five
+unlocated affected interpretations, or create a new native population. Historical
+intake/source-identity records remain unchanged; these additive hashes bind the
+new source.
+
+This advances the original prospective-repair/realised-support sibling boundary
+and no-hidden-lifecycle source/fixture obligations. Actual selection, OPEN, full
+LOAD, original RETURN, governor acceptance, currentness/decision binding, pending
+consumption, native Stop and original issue acceptance remain separately open.
+No graph, READY, dispatch, JOIN or other-owner source is changed. Independent
+post-edit review, exact package/projection checks, publication and hosted CI are
+root-owned receiving gates at this addendum's creation. Rollback restores the
+three-file increment together while retaining these original failures and all
+prior qualifications; it does not turn the predecessor oracle into valid proof.
