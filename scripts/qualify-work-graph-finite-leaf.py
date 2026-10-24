@@ -52,6 +52,83 @@ INTERNAL_ROUTING_PROFILE = "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1"
 LEAN_DISCIPLINE_PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
 PACKAGE_SHAPE_PROFILE = "CONTROLLED_TASK_PACKAGE_SHAPE_CLAIMS_V1"
+MINI_AUDIT_PROFILE = "CONTROLLED_TASK_MINI_AUDIT_LOOP_V1"
+# Fixed original87 branch: actual default Git templates, including every sample
+# and empty directory. No hook/config filter or alternate template root exists.
+_MINI_AUDIT_TEMPLATE_ROOT = "/usr/share/git-core/templates"
+_MINI_AUDIT_TEMPLATE_BOUNDS = {'depth': 4, 'entries': 32, 'file_bytes': 65536, 'path_bytes': 256, 'total_bytes': 131072}
+_MINI_AUDIT_TEMPLATE_FILES = {'description': {'bytes': 73,
+                 'mode': 420,
+                 'sha256': '85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee'},
+ 'hooks/applypatch-msg.sample': {'bytes': 478,
+                                 'mode': 493,
+                                 'sha256': '0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7'},
+ 'hooks/commit-msg.sample': {'bytes': 896,
+                             'mode': 493,
+                             'sha256': '1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437'},
+ 'hooks/fsmonitor-watchman.sample': {'bytes': 4726,
+                                     'mode': 493,
+                                     'sha256': 'e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0'},
+ 'hooks/post-update.sample': {'bytes': 189,
+                              'mode': 493,
+                              'sha256': '81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5'},
+ 'hooks/pre-applypatch.sample': {'bytes': 424,
+                                 'mode': 493,
+                                 'sha256': 'e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475'},
+ 'hooks/pre-commit.sample': {'bytes': 1643,
+                             'mode': 493,
+                             'sha256': 'f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a'},
+ 'hooks/pre-merge-commit.sample': {'bytes': 416,
+                                   'mode': 493,
+                                   'sha256': 'd3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53'},
+ 'hooks/pre-push.sample': {'bytes': 1374,
+                           'mode': 493,
+                           'sha256': 'ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a'},
+ 'hooks/pre-rebase.sample': {'bytes': 4898,
+                             'mode': 493,
+                             'sha256': '4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3'},
+ 'hooks/pre-receive.sample': {'bytes': 544,
+                              'mode': 493,
+                              'sha256': 'a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989'},
+ 'hooks/prepare-commit-msg.sample': {'bytes': 1492,
+                                     'mode': 493,
+                                     'sha256': 'e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619'},
+ 'hooks/push-to-checkout.sample': {'bytes': 2783,
+                                   'mode': 493,
+                                   'sha256': 'a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f'},
+ 'hooks/sendemail-validate.sample': {'bytes': 2308,
+                                     'mode': 493,
+                                     'sha256': '44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92'},
+ 'hooks/update.sample': {'bytes': 3650,
+                         'mode': 493,
+                         'sha256': '8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106'},
+ 'info/exclude': {'bytes': 240,
+                  'mode': 420,
+                  'sha256': '6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1'}}
+_MINI_AUDIT_TEMPLATE_DIRECTORIES = {'.': 493, 'branches': 493, 'hooks': 493, 'info': 493}
+# Saved inspected Git ELF and complete DT_NEEDED/PT_INTERP closure. Physical
+# identities are reacquired; these pins never substitute for an original run.
+_MINI_AUDIT_GIT_PINS = {'/lib/x86_64-linux-gnu/libc.so.6': {'bytes': 2125328,
+                                     'mode': 493,
+                                     'resolved': '/usr/lib/x86_64-linux-gnu/libc.so.6',
+                                     'sha256': '511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0'},
+ '/lib/x86_64-linux-gnu/libpcre2-8.so.0': {'bytes': 625344,
+                                           'mode': 420,
+                                           'resolved': '/usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.11.2',
+                                           'sha256': 'e00576d71d81d3ba0cfa4903c835a44a8723aac96f72f79ff75200b4cff9071b'},
+ '/lib/x86_64-linux-gnu/libz.so.1': {'bytes': 113000,
+                                     'mode': 420,
+                                     'resolved': '/usr/lib/x86_64-linux-gnu/libz.so.1.3',
+                                     'sha256': '9b64150b28505a33d6bc3ecf709c279f6de97a1c184dbda65d06ee4537f6d286'},
+ '/lib64/ld-linux-x86-64.so.2': {'bytes': 236616,
+                                 'mode': 493,
+                                 'resolved': '/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2',
+                                 'sha256': '6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28'},
+ '/usr/bin/git': {'bytes': 4066232,
+                  'mode': 493,
+                  'resolved': '/usr/bin/git',
+                  'sha256': '2a8c18fbf43da9f692d75474c72bea9dfd796c260b0f3dfe456376abc3bbd668'}}
+_MINI_AUDIT_SPOOLS = (2240, 915, 19760, 4167, 839, 825, 841)
 RESPEC_PROFILE = "CONTROLLED_TASK_RESPEC_IMPACT_SET_V1"
 BOOTSTRAP_BUDGET_PROFILE = "CONTROLLED_TASK_BOOTSTRAP_LOAD_BUDGET_V1"
 # Inspected seq ELF: its only DT_NEEDED member is libc, with this existing
@@ -460,6 +537,19 @@ _CONTRACTS = {
         projection="COMPLETE_WHOLE_ROOT_BYTES_NAMES_EMPTY_DIRECTORIES_AND_FILE_MODES_ORIGINAL_NINE_SEQUENTIAL_COPIES",
         whole_copy=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
                         entries=4096, depth=40, path_bytes=2048)),
+    MINI_AUDIT_PROFILE: {'bounds': {'file_bytes': 131072, 'files': 7, 'total_bytes': 524288},
+     'data': ['fixtures/e2e-mini-audit-loop/phase-1.md',
+              'skills/implementaudit/templates/PROTOCOL.md',
+              'fixtures/e2e-mini-audit-loop/EXPECTED-TRANSCRIPT.md'],
+     'index': 87,
+     'label': 'mini-audit-loop',
+     'pinned_data': {'fixtures/e2e-mini-audit-loop/phase-1.md': '44a48a1a22e8bb7a783aa0b4c3608e2d75afe4ad4d74ac720931f759b7cde06b'},
+     'program': 'tests/e2e-mini-audit-loop.test.sh',
+     'programs': {'skills/implementaudit/scripts/repo-state.sh': 'b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b',
+                  'skills/implementaudit/scripts/validate-phase.sh': '07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab',
+                  'tests/e2e-mini-audit-loop.test.sh': '8b4aff39b1da3c36d1ebc9e020923e214dec4926e5426ac4e322d59d444308f3'},
+     'projection': 'THREE_PINNED_ORIGINAL_PROGRAMS_PINNED_PHASE_SELECTOR_TWO_OPAQUE_DATA_INPUTS_ACTUAL_DEFAULT_GIT_TEMPLATE_BYTES_PRIVATE_TMP_REPOSITORY',
+     'source_modes': 'PRESERVE_READ_ONLY_MOUNT'},
     PACKAGE_SHAPE_PROFILE: dict(label="package-shape-claims", index=75, program="tests/package-shape-claims.test.sh",
         programs={
             "tests/package-shape-claims.test.sh": "62423be42e48121a3af91e962cf523248fbeea5c31d666a89f831a651ba947ad",
@@ -779,7 +869,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -2081,7 +2171,27 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile == PACKAGE_SHAPE_PROFILE:
+    if profile == MINI_AUDIT_PROFILE:
+        # One unchanged original creates a private /tmp repository. Charge the
+        # three copied sources, two literal files, every real template copy,
+        # 32 fixed Git metadata/object/lock/probe slots and all seven heredoc
+        # spools concurrently. The fixed phase pin excludes further imports.
+        copied = (state["files"]["skills/implementaudit/scripts/repo-state.sh"]["bytes"],
+            state["files"]["skills/implementaudit/templates/PROTOCOL.md"]["bytes"],
+            state["files"]["fixtures/e2e-mini-audit-loop/phase-1.md"]["bytes"])
+        templates = tuple(row["bytes"] for row in _MINI_AUDIT_TEMPLATE_FILES.values())
+        sizes = (*copied, 9, 11, *templates, *((granule,) * 32), *_MINI_AUDIT_SPOOLS)
+        copies, files, directories = 3 + len(templates), len(sizes), 32
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096, max_stderr_bytes=65536,
+            original_data_memory_reservation=granule + 64 * sum(copied),
+            script_copied_files=3, script_generated_files=2, template_copied_files=16,
+            git_generated_file_slots=32, git_slot_bytes=granule, validator_spools=7,
+            validator_spool_bytes=sum(_MINI_AUDIT_SPOOLS), git_executable_sha256=_MINI_AUDIT_GIT_PINS["/usr/bin/git"]["sha256"],
+            branch="PINNED_PHASE_NO_SCARCE_BUDGET_FIXED_DEFAULT_TEMPLATES_FRESH_PRIVATE_GIT_ONE_COMMIT",
+            basis="ACQUIRED_COPY_BYTES_PINNED_TEMPLATES_AND_FIXED_PRIVATE_GIT_WRITE_SET",
+            capacity_disposition="UNCHANGED_32MIB_PRIVATE_TMP_NO_SOURCE_WRITE_OWNER")
+    elif profile == PACKAGE_SHAPE_PROFILE:
         wrapper = state["files"][contract["program"]]["bytes"]
         checker = state["files"]["scripts/check-package-shape-claims.sh"]["bytes"]
         # JSON copies may be rewritten by json.dumps(ensure_ascii=True).
@@ -2700,6 +2810,115 @@ def _capture_planner_runtime(prefix, runtime, objects):
                                      for name in _PLANNER_ABSENT_PROBES}
 
 
+def _mini_audit_template_snapshot(prefix, root, objects):
+    """Close a complete fixed template population with the existing typed reader."""
+    state, stamps = prefix.snapshot_tree(root, objects, _MINI_AUDIT_TEMPLATE_BOUNDS)
+    if (state["files"] != _MINI_AUDIT_TEMPLATE_FILES or
+            state["directories"] != _MINI_AUDIT_TEMPLATE_DIRECTORIES or
+            any(len(name.encode("utf-8")) > _MINI_AUDIT_TEMPLATE_BOUNDS["path_bytes"]
+                for group in state.values() for name in group)):
+        raise ValueError("unsupported complete original87 Git template population")
+    closing, closing_stamps = prefix.snapshot_tree(root, {}, _MINI_AUDIT_TEMPLATE_BOUNDS)
+    if state != closing or stamps != closing_stamps:
+        raise ValueError("original87 Git template namespace changed during acquisition")
+    return state, stamps
+
+
+def _mini_audit_git_runtime_binding(prefix, runtime, objects):
+    """Bind captured Git/default linkage to current physical bytes, never execute it."""
+    names = ("/usr/bin/git", *sorted(set(_MINI_AUDIT_GIT_PINS) - {"/usr/bin/git"}))
+    for name in names:
+        pin = _MINI_AUDIT_GIT_PINS[name]
+        observed = runtime.get("observations", {}).get(name, {})
+        entry = runtime.get("files", {}).get(name, {})
+        expected_mode = 0o555 if pin["mode"] & 0o111 else 0o444
+        if (any(observed.get(key) != value for key, value in pin.items()) or
+                entry != dict(mode=expected_mode, bytes=pin["bytes"], sha256=pin["sha256"]) or
+                len(objects.get(pin["sha256"], b"")) != pin["bytes"] or
+                digest(objects.get(pin["sha256"], b"")) != pin["sha256"]):
+            raise ValueError("unsupported original87 captured Git/default linkage")
+    # Check all captured records before any physical read. The existing reader
+    # rejects aliases in resolved ancestors and changed metadata; declared
+    # system-library aliases remain selected only at their exact saved target.
+    for name in names:
+        pin = _MINI_AUDIT_GIT_PINS[name]
+        original = Path(name)
+        resolved = original.resolve(strict=True)
+        if str(resolved) != pin["resolved"]:
+            raise ValueError("original87 Git runtime alias changed")
+        current, raw = prefix.read_regular(resolved, prefix.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+        observed = runtime["observations"][name]
+        if (current["identity"] != observed.get("identity") or current["mode"] != pin["mode"] or
+                current["size"] != pin["bytes"] or digest(raw) != pin["sha256"] or
+                original.resolve(strict=True) != resolved):
+            raise ValueError("original87 Git runtime changed during acquisition")
+    return dict(executable="/usr/bin/git",
+        closure={name: copy.deepcopy(runtime["observations"][name]) for name in _MINI_AUDIT_GIT_PINS},
+        template_default=_MINI_AUDIT_TEMPLATE_ROOT,
+        original_argv_templates=[["git", "init", "-q"],
+            ["git", "config", "user.email", "test@example.invalid"],
+            ["git", "config", "user.name", "ImplementAudit E2E"],
+            ["git", "add", "README.md"], ["git", "commit", "-qm", "baseline"],
+            ["git", "rev-parse", "HEAD"], ["git", "rev-parse", "--is-inside-work-tree"],
+            ["git", "rev-parse", "--verify", "--quiet", "<generated-baseline>^{commit}"],
+            ["git", "ls-files", "--others", "--exclude-standard", "--", "src-mini-proof.txt"]],
+        maintenance="ORIGINAL_DEFAULT_BUILTIN_AUTO_MAINTENANCE_UNCHANGED",
+        custody="ACTUAL_CAPTURED_GIT_BYTES_PHYSICAL_CURRENTNESS_NO_HOST_GIT_EXECUTION",
+        authority="NONE")
+
+
+def _capture_mini_audit_git_runtime(prefix, runtime, objects):
+    """Extend only original87 with all actual default-template bytes/directories."""
+    binding = _mini_audit_git_runtime_binding(prefix, runtime, objects)
+    root = Path(_MINI_AUDIT_TEMPLATE_ROOT)
+    state, stamps = _mini_audit_template_snapshot(prefix, root, objects)
+    if binding != _mini_audit_git_runtime_binding(prefix, runtime, objects):
+        raise ValueError("original87 Git binding changed during template acquisition")
+    # The final full tree read closes membership/bytes again after the physical
+    # Git binding. No member is dropped, renamed, synthesized, or executed.
+    closing, closing_stamps = prefix.snapshot_tree(root, {}, _MINI_AUDIT_TEMPLATE_BOUNDS)
+    if state != closing or stamps != closing_stamps:
+        raise ValueError("original87 Git template namespace changed after Git binding")
+    for relative, record in state["files"].items():
+        name = str(root / relative)
+        if name in runtime["files"] or name in runtime["observations"]:
+            raise ValueError("original87 Git template runtime collision")
+        runtime["files"][name] = dict(record)
+        runtime["observations"][name] = dict(resolved=name, **record, identity=stamps[relative])
+    directories = {str(root if name == "." else root / name) for name in state["directories"]}
+    for relative in state["directories"]:
+        name = str(root if relative == "." else root / relative)
+        if name in runtime["directory_observations"]:
+            raise ValueError("original87 Git template directory collision")
+        runtime["directory_observations"][name] = stamps[relative]
+    runtime["directories"] = sorted(set(runtime["directories"]) | directories |
+        {str(path) for path in root.parents if str(path) != "/"})
+    runtime["mini_audit_git_binding"] = binding
+    runtime["mini_audit_git_templates"] = dict(root=str(root), projection=state,
+        currentness=stamps, bounds=dict(_MINI_AUDIT_TEMPLATE_BOUNDS),
+        policy="ACTUAL_COMPLETE_DEFAULT_TEMPLATE_TREE_NO_FILTER_NO_OVERRIDE")
+
+
+def _mini_audit_template_image(manifest, templates):
+    """Bind the complete observed population in either existing finite image."""
+    root = _MINI_AUDIT_TEMPLATE_ROOT
+    expected = dict(files=_MINI_AUDIT_TEMPLATE_FILES, directories=_MINI_AUDIT_TEMPLATE_DIRECTORIES)
+    if (templates.get("root") != root or templates.get("projection") != expected or
+            templates.get("bounds") != _MINI_AUDIT_TEMPLATE_BOUNDS or
+            set(templates.get("currentness", {})) != set(expected["files"]) | set(expected["directories"])):
+        raise ValueError("unsupported original87 template image binding")
+    members = {entry["path"]: {key: entry[key] for key in ("mode", "bytes", "sha256")}
+               for entry in manifest["files"] if entry["path"] == root or entry["path"].startswith(root + "/")}
+    if members != {root + "/" + name: record for name, record in expected["files"].items()}:
+        raise ValueError("original87 image does not contain the complete captured templates")
+    directories = {root if name == "." else root + "/" + name for name in expected["directories"]}
+    if any(name not in directories for name in manifest["directories"]
+           if name == root or name.startswith(root + "/")):
+        raise ValueError("unsupported extra original87 template image directory")
+    manifest["directories"] = sorted(set(manifest["directories"]) | directories)
+    manifest["mini_audit_git_templates"] = copy.deepcopy(templates)
+
+
 def finite_runtime(prefix, objects, *, profile=PROFILE):
     contract_for(profile)
     runtime = prefix.acquire_runtime(objects)
@@ -2709,6 +2928,8 @@ def finite_runtime(prefix, objects, *, profile=PROFILE):
         _capture_planner_runtime(prefix, runtime, objects)
     if profile == BOOTSTRAP_BUDGET_PROFILE:
         _capture_bootstrap_runtime(prefix, runtime, objects)
+    if profile == MINI_AUDIT_PROFILE:
+        _capture_mini_audit_git_runtime(prefix, runtime, objects)
     # The existing isolated-leaf bootstrap necessarily execs this wrapper before
     # the original shell. Fix its descendants' umask without changing the
     # observer process or introducing another executor.
@@ -2764,7 +2985,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             # this fixed ceiling leaves every other executor limit unchanged.
             LIMITS["scratch_bytes"] = 512 * 1024**2
         ENVIRONMENT = (dict(parent.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1")
-                       if profile in (RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE) else parent.ENVIRONMENT)
+                       if profile in (RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, MINI_AUDIT_PROFILE) else parent.ENVIRONMENT)
 
         def __init__(self, source_root, output, *, max_age=3600):
             # Preserve the namespace owner's raw-path refusal before inherited
@@ -2825,7 +3046,11 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             for captured in objects.values():
                 self._object(captured)
             runtime_files = {name: (objects[entry["sha256"]], entry["mode"]) for name, entry in runtime["files"].items()}
-            _, runtime_key = self._image(runtime_files, {})
+            runtime_manifest, runtime_key = self._image(runtime_files, {})
+            if profile == MINI_AUDIT_PROFILE:
+                _mini_audit_template_image(runtime_manifest, runtime["mini_audit_git_templates"])
+                runtime_manifest["git_startup"] = runtime["mini_audit_git_binding"]
+                runtime_key = self._object(self._encode(runtime_manifest))
             files = dict(runtime_files)
             subject = image_subject(source, profile=profile)
             files.update({"/work/" + name: (objects[value["sha256"]],
@@ -2886,6 +3111,10 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 objects.setdefault(digest(configuration), configuration)
             manifest, image_key = self._image(files, subject,
                 membership if profile == REGISTRY_PROFILE else None)
+            if profile == MINI_AUDIT_PROFILE:
+                _mini_audit_template_image(manifest, runtime["mini_audit_git_templates"])
+                manifest["git_startup"] = runtime["mini_audit_git_binding"]
+                image_key = self._object(self._encode(manifest))
             if profile == TOPOLOGY_PROFILE:
                 # Preserve actual empty directories without introducing a file
                 # the original find would observe. The existing executor alone
