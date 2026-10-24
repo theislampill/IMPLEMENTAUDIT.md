@@ -31,6 +31,7 @@ READ_ONLY_PROFILE = "CONTROLLED_TASK_READ_ONLY_PLANS_V1"
 SAFEGUARD_PROFILE = "CONTROLLED_TASK_SAFEGUARD_RESTORATION_V1"
 ROUTING_PROFILE = "CONTROLLED_TASK_ROUTING_V1"
 AUDIT_OBJECT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1"
+INSTALLED_PROFILE = "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -396,6 +397,16 @@ _CONTRACTS = {
         # negatives and all five original checker invocations byte for byte.
         source_modes="PRESERVE_READ_ONLY_MOUNT",
         projection="TWO_PINNED_PROGRAMS_NINETEEN_LITERAL_INPUTS_FIVE_CHECKER_CALLS_REPAIRED_G2_NEGATIVES_PRIVATE_COPIES_ONLY"),
+    INSTALLED_PROFILE: dict(label="installed-payload", index=85, program="tests/installed-payload-self-contained.test.sh",
+        programs={
+            "tests/installed-payload-self-contained.test.sh": "842e9c7063a40fca12816feb0cbc5484b5954e913dac1af5cc767d517251f9a0",
+            "scripts/check-installed-payload-self-contained.sh": "228ab1ed29c50d7916cca4e82b0696d42314c6a4efb3b2a7bdd43b5a3bfd70b8"},
+        data=(), bounds=dict(file_bytes=1024 * 1024, total_bytes=8 * 1024**2, files=3),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="TWO_PINNED_PROGRAMS_COMPLETE_SKILLS_BYTES_NAMES_TYPES_PHYSICAL_HELPER_ROUTES_26_CHECKER_CALLS_PRIVATE_WRITES_ONLY",
+        recursive=dict(roots=("skills",), optional=False, bounds=_RECURSIVE_BOUNDS,
+            required_members=("skills/implementaudit/SKILL.md",
+                "skills/implementaudit/references/repo-state-comparison.md"))),
 }
 
 
@@ -408,7 +419,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -665,6 +676,7 @@ def recursive_output_bounds(state, objects, contract, *, profile):
     names = sorted(set(state["files"]) - {REGISTRY, *contract["programs"]})
     grep_bytes = diagnostics = terminal_bytes = terminal_messages = audit_checker_bytes = 0
     safeguard_bytes = safeguard_messages = 0
+    installed_bytes = installed_messages = 0
     for name in names:
         raw = objects[state["files"][name]["sha256"]]
         path_bytes = len(name.encode("utf-8"))
@@ -702,6 +714,22 @@ def recursive_output_bounds(state, objects, contract, *, profile):
                 count = 0  # The fixed margin covers decoder tracebacks.
             width = max(path_bytes, len(name.encode("ascii", "backslashreplace")))
             audit_checker_bytes += 8 * count * (width + len(str(max(count, 1))) + 256)
+        if profile == INSTALLED_PROFILE:
+            try:
+                text = raw.decode("utf-8", "strict")
+            except UnicodeDecodeError:
+                # The original skips this text, while acquisition retains it.
+                continue
+            display_path = max(path_bytes, len(name.encode("ascii", "backslashreplace"))) + len("/work/")
+            for lineno, line in enumerate(text.splitlines(), 1):
+                normalized = line.replace("\\", "/").lower()
+                if not any(token in normalized for token in ("scripts/", "fixtures/", "tests/", "helper-route:")):
+                    continue
+                # At most two reference reports, or one full invalid member,
+                # per line. Include every label/exemption as a possible error.
+                # Four-byte expansion also covers stderr's ASCII backslashes.
+                installed_messages += 2
+                installed_bytes += 2 * (display_path + len(str(lineno)) + 256) + 4 * len(line.encode("utf-8"))
         if profile == TERMINAL_PROFILE:
             try:
                 text = raw.decode("utf-8", "strict")
@@ -731,6 +759,9 @@ def recursive_output_bounds(state, objects, contract, *, profile):
         result["audit_checker_diagnostic_bytes"] = (audit_checker_bytes + 1024 * 1024
             + 4 * max((state["files"][name]["bytes"] for name in names), default=0)
             + sum(2 * (len(name.encode("ascii", "backslashreplace")) + 256) for name in names))
+    if profile == INSTALLED_PROFILE:
+        result.update(installed_possible_messages=installed_messages,
+            installed_diagnostic_bytes=installed_bytes + 64 * 1024)
     return result
 
 
@@ -898,6 +929,23 @@ def temporary_requirements(state, *, profile=PROFILE):
             max_stderr_bytes=max(report + bound["binary_diagnostic_bytes"],
                 bound["audit_checker_diagnostic_bytes"]) + 4096,
             report_file_bound=report, checker_spool_bytes=sum(spools))
+    elif profile == INSTALLED_PROFILE:
+        diagnostic = state["recursive_inputs"]["resources"]["installed_diagnostic_bytes"]
+        wrapper = state["files"][contract["program"]]["bytes"]
+        checker = state["files"]["scripts/check-installed-payload-self-contained.sh"]["bytes"]
+        # All 21 ordinary routes, the hardlink route and three bad payloads
+        # persist until the trap: 48 payload path entries and 121 directories.
+        # Charge the hardlink's two names as independent storage. Every fixed
+        # generated payload fits the pinned wrapper; root-only copies checker.
+        # Three diagnostics include the separate /tmp/payload-self-contained.out.
+        # Reserve both wrapper spools and all 26 checker spools simultaneously.
+        sizes = (max(wrapper, checker),) * 48 + (diagnostic,) * 3 + (wrapper,) * 2 + (checker,) * 26
+        copies, files, directories = 1, len(sizes), 121
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=4 * diagnostic + granule, diagnostic_file_bound=diagnostic,
+            original_checker_calls=26, private_payload_entries=48,
+            private_payload_inodes=47, possible_heredoc_spools=28)
     elif profile == ISSUES_PROFILE:
         bound = state["recursive_inputs"]["resources"]
         content = bound["all_lines_grep_report_bytes"]
@@ -1115,7 +1163,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 manifest["directory_membership"] = source["recursive_inputs"]["projection"]
                 manifest["source_projection"] = "COMPLETE_RECURSIVE_READ_BYTES_AND_EXPLICIT_OPTIONAL_PRESENCE"
                 image_key = self._object(self._encode(manifest))
-            if profile == SAFEGUARD_PROFILE:
+            if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE):
                 # The original physical helper validator requires st_nlink=1.
                 # Select this fixed policy in the acquired image, never from a
                 # public argument. Its hash binds execution and retained reuse.

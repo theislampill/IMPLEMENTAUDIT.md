@@ -34,6 +34,7 @@ PROFILES = {
     "safeguard-restoration": "CONTROLLED_TASK_SAFEGUARD_RESTORATION_V1",
     "routing": "CONTROLLED_TASK_ROUTING_V1",
     "audit-object-routing": "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1",
+    "installed-payload": "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1",
 }
 
 
