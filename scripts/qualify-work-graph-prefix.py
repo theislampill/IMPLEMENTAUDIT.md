@@ -29,6 +29,7 @@ except ImportError:
     fcntl = resource = None
 
 PROFILE = "COMPOSED_SOURCE_PREFIX_23_V1"
+PROFILE24 = "COMPOSED_SOURCE_PREFIX_24_V1"
 REGISTRY_SHA256 = "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698"
 RENDERER_SHA256 = "0e8649272536497816b05993f488e741cadb911906cdfc16719d9dba0ba7b2b1"
 LAST = "COMMAND:scripts/check-terminology-integration.sh:0"
@@ -91,6 +92,10 @@ PROGRAM_PINS = {
     'scripts/generate-readme-diagrams.sh': '607bc8c367989af45dedefcf3a3720af89d88c72d2cf58c0e779b27fade949f5',
     'scripts/package-contract.py': 'f3fa90f6c1e7b75527eddd988a6977f27db669bec337f65ff9c2b1ceae50621f',
     'scripts/verify-readme-diagrams-rendered.sh': RENDERER_SHA256,
+}
+PREFIX24_PROGRAM_PINS = {
+    'scripts/check-added-lines-clean.sh': '91bd5ab49ae20da3113b29b44d2c7492e4d838fddd68ece758c585316522936f',
+    'skills/implementaudit/scripts/repo-state.sh': 'b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b',
 }
 
 
@@ -240,19 +245,27 @@ def snapshot_tree(root, objects, bounds, *, excluded=()):
     return state, stamps
 
 
-def select_prefix(compiler, registry, environment):
+def prefix_bounds(profile):
+    if type(profile) is not str or profile not in (PROFILE, PROFILE24):
+        raise ValueError("unsupported composed-prefix profile")
+    return (23, LAST, NEXT) if profile == PROFILE else (
+        24, NEXT, "COMMAND:tests/lean-discipline.test.sh:0")
+
+
+def select_prefix(compiler, registry, environment, *, profile=PROFILE):
+    count, last, next_node = prefix_bounds(profile)
     if digest(registry) != REGISTRY_SHA256:
         raise ValueError("unsupported composed-prefix registry source")
     graph = compiler.compile_verifier_graph_v1(registry, compiler.verifier_registered_tests_v1(registry), environment)
     compiler.verifier_command_stream_v1(graph, registry)
     nodes = graph["nodes"]
-    if len(nodes) != 117 or nodes[0]["id"] != "PRELUDE" or nodes[22]["id"] != LAST or nodes[23]["id"] != NEXT:
+    if len(nodes) != 117 or nodes[0]["id"] != "PRELUDE" or nodes[count - 1]["id"] != last or nodes[count]["id"] != next_node:
         raise ValueError("unsupported composed-prefix registry mapping")
-    data = registry[:nodes[22]["byte_end"]]
-    if data != b"".join(n["source"].encode() for n in nodes[:23]):
+    data = registry[:nodes[count - 1]["byte_end"]]
+    if data != b"".join(n["source"].encode() for n in nodes[:count]):
         raise ValueError("compiler prefix source slice differs")
-    return graph, dict(profile=PROFILE, graph_digest=graph["digest"], nodes=[n["id"] for n in nodes[:23]],
-        stop_before=NEXT, omitted_nodes=[n["id"] for n in nodes[23:]], source_sha256=digest(data),
+    return graph, dict(profile=profile, graph_digest=graph["digest"], nodes=[n["id"] for n in nodes[:count]],
+        stop_before=next_node, omitted_nodes=[n["id"] for n in nodes[count:]], source_sha256=digest(data),
         source_bytes=len(data), composition="ONE_ORIGINAL_SHELL_GROUP_NO_SUCCESSOR_SUBSTITUTION"), data
 
 
@@ -371,8 +384,10 @@ def runtime_budget(entries, bounds):
     return totals
 
 
-def validate_programs(state):
-    if any(state["files"].get(name, {}).get("sha256") != pin for name, pin in PROGRAM_PINS.items()):
+def validate_programs(state, *, profile=PROFILE):
+    prefix_bounds(profile)
+    pins = PROGRAM_PINS if profile == PROFILE else dict(PROGRAM_PINS, **PREFIX24_PROGRAM_PINS)
+    if any(state["files"].get(name, {}).get("sha256") != pin for name, pin in pins.items()):
         raise ValueError("unsupported composed-prefix executable source")
 
 
@@ -500,10 +515,14 @@ def git_identity(source, state, objects, scratch=None):
                 renderer_branch="ORIGINAL_NOT_APPLICABLE_BRANCH", observations=records)
 
 
-def bind_session(base, compiler, engine_root, loaded_helper):
+def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE):
     """Attach the finite image to the existing qualifier's live custody owner."""
+    prefix_bounds(profile)
+    private_proc = profile == PROFILE24
+    namespace = ("UNSHARE_ALL_PRIVATE_PID_PROC_FD_NO_GENERAL_DEV_NO_HOST_ROOT" if private_proc
+                 else "UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT")
     class ComposedPrefixSession(base):
-        SCOPE = PROFILE
+        SCOPE = profile
         ENVIRONMENT = ENVIRONMENT
         LIMITS = dict(cpu_seconds=90, address_bytes=1024**3, file_bytes=16 * 1024**2,
             staging_file_bytes=ARCHIVE_BOUND, descriptors=4096, work_bytes=512 * 1024**2,
@@ -605,9 +624,9 @@ def bind_session(base, compiler, engine_root, loaded_helper):
             objects = {}
             before_observer = self._observer()
             source, stamps = snapshot_tree(self.source, objects, SOURCE_BOUNDS)
-            validate_programs(source)
+            validate_programs(source, profile=profile)
             registry = objects[source["files"]["scripts/verify-package.sh"]["sha256"]]
-            graph, scope, prefix = select_prefix(compiler, registry, self.environment)
+            graph, scope, prefix = select_prefix(compiler, registry, self.environment, profile=profile)
             git = git_identity(self.source, source, objects, self.output)
             runtime = acquire_runtime(objects)
             archive = source_archive(source, objects)
@@ -633,7 +652,7 @@ def bind_session(base, compiler, engine_root, loaded_helper):
                 limits=self.LIMITS, source_bounds=SOURCE_BOUNDS, runtime_bounds=RUNTIME_BOUNDS,
                 normalization=NORMALIZATION, stdin="EMPTY", logical_cwd="/work",
                 bootstrap_overlay=dict(path="/work/.IMPLEMENTAUDIT/verify-package.sh", source=prefix_key, source_collision="REFUSE"),
-                namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT",
+                namespace=namespace,
                 mutable_resources=["private bounded source/Git copy", "private bounded /tmp", "/dev/null", "observer stdout/stderr"],
                 effects="PRIVATE_WRITES_DISCARDED_NO_SUCCESSOR_SPLICE", authority="NONE")
             key = self._object(encode(acquired))
@@ -682,6 +701,8 @@ def bind_session(base, compiler, engine_root, loaded_helper):
                 for name, value in sorted(self.environment.items()):
                     args += ["--setenv", name, value]
                 directories = set(acquired["runtime"]["directories"]) | {"/work", "/tmp", "/dev", "/profile"}
+                if private_proc:
+                    directories.add("/proc")
                 for name in sorted(directories, key=lambda p: (p.count("/"), p)):
                     args += ["--perms", "0755", "--dir", name]
                 files = {name: (acquired["objects"][entry["sha256"]], entry["mode"]) for name, entry in acquired["runtime"]["files"].items()}
@@ -697,6 +718,12 @@ def bind_session(base, compiler, engine_root, loaded_helper):
                     args += ["--perms", oct(mode)[2:], "--ro-bind-data", str(fd), name]
                 seccomp = self._sealed(self.SECCOMP)
                 fds.append(seccomp)
+                if private_proc:
+                    # This proc belongs to bubblewrap's fresh PID namespace,
+                    # never a bind of the host proc. Bootstrap closes every
+                    # retained input descriptor before the original shell runs.
+                    args += ["--proc", "/proc", "--remount-ro", "/proc",
+                             "--symlink", "/proc/self/fd", "/dev/fd"]
                 args += ["--dev-bind", "/dev/null", "/dev/null", "--size", str(self.LIMITS["work_bytes"]), "--tmpfs", "/work",
                     "--size", str(self.LIMITS["scratch_bytes"]), "--tmpfs", "/tmp", "--remount-ro", "/", "--chdir", "/work", "--seccomp", str(seccomp)]
                 argfd = self._sealed(b"\0".join(a.encode() for a in args) + b"\0")
@@ -704,9 +731,12 @@ def bind_session(base, compiler, engine_root, loaded_helper):
                 if len(args) >= 8500 or max(fds) >= self.LIMITS["descriptors"]:
                     raise compiler.WorkGraphError("image argument/descriptor bound exceeded")
                 command = ["/usr/bin/bwrap", "--args", str(argfd), "/usr/bin/python3.12", "-P", "-S", "-B", "/profile/bootstrap.py", "--materialize"]
-                self._write(directory / "dispatch.json", dict(argv=command, input_key=acquired["key"], scope=acquired["acquired"]["scope"],
+                dispatch = dict(argv=command, input_key=acquired["key"], scope=acquired["acquired"]["scope"],
                     descriptor_count=len(fds), seals=15, descriptor_custody="SEALED_INPUTS_CLOSED_BEFORE_BOOTSTRAP",
-                    descendant_lifecycle="FRESH_PID_NAMESPACE_INIT_EXIT_KILLS_MEMBERS", authority="NONE"))
+                    descendant_lifecycle="FRESH_PID_NAMESPACE_INIT_EXIT_KILLS_MEMBERS", authority="NONE")
+                if private_proc:
+                    dispatch["proc_interface"] = "FRESH_PID_NAMESPACE_READ_ONLY_PROC_DEV_FD_LINK"
+                self._write(directory / "dispatch.json", dispatch)
                 def limits():
                     resource.setrlimit(resource.RLIMIT_CPU, (self.LIMITS["cpu_seconds"],) * 2)
                     resource.setrlimit(resource.RLIMIT_AS, (self.LIMITS["address_bytes"],) * 2)
@@ -754,7 +784,7 @@ def bind_session(base, compiler, engine_root, loaded_helper):
             raw = {name: read_regular(directory / name)[1] for name in ("stdout.log", "stderr.log", "exit-code.txt", "dispatch.json")}
             if any(len(raw[n]) > self.LIMITS["stream_bytes"] for n in ("stdout.log", "stderr.log")):
                 raise compiler.WorkGraphError("raw stream byte bound exceeded; actual exit retained")
-            receipt = dict(schema="implementaudit.verifier-prefix-issued.v1", scope=PROFILE, producer=self.producer,
+            receipt = dict(schema="implementaudit.verifier-prefix-issued.v1", scope=profile, producer=self.producer,
                 key=acquired["key"], exit=code, complete=complete, dispatch=self.dispatch_count,
                 stdout_sha256=digest(raw["stdout.log"]), stderr_sha256=digest(raw["stderr.log"]),
                 prefix_sha256=digest(acquired["prefix"]), group=acquired["acquired"]["scope"],
@@ -793,11 +823,11 @@ def bind_session(base, compiler, engine_root, loaded_helper):
             start = self._acquire()
             self._write(directory / "acquisition.json", start["acquired"])
             self._write(directory / "mapping.json", start["graph"])
-            if PROFILE in keys:
-                if keys[PROFILE] != start["key"]:
-                    self._write(directory / "refusal.json", dict(reason="CURRENT_INPUTS_CHANGED", issued_key=keys[PROFILE], current_key=start["key"]))
+            if profile in keys:
+                if keys[profile] != start["key"]:
+                    self._write(directory / "refusal.json", dict(reason="CURRENT_INPUTS_CHANGED", issued_key=keys[profile], current_key=start["key"]))
                     raise compiler.WorkGraphError("current source/runtime/observer changed; prior receipt refused")
-                retained = self._issued[PROFILE]
+                retained = self._issued[profile]
                 receipt = compiler.decode_strict_json_bytes(retained["retained"]["receipt.json"], "issued prefix result")
                 disposition = "REUSED"
             else:
@@ -808,13 +838,13 @@ def bind_session(base, compiler, engine_root, loaded_helper):
             self._same(start, after, directory, "during-consumption")
             # Integrity is checked again after reacquisition, before the result
             # is consumed. Callers can neither supply nor reseal an issuer.
-            if disposition == "REUSED" and self._issued_keys()[0].get(PROFILE) != start["key"]:
+            if disposition == "REUSED" and self._issued_keys()[0].get(profile) != start["key"]:
                 raise compiler.WorkGraphError("issued evidence changed during consumption")
             if disposition == "EXECUTED":
                 self._verify_new_result(retained)
             if receipt["exit"] == 0 and receipt["complete"]:
-                self._issued[PROFILE] = retained
-            result = dict(schema="implementaudit.verifier-prefix-consumption.v1", scope=PROFILE,
+                self._issued[profile] = retained
+            result = dict(schema="implementaudit.verifier-prefix-consumption.v1", scope=profile,
                 producer=self.producer, generation=self.generation, key=start["key"],
                 disposition=disposition, receipt_digest=digest(retained["retained"]["receipt.json"]),
                 evidence_directory=str(retained["directory"]), exit=receipt["exit"], complete=receipt["complete"],

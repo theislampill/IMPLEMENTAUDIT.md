@@ -229,6 +229,168 @@ class AdmissionCases(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "executable"):
             self.P.validate_programs(state)
 
+    def test_prefix24_selects_only_the_next_original_command(self):
+        registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+        try:
+            graph, scope, data = self.P.select_prefix(Q.WG, registry, self.P.ENVIRONMENT,
+                profile="COMPOSED_SOURCE_PREFIX_24_V1")
+        except TypeError as exc:
+            self.fail("explicit original prefix24 selection is unavailable: " + str(exc))
+        self.assertEqual(len(graph["nodes"]), 117)
+        self.assertEqual(len(scope["nodes"]), 24)
+        self.assertEqual(scope["profile"], "COMPOSED_SOURCE_PREFIX_24_V1")
+        self.assertEqual(scope["nodes"][-1], "COMMAND:scripts/check-added-lines-clean.sh:0")
+        self.assertEqual(scope["stop_before"], "COMMAND:tests/lean-discipline.test.sh:0")
+        self.assertEqual(data, registry[:39603])
+        self.assertEqual(Q.sha(data), "98246f2b17a7c0c1f1d443e587b0eec9ac2240ecc1a4edda7c46ecefdc81e8a4")
+        self.assertTrue(data.endswith(b"bash scripts/check-added-lines-clean.sh HEAD\n"))
+        self.assertNotIn(b"bash tests/lean-discipline.test.sh\n", data)
+        self.assertNotIn(b"printf 'verify-package: ok", data)
+
+    def test_prefix24_pins_both_new_transitive_programs(self):
+        paths = set(self.P.PROGRAM_PINS) | {"scripts/check-added-lines-clean.sh",
+            "skills/implementaudit/scripts/repo-state.sh"}
+        state = dict(files={n: dict(sha256=Q.sha((ROOT / n).read_bytes())) for n in paths})
+        self.P.validate_programs(state, profile="COMPOSED_SOURCE_PREFIX_24_V1")
+        for path in ("scripts/check-added-lines-clean.sh", "skills/implementaudit/scripts/repo-state.sh"):
+            original = state["files"].pop(path)
+            with self.subTest(path=path, change="missing"), self.assertRaisesRegex(ValueError, "executable"):
+                self.P.validate_programs(state, profile="COMPOSED_SOURCE_PREFIX_24_V1")
+            state["files"][path] = dict(sha256="0" * 64)
+            with self.subTest(path=path, change="changed"), self.assertRaisesRegex(ValueError, "executable"):
+                self.P.validate_programs(state, profile="COMPOSED_SOURCE_PREFIX_24_V1")
+            # Neither new pin changes the historical prefix23 admission scope.
+            self.P.validate_programs(state)
+            state["files"][path] = original
+
+    def test_unknown_profile_refuses_before_evidence_creation(self):
+        for profile in ("prefix24", "COMPOSED_SOURCE_PREFIX_25_V1", "", None, [], {}):
+            destination = self.base / "refused-evidence"
+            with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "profile"):
+                Q.create_composed_prefix_session(self.source, destination, profile=profile)
+            self.assertFalse(destination.exists())
+
+    def test_prefix24_cli_without_requests_does_not_execute(self):
+        destination = self.base / "cli-evidence"
+        result = subprocess.run([sys.executable, "-B", str(ROOT / "scripts/qualify-work-graph-verifier.py"),
+            "prefix24", str(self.source), str(destination)], input=b"", capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        record = json.loads((destination / "session.json").read_bytes())
+        self.assertEqual(record["scope"], "COMPOSED_SOURCE_PREFIX_24_V1")
+        self.assertEqual(result.stdout, b"")
+        self.assertEqual(sorted(p.name for p in destination.iterdir()), ["session.json"])
+
+    def test_prefix_routes_refuse_imported_receipts_and_oversized_requests(self):
+        requests = (b'{"operation":"run","receipt":{"exit":0}}\n',
+                    b'{"operation":"run","scope":"COMPOSED_SOURCE_PREFIX_23_V1"}\n',
+                    b" " * 4097 + b'\n')
+        for mode in ("prefix", "prefix24"):
+            for index, request in enumerate(requests):
+                destination = self.base / (mode + "-request-" + str(index))
+                result = subprocess.run([sys.executable, "-B", str(ROOT / "scripts/qualify-work-graph-verifier.py"),
+                    mode, str(self.source), str(destination)], input=request, capture_output=True)
+                with self.subTest(mode=mode, request=index):
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertEqual(result.stdout, b"")
+                    self.assertEqual(sorted(p.name for p in destination.iterdir()), ["session.json"])
+                    self.assertIn(b"byte bound" if index == 2 else b"only a current-source run request", result.stderr)
+
+
+class NamespaceCases(unittest.TestCase):
+    """Opt-in tiny actual launch controls, never canonical prefix qualification."""
+
+    @classmethod
+    def setUpClass(cls):
+        if os.environ.get("R0035_PREFIX24_LIVE") != "1":
+            raise unittest.SkipTest("set R0035_PREFIX24_LIVE=1 for tiny actual namespace controls")
+        if sys.platform != "linux" or not Path("/usr/bin/bwrap").is_file():
+            raise unittest.SkipTest("actual prefix image requires Linux bubblewrap")
+        cls.P = load("namespace_prefix", ROOT / "scripts/qualify-work-graph-prefix.py")
+        cls.objects = {}
+        cls.runtime = cls.P.acquire_runtime(cls.objects)
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.source = self.base / "source"
+        self.source.mkdir()
+
+    def launch(self, script, *, profile=None):
+        output = self.base / ("default" if profile is None else profile)
+        options = {} if profile is None else dict(profile=profile)
+        session = Q.create_composed_prefix_session(self.source, output, **options)
+        state = dict(files={}, directories={".": 0o755})
+        image = dict(runtime=self.runtime, objects=self.objects,
+            archive=self.P.source_archive(state, {}), source=state, prefix=script,
+            key="0" * 64, acquired=dict(scope=dict(nodes=["constructed-process-substitution"])),
+            required_objects=[])
+        directory = output / "execution"
+        receipt, _ = session._execute_group(image, directory)
+        stdout, stderr = ((directory / name).read_bytes() for name in ("stdout.log", "stderr.log"))
+        if os.environ.get("R0035_PREFIX24_EVIDENCE"):
+            retained = Path(os.environ["R0035_PREFIX24_EVIDENCE"]) / self._testMethodName
+            retained.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copytree(output, retained)
+            (retained / "control.sh").write_bytes(script)
+            (retained / "runtime.json").write_bytes(self.P.encode(self.runtime))
+            (retained / "control.json").write_bytes(self.P.encode(dict(
+                evidence="CONSTRUCTED_LAUNCH_CONTROL_NOT_CANONICAL_PREFIX_QUALIFICATION",
+                source=state, source_archive_sha256=Q.sha(image["archive"]),
+                helper_sha256=Q.sha((ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes()),
+                qualifier_sha256=Q.sha((ROOT / "scripts/qualify-work-graph-verifier.py").read_bytes()),
+                test_sha256=Q.sha(Path(__file__).read_bytes()), authority="NONE")))
+        unavailable = (b"Creating new namespace failed: Operation not permitted",
+                       b"No permissions to create new namespace",
+                       b"setting up uid map: Permission denied")
+        if receipt["exit"] != 0 and not stdout and any(message in stderr for message in unavailable):
+            self.skipTest("host namespace capability refused before subject execution: " + stderr.decode(errors="replace").strip())
+        self.assertEqual((directory / "exit-code.txt").read_bytes(), (str(receipt["exit"]) + "\n").encode())
+        return session, receipt, stdout, stderr
+
+    def test_default_no_proc_image_retains_process_substitution_failure(self):
+        script = b"set -euo pipefail\nwhile IFS= read -r value; do printf '%s\\n' \"$value\"; done < <(printf 'descriptor-input\\n')\n"
+        session, receipt, stdout, stderr = self.launch(script)
+        self.assertNotEqual(receipt["exit"], 0)
+        self.assertEqual(stdout, b"")
+        self.assertIn(b"/dev/fd/", stderr)
+        self.assertEqual(session._issued, {})
+
+    def test_prefix24_process_substitution_uses_private_proc(self):
+        script = b"set -euo pipefail\nwhile IFS= read -r value; do printf '%s\\n' \"$value\"; done < <(printf 'descriptor-input\\n')\n"
+        session, receipt, stdout, stderr = self.launch(script, profile="COMPOSED_SOURCE_PREFIX_24_V1")
+        self.assertEqual(receipt["exit"], 0, stderr)
+        self.assertEqual(stdout, b"descriptor-input\n")
+        self.assertEqual(stderr, b"")
+        self.assertEqual(receipt["scope"], "COMPOSED_SOURCE_PREFIX_24_V1")
+        self.assertEqual(session._issued, {}, "direct launch is not a successful consumption")
+
+    def test_prefix24_proc_does_not_expose_host_process_or_input_descriptors(self):
+        program = '''import ctypes, errno, json, os
+from pathlib import Path
+assert Path('/proc/self/stat').is_file()
+assert os.readlink('/dev/fd') == '/proc/self/fd'
+assert not Path('/proc/%d/stat').exists()
+assert not Path('/proc/1/root%s').exists()
+assert not Path('/proc/self/fd/3').exists()
+assert os.read(0, 1) == b''
+libc = ctypes.CDLL(None, use_errno=True)
+assert libc.unshare(0x10000000) == -1 and ctypes.get_errno() == errno.EPERM
+assert libc.setns(-1, 0) == -1 and ctypes.get_errno() == errno.EPERM
+try:
+    os.open('/proc/sys/kernel/randomize_va_space', os.O_WRONLY)
+except OSError as exc:
+    assert exc.errno in (errno.EROFS, errno.EACCES, errno.ENOENT)
+else:
+    raise AssertionError('proc kernel control is writable')
+print('private-proc-custody: ok')
+''' % (os.getpid(), str(self.source))
+        script = b"set -euo pipefail\npython - <<'PY'\n" + program.encode() + b"PY\n"
+        _, receipt, stdout, stderr = self.launch(script, profile="COMPOSED_SOURCE_PREFIX_24_V1")
+        self.assertEqual(receipt["exit"], 0, stderr)
+        self.assertEqual(stdout, b"private-proc-custody: ok\n")
+        self.assertEqual(stderr, b"")
+
 
 class CustodyCases(unittest.TestCase):
     """Constructed tiny producer records exercise the real live consumer.
@@ -256,7 +418,7 @@ class CustodyCases(unittest.TestCase):
         directory.mkdir(mode=0o700)
         key = Q.sha(self.source_file.read_bytes())
         required = [self.S._object(b"archive"), self.S._object(b"runtime"), self.S._object(b"prefix"), self.S._object(b"seccomp")]
-        receipt = dict(key=key, exit=code, complete=complete)
+        receipt = dict(key=key, exit=code, complete=complete, scope=self.S.SCOPE)
         raw = {"stdout.log": b"tiny\n", "stderr.log": b"", "exit-code.txt": (str(code) + "\n").encode(), "receipt.json": Q.WG.canonical_json_v1(receipt)}
         for name, data in raw.items():
             self.S._write(directory / name, data)
@@ -276,6 +438,47 @@ class CustodyCases(unittest.TestCase):
         self.assertEqual((first["disposition"], second["disposition"]), ("EXECUTED", "REUSED"))
         self.assertEqual(first["receipt_digest"], second["receipt_digest"])
         self.assertEqual(dispatch.call_count, 1)
+
+    def test_profiles_keep_distinct_live_results_and_original_default(self):
+        sessions = [self.S, Q.create_composed_prefix_session(self.source, self.base / "prefix24-evidence",
+            profile="COMPOSED_SOURCE_PREFIX_24_V1")]
+        expected = ["COMPOSED_SOURCE_PREFIX_23_V1", "COMPOSED_SOURCE_PREFIX_24_V1"]
+        for session, scope in zip(sessions, expected):
+            self.S = session
+            receipt, retained = self.seed()
+            with mock.patch.object(self.S, "_acquire", side_effect=self.input), mock.patch.object(self.S, "_execute_group", return_value=(receipt, retained)) as dispatch:
+                first = self.S.run()
+                second = self.S.run()
+            with self.subTest(scope=scope):
+                self.assertEqual((first["disposition"], second["disposition"]), ("EXECUTED", "REUSED"))
+                self.assertEqual((first["scope"], second["scope"]), (scope, scope))
+                self.assertEqual(set(self.S._issued), {scope})
+                self.assertEqual(dispatch.call_count, 1)
+                with self.assertRaises(TypeError):
+                    self.S.run(receipt=receipt)
+        self.assertIsNot(type(sessions[0]), type(sessions[1]))
+        self.assertNotEqual(sessions[0].producer, sessions[1].producer)
+        default = Q.create_composed_prefix_session(self.source, self.base / "later-default")
+        self.assertEqual(default.SCOPE, expected[0])
+
+    def test_prefix24_failed_or_changed_results_refuse_reuse(self):
+        for case in ("failed", "incomplete", "changed-output", "changed-source"):
+            self.source_file.write_bytes(b"input\n")
+            self.S = Q.create_composed_prefix_session(self.source, self.base / ("prefix24-" + case),
+                profile="COMPOSED_SOURCE_PREFIX_24_V1")
+            receipt, retained = self.seed(code=7 if case == "failed" else 0, complete=case != "incomplete")
+            with mock.patch.object(self.S, "_acquire", side_effect=self.input), mock.patch.object(self.S, "_execute_group", return_value=(receipt, retained)) as dispatch:
+                self.S.run()
+                if case == "changed-output":
+                    target = retained["directory"] / "stdout.log"
+                    target.chmod(0o600)
+                    target.write_bytes(b"rewritten output\n")
+                    target.chmod(0o400)
+                elif case == "changed-source":
+                    self.source_file.write_bytes(b"different\n")
+                with self.subTest(case=case), self.assertRaises(ValueError):
+                    self.S.run()
+                self.assertEqual(dispatch.call_count, 1)
 
     def test_changed_current_input_refuses_before_dispatch(self):
         receipt, retained = self.seed()
@@ -413,6 +616,36 @@ class CustodyCases(unittest.TestCase):
         self.assertEqual(record["actual_exit"], "UNOBSERVED")
         self.assertFalse((directory / "exit-code.txt").exists())
 
+    def test_proc_profile_has_no_host_proc_or_launch_fallback(self):
+        for profile in ("COMPOSED_SOURCE_PREFIX_23_V1", "COMPOSED_SOURCE_PREFIX_24_V1"):
+            self.S = Q.create_composed_prefix_session(self.source, self.base / profile, profile=profile)
+            launches = []
+            def refuse(argv, **kwargs):
+                self.assertEqual(argv[:2], ["/usr/bin/bwrap", "--args"])
+                raw = os.pread(int(argv[2]), 256 * 1024, 0)
+                self.assertTrue(raw.endswith(b"\0"))
+                launches.append(raw[:-1].decode().split("\0"))
+                raise OSError("constructed namespace launch refusal")
+            directory = self.S.output / "launch"
+            with mock.patch.object(subprocess, "Popen", side_effect=refuse):
+                with self.assertRaisesRegex(OSError, "namespace launch refusal"):
+                    self.S._execute_group(self.tiny_image(), directory)
+            with self.subTest(profile=profile):
+                self.assertEqual(len(launches), 1, "namespace refusal must not retry with a weaker image")
+                args = launches[0]
+                self.assertIn("--unshare-all", args)
+                self.assertNotIn("--bind", args)
+                self.assertNotIn("--ro-bind", args)
+                if profile.endswith("24_V1"):
+                    pos = args.index("--proc")
+                    self.assertEqual(args[pos:pos + 7], ["--proc", "/proc", "--remount-ro", "/proc",
+                                                       "--symlink", "/proc/self/fd", "/dev/fd"])
+                else:
+                    self.assertNotIn("--proc", args)
+                    self.assertNotIn("/dev/fd", args)
+                self.assertFalse((directory / "receipt.json").exists())
+                self.assertEqual(self.S._issued, {})
+
     def tiny_process(self, program, **kwargs):
         # Replace only the external namespace launcher in constructed observer
         # controls. This is explicitly not a sandbox/canonical execution proof.
@@ -463,12 +696,13 @@ class CustodyCases(unittest.TestCase):
     def test_prefix_cli_does_not_report_signalled_or_incomplete_success(self):
         class Input:
             buffer = io.BytesIO(b'{"operation":"run"}\n')
-        for code, complete in ((-9, False), (0, False)):
-            Input.buffer = io.BytesIO(b'{"operation":"run"}\n')
-            session = mock.Mock()
-            session.run.return_value = dict(exit=code, complete=complete)
-            with mock.patch.object(sys, "argv", ["qualifier", "prefix", str(self.source), str(self.base / "unused")]), mock.patch.object(sys, "stdin", Input), mock.patch.object(sys, "stdout", io.StringIO()), mock.patch.object(Q, "create_composed_prefix_session", return_value=session):
-                self.assertNotEqual(Q.main(), 0)
+        for mode in ("prefix", "prefix24"):
+            for code, complete in ((-9, False), (0, False)):
+                Input.buffer = io.BytesIO(b'{"operation":"run"}\n')
+                session = mock.Mock()
+                session.run.return_value = dict(exit=code, complete=complete)
+                with mock.patch.object(sys, "argv", ["qualifier", mode, str(self.source), str(self.base / "unused")]), mock.patch.object(sys, "stdin", Input), mock.patch.object(sys, "stdout", io.StringIO()), mock.patch.object(Q, "create_composed_prefix_session", return_value=session):
+                    self.assertNotEqual(Q.main(), 0)
 
     def exit_before_kill(self, operation, code):
         """Real child and killpg; a pipe fixes the exit-before-signal ordering.

@@ -143,10 +143,17 @@ def source_member(name, *, root=None, with_bytes=False, byte_limit=None):
             raise WG.WorkGraphError("source ancestor mode changed during observation")
 
 
-def source_identity():
+def source_identity(*, read_only=False):
     require_source_descriptor_api()
+    observation = _preflight_git_context_v1() if read_only else None
     def git(*args):
+        if read_only:
+            return _preflight_git_capture_v1(observation, args)
         return subprocess.check_output(["git", *args], cwd=ROOT)
+    stage = git("ls-files", "--stage", "-z") if read_only else None
+    if read_only and any(entry.split(b" ", 1)[0] not in {b"100644", b"100755", b"120000"}
+                         for entry in stage.split(b"\0") if entry):
+        raise WG.WorkGraphError("preflight Git observation refuses gitlinks or unsupported index modes")
     names = sorted(set(filter(None, git("ls-files", "-z").split(b"\0"))))
     untracked = sorted(set(filter(None, git("ls-files", "--others", "--exclude-standard", "-z").split(b"\0"))))
     members = {}
@@ -157,14 +164,19 @@ def source_identity():
               members[os.fsdecode(raw)].get("target_sha256", sha(b"MISSING")))] for raw in names]
     refs = git("for-each-ref", "--sort=refname",
                "--format=%(refname)%00%(objectname)%00%(*objectname)%00%(symref)")
-    return dict(head=git("rev-parse", "HEAD").decode().strip(), tree=git("rev-parse", "HEAD^{tree}").decode().strip(),
+    result = dict(head=git("rev-parse", "HEAD").decode().strip(), tree=git("rev-parse", "HEAD^{tree}").decode().strip(),
                 head_reference=git("rev-parse", "--symbolic-full-name", "HEAD").decode().strip(),
                 tracked_source_digest=sha(WG.canonical_json_v1(files)),
                 status_digest=sha(git("status", "--porcelain=v1", "-z", "--untracked-files=all")),
-                index_sha256=sha(git("ls-files", "--stage", "-z")),
+                index_sha256=sha(stage if read_only else git("ls-files", "--stage", "-z")),
                 git_refs=[os.fsdecode(line).split("\0") for line in refs.splitlines()],
                 members=members,
                 acquisition_coverage="PARTIAL_GIT_DECLARED_MEMBERS_NO_SYMLINK_DEREFERENCE; IGNORED_NAMESPACE_UNACQUIRED")
+    if read_only:
+        if _preflight_git_context_v1() != observation:
+            raise WG.WorkGraphError("preflight Git observation context changed")
+        result["_git_observation_sha256"] = sha(WG.canonical_json_v1(observation["binding"]))
+    return result
 
 
 def executable_identity(path):
@@ -1575,30 +1587,463 @@ class RegistryVerifierTaskSession(VerifierTaskSession):
         super().__init__(source_root, output, **kwargs)
 
 
-_PREFIX_PROFILE = None
+_PREFIX_PROFILES = {}
 
 
-def create_composed_prefix_session(source_root, output, *, max_age=3600):
+def create_composed_prefix_session(source_root, output, *, max_age=3600,
+                                  profile="COMPOSED_SOURCE_PREFIX_23_V1"):
     """Explicit finite original prefix; live producer only, no imported receipts.
 
     Lazy loading keeps historical captures and the original scoped API free of
     this repository-only companion. The loaded bytes remain engine-bound at
     every acquisition and receiving boundary.
     """
-    global _PREFIX_PROFILE
-    if _PREFIX_PROFILE is None:
+    if type(profile) is not str:
+        raise WG.WorkGraphError("unsupported composed-prefix profile")
+    if profile not in _PREFIX_PROFILES:
         path = ROOT / "scripts/qualify-work-graph-prefix.py"
         data = VerifierTaskSession._regular(path)[1]
         spec = importlib.util.spec_from_file_location("verifier_prefix", path)
         module = importlib.util.module_from_spec(spec)
         exec(compile(data, str(path), "exec"), module.__dict__)
-        _PREFIX_PROFILE = module.bind_session(VerifierTaskSession, WG, ROOT, data)
-    return _PREFIX_PROFILE(source_root, output, max_age=max_age)
+        _PREFIX_PROFILES[profile] = module.bind_session(VerifierTaskSession, WG, ROOT, data, profile=profile)
+    return _PREFIX_PROFILES[profile](source_root, output, max_age=max_age)
+
+
+def _preflight_git_file_v1(path, *, required=False, byte_limit=65536):
+    """Acquire a selected control file before Git can interpret it."""
+    path = Path(path)
+    if not path.is_absolute() or ".." in path.parts:
+        raise WG.WorkGraphError("preflight Git observation requires canonical control paths")
+    for parent in reversed((path, *path.parents)):
+        try:
+            metadata = parent.lstat()
+        except FileNotFoundError:
+            if required:
+                raise WG.WorkGraphError("preflight Git observation control file is unavailable") from None
+            return dict(path=str(path), kind="MISSING", missing_at=str(parent)), None
+        if stat.S_ISLNK(metadata.st_mode) or (parent != path and not stat.S_ISDIR(metadata.st_mode)):
+            raise WG.WorkGraphError("preflight Git observation refuses aliased control paths")
+    if not stat.S_ISREG(metadata.st_mode):
+        raise WG.WorkGraphError("preflight Git observation requires regular control files")
+    value = source_member(str(path.relative_to(path.anchor)), root=Path(path.anchor),
+                          with_bytes=True, byte_limit=byte_limit)
+    if value.get("kind") != "FILE":
+        raise WG.WorkGraphError("preflight Git observation control file changed")
+    data = value.pop("_acquired_bytes")
+    return dict(path=str(path), **value), data
+
+
+def _preflight_git_config_v1(data):
+    """A deliberately finite Git-config subset, not a permissive Git parser.
+
+    Includes, escaped/continued values, callbacks, external helpers and unknown
+    keys are unsupported. No Git process is used to inspect unadmitted config.
+    """
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError:
+        raise WG.WorkGraphError("preflight Git observation refuses unsupported configuration syntax") from None
+    if "\\" in text or "\0" in text:
+        raise WG.WorkGraphError("preflight Git observation refuses unsupported configuration syntax")
+    choices = {
+        "core.repositoryformatversion": {"0", "1"}, "core.bare": {"false"},
+        "core.filemode": {"true", "false"}, "core.logallrefupdates": {"true", "false"},
+        "core.ignorecase": {"true", "false"}, "core.precomposeunicode": {"true", "false"},
+        "core.symlinks": {"true", "false"}, "core.trustctime": {"true", "false"},
+        "core.checkstat": {"default", "minimal"}, "core.autocrlf": {"true", "false", "input"},
+        "core.safecrlf": {"true", "false", "warn"}, "core.eol": {"lf", "crlf", "native"},
+        "core.fsmonitor": {"false"}, "core.untrackedcache": {"false"},
+        "core.hookspath": {"/dev/null"}, "core.attributesfile": {"/dev/null"},
+        "core.excludesfile": {"/dev/null"}, "extensions.worktreeconfig": {"true", "false"},
+        "commit.gpgsign": {"false"}}
+    values, section, subsection = {}, None, None
+    for line in text.split("\n"):
+        line = line.removesuffix("\r")
+        if not line.strip(" \t") or line.lstrip(" \t").startswith(("#", ";")):
+            continue
+        header = re.fullmatch(r'[ \t]*\[([A-Za-z][A-Za-z0-9-]*)(?: "([A-Za-z0-9][A-Za-z0-9._/-]{0,127})")?\][ \t]*(?:[#;].*)?', line)
+        if header:
+            section, subsection = header.group(1).lower(), header.group(2)
+            continue
+        entry = re.fullmatch(r'[ \t]*([A-Za-z][A-Za-z0-9-]*)[ \t]*=[ \t]*("[^"\\\x00-\x1f]*"|[^"\\#;\x00-\x1f]*?)[ \t]*(?:[#;].*)?', line)
+        if entry is None or section is None:
+            raise WG.WorkGraphError("preflight Git observation refuses unsupported configuration syntax")
+        key, value = entry.group(1).lower(), entry.group(2).strip(" \t")
+        if value.startswith('"'):
+            value = value[1:-1]
+        name = section + "." + key
+        metadata = ((subsection is None and name in {"user.name", "user.email", "init.defaultbranch"}) or
+                    (subsection is not None and ((section == "remote" and key in {"url", "fetch"}) or
+                                                (section == "branch" and key in {"remote", "merge"}))))
+        if not (metadata or (subsection is None and name in choices and value in choices[name])):
+            raise WG.WorkGraphError("preflight Git observation refuses unsupported or effect-bearing configuration")
+        values[name if subsection is None else section + "." + subsection + "." + key] = value
+    return values
+
+
+def _preflight_git_index_v1(data):
+    """Admit inline SHA-1 indexes before Git can touch a shared-index file.
+
+    Decode entry boundaries, not a substring search: ordinary filenames and
+    object IDs may contain 'link'. This does not interpret split-index data.
+    """
+    error = "preflight Git observation refuses malformed or unsupported index structure"
+    end = len(data) - 20
+    if (end < 12 or data[:4] != b"DIRC" or
+            hashlib.sha1(data[:end]).digest() != data[end:]):
+        raise WG.WorkGraphError(error)
+    version, entries = struct.unpack_from(">II", data, 4)
+    if version not in {2, 3, 4} or entries > (end - 12) // 63:
+        raise WG.WorkGraphError(error)
+    offset, previous_length = 12, 0
+    for _ in range(entries):
+        start = offset
+        if offset + 62 > end:
+            raise WG.WorkGraphError(error)
+        flags = struct.unpack_from(">H", data, offset + 60)[0]
+        offset += 62
+        if flags & 0x4000:
+            if version == 2 or offset + 2 > end or struct.unpack_from(">H", data, offset)[0] & ~0x6000:
+                raise WG.WorkGraphError(error)
+            offset += 2
+        removed = 0
+        if version == 4:
+            for position in range(5):
+                if offset >= end:
+                    raise WG.WorkGraphError(error)
+                byte = data[offset]
+                offset += 1
+                removed = ((removed + 1) << 7 if position else 0) + (byte & 0x7f)
+                if not byte & 0x80:
+                    break
+            else:
+                raise WG.WorkGraphError(error)
+            if removed > previous_length:
+                raise WG.WorkGraphError(error)
+        nul = data.find(b"\0", offset, end)
+        if nul < 0:
+            raise WG.WorkGraphError(error)
+        length = nul - offset + (previous_length - removed if version == 4 else 0)
+        if flags & 0xfff != min(length, 0xfff):
+            raise WG.WorkGraphError(error)
+        previous_length = length
+        offset = nul + 1 if version == 4 else start + ((nul + 1 - start + 7) // 8) * 8
+        if offset > end or any(data[nul:offset]):
+            raise WG.WorkGraphError(error)
+    extensions = []
+    while offset < end:
+        if offset + 8 > end:
+            raise WG.WorkGraphError(error)
+        signature = data[offset:offset + 4]
+        size = struct.unpack_from(">I", data, offset + 4)[0]
+        offset += 8
+        if signature == b"link":
+            raise WG.WorkGraphError("preflight Git observation refuses split-index indirection")
+        if signature not in {b"TREE", b"REUC"}:
+            raise WG.WorkGraphError("preflight Git observation refuses unsupported index extension")
+        if size > end - offset or signature.decode("ascii") in extensions:
+            raise WG.WorkGraphError(error)
+        extensions.append(signature.decode("ascii"))
+        offset += size
+    return dict(profile="INLINE_SHA1_V2_V3_V4_TREE_REUC", version=version,
+                entries=entries, extensions=extensions)
+
+
+def _preflight_git_context_v1():
+    """Admit the actual declared context; never silently discard Git config.
+
+    The caller must already have excluded system/global config and system
+    attributes in the intended run environment. Other selectors are refused.
+    The finite local config subset and physical selections are digest-bound.
+    """
+    require_source_descriptor_api()
+    environment = dict(os.environ)
+    required = dict(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL="/dev/null", GIT_ATTR_NOSYSTEM="1")
+    allowed = dict(required, GIT_OPTIONAL_LOCKS=None, GIT_PAGER=None)
+    if (platform.system() != "Linux" or not Path("/proc/self/fd").is_dir() or
+            any(environment.get(key) != value for key, value in required.items()) or
+            any(key.startswith("GIT_") and key not in allowed for key in environment) or
+            any(key.startswith(("LD_", "DYLD_")) or key == "GCONV_PATH" for key in environment) or
+            environment.get("GIT_OPTIONAL_LOCKS", "0") not in {"0", "1"} or
+            any(environment.get(key, "") not in {"", "cat"} for key in ("GIT_PAGER", "PAGER"))):
+        raise WG.WorkGraphError("preflight Git observation requires the declared isolated configuration/environment profile")
+    null = Path("/dev/null").stat()
+    if not stat.S_ISCHR(null.st_mode) or (os.major(null.st_rdev), os.minor(null.st_rdev)) != (1, 3):
+        raise WG.WorkGraphError("preflight Git observation null device is unsupported")
+    lookup = os.pathsep.join(str(Path(part) if Path(part).is_absolute() else ROOT / part)
+                             for part in environment.get("PATH", os.defpath).split(os.pathsep))
+    selected = shutil.which("git", path=lookup)
+    if selected is None or str(Path(selected).resolve()) not in {"/usr/bin/git", "/usr/local/bin/git"}:
+        raise WG.WorkGraphError("preflight Git observation refuses unsupported executable selection")
+    executable = executable_identity(selected)
+    binary = Path(executable["resolved_path"])
+    metadata = binary.stat()
+    if metadata.st_uid != 0 or stat.S_IMODE(metadata.st_mode) & 0o022:
+        raise WG.WorkGraphError("preflight Git observation requires a system-owned Git executable")
+    with binary.open("rb") as stream:
+        if stream.read(4) != b"\x7fELF":
+            raise WG.WorkGraphError("preflight Git observation refuses Git executable wrappers")
+    controls = []
+
+    def acquire(path, **options):
+        record, data = _preflight_git_file_v1(path, **options)
+        controls.append(record)
+        return data
+
+    marker = ROOT / ".git"
+    state = marker.lstat()
+    if stat.S_ISDIR(state.st_mode):
+        gitdir = marker
+        controls.append(dict(path=str(marker), kind="DIRECTORY", mode=stat.S_IMODE(state.st_mode)))
+    elif stat.S_ISREG(state.st_mode):
+        raw = acquire(marker, required=True)
+        if re.fullmatch(rb"gitdir: [^\x00-\x1f\x7f]+\r?\n?", raw) is None:
+            raise WG.WorkGraphError("preflight Git observation refuses unsupported Git directory selection")
+        declared = Path(os.fsdecode(raw[8:].rstrip(b"\r\n")))
+        gitdir = Path(os.path.abspath(declared if declared.is_absolute() else ROOT / declared))
+    else:
+        raise WG.WorkGraphError("preflight Git observation refuses aliased Git directory selection")
+    raw = acquire(gitdir / "commondir")
+    common = gitdir
+    if raw is not None:
+        if re.fullmatch(rb"[^\x00-\x1f\x7f]+\r?\n?", raw) is None:
+            raise WG.WorkGraphError("preflight Git observation refuses unsupported common directory selection")
+        declared = Path(os.fsdecode(raw.rstrip(b"\r\n")))
+        common = Path(os.path.abspath(declared if declared.is_absolute() else gitdir / declared))
+    config = _preflight_git_config_v1(acquire(common / "config", required=True))
+    worktree_config = config.get("extensions.worktreeconfig") == "true"
+    if worktree_config:
+        raw = acquire(gitdir / "config.worktree")
+        if raw is not None:
+            config.update(_preflight_git_config_v1(raw))
+    acquire(gitdir / "HEAD", required=True)
+    index_format = _preflight_git_index_v1(acquire(gitdir / "index", required=True, byte_limit=EXPLICIT_FILE_LIMIT))
+    for directory in sorted({gitdir, common}):
+        for name in ("info/attributes", "info/exclude"):
+            acquire(directory / name)
+    home = Path(environment.get("HOME", ""))
+    xdg = Path(environment.get("XDG_CONFIG_HOME") or home / ".config")
+    if not home.is_absolute() or not xdg.is_absolute() or ".." in xdg.parts:
+        raise WG.WorkGraphError("preflight Git observation refuses unsupported user attribute/exclude selection")
+    for key, filename in (("core.attributesfile", "attributes"), ("core.excludesfile", "ignore")):
+        if config.get(key) != "/dev/null":
+            acquire(xdg / "git" / filename)
+    binding = dict(policy="DECLARED_ISOLATED_GIT_CONFIG_V1", executable=executable,
+                   executable_file_identity=[str(value) for value in _file_identity(metadata)],
+                   git_directory=str(gitdir), common_directory=str(common), worktree_config=worktree_config,
+                   index_format=index_format,
+                   controls=controls, declared_environment_sha256=environment_digest(environment),
+                   observation_overrides=dict(GIT_OPTIONAL_LOCKS="0"), pager="DISABLED_BY_EXPLICIT_ARGUMENT",
+                   configuration_scope="NO_INCLUDES_NO_EXTERNAL_CALLBACKS_FINITE_KEYS",
+                   continuity="PRE_POST_REACQUISITION_NOT_AN_ATOMIC_FILESYSTEM_LEASE")
+    return dict(binding=binding, environment=dict(environment, GIT_OPTIONAL_LOCKS="0"))
+
+
+def _preflight_git_capture_v1(context, args):
+    allowed = {("ls-files", "-z"), ("ls-files", "--others", "--exclude-standard", "-z"),
+               ("ls-files", "--stage", "-z"), ("rev-parse", "HEAD"), ("rev-parse", "HEAD^{tree}"),
+               ("rev-parse", "--symbolic-full-name", "HEAD"),
+               ("status", "--porcelain=v1", "-z", "--untracked-files=all"),
+               ("for-each-ref", "--sort=refname", "--format=%(refname)%00%(objectname)%00%(*objectname)%00%(symref)")}
+    if args not in allowed or _preflight_git_context_v1() != context:
+        raise WG.WorkGraphError("preflight Git observation context or fixed command changed")
+    selected = context["binding"]["executable"]["resolved_path"]
+    fd = os.open(selected, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        if [str(value) for value in _file_identity(os.fstat(fd))] != context["binding"]["executable_file_identity"]:
+            raise WG.WorkGraphError("preflight Git observation executable changed")
+        try:
+            value = subprocess.check_output([selected, "--no-pager", *args], cwd=ROOT,
+                env=context["environment"], stdin=subprocess.DEVNULL, stderr=subprocess.PIPE,
+                executable="/proc/self/fd/" + str(fd), pass_fds=(fd,), timeout=15)
+        except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            raise WG.WorkGraphError("preflight Git observation fixed read command failed") from None
+    finally:
+        os.close(fd)
+    if _preflight_git_context_v1() != context:
+        raise WG.WorkGraphError("preflight Git observation context changed during command")
+    return value
+
+
+def verifier_preflight_currentness_v1():
+    """Read current bindings without launching a subject verifier command.
+
+    Git observation commands may run. This snapshot is neither a launch lease
+    nor a complete filesystem/toolchain acquisition.
+    """
+    engine = full_engine_binding()
+    source = source_identity(read_only=True)
+    git_observation = source.pop("_git_observation_sha256")
+    environment = environment_digest(os.environ)
+    if full_engine_binding() != engine:
+        raise WG.WorkGraphError("preflight loaded engine changed during observation")
+    return dict(source_sha256=sha(WG.canonical_json_v1(source)), engine_binding=engine,
+                base_environment_sha256=environment, git_observation_sha256=git_observation)
+
+
+def _preflight_fields(value, names, label):
+    if type(value) is not dict or set(value) != set(names):
+        raise WG.WorkGraphError("preflight " + label + " has missing or unsupported members")
+
+
+def _preflight_path(value, label):
+    if (type(value) is not str or len(value.encode("utf-8")) > 4096 or
+            any(ord(c) < 32 or ord(c) == 127 for c in value)):
+        raise WG.WorkGraphError("preflight " + label + " requires a bounded absolute path")
+    path = Path(value)
+    if (not path.is_absolute() or ".." in path.parts or str(path) != value or
+            str(path.resolve()) != value):
+        raise WG.WorkGraphError("preflight " + label + " requires a canonical absolute path without aliases")
+    return path
+
+
+def _preflight_capture_identity_v1(route, actual_base):
+    capture, output = route["capture"], route["output"]
+    events = capture["capture_portal_events"] or capture["retain_repro_events"]
+    extended = events or any(capture[key] for key in
+        ("retain_repro_assets", "stdin_file", "empty_stdin", "capture_dist"))
+    overrides = repro_overrides(output) if capture["retain_repro_assets"] else {}
+    if capture["capture_portal_events"]:
+        overrides[PORTAL_ENV] = output + "/portal-events/request.json"
+    if capture["retain_repro_events"]:
+        overrides[REPRO_EVENT_ENV] = output + "/repro-events"
+    base = route["base_environment_sha256"]
+    # A different declared base is not acquired by this process. Only its
+    # declared base identity (and no inferred override result) is comparable.
+    actual = environment_digest(dict(os.environ, **overrides)) if base == actual_base else (
+        base if not overrides else None)
+    return dict(schema="implementaudit.verifier-run.v4" if events else
+                "implementaudit.verifier-run.v3" if extended else "implementaudit.verifier-run.v2",
+                extended=bool(extended), environment_sha256=actual,
+                child_environment=dict(base_environment_sha256=base,
+                    actual_environment_sha256=actual, overrides=overrides) if extended else None,
+                repro_paths=repro_overrides(output) if capture["retain_repro_assets"] else None,
+                dist_paths=[output + "/dist-before", output + "/dist-after"] if capture["capture_dist"] else None,
+                stdin=None if not (capture["empty_stdin"] or capture["stdin_file"] is not None) else
+                    dict(mode="EMPTY_PIPE" if capture["empty_stdin"] else "RETAINED_FILE_PIPE",
+                         declared_path=capture["stdin_file"]),
+                portal_requested=capture["capture_portal_events"], repro_requested=capture["retain_repro_events"])
+
+
+def preflight_verifier_pair_v1(plan):
+    """Diagnose a bound paired plan; never execute, authorize, or claim equality."""
+    encoded = WG.canonical_json_v1(plan)
+    if len(encoded) > 65536:
+        raise WG.WorkGraphError("preflight plan exceeds byte limit")
+    plan = WG.decode_strict_json_bytes(encoded, "preflight plan")
+    _preflight_fields(plan, {"schema", "expected_currentness", "runs"}, "plan")
+    if plan["schema"] != "implementaudit.verifier-pair-plan.v1":
+        raise WG.WorkGraphError("preflight plan schema is unsupported")
+    expected = plan["expected_currentness"]
+    _preflight_fields(expected, {"source_sha256", "engine_binding", "base_environment_sha256",
+                                "git_observation_sha256"}, "currentness")
+    _preflight_fields(expected["engine_binding"], {"driver_sha256", "compiler_sha256"}, "engine binding")
+    digests = [expected["source_sha256"], expected["base_environment_sha256"],
+               expected["git_observation_sha256"], *expected["engine_binding"].values()]
+    routes = plan["runs"]
+    if type(routes) is not list or len(routes) != 2:
+        raise WG.WorkGraphError("preflight route pair requires exactly legacy and dag")
+    options = {"retain_repro_assets", "stdin_file", "empty_stdin", "capture_dist",
+               "capture_portal_events", "retain_repro_events"}
+    for route in routes:
+        _preflight_fields(route, {"mode", "output", "base_environment_sha256", "capture"}, "route")
+        if type(route["mode"]) is not str or route["mode"] not in {"legacy", "dag"}:
+            raise WG.WorkGraphError("preflight route pair requires exactly legacy and dag")
+        _preflight_path(route["output"], "output")
+        digests.append(route["base_environment_sha256"])
+        capture = route["capture"]
+        _preflight_fields(capture, options, "capture")
+        if any(type(capture[key]) is not bool for key in options - {"stdin_file"}):
+            raise WG.WorkGraphError("preflight capture options require booleans")
+        if capture["stdin_file"] is not None:
+            _preflight_path(capture["stdin_file"], "stdin")
+            if capture["empty_stdin"]:
+                raise WG.WorkGraphError("preflight stdin-file and empty-stdin are mutually exclusive")
+    if {r["mode"] for r in routes} != {"legacy", "dag"}:
+        raise WG.WorkGraphError("preflight route pair requires exactly legacy and dag")
+    if any(type(value) is not str or re.fullmatch(r"[0-9a-f]{64}", value) is None for value in digests):
+        raise WG.WorkGraphError("preflight currentness requires complete SHA-256 bindings")
+    before = verifier_preflight_currentness_v1()
+    reasons, false = set(), set()
+    identities = {r["mode"]: _preflight_capture_identity_v1(r, before["base_environment_sha256"]) for r in routes}
+    outputs = [Path(r["output"]) for r in routes]
+    if outputs[0] == outputs[1] or outputs[0] in outputs[1].parents or outputs[1] in outputs[0].parents:
+        reasons.add("OUTPUT_NAMESPACE_COLLISION")
+    for route, output in zip(routes, outputs):
+        capture, identity = route["capture"], identities[route["mode"]]
+        if route["base_environment_sha256"] != before["base_environment_sha256"]:
+            reasons.add("PLANNED_ENVIRONMENT_NOT_CURRENT")
+        if os.path.lexists(output):
+            reasons.add("OUTPUT_ALREADY_EXISTS")
+        if identity["extended"] and (output == ROOT or ROOT in output.parents):
+            reasons.add("EXTENDED_OUTPUT_INSIDE_SOURCE")
+        if (REPRO_EVENT_ENV in os.environ or
+                capture["retain_repro_assets"] and any(k == "REPRO_SOURCE_REF" or k.startswith("REPRO_RETAINED_") for k in os.environ) or
+                capture["capture_portal_events"] and PORTAL_ENV in os.environ or
+                capture["retain_repro_events"] and "REPRO_SOURCE_REF" in os.environ):
+            reasons.add("AMBIGUOUS_INHERITED_CAPTURE_ENVIRONMENT")
+    a, b = identities["legacy"], identities["dag"]
+    if a["schema"] != b["schema"]:
+        false.add("same_record_schema")
+    if (a["environment_sha256"] is not None and b["environment_sha256"] is not None and
+            a["environment_sha256"] != b["environment_sha256"]):
+        false.add("same_environment")
+    if a["schema"] == b["schema"] and a["extended"]:
+        for predicate, field in (("same_child_environment", "child_environment"),
+                ("same_declared_repro_artifacts", "repro_paths"), ("same_dist_namespace", "dist_paths"),
+                ("same_stdin", "stdin")):
+            if a[field] != b[field]:
+                false.add(predicate)
+        if a["schema"] == "implementaudit.verifier-run.v4":
+            for predicate, field in (("same_portal_events", "portal_requested"), ("same_repro_events", "repro_requested")):
+                if a[field] != b[field]:
+                    false.add(predicate)
+    after = verifier_preflight_currentness_v1()
+    mismatches = sorted(key for key in expected if expected[key] != before[key] or expected[key] != after[key])
+    if expected != before:
+        reasons.add("EXPECTED_CURRENTNESS_MISMATCH")
+    if before != after:
+        reasons.add("CURRENTNESS_CHANGED_DURING_PREFLIGHT")
+    if false:
+        reasons.add("SELECTED_RAW_ORACLE_PRECONDITION_UNSATISFIED")
+    predicates = {"same_source", "same_registry", "same_environment", "same_record_schema", "same_exit",
+        "same_stdout", "same_stderr", "route_pair", "same_engine", "same_execution_cwd", "same_compiled_stream",
+        "same_child_environment", "same_declared_repro_artifacts", "same_stdin", "same_dist_namespace",
+        "same_portal_events", "same_repro_events"}
+    return dict(schema="implementaudit.verifier-pair-preflight.v1",
+        status="BLOCKED" if reasons else "NECESSARY_PRECONDITIONS_ONLY", subject_launches=0,
+        plan_canonical_sha256=sha(encoded), currentness=dict(expected=expected, observed_before=before,
+            observed_after=after, matches=expected == before == after, mismatches=mismatches,
+            scope="PRE_POST_OBSERVATIONS_NOT_A_LAUNCH_LEASE",
+            git_observation_policy="DECLARED_ISOLATED_GIT_CONFIG_V1"),
+        blocking_reasons=sorted(reasons), guaranteed_false_predicates=sorted(false),
+        planned_capture_identities=identities, unqualified_predicates=sorted(predicates - false),
+        raw_observables_equal=None, normalization="NONE_RAW_BYTES", authority="NONE",
+        evidence_scope="PLANNED_INPUTS_ONLY_NO_EXECUTION",
+        remaining_identity_observations="DISTINCT_RUN_IDS_PROCESS_CLOCK_FILESYSTEM_AND_RAW_OUTPUTS_UNQUALIFIED")
+
+
+def preflight_verifier_pair_file_v1(path):
+    path = path.absolute()
+    try:
+        observed = source_member(path.relative_to("/").as_posix(), root=Path("/"), with_bytes=True, byte_limit=65536)
+    except WG.WorkGraphError as exc:
+        if str(exc) == "explicit member exceeds byte limit":
+            raise WG.WorkGraphError("preflight plan exceeds byte limit") from exc
+        raise
+    if observed.get("kind") != "FILE":
+        raise WG.WorkGraphError("preflight plan requires a no-follow regular file")
+    data = observed["_acquired_bytes"]
+    result = preflight_verifier_pair_v1(WG.decode_strict_json_bytes(data, "preflight plan"))
+    result["plan_file_sha256"] = sha(data)
+    print(json.dumps(result, sort_keys=True))
+    return 1 if result["status"] == "BLOCKED" else 0
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["legacy", "dag", "compare", "scoped", "registry", "prefix"])
+    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24"])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--capture-dist", action="store_true")
@@ -1611,21 +2056,27 @@ def main():
     try:
         if args.mode not in {"legacy", "dag"} and (args.retain_repro_assets or args.stdin_file is not None or args.empty_stdin or args.capture_dist or args.capture_portal_events or args.retain_repro_events):
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
-        if args.mode in {"scoped", "registry", "prefix"} and len(args.paths) == 2:
-            session = {"scoped": VerifierTaskSession, "registry": RegistryVerifierTaskSession,
-                       "prefix": create_composed_prefix_session}[args.mode](*args.paths)
+        if args.mode == "preflight" and len(args.paths) == 1:
+            return preflight_verifier_pair_file_v1(args.paths[0])
+        if args.mode in {"scoped", "registry", "prefix", "prefix24"} and len(args.paths) == 2:
+            prefix_mode = args.mode in {"prefix", "prefix24"}
+            if prefix_mode:
+                profile = "COMPOSED_SOURCE_PREFIX_24_V1" if args.mode == "prefix24" else "COMPOSED_SOURCE_PREFIX_23_V1"
+                session = create_composed_prefix_session(*args.paths, profile=profile)
+            else:
+                session = {"scoped": VerifierTaskSession, "registry": RegistryVerifierTaskSession}[args.mode](*args.paths)
             # A caller may request another current-source consumption, never
             # inject a receipt, plan, mutation command or claimed process exit.
             status = 0
-            requests = iter(lambda: sys.stdin.buffer.readline(4097), b"") if args.mode == "prefix" else sys.stdin.buffer
+            requests = iter(lambda: sys.stdin.buffer.readline(4097), b"") if prefix_mode else sys.stdin.buffer
             for line in requests:
-                if args.mode == "prefix" and len(line) > 4096:
+                if prefix_mode and len(line) > 4096:
                     raise WG.WorkGraphError("prefix request exceeds its byte bound")
                 if WG.decode_strict_json_bytes(line, "scope request") != {"operation": "run"}:
                     raise WG.WorkGraphError("only a current-source run request is supported")
                 result = session.run()
                 code = result["exit"]
-                if args.mode == "prefix" and (code < 0 or not result["complete"]):
+                if prefix_mode and (code < 0 or not result["complete"]):
                     code = 1
                 status = max(status, code)
                 print(json.dumps(result, sort_keys=True), flush=True)
@@ -1636,7 +2087,7 @@ def main():
             return run(args.mode, args.paths[0].resolve(), retain_repro_assets=args.retain_repro_assets,
                        stdin_file=args.stdin_file, empty_stdin=args.empty_stdin, capture_dist=args.capture_dist,
                        capture_portal_events=args.capture_portal_events, retain_repro_events=args.retain_repro_events)
-        parser.error("run takes one fresh output directory; compare takes two run directories and a fresh result path")
+        parser.error("run takes one fresh output directory; compare takes two run directories and a fresh result path; preflight takes one plan file")
     except (OSError, ValueError, KeyError, TypeError, WG.WorkGraphError, subprocess.SubprocessError) as exc:
         print("work-graph-verifier: " + str(exc), file=sys.stderr)
         return 2

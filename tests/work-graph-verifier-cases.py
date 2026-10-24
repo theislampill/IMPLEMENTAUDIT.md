@@ -1864,7 +1864,7 @@ def fixture_capture_environment_cases(directory):
     assert [row["argv"][0] for row in rows] == [
         "tests/work-graph-verifier-cases.py", "tests/work-graph-stream-cases.py",
         "tests/work-graph-prefix-cases.py", "tests/work-graph-registry-cases.py",
-        "tests/work-graph-repro-events-cases.py"]
+        "tests/work-graph-repro-events-cases.py", "tests/work-graph-correspondence-preflight-cases.py"]
     assert all(not row["capture_keys"] for row in rows), ("outer capture escaped into child fixture", rows)
     assert all(row["sentinel"] == "unrelated environment preserved" for row in rows)
 
