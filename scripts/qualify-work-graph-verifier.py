@@ -1859,6 +1859,7 @@ _FINITE_MODES = {
     "internal-skill-routing": "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1",
     "bootstrap-load-budget": "CONTROLLED_TASK_BOOTSTRAP_LOAD_BUDGET_V1",
     "respec-impact-set": "CONTROLLED_TASK_RESPEC_IMPACT_SET_V1",
+    "package-shape-claims": "CONTROLLED_TASK_PACKAGE_SHAPE_CLAIMS_V1",
 }
 
 

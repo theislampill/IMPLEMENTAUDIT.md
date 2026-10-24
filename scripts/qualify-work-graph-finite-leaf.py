@@ -51,6 +51,7 @@ RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
 INTERNAL_ROUTING_PROFILE = "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1"
 LEAN_DISCIPLINE_PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
+PACKAGE_SHAPE_PROFILE = "CONTROLLED_TASK_PACKAGE_SHAPE_CLAIMS_V1"
 RESPEC_PROFILE = "CONTROLLED_TASK_RESPEC_IMPACT_SET_V1"
 BOOTSTRAP_BUDGET_PROFILE = "CONTROLLED_TASK_BOOTSTRAP_LOAD_BUDGET_V1"
 # Inspected seq ELF: its only DT_NEEDED member is libc, with this existing
@@ -459,6 +460,21 @@ _CONTRACTS = {
         projection="COMPLETE_WHOLE_ROOT_BYTES_NAMES_EMPTY_DIRECTORIES_AND_FILE_MODES_ORIGINAL_NINE_SEQUENTIAL_COPIES",
         whole_copy=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
                         entries=4096, depth=40, path_bytes=2048)),
+    PACKAGE_SHAPE_PROFILE: dict(label="package-shape-claims", index=75, program="tests/package-shape-claims.test.sh",
+        programs={
+            "tests/package-shape-claims.test.sh": "62423be42e48121a3af91e962cf523248fbeea5c31d666a89f831a651ba947ad",
+            "scripts/check-package-shape-claims.sh": "8cf31dfa733650ad2359121036d640bb35486d79736dbea965315def6c8a3136"},
+        data=("package/implementaudit-package.json", ".codex-plugin/plugin.json", ".claude-plugin/plugin.json",
+            "AGENTS.md", "README.md", "CONTRIBUTING.md", "docs/portal/site.json"),
+        bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=10),
+        # Fifteen original fixture trees coexist. Their fixed 239 file/spool
+        # entries and 199 directories exceed 32 MiB under the existing 64 KiB
+        # allocation/metadata granules; admission still requires actual capacity.
+        scratch_bytes=64 * 1024**2,
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="TWO_PINNED_PROGRAMS_LITERAL_PACKAGE_CURRENT_DOCS_COMPLETE_SKILLS_AND_PORTAL_PAGES_PRIVATE_TMP_FIXTURES",
+        recursive=dict(roots=("skills", "docs/portal/pages"), optional=False, bounds=_RECURSIVE_BOUNDS,
+            required_members=("docs/portal/pages/package-contents.html", "docs/portal/pages/what-it-is.html"))),
     NATIVE_INTEGRATION_PROFILE: dict(label="native-integration", index=74, program="tests/native-integration.test.sh",
         programs={
             "tests/native-integration.test.sh": "f9743dc224dafc38cc34e7b09acadb8bfff9ea900307db0a81f59ec8736201c8",
@@ -763,7 +779,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -2065,7 +2081,39 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile == RESPEC_PROFILE:
+    if profile == PACKAGE_SHAPE_PROFILE:
+        wrapper = state["files"][contract["program"]]["bytes"]
+        checker = state["files"]["scripts/check-package-shape-claims.sh"]["bytes"]
+        # JSON copies may be rewritten by json.dumps(ensure_ascii=True).
+        # Six bytes per acquired byte plus the fixed replacement margin bounds
+        # escaping without parsing or accepting any package/manifest semantics.
+        json_sizes = tuple(6 * state["files"][name]["bytes"] + 256 for name in contract["data"][:3])
+        # Each fixture has three copied JSON files and eleven generated files.
+        # All fifteen trees, the extra child and historical file coexist.
+        # Reserve all seventeen checker and ten wrapper heredocs concurrently,
+        # even when Bash uses a pipe or reuses an anonymous spool. Every fixed
+        # generated document, append and heredoc fits the pinned wrapper bytes.
+        sizes = (*((*json_sizes, *((wrapper,) * 11)) * 15), wrapper, wrapper,
+            *((checker,) * 17), *((wrapper,) * 10))
+        copies, files, directories = 15, len(sizes), 1 + 15 * 13 + 1 + 2
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        names = set(state["files"]) | set(state["directories"])
+        data_sizes = [value["bytes"] for name, value in state["files"].items()
+                      if name not in (REGISTRY, *contract["programs"])]
+        path_bytes = sum(len(name.encode("utf-8")) + 1 for name in names)
+        # Charge all possible fixed claim reports and repr/decoder expansion.
+        # No acceptance phrase, child population, JSON value or regex result is
+        # inspected here; the unchanged original checker alone decides truth.
+        diagnostic = granule + 8 * max(data_sizes, default=0) + sum(
+            16 * len(name.encode("utf-8")) + 4096 for name in names)
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=diagnostic + 4096,
+            original_data_memory_reservation=granule + 64 * (sum(data_sizes) + path_bytes),
+            fixture_trees=15, fixture_files=210, extra_generated_files=2,
+            fixture_json_file_bounds=list(json_sizes), checker_spools=17, wrapper_spools=10,
+            checker_spool_bytes=17 * checker, wrapper_spool_bytes=10 * wrapper,
+            capacity_disposition="EXPLICIT_ORIGINAL75_64MIB_CONTRACT_NO_AUTOMATIC_EXPANSION")
+    elif profile == RESPEC_PROFILE:
         fixture = state["files"]["fixtures/respec-impact-set/cases.json"]["bytes"]
         checker = state["files"]["skills/implementaudit/scripts/check-respec-impact-set.sh"]["bytes"]
         wrapper = state["files"][contract["program"]]["bytes"]
@@ -2706,7 +2754,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             # Original74 retains seven private trees; its fixed ceiling
             # enters the same existing acquisition/image/key owners.
             LIMITS["scratch_bytes"] = 128 * 1024**2
-        elif profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+        elif profile in (AUDIT_OBJECT_CONTRACT_PROFILE, PACKAGE_SHAPE_PROFILE):
             LIMITS["scratch_bytes"] = contract["scratch_bytes"]
         elif profile == TERMINOLOGY_PROFILE:
             # Original79 copies every source member, including present Git.
