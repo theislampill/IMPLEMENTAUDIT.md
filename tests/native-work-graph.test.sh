@@ -12,3 +12,4 @@ else py_cmd=(py -3); fi
 "${py_cmd[@]}" tests/work-graph-continuity-cases.py
 "${py_cmd[@]}" tests/work-graph-composition-cases.py
 "${py_cmd[@]}" tests/work-graph-completion-cases.py
+"${py_cmd[@]}" tests/work-graph-completion-transition-cases.py

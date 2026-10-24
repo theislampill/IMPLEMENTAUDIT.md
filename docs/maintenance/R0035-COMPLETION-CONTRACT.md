@@ -45,6 +45,52 @@ unchanged JOIN returns its existing completion identity without another event.
 A completed JOIN can make the source-declared successor eligible under the
 portable contract; it cannot mark a PLAN, PHASE or campaign complete.
 
+## Completion-aware recursive transition
+
+`transition()` is an argument-free alternative to `frontier()` for a receiver
+that needs recursive reconsideration. Both methods use the same freshly derived
+completion frontier, dispatch identity, selection, capacity, conflict rules and
+live-frontier custody. The transition can be passed directly to `accept()`;
+a copied, modified or caller-resealed projection cannot replace the exact
+issued object. The source and input closing guards finish before either method
+issues a result. Calling either method alone records no execution or consumption.
+
+The existing compiler owns the shared ancestry, direction and bounded-consumer
+enrichment. Its original `compile_recursive_transition_v1(graph, history)`
+entry retains its native-source selection and supplied-history semantics. The
+new repository consumer does not substitute a completion list into that native
+entry, alter the original source graph or introduce another selector.
+
+A completion transition retains the current source event and complete
+same-campaign root, original scope, source graph identity, INWARD/OUTWARD/FORWARD/
+BACKWARD projections and actual selected consumers. It additionally projects
+only journal records that remain applicable in this live completion session.
+Each projected journal event retains its original and currently retained scope;
+each record retains its own dispatch, source graph, input, result digest,
+required/optional predecessors, effect/authority description and future consumer.
+`retained_ancestry` follows each such record through the current source ancestry
+to the explicitly named campaign root, and `retained_directions` preserves its
+own four directional projections. A material return from another branch is not
+collapsed into the current source event's local subtree. A partially invalidated batch cannot
+turn its surviving contributor into whole-batch or ancestor completion.
+
+These journal events are portable result-contract evidence. They do not claim
+authentic native RETURN/JOIN occurrence or an accepting issuer. A reopened
+journal contributes no live completion event or retained-ancestry credit and
+keeps its recovery holds. Current FAIL or PARTIAL records remain visible as
+such; they cannot satisfy a required successful JOIN. Changed inputs or premises
+invalidate affected use while independent retained evidence, ACTIVE occupancy,
+resource conflicts, authority blocks and useful unrelated preparation remain
+under the compiler's existing rules.
+
+The schema is `implementaudit.completion-transition.v1`, with evidence scope
+`PORTABLE_DECLARED_COMPLETION_TRANSITION`, `authority: NONE`,
+`native_dispatch_authorized: false` and `native_campaign_proven: false`.
+The transition is a source-bound receiving projection, not a new execution loop,
+native event source, lifecycle controller, persistent-cache credential or
+positive external-effect recovery grant. PLAN/PHASE/campaign completion remains
+outside the companion's TASK/JOIN projection.
+
 ## Custody and interruption
 
 The journal is a bounded, hash-linked historical record with a cooperating
@@ -62,8 +108,8 @@ resume those scopes. This companion supplies no import/recovery credential or
 external-effect retry command. It cannot recover an external producer's
 unobserved execution or make observation and later external effects atomic.
 
-Each session bounds history to 1,024 events and 64 MiB, and retained issued
-frontiers to 1,024. Exceeding a resource bound refuses; it does not grant
+Each session bounds history to 1,024 events and 64 MiB, each issued frontier
+or recursive projection to 64 MiB, and retained issued frontiers to 1,024. Exceeding a resource bound refuses; it does not grant
 completion or omit contributors. These bounds are companion resource limits,
 not the original acceptance denominator or a runtime fanout policy.
 

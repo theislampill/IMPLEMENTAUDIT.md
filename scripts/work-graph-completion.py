@@ -286,17 +286,72 @@ class CompletionContract:
                         recovery_status='PRODUCER_REOBSERVATION_REQUIRED' if self._recovery else 'LIVE_CONTRACT_ONLY')
         return frontier, valid
 
-    @_serialized
-    def frontier(self):
+    def _transition(self, graph, frontier, valid):
+        # Historical JSON alone never contributes. Every projected record must
+        # still be retained by this live consumer and pass fresh applicability.
+        _require(_hash(self.journal.value) == self.history_digest, 'live journal projection changed')
+        context = self.wg._recursive_context_v1(graph, frontier, graph['event']['subject'])
+        events, ancestry, directions = [], {}, {}
+        for event in self.journal.value['events']:
+            records = []
+            for record in event['body']['records']:
+                name = record['node']
+                current = valid.get(name)
+                if current is None or current['digest'] != record['digest']:
+                    continue
+                _require(current == record, 'live completion record differs from its journal')
+                result = record['result']
+                source = next(n for n in record['source_graph']['nodes'] if n['id'] == name)
+                records.append(dict(node=name, digest=record['digest'], status=record['status'],
+                    consumer=record['consumer'], scope=copy.deepcopy(result['scope']),
+                    dispatch_id=result['dispatch_id'], input_digest=result['input_digest'],
+                    evidence_digest=result['evidence_digest'],
+                    source_graph_digest=record['source_graph']['digest'],
+                    required=copy.deepcopy(source['requires']), optional=copy.deepcopy(source['optional']),
+                    declared_future_consumer=copy.deepcopy(source['future_consumer']),
+                    effect=source['effect'], authority=copy.deepcopy(source['authority']),
+                    predecessors=copy.deepcopy(record['predecessors'])))
+                reconsidered = self.wg._recursive_context_v1(graph, frontier, name)
+                ancestry[name] = reconsidered['ancestors']
+                directions[name] = reconsidered['directions']
+            if records:
+                events.append(dict(digest=event['digest'], previous=event['previous'],
+                                   kind=event['kind'],
+                                   original_scope=[r['node'] for r in event['body']['records']],
+                                   retained_scope=[r['node'] for r in records], records=records))
+        return self.wg._seal_graph(dict(context,
+            schema='implementaudit.completion-transition.v1', completion_events=events,
+            retained_ancestry=ancestry, retained_directions=directions, native_campaign_proven=False,
+            evidence_scope='PORTABLE_DECLARED_COMPLETION_TRANSITION'))
+
+    def _frontier(self, recursive):
         with self._graph() as graph:
             frontier, valid = self._derive(graph)
+            if recursive:
+                frontier = self._transition(graph, frontier, valid)
             predecessors = {node['id']: {dep: valid.get(dep, {}).get('digest')
                             for dep in node['requires'] + node['optional']}
                             for node in graph['nodes'] if node['id'] in frontier['selected']}
         # Issue only after every input/source observation guard has closed.
         _require(len(self._issued) < MAX_EVENTS, 'live dispatch retention bound')
-        self._issued[id(frontier)] = (frontier, _raw(frontier), copy.deepcopy(graph), set(), predecessors)
+        raw = _raw(frontier)
+        _require(len(raw) <= MAX_JOURNAL_BYTES, 'completion projection byte bound')
+        self._issued[id(frontier)] = (frontier, raw, copy.deepcopy(graph), set(), predecessors)
         return frontier
+
+    @_serialized
+    def frontier(self):
+        return self._frontier(False)
+
+    @_serialized
+    def transition(self):
+        """Reconsider complete ancestry from current source and live scoped history.
+
+        The compiler supplies the same selection as frontier(); no supplied
+        event, history, completion or ancestor-DONE override is accepted.
+        Portable journal events are evidence, not native event authority.
+        """
+        return self._frontier(True)
 
     @_serialized
     def accept(self, frontier, results, consumer, *, expected_old):

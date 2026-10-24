@@ -2846,8 +2846,7 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _rout
         node['declared_state'] = declared
         node['state'] = 'ACTIVE' if declared == 'ACTIVE' else 'BLOCKED' if reasons else 'DONE' if completed else 'READY'
         node['blocked_reasons'] = sorted(set(reasons))
-    source_inventory = [dict(path=path, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for path, data in sorted(snapshot.items())]
-    before['source_digest'] = _graph_hash(source_inventory)
+    before['source_digest'] = source_digest
     return _seal_graph(dict(schema='implementaudit.completion-projection.v1' if _completion is not None else 'implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), **({'receiver_binding': receiver_binding} if receiver_binding is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
 
 def _native_input_policy_v1(owner, root, relative, git_policy):
@@ -3392,22 +3391,27 @@ def _join_native_results_v1(graph, mapped, join_id):
                 status = 'NONVERDICT' if status != 'FAIL' else status
     return dict(schema='implementaudit.native-join.v1', status=status, all_required_settled=all_settled, required=sorted(required), optional=sorted(optional), missing=missing, omitted_optional=sorted(optional - mapped.keys()), retained_scopes={name: result['scope'] for name, result in sorted(mapped.items())}, graph_digest=graph['digest'], consumer=join_id, authority='NONE', lifecycle_credit='NONE')
 
-def compile_recursive_transition_v1(graph, history):
-    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
-    if type(history) is not list:
-        raise WorkGraphError('event history: array required')
+def _recursive_context_v1(graph, plan, subject):
     nodes = {n['id']: n for n in graph['nodes']}
-    ancestors, cursor = ([], graph['event']['subject'])
+    ancestors, cursor = ([], subject)
     while cursor is not None:
         ancestors.append(cursor)
         cursor = nodes[cursor]['parent']
     if ancestors[-1] != graph['root']:
         raise WorkGraphError('recursive ancestry root mismatch')
-    plan = select_native_frontier_v1(graph)
     consumers = {}
     for name in plan['selected']:
         node = nodes[name]
         consumers[name] = node['future_consumer'] or dict(node=node['parent'] or graph['root'], condition='scoped result reconsideration')
+    directions = {'INWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] == ancestors[0])), 'OUTWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] in ancestors[1:] and n['id'] not in ancestors)), 'FORWARD': sorted((n['id'] for n in graph['nodes'] if n['future_consumer'] is not None)), 'BACKWARD': sorted((n['id'] for n in graph['nodes'] if n['kind'] == 'JOIN'))}
+    return dict(plan, schema='implementaudit.recursive-transition.v1', campaign=graph['campaign'], root=graph['root'], original_scope=graph['original_scope'], ancestors=ancestors, directions=directions, consumers=consumers)
+
+def compile_recursive_transition_v1(graph, history):
+    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    if type(history) is not list:
+        raise WorkGraphError('event history: array required')
+    plan = select_native_frontier_v1(graph)
+    result = _recursive_context_v1(graph, plan, graph['event']['subject'])
     seen = set()
     replay = False
     for receipt in history:
@@ -3435,8 +3439,6 @@ def compile_recursive_transition_v1(graph, history):
             if receipt['graph_digest'] != graph['digest'] or receipt['dispatch_id'] != plan['dispatch_id'] or receipt['consumed'] != plan['selected']:
                 raise WorkGraphError('event identity reused with changed graph or incomplete consumption')
             replay = True
-    directions = {'INWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] == ancestors[0])), 'OUTWARD': sorted((n['id'] for n in graph['nodes'] if n['parent'] in ancestors[1:] and n['id'] not in ancestors)), 'FORWARD': sorted((n['id'] for n in graph['nodes'] if n['future_consumer'] is not None)), 'BACKWARD': sorted((n['id'] for n in graph['nodes'] if n['kind'] == 'JOIN'))}
-    result = dict(schema='implementaudit.recursive-transition.v1', **{k: v for k, v in plan.items() if k != 'schema'}, campaign=graph['campaign'], root=graph['root'], original_scope=graph['original_scope'], ancestors=ancestors, directions=directions, consumers=consumers)
     if replay:
         result.update(selected=[], mode='NO_REDISPATCH')
     return _seal_graph(result)
