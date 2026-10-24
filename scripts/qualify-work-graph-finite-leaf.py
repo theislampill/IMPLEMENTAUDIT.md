@@ -28,6 +28,7 @@ LIFECYCLE_PROFILE = "CONTROLLED_TASK_PLAN_LIFECYCLE_V1"
 PLAN_QUALITY_PROFILE = "CONTROLLED_TASK_PLAN_QUALITY_V1"
 AUTHORIZATION_PROFILE = "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1"
 READ_ONLY_PROFILE = "CONTROLLED_TASK_READ_ONLY_PLANS_V1"
+SAFEGUARD_PROFILE = "CONTROLLED_TASK_SAFEGUARD_RESTORATION_V1"
 ROUTING_PROFILE = "CONTROLLED_TASK_ROUTING_V1"
 AUDIT_OBJECT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
@@ -365,6 +366,25 @@ _CONTRACTS = {
         data=READ_ONLY_INPUTS, bounds=dict(file_bytes=128 * 1024, total_bytes=1024 * 1024, files=41),
         source_modes="NORMALIZED_0444_READ_ONLY",
         projection="THREE_PINNED_PROGRAMS_COMPLETE_PARITY_DATA_PLAN_DEFAULTS_AND_REQUIRED_DIRECTORY_PRESENCE_NO_ENUMERATION"),
+    SAFEGUARD_PROFILE: dict(label="safeguard-restoration", index=83, program="tests/safeguard-restoration.test.sh",
+        programs={
+            "tests/safeguard-restoration.test.sh": "2da5dd4d059c94af4ffded1caee9456be03a1d1669675e870d64fea7b1b014b0",
+            "scripts/check-safeguard-restoration.sh": "b6237e29e9f9e73b910ef5b23b75df2421ebd1d0688a5ab90f5072ca9b67a17f",
+            "scripts/check-installed-payload-self-contained.sh": "228ab1ed29c50d7916cca4e82b0696d42314c6a4efb3b2a7bdd43b5a3bfd70b8"},
+        data=tuple("fixtures/safeguards/" + name for name in (
+            "negative-missing-final-report.md", "negative-missing-5whys-exit.md",
+            "negative-unlabeled-source-only-checker.md")),
+        bounds=dict(file_bytes=1024 * 1024, total_bytes=8 * 1024**2, files=7),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="THREE_PINNED_PROGRAMS_THREE_LITERAL_NEGATIVES_COMPLETE_SKILLS_BYTES_NAMES_TYPES_AND_PHYSICAL_HELPER_ROUTES",
+        recursive=dict(roots=("skills",), optional=False, bounds=_RECURSIVE_BOUNDS,
+            required_members=("skills/implementaudit/SKILL.md", "skills/implementaudit/templates/final-report.md",
+                "skills/implementaudit/references/sidecars.md", "skills/implementaudit/references/lean-operating-discipline.md",
+                "skills/implementaudit/references/repo-state-comparison.md", "skills/implementaudit/references/phase-design.md",
+                "skills/implementaudit/references/plan-lifecycle.md", "skills/implementaudit/references/routing.md",
+                "skills/implementaudit/templates/read-only-plan.md", "skills/implementaudit/scripts/validate-phase.sh",
+                "skills/implementaudit/scripts/validate-run-root.sh", "skills/implementaudit/scripts/repo-state.sh",
+                "skills/implementaudit/scripts/custody-append.sh"))),
     ROUTING_PROFILE: dict(label="routing", index=54, program="tests/routing.test.sh",
         programs={
             "tests/routing.test.sh": "77fdce7b44d893f4aa820c9ee913b1ffed37c976dc04a16a7a4c667eaf2ff2af",
@@ -388,7 +408,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -644,6 +664,7 @@ def recursive_output_bounds(state, objects, contract, *, profile):
     """Conservative output sizes from complete actual acquired input bytes."""
     names = sorted(set(state["files"]) - {REGISTRY, *contract["programs"]})
     grep_bytes = diagnostics = terminal_bytes = terminal_messages = audit_checker_bytes = 0
+    safeguard_bytes = safeguard_messages = 0
     for name in names:
         raw = objects[state["files"][name]["sha256"]]
         path_bytes = len(name.encode("utf-8"))
@@ -653,6 +674,24 @@ def recursive_output_bounds(state, objects, contract, *, profile):
         # filters cannot increase this stream. Include binary diagnostics too.
         grep_bytes += len(raw) + lines * (path_bytes + len(str(max(lines, 1))) + 3)
         diagnostics += path_bytes + 128
+        if profile == SAFEGUARD_PROFILE:
+            try:
+                text = raw.decode("utf-8", "strict")
+            except UnicodeDecodeError:
+                # Installed-payload skips undecodable files; the stricter
+                # label reader may instead stop with a bounded decode error.
+                # Neither path permits acquisition to omit these actual bytes.
+                continue
+            display_path = max(path_bytes, len(name.encode("ascii", "backslashreplace"))) + len("/work/")
+            for lineno, line in enumerate(text.splitlines(), 1):
+                normalized = line.replace("\\", "/").lower()
+                if not any(token in normalized for token in ("scripts/", "fixtures/", "tests/", "helper-route:")):
+                    continue
+                # At most two installed-payload reports and one strict-label
+                # report per candidate line. Count labels/exemptions as if
+                # they fail; this is allocation only, never checker acceptance.
+                safeguard_messages += 3
+                safeguard_bytes += 3 * (display_path + len(str(lineno)) + 256) + 4 * len(line.encode("utf-8"))
         if profile == AUDIT_OBJECT_PROFILE and name in AUDIT_ROUTING_READS:
             # Eight fixed phrases can each produce one diagnostic per decoded
             # line. Count every Unicode separator and every phrase regardless
@@ -683,6 +722,9 @@ def recursive_output_bounds(state, objects, contract, *, profile):
         all_lines_grep_report_bytes=grep_bytes, binary_diagnostic_bytes=diagnostics,
         terminal_possible_messages=terminal_messages, terminal_diagnostic_bytes=terminal_bytes,
         basis="OUTPUT_ALLOCATION_UPPER_BOUND_NOT_AN_ACCEPTANCE_DECISION")
+    if profile == SAFEGUARD_PROFILE:
+        result.update(safeguard_possible_messages=safeguard_messages,
+            safeguard_diagnostic_bytes=safeguard_bytes + 64 * 1024)
     if profile == AUDIT_OBJECT_PROFILE:
         # Fixed default requirements, complete type/name diagnostics and error
         # renderings are bounded without evaluating any acceptance predicate.
@@ -831,6 +873,17 @@ def temporary_requirements(state, *, profile=PROFILE):
         content, allocated = sum(sizes), sum(map(rounded, sizes))
         extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
             max_stderr_bytes=4 * data_bytes + granule)
+    elif profile == SAFEGUARD_PROFILE:
+        diagnostic = state["recursive_inputs"]["resources"]["safeguard_diagnostic_bytes"]
+        checker = state["files"]["scripts/check-safeguard-restoration.sh"]["bytes"]
+        installed = state["files"]["scripts/check-installed-payload-self-contained.sh"]["bytes"]
+        # Three retained diagnostic files; all four calls traverse both pinned
+        # Python here-documents. Charge eight possible spools simultaneously.
+        sizes = (diagnostic,) * 3 + (checker,) * 4 + (installed,) * 4
+        copies, files, directories = 0, len(sizes), 1
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=diagnostic, max_stdout_bytes=512,
+            max_stderr_bytes=diagnostic + 1024)
     elif profile == AUDIT_OBJECT_PROFILE:
         bound = state["recursive_inputs"]["resources"]
         report = bound["all_lines_grep_report_bytes"]
@@ -1061,6 +1114,12 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                     {"/work/" + name for name in source["directories"] if name != "."})
                 manifest["directory_membership"] = source["recursive_inputs"]["projection"]
                 manifest["source_projection"] = "COMPLETE_RECURSIVE_READ_BYTES_AND_EXPLICIT_OPTIONAL_PRESENCE"
+                image_key = self._object(self._encode(manifest))
+            if profile == SAFEGUARD_PROFILE:
+                # The original physical helper validator requires st_nlink=1.
+                # Select this fixed policy in the acquired image, never from a
+                # public argument. Its hash binds execution and retained reuse.
+                manifest["source_materialization"] = "SINGLE_LINK_FILES_READ_ONLY_ROOT"
                 image_key = self._object(self._encode(manifest))
             source_key = self._object(prefix.encode(source))
             graph_key = self._object(self._encode(graph))

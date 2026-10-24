@@ -1437,6 +1437,10 @@ class VerifierTaskSession:
 
     def _execute(self, acquired, node, decision, directory):
         files, manifest = acquired["images"][node["id"]]
+        materialization = manifest.get("source_materialization")
+        if materialization not in (None, "SINGLE_LINK_FILES_READ_ONLY_ROOT") or (
+                materialization is not None and manifest.get("root_read_only") is not True):
+            raise WG.WorkGraphError("unsupported source image materialization")
         directory.mkdir()
         self._write(directory / "image.json", manifest)
         fds = []
@@ -1449,7 +1453,12 @@ class VerifierTaskSession:
             for name, (data, mode) in sorted(files.items()):
                 fd = self._sealed(data)
                 fds.append(fd)
-                args += ["--perms", oct(mode)[2:], "--ro-bind-data", str(fd), name]
+                # --ro-bind-data unlinks its backing inode (st_nlink == 0).
+                # Physical-file checkers need an ordinary linked source file.
+                # Both routes copy the same sealed bytes; the existing final
+                # root remount makes --file source members read-only as well.
+                kind = "--file" if materialization is not None and name.startswith("/work/") else "--ro-bind-data"
+                args += ["--perms", oct(mode)[2:], kind, str(fd), name]
             seccomp_fd = self._sealed(self.SECCOMP)
             fds.append(seccomp_fd)
             args += ["--dev-bind", "/dev/null", "/dev/null", "--size", str(self.LIMITS["scratch_bytes"]), "--tmpfs", "/tmp",
@@ -1653,6 +1662,7 @@ _FINITE_MODES = {
     "plan-quality": "CONTROLLED_TASK_PLAN_QUALITY_V1",
     "authorization-binding": "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1",
     "read-only-plans": "CONTROLLED_TASK_READ_ONLY_PLANS_V1",
+    "safeguard-restoration": "CONTROLLED_TASK_SAFEGUARD_RESTORATION_V1",
     "routing": "CONTROLLED_TASK_ROUTING_V1",
     "audit-object-routing": "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1",
 }
