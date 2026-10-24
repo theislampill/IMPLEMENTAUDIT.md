@@ -35,6 +35,11 @@ INSTALLED_PROFILE = "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1"
 PLANNER_COPY_PROFILE = "CONTROLLED_TASK_PLANNER_COPY_V1"
 FANOUT_PROFILE = "CONTROLLED_TASK_FANOUT_COVERAGE_V1"
 SKILL_LAYOUT_PROFILE = "CONTROLLED_TASK_SKILL_LAYOUT_V1"
+NATIVE_INTEGRATION_PROFILE = "CONTROLLED_TASK_NATIVE_INTEGRATION_V1"
+# Necessary anchors only: these deliberately overcount original diagnostics,
+# including exempt examples. They bound allocation; the original decides truth.
+_NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS", b"non-native")
+_NATIVE_HYGIENE_BOUND_ANCHORS = ("hunter2", "akia", "ghp_", "sk-", "password", "apikey", "api_key", "api-key")
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -245,6 +250,28 @@ SKILL_LAYOUT_REQUIRED = (
     ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json", "scripts/build-release-asset.sh",
 )
 _CONTRACTS = {
+    NATIVE_INTEGRATION_PROFILE: dict(label="native-integration", index=74, program="tests/native-integration.test.sh",
+        programs={
+            "tests/native-integration.test.sh": "f9743dc224dafc38cc34e7b09acadb8bfff9ea900307db0a81f59ec8736201c8",
+            "scripts/check-native-integration.sh": "63dc104b9d242de2118327d99cdf01d7e2bed95c17f2e8c1fb52a89831740e36"},
+        data=(), bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=3),
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="TWO_PINNED_ORIGINAL_PROGRAMS_COMPLETE_SKILLS_ALL_FIXTURES_PORTAL_AND_OPTIONAL_ROOT_FILES_NO_NATIVE_HOST",
+        recursive=dict(roots=("skills", "fixtures", "docs/portal"), optional=True,
+            optional_files=("README.md", "AGENTS.md"), bounds=_RECURSIVE_BOUNDS,
+            required_members=(
+                "skills/implementaudit/references/audit-category-matrix.md",
+                "skills/implementaudit/references/audit-playbook.md",
+                "skills/implementaudit/templates/THINKING.md",
+                "skills/implementaudit/templates/phase-goal.txt",
+                "skills/implementaudit/templates/PROTOCOL.md",
+                *("fixtures/native-integration/" + name for name in (
+                    "p0-correctness-native-route.md", "p0-security-native-route.md",
+                    "p0-performance-native-route.md", "p0-test-coverage-native-route.md",
+                    "p0-architecture-native-route.md", "p0-dependencies-native-route.md",
+                    "p0-dx-tooling-native-route.md", "p0-docs-handoff-native-route.md",
+                    "p0-direction-native-route.md", "single-plan-native-route.md",
+                    "negative-generic-roadmap.md", "transcripts/audit-object-route-canary-transcript.md"))))),
     SKILL_LAYOUT_PROFILE: dict(label="skill-layout", index=86, program="tests/skill-layout-contract.test.sh",
         programs={
             "tests/skill-layout-contract.test.sh": "1139d5406839aec5ebdfd82eb0ad63ec9f3c5404cabf3a6c377af0db4a546a7e",
@@ -510,7 +537,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -769,8 +796,68 @@ def snapshot_recursive_inputs(prefix, root, objects, contract):
             os.close(descriptor)
 
 
+def native_integration_output_bounds(state, objects, contract):
+    """Bound complete original74 reports without evaluating its acceptance rules."""
+    names = sorted(set(state["files"]) - {REGISTRY, *contract["programs"]})
+    copied = [name for name in names if name.startswith(("skills/", "fixtures/native-integration/"))]
+    first_roots = ("skills/", "fixtures/native-integration/", "fixtures/audit-object-routing/")
+    def width(name):
+        return 4 * len(name.encode("utf-8")) + 32
+    def grep_bound(population, anchors):
+        total = 0
+        for name in population:
+            raw = objects[state["files"][name]["sha256"]]
+            # GNU grep records use LF, not Unicode/CR/VT/FF line boundaries.
+            # A necessary anchor charges the entire raw line plus its prefix.
+            for line in raw.split(b"\n"):
+                if anchors is None or any(anchor in line for anchor in anchors):
+                    total += len(line) + width(name) + 1
+        return total
+    def hygiene_bound(population):
+        total = 0
+        for name in population:
+            # Original LF-line deletions can remove an invalid UTF-8 record
+            # from a private copy, exposing valid retained diagnostic lines.
+            # Replacement decoding preserves those lines and overcounts the
+            # invalid portions; the original checker still decodes strictly.
+            text = objects[state["files"][name]["sha256"]].decode("utf-8", "replace")
+            for line in text.splitlines():
+                # Python re.I also recognizes these four ASCII equivalents.
+                # Ignore exemption markers and charge all six fixed labels.
+                folded = line.translate(str.maketrans("İıſK", "iisk")).casefold()
+                if any(anchor in folded for anchor in _NATIVE_HYGIENE_BOUND_ANCHORS):
+                    total += 6 * (width(name) + 128)
+        return total
+    def diagnostic_margin(population):
+        # Fixed shell failures, complete pathname errors and traceback/repr
+        # expansion; acceptance tokens and semantic results are never inspected.
+        return (64 * 1024 + 4 * max((state["files"][name]["bytes"] for name in population), default=0)
+            + sum(width(name) + 128 for name in population))
+    first = grep_bound([name for name in names if name.startswith(first_roots)], _NATIVE_FORBIDDEN_BOUND_ANCHORS)
+    private_first = grep_bound(copied, _NATIVE_FORBIDDEN_BOUND_ANCHORS)
+    command = grep_bound([name for name in copied if name.startswith("skills/")], (b"/implementaudit ",))
+    hygiene, private_hygiene = hygiene_bound(names), hygiene_bound(copied)
+    weak = "fixtures/native-integration/p0-correctness-native-route.md"
+    # The original equal-length substitution can introduce Foreign on any
+    # correctness-fixture line. Charge every such line, regardless of matching.
+    private_first += grep_bound([weak], None)
+    private_first += 128 + width("skills/implementaudit/templates/THINKING.md")
+    private_hygiene += 12 * (width("fixtures/native-integration/p0-security-native-route.md") + 128)
+    default_diagnostic = max(first, command, hygiene) + diagnostic_margin(names)
+    private_diagnostic = max(private_first, command, private_hygiene) + diagnostic_margin(copied)
+    return dict(read_files=len(names), read_bytes=sum(state["files"][name]["bytes"] for name in names),
+        copied_source_files=len(copied), copied_source_bytes=sum(state["files"][name]["bytes"] for name in copied),
+        default_first_grep_bytes=first, private_first_grep_bytes=private_first, command_grep_bytes=command,
+        default_hygiene_bytes=hygiene, private_hygiene_bytes=private_hygiene,
+        grep_report_file_bound=max(first, private_first, command),
+        default_diagnostic_bound=default_diagnostic, private_diagnostic_bound=private_diagnostic,
+        basis="NECESSARY_ANCHOR_OUTPUT_UPPER_BOUND_IGNORES_EXEMPTIONS_NOT_AN_ACCEPTANCE_DECISION")
+
+
 def recursive_output_bounds(state, objects, contract, *, profile):
     """Conservative output sizes from complete actual acquired input bytes."""
+    if profile == NATIVE_INTEGRATION_PROFILE:
+        return native_integration_output_bounds(state, objects, contract)
     names = sorted(set(state["files"]) - {REGISTRY, *contract["programs"]})
     grep_bytes = diagnostics = terminal_bytes = terminal_messages = audit_checker_bytes = 0
     safeguard_bytes = safeguard_messages = 0
@@ -1005,7 +1092,31 @@ def temporary_requirements(state, *, profile=PROFILE):
     sizes = [state["files"][name]["bytes"] for name in contract["data"]]
     rounded = lambda size: ((size + granule - 1) // granule) * granule
     extra = {}
-    if profile in (PLAN_QUALITY_PROFILE, READ_ONLY_PROFILE):
+    if profile == NATIVE_INTEGRATION_PROFILE:
+        bound = state["recursive_inputs"]["resources"]
+        copied = [entry["bytes"] + 128 for name, entry in state["files"].items()
+                  if name.startswith(("skills/", "fixtures/native-integration/"))]
+        copied_dirs = sum(name in ("skills", "fixtures/native-integration") or
+            name.startswith(("skills/", "fixtures/native-integration/")) for name in state["directories"])
+        diagnostic, report = bound["private_diagnostic_bound"], bound["grep_report_file_bound"]
+        sed_sizes = tuple(state["files"]["fixtures/native-integration/" + name]["bytes"] + 128 for name in (
+            "p0-correctness-native-route.md", "transcripts/audit-object-route-canary-transcript.md",
+            "negative-generic-roadmap.md"))
+        checker = state["files"]["scripts/check-native-integration.sh"]["bytes"]
+        # Seven complete trees coexist until the wrapper's final trap. Two
+        # removals only decrease use; both appends fit the per-file 128 margin.
+        # Three non-growing sed temporaries, two grep reports, seven diagnostic
+        # files and eight possible heredoc spools are all charged concurrently.
+        sizes = (*copied * 7, *((diagnostic,) * 7), report, report, *sed_sizes, *((checker,) * 8))
+        copies, files, directories = 7, len(sizes), 1 + 7 * (copied_dirs + 2)
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=max(bound["default_diagnostic_bound"], diagnostic) + 4096,
+            copied_files=7 * len(copied), copied_source_files=len(copied), copied_source_directories=copied_dirs,
+            copied_source_bytes=bound["copied_source_bytes"], diagnostic_files=7, diagnostic_file_bound=diagnostic,
+            grep_report_files=2, grep_report_file_bound=report, sed_temporary_files=3,
+            sed_temporary_bytes=list(sed_sizes), checker_spools=8, checker_spool_bytes=8 * checker)
+    elif profile in (PLAN_QUALITY_PROFILE, READ_ONLY_PROFILE):
         # Every original diagnostic includes at most one data-derived line,
         # plus bounded literal paths/tokens/traceback. Charge UTF-8 error/repr
         # expansion at four bytes per input byte and a 64 KiB fixed margin.
@@ -1348,6 +1459,10 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             # The inherited image, acquisition key, launcher and resource
             # checks all consume this same selected limits mapping.
             LIMITS["scratch_bytes"] = contract["scratch_bytes"]
+        elif profile == NATIVE_INTEGRATION_PROFILE:
+            # Original74 retains seven private trees; its fixed ceiling
+            # enters the same existing acquisition/image/key owners.
+            LIMITS["scratch_bytes"] = 128 * 1024**2
 
         def __init__(self, source_root, output, *, max_age=3600):
             # Preserve the namespace owner's raw-path refusal before inherited

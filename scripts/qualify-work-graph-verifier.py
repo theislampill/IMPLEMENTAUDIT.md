@@ -1669,6 +1669,7 @@ _FINITE_MODES = {
     "planner-copy": "CONTROLLED_TASK_PLANNER_COPY_V1",
     "fanout-coverage": "CONTROLLED_TASK_FANOUT_COVERAGE_V1",
     "skill-layout": "CONTROLLED_TASK_SKILL_LAYOUT_V1",
+    "native-integration": "CONTROLLED_TASK_NATIVE_INTEGRATION_V1",
 }
 
 

@@ -35,7 +35,7 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(set(contract["programs"]), {PROGRAM, "scripts/check-planner-stages.sh"})
         self.assertEqual(contract["scratch_bytes"], 256 * 1024**2)
 
-    def test_only_node46_changes_scratch_and_the_selected_limit_binds_image_key(self):
+    def test_fixed_original46_and74_limits_preserve_defaults_and_planner_image_key(self):
         A, raw = shared.load("planner_copy_limits", ROOT / "scripts/qualify-work-graph-finite-leaf.py")
         parent = P.bind_session(Q.VerifierTaskSession, Q.WG, ROOT,
             (ROOT / "scripts/qualify-work-graph-prefix.py").read_bytes())
@@ -46,6 +46,8 @@ class CatalogCases(unittest.TestCase):
             expected = dict(parent.LIMITS)
             if profile == PROFILE:
                 expected["scratch_bytes"] = 256 * 1024**2
+            elif profile == "CONTROLLED_TASK_NATIVE_INTEGRATION_V1":
+                expected["scratch_bytes"] = 128 * 1024**2
             with self.subTest(profile=profile):
                 self.assertEqual(cls.LIMITS, expected)
         self.assertEqual(parent.LIMITS["scratch_bytes"], 32 * 1024**2)
