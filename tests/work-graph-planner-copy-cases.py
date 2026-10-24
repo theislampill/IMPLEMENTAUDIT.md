@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Original node46 complete copies and conservative resource/runtime admission."""
+import copy
 import importlib.util
 import os
 from pathlib import Path
@@ -166,49 +167,86 @@ class RuntimeCases(unittest.TestCase):
     def setUp(self):
         self.A, _ = shared.load("planner_copy_runtime", ROOT / "scripts/qualify-work-graph-finite-leaf.py")
         self.objects = {}
-        self.runtime = dict(files={}, observations={})
-        for name, expected in self.A._PLANNER_RUNTIME_PINS.items():
-            if name == "/usr/bin/perl":
-                continue
-            resolved = Path(name).resolve(strict=True)
-            metadata, raw = P.read_regular(resolved, P.RUNTIME_BOUNDS["file_bytes"], single_link=False)
-            self.assertEqual(self.A.digest(raw), expected)
-            self.objects[expected] = raw
-            self.runtime["files"][name] = dict(mode=0o555 if metadata["mode"] & 0o111 else 0o444, bytes=len(raw), sha256=expected)
-            self.runtime["observations"][name] = dict(resolved=str(resolved), identity=metadata["identity"], sha256=expected)
+        self.dependencies = set(self.A._PLANNER_RUNTIME_PINS) - {"/usr/bin/perl"}
+        # Presence-only inputs for early refusal controls, never a qualified
+        # runtime. Successful capture below uses actual physical bytes.
+        self.runtime = dict(files={name: {} for name in self.dependencies},
+                            observations={name: {} for name in self.dependencies})
 
-    def test_fixed_perl_elf_is_captured_with_actual_dependencies_and_explicit_absences(self):
+    def assert_refused(self, message, error_type=ValueError):
+        before = copy.deepcopy((self.runtime, self.objects))
+        with self.assertRaises(error_type) as caught:
+            self.A._capture_planner_runtime(P, self.runtime, self.objects)
+        self.assertEqual(str(caught.exception), message)
+        self.assertEqual((self.runtime, self.objects), before)
+
+    def test_actual_runtime_is_captured_or_explicitly_refused(self):
+        self.runtime = dict(files={}, observations={})
+        for name in self.dependencies:
+            try:
+                resolved = Path(name).resolve(strict=True)
+                metadata, raw = P.read_regular(resolved, P.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+            except (OSError, ValueError):
+                # An unavailable or inadmissible physical dependency cannot
+                # supply a captured entry; the helper must refuse the closure.
+                continue
+            key = self.A.digest(raw)
+            self.objects[key] = raw
+            self.runtime["files"][name] = dict(mode=0o555 if metadata["mode"] & 0o111 else 0o444, bytes=len(raw), sha256=key)
+            self.runtime["observations"][name] = dict(resolved=str(resolved), identity=metadata["identity"], sha256=key)
+        if set(self.runtime["files"]) != self.dependencies:
+            self.assert_refused("unsupported Perl loader/library closure")
+            return
+        try:
+            metadata, raw = P.read_regular(Path("/usr/bin/perl"), P.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+        except (OSError, ValueError) as error:
+            self.assert_refused(str(error), type(error))
+            return
+        if self.A.digest(raw) != self.A._PLANNER_RUNTIME_PINS["/usr/bin/perl"] or metadata["mode"] != 0o755:
+            self.assert_refused("unsupported captured Perl executable")
+            return
+        if any(self.runtime["files"][name]["sha256"] != self.A._PLANNER_RUNTIME_PINS[name] for name in self.dependencies):
+            self.assert_refused("unsupported Perl loader/library closure")
+            return
+
+        # Only a real supported baseline can discriminate changed-object
+        # refusal from an unrelated unsupported-host refusal.
+        key = self.A._PLANNER_RUNTIME_PINS["/lib/x86_64-linux-gnu/libcrypt.so.1"]
+        saved = self.objects[key]
+        self.objects[key] = b"changed captured library"
+        self.assert_refused("unsupported Perl loader/library closure")
+        self.objects[key] = saved
         self.A._capture_planner_runtime(P, self.runtime, self.objects)
         value = self.runtime["files"]["/usr/bin/perl"]
         self.assertEqual(value["sha256"], self.A._PLANNER_RUNTIME_PINS["/usr/bin/perl"])
-        self.assertEqual(self.objects[value["sha256"]], Path("/usr/bin/perl").read_bytes())
+        self.assertEqual(self.objects[value["sha256"]], raw)
+        self.assertEqual(self.runtime["planner_perl_closure"], self.A._PLANNER_RUNTIME_PINS)
         self.assertEqual(self.runtime["planner_perl_inputs"]["/dev/urandom"], "ABSENT_IN_FINITE_IMAGE_RUNTIME_BEHAVIOR_UNQUALIFIED")
         self.assertEqual(self.runtime["planner_perl_inputs"]["/proc/self/exe"], "ABSENT_IN_FINITE_IMAGE_RUNTIME_BEHAVIOR_UNQUALIFIED")
         self.assertNotIn("/dev/urandom", self.runtime["files"])
         self.assertNotIn("/proc/self/exe", self.runtime["files"])
 
-    def test_missing_or_changed_dependency_refuses(self):
-        name = "/lib/x86_64-linux-gnu/libcrypt.so.1"
-        saved = self.runtime["files"].pop(name)
-        with self.assertRaisesRegex(ValueError, "Perl.*closure"):
-            self.A._capture_planner_runtime(P, self.runtime, self.objects)
-        self.runtime["files"][name] = saved
-        self.objects[saved["sha256"]] = b"changed captured library"
-        with self.assertRaisesRegex(ValueError, "Perl.*closure"):
-            self.A._capture_planner_runtime(P, self.runtime, self.objects)
+    def test_missing_dependency_refuses_before_runtime_acquisition(self):
+        self.runtime["files"].pop("/lib/x86_64-linux-gnu/libcrypt.so.1")
+        with mock.patch.object(P, "read_regular", side_effect=AssertionError("missing dependency reached runtime acquisition")):
+            self.assert_refused("unsupported Perl loader/library closure")
 
     def test_unknown_perl_bytes_refuse(self):
-        original = P.read_regular
-        def replaced(path, *args, **kwargs):
-            metadata, raw = original(path, *args, **kwargs)
-            return (metadata, b"unknown Perl executable") if str(path) == "/usr/bin/perl" else (metadata, raw)
-        with mock.patch.object(P, "read_regular", side_effect=replaced), self.assertRaisesRegex(ValueError, "Perl executable"):
-            self.A._capture_planner_runtime(P, self.runtime, self.objects)
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "unknown-perl"
+            path.write_bytes(b"unknown Perl executable")
+            path.chmod(0o755)
+            observed = P.read_regular(path, P.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+            def replaced(requested, *args, **kwargs):
+                self.assertEqual(requested, Path("/usr/bin/perl"))
+                return observed
+            with mock.patch.object(P, "read_regular", side_effect=replaced):
+                self.assert_refused("unsupported captured Perl executable")
 
     def test_claimed_absence_cannot_hide_a_runtime_member(self):
         self.runtime["files"]["/dev/urandom"] = dict(mode=0o444, bytes=1, sha256="unqualified")
-        with self.assertRaisesRegex(ValueError, "optional input"):
-            self.A._capture_planner_runtime(P, self.runtime, self.objects)
+        with mock.patch.object(P, "read_regular", side_effect=AssertionError("optional input reached runtime acquisition")):
+            self.assert_refused("unsupported Perl optional input in finite runtime")
 
 
 if __name__ == "__main__":
