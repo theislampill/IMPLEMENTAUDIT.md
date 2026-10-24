@@ -715,9 +715,10 @@ def decide(case):
             "information_value_remaining", "bounded_degraded_operation"))
         if complete and o["capable_intervention_chain"] and not o["stopping_hazardous"] and no_material_trigger:
             return "CHEAP_PATH"
-        if o["low_consequence_reversible"] and o["direct_readback"] and not o["high_consequence"]:
+        if (o["low_consequence_reversible"] and o["direct_readback"]
+                and not o["high_consequence"] and not o["stopping_hazardous"]):
             return "SERIAL_CHEAP_PATH"
-        if o["high_consequence"]:
+        if o["high_consequence"] or o["stopping_hazardous"]:
             if not complete:
                 return "DEFER"
             if o["stopping_hazardous"]:
@@ -1033,7 +1034,9 @@ def decide_security_profile(observations):
     exact(observations, " ".join(security_fields))
     booleans(observations, " ".join(security_fields))
     triggered = any(observations[name] for name in security_trigger_fields)
-    if triggered:
+    cheap_path = all(observations[name] for name in (
+        "low_exposure", "reversible", "inside_current_proven_envelope"))
+    if triggered or cheap_path:
         if not observations["provenance_current"]:
             return "BLOCK_STALE_PROVENANCE"
         if observations["authentication_as_authorization"]:
@@ -1042,11 +1045,10 @@ def decide_security_profile(observations):
             return "REJECT_AVAILABILITY_PROXY"
         if observations["label_or_instrument_as_whole_system_proof"]:
             return "REJECT_WHOLE_SYSTEM_PROXY"
+    if triggered:
         if not all(observations[name] for name in full_profile_fields):
             return "HOLD_INCOMPLETE_PROFILE"
         return "SELECT_NATIVE_SECURITY_PROFILE"
-    cheap_path = all(observations[name] for name in (
-        "low_exposure", "reversible", "inside_current_proven_envelope"))
     if cheap_path:
         cheap_complete = all(observations[name] for name in (
             "protected_consequence_named", "plausible_abuse_or_trust_check",

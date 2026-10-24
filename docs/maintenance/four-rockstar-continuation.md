@@ -211,3 +211,21 @@ retain the four original denominators and obligations, and manage later
 issue-by-issue acceptance and manual closure. Neither this document nor the
 integration CI authorises closure. A remaining hard native gate must not erase
 completed portable work or cause replacement PRs.
+
+
+## Parallel commission continuation checkpoint
+
+The additive integration record now covers independently reviewed corrections
+for hazardous-stop admission (R002C), security cheap-envelope contradictions
+(R002E) and captured patch-input observation (R0030). Reuse their affected
+wrapper and disjoint held-out evidence at the exact recorded source identities;
+do not replay those unchanged banks as new original acceptance.
+
+Continue R002D's P007/P012/P032 semantic receiving discriminators and affected
+final-candidate ActiveGraph binding. Continue independently executable R0030
+partial-failure/recovery work, beginning with a bounded probe of terminal
+journal/result publication ordering; this probe is not yet a proved defect or
+acceptance result. Original installed-model safety/security qualifications,
+authentic selected-policy custody, actual native effect receiving gates and
+all separate original acceptance decisions remain open. Exact public commit,
+tree, package and CI are reported in the containing publication receipt.

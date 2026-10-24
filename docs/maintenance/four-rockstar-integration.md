@@ -256,3 +256,96 @@ complete current `scripts/verify-package.sh` and exact builder/install checks;
 retain failures and diagnose them before calling the candidate qualified.
 The [continuation commission](four-rockstar-continuation.md) preserves the same
 branch, PR and four issue-specific gates.
+
+
+## Parallel commission: safety/security admission and captured mutation inputs
+
+This increment starts at PR251 head
+`14c018a2e993ec1992ce2dee892725ac825d9c28`, tree
+`9afc7cf23a41af853796d9032d40819948106752`. It changes the existing owners
+only. R002C, R002D, R002E and R0030 retain separate original acceptance
+populations and decisions; the preceding qualifications and failures remain
+historical evidence.
+
+### R002C — hazardous stopping requires its existing control envelope
+
+The maintained action-selection checker admitted a hazardous stop through
+`SERIAL_CHEAP_PATH` when `high_consequence` was false, bypassing the existing
+hazard control envelope. The checker now adjudicates `stopping_hazardous`
+through the existing supplied Boolean fields `capable_intervention_chain`,
+`target_state`, `feedback`, `containment` and `recovery`, preserving method-only
+and nominal-authority refusals. Incomplete supplied evidence defers; a complete
+bounded degraded operation is eligible. These fields do not independently
+establish actual state, configuration currentness or feedback independence.
+Ordinary reversible work and an ordinary safe stop retain their cheap routes.
+Eight focused hazardous-stop controls cover incomplete evidence and complete
+bounded admission; the unchanged canonical cases and full wrapper preserve
+cheap behaviour. The original unsafe
+admission is retained as a RED witness. This advances the portable C143
+admission discriminator; it does not establish the original installed-task
+safety qualification or all 68 properties.
+
+### R002E — a claimed cheap envelope still needs valid security evidence
+
+The maintained checker accepted claimed cheap security envelopes with stale
+provenance, authentication standing in for authorisation, restored availability
+standing in for trust, or a method label standing in for proof. Existing
+provenance and proof-proxy refusals now apply when a material trigger is
+present **or** a current cheap envelope is claimed. A genuine no-trigger,
+no-claim case still selects `NO_SECURITY_PROFILE`; missing provenance alone
+on that route does not manufacture a security trigger.
+
+Four adversarial claim controls and a no-claim control pass after correction.
+The canonical nine-case security fixture and original 60-property census
+(`31/18/4/6/1`) are unchanged. The actual approved-policy source and private
+held-out custody remain receiving requirements; test-local supplied values do
+not satisfy them. No prompt-independent installed-model behaviour or
+principal-bound security effect is claimed.
+
+### R0030 — observations use the bytes that constructed the patch
+
+`apply-observed-mutation.sh` constructed the replacement from captured region
+and replacement bytes, then reread both paths while making its observations.
+A changed path could bind different evidence to the actual target effect; a
+removed path could raise `TypeError` after transaction initialisation. The
+existing observation builder now hashes the captured immutable bytes directly.
+No request schema, fencing rule, authority issuer or effect scope changes.
+
+The actual-helper six-case bank recorded four original failures and two
+positive controls; the same bank passes after correction. The complete
+observation-bound mutation wrapper passed, including its existing recovery
+and fence cases. Independent held-outs additionally passed for binary and
+empty replacements, post-capture path type change/removal, and initial missing
+input rejection before transaction custody. These advance the bounded C03
+parameter/effect binding and C05 initialisation edge. C01–C09 remain separate
+original criteria; P53 remains an owner decision and external exactly-once
+execution is not claimed.
+
+### Qualification, review and reuse
+
+The complete affected action-selection wrapper passed: engineering-value
+150/150, verifier-plan 15/15, security-profile 9/9 and distributed-retry 76/76.
+Fresh independent classifier review checked seven disjoint held-out scenarios
+with 14/14 required-result and wrong-claim checks. Its report SHA-256 is
+`b668122935cf395447e0f2ab3589553d5a87f8a8ce70d8f5ff7d52eff82bdcde`.
+The separate captured-input review passed three actual-helper held-outs; its
+original combined review report SHA-256 is
+`45afb8ec6ac92f58d6285299a1ae99870f42e90ebd8880d4c45bb0db6d4be4a0`.
+Both are ordinary independent engineering reviews, not native child events.
+
+Reviewed runtime SHA-256 identities:
+
+- Action selection: `eee5faa5c556b7bc365b8c5600f214754d43a93b5bb6c9e6c5aaee88164c6a65`.
+- Observed mutation: `6b842344fd264e22e34d37402461f3b7737fe5eab913e189193f075a54521fcb`.
+
+R002D has no new acceptance credit from these corrections. Preserve the
+existing version-bound ActiveGraph 1.10.0/1.12.0 receipts at their recorded
+candidates; affected final-candidate binding and the independently controlled
+broker/corroboration requirement remain explicit. P007/P012/P032 require
+semantic qualification against their existing owners, not new keyword gates.
+
+No PR246 or PR252 source is imported or modified. Individual package and
+hosted CI results belong to this increment's publication receipt; they do not
+qualify the previously over-budget combined four-source package. The fixed
+cap and reserve are unchanged. Roll back each source correction with its
+matching test addition, preserving this original-failure record.

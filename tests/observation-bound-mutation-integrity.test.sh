@@ -1790,6 +1790,81 @@ controller_transfer_race_heldout() {
   [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
+# Patch authority must describe the same captured inputs that constructed the
+# actual candidate, even if those input paths change before authority capture.
+patch_input_capture_heldouts() {
+  local selected="${1:-all}" schedule region replacement derived saved_helper="$helper"
+  local schedules=(unchanged replacement-change region-change replacement-unlink region-unlink initial-region-mismatch)
+  if [ "$selected" != all ]; then
+    case "$selected" in
+      unchanged|replacement-change|region-change|replacement-unlink|region-unlink|initial-region-mismatch) schedules=("$selected") ;;
+      *) fail "unknown patch input capture schedule: $selected" ;;
+    esac
+  fi
+  for schedule in "${schedules[@]}"; do
+    setup
+    region="$(artifact capture-region 4243)"
+    replacement="$(artifact capture-replacement 5859)"
+    helper="$canonical_helper"
+    if [ "$schedule" = initial-region-mismatch ]; then
+      write_hex "$region" 5a5a
+      invoke R36-PATCH-CAPTURE-initial-mismatch REJECTED_NO_MUTATION patch target - "$replacement" 4142434445 --offset 1 --region "$region" --replacement "$replacement"
+      [ ! -d "$run_root/mutation-transactions" ] || fail 'initial patch mismatch created transaction custody'
+    else
+      if [ "$schedule" != unchanged ]; then
+        derived="$tmp/patch-input-capture-helper.sh"
+        "$python_bin" - "$canonical_helper" "$derived" "$schedule" <<'PY_CAPTURE_DRIVER'
+import shlex, sys
+from pathlib import Path
+canonical, output = map(Path, sys.argv[1:3])
+schedule = sys.argv[3]
+source = canonical.read_text(encoding='utf-8')
+locator = 'script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+derived_locator = 'script_dir=' + shlex.quote(str(canonical.parent))
+marker = '    # R36_INSTRUMENT_INSERT\n'
+actions = {
+    'replacement-change': "Path(args.replacement).write_bytes(b'ZZ')",
+    'region-change': "Path(args.region).write_bytes(b'ZZ')",
+    'replacement-unlink': 'Path(args.replacement).unlink()',
+    'region-unlink': 'Path(args.region).unlink()',
+}
+assert source.count(locator) == 1 and source.count(marker) == 1
+insertion = "    if phase == 'pre-transaction':\n        " + actions[schedule] + '\n'
+derived = source.replace(locator, derived_locator).replace(marker, marker + insertion)
+assert derived.replace(insertion, '').replace(derived_locator, locator) == source
+output.write_text(derived, encoding='utf-8')
+PY_CAPTURE_DRIVER
+        helper="$derived"
+      fi
+      invoke "R36-PATCH-CAPTURE-$schedule" COMMITTED patch target - "$replacement" 4158594445 --offset 1 --region "$region" --replacement "$replacement"
+      "$python_bin" - "$run_root" "$last_record" "$schedule" "$region" "$replacement" <<'PY_CAPTURE_ASSERT'
+import hashlib, json, sys
+from pathlib import Path
+run, result, schedule, region, replacement = sys.argv[1:]
+transaction = json.loads(result)['transaction_id']
+authority = json.loads((Path(run) / 'mutation-transactions' / transaction / 'authority.json').read_bytes())
+def identity(data):
+    return {'sha256': hashlib.sha256(data).hexdigest(), 'byte_length': len(data)}
+expected = {'current': identity(b'ABCDE'), 'region': identity(b'BC'),
+            'replacement': identity(b'XY'), 'offset': 1, 'candidate': identity(b'AXYDE')}
+if schedule.endswith('-change'):
+    changed = Path(replacement if schedule.startswith('replacement-') else region)
+    assert changed.read_bytes() == b'ZZ', 'input mutation schedule did not execute'
+elif schedule.endswith('-unlink'):
+    removed = Path(replacement if schedule.startswith('replacement-') else region)
+    assert not removed.exists(), 'input removal schedule did not execute'
+if authority['observations'] != expected:
+    raise SystemExit('R36_PATCH_INPUT_CAPTURE_MISMATCH ' + json.dumps({
+        'schedule': schedule, 'committed_target_hex': '4158594445',
+        'expected_observations': expected, 'actual_observations': authority['observations'],
+    }, sort_keys=True))
+PY_CAPTURE_ASSERT
+    fi
+    printf 'R36_PATCH_INPUT_CAPTURE=%s PASS\n' "$schedule"
+  done
+  helper="$saved_helper"
+}
+
 state_family() {
   local pre cand region repl
   setup; pre="$(artifact c1-pre 414243)"; cand="$(artifact c1-candidate 5a)"; invoke R36-C1 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
@@ -1835,6 +1910,7 @@ PY
   concurrent_destination
   opposing_moves
   canonical_observation_races
+  patch_input_capture_heldouts
   external_drift_and_recovery
   true_kill_requires_manual_custody
   interrupted_move_requires_manual_custody
@@ -1843,6 +1919,7 @@ PY
 }
 
 case "${1:-}" in
+  --patch-input-capture-heldouts) fixture_self_check; patch_input_capture_heldouts "${2:-all}"; printf 'R36_PATCH_INPUT_CAPTURE_HELDOUTS=PASS\n'; exit 0;;
   --post-compaction-marker-deletion-heldout) post_compaction_marker_deletion_heldout; printf 'HOST_NEUTRAL_CONTINUITY_MARKER_DELETION_HELDOUT=PASS\n'; exit 0;;
   --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;

@@ -820,6 +820,35 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "high-consequence control accepted without containment"
 
+# R002C-1. Hazardous stopping selects the existing containment/recovery envelope
+# even when a reversible action is not labelled high-consequence. Incomplete
+# envelopes defer; a complete bounded degraded route remains available.
+while IFS='|' read -r label observation_delta expected_outcome; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" \
+    "$observation_delta" "$expected_outcome" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R44-C143-low-consequence-cheap-path")
+case["observations"].update(json.loads(sys.argv[2]))
+case["expected"] = sys.argv[3]
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "hazardous stopping control failed: $label"
+done <<'EOF'
+hazard-only|{"stopping_hazardous":true}|DEFER
+hazard-live|{"stopping_hazardous":true,"live_pressure":true}|DEFER
+complete-unbounded|{"stopping_hazardous":true,"containment":true}|DEFER
+bounded-missing-containment|{"stopping_hazardous":true,"bounded_degraded_operation":true}|DEFER
+complete-bounded|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true}|BOUNDED_DEGRADED_OPERATION
+bounded-missing-target|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true,"target_state":false}|DEFER
+bounded-missing-feedback|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true,"feedback":false}|DEFER
+bounded-missing-recovery|{"stopping_hazardous":true,"bounded_degraded_operation":true,"containment":true,"recovery":false}|DEFER
+EOF
+
 # 55. Method labels never replace the consequence-control discriminator.
 reset_sandbox
 "${py_cmd[@]}" - \
@@ -1149,6 +1178,45 @@ authentication_as_authorization|REJECT_AUTHENTICATION_PROXY
 availability_as_trust|REJECT_AVAILABILITY_PROXY
 label_or_instrument_as_whole_system_proof|REJECT_WHOLE_SYSTEM_PROXY
 EOF
+
+# R002E-1. The cheap route still requires current provenance and rejects
+# authentication, availability, or an instrument used as the protected proof.
+while IFS='|' read -r observation_delta expected_outcome; do
+  reset_sandbox
+  "${py_cmd[@]}" - \
+    "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" \
+    "$observation_delta" "$expected_outcome" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S02-low-exposure-cheap-path")
+case["observations"].update(json.loads(sys.argv[2]))
+case["expected"] = sys.argv[3]
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+  bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+    >/dev/null 2>&1 || fail "security cheap-path contradiction accepted: $observation_delta"
+done <<'EOF'
+{"provenance_current":false}|BLOCK_STALE_PROVENANCE
+{"authentication_as_authorization":true}|REJECT_AUTHENTICATION_PROXY
+{"availability_as_trust":true}|REJECT_AVAILABILITY_PROXY
+{"label_or_instrument_as_whole_system_proof":true}|REJECT_WHOLE_SYSTEM_PROXY
+EOF
+
+# R002E-2. No trigger and no claimed cheap envelope creates no profile merely
+# because provenance is unavailable; the ordinary no-claim route stays direct.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/security-profile-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R002E-S07-no-trigger-no-profile")
+case["observations"]["provenance_current"] = False
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+  >/dev/null 2>&1 || fail "unclaimed provenance created a security profile"
 
 # P34-1. Executor capacity is not downstream or recovery capacity and cannot
 # authorize a material retry by itself.

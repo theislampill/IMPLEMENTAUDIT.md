@@ -1458,10 +1458,12 @@ def sync_directory_raw(path):
 
 def observations():
     if operation == "patch":
+        # Bind the same captured bytes that constructed candidate_data; reopening
+        # an input here can describe a different patch or lose it after capture.
         return {
             "current": simple_identity(current_data),
-            "region": simple_identity(evidence_bytes(args.region)),
-            "replacement": simple_identity(evidence_bytes(args.replacement)),
+            "region": simple_identity(region),
+            "replacement": simple_identity(replacement),
             "offset": int(args.offset),
             "candidate": simple_identity(candidate_data),
         }
