@@ -9,6 +9,7 @@ import hashlib
 import importlib.util
 import os
 from pathlib import Path
+import re
 import stat
 
 
@@ -48,6 +49,7 @@ _NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS
 _NATIVE_HYGIENE_BOUND_ANCHORS = ("hunter2", "akia", "ghp_", "sk-", "password", "apikey", "api_key", "api-key")
 RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
+TERMINOLOGY_PROFILE = "CONTROLLED_TASK_TERMINOLOGY_INTEGRATION_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -322,6 +324,24 @@ _CONTRACTS = {
             "fixtures/run-root/micro-conformant": "8ebbef48b1a8d9f14f1a296cb4662915dacf2beeff282ffcaac6dbc19c4f7916",
             "fixtures/run-root/micro-with-stage62-disposition": "7e94f8fff3c3e4b5033b2abb7bc7671400715e11f8db6c522c856c0416dca262",
             "fixtures/run-root/no-sentinel-legacy": "61b9e3e21568d5c300dac14235157c4a4a80abdafd8a8d3db215f4ca59eaa540"}),
+    TERMINOLOGY_PROFILE: dict(label="terminology-integration", index=79, program="tests/terminology-integration.test.sh",
+        programs={
+            "tests/terminology-integration.test.sh": "b35439ef0d21f8c9802a506cddf30dfbbf1258411a7606f4e94f23b89eaf4bb1",
+            "scripts/check-terminology-integration.sh": "dc5269818c3719a7a4c1fcb9ec8bc8076d4edbf37d07a5d3ce60cb73e0e7bc93"},
+        data=("skills/implementaudit/references/terminology-integration.md",
+            "skills/implementaudit/references/routing.md", "skills/implementaudit/references/phase-design.md",
+            "skills/implementaudit/references/planning-depth.md", "skills/implementaudit/references/plan-lifecycle.md",
+            "skills/implementaudit/references/audit-category-matrix.md", "skills/implementaudit/references/lean-operating-discipline.md",
+            "skills/implementaudit/SKILL.md", "skills/implementaudit/templates/THINKING.md",
+            "fixtures/terminology-integration/full-stack-integration.md",
+            "fixtures/terminology-integration/negative-glossary-orphan.md",
+            "fixtures/terminology-integration/negative-generic-advice.md", "docs/portal/pages/terminology.html"),
+        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
+        bounds=dict(file_bytes=128 * 1024, total_bytes=192 * 1024**2, files=17),
+        source_modes="COPY_0666_UMASK_022_READ_ONLY_ROOT",
+        projection="COMPLETE_WHOLE_ROOT_BYTES_NAMES_EMPTY_DIRECTORIES_AND_FILE_MODES_ORIGINAL_NINE_SEQUENTIAL_COPIES",
+        whole_copy=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
+                        entries=4096, depth=40, path_bytes=2048)),
     NATIVE_INTEGRATION_PROFILE: dict(label="native-integration", index=74, program="tests/native-integration.test.sh",
         programs={
             "tests/native-integration.test.sh": "f9743dc224dafc38cc34e7b09acadb8bfff9ea900307db0a81f59ec8736201c8",
@@ -626,7 +646,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -640,7 +660,7 @@ def image_subject(state, *, profile=PROFILE):
     """Retain the registry bytes whenever the original actually reads them."""
     contract_for(profile)
     return {name: value for name, value in state["files"].items()
-            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE)}
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
@@ -1527,6 +1547,81 @@ def audit_object_contract_runtime_binding(source, runtime, objects):
     result["original_argvs"] = [["git", *args] for args in AUDIT_OBJECT_CONTRACT_GIT_READS]
     result["controller_population"] = source["complete_git_inputs"]["controller_population"]
     return result
+def snapshot_whole_copy_inputs(prefix, root, objects, bounds):
+    """Capture the original cp source, including otherwise unread Git/data."""
+    state, stamps = prefix.snapshot_tree(root, objects, bounds)
+    if any(value["mode"] not in (0o444, 0o644, 0o755) for value in state["files"].values()):
+        raise ValueError("whole-copy source refuses unsupported file modes")
+    # The existing image creates 0755 directories. Refuse a source for which
+    # that would change the original cp directory modes; do not normalize it.
+    if any(mode != 0o755 for mode in state["directories"].values()):
+        raise ValueError("whole-copy source requires actual 0755 directories")
+    if any(len(name.encode("utf-8", "strict")) > bounds["path_bytes"] for name in (*state["files"], *state["directories"])):
+        raise ValueError("whole-copy source path bound exceeded")
+    return state, dict(currentness=stamps, projection=dict(roots=["."], bounds=dict(bounds),
+        observation="ALL_ACTUAL_ROOT_FILES_BYTES_MODES_AND_EMPTY_DIRECTORIES_INCLUDING_PRESENT_GIT",
+        git="COPIED_AS_DATA_NO_ORIGINAL_GIT_COMMAND_OR_EXTERNAL_POINTER_DEREFERENCE"))
+
+
+def terminology_output_bounds(state, objects):
+    """Bound copies and reports without deciding any original semantic check."""
+    terms = re.compile(r"\b(VOC|CTQ|SIPOC|FMEA(?:-lite)?|Strangler|Anti-Corruption|ACL|Bounded Context|Ubiquitous Language|STRIDE|trust boundary|SOLID|GRASP|Control Plan|C4)\b", re.I)
+    rpn = re.compile(r"(compute numeric RPN|numeric RPN|severity, occurrence, or detection scores)", re.I)
+    generic = re.compile(r"(apply SOLID|use GRASP|run FMEA|do an FMEA|use STRIDE|run STRIDE)", re.I)
+    width = lambda text: max(len(text.encode("utf-8")), len(text.encode("ascii", "backslashreplace")))
+    scanned = [name for name in state["files"] if name.startswith("skills/") or
+        name == "docs/portal/pages/terminology.html" or
+        (str(Path(name).parent) == "fixtures/terminology-integration" and name.endswith(".md") and not Path(name).name.startswith("negative-"))]
+    report, paragraphs, possible = 64 * 1024, 0, 0
+    largest_scan = 0
+    for name in scanned:
+        raw = objects[state["files"][name]["sha256"]]
+        largest_scan = max(largest_scan, len(raw))
+        # Replacement decoding is a conservative allocation operation only.
+        # The original retains strict literal reads and skips invalid scans.
+        text = raw.decode("utf-8", "replace").replace("\r\n", "\n").replace("\r", "\n")
+        pieces = re.split(r"\n\s*\n", text)
+        paragraphs += len(pieces)
+        for number, para in enumerate(pieces, 1):
+            if not terms.search(para):
+                continue
+            possible += 1
+            prefix = width(name) + len(str(number)) + 128
+            # Ignore all original negation/attachment exemptions: necessary
+            # anchors only bound each possible diagnostic, never grant PASS.
+            report += prefix + width(" ".join(para.strip().split())[:140])
+            report += (int("C4" in para) + int(bool(rpn.search(para))) + int(bool(generic.search(para)))) * (prefix + 128)
+    # Every fixed mutation appends/replaces a bounded literal. Existing
+    # paragraphs may merge with appended text, so charge the full added lines
+    # and a generous diagnostic margin for every one of the nine variants.
+    report += 64 * 1024
+    copy_sizes = {name: value["bytes"] for name, value in state["files"].items()}
+    appends = {
+        "skills/implementaudit/templates/THINKING.md": 128,
+        "docs/portal/pages/terminology.html": 128,
+        "fixtures/terminology-integration/full-stack-integration.md": 128,
+        "skills/implementaudit/references/terminology-integration.md": 128,
+        "skills/implementaudit/references/routing.md": 128,
+    }
+    for name, growth in appends.items():
+        copy_sizes[name] += growth
+    target = "fixtures/terminology-integration/full-stack-integration.md"
+    raw = objects[state["files"][target]["sha256"]]
+    copy_sizes[target] += raw.count(b"Native parent:") * (len(b"Native owner removed:") - len(b"Native parent:"))
+    glossary = "skills/implementaudit/references/runtime-terminology.md"
+    copy_sizes[glossary] = max(copy_sizes.get(glossary, 0), 128)
+    stderr = 9 * (report + 4096) + 64 * 1024
+    names = sum(len(name.encode("utf-8")) + 1 for name in (*state["files"], *state["directories"]))
+    largest_mutation = max(copy_sizes[name] for name in appends)
+    # cp streams large binary members. Python decodes scanned and changed
+    # files; Bash may retain all nine failed reports until its final output.
+    memory = (64 * 1024**2 + 16 * (largest_scan + largest_mutation) + 8 * stderr +
+              64 * names + 512 * (len(state["files"]) + len(state["directories"])))
+    return dict(scanned_files=len(scanned), scanned_paragraphs=paragraphs, possible_term_paragraphs=possible,
+        checker_report_bound=report, max_stderr_bytes=stderr, copy_file_sizes=copy_sizes,
+        largest_scan_bytes=largest_scan, largest_mutation_bytes=largest_mutation,
+        original_data_memory_reservation=memory, source_name_bytes=names,
+        basis="COMPLETE_COPY_BYTES_AND_NECESSARY_DIAGNOSTIC_ANCHORS_NO_SEMANTIC_ACCEPTANCE")
 
 
 def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None, git_owner=None, environment=None):
@@ -1574,6 +1669,15 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         membership, currentness = snapshot_skill_namespace(prefix, root)
         state["skill_namespace"] = dict(projection=membership, currentness=currentness)
         stamps["skill_namespace"] = currentness
+    if "whole_copy" in contract:
+        complete, currentness = snapshot_whole_copy_inputs(prefix, root, objects, contract["whole_copy"])
+        if any(complete["files"].get(name) != value for name, value in state["files"].items()):
+            raise ValueError("literal inputs changed during whole-copy acquisition")
+        state["files"].update(complete["files"])
+        state["directories"].update(complete["directories"])
+        state["whole_copy_inputs"] = currentness
+        stamps["whole_copy_inputs"] = currentness
+        state["whole_copy_inputs"]["resources"] = terminology_output_bounds(state, objects)
     if "complete_git" in contract:
         complete, currentness = snapshot_complete_git_inputs(prefix, root, objects, contract, git_owner, environment)
         if any(complete["files"].get(name) != value for name, value in state["files"].items()):
@@ -1686,6 +1790,20 @@ def temporary_requirements(state, *, profile=PROFILE):
             census_buffer_bytes=CLAIM_BOUNDARY_CENSUS_BYTES,
             original_data_memory_reservation=bound["original_data_memory_reservation"],
             basis="COMPLETE_PUBLIC_READ_BOUNDS_ONE_LIVE_SPOOL_ONE_OVERWRITTEN_DIAGNOSTIC_FIXED_PRIVATE_DOCS_QUOTA")
+    elif profile == TERMINOLOGY_PROFILE:
+        bound = state["whole_copy_inputs"]["resources"]
+        # Each of the nine original copies is removed before the next starts.
+        # A failed rm exits under set -e. Reserve one complete peak copy, both
+        # enclosing directories, and every checker/mutation here-doc spool.
+        checker = state["files"]["scripts/check-terminology-integration.sh"]["bytes"]
+        wrapper = state["files"][contract["program"]]["bytes"]
+        sizes = (*bound["copy_file_sizes"].values(), *((checker,) * 10), *((wrapper,) * 10))
+        copies, files, directories = 1, len(sizes), len(state["directories"]) + 1
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=bound["max_stderr_bytes"], sequential_copies=9,
+            peak_copy_files=len(bound["copy_file_sizes"]), checker_spools=10, wrapper_and_mutation_spools=10,
+            diagnostic_file_bound=bound["checker_report_bound"], original_data_memory_reservation=bound["original_data_memory_reservation"])
     elif profile == NATIVE_INTEGRATION_PROFILE:
         bound = state["recursive_inputs"]["resources"]
         copied = [entry["bytes"] + 128 for name, entry in state["files"].items()
@@ -1949,7 +2067,7 @@ def temporary_requirements(state, *, profile=PROFILE):
         allocation_granule=granule, observed_page_bytes=page, overhead_bytes=overhead,
         required_bytes=allocated + overhead, basis="PINNED_PROGRAM_LITERAL_TEMPORARY_WRITE_SET")
     result.update(extra)
-    if "recursive" in contract or "complete_git" in contract:
+    if "recursive" in contract or "complete_git" in contract or "whole_copy" in contract:
         result["basis"] = "COMPLETE_ACQUIRED_INPUT_OUTPUT_BOUND_AND_FIXED_PRIVATE_WRITE_SET"
     elif profile in (PLAN_QUALITY_PROFILE, AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE):
         result["basis"] = "ACQUIRED_LITERAL_BYTES_AND_PINNED_BRANCH_PRIVATE_WRITE_SET"
@@ -2166,6 +2284,9 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             LIMITS["scratch_bytes"] = 128 * 1024**2
         elif profile == AUDIT_OBJECT_CONTRACT_PROFILE:
             LIMITS["scratch_bytes"] = contract["scratch_bytes"]
+        elif profile == TERMINOLOGY_PROFILE:
+            # Original79 copies every source member, including present Git.
+            LIMITS["scratch_bytes"] = 512 * 1024**2
         ENVIRONMENT = (dict(parent.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1")
                        if profile in (RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE) else parent.ENVIRONMENT)
 
@@ -2243,11 +2364,17 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 raise compiler.WorkGraphError("original-readable runner differs from captured engine bytes")
             if profile == CLAIM_BOUNDARY_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
                 raise compiler.WorkGraphError("observed original96 runner differs from fixed engine runner")
+            if profile == TERMINOLOGY_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
+                raise compiler.WorkGraphError("whole-copy runner differs from captured engine bytes")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
+            if profile == TERMINOLOGY_PROFILE:
+                # Whole-root cp observes this file's mode as well as its bytes.
+                # Bash reads the runner directly; its source mode stays exact.
+                files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], source["files"][RUNNER]["mode"])
             files, image_permissions = finite_image_permissions(files, source, profile=profile)
-            if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+            if profile in (AUDIT_OBJECT_CONTRACT_PROFILE, TERMINOLOGY_PROFILE):
                 files = copy_readonly_image(files)
-            if "complete_git_inputs" in source:
+            if "complete_git_inputs" in source or profile == TERMINOLOGY_PROFILE:
                 temporary["image_reservation"] = retention_image_reservation(files, self.LIMITS)
             membership = None
             if profile == REGISTRY_PROFILE:
@@ -2296,6 +2423,13 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 manifest["directory_membership"] = source["recursive_inputs"]["projection"]
                 manifest["source_projection"] = "COMPLETE_RECURSIVE_READ_BYTES_AND_EXPLICIT_OPTIONAL_PRESENCE"
                 image_key = self._object(self._encode(manifest))
+            if profile == TERMINOLOGY_PROFILE:
+                manifest["directories"] = sorted(set(manifest["directories"]) |
+                    {"/work/" + name for name in source["directories"] if name != "."})
+                manifest["directory_membership"] = source["whole_copy_inputs"]["projection"]
+                manifest["source_projection"] = contract["projection"]
+                manifest["image_reservation"] = temporary["image_reservation"]
+                image_key = self._object(self._encode(manifest))
             if "complete_git_inputs" in source:
                 manifest["directories"] = sorted(set(manifest["directories"]) |
                     {"/work/" + name for name in source["directories"] if name != "."})
@@ -2329,13 +2463,13 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                     "/dev/null", "stdout", "stderr"]
                 manifest["startup"] = "EXISTING_ISOLATED_LEAF_FIXED_ORIGINAL96_CENSUS_PYTHON_I_B_ORIGINAL_ENVIRONMENT_UNCHANGED"
                 image_key = self._object(self._encode(manifest))
-            if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE):
+            if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, TERMINOLOGY_PROFILE):
                 # The original physical helper validator requires st_nlink=1.
                 # Select this fixed policy in the acquired image, never from a
                 # public argument. Its hash binds execution and retained reuse.
                 manifest["source_materialization"] = "SINGLE_LINK_FILES_READ_ONLY_ROOT"
                 image_key = self._object(self._encode(manifest))
-            if profile == AUDIT_OBJECT_CONTRACT_PROFILE:
+            if profile in (AUDIT_OBJECT_CONTRACT_PROFILE, TERMINOLOGY_PROFILE):
                 manifest["data_permissions"] = "OWNER_0600_READ_ONLY_MOUNT"
                 manifest["source_permissions"] = contract["source_modes"]
                 manifest["copy_umask"] = runtime["umask"]
@@ -2350,7 +2484,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 inputs={node["id"]: dict(program_sha256=contract["programs"][contract["program"]], image_digest=image_key)},
                 environment=self.environment, observer=observer, limits=self.LIMITS,
                 source_bounds=(source["complete_git_inputs"]["projection"]["bounds"]
-                    if "complete_git_inputs" in source else contract["bounds"]),
+                    if "complete_git_inputs" in source else contract.get("whole_copy", contract["bounds"])),
                 source_projection=(contract["present_git"]["projection"]
                     if "skill_layout_git_inputs" in source else contract["projection"]),
                 temporary_reservation=temporary, startup_umask=0o022,

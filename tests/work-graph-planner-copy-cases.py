@@ -51,6 +51,8 @@ class CatalogCases(unittest.TestCase):
                 expected["scratch_bytes"] = 128 * 1024**2
             elif profile == "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1":
                 expected["scratch_bytes"] = 64 * 1024**2
+            elif profile == "CONTROLLED_TASK_TERMINOLOGY_INTEGRATION_V1":
+                expected["scratch_bytes"] = 512 * 1024**2
             with self.subTest(profile=profile):
                 self.assertEqual(cls.LIMITS, expected)
         self.assertEqual(parent.LIMITS["scratch_bytes"], 32 * 1024**2)

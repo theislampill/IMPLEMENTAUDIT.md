@@ -42,6 +42,7 @@ PROFILES = {
     "audit-retention": "CONTROLLED_TASK_AUDIT_RETENTION_V1",
     "audit-object-contract": "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1",
     "claim-boundary": "CONTROLLED_TASK_CLAIM_BOUNDARY_V1",
+    "terminology-integration": "CONTROLLED_TASK_TERMINOLOGY_INTEGRATION_V1",
 }
 
 
