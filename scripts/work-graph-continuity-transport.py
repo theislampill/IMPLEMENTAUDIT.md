@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Repository-only, exact-source Linux transport for three readonly owner calls.
+"""Repository-only exact-source transports for fixed readonly owner calls.
 
 This internal adapter does not decide currentness or authenticate supplied Python
-objects. Its fixed caller must load these exact bytes and acquire all six source
+objects. Its fixed caller must load these exact bytes and acquire the complete selected source
 bytes through the existing held-source owner. Unknown source populations refuse;
 the old qualified two-source optimisation is a different caller-owned path.
 
@@ -19,7 +19,8 @@ This is a trusted readonly helper profile, not a generic hostile-code executor o
 an effect interlock. Host Python/Bash/Git and their root-owned system libraries
 remain trusted. The host /proc is bound readonly; no new proc filesystem or host
 policy change is attempted. Unsupported hosts, missing bwrap, and failed namespace
-creation are typed refusals. Native Windows is not qualified by this adapter.
+creation are typed refusals. The separate original14 branch retains published Windows held-file semantics;
+positive Windows host qualification and native admission remain separate.
 """
 from __future__ import annotations
 
@@ -47,6 +48,120 @@ SOURCE_PROFILE_V1 = (
     ("canonical_hot_projection.py", 57891, "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276", 0o755),
     ("canonical_custody.py", 33629, "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f", 0o755),
 )
+# Exact published sources and reviewed receiving compositions; no admission.
+SOURCE_PROFILES_V1 = {
+    'main-r0035': (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 61001, 'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6', 0o644),
+        ('claim-run-rotation.py', 103754, '6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    'r0035-r0033-r0037': (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 96597, '77f324a5d87f49dbd870e9fdc23d2e4d252d2bdb4244d523408245fbd6dbbbb3', 0o644),
+        ('claim-run-rotation.py', 103754, '6f62f57d3a5873570161022e2ccc04cdb061655fa338bcb2c5ea1624b80454ca', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    'main-r0035-r002e-custody': (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 61001, 'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6', 0o644),
+        ('claim-run-rotation.py', 104704, 'f6e6d93c9ca103c21ce4f316ec7688f2e3750749d074e22f0ed16d3f612fa795', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    'r0035-r0033-r0037-r002e-custody': (
+        ('claim-run.sh', 17368, '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383', 0o644),
+        ('validate-run-root.sh', 96597, '77f324a5d87f49dbd870e9fdc23d2e4d252d2bdb4244d523408245fbd6dbbbb3', 0o644),
+        ('claim-run-rotation.py', 104704, 'f6e6d93c9ca103c21ce4f316ec7688f2e3750749d074e22f0ed16d3f612fa795', 0o644),
+        ('rotate-canonical-state.py', 92941, '7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26', 0o755),
+        ('canonical_hot_projection.py', 57891, 'fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276', 0o755),
+        ('canonical_custody.py', 33629, 'bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f', 0o755),
+    ),
+    'r0035-r0039': (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', 0o644),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', 0o644),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', 0o755),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    'r0035-r0039-r0033-r0037': (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', 0o644),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', 0o644),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', 0o755),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    'r0035-r0039-7a89': (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', 0o644),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', 0o644),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 0o755),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    'r0035-r0039-7a89-r0033-r0037': (
+        ('claim-run.sh', 17632, '78c6391743132b5265d415bf73435cb0ee11f3e32d09d8b280018e949745e5ac', 0o644),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', 0o644),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', 0o644),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', 0o755),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 0o755),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 0o755),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 0o644),
+    ),
+    'r0039-original14-windows': (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', None),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', None),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    'r0039-original14-windows-7a89': (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 61188, '73bce773c2fa43aa1f42584121824b8179356ca6bf6348c6e10492e2f128313d', None),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    'r0039-original14-windows-r0033-r0037': (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', None),
+        ('claim-run-rotation.py', 213510, 'f2cb06e57e1b46dd7e679019acc780b7ffbfeaf21516cf53e5e0fb14eae90660', None),
+        ('rotate-canonical-state.py', 125155, 'c505832360e0e245aca51d1c14ee8c9d9c330d0300684a77aa6c5bd8803bad74', None),
+        ('canonical_hot_projection.py', 58417, 'b3fd58cef5bf79cbd8f109b352a9b80c230127bf35db0dbac2ef41a7490d967f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+    'r0039-original14-windows-7a89-r0033-r0037': (
+        ('claim-run.sh', 99730, '405ab3853dfb88c007ea2f8f8dd98fb8e9c6e77552b172f2f71a8751364ea20f', None),
+        ('validate-run-root.sh', 96784, '23afb71f4e6660301912d97142ad087391e0308d828fecce8e45b5e2aae8b295', None),
+        ('claim-run-rotation.py', 245953, '36da48d5e81218ff020c5fdb85fe0797e19a61459b4c167f137109e279e7f7aa', None),
+        ('rotate-canonical-state.py', 125155, '2fb6495a865d5f79948c8dfbee46ad5ffd18d47c95707b4be96890df1b3d4bbc', None),
+        ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+        ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+        ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+        ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', None),
+    ),
+}
+ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
+ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]
+
 _HOST_ROOTS = ("/usr", "/bin", "/sbin", "/lib", "/lib64", "/etc", "/dev", "/proc")
 _PYTHON_DIRECTORY = "/implementaudit-python"
 _PYTHON_ALIAS = _PYTHON_DIRECTORY + "/cpython"
@@ -115,11 +230,30 @@ class _Directory:
             os.close(self.nodes.pop()[2])
 
 
+def source_profiles_for_helpers_v1(claim_raw, validate_raw):
+    pair = tuple((len(raw), hashlib.sha256(raw).hexdigest()) for raw in (claim_raw, validate_raw))
+    return tuple(rows for rows in SOURCE_PROFILES_V1.values()
+                 if tuple((row[1], row[2]) for row in rows[:2]) == pair)
+
+
+def _source_profile(source_rows):
+    if (type(source_rows) is not tuple or not source_rows
+            or any(type(row) is not tuple or len(row) != 2 or type(row[1]) is not bytes
+                   for row in source_rows)):
+        _refuse("SOURCE_REFUSED", "exact immutable source population required")
+    identity = tuple((_path(path).name, len(raw), hashlib.sha256(raw).hexdigest())
+                     for path, raw in source_rows)
+    matches = [profile for profile in SOURCE_PROFILES_V1.values()
+               if tuple(row[:3] for row in profile) == identity]
+    if len(matches) != 1:
+        _refuse("SOURCE_REFUSED", "source bytes are outside the qualified closure")
+    return matches[0]
+
+
 def _sources(owner, source_rows, expected_dir, before=None):
-    if type(source_rows) is not tuple or len(source_rows) != len(SOURCE_PROFILE_V1):
-        _refuse("SOURCE_REFUSED", "exact immutable six-source population required")
+    profile = _source_profile(source_rows)
     observed, manifests = [], []
-    for entry, (name, size, digest, mode) in zip(source_rows, SOURCE_PROFILE_V1):
+    for entry, (name, size, digest, mode) in zip(source_rows, profile):
         if type(entry) is not tuple or len(entry) != 2 or type(entry[1]) is not bytes:
             _refuse("SOURCE_REFUSED", "source members must be immutable path/bytes pairs")
         path, raw = _path(entry[0]), entry[1]
@@ -276,7 +410,101 @@ os.execv(request["bash"],[request["bash"],request["members"][0]["path"],*request
 '''
 
 
-def call_readonly_v1(owner, *, repository, sources, arguments):
+def _original14_call(owner, route, repository, sources, arguments):
+    """Preserve published R0039's held eight-member Windows read domain."""
+    import contextlib
+    import io
+    import tempfile
+    profile = _source_profile(sources)
+    if profile not in ORIGINAL14_SOURCE_PROFILES_V1:
+        _refuse("SOURCE_REFUSED", "original14 source population differs")
+    readonly = (arguments in (("--current-controller",), ("--observe-current-continuity",))
+                or (type(arguments) is tuple and len(arguments) == 2
+                    and arguments[0] in {"--require-current-continuity", "--verify-resume-receipt"}
+                    and type(arguments[1]) is str))
+    if not readonly:
+        _refuse("COMMAND_REFUSED", "original14 accepts only fixed read operations")
+    if os.name != "nt":
+        _refuse("UNSUPPORTED_HOST", "original14 private transport requires qualified Windows custody")
+    if route is None:
+        _refuse("UNAVAILABLE", "fixed caller host route is required")
+    repository = _path(repository)
+    environment = owner._native_child_environment(route)
+    environment.update(GIT_NO_REPLACE_OBJECTS='1', GIT_NO_LAZY_FETCH='1',
+                       GIT_TERMINAL_PROMPT='0', GIT_CONFIG_SYSTEM=os.devnull)
+    config = {'core.fsmonitor': 'false', 'core.hooksPath': os.devnull,
+              'protocol.allow': 'never', 'protocol.ext.allow': 'never',
+              'credential.helper': '', 'core.sshCommand': '', 'submodule.recurse': 'false',
+              'core.longpaths': 'true'}
+    environment['GIT_CONFIG_COUNT'] = str(len(config))
+    for index, (key, value) in enumerate(config.items()):
+        environment['GIT_CONFIG_KEY_' + str(index)] = key
+        environment['GIT_CONFIG_VALUE_' + str(index)] = value
+    def source_rows():
+        rows = []
+        for (path, raw), (name, size, digest, _) in zip(sources, profile):
+            path = _path(path)
+            if path.name != name or path.parent != _path(sources[0][0]).parent:
+                _refuse("SOURCE_REFUSED", "original14 sibling path differs")
+            before = path.lstat()
+            actual, kind = owner._read_repository_path(path, maximum=size)
+            after = path.lstat()
+            if kind != 'file' or actual != raw or _identity(before) != _identity(after):
+                _refuse("SOURCE_CHANGED", "original14 source changed during acquisition")
+            rows.append(dict(name=name, path=str(path), bytes=size, sha256=digest,
+                             mode=stat.S_IMODE(after.st_mode), links=1, held=True))
+        return rows
+    rows = source_rows()
+    raw_by_name = {Path(path).name: raw for path, raw in sources}
+    custody = owner._native_module_from_bytes(raw_by_name['canonical_custody.py'],
+        _path(sources[0][0]).with_name('canonical_custody.py'),
+        '_r0035_original14_private_custody', '$native.original14.private_custody')
+    closure = Path(tempfile.mkdtemp(prefix='implementaudit-r0035-original14-'))
+    expected = []
+    try:
+        for name, raw in raw_by_name.items():
+            path = closure / name
+            with path.open('xb') as stream:
+                stream.write(raw)
+            expected.append((path, raw))
+        with contextlib.ExitStack() as stack:
+            directory = stack.enter_context(custody.Directory(closure))
+            if set(directory.names()) != set(raw_by_name):
+                _refuse("SOURCE_CHANGED", "original14 private closure population differs")
+            retained = []
+            for path, raw in expected:
+                held = stack.enter_context(custody.File(directory, path.name, maximum=len(raw)))
+                if held.read() != raw:
+                    _refuse("SOURCE_CHANGED", "original14 private closure bytes changed")
+                retained.append(held)
+            with contextlib.redirect_stdout(io.StringIO()):
+                bash = route.trusted_host_executable(repository, 'bash')
+                claim_path = route.bash_script_path(closure / 'claim-run.sh')
+                validate_path = route.bash_script_path(closure / 'validate-run-root.sh')
+            pair = (hashlib.sha256(raw_by_name['claim-run.sh']).hexdigest(),
+                    hashlib.sha256(raw_by_name['validate-run-root.sh']).hexdigest())
+            result = subprocess.run([str(bash), '-c', owner._NATIVE_R0011_CHILD_BOOTSTRAP,
+                claim_path, claim_path, validate_path, *pair, *arguments], cwd=repository,
+                env=environment, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, timeout=30, check=False)
+            for held in retained:
+                held.verify()
+            if set(directory.names()) != set(raw_by_name) or source_rows() != rows:
+                _refuse("SOURCE_CHANGED", "original14 closure changed during execution")
+            marker = ('implementaudit-native-r0011-child-v1\t' + pair[0] + '\t' + pair[1]).encode()
+            if (result.returncode or len(result.stdout) > 8192 or len(result.stderr) > 16384
+                    or result.stderr.splitlines().count(marker) != 1):
+                _refuse("OWNER_REFUSED", "original14 continuity owner refused or changed")
+            return dict(returncode=result.returncode, stdout=result.stdout,
+                stderr=b'\n'.join(line for line in result.stderr.splitlines() if line != marker),
+                closure=dict(schema='implementaudit.continuity-windows-source-closure.v1',
+                             repository=str(repository), members=rows,
+                             custody='WINDOWS_HELD_FILES_V1'))
+    finally:
+        owner._native_cleanup_private_closure(closure, expected)
+
+
+def call_readonly_v1(owner, *, repository, sources, arguments, route=None):
     """Return observed closure/streams/exit only after every source fence closes.
 
     ``sources`` is the ordered immutable tuple of (absolute pathname, bytes).
@@ -284,6 +512,11 @@ def call_readonly_v1(owner, *, repository, sources, arguments):
     caller responsibilities. Returned dictionaries are observations, never native
     authority tokens. Any owner stderr/nonzero exit remains visible to the caller.
     """
+    if (type(sources) is tuple and len(sources) >= 2
+            and all(type(row) is tuple and len(row) == 2 and type(row[1]) is bytes for row in sources[:2])
+            and tuple(hashlib.sha256(row[1]).hexdigest() for row in sources[:2]) in
+                {tuple(row[2] for row in profile[:2]) for profile in ORIGINAL14_SOURCE_PROFILES_V1}):
+        return _original14_call(owner, route, repository, sources, arguments)
     _arguments(arguments)
     if (sys.platform != "linux" or os.name != "posix" or not hasattr(os, "memfd_create")
             or not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY")
@@ -341,9 +574,10 @@ def call_readonly_v1(owner, *, repository, sources, arguments):
             command += ["--tmpfs", str(overlay)]
         command += ["--dir", str(source_dir), "--dir", _PYTHON_DIRECTORY,
                     "--ro-bind", python, _PYTHON_ALIAS]
-        # All six qualified source bodies use sys.executable only to rebuild
-        # PATH. The binary alias preserves this private parent, so even the
-        # owner's narrowed environment resolves nested python/python3 here.
+        # The binary alias retains this private parent in rebuilt PATHs. Nested
+        # shell Python uses isolated no-site wrappers. R0039's exact tokenizer
+        # call selects -I -B itself; its trusted host dependency stays separate
+        # from this source closure and is never supplied by repository cwd.
         wrapper = ("#!" + bash + "\nexec " + _PYTHON_ALIAS + ' -I -S -B "$@"\n').encode("utf-8")
         startup_members = [dict(name=name, path=_PYTHON_DIRECTORY + "/" + name,
                                bytes=len(wrapper), sha256=hashlib.sha256(wrapper).hexdigest(), mode=0o755)

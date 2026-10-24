@@ -103,3 +103,14 @@ containment and Windows/access-control-list proof remain pending; observations p
 Relations are not work DAGs.
 TC07 needs actual joint configuration/progress, not pairwise greens; TC06 retains
 consumers/descendants/recovery until discharge/accepted transfer.
+
+### Exact continuity compositions
+
+The repository transport selects a complete fixed source profile before a read;
+unknown or mixed helper bytes refuse. Source observations for these profiles use
+v2 and the receiving owner independently checks every member. The historical
+two-file shortcut domain is unchanged. Linux sealed-source execution and the
+separate R0039 original14 Windows custody path remain distinct; neither source
+composition nor constructed receipts establishes native host admission or JOIN.
+Windows member paths identify original sources; `held` covers private execution
+copies. Original paths are reacquired before/after execution and by the receiver.

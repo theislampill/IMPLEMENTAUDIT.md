@@ -32,7 +32,7 @@ OE = load(ROOT / "scripts/operational-evidence.py", "closure_receiver")
 
 class EnvelopeControls(unittest.TestCase):
     def setUp(self):
-        self.pair = dict(claim_sha256="1" * 64, validate_sha256="2" * 64)
+        self.pair = dict(zip(("claim_sha256", "validate_sha256"), WG._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE))
         self.closure = None
         self.late_change = False
         self.omit_closure = False
@@ -87,6 +87,10 @@ class EnvelopeControls(unittest.TestCase):
             self.assertEqual(self.observe(method)["continuity_closure"], self.closure)
 
     def test_05_missing_or_changed_closure_refuses(self):
+        unknown = dict(claim_sha256="1" * 64, validate_sha256="2" * 64)
+        self.pair = unknown
+        with self.assertRaisesRegex(WG.WorkGraphError, "requires the v2"):
+            self.observe("observe_native_run_sources_v1")
         self.omit_closure = True
         with self.assertRaisesRegex(WG.WorkGraphError, "absent or malformed"):
             self.observe("observe_native_run_sources_v2")
@@ -183,7 +187,7 @@ class ReceivingClosureControls(unittest.TestCase):
             self.check()
 
     def test_10_legacy_none_is_explicit_and_never_promotes_current_six_sources(self):
-        legacy = dict(claim_sha256="1" * 64, validate_sha256="2" * 64)
+        legacy = dict(zip(("claim_sha256", "validate_sha256"), WG._NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE))
         OE._native_check_continuity_closure_v1(None, self.root, self.compiler, legacy)
         with self.assertRaises(OE.OperationalEvidenceError):
             OE._native_check_continuity_closure_v1(None, self.root, self.compiler, self.pair)

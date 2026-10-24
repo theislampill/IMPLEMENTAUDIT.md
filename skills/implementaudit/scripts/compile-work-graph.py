@@ -1550,10 +1550,10 @@ def _native_document(data, path, schema):
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
 
-_NATIVE_STATIC_OWNER_SHA256 = 'a47cf26ff3868a0bf17936becc0e26865eddff111bad908e53a60d28ed6c7086'
+_NATIVE_STATIC_OWNER_SHA256 = '74c5b59c12d5c7f55798ffbfae4402df2eb7924147dc8d08045e40317376c94a'
 
 
-_NATIVE_STATIC_OWNER_BYTES = 376615
+_NATIVE_STATIC_OWNER_BYTES = 388026
 
 
 NATIVE_SOURCE_MAX_ENTRIES = 1024
@@ -1924,6 +1924,17 @@ def _native_continuity_host_v1():
 
 
 def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw):
+    pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
+    if pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1):
+        transport, sources, _ = _native_six_source_transport_v1(owner, claim_raw, validate_raw)
+        try:
+            observed = transport.call_readonly_v1(owner, repository=str(repo), sources=sources,
+                                                 arguments=tuple(arguments), route=route)
+        except transport.ContinuityTransportError as exc:
+            raise WorkGraphError(str(exc)) from exc
+        if observed['returncode'] or len(observed['stdout']) > 8192 or len(observed['stderr']) > 16384:
+            raise WorkGraphError('native continuity owner refused or changed')
+        return observed['stdout'].decode('utf-8', 'strict').strip()
     import contextlib
     import io
     import tempfile
@@ -2032,15 +2043,15 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'b7f7a422ddcfcd54b8642eb67da0170f49d2df2b8fde874668d91f186be61a4f'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 22406
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'de6025b8c5e48d924643387e85c1554d60b4208c751e0b5f64376cb53368f2ce'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 40203
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
-    """Acquire the repository-only adapter and its complete fixed source set."""
+    """Acquire one exact repository-only source composition before dispatch."""
     import types
     path = pathlib.Path(__file__).absolute().parents[3] / 'scripts/work-graph-continuity-transport.py'
-    raw, mode = _native_static_file_v1(owner, path, 64 * 1024, dict(remaining=64 * 1024))
+    raw, transport_mode = _native_static_file_v1(owner, path, 64 * 1024, dict(remaining=64 * 1024))
     if (len(raw) != _NATIVE_CONTINUITY_TRANSPORT_BYTES
             or hashlib.sha256(raw).hexdigest() != _NATIVE_CONTINUITY_TRANSPORT_SHA256):
         raise WorkGraphError('native continuity transport source identity changed')
@@ -2048,18 +2059,22 @@ def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
     module.__file__ = str(path)
     exec(compile(raw, str(path), 'exec'), module.__dict__)
     root = pathlib.Path(__file__).absolute().parent
-    sources = []
-    budget = dict(remaining=512 * 1024)
-    for name, size, digest, expected_mode in module.SOURCE_PROFILE_V1:
+    profiles = module.source_profiles_for_helpers_v1(claim_raw, validate_raw)
+    if not profiles:
+        raise WorkGraphError('native continuity helpers are not an explicitly selected source domain')
+    sources, identity = [], []
+    budget = dict(remaining=1024 * 1024)
+    for index, (name, _, _, _) in enumerate(profiles[0]):
         source = root / name
-        data, actual_mode = _native_static_file_v1(owner, source, size, budget)
-        if (len(data) != size or hashlib.sha256(data).hexdigest() != digest
-                or actual_mode != expected_mode):
-            raise WorkGraphError('native continuity closure source identity changed')
+        data, mode = _native_static_file_v1(owner, source, max(p[index][1] for p in profiles), budget)
+        identity.append((name, len(data), hashlib.sha256(data).hexdigest(), mode))
         sources.append((str(source), data))
+    if not any(len(identity) == len(profile) and all(actual[:3] == expected[:3] and (expected[3] is None or actual[3] == expected[3])
+                       for actual, expected in zip(identity, profile)) for profile in profiles):
+        raise WorkGraphError('native continuity closure source identity changed')
     if (sources[0][1], sources[1][1]) != (claim_raw, validate_raw):
         raise WorkGraphError('native continuity source set crossed its helper acquisition')
-    return module, tuple(sources), (path, raw, mode)
+    return module, tuple(sources), (path, raw, transport_mode)
 
 
 def _native_equivalent_receipt_domain_v1(owner, repo, receipt):
@@ -2099,7 +2114,7 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     helper_pair = (hashlib.sha256(claim_raw).hexdigest(), hashlib.sha256(validate_raw).hexdigest())
     transport = None
     closure = None
-    if helper_pair == _NATIVE_SIX_SOURCE_PAIR_V1:
+    if helper_pair not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1):
         transport, transport_sources, transport_source = _native_six_source_transport_v1(owner, claim_raw, validate_raw)
     def call(arguments):
         nonlocal closure
@@ -2107,7 +2122,7 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
             return _native_claim_call_v1(owner, host, repo, arguments, claim_raw, validate_raw)
         try:
             observed = transport.call_readonly_v1(owner, repository=str(repo),
-                sources=transport_sources, arguments=tuple(arguments))
+                sources=transport_sources, arguments=tuple(arguments), route=host)
         except transport.ContinuityTransportError as exc:
             raise WorkGraphError('native continuity transport refused: ' + exc.code) from exc
         if observed['returncode'] or len(observed['stdout']) > 8192 or len(observed['stderr']) > 16384:
@@ -2314,6 +2329,10 @@ _NATIVE_ROUTE_PRODUCER_SHA256 = '8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f16
 
 
 _NATIVE_ROUTE_PRODUCER_BYTES = 371304
+_NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
+    _NATIVE_ROUTE_PRODUCER_SHA256: _NATIVE_ROUTE_PRODUCER_BYTES,
+    'ad0367c90db2a23580a2f37ecb6b87d2b774e04ce524a95bf159f038062fafa4': 375105,
+}
 
 
 _NATIVE_ROUTE_OBSERVATION_KEY = object()
@@ -2395,7 +2414,9 @@ def _native_receiver_binding_v1(observation):
             or mission['scope'] != scope['scope'] or mission['policy_digest'] != _graph_hash(policy)
             or policy['schema'] != 'implementaudit.ordinary-native-policy.v1' or packet.get('target_identity') != 'audit-assess'
             or packet.get('obligation_id') != scope['route']['obligation_id'] or packet.get('route_transaction_id') != scope['route']['route_transaction_id']
-            or policy['code_pins'].get('implementaudit/scripts/route-transaction.py') != _NATIVE_ROUTE_PRODUCER_SHA256):
+            or type(scope['source']['producer_sha256']) is not str
+            or scope['source']['producer_sha256'] not in _NATIVE_ROUTE_PRODUCER_PROFILES_V1
+            or policy['code_pins'].get('implementaudit/scripts/route-transaction.py') != scope['source']['producer_sha256']):
         raise WorkGraphError('receiver policy differs from the accepted route')
     names = {'implementaudit/scripts/bounded_file_custody.py', 'implementaudit/scripts/compaction-source-owner-codex-app.py'}
     _require_exact_members(value['source_pins'], names, 'receiver source pins')
@@ -2480,7 +2501,8 @@ def _native_validate_route_scope_v1(value, binding):
     _require_exact_members(source, {'predicate_version', 'record_schema', 'producer_sha256', 'record_sha256'}, 'current route source')
     if (source['predicate_version'] != 'R0033.route-predicate.v1'
             or source['record_schema'] != 'implementaudit.route-decision.v1'
-            or source['producer_sha256'] != _NATIVE_ROUTE_PRODUCER_SHA256
+            or type(source['producer_sha256']) is not str
+            or source['producer_sha256'] not in _NATIVE_ROUTE_PRODUCER_PROFILES_V1
             or type(source['record_sha256']) is not str
             or not DIGEST_RE.fullmatch(source['record_sha256'])):
         raise WorkGraphError('current route scope: source identity differs')
@@ -2524,7 +2546,7 @@ def _native_route_scope_module_v1():
             raise WorkGraphError('native route producer is not a non-aliased regular file')
         with os.fdopen(os.open(path, flags), 'rb') as stream:
             opened = os.fstat(stream.fileno())
-            raw = stream.read(_NATIVE_ROUTE_PRODUCER_BYTES + 1)
+            raw = stream.read(max(_NATIVE_ROUTE_PRODUCER_PROFILES_V1.values()) + 1)
             after = os.fstat(stream.fileno())
         named = path.lstat()
     except OSError as exc:
@@ -2532,8 +2554,7 @@ def _native_route_scope_module_v1():
     identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
     if (identity(before) != identity(opened) or identity(opened) != identity(after)
             or identity(after) != identity(named)
-            or len(raw) != _NATIVE_ROUTE_PRODUCER_BYTES
-            or hashlib.sha256(raw).hexdigest() != _NATIVE_ROUTE_PRODUCER_SHA256):
+            or _NATIVE_ROUTE_PRODUCER_PROFILES_V1.get(hashlib.sha256(raw).hexdigest()) != len(raw)):
         raise WorkGraphError('native route producer source identity changed')
     module = types.ModuleType('_implementaudit_r0035_route_scope_owner')
     module.__file__ = str(path)
@@ -3117,8 +3138,8 @@ def _observe_native_sources_v2(run_root, repo_root, input_root, expected_current
                 set(sources[0]) != {'claim_sha256', 'validate_sha256'} or
                 any(type(v) is not str or not DIGEST_RE.fullmatch(v) for v in sources[0].values())):
             raise WorkGraphError('native executed-source observation is absent or malformed')
-        if version == 1 and (sources[0]['claim_sha256'], sources[0]['validate_sha256']) == _NATIVE_SIX_SOURCE_PAIR_V1:
-            raise WorkGraphError('native six-source continuity requires the v2 source observation')
+        if version == 1 and (sources[0]['claim_sha256'], sources[0]['validate_sha256']) not in (_NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE, _NATIVE_COMBINED_CURRENT_PAIR_V1):
+            raise WorkGraphError('complete continuity composition requires the v2 source observation')
         graph = decode_strict_json_bytes(raw, 'native source observation projection')
         if graph['binding']['continuity_helper_digest'] != sources[0]['claim_sha256']:
             raise WorkGraphError('native projection differs from executed continuity source')
