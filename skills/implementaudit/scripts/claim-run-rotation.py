@@ -2015,7 +2015,7 @@ class NativeInputPreparationV1:
 def native_preparation_for_owned_stdio_v1(runtime, producer, context, source_path):
     """Thin selected-source entry; schedules no native/model/API operation."""
     selected = _native_selection_v1(context)
-    expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+    expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'  # source repo: private native source owner
     if (Path(source_path).absolute() != expected or type(runtime) is not tuple or len(runtime) != 5
             or _NATIVE_PRIVATE_PROFILE_V1 is None
             or json.loads(_NATIVE_PRIVATE_PROFILE_V1[2][1].read()) != runtime[0]):
