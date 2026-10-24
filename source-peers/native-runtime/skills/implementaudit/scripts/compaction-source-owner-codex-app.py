@@ -1047,26 +1047,8 @@ def _as_host_binding_v1(obs, context, policy, runtime):
         'parent_source_physical': context['parent']['physical'], 'child_source_physical': context['child']['physical'], 'authority_ceiling': 'NONE'}
 
 def _as_public_turn_v1(obs, context, role, pin):
-    anchor = context['parent_turn_start'] if role == 'parent' else context['child_activation']
-    start, end = anchor['locator']['offset'], pin['locator']['offset'] + pin['locator']['bytes']
-    require(0 <= start < end and end - start <= obs.MAX_TOTAL, 'OWNED_STDIO_PUBLIC_TURN_BOUND')
-    path, info = obs.physical(context[role]['path'])
-    require(obs.identity(info) == context[role]['physical'], 'OWNED_STDIO_PUBLIC_PHYSICAL_CHANGED')
-    active = None
-    position, count = start, 0
-    with path.open('rb') as stream:
-        stream.seek(start)
-        while position < end:
-            raw = stream.readline(min(obs.MAX_RECORD + 1, end - position))
-            require(raw and raw.endswith(b'\n') and len(raw) <= obs.MAX_RECORD, 'OWNED_STDIO_PUBLIC_TURN_FRAME')
-            row = obs.json.loads(raw, object_pairs_hook=obs.unique)
-            count += 1
-            require(count <= obs.MAX_RECORDS and isinstance(row, dict) and isinstance(row.get('payload'), dict), 'OWNED_STDIO_PUBLIC_TURN_FRAME')
-            if row.get('type') == 'turn_context' or row.get('type') == 'event_msg' and row['payload'].get('type') == 'task_started':
-                active = row['payload'].get('turn_id')
-            position += len(raw)
-    require(isinstance(active, str) and active, 'OWNED_STDIO_ACTIVE_TURN_ABSENT')
-    return active
+    runtime = _np_runtime(obs, context['_source_profile_code_pins'])
+    return runtime[3].owned_stdio_public_turn_v2(obs, context, role, pin)
 
 def _as_public_binding_v1(obs, context, policy, pins, runtime):
     import contextlib
@@ -1454,7 +1436,7 @@ class OwnedStdioC02CensusV1:
         self.verify()
         require(self._production_binding is None or self._fault_inflight,
                 'C02_CANNOT_RETROACTIVELY_LABEL_A_NATIVE_EVENT_AS_CONTROLLED')
-        require(self._original is None and expected_old == self.expected_old, 'C02_FAULT_CALLBACK_SCOPE_OR_REPLAY')
+        require(self._original is None and expected_old == self.expected_old and oid!=expected_old['invalidation'], 'C02_FAULT_CALLBACK_SCOPE_OR_REPLAY')
         actual = self.owner.invalidation_record(self.context, oid)
         require(actual == {'event':event,'boundary':'new-session','oid':oid}, 'C02_CONTROLLED_FAULT_READBACK_MISMATCH')
         self.owner.require_anchor(self.context, oid)
@@ -1466,8 +1448,10 @@ class OwnedStdioC02CensusV1:
     def inject_controlled_fault(self, event):
         require(self._production_binding is _C02_SOURCE_BINDING_SEAL_V1, 'C02_SELECTED_LIVE_SOURCE_REQUIRED')
         source=self
-        class Inputs(self.owner._NativePublicationInputs):
-            def ref_guards_v1(self): return {}
+        class Guard:
+            def ref_guards_v1(self):
+                source.verify()
+                return source.owner.owner_guards(source.context,source.expected_old,exclude=('invalidation',))
             def verify(self): source.verify()
             def before_effect(self): return source.checkpoint()
             def after_effect(self, stamp):
@@ -1475,11 +1459,14 @@ class OwnedStdioC02CensusV1:
                 require(stamp==source.checkpoint(), 'C02_CONTROLLED_FAULT_OUTCOME_UNKNOWN')
         self._fault_inflight=True
         try:
-            token=self.owner.invalidate_current_generation_v1(self.context,'new-session',event,
-                _expected_old=self.expected_old,_observation=Inputs())
-            oid=self.owner.exact_authority_token(self.context,'invalidation',token)
-            self.observe_engineered_invalidation(oid,event,self.expected_old)
-            return token
+            self.verify()
+            with self.owner.RetainedInputs(self.owner.retained_owner_paths(self.context)) as retained:
+                token=self.owner.invalidate_current_generation_v1(self.context,'new-session',event,
+                    _expected_old=self.expected_old,
+                    _observation=self.owner._NativePublicationInputs(retained,Guard()))
+                oid=self.owner.exact_authority_token(self.context,'invalidation',token)
+                self.observe_engineered_invalidation(oid,event,self.expected_old)
+                return token
         except BaseException as exc:
             self.cancel_now()
             raise ValueError('C02_CONTROLLED_FAULT_OUTCOME_UNKNOWN_READBACK_REQUIRED') from exc
@@ -1496,19 +1483,29 @@ class OwnedStdioC02CensusV1:
             self._events.append({'sequence':len(self._events)+1,'kind':'adjudication','record_oid':oid})
         self.verify()
 
-    def census(self, request):
+    def census_facts_v1(self):
         self.verify()
+        require(self._production_binding is _C02_SOURCE_BINDING_SEAL_V1,
+                'C02_SELECTED_LIVE_SOURCE_REQUIRED')
         require(self._original is not None, 'C02_EXACT_CONTROLLED_EVENT_NOT_OBSERVED')
         retained, _ = self.owner._c02_retained_decisions_v1(self.context)
         require({oid for _,oid in retained} == self._record_oids, 'C02_UNOBSERVED_OWNER_ADJUDICATION')
         result = {'schema':'implementaudit.c02-owned-interval.v1',
-            'source_owner':self.selected['c02_adjudication']['census_owner'],
+            'source_owner':self.selected['pending_owner']['owner_id'],
             'source_cutoff':self.source_cutoff,
             'subject':{key:self.context[key] for key in ('controller','claim_id','run_root_identity')},
             'interval_start':1,'interval_end':len(self._events),'complete':True,
             'covered_boundary_kinds':sorted(self.owner.BOUNDARIES),'covers_adjudications':True,
             'events':_c02_json.loads(_c02_json.dumps(self._events))}
         self.verify()
+        return result
+
+    def census(self, request):
+        result = self.census_facts_v1()
+        configured = self.selected.get('c02_adjudication')
+        require(type(configured) is dict and
+                configured.get('census_owner') == result['source_owner'],
+                'C02_CONFIGURED_CENSUS_OWNER_MISMATCH')
         return result
 
 
@@ -1803,6 +1800,11 @@ def rotation_input_owner_selection_v1():
                 producer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
 
 
+def prepare_rotation_input_v1(runtime, producer, owner, context):
+    # Inert readiness only; never start a model/API turn.
+    return owner.native_preparation_for_owned_stdio_v1(runtime,producer,context,__file__)
+
+
 class OwnedStdioRotationReservationV1:
     def __init__(self, runtime, native_state, native_process, claim_owner, claim_context, grant):
         import os
@@ -1827,8 +1829,7 @@ class OwnedStdioRotationReservationV1:
                 'ROTATION_SOURCE_CODE_PROFILE_OR_ISSUER_EPISODE_DIFFERS')
         native = claim_owner.projection_helper().native_inputs_module_v1()
         require(type(native_state) is native.NativeInputState, 'ROTATION_NATIVE_STATE_SOURCE_DIFFERS')
-        reservation_id = secrets.token_hex(16)
-        signal = claim_owner.NativeCancellationSignalV1(reservation_id)
+        reservation_id, signal = claim_owner.native_rotation_parts_v1(claim_context,native_state,grant)
         try:
             with native_state._signal_lock:
                 native_state._verify(native_state._binding['subject'], native_state._binding['source_bytes'],
@@ -1843,6 +1844,7 @@ class OwnedStdioRotationReservationV1:
                     'host_process': claim_owner.native_process_identity_v1(native_process.pid),
                     'cancellation': signal.descriptor, 'episode_binding_sha256': episode['binding_digest'],
                     **{key: policy[key] for key in ('source_owner', 'source_contract_sha256', 'provider_selection_sha256')}}
+            snapshot = claim_owner.bind_native_preparation_v1(claim_context,snapshot)
             claim_owner._validate_native_revision_v1(claim_context, snapshot, grant, native)
         except BaseException:
             signal.signal()
@@ -1904,7 +1906,8 @@ class OwnedStdioRotationReservationV1:
             try:
                 self._check_source()
                 previous = owner.read_refs(context['repo'], self.refs.values())
-                if previous[self.refs['source']] is not None:
+                if owner.native_preparation_prior_v1(context,previous): pass
+                elif previous[self.refs['source']] is not None:
                     old = owner.decode_json(owner.read_blob(context['repo'], previous[self.refs['source']]))
                     prior_resolved = (old.get('phase') == 'CLOSED'
                         and old.get('resolution', {}).get('status') == 'EXACT_CANONICAL_JOIN_VERIFIED')

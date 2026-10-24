@@ -1558,7 +1558,7 @@ def _native_predecessor_scope_v1(read, retained):
 # pins its provider artifact; public accepting-core bytes contain no private
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
-_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '439b4efaddbe7c3a19b625db0e8480d7a857ebc603be34cb9e9bbec575902581'
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04'
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
 _NATIVE_INPUT_BINARY_PIN_V1 = None
@@ -1701,15 +1701,562 @@ def _native_selection_v1(context):
     return selected
 
 
+def _hold_native_input_image_v1(image_path, expected_sha256):
+    global _NATIVE_INPUT_BINARY_PIN_V1
+    if _NATIVE_INPUT_BINARY_PIN_V1 is None:
+        held = PinnedFile(image_path, max_bytes=512 * 1024 * 1024)
+        try:
+            if native_held_image_sha256_v1(held) != expected_sha256:
+                raise RotationError('actual native process image differs from the admitted binary')
+        except BaseException:
+            held.close()
+            raise
+        _NATIVE_INPUT_BINARY_PIN_V1 = held
+    if _NATIVE_INPUT_BINARY_PIN_V1.path != image_path:
+        raise RotationError('selected native process image path changed')
+    _NATIVE_INPUT_BINARY_PIN_V1.verify()
+
+
+# Inert scheduling in the EXISTING input-source namespace. No input/currentness
+# authority exists until the unchanged source/grant/lease/publisher gates pass.
+_NATIVE_PREPARATION_SCHEMA_V1 = 'implementaudit.native-input-preparation.v1'
+_NATIVE_PREPARATION_WAIT_MS = 30000
+_NATIVE_PREPARATION_CONSUMER_V1 = None
+_NATIVE_PREPARATION_PRODUCER_V1 = None
+import threading as _native_preparation_threading
+_NATIVE_PREPARATION_SLOT_V1 = _native_preparation_threading.RLock()
+_NATIVE_PREPARATION_KEYS_V1 = {'schema', 'phase', 'reservation_id', 'selection',
+    'consumer_sha256', 'producer_process', 'host_process',
+    'cancellation', 'created_wall_ms', 'created_monotonic_ns',
+    'deadline_wall_ms', 'deadline_monotonic_ns', 'prior_grant_oid', 'previous_response_id'}
+_NATIVE_PREPARATION_REQUEST_KEYS_V1 = {'registration_oid', 'executor', 'subject',
+    'source_bytes', 'source_tokens', 'prepared_wall_ms', 'prepared_monotonic_ns'}
+_NATIVE_PREPARATION_SOURCE_KEYS_V1 = {'registration_oid', 'request_oid', 'executor',
+    'consumer_sha256', 'prepared_wall_ms', 'prepared_monotonic_ns',
+    'observation_after_wall_ms', 'observation_after_monotonic_ns', 'previous_response_id'}
+
+
+def _native_preparation_clock_v1():
+    return time.time_ns() // 1000000, time.monotonic_ns()
+
+
+def _native_preparation_process_v1(value):
+    if (type(value) is not dict or set(value) != {'pid', 'creation_filetime', 'image'}
+            or type(value['pid']) is not int or value['pid'] <= 0
+            or type(value['creation_filetime']) is not int or value['creation_filetime'] <= 0
+            or type(value['image']) is not str or not Path(value['image']).is_absolute()
+            or native_process_identity_v1(value['pid']) != value):
+        raise RotationError('native preparation process is foreign, dead or reused')
+
+
+def _native_preparation_read_v1(context, oid):
+    raw = read_blob(context['repo'], oid)
+    if len(raw) > 16384:
+        raise RotationError('native preparation record exceeds its bound')
+    return decode_json(raw)
+
+
+def _native_preparation_heads_v1(context, refs):
+    # Cooperate with the existing writer gate; never retry a failed custody read.
+    with namespace_gate(context):
+        return read_refs(context['repo'], refs)
+
+
+def _native_preparation_validate_v1(context, record, selected, *, requested=False):
+    expected = _NATIVE_PREPARATION_KEYS_V1 | (_NATIVE_PREPARATION_REQUEST_KEYS_V1 if requested else set())
+    if (type(record) is not dict or set(record) != expected
+            or record['schema'] != _NATIVE_PREPARATION_SCHEMA_V1
+            or record['phase'] != ('REQUESTED' if requested else 'REGISTERED')
+            or record['selection'] != selected
+            or type(record['reservation_id']) is not str or not re.fullmatch('[0-9a-f]{32}', record['reservation_id'])
+            or record['consumer_sha256'] != hashlib.sha256(_verify_claim_load_identity_v1()).hexdigest()
+            or record['prior_grant_oid'] is not None and (type(record['prior_grant_oid']) is not str
+                or not OID.fullmatch(record['prior_grant_oid']))
+            or record['previous_response_id'] is not None and (type(record['previous_response_id']) is not str
+                or re.fullmatch('resp_[A-Za-z0-9_-]+', record['previous_response_id']) is None)):
+        raise RotationError('native preparation source, profile, code or record differs')
+    _native_preparation_process_v1(record['producer_process'])
+    _native_preparation_process_v1(record['host_process'])
+    for key in ('created_wall_ms', 'created_monotonic_ns', 'deadline_wall_ms', 'deadline_monotonic_ns'):
+        if type(record[key]) is not int or record[key] < 0:
+            raise RotationError('native preparation scheduling clock is malformed')
+    wall, mono = _native_preparation_clock_v1()
+    if (record['deadline_wall_ms'] - record['created_wall_ms'] != _NATIVE_PREPARATION_WAIT_MS
+            or record['deadline_monotonic_ns'] - record['created_monotonic_ns'] != _NATIVE_PREPARATION_WAIT_MS * 1000000
+            or not record['created_wall_ms'] <= wall <= record['deadline_wall_ms']
+            or not record['created_monotonic_ns'] <= mono <= record['deadline_monotonic_ns']):
+        raise RotationError('native preparation scheduling interval expired or changed')
+    cancel = record['cancellation']
+    if (type(cancel) is not dict or set(cancel) != {'schema', 'producer_process', 'event_handle', 'reservation_id'}
+            or cancel['schema'] != 'implementaudit.native-cancellation.v1'
+            or cancel['producer_process'] != record['producer_process']
+            or cancel['reservation_id'] != record['reservation_id']
+            or type(cancel['event_handle']) is not int or not 0 < cancel['event_handle'] < 2**64):
+        raise RotationError('native preparation event ownership differs')
+    if requested:
+        _native_preparation_process_v1(record['executor'])
+        if (type(record['registration_oid']) is not str or not OID.fullmatch(record['registration_oid'])
+                or type(record['subject']) is not dict
+                or set(record['subject']) != {'controller', 'claim_id', 'run_root_identity',
+                                               'receipt_token', 'state_sha256', 'roadmap_sha256'}
+                or any(record['subject'][key] != context[key] for key in ('controller', 'claim_id', 'run_root_identity'))
+                or any(type(value) is not str or not 0 < len(value) <= 1024 for value in record['subject'].values())
+                or any(type(record[key]) is not int or not 0 <= record[key] <= 2**63 - 1
+                       for key in ('source_bytes', 'source_tokens'))
+                or type(record['prepared_wall_ms']) is not int or type(record['prepared_monotonic_ns']) is not int
+                or not record['created_wall_ms'] <= record['prepared_wall_ms'] <= wall
+                or not record['created_monotonic_ns'] <= record['prepared_monotonic_ns'] <= mono):
+            raise RotationError('native preparation request binding is malformed')
+
+
+def _native_preparation_cancel_record_v1(context, owned_oids):
+    ref = native_input_revision_refs_v1(context)['source']
+    with _CUSTODY.git_scope(context['repo'], fixed_git(), git_environment()):
+        old = read_ref(context['repo'], ref)
+        if old is None or old not in owned_oids:
+            return  # Never overwrite READY/CLAIMED or another owner's record.
+        record = _native_preparation_read_v1(context, old)
+        if record.get('schema') != _NATIVE_PREPARATION_SCHEMA_V1 or record.get('phase') not in {'REGISTERED', 'REQUESTED'}:
+            return
+        oid = write_blob(context, canonical(dict(record, phase='CANCELLED')))
+        update_refs(context, {ref: (oid, old)}, {})  # Inert denial; no archive/epoch refs.
+
+
+class NativeInputPreparationV1:
+    """Owned producer's one-shot scheduling capability; never an input/grant.
+
+    The selected source observes an already-running or independently scheduled
+    legitimate host turn. This rendezvous NEVER starts a model/API turn.
+    This object can register, receive one prepared request and constrain a later
+    genuine source. It cannot manufacture a NativeInputState or extend a grant.
+    """
+    def __init__(self, context, host_process):
+        self.context, self.selected = context, dict(_native_selection_v1(context))
+        if (type(host_process) is not subprocess.Popen or host_process.poll() is not None
+                or host_process.stdin is None or host_process.stdout is None):
+            raise RotationError('native preparation requires the existing live owned host')
+        import secrets
+        self.reservation_id = secrets.token_hex(16)
+        self.host = native_process_identity_v1(host_process.pid)
+        self.producer = native_process_identity_v1(os.getpid())
+        self.cancellation = NativeCancellationSignalV1(self.reservation_id)
+        self.registration = self.registration_oid = self.request = self.request_oid = None
+        self.accepted_at = None
+        self._bound = self._closed = False
+        self._bound_source = None
+        self._producer = None
+        self._lock = _native_preparation_threading.RLock()
+
+    def _check(self):
+        self.cancellation.check()
+        if self._closed or _native_selection_v1(self.context) != self.selected:
+            raise RotationError('native preparation is closed or selection changed')
+        _native_preparation_process_v1(self.producer)
+        _native_preparation_process_v1(self.host)
+        if self.registration is not None:
+            _native_preparation_validate_v1(self.context, self.registration, self.selected)
+        if self._producer is not None:
+            self._producer.check()
+
+    def register(self):
+        global _NATIVE_PREPARATION_PRODUCER_V1
+        with self._lock:
+            try:
+                with _NATIVE_PREPARATION_SLOT_V1:
+                    if _NATIVE_PREPARATION_PRODUCER_V1 not in (None, self):
+                        raise RotationError('another producer preparation is active')
+                    _NATIVE_PREPARATION_PRODUCER_V1 = self
+                return self._register()
+            except BaseException:
+                self.cancel_now()
+                raise
+
+    def _register(self):
+        self._check()
+        if self.registration is not None:
+            raise RotationError('native preparation registration cannot be replayed')
+        refs = native_input_revision_refs_v1(self.context)
+        with _CUSTODY.git_scope(self.context['repo'], fixed_git(), git_environment()):
+            previous = _native_preparation_heads_v1(self.context, refs.values())
+            old = previous[refs['source']]
+            response = None
+            if old is not None:
+                value = decode_json(read_blob(self.context['repo'], old))
+                resolved = value.get('phase') == 'CLOSED' and value.get('resolution', {}).get('status') == 'EXACT_CANONICAL_JOIN_VERIFIED'
+                if (value.get('schema') not in {'implementaudit.native-rotation-source.v3', 'implementaudit.native-rotation-source.v4'}
+                        or value.get('phase') not in {'REVOKED', 'CLOSED'}
+                        or 'transaction_id' in value and not resolved):
+                    raise RotationError('prior native source or preparation requires owner reconciliation')
+                response = value.get('exact_usage', {}).get('response_id')
+            wall, mono = _native_preparation_clock_v1()
+            record = {'schema': _NATIVE_PREPARATION_SCHEMA_V1, 'phase': 'REGISTERED',
+                'reservation_id': self.reservation_id, 'selection': dict(self.selected),
+                'consumer_sha256': hashlib.sha256(_verify_claim_load_identity_v1()).hexdigest(),
+                'producer_process': self.producer, 'host_process': self.host,
+                'cancellation': self.cancellation.descriptor,
+                'created_wall_ms': wall, 'created_monotonic_ns': mono,
+                'deadline_wall_ms': wall + _NATIVE_PREPARATION_WAIT_MS,
+                'deadline_monotonic_ns': mono + _NATIVE_PREPARATION_WAIT_MS * 1000000,
+                'prior_grant_oid': previous[refs['grant']], 'previous_response_id': response}
+            _native_preparation_validate_v1(self.context, record, self.selected)
+            if len(canonical(record)) > 16384:
+                raise RotationError('native preparation registration exceeds its bound')
+            self.registration = record  # Sticky before any potentially issued write.
+            oid = write_blob(self.context, canonical(record))
+            self.registration_oid = oid
+            updates = {refs['source']: (oid, old)}  # No canonical archive/epoch before input.
+            update_refs(self.context, updates, {refs['grant']: previous[refs['grant']],
+                self.context['controller_ref']: self.context['controller_oid']})
+        return {'status': 'INERT_REGISTERED_NO_INPUT_OR_CURRENTNESS', 'reservation_id': self.reservation_id}
+
+    def wait_request(self):
+        with self._lock:
+            return self._wait_request()
+
+    def _wait_request(self):
+        if self.registration is None or self.request is not None or self.accepted_at is not None:
+            raise RotationError('native preparation request is absent or already consumed')
+        try:
+            while True:
+                self._check()
+                _native_preparation_validate_v1(self.context, self.registration, self.selected)
+                refs = native_input_revision_refs_v1(self.context)
+                heads = _native_preparation_heads_v1(self.context, refs.values())
+                if heads[refs['source']] != self.registration_oid:
+                    break
+                if heads[refs['grant']] != self.registration['prior_grant_oid']:
+                    raise RotationError('native preparation prior grant changed before request')
+                time.sleep(.01)
+            request = _native_preparation_read_v1(self.context, heads[refs['source']])
+            _native_preparation_validate_v1(self.context, request, self.selected, requested=True)
+            if (request['registration_oid'] != self.registration_oid
+                    or {key: request[key] for key in _NATIVE_PREPARATION_KEYS_V1} != dict(self.registration, phase='REQUESTED')
+                    or heads[refs['grant']] != self.registration['prior_grant_oid']):
+                raise RotationError('native preparation request or prior grant was substituted')
+            self.request, self.request_oid = request, heads[refs['source']]
+            self.accepted_at = _native_preparation_clock_v1()
+            return {'status': 'INERT_REQUEST_OBSERVED_NO_INPUT_OR_CURRENTNESS',
+                    'action': 'AWAIT_INDEPENDENT_FRESH_EVENT_NEVER_START_MODEL_OR_API_TURN',
+                    'subject': dict(request['subject']), 'source_bytes': request['source_bytes'],
+                    'source_tokens': request['source_tokens'], 'executor': dict(request['executor'])}
+        except BaseException:
+            self.cancel_now()
+            raise
+
+    def source_parts(self, native_state, grant):
+        with self._lock:
+            try:
+                return self._source_parts(native_state, grant)
+            except BaseException:
+                self.cancel_now()
+                raise
+
+    def _source_parts(self, native_state, grant):
+        self._check()
+        if self.request is None or self.accepted_at is None or self._bound:
+            raise RotationError('native preparation has no unused actual request')
+        _native_preparation_process_v1(self.request['executor'])
+        self._bound = True  # A refused observation cannot retry this rendezvous.
+        binding, exact, window = native_state._binding, native_state._snapshot, native_state._reported_window
+        wall, mono = self.accepted_at
+        if (binding['subject'] != self.request['subject']
+                or (binding['source_bytes'], binding['source_tokens']) != (self.request['source_bytes'], self.request['source_tokens'])
+                or exact is None or window is None
+                or exact['received_at_unix_ms'] <= wall or native_state._received_monotonic_ns <= mono
+                or window['received_at_unix_ms'] <= wall or window['received_monotonic_ns'] <= mono
+                or exact['response_id'] == self.registration['previous_response_id']
+                or type(grant.get('not_before_unix_ms')) is not int
+                or type(grant.get('expires_at_unix_ms')) is not int
+                or not wall <= grant['not_before_unix_ms'] < grant['expires_at_unix_ms'] <= grant['not_before_unix_ms'] + 30000):
+            self.cancel_now()
+            raise RotationError('native preparation requires a new raw/window and fresh unchanged grant after request')
+        return self.reservation_id, self.cancellation
+
+    def bind_source(self, snapshot):
+        self._check()
+        if not self._bound or self.request is None or self.accepted_at is None or self._bound_source is not None:
+            raise RotationError('native preparation source is not bound')
+        metadata = {key: self.request[key] for key in
+                    ('registration_oid', 'executor', 'consumer_sha256', 'prepared_wall_ms', 'prepared_monotonic_ns')}
+        metadata.update(request_oid=self.request_oid, observation_after_wall_ms=self.accepted_at[0],
+                        observation_after_monotonic_ns=self.accepted_at[1],
+                        previous_response_id=self.registration['previous_response_id'])
+        value = dict(snapshot, schema='implementaudit.native-rotation-source.v4', preparation=metadata)
+        self._bound_source = canonical(value)
+        return value
+
+    def check_publish(self, heads):
+        self._check()
+        _native_preparation_process_v1(self.request['executor'])
+        refs = native_input_revision_refs_v1(self.context)
+        if (heads != {refs['source']: self.request_oid, refs['grant']: self.registration['prior_grant_oid']}
+                or _native_preparation_read_v1(self.context, self.request_oid) != self.request):
+            raise RotationError('native preparation request changed before READY')
+
+    def cancel_now(self):
+        if self.cancellation.handle is not None:
+            self.cancellation.signal()
+
+    def close(self):
+        global _NATIVE_PREPARATION_PRODUCER_V1
+        if self._closed:
+            return
+        try:
+            self.cancel_now()
+            _native_preparation_cancel_record_v1(self.context, {self.registration_oid, self.request_oid})
+        finally:
+            self._closed = True
+            self.cancellation.close()
+            with _NATIVE_PREPARATION_SLOT_V1:
+                if _NATIVE_PREPARATION_PRODUCER_V1 is self:
+                    _NATIVE_PREPARATION_PRODUCER_V1 = None
+
+
+def native_preparation_for_owned_stdio_v1(runtime, producer, context, source_path):
+    """Thin selected-source entry; schedules no native/model/API operation."""
+    selected = _native_selection_v1(context)
+    expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+    if (Path(source_path).absolute() != expected or type(runtime) is not tuple or len(runtime) != 5
+            or _NATIVE_PRIVATE_PROFILE_V1 is None
+            or json.loads(_NATIVE_PRIVATE_PROFILE_V1[2][1].read()) != runtime[0]):
+        raise RotationError('preparation requires the actual selected live source owner')
+    provider = runtime[0]
+    dependencies = provider.get('producer_dependencies', {})
+    pins = {'runner': provider.get('capture_producer_pin'),
+        **{key: dependencies.get(name) for key, name in
+           (('loop', 'owned_stdio_loop.py'), ('claim', 'claim-run-rotation.py'),
+            ('helper', 'bounded_source_owner.py'), ('source_owner', 'compaction-source-owner-codex-app.py'))}}
+    # The selected executing owner and the unselected producer copy are distinct
+    # existing roles. Bind both to their held provider pins, never a caller path.
+    if (any(type(pin) is not dict for pin in pins.values()) or producer.pins != pins
+            or type(producer.claim) is not types.ModuleType
+            or producer.claim.__dict__ is not globals()
+            or producer.loop._live_producer is not producer
+            or producer.producer_identity != native_process_identity_v1(os.getpid())
+            or pins['source_owner']['sha256'] != _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256
+            or hashlib.sha256(_NATIVE_PRIVATE_PROFILE_V1[2][0].read()).hexdigest() != selected['producer_sha256']):
+        raise RotationError('native preparation producer differs from its selected dependency closure')
+    producer.check()  # Existing loaded-code/process/source custody; no send.
+    result = NativeInputPreparationV1(context, producer.process)
+    result._producer = producer
+    return result
+
+
+def _native_preparation_producer_v1(context):
+    current = _NATIVE_PREPARATION_PRODUCER_V1
+    if current is not None and (type(current) is not NativeInputPreparationV1 or current.context != context or current._closed):
+        raise RotationError('native preparation belongs to another owner/context')
+    return current
+
+
+def native_rotation_parts_v1(context, state, grant):
+    current = _native_preparation_producer_v1(context)
+    if current is not None:
+        return current.source_parts(state, grant)
+    import secrets
+    identity = secrets.token_hex(16)
+    return identity, NativeCancellationSignalV1(identity)
+
+
+def bind_native_preparation_v1(context, snapshot):
+    current = _native_preparation_producer_v1(context)
+    return current.bind_source(snapshot) if current is not None else snapshot
+
+
+def native_preparation_prior_v1(context, heads):
+    current = _native_preparation_producer_v1(context)
+    if current is None:
+        return False
+    current.check_publish(heads)
+    return True
+
+
+def _native_preparation_source_v1(context, source, grant):
+    value = source['preparation']
+    if (type(value) is not dict or set(value) != _NATIVE_PREPARATION_SOURCE_KEYS_V1
+            or any(type(value[key]) is not str or not OID.fullmatch(value[key]) for key in ('registration_oid', 'request_oid'))
+            or value['consumer_sha256'] != grant['consumer_sha256']
+            or any(type(value[key]) is not int or value[key] < 0 for key in
+                ('prepared_wall_ms', 'prepared_monotonic_ns', 'observation_after_wall_ms', 'observation_after_monotonic_ns'))
+            or value['observation_after_wall_ms'] < value['prepared_wall_ms']
+            or value['observation_after_monotonic_ns'] < value['prepared_monotonic_ns']
+            or value['previous_response_id'] is not None and (type(value['previous_response_id']) is not str
+                or re.fullmatch('resp_[A-Za-z0-9_-]+', value['previous_response_id']) is None)
+            or source['exact_usage']['received_at_unix_ms'] <= value['observation_after_wall_ms']
+            or source['observed_monotonic_ns'] <= value['observation_after_monotonic_ns']
+            or source['reported_window']['received_at_unix_ms'] <= value['observation_after_wall_ms']
+            or source['reported_window']['received_monotonic_ns'] <= value['observation_after_monotonic_ns']
+            or source['exact_usage']['response_id'] == value['previous_response_id']
+            or type(grant['not_before_unix_ms']) is not int or type(grant['expires_at_unix_ms']) is not int
+            or not value['observation_after_wall_ms'] <= grant['not_before_unix_ms']
+                < grant['expires_at_unix_ms'] <= grant['not_before_unix_ms'] + 30000):
+        raise RotationError('prepared native source is not strictly newer than its actual request')
+    _native_preparation_process_v1(value['executor'])
+
+
+class _NativePreparationConsumerV1:
+    def __init__(self, context, read, retained, subject, source_bytes, source_tokens):
+        if (type(read) is not _NativePredecessorReadV1 or _NATIVE_PREDECESSOR_BINDING_V1 is not read
+                or read._retained is not retained or type(retained) is not RetainedInputs
+                or read._context != context):
+            raise RotationError('native preparation requires the actual local retained predecessor')
+        self.context, self.read, self.retained = context, read, retained
+        self.subject, self.counts = dict(subject), (source_bytes, source_tokens)
+        self.selected = dict(_native_selection_v1(context))
+        self.request_oid = None
+        self.registration_oid = None
+        self.ready_heads = None
+        self.cancel = None
+        self.closed = False
+
+    def verify(self):
+        if self.closed or _native_selection_v1(self.context) != self.selected:
+            raise RotationError('native preparation consumer closed or source/profile changed')
+        self.retained.verify()
+        self.read.verify()
+        if projection_helper()._native_subject(self.read.predecessor()) != self.subject:
+            raise RotationError('native preparation canonical subject changed')
+
+    def request_and_wait(self, record, heads):
+        self.verify()
+        refs = native_input_revision_refs_v1(self.context)
+        _native_preparation_validate_v1(self.context, record, self.selected)
+        if heads[refs['grant']] != record['prior_grant_oid']:
+            raise RotationError('native preparation prior grant changed')
+        self.registration, self.registration_oid = record, heads[refs['source']]
+        self.cancel = NativeCancellationWaitV1(record['cancellation'], record['producer_process'], record['reservation_id'])
+        # Existing retained-image pinning is source-independent for this exact
+        # already-live host. Later process/path/custody checks remain unchanged.
+        native = projection_helper().native_inputs_module_v1()
+        _hold_native_input_image_v1(Path(record['host_process']['image']), native.NATIVE_BINARY_SHA256)
+        self.verify()
+        wall, mono = _native_preparation_clock_v1()
+        request = dict(record, phase='REQUESTED', registration_oid=self.registration_oid,
+            executor=native_process_identity_v1(os.getpid()), subject=self.subject,
+            source_bytes=self.counts[0], source_tokens=self.counts[1],
+            prepared_wall_ms=wall, prepared_monotonic_ns=mono)
+        _native_preparation_validate_v1(self.context, request, self.selected, requested=True)
+        self.request = request
+        self.request_oid = write_blob(self.context, canonical(request))
+        updates = {refs['source']: (self.request_oid, self.registration_oid)}
+        guards = predecessor_guards(self.context, self.read.predecessor())
+        guards[refs['grant']] = record['prior_grant_oid']
+        self.cancel.check()
+        update_refs(self.context, updates, guards)
+        # The durable inert CAS is the notification; no foreign Event is writable.
+        while True:
+            self.cancel.check()
+            _native_preparation_validate_v1(self.context, record, self.selected)
+            current = _native_preparation_heads_v1(self.context, refs.values())
+            # A gate/OS call may return after the scheduling deadline. Its wait
+            # never renews eligibility or any later source/grant freshness clock.
+            _native_preparation_validate_v1(self.context, record, self.selected)
+            if current[refs['source']] == self.request_oid:
+                if current[refs['grant']] != record['prior_grant_oid']:
+                    raise RotationError('native preparation grant changed before READY')
+                time.sleep(.01)
+                continue
+            source = decode_json(read_blob(self.context['repo'], current[refs['source']]))
+            if (type(source) is not dict or source.get('schema') != 'implementaudit.native-rotation-source.v4'
+                    or source.get('phase') != 'READY' or current[refs['grant']] is None):
+                raise RotationError('native preparation request was replaced without prepared READY')
+            grant = decode_json(read_blob(self.context['repo'], current[refs['grant']]))
+            self.ready_heads = current
+            self.verify_ready(source, grant, current)
+            self.verify()  # Local canonical recheck; JSON supplied no read authority.
+            _native_preparation_validate_v1(self.context, record, self.selected)
+            return
+
+    def verify_ready(self, source, grant, heads):
+        self.cancel.check()
+        value = source.get('preparation')
+        if (source.get('schema') != 'implementaudit.native-rotation-source.v4' or source.get('phase') != 'READY'
+                or source.get('reservation_id') != self.registration['reservation_id']
+                or source.get('producer_process') != self.registration['producer_process']
+                or source.get('host_process') != self.registration['host_process']
+                or source.get('cancellation') != self.registration['cancellation']
+                or type(value) is not dict or value.get('request_oid') != self.request_oid
+                or value.get('registration_oid') != self.registration_oid
+                or value.get('executor') != self.request['executor']
+                or value.get('previous_response_id') != self.registration['previous_response_id']
+                or any(value.get(key) != self.request[key] for key in ('consumer_sha256','prepared_wall_ms','prepared_monotonic_ns'))
+                or source.get('binding', {}).get('subject') != self.subject
+                or (source['binding'].get('source_bytes'), source['binding'].get('source_tokens')) != self.counts
+                or self.ready_heads != heads):
+            raise RotationError('native preparation READY is foreign, replaced or replayed')
+        _native_preparation_source_v1(self.context, source, grant)
+
+    def close(self, failed):
+        if self.closed:
+            return
+        self.closed = True
+        try:
+            if failed and self.request_oid is not None:
+                _native_preparation_cancel_record_v1(self.context, {self.request_oid})
+        finally:
+            if self.cancel is not None:
+                self.cancel.close()
+
+
+@contextlib.contextmanager
+def _native_preparation_scope_v1(context, read, retained, subject, source_bytes, source_tokens):
+    global _NATIVE_PREPARATION_CONSUMER_V1
+    if _NATIVE_PREPARATION_CONSUMER_V1 is not None:
+        raise RotationError('native preparation consumer cannot be nested or replayed')
+    selected = _native_selection_v1(context)
+    refs = native_input_revision_refs_v1(context)
+    heads = _native_preparation_heads_v1(context, refs.values())
+    if heads[refs['source']] is None:
+        raise RotationError('native input source or inert preparation is absent')
+    record = decode_json(read_blob(context['repo'], heads[refs['source']]))
+    if record.get('schema') == 'implementaudit.native-rotation-source.v3' and record.get('phase') == 'READY':
+        yield None  # Legacy immediate READY retains ALL existing freshness gates.
+        return
+    _native_preparation_validate_v1(context, record, selected)
+    consumer = _NativePreparationConsumerV1(context, read, retained, subject, source_bytes, source_tokens)
+    failed = True
+    try:
+        consumer.request_and_wait(record, heads)
+        _NATIVE_PREPARATION_CONSUMER_V1 = consumer
+        yield consumer
+        failed = False
+    finally:
+        _NATIVE_PREPARATION_CONSUMER_V1 = None
+        consumer.close(failed)
+
+
+def _native_preparation_require_consumer_v1(context, source, grant, heads, *, claimed=False):
+    if source.get('schema') != 'implementaudit.native-rotation-source.v4':
+        return
+    current = _NATIVE_PREPARATION_CONSUMER_V1
+    if (type(current) is not _NativePreparationConsumerV1 or current.closed or current.context != context
+            or source['reservation_id'] != current.registration['reservation_id']
+            or source['preparation']['request_oid'] != current.request_oid
+            or source['preparation']['executor'] != native_process_identity_v1(os.getpid())):
+        raise RotationError('prepared native input requires its actual one-shot local consumer')
+    current.cancel.check()
+    if claimed:
+        refs = native_input_revision_refs_v1(context)
+        if (source.get('ready_oid') != current.ready_heads[refs['source']]
+                or heads[refs['grant']] != current.ready_heads[refs['grant']]
+                or source.get('executor') != current.request['executor']):
+            raise RotationError('prepared native input claim changed its original consumer or READY')
+    else:
+        current.verify_ready(source, grant, heads)
+        current.verify()
+
+
+
 def _validate_native_revision_v1(context, source, grant, native, *, claimed=False):
     """Consume an already-admitted owner's revision; hashes do not mint authority."""
     selected = _native_selection_v1(context)
+    prepared_source = type(source) is dict and source.get('schema') == 'implementaudit.native-rotation-source.v4'
     base = {'schema', 'phase', 'binding', 'exact_usage', 'reported_window', 'cutoff_revision',
             'observed_monotonic_ns', 'reservation_id', 'producer_process', 'host_process',
             'source_owner', 'source_contract_sha256', 'provider_selection_sha256', 'episode_binding_sha256',
             'cancellation'}
-    if (type(source) is not dict or set(source) != base | ({'executor', 'transaction_id', 'ready_oid'} if claimed else set())
-            or source['schema'] != 'implementaudit.native-rotation-source.v3'
+    if (type(source) is not dict or set(source) != base | ({'preparation'} if prepared_source else set()) | ({'executor', 'transaction_id', 'ready_oid'} if claimed else set())
+            or source['schema'] != ('implementaudit.native-rotation-source.v4' if prepared_source else 'implementaudit.native-rotation-source.v3')
             or source['phase'] != ('CLAIMED' if claimed else 'READY')
             or type(source['reservation_id']) is not str or not re.fullmatch('[0-9a-f]{32}', source['reservation_id'])
             or any(source[key] != selected[key] for key in
@@ -1733,6 +2280,8 @@ def _validate_native_revision_v1(context, source, grant, native, *, claimed=Fals
             or binding['semantic_contract_sha256'] != selected['source_contract_sha256']
             or binding['grant_sha256'] != hashlib.sha256(canonical(grant)).hexdigest()):
         raise RotationError('actual native source, issuer grant, semantics, or consumer code differ')
+    if prepared_source:
+        _native_preparation_source_v1(context, source, grant)
     now_wall, now_mono = time.time_ns() // 1000000, time.monotonic_ns()
     if (type(grant['not_before_unix_ms']) is not int or type(grant['expires_at_unix_ms']) is not int
             or not grant['not_before_unix_ms'] <= now_wall <= grant['expires_at_unix_ms']
@@ -1753,20 +2302,7 @@ def _validate_native_revision_v1(context, source, grant, native, *, claimed=Fals
         record = source[key]
         if type(record) is not dict or set(record) != {'pid', 'creation_filetime', 'image'} or native_process_identity_v1(record['pid']) != record:
             raise RotationError('native source process died, changed or was reused')
-    global _NATIVE_INPUT_BINARY_PIN_V1
-    image_path = Path(source['host_process']['image'])
-    if _NATIVE_INPUT_BINARY_PIN_V1 is None:
-        held = PinnedFile(image_path, max_bytes=512 * 1024 * 1024)
-        try:
-            if native_held_image_sha256_v1(held) != binding['host']['binary_sha256']:
-                raise RotationError('actual native process image differs from the admitted binary')
-        except BaseException:
-            held.close()
-            raise
-        _NATIVE_INPUT_BINARY_PIN_V1 = held
-    if _NATIVE_INPUT_BINARY_PIN_V1.path != image_path:
-        raise RotationError('selected native process image path changed')
-    _NATIVE_INPUT_BINARY_PIN_V1.verify()
+    _hold_native_input_image_v1(Path(source['host_process']['image']), binding['host']['binary_sha256'])
     if claimed and (source['executor'] != native_process_identity_v1(os.getpid())
                     or not re.fullmatch('[0-9a-f]{32}', source['transaction_id']) or not OID.fullmatch(source['ready_oid'])):
         raise RotationError('native input consumption belongs to a different or interrupted executor')
@@ -1781,7 +2317,7 @@ def prepare_native_source_update_v1(context, snapshot, grant, *, expected_source
     under the existing retained-object anchors. No new storage service is added.
     """
     refs = native_input_revision_refs_v1(context)
-    if (type(snapshot) is not dict or snapshot.get('schema') != 'implementaudit.native-rotation-source.v3'
+    if (type(snapshot) is not dict or snapshot.get('schema') not in {'implementaudit.native-rotation-source.v3', 'implementaudit.native-rotation-source.v4'}
             or snapshot.get('phase') not in {'READY', 'REVOKED', 'CLOSED'}
             or type(grant) is not dict or grant.get('schema') != 'implementaudit.native-rotation-owner-grant.v1'
             or any(value is not None and not OID.fullmatch(value) for value in (expected_source_oid, expected_grant_oid))):
@@ -1856,6 +2392,7 @@ def _resolve_native_input_state_v1(native, controller):
             if read_refs(context['repo'], expected) != expected:
                 raise RotationError('native source or grant head changed')
             _validate_native_revision_v1(context, source, grant, native, claimed=True)
+            _native_preparation_require_consumer_v1(context, source, grant, expected, claimed=True)
             waiter.check()
             return state
         borrowed = _NATIVE_PREDECESSOR_BINDING_V1
@@ -1873,6 +2410,7 @@ def _resolve_native_input_state_v1(native, controller):
         source = decode_json(read_blob(context['repo'], heads[refs['source']]))
         grant = decode_json(read_blob(context['repo'], heads[refs['grant']]))
         _validate_native_revision_v1(context, source, grant, native)
+        _native_preparation_require_consumer_v1(context, source, grant, heads)
         waiter = NativeCancellationWaitV1(source['cancellation'], source['producer_process'], source['reservation_id'])
         if predecessor is None:
             predecessor = resolve_predecessor(context)
@@ -3242,6 +3780,8 @@ def run_canonical_rotation_v1(context, owner_map_path, calibration, *, tokenizer
                 source_tokens = sum(helper.count_rotation_tokens_v1(token_input['tokenizer_bytes'], source))
                 native_subject = helper._native_subject(predecessor)
                 native_scope.enter_context(_native_predecessor_scope_v1(predecessor_read, observation))
+                native_scope.enter_context(_native_preparation_scope_v1(
+                    context, predecessor_read, observation, native_subject, source_bytes, source_tokens))
                 native_lease = native_scope.enter_context(helper.native_inputs_module_v1().rotation_input_lease_v1(
                     native_subject, source_bytes, source_tokens))
                 token_input['native_observation'] = native_lease

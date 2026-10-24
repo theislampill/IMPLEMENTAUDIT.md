@@ -1142,3 +1142,116 @@ def initial_transfer_and_open_v1(runtime, producer, owner, opening, *, execute=F
         # replayed; ROOT must reconcile the existing owner before any successor.
         loop._record_failure(exc)
         raise
+
+
+def owned_stdio_public_turn_v2(obs, context, role, pin):
+    """Read the complete finite 0.153.4 public interval, segmented by real turns.
+
+    The C5 protocol has seven parent turns through its final release. Each turn
+    retains the original 64-frame limit; the fresh child still has exactly one
+    turn. The original two-MiB whole interval and per-frame byte bounds remain.
+    Every byte/frame from the bound original anchor to selected response is read.
+    No profile, turn ID, source locator or native-public confirmation is minted.
+    """
+    require(context.get('profile_id') == 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
+            and role in ('parent', 'child') and obs.MAX_RECORDS == 64, 'OWNED_STDIO_PUBLIC_PROFILE_SCOPE')
+    anchor = context['parent_turn_start'] if role == 'parent' else context['child_activation']
+    first_locator, last_locator = anchor['locator'], pin['locator']
+    start, end = first_locator['offset'], last_locator['offset'] + last_locator['bytes']
+    require(type(start) is int and type(end) is int and 0 <= start < end and end-start <= obs.MAX_TOTAL,
+            'OWNED_STDIO_PUBLIC_TURN_BOUND')
+    path, before = obs.physical(context[role]['path'])
+    require(obs.identity(before) == context[role]['physical'] and end <= before.st_size,
+            'OWNED_STDIO_PUBLIC_PHYSICAL_CHANGED')
+    maximum_turns = 7 if role == 'parent' else 1
+    active, seen, frames, context_seen, previous_ordinal = None, set(), 0, False, None
+    uuid = r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}'
+    selected_seen = False
+    position = start
+    prefix_hash = hashlib.sha256()
+    with path.open('rb') as stream:
+        require(obs.identity(os.fstat(stream.fileno())) == context[role]['physical'],
+                'OWNED_STDIO_PUBLIC_PHYSICAL_CHANGED')
+        stream.seek(start)
+        while position < end:
+            raw = stream.readline(min(obs.MAX_RECORD+1, end-position))
+            require(raw and raw.endswith(b'\n') and raw.count(b'\n') == 1
+                    and b'\r' not in raw and b'\0' not in raw and len(raw) <= obs.MAX_RECORD,
+                    'OWNED_STDIO_PUBLIC_TURN_FRAME')
+            row = obs.json.loads(raw, object_pairs_hook=obs.unique)
+            require(type(row) is dict and set(row) == {'timestamp', 'ordinal', 'type', 'payload'}
+                    and type(row['payload']) is dict and type(row['type']) is str
+                    and type(row['timestamp']) is str and type(row['ordinal']) is int and row['ordinal'] >= 0,
+                    'OWNED_STDIO_PUBLIC_FRAME_SHAPE')
+            require(previous_ordinal is None or row['ordinal'] == previous_ordinal+1,
+                    'OWNED_STDIO_PUBLIC_ORDINAL_GAP_OR_REPLAY')
+            previous_ordinal = row['ordinal']
+            p, kind = row['payload'], row['type']
+            event = p.get('type') if kind == 'event_msg' else None
+            if position == start:
+                require(len(raw) == first_locator['bytes'] and digest(raw) == first_locator['sha256']
+                        and row['ordinal'] == first_locator['embedded_ordinal'] and event == 'task_started',
+                        'OWNED_STDIO_ORIGINAL_TURN_ANCHOR_CHANGED')
+            if event == 'task_started':
+                identity = p.get('turn_id')
+                require(active is None, 'OWNED_STDIO_PUBLIC_OVERLAPPING_TURNS')
+                require(type(identity) is str and re.fullmatch(uuid, identity) and identity not in seen,
+                        'OWNED_STDIO_PUBLIC_DUPLICATE_OR_UNKNOWN_TURN')
+                seen.add(identity)
+                require(len(seen) <= maximum_turns, 'OWNED_STDIO_PUBLIC_TURN_POPULATION_BOUND')
+                active, frames, context_seen = identity, 0, False
+            else:
+                require(active is not None, 'OWNED_STDIO_PUBLIC_FRAME_OUTSIDE_ACTUAL_TURN')
+            frames += 1
+            require(frames <= obs.MAX_RECORDS, 'OWNED_STDIO_PUBLIC_TURN_FRAME')
+            if 'turn_id' in p:
+                require(p['turn_id'] == active, 'OWNED_STDIO_PUBLIC_FOREIGN_TURN_FRAME')
+            if kind == 'turn_context':
+                require(not context_seen and p.get('turn_id') == active,
+                        'OWNED_STDIO_PUBLIC_CONTEXT_ABSENT_DUPLICATE_OR_FOREIGN')
+                require(type(p.get('root_turn_id')) is str and re.fullmatch(uuid, p['root_turn_id'])
+                        and (role != 'parent' or p['root_turn_id'] == active),
+                        'OWNED_STDIO_PUBLIC_ROOT_TURN_CHANGED')
+                context_seen = True
+            elif event == 'task_complete':
+                require(context_seen and p.get('turn_id') == active, 'OWNED_STDIO_PUBLIC_TERMINAL_WITHOUT_CONTEXT')
+                active = None
+            elif kind == 'event_msg':
+                require(event in ('task_started', 'item_completed', 'token_count'),
+                        'OWNED_STDIO_PUBLIC_UNKNOWN_OR_INVALIDATING_EVENT')
+                require(event != 'item_completed' or p.get('turn_id') == active,
+                        'OWNED_STDIO_PUBLIC_FOREIGN_TURN_FRAME')
+            elif kind == 'token_usage_record':
+                require(p.get('turn_id') == active, 'OWNED_STDIO_PUBLIC_FOREIGN_TURN_FRAME')
+            elif kind == 'response_item':
+                require(p.get('type') in ('message', 'reasoning', 'function_call', 'function_call_output',
+                        'custom_tool_call', 'custom_tool_call_output', 'agent_message'),
+                        'OWNED_STDIO_PUBLIC_UNKNOWN_RESPONSE_FRAME')
+            else:
+                require(kind in ('world_state', 'inter_agent_communication_metadata'),
+                        'OWNED_STDIO_PUBLIC_UNKNOWN_FRAME')
+            if position == last_locator['offset']:
+                require(len(raw) == last_locator['bytes'] and digest(raw) == last_locator['sha256']
+                        and row['ordinal'] == last_locator['embedded_ordinal'] and position+len(raw) == end
+                        and active is not None and context_seen and kind == 'response_item'
+                        and p.get('type') == 'message' and p.get('role') == 'assistant',
+                        'OWNED_STDIO_SELECTED_PUBLIC_RESPONSE_CHANGED')
+                selected_seen = True
+            prefix_hash.update(raw)
+            position += len(raw)
+        after = os.fstat(stream.fileno())
+        # Recheck the entire traversed original prefix, not just the chosen row.
+        stream.seek(start)
+        checked = hashlib.sha256()
+        remaining = end-start
+        while remaining:
+            raw = stream.read(min(65536, remaining))
+            require(raw, 'OWNED_STDIO_PUBLIC_PREFIX_TRUNCATED')
+            checked.update(raw)
+            remaining -= len(raw)
+    _, current = obs.physical(path)
+    require(selected_seen and position == end and checked.digest() == prefix_hash.digest()
+            and obs.identity(before) == obs.identity(after) == obs.identity(current)
+            and (before.st_size, before.st_mtime_ns) == (after.st_size, after.st_mtime_ns)
+                == (current.st_size, current.st_mtime_ns), 'OWNED_STDIO_PUBLIC_PREFIX_CHANGED')
+    return active

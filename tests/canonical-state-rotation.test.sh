@@ -19,6 +19,10 @@ bash scripts/check-canonical-state-rotation.sh
 "${py[@]}" fixtures/canonical-state-rotation/occurrence_preservation_test.py
 "${py[@]}" fixtures/canonical-state-rotation/native_input_adapter_test.py
 "${py[@]}" fixtures/canonical-state-rotation/native_preflight_test.py
+"${py[@]}" fixtures/canonical-state-rotation/c02_native_source_test.py
+"${py[@]}" fixtures/canonical-state-rotation/native_episode_projection_test.py
+"${py[@]}" fixtures/canonical-state-rotation/native_preparation_test.py
+"${py[@]}" fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py
 "${py[@]}" fixtures/canonical-state-rotation/native_or_rotation_test.py
 "${py[@]}" fixtures/canonical-state-rotation/native_claim_test.py
 "${py[@]}" fixtures/canonical-state-rotation/c02_projection_test.py

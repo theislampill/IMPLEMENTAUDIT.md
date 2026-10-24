@@ -457,6 +457,18 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
     calls = {}
     completed = set()
     previous = None
+    previous_record = None
+    # This exact fresh owned-stdio writer records distinct physical events in
+    # the same clock tick. The whole prefix has already been read and checked
+    # by hold_records; equal ticks add no authority or cross-source ordering.
+    owned_physical_order = (
+        context['profile_id'] == OWNED_STDIO_PROFILE and
+        context.get('source_association') == 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED' and
+        context['child']['history_start_ordinal'] == 1 and
+        'historical_prefix' not in context['child'] and
+        records[0]['row']['payload'].get('cli_version') == '0.153.4' and
+        records[0]['row']['payload'].get('id') == context['actual_child_identity']['thread_id'] and
+        records[0]['row']['payload'].get('session_id') == context['parent_identity']['thread_id'])
     active_turn = None
     for record in records[1:]:
         row = record['row']
@@ -467,11 +479,16 @@ def history_with_priors(context, prepared, exchange, bind_request, store, sessio
         except ValueError:
             raise HoldObservationRefusal('HOLD_EVENT_TIMESTAMP', prefix, record) from None
         try:
-            ordered = previous is None or previous < stamp
+            ordered = previous is None or previous < stamp or (
+                owned_physical_order and previous == stamp and
+                previous_record['row']['ordinal'] + 1 == row['ordinal'] and
+                previous_record['locator']['physical_line'] + 1 == record['locator']['physical_line'] and
+                previous_record['locator']['offset'] + previous_record['locator']['bytes'] == record['locator']['offset'])
         except TypeError:
             ordered = False
         witnessed(ordered, 'HOLD_EVENT_ORDER', record)
         previous = stamp
+        previous_record = record
         if context.get('source_association') in ('PUBLIC_OPEN_SPAWN_ACTIVATION_STRUCTURAL_UNQUALIFIED', 'PUBLIC_BOUNDARY_CHILD_STRUCTURAL_UNQUALIFIED'):
             if row['type'] == 'event_msg':
                 if row['payload'].get('type') == 'task_started':

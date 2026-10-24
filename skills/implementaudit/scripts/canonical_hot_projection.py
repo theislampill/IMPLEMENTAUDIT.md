@@ -366,7 +366,9 @@ def _v2_payload_schema(payload: object) -> None:
     native = [isinstance(payload[role], Mapping) and "native_guards" in payload[role] for role in ("STATE", "ROADMAP")]
     _v2_require(native[0] == native[1], "native guard profiles must bind the complete pair")
     for role, groups in _V2_GROUP_OWNERS.items():
-        owners = dict(groups, native_guards=role + ".md") if native[0] else groups
+        owners = dict(groups, native_guards=role + ".md") if native[0] else dict(groups)
+        if role == "STATE" and "native_episode" in payload[role]:
+            owners["native_episode"] = "R0033/continuity"
         _v2_object(payload[role], set(owners), role + " payload")
         for name, owner in owners.items():
             group = _v2_object(payload[role][name], {"owner", "value"}, name)
@@ -380,6 +382,8 @@ def _v2_payload_schema(payload: object) -> None:
                         "native guards require exact nonempty line population")
             _v2_require(not any(_v2_re.search(r"current\s+epoch\s*:", line, _v2_re.I) for line in lines),
                         "live native epoch is derived only from effective continuity")
+    if "native_episode" in payload["STATE"]:
+        _v2_native_reference(payload["STATE"]["native_episode"]["value"])
     state = {key: group["value"] for key, group in payload["STATE"].items()}
     roadmap = {key: group["value"] for key, group in payload["ROADMAP"].items()}
     identity = _v2_object(state["identity"], {"controller_id", "claim_id", "run_root_identity", "audit_object", "candidate", "tree", "package", "pull_request", "release"}, "identity")
@@ -735,13 +739,379 @@ def _v2_population(bodies: Mapping[str, object], raw: Mapping[str, bytes]) -> li
     return whole + history
 
 
-def _v2_manifest(payload, rows, source_hashes, current, receipt_oid, transition, refs, output_hashes, archives):
-    return {"PRESERVED_PAYLOAD": {"payload": _v2_clone(payload), "owner_map": _v2_clone(rows), "source_hashes": _v2_clone(source_hashes)},
+
+# Generated unchanged from the existing R0033 frozen export contract.
+NATIVE_EPISODE_CONTRACT_SHA256 = 'a5ada93e0093d5cb5780d7fcfbe3b372e7defa0f4affedea3cebd3f3582104d2'
+def _v2_validate_native_export(value):
+    import hashlib, json, re
+    from datetime import datetime
+    _v2_require(type(value) is dict and value.get("schema") ==
+                "implementaudit.native-episode-export.v1", "native export profile required")
+    MAX_TOTAL = 2 * 1024 * 1024
+
+    def require(condition, reason):
+        if not condition:
+            raise ValueError(reason)
+
+    def canonical(value):
+        return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
+
+    def digest(raw):
+        return hashlib.sha256(raw).hexdigest()
+
+    def closed(value, keys, reason):
+        require(isinstance(value, dict) and set(value) == set(keys), reason)
+        return value
+
+    def before(first, second):
+        require(datetime.fromisoformat(first['timestamp'].replace('Z', '+00:00')) < datetime.fromisoformat(second['timestamp'].replace('Z', '+00:00')), 'OBSERVATION_ORDER')
+        if first['path'] == second['path']:
+            require(first['locator']['offset'] + first['locator']['bytes'] <= second['locator']['offset'], 'SOURCE_RECORD_ORDER')
+
+    NONPROTECTED_PROFILE = 'codex-app-bounded-public-nonprotected-v1'
+
+    OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
+
+    def _episode_export_pin(value):
+        closed(value, ('path', 'bytes', 'sha256'), 'EPISODE_EXPORT_PIN_SHAPE')
+        require(isinstance(value['path'], str) and 0 < len(value['path']) <= 4096 and (type(value['bytes']) is int) and (0 < value['bytes'] <= MAX_TOTAL) and isinstance(value['sha256'], str) and re.fullmatch('[0-9a-f]{64}', value['sha256']), 'EPISODE_EXPORT_PIN_BINDING')
+
+    def _episode_export_scope(value):
+        require(isinstance(value, list) and len(value) <= 4096, 'EPISODE_EXPORT_SCOPE_BOUND')
+        seen = set()
+        for row in value:
+            closed(row, ('id', 'version', 'kind'), 'EPISODE_EXPORT_SCOPE_SHAPE')
+            require(isinstance(row['id'], str) and 0 < len(row['id']) <= 256 and (row['id'] not in seen) and (type(row['version']) is int) and (row['version'] > 0) and (row['kind'] in ('COMPLETED_RESUMED_BOUNDARY', 'AMBIGUOUS_MARKER_GROUP', 'UNRESOLVED_RESUME_OBSERVATION', 'UNRESOLVED_SIGNAL')), 'EPISODE_EXPORT_SCOPE_BINDING')
+            seen.add(row['id'])
+
+    def _episode_export_path(value):
+        require(isinstance(value, str) and 0 < len(value) <= 4096 and ('\x00' not in value) and (re.match('^(?:[A-Za-z]:[\\\\/]|/[^/])', value) is not None) and all((part not in ('.', '..') and '~' not in part for part in re.split('[\\\\/]', value))), 'EPISODE_EXPORT_SOURCE_PATH')
+
+    def _episode_export_physical(value):
+        closed(value, ('device', 'inode'), 'EPISODE_EXPORT_SOURCE_PHYSICAL_SHAPE')
+        require(all((type(item) is int and item > 0 for item in value.values())), 'EPISODE_EXPORT_SOURCE_PHYSICAL_BINDING')
+
+    def _episode_export_locator(value):
+        closed(value, ('offset', 'bytes', 'sha256', 'embedded_ordinal', 'physical_line'), 'EPISODE_EXPORT_SOURCE_LOCATOR_SHAPE')
+        require(type(value['offset']) is int and value['offset'] >= 0 and (type(value['bytes']) is int) and (0 < value['bytes'] <= 256 * 1024) and isinstance(value['sha256'], str) and re.fullmatch('[0-9a-f]{64}', value['sha256']) and (type(value['embedded_ordinal']) is int) and (value['embedded_ordinal'] >= 0) and (value['physical_line'] is None or (type(value['physical_line']) is int and value['physical_line'] > 0)), 'EPISODE_EXPORT_SOURCE_LOCATOR_BINDING')
+
+    def _episode_export_source(value, role, episode, opening_digest):
+        closed(value, ('path', 'physical', 'metadata', 'metadata_payload_digest', 'history_start_ordinal', 'allowed_ranges', 'canonical_open_binding_digest'), 'EPISODE_EXPORT_SOURCE_SHAPE')
+        _episode_export_path(value['path'])
+        _episode_export_physical(value['physical'])
+        _episode_export_locator(value['metadata'])
+        identity = episode['parent_identity'] if role == 'parent' else episode['actual_child_identity']
+        require(value['path'].endswith('-' + identity['thread_id'] + '.jsonl') and value['metadata']['offset'] == value['metadata']['embedded_ordinal'] == 0 and (value['metadata']['physical_line'] == 1) and (value['history_start_ordinal'] == (0 if role == 'parent' else 1)) and (value['canonical_open_binding_digest'] == opening_digest) and isinstance(value['metadata_payload_digest'], str) and re.fullmatch('[0-9a-f]{64}', value['metadata_payload_digest']), 'EPISODE_EXPORT_SOURCE_IDENTITY_BINDING')
+        ranges = value['allowed_ranges']
+        require(isinstance(ranges, list) and 0 < len(ranges) <= 64, 'EPISODE_EXPORT_SOURCE_RANGE_BOUND')
+        end = 0
+        for window in ranges:
+            closed(window, ('offset', 'bytes'), 'EPISODE_EXPORT_SOURCE_RANGE_SHAPE')
+            require(type(window['offset']) is int and window['offset'] == end and (type(window['bytes']) is int) and (0 < window['bytes'] <= MAX_TOTAL), 'EPISODE_EXPORT_SOURCE_RANGE_BINDING')
+            end += window['bytes']
+        require(value['metadata']['bytes'] <= end <= 64 * MAX_TOTAL, 'EPISODE_EXPORT_SOURCE_RANGE_BOUND')
+        return end
+
+    def _episode_export_route_binding(owner, episode):
+        route = closed(owner['canonical_route'], ('controller_id', 'controller_record_oid', 'ref', 'record_oid',
+            'record_identity', 'decision', 'classification', 'route_transaction_id', 'obligation_id', 'route_state'),
+            'EPISODE_EXPORT_CANONICAL_ROUTE_SHAPE')
+        scope = closed(owner['host_and_scope'], ('host_id', 'host_session_id', 'host_binding_generation', 'host_correlation_id',
+            'continuity_generation', 'continuity_receipt', 'obligation_id', 'route_transaction_id', 'controller_id',
+            'claim_id', 'explicit_run_root'), 'EPISODE_EXPORT_HOST_SCOPE_SHAPE')
+        require(isinstance(route['controller_id'], str) and re.fullmatch('[a-z0-9][a-z0-9-]{0,47}', route['controller_id']) and
+            route['ref'] == 'refs/implementaudit/route-decisions/' + route['controller_id'] and
+            all(isinstance(route[key], str) and re.fullmatch('[0-9a-f]{40}(?:[0-9a-f]{24})?', route[key])
+                for key in ('controller_record_oid', 'record_oid')) and route['decision'] == 'REQUIRED' and
+            route['classification'] in ('MECHANICALLY_REQUIRED', 'JUDGEMENT_REQUIRED') and
+            route['route_state'] in ('OPEN', 'RETURNED', 'SATISFIED'), 'EPISODE_EXPORT_CANONICAL_ROUTE_BINDING')
+        for item in (route['record_identity'], route['route_transaction_id'], route['obligation_id'], scope['host_correlation_id']):
+            require(isinstance(item, str) and re.fullmatch('sha256:[0-9a-f]{64}', item), 'EPISODE_EXPORT_ROUTE_DIGEST_SHAPE')
+        require(all(scope[key] == route[key] for key in ('controller_id', 'route_transaction_id', 'obligation_id')) and
+            scope['host_id'] == 'codex' and scope['host_session_id'] == episode['parent_identity']['thread_id'] and
+            all(isinstance(scope[key], str) and re.fullmatch('G[0-9A-F]{4}', scope[key])
+                for key in ('host_binding_generation', 'continuity_generation')) and
+            isinstance(scope['claim_id'], str) and re.fullmatch('[0-9a-f]{32}', scope['claim_id']),
+            'EPISODE_EXPORT_ROUTE_SCOPE_BINDING')
+        receipt_prefix = 'refs/implementaudit/continuity-receipts/' + scope['controller_id'] + '/' + scope['continuity_generation'] + '@'
+        require(isinstance(scope['continuity_receipt'], str) and
+            re.fullmatch(re.escape(receipt_prefix) + '[0-9a-f]{40}(?:[0-9a-f]{24})?', scope['continuity_receipt']),
+            'EPISODE_EXPORT_CONTINUITY_RECEIPT_BINDING')
+        _episode_export_path(scope['explicit_run_root'])
+
+    def _episode_export_code_pins(pins):
+        required = {'implementaudit/SKILL.md', 'audit-state/SKILL.md',
+            'implementaudit/references/child-agents.md', 'implementaudit/references/continuity.md'}
+        required.update('implementaudit/scripts/' + name for name in (
+            'compaction-audit-pending.py', 'compaction-result-observation.py',
+            'compaction-source-owner-codex-app.py', 'codex-recovery-native-reader.py',
+            'bounded_file_custody.py', 'bounded_native_reader.py', 'bounded_source_owner.py',
+            'host-session-binding.py', 'route-transaction.py'))
+        require(type(pins) is dict and len(pins) == len(required) and
+            all(type(key) is str and 0 < len(key) <= 256 and type(item) is str and
+                re.fullmatch('[0-9a-f]{64}', item) for key, item in pins.items()),
+            'EPISODE_EXPORT_CODE_PIN_SHAPE')
+        normalized = {key.replace('\\', '/') for key in pins}
+        require(normalized == required and len(normalized) == len(pins), 'EPISODE_EXPORT_CODE_PIN_POPULATION')
+
+    def validate_frozen_episode_export_v1(value):
+        if isinstance(value, dict) and value.get('schema') == 'implementaudit.ordinary-episode-export.v1':
+            return validate_ordinary_episode_export_v1(value)
+        'Validate a captured projection only. No filesystem, native RPC or refresh.\n\n    This function does not authenticate caller-authored facts. The collector\n    must separately pin this owner and the fixed producer acquisition path.\n    '
+        closed(value, ('schema', 'status', 'reason_code', 'owner', 'episode', 'pending', 'lifecycle', 'occurrences', 'custody', 'export_digest', 'authority_ceiling'), 'EPISODE_EXPORT_SHAPE')
+        require(len(canonical(value)) <= MAX_TOTAL and value['schema'] == 'implementaudit.native-episode-export.v1' and (value['authority_ceiling'] == 'NONE') and (value['status'] in ('AVAILABLE', 'UNAVAILABLE')), 'EPISODE_EXPORT_BOUND')
+        require(value['export_digest'] == digest(canonical({key: item for key, item in value.items() if key != 'export_digest'})), 'EPISODE_EXPORT_DIGEST')
+        if value['status'] == 'UNAVAILABLE':
+            require(value['reason_code'] in ('FIXED_SELECTION_UNBOUND', 'CANONICAL_EPISODE_ABSENT', 'PENDING_STATE_ABSENT', 'SELECTED_ASSIGNMENT_ABSENT', 'ADMITTED_JOIN_ABSENT') and all((value[key] is None for key in ('owner', 'episode', 'pending', 'lifecycle', 'occurrences', 'custody'))), 'EPISODE_EXPORT_ABSENCE_SHAPE')
+            return value
+        require(value['reason_code'] is None, 'EPISODE_EXPORT_PRESENT_REASON')
+        owner = closed(value['owner'], ('profile_id', 'issuer_id', 'policy_digest', 'code_pins', 'canonical_opening_digest', 'canonical_route', 'host_and_scope'), 'EPISODE_EXPORT_OWNER_SHAPE')
+        issuers = {NONPROTECTED_PROFILE: 'codex-app-canonical-episode-public-source-v1', OWNED_STDIO_PROFILE: 'codex-owned-stdio-canonical-episode-public-source-v1'}
+        require(owner['profile_id'] in issuers and owner['issuer_id'] == issuers[owner['profile_id']], 'EPISODE_EXPORT_OWNER_BINDING')
+        _episode_export_code_pins(owner['code_pins'])
+        episode = closed(value['episode'], ('parent_identity', 'actual_child_identity', 'assignment_identity', 'obligation_digest', 'observation_id', 'covered_boundary_versions', 'result_digest', 'acceptance_digest', 'Q_digest', 'E_digest'), 'EPISODE_EXPORT_EPISODE_SHAPE')
+        parent = closed(episode['parent_identity'], ('thread_id', 'agent_path'), 'EPISODE_EXPORT_PARENT_SHAPE')
+        child = closed(episode['actual_child_identity'], ('thread_id', 'parent_thread_id', 'agent_path'), 'EPISODE_EXPORT_CHILD_SHAPE')
+        require(all((isinstance(item, str) and 0 < len(item) <= 256 for item in (*parent.values(), *child.values()))) and child['parent_thread_id'] == parent['thread_id'] and (child['thread_id'] != parent['thread_id']) and child['agent_path'].startswith(parent['agent_path'] + '/'), 'EPISODE_EXPORT_PARENT_CHILD_BINDING')
+        _episode_export_route_binding(owner, episode)
+        require(isinstance(owner['canonical_opening_digest'], str) and re.fullmatch('sha256:[0-9a-f]{64}', owner['canonical_opening_digest']), 'EPISODE_EXPORT_CANONICAL_OPENING_DIGEST')
+        for item in (owner['policy_digest'], *(episode[key] for key in ('assignment_identity', 'obligation_digest', 'observation_id', 'result_digest', 'acceptance_digest', 'Q_digest', 'E_digest'))):
+            require(isinstance(item, str) and re.fullmatch('[0-9a-f]{64}', item), 'EPISODE_EXPORT_DIGEST_SHAPE')
+        _episode_export_scope(episode['covered_boundary_versions'])
+        require(episode['covered_boundary_versions'] and all((row['kind'] == 'COMPLETED_RESUMED_BOUNDARY' for row in episode['covered_boundary_versions'])), 'EPISODE_EXPORT_REAL_BOUNDARY_REQUIRED')
+        pending = closed(value['pending'], ('revision', 'observations', 'assignment_scope', 'covered_scope', 'pending_scope'), 'EPISODE_EXPORT_PENDING_SHAPE')
+        require(type(pending['revision']) is int and pending['revision'] >= 0 and isinstance(pending['observations'], list) and (len(pending['observations']) <= 4096), 'EPISODE_EXPORT_PENDING_BOUND')
+        for field in ('assignment_scope', 'covered_scope', 'pending_scope'):
+            _episode_export_scope(pending[field])
+        require(pending['covered_scope'] == episode['covered_boundary_versions'] and all((row in pending['assignment_scope'] for row in pending['covered_scope'])), 'EPISODE_EXPORT_COVERAGE_BINDING')
+        observations = {}
+        for row in pending['observations']:
+            closed(row, ('id', 'kind', 'version', 'consumed_version', 'assignment_children'), 'EPISODE_EXPORT_PENDING_ROW_SHAPE')
+            _episode_export_scope([{key: row[key] for key in ('id', 'kind', 'version')}])
+            require(row['id'] not in observations and type(row['consumed_version']) is int and (0 <= row['consumed_version'] <= row['version']) and isinstance(row['assignment_children'], list) and (len(row['assignment_children']) <= 64) and (len(set(row['assignment_children'])) == len(row['assignment_children'])) and all((isinstance(item, str) and item for item in row['assignment_children'])), 'EPISODE_EXPORT_PENDING_ROW_BINDING')
+            observations[row['id']] = row
+        require(all(row['id'] in observations and observations[row['id']]['kind'] == row['kind'] and
+            observations[row['id']]['version'] >= row['version'] for row in pending['assignment_scope']),
+            'EPISODE_EXPORT_ASSIGNED_OBSERVATION_BINDING')
+        require(pending['pending_scope'] == [{key: row[key] for key in ('id', 'version', 'kind')} for row in pending['observations'] if row['version'] > row['consumed_version']] and all((row['id'] in observations and observations[row['id']]['consumed_version'] >= row['version'] for row in pending['covered_scope'])), 'EPISODE_EXPORT_CONSUMPTION_BINDING')
+        lifecycle = closed(value['lifecycle'], ('result', 'acceptance', 'join', 'h0', 'source_terminal_release'), 'EPISODE_EXPORT_LIFECYCLE_SHAPE')
+        require(lifecycle['result'] == {'status': 'SUCCEEDED', 'return_digest': episode['result_digest']} and lifecycle['acceptance'] == {'status': 'ACCEPTED_EXACT_RESULT', 'digest': episode['acceptance_digest']} and (lifecycle['join'] == {'status': 'JOINED_EVIDENCE_ONLY', 'covered': episode['covered_boundary_versions'], 'pending_consumed': True}), 'EPISODE_EXPORT_RESULT_ACCEPTANCE_JOIN_BINDING')
+        h0 = closed(lifecycle['h0'], ('status', 'stage_receipts'), 'EPISODE_EXPORT_H0_SHAPE')
+        require(h0['status'] in ('NOT_RECORDED', 'RECORDED') and isinstance(h0['stage_receipts'], dict) and (set(h0['stage_receipts']) == (set() if h0['status'] == 'NOT_RECORDED' else {'LOAD', 'USE', 'DISPOSE'})) and all((isinstance(item, str) and re.fullmatch('sha256:[0-9a-f]{64}', item) for item in h0['stage_receipts'].values())) and (len(set(h0['stage_receipts'].values())) == len(h0['stage_receipts'])), 'EPISODE_EXPORT_H0_BINDING')
+        release = closed(lifecycle['source_terminal_release'], ('status', 'digest'), 'EPISODE_EXPORT_RELEASE_SHAPE')
+        require(release['status'] == 'SOURCE_OWNER_VALIDATED' and isinstance(release['digest'], str) and re.fullmatch('[0-9a-f]{64}', release['digest']), 'EPISODE_EXPORT_RELEASE_BINDING')
+        occurrences = closed(value['occurrences'], ('schema', 'observation_id', 'actual_child_identity', 'covered_boundary_versions', 'source_cutoff', 'occurrences', 'authority_ceiling'), 'EPISODE_EXPORT_OCCURRENCES_SHAPE')
+        require(occurrences['schema'] == 'implementaudit.compaction-selected-occurrences.v1' and occurrences['observation_id'] == episode['observation_id'] and (occurrences['actual_child_identity'] == child) and (occurrences['covered_boundary_versions'] == episode['covered_boundary_versions']) and (occurrences['authority_ceiling'] == 'NONE') and isinstance(occurrences['occurrences'], list) and (3 <= len(occurrences['occurrences']) <= 256), 'EPISODE_EXPORT_OCCURRENCES_BINDING')
+        for row in occurrences['occurrences']:
+            closed(row, ('population', 'attempt_class', 'semantic', 'observation_id', 'completion', 'records'), 'EPISODE_EXPORT_OCCURRENCE_SHAPE')
+            require((row['population'], row['attempt_class'], row['semantic']) in {('CURRENT', 'ORIGINAL', semantic) for semantic in ('LOAD', 'EXCHANGE', 'BIND')} | {('PRIOR', 'ORIGINAL', semantic) for semantic in ('LOAD', 'EXCHANGE', 'BIND')} | {('PRIOR', 'RETRY', 'BIND')} and row['completion'] == 'COMPLETED' and isinstance(row['observation_id'], str) and re.fullmatch('[0-9a-f]{64}', row['observation_id']), 'EPISODE_EXPORT_OCCURRENCE_CLASSIFICATION')
+            closed(row['records'], ('call', 'result'), 'EPISODE_EXPORT_OCCURRENCE_PAIR')
+            require(all((isinstance(row['records'][part], dict) and row['records'][part] for part in ('call', 'result'))), 'EPISODE_EXPORT_OCCURRENCE_COMPLETION')
+            for pin in row['records'].values():
+                closed(pin, ('path', 'physical', 'role', 'locator', 'timestamp', 'message_or_call_id'), 'EPISODE_EXPORT_RECORD_PIN_SHAPE')
+                locator = closed(pin['locator'], ('offset', 'bytes', 'sha256', 'embedded_ordinal', 'physical_line'), 'EPISODE_EXPORT_RECORD_LOCATOR_SHAPE')
+                physical = closed(pin['physical'], ('device', 'inode'), 'EPISODE_EXPORT_RECORD_PHYSICAL_SHAPE')
+                require(pin['role'] == 'child' and isinstance(pin['path'], str) and (0 < len(pin['path']) <= 4096) and all((type(item) is int and item >= 0 for item in physical.values())) and (type(locator['offset']) is int) and (locator['offset'] >= 0) and (type(locator['bytes']) is int) and (0 < locator['bytes'] <= 256 * 1024) and (type(locator['embedded_ordinal']) is int) and (locator['embedded_ordinal'] >= 1) and (locator['physical_line'] is None or (type(locator['physical_line']) is int and locator['physical_line'] >= 1)) and isinstance(locator['sha256'], str) and re.fullmatch('[0-9a-f]{64}', locator['sha256']) and all((isinstance(pin[key], str) and pin[key] for key in ('timestamp', 'message_or_call_id'))), 'EPISODE_EXPORT_RECORD_PIN_BINDING')
+            before(row['records']['call'], row['records']['result'])
+        require({row['semantic'] for row in occurrences['occurrences'] if row['population'] == 'CURRENT'} == {'LOAD', 'EXCHANGE', 'BIND'} and all((row['observation_id'] == episode['observation_id'] for row in occurrences['occurrences'] if row['population'] == 'CURRENT')), 'EPISODE_EXPORT_CURRENT_OCCURRENCES')
+        custody = closed(value['custody'], ('candidate', 'qualification', 'episode', 'attestation', 'source_cutoffs'), 'EPISODE_EXPORT_CUSTODY_SHAPE')
+        for key in ('candidate', 'qualification', 'episode', 'attestation'):
+            _episode_export_pin(custody[key])
+        require(custody['qualification']['sha256'] == episode['Q_digest'] and custody['episode']['sha256'] == episode['E_digest'], 'EPISODE_EXPORT_CUSTODY_BINDING')
+        cuts = closed(custody['source_cutoffs'], ('parent', 'child', 'compaction_cutoff', 'hold_history'), 'EPISODE_EXPORT_CUTOFF_SHAPE')
+        parent_limit = _episode_export_source(cuts['parent'], 'parent', episode, owner['canonical_opening_digest'])
+        child_limit = _episode_export_source(cuts['child'], 'child', episode, owner['canonical_opening_digest'])
+        require(cuts['parent']['path'] != cuts['child']['path'] and cuts['parent']['physical'] != cuts['child']['physical'], 'EPISODE_EXPORT_SOURCE_PHYSICAL_ALIAS')
+        compact = closed(cuts['compaction_cutoff'], ('path', 'task_id', 'session_id', 'sessions_root', 'physical', 'session_meta_sha256', 'prefix_bytes', 'prefix_sha256', 'provenance', 'native_producer_runtime_equivalence'), 'EPISODE_EXPORT_COMPACTION_CUTOFF_SHAPE')
+        _episode_export_path(compact['sessions_root'])
+        _episode_export_physical(compact['physical'])
+        root = compact['sessions_root'].replace('\\', '/').rstrip('/') + '/'
+        require(compact['path'] == cuts['parent']['path'] and compact['physical'] == cuts['parent']['physical'] and (compact['task_id'] == compact['session_id'] == parent['thread_id']) and all((cuts[role]['path'].replace('\\', '/').startswith(root) for role in ('parent', 'child'))) and (compact['session_meta_sha256'] == cuts['parent']['metadata']['sha256']) and (type(compact['prefix_bytes']) is int) and (cuts['parent']['metadata']['bytes'] <= compact['prefix_bytes'] <= parent_limit) and isinstance(compact['prefix_sha256'], str) and re.fullmatch('[0-9a-f]{64}', compact['prefix_sha256']) and (compact['provenance'] == 'HOST_STORE_OWNER_REGISTERED_PHYSICAL_NATIVE_SESSION_PREFIX') and (compact['native_producer_runtime_equivalence'] == 'UNVERIFIED'), 'EPISODE_EXPORT_COMPACTION_CUTOFF_BINDING')
+        held = closed(cuts['hold_history'], ('path', 'physical', 'prefix_bytes', 'prefix_sha256', 'physical_records', 'history_start_ordinal', 'host_producer_authenticated', 'original_bind'), 'EPISODE_EXPORT_HOLD_CUTOFF_SHAPE')
+        _episode_export_physical(held['physical'])
+        require(held == occurrences['source_cutoff'] and held['path'] == cuts['child']['path'] and (held['physical'] == cuts['child']['physical']) and (type(held['prefix_bytes']) is int) and (cuts['child']['metadata']['bytes'] < held['prefix_bytes'] <= min(MAX_TOTAL, child_limit)) and isinstance(held['prefix_sha256'], str) and re.fullmatch('[0-9a-f]{64}', held['prefix_sha256']) and (type(held['physical_records']) is int) and (held['physical_records'] >= 2) and (held['history_start_ordinal'] == 1) and (held['host_producer_authenticated'] is False), 'EPISODE_EXPORT_FIXED_CUTOFF_BINDING')
+        current_rows = [row for row in occurrences['occurrences'] if row['population'] == 'CURRENT']
+        require(len(current_rows) == 3 and held['original_bind'] == next((row['records'] for row in current_rows if row['semantic'] == 'BIND')), 'EPISODE_EXPORT_ORIGINAL_BIND_CUTOFF')
+        offsets = set()
+        ordered_records = []
+        for row in occurrences['occurrences']:
+            for pin in row['records'].values():
+                locator = pin['locator']
+                require(pin['path'] == held['path'] and pin['physical'] == held['physical'] and (cuts['child']['metadata']['bytes'] <= locator['offset']) and (locator['offset'] + locator['bytes'] <= held['prefix_bytes']) and (locator['embedded_ordinal'] < held['physical_records']) and (locator['physical_line'] in (None, locator['embedded_ordinal'] + 1)) and (locator['offset'] not in offsets), 'EPISODE_EXPORT_OCCURRENCE_SOURCE_RANGE_OR_IDENTITY')
+                offsets.add(locator['offset'])
+                ordered_records.append(pin)
+        ordered_records.sort(key=lambda pin: pin['locator']['offset'])
+        for prior, current in zip(ordered_records, ordered_records[1:]):
+            before(prior, current)
+            require(prior['locator']['embedded_ordinal'] < current['locator']['embedded_ordinal'],
+                'EPISODE_EXPORT_RECORD_ORDINAL_ORDER')
+        return value
+    return validate_frozen_episode_export_v1(value)
+
+# Inserted into the existing projection owner by build_proposal.py.
+# This reference owns no pending store, selection, currentness, or native call.
+def _v2_native_reference(value):
+    _v2_object(value, {"schema_version", "export_artifact_id", "capture_artifact_id",
+                      "facts_artifact_id", "contract_sha256"}, "native episode reference")
+    _v2_require(value["schema_version"] == "implementaudit.protected-native-episode-reference.v1"
+                and value["contract_sha256"] == NATIVE_EPISODE_CONTRACT_SHA256,
+                "unknown native episode profile or owner contract")
+    names = [value[key] for key in ("export_artifact_id", "capture_artifact_id", "facts_artifact_id")]
+    _v2_require(len(set(names)) == 3 and all(type(name) is str and
+                _v2_re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", name) for name in names),
+                "native episode artifact identities must be distinct")
+
+
+def _v2_native_json(raw):
+    def unique(pairs):
+        value = dict(pairs)
+        _v2_require(len(value) == len(pairs), "duplicate native owner artifact key")
+        return value
+    def forbidden(_):
+        raise ProjectionV2Error("native owner artifacts cannot contain floats/constants")
+    _v2_require(type(raw) is bytes and 0 < len(raw) <= 2*1024*1024,
+                "native owner artifact byte bound")
+    try:
+        return _v2_json_module.loads(raw, object_pairs_hook=unique,
+                                    parse_float=forbidden, parse_constant=forbidden)
+    except (ValueError, UnicodeError) as error:
+        raise ProjectionV2Error("native owner artifact JSON refused") from error
+
+
+def _v2_owned_native(payload, artifacts, refs):
+    group = payload["STATE"].get("native_episode")
+    if group is None:
+        return None
+    reference = group["value"]
+    _v2_native_reference(reference)
+    by_id = {row["artifact_id"]: row for row in refs}
+    values, maps = {}, []
+    for kind, field in (("export", "export_artifact_id"), ("capture", "capture_artifact_id"),
+                        ("facts", "facts_artifact_id")):
+        name = reference[field]
+        _v2_require(name in by_id and by_id[name]["owner"] == "R0033/continuity"
+                    and by_id[name]["role"] == "EVIDENCE", "unentitled native owner artifact")
+        raw = artifacts[name]
+        values[kind] = _v2_native_json(raw)
+        for pointer, value in _v2_leaves(values[kind], ""):
+            maps.append({"field": "/native_episode/"+kind+pointer, "owner": "R0033/continuity",
+                "source_kind": "ARTIFACT", "source_id": name, "source_pointer": pointer,
+                "source_sha256": _v2_sha(raw), "value_sha256": _v2_sha(_v2_canonical(value))})
+    exported, capture, facts = values["export"], values["capture"], values["facts"]
+    try:
+        _v2_validate_native_export(exported)
+    except (ValueError, KeyError, TypeError) as error:
+        raise ProjectionV2Error("existing R0033 frozen export refused: "+str(error)) from error
+    _v2_require(exported["status"] == "AVAILABLE", "accepted native export absent")
+    _v2_object(capture, {"boundaries", "C", "D", "H0_currentness_checkpoints",
+                         "original13520_14114_credit", "authority_ceiling"}, "native C/D capture")
+    _v2_require(capture["original13520_14114_credit"] is False and capture["authority_ceiling"] == "NONE"
+                and capture["C"] != capture["D"] and exported["pending"]["covered_scope"] == [capture["C"]]
+                and capture["D"] in exported["pending"]["pending_scope"], "C only coverage or D survival changed")
+    _v2_require(type(capture["boundaries"]) is list and
+                [row.get("label") for row in capture["boundaries"]] == ["C", "D"], "exact C/D originals required")
+    checkpoints = capture["H0_currentness_checkpoints"]
+    _v2_require(type(checkpoints) is list and len(checkpoints) == 3, "native C/D checkpoints required")
+    previous = -1
+    for checkpoint in checkpoints:
+        _v2_object(checkpoint, {"binding", "receipt", "opening_digest", "observed_wall_ns", "observed_monotonic_ns"},
+                   "native C/D checkpoint")
+        _v2_require(type(checkpoint["binding"]) is dict and checkpoint["binding"] == checkpoints[0]["binding"]
+                    and checkpoint["receipt"] == exported["owner"]["host_and_scope"]["continuity_receipt"]
+                    and checkpoint["opening_digest"] == exported["owner"]["canonical_opening_digest"],
+                    "native C/D original H0/currentness binding changed")
+        _v2_integer(checkpoint["observed_wall_ns"], "native checkpoint wall time", 1)
+        _v2_integer(checkpoint["observed_monotonic_ns"], "native checkpoint monotonic time", previous+1)
+        previous = checkpoint["observed_monotonic_ns"]
+    _v2_object(facts, {"schema", "export_digest", "pending_revision", "observation_proofs",
+                       "assignments", "custody_documents", "uncertainty", "source_state_sha256", "authority_ceiling"}, "native owner facts")
+    _v2_require(facts["schema"] == "implementaudit.native-owner-facts.v1"
+                and facts["authority_ceiling"] == "NONE" and facts["export_digest"] == exported["export_digest"]
+                and facts["pending_revision"] == exported["pending"]["revision"], "native owner fact binding changed")
+    _v2_require(type(facts["observation_proofs"]) is dict and
+                set(facts["observation_proofs"]) == {row["id"] for row in exported["pending"]["observations"]},
+                "native observation denominator changed")
+    _v2_require(type(facts["assignments"]) is dict and type(facts["uncertainty"]) is dict,
+                "native reservation/failure/unknown population required")
+    _v2_digest(facts["source_state_sha256"], "native original state digest")
+    for row in exported["pending"]["observations"]:
+        proof = facts["observation_proofs"][row["id"]]
+        _v2_require(type(proof) is dict and all(proof.get(key) == row[key]
+            for key in ("id", "kind", "version", "consumed_version")) and type(proof.get("proof")) is dict,
+            "native original observation meaning changed")
+        if row['kind'] in ('COMPLETED_RESUMED_BOUNDARY', 'AMBIGUOUS_MARKER_GROUP'):
+            # Existing compaction-audit-pending.refresh identity formula, unchanged.
+            _v2_require(row['id'] == 'boundary-'+_v2_sha(_v2_canonical(proof['proof'])),
+                        "native boundary ID differs from original physical proof")
+        _v2_require(all(child in facts["assignments"] for child in row["assignment_children"]),
+                    "native assigned child population omitted")
+    for child, assignment in facts["assignments"].items():
+        _v2_string(child, "native assignment child")
+        _v2_object(assignment, {"source_assignment_sha256", "scope", "native_lifecycle", "reservation_request",
+            "observations", "return_state", "return_digest", "join_state", "joined_scope", "hold_failures", "hold_refusals"},
+            "native assignment facts")
+        _v2_digest(assignment["source_assignment_sha256"], "native assignment original digest")
+        _v2_require(type(assignment["scope"]) is list and type(assignment["observations"]) is dict
+                    and type(assignment["hold_failures"]) is dict and type(assignment["hold_refusals"]) is dict,
+                    "native assignment pending/refusal populations required")
+    selected_child = exported["episode"]["actual_child_identity"]["thread_id"]
+    _v2_require(selected_child in facts["assignments"], "accepted native assignment omitted")
+    accepted = facts["assignments"][selected_child]
+    _v2_require(accepted["return_state"] == "SUCCEEDED" and accepted["return_digest"] == exported["episode"]["result_digest"]
+                and accepted["join_state"] == "JOINED_EVIDENCE_ONLY" and accepted["joined_scope"] == exported["pending"]["covered_scope"],
+                "native accepted result and assignment relation changed")
+    _v2_object(facts["custody_documents"], {"candidate", "qualification", "episode", "attestation"}, "native retained custody documents")
+    import base64
+    for name, document in facts["custody_documents"].items():
+        _v2_object(document, {"pin", "bytes_b64"}, "native exact custody document")
+        _v2_require(document["pin"] == exported["custody"][name], "native custody document belongs to another export")
+        try:
+            raw = base64.b64decode(document["bytes_b64"], validate=True)
+        except (ValueError, TypeError) as error:
+            raise ProjectionV2Error("native custody document wire refused") from error
+        _v2_require(len(raw) == document["pin"]["bytes"] and _v2_sha(raw) == document["pin"]["sha256"],
+                    "native custody document exact bytes changed")
+    for boundary in capture["boundaries"]:
+        _v2_object(boundary, {"label", "compaction_turn", "resume_turn", "summary", "source_bytes", "source_sha256"},
+                   "native original C/D boundary")
+        selected = capture[boundary["label"]]
+        _v2_require(selected["id"] in facts["observation_proofs"], "native boundary original absent")
+        original = facts["observation_proofs"][selected["id"]]["proof"]
+        _v2_require(type(boundary["summary"]) is dict and boundary["summary"]
+                    and all(original.get(key) == value for key, value in boundary["summary"].items())
+                    and original.get("resume_turn") == boundary["resume_turn"], "native C/D physical proof changed")
+        _v2_require(original.get("source", {}).get("path") == exported["custody"]["source_cutoffs"]["parent"]["path"]
+                    and original["source"]["physical"] == exported["custody"]["source_cutoffs"]["parent"]["physical"],
+                    "native C/D original physical source changed")
+        _v2_integer(boundary["source_bytes"], "native original source length", 1)
+        _v2_digest(boundary["source_sha256"], "native original source hash")
+    for key in ("controller_id", "claim_id"):
+        _v2_require(exported["owner"]["host_and_scope"][key] == payload["STATE"]["identity"]["value"][key],
+                    "native export belongs to another canonical owner")
+    return {"profile": reference["schema_version"], "authority_ceiling": "NONE",
+            "values": values, "owner_map": sorted(maps, key=lambda row: row["field"]),
+            "protected_leaf_count": len(maps)}
+
+
+def _v2_native_applicability(native_episode, current):
+    scope = native_episode["values"]["export"]["owner"]["host_and_scope"]
+    exact = scope["continuity_generation"] == current["continuity_epoch"]
+    return {"historical_scope": "PRESERVED_EXACT_ACCEPTED_EXPORT",
+            "current_use": "SAME_EPOCH_REQUIRES_SEPARATE_OWNER_READ" if exact else "INAPPLICABLE_AFTER_CONTINUITY_CHANGE",
+            "pending_consumption_authority": "NONE", "producer_authentication_by_projection": False}
+
+
+def _v2_manifest(payload, rows, source_hashes, current, receipt_oid, transition, refs, output_hashes, archives, native_episode=None):
+    result = {"PRESERVED_PAYLOAD": {"payload": _v2_clone(payload), "owner_map": _v2_clone(rows), "source_hashes": _v2_clone(source_hashes)},
             "MONOTONIC_TRANSITION": _v2_clone(transition),
             "DERIVED_BINDINGS": {"authority_ceiling": _V2_AUTHORITY, "predecessor_continuity": _v2_clone(current),
                                  "current_receipt_ref_oid": receipt_oid, "artifact_refs": _v2_clone(refs),
                                  "state_sha256": output_hashes["STATE"], "roadmap_sha256": output_hashes["ROADMAP"]},
             "ARCHIVED_ONLY_HISTORY": _v2_clone(archives)}
+    if native_episode is not None:
+        result["PRESERVED_PAYLOAD"]["native_episode"] = _v2_clone(native_episode)
+        result["DERIVED_BINDINGS"]["native_episode_applicability"] = _v2_native_applicability(native_episode, transition or current)
+    return result
 
 
 def parse_canonical_pair_v2(state_bytes: bytes, roadmap_bytes: bytes, *,
@@ -813,7 +1183,8 @@ def parse_canonical_pair_v2(state_bytes: bytes, roadmap_bytes: bytes, *,
     receipt_oid = receipt_ref["locator"] + "@" + _v2_blob(receipt_bytes, receipt_ref["object_format"])
     sorted_rows = sorted(_v2_clone(list(rows)), key=lambda row: row["field"])
     old_archives = _v2_existing_archives(bodies, controller)
-    manifest = _v2_manifest(payload, sorted_rows, hashes, current, receipt_oid, bodies["STATE"]["transition"], refs, hashes, old_archives)
+    native_episode = _v2_owned_native(payload, artifacts, refs)
+    manifest = _v2_manifest(payload, sorted_rows, hashes, current, receipt_oid, bodies["STATE"]["transition"], refs, hashes, old_archives, native_episode)
     return {"schema_version": "implementaudit.canonical-pair-preimage.v2", "authority_ceiling": _V2_AUTHORITY,
             "state_bytes": state_bytes, "roadmap_bytes": roadmap_bytes, "bodies": _v2_clone(bodies),
             "payload": checked["payload"], "owner_map": sorted_rows, "artifacts": _v2_clone(dict(artifacts)),
@@ -875,7 +1246,8 @@ def _v2_derive(preimage, transition, archive_pointers, max_state_bytes, max_road
             "artifact_refs": refs, "predecessor_continuity": _v2_clone(current), "transition": _v2_clone(transition),
             "archive_pointers": archives,
             "protected_manifest": _v2_manifest(preimage["payload"], preimage["owner_map"], preimage["source_hashes"], current,
-                                                preimage["current_receipt_ref_oid"], transition, refs, output_hashes, archives),
+                                                preimage["current_receipt_ref_oid"], transition, refs, output_hashes, archives,
+                                                preimage["protected_manifest"]["PRESERVED_PAYLOAD"].get("native_episode")),
             "limits": {"max_state_bytes": max_state_bytes, "max_roadmap_bytes": max_roadmap_bytes}}
 
 
