@@ -48,6 +48,7 @@ CLAIM_BOUNDARY_CONFIG = "/profile/original96-overlay.json"
 _NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS", b"non-native")
 _NATIVE_HYGIENE_BOUND_ANCHORS = ("hunter2", "akia", "ghp_", "sk-", "password", "apikey", "api_key", "api-key")
 RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
+INTERNAL_ROUTING_PROFILE = "CONTROLLED_TASK_INTERNAL_SKILL_ROUTING_V1"
 LEAN_DISCIPLINE_PROFILE = "CONTROLLED_TASK_LEAN_DISCIPLINE_V1"
 AUDIT_OBJECT_CONTRACT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_CONTRACT_V1"
 TERMINOLOGY_PROFILE = "CONTROLLED_TASK_TERMINOLOGY_INTEGRATION_V1"
@@ -298,7 +299,26 @@ LEAN_DISCIPLINE_DATA = (
     "CONTRIBUTING.md", "scripts/check-marker-order.sh", "scripts/install-codex-from-release.sh",
     LEAN_DISCIPLINE_CASES, LEAN_DISCIPLINE_BUILDER, RUNNER,
 )
+INTERNAL_ROUTING_CHILDREN = ("audit-state", "audit-assess", "audit-implement", "audit-andon")
+INTERNAL_ROUTING_RESOLVER = "skills/implementaudit/scripts/resolve-internal-skill.py"
+INTERNAL_ROUTING_READS = (
+    "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/references/continuity.md",
+    "skills/implementaudit/references/transcript-contract.md",
+    *("skills/" + child + "/SKILL.md" for child in INTERNAL_ROUTING_CHILDREN),
+)
+INTERNAL_ROUTING_COPY_ROOTS = ("skills/implementaudit", *("skills/" + child for child in INTERNAL_ROUTING_CHILDREN))
+INTERNAL_ROUTING_PEER_ROOT = "plugins/implementaudit/skills/implementaudit"
 _CONTRACTS = {
+    INTERNAL_ROUTING_PROFILE: dict(label="internal-skill-routing", index=78, program="tests/internal-skill-routing.test.sh",
+        programs={
+            "tests/internal-skill-routing.test.sh": "3b612782c02982d549f4e99726283e854a26ede25b2396a2fb090fcbe9057df5",
+            INTERNAL_ROUTING_RESOLVER: "be553c29e1092643a71e6b50260d760bab15bbc76cd3c2091d05c4b52b8f302e"},
+        data=INTERNAL_ROUTING_READS, bounds=dict(file_bytes=128 * 1024, total_bytes=8 * 1024**2, files=10),
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="COMPLETE_SKILLS_COPY_AND_CANONICAL_STANDALONE_POPULATIONS_OPTIONAL_PHYSICAL_PLUGIN_PEER_NO_CHILD_ROUTE_AUTHORITY",
+        recursive=dict(roots=("skills", INTERNAL_ROUTING_PEER_ROOT), optional=True,
+            bounds=_RECURSIVE_BOUNDS, required_members=(*INTERNAL_ROUTING_READS, INTERNAL_ROUTING_RESOLVER))),
     LEAN_DISCIPLINE_PROFILE: dict(label="lean-discipline", index=24, program="tests/lean-discipline.test.sh",
         programs={
             "tests/lean-discipline.test.sh": "bef7d7bda08172f7a8aa709db10003a8709d9448bf552bf8b2fba157c1a30b3c",
@@ -687,7 +707,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -1012,10 +1032,44 @@ def native_integration_output_bounds(state, objects, contract):
         basis="NECESSARY_ANCHOR_OUTPUT_UPPER_BOUND_IGNORES_EXEMPTIONS_NOT_AN_ACCEPTANCE_DECISION")
 
 
+def internal_routing_output_bounds(state):
+    """Bound original78 copies, path diagnostics and data memory, not routing."""
+    copied = sorted(name for name in state["files"]
+        if any(name.startswith(root + "/") for root in INTERNAL_ROUTING_COPY_ROOTS))
+    copied_dirs = [name for name in state["directories"]
+        if any(name == root or name.startswith(root + "/") for root in INTERNAL_ROUTING_COPY_ROOTS)]
+    standalone = ("skills/implementaudit/SKILL.md", INTERNAL_ROUTING_RESOLVER,
+        *("skills/" + child + "/SKILL.md" for child in INTERNAL_ROUTING_CHILDREN))
+    names = {*state["files"], *state["directories"]}
+    name_bytes = sum(len(name.encode("utf-8")) + 1 for name in names)
+    read_bytes = sum(state["files"][name]["bytes"] for name in INTERNAL_ROUTING_READS)
+    largest_read = max(state["files"][name]["bytes"] for name in INTERNAL_ROUTING_READS)
+    # The first failing outer copy stops under set-e; its EXIT cleanup may
+    # also diagnose every private member. Charge both full pathname reports,
+    # the four standalone populations and a generous private-prefix margin.
+    paths = 4 * name_bytes + 512 * (len(names) + 4 * len(standalone))
+    paths += 16 * sum(len(name.encode("utf-8")) + 1 for name in standalone)
+    diagnostic = 64 * 1024 + 4 * largest_read + 2 * paths
+    memory = 64 * 1024**2 + 128 * read_bytes + 64 * name_bytes + 2048 * len(names) + 8 * diagnostic
+    kind = lambda name: "FILE" if name in state["files"] else "DIRECTORY" if name in state["directories"] else "MISSING"
+    return dict(copied_paths=copied, copied_source_files=len(copied), copied_source_directories=len(copied_dirs),
+        copied_source_bytes=sum(state["files"][name]["bytes"] for name in copied),
+        standalone_paths=list(standalone), standalone_copies=4, generated_files=2,
+        inline_python_blocks=4, resolver_invocations=5, source_read_bytes=read_bytes,
+        source_read_paths=list(INTERNAL_ROUTING_READS), complete_name_bytes=name_bytes,
+        peer_kind=kind(INTERNAL_ROUTING_PEER_ROOT + "/SKILL.md"),
+        source_internal_procedures_kind=kind("skills/implementaudit/internal-procedures"),
+        max_stdout_bytes=4096, max_stderr_bytes=diagnostic, original_data_memory_reservation=memory,
+        original_git_commands=[], original_child_routes=[],
+        basis="COMPLETE_COPIED_POPULATION_AND_FIXED_PRIVATE_EFFECTS_PATH_OUTPUT_MEMORY_BOUNDS_NOT_RESOLVER_ACCEPTANCE")
+
+
 def recursive_output_bounds(state, objects, contract, *, profile):
     """Conservative output sizes from complete actual acquired input bytes."""
     if profile == NATIVE_INTEGRATION_PROFILE:
         return native_integration_output_bounds(state, objects, contract)
+    if profile == INTERNAL_ROUTING_PROFILE:
+        return internal_routing_output_bounds(state)
     names = sorted(set(state["files"]) - {REGISTRY, *contract["programs"]})
     grep_bytes = diagnostics = terminal_bytes = terminal_messages = audit_checker_bytes = 0
     safeguard_bytes = safeguard_messages = 0
@@ -2056,6 +2110,24 @@ def temporary_requirements(state, *, profile=PROFILE):
             private_json_file_bound=bound["private_json_file_bound"], possible_simultaneous_spools=1,
             spool_file_bound=spool, original_data_memory_reservation=bound["original_data_memory_reservation"],
             capacity_disposition="FIXED_ORIGINAL24_512MIB_NO_AUTOMATIC_EXPANSION")
+    elif profile == INTERNAL_ROUTING_PROFILE:
+        bound = state["recursive_inputs"]["resources"]
+        copied = [state["files"][name]["bytes"] for name in bound["copied_paths"]]
+        standalone = [state["files"][name]["bytes"] for name in bound["standalone_paths"]]
+        wrapper = state["files"][contract["program"]]["bytes"]
+        # Four six-file standalone substrates coexist until the final trap;
+        # retaining the subsequently removed child overcounts one file. The
+        # full five-tree canonical copy and two generated files coexist too.
+        # Charge four wrapper-sized spools although all here-docs are serial.
+        sizes = (*copied, *(standalone * 4), 128, 128, *((wrapper,) * 4))
+        copies, files, directories = 5, len(sizes), 25 + bound["copied_source_directories"]
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=bound["max_stdout_bytes"],
+            max_stderr_bytes=bound["max_stderr_bytes"], copied_source_files=len(copied),
+            copied_source_directories=bound["copied_source_directories"], copied_source_bytes=bound["copied_source_bytes"],
+            standalone_copies=4, standalone_source_files=len(standalone), generated_private_files=2,
+            wrapper_spools=4, wrapper_spool_bytes=4 * wrapper, resolver_invocations=5,
+            original_data_memory_reservation=bound["original_data_memory_reservation"])
     elif profile == RETENTION_PROFILE:
         bound = state["complete_git_inputs"]["resources"]
         diagnostic = bound["diagnostic_file_bound"]
