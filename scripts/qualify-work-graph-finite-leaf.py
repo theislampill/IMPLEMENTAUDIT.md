@@ -29,6 +29,7 @@ PLAN_QUALITY_PROFILE = "CONTROLLED_TASK_PLAN_QUALITY_V1"
 AUTHORIZATION_PROFILE = "CONTROLLED_TASK_AUTHORIZATION_BINDING_V1"
 READ_ONLY_PROFILE = "CONTROLLED_TASK_READ_ONLY_PLANS_V1"
 ROUTING_PROFILE = "CONTROLLED_TASK_ROUTING_V1"
+AUDIT_OBJECT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -172,7 +173,45 @@ ROUTING_INPUTS = (*ROUTING_SCAN_INPUTS,
     "fixtures/routing/greenfield-goal-synthesis/INVALID-MISSING-INTAKE.md",
     "fixtures/routing/brownfield-audit-closure/INVALID-MUTATION-FIRST.md",
 )
+# Exact reads of the original routing checker. The lean checker additionally
+# observes complete skills membership and the literal presence operands below.
+AUDIT_ROUTING_FIXTURES = tuple("fixtures/routing/" + name for name in (
+    "greenfield-goal-synthesis/EXPECTED.md", "brownfield-audit-closure/EXPECTED.md",
+    "mixed-greenfield-in-brownfield/EXPECTED.md", "greenfield-full-category-intake/EXPECTED.md",
+    "greenfield-batched-questions/EXPECTED.md", "brownfield-zero-question-recon/EXPECTED.md",
+    "brownfield-one-question-true-gap/EXPECTED.md", "brownfield-two-question-true-gap/EXPECTED.md",
+    "greenfield-goal-synthesis/INVALID-MISSING-INTAKE.md",
+    "brownfield-audit-closure/INVALID-MUTATION-FIRST.md"))
+AUDIT_ROUTING_READS = ("README.md", "AGENTS.md", *AUDIT_ROUTING_FIXTURES,
+    "skills/implementaudit/SKILL.md", *("skills/implementaudit/references/" + name for name in (
+        "routing.md", "audit-category-matrix.md", "plan-lifecycle.md", "planning-depth.md",
+        "goal-format.md", "phase-design.md")))
+AUDIT_OBJECT_INPUTS = ("README.md", "AGENTS.md", *AUDIT_ROUTING_FIXTURES,
+    *("fixtures/lean/" + name for name in (
+        "brownfield-dmaic-release-repair.md", "brownfield-dmaic-stale-docs.md",
+        "greenfield-dmadv-new-runtime-helper.md", "mixed-dmaic-dmadv-package-boundary.md",
+        "sidecar-graphify-absent-markdown-fallback.md", "sidecar-graphify-dmaic-analyze.md",
+        "sidecar-activegraph-dmaic-custody.md")),
+    # Presence operands only: captured as data and never executed by this node.
+    "fixtures/semantic-preservation/cases.json", "fixtures/semantic-preservation/evaluate.py",
+    "fixtures/semantic-preservation/test-cases.sh")
 _CONTRACTS = {
+    AUDIT_OBJECT_PROFILE: dict(label="audit-object-routing", index=70, program="tests/audit-object-routing.test.sh",
+        programs={
+            "tests/audit-object-routing.test.sh": "e32e07be7163d404a5bd88180ee630f4efc2d614ddae4a0555cbe2fab0744426",
+            "scripts/check-routing.sh": "6bddc813e29f13e63ac0f88474fd32418c38bef4110360a2ae6a451a69e36974",
+            "scripts/check-lean-discipline.sh": "eff43d8768b019c1dfcd369df84e864de5decea62cb664a3854f62dabc9b003f"},
+        data=AUDIT_OBJECT_INPUTS,
+        bounds=dict(file_bytes=1024 * 1024, total_bytes=8 * 1024**2, files=26),
+        source_modes="NORMALIZED_0444_READ_ONLY",
+        projection="THREE_PINNED_ORIGINAL_PROGRAMS_LITERAL_READS_AND_PRESENCE_WITH_THREE_COMPLETE_RECURSIVE_SCAN_ROOTS_NO_GIT",
+        recursive=dict(roots=("skills", "docs/portal", "fixtures/audit-object-routing"), optional=False,
+            bounds=_RECURSIVE_BOUNDS, required_members=(
+                *(name for name in AUDIT_ROUTING_READS if name.startswith("skills/")),
+                "skills/implementaudit/references/lean-operating-discipline.md",
+                "skills/implementaudit/templates/PROTOCOL.md", "skills/implementaudit/templates/STATE.md",
+                "skills/implementaudit/templates/THINKING.md", "skills/implementaudit/templates/sidecars.md",
+                "skills/implementaudit/templates/phase-goal.txt", "fixtures/audit-object-routing/category-matrix.md"))),
     PROFILE: dict(label="audit-spec", index=57, program="tests/audit-spec.test.sh",
         programs=PROGRAM_PINS, data=FIXTURES, bounds=SOURCE_BOUNDS,
         source_modes="NORMALIZED_0444_READ_ONLY",
@@ -349,7 +388,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -604,7 +643,7 @@ def snapshot_recursive_inputs(prefix, root, objects, contract):
 def recursive_output_bounds(state, objects, contract, *, profile):
     """Conservative output sizes from complete actual acquired input bytes."""
     names = sorted(set(state["files"]) - {REGISTRY, *contract["programs"]})
-    grep_bytes = diagnostics = terminal_bytes = terminal_messages = 0
+    grep_bytes = diagnostics = terminal_bytes = terminal_messages = audit_checker_bytes = 0
     for name in names:
         raw = objects[state["files"][name]["sha256"]]
         path_bytes = len(name.encode("utf-8"))
@@ -614,6 +653,16 @@ def recursive_output_bounds(state, objects, contract, *, profile):
         # filters cannot increase this stream. Include binary diagnostics too.
         grep_bytes += len(raw) + lines * (path_bytes + len(str(max(lines, 1))) + 3)
         diagnostics += path_bytes + 128
+        if profile == AUDIT_OBJECT_PROFILE and name in AUDIT_ROUTING_READS:
+            # Eight fixed phrases can each produce one diagnostic per decoded
+            # line. Count every Unicode separator and every phrase regardless
+            # of exemptions. The original checker alone decides acceptance.
+            try:
+                count = len(raw.decode("utf-8", "strict").lower().splitlines())
+            except UnicodeDecodeError:
+                count = 0  # The fixed margin covers decoder tracebacks.
+            width = max(path_bytes, len(name.encode("ascii", "backslashreplace")))
+            audit_checker_bytes += 8 * count * (width + len(str(max(count, 1))) + 256)
         if profile == TERMINAL_PROFILE:
             try:
                 text = raw.decode("utf-8", "strict")
@@ -630,10 +679,17 @@ def recursive_output_bounds(state, objects, contract, *, profile):
                 width = max(path_bytes, len(name.encode("ascii", "backslashreplace"))) + len(str(lineno)) + 132
                 terminal_messages += possible
                 terminal_bytes += possible * width
-    return dict(read_files=len(names), read_bytes=sum(state["files"][name]["bytes"] for name in names),
+    result = dict(read_files=len(names), read_bytes=sum(state["files"][name]["bytes"] for name in names),
         all_lines_grep_report_bytes=grep_bytes, binary_diagnostic_bytes=diagnostics,
         terminal_possible_messages=terminal_messages, terminal_diagnostic_bytes=terminal_bytes,
         basis="OUTPUT_ALLOCATION_UPPER_BOUND_NOT_AN_ACCEPTANCE_DECISION")
+    if profile == AUDIT_OBJECT_PROFILE:
+        # Fixed default requirements, complete type/name diagnostics and error
+        # renderings are bounded without evaluating any acceptance predicate.
+        result["audit_checker_diagnostic_bytes"] = (audit_checker_bytes + 1024 * 1024
+            + 4 * max((state["files"][name]["bytes"] for name in names), default=0)
+            + sum(2 * (len(name.encode("ascii", "backslashreplace")) + 256) for name in names))
+    return result
 
 
 def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None):
@@ -775,6 +831,20 @@ def temporary_requirements(state, *, profile=PROFILE):
         content, allocated = sum(sizes), sum(map(rounded, sizes))
         extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
             max_stderr_bytes=4 * data_bytes + granule)
+    elif profile == AUDIT_OBJECT_PROFILE:
+        bound = state["recursive_inputs"]["resources"]
+        report = bound["all_lines_grep_report_bytes"]
+        spools = tuple(state["files"][name]["bytes"] for name in (
+            "scripts/check-routing.sh", "scripts/check-lean-discipline.sh"))
+        sizes = (report, *spools)
+        copies, files, directories = 0, 3, 0
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=1024,
+            # set -e stops on either checker's diagnostic exit before the
+            # wrapper's grep pipeline can run. These error streams cannot add.
+            max_stderr_bytes=max(report + bound["binary_diagnostic_bytes"],
+                bound["audit_checker_diagnostic_bytes"]) + 4096,
+            report_file_bound=report, checker_spool_bytes=sum(spools))
     elif profile == ISSUES_PROFILE:
         bound = state["recursive_inputs"]["resources"]
         content = bound["all_lines_grep_report_bytes"]
