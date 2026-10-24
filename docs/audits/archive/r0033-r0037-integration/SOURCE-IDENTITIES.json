@@ -131,12 +131,13 @@
     },
     {
       "base_blob": null,
-      "bytes": 24031,
-      "candidate_blob": "7c22d51a208c3c0d4fb973aecab80c23e35f201a",
+      "bytes": 26210,
+      "candidate_blob": "86c14171e41edb4b6c481d01aac87c96f4bdbed5",
       "mode": "100644",
       "path": "tests/cognition-pending-durability.py",
       "published_checkpoint_blob": null,
-      "sha256": "8e58b99805ea9c81b813df6c2b7b18df9d8ba6e08641ea7fa3beb4e2ff141196"
+      "sha256": "b8ffda8024471aa1fdbc262905f81c6dc1000bfd6f2a0555b943611c584101e4",
+      "prior_qualified_checkpoint_blob": "7c22d51a208c3c0d4fb973aecab80c23e35f201a"
     },
     {
       "base_blob": "c104f6cf31219ddcbcfdf6e3babb37b231cc291c",

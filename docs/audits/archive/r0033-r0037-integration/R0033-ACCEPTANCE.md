@@ -289,3 +289,80 @@ The whole exact-tree review must include the final governor/progressive-referenc
 Rollback follows semantic owners. Revert the v2 child, value helper, actual governor/consumer calls, registration, tests and generated/package projections coherently. Revert routing-oracle changes only with their preserved negative witnesses and source requirement visible; a rollback is not acceptance. A future admitted route transaction rolls back its guards/instrumentation as a unit while preserving resolver topology, continuity/currentness and failures. Shared governor, reference, semantic-fixture and package files require serialized integration that preserves independently owned R35/R39/PR251 changes. Do not roll back task custody, protected currentness or native security fences to make this slice pass.
 
 **Historical checkpoint conclusion (superseded by the addenda above):** bounded source implementation and focused portable checks have evidence; full R0033 route, semantic, package/install/native and issue-level acceptance remain open at the stated owners. Root alone adjudicates the final candidate and any later closure.
+
+## Published-source reconciliation of the pending refusal oracle
+
+The cross-PR source composition uses PR253
+`b9fb34dbde3f344027e18aa427592e4853001c69` and published PR252
+`8fd58276a50ae069ed71d52be01c775047ce692a`. Its disposable local merge is
+`33dfc9fa8b30abbef023d6724015bc4c4c5b949c`, tree
+`01883fdb6d24920ce9cf61e380ed4753b10c1ae6`; this is qualification evidence,
+not an import of R0039 into this PR or authority to publish to PR252.
+
+The unchanged pending durability test reproduces the earlier composition
+failure: eight controls and twenty-one processes reach a valid earlier
+`NONPROTECTED_PROJECTION_PROFILE_REQUIRED` refusal where the standalone source
+expects `NONPROTECTED_FIXED_SELECTION_UNBOUND`. Preserve that FAIL, report
+SHA-256 `a9a2f9d4ac2342f360268e696a5c3e92d7085502887ab30ba9cb7f72df5b402d`.
+No assignment was created; no source-selection or effect authority was earned.
+
+The test now binds one expected reason to each exact qualified four-owner
+source set. An unknown or mixed source set refuses before launching an owner
+process. It does not accept the reasons interchangeably or derive an oracle
+from the observed answer. Frozen full-core/peer materialization, unchanged-state
+checks, the original seventeen controls and native-absence guards remain.
+No runtime owner, native selector, package payload or acceptance limit changes.
+
+The original **17-control/38-process** population passes separately on the
+standalone and composed inputs. Their report SHA-256 values are respectively
+`1a2c82472cd2868d66648d8e7f81f27c91fe0504c2e66a05aae92194953f2be5` and
+`e3f5c1af178d8a4501547fc13d774ac0c28e58d50df8072dff6c141df3037e3d`.
+These are two source qualifications of the same population. Both deliberate
+wrong-reason mutations fail at the real reservation oracle; the changed-source
+negative refuses with zero owner processes. Ten additional profile value
+controls retain missing, mixed and unknown-source refusal; they grant no native
+credit. A subsequent explanatory-comment-only edit has complete AST equality
+with the tested candidate; both exact source digests and that bounded reuse
+proof are retained in the reconciliation receipt.
+
+Any new published R0039 source set needs only its affected refusal qualification
+and exact profile rebind before consumption. Unpublished native work remains
+with its current owner. Authentic occurrence, LOAD, RETURN, acceptance, JOIN,
+covered-scope consumption, the two original issue populations, and native Stop
+authentication remain independently unproved. Final review, guarded publication
+and successor hosted CI remain separate root-owned gates.
+
+## Published R0039 successor: affected refusal-profile qualification
+
+Published PR252 advanced to `7a89c484b6c0884c0fb7be46423600cf1fe53d0d`,
+tree `418a7b08ff0cbcf6932d4a5709e1171f64b1f549`. The result-observation
+and source-owner members of the exact four-owner tuple changed; pending and
+H0 binding did not. The prior two-profile test correctly refused this new
+source at **zero controls / zero owner processes**, report SHA-256
+`1f5b7fdd7330005b997c2c9c4afb9403052ec50bda1c27847fd67d76abd1564a`.
+This is an unknown-source qualification gate, not an executed runtime failure.
+
+The test now includes the third exact tuple with the source-owned literal
+`NONPROTECTED_PROJECTION_PROFILE_REQUIRED`. The actual current owner still
+refuses at that guard before assignment. The isolated published-source
+composition is `95b6a4332cc548b2e673720f5b779a3c1cf82af2`, tree
+`3ea5d55a1bd4972e7d4e39cc4c09ec65213e4efe`; the executed test SHA-256 is
+`b8ffda8024471aa1fdbc262905f81c6dc1000bfd6f2a0555b943611c584101e4`.
+
+The unchanged **17-control / 38-process** population passes on that input,
+report SHA-256 `fb8329d22e795243b53ac1aaa79124b4aba350859fc83e384c4bb9de615d570b`.
+A deliberate wrong-reason mutation fails at the actual oracle after eight
+controls / twenty-one processes, report SHA-256
+`c6435039199fe7df1857f805ecb59f76454b35c30e6cef309f89ff2b5c829982`.
+A deliberately changed owner refuses before launching any owner process,
+report SHA-256 `c7373b619eb2df68f9dc965361b9f735c964d1705b59132f9b1aea652f3cf197`.
+Thirteen profile-value checks separately cover the three exact inputs and
+unknown, mixed and missing owners; they earn no runtime or native credit.
+
+Removing only the new dictionary entry produces complete AST equality with
+the previously reviewed two-profile test, including all old literals. Its
+standalone and `8fd5827` qualification records therefore retain their original
+scope without unnecessary re-execution. No runtime owner or package payload
+changed on this PR. This addendum grants no authentic occurrence, native
+selection, child dispatch, JOIN, covered-scope consumption or Stop effect
+acceptance; the original issue populations and failures remain open.

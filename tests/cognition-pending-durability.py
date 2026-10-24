@@ -300,7 +300,7 @@ def materialize_selected_source(h):
     return root / "skills/implementaudit/scripts"
 
 
-def exercise(h):
+def exercise(h, reservation_refusal):
     repository, common, work = (h.fixture / name for name in ("repository", "git-common", "worktree"))
     run = work / ".IMPLEMENTAUDIT/runs/fixture"
     for path in (repository, common, run):
@@ -385,7 +385,7 @@ def exercise(h):
               {"child_id": "fixture-child", "bounded_purpose": "portable refusal only",
                "observation_source": {key: {} for key in
                                       ("open", "spawn_call", "spawn_output", "child_activation", "parent_turn_start")}},
-              "NONPROTECTED_FIXED_SELECTION_UNBOUND")
+              reservation_refusal)
     # No assignment exists after the refused reservation. These exercise the
     # actual early FOREIGN_CHILD gate, not deeper native acceptance/JOIN logic.
     h.refused("unreserved-return-refuses-without-state-change", "return",
@@ -411,6 +411,36 @@ def source_pins(repo):
     return {str(PEER / name): sha((repo / PEER / name).read_bytes()) for name in names}
 
 
+def reservation_refusal_profile(pins):
+    # All qualified sources refuse before assignment. R0039 selects a profile
+    # before acquiring the absent native selection, so its exact first guard
+    # differs. Bind the same four source owners recorded by source_pins; do not
+    # accept either reason interchangeably or infer it from the response.
+    profiles = {
+        ("0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986",
+         "5848edf46581f885521fb677377f4742b630ac8ff0ab0b906ec0e00520fcf896",
+         "1d7b7acaa9d1a481608ebf62ca5be8f30f25af0f5dc56d2bf4e795dce9c67c91",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("b9fb34dbde3f344027e18aa427592e4853001c69", "NONPROTECTED_FIXED_SELECTION_UNBOUND"),
+        ("e6516032d8d93e00a530c0753ed23e1b51cdcf2b27e45611b3923f3922718c34",
+         "38236d9247b66202807f55c36e8505335c73c5129778cd16b3180661690578e4",
+         "439b4efaddbe7c3a19b625db0e8480d7a857ebc603be34cb9e9bbec575902581",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("8fd58276a50ae069ed71d52be01c775047ce692a", "NONPROTECTED_PROJECTION_PROFILE_REQUIRED"),
+        ("e6516032d8d93e00a530c0753ed23e1b51cdcf2b27e45611b3923f3922718c34",
+         "9ea603b9d923df5c155c7a5406ee2dac21cbc8fc87ec205f978e3130fbe43345",
+         "2fcb390a3e4105adc1178000e736b1a09b3b5a59db03fdd744cda895a1352d04",
+         "62558bb209129c66b55d2a97325d16db4aecfd2ecbeb71323dd44070a50f0890"):
+            ("7a89c484b6c0884c0fb7be46423600cf1fe53d0d", "NONPROTECTED_PROJECTION_PROFILE_REQUIRED"),
+    }
+    names = ("compaction-audit-pending.py", "compaction-result-observation.py",
+             "compaction-source-owner-codex-app.py", "host-session-binding.py")
+    identity = tuple(pins.get(str(PEER / name)) for name in names)
+    require(identity in profiles, "unqualified portable reservation-refusal source profile")
+    checkpoint, reason = profiles[identity]
+    return {"qualified_checkpoint": checkpoint, "expected_reason": reason}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=Path, default=ROOT)
@@ -429,6 +459,8 @@ def main():
               "native_lifecycle": "NOT_CLAIMED", "native_producer_runtime_equivalence": "UNVERIFIED",
               "source_file_count": len(pins), "source_sha256": pins, "limitations": LIMITATIONS, **CEILING}
     try:
+        profile = reservation_refusal_profile(pins)
+        report["reservation_refusal_profile"] = profile
         # Refuse to run this portable fixture against a privately selected
         # native runtime. This reads the unchanged source; it never clears pins.
         tree = ast.parse((repo / PEER / "compaction-source-owner-codex-app.py").read_bytes())
@@ -437,7 +469,7 @@ def main():
                       and any(isinstance(target, ast.Name) and target.id == "NONPROTECTED_SELECTION_PIN"
                               for target in node.targets)]
         require(selections == [None], "portable test requires the original absent native selection")
-        exercise(h)
+        exercise(h, profile["expected_reason"])
         require(source_pins(repo) == pins, "actual source owners changed during qualification")
         report["result"] = "PASS"
     except Exception as error:
