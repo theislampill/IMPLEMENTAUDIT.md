@@ -164,6 +164,13 @@ class CatalogCases(unittest.TestCase):
         self.assertIn('Path(".").rglob("*")', checker)
         self.assertEqual({"bash", "dirname", "mktemp", "rm", "grep", "cat", "git", "python3.12"} - set(P.TOOLS), set())
 
+    def test_retention_runner_pin_matches_captured_source(self):
+        contract = self.A.contract_for(PROFILE)
+        _, runner = P.read_regular(ROOT / self.A.RUNNER)
+        self.assertEqual(contract["pinned_data"][self.A.RUNNER],
+                         hashlib.sha256(runner).hexdigest(),
+                         "retention runner pin differs from captured source")
+
     def test_fixed_source_feature_has_no_executor_limit_expansion(self):
         contract = self.A.contract_for(PROFILE)
         self.assertEqual(contract["complete_git"], dict(file_bytes=16 * 1024**2,

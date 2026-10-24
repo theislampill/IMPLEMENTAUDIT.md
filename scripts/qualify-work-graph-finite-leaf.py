@@ -522,7 +522,7 @@ _CONTRACTS = {
         data=("docs/audits/INDEX.md", "docs/audits/RETENTION.md",
               "fixtures/audit-retention/negative-missing-artifact-boundary.md",
               "fixtures/audit-retention/negative-stale-root-reference.md"),
-        pinned_data={RUNNER: "345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae"},
+        pinned_data={RUNNER: "532b06dbe91298bf71d44c88ecf20186adc93b4e3fb16ee2c4d12bc2edee45ff"},
         bounds=dict(file_bytes=128 * 1024, total_bytes=192 * 1024**2, files=7),
         source_modes="NORMALIZED_0600_READ_ONLY_MOUNT",
         projection="COMPLETE_ACTUAL_SOURCE_AND_STANDALONE_GIT_BYTES_C2_OWNED_STARTUP_ORIGINAL_GIT_AND_FALLBACK_BOTH_RETAINED",
