@@ -448,3 +448,78 @@ result acceptance, pending consumption or JOIN. A change after the last check
 can still occur; the receiving governor must perform its own currentness and
 authority gate. The original seven criteria and 45 routing/instrumentation
 cases remain separately open, and R0035 retains graph/READY/JOIN ownership.
+
+## Hosted-CI receiving correction: exact resolver source tuple
+
+Hosted run `40131248471`, job `120983225515`, at commit
+`cb6e76c87a820bb9739b0417ecb10640f98ae3de` failed three existing
+`ResolverExecutionCostControls` cases: known-source execution without a process,
+source-change refusal, and independent-reader stderr preservation. The actual
+failed log remains retained, SHA-256
+`ca46d19543fd58469e892ad0ed24737b95af8ae53ca3e878fcd79bca8e79b077`.
+On published PR253 checkpoint `ef702280361b91294a32a7c89bc3cd3ef1543605`,
+tree `882d3824a1d1efa225d49edf463dc74cee850219`, the unchanged four-case
+consumer selection reproduced all three failures; the unknown-source actual
+subprocess case passed. Its failed log SHA-256 is
+`36aa54084ec3843dceb643d145c704721cbb45740deda07878daeaa2105be0bf`.
+
+The repository-only R0033 receiving function still qualified resolver preimage
+`be553c29e1092643a71e6b50260d760bab15bbc76cd3c2091d05c4b52b8f302e`.
+The independently qualified canonical resolver has SHA-256
+`97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d`;
+its changed bytes consequently took the generic subprocess branch, bypassing
+the known-source execution, source recheck and isolated captured-output path.
+The correction replaces only that exact digest literal. Unknown source bytes
+still use the real subprocess route; the closed four-child population and all
+source/layout checks remain in force.
+
+The resulting route source is SHA-256
+`cde0db3f9bbb7203572835dd8311c1f1cd3758baf6ec9aac117b98bb715e5525`,
+from `8ed51e393f4f8a3be631e48255e9aeca59dcf120a803f1601a034e5ab9e02389`,
+with its original 371,304 bytes. Root authorized the necessary mechanical
+receiving-identity alignment in this PR: the existing R0035 compiler's sole
+`_NATIVE_ROUTE_PRODUCER_SHA256` literal now names those route bytes, and the
+source-peer manifest names the derived route and compiler digests. The compiler
+changes from `ef000d06a60cec080c0c2fa1838b67729009b04373946634c73d32f7c08229e9`
+to `1179273825f75b7e5efe3dbac4e158315a38b45ad97ad3485bcde8401ce224cb`,
+retaining 237,804 bytes and the unchanged producer byte-length guard. Route and
+compiler have exact byte equality and complete AST equality after replacing
+only their respective changed digest literal with its preimage. Only the two
+corresponding manifest SHA-256 leaves change. Graph grammar, dispatch, READY,
+JOIN and frontier behavior are unchanged.
+
+The complete affected consumer selection now passes **five controls**: all four
+original controls, unchanged, plus an actual-consumer linked-child-directory
+negative. The new negative checks the receiver's real JSON refusal, numeric exit
+and false advancement/enforcement flags without allowing a subprocess fallback.
+It fails against the captured original route source and passes with the exact
+receiving correction. The final five-control log SHA-256 is
+`3d7391308dee71efa55a74e9f7a87496bf65088ea775b760adddef9c9cbb616c`.
+The single existing source-peer inventory/cross-source-pin check first failed
+on the stale route manifest, then passed on the coherent tuple; final log
+SHA-256 `854d624fe52adf8d12a118ec771c353414f7fe7f99fb2c7eb511dbeec155d28b`.
+The unrelated 26 cost controls and whole graph/repository gates were not rerun.
+The first added-test assertion incorrectly expected a text exception instead of
+the consumer's existing JSON refusal and exit 2; its failure is retained, along
+with a preimage-replay setup error caused by an omitted unchanged policy helper.
+Neither diagnostic is counted as a runtime defect or a passing qualification.
+
+For later composition, the read-only published R0035 checkpoint supplied by root
+is `0b2bfa2e38d208f14fb57397adaea2815976b0e1`; it retains resolver preimage
+blob `1381c99520f4cad9d95edec194655afb6a4bd9a8` and the old receiving pin.
+This PR's change is a receiving proposal for PR246 only if that owner adopts
+the qualified resolver. At the receiving head, recompute the complete route and
+compiler identities from that owner's actual bytes and update its dependent
+manifest coherently; PR253's derived digests cannot identify different source.
+No PR246 or PR252 source is imported or modified here. Independent review must
+assess this exact tuple and ownership decision before root's final integration.
+
+This is finite source/consumer qualification. It supplies no source05 native
+occurrence authentication, full-payload LOAD, native event/acknowledgment,
+RETURN/acceptance, JOIN, covered-scope consumption, Stop authentication or host
+enforcement credit. The original native failures and issue populations remain
+open. Package/install qualification, guarded publication and successor hosted
+CI remain separate root-owned gates; this local correction does not rewrite the
+actual failed hosted result. Rollback restores the prior route/compiler/manifest
+receiving tuple coherently and retains the failure evidence; it does not qualify
+that prior tuple to receive the newer resolver.

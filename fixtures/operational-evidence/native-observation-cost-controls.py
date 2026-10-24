@@ -431,6 +431,26 @@ class ResolverExecutionCostControls(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
 
+    def test_known_resolver_refuses_linked_child_directory_without_process_launch(self):
+        import io
+        child = self.root / 'skills/audit-assess'
+        redirected = self.root / 'redirected-child'
+        child.rename(redirected)
+        child.symlink_to(redirected, target_is_directory=True)
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output), patch.object(
+                self.rt.subprocess, 'run', side_effect=AssertionError('redundant resolver process')):
+            with self.assertRaises(SystemExit) as refused:
+                self.rt.resolved_child_delivery_path('audit-assess', self.governor, self.resolver)
+        self.assertEqual(refused.exception.code, 2)
+        self.assertEqual(json.loads(output.getvalue()), {
+            'schema': 'implementaudit.route-transaction-result.v1',
+            'status': 'UNAVAILABLE', 'decision': 'PENDING',
+            'advance_allowed': False, 'enforcement_available': False,
+            'error': 'internal-child resolver refused audit-assess: resolve-internal-skill: '
+                     'canonical child directory must not be a symlink: audit-assess',
+        })
+
     def test_unknown_resolver_bytes_retain_the_actual_subprocess_path(self):
         self.resolver.write_bytes(self.resolver.read_bytes() + b'\n# unknown source version\n')
         original = self.rt.subprocess.run
