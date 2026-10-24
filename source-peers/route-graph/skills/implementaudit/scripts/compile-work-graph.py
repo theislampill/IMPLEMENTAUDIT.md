@@ -1505,13 +1505,13 @@ def _check_graph_seal(value, schema):
             raise WorkGraphError('native graph: missing source documents')
         binding = _require_object(value.get('binding'), 'native graph binding')
         _require_exact_members(binding, {'acquisition', 'controller', 'claim', 'receipt', 'epoch', 'candidate_head', 'candidate_tree', 'worktree_digest', 'continuity_helper_digest', 'source_digest', 'read_set', 'input_root_identity'}, 'native graph binding')
-        # This is captured-data replay only. It cannot issue a native acquisition witness.
-        replay = None
-        if schema == 'implementaudit.native-work-graph.v2':
-            replay = _RouteScopeObservation(value.get('route_scope'), _CAPTURED_ROUTE_REPLAY_KEY,
-                                            receiver_binding=value.get('receiver_binding'))
-        if _compile_native_documents_v1(snapshot, {k: v for k, v in binding.items() if k != 'source_digest'}, _route_observation=replay) != value:
+        if _replay_native_graph_v1(value) != value:
             raise WorkGraphError('native graph differs from source-derived projection')
+
+def _replay_native_graph_v1(graph, completion=None):
+    # This is captured-data replay only. It cannot issue a native acquisition witness.
+    replay = None if 'route_scope' not in graph else _RouteScopeObservation(graph['route_scope'], _CAPTURED_ROUTE_REPLAY_KEY, receiver_binding=graph.get('receiver_binding'))
+    return _compile_native_documents_v1({k: v.encode('utf-8') for k, v in graph['source_documents'].items()}, {k: v for k, v in graph['binding'].items() if k != 'source_digest'}, _route_observation=replay, _completion=completion)
 
 def _native_strings(value, label):
     result = _require_string_array(value, label)
@@ -2714,7 +2714,7 @@ def _native_validate_binding(binding, nodes):
         elif type(record['sha256']) is not str or not DIGEST_RE.fullmatch(record['sha256']):
             raise WorkGraphError('native binding: present input needs a content digest')
 
-def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _route_observation=None):
+def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _route_observation=None, _completion=None):
     before = copy.deepcopy(binding)
     route_scope = _route_observation_value(_route_observation) if _route_observation is not None else None
     if route_scope is not None:
@@ -2834,12 +2834,21 @@ def _compile_native_documents_v1(snapshot, binding, *, acquire_only=False, _rout
                 reasons.append(reason)
         fact_identity = {key: value for key, value in node.items()}
         node['input_digest'] = _graph_hash(dict(fact=fact_identity, campaign=state['campaign'], original_scope=state['original_scope'], required={d: nodes[d]['input_digest'] for d in node['requires']}, optional={d: nodes[d]['input_digest'] for d in node['optional']}, read_set=read_set, unresolved_semantic_worktree=before['worktree_digest'] if any((not p.startswith('path:') for p in node['reads'] + node['invalidators'])) else None, route_facts=[routes.get(scope) for scope in node['route_scopes']], **({'route_owner': route_scope} if route_scope is not None and route_scope['scope']['identity'] in node['route_scopes'] else {}), **({'receiver_binding': receiver_binding} if receiver_available else {}), delivery=held.get(node['logical_delivery'])))
+        completed = declared == 'DONE'
+        if _completion is not None:
+            result = _completion.get(name, {})
+            completed = result.get('status') == 'PASS'
+            if declared == 'DONE' and not completed:
+                reasons.append('UNBOUND_SOURCE_COMPLETION')
+            if result and not completed:
+                reasons.append('COMPLETION_' + result['status'])
+            node['input_digest'] = _graph_hash([node['input_digest'], {d: _completion.get(d) for d in node['requires'] + node['optional']}])
         node['declared_state'] = declared
-        node['state'] = 'ACTIVE' if declared == 'ACTIVE' else 'BLOCKED' if reasons else 'DONE' if declared == 'DONE' else 'READY'
+        node['state'] = 'ACTIVE' if declared == 'ACTIVE' else 'BLOCKED' if reasons else 'DONE' if completed else 'READY'
         node['blocked_reasons'] = sorted(set(reasons))
     source_inventory = [dict(path=path, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for path, data in sorted(snapshot.items())]
     before['source_digest'] = _graph_hash(source_inventory)
-    return _seal_graph(dict(schema='implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), **({'receiver_binding': receiver_binding} if receiver_binding is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
+    return _seal_graph(dict(schema='implementaudit.completion-projection.v1' if _completion is not None else 'implementaudit.native-work-graph.v2' if route_scope is not None else 'implementaudit.native-work-graph.v1', **({'route_scope': route_scope, 'route_relation': route_relation} if route_scope is not None else {}), **({'receiver_binding': receiver_binding} if receiver_binding is not None else {}), binding=before, campaign=state['campaign'], root=state['root'], original_scope=state['original_scope'], event=event, context=state['context'], source_inventory=source_inventory, source_documents={path: data.decode('utf-8') for path, data in snapshot.items()}, nodes=[nodes[name] for name in sorted(nodes)], population={s: sum((n['state'] == s for n in nodes.values())) for s in KNOWN_STATES}, authority='NONE'))
 
 def _native_input_policy_v1(owner, root, relative, git_policy):
     reason = owner._repository_path_policy(relative)
@@ -3236,6 +3245,9 @@ def cheap_path_v1(total_cells, ready_cells, capacity):
 
 def select_native_frontier_v1(graph):
     _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    return _select_native_frontier_v1(graph)
+
+def _select_native_frontier_v1(graph):
     context = graph['context']
     capacity = max(0, context['host_capacity'] - context['reserve'])
     if context['operator_ceiling'] is not None:
@@ -3263,6 +3275,23 @@ def select_native_frontier_v1(graph):
     identity = _graph_hash([graph['digest'], graph['event'], selected])
     mode = cheap_path_v1(sum((n['kind'] in {'TASK', 'JOIN'} for n in nodes)), len(candidates), free)
     return dict(schema='implementaudit.native-dispatch.v1', graph_digest=graph['digest'], event=copy.deepcopy(graph['event']), dispatch_id=identity, selected=selected, inputs={n['id']: n['input_digest'] for n in nodes if n['id'] in selected}, capacity=capacity, active_occupancy=occupied, free_capacity=free, deferred=dict(sorted(deferred.items())), blocked={n['id']: n['blocked_reasons'] for n in nodes if n['state'] == 'BLOCKED'}, placements={name: placements[name] for name in selected}, mode=mode['mode'], graph_required=mode['graph_required'], authority='NONE')
+
+def derive_completion_frontier_v1(graph, outcomes):
+    """Pure contract overlay, never accepted-result custody or dispatch authority."""
+    _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
+    _require_object(outcomes, 'completion outcomes')
+    nodes = {n['id']: n for n in graph['nodes']}
+    for name, value in outcomes.items():
+        if name not in nodes or nodes[name]['kind'] not in {'TASK', 'JOIN'}:
+            raise WorkGraphError('completion cannot grant ancestor or foreign scope')
+        _require_object(value, 'completion outcome')
+        _require_exact_members(value, {'status', 'digest'}, 'completion outcome')
+        _native_enum(value['status'], {'PASS', 'FAIL', 'PARTIAL', 'NONVERDICT', 'UNKNOWN', 'PENDING', 'INTERRUPTED', 'TRANSPORT_FAILURE', 'RECOVERY_CUSTODY_UNVERIFIED'}, 'completion status')
+        _require_digest(value['digest'], 'completion digest')
+    projection = _replay_native_graph_v1(graph, outcomes)
+    dispatch = _select_native_frontier_v1(projection)
+    dispatch.update(schema='implementaudit.completion-frontier.v1', source_graph_digest=graph['digest'], states={n['id']: n['state'] for n in projection['nodes']}, native_dispatch_authorized=False)
+    return dispatch
 
 def diff_native_graphs_v1(previous, current):
     for graph in (previous, current):
@@ -3326,6 +3355,12 @@ def reconcile_native_results_v1(dispatched_graph, current_graph, dispatch, resul
     delta = diff_native_graphs_v1(dispatched_graph, current_graph)
     if delta['recompute_required']:
         return dict(status='RECOMPUTE_REQUIRED', **delta)
+    return _join_native_results_v1(current_graph, mapped, join_id)
+
+def _join_native_results_v1(graph, mapped, join_id):
+    nodes = {n['id']: n for n in graph['nodes']}
+    join = nodes[join_id]
+    required, optional = set(join['requires']), set(join['optional'])
     missing = sorted(required - mapped.keys())
     all_settled = not missing and all((mapped[name]['terminal'] for name in required))
     status = 'PENDING'
@@ -3355,7 +3390,7 @@ def reconcile_native_results_v1(dispatched_graph, current_graph, dispatch, resul
             common = any((bool(closures[a][0] & closures[b][0]) or _semantic_overlap(closures[a][1], closures[b][1]) or bool(closures[a][2] & closures[b][2]) for a in required for b in required if a < b))
             if len(set(keys)) != len(keys) or (None not in evidence and len(set(evidence)) != len(evidence)) or common:
                 status = 'NONVERDICT' if status != 'FAIL' else status
-    return dict(schema='implementaudit.native-join.v1', status=status, all_required_settled=all_settled, required=sorted(required), optional=sorted(optional), missing=missing, omitted_optional=sorted(optional - mapped.keys()), retained_scopes={name: result['scope'] for name, result in sorted(mapped.items())}, graph_digest=current_graph['digest'], consumer=join_id, authority='NONE', lifecycle_credit='NONE')
+    return dict(schema='implementaudit.native-join.v1', status=status, all_required_settled=all_settled, required=sorted(required), optional=sorted(optional), missing=missing, omitted_optional=sorted(optional - mapped.keys()), retained_scopes={name: result['scope'] for name, result in sorted(mapped.items())}, graph_digest=graph['digest'], consumer=join_id, authority='NONE', lifecycle_credit='NONE')
 
 def compile_recursive_transition_v1(graph, history):
     _check_graph_seal(graph, 'implementaudit.native-work-graph.v1')
