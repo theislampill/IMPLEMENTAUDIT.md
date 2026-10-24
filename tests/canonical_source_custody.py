@@ -80,6 +80,24 @@ class ProjectionSourceCustody(unittest.TestCase):
                 self.assertTrue(callable(loaded.read_canonical_generation))
                 self.assertFalse(getattr(loaded, MARKER, False))
 
+    def test_equal_source_from_distinct_installations_keeps_physical_owner(self):
+        first = self.owner.projection_helper()
+        self.assertEqual(Path(first.__file__), self.projection)
+        loaded = [first]
+        for label, relative in (("plugin", "skills/implementaudit/scripts"),
+                                ("standalone", "scripts")):
+            with self.subTest(layout=label):
+                owner, projection = self.layout(label, relative)
+                self.assertEqual(projection.read_bytes(), self.original)
+                current = owner.projection_helper()
+                self.assertEqual(Path(current.__file__), projection)
+                for previous in loaded:
+                    self.assertIsNot(current, previous)
+                self.assertIs(owner.projection_helper(), current)
+                self.assertTrue(callable(current.prepare_native_resume_draft))
+                loaded.append(current)
+        self.assertIs(self.owner.projection_helper(), first)
+
     def test_same_size_source_drift_refuses_before_execution(self):
         self.projection.write_bytes(self.changed_source())
         self.assert_refused_before_compile()

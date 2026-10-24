@@ -602,7 +602,9 @@ def projection_helper():
     raw = read_regular(path, max_bytes=expected_bytes)
     if len(raw) != expected_bytes or hashlib.sha256(raw).hexdigest() != expected_digest:
         raise RotationError("projection helper source differs from selected owner")
-    name = "_claim_owned_rotation_projection_" + expected_digest
+    # Equal verified bytes in another installation must retain that physical
+    # owner's __file__ and independently selected sibling inputs.
+    name = "_claim_owned_rotation_projection_" + hashlib.sha256(os.fsencode(path) + b'\0' + raw).hexdigest()
     if name not in sys.modules:
         module = types.ModuleType(name)
         module.__file__ = str(path)
