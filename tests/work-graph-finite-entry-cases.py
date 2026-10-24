@@ -39,6 +39,7 @@ PROFILES = {
     "fanout-coverage": "CONTROLLED_TASK_FANOUT_COVERAGE_V1",
     "skill-layout": "CONTROLLED_TASK_SKILL_LAYOUT_V1",
     "native-integration": "CONTROLLED_TASK_NATIVE_INTEGRATION_V1",
+    "audit-retention": "CONTROLLED_TASK_AUDIT_RETENTION_V1",
 }
 
 

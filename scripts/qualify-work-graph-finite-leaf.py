@@ -40,6 +40,7 @@ NATIVE_INTEGRATION_PROFILE = "CONTROLLED_TASK_NATIVE_INTEGRATION_V1"
 # including exempt examples. They bound allocation; the original decides truth.
 _NATIVE_FORBIDDEN_BOUND_ANCHORS = (b"Foreign", b"foreign", b"Category", b"STATUS", b"non-native")
 _NATIVE_HYGIENE_BOUND_ANCHORS = ("hunter2", "akia", "ghp_", "sk-", "password", "apikey", "api_key", "api-key")
+RETENTION_PROFILE = "CONTROLLED_TASK_AUDIT_RETENTION_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -286,6 +287,19 @@ _CONTRACTS = {
         recursive=dict(roots=SKILL_LAYOUT_ROOTS, optional=True,
             optional_files=("CONTRIBUTING.md", ".git"), bounds=_RECURSIVE_BOUNDS,
             required_members=SKILL_LAYOUT_REQUIRED)),
+    RETENTION_PROFILE: dict(label="audit-retention", index=58, program="tests/audit-retention.test.sh",
+        programs={
+            "tests/audit-retention.test.sh": "9c06e2ddcc380d7a6eb5f73c620a32c90f99c6805a5195227e63f98a47028a2c",
+            "scripts/check-audit-retention.sh": "386d7475f7111a5e5349672b01e9c68f5fa0f15cfcf100930d8dae187370937e"},
+        data=("docs/audits/INDEX.md", "docs/audits/RETENTION.md",
+              "fixtures/audit-retention/negative-missing-artifact-boundary.md",
+              "fixtures/audit-retention/negative-stale-root-reference.md"),
+        pinned_data={RUNNER: "345f51885abbeeda2e4ecd0de503febe50f30f853630a44c0c1277f414c1f9ae"},
+        bounds=dict(file_bytes=128 * 1024, total_bytes=192 * 1024**2, files=7),
+        source_modes="NORMALIZED_0600_READ_ONLY_MOUNT",
+        projection="COMPLETE_ACTUAL_SOURCE_AND_STANDALONE_GIT_BYTES_C2_OWNED_STARTUP_ORIGINAL_GIT_AND_FALLBACK_BOTH_RETAINED",
+        complete_git=dict(file_bytes=16 * 1024**2, total_bytes=192 * 1024**2,
+                          entries=4096, depth=40, path_bytes=2048)),
     AUDIT_OBJECT_PROFILE: dict(label="audit-object-routing", index=70, program="tests/audit-object-routing.test.sh",
         programs={
             "tests/audit-object-routing.test.sh": "e32e07be7163d404a5bd88180ee630f4efc2d614ddae4a0555cbe2fab0744426",
@@ -537,7 +551,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -551,7 +565,7 @@ def image_subject(state, *, profile=PROFILE):
     """Retain the registry bytes whenever the original actually reads them."""
     contract_for(profile)
     return {name: value for name, value in state["files"].items()
-            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE)}
+            if name != REGISTRY or profile in (REGISTRY_PROFILE, SKILL_LAYOUT_PROFILE, RETENTION_PROFILE)}
 
 
 def select_node(compiler, registry, environment, *, profile=PROFILE):
@@ -995,7 +1009,90 @@ def skill_layout_output_bounds(state, objects):
         basis="ALL_POSSIBLE_DECODED_LINES_AND_STRUCTURAL_TREE_MARKERS_NOT_ACCEPTANCE")
 
 
-def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None):
+def snapshot_complete_git_inputs(prefix, root, objects, contract, git_owner, environment):
+    """Acquire a genuine complete standalone source through existing owners."""
+    if git_owner is None or environment is None:
+        raise ValueError("complete Git source requires the captured C2 owner and fixed environment")
+    bounds = contract["complete_git"]
+    state, stamps = prefix.snapshot_tree(root, objects, bounds)
+    prefix.validate_git_namespace(state, objects)
+    if any(value["mode"] not in (0o444, 0o644, 0o755) for value in state["files"].values()) or any(
+            mode not in (0o700, 0o755) for mode in state["directories"].values()):
+        raise ValueError("complete Git source has unsupported ordinary modes")
+    if any(len(name.encode("utf-8", "strict")) > bounds["path_bytes"] for name in (*state["files"], *state["directories"])):
+        raise ValueError("complete Git source path bound exceeded")
+    context = git_owner["context"](root=root, environment=environment, finite_ls_files=True)
+    for path, raw in context["captured_control_bytes"].items():
+        try:
+            name = Path(path).relative_to(root).as_posix()
+        except ValueError:
+            raise ValueError("complete Git source refuses external configuration bytes") from None
+        if name not in state["files"] or objects[state["files"][name]["sha256"]] != raw:
+            raise ValueError("C2 control differs from complete acquired Git bytes")
+    observed = git_owner["capture"](context, ("ls-files", "-z"))
+    paths = context["binding"]["index_format"]["ordinary_paths"]
+    if observed.split(b"\0") != [*(name.encode("utf-8") for name in paths), b""]:
+        raise ValueError("actual C2 Git observation differs from its supported ordinary index")
+    key = digest(observed)
+    objects.setdefault(key, observed)
+    current, current_stamps = prefix.snapshot_tree(root, {}, bounds)
+    if current != state or current_stamps != stamps:
+        raise ValueError("complete source or Git bytes changed during acquisition")
+    return state, dict(currentness=stamps, projection=dict(
+        roots=["."], bounds=dict(bounds), observation="COMPLETE_SOURCE_GIT_BYTES_NAMES_TYPES_AND_EMPTY_DIRECTORIES",
+        fallback="WHOLE_ORIGINAL_ROOT_NAMESPACE_RETAINED_INCLUDING_GIT_TRAVERSAL"),
+        git=context["binding"], git_observation=dict(argv=["git", "--no-pager", "ls-files", "-z"],
+            exit=0, bytes=len(observed), sha256=key, role="READ_ONLY_C2_OBSERVATION_NEVER_SUBSTITUTED_FOR_ORIGINAL_OUTPUT"))
+
+
+def retention_output_bounds(state, objects):
+    """Allocation only: retain the original all-file filter and its exemptions."""
+    namespace = [name for name in state["files"] if ".git" not in Path(name).parts]
+    tracked = state["complete_git_inputs"]["git"]["index_format"]["ordinary_paths"]
+    selected = sorted(set(namespace) | set(tracked))
+    archives = [name for name in namespace if name.startswith("docs/audits/archive/") and
+                name.endswith(".md") and "/fixtures/" not in name]
+    refs = ["docs/audits/" + Path(name).name for name in archives]
+    width = lambda name: 4 * len(name.encode("utf-8")) + 32
+    # The original empty-prefix tuples admit all selected files after these
+    # explicit exclusions. Ignore its archive-text exemptions when allocating.
+    active = [name for name in namespace if not name.startswith(("docs/audits/archive/", "fixtures/audit-retention/"))
+              and name not in ("docs/maintenance/AGENTS-HISTORY.md", "CHANGELOG.md")]
+    active_diagnostics = 0
+    for name in active:
+        raw = objects[state["files"][name]["sha256"]]
+        if b"docs/audits/" in raw:
+            active_diagnostics += sum(width(name) + width(ref) + 128 for ref in refs)
+            active_diagnostics += 2 * (width(name) + 256)
+        if name.startswith("docs/audits/") and b".IMPLEMENTAUDIT/runs" in raw:
+            active_diagnostics += width(name) + 1024  # First 160 Unicode code points only.
+    names_bytes = sum(len(name.encode("utf-8")) + 1 for name in selected)
+    physical_names = set(state["files"]) | set(state["directories"]) | set(tracked)
+    physical_name_bytes = sum(len(name.encode("utf-8")) + 1 for name in physical_names)
+    forbidden = sum(width(name) + 1 for name in selected)
+    margin = 64 * 1024 + max((width(name) for name in selected), default=0)
+    diagnostic = margin + 4096  # Literal requirements, bounded line excerpts and tracebacks.
+    stderr = max(active_diagnostics + margin, forbidden + margin, diagnostic) + 4096
+    largest = max((state["files"][name]["bytes"] for name in active), default=0)
+    audit_lines = max((state["files"][name]["bytes"] for name in active
+                       if name.startswith("docs/audits/")), default=0)
+    fixed_reads = sum(state["files"][name]["bytes"] for name in ("docs/audits/INDEX.md", "docs/audits/RETENTION.md"))
+    # Charge decoding plus joined diagnostics separately from splitlines' many
+    # small strings and Path/name containers. This is an allocation refusal,
+    # never an answer about whether any original semantic check will pass.
+    memory = (64 * 1024**2 + 8 * (largest + fixed_reads + stderr) + 32 * audit_lines +
+              64 * physical_name_bytes + 512 * (len(physical_names) + len(selected) + len(archives)))
+    return dict(namespace_files=len(namespace), tracked_files=len(tracked), fallback_and_tracked_union=len(selected),
+        archive_markdown_files=len(archives), archive_stale_names=refs,
+        source_read_files=len(active), source_read_bytes=sum(state["files"][name]["bytes"] for name in active),
+        selected_name_bytes=names_bytes, complete_traversal_name_bytes=physical_name_bytes,
+        diagnostic_file_bound=diagnostic, max_stderr_bytes=stderr,
+        active_diagnostic_bound=active_diagnostics, forbidden_name_diagnostic_bound=forbidden,
+        original_data_memory_reservation=memory,
+        basis="COMPLETE_ROOT_AND_INDEX_NAMES_NECESSARY_REFERENCE_ANCHOR_BOUNDS_NOT_SEMANTIC_ACCEPTANCE")
+
+
+def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot=None, git_owner=None, environment=None):
     """Acquire the literal closure and the profile's complete typed namespace.
 
     The live factory supplies the existing captured qualifier's registry owner;
@@ -1040,6 +1137,15 @@ def snapshot_source(prefix, root, objects, *, profile=PROFILE, registry_snapshot
         membership, currentness = snapshot_skill_namespace(prefix, root)
         state["skill_namespace"] = dict(projection=membership, currentness=currentness)
         stamps["skill_namespace"] = currentness
+    if "complete_git" in contract:
+        complete, currentness = snapshot_complete_git_inputs(prefix, root, objects, contract, git_owner, environment)
+        if any(complete["files"].get(name) != value for name, value in state["files"].items()):
+            raise ValueError("literal inputs changed during complete Git source acquisition")
+        state["files"].update(complete["files"])
+        state["directories"].update(complete["directories"])
+        state["complete_git_inputs"] = currentness
+        stamps["complete_git_inputs"] = currentness
+        state["complete_git_inputs"]["resources"] = retention_output_bounds(state, objects)
     if "recursive" in contract:
         recursive, currentness = snapshot_recursive_inputs(prefix, root, objects, contract["recursive"])
         state["files"].update(recursive["files"])
@@ -1116,6 +1222,19 @@ def temporary_requirements(state, *, profile=PROFILE):
             copied_source_bytes=bound["copied_source_bytes"], diagnostic_files=7, diagnostic_file_bound=diagnostic,
             grep_report_files=2, grep_report_file_bound=report, sed_temporary_files=3,
             sed_temporary_bytes=list(sed_sizes), checker_spools=8, checker_spool_bytes=8 * checker)
+    elif profile == RETENTION_PROFILE:
+        bound = state["complete_git_inputs"]["resources"]
+        diagnostic = bound["diagnostic_file_bound"]
+        checker = state["files"]["scripts/check-audit-retention.sh"]["bytes"]
+        # The exact wrapper keeps three logs and one generated private file.
+        # Charge all four checker spools and the wrapper spool simultaneously.
+        sizes = (diagnostic,) * 3 + (checker,) * 4 + (128, 128)
+        copies, files, directories = 0, len(sizes), 1
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
+            max_stderr_bytes=bound["max_stderr_bytes"], diagnostic_files=3,
+            diagnostic_file_bound=diagnostic, checker_spools=4, checker_spool_bytes=4 * checker,
+            wrapper_spools=1, generated_files=1, original_data_memory_reservation=bound["original_data_memory_reservation"])
     elif profile in (PLAN_QUALITY_PROFILE, READ_ONLY_PROFILE):
         # Every original diagnostic includes at most one data-derived line,
         # plus bounded literal paths/tokens/traceback. Charge UTF-8 error/repr
@@ -1323,7 +1442,7 @@ def temporary_requirements(state, *, profile=PROFILE):
         allocation_granule=granule, observed_page_bytes=page, overhead_bytes=overhead,
         required_bytes=allocated + overhead, basis="PINNED_PROGRAM_LITERAL_TEMPORARY_WRITE_SET")
     result.update(extra)
-    if "recursive" in contract:
+    if "recursive" in contract or "complete_git" in contract:
         result["basis"] = "COMPLETE_ACQUIRED_INPUT_OUTPUT_BOUND_AND_FIXED_PRIVATE_WRITE_SET"
     elif profile in (PLAN_QUALITY_PROFILE, AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE):
         result["basis"] = "ACQUIRED_LITERAL_BYTES_AND_PINNED_BRANCH_PRIVATE_WRITE_SET"
@@ -1338,6 +1457,45 @@ def require_resource_capacity(reservation, limits):
                          ("max_stdout_bytes", stream), ("max_stderr_bytes", stream)):
         if field in reservation and reservation[field] > limit:
             raise ValueError("finite-leaf " + field + " exceeds original file/stream capacity")
+    if ("original_data_memory_reservation" in reservation and
+            reservation["original_data_memory_reservation"] > limits["address_bytes"] * 3 // 4):
+        raise ValueError("finite-leaf original data exceeds memory capacity")
+
+
+def retention_image_reservation(files, limits):
+    """The unchanged launcher materializes every member under RLIMIT_FSIZE."""
+    member_limit = min(contract_for(RETENTION_PROFILE)["complete_git"]["file_bytes"], limits["file_bytes"])
+    if any(len(raw) > member_limit for raw, _ in files.values()):
+        raise ValueError("complete Git image member exceeds unchanged original file capacity")
+    descriptors = len(files) + 2 + 64
+    mounted = sum(len(raw) for raw, _ in files.values())
+    if descriptors > limits["descriptors"] or mounted > limits["address_bytes"] // 4:
+        raise ValueError("complete Git image exceeds finite descriptor/memory reservation")
+    return dict(descriptors=descriptors, observer_descriptor_margin=64, mounted_bytes=mounted,
+                address_reservation_bytes=limits["address_bytes"] // 4, image_member_limit=member_limit)
+
+
+def retention_readonly_image(files):
+    """Keep every captured member; use the RO data mount's compact0600 mode."""
+    if any(mode not in (0o444, 0o555) for _, mode in files.values()):
+        raise ValueError("retention compact image requires normalized data/executable modes")
+    return {name: (raw, 0o600 if mode == 0o444 else mode) for name, (raw, mode) in files.items()}
+
+
+def retention_runtime_binding(source, runtime, objects):
+    """Bind the real C2 observer to the same physical Git carried to /work."""
+    binding = source["complete_git_inputs"]["git"]
+    executable = binding["executable"]
+    name = executable["selected_path"]
+    observed = runtime["observations"].get(name)
+    entry = runtime["files"].get(name)
+    if (name != "/usr/bin/git" or executable["resolved_path"] != name or observed is None or entry is None or
+            observed["resolved"] != name or any(observed[key] != executable[key] for key in ("sha256", "bytes", "mode")) or
+            [str(observed["identity"][i]) for i in (0, 1, 2, 4, 5, 6)] != binding["executable_file_identity"] or
+            entry["sha256"] != executable["sha256"] or digest(objects.get(entry["sha256"], b"")) != entry["sha256"]):
+        raise ValueError("complete Git source observer differs from captured original runtime")
+    return dict(executable=executable, original_argv=["git", "ls-files", "-z"],
+                custody="ACTUAL_CAPTURED_SYSTEM_GIT_BYTES_ORIGINAL_COMMAND_OUTPUT_NEVER_SUBSTITUTED")
 
 
 def _capture_topology_runtime(prefix, runtime, objects):
@@ -1451,6 +1609,9 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
     # do not fork the census algorithm or accept a receiving callback policy.
     registry_snapshot = (base._acquire.__globals__["_registry_membership_snapshot_v1"]
                          if profile == REGISTRY_PROFILE else None)
+    git_owner = ({"context": base._acquire.__globals__["_preflight_git_context_v1"],
+                  "capture": base._acquire.__globals__["_preflight_git_capture_v1"]}
+                 if profile == RETENTION_PROFILE else None)
 
     class FiniteVerifierSession(parent):
         SCOPE = profile
@@ -1463,6 +1624,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             # Original74 retains seven private trees; its fixed ceiling
             # enters the same existing acquisition/image/key owners.
             LIMITS["scratch_bytes"] = 128 * 1024**2
+        ENVIRONMENT = (dict(parent.ENVIRONMENT, HOME="/nonexistent", GIT_ATTR_NOSYSTEM="1")
+                       if profile == RETENTION_PROFILE else parent.ENVIRONMENT)
 
         def __init__(self, source_root, output, *, max_age=3600):
             # Preserve the namespace owner's raw-path refusal before inherited
@@ -1484,12 +1647,14 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             objects = {}
             observer = self._observer()
             source, stamps = snapshot_source(prefix, self.source, objects,
-                profile=profile, registry_snapshot=registry_snapshot)
+                profile=profile, registry_snapshot=registry_snapshot, git_owner=git_owner, environment=self.environment)
             registry = objects[source["files"][REGISTRY]["sha256"]]
             graph, scope, node = select_node(compiler, registry, self.environment, profile=profile)
             temporary = temporary_requirements(source, profile=profile)
             require_resource_capacity(temporary, self.LIMITS)
             runtime = finite_runtime(prefix, objects, profile=profile)
+            if profile == RETENTION_PROFILE:
+                runtime["retention_git_binding"] = retention_runtime_binding(source, runtime, objects)
             engine_objects = {}
             for name, expected in self._engine.items():
                 captured = prefix.read_regular(engine_root / name)[1]
@@ -1498,7 +1663,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 objects.setdefault(expected, captured)
                 engine_objects[name] = expected
             current, final_stamps = snapshot_source(prefix, self.source, {},
-                profile=profile, registry_snapshot=registry_snapshot)
+                profile=profile, registry_snapshot=registry_snapshot, git_owner=git_owner, environment=self.environment)
             if source != current or stamps != final_stamps or observer != self._observer():
                 raise compiler.WorkGraphError("finite-leaf source/runtime observer changed during acquisition")
             self._custody()
@@ -1513,7 +1678,12 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 for name, value in subject.items()})
             if profile == SKILL_LAYOUT_PROFILE and files["/work/" + RUNNER][0] != objects[self._engine[RUNNER]]:
                 raise compiler.WorkGraphError("observed skill-layout runner differs from fixed engine runner")
+            if profile == RETENTION_PROFILE and source["files"][RUNNER]["sha256"] != self._engine[RUNNER]:
+                raise compiler.WorkGraphError("original-readable runner differs from captured engine bytes")
             files["/work/" + RUNNER] = (objects[self._engine[RUNNER]], 0o555)
+            if profile == RETENTION_PROFILE:
+                files = retention_readonly_image(files)
+                temporary["image_reservation"] = retention_image_reservation(files, self.LIMITS)
             membership = None
             if profile == REGISTRY_PROFILE:
                 membership = source["registry_membership"]["projection"]
@@ -1551,6 +1721,15 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 manifest["directory_membership"] = source["recursive_inputs"]["projection"]
                 manifest["source_projection"] = "COMPLETE_RECURSIVE_READ_BYTES_AND_EXPLICIT_OPTIONAL_PRESENCE"
                 image_key = self._object(self._encode(manifest))
+            if profile == RETENTION_PROFILE:
+                manifest["directories"] = sorted(set(manifest["directories"]) |
+                    {"/work/" + name for name in source["directories"] if name != "."})
+                manifest["directory_membership"] = source["complete_git_inputs"]["projection"]
+                manifest["source_projection"] = contract["projection"]
+                manifest["git_startup"] = runtime["retention_git_binding"]
+                manifest["image_reservation"] = temporary["image_reservation"]
+                manifest["data_permissions"] = "OWNER_0600_READ_ONLY_MOUNT"
+                image_key = self._object(self._encode(manifest))
             if profile in (SAFEGUARD_PROFILE, INSTALLED_PROFILE):
                 # The original physical helper validator requires st_nlink=1.
                 # Select this fixed policy in the acquired image, never from a
@@ -1565,7 +1744,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
                 source=source_key, graph=graph_key, engine=self._engine, engine_objects=engine_objects,
                 runtime=runtime_key, runtime_observations=runtime_observation_key,
                 inputs={node["id"]: dict(program_sha256=contract["programs"][contract["program"]], image_digest=image_key)},
-                environment=self.environment, observer=observer, limits=self.LIMITS, source_bounds=contract["bounds"],
+                environment=self.environment, observer=observer, limits=self.LIMITS,
+                source_bounds=contract.get("complete_git", contract["bounds"]),
                 source_projection=contract["projection"], temporary_reservation=temporary, startup_umask=0o022,
                 directory_modes="NORMALIZED_0755_READ_ONLY", source_files=contract["source_modes"],
                 namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT", stdin="EMPTY",

@@ -1441,6 +1441,11 @@ class VerifierTaskSession:
         if materialization not in (None, "SINGLE_LINK_FILES_READ_ONLY_ROOT") or (
                 materialization is not None and manifest.get("root_read_only") is not True):
             raise WG.WorkGraphError("unsupported source image materialization")
+        data_permissions = manifest.get("data_permissions")
+        if data_permissions not in (None, "OWNER_0600_READ_ONLY_MOUNT") or (
+                data_permissions is not None and manifest.get("root_read_only") is not True) or (
+                data_permissions is None and any(mode == 0o600 for _, mode in files.values())):
+            raise WG.WorkGraphError("unsupported read-only data image permissions")
         directory.mkdir()
         self._write(directory / "image.json", manifest)
         fds = []
@@ -1458,13 +1463,23 @@ class VerifierTaskSession:
                 # Both routes copy the same sealed bytes; the existing final
                 # root remount makes --file source members read-only as well.
                 kind = "--file" if materialization is not None and name.startswith("/work/") else "--ro-bind-data"
-                args += ["--perms", oct(mode)[2:], kind, str(fd), name]
+                # A fixed finite image may select owner-only data mode0600,
+                # the default of --ro-bind-data. The mount remains read-only;
+                # --file has a different default and always keeps explicit mode.
+                if mode != 0o600 or kind != "--ro-bind-data":
+                    args += ["--perms", oct(mode)[2:]]
+                args += [kind, str(fd), name]
             seccomp_fd = self._sealed(self.SECCOMP)
             fds.append(seccomp_fd)
             args += ["--dev-bind", "/dev/null", "/dev/null", "--size", str(self.LIMITS["scratch_bytes"]), "--tmpfs", "/tmp",
                      "--remount-ro", "/", "--chdir", "/work", "--seccomp", str(seccomp_fd)]
             command = ["/usr/bin/bash", "--noprofile", "--norc", "/work/scripts/run-work-graph-verifier.sh",
                        "--isolated-leaf", node["id"], node["source"], node["source_sha256"]]
+            # --args is still counted by bubblewrap's9000-argument parser.
+            # Include the outer --args/FD and checker argv, then keep margin.
+            argument_count = len(args) + 2 + len(command)
+            if argument_count > 8500:
+                raise WG.WorkGraphError("snapshot exceeds supported launcher argument budget")
             args_fd = self._sealed(b"\0".join(a.encode() for a in args) + b"\0")
             fds.append(args_fd)
             if max(fds) >= self.LIMITS["descriptors"]:
@@ -1472,7 +1487,8 @@ class VerifierTaskSession:
             self._write(directory / "dispatch.json", dict(node=node["id"], command=node["source"],
                         command_sha256=node["source_sha256"], input_key=decision["key"],
                         image_digest=acquired["acquired"]["inputs"][node["id"]]["image_digest"],
-                        descriptor_count=len(fds), descriptor_custody="SEALED_INPUTS_ONLY_CLOSED_BEFORE_CHECKER"))
+                        descriptor_count=len(fds), argument_count=argument_count, argument_limit=8500,
+                        descriptor_custody="SEALED_INPUTS_ONLY_CLOSED_BEFORE_CHECKER"))
             def limits():
                 resource.setrlimit(resource.RLIMIT_CPU, (self.LIMITS["cpu_seconds"],) * 2)
                 resource.setrlimit(resource.RLIMIT_AS, (self.LIMITS["address_bytes"],) * 2)
@@ -1670,6 +1686,7 @@ _FINITE_MODES = {
     "fanout-coverage": "CONTROLLED_TASK_FANOUT_COVERAGE_V1",
     "skill-layout": "CONTROLLED_TASK_SKILL_LAYOUT_V1",
     "native-integration": "CONTROLLED_TASK_NATIVE_INTEGRATION_V1",
+    "audit-retention": "CONTROLLED_TASK_AUDIT_RETENTION_V1",
 }
 
 
@@ -1762,12 +1779,14 @@ def _preflight_git_config_v1(data):
     return values
 
 
-def _preflight_git_index_v1(data):
+def _preflight_git_index_v1(data, *, ordinary_only=False):
     """Admit inline SHA-1 indexes before Git can touch a shared-index file.
 
     Decode entry boundaries, not a substring search: ordinary filenames and
     object IDs may contain 'link'. This does not interpret split-index data.
     """
+    if type(ordinary_only) is not bool:
+        raise WG.WorkGraphError("preflight Git index profile must be explicit")
     error = "preflight Git observation refuses malformed or unsupported index structure"
     end = len(data) - 20
     if (end < 12 or data[:4] != b"DIRC" or
@@ -1776,12 +1795,17 @@ def _preflight_git_index_v1(data):
     version, entries = struct.unpack_from(">II", data, 4)
     if version not in {2, 3, 4} or entries > (end - 12) // 63:
         raise WG.WorkGraphError(error)
+    if ordinary_only and (version != 2 or entries > 4096):
+        raise WG.WorkGraphError("finite Git source requires a bounded ordinary version-2 index")
+    ordinary_paths, previous_name = [], b""
     offset, previous_length = 12, 0
     for _ in range(entries):
         start = offset
         if offset + 62 > end:
             raise WG.WorkGraphError(error)
         flags = struct.unpack_from(">H", data, offset + 60)[0]
+        if ordinary_only and (flags & 0xf000 or struct.unpack_from(">I", data, start + 24)[0] not in {0o100644, 0o100755}):
+            raise WG.WorkGraphError("finite Git source refuses staged, extended, assumed-valid or nonregular index entries")
         offset += 62
         if flags & 0x4000:
             if version == 2 or offset + 2 > end or struct.unpack_from(">H", data, offset)[0] & ~0x6000:
@@ -1804,6 +1828,18 @@ def _preflight_git_index_v1(data):
         nul = data.find(b"\0", offset, end)
         if nul < 0:
             raise WG.WorkGraphError(error)
+        if ordinary_only:
+            raw_name = data[offset:nul]
+            try:
+                name = raw_name.decode("utf-8", "strict")
+            except UnicodeDecodeError:
+                raise WG.WorkGraphError("finite Git source requires UTF-8 index paths") from None
+            if (not raw_name or len(raw_name) > 2048 or raw_name <= previous_name or
+                    any(ord(character) < 32 or ord(character) == 127 for character in name) or
+                    any(part in {"", ".", "..", ".git"} for part in name.split("/"))):
+                raise WG.WorkGraphError("finite Git source refuses unsupported or repeated index paths")
+            ordinary_paths.append(name)
+            previous_name = raw_name
         length = nul - offset + (previous_length - removed if version == 4 else 0)
         if flags & 0xfff != min(length, 0xfff):
             raise WG.WorkGraphError(error)
@@ -1822,25 +1858,45 @@ def _preflight_git_index_v1(data):
             raise WG.WorkGraphError("preflight Git observation refuses split-index indirection")
         if signature not in {b"TREE", b"REUC"}:
             raise WG.WorkGraphError("preflight Git observation refuses unsupported index extension")
+        if ordinary_only and signature != b"TREE":
+            raise WG.WorkGraphError("finite Git source requires only the ordinary TREE index extension")
         if size > end - offset or signature.decode("ascii") in extensions:
             raise WG.WorkGraphError(error)
         extensions.append(signature.decode("ascii"))
         offset += size
-    return dict(profile="INLINE_SHA1_V2_V3_V4_TREE_REUC", version=version,
-                entries=entries, extensions=extensions)
+    result = dict(profile="INLINE_SHA1_V2_V3_V4_TREE_REUC", version=version,
+                  entries=entries, extensions=extensions)
+    if ordinary_only:
+        result.update(profile="INLINE_SHA1_V2_REGULAR_STAGE_ZERO_TREE", ordinary_paths=ordinary_paths)
+    return result
 
 
-def _preflight_git_context_v1():
+def _preflight_git_context_v1(*, root=None, environment=None, finite_ls_files=False):
     """Admit the actual declared context; never silently discard Git config.
 
     The caller must already have excluded system/global config and system
     attributes in the intended run environment. Other selectors are refused.
     The finite local config subset and physical selections are digest-bound.
     """
+    if type(finite_ls_files) is not bool:
+        raise WG.WorkGraphError("preflight Git observation profile must be explicit")
     require_source_descriptor_api()
-    environment = dict(os.environ)
+    if not finite_ls_files:
+        if root is not None or environment is not None:
+            raise WG.WorkGraphError("preflight Git overrides require the fixed finite ls-files profile")
+        root, environment = ROOT, dict(os.environ)
+    else:
+        if (root is None or not Path(root).is_absolute() or ".." in Path(root).parts or
+                type(environment) is not dict or environment.get("HOME") != "/nonexistent" or
+                "SUDO_UID" in environment or "SUDO_GID" in environment or "SUDO_USER" in environment):
+            raise WG.WorkGraphError("finite Git source requires its declared root and closed owner/startup environment")
+        root, environment = Path(root), dict(environment)
     required = dict(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL="/dev/null", GIT_ATTR_NOSYSTEM="1")
     allowed = dict(required, GIT_OPTIONAL_LOCKS=None, GIT_PAGER=None)
+    if finite_ls_files:
+        required.update(GIT_OPTIONAL_LOCKS="0", GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1",
+                        GIT_TERMINAL_PROMPT="0", GIT_EXEC_PATH="/nonexistent")
+        allowed.update(required)
     if (platform.system() != "Linux" or not Path("/proc/self/fd").is_dir() or
             any(environment.get(key) != value for key, value in required.items()) or
             any(key.startswith("GIT_") and key not in allowed for key in environment) or
@@ -1851,7 +1907,7 @@ def _preflight_git_context_v1():
     null = Path("/dev/null").stat()
     if not stat.S_ISCHR(null.st_mode) or (os.major(null.st_rdev), os.minor(null.st_rdev)) != (1, 3):
         raise WG.WorkGraphError("preflight Git observation null device is unsupported")
-    lookup = os.pathsep.join(str(Path(part) if Path(part).is_absolute() else ROOT / part)
+    lookup = os.pathsep.join(str(Path(part) if Path(part).is_absolute() else root / part)
                              for part in environment.get("PATH", os.defpath).split(os.pathsep))
     selected = shutil.which("git", path=lookup)
     if selected is None or str(Path(selected).resolve()) not in {"/usr/bin/git", "/usr/local/bin/git"}:
@@ -1864,14 +1920,16 @@ def _preflight_git_context_v1():
     with binary.open("rb") as stream:
         if stream.read(4) != b"\x7fELF":
             raise WG.WorkGraphError("preflight Git observation refuses Git executable wrappers")
-    controls = []
+    controls, control_bytes = [], {}
 
     def acquire(path, **options):
         record, data = _preflight_git_file_v1(path, **options)
+        if finite_ls_files and data is not None:
+            control_bytes[str(path)] = data
         controls.append(record)
         return data
 
-    marker = ROOT / ".git"
+    marker = root / ".git"
     state = marker.lstat()
     if stat.S_ISDIR(state.st_mode):
         gitdir = marker
@@ -1881,7 +1939,7 @@ def _preflight_git_context_v1():
         if re.fullmatch(rb"gitdir: [^\x00-\x1f\x7f]+\r?\n?", raw) is None:
             raise WG.WorkGraphError("preflight Git observation refuses unsupported Git directory selection")
         declared = Path(os.fsdecode(raw[8:].rstrip(b"\r\n")))
-        gitdir = Path(os.path.abspath(declared if declared.is_absolute() else ROOT / declared))
+        gitdir = Path(os.path.abspath(declared if declared.is_absolute() else root / declared))
     else:
         raise WG.WorkGraphError("preflight Git observation refuses aliased Git directory selection")
     raw = acquire(gitdir / "commondir")
@@ -1891,14 +1949,35 @@ def _preflight_git_context_v1():
             raise WG.WorkGraphError("preflight Git observation refuses unsupported common directory selection")
         declared = Path(os.fsdecode(raw.rstrip(b"\r\n")))
         common = Path(os.path.abspath(declared if declared.is_absolute() else gitdir / declared))
+    ownership = {}
+    if finite_ls_files:
+        if gitdir != marker or common != marker:
+            raise WG.WorkGraphError("finite Git source requires complete standalone local storage")
+        for label, path in (("source", root), ("git", gitdir)):
+            info = path.lstat()
+            if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.geteuid():
+                raise WG.WorkGraphError("finite Git source requires the actual producer-owned repository")
+            ownership[label] = dict(uid=info.st_uid, gid=info.st_gid, mode=stat.S_IMODE(info.st_mode),
+                                    identity=[str(value) for value in _file_identity(info)])
     config = _preflight_git_config_v1(acquire(common / "config", required=True))
     worktree_config = config.get("extensions.worktreeconfig") == "true"
     if worktree_config:
         raw = acquire(gitdir / "config.worktree")
         if raw is not None:
             config.update(_preflight_git_config_v1(raw))
-    acquire(gitdir / "HEAD", required=True)
-    index_format = _preflight_git_index_v1(acquire(gitdir / "index", required=True, byte_limit=EXPLICIT_FILE_LIMIT))
+    head = acquire(gitdir / "HEAD", required=True)
+    if finite_ls_files:
+        if re.fullmatch(rb"(?:[0-9a-f]{40}|ref: refs/[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*)\n", head) is None:
+            raise WG.WorkGraphError("finite Git source refuses an unsupported discovery HEAD")
+        for name in ("objects", "refs"):
+            path = gitdir / name
+            info = path.lstat()
+            if not stat.S_ISDIR(info.st_mode) or not info.st_mode & 0o100 or info.st_uid != os.geteuid():
+                raise WG.WorkGraphError("finite Git source requires actual owned searchable repository directories")
+            controls.append(dict(path=str(path), kind="DIRECTORY", uid=info.st_uid, gid=info.st_gid,
+                                 mode=stat.S_IMODE(info.st_mode), identity=[str(value) for value in _file_identity(info)]))
+    index_format = _preflight_git_index_v1(acquire(gitdir / "index", required=True, byte_limit=EXPLICIT_FILE_LIMIT),
+                                           ordinary_only=finite_ls_files)
     for directory in sorted({gitdir, common}):
         for name in ("info/attributes", "info/exclude"):
             acquire(directory / name)
@@ -1917,7 +1996,13 @@ def _preflight_git_context_v1():
                    observation_overrides=dict(GIT_OPTIONAL_LOCKS="0"), pager="DISABLED_BY_EXPLICIT_ARGUMENT",
                    configuration_scope="NO_INCLUDES_NO_EXTERNAL_CALLBACKS_FINITE_KEYS",
                    continuity="PRE_POST_REACQUISITION_NOT_AN_ATOMIC_FILESYSTEM_LEASE")
-    return dict(binding=binding, environment=dict(environment, GIT_OPTIONAL_LOCKS="0"))
+    result = dict(binding=binding, environment=dict(environment, GIT_OPTIONAL_LOCKS="0"))
+    if finite_ls_files:
+        binding.update(read_profile="FINITE_ORIGINAL_LS_FILES_COMPLETE_STANDALONE_SOURCE", ownership=ownership,
+                       owner_relation="ACTUAL_SOURCE_AND_GIT_UID_EQUALS_PRODUCER_NO_SAFE_DIRECTORY_OVERRIDE")
+        result.update(finite_request=dict(root=str(root), environment=environment, finite_ls_files=True),
+                      captured_control_bytes=control_bytes)
+    return result
 
 
 def _preflight_git_capture_v1(context, args):
@@ -1926,7 +2011,9 @@ def _preflight_git_capture_v1(context, args):
                ("rev-parse", "--symbolic-full-name", "HEAD"),
                ("status", "--porcelain=v1", "-z", "--untracked-files=all"),
                ("for-each-ref", "--sort=refname", "--format=%(refname)%00%(objectname)%00%(*objectname)%00%(symref)")}
-    if args not in allowed or _preflight_git_context_v1() != context:
+    request = context.get("finite_request", {})
+    if (args not in allowed or (request and args != ("ls-files", "-z")) or
+            _preflight_git_context_v1(**request) != context):
         raise WG.WorkGraphError("preflight Git observation context or fixed command changed")
     selected = context["binding"]["executable"]["resolved_path"]
     fd = os.open(selected, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
@@ -1934,14 +2021,14 @@ def _preflight_git_capture_v1(context, args):
         if [str(value) for value in _file_identity(os.fstat(fd))] != context["binding"]["executable_file_identity"]:
             raise WG.WorkGraphError("preflight Git observation executable changed")
         try:
-            value = subprocess.check_output([selected, "--no-pager", *args], cwd=ROOT,
+            value = subprocess.check_output([selected, "--no-pager", *args], cwd=Path(request["root"]) if request else ROOT,
                 env=context["environment"], stdin=subprocess.DEVNULL, stderr=subprocess.PIPE,
                 executable="/proc/self/fd/" + str(fd), pass_fds=(fd,), timeout=15)
         except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
             raise WG.WorkGraphError("preflight Git observation fixed read command failed") from None
     finally:
         os.close(fd)
-    if _preflight_git_context_v1() != context:
+    if _preflight_git_context_v1(**request) != context:
         raise WG.WorkGraphError("preflight Git observation context changed during command")
     return value
 
