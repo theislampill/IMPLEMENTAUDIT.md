@@ -366,3 +366,48 @@ scope without unnecessary re-execution. No runtime owner or package payload
 changed on this PR. This addendum grants no authentic occurrence, native
 selection, child dispatch, JOIN, covered-scope consumption or Stop effect
 acceptance; the original issue populations and failures remain open.
+
+
+## Parallel commission: exact resolver population and path selection
+
+Starting head `4b7a2ff588413ce5e9160722f10bd264eb45848c` retained the
+accepted four-child population, pending durability and v2 value consumers.
+A new exact-source regression bank exposed seven selection failures: the
+resolver accepted full or partial canonical child siblings beside a standalone
+population, followed a selected or unselected canonical child directory link,
+followed governor/skills directory links, and ignored a dangling alternate
+standalone directory. The expanded original-source run has 16 controls:
+nine valid layouts passed and all seven expected refusals failed.
+
+The existing resolver now refuses those competing or redirected package-local
+layouts. Standalone installations still permit unrelated user skills beside
+the governor, and all four children resolve in clean canonical and standalone
+layouts. The correction adds no child, router, helper, version, loader or native
+issuer. It preserves the four-child exact atomic population and the existing
+selection-only interface. Independent review then reproduced a remaining extra-entry defect: both
+population enumerators silently omitted symlinked child entries. Two new
+linked-file cases failed in the review; the author additionally reproduced the
+two dangling-link variants. The enumerators now refuse those entries instead
+of dropping them. The final registered 20-control actual-CLI bank passes;
+the original seven failures and the four review-stage failures remain separate
+historical evidence. This is ordinary independent engineering review, not a
+native `audit-assess` event.
+
+This advances O1/O7's exact selection component and the mixed/extra/layout
+negatives. It supplies no full-payload delivery, model use, route-return,
+acceptance, post-return decision, JOIN, pending consumption or native credit.
+The 45 instrumentation cases and original routing populations stay OPEN at
+those actual boundaries. A resolved path remains distinct from bytes delivered
+into model context. Link checks are portable topology checks, not an
+atomic host-authenticated load or a complete concurrent-filesystem guarantee.
+
+The read-only R0035 receiving checkpoint remains
+`23c940dca3c1ce2dc792b76179342aacd4d4f773`; its resolver is the identical
+preimage blob `1381c99520f4cad9d95edec194655afb6a4bd9a8`. No source from
+PR246 or PR252 is imported or modified. A receiving owner may later compose
+this independently reviewed exact resolver delta; no graph/READY/JOIN change
+is part of it. Package, installed parity, independent review and public
+head/CI results belong to the containing increment's execution receipt.
+
+Rollback reverts the resolver and its registered regression bank together,
+retaining this original failure record and all pre-existing qualifications.

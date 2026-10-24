@@ -5,6 +5,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 PYTHONDONTWRITEBYTECODE=1 python3 tests/evidential-support-cases.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/internal-skill-resolver-custody.py
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
