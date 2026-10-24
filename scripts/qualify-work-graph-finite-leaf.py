@@ -32,6 +32,7 @@ SAFEGUARD_PROFILE = "CONTROLLED_TASK_SAFEGUARD_RESTORATION_V1"
 ROUTING_PROFILE = "CONTROLLED_TASK_ROUTING_V1"
 AUDIT_OBJECT_PROFILE = "CONTROLLED_TASK_AUDIT_OBJECT_ROUTING_V1"
 INSTALLED_PROFILE = "CONTROLLED_TASK_INSTALLED_PAYLOAD_V1"
+PLANNER_COPY_PROFILE = "CONTROLLED_TASK_PLANNER_COPY_V1"
 # Output-allocation upper bound only. The pinned original checker still decides
 # acceptance. Ignore its negation exemptions and overcount every possible
 # strike/ladder line; a small bound never constitutes a successful scan.
@@ -52,6 +53,27 @@ _TOPOLOGY_RUNTIME_PINS = {
     "/lib64/ld-linux-x86-64.so.2": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28",
 }
 _TOPOLOGY_NAMESPACE_BOUNDS = dict(entries=128, name_bytes=32 * 1024)
+# Inspected Perl5.38.2 ELF and its complete DT_NEEDED/PT_INTERP closure. The
+# three fixed original expressions import no module in the owned host probe.
+# The finite image deliberately lacks the observed optional paths below;
+# successful behavior in that image is a separate receiving gate, not a fact
+# inferred from these pins or from a host-side copied-fixture positive.
+_PLANNER_RUNTIME_PINS = {
+    "/usr/bin/perl": "38d70f54fd18d614e9e6cc35c960b45f54e7b991894b8308e704ae9953c86ce4",
+    "/lib/x86_64-linux-gnu/libm.so.6": "f06f2ce1f1833df5f41cf13b6447ff07bea993ad9b27297d3428c2f70ab3f0e7",
+    "/lib/x86_64-linux-gnu/libc.so.6": "511f825ee075610ac9c0f7f91e2c13de2000d0f7b859f6461137e809a0a009d0",
+    "/lib/x86_64-linux-gnu/libcrypt.so.1": "1502636e3be8232c9cf801dfb533694aea985d449904f3e1295db26d7b348946",
+    "/lib64/ld-linux-x86-64.so.2": "6222a16be7f2d458d6870efe6e715fc0c8d45766fb79cf7dcc3125538d703e28",
+}
+_PLANNER_ABSENT_PROBES = (
+    "/dev/urandom", "/proc/self/exe", "/etc/ld.so.preload", "/etc/ld.so.cache",
+    "/usr/lib/x86_64-linux-gnu/perl-base/5.38.2/x86_64-linux-gnu-thread-multi",
+    "/usr/lib/x86_64-linux-gnu/perl-base/5.38.2",
+    "/usr/lib/x86_64-linux-gnu/perl-base/x86_64-linux-gnu-thread-multi",
+    "/usr/local/lib/site_perl/5.38.2/x86_64-linux-gnu-thread-multi",
+    "/usr/local/lib/site_perl/5.38.2",
+    "/usr/local/lib/site_perl/x86_64-linux-gnu-thread-multi",
+)
 NODE = "COMMAND:tests/audit-spec.test.sh:0"
 REGISTRY = "scripts/verify-package.sh"
 REGISTRY_SHA256 = "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698"
@@ -407,6 +429,23 @@ _CONTRACTS = {
         recursive=dict(roots=("skills",), optional=False, bounds=_RECURSIVE_BOUNDS,
             required_members=("skills/implementaudit/SKILL.md",
                 "skills/implementaudit/references/repo-state-comparison.md"))),
+    PLANNER_COPY_PROFILE: dict(label="planner-copy", index=46, program="tests/planner-stages.test.sh",
+        programs={
+            "tests/planner-stages.test.sh": "cfa017b1a04886274c6bc6b969623ef6442d9674ee467c9ec251cdace7251bd7",
+            "scripts/check-planner-stages.sh": "78d3735a5af7b83f76bafd48feac2af23868e6a8c668f7c579367f627c0a5825"},
+        data=("README.md", "docs/diagrams/execution-spine.mmd", "docs/portal/pages/planning-and-phases.html"),
+        bounds=dict(file_bytes=1024 * 1024, total_bytes=8 * 1024**2, files=6),
+        # Two retained complete tree pairs exceed the prior 32 MiB contract.
+        # This explicit original46-only bound keeps the existing conservative
+        # allocation accounting and every inherited non-scratch limit.
+        scratch_bytes=256 * 1024**2,
+        # The original private cp -R and Perl -i operations require the copied
+        # files' original writable owner modes. The source mount stays read-only.
+        source_modes="PRESERVE_READ_ONLY_MOUNT",
+        projection="TWO_PINNED_PROGRAMS_THREE_LITERAL_COPY_INPUTS_COMPLETE_SKILLS_FIXTURES_TREES_AND_THREE_ORIGINAL_PERL_MUTATIONS",
+        recursive=dict(roots=("skills", "fixtures"), optional=False, bounds=_RECURSIVE_BOUNDS,
+            required_members=tuple(name for name in LIFECYCLE_INPUTS
+                if name.startswith(("skills/", "fixtures/simple-audit/"))))),
 }
 
 
@@ -419,7 +458,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -904,6 +943,28 @@ def temporary_requirements(state, *, profile=PROFILE):
         content, allocated = sum(sizes), sum(map(rounded, sizes))
         extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=4096,
             max_stderr_bytes=4 * data_bytes + granule)
+    elif profile == PLANNER_COPY_PROFILE:
+        copied = [value["bytes"] for name, value in state["files"].items()
+                  if name.startswith(("skills/", "fixtures/"))]
+        copied_directories = [name for name in state["directories"]
+            if name in ("skills", "fixtures") or name.startswith(("skills/", "fixtures/"))]
+        checker = state["files"]["scripts/check-planner-stages.sh"]["bytes"]
+        inplace = max(state["files"][name]["bytes"] for name in (
+            "skills/implementaudit/references/plan-lifecycle.md",
+            "skills/implementaudit/references/planning-depth.md"))
+        # Three serial copy phases peak at two retained tree pairs before the
+        # preceding pair is removed. Include active/staged checker files, three
+        # persistent literal copies, and the one Perl -i replacement file.
+        # All three fixed substitutions preserve or shorten the original bytes.
+        sizes = copied * 2 + [checker] * 2 + sizes + [inplace]
+        copies, files, directories = 2, len(sizes), 2 * len(copied_directories) + 6
+        content, allocated = sum(sizes), sum(map(rounded, sizes))
+        path_bytes = sum(len(name.encode("utf-8")) for name in state["files"])
+        extra = dict(largest_file_bytes=max(sizes), max_stdout_bytes=512,
+            max_stderr_bytes=4 * path_bytes + granule, original_copy_phases=3,
+            copied_source_files=len(copied), copied_source_directories=len(copied_directories),
+            copied_source_bytes=sum(copied), inplace_file_bytes=inplace,
+            capacity_disposition="EXPLICIT_ORIGINAL46_256MIB_CONTRACT_NO_AUTOMATIC_EXPANSION")
     elif profile == SAFEGUARD_PROFILE:
         diagnostic = state["recursive_inputs"]["resources"]["safeguard_diagnostic_bytes"]
         checker = state["files"]["scripts/check-safeguard-restoration.sh"]["bytes"]
@@ -1038,11 +1099,53 @@ def _capture_topology_runtime(prefix, runtime, objects):
     runtime["topology_tool_closure"] = dict(_TOPOLOGY_RUNTIME_PINS)
 
 
+def _capture_planner_runtime(prefix, runtime, objects):
+    """Capture one fixed Perl ELF, keeping optional image absences explicit."""
+    for path in _PLANNER_ABSENT_PROBES:
+        if any(name == path or name.startswith(path + "/") for name in runtime["files"]):
+            raise ValueError("unsupported Perl optional input in finite runtime")
+    dependencies = set(_PLANNER_RUNTIME_PINS) - {"/usr/bin/perl"}
+    if any(name not in runtime["files"] or name not in runtime["observations"] for name in dependencies):
+        raise ValueError("unsupported Perl loader/library closure")
+    path = Path("/usr/bin/perl")
+    # The inspected system Perl has two ordinary hardlinks. As with the
+    # existing system runtime reader, capture its physical bytes/identity;
+    # never dispatch this host path or propagate its aliases into the image.
+    metadata, raw = prefix.read_regular(path, prefix.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+    key = digest(raw)
+    if key != _PLANNER_RUNTIME_PINS[str(path)] or metadata["mode"] != 0o755:
+        raise ValueError("unsupported captured Perl executable")
+    for name in dependencies:
+        pin = _PLANNER_RUNTIME_PINS[name]
+        observed, entry = runtime["observations"][name], runtime["files"][name]
+        if entry["sha256"] != pin or digest(objects.get(pin, b"")) != pin:
+            raise ValueError("unsupported Perl loader/library closure")
+        original = Path(name)
+        resolved = original.resolve(strict=True)
+        if str(resolved) != observed["resolved"]:
+            raise ValueError("Perl runtime closure alias changed")
+        current, captured = prefix.read_regular(resolved, prefix.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+        if current["identity"] != observed["identity"] or digest(captured) != pin or original.resolve(strict=True) != resolved:
+            raise ValueError("Perl runtime closure changed during acquisition")
+    again, current = prefix.read_regular(path, prefix.RUNTIME_BOUNDS["file_bytes"], single_link=False)
+    if metadata != again or raw != current:
+        raise ValueError("Perl executable changed during acquisition")
+    objects.setdefault(key, raw)
+    runtime["files"][str(path)] = dict(mode=0o555, bytes=len(raw), sha256=key)
+    runtime["observations"][str(path)] = dict(resolved=str(path), mode=metadata["mode"],
+        bytes=len(raw), sha256=key, identity=metadata["identity"])
+    runtime["planner_perl_closure"] = dict(_PLANNER_RUNTIME_PINS)
+    runtime["planner_perl_inputs"] = {name: "ABSENT_IN_FINITE_IMAGE_RUNTIME_BEHAVIOR_UNQUALIFIED"
+                                     for name in _PLANNER_ABSENT_PROBES}
+
+
 def finite_runtime(prefix, objects, *, profile=PROFILE):
     contract_for(profile)
     runtime = prefix.acquire_runtime(objects)
     if profile == TOPOLOGY_PROFILE:
         _capture_topology_runtime(prefix, runtime, objects)
+    if profile == PLANNER_COPY_PROFILE:
+        _capture_planner_runtime(prefix, runtime, objects)
     # The existing isolated-leaf bootstrap necessarily execs this wrapper before
     # the original shell. Fix its descendants' umask without changing the
     # observer process or introducing another executor.
@@ -1076,6 +1179,11 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
 
     class FiniteVerifierSession(parent):
         SCOPE = profile
+        LIMITS = dict(parent.LIMITS)
+        if profile == PLANNER_COPY_PROFILE:
+            # The inherited image, acquisition key, launcher and resource
+            # checks all consume this same selected limits mapping.
+            LIMITS["scratch_bytes"] = contract["scratch_bytes"]
 
         def __init__(self, source_root, output, *, max_age=3600):
             # Preserve the namespace owner's raw-path refusal before inherited
